@@ -2,9 +2,6 @@
 
 class NxContactStreamIterator;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -133,7 +130,5 @@ public:
 	/// </summary>
 	float getPointNormalForce(); 
 };
-
-}
 
 }

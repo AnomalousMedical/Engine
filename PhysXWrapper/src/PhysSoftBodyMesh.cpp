@@ -3,9 +3,6 @@
 #include "PhysSoftBodyMeshDesc.h"
 #include "AutoPtr.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -36,8 +33,6 @@ unsigned int PhysSoftBodyMesh::getReferenceCount()
 PhysSoftBodyMesh^ PhysSoftBodyMesh::getMeshObject(NxSoftBodyMesh* softMesh)
 {
 	return meshDictionary[System::IntPtr(softMesh)];
-}
-
 }
 
 }

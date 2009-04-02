@@ -2,9 +2,6 @@
 
 typedef System::IntPtr PtrType;
 
-namespace Engine
-{
-
 generic<typename T>
 public ref class WrapperCollection abstract
 {
@@ -28,16 +25,13 @@ public:
 	void clearObjects();
 };
 
-}
-
 /**
 Template for subclasses:
 //Header
 #pragma once
 
-namespace Engine{
-
-namespace {
+namespace 
+{
 
 ref class WRAPPED_CLASS;
 ref class WRAPPED_CLASSCollection : public WrapperCollection<WRAPPED_CLASS^>
@@ -55,16 +49,13 @@ public:
 
 }
 
-}
-
 //Source
 #include "stdafx.h"
 #include "WRAPPED_CLASSCollection.h"
 #include "WRAPPED_CLASS.h"
 
-namespace Engine{
-
-namespace {
+namespace 
+{
 
 WRAPPED_CLASS^ WRAPPED_CLASSCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
 {
@@ -79,8 +70,6 @@ WRAPPED_CLASS^ WRAPPED_CLASSCollection::getObject(WRAPPED_CLASS* nativeObject)
 void WRAPPED_CLASSCollection::destroyObject(WRAPPED_CLASS* nativeObject)
 {
 	destroyObjectVoid(nativeObject);
-}
-
 }
 
 }

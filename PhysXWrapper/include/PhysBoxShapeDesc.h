@@ -5,9 +5,6 @@
 
 class NxBoxShapeDesc;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -36,7 +33,5 @@ public:
 		void set(EngineMath::Vector3 dimensions);
 	}
 };
-
-}
 
 }

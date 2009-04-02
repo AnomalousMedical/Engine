@@ -4,9 +4,6 @@
 #include <string>
 #include "AutoPtr.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -559,8 +556,6 @@ public:
 	/// <param name="material">The index of the force field material.</param>
 	void setForceFieldMaterial(System::UInt16 material);
 };
-
-}
 
 }
 

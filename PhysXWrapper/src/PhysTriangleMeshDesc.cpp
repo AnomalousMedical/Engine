@@ -3,9 +3,6 @@
 
 #include "NxPhysics.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -113,8 +110,6 @@ float PhysTriangleMeshDesc::ConvexEdgeThreshold::get()
 void PhysTriangleMeshDesc::ConvexEdgeThreshold::set(float value) 
 {
 	meshDesc->convexEdgeThreshold = value;
-}
-
 }
 
 }

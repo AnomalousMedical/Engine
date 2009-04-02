@@ -9,9 +9,6 @@
 class NxActor;
 class NxMat34;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -677,7 +674,5 @@ public:
 	/// <returns>A new list with all the shapes in this actor.</returns>
 	ShapeEnumerator^ getShapes();
 };
-
-}
 
 }

@@ -1,9 +1,6 @@
 #include "stdafx.h"
 #include "MeshHash.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -214,7 +211,5 @@ void MeshHash::queryUnique(const NxVec3 &pos, NxArray<int> &itemIndices, int max
 }
 
 #pragma managed
-
-}
 
 }

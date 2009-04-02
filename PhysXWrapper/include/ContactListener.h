@@ -2,9 +2,6 @@
 
 #include "Enums.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -31,7 +28,5 @@ public:
 	void contact( PhysActor^ contactWith, PhysActor^ myself, ContactIterator^ contacts, ContactPairFlag contactType );
 
 };
-
-}
 
 }

@@ -4,9 +4,6 @@
 #include "NxSphereShape.h"
 #include "PhysSphereShapeDesc.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -39,8 +36,6 @@ float PhysSphereShape::getRadius()
 void PhysSphereShape::saveToDesc(PhysSphereShapeDesc^ desc)
 {
 	return nxSphere->saveToDesc(*desc->sphereShape.Get());
-}
-
 }
 
 }

@@ -4,9 +4,6 @@
 #include "PhysDistanceJointDesc.h"
 #include "PhysActor.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -42,8 +39,6 @@ NxJointDesc& PhysDistanceJoint::getDesc()
 	NxDistanceJointDesc desc;
 	typedJoint->saveToDesc(desc);
 	return desc;
-}
-
 }
 
 }

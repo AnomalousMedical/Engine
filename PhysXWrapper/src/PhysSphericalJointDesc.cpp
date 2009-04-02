@@ -5,9 +5,6 @@
 #include "PhysJointLimitDesc.h"
 #include "PhysSpringDesc.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -86,8 +83,6 @@ JointProjectionMode PhysSphericalJointDesc::ProjectionMode::get()
 void PhysSphericalJointDesc::ProjectionMode::set(JointProjectionMode value) 
 {
 	joint->projectionMode = (NxJointProjectionMode)value;
-}
-
 }
 
 }

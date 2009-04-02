@@ -1,9 +1,6 @@
 #include "StdAfx.h"
 #include "..\include\PhysMemoryWriteBuffer.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -16,8 +13,6 @@ PhysMemoryWriteBuffer::PhysMemoryWriteBuffer(void)
 PhysMemoryWriteBuffer::~PhysMemoryWriteBuffer()
 {
 	writeBuffer.Reset();
-}
-
 }
 
 }

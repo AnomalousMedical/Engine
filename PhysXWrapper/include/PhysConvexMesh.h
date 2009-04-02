@@ -2,9 +2,6 @@
 
 class NxConvexMesh;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -44,7 +41,5 @@ public:
 	/// <returns>The current reference count, not used in any shapes if the count is 0.</returns>
 	unsigned int getReferenceCount();
 };
-
-}
 
 }

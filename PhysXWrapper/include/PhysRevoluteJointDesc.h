@@ -4,9 +4,6 @@
 #include "PhysJointDesc.h"
 #include "NxRevoluteJointDesc.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -94,7 +91,5 @@ public:
 		void set(JointProjectionMode value);
 	}
 };
-
-}
 
 }

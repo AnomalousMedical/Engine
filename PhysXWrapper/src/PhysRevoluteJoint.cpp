@@ -7,9 +7,6 @@
 #include "PhysSpringDesc.h"
 #include "PhysActor.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -105,8 +102,6 @@ NxJointDesc& PhysRevoluteJoint::getDesc()
 	NxRevoluteJointDesc desc;
 	typedJoint->saveToDesc(desc);
 	return desc;
-}
-
 }
 
 }

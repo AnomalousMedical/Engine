@@ -6,9 +6,6 @@ class NxPulleyJoint;
 class NxJointDesc;
 class NxPulleyJointDesc;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -71,7 +68,5 @@ public:
 
 	PulleyJointFlag getFlags();
 };
-
-}
 
 }

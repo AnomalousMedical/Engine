@@ -3,8 +3,6 @@
 #include "PhysActorCollection.h"
 #include "PhysActor.h"
 
-namespace Engine{
-
 namespace Physics{
 
 PhysActor^ PhysActorCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
@@ -20,8 +18,6 @@ PhysActor^ PhysActorCollection::getObject(NxActor* nativeObject)
 void PhysActorCollection::destroyObject(NxActor* nativeObject)
 {
 	destroyObjectVoid(nativeObject);
-}
-
 }
 
 }

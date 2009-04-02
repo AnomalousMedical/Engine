@@ -4,9 +4,6 @@
 #include "NxCapsuleShape.h"
 #include "PhysCapsuleShapeDesc.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -54,8 +51,6 @@ float PhysCapsuleShape::getHeight()
 void PhysCapsuleShape::saveToDesc(PhysCapsuleShapeDesc^ desc)
 {
 	return nxCapsule->saveToDesc(*desc->capsuleShape.Get());
-}
-
 }
 
 }

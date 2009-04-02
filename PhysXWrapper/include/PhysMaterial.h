@@ -5,9 +5,6 @@
 
 class NxMaterialDesc;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -74,7 +71,5 @@ public:
 
 	System::String^ getName();
 };
-
-}
 
 }

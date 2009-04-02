@@ -1,8 +1,5 @@
 #pragma once
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -2304,7 +2301,5 @@ public enum class PhysSoftBodyAttachmentFlag : unsigned int
 	/// </summary>
 	NX_SOFTBODY_ATTACHMENT_TEARABLE		  = (1<<1),
 };
-
-}
 
 }

@@ -4,9 +4,6 @@
 #include "PhysPointInPlaneJointDesc.h"
 #include "PhysActor.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -42,8 +39,6 @@ NxJointDesc& PhysPointInPlaneJoint::getDesc()
 	NxPointInPlaneJointDesc desc;
 	typedJoint->saveToDesc(desc);
 	return desc;
-}
-
 }
 
 }

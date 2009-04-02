@@ -5,9 +5,6 @@
 #include "AutoPtr.h"
 #include "Enums.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -50,7 +47,5 @@ public:
 		void set(MeshShapeFlag value);
 	}
 };
-
-}
 
 }

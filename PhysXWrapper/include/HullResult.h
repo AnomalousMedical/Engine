@@ -4,9 +4,6 @@
 
 class HullResult;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -77,8 +74,6 @@ public:
 		unsigned int* get();
 	}
 };
-
-}
 
 }
 

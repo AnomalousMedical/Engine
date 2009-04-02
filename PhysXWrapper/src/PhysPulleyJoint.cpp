@@ -5,9 +5,6 @@
 #include "PhysMotorDesc.h"
 #include "PhysActor.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -63,8 +60,6 @@ NxJointDesc& PhysPulleyJoint::getDesc()
 	NxPulleyJointDesc desc;
 	typedJoint->saveToDesc(desc);
 	return desc;
-}
-
 }
 
 }

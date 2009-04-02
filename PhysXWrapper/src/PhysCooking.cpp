@@ -11,9 +11,6 @@
 #include "PhysTriangleMeshDesc.h"
 #include "PhysSoftBodyMeshDesc.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -59,8 +56,6 @@ PhysCookingParams PhysCooking::getCookingParams()
 	params.skinWidth = nxParams.skinWidth;
 	params.targetPlatform = (PhysPlatform)nxParams.targetPlatform;
 	return params;
-}
-
 }
 
 }

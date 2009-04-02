@@ -3,9 +3,6 @@
 #include "NxPhysics.h"
 #include "PhysSpringDesc.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -49,8 +46,6 @@ DistanceJointFlag PhysDistanceJointDesc::Flags::get()
 void PhysDistanceJointDesc::Flags::set(DistanceJointFlag value) 
 {
 	joint->flags = (NxU32)value;
-}
-
 }
 
 }

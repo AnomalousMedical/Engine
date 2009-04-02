@@ -7,9 +7,6 @@ class NxRemoteDebugger;
 #include "PhysXLogger.h"
 #include "Enums.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -174,7 +171,5 @@ public:
 	/// <returns>The parameter value.</returns>
 	float getParameter(PhysParameter paramEnum);
 };
-
-}
 
 }

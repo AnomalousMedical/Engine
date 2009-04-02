@@ -1,9 +1,6 @@
 #include "StdAfx.h"
 #include "..\include\PhysJointLimitDesc.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -51,8 +48,6 @@ float PhysJointLimitDesc::Hardness::get()
 void PhysJointLimitDesc::Hardness::set(float value) 
 {
 	limitDesc->hardness = value;
-}
-
 }
 
 }

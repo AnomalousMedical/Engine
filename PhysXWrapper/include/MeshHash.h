@@ -4,9 +4,6 @@
 #include <NxVec3.h>
 #include <NxBounds3.h>
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -75,7 +72,5 @@ private:
 };
 
 #pragma managed
-
-}
 
 }

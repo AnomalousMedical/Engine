@@ -5,9 +5,6 @@
 
 class NxSceneDesc;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -249,7 +246,5 @@ public:
 		void set(unsigned int size);
 	}
 };
-
-}
 
 }

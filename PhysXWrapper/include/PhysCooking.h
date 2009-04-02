@@ -7,9 +7,6 @@
 
 #include "Enums.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -139,7 +136,5 @@ public:
 	/// <returns></returns>
 	static PhysCookingParams getCookingParams();
 };
-
-}
 
 }

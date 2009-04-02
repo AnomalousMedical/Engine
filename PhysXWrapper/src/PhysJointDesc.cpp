@@ -3,9 +3,6 @@
 #include "NxPhysics.h"
 #include "PhysActor.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -136,8 +133,6 @@ JointFlag PhysJointDesc::JointFlags::get()
 void PhysJointDesc::JointFlags::set(JointFlag value) 
 {
 	jointDesc->jointFlags = (NxU32)value;
-}
-
 }
 
 }

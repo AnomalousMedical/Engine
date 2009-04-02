@@ -5,9 +5,6 @@
 
 class NxActorDesc;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -143,7 +140,5 @@ public:
 
 	//NxCompartment compartment
 };
-
-}
 
 }

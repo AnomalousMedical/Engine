@@ -7,9 +7,6 @@
 #include "PhysBodyDesc.h"
 #include "MathUtil.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -136,8 +133,6 @@ unsigned short PhysActorDesc::ForceFieldMaterial::get()
 void PhysActorDesc::ForceFieldMaterial::set(unsigned short mat) 
 { 
 	actorDesc->forceFieldMaterial = mat; 
-}
-
 }
 
 }

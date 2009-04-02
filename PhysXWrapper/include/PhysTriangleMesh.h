@@ -2,9 +2,6 @@
 
 class NxTriangleMesh;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -23,7 +20,5 @@ public:
 
 	unsigned int getReferenceCount();
 };
-
-}
 
 }

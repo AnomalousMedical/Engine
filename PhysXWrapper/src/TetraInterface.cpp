@@ -5,9 +5,6 @@
 #include "stdlib.h"
 #include "windows.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -78,8 +75,6 @@ unsigned int TetraInterface::createTetraMesh(TetraMesh^ inputMesh, TetraMesh^ ou
 bool TetraInterface::releaseTetraMesh(TetraMesh^ mesh)
 {
 	return tetraInterface->releaseTetraMesh(*mesh->getNxTetraMesh());
-}
-
 }
 
 }

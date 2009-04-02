@@ -2,9 +2,6 @@
 
 class NxSoftBodyMesh;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -74,7 +71,5 @@ public:
 	/// <returns></returns>
 	unsigned int getReferenceCount();
 };
-
-}
 
 }

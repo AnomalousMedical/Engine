@@ -3,9 +3,6 @@
 #include "RaycastHit.h"
 #include "AutoPtr.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -24,7 +21,5 @@ internal:
 public:
 	PhysRaycastHit(void);
 };
-
-}
 
 }

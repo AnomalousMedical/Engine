@@ -5,9 +5,6 @@
 #include "MathUtil.h"
 #include "PhysActor.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -63,8 +60,6 @@ NxJointDesc& PhysD6Joint::getDesc()
 	NxD6JointDesc desc;
 	typedJoint->saveToDesc(desc);
 	return desc;
-}
-
 }
 
 }

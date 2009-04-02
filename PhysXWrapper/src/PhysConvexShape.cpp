@@ -3,9 +3,6 @@
 
 #include "NxConvexShape.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -23,8 +20,6 @@ PhysConvexShape::~PhysConvexShape()
 NxConvexShape* PhysConvexShape::getNxConvexShape()
 {
 	return nxConvex;
-}
-
 }
 
 }

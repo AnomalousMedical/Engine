@@ -5,9 +5,6 @@ class NxMaterialDesc;
 #include "AutoPtr.h"
 #include "Enums.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -47,7 +44,5 @@ public:
 		System::String^ get();
 	}
 };
-
-}
 
 }

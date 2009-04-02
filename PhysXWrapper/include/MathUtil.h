@@ -3,9 +3,6 @@
 class NxVec3;
 class NxQuat;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -124,7 +121,5 @@ public:
 	/// <param name="source">Copy from this.</param>
 	static EngineMath::Ray3 copyRay(const NxRay& source);
 };
-
-}
 
 }

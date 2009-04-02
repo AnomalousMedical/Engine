@@ -1,8 +1,5 @@
 #pragma once
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -22,7 +19,5 @@ public:
 };
 
 #pragma managed
-
-}
 
 }

@@ -3,9 +3,6 @@
 
 #include "NxTriangleMeshShape.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -23,8 +20,6 @@ PhysTriangleMeshShape::~PhysTriangleMeshShape()
 NxTriangleMeshShape* PhysTriangleMeshShape::getNxTriangleMeshShape()
 {
 	return nxTriangleMesh;
-}
-
 }
 
 }

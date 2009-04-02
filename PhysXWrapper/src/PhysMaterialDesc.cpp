@@ -1,9 +1,6 @@
 #include "StdAfx.h"
 #include "..\include\PhysMaterialDesc.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -50,8 +47,6 @@ void PhysMaterialDesc::DynamicFriction::set(float value)
 System::String^ PhysMaterialDesc::Name::get() 
 {
 	return name;
-}
-
 }
 
 }

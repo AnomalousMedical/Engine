@@ -3,9 +3,6 @@
 #include "NxPhysics.h"
 #include "PhysTriangleMesh.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -34,8 +31,6 @@ MeshFlags PhysTriangleMeshShapeDesc::Flags::get()
 void PhysTriangleMeshShapeDesc::Flags::set(MeshFlags value) 
 {
 	triangleShape->meshFlags = (NxU32)triangleShape->meshFlags;
-}
-
 }
 
 }

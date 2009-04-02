@@ -5,9 +5,6 @@
 
 #include "MathUtil.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -227,8 +224,6 @@ SimulationType PhysSceneDesc::SimType::get()
 void PhysSceneDesc::SimType::set(SimulationType value) 
 {
 	sceneDesc->simType = (NxSimulationType)value;
-}
-
 }
 
 }

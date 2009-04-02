@@ -4,9 +4,6 @@
 #include "PhysPointOnLineJointDesc.h"
 #include "PhysActor.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -42,8 +39,6 @@ NxJointDesc& PhysPointOnLineJoint::getDesc()
 	NxPointOnLineJointDesc desc;
 	typedJoint->saveToDesc(desc);
 	return desc;
-}
-
 }
 
 }

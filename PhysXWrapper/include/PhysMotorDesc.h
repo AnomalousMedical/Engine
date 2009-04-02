@@ -4,9 +4,6 @@
 
 class NxMotorDesc;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -77,7 +74,5 @@ public:
 		void set(bool value);
 	}
 };
-
-}
 
 }

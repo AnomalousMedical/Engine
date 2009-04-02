@@ -4,9 +4,6 @@
 #include <string.h>  //for memcpy
 #include "hull.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -102,8 +99,6 @@ unsigned int HullDesc::MaxVertices::get()
 void HullDesc::MaxVertices::set(unsigned int value) 
 {
 	desc->mMaxVertices = value;
-}
-
 }
 
 }

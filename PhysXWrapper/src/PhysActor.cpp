@@ -11,9 +11,6 @@
 #include "PhysShape.h"
 #include "PhysShapeDesc.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -461,8 +458,6 @@ ShapeEnumerator^ PhysActor::getShapes()
 		shapeList->Add(this->shapes.getObject(shapes[i]));
 	}
 	return shapeList;
-}
-
 }
 
 }

@@ -4,9 +4,6 @@
 #include "PhysJointDesc.h"
 #include "NxCylindricalJointDesc.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -24,7 +21,5 @@ public:
 	/// </summary>
 	PhysCylindricalJointDesc();
 };
-
-}
 
 }

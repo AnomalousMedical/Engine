@@ -2,9 +2,6 @@
 #include "..\include\PhysJointLimitSoftPairDesc.h"
 #include "PhysJointLimitSoftDesc.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -29,8 +26,6 @@ PhysJointLimitSoftDesc^ PhysJointLimitSoftPairDesc::Low::get()
 PhysJointLimitSoftDesc^ PhysJointLimitSoftPairDesc::High::get() 
 {
 	return high;
-}
-
 }
 
 }

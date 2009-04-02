@@ -5,9 +5,6 @@
 
 class NxCapsuleShapeDesc;
 
-namespace Engine
-{
-
 namespace Physics
 {
 /// <summary>
@@ -42,7 +39,5 @@ public:
 		void set(float value);
 	}
 };
-
-}
 
 }

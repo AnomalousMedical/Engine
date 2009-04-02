@@ -4,8 +4,6 @@
 
 class NxSphereShape;
 
-namespace Engine{
-
 namespace Physics{
 
 ref class PhysSphereShapeDesc;
@@ -56,7 +54,5 @@ public:
 	/// <param name="desc">The description to save the shape to.</param>
 	void saveToDesc(PhysSphereShapeDesc^ desc);
 };
-
-}
 
 }

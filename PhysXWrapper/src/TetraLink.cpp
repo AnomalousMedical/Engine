@@ -5,9 +5,6 @@
 #include "NxBounds3.h"
 #include "MathUtil.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -208,8 +205,6 @@ void TetraLink::buildLinks(TetraMesh^ graphicsMesh, TetraMesh^ tetraMesh, TetraL
 	}
 
 	doBuildLinks(tetraMeshBounds, tetraMeshIndices, tetraMeshVertices, graphicsMeshVertices, tetraLinks);
-}
-
 }
 
 }

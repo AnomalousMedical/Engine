@@ -6,9 +6,6 @@ class NxFixedJoint;
 class NxJointDesc;
 class NxFixedJointDesc;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -62,7 +59,5 @@ public:
 	/// <param name="desc">The descriptor used to set the state of the object.</param>
 	void loadFromDesc(PhysFixedJointDesc^ desc);
 };
-
-}
 
 }

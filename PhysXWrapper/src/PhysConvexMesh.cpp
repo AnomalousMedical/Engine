@@ -3,9 +3,6 @@
 #include "NxPhysics.h"
 #include "PhysConvexMeshDesc.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -23,8 +20,6 @@ bool PhysConvexMesh::saveToDesc(PhysConvexMeshDesc^ desc)
 unsigned int PhysConvexMesh::getReferenceCount()
 {
 	return convexMesh->getReferenceCount();
-}
-
 }
 
 }

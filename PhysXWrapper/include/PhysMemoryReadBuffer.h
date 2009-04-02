@@ -3,9 +3,6 @@
 #include "AutoPtr.h"
 #include "Stream.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -25,7 +22,5 @@ public:
 
 	~PhysMemoryReadBuffer();
 };
-
-}
 
 }

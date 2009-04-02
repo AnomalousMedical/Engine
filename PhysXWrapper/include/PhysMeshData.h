@@ -6,9 +6,6 @@
 
 class NxMeshData;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -248,7 +245,5 @@ public:
 		void set(PhysMeshDataFlags value);
 	}
 };
-
-}
 
 }

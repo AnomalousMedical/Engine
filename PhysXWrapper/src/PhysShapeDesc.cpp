@@ -7,9 +7,6 @@
 #include "MathUtil.h"
 #include "PhysMaterial.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -120,8 +117,6 @@ unsigned int PhysShapeDesc::NonInteractingCompartmentTypes::get()
 void PhysShapeDesc::NonInteractingCompartmentTypes::set(unsigned int nonInteractingCompartmentTypes) 
 {
 	shapeDesc->nonInteractingCompartmentTypes = nonInteractingCompartmentTypes; 
-}
-
 }
 
 }

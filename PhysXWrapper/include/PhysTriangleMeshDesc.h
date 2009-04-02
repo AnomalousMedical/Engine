@@ -5,9 +5,6 @@
 
 class NxTriangleMeshDesc;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -133,7 +130,5 @@ public:
 	}
 
 };
-
-}
 
 }

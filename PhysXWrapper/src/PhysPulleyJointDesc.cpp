@@ -3,9 +3,6 @@
 #include "NxPhysics.h"
 #include "PhysMotorDesc.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -70,8 +67,6 @@ void PhysPulleyJointDesc::Flags::set(PulleyJointFlag value)
 PhysMotorDesc^ PhysPulleyJointDesc::Motor::get() 
 {
 	return motor;
-}
-
 }
 
 }

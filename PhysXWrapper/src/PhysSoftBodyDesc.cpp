@@ -5,9 +5,6 @@
 #include "PhysMeshData.h"
 #include "PhysSoftBodyMesh.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -259,8 +256,6 @@ PhysSoftBodyFlag PhysSoftBodyDesc::Flags::get()
 void PhysSoftBodyDesc::Flags::set(PhysSoftBodyFlag value) 
 {
 	desc->flags = static_cast<NxU32>(value);
-}
-
 }
 
 }

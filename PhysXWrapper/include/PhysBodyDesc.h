@@ -5,9 +5,6 @@
 
 class NxBodyDesc;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -172,7 +169,5 @@ public:
 		void set(float contactReportThreshold);
 	}
 };
-
-}
 
 }

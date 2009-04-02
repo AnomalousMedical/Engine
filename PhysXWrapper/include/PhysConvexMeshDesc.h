@@ -4,9 +4,6 @@
 #include "Enums.h"
 #include "NxConvexMeshDesc.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -99,7 +96,5 @@ public:
 		void set(void* value);
 	}
 };
-
-}
 
 }

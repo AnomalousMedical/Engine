@@ -2,9 +2,6 @@
 #include "..\include\PhysCapsuleShapeDesc.h"
 #include "NxPhysics.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -32,8 +29,6 @@ float PhysCapsuleShapeDesc::Height::get()
 void PhysCapsuleShapeDesc::Height::set(float value) 
 {
 	capsuleShape->height = value;
-}
-
 }
 
 }

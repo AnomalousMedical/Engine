@@ -4,9 +4,6 @@
 
 class NxCapsuleShape;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -83,7 +80,5 @@ public:
 	/// <param name="desc">The desc of the capsule.</param>
 	void saveToDesc(PhysCapsuleShapeDesc^ desc);
 };
-
-}
 
 }

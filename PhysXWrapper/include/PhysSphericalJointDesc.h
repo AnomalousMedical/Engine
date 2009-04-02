@@ -4,9 +4,6 @@
 #include "PhysJointDesc.h"
 #include "NxSphericalJointDesc.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -112,7 +109,5 @@ public:
 		void set(JointProjectionMode value);
 	}
 };
-
-}
 
 }

@@ -4,9 +4,6 @@
 #include "PhysJointDesc.h"
 #include "NxPulleyJointDesc.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -83,7 +80,5 @@ public:
 		PhysMotorDesc^ get();
 	}
 };
-
-}
 
 }

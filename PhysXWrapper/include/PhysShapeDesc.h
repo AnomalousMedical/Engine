@@ -3,9 +3,6 @@
 class NxShapeDesc;
 #include "Enums.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -125,7 +122,5 @@ public:
 		void set(unsigned int nonInteractingCompartmentTypes);
 	}
 };
-
-}
 
 }

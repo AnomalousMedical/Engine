@@ -5,9 +5,6 @@
 
 class NxSoftBodyDesc;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -407,7 +404,5 @@ public:
 		void set(PhysSoftBodyFlag value);
 	}
 };
-
-}
 
 }

@@ -3,9 +3,6 @@
 #include "PhysConvexMesh.h"
 #include "NxPhysics.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -35,8 +32,6 @@ MeshShapeFlag PhysConvexShapeDesc::MeshFlags::get()
 void PhysConvexShapeDesc::MeshFlags::set(MeshShapeFlag value) 
 {
 	convexShape->meshFlags = (NxU32)value;
-}
-
 }
 
 }

@@ -2,9 +2,6 @@
 #include "..\include\PhysSphereShapeDesc.h"
 #include "NxPhysics.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -22,8 +19,6 @@ float PhysSphereShapeDesc::Radius::get()
 void PhysSphereShapeDesc::Radius::set(float value) 
 {
 	sphereShape->radius = value;
-}
-
 }
 
 }

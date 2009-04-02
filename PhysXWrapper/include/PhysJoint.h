@@ -7,9 +7,6 @@
 class NxJoint;
 class NxJointDesc;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -274,7 +271,5 @@ public:
 	/// <param name="anchor">The local anchor to set in the object's frame.</param>
 	void setLocalAnchor1(EngineMath::Vector3 anchor);
 };
-
-}
 
 }

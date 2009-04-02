@@ -5,9 +5,6 @@
 #include "PhysActor.h"
 #include "MathUtil.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -60,8 +57,6 @@ float RaycastHit::getBarycentricU()
 float RaycastHit::getBarycentricV()
 {
 	return raycastHit->v;
-}
-
 }
 
 }

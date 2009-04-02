@@ -4,8 +4,6 @@
 
 class NxTriangleMeshShape;
 
-namespace Engine{
-
 namespace Physics{
 
 /// <summary>
@@ -34,7 +32,5 @@ public:
 	/// </summary>
 	virtual ~PhysTriangleMeshShape();
 };
-
-}
 
 }

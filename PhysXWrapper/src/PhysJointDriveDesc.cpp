@@ -1,9 +1,6 @@
 #include "StdAfx.h"
 #include "..\include\PhysJointDriveDesc.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -50,8 +47,6 @@ float PhysJointDriveDesc::ForceLimit::get()
 void PhysJointDriveDesc::ForceLimit::set(float value) 
 {
 	driveDesc->forceLimit = value;
-}
-
 }
 
 }

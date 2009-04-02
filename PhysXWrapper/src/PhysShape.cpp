@@ -6,9 +6,6 @@
 
 #include "NxShape.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -143,8 +140,6 @@ bool PhysShape::raycast(EngineMath::Ray3 worldRay, float maxDist, RaycastBit hin
 bool PhysShape::raycast(EngineMath::Ray3% worldRay, float maxDist, RaycastBit hint, PhysRaycastHit^ hit, bool firstHit)
 {
 	return nxShape->raycast(MathUtil::copyRay(worldRay), maxDist, (NxRaycastBit)hint, *hit->getNxRaycastHit(), firstHit);
-}
-
 }
 
 }

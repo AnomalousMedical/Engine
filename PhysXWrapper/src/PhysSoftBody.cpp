@@ -9,9 +9,6 @@
 #include "MarshalUtils.h"
 #include "PhysShape.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -354,8 +351,6 @@ System::UInt16 PhysSoftBody::getForceFieldMaterial()
 void PhysSoftBody::setForceFieldMaterial(System::UInt16 material)
 {
 	return softBody->setForceFieldMaterial(material);
-}
-
 }
 
 }

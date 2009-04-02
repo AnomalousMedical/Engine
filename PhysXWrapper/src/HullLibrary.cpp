@@ -6,9 +6,6 @@
 #include "HullDesc.h"
 #include "HullResult.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -29,8 +26,6 @@ HullError HullLibrary::createConvexHull(HullDesc^ desc, HullResult^ result)
 HullError HullLibrary::releaseResult(HullResult^ result)
 {
 	return (HullError)library->ReleaseResult(*result->result.Get());
-}
-
 }
 
 }

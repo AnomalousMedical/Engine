@@ -6,9 +6,6 @@ class NxD6Joint;
 class NxJointDesc;
 class NxD6JointDesc;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -98,7 +95,5 @@ public:
 	/// <param name="angVel">The goal angular velocity if NX_D6JOINT_DRIVE_VELOCITY is set for swingDrive or twistDrive. Range: angular velocity vector.</param>
 	void setDriveAngularVelocity(EngineMath::Vector3 angVel);
 };
-
-}
 
 }

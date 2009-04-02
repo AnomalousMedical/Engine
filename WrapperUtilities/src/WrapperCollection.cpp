@@ -1,9 +1,6 @@
 #include "StdAfx.h"
 #include "..\include\WrapperCollection.h"
 
-namespace Engine
-{
-
 generic<typename T>
 WrapperCollection<T>::WrapperCollection()
 {
@@ -58,6 +55,4 @@ void WrapperCollection<T>::clearObjects()
 		delete obj;
 	}
 	ptrDictionary.Clear();
-}
-
 }

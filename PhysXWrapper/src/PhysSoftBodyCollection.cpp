@@ -3,8 +3,6 @@
 #include "PhysSoftBodyCollection.h"
 #include "PhysSoftBody.h"
 
-namespace Engine{
-
 namespace Physics{
 
 PhysSoftBody^ PhysSoftBodyCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
@@ -20,8 +18,6 @@ PhysSoftBody^ PhysSoftBodyCollection::getObject(NxSoftBody* nativeObject)
 void PhysSoftBodyCollection::destroyObject(NxSoftBody* nativeObject)
 {
 	destroyObjectVoid(nativeObject);
-}
-
 }
 
 }

@@ -1,9 +1,6 @@
 #include "StdAfx.h"
 #include "PhysXLogger.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -37,8 +34,6 @@ NxAssertResponse PhysXLogger::reportAssertViolation( const char* message, const 
 
 void PhysXLogger::print( const char* message ){
 	Logging::Log::Default->sendMessage( gcnew System::String(message), Logging::LogLevel::Info, "PhysX" );
-}
-
 }
 
 }

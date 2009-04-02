@@ -5,9 +5,6 @@
 #include "PhysMotorDesc.h"
 #include "PhysSpringDesc.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -73,8 +70,6 @@ JointProjectionMode PhysRevoluteJointDesc::ProjectionMode::get()
 void PhysRevoluteJointDesc::ProjectionMode::set(JointProjectionMode value) 
 {
 	joint->projectionMode = (NxJointProjectionMode)value;
-}
-
 }
 
 }

@@ -4,9 +4,6 @@
 #include "NxVec3.h"
 #include "NxQuat.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -139,8 +136,6 @@ EngineMath::Ray3 MathUtil::copyRay(const NxRay& source)
 	copyVector3(source.dir, vec);
 	dest.Direction = vec;
 	return dest;
-}
-
 }
 
 }

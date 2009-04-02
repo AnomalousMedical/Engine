@@ -2,9 +2,6 @@
 #include "..\include\PhysMemoryReadBuffer.h"
 #include "PhysMemoryWriteBuffer.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -17,8 +14,6 @@ PhysMemoryReadBuffer::PhysMemoryReadBuffer(PhysMemoryWriteBuffer^ buffer)
 PhysMemoryReadBuffer::~PhysMemoryReadBuffer()
 {
 	readBuffer.Reset();
-}
-
 }
 
 }

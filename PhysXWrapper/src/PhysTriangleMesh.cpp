@@ -3,9 +3,6 @@
 #include "NxPhysics.h"
 #include "PhysTriangleMeshDesc.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -23,8 +20,6 @@ bool PhysTriangleMesh::saveToDesc(PhysTriangleMeshDesc^ desc)
 unsigned int PhysTriangleMesh::getReferenceCount()
 {
 	return triangleMesh->getReferenceCount();
-}
-
 }
 
 }

@@ -4,9 +4,6 @@
 #include "PhysFixedJointDesc.h"
 #include "PhysActor.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -42,8 +39,6 @@ NxJointDesc& PhysFixedJoint::getDesc()
 	NxFixedJointDesc desc;
 	typedJoint->saveToDesc(desc);
 	return desc;
-}
-
 }
 
 }

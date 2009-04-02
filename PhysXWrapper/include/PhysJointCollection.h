@@ -1,8 +1,6 @@
 //Header
 #pragma once
 
-namespace Engine{
-
 namespace Physics{
 
 ref class PhysJoint;
@@ -20,7 +18,5 @@ public:
 
 	void destroyObject(NxJoint* nativeObject);
 };
-
-}
 
 }

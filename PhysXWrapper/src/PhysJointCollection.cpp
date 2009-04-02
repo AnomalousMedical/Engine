@@ -15,8 +15,6 @@
 #include "PhysActor.h"
 #include "PhysScene.h"
 
-namespace Engine{
-
 namespace Physics{
 
 PhysJoint^ PhysJointCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
@@ -70,8 +68,6 @@ PhysJoint^ PhysJointCollection::getObject(NxJoint* nativeObject, PhysActor^ acto
 void PhysJointCollection::destroyObject(NxJoint* nativeObject)
 {
 	destroyObjectVoid(nativeObject);
-}
-
 }
 
 }

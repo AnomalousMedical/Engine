@@ -4,9 +4,6 @@
 
 class HullLibrary;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -50,8 +47,6 @@ public:
 	/// <returns></returns>
 	HullError releaseResult(HullResult^ result);
 };
-
-}
 
 }
 

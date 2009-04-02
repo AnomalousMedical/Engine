@@ -2,9 +2,6 @@
 
 class NxTetraInterface;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -75,7 +72,5 @@ public:
 	/// <returns></returns>
 	bool releaseTetraMesh(TetraMesh^ mesh);
 };
-
-}
 
 }

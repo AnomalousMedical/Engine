@@ -1,8 +1,6 @@
 //Header
 #pragma once
 
-namespace Engine{
-
 namespace Physics{
 
 ref class PhysActor;
@@ -18,7 +16,5 @@ public:
 
 	void destroyObject(NxActor* nativeObject);
 };
-
-}
 
 }

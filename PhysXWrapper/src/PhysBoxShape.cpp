@@ -5,9 +5,6 @@
 #include "MathUtil.h"
 #include "PhysBoxShapeDesc.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -48,8 +45,6 @@ EngineMath::Vector3 PhysBoxShape::getDimensions()
 void PhysBoxShape::saveToDesc(PhysBoxShapeDesc^ desc)
 {
 	nxBox->saveToDesc(*desc->boxShape.Get());
-}
-
 }
 
 }

@@ -1,9 +1,6 @@
 #include "StdAfx.h"
 #include "..\include\PhysRaycastHit.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -16,8 +13,6 @@ PhysRaycastHit::PhysRaycastHit(void)
 NxRaycastHit* PhysRaycastHit::getNxRaycastHit()
 {
 	return nxRaycastHit.Get();
-}
-
 }
 
 }

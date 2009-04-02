@@ -9,9 +9,6 @@
 #include "PhysTriangleMesh.h"
 #include "PhysSoftBodyMesh.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -172,8 +169,6 @@ bool PhysSDK::setParameter(PhysParameter paramEnum, float paramValue)
 float PhysSDK::getParameter(PhysParameter paramEnum)
 {
 	return physicsSDK->getParameter((NxParameter)paramEnum);
-}
-
 }
 
 }

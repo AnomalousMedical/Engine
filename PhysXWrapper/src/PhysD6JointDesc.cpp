@@ -3,9 +3,6 @@
 #include "NxPhysics.h"
 #include "MathUtil.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -227,8 +224,6 @@ D6JointFlag PhysD6JointDesc::Flags::get()
 void PhysD6JointDesc::Flags::set(D6JointFlag value) 
 {
 	joint->flags = (NxU32)value;
-}
-
 }
 
 }

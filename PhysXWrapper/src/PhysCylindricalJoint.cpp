@@ -4,9 +4,6 @@
 #include "PhysCylindricalJointDesc.h"
 #include "PhysActor.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -42,8 +39,6 @@ NxJointDesc& PhysCylindricalJoint::getDesc()
 	NxCylindricalJointDesc desc;
 	typedJoint->saveToDesc(desc);
 	return desc;
-}
-
 }
 
 }

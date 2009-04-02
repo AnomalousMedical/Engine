@@ -4,9 +4,6 @@
 
 #include "MathUtil.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -174,8 +171,6 @@ float PhysBodyDesc::ContactReportThreshold::get()
 void PhysBodyDesc::ContactReportThreshold::set(float contactReportThreshold) 
 { 
 	bodyDesc->contactReportThreshold = contactReportThreshold; 
-}
-
 }
 
 }

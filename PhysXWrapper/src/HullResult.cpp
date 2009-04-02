@@ -4,9 +4,6 @@
 #include <string.h>  //for memcpy
 #include "hull.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -47,8 +44,6 @@ unsigned int HullResult::NumIndices::get()
 unsigned int* HullResult::Indices::get() 
 {
 	return result->mIndices;
-}
-
 }
 
 }

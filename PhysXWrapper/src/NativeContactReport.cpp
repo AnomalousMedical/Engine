@@ -4,9 +4,6 @@
 #include "NxActor.h"
 #include "ContactIterator.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -36,8 +33,6 @@ void NativeContactReport::onContactNotify( NxContactPair& pair, NxU32 events )
 			(*actor1)->alertContact( (*actor0), (*actor1), contactIterator, (ContactPairFlag)events );
 		}
 	}
-}
-
 }
 
 }

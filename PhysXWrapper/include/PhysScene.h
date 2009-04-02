@@ -13,9 +13,6 @@
 class NxVec3;
 class NxScene;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -295,7 +292,5 @@ public:
 
 	void releaseSoftBody(PhysSoftBody^ softBody);
 };
-
-}
 
 }

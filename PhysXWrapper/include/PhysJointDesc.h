@@ -4,9 +4,6 @@ class NxJointDesc;
 
 #include "Enums.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -159,7 +156,5 @@ public:
 		void set(JointFlag value);
 	}
 };
-
-}
 
 }

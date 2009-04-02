@@ -1,9 +1,6 @@
 #include "StdAfx.h"
 #include "..\include\TetraMesh.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -66,8 +63,6 @@ unsigned int* TetraMesh::Indices::get()
 void TetraMesh::Indices::set(unsigned int* value) 
 {
 	mesh->mIndices = value;
-}
-
 }
 
 }

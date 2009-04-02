@@ -6,9 +6,6 @@ class NxPrismaticJoint;
 class NxJointDesc;
 class NxPrismaticJointDesc;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -62,7 +59,5 @@ public:
 	/// <param name="desc">The descriptor used to set the state of the object.</param>
 	void loadFromDesc(PhysPrismaticJointDesc^ desc);
 };
-
-}
 
 }

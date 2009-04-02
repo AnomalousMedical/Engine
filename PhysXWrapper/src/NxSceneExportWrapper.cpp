@@ -1,9 +1,6 @@
 #include "StdAfx.h"
 #include "..\include\NxSceneExportWrapper.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -16,7 +13,5 @@ NxSceneExportWrapper::NxSceneExportWrapper(NxScene* scene)
 }
 
 #pragma managed
-
-}
 
 }

@@ -4,9 +4,6 @@
 #include "PhysJointDesc.h"
 #include "NxDistanceJointDesc.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -64,7 +61,5 @@ public:
 		void set(DistanceJointFlag value);
 	}
 };
-
-}
 
 }

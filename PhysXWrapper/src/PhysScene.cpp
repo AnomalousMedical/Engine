@@ -25,9 +25,6 @@
 #include "PhysSoftBody.h"
 #include "PhysSoftBodyDesc.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -238,8 +235,6 @@ void PhysScene::releaseSoftBody(PhysSoftBody^ softBody)
 	NxSoftBody* nxSoftBody = softBody->softBody;
 	softBodies.destroyObject(nxSoftBody);
 	scene->releaseSoftBody(*nxSoftBody);
-}
-
 }
 
 }

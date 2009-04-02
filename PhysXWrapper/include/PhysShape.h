@@ -6,8 +6,6 @@
 
 class NxShape;
 
-namespace Engine{
-
 namespace Physics{
 
 ref class PhysActor;
@@ -331,8 +329,6 @@ public:
 	/// <returns>True if the ray intersects the shape.</returns>
 	bool raycast(EngineMath::Ray3% worldRay, float maxDist, RaycastBit hint, PhysRaycastHit^ hit, bool firstHit);
 };
-
-}
 
 }
 

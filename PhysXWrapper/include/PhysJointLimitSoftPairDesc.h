@@ -2,9 +2,6 @@
 
 #include "NxPhysics.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -51,7 +48,5 @@ public:
 		PhysJointLimitSoftDesc^ get();
 	}
 };
-
-}
 
 }

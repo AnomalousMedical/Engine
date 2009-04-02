@@ -2,9 +2,6 @@
 
 using namespace System::Runtime::InteropServices;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -21,7 +18,5 @@ public:
 
 	static void buildLinks(TetraMesh^ graphicsMesh, TetraMesh^ tetraMesh, TetraLink* tetraLinks);
 };
-
-}
 
 }

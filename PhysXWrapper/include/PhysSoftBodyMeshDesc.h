@@ -5,9 +5,6 @@
 
 class NxSoftBodyMeshDesc;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -152,7 +149,5 @@ public:
 		void set(PhysSoftBodyMeshFlags value);
 	}
 };
-
-}
 
 }

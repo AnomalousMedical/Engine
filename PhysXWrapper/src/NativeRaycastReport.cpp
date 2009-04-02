@@ -4,9 +4,6 @@
 #include "RaycastReport.h"
 #include "NxShape.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -39,8 +36,6 @@ bool NativeRaycastReport::onHit( const NxRaycastHit& hit )
 void NativeRaycastReport::setCurrentReport( RaycastReport^ report )
 {
 	currentReport = report;
-}
-
 }
 
 }

@@ -10,9 +10,6 @@
 #include <msclr/marshal.h>
 #include <string>
 
-namespace Engine
-{
-
 /// <summary>
 /// Helper class to assist in marshaling from managed to native.
 /// </summary>
@@ -35,5 +32,3 @@ public:
 		return gcnew System::String( str.c_str() );
 	}
 };
-
-}

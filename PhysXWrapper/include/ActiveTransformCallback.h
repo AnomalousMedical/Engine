@@ -2,9 +2,6 @@
 
 class NxMat34;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -22,7 +19,5 @@ public:
 	/// <param name="rotation">The new rotation of the object.</param>
 	void firePositionUpdate(EngineMath::Vector3% translation, EngineMath::Quaternion% rotation);
 };
-
-}
 
 }

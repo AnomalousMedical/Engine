@@ -4,8 +4,6 @@
 
 class NxBoxShape;
 
-namespace Engine{
-
 namespace Physics{
 
 ref class PhysBoxShapeDesc;
@@ -68,7 +66,5 @@ public:
 	/// <param name="desc">Descriptor to save to.</param>
 	void saveToDesc(PhysBoxShapeDesc^ desc);
 };
-
-}
 
 }

@@ -3,9 +3,6 @@
 #include "Nxp.h"
 #include "Enums.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -45,7 +42,5 @@ public:
 	}
 
 };
-
-}
 
 }

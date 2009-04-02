@@ -2,9 +2,6 @@
 #include "..\include\PhysPlaneShapeDesc.h"
 #include "NxPhysics.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -33,8 +30,6 @@ float PhysPlaneShapeDesc::D::get()
 void PhysPlaneShapeDesc::D::set(float value) 
 {
 	planeShape->d = value;
-}
-
 }
 
 }

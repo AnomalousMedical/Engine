@@ -2,9 +2,6 @@
 #include "..\include\PhysSoftBodyMeshDesc.h"
 #include "NxPhysics.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -121,8 +118,6 @@ PhysSoftBodyMeshFlags PhysSoftBodyMeshDesc::Flags::get()
 void PhysSoftBodyMeshDesc::Flags::set(PhysSoftBodyMeshFlags value) 
 {
 	meshDesc->flags = static_cast<NxSoftBodyMeshFlags>(value);
-}
-
 }
 
 }

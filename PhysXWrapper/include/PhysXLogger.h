@@ -2,9 +2,6 @@
 
 #include "NxUserOutputStream.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -25,7 +22,5 @@ public:
 
 	virtual void print( const char* message );
 };
-
-}
 
 }

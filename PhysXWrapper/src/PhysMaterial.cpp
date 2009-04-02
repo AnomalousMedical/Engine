@@ -3,9 +3,6 @@
 #include "MathUtil.h"
 #include "PhysMaterialDesc.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -130,8 +127,6 @@ PhysCombineMode PhysMaterial::getRestitutionCombineMode()
 System::String^ PhysMaterial::getName()
 {
 	return name;
-}
-
 }
 
 }

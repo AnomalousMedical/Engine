@@ -5,9 +5,6 @@
 #include "MathUtil.h"
 #include "NxJointDesc.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -164,8 +161,6 @@ void PhysJoint::setLocalAnchor1(EngineMath::Vector3 anchor)
 	NxJointDesc& desc = getDesc();
 	MathUtil::copyVector3(anchor, desc.localAnchor[1]);
 	this->reloadFromDesc(desc);
-}
-
 }
 
 }

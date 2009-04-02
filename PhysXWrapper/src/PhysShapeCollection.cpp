@@ -9,8 +9,6 @@
 #include "PhysSphereShape.h"
 #include "PhysTriangleMeshShape.h"
 
-namespace Engine{
-
 namespace Physics{
 
 PhysShape^ PhysShapeCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
@@ -56,8 +54,6 @@ PhysShape^ PhysShapeCollection::getObject(NxShape* nativeObject)
 void PhysShapeCollection::destroyObject(NxShape* nativeObject)
 {
 	destroyObjectVoid(nativeObject);
-}
-
 }
 
 }

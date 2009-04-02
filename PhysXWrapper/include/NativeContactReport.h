@@ -3,9 +3,6 @@
 #include "NxUserContactReport.h"
 #include <vcclr.h>
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -27,7 +24,5 @@ public:
 
 	virtual void onContactNotify( NxContactPair& pair, NxU32 events );
 };
-
-}
 
 }

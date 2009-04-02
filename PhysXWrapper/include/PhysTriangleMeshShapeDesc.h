@@ -6,9 +6,6 @@
 
 class NxTriangleMeshShapeDesc;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -46,7 +43,5 @@ public:
 		void set(MeshFlags value);
 	}
 };
-
-}
 
 }

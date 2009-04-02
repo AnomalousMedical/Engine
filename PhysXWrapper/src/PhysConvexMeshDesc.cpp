@@ -2,9 +2,6 @@
 #include "..\include\PhysConvexMeshDesc.h"
 #include "NxPhysics.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -86,8 +83,6 @@ void* PhysConvexMeshDesc::Triangles::get()
 void PhysConvexMeshDesc::Triangles::set(void* value) 
 {
 	meshDesc->triangles = value;
-}
-
 }
 
 }

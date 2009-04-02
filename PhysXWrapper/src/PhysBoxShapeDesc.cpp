@@ -4,9 +4,6 @@
 #include "NxBoxShapeDesc.h"
 #include "MathUtil.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -25,7 +22,5 @@ void PhysBoxShapeDesc::Dimensions::set(EngineMath::Vector3 dimensions)
 { 
 	MathUtil::copyVector3(dimensions, boxShape->dimensions);
 } 
-
-}
 
 }

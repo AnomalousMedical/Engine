@@ -4,8 +4,6 @@
 
 class NxConvexShape;
 
-namespace Engine{
-
 namespace Physics{
 
 /// <summary>
@@ -33,7 +31,5 @@ public:
 	/// </summary>
 	virtual ~PhysConvexShape();
 };
-
-}
 
 }

@@ -1,8 +1,5 @@
 #pragma once
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -31,7 +28,5 @@ public:
 	/// <returns>True to continue the raycase.</returns>
 	bool onHit( RaycastHit^ hit );
 };
-
-}
 
 }

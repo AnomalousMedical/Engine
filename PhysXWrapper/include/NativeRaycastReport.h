@@ -3,9 +3,6 @@
 #include "NxUserRaycastReport.h"
 #include <vcclr.h>
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -43,7 +40,5 @@ public:
 	/// </summary>
 	virtual bool onHit( const NxRaycastHit& hit );
 };
-
-}
 
 }

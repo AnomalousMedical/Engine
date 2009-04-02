@@ -2,9 +2,6 @@
 #include "..\include\PhysSpringDesc.h"
 #include "NxPhysics.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -48,8 +45,6 @@ float PhysSpringDesc::TargetValue::get()
 void PhysSpringDesc::TargetValue::set(float value) 
 {
 	springDesc->targetValue = value;
-}
-
 }
 
 }

@@ -7,9 +7,6 @@ class NxRevoluteJoint;
 class NxJointDesc;
 class NxRevoluteJointDesc;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -195,7 +192,5 @@ public:
 	/// <returns>The current flag settings.</returns>
 	JointProjectionMode getProjectionMode();
 };
-
-}
 
 }

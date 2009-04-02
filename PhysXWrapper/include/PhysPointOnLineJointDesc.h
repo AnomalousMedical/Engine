@@ -4,9 +4,6 @@
 #include "PhysJointDesc.h"
 #include "NxPointOnLineJointDesc.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -25,7 +22,5 @@ public:
 	/// </summary>
 	PhysPointOnLineJointDesc();
 };
-
-}
 
 }

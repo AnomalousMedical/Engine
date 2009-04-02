@@ -1,9 +1,6 @@
 #include "StdAfx.h"
 #include "..\include\PhysJointLimitSoftDesc.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -61,8 +58,6 @@ float PhysJointLimitSoftDesc::Damping::get()
 void PhysJointLimitSoftDesc::Damping::set(float value) 
 {
 	limitDesc->damping = value;
-}
-
 }
 
 }

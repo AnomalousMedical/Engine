@@ -2,9 +2,6 @@
 
 struct NxRaycastHit;
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -66,7 +63,5 @@ public:
 	/// </summary>
 	float getBarycentricV();
 };
-
-}
 
 }

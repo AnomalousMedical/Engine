@@ -4,9 +4,6 @@
 #include "PhysSphericalJointDesc.h"
 #include "PhysActor.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -62,8 +59,6 @@ NxJointDesc& PhysSphericalJoint::getDesc()
 	NxSphericalJointDesc desc;
 	typedJoint->saveToDesc(desc);
 	return desc;
-}
-
 }
 
 }

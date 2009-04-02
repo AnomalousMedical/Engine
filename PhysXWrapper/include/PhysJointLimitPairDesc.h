@@ -3,9 +3,6 @@
 #include "NxPhysics.h"
 #include "AutoPtr.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -54,7 +51,5 @@ public:
 		PhysJointLimitDesc^ get();
 	}
 };
-
-}
 
 }

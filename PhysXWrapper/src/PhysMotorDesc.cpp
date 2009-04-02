@@ -2,9 +2,6 @@
 #include "..\include\PhysMotorDesc.h"
 #include "NxPhysics.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -58,8 +55,6 @@ bool PhysMotorDesc::FreeSpin::get()
 void PhysMotorDesc::FreeSpin::set(bool value) 
 {
 	motorDesc->freeSpin = value;
-}
-
 }
 
 }

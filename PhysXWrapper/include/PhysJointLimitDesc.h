@@ -2,9 +2,6 @@
 
 #include "NxPhysics.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -60,7 +57,5 @@ public:
 		void set(float value);
 	}
 };
-
-}
 
 }

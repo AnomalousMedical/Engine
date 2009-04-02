@@ -5,9 +5,6 @@
 #include "MathUtil.h"
 #include "PhysPlaneShapeDesc.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -40,8 +37,6 @@ void PhysPlaneShape::setPlane(EngineMath::Vector3% normal, float d)
 void PhysPlaneShape::saveToDesc(PhysPlaneShapeDesc^ desc)
 {
 	return nxPlane->saveToDesc(*desc->planeShape.Get());
-}
-
 }
 
 }

@@ -1,9 +1,6 @@
 #include "StdAfx.h"
 #include "..\include\PhysMeshData.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -210,8 +207,6 @@ PhysMeshDataFlags PhysMeshData::Flags::get()
 void PhysMeshData::Flags::set(PhysMeshDataFlags value) 
 {
 	meshData->flags = (NxU32)value;
-}
-
 }
 
 }

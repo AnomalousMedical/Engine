@@ -3,9 +3,6 @@
 #include "NxContactStreamIterator.h"
 #include "MathUtil.h"
 
-namespace Engine
-{
-
 namespace Physics
 {
 
@@ -94,8 +91,6 @@ unsigned int ContactIterator::getFeatureIndex1()
 float ContactIterator::getPointNormalForce()
 {
 	return contactStreamIterator->getPointNormalForce();
-}
-
 }
 
 }
