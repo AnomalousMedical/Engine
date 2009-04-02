@@ -173,7 +173,7 @@ PhysJoint^ PhysScene::createJoint(PhysJointDesc^ jointDesc)
 	NxJoint* nxJoint = scene->createJoint(*jointDesc->jointDesc);
 	if(nxJoint)
 	{
-		return joints.getObject(nxJoint);
+		return joints.getObject(nxJoint, jointDesc->Actor[0], jointDesc->Actor[1], this);
 	}
 	return nullptr;
 }
