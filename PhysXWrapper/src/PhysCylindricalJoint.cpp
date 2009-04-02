@@ -10,8 +10,8 @@ namespace Engine
 namespace Physics
 {
 
-PhysCylindricalJoint::PhysCylindricalJoint(Engine::Identifier^ name, NxCylindricalJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene)
-:PhysJoint(name, joint, actor0, actor1, scene),
+PhysCylindricalJoint::PhysCylindricalJoint(NxCylindricalJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene)
+:PhysJoint(joint, actor0, actor1, scene),
 typedJoint(joint)
 {
 

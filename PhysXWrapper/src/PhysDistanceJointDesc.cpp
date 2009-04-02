@@ -9,9 +9,9 @@ namespace Engine
 namespace Physics
 {
 
-PhysDistanceJointDesc::PhysDistanceJointDesc(Engine::Identifier^ name)
+PhysDistanceJointDesc::PhysDistanceJointDesc()
 :joint(new NxDistanceJointDesc()), 
-PhysJointDesc(joint.Get(), name)
+PhysJointDesc(joint.Get())
 {
 	spring = gcnew PhysSpringDesc(&joint->spring);
 }

@@ -13,8 +13,8 @@ namespace Engine
 namespace Physics
 {
 
-PhysRevoluteJoint::PhysRevoluteJoint(Engine::Identifier^ name, NxRevoluteJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene)
-:PhysJoint(name, joint, actor0, actor1, scene),
+PhysRevoluteJoint::PhysRevoluteJoint(NxRevoluteJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene)
+:PhysJoint(joint, actor0, actor1, scene),
 typedJoint(joint)
 {
 

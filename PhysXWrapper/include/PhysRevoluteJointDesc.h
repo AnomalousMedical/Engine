@@ -32,8 +32,7 @@ public:
 	/// <summary>
 	/// Constructor
 	/// </summary>
-	/// <param name="name">Debug name for the joint.</param>
-	PhysRevoluteJointDesc(Engine::Identifier^ name);
+	PhysRevoluteJointDesc();
 
 	/// <summary>
 	/// Optional limits for the angular motion of the joint.

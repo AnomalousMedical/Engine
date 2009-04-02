@@ -11,9 +11,9 @@ namespace Engine
 namespace Physics
 {
 
-PhysRevoluteJointDesc::PhysRevoluteJointDesc(Engine::Identifier^ name)
+PhysRevoluteJointDesc::PhysRevoluteJointDesc()
 :joint(new NxRevoluteJointDesc()),
-PhysJointDesc(joint.Get(), name)
+PhysJointDesc(joint.Get())
 {
 	limit = gcnew PhysJointLimitPairDesc(&joint->limit);
 	motor = gcnew PhysMotorDesc(&joint->motor);

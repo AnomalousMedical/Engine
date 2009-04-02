@@ -24,7 +24,7 @@ internal:
 	/// <summary>
 	/// Constructor
 	/// </summary>
-	PhysFixedJoint(Engine::Identifier^ name, NxFixedJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene);
+	PhysFixedJoint(NxFixedJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene);
 
 	//A pointer to the actual joint subclass.
 	NxFixedJoint* typedJoint;

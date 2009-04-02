@@ -27,8 +27,7 @@ public:
 	/// <summary>
 	/// Constructor
 	/// </summary>
-	/// <param name="name">Debug name for the joint.</param>
-	PhysDistanceJointDesc(Engine::Identifier^ name);
+	PhysDistanceJointDesc();
 
 	/// <summary>
 	/// The maximum rest length of the rope or rod between the two anchor points.

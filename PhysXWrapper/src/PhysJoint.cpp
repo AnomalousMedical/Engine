@@ -11,15 +11,13 @@ namespace Engine
 namespace Physics
 {
 
-PhysJoint::PhysJoint(Engine::Identifier^ name, NxJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene)
+PhysJoint::PhysJoint(NxJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene)
 :joint(joint),
 actor0(actor0),
 actor1(actor1),
-name(name),
-scene(scene),
-jointNamePtr(new std::string(MarshalUtils::convertString(name->FullName)))
+scene(scene)
 {
-	joint->setName(jointNamePtr.Get()->c_str());
+
 }
 
 PhysJoint::~PhysJoint()
@@ -100,11 +98,6 @@ bool PhysJoint::getUseAccelerationSpring()
 JointType PhysJoint::getType()
 {
 	return (JointType)joint->getType();
-}
-
-Engine::Identifier^ PhysJoint::getName()
-{
-	return name;
 }
 
 PhysScene^ PhysJoint::getScene()

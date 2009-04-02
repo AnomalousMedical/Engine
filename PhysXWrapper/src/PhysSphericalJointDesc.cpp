@@ -11,9 +11,9 @@ namespace Engine
 namespace Physics
 {
 
-PhysSphericalJointDesc::PhysSphericalJointDesc(Engine::Identifier^ name)
+PhysSphericalJointDesc::PhysSphericalJointDesc()
 :joint(new NxSphericalJointDesc()), 
-PhysJointDesc(joint.Get(), name)
+PhysJointDesc(joint.Get())
 {
 	twistLimit = gcnew PhysJointLimitPairDesc(&joint->twistLimit);
 	swingLimit = gcnew PhysJointLimitDesc(&joint->swingLimit);

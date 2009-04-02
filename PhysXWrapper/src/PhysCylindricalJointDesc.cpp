@@ -8,8 +8,8 @@ namespace Engine
 namespace Physics
 {
 
-PhysCylindricalJointDesc::PhysCylindricalJointDesc(Engine::Identifier^ name)
-:joint(new NxCylindricalJointDesc()), PhysJointDesc(joint.Get(), name)
+PhysCylindricalJointDesc::PhysCylindricalJointDesc()
+:joint(new NxCylindricalJointDesc()), PhysJointDesc(joint.Get())
 {
 
 }

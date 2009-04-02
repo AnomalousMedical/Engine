@@ -11,8 +11,8 @@ namespace Engine
 namespace Physics
 {
 
-PhysD6Joint::PhysD6Joint(Engine::Identifier^ name, NxD6Joint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene)
-:PhysJoint(name, joint, actor0, actor1, scene),
+PhysD6Joint::PhysD6Joint(NxD6Joint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene)
+:PhysJoint(joint, actor0, actor1, scene),
 typedJoint(joint)
 {
 

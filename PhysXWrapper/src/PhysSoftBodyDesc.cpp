@@ -11,10 +11,9 @@ namespace Engine
 namespace Physics
 {
 
-PhysSoftBodyDesc::PhysSoftBodyDesc(Engine::Identifier^ name)
+PhysSoftBodyDesc::PhysSoftBodyDesc()
 :desc(new NxSoftBodyDesc()),
-softBodyMesh(nullptr),
-name(name)
+softBodyMesh(nullptr)
 {
 	meshData = gcnew PhysMeshData(&desc->meshData);
 }
@@ -23,16 +22,6 @@ void PhysSoftBodyDesc::setGlobalPose(EngineMath::Vector3 translation, EngineMath
 {
 	desc->globalPose.M.fromQuat( MathUtil::convertNxQuaternion(rotation) );
 	MathUtil::copyVector3(translation, desc->globalPose.t);
-}
-
-Engine::Identifier^ PhysSoftBodyDesc::Name::get() 
-{ 
-	return name; 
-}
-
-void PhysSoftBodyDesc::Name::set(Engine::Identifier^ name) 
-{ 
-	this->name = name; 
 }
 
 PhysSoftBodyMesh^ PhysSoftBodyDesc::SoftBodyMesh::get() 

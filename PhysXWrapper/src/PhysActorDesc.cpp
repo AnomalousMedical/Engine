@@ -15,12 +15,10 @@ namespace Physics
 
 using namespace System;
 
-PhysActorDesc::PhysActorDesc(Engine::Identifier^ name)
-:actorDesc(new NxActorDesc()), 
-name(name), 
+PhysActorDesc::PhysActorDesc()
+:actorDesc(new NxActorDesc()),  
 body(nullptr), 
-shapeList(gcnew ShapeList()),
-shapeReference(nullptr)
+shapeList(gcnew ShapeList())
 {
 	
 }
@@ -78,26 +76,6 @@ void PhysActorDesc::Body::set(PhysBodyDesc^ desc)
 	{
 		actorDesc->body = NULL;
 	}
-}
-
-Engine::Identifier^ PhysActorDesc::Name::get() 
-{ 
-	return name; 
-}
-
-void PhysActorDesc::Name::set(Engine::Identifier^ name) 
-{ 
-	this->name = name; 
-}
-
-System::String^ PhysActorDesc::ShapeReference::get() 
-{ 
-	return shapeReference; 
-}
-
-void PhysActorDesc::ShapeReference::set(System::String^ value) 
-{ 
-	this->shapeReference = value; 
 }
 
 float PhysActorDesc::Density::get() 

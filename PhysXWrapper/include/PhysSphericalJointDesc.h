@@ -34,8 +34,7 @@ public:
 	/// <summary>
 	/// Constructor
 	/// </summary>
-	/// <param name="name">Debug name for the joint.</param>
-	PhysSphericalJointDesc(Engine::Identifier^ name);
+	PhysSphericalJointDesc();
 
 	/// <summary>
 	/// Swing limit axis defined in the joint space of actor 0.

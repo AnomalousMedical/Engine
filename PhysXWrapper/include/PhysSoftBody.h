@@ -24,8 +24,6 @@ ref class PhysShape;
 public ref class PhysSoftBody
 {
 private:
-	Engine::Identifier^ name;
-	AutoPtr<std::string> nameStringPtr;
 
 internal:
 	NxSoftBody* softBody;
@@ -33,24 +31,14 @@ internal:
 	/// <summary>
 	/// Constructor.
 	/// </summary>
-	/// <param name="name">The name of the soft body.</param>
 	/// <param name="softBody">The soft body to wrap.</param>
-	PhysSoftBody(Engine::Identifier^ name, NxSoftBody* softBody);
+	PhysSoftBody(NxSoftBody* softBody);
 
 public:
 	/// <summary>
 	/// Destructor.
 	/// </summary>
 	~PhysSoftBody();
-
-	/// <summary>
-	/// The name of the actor.
-	/// </summary>
-	/// <param name=""></param>
-	property Engine::Identifier^ Name
-	{ 
-		Engine::Identifier^ get() { return name; }
-	}
 
 	/// <summary>
 	/// Saves the soft body descriptor. 

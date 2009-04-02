@@ -24,7 +24,7 @@ internal:
 	/// <summary>
 	/// Constructor
 	/// </summary>
-	PhysPrismaticJoint(Engine::Identifier^ name, NxPrismaticJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene);
+	PhysPrismaticJoint(NxPrismaticJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene);
 
 	//A pointer to the actual joint subclass.
 	NxPrismaticJoint* typedJoint;

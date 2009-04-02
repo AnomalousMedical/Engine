@@ -25,7 +25,7 @@ internal:
 	/// <summary>
 	/// Constructor
 	/// </summary>
-	PhysSphericalJoint(Engine::Identifier^ name, NxSphericalJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene);
+	PhysSphericalJoint(NxSphericalJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene);
 
 	//A pointer to the actual joint subclass.
 	NxSphericalJoint* typedJoint;

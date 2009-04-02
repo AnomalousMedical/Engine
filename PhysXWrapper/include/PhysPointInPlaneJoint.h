@@ -24,7 +24,7 @@ internal:
 	/// <summary>
 	/// Constructor
 	/// </summary>
-	PhysPointInPlaneJoint(Engine::Identifier^ name, NxPointInPlaneJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene);
+	PhysPointInPlaneJoint(NxPointInPlaneJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene);
 
 	//A pointer to the actual joint subclass.
 	NxPointInPlaneJoint* typedJoint;

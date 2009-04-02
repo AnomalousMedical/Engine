@@ -22,7 +22,6 @@ public ref class PhysJointDesc
 {
 protected:
 	ActorArray^ actors;
-	Engine::Identifier^ name;
 
 internal:
 	NxJointDesc* jointDesc;
@@ -31,7 +30,7 @@ public:
 	/// <summary>
 	/// Constructor
 	/// </summary>
-	PhysJointDesc(NxJointDesc* jointDesc, Engine::Identifier^ name);
+	PhysJointDesc(NxJointDesc* jointDesc);
 
 	/// <summary>
 	/// (re)sets the structure to the default.
@@ -158,15 +157,6 @@ public:
 	{
 		JointFlag get();
 		void set(JointFlag value);
-	}
-
-	/// <summary>
-	/// Debug name for the joint.
-	/// </summary>
-	property Engine::Identifier^ Name 
-	{
-		Engine::Identifier^ get();
-		void set(Engine::Identifier^ value);
 	}
 };
 

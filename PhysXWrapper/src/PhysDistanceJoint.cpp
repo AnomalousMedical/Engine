@@ -10,8 +10,8 @@ namespace Engine
 namespace Physics
 {
 
-PhysDistanceJoint::PhysDistanceJoint(Engine::Identifier^ name, NxDistanceJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene)
-:PhysJoint(name, joint, actor0, actor1, scene),
+PhysDistanceJoint::PhysDistanceJoint(NxDistanceJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene)
+:PhysJoint(joint, actor0, actor1, scene),
 typedJoint(joint)
 {
 

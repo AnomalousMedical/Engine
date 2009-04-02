@@ -25,7 +25,7 @@ internal:
 	/// <summary>
 	/// Constructor
 	/// </summary>
-	PhysPulleyJoint(Engine::Identifier^ name, NxPulleyJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene);
+	PhysPulleyJoint(NxPulleyJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene);
 
 	//A pointer to the actual joint subclass.
 	NxPulleyJoint* typedJoint;

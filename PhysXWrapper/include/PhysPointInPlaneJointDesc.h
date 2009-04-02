@@ -23,8 +23,7 @@ public:
 	/// <summary>
 	/// Constructor
 	/// </summary>
-	/// <param name="name">Debug name for the joint.</param>
-	PhysPointInPlaneJointDesc(Engine::Identifier^ name);
+	PhysPointInPlaneJointDesc();
 };
 
 }

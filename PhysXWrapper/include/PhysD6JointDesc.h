@@ -48,8 +48,7 @@ public:
 	/// <summary>
 	/// Constructor
 	/// </summary>
-	/// <param name="name">Debug name for the joint.</param>
-	PhysD6JointDesc(Engine::Identifier^ name);
+	PhysD6JointDesc();
 
 	/// <summary>
 	/// Define the linear degrees of freedom.

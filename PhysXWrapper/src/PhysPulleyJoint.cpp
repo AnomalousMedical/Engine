@@ -11,8 +11,8 @@ namespace Engine
 namespace Physics
 {
 
-PhysPulleyJoint::PhysPulleyJoint(Engine::Identifier^ name, NxPulleyJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene)
-:PhysJoint(name, joint, actor0, actor1, scene),
+PhysPulleyJoint::PhysPulleyJoint(NxPulleyJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene)
+:PhysJoint(joint, actor0, actor1, scene),
 typedJoint(joint)
 {
 

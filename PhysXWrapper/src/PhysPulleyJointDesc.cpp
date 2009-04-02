@@ -9,9 +9,9 @@ namespace Engine
 namespace Physics
 {
 
-PhysPulleyJointDesc::PhysPulleyJointDesc(Engine::Identifier^ name)
+PhysPulleyJointDesc::PhysPulleyJointDesc()
 :joint(new NxPulleyJointDesc()), 
-PhysJointDesc(joint.Get(), name)
+PhysJointDesc(joint.Get())
 {
 	motor = gcnew PhysMotorDesc(&joint->motor);
 }

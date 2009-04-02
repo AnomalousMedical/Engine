@@ -9,9 +9,9 @@ namespace Engine
 namespace Physics
 {
 
-PhysD6JointDesc::PhysD6JointDesc(Engine::Identifier^ name)
+PhysD6JointDesc::PhysD6JointDesc()
 :joint(new NxD6JointDesc()), 
-PhysJointDesc(joint.Get(), name)
+PhysJointDesc(joint.Get())
 {
 	linearLimit = gcnew PhysJointLimitSoftDesc(&joint->linearLimit);
 	swing1Limit = gcnew PhysJointLimitSoftDesc(&joint->swing1Limit);

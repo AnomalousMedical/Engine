@@ -28,7 +28,7 @@ internal:
 	/// <summary>
 	/// Constructor
 	/// </summary>
-	PhysRevoluteJoint(Engine::Identifier^ name, NxRevoluteJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene);
+	PhysRevoluteJoint(NxRevoluteJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene);
 
 	//A pointer to the actual joint subclass.
 	NxRevoluteJoint* typedJoint;

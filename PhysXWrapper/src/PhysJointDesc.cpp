@@ -9,9 +9,8 @@ namespace Engine
 namespace Physics
 {
 
-PhysJointDesc::PhysJointDesc(NxJointDesc* jointDesc, Engine::Identifier^ name)
+PhysJointDesc::PhysJointDesc(NxJointDesc* jointDesc)
 :jointDesc(jointDesc),
-name(name),
 actors(gcnew ActorArray(2))
 {
 
@@ -137,16 +136,6 @@ JointFlag PhysJointDesc::JointFlags::get()
 void PhysJointDesc::JointFlags::set(JointFlag value) 
 {
 	jointDesc->jointFlags = (NxU32)value;
-}
-
-Engine::Identifier^ PhysJointDesc::Name::get() 
-{
-	return name;
-}
-
-void PhysJointDesc::Name::set(Engine::Identifier^ value) 
-{
-	name = value;
 }
 
 }

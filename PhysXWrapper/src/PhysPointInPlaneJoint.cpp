@@ -10,8 +10,8 @@ namespace Engine
 namespace Physics
 {
 
-PhysPointInPlaneJoint::PhysPointInPlaneJoint(Engine::Identifier^ name, NxPointInPlaneJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene)
-:PhysJoint(name, joint, actor0, actor1, scene),
+PhysPointInPlaneJoint::PhysPointInPlaneJoint(NxPointInPlaneJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene)
+:PhysJoint(joint, actor0, actor1, scene),
 typedJoint(joint)
 {
 

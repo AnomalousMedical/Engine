@@ -28,8 +28,7 @@ public:
 	/// <summary>
 	/// Constructor
 	/// </summary>
-	/// <param name="name">Debug name for the joint.</param>
-	PhysPulleyJointDesc(Engine::Identifier^ name);
+	PhysPulleyJointDesc();
 
 	/// <summary>
 	/// Suspension points of two bodies in world space.

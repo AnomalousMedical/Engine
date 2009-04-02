@@ -23,7 +23,6 @@ public ref class PhysSoftBodyDesc
 private:
 	PhysSoftBodyMesh^ softBodyMesh;
 	PhysMeshData^ meshData;
-	Engine::Identifier^ name;
 
 internal:
 	AutoPtr<NxSoftBodyDesc> desc;
@@ -32,7 +31,7 @@ public:
 	/// <summary>
 	/// Constructor.
 	/// </summary>
-	PhysSoftBodyDesc(Engine::Identifier^ name);
+	PhysSoftBodyDesc();
 
 	/// <summary>
 	/// Set the global position of the soft body.
@@ -40,16 +39,6 @@ public:
 	/// <param name="position">The position of the soft body.</param>
 	/// <param name="rotation">The rotation of the soft body.</param>
 	void setGlobalPose(EngineMath::Vector3 position, EngineMath::Quaternion rotation);
-
-	/// <summary>
-	/// The name of the SoftBody.  This can be changed so multiple SoftBodies can be made
-	/// using the same description.
-	/// </summary>
-	property Engine::Identifier^ Name
-	{ 
-		Engine::Identifier^ get();
-		void set(Engine::Identifier^ name);
-	}
 	
 	/// <summary>
 	/// The cooked soft body mesh.

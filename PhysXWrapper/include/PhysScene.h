@@ -6,6 +6,9 @@
 #include "Nxp.h"
 #include "NxScene.h"
 #include "NxSceneExportWrapper.h"
+#include "PhysActorCollection.h"
+#include "PhysSoftBodyCollection.h"
+#include "PhysJointCollection.h"
 
 class NxVec3;
 class NxScene;
@@ -27,17 +30,6 @@ ref class PhysMaterialDesc;
 ref class PhysSoftBody;
 ref class PhysSoftBodyDesc;
 
-typedef System::Collections::Generic::Dictionary<Engine::Identifier^, PhysActor^> ActorDictionary;
-typedef System::Collections::Generic::Dictionary<Engine::Identifier^, PhysJoint^> JointDictionary;
-typedef System::Collections::Generic::Dictionary<Engine::Identifier^, PhysSoftBody^> SoftBodyDictionary;
-
-public delegate void ActorAdded(PhysActor^ actor);
-public delegate void ActorRemoved(PhysActor^ actor);
-public delegate void JointAdded(PhysJoint^ joint);
-public delegate void JointRemoved(PhysJoint^ joint);
-public delegate void SoftBodyAdded(PhysSoftBody^ softBody);
-public delegate void SoftBodyRemoved(PhysSoftBody^ softBody);
-
 /// <summary>
 /// Wrapper class for NxScene.
 /// A scene is a collection of bodies, constraints, and effectors which can interact. 
@@ -51,9 +43,9 @@ public ref class PhysScene
 {
 private:
 	System::String^ name;
-	ActorDictionary actors;
-	JointDictionary joints;
-	SoftBodyDictionary softBodies;
+	PhysActorCollection actors;
+	PhysJointCollection joints;
+	PhysSoftBodyCollection softBodies;
 
 	AutoPtr<NxVec3> pooledVector;  //Vector to be passed to physx functions.
 	AutoPtr<NativeRaycastReport> nativeRaycastReport;
@@ -62,13 +54,6 @@ private:
 
 	unsigned int actorGroupPairPosition;
 	AutoPtr<NxActorGroupPair> actorGroupPairBuffer;
-
-	ActorAdded^ onActorAdded;
-	ActorRemoved^ onActorRemoved;
-	JointAdded^ onJointAdded;
-	JointRemoved^ onJointRemoved;
-	SoftBodyAdded^ onSoftBodyAdded;
-	SoftBodyRemoved^ onSoftBodyRemoved;
 
 internal:
 	NxScene* scene;
@@ -108,13 +93,6 @@ public:
 	/// </summary>
 	/// <param name="actor">The actor to destroy.</param>
 	void releaseActor(PhysActor^ actor);
-
-	/// <summary>
-	/// Gets the actor named name.
-	/// </summary>
-	/// <param name="name">The name of the actor to get.</param>
-	/// <returns>The actor specified by name or null if it does not exist.</returns>
-	PhysActor^ getActor(Engine::Identifier^ name);
 
 	/// <summary>
 	/// Advances the simulation by the given time and will dispatch position updates
@@ -233,13 +211,6 @@ public:
 	void releaseJoint(PhysJoint^ joint);
 
 	/// <summary>
-	/// Gets the joint specified by name.
-	/// </summary>
-	/// <param name="name">The name of the joint to get.</param>
-	/// <returns>The joint specified by name or null if it does not exist.</returns>
-	PhysJoint^ getJoint(Engine::Identifier^ name);
-
-	/// <summary>
 	/// Get the scene flags.
 	/// </summary>
 	/// <returns>The scene flags.</returns>
@@ -323,98 +294,6 @@ public:
 	PhysSoftBody^ createSoftBody(PhysSoftBodyDesc^ softBodyDesc);
 
 	void releaseSoftBody(PhysSoftBody^ softBody);
-
-	PhysSoftBody^ getSoftBody(Engine::Identifier^ name);
-
-	/// <summary>
-	/// Called when an Actor is added to the scene.
-	/// </summary>
-	event ActorAdded^ OnActorAdded
-	{
-        void add(ActorAdded^ value)
-		{
-			onActorAdded = (ActorAdded^)System::Delegate::Combine(onActorAdded, value);
-        }
-        void remove(ActorAdded^ value)
-		{
-			onActorAdded = (ActorAdded^)System::Delegate::Remove(onActorAdded, value);
-        }
-    }
-
-	/// <summary>
-	/// Called when an Actor is removed from the scene.
-	/// </summary>
-	event ActorRemoved^ OnActorRemoved
-	{
-        void add(ActorRemoved^ value)
-		{
-			onActorRemoved = (ActorRemoved^)System::Delegate::Combine(onActorRemoved, value);
-        }
-        void remove(ActorRemoved^ value)
-		{
-			onActorRemoved = (ActorRemoved^)System::Delegate::Remove(onActorRemoved, value);
-        }
-    }
-
-	/// <summary>
-	/// Called when a joint is added to the scene.
-	/// </summary>
-	event JointAdded^ OnJointAdded
-	{
-        void add(JointAdded^ value)
-		{
-			onJointAdded = (JointAdded^)System::Delegate::Combine(onJointAdded, value);
-        }
-        void remove(JointAdded^ value)
-		{
-			onJointAdded = (JointAdded^)System::Delegate::Remove(onJointAdded, value);
-        }
-    }
-
-	/// <summary>
-	/// Called when a joint is removed from the scene.
-	/// </summary>
-	event JointRemoved^ OnJointRemoved
-	{
-        void add(JointRemoved^ value)
-		{
-			onJointRemoved = (JointRemoved^)System::Delegate::Combine(onJointRemoved, value);
-        }
-        void remove(JointRemoved^ value)
-		{
-			onJointRemoved = (JointRemoved^)System::Delegate::Remove(onJointRemoved, value);
-        }
-    }
-
-	/// <summary>
-	/// Called when a SoftBody is added to the scene.
-	/// </summary>
-	event SoftBodyAdded^ OnSoftBodyAdded
-	{
-        void add(SoftBodyAdded^ value)
-		{
-			onSoftBodyAdded = (SoftBodyAdded^)System::Delegate::Combine(onSoftBodyAdded, value);
-        }
-        void remove(SoftBodyAdded^ value)
-		{
-			onSoftBodyAdded = (SoftBodyAdded^)System::Delegate::Remove(onSoftBodyAdded, value);
-        }
-    }
-
-	/// <summary>
-	/// Called when a SoftBody is removed from the scene.
-	/// </summary>
-	event SoftBodyRemoved^ OnSoftBodyRemoved
-	{
-        void add(SoftBodyRemoved^ value)
-		{
-			onSoftBodyRemoved = (SoftBodyRemoved^)System::Delegate::Combine(onSoftBodyRemoved, value);
-        }
-        void remove(SoftBodyRemoved^ value)
-		{
-			onSoftBodyRemoved = (SoftBodyRemoved^)System::Delegate::Remove(onSoftBodyRemoved, value);
-        }
-    }
 };
 
 }

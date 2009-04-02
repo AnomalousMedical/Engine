@@ -24,7 +24,7 @@ internal:
 	/// <summary>
 	/// Constructor
 	/// </summary>
-	PhysDistanceJoint(Engine::Identifier^ name, NxDistanceJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene);
+	PhysDistanceJoint(NxDistanceJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene);
 
 	virtual NxJointDesc& getDesc() override;
 	//A pointer to the actual joint subclass.

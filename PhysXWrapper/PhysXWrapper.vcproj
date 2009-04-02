@@ -242,6 +242,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\PhysActorCollection.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\PhysActorDesc.cpp"
 				>
 			</File>
@@ -323,6 +327,10 @@
 			</File>
 			<File
 				RelativePath=".\src\PhysJoint.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\PhysJointCollection.cpp"
 				>
 			</File>
 			<File
@@ -451,6 +459,10 @@
 			</File>
 			<File
 				RelativePath=".\src\PhysSoftBody.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\PhysSoftBodyCollection.cpp"
 				>
 			</File>
 			<File
@@ -612,6 +624,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\PhysActorCollection.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\PhysActorDesc.h"
 				>
 			</File>
@@ -693,6 +709,10 @@
 			</File>
 			<File
 				RelativePath=".\include\PhysJoint.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\PhysJointCollection.h"
 				>
 			</File>
 			<File
@@ -821,6 +841,10 @@
 			</File>
 			<File
 				RelativePath=".\include\PhysSoftBody.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\PhysSoftBodyCollection.h"
 				>
 			</File>
 			<File

@@ -8,8 +8,8 @@ namespace Engine
 namespace Physics
 {
 
-PhysPrismaticJointDesc::PhysPrismaticJointDesc(Engine::Identifier^ name)
-:joint(new NxPrismaticJointDesc()), PhysJointDesc(joint.Get(), name)
+PhysPrismaticJointDesc::PhysPrismaticJointDesc()
+:joint(new NxPrismaticJointDesc()), PhysJointDesc(joint.Get())
 {
 
 }

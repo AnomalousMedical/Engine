@@ -28,17 +28,15 @@ ref class PhysScene;
 public ref class PhysJoint abstract
 {
 private:
-	AutoPtr<std::string> jointNamePtr;
 
 protected:
 	PhysActor^ actor0;
 	PhysActor^ actor1;
-	Engine::Identifier^ name;
 	PhysScene^ scene;
 
 internal:
 	NxJoint* joint;
-	PhysJoint(Engine::Identifier^ name, NxJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene);
+	PhysJoint(NxJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene);
 	virtual NxJointDesc& getDesc() = 0;
 
 	virtual void reloadFromDesc(NxJointDesc& desc) = 0;
@@ -165,12 +163,6 @@ public:
 	/// </summary>
 	/// <returns>True if acceleration spring is used else false.</returns>
 	JointType getType();
-
-	/// <summary>
-	/// Retrieves the name.
-	/// </summary>
-	/// <returns>The identifier for this object.</returns>
-	Engine::Identifier^ getName();
 
 	/// <summary>
 	/// Retrieves owner scene.

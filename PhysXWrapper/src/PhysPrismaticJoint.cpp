@@ -10,8 +10,8 @@ namespace Engine
 namespace Physics
 {
 
-PhysPrismaticJoint::PhysPrismaticJoint(Engine::Identifier^ name, NxPrismaticJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene)
-:PhysJoint(name, joint, actor0, actor1, scene),
+PhysPrismaticJoint::PhysPrismaticJoint(NxPrismaticJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene)
+:PhysJoint(joint, actor0, actor1, scene),
 typedJoint(joint)
 {
 

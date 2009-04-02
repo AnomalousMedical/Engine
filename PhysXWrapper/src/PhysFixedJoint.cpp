@@ -10,8 +10,8 @@ namespace Engine
 namespace Physics
 {
 
-PhysFixedJoint::PhysFixedJoint(Engine::Identifier^ name, NxFixedJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene)
-:PhysJoint(name, joint, actor0, actor1, scene),
+PhysFixedJoint::PhysFixedJoint(NxFixedJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene)
+:PhysJoint(joint, actor0, actor1, scene),
 typedJoint(joint)
 {
 

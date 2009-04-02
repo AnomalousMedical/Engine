@@ -8,8 +8,8 @@ namespace Engine
 namespace Physics
 {
 
-PhysPointInPlaneJointDesc::PhysPointInPlaneJointDesc(Engine::Identifier^ name)
-:joint(new NxPointInPlaneJointDesc()), PhysJointDesc(joint.Get(), name)
+PhysPointInPlaneJointDesc::PhysPointInPlaneJointDesc()
+:joint(new NxPointInPlaneJointDesc()), PhysJointDesc(joint.Get())
 {
 
 }

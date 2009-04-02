@@ -15,10 +15,10 @@ namespace Engine
 namespace Physics
 {
 
-PhysSoftBody::PhysSoftBody(Engine::Identifier^ name, NxSoftBody* softBody)
-:softBody(softBody), name(name), nameStringPtr(new std::string(MarshalUtils::convertString(name->FullName)))
+PhysSoftBody::PhysSoftBody(NxSoftBody* softBody)
+:softBody(softBody)
 {
-	softBody->setName(nameStringPtr->c_str());
+
 }
 
 PhysSoftBody::~PhysSoftBody()

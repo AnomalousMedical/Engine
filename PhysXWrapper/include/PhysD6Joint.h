@@ -24,7 +24,7 @@ internal:
 	/// <summary>
 	/// Constructor
 	/// </summary>
-	PhysD6Joint(Engine::Identifier^ name, NxD6Joint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene);
+	PhysD6Joint(NxD6Joint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene);
 
 	//A pointer to the actual joint subclass.
 	NxD6Joint* typedJoint;
