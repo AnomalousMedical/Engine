@@ -1,0 +1,49 @@
+#include "StdAfx.h"
+#include "..\include\PhysDistanceJoint.h"
+#include "NxPhysics.h"
+#include "PhysDistanceJointDesc.h"
+#include "PhysActor.h"
+
+namespace Engine
+{
+
+namespace Physics
+{
+
+PhysDistanceJoint::PhysDistanceJoint(Engine::Identifier^ name, NxDistanceJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene)
+:PhysJoint(name, joint, actor0, actor1, scene),
+typedJoint(joint)
+{
+
+}
+
+void PhysDistanceJoint::saveToDesc(PhysDistanceJointDesc^ desc)
+{
+	typedJoint->saveToDesc(*desc->joint.Get());
+	NxActor* actor0, *actor1;
+	typedJoint->getActors(&actor0, &actor1);
+	if(actor0)
+	{
+		desc->Actor[0] = *((PhysActorGCRoot*)actor0->userData);
+	}
+	if(actor1)
+	{
+		desc->Actor[1] = *((PhysActorGCRoot*)actor1->userData);
+	}
+}
+
+void PhysDistanceJoint::loadFromDesc(PhysDistanceJointDesc^ desc)
+{
+	typedJoint->loadFromDesc(*desc->joint.Get());
+}
+
+NxJointDesc& PhysDistanceJoint::getDesc()
+{
+	NxDistanceJointDesc desc;
+	typedJoint->saveToDesc(desc);
+	return desc;
+}
+
+}
+
+}
