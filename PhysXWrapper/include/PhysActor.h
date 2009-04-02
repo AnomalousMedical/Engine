@@ -9,7 +9,7 @@
 class NxActor;
 class NxMat34;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysActor;

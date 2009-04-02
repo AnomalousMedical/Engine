@@ -4,7 +4,7 @@
 #include <NxVec3.h>
 #include <NxBounds3.h>
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 #pragma unmanaged

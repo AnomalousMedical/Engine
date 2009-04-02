@@ -7,7 +7,7 @@
 #include "MathUtil.h"
 #include "PhysMaterial.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 using namespace System;

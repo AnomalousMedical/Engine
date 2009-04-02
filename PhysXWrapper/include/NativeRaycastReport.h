@@ -3,7 +3,7 @@
 #include "NxUserRaycastReport.h"
 #include <vcclr.h>
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 interface class RaycastReport;

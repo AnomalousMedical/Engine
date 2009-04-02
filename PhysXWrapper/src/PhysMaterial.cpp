@@ -3,7 +3,7 @@
 #include "MathUtil.h"
 #include "PhysMaterialDesc.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysMaterial::PhysMaterial(NxMaterial* material, System::String^ name)

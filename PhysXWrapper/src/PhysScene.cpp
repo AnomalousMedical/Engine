@@ -25,7 +25,7 @@
 #include "PhysSoftBody.h"
 #include "PhysSoftBodyDesc.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysScene::PhysScene(NxScene* scene, System::String^ name)

@@ -2,7 +2,7 @@
 #include "..\include\PhysMemoryReadBuffer.h"
 #include "PhysMemoryWriteBuffer.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysMemoryReadBuffer::PhysMemoryReadBuffer(PhysMemoryWriteBuffer^ buffer)

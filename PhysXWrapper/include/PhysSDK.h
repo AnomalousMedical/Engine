@@ -7,7 +7,7 @@ class NxRemoteDebugger;
 #include "PhysXLogger.h"
 #include "Enums.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysScene;

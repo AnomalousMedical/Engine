@@ -5,7 +5,7 @@ class NxMaterialDesc;
 #include "AutoPtr.h"
 #include "Enums.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 public ref class PhysMaterialDesc

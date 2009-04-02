@@ -4,7 +4,7 @@
 #include "PhysJointDesc.h"
 #include "NxPointInPlaneJointDesc.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 /// <summary>

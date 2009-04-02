@@ -2,7 +2,7 @@
 
 #include "NxPhysics.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysJointLimitSoftDesc;

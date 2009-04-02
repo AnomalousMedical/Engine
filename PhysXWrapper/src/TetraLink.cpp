@@ -5,7 +5,7 @@
 #include "NxBounds3.h"
 #include "MathUtil.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 static void barycentricCoords(const NxVec3 &p0, const NxVec3 &p1,const NxVec3 &p2, const NxVec3 &p3,const NxVec3 &p, NxVec3 &barycentricCoords)

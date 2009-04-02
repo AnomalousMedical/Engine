@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "MeshHash.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 #pragma unmanaged

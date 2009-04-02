@@ -2,7 +2,7 @@
 
 #include "NxUserOutputStream.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 /// <summary>

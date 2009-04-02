@@ -6,7 +6,7 @@
 #include "HullDesc.h"
 #include "HullResult.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 namespace StanHull

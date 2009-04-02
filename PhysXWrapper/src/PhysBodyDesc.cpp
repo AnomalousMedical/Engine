@@ -4,7 +4,7 @@
 
 #include "MathUtil.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysBodyDesc::PhysBodyDesc(void)

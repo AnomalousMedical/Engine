@@ -2,7 +2,7 @@
 #include "..\include\PhysConvexMeshDesc.h"
 #include "NxPhysics.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysConvexMeshDesc::PhysConvexMeshDesc(void)

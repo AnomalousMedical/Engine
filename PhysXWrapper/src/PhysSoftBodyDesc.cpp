@@ -5,7 +5,7 @@
 #include "PhysMeshData.h"
 #include "PhysSoftBodyMesh.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysSoftBodyDesc::PhysSoftBodyDesc()

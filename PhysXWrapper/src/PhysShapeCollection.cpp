@@ -9,7 +9,7 @@
 #include "PhysSphereShape.h"
 #include "PhysTriangleMeshShape.h"
 
-namespace Physics{
+namespace PhysXWrapper{
 
 PhysShape^ PhysShapeCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
 {

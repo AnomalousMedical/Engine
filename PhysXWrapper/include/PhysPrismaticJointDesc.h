@@ -4,7 +4,7 @@
 #include "PhysJointDesc.h"
 #include "NxPrismaticJointDesc.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 /// <summary>

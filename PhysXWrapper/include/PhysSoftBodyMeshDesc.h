@@ -5,7 +5,7 @@
 
 class NxSoftBodyMeshDesc;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 /// <summary>

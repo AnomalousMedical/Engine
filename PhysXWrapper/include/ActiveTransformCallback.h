@@ -2,7 +2,7 @@
 
 class NxMat34;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 /// <summary>

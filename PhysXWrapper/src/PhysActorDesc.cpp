@@ -7,7 +7,7 @@
 #include "PhysBodyDesc.h"
 #include "MathUtil.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 using namespace System;

@@ -4,7 +4,7 @@
 #include "PhysSphericalJointDesc.h"
 #include "PhysActor.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysSphericalJoint::PhysSphericalJoint(NxSphericalJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene)

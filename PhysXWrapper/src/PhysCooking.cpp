@@ -11,7 +11,7 @@
 #include "PhysTriangleMeshDesc.h"
 #include "PhysSoftBodyMeshDesc.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 bool PhysCooking::initCooking()

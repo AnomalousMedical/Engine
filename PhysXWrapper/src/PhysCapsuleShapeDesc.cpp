@@ -2,7 +2,7 @@
 #include "..\include\PhysCapsuleShapeDesc.h"
 #include "NxPhysics.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysCapsuleShapeDesc::PhysCapsuleShapeDesc(System::String^ name)

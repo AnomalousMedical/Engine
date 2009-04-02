@@ -4,7 +4,7 @@
 
 class NxMotorDesc;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 /// <summary>

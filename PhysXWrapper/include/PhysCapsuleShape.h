@@ -4,7 +4,7 @@
 
 class NxCapsuleShape;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysCapsuleShapeDesc;

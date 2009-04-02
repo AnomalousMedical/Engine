@@ -6,7 +6,7 @@ class NxD6Joint;
 class NxJointDesc;
 class NxD6JointDesc;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysD6JointDesc;

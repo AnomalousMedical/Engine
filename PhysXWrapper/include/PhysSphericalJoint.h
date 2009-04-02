@@ -7,7 +7,7 @@ class NxSphericalJoint;
 class NxJointDesc;
 class NxSphericalJointDesc;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysSphericalJointDesc;

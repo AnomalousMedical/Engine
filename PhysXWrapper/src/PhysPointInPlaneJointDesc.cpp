@@ -2,7 +2,7 @@
 #include "..\include\PhysPointInPlaneJointDesc.h"
 #include "NxPhysics.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysPointInPlaneJointDesc::PhysPointInPlaneJointDesc()

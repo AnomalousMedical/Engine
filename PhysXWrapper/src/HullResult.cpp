@@ -4,7 +4,7 @@
 #include <string.h>  //for memcpy
 #include "hull.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 namespace StanHull

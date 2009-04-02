@@ -4,7 +4,7 @@
 
 class NxPlaneShape;
 
-namespace Physics{
+namespace PhysXWrapper{
 
 ref class PhysPlaneShapeDesc;
 

@@ -5,7 +5,7 @@
 
 class NxSceneDesc;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 /// <summary>

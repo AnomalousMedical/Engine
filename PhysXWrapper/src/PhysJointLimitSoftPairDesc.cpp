@@ -2,7 +2,7 @@
 #include "..\include\PhysJointLimitSoftPairDesc.h"
 #include "PhysJointLimitSoftDesc.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysJointLimitSoftPairDesc::PhysJointLimitSoftPairDesc(NxJointLimitSoftPairDesc* limitDesc)

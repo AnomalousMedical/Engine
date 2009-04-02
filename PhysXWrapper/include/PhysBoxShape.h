@@ -4,7 +4,7 @@
 
 class NxBoxShape;
 
-namespace Physics{
+namespace PhysXWrapper{
 
 ref class PhysBoxShapeDesc;
 

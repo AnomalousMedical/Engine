@@ -5,7 +5,7 @@
 #include "PhysMotorDesc.h"
 #include "PhysSpringDesc.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysRevoluteJointDesc::PhysRevoluteJointDesc()

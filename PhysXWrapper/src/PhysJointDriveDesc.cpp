@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "..\include\PhysJointDriveDesc.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysJointDriveDesc::PhysJointDriveDesc(NxJointDriveDesc* driveDesc)

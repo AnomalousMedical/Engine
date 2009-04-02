@@ -6,7 +6,7 @@ class NxCylindricalJoint;
 class NxJointDesc;
 class NxCylindricalJointDesc;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysCylindricalJointDesc;

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class RaycastHit;

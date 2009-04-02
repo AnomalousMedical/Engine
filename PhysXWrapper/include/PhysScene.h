@@ -13,7 +13,7 @@
 class NxVec3;
 class NxScene;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysActor;

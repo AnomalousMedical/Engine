@@ -4,7 +4,7 @@
 
 class NxSpringDesc;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 /// <summary>

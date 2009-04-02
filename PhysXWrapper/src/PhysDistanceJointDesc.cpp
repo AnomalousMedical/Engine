@@ -3,7 +3,7 @@
 #include "NxPhysics.h"
 #include "PhysSpringDesc.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysDistanceJointDesc::PhysDistanceJointDesc()

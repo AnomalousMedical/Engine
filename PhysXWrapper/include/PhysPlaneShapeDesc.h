@@ -5,7 +5,7 @@
 
 class NxPlaneShapeDesc;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 /// <summary>

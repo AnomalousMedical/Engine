@@ -6,7 +6,7 @@
 
 class NxMeshData;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 /// <summary>

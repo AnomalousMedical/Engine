@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "..\include\PhysJointLimitDesc.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysJointLimitDesc::PhysJointLimitDesc(NxJointLimitDesc* limitDesc)

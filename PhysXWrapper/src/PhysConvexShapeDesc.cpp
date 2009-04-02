@@ -3,7 +3,7 @@
 #include "PhysConvexMesh.h"
 #include "NxPhysics.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysConvexShapeDesc::PhysConvexShapeDesc(System::String^ name)

@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "PhysXLogger.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysXLogger::PhysXLogger(void)

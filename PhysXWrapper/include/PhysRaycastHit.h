@@ -3,7 +3,7 @@
 #include "RaycastHit.h"
 #include "AutoPtr.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 /// <summary>

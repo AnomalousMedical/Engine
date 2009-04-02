@@ -3,7 +3,7 @@
 class NxVec3;
 class NxQuat;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 /// <summary>

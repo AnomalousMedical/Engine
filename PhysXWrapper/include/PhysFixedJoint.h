@@ -6,7 +6,7 @@ class NxFixedJoint;
 class NxJointDesc;
 class NxFixedJointDesc;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysFixedJointDesc;

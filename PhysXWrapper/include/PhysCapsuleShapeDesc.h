@@ -5,7 +5,7 @@
 
 class NxCapsuleShapeDesc;
 
-namespace Physics
+namespace PhysXWrapper
 {
 /// <summary>
 /// A shape description for capsule shapes.

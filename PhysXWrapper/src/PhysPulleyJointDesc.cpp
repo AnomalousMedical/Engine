@@ -3,7 +3,7 @@
 #include "NxPhysics.h"
 #include "PhysMotorDesc.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysPulleyJointDesc::PhysPulleyJointDesc()

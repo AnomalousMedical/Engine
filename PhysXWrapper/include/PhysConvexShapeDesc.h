@@ -5,7 +5,7 @@
 #include "AutoPtr.h"
 #include "Enums.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysConvexMesh;

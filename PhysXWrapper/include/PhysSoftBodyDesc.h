@@ -5,7 +5,7 @@
 
 class NxSoftBodyDesc;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysSoftBodyMesh;

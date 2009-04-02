@@ -2,7 +2,7 @@
 #include "..\include\PhysFixedJointDesc.h"
 #include "NxPhysics.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysFixedJointDesc::PhysFixedJointDesc()

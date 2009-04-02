@@ -6,7 +6,7 @@ class NxPulleyJoint;
 class NxJointDesc;
 class NxPulleyJointDesc;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysPulleyJointDesc;

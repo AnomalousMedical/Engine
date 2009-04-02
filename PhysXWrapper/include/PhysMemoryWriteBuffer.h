@@ -3,7 +3,7 @@
 #include "AutoPtr.h"
 #include "Stream.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 /// <summary>

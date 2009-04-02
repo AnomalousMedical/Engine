@@ -6,7 +6,7 @@ class NxDistanceJoint;
 class NxJointDesc;
 class NxDistanceJointDesc;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysDistanceJointDesc;

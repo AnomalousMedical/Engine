@@ -4,7 +4,7 @@
 #include "PhysJointDesc.h"
 #include "NxDistanceJointDesc.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysSpringDesc;

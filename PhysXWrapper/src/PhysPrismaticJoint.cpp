@@ -4,7 +4,7 @@
 #include "PhysPrismaticJointDesc.h"
 #include "PhysActor.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysPrismaticJoint::PhysPrismaticJoint(NxPrismaticJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene)

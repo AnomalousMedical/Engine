@@ -5,7 +5,7 @@
 
 class NxBodyDesc;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 /// <summary>

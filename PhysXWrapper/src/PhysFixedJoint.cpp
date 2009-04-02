@@ -4,7 +4,7 @@
 #include "PhysFixedJointDesc.h"
 #include "PhysActor.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysFixedJoint::PhysFixedJoint(NxFixedJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene)

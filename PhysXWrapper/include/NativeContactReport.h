@@ -3,7 +3,7 @@
 #include "NxUserContactReport.h"
 #include <vcclr.h>
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class ContactIterator;

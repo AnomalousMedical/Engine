@@ -2,7 +2,7 @@
 
 class NxContactStreamIterator;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 /// <summary>

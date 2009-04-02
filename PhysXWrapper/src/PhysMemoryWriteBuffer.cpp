@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "..\include\PhysMemoryWriteBuffer.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysMemoryWriteBuffer::PhysMemoryWriteBuffer(void)

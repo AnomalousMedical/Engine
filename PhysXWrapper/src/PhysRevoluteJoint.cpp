@@ -7,7 +7,7 @@
 #include "PhysSpringDesc.h"
 #include "PhysActor.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysRevoluteJoint::PhysRevoluteJoint(NxRevoluteJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene)

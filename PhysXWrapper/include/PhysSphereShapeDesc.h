@@ -5,7 +5,7 @@
 
 class NxSphereShapeDesc;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 /// <summary>

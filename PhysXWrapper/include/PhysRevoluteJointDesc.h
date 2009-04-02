@@ -4,7 +4,7 @@
 #include "PhysJointDesc.h"
 #include "NxRevoluteJointDesc.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysJointLimitPairDesc;

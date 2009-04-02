@@ -3,7 +3,7 @@
 #include "NxContactStreamIterator.h"
 #include "MathUtil.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ContactIterator::ContactIterator(void)

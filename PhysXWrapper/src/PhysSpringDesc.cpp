@@ -2,7 +2,7 @@
 #include "..\include\PhysSpringDesc.h"
 #include "NxPhysics.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysSpringDesc::PhysSpringDesc(NxSpringDesc* springDesc)

@@ -5,7 +5,7 @@
 #include "stdlib.h"
 #include "windows.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 TetraInterface::TetraInterface(NxTetraInterface* tetraInterface)

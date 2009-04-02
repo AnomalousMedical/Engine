@@ -6,7 +6,7 @@ class NxPrismaticJoint;
 class NxJointDesc;
 class NxPrismaticJointDesc;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysPrismaticJointDesc;

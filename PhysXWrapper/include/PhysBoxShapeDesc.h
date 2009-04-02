@@ -5,7 +5,7 @@
 
 class NxBoxShapeDesc;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 using namespace System;

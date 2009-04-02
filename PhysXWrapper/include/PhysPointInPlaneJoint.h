@@ -6,7 +6,7 @@ class NxPointInPlaneJoint;
 class NxJointDesc;
 class NxPointInPlaneJointDesc;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysPointInPlaneJointDesc;

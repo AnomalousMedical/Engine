@@ -2,7 +2,7 @@
 #include "..\include\PhysSoftBodyMeshDesc.h"
 #include "NxPhysics.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysSoftBodyMeshDesc::PhysSoftBodyMeshDesc(void)

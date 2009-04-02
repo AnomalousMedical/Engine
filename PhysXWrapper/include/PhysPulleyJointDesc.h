@@ -4,7 +4,7 @@
 #include "PhysJointDesc.h"
 #include "NxPulleyJointDesc.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysMotorDesc;

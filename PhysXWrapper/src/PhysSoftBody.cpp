@@ -9,7 +9,7 @@
 #include "MarshalUtils.h"
 #include "PhysShape.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysSoftBody::PhysSoftBody(NxSoftBody* softBody)

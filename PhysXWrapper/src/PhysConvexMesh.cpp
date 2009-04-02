@@ -3,7 +3,7 @@
 #include "NxPhysics.h"
 #include "PhysConvexMeshDesc.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysConvexMesh::PhysConvexMesh(NxConvexMesh* convexMesh)

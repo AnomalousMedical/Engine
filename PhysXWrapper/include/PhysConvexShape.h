@@ -4,7 +4,7 @@
 
 class NxConvexShape;
 
-namespace Physics{
+namespace PhysXWrapper{
 
 /// <summary>
 /// Used to represent an instance of an NxConvexMesh.

@@ -4,7 +4,7 @@
 #include "PhysPointOnLineJointDesc.h"
 #include "PhysActor.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysPointOnLineJoint::PhysPointOnLineJoint(NxPointOnLineJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene)

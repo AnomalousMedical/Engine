@@ -4,7 +4,7 @@
 #include "NxActor.h"
 #include "ContactIterator.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 NativeContactReport::NativeContactReport(void):

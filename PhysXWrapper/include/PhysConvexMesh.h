@@ -2,7 +2,7 @@
 
 class NxConvexMesh;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysConvexMeshDesc;

@@ -4,7 +4,7 @@
 #include "Enums.h"
 #include "NxConvexMeshDesc.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 /// <summary>

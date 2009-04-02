@@ -4,7 +4,7 @@
 
 class NxTriangleMeshShape;
 
-namespace Physics{
+namespace PhysXWrapper{
 
 /// <summary>
 /// This class is a shape instance of a triangle mesh object of type

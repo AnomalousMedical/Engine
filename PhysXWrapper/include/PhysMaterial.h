@@ -5,7 +5,7 @@
 
 class NxMaterialDesc;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysMaterial;

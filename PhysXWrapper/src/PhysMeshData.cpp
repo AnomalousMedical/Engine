@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "..\include\PhysMeshData.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysMeshData::PhysMeshData(NxMeshData* meshData)

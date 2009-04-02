@@ -4,7 +4,7 @@
 #include "NxSphereShape.h"
 #include "PhysSphereShapeDesc.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysSphereShape::PhysSphereShape(NxSphereShape* nxSphere)

@@ -3,7 +3,7 @@
 #include "NxPhysics.h"
 #include "PhysTriangleMesh.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysTriangleMeshShapeDesc::PhysTriangleMeshShapeDesc(System::String^ name)

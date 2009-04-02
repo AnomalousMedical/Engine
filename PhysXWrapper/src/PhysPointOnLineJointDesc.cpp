@@ -2,7 +2,7 @@
 #include "..\include\PhysPointOnLineJointDesc.h"
 #include "NxPhysics.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysPointOnLineJointDesc::PhysPointOnLineJointDesc()

@@ -4,7 +4,7 @@
 #include <string>
 #include "AutoPtr.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysSoftBodyDesc;

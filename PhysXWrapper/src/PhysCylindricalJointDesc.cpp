@@ -2,7 +2,7 @@
 #include "..\include\PhysCylindricalJointDesc.h"
 #include "NxPhysics.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysCylindricalJointDesc::PhysCylindricalJointDesc()

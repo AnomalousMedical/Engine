@@ -2,7 +2,7 @@
 #include "..\include\PhysPrismaticJointDesc.h"
 #include "NxPhysics.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysPrismaticJointDesc::PhysPrismaticJointDesc()

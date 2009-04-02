@@ -5,7 +5,7 @@
 #include "MathUtil.h"
 #include "NxJointDesc.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysJoint::PhysJoint(NxJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene)

@@ -3,7 +3,7 @@
 
 #include "NxTriangleMeshShape.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysTriangleMeshShape::PhysTriangleMeshShape(NxTriangleMeshShape* nxTriangleMesh)

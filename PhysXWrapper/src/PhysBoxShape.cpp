@@ -5,7 +5,7 @@
 #include "MathUtil.h"
 #include "PhysBoxShapeDesc.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysBoxShape::PhysBoxShape(NxBoxShape* nxBox)

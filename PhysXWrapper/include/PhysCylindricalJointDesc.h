@@ -4,7 +4,7 @@
 #include "PhysJointDesc.h"
 #include "NxCylindricalJointDesc.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 /// <summary>

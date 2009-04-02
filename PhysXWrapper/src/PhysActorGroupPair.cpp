@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "..\include\PhysActorGroupPair.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysActorGroupPair::PhysActorGroupPair(NxActorGroupPair* pair)

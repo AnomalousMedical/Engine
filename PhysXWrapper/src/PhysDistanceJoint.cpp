@@ -4,7 +4,7 @@
 #include "PhysDistanceJointDesc.h"
 #include "PhysActor.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysDistanceJoint::PhysDistanceJoint(NxDistanceJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene)

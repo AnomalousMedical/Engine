@@ -2,7 +2,7 @@
 #include "..\include\PhysMotorDesc.h"
 #include "NxPhysics.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysMotorDesc::PhysMotorDesc(NxMotorDesc* motorDesc)

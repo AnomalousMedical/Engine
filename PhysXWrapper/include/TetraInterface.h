@@ -2,7 +2,7 @@
 
 class NxTetraInterface;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class TetraMesh;

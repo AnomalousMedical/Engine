@@ -5,7 +5,7 @@
 #include "PhysActor.h"
 #include "MathUtil.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 RaycastHit::RaycastHit(void)

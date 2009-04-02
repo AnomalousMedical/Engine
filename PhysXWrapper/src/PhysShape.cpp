@@ -6,7 +6,7 @@
 
 #include "NxShape.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysShape::PhysShape(NxShape* nxShape)

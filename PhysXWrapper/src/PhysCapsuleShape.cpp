@@ -4,7 +4,7 @@
 #include "NxCapsuleShape.h"
 #include "PhysCapsuleShapeDesc.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysCapsuleShape::PhysCapsuleShape(NxCapsuleShape* nxCapsule)

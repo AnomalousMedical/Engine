@@ -8,7 +8,7 @@
 #include "PhysJointLimitSoftPairDesc.h"
 #include "Enums.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 /// <summary>

@@ -4,7 +4,7 @@
 #include "NxBoxShapeDesc.h"
 #include "MathUtil.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysBoxShapeDesc::PhysBoxShapeDesc(String^ name)

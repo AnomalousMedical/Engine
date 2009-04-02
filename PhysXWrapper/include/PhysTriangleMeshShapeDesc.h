@@ -6,7 +6,7 @@
 
 class NxTriangleMeshShapeDesc;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysTriangleMesh;

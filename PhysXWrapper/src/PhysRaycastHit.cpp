@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "..\include\PhysRaycastHit.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysRaycastHit::PhysRaycastHit(void)

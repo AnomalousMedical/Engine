@@ -6,7 +6,7 @@
 
 class NxShape;
 
-namespace Physics{
+namespace PhysXWrapper{
 
 ref class PhysActor;
 ref class PhysRaycastHit;

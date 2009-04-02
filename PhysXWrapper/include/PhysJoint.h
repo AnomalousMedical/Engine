@@ -7,7 +7,7 @@
 class NxJoint;
 class NxJointDesc;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysActor;

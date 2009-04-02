@@ -4,7 +4,7 @@
 
 class HullDesc;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 namespace StanHull

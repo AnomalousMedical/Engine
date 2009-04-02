@@ -3,7 +3,7 @@
 #include "NxPhysics.h"
 #include "AutoPtr.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysJointLimitDesc;

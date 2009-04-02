@@ -3,7 +3,7 @@
 #include "PhysSoftBodyMeshDesc.h"
 #include "AutoPtr.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysSoftBodyMesh::PhysSoftBodyMesh(System::String^ name, NxSoftBodyMesh* softMesh)

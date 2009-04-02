@@ -2,7 +2,7 @@
 #include "..\include\PhysPlaneShapeDesc.h"
 #include "NxPhysics.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysPlaneShapeDesc::PhysPlaneShapeDesc(System::String^ name)

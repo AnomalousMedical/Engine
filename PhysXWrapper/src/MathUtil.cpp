@@ -4,7 +4,7 @@
 #include "NxVec3.h"
 #include "NxQuat.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 void MathUtil::copyVector3( const NxVec3& source, EngineMath::Vector3% dest )

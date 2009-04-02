@@ -4,7 +4,7 @@
 #include "RaycastReport.h"
 #include "NxShape.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 NativeRaycastReport::NativeRaycastReport(void)

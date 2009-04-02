@@ -3,7 +3,7 @@
 class NxShapeDesc;
 #include "Enums.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysMaterial;

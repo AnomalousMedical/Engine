@@ -3,7 +3,7 @@
 #include "Nxp.h"
 #include "Enums.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 public value class PhysActorGroupPair

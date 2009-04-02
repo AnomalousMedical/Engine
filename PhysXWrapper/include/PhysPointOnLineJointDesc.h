@@ -4,7 +4,7 @@
 #include "PhysJointDesc.h"
 #include "NxPointOnLineJointDesc.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 /// <summary>

@@ -9,7 +9,7 @@
 #include "PhysTriangleMesh.h"
 #include "PhysSoftBodyMesh.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysSDK::PhysSDK(void)

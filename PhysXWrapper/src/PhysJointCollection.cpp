@@ -15,7 +15,7 @@
 #include "PhysActor.h"
 #include "PhysScene.h"
 
-namespace Physics{
+namespace PhysXWrapper{
 
 PhysJoint^ PhysJointCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
 {

@@ -3,7 +3,7 @@
 #include "PhysActorCollection.h"
 #include "PhysActor.h"
 
-namespace Physics{
+namespace PhysXWrapper{
 
 PhysActor^ PhysActorCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
 {

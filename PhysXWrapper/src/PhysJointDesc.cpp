@@ -3,7 +3,7 @@
 #include "NxPhysics.h"
 #include "PhysActor.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysJointDesc::PhysJointDesc(NxJointDesc* jointDesc)

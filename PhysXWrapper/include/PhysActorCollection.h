@@ -1,7 +1,7 @@
 //Header
 #pragma once
 
-namespace Physics{
+namespace PhysXWrapper{
 
 ref class PhysActor;
 ref class PhysActorCollection : public WrapperCollection<PhysActor^>

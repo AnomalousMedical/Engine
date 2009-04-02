@@ -2,7 +2,7 @@
 
 struct NxRaycastHit;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysActor;

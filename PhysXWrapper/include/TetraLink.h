@@ -2,7 +2,7 @@
 
 using namespace System::Runtime::InteropServices;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class TetraMesh;

@@ -3,7 +3,7 @@
 #include "AutoPtr.h"
 #include "NxTetra.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 /// <summary>

@@ -3,7 +3,7 @@
 #include "NxPhysics.h"
 #include "MathUtil.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysD6JointDesc::PhysD6JointDesc()

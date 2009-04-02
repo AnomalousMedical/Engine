@@ -7,7 +7,7 @@ class NxRevoluteJoint;
 class NxJointDesc;
 class NxRevoluteJointDesc;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysRevoluteJointDesc;

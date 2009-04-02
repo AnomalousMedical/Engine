@@ -6,7 +6,7 @@ class NxPointOnLineJoint;
 class NxJointDesc;
 class NxPointOnLineDesc;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysPointOnLineJointDesc;

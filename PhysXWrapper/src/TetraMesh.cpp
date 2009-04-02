@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "..\include\TetraMesh.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 TetraMesh::TetraMesh(void)

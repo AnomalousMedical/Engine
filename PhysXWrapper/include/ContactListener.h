@@ -2,7 +2,7 @@
 
 #include "Enums.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysActor;

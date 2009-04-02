@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "..\include\PhysMaterialDesc.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysMaterialDesc::PhysMaterialDesc(System::String^ name)

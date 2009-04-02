@@ -5,7 +5,7 @@
 
 class NxTriangleMeshDesc;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 /// <summary>

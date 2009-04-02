@@ -3,7 +3,7 @@
 
 #include "NxConvexShape.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysConvexShape::PhysConvexShape(NxConvexShape* nxConvex)

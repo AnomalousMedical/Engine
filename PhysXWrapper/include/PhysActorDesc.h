@@ -5,7 +5,7 @@
 
 class NxActorDesc;
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 ref class PhysShapeDesc;

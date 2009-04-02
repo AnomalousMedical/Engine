@@ -5,7 +5,7 @@
 #include "MathUtil.h"
 #include "PhysPlaneShapeDesc.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysPlaneShape::PhysPlaneShape(NxPlaneShape* nxPlane)

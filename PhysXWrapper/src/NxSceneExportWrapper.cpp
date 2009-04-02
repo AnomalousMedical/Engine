@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "..\include\NxSceneExportWrapper.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 #pragma unmanaged

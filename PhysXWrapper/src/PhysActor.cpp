@@ -11,7 +11,7 @@
 #include "PhysShape.h"
 #include "PhysShapeDesc.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 using namespace System;

@@ -5,7 +5,7 @@
 #include "PhysJointLimitDesc.h"
 #include "PhysSpringDesc.h"
 
-namespace Physics
+namespace PhysXWrapper
 {
 
 PhysSphericalJointDesc::PhysSphericalJointDesc()

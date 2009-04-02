@@ -3,7 +3,7 @@
 #include "PhysSoftBodyCollection.h"
 #include "PhysSoftBody.h"
 
-namespace Physics{
+namespace PhysXWrapper{
 
 PhysSoftBody^ PhysSoftBodyCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
 {
