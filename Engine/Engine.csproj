@@ -57,7 +57,6 @@
     <Compile Include="ObjectManagement\Instance\SimObject.cs" />
     <Compile Include="Plugin\ComponentPlugin.cs" />
     <Compile Include="Plugin\InvalidPluginException.cs" />
-    <Compile Include="Plugin\PluginInfo.cs" />
     <Compile Include="Plugin\PluginManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

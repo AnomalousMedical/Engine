@@ -21,7 +21,7 @@ namespace PhysXPlugin
 
         #region Fields
 
-        private PhysSDK physSDK;
+        private PhysSDK physSDK = null;
         private PhysFactory physFactory = new PhysFactory();
         private CommandManager simComponentManagerCommands = new CommandManager();
         private CommandManager simComponentDefinitonCommands = new CommandManager();
@@ -44,7 +44,11 @@ namespace PhysXPlugin
 
         public override void Dispose()
         {
-            
+            if (physSDK != null)
+            {
+                physSDK.Dispose();
+                physSDK = null;
+            }
         }
 
         /// <summary>
@@ -54,14 +58,6 @@ namespace PhysXPlugin
         {
             physSDK = PhysSDK.Instance;
             simComponentManagerCommands.addCommand(new CreatePhysSceneCommand(physSDK, physFactory));
-        }
-
-        /// <summary>
-        /// Shutdown the PhysXPlugin.
-        /// </summary>
-        public override void shutDown()
-        {
-            physSDK.Dispose();
         }
 
         /// <summary>

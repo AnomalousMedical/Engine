@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using Logging;
+using System.IO;
 
 namespace Engine
 {
@@ -14,7 +15,7 @@ namespace Engine
     {
         #region Fields
 
-        private Dictionary<String, PluginInfo> loadedPlugins = new Dictionary<string, PluginInfo>();
+        private Dictionary<String, ComponentPlugin> loadedPlugins = new Dictionary<string, ComponentPlugin>();
 
         #endregion Fields
 
@@ -37,10 +38,9 @@ namespace Engine
         /// </summary>
         public void Dispose()
         {
-            foreach (PluginInfo info in loadedPlugins.Values)
+            foreach (ComponentPlugin plugin in loadedPlugins.Values)
             {
-                info.shutDown();
-                info.Dispose();
+                plugin.Dispose();
             }
             loadedPlugins.Clear();
         }
@@ -54,13 +54,30 @@ namespace Engine
         {
             try
             {
-                PluginInfo plugin = new PluginInfo(path);
-                loadedPlugins.Add(path, plugin);
-                return true;
+                Assembly assembly = Assembly.LoadFile(Path.GetFullPath(path));
+                Type[] exportedTypes = assembly.GetExportedTypes();
+                Type componentPlugin = null;
+                foreach (Type type in exportedTypes)
+                {
+                    if (type.IsSubclassOf(typeof(ComponentPlugin)))
+                    {
+                        componentPlugin = type;
+                        break;
+                    }
+                }
+                if (componentPlugin != null)
+                {
+                    loadedPlugins.Add(path, (ComponentPlugin)Activator.CreateInstance(componentPlugin));
+                    return true;
+                }
+                else
+                {
+                    throw new InvalidPluginException(String.Format("Could not find a subclass of ComponentPlugin in plugin {0}.", path));
+                }
             }
             catch (Exception e)
             {
-                Log.Default.sendMessage("{0}", LogLevel.Error, "Engine", e.Message);
+                Log.Default.sendMessage("Error loading plugin: {0}", LogLevel.Error, "Engine", e.Message);
                 return false;
             }
         }
@@ -74,7 +91,7 @@ namespace Engine
         {
             if (loadedPlugins.ContainsKey(path))
             {
-                return loadedPlugins[path].Plugin;
+                return loadedPlugins[path];
             }
             return null;
         }

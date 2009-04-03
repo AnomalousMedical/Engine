@@ -18,17 +18,9 @@ namespace Engine
     {
         /// <summary>
         /// Do any initialization steps that need to be done on the plugin. Done
-        /// just after the plugin is loaded and will only be called one time per
-        /// load.
+        /// just after the plugin is loaded and will only be called one time.
         /// </summary>
         public abstract void initialize();
-
-        /// <summary>
-        /// Do any shutdown steps that need to be done on the plugin. This will
-        /// be done just before the plugin is unloaded and will only be done one
-        /// time.
-        /// </summary>
-        public abstract void shutDown();
 
         /// <summary>
         /// Get a CommandManager for creating SimComponentManagers for this
@@ -45,7 +37,9 @@ namespace Engine
         public abstract CommandManager getCreateSimComponentDefinitionCommands();
 
         /// <summary>
-        /// Dispose function.
+        /// Do any shutdown steps that need to be done on the plugin. This will
+        /// be done just before the plugin is unloaded and will only be done one
+        /// time.
         /// </summary>
         public abstract void Dispose();
     }

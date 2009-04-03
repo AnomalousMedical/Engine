@@ -62,7 +62,7 @@ namespace Engine
                     bool matches = true;
                     for (int i = 0; i < paramInfo.Length; i++)
                     {
-                        matches &= paramInfo[i].ParameterType == typeList[i];
+                        matches &= (paramInfo[i].ParameterType == typeList[i] || paramInfo[i].ParameterType.IsSubclassOf(typeList[i]));
                     }
                     if (matches)
                     {
