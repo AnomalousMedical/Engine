@@ -10,7 +10,7 @@ namespace Engine
     /// <summary>
     /// This class loads and unloads the various plugins for the system.
     /// </summary>
-    public class PluginManager
+    public class PluginManager : IDisposable
     {
         #region Fields
 
@@ -33,6 +33,19 @@ namespace Engine
         #region Functions
 
         /// <summary>
+        /// Dispose function.
+        /// </summary>
+        public void Dispose()
+        {
+            foreach (PluginInfo info in loadedPlugins.Values)
+            {
+                info.shutDown();
+                info.Dispose();
+            }
+            loadedPlugins.Clear();
+        }
+
+        /// <summary>
         /// Load the plugin specified by path.
         /// </summary>
         /// <param name="path">The path of the plugin to load.</param>
@@ -53,38 +66,17 @@ namespace Engine
         }
 
         /// <summary>
-        /// Initialize the plugin specified by path.
+        /// Get the plugin specified by path.
         /// </summary>
-        /// <param name="path">The path of the plugin to initialize.</param>
-        public void initializePlugin(String path)
+        /// <param name="path">The path of the plugin to get.</param>
+        /// <returns>The ComponentPlugin if it is found or null if it is not.</returns>
+        public ComponentPlugin getPlugin(String path)
         {
             if (loadedPlugins.ContainsKey(path))
             {
-                loadedPlugins[path].initialize();
+                return loadedPlugins[path].Plugin;
             }
-            else
-            {
-                Log.Default.sendMessage("Attempted to initialize plugin {0} that is not loaded.", LogLevel.Warning, "Engine", path);
-            }
-        }
-
-        /// <summary>
-        /// Unload the plugin specified by path.
-        /// </summary>
-        /// <param name="path">The path of the plugin to unload.</param>
-        public void unloadPlugin(String path)
-        {
-            if (loadedPlugins.ContainsKey(path))
-            {
-                PluginInfo info = loadedPlugins[path];
-                info.shutDown();
-                info.Dispose();
-                loadedPlugins.Remove(path);
-            }
-            else
-            {
-                Log.Default.sendMessage("Attempted to shut down plugin {0} that is not loaded.", LogLevel.Warning, "Engine", path);
-            }
+            return null;
         }
 
         #endregion Functions

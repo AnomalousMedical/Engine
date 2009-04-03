@@ -91,5 +91,20 @@ namespace Engine
         }
 
         #endregion Functions
+
+        #region Properties
+
+        /// <summary>
+        /// Get the plugin loaded by this info.
+        /// </summary>
+        public ComponentPlugin Plugin
+        {
+            get
+            {
+                return plugin;
+            }
+        }
+
+        #endregion Properties
     }
 }
