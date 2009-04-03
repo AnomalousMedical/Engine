@@ -42,7 +42,7 @@ namespace PhysXPlugin
 
         #region Functions
 
-        public void Dispose()
+        public override void Dispose()
         {
             
         }
@@ -50,7 +50,7 @@ namespace PhysXPlugin
         /// <summary>
         /// Initalize the PhysXPlugin.
         /// </summary>
-        public void initialize()
+        public override void initialize()
         {
             physSDK = PhysSDK.Instance;
             simComponentManagerCommands.addCommand(new CreatePhysSceneCommand(physSDK, physFactory));
@@ -59,7 +59,7 @@ namespace PhysXPlugin
         /// <summary>
         /// Shutdown the PhysXPlugin.
         /// </summary>
-        public void shutDown()
+        public override void shutDown()
         {
             physSDK.Dispose();
         }
@@ -68,7 +68,7 @@ namespace PhysXPlugin
         /// Get all commands for creating scenes.
         /// </summary>
         /// <returns>A command manager with the scene creation commands.</returns>
-        public CommandManager getCreateSimComponentManagerCommands()
+        public override CommandManager getCreateSimComponentManagerCommands()
         {
             return simComponentManagerCommands;
         }
@@ -77,7 +77,7 @@ namespace PhysXPlugin
         /// Get all commands for creating SimComponentDefinitions.
         /// </summary>
         /// <returns>A command manager with commands for creating SimComponentDefintions.</returns>
-        public CommandManager getCreateSimComponentDefinitionCommands()
+        public override CommandManager getCreateSimComponentDefinitionCommands()
         {
             return simComponentDefinitonCommands;
         }

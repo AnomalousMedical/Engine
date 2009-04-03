@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using System.IO;
 
 namespace Engine
 {
@@ -32,12 +33,12 @@ namespace Engine
             try
             {
                 this.path = path;
-                assembly = Assembly.LoadFile(path);
+                assembly = Assembly.LoadFile(Path.GetFullPath(path));
                 Type[] exportedTypes = assembly.GetExportedTypes();
                 Type componentPlugin = null;
                 foreach (Type type in exportedTypes)
                 {
-                    if(type.GetType().IsSubclassOf(typeof(ComponentPlugin)))
+                    if(type.IsSubclassOf(typeof(ComponentPlugin)))
                     {
                         componentPlugin = type;
                         break;
@@ -76,7 +77,6 @@ namespace Engine
         public void initialize()
         {
             plugin.initialize();
-            initialized = true;
         }
 
         /// <summary>
@@ -84,10 +84,7 @@ namespace Engine
         /// </summary>
         public void shutDown()
         {
-            if (initialized)
-            {
-                plugin.shutDown();
-            }
+            plugin.shutDown();
         }
 
         #endregion Functions

@@ -14,34 +14,39 @@ namespace Engine
     /// then the plugin will be initalized and all of the commands it can
     /// execute will be recovered.
     /// </summary>
-    public interface ComponentPlugin : IDisposable
+    public abstract class ComponentPlugin : IDisposable
     {
         /// <summary>
         /// Do any initialization steps that need to be done on the plugin. Done
         /// just after the plugin is loaded and will only be called one time per
         /// load.
         /// </summary>
-        void initialize();
+        public abstract void initialize();
 
         /// <summary>
         /// Do any shutdown steps that need to be done on the plugin. This will
         /// be done just before the plugin is unloaded and will only be done one
         /// time.
         /// </summary>
-        void shutDown();
+        public abstract void shutDown();
 
         /// <summary>
         /// Get a CommandManager for creating SimComponentManagers for this
         /// plugin.
         /// </summary>
         /// <returns>A CommandManager with all commands that create SimComponentManagers.</returns>
-        CommandManager getCreateSimComponentManagerCommands();
+        public abstract CommandManager getCreateSimComponentManagerCommands();
 
         /// <summary>
         /// Get a CommandManager for creating SimComponentDefinitions for this
         /// plugin.
         /// </summary>
         /// <returns>A CommandManager with all commands that create SimComponentDefinitions.</returns>
-        CommandManager getCreateSimComponentDefinitionCommands();
+        public abstract CommandManager getCreateSimComponentDefinitionCommands();
+
+        /// <summary>
+        /// Dispose function.
+        /// </summary>
+        public abstract void Dispose();
     }
 }

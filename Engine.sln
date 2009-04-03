@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhysXPlugin", "PhysXPlugin\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{6603C379-3B5F-4291-8764-63B020F613FA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{367D5691-6B8B-4977-A60A-CA3ED6D050DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +97,16 @@ Global
 		{6603C379-3B5F-4291-8764-63B020F613FA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{6603C379-3B5F-4291-8764-63B020F613FA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{6603C379-3B5F-4291-8764-63B020F613FA}.Release|Win32.ActiveCfg = Release|Any CPU
+		{367D5691-6B8B-4977-A60A-CA3ED6D050DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{367D5691-6B8B-4977-A60A-CA3ED6D050DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{367D5691-6B8B-4977-A60A-CA3ED6D050DB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{367D5691-6B8B-4977-A60A-CA3ED6D050DB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{367D5691-6B8B-4977-A60A-CA3ED6D050DB}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{367D5691-6B8B-4977-A60A-CA3ED6D050DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{367D5691-6B8B-4977-A60A-CA3ED6D050DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{367D5691-6B8B-4977-A60A-CA3ED6D050DB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{367D5691-6B8B-4977-A60A-CA3ED6D050DB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{367D5691-6B8B-4977-A60A-CA3ED6D050DB}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

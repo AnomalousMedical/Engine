@@ -29,6 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -46,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Log.cs" />
+    <Compile Include="LogFileListener.cs" />
     <Compile Include="LogListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
