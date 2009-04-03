@@ -35,8 +35,7 @@ pooledVector(new NxVec3()),
 nativeRaycastReport(new NativeRaycastReport()),
 nativeContactReport(new NativeContactReport()),
 actorGroupPairBuffer(new NxActorGroupPair()),
-actorGroupPairPosition(0),
-sceneExportWrapper(new NxSceneExportWrapper(scene))
+actorGroupPairPosition(0)
 {
 	//setup callbacks
 	scene->setUserContactReport(nativeContactReport.Get());

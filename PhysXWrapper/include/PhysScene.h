@@ -5,7 +5,6 @@
 #include "NativeContactReport.h"
 #include "Nxp.h"
 #include "NxScene.h"
-#include "NxSceneExportWrapper.h"
 #include "PhysActorCollection.h"
 #include "PhysSoftBodyCollection.h"
 #include "PhysJointCollection.h"
@@ -47,7 +46,6 @@ private:
 	AutoPtr<NxVec3> pooledVector;  //Vector to be passed to physx functions.
 	AutoPtr<NativeRaycastReport> nativeRaycastReport;
 	AutoPtr<NativeContactReport> nativeContactReport;
-	AutoPtr<NxSceneExportWrapper> sceneExportWrapper;
 
 	unsigned int actorGroupPairPosition;
 	AutoPtr<NxActorGroupPair> actorGroupPairBuffer;
@@ -219,15 +217,6 @@ public:
 	property System::String^ Name
 	{ 
 		System::String^ get();
-	}
-
-	/// <summary>
-	/// Get the scene in a wrapped form that can be exported to another dll.
-	/// </summary>
-	/// <returns></returns>
-	NxSceneExportWrapper* getNxScene()
-	{
-		return sceneExportWrapper.Get();
 	}
 
 	/// <summary>
