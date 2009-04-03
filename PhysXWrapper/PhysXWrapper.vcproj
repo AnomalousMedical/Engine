@@ -183,8 +183,12 @@
 			RelativePathToProject=".\Log\Log.csproj"
 		/>
 		<ProjectReference
-			ReferencedProjectIdentifier="{57C253F1-157F-4A6A-9FED-345A776B97D5}"
-			RelativePathToProject=".\Engine\Engine.csproj"
+			ReferencedProjectIdentifier="{6603C379-3B5F-4291-8764-63B020F613FA}"
+			RelativePathToProject=".\Core\Core.csproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{52213B4F-D940-438C-98DD-BB7CF44F2F98}"
+			RelativePathToProject=".\Math\Math.csproj"
 		/>
 		<ProjectReference
 			ReferencedProjectIdentifier="{67CFCE08-408F-439E-AB9A-3319349B72D1}"
