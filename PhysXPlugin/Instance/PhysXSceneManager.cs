@@ -11,7 +11,7 @@ namespace PhysXPlugin
     /// <summary>
     /// This class manages a single PhysX scene.
     /// </summary>
-    class PhysXSceneManager : SimComponentManager
+    public class PhysXSceneManager : SimComponentManager
     {
         #region Fields
 
@@ -28,7 +28,7 @@ namespace PhysXPlugin
         /// Constructor.
         /// </summary>
         /// <param name="scene">The scene to manage.</param>
-        public PhysXSceneManager(PhysScene scene, PhysSDK physSDK, PhysFactory factory)
+        internal PhysXSceneManager(PhysScene scene, PhysSDK physSDK, PhysFactory factory)
         {
             this.scene = scene;
             this.physSDK = physSDK;
@@ -82,7 +82,7 @@ namespace PhysXPlugin
             }
             else
             {
-                Log.Default.sendMessage("Attempted to create an actor named {0} that already exists. No changes made.", LogLevel.Warning, PhysXPluginControl.PluginName, name);
+                Log.Default.sendMessage("Attempted to create an actor named {0} that already exists. No changes made.", LogLevel.Warning, PhysXInterface.PluginName, name);
                 return null;
             }
         }
@@ -101,7 +101,7 @@ namespace PhysXPlugin
             }
             else
             {
-                Log.Default.sendMessage("Attempted to erase an actor named {0} that does not exist. No changes made.", LogLevel.Warning, PhysXPluginControl.PluginName, name);
+                Log.Default.sendMessage("Attempted to erase an actor named {0} that does not exist. No changes made.", LogLevel.Warning, PhysXInterface.PluginName, name);
             }
         }
 

@@ -46,13 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\CreatePhysSceneCommand.cs" />
     <Compile Include="Construction\PhysFactory.cs" />
     <Compile Include="Construction\PhysFactoryEntry.cs" />
     <Compile Include="Definition\PhysActorDefinition.cs" />
     <Compile Include="Definition\PhysComponentDefinition.cs" />
     <Compile Include="Instance\PhysXSceneManager.cs" />
-    <Compile Include="Plugin\PhysXPluginControl.cs" />
+    <Compile Include="Plugin\PhysXInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

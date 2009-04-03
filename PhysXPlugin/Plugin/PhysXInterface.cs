@@ -4,20 +4,27 @@ using System.Linq;
 using System.Text;
 using Engine;
 using PhysXWrapper;
-using PhysXPlugin.Commands;
+using EngineMath;
 
 namespace PhysXPlugin
 {
     /// <summary>
     /// This is the ComponentPlugin class for the PhysXPlugin.
     /// </summary>
-    public class PhysXPluginControl : ComponentPlugin
+    public class PhysXInterface : ComponentPlugin
     {
         #region Static
 
         public const String PluginName = "PhysXPlugin";
 
         #endregion Static
+
+        #region Delegates
+
+        delegate PhysActorDefinition CreatePhysActorDefinition(String name);
+        delegate PhysXSceneManager CreateDefaultScene();
+
+        #endregion Delegates
 
         #region Fields
 
@@ -33,7 +40,7 @@ namespace PhysXPlugin
         /// <summary>
         /// Constructor.
         /// </summary>
-        public PhysXPluginControl()
+        public PhysXInterface()
         {
 
         }
@@ -41,6 +48,8 @@ namespace PhysXPlugin
         #endregion Constructors
 
         #region Functions
+
+        #region ComponentPlugin
 
         public override void Dispose()
         {
@@ -57,7 +66,9 @@ namespace PhysXPlugin
         public override void initialize()
         {
             physSDK = PhysSDK.Instance;
-            simComponentManagerCommands.addCommand(new CreatePhysSceneCommand(physSDK, physFactory));
+            simComponentManagerCommands.addCommand(new EngineCommand("createPhysScene", "Create PhysX Scene", "Creates a new PhysX scene with the given parameters.", new CreateDefaultScene(createScene)));
+
+            simComponentDefinitonCommands.addCommand(new EngineCommand("createPhysActorDef", "Create PhysX Actor Definition", "Creates a new PhysX Actor Definition.", new CreatePhysActorDefinition(createPhysActorDefinition)));
         }
 
         /// <summary>
@@ -77,6 +88,27 @@ namespace PhysXPlugin
         {
             return simComponentDefinitonCommands;
         }
+
+        #endregion ComponentPlugin
+
+        #region Creation
+
+        public PhysActorDefinition createPhysActorDefinition(String name)
+        {
+            return new PhysActorDefinition(name, physFactory);
+        }
+
+        public PhysXSceneManager createScene()
+        {
+            using (PhysSceneDesc sceneDesc = new PhysSceneDesc())
+            {
+                sceneDesc.Gravity = new Vector3(0.0f, -9.8f, 0.0f);
+                PhysScene scene = physSDK.createScene(sceneDesc);
+                return new PhysXSceneManager(scene, physSDK, physFactory);
+            }
+        }
+
+        #endregion Creation
 
         #endregion Functions
     }

@@ -9,7 +9,7 @@ namespace PhysXPlugin
     /// <summary>
     /// This class defines and builds PhysActors.
     /// </summary>
-    class PhysActorDefinition : PhysComponentDefinition
+    public sealed class PhysActorDefinition : PhysComponentDefinition
     {
         #region Fields
 
@@ -22,7 +22,7 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="name">The name of the actor.</param>
         /// <param name="factory">A factory to build objects with.</param>
-        public PhysActorDefinition(String name, PhysFactory factory)
+        internal PhysActorDefinition(String name, PhysFactory factory)
             :base(name, factory)
         {
 
@@ -46,7 +46,7 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="instance">The SimObject to add the component to.</param>
         /// <param name="scene">The PhysSceneManager to create the product with.</param>
-        public override void createProduct(SimObject instance, PhysXSceneManager scene)
+        internal override void createProduct(SimObject instance, PhysXSceneManager scene)
         {
             throw new NotImplementedException();
         }
@@ -56,7 +56,7 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="instance">The SimObject to add the component to.</param>
         /// <param name="scene">The PhysSceneManager to create the product with.</param>
-        public override void createStaticProduct(SimObject instance, PhysXSceneManager scene)
+        internal override void createStaticProduct(SimObject instance, PhysXSceneManager scene)
         {
             throw new NotImplementedException();
         }

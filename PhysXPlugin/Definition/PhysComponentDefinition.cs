@@ -9,11 +9,11 @@ namespace PhysXPlugin
     /// <summary>
     /// This is an abstract base class for all components built by the PhysXPlugin
     /// </summary>
-    abstract class PhysComponentDefinition : SimComponentDefinition
+    public abstract class PhysComponentDefinition : SimComponentDefinition
     {
         #region Fields
 
-        protected PhysFactory factory;
+        internal PhysFactory factory; //Must be internal to shut up compiler
 
         #endregion Fields
 
@@ -24,7 +24,7 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="name">The name of the component.</param>
         /// <param name="factory">The factory to use to build the component.</param>
-        public PhysComponentDefinition(String name, PhysFactory factory)
+        internal PhysComponentDefinition(String name, PhysFactory factory)
             :base(name)
         {
             this.factory = factory;
@@ -39,14 +39,14 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="instance">The SimObject to add the component to.</param>
         /// <param name="scene">The PhysSceneManager to create the product with.</param>
-        public abstract void createProduct(SimObject instance, PhysXSceneManager scene);
+        internal abstract void createProduct(SimObject instance, PhysXSceneManager scene);
 
         /// <summary>
         /// Create a new component staticly as a part of scene and add it to instance.
         /// </summary>
         /// <param name="instance">The SimObject to add the component to.</param>
         /// <param name="scene">The PhysSceneManager to create the product with.</param>
-        public abstract void createStaticProduct(SimObject instance, PhysXSceneManager scene);
+        internal abstract void createStaticProduct(SimObject instance, PhysXSceneManager scene);
 
         #endregion Functions
     }

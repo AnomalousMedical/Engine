@@ -11,31 +11,34 @@ namespace Engine
     /// This is a superclass for commands that the engine can run. It defines a
     /// set of names for the command.
     /// </summary>
-    public abstract class EngineCommand
+    public class EngineCommand
     {
         #region Fields
 
         private String name;
         private String prettyName;
         private String helpText;
-        private List<Delegate> executeDelegates = new List<Delegate>();
+        private List<Delegate> executeDelegates;
 
         #endregion Fields
 
         #region Constructors
 
         /// <summary>
-        /// Constructor.
+        /// Constructor. Warning, the first function with matching arguments
+        /// will be used, so do not put in two methods with the same signature
+        /// or it is undefined which one will be called.
         /// </summary>
         /// <param name="name">The name of the command.</param>
-        /// <param name="signature">The signature of the command.</param>
         /// <param name="prettyName">The pretty name of the command.</param>
         /// <param name="helpText">Some text that describes what the command does.</param>
-        public EngineCommand(String name, String prettyName, String helpText)
+        /// <param name="delegates">A list of delegates to add to the command.</param>
+        public EngineCommand(String name, String prettyName, String helpText, params Delegate[] delegates)
         {
             this.name = name;
             this.prettyName = prettyName;
             this.helpText = helpText;
+            executeDelegates = new List<Delegate>(delegates);
         }
 
         #endregion Constructors
@@ -90,7 +93,7 @@ namespace Engine
         /// called.
         /// </summary>
         /// <param name="fp"></param>
-        protected void addDelegate(Delegate fp)
+        public void addDelegate(Delegate fp)
         {
             executeDelegates.Add(fp);
         }
