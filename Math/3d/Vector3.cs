@@ -24,6 +24,8 @@ namespace EngineMath
         public static Vector3 UnitX = new Vector3(1.0f, 0.0f, 0.0f);
         public static Vector3 UnitY = new Vector3(0.0f, 1.0f, 0.0f);
         public static Vector3 UnitZ = new Vector3(0.0f, 0.0f, 1.0f);
+
+        public static Vector3 ScaleIdentity = new Vector3(1.0f, 1.0f, 1.0f);
         #endregion Predefined Vectors
 
         #region Fields

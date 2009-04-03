@@ -45,11 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ObjectManagement\Construction\SimComponentFactory.cs" />
     <Compile Include="ObjectManagement\Definition\SimComponentDefinition.cs" />
-    <Compile Include="ObjectManagement\Definition\SimComponentFactory.cs" />
     <Compile Include="ObjectManagement\Definition\SimObjectDefinition.cs" />
     <Compile Include="ObjectManagement\Identifier.cs" />
     <Compile Include="ObjectManagement\Instance\SimComponent.cs" />
+    <Compile Include="ObjectManagement\Instance\SimComponentManager.cs" />
     <Compile Include="ObjectManagement\Instance\SimObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

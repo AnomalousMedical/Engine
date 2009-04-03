@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Engine
+namespace PhysXPlugin
 {
-    interface SimComponentFactory
+    class PhysXPluginControl
     {
-        void createProducts();
+        public const String PluginName = "PhysXPlugin";
     }
 }

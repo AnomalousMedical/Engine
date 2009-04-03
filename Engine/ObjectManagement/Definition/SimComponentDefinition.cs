@@ -2,13 +2,64 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using EngineMath;
 
 namespace Engine
 {
-    interface SimComponentDefinition
-    {
-        void register();
+    public abstract class SimComponentDefinition
+    {   
+        #region Fields
 
-        void unregister();
+        private String name;
+        protected SimObjectDefinition simObjectDef;
+
+        #endregion Fields
+
+        #region Constructors
+
+        /// <summary>
+        /// Constructor. Takes the name of the component.
+        /// </summary>
+        /// <param name="name">The name of the component.</param>
+        public SimComponentDefinition(String name)
+        {
+            this.name = name;
+        }
+
+        #endregion Constructors
+
+        #region Functions
+
+        /// <summary>
+        /// Register this component with its factory so it can be built.
+        /// </summary>
+        /// <param name="instance">The SimObject that will get the newly created component.</param>
+        public abstract void register(SimObject instance);
+
+        /// <summary>
+        /// Set the SimObjectDefinition for this component.
+        /// </summary>
+        /// <param name="simObjectDef">The definition to set.</param>
+        internal void setSimObjectDefinition(SimObjectDefinition simObjectDef)
+        {
+            this.simObjectDef = simObjectDef;
+        }
+
+        #endregion Functions
+
+        #region Properties
+
+        /// <summary>
+        /// Get the name of this SimComponent.
+        /// </summary>
+        public String Name
+        {
+            get
+            {
+                return name;
+            }
+        }
+
+        #endregion Properties
     }
 }

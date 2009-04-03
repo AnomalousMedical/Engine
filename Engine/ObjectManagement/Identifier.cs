@@ -6,16 +6,33 @@ using Logging;
 
 namespace Engine
 {
-    class Identifier
+    /// <summary>
+    /// An Identifier is a way of identifying an object that is part of a subsystem. There are two major components to an Identifier instance.
+    /// </summary>
+    public class Identifier
     {
-        private string fullName;
-        private string baseName;
-        private string instanceName;
-        private string path;
+        #region Static
 
         public const string Separator = "/";
+        private const string COMPONENT_NAME = "ComponentName";
+        private const string SIM_OBJECT_NAME = "SimObjectName";
+        private static int SIM_OBJECT_OFFSET = SIM_OBJECT_NAME.Length + 1; //SimObjectName=
+        private static int COMPONENT_OFFSET = COMPONENT_NAME.Length + 3; //, ComponentName=
 
-       /// <summary>
+        #endregion Static
+
+        #region Fields
+
+        private string fullName;
+        private string componentName;
+        private string simObjectName;
+        private string path;
+
+        #endregion Fields
+
+        #region Constructors
+
+        /// <summary>
 	    /// Parameterless constructor.
 	    /// </summary>
         public Identifier()
@@ -41,8 +58,8 @@ namespace Engine
 	    /// <param name="path">The path to this identifier.</param>
         public Identifier(String instanceName, String baseName, String path)
         {
-            this.instanceName = instanceName;
-            this.baseName = baseName;
+            this.simObjectName = instanceName;
+            this.componentName = baseName;
             this.fullName = instanceName + baseName;
             this.path = path;
         }
@@ -64,41 +81,119 @@ namespace Engine
 	    /// <param name="toCopy">The instance variable to copy.</param>
         public Identifier(Identifier toCopy)
         {
-            this.instanceName = toCopy.instanceName;
-            this.baseName = toCopy.baseName;
+            this.simObjectName = toCopy.simObjectName;
+            this.componentName = toCopy.componentName;
             this.path = toCopy.path;
             this.fullName = toCopy.fullName;
         }
 
-	    /// <summary>
-	    /// The base name of the identifier.
+        #endregion Constructors
+
+        #region Functions
+
+        /// <summary>
+        /// Set the name of the object at once.  This is preferable to setting them both
+        /// individually if the whole name is being chagned.
+        /// </summary>
+        /// <param name="instanceName">The instance name.</param>
+        /// <param name="baseName">The base name.</param>
+        public void setName(String simObjectName, String componentName)
+        {
+            this.simObjectName = simObjectName;
+            this.componentName = componentName;
+            this.fullName = simObjectName + componentName;
+        }
+
+        /// <summary>
+        /// Calculates a hash code for the identifier.
+        /// </summary>
+        /// <returns>The hash for this object.</returns>
+        public override int GetHashCode()
+        {
+            return fullName.GetHashCode();
+        }
+
+        /// <summary>
+        /// Determine if this Identifier equals the passed object.
+        /// </summary>
+        /// <param name="obj">The object to test.</param>
+        public override bool Equals(Object obj)
+        {
+            return typeof(Identifier) == obj.GetType() && this == ((Identifier)obj);
+        }
+
+        /// <summary>
+        /// Returns a string formatted for use in the FromString function.
+        /// </summary>
+        /// <returns>The formatted string.</returns>
+        public override String ToString()
+        {
+            return String.Format("{0}={1}, {2}={3}", SIM_OBJECT_NAME, simObjectName, COMPONENT_NAME, componentName);
+        }
+
+        /// <summary>
+        /// Parses a string in the format "InstanceName=0, BaseName=1"  where 0 is the
+        /// instance name and 1 is the base name.
+        /// </summary>
+        /// <param name="string">The string to parse.</param>
+        /// <returns>True if the string could be parsed, otherwise false.</returns>
+        public bool FromString(String str)
+        {
+            if (str != null && str.Length > 0)
+            {
+                int commaIndex = str.IndexOf(',');
+                if (commaIndex != -1)
+                {
+                    simObjectName = str.Substring(SIM_OBJECT_OFFSET, commaIndex - SIM_OBJECT_OFFSET);
+                    componentName = str.Substring(commaIndex + COMPONENT_OFFSET);
+                    fullName = simObjectName + componentName;
+                    return true;
+                }
+                else
+                {
+                    Log.Default.sendMessage("Invalid formatting on instance name \"{0}\" must be {1}=name, {2}=name.", LogLevel.Error, "Core", str, SIM_OBJECT_NAME, COMPONENT_NAME);
+                }
+            }
+            else
+            {
+                Log.Default.sendMessage("Invalid instance name.  Input string is null or empty.", LogLevel.Error, "Core");
+            }
+            return false;
+        }
+
+        #endregion Functions
+
+        #region Properties
+
+        /// <summary>
+	    /// The name of the SimComponent.
 	    /// </summary>
-        public String BaseName 
+        public String ComponentName 
         { 
             get
             {
-                return baseName;
+                return componentName;
             }
             set
             {
-                baseName = value;
-	            fullName = instanceName + baseName;
+                componentName = value;
+	            fullName = simObjectName + componentName;
             }
         }
 
 	    /// <summary>
-	    /// The instance name of the identifier.
+	    /// The name of the SimObject.
 	    /// </summary>
-        public String InstanceName 
+        public String SimObjectName 
 	    { 
             get
             {
-                return instanceName;
+                return simObjectName;
             }
             set
             {
-                instanceName = value;
-	            fullName = instanceName + baseName;
+                simObjectName = value;
+	            fullName = simObjectName + componentName;
             }
         }
 
@@ -129,76 +224,8 @@ namespace Engine
             {
                 return fullName;
             }
-	    }
-
-	    /// <summary>
-	    /// Set the name of the object at once.  This is preferable to setting them both
-	    /// individually if the whole name is being chagned.
-	    /// </summary>
-	    /// <param name="instanceName">The instance name.</param>
-	    /// <param name="baseName">The base name.</param>
-        public void setName(String instanceName, String baseName)
-        {
-            this.instanceName = instanceName;
-            this.baseName = baseName;
-            this.fullName = instanceName + baseName;
         }
 
-	    /// <summary>
-	    /// Calculates a hash code for the identifier.
-	    /// </summary>
-	    /// <returns>The hash for this object.</returns>
-	    public override int GetHashCode()
-        {
-            return fullName.GetHashCode();
-        }
-
-	    /// <summary>
-	    /// Determine if this Identifier equals the passed object.
-	    /// </summary>
-	    /// <param name="obj">The object to test.</param>
-	    public override bool Equals(Object obj)
-        {
-            return typeof(Identifier) == obj.GetType() && this == ((Identifier)obj);
-        }
-
-	    /// <summary>
-	    /// Returns a string formatted for use in the FromString function.
-	    /// </summary>
-	    /// <returns>The formatted string.</returns>
-        public override String ToString()
-        {
-            return String.Format("InstanceName={0}, BaseName={1}", instanceName, baseName);
-        }
-
-	    /// <summary>
-	    /// Parses a string in the format "InstanceName=0, BaseName=1"  where 0 is the
-	    /// instance name and 1 is the base name.
-	    /// </summary>
-	    /// <param name="string">The string to parse.</param>
-	    /// <returns>True if the string could be parsed, otherwise false.</returns>
-        public bool FromString(String str)
-        {
-            if (str != null && str.Length > 0)
-	        {
-                int commaIndex = str.IndexOf(',');
-		        if(commaIndex != -1)
-		        {
-                    instanceName = str.Substring(13, commaIndex - 13);
-                    baseName = str.Substring(commaIndex + 11);
-			        fullName = instanceName + baseName;
-			        return true;
-		        }
-		        else
-		        {
-			        Log.Default.sendMessage("Invalid formatting on instance name \"{0}\" must be InstanceName=name, BaseName=name.", LogLevel.Error, "Core", str);
-		        }
-	        }
-	        else
-	        {
-		       Log.Default.sendMessage("Invalid instance name.  Input string is null or empty.", LogLevel.Error, "Core");
-	        }
-	        return false;
-        }
+        #endregion Properties
     }
 }

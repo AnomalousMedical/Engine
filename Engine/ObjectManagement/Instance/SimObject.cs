@@ -18,14 +18,18 @@ namespace Engine
     /// <seealso cref="T:System.IDisposable"/>
     public class SimObject : IDisposable
     {
+        #region Fields
+
         private String name;
         private bool enabled = false;
-
         private Vector3 translation = Vector3.Zero;
         private Quaternion rotation = Quaternion.Identity;
         private Vector3 scale = new Vector3(1.0f, 1.0f, 1.0f);
+        private Dictionary<String, SimComponent> components = new Dictionary<String, SimComponent>();
 
-        Dictionary<String, SimComponent> components = new Dictionary<String, SimComponent>();
+        #endregion Fields
+
+        #region Constructors
 
         /// <summary>
         /// Constructor.
@@ -35,6 +39,10 @@ namespace Engine
         {
             this.name = name;
         }
+
+        #endregion Constructors
+
+        #region Functions
 
         /// <summary>
         /// Dispose function.
@@ -143,7 +151,7 @@ namespace Engine
         {
             foreach (SimComponent component in components.Values)
             {
-                if (component != trigger && (component.Subscription | Subscription.PositionUpdate) != 0)
+                if (component != trigger && (component.Subscription | Subscription.ScaleUpdate) != 0)
                 {
                     component.updateScale(ref scale);
                 }
@@ -165,6 +173,10 @@ namespace Engine
                 component.setEnabled(enabled);
             }
         }
+
+        #endregion Functions
+
+        #region Properties
 
         /// <summary>
         /// Get the name of this SimObject.
@@ -220,5 +232,7 @@ namespace Engine
                 return scale;
             }
         }
+
+        #endregion Properites
     }
 }

@@ -13,11 +13,31 @@ namespace Engine
     /// </summary>
     public enum Subscription
     {
+        /// <summary>
+        /// Recieve no updates.
+        /// </summary>
         None = 0,
-        PositionUpdate = (1 << 0),  //Subscribe to position updates
-        All = PositionUpdate,
+        /// <summary>
+        /// Subscribe to position updates.
+        /// </summary>
+        PositionUpdate = 1 << 0,
+        /// <summary>
+        /// Subscribe to scale updates.
+        /// </summary>
+        ScaleUpdate = 1 << 1,
+        /// <summary>
+        /// Recieve all updates.
+        /// </summary>
+        All = PositionUpdate | ScaleUpdate,
     };
 
+    /// <summary>
+    /// This is a subsystem specific part of a SimObject. The SimObject will
+    /// handle updating the common state between all of these objects, but the
+    /// exact behavior they implement is unknown at this level. These objects
+    /// could be graphics, physics, behaviors or anything else that needs to
+    /// maintain or update state with the SimObject.
+    /// </summary>
     public abstract class SimComponent : IDisposable
     {
         public abstract void Dispose();
