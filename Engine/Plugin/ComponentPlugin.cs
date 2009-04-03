@@ -14,7 +14,7 @@ namespace Engine
     /// then the plugin will be initalized and all of the commands it can
     /// execute will be recovered.
     /// </summary>
-    public interface ComponentPlugin
+    public interface ComponentPlugin : IDisposable
     {
         /// <summary>
         /// Do any initialization steps that need to be done on the plugin. Done

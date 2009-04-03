@@ -11,7 +11,7 @@ namespace PhysXPlugin
     /// <summary>
     /// This is the ComponentPlugin class for the PhysXPlugin.
     /// </summary>
-    class PhysXPluginControl : ComponentPlugin
+    public class PhysXPluginControl : ComponentPlugin
     {
         #region Static
 
@@ -41,6 +41,11 @@ namespace PhysXPlugin
         #endregion Constructors
 
         #region Functions
+
+        public void Dispose()
+        {
+            
+        }
 
         /// <summary>
         /// Initalize the PhysXPlugin.
