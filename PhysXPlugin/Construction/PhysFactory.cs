@@ -14,7 +14,7 @@ namespace PhysXPlugin
         #region Fields
 
         private LinkedList<PhysFactoryEntry> currentActors = new LinkedList<PhysFactoryEntry>();
-        private PhysSceneManager targetManager;
+        private PhysXSceneManager targetManager;
 
         #endregion Fields
 
@@ -46,7 +46,7 @@ namespace PhysXPlugin
         /// added to.
         /// </summary>
         /// <param name="manager">The manager to add objects to.</param>
-        public void setTargetManager(PhysSceneManager manager)
+        public void setTargetManager(PhysXSceneManager manager)
         {
             targetManager = manager;
         }

@@ -45,11 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\CreatePhysSceneCommand.cs" />
     <Compile Include="Construction\PhysFactory.cs" />
     <Compile Include="Construction\PhysFactoryEntry.cs" />
     <Compile Include="Definition\PhysActorDefinition.cs" />
     <Compile Include="Definition\PhysComponentDefinition.cs" />
-    <Compile Include="Instance\PhysSceneManager.cs" />
+    <Compile Include="Instance\PhysXSceneManager.cs" />
     <Compile Include="Plugin\PhysXPluginControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -61,6 +62,10 @@
     <ProjectReference Include="..\Log\Log.csproj">
       <Project>{78048C06-61EF-4C15-8013-C1EC999413D5}</Project>
       <Name>Log</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Math\Math.csproj">
+      <Project>{52213B4F-D940-438C-98DD-BB7CF44F2F98}</Project>
+      <Name>Math</Name>
     </ProjectReference>
     <ProjectReference Include="..\PhysXWrapper\PhysXWrapper.vcproj">
       <Project>{36C892E0-79B0-44BE-8FAF-2FC1C8E656F2}</Project>

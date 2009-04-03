@@ -15,14 +15,12 @@ namespace PhysXWrapper
 PhysSDK::PhysSDK(void)
 :logger(new PhysXLogger()),
 physicsSDK(0),
-scenes(gcnew SceneDictionary()), 
 remoteDebugger(0)
 {
 	physicsSDK = NxCreatePhysicsSDK( NX_PHYSICS_SDK_VERSION, NULL, logger.Get() );
 	if( !physicsSDK)
 	{
 		Logging::Log::Default->sendMessage( "PhysX SDK not created.  Wrong SDK DLL version?", Logging::LogLevel::Error, "Physics" );
-		physicsSDK->setParameter( NX_SKIN_WIDTH, 0.01f );
 	}
 	else
 	{
@@ -73,54 +71,19 @@ void PhysSDK::disconnectRemoteDebugger()
 
 PhysScene^ PhysSDK::createScene(PhysSceneDesc^ desc)
 {
-	PhysScene^ scene;
-	if( scenes->ContainsKey(desc->Name) )
-	{
-		Logging::Log::Default->sendMessage("A scene named " + desc->Name + " already exists, returning existing scene.", Logging::LogLevel::Warning, "Physics");
-		scene = scenes[desc->Name];
-	}
-	else
-	{
-		NxSceneDesc sceneDesc = *(desc->sceneDesc.Get());
-		NxScene* nxScene = physicsSDK->createScene(sceneDesc);
-		scene = gcnew PhysScene(nxScene, desc->Name);
-		scenes[scene->Name] = scene;
-		Logging::Log::Default->sendMessage("Created physics scene named " + scene->Name + ".", Logging::LogLevel::Info, "Physics");
-	}
-	return scene;
+	return scenes.getObject(physicsSDK->createScene(*(desc->sceneDesc.Get())));
 }
 
 void PhysSDK::releaseScene(PhysScene^ scene)
 {
-	if(scenes->ContainsValue(scene))
-	{
-		physicsSDK->releaseScene(*(scene->scene));
-		scenes->Remove(scene->Name);
-		delete scene;
-		Logging::Log::Default->sendMessage("Released physics scene named " + scene->Name + ".", Logging::LogLevel::Info, "Physics");
-	}
-	else
-	{
-		Logging::Log::Default->sendMessage("Attempted to erase an unused scene " + scene->Name + " nothing changed.", Logging::LogLevel::Error, "Physics");
-	}
+	NxScene* nxScene = scene->scene;
+	scenes.destroyObject(nxScene);
+	physicsSDK->releaseScene(*nxScene);
 }
 
 int PhysSDK::getNbScenes()
 {
 	return physicsSDK->getNbScenes();
-}
-
-PhysScene^ PhysSDK::getScene(String^ name)
-{
-	if(scenes->ContainsKey(name))
-	{
-		return scenes[name];
-	}
-	else
-	{
-		Logging::Log::Default->sendMessage("The scene " + name + " does not exist.", Logging::LogLevel::Error, "Physics");
-		return nullptr;
-	}
 }
 
 PhysConvexMesh^ PhysSDK::createConvexMesh(PhysMemoryReadBuffer^ mesh)

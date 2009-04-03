@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Command\CommandManager.cs" />
+    <Compile Include="Command\EngineCommand.cs" />
     <Compile Include="ObjectManagement\Construction\SimComponentFactory.cs" />
     <Compile Include="ObjectManagement\Definition\SimComponentDefinition.cs" />
     <Compile Include="ObjectManagement\Definition\SimObjectDefinition.cs" />
@@ -52,6 +54,7 @@
     <Compile Include="ObjectManagement\Instance\SimComponent.cs" />
     <Compile Include="ObjectManagement\Instance\SimComponentManager.cs" />
     <Compile Include="ObjectManagement\Instance\SimObject.cs" />
+    <Compile Include="Plugin\ComponentPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

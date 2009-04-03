@@ -39,14 +39,14 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="instance">The SimObject to add the component to.</param>
         /// <param name="scene">The PhysSceneManager to create the product with.</param>
-        public abstract void createProduct(SimObject instance, PhysSceneManager scene);
+        public abstract void createProduct(SimObject instance, PhysXSceneManager scene);
 
         /// <summary>
         /// Create a new component staticly as a part of scene and add it to instance.
         /// </summary>
         /// <param name="instance">The SimObject to add the component to.</param>
         /// <param name="scene">The PhysSceneManager to create the product with.</param>
-        public abstract void createStaticProduct(SimObject instance, PhysSceneManager scene);
+        public abstract void createStaticProduct(SimObject instance, PhysXSceneManager scene);
 
         #endregion Functions
     }

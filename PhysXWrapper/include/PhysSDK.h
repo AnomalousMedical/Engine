@@ -6,6 +6,7 @@ class NxRemoteDebugger;
 #include "AutoPtr.h"
 #include "PhysXLogger.h"
 #include "Enums.h"
+#include "PhysSceneCollection.h"
 
 namespace PhysXWrapper
 {
@@ -19,8 +20,6 @@ ref class PhysSoftBodyMesh;
 
 using namespace System;
 
-typedef System::Collections::Generic::Dictionary<String^, PhysScene^> SceneDictionary;
-
 /// <summary>
 /// Wrapper for NxPhysicsSDK.
 /// </summary>
@@ -29,7 +28,7 @@ public ref class PhysSDK
 private:
 	NxPhysicsSDK* physicsSDK;
 	NxRemoteDebugger* remoteDebugger;
-	SceneDictionary^ scenes;
+	PhysSceneCollection scenes;
 	
 	static PhysSDK^ instance = nullptr;
 
@@ -88,13 +87,6 @@ public:
 	/// </summary>
 	/// <returns>The number of scenes created.</returns>
 	int getNbScenes();
-
-	/// <summary>
-	/// Returns the scene identified by name.
-	/// </summary>
-	/// <param name="name">The name of the scene to get.</param>
-	/// <returns>The scene identified by name.</returns>
-	PhysScene^ getScene(String^ name);
 
 	/// <summary>
 	/// Creates a convex mesh object. This can then be instanced into

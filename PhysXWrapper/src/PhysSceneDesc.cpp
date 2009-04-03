@@ -10,20 +10,10 @@ namespace PhysXWrapper
 
 using namespace System;
 
-PhysSceneDesc::PhysSceneDesc(String^ name)
-:name(name), sceneDesc(new NxSceneDesc())
+PhysSceneDesc::PhysSceneDesc()
+:sceneDesc(new NxSceneDesc())
 {
 	
-}
-
-String^ PhysSceneDesc::Name::get() 
-{ 
-	return name; 
-}
-
-void PhysSceneDesc::Name::set(String^ vec) 
-{ 
-	this->name = name; 
 }
 
 EngineMath::Vector3 PhysSceneDesc::Gravity::get() 

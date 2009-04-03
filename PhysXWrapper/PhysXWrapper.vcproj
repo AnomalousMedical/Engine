@@ -438,6 +438,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\PhysSceneCollection.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\PhysSceneDesc.cpp"
 				>
 			</File>
@@ -813,6 +817,10 @@
 			</File>
 			<File
 				RelativePath=".\include\PhysScene.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\PhysSceneCollection.h"
 				>
 			</File>
 			<File

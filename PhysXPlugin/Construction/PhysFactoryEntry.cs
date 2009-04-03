@@ -40,7 +40,7 @@ namespace PhysXPlugin
         /// Build the product normally.
         /// </summary>
         /// <param name="scene">The scene to add the product to.</param>
-        public void createProduct(PhysSceneManager scene)
+        public void createProduct(PhysXSceneManager scene)
         {
             definition.createProduct(instance, scene);
         }
@@ -49,7 +49,7 @@ namespace PhysXPlugin
         /// Build the static version of the product.
         /// </summary>
         /// <param name="scene">The scene to add the product to.</param>
-        public void createStaticProduct(PhysSceneManager scene)
+        public void createStaticProduct(PhysXSceneManager scene)
         {
             definition.createStaticProduct(instance, scene);
         }

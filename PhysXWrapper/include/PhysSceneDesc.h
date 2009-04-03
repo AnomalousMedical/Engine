@@ -16,22 +16,12 @@ public ref class PhysSceneDesc
 internal:
 	//Pointer is avaliable internally for easy access.
 	AutoPtr<NxSceneDesc> sceneDesc;
-	System::String^ name;
 
 public:
 	/// <summary>
 	/// constructor sets to default (no gravity, no ground plane, collision detection on).
 	/// </summary>
-	PhysSceneDesc(System::String^ name);
-
-	/// <summary>
-	/// The name of the scene.
-	/// </summary>
-	property System::String^ Name
-	{ 
-		System::String^ get();
-		void set(System::String^ vec);
-	}
+	PhysSceneDesc();
 
 	/// <summary>
 	/// Gravity vector.

@@ -11,11 +11,12 @@ namespace PhysXPlugin
     /// <summary>
     /// This class manages a single PhysX scene.
     /// </summary>
-    class PhysSceneManager : SimComponentManager
+    class PhysXSceneManager : SimComponentManager
     {
         #region Fields
 
         private PhysScene scene;
+        private PhysSDK physSDK;
         private PhysFactory factory;
         private Dictionary<Identifier, PhysActor> actors = new Dictionary<Identifier, PhysActor>();
 
@@ -27,15 +28,24 @@ namespace PhysXPlugin
         /// Constructor.
         /// </summary>
         /// <param name="scene">The scene to manage.</param>
-        PhysSceneManager(PhysScene scene, PhysFactory factory)
+        public PhysXSceneManager(PhysScene scene, PhysSDK physSDK, PhysFactory factory)
         {
             this.scene = scene;
+            this.physSDK = physSDK;
             this.factory = factory;
         }
 
         #endregion Constructors
 
         #region Functions
+
+        /// <summary>
+        /// Dispose function.
+        /// </summary>
+        public void Dispose()
+        {
+            physSDK.releaseScene(scene);
+        }
 
         /// <summary>
         /// Set this manager as the target object that constructed objects will

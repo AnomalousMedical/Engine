@@ -38,7 +38,6 @@ ref class PhysSoftBodyDesc;
 public ref class PhysScene
 {
 private:
-	System::String^ name;
 	PhysActorCollection actors;
 	PhysJointCollection joints;
 	PhysSoftBodyCollection softBodies;
@@ -56,7 +55,7 @@ internal:
 	/// <summary>
 	/// Constructor internal because scenes must be created by the sdk.
 	/// </summary>
-	PhysScene(NxScene* scene, System::String^ name);
+	PhysScene(NxScene* scene);
 
 public:
 	/// <summary>
@@ -210,14 +209,6 @@ public:
 	/// </summary>
 	/// <returns>The scene flags.</returns>
 	SceneFlags getFlags();
-
-	/// <summary>
-	/// The name of the scene.
-	/// </summary>
-	property System::String^ Name
-	{ 
-		System::String^ get();
-	}
 
 	/// <summary>
 	/// Get the number of materials defined for this scene.

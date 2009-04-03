@@ -46,7 +46,7 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="instance">The SimObject to add the component to.</param>
         /// <param name="scene">The PhysSceneManager to create the product with.</param>
-        public override void createProduct(SimObject instance, PhysSceneManager scene)
+        public override void createProduct(SimObject instance, PhysXSceneManager scene)
         {
             throw new NotImplementedException();
         }
@@ -56,7 +56,7 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="instance">The SimObject to add the component to.</param>
         /// <param name="scene">The PhysSceneManager to create the product with.</param>
-        public override void createStaticProduct(SimObject instance, PhysSceneManager scene)
+        public override void createStaticProduct(SimObject instance, PhysXSceneManager scene)
         {
             throw new NotImplementedException();
         }

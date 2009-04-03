@@ -28,9 +28,8 @@
 namespace PhysXWrapper
 {
 
-PhysScene::PhysScene(NxScene* scene, System::String^ name)
+PhysScene::PhysScene(NxScene* scene)
 :scene(scene), 
-name(name), 
 pooledVector(new NxVec3()), 
 nativeRaycastReport(new NativeRaycastReport()),
 nativeContactReport(new NativeContactReport()),
@@ -187,10 +186,6 @@ SceneFlags PhysScene::getFlags()
 }
 
 //Properties
-System::String^ PhysScene::Name::get() 
-{ 
-	return name; 
-}
 
 unsigned int PhysScene::getNbMaterials()
 {
