@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using EngineMath;
 
 namespace Engine.Reflection
 {
@@ -11,6 +12,69 @@ namespace Engine.Reflection
     /// </summary>
     public abstract class ReflectedVariable
     {
+        #region TypeMapping
+
+        /// <summary>
+        /// This holds a mapping of basic types to the matching instance variable.
+        /// </summary>
+        private static Dictionary<Type, Type> typeMapping = new Dictionary<Type, Type>();
+
+        /// <summary>
+        /// Static constructor.
+        /// </summary>
+        static ReflectedVariable()
+        {
+            typeMapping.Add(typeof(String), typeof(StringReflectedVariable));
+            typeMapping.Add(typeof(int), typeof(IntReflectedVariable));
+            typeMapping.Add(typeof(long), typeof(LongReflectedVariable));
+            typeMapping.Add(typeof(float), typeof(FloatReflectedVariable));
+            typeMapping.Add(typeof(double), typeof(DoubleReflectedVariable));
+            typeMapping.Add(typeof(Quaternion), typeof(QuaternionReflectedVariable));
+            typeMapping.Add(typeof(Vector3), typeof(Vector3ReflectedVariable));
+            typeMapping.Add(typeof(bool), typeof(BooleanReflectedVariable));
+            typeMapping.Add(typeof(short), typeof(ShortReflectedVariable));
+            typeMapping.Add(typeof(ushort), typeof(UShortReflectedVariable));
+            typeMapping.Add(typeof(uint), typeof(UIntReflectedVariable));
+            typeMapping.Add(typeof(Identifier), typeof(IdentifierReflectedVariable));
+            typeMapping.Add(typeof(byte), typeof(ByteReflectedVariable));
+        }
+
+        /// <summary>
+        /// Determine if a mapping exists to create a ReflectedVariable for the
+        /// given type.
+        /// </summary>
+        /// <param name="inType">The type to check.</param>
+        /// <returns>True if a ReflectedVariable can be created for this type.</returns>
+        public static bool canCreateVariable(Type inType)
+        {
+            return typeMapping.ContainsKey(inType) || inType.IsEnum;
+        }
+
+        /// <summary>
+        /// Returns the ReflectedVariable for the given type.
+        /// </summary>
+        /// <param name="memberInfo">The MemberWrapper to use in the ReflectedVariable.</param>
+        /// <param name="instance">The instance to use in the ReflectedVariable.</param>
+        /// <returns>The matching ReflectedVariable or null if no mapping exists.</returns>
+        public static ReflectedVariable createVariable(MemberWrapper memberInfo, Object instance)
+        {
+            Type inType = memberInfo.getWrappedType();
+            if (typeMapping.ContainsKey(inType))
+            {
+                return (ReflectedVariable)Activator.CreateInstance(typeMapping[inType], memberInfo, instance);
+            }
+            else if (inType.IsEnum)
+            {
+                return (ReflectedVariable)Activator.CreateInstance(typeof(EnumReflectedVariable), memberInfo, instance);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        #endregion TypeMapping
+
         #region Fields
 
         protected MemberWrapper propertyInfo;
@@ -85,6 +149,15 @@ namespace Engine.Reflection
         /// </summary>
         /// <param name="value">The string to set as the value.</param>
         public abstract void setValueString(String value);
+
+        /// <summary>
+        /// Get the type of this variable.
+        /// </summary>
+        /// <returns>The type of this variable.</returns>
+        public Type getVariableType()
+        {
+            return propertyInfo.getWrappedType();
+        }
 
         #endregion Functions
     }

@@ -5,6 +5,8 @@ using System.Text;
 using Engine;
 using PhysXWrapper;
 using EngineMath;
+using Engine.Editing;
+using Engine.Reflection;
 
 namespace PhysXPlugin
 {
@@ -13,12 +15,25 @@ namespace PhysXPlugin
     /// </summary>
     public sealed class PhysActorDefinition : PhysComponentDefinition
     {
+        #region Static
+
+        private static MemberScanner memberScanner;
+
+        static PhysActorDefinition()
+        {
+            memberScanner = new MemberScanner();
+            memberScanner.ProcessFields = false;
+        }
+
+        #endregion Static
+
         #region Fields
 
         private PhysActorDesc actorDesc = new PhysActorDesc();
         private PhysBodyDesc bodyDesc = new PhysBodyDesc();
         private bool dynamic = false;
         private String shapeName = "";
+        private ReflectedEditInterface editInterface = null;
 
         #endregion Fields
 
@@ -49,6 +64,20 @@ namespace PhysXPlugin
         }
 
         /// <summary>
+        /// Get an EditInterface for the SimComponentDefinition so it can be
+        /// modified.
+        /// </summary>
+        /// <returns>The EditInterface for this SimComponentDefinition.</returns>
+        public override EditInterface getEditInterface()
+        {
+            if (editInterface == null)
+            {
+                editInterface = new ReflectedEditInterface(this, memberScanner);
+            }
+            return editInterface;
+        }
+
+        /// <summary>
         /// Create a new component normally as a part of scene and add it to instance.
         /// </summary>
         /// <param name="instance">The SimObject to add the component to.</param>
@@ -72,7 +101,7 @@ namespace PhysXPlugin
 
         #region Properties
 
-        //[InstanceVariableMember]
+        [Editable]
         public float Density
         {
             get
@@ -85,7 +114,7 @@ namespace PhysXPlugin
             }
         }
 
-        //[InstanceVariableMember(typeof(ShapeCollection))]
+        [Editable/*(typeof(ShapeCollection))*/]
         public String ShapeName
         {
             get
@@ -98,7 +127,7 @@ namespace PhysXPlugin
             }
         }
 
-        //[InstanceVariableMember]
+        [Editable]
         public ActorFlag Flags
         {
             get
@@ -111,7 +140,7 @@ namespace PhysXPlugin
             }
         }
 
-        //[InstanceVariableMember]
+        [Editable]
         public ushort ActorGroup
         {
             get
@@ -124,7 +153,7 @@ namespace PhysXPlugin
             }
         }
 
-        //[InstanceVariableMember]
+        [Editable]
         public uint ContactReportFlags
         {
             get
@@ -137,7 +166,7 @@ namespace PhysXPlugin
             }
         }
 
-        //[InstanceVariableMember]
+        [Editable]
         public bool Dynamic
         {
             get
@@ -150,7 +179,7 @@ namespace PhysXPlugin
             }
         }
 
-        //[InstanceVariableMember]
+        [Editable]
         public Vector3 MassSpaceIntertia
         {
             get
@@ -163,7 +192,7 @@ namespace PhysXPlugin
             }
         }
 
-        //[InstanceVariableMember]
+        [Editable]
         public float Mass
         {
             get
@@ -176,7 +205,7 @@ namespace PhysXPlugin
             }
         }
 
-        //[InstanceVariableMember]
+        [Editable]
         public Vector3 LinearVelocity
         {
             get
@@ -189,7 +218,7 @@ namespace PhysXPlugin
             }
         }
 
-        //[InstanceVariableMember]
+        [Editable]
         public Vector3 AngularVelocity
         {
             get
@@ -202,7 +231,7 @@ namespace PhysXPlugin
             }
         }
 
-        //[InstanceVariableMember]
+        [Editable]
         public float WakeUpCounter
         {
             get
@@ -215,7 +244,7 @@ namespace PhysXPlugin
             }
         }
 
-        //[InstanceVariableMember]
+        [Editable]
         public float LinearDamping
         {
             get
@@ -228,7 +257,7 @@ namespace PhysXPlugin
             }
         }
 
-        //[InstanceVariableMember]
+        [Editable]
         public float AngularDamping
         {
             get
@@ -241,7 +270,7 @@ namespace PhysXPlugin
             }
         }
 
-        //[InstanceVariableMember]
+        [Editable]
         public float MaxAngularVelocity
         {
             get
@@ -254,7 +283,7 @@ namespace PhysXPlugin
             }
         }
 
-        //[InstanceVariableMember]
+        [Editable]
         public float CCDMotionThreshold
         {
             get
@@ -267,7 +296,7 @@ namespace PhysXPlugin
             }
         }
 
-        //[InstanceVariableMember]
+        [Editable]
         public BodyFlag BodyFlags
         {
             get
@@ -280,7 +309,7 @@ namespace PhysXPlugin
             }
         }
 
-        //[InstanceVariableMember]
+        [Editable]
         public float SleepLinearVelocity
         {
             get
@@ -293,7 +322,7 @@ namespace PhysXPlugin
             }
         }
 
-        //[InstanceVariableMember]
+        [Editable]
         public uint SolverIterationCount
         {
             get
@@ -306,7 +335,7 @@ namespace PhysXPlugin
             }
         }
 
-        //[InstanceVariableMember]
+        [Editable]
         public float SleepEnergyThreshold
         {
             get
@@ -319,7 +348,7 @@ namespace PhysXPlugin
             }
         }
 
-        //[InstanceVariableMember]
+        [Editable]
         public float SleepDamping
         {
             get
@@ -332,7 +361,7 @@ namespace PhysXPlugin
             }
         }
 
-        //[InstanceVariableMember]
+        [Editable]
         public float ContactReportThreshold
         {
             get

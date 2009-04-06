@@ -11,7 +11,7 @@ namespace Engine.Editing
     /// automatic interface.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, Inherited = true, AllowMultiple = false)]
-    class EditableAttribute : Attribute
+    public class EditableAttribute : Attribute
     {
         /// <summary>
         /// Constructor.

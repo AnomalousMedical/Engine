@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EngineMath;
+using Engine.Editing;
 
 namespace Engine
 {
@@ -35,6 +36,13 @@ namespace Engine
         /// </summary>
         /// <param name="instance">The SimObject that will get the newly created component.</param>
         public abstract void register(SimObject instance);
+
+        /// <summary>
+        /// Get an EditInterface for the SimComponentDefinition so it can be
+        /// modified.
+        /// </summary>
+        /// <returns>The EditInterface for this SimComponentDefinition.</returns>
+        public abstract EditInterface getEditInterface();
 
         /// <summary>
         /// Set the SimObjectDefinition for this component.
