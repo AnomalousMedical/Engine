@@ -24,6 +24,13 @@ namespace Engine
         void createStaticProducts();
 
         /// <summary>
+        /// This function will be called when all subsystems have created their
+        /// products. At this time it is safe to discover objects present in
+        /// other subsystems.
+        /// </summary>
+        void linkProducts();
+
+        /// <summary>
         /// This function will clear all definitions in the factory. It will be
         /// called after a construction run has completed by executing
         /// createProducts or createStaticProducts.

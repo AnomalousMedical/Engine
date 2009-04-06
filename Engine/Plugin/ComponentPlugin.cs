@@ -31,7 +31,8 @@ namespace Engine
 
         /// <summary>
         /// Get a CommandManager for creating SimComponentDefinitions for this
-        /// plugin.
+        /// plugin. The commands must accept a single string that is the name of
+        /// the component.
         /// </summary>
         /// <returns>A CommandManager with all commands that create SimComponentDefinitions.</returns>
         public abstract CommandManager getCreateSimComponentDefinitionCommands();

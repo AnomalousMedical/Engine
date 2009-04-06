@@ -31,7 +31,7 @@ internal:
 
 public:
 	/// <summary>
-	/// Constructor, takes a unique name.
+	/// Constructor.
 	/// </summary>
 	PhysActorDesc();
 

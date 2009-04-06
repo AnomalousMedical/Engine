@@ -48,6 +48,21 @@
   <ItemGroup>
     <Compile Include="Command\CommandManager.cs" />
     <Compile Include="Command\EngineCommand.cs" />
+    <Compile Include="Editing\EditableProperty.cs" />
+    <Compile Include="Editing\EditInterface.cs" />
+    <Compile Include="Editing\Refleciton\EditableAttribute.cs" />
+    <Compile Include="Reflection\BooleanReflectedVariable.cs" />
+    <Compile Include="Reflection\ByteReflectedVariable.cs" />
+    <Compile Include="Reflection\DoubleReflectedVariable.cs" />
+    <Compile Include="Reflection\EnumReflectedVariable.cs" />
+    <Compile Include="Reflection\FieldMemberWrapper.cs" />
+    <Compile Include="Reflection\FloatReflectedVariable.cs" />
+    <Compile Include="Reflection\IdentifierReflectedVariable.cs" />
+    <Compile Include="Reflection\IntReflectedVariable.cs" />
+    <Compile Include="Reflection\LongReflectedVariable.cs" />
+    <Compile Include="Reflection\MemberWrapper.cs" />
+    <Compile Include="Editing\Refleciton\ReflectedEditableProperty.cs" />
+    <Compile Include="Editing\Refleciton\ReflectedEditInterface.cs" />
     <Compile Include="ObjectManagement\Construction\SimComponentFactory.cs" />
     <Compile Include="ObjectManagement\Definition\SimComponentDefinition.cs" />
     <Compile Include="ObjectManagement\Definition\SimObjectDefinition.cs" />
@@ -59,6 +74,16 @@
     <Compile Include="Plugin\InvalidPluginException.cs" />
     <Compile Include="Plugin\PluginManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reflection\MemberScanner.cs" />
+    <Compile Include="Reflection\PropertyMemberWrapper.cs" />
+    <Compile Include="Reflection\QuaternionReflectedVariable.cs" />
+    <Compile Include="Reflection\ReflectedVariable.cs" />
+    <Compile Include="Reflection\ShortReflectedVariable.cs" />
+    <Compile Include="Reflection\StringReflectedVariable.cs" />
+    <Compile Include="Reflection\UIntReflectedVariable.cs" />
+    <Compile Include="Reflection\ULongReflectedVariable.cs" />
+    <Compile Include="Reflection\UShortReflectedVariable.cs" />
+    <Compile Include="Reflection\Vector3ReflectedVariable.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Log\Log.csproj">
