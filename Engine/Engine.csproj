@@ -51,6 +51,7 @@
     <Compile Include="Editing\EditableProperty.cs" />
     <Compile Include="Editing\EditInterface.cs" />
     <Compile Include="Editing\Refleciton\EditableAttribute.cs" />
+    <Compile Include="Editing\Refleciton\EditableAttributeFilter.cs" />
     <Compile Include="Reflection\BooleanReflectedVariable.cs" />
     <Compile Include="Reflection\ByteReflectedVariable.cs" />
     <Compile Include="Reflection\DoubleReflectedVariable.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="Reflection\IdentifierReflectedVariable.cs" />
     <Compile Include="Reflection\IntReflectedVariable.cs" />
     <Compile Include="Reflection\LongReflectedVariable.cs" />
+    <Compile Include="Reflection\MemberScannerFilter.cs" />
     <Compile Include="Reflection\MemberWrapper.cs" />
     <Compile Include="Editing\Refleciton\ReflectedEditableProperty.cs" />
     <Compile Include="Editing\Refleciton\ReflectedEditInterface.cs" />

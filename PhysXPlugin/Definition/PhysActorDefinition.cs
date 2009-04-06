@@ -23,6 +23,7 @@ namespace PhysXPlugin
         {
             memberScanner = new MemberScanner();
             memberScanner.ProcessFields = false;
+            memberScanner.Filter = EditableAttributeFilter.Instance;
         }
 
         #endregion Static

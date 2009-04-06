@@ -34,14 +34,15 @@ namespace Engine.Reflection
         #region Functions
 
         /// <summary>
-        /// Scan the type for all appropriate fields. What fields are returned
+        /// Scan the type for all appropriate members. What members are returned
         /// is determined by the implementing class. This can also return null
-        /// if this MemberScanner does not process fields.
+        /// if this MemberScanner does not process members.
         /// </summary>
-        /// <param name="type">The type to scan for fields.</param>
-        /// <returns>A list of all fields found or null if this scanner does not process fields.</returns>
-        public List<FieldInfo> getFields(Type type)
+        /// <param name="type">The type to scan for members.</param>
+        /// <returns>A list of all members found.</returns>
+        public LinkedList<MemberWrapper> getMatchingMembers(Type type)
         {
+            LinkedList<MemberWrapper> members = new LinkedList<MemberWrapper>();
             if (ProcessFields)
             {
                 BindingFlags searchFlags = BindingFlags.Instance | BindingFlags.DeclaredOnly;
@@ -53,30 +54,20 @@ namespace Engine.Reflection
                 {
                     searchFlags |= BindingFlags.Public;
                 }
-                List<FieldInfo> fields = new List<FieldInfo>();
                 while (type != TerminatingType)
                 {
                     FieldInfo[] levelFields = type.GetFields(searchFlags);
-                    fields.AddRange(levelFields);
+                    foreach (FieldInfo levelField in levelFields)
+                    {
+                        MemberWrapper fieldWrapper = new FieldMemberWrapper(levelField);
+                        if (Filter == null || Filter.allowMember(fieldWrapper))
+                        {
+                            members.AddLast(fieldWrapper);
+                        }
+                    }
                     type = type.BaseType;
                 }
-                return fields;
             }
-            else
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Scan the type for all appropriate properties. What properties are
-        /// returned is determined by the implementing class. This can also
-        /// return null if this MemberScanner does not process properties.
-        /// </summary>
-        /// <param name="type">The type to scan for properties.</param>
-        /// <returns>A list of all properties found or null if this scanner does not process properties.</returns>
-        public List<PropertyInfo> getProperties(Type type)
-        {
             if (ProcessProperties)
             {
                 BindingFlags searchFlags = BindingFlags.Instance | BindingFlags.DeclaredOnly;
@@ -88,19 +79,21 @@ namespace Engine.Reflection
                 {
                     searchFlags |= BindingFlags.Public;
                 }
-                List<PropertyInfo> properties = new List<PropertyInfo>();
                 while (type != TerminatingType)
                 {
                     PropertyInfo[] levelProperties = type.GetProperties(searchFlags);
-                    properties.AddRange(levelProperties);
+                    foreach (PropertyInfo levelProp in levelProperties)
+                    {
+                        MemberWrapper propWrapper = new PropertyMemberWrapper(levelProp);
+                        if (Filter == null || Filter.allowMember(propWrapper))
+                        {
+                            members.AddLast(propWrapper);
+                        }
+                    }
                     type = type.BaseType;
                 }
-                return properties;
             }
-            else
-            {
-                return null;
-            }
+            return members;
         }
 
         #endregion Functions
@@ -145,6 +138,12 @@ namespace Engine.Reflection
         /// This should be true if the MemberScanner will process public properties.
         /// </summary>
         public bool ProcessPublicProperties { get; set; }
+
+        /// <summary>
+        /// This should be set to a MemberScannerFilter to further filter the
+        /// results or null to skip this extra check.
+        /// </summary>
+        public MemberScannerFilter Filter { get; set; }
 
         #endregion Properties
     }

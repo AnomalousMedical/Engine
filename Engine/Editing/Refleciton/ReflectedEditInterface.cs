@@ -47,6 +47,7 @@ namespace Engine.Editing
         public ReflectedEditInterface(Object target, MemberScanner scanner)
         {
             memberScanner = scanner;
+            scanner.Filter = EditableAttributeFilter.Instance;
             this.target = target;
             targetType = target.GetType();
             buildInterface();
@@ -189,45 +190,18 @@ namespace Engine.Editing
         /// </summary>
         private void buildInterface()
         {
-            if (memberScanner.ProcessFields)
+            LinkedList<MemberWrapper> members = memberScanner.getMatchingMembers(targetType);
+            foreach (MemberWrapper memberWrapper in members)
             {
-                List<FieldInfo> fields = memberScanner.getFields(targetType);
-                foreach (FieldInfo field in fields)
+                if (ReflectedVariable.canCreateVariable(memberWrapper.getWrappedType()))
                 {
-                    if (field.GetCustomAttributes(typeof(EditableAttribute), true).Length > 0)
-                    {
-                        add(new FieldMemberWrapper(field));
-                    }
+                    properties.AddLast(new ReflectedEditableProperty(memberWrapper.getWrappedName(), ReflectedVariable.createVariable(memberWrapper, target)));
                 }
-            }
-            if (memberScanner.ProcessProperties)
-            {
-                List<PropertyInfo> properties = memberScanner.getProperties(targetType);
-                foreach (PropertyInfo prop in properties)
+                else
                 {
-                    if (prop.GetCustomAttributes(typeof(EditableAttribute), true).Length > 0)
-                    {
-                        add(new PropertyMemberWrapper(prop));
-                    }
+                    Object subObject = memberWrapper.getValue(target, null);
+                    interfaces.AddLast(new ReflectedEditInterface(subObject));
                 }
-            }
-        }
-
-        /// <summary>
-        /// Add a property or interface to this object.
-        /// </summary>
-        /// <param name="memberWrapper">The memberWrapper with info about the object.</param>
-        /// <param name="instance">The instance of the object to edit.</param>
-        private void add(MemberWrapper memberWrapper)
-        {
-            if (ReflectedVariable.canCreateVariable(memberWrapper.getWrappedType()))
-            {
-                properties.AddLast(new ReflectedEditableProperty(memberWrapper.getWrappedName(), ReflectedVariable.createVariable(memberWrapper, target)));
-            }
-            else
-            {
-                Object subObject = memberWrapper.getValue(target, null);
-                interfaces.AddLast(new ReflectedEditInterface(subObject));
             }
         }
 
