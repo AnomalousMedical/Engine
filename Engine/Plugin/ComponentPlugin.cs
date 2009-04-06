@@ -38,6 +38,12 @@ namespace Engine
         public abstract CommandManager getCreateSimComponentDefinitionCommands();
 
         /// <summary>
+        /// Get the SimComponentFactory that creates objects for this plugin.
+        /// </summary>
+        /// <returns>The SimComponentFactory that creates objects for this plugin.</returns>
+        public abstract SimComponentFactory getComponentFactory();
+
+        /// <summary>
         /// Do any shutdown steps that need to be done on the plugin. This will
         /// be done just before the plugin is unloaded and will only be done one
         /// time.

@@ -13,21 +13,25 @@ namespace Engine.Editing
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, Inherited = true, AllowMultiple = false)]
     public class EditableAttribute : Attribute
     {
+        private String info;
+
         /// <summary>
         /// Constructor.
         /// </summary>
-        public EditableAttribute()
+        public EditableAttribute(String info)
+            :this(info, null)
         {
-            FieldType = null;
+
         }
 
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="type">The type of field this variable wraps if it represents something else. Can be used to show more advanced editors.</param>
-        public EditableAttribute(Type type)
+        public EditableAttribute(String info, Type type)
         {
             FieldType = type;
+            this.info = info;
         }
 
         /// <summary>

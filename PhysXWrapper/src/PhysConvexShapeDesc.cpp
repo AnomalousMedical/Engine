@@ -6,9 +6,9 @@
 namespace PhysXWrapper
 {
 
-PhysConvexShapeDesc::PhysConvexShapeDesc(System::String^ name)
+PhysConvexShapeDesc::PhysConvexShapeDesc()
 :convexShape(new NxConvexShapeDesc()),
-PhysShapeDesc(convexShape.Get(), name)
+PhysShapeDesc(convexShape.Get())
 {
 
 }

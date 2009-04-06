@@ -12,8 +12,8 @@ namespace PhysXWrapper
 
 using namespace System;
 
-PhysShapeDesc::PhysShapeDesc(NxShapeDesc* shapeDesc, String^ name)
-:shapeDesc(shapeDesc), name(name), materialName(nullptr)
+PhysShapeDesc::PhysShapeDesc(NxShapeDesc* shapeDesc)
+:shapeDesc(shapeDesc)
 {
 	
 }
@@ -22,20 +22,6 @@ void PhysShapeDesc::setLocalPose(EngineMath::Vector3 trans, EngineMath::Quaterni
 {
 	MathUtil::copyVector3(trans, shapeDesc->localPose.t);
 	shapeDesc->localPose.M.fromQuat(MathUtil::convertNxQuaternion(rot));
-}
-
-void PhysShapeDesc::setMaterial(PhysMaterial^ material)
-{
-	if(material != nullptr)
-	{
-		materialName = material->getName();
-		shapeDesc->materialIndex = material->getMaterialIndex();
-	}
-	else
-	{
-		shapeDesc->materialIndex = 0;
-		materialName = nullptr;
-	}
 }
 
 ShapeFlag PhysShapeDesc::ShapeFlags::get() 
@@ -63,9 +49,9 @@ unsigned short PhysShapeDesc::MaterialIndex::get()
 	return shapeDesc->materialIndex; 
 }
 
-System::String^ PhysShapeDesc::MaterialName::get() 
+void PhysShapeDesc::MaterialIndex::set(unsigned short value) 
 { 
-	return materialName; 
+	shapeDesc->materialIndex = value; 
 }
 
 float PhysShapeDesc::Density::get() 
@@ -96,17 +82,6 @@ float PhysShapeDesc::SkinWidth::get()
 void PhysShapeDesc::SkinWidth::set(float skinWidth) 
 { 
 	shapeDesc->skinWidth = skinWidth; 
-}
-
-String^ PhysShapeDesc::Name::get() 
-{ 
-	return name; 
-}
-
-void PhysShapeDesc::Name::set(String^ name) 
-{ 
-	shapeDesc->name = MarshalUtils::convertString(name).c_str();
-	this->name = name;
 }
 
 unsigned int PhysShapeDesc::NonInteractingCompartmentTypes::get() 

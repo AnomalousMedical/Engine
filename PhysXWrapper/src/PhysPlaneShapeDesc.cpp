@@ -5,9 +5,9 @@
 namespace PhysXWrapper
 {
 
-PhysPlaneShapeDesc::PhysPlaneShapeDesc(System::String^ name)
+PhysPlaneShapeDesc::PhysPlaneShapeDesc()
 :planeShape(new NxPlaneShapeDesc()),
-PhysShapeDesc(planeShape.Get(), name)
+PhysShapeDesc(planeShape.Get())
 {
 }
 

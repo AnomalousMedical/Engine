@@ -15,9 +15,7 @@ ref class PhysMaterial;
 public ref class PhysShapeDesc
 {
 protected:
-	PhysShapeDesc(NxShapeDesc* shapeDesc, System::String^ name);
-	System::String^ name;
-	System::String^ materialName;
+	PhysShapeDesc(NxShapeDesc* shapeDesc);
 
 internal:
 	NxShapeDesc* shapeDesc;
@@ -27,11 +25,6 @@ public:
 	/// Set the pose of the shape in the coordinate frame of the owning actor.
 	/// </summary>
 	void setLocalPose(EngineMath::Vector3 trans, EngineMath::Quaternion rot);
-
-	/// <summary>
-	/// Set the material of this shape.
-	/// </summary>
-	void setMaterial(PhysMaterial^ material);
 
 	/// <summary>
 	/// A combination of ShapeFlag values.
@@ -57,14 +50,7 @@ public:
 	property unsigned short MaterialIndex
 	{
 		unsigned short get();
-	}
-
-	/// <summary>
-	/// The name of the material assigned to this shape.
-	/// </summary>
-	property System::String^ MaterialName
-	{
-		System::String^ get();
+		void set(unsigned short value);
 	}
 	
 	//property nxccdskeleton
@@ -100,15 +86,6 @@ public:
 	{
 		float get();
 		void set(float skinWidth);
-	}
-
-	/// <summary>
-	/// The name of the shape.
-	/// </summary>
-	property System::String^ Name
-	{
-		System::String^ get();
-		void set(System::String^ name);
 	}
 
 	//property NxGroupsMask groupsMask

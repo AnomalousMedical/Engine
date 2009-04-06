@@ -23,7 +23,7 @@ internal:
 	AutoPtr<NxTriangleMeshShapeDesc> triangleShape;
 
 public:
-	PhysTriangleMeshShapeDesc(System::String^ name);
+	PhysTriangleMeshShapeDesc();
 
 	/// <summary>
 	/// The triangle mesh for the shape.

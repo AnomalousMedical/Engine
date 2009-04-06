@@ -6,9 +6,9 @@
 namespace PhysXWrapper
 {
 
-PhysTriangleMeshShapeDesc::PhysTriangleMeshShapeDesc(System::String^ name)
+PhysTriangleMeshShapeDesc::PhysTriangleMeshShapeDesc()
 :triangleShape(new NxTriangleMeshShapeDesc()),
-PhysShapeDesc(triangleShape.Get(), name)
+PhysShapeDesc(triangleShape.Get())
 {
 }
 

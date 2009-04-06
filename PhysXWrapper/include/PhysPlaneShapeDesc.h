@@ -20,7 +20,7 @@ public:
 	/// <summary>
 	/// Constructor.
 	/// </summary>
-	PhysPlaneShapeDesc(System::String^ name);
+	PhysPlaneShapeDesc();
 
 	/// <summary>
 	/// The normal of the plane.

@@ -89,6 +89,15 @@ namespace PhysXPlugin
             return simComponentDefinitonCommands;
         }
 
+        /// <summary>
+        /// Get the SimComponentFactory that creates objects for this plugin.
+        /// </summary>
+        /// <returns>The PhysFactory that creates objects for this plugin.</returns>
+        public override SimComponentFactory getComponentFactory()
+        {
+            return physFactory;
+        }
+
         #endregion ComponentPlugin
 
         #region Creation

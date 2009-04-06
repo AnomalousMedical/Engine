@@ -5,9 +5,9 @@
 namespace PhysXWrapper
 {
 
-PhysCapsuleShapeDesc::PhysCapsuleShapeDesc(System::String^ name)
+PhysCapsuleShapeDesc::PhysCapsuleShapeDesc()
 :capsuleShape(new NxCapsuleShapeDesc()), 
-PhysShapeDesc(capsuleShape.Get(), name)
+PhysShapeDesc(capsuleShape.Get())
 {
 }
 

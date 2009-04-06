@@ -62,6 +62,7 @@ namespace Engine
         public void addComponent(SimComponent component)
         {
             components.Add(component.Name, component);
+            component.SimObject = this;
         }
 
         /// <summary>
@@ -73,6 +74,7 @@ namespace Engine
             if (components.ContainsKey(component.Name))
             {
                 components.Remove(component.Name);
+                component.SimObject = null;
             }
         }
 

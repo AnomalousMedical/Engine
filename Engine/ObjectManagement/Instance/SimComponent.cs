@@ -40,20 +40,77 @@ namespace Engine
     /// </summary>
     public abstract class SimComponent : IDisposable
     {
+        #region Constructors
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="name">The name of the SimComponent.</param>
+        /// <param name="subscription">The subscription of events to listen to.</param>
+        public SimComponent(String name, Subscription subscription)
+        {
+            this.Name = name;
+            this.Subscription = subscription;
+        }
+
+        #endregion
+
+        #region Functions
+
+        /// <summary>
+        /// Dispose function. Cleans up any objects that cannot be garbage collected.
+        /// </summary>
         public abstract void Dispose();
 
-        public abstract String Name { get; }
-
-        public Subscription Subscription { get; set; }
-
+        /// <summary>
+        /// This function will update the position of the SimComponent.
+        /// </summary>
+        /// <param name="translation">The translation to set.</param>
+        /// <param name="rotation">The rotation to set.</param>
         public abstract void updatePosition(ref Vector3 translation, ref Quaternion rotation);
 
+        /// <summary>
+        /// This function will update the translation of the SimComponent.
+        /// </summary>
+        /// <param name="translation">The translation to set.</param>
         public abstract void updateTranslation(ref Vector3 translation);
 
+        /// <summary>
+        /// This function will update the rotation of the SimComponent.
+        /// </summary>
+        /// <param name="rotation">The rotation to set.</param>
         public abstract void updateRotation(ref Quaternion rotation);
 
+        /// <summary>
+        /// This function will update the scale of the SimComponent.
+        /// </summary>
+        /// <param name="scale">The scale to set.</param>
         public abstract void updateScale(ref Vector3 scale);
 
+        /// <summary>
+        /// This function will enable or disable the SimComponent. What this
+        /// means is subsystem dependent and may not reduce the processing of
+        /// the object very much.
+        /// </summary>
+        /// <param name="enabled">True to enable the object. False to disable the object.</param>
         public abstract void setEnabled(bool enabled);
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Get the name of this SimComponent.
+        /// </summary>
+        public String Name { get; private set; }
+
+        /// <summary>
+        /// Get/Set the subscription of events this component listens to.
+        /// </summary>
+        public Subscription Subscription { get; set; }
+
+        public SimObject SimObject { get; internal set; }
+
+        #endregion
     }
 }

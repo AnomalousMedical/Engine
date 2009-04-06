@@ -7,8 +7,8 @@
 namespace PhysXWrapper
 {
 
-PhysBoxShapeDesc::PhysBoxShapeDesc(String^ name)
-:boxShape(new NxBoxShapeDesc()), PhysShapeDesc(boxShape.Get(), name)
+PhysBoxShapeDesc::PhysBoxShapeDesc()
+:boxShape(new NxBoxShapeDesc()), PhysShapeDesc(boxShape.Get())
 {
 
 }

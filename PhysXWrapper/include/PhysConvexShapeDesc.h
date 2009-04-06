@@ -26,8 +26,7 @@ public:
 	/// <summary>
 	/// Constructor
 	/// </summary>
-	/// <param name="name">The name of the shape.</param>
-	PhysConvexShapeDesc(System::String^ name);
+	PhysConvexShapeDesc();
 
 	/// <summary>
 	/// References the triangle mesh that we want to instance.

@@ -22,7 +22,7 @@ public:
 	/// <summary>
 	/// Constructor
 	/// </summary>
-	PhysBoxShapeDesc(String^ name);
+	PhysBoxShapeDesc();
 
 	/// <summary>
 	/// Dimensions of the box as half extents.

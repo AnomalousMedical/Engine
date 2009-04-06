@@ -13,6 +13,7 @@ namespace Engine
 
         private String name;
         protected SimObjectDefinition simObjectDef;
+        protected Subscription subscription = Subscription.All;
 
         #endregion Fields
 

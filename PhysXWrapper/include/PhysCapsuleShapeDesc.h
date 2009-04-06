@@ -19,7 +19,7 @@ public:
 	/// <summary>
 	/// Constructor.
 	/// </summary>
-	PhysCapsuleShapeDesc(System::String^ name);
+	PhysCapsuleShapeDesc();
 
 	/// <summary>
 	/// The radius of the capsule.

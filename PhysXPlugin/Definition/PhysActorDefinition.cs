@@ -32,7 +32,7 @@ namespace PhysXPlugin
         private PhysActorDesc actorDesc = new PhysActorDesc();
         private PhysBodyDesc bodyDesc = new PhysBodyDesc();
         private bool dynamic = false;
-        private String shapeName = "";
+        private String shapeName = null;
         private ReflectedEditInterface editInterface = null;
 
         #endregion Fields
@@ -84,7 +84,20 @@ namespace PhysXPlugin
         /// <param name="scene">The PhysSceneManager to create the product with.</param>
         internal override void createProduct(SimObject instance, PhysXSceneManager scene)
         {
-            throw new NotImplementedException();
+            if (dynamic)
+            {
+                actorDesc.Body = bodyDesc;
+            }
+            else
+            {
+                actorDesc.Body = null;
+            }
+            if (actorDesc.isValid())
+            {
+                Identifier actorId = new Identifier(instance.Name, this.Name);
+                PhysActor actor = scene.createPhysActor(actorId, actorDesc);
+                instance.addComponent(new PhysActorComponent(actor, scene, actorId, subscription));
+            }
         }
 
         /// <summary>
@@ -101,7 +114,7 @@ namespace PhysXPlugin
 
         #region Properties
 
-        [Editable]
+        [Editable("Density used during mass/inertia computation.")]
         public float Density
         {
             get
@@ -114,7 +127,7 @@ namespace PhysXPlugin
             }
         }
 
-        [Editable/*(typeof(ShapeCollection))*/]
+        [Editable("The name of a collision shape to use. If this is specified any shapes added manually will be ignored.")/*(typeof(ShapeCollection))*/]
         public String ShapeName
         {
             get
@@ -127,7 +140,7 @@ namespace PhysXPlugin
             }
         }
 
-        [Editable]
+        [Editable("Flags that control the actor.")]
         public ActorFlag Flags
         {
             get
@@ -140,7 +153,7 @@ namespace PhysXPlugin
             }
         }
 
-        [Editable]
+        [Editable("The actor's group")]
         public ushort ActorGroup
         {
             get
@@ -153,7 +166,7 @@ namespace PhysXPlugin
             }
         }
 
-        [Editable]
+        [Editable("Flags that determine how contact with other actors is reported.")]
         public uint ContactReportFlags
         {
             get
@@ -166,7 +179,7 @@ namespace PhysXPlugin
             }
         }
 
-        [Editable]
+        [Editable("Enable to make the actor dynamic.")]
         public bool Dynamic
         {
             get
@@ -179,7 +192,7 @@ namespace PhysXPlugin
             }
         }
 
-        [Editable]
+        [Editable("Diagonal mass space inertia tensor in bodies mass frame. Set to all zeros to let the SDK compute it.")]
         public Vector3 MassSpaceIntertia
         {
             get
@@ -192,7 +205,7 @@ namespace PhysXPlugin
             }
         }
 
-        [Editable]
+        [Editable("Mass of body. Should not be zero. To make this actor static set dynamic to false.")]
         public float Mass
         {
             get
@@ -205,7 +218,7 @@ namespace PhysXPlugin
             }
         }
 
-        [Editable]
+        [Editable("Linear Velocity of the body.")]
         public Vector3 LinearVelocity
         {
             get
@@ -218,7 +231,7 @@ namespace PhysXPlugin
             }
         }
 
-        [Editable]
+        [Editable("Angular Velocity of the body.")]
         public Vector3 AngularVelocity
         {
             get
@@ -231,7 +244,7 @@ namespace PhysXPlugin
             }
         }
 
-        [Editable]
+        [Editable("The body's initial wake up counter.")]
         public float WakeUpCounter
         {
             get
@@ -244,7 +257,7 @@ namespace PhysXPlugin
             }
         }
 
-        [Editable]
+        [Editable("Linear damping applied to the body.")]
         public float LinearDamping
         {
             get
@@ -257,7 +270,7 @@ namespace PhysXPlugin
             }
         }
 
-        [Editable]
+        [Editable("Angular damping applied to the body.")]
         public float AngularDamping
         {
             get
@@ -270,7 +283,7 @@ namespace PhysXPlugin
             }
         }
 
-        [Editable]
+        [Editable("Maximum allowed angular velocity. Use a negative value to use the default.")]
         public float MaxAngularVelocity
         {
             get
@@ -283,7 +296,7 @@ namespace PhysXPlugin
             }
         }
 
-        [Editable]
+        [Editable("When CCD is globally enabled, it is still not performed if the motion distance of all points on the body is below this threshold.")]
         public float CCDMotionThreshold
         {
             get
@@ -296,7 +309,7 @@ namespace PhysXPlugin
             }
         }
 
-        [Editable]
+        [Editable("Flags that determine the properties of the rigid body.")]
         public BodyFlag BodyFlags
         {
             get
@@ -309,7 +322,7 @@ namespace PhysXPlugin
             }
         }
 
-        [Editable]
+        [Editable("Maximum linear velocity at which body can go to sleep. If negative, the global default will be used.")]
         public float SleepLinearVelocity
         {
             get
@@ -322,7 +335,7 @@ namespace PhysXPlugin
             }
         }
 
-        [Editable]
+        [Editable("Number of solver iterations performed when processing joint/contacts connected to this body.")]
         public uint SolverIterationCount
         {
             get
@@ -335,7 +348,7 @@ namespace PhysXPlugin
             }
         }
 
-        [Editable]
+        [Editable("Threshold for the energy-based sleeping algorithm. Only used when the NX_BF_ENERGY_SLEEP_TEST flag is set.")]
         public float SleepEnergyThreshold
         {
             get
@@ -348,7 +361,7 @@ namespace PhysXPlugin
             }
         }
 
-        [Editable]
+        [Editable("Damping factor for bodies that are about to sleep.")]
         public float SleepDamping
         {
             get
@@ -361,7 +374,7 @@ namespace PhysXPlugin
             }
         }
 
-        [Editable]
+        [Editable("The force threshold for contact reports.")]
         public float ContactReportThreshold
         {
             get

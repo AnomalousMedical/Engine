@@ -20,7 +20,7 @@ public:
 	/// <summary>
 	/// Constructor.
 	/// </summary>
-	PhysSphereShapeDesc(System::String^ name);
+	PhysSphereShapeDesc();
 
 	/// <summary>
 	/// The radius of the sphere.
