@@ -9,12 +9,12 @@ using EngineMath;
 namespace PhysXPlugin
 {
     /// <summary>
-    /// This class is a SimComponent for PhysActors so they can interact with
+    /// This class is a SimElement for PhysActors so they can interact with
     /// other SimObject pieces.
     /// </summary>
-    /// <seealso cref="T:Engine.SimComponent"/>
+    /// <seealso cref="T:Engine.SimElement"/>
     /// <seealso cref="T:PhysXWrapper.ActiveTransformCallback"/>
-    class PhysActorComponent : SimComponent, ActiveTransformCallback
+    class PhysActorElement : SimElement, ActiveTransformCallback
     {
         #region Fields
 
@@ -29,14 +29,14 @@ namespace PhysXPlugin
         #region Constructors
 
         /// <summary>
-        /// Initializes a new Instance of PhysXPlugin.Instance.PhysActorComponent
+        /// Initializes a new Instance of PhysXPlugin.Instance.PhysActorElement
         /// </summary>
         /// <param name="actor">The actor to track.</param>
         /// <param name="scene">The scene the actor belongs to.</param>
-        /// <param name="name">The name of this component.</param>
-        /// <param name="subscription">The subscription of events this component listens to.</param>
-        public PhysActorComponent(PhysActor actor, PhysXSceneManager scene, Identifier name, Subscription subscription)
-            : base(name.ComponentName, subscription)
+        /// <param name="name">The name of this Element.</param>
+        /// <param name="subscription">The subscription of events this Element listens to.</param>
+        public PhysActorElement(PhysActor actor, PhysXSceneManager scene, Identifier name, Subscription subscription)
+            : base(name.ElementName, subscription)
         {
             this.actor = actor;
             this.scene = scene;
@@ -60,7 +60,7 @@ namespace PhysXPlugin
         }
 
         /// <summary>
-        /// This function will update the position of the SimComponent.
+        /// This function will update the position of the SimElement.
         /// </summary>
         /// <param name="translation">The translation to set.</param>
         /// <param name="rotation">The rotation to set.</param>
@@ -71,7 +71,7 @@ namespace PhysXPlugin
         }
 
         /// <summary>
-        /// This function will update the translation of the SimComponent.
+        /// This function will update the translation of the SimElement.
         /// </summary>
         /// <param name="translation">The translation to set.</param>
         public override void updateTranslation(ref EngineMath.Vector3 translation)
@@ -80,7 +80,7 @@ namespace PhysXPlugin
         }
 
         /// <summary>
-        /// This function will update the rotation of the SimComponent.
+        /// This function will update the rotation of the SimElement.
         /// </summary>
         /// <param name="rotation">The rotation to set.</param>
         public override void updateRotation(ref EngineMath.Quaternion rotation)
@@ -98,7 +98,7 @@ namespace PhysXPlugin
         }
 
         /// <summary>
-        /// This function will enable or disable the SimComponent. What this
+        /// This function will enable or disable the SimElement. What this
         /// means is subsystem dependent and may not reduce the processing of
         /// the object very much.
         /// </summary>

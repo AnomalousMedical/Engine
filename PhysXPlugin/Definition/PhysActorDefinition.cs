@@ -13,7 +13,7 @@ namespace PhysXPlugin
     /// <summary>
     /// This class defines and builds PhysActors.
     /// </summary>
-    public sealed class PhysActorDefinition : PhysComponentDefinition
+    public sealed class PhysActorDefinition : PhysElementDefinition
     {
         #region Static
 
@@ -56,19 +56,19 @@ namespace PhysXPlugin
         #region Functions
 
         /// <summary>
-        /// Register this component with its factory so it can be built.
+        /// Register this element with its factory so it can be built.
         /// </summary>
-        /// <param name="instance">The SimObject that will get the newly created component.</param>
+        /// <param name="instance">The SimObject that will get the newly created element.</param>
         public override void register(SimObject instance)
         {
             factory.addActorDefinition(instance, this);
         }
 
         /// <summary>
-        /// Get an EditInterface for the SimComponentDefinition so it can be
+        /// Get an EditInterface for the SimElementDefinition so it can be
         /// modified.
         /// </summary>
-        /// <returns>The EditInterface for this SimComponentDefinition.</returns>
+        /// <returns>The EditInterface for this SimElementDefinition.</returns>
         public override EditInterface getEditInterface()
         {
             if (editInterface == null)
@@ -79,9 +79,9 @@ namespace PhysXPlugin
         }
 
         /// <summary>
-        /// Create a new component normally as a part of scene and add it to instance.
+        /// Create a new Element normally as a part of scene and add it to instance.
         /// </summary>
-        /// <param name="instance">The SimObject to add the component to.</param>
+        /// <param name="instance">The SimObject to add the element to.</param>
         /// <param name="scene">The PhysSceneManager to create the product with.</param>
         internal override void createProduct(SimObject instance, PhysXSceneManager scene)
         {
@@ -97,14 +97,14 @@ namespace PhysXPlugin
             {
                 Identifier actorId = new Identifier(instance.Name, this.Name);
                 PhysActor actor = scene.createPhysActor(actorId, actorDesc);
-                instance.addComponent(new PhysActorComponent(actor, scene, actorId, subscription));
+                instance.addElement(new PhysActorElement(actor, scene, actorId, subscription));
             }
         }
 
         /// <summary>
-        /// Create a new component staticly as a part of scene and add it to instance.
+        /// Create a new element staticly as a part of scene and add it to instance.
         /// </summary>
-        /// <param name="instance">The SimObject to add the component to.</param>
+        /// <param name="instance">The SimObject to add the element to.</param>
         /// <param name="scene">The PhysSceneManager to create the product with.</param>
         internal override void createStaticProduct(SimObject instance, PhysXSceneManager scene)
         {

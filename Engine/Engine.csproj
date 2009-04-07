@@ -52,6 +52,8 @@
     <Compile Include="Editing\EditInterface.cs" />
     <Compile Include="Editing\Refleciton\EditableAttribute.cs" />
     <Compile Include="Editing\Refleciton\EditableAttributeFilter.cs" />
+    <Compile Include="ObjectManagement\Construction\SimObjectFactory.cs" />
+    <Compile Include="ObjectManagement\Instance\SimObjectManager.cs" />
     <Compile Include="Reflection\BooleanReflectedVariable.cs" />
     <Compile Include="Reflection\ByteReflectedVariable.cs" />
     <Compile Include="Reflection\DoubleReflectedVariable.cs" />

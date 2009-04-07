@@ -8,7 +8,7 @@ using Engine;
 namespace Engine
 {
     /// <summary>
-    /// A SimObject is a mediator between various SimComponent instances. This
+    /// A SimObject is a mediator between various SimElement instances. This
     /// allows a SimObject to represent any kind of object in a 3d scene
     /// utilizing whatever subsystems are needed for it to do work. For example
     /// it could be composed of a mesh from a renderer and a rigid body from a
@@ -25,7 +25,7 @@ namespace Engine
         private Vector3 translation = Vector3.Zero;
         private Quaternion rotation = Quaternion.Identity;
         private Vector3 scale = new Vector3(1.0f, 1.0f, 1.0f);
-        private Dictionary<String, SimComponent> components = new Dictionary<String, SimComponent>();
+        private Dictionary<String, SimElement> elements = new Dictionary<String, SimElement>();
 
         #endregion Fields
 
@@ -49,48 +49,48 @@ namespace Engine
         /// </summary>
         public void Dispose()
         {
-            foreach (SimComponent component in components.Values)
+            foreach (SimElement element in elements.Values)
             {
-                component.Dispose();
+                element.Dispose();
             }
         }
 
         /// <summary>
-        /// Add a SimComponent to this SimObject.
+        /// Add a SimElement to this SimObject.
         /// </summary>
-        /// <param name="component">The component to add.</param>
-        public void addComponent(SimComponent component)
+        /// <param name="element">The element to add.</param>
+        public void addElement(SimElement element)
         {
-            components.Add(component.Name, component);
-            component.SimObject = this;
+            elements.Add(element.Name, element);
+            element.SimObject = this;
         }
 
         /// <summary>
-        /// Remove a SimComponent from this SimObject.
+        /// Remove a SimElement from this SimObject.
         /// </summary>
-        /// <param name="component">The component to remove.</param>
-        public void removeComponent(SimComponent component)
+        /// <param name="element">The element to remove.</param>
+        public void removeElement(SimElement element)
         {
-            if (components.ContainsKey(component.Name))
+            if (elements.ContainsKey(element.Name))
             {
-                components.Remove(component.Name);
-                component.SimObject = null;
+                elements.Remove(element.Name);
+                element.SimObject = null;
             }
         }
 
         /// <summary>
-        /// Get the SimComponent specified by name. If the component is not
+        /// Get the SimElement specified by name. If the element is not
         /// found or the type does not match T null will be returned.
         /// </summary>
-        /// <typeparam name="T">The type of the component to retrieve.</typeparam>
-        /// <param name="name">The name of the component to retrieve.</param>
-        /// <returns>The component or null if it was not found or was the wrong type.</returns>
-        public T getSimComponent<T>(String name)
-            where T : SimComponent
+        /// <typeparam name="T">The type of the element to retrieve.</typeparam>
+        /// <param name="name">The name of the element to retrieve.</param>
+        /// <returns>The element or null if it was not found or was the wrong type.</returns>
+        public T getSimElement<T>(String name)
+            where T : SimElement
         {
-            if (components.ContainsKey(name))
+            if (elements.ContainsKey(name))
             {
-                return components[name] as T;
+                return elements[name] as T;
             }
             return null;
         }
@@ -101,13 +101,13 @@ namespace Engine
         /// <param name="translation">The translation to set.</param>
         /// <param name="rotation">The rotation to set.</param>
         /// <param name="trigger">The object that triggered the update. Can be null.</param>
-        public void updatePosition(ref Vector3 translation, ref Quaternion rotation, SimComponent trigger)
+        public void updatePosition(ref Vector3 translation, ref Quaternion rotation, SimElement trigger)
         {
-            foreach (SimComponent component in components.Values)
+            foreach (SimElement element in elements.Values)
             {
-                if (component != trigger && (component.Subscription | Subscription.PositionUpdate) != 0)
+                if (element != trigger && (element.Subscription | Subscription.PositionUpdate) != 0)
                 {
-                    component.updatePosition(ref translation, ref rotation);
+                    element.updatePosition(ref translation, ref rotation);
                 }
             }
         }
@@ -117,13 +117,13 @@ namespace Engine
         /// </summary>
         /// <param name="translation">The translation to set.</param>
         /// <param name="trigger">The object that triggered the update. Can be null.</param>
-        public void updateTranslation(ref Vector3 translation, SimComponent trigger)
+        public void updateTranslation(ref Vector3 translation, SimElement trigger)
         {
-            foreach (SimComponent component in components.Values)
+            foreach (SimElement element in elements.Values)
             {
-                if (component != trigger && (component.Subscription | Subscription.PositionUpdate) != 0)
+                if (element != trigger && (element.Subscription | Subscription.PositionUpdate) != 0)
                 {
-                    component.updateTranslation(ref translation);
+                    element.updateTranslation(ref translation);
                 }
             }
         }
@@ -133,13 +133,13 @@ namespace Engine
         /// </summary>
         /// <param name="rotation">The rotation to set.</param>
         /// <param name="trigger">The object that triggered the update. Can be null.</param>
-        public void updateRotation(ref Quaternion rotation, SimComponent trigger)
+        public void updateRotation(ref Quaternion rotation, SimElement trigger)
         {
-            foreach (SimComponent component in components.Values)
+            foreach (SimElement element in elements.Values)
             {
-                if (component != trigger && (component.Subscription | Subscription.PositionUpdate) != 0)
+                if (element != trigger && (element.Subscription | Subscription.PositionUpdate) != 0)
                 {
-                    component.updateRotation(ref rotation);
+                    element.updateRotation(ref rotation);
                 }
             }
         }
@@ -149,13 +149,13 @@ namespace Engine
         /// </summary>
         /// <param name="scale">The scale to set.</param>
         /// <param name="trigger">The object that triggered the update. Can be null.</param>
-        public void updateScale(ref Vector3 scale, SimComponent trigger)
+        public void updateScale(ref Vector3 scale, SimElement trigger)
         {
-            foreach (SimComponent component in components.Values)
+            foreach (SimElement element in elements.Values)
             {
-                if (component != trigger && (component.Subscription | Subscription.ScaleUpdate) != 0)
+                if (element != trigger && (element.Subscription | Subscription.ScaleUpdate) != 0)
                 {
-                    component.updateScale(ref scale);
+                    element.updateScale(ref scale);
                 }
             }
         }
@@ -170,9 +170,9 @@ namespace Engine
         public void setEnabled(bool enabled)
         {
             this.enabled = enabled;
-            foreach (SimComponent component in components.Values)
+            foreach (SimElement element in elements.Values)
             {
-                component.setEnabled(enabled);
+                element.setEnabled(enabled);
             }
         }
 

@@ -9,7 +9,7 @@ namespace PhysXPlugin
     /// <summary>
     /// This is a factory for PhysX objects.
     /// </summary>
-    class PhysFactory : SimComponentFactory
+    class PhysFactory : SimElementFactory
     {
         #region Fields
 
@@ -42,7 +42,7 @@ namespace PhysXPlugin
         }
 
         /// <summary>
-        /// Set the target PhysComponentManager that the PhysX objects will be
+        /// Set the target PhysXSceneManager that the PhysX objects will be
         /// added to.
         /// </summary>
         /// <param name="manager">The manager to add objects to.</param>

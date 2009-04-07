@@ -13,7 +13,7 @@ namespace Engine
     {
         #region Fields
 
-        private LinkedList<SimComponentDefinition> definitions = new LinkedList<SimComponentDefinition>();
+        private LinkedList<SimElementDefinition> definitions = new LinkedList<SimElementDefinition>();
         private String name;
 
         #endregion Fields
@@ -34,21 +34,21 @@ namespace Engine
         #region Functions
 
         /// <summary>
-        /// Add a SimComponentDefinition. A component should only be added to
+        /// Add a SimElementDefinition. A element should only be added to
         /// one defintion.
         /// </summary>
         /// <param name="definition">The definition to add.</param>
-        public void addSimComponentDefinition(SimComponentDefinition definition)
+        public void addElement(SimElementDefinition definition)
         {
             definition.setSimObjectDefinition(this);
             definitions.AddLast(definition);
         }
 
         /// <summary>
-        /// Remove a SimComponentDefinition.
+        /// Remove a SimElementDefinition.
         /// </summary>
         /// <param name="definition">The definition to remove.</param>
-        public void removeSimComponentDefinition(SimComponentDefinition definition)
+        public void removeElement(SimElementDefinition definition)
         {
             definition.setSimObjectDefinition(null);
             definitions.Remove(definition);
@@ -57,10 +57,10 @@ namespace Engine
         /// <summary>
         /// Register with factories to build this definition into the given SimObject.
         /// </summary>
-        /// <param name="instance">The SimObject that will get the built components.</param>
+        /// <param name="instance">The SimObject that will get the built elements.</param>
         public void register(SimObject instance)
         {
-            foreach (SimComponentDefinition definition in definitions)
+            foreach (SimElementDefinition definition in definitions)
             {
                 definition.register(instance);
             }

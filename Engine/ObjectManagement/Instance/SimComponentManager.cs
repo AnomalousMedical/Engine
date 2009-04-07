@@ -9,7 +9,7 @@ namespace Engine
     /// This interface defines the common functions for a class that maintains
     /// objects created by a subsystem.
     /// </summary>
-    public interface SimComponentManager : IDisposable
+    public interface SimElementManager : IDisposable
     {
         /// <summary>
         /// Set this manager as the target object that constructed objects will

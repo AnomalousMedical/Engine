@@ -9,9 +9,9 @@ using EngineMath;
 namespace PhysXPlugin
 {
     /// <summary>
-    /// This is the ComponentPlugin class for the PhysXPlugin.
+    /// This is the ElementPlugin class for the PhysXPlugin.
     /// </summary>
-    public class PhysXInterface : ComponentPlugin
+    public class PhysXInterface : ElementPlugin
     {
         #region Static
 
@@ -30,8 +30,8 @@ namespace PhysXPlugin
 
         private PhysSDK physSDK = null;
         private PhysFactory physFactory = new PhysFactory();
-        private CommandManager simComponentManagerCommands = new CommandManager();
-        private CommandManager simComponentDefinitonCommands = new CommandManager();
+        private CommandManager elementManagerCommands = new CommandManager();
+        private CommandManager elementDefinitonCommands = new CommandManager();
 
         #endregion Fields
 
@@ -49,7 +49,7 @@ namespace PhysXPlugin
 
         #region Functions
 
-        #region ComponentPlugin
+        #region ElementPlugin
 
         public override void Dispose()
         {
@@ -66,39 +66,39 @@ namespace PhysXPlugin
         public override void initialize()
         {
             physSDK = PhysSDK.Instance;
-            simComponentManagerCommands.addCommand(new EngineCommand("createPhysScene", "Create PhysX Scene", "Creates a new PhysX scene with the given parameters.", new CreateDefaultScene(createScene)));
+            elementManagerCommands.addCommand(new EngineCommand("createPhysScene", "Create PhysX Scene", "Creates a new PhysX scene with the given parameters.", new CreateDefaultScene(createScene)));
 
-            simComponentDefinitonCommands.addCommand(new EngineCommand("createPhysActorDef", "Create PhysX Actor Definition", "Creates a new PhysX Actor Definition.", new CreatePhysActorDefinition(createPhysActorDefinition)));
+            elementDefinitonCommands.addCommand(new EngineCommand("createPhysActorDef", "Create PhysX Actor Definition", "Creates a new PhysX Actor Definition.", new CreatePhysActorDefinition(createPhysActorDefinition)));
         }
 
         /// <summary>
         /// Get all commands for creating scenes.
         /// </summary>
         /// <returns>A command manager with the scene creation commands.</returns>
-        public override CommandManager getCreateSimComponentManagerCommands()
+        public override CommandManager getCreateSimElementManagerCommands()
         {
-            return simComponentManagerCommands;
+            return elementManagerCommands;
         }
 
         /// <summary>
-        /// Get all commands for creating SimComponentDefinitions.
+        /// Get all commands for creating SimElementDefinitions.
         /// </summary>
-        /// <returns>A command manager with commands for creating SimComponentDefintions.</returns>
-        public override CommandManager getCreateSimComponentDefinitionCommands()
+        /// <returns>A command manager with commands for creating SimElementDefintions.</returns>
+        public override CommandManager getCreateSimElementDefinitionCommands()
         {
-            return simComponentDefinitonCommands;
+            return elementDefinitonCommands;
         }
 
         /// <summary>
-        /// Get the SimComponentFactory that creates objects for this plugin.
+        /// Get the SimElementFactory that creates objects for this plugin.
         /// </summary>
         /// <returns>The PhysFactory that creates objects for this plugin.</returns>
-        public override SimComponentFactory getComponentFactory()
+        public override SimElementFactory getElementFactory()
         {
             return physFactory;
         }
 
-        #endregion ComponentPlugin
+        #endregion ElementPlugin
 
         #region Creation
 

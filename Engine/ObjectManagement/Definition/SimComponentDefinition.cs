@@ -7,7 +7,7 @@ using Engine.Editing;
 
 namespace Engine
 {
-    public abstract class SimComponentDefinition
+    public abstract class SimElementDefinition
     {   
         #region Fields
 
@@ -20,10 +20,10 @@ namespace Engine
         #region Constructors
 
         /// <summary>
-        /// Constructor. Takes the name of the component.
+        /// Constructor. Takes the name of the element.
         /// </summary>
-        /// <param name="name">The name of the component.</param>
-        public SimComponentDefinition(String name)
+        /// <param name="name">The name of the element.</param>
+        public SimElementDefinition(String name)
         {
             this.name = name;
         }
@@ -33,20 +33,20 @@ namespace Engine
         #region Functions
 
         /// <summary>
-        /// Register this component with its factory so it can be built.
+        /// Register this element with its factory so it can be built.
         /// </summary>
-        /// <param name="instance">The SimObject that will get the newly created component.</param>
+        /// <param name="instance">The SimObject that will get the newly created element.</param>
         public abstract void register(SimObject instance);
 
         /// <summary>
-        /// Get an EditInterface for the SimComponentDefinition so it can be
+        /// Get an EditInterface for the SimElementDefinition so it can be
         /// modified.
         /// </summary>
-        /// <returns>The EditInterface for this SimComponentDefinition.</returns>
+        /// <returns>The EditInterface for this SimElementDefinition.</returns>
         public abstract EditInterface getEditInterface();
 
         /// <summary>
-        /// Set the SimObjectDefinition for this component.
+        /// Set the SimObjectDefinition for this element.
         /// </summary>
         /// <param name="simObjectDef">The definition to set.</param>
         internal void setSimObjectDefinition(SimObjectDefinition simObjectDef)
@@ -59,7 +59,7 @@ namespace Engine
         #region Properties
 
         /// <summary>
-        /// Get the name of this SimComponent.
+        /// Get the name of this SimElement.
         /// </summary>
         public String Name
         {

@@ -11,7 +11,7 @@ namespace PhysXPlugin
     /// <summary>
     /// This class manages a single PhysX scene.
     /// </summary>
-    public class PhysXSceneManager : SimComponentManager
+    public class PhysXSceneManager : SimElementManager
     {
         #region Fields
 

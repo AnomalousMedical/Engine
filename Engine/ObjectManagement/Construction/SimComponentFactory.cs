@@ -7,9 +7,9 @@ namespace Engine
 {
     /// <summary>
     /// This interface describes the basic functions needed by factories to
-    /// build subsystem specific components.
+    /// build subsystem specific elements.
     /// </summary>
-    public interface SimComponentFactory
+    public interface SimElementFactory
     {
         /// <summary>
         /// Create all products for normal operation currently registered for

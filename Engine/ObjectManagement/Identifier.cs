@@ -14,17 +14,17 @@ namespace Engine
         #region Static
 
         public const string Separator = "/";
-        private const string COMPONENT_NAME = "ComponentName";
+        private const string ELEMENT_NAME = "ElementName";
         private const string SIM_OBJECT_NAME = "SimObjectName";
         private static int SIM_OBJECT_OFFSET = SIM_OBJECT_NAME.Length + 1; //SimObjectName=
-        private static int COMPONENT_OFFSET = COMPONENT_NAME.Length + 3; //, ComponentName=
+        private static int ELEMENT_OFFSET = ELEMENT_NAME.Length + 3; //, ElementName=
 
         #endregion Static
 
         #region Fields
 
         private string fullName;
-        private string componentName;
+        private string elementName;
         private string simObjectName;
         private string path;
 
@@ -59,7 +59,7 @@ namespace Engine
         public Identifier(String instanceName, String baseName, String path)
         {
             this.simObjectName = instanceName;
-            this.componentName = baseName;
+            this.elementName = baseName;
             this.fullName = instanceName + baseName;
             this.path = path;
         }
@@ -82,7 +82,7 @@ namespace Engine
         public Identifier(Identifier toCopy)
         {
             this.simObjectName = toCopy.simObjectName;
-            this.componentName = toCopy.componentName;
+            this.elementName = toCopy.elementName;
             this.path = toCopy.path;
             this.fullName = toCopy.fullName;
         }
@@ -95,13 +95,13 @@ namespace Engine
         /// Set the name of the object at once.  This is preferable to setting them both
         /// individually if the whole name is being chagned.
         /// </summary>
-        /// <param name="instanceName">The instance name.</param>
-        /// <param name="baseName">The base name.</param>
-        public void setName(String simObjectName, String componentName)
+        /// <param name="simObjectName">The name of the SimObject.</param>
+        /// <param name="elementName">The name of the SimObjectElement.</param>
+        public void setName(String simObjectName, String elementName)
         {
             this.simObjectName = simObjectName;
-            this.componentName = componentName;
-            this.fullName = simObjectName + componentName;
+            this.elementName = elementName;
+            this.fullName = simObjectName + elementName;
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace Engine
         /// <returns>The formatted string.</returns>
         public override String ToString()
         {
-            return String.Format("{0}={1}, {2}={3}", SIM_OBJECT_NAME, simObjectName, COMPONENT_NAME, componentName);
+            return String.Format("{0}={1}, {2}={3}", SIM_OBJECT_NAME, simObjectName, ELEMENT_NAME, elementName);
         }
 
         /// <summary>
@@ -145,13 +145,13 @@ namespace Engine
                 if (commaIndex != -1)
                 {
                     simObjectName = str.Substring(SIM_OBJECT_OFFSET, commaIndex - SIM_OBJECT_OFFSET);
-                    componentName = str.Substring(commaIndex + COMPONENT_OFFSET);
-                    fullName = simObjectName + componentName;
+                    elementName = str.Substring(commaIndex + ELEMENT_OFFSET);
+                    fullName = simObjectName + elementName;
                     return true;
                 }
                 else
                 {
-                    Log.Default.sendMessage("Invalid formatting on instance name \"{0}\" must be {1}=name, {2}=name.", LogLevel.Error, "Core", str, SIM_OBJECT_NAME, COMPONENT_NAME);
+                    Log.Default.sendMessage("Invalid formatting on instance name \"{0}\" must be {1}=name, {2}=name.", LogLevel.Error, "Core", str, SIM_OBJECT_NAME, ELEMENT_NAME);
                 }
             }
             else
@@ -166,18 +166,18 @@ namespace Engine
         #region Properties
 
         /// <summary>
-	    /// The name of the SimComponent.
+	    /// The name of the SimElement.
 	    /// </summary>
-        public String ComponentName 
+        public String ElementName 
         { 
             get
             {
-                return componentName;
+                return elementName;
             }
             set
             {
-                componentName = value;
-	            fullName = simObjectName + componentName;
+                elementName = value;
+	            fullName = simObjectName + elementName;
             }
         }
 
@@ -193,7 +193,7 @@ namespace Engine
             set
             {
                 simObjectName = value;
-	            fullName = simObjectName + componentName;
+	            fullName = simObjectName + elementName;
             }
         }
 

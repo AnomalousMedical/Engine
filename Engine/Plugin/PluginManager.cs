@@ -15,7 +15,7 @@ namespace Engine
     {
         #region Fields
 
-        private Dictionary<String, ComponentPlugin> loadedPlugins = new Dictionary<string, ComponentPlugin>();
+        private Dictionary<String, ElementPlugin> loadedPlugins = new Dictionary<string, ElementPlugin>();
 
         #endregion Fields
 
@@ -38,7 +38,7 @@ namespace Engine
         /// </summary>
         public void Dispose()
         {
-            foreach (ComponentPlugin plugin in loadedPlugins.Values)
+            foreach (ElementPlugin plugin in loadedPlugins.Values)
             {
                 plugin.Dispose();
             }
@@ -56,23 +56,23 @@ namespace Engine
             {
                 Assembly assembly = Assembly.LoadFile(Path.GetFullPath(path));
                 Type[] exportedTypes = assembly.GetExportedTypes();
-                Type componentPlugin = null;
+                Type elementPlugin = null;
                 foreach (Type type in exportedTypes)
                 {
-                    if (type.IsSubclassOf(typeof(ComponentPlugin)))
+                    if (type.IsSubclassOf(typeof(ElementPlugin)))
                     {
-                        componentPlugin = type;
+                        elementPlugin = type;
                         break;
                     }
                 }
-                if (componentPlugin != null)
+                if (elementPlugin != null)
                 {
-                    loadedPlugins.Add(path, (ComponentPlugin)Activator.CreateInstance(componentPlugin));
+                    loadedPlugins.Add(path, (ElementPlugin)Activator.CreateInstance(elementPlugin));
                     return true;
                 }
                 else
                 {
-                    throw new InvalidPluginException(String.Format("Could not find a subclass of ComponentPlugin in plugin {0}.", path));
+                    throw new InvalidPluginException(String.Format("Could not find a subclass of ElementPlugin in plugin {0}.", path));
                 }
             }
             catch (Exception e)
@@ -86,8 +86,8 @@ namespace Engine
         /// Get the plugin specified by path.
         /// </summary>
         /// <param name="path">The path of the plugin to get.</param>
-        /// <returns>The ComponentPlugin if it is found or null if it is not.</returns>
-        public ComponentPlugin getPlugin(String path)
+        /// <returns>The ElementPlugin if it is found or null if it is not.</returns>
+        public ElementPlugin getPlugin(String path)
         {
             if (loadedPlugins.ContainsKey(path))
             {

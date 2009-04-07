@@ -8,8 +8,8 @@ using Engine;
 namespace Engine
 {
     /// <summary>
-    /// This enum sets what updates a component will listen to.
-    /// All component must support the enable and disable events, however.
+    /// This enum sets what updates a element will listen to.
+    /// All element must support the enable and disable events, however.
     /// </summary>
     public enum Subscription
     {
@@ -38,16 +38,16 @@ namespace Engine
     /// could be graphics, physics, behaviors or anything else that needs to
     /// maintain or update state with the SimObject.
     /// </summary>
-    public abstract class SimComponent : IDisposable
+    public abstract class SimElement : IDisposable
     {
         #region Constructors
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="name">The name of the SimComponent.</param>
+        /// <param name="name">The name of the SimElement.</param>
         /// <param name="subscription">The subscription of events to listen to.</param>
-        public SimComponent(String name, Subscription subscription)
+        public SimElement(String name, Subscription subscription)
         {
             this.Name = name;
             this.Subscription = subscription;
@@ -63,32 +63,32 @@ namespace Engine
         public abstract void Dispose();
 
         /// <summary>
-        /// This function will update the position of the SimComponent.
+        /// This function will update the position of the SimElement.
         /// </summary>
         /// <param name="translation">The translation to set.</param>
         /// <param name="rotation">The rotation to set.</param>
         public abstract void updatePosition(ref Vector3 translation, ref Quaternion rotation);
 
         /// <summary>
-        /// This function will update the translation of the SimComponent.
+        /// This function will update the translation of the SimElement.
         /// </summary>
         /// <param name="translation">The translation to set.</param>
         public abstract void updateTranslation(ref Vector3 translation);
 
         /// <summary>
-        /// This function will update the rotation of the SimComponent.
+        /// This function will update the rotation of the SimElement.
         /// </summary>
         /// <param name="rotation">The rotation to set.</param>
         public abstract void updateRotation(ref Quaternion rotation);
 
         /// <summary>
-        /// This function will update the scale of the SimComponent.
+        /// This function will update the scale of the SimElement.
         /// </summary>
         /// <param name="scale">The scale to set.</param>
         public abstract void updateScale(ref Vector3 scale);
 
         /// <summary>
-        /// This function will enable or disable the SimComponent. What this
+        /// This function will enable or disable the SimElement. What this
         /// means is subsystem dependent and may not reduce the processing of
         /// the object very much.
         /// </summary>
@@ -100,12 +100,12 @@ namespace Engine
         #region Properties
 
         /// <summary>
-        /// Get the name of this SimComponent.
+        /// Get the name of this SimElement.
         /// </summary>
         public String Name { get; private set; }
 
         /// <summary>
-        /// Get/Set the subscription of events this component listens to.
+        /// Get/Set the subscription of events this element listens to.
         /// </summary>
         public Subscription Subscription { get; set; }
 

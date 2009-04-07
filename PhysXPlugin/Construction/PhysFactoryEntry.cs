@@ -15,7 +15,7 @@ namespace PhysXPlugin
         #region Fields
 
         private SimObject instance;
-        PhysComponentDefinition definition;
+        PhysElementDefinition definition;
 
         #endregion Fields
 
@@ -26,7 +26,7 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="instance">The SimObject that will have the product constructed added to it.</param>
         /// <param name="definition">The definition class that will build part of the sim object.</param>
-        public PhysFactoryEntry(SimObject instance, PhysComponentDefinition definition)
+        public PhysFactoryEntry(SimObject instance, PhysElementDefinition definition)
         {
             this.instance = instance;
             this.definition = definition;
