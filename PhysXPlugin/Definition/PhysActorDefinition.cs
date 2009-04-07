@@ -20,6 +20,9 @@ namespace PhysXPlugin
 
         private static MemberScanner memberScanner;
 
+        /// <summary>
+        /// Static constructor.
+        /// </summary>
         static PhysActorDefinition()
         {
             memberScanner = new MemberScanner();
