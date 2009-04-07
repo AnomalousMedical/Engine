@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Editor.ObjectEditor
+namespace Editor
 {
     public partial class ObjectEditorForm : Form
     {

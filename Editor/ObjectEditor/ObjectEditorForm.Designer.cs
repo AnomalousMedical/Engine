@@ -1,4 +1,4 @@
-﻿namespace Editor.ObjectEditor
+﻿namespace Editor
 {
     partial class ObjectEditorForm
     {

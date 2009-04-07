@@ -50,6 +50,7 @@
     <Compile Include="Construction\PhysFactoryEntry.cs" />
     <Compile Include="Definition\PhysActorDefinition.cs" />
     <Compile Include="Definition\PhysElementDefinition.cs" />
+    <Compile Include="Definition\PhysXSceneManagerDefinition.cs" />
     <Compile Include="Instance\PhysActorElement.cs" />
     <Compile Include="Instance\PhysXSceneManager.cs" />
     <Compile Include="Plugin\PhysXInterface.cs" />

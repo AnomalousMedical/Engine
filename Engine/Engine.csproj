@@ -52,6 +52,7 @@
     <Compile Include="Editing\EditInterface.cs" />
     <Compile Include="Editing\Refleciton\EditableAttribute.cs" />
     <Compile Include="Editing\Refleciton\EditableAttributeFilter.cs" />
+    <Compile Include="ObjectManagement\Definition\SimElementManagerDefinition.cs" />
     <Compile Include="ObjectManagement\Instance\SimScene.cs" />
     <Compile Include="ObjectManagement\Instance\SimSubScene.cs" />
     <Compile Include="Reflection\BooleanReflectedVariable.cs" />

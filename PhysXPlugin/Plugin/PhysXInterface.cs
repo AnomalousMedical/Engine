@@ -22,7 +22,7 @@ namespace PhysXPlugin
         #region Delegates
 
         delegate PhysActorDefinition CreatePhysActorDefinition(String name);
-        delegate PhysXSceneManager CreateDefaultScene();
+        delegate PhysXSceneManagerDefinition CreateSceneDesc(String name);
 
         #endregion Delegates
 
@@ -65,7 +65,7 @@ namespace PhysXPlugin
         public override void initialize()
         {
             physSDK = PhysSDK.Instance;
-            elementManagerCommands.addCommand(new EngineCommand("createPhysScene", "Create PhysX Scene", "Creates a new PhysX scene with the given parameters.", new CreateDefaultScene(createScene)));
+            elementManagerCommands.addCommand(new EngineCommand("createPhysSceneDef", "Create PhysX Scene Definition", "Creates a new PhysX scene definition.", new CreateSceneDesc(createSceneDefinition)));
 
             elementDefinitonCommands.addCommand(new EngineCommand("createPhysActorDef", "Create PhysX Actor Definition", "Creates a new PhysX Actor Definition.", new CreatePhysActorDefinition(createPhysActorDefinition)));
         }
@@ -92,19 +92,35 @@ namespace PhysXPlugin
 
         #region Creation
 
+        /// <summary>
+        /// Create a PhysActorDefinition.
+        /// </summary>
+        /// <param name="name">The name of the PhysActor.</param>
+        /// <returns>A new PhysActorDefintion.</returns>
         public PhysActorDefinition createPhysActorDefinition(String name)
         {
             return new PhysActorDefinition(name);
         }
 
-        public PhysXSceneManager createScene()
+        /// <summary>
+        /// Create a PhysXSceneManagerDefinition.
+        /// </summary>
+        /// <param name="name">The name of the scene.</param>
+        /// <returns>A new PhysXSceneManagerDefinition.</returns>
+        public PhysXSceneManagerDefinition createSceneDefinition(String name)
         {
-            using (PhysSceneDesc sceneDesc = new PhysSceneDesc())
-            {
-                sceneDesc.Gravity = new Vector3(0.0f, -9.8f, 0.0f);
-                PhysScene scene = physSDK.createScene(sceneDesc);
-                return new PhysXSceneManager(scene, physSDK);
-            }
+            return new PhysXSceneManagerDefinition(name, this);
+        }
+
+        /// <summary>
+        /// Create a PhysXSceneManager.
+        /// </summary>
+        /// <param name="definition">The definition of the scene.</param>
+        /// <returns>A new PhysXSceneManager.</returns>
+        public PhysXSceneManager createScene(PhysXSceneManagerDefinition definition)
+        {
+            PhysScene scene = physSDK.createScene(definition.SceneDesc);
+            return new PhysXSceneManager(definition.Name, scene, physSDK);
         }
 
         #endregion Creation

@@ -36,6 +36,7 @@ namespace Engine.Editing
         public ReflectedEditInterface(Object target)
             :this(target, new MemberScanner())
         {
+            memberScanner.Filter = EditableAttributeFilter.Instance;
         }
 
         /// <summary>
@@ -47,7 +48,6 @@ namespace Engine.Editing
         public ReflectedEditInterface(Object target, MemberScanner scanner)
         {
             memberScanner = scanner;
-            scanner.Filter = EditableAttributeFilter.Instance;
             this.target = target;
             targetType = target.GetType();
             buildInterface();

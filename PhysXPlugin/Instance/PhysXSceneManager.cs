@@ -19,6 +19,7 @@ namespace PhysXPlugin
         private PhysSDK physSDK;
         private PhysFactory factory;
         private Dictionary<Identifier, PhysActor> actors = new Dictionary<Identifier, PhysActor>();
+        private String name;
 
         #endregion Fields
 
@@ -27,13 +28,15 @@ namespace PhysXPlugin
         /// <summary>
         /// Constructor.
         /// </summary>
+        /// <param name="name">The name of the scene.</param>
         /// <param name="scene">The scene to manage.</param>
         /// <param name="physSDK">The PhysSDK that created the scene.</param>
-        internal PhysXSceneManager(PhysScene scene, PhysSDK physSDK)
+        internal PhysXSceneManager(String name, PhysScene scene, PhysSDK physSDK)
         {
             this.scene = scene;
             this.physSDK = physSDK;
             this.factory = new PhysFactory(this);
+            this.name = name;
         }
 
         #endregion Constructors
