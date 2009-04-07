@@ -49,8 +49,8 @@
     <Compile Include="Construction\PhysFactory.cs" />
     <Compile Include="Construction\PhysFactoryEntry.cs" />
     <Compile Include="Definition\PhysActorDefinition.cs" />
-    <Compile Include="Definition\PhysComponentDefinition.cs" />
-    <Compile Include="Instance\PhysActorComponent.cs" />
+    <Compile Include="Definition\PhysElementDefinition.cs" />
+    <Compile Include="Instance\PhysActorElement.cs" />
     <Compile Include="Instance\PhysXSceneManager.cs" />
     <Compile Include="Plugin\PhysXInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
