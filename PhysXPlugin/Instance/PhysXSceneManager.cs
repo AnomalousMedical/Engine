@@ -28,11 +28,12 @@ namespace PhysXPlugin
         /// Constructor.
         /// </summary>
         /// <param name="scene">The scene to manage.</param>
-        internal PhysXSceneManager(PhysScene scene, PhysSDK physSDK, PhysFactory factory)
+        /// <param name="physSDK">The PhysSDK that created the scene.</param>
+        internal PhysXSceneManager(PhysScene scene, PhysSDK physSDK)
         {
             this.scene = scene;
             this.physSDK = physSDK;
-            this.factory = factory;
+            this.factory = new PhysFactory(this);
         }
 
         #endregion Constructors
@@ -48,21 +49,34 @@ namespace PhysXPlugin
         }
 
         /// <summary>
-        /// Set this manager as the target object that constructed objects will
-        /// be placed in by the factory.
+        /// Get the factory that builds SimElements.
         /// </summary>
-        public void setAsConstructionTarget()
+        /// <returns>The factory.</returns>
+        public SimElementFactory getFactory()
         {
-            factory.setTargetManager(this);
+            return factory;
         }
 
         /// <summary>
-        /// Make this manager no longer the target object for constructed
-        /// objects.
+        /// This will return the type the SimElementManager wishes to report
+        /// itself as. Usually this will be the type of the class itself,
+        /// however, it is possible to specify a superclass if desired. This
+        /// will be the type reported to the SimSubScene.
         /// </summary>
-        public void unsetAsConstructionTarget()
+        /// <returns></returns>
+        public Type getSimElementManagerType()
         {
-            factory.unsetTargetManager();
+            return this.GetType();
+        }
+
+        /// <summary>
+        /// Get the factory as a PhysFactory. This is the same factory as
+        /// getFactory(), but as the subclass.
+        /// </summary>
+        /// <returns>The factory for this scene as a PhysFactory.</returns>
+        internal PhysFactory getPhysFactory()
+        {
+            return factory;
         }
 
         /// <summary>

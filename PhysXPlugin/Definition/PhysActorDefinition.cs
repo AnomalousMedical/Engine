@@ -7,6 +7,7 @@ using PhysXWrapper;
 using EngineMath;
 using Engine.Editing;
 using Engine.Reflection;
+using Logging;
 
 namespace PhysXPlugin
 {
@@ -44,9 +45,8 @@ namespace PhysXPlugin
         /// Normal constructor. Takes a name and a PhysFactory to build with.
         /// </summary>
         /// <param name="name">The name of the actor.</param>
-        /// <param name="factory">A factory to build objects with.</param>
-        internal PhysActorDefinition(String name, PhysFactory factory)
-            :base(name, factory)
+        internal PhysActorDefinition(String name)
+            :base(name)
         {
 
         }
@@ -58,10 +58,19 @@ namespace PhysXPlugin
         /// <summary>
         /// Register this element with its factory so it can be built.
         /// </summary>
+        /// <param name="subscene">The SimSubScene that will get the built product.</param>
         /// <param name="instance">The SimObject that will get the newly created element.</param>
-        public override void register(SimObject instance)
+        public override void register(SimSubScene subscene, SimObject instance)
         {
-            factory.addActorDefinition(instance, this);
+            if (subscene.hasSimElementManagerType(typeof(PhysXSceneManager)))
+            {
+                PhysXSceneManager sceneManager = subscene.getSimElementManager<PhysXSceneManager>();
+                sceneManager.getPhysFactory().addActorDefinition(instance, this);
+            }
+            else
+            {
+                Log.Default.sendMessage("Cannot add PhysActorDefinition {0} to SimSubScene {1} because it does not contain a PhysXSceneManager.", LogLevel.Warning, PhysXInterface.PluginName);
+            }
         }
 
         /// <summary>

@@ -11,23 +11,16 @@ namespace PhysXPlugin
     /// </summary>
     public abstract class PhysElementDefinition : SimElementDefinition
     {
-        #region Fields
-
-        internal PhysFactory factory; //Must be internal to shut up compiler
-
-        #endregion Fields
-
         #region Constructors
 
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="name">The name of the element.</param>
-        /// <param name="factory">The factory to use to build the element.</param>
-        internal PhysElementDefinition(String name, PhysFactory factory)
+        internal PhysElementDefinition(String name)
             :base(name)
         {
-            this.factory = factory;
+            
         }
 
         #endregion Constructors

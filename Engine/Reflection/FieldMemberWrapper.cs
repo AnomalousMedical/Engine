@@ -9,7 +9,7 @@ namespace Engine.Reflection
     /// <summary>
     /// This is a wrapper class for FieldInfo
     /// </summary>
-    public class FieldMemberWrapper : MemberWrapper
+    public struct FieldMemberWrapper : MemberWrapper
     {
         #region Fields
 

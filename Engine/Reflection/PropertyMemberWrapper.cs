@@ -9,7 +9,7 @@ namespace Engine.Reflection
     /// <summary>
     /// This is a wrapper class for PropertyInfo
     /// </summary>
-    public class PropertyMemberWrapper : MemberWrapper
+    public struct PropertyMemberWrapper : MemberWrapper
     {
         #region Fields
 

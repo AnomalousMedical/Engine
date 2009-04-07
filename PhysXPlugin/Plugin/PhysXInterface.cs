@@ -29,7 +29,6 @@ namespace PhysXPlugin
         #region Fields
 
         private PhysSDK physSDK = null;
-        private PhysFactory physFactory = new PhysFactory();
         private CommandManager elementManagerCommands = new CommandManager();
         private CommandManager elementDefinitonCommands = new CommandManager();
 
@@ -89,22 +88,13 @@ namespace PhysXPlugin
             return elementDefinitonCommands;
         }
 
-        /// <summary>
-        /// Get the SimElementFactory that creates objects for this plugin.
-        /// </summary>
-        /// <returns>The PhysFactory that creates objects for this plugin.</returns>
-        public override SimElementFactory getElementFactory()
-        {
-            return physFactory;
-        }
-
         #endregion ElementPlugin
 
         #region Creation
 
         public PhysActorDefinition createPhysActorDefinition(String name)
         {
-            return new PhysActorDefinition(name, physFactory);
+            return new PhysActorDefinition(name);
         }
 
         public PhysXSceneManager createScene()
@@ -113,7 +103,7 @@ namespace PhysXPlugin
             {
                 sceneDesc.Gravity = new Vector3(0.0f, -9.8f, 0.0f);
                 PhysScene scene = physSDK.createScene(sceneDesc);
-                return new PhysXSceneManager(scene, physSDK, physFactory);
+                return new PhysXSceneManager(scene, physSDK);
             }
         }
 

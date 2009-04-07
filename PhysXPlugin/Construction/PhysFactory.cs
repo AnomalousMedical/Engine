@@ -23,9 +23,10 @@ namespace PhysXPlugin
         /// <summary>
         /// Constructor.
         /// </summary>
-        public PhysFactory()
+        /// <param name="manager">The PhysXSceneManager to build objects for.</param>
+        public PhysFactory(PhysXSceneManager manager)
         {
-
+            this.targetManager = manager;
         }
 
         #endregion Constructors
@@ -39,24 +40,6 @@ namespace PhysXPlugin
         public void addActorDefinition(SimObject instance, PhysActorDefinition def)
         {
             currentActors.AddLast(new PhysFactoryEntry(instance, def));
-        }
-
-        /// <summary>
-        /// Set the target PhysXSceneManager that the PhysX objects will be
-        /// added to.
-        /// </summary>
-        /// <param name="manager">The manager to add objects to.</param>
-        public void setTargetManager(PhysXSceneManager manager)
-        {
-            targetManager = manager;
-        }
-
-        /// <summary>
-        /// Set the target manager back to undefined.
-        /// </summary>
-        public void unsetTargetManager()
-        {
-            targetManager = null;
         }
 
         /// <summary>

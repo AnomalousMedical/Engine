@@ -10,7 +10,7 @@ namespace PhysXPlugin
     /// This is an entry in the list of items to construct for the PhysFactory.
     /// </summary>
     /// <typeparam name="T">The type of the entry.</typeparam>
-    class PhysFactoryEntry
+    struct PhysFactoryEntry
     {
         #region Fields
 

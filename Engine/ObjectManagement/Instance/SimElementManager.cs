@@ -12,15 +12,18 @@ namespace Engine
     public interface SimElementManager : IDisposable
     {
         /// <summary>
-        /// Set this manager as the target object that constructed objects will
-        /// be placed in by the factory.
+        /// Get the factory that builds SimElements.
         /// </summary>
-        void setAsConstructionTarget();
+        /// <returns>The factory.</returns>
+        SimElementFactory getFactory();
 
         /// <summary>
-        /// Make this manager no longer the target object for constructed
-        /// objects.
+        /// This will return the type the SimElementManager wishes to report
+        /// itself as. Usually this will be the type of the class itself,
+        /// however, it is possible to specify a superclass if desired. This
+        /// will be the type reported to the SimSubScene.
         /// </summary>
-        void unsetAsConstructionTarget();
+        /// <returns></returns>
+        Type getSimElementManagerType();
     }
 }

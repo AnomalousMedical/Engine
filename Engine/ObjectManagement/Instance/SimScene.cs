@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Engine.ObjectManagement.Construction
+namespace Engine
 {
-    public class SimObjectFactory
+    public class SimScene
     {
     }
 }

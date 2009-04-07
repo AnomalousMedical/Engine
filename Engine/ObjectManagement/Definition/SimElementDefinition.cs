@@ -35,8 +35,9 @@ namespace Engine
         /// <summary>
         /// Register this element with its factory so it can be built.
         /// </summary>
+        /// <param name="subscene">The SimSubScene that will get the built product.</param>
         /// <param name="instance">The SimObject that will get the newly created element.</param>
-        public abstract void register(SimObject instance);
+        public abstract void register(SimSubScene subscene, SimObject instance);
 
         /// <summary>
         /// Get an EditInterface for the SimElementDefinition so it can be
