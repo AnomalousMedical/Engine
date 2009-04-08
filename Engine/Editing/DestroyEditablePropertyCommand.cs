@@ -5,18 +5,17 @@ using System.Text;
 
 namespace Engine.Editing
 {
-    public class DestroyEditInterfaceCommand : EngineCommand
+    public class DestroyEditablePropertyCommand : EngineCommand
     {
         /// <summary>
-        /// A delegate for destroying SubEditInterfaces.
+        /// A delegate for destroying EditableProperties.
         /// </summary>
         /// <param name="targetObject">The object this command will execute on. Allows sharing of command instances.</param>
         /// <param name="callback">The EditUICallback for additional user input.</param>
         /// <param name="subCommand">A SubCommand to run if required. This may be null if no SubCommand is required.</param>
-        /// <returns>A new EditInterface to the object that was just created or null if it does not have an EditInterface.</returns>
-        public delegate void DestroySubObject(Object targetObject, EditUICallback callback, String subCommand);
+        public delegate void DestroyProperty(Object targetObject, EditUICallback callback, String subCommand);
 
-        private DestroySubObject command;
+        private DestroyProperty command;
 
         /// <summary>
         /// Constructor.
@@ -25,7 +24,7 @@ namespace Engine.Editing
         /// <param name="prettyName">See EngineCommand.</param>
         /// <param name="helpText">See EngineCommand.</param>
         /// <param name="createCommand">A CreateSubObject delegate instance that will be called by the UI.</param>
-        public DestroyEditInterfaceCommand(String name, String prettyName, String helpText, DestroySubObject createCommand)
+        public DestroyEditablePropertyCommand(String name, String prettyName, String helpText, DestroyProperty createCommand)
             : base(name, prettyName, helpText, createCommand)
         {
             SubCommand = null;

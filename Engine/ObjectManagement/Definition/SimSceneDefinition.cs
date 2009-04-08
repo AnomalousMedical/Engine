@@ -132,7 +132,7 @@ namespace Engine
             return false;
         }
 
-        public EngineCommand getDestroyObjectCommand()
+        public DestroyEditInterfaceCommand getDestroyObjectCommand()
         {
             return null;
         }
@@ -140,6 +140,42 @@ namespace Engine
         public object getCommandTargetObject()
         {
             return this;
+        }
+
+        /// <summary>
+        /// Determine if this interface can create properties.
+        /// </summary>
+        /// <returns>True if this interface can create properties.</returns>
+        public bool hasCreatePropertyCommand()
+        {
+            return false;
+        }
+
+        /// <summary>
+        /// Get the command that creates new properties.
+        /// </summary>
+        /// <returns>A CreateEditablePropertyCommand to create properties or null if it does not have one.</returns>
+        public CreateEditablePropertyCommand getCreatePropertyCommand()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Determine if this interface can destroy properties.
+        /// </summary>
+        /// <returns>True if this interface can destroy properties.</returns>
+        public bool hasDestroyPropertyCommand()
+        {
+            return false;
+        }
+
+        /// <summary>
+        /// Get the command that destroys properties.
+        /// </summary>
+        /// <returns>A DestroyEditablePropertyCommand to destroy properties or null if it does not have one.</returns>
+        public DestroyEditablePropertyCommand getDestroyPropertyCommand()
+        {
+            return null;
         }
 
         #endregion

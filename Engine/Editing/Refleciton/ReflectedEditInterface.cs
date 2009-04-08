@@ -21,7 +21,7 @@ namespace Engine.Editing
         private LinkedList<EditableProperty> properties = new LinkedList<EditableProperty>();
         private LinkedList<EditInterface> interfaces = new LinkedList<EditInterface>();
         private LinkedList<CreateEditInterfaceCommand> createCommands = null;
-        private EngineCommand destroyCommand = null;
+        private DestroyEditInterfaceCommand destroyCommand = null;
         private String name;
         private EditablePropertyInfo propertyInfo = new EditablePropertyInfo();
 
@@ -223,7 +223,7 @@ namespace Engine.Editing
         /// and can be null.
         /// </summary>
         /// <returns>A command that will destroy this EditInterface object or null if it cannot be destroyed.</returns>
-        public EngineCommand getDestroyObjectCommand()
+        public DestroyEditInterfaceCommand getDestroyObjectCommand()
         {
             return destroyCommand;
         }
@@ -232,7 +232,7 @@ namespace Engine.Editing
         /// Set the destroy command for this object.
         /// </summary>
         /// <param name="destroyCommand">The destroy command to run to remove this object.</param>
-        public void setDestroyCommand(EngineCommand destroyCommand)
+        public void setDestroyCommand(DestroyEditInterfaceCommand destroyCommand)
         {
             this.destroyCommand = destroyCommand;
         }
@@ -246,6 +246,42 @@ namespace Engine.Editing
         public object getCommandTargetObject()
         {
             return target;
+        }
+
+        /// <summary>
+        /// Determine if this interface can create properties.
+        /// </summary>
+        /// <returns>True if this interface can create properties.</returns>
+        public bool hasCreatePropertyCommand()
+        {
+            return false;
+        }
+
+        /// <summary>
+        /// Get the command that creates new properties.
+        /// </summary>
+        /// <returns>A CreateEditablePropertyCommand to create properties or null if it does not have one.</returns>
+        public CreateEditablePropertyCommand getCreatePropertyCommand()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Determine if this interface can destroy properties.
+        /// </summary>
+        /// <returns>True if this interface can destroy properties.</returns>
+        public bool hasDestroyPropertyCommand()
+        {
+            return false;
+        }
+
+        /// <summary>
+        /// Get the command that destroys properties.
+        /// </summary>
+        /// <returns>A DestroyEditablePropertyCommand to destroy properties or null if it does not have one.</returns>
+        public DestroyEditablePropertyCommand getDestroyPropertyCommand()
+        {
+            return null;
         }
 
         #endregion Functions

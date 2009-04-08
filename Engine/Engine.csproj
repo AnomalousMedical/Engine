@@ -48,7 +48,9 @@
   <ItemGroup>
     <Compile Include="Command\CommandManager.cs" />
     <Compile Include="Command\EngineCommand.cs" />
+    <Compile Include="Editing\CreateEditablePropertyCommand.cs" />
     <Compile Include="Editing\CreateEditInterfaceCommand.cs" />
+    <Compile Include="Editing\DestroyEditablePropertyCommand.cs" />
     <Compile Include="Editing\DestroyEditInterfaceCommand.cs" />
     <Compile Include="Editing\EditableProperty.cs" />
     <Compile Include="Editing\EditablePropertyColumn.cs" />
