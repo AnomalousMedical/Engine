@@ -17,6 +17,7 @@ namespace Editor
         public ObjectEditorPanel()
         {
             InitializeComponent();
+            editInterfaceView.OnEditInterfaceSelectionChanged += new EditInterfaceSelectionChanged(propertiesTable.showEditableProperties);
         }
 
         #endregion Constructors

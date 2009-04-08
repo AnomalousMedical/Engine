@@ -12,6 +12,12 @@ using CommonControls;
 
 namespace Editor
 {
+    /// <summary>
+    /// This delegate is called when the selected EditInterface changes.
+    /// </summary>
+    /// <param name="editInterface">The EditInterface that has been selected.</param>
+    public delegate void EditInterfaceSelectionChanged(EditInterface editInterface);
+
     public partial class EditInterfaceView : UserControl, EditUICallback
     {
         #region Fields
@@ -22,12 +28,19 @@ namespace Editor
 
         #endregion Fields
 
+        #region Events
+
+        public event EditInterfaceSelectionChanged OnEditInterfaceSelectionChanged;
+
+        #endregion Events
+
         #region Constructors
 
         public EditInterfaceView()
         {
             InitializeComponent();
             objectsTree.NodeMouseClick += new TreeNodeMouseClickEventHandler(objectsTree_NodeMouseClick);
+            objectsTree.AfterSelect += new TreeViewEventHandler(objectsTree_AfterSelect);
             menu.ItemClicked += new ToolStripItemClickedEventHandler(menu_ItemClicked);
         }
 
@@ -113,6 +126,14 @@ namespace Editor
             if (newInterface != null)
             {
                 objectsTree.SelectedNode.Nodes.Add(new EditInterfaceTreeNode(newInterface));
+            }
+        }
+
+        void objectsTree_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (OnEditInterfaceSelectionChanged != null)
+            {
+                OnEditInterfaceSelectionChanged.Invoke((e.Node as EditInterfaceTreeNode).EditInterface);
             }
         }
 
