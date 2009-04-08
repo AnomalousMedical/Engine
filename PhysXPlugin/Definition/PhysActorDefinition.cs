@@ -85,7 +85,7 @@ namespace PhysXPlugin
         {
             if (editInterface == null)
             {
-                editInterface = new ReflectedEditInterface(this, memberScanner);
+                editInterface = new ReflectedEditInterface(this, memberScanner, Name);
             }
             return editInterface;
         }

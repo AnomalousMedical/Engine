@@ -22,6 +22,7 @@ namespace Engine.Editing
         private LinkedList<EditInterface> interfaces = new LinkedList<EditInterface>();
         private LinkedList<CreateEditInterfaceCommand> createCommands = null;
         private EngineCommand destroyCommand = null;
+        private String name;
 
         #endregion Fields
 
@@ -33,8 +34,23 @@ namespace Engine.Editing
         /// information.
         /// </summary>
         /// <param name="target">The object to scan and create an interface for.</param>
-        public ReflectedEditInterface(Object target)
-            :this(target, new MemberScanner())
+        /// <param name="name">The name of the object.</param>
+        public ReflectedEditInterface(Object target, String name)
+            :this(target, name, target.GetType().Name)
+        {
+
+        }
+
+        /// <summary>
+        /// Constructor. Will scan all public and nonpublic fields and
+        /// properties of the given type and create an interface from that
+        /// information.
+        /// </summary>
+        /// <param name="target">The object to scan and create an interface for.</param>
+        /// <param name="name">The name of the object.</param>
+        /// <param name="objectName">The name of the type for the object.</param>
+        public ReflectedEditInterface(Object target, String name, String objectName)
+            : this(target, new MemberScanner(), name, objectName)
         {
             memberScanner.Filter = EditableAttributeFilter.Instance;
         }
@@ -45,11 +61,33 @@ namespace Engine.Editing
         /// </summary>
         /// <param name="target">The object to scan and create an interface for.</param>
         /// <param name="scanner">A customized MemberScanner that will find only what is desired.</param>
-        public ReflectedEditInterface(Object target, MemberScanner scanner)
+        public ReflectedEditInterface(Object target, MemberScanner scanner, String name)
+            :this(target, scanner, name, target.GetType().Name)
+        {
+
+        }
+
+        /// <summary>
+        /// Constructor. Will scan the object using the given MemberScanner and
+        /// create an interface from that information.
+        /// </summary>
+        /// <param name="target">The object to scan and create an interface for.</param>
+        /// <param name="scanner">A customized MemberScanner that will find only what is desired.</param>
+        /// <param name="name">The name of the object.</param>
+        /// <param name="objectName">The name of the type for the object.</param>
+        public ReflectedEditInterface(Object target, MemberScanner scanner, String name, String objectName)
         {
             memberScanner = scanner;
             this.target = target;
             targetType = target.GetType();
+            if (name != null)
+            {
+                this.name = name + " - " + objectName;
+            }
+            else
+            {
+                name = objectName;
+            }
             buildInterface();
         }
 
@@ -63,7 +101,7 @@ namespace Engine.Editing
         /// <returns>A String with the name of the interface.</returns>
         public string getName()
         {
-            return targetType.Name;
+            return name;
         }
 
         /// <summary>
@@ -215,7 +253,7 @@ namespace Engine.Editing
                 else
                 {
                     Object subObject = memberWrapper.getValue(target, null);
-                    interfaces.AddLast(new ReflectedEditInterface(subObject));
+                    interfaces.AddLast(new ReflectedEditInterface(subObject, null));
                 }
             }
         }

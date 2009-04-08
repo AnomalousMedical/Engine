@@ -10,10 +10,17 @@ using Engine.Editing;
 
 namespace Editor
 {
+    /// <summary>
+    /// This panel is a combination of the EditInterfaceView and the Properties
+    /// table for a simple editor.
+    /// </summary>
     public partial class ObjectEditorPanel : UserControl
     {
         #region Constructors
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public ObjectEditorPanel()
         {
             InitializeComponent();
@@ -24,6 +31,10 @@ namespace Editor
 
         #region Functions
 
+        /// <summary>
+        /// Set the current EditInterface shown on this panel.
+        /// </summary>
+        /// <param name="editor">The editor to show.</param>
         public void setEditInterface(EditInterface editor)
         {
             editInterfaceView.setEditInterface(editor);

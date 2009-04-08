@@ -49,6 +49,7 @@
     <Compile Include="Command\CommandManager.cs" />
     <Compile Include="Command\EngineCommand.cs" />
     <Compile Include="Editing\CreateEditInterfaceCommand.cs" />
+    <Compile Include="Editing\DestroyEditInterfaceCommand.cs" />
     <Compile Include="Editing\EditableProperty.cs" />
     <Compile Include="Editing\EditInterface.cs" />
     <Compile Include="Editing\EditUICallback.cs" />
@@ -56,6 +57,8 @@
     <Compile Include="Editing\Refleciton\EditableAttributeFilter.cs" />
     <Compile Include="ObjectManagement\Definition\SimElementManagerDefinition.cs" />
     <Compile Include="ObjectManagement\Definition\SimSceneDefinition.cs" />
+    <Compile Include="ObjectManagement\Definition\SimSubSceneBinding.cs" />
+    <Compile Include="ObjectManagement\Definition\SimSubSceneDefinition.cs" />
     <Compile Include="ObjectManagement\Instance\SimScene.cs" />
     <Compile Include="ObjectManagement\Instance\SimSubScene.cs" />
     <Compile Include="Reflection\BooleanReflectedVariable.cs" />
