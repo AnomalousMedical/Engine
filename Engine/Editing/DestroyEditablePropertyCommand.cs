@@ -13,7 +13,7 @@ namespace Engine.Editing
         /// <param name="targetObject">The object this command will execute on. Allows sharing of command instances.</param>
         /// <param name="callback">The EditUICallback for additional user input.</param>
         /// <param name="subCommand">A SubCommand to run if required. This may be null if no SubCommand is required.</param>
-        public delegate void DestroyProperty(Object targetObject, EditUICallback callback, String subCommand);
+        public delegate void DestroyProperty(Object targetObject, EditableProperty property, EditUICallback callback, String subCommand);
 
         private DestroyProperty command;
 
@@ -40,12 +40,13 @@ namespace Engine.Editing
         /// <summary>
         /// Execute the delegate directly. Will skip the reflection based invoke and should be faster.
         /// </summary>
-        /// <param name="targetObject">The object this command will execute on. Allows sharing of command instances.</param>
+        /// <param name="target">The target object.</param>
+        /// <param name="property">The property to destroy.</param>
         /// <param name="callback">The EditUICallback for additional user input.</param>
         /// <param name="subCommand">A SubCommand to run if required. This may be null if no SubCommand is required.</param>
-        public void execute(Object target, EditUICallback callback, String subCommand)
+        public void execute(Object target, EditableProperty property, EditUICallback callback, String subCommand)
         {
-            command.Invoke(target, callback, subCommand);
+            command.Invoke(target, property, callback, subCommand);
         }
     }
 }
