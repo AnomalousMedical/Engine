@@ -23,6 +23,7 @@ namespace Engine.Editing
         private LinkedList<CreateEditInterfaceCommand> createCommands = null;
         private EngineCommand destroyCommand = null;
         private String name;
+        private EditablePropertyInfo propertyInfo = new EditablePropertyInfo();
 
         #endregion Fields
 
@@ -88,6 +89,8 @@ namespace Engine.Editing
             {
                 name = objectName;
             }
+            propertyInfo.addColumn(new EditablePropertyColumn("Name", true));
+            propertyInfo.addColumn(new EditablePropertyColumn("Value", false));
             buildInterface();
         }
 
@@ -120,6 +123,17 @@ namespace Engine.Editing
         public IEnumerable<EditableProperty> getEditableProperties()
         {
             return properties;
+        }
+
+        /// <summary>
+        /// Return the EditablePropertyInfo for this interface that determines
+        /// the layout of a single property. This can be null if
+        /// hasEditableProperties is false.
+        /// </summary>
+        /// <returns>The EditablePropertyInfo for this interface.</returns>
+        public EditablePropertyInfo getPropertyInfo()
+        {
+            return propertyInfo;
         }
 
         /// <summary>

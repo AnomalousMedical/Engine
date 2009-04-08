@@ -102,6 +102,11 @@ namespace Engine
             return null;
         }
 
+        public EditablePropertyInfo getPropertyInfo()
+        {
+            return null;
+        }
+
         public bool hasSubEditInterfaces()
         {
             return true;

@@ -51,11 +51,6 @@ namespace Engine
             return definedTypes.ContainsValue(name);
         }
 
-        internal void removeBinding(SimSubSceneBinding binding)
-        {
-
-        }
-
         #region EditInterface Members
 
         public string getName()
@@ -65,17 +60,28 @@ namespace Engine
 
         public bool hasEditableProperties()
         {
-            return false;
+            throw new NotImplementedException();
         }
 
         public IEnumerable<EditableProperty> getEditableProperties()
         {
-            return null;
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Return the EditablePropertyInfo for this interface that determines
+        /// the layout of a single property. This can be null if
+        /// hasEditableProperties is false.
+        /// </summary>
+        /// <returns>The EditablePropertyInfo for this interface.</returns>
+        public EditablePropertyInfo getPropertyInfo()
+        {
+            throw new NotImplementedException();
         }
 
         public bool hasSubEditInterfaces()
         {
-            return true;
+            throw new NotImplementedException();
         }
 
         public IEnumerable<EditInterface> getSubEditInterfaces()

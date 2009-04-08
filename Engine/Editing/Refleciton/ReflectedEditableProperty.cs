@@ -12,6 +12,13 @@ namespace Engine.Editing
     /// </summary>
     class ReflectedEditableProperty : EditableProperty
     {
+        #region Static
+
+        private const int NAME_COL = 0;
+        private const int VALUE_COL = 1;
+
+        #endregion Static
+
         #region Fields
 
         private String name;
@@ -36,59 +43,78 @@ namespace Engine.Editing
 
         #region Functions
 
-        /// <summary>
-        /// Get the name of this property.
-        /// </summary>
-        /// <returns>The name of this property.</returns>
-        public string getName()
-        {
-            return name;
-        }
 
         /// <summary>
-        /// Get the value of this property.
+        /// Get the value for a given column.
         /// </summary>
-        /// <returns>The value of this property.</returns>
-        public Object getValue()
+        /// <param name="column">The column to get the value for.</param>
+        /// <returns></returns>
+        public Object getValue(int column)
         {
-            return variable.getValue();
+            switch(column)
+            {
+                case NAME_COL:
+                    return name;
+                case VALUE_COL:
+                    return variable.getValue();
+                default:
+                    throw new NotImplementedException("Should not get here");
+            }
         }
+
 
         /// <summary>
         /// Set the value of this property.
         /// </summary>
+        /// <param name="column"></param>
         /// <param name="value">The value to set. Must be the correct type.</param>
-        public void setValue(object value)
+        public void setValue(int column, object value)
         {
-            variable.setValue(value);
+            if (column == VALUE_COL)
+            {
+                variable.setValue(value);
+            }
         }
 
         /// <summary>
         /// Set the value of this property from a string.
         /// </summary>
         /// <param name="value">The value as a string to set.</param>
-        public void setValueStr(string value)
+        public void setValueStr(int column, string value)
         {
-            variable.setValueString(value);
+            if (column == VALUE_COL)
+            {
+                variable.setValueString(value);
+            }
         }
+
 
         /// <summary>
         /// Determine if the given string is in the correct format for this
         /// property to parse.
         /// </summary>
+        /// <param name="column">The column to test.</param>
         /// <param name="value">The value to try to parse.</param>
+        /// <param name="errorMessage">An error message if the function returns false.</param>
         /// <returns>True if the string can be parsed.</returns>
-        public bool canParseString(string value, out String errorMessage)
+        public bool canParseString(int column, string value, out String errorMessage)
         {
-            if (variable.canParseString(value))
+            if (column == VALUE_COL)
             {
-                errorMessage = null;
-                return true;
+                if (variable.canParseString(value))
+                {
+                    errorMessage = null;
+                    return true;
+                }
+                else
+                {
+                    errorMessage = String.Format("Cannot parse the value to a {0}", variable.getVariableType().Name);
+                    return false;
+                }
             }
             else
             {
-                errorMessage = String.Format("Cannot parse the value to a {0}", variable.getVariableType().Name);
-                return false;
+                throw new NotImplementedException("Should not get here");
             }
         }
 
@@ -96,9 +122,17 @@ namespace Engine.Editing
         /// Get the type of this property's target object.
         /// </summary>
         /// <returns>The Type of the object this property will set.</returns>
-        public Type getPropertyType()
+        public Type getPropertyType(int column)
         {
-            return variable.getVariableType();
+            switch (column)
+            {
+                case NAME_COL:
+                    return typeof(String);
+                case VALUE_COL:
+                    return variable.getVariableType();
+                default:
+                    throw new NotImplementedException("Should not get here");
+            }
         }
 
         #endregion

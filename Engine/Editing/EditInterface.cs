@@ -29,6 +29,14 @@ namespace Engine.Editing
         IEnumerable<EditableProperty> getEditableProperties();
 
         /// <summary>
+        /// Return the EditablePropertyInfo for this interface that determines
+        /// the layout of a single property. This can be null if
+        /// hasEditableProperties is false.
+        /// </summary>
+        /// <returns>The EditablePropertyInfo for this interface.</returns>
+        EditablePropertyInfo getPropertyInfo();
+
+        /// <summary>
         /// Determine if this EditInterface has any SubEditInterfaces.
         /// </summary>
         /// <returns>True if the interface has some SubEditInterfaces.</returns>

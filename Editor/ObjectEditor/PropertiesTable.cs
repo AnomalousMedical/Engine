@@ -12,19 +12,13 @@ namespace Editor
 {
     public partial class PropertiesTable : UserControl
     {
-        #region Static
-
-        private const int NAME_COL = 0;
-        private const int VALUE_COL = 1;
-        private const int PROP_COL = 2;
-
-        #endregion Static
-
         #region Fields
 
         private bool allowValidation = true;
         private bool dataErrorOnClose = false;
         private bool changesMade = false;
+        private EditablePropertyInfo currentPropInfo;
+        private DataGridViewColumn editColumn = new DataGridViewColumn();
 
         #endregion Fields
 
@@ -41,6 +35,10 @@ namespace Editor
             propGridView.CellParsing += new DataGridViewCellParsingEventHandler(propGridView_CellParsing);
             propGridView.CellValidating += new DataGridViewCellValidatingEventHandler(propGridView_CellValidating);
             propGridView.CellValueChanged += new DataGridViewCellEventHandler(propGridView_CellValueChanged);
+
+            editColumn.Visible = false;
+            editColumn.ReadOnly = true;
+            editColumn.HeaderText = "Edit";
         }
 
         #endregion Constructors
@@ -54,19 +52,30 @@ namespace Editor
             allowValidation = false;
 
             propGridView.Rows.Clear();
+            propGridView.Columns.Clear();
             if (editInterface.hasEditableProperties())
             {
+                currentPropInfo = editInterface.getPropertyInfo();
+                foreach (EditablePropertyColumn column in currentPropInfo.getColumns())
+                {
+                    DataGridViewColumn dgvColumn = new DataGridViewColumn();
+                    dgvColumn.HeaderText = column.Header;
+                    dgvColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dgvColumn.ReadOnly = column.ReadOnly;
+                    propGridView.Columns.Add(dgvColumn);
+                }
+                propGridView.Columns.Add(editColumn);
                 foreach (EditableProperty editProp in editInterface.getEditableProperties())
                 {
                     DataGridViewRow newRow = new DataGridViewRow();
-                    DataGridViewTextBoxCell nameCell = new DataGridViewTextBoxCell();
-                    nameCell.Value = editProp.getName();
-                    newRow.Cells.Add(nameCell);
 
-                    DataGridViewTextBoxCell valueCell = new DataGridViewTextBoxCell();
-                    valueCell.Value = editProp.getValue();
-                    newRow.Cells.Add(valueCell);
-
+                    for (int i = 0; i < currentPropInfo.getNumColumns(); i++)
+                    {
+                        DataGridViewTextBoxCell newCell = new DataGridViewTextBoxCell();
+                        newCell.Value = editProp.getValue(i);
+                        newRow.Cells.Add(newCell);
+                    }
+                    
                     DataGridViewTextBoxCell editCell = new DataGridViewTextBoxCell();
                     editCell.Value = editProp;
                     newRow.Cells.Add(editCell);
@@ -86,9 +95,9 @@ namespace Editor
         /// <param name="e"></param>
         private void propGridView_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
-            if (e.ColumnIndex == VALUE_COL)
+            if (!currentPropInfo.getColumn(e.ColumnIndex).ReadOnly)
             {
-                e.Cancel = !validateEditCell(e.RowIndex, e.FormattedValue.ToString());
+                e.Cancel = !validateEditCell(e.RowIndex, e.ColumnIndex, e.FormattedValue.ToString());
             }
         }
 
@@ -99,9 +108,9 @@ namespace Editor
         /// <param name="e"></param>
         private void propGridView_CellParsing(object sender, DataGridViewCellParsingEventArgs e)
         {
-            if (e.ColumnIndex == VALUE_COL)
+            if (!currentPropInfo.getColumn(e.ColumnIndex).ReadOnly)
             {
-                dataErrorOnClose = !validateEditCell(e.RowIndex, propGridView.Rows[e.RowIndex].Cells[VALUE_COL].EditedFormattedValue.ToString());
+                dataErrorOnClose = !validateEditCell(e.RowIndex, e.ColumnIndex, propGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].EditedFormattedValue.ToString());
             }
         }
 
@@ -112,13 +121,10 @@ namespace Editor
         /// <param name="e"></param>
         void propGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == VALUE_COL)
-            {
-                DataGridViewRow row = propGridView.Rows[e.RowIndex];
-                EditableProperty var = (EditableProperty)row.Cells[PROP_COL].Value;
-                var.setValueStr(propGridView.Rows[e.RowIndex].Cells[VALUE_COL].EditedFormattedValue.ToString());
-                changesMade = true;
-            }
+            DataGridViewRow row = propGridView.Rows[e.RowIndex];
+            EditableProperty var = (EditableProperty)row.Cells[currentPropInfo.getNumColumns()].Value;
+            var.setValueStr(e.ColumnIndex, propGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].EditedFormattedValue.ToString());
+            changesMade = true;
         }
 
         /// <summary>
@@ -127,15 +133,15 @@ namespace Editor
         /// <param name="rowIndex">The row index to validate.</param>
         /// <param name="value">The value to validate.</param>
         /// <returns>True if the cell was valid false if not.</returns>
-        bool validateEditCell(int rowIndex, String value)
+        bool validateEditCell(int rowIndex, int colIndex, String value)
         {
             bool valid = true;
             if (allowValidation)
             {
                 DataGridViewRow row = propGridView.Rows[rowIndex];
-                EditableProperty var = (EditableProperty)row.Cells[PROP_COL].Value;
+                EditableProperty var = (EditableProperty)row.Cells[currentPropInfo.getNumColumns()].Value;
                 String errorText;
-                if (!var.canParseString(value, out errorText))
+                if (!var.canParseString(colIndex, value, out errorText))
                 {
                     valid = false;
                     propGridView.Rows[rowIndex].ErrorText = errorText;
