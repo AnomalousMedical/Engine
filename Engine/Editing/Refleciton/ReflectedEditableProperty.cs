@@ -78,9 +78,18 @@ namespace Engine.Editing
         /// </summary>
         /// <param name="value">The value to try to parse.</param>
         /// <returns>True if the string can be parsed.</returns>
-        public bool canParseString(string value)
+        public bool canParseString(string value, out String errorMessage)
         {
-            return variable.canParseString(value);
+            if (variable.canParseString(value))
+            {
+                errorMessage = null;
+                return true;
+            }
+            else
+            {
+                errorMessage = String.Format("Cannot parse the value to a {0}", variable.getVariableType().Name);
+                return false;
+            }
         }
 
         /// <summary>

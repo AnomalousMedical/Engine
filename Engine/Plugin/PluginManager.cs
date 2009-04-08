@@ -67,7 +67,13 @@ namespace Engine
                 }
                 if (elementPlugin != null)
                 {
-                    loadedPlugins.Add(path, (ElementPlugin)Activator.CreateInstance(elementPlugin));
+                    ElementPlugin plugin = (ElementPlugin)Activator.CreateInstance(elementPlugin);
+                    loadedPlugins.Add(path, plugin);
+                    plugin.initialize();
+                    foreach (EngineCommand command in plugin.getCreateSimElementManagerCommands().getCommandList())
+                    {
+                        SimSceneDefinition.AddCreateSimElementManagerDefinitionCommand(command);
+                    }
                     return true;
                 }
                 else

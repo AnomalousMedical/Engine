@@ -20,7 +20,7 @@ namespace Engine.Editing
         private Type targetType;
         private LinkedList<EditableProperty> properties = new LinkedList<EditableProperty>();
         private LinkedList<EditInterface> interfaces = new LinkedList<EditInterface>();
-        private LinkedList<EngineCommand> createCommands = null;
+        private LinkedList<CreateEditInterfaceCommand> createCommands = null;
         private EngineCommand destroyCommand = null;
 
         #endregion Fields
@@ -129,13 +129,15 @@ namespace Engine.Editing
             return createCommands != null && createCommands.Count != 0;
         }
 
+
         /// <summary>
         /// Get a list of commands for creating sub objects. These commands must
-        /// accept no arguments and return an EditInterface for the newly
-        /// created object if it can be edited.
+        /// accept a single argument that is a EditUICallback and return an
+        /// EditInterface for the newly created object if it can be edited. This
+        /// is optional and can be null.
         /// </summary>
         /// <returns>An IEnumerable over all creation commands or null if there aren't any.</returns>
-        public IEnumerable<EngineCommand> getCreateSubObjectCommands()
+        public IEnumerable<CreateEditInterfaceCommand> getCreateSubObjectCommands()
         {
             return createCommands;
         }
@@ -144,11 +146,11 @@ namespace Engine.Editing
         /// Add a EngineCommand to create sub objects.
         /// </summary>
         /// <param name="command">The command to add.</param>
-        public void addCreateSubObjectCommand(EngineCommand command)
+        public void addCreateSubObjectCommand(CreateEditInterfaceCommand command)
         {
             if (createCommands == null)
             {
-                createCommands = new LinkedList<EngineCommand>();
+                createCommands = new LinkedList<CreateEditInterfaceCommand>();
             }
             createCommands.AddLast(command);
         }
@@ -162,9 +164,11 @@ namespace Engine.Editing
             return destroyCommand != null;
         }
 
+
         /// <summary>
         /// Get a command that will destroy this object. This command must
-        /// accept no arguments. This is optional and can be null.
+        /// accept a single argument that is a EditUICallback. This is optional
+        /// and can be null.
         /// </summary>
         /// <returns>A command that will destroy this EditInterface object or null if it cannot be destroyed.</returns>
         public EngineCommand getDestroyObjectCommand()
@@ -179,6 +183,17 @@ namespace Engine.Editing
         public void setDestroyCommand(EngineCommand destroyCommand)
         {
             this.destroyCommand = destroyCommand;
+        }
+
+
+        /// <summary>
+        /// Get the object that will be sent as the target to the create and
+        /// destroy commands. This is the target object for the ReflectedEditInterface.
+        /// </summary>
+        /// <returns>The object that will be sent as the target to the create and destroy commands.</returns>
+        public object getCommandTargetObject()
+        {
+            return target;
         }
 
         #endregion Functions

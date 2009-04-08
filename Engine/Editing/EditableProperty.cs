@@ -38,8 +38,9 @@ namespace Engine.Editing
         /// property to parse.
         /// </summary>
         /// <param name="value">The value to try to parse.</param>
+        /// <param name="errorMessage">An error message if the function returns false.</param>
         /// <returns>True if the string can be parsed.</returns>
-        bool canParseString(String value);
+        bool canParseString(String value, out String errorMessage);
 
         /// <summary>
         /// Get the type of this property's target object.

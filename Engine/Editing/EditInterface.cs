@@ -47,12 +47,10 @@ namespace Engine.Editing
         bool hasCreateSubObjectCommands();
 
         /// <summary>
-        /// Get a list of commands for creating sub objects. These commands must
-        /// accept no arguments and return an EditInterface for the newly
-        /// created object if it can be edited.
+        /// Get a list of commands for creating sub objects.
         /// </summary>
         /// <returns>An IEnumerable over all creation commands or null if there aren't any.</returns>
-        IEnumerable<EngineCommand> getCreateSubObjectCommands();
+        IEnumerable<CreateEditInterfaceCommand> getCreateSubObjectCommands();
 
         /// <summary>
         /// Determine if this interface has a command to destroy itself.
@@ -62,9 +60,17 @@ namespace Engine.Editing
 
         /// <summary>
         /// Get a command that will destroy this object. This command must
-        /// accept no arguments. This is optional and can be null.
+        /// accept a single argument that is a EditUICallback. This is optional
+        /// and can be null.
         /// </summary>
         /// <returns>A command that will destroy this EditInterface object or null if it cannot be destroyed.</returns>
         EngineCommand getDestroyObjectCommand();
+
+        /// <summary>
+        /// Get the object that will be sent as the target to the create and
+        /// destroy commands.
+        /// </summary>
+        /// <returns>The object that will be sent as the target to the create and destroy commands.</returns>
+        Object getCommandTargetObject();
     }
 }
