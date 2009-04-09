@@ -6,7 +6,7 @@ using Engine.Editing;
 
 namespace Engine
 {
-    class SimSubSceneEditInterface : EditInterface
+    public class SimSubSceneEditInterface : EditInterface
     {
         #region Fields
 
@@ -14,7 +14,7 @@ namespace Engine
         private LinkedList<SimSubSceneBinding> bindings = new LinkedList<SimSubSceneBinding>();
         private ReflectedCollectionEditInterface<SimSubSceneBinding> bindingEditor;
         private LinkedList<EditInterface> editInterfaces = new LinkedList<EditInterface>();
-        private CreateEditablePropertyCommand createBindingCommand;
+        private DestroyEditInterfaceCommand destroyCommand;
 
         #endregion Fields
 
@@ -102,17 +102,22 @@ namespace Engine
 
         public bool hasDestroyObjectCommand()
         {
-            return true;
+            return destroyCommand != null;
         }
 
         public DestroyEditInterfaceCommand getDestroyObjectCommand()
         {
-            throw new NotImplementedException();
+            return destroyCommand;
+        }
+
+        public void setDestroyObjectCommand(DestroyEditInterfaceCommand destroyCommand)
+        {
+            this.destroyCommand = destroyCommand;
         }
 
         public bool canAddRemoveProperties()
         {
-            return true;
+            return false;
         }
 
         public CreateEditablePropertyCommand getCreatePropertyCommand()

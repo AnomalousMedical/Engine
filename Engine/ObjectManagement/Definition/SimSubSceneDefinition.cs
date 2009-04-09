@@ -56,7 +56,7 @@ namespace Engine
         /// Get the EditInterface.
         /// </summary>
         /// <returns>The EditInterface.</returns>
-        public EditInterface getEditInterface()
+        public SimSubSceneEditInterface getEditInterface()
         {
             if (editInterface == null)
             {
