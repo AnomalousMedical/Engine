@@ -122,7 +122,7 @@ namespace Editor
         void menu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             CreateEditInterfaceCommand command = currentMenuCommands[e.ClickedItem];
-            EditInterface newInterface = command.execute(currentMenuInterface.getCommandTargetObject(), this, command.SubCommand);
+            EditInterface newInterface = command.execute(currentMenuInterface.getCommandTargetObject(), this);
             if (newInterface != null)
             {
                 objectsTree.SelectedNode.Nodes.Add(new EditInterfaceTreeNode(newInterface));

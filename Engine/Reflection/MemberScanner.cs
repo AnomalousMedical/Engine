@@ -19,6 +19,17 @@ namespace Engine.Reflection
         /// and non public up to object.
         /// </summary>
         public MemberScanner()
+            :this(null)
+        {
+            
+        }
+
+        /// <summary>
+        /// Constructor. Will process both fields and properties, public and non
+        /// public up to object.
+        /// </summary>
+        /// <param name="filter">The filter to use on scanned objects.</param>
+        public MemberScanner(MemberScannerFilter filter)
         {
             ProcessFields = true;
             ProcessProperties = true;
@@ -27,6 +38,7 @@ namespace Engine.Reflection
             ProcessPublicFields = true;
             ProcessNonPublicProperties = true;
             ProcessPublicProperties = true;
+            this.Filter = filter;
         }
 
         #endregion Constructors
@@ -54,9 +66,10 @@ namespace Engine.Reflection
                 {
                     searchFlags |= BindingFlags.Public;
                 }
-                while (type != TerminatingType)
+                Type searchType = type;
+                while (searchType != TerminatingType)
                 {
-                    FieldInfo[] levelFields = type.GetFields(searchFlags);
+                    FieldInfo[] levelFields = searchType.GetFields(searchFlags);
                     foreach (FieldInfo levelField in levelFields)
                     {
                         MemberWrapper fieldWrapper = new FieldMemberWrapper(levelField);
@@ -65,7 +78,7 @@ namespace Engine.Reflection
                             members.AddLast(fieldWrapper);
                         }
                     }
-                    type = type.BaseType;
+                    searchType = searchType.BaseType;
                 }
             }
             if (ProcessProperties)
@@ -79,9 +92,10 @@ namespace Engine.Reflection
                 {
                     searchFlags |= BindingFlags.Public;
                 }
-                while (type != TerminatingType)
+                Type searchType = type;
+                while (searchType != TerminatingType)
                 {
-                    PropertyInfo[] levelProperties = type.GetProperties(searchFlags);
+                    PropertyInfo[] levelProperties = searchType.GetProperties(searchFlags);
                     foreach (PropertyInfo levelProp in levelProperties)
                     {
                         MemberWrapper propWrapper = new PropertyMemberWrapper(levelProp);
@@ -90,7 +104,7 @@ namespace Engine.Reflection
                             members.AddLast(propWrapper);
                         }
                     }
-                    type = type.BaseType;
+                    searchType = searchType.BaseType;
                 }
             }
             return members;

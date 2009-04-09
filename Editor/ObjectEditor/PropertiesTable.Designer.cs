@@ -32,7 +32,11 @@
             this.nameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.valueColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.editPropertyColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.addRemovePanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.addButton = new System.Windows.Forms.Button();
+            this.removeButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.propGridView)).BeginInit();
+            this.addRemovePanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // propGridView
@@ -69,14 +73,46 @@
             this.editPropertyColumn.Name = "editPropertyColumn";
             this.editPropertyColumn.Visible = false;
             // 
+            // addRemovePanel
+            // 
+            this.addRemovePanel.Controls.Add(this.addButton);
+            this.addRemovePanel.Controls.Add(this.removeButton);
+            this.addRemovePanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.addRemovePanel.Location = new System.Drawing.Point(0, 386);
+            this.addRemovePanel.Name = "addRemovePanel";
+            this.addRemovePanel.Size = new System.Drawing.Size(668, 30);
+            this.addRemovePanel.TabIndex = 2;
+            // 
+            // addButton
+            // 
+            this.addButton.Location = new System.Drawing.Point(3, 3);
+            this.addButton.Name = "addButton";
+            this.addButton.Size = new System.Drawing.Size(75, 23);
+            this.addButton.TabIndex = 0;
+            this.addButton.Text = "Add";
+            this.addButton.UseVisualStyleBackColor = true;
+            this.addButton.Click += new System.EventHandler(this.addButton_Click);
+            // 
+            // removeButton
+            // 
+            this.removeButton.Location = new System.Drawing.Point(84, 3);
+            this.removeButton.Name = "removeButton";
+            this.removeButton.Size = new System.Drawing.Size(75, 23);
+            this.removeButton.TabIndex = 1;
+            this.removeButton.Text = "Remove";
+            this.removeButton.UseVisualStyleBackColor = true;
+            this.removeButton.Click += new System.EventHandler(this.removeButton_Click);
+            // 
             // PropertiesTable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.addRemovePanel);
             this.Controls.Add(this.propGridView);
             this.Name = "PropertiesTable";
             this.Size = new System.Drawing.Size(668, 416);
             ((System.ComponentModel.ISupportInitialize)(this.propGridView)).EndInit();
+            this.addRemovePanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -87,5 +123,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn nameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn valueColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn editPropertyColumn;
+        private System.Windows.Forms.FlowLayoutPanel addRemovePanel;
+        private System.Windows.Forms.Button addButton;
+        private System.Windows.Forms.Button removeButton;
     }
 }

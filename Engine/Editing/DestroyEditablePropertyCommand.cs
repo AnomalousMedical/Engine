@@ -43,10 +43,9 @@ namespace Engine.Editing
         /// <param name="target">The target object.</param>
         /// <param name="property">The property to destroy.</param>
         /// <param name="callback">The EditUICallback for additional user input.</param>
-        /// <param name="subCommand">A SubCommand to run if required. This may be null if no SubCommand is required.</param>
-        public void execute(Object target, EditableProperty property, EditUICallback callback, String subCommand)
+        public void execute(Object target, EditableProperty property, EditUICallback callback)
         {
-            command.Invoke(target, property, callback, subCommand);
+            command.Invoke(target, property, callback, SubCommand);
         }
     }
 }

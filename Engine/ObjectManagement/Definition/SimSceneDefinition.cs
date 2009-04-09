@@ -13,6 +13,39 @@ namespace Engine
         private static LinkedList<CreateEditInterfaceCommand> createCommands = new LinkedList<CreateEditInterfaceCommand>();
         private static CommandManager createCommandManager = new CommandManager();
 
+        static SimSceneDefinition()
+        {
+            createCommands.AddLast(new CreateEditInterfaceCommand("createSubSceneDefinition", "Create Sub Scene", "Create a new Sub Scene Definition", new CreateEditInterfaceCommand.CreateSubObject(createSimSubSceneDefinition)));
+        }
+
+        /// <summary>
+        /// This function will create a new SimSubSceneDefinition.
+        /// </summary>
+        /// <param name="target">The SimSceneDefinition that will get the SubSceneDefinition.</param>
+        /// <param name="callback">A callback to get additional input from the user.</param>
+        /// <param name="subCommand">The name of the command to run to create the SimElementManagerDefinition.</param>
+        /// <returns>An EditInterface to the newly created SimSubSceneDefinition or null if there was an error.</returns>
+        private static EditInterface createSimSubSceneDefinition(Object target, EditUICallback callback, String subCommand)
+        {
+            String name;
+            bool accept = callback.getInputString("Enter a name for the subscene.", out name);
+            if (accept)
+            {
+                SimSceneDefinition scene = (SimSceneDefinition)target;
+                while (accept && scene.hasSimElementManagerDefinition(name))
+                {
+                    accept = callback.getInputString("The given name is already in use. Please provide another.", name, out name);
+                }
+                if (accept)
+                {
+                    SimSubSceneDefinition subScene = new SimSubSceneDefinition(name);
+                    scene.addSimSubSceneDefinition(subScene);
+                    return subScene.getEditInterface();
+                }
+            }
+            return null;
+        }
+
         /// <summary>
         /// Add a command from a subsystem for creating new SimElementManagerDefinitions.
         /// </summary>
@@ -59,7 +92,8 @@ namespace Engine
         #region Fields
 
         private Dictionary<String, SimElementManagerDefinition> elementManagers = new Dictionary<String,SimElementManagerDefinition>();
-        private Dictionary<String, EditInterface> elementManagerEditInterfaces = new Dictionary<String, EditInterface>();
+        private Dictionary<String, SimSubSceneDefinition> subSceneDefinitions = new Dictionary<string, SimSubSceneDefinition>();
+        LinkedList<EditInterface> editInterfaces = new LinkedList<EditInterface>();
 
         #endregion Fields
 
@@ -77,12 +111,35 @@ namespace Engine
         public void addSimElementManagerDefinition(SimElementManagerDefinition def)
         {
             elementManagers.Add(def.Name, def);
-            elementManagerEditInterfaces.Add(def.Name, def.getEditInterface());
+            editInterfaces.AddLast(def.getEditInterface());
+        }
+
+        public void removeSimElementManagerDefinition(SimElementManagerDefinition def)
+        {
+            elementManagers.Remove(def.Name);
+            editInterfaces.Remove(def.getEditInterface());
         }
 
         public bool hasSimElementManagerDefinition(String name)
         {
             return elementManagers.ContainsKey(name);
+        }
+
+        public void addSimSubSceneDefinition(SimSubSceneDefinition def)
+        {
+            subSceneDefinitions.Add(def.Name, def);
+            editInterfaces.AddLast(def.getEditInterface());
+        }
+
+        public void removeSimSubSceneDefinition(SimSubSceneDefinition def)
+        {
+            subSceneDefinitions.Remove(def.Name);
+            editInterfaces.Remove(def.getEditInterface());
+        }
+
+        public bool hasSimSubSceneDefinition(String name)
+        {
+            return subSceneDefinitions.ContainsKey(name);
         }
 
         #region EditInterface Members
@@ -114,7 +171,7 @@ namespace Engine
 
         public IEnumerable<EditInterface> getSubEditInterfaces()
         {
-            return elementManagerEditInterfaces.Values;
+            return editInterfaces;
         }
 
         public bool hasCreateSubObjectCommands()
@@ -146,7 +203,7 @@ namespace Engine
         /// Determine if this interface can create properties.
         /// </summary>
         /// <returns>True if this interface can create properties.</returns>
-        public bool hasCreatePropertyCommand()
+        public bool canAddRemoveProperties()
         {
             return false;
         }
@@ -158,15 +215,6 @@ namespace Engine
         public CreateEditablePropertyCommand getCreatePropertyCommand()
         {
             return null;
-        }
-
-        /// <summary>
-        /// Determine if this interface can destroy properties.
-        /// </summary>
-        /// <returns>True if this interface can destroy properties.</returns>
-        public bool hasDestroyPropertyCommand()
-        {
-            return false;
         }
 
         /// <summary>

@@ -75,22 +75,18 @@ namespace Engine.Editing
         DestroyEditInterfaceCommand getDestroyObjectCommand();
 
         /// <summary>
-        /// Determine if this interface can create properties.
+        /// Determine if this interface can create and destroy properties. If
+        /// this returns true both getCreatePropertyCommand and
+        /// getDestroyPropertyCommand must be implemented.
         /// </summary>
-        /// <returns>True if this interface can create properties.</returns>
-        bool hasCreatePropertyCommand();
+        /// <returns>True if this interface can create and destroy properties.</returns>
+        bool canAddRemoveProperties();
 
         /// <summary>
         /// Get the command that creates new properties.
         /// </summary>
         /// <returns>A CreateEditablePropertyCommand to create properties or null if it does not have one.</returns>
         CreateEditablePropertyCommand getCreatePropertyCommand();
-
-        /// <summary>
-        /// Determine if this interface can destroy properties.
-        /// </summary>
-        /// <returns>True if this interface can destroy properties.</returns>
-        bool hasDestroyPropertyCommand();
 
         /// <summary>
         /// Get the command that destroys properties.

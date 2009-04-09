@@ -59,9 +59,13 @@
     <Compile Include="Editing\EditUICallback.cs" />
     <Compile Include="Editing\Refleciton\EditableAttribute.cs" />
     <Compile Include="Editing\Refleciton\EditableAttributeFilter.cs" />
+    <Compile Include="Editing\Refleciton\ReflectedCollectionEditInterface.cs" />
+    <Compile Include="Editing\Refleciton\ReflectedObjectEditableProperty.cs" />
     <Compile Include="ObjectManagement\Definition\SimElementManagerDefinition.cs" />
     <Compile Include="ObjectManagement\Definition\SimSceneDefinition.cs" />
+    <Compile Include="ObjectManagement\Definition\SimSubSceneBinding.cs" />
     <Compile Include="ObjectManagement\Definition\SimSubSceneDefinition.cs" />
+    <Compile Include="ObjectManagement\Definition\SimSubSceneEditInterface.cs" />
     <Compile Include="ObjectManagement\Instance\SimScene.cs" />
     <Compile Include="ObjectManagement\Instance\SimSubScene.cs" />
     <Compile Include="Reflection\BooleanReflectedVariable.cs" />

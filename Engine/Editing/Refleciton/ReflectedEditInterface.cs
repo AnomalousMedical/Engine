@@ -51,9 +51,9 @@ namespace Engine.Editing
         /// <param name="name">The name of the object.</param>
         /// <param name="objectName">The name of the type for the object.</param>
         public ReflectedEditInterface(Object target, String name, String objectName)
-            : this(target, new MemberScanner(), name, objectName)
+            : this(target, new MemberScanner(EditableAttributeFilter.Instance), name, objectName)
         {
-            memberScanner.Filter = EditableAttributeFilter.Instance;
+            
         }
 
         /// <summary>
@@ -252,7 +252,7 @@ namespace Engine.Editing
         /// Determine if this interface can create properties.
         /// </summary>
         /// <returns>True if this interface can create properties.</returns>
-        public bool hasCreatePropertyCommand()
+        public bool canAddRemoveProperties()
         {
             return false;
         }
@@ -264,15 +264,6 @@ namespace Engine.Editing
         public CreateEditablePropertyCommand getCreatePropertyCommand()
         {
             return null;
-        }
-
-        /// <summary>
-        /// Determine if this interface can destroy properties.
-        /// </summary>
-        /// <returns>True if this interface can destroy properties.</returns>
-        public bool hasDestroyPropertyCommand()
-        {
-            return false;
         }
 
         /// <summary>

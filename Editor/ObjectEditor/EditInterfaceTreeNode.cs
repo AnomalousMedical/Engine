@@ -28,9 +28,12 @@ namespace Editor
             :base(editInterface.getName())
         {
             this.editInterface = editInterface;
-            foreach (EditInterface subInterface in editInterface.getSubEditInterfaces())
+            if (editInterface.hasSubEditInterfaces())
             {
-                this.Nodes.Add(new EditInterfaceTreeNode(subInterface));
+                foreach (EditInterface subInterface in editInterface.getSubEditInterfaces())
+                {
+                    this.Nodes.Add(new EditInterfaceTreeNode(subInterface));
+                }
             }
         }
 

@@ -44,11 +44,10 @@ namespace Engine.Editing
         /// <param name="targetObject">The object this command will execute on. Allows sharing of command instances.</param>
         /// <param name="callback">The EditUICallback for additional user input.</param>
         /// <param name="subCommand">A SubCommand to run if required. This may be null if no SubCommand is required.</param>
-        /// <returns>A new EditInterface to the object that was just created or null if it does not have an EditInterface.</returns>
-        /// <returns>The EditInterface for the newly created object or null if there is no interface to add.</returns>
-        public EditableProperty execute(Object target, EditUICallback callback, String subCommand)
+        /// <returns>A new EditableProperty.</returns>
+        public EditableProperty execute(Object target, EditUICallback callback)
         {
-            return createCommand.Invoke(target, callback, subCommand);
+            return createCommand.Invoke(target, callback, SubCommand);
         }
     }
 }

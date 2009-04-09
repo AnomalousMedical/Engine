@@ -7,8 +7,7 @@ using Engine.Reflection;
 namespace Engine.Editing
 {
     /// <summary>
-    /// This is a base class for properties that use reflection to get/set their
-    /// values.
+    /// This class uses reflection to get/set the value of a simple type.
     /// </summary>
     class ReflectedEditableProperty : EditableProperty
     {

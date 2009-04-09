@@ -43,10 +43,9 @@ namespace Engine.Editing
         /// </summary>
         /// <param name="targetObject">The object this command will execute on. Allows sharing of command instances.</param>
         /// <param name="callback">The EditUICallback for additional user input.</param>
-        /// <param name="subCommand">A SubCommand to run if required. This may be null if no SubCommand is required.</param>
-        public void execute(Object target, EditUICallback callback, String subCommand)
+        public void execute(Object target, EditUICallback callback)
         {
-            command.Invoke(target, callback, subCommand);
+            command.Invoke(target, callback, SubCommand);
         }
     }
 }
