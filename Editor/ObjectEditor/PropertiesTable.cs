@@ -197,7 +197,11 @@ namespace Editor
         private void addButton_Click(object sender, EventArgs e)
         {
             EditableProperty property = currentEditInterface.getCreatePropertyCommand().execute(this);
-            addProperty(property);
+            //If the property is not null it is valid and should be added.
+            if (property != null)
+            {
+                addProperty(property);
+            }
         }
 
         /// <summary>
