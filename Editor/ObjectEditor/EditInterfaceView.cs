@@ -23,6 +23,7 @@ namespace Editor
         #region Fields
 
         private Dictionary<ToolStripItem, CreateEditInterfaceCommand> currentMenuCommands = new Dictionary<ToolStripItem, CreateEditInterfaceCommand>();
+        private DestroyEditInterfaceCommand currentDestroyCommand = null;
         private ContextMenuStrip menu = new ContextMenuStrip();
         private EditInterface currentMenuInterface;
 
@@ -103,6 +104,13 @@ namespace Editor
                 EditInterfaceTreeNode node = e.Node as EditInterfaceTreeNode;
                 node.TreeView.SelectedNode = node;
                 currentMenuInterface = node.EditInterface;
+                if (currentMenuInterface.hasDestroyObjectCommand())
+                {
+                    DestroyEditInterfaceCommand command = currentMenuInterface.getDestroyObjectCommand();
+                    ToolStripItem entry = new ToolStripMenuItem(command.PrettyName);
+                    currentDestroyCommand = command;
+                    menu.Items.Add(entry);
+                }
                 if (currentMenuInterface.hasCreateSubObjectCommands())
                 {
                     foreach (CreateEditInterfaceCommand command in currentMenuInterface.getCreateSubObjectCommands())
@@ -121,11 +129,19 @@ namespace Editor
 
         void menu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            CreateEditInterfaceCommand command = currentMenuCommands[e.ClickedItem];
-            EditInterface newInterface = command.execute(currentMenuInterface.getCommandTargetObject(), this);
-            if (newInterface != null)
+            if (currentMenuCommands.ContainsKey(e.ClickedItem))
             {
-                objectsTree.SelectedNode.Nodes.Add(new EditInterfaceTreeNode(newInterface));
+                CreateEditInterfaceCommand command = currentMenuCommands[e.ClickedItem];
+                EditInterface newInterface = command.execute(currentMenuInterface.getCommandTargetObject(), this);
+                if (newInterface != null)
+                {
+                    objectsTree.SelectedNode.Nodes.Add(new EditInterfaceTreeNode(newInterface));
+                }
+            }
+            else
+            {
+                currentDestroyCommand.execute(currentMenuInterface.getCommandTargetObject(), this);
+                objectsTree.Nodes.Remove(objectsTree.SelectedNode);
             }
         }
 
