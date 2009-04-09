@@ -13,7 +13,6 @@ namespace Engine
         private SimSubSceneDefinition definition;
         private LinkedList<SimSubSceneBinding> bindings = new LinkedList<SimSubSceneBinding>();
         private ReflectedCollectionEditInterface<SimSubSceneBinding> bindingEditor;
-        private LinkedList<EditInterface> editInterfaces = new LinkedList<EditInterface>();
         private DestroyEditInterfaceCommand destroyCommand;
 
         #endregion Fields
@@ -27,7 +26,6 @@ namespace Engine
             bindingEditor.setCommandTarget(this);
             bindingEditor.setDestroyPropertyCommand(new DestroyEditablePropertyCommand("destroySimElementManagerBinding", "Destroy SimElementManager Binding", "Destroy a binding to a SimElementManager.", new DestroyEditablePropertyCommand.DestroyProperty(destroyBinding)));
             bindingEditor.setCreatePropertyCommand(new CreateEditablePropertyCommand("createSimElemenManagerBinding", "Add SimElementManager Binding", "Add a binding to a SimElementManager.", new CreateEditablePropertyCommand.CreateProperty(createBinding)));
-            editInterfaces.AddLast(bindingEditor);
         }
 
         #endregion Constructors
@@ -67,27 +65,27 @@ namespace Engine
 
         public bool hasEditableProperties()
         {
-            return false;
+            return true;
         }
 
         public IEnumerable<EditableProperty> getEditableProperties()
         {
-            return null;
+            return bindingEditor.getEditableProperties();
         }
 
         public EditablePropertyInfo getPropertyInfo()
         {
-            return null;
+            return bindingEditor.getPropertyInfo();
         }
 
         public bool hasSubEditInterfaces()
         {
-            return true;
+            return false;
         }
 
         public IEnumerable<EditInterface> getSubEditInterfaces()
         {
-            return editInterfaces;
+            return null;
         }
 
         public bool hasCreateSubObjectCommands()
@@ -117,17 +115,17 @@ namespace Engine
 
         public bool canAddRemoveProperties()
         {
-            return false;
+            return bindingEditor.canAddRemoveProperties();
         }
 
         public CreateEditablePropertyCommand getCreatePropertyCommand()
         {
-            throw new NotImplementedException();
+            return bindingEditor.getCreatePropertyCommand();
         }
 
         public DestroyEditablePropertyCommand getDestroyPropertyCommand()
         {
-            throw new NotImplementedException();
+            return bindingEditor.getDestroyPropertyCommand();
         }
 
         #endregion
