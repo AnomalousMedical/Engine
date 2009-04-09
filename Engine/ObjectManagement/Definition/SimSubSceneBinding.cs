@@ -26,14 +26,13 @@ namespace Engine
             this.subScene = subScene;
         }
 
-        [Editable("The name of the SimElementManager.")]
-        public String SimElementManager { get; set; }
-
-        [Editable("The type of the SimElementManager.")]
-        public String TypeName { get; set; }
-
         #region EditableProperty Members
 
+        /// <summary>
+        /// Get the value for a given column.
+        /// </summary>
+        /// <param name="column">The column to get the value for.</param>
+        /// <returns></returns>
         public object getValue(int column)
         {
             if (simElementManager != null)
@@ -49,6 +48,11 @@ namespace Engine
             return null;
         }
 
+        /// <summary>
+        /// Set the value of this property.
+        /// </summary>
+        /// <param name="column"></param>
+        /// <param name="value">The value to set. Must be the correct type.</param>
         public void setValue(int column, object value)
         {
             if (column == NAME_COL)
@@ -57,6 +61,11 @@ namespace Engine
             }
         }
 
+        /// <summary>
+        /// Set the value of this property from a string.
+        /// </summary>
+        /// <param name="column"></param>
+        /// <param name="value"></param>
         public void setValueStr(int column, string value)
         {
             if (column == NAME_COL)
@@ -73,6 +82,14 @@ namespace Engine
             }
         }
 
+        /// <summary>
+        /// Determine if the given string is in the correct format for this
+        /// property to parse.
+        /// </summary>
+        /// <param name="column"></param>
+        /// <param name="value">The value to try to parse.</param>
+        /// <param name="errorMessage">An error message if the function returns false.</param>
+        /// <returns>True if the string can be parsed.</returns>
         public bool canParseString(int column, string value, out string errorMessage)
         {
             if (column == NAME_COL && value != null && value != String.Empty)
@@ -97,6 +114,11 @@ namespace Engine
             return true;
         }
 
+        /// <summary>
+        /// Get the type of this property's target object.
+        /// </summary>
+        /// <param name="column"></param>
+        /// <returns>The Type of the object this property will set.</returns>
         public Type getPropertyType(int column)
         {
             switch (column)
