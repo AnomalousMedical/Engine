@@ -250,16 +250,6 @@ namespace Engine.Editing
         }
 
         /// <summary>
-        /// Get the object that will be sent as the target to the create and
-        /// destroy commands.
-        /// </summary>
-        /// <returns>The object that will be sent as the target to the create and destroy commands.</returns>
-        public object getCommandTargetObject()
-        {
-            return commandTarget;
-        }
-
-        /// <summary>
         /// Set the object that is the target for commands.
         /// </summary>
         /// <param name="target">The object that will be passed as the target object to the commands.</param>

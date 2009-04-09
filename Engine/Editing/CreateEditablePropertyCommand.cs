@@ -10,11 +10,10 @@ namespace Engine.Editing
         /// <summary>
         /// A delegate for creating EditableProperties.
         /// </summary>
-        /// <param name="targetObject">The object this command will execute on. Allows sharing of command instances.</param>
         /// <param name="callback">The EditUICallback for additional user input.</param>
         /// <param name="subCommand">A SubCommand to run if required. This may be null if no SubCommand is required.</param>
         /// <returns>A new EditableProperty to the object that was just created or null if it does not have an EditableProperty.</returns>
-        public delegate EditableProperty CreateProperty(Object targetObject, EditUICallback callback, String subCommand);
+        public delegate EditableProperty CreateProperty(EditUICallback callback, String subCommand);
 
         private CreateProperty createCommand;
 
@@ -45,9 +44,9 @@ namespace Engine.Editing
         /// <param name="callback">The EditUICallback for additional user input.</param>
         /// <param name="subCommand">A SubCommand to run if required. This may be null if no SubCommand is required.</param>
         /// <returns>A new EditableProperty.</returns>
-        public EditableProperty execute(Object target, EditUICallback callback)
+        public EditableProperty execute(EditUICallback callback)
         {
-            return createCommand.Invoke(target, callback, SubCommand);
+            return createCommand.Invoke(callback, SubCommand);
         }
     }
 }

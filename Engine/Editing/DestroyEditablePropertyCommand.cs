@@ -10,10 +10,9 @@ namespace Engine.Editing
         /// <summary>
         /// A delegate for destroying EditableProperties.
         /// </summary>
-        /// <param name="targetObject">The object this command will execute on. Allows sharing of command instances.</param>
         /// <param name="callback">The EditUICallback for additional user input.</param>
         /// <param name="subCommand">A SubCommand to run if required. This may be null if no SubCommand is required.</param>
-        public delegate void DestroyProperty(Object targetObject, EditableProperty property, EditUICallback callback, String subCommand);
+        public delegate void DestroyProperty(EditableProperty property, EditUICallback callback, String subCommand);
 
         private DestroyProperty command;
 
@@ -43,9 +42,9 @@ namespace Engine.Editing
         /// <param name="target">The target object.</param>
         /// <param name="property">The property to destroy.</param>
         /// <param name="callback">The EditUICallback for additional user input.</param>
-        public void execute(Object target, EditableProperty property, EditUICallback callback)
+        public void execute(EditableProperty property, EditUICallback callback)
         {
-            command.Invoke(target, property, callback, SubCommand);
+            command.Invoke(property, callback, SubCommand);
         }
     }
 }

@@ -132,7 +132,7 @@ namespace Editor
             if (currentMenuCommands.ContainsKey(e.ClickedItem))
             {
                 CreateEditInterfaceCommand command = currentMenuCommands[e.ClickedItem];
-                EditInterface newInterface = command.execute(currentMenuInterface.getCommandTargetObject(), this);
+                EditInterface newInterface = command.execute(this);
                 if (newInterface != null)
                 {
                     objectsTree.SelectedNode.Nodes.Add(new EditInterfaceTreeNode(newInterface));
@@ -140,8 +140,9 @@ namespace Editor
             }
             else
             {
-                currentDestroyCommand.execute(currentMenuInterface.getCommandTargetObject(), this);
-                objectsTree.Nodes.Remove(objectsTree.SelectedNode);
+                EditInterfaceTreeNode node = (EditInterfaceTreeNode)objectsTree.SelectedNode;
+                currentDestroyCommand.execute(node.EditInterface, this);
+                objectsTree.Nodes.Remove(node);
             }
         }
 

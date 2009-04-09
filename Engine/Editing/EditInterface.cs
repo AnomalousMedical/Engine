@@ -93,12 +93,5 @@ namespace Engine.Editing
         /// </summary>
         /// <returns>A DestroyEditablePropertyCommand to destroy properties or null if it does not have one.</returns>
         DestroyEditablePropertyCommand getDestroyPropertyCommand();
-
-        /// <summary>
-        /// Get the object that will be sent as the target to the create and
-        /// destroy commands.
-        /// </summary>
-        /// <returns>The object that will be sent as the target to the create and destroy commands.</returns>
-        Object getCommandTargetObject();
     }
 }

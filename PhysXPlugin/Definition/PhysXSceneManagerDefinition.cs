@@ -30,7 +30,7 @@ namespace PhysXPlugin
 
         private PhysSceneDesc sceneDesc = new PhysSceneDesc();
         private String name;
-        private EditInterface editInterface = null;
+        private ReflectedEditInterface editInterface = null;
         private PhysXInterface physInterface;
 
         #endregion Fields
@@ -52,14 +52,23 @@ namespace PhysXPlugin
         #region Functions
 
         /// <summary>
+        /// Dispose function.
+        /// </summary>
+        public void Dispose()
+        {
+            sceneDesc.Dispose();
+        }
+
+        /// <summary>
         /// Get an EditInterface.
         /// </summary>
         /// <returns>An EditInterface for the definition or null if there is no interface.</returns>
-        public EditInterface getEditInterface()
+        public EditInterface getEditInterface(DestroyEditInterfaceCommand destroyCommand)
         {
             if (editInterface == null)
             {
                 editInterface = new ReflectedEditInterface(sceneDesc, memberScanner, Name);
+                editInterface.setDestroyCommand(destroyCommand);
             }
             return editInterface;
         }

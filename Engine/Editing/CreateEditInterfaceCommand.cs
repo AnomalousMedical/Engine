@@ -15,11 +15,10 @@ namespace Engine.Editing
         /// <summary>
         /// A delegate for creating SubEditInterfaces.
         /// </summary>
-        /// <param name="targetObject">The object this command will execute on. Allows sharing of command instances.</param>
         /// <param name="callback">The EditUICallback for additional user input.</param>
         /// <param name="subCommand">A SubCommand to run if required. This may be null if no SubCommand is required.</param>
         /// <returns>A new EditInterface to the object that was just created or null if it does not have an EditInterface.</returns>
-        public delegate EditInterface CreateSubObject(Object targetObject, EditUICallback callback, String subCommand);
+        public delegate EditInterface CreateSubObject(EditUICallback callback, String subCommand);
 
         private CreateSubObject createCommand;
 
@@ -49,9 +48,9 @@ namespace Engine.Editing
         /// <param name="targetObject">The object this command will execute on. Allows sharing of command instances.</param>
         /// <param name="callback">The EditUICallback for additional user input.</param>
         /// <returns>A new EditInterface to the object that was just created or null if it does not have an EditInterface.</returns>
-        public EditInterface execute(Object target, EditUICallback callback)
+        public EditInterface execute(EditUICallback callback)
         {
-            return createCommand.Invoke(target, callback, SubCommand);
+            return createCommand.Invoke(callback, SubCommand);
         }
     }
 }

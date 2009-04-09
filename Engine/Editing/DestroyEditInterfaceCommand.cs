@@ -10,11 +10,10 @@ namespace Engine.Editing
         /// <summary>
         /// A delegate for destroying SubEditInterfaces.
         /// </summary>
-        /// <param name="targetObject">The object this command will execute on. Allows sharing of command instances.</param>
+        /// <param name="editInterface">The EditInterface to the object that will be destroyed.</param>
         /// <param name="callback">The EditUICallback for additional user input.</param>
         /// <param name="subCommand">A SubCommand to run if required. This may be null if no SubCommand is required.</param>
-        /// <returns>A new EditInterface to the object that was just created or null if it does not have an EditInterface.</returns>
-        public delegate void DestroySubObject(Object targetObject, EditUICallback callback, String subCommand);
+        public delegate void DestroySubObject(EditInterface editInterface, EditUICallback callback, String subCommand);
 
         private DestroySubObject command;
 
@@ -41,11 +40,11 @@ namespace Engine.Editing
         /// <summary>
         /// Execute the delegate directly. Will skip the reflection based invoke and should be faster.
         /// </summary>
-        /// <param name="targetObject">The object this command will execute on. Allows sharing of command instances.</param>
+        /// <param name="editInterface">The EditInterface to the object that will be destroyed.</param>
         /// <param name="callback">The EditUICallback for additional user input.</param>
-        public void execute(Object target, EditUICallback callback)
+        public void execute(EditInterface editInterface, EditUICallback callback)
         {
-            command.Invoke(target, callback, SubCommand);
+            command.Invoke(editInterface, callback, SubCommand);
         }
     }
 }

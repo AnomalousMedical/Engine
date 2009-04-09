@@ -8,32 +8,13 @@ namespace Engine
 {
     class SimSubSceneEditInterface : EditInterface
     {
-        #region Static
-
-        private static CreateEditablePropertyCommand createBindingCommand = new CreateEditablePropertyCommand("createSimElemenManagerBinding", "Add SimElementManager Binding", "Add a binding to a SimElementManager.", new CreateEditablePropertyCommand.CreateProperty(createBinding));
-        private static DestroyEditablePropertyCommand destroyBindingCommand = new DestroyEditablePropertyCommand("destroySimElementManagerBinding", "Destroy SimElementManager Binding", "Destroy a binding to a SimElementManager.", new DestroyEditablePropertyCommand.DestroyProperty(destroyBinding));
-
-        private static EditableProperty createBinding(Object target, EditUICallback callback, String subCommand)
-        {
-            SimSubSceneEditInterface editInterface = (SimSubSceneEditInterface)target;
-            return editInterface.addBinding();
-        }
-
-        private static void destroyBinding(Object target, EditableProperty property, EditUICallback callback, String subCommand)
-        {
-            ReflectedObjectEditableProperty reflectedProp = (ReflectedObjectEditableProperty)property;
-            SimSubSceneEditInterface editInterface = (SimSubSceneEditInterface)target;
-            editInterface.removeBinding((SimSubSceneBinding)reflectedProp.getTargetObject());
-        }
-
-        #endregion Static
-
         #region Fields
 
         private SimSubSceneDefinition definition;
         private LinkedList<SimSubSceneBinding> bindings = new LinkedList<SimSubSceneBinding>();
         private ReflectedCollectionEditInterface<SimSubSceneBinding> bindingEditor;
         private LinkedList<EditInterface> editInterfaces = new LinkedList<EditInterface>();
+        private CreateEditablePropertyCommand createBindingCommand;
 
         #endregion Fields
 
@@ -44,8 +25,8 @@ namespace Engine
             this.definition = definition;
             bindingEditor = new ReflectedCollectionEditInterface<SimSubSceneBinding>("Bindings", bindings);
             bindingEditor.setCommandTarget(this);
-            bindingEditor.setDestroyPropertyCommand(destroyBindingCommand);
-            bindingEditor.setCreatePropertyCommand(createBindingCommand);
+            bindingEditor.setDestroyPropertyCommand(new DestroyEditablePropertyCommand("destroySimElementManagerBinding", "Destroy SimElementManager Binding", "Destroy a binding to a SimElementManager.", new DestroyEditablePropertyCommand.DestroyProperty(destroyBinding)));
+            bindingEditor.setCreatePropertyCommand(new CreateEditablePropertyCommand("createSimElemenManagerBinding", "Add SimElementManager Binding", "Add a binding to a SimElementManager.", new CreateEditablePropertyCommand.CreateProperty(createBinding)));
             editInterfaces.AddLast(bindingEditor);
         }
 
@@ -64,6 +45,17 @@ namespace Engine
         {
             bindings.Remove(binding);
             bindingEditor.removeItem(binding);
+        }
+
+        private EditableProperty createBinding(EditUICallback callback, String subCommand)
+        {
+            return addBinding();
+        }
+
+        private void destroyBinding(EditableProperty property, EditUICallback callback, String subCommand)
+        {
+            ReflectedObjectEditableProperty reflectedProp = (ReflectedObjectEditableProperty)property;
+            removeBinding((SimSubSceneBinding)reflectedProp.getTargetObject());
         }
 
         #region EditInterface Members
@@ -131,11 +123,6 @@ namespace Engine
         public DestroyEditablePropertyCommand getDestroyPropertyCommand()
         {
             throw new NotImplementedException();
-        }
-
-        public object getCommandTargetObject()
-        {
-            return this;
         }
 
         #endregion

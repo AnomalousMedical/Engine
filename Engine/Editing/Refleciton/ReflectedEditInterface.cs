@@ -237,17 +237,6 @@ namespace Engine.Editing
             this.destroyCommand = destroyCommand;
         }
 
-
-        /// <summary>
-        /// Get the object that will be sent as the target to the create and
-        /// destroy commands. This is the target object for the ReflectedEditInterface.
-        /// </summary>
-        /// <returns>The object that will be sent as the target to the create and destroy commands.</returns>
-        public object getCommandTargetObject()
-        {
-            return target;
-        }
-
         /// <summary>
         /// Determine if this interface can create properties.
         /// </summary>

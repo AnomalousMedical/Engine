@@ -186,7 +186,7 @@ namespace Editor
             DataGridViewRow row = propGridView.Rows[rowIndex];
             EditableProperty property = (EditableProperty)row.Cells[editColumnIndex].Value;
             propGridView.Rows.Remove(row);
-            currentEditInterface.getDestroyPropertyCommand().execute(currentEditInterface.getCommandTargetObject(), property, this);
+            currentEditInterface.getDestroyPropertyCommand().execute(property, this);
         }
 
         /// <summary>
@@ -196,7 +196,7 @@ namespace Editor
         /// <param name="e"></param>
         private void addButton_Click(object sender, EventArgs e)
         {
-            EditableProperty property = currentEditInterface.getCreatePropertyCommand().execute(currentEditInterface.getCommandTargetObject(), this);
+            EditableProperty property = currentEditInterface.getCreatePropertyCommand().execute(this);
             addProperty(property);
         }
 

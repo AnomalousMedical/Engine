@@ -9,13 +9,14 @@ namespace Engine
     /// <summary>
     /// This interface is a definition class for SimElementManagers.
     /// </summary>
-    public interface SimElementManagerDefinition
+    public interface SimElementManagerDefinition : IDisposable
     {
         /// <summary>
         /// Get an EditInterface.
         /// </summary>
+        /// <param name="destroyCommand">A DestroyEditInterfaceCommand that will destroy the SimElementManagerDefinition.</param>
         /// <returns>An EditInterface for the definition or null if there is not interface.</returns>
-        EditInterface getEditInterface();
+        EditInterface getEditInterface(DestroyEditInterfaceCommand destroyCommand);
 
         /// <summary>
         /// Create the SimElementManager this definition defines and return it.
