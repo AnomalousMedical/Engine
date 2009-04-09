@@ -189,17 +189,27 @@ namespace Editor
             currentEditInterface.getDestroyPropertyCommand().execute(currentEditInterface.getCommandTargetObject(), property, this);
         }
 
+        /// <summary>
+        /// Callback for when the add button is pressed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void addButton_Click(object sender, EventArgs e)
         {
             EditableProperty property = currentEditInterface.getCreatePropertyCommand().execute(currentEditInterface.getCommandTargetObject(), this);
             addProperty(property);
         }
 
+        /// <summary>
+        /// Callback for when the remove button is pressed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void removeButton_Click(object sender, EventArgs e)
         {
-            foreach (int row in propGridView.SelectedRows)
+            foreach (DataGridViewRow row in propGridView.SelectedRows)
             {
-                removeRow(row);
+                removeRow(row.Index);
             }
         }
 

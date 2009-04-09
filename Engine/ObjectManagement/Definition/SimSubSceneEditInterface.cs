@@ -21,7 +21,9 @@ namespace Engine
 
         private static void destroyBinding(Object target, EditableProperty property, EditUICallback callback, String subCommand)
         {
-            
+            ReflectedObjectEditableProperty reflectedProp = (ReflectedObjectEditableProperty)property;
+            SimSubSceneEditInterface editInterface = (SimSubSceneEditInterface)target;
+            editInterface.removeBinding((SimSubSceneBinding)reflectedProp.getTargetObject());
         }
 
         #endregion Static
@@ -56,6 +58,12 @@ namespace Engine
             SimSubSceneBinding binding = new SimSubSceneBinding();
             bindings.AddLast(binding);
             return bindingEditor.addItem(binding);
+        }
+
+        public void removeBinding(SimSubSceneBinding binding)
+        {
+            bindings.Remove(binding);
+            bindingEditor.removeItem(binding);
         }
 
         #region EditInterface Members
