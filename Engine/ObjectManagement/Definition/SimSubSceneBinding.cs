@@ -6,8 +6,14 @@ using Engine.Editing;
 
 namespace Engine
 {
+    /// <summary>
+    /// This class creates a binding between a SimSubScene and a given type of SimElementManager.
+    /// </summary>
     public class SimSubSceneBinding
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public SimSubSceneBinding()
         {
 

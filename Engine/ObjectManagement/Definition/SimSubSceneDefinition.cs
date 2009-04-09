@@ -69,6 +69,9 @@ namespace Engine
 
         #region Properties
 
+        /// <summary>
+        /// The name of the SubScene.
+        /// </summary>
         public String Name
         {
             get
