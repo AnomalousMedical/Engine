@@ -81,7 +81,7 @@ namespace Engine
                 }
                 if (accept)
                 {
-                    SimSubSceneDefinition subScene = new SimSubSceneDefinition(name);
+                    SimSubSceneDefinition subScene = new SimSubSceneDefinition(name, definition);
                     definition.addSimSubSceneDefinition(subScene);
                     SimSubSceneEditInterface editInterface = subScene.getEditInterface();
                     editInterfaces.AddLast(editInterface);

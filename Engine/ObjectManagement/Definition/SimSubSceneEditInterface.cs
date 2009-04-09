@@ -14,9 +14,11 @@ namespace Engine
         #region Fields
 
         private SimSubSceneDefinition definition;
-        private LinkedList<SimSubSceneBinding> bindings = new LinkedList<SimSubSceneBinding>();
-        private ReflectedCollectionEditInterface<SimSubSceneBinding> bindingEditor;
+        private LinkedList<EditableProperty> bindings = new LinkedList<EditableProperty>();
         private DestroyEditInterfaceCommand destroyCommand;
+        private DestroyEditablePropertyCommand destroyBindingCommand;
+        private CreateEditablePropertyCommand createBindingCommand;
+        private EditablePropertyInfo propertyInfo = new EditablePropertyInfo();
 
         #endregion Fields
 
@@ -29,10 +31,10 @@ namespace Engine
         public SimSubSceneEditInterface(SimSubSceneDefinition definition)
         {
             this.definition = definition;
-            bindingEditor = new ReflectedCollectionEditInterface<SimSubSceneBinding>("Bindings", bindings);
-            bindingEditor.setCommandTarget(this);
-            bindingEditor.setDestroyPropertyCommand(new DestroyEditablePropertyCommand("destroySimElementManagerBinding", "Destroy SimElementManager Binding", "Destroy a binding to a SimElementManager.", new DestroyEditablePropertyCommand.DestroyProperty(destroyBinding)));
-            bindingEditor.setCreatePropertyCommand(new CreateEditablePropertyCommand("createSimElemenManagerBinding", "Add SimElementManager Binding", "Add a binding to a SimElementManager.", new CreateEditablePropertyCommand.CreateProperty(createBinding)));
+            destroyBindingCommand = new DestroyEditablePropertyCommand("destroySimElementManagerBinding", "Destroy SimElementManager Binding", "Destroy a binding to a SimElementManager.", new DestroyEditablePropertyCommand.DestroyProperty(destroyBinding));
+            createBindingCommand = new CreateEditablePropertyCommand("createSimElemenManagerBinding", "Add SimElementManager Binding", "Add a binding to a SimElementManager.", new CreateEditablePropertyCommand.CreateProperty(createBinding));
+            propertyInfo.addColumn(new EditablePropertyColumn("Name", false));
+            propertyInfo.addColumn(new EditablePropertyColumn("Type", true));
         }
 
         #endregion Constructors
@@ -45,9 +47,9 @@ namespace Engine
         /// <returns>A new EditableProperty for the created binding.</returns>
         public EditableProperty addBinding()
         {
-            SimSubSceneBinding binding = new SimSubSceneBinding();
+            SimSubSceneBinding binding = new SimSubSceneBinding(definition);
             bindings.AddLast(binding);
-            return bindingEditor.addItem(binding);
+            return binding;
         }
 
         /// <summary>
@@ -57,7 +59,6 @@ namespace Engine
         public void removeBinding(SimSubSceneBinding binding)
         {
             bindings.Remove(binding);
-            bindingEditor.removeItem(binding);
         }
 
         /// <summary>
@@ -118,7 +119,7 @@ namespace Engine
         /// <returns>A enumerable over all properties in the EditInterface or null if there aren't any.</returns>
         public IEnumerable<EditableProperty> getEditableProperties()
         {
-            return bindingEditor.getEditableProperties();
+            return bindings;
         }
 
         /// <summary>
@@ -129,7 +130,7 @@ namespace Engine
         /// <returns>The EditablePropertyInfo for this interface.</returns>
         public EditablePropertyInfo getPropertyInfo()
         {
-            return bindingEditor.getPropertyInfo();
+            return propertyInfo;
         }
 
         /// <summary>
@@ -196,7 +197,7 @@ namespace Engine
         /// <returns>True if this interface can create and destroy properties.</returns>
         public bool canAddRemoveProperties()
         {
-            return bindingEditor.canAddRemoveProperties();
+            return true;
         }
 
         /// <summary>
@@ -205,7 +206,7 @@ namespace Engine
         /// <returns>A CreateEditablePropertyCommand to create properties or null if it does not have one.</returns>
         public CreateEditablePropertyCommand getCreatePropertyCommand()
         {
-            return bindingEditor.getCreatePropertyCommand();
+            return createBindingCommand;
         }
 
         /// <summary>
@@ -214,7 +215,7 @@ namespace Engine
         /// <returns>A DestroyEditablePropertyCommand to destroy properties or null if it does not have one.</returns>
         public DestroyEditablePropertyCommand getDestroyPropertyCommand()
         {
-            return bindingEditor.getDestroyPropertyCommand();
+            return destroyBindingCommand;
         }
 
         #endregion

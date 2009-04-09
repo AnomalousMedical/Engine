@@ -37,6 +37,15 @@ namespace Engine
             elementManagers.Remove(def.Name);
         }
 
+        public SimElementManagerDefinition getSimElementManagerDefinition(String name)
+        {
+            if (elementManagers.ContainsKey(name))
+            {
+                return elementManagers[name];
+            }
+            return null;
+        }
+
         public bool hasSimElementManagerDefinition(String name)
         {
             return elementManagers.ContainsKey(name);
