@@ -138,6 +138,30 @@ namespace Engine
             return defaultScene;
         }
 
+        /// <summary>
+        /// Create a definition.
+        /// </summary>
+        /// <returns>A new SimSceneDefinition.</returns>
+        public SimSceneDefinition createDefinition()
+        {
+            SimSceneDefinition definition = new SimSceneDefinition();
+
+            foreach (SimElementManager manager in simElementManagers.Values)
+            {
+                definition.addSimElementManagerDefinition(manager.createDefinition());
+            }
+            foreach (SimSubScene subScene in simSubScenes.Values)
+            {
+                definition.addSimSubSceneDefinition(subScene.createDefinition(definition));
+            }
+            if (defaultScene != null)
+            {
+                definition.DefaultSubScene = defaultScene.Name;
+            }
+
+            return definition;
+        }
+
         #endregion Functions
     }
 }

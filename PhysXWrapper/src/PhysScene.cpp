@@ -24,6 +24,7 @@
 #include "PhysMaterialDesc.h"
 #include "PhysSoftBody.h"
 #include "PhysSoftBodyDesc.h"
+#include "PhysSceneDesc.h"
 
 namespace PhysXWrapper
 {
@@ -49,6 +50,11 @@ actorGroupPairPosition(0)
 PhysScene::~PhysScene()
 {
 	
+}
+
+void PhysScene::saveToDesc(PhysSceneDesc^ sceneDesc)
+{
+	scene->saveToDesc(*sceneDesc->sceneDesc.Get());
 }
 
 void PhysScene::setGravity(EngineMath::Vector3 grav)

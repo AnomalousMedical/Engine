@@ -90,6 +90,20 @@ namespace Engine
             }
         }
 
+        /// <summary>
+        /// Create a definition.
+        /// </summary>
+        /// <returns>A new defintion.</returns>
+        public SimSubSceneDefinition createDefinition(SimSceneDefinition scene)
+        {
+            SimSubSceneDefinition definition = new SimSubSceneDefinition(name, scene);
+            foreach (SimElementManager manager in simElements.Values)
+            {
+                definition.addBinding(definition.getSimElementManager(manager.getName()));
+            }
+            return definition;
+        }
+
         #endregion Functions
 
         #region Properties

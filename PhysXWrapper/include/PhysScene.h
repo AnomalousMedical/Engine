@@ -25,6 +25,7 @@ ref class PhysMaterial;
 ref class PhysMaterialDesc;
 ref class PhysSoftBody;
 ref class PhysSoftBodyDesc;
+ref class PhysSceneDesc;
 
 /// <summary>
 /// Wrapper class for NxScene.
@@ -62,6 +63,12 @@ public:
 	/// Destructor.
 	/// </summary>
 	~PhysScene();
+
+	/// <summary>
+	/// Saves the Scene descriptor.
+	/// </summary>
+	/// <param name="sceneDesc">The descriptor used to retrieve the state of the object.</param>
+	void saveToDesc(PhysSceneDesc^ sceneDesc);
 
 	/// <summary>
 	/// Sets the gravity in units per timeunits squared.
@@ -268,8 +275,20 @@ public:
 	/// <param name="material">The material to release.</param>
 	void releaseMaterial(PhysMaterial^ material);
 
+	/// <summary>
+	/// Creates a soft body in this scene. NxSoftBodyDesc::isValid() must return true.
+	/// </summary>
+	/// <param name="softBodyDesc">Description of the soft body object to create.</param>
+	/// <returns>The new soft body.</returns>
 	PhysSoftBody^ createSoftBody(PhysSoftBodyDesc^ softBodyDesc);
 
+	/// <summary>
+	/// Deletes the specified soft body. The soft body must be in this scene. Do
+    /// not keep a reference to the deleted instance. Avoid release calls while
+    /// the scene is simulating (in between simulate() and fetchResults()
+    /// calls).
+	/// </summary>
+	/// <param name="softBody">Soft body to release.</param>
 	void releaseSoftBody(PhysSoftBody^ softBody);
 };
 

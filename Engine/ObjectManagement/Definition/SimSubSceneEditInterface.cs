@@ -35,6 +35,12 @@ namespace Engine
             createBindingCommand = new CreateEditablePropertyCommand("createSimElemenManagerBinding", "Add SimElementManager Binding", "Add a binding to a SimElementManager.", new CreateEditablePropertyCommand.CreateProperty(createBinding));
             propertyInfo.addColumn(new EditablePropertyColumn("Name", false));
             propertyInfo.addColumn(new EditablePropertyColumn("Type", true));
+
+            foreach (String bindingName in definition.getBindings())
+            {
+                SimSubSceneBinding binding = new SimSubSceneBinding(definition, bindingName);
+                bindings.AddLast(binding);
+            }
         }
 
         #endregion Constructors

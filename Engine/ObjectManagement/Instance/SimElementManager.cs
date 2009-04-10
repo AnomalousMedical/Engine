@@ -31,5 +31,11 @@ namespace Engine
         /// </summary>
         /// <returns>The name.</returns>
         String getName();
+
+        /// <summary>
+        /// Create a definition for this SimElementManager.
+        /// </summary>
+        /// <returns>A new SimElementManager for this definition.</returns>
+        SimElementManagerDefinition createDefinition();
     }
 }

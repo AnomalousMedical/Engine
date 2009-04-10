@@ -41,10 +41,10 @@ namespace PhysXPlugin
         /// Constructor.
         /// </summary>
         /// <param name="name">The name of the definition.</param>
-        internal PhysXSceneManagerDefinition(String name, PhysXInterface physInterface)
+        internal PhysXSceneManagerDefinition(String name)
         {
             this.name = name;
-            this.physInterface = physInterface;
+            this.physInterface = PhysXInterface.Instance;
         }
 
         #endregion Constructors

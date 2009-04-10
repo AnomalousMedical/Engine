@@ -84,6 +84,12 @@ namespace Engine
             catch (Exception e)
             {
                 Log.Default.sendMessage("Error loading plugin: {0}", LogLevel.Error, "Engine", e.Message);
+                e = e.InnerException;
+                while (e != null)
+                {
+                    Log.Default.sendMessage("--Inner Exception: {0}", LogLevel.Error, "Engine", e.Message);
+                    e = e.InnerException;
+                }
                 return false;
             }
         }

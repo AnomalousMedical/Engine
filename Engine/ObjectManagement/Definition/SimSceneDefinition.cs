@@ -144,16 +144,43 @@ namespace Engine
             {
                 subSceneDef.createSubScene(scene);
             }
-            SimSubScene subScene = scene.getSubScene(DefaultSubScene);
-            if (subScene != null)
+            if (DefaultSubScene != null)
             {
-                scene.setDefaultSubScene(subScene);
+                SimSubScene subScene = scene.getSubScene(DefaultSubScene);
+                if (subScene != null)
+                {
+                    scene.setDefaultSubScene(subScene);
+                }
+                else
+                {
+                    Log.Default.sendMessage("The defined default scene {0} can not be found in the created scene. No default set.", LogLevel.Warning, "Engine", DefaultSubScene);
+                }
             }
             else
             {
-                Log.Default.sendMessage("The defined default scene {0} can not be found in the created scene. No default set.", LogLevel.Warning, "Engine", DefaultSubScene);
+                Log.Default.sendMessage("No default scene defined. No default set.", LogLevel.Warning, "Engine");
             }
             return scene;
+        }
+
+        /// <summary>
+        /// Internal function so the edit interfaces can get the
+        /// ElementManagerDefinitions. Should only be called by that class.
+        /// </summary>
+        /// <returns>An enumerable over the ElementManagerDefinitions.</returns>
+        internal IEnumerable<SimElementManagerDefinition> _getElementManagerDefinitions()
+        {
+            return elementManagers.Values;
+        }
+
+        /// <summary>
+        /// Internal function so the edit interfaces can get the
+        /// SubSceneDefintions. Should only be called by that class.
+        /// </summary>
+        /// <returns>An enumerable over the SubSceneDefintions.</returns>
+        internal IEnumerable<SimSubSceneDefinition> _getSubSceneDefintions()
+        {
+            return subSceneDefinitions.Values;
         }
 
         #endregion Functions

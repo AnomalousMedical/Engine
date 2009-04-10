@@ -92,6 +92,17 @@ namespace PhysXPlugin
         }
 
         /// <summary>
+        /// Create a definition for this SimElementManager.
+        /// </summary>
+        /// <returns>A new SimElementManager for this definition.</returns>
+        public SimElementManagerDefinition createDefinition()
+        {
+            PhysXSceneManagerDefinition definition = new PhysXSceneManagerDefinition(name);
+            scene.saveToDesc(definition.SceneDesc);
+            return definition;
+        }
+
+        /// <summary>
         /// Create a new PhysActor. It must be destroyed using destroyPhysActor
         /// or it will not be released from PhysX properly.
         /// </summary>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Engine.Editing;
+using Logging;
 
 namespace Engine
 {
@@ -19,6 +20,7 @@ namespace Engine
         public static void AddCreateSimElementManagerDefinitionCommand(EngineCommand command)
         {
             createCommandManager.addCommand(command);
+            Log.Default.sendMessage("Added create SimElementManagerCommand {0}", LogLevel.Info, "Engine", command.Name);
         }
 
         #endregion Static
@@ -49,6 +51,11 @@ namespace Engine
                 createCommands.AddLast(createSubObj);
             }
             destroySimElementManager = new DestroyEditInterfaceCommand("destroySimElementManager", "Delete", "Destroy the selected Sim Object Manager.", new DestroyEditInterfaceCommand.DestroySubObject(destroySimElementManagerDefinition));
+            
+            foreach (SimElementManagerDefinition manager in definition._getElementManagerDefinitions())
+            {
+                editInterfaces.AddLast(manager.getEditInterface(destroySimElementManager));
+            }
         }
 
         #endregion Constructors

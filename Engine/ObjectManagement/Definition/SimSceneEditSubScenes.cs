@@ -25,6 +25,11 @@ namespace Engine
             createCommands.AddLast(new CreateEditInterfaceCommand("createSubSceneDefinition", "Create Sub Scene", "Create a new Sub Scene Definition", new CreateEditInterfaceCommand.CreateSubObject(createSimSubSceneDefinition)));
             destroySimSubScene = new DestroyEditInterfaceCommand("destroySubScene", "Delete", "Destroy the selected subscene.", new DestroyEditInterfaceCommand.DestroySubObject(destroySimSubSceneDefinition));
             this.definition = definition;
+
+            foreach (SimSubSceneDefinition subScene in definition._getSubSceneDefintions())
+            {
+                editInterfaces.AddLast(subScene.getEditInterface());
+            }
         }
 
         #endregion Constructors
@@ -44,7 +49,7 @@ namespace Engine
             bool accept = callback.getInputString("Enter a name for the subscene.", out name);
             if (accept)
             {
-                while (accept && definition.hasSimElementManagerDefinition(name))
+                while (accept && definition.hasSimSubSceneDefinition(name))
                 {
                     accept = callback.getInputString("The given name is already in use. Please provide another.", name, out name);
                 }

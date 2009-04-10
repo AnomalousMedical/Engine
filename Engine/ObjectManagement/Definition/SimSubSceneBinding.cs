@@ -26,6 +26,16 @@ namespace Engine
             this.subScene = subScene;
         }
 
+        /// <summary>
+        /// Constructor takes a name and a subScene.
+        /// </summary>
+        /// <param name="subScene">The SubScene to add bindings to.</param>
+        /// <param name="managerName">The name of the SimElementManager.</param>
+        public SimSubSceneBinding(SimSubSceneDefinition subScene, String managerName)
+        {
+            simElementManager = subScene.getSimElementManager(managerName);
+        }
+
         #region EditableProperty Members
 
         /// <summary>

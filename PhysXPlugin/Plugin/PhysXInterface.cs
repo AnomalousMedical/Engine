@@ -16,6 +16,14 @@ namespace PhysXPlugin
         #region Static
 
         public const String PluginName = "PhysXPlugin";
+        private static PhysXInterface instance;
+        public static PhysXInterface Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
 
         #endregion Static
 
@@ -41,7 +49,14 @@ namespace PhysXPlugin
         /// </summary>
         public PhysXInterface()
         {
-
+            if (Instance == null)
+            {
+                instance = this;
+            }
+            else
+            {
+                throw new Exception("Cannot create the PhysXInterface more than once. Only call the constructor one time.");
+            }
         }
 
         #endregion Constructors
@@ -109,7 +124,7 @@ namespace PhysXPlugin
         /// <returns>A new PhysXSceneManagerDefinition.</returns>
         public PhysXSceneManagerDefinition createSceneDefinition(String name)
         {
-            return new PhysXSceneManagerDefinition(name, this);
+            return new PhysXSceneManagerDefinition(name);
         }
 
         /// <summary>
