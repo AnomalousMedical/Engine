@@ -16,6 +16,7 @@ namespace Engine
         private Dictionary<String, SimElementManagerDefinition> elementManagers = new Dictionary<String,SimElementManagerDefinition>();
         private Dictionary<String, SimSubSceneDefinition> subSceneDefinitions = new Dictionary<string, SimSubSceneDefinition>();
         private EditInterface editInterface;
+        private String defaultScene;
         
         #endregion Fields
 
@@ -78,6 +79,15 @@ namespace Engine
         }
 
         /// <summary>
+        /// Determine if this SimSceneDefinition has any subSceneDefinitions.
+        /// </summary>
+        /// <returns>True if there are some SubSceneDefinitions.</returns>
+        public bool hasSimSubSceneDefinitions()
+        {
+            return subSceneDefinitions.Count != 0;
+        }
+
+        /// <summary>
         /// Add a SimSubSceneDefinition.
         /// </summary>
         /// <param name="def">The definition to add.</param>
@@ -118,6 +128,10 @@ namespace Engine
             return editInterface;
         }
 
+        /// <summary>
+        /// Create and return a new SimScene from this definition.
+        /// </summary>
+        /// <returns>A new scene configured like this definition.</returns>
         public SimScene createScene()
         {
             SimScene scene = new SimScene();
@@ -126,5 +140,22 @@ namespace Engine
         }
 
         #endregion Functions
+
+        #region Properties
+
+        [Editable("The name of the SimSubScene to use as the default scene for creating SimObjects.")]
+        public String DefaultSubScene
+        {
+            get
+            {
+                return defaultScene;
+            }
+            set
+            {
+                defaultScene = value;
+            }
+        }
+
+        #endregion Properties
     }
 }

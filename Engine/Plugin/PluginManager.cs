@@ -72,7 +72,7 @@ namespace Engine
                     plugin.initialize();
                     foreach (EngineCommand command in plugin.getCreateSimElementManagerCommands().getCommandList())
                     {
-                        SimSceneEditInterface.AddCreateSimElementManagerDefinitionCommand(command);
+                        SimSceneEditElementManagers.AddCreateSimElementManagerDefinitionCommand(command);
                     }
                     return true;
                 }

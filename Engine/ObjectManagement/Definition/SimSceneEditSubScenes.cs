@@ -3,55 +3,78 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Engine.Editing;
-using Engine.Reflection;
 
 namespace Engine
 {
-    /// <summary>
-    /// This is an EditInterface for SimSceneDefinitions.
-    /// </summary>
-    class SimSceneEditInterface : EditInterface
+    class SimSceneEditSubScenes : EditInterface
     {
-        #region Static
-
-        private static MemberScanner memberScanner;
-
-        static SimSceneEditInterface()
-        {
-            memberScanner = new MemberScanner(EditableAttributeFilter.Instance);
-            memberScanner.ProcessFields = false;
-        }
-
-        #endregion Static
-
         #region Fields
 
-        private ReflectedEditInterface reflectedInterface;
-        private SimSceneEditElementManagers elementManagers;
-        private SimSceneEditSubScenes subScenes;
+        private LinkedList<EditInterface> editInterfaces = new LinkedList<EditInterface>();
+        private Dictionary<EditInterface, SimSubSceneDefinition> simSubSceneDefinitions = new Dictionary<EditInterface, SimSubSceneDefinition>();
+        private LinkedList<CreateEditInterfaceCommand> createCommands = new LinkedList<CreateEditInterfaceCommand>();
+        private DestroyEditInterfaceCommand destroySimSubScene;
         private SimSceneDefinition definition;
 
         #endregion Fields
 
         #region Constructors
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="definition">The definition to fill out with this interface.</param>
-        public SimSceneEditInterface(SimSceneDefinition definition)
+        public SimSceneEditSubScenes(SimSceneDefinition definition)
         {
+            createCommands.AddLast(new CreateEditInterfaceCommand("createSubSceneDefinition", "Create Sub Scene", "Create a new Sub Scene Definition", new CreateEditInterfaceCommand.CreateSubObject(createSimSubSceneDefinition)));
+            destroySimSubScene = new DestroyEditInterfaceCommand("destroySubScene", "Delete", "Destroy the selected subscene.", new DestroyEditInterfaceCommand.DestroySubObject(destroySimSubSceneDefinition));
             this.definition = definition;
-            reflectedInterface = new ReflectedEditInterface(definition, memberScanner, "", "");
-            elementManagers = new SimSceneEditElementManagers(definition);
-            reflectedInterface.addManualSubInterface(elementManagers);
-            subScenes = new SimSceneEditSubScenes(definition);
-            reflectedInterface.addManualSubInterface(subScenes);
         }
 
         #endregion Constructors
 
         #region Functions
+
+        /// <summary>
+        /// This function will create a new SimSubSceneDefinition.
+        /// </summary>
+        /// <param name="target">The SimSceneDefinition that will get the SubSceneDefinition.</param>
+        /// <param name="callback">A callback to get additional input from the user.</param>
+        /// <param name="subCommand">The name of the command to run to create the SimElementManagerDefinition.</param>
+        /// <returns>An EditInterface to the newly created SimSubSceneDefinition or null if there was an error.</returns>
+        private EditInterface createSimSubSceneDefinition(EditUICallback callback, String subCommand)
+        {
+            String name;
+            bool accept = callback.getInputString("Enter a name for the subscene.", out name);
+            if (accept)
+            {
+                while (accept && definition.hasSimElementManagerDefinition(name))
+                {
+                    accept = callback.getInputString("The given name is already in use. Please provide another.", name, out name);
+                }
+                if (accept)
+                {
+                    SimSubSceneDefinition subScene = new SimSubSceneDefinition(name, definition);
+                    definition.addSimSubSceneDefinition(subScene);
+                    SimSubSceneEditInterface editInterface = subScene.getEditInterface();
+                    editInterfaces.AddLast(editInterface);
+                    simSubSceneDefinitions.Add(editInterface, subScene);
+                    editInterface.setDestroyObjectCommand(destroySimSubScene);
+                    return editInterface;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// This function will destroy a SimSubSceneDefinition.
+        /// </summary>
+        /// <param name="editInterface">The EditInterface for the SimSubScene.</param>
+        /// <param name="callback">A callback to get additional input from the user.</param>
+        /// <param name="subCommand">The name of the command to run to create the SimElementManagerDefinition.</param>
+        private void destroySimSubSceneDefinition(EditInterface editInterface, EditUICallback callback, String subCommand)
+        {
+            SimSubSceneDefinition subScene = simSubSceneDefinitions[editInterface];
+            definition.removeSimSubSceneDefinition(subScene);
+            simSubSceneDefinitions.Remove(editInterface);
+            editInterfaces.Remove(editInterface);
+        }
 
         #region EditInterface Members
 
@@ -61,7 +84,7 @@ namespace Engine
         /// <returns>A String with the name of the interface.</returns>
         public string getName()
         {
-            return "Sim Scene";
+            return "Sub Scenes";
         }
 
         /// <summary>
@@ -70,7 +93,7 @@ namespace Engine
         /// <returns>True if the interface has some EditableProperties.</returns>
         public bool hasEditableProperties()
         {
-            return reflectedInterface.hasEditableProperties();
+            return false;
         }
 
         /// <summary>
@@ -79,7 +102,7 @@ namespace Engine
         /// <returns>A enumerable over all properties in the EditInterface or null if there aren't any.</returns>
         public IEnumerable<EditableProperty> getEditableProperties()
         {
-            return reflectedInterface.getEditableProperties();
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -90,7 +113,7 @@ namespace Engine
         /// <returns>The EditablePropertyInfo for this interface.</returns>
         public EditablePropertyInfo getPropertyInfo()
         {
-            return reflectedInterface.getPropertyInfo();
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -99,7 +122,7 @@ namespace Engine
         /// <returns>True if the interface has some SubEditInterfaces.</returns>
         public bool hasSubEditInterfaces()
         {
-            return reflectedInterface.hasSubEditInterfaces();
+            return true;
         }
 
         /// <summary>
@@ -108,7 +131,7 @@ namespace Engine
         /// <returns>An enumerable over all EditInterfaces that are part of this EditInterface or null if there aren't any.</returns>
         public IEnumerable<EditInterface> getSubEditInterfaces()
         {
-            return reflectedInterface.getSubEditInterfaces();
+            return editInterfaces;
         }
 
         /// <summary>
@@ -117,7 +140,7 @@ namespace Engine
         /// <returns>True if there are create commands.</returns>
         public bool hasCreateSubObjectCommands()
         {
-            return reflectedInterface.hasCreateSubObjectCommands();
+            return true;
         }
 
         /// <summary>
@@ -126,12 +149,16 @@ namespace Engine
         /// <returns>An IEnumerable over all creation commands or null if there aren't any.</returns>
         public IEnumerable<CreateEditInterfaceCommand> getCreateSubObjectCommands()
         {
-            return reflectedInterface.getCreateSubObjectCommands();
+            return createCommands;
         }
 
+        /// <summary>
+        /// Determine if this interface has a command to destroy itself.
+        /// </summary>
+        /// <returns>True if there is a destroy command.</returns>
         public bool hasDestroyObjectCommand()
         {
-            return reflectedInterface.hasDestroyObjectCommand();
+            return false;
         }
 
         /// <summary>
@@ -142,16 +169,18 @@ namespace Engine
         /// <returns>A command that will destroy this EditInterface object or null if it cannot be destroyed.</returns>
         public DestroyEditInterfaceCommand getDestroyObjectCommand()
         {
-            return reflectedInterface.getDestroyObjectCommand();
+            throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Determine if this interface can create properties.
+        /// Determine if this interface can create and destroy properties. If
+        /// this returns true both getCreatePropertyCommand and
+        /// getDestroyPropertyCommand must be implemented.
         /// </summary>
-        /// <returns>True if this interface can create properties.</returns>
+        /// <returns>True if this interface can create and destroy properties.</returns>
         public bool canAddRemoveProperties()
         {
-            return reflectedInterface.canAddRemoveProperties();
+            return false;
         }
 
         /// <summary>
@@ -160,7 +189,7 @@ namespace Engine
         /// <returns>A CreateEditablePropertyCommand to create properties or null if it does not have one.</returns>
         public CreateEditablePropertyCommand getCreatePropertyCommand()
         {
-            return reflectedInterface.getCreatePropertyCommand();
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -169,7 +198,7 @@ namespace Engine
         /// <returns>A DestroyEditablePropertyCommand to destroy properties or null if it does not have one.</returns>
         public DestroyEditablePropertyCommand getDestroyPropertyCommand()
         {
-            return reflectedInterface.getDestroyPropertyCommand();
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -179,21 +208,8 @@ namespace Engine
         /// </summary>
         /// <param name="errorMessage">A string that will get an error message for the interface.</param>
         /// <returns>True if the settings are valid, false if they are not.</returns>
-        public bool validate(out String errorMessage)
+        public bool validate(out string errorMessage)
         {
-            if (definition.hasSimSubSceneDefinitions())
-            {
-                if (definition.DefaultSubScene == null || definition.DefaultSubScene == String.Empty)
-                {
-                    errorMessage = "No default subscene defined. Please enter the name of one of the subscenes to act as a default.";
-                    return false;
-                }
-                if (!definition.hasSimSubSceneDefinition(definition.DefaultSubScene))
-                {
-                    errorMessage = String.Format("The default subscene {0} is a valid subscene for this sim scene. Please enter a name of an existing subscene.", definition.DefaultSubScene);
-                    return false;
-                }
-            }
             errorMessage = null;
             return true;
         }
