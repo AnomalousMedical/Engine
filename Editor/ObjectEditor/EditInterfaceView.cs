@@ -107,6 +107,50 @@ namespace Editor
             return inRes.ok;
         }
 
+        /// <summary>
+        /// Validate all EditInterfaces in this view. If one has an error it
+        /// will be highlighted and an errorMessage will be returned.
+        /// </summary>
+        /// <param name="errorMessage">An error message on an error.</param>
+        /// <returns>True if all interfaces are valid.</returns>
+        public bool validateAllInterfaces(out String errorMessage)
+        {
+            //Start with the selected node. This way if it has an error the change will be less jarring.
+            EditInterface currentInterface = ((EditInterfaceTreeNode)objectsTree.SelectedNode).EditInterface;
+            if (currentInterface.validate(out errorMessage))
+            {
+                return scanForErrors(out errorMessage, objectsTree.Nodes);
+            }
+            //There is an error with the selected node.
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Recursive helper function to scan the whole tree.
+        /// </summary>
+        /// <param name="errorMessage">An error message on an error.</param>
+        /// <returns>True if all interfaces are valid.</returns>
+        private bool scanForErrors(out String errorMessage, TreeNodeCollection parent)
+        {
+            foreach (EditInterfaceTreeNode node in parent)
+            {
+                if (!node.EditInterface.validate(out errorMessage))
+                {
+                    objectsTree.SelectedNode = node;
+                    return false;
+                }
+                if (!scanForErrors(out errorMessage, node.Nodes))
+                {
+                    return false;
+                }
+            }
+            errorMessage = null;
+            return true;
+        }
+
         #endregion Functions
 
         #region Helper Functions

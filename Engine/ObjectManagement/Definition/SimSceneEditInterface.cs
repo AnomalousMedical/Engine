@@ -190,7 +190,7 @@ namespace Engine
                 }
                 if (!definition.hasSimSubSceneDefinition(definition.DefaultSubScene))
                 {
-                    errorMessage = String.Format("The default subscene {0} is a valid subscene for this sim scene. Please enter a name of an existing subscene.", definition.DefaultSubScene);
+                    errorMessage = String.Format("The default subscene {0} is not a valid subscene for this sim scene. Please enter a name of an existing subscene.", definition.DefaultSubScene);
                     return false;
                 }
             }

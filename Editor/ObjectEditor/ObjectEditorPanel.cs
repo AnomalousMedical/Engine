@@ -42,6 +42,11 @@ namespace Editor
             propertiesTable.showEditableProperties(editor);
         }
 
+        public bool validateEditInterface(out String errorMessage)
+        {
+            return editInterfaceView.validateAllInterfaces(out errorMessage);
+        }
+
         /// <summary>
         /// Callback for when the EditInterface changes.
         /// </summary>
