@@ -232,5 +232,10 @@ namespace Engine.Editing
             errorMessage = null;
             return true;
         }
+
+        /// <summary>
+        /// Create a binding between this interface and another object.
+        /// </summary>
+        public Object UserObject { get; set; }
     }
 }

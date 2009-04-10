@@ -36,5 +36,11 @@ namespace Engine.Editing
         /// <param name="result">The result of the user input.</param>
         /// <returns>True if the user entered input, false if they canceled it.</returns>
         bool getInputString(String prompt, String preloadValue, out String result);
+
+        /// <summary>
+        /// Get the EditInterface that is currently selected on the UI.
+        /// </summary>
+        /// <returns>The EditInterface that is currently selected.</returns>
+        EditInterface getSelectedEditInterface();
     }
 }

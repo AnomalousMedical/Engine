@@ -209,6 +209,16 @@ namespace Editor
             }
         }
 
+        /// <summary>
+        /// Validate the settings that are currently being displayed on the table.
+        /// </summary>
+        /// <param name="errorMessage">An error message to fill out.</param>
+        /// <returns>True if the settings are valid. False if they are not.</returns>
+        public bool validateCurrentSettings(out String errorMessage)
+        {
+            return currentEditInterface.validate(out errorMessage);
+        }
+
         #endregion Helper Functions
 
         #region EditUICallback Members
@@ -249,13 +259,12 @@ namespace Editor
         }
 
         /// <summary>
-        /// Validate the settings that are currently being displayed on the table.
+        /// Get the EditInterface that is currently selected on the UI.
         /// </summary>
-        /// <param name="errorMessage">An error message to fill out.</param>
-        /// <returns>True if the settings are valid. False if they are not.</returns>
-        public bool validateCurrentSettings(out String errorMessage)
+        /// <returns>The EditInterface that is currently selected.</returns>
+        public EditInterface getSelectedEditInterface()
         {
-            return currentEditInterface.validate(out errorMessage);
+            return currentEditInterface;
         }
 
         #endregion

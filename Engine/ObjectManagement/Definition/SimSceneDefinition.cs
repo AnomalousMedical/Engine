@@ -28,8 +28,10 @@ namespace Engine
         private Dictionary<String, SimElementManagerDefinition> elementManagers = new Dictionary<String,SimElementManagerDefinition>();
         private Dictionary<String, SimSubSceneDefinition> subSceneDefinitions = new Dictionary<string, SimSubSceneDefinition>();
         private Dictionary<String, EditInterface> elementManagerEditInterfaces = new Dictionary<string, EditInterface>();
+        private Dictionary<String, EditInterface> subSceneManagerEditInterfaces = new Dictionary<string, EditInterface>();
         private Dictionary<EditInterfaceCommand, String> createSimElementManagerDefs = new Dictionary<EditInterfaceCommand, string>();
         private EditInterface editInterface;
+        private EditInterfaceCommand destroySimElementManagerDef;
 
         private String defaultScene;
         
@@ -58,9 +60,7 @@ namespace Engine
             elementManagers.Add(def.Name, def);
             if (editInterface != null)
             {
-                EditInterface defInterface = def.getEditInterface();
-                elementManagerEditInterfaces.Add(def.Name, defInterface);
-                editInterface.addSubInterface(defInterface);
+                createEditInterface(def);
             }
         }
 
@@ -106,21 +106,16 @@ namespace Engine
         }
 
         /// <summary>
-        /// Determine if this SimSceneDefinition has any subSceneDefinitions.
-        /// </summary>
-        /// <returns>True if there are some SubSceneDefinitions.</returns>
-        public bool hasSimSubSceneDefinitions()
-        {
-            return subSceneDefinitions.Count != 0;
-        }
-
-        /// <summary>
         /// Add a SimSubSceneDefinition.
         /// </summary>
         /// <param name="def">The definition to add.</param>
         public void addSimSubSceneDefinition(SimSubSceneDefinition def)
         {
             subSceneDefinitions.Add(def.Name, def);
+            if (editInterface != null)
+            {
+                createEditInterface(def);
+            }
         }
 
         /// <summary>
@@ -130,6 +125,21 @@ namespace Engine
         public void removeSimSubSceneDefinition(SimSubSceneDefinition def)
         {
             subSceneDefinitions.Remove(def.Name);
+            if (editInterface != null)
+            {
+                EditInterface edit = subSceneManagerEditInterfaces[def.Name];
+                subSceneManagerEditInterfaces.Remove(def.Name);
+                editInterface.removeSubInterface(edit);
+            }
+        }
+
+        /// <summary>
+        /// Determine if this SimSceneDefinition has any subSceneDefinitions.
+        /// </summary>
+        /// <returns>True if there are some SubSceneDefinitions.</returns>
+        public bool hasSimSubSceneDefinitions()
+        {
+            return subSceneDefinitions.Count != 0;
         }
 
         /// <summary>
@@ -151,17 +161,20 @@ namespace Engine
             if (editInterface == null)
             {
                 editInterface = ReflectedEditInterface.createEditInterface(this, ReflectedEditInterface.DefaultScanner, "Sim Scene", null);
-                foreach (SimElementManagerDefinition elementDef in elementManagers.Values)
-                {
-                    EditInterface defInterface = elementDef.getEditInterface();
-                    elementManagerEditInterfaces.Add(elementDef.Name, defInterface);
-                    editInterface.addSubInterface(defInterface);
-                }
                 foreach (EngineCommand command in commandList.Values)
                 {
                     EditInterfaceCommand interfaceCommand = new EditInterfaceCommand(command.PrettyName, new EditInterfaceFunction(createSimElementManagerDefinition));
                     createSimElementManagerDefs.Add(interfaceCommand, command.Name);
                     editInterface.addCommand(interfaceCommand);
+                }
+                destroySimElementManagerDef = new EditInterfaceCommand("Destroy", new EditInterfaceFunction(destroySimElementManagerDefinition));
+                foreach (SimElementManagerDefinition elementDef in elementManagers.Values)
+                {
+                    createEditInterface(elementDef);
+                }
+                foreach (SimSubSceneDefinition subSceneDef in subSceneDefinitions.Values)
+                {
+                    createEditInterface(subSceneDef);
                 }
             }
             return editInterface;
@@ -225,6 +238,11 @@ namespace Engine
 
         #region Helper Functions
 
+        /// <summary>
+        /// Callback to create a SimElementManagerDefinition.
+        /// </summary>
+        /// <param name="callback">The EditUICallback to get more info from the user.</param>
+        /// <param name="caller">The command that initiated this funciton call.</param>
         private void createSimElementManagerDefinition(EditUICallback callback, EditInterfaceCommand caller)
         {
             String name;
@@ -238,6 +256,73 @@ namespace Engine
                 SimElementManagerDefinition def = (SimElementManagerDefinition)commandList[createSimElementManagerDefs[caller]].execute(name);
                 this.addSimElementManagerDefinition(def);
             }
+        }
+
+        /// <summary>
+        /// Callback to destroy a SimElementManagerDefinition.
+        /// </summary>
+        /// <param name="callback">The EditUICallback to get more info from the user.</param>
+        /// <param name="caller">The command that initiated this funciton call.</param>
+        private void destroySimElementManagerDefinition(EditUICallback callback, EditInterfaceCommand caller)
+        {
+            EditInterface currentInterface = callback.getSelectedEditInterface();
+            removeSimElementManagerDefinition((SimElementManagerDefinition)currentInterface.UserObject);
+        }
+
+        /// <summary>
+        /// Callback to create a SimSubSceneDefinition.
+        /// </summary>
+        /// <param name="callback">The EditUICallback to get more info from the user.</param>
+        /// <param name="caller">The command that initiated this funciton call.</param>
+        private void createSimSubSceneDefinition(EditUICallback callback, EditInterfaceCommand caller)
+        {
+            String name;
+            bool accept = callback.getInputString("Enter a name.", out name);
+            while (accept && this.hasSimSubSceneDefinition(name))
+            {
+                accept = callback.getInputString("That name is already in use. Please provide another.", name, out name);
+            }
+            if (accept)
+            {
+                SimSubSceneDefinition def = new SimSubSceneDefinition(name, this);
+                this.addSimSubSceneDefinition(def);
+            }
+        }
+
+        /// <summary>
+        /// Callback to destroy a SimSubSceneDefinition.
+        /// </summary>
+        /// <param name="callback">The EditUICallback to get more info from the user.</param>
+        /// <param name="caller">The command that initiated this funciton call.</param>
+        private void destroySimSubSceneDefinition(EditUICallback callback, EditInterfaceCommand caller)
+        {
+            EditInterface currentInterface = callback.getSelectedEditInterface();
+            removeSimSubSceneDefinition((SimSubSceneDefinition)currentInterface.UserObject);
+        }
+
+        /// <summary>
+        /// Helper function to create an edit interface.
+        /// </summary>
+        /// <param name="def"></param>
+        private void createEditInterface(SimElementManagerDefinition def)
+        {
+            EditInterface defInterface = def.getEditInterface();
+            defInterface.UserObject = def;
+            defInterface.addCommand(destroySimElementManagerDef);
+            elementManagerEditInterfaces.Add(def.Name, defInterface);
+            editInterface.addSubInterface(defInterface);
+        }
+
+        /// <summary>
+        /// Helper function to create an edit interface.
+        /// </summary>
+        /// <param name="def"></param>
+        private void createEditInterface(SimSubSceneDefinition def)
+        {
+            EditInterface edit = def.getEditInterface();
+            edit.UserObject = def;
+            subSceneManagerEditInterfaces.Add(def.Name, edit);
+            editInterface.addSubInterface(edit);
         }
 
         #endregion Helper Functions

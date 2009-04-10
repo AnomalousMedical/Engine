@@ -136,6 +136,15 @@ namespace Editor
         }
 
         /// <summary>
+        /// Get the EditInterface that is currently selected on the UI.
+        /// </summary>
+        /// <returns>The EditInterface that is currently selected.</returns>
+        public EditInterface getSelectedEditInterface()
+        {
+            return ((EditInterfaceTreeNode)objectsTree.SelectedNode).EditInterface;
+        }
+
+        /// <summary>
         /// Validate all EditInterfaces in this view. If one has an error it
         /// will be highlighted and an errorMessage will be returned.
         /// </summary>
