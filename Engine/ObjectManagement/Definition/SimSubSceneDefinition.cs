@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Engine.Editing;
+using Logging;
 
 namespace Engine
 {
@@ -94,6 +95,30 @@ namespace Engine
                 editInterface = new SimSubSceneEditInterface(this);
             }
             return editInterface;
+        }
+
+        /// <summary>
+        /// Create a new SimSubScene and add it to scene.
+        /// </summary>
+        /// <param name="scene">The scene to add the sub scene to.</param>
+        /// <returns>The newly created sub scene.</returns>
+        public SimSubScene createSubScene(SimScene scene)
+        {
+            SimSubScene subscene = new SimSubScene(Name);
+            foreach (String elementManagerName in bindings.Values)
+            {
+                SimElementManager manager = scene.getSimElementManager(elementManagerName);
+                if (manager != null)
+                {
+                    subscene.addSimElementManager(manager);
+                }
+                else
+                {
+                    Log.Default.sendMessage("Could not find SimElementManager called {0}. This has not been added to the scene.", LogLevel.Warning, "Engine", elementManagerName);
+                }
+            }
+            scene.addSimSubScene(subscene);
+            return subscene;
         }
 
         #endregion Functions

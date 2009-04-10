@@ -12,12 +12,12 @@ namespace Engine
     /// is defined by the individual SimSubScenes. Each SimScene must have at
     /// least one SimSubScene.
     /// </summary>
-    public class SimScene
+    public class SimScene : IDisposable
     {
         #region Fields
 
         private Dictionary<String, SimElementManager> simElementManagers = new Dictionary<string, SimElementManager>();
-        private Dictionary<String, SimSubScene> simSubScene = new Dictionary<string, SimSubScene>();
+        private Dictionary<String, SimSubScene> simSubScenes = new Dictionary<string, SimSubScene>();
         private SimSubScene defaultScene;
 
         #endregion Fields
@@ -35,6 +35,17 @@ namespace Engine
         #endregion Constructors
 
         #region Functions
+        
+        /// <summary>
+        /// Dispose function
+        /// </summary>
+        public void Dispose()
+        {
+            foreach (SimElementManager elementManager in simElementManagers.Values)
+            {
+                elementManager.Dispose();
+            }
+        }
 
         /// <summary>
         /// Add a SimElementManager.
@@ -55,12 +66,26 @@ namespace Engine
         }
 
         /// <summary>
+        /// Get the SimElementManager specified by name.
+        /// </summary>
+        /// <param name="name">The name of the SimElementManager.</param>
+        /// <returns>The specified SimElementManager or null if it cannot be found.</returns>
+        public SimElementManager getSimElementManager(String name)
+        {
+            if (simElementManagers.ContainsKey(name))
+            {
+                return simElementManagers[name];
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Add a SimSubScene.
         /// </summary>
         /// <param name="scene">The SimSubScene to add.</param>
         public void addSimSubScene(SimSubScene scene)
         {
-            this.simSubScene.Add(scene.Name, scene);
+            this.simSubScenes.Add(scene.Name, scene);
         }
 
         /// <summary>
@@ -69,7 +94,21 @@ namespace Engine
         /// <param name="scene">The scene to remove.</param>
         public void removeSimSubScene(SimSubScene scene)
         {
-            this.simSubScene.Remove(scene.Name);
+            this.simSubScenes.Remove(scene.Name);
+        }
+
+        /// <summary>
+        /// Get the SimSubScene specified by name.
+        /// </summary>
+        /// <param name="name">The name to search for.</param>
+        /// <returns>The specified SimSubScene or null if it does not exist.</returns>
+        public SimSubScene getSubScene(String name)
+        {
+            if (simSubScenes.ContainsKey(name))
+            {
+                return simSubScenes[name];
+            }
+            return null;
         }
 
         /// <summary>
@@ -80,7 +119,7 @@ namespace Engine
         /// <param name="scene">The scene to set as the default.</param>
         public void setDefaultSubScene(SimSubScene scene)
         {
-            if (simSubScene.ContainsKey(scene.Name))
+            if (simSubScenes.ContainsKey(scene.Name))
             {
                 defaultScene = scene;
             }

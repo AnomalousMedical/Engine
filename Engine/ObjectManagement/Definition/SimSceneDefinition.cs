@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Engine.Editing;
+using Logging;
 
 namespace Engine
 {
@@ -135,7 +136,23 @@ namespace Engine
         public SimScene createScene()
         {
             SimScene scene = new SimScene();
-
+            foreach (SimElementManagerDefinition elementManagerDef in elementManagers.Values)
+            {
+                scene.addSimElementManager(elementManagerDef.createSimElementManager());
+            }
+            foreach (SimSubSceneDefinition subSceneDef in subSceneDefinitions.Values)
+            {
+                subSceneDef.createSubScene(scene);
+            }
+            SimSubScene subScene = scene.getSubScene(DefaultSubScene);
+            if (subScene != null)
+            {
+                scene.setDefaultSubScene(subScene);
+            }
+            else
+            {
+                Log.Default.sendMessage("The defined default scene {0} can not be found in the created scene. No default set.", LogLevel.Warning, "Engine", DefaultSubScene);
+            }
             return scene;
         }
 
@@ -143,6 +160,9 @@ namespace Engine
 
         #region Properties
 
+        /// <summary>
+        /// The name of the SimSubScene to use as the default scene for creating SimObjects.
+        /// </summary>
         [Editable("The name of the SimSubScene to use as the default scene for creating SimObjects.")]
         public String DefaultSubScene
         {

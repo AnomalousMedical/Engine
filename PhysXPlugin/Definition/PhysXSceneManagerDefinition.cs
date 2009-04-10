@@ -78,7 +78,7 @@ namespace PhysXPlugin
         /// This may not be safe to call more than once per definition.
         /// </summary>
         /// <returns>The SimElementManager this definition is designed to create.</returns>
-        public SimElementManager getSimElementManager()
+        public SimElementManager createSimElementManager()
         {
             return physInterface.createScene(this);
         }

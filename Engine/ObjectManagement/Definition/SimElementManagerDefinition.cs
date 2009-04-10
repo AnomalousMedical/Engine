@@ -23,7 +23,7 @@ namespace Engine
         /// This may not be safe to call more than once per definition.
         /// </summary>
         /// <returns>The SimElementManager this definition is designed to create.</returns>
-        SimElementManager getSimElementManager();
+        SimElementManager createSimElementManager();
 
         /// <summary>
         /// The name of the definition and the SimElementManager it defines.
