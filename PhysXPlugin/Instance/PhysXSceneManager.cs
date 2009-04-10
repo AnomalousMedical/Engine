@@ -83,6 +83,15 @@ namespace PhysXPlugin
         }
 
         /// <summary>
+        /// Get the name.
+        /// </summary>
+        /// <returns>The name.</returns>
+        public String getName()
+        {
+            return name;
+        }
+
+        /// <summary>
         /// Create a new PhysActor. It must be destroyed using destroyPhysActor
         /// or it will not be released from PhysX properly.
         /// </summary>

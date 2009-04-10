@@ -256,6 +256,16 @@ namespace Editor
             return inRes.ok;
         }
 
+        /// <summary>
+        /// Validate the settings that are currently being displayed on the table.
+        /// </summary>
+        /// <param name="errorMessage">An error message to fill out.</param>
+        /// <returns>True if the settings are valid. False if they are not.</returns>
+        public bool validateCurrentSettings(out String errorMessage)
+        {
+            return currentEditInterface.validate(out errorMessage);
+        }
+
         #endregion
     }
 }

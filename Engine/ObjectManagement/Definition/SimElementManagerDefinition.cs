@@ -29,5 +29,15 @@ namespace Engine
         /// The name of the definition and the SimElementManager it defines.
         /// </summary>
         String Name { get; }
+
+        /// <summary>
+        /// This will return the type the SimElementManager wishes to report
+        /// itself as. Usually this will be the type of the class itself,
+        /// however, it is possible to specify a superclass if desired. This
+        /// will be the type reported to the SimSubScene. This should be the
+        /// value returned by the SimElementManager this definition creates.
+        /// </summary>
+        /// <returns></returns>
+        Type getSimElementManagerType();
     }
 }

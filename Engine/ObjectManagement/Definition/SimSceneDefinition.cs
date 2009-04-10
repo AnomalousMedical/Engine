@@ -118,6 +118,13 @@ namespace Engine
             return editInterface;
         }
 
+        public SimScene createScene()
+        {
+            SimScene scene = new SimScene();
+
+            return scene;
+        }
+
         #endregion Functions
     }
 }

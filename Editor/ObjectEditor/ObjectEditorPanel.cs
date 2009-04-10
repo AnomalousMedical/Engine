@@ -24,7 +24,8 @@ namespace Editor
         public ObjectEditorPanel()
         {
             InitializeComponent();
-            editInterfaceView.OnEditInterfaceSelectionChanged += new EditInterfaceSelectionChanged(propertiesTable.showEditableProperties);
+            editInterfaceView.OnEditInterfaceSelectionChanging += new EditInterfaceSelectionChanging(editInterfaceView_OnEditInterfaceSelectionChanging);
+            editInterfaceView.OnEditInterfaceSelectionChanged += new EditInterfaceSelectionChanged(editInterfaceView_OnEditInterfaceSelectionChanged);
         }
 
         #endregion Constructors
@@ -39,6 +40,29 @@ namespace Editor
         {
             editInterfaceView.setEditInterface(editor);
             propertiesTable.showEditableProperties(editor);
+        }
+
+        /// <summary>
+        /// Callback for when the EditInterface changes.
+        /// </summary>
+        /// <param name="evt"></param>
+        void editInterfaceView_OnEditInterfaceSelectionChanged(EditInterfaceViewEvent evt)
+        {
+            propertiesTable.showEditableProperties(evt.EditInterface);
+        }
+
+        /// <summary>
+        /// Callback for when the EditInterface is about to change.
+        /// </summary>
+        /// <param name="evt"></param>
+        void editInterfaceView_OnEditInterfaceSelectionChanging(EditInterfaceViewEvent evt)
+        {
+            String error;
+            if (!propertiesTable.validateCurrentSettings(out error))
+            {
+                evt.Cancel = true;
+                MessageBox.Show(this, error, "Invalid Settings", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         #endregion Functions

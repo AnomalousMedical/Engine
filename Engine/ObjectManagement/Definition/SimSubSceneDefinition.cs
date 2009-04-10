@@ -53,7 +53,7 @@ namespace Engine
         /// <returns>True if this definition already contains a SimElementManagerDefinition of the given type.</returns>
         public bool hasTypeBindings(SimElementManagerDefinition type)
         {
-            return bindings.ContainsKey(type.GetType());
+            return bindings.ContainsKey(type.getSimElementManagerType());
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Engine
         /// <param name="toBind">The SimElementManagerDefinition to bind to this SimSubScene</param>
         public void addBinding(SimElementManagerDefinition toBind)
         {
-            bindings.Add(toBind.GetType(), toBind.Name);
+            bindings.Add(toBind.getSimElementManagerType(), toBind.Name);
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Engine
         /// <param name="toBind">The SimElementManagerDefinition to remove from this SimSubScene</param>
         public void removeBinding(SimElementManagerDefinition toBind)
         {
-            bindings.Remove(toBind.GetType());
+            bindings.Remove(toBind.getSimElementManagerType());
         }
 
         /// <summary>

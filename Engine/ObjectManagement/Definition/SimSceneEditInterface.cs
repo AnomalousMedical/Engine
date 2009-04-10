@@ -272,6 +272,19 @@ namespace Engine
             return null;
         }
 
+        /// <summary>
+        /// This function will validate the data in the EditInterface and return
+        /// true if it is valid. It will also fill out errorMessage with any
+        /// errors that may occur.
+        /// </summary>
+        /// <param name="errorMessage">A string that will get an error message for the interface.</param>
+        /// <returns>True if the settings are valid, false if they are not.</returns>
+        public bool validate(out String errorMessage)
+        {
+            errorMessage = null;
+            return true;
+        }
+
         #endregion
 
         #endregion Functions

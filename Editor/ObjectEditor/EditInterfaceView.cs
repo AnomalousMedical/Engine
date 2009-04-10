@@ -15,8 +15,15 @@ namespace Editor
     /// <summary>
     /// This delegate is called when the selected EditInterface changes.
     /// </summary>
-    /// <param name="editInterface">The EditInterface that has been selected.</param>
-    public delegate void EditInterfaceSelectionChanged(EditInterface editInterface);
+    /// <param name="editInterface">The EditInterfaceViewEvent.</param>
+    public delegate void EditInterfaceSelectionChanged(EditInterfaceViewEvent evt);
+
+    /// <summary>
+    /// This delegate is called when the selected EditInterface is about to
+    /// change.
+    /// </summary>
+    /// <param name="editInterface">The EditInterfaceViewEvent.</param>
+    public delegate void EditInterfaceSelectionChanging(EditInterfaceViewEvent evt);
 
     public partial class EditInterfaceView : UserControl, EditUICallback
     {
@@ -31,7 +38,15 @@ namespace Editor
 
         #region Events
 
+        /// <summary>
+        /// Called when the selected EditInterface has changed. Cannot be canceled.
+        /// </summary>
         public event EditInterfaceSelectionChanged OnEditInterfaceSelectionChanged;
+
+        /// <summary>
+        /// Called when the selected EditInterface is about to change. Can be canceled.
+        /// </summary>
+        public event EditInterfaceSelectionChanging OnEditInterfaceSelectionChanging;
 
         #endregion Events
 
@@ -42,6 +57,7 @@ namespace Editor
             InitializeComponent();
             objectsTree.NodeMouseClick += new TreeNodeMouseClickEventHandler(objectsTree_NodeMouseClick);
             objectsTree.AfterSelect += new TreeViewEventHandler(objectsTree_AfterSelect);
+            objectsTree.BeforeSelect += new TreeViewCancelEventHandler(objectsTree_BeforeSelect);
             menu.ItemClicked += new ToolStripItemClickedEventHandler(menu_ItemClicked);
         }
 
@@ -146,11 +162,22 @@ namespace Editor
             }
         }
 
+        void objectsTree_BeforeSelect(object sender, TreeViewCancelEventArgs e)
+        {
+            if (OnEditInterfaceSelectionChanging != null)
+            {
+                EditInterfaceViewEvent evt = new EditInterfaceViewEvent((e.Node as EditInterfaceTreeNode).EditInterface);
+                OnEditInterfaceSelectionChanging.Invoke(evt);
+                e.Cancel = evt.Cancel;
+            }
+        }
+
         void objectsTree_AfterSelect(object sender, TreeViewEventArgs e)
         {
             if (OnEditInterfaceSelectionChanged != null)
             {
-                OnEditInterfaceSelectionChanged.Invoke((e.Node as EditInterfaceTreeNode).EditInterface);
+                EditInterfaceViewEvent evt = new EditInterfaceViewEvent((e.Node as EditInterfaceTreeNode).EditInterface);
+                OnEditInterfaceSelectionChanged.Invoke(evt);
             }
         }
 

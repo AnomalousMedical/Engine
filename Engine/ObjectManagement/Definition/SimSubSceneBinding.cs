@@ -95,8 +95,8 @@ namespace Engine
             if (column == NAME_COL && value != null && value != String.Empty)
             {
                 SimElementManagerDefinition def = subScene.getSimElementManager(value);
-                if (def != simElementManager && 
-                    (simElementManager == null || def.GetType() != simElementManager.GetType()))
+                if (def != simElementManager &&
+                    (simElementManager == null || def.getSimElementManagerType() != simElementManager.getSimElementManagerType()))
                 {
                     if (def == null)
                     {

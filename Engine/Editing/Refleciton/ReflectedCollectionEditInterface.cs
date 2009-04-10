@@ -16,7 +16,18 @@ namespace Engine.Editing
     /// <typeparam name="T">The type in the collection this interface wraps. Not the type of the collection itself.</typeparam>
     class ReflectedCollectionEditInterface<T> : EditInterface
     {
-        #region Functions
+        #region Delegates
+
+        /// <summary>
+        /// This delegate can be used to implement a custom validate function.
+        /// </summary>
+        /// <param name="errorMessage">The error message.</param>
+        /// <returns>True if the data is valid, false if it is invalid.</returns>
+        public delegate bool Validate(out String errorMessage);
+
+        #endregion Delegates
+
+        #region Fields
 
         private Dictionary<T, EditableProperty> items = new Dictionary<T, EditableProperty>();
         private MemberScanner memberScanner;
@@ -27,7 +38,7 @@ namespace Engine.Editing
         private DestroyEditablePropertyCommand destroyPropertyCommand = null;
         private Object commandTarget = null;
 
-        #endregion Functions
+        #endregion Fields
 
         #region Constructors
 
@@ -250,14 +261,28 @@ namespace Engine.Editing
         }
 
         /// <summary>
-        /// Set the object that is the target for commands.
+        /// This function will validate the data in the EditInterface and return
+        /// true if it is valid. It will also fill out errorMessage with any
+        /// errors that may occur.
         /// </summary>
-        /// <param name="target">The object that will be passed as the target object to the commands.</param>
-        public void setCommandTarget(Object target)
+        /// <param name="errorMessage">A string that will get an error message for the interface.</param>
+        /// <returns>True if the settings are valid, false if they are not.</returns>
+        public bool validate(out String errorMessage)
         {
-            this.commandTarget = target;
+            if (ValidateFunction != null)
+            {
+                return ValidateFunction.Invoke(out errorMessage);
+            }
+            errorMessage = null;
+            return true;
         }
 
         #endregion
+
+        #region Properties
+
+        public Validate ValidateFunction { get; set; }
+
+        #endregion Properties
     }
 }

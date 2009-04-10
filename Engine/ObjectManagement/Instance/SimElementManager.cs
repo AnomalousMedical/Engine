@@ -25,5 +25,11 @@ namespace Engine
         /// </summary>
         /// <returns></returns>
         Type getSimElementManagerType();
+
+        /// <summary>
+        /// Get the name.
+        /// </summary>
+        /// <returns>The name.</returns>
+        String getName();
     }
 }

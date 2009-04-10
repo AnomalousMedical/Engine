@@ -80,8 +80,7 @@ namespace Engine
         /// <param name="subCommand">A subCommand to optionally use.</param>
         private void destroyBinding(EditableProperty property, EditUICallback callback, String subCommand)
         {
-            ReflectedObjectEditableProperty reflectedProp = (ReflectedObjectEditableProperty)property;
-            removeBinding((SimSubSceneBinding)reflectedProp.getTargetObject());
+            removeBinding((SimSubSceneBinding)property);
         }
 
         /// <summary>
@@ -216,6 +215,33 @@ namespace Engine
         public DestroyEditablePropertyCommand getDestroyPropertyCommand()
         {
             return destroyBindingCommand;
+        }
+
+        /// <summary>
+        /// This function will validate the data in the EditInterface and return
+        /// true if it is valid. It will also fill out errorMessage with any
+        /// errors that may occur.
+        /// </summary>
+        /// <param name="errorMessage">A string that will get an error message for the interface.</param>
+        /// <returns>True if the settings are valid, false if they are not.</returns>
+        public bool validate(out String errorMessage)
+        {
+            bool allFilled = true;
+            foreach (SimSubSceneBinding binding in bindings)
+            {
+                Object bindingValue = binding.getValue(0);
+                allFilled &= bindingValue != null && bindingValue.ToString() != String.Empty;
+            }
+            if (allFilled)
+            {
+                errorMessage = null;
+                return true;
+            }
+            else
+            {
+                errorMessage = "Not all SimElementManager bindings are filled in. Please specify a value for all bindings or remove the empty bindings.";
+                return false;
+            }
         }
 
         #endregion

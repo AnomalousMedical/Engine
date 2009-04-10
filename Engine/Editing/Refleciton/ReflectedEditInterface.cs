@@ -13,6 +13,17 @@ namespace Engine.Editing
     /// </summary>
     public class ReflectedEditInterface : EditInterface
     {
+        #region Delegates
+
+        /// <summary>
+        /// This delegate can be used to implement a custom validate function.
+        /// </summary>
+        /// <param name="errorMessage">The error message.</param>
+        /// <returns>True if the data is valid, false if it is invalid.</returns>
+        public delegate bool Validate(out String errorMessage);
+
+        #endregion Delegates
+
         #region Fields
 
         private MemberScanner memberScanner;
@@ -264,6 +275,23 @@ namespace Engine.Editing
             return null;
         }
 
+        /// <summary>
+        /// This function will validate the data in the EditInterface and return
+        /// true if it is valid. It will also fill out errorMessage with any
+        /// errors that may occur.
+        /// </summary>
+        /// <param name="errorMessage">A string that will get an error message for the interface.</param>
+        /// <returns>True if the settings are valid, false if they are not.</returns>
+        public bool validate(out String errorMessage)
+        {
+            if (ValidateFunction != null)
+            {
+                return ValidateFunction.Invoke(out errorMessage);
+            }
+            errorMessage = null;
+            return true;
+        }
+
         #endregion Functions
 
         #region Helper Functions
@@ -289,5 +317,11 @@ namespace Engine.Editing
         }
 
         #endregion Helper Functions
+
+        #region Properties
+
+        public Validate ValidateFunction { get; set; }
+
+        #endregion Properties
     }
 }

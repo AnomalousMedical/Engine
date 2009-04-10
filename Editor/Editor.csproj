@@ -53,6 +53,7 @@
     <Compile Include="CommonGUI\InputBox.designer.cs">
       <DependentUpon>InputBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="ObjectEditor\EditInterfaceViewEvent.cs" />
     <Compile Include="ObjectEditor\EditInterfaceView.cs">
       <SubType>UserControl</SubType>
     </Compile>
