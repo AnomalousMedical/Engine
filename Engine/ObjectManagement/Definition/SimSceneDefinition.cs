@@ -12,11 +12,25 @@ namespace Engine
     /// </summary>
     public class SimSceneDefinition
     {
+        #region Static
+
+        private static Dictionary<String, EngineCommand> commandList = new Dictionary<string, EngineCommand>();
+
+        internal static void AddCreateSimElementManagerDefinitionCommand(EngineCommand command)
+        {
+            commandList.Add(command.Name, command);
+        }
+
+        #endregion Static
+
         #region Fields
 
         private Dictionary<String, SimElementManagerDefinition> elementManagers = new Dictionary<String,SimElementManagerDefinition>();
         private Dictionary<String, SimSubSceneDefinition> subSceneDefinitions = new Dictionary<string, SimSubSceneDefinition>();
+        private Dictionary<String, EditInterface> elementManagerEditInterfaces = new Dictionary<string, EditInterface>();
+        private Dictionary<EditInterfaceCommand, String> createSimElementManagerDefs = new Dictionary<EditInterfaceCommand, string>();
         private EditInterface editInterface;
+
         private String defaultScene;
         
         #endregion Fields
@@ -42,6 +56,12 @@ namespace Engine
         public void addSimElementManagerDefinition(SimElementManagerDefinition def)
         {
             elementManagers.Add(def.Name, def);
+            if (editInterface != null)
+            {
+                EditInterface defInterface = def.getEditInterface();
+                elementManagerEditInterfaces.Add(def.Name, defInterface);
+                editInterface.addSubInterface(defInterface);
+            }
         }
 
         /// <summary>
@@ -51,6 +71,12 @@ namespace Engine
         public void removeSimElementManagerDefinition(SimElementManagerDefinition def)
         {
             elementManagers.Remove(def.Name);
+            if (editInterface != null)
+            {
+                EditInterface defInterface = elementManagerEditInterfaces[def.Name];
+                elementManagerEditInterfaces.Remove(def.Name);
+                editInterface.removeSubInterface(defInterface);
+            }
         }
 
         /// <summary>
@@ -124,7 +150,19 @@ namespace Engine
         {
             if (editInterface == null)
             {
-                editInterface = new SimSceneEditInterface(this);
+                editInterface = ReflectedEditInterface.createEditInterface(this, ReflectedEditInterface.DefaultScanner, "Sim Scene", null);
+                foreach (SimElementManagerDefinition elementDef in elementManagers.Values)
+                {
+                    EditInterface defInterface = elementDef.getEditInterface();
+                    elementManagerEditInterfaces.Add(elementDef.Name, defInterface);
+                    editInterface.addSubInterface(defInterface);
+                }
+                foreach (EngineCommand command in commandList.Values)
+                {
+                    EditInterfaceCommand interfaceCommand = new EditInterfaceCommand(command.PrettyName, new EditInterfaceFunction(createSimElementManagerDefinition));
+                    createSimElementManagerDefs.Add(interfaceCommand, command.Name);
+                    editInterface.addCommand(interfaceCommand);
+                }
             }
             return editInterface;
         }
@@ -163,26 +201,6 @@ namespace Engine
             return scene;
         }
 
-        /// <summary>
-        /// Internal function so the edit interfaces can get the
-        /// ElementManagerDefinitions. Should only be called by that class.
-        /// </summary>
-        /// <returns>An enumerable over the ElementManagerDefinitions.</returns>
-        internal IEnumerable<SimElementManagerDefinition> _getElementManagerDefinitions()
-        {
-            return elementManagers.Values;
-        }
-
-        /// <summary>
-        /// Internal function so the edit interfaces can get the
-        /// SubSceneDefintions. Should only be called by that class.
-        /// </summary>
-        /// <returns>An enumerable over the SubSceneDefintions.</returns>
-        internal IEnumerable<SimSubSceneDefinition> _getSubSceneDefintions()
-        {
-            return subSceneDefinitions.Values;
-        }
-
         #endregion Functions
 
         #region Properties
@@ -204,5 +222,24 @@ namespace Engine
         }
 
         #endregion Properties
+
+        #region Helper Functions
+
+        private void createSimElementManagerDefinition(EditUICallback callback, EditInterfaceCommand caller)
+        {
+            String name;
+            bool accept = callback.getInputString("Enter a name.", out name);
+            while (accept && this.hasSimElementManagerDefinition(name))
+            {
+                accept = callback.getInputString("That name is already in use. Please provide another.", name, out name);
+            }
+            if (accept)
+            {
+                SimElementManagerDefinition def = (SimElementManagerDefinition)commandList[createSimElementManagerDefs[caller]].execute(name);
+                this.addSimElementManagerDefinition(def);
+            }
+        }
+
+        #endregion Helper Functions
     }
 }

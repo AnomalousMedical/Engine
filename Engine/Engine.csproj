@@ -48,14 +48,11 @@
   <ItemGroup>
     <Compile Include="Command\CommandManager.cs" />
     <Compile Include="Command\EngineCommand.cs" />
-    <Compile Include="Editing\CreateEditablePropertyCommand.cs" />
-    <Compile Include="Editing\CreateEditInterfaceCommand.cs" />
-    <Compile Include="Editing\DestroyEditablePropertyCommand.cs" />
-    <Compile Include="Editing\DestroyEditInterfaceCommand.cs" />
     <Compile Include="Editing\EditableProperty.cs" />
     <Compile Include="Editing\EditablePropertyColumn.cs" />
     <Compile Include="Editing\EditablePropertyInfo.cs" />
     <Compile Include="Editing\EditInterface.cs" />
+    <Compile Include="Editing\EditInterfaceCommand.cs" />
     <Compile Include="Editing\EditUICallback.cs" />
     <Compile Include="Editing\Refleciton\EditableAttribute.cs" />
     <Compile Include="Editing\Refleciton\EditableAttributeFilter.cs" />
@@ -63,12 +60,8 @@
     <Compile Include="Editing\Refleciton\ReflectedObjectEditableProperty.cs" />
     <Compile Include="ObjectManagement\Definition\SimElementManagerDefinition.cs" />
     <Compile Include="ObjectManagement\Definition\SimSceneDefinition.cs" />
-    <Compile Include="ObjectManagement\Definition\SimSceneEditElementManagers.cs" />
-    <Compile Include="ObjectManagement\Definition\SimSceneEditInterface.cs" />
-    <Compile Include="ObjectManagement\Definition\SimSceneEditSubScenes.cs" />
     <Compile Include="ObjectManagement\Definition\SimSubSceneBinding.cs" />
     <Compile Include="ObjectManagement\Definition\SimSubSceneDefinition.cs" />
-    <Compile Include="ObjectManagement\Definition\SimSubSceneEditInterface.cs" />
     <Compile Include="ObjectManagement\Instance\SimScene.cs" />
     <Compile Include="ObjectManagement\Instance\SimSubScene.cs" />
     <Compile Include="Reflection\BooleanReflectedVariable.cs" />

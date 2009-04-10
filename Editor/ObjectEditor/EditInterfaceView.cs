@@ -29,10 +29,10 @@ namespace Editor
     {
         #region Fields
 
-        private Dictionary<ToolStripItem, CreateEditInterfaceCommand> currentMenuCommands = new Dictionary<ToolStripItem, CreateEditInterfaceCommand>();
-        private DestroyEditInterfaceCommand currentDestroyCommand = null;
+        private Dictionary<ToolStripItem, EditInterfaceCommand> currentMenuCommands = new Dictionary<ToolStripItem, EditInterfaceCommand>();
         private ContextMenuStrip menu = new ContextMenuStrip();
         private EditInterface currentMenuInterface;
+        private EditInterfaceTreeNode parentNode;
 
         #endregion Fields
 
@@ -59,17 +59,45 @@ namespace Editor
             objectsTree.AfterSelect += new TreeViewEventHandler(objectsTree_AfterSelect);
             objectsTree.BeforeSelect += new TreeViewCancelEventHandler(objectsTree_BeforeSelect);
             menu.ItemClicked += new ToolStripItemClickedEventHandler(menu_ItemClicked);
+            this.Disposed += new EventHandler(EditInterfaceView_Disposed);
         }
 
         #endregion Constructors
 
         #region Functions
 
+        /// <summary>
+        /// Set the current interface being edited by this EditInterfaceView.
+        /// You must call clearEditInterface before this function can be called
+        /// a second time.
+        /// </summary>
+        /// <param name="editor"></param>
         public void setEditInterface(EditInterface editor)
         {
-            this.objectsTree.Nodes.Clear();
-            EditInterfaceTreeNode parentNode = new EditInterfaceTreeNode(editor);
-            this.objectsTree.Nodes.Add(parentNode);
+            if (parentNode == null)
+            {
+                parentNode = new EditInterfaceTreeNode(editor);
+                this.objectsTree.Nodes.Add(parentNode);
+            }
+            else
+            {
+                throw new Exception("Attempted to use an EditInterfaceView with a new EditInterface without first calling clearEditInterface. You must call that function first to clear the old information before setting new information.");
+            }
+        }
+
+        /// <summary>
+        /// Clear the EditInterface from this view. This will disconnect all the
+        /// editors from the parent node. This should be called as soon as you
+        /// are finished with an EditInterface.
+        /// </summary>
+        public void clearEditInterface()
+        {
+            if (parentNode != null)
+            {
+                parentNode.Dispose();
+                this.objectsTree.Nodes.Clear();
+                parentNode = null;
+            }
         }
 
         /// <summary>
@@ -155,6 +183,11 @@ namespace Editor
 
         #region Helper Functions
 
+        void EditInterfaceView_Disposed(object sender, EventArgs e)
+        {
+            clearEditInterface();
+        }
+
         void objectsTree_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -164,18 +197,11 @@ namespace Editor
                 EditInterfaceTreeNode node = e.Node as EditInterfaceTreeNode;
                 node.TreeView.SelectedNode = node;
                 currentMenuInterface = node.EditInterface;
-                if (currentMenuInterface.hasDestroyObjectCommand())
+                if (currentMenuInterface.hasCommands())
                 {
-                    DestroyEditInterfaceCommand command = currentMenuInterface.getDestroyObjectCommand();
-                    ToolStripItem entry = new ToolStripMenuItem(command.PrettyName);
-                    currentDestroyCommand = command;
-                    menu.Items.Add(entry);
-                }
-                if (currentMenuInterface.hasCreateSubObjectCommands())
-                {
-                    foreach (CreateEditInterfaceCommand command in currentMenuInterface.getCreateSubObjectCommands())
+                    foreach (EditInterfaceCommand command in currentMenuInterface.getCommands())
                     {
-                        ToolStripItem entry = new ToolStripMenuItem(command.PrettyName);
+                        ToolStripItem entry = new ToolStripMenuItem(command.Name);
                         currentMenuCommands.Add(entry, command);
                         menu.Items.Add(entry);
                     }
@@ -189,21 +215,8 @@ namespace Editor
 
         void menu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            if (currentMenuCommands.ContainsKey(e.ClickedItem))
-            {
-                CreateEditInterfaceCommand command = currentMenuCommands[e.ClickedItem];
-                EditInterface newInterface = command.execute(this);
-                if (newInterface != null)
-                {
-                    objectsTree.SelectedNode.Nodes.Add(new EditInterfaceTreeNode(newInterface));
-                }
-            }
-            else
-            {
-                EditInterfaceTreeNode node = (EditInterfaceTreeNode)objectsTree.SelectedNode;
-                currentDestroyCommand.execute(node.EditInterface, this);
-                objectsTree.Nodes.Remove(node);
-            }
+            EditInterfaceCommand command = currentMenuCommands[e.ClickedItem];
+            command.execute(this);
         }
 
         void objectsTree_BeforeSelect(object sender, TreeViewCancelEventArgs e)

@@ -14,7 +14,7 @@ namespace Engine.Editing
     /// DestroyEditablePropertyCommands.
     /// </summary>
     /// <typeparam name="T">The type in the collection this interface wraps. Not the type of the collection itself.</typeparam>
-    class ReflectedCollectionEditInterface<T> : EditInterface
+    class ReflectedCollectionEditInterface<T>
     {
         #region Delegates
 
@@ -33,10 +33,6 @@ namespace Engine.Editing
         private MemberScanner memberScanner;
         private String name;
         private EditablePropertyInfo propertyInfo = new EditablePropertyInfo();
-        private DestroyEditInterfaceCommand destroyInterfaceCommand = null;
-        private CreateEditablePropertyCommand createPropertyCommand = null;
-        private DestroyEditablePropertyCommand destroyPropertyCommand = null;
-        private Object commandTarget = null;
 
         #endregion Fields
 
@@ -105,159 +101,6 @@ namespace Engine.Editing
         public void removeItem(T item)
         {
             items.Remove(item);
-        }
-
-        /// <summary>
-        /// Get a name for this interface.
-        /// </summary>
-        /// <returns>A String with the name of the interface.</returns>
-        public string getName()
-        {
-            return name;
-        }
-
-        /// <summary>
-        /// Determine if this EditInterface has any EditableProperties.
-        /// </summary>
-        /// <returns>True if the interface has some EditableProperties.</returns>
-        public bool hasEditableProperties()
-        {
-            return true;
-        }
-
-        /// <summary>
-        /// This function will return all properties of an EditInterface.
-        /// </summary>
-        /// <returns>A enumerable over all properties in the EditInterface or null if there aren't any.</returns>
-        public IEnumerable<EditableProperty> getEditableProperties()
-        {
-            return items.Values;
-        }
-
-        /// <summary>
-        /// Return the EditablePropertyInfo for this interface that determines
-        /// the layout of a single property. This can be null if
-        /// hasEditableProperties is false.
-        /// </summary>
-        /// <returns>The EditablePropertyInfo for this interface.</returns>
-        public EditablePropertyInfo getPropertyInfo()
-        {
-            return propertyInfo;
-        }
-
-        /// <summary>
-        /// Determine if this EditInterface has any SubEditInterfaces.
-        /// </summary>
-        /// <returns>True if the interface has some SubEditInterfaces.</returns>
-        public bool hasSubEditInterfaces()
-        {
-            return false;
-        }
-
-        /// <summary>
-        /// Get any SubEditInterfaces in this interface.
-        /// </summary>
-        /// <returns>An enumerable over all EditInterfaces that are part of this EditInterface or null if there aren't any.</returns>
-        public IEnumerable<EditInterface> getSubEditInterfaces()
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// Determine if this EditInterface has any CreateSubObjectCommands.
-        /// </summary>
-        /// <returns>True if there are create commands.</returns>
-        public bool hasCreateSubObjectCommands()
-        {
-            return false;
-        }
-
-        /// <summary>
-        /// Get a list of commands for creating sub objects.
-        /// </summary>
-        /// <returns>An IEnumerable over all creation commands or null if there aren't any.</returns>
-        public IEnumerable<CreateEditInterfaceCommand> getCreateSubObjectCommands()
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// Determine if this interface has a command to destroy itself.
-        /// </summary>
-        /// <returns>True if there is a destroy command.</returns>
-        public bool hasDestroyObjectCommand()
-        {
-            return destroyInterfaceCommand != null;
-        }
-
-        /// <summary>
-        /// Get a command that will destroy this object. This command must
-        /// accept a single argument that is a EditUICallback. This is optional
-        /// and can be null.
-        /// </summary>
-        /// <returns>A command that will destroy this EditInterface object or null if it cannot be destroyed.</returns>
-        public DestroyEditInterfaceCommand getDestroyObjectCommand()
-        {
-            return destroyInterfaceCommand;
-        }
-
-        /// <summary>
-        /// Se the command to destroy this object if needed.
-        /// </summary>
-        /// <param name="command">The command to set.</param>
-        public void setDestroyObjectCommand(DestroyEditInterfaceCommand command)
-        {
-            this.destroyInterfaceCommand = command;
-        }
-
-
-        /// <summary>
-        /// Determine if this interface can create and destroy properties. If
-        /// this returns true both getCreatePropertyCommand and
-        /// getDestroyPropertyCommand must be implemented.
-        /// </summary>
-        /// <returns>True if this interface can create and destroy properties.</returns>
-        public bool canAddRemoveProperties()
-        {
-            return createPropertyCommand != null && destroyPropertyCommand != null;
-        }
-
-        /// <summary>
-        /// Get the command that creates new properties.
-        /// </summary>
-        /// <returns>A CreateEditablePropertyCommand to create properties or null if it does not have one.</returns>
-        public CreateEditablePropertyCommand getCreatePropertyCommand()
-        {
-            return createPropertyCommand;
-        }
-
-        /// <summary>
-        /// Set the command used for creating objects. Both this and the
-        /// DestroyObjectCommand must be set before items can be created.
-        /// </summary>
-        /// <param name="command">The command to set.</param>
-        public void setCreatePropertyCommand(CreateEditablePropertyCommand command)
-        {
-            this.createPropertyCommand = command;
-        }
-
-        /// <summary>
-        /// Get the command that destroys properties.
-        /// </summary>
-        /// <returns>A DestroyEditablePropertyCommand to destroy properties or null if it does not have one.</returns>
-        public DestroyEditablePropertyCommand getDestroyPropertyCommand()
-        {
-            return destroyPropertyCommand;
-        }
-
-        /// <summary>
-        /// Set the command used for destroying objects. Both this and the
-        /// CreateObjectCommand must be set before items can be created.
-        /// </summary>
-        /// <param name="command">The command to set.</param>
-        public void setDestroyPropertyCommand(DestroyEditablePropertyCommand command)
-        {
-            this.destroyPropertyCommand = command;
         }
 
         /// <summary>

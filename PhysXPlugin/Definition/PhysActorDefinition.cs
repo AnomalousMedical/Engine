@@ -38,7 +38,7 @@ namespace PhysXPlugin
         private PhysBodyDesc bodyDesc = new PhysBodyDesc();
         private bool dynamic = false;
         private String shapeName = null;
-        private ReflectedEditInterface editInterface = null;
+        private EditInterface editInterface = null;
 
         #endregion Fields
 
@@ -85,7 +85,7 @@ namespace PhysXPlugin
         {
             if (editInterface == null)
             {
-                editInterface = new ReflectedEditInterface(this, memberScanner, Name);
+                editInterface = ReflectedEditInterface.createEditInterface(this, memberScanner, Name + " - PhysActor", null);
             }
             return editInterface;
         }

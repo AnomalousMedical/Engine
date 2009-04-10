@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EngineMath;
+using Engine.Editing;
 
 namespace Engine
 {
@@ -15,6 +16,7 @@ namespace Engine
 
         private LinkedList<SimElementDefinition> definitions = new LinkedList<SimElementDefinition>();
         private String name;
+        private EditInterface editInterface = null;
 
         #endregion Fields
 
@@ -64,6 +66,11 @@ namespace Engine
             {
                 definition.register(subScene, instance);
             }
+        }
+
+        public EditInterface getEditInterface()
+        {
+            throw new NotImplementedException();
         }
 
         #endregion Functions

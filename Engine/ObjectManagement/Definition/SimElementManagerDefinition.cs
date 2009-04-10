@@ -16,7 +16,7 @@ namespace Engine
         /// </summary>
         /// <param name="destroyCommand">A DestroyEditInterfaceCommand that will destroy the SimElementManagerDefinition.</param>
         /// <returns>An EditInterface for the definition or null if there is not interface.</returns>
-        EditInterface getEditInterface(DestroyEditInterfaceCommand destroyCommand);
+        EditInterface getEditInterface();
 
         /// <summary>
         /// Create the SimElementManager this definition defines and return it.

@@ -17,7 +17,6 @@ namespace Engine
         private Dictionary<Type, String> bindings = new Dictionary<Type, String>();
         private String name;
         private EditablePropertyInfo propertyInfo = new EditablePropertyInfo();
-        private SimSubSceneEditInterface editInterface = null;
         private SimSceneDefinition scene;
 
         #endregion Fields
@@ -88,13 +87,9 @@ namespace Engine
         /// Get the EditInterface.
         /// </summary>
         /// <returns>The EditInterface.</returns>
-        public SimSubSceneEditInterface getEditInterface()
+        public EditInterface getEditInterface()
         {
-            if (editInterface == null)
-            {
-                editInterface = new SimSubSceneEditInterface(this);
-            }
-            return editInterface;
+            throw new NotImplementedException();
         }
 
         /// <summary>

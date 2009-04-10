@@ -183,10 +183,7 @@ namespace Editor
         /// <returns>The EditableProperty that was on the given row.</returns>
         private void removeRow(int rowIndex)
         {
-            DataGridViewRow row = propGridView.Rows[rowIndex];
-            EditableProperty property = (EditableProperty)row.Cells[editColumnIndex].Value;
-            propGridView.Rows.Remove(row);
-            currentEditInterface.getDestroyPropertyCommand().execute(property, this);
+            currentEditInterface.getRemovePropertyCallback().Invoke(this);
         }
 
         /// <summary>
@@ -196,12 +193,7 @@ namespace Editor
         /// <param name="e"></param>
         private void addButton_Click(object sender, EventArgs e)
         {
-            EditableProperty property = currentEditInterface.getCreatePropertyCommand().execute(this);
-            //If the property is not null it is valid and should be added.
-            if (property != null)
-            {
-                addProperty(property);
-            }
+            currentEditInterface.getAddPropertyCallback().Invoke(this);
         }
 
         /// <summary>

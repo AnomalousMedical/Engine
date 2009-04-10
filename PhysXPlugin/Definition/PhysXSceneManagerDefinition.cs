@@ -30,7 +30,7 @@ namespace PhysXPlugin
 
         private PhysSceneDesc sceneDesc = new PhysSceneDesc();
         private String name;
-        private ReflectedEditInterface editInterface = null;
+        private EditInterface editInterface = null;
         private PhysXInterface physInterface;
 
         #endregion Fields
@@ -63,12 +63,11 @@ namespace PhysXPlugin
         /// Get an EditInterface.
         /// </summary>
         /// <returns>An EditInterface for the definition or null if there is no interface.</returns>
-        public EditInterface getEditInterface(DestroyEditInterfaceCommand destroyCommand)
+        public EditInterface getEditInterface()
         {
             if (editInterface == null)
             {
-                editInterface = new ReflectedEditInterface(sceneDesc, memberScanner, Name);
-                editInterface.setDestroyCommand(destroyCommand);
+                editInterface = ReflectedEditInterface.createEditInterface(sceneDesc, memberScanner, Name, null);
             }
             return editInterface;
         }
