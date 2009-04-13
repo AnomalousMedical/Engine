@@ -34,6 +34,7 @@ namespace Engine
         private EditInterface simElementEditor;
         private EditInterface subScenes;
         private EditInterfaceCommand destroySimElementManagerDef;
+        private EditInterfaceCommand destroySubScene;
 
         private String defaultScene;
         
@@ -170,13 +171,14 @@ namespace Engine
                     createSimElementManagerDefs.Add(interfaceCommand, command.Name);
                     simElementEditor.addCommand(interfaceCommand);
                 }
-                destroySimElementManagerDef = new EditInterfaceCommand("Destroy", new EditInterfaceFunction(destroySimElementManagerDefinition));
+                destroySimElementManagerDef = new EditInterfaceCommand("Destroy", destroySimElementManagerDefinition);
                 editInterface.addSubInterface(simElementEditor);
 
                 subScenes = new EditInterface("Subscenes");
                 EditInterfaceCommand createSubSceneCommand = new EditInterfaceCommand("Create Subscene", new EditInterfaceFunction(createSimSubSceneDefinition));
                 subScenes.addCommand(createSubSceneCommand);
                 editInterface.addSubInterface(subScenes);
+                destroySubScene = new EditInterfaceCommand("Destroy", destroySimSubSceneDefinition);
 
                 foreach (SimElementManagerDefinition elementDef in elementManagers.Values)
                 {
@@ -331,6 +333,7 @@ namespace Engine
         {
             EditInterface edit = def.getEditInterface();
             edit.UserObject = def;
+            edit.addCommand(destroySubScene);
             subSceneManagerEditInterfaces.Add(def.Name, edit);
             subScenes.addSubInterface(edit);
         }
