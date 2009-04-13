@@ -64,6 +64,10 @@
     <Compile Include="ObjectManagement\Definition\SimSubSceneDefinition.cs" />
     <Compile Include="ObjectManagement\Instance\SimScene.cs" />
     <Compile Include="ObjectManagement\Instance\SimSubScene.cs" />
+    <Compile Include="Platform\Clock.cs" />
+    <Compile Include="Platform\OSWindow.cs" />
+    <Compile Include="Platform\Timer.cs" />
+    <Compile Include="Platform\UpdateListener.cs" />
     <Compile Include="Reflection\BooleanReflectedVariable.cs" />
     <Compile Include="Reflection\ByteReflectedVariable.cs" />
     <Compile Include="Reflection\DoubleReflectedVariable.cs" />
