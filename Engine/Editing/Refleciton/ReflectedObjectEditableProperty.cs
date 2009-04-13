@@ -74,19 +74,9 @@ namespace Engine.Editing
         /// </summary>
         /// <param name="column">The column to get the value for.</param>
         /// <returns></returns>
-        public object getValue(int column)
+        public String getValue(int column)
         {
-            return variableList[column].getValue();
-        }
-
-        /// <summary>
-        /// Set the value of this property.
-        /// </summary>
-        /// <param name="column"></param>
-        /// <param name="value">The value to set. Must be the correct type.</param>
-        public void setValue(int column, object value)
-        {
-            variableList[column].setValue(value);
+            return variableList[column].getValue().ToString();
         }
 
         /// <summary>

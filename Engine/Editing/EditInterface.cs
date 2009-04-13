@@ -6,7 +6,7 @@ using System.Text;
 namespace Engine.Editing
 {
     public delegate void AddProperty(EditUICallback callback);
-    public delegate void RemoveProperty(EditUICallback callback);
+    public delegate void RemoveProperty(EditUICallback callback, EditableProperty property);
     public delegate bool Validate(out String errorMessage);
 
     public delegate void PropertyAdded(EditableProperty property);
@@ -32,11 +32,6 @@ namespace Engine.Editing
         public event PropertyRemoved OnPropertyRemoved;
         public event SubInterfaceAdded OnSubInterfaceAdded;
         public event SubInterfaceRemoved OnSubInterfaceRemoved;
-
-        public EditInterface()
-        {
-            throw new NotImplementedException();
-        }
 
         public EditInterface(String name)
             :this(name, null, null, null)

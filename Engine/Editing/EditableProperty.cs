@@ -17,13 +17,7 @@ namespace Engine.Editing
         /// </summary>
         /// <param name="column">The column to get the value for.</param>
         /// <returns></returns>
-        Object getValue(int column);
-
-        /// <summary>
-        /// Set the value of this property.
-        /// </summary>
-        /// <param name="value">The value to set. Must be the correct type.</param>
-        void setValue(int column, Object value);
+        String getValue(int column);
 
         /// <summary>
         /// Set the value of this property from a string.

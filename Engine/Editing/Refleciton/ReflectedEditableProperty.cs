@@ -48,14 +48,22 @@ namespace Engine.Editing
         /// </summary>
         /// <param name="column">The column to get the value for.</param>
         /// <returns></returns>
-        public Object getValue(int column)
+        public String getValue(int column)
         {
             switch(column)
             {
                 case NAME_COL:
                     return name;
                 case VALUE_COL:
-                    return variable.getValue();
+                    Object value = variable.getValue();
+                    if (value != null)
+                    {
+                        return value.ToString();
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 default:
                     throw new NotImplementedException("Should not get here");
             }

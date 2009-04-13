@@ -43,7 +43,7 @@ namespace Engine
         /// </summary>
         /// <param name="column">The column to get the value for.</param>
         /// <returns></returns>
-        public object getValue(int column)
+        public String getValue(int column)
         {
             if (simElementManager != null)
             {
@@ -59,19 +59,6 @@ namespace Engine
         }
 
         /// <summary>
-        /// Set the value of this property.
-        /// </summary>
-        /// <param name="column"></param>
-        /// <param name="value">The value to set. Must be the correct type.</param>
-        public void setValue(int column, object value)
-        {
-            if (column == NAME_COL)
-            {
-                setValueStr(column, value.ToString());
-            }
-        }
-
-        /// <summary>
         /// Set the value of this property from a string.
         /// </summary>
         /// <param name="column"></param>
@@ -80,15 +67,7 @@ namespace Engine
         {
             if (column == NAME_COL)
             {
-                if (simElementManager != null)
-                {
-                    subScene.removeBinding(simElementManager);
-                }
                 simElementManager = subScene.getSimElementManager(value);
-                if (simElementManager != null)
-                {
-                    subScene.addBinding(simElementManager);
-                }
             }
         }
 
@@ -105,8 +84,7 @@ namespace Engine
             if (column == NAME_COL && value != null && value != String.Empty)
             {
                 SimElementManagerDefinition def = subScene.getSimElementManager(value);
-                if (def != simElementManager &&
-                    (simElementManager == null || def.getSimElementManagerType() != simElementManager.getSimElementManagerType()))
+                if (simElementManager == null || def != simElementManager)
                 {
                     if (def == null)
                     {
@@ -142,5 +120,16 @@ namespace Engine
         }
   
         #endregion
+
+        /// <summary>
+        /// The SimElementManagerDefinition for this binding.
+        /// </summary>
+        public SimElementManagerDefinition SimElementManager
+        {
+            get
+            {
+                return simElementManager;
+            }
+        }
     }
 }

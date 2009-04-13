@@ -168,6 +168,8 @@ namespace Engine
                     editInterface.addCommand(interfaceCommand);
                 }
                 destroySimElementManagerDef = new EditInterfaceCommand("Destroy", new EditInterfaceFunction(destroySimElementManagerDefinition));
+                EditInterfaceCommand createSubSceneCommand = new EditInterfaceCommand("Create Subscene", new EditInterfaceFunction(createSimSubSceneDefinition));
+                editInterface.addCommand(createSubSceneCommand);
                 foreach (SimElementManagerDefinition elementDef in elementManagers.Values)
                 {
                     createEditInterface(elementDef);

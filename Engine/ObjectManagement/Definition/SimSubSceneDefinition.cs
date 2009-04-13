@@ -14,10 +14,12 @@ namespace Engine
     {
         #region Fields
 
-        private Dictionary<Type, String> bindings = new Dictionary<Type, String>();
+        private LinkedList<SimSubSceneBinding> bindings = new LinkedList<SimSubSceneBinding>();
         private String name;
-        private EditablePropertyInfo propertyInfo = new EditablePropertyInfo();
         private SimSceneDefinition scene;
+        private EditInterface editInterface;
+        private AddProperty addBindingCallback;
+        private RemoveProperty removeBindingCallback;
 
         #endregion Fields
 
@@ -27,6 +29,8 @@ namespace Engine
         {
             this.name = name;
             this.scene = scene;
+            addBindingCallback = addBinding;
+            removeBindingCallback = removeBinding;
         }
 
         #endregion Constructors
@@ -49,11 +53,18 @@ namespace Engine
         /// in this SimSubSceneDefinition. SimSubScenes can only have one of
         /// each type of SimElementManager in them.
         /// </summary>
-        /// <param name="type">The type to check for.</param>
+        /// <param name="check">The SimElementManagerDefinition to check types of.</param>
         /// <returns>True if this definition already contains a SimElementManagerDefinition of the given type.</returns>
-        public bool hasTypeBindings(SimElementManagerDefinition type)
+        public bool hasTypeBindings(SimElementManagerDefinition check)
         {
-            return bindings.ContainsKey(type.getSimElementManagerType());
+            foreach (SimSubSceneBinding binding in bindings)
+            {
+                if (binding.SimElementManager != null && binding.SimElementManager.getSimElementManagerType() == check.getSimElementManagerType())
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         /// <summary>
@@ -62,7 +73,12 @@ namespace Engine
         /// <param name="toBind">The SimElementManagerDefinition to bind to this SimSubScene</param>
         public void addBinding(SimElementManagerDefinition toBind)
         {
-            bindings.Add(toBind.getSimElementManagerType(), toBind.Name);
+            SimSubSceneBinding binding = new SimSubSceneBinding(this, toBind.Name);
+            bindings.AddLast(binding);
+            if (editInterface != null)
+            {
+                editInterface.addEditableProperty(binding);
+            }
         }
 
         /// <summary>
@@ -71,16 +87,23 @@ namespace Engine
         /// <param name="toBind">The SimElementManagerDefinition to remove from this SimSubScene</param>
         public void removeBinding(SimElementManagerDefinition toBind)
         {
-            bindings.Remove(toBind.getSimElementManagerType());
-        }
-
-        /// <summary>
-        /// Get the bindings to SimComponentManagers.
-        /// </summary>
-        /// <returns>An enumerable over all SimComponentManager bindings.</returns>
-        public IEnumerable<String> getBindings()
-        {
-            return bindings.Values;
+            SimSubSceneBinding found = null;
+            foreach (SimSubSceneBinding binding in bindings)
+            {
+                if (binding.SimElementManager == toBind)
+                {
+                    found = binding;
+                    break;
+                }
+            }
+            if (found != null)
+            {
+                bindings.Remove(found);
+                if (editInterface != null)
+                {
+                    editInterface.removeEditableProperty(found);
+                }
+            }
         }
 
         /// <summary>
@@ -89,7 +112,15 @@ namespace Engine
         /// <returns>The EditInterface.</returns>
         public EditInterface getEditInterface()
         {
-            throw new NotImplementedException();
+            if (editInterface == null)
+            {
+                editInterface = new EditInterface(name + " Subscene", addBindingCallback, removeBindingCallback);
+                EditablePropertyInfo propertyInfo = new EditablePropertyInfo();
+                propertyInfo.addColumn(new EditablePropertyColumn("Name", false));
+                propertyInfo.addColumn(new EditablePropertyColumn("Type", true));
+                editInterface.setPropertyInfo(propertyInfo);
+            }
+            return editInterface;
         }
 
         /// <summary>
@@ -100,20 +131,39 @@ namespace Engine
         public SimSubScene createSubScene(SimScene scene)
         {
             SimSubScene subscene = new SimSubScene(Name);
-            foreach (String elementManagerName in bindings.Values)
+            foreach (SimSubSceneBinding elementManager in bindings)
             {
-                SimElementManager manager = scene.getSimElementManager(elementManagerName);
+                SimElementManager manager = scene.getSimElementManager(elementManager.SimElementManager.Name);
                 if (manager != null)
                 {
                     subscene.addSimElementManager(manager);
                 }
                 else
                 {
-                    Log.Default.sendMessage("Could not find SimElementManager called {0}. This has not been added to the scene.", LogLevel.Warning, "Engine", elementManagerName);
+                    Log.Default.sendMessage("Could not find SimElementManager called {0}. This has not been added to the scene.", LogLevel.Warning, "Engine", elementManager);
                 }
             }
             scene.addSimSubScene(subscene);
             return subscene;
+        }
+
+        private void addBinding(EditUICallback callback)
+        {
+            SimSubSceneBinding binding = new SimSubSceneBinding(this);
+            bindings.AddLast(binding);
+            if (editInterface != null)
+            {
+                editInterface.addEditableProperty(binding);
+            }
+        }
+
+        private void removeBinding(EditUICallback callback, EditableProperty property)
+        {
+            bindings.Remove((SimSubSceneBinding)property);
+            if (editInterface != null)
+            {
+                editInterface.removeEditableProperty(property);
+            }
         }
 
         #endregion Functions

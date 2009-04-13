@@ -22,6 +22,8 @@ namespace Editor
         private EditInterface currentEditInterface;
         private DataGridViewColumn editColumn = new DataGridViewTextBoxColumn();
         private int editColumnIndex = -1;
+        private PropertyAdded propertyAddedCallback;
+        private PropertyRemoved propertyRemovedCallback;
 
         #endregion Fields
 
@@ -43,6 +45,9 @@ namespace Editor
             editColumn.Visible = false;
             editColumn.ReadOnly = true;
             editColumn.HeaderText = "Edit";
+
+            propertyAddedCallback = new PropertyAdded(editInterface_OnPropertyAdded);
+            propertyRemovedCallback = new PropertyRemoved(editInterface_OnPropertyRemoved);
         }
 
         #endregion Constructors
@@ -54,15 +59,25 @@ namespace Editor
         public void showEditableProperties(EditInterface editInterface)
         {
             allowValidation = false;
+
+            if (currentEditInterface != null)
+            {
+                currentEditInterface.OnPropertyAdded -= propertyAddedCallback;
+                currentEditInterface.OnPropertyRemoved -= propertyRemovedCallback;
+            }
+
             this.currentEditInterface = editInterface;
+
+            editInterface.OnPropertyAdded += propertyAddedCallback;
+            editInterface.OnPropertyRemoved += propertyRemovedCallback;
 
             propGridView.DataSource = null;
             propGridView.Rows.Clear();
             propGridView.Columns.Clear();
             addRemovePanel.Visible = editInterface.canAddRemoveProperties();
-            if (editInterface.hasEditableProperties())
+            currentPropInfo = editInterface.getPropertyInfo();
+            if (currentPropInfo != null)
             {
-                currentPropInfo = editInterface.getPropertyInfo();
                 foreach (EditablePropertyColumn column in currentPropInfo.getColumns())
                 {
                     DataGridViewColumn dgvColumn = new DataGridViewTextBoxColumn();
@@ -72,6 +87,9 @@ namespace Editor
                     propGridView.Columns.Add(dgvColumn);
                 }
                 editColumnIndex = propGridView.Columns.Add(editColumn);
+            }
+            if (editInterface.hasEditableProperties())
+            {
                 foreach (EditableProperty editProp in editInterface.getEditableProperties())
                 {
                     addProperty(editProp);
@@ -175,6 +193,18 @@ namespace Editor
             propGridView.Rows.Add(newRow);
         }
 
+        private void removeProperty(EditableProperty property)
+        {
+            foreach (DataGridViewRow row in propGridView.Rows)
+            {
+                if (row.Cells[editColumnIndex].Value == property)
+                {
+                    propGridView.Rows.Remove(row);
+                    break;
+                }
+            }
+        }
+
         /// <summary>
         /// Remove a row from the table and fire the destroy event for the
         /// EditableProperty on that row.
@@ -183,7 +213,9 @@ namespace Editor
         /// <returns>The EditableProperty that was on the given row.</returns>
         private void removeRow(int rowIndex)
         {
-            currentEditInterface.getRemovePropertyCallback().Invoke(this);
+            DataGridViewRow row = propGridView.Rows[rowIndex];
+            EditableProperty var = (EditableProperty)row.Cells[editColumnIndex].Value;
+            currentEditInterface.getRemovePropertyCallback().Invoke(this, var);
         }
 
         /// <summary>
@@ -265,6 +297,16 @@ namespace Editor
         public EditInterface getSelectedEditInterface()
         {
             return currentEditInterface;
+        }
+
+        void editInterface_OnPropertyRemoved(EditableProperty property)
+        {
+            removeProperty(property);
+        }
+
+        void editInterface_OnPropertyAdded(EditableProperty property)
+        {
+            addProperty(property);
         }
 
         #endregion
