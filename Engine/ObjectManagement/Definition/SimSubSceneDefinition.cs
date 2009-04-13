@@ -18,8 +18,6 @@ namespace Engine
         private String name;
         private SimSceneDefinition scene;
         private EditInterface editInterface;
-        private AddProperty addBindingCallback;
-        private RemoveProperty removeBindingCallback;
 
         #endregion Fields
 
@@ -29,8 +27,6 @@ namespace Engine
         {
             this.name = name;
             this.scene = scene;
-            addBindingCallback = addBinding;
-            removeBindingCallback = removeBinding;
         }
 
         #endregion Constructors
@@ -114,11 +110,15 @@ namespace Engine
         {
             if (editInterface == null)
             {
-                editInterface = new EditInterface(name + " Subscene", addBindingCallback, removeBindingCallback);
+                editInterface = new EditInterface(name + " Subscene", addBinding, removeBinding, validate);
                 EditablePropertyInfo propertyInfo = new EditablePropertyInfo();
                 propertyInfo.addColumn(new EditablePropertyColumn("Name", false));
                 propertyInfo.addColumn(new EditablePropertyColumn("Type", true));
                 editInterface.setPropertyInfo(propertyInfo);
+                foreach (SimSubSceneBinding binding in bindings)
+                {
+                    editInterface.addEditableProperty(binding);
+                }
             }
             return editInterface;
         }
@@ -164,6 +164,20 @@ namespace Engine
             {
                 editInterface.removeEditableProperty(property);
             }
+        }
+
+        private bool validate(out String message)
+        {
+            foreach (SimSubSceneBinding binding in bindings)
+            {
+                if (binding.SimElementManager == null)
+                {
+                    message = "Empty binding found. Please fill out all bindings or remove the empty listings.";
+                    return false;
+                }
+            }
+            message = null;
+            return true;
         }
 
         #endregion Functions

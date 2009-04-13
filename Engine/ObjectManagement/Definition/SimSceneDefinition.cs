@@ -31,6 +31,8 @@ namespace Engine
         private Dictionary<String, EditInterface> subSceneManagerEditInterfaces = new Dictionary<string, EditInterface>();
         private Dictionary<EditInterfaceCommand, String> createSimElementManagerDefs = new Dictionary<EditInterfaceCommand, string>();
         private EditInterface editInterface;
+        private EditInterface simElementEditor;
+        private EditInterface subScenes;
         private EditInterfaceCommand destroySimElementManagerDef;
 
         private String defaultScene;
@@ -75,7 +77,7 @@ namespace Engine
             {
                 EditInterface defInterface = elementManagerEditInterfaces[def.Name];
                 elementManagerEditInterfaces.Remove(def.Name);
-                editInterface.removeSubInterface(defInterface);
+                simElementEditor.removeSubInterface(defInterface);
             }
         }
 
@@ -129,7 +131,7 @@ namespace Engine
             {
                 EditInterface edit = subSceneManagerEditInterfaces[def.Name];
                 subSceneManagerEditInterfaces.Remove(def.Name);
-                editInterface.removeSubInterface(edit);
+                subScenes.removeSubInterface(edit);
             }
         }
 
@@ -160,16 +162,22 @@ namespace Engine
         {
             if (editInterface == null)
             {
-                editInterface = ReflectedEditInterface.createEditInterface(this, ReflectedEditInterface.DefaultScanner, "Sim Scene", null);
+                editInterface = ReflectedEditInterface.createEditInterface(this, ReflectedEditInterface.DefaultScanner, "Sim Scene", validate);
+                simElementEditor = new EditInterface("Sim Element Managers");
                 foreach (EngineCommand command in commandList.Values)
                 {
                     EditInterfaceCommand interfaceCommand = new EditInterfaceCommand(command.PrettyName, new EditInterfaceFunction(createSimElementManagerDefinition));
                     createSimElementManagerDefs.Add(interfaceCommand, command.Name);
-                    editInterface.addCommand(interfaceCommand);
+                    simElementEditor.addCommand(interfaceCommand);
                 }
                 destroySimElementManagerDef = new EditInterfaceCommand("Destroy", new EditInterfaceFunction(destroySimElementManagerDefinition));
+                editInterface.addSubInterface(simElementEditor);
+
+                subScenes = new EditInterface("Subscenes");
                 EditInterfaceCommand createSubSceneCommand = new EditInterfaceCommand("Create Subscene", new EditInterfaceFunction(createSimSubSceneDefinition));
-                editInterface.addCommand(createSubSceneCommand);
+                subScenes.addCommand(createSubSceneCommand);
+                editInterface.addSubInterface(subScenes);
+
                 foreach (SimElementManagerDefinition elementDef in elementManagers.Values)
                 {
                     createEditInterface(elementDef);
@@ -312,7 +320,7 @@ namespace Engine
             defInterface.UserObject = def;
             defInterface.addCommand(destroySimElementManagerDef);
             elementManagerEditInterfaces.Add(def.Name, defInterface);
-            editInterface.addSubInterface(defInterface);
+            simElementEditor.addSubInterface(defInterface);
         }
 
         /// <summary>
@@ -324,7 +332,27 @@ namespace Engine
             EditInterface edit = def.getEditInterface();
             edit.UserObject = def;
             subSceneManagerEditInterfaces.Add(def.Name, edit);
-            editInterface.addSubInterface(edit);
+            subScenes.addSubInterface(edit);
+        }
+
+        private bool validate(out String message)
+        {
+            if (hasSimSubSceneDefinitions())
+            {
+                if (DefaultSubScene == null)
+                {
+                    message = "Please specify one of the Subscenes as the default.";
+                    return false;
+                }
+                if (!hasSimSubSceneDefinition(DefaultSubScene))
+                {
+                    message = String.Format("{0} is not a valid Subscene. Please specify an existing scene.");
+                    return false;
+                }
+            }
+
+            message = null;
+            return true;
         }
 
         #endregion Helper Functions
