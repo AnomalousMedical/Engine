@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine.Editing;
 
-namespace Engine
+namespace Engine.ObjectManagement
 {
     /// <summary>
     /// This interface is a definition class for SimElementManagers.

@@ -5,7 +5,7 @@ using System.Text;
 using EngineMath;
 using Engine;
 
-namespace Engine
+namespace Engine.ObjectManagement
 {
     /// <summary>
     /// This enum sets what updates a element will listen to.

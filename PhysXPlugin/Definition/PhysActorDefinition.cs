@@ -8,6 +8,7 @@ using EngineMath;
 using Engine.Editing;
 using Engine.Reflection;
 using Logging;
+using Engine.ObjectManagement;
 
 namespace PhysXPlugin
 {

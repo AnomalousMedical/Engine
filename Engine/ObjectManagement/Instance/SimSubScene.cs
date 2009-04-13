@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Logging;
 
-namespace Engine
+namespace Engine.ObjectManagement
 {
     /// <summary>
     /// A SimSubScene is a group of SimElementManagers that define a specific

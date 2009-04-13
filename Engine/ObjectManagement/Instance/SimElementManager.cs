@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Engine
+namespace Engine.ObjectManagement
 {
     /// <summary>
     /// This interface defines the common functions for a class that maintains

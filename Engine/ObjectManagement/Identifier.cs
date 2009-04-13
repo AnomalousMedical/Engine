@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Logging;
 
-namespace Engine
+namespace Engine.ObjectManagement
 {
     /// <summary>
     /// An Identifier is a way of identifying an object that is part of a subsystem. There are two major components to an Identifier instance.

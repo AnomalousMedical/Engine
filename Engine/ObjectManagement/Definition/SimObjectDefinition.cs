@@ -5,7 +5,7 @@ using System.Text;
 using EngineMath;
 using Engine.Editing;
 
-namespace Engine
+namespace Engine.ObjectManagement
 {
     /// <summary>
     /// This class defines an instance of a sim object.

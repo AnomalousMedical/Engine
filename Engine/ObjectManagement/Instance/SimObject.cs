@@ -5,7 +5,7 @@ using System.Text;
 using EngineMath;
 using Engine;
 
-namespace Engine
+namespace Engine.ObjectManagement
 {
     /// <summary>
     /// A SimObject is a mediator between various SimElement instances. This

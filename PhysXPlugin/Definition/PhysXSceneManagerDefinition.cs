@@ -6,6 +6,7 @@ using Engine;
 using PhysXWrapper;
 using Engine.Editing;
 using Engine.Reflection;
+using Engine.ObjectManagement;
 
 namespace PhysXPlugin
 {

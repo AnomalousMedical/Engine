@@ -5,7 +5,7 @@ using System.Text;
 using Engine.Editing;
 using Logging;
 
-namespace Engine
+namespace Engine.ObjectManagement
 {
     /// <summary>
     /// This is a definition for a SimSubScene.

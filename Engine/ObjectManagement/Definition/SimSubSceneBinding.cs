@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine.Editing;
 
-namespace Engine
+namespace Engine.ObjectManagement
 {
     /// <summary>
     /// This class creates a binding between a SimSubScene and a given type of SimElementManager.

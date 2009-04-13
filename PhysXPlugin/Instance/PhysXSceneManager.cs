@@ -5,6 +5,7 @@ using System.Text;
 using Engine;
 using PhysXWrapper;
 using Logging;
+using Engine.ObjectManagement;
 
 namespace PhysXPlugin
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Logging;
 
-namespace Engine
+namespace Engine.ObjectManagement
 {
     /// <summary>
     /// A SimScene is a container that holds all SimElementManagers that are
