@@ -12,17 +12,6 @@ namespace Engine.ObjectManagement
     /// </summary>
     public class SimSceneDefinition
     {
-        #region Static
-
-        private static Dictionary<String, EngineCommand> commandList = new Dictionary<string, EngineCommand>();
-
-        internal static void AddCreateSimElementManagerDefinitionCommand(EngineCommand command)
-        {
-            commandList.Add(command.Name, command);
-        }
-
-        #endregion Static
-
         #region Fields
 
         private Dictionary<String, SimElementManagerDefinition> elementManagers = new Dictionary<String,SimElementManagerDefinition>();
@@ -165,7 +154,7 @@ namespace Engine.ObjectManagement
             {
                 editInterface = ReflectedEditInterface.createEditInterface(this, ReflectedEditInterface.DefaultScanner, "Sim Scene", validate);
                 simElementEditor = new EditInterface("Sim Element Managers");
-                foreach (EngineCommand command in commandList.Values)
+                foreach (EngineCommand command in PluginManager.Instance.getCreateSimElementManagerCommands())
                 {
                     EditInterfaceCommand interfaceCommand = new EditInterfaceCommand(command.PrettyName, new EditInterfaceFunction(createSimElementManagerDefinition));
                     createSimElementManagerDefs.Add(interfaceCommand, command.Name);
@@ -265,7 +254,7 @@ namespace Engine.ObjectManagement
             }
             if (accept)
             {
-                SimElementManagerDefinition def = (SimElementManagerDefinition)commandList[createSimElementManagerDefs[caller]].execute(name);
+                SimElementManagerDefinition def = (SimElementManagerDefinition)PluginManager.Instance.getCreateSimElementManagerCommand(createSimElementManagerDefs[caller]).execute(name);
                 this.addSimElementManagerDefinition(def);
             }
         }

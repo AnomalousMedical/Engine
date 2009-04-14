@@ -77,30 +77,22 @@ namespace PhysXPlugin
         /// <summary>
         /// Initalize the PhysXPlugin.
         /// </summary>
-        public override void initialize()
+        public override void initialize(PluginManager pluginManager)
         {
             physSDK = PhysSDK.Instance;
             elementManagerCommands.addCommand(new EngineCommand("createPhysSceneDef", "Create PhysX Scene Definition", "Creates a new PhysX scene definition.", new CreateSceneDesc(createSceneDefinition)));
 
             elementDefinitonCommands.addCommand(new EngineCommand("createPhysActorDef", "Create PhysX Actor Definition", "Creates a new PhysX Actor Definition.", new CreatePhysActorDefinition(createPhysActorDefinition)));
-        }
 
-        /// <summary>
-        /// Get all commands for creating scenes.
-        /// </summary>
-        /// <returns>A command manager with the scene creation commands.</returns>
-        public override CommandManager getCreateSimElementManagerCommands()
-        {
-            return elementManagerCommands;
-        }
+            foreach (EngineCommand command in elementManagerCommands.getCommandList())
+            {
+                pluginManager.addCreateSimElementManagerCommand(command);
+            }
 
-        /// <summary>
-        /// Get all commands for creating SimElementDefinitions.
-        /// </summary>
-        /// <returns>A command manager with commands for creating SimElementDefintions.</returns>
-        public override CommandManager getCreateSimElementDefinitionCommands()
-        {
-            return elementDefinitonCommands;
+            foreach (EngineCommand command in elementDefinitonCommands.getCommandList())
+            {
+                pluginManager.addCreateSimElementCommand(command);
+            }
         }
 
         #endregion ElementPlugin

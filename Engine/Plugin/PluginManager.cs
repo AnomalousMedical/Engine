@@ -14,20 +14,47 @@ namespace Engine
     /// </summary>
     public class PluginManager : IDisposable
     {
+        #region Static
+
+        private static PluginManager instance;
+
+        /// <summary>
+        /// Get the singleton for the PluginManager. It must first be created in
+        /// a using statement with the constructor so it will be disposed.
+        /// </summary>
+        public static PluginManager Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
+
+        #endregion
+
         #region Fields
 
         private Dictionary<String, ElementPlugin> loadedPlugins = new Dictionary<string, ElementPlugin>();
+        private CommandManager createSimElementCommands = new CommandManager();
+        private CommandManager createSimElementManagerCommands = new CommandManager();
 
         #endregion Fields
 
         #region Constructors
 
         /// <summary>
-        /// Constructor.
+        /// Constructor. Must be called once before plugins are used.
         /// </summary>
         public PluginManager()
         {
-
+            if (instance == null)
+            {
+                instance = this;
+            }
+            else
+            {
+                throw new Exception("Can only call the constructor for the PluginManager one time");
+            }
         }
 
         #endregion
@@ -70,11 +97,7 @@ namespace Engine
                 {
                     ElementPlugin plugin = (ElementPlugin)Activator.CreateInstance(elementPlugin);
                     loadedPlugins.Add(path, plugin);
-                    plugin.initialize();
-                    foreach (EngineCommand command in plugin.getCreateSimElementManagerCommands().getCommandList())
-                    {
-                        SimSceneDefinition.AddCreateSimElementManagerDefinitionCommand(command);
-                    }
+                    plugin.initialize(this);
                     return true;
                 }
                 else
@@ -107,6 +130,43 @@ namespace Engine
                 return loadedPlugins[path];
             }
             return null;
+        }
+
+        /// <summary>
+        /// Add a command to create a SimElementManagerDescription.
+        /// </summary>
+        /// <param name="command">A command that creates SimElementManagerDescriptions.</param>
+        public void addCreateSimElementManagerCommand(EngineCommand command)
+        {
+            createSimElementManagerCommands.addCommand(command);
+        }
+
+        /// <summary>
+        /// Add a command to create a SimElementDescription.
+        /// </summary>
+        /// <param name="command">A command that creates SimElementDescriptions.</param>
+        public void addCreateSimElementCommand(EngineCommand command)
+        {
+            createSimElementCommands.addCommand(command);
+        }
+
+        /// <summary>
+        /// Get the list of commands from plugins that create SimElementManagers.
+        /// </summary>
+        /// <returns>The list of commands from plugins that create SimElementManagers.</returns>
+        public IEnumerable<EngineCommand> getCreateSimElementManagerCommands()
+        {
+            return createSimElementManagerCommands.getCommandList();
+        }
+
+        /// <summary>
+        /// Get a specific command from plugins that creates a SimElementManager.
+        /// </summary>
+        /// <param name="name">The name of the command.</param>
+        /// <returns>The command.</returns>
+        public EngineCommand getCreateSimElementManagerCommand(String name)
+        {
+            return createSimElementManagerCommands.getCommand(name);
         }
 
         #endregion Functions

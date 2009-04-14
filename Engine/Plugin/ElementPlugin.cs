@@ -20,22 +20,7 @@ namespace Engine
         /// Do any initialization steps that need to be done on the plugin. Done
         /// just after the plugin is loaded and will only be called one time.
         /// </summary>
-        public abstract void initialize();
-
-        /// <summary>
-        /// Get a CommandManager for creating SimElementManagers for this
-        /// plugin.
-        /// </summary>
-        /// <returns>A CommandManager with all commands that create SimElementManagers.</returns>
-        public abstract CommandManager getCreateSimElementManagerCommands();
-
-        /// <summary>
-        /// Get a CommandManager for creating SimElementDefinitions for this
-        /// plugin. The commands must accept a single string that is the name of
-        /// the element.
-        /// </summary>
-        /// <returns>A CommandManager with all commands that create SimElementDefinitions.</returns>
-        public abstract CommandManager getCreateSimElementDefinitionCommands();
+        public abstract void initialize(PluginManager pluginManager);
 
         /// <summary>
         /// Do any shutdown steps that need to be done on the plugin. This will
