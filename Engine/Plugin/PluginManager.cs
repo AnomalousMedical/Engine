@@ -74,60 +74,26 @@ namespace Engine
         }
 
         /// <summary>
-        /// Load the plugin specified by path.
+        /// Add a plugin to the PluginManager.
         /// </summary>
-        /// <param name="path">The path of the plugin to load.</param>
-        /// <returns>True if the plugin was loaded sucessfully.</returns>
-        public bool loadPlugin(String path)
+        /// <param name="plugin">The plugin to add.</param>
+        internal void addPlugin(PluginInterface plugin)
         {
-            try
-            {
-                Assembly assembly = Assembly.LoadFile(Path.GetFullPath(path));
-                Type[] exportedTypes = assembly.GetExportedTypes();
-                Type elementPlugin = null;
-                foreach (Type type in exportedTypes)
-                {
-                    if (type.IsSubclassOf(typeof(PluginInterface)))
-                    {
-                        elementPlugin = type;
-                        break;
-                    }
-                }
-                if (elementPlugin != null)
-                {
-                    PluginInterface plugin = (PluginInterface)Activator.CreateInstance(elementPlugin);
-                    loadedPlugins.Add(path, plugin);
-                    plugin.initialize(this);
-                    return true;
-                }
-                else
-                {
-                    throw new InvalidPluginException(String.Format("Could not find a subclass of ElementPlugin in plugin {0}.", path));
-                }
-            }
-            catch (Exception e)
-            {
-                Log.Default.sendMessage("Error loading plugin: {0}", LogLevel.Error, "Engine", e.Message);
-                e = e.InnerException;
-                while (e != null)
-                {
-                    Log.Default.sendMessage("--Inner Exception: {0}", LogLevel.Error, "Engine", e.Message);
-                    e = e.InnerException;
-                }
-                return false;
-            }
+            Log.Default.sendMessage("Plugin {0} added.", LogLevel.Info, "Engine", plugin.getName());
+            loadedPlugins.Add(plugin.getName(), plugin);
+            plugin.initialize(this);
         }
 
         /// <summary>
         /// Get the plugin specified by path.
         /// </summary>
-        /// <param name="path">The path of the plugin to get.</param>
+        /// <param name="name">The name of the plugin to get.</param>
         /// <returns>The ElementPlugin if it is found or null if it is not.</returns>
-        public PluginInterface getPlugin(String path)
+        public PluginInterface getPlugin(String name)
         {
-            if (loadedPlugins.ContainsKey(path))
+            if (loadedPlugins.ContainsKey(name))
             {
-                return loadedPlugins[path];
+                return loadedPlugins[name];
             }
             return null;
         }

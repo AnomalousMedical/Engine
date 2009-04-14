@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine.Platform;
 
-namespace Engine.Plugin
+namespace Engine
 {
     /// <summary>
     /// This interface provides access to the dynamically loaded platform
