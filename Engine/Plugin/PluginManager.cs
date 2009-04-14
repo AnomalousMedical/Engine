@@ -128,15 +128,6 @@ namespace Engine
         }
 
         /// <summary>
-        /// Add a command to create a SimElementDescription.
-        /// </summary>
-        /// <param name="command">A command that creates SimElementDescriptions.</param>
-        public void addCreateSimElementCommand(EngineCommand command)
-        {
-            createSimElementCommands.addCommand(command);
-        }
-
-        /// <summary>
         /// Get the list of commands from plugins that create SimElementManagers.
         /// </summary>
         /// <returns>The list of commands from plugins that create SimElementManagers.</returns>
@@ -153,6 +144,34 @@ namespace Engine
         public EngineCommand getCreateSimElementManagerCommand(String name)
         {
             return createSimElementManagerCommands.getCommand(name);
+        }
+
+        /// <summary>
+        /// Add a command to create a SimElementDescription.
+        /// </summary>
+        /// <param name="command">A command that creates SimElementDescriptions.</param>
+        public void addCreateSimElementCommand(EngineCommand command)
+        {
+            createSimElementCommands.addCommand(command);
+        }
+
+        /// <summary>
+        /// Get the commands that create SimElements.
+        /// </summary>
+        /// <returns>A list of commands that create SimElements.</returns>
+        public IEnumerable<EngineCommand> getCreateSimElementCommands()
+        {
+            return createSimElementCommands.getCommandList();
+        }
+
+        /// <summary>
+        /// Get a single command that creatse SimElements.
+        /// </summary>
+        /// <param name="name">The name of the command to get.</param>
+        /// <returns>The EngineCommand specified by name.</returns>
+        public EngineCommand getCreateSimElementCommand(String name)
+        {
+            return createSimElementCommands.getCommand(name);
         }
 
         #endregion Functions

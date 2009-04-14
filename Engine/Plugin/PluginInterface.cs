@@ -6,13 +6,10 @@ using System.Text;
 namespace Engine
 {
     /// <summary>
-    /// This is an interface for the main plugin class for an ElementPlugin. An
-    /// ElementPlugin can be any subsystem that will be created as part of a
-    /// SimObject such as a plugin for graphics or physics. Each plugin must
-    /// define a single class that inherits from this class and implements a
-    /// blank constructor. That constructor will be invoked via reflection and
-    /// then the plugin will be initalized and all of the commands it can
-    /// execute will be recovered.
+    /// This is an interface for the main plugin class. Each plugin must define
+    /// a single class that inherits from this class and implements a blank
+    /// constructor. That constructor will be invoked via reflection and then
+    /// the plugin will be initalized.
     /// </summary>
     public interface PluginInterface : IDisposable
     {

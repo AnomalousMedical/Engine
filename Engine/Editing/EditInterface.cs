@@ -229,8 +229,9 @@ namespace Engine.Editing
         }
 
         /// <summary>
-        /// Create a binding between this interface and another object.
+        /// Internal object for binding this EditInterface to its source object.
+        /// Only used by EditInterfaceManager.
         /// </summary>
-        public Object UserObject { get; set; }
+        internal Object ManagerBinding { get; set; }
     }
 }

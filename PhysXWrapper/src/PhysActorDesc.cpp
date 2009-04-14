@@ -57,6 +57,11 @@ void PhysActorDesc::clearShapes()
 	actorDesc->shapes.clear();
 }
 
+ShapeIter^ PhysActorDesc::getShapes()
+{
+	return shapeList;
+}
+
 PhysBodyDesc^ PhysActorDesc::Body::get() 
 { 
 	return body; 

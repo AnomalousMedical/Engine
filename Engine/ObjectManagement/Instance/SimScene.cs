@@ -139,6 +139,21 @@ namespace Engine.ObjectManagement
         }
 
         /// <summary>
+        /// Build all objects registered with the scene.
+        /// </summary>
+        public void buildScene()
+        {
+            foreach (SimElementManager manager in simElementManagers.Values)
+            {
+                manager.getFactory().createProducts();
+            }
+            foreach (SimElementManager manager in simElementManagers.Values)
+            {
+                manager.getFactory().linkProducts();
+            }
+        }
+
+        /// <summary>
         /// Create a definition.
         /// </summary>
         /// <returns>A new SimSceneDefinition.</returns>

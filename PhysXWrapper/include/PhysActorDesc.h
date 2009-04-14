@@ -12,6 +12,7 @@ ref class PhysShapeDesc;
 ref class PhysBodyDesc;
 
 typedef System::Collections::Generic::LinkedList<PhysShapeDesc^> ShapeList;
+typedef System::Collections::Generic::IEnumerable<PhysShapeDesc^> ShapeIter;
 
 /// <summary>
 /// Wrapper for the NxActorDesc class.  
@@ -61,6 +62,12 @@ public:
 	/// Clears all shapes on the actor desc.
 	/// </summary>
 	void clearShapes();
+
+	/// <summary>
+	/// Get an iterator over all shapes in this description.
+	/// </summary>
+	/// <returns>An IEnumerable over all shapes.</returns>
+	ShapeIter^ getShapes();
 
 	/// <summary>
 	/// Set the global position of the actor that will be created by this description.

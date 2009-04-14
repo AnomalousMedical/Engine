@@ -8,6 +8,9 @@ using Logging;
 
 namespace Engine
 {
+    /// <summary>
+    /// This loader will load plugins from the filesystem from paths specified.
+    /// </summary>
     public class DynamicDLLPluginLoader : PluginLoader
     {
         private static String INTERFACE_NAME = typeof(PluginInterface).Name;

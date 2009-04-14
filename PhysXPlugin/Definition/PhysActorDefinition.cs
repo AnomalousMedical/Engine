@@ -19,16 +19,20 @@ namespace PhysXPlugin
     {
         #region Static
 
-        private static MemberScanner memberScanner;
+        private static MemberScanner actorMemberScanner;
+        private static MemberScanner shapeMemberScanner;
 
         /// <summary>
         /// Static constructor.
         /// </summary>
         static PhysActorDefinition()
         {
-            memberScanner = new MemberScanner();
-            memberScanner.ProcessFields = false;
-            memberScanner.Filter = EditableAttributeFilter.Instance;
+            actorMemberScanner = new MemberScanner();
+            actorMemberScanner.ProcessFields = false;
+            actorMemberScanner.Filter = EditableAttributeFilter.Instance;
+
+            shapeMemberScanner = new MemberScanner();
+            shapeMemberScanner.ProcessFields = false;
         }
 
         #endregion Static
@@ -40,6 +44,8 @@ namespace PhysXPlugin
         private bool dynamic = false;
         private String shapeName = null;
         private EditInterface editInterface = null;
+        private EditInterfaceCommand destroyShape;
+        private EditInterfaceManager<PhysShapeDesc> shapeEdits;
 
         #endregion Fields
 
@@ -86,7 +92,14 @@ namespace PhysXPlugin
         {
             if (editInterface == null)
             {
-                editInterface = ReflectedEditInterface.createEditInterface(this, memberScanner, Name + " - PhysActor", null);
+                editInterface = ReflectedEditInterface.createEditInterface(this, actorMemberScanner, Name + " - PhysActor", null);
+                shapeEdits = new EditInterfaceManager<PhysShapeDesc>(editInterface);
+                editInterface.addCommand(new EditInterfaceCommand("Add Box Shape", addBoxShape));
+                destroyShape = new EditInterfaceCommand("Remove", removeShape);
+                foreach (PhysShapeDesc shape in actorDesc.getShapes())
+                {
+                    addShapeEditInterface(shape);
+                }
             }
             return editInterface;
         }
@@ -112,6 +125,10 @@ namespace PhysXPlugin
                 PhysActor actor = scene.createPhysActor(actorId, actorDesc);
                 instance.addElement(new PhysActorElement(actor, scene, actorId, subscription));
             }
+            else
+            {
+                Log.Default.sendMessage("Invalid PhysActorDesc in SimObject {0} ActorDesc {1}.", LogLevel.Warning, PhysXInterface.PluginName, instance.Name, this.Name);
+            }
         }
 
         /// <summary>
@@ -122,6 +139,41 @@ namespace PhysXPlugin
         internal override void createStaticProduct(SimObject instance, PhysXSceneManager scene)
         {
             throw new NotImplementedException();
+        }
+
+        public void addShape(PhysShapeDesc physShape)
+        {
+            actorDesc.addShape(physShape);
+            if (editInterface != null)
+            {
+                addShapeEditInterface(physShape);
+            }
+        }
+
+        public void removeShape(PhysShapeDesc physShape)
+        {
+            actorDesc.removeShape(physShape);
+            if (editInterface != null)
+            {
+                shapeEdits.removeSubInterface(physShape);
+            }
+        }
+
+        private void addShapeEditInterface(PhysShapeDesc physShape)
+        {
+            EditInterface shapeEdit = ReflectedEditInterface.createEditInterface(physShape, shapeMemberScanner, physShape.GetType().Name, null);
+            shapeEdit.addCommand(destroyShape);
+            shapeEdits.addSubInterface(physShape, shapeEdit);
+        }
+
+        private void removeShape(EditUICallback callback, EditInterfaceCommand command)
+        {
+            removeShape(shapeEdits.resolveSourceObject(callback.getSelectedEditInterface()));
+        }
+
+        private void addBoxShape(EditUICallback callback, EditInterfaceCommand command)
+        {
+            addShape(new PhysBoxShapeDesc());
         }
 
         #endregion Functions

@@ -14,9 +14,12 @@ namespace Engine.ObjectManagement
     {
         #region Fields
 
-        private LinkedList<SimElementDefinition> definitions = new LinkedList<SimElementDefinition>();
+        private Dictionary<String, SimElementDefinition> definitions = new Dictionary<String, SimElementDefinition>();
         private String name;
         private EditInterface editInterface = null;
+        private Dictionary<EditInterfaceCommand, String> createCommands = new Dictionary<EditInterfaceCommand, String>();
+        private EditInterfaceCommand destroySimElement;
+        private EditInterfaceManager<SimElementDefinition> elementEditInterfaces;
 
         #endregion Fields
 
@@ -43,7 +46,11 @@ namespace Engine.ObjectManagement
         public void addElement(SimElementDefinition definition)
         {
             definition.setSimObjectDefinition(this);
-            definitions.AddLast(definition);
+            definitions.Add(definition.Name, definition);
+            if (editInterface != null)
+            {
+                createElementInterface(definition);
+            }
         }
 
         /// <summary>
@@ -53,7 +60,11 @@ namespace Engine.ObjectManagement
         public void removeElement(SimElementDefinition definition)
         {
             definition.setSimObjectDefinition(null);
-            definitions.Remove(definition);
+            definitions.Remove(definition.Name);
+            if (editInterface != null)
+            {
+                elementEditInterfaces.removeSubInterface(definition);
+            }
         }
 
         /// <summary>
@@ -62,15 +73,62 @@ namespace Engine.ObjectManagement
         /// <param name="instance">The SimObject that will get the built elements.</param>
         public void register(SimSubScene subScene, SimObject instance)
         {
-            foreach (SimElementDefinition definition in definitions)
+            foreach (SimElementDefinition definition in definitions.Values)
             {
                 definition.register(subScene, instance);
             }
         }
 
+        /// <summary>
+        /// Get the EditInterface.
+        /// </summary>
+        /// <returns>The EditInterface.</returns>
         public EditInterface getEditInterface()
         {
-            throw new NotImplementedException();
+            if (editInterface == null)
+            {
+                editInterface = new EditInterface(name);
+                elementEditInterfaces = new EditInterfaceManager<SimElementDefinition>(editInterface);
+                foreach (SimElementDefinition definition in definitions.Values)
+                {
+                    createElementInterface(definition);
+                }
+                foreach (EngineCommand command in PluginManager.Instance.getCreateSimElementCommands())
+                {
+                    EditInterfaceCommand createSimElement = new EditInterfaceCommand(command.PrettyName, createSimElementDefinition);
+                    createCommands.Add(createSimElement, command.Name);
+                    editInterface.addCommand(createSimElement);
+                }
+                destroySimElement = new EditInterfaceCommand("Remove", removeSimElement);
+            }
+            return editInterface;
+        }
+
+        private void createSimElementDefinition(EditUICallback callback, EditInterfaceCommand command)
+        {
+            String name;
+            bool accept = callback.getInputString("Enter a name.", out name);
+            while (accept && this.definitions.ContainsKey(name))
+            {
+                accept = callback.getInputString("That name is already in use. Please provide another.", name, out name);
+            }
+            if (accept)
+            {
+                SimElementDefinition definition = (SimElementDefinition)PluginManager.Instance.getCreateSimElementCommand(createCommands[command]).execute(name);
+                this.addElement(definition);
+            }
+        }
+
+        private void removeSimElement(EditUICallback callback, EditInterfaceCommand command)
+        {
+            removeElement(elementEditInterfaces.resolveSourceObject(callback.getSelectedEditInterface()));
+        }
+
+        private void createElementInterface(SimElementDefinition definition)
+        {
+            EditInterface edit = definition.getEditInterface();
+            edit.addCommand(destroySimElement);
+            elementEditInterfaces.addSubInterface(definition, edit);
         }
 
         #endregion Functions
