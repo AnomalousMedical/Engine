@@ -77,6 +77,7 @@
     <Compile Include="Platform\Timer.cs" />
     <Compile Include="Platform\UpdateListener.cs" />
     <Compile Include="Plugin\PlatformPlugin.cs" />
+    <Compile Include="Plugin\PluginInterface.cs" />
     <Compile Include="Reflection\BooleanReflectedVariable.cs" />
     <Compile Include="Reflection\ByteReflectedVariable.cs" />
     <Compile Include="Reflection\DoubleReflectedVariable.cs" />
@@ -97,7 +98,6 @@
     <Compile Include="ObjectManagement\Instance\SimElement.cs" />
     <Compile Include="ObjectManagement\Instance\SimElementManager.cs" />
     <Compile Include="ObjectManagement\Instance\SimObject.cs" />
-    <Compile Include="Plugin\ElementPlugin.cs" />
     <Compile Include="Plugin\InvalidPluginException.cs" />
     <Compile Include="Plugin\PluginManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
