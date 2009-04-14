@@ -8,7 +8,7 @@ namespace Platform
 
 class PerformanceCounter;
 
-public ref class PerformanceTimer : public Timer
+ref class PerformanceTimer : public Timer
 {
 private:
 	PerformanceCounter* performanceCounter;

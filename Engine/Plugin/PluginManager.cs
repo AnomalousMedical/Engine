@@ -37,6 +37,7 @@ namespace Engine
         private Dictionary<String, PluginInterface> loadedPlugins = new Dictionary<string, PluginInterface>();
         private CommandManager createSimElementCommands = new CommandManager();
         private CommandManager createSimElementManagerCommands = new CommandManager();
+        private PlatformPlugin platformPlugin = null;
 
         #endregion Fields
 
@@ -99,6 +100,25 @@ namespace Engine
         }
 
         /// <summary>
+        /// Set the PlatformPlugin for this run of the engine. It is only valid
+        /// to set this one time. Any attempts to set this after the first time
+        /// will throw an InvalidPluginException.
+        /// </summary>
+        /// <param name="plugin">The PlatformPlugin to use as the PlatformPlugin</param>
+        public void setPlatformPlugin(PlatformPlugin plugin)
+        {
+            if (platformPlugin == null)
+            {
+                platformPlugin = plugin;
+                Log.Default.sendMessage("Platform plugin set to {0}.", LogLevel.Info, "Engine", plugin.getName());
+            }
+            else
+            {
+                throw new InvalidPluginException("A second platform plugin was added. It is only valid to specify one platform plugin please correct this issue.");
+            }
+        }
+
+        /// <summary>
         /// Add a command to create a SimElementManagerDescription.
         /// </summary>
         /// <param name="command">A command that creates SimElementManagerDescriptions.</param>
@@ -136,5 +156,20 @@ namespace Engine
         }
 
         #endregion Functions
+
+        #region Properties
+
+        /// <summary>
+        /// The PlatformPlugin that has been loaded.
+        /// </summary>
+        public PlatformPlugin PlatformPlugin
+        {
+            get
+            {
+                return platformPlugin;
+            }
+        }
+
+        #endregion Properties
     }
 }

@@ -25,7 +25,7 @@ namespace Platform
 /// <summary>
 /// This class allows access to the state of a mouse.
 /// </summary>
-public ref class OISMouse : public Mouse
+ref class OISMouse : public Mouse
 {
 private:
 	OIS::Mouse* oisMouse;

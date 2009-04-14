@@ -8,9 +8,10 @@ namespace Engine
 {
     /// <summary>
     /// This interface provides access to the dynamically loaded platform
-    /// classes.
+    /// classes. There can be only one of these plugins per instance of the
+    /// engine.
     /// </summary>
-    public interface PlatformPlugin
+    public interface PlatformPlugin : PluginInterface
     {
         /// <summary>
         /// Create a new timer for this platform.

@@ -24,7 +24,7 @@ ref class OISKeyboard;
 /// <summary>
 /// This class provides access to a keyboard plugged into the computer.
 /// </summary>
-public ref class OISKeyboard : public Keyboard
+ref class OISKeyboard : public Keyboard
 {
 private:
 	OIS::Keyboard* oisKeyboard;

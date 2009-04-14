@@ -7,9 +7,6 @@ namespace Engine.Platform
 {
     public abstract class InputHandler
     {
-        private OSWindow windowHandle;
-
-
         /// <summary>
 	    /// Creates a Keyboard object linked to the system keyboard.  This keyboard is valid
 	    /// until the InputHandler is destroyed.

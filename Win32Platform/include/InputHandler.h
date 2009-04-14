@@ -26,7 +26,7 @@ ref class OISMouse;
 /// <summary>
 /// This class creates the input devices.
 /// </summary>
-public ref class OISInputHandler : public InputHandler
+ref class OISInputHandler : public InputHandler
 {
 private:
 	OIS::InputManager* nInputManager;

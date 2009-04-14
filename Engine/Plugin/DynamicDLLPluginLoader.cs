@@ -60,7 +60,7 @@ namespace Engine
                     }
                     else
                     {
-                        throw new InvalidPluginException(String.Format("Could not find a subclass of ElementPlugin in plugin {0}.", path));
+                        throw new InvalidPluginException(String.Format("Could not find a subclass of PluginInterface in plugin {0}.", path));
                     }
                 }
                 catch (Exception e)

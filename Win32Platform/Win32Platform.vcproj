@@ -239,6 +239,10 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath=".\src\Win32PlatformPlugin.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -279,6 +283,10 @@
 			</File>
 			<File
 				RelativePath=".\Stdafx.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\Win32PlatformPlugin.h"
 				>
 			</File>
 		</Filter>
