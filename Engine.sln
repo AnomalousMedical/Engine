@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Editor", "Editor\Editor.csproj", "{DDD1DB3A-AB11-4C3A-8480-0A4A9F298D64}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Win32Platform", "Win32Platform\Win32Platform.vcproj", "{08CF7667-CF92-4813-AF41-278015BE3807}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -119,6 +121,16 @@ Global
 		{DDD1DB3A-AB11-4C3A-8480-0A4A9F298D64}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{DDD1DB3A-AB11-4C3A-8480-0A4A9F298D64}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{DDD1DB3A-AB11-4C3A-8480-0A4A9F298D64}.Release|Win32.ActiveCfg = Release|Any CPU
+		{08CF7667-CF92-4813-AF41-278015BE3807}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{08CF7667-CF92-4813-AF41-278015BE3807}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{08CF7667-CF92-4813-AF41-278015BE3807}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{08CF7667-CF92-4813-AF41-278015BE3807}.Debug|Win32.ActiveCfg = Debug|Win32
+		{08CF7667-CF92-4813-AF41-278015BE3807}.Debug|Win32.Build.0 = Debug|Win32
+		{08CF7667-CF92-4813-AF41-278015BE3807}.Release|Any CPU.ActiveCfg = Release|Win32
+		{08CF7667-CF92-4813-AF41-278015BE3807}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{08CF7667-CF92-4813-AF41-278015BE3807}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{08CF7667-CF92-4813-AF41-278015BE3807}.Release|Win32.ActiveCfg = Release|Win32
+		{08CF7667-CF92-4813-AF41-278015BE3807}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

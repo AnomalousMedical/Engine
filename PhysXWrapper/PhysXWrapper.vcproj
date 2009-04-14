@@ -572,10 +572,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\AutoPtr.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\ContactIterator.h"
 				>
 			</File>

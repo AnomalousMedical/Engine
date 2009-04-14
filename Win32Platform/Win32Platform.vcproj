@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="WrapperUtilities"
-	ProjectGUID="{67CFCE08-408F-439E-AB9A-3319349B72D1}"
-	RootNamespace="WrapperUtilities"
+	Name="Win32Platform"
+	ProjectGUID="{08CF7667-CF92-4813-AF41-278015BE3807}"
+	RootNamespace="Win32Platform"
 	Keyword="ManagedCProj"
 	TargetFrameworkVersion="196613"
 	>
@@ -113,6 +113,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="&quot;$(OIS_HOME)\includes&quot;;include;..\WrapperUtilities\include"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -130,8 +131,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(NoInherit)"
+				AdditionalDependencies="OIS_static.lib kernel32.lib user32.lib Winmm.lib $(NoInherit)"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="&quot;$(OIS_HOME)\lib&quot;"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
 			/>
@@ -174,6 +176,10 @@
 			AssemblyName="System.Xml, Version=2.0.0.0, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL"
 			MinFrameworkVersion="131072"
 		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{57C253F1-157F-4A6A-9FED-345A776B97D5}"
+			RelativePathToProject=".\Engine\Engine.csproj"
+		/>
 	</References>
 	<Files>
 		<Filter
@@ -183,6 +189,34 @@
 			>
 			<File
 				RelativePath=".\AssemblyInfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\InputHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Keyboard.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Mouse.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\NKeyboardListener.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\NMouseListener.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\PerformanceCounter.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\PerformanceTimer.cpp"
 				>
 			</File>
 			<File
@@ -205,10 +239,6 @@
 					/>
 				</FileConfiguration>
 			</File>
-			<File
-				RelativePath=".\src\WrapperCollection.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -216,11 +246,31 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\include\AutoPtr.h"
+				RelativePath=".\include\InputHandler.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\MarshalUtils.h"
+				RelativePath=".\include\Keyboard.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\Mouse.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\NKeyboardListener.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\NMouseListener.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\PerformanceCounter.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\PerformanceTimer.h"
 				>
 			</File>
 			<File
@@ -229,10 +279,6 @@
 			</File>
 			<File
 				RelativePath=".\Stdafx.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\WrapperCollection.h"
 				>
 			</File>
 		</Filter>
