@@ -6,6 +6,7 @@ using System.Reflection;
 using Logging;
 using System.IO;
 using Engine.ObjectManagement;
+using Engine.Platform;
 
 namespace Engine
 {
@@ -115,6 +116,23 @@ namespace Engine
             else
             {
                 throw new InvalidPluginException("A second platform plugin was added. It is only valid to specify one platform plugin please correct this issue.");
+            }
+        }
+
+        /// <summary>
+        /// Set the classes from the platform that the plugins may be interested
+        /// in. The timer can be subscribed to for updates and the EventManager
+        /// will be updated with events every frame. This should be called as
+        /// soon as possible and before any plugins are used besides the
+        /// PlatformPlugin.
+        /// </summary>
+        /// <param name="mainTimer">The main update timer.</param>
+        /// <param name="eventManager">The main event manager.</param>
+        public void setPlatformInfo(Timer mainTimer, EventManager eventManager)
+        {
+            foreach (PluginInterface plugin in loadedPlugins.Values)
+            {
+                plugin.setPlatformInfo(mainTimer, eventManager);
             }
         }
 

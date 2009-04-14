@@ -5,6 +5,7 @@ using System.Text;
 using Engine;
 using PhysXWrapper;
 using EngineMath;
+using Engine.Platform;
 
 namespace PhysXPlugin
 {
@@ -39,6 +40,7 @@ namespace PhysXPlugin
         private PhysSDK physSDK = null;
         private CommandManager elementManagerCommands = new CommandManager();
         private CommandManager elementDefinitonCommands = new CommandManager();
+        private Timer mainTimer;
 
         #endregion Fields
 
@@ -96,6 +98,18 @@ namespace PhysXPlugin
         }
 
         /// <summary>
+        /// Set the classes from the platform that a plugin may be interested
+        /// in. The timer can be subscribed to for updates and the EventManager
+        /// will be updated with events every frame.
+        /// </summary>
+        /// <param name="mainTimer">The main update timer.</param>
+        /// <param name="eventManager">The main event manager.</param>
+        public void setPlatformInfo(Timer mainTimer, EventManager eventManager)
+        {
+            this.mainTimer = mainTimer;
+        }
+
+        /// <summary>
         /// Get a name for this plugin. Care should be taken that this return
         /// value is unique. The best way would be to name it after the plugin
         /// dll.
@@ -103,7 +117,16 @@ namespace PhysXPlugin
         /// <returns>The name of the plugin.</returns>
         public string getName()
         {
-            return "PhysXPlugin";
+            return PluginName;
+        }
+
+        /// <summary>
+        /// Get the main timer used by the engine.
+        /// </summary>
+        /// <returns>The timer that has been set as the main timer.</returns>
+        public Timer getMainTimer()
+        {
+            return mainTimer;
         }
 
         #endregion ElementPlugin
@@ -138,7 +161,7 @@ namespace PhysXPlugin
         public PhysXSceneManager createScene(PhysXSceneManagerDefinition definition)
         {
             PhysScene scene = physSDK.createScene(definition.SceneDesc);
-            return new PhysXSceneManager(definition.Name, scene, physSDK);
+            return new PhysXSceneManager(definition.Name, scene, physSDK, mainTimer);
         }
 
         #endregion Creation

@@ -6,13 +6,14 @@ using Engine;
 using PhysXWrapper;
 using Logging;
 using Engine.ObjectManagement;
+using Engine.Platform;
 
 namespace PhysXPlugin
 {
     /// <summary>
     /// This class manages a single PhysX scene.
     /// </summary>
-    public class PhysXSceneManager : SimElementManager
+    public class PhysXSceneManager : SimElementManager, UpdateListener
     {
         #region Fields
 
@@ -21,6 +22,7 @@ namespace PhysXPlugin
         private PhysFactory factory;
         private Dictionary<Identifier, PhysActor> actors = new Dictionary<Identifier, PhysActor>();
         private String name;
+        private Timer mainTimer;
 
         #endregion Fields
 
@@ -32,12 +34,14 @@ namespace PhysXPlugin
         /// <param name="name">The name of the scene.</param>
         /// <param name="scene">The scene to manage.</param>
         /// <param name="physSDK">The PhysSDK that created the scene.</param>
-        internal PhysXSceneManager(String name, PhysScene scene, PhysSDK physSDK)
+        internal PhysXSceneManager(String name, PhysScene scene, PhysSDK physSDK, Timer mainTimer)
         {
             this.scene = scene;
             this.physSDK = physSDK;
             this.factory = new PhysFactory(this);
             this.name = name;
+            this.mainTimer = mainTimer;
+            mainTimer.addFixedUpdateListener(this);
         }
 
         #endregion Constructors
@@ -49,6 +53,7 @@ namespace PhysXPlugin
         /// </summary>
         public void Dispose()
         {
+            mainTimer.removeFixedUpdateListener(this);
             physSDK.releaseScene(scene);
         }
 
@@ -153,6 +158,21 @@ namespace PhysXPlugin
             PhysActor actor;
             actors.TryGetValue(name, out actor);
             return actor;
+        }
+
+        public void sendUpdate(Clock clock)
+        {
+            scene.stepSimulation(clock.Seconds);
+        }
+
+        public void loopStarting()
+        {
+
+        }
+
+        public void exceededMaxDelta()
+        {
+
         }
 
         #endregion Functions
