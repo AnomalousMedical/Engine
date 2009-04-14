@@ -40,6 +40,12 @@ namespace Engine.ObjectManagement
     /// </summary>
     public abstract class SimElement : IDisposable
     {
+        #region Fields
+
+        private SimObject simObject;
+
+        #endregion Fields
+
         #region Constructors
 
         /// <summary>
@@ -95,6 +101,12 @@ namespace Engine.ObjectManagement
         /// <param name="enabled">True to enable the object. False to disable the object.</param>
         public abstract void setEnabled(bool enabled);
 
+        /// <summary>
+        /// Save a SimElementDefinition from this SimElement.
+        /// </summary>
+        /// <returns>A new SimElementDefinition for this SimElement.</returns>
+        public abstract SimElementDefinition saveToDefinition();
+
         #endregion
 
         #region Properties
@@ -109,7 +121,21 @@ namespace Engine.ObjectManagement
         /// </summary>
         public Subscription Subscription { get; set; }
 
-        public SimObject SimObject { get; internal set; }
+        /// <summary>
+        /// The SimObject for this SimElement.
+        /// </summary>
+        public SimObject SimObject
+        {
+            get
+            {
+                return simObject;
+            }
+            internal set
+            {
+                simObject = value;
+                this.setEnabled(simObject.Enabled);
+            }
+        }
 
         #endregion
     }

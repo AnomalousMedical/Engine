@@ -176,6 +176,21 @@ namespace Engine.ObjectManagement
             }
         }
 
+        /// <summary>
+        /// Save this SimObject to a SimObjectDefinition.
+        /// </summary>
+        /// <param name="definitionName">The name to give the SimObjectDefinition.</param>
+        /// <returns>A new SimObjectDefinition for this SimObject.</returns>
+        public SimObjectDefinition saveToDefinition(String definitionName)
+        {
+            SimObjectDefinition definition = new SimObjectDefinition(definitionName);
+            foreach (SimElement element in elements.Values)
+            {
+                definition.addElement(element.saveToDefinition());
+            }
+            return definition;
+        }
+
         #endregion Functions
 
         #region Properties

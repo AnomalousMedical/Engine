@@ -131,6 +131,15 @@ namespace PhysXPlugin
         }
 
         /// <summary>
+        /// Save a SimElementDefinition from this SimElement.
+        /// </summary>
+        /// <returns>A new SimElementDefinition for this SimElement.</returns>
+        public override SimElementDefinition saveToDefinition()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// This function is called when the actor moves. It will dispatch the
         /// event to the rest of the SimObject.
         /// </summary>
