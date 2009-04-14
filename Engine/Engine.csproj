@@ -76,6 +76,7 @@
     <Compile Include="Platform\OSWindow.cs" />
     <Compile Include="Platform\Timer.cs" />
     <Compile Include="Platform\UpdateListener.cs" />
+    <Compile Include="Plugin\PlatformPlugin.cs" />
     <Compile Include="Reflection\BooleanReflectedVariable.cs" />
     <Compile Include="Reflection\ByteReflectedVariable.cs" />
     <Compile Include="Reflection\DoubleReflectedVariable.cs" />

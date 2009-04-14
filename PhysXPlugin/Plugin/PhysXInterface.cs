@@ -11,7 +11,7 @@ namespace PhysXPlugin
     /// <summary>
     /// This is the ElementPlugin class for the PhysXPlugin.
     /// </summary>
-    public class PhysXInterface : ElementPlugin
+    public class PhysXInterface : PluginInterface
     {
         #region Static
 
@@ -65,7 +65,7 @@ namespace PhysXPlugin
 
         #region ElementPlugin
 
-        public override void Dispose()
+        public void Dispose()
         {
             if (physSDK != null)
             {
@@ -77,7 +77,7 @@ namespace PhysXPlugin
         /// <summary>
         /// Initalize the PhysXPlugin.
         /// </summary>
-        public override void initialize(PluginManager pluginManager)
+        public void initialize(PluginManager pluginManager)
         {
             physSDK = PhysSDK.Instance;
             elementManagerCommands.addCommand(new EngineCommand("createPhysSceneDef", "Create PhysX Scene Definition", "Creates a new PhysX scene definition.", new CreateSceneDesc(createSceneDefinition)));

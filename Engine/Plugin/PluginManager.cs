@@ -34,7 +34,7 @@ namespace Engine
 
         #region Fields
 
-        private Dictionary<String, ElementPlugin> loadedPlugins = new Dictionary<string, ElementPlugin>();
+        private Dictionary<String, PluginInterface> loadedPlugins = new Dictionary<string, PluginInterface>();
         private CommandManager createSimElementCommands = new CommandManager();
         private CommandManager createSimElementManagerCommands = new CommandManager();
 
@@ -53,7 +53,7 @@ namespace Engine
             }
             else
             {
-                throw new Exception("Can only call the constructor for the PluginManager one time");
+                throw new InvalidPluginException("Can only call the constructor for the PluginManager one time");
             }
         }
 
@@ -66,7 +66,7 @@ namespace Engine
         /// </summary>
         public void Dispose()
         {
-            foreach (ElementPlugin plugin in loadedPlugins.Values)
+            foreach (PluginInterface plugin in loadedPlugins.Values)
             {
                 plugin.Dispose();
             }
@@ -87,7 +87,7 @@ namespace Engine
                 Type elementPlugin = null;
                 foreach (Type type in exportedTypes)
                 {
-                    if (type.IsSubclassOf(typeof(ElementPlugin)))
+                    if (type.IsSubclassOf(typeof(PluginInterface)))
                     {
                         elementPlugin = type;
                         break;
@@ -95,7 +95,7 @@ namespace Engine
                 }
                 if (elementPlugin != null)
                 {
-                    ElementPlugin plugin = (ElementPlugin)Activator.CreateInstance(elementPlugin);
+                    PluginInterface plugin = (PluginInterface)Activator.CreateInstance(elementPlugin);
                     loadedPlugins.Add(path, plugin);
                     plugin.initialize(this);
                     return true;
@@ -123,7 +123,7 @@ namespace Engine
         /// </summary>
         /// <param name="path">The path of the plugin to get.</param>
         /// <returns>The ElementPlugin if it is found or null if it is not.</returns>
-        public ElementPlugin getPlugin(String path)
+        public PluginInterface getPlugin(String path)
         {
             if (loadedPlugins.ContainsKey(path))
             {

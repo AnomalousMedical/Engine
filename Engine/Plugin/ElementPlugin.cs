@@ -14,19 +14,12 @@ namespace Engine
     /// then the plugin will be initalized and all of the commands it can
     /// execute will be recovered.
     /// </summary>
-    public abstract class ElementPlugin : IDisposable
+    public interface PluginInterface : IDisposable
     {
         /// <summary>
         /// Do any initialization steps that need to be done on the plugin. Done
         /// just after the plugin is loaded and will only be called one time.
         /// </summary>
-        public abstract void initialize(PluginManager pluginManager);
-
-        /// <summary>
-        /// Do any shutdown steps that need to be done on the plugin. This will
-        /// be done just before the plugin is unloaded and will only be done one
-        /// time.
-        /// </summary>
-        public abstract void Dispose();
+        void initialize(PluginManager pluginManager);
     }
 }
