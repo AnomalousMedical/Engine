@@ -1,4 +1,4 @@
-namespace CommonControls
+namespace Editor
 {
     partial class InputBox
     {

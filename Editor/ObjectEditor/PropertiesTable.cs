@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Engine.Editing;
-using CommonControls;
+using Engine.Attributes;
 
 namespace Editor
 {
@@ -183,7 +183,7 @@ namespace Editor
 
             for (int i = 0; i < currentPropInfo.getNumColumns(); i++)
             {
-                DataGridViewTextBoxCell newCell = new DataGridViewTextBoxCell();
+                DataGridViewCell newCell = createCell(property.getPropertyType(i));
                 newCell.Value = property.getValue(i);
                 newRow.Cells.Add(newCell);
             }
@@ -191,6 +191,35 @@ namespace Editor
             editCell.Value = property;
             newRow.Cells.Add(editCell);
             propGridView.Rows.Add(newRow);
+        }
+
+        private DataGridViewCell createCell(Type propType)
+        {
+            if (propType.IsEnum)
+            {
+                if (propType.GetCustomAttributes(typeof(SingleEnumAttribute), true).Length > 0)
+                {
+                    SingleEnumEditorCell editorCell = new SingleEnumEditorCell();
+                    editorCell.populateCombo(propType);
+                    return editorCell;
+                }
+                else if (propType.GetCustomAttributes(typeof(MultiEnumAttribute), true).Length > 0)
+                {
+                    MultiEnumEditorCell editorCell = new MultiEnumEditorCell();
+                    editorCell.EnumType = propType;
+                    return editorCell;
+                }
+                else
+                {
+                    DataGridViewTextBoxCell cell = new DataGridViewTextBoxCell();
+                    return cell;
+                }
+            }
+            if (propType == typeof(bool))
+            {
+                return new DataGridViewCheckBoxCell();
+            }
+            return new DataGridViewTextBoxCell();
         }
 
         private void removeProperty(EditableProperty property)

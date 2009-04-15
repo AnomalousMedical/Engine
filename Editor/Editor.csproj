@@ -47,6 +47,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CellEditors\MulitEnum\MultiEnumCellEditControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CellEditors\MulitEnum\MultiEnumEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CellEditors\MulitEnum\MultiEnumEditor.Designer.cs">
+      <DependentUpon>MultiEnumEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CellEditors\MulitEnum\MultiEnumEditorCell.cs" />
+    <Compile Include="CellEditors\MulitEnum\MultiEnumEditorCellPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CellEditors\MulitEnum\MultiEnumEditorCellPopup.Designer.cs">
+      <DependentUpon>MultiEnumEditorCellPopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CellEditors\MulitEnum\MultiEnumEditorColumn.cs" />
+    <Compile Include="CellEditors\MulitEnum\MultiEnumItem.cs" />
+    <Compile Include="CellEditors\NumericUpDown\DataGridViewNumericUpDownCell.cs" />
+    <Compile Include="CellEditors\NumericUpDown\DataGridViewNumericUpDownColumn.cs" />
+    <Compile Include="CellEditors\NumericUpDown\DataGridViewNumericUpDownEditingControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CellEditors\SingleEnum\SingleEnumEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CellEditors\SingleEnum\SingleEnumEditor.Designer.cs">
+      <DependentUpon>SingleEnumEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CellEditors\SingleEnum\SingleEnumEditorCell.cs" />
+    <Compile Include="CellEditors\SingleEnum\SingleEnumEditorColumn.cs" />
     <Compile Include="CommonGUI\InputBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,6 +131,18 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="CellEditors\MulitEnum\MultiEnumEditor.resx">
+      <DependentUpon>MultiEnumEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CellEditors\MulitEnum\MultiEnumEditorCellPopup.resx">
+      <DependentUpon>MultiEnumEditorCellPopup.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CellEditors\SingleEnum\SingleEnumEditor.resx">
+      <DependentUpon>SingleEnumEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="CommonGUI\InputBox.resx">
       <DependentUpon>InputBox.cs</DependentUpon>
       <SubType>Designer</SubType>
