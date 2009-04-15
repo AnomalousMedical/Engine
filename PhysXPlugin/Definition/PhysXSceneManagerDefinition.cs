@@ -7,6 +7,7 @@ using PhysXWrapper;
 using Engine.Editing;
 using Engine.Reflection;
 using Engine.ObjectManagement;
+using Engine.Saving;
 
 namespace PhysXPlugin
 {
@@ -123,5 +124,14 @@ namespace PhysXPlugin
         }
 
         #endregion Properties
+
+        #region Saveable Members
+
+        public void getInfo(Engine.Saving.SaveInfo info)
+        {
+            ReflectedSaver.SaveObject(sceneDesc, info, memberScanner);
+        }
+
+        #endregion
     }
 }

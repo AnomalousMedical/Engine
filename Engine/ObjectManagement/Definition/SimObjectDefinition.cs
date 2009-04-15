@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using EngineMath;
 using Engine.Editing;
+using Engine.Saving;
 
 namespace Engine.ObjectManagement
 {
     /// <summary>
     /// This class defines an instance of a sim object.
     /// </summary>
-    public class SimObjectDefinition
+    public class SimObjectDefinition : Saveable
     {
         #region Fields
 
@@ -151,5 +152,17 @@ namespace Engine.ObjectManagement
         }
 
         #endregion Properties
+
+        #region Saveable Members
+
+        private const String NAME = "Name";
+        private const String ELEMENTS_BASE = "Element";
+
+        public void getInfo(SaveInfo info)
+        {
+            info.AddValue(NAME, Name);
+        }
+
+        #endregion
     }
 }

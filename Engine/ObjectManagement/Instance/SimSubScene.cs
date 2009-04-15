@@ -96,10 +96,10 @@ namespace Engine.ObjectManagement
         /// <returns>A new defintion.</returns>
         public SimSubSceneDefinition createDefinition(SimSceneDefinition scene)
         {
-            SimSubSceneDefinition definition = new SimSubSceneDefinition(name, scene);
+            SimSubSceneDefinition definition = new SimSubSceneDefinition(name);
             foreach (SimElementManager manager in simElements.Values)
             {
-                definition.addBinding(definition.getSimElementManager(manager.getName()));
+                definition.addBinding(scene.getSimElementManagerDefinition(manager.getName()));
             }
             return definition;
         }

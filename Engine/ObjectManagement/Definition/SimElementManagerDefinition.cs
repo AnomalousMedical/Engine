@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Engine.Editing;
+using Engine.Saving;
 
 namespace Engine.ObjectManagement
 {
     /// <summary>
     /// This interface is a definition class for SimElementManagers.
     /// </summary>
-    public interface SimElementManagerDefinition : IDisposable
+    public interface SimElementManagerDefinition : IDisposable, Saveable
     {
         /// <summary>
         /// Get an EditInterface.

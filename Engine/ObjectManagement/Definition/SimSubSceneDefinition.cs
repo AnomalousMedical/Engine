@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using Engine.Editing;
 using Logging;
+using Engine.Saving;
 
 namespace Engine.ObjectManagement
 {
     /// <summary>
     /// This is a definition for a SimSubScene.
     /// </summary>
-    public class SimSubSceneDefinition
+    public class SimSubSceneDefinition : Saveable
     {
         #region Fields
 
@@ -23,10 +24,9 @@ namespace Engine.ObjectManagement
 
         #region Constructors
 
-        public SimSubSceneDefinition(String name, SimSceneDefinition scene)
+        public SimSubSceneDefinition(String name)
         {
             this.name = name;
-            this.scene = scene;
         }
 
         #endregion Constructors
@@ -147,6 +147,16 @@ namespace Engine.ObjectManagement
             return subscene;
         }
 
+        /// <summary>
+        /// Set the scene that this definition belongs to. This should only be
+        /// called by SimSceneDefiniton.
+        /// </summary>
+        /// <param name="scene"></param>
+        internal void setScene(SimSceneDefinition scene)
+        {
+            this.scene = scene;
+        }
+
         private void addBinding(EditUICallback callback)
         {
             SimSubSceneBinding binding = new SimSubSceneBinding(this);
@@ -196,5 +206,22 @@ namespace Engine.ObjectManagement
         }
 
         #endregion Properties
+
+        #region Saveable Members
+
+        private const string NAME = "Name";
+        private const string BINDINGS_BASE = "Binding";
+
+        public void getInfo(SaveInfo info)
+        {
+            info.AddValue(NAME, Name);
+            int i = 0;
+            foreach (SimSubSceneBinding binding in bindings)
+            {
+                info.AddValue(BINDINGS_BASE + i++, binding.SimElementManager.Name);
+            }
+        }
+
+        #endregion
     }
 }

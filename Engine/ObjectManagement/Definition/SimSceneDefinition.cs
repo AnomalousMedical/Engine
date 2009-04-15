@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using Engine.Editing;
 using Logging;
+using Engine.Saving;
 
 namespace Engine.ObjectManagement
 {
     /// <summary>
     /// This is a definiton class for a SimSubScene.
     /// </summary>
-    public class SimSceneDefinition
+    public class SimSceneDefinition : Saveable
     {
         #region Fields
 
@@ -102,6 +103,7 @@ namespace Engine.ObjectManagement
         public void addSimSubSceneDefinition(SimSubSceneDefinition def)
         {
             subSceneDefinitions.Add(def.Name, def);
+            def.setScene(this);
             if (editInterface != null)
             {
                 createEditInterface(def);
@@ -115,6 +117,7 @@ namespace Engine.ObjectManagement
         public void removeSimSubSceneDefinition(SimSubSceneDefinition def)
         {
             subSceneDefinitions.Remove(def.Name);
+            def.setScene(null);
             if (editInterface != null)
             {
                 subSceneInterfaces.removeSubInterface(def);
@@ -284,7 +287,7 @@ namespace Engine.ObjectManagement
             }
             if (accept)
             {
-                SimSubSceneDefinition def = new SimSubSceneDefinition(name, this);
+                SimSubSceneDefinition def = new SimSubSceneDefinition(name);
                 this.addSimSubSceneDefinition(def);
             }
         }
@@ -343,5 +346,28 @@ namespace Engine.ObjectManagement
         }
 
         #endregion Helper Functions
+
+        #region Saveable Members
+
+        private const String ELEMENT_MANAGERS_BASE = "ElementManager";
+        private const String SUB_SCENE_BASE = "SubScene";
+        private const String DEFAULT_SUB_SCENE = "DefaultSubScene";
+
+        public void getInfo(SaveInfo info)
+        {
+            info.AddValue(DEFAULT_SUB_SCENE, DefaultSubScene);
+            int i = 0;
+            foreach (SimElementManagerDefinition manager in elementManagers.Values)
+            {
+                info.AddValue(ELEMENT_MANAGERS_BASE + i++, manager);
+            }
+            i = 0;
+            foreach (SimSubSceneDefinition subScene in subSceneDefinitions.Values)
+            {
+                info.AddValue(SUB_SCENE_BASE + i++, subScene);
+            }
+        }
+
+        #endregion
     }
 }
