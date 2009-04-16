@@ -15,7 +15,7 @@
 namespace OgreWrapper{
 
 SceneNode::SceneNode(Ogre::SceneNode* sceneNode, System::String^ name)
-:RenderNode(sceneNode),
+:Node(sceneNode),
 sceneNode( sceneNode ), 
 name( name ),
 nodeObjects(gcnew NodeObjectList())
@@ -26,7 +26,7 @@ nodeObjects(gcnew NodeObjectList())
 SceneNode::SceneNode(System::String^ name, SceneManager^ ownerScene)
 :name(name), 
 autoOgreNode(new Ogre::SceneNode(ownerScene->getSceneManager())),
-RenderNode(autoOgreNode.Get())
+Node(autoOgreNode.Get())
 {
 	sceneNode = autoOgreNode.Get();
 }

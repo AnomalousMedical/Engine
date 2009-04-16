@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Enums.h"
-#include "RenderNode.h"
+#include "Node.h"
 #include "BoneCollection.h"
 
 namespace Ogre
@@ -21,7 +21,7 @@ ref class Bone;
 /// move in relation to the skeleton. 
 /// </summary>
 [Engine::Attributes::DoNotSaveAttribute]
-public ref class Bone : public RenderNode
+public ref class Bone : public Node
 {
 private:
 	Ogre::Bone* bone;

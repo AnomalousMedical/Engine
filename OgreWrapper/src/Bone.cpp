@@ -7,7 +7,7 @@
 namespace OgreWrapper{
 
 Bone::Bone(Ogre::Bone* bone)
-:RenderNode(bone),
+:Node(bone),
 bone(bone)
 {
 

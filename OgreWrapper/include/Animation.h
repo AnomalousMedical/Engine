@@ -48,7 +48,7 @@ public enum class  RotationInterpolationMode : unsigned int
 ref class NodeAnimationTrack;
 ref class VertexAnimationTrack;
 ref class NumericAnimationTrack;
-ref class RenderNode;
+ref class Node;
 ref class Skeleton;
 ref class RenderEntity;
 

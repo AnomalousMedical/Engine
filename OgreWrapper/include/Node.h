@@ -24,7 +24,7 @@ namespace OgreWrapper
 /// </para>
 /// </summary>
 [Engine::Attributes::DoNotSaveAttribute]
-public ref class RenderNode abstract
+public ref class Node abstract
 {
 public:
 [Engine::Attributes::SingleEnum]
@@ -43,7 +43,7 @@ internal:
 	/// Constructor.
 	/// </summary>
 	/// <param name="ogreNode">The Ogre::Node to wrap.</param>
-	RenderNode(Ogre::Node* ogreNode);
+	Node(Ogre::Node* ogreNode);
 
 
 	/// <summary>

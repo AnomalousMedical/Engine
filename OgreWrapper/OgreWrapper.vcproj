@@ -364,6 +364,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Node.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\NodeAnimationTrack.cpp"
 				>
 			</File>
@@ -477,10 +481,6 @@
 			</File>
 			<File
 				RelativePath=".\src\RenderMaterialPtr.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\RenderNode.cpp"
 				>
 			</File>
 			<File
@@ -842,6 +842,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\Node.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\NodeAnimationTrack.h"
 				>
 			</File>
@@ -958,10 +962,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\RenderNode.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\RenderSubEntity.h"
 				>
 			</File>
@@ -990,11 +990,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\Resource.h"
+				RelativePath=".\resource.h"
 				>
 			</File>
 			<File
-				RelativePath=".\resource.h"
+				RelativePath=".\include\Resource.h"
 				>
 			</File>
 			<File

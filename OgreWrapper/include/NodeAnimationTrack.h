@@ -12,7 +12,7 @@ namespace OgreWrapper
 {
 
 ref class TransformKeyFrame;
-ref class RenderNode;
+ref class Node;
 
 /// <summary>
 /// Specialised AnimationTrack for dealing with node transforms. 
@@ -39,21 +39,21 @@ internal:
 public:
 	TransformKeyFrame^ createNodeKeyFrame(float timePos);
 
-	RenderNode^ getAssociatedNode();
+	Node^ getAssociatedNode();
 
-	void setAssociatedNode(RenderNode^ node);
+	void setAssociatedNode(Node^ node);
 
-	void applyToNode(RenderNode^ node, TimeIndex timeIndex);
+	void applyToNode(Node^ node, TimeIndex timeIndex);
 
-	void applyToNode(RenderNode^ node, TimeIndex timeIndex, float weight);
+	void applyToNode(Node^ node, TimeIndex timeIndex, float weight);
 
-	void applyToNode(RenderNode^ node, TimeIndex timeIndex, float weight, float scale);
+	void applyToNode(Node^ node, TimeIndex timeIndex, float weight, float scale);
 
-	void applyToNode(RenderNode^ node, TimeIndex% timeIndex);
+	void applyToNode(Node^ node, TimeIndex% timeIndex);
 
-	void applyToNode(RenderNode^ node, TimeIndex% timeIndex, float weight);
+	void applyToNode(Node^ node, TimeIndex% timeIndex, float weight);
 
-	void applyToNode(RenderNode^ node, TimeIndex% timeIndex, float weight, float scale);
+	void applyToNode(Node^ node, TimeIndex% timeIndex, float weight, float scale);
 
 	void setUseShortestRotationPath(bool useShortestPath);
 

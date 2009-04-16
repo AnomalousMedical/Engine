@@ -25,42 +25,42 @@ TransformKeyFrame^ NodeAnimationTrack::createNodeKeyFrame(float timePos)
 	throw gcnew System::NotImplementedException();
 }
 
-RenderNode^ NodeAnimationTrack::getAssociatedNode()
+Node^ NodeAnimationTrack::getAssociatedNode()
 {
 	throw gcnew System::NotImplementedException();
 }
 
-void NodeAnimationTrack::setAssociatedNode(RenderNode^ node)
+void NodeAnimationTrack::setAssociatedNode(Node^ node)
 {
 	throw gcnew System::NotImplementedException();
 }
 
-void NodeAnimationTrack::applyToNode(RenderNode^ node, TimeIndex timeIndex)
+void NodeAnimationTrack::applyToNode(Node^ node, TimeIndex timeIndex)
 {
 	throw gcnew System::NotImplementedException();
 }
 
-void NodeAnimationTrack::applyToNode(RenderNode^ node, TimeIndex timeIndex, float weight)
+void NodeAnimationTrack::applyToNode(Node^ node, TimeIndex timeIndex, float weight)
 {
 	throw gcnew System::NotImplementedException();
 }
 
-void NodeAnimationTrack::applyToNode(RenderNode^ node, TimeIndex timeIndex, float weight, float scale)
+void NodeAnimationTrack::applyToNode(Node^ node, TimeIndex timeIndex, float weight, float scale)
 {
 	throw gcnew System::NotImplementedException();
 }
 
-void NodeAnimationTrack::applyToNode(RenderNode^ node, TimeIndex% timeIndex)
+void NodeAnimationTrack::applyToNode(Node^ node, TimeIndex% timeIndex)
 {
 	throw gcnew System::NotImplementedException();
 }
 
-void NodeAnimationTrack::applyToNode(RenderNode^ node, TimeIndex% timeIndex, float weight)
+void NodeAnimationTrack::applyToNode(Node^ node, TimeIndex% timeIndex, float weight)
 {
 	throw gcnew System::NotImplementedException();
 }
 
-void NodeAnimationTrack::applyToNode(RenderNode^ node, TimeIndex% timeIndex, float weight, float scale)
+void NodeAnimationTrack::applyToNode(Node^ node, TimeIndex% timeIndex, float weight, float scale)
 {
 	throw gcnew System::NotImplementedException();
 }

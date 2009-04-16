@@ -7,7 +7,7 @@
 /// </copyright>
 
 #include "AutoPtr.h"
-#include "RenderNode.h"
+#include "Node.h"
 
 namespace Ogre
 {
@@ -27,7 +27,7 @@ typedef System::Collections::Generic::Dictionary<System::String^, MovableObject^
 /// </summary>
 [Engine::Attributes::NativeSubsystemType]
 [Engine::Attributes::DoNotSaveAttribute]
-public ref class SceneNode : public RenderNode
+public ref class SceneNode : public Node
 {
 private:
 	Ogre::SceneNode* sceneNode;
