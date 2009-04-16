@@ -14,7 +14,7 @@
 namespace OgreWrapper{
 
 Mesh::Mesh(const Ogre::MeshPtr& mesh)
-:RenderResource(mesh.get()),
+:Resource(mesh.get()),
 meshAutoPtr(new Ogre::MeshPtr(mesh)),
 mesh(mesh.get()),
 sharedVertexData(nullptr)

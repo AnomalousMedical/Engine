@@ -3,7 +3,7 @@
 #include "OgreMesh.h"
 #include "AutoPtr.h"
 #include "Enums.h"
-#include "RenderResource.h"
+#include "Resource.h"
 #include "VertexElement.h"
 #include "AnimationTrack.h"
 #include "SubMeshCollection.h"
@@ -26,7 +26,7 @@ ref class SubMesh;
 ref class VertexData;
 
 [Engine::Attributes::DoNotSaveAttribute]
-public ref class Mesh : public RenderResource
+public ref class Mesh : public Resource
 {
 private:
 	AutoPtr<Ogre::MeshPtr> meshAutoPtr;

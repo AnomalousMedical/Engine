@@ -484,10 +484,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\RenderResource.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\RenderSubEntity.cpp"
 				>
 			</File>
@@ -513,6 +509,10 @@
 			</File>
 			<File
 				RelativePath=".\src\RenderWindow.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Resource.cpp"
 				>
 			</File>
 			<File
@@ -962,10 +962,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\RenderResource.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\RenderSubEntity.h"
 				>
 			</File>
@@ -991,6 +987,10 @@
 			</File>
 			<File
 				RelativePath=".\include\RenderWindow.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\Resource.h"
 				>
 			</File>
 			<File

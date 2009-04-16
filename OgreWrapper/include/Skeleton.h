@@ -2,7 +2,7 @@
 
 #include "OgreSkeleton.h"
 #include "AutoPtr.h"
-#include "RenderResource.h"
+#include "Resource.h"
 #include "BoneCollection.h"
 #include "AnimationCollection.h"
 
@@ -55,7 +55,7 @@ typedef System::Collections::Generic::IEnumerator<Bone^> BoneIterator;
 /// </para>
 /// </summary>
 [Engine::Attributes::DoNotSaveAttribute]
-public ref class Skeleton : RenderResource
+public ref class Skeleton : Resource
 {
 private:
 	Ogre::Skeleton* skeleton;

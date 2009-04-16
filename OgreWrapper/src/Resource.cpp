@@ -1,122 +1,122 @@
 #include "StdAfx.h"
-#include "..\include\RenderResource.h"
+#include "..\include\Resource.h"
 #include "Ogre.h"
 #include "MarshalUtils.h"
 
 namespace OgreWrapper
 {
 
-RenderResource::RenderResource(Ogre::Resource* ogreResource)
+Resource::Resource(Ogre::Resource* ogreResource)
 :ogreResource(ogreResource)
 {
 }
 
-System::String^ RenderResource::getName()
+System::String^ Resource::getName()
 {
 	return MarshalUtils::convertString(ogreResource->getName());
 }
 
-unsigned long RenderResource::getHandle()
+unsigned long Resource::getHandle()
 {
 	return ogreResource->getHandle();
 }
 
-System::String^ RenderResource::getGroup()
+System::String^ Resource::getGroup()
 {
 	return MarshalUtils::convertString(ogreResource->getGroup());
 }
 
-void RenderResource::prepare()
+void Resource::prepare()
 {
 	ogreResource->prepare();
 }
 
-void RenderResource::load(bool backgroundThread)
+void Resource::load(bool backgroundThread)
 {
 	ogreResource->load(backgroundThread);
 }
 
-void RenderResource::reload()
+void Resource::reload()
 {
 	ogreResource->reload();
 }
 
-bool RenderResource::isReloadable()
+bool Resource::isReloadable()
 {
 	return ogreResource->isReloadable();
 }
 
-bool RenderResource::isManuallyLoaded()
+bool Resource::isManuallyLoaded()
 {
 	return ogreResource->isManuallyLoaded();
 }
 
-void RenderResource::unload()
+void Resource::unload()
 {
 	ogreResource->unload();
 }
 
-unsigned int RenderResource::getSize()
+unsigned int Resource::getSize()
 {
 	return ogreResource->getSize();
 }
 
-void RenderResource::touch()
+void Resource::touch()
 {
 	ogreResource->touch();
 }
 
-bool RenderResource::isPrepared()
+bool Resource::isPrepared()
 {
 	return ogreResource->isPrepared();
 }
 
-bool RenderResource::isLoaded()
+bool Resource::isLoaded()
 {
 	return ogreResource->isLoaded();
 }
 
-bool RenderResource::isLoading()
+bool Resource::isLoading()
 {
 	return ogreResource->isLoading();
 }
 
-RenderResource::LoadingState RenderResource::getLoadingState()
+Resource::LoadingState Resource::getLoadingState()
 {
-	return (RenderResource::LoadingState)ogreResource->getLoadingState();
+	return (Resource::LoadingState)ogreResource->getLoadingState();
 }
 
-bool RenderResource::isBackgroundLoaded()
+bool Resource::isBackgroundLoaded()
 {
 	return ogreResource->isBackgroundLoaded();
 }
 
-void RenderResource::setBackgroundLoaded(bool bl)
+void Resource::setBackgroundLoaded(bool bl)
 {
 	ogreResource->setBackgroundLoaded(bl);
 }
 
-void RenderResource::escalateLoading()
+void Resource::escalateLoading()
 {
 	ogreResource->escalateLoading();
 }
 
-System::String^ RenderResource::getOrigin()
+System::String^ Resource::getOrigin()
 {
 	return MarshalUtils::convertString(ogreResource->getOrigin());
 }
 
-unsigned int RenderResource::getStateCount()
+unsigned int Resource::getStateCount()
 {
 	return ogreResource->getStateCount();
 }
 
-void RenderResource::setParameter(System::String^ name, System::String^ value)
+void Resource::setParameter(System::String^ name, System::String^ value)
 {
 	ogreResource->setParameter(MarshalUtils::convertString(name), MarshalUtils::convertString(value));
 }
 
-System::String^ RenderResource::getParameter(System::String^ name)
+System::String^ Resource::getParameter(System::String^ name)
 {
 	return MarshalUtils::convertString(ogreResource->getParameter(MarshalUtils::convertString(name)));
 }

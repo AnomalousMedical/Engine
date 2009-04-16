@@ -10,7 +10,7 @@
 namespace OgreWrapper{
 
 RenderMaterial::RenderMaterial(const Ogre::MaterialPtr& ogreMaterial)
-:RenderResource(ogreMaterial.get()),
+:Resource(ogreMaterial.get()),
 autoMaterialPtr(new Ogre::MaterialPtr(ogreMaterial)),
 ogreMaterial(ogreMaterial.getPointer())
 {

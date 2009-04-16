@@ -12,14 +12,14 @@ namespace OgreWrapper
 using namespace System::Collections::Generic;
 
 Skeleton::Skeleton(const Ogre::SkeletonPtr& ogreSkeleton)
-:RenderResource(ogreSkeleton.get()),
+:Resource(ogreSkeleton.get()),
 skeleton(ogreSkeleton.get()),
 autoSharedPtr(new Ogre::SkeletonPtr(ogreSkeleton))
 {
 }
 
 Skeleton::Skeleton(Ogre::Skeleton* ogreSkeleton)
-:RenderResource(ogreSkeleton), skeleton(ogreSkeleton)
+:Resource(ogreSkeleton), skeleton(ogreSkeleton)
 {
 
 }

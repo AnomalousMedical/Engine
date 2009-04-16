@@ -9,7 +9,7 @@ namespace OgreWrapper
 {
 
 [Engine::Attributes::DoNotSaveAttribute]
-public ref class RenderResource abstract
+public ref class Resource abstract
 {
 public:
 [Engine::Attributes::SingleEnum]
@@ -27,7 +27,7 @@ private:
 	Ogre::Resource* ogreResource;
 
 internal:
-	RenderResource(Ogre::Resource* ogreResource);
+	Resource(Ogre::Resource* ogreResource);
 
 public:
 	/// <summary>
@@ -114,7 +114,7 @@ public:
 	/// Returns the current loading state. 
 	/// </summary>
 	/// <returns>The current loading state.</returns>
-	RenderResource::LoadingState getLoadingState();
+	Resource::LoadingState getLoadingState();
 
 	/// <summary>
 	/// Returns whether this Resource has been earmarked for background loading. 

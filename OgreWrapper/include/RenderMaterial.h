@@ -2,7 +2,7 @@
 
 #include "Enums.h"
 #include "AutoPtr.h"
-#include "RenderResource.h"
+#include "Resource.h"
 #include "TechniqueCollection.h"
 
 namespace Ogre
@@ -18,7 +18,7 @@ value class Color;
 ref class RenderMaterialPtr;
 
 [Engine::Attributes::DoNotSaveAttribute]
-public ref class RenderMaterial : public RenderResource
+public ref class RenderMaterial : public Resource
 {
 private:
 	AutoPtr<Ogre::MaterialPtr> autoMaterialPtr;
