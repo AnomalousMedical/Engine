@@ -7,8 +7,6 @@ namespace Ogre
 	class BorderPanelOverlayElement;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 /// <summary>
@@ -80,7 +78,5 @@ public:
 
 	System::String^ getBorderMaterialName();
 };
-
-}
 
 }

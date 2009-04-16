@@ -1,8 +1,6 @@
 #include "StdAfx.h"
 #include "..\include\HardwareIndexBuffer.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 HardwareIndexBuffer::HardwareIndexBuffer(const Ogre::HardwareIndexBufferSharedPtr& hardwareIndexBuffer)
@@ -30,8 +28,6 @@ size_t HardwareIndexBuffer::getNumIndexes()
 size_t HardwareIndexBuffer::getIndexSize()
 {
 	return hardwareIndexBuffer->getIndexSize();
-}
-
 }
 
 }

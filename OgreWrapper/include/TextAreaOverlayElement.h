@@ -7,8 +7,6 @@ namespace Ogre
 	class TextAreaOverlayElement;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 value class Color;
@@ -89,7 +87,5 @@ public:
 
 	Alignment getAlignment();
 };
-
-}
 
 }

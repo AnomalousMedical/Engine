@@ -3,9 +3,6 @@
 #include "Ogre.h"
 #include "TransformKeyFrame.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -146,8 +143,6 @@ void NodeAnimationTrack::removeKeyFrame(unsigned short index)
 void NodeAnimationTrack::removeAllKeyFrames()
 {
 	throw gcnew System::NotImplementedException();
-}
-
 }
 
 }

@@ -2,9 +2,6 @@
 
 #include "Enums.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -27,7 +24,5 @@ public:
 		ResourceTypes get();
 	}
 };
-
-}
 
 }

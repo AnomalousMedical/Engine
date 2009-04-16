@@ -5,9 +5,6 @@ namespace Ogre
 	class KeyFrame;
 }
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -41,7 +38,5 @@ public:
 	float getTime();
 
 };
-
-}
 
 }

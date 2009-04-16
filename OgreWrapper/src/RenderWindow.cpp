@@ -10,9 +10,6 @@
 
 #include "Ogre.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -36,8 +33,6 @@ Ogre::RenderWindow* RenderWindow::getRenderWindow()
 void RenderWindow::windowMovedOrResized()
 {
 	ogreRenderWindow->windowMovedOrResized();
-}
-
 }
 
 }

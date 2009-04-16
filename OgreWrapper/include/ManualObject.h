@@ -19,8 +19,6 @@ namespace Ogre
 	class Entity;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 ref class ManualObjectSection;
@@ -301,7 +299,5 @@ public:
 	/// <returns>The bounding radius.</returns>
 	float getBoundingRadius();
 };
-
-}
 
 }

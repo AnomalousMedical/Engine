@@ -17,8 +17,6 @@
 
 #include "Ogre.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 RenderEntity::RenderEntity(Ogre::Entity* entity, System::String^ name, System::String^ meshName)
@@ -428,8 +426,6 @@ bool RenderEntity::raycastPolygonLevel(EngineMath::Ray3 ray, float% distanceOnRa
     delete[] indices;
 
 	return hitMesh;
-}
-
 }
 
 }

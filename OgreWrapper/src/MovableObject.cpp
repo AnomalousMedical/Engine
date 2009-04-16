@@ -4,9 +4,6 @@
 #include "Ogre.h"
 #include "AxisAlignedBox.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -136,8 +133,6 @@ void MovableObject::setRenderQueueGroup(unsigned char queueID)
 unsigned char MovableObject::getRenderQueueGroup()
 {
 	return movableObject->getRenderQueueGroup();
-}
-
 }
 
 }

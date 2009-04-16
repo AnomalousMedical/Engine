@@ -2,9 +2,6 @@
 #include "..\include\RenderNode.h"
 #include "MathUtils.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -137,8 +134,6 @@ EngineMath::Vector3 RenderNode::getDerivedScale()
 EngineMath::Quaternion RenderNode::getDerivedOrientation()
 {
 	return MathUtils::copyQuaternion(ogreNode->_getDerivedOrientation());
-}
-
 }
 
 }

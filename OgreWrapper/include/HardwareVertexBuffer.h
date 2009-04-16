@@ -9,8 +9,6 @@ namespace Ogre
 	class HardwareVertexBufferSharedPtr;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 /// <summary>
@@ -59,7 +57,5 @@ public:
 	/// <returns>The number of vertices.</returns>
 	size_t getNumVertices();
 };
-
-}
 
 }

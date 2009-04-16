@@ -3,8 +3,6 @@
 #include "VertexData.h"
 #include "IndexData.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 SubMesh::SubMesh(Ogre::SubMesh* subMesh)
@@ -50,8 +48,6 @@ VertexData^ SubMesh::vertexData::get()
 IndexData^ SubMesh::indexData::get() 
 {
 	return index;
-}
-
 }
 
 }

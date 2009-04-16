@@ -4,9 +4,6 @@
 #include "MarshalUtils.h"
 #include "MathUtils.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -55,8 +52,6 @@ EngineMath::Vector3 Pose::getOffset(size_t index)
 {
 	Ogre::Pose::VertexOffsetMap map = pose->getVertexOffsets();
 	return MathUtils::copyVector3(map[index]);
-}
-
 }
 
 }

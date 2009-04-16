@@ -2,8 +2,6 @@
 #include "..\include\ManagedResourceGroupListener.h"
 #include "ResourceGroupListener.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 ManagedResourceGroupListener::ManagedResourceGroupListener(void)
@@ -148,8 +146,6 @@ void ManagedResourceGroupListener::resourceGroupLoadEnded(System::String^ groupN
 	{
 		listener->resourceGroupLoadEnded(groupName);
 	}
-}
-
 }
 
 }

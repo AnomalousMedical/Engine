@@ -5,9 +5,6 @@
 #include "MarshalUtils.h"
 #include "OverlayManager.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -41,8 +38,6 @@ void OverlayContainer::removeChild(System::String^ name)
 OverlayElement^ OverlayContainer::getChild(System::String^ name)
 {
 	return OverlayManager::getInstance()->getObject(overlayContainer->getChild(MarshalUtils::convertString(name)));
-}
-
 }
 
 }

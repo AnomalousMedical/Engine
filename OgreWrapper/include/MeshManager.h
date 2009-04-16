@@ -9,8 +9,6 @@ namespace Ogre
 	class Mesh;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 ref class Mesh;
@@ -435,7 +433,5 @@ public:
 	/// <returns>True if enabled.</returns>
 	bool getVerbose();
 };
-
-}
 
 }

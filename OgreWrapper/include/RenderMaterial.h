@@ -10,9 +10,6 @@ namespace Ogre
 	class Ogre;
 }
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -148,7 +145,5 @@ public:
 
 	void setSeparateSceneBlending(SceneBlendFactor sourceFactor, SceneBlendFactor destFactor, SceneBlendFactor sourceFactorAlpha, SceneBlendFactor destFactorAlpha);
 };
-
-}
 
 }

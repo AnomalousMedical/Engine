@@ -3,9 +3,6 @@
 
 #include "OgrePixelFormat.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -139,8 +136,6 @@ size_t PixelBox::SlicePitch::get()
 void PixelBox::SlicePitch::set(size_t value) 
 {
 	ogrePixel->slicePitch = value;
-}
-
 }
 
 }

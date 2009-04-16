@@ -1,8 +1,6 @@
 #include "StdAfx.h"
 #include "..\include\HardwareVertexBuffer.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 HardwareVertexBuffer::HardwareVertexBuffer(const Ogre::HardwareVertexBufferSharedPtr& hardwareVertexBuffer)
@@ -30,8 +28,6 @@ size_t HardwareVertexBuffer::getVertexSize()
 size_t HardwareVertexBuffer::getNumVertices()
 {
 	return hardwareVertexBuffer->getNumVertices();
-}
-
 }
 
 }

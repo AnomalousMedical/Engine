@@ -3,8 +3,6 @@
 #include "AnimationStateCollection.h"
 #include "AnimationState.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 AnimationState^ AnimationStateCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
@@ -20,8 +18,6 @@ AnimationState^ AnimationStateCollection::getObject(Ogre::AnimationState* native
 void AnimationStateCollection::destroyObject(Ogre::AnimationState* nativeObject)
 {
 	destroyObjectVoid(nativeObject);
-}
-
 }
 
 }

@@ -10,9 +10,6 @@
 
 #include "Ogre.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -45,8 +42,6 @@ void Viewport::setVisibilityMask(unsigned int mask)
 unsigned int Viewport::getVisibilityMask()
 {
 	return viewport->getVisibilityMask();
-}
-
 }
 
 }

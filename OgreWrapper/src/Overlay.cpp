@@ -6,8 +6,6 @@
 #include "OverlayContainer.h"
 #include "OverlayManager.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 Overlay::Overlay(Ogre::Overlay* overlay)
@@ -138,8 +136,6 @@ float Overlay::getScaleX()
 float Overlay::getScaleY()
 {
 	return overlay->getScaleY();
-}
-
 }
 
 }

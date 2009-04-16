@@ -6,8 +6,6 @@
 #include "ManualObject.h"
 #include "Color.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 LineHelper::LineHelper()
@@ -105,8 +103,6 @@ void LineHelper::setRenderQueueGroup(unsigned char queueID)
 unsigned char LineHelper::getRenderQueueGroup()
 {
 	return nativeSurface->getRenderQueueGroup();
-}
-
 }
 
 }

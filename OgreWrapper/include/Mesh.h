@@ -11,8 +11,6 @@
 #include "PoseCollection.h"
 #include "MeshPtr.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 using namespace System::Runtime::InteropServices;
@@ -200,7 +198,5 @@ public:
 		VertexData^ get();
 	}
 };
-
-}
 
 }

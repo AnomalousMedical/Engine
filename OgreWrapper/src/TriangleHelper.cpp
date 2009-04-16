@@ -6,8 +6,6 @@
 #include "ManualObject.h"
 #include "Color.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 TriangleHelper::TriangleHelper()
@@ -107,8 +105,6 @@ void TriangleHelper::setRenderQueueGroup(unsigned char queueID)
 unsigned char TriangleHelper::getRenderQueueGroup()
 {
 	return nativeSurface->getRenderQueueGroup();
-}
-
 }
 
 }

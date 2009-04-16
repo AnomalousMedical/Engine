@@ -8,9 +8,6 @@
 #include "NumericAnimationTrack.h"
 #include "VertexAnimationTrack.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -250,8 +247,6 @@ void Animation::optimize()
 void Animation::optimize(bool discardIdentityNodeTracks)
 {
 	return ogreAnimation->optimise(discardIdentityNodeTracks);
-}
-
 }
 
 }

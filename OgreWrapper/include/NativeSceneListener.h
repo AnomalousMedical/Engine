@@ -3,9 +3,6 @@
 #include "OgreSceneManager.h"
 #include "gcroot.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -54,7 +51,5 @@ public:
 
 	int getNumListeners();
 };
-
-}
 
 }

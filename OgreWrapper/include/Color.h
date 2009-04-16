@@ -1,7 +1,5 @@
 #pragma once
 
-namespace Engine{
-
 namespace Rendering{
 
 public value class Color
@@ -13,7 +11,5 @@ public:
 
 	float r, g, b, a;
 };
-
-}
 
 }

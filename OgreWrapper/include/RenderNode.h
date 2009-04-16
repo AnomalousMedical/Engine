@@ -7,9 +7,6 @@ namespace Ogre
 	class Node;
 }
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -274,7 +271,5 @@ public:
 	/// <returns>The derived orientation.</returns>
 	EngineMath::Quaternion getDerivedOrientation();
 };
-
-}
 
 }

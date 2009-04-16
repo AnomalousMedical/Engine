@@ -5,8 +5,6 @@ namespace Ogre
 	class SubMesh;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 ref class VertexData;
@@ -63,7 +61,5 @@ public:
 		IndexData^ get();
 	}
 };
-
-}
 
 }

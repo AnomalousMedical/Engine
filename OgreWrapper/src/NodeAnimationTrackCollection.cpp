@@ -3,8 +3,6 @@
 #include "NodeAnimationTrackCollection.h"
 #include "NodeAnimationTrack.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 NodeAnimationTrack^ NodeAnimationTrackCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
@@ -20,8 +18,6 @@ NodeAnimationTrack^ NodeAnimationTrackCollection::getObject(Ogre::NodeAnimationT
 void NodeAnimationTrackCollection::destroyObject(Ogre::NodeAnimationTrack* nativeObject)
 {
 	destroyObjectVoid(nativeObject);
-}
-
 }
 
 }

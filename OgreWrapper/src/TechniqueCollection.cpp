@@ -3,8 +3,6 @@
 #include "TechniqueCollection.h"
 #include "Technique.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 Technique^ TechniqueCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
@@ -20,8 +18,6 @@ Technique^ TechniqueCollection::getObject(Ogre::Technique* nativeObject, RenderM
 void TechniqueCollection::destroyObject(Ogre::Technique* nativeObject)
 {
 	destroyObjectVoid(nativeObject);
-}
-
 }
 
 }

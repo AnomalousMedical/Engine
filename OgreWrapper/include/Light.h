@@ -15,9 +15,6 @@ namespace Ogre
 	class Light;
 }
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -239,7 +236,5 @@ public:
 	/// <returns>Get the scaling factor which indicates the relative power of a light.</returns>
 	float getPowerScale();
 };
-
-}
 
 }

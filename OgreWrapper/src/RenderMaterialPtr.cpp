@@ -3,8 +3,6 @@
 #include "RenderMaterialPtr.h"
 #include "RenderMaterial.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 RenderMaterial^ RenderMaterialPtrCollection::createWrapper(const void* sharedPtr, array<System::Object^>^ args)
@@ -26,8 +24,6 @@ RenderMaterialPtr::RenderMaterialPtr(SharedPtr<RenderMaterial^>^ sharedPtr)
 RenderMaterialPtr::~RenderMaterialPtr()
 {
 	delete sharedPtr;
-}
-
 }
 
 }

@@ -9,8 +9,6 @@ namespace Ogre
 	class Material;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 ref class RenderMaterial;
@@ -57,7 +55,5 @@ public:
 
 	//RenderMaterial^ createManual(System::String^ name, System::String^ groupName, bool isManual);
 };
-
-}
 
 }

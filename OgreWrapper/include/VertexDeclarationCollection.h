@@ -1,8 +1,6 @@
 //Header
 #pragma once
 
-namespace Engine{
-
 namespace Rendering{
 
 ref class VertexDeclaration;
@@ -18,7 +16,5 @@ public:
 
 	void destroyObject(Ogre::VertexDeclaration* nativeObject);
 };
-
-}
 
 }

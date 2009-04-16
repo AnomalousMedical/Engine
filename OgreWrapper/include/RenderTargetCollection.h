@@ -1,8 +1,6 @@
 //Header
 #pragma once
 
-namespace Engine{
-
 namespace Rendering{
 
 enum class RenderTargetType
@@ -28,7 +26,5 @@ public:
 
 	void destroyObject(Ogre::RenderTarget* nativeObject);
 };
-
-}
 
 }

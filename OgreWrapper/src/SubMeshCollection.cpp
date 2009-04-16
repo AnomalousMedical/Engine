@@ -3,8 +3,6 @@
 #include "SubMeshCollection.h"
 #include "SubMesh.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 SubMesh^ SubMeshCollection::createWrapper(void* nativeObject, array<System::Object^>^ args)
@@ -20,8 +18,6 @@ SubMesh^ SubMeshCollection::getObject(Ogre::SubMesh* nativeObject)
 void SubMeshCollection::destroyObject(Ogre::SubMesh* nativeObject)
 {
 	destroyObjectVoid(nativeObject);
-}
-
 }
 
 }

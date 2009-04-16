@@ -2,8 +2,6 @@
 #include "..\include\HardwareBuffer.h"
 #include "OgreHardwareBuffer.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 HardwareBuffer::HardwareBuffer(Ogre::HardwareBuffer* hardwareBuffer)
@@ -73,8 +71,6 @@ bool HardwareBuffer::isLocked()
 void HardwareBuffer::suppressHardwareUpdate(bool suppress)
 {
 	return hardwareBuffer->suppressHardwareUpdate(suppress);
-}
-
 }
 
 }

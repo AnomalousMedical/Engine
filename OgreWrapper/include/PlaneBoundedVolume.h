@@ -8,9 +8,6 @@ namespace Ogre
 	class PlaneBoundedVolume;
 }
 
-namespace Engine
-{
-
 namespace Rendering
 {
 ref class AxisAlignedBox;
@@ -93,6 +90,4 @@ public:
 		Plane::Side get();
 	}
 };
-}
-
 }

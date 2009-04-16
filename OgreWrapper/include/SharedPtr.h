@@ -1,7 +1,5 @@
 #pragma once
 
-namespace Engine{
-
 namespace Rendering{
 
 generic<typename T>
@@ -64,8 +62,6 @@ public:
 
 	void returnPtr(SharedPtr<T>^ ptr);
 };
-
-}
 
 }
 

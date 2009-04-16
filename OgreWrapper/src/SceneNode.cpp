@@ -12,8 +12,6 @@
 
 #include "Ogre.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 SceneNode::SceneNode(Ogre::SceneNode* sceneNode, System::String^ name)
@@ -91,8 +89,6 @@ void SceneNode::setAutoTracking(bool enabled, SceneNode^ target, EngineMath::Vec
 {
 	Ogre::Vector3 ogOffset(offset.x, offset.y, offset.z);
 	sceneNode->setAutoTracking(enabled, target->getSceneNode(), ogOffset);
-}
-
 }
 
 }

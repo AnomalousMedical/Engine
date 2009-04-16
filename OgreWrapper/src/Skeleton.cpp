@@ -6,9 +6,6 @@
 #include "Animation.h"
 #include "AnimationStateSet.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -178,8 +175,6 @@ bool Skeleton::getManualBonesDirty()
 bool Skeleton::hasManualBones()
 {
 	return skeleton->hasManualBones();
-}
-
 }
 
 }

@@ -5,9 +5,6 @@
 #include "MarshalUtils.h"
 #include "Mesh.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -35,8 +32,6 @@ void MeshSerializer::exportMesh(Mesh^ mesh, System::String^ filename)
 void MeshSerializer::exportMesh(Mesh^ mesh, System::String^ filename, Endian endianMode)
 {
 	meshSerializer->exportMesh(mesh->getOgreMesh(), MarshalUtils::convertString(filename), static_cast<Ogre::Serializer::Endian>(endianMode));
-}
-
 }
 
 }

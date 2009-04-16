@@ -5,8 +5,6 @@
 #include "OverlayElementCollection.h"
 #include "OverlayCollection.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 ref class Overlay;
@@ -77,7 +75,5 @@ public:
 
 	OverlayElement^ cloneOverlayElementFromTemplate(System::String^ templateName, System::String^ instanceName);
 };
-
-}
 
 }

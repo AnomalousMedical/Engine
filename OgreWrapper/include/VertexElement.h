@@ -7,8 +7,6 @@ namespace Ogre
 	class VertexElement;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 value class Color;
@@ -253,7 +251,5 @@ public:
 		return p1->vertexElement == p2->vertexElement;
 	}
 };
-
-}
 
 }

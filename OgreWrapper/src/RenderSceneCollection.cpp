@@ -2,9 +2,6 @@
 #include "stdafx.h"
 #include "RenderSceneCollection.h"
 #include "RenderScene.h"
-#include "Renderer.h"
-
-namespace Engine{
 
 namespace Rendering{
 
@@ -21,8 +18,6 @@ RenderScene^ RenderSceneCollection::getObject(Ogre::SceneManager* nativeObject)
 void RenderSceneCollection::destroyObject(Ogre::SceneManager* nativeObject)
 {
 	destroyObjectVoid(nativeObject);
-}
-
 }
 
 }

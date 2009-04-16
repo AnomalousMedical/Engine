@@ -6,9 +6,6 @@ namespace Ogre
 	class Quaternion;
 }
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -99,15 +96,13 @@ public:
 	/// Copies source into a new color.
 	/// </summary>
 	/// <param name="source">Copy from this.</param>
-	static Engine::Rendering::Color copyColor(const Ogre::ColourValue& source);
+	static Rendering::Color copyColor(const Ogre::ColourValue& source);
 
 	/// <summary>
 	/// Copies source into a new color.
 	/// </summary>
 	/// <param name="source">Copy from this.</param>
-	static Ogre::ColourValue copyColor(Engine::Rendering::Color% source);
+	static Ogre::ColourValue copyColor(Rendering::Color% source);
 };
-
-}
 
 }

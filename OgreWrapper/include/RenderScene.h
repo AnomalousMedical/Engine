@@ -18,9 +18,6 @@ namespace Ogre
 	class SceneManager;
 }
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -573,7 +570,5 @@ public:
         }
     }
 };
-
-}
 
 }

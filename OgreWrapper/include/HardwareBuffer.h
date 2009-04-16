@@ -5,8 +5,6 @@ namespace Ogre
 	class HardwareBuffer;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 /// <summary>
@@ -217,7 +215,5 @@ public:
 	/// <param name="suppress">True to suppress hardware upload of shadow buffer changes.</param>
 	void suppressHardwareUpdate(bool suppress);
 };
-
-}
 
 }

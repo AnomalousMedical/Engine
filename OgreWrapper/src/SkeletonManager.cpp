@@ -3,8 +3,6 @@
 #include "Ogre.h"
 #include "Skeleton.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 SkeletonManager::SkeletonManager()
@@ -25,8 +23,6 @@ SkeletonManager::~SkeletonManager()
 SkeletonManager^ SkeletonManager::getInstance()
 {
 	return instance;
-}
-
 }
 
 }

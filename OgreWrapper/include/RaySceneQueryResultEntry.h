@@ -1,7 +1,5 @@
 #pragma once
 
-namespace Engine {
-
 namespace Rendering{
 
 ref class MovableObject;
@@ -15,7 +13,5 @@ public:
 
 	MovableObject^ movable;
 };
-
-}
 
 }

@@ -2,9 +2,6 @@
 #include "VertexPoseKeyFrame.h"
 #include "OgreKeyFrame.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -37,8 +34,6 @@ void VertexPoseKeyFrame::removePoseReference(unsigned short poseIndex)
 void VertexPoseKeyFrame::removeAllPoseReferences()
 {
 	ogreFrame->removeAllPoseReferences();
-}
-
 }
 
 }

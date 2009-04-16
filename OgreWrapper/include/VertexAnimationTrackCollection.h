@@ -1,8 +1,6 @@
 //Header
 #pragma once
 
-namespace Engine{
-
 namespace Rendering{
 
 ref class VertexAnimationTrack;
@@ -19,7 +17,5 @@ public:
 
 	void destroyObject(Ogre::VertexAnimationTrack* nativeObject);
 };
-
-}
 
 }

@@ -6,9 +6,6 @@
 #include "OgreHardwareBufferManager.h"
 #include "VertexBufferBinding.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -111,8 +108,6 @@ void HardwareBufferManager::destroyVertexBufferBinding(VertexBufferBinding^ bind
 	Ogre::VertexBufferBinding* ogreBinding = binding->getVertexBufferBinding();
 	vertexBufferBindings.destroyObject(ogreBinding);
 	hbManager->destroyVertexBufferBinding(ogreBinding);
-}
-
 }
 
 }

@@ -14,9 +14,6 @@ namespace Ogre
 	class SceneNode;
 }
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -120,7 +117,5 @@ public:
 	void setAutoTracking(bool enabled, SceneNode^ target, EngineMath::Vector3 offset);
 
 };
-
-}
 
 }

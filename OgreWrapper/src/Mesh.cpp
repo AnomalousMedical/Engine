@@ -11,8 +11,6 @@
 #include "VertexData.h"
 #include "MeshManager.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 Mesh::Mesh(const Ogre::MeshPtr& mesh)
@@ -406,8 +404,6 @@ void Mesh::removeAllPoses()
 VertexData^ Mesh::SharedVertexData::get() 
 {
 	return sharedVertexData;
-}
-
 }
 
 }

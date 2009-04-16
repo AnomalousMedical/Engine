@@ -2,9 +2,6 @@
 #include "KeyFrame.h"
 #include "OgreKeyFrame.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -17,8 +14,6 @@ KeyFrame::KeyFrame(Ogre::KeyFrame* ogreFrame)
 float KeyFrame::getTime()
 {
 	return ogreFrame->getTime();
-}
-
 }
 
 }

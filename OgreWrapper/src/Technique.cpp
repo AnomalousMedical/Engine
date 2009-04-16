@@ -5,8 +5,6 @@
 #include "MathUtils.h"
 #include "Color.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 Technique::Technique(Ogre::Technique* ogreTechnique, RenderMaterial^ parent)
@@ -306,8 +304,6 @@ void Technique::setName(System::String^ name)
 System::String^ Technique::getName()
 {
 	return MarshalUtils::convertString(ogreTechnique->getName());
-}
-
 }
 
 }

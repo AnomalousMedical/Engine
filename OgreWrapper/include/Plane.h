@@ -3,9 +3,6 @@
 #include "AutoPtr.h"
 #include "OgrePlane.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -184,7 +181,5 @@ public:
 		return (*p1.getPlane()) != (*p2.getPlane());
 	}
 };
-
-}
 
 }

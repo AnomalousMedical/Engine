@@ -5,9 +5,6 @@ namespace Ogre
 	class Resource;
 }
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -182,7 +179,5 @@ public:
 	/// <returns>The parameter specified by name.</returns>
 	System::String^ getParameter(System::String^ name);
 };
-
-}
 
 }

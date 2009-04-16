@@ -4,9 +4,6 @@
 #include "MathUtils.h"
 #include "AxisAlignedBox.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -55,8 +52,6 @@ void PlaneBoundedVolume::clear()
 Plane::Side PlaneBoundedVolume::Outside::get() 
 {
 	return outside;
-}
-
 }
 
 }

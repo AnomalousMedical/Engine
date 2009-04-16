@@ -5,9 +5,6 @@ namespace Ogre
 	class AnimationState;
 }
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -162,7 +159,5 @@ public:
 	/// <returns>The parent AnimationStateSet.</returns>
 	AnimationStateSet^ getParent();
 };
-
-}
 
 }

@@ -8,9 +8,6 @@ namespace Ogre
 	class NodeAnimationTrack;
 }
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -156,7 +153,5 @@ public:
 	/// </summary>
 	virtual void removeAllKeyFrames() override;
 };
-
-}
 
 }

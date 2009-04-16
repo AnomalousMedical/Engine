@@ -4,8 +4,6 @@
 
 #pragma unmanaged
 
-namespace Engine{
-
 namespace Rendering{
 
 NativeTriangleHelper::NativeTriangleHelper()
@@ -93,8 +91,6 @@ void NativeTriangleHelper::setRenderQueueGroup(unsigned char queueID)
 unsigned char NativeTriangleHelper::getRenderQueueGroup()
 {
 	return triangleBuffer->getRenderQueueGroup();
-}
-
 }
 
 }

@@ -1,8 +1,6 @@
 //Header
 #pragma once
 
-namespace Engine{
-
 namespace Rendering{
 
 ref class RenderScene;
@@ -19,7 +17,5 @@ public:
 
 	void destroyObject(Ogre::SceneManager* nativeObject);
 };
-
-}
 
 }

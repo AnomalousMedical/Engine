@@ -3,8 +3,6 @@
 #include "OverlayCollection.h"
 #include "Overlay.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 Overlay^ OverlayCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
@@ -20,8 +18,6 @@ Overlay^ OverlayCollection::getObject(Ogre::Overlay* nativeObject)
 void OverlayCollection::destroyObject(Ogre::Overlay* nativeObject)
 {
 	destroyObjectVoid(nativeObject);
-}
-
 }
 
 }

@@ -7,8 +7,6 @@ namespace Ogre
 	class OverlayContainer;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 /// <summary>
@@ -44,7 +42,5 @@ public:
 
 	OverlayElement^ getChild(System::String^ name);
 };
-
-}
 
 }

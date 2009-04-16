@@ -7,8 +7,6 @@
 #include "Color.h"
 #include "RenderMaterialManager.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 RenderMaterial::RenderMaterial(const Ogre::MaterialPtr& ogreMaterial)
@@ -294,8 +292,6 @@ void RenderMaterial::setSceneBlending(SceneBlendFactor sourceFactor, SceneBlendF
 void RenderMaterial::setSeparateSceneBlending(SceneBlendFactor sourceFactor, SceneBlendFactor destFactor, SceneBlendFactor sourceFactorAlpha, SceneBlendFactor destFactorAlpha)
 {
 	return ogreMaterial->setSeparateSceneBlending((Ogre::SceneBlendFactor)sourceFactor, (Ogre::SceneBlendFactor)destFactor, (Ogre::SceneBlendFactor)sourceFactorAlpha, (Ogre::SceneBlendFactor)destFactorAlpha);
-}
-
 }
 
 }

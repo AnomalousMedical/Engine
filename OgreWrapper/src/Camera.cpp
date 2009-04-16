@@ -11,8 +11,6 @@
 #include "Ogre.h"
 #include "MathUtils.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 Camera::Camera(Ogre::Camera* camera, System::String^ name)
@@ -276,8 +274,6 @@ float Camera::getOrthoWindowWidth()
 float Camera::getOrthoWindowHeight()
 {
 	return camera->getOrthoWindowHeight();
-}
-
 }
 
 }

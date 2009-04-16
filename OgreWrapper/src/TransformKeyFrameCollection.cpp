@@ -3,8 +3,6 @@
 #include "TransformKeyFrameCollection.h"
 #include "TransformKeyFrame.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 TransformKeyFrame^ TransformKeyFrameCollection::createWrapper(void* nativeObject, array<System::Object^>^ args)
@@ -20,8 +18,6 @@ TransformKeyFrame^ TransformKeyFrameCollection::getObject(Ogre::TransformKeyFram
 void TransformKeyFrameCollection::destroyObject(Ogre::TransformKeyFrame* nativeObject)
 {
 	destroyObjectVoid(nativeObject);
-}
-
 }
 
 }

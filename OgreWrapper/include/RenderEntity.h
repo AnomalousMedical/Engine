@@ -20,8 +20,6 @@ namespace Ogre
 	class SubEntity;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 ref class AnimationState;
@@ -357,7 +355,5 @@ public:
 	/// <returns>True if an intersection occured, false if it did not.</returns>
 	bool raycastPolygonLevel(EngineMath::Ray3 ray, float% distanceOnRay);
 };
-
-}
 
 }

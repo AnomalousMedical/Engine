@@ -5,8 +5,6 @@ namespace Ogre
 	class IndexData;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 ref class HardwareIndexBufferSharedPtr;
@@ -75,7 +73,5 @@ public:
 		void set(size_t value);
 	}
 };
-
-}
 
 }

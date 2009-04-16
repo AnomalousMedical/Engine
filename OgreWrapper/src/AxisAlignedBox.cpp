@@ -4,8 +4,6 @@
 #include "MathUtils.h"
 #include "Plane.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 AxisAlignedBox::AxisAlignedBox()
@@ -206,8 +204,6 @@ bool AxisAlignedBox::contains(Vector3 point)
 bool AxisAlignedBox::contains(Vector3% point)
 {
 	return ogreBox->contains(MathUtils::copyVector3(point));
-}
-
 }
 
 }

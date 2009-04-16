@@ -1,8 +1,6 @@
 #include "StdAfx.h"
 #include "..\include\AnimationState.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 AnimationState::AnimationState(Ogre::AnimationState* animationState, AnimationStateSet^ parent)
@@ -114,8 +112,6 @@ float AnimationState::getBlendMaskEntry(unsigned int boneHandle)
 AnimationStateSet^ AnimationState::getParent()
 {
 	return parent;
-}
-
 }
 
 }

@@ -4,8 +4,6 @@
 #include "MathUtils.h"
 #include "MarshalUtils.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 Bone::Bone(Ogre::Bone* bone)
@@ -59,8 +57,6 @@ void Bone::needUpdate(bool forceParentUpdate)
 System::String^ Bone::getName()
 {
 	return MarshalUtils::convertString(bone->getName());
-}
-
 }
 
 }

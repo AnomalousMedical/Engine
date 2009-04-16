@@ -11,9 +11,6 @@
 #include "Ogre.h"
 #include "MarshalUtils.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -46,8 +43,6 @@ void ManualObjectSection::set32BitIndices(bool n32)
 bool ManualObjectSection::get32BitIndices()
 {
 	return section->get32BitIndices();
-}
-
 }
 
 }

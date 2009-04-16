@@ -2,9 +2,6 @@
 
 #include "OgreUserDefinedObject.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -30,7 +27,5 @@ public:
 	{
 	}
 };
-
-}
 
 }

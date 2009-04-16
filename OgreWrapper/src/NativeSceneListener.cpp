@@ -5,9 +5,6 @@
 #include "Camera.h"
 #include "RenderScene.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -50,8 +47,6 @@ void NativeSceneListener::removeSceneListener(gcroot<SceneListener^> sceneListen
 int NativeSceneListener::getNumListeners()
 {
 	return managedListener->getNumListeners();
-}
-
 }
 
 }

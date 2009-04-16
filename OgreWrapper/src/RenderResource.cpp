@@ -3,9 +3,6 @@
 #include "Ogre.h"
 #include "MarshalUtils.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -122,8 +119,6 @@ void RenderResource::setParameter(System::String^ name, System::String^ value)
 System::String^ RenderResource::getParameter(System::String^ name)
 {
 	return MarshalUtils::convertString(ogreResource->getParameter(MarshalUtils::convertString(name)));
-}
-
 }
 
 }

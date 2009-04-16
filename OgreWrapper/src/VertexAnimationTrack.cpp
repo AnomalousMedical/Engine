@@ -4,9 +4,6 @@
 #include "VertexMorphKeyFrame.h"
 #include "VertexPoseKeyFrame.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -167,8 +164,6 @@ void VertexAnimationTrack::removeAllKeyFrames()
 	morphs.clearObjects();
 	poses.clearObjects();
 	ogreAnimation->removeAllKeyFrames();
-}
-
 }
 
 }

@@ -10,8 +10,6 @@ namespace Ogre
 	class Root;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 [Engine::Attributes::MultiEnum]
@@ -177,7 +175,5 @@ public:
 
 	float getFrameSmoothingPeriod();
 };
-
-}
 
 }

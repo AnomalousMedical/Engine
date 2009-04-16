@@ -4,8 +4,6 @@
 
 using namespace EngineMath;
 
-namespace Engine{
-
 namespace Rendering{
 
 class NativeTriangleHelper;
@@ -63,7 +61,5 @@ public:
 	/// <returns>The render queue group of this object.</returns>
 	unsigned char getRenderQueueGroup();
 };
-
-}
 
 }

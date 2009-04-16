@@ -4,8 +4,6 @@
 
 #pragma unmanaged
 
-namespace Engine{
-
 namespace Rendering{
 
 NativePointHelper::NativePointHelper()
@@ -89,8 +87,6 @@ void NativePointHelper::setRenderQueueGroup(unsigned char queueID)
 unsigned char NativePointHelper::getRenderQueueGroup()
 {
 	return pointBuffer->getRenderQueueGroup();
-}
-
 }
 
 }

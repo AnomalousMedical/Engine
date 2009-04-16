@@ -4,8 +4,6 @@
 #include "RenderMaterial.h"
 #include "MarshalUtils.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 RenderMaterialManager::RenderMaterialManager()
@@ -36,8 +34,6 @@ RenderMaterialPtr^ RenderMaterialManager::getByName(System::String^ name)
 bool RenderMaterialManager::resourceExists(System::String^ name)
 {
 	return materialManager->resourceExists(MarshalUtils::convertString(name));
-}
-
 }
 
 }

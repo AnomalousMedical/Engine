@@ -14,9 +14,6 @@ namespace Ogre
 	class ManualObject::ManualObjectSection;
 }
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -69,7 +66,5 @@ public:
 	/// <returns>True if 32 bit indicies are in use.</returns>
 	bool get32BitIndices();
 };
-
-}
 
 }

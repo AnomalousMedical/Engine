@@ -10,8 +10,6 @@ namespace Ogre
 
 using namespace System::Collections::Generic;
 
-namespace Engine{
-
 namespace Rendering{
 
 ref class Bone;
@@ -47,7 +45,5 @@ public:
 
 	//release tag point
 };
-
-}
 
 }

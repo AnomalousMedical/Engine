@@ -8,8 +8,6 @@ namespace Ogre
 	class VertexDeclaration;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 ref class VertexElement;
@@ -284,7 +282,5 @@ public:
 	/// <returns>A new declaration identical to this one.</returns>
 	VertexDeclaration^ clone();
 };
-
-}
 
 }

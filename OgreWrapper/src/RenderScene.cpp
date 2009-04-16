@@ -12,7 +12,6 @@
 #include "Light.h"
 #include "RenderEntity.h"
 #include "SceneNode.h"
-#include "Renderer.h"
 #include "ManualObject.h"
 #include "MathUtils.h"
 #include "RaySceneQuery.h"
@@ -20,8 +19,6 @@
 
 #include "Ogre.h"
 #include "MarshalUtils.h"
-
-namespace Engine{
 
 namespace Rendering{
 
@@ -384,8 +381,6 @@ void RenderScene::setShowDebugShadows(bool debug)
 bool RenderScene::getShowDebugShadows()
 {
 	return sceneManager->getShowDebugShadows();
-}
-
 }
 
 }

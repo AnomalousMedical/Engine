@@ -2,8 +2,6 @@
 #include "MeshPtr.h"
 #include "Mesh.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 Mesh^ MeshPtrCollection::createWrapper(const void* sharedPtr, array<System::Object^>^ args)
@@ -25,8 +23,6 @@ MeshPtr::MeshPtr(SharedPtr<Mesh^>^ sharedPtr)
 MeshPtr::~MeshPtr()
 {
 	delete sharedPtr;
-}
-
 }
 
 }

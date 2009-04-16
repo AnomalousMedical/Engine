@@ -2,9 +2,6 @@
 #include "NumericAnimationTrack.h"
 #include "Ogre.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -17,8 +14,6 @@ NumericAnimationTrack::NumericAnimationTrack(Ogre::NumericAnimationTrack* ogreAn
 NumericAnimationTrack::~NumericAnimationTrack()
 {
 	ogreAnimation = 0;
-}
-
 }
 
 }

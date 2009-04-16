@@ -3,8 +3,6 @@
 #include "PoseCollection.h"
 #include "Pose.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 Pose^ PoseCollection::createWrapper(void* nativeObject, array<System::Object^>^ args)
@@ -20,8 +18,6 @@ Pose^ PoseCollection::getObject(Ogre::Pose* nativeObject)
 void PoseCollection::destroyObject(Ogre::Pose* nativeObject)
 {
 	destroyObjectVoid(nativeObject);
-}
-
 }
 
 }

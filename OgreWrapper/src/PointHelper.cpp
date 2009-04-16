@@ -6,8 +6,6 @@
 #include "ManualObject.h"
 #include "Color.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 PointHelper::PointHelper()
@@ -103,8 +101,6 @@ void PointHelper::setRenderQueueGroup(unsigned char queueID)
 unsigned char PointHelper::getRenderQueueGroup()
 {
 	return nativeSurface->getRenderQueueGroup();
-}
-
 }
 
 }

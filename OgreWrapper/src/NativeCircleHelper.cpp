@@ -6,8 +6,6 @@
 #include "Ogre.h"
 #include <math.h>
 
-namespace Engine{
-
 namespace Rendering{
 
 #define PI 3.14159265f
@@ -217,8 +215,6 @@ void NativeCircleHelper::setRenderQueueGroup(unsigned char queueID)
 unsigned char NativeCircleHelper::getRenderQueueGroup()
 {
 	return buffer->getRenderQueueGroup();
-}
-
 }
 
 }

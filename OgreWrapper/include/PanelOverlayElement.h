@@ -7,8 +7,6 @@ namespace Ogre
 	class PanelOverlayElement;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 /// <summary>
@@ -66,7 +64,5 @@ public:
 
 	bool isTransparent();
 };
-
-}
 
 }

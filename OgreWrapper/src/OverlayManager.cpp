@@ -4,8 +4,6 @@
 #include "Overlay.h"
 #include "OverlayElement.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 OverlayManager::OverlayManager()
@@ -162,8 +160,6 @@ OverlayElement^ OverlayManager::createOverlayElementFromTemplate(System::String^
 OverlayElement^ OverlayManager::cloneOverlayElementFromTemplate(System::String^ templateName, System::String^ instanceName)
 {
 	return getObject(overlayManager->cloneOverlayElementFromTemplate(MarshalUtils::convertString(templateName), MarshalUtils::convertString(instanceName)));
-}
-
 }
 
 }

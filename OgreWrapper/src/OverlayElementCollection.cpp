@@ -7,8 +7,6 @@
 #include "PanelOverlayElement.h"
 #include "BorderPanelOverlayElement.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 OverlayElement^ OverlayElementCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
@@ -38,8 +36,6 @@ OverlayElement^ OverlayElementCollection::getObject(Ogre::OverlayElement* native
 void OverlayElementCollection::destroyObject(Ogre::OverlayElement* nativeObject)
 {
 	destroyObjectVoid(nativeObject);
-}
-
 }
 
 }

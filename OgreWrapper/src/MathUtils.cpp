@@ -3,9 +3,6 @@
 #include "Ogre.h"
 #include "Color.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -87,16 +84,14 @@ EngineMath::Ray3 MathUtils::copyRay(Ogre::Ray& source)
 	return EngineMath::Ray3(copyVector3(source.getOrigin()), copyVector3(source.getDirection()));
 }
 
-Engine::Rendering::Color MathUtils::copyColor(const Ogre::ColourValue& source)
+Rendering::Color MathUtils::copyColor(const Ogre::ColourValue& source)
 {
-	return Engine::Rendering::Color(source.r, source.g, source.b, source.a);
+	return Rendering::Color(source.r, source.g, source.b, source.a);
 }
 
-Ogre::ColourValue MathUtils::copyColor(Engine::Rendering::Color% source)
+Ogre::ColourValue MathUtils::copyColor(Rendering::Color% source)
 {
 	return Ogre::ColourValue(source.r, source.g, source.b, source.a);
-}
-
 }
 
 }

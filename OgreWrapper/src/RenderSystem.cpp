@@ -4,9 +4,6 @@
 #include "OgreRenderSystem.h"
 #include "MarshalUtils.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -29,8 +26,6 @@ Ogre::RenderSystem* RenderSystem::getRenderSystem()
 System::String^ RenderSystem::validateConfigOptions()
 {
 	return MarshalUtils::convertString(renderSystem->validateConfigOptions());
-}
-
 }
 
 }

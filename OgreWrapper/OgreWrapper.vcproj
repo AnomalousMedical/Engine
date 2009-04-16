@@ -316,14 +316,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\ManualRenderMaterialLoader.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\ManualRenderMaterialLoaderNative.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\MathUtils.cpp"
 				>
 			</File>
@@ -473,10 +465,6 @@
 			</File>
 			<File
 				RelativePath=".\src\RenderEntityCollection.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\Renderer.cpp"
 				>
 			</File>
 			<File
@@ -710,10 +698,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\AutoPtr.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\AxisAlignedBox.h"
 				>
 			</File>
@@ -807,14 +791,6 @@
 			</File>
 			<File
 				RelativePath=".\include\ManualObjectSectionCollection.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\ManualRenderMaterialLoader.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\ManualRenderMaterialLoaderNative.h"
 				>
 			</File>
 			<File
@@ -967,10 +943,6 @@
 			</File>
 			<File
 				RelativePath=".\include\RenderEntityCollection.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\Renderer.h"
 				>
 			</File>
 			<File

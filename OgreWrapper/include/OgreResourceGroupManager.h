@@ -5,9 +5,6 @@ namespace Ogre
 	class ResourceGroupManager;
 }
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -122,7 +119,5 @@ public:
         }
     }
 };
-
-}
 
 }

@@ -1,8 +1,5 @@
 #pragma once
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -236,7 +233,5 @@ public enum class SceneBlendFactor
     SBF_ONE_MINUS_DEST_ALPHA,
     SBF_ONE_MINUS_SOURCE_ALPHA
 };
-
-}
 
 }

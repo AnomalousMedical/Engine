@@ -9,8 +9,6 @@ namespace Ogre
 	class Mesh;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 ref class Skeleton;
@@ -38,7 +36,5 @@ public:
 	/// <returns>The SkeletonManager instance.</returns>
 	static SkeletonManager^ getInstance();
 };
-
-}
 
 }

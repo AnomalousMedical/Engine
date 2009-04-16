@@ -8,8 +8,6 @@ namespace Ogre
 	class PixelBox;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 /** The pixel format used for images, textures, and render surfaces */
@@ -306,7 +304,5 @@ public:
 		void set(size_t value);
 	}
 };
-
-}
 
 }

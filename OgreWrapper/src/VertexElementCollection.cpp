@@ -3,8 +3,6 @@
 #include "VertexElementCollection.h"
 #include "VertexElement.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 VertexElement^ VertexElementCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
@@ -20,8 +18,6 @@ VertexElement^ VertexElementCollection::getObject(const Ogre::VertexElement* nat
 void VertexElementCollection::destroyObject(const Ogre::VertexElement* nativeObject)
 {
 	destroyObjectVoid((void*)nativeObject);
-}
-
 }
 
 }

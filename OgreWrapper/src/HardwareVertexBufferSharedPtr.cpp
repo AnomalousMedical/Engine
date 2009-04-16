@@ -3,8 +3,6 @@
 #include "HardwareVertexBufferSharedPtr.h"
 #include "HardwareVertexBuffer.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 HardwareVertexBuffer^ HardwareVertexBufferSharedPtrCollection::createWrapper(const void* sharedPtr, array<System::Object^>^ args)
@@ -26,8 +24,6 @@ HardwareVertexBufferSharedPtr::HardwareVertexBufferSharedPtr(SharedPtr<HardwareV
 HardwareVertexBufferSharedPtr::~HardwareVertexBufferSharedPtr()
 {
 	delete sharedPtr;
-}
-
 }
 
 }

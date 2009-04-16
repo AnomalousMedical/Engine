@@ -3,8 +3,6 @@
 #include "VertexAnimationTrackCollection.h"
 #include "VertexAnimationTrack.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 VertexAnimationTrack^ VertexAnimationTrackCollection::createWrapper(void* nativeObject, array<System::Object^>^ args)
@@ -20,8 +18,6 @@ VertexAnimationTrack^ VertexAnimationTrackCollection::getObject(Ogre::VertexAnim
 void VertexAnimationTrackCollection::destroyObject(Ogre::VertexAnimationTrack* nativeObject)
 {
 	destroyObjectVoid(nativeObject);
-}
-
 }
 
 }

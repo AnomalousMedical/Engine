@@ -4,8 +4,6 @@
 #include "MarshalUtils.h"
 #include "RenderMaterialManager.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 RenderSubEntity::RenderSubEntity(Ogre::SubEntity* subEntity)
@@ -42,8 +40,6 @@ bool RenderSubEntity::isVisible()
 RenderMaterialPtr^ RenderSubEntity::getMaterial()
 {
 	return RenderMaterialManager::getInstance()->getObject(subEntity->getMaterial());
-}
-
 }
 
 }

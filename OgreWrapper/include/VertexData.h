@@ -8,8 +8,6 @@ namespace Ogre
 	class VertexData;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 ref class VertexDeclaration;
@@ -182,7 +180,5 @@ public:
 		void set(size_t value);
 	}
 };
-
-}
 
 }

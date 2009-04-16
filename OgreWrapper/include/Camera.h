@@ -18,9 +18,6 @@ namespace Ogre
 	class Camera;
 }
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -421,7 +418,5 @@ public:
 	/// <returns>The window height.</returns>
 	float getOrthoWindowHeight();
 };
-
-}
 
 }

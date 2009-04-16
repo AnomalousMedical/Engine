@@ -4,8 +4,6 @@
 
 #pragma unmanaged
 
-namespace Engine{
-
 namespace Rendering{
 
 NativeLineHelper::NativeLineHelper()
@@ -91,8 +89,6 @@ void NativeLineHelper::setRenderQueueGroup(unsigned char queueID)
 unsigned char NativeLineHelper::getRenderQueueGroup()
 {
 	return lineBuffer->getRenderQueueGroup();
-}
-
 }
 
 }

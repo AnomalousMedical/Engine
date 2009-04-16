@@ -3,8 +3,6 @@
 #include "SkeletonPtr.h"
 #include "Skeleton.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 Skeleton^ SkeletonPtrCollection::createWrapper(const void* sharedPtr, array<System::Object^>^ args)
@@ -26,8 +24,6 @@ SkeletonPtr::SkeletonPtr(SharedPtr<Skeleton^>^ sharedPtr)
 SkeletonPtr::~SkeletonPtr()
 {
 	delete sharedPtr;
-}
-
 }
 
 }

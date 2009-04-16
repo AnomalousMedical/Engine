@@ -5,8 +5,6 @@
 #include "MarshalUtils.h"
 #include "Mesh.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 MeshManager::MeshManager()
@@ -233,8 +231,6 @@ void MeshManager::setVerbose(bool v)
 bool MeshManager::getVerbose()
 {
 	return meshManager->getVerbose();
-}
-
 }
 
 }

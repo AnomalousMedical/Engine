@@ -10,9 +10,6 @@ namespace Ogre
 	class Animation;
 }
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -382,7 +379,5 @@ public:
 	/// <param name="discardIdentityNodeTracks">If true, discard identity node tracks.</param>
 	void optimize(bool discardIdentityNodeTracks);
 };
-
-}
 
 }

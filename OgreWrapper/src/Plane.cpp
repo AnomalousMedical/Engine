@@ -3,9 +3,6 @@
 #include "MathUtils.h"
 #include "AxisAlignedBox.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -82,8 +79,6 @@ EngineMath::Vector3 Plane::projectVector(EngineMath::Vector3 v)
 float Plane::normalize()
 {
 	return ogrePlane->normalise();
-}
-
 }
 
 }

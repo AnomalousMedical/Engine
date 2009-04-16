@@ -5,9 +5,6 @@ namespace Ogre
 	class NumericAnimationTrack;
 }
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -32,7 +29,5 @@ internal:
 	/// </summary>
 	~NumericAnimationTrack();
 };
-
-}
 
 }

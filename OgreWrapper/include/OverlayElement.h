@@ -5,8 +5,6 @@ namespace Ogre
 	class OverlayElement;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 ref class RenderMaterialPtr;
@@ -343,7 +341,5 @@ public:
 	/// <returns></returns>
 	OverlayElement^ getSourceTemplate();
 };
-
-}
 
 }

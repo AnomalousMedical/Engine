@@ -7,9 +7,6 @@ namespace Ogre
 	class Pass;
 }
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -341,7 +338,5 @@ public:
 
 	IlluminationStage getIlluminationStage();
 };
-
-}
 
 }

@@ -8,8 +8,6 @@ namespace Ogre
 	class Technique;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 ref class Pass;
@@ -146,7 +144,5 @@ public:
 
 	System::String^ getName();
 };
-
-}
 
 }

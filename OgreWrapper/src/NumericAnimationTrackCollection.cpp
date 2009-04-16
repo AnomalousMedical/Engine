@@ -3,8 +3,6 @@
 #include "NumericAnimationTrackCollection.h"
 #include "NumericAnimationTrack.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 NumericAnimationTrack^ NumericAnimationTrackCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
@@ -20,8 +18,6 @@ NumericAnimationTrack^ NumericAnimationTrackCollection::getObject(Ogre::NumericA
 void NumericAnimationTrackCollection::destroyObject(Ogre::NumericAnimationTrack* nativeObject)
 {
 	destroyObjectVoid(nativeObject);
-}
-
 }
 
 }

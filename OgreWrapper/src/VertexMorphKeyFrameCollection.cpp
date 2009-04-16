@@ -3,8 +3,6 @@
 #include "VertexMorphKeyFrameCollection.h"
 #include "VertexMorphKeyFrame.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 VertexMorphKeyFrame^ VertexMorphKeyFrameCollection::createWrapper(void* nativeObject, array<System::Object^>^ args)
@@ -20,8 +18,6 @@ VertexMorphKeyFrame^ VertexMorphKeyFrameCollection::getObject(Ogre::VertexMorphK
 void VertexMorphKeyFrameCollection::destroyObject(Ogre::VertexMorphKeyFrame* nativeObject)
 {
 	destroyObjectVoid(nativeObject);
-}
-
 }
 
 }

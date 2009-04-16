@@ -1,7 +1,5 @@
 #pragma once
 
-namespace Engine{
-
 namespace Rendering{
 
 ref class OgreResource;
@@ -152,7 +150,5 @@ public:
 	/// <param name="groupName"></param>
 	void resourceGroupLoadEnded(System::String^ groupName);
 };
-
-}
 
 }

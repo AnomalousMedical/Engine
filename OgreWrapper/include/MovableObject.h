@@ -12,9 +12,6 @@ namespace Ogre
 	class MovableObject;
 }
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -154,7 +151,5 @@ public:
 	/// <returns>The render queue group of this object.</returns>
 	unsigned char getRenderQueueGroup();
 };
-
-}
 
 }

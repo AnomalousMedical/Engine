@@ -3,8 +3,6 @@
 #include "Color.h"
 #include "MathUtils.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 VertexElement::VertexElement(const Ogre::VertexElement* vertexElement)
@@ -105,8 +103,6 @@ unsigned int VertexElement::convertColorValue(Color src, VertexElementType dst)
 VertexElementType VertexElement::getBestColorVertexElementType()
 {
 	return (VertexElementType)Ogre::VertexElement::getBestColourVertexElementType();
-}
-
 }
 
 }

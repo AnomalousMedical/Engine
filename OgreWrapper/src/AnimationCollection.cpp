@@ -3,8 +3,6 @@
 #include "AnimationCollection.h"
 #include "Animation.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 Animation^ AnimationCollection::createWrapper(void* nativeObject, array<System::Object^>^ args)
@@ -20,8 +18,6 @@ Animation^ AnimationCollection::getObject(Ogre::Animation* nativeObject)
 void AnimationCollection::destroyObject(Ogre::Animation* nativeObject)
 {
 	destroyObjectVoid(nativeObject);
-}
-
 }
 
 }

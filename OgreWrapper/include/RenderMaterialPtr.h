@@ -8,8 +8,6 @@ namespace Ogre
 	class MaterialPtr;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 ref class RenderMaterial;
@@ -55,7 +53,5 @@ public:
 		}
 	}
 };
-
-}
 
 }

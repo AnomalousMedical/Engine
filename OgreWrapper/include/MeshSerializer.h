@@ -7,8 +7,6 @@ namespace Ogre
 	class MeshSerializer;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 ref class Mesh;
@@ -53,7 +51,5 @@ public:
 
 	void exportMesh(Mesh^ mesh, System::String^ filename, Endian endianMode);
 };
-
-}
 
 }

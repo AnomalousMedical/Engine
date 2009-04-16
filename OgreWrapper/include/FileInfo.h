@@ -1,8 +1,5 @@
 #pragma once
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -91,7 +88,5 @@ public:
 		}
 	}
 };
-
-}
 
 }

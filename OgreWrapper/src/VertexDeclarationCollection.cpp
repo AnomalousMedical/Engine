@@ -3,8 +3,6 @@
 #include "VertexDeclarationCollection.h"
 #include "VertexDeclaration.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 VertexDeclaration^ VertexDeclarationCollection::createWrapper(void* nativeObject, array<System::Object^>^ args)
@@ -20,8 +18,6 @@ VertexDeclaration^ VertexDeclarationCollection::getObject(Ogre::VertexDeclaratio
 void VertexDeclarationCollection::destroyObject(Ogre::VertexDeclaration* nativeObject)
 {
 	destroyObjectVoid(nativeObject);
-}
-
 }
 
 }

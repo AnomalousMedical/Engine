@@ -6,9 +6,6 @@
 #include "BoneCollection.h"
 #include "AnimationCollection.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -278,7 +275,5 @@ public:
 	/// <returns>True if there are manually controlled bones.  False if there are not.</returns>
 	bool hasManualBones();
 };
-
-}
 
 }

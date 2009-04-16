@@ -14,9 +14,6 @@ namespace Ogre
 	class RenderWindow;
 }
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -53,7 +50,5 @@ public:
 	/// </summary>
 	void windowMovedOrResized();
 };
-
-}
 
 }

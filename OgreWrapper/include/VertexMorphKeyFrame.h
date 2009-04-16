@@ -7,9 +7,6 @@ namespace Ogre
 	class VertexMorphKeyFrame;
 }
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -38,7 +35,5 @@ public:
 	/// </summary>
 	~VertexMorphKeyFrame();
 };
-
-}
 
 }

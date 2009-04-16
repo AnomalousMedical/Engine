@@ -4,8 +4,6 @@
 #include "Bone.h"
 #include "MarshalUtils.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 SkeletonInstance::SkeletonInstance(Ogre::SkeletonInstance* skeletonInstance)
@@ -16,8 +14,6 @@ SkeletonInstance::SkeletonInstance(Ogre::SkeletonInstance* skeletonInstance)
 
 SkeletonInstance::~SkeletonInstance(void)
 {
-
-}
 
 }
 

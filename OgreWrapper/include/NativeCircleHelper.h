@@ -14,8 +14,6 @@ namespace Ogre
 	class Resource;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 public class __declspec(dllexport) NativeCircleHelper
@@ -67,8 +65,6 @@ public:
 	/// <returns>The render queue group of this object.</returns>
 	unsigned char getRenderQueueGroup();
 };
-
-}
 
 }
 

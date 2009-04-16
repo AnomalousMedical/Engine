@@ -4,8 +4,6 @@
 #include "MarshalUtils.h"
 #include "AnimationState.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 AnimationStateSet::AnimationStateSet(Ogre::AnimationStateSet* animationStateSet)
@@ -71,8 +69,6 @@ bool AnimationStateSet::hasEnabledAnimationState()
 void AnimationStateSet::notifyDirty()
 {
 	animationStateSet->_notifyDirty();
-}
-
 }
 
 }

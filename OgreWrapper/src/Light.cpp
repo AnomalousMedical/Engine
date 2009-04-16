@@ -11,9 +11,6 @@
 #include "Ogre.h"
 #include "MathUtils.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -166,8 +163,6 @@ void Light::setPowerScale(float power)
 float Light::getPowerScale()
 {
 	return light->getPowerScale();
-}
-
 }
 
 }

@@ -2,9 +2,6 @@
 #include "TransformKeyFrame.h"
 #include "Ogre.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -17,8 +14,6 @@ TransformKeyFrame::TransformKeyFrame(Ogre::TransformKeyFrame* ogreAnimation)
 TransformKeyFrame::~TransformKeyFrame()
 {
 	ogreAnimation = 0;
-}
-
 }
 
 }

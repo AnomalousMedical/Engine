@@ -8,8 +8,6 @@ namespace Ogre
 	class SkeletonPtr;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 ref class Skeleton;
@@ -55,7 +53,5 @@ public:
 		}
 	}
 };
-
-}
 
 }

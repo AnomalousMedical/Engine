@@ -3,8 +3,6 @@
 #include "HardwareIndexBufferSharedPtr.h"
 #include "HardwareIndexBuffer.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 HardwareIndexBuffer^ HardwareIndexBufferSharedPtrCollection::createWrapper(const void* sharedPtr, array<System::Object^>^ args)
@@ -26,8 +24,6 @@ HardwareIndexBufferSharedPtr::HardwareIndexBufferSharedPtr(SharedPtr<HardwareInd
 HardwareIndexBufferSharedPtr::~HardwareIndexBufferSharedPtr()
 {
 	delete sharedPtr;
-}
-
 }
 
 }

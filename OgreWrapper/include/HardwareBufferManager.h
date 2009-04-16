@@ -12,8 +12,6 @@ namespace Ogre
 	class HardwareBufferManager;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 ref class HardwareVertexBuffer;
@@ -103,7 +101,5 @@ public:
 
 	void destroyVertexBufferBinding(VertexBufferBinding^ binding);
 };
-
-}
 
 }

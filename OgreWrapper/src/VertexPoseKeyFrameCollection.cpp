@@ -3,8 +3,6 @@
 #include "VertexPoseKeyFrameCollection.h"
 #include "VertexPoseKeyFrame.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 VertexPoseKeyFrame^ VertexPoseKeyFrameCollection::createWrapper(void* nativeObject, array<System::Object^>^ args)
@@ -20,8 +18,6 @@ VertexPoseKeyFrame^ VertexPoseKeyFrameCollection::getObject(Ogre::VertexPoseKeyF
 void VertexPoseKeyFrameCollection::destroyObject(Ogre::VertexPoseKeyFrame* nativeObject)
 {
 	destroyObjectVoid(nativeObject);
-}
-
 }
 
 }

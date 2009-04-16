@@ -9,8 +9,6 @@ namespace Ogre
 	class Bone;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 ref class Bone;
@@ -103,7 +101,5 @@ public:
 	/// <returns>The name of the bone.</returns>
 	System::String^ getName();
 };
-
-}
 
 }

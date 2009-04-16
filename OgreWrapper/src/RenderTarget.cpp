@@ -15,8 +15,6 @@
 #include "MarshalUtils.h"
 #include "PixelBox.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 RenderTarget::RenderTarget(Ogre::RenderTarget* renderTarget)
@@ -221,8 +219,6 @@ bool RenderTarget::isHardwareGammaEnabled()
 unsigned int RenderTarget::getFSAA()
 {
 	return renderTarget->getFSAA();
-}
-
 }
 
 }

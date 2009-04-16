@@ -1,9 +1,6 @@
 //Header
 #pragma once
 
-namespace Engine
-{
-
 namespace Rendering{
 
 ref class ManualObjectSection;
@@ -19,7 +16,5 @@ public:
 
 	void destroyObject(Ogre::ManualObject::ManualObjectSection* nativeObject);
 };
-
-}
 
 }

@@ -1,9 +1,6 @@
 #include "stdafx.h"
 #include "SceneQueryResult.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -16,8 +13,6 @@ SceneQueryResult::SceneQueryResult()
 void SceneQueryResult::clear()
 {
 	movables->Clear();	
-}
-
 }
 
 }

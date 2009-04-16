@@ -2,9 +2,6 @@
 
 #include "RenderScene.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -37,7 +34,5 @@ public:
 	/// <param name="camera">The camera containing the viewport being updated.</param>
 	void postFindVisibleObjects(RenderScene^ sceneManager, RenderScene::IlluminationRenderStage irs, Camera^ camera);
 };
-
-}
 
 }

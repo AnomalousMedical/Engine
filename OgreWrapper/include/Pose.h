@@ -5,9 +5,6 @@ namespace Ogre
 	class Pose;
 }
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -85,7 +82,5 @@ public:
 	/// <returns></returns>
 	EngineMath::Vector3 getOffset(size_t index);
 };
-
-}
 
 }

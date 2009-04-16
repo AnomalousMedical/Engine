@@ -3,8 +3,6 @@
 #include "BoneCollection.h"
 #include "Bone.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 Bone^ BoneCollection::createWrapper(void* nativeObject, array<System::Object^>^ args)
@@ -20,8 +18,6 @@ Bone^ BoneCollection::getObject(Ogre::Bone* nativeObject)
 void BoneCollection::destroyObject(Ogre::Bone* nativeObject)
 {
 	destroyObjectVoid(nativeObject);
-}
-
 }
 
 }

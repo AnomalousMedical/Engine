@@ -5,9 +5,6 @@
 #include "VoidUserDefinedObject.h"
 #include "RenderEntity.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -89,8 +86,6 @@ void PlaneBoundedVolumeListSceneQuery::setQueryTypeMask(unsigned int mask)
 unsigned int PlaneBoundedVolumeListSceneQuery::getQueryTypeMask()
 {
 	return ogreQuery->getQueryTypeMask();
-}
-
 }
 
 }

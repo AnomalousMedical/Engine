@@ -8,8 +8,6 @@ namespace Ogre
 	class HardwareIndexBufferSharedPtr;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 ref class HardwareIndexBuffer;
@@ -56,7 +54,5 @@ public:
 		}
 	}
 };
-
-}
 
 }

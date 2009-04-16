@@ -13,8 +13,6 @@
 
 #include "Ogre.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 ManualObject::ManualObject(Ogre::ManualObject* obj, System::String^ name)
@@ -208,8 +206,6 @@ bool ManualObject::getKeepDeclarationOrder()
 float ManualObject::getBoundingRadius()
 {
 	return obj->getBoundingRadius();
-}
-
 }
 
 }

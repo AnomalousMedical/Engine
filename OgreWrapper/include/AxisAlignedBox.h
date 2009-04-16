@@ -7,8 +7,6 @@ namespace Ogre
 	class AxisAlignedBox;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 using namespace EngineMath;
@@ -146,7 +144,5 @@ public:
 
 	//operator !=
 };
-
-}
 
 }

@@ -6,8 +6,6 @@
 #include "MarshalUtils.h"
 #include "Color.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 Pass::Pass(Ogre::Pass* ogrePass, Technique^ parent)
@@ -689,8 +687,6 @@ void Pass::setIlluminationStage(IlluminationStage is)
 IlluminationStage Pass::getIlluminationStage()
 {
 	return (IlluminationStage)ogrePass->getIlluminationStage();
-}
-
 }
 
 }

@@ -7,8 +7,6 @@ namespace Ogre
 	class AnimationStateSet;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 ref class AnimationState;
@@ -100,7 +98,5 @@ public:
 	/// </summary>
 	void notifyDirty();
 };
-
-}
 
 }

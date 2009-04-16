@@ -5,8 +5,6 @@ namespace Ogre
 	class VertexBufferBinding;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 ref class HardwareVertexBufferSharedPtr;
@@ -131,7 +129,5 @@ public:
 	/// <param name="indexMap">To be retrieve the binding index map that used to translation old index to new index; will be cleared by this method before fill-in.</param>
 	void closeGaps(BindingIndexMap^ indexMap);
 };
-
-}
 
 }

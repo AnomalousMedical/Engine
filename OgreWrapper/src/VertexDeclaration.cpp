@@ -3,8 +3,6 @@
 #include "VertexElement.h"
 #include "Ogre.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 VertexDeclaration::VertexDeclaration(Ogre::VertexDeclaration* vertexDeclaration)
@@ -142,8 +140,6 @@ size_t VertexDeclaration::getVertexSize(unsigned short source)
 VertexDeclaration^ VertexDeclaration::clone()
 {
 	throw gcnew System::NotImplementedException();
-}
-
 }
 
 }

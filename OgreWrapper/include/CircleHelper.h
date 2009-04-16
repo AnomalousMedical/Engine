@@ -4,8 +4,6 @@
 
 using namespace EngineMath;
 
-namespace Engine{
-
 namespace Rendering{
 
 class NativeCircleHelper;
@@ -65,7 +63,5 @@ public:
 	/// <returns>The render queue group of this object.</returns>
 	unsigned char getRenderQueueGroup();
 };
-
-}
 
 }

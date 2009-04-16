@@ -1,8 +1,6 @@
 #include "StdAfx.h"
 #include "..\include\SharedPtr.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 generic<typename T>
@@ -80,8 +78,6 @@ void SharedPtrCollection<T>::clearObjects()
 		delete entry;
 	}
 	ptrDictionary.Clear();
-}
-
 }
 
 }

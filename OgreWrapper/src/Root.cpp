@@ -8,9 +8,6 @@
 #include "RenderScene.h"
 #include "RenderTarget.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -283,8 +280,6 @@ void Root::setFrameSmoothingPeriod(float period)
 float Root::getFrameSmoothingPeriod()
 {
 	return ogreRoot->getFrameSmoothingPeriod();
-}
-
 }
 
 }

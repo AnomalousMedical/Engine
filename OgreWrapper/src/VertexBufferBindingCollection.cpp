@@ -3,8 +3,6 @@
 #include "VertexBufferBindingCollection.h"
 #include "VertexBufferBinding.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 VertexBufferBinding^ VertexBufferBindingCollection::createWrapper(void* nativeObject, array<System::Object^>^ args)
@@ -20,8 +18,6 @@ VertexBufferBinding^ VertexBufferBindingCollection::getObject(Ogre::VertexBuffer
 void VertexBufferBindingCollection::destroyObject(Ogre::VertexBufferBinding* nativeObject)
 {
 	destroyObjectVoid(nativeObject);
-}
-
 }
 
 }

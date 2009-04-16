@@ -3,8 +3,6 @@
 #include "RenderSystemCollection.h"
 #include "RenderSystem.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 RenderSystem^ RenderSystemCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
@@ -20,8 +18,6 @@ RenderSystem^ RenderSystemCollection::getObject(Ogre::RenderSystem* nativeObject
 void RenderSystemCollection::destroyObject(Ogre::RenderSystem* nativeObject)
 {
 	destroyObjectVoid(nativeObject);
-}
-
 }
 
 }

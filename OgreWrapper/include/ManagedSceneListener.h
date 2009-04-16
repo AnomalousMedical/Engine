@@ -2,9 +2,6 @@
 
 #include "SceneListener.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -58,7 +55,5 @@ public:
 		return sceneListeners->Count;
 	}
 };
-
-}
 
 }

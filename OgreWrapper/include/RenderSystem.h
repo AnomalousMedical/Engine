@@ -5,8 +5,6 @@ namespace Ogre
 	class RenderSystem;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 /// <summary>
@@ -42,7 +40,5 @@ public:
 	/// <returns>An error message or an empty string if there are no problems.</returns>
 	System::String^ validateConfigOptions();
 };
-
-}
 
 }

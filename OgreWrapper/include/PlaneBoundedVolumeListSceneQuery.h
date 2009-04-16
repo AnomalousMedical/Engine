@@ -5,9 +5,6 @@ namespace Ogre
 	class PlaneBoundedVolumeListSceneQuery;
 }
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -125,7 +122,5 @@ public:
 
 	//get supported world framgment types
 };
-
-}
 
 }

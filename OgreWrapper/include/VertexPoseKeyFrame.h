@@ -7,9 +7,6 @@ namespace Ogre
 	class VertexPoseKeyFrame;
 }
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -63,7 +60,5 @@ public:
 	/// </summary>
 	void removeAllPoseReferences();
 };
-
-}
 
 }

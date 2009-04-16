@@ -8,9 +8,6 @@
 #include "StdAfx.h"
 #include "..\include\OgreLogListener.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -54,8 +51,6 @@ void OgreLogListener::messageLogged( const Ogre::String& message, Ogre::LogMessa
 		break;
 	}
 	Log::Default->sendMessage(gcnew System::String(message.c_str()), level, "Ogre");
-}
-
 }
 
 }

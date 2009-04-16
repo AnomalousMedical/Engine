@@ -15,8 +15,6 @@
 #include "gcroot.h"
 #include "RenderEntity.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 using namespace System;
@@ -83,8 +81,6 @@ System::Collections::Generic::List<RaySceneQueryResultEntry^>^ RaySceneQuery::ex
 	}
 
 	return results;
-}
-
 }
 
 }

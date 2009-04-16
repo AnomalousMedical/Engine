@@ -2,9 +2,6 @@
 #include "AnimationTrack.h"
 #include "OgreAnimationTrack.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -37,8 +34,6 @@ unsigned short AnimationTrack::getNumKeyFrames()
 Animation^ AnimationTrack::getParent()
 {
 	return parent;
-}
-
 }
 
 }

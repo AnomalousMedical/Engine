@@ -12,9 +12,6 @@ namespace Ogre
 	class RaySceneQuery;
 }
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -52,7 +49,5 @@ public:
 
 	System::Collections::Generic::List<RaySceneQueryResultEntry^>^ execute();	
 };
-
-}
 
 }

@@ -8,9 +8,6 @@
 #include "OverlayManager.h"
 #include "OverlayContainer.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -244,8 +241,6 @@ OverlayElement^ OverlayElement::clone(System::String^ instanceName)
 OverlayElement^ OverlayElement::getSourceTemplate()
 {
 	return OverlayManager::getInstance()->getObject(overlayElement->getSourceTemplate());
-}
-
 }
 
 }

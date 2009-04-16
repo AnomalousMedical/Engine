@@ -4,8 +4,6 @@
 #include "ResourceGroupListener.h"
 #include "MarshalUtils.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 NativeResourceGroupListener::NativeResourceGroupListener(void)
@@ -17,12 +15,12 @@ NativeResourceGroupListener::~NativeResourceGroupListener(void)
 {
 }
 
-void NativeResourceGroupListener::addListener(gcroot<Engine::Rendering::ResourceGroupListener^> listener)
+void NativeResourceGroupListener::addListener(gcroot<Rendering::ResourceGroupListener^> listener)
 {
 	managedListener->addListener(listener);
 }
 
-void NativeResourceGroupListener::removeListener(gcroot<Engine::Rendering::ResourceGroupListener^> listener)
+void NativeResourceGroupListener::removeListener(gcroot<Rendering::ResourceGroupListener^> listener)
 {
 	managedListener->removeListener(listener);
 }
@@ -105,8 +103,6 @@ void NativeResourceGroupListener::worldGeometryStageEnded()
 void NativeResourceGroupListener::resourceGroupLoadEnded(const Ogre::String& groupName)
 {
 	managedListener->resourceGroupLoadEnded(MarshalUtils::convertString(groupName));
-}
-
 }
 
 }

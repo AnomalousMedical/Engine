@@ -10,9 +10,6 @@
 #include "OgreTextAreaOverlayElement.h"
 #pragma warning(pop)
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -116,8 +113,6 @@ void TextAreaOverlayElement::setAlignment(Alignment a)
 TextAreaOverlayElement::Alignment TextAreaOverlayElement::getAlignment()
 {
 	return static_cast<Alignment>(textArea->getAlignment());
-}
-
 }
 
 }

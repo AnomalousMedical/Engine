@@ -8,8 +8,6 @@ namespace Ogre
 	class SceneNode;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 ref class SceneNode;
@@ -75,7 +73,5 @@ public:
 
 	float getScaleY();
 };
-
-}
 
 }

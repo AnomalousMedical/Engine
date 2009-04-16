@@ -4,8 +4,6 @@
 #include "RenderTarget.h"
 #include "RenderWindow.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 RenderTarget^ RenderTargetCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
@@ -43,8 +41,6 @@ RenderTarget^ RenderTargetCollection::getExistingObject(Ogre::RenderTarget* nati
 void RenderTargetCollection::destroyObject(Ogre::RenderTarget* nativeObject)
 {
 	destroyObjectVoid(nativeObject);
-}
-
 }
 
 }

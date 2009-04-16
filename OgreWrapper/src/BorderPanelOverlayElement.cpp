@@ -7,9 +7,6 @@
 #include "OgreBorderPanelOverlayElement.h"
 #pragma warning(pop)
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -113,8 +110,6 @@ void BorderPanelOverlayElement::setBorderMaterialName(System::String^ name)
 System::String^ BorderPanelOverlayElement::getBorderMaterialName()
 {
 	return MarshalUtils::convertString(borderPanel->getBorderMaterialName());
-}
-
 }
 
 }

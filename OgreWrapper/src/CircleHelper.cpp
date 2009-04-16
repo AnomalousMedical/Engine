@@ -6,8 +6,6 @@
 #include "ManualObject.h"
 #include "Color.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 CircleHelper::CircleHelper(void)
@@ -115,8 +113,6 @@ void CircleHelper::setRenderQueueGroup(unsigned char queueID)
 unsigned char CircleHelper::getRenderQueueGroup()
 {
 	return nativeSurface->getRenderQueueGroup();
-}
-
 }
 
 }

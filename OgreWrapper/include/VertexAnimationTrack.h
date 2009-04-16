@@ -12,9 +12,6 @@ namespace Ogre
 	class VertexPoseKeyFrame;
 }
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -240,7 +237,5 @@ public:
 	/// </summary>
 	virtual void removeAllKeyFrames() override;
 };
-
-}
 
 }

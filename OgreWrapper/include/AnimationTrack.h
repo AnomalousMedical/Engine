@@ -5,9 +5,6 @@ namespace Ogre
 	class AnimationTrack;
 }
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -304,7 +301,5 @@ public:
 	/// <returns>The parent animation.</returns>
 	Animation^ getParent();
 };
-
-}
 
 }

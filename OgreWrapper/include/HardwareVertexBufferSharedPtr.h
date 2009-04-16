@@ -8,8 +8,6 @@ namespace Ogre
 	class HardwareVertexBufferSharedPtr;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 ref class HardwareVertexBuffer;
@@ -55,7 +53,5 @@ public:
 		}
 	}
 };
-
-}
 
 }

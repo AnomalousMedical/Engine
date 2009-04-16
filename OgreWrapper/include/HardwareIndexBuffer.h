@@ -8,8 +8,6 @@ namespace Ogre
 	class HardwareIndexBuffer;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 /// <summary>
@@ -74,7 +72,5 @@ public:
 	/// <returns>The size of a single index in bytes.</returns>
 	size_t getIndexSize();
 };
-
-}
 
 }

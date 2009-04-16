@@ -2,8 +2,6 @@
 #include "..\include\IndexData.h"
 #include "HardwareBufferManager.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 IndexData::IndexData(Ogre::IndexData* indexData)
@@ -49,8 +47,6 @@ size_t IndexData::IndexCount::get()
 void IndexData::IndexCount::set(size_t value) 
 {
 	indexData->indexCount = value;
-}
-
 }
 
 }

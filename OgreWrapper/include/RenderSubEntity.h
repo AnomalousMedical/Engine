@@ -5,8 +5,6 @@ namespace Ogre
 	class SubEntity;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 ref class RenderMaterialPtr;
@@ -33,7 +31,5 @@ public:
 	
 	RenderMaterialPtr^ getMaterial();
 };
-
-}
 
 }

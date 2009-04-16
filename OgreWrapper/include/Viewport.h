@@ -12,9 +12,6 @@ namespace Ogre
 	class Viewport;
 }
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -69,7 +66,5 @@ public:
 	/// <returns>The visibility mask.</returns>
 	unsigned int getVisibilityMask();
 };
-
-}
 
 }

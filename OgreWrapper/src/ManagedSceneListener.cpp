@@ -1,9 +1,6 @@
 #include "StdAfx.h"
 #include "..\include\ManagedSceneListener.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -27,8 +24,6 @@ void ManagedSceneListener::postFindVisibleObjects(RenderScene^ sceneManager, Ren
 	{
 		listener->postFindVisibleObjects(sceneManager, irs, camera);
 	}
-}
-
 }
 
 }

@@ -3,9 +3,6 @@
 #include "ManualObjectSectionCollection.h"
 #include "ManualObjectSection.h"
 
-namespace Engine
-{
-
 namespace Rendering{
 
 ManualObjectSection^ ManualObjectSectionCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
@@ -21,8 +18,6 @@ ManualObjectSection^ ManualObjectSectionCollection::getObject(Ogre::ManualObject
 void ManualObjectSectionCollection::destroyObject(Ogre::ManualObject::ManualObjectSection* nativeObject)
 {
 	destroyObjectVoid(nativeObject);
-}
-
 }
 
 }

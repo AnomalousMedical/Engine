@@ -7,8 +7,6 @@ namespace Ogre
 	class MeshPtr;
 }
 
-namespace Engine{
-
 namespace Rendering{
 
 ref class Mesh;
@@ -54,7 +52,5 @@ public:
 		}
 	}
 };
-
-}
 
 }

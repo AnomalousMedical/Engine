@@ -3,8 +3,6 @@
 #include "HardwareBufferManager.h"
 #include "VertexDeclaration.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 VertexData::VertexData(Ogre::VertexData* vertexData)
@@ -95,8 +93,6 @@ size_t VertexData::vertexCount::get()
 void VertexData::vertexCount::set(size_t value) 
 {
 	vertexData->vertexCount = value;
-}
-
 }
 
 }

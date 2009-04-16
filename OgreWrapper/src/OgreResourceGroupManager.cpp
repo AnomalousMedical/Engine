@@ -5,9 +5,6 @@
 #include "ResourceDeclaration.h"
 #include "FileInfo.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -144,8 +141,6 @@ System::String^ OgreResourceGroupManager::findGroupContainingResource(System::St
 	{
 		return nullptr;
 	}
-}
-
 }
 
 }

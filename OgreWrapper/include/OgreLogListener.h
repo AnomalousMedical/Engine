@@ -10,9 +10,6 @@
 #include "OgreLog.h"
 #include "AutoPtr.h"
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -66,7 +63,5 @@ public:
 	/// </summary>
 	virtual void messageLogged( const Ogre::String& message, Ogre::LogMessageLevel lml, bool maskDebug, const Ogre::String &logName );
 };
-
-}
 
 }

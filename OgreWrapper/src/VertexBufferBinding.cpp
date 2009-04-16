@@ -3,8 +3,6 @@
 #include "HardwareBufferManager.h"
 #include "HardwareVertexBuffer.h"
 
-namespace Engine{
-
 namespace Rendering{
 
 VertexBufferBinding::VertexBufferBinding(Ogre::VertexBufferBinding* vertexBufferBinding)
@@ -70,8 +68,6 @@ void VertexBufferBinding::closeGaps(BindingIndexMap^ indexMap)
 	{
 		indexMap->Add((*iter).first, (*iter).second);
 	}
-}
-
 }
 
 }

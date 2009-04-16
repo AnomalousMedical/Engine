@@ -6,9 +6,6 @@
 #include "OgrePanelOverlayElement.h"
 #pragma warning(pop)
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -77,8 +74,6 @@ void PanelOverlayElement::setTransparent(bool isTransparent)
 bool PanelOverlayElement::isTransparent()
 {
 	return panelOverlay->isTransparent();
-}
-
 }
 
 }

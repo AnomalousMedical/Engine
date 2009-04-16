@@ -17,9 +17,6 @@ namespace Ogre
 	class RenderTarget;
 }
 
-namespace Engine
-{
-
 namespace Rendering
 {
 
@@ -358,7 +355,5 @@ public:
 	/// <returns>The level of FSAA.</returns>
 	unsigned int getFSAA();
 };
-
-}
 
 }
