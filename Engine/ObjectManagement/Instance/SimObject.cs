@@ -103,6 +103,8 @@ namespace Engine.ObjectManagement
         /// <param name="trigger">The object that triggered the update. Can be null.</param>
         public void updatePosition(ref Vector3 translation, ref Quaternion rotation, SimElement trigger)
         {
+            this.translation = translation;
+            this.rotation = rotation;
             foreach (SimElement element in elements.Values)
             {
                 if (element != trigger && (element.Subscription | Subscription.PositionUpdate) != 0)
@@ -119,6 +121,7 @@ namespace Engine.ObjectManagement
         /// <param name="trigger">The object that triggered the update. Can be null.</param>
         public void updateTranslation(ref Vector3 translation, SimElement trigger)
         {
+            this.translation = translation;
             foreach (SimElement element in elements.Values)
             {
                 if (element != trigger && (element.Subscription | Subscription.PositionUpdate) != 0)
@@ -135,6 +138,7 @@ namespace Engine.ObjectManagement
         /// <param name="trigger">The object that triggered the update. Can be null.</param>
         public void updateRotation(ref Quaternion rotation, SimElement trigger)
         {
+            this.rotation = rotation;
             foreach (SimElement element in elements.Values)
             {
                 if (element != trigger && (element.Subscription | Subscription.PositionUpdate) != 0)
@@ -151,6 +155,7 @@ namespace Engine.ObjectManagement
         /// <param name="trigger">The object that triggered the update. Can be null.</param>
         public void updateScale(ref Vector3 scale, SimElement trigger)
         {
+            this.scale = scale;
             foreach (SimElement element in elements.Values)
             {
                 if (element != trigger && (element.Subscription | Subscription.ScaleUpdate) != 0)
