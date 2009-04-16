@@ -2,7 +2,7 @@
 
 namespace OgreWrapper{
 
-ref class OgreResource;
+ref class Resource;
 interface class ResourceGroupListener;
 
 typedef System::Collections::Generic::LinkedList<ResourceGroupListener^> ResourceGroupListenerList;
@@ -73,7 +73,7 @@ public:
 	/// This event is fired when a declared resource is about to be prepared.
 	/// </summary>
 	/// <param name="resource">The resource being prepared.</param>
-	void resourcePrepareStarted(OgreResource^ resource);
+	void resourcePrepareStarted(Resource^ resource);
 
 	/// <summary>
 	/// This event is fired when the resource has been prepared.
@@ -116,7 +116,7 @@ public:
 	/// This event is fired when a declared resource is about to be loaded.
 	/// </summary>
 	/// <param name="resource">The resource being loaded.</param>
-	void resourceLoadStarted(OgreResource^ resource);
+	void resourceLoadStarted(Resource^ resource);
 
 	/// <summary>
 	/// This event is fired when the resource has been loaded.

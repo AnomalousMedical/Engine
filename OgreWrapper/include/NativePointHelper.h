@@ -4,7 +4,7 @@
 
 #include <string>
 
-#include "OgreResource.h"
+#include "Resource.h"
 
 namespace Ogre
 {

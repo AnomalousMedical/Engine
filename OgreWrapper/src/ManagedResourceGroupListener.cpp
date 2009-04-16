@@ -60,7 +60,7 @@ void ManagedResourceGroupListener::resourceGroupPrepareStarted(System::String^ g
 	}
 }
 
-void ManagedResourceGroupListener::resourcePrepareStarted(OgreResource^ resource)
+void ManagedResourceGroupListener::resourcePrepareStarted(Resource^ resource)
 {
 	for each(ResourceGroupListener^ listener in listeners)
 	{
@@ -108,7 +108,7 @@ void ManagedResourceGroupListener::resourceGroupLoadStarted(System::String^ grou
 	}
 }
 
-void ManagedResourceGroupListener::resourceLoadStarted(OgreResource^ resource)
+void ManagedResourceGroupListener::resourceLoadStarted(Resource^ resource)
 {
 	for each(ResourceGroupListener^ listener in listeners)
 	{
