@@ -50,7 +50,7 @@ ref class VertexAnimationTrack;
 ref class NumericAnimationTrack;
 ref class Node;
 ref class Skeleton;
-ref class RenderEntity;
+ref class Entity;
 
 typedef System::Collections::Generic::List<float> BoneBlendMask;
 
@@ -297,7 +297,7 @@ public:
 	/// <param name="weight">The weight at which the animation should be applied (only affects pose animation).</param>
 	/// <param name="software">Whether to populate the software morph vertex data.</param>
 	/// <param name="hardware">Whether to populate the hardware morph vertex data.</param>
-	void apply(RenderEntity^ entity, float timePos, float weight, bool software, bool hardware);
+	void apply(Entity^ entity, float timePos, float weight, bool software, bool hardware);
 
 	/// <summary>
 	/// Tells the animation how to interpolate between keyframes.

@@ -1,4 +1,4 @@
-/// <file>RenderEntity.cpp</file>
+/// <file>Entity.cpp</file>
 /// <author>Andrew Piper</author>
 /// <company>Joint Based Engineering</company>
 /// <copyright>
@@ -6,7 +6,7 @@
 /// </copyright>
 
 #include "StdAfx.h"
-#include "..\include\RenderEntity.h"
+#include "..\include\Entity.h"
 #include "MarshalUtils.h"
 #include "RenderSubEntity.h"
 #include "SkeletonInstance.h"
@@ -19,7 +19,7 @@
 
 namespace OgreWrapper{
 
-RenderEntity::RenderEntity(Ogre::Entity* entity, System::String^ name, System::String^ meshName)
+Entity::Entity(Ogre::Entity* entity, System::String^ name, System::String^ meshName)
 :MovableObject(entity),
 entity( entity ),
 name( name ),
@@ -33,54 +33,54 @@ root(new RenderEntityGCRoot())
 	entity->setUserObject(userDefinedObj.Get());
 }
 
-RenderEntity::~RenderEntity()
+Entity::~Entity()
 {
 	delete skeleton;
 }
 
-Ogre::Entity* RenderEntity::getEntity()
+Ogre::Entity* Entity::getEntity()
 {
 	return entity;
 }
 
-System::String^ RenderEntity::getName()
+System::String^ Entity::getName()
 {
 	return name;
 }
 
-System::String^ RenderEntity::getMeshName()
+System::String^ Entity::getMeshName()
 {
 	return meshName;
 }
 
-MeshPtr^ RenderEntity::getMesh()
+MeshPtr^ Entity::getMesh()
 {
 	return MeshManager::getInstance()->getObject(entity->getMesh());
 }
 
-RenderSubEntity^ RenderEntity::getSubEntity(unsigned int index)
+RenderSubEntity^ Entity::getSubEntity(unsigned int index)
 {
 	Ogre::SubEntity* ogreSubEntity = entity->getSubEntity(index);
 	return subEntities.getObject(ogreSubEntity);
 }
 
-RenderSubEntity^ RenderEntity::getSubEntity(System::String^ name)
+RenderSubEntity^ Entity::getSubEntity(System::String^ name)
 {
 	Ogre::SubEntity* ogreSubEntity = entity->getSubEntity(MarshalUtils::convertString(name));
 	return subEntities.getObject(ogreSubEntity);
 }
 
-unsigned int RenderEntity::getNumSubEntities()
+unsigned int Entity::getNumSubEntities()
 {
 	return entity->getNumSubEntities();
 }
 
-void RenderEntity::setMaterialName(System::String^ name)
+void Entity::setMaterialName(System::String^ name)
 {
 	entity->setMaterialName(MarshalUtils::convertString(name));
 }
 
-AnimationState^ RenderEntity::getAnimationState(System::String^ name)
+AnimationState^ Entity::getAnimationState(System::String^ name)
 {
 	if(animationStateSet == nullptr)
 	{
@@ -89,7 +89,7 @@ AnimationState^ RenderEntity::getAnimationState(System::String^ name)
 	return animationStateSet->getAnimationState(name);
 }
 
-AnimationStateSet^ RenderEntity::getAllAnimationStates()
+AnimationStateSet^ Entity::getAllAnimationStates()
 {
 	if(animationStateSet == nullptr)
 	{
@@ -98,43 +98,43 @@ AnimationStateSet^ RenderEntity::getAllAnimationStates()
 	return animationStateSet;
 }
 
-void RenderEntity::setDisplaySkeleton(bool display)
+void Entity::setDisplaySkeleton(bool display)
 {
 	entity->setDisplaySkeleton(display);
 }
 
-bool RenderEntity::getDisplaySkeleton()
+bool Entity::getDisplaySkeleton()
 {
 	return entity->getDisplaySkeleton();
 }
 
-RenderEntity^ RenderEntity::getManualLodLevel(unsigned int index)
+Entity^ Entity::getManualLodLevel(unsigned int index)
 {
 	Ogre::Entity* ogreEntity = entity->getManualLodLevel(index);
 	return lodEntities.getObject(ogreEntity, this->name + "LodLevel" + index, this->meshName);
 }
 
-unsigned int RenderEntity::getNumManualLodLevels()
+unsigned int Entity::getNumManualLodLevels()
 {
 	return entity->getNumManualLodLevels();
 }
 
-unsigned short RenderEntity::getCurrentLodIndex()
+unsigned short Entity::getCurrentLodIndex()
 {
 	return entity->getCurrentLodIndex();
 }
 
-void RenderEntity::setMeshLodBias(float factor, unsigned short maxDetailIndex, unsigned short minDetailIndex)
+void Entity::setMeshLodBias(float factor, unsigned short maxDetailIndex, unsigned short minDetailIndex)
 {
 	entity->setMeshLodBias(factor, maxDetailIndex, minDetailIndex);
 }
 
-void RenderEntity::setMaterialLodBias(float factor, unsigned short maxDetailIndex, unsigned short minDetailIndex)
+void Entity::setMaterialLodBias(float factor, unsigned short maxDetailIndex, unsigned short minDetailIndex)
 {
 	entity->setMaterialLodBias(factor, maxDetailIndex, minDetailIndex);
 }
 
-void RenderEntity::setPolygonModeOverrideable(bool polygonModeOverrideable)
+void Entity::setPolygonModeOverrideable(bool polygonModeOverrideable)
 {
 	entity->setPolygonModeOverrideable(polygonModeOverrideable);
 }
@@ -145,24 +145,24 @@ void RenderEntity::setPolygonModeOverrideable(bool polygonModeOverrideable)
 
 //detach object from bone
 
-void RenderEntity::detachAllObjectsFromBone()
+void Entity::detachAllObjectsFromBone()
 {
 	entity->detachAllObjectsFromBone();
 }
 
 //get attached object iterator
 
-float RenderEntity::getBoundingRadius()
+float Entity::getBoundingRadius()
 {
 	return entity->getBoundingRadius();
 }
 
-bool RenderEntity::hasSkeleton()
+bool Entity::hasSkeleton()
 {
 	return entity->hasSkeleton();
 }
 
-SkeletonInstance^ RenderEntity::getSkeleton()
+SkeletonInstance^ Entity::getSkeleton()
 {
 	if(entity->hasSkeleton() && skeleton == nullptr)
 	{
@@ -171,72 +171,72 @@ SkeletonInstance^ RenderEntity::getSkeleton()
 	return skeleton;
 }
 
-bool RenderEntity::isHardwareAnimationEnabled()
+bool Entity::isHardwareAnimationEnabled()
 {
 	return entity->isHardwareAnimationEnabled();
 }
 
-int RenderEntity::getSoftwareAnimationRequests()
+int Entity::getSoftwareAnimationRequests()
 {
 	return entity->getSoftwareAnimationRequests();
 }
 
-int RenderEntity::getSoftwareAnimationNormalsRequests()
+int Entity::getSoftwareAnimationNormalsRequests()
 {
 	return entity->getSoftwareAnimationNormalsRequests();
 }
 
-void RenderEntity::addSoftwareAnimationRequest(bool normalsAlso)
+void Entity::addSoftwareAnimationRequest(bool normalsAlso)
 {
 	entity->addSoftwareAnimationRequest(normalsAlso);
 }
 
-void RenderEntity::removeSoftwareAnimationRequest(bool normalsAlso)
+void Entity::removeSoftwareAnimationRequest(bool normalsAlso)
 {
 	entity->removeSoftwareAnimationRequest(normalsAlso);
 }
 
-void RenderEntity::shareSkeletonInstanceWith(RenderEntity^ entity)
+void Entity::shareSkeletonInstanceWith(Entity^ entity)
 {
 	this->entity->shareSkeletonInstanceWith(entity->entity);
 }
 
-bool RenderEntity::hasVertexAnimation()
+bool Entity::hasVertexAnimation()
 {
 	return entity->hasVertexAnimation();
 }
 
-void RenderEntity::stopSharingSkeletonInstance()
+void Entity::stopSharingSkeletonInstance()
 {
 	entity->stopSharingSkeletonInstance();
 }
 
-bool RenderEntity::sharesSkeletonInstance()
+bool Entity::sharesSkeletonInstance()
 {
 	return entity->sharesSkeletonInstance();
 }
 
-void RenderEntity::refreshAvailableAnimationState()
+void Entity::refreshAvailableAnimationState()
 {
 	entity->refreshAvailableAnimationState();
 }
 
-bool RenderEntity::isInitialzed()
+bool Entity::isInitialzed()
 {
 	return entity->isInitialised();
 }
 
-void RenderEntity::setCastShadows(bool castShadows)
+void Entity::setCastShadows(bool castShadows)
 {
 	entity->setCastShadows(castShadows);
 }
 
-bool RenderEntity::getCastShadows()
+bool Entity::getCastShadows()
 {
 	return entity->getCastShadows();
 }
 
-void RenderEntity::getMeshInformation(size_t &vertexCount, Ogre::Vector3* &vertices,
+void Entity::getMeshInformation(size_t &vertexCount, Ogre::Vector3* &vertices,
                                 size_t &indexCount, unsigned long* &indices,
                                 const Ogre::Vector3 &position, const Ogre::Quaternion &orient,
                                 const Ogre::Vector3 &scale)
@@ -373,7 +373,7 @@ float computeRayIntersectTriDistance(Ogre::Ray ray, Ogre::Vector3 vert0, Ogre::V
 	return edge2.dotProduct(qvec) * inv_det;
 }
 
-bool RenderEntity::raycastPolygonLevel(EngineMath::Ray3 ray, float% distanceOnRay)
+bool Entity::raycastPolygonLevel(EngineMath::Ray3 ray, float% distanceOnRay)
 {
 	Ogre::Real closestDistance = -1.0f;
 	Ogre::Ray ogreRay = MathUtils::copyRay(ray);

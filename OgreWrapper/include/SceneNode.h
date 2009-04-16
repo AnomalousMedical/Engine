@@ -75,13 +75,13 @@ public:
 	void removeChild(SceneNode^ child);
 
 	/// <summary>
-	/// Attach a MovableObject such as a RenderEntity or a Light to this node.
+	/// Attach a MovableObject such as a Entity or a Light to this node.
 	/// </summary>
 	/// <param name="object">The object to attach to this node.</param>
 	void attachObject(MovableObject^ object);
 
 	/// <summary>
-	/// Detach a MovableObject such as a RenderEntity or a Light to this node.
+	/// Detach a MovableObject such as a Entity or a Light to this node.
 	/// </summary>
 	/// <param name="object">The object to detach from this node.</param>
 	void detachObject(MovableObject^ object);

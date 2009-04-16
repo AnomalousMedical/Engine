@@ -10,7 +10,7 @@
 
 #include "Camera.h"
 #include "Light.h"
-#include "RenderEntity.h"
+#include "Entity.h"
 #include "SceneNode.h"
 #include "ManualObject.h"
 #include "MathUtils.h"
@@ -200,10 +200,10 @@ void SceneManager::destroySceneNode( SceneNode^ node )
 	}
 }
 
-RenderEntity^ SceneManager::createRenderEntity(System::String^ entityName, String^ meshName)
+Entity^ SceneManager::createRenderEntity(System::String^ entityName, String^ meshName)
 {
 	Ogre::Entity* ogreEntity = sceneManager->createEntity(MarshalUtils::convertString( entityName ), MarshalUtils::convertString( meshName ) );
-	RenderEntity^ renderEntity = gcnew RenderEntity( ogreEntity, entityName, meshName );
+	Entity^ renderEntity = gcnew Entity( ogreEntity, entityName, meshName );
 	renderEntities[entityName] = renderEntity;
 
 	if(onRenderEntityAdded != nullptr)
@@ -214,7 +214,7 @@ RenderEntity^ SceneManager::createRenderEntity(System::String^ entityName, Strin
 	return renderEntity;
 }
 
-RenderEntity^ SceneManager::getRenderEntity(System::String^ name)
+Entity^ SceneManager::getRenderEntity(System::String^ name)
 {
 	if( renderEntities.ContainsKey( name ) )
 	{
@@ -233,7 +233,7 @@ bool SceneManager::hasRenderEntity(System::String^ name)
 	return renderEntities.ContainsKey( name );
 }
 
-void SceneManager::destroyRenderEntity( RenderEntity^ entity )
+void SceneManager::destroyRenderEntity( Entity^ entity )
 {
 	if(onRenderEntityRemoved != nullptr)
 	{

@@ -2,7 +2,7 @@
 #include "Animation.h"
 #include "MarshalUtils.h"
 #include "Ogre.h"
-#include "RenderEntity.h"
+#include "Entity.h"
 #include "Skeleton.h"
 #include "NodeAnimationTrack.h"
 #include "NumericAnimationTrack.h"
@@ -214,7 +214,7 @@ void Animation::apply(Skeleton^ skeleton, float timePos, float weight, BoneBlend
 	return ogreAnimation->apply(skeleton->getSkeleton(), timePos, weight, &ogreMask, scale);
 }
 
-void Animation::apply(RenderEntity^ entity, float timePos, float weight, bool software, bool hardware)
+void Animation::apply(Entity^ entity, float timePos, float weight, bool software, bool hardware)
 {
 	return ogreAnimation->apply(entity->getEntity(), timePos, weight, software, hardware);
 }

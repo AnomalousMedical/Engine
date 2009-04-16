@@ -1,4 +1,4 @@
-/// <file>RenderEntity.h</file>
+/// <file>Entity.h</file>
 /// <author>Andrew Piper</author>
 /// <company>Joint Based Engineering</company>
 /// <copyright>
@@ -11,7 +11,7 @@
 #include "gcroot.h"
 #include "VoidUserDefinedObject.h"
 #include "AutoPtr.h"
-#include "RenderEntityCollection.h"
+#include "EntityCollection.h"
 #include "RenderSubEntityCollection.h"
 
 namespace Ogre
@@ -26,12 +26,12 @@ ref class AnimationState;
 ref class AnimationStateSet;
 ref class RenderSubEntity;
 ref class SkeletonInstance;
-ref class RenderEntity;
+ref class Entity;
 ref class MeshPtr;
 
-ref class RenderEntity;
+ref class Entity;
 
-typedef gcroot<RenderEntity^> RenderEntityGCRoot;
+typedef gcroot<Entity^> RenderEntityGCRoot;
 
 /// <summary>
 /// This class wraps a native rendering entity, such as a 3d mesh from a file
@@ -39,14 +39,14 @@ typedef gcroot<RenderEntity^> RenderEntityGCRoot;
 /// </summary>
 [Engine::Attributes::NativeSubsystemType]
 [Engine::Attributes::DoNotSaveAttribute]
-public ref class RenderEntity : MovableObject
+public ref class Entity : MovableObject
 {
 private:
 	Ogre::Entity* entity;
 	System::String^ name;
 	System::String^ meshName;
 	RenderSubEntityCollection subEntities;
-	RenderEntityCollection lodEntities;
+	EntityCollection lodEntities;
 	SkeletonInstance^ skeleton;
 	AnimationStateSet^ animationStateSet;
 	AutoPtr<RenderEntityGCRoot> root;
@@ -57,8 +57,8 @@ internal:
 	/// Constructor
 	/// </summary>
 	/// <param name="entity">The entity to wrap.</param>
-	/// <param name="name">The name of the RenderEntity.</param>
-	RenderEntity(Ogre::Entity* entity, System::String^ name, System::String^ meshName);
+	/// <param name="name">The name of the Entity.</param>
+	Entity(Ogre::Entity* entity, System::String^ name, System::String^ meshName);
 
 	/// <summary>
 	/// Get the mesh information for the mesh owned by this entity.
@@ -84,7 +84,7 @@ public:
 	/// <summary>
 	/// Destructor
 	/// </summary>
-	~RenderEntity();
+	~Entity();
 
 	/// <summary>
 	/// Gets the name of the entity.
@@ -138,9 +138,9 @@ public:
 	AnimationState^ getAnimationState(System::String^ name);
 
 	/// <summary>
-	/// Get all AnimationStates for this RenderEntity.
+	/// Get all AnimationStates for this Entity.
 	/// </summary>
-	/// <returns>The AnimationStateSet for this RenderEntity.</returns>
+	/// <returns>The AnimationStateSet for this Entity.</returns>
 	AnimationStateSet^ getAllAnimationStates();
 
 	/// <summary>
@@ -161,7 +161,7 @@ public:
 	/// </summary>
 	/// <param name="index">The level of detail index.</param>
 	/// <returns>The level of detail entity for index or null if it does not exist.</returns>
-	RenderEntity^ getManualLodLevel(unsigned int index);
+	Entity^ getManualLodLevel(unsigned int index);
 
 	/// <summary>
 	/// Returns the number of manual levels of detail that this entity supports. 
@@ -290,7 +290,7 @@ public:
 	/// Note that in order for this to work, both entities must have the same Skeleton. 
 	/// </summary>
 	/// <param name="entity">The entity to share the skeleton with.</param>
-	void shareSkeletonInstanceWith(RenderEntity^ entity);
+	void shareSkeletonInstanceWith(Entity^ entity);
 
 	/// <summary>
 	/// Returns whether or not this entity is either morph or pose animated. 

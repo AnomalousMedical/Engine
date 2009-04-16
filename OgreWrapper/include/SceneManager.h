@@ -26,7 +26,7 @@ class NativeSceneListener;
 ref class Camera;
 ref class Light;
 ref class SceneNode;
-ref class RenderEntity;
+ref class Entity;
 ref class Renderer;
 interface class SceneListener;
 ref class ManualObject;
@@ -39,8 +39,8 @@ typedef System::Collections::Generic::Dictionary<System::String^, Light^> LightD
 typedef System::Collections::Generic::IEnumerable<Light^> LightEnum;
 typedef System::Collections::Generic::Dictionary<System::String^, SceneNode^> NodeDictionary;
 typedef System::Collections::Generic::IEnumerable<SceneNode^> NodeEnum;
-typedef System::Collections::Generic::Dictionary<System::String^, RenderEntity^> EntityDictionary;
-typedef System::Collections::Generic::IEnumerable<RenderEntity^> EntityEnum;
+typedef System::Collections::Generic::Dictionary<System::String^, Entity^> EntityDictionary;
+typedef System::Collections::Generic::IEnumerable<Entity^> EntityEnum;
 typedef System::Collections::Generic::Dictionary<System::String^, ManualObject^> ManualObjectDictionary;
 typedef System::Collections::Generic::IEnumerable<ManualObject^> ManualObjectEnum;
 
@@ -48,8 +48,8 @@ public delegate void LightAdded(Light^ light);
 public delegate void LightRemoved(Light^ light);
 public delegate void CameraAdded(Camera^ camera);
 public delegate void CameraRemoved(Camera^ camera);
-public delegate void RenderEntityAdded(RenderEntity^ entity);
-public delegate void RenderEntityRemoved(RenderEntity^ entity);
+public delegate void RenderEntityAdded(Entity^ entity);
+public delegate void RenderEntityRemoved(Entity^ entity);
 public delegate void SceneNodeAdded(SceneNode^ node);
 public delegate void SceneNodeRemoved(SceneNode^ node);
 public delegate void ManualObjectAdded(ManualObject^ manualObject);
@@ -228,19 +228,19 @@ public:
 	void destroySceneNode( SceneNode^ node );
 
 	/// <summary>
-	/// Create a RenderEntity with the given name using the given mesh.
+	/// Create a Entity with the given name using the given mesh.
 	/// </summary>
 	/// <param name="entityName">The name of the entity.</param>
 	/// <param name="meshName">The name of the mesh to use on this entity.</param>
-	/// <returns>The new RenderEntity.</returns>
-    RenderEntity^ createRenderEntity(System::String^ entityName, System::String^ meshName);
+	/// <returns>The new Entity.</returns>
+    Entity^ createRenderEntity(System::String^ entityName, System::String^ meshName);
 
 	/// <summary>
-	/// Get the named RenderEntity.
+	/// Get the named Entity.
 	/// </summary>
 	/// <param name="name">The name of the render entity.</param>
-	/// <returns>The RenderEntity if it exists or null if it does not.</returns>
-	RenderEntity^ getRenderEntity(System::String^ name);
+	/// <returns>The Entity if it exists or null if it does not.</returns>
+	Entity^ getRenderEntity(System::String^ name);
 
 	/// <summary>
 	/// Get an enum over all render entities in the scene.
@@ -249,17 +249,17 @@ public:
 	EntityEnum^ getRenderEntities();
 	
 	/// <summary>
-	/// Returns whether a RenderEntity with the given name exists.
+	/// Returns whether a Entity with the given name exists.
 	/// </summary>
 	/// <param name="name">The name of the render entity.</param>
 	/// <returns>True if the entity exists.  False if it does not.</returns>
 	bool hasRenderEntity(System::String^ name);
 
 	/// <summary>
-	/// Destroys the RenderEntity passed.
+	/// Destroys the Entity passed.
 	/// </summary>
-	/// <param name="entity">The RenderEntity to destroy.</param>
-	void destroyRenderEntity( RenderEntity^ entity );
+	/// <param name="entity">The Entity to destroy.</param>
+	void destroyRenderEntity( Entity^ entity );
 
 	/// <summary>
 	/// Create a ManualObject, an object which you populate with geometry manually through a 
@@ -481,7 +481,7 @@ public:
     }
 
 	/// <summary>
-	/// Called when a RenderEntity is added to the scene.
+	/// Called when a Entity is added to the scene.
 	/// </summary>
 	event RenderEntityAdded^ OnRenderEntityAdded
 	{
@@ -496,7 +496,7 @@ public:
     }
 
 	/// <summary>
-	/// Called when a RenderEntity is removed from the scene.
+	/// Called when a Entity is removed from the scene.
 	/// </summary>
 	event RenderEntityRemoved^ OnRenderEntityRemoved
 	{

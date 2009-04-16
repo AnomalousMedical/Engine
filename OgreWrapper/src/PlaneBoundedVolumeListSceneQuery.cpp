@@ -3,7 +3,7 @@
 #include "PlaneBoundedVolume.h"
 #include "SceneQueryResult.h"
 #include "VoidUserDefinedObject.h"
-#include "RenderEntity.h"
+#include "Entity.h"
 
 namespace OgreWrapper
 {

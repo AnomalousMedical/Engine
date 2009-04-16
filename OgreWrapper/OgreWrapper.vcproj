@@ -256,6 +256,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Entity.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\EntityCollection.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\HardwareBuffer.cpp"
 				>
 			</File>
@@ -461,14 +469,6 @@
 			</File>
 			<File
 				RelativePath=".\src\RaySceneQueryResultEntry.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\RenderEntity.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\RenderEntityCollection.cpp"
 				>
 			</File>
 			<File
@@ -726,6 +726,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\Entity.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\EntityCollection.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\Enums.h"
 				>
 			</File>
@@ -942,14 +950,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\RenderEntity.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\RenderEntityCollection.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\RenderMaterial.h"
 				>
 			</File>
@@ -990,11 +990,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\resource.h"
+				RelativePath=".\include\Resource.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\Resource.h"
+				RelativePath=".\resource.h"
 				>
 			</File>
 			<File

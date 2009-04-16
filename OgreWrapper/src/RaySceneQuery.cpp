@@ -13,7 +13,7 @@
 #include "VoidUserDefinedObject.h"
 #include "RaySceneQueryResultEntry.h"
 #include "gcroot.h"
-#include "RenderEntity.h"
+#include "Entity.h"
 
 namespace OgreWrapper{
 
