@@ -18,7 +18,7 @@ namespace OgreWrapper
 {
 
 ref class MovableObject;
-ref class RenderScene;
+ref class SceneManager;
 typedef System::Collections::Generic::Dictionary<System::String^, MovableObject^> NodeObjectList;
 
 /// <summary>
@@ -49,7 +49,7 @@ internal:
 	/// <returns>The underlying native scene node.</returns>
 	Ogre::SceneNode* getSceneNode();
 public:
-	SceneNode(System::String^ name, RenderScene^ ownerScene);
+	SceneNode(System::String^ name, SceneManager^ ownerScene);
 
 	/// <summary>
 	/// Destructor

@@ -1,4 +1,4 @@
-/// <file>RenderScene.cpp</file>
+/// <file>SceneManager.cpp</file>
 /// <author>Andrew Piper</author>
 /// <company>Joint Based Engineering</company>
 /// <copyright>
@@ -24,7 +24,7 @@ namespace OgreWrapper{
 
 using namespace System;
 
-RenderScene::RenderScene(Ogre::SceneManager* sceneManager)
+SceneManager::SceneManager(Ogre::SceneManager* sceneManager)
 :sceneManager(sceneManager),
 renderNodes( gcnew NodeDictionary() ),
 renderEntities( gcnew EntityDictionary() ),
@@ -36,22 +36,22 @@ manualObjects(gcnew ManualObjectDictionary())
 	rootNode = gcnew SceneNode( sceneManager->getRootSceneNode(), "Root" );
 }
 
-RenderScene::~RenderScene()
+SceneManager::~SceneManager()
 {
 	delete rootNode;
 }
 
-Ogre::SceneManager* RenderScene::getSceneManager()
+Ogre::SceneManager* SceneManager::getSceneManager()
 {
 	return sceneManager;
 }
 
-String^ RenderScene::getName()
+String^ SceneManager::getName()
 {
 	return MarshalUtils::convertString(sceneManager->getName());
 }
 
-Camera^ RenderScene::createCamera(System::String^ name)
+Camera^ SceneManager::createCamera(System::String^ name)
 {
 	Ogre::Camera* ogreCam = sceneManager->createCamera( MarshalUtils::convertString(name) );
 	ogreCam->setNearClipDistance(1);
@@ -67,7 +67,7 @@ Camera^ RenderScene::createCamera(System::String^ name)
 	return camera;
 }
 
-Camera^ RenderScene::getCamera(System::String^ name)
+Camera^ SceneManager::getCamera(System::String^ name)
 {
 	if( cameras.ContainsKey( name ) )
 	{
@@ -76,17 +76,17 @@ Camera^ RenderScene::getCamera(System::String^ name)
 	return nullptr;
 }
 
-CameraEnum^ RenderScene::getCameras()
+CameraEnum^ SceneManager::getCameras()
 {
 	return cameras.Values;
 }
 
-bool RenderScene::hasCamera(System::String^ name)
+bool SceneManager::hasCamera(System::String^ name)
 {
 	return cameras.ContainsKey( name );
 }
 
-void RenderScene::destroyCamera( Camera^ camera )
+void SceneManager::destroyCamera( Camera^ camera )
 {
 	if(onCameraRemoved != nullptr)
 	{
@@ -98,7 +98,7 @@ void RenderScene::destroyCamera( Camera^ camera )
 	delete camera;
 }
 
-Light^ RenderScene::createLight(System::String^ name)
+Light^ SceneManager::createLight(System::String^ name)
 {
 	Ogre::Light* ogreLight = sceneManager->createLight(MarshalUtils::convertString(name));
 	Light^ light = gcnew Light( ogreLight, name );
@@ -112,7 +112,7 @@ Light^ RenderScene::createLight(System::String^ name)
 	return light;
 }
 
-Light^ RenderScene::getLight(System::String^ name)
+Light^ SceneManager::getLight(System::String^ name)
 {
 	if( lights.ContainsKey( name ) )
 	{
@@ -121,17 +121,17 @@ Light^ RenderScene::getLight(System::String^ name)
 	return nullptr;
 }
 
-LightEnum^ RenderScene::getLights()
+LightEnum^ SceneManager::getLights()
 {
 	return lights.Values;
 }
 
-bool RenderScene::hasLight(System::String^ name)
+bool SceneManager::hasLight(System::String^ name)
 {
 	return lights.ContainsKey(name);
 }
 
-void RenderScene::destroyLight( Light^ light )
+void SceneManager::destroyLight( Light^ light )
 {
 	if(onLightRemoved != nullptr)
 	{
@@ -143,7 +143,7 @@ void RenderScene::destroyLight( Light^ light )
 	delete light;
 }
 
-SceneNode^ RenderScene::createSceneNode(System::String^ name)
+SceneNode^ SceneManager::createSceneNode(System::String^ name)
 {
 	Ogre::SceneNode* ogreNode = sceneManager->createSceneNode( MarshalUtils::convertString( name ) );
 	SceneNode^ node = gcnew SceneNode( ogreNode, name );
@@ -157,12 +157,12 @@ SceneNode^ RenderScene::createSceneNode(System::String^ name)
 	return node;
 }
 
-SceneNode^ RenderScene::getRootSceneNode(void)
+SceneNode^ SceneManager::getRootSceneNode(void)
 {
 	return rootNode;
 }
 
-SceneNode^ RenderScene::getSceneNode(System::String^ name)
+SceneNode^ SceneManager::getSceneNode(System::String^ name)
 {
 	if( renderNodes.ContainsKey( name ) )
 	{
@@ -171,17 +171,17 @@ SceneNode^ RenderScene::getSceneNode(System::String^ name)
 	return nullptr;
 }
 
-NodeEnum^ RenderScene::getSceneNodes()
+NodeEnum^ SceneManager::getSceneNodes()
 {
 	return renderNodes.Values;
 }
 
-bool RenderScene::hasSceneNode(System::String^ name)
+bool SceneManager::hasSceneNode(System::String^ name)
 {
 	return renderNodes.ContainsKey( name );
 }
 
-void RenderScene::destroySceneNode( SceneNode^ node )
+void SceneManager::destroySceneNode( SceneNode^ node )
 {
 	if( !node->Equals( rootNode ) )
 	{
@@ -200,7 +200,7 @@ void RenderScene::destroySceneNode( SceneNode^ node )
 	}
 }
 
-RenderEntity^ RenderScene::createRenderEntity(System::String^ entityName, String^ meshName)
+RenderEntity^ SceneManager::createRenderEntity(System::String^ entityName, String^ meshName)
 {
 	Ogre::Entity* ogreEntity = sceneManager->createEntity(MarshalUtils::convertString( entityName ), MarshalUtils::convertString( meshName ) );
 	RenderEntity^ renderEntity = gcnew RenderEntity( ogreEntity, entityName, meshName );
@@ -214,7 +214,7 @@ RenderEntity^ RenderScene::createRenderEntity(System::String^ entityName, String
 	return renderEntity;
 }
 
-RenderEntity^ RenderScene::getRenderEntity(System::String^ name)
+RenderEntity^ SceneManager::getRenderEntity(System::String^ name)
 {
 	if( renderEntities.ContainsKey( name ) )
 	{
@@ -223,17 +223,17 @@ RenderEntity^ RenderScene::getRenderEntity(System::String^ name)
 	return nullptr;
 }
 
-EntityEnum^ RenderScene::getRenderEntities()
+EntityEnum^ SceneManager::getRenderEntities()
 {
 	return renderEntities.Values;
 }
 
-bool RenderScene::hasRenderEntity(System::String^ name)
+bool SceneManager::hasRenderEntity(System::String^ name)
 {
 	return renderEntities.ContainsKey( name );
 }
 
-void RenderScene::destroyRenderEntity( RenderEntity^ entity )
+void SceneManager::destroyRenderEntity( RenderEntity^ entity )
 {
 	if(onRenderEntityRemoved != nullptr)
 	{
@@ -245,7 +245,7 @@ void RenderScene::destroyRenderEntity( RenderEntity^ entity )
 	delete entity;
 }
 
-ManualObject^ RenderScene::createManualObject(System::String^ name)
+ManualObject^ SceneManager::createManualObject(System::String^ name)
 {
 	Ogre::ManualObject* ogreManual = sceneManager->createManualObject(MarshalUtils::convertString(name));
 	ManualObject^ manualObject = gcnew ManualObject(ogreManual, name);
@@ -259,7 +259,7 @@ ManualObject^ RenderScene::createManualObject(System::String^ name)
 	return manualObject;
 }
 
-ManualObject^ RenderScene::getManualObject(System::String^ name)
+ManualObject^ SceneManager::getManualObject(System::String^ name)
 {
 	if(manualObjects.ContainsKey(name))
 	{
@@ -268,17 +268,17 @@ ManualObject^ RenderScene::getManualObject(System::String^ name)
 	return nullptr;
 }
 
-ManualObjectEnum^ RenderScene::getManualObjects()
+ManualObjectEnum^ SceneManager::getManualObjects()
 {
 	return manualObjects.Values;
 }
 
-bool RenderScene::hasManualObject(System::String^ name)
+bool SceneManager::hasManualObject(System::String^ name)
 {
 	return manualObjects.ContainsKey(name);
 }
 
-void RenderScene::destroyManualObject(ManualObject^ obj)
+void SceneManager::destroyManualObject(ManualObject^ obj)
 {
 	if(onManualObjectRemoved != nullptr)
 	{
@@ -290,17 +290,17 @@ void RenderScene::destroyManualObject(ManualObject^ obj)
 	delete obj;
 }
 
-void RenderScene::setVisibilityMask(unsigned int mask)
+void SceneManager::setVisibilityMask(unsigned int mask)
 {
 	sceneManager->setVisibilityMask(mask);
 }
 
-unsigned int RenderScene::getVisibilityMask()
+unsigned int SceneManager::getVisibilityMask()
 {
 	return sceneManager->getVisibilityMask();
 }
 
-void RenderScene::addSceneListener(SceneListener^ listener)
+void SceneManager::addSceneListener(SceneListener^ listener)
 {
 	nativeSceneListener.Get()->addSceneListener(listener);
 	if(nativeSceneListener.Get()->getNumListeners() == 1)
@@ -309,7 +309,7 @@ void RenderScene::addSceneListener(SceneListener^ listener)
 	}
 }
 
-void RenderScene::removeSceneListener(SceneListener^ listener)
+void SceneManager::removeSceneListener(SceneListener^ listener)
 {
 	nativeSceneListener.Get()->removeSceneListener(listener);
 	if(nativeSceneListener.Get()->getNumListeners() == 0)
@@ -318,23 +318,23 @@ void RenderScene::removeSceneListener(SceneListener^ listener)
 	}
 }
 
-RaySceneQuery^ RenderScene::createRaySceneQuery(EngineMath::Ray3 ray, unsigned long mask)
+RaySceneQuery^ SceneManager::createRaySceneQuery(EngineMath::Ray3 ray, unsigned long mask)
 {
 	return gcnew RaySceneQuery(sceneManager->createRayQuery(MathUtils::copyRay(ray), mask));
 }
 
-void RenderScene::destroyQuery(RaySceneQuery^ query)
+void SceneManager::destroyQuery(RaySceneQuery^ query)
 {
 	sceneManager->destroyQuery(query->query);
 	delete query;
 }
 
-PlaneBoundedVolumeListSceneQuery^ RenderScene::createPlaneBoundedVolumeQuery(PlaneBoundedVolumeList^ volumes)
+PlaneBoundedVolumeListSceneQuery^ SceneManager::createPlaneBoundedVolumeQuery(PlaneBoundedVolumeList^ volumes)
 {
 	return createPlaneBoundedVolumeQuery(volumes, -1);
 }
 
-PlaneBoundedVolumeListSceneQuery^ RenderScene::createPlaneBoundedVolumeQuery(PlaneBoundedVolumeList^ volumes, unsigned long mask)
+PlaneBoundedVolumeListSceneQuery^ SceneManager::createPlaneBoundedVolumeQuery(PlaneBoundedVolumeList^ volumes, unsigned long mask)
 {
 	Ogre::PlaneBoundedVolumeList ogreList;
 	if(volumes != nullptr)
@@ -348,37 +348,37 @@ PlaneBoundedVolumeListSceneQuery^ RenderScene::createPlaneBoundedVolumeQuery(Pla
 	return gcnew PlaneBoundedVolumeListSceneQuery(ogreQuery);
 }
 
-void RenderScene::destroyQuery(PlaneBoundedVolumeListSceneQuery^ query)
+void SceneManager::destroyQuery(PlaneBoundedVolumeListSceneQuery^ query)
 {
 	sceneManager->destroyQuery(query->getQuery());
 }
 
-void RenderScene::setDisplaySceneNodes(bool display)
+void SceneManager::setDisplaySceneNodes(bool display)
 {
 	sceneManager->setDisplaySceneNodes(display);
 }
 
-bool RenderScene::getDisplaySceneNodes()
+bool SceneManager::getDisplaySceneNodes()
 {
 	return sceneManager->getDisplaySceneNodes();
 }
 
-void RenderScene::showBoundingBoxes(bool bShow)
+void SceneManager::showBoundingBoxes(bool bShow)
 {
 	sceneManager->showBoundingBoxes(bShow);
 }
 
-bool RenderScene::getShowBoundingBoxes()
+bool SceneManager::getShowBoundingBoxes()
 {
 	return sceneManager->getShowBoundingBoxes();
 }
 
-void RenderScene::setShowDebugShadows(bool debug)
+void SceneManager::setShowDebugShadows(bool debug)
 {
 	sceneManager->setShowDebugShadows(debug);
 }
 
-bool RenderScene::getShowDebugShadows()
+bool SceneManager::getShowDebugShadows()
 {
 	return sceneManager->getShowDebugShadows();
 }

@@ -23,7 +23,7 @@ nodeObjects(gcnew NodeObjectList())
 
 }
 
-SceneNode::SceneNode(System::String^ name, RenderScene^ ownerScene)
+SceneNode::SceneNode(System::String^ name, SceneManager^ ownerScene)
 :name(name), 
 autoOgreNode(new Ogre::SceneNode(ownerScene->getSceneManager())),
 RenderNode(autoOgreNode.Get())

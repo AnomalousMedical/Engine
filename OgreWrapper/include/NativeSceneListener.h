@@ -7,17 +7,17 @@ namespace OgreWrapper
 {
 
 ref class ManagedSceneListener;
-ref class RenderScene;
+ref class SceneManager;
 interface class SceneListener;
 
 class NativeSceneListener : public Ogre::SceneManager::Listener
 {
 private:
-	gcroot<RenderScene^> ownerScene;
+	gcroot<SceneManager^> ownerScene;
 	gcroot<ManagedSceneListener^> managedListener;
 
 public:
-	NativeSceneListener(gcroot<RenderScene^> ownerScene);
+	NativeSceneListener(gcroot<SceneManager^> ownerScene);
 
 	virtual ~NativeSceneListener(void);
 

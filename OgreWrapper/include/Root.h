@@ -28,7 +28,7 @@ ref class SceneManager;
 ref class RenderTarget;
 
 typedef System::Collections::Generic::List<RenderSystem^> RenderSystemList;
-typedef System::Collections::Generic::List<RenderScene^> SceneManagerList;
+typedef System::Collections::Generic::List<SceneManager^> SceneManagerList;
 typedef System::Collections::Generic::Dictionary<System::String^, System::String^> ParamList;
 
 /// <summary>
@@ -115,17 +115,17 @@ public:
 
 	bool isInitialized();
 
-	RenderScene^ createSceneManager(System::String^ typeName);
+	SceneManager^ createSceneManager(System::String^ typeName);
 
-	RenderScene^ createSceneManager(System::String^ typeName, System::String^ instanceName);
+	SceneManager^ createSceneManager(System::String^ typeName, System::String^ instanceName);
 
-	RenderScene^ createSceneManager(SceneType typeMask);
+	SceneManager^ createSceneManager(SceneType typeMask);
 
-	RenderScene^ createSceneManager(SceneType typeMask, System::String^ instanceName);
+	SceneManager^ createSceneManager(SceneType typeMask, System::String^ instanceName);
 
-	void destroySceneManager(RenderScene^ sceneManager);
+	void destroySceneManager(SceneManager^ sceneManager);
 
-	RenderScene^ getSceneManager(System::String^ instanceName);
+	SceneManager^ getSceneManager(System::String^ instanceName);
 
 	SceneManagerList^ getSceneManagerIterator();
 

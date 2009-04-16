@@ -3,17 +3,17 @@
 
 namespace OgreWrapper{
 
-ref class RenderScene;
+ref class SceneManager;
 ref class Renderer;
-ref class RenderSceneCollection : public WrapperCollection<RenderScene^>
+ref class RenderSceneCollection : public WrapperCollection<SceneManager^>
 {
 protected:
-	virtual RenderScene^ createWrapper(void* nativeObject, ...array<System::Object^>^ args) override;
+	virtual SceneManager^ createWrapper(void* nativeObject, ...array<System::Object^>^ args) override;
 
 public:
 	virtual ~RenderSceneCollection() {}
 
-	RenderScene^ getObject(Ogre::SceneManager* nativeObject);
+	SceneManager^ getObject(Ogre::SceneManager* nativeObject);
 
 	void destroyObject(Ogre::SceneManager* nativeObject);
 };

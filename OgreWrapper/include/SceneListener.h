@@ -5,7 +5,7 @@
 namespace OgreWrapper
 {
 
-ref class RenderScene;
+ref class SceneManager;
 ref class Camera;
 
 public interface class SceneListener
@@ -21,7 +21,7 @@ public:
 	/// <param name="irs">The stage of illumination being dealt with. IRS_NONE for a regular 
 	/// render, IRS_RENDER_TO_TEXTURE for a shadow caster render.</param>
 	/// <param name="camera">The camera containing the viewport being updated.</param>
-	void preFindVisibleObjects(RenderScene^ sceneManager, RenderScene::IlluminationRenderStage irs, Camera^ camera);
+	void preFindVisibleObjects(SceneManager^ sceneManager, SceneManager::IlluminationRenderStage irs, Camera^ camera);
 
 	/// <summary>
 	/// Called after searching for visible objects in this SceneManager.
@@ -32,7 +32,7 @@ public:
 	/// <param name="irs">The stage of illumination being dealt with. IRS_NONE for a regular 
 	/// render, IRS_RENDER_TO_TEXTURE for a shadow caster render.</param>
 	/// <param name="camera">The camera containing the viewport being updated.</param>
-	void postFindVisibleObjects(RenderScene^ sceneManager, RenderScene::IlluminationRenderStage irs, Camera^ camera);
+	void postFindVisibleObjects(SceneManager^ sceneManager, SceneManager::IlluminationRenderStage irs, Camera^ camera);
 };
 
 }

@@ -1,4 +1,4 @@
-/// <file>RenderScene.h</file>
+/// <file>SceneManager.h</file>
 /// <author>Andrew Piper</author>
 /// <company>Joint Based Engineering</company>
 /// <copyright>
@@ -61,7 +61,7 @@ public delegate void ManualObjectRemoved(ManualObject^ manualObject);
 /// a scene.
 /// </summary>
 [Engine::Attributes::DoNotSaveAttribute]
-public ref class RenderScene
+public ref class SceneManager
 {
 public:
 	[Engine::Attributes::SingleEnum]
@@ -101,7 +101,7 @@ internal:
 	/// Constructor
 	/// </summary>
 	/// <param name="sceneManager">The SceneManager to wrap.</param>
-	RenderScene(Ogre::SceneManager* sceneManager);
+	SceneManager(Ogre::SceneManager* sceneManager);
 
 	/// <summary>
 	/// Gets the scene manager this class is wrapping.
@@ -113,7 +113,7 @@ public:
 	/// <summary>
 	/// Destructor
 	/// </summary>
-	~RenderScene();
+	~SceneManager();
 
 	/// <summary>
 	/// Gets the name of the scene manager.
@@ -122,7 +122,7 @@ public:
 	System::String^ getName();
 
 	/// <summary>
-	/// Creates a camera managed by this RenderScene.
+	/// Creates a camera managed by this SceneManager.
 	/// </summary>
 	/// <param name="name">The name of the camera.</param>
 	/// <returns>A new Camera wrapping the native camera.</returns>
@@ -155,7 +155,7 @@ public:
 	void destroyCamera( Camera^ camera );
 
 	/// <summary>
-	/// Creates a new light managed by this RenderScene.
+	/// Creates a new light managed by this SceneManager.
 	/// </summary>
 	/// <param name="name">The name of the light.</param>
 	/// <returns>A new Light wrapping a native light.</returns>
@@ -290,7 +290,7 @@ public:
 	bool hasManualObject(System::String^ name);
 
 	/// <summary>
-	/// Removes and destroys a ManualObject from the RenderScene.
+	/// Removes and destroys a ManualObject from the SceneManager.
 	/// </summary>
 	/// <param name="obj">The object to destroy.</param>
 	void destroyManualObject(ManualObject^ obj);

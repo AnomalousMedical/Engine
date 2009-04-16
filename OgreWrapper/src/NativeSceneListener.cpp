@@ -8,7 +8,7 @@
 namespace OgreWrapper
 {
 
-NativeSceneListener::NativeSceneListener(gcroot<RenderScene^> ownerScene)
+NativeSceneListener::NativeSceneListener(gcroot<SceneManager^> ownerScene)
 :ownerScene(ownerScene),
 managedListener(gcnew ManagedSceneListener())
 {
@@ -23,7 +23,7 @@ void NativeSceneListener::preFindVisibleObjects(Ogre::SceneManager* source, Ogre
 	Ogre::Camera* cam = v->getCamera();
 	VoidUserDefinedObject* userObj = (VoidUserDefinedObject*)cam->getUserObject();
 	CameraGCRoot* camRoot = (CameraGCRoot*)userObj->object;
-	managedListener->preFindVisibleObjects(ownerScene, (RenderScene::IlluminationRenderStage)irs, *camRoot);
+	managedListener->preFindVisibleObjects(ownerScene, (SceneManager::IlluminationRenderStage)irs, *camRoot);
 }
 	
 void NativeSceneListener::postFindVisibleObjects(Ogre::SceneManager* source, Ogre::SceneManager::IlluminationRenderStage irs, Ogre::Viewport* v)
@@ -31,7 +31,7 @@ void NativeSceneListener::postFindVisibleObjects(Ogre::SceneManager* source, Ogr
 	Ogre::Camera* cam = v->getCamera();
 	VoidUserDefinedObject* userObj = (VoidUserDefinedObject*)cam->getUserObject();
 	CameraGCRoot* camRoot = (CameraGCRoot*)userObj->object;
-	managedListener->postFindVisibleObjects(ownerScene, (RenderScene::IlluminationRenderStage)irs, *camRoot);
+	managedListener->postFindVisibleObjects(ownerScene, (SceneManager::IlluminationRenderStage)irs, *camRoot);
 }
 
 void NativeSceneListener::addSceneListener(gcroot<SceneListener^> sceneListener)

@@ -111,34 +111,34 @@ bool Root::isInitialized()
 	return ogreRoot->isInitialised();
 }
 
-RenderScene^ Root::createSceneManager(System::String^ typeName)
+SceneManager^ Root::createSceneManager(System::String^ typeName)
 {
 	return scenes.getObject(ogreRoot->createSceneManager(MarshalUtils::convertString(typeName)));
 }
 
-RenderScene^ Root::createSceneManager(System::String^ typeName, System::String^ instanceName)
+SceneManager^ Root::createSceneManager(System::String^ typeName, System::String^ instanceName)
 {
 	return scenes.getObject(ogreRoot->createSceneManager(MarshalUtils::convertString(typeName), MarshalUtils::convertString(instanceName)));
 }
 
-RenderScene^ Root::createSceneManager(SceneType typeMask)
+SceneManager^ Root::createSceneManager(SceneType typeMask)
 {
 	return scenes.getObject(ogreRoot->createSceneManager(static_cast<Ogre::SceneTypeMask>(typeMask)));
 }
 
-RenderScene^ Root::createSceneManager(SceneType typeMask, System::String^ instanceName)
+SceneManager^ Root::createSceneManager(SceneType typeMask, System::String^ instanceName)
 {
 	return scenes.getObject(ogreRoot->createSceneManager(static_cast<Ogre::SceneTypeMask>(typeMask), MarshalUtils::convertString(instanceName)));
 }
 
-void Root::destroySceneManager(RenderScene^ sceneManager)
+void Root::destroySceneManager(SceneManager^ sceneManager)
 {
 	Ogre::SceneManager* ogreSceneManager = sceneManager->getSceneManager();
 	scenes.destroyObject(ogreSceneManager);
 	ogreRoot->destroySceneManager(ogreSceneManager);
 }
 
-RenderScene^ Root::getSceneManager(System::String^ instanceName)
+SceneManager^ Root::getSceneManager(System::String^ instanceName)
 {
 	return scenes.getObject(ogreRoot->getSceneManager(MarshalUtils::convertString(instanceName)));
 }

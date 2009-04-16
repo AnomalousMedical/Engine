@@ -5,12 +5,12 @@
 
 namespace OgreWrapper{
 
-RenderScene^ RenderSceneCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
+SceneManager^ RenderSceneCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
 {
-	return gcnew RenderScene(static_cast<Ogre::SceneManager*>(nativeObject));
+	return gcnew SceneManager(static_cast<Ogre::SceneManager*>(nativeObject));
 }
 
-RenderScene^ RenderSceneCollection::getObject(Ogre::SceneManager* nativeObject)
+SceneManager^ RenderSceneCollection::getObject(Ogre::SceneManager* nativeObject)
 {
 	return getObjectVoid(nativeObject);
 }

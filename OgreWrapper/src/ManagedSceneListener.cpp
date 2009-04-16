@@ -10,7 +10,7 @@ ManagedSceneListener::ManagedSceneListener(void)
 
 }
 
-void ManagedSceneListener::preFindVisibleObjects(RenderScene^ sceneManager, RenderScene::IlluminationRenderStage irs, Camera^ camera)
+void ManagedSceneListener::preFindVisibleObjects(SceneManager^ sceneManager, SceneManager::IlluminationRenderStage irs, Camera^ camera)
 {
 	for each(SceneListener^ listener in sceneListeners)
 	{
@@ -18,7 +18,7 @@ void ManagedSceneListener::preFindVisibleObjects(RenderScene^ sceneManager, Rend
 	}
 }
 
-void ManagedSceneListener::postFindVisibleObjects(RenderScene^ sceneManager, RenderScene::IlluminationRenderStage irs, Camera^ camera)
+void ManagedSceneListener::postFindVisibleObjects(SceneManager^ sceneManager, SceneManager::IlluminationRenderStage irs, Camera^ camera)
 {
 	for each(SceneListener^ listener in sceneListeners)
 	{
