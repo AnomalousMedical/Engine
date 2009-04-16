@@ -8,7 +8,7 @@
 #include "StdAfx.h"
 #include "..\include\Entity.h"
 #include "MarshalUtils.h"
-#include "RenderSubEntity.h"
+#include "SubEntity.h"
 #include "SkeletonInstance.h"
 #include "AnimationState.h"
 #include "AnimationStateSet.h"
@@ -58,13 +58,13 @@ MeshPtr^ Entity::getMesh()
 	return MeshManager::getInstance()->getObject(entity->getMesh());
 }
 
-RenderSubEntity^ Entity::getSubEntity(unsigned int index)
+SubEntity^ Entity::getSubEntity(unsigned int index)
 {
 	Ogre::SubEntity* ogreSubEntity = entity->getSubEntity(index);
 	return subEntities.getObject(ogreSubEntity);
 }
 
-RenderSubEntity^ Entity::getSubEntity(System::String^ name)
+SubEntity^ Entity::getSubEntity(System::String^ name)
 {
 	Ogre::SubEntity* ogreSubEntity = entity->getSubEntity(MarshalUtils::convertString(name));
 	return subEntities.getObject(ogreSubEntity);

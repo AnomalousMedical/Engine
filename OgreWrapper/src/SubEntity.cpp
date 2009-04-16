@@ -1,43 +1,43 @@
 #include "StdAfx.h"
-#include "..\include\RenderSubEntity.h"
+#include "..\include\SubEntity.h"
 #include "Ogre.h"
 #include "MarshalUtils.h"
 #include "RenderMaterialManager.h"
 
 namespace OgreWrapper{
 
-RenderSubEntity::RenderSubEntity(Ogre::SubEntity* subEntity)
+SubEntity::SubEntity(Ogre::SubEntity* subEntity)
 :subEntity(subEntity)
 {
 
 }
 
-RenderSubEntity::~RenderSubEntity(void)
+SubEntity::~SubEntity(void)
 {
 
 }
 
-System::String^ RenderSubEntity::getMaterialName()
+System::String^ SubEntity::getMaterialName()
 {
 	return MarshalUtils::convertString(subEntity->getMaterialName());
 }
 
-void RenderSubEntity::setMaterialName(System::String^ name)
+void SubEntity::setMaterialName(System::String^ name)
 {
 	subEntity->setMaterialName(MarshalUtils::convertString(name));
 }
 
-void RenderSubEntity::setVisible(bool visible)
+void SubEntity::setVisible(bool visible)
 {
 	subEntity->setVisible(visible);
 }
 
-bool RenderSubEntity::isVisible()
+bool SubEntity::isVisible()
 {
 	return subEntity->isVisible();
 }
 
-RenderMaterialPtr^ RenderSubEntity::getMaterial()
+RenderMaterialPtr^ SubEntity::getMaterial()
 {
 	return RenderMaterialManager::getInstance()->getObject(subEntity->getMaterial());
 }

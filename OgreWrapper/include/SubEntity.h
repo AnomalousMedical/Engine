@@ -10,16 +10,16 @@ namespace OgreWrapper{
 ref class RenderMaterialPtr;
 
 [Engine::Attributes::DoNotSaveAttribute]
-public ref class RenderSubEntity
+public ref class SubEntity
 {
 private:
 	Ogre::SubEntity* subEntity;
 
 internal:
-	RenderSubEntity(Ogre::SubEntity* subEntity);
+	SubEntity(Ogre::SubEntity* subEntity);
 
 public:
-	virtual ~RenderSubEntity(void);
+	virtual ~SubEntity(void);
 
 	System::String^ getMaterialName();
 

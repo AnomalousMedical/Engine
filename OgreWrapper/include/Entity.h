@@ -12,7 +12,7 @@
 #include "VoidUserDefinedObject.h"
 #include "AutoPtr.h"
 #include "EntityCollection.h"
-#include "RenderSubEntityCollection.h"
+#include "SubEntityCollection.h"
 
 namespace Ogre
 {
@@ -24,7 +24,7 @@ namespace OgreWrapper{
 
 ref class AnimationState;
 ref class AnimationStateSet;
-ref class RenderSubEntity;
+ref class SubEntity;
 ref class SkeletonInstance;
 ref class Entity;
 ref class MeshPtr;
@@ -45,7 +45,7 @@ private:
 	Ogre::Entity* entity;
 	System::String^ name;
 	System::String^ meshName;
-	RenderSubEntityCollection subEntities;
+	SubEntityCollection subEntities;
 	EntityCollection lodEntities;
 	SkeletonInstance^ skeleton;
 	AnimationStateSet^ animationStateSet;
@@ -109,14 +109,14 @@ public:
 	/// </summary>
 	/// <param name="index">The index of the sub entity to find.</param>
 	/// <returns>The sub entity specified by index or null if it does not exist.</returns>
-	RenderSubEntity^ getSubEntity(unsigned int index);
+	SubEntity^ getSubEntity(unsigned int index);
 
 	/// <summary>
 	/// Gets a pointer to a SubEntity by name. 
 	/// </summary>
 	/// <param name="name">The name of the sub entity.</param>
 	/// <returns>The sub entity specified by name.</returns>
-	RenderSubEntity^ getSubEntity(System::String^ name);
+	SubEntity^ getSubEntity(System::String^ name);
 	
 	/// <summary>
 	/// Retrieves the number of SubEntity objects making up this entity. 

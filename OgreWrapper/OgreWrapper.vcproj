@@ -484,14 +484,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\RenderSubEntity.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\RenderSubEntityCollection.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\RenderSystem.cpp"
 				>
 			</File>
@@ -578,6 +570,14 @@
 						UsePrecompiledHeader="1"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\src\SubEntity.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\SubEntityCollection.cpp"
+				>
 			</File>
 			<File
 				RelativePath=".\src\SubMesh.cpp"
@@ -962,14 +962,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\RenderSubEntity.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\RenderSubEntityCollection.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\RenderSystem.h"
 				>
 			</File>
@@ -990,11 +982,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\Resource.h"
+				RelativePath=".\resource.h"
 				>
 			</File>
 			<File
-				RelativePath=".\resource.h"
+				RelativePath=".\include\Resource.h"
 				>
 			</File>
 			<File
@@ -1051,6 +1043,14 @@
 			</File>
 			<File
 				RelativePath=".\Stdafx.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\SubEntity.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\SubEntityCollection.h"
 				>
 			</File>
 			<File
