@@ -22,7 +22,7 @@ namespace Engine.Saving.XMLSaver
             XmlWriter xmlWriter = xmlSaver.XmlWriter;
             xmlWriter.WriteStartElement(elementName);
             xmlWriter.WriteAttributeString(NAME_ENTRY, entry.Name);
-            xmlWriter.WriteAttributeString(TYPE, String.Format("{0}, {1}", entry.ObjectType.FullName, entry.ObjectType.Assembly.FullName));
+            xmlWriter.WriteAttributeString(TYPE, String.Format("{0}, {1}", entry.ObjectType.FullName, XmlSaver.createShortTypeString(entry.ObjectType)));
             if (entry.Value != null)
             {
                 xmlWriter.WriteString(entry.Value.ToString());
