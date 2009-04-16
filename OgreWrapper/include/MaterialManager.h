@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Enums.h"
-#include "RenderMaterialPtr.h"
+#include "MaterialPtr.h"
 
 namespace Ogre
 {
@@ -11,7 +11,7 @@ namespace Ogre
 
 namespace OgreWrapper{
 
-ref class RenderMaterial;
+ref class Material;
 
 /// <summary>
 /// Handles the management of material resources.
@@ -22,38 +22,38 @@ ref class RenderMaterial;
 /// </para>
 /// <para>
 /// The wrapper also includes a centralized method to identify ogre materials
-/// so that the same RenderMaterial class is returned on each request for an ogre material
+/// so that the same Material class is returned on each request for an ogre material
 /// see getMaterialObject.
 /// </para>
 /// </summary>
 [Engine::Attributes::DoNotSaveAttribute]
-public ref class RenderMaterialManager
+public ref class MaterialManager
 {
 private:
 	RenderMaterialPtrCollection renderMaterials;
 
 	Ogre::MaterialManager* materialManager;
-	static RenderMaterialManager^ instance = gcnew RenderMaterialManager();
+	static MaterialManager^ instance = gcnew MaterialManager();
 
-	RenderMaterialManager();
+	MaterialManager();
 
 internal:
-	RenderMaterialPtr^ getObject(const Ogre::MaterialPtr& materialPtr);
+	MaterialPtr^ getObject(const Ogre::MaterialPtr& materialPtr);
 
 public:
-	virtual ~RenderMaterialManager();
+	virtual ~MaterialManager();
 
 	/// <summary>
-	/// Get the instance of this RenderMaterialManager.
+	/// Get the instance of this MaterialManager.
 	/// </summary>
-	/// <returns>The RenderMaterialManager instance.</returns>
-	static RenderMaterialManager^ getInstance();
+	/// <returns>The MaterialManager instance.</returns>
+	static MaterialManager^ getInstance();
 
-	RenderMaterialPtr^ getByName(System::String^ name);
+	MaterialPtr^ getByName(System::String^ name);
 
 	bool resourceExists(System::String^ name);
 
-	//RenderMaterial^ createManual(System::String^ name, System::String^ groupName, bool isManual);
+	//Material^ createManual(System::String^ name, System::String^ groupName, bool isManual);
 };
 
 }

@@ -10,16 +10,16 @@ namespace Ogre
 
 namespace OgreWrapper{
 
-ref class RenderMaterial;
-ref class RenderMaterialPtr;
+ref class Material;
+ref class MaterialPtr;
 
-ref class RenderMaterialPtrCollection : public SharedPtrCollection<RenderMaterial^>
+ref class RenderMaterialPtrCollection : public SharedPtrCollection<Material^>
 {
 protected:
-	virtual RenderMaterial^ createWrapper(const void* sharedPtr, array<System::Object^>^ args) override;
+	virtual Material^ createWrapper(const void* sharedPtr, array<System::Object^>^ args) override;
 
 public:
-	RenderMaterialPtr^ getObject(const Ogre::MaterialPtr& meshPtr);
+	MaterialPtr^ getObject(const Ogre::MaterialPtr& meshPtr);
 };
 
 /// <summary>
@@ -33,21 +33,21 @@ public:
 /// call dispose in the appropriate place if a leak occures.
 /// </summary>
 [Engine::Attributes::DoNotSaveAttribute]
-public ref class RenderMaterialPtr
+public ref class MaterialPtr
 {
 private:
-	SharedPtr<RenderMaterial^>^ sharedPtr;
-	RenderMaterial^ mesh;
+	SharedPtr<Material^>^ sharedPtr;
+	Material^ mesh;
 
 internal:
-	RenderMaterialPtr(SharedPtr<RenderMaterial^>^ sharedPtr);
+	MaterialPtr(SharedPtr<Material^>^ sharedPtr);
 
 public:
-	virtual ~RenderMaterialPtr();
+	virtual ~MaterialPtr();
 
-	property RenderMaterial^ Value
+	property Material^ Value
 	{
-		RenderMaterial^ get()
+		Material^ get()
 		{
 			return mesh;
 		}

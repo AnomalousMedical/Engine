@@ -2,7 +2,7 @@
 #include "..\include\SubEntity.h"
 #include "Ogre.h"
 #include "MarshalUtils.h"
-#include "RenderMaterialManager.h"
+#include "MaterialManager.h"
 
 namespace OgreWrapper{
 
@@ -37,9 +37,9 @@ bool SubEntity::isVisible()
 	return subEntity->isVisible();
 }
 
-RenderMaterialPtr^ SubEntity::getMaterial()
+MaterialPtr^ SubEntity::getMaterial()
 {
-	return RenderMaterialManager::getInstance()->getObject(subEntity->getMaterial());
+	return MaterialManager::getInstance()->getObject(subEntity->getMaterial());
 }
 
 }

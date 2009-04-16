@@ -7,7 +7,7 @@ namespace Ogre
 
 namespace OgreWrapper{
 
-ref class RenderMaterialPtr;
+ref class MaterialPtr;
 
 [Engine::Attributes::DoNotSaveAttribute]
 public ref class SubEntity
@@ -29,7 +29,7 @@ public:
 
 	bool isVisible();
 	
-	RenderMaterialPtr^ getMaterial();
+	MaterialPtr^ getMaterial();
 };
 
 }

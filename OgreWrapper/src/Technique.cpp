@@ -7,7 +7,7 @@
 
 namespace OgreWrapper{
 
-Technique::Technique(Ogre::Technique* ogreTechnique, RenderMaterial^ parent)
+Technique::Technique(Ogre::Technique* ogreTechnique, Material^ parent)
 :ogreTechnique(ogreTechnique),
 parent(parent)
 {
@@ -56,7 +56,7 @@ bool Technique::movePass(unsigned short sourceIndex, unsigned short destinationI
 	return ogreTechnique->movePass(sourceIndex, destinationIndex);
 }
 
-RenderMaterial^ Technique::getParent()
+Material^ Technique::getParent()
 {
 	return parent;
 }
@@ -76,12 +76,12 @@ bool Technique::isTransparentSortingEnabled()
 	return ogreTechnique->isTransparentSortingEnabled();
 }
 
-RenderMaterial^ Technique::getShadowCasterMaterial()
+Material^ Technique::getShadowCasterMaterial()
 {
 	throw gcnew System::NotImplementedException();
 }
 
-void Technique::setShadowCasterMaterial(RenderMaterial^ material)
+void Technique::setShadowCasterMaterial(Material^ material)
 {
 	throw gcnew System::NotImplementedException();
 }
@@ -91,12 +91,12 @@ void Technique::setShadowCasterMaterial(System::String^ name)
 	throw gcnew System::NotImplementedException();
 }
 
-RenderMaterial^ Technique::getShadowReceiverMaterial()
+Material^ Technique::getShadowReceiverMaterial()
 {
 	throw gcnew System::NotImplementedException();
 }
 
-void Technique::setShadowReceiverMaterial(RenderMaterial^ material)
+void Technique::setShadowReceiverMaterial(Material^ material)
 {
 	throw gcnew System::NotImplementedException();
 }

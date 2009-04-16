@@ -15,10 +15,10 @@ namespace OgreWrapper
 
 ref class Technique;
 value class Color;
-ref class RenderMaterialPtr;
+ref class MaterialPtr;
 
 [Engine::Attributes::DoNotSaveAttribute]
-public ref class RenderMaterial : public Resource
+public ref class Material : public Resource
 {
 private:
 	AutoPtr<Ogre::MaterialPtr> autoMaterialPtr;
@@ -27,7 +27,7 @@ private:
 	TechniqueCollection techniques;
 
 internal:
-	RenderMaterial(const Ogre::MaterialPtr& ogreMaterial);
+	Material(const Ogre::MaterialPtr& ogreMaterial);
 
 	Ogre::Material* getOgreMaterial()
 	{
@@ -35,7 +35,7 @@ internal:
 	}
 
 public:
-	virtual ~RenderMaterial(void);
+	virtual ~Material(void);
 
 	bool isTransparent();
 
@@ -73,11 +73,11 @@ public:
 
 	Technique^ getBestTechnique(unsigned short lodIndex);
 
-	RenderMaterialPtr^ clone(System::String^ newName);
+	MaterialPtr^ clone(System::String^ newName);
 
-	RenderMaterialPtr^ clone(System::String^ newName, bool changeGroup, System::String^ newGroup);
+	MaterialPtr^ clone(System::String^ newName, bool changeGroup, System::String^ newGroup);
 
-	void copyDetailsTo(RenderMaterial^ material);
+	void copyDetailsTo(Material^ material);
 
 	void compile();
 

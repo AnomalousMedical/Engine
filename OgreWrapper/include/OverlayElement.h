@@ -7,7 +7,7 @@ namespace Ogre
 
 namespace OgreWrapper{
 
-ref class RenderMaterialPtr;
+ref class MaterialPtr;
 value class Color;
 ref class OverlayContainer;
 
@@ -196,7 +196,7 @@ public:
 	/// 
 	/// </summary>
 	/// <returns></returns>
-	RenderMaterialPtr^ getMaterial();
+	MaterialPtr^ getMaterial();
 
 	/// <summary>
 	/// 

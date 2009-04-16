@@ -324,6 +324,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Material.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\MaterialManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\MaterialPtr.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\MathUtils.cpp"
 				>
 			</File>
@@ -469,18 +481,6 @@
 			</File>
 			<File
 				RelativePath=".\src\RaySceneQueryResultEntry.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\RenderMaterial.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\RenderMaterialManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\RenderMaterialPtr.cpp"
 				>
 			</File>
 			<File
@@ -802,6 +802,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\Material.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\MaterialManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\MaterialPtr.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\MathUtils.h"
 				>
 			</File>
@@ -947,18 +959,6 @@
 			</File>
 			<File
 				RelativePath=".\include\RaySceneQueryResultEntry.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\RenderMaterial.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\RenderMaterialManager.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\RenderMaterialPtr.h"
 				>
 			</File>
 			<File

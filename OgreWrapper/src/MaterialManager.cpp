@@ -1,37 +1,37 @@
 #include "StdAfx.h"
-#include "..\include\RenderMaterialManager.h"
+#include "..\include\MaterialManager.h"
 #include "Ogre.h"
-#include "RenderMaterial.h"
+#include "Material.h"
 #include "MarshalUtils.h"
 
 namespace OgreWrapper{
 
-RenderMaterialManager::RenderMaterialManager()
+MaterialManager::MaterialManager()
 :materialManager(Ogre::MaterialManager::getSingletonPtr())
 {
 }
 
-RenderMaterialPtr^ RenderMaterialManager::getObject(const Ogre::MaterialPtr& materialPtr)
+MaterialPtr^ MaterialManager::getObject(const Ogre::MaterialPtr& materialPtr)
 {
 	return renderMaterials.getObject(materialPtr);
 }
 
-RenderMaterialManager::~RenderMaterialManager()
+MaterialManager::~MaterialManager()
 {
 	renderMaterials.clearObjects();
 }
 
-RenderMaterialManager^ RenderMaterialManager::getInstance()
+MaterialManager^ MaterialManager::getInstance()
 {
 	return instance;
 }
 
-RenderMaterialPtr^ RenderMaterialManager::getByName(System::String^ name)
+MaterialPtr^ MaterialManager::getByName(System::String^ name)
 {
 	return getObject((Ogre::MaterialPtr)materialManager->getByName(MarshalUtils::convertString(name)));
 }
 
-bool RenderMaterialManager::resourceExists(System::String^ name)
+bool MaterialManager::resourceExists(System::String^ name)
 {
 	return materialManager->resourceExists(MarshalUtils::convertString(name));
 }

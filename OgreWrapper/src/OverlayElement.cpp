@@ -2,7 +2,7 @@
 #include "..\include\OverlayElement.h"
 #include "MarshalUtils.h"
 #include "MathUtils.h"
-#include "RenderMaterialManager.h"
+#include "MaterialManager.h"
 #include "OgreOverlayElement.h"
 #include "Color.h"
 #include "OverlayManager.h"
@@ -122,9 +122,9 @@ void OverlayElement::setMaterialName(System::String^ matName)
 	return overlayElement->setMaterialName(MarshalUtils::convertString(matName));
 }
 
-RenderMaterialPtr^ OverlayElement::getMaterial()
+MaterialPtr^ OverlayElement::getMaterial()
 {
-	return RenderMaterialManager::getInstance()->getObject(overlayElement->getMaterial());
+	return MaterialManager::getInstance()->getObject(overlayElement->getMaterial());
 }
 
 System::String^ OverlayElement::getTypeName()

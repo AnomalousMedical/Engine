@@ -11,7 +11,7 @@ namespace Ogre
 namespace OgreWrapper{
 
 ref class Pass;
-ref class RenderMaterial;
+ref class Material;
 value class Color;
 ref class Pass;
 
@@ -20,12 +20,12 @@ public ref class Technique
 {
 private:
 	Ogre::Technique* ogreTechnique;
-	RenderMaterial^ parent;
+	Material^ parent;
 
 	PassCollection passes;
 
 internal:
-	Technique(Ogre::Technique* ogreTechnique, RenderMaterial^ parent);
+	Technique(Ogre::Technique* ogreTechnique, Material^ parent);
 
 public:
 	virtual ~Technique(void);
@@ -44,7 +44,7 @@ public:
 
 	bool movePass(unsigned short sourceIndex, unsigned short destinationIndex);
 
-	RenderMaterial^ getParent();
+	Material^ getParent();
 
 	System::String^ getResourceGroup();
 
@@ -52,15 +52,15 @@ public:
 
 	bool isTransparentSortingEnabled();
 
-	RenderMaterial^ getShadowCasterMaterial();
+	Material^ getShadowCasterMaterial();
 
-	void setShadowCasterMaterial(RenderMaterial^ material);
+	void setShadowCasterMaterial(Material^ material);
 
 	void setShadowCasterMaterial(System::String^ name);
 
-	RenderMaterial^ getShadowReceiverMaterial();
+	Material^ getShadowReceiverMaterial();
 
-	void setShadowReceiverMaterial(RenderMaterial^ material);
+	void setShadowReceiverMaterial(Material^ material);
 
 	void ShadowReceiverMaterial(System::String^ name);
 

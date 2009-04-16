@@ -7,10 +7,10 @@ namespace OgreWrapper{
 
 Technique^ TechniqueCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
 {
-	return gcnew Technique(static_cast<Ogre::Technique*>(nativeObject), (RenderMaterial^)args[0]);
+	return gcnew Technique(static_cast<Ogre::Technique*>(nativeObject), (Material^)args[0]);
 }
 
-Technique^ TechniqueCollection::getObject(Ogre::Technique* nativeObject, RenderMaterial^ parent)
+Technique^ TechniqueCollection::getObject(Ogre::Technique* nativeObject, Material^ parent)
 {
 	return getObjectVoid(nativeObject, parent);
 }
