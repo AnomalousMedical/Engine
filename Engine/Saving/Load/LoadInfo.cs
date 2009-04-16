@@ -40,6 +40,11 @@ namespace Engine.Saving
             return (decimal)entries[name].Value;
         }
 
+        public float GetFloat(string name)
+        {
+            return (float)entries[name].Value;
+        }
+
         public double GetDouble(string name)
         {
             return (double)entries[name].Value;

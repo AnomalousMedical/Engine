@@ -21,7 +21,6 @@ namespace PhysXPlugin
         #region Static
 
         private static MemberScanner actorMemberScanner;
-        private static MemberScanner shapeMemberScanner;
 
         /// <summary>
         /// Static constructor.
@@ -31,9 +30,6 @@ namespace PhysXPlugin
             actorMemberScanner = new MemberScanner();
             actorMemberScanner.ProcessFields = false;
             actorMemberScanner.Filter = EditableAttributeFilter.Instance;
-
-            shapeMemberScanner = new MemberScanner();
-            shapeMemberScanner.ProcessFields = false;
         }
 
         #endregion Static
@@ -46,7 +42,8 @@ namespace PhysXPlugin
         private String shapeName = null;
         private EditInterface editInterface = null;
         private EditInterfaceCommand destroyShape;
-        private EditInterfaceManager<PhysShapeDesc> shapeEdits;
+        private EditInterfaceManager<ShapeDefinition> shapeEdits;
+        private LinkedList<ShapeDefinition> shapeDefinitions = new LinkedList<ShapeDefinition>();
 
         #endregion Fields
 
@@ -94,10 +91,10 @@ namespace PhysXPlugin
             if (editInterface == null)
             {
                 editInterface = ReflectedEditInterface.createEditInterface(this, actorMemberScanner, Name + " - PhysActor", null);
-                shapeEdits = new EditInterfaceManager<PhysShapeDesc>(editInterface);
+                shapeEdits = new EditInterfaceManager<ShapeDefinition>(editInterface);
                 editInterface.addCommand(new EditInterfaceCommand("Add Box Shape", addBoxShape));
                 destroyShape = new EditInterfaceCommand("Remove", removeShape);
-                foreach (PhysShapeDesc shape in actorDesc.getShapes())
+                foreach (ShapeDefinition shape in shapeDefinitions)
                 {
                     addShapeEditInterface(shape);
                 }
@@ -143,27 +140,29 @@ namespace PhysXPlugin
             throw new NotImplementedException();
         }
 
-        public void addShape(PhysShapeDesc physShape)
+        public void addShape(ShapeDefinition physShape)
         {
-            actorDesc.addShape(physShape);
+            actorDesc.addShape(physShape.PhysShapeDesc);
+            shapeDefinitions.AddLast(physShape);
             if (editInterface != null)
             {
                 addShapeEditInterface(physShape);
             }
         }
 
-        public void removeShape(PhysShapeDesc physShape)
+        public void removeShape(ShapeDefinition physShape)
         {
-            actorDesc.removeShape(physShape);
+            actorDesc.removeShape(physShape.PhysShapeDesc);
+            shapeDefinitions.Remove(physShape);
             if (editInterface != null)
             {
                 shapeEdits.removeSubInterface(physShape);
             }
         }
 
-        private void addShapeEditInterface(PhysShapeDesc physShape)
+        private void addShapeEditInterface(ShapeDefinition physShape)
         {
-            EditInterface shapeEdit = ReflectedEditInterface.createEditInterface(physShape, shapeMemberScanner, physShape.GetType().Name, null);
+            EditInterface shapeEdit = physShape.getEditInterface();
             shapeEdit.addCommand(destroyShape);
             shapeEdits.addSubInterface(physShape, shapeEdit);
         }
@@ -175,7 +174,7 @@ namespace PhysXPlugin
 
         private void addBoxShape(EditUICallback callback, EditInterfaceCommand command)
         {
-            addShape(new PhysBoxShapeDesc());
+            addShape(new BoxShapeDefinition());
         }
 
         #endregion Functions
@@ -480,31 +479,36 @@ namespace PhysXPlugin
         private const String SLEEP_ENERGY_THRESHOLD = "SleepEnergyThreshold";
         private const String SLEEP_DAMPING = "SleepDamping";
         private const String CONTACT_REPORT_THRESHOLD = "ContactReportThreshold";
+        private const String SHAPE_DEF_BASE = "ShapeDefinition";
 
         private PhysActorDefinition(LoadInfo info)
             :base(info)
         {
-            Density = (float)info.GetDouble(DENSITY);
+            Density = info.GetFloat(DENSITY);
             ShapeName = info.GetString(SHAPE_NAME);
-            Flags = (ActorFlag)info.GetUInt32(FLAGS);
+            Flags = info.GetValue<ActorFlag>(FLAGS);
             ActorGroup = info.GetUInt16(ACTOR_GROUP);
             ContactReportFlags = info.GetUInt32(CONTACT_REPORT_FLAGS);
             Dynamic = info.GetBoolean(DYNAMIC);
             MassSpaceIntertia = info.GetVector3(MASS_SPACE_INERTIA);
-            Mass = (float)info.GetDouble(MASS);
+            Mass = info.GetFloat(MASS);
             LinearVelocity = info.GetVector3(LINEAR_VELOCITY);
             AngularVelocity = info.GetVector3(ANGULAR_VELOCITY);
-            WakeUpCounter = (float)info.GetDouble(WAKE_UP_COUNTER);
-            LinearDamping = (float)info.GetDouble(LINEAR_DAMPING);
-            AngularDamping = (float)info.GetDouble(ANGULAR_DAMPING);
-            MaxAngularVelocity = (float)info.GetDouble(MAX_ANGULAR_VELOCITY);
-            CCDMotionThreshold = (float)info.GetDouble(CCD_MOTION_THREASHOLD);
-            BodyFlags = (BodyFlag)info.GetUInt32(BODY_FLAGS);
-            SleepLinearVelocity = (float)info.GetDouble(SLEEP_LINEAR_VELOCITY);
+            WakeUpCounter = info.GetFloat(WAKE_UP_COUNTER);
+            LinearDamping = info.GetFloat(LINEAR_DAMPING);
+            AngularDamping = info.GetFloat(ANGULAR_DAMPING);
+            MaxAngularVelocity = info.GetFloat(MAX_ANGULAR_VELOCITY);
+            CCDMotionThreshold = info.GetFloat(CCD_MOTION_THREASHOLD);
+            BodyFlags = info.GetValue<BodyFlag>(BODY_FLAGS);
+            SleepLinearVelocity = info.GetFloat(SLEEP_LINEAR_VELOCITY);
             SolverIterationCount = info.GetUInt32(SOLVER_ITERATION_COUNT);
-            SleepEnergyThreshold = (float)info.GetDouble(SLEEP_ENERGY_THRESHOLD);
-            SleepDamping = (float)info.GetDouble(SLEEP_DAMPING);
-            ContactReportThreshold = (float)info.GetDouble(CONTACT_REPORT_THRESHOLD);
+            SleepEnergyThreshold = info.GetFloat(SLEEP_ENERGY_THRESHOLD);
+            SleepDamping = info.GetFloat(SLEEP_DAMPING);
+            ContactReportThreshold = info.GetFloat(CONTACT_REPORT_THRESHOLD);
+            for (int i = 0; info.hasValue(SHAPE_DEF_BASE + i); i++)
+            {
+                addShape(info.GetValue<ShapeDefinition>(SHAPE_DEF_BASE + i));
+            }
         }
 
         public override void getInfo(SaveInfo info)
@@ -531,6 +535,11 @@ namespace PhysXPlugin
             info.AddValue(SLEEP_ENERGY_THRESHOLD, SleepEnergyThreshold);
             info.AddValue(SLEEP_DAMPING, SleepDamping);
             info.AddValue(CONTACT_REPORT_THRESHOLD, ContactReportThreshold);
+            int i = 0;
+            foreach (ShapeDefinition shape in shapeDefinitions)
+            {
+                info.AddValue(SHAPE_DEF_BASE + i++, shape);
+            }
         }
 
         #endregion

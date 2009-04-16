@@ -158,13 +158,22 @@ namespace Engine.ObjectManagement
         private const String NAME = "Name";
         private const String ELEMENTS_BASE = "Element";
 
+        private SimObjectDefinition(LoadInfo info)
+        {
+            name = info.GetString(NAME);
+            for (int i = 0; info.hasValue(ELEMENTS_BASE + i); i++)
+            {
+                addElement(info.GetValue<SimElementDefinition>(ELEMENTS_BASE + i));
+            }
+        }
+
         public void getInfo(SaveInfo info)
         {
             info.AddValue(NAME, Name);
             int i = 0;
             foreach (SimElementDefinition element in definitions.Values)
             {
-                info.AddValue(ELEMENTS_BASE + i, element);
+                info.AddValue(ELEMENTS_BASE + i++, element);
             }
         }
 

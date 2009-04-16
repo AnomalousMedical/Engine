@@ -97,17 +97,29 @@ namespace Engine.ObjectManagement
         private const string INSTANCE_BASE = "Instance";
         private const string TEMPLATE_BASE = "Template";
 
+        private SimObjectManagerDefinition(LoadInfo info)
+        {
+            for (int i = 0; info.hasValue(INSTANCE_BASE + i); i++)
+            {
+                addInstanceDefinition(info.GetValue<SimObjectInstanceDefinition>(INSTANCE_BASE + i));
+            }
+            for(int i = 0; info.hasValue(TEMPLATE_BASE + i); i++)
+            {
+                addTemplate(info.GetValue<SimObjectDefinition>(TEMPLATE_BASE + i));
+            }
+        }
+
         public void getInfo(SaveInfo info)
         {
             int i = 0;
             foreach (SimObjectInstanceDefinition instance in instances.Values)
             {
-                info.AddValue(INSTANCE_BASE + i, instance);
+                info.AddValue(INSTANCE_BASE + i++, instance);
             }
             i = 0;
             foreach (SimObjectDefinition template in templates.Values)
             {
-                info.AddValue(TEMPLATE_BASE + i, template);
+                info.AddValue(TEMPLATE_BASE + i++, template);
             }
         }
 
