@@ -248,10 +248,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\CircleHelper.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\Color.cpp"
 				>
 			</File>
@@ -297,10 +293,6 @@
 			</File>
 			<File
 				RelativePath=".\src\Light.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\LineHelper.cpp"
 				>
 			</File>
 			<File
@@ -360,27 +352,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\NativeCircleHelper.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\NativeLineHelper.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\NativePointHelper.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\NativeResourceGroupListener.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\src\NativeSceneListener.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\NativeTriangleHelper.cpp"
 				>
 			</File>
 			<File
@@ -461,10 +437,6 @@
 			</File>
 			<File
 				RelativePath=".\src\PlaneBoundedVolumeListSceneQuery.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\PointHelper.cpp"
 				>
 			</File>
 			<File
@@ -608,10 +580,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\TriangleHelper.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\VertexAnimationTrack.cpp"
 				>
 			</File>
@@ -718,10 +686,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\CircleHelper.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\Color.h"
 				>
 			</File>
@@ -775,10 +739,6 @@
 			</File>
 			<File
 				RelativePath=".\include\Light.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\LineHelper.h"
 				>
 			</File>
 			<File
@@ -838,27 +798,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\NativeCircleHelper.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\NativeLineHelper.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\NativePointHelper.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\NativeResourceGroupListener.h"
 				>
 			</File>
 			<File
 				RelativePath=".\include\NativeSceneListener.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\NativeTriangleHelper.h"
 				>
 			</File>
 			<File
@@ -942,10 +886,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\PointHelper.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\Pose.h"
 				>
 			</File>
@@ -982,11 +922,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\resource.h"
+				RelativePath=".\include\Resource.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\Resource.h"
+				RelativePath=".\resource.h"
 				>
 			</File>
 			<File
@@ -1079,10 +1019,6 @@
 			</File>
 			<File
 				RelativePath=".\include\TransformKeyFrameCollection.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\TriangleHelper.h"
 				>
 			</File>
 			<File
