@@ -7,7 +7,7 @@
 
 #include "StdAfx.h"
 #include "..\include\SceneNode.h"
-#include "RenderScene.h"
+#include "SceneManager.h"
 #include "MovableObject.h"
 
 #include "Ogre.h"

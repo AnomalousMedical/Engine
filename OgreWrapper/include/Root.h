@@ -1,7 +1,7 @@
 #pragma once
 
 #include "AutoPtr.h"
-#include "RenderSceneCollection.h"
+#include "SceneManagerCollection.h"
 #include "RenderTargetCollection.h"
 #include "RenderSystemCollection.h"
 

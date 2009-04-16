@@ -3,7 +3,7 @@
 #include "ManagedSceneListener.h"
 #include "Ogre.h"
 #include "Camera.h"
-#include "RenderScene.h"
+#include "SceneManager.h"
 
 namespace OgreWrapper
 {

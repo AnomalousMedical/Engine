@@ -1,6 +1,6 @@
 #pragma once
 
-#include "RenderScene.h"
+#include "SceneManager.h"
 
 namespace OgreWrapper
 {

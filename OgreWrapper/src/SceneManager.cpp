@@ -6,7 +6,7 @@
 /// </copyright>
 
 #include "StdAfx.h"
-#include "..\include\RenderScene.h"
+#include "..\include\SceneManager.h"
 
 #include "Camera.h"
 #include "Light.h"

@@ -488,14 +488,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\RenderScene.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\RenderSceneCollection.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\RenderSubEntity.cpp"
 				>
 			</File>
@@ -529,6 +521,14 @@
 			</File>
 			<File
 				RelativePath=".\src\Root.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\SceneManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\SceneManagerCollection.cpp"
 				>
 			</File>
 			<File
@@ -966,14 +966,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\RenderScene.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\RenderSceneCollection.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\RenderSubEntity.h"
 				>
 			</File>
@@ -1019,6 +1011,14 @@
 			</File>
 			<File
 				RelativePath=".\include\SceneListener.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\SceneManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\SceneManagerCollection.h"
 				>
 			</File>
 			<File

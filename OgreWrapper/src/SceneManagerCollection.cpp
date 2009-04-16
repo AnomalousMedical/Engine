@@ -1,7 +1,7 @@
 //Source
 #include "stdafx.h"
-#include "RenderSceneCollection.h"
-#include "RenderScene.h"
+#include "SceneManagerCollection.h"
+#include "SceneManager.h"
 
 namespace OgreWrapper{
 

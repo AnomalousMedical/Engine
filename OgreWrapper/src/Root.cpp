@@ -5,7 +5,7 @@
 #include "MarshalUtils.h"
 #include "RenderSystem.h"
 #include "RenderWindow.h"
-#include "RenderScene.h"
+#include "SceneManager.h"
 #include "RenderTarget.h"
 
 namespace OgreWrapper
