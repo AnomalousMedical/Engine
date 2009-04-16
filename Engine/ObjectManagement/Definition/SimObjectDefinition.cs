@@ -161,6 +161,11 @@ namespace Engine.ObjectManagement
         public void getInfo(SaveInfo info)
         {
             info.AddValue(NAME, Name);
+            int i = 0;
+            foreach (SimElementDefinition element in definitions.Values)
+            {
+                info.AddValue(ELEMENTS_BASE + i, element);
+            }
         }
 
         #endregion

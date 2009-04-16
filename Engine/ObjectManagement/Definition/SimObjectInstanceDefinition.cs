@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EngineMath;
+using Engine.Saving;
 
 namespace Engine.ObjectManagement
 {
@@ -11,7 +12,7 @@ namespace Engine.ObjectManagement
     /// may not have a 1-1 relationship with a SimObjectDefinition as those can
     /// be used to create multiple instances that start out the same.
     /// </summary>
-    public class SimObjectInstanceDefinition
+    public class SimObjectInstanceDefinition : Saveable
     {
         /// <summary>
         /// Constructor.
@@ -51,5 +52,36 @@ namespace Engine.ObjectManagement
         /// True if the object is enabled, false if it is disabled.
         /// </summary>
         public bool Enabled { get; set; }
+
+        #region Saveable Members
+
+        private const String NAME = "Name";
+        private const String ROTATION = "Rotation";
+        private const String TRANSLATION = "Translation";
+        private const String SCALE = "Scale";
+        private const String DEFINITION_NAME = "DefinitionName";
+        private const String ENABLED = "Enabled";
+
+        private SimObjectInstanceDefinition(LoadInfo info)
+        {
+            Name = info.GetString(NAME);
+            Rotation = info.GetQuaternion(ROTATION);
+            Translation = info.GetVector3(TRANSLATION);
+            Scale = info.GetVector3(SCALE);
+            DefinitionName = info.GetString(DEFINITION_NAME);
+            Enabled = info.GetBoolean(ENABLED);
+        }
+
+        public void getInfo(SaveInfo info)
+        {
+            info.AddValue(NAME, Name);
+            info.AddValue(ROTATION, Rotation);
+            info.AddValue(TRANSLATION, Translation);
+            info.AddValue(SCALE, Scale);
+            info.AddValue(DEFINITION_NAME, DefinitionName);
+            info.AddValue(ENABLED, Enabled);
+        }
+
+        #endregion
     }
 }

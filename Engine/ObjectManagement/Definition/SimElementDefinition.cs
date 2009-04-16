@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using EngineMath;
 using Engine.Editing;
+using Engine.Saving;
 
 namespace Engine.ObjectManagement
 {
-    public abstract class SimElementDefinition
+    public abstract class SimElementDefinition : Saveable
     {   
         #region Fields
 
@@ -71,5 +72,24 @@ namespace Engine.ObjectManagement
         }
 
         #endregion Properties
+
+        #region Saveable Members
+
+        private const string NAME = "SimElementName";
+        private const string SUBSCRIPTION = "SimElementSubscription";
+
+        protected SimElementDefinition(LoadInfo loadInfo)
+        {
+            name = loadInfo.GetString(NAME);
+            subscription = loadInfo.GetValue<Subscription>(SUBSCRIPTION);
+        }
+
+        public virtual void getInfo(SaveInfo info)
+        {
+            info.AddValue(NAME, name);
+            info.AddValue(SUBSCRIPTION, subscription);
+        }
+
+        #endregion
     }
 }

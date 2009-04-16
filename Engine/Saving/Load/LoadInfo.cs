@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using EngineMath;
 
 namespace Engine.Saving
 {
@@ -87,6 +88,16 @@ namespace Engine.Saving
         public ulong GetUInt64(string name)
         {
             return (ulong)entries[name].Value;
+        }
+
+        internal Quaternion GetQuaternion(string name)
+        {
+            return (Quaternion)entries[name].Value;
+        }
+
+        internal Vector3 GetVector3(string name)
+        {
+            return (Vector3)entries[name].Value;
         }
 
         public Saveable GetValue(string name, Type type)

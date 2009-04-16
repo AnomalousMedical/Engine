@@ -84,8 +84,14 @@ namespace Engine.Saving
             {
                 validate(name, value);
                 long objectID = writer.saveObject(value);
-                entries.Add(name, new SaveEntry(name, value, typeof(Saveable), objectID));
+                entries.Add(name, new SaveEntry(name, value, value.GetType(), objectID));
             }
+        }
+
+        public void AddValue(string name, Enum value)
+        {
+            validate(name, value);
+            entries.Add(name, new SaveEntry(name, value, value.GetType()));
         }
 
         public void AddValue(string name, sbyte value)

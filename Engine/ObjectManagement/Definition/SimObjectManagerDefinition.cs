@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using EngineMath;
 using Logging;
+using Engine.Saving;
 
 namespace Engine.ObjectManagement
 {
     /// <summary>
     /// This is a definition for a group of SimObjects.
     /// </summary>
-    public class SimObjectManagerDefinition
+    public class SimObjectManagerDefinition : Saveable
     {
         private Dictionary<String, SimObjectInstanceDefinition> instances = new Dictionary<string, SimObjectInstanceDefinition>();
         private Dictionary<String, SimObjectDefinition> templates = new Dictionary<string, SimObjectDefinition>();
@@ -90,5 +91,26 @@ namespace Engine.ObjectManagement
             }
             return manager;
         }
+
+        #region Saveable Members
+
+        private const string INSTANCE_BASE = "Instance";
+        private const string TEMPLATE_BASE = "Template";
+
+        public void getInfo(SaveInfo info)
+        {
+            int i = 0;
+            foreach (SimObjectInstanceDefinition instance in instances.Values)
+            {
+                info.AddValue(INSTANCE_BASE + i, instance);
+            }
+            i = 0;
+            foreach (SimObjectDefinition template in templates.Values)
+            {
+                info.AddValue(TEMPLATE_BASE + i, template);
+            }
+        }
+
+        #endregion
     }
 }
