@@ -212,13 +212,23 @@ namespace Engine.ObjectManagement
         private const string NAME = "Name";
         private const string BINDINGS_BASE = "Binding";
 
+        private SimSubSceneDefinition(LoadInfo info)
+        {
+            name = info.GetString(NAME);
+
+            for (int i = 0; info.hasValue(BINDINGS_BASE + i); i++)
+            {
+                bindings.AddLast(new SimSubSceneBinding(this, info.GetValue<SimElementManagerDefinition>(BINDINGS_BASE + i)));
+            }
+        }
+
         public void getInfo(SaveInfo info)
         {
             info.AddValue(NAME, Name);
             int i = 0;
             foreach (SimSubSceneBinding binding in bindings)
             {
-                info.AddValue(BINDINGS_BASE + i++, binding.SimElementManager.Name);
+                info.AddValue(BINDINGS_BASE + i++, binding.SimElementManager);
             }
         }
 

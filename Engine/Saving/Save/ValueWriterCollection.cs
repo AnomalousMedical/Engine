@@ -43,7 +43,7 @@ namespace Engine.Saving
             {
                 enumWriter.writeValue(entry);
             }
-            else if (objType.GetInterface(typeof(Saveable).Name) != null)
+            else if (objType == typeof(Saveable) || objType.GetInterface(typeof(Saveable).Name) != null)
             {
                 saveableWriter.writeValue(entry);
             }

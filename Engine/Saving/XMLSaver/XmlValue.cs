@@ -6,7 +6,7 @@ using System.Xml;
 
 namespace Engine.Saving.XMLSaver
 {
-    abstract class XmlValue<T> : ValueWriter
+    abstract class XmlValue<T> : ValueWriter, XmlValueReader
     {
         protected const String NAME_ENTRY = "name";
         protected String elementName;

@@ -20,5 +20,16 @@ namespace Engine.Saving
                 info.AddReflectedValue(wrapper.getWrappedName(), wrapper.getValue(source, null), wrapper.getWrappedType());
             }
         }
+
+        public static void RestoreObject(Object source, LoadInfo info, MemberScanner scanner)
+        {
+            foreach (MemberWrapper wrapper in scanner.getMatchingMembers(source.GetType()))
+            {
+                if (info.hasValue(wrapper.getWrappedName()))
+                {
+                    wrapper.setValue(source, info.getValueObject(wrapper.getWrappedName()), null);
+                }
+            }
+        }
     }
 }

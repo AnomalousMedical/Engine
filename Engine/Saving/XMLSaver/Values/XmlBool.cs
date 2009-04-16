@@ -16,7 +16,7 @@ namespace Engine.Saving.XMLSaver
 
         public override bool parseValue(XmlReader xmlReader)
         {
-            return xmlReader.ReadElementContentAsBoolean();
+            return bool.Parse(xmlReader.ReadElementContentAsString());
         }
     }
 }

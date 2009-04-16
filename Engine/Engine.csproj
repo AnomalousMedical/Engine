@@ -153,6 +153,7 @@
     <Compile Include="Saving\XMLSaver\XmlValue.cs" />
     <Compile Include="Saving\XMLSaver\Values\XmlVector3.cs" />
     <Compile Include="Saving\XMLSaver\XmlValueCollection.cs" />
+    <Compile Include="Saving\XMLSaver\XmlValueReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Log\Log.csproj">

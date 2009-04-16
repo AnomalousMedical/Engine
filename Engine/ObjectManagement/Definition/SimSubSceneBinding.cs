@@ -36,6 +36,16 @@ namespace Engine.ObjectManagement
             simElementManager = subScene.getSimElementManager(managerName);
         }
 
+        /// <summary>
+        /// Constructor takes a SubScene and a SimElementManagerDefinition.
+        /// </summary>
+        /// <param name="subScene">The SubSceneDefinition.</param>
+        /// <param name="simElementManager">The SimElementManagerDefinition.</param>
+        public SimSubSceneBinding(SimSubSceneDefinition subScene, SimElementManagerDefinition simElementManager)
+        {
+            this.simElementManager = simElementManager;
+        }
+
         #region EditableProperty Members
 
         /// <summary>

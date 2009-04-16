@@ -127,9 +127,19 @@ namespace PhysXPlugin
 
         #region Saveable Members
 
-        public void getInfo(Engine.Saving.SaveInfo info)
+        private const String NAME = "DefinitionName";
+
+        private PhysXSceneManagerDefinition(LoadInfo info)
+        {
+            ReflectedSaver.RestoreObject(sceneDesc, info, memberScanner);
+            name = info.GetString(NAME);
+            this.physInterface = PhysXInterface.Instance;
+        }
+
+        public void getInfo(SaveInfo info)
         {
             ReflectedSaver.SaveObject(sceneDesc, info, memberScanner);
+            info.AddValue(NAME, name);
         }
 
         #endregion

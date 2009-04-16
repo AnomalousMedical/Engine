@@ -14,6 +14,11 @@ namespace Engine.Saving
 
         }
 
+        public bool hasValue(String name)
+        {
+            return entries.ContainsKey(name);
+        }
+
         public bool GetBoolean(string name)
         {
             return (bool)entries[name].Value;
@@ -92,6 +97,17 @@ namespace Engine.Saving
         public T GetValue<T>(string name)
         {
             return (T)entries[name].Value;
+        }
+
+        /// <summary>
+        /// Internal function to just get the value directly as an object. Used
+        /// by the ReflectedSaver.
+        /// </summary>
+        /// <param name="name">The name of the object to get.</param>
+        /// <returns>The object matching name.</returns>
+        internal Object getValueObject(string name)
+        {
+            return entries[name].Value;
         }
 
         internal void reset()

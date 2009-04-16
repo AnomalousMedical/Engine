@@ -353,6 +353,19 @@ namespace Engine.ObjectManagement
         private const String SUB_SCENE_BASE = "SubScene";
         private const String DEFAULT_SUB_SCENE = "DefaultSubScene";
 
+        private SimSceneDefinition(LoadInfo info)
+        {
+            DefaultSubScene = info.GetString(DEFAULT_SUB_SCENE);
+            for (int i = 0; info.hasValue(ELEMENT_MANAGERS_BASE + i); i++)
+            {
+                addSimElementManagerDefinition(info.GetValue<SimElementManagerDefinition>(ELEMENT_MANAGERS_BASE + i));
+            }
+            for (int i = 0; info.hasValue(SUB_SCENE_BASE + i); i++)
+            {
+                addSimSubSceneDefinition(info.GetValue<SimSubSceneDefinition>(SUB_SCENE_BASE + i));
+            }
+        }
+
         public void getInfo(SaveInfo info)
         {
             info.AddValue(DEFAULT_SUB_SCENE, DefaultSubScene);
