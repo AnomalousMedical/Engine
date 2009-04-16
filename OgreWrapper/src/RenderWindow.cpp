@@ -10,7 +10,7 @@
 
 #include "Ogre.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 RenderWindow::RenderWindow(Ogre::RenderWindow* ogreRenderWindow)

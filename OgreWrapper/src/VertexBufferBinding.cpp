@@ -3,7 +3,7 @@
 #include "HardwareBufferManager.h"
 #include "HardwareVertexBuffer.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 VertexBufferBinding::VertexBufferBinding(Ogre::VertexBufferBinding* vertexBufferBinding)
 :vertexBufferBinding(vertexBufferBinding)

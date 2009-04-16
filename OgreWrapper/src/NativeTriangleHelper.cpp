@@ -4,7 +4,7 @@
 
 #pragma unmanaged
 
-namespace Rendering{
+namespace OgreWrapper{
 
 NativeTriangleHelper::NativeTriangleHelper()
 :triangleBuffer(0),

@@ -20,7 +20,7 @@
 #include "Ogre.h"
 #include "MarshalUtils.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 using namespace System;
 

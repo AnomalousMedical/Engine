@@ -8,7 +8,7 @@ namespace Ogre
 	class PixelBox;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 /** The pixel format used for images, textures, and render surfaces */
 public enum class PixelFormat

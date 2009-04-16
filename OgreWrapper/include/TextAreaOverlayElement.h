@@ -7,7 +7,7 @@ namespace Ogre
 	class TextAreaOverlayElement;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 value class Color;
 

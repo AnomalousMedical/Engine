@@ -3,7 +3,7 @@
 #include "NumericAnimationTrackCollection.h"
 #include "NumericAnimationTrack.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 NumericAnimationTrack^ NumericAnimationTrackCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
 {

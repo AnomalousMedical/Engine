@@ -1,7 +1,7 @@
 //Header
 #pragma once
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class Bone;
 ref class BoneCollection : public WrapperCollection<Bone^>

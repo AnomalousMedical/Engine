@@ -7,7 +7,7 @@ namespace Ogre
 	class MeshPtr;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class Mesh;
 ref class MeshPtr;

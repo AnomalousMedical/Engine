@@ -8,7 +8,7 @@ namespace Ogre
 	class SceneNode;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class SceneNode;
 ref class OverlayContainer;

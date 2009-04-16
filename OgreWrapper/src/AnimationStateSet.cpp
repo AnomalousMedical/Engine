@@ -4,7 +4,7 @@
 #include "MarshalUtils.h"
 #include "AnimationState.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 AnimationStateSet::AnimationStateSet(Ogre::AnimationStateSet* animationStateSet)
 :animationStateSet(animationStateSet)

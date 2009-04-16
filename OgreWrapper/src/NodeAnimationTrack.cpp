@@ -3,7 +3,7 @@
 #include "Ogre.h"
 #include "TransformKeyFrame.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 NodeAnimationTrack::NodeAnimationTrack(Ogre::NodeAnimationTrack* ogreAnimation, Animation^ parent)

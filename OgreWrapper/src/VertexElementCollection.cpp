@@ -3,7 +3,7 @@
 #include "VertexElementCollection.h"
 #include "VertexElement.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 VertexElement^ VertexElementCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
 {

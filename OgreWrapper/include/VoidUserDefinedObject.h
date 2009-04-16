@@ -2,7 +2,7 @@
 
 #include "OgreUserDefinedObject.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 enum ObjectType

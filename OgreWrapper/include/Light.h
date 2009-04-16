@@ -15,7 +15,7 @@ namespace Ogre
 	class Light;
 }
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 /// <summary>

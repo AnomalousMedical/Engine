@@ -4,7 +4,7 @@
 #include "MarshalUtils.h"
 #include "MathUtils.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 Pose::Pose(Ogre::Pose* pose)

@@ -3,7 +3,7 @@
 #include "HardwareBufferManager.h"
 #include "VertexDeclaration.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 VertexData::VertexData(Ogre::VertexData* vertexData)
 :vertexData(vertexData)

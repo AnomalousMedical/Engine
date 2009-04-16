@@ -3,7 +3,7 @@
 #include "RenderSceneCollection.h"
 #include "RenderScene.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 RenderScene^ RenderSceneCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
 {

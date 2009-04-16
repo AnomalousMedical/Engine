@@ -1,7 +1,7 @@
 //Header
 #pragma once
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class SubMesh;
 ref class SubMeshCollection : public WrapperCollection<SubMesh^>

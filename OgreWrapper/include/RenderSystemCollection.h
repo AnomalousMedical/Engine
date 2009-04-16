@@ -1,7 +1,7 @@
 //Header
 #pragma once
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class RenderSystem;
 ref class RenderSystemCollection : public WrapperCollection<RenderSystem^>

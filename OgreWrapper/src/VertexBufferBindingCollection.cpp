@@ -3,7 +3,7 @@
 #include "VertexBufferBindingCollection.h"
 #include "VertexBufferBinding.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 VertexBufferBinding^ VertexBufferBindingCollection::createWrapper(void* nativeObject, array<System::Object^>^ args)
 {

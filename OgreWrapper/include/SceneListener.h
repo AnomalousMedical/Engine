@@ -2,7 +2,7 @@
 
 #include "RenderScene.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 ref class RenderScene;

@@ -3,7 +3,7 @@
 #include "TechniqueCollection.h"
 #include "Technique.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 Technique^ TechniqueCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
 {

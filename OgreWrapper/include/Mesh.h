@@ -11,7 +11,7 @@
 #include "PoseCollection.h"
 #include "MeshPtr.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 using namespace System::Runtime::InteropServices;
 

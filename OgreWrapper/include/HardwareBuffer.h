@@ -5,7 +5,7 @@ namespace Ogre
 	class HardwareBuffer;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 /// <summary>
 /// A wrapper class for the Ogre::HardwareBuffer

@@ -10,7 +10,7 @@ namespace Ogre
 
 using namespace System::Collections::Generic;
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class Bone;
 

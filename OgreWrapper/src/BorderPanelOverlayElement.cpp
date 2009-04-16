@@ -7,7 +7,7 @@
 #include "OgreBorderPanelOverlayElement.h"
 #pragma warning(pop)
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 BorderPanelOverlayElement::BorderPanelOverlayElement(Ogre::BorderPanelOverlayElement* borderPanel)

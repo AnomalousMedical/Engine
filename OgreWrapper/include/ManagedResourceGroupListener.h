@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class OgreResource;
 interface class ResourceGroupListener;

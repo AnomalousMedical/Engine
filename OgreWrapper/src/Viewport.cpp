@@ -10,7 +10,7 @@
 
 #include "Ogre.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 Viewport::Viewport(Ogre::Viewport* viewport, System::String^ name)

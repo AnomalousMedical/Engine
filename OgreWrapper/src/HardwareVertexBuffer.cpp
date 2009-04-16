@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "..\include\HardwareVertexBuffer.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 HardwareVertexBuffer::HardwareVertexBuffer(const Ogre::HardwareVertexBufferSharedPtr& hardwareVertexBuffer)
 :HardwareBuffer(hardwareVertexBuffer.get()),

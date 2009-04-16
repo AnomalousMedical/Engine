@@ -2,7 +2,7 @@
 
 #include "SceneListener.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 typedef System::Collections::Generic::LinkedList<SceneListener^> SceneListenerList;

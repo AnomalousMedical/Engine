@@ -8,7 +8,7 @@ namespace Ogre
 	class HardwareIndexBuffer;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 /// <summary>
 /// Specialisation of HardwareBuffer for vertex index buffers.

@@ -11,7 +11,7 @@
 #include "Ogre.h"
 #include "MarshalUtils.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 ManualObjectSection::ManualObjectSection(Ogre::ManualObject::ManualObjectSection* section)

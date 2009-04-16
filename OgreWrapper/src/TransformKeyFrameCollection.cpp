@@ -3,7 +3,7 @@
 #include "TransformKeyFrameCollection.h"
 #include "TransformKeyFrame.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 TransformKeyFrame^ TransformKeyFrameCollection::createWrapper(void* nativeObject, array<System::Object^>^ args)
 {

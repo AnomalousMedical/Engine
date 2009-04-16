@@ -1,7 +1,7 @@
 //Header
 #pragma once
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class VertexBufferBinding;
 ref class VertexBufferBindingCollection : public WrapperCollection<VertexBufferBinding^>

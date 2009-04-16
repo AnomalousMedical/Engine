@@ -8,7 +8,7 @@ namespace Ogre
 	class HardwareIndexBufferSharedPtr;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class HardwareIndexBuffer;
 ref class HardwareIndexBufferSharedPtr;

@@ -3,7 +3,7 @@
 #include "MathUtils.h"
 #include "AxisAlignedBox.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 Plane::Plane()

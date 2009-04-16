@@ -14,7 +14,7 @@ namespace Ogre
 	class ManualObject::ManualObjectSection;
 }
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 /// <summary>

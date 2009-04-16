@@ -3,7 +3,7 @@
 #include "PassCollection.h"
 #include "Pass.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 Pass^ PassCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
 {

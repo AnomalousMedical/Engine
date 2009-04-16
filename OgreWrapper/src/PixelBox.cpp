@@ -3,7 +3,7 @@
 
 #include "OgrePixelFormat.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 PixelBox::PixelBox(Ogre::PixelBox* ogrePixel)

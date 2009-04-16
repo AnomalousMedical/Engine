@@ -4,7 +4,7 @@
 #include <string>
 #include "gcroot.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class ManagedResourceGroupListener;
 interface class ResourceGroupListener;
@@ -23,13 +23,13 @@ public:
 	/// Add a listener.
 	/// </summary>
 	/// <param name="listener">The listener to add.</param>
-	void addListener(gcroot<Rendering::ResourceGroupListener^> listener);
+	void addListener(gcroot<OgreWrapper::ResourceGroupListener^> listener);
 
 	/// <summary>
 	/// Remove a listener.
 	/// </summary>
 	/// <param name="listener">The listener to remove.</param>
-	void removeListener(gcroot<Rendering::ResourceGroupListener^> listener);
+	void removeListener(gcroot<OgreWrapper::ResourceGroupListener^> listener);
 
 	/// <summary>
 	/// This event is fired when a resource group begins parsing scripts.

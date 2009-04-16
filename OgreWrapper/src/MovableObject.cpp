@@ -4,7 +4,7 @@
 #include "Ogre.h"
 #include "AxisAlignedBox.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 MovableObject::MovableObject(Ogre::MovableObject* movableObject)

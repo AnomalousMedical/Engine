@@ -4,7 +4,7 @@
 #include "MarshalUtils.h"
 #include "RenderMaterialManager.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 RenderSubEntity::RenderSubEntity(Ogre::SubEntity* subEntity)
 :subEntity(subEntity)

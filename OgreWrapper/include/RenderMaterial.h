@@ -10,7 +10,7 @@ namespace Ogre
 	class Ogre;
 }
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 ref class Technique;

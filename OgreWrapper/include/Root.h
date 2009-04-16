@@ -10,7 +10,7 @@ namespace Ogre
 	class Root;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 [Engine::Attributes::MultiEnum]
 public enum class SceneType : unsigned short

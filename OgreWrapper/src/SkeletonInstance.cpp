@@ -4,7 +4,7 @@
 #include "Bone.h"
 #include "MarshalUtils.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 SkeletonInstance::SkeletonInstance(Ogre::SkeletonInstance* skeletonInstance)
 :Skeleton(skeletonInstance), skeletonInstance(skeletonInstance)

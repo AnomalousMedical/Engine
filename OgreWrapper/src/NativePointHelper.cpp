@@ -4,7 +4,7 @@
 
 #pragma unmanaged
 
-namespace Rendering{
+namespace OgreWrapper{
 
 NativePointHelper::NativePointHelper()
 :pointBuffer(0),

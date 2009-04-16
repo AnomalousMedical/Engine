@@ -2,7 +2,7 @@
 #include "VertexMorphKeyFrame.h"
 #include "OgreKeyFrame.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 VertexMorphKeyFrame::VertexMorphKeyFrame(Ogre::VertexMorphKeyFrame* ogreFrame)

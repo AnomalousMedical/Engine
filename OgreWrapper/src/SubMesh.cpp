@@ -3,7 +3,7 @@
 #include "VertexData.h"
 #include "IndexData.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 SubMesh::SubMesh(Ogre::SubMesh* subMesh)
 :subMesh(subMesh),

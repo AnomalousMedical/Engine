@@ -11,7 +11,7 @@
 #include "Ogre.h"
 #include "MathUtils.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 Light::Light(Ogre::Light* light, System::String^ name)

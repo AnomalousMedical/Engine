@@ -4,7 +4,7 @@
 
 using namespace EngineMath;
 
-namespace Rendering{
+namespace OgreWrapper{
 
 class NativePointHelper;
 

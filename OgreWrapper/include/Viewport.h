@@ -12,7 +12,7 @@ namespace Ogre
 	class Viewport;
 }
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 /// <summary>

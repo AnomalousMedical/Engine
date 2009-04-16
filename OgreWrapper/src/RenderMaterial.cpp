@@ -7,7 +7,7 @@
 #include "Color.h"
 #include "RenderMaterialManager.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 RenderMaterial::RenderMaterial(const Ogre::MaterialPtr& ogreMaterial)
 :RenderResource(ogreMaterial.get()),

@@ -1,7 +1,7 @@
 //Header
 #pragma once
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class RenderSubEntity;
 ref class RenderSubEntityCollection : public WrapperCollection<RenderSubEntity^>

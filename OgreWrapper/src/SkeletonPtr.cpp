@@ -3,7 +3,7 @@
 #include "SkeletonPtr.h"
 #include "Skeleton.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 Skeleton^ SkeletonPtrCollection::createWrapper(const void* sharedPtr, array<System::Object^>^ args)
 {

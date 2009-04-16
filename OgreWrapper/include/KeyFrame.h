@@ -5,7 +5,7 @@ namespace Ogre
 	class KeyFrame;
 }
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 /// <summary>

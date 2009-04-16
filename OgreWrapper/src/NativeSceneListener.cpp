@@ -5,7 +5,7 @@
 #include "Camera.h"
 #include "RenderScene.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 NativeSceneListener::NativeSceneListener(gcroot<RenderScene^> ownerScene)

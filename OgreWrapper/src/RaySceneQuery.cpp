@@ -15,7 +15,7 @@
 #include "gcroot.h"
 #include "RenderEntity.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 using namespace System;
 

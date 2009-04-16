@@ -3,7 +3,7 @@
 #include "BoneCollection.h"
 #include "Bone.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 Bone^ BoneCollection::createWrapper(void* nativeObject, array<System::Object^>^ args)
 {

@@ -8,7 +8,7 @@ namespace Ogre
 	class NodeAnimationTrack;
 }
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 ref class TransformKeyFrame;

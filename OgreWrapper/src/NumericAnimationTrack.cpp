@@ -2,7 +2,7 @@
 #include "NumericAnimationTrack.h"
 #include "Ogre.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 NumericAnimationTrack::NumericAnimationTrack(Ogre::NumericAnimationTrack* ogreAnimation)

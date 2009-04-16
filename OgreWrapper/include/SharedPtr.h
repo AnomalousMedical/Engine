@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Rendering{
+namespace OgreWrapper{
 
 generic<typename T>
 ref class SharedPtrCollection;
@@ -80,7 +80,7 @@ namespace Ogre
 
 namespace Engine{
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class CLSNAME;
 ref class CLSNAMEPtr;
@@ -137,7 +137,7 @@ public:
 
 namespace Engine{
 
-namespace Rendering{
+namespace OgreWrapper{
 
 CLSNAME^ CLSNAMEPtrCollection::createWrapper(const void* sharedPtr, array<System::Object^>^ args)
 {

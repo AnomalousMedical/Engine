@@ -7,7 +7,7 @@
 #include "PanelOverlayElement.h"
 #include "BorderPanelOverlayElement.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 OverlayElement^ OverlayElementCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
 {

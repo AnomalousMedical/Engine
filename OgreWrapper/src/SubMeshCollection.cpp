@@ -3,7 +3,7 @@
 #include "SubMeshCollection.h"
 #include "SubMesh.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 SubMesh^ SubMeshCollection::createWrapper(void* nativeObject, array<System::Object^>^ args)
 {

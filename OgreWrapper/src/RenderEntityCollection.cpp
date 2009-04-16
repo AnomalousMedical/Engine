@@ -3,7 +3,7 @@
 #include "RenderEntityCollection.h"
 #include "RenderEntity.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 RenderEntity^ RenderEntityCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
 {

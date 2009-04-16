@@ -18,7 +18,7 @@ namespace Ogre
 	class SceneManager;
 }
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 class NativeSceneListener;

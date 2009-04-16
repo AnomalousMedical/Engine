@@ -9,7 +9,7 @@ namespace Ogre
 	class Bone;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class Bone;
 

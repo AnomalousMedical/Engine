@@ -10,7 +10,7 @@
 #include "OgreLog.h"
 #include "AutoPtr.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 class OgreLogListener;

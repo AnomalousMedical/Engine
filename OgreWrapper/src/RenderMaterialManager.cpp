@@ -4,7 +4,7 @@
 #include "RenderMaterial.h"
 #include "MarshalUtils.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 RenderMaterialManager::RenderMaterialManager()
 :materialManager(Ogre::MaterialManager::getSingletonPtr())

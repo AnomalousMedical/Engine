@@ -3,7 +3,7 @@
 #include "Ogre.h"
 #include "Skeleton.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 SkeletonManager::SkeletonManager()
 :skeletonManager(Ogre::SkeletonManager::getSingletonPtr())

@@ -7,7 +7,7 @@ namespace Ogre
 	class MeshSerializer;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class Mesh;
 

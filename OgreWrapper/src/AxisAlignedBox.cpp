@@ -4,7 +4,7 @@
 #include "MathUtils.h"
 #include "Plane.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 AxisAlignedBox::AxisAlignedBox()
 :ogreBox(new Ogre::AxisAlignedBox())

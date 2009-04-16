@@ -3,7 +3,7 @@
 #include "RenderMaterialPtr.h"
 #include "RenderMaterial.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 RenderMaterial^ RenderMaterialPtrCollection::createWrapper(const void* sharedPtr, array<System::Object^>^ args)
 {

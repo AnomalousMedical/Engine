@@ -5,7 +5,7 @@ namespace Ogre
 	class AnimationTrack;
 }
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 ref class KeyFrame;

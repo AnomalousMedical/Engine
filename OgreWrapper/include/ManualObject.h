@@ -19,7 +19,7 @@ namespace Ogre
 	class Entity;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class ManualObjectSection;
 ref class ManualObject;

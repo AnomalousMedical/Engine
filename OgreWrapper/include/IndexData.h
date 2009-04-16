@@ -5,7 +5,7 @@ namespace Ogre
 	class IndexData;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class HardwareIndexBufferSharedPtr;
 

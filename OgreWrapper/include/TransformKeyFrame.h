@@ -5,7 +5,7 @@ namespace Ogre
 	class TransformKeyFrame;
 }
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 /// <summary>

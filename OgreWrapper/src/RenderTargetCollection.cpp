@@ -4,7 +4,7 @@
 #include "RenderTarget.h"
 #include "RenderWindow.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 RenderTarget^ RenderTargetCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
 {

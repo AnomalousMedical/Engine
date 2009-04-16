@@ -2,7 +2,7 @@
 #include "..\include\HardwareBuffer.h"
 #include "OgreHardwareBuffer.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 HardwareBuffer::HardwareBuffer(Ogre::HardwareBuffer* hardwareBuffer)
 :hardwareBuffer(hardwareBuffer)

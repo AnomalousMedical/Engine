@@ -12,7 +12,7 @@ namespace Ogre
 	class VertexPoseKeyFrame;
 }
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 ref class VertexMorphKeyFrame;

@@ -6,7 +6,7 @@
 #include "OverlayContainer.h"
 #include "OverlayManager.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 Overlay::Overlay(Ogre::Overlay* overlay)
 :overlay(overlay)

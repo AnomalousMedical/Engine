@@ -7,7 +7,7 @@ namespace Ogre
 	class AxisAlignedBox;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 using namespace EngineMath;
 

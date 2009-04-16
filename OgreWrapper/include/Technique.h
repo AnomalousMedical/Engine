@@ -8,7 +8,7 @@ namespace Ogre
 	class Technique;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class Pass;
 ref class RenderMaterial;

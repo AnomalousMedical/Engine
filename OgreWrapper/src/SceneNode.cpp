@@ -12,7 +12,7 @@
 
 #include "Ogre.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 SceneNode::SceneNode(Ogre::SceneNode* sceneNode, System::String^ name)
 :RenderNode(sceneNode),

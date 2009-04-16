@@ -2,7 +2,7 @@
 #include "..\include\ManagedResourceGroupListener.h"
 #include "ResourceGroupListener.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ManagedResourceGroupListener::ManagedResourceGroupListener(void)
 :listeners(gcnew ResourceGroupListenerList())

@@ -8,7 +8,7 @@ namespace Ogre
 	class MaterialPtr;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class RenderMaterial;
 ref class RenderMaterialPtr;

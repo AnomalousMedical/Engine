@@ -17,7 +17,7 @@
 
 #include "Ogre.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 RenderEntity::RenderEntity(Ogre::Entity* entity, System::String^ name, System::String^ meshName)
 :MovableObject(entity),

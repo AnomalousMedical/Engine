@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "..\include\AnimationState.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 AnimationState::AnimationState(Ogre::AnimationState* animationState, AnimationStateSet^ parent)
 :animationState(animationState), parent(parent)

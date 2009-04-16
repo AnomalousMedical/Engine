@@ -4,7 +4,7 @@
 #include "OgreRenderSystem.h"
 #include "MarshalUtils.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 RenderSystem::RenderSystem(Ogre::RenderSystem* renderSystem)

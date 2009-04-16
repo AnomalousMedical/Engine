@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "..\include\ManagedSceneListener.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 ManagedSceneListener::ManagedSceneListener(void)

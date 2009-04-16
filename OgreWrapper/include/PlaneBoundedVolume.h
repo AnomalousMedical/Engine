@@ -8,7 +8,7 @@ namespace Ogre
 	class PlaneBoundedVolume;
 }
 
-namespace Rendering
+namespace OgreWrapper
 {
 ref class AxisAlignedBox;
 

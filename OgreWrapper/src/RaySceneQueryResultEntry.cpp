@@ -2,7 +2,7 @@
 #include "..\include\RaySceneQueryResultEntry.h"
 #include "MovableObject.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 RaySceneQueryResultEntry::RaySceneQueryResultEntry(float distance, MovableObject^ obj)
 :distance(distance),

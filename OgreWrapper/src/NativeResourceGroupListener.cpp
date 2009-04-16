@@ -4,7 +4,7 @@
 #include "ResourceGroupListener.h"
 #include "MarshalUtils.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 NativeResourceGroupListener::NativeResourceGroupListener(void)
 :managedListener(gcnew ManagedResourceGroupListener())
@@ -15,12 +15,12 @@ NativeResourceGroupListener::~NativeResourceGroupListener(void)
 {
 }
 
-void NativeResourceGroupListener::addListener(gcroot<Rendering::ResourceGroupListener^> listener)
+void NativeResourceGroupListener::addListener(gcroot<OgreWrapper::ResourceGroupListener^> listener)
 {
 	managedListener->addListener(listener);
 }
 
-void NativeResourceGroupListener::removeListener(gcroot<Rendering::ResourceGroupListener^> listener)
+void NativeResourceGroupListener::removeListener(gcroot<OgreWrapper::ResourceGroupListener^> listener)
 {
 	managedListener->removeListener(listener);
 }

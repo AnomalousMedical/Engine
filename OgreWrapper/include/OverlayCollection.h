@@ -1,7 +1,7 @@
 //Header
 #pragma once
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class Overlay;
 ref class OverlayCollection : public WrapperCollection<Overlay^>

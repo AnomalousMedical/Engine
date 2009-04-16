@@ -6,7 +6,7 @@
 #include "ManualObject.h"
 #include "Color.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 LineHelper::LineHelper()
 :nativeSurface(new NativeLineHelper())

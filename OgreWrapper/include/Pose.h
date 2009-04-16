@@ -5,7 +5,7 @@ namespace Ogre
 	class Pose;
 }
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 /// <summary>

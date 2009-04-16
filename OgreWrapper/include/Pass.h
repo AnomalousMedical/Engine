@@ -7,7 +7,7 @@ namespace Ogre
 	class Pass;
 }
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 value class Color;

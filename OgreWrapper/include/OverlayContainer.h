@@ -7,7 +7,7 @@ namespace Ogre
 	class OverlayContainer;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 /// <summary>
 /// 

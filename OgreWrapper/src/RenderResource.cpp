@@ -3,7 +3,7 @@
 #include "Ogre.h"
 #include "MarshalUtils.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 RenderResource::RenderResource(Ogre::Resource* ogreResource)

@@ -3,7 +3,7 @@
 #include "NodeAnimationTrackCollection.h"
 #include "NodeAnimationTrack.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 NodeAnimationTrack^ NodeAnimationTrackCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
 {

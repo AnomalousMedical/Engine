@@ -12,7 +12,7 @@ namespace Ogre
 	class RaySceneQuery;
 }
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 ref class RaySceneQueryResultEntry;

@@ -5,7 +5,7 @@
 #include "MathUtils.h"
 #include "Color.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 Technique::Technique(Ogre::Technique* ogreTechnique, RenderMaterial^ parent)
 :ogreTechnique(ogreTechnique),

@@ -3,7 +3,7 @@
 #include "VertexAnimationTrackCollection.h"
 #include "VertexAnimationTrack.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 VertexAnimationTrack^ VertexAnimationTrackCollection::createWrapper(void* nativeObject, array<System::Object^>^ args)
 {

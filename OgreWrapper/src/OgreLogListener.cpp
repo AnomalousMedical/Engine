@@ -8,7 +8,7 @@
 #include "StdAfx.h"
 #include "..\include\OgreLogListener.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 using namespace Logging;

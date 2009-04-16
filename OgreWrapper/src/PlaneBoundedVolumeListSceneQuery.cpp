@@ -5,7 +5,7 @@
 #include "VoidUserDefinedObject.h"
 #include "RenderEntity.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 PlaneBoundedVolumeListSceneQuery::PlaneBoundedVolumeListSceneQuery(Ogre::PlaneBoundedVolumeListSceneQuery* ogreQuery)

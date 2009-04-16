@@ -2,7 +2,7 @@
 #include "AnimationTrack.h"
 #include "OgreAnimationTrack.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 AnimationTrack::AnimationTrack(Ogre::AnimationTrack* ogreTrack, Animation^ parent)

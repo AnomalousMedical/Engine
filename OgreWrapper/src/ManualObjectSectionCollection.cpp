@@ -3,7 +3,7 @@
 #include "ManualObjectSectionCollection.h"
 #include "ManualObjectSection.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ManualObjectSection^ ManualObjectSectionCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
 {

@@ -7,7 +7,7 @@ namespace Ogre
 	class Node;
 }
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 /// <summary>

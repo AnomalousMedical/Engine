@@ -10,7 +10,7 @@
 #include "OgreTextAreaOverlayElement.h"
 #pragma warning(pop)
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 TextAreaOverlayElement::TextAreaOverlayElement(Ogre::TextAreaOverlayElement* textArea)

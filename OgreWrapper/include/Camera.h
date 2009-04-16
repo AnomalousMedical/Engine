@@ -18,7 +18,7 @@ namespace Ogre
 	class Camera;
 }
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 class VoidUserDefinedObject;

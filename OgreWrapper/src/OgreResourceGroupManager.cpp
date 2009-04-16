@@ -5,7 +5,7 @@
 #include "ResourceDeclaration.h"
 #include "FileInfo.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 OgreResourceGroupManager^ OgreResourceGroupManager::getInstance()

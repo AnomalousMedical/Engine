@@ -5,7 +5,7 @@ namespace Ogre
 	class ResourceGroupManager;
 }
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 value class ResourceDeclaration;

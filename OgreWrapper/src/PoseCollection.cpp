@@ -3,7 +3,7 @@
 #include "PoseCollection.h"
 #include "Pose.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 Pose^ PoseCollection::createWrapper(void* nativeObject, array<System::Object^>^ args)
 {

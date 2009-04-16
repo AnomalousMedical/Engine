@@ -2,7 +2,7 @@
 #include "..\include\RenderNode.h"
 #include "MathUtils.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 RenderNode::RenderNode(Ogre::Node* ogreNode)

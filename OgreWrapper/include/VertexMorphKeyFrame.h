@@ -7,7 +7,7 @@ namespace Ogre
 	class VertexMorphKeyFrame;
 }
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 //This class is incomplete it needs its vertex buffer functions.

@@ -11,7 +11,7 @@
 #include "Ogre.h"
 #include "MathUtils.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 Camera::Camera(Ogre::Camera* camera, System::String^ name)
 :MovableObject(camera), 

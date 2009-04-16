@@ -5,7 +5,7 @@ namespace Ogre
 	class SubMesh;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class VertexData;
 ref class IndexData;

@@ -5,7 +5,7 @@
 #include "MarshalUtils.h"
 #include "OverlayManager.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 OverlayContainer::OverlayContainer(Ogre::OverlayContainer* overlayContainer)

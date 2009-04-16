@@ -8,7 +8,7 @@
 #include "RenderScene.h"
 #include "RenderTarget.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 Root::Root()

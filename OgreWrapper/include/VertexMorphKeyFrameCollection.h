@@ -1,7 +1,7 @@
 //Header
 #pragma once
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class VertexMorphKeyFrame;
 ref class VertexMorphKeyFrameCollection : public WrapperCollection<VertexMorphKeyFrame^>

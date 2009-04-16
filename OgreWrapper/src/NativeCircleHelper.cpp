@@ -6,7 +6,7 @@
 #include "Ogre.h"
 #include <math.h>
 
-namespace Rendering{
+namespace OgreWrapper{
 
 #define PI 3.14159265f
 

@@ -4,7 +4,7 @@
 #include "Overlay.h"
 #include "OverlayElement.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 OverlayManager::OverlayManager()
 :overlayManager(Ogre::OverlayManager::getSingletonPtr())

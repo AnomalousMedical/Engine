@@ -3,7 +3,7 @@
 #include "AutoPtr.h"
 #include "OgrePlane.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 ref class AxisAlignedBox;

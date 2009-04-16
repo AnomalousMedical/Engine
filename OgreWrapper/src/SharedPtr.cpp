@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "..\include\SharedPtr.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 generic<typename T>
 SharedPtr<T>::~SharedPtr()

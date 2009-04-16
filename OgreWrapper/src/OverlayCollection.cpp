@@ -3,7 +3,7 @@
 #include "OverlayCollection.h"
 #include "Overlay.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 Overlay^ OverlayCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
 {

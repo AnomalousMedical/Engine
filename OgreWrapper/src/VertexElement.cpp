@@ -3,7 +3,7 @@
 #include "Color.h"
 #include "MathUtils.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 VertexElement::VertexElement(const Ogre::VertexElement* vertexElement)
 :vertexElement(vertexElement)

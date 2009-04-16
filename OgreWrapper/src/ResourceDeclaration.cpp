@@ -1,11 +1,11 @@
 #include "StdAfx.h"
 #include "..\include\ResourceDeclaration.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 ResourceDeclaration::ResourceDeclaration(System::String^ resourceName, System::String^ resourceType)
-:resourceName(resourceName), resourceType((ResourceTypes)System::Enum::Parse(Rendering::ResourceTypes::typeid, resourceType))
+:resourceName(resourceName), resourceType((ResourceTypes)System::Enum::Parse(OgreWrapper::ResourceTypes::typeid, resourceType))
 {
 	
 }

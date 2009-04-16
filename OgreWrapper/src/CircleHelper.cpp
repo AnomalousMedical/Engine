@@ -6,7 +6,7 @@
 #include "ManualObject.h"
 #include "Color.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 CircleHelper::CircleHelper(void)
 :nativeSurface(new NativeCircleHelper())

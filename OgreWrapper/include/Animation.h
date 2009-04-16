@@ -10,7 +10,7 @@ namespace Ogre
 	class Animation;
 }
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 /// <summary>

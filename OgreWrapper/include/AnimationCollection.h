@@ -1,7 +1,7 @@
 //Header
 #pragma once
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class Animation;
 ref class AnimationCollection : public WrapperCollection<Animation^>

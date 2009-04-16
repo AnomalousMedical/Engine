@@ -5,7 +5,7 @@
 #include "MarshalUtils.h"
 #include "Mesh.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 MeshManager::MeshManager()
 :meshManager(Ogre::MeshManager::getSingletonPtr())

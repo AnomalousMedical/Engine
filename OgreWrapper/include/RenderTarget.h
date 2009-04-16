@@ -17,7 +17,7 @@ namespace Ogre
 	class RenderTarget;
 }
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 ref class Viewport;

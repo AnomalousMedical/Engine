@@ -20,7 +20,7 @@ namespace Ogre
 	class SubEntity;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class AnimationState;
 ref class AnimationStateSet;

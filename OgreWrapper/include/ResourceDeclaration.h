@@ -2,7 +2,7 @@
 
 #include "Enums.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 public value class ResourceDeclaration

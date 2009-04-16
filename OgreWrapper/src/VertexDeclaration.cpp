@@ -3,7 +3,7 @@
 #include "VertexElement.h"
 #include "Ogre.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 VertexDeclaration::VertexDeclaration(Ogre::VertexDeclaration* vertexDeclaration)
 :vertexDeclaration(vertexDeclaration)

@@ -3,7 +3,7 @@
 #include "VertexDeclarationCollection.h"
 #include "VertexDeclaration.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 VertexDeclaration^ VertexDeclarationCollection::createWrapper(void* nativeObject, array<System::Object^>^ args)
 {

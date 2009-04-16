@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "SceneQueryResult.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 SceneQueryResult::SceneQueryResult()

@@ -3,7 +3,7 @@
 #include "Ogre.h"
 #include "Color.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 void MathUtils::copyVector3( const Ogre::Vector3& source, EngineMath::Vector3% dest )
@@ -84,12 +84,12 @@ EngineMath::Ray3 MathUtils::copyRay(Ogre::Ray& source)
 	return EngineMath::Ray3(copyVector3(source.getOrigin()), copyVector3(source.getDirection()));
 }
 
-Rendering::Color MathUtils::copyColor(const Ogre::ColourValue& source)
+OgreWrapper::Color MathUtils::copyColor(const Ogre::ColourValue& source)
 {
-	return Rendering::Color(source.r, source.g, source.b, source.a);
+	return OgreWrapper::Color(source.r, source.g, source.b, source.a);
 }
 
-Ogre::ColourValue MathUtils::copyColor(Rendering::Color% source)
+Ogre::ColourValue MathUtils::copyColor(OgreWrapper::Color% source)
 {
 	return Ogre::ColourValue(source.r, source.g, source.b, source.a);
 }

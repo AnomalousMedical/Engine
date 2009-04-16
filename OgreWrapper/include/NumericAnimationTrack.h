@@ -5,7 +5,7 @@ namespace Ogre
 	class NumericAnimationTrack;
 }
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 /// <summary>

@@ -5,7 +5,7 @@
 #include "OverlayElementCollection.h"
 #include "OverlayCollection.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class Overlay;
 ref class OverlayElement;

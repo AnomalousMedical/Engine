@@ -8,7 +8,7 @@ namespace Ogre
 	class HardwareVertexBufferSharedPtr;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class HardwareVertexBuffer;
 ref class HardwareVertexBufferSharedPtr;

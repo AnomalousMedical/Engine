@@ -1,7 +1,7 @@
 //Header
 #pragma once
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class VertexDeclaration;
 ref class VertexDeclarationCollection : public WrapperCollection<VertexDeclaration^>

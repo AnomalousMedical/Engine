@@ -2,7 +2,7 @@
 #include "KeyFrame.h"
 #include "OgreKeyFrame.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 KeyFrame::KeyFrame(Ogre::KeyFrame* ogreFrame)

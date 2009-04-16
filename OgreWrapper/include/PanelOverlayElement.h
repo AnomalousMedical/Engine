@@ -7,7 +7,7 @@ namespace Ogre
 	class PanelOverlayElement;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 /// <summary>
 /// 

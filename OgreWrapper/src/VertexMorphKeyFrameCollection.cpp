@@ -3,7 +3,7 @@
 #include "VertexMorphKeyFrameCollection.h"
 #include "VertexMorphKeyFrame.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 VertexMorphKeyFrame^ VertexMorphKeyFrameCollection::createWrapper(void* nativeObject, array<System::Object^>^ args)
 {

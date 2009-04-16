@@ -14,7 +14,7 @@ namespace Ogre
 	class Resource;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 public class __declspec(dllexport) NativeTriangleHelper
 {

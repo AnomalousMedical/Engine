@@ -2,7 +2,7 @@
 #include "..\include\IndexData.h"
 #include "HardwareBufferManager.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 IndexData::IndexData(Ogre::IndexData* indexData)
 :indexData(indexData)

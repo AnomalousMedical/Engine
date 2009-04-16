@@ -13,7 +13,7 @@
 
 #include "Ogre.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ManualObject::ManualObject(Ogre::ManualObject* obj, System::String^ name)
 :MovableObject(obj), 

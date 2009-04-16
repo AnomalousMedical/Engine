@@ -6,7 +6,7 @@
 #include "OgreHardwareBufferManager.h"
 #include "VertexBufferBinding.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 HardwareBufferManager::HardwareBufferManager()

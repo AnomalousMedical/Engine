@@ -9,7 +9,7 @@ namespace Ogre
 	class Mesh;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class Mesh;
 

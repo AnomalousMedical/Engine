@@ -4,7 +4,7 @@
 #include "VertexMorphKeyFrame.h"
 #include "VertexPoseKeyFrame.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 VertexAnimationTrack::VertexAnimationTrack(Ogre::VertexAnimationTrack* ogreAnimation, Animation^ parent)

@@ -4,7 +4,7 @@
 #include "MathUtils.h"
 #include "MarshalUtils.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 Bone::Bone(Ogre::Bone* bone)
 :RenderNode(bone),

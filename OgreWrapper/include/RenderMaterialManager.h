@@ -9,7 +9,7 @@ namespace Ogre
 	class Material;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class RenderMaterial;
 

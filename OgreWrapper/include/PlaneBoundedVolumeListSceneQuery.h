@@ -5,7 +5,7 @@ namespace Ogre
 	class PlaneBoundedVolumeListSceneQuery;
 }
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 ref class PlaneBoundedVolume;

@@ -6,7 +6,7 @@
 #include "Animation.h"
 #include "AnimationStateSet.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 using namespace System::Collections::Generic;

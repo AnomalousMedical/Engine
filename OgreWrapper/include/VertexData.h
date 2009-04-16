@@ -8,7 +8,7 @@ namespace Ogre
 	class VertexData;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class VertexDeclaration;
 ref class VertexBufferBinding;

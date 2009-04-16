@@ -6,7 +6,7 @@
 #include "BoneCollection.h"
 #include "AnimationCollection.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 [Engine::Attributes::SingleEnum]

@@ -3,7 +3,7 @@
 #include "OgreSceneManager.h"
 #include "gcroot.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 ref class ManagedSceneListener;

@@ -6,7 +6,7 @@
 #include "ManualObject.h"
 #include "Color.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 PointHelper::PointHelper()
 :nativeSurface(new NativePointHelper())

@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "..\include\Color.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 Color::Color(float r, float g, float b)
 :r(r), g(g), b(b), a(1.0f)

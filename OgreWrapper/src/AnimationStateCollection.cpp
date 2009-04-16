@@ -3,7 +3,7 @@
 #include "AnimationStateCollection.h"
 #include "AnimationState.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 AnimationState^ AnimationStateCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
 {

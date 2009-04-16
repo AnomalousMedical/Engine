@@ -11,7 +11,7 @@
 #include "VertexData.h"
 #include "MeshManager.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 Mesh::Mesh(const Ogre::MeshPtr& mesh)
 :RenderResource(mesh.get()),

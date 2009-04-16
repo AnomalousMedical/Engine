@@ -6,7 +6,7 @@ namespace Ogre
 	class Quaternion;
 }
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 value class Color;
@@ -96,13 +96,13 @@ public:
 	/// Copies source into a new color.
 	/// </summary>
 	/// <param name="source">Copy from this.</param>
-	static Rendering::Color copyColor(const Ogre::ColourValue& source);
+	static OgreWrapper::Color copyColor(const Ogre::ColourValue& source);
 
 	/// <summary>
 	/// Copies source into a new color.
 	/// </summary>
 	/// <param name="source">Copy from this.</param>
-	static Ogre::ColourValue copyColor(Rendering::Color% source);
+	static Ogre::ColourValue copyColor(OgreWrapper::Color% source);
 };
 
 }

@@ -2,7 +2,7 @@
 #include "TransformKeyFrame.h"
 #include "Ogre.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 TransformKeyFrame::TransformKeyFrame(Ogre::TransformKeyFrame* ogreAnimation)

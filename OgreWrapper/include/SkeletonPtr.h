@@ -8,7 +8,7 @@ namespace Ogre
 	class SkeletonPtr;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class Skeleton;
 ref class SkeletonPtr;

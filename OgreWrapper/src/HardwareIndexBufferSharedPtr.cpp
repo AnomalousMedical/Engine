@@ -3,7 +3,7 @@
 #include "HardwareIndexBufferSharedPtr.h"
 #include "HardwareIndexBuffer.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 HardwareIndexBuffer^ HardwareIndexBufferSharedPtrCollection::createWrapper(const void* sharedPtr, array<System::Object^>^ args)
 {

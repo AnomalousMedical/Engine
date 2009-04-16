@@ -6,7 +6,7 @@
 #include "MarshalUtils.h"
 #include "Color.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 Pass::Pass(Ogre::Pass* ogrePass, Technique^ parent)
 :ogrePass( ogrePass ), parent(parent)

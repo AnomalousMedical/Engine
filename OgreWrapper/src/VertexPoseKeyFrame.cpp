@@ -2,7 +2,7 @@
 #include "VertexPoseKeyFrame.h"
 #include "OgreKeyFrame.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 VertexPoseKeyFrame::VertexPoseKeyFrame(Ogre::VertexPoseKeyFrame* ogreFrame)

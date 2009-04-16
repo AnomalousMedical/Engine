@@ -3,7 +3,7 @@
 #include "HardwareVertexBufferSharedPtr.h"
 #include "HardwareVertexBuffer.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 HardwareVertexBuffer^ HardwareVertexBufferSharedPtrCollection::createWrapper(const void* sharedPtr, array<System::Object^>^ args)
 {

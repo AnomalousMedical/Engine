@@ -15,7 +15,7 @@
 #include "MarshalUtils.h"
 #include "PixelBox.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 RenderTarget::RenderTarget(Ogre::RenderTarget* renderTarget)
 :renderTarget( renderTarget )

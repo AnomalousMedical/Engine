@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Rendering{
+namespace OgreWrapper{
 
 public value class Color
 {

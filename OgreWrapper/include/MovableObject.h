@@ -12,7 +12,7 @@ namespace Ogre
 	class MovableObject;
 }
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 ref class AxisAlignedBox;

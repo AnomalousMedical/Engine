@@ -5,7 +5,7 @@ namespace Ogre
 	class Resource;
 }
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 [Engine::Attributes::DoNotSaveAttribute]

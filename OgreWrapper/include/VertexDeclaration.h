@@ -8,7 +8,7 @@ namespace Ogre
 	class VertexDeclaration;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class VertexElement;
 

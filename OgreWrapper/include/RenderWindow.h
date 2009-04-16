@@ -14,7 +14,7 @@ namespace Ogre
 	class RenderWindow;
 }
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 /// <summary>

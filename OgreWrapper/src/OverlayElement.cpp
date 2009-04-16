@@ -8,7 +8,7 @@
 #include "OverlayManager.h"
 #include "OverlayContainer.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 OverlayElement::OverlayElement(Ogre::OverlayElement* overlayElement)

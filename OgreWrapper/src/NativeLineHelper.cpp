@@ -4,7 +4,7 @@
 
 #pragma unmanaged
 
-namespace Rendering{
+namespace OgreWrapper{
 
 NativeLineHelper::NativeLineHelper()
 :lineBuffer(0),

@@ -3,7 +3,7 @@
 #include "AnimationCollection.h"
 #include "Animation.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 Animation^ AnimationCollection::createWrapper(void* nativeObject, array<System::Object^>^ args)
 {

@@ -9,7 +9,7 @@ namespace Ogre
 	class HardwareVertexBufferSharedPtr;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 /// <summary>
 /// Specialisation of HardwareBuffer for vertex buffers.

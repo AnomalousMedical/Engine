@@ -2,7 +2,7 @@
 #include "MeshPtr.h"
 #include "Mesh.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 Mesh^ MeshPtrCollection::createWrapper(const void* sharedPtr, array<System::Object^>^ args)
 {

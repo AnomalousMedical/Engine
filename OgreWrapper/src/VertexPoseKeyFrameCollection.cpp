@@ -3,7 +3,7 @@
 #include "VertexPoseKeyFrameCollection.h"
 #include "VertexPoseKeyFrame.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 VertexPoseKeyFrame^ VertexPoseKeyFrameCollection::createWrapper(void* nativeObject, array<System::Object^>^ args)
 {

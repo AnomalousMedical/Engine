@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "..\include\HardwareIndexBuffer.h"
 
-namespace Rendering{
+namespace OgreWrapper{
 
 HardwareIndexBuffer::HardwareIndexBuffer(const Ogre::HardwareIndexBufferSharedPtr& hardwareIndexBuffer)
 :HardwareBuffer(hardwareIndexBuffer.get()),

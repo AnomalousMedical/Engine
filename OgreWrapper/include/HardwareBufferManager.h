@@ -12,7 +12,7 @@ namespace Ogre
 	class HardwareBufferManager;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class HardwareVertexBuffer;
 ref class HardwareIndexBuffer;

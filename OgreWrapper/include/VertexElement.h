@@ -7,7 +7,7 @@ namespace Ogre
 	class VertexElement;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 value class Color;
 

@@ -1,7 +1,7 @@
 //Header
 #pragma once
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class ManualObjectSection;
 ref class ManualObjectSectionCollection : public WrapperCollection<ManualObjectSection^>

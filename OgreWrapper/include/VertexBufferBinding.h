@@ -5,7 +5,7 @@ namespace Ogre
 	class VertexBufferBinding;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 ref class HardwareVertexBufferSharedPtr;
 

@@ -8,7 +8,7 @@
 #include "NumericAnimationTrack.h"
 #include "VertexAnimationTrack.h"
 
-namespace Rendering
+namespace OgreWrapper
 {
 
 Animation::Animation(Ogre::Animation* ogreAnimation)

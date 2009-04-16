@@ -5,7 +5,7 @@ namespace Ogre
 	class RenderSystem;
 }
 
-namespace Rendering{
+namespace OgreWrapper{
 
 /// <summary>
 /// 
