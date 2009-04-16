@@ -12,6 +12,7 @@
 #include "gcroot.h"
 #include "VoidUserDefinedObject.h"
 #include "AutoPtr.h"
+#include "ManualObjectSectionCollection.h"
 
 namespace Ogre
 {
@@ -26,7 +27,6 @@ ref class ManualObjectSection;
 ref class ManualObject;
 
 typedef gcroot<ManualObject^> ManualObjectRoot;
-typedef System::Collections::Generic::List<ManualObjectSection^> SectionMap;
 
 /// <summary>
 /// This class wraps a native manual object.
@@ -38,7 +38,7 @@ public ref class ManualObject : MovableObject
 private:
 	Ogre::ManualObject* obj;
 	System::String^ name;
-	SectionMap^ sections;
+	ManualObjectSectionCollection sections;
 	AutoPtr<ManualObjectRoot> root;
 	AutoPtr<VoidUserDefinedObject> userDefinedObj;
 

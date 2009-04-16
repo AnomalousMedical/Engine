@@ -21,7 +21,6 @@ ManualObject::ManualObject(Ogre::ManualObject* obj, System::String^ name)
 :MovableObject(obj), 
 obj( obj ), 
 name( name ),
-sections(gcnew SectionMap()), 
 root(new ManualObjectRoot())
 {
 	*(root.Get()) = this;
@@ -48,7 +47,7 @@ System::String^ ManualObject::getName()
 void ManualObject::clear()
 {
 	obj->clear();
-	sections->Clear();
+	sections.clearObjects();
 }
 
 void ManualObject::estimateVertexCount(unsigned int count)
@@ -154,9 +153,7 @@ void ManualObject::quad(unsigned int i1, unsigned int i2, unsigned int i3, unsig
 
 ManualObjectSection^ ManualObject::end()
 {
-	ManualObjectSection^ section = gcnew ManualObjectSection(obj->end());
-	sections->Add(section);
-	return section;
+	return sections.getObject(obj->end());
 }
 
 void ManualObject::setMaterialName(unsigned int subindex, System::String^ name)
@@ -190,11 +187,7 @@ bool ManualObject::getUseIdentityView()
 
 ManualObjectSection^ ManualObject::getSection(unsigned int index)
 {
-	if(index < sections->Count)
-	{
-		return sections[index];
-	}
-	return nullptr;
+	return sections.getObject(obj->getSection(index));
 }
 
 unsigned int ManualObject::getNumSections()

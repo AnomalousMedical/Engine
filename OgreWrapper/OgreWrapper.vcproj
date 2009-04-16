@@ -312,6 +312,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ManualObjectSectionCollection.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\ManualRenderMaterialLoader.cpp"
 				>
 			</File>
@@ -799,6 +803,10 @@
 			</File>
 			<File
 				RelativePath=".\include\ManualObjectSection.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ManualObjectSectionCollection.h"
 				>
 			</File>
 			<File
