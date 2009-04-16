@@ -21,6 +21,11 @@ namespace Engine.ObjectManagement
         public SimObjectInstanceDefinition(String name)
         {
             this.Name = name;
+            Rotation = Quaternion.Identity;
+            Translation = Vector3.Zero;
+            Scale = Vector3.ScaleIdentity;
+            DefinitionName = "";
+            Enabled = false;
         }
 
         /// <summary>

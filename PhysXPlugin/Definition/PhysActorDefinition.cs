@@ -9,6 +9,7 @@ using Engine.Editing;
 using Engine.Reflection;
 using Logging;
 using Engine.ObjectManagement;
+using Engine.Saving;
 
 namespace PhysXPlugin
 {
@@ -455,5 +456,83 @@ namespace PhysXPlugin
         }
 
         #endregion Properties
+
+        #region Saveable Members
+
+        private const String DENSITY = "Density";
+        private const String SHAPE_NAME = "ShapeName";
+        private const String FLAGS = "Flags";
+        private const String ACTOR_GROUP = "ActorGroup";
+        private const String CONTACT_REPORT_FLAGS = "ContactReportFlags";
+        private const String DYNAMIC = "Dynamic";
+        private const String MASS_SPACE_INERTIA = "MassSpaceIntertia";
+        private const String MASS = "Mass";
+        private const String LINEAR_VELOCITY = "LinearVelocity";
+        private const String ANGULAR_VELOCITY = "AngularVelocity";
+        private const String WAKE_UP_COUNTER = "WakeUpCounter";
+        private const String LINEAR_DAMPING = "LinearDamping";
+        private const String ANGULAR_DAMPING = "AngularDamping";
+        private const String MAX_ANGULAR_VELOCITY = "MaxAngularVelocity";
+        private const String CCD_MOTION_THREASHOLD = "CCDMotionThreshold";
+        private const String BODY_FLAGS = "BodyFlags";
+        private const String SLEEP_LINEAR_VELOCITY = "SleepLinearVelocity";
+        private const String SOLVER_ITERATION_COUNT = "SolverIterationCount";
+        private const String SLEEP_ENERGY_THRESHOLD = "SleepEnergyThreshold";
+        private const String SLEEP_DAMPING = "SleepDamping";
+        private const String CONTACT_REPORT_THRESHOLD = "ContactReportThreshold";
+
+        private PhysActorDefinition(LoadInfo info)
+            :base(info)
+        {
+            Density = (float)info.GetDouble(DENSITY);
+            ShapeName = info.GetString(SHAPE_NAME);
+            Flags = (ActorFlag)info.GetUInt32(FLAGS);
+            ActorGroup = info.GetUInt16(ACTOR_GROUP);
+            ContactReportFlags = info.GetUInt32(CONTACT_REPORT_FLAGS);
+            Dynamic = info.GetBoolean(DYNAMIC);
+            MassSpaceIntertia = info.GetVector3(MASS_SPACE_INERTIA);
+            Mass = (float)info.GetDouble(MASS);
+            LinearVelocity = info.GetVector3(LINEAR_VELOCITY);
+            AngularVelocity = info.GetVector3(ANGULAR_VELOCITY);
+            WakeUpCounter = (float)info.GetDouble(WAKE_UP_COUNTER);
+            LinearDamping = (float)info.GetDouble(LINEAR_DAMPING);
+            AngularDamping = (float)info.GetDouble(ANGULAR_DAMPING);
+            MaxAngularVelocity = (float)info.GetDouble(MAX_ANGULAR_VELOCITY);
+            CCDMotionThreshold = (float)info.GetDouble(CCD_MOTION_THREASHOLD);
+            BodyFlags = (BodyFlag)info.GetUInt32(BODY_FLAGS);
+            SleepLinearVelocity = (float)info.GetDouble(SLEEP_LINEAR_VELOCITY);
+            SolverIterationCount = info.GetUInt32(SOLVER_ITERATION_COUNT);
+            SleepEnergyThreshold = (float)info.GetDouble(SLEEP_ENERGY_THRESHOLD);
+            SleepDamping = (float)info.GetDouble(SLEEP_DAMPING);
+            ContactReportThreshold = (float)info.GetDouble(CONTACT_REPORT_THRESHOLD);
+        }
+
+        public override void getInfo(SaveInfo info)
+        {
+            base.getInfo(info);
+            info.AddValue(DENSITY, Density);
+            info.AddValue(SHAPE_NAME, ShapeName);
+            info.AddValue(FLAGS, Flags);
+            info.AddValue(ACTOR_GROUP, ActorGroup);
+            info.AddValue(CONTACT_REPORT_FLAGS, ContactReportFlags);
+            info.AddValue(DYNAMIC, Dynamic);
+            info.AddValue(MASS_SPACE_INERTIA, MassSpaceIntertia);
+            info.AddValue(MASS, Mass);
+            info.AddValue(LINEAR_VELOCITY, LinearVelocity);
+            info.AddValue(ANGULAR_VELOCITY, AngularVelocity);
+            info.AddValue(WAKE_UP_COUNTER, WakeUpCounter);
+            info.AddValue(LINEAR_DAMPING, LinearDamping);
+            info.AddValue(ANGULAR_DAMPING, AngularDamping);
+            info.AddValue(MAX_ANGULAR_VELOCITY, MaxAngularVelocity);
+            info.AddValue(CCD_MOTION_THREASHOLD, CCDMotionThreshold);
+            info.AddValue(BODY_FLAGS, BodyFlags);
+            info.AddValue(SLEEP_LINEAR_VELOCITY, SleepLinearVelocity);
+            info.AddValue(SOLVER_ITERATION_COUNT, SolverIterationCount);
+            info.AddValue(SLEEP_ENERGY_THRESHOLD, SleepEnergyThreshold);
+            info.AddValue(SLEEP_DAMPING, SleepDamping);
+            info.AddValue(CONTACT_REPORT_THRESHOLD, ContactReportThreshold);
+        }
+
+        #endregion
     }
 }

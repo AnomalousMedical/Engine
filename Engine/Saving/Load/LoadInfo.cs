@@ -90,12 +90,12 @@ namespace Engine.Saving
             return (ulong)entries[name].Value;
         }
 
-        internal Quaternion GetQuaternion(string name)
+        public Quaternion GetQuaternion(string name)
         {
             return (Quaternion)entries[name].Value;
         }
 
-        internal Vector3 GetVector3(string name)
+        public Vector3 GetVector3(string name)
         {
             return (Vector3)entries[name].Value;
         }

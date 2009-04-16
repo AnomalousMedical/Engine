@@ -12,6 +12,10 @@ namespace EngineMath
     [StructLayout(LayoutKind.Explicit, Size = 16)]
     public struct Quaternion
     {
+        #region Static
+
+        private const string TO_STRING_FORMAT = "{0}, {1}, {2}, {3}";
+
         #region Predefined Quaternions
 
         /// <summary>
@@ -20,6 +24,8 @@ namespace EngineMath
         public static Quaternion Identity = new Quaternion(0, 0, 0, 1);
 
         #endregion Predefined Quaternions
+
+        #endregion Static
 
         #region Fields
 
@@ -454,6 +460,11 @@ namespace EngineMath
         {
             Vector3 localLookAt = lookAt - origin;
             return computeRotationForDirection(ref localLookAt, ref sourceOrientation);
+        }
+
+        public override string ToString()
+        {
+            return String.Format(TO_STRING_FORMAT, x, y, z, w);
         }
 
         #endregion Members

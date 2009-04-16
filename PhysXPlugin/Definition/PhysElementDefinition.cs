@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine;
 using Engine.ObjectManagement;
+using Engine.Saving;
 
 namespace PhysXPlugin
 {
@@ -22,6 +23,12 @@ namespace PhysXPlugin
             :base(name)
         {
             
+        }
+
+        protected PhysElementDefinition(LoadInfo info)
+            : base(info)
+        {
+
         }
 
         #endregion Constructors
