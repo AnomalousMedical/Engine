@@ -12,7 +12,7 @@ namespace OgrePlugin
     /// to fire the window events using WindowEventUtilties in ogre, but this is
     /// not wrapped so it not currently supported.
     /// </summary>
-    class OgreOSWindow : OSWindow
+    class OgreOSWindow : OSWindow, IDisposable
     {
         private RenderWindow window;
         private IntPtr handle;
@@ -49,6 +49,19 @@ namespace OgrePlugin
             get
             {
                 return (int)window.getHeight();
+            }
+        }
+
+        public void Dispose()
+        {
+            //for now does nothing will do stuff when the callbacks are hooked up
+        }
+
+        public RenderWindow RenderWindow
+        {
+            get
+            {
+                return window;
             }
         }
     }

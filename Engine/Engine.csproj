@@ -119,7 +119,7 @@
     <Compile Include="Reflection\Vector3ReflectedVariable.cs" />
     <Compile Include="Renderer\DefaultWindowInfo.cs" />
     <Compile Include="Renderer\RendererPlugin.cs" />
-    <Compile Include="Renderer\WindowInfo.cs" />
+    <Compile Include="Renderer\RendererWindow.cs" />
     <Compile Include="Saving\Load\LoadControl.cs" />
     <Compile Include="Saving\Save\FooterWriter.cs" />
     <Compile Include="Saving\Save\HeaderWriter.cs" />

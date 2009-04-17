@@ -14,8 +14,8 @@ namespace OgrePlugin
     {
         private Root root;
         OgreLogConnection ogreLog;
-        private OgreWindowInfo windowInfo;
         private OgreUpdate ogreUpdate;
+        private OgreWindow primaryWindow;
 
         public OgreInterface()
         {
@@ -26,7 +26,12 @@ namespace OgrePlugin
 
         public void Dispose()
         {
-            ogreLog.Dispose();
+            MaterialManager.getInstance().Dispose();
+            MeshManager.getInstance().Dispose();
+            SkeletonManager.getInstance().Dispose();
+            HardwareBufferManager.getInstance().Dispose();
+            destroyRendererWindow(primaryWindow);
+            root.Dispose();
         }
 
         public void initialize(PluginManager pluginManager)
@@ -52,14 +57,14 @@ namespace OgrePlugin
                 {
                     RenderWindow renderWindow = root.createRenderWindow(defaultWindowInfo.AutoWindowTitle, (uint)defaultWindowInfo.Width, (uint)defaultWindowInfo.Height, defaultWindowInfo.Fullscreen);
                     OgreOSWindow ogreWindow = new OgreOSWindow(renderWindow);
-                    windowInfo = new OgreWindowInfo(ogreWindow);
+                    primaryWindow = new AutomaticWindow(ogreWindow);
                 }
                 else
                 {
                     Dictionary<String, String> miscParams = new Dictionary<string, string>();
                     miscParams.Add("externalWindowHandle", defaultWindowInfo.EmbedWindow.Handle.ToInt32().ToString());
-                    root.createRenderWindow(defaultWindowInfo.AutoWindowTitle, (uint)defaultWindowInfo.Width, (uint)defaultWindowInfo.Height, defaultWindowInfo.Fullscreen, miscParams);
-                    windowInfo = new OgreWindowInfo(defaultWindowInfo.EmbedWindow);
+                    RenderWindow renderWindow = root.createRenderWindow(defaultWindowInfo.AutoWindowTitle, (uint)defaultWindowInfo.Width, (uint)defaultWindowInfo.Height, defaultWindowInfo.Fullscreen, miscParams);
+                    primaryWindow = new EmbeddedWindow(defaultWindowInfo.EmbedWindow, renderWindow);
                 }
             }
             catch (Exception e)
@@ -78,16 +83,34 @@ namespace OgrePlugin
             return "OgrePlugin";
         }
 
-        #region RendererPlugin Members
-
-        public WindowInfo WindowInfo
+        public RendererWindow PrimaryWindow
         {
             get
             {
-                return windowInfo;
+                return primaryWindow;
             }
         }
 
-        #endregion
+        public RendererWindow createRendererWindow(OSWindow embedWindow, String name)
+        {
+            Dictionary<String, String> miscParams = new Dictionary<string, string>();
+            miscParams.Add("externalWindowHandle", embedWindow.Handle.ToInt32().ToString());
+            RenderWindow renderWindow = root.createRenderWindow(name, (uint)embedWindow.Width, (uint)embedWindow.Height, false, miscParams);
+            return new EmbeddedWindow(embedWindow, renderWindow);
+        }
+
+        public void destroyRendererWindow(RendererWindow window)
+        {
+            OgreWindow ogreWindow = window as OgreWindow;
+            if (ogreWindow != null)
+            {
+                root.detachRenderTarget(ogreWindow.OgreRenderWindow);
+                ogreWindow.Dispose();
+            }
+            else
+            {
+                Log.Default.sendMessage("Error destroying RendererWindow {0}. It is not a recognized OgreWindow. The window has not been destroyed.", LogLevel.Warning, "OgrePlugin", window.ToString());
+            }
+        }
     }
 }
