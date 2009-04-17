@@ -8,7 +8,7 @@ namespace Engine
     /// <summary>
     /// This exception is thrown if a plugin is invalid for some reason.
     /// </summary>
-    class InvalidPluginException : Exception
+    public class InvalidPluginException : Exception
     {
         /// <summary>
         /// Constructor.

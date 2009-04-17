@@ -59,6 +59,14 @@ namespace Engine.Platform
         }
 
         /// <summary>
+        /// Pass true to this function to tell this timer to process the
+        /// platform's message loop if the platform requires that and the loop
+        /// thread is the same thread the windows are running on.
+        /// </summary>
+        /// <param name="process">True to have this timer process the platform's message loop.</param>
+        public abstract void processMessageLoop(bool process);
+
+        /// <summary>
         /// Starts the loop iterating at the set update frequency.  This function will return
         /// once the loop is stopped.
         /// </summary>

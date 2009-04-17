@@ -7,9 +7,16 @@ using Logging;
 using System.IO;
 using Engine.ObjectManagement;
 using Engine.Platform;
+using Engine.Renderer;
 
 namespace Engine
 {
+    /// <summary>
+    /// Callback for when the renderer plugin is found and needs to configure its window.
+    /// </summary>
+    /// <param name="defaultWindow">Assign this to a new DefaultWindowInfo instance.</param>
+    public delegate void ConfigureDefaultWindow(out DefaultWindowInfo defaultWindow);
+
     /// <summary>
     /// This class loads and unloads the various plugins for the system.
     /// </summary>
@@ -39,8 +46,20 @@ namespace Engine
         private CommandManager createSimElementCommands = new CommandManager();
         private CommandManager createSimElementManagerCommands = new CommandManager();
         private PlatformPlugin platformPlugin = null;
+        private RendererPlugin rendererPlugin = null;
 
         #endregion Fields
+
+        #region Events
+
+        /// <summary>
+        /// This event is called when the RendererPlugin is found, but before
+        /// the Renderer is initialized. This gives the application a chance to
+        /// modify the window auto-creation settings.
+        /// </summary>
+        public ConfigureDefaultWindow OnConfigureDefaultWindow;
+
+        #endregion Events
 
         #region Constructors
 
@@ -105,7 +124,7 @@ namespace Engine
         /// to set this one time. Any attempts to set this after the first time
         /// will throw an InvalidPluginException.
         /// </summary>
-        /// <param name="plugin">The PlatformPlugin to use as the PlatformPlugin</param>
+        /// <param name="plugin">The PlatformPlugin to use.</param>
         public void setPlatformPlugin(PlatformPlugin plugin)
         {
             if (platformPlugin == null)
@@ -116,6 +135,40 @@ namespace Engine
             else
             {
                 throw new InvalidPluginException("A second platform plugin was added. It is only valid to specify one platform plugin please correct this issue.");
+            }
+        }
+
+        /// <summary>
+        /// Set the RendererPlugin for the run of this engine. It is only valid
+        /// to set this one time. Any attempts to set this after the first time
+        /// will throw an InvalidPluginException. This will also fire the
+        /// OnRendererPluginFound where the default window creation settings can
+        /// be overwritten.
+        /// </summary>
+        /// <param name="plugin">The RendererPlugin to use.</param>
+        /// <param name="defaultWindow">Out variable that will contain the setup for the default window.</param>
+        public void setRendererPlugin(RendererPlugin plugin, out DefaultWindowInfo defaultWindow)
+        {
+            if (rendererPlugin == null)
+            {
+                rendererPlugin = plugin;
+                Log.Default.sendMessage("Renderer plugin set to {0}.", LogLevel.Info, "Engine", plugin.getName());
+                if (OnConfigureDefaultWindow != null)
+                {
+                    OnConfigureDefaultWindow.Invoke(out defaultWindow);
+                    if (defaultWindow == null)
+                    {
+                        throw new InvalidPluginException("A custom window configure function was invoked, but it did not set the default window up correctly. The renderer cannot be initalized.");
+                    }
+                }
+                else
+                {
+                    defaultWindow = new DefaultWindowInfo("Anomalous Engine", 640, 480);
+                }
+            }
+            else
+            {
+                throw new InvalidPluginException("A second renderer plugin was added. It is only valid to specify one renderer plugin please correct this issue.");
             }
         }
 
@@ -204,6 +257,17 @@ namespace Engine
             get
             {
                 return platformPlugin;
+            }
+        }
+
+        /// <summary>
+        /// The RendererPlugin that has been loaded.
+        /// </summary>
+        public RendererPlugin RendererPlugin
+        {
+            get
+            {
+                return rendererPlugin;
             }
         }
 

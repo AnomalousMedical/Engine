@@ -174,6 +174,8 @@ public:
 	void setFrameSmoothingPeriod(float period);
 
 	float getFrameSmoothingPeriod();
+
+	bool _updateAllRenderTargets();
 };
 
 }

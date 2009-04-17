@@ -243,6 +243,10 @@
 				RelativePath=".\src\Win32PlatformPlugin.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\src\WindowsMessageHandler.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -287,6 +291,10 @@
 			</File>
 			<File
 				RelativePath=".\include\Win32PlatformPlugin.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\WindowsMessageHandler.h"
 				>
 			</File>
 		</Filter>

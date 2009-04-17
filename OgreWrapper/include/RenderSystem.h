@@ -39,6 +39,8 @@ public:
 	/// </summary>
 	/// <returns>An error message or an empty string if there are no problems.</returns>
 	System::String^ validateConfigOptions();
+
+	void _initRenderTargets();
 };
 
 }

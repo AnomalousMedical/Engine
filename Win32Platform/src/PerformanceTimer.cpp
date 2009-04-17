@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "..\include\PerformanceTimer.h"
 #include "PerformanceCounter.h"
+#include "WindowsMessageHandler.h"
 
 namespace Engine
 {
@@ -11,13 +12,28 @@ namespace Platform
 PerformanceTimer::PerformanceTimer(void)
 :started( false ),  
 totalTime( 0.0 ),
-performanceCounter(new PerformanceCounter())
+performanceCounter(new PerformanceCounter()),
+messageHandler(nullptr)
 {
 }
 
 PerformanceTimer::~PerformanceTimer()
 {
 	delete performanceCounter;
+}
+
+void PerformanceTimer::processMessageLoop(bool process)
+{
+	if(process && messageHandler == nullptr)
+	{
+		messageHandler = gcnew WindowsMessageHandler();
+		this->addFullSpeedUpdateListener(messageHandler);
+	}
+	else if(messageHandler != nullptr)
+	{
+		this->removeFullSpeedUpdateListener(messageHandler);
+		messageHandler = nullptr;
+	}
 }
 
 bool PerformanceTimer::startLoop()

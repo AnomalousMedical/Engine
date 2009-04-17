@@ -28,4 +28,9 @@ System::String^ RenderSystem::validateConfigOptions()
 	return MarshalUtils::convertString(renderSystem->validateConfigOptions());
 }
 
+void RenderSystem::_initRenderTargets()
+{
+	return renderSystem->_initRenderTargets();
+}
+
 }

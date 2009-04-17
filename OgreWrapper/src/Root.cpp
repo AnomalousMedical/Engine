@@ -282,4 +282,9 @@ float Root::getFrameSmoothingPeriod()
 	return ogreRoot->getFrameSmoothingPeriod();
 }
 
+bool Root::_updateAllRenderTargets()
+{
+	return ogreRoot->_updateAllRenderTargets();
+}
+
 }

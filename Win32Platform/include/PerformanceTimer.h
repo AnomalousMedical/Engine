@@ -7,11 +7,13 @@ namespace Platform
 {
 
 class PerformanceCounter;
+ref class WindowsMessageHandler;
 
 ref class PerformanceTimer : public Timer
 {
 private:
 	PerformanceCounter* performanceCounter;
+	WindowsMessageHandler^ messageHandler;
 
 	double fixedFrequency;
 	double maxDelta;
@@ -43,6 +45,8 @@ public:
 		virtual int get() override;
 		virtual void set(int value) override;
 	}
+
+	virtual void processMessageLoop(bool process) override;
 
 	virtual bool startLoop() override;
 

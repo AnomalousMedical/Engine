@@ -207,7 +207,17 @@ public:
 	/// </summary>
 	void resetStatistics();
 
-	//getcustomattribute
+	/// <summary>
+	/// Gets a custom (maybe platform-specific) attribute.
+	/// <para>
+    /// This is a nasty way of satisfying any API's need to see
+    /// platform-specific details. It horrid, but D3D needs this kind of info.
+    /// At least it's abstracted.
+	/// </para>
+	/// </summary>
+	/// <param name="name">The name of the attribute.</param>
+	/// <param name="pData">Pointer to memory of the right kind of structure to receive the info.</param>
+	void getCustomAttribute(System::String^ name, void* pData);
 
 	//add listener
 

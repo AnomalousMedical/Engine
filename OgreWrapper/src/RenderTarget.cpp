@@ -136,6 +136,11 @@ void RenderTarget::resetStatistics()
 	return renderTarget->resetStatistics();
 }
 
+void RenderTarget::getCustomAttribute(System::String^ name, void* pData)
+{
+	return renderTarget->getCustomAttribute(MarshalUtils::convertString(name), pData);
+}
+
 void RenderTarget::setPriority(unsigned char priority)
 {
 	return renderTarget->setPriority(priority);
