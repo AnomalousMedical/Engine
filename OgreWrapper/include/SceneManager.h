@@ -10,6 +10,11 @@
 #include "NativeSceneListener.h"
 #include "AutoPtr.h"
 #include "PlaneBoundedVolumeListSceneQuery.h"
+#include "EntityCollection.h"
+#include "CameraCollection.h"
+#include "LightCollection.h"
+#include "SceneNodeCollection.h"
+#include "ManualObjectCollection.h"
 
 using namespace System;
 
@@ -33,28 +38,6 @@ ref class ManualObject;
 ref class RaySceneQuery;
 ref class PlaneBoundedVolumeListSceneQuery;
 
-typedef System::Collections::Generic::Dictionary<System::String^, Camera^> CameraDictionary;
-typedef System::Collections::Generic::IEnumerable<Camera^> CameraEnum;
-typedef System::Collections::Generic::Dictionary<System::String^, Light^> LightDictionary;
-typedef System::Collections::Generic::IEnumerable<Light^> LightEnum;
-typedef System::Collections::Generic::Dictionary<System::String^, SceneNode^> NodeDictionary;
-typedef System::Collections::Generic::IEnumerable<SceneNode^> NodeEnum;
-typedef System::Collections::Generic::Dictionary<System::String^, Entity^> EntityDictionary;
-typedef System::Collections::Generic::IEnumerable<Entity^> EntityEnum;
-typedef System::Collections::Generic::Dictionary<System::String^, ManualObject^> ManualObjectDictionary;
-typedef System::Collections::Generic::IEnumerable<ManualObject^> ManualObjectEnum;
-
-public delegate void LightAdded(Light^ light);
-public delegate void LightRemoved(Light^ light);
-public delegate void CameraAdded(Camera^ camera);
-public delegate void CameraRemoved(Camera^ camera);
-public delegate void RenderEntityAdded(Entity^ entity);
-public delegate void RenderEntityRemoved(Entity^ entity);
-public delegate void SceneNodeAdded(SceneNode^ node);
-public delegate void SceneNodeRemoved(SceneNode^ node);
-public delegate void ManualObjectAdded(ManualObject^ manualObject);
-public delegate void ManualObjectRemoved(ManualObject^ manualObject);
-
 /// <summary>
 /// This is a scene in the renderer.  You can have multiple scenes at any time.
 /// This is where Cameras, RenderEntities, Lights etc are created and added to
@@ -75,26 +58,15 @@ public:
 private:
 	Ogre::SceneManager* sceneManager;
 
-	CameraDictionary cameras;
-	LightDictionary lights;
-	NodeDictionary renderNodes;
-	EntityDictionary renderEntities;
-	ManualObjectDictionary manualObjects;
+	CameraCollection cameras;
+	LightCollection lights;
+	SceneNodeCollection sceneNodes;
+	EntityCollection entities;
+	ManualObjectCollection manualObjects;
 
 	SceneNode^ rootNode;
 
 	AutoPtr<NativeSceneListener> nativeSceneListener;
-
-	LightAdded^ onLightAdded;
-	LightRemoved^ onLightRemoved;
-	CameraAdded^ onCameraAdded;
-	CameraRemoved^ onCameraRemoved;
-	RenderEntityAdded^ onRenderEntityAdded;
-	RenderEntityRemoved^ onRenderEntityRemoved;
-	SceneNodeAdded^ onSceneNodeAdded;
-	SceneNodeRemoved^ onSceneNodeRemoved;
-	ManualObjectAdded^ onManualObjectAdded;
-	ManualObjectRemoved^ onManualObjectRemoved;
 
 internal:
 	/// <summary>
@@ -136,12 +108,6 @@ public:
     Camera^ getCamera(System::String^ name);
 
 	/// <summary>
-	/// Get an enum over all cameras in the scene.
-	/// </summary>
-	/// <returns>An enum over all cameras in the scene.</returns>
-	CameraEnum^ getCameras();
-
-	/// <summary>
 	/// Returns whether a camera with the given name exists.
 	/// </summary>
 	/// <param name="name">The name of the camera.</param>
@@ -167,12 +133,6 @@ public:
 	/// <param name="name">The name of the light.</param>
 	/// <returns>The Light if the scene contains the light, or null if it does not.</returns>
     Light^ getLight(System::String^ name);
-
-	/// <summary>
-	/// Get an enum over all lights in the scene.
-	/// </summary>
-	/// <returns>An enum of all the lights.</returns>
-	LightEnum^ getLights();
 
 	/// <summary>
 	/// Returns whether a light with the given name exists.
@@ -208,12 +168,6 @@ public:
     SceneNode^ getSceneNode(System::String^ name);
 
 	/// <summary>
-	/// Get an enum of all render nodes in the scene.
-	/// </summary>
-	/// <returns>An enum of all render nodes in the scene.</returns>
-	NodeEnum^ getSceneNodes();
-
-	/// <summary>
 	/// Returns whether a SceneNode with the given name exists.
 	/// </summary>
 	/// <param name="name">The name of the node.</param>
@@ -233,33 +187,27 @@ public:
 	/// <param name="entityName">The name of the entity.</param>
 	/// <param name="meshName">The name of the mesh to use on this entity.</param>
 	/// <returns>The new Entity.</returns>
-    Entity^ createRenderEntity(System::String^ entityName, System::String^ meshName);
+    Entity^ createEntity(System::String^ entityName, System::String^ meshName);
 
 	/// <summary>
 	/// Get the named Entity.
 	/// </summary>
 	/// <param name="name">The name of the render entity.</param>
 	/// <returns>The Entity if it exists or null if it does not.</returns>
-	Entity^ getRenderEntity(System::String^ name);
-
-	/// <summary>
-	/// Get an enum over all render entities in the scene.
-	/// </summary>
-	/// <returns>An enum of all render entities.</returns>
-	EntityEnum^ getRenderEntities();
+	Entity^ getEntity(System::String^ name);
 	
 	/// <summary>
 	/// Returns whether a Entity with the given name exists.
 	/// </summary>
 	/// <param name="name">The name of the render entity.</param>
 	/// <returns>True if the entity exists.  False if it does not.</returns>
-	bool hasRenderEntity(System::String^ name);
+	bool hasEntity(System::String^ name);
 
 	/// <summary>
 	/// Destroys the Entity passed.
 	/// </summary>
 	/// <param name="entity">The Entity to destroy.</param>
-	void destroyRenderEntity( Entity^ entity );
+	void destroyEntity( Entity^ entity );
 
 	/// <summary>
 	/// Create a ManualObject, an object which you populate with geometry manually through a 
@@ -275,12 +223,6 @@ public:
 	/// <param name="name">The name of the object to look for.</param>
 	/// <returns>The manual object identified by name or null if it is not found.</returns>
 	ManualObject^ getManualObject(System::String^ name);
-
-	/// <summary>
-	/// Get an enum of all manual objects in the scene.
-	/// </summary>
-	/// <returns>An enum of all manual objects.</returns>
-	ManualObjectEnum^ getManualObjects();
 
 	/// <summary>
 	/// Returns whether a manual object with the given name exists. 
@@ -419,156 +361,6 @@ public:
 	/// </summary>
 	/// <returns>True if shadows are being rendered.</returns>
 	bool getShowDebugShadows();
-
-	/// <summary>
-	/// Called when a Light is added to the scene.
-	/// </summary>
-	event LightAdded^ OnLightAdded
-	{
-        void add(LightAdded^ value)
-		{
-			onLightAdded = (LightAdded^)Delegate::Combine(onLightAdded, value);
-        }
-        void remove(LightAdded^ value)
-		{
-			onLightAdded = (LightAdded^)Delegate::Remove(onLightAdded, value);
-        }
-    }
-
-	/// <summary>
-	/// Called when a Light is removed from the scene.
-	/// </summary>
-	event LightRemoved^ OnLightRemoved
-	{
-        void add(LightRemoved^ value)
-		{
-			onLightRemoved = (LightRemoved^)Delegate::Combine(onLightRemoved, value);
-        }
-        void remove(LightRemoved^ value)
-		{
-			onLightRemoved = (LightRemoved^)Delegate::Remove(onLightRemoved, value);
-        }
-    }
-
-	/// <summary>
-	/// Called when a Camera is added to the scene.
-	/// </summary>
-	event CameraAdded^ OnCameraAdded
-	{
-        void add(CameraAdded^ value)
-		{
-			onCameraAdded = (CameraAdded^)Delegate::Combine(onCameraAdded, value);
-        }
-        void remove(CameraAdded^ value)
-		{
-			onCameraAdded = (CameraAdded^)Delegate::Remove(onCameraAdded, value);
-        }
-    }
-
-	/// <summary>
-	/// Called when a Camera is removed from the scene.
-	/// </summary>
-	event CameraRemoved^ OnCameraRemoved
-	{
-        void add(CameraRemoved^ value)
-		{
-			onCameraRemoved = (CameraRemoved^)Delegate::Combine(onCameraRemoved, value);
-        }
-        void remove(CameraRemoved^ value)
-		{
-			onCameraRemoved = (CameraRemoved^)Delegate::Remove(onCameraRemoved, value);
-        }
-    }
-
-	/// <summary>
-	/// Called when a Entity is added to the scene.
-	/// </summary>
-	event RenderEntityAdded^ OnRenderEntityAdded
-	{
-        void add(RenderEntityAdded^ value)
-		{
-			onRenderEntityAdded = (RenderEntityAdded^)Delegate::Combine(onRenderEntityAdded, value);
-        }
-        void remove(RenderEntityAdded^ value)
-		{
-			onRenderEntityAdded = (RenderEntityAdded^)Delegate::Remove(onRenderEntityAdded, value);
-        }
-    }
-
-	/// <summary>
-	/// Called when a Entity is removed from the scene.
-	/// </summary>
-	event RenderEntityRemoved^ OnRenderEntityRemoved
-	{
-        void add(RenderEntityRemoved^ value)
-		{
-			onRenderEntityRemoved = (RenderEntityRemoved^)Delegate::Combine(onRenderEntityRemoved, value);
-        }
-        void remove(RenderEntityRemoved^ value)
-		{
-			onRenderEntityRemoved = (RenderEntityRemoved^)Delegate::Remove(onRenderEntityRemoved, value);
-        }
-    }
-
-	/// <summary>
-	/// Called when a SceneNode is added to the scene.
-	/// </summary>
-	event SceneNodeAdded^ OnSceneNodeAdded
-	{
-        void add(SceneNodeAdded^ value)
-		{
-			onSceneNodeAdded = (SceneNodeAdded^)Delegate::Combine(onSceneNodeAdded, value);
-        }
-        void remove(SceneNodeAdded^ value)
-		{
-			onSceneNodeAdded = (SceneNodeAdded^)Delegate::Remove(onSceneNodeAdded, value);
-        }
-    }
-
-	/// <summary>
-	/// Called when a SceneNode is removed from the scene.
-	/// </summary>
-	event SceneNodeRemoved^ OnSceneNodeRemoved
-	{
-        void add(SceneNodeRemoved^ value)
-		{
-			onSceneNodeRemoved = (SceneNodeRemoved^)Delegate::Combine(onSceneNodeRemoved, value);
-        }
-        void remove(SceneNodeRemoved^ value)
-		{
-			onSceneNodeRemoved = (SceneNodeRemoved^)Delegate::Remove(onSceneNodeRemoved, value);
-        }
-    }
-
-	/// <summary>
-	/// Called when a ManualObject is added to the scene.
-	/// </summary>
-	event ManualObjectAdded^ OnManualObjectAdded
-	{
-        void add(ManualObjectAdded^ value)
-		{
-			onManualObjectAdded = (ManualObjectAdded^)Delegate::Combine(onManualObjectAdded, value);
-        }
-        void remove(ManualObjectAdded^ value)
-		{
-			onManualObjectAdded = (ManualObjectAdded^)Delegate::Remove(onManualObjectAdded, value);
-        }
-    }
-
-	/// <summary>
-	/// Called when a ManualObject is removed from the scene.
-	/// </summary>
-	event ManualObjectRemoved^ OnManualObjectRemoved
-	{
-        void add(ManualObjectRemoved^ value)
-		{
-			onManualObjectRemoved = (ManualObjectRemoved^)Delegate::Combine(onManualObjectRemoved, value);
-        }
-        void remove(ManualObjectRemoved^ value)
-		{
-			onManualObjectRemoved = (ManualObjectRemoved^)Delegate::Remove(onManualObjectRemoved, value);
-        }
-    }
 };
 
 }

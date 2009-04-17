@@ -26,12 +26,7 @@ using namespace System;
 
 SceneManager::SceneManager(Ogre::SceneManager* sceneManager)
 :sceneManager(sceneManager),
-renderNodes( gcnew NodeDictionary() ),
-renderEntities( gcnew EntityDictionary() ),
-lights( gcnew LightDictionary() ),
-cameras( gcnew CameraDictionary() ),
-nativeSceneListener(new NativeSceneListener(this)),
-manualObjects(gcnew ManualObjectDictionary())
+nativeSceneListener(new NativeSceneListener(this))
 {
 	rootNode = gcnew SceneNode(sceneManager->getRootSceneNode());
 }
@@ -56,105 +51,53 @@ Camera^ SceneManager::createCamera(System::String^ name)
 	Ogre::Camera* ogreCam = sceneManager->createCamera( MarshalUtils::convertString(name) );
 	ogreCam->setNearClipDistance(1);
 	ogreCam->setAutoAspectRatio(true);
-	Camera^ camera = gcnew Camera(ogreCam);
-	cameras[name] = camera;
-
-	if(onCameraAdded != nullptr)
-	{
-		onCameraAdded->Invoke(camera);
-	}
-
-	return camera;
+	return cameras.getObject(ogreCam);
 }
 
 Camera^ SceneManager::getCamera(System::String^ name)
 {
-	if( cameras.ContainsKey( name ) )
-	{
-		return cameras[name];
-	}
-	return nullptr;
-}
-
-CameraEnum^ SceneManager::getCameras()
-{
-	return cameras.Values;
+	return cameras.getObject(sceneManager->getCamera(MarshalUtils::convertString(name)));
 }
 
 bool SceneManager::hasCamera(System::String^ name)
 {
-	return cameras.ContainsKey( name );
+	return sceneManager->hasCamera(MarshalUtils::convertString(name));
 }
 
 void SceneManager::destroyCamera( Camera^ camera )
 {
-	if(onCameraRemoved != nullptr)
-	{
-		onCameraRemoved->Invoke(camera);
-	}
-
-	sceneManager->destroyCamera( camera->getCamera() );
-	cameras.Remove( camera->getName() );
-	delete camera;
+	Ogre::Camera* ogreCam = camera->getCamera();
+	cameras.destroyObject(ogreCam);
+	sceneManager->destroyCamera(ogreCam);
 }
 
 Light^ SceneManager::createLight(System::String^ name)
 {
 	Ogre::Light* ogreLight = sceneManager->createLight(MarshalUtils::convertString(name));
-	Light^ light = gcnew Light(ogreLight);
-	lights[name] = light;
-
-	if(onLightAdded != nullptr)
-	{
-		onLightAdded->Invoke(light);
-	}
-
-	return light;
+	return lights.getObject(ogreLight);
 }
 
 Light^ SceneManager::getLight(System::String^ name)
 {
-	if( lights.ContainsKey( name ) )
-	{
-		return lights[name];
-	}
-	return nullptr;
-}
-
-LightEnum^ SceneManager::getLights()
-{
-	return lights.Values;
+	return lights.getObject(sceneManager->getLight(MarshalUtils::convertString(name)));
 }
 
 bool SceneManager::hasLight(System::String^ name)
 {
-	return lights.ContainsKey(name);
+	return sceneManager->hasLight(MarshalUtils::convertString(name));
 }
 
 void SceneManager::destroyLight( Light^ light )
 {
-	if(onLightRemoved != nullptr)
-	{
-		onLightRemoved->Invoke(light);
-	}
-
-	sceneManager->destroyLight( light->getLight() );
-	lights.Remove( light->getName() );
-	delete light;
+	Ogre::Light* ogreLight = light->getLight();
+	lights.destroyObject(ogreLight);
+	sceneManager->destroyLight(ogreLight);
 }
 
 SceneNode^ SceneManager::createSceneNode(System::String^ name)
 {
 	Ogre::SceneNode* ogreNode = sceneManager->createSceneNode( MarshalUtils::convertString( name ) );
-	SceneNode^ node = gcnew SceneNode(ogreNode);
-	renderNodes[name] = node;
-
-	if(onSceneNodeAdded != nullptr)
-	{
-		onSceneNodeAdded->Invoke(node);
-	}
-
-	return node;
+	return sceneNodes.getObject(ogreNode);
 }
 
 SceneNode^ SceneManager::getRootSceneNode(void)
@@ -164,35 +107,21 @@ SceneNode^ SceneManager::getRootSceneNode(void)
 
 SceneNode^ SceneManager::getSceneNode(System::String^ name)
 {
-	if( renderNodes.ContainsKey( name ) )
-	{
-		return renderNodes[name];
-	}
-	return nullptr;
-}
-
-NodeEnum^ SceneManager::getSceneNodes()
-{
-	return renderNodes.Values;
+	return sceneNodes.getObject(sceneManager->getSceneNode(MarshalUtils::convertString(name)));
 }
 
 bool SceneManager::hasSceneNode(System::String^ name)
 {
-	return renderNodes.ContainsKey( name );
+	return sceneManager->hasSceneNode(MarshalUtils::convertString(name));
 }
 
 void SceneManager::destroySceneNode( SceneNode^ node )
 {
 	if( !node->Equals( rootNode ) )
 	{
-		if(onSceneNodeRemoved != nullptr)
-		{
-			onSceneNodeRemoved->Invoke(node);
-		}
-
-		sceneManager->destroySceneNode( node->getSceneNode()->getName() );
-		renderNodes.Remove( node->getName() );
-		delete node;
+		Ogre::SceneNode* ogreNode = node->getSceneNode();
+		sceneNodes.destroyObject(ogreNode);
+		sceneManager->destroySceneNode(ogreNode);
 	}
 	else
 	{
@@ -200,94 +129,50 @@ void SceneManager::destroySceneNode( SceneNode^ node )
 	}
 }
 
-Entity^ SceneManager::createRenderEntity(System::String^ entityName, String^ meshName)
+Entity^ SceneManager::createEntity(System::String^ entityName, String^ meshName)
 {
 	Ogre::Entity* ogreEntity = sceneManager->createEntity(MarshalUtils::convertString( entityName ), MarshalUtils::convertString( meshName ) );
-	Entity^ renderEntity = gcnew Entity( ogreEntity);
-	renderEntities[entityName] = renderEntity;
-
-	if(onRenderEntityAdded != nullptr)
-	{
-		onRenderEntityAdded->Invoke(renderEntity);
-	}
-
-	return renderEntity;
+	return entities.getObject(ogreEntity);
 }
 
-Entity^ SceneManager::getRenderEntity(System::String^ name)
+Entity^ SceneManager::getEntity(System::String^ name)
 {
-	if( renderEntities.ContainsKey( name ) )
-	{
-		return renderEntities[name];
-	}
-	return nullptr;
+	return entities.getObject(sceneManager->getEntity(MarshalUtils::convertString(name)));
 }
 
-EntityEnum^ SceneManager::getRenderEntities()
+bool SceneManager::hasEntity(System::String^ name)
 {
-	return renderEntities.Values;
+	return sceneManager->hasEntity(MarshalUtils::convertString(name));
 }
 
-bool SceneManager::hasRenderEntity(System::String^ name)
+void SceneManager::destroyEntity( Entity^ entity )
 {
-	return renderEntities.ContainsKey( name );
-}
-
-void SceneManager::destroyRenderEntity( Entity^ entity )
-{
-	if(onRenderEntityRemoved != nullptr)
-	{
-		onRenderEntityRemoved->Invoke(entity);
-	}
-
-	sceneManager->destroyEntity( entity->getEntity() );
-	renderEntities.Remove( entity->getName() );
-	delete entity;
+	Ogre::Entity* ogreEntity = entity->getEntity();
+	entities.destroyObject(ogreEntity);
+	sceneManager->destroyEntity(ogreEntity);
 }
 
 ManualObject^ SceneManager::createManualObject(System::String^ name)
 {
 	Ogre::ManualObject* ogreManual = sceneManager->createManualObject(MarshalUtils::convertString(name));
-	ManualObject^ manualObject = gcnew ManualObject(ogreManual);
-	manualObjects.Add(name, manualObject);
-
-	if(onManualObjectAdded != nullptr)
-	{
-		onManualObjectAdded->Invoke(manualObject);
-	}
-
-	return manualObject;
+	return manualObjects.getObject(ogreManual);
 }
 
 ManualObject^ SceneManager::getManualObject(System::String^ name)
 {
-	if(manualObjects.ContainsKey(name))
-	{
-		return manualObjects[name];
-	}
-	return nullptr;
-}
-
-ManualObjectEnum^ SceneManager::getManualObjects()
-{
-	return manualObjects.Values;
+	return manualObjects.getObject(sceneManager->getManualObject(MarshalUtils::convertString(name)));
 }
 
 bool SceneManager::hasManualObject(System::String^ name)
 {
-	return manualObjects.ContainsKey(name);
+	return sceneManager->hasManualObject(MarshalUtils::convertString(name));
 }
 
 void SceneManager::destroyManualObject(ManualObject^ obj)
 {
-	if(onManualObjectRemoved != nullptr)
-	{
-		onManualObjectRemoved->Invoke(obj);
-	}
-
-	sceneManager->destroyManualObject(obj->getManualObject());
-	manualObjects.Remove(obj->getName());
-	delete obj;
+	Ogre::ManualObject* ogreManual = obj->getManualObject();
+	manualObjects.destroyObject(ogreManual);
+	sceneManager->destroyManualObject(ogreManual);
 }
 
 void SceneManager::setVisibilityMask(unsigned int mask)
