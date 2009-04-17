@@ -37,7 +37,6 @@ public ref class Camera : public MovableObject
 {
 private:
 	Ogre::Camera* camera;
-	System::String^ name;
 	AutoPtr<VoidUserDefinedObject> userDefinedObj;
 	AutoPtr<CameraGCRoot> camRoot;
 
@@ -47,7 +46,7 @@ internal:
 	/// </summary>
 	/// <param name="camera">The camera to wrap.</param>
 	/// <param name="name">The name of this camera.</param>
-	Camera(Ogre::Camera* camera, System::String^ name);
+	Camera(Ogre::Camera* camera);
 
 	/// <summary>
 	/// Destructor

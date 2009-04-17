@@ -10,13 +10,13 @@
 
 #include "Ogre.h"
 #include "MathUtils.h"
+#include "MarshalUtils.h"
 
 namespace OgreWrapper{
 
-Camera::Camera(Ogre::Camera* camera, System::String^ name)
+Camera::Camera(Ogre::Camera* camera)
 :MovableObject(camera), 
 camera( camera ), 
-name( name ), 
 camRoot(new CameraGCRoot())
 {
 	*(camRoot.Get()) = this;
@@ -36,7 +36,7 @@ Ogre::Camera* Camera::getCamera()
 
 System::String^ Camera::getName()
 {
-	return name;
+	return MarshalUtils::convertString(camera->getName());
 }
 
 void Camera::setPosition( EngineMath::Vector3 position )

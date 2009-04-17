@@ -19,11 +19,9 @@
 
 namespace OgreWrapper{
 
-Entity::Entity(Ogre::Entity* entity, System::String^ name, System::String^ meshName)
+Entity::Entity(Ogre::Entity* entity)
 :MovableObject(entity),
 entity( entity ),
-name( name ),
-meshName(meshName),
 skeleton(nullptr),
 animationStateSet(nullptr), 
 root(new RenderEntityGCRoot())
@@ -45,12 +43,7 @@ Ogre::Entity* Entity::getEntity()
 
 System::String^ Entity::getName()
 {
-	return name;
-}
-
-System::String^ Entity::getMeshName()
-{
-	return meshName;
+	return MarshalUtils::convertString(entity->getName());
 }
 
 MeshPtr^ Entity::getMesh()
@@ -111,7 +104,7 @@ bool Entity::getDisplaySkeleton()
 Entity^ Entity::getManualLodLevel(unsigned int index)
 {
 	Ogre::Entity* ogreEntity = entity->getManualLodLevel(index);
-	return lodEntities.getObject(ogreEntity, this->name + "LodLevel" + index, this->meshName);
+	return lodEntities.getObject(ogreEntity);
 }
 
 unsigned int Entity::getNumManualLodLevels()

@@ -10,12 +10,13 @@
 
 #include "Ogre.h"
 #include "MathUtils.h"
+#include "MarshalUtils.h"
 
 namespace OgreWrapper
 {
 
-Light::Light(Ogre::Light* light, System::String^ name)
-:MovableObject(light), light( light ), name( name )
+Light::Light(Ogre::Light* light)
+:MovableObject(light), light( light )
 {
 }
 
@@ -31,7 +32,7 @@ Ogre::Light* Light::getLight()
 
 System::String^ Light::getName()
 {
-	return name;
+	return MarshalUtils::convertString(light->getName());
 }
 
 void Light::setType(Light::LightTypes type)

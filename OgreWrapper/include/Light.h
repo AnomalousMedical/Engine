@@ -36,7 +36,6 @@ enum class LightTypes : unsigned int
 
 private:
 	Ogre::Light* light;
-	System::String^ name;
 
 internal:
 	/// <summary>
@@ -44,7 +43,7 @@ internal:
 	/// </summary>
 	/// <param name="light">The native light to wrap.</param>
 	/// <param name="name">The name of the light.</param>
-	Light(Ogre::Light* light, System::String^ name);
+	Light(Ogre::Light* light);
 
 public:
 	/// <summary>

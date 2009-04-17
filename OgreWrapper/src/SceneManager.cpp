@@ -33,7 +33,7 @@ cameras( gcnew CameraDictionary() ),
 nativeSceneListener(new NativeSceneListener(this)),
 manualObjects(gcnew ManualObjectDictionary())
 {
-	rootNode = gcnew SceneNode( sceneManager->getRootSceneNode(), "Root" );
+	rootNode = gcnew SceneNode(sceneManager->getRootSceneNode());
 }
 
 SceneManager::~SceneManager()
@@ -56,7 +56,7 @@ Camera^ SceneManager::createCamera(System::String^ name)
 	Ogre::Camera* ogreCam = sceneManager->createCamera( MarshalUtils::convertString(name) );
 	ogreCam->setNearClipDistance(1);
 	ogreCam->setAutoAspectRatio(true);
-	Camera^ camera = gcnew Camera( ogreCam, name );
+	Camera^ camera = gcnew Camera(ogreCam);
 	cameras[name] = camera;
 
 	if(onCameraAdded != nullptr)
@@ -101,7 +101,7 @@ void SceneManager::destroyCamera( Camera^ camera )
 Light^ SceneManager::createLight(System::String^ name)
 {
 	Ogre::Light* ogreLight = sceneManager->createLight(MarshalUtils::convertString(name));
-	Light^ light = gcnew Light( ogreLight, name );
+	Light^ light = gcnew Light(ogreLight);
 	lights[name] = light;
 
 	if(onLightAdded != nullptr)
@@ -146,7 +146,7 @@ void SceneManager::destroyLight( Light^ light )
 SceneNode^ SceneManager::createSceneNode(System::String^ name)
 {
 	Ogre::SceneNode* ogreNode = sceneManager->createSceneNode( MarshalUtils::convertString( name ) );
-	SceneNode^ node = gcnew SceneNode( ogreNode, name );
+	SceneNode^ node = gcnew SceneNode(ogreNode);
 	renderNodes[name] = node;
 
 	if(onSceneNodeAdded != nullptr)
@@ -203,7 +203,7 @@ void SceneManager::destroySceneNode( SceneNode^ node )
 Entity^ SceneManager::createRenderEntity(System::String^ entityName, String^ meshName)
 {
 	Ogre::Entity* ogreEntity = sceneManager->createEntity(MarshalUtils::convertString( entityName ), MarshalUtils::convertString( meshName ) );
-	Entity^ renderEntity = gcnew Entity( ogreEntity, entityName, meshName );
+	Entity^ renderEntity = gcnew Entity( ogreEntity);
 	renderEntities[entityName] = renderEntity;
 
 	if(onRenderEntityAdded != nullptr)
@@ -248,7 +248,7 @@ void SceneManager::destroyRenderEntity( Entity^ entity )
 ManualObject^ SceneManager::createManualObject(System::String^ name)
 {
 	Ogre::ManualObject* ogreManual = sceneManager->createManualObject(MarshalUtils::convertString(name));
-	ManualObject^ manualObject = gcnew ManualObject(ogreManual, name);
+	ManualObject^ manualObject = gcnew ManualObject(ogreManual);
 	manualObjects.Add(name, manualObject);
 
 	if(onManualObjectAdded != nullptr)

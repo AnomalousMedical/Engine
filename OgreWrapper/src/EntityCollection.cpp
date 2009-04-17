@@ -7,12 +7,12 @@ namespace OgreWrapper{
 
 Entity^ EntityCollection::createWrapper(void* nativeObject, ...array<System::Object^>^ args)
 {
-	return gcnew Entity(static_cast<Ogre::Entity*>(nativeObject), (System::String^)args[0], (System::String^)args[1]);
+	return gcnew Entity(static_cast<Ogre::Entity*>(nativeObject));
 }
 
-Entity^ EntityCollection::getObject(Ogre::Entity* nativeObject, System::String^ identifier, System::String^ meshName)
+Entity^ EntityCollection::getObject(Ogre::Entity* nativeObject)
 {
-	return getObjectVoid(nativeObject, identifier, meshName);
+	return getObjectVoid(nativeObject);
 }
 
 void EntityCollection::destroyObject(Ogre::Entity* nativeObject)

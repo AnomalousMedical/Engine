@@ -12,7 +12,7 @@ protected:
 public:
 	virtual ~EntityCollection() {}
 
-	Entity^ getObject(Ogre::Entity* nativeObject, System::String^ identifier, System::String^ meshName);
+	Entity^ getObject(Ogre::Entity* nativeObject);
 
 	void destroyObject(Ogre::Entity* nativeObject);
 };

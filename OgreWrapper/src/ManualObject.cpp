@@ -15,10 +15,9 @@
 
 namespace OgreWrapper{
 
-ManualObject::ManualObject(Ogre::ManualObject* obj, System::String^ name)
+ManualObject::ManualObject(Ogre::ManualObject* obj)
 :MovableObject(obj), 
 obj( obj ), 
-name( name ),
 root(new ManualObjectRoot())
 {
 	*(root.Get()) = this;
@@ -39,7 +38,7 @@ Ogre::ManualObject* ManualObject::getManualObject()
 
 System::String^ ManualObject::getName()
 {
-	return name;
+	return MarshalUtils::convertString(obj->getName());
 }
 
 void ManualObject::clear()

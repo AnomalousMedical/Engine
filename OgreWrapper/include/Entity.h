@@ -43,8 +43,6 @@ public ref class Entity : MovableObject
 {
 private:
 	Ogre::Entity* entity;
-	System::String^ name;
-	System::String^ meshName;
 	SubEntityCollection subEntities;
 	EntityCollection lodEntities;
 	SkeletonInstance^ skeleton;
@@ -58,7 +56,7 @@ internal:
 	/// </summary>
 	/// <param name="entity">The entity to wrap.</param>
 	/// <param name="name">The name of the Entity.</param>
-	Entity(Ogre::Entity* entity, System::String^ name, System::String^ meshName);
+	Entity(Ogre::Entity* entity);
 
 	/// <summary>
 	/// Get the mesh information for the mesh owned by this entity.
@@ -91,12 +89,6 @@ public:
 	/// </summary>
 	/// <returns>The name of the entity.</returns>
 	virtual System::String^ getName() override;
-
-	/// <summary>
-	/// Gets the name of the mesh on this entity.
-	/// </summary>
-	/// <returns>The name of the entity's mesh.</returns>
-	System::String^ getMeshName();
 
 	/// <summary>
 	/// Gets the Mesh that this Entity is based on.

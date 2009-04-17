@@ -31,7 +31,6 @@ public ref class SceneNode : public Node
 {
 private:
 	Ogre::SceneNode* sceneNode;
-	System::String^ name;
 	NodeObjectList^ nodeObjects;
 	AutoPtr<Ogre::SceneNode> autoOgreNode;
 
@@ -41,7 +40,7 @@ internal:
 	/// </summary>
 	/// <param name="sceneNode">The underlying node to wrap.</param>
 	/// <param name="name">The name of the scene node.</param>
-	SceneNode(Ogre::SceneNode* sceneNode, System::String^ name);
+	SceneNode(Ogre::SceneNode* sceneNode);
 
 	/// <summary>
 	/// Get the underlying native scene node.

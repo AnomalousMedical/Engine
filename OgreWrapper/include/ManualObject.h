@@ -35,7 +35,6 @@ public ref class ManualObject : MovableObject
 {
 private:
 	Ogre::ManualObject* obj;
-	System::String^ name;
 	ManualObjectSectionCollection sections;
 	AutoPtr<ManualObjectRoot> root;
 	AutoPtr<VoidUserDefinedObject> userDefinedObj;
@@ -52,7 +51,7 @@ internal:
 	/// </summary>
 	/// <param name="obj">The manual object to wrap.</param>
 	/// <param name="name">The name of the ManualObject.</param>
-	ManualObject(Ogre::ManualObject* obj, System::String^ name);
+	ManualObject(Ogre::ManualObject* obj);
 
 public:
 

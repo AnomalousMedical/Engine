@@ -9,23 +9,22 @@
 #include "..\include\SceneNode.h"
 #include "SceneManager.h"
 #include "MovableObject.h"
+#include "MarshalUtils.h"
 
 #include "Ogre.h"
 
 namespace OgreWrapper{
 
-SceneNode::SceneNode(Ogre::SceneNode* sceneNode, System::String^ name)
+SceneNode::SceneNode(Ogre::SceneNode* sceneNode)
 :Node(sceneNode),
 sceneNode( sceneNode ), 
-name( name ),
 nodeObjects(gcnew NodeObjectList())
 {
 
 }
 
 SceneNode::SceneNode(System::String^ name, SceneManager^ ownerScene)
-:name(name), 
-autoOgreNode(new Ogre::SceneNode(ownerScene->getSceneManager())),
+:autoOgreNode(new Ogre::SceneNode(ownerScene->getSceneManager(), MarshalUtils::convertString(name))),
 Node(autoOgreNode.Get())
 {
 	sceneNode = autoOgreNode.Get();
@@ -43,7 +42,7 @@ Ogre::SceneNode* SceneNode::getSceneNode()
 
 System::String^ SceneNode::getName()
 {
-	return name;
+	return MarshalUtils::convertString(sceneNode->getName());
 }
 
 void SceneNode::addChild( SceneNode^ child )
