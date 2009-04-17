@@ -4,7 +4,6 @@
 #include "OgreMaterial.h"
 #include "MarshalUtils.h"
 #include "MathUtils.h"
-#include "Color.h"
 #include "MaterialManager.h"
 
 namespace OgreWrapper{
@@ -149,12 +148,12 @@ void Material::setAmbient(float red, float green, float blue)
 	return ogreMaterial->setAmbient(red, green, blue);
 }
 
-void Material::setAmbient(Color color)
+void Material::setAmbient(EngineMath::Color color)
 {
 	return ogreMaterial->setAmbient(MathUtils::copyColor(color));
 }
 
-void Material::setAmbient(Color% color)
+void Material::setAmbient(EngineMath::Color% color)
 {
 	return ogreMaterial->setAmbient(MathUtils::copyColor(color));
 }
@@ -164,12 +163,12 @@ void Material::setDiffuse(float red, float green, float blue, float alpha)
 	return ogreMaterial->setDiffuse(red, green, blue, alpha);
 }
 
-void Material::setDiffuse(Color color)
+void Material::setDiffuse(EngineMath::Color color)
 {
 	return ogreMaterial->setDiffuse(MathUtils::copyColor(color));
 }
 
-void Material::setDiffuse(Color% color)
+void Material::setDiffuse(EngineMath::Color% color)
 {
 	return ogreMaterial->setDiffuse(MathUtils::copyColor(color));
 }
@@ -179,12 +178,12 @@ void Material::setSpecular(float red, float green, float blue, float alpha)
 	return ogreMaterial->setSpecular(red, green, blue, alpha);
 }
 
-void Material::setSpecular(Color color)
+void Material::setSpecular(EngineMath::Color color)
 {
 	return ogreMaterial->setSpecular(MathUtils::copyColor(color));
 }
 
-void Material::setSpecular(Color% color)
+void Material::setSpecular(EngineMath::Color% color)
 {
 	return ogreMaterial->setSpecular(MathUtils::copyColor(color));
 }
@@ -199,12 +198,12 @@ void Material::setSelfIllumination(float red, float green, float blue)
 	return ogreMaterial->setSelfIllumination(red, green, blue);
 }
 
-void Material::setSelfIllumination(Color color)
+void Material::setSelfIllumination(EngineMath::Color color)
 {
 	return ogreMaterial->setSelfIllumination(MathUtils::copyColor(color));
 }
 
-void Material::setSelfIllumination(Color% color)
+void Material::setSelfIllumination(EngineMath::Color% color)
 {
 	return ogreMaterial->setSelfIllumination(MathUtils::copyColor(color));
 }
@@ -249,12 +248,12 @@ void Material::setShadingMode(ShadeOptions mode)
 	return ogreMaterial->setShadingMode((Ogre::ShadeOptions)mode);
 }
 
-void Material::setFog(bool overrideScene, FogMode mode, Color% color)
+void Material::setFog(bool overrideScene, FogMode mode, EngineMath::Color% color)
 {
 	return ogreMaterial->setFog(overrideScene, (Ogre::FogMode)mode, MathUtils::copyColor(color));
 }
 
-void Material::setFog(bool overrideScene, FogMode mode, Color% color, float expDensity, float linearStart, float linearEnd)
+void Material::setFog(bool overrideScene, FogMode mode, EngineMath::Color% color, float expDensity, float linearStart, float linearEnd)
 {
 	return ogreMaterial->setFog(overrideScene, (Ogre::FogMode)mode, MathUtils::copyColor(color), expDensity, linearStart, linearEnd);
 }

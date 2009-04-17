@@ -49,6 +49,7 @@
     <Compile Include="3d\Quaternion.cs" />
     <Compile Include="3d\Ray3.cs" />
     <Compile Include="3d\Vector3.cs" />
+    <Compile Include="Drawing\Color.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

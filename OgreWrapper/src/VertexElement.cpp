@@ -1,6 +1,5 @@
 #include "StdAfx.h"
 #include "..\include\VertexElement.h"
-#include "Color.h"
 #include "MathUtils.h"
 
 namespace OgreWrapper{
@@ -95,7 +94,7 @@ void VertexElement::convertColorValue(VertexElementType srcType, VertexElementTy
 	return Ogre::VertexElement::convertColourValue((Ogre::VertexElementType)srcType, (Ogre::VertexElementType)dstType, ptr);
 }
 
-unsigned int VertexElement::convertColorValue(Color src, VertexElementType dst)
+unsigned int VertexElement::convertColorValue(EngineMath::Color src, VertexElementType dst)
 {
 	return Ogre::VertexElement::convertColourValue(MathUtils::copyColor(src), (Ogre::VertexElementType)dst);
 }

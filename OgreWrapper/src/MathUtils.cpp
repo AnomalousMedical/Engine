@@ -1,7 +1,6 @@
 #include "StdAfx.h"
 #include "..\include\MathUtils.h"
 #include "Ogre.h"
-#include "Color.h"
 
 namespace OgreWrapper
 {
@@ -84,12 +83,12 @@ EngineMath::Ray3 MathUtils::copyRay(Ogre::Ray& source)
 	return EngineMath::Ray3(copyVector3(source.getOrigin()), copyVector3(source.getDirection()));
 }
 
-OgreWrapper::Color MathUtils::copyColor(const Ogre::ColourValue& source)
+EngineMath::Color MathUtils::copyColor(const Ogre::ColourValue& source)
 {
-	return OgreWrapper::Color(source.r, source.g, source.b, source.a);
+	return EngineMath::Color(source.r, source.g, source.b, source.a);
 }
 
-Ogre::ColourValue MathUtils::copyColor(OgreWrapper::Color% source)
+Ogre::ColourValue MathUtils::copyColor(EngineMath::Color% source)
 {
 	return Ogre::ColourValue(source.r, source.g, source.b, source.a);
 }

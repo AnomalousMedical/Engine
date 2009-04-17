@@ -210,18 +210,6 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="AdditionalClasses"
-			>
-			<File
-				RelativePath=".\src\Color.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\Color.h"
-				>
-			</File>
-		</Filter>
-		<Filter
 			Name="DLL"
 			>
 			<File

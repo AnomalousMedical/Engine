@@ -14,7 +14,6 @@ namespace OgreWrapper
 {
 
 ref class Technique;
-value class Color;
 ref class MaterialPtr;
 
 [Engine::Attributes::DoNotSaveAttribute]
@@ -87,29 +86,29 @@ public:
 
 	void setAmbient(float red, float green, float blue);
 
-	void setAmbient(Color color);
+	void setAmbient(EngineMath::Color color);
 
-	void setAmbient(Color% color);
+	void setAmbient(EngineMath::Color% color);
 
 	void setDiffuse(float red, float green, float blue, float alpha);
 
-	void setDiffuse(Color color);
+	void setDiffuse(EngineMath::Color color);
 
-	void setDiffuse(Color% color);
+	void setDiffuse(EngineMath::Color% color);
 
 	void setSpecular(float red, float green, float blue, float alpha);
 
-	void setSpecular(Color color);
+	void setSpecular(EngineMath::Color color);
 
-	void setSpecular(Color% color);
+	void setSpecular(EngineMath::Color% color);
 
 	void setShininess(float value);
 
 	void setSelfIllumination(float red, float green, float blue);
 
-	void setSelfIllumination(Color color);
+	void setSelfIllumination(EngineMath::Color color);
 
-	void setSelfIllumination(Color% color);
+	void setSelfIllumination(EngineMath::Color% color);
 
 	void setDepthCheckEnabled(bool enabled);
 
@@ -127,9 +126,9 @@ public:
 
 	void setShadingMode(ShadeOptions mode);
 
-	void setFog(bool overrideScene, FogMode mode, Color% color);
+	void setFog(bool overrideScene, FogMode mode, EngineMath::Color% color);
 
-	void setFog(bool overrideScene, FogMode mode, Color% color, float expDensity, float linearStart, float linearEnd);
+	void setFog(bool overrideScene, FogMode mode, EngineMath::Color% color, float expDensity, float linearStart, float linearEnd);
 
 	void setDepthBias(float constantBias, float slopeScaleBias);
 

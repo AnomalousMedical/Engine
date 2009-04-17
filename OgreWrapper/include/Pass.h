@@ -10,7 +10,6 @@ namespace Ogre
 namespace OgreWrapper
 {
 
-value class Color;
 ref class Technique;
 
 public enum class TrackVertexColorEnum 
@@ -94,29 +93,29 @@ public:
 
 	void setAmbient(float red, float green, float blue);
 
-	void setAmbient(Color color);
+	void setAmbient(EngineMath::Color color);
 
-	void setAmbient(Color% color);
+	void setAmbient(EngineMath::Color% color);
 
 	void setDiffuse(float red, float green, float blue, float alpha);
 
-	void setDiffuse(Color color);
+	void setDiffuse(EngineMath::Color color);
 
-	void setDiffuse(Color% color);
+	void setDiffuse(EngineMath::Color% color);
 
 	void setSpecular(float red, float green, float blue, float alpha);
 
-	void setSpecular(Color color);
+	void setSpecular(EngineMath::Color color);
 
-	void setSpecular(Color% color);
+	void setSpecular(EngineMath::Color% color);
 
 	void setShininess(float value);
 
 	void setSelfIllumination(float red, float green, float blue);
 
-	void setSelfIllumination(Color color);
+	void setSelfIllumination(EngineMath::Color color);
 
-	void setSelfIllumination(Color% color);
+	void setSelfIllumination(EngineMath::Color% color);
 
 	void setVertexColorTracking(TrackVertexColorEnum tracking);
 
@@ -148,13 +147,13 @@ public:
 
 	float getPointMaxSize();
 
-	Color getAmbient();
+	EngineMath::Color getAmbient();
 
-	Color getDiffuse();
+	EngineMath::Color getDiffuse();
 
-	Color getSpecular();
+	EngineMath::Color getSpecular();
 
-	Color getSelfIllumination();
+	EngineMath::Color getSelfIllumination();
 
 	float getShininess();
 
@@ -228,15 +227,15 @@ public:
 
 	bool getPolygonModeOverrideable();
 
-	void setFog(bool overrideScene, FogMode mode, Color% color);
+	void setFog(bool overrideScene, FogMode mode, EngineMath::Color% color);
 
-	void setFog(bool overrideScene, FogMode mode, Color% color, float expDensity, float linearStart, float linearEnd);
+	void setFog(bool overrideScene, FogMode mode, EngineMath::Color% color, float expDensity, float linearStart, float linearEnd);
 
 	bool getFogOverride();
 
 	FogMode getFogMode();
 
-	Color getFogColor();
+	EngineMath::Color getFogColor();
 
 	float getFogStart();
 

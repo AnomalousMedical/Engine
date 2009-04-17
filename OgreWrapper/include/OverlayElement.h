@@ -8,7 +8,6 @@ namespace Ogre
 namespace OgreWrapper{
 
 ref class MaterialPtr;
-value class Color;
 ref class OverlayContainer;
 
 /// <summary>
@@ -220,19 +219,19 @@ public:
 	/// 
 	/// </summary>
 	/// <param name="color"></param>
-	void setColor(Color color);
+	void setColor(EngineMath::Color color);
 
 	/// <summary>
 	/// 
 	/// </summary>
 	/// <param name="color"></param>
-	void setColor(Color% color);
+	void setColor(EngineMath::Color% color);
 
 	/// <summary>
 	/// 
 	/// </summary>
 	/// <returns></returns>
-	Color getColor();
+	EngineMath::Color getColor();
 
 	/// <summary>
 	/// 

@@ -4,7 +4,6 @@
 #include "MathUtils.h"
 #include "MaterialManager.h"
 #include "OgreOverlayElement.h"
-#include "Color.h"
 #include "OverlayManager.h"
 #include "OverlayContainer.h"
 
@@ -143,17 +142,17 @@ System::String^ OverlayElement::getCaption()
 	return MarshalUtils::convertString(overlayElement->getCaption());
 }
 
-void OverlayElement::setColor(Color color)
+void OverlayElement::setColor(EngineMath::Color color)
 {
 	return overlayElement->setColour(MathUtils::copyColor(color));
 }
 
-void OverlayElement::setColor(Color% color)
+void OverlayElement::setColor(EngineMath::Color% color)
 {
 	return overlayElement->setColour(MathUtils::copyColor(color));
 }
 
-Color OverlayElement::getColor()
+EngineMath::Color OverlayElement::getColor()
 {
 	return MathUtils::copyColor(overlayElement->getColour());
 }

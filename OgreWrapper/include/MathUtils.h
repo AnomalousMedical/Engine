@@ -9,8 +9,6 @@ namespace Ogre
 namespace OgreWrapper
 {
 
-value class Color;
-
 ref class MathUtils
 {
 public:
@@ -96,13 +94,13 @@ public:
 	/// Copies source into a new color.
 	/// </summary>
 	/// <param name="source">Copy from this.</param>
-	static OgreWrapper::Color copyColor(const Ogre::ColourValue& source);
+	static EngineMath::Color copyColor(const Ogre::ColourValue& source);
 
 	/// <summary>
 	/// Copies source into a new color.
 	/// </summary>
 	/// <param name="source">Copy from this.</param>
-	static Ogre::ColourValue copyColor(OgreWrapper::Color% source);
+	static Ogre::ColourValue copyColor(EngineMath::Color% source);
 };
 
 }

@@ -9,8 +9,6 @@ namespace Ogre
 
 namespace OgreWrapper{
 
-value class Color;
-
 /// <summary>
 /// Vertex element semantics, used to identify the meaning of vertex buffer contents
 /// </summary>
@@ -232,7 +230,7 @@ public:
 	/// <param name="src">Source colour.</param>
 	/// <param name="dst">The destination type.</param>
 	/// <returns>The converted color.</returns>
-	static unsigned int convertColorValue(Color src, VertexElementType dst);
+	static unsigned int convertColorValue(EngineMath::Color src, VertexElementType dst);
 
 	/// <summary>
 	/// Utility method to get the most appropriate packed colour vertex element format.

@@ -9,8 +9,6 @@ namespace Ogre
 
 namespace OgreWrapper{
 
-value class Color;
-
 /// <summary>
 /// 
 /// </summary>
@@ -65,23 +63,23 @@ public:
 
 	System::String^ getFontName();
 
-	void setColor(Color color);
+	void setColor(EngineMath::Color color);
 
-	void setColor(Color% color);
+	void setColor(EngineMath::Color% color);
 
-	Color getColor();
+	EngineMath::Color getColor();
 
-	void setColorTop(Color color);
+	void setColorTop(EngineMath::Color color);
 
-	void setColorTop(Color% color);
+	void setColorTop(EngineMath::Color% color);
 
-	Color getColorTop();
+	EngineMath::Color getColorTop();
 
-	void setColorBottom(Color color);
+	void setColorBottom(EngineMath::Color color);
 
-	void setColorBottom(Color% color);
+	void setColorBottom(EngineMath::Color% color);
 
-	Color getColorBottom();
+	EngineMath::Color getColorBottom();
 
 	void setAlignment(Alignment a);
 
