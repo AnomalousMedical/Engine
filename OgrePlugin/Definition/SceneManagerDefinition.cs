@@ -6,10 +6,11 @@ using Engine.ObjectManagement;
 using Engine.Editing;
 using OgreWrapper;
 using Engine.Reflection;
+using Engine.Saving;
 
-namespace OgrePlugin.Definition
+namespace OgrePlugin
 {
-    class SceneManagerDefinition : SimElementManagerDefinition
+    public class SceneManagerDefinition : SimElementManagerDefinition
     {
         #region Static
 
@@ -36,6 +37,10 @@ namespace OgrePlugin.Definition
 
         #region Constructors
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="name">The name of the SceneManagerDefinition.</param>
         internal SceneManagerDefinition(String name)
         {
             this.name = name;
@@ -46,39 +51,70 @@ namespace OgrePlugin.Definition
 
         #region Functions
 
+        /// <summary>
+        /// Get an EditInterface.
+        /// </summary>
+        /// <returns>An EditInterface for the definition or null if there is not interface.</returns>
         public EditInterface getEditInterface()
         {
             if (editInterface == null)
             {
-                editInterface = ReflectedEditInterface.createEditInterface(this, memberScanner, name + "Ogre Scene Manager", null);
+                editInterface = ReflectedEditInterface.createEditInterface(this, memberScanner, name + " Ogre Scene", null);
             }
             return editInterface;
         }
 
+        /// <summary>
+        /// Create the SimElementManager this definition defines and return it.
+        /// This may not be safe to call more than once per definition.
+        /// </summary>
+        /// <returns>The SimElementManager this definition is designed to create.</returns>
         public SimElementManager createSimElementManager()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Gets the name of this scene.
+        /// </summary>
+        /// <value></value>
         public string Name
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                return name;
+            }
         }
 
+        /// <summary>
+        /// This will return the type the SimElementManager wishes to report
+        /// itself as. Usually this will be the type of the class itself,
+        /// however, it is possible to specify a superclass if desired. This
+        /// will be the type reported to the SimSubScene. This should be the
+        /// value returned by the SimElementManager this definition creates.
+        /// </summary>
+        /// <returns></returns>
         public Type getSimElementManagerType()
         {
-            throw new NotImplementedException();
+            return typeof(SceneManagerDefinition);
         }
 
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// <filterpriority>2</filterpriority>
         public void Dispose()
         {
-            throw new NotImplementedException();
+            
         }
 
         #endregion Functions
 
         #region Properties
 
+        /// <summary>
+        /// A series of values that describe the type of scene.
+        /// </summary>
         [Editable("A series of values that describe the type of scene.")]
         public SceneType SceneTypeMask { get; set; }
 
@@ -86,9 +122,27 @@ namespace OgrePlugin.Definition
 
         #region Saveable Members
 
-        public void getInfo(Engine.Saving.SaveInfo info)
+        private const String NAME = "Name";
+        private const String SCENE_TYPE = "SceneTypeMask";
+
+        /// <summary>
+        /// Load constructor.
+        /// </summary>
+        /// <param name="info"></param>
+        private SceneManagerDefinition(LoadInfo info)
         {
-            throw new NotImplementedException();
+            name = info.GetString(NAME);
+            SceneTypeMask = info.GetValue<SceneType>(SCENE_TYPE);
+        }
+
+        /// <summary>
+        /// GetInfo function.
+        /// </summary>
+        /// <param name="info"></param>
+        public void getInfo(SaveInfo info)
+        {
+            info.AddValue(NAME, name);
+            info.AddValue(SCENE_TYPE, SceneTypeMask);
         }
 
         #endregion
