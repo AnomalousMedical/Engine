@@ -12,10 +12,16 @@ namespace OgrePlugin
 {
     public class OgreInterface : RendererPlugin
     {
+        #region Fields
+
         private Root root;
         OgreLogConnection ogreLog;
         private OgreUpdate ogreUpdate;
         private OgreWindow primaryWindow;
+
+        #endregion Fields
+
+        #region Constructors
 
         public OgreInterface()
         {
@@ -23,6 +29,10 @@ namespace OgrePlugin
             ogreLog = new OgreLogConnection();
             ogreUpdate = new OgreUpdate(root);
         }
+
+        #endregion Constructors
+
+        #region Functions
 
         public void Dispose()
         {
@@ -112,5 +122,7 @@ namespace OgrePlugin
                 Log.Default.sendMessage("Error destroying RendererWindow {0}. It is not a recognized OgreWindow. The window has not been destroyed.", LogLevel.Warning, "OgrePlugin", window.ToString());
             }
         }
+
+        #endregion Constructors
     }
 }
