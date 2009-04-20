@@ -6,6 +6,10 @@ using Logging;
 
 namespace Engine.Saving
 {
+    /// <summary>
+    /// This is a collection of ValueWriters for all supported types that can be
+    /// written to a given stream type.
+    /// </summary>
     public class ValueWriterCollection
     {
         private Dictionary<Type, ValueWriter> valueWriters = new Dictionary<Type, ValueWriter>();
@@ -22,16 +26,28 @@ namespace Engine.Saving
             this.enumWriter = enumWriter;
         }
 
+        /// <summary>
+        /// Add a ValueWriter for a new type.
+        /// </summary>
+        /// <param name="writer">The writer to register with a given type.</param>
         public void addValueWriter(ValueWriter writer)
         {
             valueWriters.Add(writer.getWriteType(), writer);
         }
 
+        /// <summary>
+        /// Remove a ValueWriter.
+        /// </summary>
+        /// <param name="writer">The ValueWriter to remove.</param>
         public void removeValueWriter(ValueWriter writer)
         {
             valueWriters.Remove(writer.getWriteType());
         }
 
+        /// <summary>
+        /// Write a given value to the stream using the correct writer.
+        /// </summary>
+        /// <param name="entry"></param>
         public void writeValue(SaveEntry entry)
         {
             Type objType = entry.ObjectType;

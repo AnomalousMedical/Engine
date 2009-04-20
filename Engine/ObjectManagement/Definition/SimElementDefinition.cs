@@ -8,6 +8,9 @@ using Engine.Saving;
 
 namespace Engine.ObjectManagement
 {
+    /// <summary>
+    /// This is a definition base class for SimElements.
+    /// </summary>
     public abstract class SimElementDefinition : Saveable
     {   
         #region Fields
@@ -78,12 +81,20 @@ namespace Engine.ObjectManagement
         private const string NAME = "SimElementName";
         private const string SUBSCRIPTION = "SimElementSubscription";
 
+        /// <summary>
+        /// Deserialize constructor.
+        /// </summary>
+        /// <param name="loadInfo">The LoadInfo that contains the deserialized data.</param>
         protected SimElementDefinition(LoadInfo loadInfo)
         {
             name = loadInfo.GetString(NAME);
             subscription = loadInfo.GetValue<Subscription>(SUBSCRIPTION);
         }
 
+        /// <summary>
+        /// Save the fields of this class to the serialization stream.
+        /// </summary>
+        /// <param name="info">The info to fill out.</param>
         public virtual void getInfo(SaveInfo info)
         {
             info.AddValue(NAME, name);

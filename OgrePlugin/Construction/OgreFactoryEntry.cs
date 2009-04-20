@@ -6,6 +6,9 @@ using Engine.ObjectManagement;
 
 namespace OgrePlugin
 {
+    /// <summary>
+    /// This is a single entry in the OgreFactory.
+    /// </summary>
     class OgreFactoryEntry
     {
         #region Fields

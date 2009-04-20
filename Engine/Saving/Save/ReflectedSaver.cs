@@ -6,13 +6,25 @@ using Engine.Reflection;
 
 namespace Engine.Saving
 {
+    /// <summary>
+    /// This class will scan an object and save or restore it.
+    /// </summary>
     public class ReflectedSaver
     {
+        /// <summary>
+        /// Hide constructor.
+        /// </summary>
         private ReflectedSaver()
         {
 
         }
 
+        /// <summary>
+        /// Save an object to a SaveInfo.
+        /// </summary>
+        /// <param name="source">The source object to save.</param>
+        /// <param name="info">The info to save the object to.</param>
+        /// <param name="scanner">The MemberScanner to use to save the object.</param>
         public static void SaveObject(Object source, SaveInfo info, MemberScanner scanner)
         {
             foreach (MemberWrapper wrapper in scanner.getMatchingMembers(source.GetType()))
@@ -21,6 +33,12 @@ namespace Engine.Saving
             }
         }
 
+        /// <summary>
+        /// Restore an object from a LoadInfo.
+        /// </summary>
+        /// <param name="source">The object to restore values to.</param>
+        /// <param name="info">The LoadInfo with the values to restore.</param>
+        /// <param name="scanner">A MemberScanner to use to restore the object.</param>
         public static void RestoreObject(Object source, LoadInfo info, MemberScanner scanner)
         {
             foreach (MemberWrapper wrapper in scanner.getMatchingMembers(source.GetType()))

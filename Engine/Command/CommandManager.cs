@@ -51,11 +51,19 @@ namespace Engine
             return commands.Values;
         }
 
+        /// <summary>
+        /// Add a command.
+        /// </summary>
+        /// <param name="command">The command to add.</param>
         public void addCommand(EngineCommand command)
         {
             commands.Add(command.Name, command);
         }
 
+        /// <summary>
+        /// Remove a command.
+        /// </summary>
+        /// <param name="command">The command to remove.</param>
         public void removeCommand(EngineCommand command)
         {
             commands.Remove(command.Name);

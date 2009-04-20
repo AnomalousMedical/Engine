@@ -10,6 +10,9 @@ using Engine.Saving;
 
 namespace OgrePlugin
 {
+    /// <summary>
+    /// The definition class for an OgreSceneManager.
+    /// </summary>
     public class OgreSceneManagerDefinition : SimElementManagerDefinition
     {
         #region Static

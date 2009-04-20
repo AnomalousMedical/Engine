@@ -10,6 +10,9 @@ using Engine.Platform;
 
 namespace OgrePlugin
 {
+    /// <summary>
+    /// The main interface class for the OgrePlugin.
+    /// </summary>
     public class OgreInterface : RendererPlugin
     {
         #region Static

@@ -13,6 +13,8 @@ namespace Engine.Editing
     /// </summary>
     public class ReflectedEditInterface
     {
+        #region Static
+
         private static MemberScanner defaultScanner = new MemberScanner(EditableAttributeFilter.Instance);
 
         public static MemberScanner DefaultScanner
@@ -25,8 +27,10 @@ namespace Engine.Editing
 
         static ReflectedEditInterface()
         {
-            
+
         }
+
+        #endregion Static
 
         #region Functions
 

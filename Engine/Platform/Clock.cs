@@ -12,11 +12,18 @@ namespace Engine.Platform
     {
         double timeSeconds;
 
+        /// <summary>
+        /// Set the time on this clock in seconds.
+        /// </summary>
+        /// <param name="seconds">The number of seconds to set.</param>
         public void setTimeSeconds(double seconds)
         {
             timeSeconds = seconds;
         }
 
+        /// <summary>
+        /// Get the amount of time on this clock in seconds.
+        /// </summary>
         public double Seconds
         {
             get

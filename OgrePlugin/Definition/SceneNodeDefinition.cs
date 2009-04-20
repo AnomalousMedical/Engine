@@ -10,6 +10,9 @@ using Engine.Saving;
 
 namespace OgrePlugin
 {
+    /// <summary>
+    /// The definition class for a SceneNode.
+    /// </summary>
     public class SceneNodeDefinition : SimElementDefinition
     {
         private EditInterface editInterface;
@@ -17,12 +20,21 @@ namespace OgrePlugin
         private EditInterfaceManager<EntityDefinition> entityEditInterfaces;
         private EditInterfaceCommand destroyEntity;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="name">The name of the node.</param>
         public SceneNodeDefinition(String name)
             :base(name)
         {
 
         }
 
+        /// <summary>
+        /// Register this class with the factory to be built.
+        /// </summary>
+        /// <param name="subscene">The subscene to add this definition to.</param>
+        /// <param name="instance">The SimObject that will get the product.</param>
         public override void register(SimSubScene subscene, SimObject instance)
         {
             if (subscene.hasSimElementManagerType(typeof(OgreSceneManager)))
@@ -36,6 +48,10 @@ namespace OgrePlugin
             }
         }
 
+        /// <summary>
+        /// Get the EditInterface for this SceneNode.
+        /// </summary>
+        /// <returns>The node's EditInterface.</returns>
         public override EditInterface getEditInterface()
         {
             if (editInterface == null)
@@ -48,6 +64,10 @@ namespace OgrePlugin
             return editInterface;
         }
 
+        /// <summary>
+        /// Add an EntityDefinition.
+        /// </summary>
+        /// <param name="definition">The definition to add.</param>
         public void addEntityDefinition(EntityDefinition definition)
         {
             entities.Add(definition.Name, definition);
@@ -57,6 +77,10 @@ namespace OgrePlugin
             }
         }
 
+        /// <summary>
+        /// Remove an EntityDefinition.
+        /// </summary>
+        /// <param name="definition">The definition to remove.</param>
         public void removeEntityDefinition(EntityDefinition definition)
         {
             entities.Remove(definition.Name);
@@ -66,6 +90,11 @@ namespace OgrePlugin
             }
         }
 
+        /// <summary>
+        /// Create the product of this SceneNode.
+        /// </summary>
+        /// <param name="instance">The instance to get the product.</param>
+        /// <param name="scene">The scene to create the product into.</param>
         internal void createProduct(SimObject instance, OgreSceneManager scene)
         {
             Identifier identifier = new Identifier(instance.Name, Name);
@@ -75,24 +104,38 @@ namespace OgrePlugin
             SceneNodeElement element = new SceneNodeElement(identifier, this.subscription, scene, node);
             foreach (EntityDefinition entity in entities.Values)
             {
-                entity.createProduct(node, element, scene, instance);
+                entity.createProduct(element, scene, instance);
             }
             instance.addElement(element);
             scene.SceneManager.getRootSceneNode().addChild(node);
         }
 
+        /// <summary>
+        /// Create a static product.
+        /// </summary>
+        /// <param name="instance">The instance to get the product.</param>
+        /// <param name="scene">The scene to create the product into.</param>
         internal void createStaticProduct(SimObject instance, OgreSceneManager scene)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Helper function to add an EditInterface for an EntityDefinition.
+        /// </summary>
+        /// <param name="definition"></param>
         private void addEntityEditInterface(EntityDefinition definition)
         {
             EditInterface edit = definition.getEditInterface();
             edit.addCommand(destroyEntity);
             entityEditInterfaces.addSubInterface(definition, edit);
         }
-
+        
+        /// <summary>
+        /// Callback to add an EntityDefinition.
+        /// </summary>
+        /// <param name="callback"></param>
+        /// <param name="command"></param>
         private void addEntity(EditUICallback callback, EditInterfaceCommand command)
         {
             String name;
@@ -107,6 +150,11 @@ namespace OgrePlugin
             }
         }
 
+        /// <summary>
+        /// Callback to remove an EntityDefiniton.
+        /// </summary>
+        /// <param name="callback"></param>
+        /// <param name="command"></param>
         private void removeEntity(EditUICallback callback, EditInterfaceCommand command)
         {
             removeEntityDefinition(entityEditInterfaces.resolveSourceObject(callback.getSelectedEditInterface()));
@@ -116,6 +164,10 @@ namespace OgrePlugin
 
         private const String ENTITY_BASE = "Entity";
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="info"></param>
         private SceneNodeDefinition(LoadInfo info)
             :base(info)
         {
@@ -125,6 +177,10 @@ namespace OgrePlugin
             }
         }
 
+        /// <summary>
+        /// GetInfo function.
+        /// </summary>
+        /// <param name="info"></param>
         public override void getInfo(SaveInfo info)
         {
             base.getInfo(info);

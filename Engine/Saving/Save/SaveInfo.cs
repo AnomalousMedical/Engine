@@ -7,27 +7,22 @@ using Engine.ObjectManagement;
 
 namespace Engine.Saving
 {
+    /// <summary>
+    /// This class is used to save the contents of an object to a stream to be
+    /// loaded later.
+    /// </summary>
     public class SaveInfo
     {
         private Dictionary<String, SaveEntry> entries = new Dictionary<String, SaveEntry>();
         private SaveControl writer;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="writer">The SaveControl to call back to.</param>
         public SaveInfo(SaveControl writer)
         {
             this.writer = writer;
-        }
-
-        internal void clear()
-        {
-            entries.Clear();
-        }
-
-        private void validate(String name, object value)
-        {
-            if (entries.ContainsKey(name))
-            {
-                throw new SaveException(String.Format("Attempted to add a duplicate value {0}", name));
-            }
         }
 
         public void AddValue(string name, bool value)
@@ -168,9 +163,34 @@ namespace Engine.Saving
             entries.Add(name, new SaveEntry(name, value, objectType));
         }
 
+        /// <summary>
+        /// Get an iterator over all values.
+        /// </summary>
+        /// <returns>An iterator over all values.</returns>
         internal IEnumerable<SaveEntry> saveEntryIterator()
         {
             return entries.Values;
+        }
+
+        /// <summary>
+        /// Clear the entries in this SaveInfo. Used so these can be recycled.
+        /// </summary>
+        internal void clear()
+        {
+            entries.Clear();
+        }
+
+        /// <summary>
+        /// Validate helper function.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        private void validate(String name, object value)
+        {
+            if (entries.ContainsKey(name))
+            {
+                throw new SaveException(String.Format("Attempted to add a duplicate value {0}", name));
+            }
         }
     }
 }

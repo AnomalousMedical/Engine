@@ -21,6 +21,12 @@ namespace Engine.Saving
         private ValueWriterCollection valueWriters;
         private FooterWriter footerWriter;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="headerWriter">The HeaderWriter to use to write headers.</param>
+        /// <param name="valueWriters">The writers to use to restore values.</param>
+        /// <param name="footerWriter">The FooterWriter to write footers.</param>
         public SaveControl(HeaderWriter headerWriter, ValueWriterCollection valueWriters, FooterWriter footerWriter)
         {
             this.headerWriter = headerWriter;
@@ -67,6 +73,11 @@ namespace Engine.Saving
             }
         }
 
+        /// <summary>
+        /// Write an object to the stream.
+        /// </summary>
+        /// <param name="identifier">The ObjectIdentifier of the object to write.</param>
+        /// <param name="info">The info for the object to write.</param>
         protected void writeObject(ObjectIdentifier identifier, SaveInfo info)
         {
             headerWriter.writeHeader(identifier);
@@ -77,6 +88,10 @@ namespace Engine.Saving
             footerWriter.writeFooter(identifier);
         }
 
+        /// <summary>
+        /// Helper function to manage checking out of pooled SaveInfos.
+        /// </summary>
+        /// <returns>A pooled save info.</returns>
         private SaveInfo checkOutSaveInfo()
         {
             if (pooledInfos.Count == 0)
@@ -89,6 +104,10 @@ namespace Engine.Saving
             }
         }
 
+        /// <summary>
+        /// Check in a SaveInfo.
+        /// </summary>
+        /// <param name="info">The info to check in.</param>
         private void checkInSaveInfo(SaveInfo info)
         {
             info.clear();

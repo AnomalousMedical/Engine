@@ -100,11 +100,16 @@ namespace Engine.ObjectManagement
                     createCommands.Add(createSimElement, command.Name);
                     editInterface.addCommand(createSimElement);
                 }
-                destroySimElement = new EditInterfaceCommand("Remove", removeSimElement);
+                destroySimElement = new EditInterfaceCommand("Remove", removeSimElementDefinition);
             }
             return editInterface;
         }
 
+        /// <summary>
+        /// Helper function to create SimElementDefinitions.
+        /// </summary>
+        /// <param name="callback"></param>
+        /// <param name="command"></param>
         private void createSimElementDefinition(EditUICallback callback, EditInterfaceCommand command)
         {
             String name;
@@ -120,11 +125,20 @@ namespace Engine.ObjectManagement
             }
         }
 
-        private void removeSimElement(EditUICallback callback, EditInterfaceCommand command)
+        /// <summary>
+        /// Remove a SimElementDefinition.
+        /// </summary>
+        /// <param name="callback"></param>
+        /// <param name="command"></param>
+        private void removeSimElementDefinition(EditUICallback callback, EditInterfaceCommand command)
         {
             removeElement(elementEditInterfaces.resolveSourceObject(callback.getSelectedEditInterface()));
         }
 
+        /// <summary>
+        /// Helper function to create the EditInterface for a given SimElementDefinition.
+        /// </summary>
+        /// <param name="definition"></param>
         private void createElementInterface(SimElementDefinition definition)
         {
             EditInterface edit = definition.getEditInterface();
@@ -158,6 +172,10 @@ namespace Engine.ObjectManagement
         private const String NAME = "Name";
         private const String ELEMENTS_BASE = "Element";
 
+        /// <summary>
+        /// Deserialize constructor.
+        /// </summary>
+        /// <param name="info"></param>
         private SimObjectDefinition(LoadInfo info)
         {
             name = info.GetString(NAME);
@@ -167,6 +185,10 @@ namespace Engine.ObjectManagement
             }
         }
 
+        /// <summary>
+        /// Serialize function.
+        /// </summary>
+        /// <param name="info"></param>
         public void getInfo(SaveInfo info)
         {
             info.AddValue(NAME, Name);

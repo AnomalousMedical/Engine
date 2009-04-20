@@ -5,12 +5,22 @@ using System.Text;
 
 namespace Engine.Saving
 {
+    /// <summary>
+    /// This struct contains data for an object that is being written to a
+    /// stream.
+    /// </summary>
     public struct ObjectIdentifier
     {
         long objectID;
         Object value;
         Type objectType;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="objectID">The objectID of the object.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="objectType">The type of the value.</param>
         public ObjectIdentifier(long objectID, Object value, Type objectType)
         {
             this.objectID = objectID;
@@ -18,6 +28,9 @@ namespace Engine.Saving
             this.objectType = objectType;
         }
 
+        /// <summary>
+        /// A unique ID that identifies this particular object.
+        /// </summary>
         public long ObjectID
         {
             get
@@ -26,6 +39,9 @@ namespace Engine.Saving
             }
         }
 
+        /// <summary>
+        /// The type of this object.
+        /// </summary>
         public Type ObjectType
         {
             get
@@ -34,6 +50,9 @@ namespace Engine.Saving
             }
         }
 
+        /// <summary>
+        /// The value of this object.
+        /// </summary>
         public Object Value
         {
             get

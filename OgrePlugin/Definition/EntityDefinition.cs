@@ -11,6 +11,9 @@ using Logging;
 
 namespace OgrePlugin
 {
+    /// <summary>
+    /// This is a definition class for Entities.
+    /// </summary>
     public class EntityDefinition : Saveable
     {
         #region Static
@@ -34,11 +37,19 @@ namespace OgrePlugin
         private String meshName;
         private EditInterface editInterface = null;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="name">The name of the entity.</param>
         public EntityDefinition(String name)
         {
             this.name = name;
         }
 
+        /// <summary>
+        /// Get an EditInterface for this entity.
+        /// </summary>
+        /// <returns>An EditInterface for this entity.</returns>
         public EditInterface getEditInterface()
         {
             if (editInterface == null)
@@ -48,7 +59,13 @@ namespace OgrePlugin
             return editInterface;
         }
 
-        internal void createProduct(SceneNode node, SceneNodeElement element, OgreSceneManager scene, SimObject simObject)
+        /// <summary>
+        /// Create the product for this entity.
+        /// </summary>
+        /// <param name="element">The SceneNodeElement to add the definition to so it can be destroyed properly.</param>
+        /// <param name="scene">The OgreSceneManager that will get the entity.</param>
+        /// <param name="simObject">The SimObject that will get the entity.</param>
+        internal void createProduct(SceneNodeElement element, OgreSceneManager scene, SimObject simObject)
         {
             if (OgreResourceGroupManager.getInstance().findGroupContainingResource(meshName) != null)
             {
@@ -58,7 +75,6 @@ namespace OgrePlugin
                 {
                     skeleton.initialzeSkeleton(entity.getSkeleton());
                 }
-                node.attachObject(entity);
                 element.addEntity(identifier, entity);
             }
             else
@@ -67,6 +83,9 @@ namespace OgrePlugin
             }
         }
 
+        /// <summary>
+        /// The name of the mesh to use for this entity.
+        /// </summary>
         [Editable("The name of the mesh to use for this entity.", typeof(Mesh))]
         public String MeshName
         {
@@ -80,6 +99,9 @@ namespace OgrePlugin
             }
         }
 
+        /// <summary>
+        /// The name of this entity.
+        /// </summary>
         public String Name
         {
             get

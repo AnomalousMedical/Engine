@@ -15,6 +15,11 @@ namespace OgrePlugin
         private OSWindow osWindow;
         private RenderWindow renderWindow;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="osWindow">The OSWindow.</param>
+        /// <param name="renderWindow">The RenderWindow.</param>
         public EmbeddedWindow(OSWindow osWindow, RenderWindow renderWindow)
             : base(osWindow)
         {
@@ -25,6 +30,9 @@ namespace OgrePlugin
             osWindow.Closing += windowClosing;
         }
 
+        /// <summary>
+        /// Dispose function.
+        /// </summary>
         public override void Dispose()
         {
             osWindow.Resized -= windowChanged;

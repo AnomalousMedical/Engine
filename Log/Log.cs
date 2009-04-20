@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Logging
 {
+    /// <summary>
+    /// The severity of the information logged.
+    /// </summary>
     public enum LogLevel
     {
         Info = 1 << 0,

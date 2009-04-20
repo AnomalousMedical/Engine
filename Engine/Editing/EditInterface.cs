@@ -33,24 +33,46 @@ namespace Engine.Editing
         public event SubInterfaceAdded OnSubInterfaceAdded;
         public event SubInterfaceRemoved OnSubInterfaceRemoved;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="name">The name of the interface.</param>
         public EditInterface(String name)
             :this(name, null, null, null)
         {
 
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="name">The name of the interface.</param>
+        /// <param name="validateCallback">A callback to be called when the data should be validated.</param>
         public EditInterface(String name, Validate validateCallback)
             :this(name, null, null, validateCallback)
         {
 
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="name">The name of the interface.</param>
+        /// <param name="addPropertyCallback">A callback to be called when a property is added.</param>
+        /// <param name="removePropertyCallback">A callback to be called when a property is removed.</param>
         public EditInterface(String name, AddProperty addPropertyCallback, RemoveProperty removePropertyCallback)
             :this(name, addPropertyCallback, removePropertyCallback, null)
         {
 
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="name">The name of the interface.</param>
+        /// <param name="addPropertyCallback">A callback to be called when a property is added.</param>
+        /// <param name="removePropertyCallback">A callback to be called when a property is removed.</param>
+        /// <param name="validateCallback">A callback to be called when the data should be validated.</param>
         public EditInterface(String name, AddProperty addPropertyCallback, RemoveProperty removePropertyCallback, Validate validateCallback)
         {
             this.name = name;
@@ -68,6 +90,10 @@ namespace Engine.Editing
             return name;
         }
 
+        /// <summary>
+        /// Add a property.
+        /// </summary>
+        /// <param name="property">The property to add.</param>
         public void addEditableProperty(EditableProperty property)
         {
             editableProperties.AddLast(property);
@@ -77,6 +103,10 @@ namespace Engine.Editing
             }
         }
 
+        /// <summary>
+        /// Remove a property.
+        /// </summary>
+        /// <param name="property">The property to remove.</param>
         public void removeEditableProperty(EditableProperty property)
         {
             editableProperties.Remove(property);
@@ -104,6 +134,10 @@ namespace Engine.Editing
             return editableProperties;
         }
 
+        /// <summary>
+        /// Set the EditablePropertyInfo.
+        /// </summary>
+        /// <param name="propertyInfo">The info to set.</param>
         public void setPropertyInfo(EditablePropertyInfo propertyInfo)
         {
             this.propertyInfo = propertyInfo;
@@ -120,6 +154,10 @@ namespace Engine.Editing
             return propertyInfo;
         }
 
+        /// <summary>
+        /// Add an EditInterface below this one.
+        /// </summary>
+        /// <param name="editInterface">The subinterface to add.</param>
         public void addSubInterface(EditInterface editInterface)
         {
             subInterfaces.AddLast(editInterface);
@@ -129,6 +167,10 @@ namespace Engine.Editing
             }
         }
 
+        /// <summary>
+        /// Remove a sub interface.
+        /// </summary>
+        /// <param name="editInterface">The subinterface to remove.</param>
         public void removeSubInterface(EditInterface editInterface)
         {
             subInterfaces.Remove(editInterface);
@@ -156,11 +198,19 @@ namespace Engine.Editing
             return subInterfaces;
         }
 
+        /// <summary>
+        /// Add a command.
+        /// </summary>
+        /// <param name="command">The command to add.</param>
         public void addCommand(EditInterfaceCommand command)
         {
             commands.AddLast(command);
         }
 
+        /// <summary>
+        /// Remove a command.
+        /// </summary>
+        /// <param name="command">The command to remove.</param>
         public void removeCommand(EditInterfaceCommand command)
         {
             commands.Remove(command);

@@ -98,6 +98,9 @@ namespace Engine.Platform
         /// </summary>
         public abstract int MaxFrameSkip { get; set; }
 
+        /// <summary>
+        /// Fire a fixed update.
+        /// </summary>
         protected void fireFixedUpdate()
         {
             clock.setTimeSeconds(FixedFrequency);
@@ -107,6 +110,10 @@ namespace Engine.Platform
             }
         }
 
+        /// <summary>
+        /// Fire a full speed update.
+        /// </summary>
+        /// <param name="deltaTime">The amount of time since the last full speed update.</param>
         protected void fireFullSpeedUpdate(double deltaTime)
         {
             clock.setTimeSeconds(deltaTime);
@@ -116,6 +123,9 @@ namespace Engine.Platform
             }
         }
 
+        /// <summary>
+        /// Fire the loopStaring event.
+        /// </summary>
         protected void fireLoopStarted()
         {
             foreach (UpdateListener fixedListener in fixedListeners)
@@ -128,6 +138,9 @@ namespace Engine.Platform
             }
         }
 
+        /// <summary>
+        /// Fire the exceededMaxDelta event.
+        /// </summary>
         protected void fireExceededMaxDelta()
         {
             foreach (UpdateListener fixedListener in fixedListeners)

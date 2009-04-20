@@ -7,6 +7,9 @@ using OgreWrapper;
 
 namespace OgrePlugin
 {
+    /// <summary>
+    /// A Timer Update class for Ogre.
+    /// </summary>
     class OgreUpdate : UpdateListener
     {
         private Root ogreRoot;

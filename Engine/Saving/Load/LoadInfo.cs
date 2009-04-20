@@ -6,15 +6,27 @@ using EngineMath;
 
 namespace Engine.Saving
 {
+    /// <summary>
+    /// This class contains the serialized info for a Saveable implementation.
+    /// It will be provided to the constructor.
+    /// </summary>
     public class LoadInfo
     {
         private Dictionary<String, SaveEntry> entries = new Dictionary<String, SaveEntry>();
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public LoadInfo()
         {
 
         }
 
+        /// <summary>
+        /// Determine if a value exists in this load info by name.
+        /// </summary>
+        /// <param name="name">The name of the value to check for.</param>
+        /// <returns>True if the value exists. False if it does not.</returns>
         public bool hasValue(String name)
         {
             return entries.ContainsKey(name);
@@ -126,11 +138,20 @@ namespace Engine.Saving
             return entries[name].Value;
         }
 
+        /// <summary>
+        /// Internal function to reset this object so it can be pooled.
+        /// </summary>
         internal void reset()
         {
             entries.Clear();
         }
 
+        /// <summary>
+        /// Internal function to add a value. This keeps the LoadInfos read only.
+        /// </summary>
+        /// <param name="name">The name of the value to add.</param>
+        /// <param name="value">The value to add.</param>
+        /// <param name="objectType">The object type of the value.</param>
         internal void addValue(string name, object value, Type objectType)
         {
             entries.Add(name, new SaveEntry(name, value, objectType));

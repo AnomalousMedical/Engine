@@ -9,6 +9,9 @@ using EngineMath;
 
 namespace OgrePlugin
 {
+    /// <summary>
+    /// The SimElement for a SceneNode.
+    /// </summary>
     public class SceneNodeElement : SimElement
     {
         private Identifier sceneID;
@@ -16,6 +19,13 @@ namespace OgrePlugin
         private SceneNode sceneNode;
         private Dictionary<Identifier, Entity> entities = new Dictionary<Identifier, Entity>();
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="sceneID">The identifier of the scene node.</param>
+        /// <param name="subscription">The subscription of the scene node.</param>
+        /// <param name="scene">The scene this node belongs to.</param>
+        /// <param name="node">The node to manage.</param>
         public SceneNodeElement(Identifier sceneID, Subscription subscription, OgreSceneManager scene, SceneNode node)
             :base(sceneID.ElementName, subscription) 
         {
@@ -24,11 +34,20 @@ namespace OgrePlugin
             this.sceneNode = node;
         }
 
+        /// <summary>
+        /// Add an Entity to the node. This will attach it to the SceneNode.
+        /// </summary>
+        /// <param name="identifier">The identifier of the Entity.</param>
+        /// <param name="entity">The Entity to attach.</param>
         public void addEntity(Identifier identifier, Entity entity)
         {
+            sceneNode.attachObject(entity);
             entities.Add(identifier, entity);
         }
 
+        /// <summary>
+        /// Dispose this SceneNode and all attached objects.
+        /// </summary>
         public override void Dispose()
         {
             foreach (Identifier identifier in entities.Keys)

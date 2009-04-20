@@ -9,6 +9,9 @@ using Engine.ObjectManagement;
 
 namespace OgrePlugin
 {
+    /// <summary>
+    /// A CameraControl class for ogre cameras.
+    /// </summary>
     class OgreCameraControl : CameraControl, IDisposable
     {
         private SceneNode node;

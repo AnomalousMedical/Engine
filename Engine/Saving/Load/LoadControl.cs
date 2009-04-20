@@ -24,15 +24,24 @@ namespace Engine.Saving
 
         }
 
+        /// <summary>
+        /// Start defining an object that is being loaded. Call this when a new
+        /// object is identified in the stream.
+        /// </summary>
+        /// <param name="identifier">The ObjectIdentifier of the newly found object.</param>
         public void startDefiningObject(ObjectIdentifier identifier)
         {
             loadInfo.reset();
             currentIdentifier = identifier;
         }
 
+        /// <summary>
+        /// Create the object that has been defined. Call this when the end of
+        /// an object definition is found in the stream.
+        /// </summary>
+        /// <returns></returns>
         public Object createCurrentObject()
         {
-            //currentIdentifier.Value = System.Activator.CreateInstance(currentIdentifier.ObjectType, loadInfo);
             ConstructorInfo constructor = currentIdentifier.ObjectType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, constructorArgs, null);
             if (constructor != null)
             {
@@ -46,11 +55,22 @@ namespace Engine.Saving
             }
         }
 
+        /// <summary>
+        /// Add a value to the currently defining object.
+        /// </summary>
+        /// <param name="name">The name of the value.</param>
+        /// <param name="value">The value of the value.</param>
+        /// <param name="objectType">The type of the value.</param>
         public void addValue(string name, object value, Type objectType)
         {
             loadInfo.addValue(name, value, objectType);
         }
 
+        /// <summary>
+        /// Add an object that has been previoiusly discovered by objectID.
+        /// </summary>
+        /// <param name="name">The name of the object.</param>
+        /// <param name="objectID">The objectID of a previously loaded object to use as the value.</param>
         public void addObjectValue(string name, long objectID)
         {
             ObjectIdentifier id = identiferMap[objectID];
