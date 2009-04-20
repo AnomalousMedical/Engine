@@ -57,6 +57,7 @@
     <Compile Include="Instance\SceneNodeElement.cs" />
     <Compile Include="Platform\AutomaticWindow.cs" />
     <Compile Include="Platform\EmbeddedWindow.cs" />
+    <Compile Include="Platform\OgreCameraControl.cs" />
     <Compile Include="Platform\OgreOSWindow.cs" />
     <Compile Include="Platform\OgreUpdate.cs" />
     <Compile Include="Platform\OgreWindow.cs" />

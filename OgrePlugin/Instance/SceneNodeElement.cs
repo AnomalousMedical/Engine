@@ -15,7 +15,6 @@ namespace OgrePlugin
         private OgreSceneManager scene;
         private SceneNode sceneNode;
         private Dictionary<Identifier, Entity> entities = new Dictionary<Identifier, Entity>();
-        private SceneNode parentNode;
 
         public SceneNodeElement(Identifier sceneID, Subscription subscription, OgreSceneManager scene, SceneNode node)
             :base(sceneID.ElementName, subscription) 

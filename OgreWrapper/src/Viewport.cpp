@@ -7,6 +7,7 @@
 
 #include "StdAfx.h"
 #include "..\include\Viewport.h"
+#include "MathUtils.h"
 
 #include "Ogre.h"
 
@@ -42,6 +43,16 @@ void Viewport::setVisibilityMask(unsigned int mask)
 unsigned int Viewport::getVisibilityMask()
 {
 	return viewport->getVisibilityMask();
+}
+
+void Viewport::setBackgroundColor(EngineMath::Color color)
+{
+	return viewport->setBackgroundColour(MathUtils::copyColor(color));
+}
+
+EngineMath::Color Viewport::getBackgroundColor()
+{
+	return MathUtils::copyColor(viewport->getBackgroundColour());
 }
 
 }

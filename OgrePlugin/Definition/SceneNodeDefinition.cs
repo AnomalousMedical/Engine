@@ -69,7 +69,7 @@ namespace OgrePlugin
         internal void createProduct(SimObject instance, OgreSceneManager scene)
         {
             Identifier identifier = new Identifier(instance.Name, Name);
-            SceneNode node = scene.createSceneNode(identifier, this);
+            SceneNode node = scene.createSceneNode(identifier);
             node.setPosition(instance.Translation);
             node.setOrientation(instance.Rotation);
             SceneNodeElement element = new SceneNodeElement(identifier, this.subscription, scene, node);
@@ -78,6 +78,7 @@ namespace OgrePlugin
                 entity.createProduct(node, element, scene, instance);
             }
             instance.addElement(element);
+            scene.SceneManager.getRootSceneNode().addChild(node);
         }
 
         internal void createStaticProduct(SimObject instance, OgreSceneManager scene)

@@ -16,6 +16,7 @@ namespace OgrePlugin
         private OgreFactory factory;
         private Dictionary<Identifier, Entity> entities = new Dictionary<Identifier, Entity>();
         private Dictionary<Identifier, SceneNode> sceneNodes = new Dictionary<Identifier, SceneNode>();
+        private Dictionary<Identifier, Camera> cameras = new Dictionary<Identifier, Camera>();
 
         public OgreSceneManager(String name, SceneManager scene)
         {
@@ -79,9 +80,9 @@ namespace OgrePlugin
             }
         }
 
-        internal SceneNode createSceneNode(Identifier name, SceneNodeDefinition definition)
+        internal SceneNode createSceneNode(Identifier name)
         {
-            SceneNode node = scene.createSceneNode(definition.Name);
+            SceneNode node = scene.createSceneNode(name.FullName);
             sceneNodes.Add(name, node);
             return node;
         }
@@ -96,7 +97,28 @@ namespace OgrePlugin
             }
             else
             {
-                Log.Default.sendMessage("Attempted to remove an scene node named {0} that does not exist in the scene {1}.", LogLevel.Warning, OgreInterface.PluginName, identifier.FullName, name);
+                Log.Default.sendMessage("Attempted to remove a scene node named {0} that does not exist in the scene {1}.", LogLevel.Warning, OgreInterface.PluginName, identifier.FullName, name);
+            }
+        }
+
+        internal Camera createCamera(Identifier name)
+        {
+            Camera camera = scene.createCamera(name.FullName);
+            cameras.Add(name, camera);
+            return camera;
+        }
+
+        internal void destroyCamera(Identifier name)
+        {
+            if (cameras.ContainsKey(name))
+            {
+                Camera camera = cameras[name];
+                cameras.Remove(name);
+                scene.destroyCamera(camera);
+            }
+            else
+            {
+                Log.Default.sendMessage("Attempted to remove a camera named {0} that does not exist in the scene {1}.", LogLevel.Warning, OgreInterface.PluginName, name.FullName, this.name);
             }
         }
 

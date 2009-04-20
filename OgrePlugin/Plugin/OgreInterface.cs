@@ -32,6 +32,7 @@ namespace OgrePlugin
         private delegate OgreSceneManagerDefinition CreateSceneManagerDefinition(String name);
         private delegate SceneNodeDefinition CreateSceneNodeDefinition(String name);
         private delegate void AddResourceLocation(String name, String locType, String group, bool recursive);
+        private delegate void InitializeResourceGroups();
 
         #endregion Delegates
 
@@ -99,6 +100,8 @@ namespace OgrePlugin
                 pluginManager.addCreateSimElementCommand(new EngineCommand("createSceneNode", "Create Ogre Scene Node", "Creates a new Ogre Scene Node.", new CreateSceneNodeDefinition(createSceneNodeDefinition)));
 
                 pluginManager.addOtherCommand(new EngineCommand("addResourceLocation", "Add Ogre Resource Location", "Add a resource location to ogre.", new AddResourceLocation(addResourceLocation)));
+                pluginManager.addOtherCommand(new EngineCommand("initializeResourceGroups", "Initialize Ogre Resources", "Initialize all added ogre resources.", new InitializeResourceGroups(initializeResources)));
+                
             }
             catch (Exception e)
             {
@@ -161,6 +164,12 @@ namespace OgrePlugin
         public void addResourceLocation(String name, String locType, String group, bool recursive)
         {
             OgreResourceGroupManager.getInstance().addResourceLocation(name, locType, group, recursive);
+            
+        }
+
+        public void initializeResources()
+        {
+            OgreResourceGroupManager.getInstance().initializeAllResourceGroups();
         }
 
         #endregion

@@ -34,17 +34,16 @@ internal:
 	/// <param name="name">The name of the viewport.</param>
 	Viewport(Ogre::Viewport* viewport, System::String^ name);
 
-public:
-	/// <summary>
-	/// Destructor
-	/// </summary>
-	~Viewport();
-
 	/// <summary>
 	/// Gets the wrapped native viewport.
 	/// </summary>
 	/// <returns>The wrapped native viewport.</returns>
 	Ogre::Viewport* getViewport();
+public:
+	/// <summary>
+	/// Destructor
+	/// </summary>
+	~Viewport();
 
 	/// <summary>
 	/// Gets the name of the viewport.
@@ -65,6 +64,10 @@ public:
 	/// </summary>
 	/// <returns>The visibility mask.</returns>
 	unsigned int getVisibilityMask();
+
+	void setBackgroundColor(EngineMath::Color color);
+
+	EngineMath::Color getBackgroundColor();
 };
 
 }
