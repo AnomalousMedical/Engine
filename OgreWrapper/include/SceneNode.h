@@ -115,6 +115,20 @@ public:
 	/// <param name="offset">If supplied, the camera targets this point in local space of the target node instead of the origin of the target node. Good for fine tuning the look at point.</param>
 	void setAutoTracking(bool enabled, SceneNode^ target, EngineMath::Vector3 offset);
 
+
+	/// <summary>
+	/// Makes all objects attached to this node become visible / invisible and
+    /// all child nodes.
+	/// </summary>
+	/// <param name="visible">Whether the objects are to be made visible or invisible.</param>
+	void setVisible(bool visible);
+
+	/// <summary>
+	/// Makes all objects attached to this node become visible / invisible. 
+	/// </summary>
+	/// <param name="visible">Whether the objects are to be made visible or invisible.</param>
+	/// <param name="cascade">If true, this setting cascades into child nodes too.</param>
+	void setVisible(bool visible, bool cascade);
 };
 
 }

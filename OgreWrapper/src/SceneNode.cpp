@@ -90,4 +90,14 @@ void SceneNode::setAutoTracking(bool enabled, SceneNode^ target, EngineMath::Vec
 	sceneNode->setAutoTracking(enabled, target->getSceneNode(), ogOffset);
 }
 
+void SceneNode::setVisible(bool visible)
+{
+	sceneNode->setVisible(visible);
+}
+
+void SceneNode::setVisible(bool visible, bool cascade)
+{
+	sceneNode->setVisible(visible, cascade);
+}
+
 }

@@ -12,20 +12,26 @@ namespace OgrePlugin
 {
     public class OgreInterface : RendererPlugin
     {
+        #region Static
+
+        public const String PluginName = "OgrePlugin";
+
+        #endregion Static
+
         #region Fields
 
         private Root root;
         OgreLogConnection ogreLog;
         private OgreUpdate ogreUpdate;
         private OgreWindow primaryWindow;
-        private CommandManager elementManagerCommands = new CommandManager();
-        private CommandManager elementDefinitonCommands = new CommandManager();
 
         #endregion Fields
 
         #region Delegates
 
         private delegate OgreSceneManagerDefinition CreateSceneManagerDefinition(String name);
+        private delegate SceneNodeDefinition CreateSceneNodeDefinition(String name);
+        private delegate void AddResourceLocation(String name, String locType, String group, bool recursive);
 
         #endregion Delegates
 
@@ -88,17 +94,11 @@ namespace OgrePlugin
                 }
 
                 //Setup commands
-                elementManagerCommands.addCommand(new EngineCommand("createOgreSceneManager", "Create Ogre Scene Manager", "Creates a new PhysX scene definition.", new CreateSceneManagerDefinition(createSceneManagerDefinition)));
+                pluginManager.addCreateSimElementManagerCommand(new EngineCommand("createOgreSceneManager", "Create Ogre Scene Manager", "Creates a new PhysX scene definition.", new CreateSceneManagerDefinition(createSceneManagerDefinition)));
 
-                foreach (EngineCommand command in elementManagerCommands.getCommandList())
-                {
-                    pluginManager.addCreateSimElementManagerCommand(command);
-                }
+                pluginManager.addCreateSimElementCommand(new EngineCommand("createSceneNode", "Create Ogre Scene Node", "Creates a new Ogre Scene Node.", new CreateSceneNodeDefinition(createSceneNodeDefinition)));
 
-                foreach (EngineCommand command in elementDefinitonCommands.getCommandList())
-                {
-                    pluginManager.addCreateSimElementCommand(command);
-                }
+                pluginManager.addOtherCommand(new EngineCommand("addResourceLocation", "Add Ogre Resource Location", "Add a resource location to ogre.", new AddResourceLocation(addResourceLocation)));
             }
             catch (Exception e)
             {
@@ -146,14 +146,24 @@ namespace OgrePlugin
             }
         }
 
-        #region Create Functions
+        #region Command Functions
 
         public OgreSceneManagerDefinition createSceneManagerDefinition(String name)
         {
             return new OgreSceneManagerDefinition(name);
         }
 
-        #endregion Create Functions
+        public SceneNodeDefinition createSceneNodeDefinition(String name)
+        {
+            return new SceneNodeDefinition(name);
+        }
+
+        public void addResourceLocation(String name, String locType, String group, bool recursive)
+        {
+            OgreResourceGroupManager.getInstance().addResourceLocation(name, locType, group, recursive);
+        }
+
+        #endregion
 
         #endregion Functions
     }

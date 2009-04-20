@@ -5,6 +5,7 @@ using System.Text;
 using Engine.Renderer;
 using Engine.Platform;
 using OgreWrapper;
+using EngineMath;
 
 namespace OgrePlugin
 {
@@ -23,6 +24,11 @@ namespace OgrePlugin
             {
                 return handle;
             }
+        }
+
+        public void createCamera(Vector3 translation, Vector3 lookAt)
+        {
+            
         }
 
         public abstract void Dispose();

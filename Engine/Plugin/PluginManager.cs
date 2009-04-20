@@ -45,6 +45,7 @@ namespace Engine
         private Dictionary<String, PluginInterface> loadedPlugins = new Dictionary<string, PluginInterface>();
         private CommandManager createSimElementCommands = new CommandManager();
         private CommandManager createSimElementManagerCommands = new CommandManager();
+        private CommandManager otherCommands = new CommandManager();
         private PlatformPlugin platformPlugin = null;
         private RendererPlugin rendererPlugin = null;
 
@@ -243,6 +244,35 @@ namespace Engine
         public EngineCommand getCreateSimElementCommand(String name)
         {
             return createSimElementCommands.getCommand(name);
+        }
+
+        /// <summary>
+        /// Add an other command, which is a general purpose command for a
+        /// plugin.
+        /// </summary>
+        /// <param name="command">The command to add.</param>
+        public void addOtherCommand(EngineCommand command)
+        {
+            otherCommands.addCommand(command);
+        }
+
+        /// <summary>
+        /// Get a list of all other commands registered by plugins.
+        /// </summary>
+        /// <returns>An enumerable over all commands.</returns>
+        public IEnumerable<EngineCommand> getOtherCommands()
+        {
+            return otherCommands.getCommandList();
+        }
+
+        /// <summary>
+        /// Get a specific other command by name.
+        /// </summary>
+        /// <param name="name">The name of the command to get.</param>
+        /// <returns>The EngineCommand that matches name.</returns>
+        public EngineCommand getOtherCommand(String name)
+        {
+            return otherCommands.getCommand(name);
         }
 
         #endregion Functions

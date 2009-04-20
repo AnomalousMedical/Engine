@@ -47,8 +47,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Construction\OgreFactory.cs" />
+    <Compile Include="Construction\OgreFactoryEntry.cs" />
+    <Compile Include="Definition\BoneInfo.cs" />
+    <Compile Include="Definition\EntityDefinition.cs" />
     <Compile Include="Definition\OgreSceneManagerDefinition.cs" />
+    <Compile Include="Definition\SceneNodeDefinition.cs" />
+    <Compile Include="Definition\SkeletonInfo.cs" />
     <Compile Include="Instance\OgreSceneManager.cs" />
+    <Compile Include="Instance\SceneNodeElement.cs" />
     <Compile Include="Platform\AutomaticWindow.cs" />
     <Compile Include="Platform\EmbeddedWindow.cs" />
     <Compile Include="Platform\OgreOSWindow.cs" />
