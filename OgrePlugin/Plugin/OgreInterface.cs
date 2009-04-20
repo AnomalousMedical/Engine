@@ -25,7 +25,7 @@ namespace OgrePlugin
 
         #region Delegates
 
-        private delegate SceneManagerDefinition CreateSceneManagerDefinition(String name);
+        private delegate OgreSceneManagerDefinition CreateSceneManagerDefinition(String name);
 
         #endregion Delegates
 
@@ -148,9 +148,9 @@ namespace OgrePlugin
 
         #region Create Functions
 
-        public SceneManagerDefinition createSceneManagerDefinition(String name)
+        public OgreSceneManagerDefinition createSceneManagerDefinition(String name)
         {
-            return new SceneManagerDefinition(name);
+            return new OgreSceneManagerDefinition(name);
         }
 
         #endregion Create Functions

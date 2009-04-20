@@ -46,7 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Definition\SceneManagerDefinition.cs" />
+    <Compile Include="Construction\OgreFactory.cs" />
+    <Compile Include="Definition\OgreSceneManagerDefinition.cs" />
+    <Compile Include="Instance\OgreSceneManager.cs" />
     <Compile Include="Platform\AutomaticWindow.cs" />
     <Compile Include="Platform\EmbeddedWindow.cs" />
     <Compile Include="Platform\OgreOSWindow.cs" />

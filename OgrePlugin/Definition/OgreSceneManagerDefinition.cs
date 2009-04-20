@@ -10,7 +10,7 @@ using Engine.Saving;
 
 namespace OgrePlugin
 {
-    public class SceneManagerDefinition : SimElementManagerDefinition
+    public class OgreSceneManagerDefinition : SimElementManagerDefinition
     {
         #region Static
 
@@ -19,7 +19,7 @@ namespace OgrePlugin
         /// <summary>
         /// Static constructor.
         /// </summary>
-        static SceneManagerDefinition()
+        static OgreSceneManagerDefinition()
         {
             memberScanner = new MemberScanner();
             memberScanner.ProcessFields = false;
@@ -32,6 +32,7 @@ namespace OgrePlugin
 
         private String name;
         private EditInterface editInterface;
+        private Root ogreRoot;
 
         #endregion Fields
 
@@ -41,10 +42,11 @@ namespace OgrePlugin
         /// Constructor.
         /// </summary>
         /// <param name="name">The name of the SceneManagerDefinition.</param>
-        internal SceneManagerDefinition(String name)
+        internal OgreSceneManagerDefinition(String name)
         {
             this.name = name;
             SceneTypeMask = SceneType.ST_GENERIC;
+            this.ogreRoot = Root.getSingleton();
         }
 
         #endregion Constructors
@@ -71,7 +73,9 @@ namespace OgrePlugin
         /// <returns>The SimElementManager this definition is designed to create.</returns>
         public SimElementManager createSimElementManager()
         {
-            throw new NotImplementedException();
+            SceneManager scene = ogreRoot.createSceneManager(SceneTypeMask, name);
+            OgreSceneManager ogreScene = new OgreSceneManager(name, scene);
+            return ogreScene;
         }
 
         /// <summary>
@@ -96,7 +100,7 @@ namespace OgrePlugin
         /// <returns></returns>
         public Type getSimElementManagerType()
         {
-            return typeof(SceneManagerDefinition);
+            return typeof(OgreSceneManagerDefinition);
         }
 
         /// <summary>
@@ -129,10 +133,11 @@ namespace OgrePlugin
         /// Load constructor.
         /// </summary>
         /// <param name="info"></param>
-        private SceneManagerDefinition(LoadInfo info)
+        private OgreSceneManagerDefinition(LoadInfo info)
         {
             name = info.GetString(NAME);
             SceneTypeMask = info.GetValue<SceneType>(SCENE_TYPE);
+            ogreRoot = Root.getSingleton();
         }
 
         /// <summary>

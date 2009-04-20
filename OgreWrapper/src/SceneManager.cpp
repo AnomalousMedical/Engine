@@ -34,6 +34,7 @@ nativeSceneListener(new NativeSceneListener(this))
 SceneManager::~SceneManager()
 {
 	delete rootNode;
+	sceneManager = 0;
 }
 
 Ogre::SceneManager* SceneManager::getSceneManager()
