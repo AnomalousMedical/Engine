@@ -1195,6 +1195,14 @@
 					RelativePath=".\include\VertexPoseKeyFrameCollection.h"
 					>
 				</File>
+				<File
+					RelativePath=".\src\ViewportCollection.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\ViewportCollection.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<File

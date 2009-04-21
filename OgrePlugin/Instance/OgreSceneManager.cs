@@ -21,6 +21,7 @@ namespace OgrePlugin
         private Dictionary<Identifier, Entity> entities = new Dictionary<Identifier, Entity>();
         private Dictionary<Identifier, SceneNode> sceneNodes = new Dictionary<Identifier, SceneNode>();
         private Dictionary<Identifier, Camera> cameras = new Dictionary<Identifier, Camera>();
+        private Dictionary<Identifier, Light> lights = new Dictionary<Identifier, Light>();
 
         /// <summary>
         /// Constructor.
@@ -180,6 +181,32 @@ namespace OgrePlugin
             else
             {
                 Log.Default.sendMessage("Attempted to remove a camera named {0} that does not exist in the scene {1}.", LogLevel.Warning, OgreInterface.PluginName, name.FullName, this.name);
+            }
+        }
+
+        /// <summary>
+        /// Create a new light in the scene.
+        /// </summary>
+        /// <param name="name">The Identifier of the light.</param>
+        /// <returns>A new light.</returns>
+        internal Light createLight(Identifier name)
+        {
+            Light light = scene.createLight(name.FullName);
+            lights.Add(name, light);
+            return light;
+        }
+
+        /// <summary>
+        /// Destroy a light with the given name.
+        /// </summary>
+        /// <param name="name">The name of the light to destroy.</param>
+        internal void destroyLight(Identifier name)
+        {
+            if (lights.ContainsKey(name))
+            {
+                Light light = lights[name];
+                lights.Remove(name);
+                scene.destroyLight(light);
             }
         }
 

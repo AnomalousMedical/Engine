@@ -12,6 +12,24 @@ namespace Engine
     public interface CameraControl
     {
         /// <summary>
+        /// Add a light that follows the camera around. This will only create
+        /// one light.
+        /// </summary>
+        void addLight();
+
+        /// <summary>
+        /// Remove the light from the camera.
+        /// </summary>
+        void removeLight();
+
+        /// <summary>
+        /// Turn the light on and off. Only does something if a light has been
+        /// added.
+        /// </summary>
+        /// <param name="enabled">True to enable the light.</param>
+        void setLightEnabled(bool enabled);
+
+        /// <summary>
         /// The current translation of the camera.
         /// </summary>
         Vector3 Translation { get; set; }

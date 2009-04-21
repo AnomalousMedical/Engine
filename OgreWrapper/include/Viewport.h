@@ -24,7 +24,6 @@ public ref class Viewport
 {
 private:
 	Ogre::Viewport* viewport;
-	System::String^ name;
 
 internal:
 	/// <summary>
@@ -32,7 +31,7 @@ internal:
 	/// </summary>
 	/// <param name="viewport">The native viewport to wrap.</param>
 	/// <param name="name">The name of the viewport.</param>
-	Viewport(Ogre::Viewport* viewport, System::String^ name);
+	Viewport(Ogre::Viewport* viewport);
 
 	/// <summary>
 	/// Gets the wrapped native viewport.
@@ -44,12 +43,6 @@ public:
 	/// Destructor
 	/// </summary>
 	~Viewport();
-
-	/// <summary>
-	/// Gets the name of the viewport.
-	/// </summary>
-	/// <returns>The name of the viewport.</returns>
-	System::String^ getName();
 
 	/// <summary>
 	/// The visibility mask is a way to exclude objects from rendering for a given viewport. 

@@ -37,19 +37,21 @@ System::String^ RenderTarget::getName()
 	return MarshalUtils::convertString(renderTarget->getName());
 }
 
-Viewport^ RenderTarget::createViewport( Camera^ camera, String^ name )
+Viewport^ RenderTarget::addViewport(Camera^ camera)
 {
-	Ogre::Viewport* ogreView = renderTarget->addViewport( camera->getCamera() );
-	Viewport^ viewport = gcnew Viewport( ogreView, name );
-	viewports[name] = viewport;
-	return viewport;
+	return viewports.getObject(renderTarget->addViewport(camera->getCamera()));
+}
+
+Viewport^ RenderTarget::addViewport(Camera^ camera, int zOrder, float left, float top, float width, float height)
+{
+	return viewports.getObject(renderTarget->addViewport(camera->getCamera(), zOrder, left, top, width, height));
 }
 
 void RenderTarget::destroyViewport( Viewport^ viewport )
 {
-	viewports.Remove( viewport->getName() );
-	renderTarget->removeViewport( viewport->getViewport()->getZOrder() );
-	delete viewport;
+	Ogre::Viewport* ogreViewport = viewport->getViewport();
+	viewports.destroyObject(ogreViewport);
+	renderTarget->removeViewport(ogreViewport->getZOrder());
 }
 
 unsigned int RenderTarget::getWidth()
@@ -92,13 +94,9 @@ unsigned short RenderTarget::getNumViewports()
 	return renderTarget->getNumViewports();
 }
 
-Viewport^ RenderTarget::getViewport(String^ name)
+Viewport^ RenderTarget::getViewport(unsigned short index)
 {
-	if(viewports.ContainsKey(name))
-	{
-		return viewports[name];
-	}
-	return nullptr;
+	return viewports.getObject(renderTarget->getViewport(index));
 }
 
 float RenderTarget::getLastFPS()

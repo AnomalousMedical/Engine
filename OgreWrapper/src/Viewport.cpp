@@ -14,25 +14,20 @@
 namespace OgreWrapper
 {
 
-Viewport::Viewport(Ogre::Viewport* viewport, System::String^ name)
-:viewport( viewport ), name( name )
+Viewport::Viewport(Ogre::Viewport* viewport)
+:viewport( viewport )
 {
 
 }
 
 Viewport::~Viewport()
 {
-	
+	viewport = 0;
 }
 
 Ogre::Viewport* Viewport::getViewport()
 {
 	return viewport;
-}
-
-System::String^ Viewport::getName()
-{
-	return name;
 }
 
 void Viewport::setVisibilityMask(unsigned int mask)

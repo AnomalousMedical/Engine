@@ -8,6 +8,7 @@
 #pragma once
 
 #include "PixelBox.h"
+#include "ViewportCollection.h"
 
 using namespace System;
 using namespace System::Collections::Generic;
@@ -41,7 +42,7 @@ enum class FrameBuffer
 
 private:
 	Ogre::RenderTarget* renderTarget;
-	Dictionary<String^, Viewport^> viewports;
+	ViewportCollection viewports;
 
 internal:
 	/// <summary>
@@ -69,12 +70,41 @@ public:
 	System::String^ getName();
 
 	/// <summary>
-	/// Creats a new viewport using the given camera with the given name.
+	/// Add a viewport to the rendering target.
 	/// </summary>
+	/// <remarks>
+	/// A viewport is the rectangle into which rendering output is sent. This
+    /// method adds a viewport to the render target, rendering from the supplied
+    /// camera. The rest of the parameters are only required if you wish to add
+    /// more than one viewport to a single rendering target. Note that size
+    /// information passed to this method is passed as a parametric, i.e. it is
+    /// relative rather than absolute. This is to allow viewports to
+    /// automatically resize along with the target.
+	/// </remarks>
 	/// <param name="camera">The camera to use for the viewport.</param>
-	/// <param name="name">The name of the viewport.</param>
-	/// <returns></returns>
-	Viewport^ createViewport( Camera^ camera, String^ name );
+	/// <returns>A new viewport.</returns>
+	Viewport^ addViewport(Camera^ camera);
+
+	/// <summary>
+	/// Add a viewport to the rendering target.
+	/// </summary>
+	/// <remarks>
+	/// A viewport is the rectangle into which rendering output is sent. This
+    /// method adds a viewport to the render target, rendering from the supplied
+    /// camera. The rest of the parameters are only required if you wish to add
+    /// more than one viewport to a single rendering target. Note that size
+    /// information passed to this method is passed as a parametric, i.e. it is
+    /// relative rather than absolute. This is to allow viewports to
+    /// automatically resize along with the target.
+	/// </remarks>
+	/// <param name="camera">The camera to use for the viewport.</param>
+	/// <param name="zOrder">The relative order of the viewport with others on the target (allows overlapping viewports i.e. picture-in-picture). Higher ZOrders are on top of lower ones. The actual number is irrelevant, only the relative ZOrder matters (you can leave gaps in the numbering).</param>
+	/// <param name="left">The relative position of the left of the viewport on the target, as a value between 0 and 1. </param>
+	/// <param name="top">The relative position of the top of the viewport on the target, as a value between 0 and 1. </param>
+	/// <param name="width">The relative width of the viewport on the target, as a value between 0 and 1. </param>
+	/// <param name="height">The relative height of the viewport on the target, as a value between 0 and 1.</param>
+	/// <returns>A new viewport.</returns>
+	Viewport^ addViewport(Camera^ camera, int zOrder, float left, float top, float width, float height);
 
 	/// <summary>
 	/// This will destroy the passed viewport.
@@ -160,9 +190,9 @@ public:
 	/// <summary>
 	/// Get the viewport identified by name.
 	/// </summary>
-	/// <param name="name">The name of the viewport to get.</param>
+	/// <param name="index">The index of the viewport to get.</param>
 	/// <returns>The viewport identified by name or null if it is not found.</returns>
-	Viewport^ getViewport(String^ name);
+	Viewport^ getViewport(unsigned short index);
 
 	//framestats getstatistics
 

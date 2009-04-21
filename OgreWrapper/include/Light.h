@@ -87,13 +87,12 @@ public:
 	/// Sets the colour of the diffuse light given off by this source.
 	/// </summary>
 	/// <param name="color">A vector3 with the color info.  x=red, y=green, z=blue</param>
-	void setDiffuseColor(EngineMath::Vector3 color);
+	void setDiffuseColor(EngineMath::Color color);
 
 	/// <summary>
-	/// Fill out the given vector with the diffuse color of the light.
+	/// Get the diffuse color of the light.
 	/// </summary>
-	/// <param name="color">The vector to fill out.</param>
-	void getDiffuseColor(EngineMath::Vector3% color);
+	EngineMath::Color getDiffuseColor();
 
 	/// <summary>
 	/// Sets the colour of the specular light given off by this source.
@@ -107,13 +106,12 @@ public:
 	/// Sets the colour of the specular light given off by this source.
 	/// </summary>
 	/// <param name="color">A vector3 with the color info.  x=red, y=green, z=blue</param>
-	void setSpecularColor(EngineMath::Vector3 color);
+	void setSpecularColor(EngineMath::Color color);
 
 	/// <summary>
-	/// Fill out the given vector with the specular color of the light.
+	/// Get the specular color of the light.
 	/// </summary>
-	/// <param name="color">The vector to fill out.</param>
-	void getSpecularColor(EngineMath::Vector3% color);
+	EngineMath::Color getSpecularColor();
 
 	/// <summary>
 	/// Sets the attenuation parameters of the light source ie how it diminishes with distance.

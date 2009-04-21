@@ -50,17 +50,14 @@ void Light::setDiffuseColor(float red, float green, float blue)
 	light->setDiffuseColour(red, green, blue);
 }
 
-void Light::setDiffuseColor(EngineMath::Vector3 color)
+void Light::setDiffuseColor(EngineMath::Color color)
 {
-	light->setDiffuseColour(color.x, color.y, color.z);
+	light->setDiffuseColour(MathUtils::copyColor(color));
 }
 
-void Light::getDiffuseColor(EngineMath::Vector3% color)
+EngineMath::Color Light::getDiffuseColor()
 {
-	Ogre::ColourValue cv = light->getDiffuseColour();
-	color.x = cv.r;
-	color.y = cv.g;
-	color.z = cv.b;
+	return MathUtils::copyColor(light->getDiffuseColour());
 }
 
 void Light::setSpecularColor(float red, float green, float blue)
@@ -68,17 +65,14 @@ void Light::setSpecularColor(float red, float green, float blue)
 	light->setSpecularColour(red, green, blue);
 }
 
-void Light::setSpecularColor(EngineMath::Vector3 color)
+void Light::setSpecularColor(EngineMath::Color color)
 {
-	light->setSpecularColour(color.x, color.y, color.z);
+	light->setSpecularColour(MathUtils::copyColor(color));
 }
 
-void Light::getSpecularColor(EngineMath::Vector3% color)
+EngineMath::Color Light::getSpecularColor()
 {
-	Ogre::ColourValue cv = light->getSpecularColour();
-	color.x = cv.r;
-	color.y = cv.g;
-	color.z = cv.b;
+	return MathUtils::copyColor(light->getSpecularColour());
 }
 
 void Light::setAttenuation(float range, float constant, float linear, float quadratic)
