@@ -117,6 +117,11 @@ namespace Engine.Saving
             return (Vector3)entries[name].Value;
         }
 
+        public Color GetColor(string name)
+        {
+            return (Color)entries[name].Value;
+        }
+
         public Saveable GetValue(string name, Type type)
         {
             return (Saveable)entries[name].Value;

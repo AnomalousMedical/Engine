@@ -110,9 +110,9 @@ void Light::setDirection(EngineMath::Vector3 dir)
 	light->setDirection(MathUtils::copyVector3(dir));
 }
 
-void Light::getDirection(EngineMath::Vector3% dir)
+EngineMath::Vector3 Light::getDirection()
 {
-	MathUtils::copyVector3(light->getDirection(), dir);
+	return MathUtils::copyVector3(light->getDirection());
 }
 
 void Light::setSpotlightRange(float innerAngleRad, float outerAngleRad, float falloff)

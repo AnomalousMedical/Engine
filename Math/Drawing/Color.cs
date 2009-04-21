@@ -11,6 +11,11 @@ namespace EngineMath
     public struct Color
     {
         /// <summary>
+        /// String format in rgba
+        /// </summary>
+        private const String FORMAT = "{0}, {1}, {2}, {3}";
+
+        /// <summary>
         /// Red value.
         /// </summary>
         public float r;
@@ -56,5 +61,64 @@ namespace EngineMath
             this.b = b;
             this.a = a;
         }
+
+        /// <summary>
+        /// Constructor, gets value from a string.
+        /// </summary>
+        /// <param name="value">A string in RGBA format R, G, B, A.</param>
+        public Color(String value)
+        {
+            setValue(value, out r, out g, out b, out a);
+        }
+
+        /// <summary>
+        /// Output as a string in RGBA format R, G, B, A.
+        /// </summary>
+        /// <returns>A string</returns>
+        public override string ToString()
+        {
+            return String.Format(FORMAT, r, g, b, a);
+        }
+
+        public bool FromString(String value)
+        {
+            return setValue(value, out r, out g, out b, out a);
+        }
+
+        #region Static Helpers
+
+        private static char[] SEPS = { ',' };
+
+        /// <summary>
+        /// Parse a string and set the value.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="r"></param>
+        /// <param name="g"></param>
+        /// <param name="b"></param>
+        /// <param name="a"></param>
+        /// <returns></returns>
+        private static bool setValue(String value, out float r, out float g, out float b, out float a)
+        {
+            String[] nums = value.Split(SEPS);
+            bool success = false;
+            if (nums.Length == 4)
+            {
+                success = float.TryParse(nums[0], out r);
+                success &= float.TryParse(nums[1], out g);
+                success &= float.TryParse(nums[2], out b);
+                success &= float.TryParse(nums[3], out a);
+            }
+            else
+            {
+                r = 0f;
+                g = 0f;
+                b = 0f;
+                a = 0f;
+            }
+            return success;
+        }
+
+        #endregion
     }
 }

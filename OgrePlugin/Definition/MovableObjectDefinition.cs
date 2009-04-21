@@ -8,7 +8,7 @@ using Engine.Reflection;
 using OgreWrapper;
 using Engine.ObjectManagement;
 
-namespace OgrePlugin.Definition
+namespace OgrePlugin
 {
     /// <summary>
     /// This is a definition class for Ogre MovableObjects such as Entities or
@@ -56,7 +56,7 @@ namespace OgrePlugin.Definition
         {
             if (editInterface == null)
             {
-                editInterface = ReflectedEditInterface.createEditInterface(this, memberScanner, name + interfaceName, validateCallback);
+                editInterface = ReflectedEditInterface.createEditInterface(this, typeof(MovableObjectDefinition), memberScanner, name + interfaceName, validateCallback);
                 setupEditInterface(editInterface);
             }
             return editInterface;

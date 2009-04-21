@@ -51,6 +51,8 @@
     <Compile Include="Definition\BoneInfo.cs" />
     <Compile Include="Definition\CameraDefinition.cs" />
     <Compile Include="Definition\EntityDefinition.cs" />
+    <Compile Include="Definition\LightDefinition.cs" />
+    <Compile Include="Definition\ManualObjectDefinition.cs" />
     <Compile Include="Definition\MovableObjectDefinition.cs" />
     <Compile Include="Definition\OgreSceneManagerDefinition.cs" />
     <Compile Include="Definition\SceneNodeDefinition.cs" />

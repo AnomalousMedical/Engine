@@ -149,6 +149,12 @@ namespace Engine.Saving
             entries.Add(name, new SaveEntry(name, value, typeof(Identifier)));
         }
 
+        public void AddValue(string name, Color value)
+        {
+            validate(name, value);
+            entries.Add(name, new SaveEntry(name, value, typeof(Color)));
+        }
+
         /// <summary>
         /// Internal function to be used by the ReflectedSaver to add a type.
         /// This is not public because the interface is designed to only accept

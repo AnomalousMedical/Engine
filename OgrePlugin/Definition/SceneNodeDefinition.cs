@@ -16,8 +16,8 @@ namespace OgrePlugin
     public class SceneNodeDefinition : SimElementDefinition
     {
         private EditInterface editInterface;
-        private Dictionary<String, EntityDefinition> entities = new Dictionary<String, EntityDefinition>();
-        private EditInterfaceManager<EntityDefinition> entityEditInterfaces;
+        private Dictionary<String, MovableObjectDefinition> movableObjects = new Dictionary<String, MovableObjectDefinition>();
+        private EditInterfaceManager<MovableObjectDefinition> movableObjectEdits;
         private EditInterfaceCommand destroyEntity;
 
         /// <summary>
@@ -57,36 +57,39 @@ namespace OgrePlugin
             if (editInterface == null)
             {
                 editInterface = new EditInterface(Name + " Scene Node");
-                entityEditInterfaces = new EditInterfaceManager<EntityDefinition>(editInterface);
+                movableObjectEdits = new EditInterfaceManager<MovableObjectDefinition>(editInterface);
                 editInterface.addCommand(new EditInterfaceCommand("Add Entity", addEntity));
-                destroyEntity = new EditInterfaceCommand("Remove", removeEntity);
+                editInterface.addCommand(new EditInterfaceCommand("Add Light", addLight));
+                editInterface.addCommand(new EditInterfaceCommand("Add Camera", addCamera));
+                editInterface.addCommand(new EditInterfaceCommand("Add Manual Object", addManualObject));
+                destroyEntity = new EditInterfaceCommand("Remove", removeMovableObject);
             }
             return editInterface;
         }
 
         /// <summary>
-        /// Add an EntityDefinition.
+        /// Add a MovableObjectDefinition.
         /// </summary>
         /// <param name="definition">The definition to add.</param>
-        public void addEntityDefinition(EntityDefinition definition)
+        public void addMovableObjectDefinition(MovableObjectDefinition definition)
         {
-            entities.Add(definition.Name, definition);
+            movableObjects.Add(definition.Name, definition);
             if (editInterface != null)
             {
-                addEntityEditInterface(definition);
+                addMovableObjectEdit(definition);
             }
         }
 
         /// <summary>
-        /// Remove an EntityDefinition.
+        /// Remove a MovableObjectDefinition.
         /// </summary>
         /// <param name="definition">The definition to remove.</param>
-        public void removeEntityDefinition(EntityDefinition definition)
+        public void removeMovableObjectDefinition(MovableObjectDefinition definition)
         {
-            entities.Remove(definition.Name);
+            movableObjects.Remove(definition.Name);
             if (editInterface != null)
             {
-                entityEditInterfaces.removeSubInterface(definition);
+                movableObjectEdits.removeSubInterface(definition);
             }
         }
 
@@ -102,9 +105,9 @@ namespace OgrePlugin
             node.setPosition(instance.Translation);
             node.setOrientation(instance.Rotation);
             SceneNodeElement element = new SceneNodeElement(identifier, this.subscription, scene, node);
-            foreach (EntityDefinition entity in entities.Values)
+            foreach (MovableObjectDefinition movable in movableObjects.Values)
             {
-                entity.createProduct(element, scene, instance);
+                movable.createProduct(element, scene, instance);
             }
             instance.addElement(element);
             scene.SceneManager.getRootSceneNode().addChild(node);
@@ -124,40 +127,87 @@ namespace OgrePlugin
         /// Helper function to add an EditInterface for an EntityDefinition.
         /// </summary>
         /// <param name="definition"></param>
-        private void addEntityEditInterface(EntityDefinition definition)
+        private void addMovableObjectEdit(MovableObjectDefinition definition)
         {
             EditInterface edit = definition.getEditInterface();
             edit.addCommand(destroyEntity);
-            entityEditInterfaces.addSubInterface(definition, edit);
+            movableObjectEdits.addSubInterface(definition, edit);
         }
-        
+
+        private bool getName(EditUICallback callback, out String name)
+        {
+            bool accept = callback.getInputString("Enter a name.", out name);
+            while (accept && this.movableObjects.ContainsKey(name))
+            {
+                accept = callback.getInputString("That name is already in use. Please provide another.", name, out name);
+            }
+            return accept;
+        }
+
         /// <summary>
         /// Callback to add an EntityDefinition.
         /// </summary>
         /// <param name="callback"></param>
         /// <param name="command"></param>
         private void addEntity(EditUICallback callback, EditInterfaceCommand command)
-        {
+        {         
             String name;
-            bool accept = callback.getInputString("Enter a name.", out name);
-            while (accept && this.entities.ContainsKey(name))
+            if (getName(callback, out name))
             {
-                accept = callback.getInputString("That name is already in use. Please provide another.", name, out name);
-            }
-            if (accept)
-            {
-                addEntityDefinition(new EntityDefinition(name));
+                addMovableObjectDefinition(new EntityDefinition(name));
             }
         }
 
         /// <summary>
-        /// Callback to remove an EntityDefiniton.
+        /// Callback to add a CameraDefinition.
         /// </summary>
         /// <param name="callback"></param>
         /// <param name="command"></param>
-        private void removeEntity(EditUICallback callback, EditInterfaceCommand command)
+        private void addCamera(EditUICallback callback, EditInterfaceCommand command)
         {
-            removeEntityDefinition(entityEditInterfaces.resolveSourceObject(callback.getSelectedEditInterface()));
+            String name;
+            if (getName(callback, out name))
+            {
+                addMovableObjectDefinition(new CameraDefinition(name));
+            }
+        }
+
+        /// <summary>
+        /// Callback to add a ManualObjectDefinition.
+        /// </summary>
+        /// <param name="callback"></param>
+        /// <param name="command"></param>
+        private void addManualObject(EditUICallback callback, EditInterfaceCommand command)
+        {
+            String name;
+            if (getName(callback, out name))
+            {
+                addMovableObjectDefinition(new ManualObjectDefinition(name));
+            }
+        }
+
+        /// <summary>
+        /// Callback to add a LightDefinition.
+        /// </summary>
+        /// <param name="callback"></param>
+        /// <param name="command"></param>
+        private void addLight(EditUICallback callback, EditInterfaceCommand command)
+        {
+            String name;
+            if (getName(callback, out name))
+            {
+                addMovableObjectDefinition(new LightDefinition(name));
+            }
+        }
+
+        /// <summary>
+        /// Callback to remove an MovableObjectDefinition.
+        /// </summary>
+        /// <param name="callback"></param>
+        /// <param name="command"></param>
+        private void removeMovableObject(EditUICallback callback, EditInterfaceCommand command)
+        {
+            removeMovableObjectDefinition(movableObjectEdits.resolveSourceObject(callback.getSelectedEditInterface()));
         }
 
         #region Saveable Members
@@ -173,7 +223,7 @@ namespace OgrePlugin
         {
             for (int i = 0; info.hasValue(ENTITY_BASE + i); i++)
             {
-                addEntityDefinition(info.GetValue<EntityDefinition>(ENTITY_BASE + i));
+                addMovableObjectDefinition(info.GetValue<MovableObjectDefinition>(ENTITY_BASE + i));
             }
         }
 
@@ -185,7 +235,7 @@ namespace OgrePlugin
         {
             base.getInfo(info);
             int i = 0;
-            foreach (EntityDefinition entity in entities.Values)
+            foreach (MovableObjectDefinition entity in movableObjects.Values)
             {
                 info.AddValue(ENTITY_BASE + i++, entity);
             }

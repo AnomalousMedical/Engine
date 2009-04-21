@@ -58,7 +58,24 @@ namespace Engine.Editing
         public static EditInterface createEditInterface(Object target, MemberScanner scanner, String name, Validate validateCallback)
         {
             EditInterface edit = buildInterface(name, validateCallback);
-            addProperties(scanner, target, edit);
+            addProperties(scanner, target, target.GetType(), edit);
+            return edit;
+        }
+
+        /// <summary>
+        /// Create a new EditInterface and add the properties discovered by
+        /// scanner. A new one is created every time this function is called.
+        /// </summary>
+        /// <param name="target">The target object to scan.</param>
+        /// <param name="startType">The type to start the scan on. Can be used to specify something higher than the target's type up the hierarchy.</param>
+        /// <param name="scanner">The scanner to use.</param>
+        /// <param name="name">The name of the EditInterface.</param>
+        /// <param name="validateCallback">A callback to set for validating.</param>
+        /// <returns>A new EditInterface from the scanned info.</returns>
+        public static EditInterface createEditInterface(Object target, Type startType, MemberScanner scanner, String name, Validate validateCallback)
+        {
+            EditInterface edit = buildInterface(name, validateCallback);
+            addProperties(scanner, target, startType, edit);
             return edit;
         }
 
@@ -73,7 +90,20 @@ namespace Engine.Editing
         /// <param name="edit">The EditInterface that accepts name/value pair properties to add properties to.</param>
         public static void expandEditInterface(Object target, MemberScanner scanner, EditInterface edit)
         {
-            addProperties(scanner, target, edit);
+            addProperties(scanner, target, target.GetType(), edit);
+        }
+
+        /// <summary>
+        /// Add values to an edit interface.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="target">The target object.</param>
+        /// <param name="startType">The type to start the scan on. Can be used to specify something higher than the target's type up the hierarchy.</param>
+        /// <param name="scanner">The MemberScanner to use.</param>
+        /// <param name="edit">The EditInterface that accepts name/value pair properties to add properties to.</param>
+        public static void expandEditInterface(Object target, Type startType, MemberScanner scanner, EditInterface edit)
+        {
+            addProperties(scanner, target, startType, edit);
         }
 
         #endregion Functions
@@ -103,9 +133,9 @@ namespace Engine.Editing
         /// <param name="scanner"></param>
         /// <param name="target"></param>
         /// <param name="edit"></param>
-        private static void addProperties(MemberScanner scanner, Object target, EditInterface edit)
+        private static void addProperties(MemberScanner scanner, Object target, Type startType, EditInterface edit)
         {
-            LinkedList<MemberWrapper> members = scanner.getMatchingMembers(target.GetType());
+            LinkedList<MemberWrapper> members = scanner.getMatchingMembers(startType);
             foreach (MemberWrapper memberWrapper in members)
             {
                 if (ReflectedVariable.canCreateVariable(memberWrapper.getWrappedType()))

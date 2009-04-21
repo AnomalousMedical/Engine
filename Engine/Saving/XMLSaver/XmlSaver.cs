@@ -48,6 +48,7 @@ namespace Engine.Saving.XMLSaver
             addXmlValue<ulong>(new XmlULong(this));
             addXmlValue<ushort>(new XmlUShort(this));
             addXmlValue<Vector3>(new XmlVector3(this));
+            addXmlValue<Color>(new XmlColor(this));
             saveWriter = new SaveControl(this, valueWriters, this);
         }
 

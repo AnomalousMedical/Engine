@@ -170,8 +170,7 @@ public:
 	/// <summary>
 	/// Get the direction the light is facing.
 	/// </summary>
-	/// <param name="dir">A vector to fill out with the direction.</param>
-	void getDirection(EngineMath::Vector3% dir);
+	EngineMath::Vector3 getDirection();
 
 	/// <summary>
 	/// Sets the range of a spotlight, i.e.

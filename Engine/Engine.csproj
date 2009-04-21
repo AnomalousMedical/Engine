@@ -86,6 +86,7 @@
     <Compile Include="Plugin\PluginLoader.cs" />
     <Compile Include="Reflection\BooleanReflectedVariable.cs" />
     <Compile Include="Reflection\ByteReflectedVariable.cs" />
+    <Compile Include="Reflection\ColorReflectedVariable.cs" />
     <Compile Include="Reflection\DoubleReflectedVariable.cs" />
     <Compile Include="Reflection\EnumReflectedVariable.cs" />
     <Compile Include="Reflection\FieldMemberWrapper.cs" />
@@ -138,6 +139,7 @@
     <Compile Include="Saving\XMLSaver\Values\XmlBool.cs" />
     <Compile Include="Saving\XMLSaver\Values\XmlByte.cs" />
     <Compile Include="Saving\XMLSaver\Values\XmlChar.cs" />
+    <Compile Include="Saving\XMLSaver\Values\XmlColor.cs" />
     <Compile Include="Saving\XMLSaver\Values\XmlDecimal.cs" />
     <Compile Include="Saving\XMLSaver\Values\XmlDouble.cs" />
     <Compile Include="Saving\XMLSaver\Values\XmlEnum.cs" />

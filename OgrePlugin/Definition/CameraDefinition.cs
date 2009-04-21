@@ -8,7 +8,7 @@ using OgreWrapper;
 using Engine.Reflection;
 using Engine.ObjectManagement;
 
-namespace OgrePlugin.Definition
+namespace OgrePlugin
 {
     class CameraDefinition : MovableObjectDefinition
     {

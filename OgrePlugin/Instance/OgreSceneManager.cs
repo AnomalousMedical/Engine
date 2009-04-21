@@ -22,6 +22,7 @@ namespace OgrePlugin
         private Dictionary<Identifier, SceneNode> sceneNodes = new Dictionary<Identifier, SceneNode>();
         private Dictionary<Identifier, Camera> cameras = new Dictionary<Identifier, Camera>();
         private Dictionary<Identifier, Light> lights = new Dictionary<Identifier, Light>();
+        private Dictionary<Identifier, ManualObject> manualObjects = new Dictionary<Identifier, ManualObject>();
 
         /// <summary>
         /// Constructor.
@@ -207,6 +208,40 @@ namespace OgrePlugin
                 Light light = lights[name];
                 lights.Remove(name);
                 scene.destroyLight(light);
+            }
+            else
+            {
+                Log.Default.sendMessage("Attempted to remove a light named {0} that does not exist in the scene {1}.", LogLevel.Warning, OgreInterface.PluginName, name.FullName, this.name);
+            }
+        }
+
+        /// <summary>
+        /// Create a manual object.
+        /// </summary>
+        /// <param name="id">The identifier of the manual object.</param>
+        /// <returns>A newly created manual object.</returns>
+        internal ManualObject createManualObject(Identifier id)
+        {
+            ManualObject manualObject = scene.createManualObject(id.FullName);
+            manualObjects.Add(id, manualObject);
+            return manualObject;
+        }
+
+        /// <summary>
+        /// Destroy a manual object.
+        /// </summary>
+        /// <param name="identifier">The identifier of the manual object to destroy.</param>
+        internal void destroyManualObject(Identifier identifier)
+        {
+            if (manualObjects.ContainsKey(identifier))
+            {
+                ManualObject manualObject = manualObjects[identifier];
+                manualObjects.Remove(identifier);
+                scene.destroyManualObject(manualObject);
+            }
+            else
+            {
+                Log.Default.sendMessage("Attempted to remove a manual object named {0} that does not exist in the scene {1}.", LogLevel.Warning, OgreInterface.PluginName, identifier.FullName, this.name);
             }
         }
 

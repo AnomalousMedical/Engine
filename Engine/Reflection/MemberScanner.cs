@@ -67,7 +67,7 @@ namespace Engine.Reflection
                     searchFlags |= BindingFlags.Public;
                 }
                 Type searchType = type;
-                while (searchType != TerminatingType)
+                while (searchType != TerminatingType && searchType.BaseType != null)
                 {
                     FieldInfo[] levelFields = searchType.GetFields(searchFlags);
                     foreach (FieldInfo levelField in levelFields)

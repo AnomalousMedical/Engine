@@ -8,7 +8,6 @@ using Engine.Reflection;
 using OgreWrapper;
 using Engine.ObjectManagement;
 using Logging;
-using OgrePlugin.Definition;
 
 namespace OgrePlugin
 {
