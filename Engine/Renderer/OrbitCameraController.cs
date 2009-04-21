@@ -48,7 +48,7 @@ namespace Engine.Renderer
         private float yaw;
         private float pitch;
         private bool currentlyInMotion;
-        private Vector3 LookAt;
+        private Vector3 lookAt;
         private Vector3 translation;
 
         public OrbitCameraController(CameraControl camera, EventManager eventManager)
@@ -56,8 +56,8 @@ namespace Engine.Renderer
             this.camera = camera;
             this.events = eventManager;
             translation = camera.Translation;
-            LookAt = camera.LookAt;
-            computeStartingValues(translation - LookAt);
+            lookAt = camera.LookAt;
+            computeStartingValues(translation - lookAt);
         }
 
         public void sendUpdate(Clock clock)
@@ -80,10 +80,10 @@ namespace Engine.Renderer
             {
                 if (events[CameraEvents.PanCamera].Down)
                 {
-                    LookAt += left * (mouseCoords.x / (events.Mouse.getMouseAreaWidth() * SCROLL_SCALE) * orbitDistance);
+                    lookAt += left * (mouseCoords.x / (events.Mouse.getMouseAreaWidth() * SCROLL_SCALE) * orbitDistance);
                     Vector3 relUp = left.cross(ref normalDirection);
-                    LookAt += relUp * (mouseCoords.y / (events.Mouse.getMouseAreaHeight() * SCROLL_SCALE) * orbitDistance);
-                    camera.Translation = LookAt + normalDirection * orbitDistance;
+                    lookAt += relUp * (mouseCoords.y / (events.Mouse.getMouseAreaHeight() * SCROLL_SCALE) * orbitDistance);
+                    camera.Translation = lookAt + normalDirection * orbitDistance;
                 }
                 else if (events[CameraEvents.ZoomCamera].Down)
                 {
@@ -93,7 +93,7 @@ namespace Engine.Renderer
                         orbitDistance = 0.0f;
                     }
                     //camera.setOrthoWindowHeight(orbitDistance);
-                    Vector3 newTrans = normalDirection * orbitDistance + LookAt;
+                    Vector3 newTrans = normalDirection * orbitDistance + lookAt;
                     camera.Translation = newTrans;
                 }
                 else if (events[CameraEvents.RotateCamera].Down)
@@ -113,9 +113,9 @@ namespace Engine.Renderer
                     Quaternion pitchRot = new Quaternion(ref Vector3.Left, pitch);
 
                     normalDirection = Quaternion.quatRotate(yawRot * pitchRot, Vector3.Backward);
-                    Vector3 newTrans = normalDirection * orbitDistance + LookAt;
+                    Vector3 newTrans = normalDirection * orbitDistance + lookAt;
                     camera.Translation = newTrans;
-                    camera.LookAt = LookAt;
+                    camera.LookAt = lookAt;
                     left = normalDirection.cross(ref Vector3.Up);
                 }
             }
@@ -136,7 +136,7 @@ namespace Engine.Renderer
                         }
                     }
                     //camera.setOrthoWindowHeight(orbitDistance);
-                    Vector3 newTrans = normalDirection * orbitDistance + LookAt;
+                    Vector3 newTrans = normalDirection * orbitDistance + lookAt;
                     camera.Translation = newTrans;
                 }
             }
@@ -159,12 +159,12 @@ namespace Engine.Renderer
         /// <param name="lookAt">The look at point of the camera.</param>
         public void setNewPosition(Vector3 position, Vector3 lookAt)
         {
-            this.LookAt = lookAt;
+            this.lookAt = lookAt;
             computeStartingValues(position - lookAt);
             //camera.setOrthoWindowHeight(orbitDistance);
-            Vector3 newTrans = normalDirection * orbitDistance + LookAt;
+            Vector3 newTrans = normalDirection * orbitDistance + lookAt;
             camera.Translation = newTrans;
-            camera.LookAt = LookAt;
+            camera.LookAt = lookAt;
         }
 
         /// <summary>
