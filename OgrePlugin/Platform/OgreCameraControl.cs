@@ -30,6 +30,12 @@ namespace OgrePlugin
         private String name;
         private RenderWindow renderWindow;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="name">The name of the camera control.</param>
+        /// <param name="sceneManager">The scene manager to build the camera into.</param>
+        /// <param name="renderWindow">The renderwindow to create a viewport on.</param>
         public OgreCameraControl(String name, OgreSceneManager sceneManager, RenderWindow renderWindow)
         {
             this.name = name;

@@ -17,7 +17,8 @@ namespace OgrePlugin
         private Identifier sceneID;
         private OgreSceneManager scene;
         private SceneNode sceneNode;
-        private Dictionary<Identifier, Entity> entities = new Dictionary<Identifier, Entity>();
+        private List<Identifier> entities = new List<Identifier>();
+        private List<Identifier> cameras = new List<Identifier>();
 
         /// <summary>
         /// Constructor.
@@ -39,10 +40,16 @@ namespace OgrePlugin
         /// </summary>
         /// <param name="identifier">The identifier of the Entity.</param>
         /// <param name="entity">The Entity to attach.</param>
-        public void addEntity(Identifier identifier, Entity entity)
+        public void attachObject(Identifier identifier, Entity entity)
         {
             sceneNode.attachObject(entity);
-            entities.Add(identifier, entity);
+            entities.Add(identifier);
+        }
+
+        public void attachObject(Identifier identifier, Camera camera)
+        {
+            sceneNode.attachObject(camera);
+            cameras.Add(identifier);
         }
 
         /// <summary>
@@ -50,9 +57,13 @@ namespace OgrePlugin
         /// </summary>
         public override void Dispose()
         {
-            foreach (Identifier identifier in entities.Keys)
+            foreach (Identifier identifier in entities)
             {
                 scene.destroyEntity(identifier);
+            }
+            foreach (Identifier identifier in cameras)
+            {
+                scene.destroyCamera(identifier);
             }
             scene.destroySceneNode(sceneID);
         }

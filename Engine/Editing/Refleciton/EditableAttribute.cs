@@ -15,6 +15,12 @@ namespace Engine.Editing
     {
         private String info;
 
+        public EditableAttribute()
+            :this("", null)
+        {
+
+        }
+
         /// <summary>
         /// Constructor.
         /// </summary>

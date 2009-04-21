@@ -8,13 +8,14 @@ using Engine.Reflection;
 using OgreWrapper;
 using Engine.ObjectManagement;
 using Logging;
+using OgrePlugin.Definition;
 
 namespace OgrePlugin
 {
     /// <summary>
     /// This is a definition class for Entities.
     /// </summary>
-    public class EntityDefinition : Saveable
+    public class EntityDefinition : MovableObjectDefinition
     {
         #region Static
 
@@ -28,58 +29,70 @@ namespace OgrePlugin
             memberScanner = new MemberScanner();
             memberScanner.ProcessFields = false;
             memberScanner.Filter = EditableAttributeFilter.Instance;
+            memberScanner.TerminatingType = typeof(MovableObjectDefinition);
         }
 
         #endregion Static
 
-        private String name;
         private SkeletonInfo skeleton = null;
         private String meshName;
-        private EditInterface editInterface = null;
 
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="name">The name of the entity.</param>
         public EntityDefinition(String name)
+            :base(name, "Entity", null)
         {
-            this.name = name;
+            
         }
 
-        /// <summary>
-        /// Get an EditInterface for this entity.
-        /// </summary>
-        /// <returns>An EditInterface for this entity.</returns>
-        public EditInterface getEditInterface()
+        public EntityDefinition(String name, Entity entity)
+            :base(name, entity, "Entity", null)
         {
-            if (editInterface == null)
+            using (MeshPtr mesh = entity.getMesh())
             {
-                editInterface = ReflectedEditInterface.createEditInterface(this, memberScanner, name + "Entity", null);
+                meshName = mesh.Value.getName();
             }
-            return editInterface;
         }
 
         /// <summary>
-        /// Create the product for this entity.
+        /// This function will fill out the EditInterface with the rest of the
+        /// properties for this MovableObject.
+        /// </summary>
+        /// <param name="editInterface">The EditInterface to fill out.</param>
+        protected override void setupEditInterface(EditInterface editInterface)
+        {
+            ReflectedEditInterface.expandEditInterface(this, memberScanner, editInterface);
+        }
+
+
+        /// <summary>
+        /// This funciton will build the MovableObject and return it to this
+        /// class so it can be configured with all of the MovableObject
+        /// properties.
         /// </summary>
         /// <param name="element">The SceneNodeElement to add the definition to so it can be destroyed properly.</param>
         /// <param name="scene">The OgreSceneManager that will get the entity.</param>
         /// <param name="simObject">The SimObject that will get the entity.</param>
-        internal void createProduct(SceneNodeElement element, OgreSceneManager scene, SimObject simObject)
+        /// <returns>The newly created MovableObject or null if there was an error.</returns>
+        protected override MovableObject createActualProduct(SceneNodeElement element, OgreSceneManager scene, SimObject simObject)
         {
             if (OgreResourceGroupManager.getInstance().findGroupContainingResource(meshName) != null)
             {
-                Identifier identifier = new Identifier(simObject.Name, name);
+                Identifier identifier = new Identifier(simObject.Name, Name);
                 Entity entity = scene.createEntity(identifier, this);
                 if (entity.hasSkeleton() && skeleton != null)
                 {
                     skeleton.initialzeSkeleton(entity.getSkeleton());
                 }
-                element.addEntity(identifier, entity);
+                element.attachObject(identifier, entity);
+                return entity;
             }
             else
             {
-                Log.Default.sendMessage("Cannot create entity {0} because the mesh {1} cannot be found.", LogLevel.Warning, OgreInterface.PluginName, name, meshName);
+                Log.Default.sendMessage("Cannot create entity {0} because the mesh {1} cannot be found.", LogLevel.Warning, OgreInterface.PluginName, Name, meshName);
+                return null;
             }
         }
 
@@ -99,26 +112,18 @@ namespace OgrePlugin
             }
         }
 
-        /// <summary>
-        /// The name of this entity.
-        /// </summary>
-        public String Name
-        {
-            get
-            {
-                return name;
-            }
-        }
-
         #region Saveable Members
 
-        private const String NAME = "Name";
         private const String MESH_NAME = "MeshName";
         private const String SKELETON = "Skeleton";
 
+        /// <summary>
+        /// Deserialize constructor.
+        /// </summary>
+        /// <param name="info"></param>
         private EntityDefinition(LoadInfo info)
+            :base(info, "Entity", null)
         {
-            name = info.GetString(NAME);
             meshName = info.GetString(MESH_NAME);
             if (info.hasValue(SKELETON))
             {
@@ -126,9 +131,12 @@ namespace OgrePlugin
             }
         }
 
-        public void getInfo(SaveInfo info)
+        /// <summary>
+        /// Get the info to save for the subclass.
+        /// </summary>
+        /// <param name="info">The info to fill out.</param>
+        protected override void getSpecificInfo(SaveInfo info)
         {
-            info.AddValue(NAME, name);
             info.AddValue(MESH_NAME, meshName);
             info.AddValue(SKELETON, skeleton);
         }
