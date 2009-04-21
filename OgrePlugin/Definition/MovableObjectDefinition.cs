@@ -126,6 +126,7 @@ namespace OgrePlugin.Definition
         {
             info.AddValue(NAME, name);
             info.AddValue(RENDER_QUEUE, RenderQueue);
+            getSpecificInfo(info);
         }
 
         /// <summary>
