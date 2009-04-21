@@ -17,7 +17,10 @@ namespace Engine.Platform
         private InputHandler inputHandler;
         private Keyboard keyboard = null;
         private Mouse mouse = null;
+        //Events stored in a dictionary for fast lookup.
         private Dictionary<object, MessageEvent> events = new Dictionary<object, MessageEvent>();
+        //Events stored in a list for fast iteration.
+        private List<MessageEvent> eventList = new List<MessageEvent>();
 
         internal NewEventDetected EventDetected { get; private set; }
 
@@ -43,6 +46,7 @@ namespace Engine.Platform
             if (!events.ContainsKey(evt.Name))
             {
                 events.Add(evt.Name, evt);
+                eventList.Add(evt);
             }
             else
             {
@@ -59,6 +63,7 @@ namespace Engine.Platform
             if (events.ContainsKey(evt.Name))
             {
                 events.Remove(evt.Name);
+                eventList.Remove(evt);
             }
             else
             {
@@ -114,7 +119,7 @@ namespace Engine.Platform
             {
                 keyboard.capture();
             }
-            foreach (MessageEvent evt in events.Values)
+            foreach (MessageEvent evt in eventList)
             {
                 evt.update(this);
             }

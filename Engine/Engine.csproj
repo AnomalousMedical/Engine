@@ -119,6 +119,7 @@
     <Compile Include="Reflection\Vector3ReflectedVariable.cs" />
     <Compile Include="Renderer\Camera.cs" />
     <Compile Include="Renderer\DefaultWindowInfo.cs" />
+    <Compile Include="Renderer\OrbitCameraController.cs" />
     <Compile Include="Renderer\RendererPlugin.cs" />
     <Compile Include="Renderer\RendererWindow.cs" />
     <Compile Include="Saving\Load\LoadControl.cs" />

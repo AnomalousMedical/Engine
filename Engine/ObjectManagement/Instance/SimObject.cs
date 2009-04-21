@@ -24,7 +24,7 @@ namespace Engine.ObjectManagement
         private bool enabled = false;
         private Vector3 translation = Vector3.Zero;
         private Quaternion rotation = Quaternion.Identity;
-        private Vector3 scale = new Vector3(1.0f, 1.0f, 1.0f);
+        private Vector3 scale = Vector3.ScaleIdentity;
         private List<SimElement> elements = new List<SimElement>();
 
         #endregion Fields
