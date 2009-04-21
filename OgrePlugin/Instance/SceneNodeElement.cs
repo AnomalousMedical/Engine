@@ -21,6 +21,7 @@ namespace OgrePlugin
         private List<Identifier> cameras = new List<Identifier>();
         private List<Identifier> lights = new List<Identifier>();
         private List<Identifier> manualObjects = new List<Identifier>();
+        private List<SceneNodeElement> children = new List<SceneNodeElement>();
 
         /// <summary>
         /// Constructor.
@@ -66,6 +67,18 @@ namespace OgrePlugin
             manualObjects.Add(identifier);
         }
 
+        public void addChild(SceneNodeElement element)
+        {
+            children.Add(element);
+            sceneNode.addChild(element.sceneNode);
+        }
+
+        public void removeChild(SceneNodeElement element)
+        {
+            children.Remove(element);
+            sceneNode.removeChild(element.sceneNode);
+        }
+
         /// <summary>
         /// Dispose this SceneNode and all attached objects.
         /// </summary>
@@ -86,6 +99,10 @@ namespace OgrePlugin
             foreach (Identifier identifier in manualObjects)
             {
                 scene.destroyManualObject(identifier);
+            }
+            foreach (SceneNodeElement child in children)
+            {
+                child.Dispose();
             }
             scene.destroySceneNode(sceneID);
         }

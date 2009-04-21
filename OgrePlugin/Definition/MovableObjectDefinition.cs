@@ -37,6 +37,12 @@ namespace OgrePlugin
         private String interfaceName;
         private Validate validateCallback;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="name">The name of the MovableObject.</param>
+        /// <param name="interfaceName">The name to use for the EditInterface.</param>
+        /// <param name="validateCallback">A validation callback.</param>
         protected MovableObjectDefinition(String name, String interfaceName, Validate validateCallback)
         {
             this.name = name;
@@ -44,6 +50,13 @@ namespace OgrePlugin
             this.validateCallback = validateCallback;
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="name">The name of the MovableObject.</param>
+        /// <param name="movableObject">An existing movableObject to take parameters from.</param>
+        /// <param name="interfaceName">The name to use for the EditInterface.</param>
+        /// <param name="validateCallback">A validation callback.</param>
         protected MovableObjectDefinition(String name, MovableObject movableObject, String interfaceName, Validate validateCallback)
         {
             this.interfaceName = interfaceName;
@@ -52,11 +65,15 @@ namespace OgrePlugin
             this.name = name;
         }
 
+        /// <summary>
+        /// Get the EditInterface for the MovableObject.
+        /// </summary>
+        /// <returns>The EditInterface.</returns>
         public EditInterface getEditInterface()
         {
             if (editInterface == null)
             {
-                editInterface = ReflectedEditInterface.createEditInterface(this, typeof(MovableObjectDefinition), memberScanner, name + interfaceName, validateCallback);
+                editInterface = ReflectedEditInterface.createEditInterface(this, typeof(MovableObjectDefinition), memberScanner, name + " " + interfaceName, validateCallback);
                 setupEditInterface(editInterface);
             }
             return editInterface;
@@ -106,6 +123,9 @@ namespace OgrePlugin
             }
         }
 
+        /// <summary>
+        /// The RenderQueue this MovableObject belongs to.
+        /// </summary>
         [Editable]
         public byte RenderQueue { get; set; }
         

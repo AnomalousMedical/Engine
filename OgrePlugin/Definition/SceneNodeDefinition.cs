@@ -7,6 +7,8 @@ using Engine.Editing;
 using Logging;
 using OgreWrapper;
 using Engine.Saving;
+using EngineMath;
+using Engine.Reflection;
 
 namespace OgrePlugin
 {
@@ -15,10 +17,30 @@ namespace OgrePlugin
     /// </summary>
     public class SceneNodeDefinition : SimElementDefinition
     {
+        #region Static
+
+        private static MemberScanner memberScanner;
+
+        /// <summary>
+        /// Static constructor.
+        /// </summary>
+        static SceneNodeDefinition()
+        {
+            memberScanner = new MemberScanner();
+            memberScanner.ProcessFields = false;
+            memberScanner.Filter = EditableAttributeFilter.Instance;
+        }
+
+        #endregion Static
+
         private EditInterface editInterface;
         private Dictionary<String, MovableObjectDefinition> movableObjects = new Dictionary<String, MovableObjectDefinition>();
+        private Dictionary<String, SceneNodeDefinition> childNodes = new Dictionary<string, SceneNodeDefinition>();
         private EditInterfaceManager<MovableObjectDefinition> movableObjectEdits;
-        private EditInterfaceCommand destroyEntity;
+        private EditInterfaceManager<SceneNodeDefinition> childNodeEdits;
+        private EditInterfaceCommand destroyMovableObject;
+        private EditInterfaceCommand destroyChildNode;
+        private SceneNodeDefinition parentNode = null;
 
         /// <summary>
         /// Constructor.
@@ -27,7 +49,7 @@ namespace OgrePlugin
         public SceneNodeDefinition(String name)
             :base(name)
         {
-
+            LocalRotation = Quaternion.Identity;
         }
 
         /// <summary>
@@ -56,13 +78,24 @@ namespace OgrePlugin
         {
             if (editInterface == null)
             {
-                editInterface = new EditInterface(Name + " Scene Node");
+                editInterface = ReflectedEditInterface.createEditInterface(this, memberScanner, Name + " Scene Node", null);
                 movableObjectEdits = new EditInterfaceManager<MovableObjectDefinition>(editInterface);
+                childNodeEdits = new EditInterfaceManager<SceneNodeDefinition>(editInterface);
                 editInterface.addCommand(new EditInterfaceCommand("Add Entity", addEntity));
                 editInterface.addCommand(new EditInterfaceCommand("Add Light", addLight));
                 editInterface.addCommand(new EditInterfaceCommand("Add Camera", addCamera));
                 editInterface.addCommand(new EditInterfaceCommand("Add Manual Object", addManualObject));
-                destroyEntity = new EditInterfaceCommand("Remove", removeMovableObject);
+                editInterface.addCommand(new EditInterfaceCommand("Add Child Node", addChildNode));
+                destroyMovableObject = new EditInterfaceCommand("Remove", removeMovableObject);
+                destroyChildNode = new EditInterfaceCommand("Remove", removeChildNode);
+                foreach (MovableObjectDefinition movable in movableObjects.Values)
+                {
+                    addMovableObjectEdit(movable);
+                }
+                foreach (SceneNodeDefinition child in childNodes.Values)
+                {
+                    addChildNodeEdit(child);
+                }
             }
             return editInterface;
         }
@@ -94,6 +127,34 @@ namespace OgrePlugin
         }
 
         /// <summary>
+        /// Add a SceneNodeDefinition as a child node.
+        /// </summary>
+        /// <param name="child">The child to add.</param>
+        public void addChildNode(SceneNodeDefinition child)
+        {
+            childNodes.Add(child.Name, child);
+            child.setParentNode(this);
+            if (editInterface != null)
+            {
+                addChildNodeEdit(child);
+            }
+        }
+
+        /// <summary>
+        /// Remove a SceneNodeDefinition from the children.
+        /// </summary>
+        /// <param name="child">The child to remove.</param>
+        public void removeChildNode(SceneNodeDefinition child)
+        {
+            childNodes.Remove(child.Name);
+            child.setParentNode(null);
+            if (editInterface != null)
+            {
+                childNodeEdits.removeSubInterface(child);
+            }
+        }
+
+        /// <summary>
         /// Create the product of this SceneNode.
         /// </summary>
         /// <param name="instance">The instance to get the product.</param>
@@ -109,8 +170,52 @@ namespace OgrePlugin
             {
                 movable.createProduct(element, scene, instance);
             }
+            foreach (SceneNodeDefinition child in childNodes.Values)
+            {
+                child.createAsChild(instance, scene, element);
+            }
             instance.addElement(element);
             scene.SceneManager.getRootSceneNode().addChild(node);
+        }
+        
+        /// <summary>
+        /// The translation of this node relative to its parent. Does nothing
+        /// for root definitions.
+        /// </summary>
+        [Editable]
+        public Vector3 LocalTranslation { get; set; }
+
+        /// <summary>
+        /// The Rotation of this node relative to its parent. Does nothing
+        /// for root definitions.
+        /// </summary>
+        [Editable]
+        public Quaternion LocalRotation { get; set; }
+
+        /// <summary>
+        /// Function used to create all child scene nodes. This will construct
+        /// the SceneNode a bit differently and add it as a child of element
+        /// instead of the root node.
+        /// </summary>
+        /// <param name="instance">The instance to get the product.</param>
+        /// <param name="scene">The scene to create the product into.</param>
+        /// <param name="parentElement">The element of the parent node.</param>
+        private void createAsChild(SimObject instance, OgreSceneManager scene, SceneNodeElement parentElement)
+        {
+            Identifier identifier = new Identifier(instance.Name, Name);
+            SceneNode node = scene.createSceneNode(identifier);
+            node.setPosition(LocalTranslation);
+            node.setOrientation(LocalRotation);
+            SceneNodeElement element = new SceneNodeElement(identifier, this.subscription, scene, node);
+            foreach (MovableObjectDefinition movable in movableObjects.Values)
+            {
+                movable.createProduct(element, scene, instance);
+            }
+            foreach (SceneNodeDefinition child in childNodes.Values)
+            {
+                child.createAsChild(instance, scene, element);
+            }
+            parentElement.addChild(element);
         }
 
         /// <summary>
@@ -130,18 +235,122 @@ namespace OgrePlugin
         private void addMovableObjectEdit(MovableObjectDefinition definition)
         {
             EditInterface edit = definition.getEditInterface();
-            edit.addCommand(destroyEntity);
+            edit.addCommand(destroyMovableObject);
             movableObjectEdits.addSubInterface(definition, edit);
         }
 
-        private bool getName(EditUICallback callback, out String name)
+        private void addChildNodeEdit(SceneNodeDefinition child)
+        {
+            EditInterface edit = child.getEditInterface();
+            edit.addCommand(destroyChildNode);
+            childNodeEdits.addSubInterface(child, edit);
+        }
+
+        /// <summary>
+        /// Helper function to get a name for a Moveable object being added to a
+        /// scene node. This will return true if the user entered a valid name.
+        /// </summary>
+        /// <param name="callback">The callback to use.</param>
+        /// <param name="name">This will contain the name the user entered last.</param>
+        /// <returns>True if the user entered a valid name.</returns>
+        private bool getMovableName(EditUICallback callback, out String name)
         {
             bool accept = callback.getInputString("Enter a name.", out name);
-            while (accept && this.movableObjects.ContainsKey(name))
+            while (accept && findTopLevelNode().isMovableNameTaken(name))
             {
                 accept = callback.getInputString("That name is already in use. Please provide another.", name, out name);
             }
             return accept;
+        }
+
+        /// <summary>
+        /// Helper function to get a name for a SceneNode child being added to a
+        /// scene node. This will return true if the user entered a valid name.
+        /// </summary>
+        /// <param name="callback">The callback to use.</param>
+        /// <param name="name">This will contain the name the user entered last.</param>
+        /// <returns>True if the user entered a valid name.</returns>
+        private bool getChildNodeName(EditUICallback callback, out String name)
+        {
+            bool accept = callback.getInputString("Enter a name.", out name);
+            SceneNodeDefinition topLevel = findTopLevelNode();
+            while (accept && (name == topLevel.Name || topLevel.isNodeNameTaken(name)))
+            {
+                accept = callback.getInputString("That name is already in use. Please provide another.", name, out name);
+            }
+            return accept;
+        }
+
+        /// <summary>
+        /// Helper function to set the parent node of this node.
+        /// </summary>
+        /// <param name="parent">The parent SceneNodeDefinition to set.</param>
+        private void setParentNode(SceneNodeDefinition parent)
+        {
+            this.parentNode = parent;
+        }
+
+        /// <summary>
+        /// Find the top level node of this SceneNodeDefinition graph.
+        /// </summary>
+        /// <returns></returns>
+        private SceneNodeDefinition findTopLevelNode()
+        {
+            if (parentNode != null)
+            {
+                return parentNode.findTopLevelNode();
+            }
+            return this;
+        }
+
+        /// <summary>
+        /// Check to see if a MovableObject exists that uses the specified name
+        /// in any of the child nodes or this node.
+        /// </summary>
+        /// <param name="name">The name to check for.</param>
+        /// <returns>True if the name is taken.</returns>
+        private bool isMovableNameTaken(String name)
+        {
+            if (movableObjects.ContainsKey(name))
+            {
+                return true;
+            }
+            else
+            {
+                foreach (SceneNodeDefinition child in childNodes.Values)
+                {
+                    if (child.isMovableNameTaken(name))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Check to see if a SceneNode exists that uses a specified name in any
+        /// child nodes or this node.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        private bool isNodeNameTaken(String name)
+        {
+            if (childNodes.ContainsKey(name))
+            {
+                return true;
+            }
+            else
+            {
+                foreach (SceneNodeDefinition child in childNodes.Values)
+                {
+                    if (child.isNodeNameTaken(name))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         /// <summary>
@@ -152,7 +361,7 @@ namespace OgrePlugin
         private void addEntity(EditUICallback callback, EditInterfaceCommand command)
         {         
             String name;
-            if (getName(callback, out name))
+            if (getMovableName(callback, out name))
             {
                 addMovableObjectDefinition(new EntityDefinition(name));
             }
@@ -166,7 +375,7 @@ namespace OgrePlugin
         private void addCamera(EditUICallback callback, EditInterfaceCommand command)
         {
             String name;
-            if (getName(callback, out name))
+            if (getMovableName(callback, out name))
             {
                 addMovableObjectDefinition(new CameraDefinition(name));
             }
@@ -180,7 +389,7 @@ namespace OgrePlugin
         private void addManualObject(EditUICallback callback, EditInterfaceCommand command)
         {
             String name;
-            if (getName(callback, out name))
+            if (getMovableName(callback, out name))
             {
                 addMovableObjectDefinition(new ManualObjectDefinition(name));
             }
@@ -194,7 +403,7 @@ namespace OgrePlugin
         private void addLight(EditUICallback callback, EditInterfaceCommand command)
         {
             String name;
-            if (getName(callback, out name))
+            if (getMovableName(callback, out name))
             {
                 addMovableObjectDefinition(new LightDefinition(name));
             }
@@ -210,9 +419,36 @@ namespace OgrePlugin
             removeMovableObjectDefinition(movableObjectEdits.resolveSourceObject(callback.getSelectedEditInterface()));
         }
 
+        /// <summary>
+        /// Callback to add a child node.
+        /// </summary>
+        /// <param name="callback"></param>
+        /// <param name="command"></param>
+        private void addChildNode(EditUICallback callback, EditInterfaceCommand command)
+        {
+            String name;
+            if (getChildNodeName(callback, out name))
+            {
+                addChildNode(new SceneNodeDefinition(name));
+            }
+        }
+
+        /// <summary>
+        /// Callback to remove a child node.
+        /// </summary>
+        /// <param name="callback"></param>
+        /// <param name="command"></param>
+        private void removeChildNode(EditUICallback callback, EditInterfaceCommand command)
+        {
+            removeChildNode(childNodeEdits.resolveSourceObject(callback.getSelectedEditInterface()));
+        }
+
         #region Saveable Members
 
         private const String ENTITY_BASE = "Entity";
+        private const String LOCAL_TRANS = "LocalTranslation";
+        private const String LOCAL_ROT = "LocalRotation";
+        private const string CHILD_BASE = "Child";
 
         /// <summary>
         /// Constructor.
@@ -221,9 +457,15 @@ namespace OgrePlugin
         private SceneNodeDefinition(LoadInfo info)
             :base(info)
         {
+            LocalTranslation = info.GetVector3(LOCAL_TRANS);
+            LocalRotation = info.GetQuaternion(LOCAL_ROT);
             for (int i = 0; info.hasValue(ENTITY_BASE + i); i++)
             {
                 addMovableObjectDefinition(info.GetValue<MovableObjectDefinition>(ENTITY_BASE + i));
+            }
+            for (int i = 0; info.hasValue(CHILD_BASE + i); i++)
+            {
+                addChildNode(info.GetValue<SceneNodeDefinition>(CHILD_BASE + i));
             }
         }
 
@@ -234,10 +476,17 @@ namespace OgrePlugin
         public override void getInfo(SaveInfo info)
         {
             base.getInfo(info);
+            info.AddValue(LOCAL_TRANS, LocalTranslation);
+            info.AddValue(LOCAL_ROT, LocalRotation);
             int i = 0;
             foreach (MovableObjectDefinition entity in movableObjects.Values)
             {
                 info.AddValue(ENTITY_BASE + i++, entity);
+            }
+            i = 0;
+            foreach (SceneNodeDefinition child in childNodes.Values)
+            {
+                info.AddValue(CHILD_BASE + i++, child);
             }
         }
 
