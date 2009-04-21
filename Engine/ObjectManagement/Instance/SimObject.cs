@@ -25,7 +25,7 @@ namespace Engine.ObjectManagement
         private Vector3 translation = Vector3.Zero;
         private Quaternion rotation = Quaternion.Identity;
         private Vector3 scale = new Vector3(1.0f, 1.0f, 1.0f);
-        private Dictionary<String, SimElement> elements = new Dictionary<String, SimElement>();
+        private List<SimElement> elements = new List<SimElement>();
 
         #endregion Fields
 
@@ -49,7 +49,7 @@ namespace Engine.ObjectManagement
         /// </summary>
         public void Dispose()
         {
-            foreach (SimElement element in elements.Values)
+            foreach (SimElement element in elements)
             {
                 element.Dispose();
             }
@@ -61,7 +61,7 @@ namespace Engine.ObjectManagement
         /// <param name="element">The element to add.</param>
         public void addElement(SimElement element)
         {
-            elements.Add(element.Name, element);
+            elements.Add(element);
             element.SimObject = this;
         }
 
@@ -71,16 +71,18 @@ namespace Engine.ObjectManagement
         /// <param name="element">The element to remove.</param>
         public void removeElement(SimElement element)
         {
-            if (elements.ContainsKey(element.Name))
+            if (elements.Contains(element))
             {
-                elements.Remove(element.Name);
+                elements.Remove(element);
                 element.SimObject = null;
             }
         }
 
         /// <summary>
-        /// Get the SimElement specified by name. If the element is not
-        /// found or the type does not match T null will be returned.
+        /// Get the SimElement specified by name. If the element is not found or
+        /// the type does not match T null will be returned. Warning, this
+        /// method will traverse the list of all elements to find the match so
+        /// it can be very slow.
         /// </summary>
         /// <typeparam name="T">The type of the element to retrieve.</typeparam>
         /// <param name="name">The name of the element to retrieve.</param>
@@ -88,9 +90,12 @@ namespace Engine.ObjectManagement
         public T getSimElement<T>(String name)
             where T : SimElement
         {
-            if (elements.ContainsKey(name))
+            foreach (SimElement element in elements)
             {
-                return elements[name] as T;
+                if (element.Name == name)
+                {
+                    return element as T;
+                }
             }
             return null;
         }
@@ -105,7 +110,7 @@ namespace Engine.ObjectManagement
         {
             this.translation = translation;
             this.rotation = rotation;
-            foreach (SimElement element in elements.Values)
+            foreach (SimElement element in elements)
             {
                 if (element != trigger && (element.Subscription | Subscription.PositionUpdate) != 0)
                 {
@@ -122,7 +127,7 @@ namespace Engine.ObjectManagement
         public void updateTranslation(ref Vector3 translation, SimElement trigger)
         {
             this.translation = translation;
-            foreach (SimElement element in elements.Values)
+            foreach (SimElement element in elements)
             {
                 if (element != trigger && (element.Subscription | Subscription.PositionUpdate) != 0)
                 {
@@ -139,7 +144,7 @@ namespace Engine.ObjectManagement
         public void updateRotation(ref Quaternion rotation, SimElement trigger)
         {
             this.rotation = rotation;
-            foreach (SimElement element in elements.Values)
+            foreach (SimElement element in elements)
             {
                 if (element != trigger && (element.Subscription | Subscription.PositionUpdate) != 0)
                 {
@@ -156,7 +161,7 @@ namespace Engine.ObjectManagement
         public void updateScale(ref Vector3 scale, SimElement trigger)
         {
             this.scale = scale;
-            foreach (SimElement element in elements.Values)
+            foreach (SimElement element in elements)
             {
                 if (element != trigger && (element.Subscription | Subscription.ScaleUpdate) != 0)
                 {
@@ -175,7 +180,7 @@ namespace Engine.ObjectManagement
         public void setEnabled(bool enabled)
         {
             this.enabled = enabled;
-            foreach (SimElement element in elements.Values)
+            foreach (SimElement element in elements)
             {
                 element.setEnabled(enabled);
             }
@@ -189,7 +194,7 @@ namespace Engine.ObjectManagement
         public SimObjectDefinition saveToDefinition(String definitionName)
         {
             SimObjectDefinition definition = new SimObjectDefinition(definitionName);
-            foreach (SimElement element in elements.Values)
+            foreach (SimElement element in elements)
             {
                 definition.addElement(element.saveToDefinition());
             }
