@@ -168,6 +168,13 @@ namespace PhysXPlugin
             return joint;
         }
 
+        public void destroyJoint(Identifier jointId)
+        {
+            PhysJoint joint = joints[jointId];
+            joints.Remove(jointId);
+            scene.releaseJoint(joint);
+        }
+
         public void sendUpdate(Clock clock)
         {
             scene.stepSimulation(clock.Seconds);

@@ -7,14 +7,12 @@ using Engine.Saving;
 
 namespace PhysXPlugin
 {
-    public class PhysFixedJointDefinition : PhysJointDefinition<PhysFixedJointDesc, PhysFixedJoint>
+    public class PhysFixedJointDefinition : PhysJointDefinitionBase<PhysFixedJointDesc, PhysFixedJoint>
     {
-        private PhysFixedJointDesc fixedJointDesc = new PhysFixedJointDesc();
-
         public PhysFixedJointDefinition(String name)
-            :base(name, "Fixed Joint", null)
+            :base(new PhysFixedJointDesc(), name, "Fixed Joint", null)
         {
-            this.setJointDesc(fixedJointDesc);
+            
         }
 
         protected override void configureJoint(PhysFixedJoint joint)
@@ -30,9 +28,9 @@ namespace PhysXPlugin
         #region Saveable
 
         private PhysFixedJointDefinition(LoadInfo loadInfo)
-            :base(loadInfo)
+            :base(new PhysFixedJointDesc(), loadInfo)
         {
-            this.setJointDesc(fixedJointDesc, loadInfo);
+
         }
 
         protected override void getJointInfo(SaveInfo info)

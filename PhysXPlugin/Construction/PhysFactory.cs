@@ -48,7 +48,7 @@ namespace PhysXPlugin
         /// Add a joint definition to be built when createProducts is run.
         /// </summary>
         /// <param name="def">The PhysJointDefinition to add.</param>
-        internal void addJointDefinition(SimObject instance, PhysElementDefinition physJointDefinition)
+        internal void addJointDefinition(SimObject instance, PhysJointDefinition physJointDefinition)
         {
             currentJoints.AddLast(new PhysFactoryEntry(instance, physJointDefinition));
         }

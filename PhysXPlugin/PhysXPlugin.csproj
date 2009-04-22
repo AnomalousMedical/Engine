@@ -50,12 +50,16 @@
     <Compile Include="Construction\PhysFactoryEntry.cs" />
     <Compile Include="Definition\Joints\PhysFixedJointDefinition.cs" />
     <Compile Include="Definition\Joints\PhysJointDefinition.cs" />
+    <Compile Include="Definition\Joints\PhysJointDefinitionBase.cs" />
     <Compile Include="Definition\PhysActorDefinition.cs" />
     <Compile Include="Definition\PhysElementDefinition.cs" />
     <Compile Include="Definition\PhysXSceneManagerDefinition.cs" />
     <Compile Include="Definition\Shapes\BoxShapeDefinition.cs" />
     <Compile Include="Definition\Shapes\ShapeDefinition.cs" />
+    <Compile Include="Instance\Joints\PhysFixedJointElement.cs" />
+    <Compile Include="Instance\Joints\PhysJointElementBase.cs" />
     <Compile Include="Instance\PhysActorElement.cs" />
+    <Compile Include="Instance\Joints\PhysJointElement.cs" />
     <Compile Include="Instance\PhysXSceneManager.cs" />
     <Compile Include="Plugin\PhysXInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
