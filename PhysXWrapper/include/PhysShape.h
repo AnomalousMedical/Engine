@@ -72,6 +72,12 @@ public:
 	unsigned short getGroup();
 
 	/// <summary>
+	/// Get the PhysShapeType of the shape.
+	/// </summary>
+	/// <returns>The PhysShapeType of the shape.</returns>
+	PhysShapeType getShapeType();
+
+	/// <summary>
 	/// Sets shape flags. 
 	/// <para>
 	/// The shape may be turned into a trigger by setting one or more of the

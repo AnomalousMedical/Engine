@@ -69,6 +69,7 @@ namespace Editor
         private void subInterfaceAdded(EditInterface editInterface)
         {
             this.Nodes.Add(new EditInterfaceTreeNode(editInterface));
+            this.TreeView.ExpandAll();
         }
 
         /// <summary>

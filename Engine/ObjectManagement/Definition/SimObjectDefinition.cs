@@ -90,6 +90,7 @@ namespace Engine.ObjectManagement
             {
                 editInterface = new EditInterface(name);
                 elementEditInterfaces = new EditInterfaceManager<SimElementDefinition>(editInterface);
+                destroySimElement = new EditInterfaceCommand("Remove", removeSimElementDefinition);
                 foreach (SimElementDefinition definition in definitions.Values)
                 {
                     createElementInterface(definition);
@@ -100,7 +101,6 @@ namespace Engine.ObjectManagement
                     createCommands.Add(createSimElement, command.Name);
                     editInterface.addCommand(createSimElement);
                 }
-                destroySimElement = new EditInterfaceCommand("Remove", removeSimElementDefinition);
             }
             return editInterface;
         }

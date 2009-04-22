@@ -24,6 +24,7 @@ namespace PhysXPlugin
         private bool changeKinematicStatus;
         private bool changeDisableCollisionStatus;
         private Identifier actorId;
+        private String shapeName;
 
         #endregion
 
@@ -42,6 +43,7 @@ namespace PhysXPlugin
             this.actor = actor;
             this.scene = scene;
             this.actorId = name;
+            this.shapeName = null;
             actor.setActiveTransformCallback(this);
             changeKinematicStatus = actor.isDynamic() && !actor.readBodyFlag(BodyFlag.NX_BF_KINEMATIC);
             changeDisableCollisionStatus = !actor.readActorFlag(ActorFlag.NX_AF_DISABLE_COLLISION);
@@ -136,7 +138,7 @@ namespace PhysXPlugin
         /// <returns>A new SimElementDefinition for this SimElement.</returns>
         public override SimElementDefinition saveToDefinition()
         {
-            throw new NotImplementedException();
+            return new PhysActorDefinition(Name, shapeName, actor);
         }
 
         /// <summary>
@@ -148,6 +150,27 @@ namespace PhysXPlugin
         public void firePositionUpdate(ref Vector3 translation, ref Quaternion rotation)
         {
             SimObject.updatePosition(ref translation, ref rotation, this);
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// This is the name of the shape used to create this actor. If this is
+        /// defined the shapes on the actor will not be saved and instead it
+        /// will reference the external shape.
+        /// </summary>
+        public String ShapeName
+        {
+            get
+            {
+                return shapeName;
+            }
+            internal set
+            {
+                shapeName = value;
+            }
         }
 
         #endregion

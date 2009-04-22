@@ -59,6 +59,32 @@ namespace PhysXPlugin
 
         }
 
+        /// <summary>
+        /// Constructor. Bases the definition off of an exisiting actor.
+        /// </summary>
+        /// <param name="name">The name of the definition.</param>
+        /// <param name="shapeName"></param>
+        /// <param name="actor"></param>
+        internal PhysActorDefinition(String name, String shapeName, PhysActor actor)
+            :base(name)
+        {
+            this.shapeName = shapeName;
+            actor.saveToDesc(actorDesc);
+            Dynamic = actor.saveBodyToDesc(bodyDesc);
+            List<PhysShape> shapes = actor.getShapes();
+            foreach (PhysShape shape in shapes)
+            {
+                switch (shape.getShapeType())
+                {
+                    case PhysShapeType.NX_SHAPE_BOX:
+                        BoxShapeDefinition boxShape = new BoxShapeDefinition();
+                        ((PhysBoxShape)shape).saveToDesc((PhysBoxShapeDesc)boxShape.PhysShapeDesc);
+                        addShape(boxShape);
+                        break;
+                }
+            }
+        }
+
         #endregion Constructors
 
         #region Functions
@@ -117,12 +143,27 @@ namespace PhysXPlugin
             {
                 actorDesc.Body = null;
             }
+            actorDesc.clearShapes();
+            if (shapeName == null || shapeName == String.Empty)
+            {
+                foreach (ShapeDefinition shape in shapeDefinitions)
+                {
+                    actorDesc.addShape(shape.PhysShapeDesc);
+                }
+            }
+            else
+            {
+                //assign shapes from shapecollection
+
+            }
             if (actorDesc.isValid())
             {
                 actorDesc.setGlobalPose(instance.Translation, instance.Rotation);
                 Identifier actorId = new Identifier(instance.Name, this.Name);
                 PhysActor actor = scene.createPhysActor(actorId, actorDesc);
-                instance.addElement(new PhysActorElement(actor, scene, actorId, subscription));
+                PhysActorElement element = new PhysActorElement(actor, scene, actorId, subscription);
+                element.ShapeName = shapeName;
+                instance.addElement(element);
             }
             else
             {
@@ -142,7 +183,7 @@ namespace PhysXPlugin
 
         public void addShape(ShapeDefinition physShape)
         {
-            actorDesc.addShape(physShape.PhysShapeDesc);
+            //actorDesc.addShape(physShape.PhysShapeDesc);
             shapeDefinitions.AddLast(physShape);
             if (editInterface != null)
             {
@@ -152,7 +193,7 @@ namespace PhysXPlugin
 
         public void removeShape(ShapeDefinition physShape)
         {
-            actorDesc.removeShape(physShape.PhysShapeDesc);
+            //actorDesc.removeShape(physShape.PhysShapeDesc);
             shapeDefinitions.Remove(physShape);
             if (editInterface != null)
             {

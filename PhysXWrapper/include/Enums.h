@@ -2302,4 +2302,71 @@ public enum class PhysSoftBodyAttachmentFlag : unsigned int
 	NX_SOFTBODY_ATTACHMENT_TEARABLE		  = (1<<1),
 };
 
+/// <summary>
+/// Shape types.
+/// </summary>
+[Engine::Attributes::SingleEnum]
+public enum class PhysShapeType
+	{
+	/**
+	\brief A physical plane
+    @see NxPlaneShape
+	*/
+	NX_SHAPE_PLANE,
+
+	/**
+	\brief A physical sphere
+	@see NxSphereShape
+	*/
+	NX_SHAPE_SPHERE,
+
+	/**
+	\brief A physical box (OBB)
+	@see NxBoxShape
+	*/
+	NX_SHAPE_BOX,
+
+	/**
+	\brief A physical capsule (LSS)
+	@see NxCapsuleShape
+	*/
+	NX_SHAPE_CAPSULE,
+
+	/**
+	\brief A wheel for raycast cars
+	@see NxWheelShape
+	*/
+	NX_SHAPE_WHEEL,
+
+	/**
+	\brief A physical convex mesh
+	@see NxConvexShape NxConvexMesh
+	*/
+	NX_SHAPE_CONVEX,
+
+	/**
+	\brief A physical mesh
+	@see NxTriangleMeshShape NxTriangleMesh
+	*/
+	NX_SHAPE_MESH,
+
+	/**
+	\brief A physical height-field
+	@see NxHeightFieldShape NxHeightField
+	*/
+	NX_SHAPE_HEIGHTFIELD,
+
+	/**
+	\brief internal use only!
+
+	*/
+	NX_SHAPE_RAW_MESH,
+
+	NX_SHAPE_COMPOUND,
+
+	NX_SHAPE_COUNT,
+
+	NX_SHAPE_FORCE_DWORD = 0x7fffffff
+};
+
 }

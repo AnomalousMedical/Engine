@@ -42,6 +42,11 @@ unsigned short PhysShape::getGroup()
 	return nxShape->getGroup();
 }
 
+PhysShapeType PhysShape::getShapeType()
+{
+	return static_cast<PhysShapeType>(nxShape->getType());
+}
+
 void PhysShape::setFlag(ShapeFlag flag, bool value)
 {
 	return nxShape->setFlag(static_cast<NxShapeFlag>(flag), value);

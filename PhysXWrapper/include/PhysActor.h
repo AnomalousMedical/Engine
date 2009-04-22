@@ -80,6 +80,17 @@ public:
 	~PhysActor();
 
 	/// <summary>
+	/// Saves the state of the actor to the passed descriptor. 
+	/// 
+	/// This method does not save out any shapes belonging to the actor to the descriptor's 
+	/// shape vector, nor does it write to its body member. You have to iterate through the 
+	/// shapes of the actor and save them manually. In addition for dynamic actors you have 
+	/// to call the saveBodyToDesc() method.
+	/// </summary>
+	/// <param name="actorDesc">The actor description to save to.</param>
+	void saveToDesc(PhysActorDesc^ actorDesc);
+
+	/// <summary>
 	/// Saves the body information of a dynamic actor to the passed body descriptor. 
 	/// 
 	/// This method only save the dynamic(body) state for the actor. The user should use 
@@ -89,18 +100,7 @@ public:
 	/// The actor must be dynamic.
 	/// 
 	/// </summary>
-	/// <param name="actorDesc">The actor description to save to.</param>	
-	void saveToDesc(PhysActorDesc^ actorDesc);
-
-	/// <summary>
-	/// Saves the state of the actor to the passed descriptor. 
-	/// 
-	/// This method does not save out any shapes belonging to the actor to the descriptor's 
-	/// shape vector, nor does it write to its body member. You have to iterate through the 
-	/// shapes of the actor and save them manually. In addition for dynamic actors you have 
-	/// to call the saveBodyToDesc() method.
-	/// </summary>
-	/// <param name="bodyDesc">Descriptor to save the state of the body to.</param>
+	/// <param name="bodyDesc">Descriptor to save the state of the body to.</param>	
 	/// <returns>True for a dynamic body. Otherwise False.</returns>
 	bool saveBodyToDesc(PhysBodyDesc^ bodyDesc);
 
