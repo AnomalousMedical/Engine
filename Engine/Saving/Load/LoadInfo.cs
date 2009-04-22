@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EngineMath;
+using Engine.ObjectManagement;
 
 namespace Engine.Saving
 {
@@ -130,6 +131,11 @@ namespace Engine.Saving
         public T GetValue<T>(string name)
         {
             return (T)entries[name].Value;
+        }
+
+        public Identifier GetIdentifier(String name)
+        {
+            return (Identifier)entries[name].Value;
         }
 
         /// <summary>

@@ -32,7 +32,7 @@ namespace Engine.Reflection
         /// <returns>True if the String can be parsed correctly.</returns>
         public override bool canParseString(string value)
         {
-            return value.Contains("InstanceName=") && value.Contains("BaseName=");
+            return value.Contains("SimObjectName=") && value.Contains("ElementName=");
         }
 
         /// <summary>

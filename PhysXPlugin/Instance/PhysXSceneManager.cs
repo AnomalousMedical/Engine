@@ -21,6 +21,7 @@ namespace PhysXPlugin
         private PhysSDK physSDK;
         private PhysFactory factory;
         private Dictionary<Identifier, PhysActor> actors = new Dictionary<Identifier, PhysActor>();
+        private Dictionary<Identifier, PhysJoint> joints = new Dictionary<Identifier, PhysJoint>();
         private String name;
         private Timer mainTimer;
 
@@ -158,6 +159,13 @@ namespace PhysXPlugin
             PhysActor actor;
             actors.TryGetValue(name, out actor);
             return actor;
+        }
+
+        public PhysJoint createJoint(Identifier name, PhysJointDesc superJointDesc)
+        {
+            PhysJoint joint = scene.createJoint(superJointDesc);
+            joints.Add(name, joint);
+            return joint;
         }
 
         public void sendUpdate(Clock clock)

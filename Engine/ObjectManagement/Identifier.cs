@@ -119,7 +119,7 @@ namespace Engine.ObjectManagement
         /// <param name="obj">The object to test.</param>
         public override bool Equals(Object obj)
         {
-            return typeof(Identifier) == obj.GetType() && this == ((Identifier)obj);
+            return typeof(Identifier) == obj.GetType() && this.fullName == ((Identifier)obj).fullName;
         }
 
         /// <summary>

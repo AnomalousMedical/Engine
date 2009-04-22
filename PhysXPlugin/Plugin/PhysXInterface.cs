@@ -32,14 +32,13 @@ namespace PhysXPlugin
 
         delegate PhysActorDefinition CreatePhysActorDefinition(String name);
         delegate PhysXSceneManagerDefinition CreateSceneDesc(String name);
+        delegate PhysFixedJointDefinition CreateFixedJointDefinition(String name);
 
         #endregion Delegates
 
         #region Fields
 
         private PhysSDK physSDK = null;
-        private CommandManager elementManagerCommands = new CommandManager();
-        private CommandManager elementDefinitonCommands = new CommandManager();
         private Timer mainTimer;
 
         #endregion Fields
@@ -82,19 +81,10 @@ namespace PhysXPlugin
         public void initialize(PluginManager pluginManager)
         {
             physSDK = PhysSDK.Instance;
-            elementManagerCommands.addCommand(new EngineCommand("createPhysSceneDef", "Create PhysX Scene Definition", "Creates a new PhysX scene definition.", new CreateSceneDesc(createSceneDefinition)));
+            pluginManager.addCreateSimElementManagerCommand(new EngineCommand("createPhysSceneDef", "Create PhysX Scene Definition", "Creates a new PhysX scene definition.", new CreateSceneDesc(createSceneDefinition)));
 
-            elementDefinitonCommands.addCommand(new EngineCommand("createPhysActorDef", "Create PhysX Actor Definition", "Creates a new PhysX Actor Definition.", new CreatePhysActorDefinition(createPhysActorDefinition)));
-
-            foreach (EngineCommand command in elementManagerCommands.getCommandList())
-            {
-                pluginManager.addCreateSimElementManagerCommand(command);
-            }
-
-            foreach (EngineCommand command in elementDefinitonCommands.getCommandList())
-            {
-                pluginManager.addCreateSimElementCommand(command);
-            }
+            pluginManager.addCreateSimElementCommand(new EngineCommand("createPhysActorDef", "Create PhysX Actor", "Creates a new PhysX Actor Definition.", new CreatePhysActorDefinition(createPhysActorDefinition)));
+            pluginManager.addCreateSimElementCommand(new EngineCommand("createPhysFixedJointDef", "Create PhysX Fixed Joint", "Creates a new PhysX Fixed Joint Definition.", new CreateFixedJointDefinition(createPhysFixedJointDefinition)));
         }
 
         /// <summary>
@@ -141,6 +131,11 @@ namespace PhysXPlugin
         public PhysActorDefinition createPhysActorDefinition(String name)
         {
             return new PhysActorDefinition(name);
+        }
+
+        public PhysFixedJointDefinition createPhysFixedJointDefinition(String name)
+        {
+            return new PhysFixedJointDefinition(name);
         }
 
         /// <summary>

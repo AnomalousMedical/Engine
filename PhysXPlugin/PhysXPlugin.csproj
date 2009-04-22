@@ -48,6 +48,8 @@
   <ItemGroup>
     <Compile Include="Construction\PhysFactory.cs" />
     <Compile Include="Construction\PhysFactoryEntry.cs" />
+    <Compile Include="Definition\Joints\PhysFixedJointDefinition.cs" />
+    <Compile Include="Definition\Joints\PhysJointDefinition.cs" />
     <Compile Include="Definition\PhysActorDefinition.cs" />
     <Compile Include="Definition\PhysElementDefinition.cs" />
     <Compile Include="Definition\PhysXSceneManagerDefinition.cs" />
