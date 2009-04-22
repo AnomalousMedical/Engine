@@ -135,7 +135,40 @@ namespace OgrePlugin
 
         public override SimElementDefinition saveToDefinition()
         {
-            throw new NotImplementedException();
+            return saveToSceneNodeDefinition();
+        }
+
+        /// <summary>
+        /// Helper function to recursivly save scene node definitions for all
+        /// children.
+        /// </summary>
+        /// <returns>A new SceneNodeDefinition for this node.</returns>
+        private SceneNodeDefinition saveToSceneNodeDefinition()
+        {
+            SceneNodeDefinition definition = new SceneNodeDefinition(Name);
+            definition.LocalTranslation = sceneNode.getPosition();
+            definition.LocalRotation = sceneNode.getOrientation();
+            foreach (Identifier identifier in entities)
+            {
+                definition.addMovableObjectDefinition(new EntityDefinition(identifier.ElementName, scene.getEntity(identifier)));
+            }
+            foreach (Identifier identifier in cameras)
+            {
+                definition.addMovableObjectDefinition(new CameraDefinition(identifier.ElementName, scene.getCamera(identifier)));
+            }
+            foreach (Identifier identifier in lights)
+            {
+                definition.addMovableObjectDefinition(new LightDefinition(identifier.ElementName, scene.getLight(identifier)));
+            }
+            foreach (Identifier identifier in manualObjects)
+            {
+                definition.addMovableObjectDefinition(new ManualObjectDefinition(identifier.ElementName, scene.getManualObject(identifier)));
+            }
+            foreach (SceneNodeElement child in children)
+            {
+                definition.addChildNode(child.saveToSceneNodeDefinition());
+            }
+            return definition;
         }
     }
 }

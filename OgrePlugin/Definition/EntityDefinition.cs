@@ -53,6 +53,11 @@ namespace OgrePlugin
             {
                 meshName = mesh.Value.getName();
             }
+            if (entity.hasSkeleton())
+            {
+                skeleton = new SkeletonInfo();
+                skeleton.saveSkeleton(entity.getSkeleton());
+            }
         }
 
         /// <summary>

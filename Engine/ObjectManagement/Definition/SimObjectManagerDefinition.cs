@@ -61,6 +61,16 @@ namespace Engine.ObjectManagement
         }
 
         /// <summary>
+        /// Get the template specified by name.
+        /// </summary>
+        /// <param name="name">The name of the template.</param>
+        /// <returns>The template.</returns>
+        public SimObjectDefinition getTemplate(String name)
+        {
+            return templates[name];
+        }
+
+        /// <summary>
         /// Returns a new SimObjectManager that contains all the SimObjects
         /// defined in this class. The SimObjects will be empty, but they will
         /// be registered for construction.

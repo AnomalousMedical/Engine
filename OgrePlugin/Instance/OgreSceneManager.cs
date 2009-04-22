@@ -95,6 +95,46 @@ namespace OgrePlugin
         }
 
         /// <summary>
+        /// Create a scene node.
+        /// </summary>
+        /// <param name="name">The Identifier of the scene node.</param>
+        /// <returns>A new SceneNode.</returns>
+        internal SceneNode createSceneNode(Identifier name)
+        {
+            SceneNode node = scene.createSceneNode(name.FullName);
+            sceneNodes.Add(name, node);
+            return node;
+        }
+
+        /// <summary>
+        /// Destroy the SceneNode specified by Identifier.
+        /// </summary>
+        /// <param name="identifier">The scene node to destroy.</param>
+        internal void destroySceneNode(Identifier identifier)
+        {
+            if (sceneNodes.ContainsKey(identifier))
+            {
+                SceneNode sceneNode = sceneNodes[identifier];
+                sceneNodes.Remove(identifier);
+                scene.destroySceneNode(sceneNode);
+            }
+            else
+            {
+                Log.Default.sendMessage("Attempted to remove a scene node named {0} that does not exist in the scene {1}.", LogLevel.Warning, OgreInterface.PluginName, identifier.FullName, name);
+            }
+        }
+
+        /// <summary>
+        /// Get the SceneNode specified by identifier.
+        /// </summary>
+        /// <param name="identifier">The identifier.</param>
+        /// <returns>The matching object.</returns>
+        internal SceneNode getSceneNode(Identifier identifier)
+        {
+            return sceneNodes[identifier];
+        }
+
+        /// <summary>
         /// Create an entity.
         /// </summary>
         /// <param name="name">The name of the entity to create.</param>
@@ -126,33 +166,13 @@ namespace OgrePlugin
         }
 
         /// <summary>
-        /// Create a scene node.
+        /// Get the Entity specified by identifier.
         /// </summary>
-        /// <param name="name">The Identifier of the scene node.</param>
-        /// <returns>A new SceneNode.</returns>
-        internal SceneNode createSceneNode(Identifier name)
+        /// <param name="identifier">The identifier.</param>
+        /// <returns>The matching object.</returns>
+        internal Entity getEntity(Identifier identifier)
         {
-            SceneNode node = scene.createSceneNode(name.FullName);
-            sceneNodes.Add(name, node);
-            return node;
-        }
-
-        /// <summary>
-        /// Destroy the SceneNode specified by Identifier.
-        /// </summary>
-        /// <param name="identifier">The scene node to destroy.</param>
-        internal void destroySceneNode(Identifier identifier)
-        {
-            if (sceneNodes.ContainsKey(identifier))
-            {
-                SceneNode sceneNode = sceneNodes[identifier];
-                sceneNodes.Remove(identifier);
-                scene.destroySceneNode(sceneNode);
-            }
-            else
-            {
-                Log.Default.sendMessage("Attempted to remove a scene node named {0} that does not exist in the scene {1}.", LogLevel.Warning, OgreInterface.PluginName, identifier.FullName, name);
-            }
+            return entities[identifier];
         }
 
         /// <summary>
@@ -186,6 +206,16 @@ namespace OgrePlugin
         }
 
         /// <summary>
+        /// Get the Camera specified by identifier.
+        /// </summary>
+        /// <param name="identifier">The identifier.</param>
+        /// <returns>The matching object.</returns>
+        internal Camera getCamera(Identifier identifier)
+        {
+            return cameras[identifier];
+        }
+
+        /// <summary>
         /// Create a new light in the scene.
         /// </summary>
         /// <param name="name">The Identifier of the light.</param>
@@ -216,6 +246,16 @@ namespace OgrePlugin
         }
 
         /// <summary>
+        /// Get the Light specified by identifier.
+        /// </summary>
+        /// <param name="identifier">The identifier.</param>
+        /// <returns>The matching object.</returns>
+        internal Light getLight(Identifier identifier)
+        {
+            return lights[identifier];
+        }
+
+        /// <summary>
         /// Create a manual object.
         /// </summary>
         /// <param name="id">The identifier of the manual object.</param>
@@ -243,6 +283,16 @@ namespace OgrePlugin
             {
                 Log.Default.sendMessage("Attempted to remove a manual object named {0} that does not exist in the scene {1}.", LogLevel.Warning, OgreInterface.PluginName, identifier.FullName, this.name);
             }
+        }
+
+        /// <summary>
+        /// Get the ManualObject specified by identifier.
+        /// </summary>
+        /// <param name="identifier">The identifier.</param>
+        /// <returns>The matching object.</returns>
+        internal ManualObject getManualObject(Identifier identifier)
+        {
+            return manualObjects[identifier];
         }
 
         #endregion Functions
