@@ -6,9 +6,13 @@ using Engine;
 using PhysXWrapper;
 using EngineMath;
 using Engine.Platform;
+using Engine.ObjectManagement;
 
 namespace PhysXPlugin
 {
+    internal delegate SimElementDefinition CreateElementDefinition(String name);
+    internal delegate SimElementManagerDefinition CreateElementManagerDefinition(String name);
+
     /// <summary>
     /// This is the ElementPlugin class for the PhysXPlugin.
     /// </summary>
@@ -27,15 +31,6 @@ namespace PhysXPlugin
         }
 
         #endregion Static
-
-        #region Delegates
-
-        delegate PhysActorDefinition CreatePhysActorDefinition(String name);
-        delegate PhysXSceneManagerDefinition CreateSceneDesc(String name);
-        delegate PhysFixedJointDefinition CreateFixedJointDefinition(String name);
-        delegate PhysD6JointDefinition CreateD6JointDefinition(String name);
-
-        #endregion Delegates
 
         #region Fields
 
@@ -82,11 +77,18 @@ namespace PhysXPlugin
         public void initialize(PluginManager pluginManager)
         {
             physSDK = PhysSDK.Instance;
-            pluginManager.addCreateSimElementManagerCommand(new EngineCommand("createPhysSceneDef", "Create PhysX Scene Definition", "Creates a new PhysX scene definition.", new CreateSceneDesc(createSceneDefinition)));
+            pluginManager.addCreateSimElementManagerCommand(new EngineCommand("createPhysSceneDef", "Create PhysX Scene Definition", "Creates a new PhysX scene definition.", new CreateElementManagerDefinition(PhysXSceneManagerDefinition.Create)));
 
-            pluginManager.addCreateSimElementCommand(new EngineCommand("createPhysActorDef", "Create PhysX Actor", "Creates a new PhysX Actor Definition.", new CreatePhysActorDefinition(createPhysActorDefinition)));
-            pluginManager.addCreateSimElementCommand(new EngineCommand("createPhysFixedJointDef", "Create PhysX Fixed Joint", "Creates a new PhysX Fixed Joint Definition.", new CreateFixedJointDefinition(createPhysFixedJointDefinition)));
-            pluginManager.addCreateSimElementCommand(new EngineCommand("createPhysD6JointDef", "Create PhysX D6 Joint", "Creates a new PhysX D6 Joint Definition.", new CreateD6JointDefinition(createPhysD6JointDefinition)));
+            pluginManager.addCreateSimElementCommand(new EngineCommand("createPhysActorDef", "Create PhysX Actor", "Creates a new PhysX Actor Definition.", new CreateElementDefinition(PhysActorDefinition.Create)));
+            pluginManager.addCreateSimElementCommand(new EngineCommand("createPhysCylindricalJointDef", "Create PhysX Cylindrical Joint", "Creates a new PhysX Cylindrical Joint Definition.", new CreateElementDefinition(PhysCylindricalJointDefinition.Create)));
+            pluginManager.addCreateSimElementCommand(new EngineCommand("createPhysD6JointDef", "Create PhysX D6 Joint", "Creates a new PhysX D6 Joint Definition.", new CreateElementDefinition(PhysD6JointDefinition.Create)));
+            pluginManager.addCreateSimElementCommand(new EngineCommand("createPhysFixedJointDef", "Create PhysX Fixed Joint", "Creates a new PhysX Fixed Joint Definition.", new CreateElementDefinition(PhysFixedJointDefinition.Create)));
+            pluginManager.addCreateSimElementCommand(new EngineCommand("createPhysPointInPlaneJointDef", "Create PhysX PointInPlane Joint", "Creates a new PhysX PointInPlane Joint Definition.", new CreateElementDefinition(PhysPointInPlaneJointDefinition.Create)));
+            pluginManager.addCreateSimElementCommand(new EngineCommand("createPhysPointOnLineJointDef", "Create PhysX PointOnLine Joint", "Creates a new PhysX PointOnLine Joint Definition.", new CreateElementDefinition(PhysPointOnLineJointDefinition.Create)));
+            pluginManager.addCreateSimElementCommand(new EngineCommand("createPhysPrismaticJointDef", "Create PhysX Prismatic Joint", "Creates a new PhysX Prismatic Joint Definition.", new CreateElementDefinition(PhysPrismaticJointDefinition.Create)));
+            pluginManager.addCreateSimElementCommand(new EngineCommand("createPhysPulleyJointDef", "Create PhysX Pulley Joint", "Creates a new PhysX Pulley Joint Definition.", new CreateElementDefinition(PhysPulleyJointDefinition.Create)));
+            pluginManager.addCreateSimElementCommand(new EngineCommand("createPhysRevoluteJointDef", "Create PhysX Revolute Joint", "Creates a new PhysX Revolute Joint Definition.", new CreateElementDefinition(PhysRevoluteJointDefinition.Create)));
+            pluginManager.addCreateSimElementCommand(new EngineCommand("createPhysSphericalJointDef", "Create PhysX Spherical Joint", "Creates a new PhysX Spherical Joint Definition.", new CreateElementDefinition(PhysSphericalJointDefinition.Create)));
         }
 
         /// <summary>
@@ -126,41 +128,11 @@ namespace PhysXPlugin
         #region Creation
 
         /// <summary>
-        /// Create a PhysActorDefinition.
-        /// </summary>
-        /// <param name="name">The name of the PhysActor.</param>
-        /// <returns>A new PhysActorDefintion.</returns>
-        public PhysActorDefinition createPhysActorDefinition(String name)
-        {
-            return new PhysActorDefinition(name);
-        }
-
-        public PhysFixedJointDefinition createPhysFixedJointDefinition(String name)
-        {
-            return new PhysFixedJointDefinition(name);
-        }
-
-        public PhysD6JointDefinition createPhysD6JointDefinition(String name)
-        {
-            return new PhysD6JointDefinition(name);
-        }
-
-        /// <summary>
-        /// Create a PhysXSceneManagerDefinition.
-        /// </summary>
-        /// <param name="name">The name of the scene.</param>
-        /// <returns>A new PhysXSceneManagerDefinition.</returns>
-        public PhysXSceneManagerDefinition createSceneDefinition(String name)
-        {
-            return new PhysXSceneManagerDefinition(name);
-        }
-
-        /// <summary>
         /// Create a PhysXSceneManager.
         /// </summary>
         /// <param name="definition">The definition of the scene.</param>
         /// <returns>A new PhysXSceneManager.</returns>
-        public PhysXSceneManager createScene(PhysXSceneManagerDefinition definition)
+        internal PhysXSceneManager createScene(PhysXSceneManagerDefinition definition)
         {
             PhysScene scene = physSDK.createScene(definition.SceneDesc);
             return new PhysXSceneManager(definition.Name, scene, physSDK, mainTimer);

@@ -11,6 +11,20 @@ namespace PhysXPlugin
 {
     public class PhysCylindricalJointDefinition : PhysJointDefinitionBase<PhysCylindricalJointDesc, PhysCylindricalJoint>
     {
+        #region Static
+
+        /// <summary>
+        /// Create function for commands.
+        /// </summary>
+        /// <param name="name">The name of the definition to create.</param>
+        /// <returns>A new definition.</returns>
+        internal static PhysCylindricalJointDefinition Create(String name)
+        {
+            return new PhysCylindricalJointDefinition(name);
+        }
+
+        #endregion Static
+
         /// <summary>
         /// Constructor.
         /// </summary>

@@ -11,6 +11,20 @@ namespace PhysXPlugin
 {
     class PhysPointOnLineJointDefinition: PhysJointDefinitionBase<PhysPointOnLineJointDesc, PhysPointOnLineJoint>
     {
+        #region Static
+
+        /// <summary>
+        /// Create function for commands.
+        /// </summary>
+        /// <param name="name">The name of the definition to create.</param>
+        /// <returns>A new definition.</returns>
+        internal static PhysPointOnLineJointDefinition Create(String name)
+        {
+            return new PhysPointOnLineJointDefinition(name);
+        }
+
+        #endregion Static
+
         /// <summary>
         /// Constructor.
         /// </summary>

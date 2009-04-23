@@ -20,7 +20,17 @@ namespace PhysXPlugin
         static PhysPulleyJointDefinition()
         {
             memberScanner.Filter = EditableAttributeFilter.Instance;
-            memberScanner.TerminatingType = typeof(PhysJointDefinitionBase<PhysDistanceJointDesc, PhysDistanceJoint>);
+            memberScanner.TerminatingType = typeof(PhysJointDefinitionBase<PhysPulleyJointDesc, PhysPulleyJoint>);
+        }
+
+        /// <summary>
+        /// Create function for commands.
+        /// </summary>
+        /// <param name="name">The name of the definition to create.</param>
+        /// <returns>A new definition.</returns>
+        internal static PhysPulleyJointDefinition Create(String name)
+        {
+            return new PhysPulleyJointDefinition(name);
         }
 
         #endregion Static

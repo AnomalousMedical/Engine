@@ -11,6 +11,20 @@ namespace PhysXPlugin
 {
     public class PhysPointInPlaneJointDefinition: PhysJointDefinitionBase<PhysPointInPlaneJointDesc, PhysPointInPlaneJoint>
     {
+        #region Static
+
+        /// <summary>
+        /// Create function for commands.
+        /// </summary>
+        /// <param name="name">The name of the definition to create.</param>
+        /// <returns>A new definition.</returns>
+        internal static PhysPointInPlaneJointDefinition Create(String name)
+        {
+            return new PhysPointInPlaneJointDefinition(name);
+        }
+
+        #endregion Static
+
         /// <summary>
         /// Constructor.
         /// </summary>

@@ -26,6 +26,16 @@ namespace PhysXPlugin
             memberScanner.ProcessNonPublicProperties = false;
         }
 
+        /// <summary>
+        /// Create function for commands.
+        /// </summary>
+        /// <param name="name">The name of the definition to create.</param>
+        /// <returns>A new definition.</returns>
+        internal static PhysXSceneManagerDefinition Create(String name)
+        {
+            return new PhysXSceneManagerDefinition(name);
+        }
+
         #endregion Static
 
         #region Fields

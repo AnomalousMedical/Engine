@@ -19,7 +19,17 @@ namespace PhysXPlugin
         static PhysRevoluteJointDefinition()
         {
             memberScanner.Filter = EditableAttributeFilter.Instance;
-            memberScanner.TerminatingType = typeof(PhysJointDefinitionBase<PhysDistanceJointDesc, PhysDistanceJoint>);
+            memberScanner.TerminatingType = typeof(PhysJointDefinitionBase<PhysRevoluteJointDesc, PhysRevoluteJoint>);
+        }
+
+        /// <summary>
+        /// Create function for commands.
+        /// </summary>
+        /// <param name="name">The name of the definition to create.</param>
+        /// <returns>A new definition.</returns>
+        internal static PhysRevoluteJointDefinition Create(String name)
+        {
+            return new PhysRevoluteJointDefinition(name);
         }
 
         #endregion Static

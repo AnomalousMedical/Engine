@@ -32,6 +32,16 @@ namespace PhysXPlugin
             actorMemberScanner.Filter = EditableAttributeFilter.Instance;
         }
 
+        /// <summary>
+        /// Create function for commands.
+        /// </summary>
+        /// <param name="name">The name of the definition to create.</param>
+        /// <returns>A new definition.</returns>
+        internal static PhysActorDefinition Create(String name)
+        {
+            return new PhysActorDefinition(name);
+        }
+
         #endregion Static
 
         #region Fields
@@ -53,7 +63,7 @@ namespace PhysXPlugin
         /// Normal constructor. Takes a name and a PhysFactory to build with.
         /// </summary>
         /// <param name="name">The name of the actor.</param>
-        internal PhysActorDefinition(String name)
+        public PhysActorDefinition(String name)
             :base(name)
         {
 

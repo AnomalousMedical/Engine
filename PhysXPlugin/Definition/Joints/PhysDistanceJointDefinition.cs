@@ -22,6 +22,16 @@ namespace PhysXPlugin
             memberScanner.TerminatingType = typeof(PhysJointDefinitionBase<PhysDistanceJointDesc, PhysDistanceJoint>);
         }
 
+        /// <summary>
+        /// Create function for commands.
+        /// </summary>
+        /// <param name="name">The name of the definition to create.</param>
+        /// <returns>A new definition.</returns>
+        internal static PhysDistanceJointDefinition Create(String name)
+        {
+            return new PhysDistanceJointDefinition(name);
+        }
+
         #endregion Static
         
         [Editable] private PhysSpringDescription spring;

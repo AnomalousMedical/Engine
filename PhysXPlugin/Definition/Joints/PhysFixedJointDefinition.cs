@@ -11,6 +11,20 @@ namespace PhysXPlugin
 {
     public class PhysFixedJointDefinition : PhysJointDefinitionBase<PhysFixedJointDesc, PhysFixedJoint>
     {
+        #region Static
+
+        /// <summary>
+        /// Create function for commands.
+        /// </summary>
+        /// <param name="name">The name of the definition to create.</param>
+        /// <returns>A new definition.</returns>
+        internal static PhysFixedJointDefinition Create(String name)
+        {
+            return new PhysFixedJointDefinition(name);
+        }
+
+        #endregion Static
+
         /// <summary>
         /// Constructor.
         /// </summary>

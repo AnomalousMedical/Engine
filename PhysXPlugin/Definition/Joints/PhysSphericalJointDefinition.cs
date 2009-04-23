@@ -20,7 +20,17 @@ namespace PhysXPlugin
         static PhysSphericalJointDefinition()
         {
             memberScanner.Filter = EditableAttributeFilter.Instance;
-            memberScanner.TerminatingType = typeof(PhysJointDefinitionBase<PhysDistanceJointDesc, PhysDistanceJoint>);
+            memberScanner.TerminatingType = typeof(PhysJointDefinitionBase<PhysSphericalJointDesc, PhysSphericalJoint>);
+        }
+
+        /// <summary>
+        /// Create function for commands.
+        /// </summary>
+        /// <param name="name">The name of the definition to create.</param>
+        /// <returns>A new definition.</returns>
+        internal static PhysSphericalJointDefinition Create(String name)
+        {
+            return new PhysSphericalJointDefinition(name);
         }
 
         #endregion Static
