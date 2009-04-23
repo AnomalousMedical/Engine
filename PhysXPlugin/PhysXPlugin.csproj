@@ -50,6 +50,7 @@
     <Compile Include="Construction\PhysFactoryEntry.cs" />
     <Compile Include="Definition\Joints\PhysCylindricalJointDefinition.cs" />
     <Compile Include="Definition\Joints\PhysD6JointDefinition.cs" />
+    <Compile Include="Definition\Joints\PhysDistanceJointDefinition.cs" />
     <Compile Include="Definition\Joints\PhysFixedJointDefinition.cs" />
     <Compile Include="Definition\Joints\PhysJointDefinition.cs" />
     <Compile Include="Definition\Joints\PhysJointDefinitionBase.cs" />
@@ -59,6 +60,12 @@
     <Compile Include="Definition\Joints\PhysJointLimitSoftDescription.cs" />
     <Compile Include="Definition\Joints\PhysJointLimitSoftPairDescription.cs" />
     <Compile Include="Definition\Joints\PhysMotorDescription.cs" />
+    <Compile Include="Definition\Joints\PhysPointInPlaneJointDefinition.cs" />
+    <Compile Include="Definition\Joints\PhysPointOnLineJointDefinition.cs" />
+    <Compile Include="Definition\Joints\PhysPrismaticJointDefinition.cs" />
+    <Compile Include="Definition\Joints\PhysPulleyJointDefinition.cs" />
+    <Compile Include="Definition\Joints\PhysRevoluteJointDefinition.cs" />
+    <Compile Include="Definition\Joints\PhysSphericalJointDefinition.cs" />
     <Compile Include="Definition\Joints\PhysSpringDescription.cs" />
     <Compile Include="Definition\PhysActorDefinition.cs" />
     <Compile Include="Definition\PhysElementDefinition.cs" />
@@ -67,8 +74,15 @@
     <Compile Include="Definition\Shapes\ShapeDefinition.cs" />
     <Compile Include="Instance\Joints\PhysCylindricalJointElement.cs" />
     <Compile Include="Instance\Joints\PhysD6JointElement.cs" />
+    <Compile Include="Instance\Joints\PhysDistanceJointElement.cs" />
     <Compile Include="Instance\Joints\PhysFixedJointElement.cs" />
     <Compile Include="Instance\Joints\PhysJointElementBase.cs" />
+    <Compile Include="Instance\Joints\PhysPointInPlaneJointElement.cs" />
+    <Compile Include="Instance\Joints\PhysPointOnLineJointElement.cs" />
+    <Compile Include="Instance\Joints\PhysPrismaticJointElement.cs" />
+    <Compile Include="Instance\Joints\PhysPulleyJointElement.cs" />
+    <Compile Include="Instance\Joints\PhysRevoluteJointElement.cs" />
+    <Compile Include="Instance\Joints\PhysSphericalJointElement.cs" />
     <Compile Include="Instance\PhysActorElement.cs" />
     <Compile Include="Instance\Joints\PhysJointElement.cs" />
     <Compile Include="Instance\PhysXSceneManager.cs" />
