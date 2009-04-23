@@ -33,6 +33,7 @@ namespace PhysXPlugin
         delegate PhysActorDefinition CreatePhysActorDefinition(String name);
         delegate PhysXSceneManagerDefinition CreateSceneDesc(String name);
         delegate PhysFixedJointDefinition CreateFixedJointDefinition(String name);
+        delegate PhysD6JointDefinition CreateD6JointDefinition(String name);
 
         #endregion Delegates
 
@@ -85,6 +86,7 @@ namespace PhysXPlugin
 
             pluginManager.addCreateSimElementCommand(new EngineCommand("createPhysActorDef", "Create PhysX Actor", "Creates a new PhysX Actor Definition.", new CreatePhysActorDefinition(createPhysActorDefinition)));
             pluginManager.addCreateSimElementCommand(new EngineCommand("createPhysFixedJointDef", "Create PhysX Fixed Joint", "Creates a new PhysX Fixed Joint Definition.", new CreateFixedJointDefinition(createPhysFixedJointDefinition)));
+            pluginManager.addCreateSimElementCommand(new EngineCommand("createPhysD6JointDef", "Create PhysX D6 Joint", "Creates a new PhysX D6 Joint Definition.", new CreateD6JointDefinition(createPhysD6JointDefinition)));
         }
 
         /// <summary>
@@ -136,6 +138,11 @@ namespace PhysXPlugin
         public PhysFixedJointDefinition createPhysFixedJointDefinition(String name)
         {
             return new PhysFixedJointDefinition(name);
+        }
+
+        public PhysD6JointDefinition createPhysD6JointDefinition(String name)
+        {
+            return new PhysD6JointDefinition(name);
         }
 
         /// <summary>

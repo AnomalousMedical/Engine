@@ -4,21 +4,21 @@ using System.Linq;
 using System.Text;
 using PhysXWrapper;
 using Engine.Saving;
-using Engine.Editing;
 using Engine.ObjectManagement;
+using Engine.Editing;
 
 namespace PhysXPlugin
 {
-    public class PhysFixedJointDefinition : PhysJointDefinitionBase<PhysFixedJointDesc, PhysFixedJoint>
+    public class PhysCylindricalJointDefinition : PhysJointDefinitionBase<PhysCylindricalJointDesc, PhysCylindricalJoint>
     {
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="name">The name of the joint.</param>
-        public PhysFixedJointDefinition(String name)
-            :base(new PhysFixedJointDesc(), name, "Fixed Joint", null)
+        public PhysCylindricalJointDefinition(String name)
+            : base(new PhysCylindricalJointDesc(), name, "Cylindrical Joint", null)
         {
-            
+
         }
 
         /// <summary>
@@ -26,8 +26,8 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="name">The name of the joint.</param>
         /// <param name="joint">An existing PhysJointElement to get values from.</param>
-        internal PhysFixedJointDefinition(String name, PhysFixedJointElement joint)
-            :base(new PhysFixedJointDesc(), joint, name, "Fixed Joint", null)
+        internal PhysCylindricalJointDefinition(String name, PhysCylindricalJointElement joint)
+            : base(new PhysCylindricalJointDesc(), joint, name, "Cylindrical Joint", null)
         {
             joint.RealJoint.saveToDesc(jointDesc);
         }
@@ -40,7 +40,7 @@ namespace PhysXPlugin
         /// </summary>
         protected override void configureJoint()
         {
-            
+
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace PhysXPlugin
         /// <returns>A new PhysJointElement for this specific joint type.</returns>
         internal override PhysJointElement createElement(Identifier jointId, PhysJoint joint, PhysXSceneManager scene)
         {
-            return new PhysFixedJointElement(jointId, (PhysFixedJoint)joint, scene, subscription);
+            return new PhysCylindricalJointElement(jointId, (PhysCylindricalJoint)joint, scene, subscription);
         }
 
         #region Saveable
@@ -70,8 +70,8 @@ namespace PhysXPlugin
         /// Load constructor.
         /// </summary>
         /// <param name="loadInfo"></param>
-        private PhysFixedJointDefinition(LoadInfo loadInfo)
-            :base(new PhysFixedJointDesc(), loadInfo)
+        private PhysCylindricalJointDefinition(LoadInfo loadInfo)
+            : base(new PhysCylindricalJointDesc(), loadInfo)
         {
 
         }

@@ -144,6 +144,10 @@ namespace PhysXPlugin
             return editInterface;
         }
 
+        /// <summary>
+        /// Get any specific information for the EditInterface from a subclass.
+        /// </summary>
+        /// <param name="editInterface">The EditInterface to populate.</param>
         protected abstract void configureEditInterface(EditInterface editInterface);
 
         internal override PhysJointDesc JointDesc

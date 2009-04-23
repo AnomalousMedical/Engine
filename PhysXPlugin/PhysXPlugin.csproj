@@ -48,14 +48,25 @@
   <ItemGroup>
     <Compile Include="Construction\PhysFactory.cs" />
     <Compile Include="Construction\PhysFactoryEntry.cs" />
+    <Compile Include="Definition\Joints\PhysCylindricalJointDefinition.cs" />
+    <Compile Include="Definition\Joints\PhysD6JointDefinition.cs" />
     <Compile Include="Definition\Joints\PhysFixedJointDefinition.cs" />
     <Compile Include="Definition\Joints\PhysJointDefinition.cs" />
     <Compile Include="Definition\Joints\PhysJointDefinitionBase.cs" />
+    <Compile Include="Definition\Joints\PhysJointDriveDescription.cs" />
+    <Compile Include="Definition\Joints\PhysJointLimitDescription.cs" />
+    <Compile Include="Definition\Joints\PhysJointLimitPairDescription.cs" />
+    <Compile Include="Definition\Joints\PhysJointLimitSoftDescription.cs" />
+    <Compile Include="Definition\Joints\PhysJointLimitSoftPairDescription.cs" />
+    <Compile Include="Definition\Joints\PhysMotorDescription.cs" />
+    <Compile Include="Definition\Joints\PhysSpringDescription.cs" />
     <Compile Include="Definition\PhysActorDefinition.cs" />
     <Compile Include="Definition\PhysElementDefinition.cs" />
     <Compile Include="Definition\PhysXSceneManagerDefinition.cs" />
     <Compile Include="Definition\Shapes\BoxShapeDefinition.cs" />
     <Compile Include="Definition\Shapes\ShapeDefinition.cs" />
+    <Compile Include="Instance\Joints\PhysCylindricalJointElement.cs" />
+    <Compile Include="Instance\Joints\PhysD6JointElement.cs" />
     <Compile Include="Instance\Joints\PhysFixedJointElement.cs" />
     <Compile Include="Instance\Joints\PhysJointElementBase.cs" />
     <Compile Include="Instance\PhysActorElement.cs" />

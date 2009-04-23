@@ -93,7 +93,7 @@ namespace Engine.Reflection
                     searchFlags |= BindingFlags.Public;
                 }
                 Type searchType = type;
-                while (searchType != TerminatingType)
+                while (searchType != TerminatingType && searchType != typeof(Object))
                 {
                     PropertyInfo[] levelProperties = searchType.GetProperties(searchFlags);
                     foreach (PropertyInfo levelProp in levelProperties)
