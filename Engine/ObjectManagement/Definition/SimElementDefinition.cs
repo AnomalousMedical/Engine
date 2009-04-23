@@ -74,6 +74,21 @@ namespace Engine.ObjectManagement
             }
         }
 
+        /// <summary>
+        /// Get/Set the Subscription for the element.
+        /// </summary>
+        public Subscription Subscription
+        {
+            get
+            {
+                return subscription;
+            }
+            set
+            {
+                subscription = value;
+            }
+        }
+
         #endregion Properties
 
         #region Saveable Members

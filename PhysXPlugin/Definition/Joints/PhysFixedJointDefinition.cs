@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using PhysXWrapper;
 using Engine.Saving;
+using Engine.Editing;
+using Engine.ObjectManagement;
 
 namespace PhysXPlugin
 {
@@ -15,14 +17,25 @@ namespace PhysXPlugin
             
         }
 
-        protected override void configureJoint(PhysFixedJoint joint)
+        internal PhysFixedJointDefinition(String name, PhysFixedJointElement joint)
+            :base(new PhysFixedJointDesc(), joint, name, "Fixed Joint", null)
+        {
+            joint.RealJoint.saveToDesc(jointDesc);
+        }
+
+        protected override void configureJoint()
         {
             
         }
 
-        protected override void configureEditInterface(Engine.Editing.EditInterface editInterface)
+        protected override void configureEditInterface(EditInterface editInterface)
         {
 
+        }
+
+        internal override PhysJointElement createElement(Identifier jointId, PhysJoint joint, PhysXSceneManager scene)
+        {
+            return new PhysFixedJointElement(jointId, (PhysFixedJoint)joint, scene, subscription);
         }
 
         #region Saveable

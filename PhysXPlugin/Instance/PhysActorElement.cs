@@ -15,7 +15,7 @@ namespace PhysXPlugin
     /// </summary>
     /// <seealso cref="T:Engine.SimElement"/>
     /// <seealso cref="T:PhysXWrapper.ActiveTransformCallback"/>
-    class PhysActorElement : SimElement, ActiveTransformCallback
+    public class PhysActorElement : SimElement, ActiveTransformCallback
     {
         #region Fields
 
@@ -170,6 +170,14 @@ namespace PhysXPlugin
             internal set
             {
                 shapeName = value;
+            }
+        }
+
+        public PhysActor Actor
+        {
+            get
+            {
+                return actor;
             }
         }
 

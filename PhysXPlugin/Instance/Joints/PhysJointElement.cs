@@ -8,12 +8,21 @@ using PhysXWrapper;
 
 namespace PhysXPlugin
 {
-    public abstract class PhysJointElement : SimElement
+    abstract class PhysJointElement : SimElement
     {
         public PhysJointElement(String name, Subscription subscription)
             :base(name, subscription)
         {
 
         }
+
+        public abstract PhysJoint Joint
+        {
+            get;
+        }
+
+        internal Identifier Actor0Identifier { get; set; }
+
+        internal Identifier Actor1Identifier { get; set; }
     }
 }

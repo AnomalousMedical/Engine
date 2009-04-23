@@ -13,7 +13,8 @@ using Engine.Saving;
 namespace PhysXPlugin
 {
     /// <summary>
-    /// Base class for joint definitions.
+    /// Base class for joint definitions. This allows JointDefinitions to be
+    /// referred to as a group and maintain type safety.
     /// </summary>
     public abstract class PhysJointDefinition : PhysElementDefinition
     {
@@ -27,6 +28,13 @@ namespace PhysXPlugin
             :base(info)
         {
 
+        }
+
+        internal abstract PhysJointElement createElement(Identifier jointId, PhysJoint joint, PhysXSceneManager scene);
+
+        internal abstract PhysJointDesc JointDesc
+        {
+            get;
         }
     }
 }

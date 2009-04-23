@@ -19,7 +19,7 @@ scene(scene)
 
 PhysJoint::~PhysJoint()
 {
-
+	joint = 0;
 }
 
 PhysActor^ PhysJoint::getActor0()

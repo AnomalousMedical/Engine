@@ -8,7 +8,7 @@ using PhysXWrapper;
 
 namespace PhysXPlugin
 {
-    public abstract class PhysJointElementBase<JointType> : PhysJointElement
+    abstract class PhysJointElementBase<JointType> : PhysJointElement
         where JointType : PhysJoint
     {
         protected Identifier jointId;
@@ -51,6 +51,22 @@ namespace PhysXPlugin
         public override void setEnabled(bool enabled)
         {
             //joints are not enabled or disabled.
+        }
+
+        public override PhysJoint Joint
+        {
+            get
+            {
+                return joint;
+            }
+        }
+
+        public JointType RealJoint
+        {
+            get
+            {
+                return joint;
+            }
         }
     }
 }

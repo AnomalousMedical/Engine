@@ -160,10 +160,9 @@ namespace PhysXPlugin
             {
                 actorDesc.setGlobalPose(instance.Translation, instance.Rotation);
                 Identifier actorId = new Identifier(instance.Name, this.Name);
-                PhysActor actor = scene.createPhysActor(actorId, actorDesc);
-                PhysActorElement element = new PhysActorElement(actor, scene, actorId, subscription);
-                element.ShapeName = shapeName;
-                instance.addElement(element);
+                PhysActorElement actor = scene.createPhysActor(actorId, this);
+                actor.ShapeName = shapeName;
+                instance.addElement(actor);
             }
             else
             {
@@ -221,6 +220,17 @@ namespace PhysXPlugin
         #endregion Functions
 
         #region Properties
+
+        /// <summary>
+        /// The ActorDesc for this actor.
+        /// </summary>
+        internal PhysActorDesc ActorDesc
+        {
+            get
+            {
+                return actorDesc;
+            }
+        }
 
         [Editable("Density used during mass/inertia computation.")]
         public float Density

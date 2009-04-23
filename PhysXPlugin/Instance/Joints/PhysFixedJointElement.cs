@@ -5,9 +5,9 @@ using System.Text;
 using Engine.ObjectManagement;
 using PhysXWrapper;
 
-namespace PhysXPlugin.Instance.Joints
+namespace PhysXPlugin
 {
-    public class PhysFixedJointElement : PhysJointElementBase<PhysFixedJoint>
+    class PhysFixedJointElement : PhysJointElementBase<PhysFixedJoint>
     {
         public PhysFixedJointElement(Identifier jointId, PhysFixedJoint joint, PhysXSceneManager scene, Subscription subscription)
             :base(jointId, joint, scene, subscription)
@@ -17,7 +17,7 @@ namespace PhysXPlugin.Instance.Joints
 
         public override SimElementDefinition saveToDefinition()
         {
-            throw new NotImplementedException();
+            return new PhysFixedJointDefinition(jointId.ElementName, this);
         }
     }
 }

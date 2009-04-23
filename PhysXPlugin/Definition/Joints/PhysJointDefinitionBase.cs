@@ -19,6 +19,7 @@ namespace PhysXPlugin
     /// </summary>
     /// <typeparam name="Desc"></typeparam>
     /// <typeparam name="Joint"></typeparam>
+    /// <seealso cref="T:PhysXPlugin.PhysJointDefinition"/>
     public abstract class PhysJointDefinitionBase<Desc, Joint> : PhysJointDefinition
         where Desc : PhysJointDesc
         where Joint : PhysJoint
@@ -51,7 +52,6 @@ namespace PhysXPlugin
         public PhysJointDefinitionBase(Desc jointDesc, String name, String jointTypeName, Validate validateCallback)
             : base(name)
         {
-            LocalAxisDefined = false;
             Actor0Name = new Identifier("", "");
             Actor1Name = new Identifier("", "");
             this.jointTypeName = jointTypeName;
@@ -59,51 +59,48 @@ namespace PhysXPlugin
             this.jointDesc = jointDesc;
         }
 
-        /// <summary>
-        /// Call in subclass during the save function to save common properties.
-        /// </summary>
-        protected void saveDescription()
+        internal PhysJointDefinitionBase(Desc jointDesc, PhysJointElement joint, String name, String jointTypeName, Validate validateCallback)
+            : base(name)
         {
-            PhysActor actor = jointDesc.get_Actor(0);
-            if (actor != null)
-            {
-                throw new NotImplementedException();
-                //Actor0Name = new Identifier(actor.Name);
-            }
-            actor = jointDesc.get_Actor(1);
-            if (actor != null)
-            {
-                throw new NotImplementedException();
-                //Actor1Name = new Identifier(actor.Name);
-            }
-            LocalAxisDefined = true;
+            Actor0Name = new Identifier(joint.Actor0Identifier);
+            Actor1Name = new Identifier(joint.Actor1Identifier);
+            this.jointTypeName = jointTypeName;
+            this.validateCallback = validateCallback;
+            this.jointDesc = jointDesc;
         }
 
         internal override void createProduct(SimObject instance, PhysXSceneManager scene)
         {
+            PhysActorElement actor0Element;
+            PhysActorElement actor1Element;
             if (Actor0Name.SimObjectName == "this")
             {
-                jointDesc.set_Actor(0, scene.getPhysActor(new Identifier(instance.Name, Actor0Name.ElementName)));
+                actor0Element = scene.getPhysActor(new Identifier(instance.Name, Actor0Name.ElementName));
             }
             else
             {
-                jointDesc.set_Actor(0, scene.getPhysActor(Actor0Name));
+                actor0Element = scene.getPhysActor(Actor0Name);
             }
             if (Actor1Name.SimObjectName == "this")
             {
-                jointDesc.set_Actor(1, scene.getPhysActor(new Identifier(instance.Name, Actor1Name.ElementName)));
+                actor1Element = scene.getPhysActor(new Identifier(instance.Name, Actor1Name.ElementName));
             }
             else
             {
-                jointDesc.set_Actor(1, scene.getPhysActor(Actor1Name));
+                actor1Element = scene.getPhysActor(Actor1Name);
             }
+            jointDesc.set_Actor(0, actor0Element != null ? actor0Element.Actor : null);
+            jointDesc.set_Actor(1, actor1Element != null ? actor1Element.Actor : null);
             if (jointDesc.get_Actor(0) != null || jointDesc.get_Actor(1) != null)
             {
                 Identifier identifier = new Identifier(instance.Name, this.Name);
                 jointDesc.setGlobalAnchor(instance.Translation);
                 jointDesc.setGlobalAxis(Quaternion.quatRotate(instance.Rotation, Vector3.Forward));
-                PhysJoint joint = scene.createJoint(identifier, jointDesc);
-                configureJoint((Joint)joint);
+                configureJoint();
+                PhysJointElement joint = scene.createJoint(identifier, this);
+                joint.Actor0Identifier = new Identifier(Actor0Name);
+                joint.Actor1Identifier = new Identifier(Actor1Name);
+                instance.addElement(joint);
             }
             else
             {
@@ -112,7 +109,12 @@ namespace PhysXPlugin
             }
         }
 
-        protected abstract void configureJoint(Joint joint);
+        /// <summary>
+        /// This function is called just before the joint is created. This
+        /// allows any subclass configuration of the joint description to take
+        /// place.
+        /// </summary>
+        protected abstract void configureJoint();
 
         internal override void createStaticProduct(SimObject instance, PhysXSceneManager scene)
         {
@@ -143,6 +145,14 @@ namespace PhysXPlugin
         }
 
         protected abstract void configureEditInterface(EditInterface editInterface);
+
+        internal override PhysJointDesc JointDesc
+        {
+            get
+            {
+                return jointDesc;
+            }
+        }
 
         [Editable]//(typeof(PhysActor))]
         public Identifier Actor0Name { get; set; }
@@ -221,7 +231,7 @@ namespace PhysXPlugin
             }
         }
 
-        public bool LocalAxisDefined { get; set; }
+        //public bool LocalAxisDefined { get; set; }
 
         public Vector3 LocalNormal0
         {
@@ -327,7 +337,6 @@ namespace PhysXPlugin
             SolverExtrapolationFactor = info.GetFloat(SOLVER_EXTRAPOLATION_FACTOR);
             UseAccelerationSpring = info.GetUInt32(USE_ACCELERATION_SPRING);
             JointFlags = info.GetValue<JointFlag>(JOINT_FLAGS);
-            LocalAxisDefined = info.GetBoolean(LOCAL_AXIS_DEFINED);
             LocalNormal0 = info.GetVector3(LOCAL_NORMAL_0);
             LocalNormal1 = info.GetVector3(LOCAL_NORMAL_1);
             LocalAxis0 = info.GetVector3(LOCAL_AXIS_0);
@@ -348,7 +357,6 @@ namespace PhysXPlugin
             info.AddValue(SOLVER_EXTRAPOLATION_FACTOR, SolverExtrapolationFactor);
             info.AddValue(USE_ACCELERATION_SPRING, UseAccelerationSpring);
             info.AddValue(JOINT_FLAGS, JointFlags);
-            info.AddValue(LOCAL_AXIS_DEFINED, LocalAxisDefined);
             info.AddValue(LOCAL_NORMAL_0, LocalNormal0);
             info.AddValue(LOCAL_NORMAL_1, LocalNormal1);
             info.AddValue(LOCAL_AXIS_0, LocalAxis0);
