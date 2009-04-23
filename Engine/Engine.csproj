@@ -59,12 +59,15 @@
     <Compile Include="Editing\Refleciton\EditableAttributeFilter.cs" />
     <Compile Include="Editing\Refleciton\ReflectedCollectionEditInterface.cs" />
     <Compile Include="Editing\Refleciton\ReflectedObjectEditableProperty.cs" />
+    <Compile Include="ObjectManagement\Definition\GenericSimObjectDefinition.cs" />
+    <Compile Include="ObjectManagement\Definition\GenericSimObjectInstanceDefinition.cs" />
     <Compile Include="ObjectManagement\Definition\SimElementManagerDefinition.cs" />
     <Compile Include="ObjectManagement\Definition\SimObjectInstanceDefinition.cs" />
     <Compile Include="ObjectManagement\Definition\SimObjectManagerDefinition.cs" />
     <Compile Include="ObjectManagement\Definition\SimSceneDefinition.cs" />
     <Compile Include="ObjectManagement\Definition\SimSubSceneBinding.cs" />
     <Compile Include="ObjectManagement\Definition\SimSubSceneDefinition.cs" />
+    <Compile Include="ObjectManagement\Instance\GenericSimObject.cs" />
     <Compile Include="ObjectManagement\Instance\SimObjectManager.cs" />
     <Compile Include="ObjectManagement\Instance\SimScene.cs" />
     <Compile Include="ObjectManagement\Instance\SimSubScene.cs" />

@@ -63,12 +63,8 @@ namespace Engine.ObjectManagement
             {
                 SimObjectDefinition simObjDef = simObject.saveToDefinition(simObject.Name);
                 definition.addTemplate(simObjDef);
-                SimObjectInstanceDefinition instance = new SimObjectInstanceDefinition(simObject.Name);
+                SimObjectInstanceDefinition instance = simObject.saveInstanceDefinition();
                 instance.DefinitionName = simObjDef.Name;
-                instance.Enabled = simObject.Enabled;
-                instance.Rotation = simObject.Rotation;
-                instance.Scale = simObject.Scale;
-                instance.Translation = simObject.Translation;
                 definition.addInstanceDefinition(instance);
             }
             return definition;

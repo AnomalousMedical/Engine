@@ -84,13 +84,7 @@ namespace Engine.ObjectManagement
             {
                 if (templates.ContainsKey(instance.DefinitionName))
                 {
-                    SimObject simObject = new SimObject(instance.Name);
-                    Vector3 vector3 = instance.Translation;
-                    Quaternion quaternion = instance.Rotation;
-                    simObject.updatePosition(ref vector3, ref quaternion, null);
-                    vector3 = instance.Scale;
-                    simObject.updateScale(ref vector3, null);
-                    simObject.setEnabled(instance.Enabled);
+                    SimObject simObject = instance.createSimObject();
                     templates[instance.DefinitionName].register(subScene, simObject);
                     manager.addSimObject(simObject);
                 }
