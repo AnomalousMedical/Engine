@@ -7,9 +7,9 @@ using Engine.ObjectManagement;
 
 namespace PhysXPlugin
 {
-    class PhysPrismaticJointElement : PhysJointElementBase<PhysPrismaticJoint>
+    public class PhysPrismaticJointElement : PhysJointElementBase<PhysPrismaticJoint>
     {
-        public PhysPrismaticJointElement(Identifier jointId, PhysPrismaticJoint joint, PhysXSceneManager scene, Subscription subscription)
+        internal PhysPrismaticJointElement(Identifier jointId, PhysPrismaticJoint joint, PhysXSceneManager scene, Subscription subscription)
             : base(jointId, joint, scene, subscription)
         {
 

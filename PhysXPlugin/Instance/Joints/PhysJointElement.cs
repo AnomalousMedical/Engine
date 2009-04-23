@@ -8,9 +8,9 @@ using PhysXWrapper;
 
 namespace PhysXPlugin
 {
-    abstract class PhysJointElement : SimElement
+    public abstract class PhysJointElement : SimElement
     {
-        public PhysJointElement(String name, Subscription subscription)
+        internal PhysJointElement(String name, Subscription subscription)
             :base(name, subscription)
         {
 

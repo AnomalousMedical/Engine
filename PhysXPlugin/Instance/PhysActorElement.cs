@@ -37,7 +37,7 @@ namespace PhysXPlugin
         /// <param name="scene">The scene the actor belongs to.</param>
         /// <param name="name">The name of this Element.</param>
         /// <param name="subscription">The subscription of events this Element listens to.</param>
-        public PhysActorElement(PhysActor actor, PhysXSceneManager scene, Identifier name, Subscription subscription)
+        internal PhysActorElement(PhysActor actor, PhysXSceneManager scene, Identifier name, Subscription subscription)
             : base(name.ElementName, subscription)
         {
             this.actor = actor;

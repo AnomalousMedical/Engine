@@ -7,9 +7,9 @@ using PhysXWrapper;
 
 namespace PhysXPlugin
 {
-    class PhysFixedJointElement : PhysJointElementBase<PhysFixedJoint>
+    public class PhysFixedJointElement : PhysJointElementBase<PhysFixedJoint>
     {
-        public PhysFixedJointElement(Identifier jointId, PhysFixedJoint joint, PhysXSceneManager scene, Subscription subscription)
+        internal PhysFixedJointElement(Identifier jointId, PhysFixedJoint joint, PhysXSceneManager scene, Subscription subscription)
             :base(jointId, joint, scene, subscription)
         {
 

@@ -8,14 +8,14 @@ using PhysXWrapper;
 
 namespace PhysXPlugin
 {
-    abstract class PhysJointElementBase<JointType> : PhysJointElement
+    public abstract class PhysJointElementBase<JointType> : PhysJointElement
         where JointType : PhysJoint
     {
         protected Identifier jointId;
         protected JointType joint;
         private PhysXSceneManager scene;
 
-        public PhysJointElementBase(Identifier jointId, JointType joint, PhysXSceneManager scene, Subscription subscription)
+        internal PhysJointElementBase(Identifier jointId, JointType joint, PhysXSceneManager scene, Subscription subscription)
             :base(jointId.ElementName, subscription)
         {
             this.jointId = jointId;

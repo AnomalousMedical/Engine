@@ -7,9 +7,9 @@ using Engine.ObjectManagement;
 
 namespace PhysXPlugin
 {
-    class PhysRevoluteJointElement : PhysJointElementBase<PhysRevoluteJoint>
+    public class PhysRevoluteJointElement : PhysJointElementBase<PhysRevoluteJoint>
     {
-        public PhysRevoluteJointElement(Identifier jointId, PhysRevoluteJoint joint, PhysXSceneManager scene, Subscription subscription)
+        internal PhysRevoluteJointElement(Identifier jointId, PhysRevoluteJoint joint, PhysXSceneManager scene, Subscription subscription)
             : base(jointId, joint, scene, subscription)
         {
 

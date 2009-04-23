@@ -7,9 +7,9 @@ using Engine.ObjectManagement;
 
 namespace PhysXPlugin
 {
-    class PhysPointInPlaneJointElement : PhysJointElementBase<PhysPointInPlaneJoint>
+    public class PhysPointInPlaneJointElement : PhysJointElementBase<PhysPointInPlaneJoint>
     {
-        public PhysPointInPlaneJointElement(Identifier jointId, PhysPointInPlaneJoint joint, PhysXSceneManager scene, Subscription subscription)
+        internal PhysPointInPlaneJointElement(Identifier jointId, PhysPointInPlaneJoint joint, PhysXSceneManager scene, Subscription subscription)
             : base(jointId, joint, scene, subscription)
         {
 

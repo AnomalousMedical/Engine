@@ -7,9 +7,9 @@ using PhysXWrapper;
 
 namespace PhysXPlugin
 {
-    class PhysCylindricalJointElement : PhysJointElementBase<PhysCylindricalJoint>
+    public class PhysCylindricalJointElement : PhysJointElementBase<PhysCylindricalJoint>
     {
-        public PhysCylindricalJointElement(Identifier jointId, PhysCylindricalJoint joint, PhysXSceneManager scene, Subscription subscription)
+        internal PhysCylindricalJointElement(Identifier jointId, PhysCylindricalJoint joint, PhysXSceneManager scene, Subscription subscription)
             : base(jointId, joint, scene, subscription)
         {
 

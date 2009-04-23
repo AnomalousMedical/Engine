@@ -7,9 +7,9 @@ using Engine.ObjectManagement;
 
 namespace PhysXPlugin
 {
-    class PhysDistanceJointElement : PhysJointElementBase<PhysDistanceJoint>
+    public class PhysDistanceJointElement : PhysJointElementBase<PhysDistanceJoint>
     {
-        public PhysDistanceJointElement(Identifier jointId, PhysDistanceJoint joint, PhysXSceneManager scene, Subscription subscription)
+        internal PhysDistanceJointElement(Identifier jointId, PhysDistanceJoint joint, PhysXSceneManager scene, Subscription subscription)
             : base(jointId, joint, scene, subscription)
         {
 
