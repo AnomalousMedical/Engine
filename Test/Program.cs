@@ -38,6 +38,7 @@ namespace Test
             Log.Default.addLogListener(logListener);
             using (PluginManager pluginManager = new PluginManager() )
             {
+                
                 pluginManager.OnConfigureDefaultWindow = createWindow;
                 DynamicDLLPluginLoader pluginLoader = new DynamicDLLPluginLoader();
                 pluginLoader.addPath("PhysXPlugin.dll");
@@ -138,7 +139,6 @@ namespace Test
                             testForm.Show();
                             Coroutine.Start(coroutineTest(mainTimer));
                             mainTimer.startLoop();
-
                             pluginManager.RendererPlugin.PrimaryWindow.destroyCamera(cameraControl);
 
                             SimObjectManagerDefinition managerDef = manager.saveToDefinition();
@@ -148,6 +148,7 @@ namespace Test
                         }
                     }
                     eventManager.Dispose();
+                    pluginManager.PlatformPlugin.destroyInputHandler(inputHandler);
                 }
 
                 pluginManager.PlatformPlugin.destroyTimer(mainTimer);

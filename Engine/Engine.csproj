@@ -50,6 +50,7 @@
     <Compile Include="Behavior\BehaviorDefinition.cs" />
     <Compile Include="Behavior\BehaviorFactory.cs" />
     <Compile Include="Behavior\BehaviorManager.cs" />
+    <Compile Include="Behavior\BehaviorManagerDefinition.cs" />
     <Compile Include="Command\CommandManager.cs" />
     <Compile Include="Command\EngineCommand.cs" />
     <Compile Include="Coroutine\Coroutine.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Platform\Input\DefaultEvents.cs" />
     <Compile Include="Platform\Input\EventManager.cs" />
     <Compile Include="Platform\Input\EventUpdateListener.cs" />
+    <Compile Include="Platform\Input\InputException.cs" />
     <Compile Include="Platform\Input\InputHandler.cs" />
     <Compile Include="Platform\Input\Keyboard.cs" />
     <Compile Include="Platform\Input\KeyCodes.cs" />

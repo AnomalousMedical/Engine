@@ -3,22 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Engine.Platform;
+using Engine.ObjectManagement;
 
 namespace Engine
 {
-    public class BehaviorManager
+    public class BehaviorManager : SimElementManager
     {
         private List<Behavior> activeBehaviors = new List<Behavior>();
         private List<Behavior> blacklistedBehaviors = new List<Behavior>();
         private EventManager eventManager;
+        private BehaviorFactory behaviorFactory = new BehaviorFactory();
+        private String name;
 
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="eventManager">The event manager to process on updates.</param>
-        public BehaviorManager(EventManager eventManager)
+        public BehaviorManager(String name)
         {
-            this.eventManager = eventManager;
+            this.eventManager = EventManager.Instance;
+            this.name = name;
         }
 
         /// <summary>
@@ -50,5 +54,40 @@ namespace Engine
         {
             activeBehaviors.Remove(behavior);
         }
+
+        internal BehaviorFactory getBehaviorFactory()
+        {
+            return behaviorFactory;
+        }
+
+        #region SimElementManager Members
+
+        public SimElementFactory getFactory()
+        {
+            return behaviorFactory;
+        }
+
+        public Type getSimElementManagerType()
+        {
+            return typeof(BehaviorManager);
+        }
+
+        public string getName()
+        {
+            return name;
+        }
+
+        public SimElementManagerDefinition createDefinition()
+        {
+            BehaviorManagerDefinition definition = new BehaviorManagerDefinition(name);
+            return definition;
+        }
+
+        public void Dispose()
+        {
+            
+        }
+
+        #endregion
     }
 }

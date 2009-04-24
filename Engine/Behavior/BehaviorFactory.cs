@@ -8,6 +8,8 @@ namespace Engine
 {
     public class BehaviorFactory : SimElementFactory
     {
+
+
         public void createProducts()
         {
             throw new NotImplementedException();
@@ -24,6 +26,11 @@ namespace Engine
         }
 
         public void clearDefinitions()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void addBehaviorDefinition(SimObject instance, BehaviorDefinition behaviorDefinition)
         {
             throw new NotImplementedException();
         }
