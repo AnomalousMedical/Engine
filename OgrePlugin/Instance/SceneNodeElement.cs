@@ -82,7 +82,7 @@ namespace OgrePlugin
         /// <summary>
         /// Dispose this SceneNode and all attached objects.
         /// </summary>
-        public override void Dispose()
+        protected override void Dispose()
         {
             foreach (Identifier identifier in entities)
             {
@@ -107,28 +107,28 @@ namespace OgrePlugin
             scene.destroySceneNode(sceneID);
         }
 
-        public override void updatePosition(ref Vector3 translation, ref Quaternion rotation)
+        protected override void updatePosition(ref Vector3 translation, ref Quaternion rotation)
         {
             sceneNode.setPosition(translation);
             sceneNode.setOrientation(rotation);
         }
 
-        public override void updateTranslation(ref Vector3 translation)
+        protected override void updateTranslation(ref Vector3 translation)
         {
             sceneNode.setPosition(translation);
         }
 
-        public override void updateRotation(ref Quaternion rotation)
+        protected override void updateRotation(ref Quaternion rotation)
         {
             sceneNode.setOrientation(rotation);
         }
 
-        public override void updateScale(ref Vector3 scale)
+        protected override void updateScale(ref Vector3 scale)
         {
             sceneNode.setScale(scale);
         }
 
-        public override void setEnabled(bool enabled)
+        protected override void setEnabled(bool enabled)
         {
             sceneNode.setVisible(enabled);
         }

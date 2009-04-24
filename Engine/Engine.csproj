@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behavior\Behavior.cs" />
     <Compile Include="Command\CommandManager.cs" />
     <Compile Include="Command\EngineCommand.cs" />
     <Compile Include="Coroutine\Coroutine.cs" />

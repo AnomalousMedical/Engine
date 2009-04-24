@@ -41,7 +41,7 @@ namespace Engine.ObjectManagement
         {
             foreach (SimElement element in elements)
             {
-                element.Dispose();
+                element.DoDispose();
             }
         }
 
@@ -104,7 +104,7 @@ namespace Engine.ObjectManagement
             {
                 if (element != trigger && (element.Subscription | Subscription.PositionUpdate) != 0)
                 {
-                    element.updatePosition(ref translation, ref rotation);
+                    element.fireUpdatePosition(ref translation, ref rotation);
                 }
             }
         }
@@ -121,7 +121,7 @@ namespace Engine.ObjectManagement
             {
                 if (element != trigger && (element.Subscription | Subscription.PositionUpdate) != 0)
                 {
-                    element.updateTranslation(ref translation);
+                    element.fireUpdateTranslation(ref translation);
                 }
             }
         }
@@ -138,7 +138,7 @@ namespace Engine.ObjectManagement
             {
                 if (element != trigger && (element.Subscription | Subscription.PositionUpdate) != 0)
                 {
-                    element.updateRotation(ref rotation);
+                    element.fireUpdateRotation(ref rotation);
                 }
             }
         }
@@ -155,7 +155,7 @@ namespace Engine.ObjectManagement
             {
                 if (element != trigger && (element.Subscription | Subscription.ScaleUpdate) != 0)
                 {
-                    element.updateScale(ref scale);
+                    element.fireUpdateScale(ref scale);
                 }
             }
         }
@@ -172,7 +172,7 @@ namespace Engine.ObjectManagement
             this.enabled = enabled;
             foreach (SimElement element in elements)
             {
-                element.setEnabled(enabled);
+                element.fireSetEnabled(enabled);
             }
         }
 
@@ -203,6 +203,27 @@ namespace Engine.ObjectManagement
             instance.Scale = Scale;
             instance.Translation = Translation;
             return instance;
+        }
+
+
+        /// <summary>
+        /// Get a particular SimElement from the SimObject. This will return
+        /// null if the element cannot be found. This method could potentially
+        /// be fairly slow so it is best to cache the values returned from this
+        /// function somehow.
+        /// </summary>
+        /// <param name="name">The name of the SimElement to retrieve.</param>
+        /// <returns>The SimElement specified by name or null if it cannot be found.</returns>
+        public SimElement getElement(String name)
+        {
+            foreach (SimElement element in elements)
+            {
+                if (element.Name == Name)
+                {
+                    return element;
+                }
+            }
+            return null;
         }
 
         #endregion Functions

@@ -57,7 +57,7 @@ namespace PhysXPlugin
         /// <summary>
         /// Dispose function. Cleans up any objects that cannot be garbage collected.
         /// </summary>
-        public override void Dispose()
+        protected override void Dispose()
         {
             scene.destroyPhysActor(actorId);
         }
@@ -67,7 +67,7 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="translation">The translation to set.</param>
         /// <param name="rotation">The rotation to set.</param>
-        public override void updatePosition(ref EngineMath.Vector3 translation, ref EngineMath.Quaternion rotation)
+        protected override void updatePosition(ref EngineMath.Vector3 translation, ref EngineMath.Quaternion rotation)
         {
             actor.setGlobalPosition(translation);
             actor.setGlobalOrientationQuat(rotation);
@@ -77,7 +77,7 @@ namespace PhysXPlugin
         /// This function will update the translation of the SimElement.
         /// </summary>
         /// <param name="translation">The translation to set.</param>
-        public override void updateTranslation(ref EngineMath.Vector3 translation)
+        protected override void updateTranslation(ref EngineMath.Vector3 translation)
         {
             actor.setGlobalPosition(translation);
         }
@@ -86,7 +86,7 @@ namespace PhysXPlugin
         /// This function will update the rotation of the SimElement.
         /// </summary>
         /// <param name="rotation">The rotation to set.</param>
-        public override void updateRotation(ref EngineMath.Quaternion rotation)
+        protected override void updateRotation(ref EngineMath.Quaternion rotation)
         {
             actor.setGlobalOrientationQuat(rotation);
         }
@@ -95,7 +95,7 @@ namespace PhysXPlugin
         /// Not implemented for PhysActors they do not support scaling.
         /// </summary>
         /// <param name="scale">The scale to set.</param>
-        public override void updateScale(ref EngineMath.Vector3 scale)
+        protected override void updateScale(ref EngineMath.Vector3 scale)
         {
             
         }
@@ -106,7 +106,7 @@ namespace PhysXPlugin
         /// the object very much.
         /// </summary>
         /// <param name="enabled">True to enable the object. False to disable the object.</param>
-        public override void setEnabled(bool enabled)
+        protected override void setEnabled(bool enabled)
         {
             if (enabled)
             {

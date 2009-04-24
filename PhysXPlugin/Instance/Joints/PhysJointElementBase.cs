@@ -23,32 +23,32 @@ namespace PhysXPlugin
             this.scene = scene;
         }
 
-        public override void Dispose()
+        protected override void Dispose()
         {
             scene.destroyJoint(jointId);
         }
 
-        public override void updatePosition(ref Vector3 translation, ref Quaternion rotation)
+        protected override void updatePosition(ref Vector3 translation, ref Quaternion rotation)
         {
             
         }
 
-        public override void updateTranslation(ref Vector3 translation)
+        protected override void updateTranslation(ref Vector3 translation)
         {
             
         }
 
-        public override void updateRotation(ref Quaternion rotation)
+        protected override void updateRotation(ref Quaternion rotation)
         {
             
         }
 
-        public override void updateScale(ref Vector3 scale)
+        protected override void updateScale(ref Vector3 scale)
         {
             
         }
 
-        public override void setEnabled(bool enabled)
+        protected override void setEnabled(bool enabled)
         {
             //joints are not enabled or disabled.
         }

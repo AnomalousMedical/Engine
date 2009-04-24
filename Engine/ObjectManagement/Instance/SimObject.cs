@@ -77,6 +77,16 @@ namespace Engine.ObjectManagement
         /// <returns>A new SimObjectInstanceDefinition.</returns>
         SimObjectInstanceDefinition saveInstanceDefinition();
 
+        /// <summary>
+        /// Get a particular SimElement from the SimObject. This will return
+        /// null if the element cannot be found. This method could potentially
+        /// be fairly slow so it is best to cache the values returned from this
+        /// function somehow.
+        /// </summary>
+        /// <param name="name">The name of the SimElement to retrieve.</param>
+        /// <returns>The SimElement specified by name or null if it cannot be found.</returns>
+        SimElement getElement(String name);
+
         #endregion Functions
 
         #region Properties
