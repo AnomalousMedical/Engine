@@ -17,15 +17,15 @@ public:
 
 	virtual System::String^ getName();
 
-	virtual Timer^ createTimer();
+	virtual UpdateTimer^ createTimer();
 
-	virtual void destroyTimer(Timer^ timer);
+	virtual void destroyTimer(UpdateTimer^ timer);
 
 	virtual InputHandler^ createInputHandler(OSWindow^ window, bool foreground, bool exclusive, bool noWinKey);
 
 	virtual void destroyInputHandler(InputHandler^ inputHandler);
 
-	virtual void setPlatformInfo(Timer^ mainTimer, EventManager^ eventManager){}
+	virtual void setPlatformInfo(UpdateTimer^ mainTimer, EventManager^ eventManager){}
 };
 
 }

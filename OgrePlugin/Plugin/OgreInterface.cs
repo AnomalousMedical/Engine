@@ -112,7 +112,7 @@ namespace OgrePlugin
             }
         }
 
-        public void setPlatformInfo(Timer mainTimer, EventManager eventManager)
+        public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
         {
             mainTimer.addFullSpeedUpdateListener(ogreUpdate);
         }

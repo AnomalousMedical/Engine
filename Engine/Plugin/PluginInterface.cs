@@ -27,7 +27,7 @@ namespace Engine
         /// </summary>
         /// <param name="mainTimer">The main update timer.</param>
         /// <param name="eventManager">The main event manager.</param>
-        void setPlatformInfo(Timer mainTimer, EventManager eventManager);
+        void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager);
 
         /// <summary>
         /// Get a name for this plugin. Care should be taken that this return

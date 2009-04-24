@@ -29,12 +29,12 @@ System::String^ Win32PlatformPlugin::getName()
 	return "Win32Platform";
 }
 
-Timer^ Win32PlatformPlugin::createTimer()
+UpdateTimer^ Win32PlatformPlugin::createTimer()
 {
 	return gcnew PerformanceTimer();
 }
 
-void Win32PlatformPlugin::destroyTimer(Timer^ timer)
+void Win32PlatformPlugin::destroyTimer(UpdateTimer^ timer)
 {
 	delete static_cast<PerformanceTimer^>(timer);
 }

@@ -8,14 +8,14 @@ namespace Engine.Platform
     /// <summary>
     /// This class is an abstract base class for a timer.
     /// </summary>
-    public abstract class Timer
+    public abstract class UpdateTimer
     {
         List<UpdateListener> fixedListeners = new List<UpdateListener>();
         List<UpdateListener> fullSpeedListeners = new List<UpdateListener>();
 
         Clock clock = new Clock();
 
-        public Timer()
+        public UpdateTimer()
         {
             FixedFrequency = 1.0 / 60.0;
             MaxDelta = 0.1;

@@ -9,7 +9,7 @@ namespace Platform
 class PerformanceCounter;
 ref class WindowsMessageHandler;
 
-ref class PerformanceTimer : public Timer
+ref class PerformanceTimer : public UpdateTimer
 {
 private:
 	PerformanceCounter* performanceCounter;

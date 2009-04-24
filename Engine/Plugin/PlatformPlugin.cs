@@ -17,13 +17,13 @@ namespace Engine
         /// Create a new timer for this platform.
         /// </summary>
         /// <returns>A new timer.</returns>
-        Timer createTimer();
+        UpdateTimer createTimer();
 
         /// <summary>
         /// Destroy the given timer.
         /// </summary>
         /// <param name="timer">The timer to destroy.</param>
-        void destroyTimer(Timer timer);
+        void destroyTimer(UpdateTimer timer);
 
         /// <summary>
         /// Create an InputHandler that can be used to access input devices.

@@ -63,9 +63,18 @@ namespace Engine
         /// Set the timer that the Coroutines will listen to for updates at full speed.
         /// </summary>
         /// <param name="timer">The timer to listen to for updates.</param>
-        public static void SetTimer(Timer timer)
+        public static void SetTimerFull(UpdateTimer timer)
         {
             timer.addFullSpeedUpdateListener(updater);
+        }
+
+        /// <summary>
+        /// Set the timer that the Coroutines will listen to for updates at fixed speed.
+        /// </summary>
+        /// <param name="timer">The timer to listen to for updates.</param>
+        public static void SetTimerFixed(UpdateTimer timer)
+        {
+            timer.addFixedUpdateListener(updater);
         }
 
         /// <summary>

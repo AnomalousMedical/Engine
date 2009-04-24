@@ -23,7 +23,7 @@ namespace PhysXPlugin
         private Dictionary<Identifier, PhysActorElement> actors = new Dictionary<Identifier, PhysActorElement>();
         private Dictionary<Identifier, PhysJointElement> joints = new Dictionary<Identifier, PhysJointElement>();
         private String name;
-        private Timer mainTimer;
+        private UpdateTimer mainTimer;
 
         #endregion Fields
 
@@ -35,7 +35,7 @@ namespace PhysXPlugin
         /// <param name="name">The name of the scene.</param>
         /// <param name="scene">The scene to manage.</param>
         /// <param name="physSDK">The PhysSDK that created the scene.</param>
-        internal PhysXSceneManager(String name, PhysScene scene, PhysSDK physSDK, Timer mainTimer)
+        internal PhysXSceneManager(String name, PhysScene scene, PhysSDK physSDK, UpdateTimer mainTimer)
         {
             this.scene = scene;
             this.physSDK = physSDK;

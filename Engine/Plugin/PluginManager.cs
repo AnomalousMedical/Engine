@@ -182,7 +182,7 @@ namespace Engine
         /// </summary>
         /// <param name="mainTimer">The main update timer.</param>
         /// <param name="eventManager">The main event manager.</param>
-        public void setPlatformInfo(Timer mainTimer, EventManager eventManager)
+        public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
         {
             foreach (PluginInterface plugin in loadedPlugins.Values)
             {

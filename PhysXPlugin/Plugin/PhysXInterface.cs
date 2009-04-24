@@ -35,7 +35,7 @@ namespace PhysXPlugin
         #region Fields
 
         private PhysSDK physSDK = null;
-        private Timer mainTimer;
+        private UpdateTimer mainTimer;
 
         #endregion Fields
 
@@ -98,7 +98,7 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="mainTimer">The main update timer.</param>
         /// <param name="eventManager">The main event manager.</param>
-        public void setPlatformInfo(Timer mainTimer, EventManager eventManager)
+        public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
         {
             this.mainTimer = mainTimer;
         }
@@ -118,7 +118,7 @@ namespace PhysXPlugin
         /// Get the main timer used by the engine.
         /// </summary>
         /// <returns>The timer that has been set as the main timer.</returns>
-        public Timer getMainTimer()
+        public UpdateTimer getMainTimer()
         {
             return mainTimer;
         }
