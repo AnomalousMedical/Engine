@@ -48,6 +48,11 @@
   <ItemGroup>
     <Compile Include="Command\CommandManager.cs" />
     <Compile Include="Command\EngineCommand.cs" />
+    <Compile Include="Coroutine\Coroutine.cs" />
+    <Compile Include="Coroutine\CoroutineException.cs" />
+    <Compile Include="Coroutine\CoroutineUpdater.cs" />
+    <Compile Include="Coroutine\WaitAction.cs" />
+    <Compile Include="Coroutine\YieldAction.cs" />
     <Compile Include="Editing\EditableProperty.cs" />
     <Compile Include="Editing\EditablePropertyColumn.cs" />
     <Compile Include="Editing\EditablePropertyInfo.cs" />
