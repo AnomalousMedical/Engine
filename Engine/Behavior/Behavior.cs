@@ -193,7 +193,7 @@ namespace Engine
         /// <returns>A new BehaviorDefinition.</returns>
         public override SimElementDefinition saveToDefinition()
         {
-            BehaviorDefinition definition = new BehaviorDefinition(Name, new ReflectedBehaviorData(this));
+            BehaviorDefinition definition = new BehaviorDefinition(Name, this);
             return definition;
         }
 

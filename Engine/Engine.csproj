@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behavior\Behavior.cs" />
-    <Compile Include="Behavior\BehaviorData.cs" />
     <Compile Include="Behavior\BehaviorDefinition.cs" />
     <Compile Include="Behavior\BehaviorFactory.cs" />
     <Compile Include="Behavior\BehaviorFactoryEntry.cs" />
@@ -57,7 +56,6 @@
     <Compile Include="Behavior\BehaviorObjectBase.cs" />
     <Compile Include="Behavior\BehaviorEditMemberScanner.cs" />
     <Compile Include="Behavior\BehaviorSaveMemberScanner.cs" />
-    <Compile Include="Behavior\ReflectedBehaviorData.cs" />
     <Compile Include="Command\CommandManager.cs" />
     <Compile Include="Command\EngineCommand.cs" />
     <Compile Include="Coroutine\Coroutine.cs" />

@@ -16,8 +16,8 @@ namespace Engine
             return new BehaviorDefinition(name);
         }
 
-        private BehaviorData data;
-        EditInterface editInterface;
+        private Behavior behaviorTemplate;
+        private EditInterface editInterface;
 
         public BehaviorDefinition(String name)
             :base(name)
@@ -25,10 +25,10 @@ namespace Engine
 
         }
 
-        public BehaviorDefinition(String name, BehaviorData behaviorData)
+        public BehaviorDefinition(String name, Behavior behaviorTemplate)
             : base(name)
         {
-            data = behaviorData;
+            this.behaviorTemplate = behaviorTemplate;
         }
 
         public override void register(SimSubScene subscene, SimObject instance)
@@ -46,12 +46,17 @@ namespace Engine
 
         public override EditInterface getEditInterface()
         {
-            return data.getEditInterface();
+            if (editInterface == null)
+            {
+                editInterface = ReflectedEditInterface.createEditInterface(behaviorTemplate, BehaviorEditMemberScanner.Scanner, behaviorTemplate.GetType().Name, null);
+            }
+            return editInterface;
         }
 
         internal Behavior createProduct(SimObject instance, BehaviorManager behaviorManager)
         {
-            Behavior behavior = data.createNewInstance();
+            //temp
+            Behavior behavior = behaviorTemplate;
             behavior.setAttributes(Name, subscription, behaviorManager);
             instance.addElement(behavior);
             return behavior;
@@ -64,18 +69,29 @@ namespace Engine
 
         #region Saveable
 
-        private const string BEHAVIOR_DATA = "BehaviorData";
+        private const String NAME_FORMAT = "{0}, {1}";
+        private String BEHAVIOR_TYPE = "BehaviorDataType";
 
         private BehaviorDefinition(LoadInfo info)
             :base(info)
         {
-            data = info.GetValue<BehaviorData>(BEHAVIOR_DATA);
+            String behaviorType = info.GetString(BEHAVIOR_TYPE);
+            Type type = Type.GetType(behaviorType);
+            behaviorTemplate = (Behavior)Activator.CreateInstance(type);
+            ReflectedSaver.RestoreObject(behaviorTemplate, info, BehaviorSaveMemberScanner.Scanner);
         }
 
         public override void getInfo(SaveInfo info)
         {
             base.getInfo(info);
-            info.AddValue(BEHAVIOR_DATA, data);
+            info.AddValue(BEHAVIOR_TYPE, createShortTypeString(behaviorTemplate.GetType()));
+            ReflectedSaver.SaveObject(behaviorTemplate, info, BehaviorSaveMemberScanner.Scanner);
+        }
+
+        private static String createShortTypeString(Type type)
+        {
+            String shortAssemblyName = type.Assembly.FullName;
+            return String.Format(NAME_FORMAT, type.FullName, shortAssemblyName.Remove(shortAssemblyName.IndexOf(',')));
         }
 
         #endregion Saveable
