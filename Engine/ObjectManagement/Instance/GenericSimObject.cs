@@ -6,7 +6,7 @@ using EngineMath;
 
 namespace Engine.ObjectManagement
 {
-    public class GenericSimObject : SimObject
+    public class GenericSimObject : SimObjectBase
     {
         #region Fields
 
@@ -52,7 +52,7 @@ namespace Engine.ObjectManagement
         public void addElement(SimElement element)
         {
             elements.Add(element);
-            element.SimObject = this;
+            element.setSimObject(this);
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Engine.ObjectManagement
             if (elements.Contains(element))
             {
                 elements.Remove(element);
-                element.SimObject = null;
+                element.setSimObject(null);
             }
         }
 
@@ -104,7 +104,7 @@ namespace Engine.ObjectManagement
             {
                 if (element != trigger && (element.Subscription | Subscription.PositionUpdate) != 0)
                 {
-                    element.fireUpdatePosition(ref translation, ref rotation);
+                    element.alertUpdatePosition(ref translation, ref rotation);
                 }
             }
         }
@@ -121,7 +121,7 @@ namespace Engine.ObjectManagement
             {
                 if (element != trigger && (element.Subscription | Subscription.PositionUpdate) != 0)
                 {
-                    element.fireUpdateTranslation(ref translation);
+                    element.alertUpdateTranslation(ref translation);
                 }
             }
         }
@@ -138,7 +138,7 @@ namespace Engine.ObjectManagement
             {
                 if (element != trigger && (element.Subscription | Subscription.PositionUpdate) != 0)
                 {
-                    element.fireUpdateRotation(ref rotation);
+                    element.alertUpdateRotation(ref rotation);
                 }
             }
         }
@@ -155,7 +155,7 @@ namespace Engine.ObjectManagement
             {
                 if (element != trigger && (element.Subscription | Subscription.ScaleUpdate) != 0)
                 {
-                    element.fireUpdateScale(ref scale);
+                    element.alertUpdateScale(ref scale);
                 }
             }
         }

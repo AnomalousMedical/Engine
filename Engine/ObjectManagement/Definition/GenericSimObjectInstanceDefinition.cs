@@ -23,7 +23,7 @@ namespace Engine.ObjectManagement
             Enabled = false;
         }
 
-        public SimObject createSimObject()
+        public SimObjectBase createSimObject()
         {
             GenericSimObject simObject = new GenericSimObject(Name);
             Vector3 vector3 = Translation;

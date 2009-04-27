@@ -69,7 +69,7 @@ namespace OgrePlugin
             ReflectedEditInterface.expandEditInterface(this, memberScanner, editInterface);
         }
 
-        protected override MovableObject createActualProduct(SceneNodeElement element, OgreSceneManager scene, Engine.ObjectManagement.SimObject simObject)
+        protected override MovableObject createActualProduct(SceneNodeElement element, OgreSceneManager scene, Engine.ObjectManagement.SimObjectBase simObject)
         {
             Identifier id = new Identifier(simObject.Name, Name);
             Camera camera = scene.createCamera(id);

@@ -10,7 +10,7 @@ namespace Engine.ObjectManagement
     /// </summary>
     public class SimObjectManager : IDisposable
     {
-        private Dictionary<String, SimObject> simObjects = new Dictionary<string, SimObject>();
+        private Dictionary<String, SimObjectBase> simObjects = new Dictionary<string, SimObjectBase>();
         private SimSubScene subScene;
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace Engine.ObjectManagement
         /// </summary>
         public void Dispose()
         {
-            foreach (SimObject simObject in simObjects.Values)
+            foreach (SimObjectBase simObject in simObjects.Values)
             {
                 simObject.Dispose();
             }
@@ -37,7 +37,7 @@ namespace Engine.ObjectManagement
         /// Add a SimObject. It will be disposed when this manager is disposed.
         /// </summary>
         /// <param name="simObject">The SimObject to add.</param>
-        public void addSimObject(SimObject simObject)
+        public void addSimObject(SimObjectBase simObject)
         {
             simObjects.Add(simObject.Name, simObject);
         }
@@ -46,7 +46,7 @@ namespace Engine.ObjectManagement
         /// Remove a SimObject.
         /// </summary>
         /// <param name="simObject">The SimObject to remove.</param>
-        public void removeSimObject(SimObject simObject)
+        public void removeSimObject(SimObjectBase simObject)
         {
             simObjects.Remove(simObject.Name);
         }
@@ -59,7 +59,7 @@ namespace Engine.ObjectManagement
         public SimObjectManagerDefinition saveToDefinition()
         {
             SimObjectManagerDefinition definition = new SimObjectManagerDefinition();
-            foreach (SimObject simObject in simObjects.Values)
+            foreach (SimObjectBase simObject in simObjects.Values)
             {
                 SimObjectDefinition simObjDef = simObject.saveToDefinition(simObject.Name);
                 definition.addTemplate(simObjDef);

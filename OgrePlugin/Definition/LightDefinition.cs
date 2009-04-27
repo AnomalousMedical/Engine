@@ -70,7 +70,7 @@ namespace OgrePlugin
             ReflectedEditInterface.expandEditInterface(this, memberScanner, editInterface);
         }
 
-        protected override MovableObject createActualProduct(SceneNodeElement element, OgreSceneManager scene, SimObject simObject)
+        protected override MovableObject createActualProduct(SceneNodeElement element, OgreSceneManager scene, SimObjectBase simObject)
         {
             Identifier id = new Identifier(simObject.Name, Name);
             Light light = scene.createLight(id);

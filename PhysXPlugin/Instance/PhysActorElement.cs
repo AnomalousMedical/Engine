@@ -67,7 +67,7 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="translation">The translation to set.</param>
         /// <param name="rotation">The rotation to set.</param>
-        protected override void updatePosition(ref EngineMath.Vector3 translation, ref EngineMath.Quaternion rotation)
+        protected override void updatePositionImpl(ref EngineMath.Vector3 translation, ref EngineMath.Quaternion rotation)
         {
             actor.setGlobalPosition(translation);
             actor.setGlobalOrientationQuat(rotation);
@@ -77,7 +77,7 @@ namespace PhysXPlugin
         /// This function will update the translation of the SimElement.
         /// </summary>
         /// <param name="translation">The translation to set.</param>
-        protected override void updateTranslation(ref EngineMath.Vector3 translation)
+        protected override void updateTranslationImpl(ref EngineMath.Vector3 translation)
         {
             actor.setGlobalPosition(translation);
         }
@@ -86,7 +86,7 @@ namespace PhysXPlugin
         /// This function will update the rotation of the SimElement.
         /// </summary>
         /// <param name="rotation">The rotation to set.</param>
-        protected override void updateRotation(ref EngineMath.Quaternion rotation)
+        protected override void updateRotationImpl(ref EngineMath.Quaternion rotation)
         {
             actor.setGlobalOrientationQuat(rotation);
         }
@@ -95,7 +95,7 @@ namespace PhysXPlugin
         /// Not implemented for PhysActors they do not support scaling.
         /// </summary>
         /// <param name="scale">The scale to set.</param>
-        protected override void updateScale(ref EngineMath.Vector3 scale)
+        protected override void updateScaleImpl(ref EngineMath.Vector3 scale)
         {
             
         }
@@ -149,7 +149,7 @@ namespace PhysXPlugin
         /// <param name="rotation">The rotation to set.</param>
         public void firePositionUpdate(ref Vector3 translation, ref Quaternion rotation)
         {
-            SimObject.updatePosition(ref translation, ref rotation, this);
+            updatePosition(ref translation, ref rotation);
         }
 
         #endregion

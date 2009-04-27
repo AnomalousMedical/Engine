@@ -73,7 +73,7 @@ namespace Engine
         /// </summary>
         /// <param name="instance">The SimObject instance to add the behavior to.</param>
         /// <param name="behaviorDefinition">The BehaviorDefinition to build.</param>
-        internal void addBehaviorDefinition(SimObject instance, BehaviorDefinition behaviorDefinition)
+        internal void addBehaviorDefinition(SimObjectBase instance, BehaviorDefinition behaviorDefinition)
         {
             currentBehaviors.Add(new BehaviorFactoryEntry(instance, behaviorDefinition));
         }

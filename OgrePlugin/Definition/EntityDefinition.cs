@@ -81,7 +81,7 @@ namespace OgrePlugin
         /// <param name="scene">The OgreSceneManager that will get the entity.</param>
         /// <param name="simObject">The SimObject that will get the entity.</param>
         /// <returns>The newly created MovableObject or null if there was an error.</returns>
-        protected override MovableObject createActualProduct(SceneNodeElement element, OgreSceneManager scene, SimObject simObject)
+        protected override MovableObject createActualProduct(SceneNodeElement element, OgreSceneManager scene, SimObjectBase simObject)
         {
             if (OgreResourceGroupManager.getInstance().findGroupContainingResource(meshName) != null)
             {

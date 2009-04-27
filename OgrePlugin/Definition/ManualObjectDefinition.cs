@@ -28,7 +28,7 @@ namespace OgrePlugin
             
         }
 
-        protected override MovableObject createActualProduct(SceneNodeElement element, OgreSceneManager scene, SimObject simObject)
+        protected override MovableObject createActualProduct(SceneNodeElement element, OgreSceneManager scene, SimObjectBase simObject)
         {
             Identifier id = new Identifier(simObject.Name, Name);
             ManualObject obj = scene.createManualObject(id);

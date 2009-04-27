@@ -45,7 +45,7 @@ namespace Engine.ObjectManagement
     {
         #region Fields
 
-        private SimObject simObject;
+        private SimObjectBase simObject;
 
         #endregion Fields
 
@@ -92,6 +92,46 @@ namespace Engine.ObjectManagement
         protected abstract void Dispose();
 
         /// <summary>
+        /// This function will update the position of the entire SimObject.
+        /// </summary>
+        /// <param name="translation">The translation to set.</param>
+        /// <param name="rotation">The rotation to set.</param>
+        public void updatePosition(ref Vector3 translation, ref Quaternion rotation)
+        {
+            simObject.updatePosition(ref translation, ref rotation, this);
+        }
+
+        /// <summary>
+        /// This function will update the position of the entire SimObject.
+        /// </summary>
+        /// <param name="translation">The translation to set.</param>
+        /// <param name="rotation">The rotation to set.</param>
+        public void updatePosition(Vector3 translation, Quaternion rotation)
+        {
+            simObject.updatePosition(ref translation, ref rotation, this);
+        }
+
+        /// <summary>
+        /// This function will update the position of the entire SimObject.
+        /// </summary>
+        /// <param name="translation">The translation to set.</param>
+        /// <param name="rotation">The rotation to set.</param>
+        public void updatePosition(Vector3 translation, ref Quaternion rotation)
+        {
+            simObject.updatePosition(ref translation, ref rotation, this);
+        }
+
+        /// <summary>
+        /// This function will update the position of the entire SimObject.
+        /// </summary>
+        /// <param name="translation">The translation to set.</param>
+        /// <param name="rotation">The rotation to set.</param>
+        public void updatePosition(ref Vector3 translation, Quaternion rotation)
+        {
+            simObject.updatePosition(ref translation, ref rotation, this);
+        }
+
+        /// <summary>
         /// This function will update the position of the SimElement. It is set
         /// as internal to prevent other libraries from directly modifying a
         /// SimElement, since this is not allowed. This will call the
@@ -100,9 +140,9 @@ namespace Engine.ObjectManagement
         /// </summary>
         /// <param name="translation">The translation to set.</param>
         /// <param name="rotation">The rotation to set.</param>
-        internal void fireUpdatePosition(ref Vector3 translation, ref Quaternion rotation)
+        internal void alertUpdatePosition(ref Vector3 translation, ref Quaternion rotation)
         {
-            updatePosition(ref translation, ref rotation);
+            updatePositionImpl(ref translation, ref rotation);
         }
 
         /// <summary>
@@ -110,7 +150,25 @@ namespace Engine.ObjectManagement
         /// </summary>
         /// <param name="translation">The translation to set.</param>
         /// <param name="rotation">The rotation to set.</param>
-        protected abstract void updatePosition(ref Vector3 translation, ref Quaternion rotation);
+        protected abstract void updatePositionImpl(ref Vector3 translation, ref Quaternion rotation);
+
+        /// <summary>
+        /// This function will update the translation of the entire SimObject.
+        /// </summary>
+        /// <param name="translation">The translation to set.</param>
+        public void updateTranslation(ref Vector3 translation)
+        {
+            simObject.updateTranslation(ref translation, this);
+        }
+
+        /// <summary>
+        /// This function will update the translation of the entire SimObject.
+        /// </summary>
+        /// <param name="translation">The translation to set.</param>
+        public void updateTranslation(Vector3 translation)
+        {
+            simObject.updateTranslation(ref translation, this);
+        }
 
         /// <summary>
         /// This function will update the translation of the SimElement. It is
@@ -120,16 +178,34 @@ namespace Engine.ObjectManagement
         /// motion update implementation.
         /// </summary>
         /// <param name="translation">The translation to set.</param>
-        internal void fireUpdateTranslation(ref Vector3 translation)
+        internal void alertUpdateTranslation(ref Vector3 translation)
         {
-            updateTranslation(ref translation);
+            updateTranslationImpl(ref translation);
         }
 
         /// <summary>
         /// This function will update the translation of the SimElement.
         /// </summary>
         /// <param name="translation">The translation to set.</param>
-        protected abstract void updateTranslation(ref Vector3 translation);
+        protected abstract void updateTranslationImpl(ref Vector3 translation);
+
+        /// <summary>
+        /// This function will update the rotation of the entire SimObject.
+        /// </summary>
+        /// <param name="rotation">The rotation to set.</param>
+        public void updateRotation(ref Quaternion rotation)
+        {
+            simObject.updateRotation(ref rotation, this);
+        }
+
+        /// <summary>
+        /// This function will update the rotation of the entire SimObject.
+        /// </summary>
+        /// <param name="rotation">The rotation to set.</param>
+        public void updateRotation(Quaternion rotation)
+        {
+            simObject.updateRotation(ref rotation, this);
+        }
 
         /// <summary>
         /// This function will update the rotation of the SimElement. It is set
@@ -139,16 +215,34 @@ namespace Engine.ObjectManagement
         /// motion update implementation.
         /// </summary>
         /// <param name="rotation">The rotation to set.</param>
-        internal void fireUpdateRotation(ref Quaternion rotation)
+        internal void alertUpdateRotation(ref Quaternion rotation)
         {
-            updateRotation(ref rotation);
+            updateRotationImpl(ref rotation);
         }
 
         /// <summary>
         /// This function will update the rotation of the SimElement.
         /// </summary>
         /// <param name="rotation">The rotation to set.</param>
-        protected abstract void updateRotation(ref Quaternion rotation);
+        protected abstract void updateRotationImpl(ref Quaternion rotation);
+
+        /// <summary>
+        /// This function will update the scale of the entire SimObject.
+        /// </summary>
+        /// <param name="scale">The scale to set.</param>
+        public void updateScale(ref Vector3 scale)
+        {
+            simObject.updateScale(ref scale, this);
+        }
+
+        /// <summary>
+        /// This function will update the scale of the entire SimObject.
+        /// </summary>
+        /// <param name="scale">The scale to set.</param>
+        public void updateScale(Vector3 scale)
+        {
+            simObject.updateScale(ref scale, this);
+        }
 
         /// <summary>
         /// This function will update the scale of the SimElement. It is set as
@@ -158,16 +252,16 @@ namespace Engine.ObjectManagement
         /// motion update implementation.
         /// </summary>
         /// <param name="scale">The scale to set.</param>
-        internal void fireUpdateScale(ref Vector3 scale)
+        internal void alertUpdateScale(ref Vector3 scale)
         {
-            updateScale(ref scale);
+            updateScaleImpl(ref scale);
         }
 
         /// <summary>
         /// This function will update the scale of the SimElement.
         /// </summary>
         /// <param name="scale">The scale to set.</param>
-        protected abstract void updateScale(ref Vector3 scale);
+        protected abstract void updateScaleImpl(ref Vector3 scale);
 
         /// <summary>
         /// This function will enable or disable the SimElement. What this means
@@ -195,6 +289,16 @@ namespace Engine.ObjectManagement
         /// <returns>A new SimElementDefinition for this SimElement.</returns>
         public abstract SimElementDefinition saveToDefinition();
 
+        /// <summary>
+        /// Internal function to set the SimObject for this element.
+        /// </summary>
+        /// <param name="simObject">The SimObject to set.</param>
+        internal void setSimObject(SimObjectBase simObject)
+        {
+            this.simObject = simObject;
+            this.setEnabled(simObject != null && simObject.Enabled);
+        }
+
         #endregion
 
         #region Properties
@@ -217,11 +321,6 @@ namespace Engine.ObjectManagement
             get
             {
                 return simObject;
-            }
-            internal set
-            {
-                simObject = value;
-                this.setEnabled(simObject != null && simObject.Enabled);
             }
         }
 

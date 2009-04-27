@@ -14,68 +14,18 @@ namespace Engine.ObjectManagement
     /// it could be composed of a mesh from a renderer and a rigid body from a
     /// physics engine allowing it to move and be rendered. The updates will be
     /// fired appropriatly between these subsystems to keep everything in sync.
+    /// This top level SimObject interface does not allow access to all
+    /// functions in a SimObject, however, it provides all the access that are
+    /// needed by individual SimElements. The missing functionality is filled in
+    /// with protected functions in the SimElement class.
     /// </summary>
-    /// <seealso cref="T:System.IDisposable"/>
-    public interface SimObject : IDisposable
+    /// <remarks>
+    /// New SimObject types should implement the SimObjectBase interface instead
+    /// of this one so they provide the entire required interface.
+    /// </remarks>
+    public interface SimObject
     {
         #region Functions
-
-        /// <summary>
-        /// Add a SimElement to this SimObject.
-        /// </summary>
-        /// <param name="element">The element to add.</param>
-        void addElement(SimElement element);
-
-        /// <summary>
-        /// Update the position of the SimObject.
-        /// </summary>
-        /// <param name="translation">The translation to set.</param>
-        /// <param name="rotation">The rotation to set.</param>
-        /// <param name="trigger">The object that triggered the update. Can be null.</param>
-        void updatePosition(ref Vector3 translation, ref Quaternion rotation, SimElement trigger);
-
-        /// <summary>
-        /// Update the translation of the SimObject.
-        /// </summary>
-        /// <param name="translation">The translation to set.</param>
-        /// <param name="trigger">The object that triggered the update. Can be null.</param>
-        void updateTranslation(ref Vector3 translation, SimElement trigger);
-
-        /// <summary>
-        /// Update the rotation of the SimObject.
-        /// </summary>
-        /// <param name="rotation">The rotation to set.</param>
-        /// <param name="trigger">The object that triggered the update. Can be null.</param>
-        void updateRotation(ref Quaternion rotation, SimElement trigger);
-
-        /// <summary>
-        /// Update the scale of the SimObject.
-        /// </summary>
-        /// <param name="scale">The scale to set.</param>
-        /// <param name="trigger">The object that triggered the update. Can be null.</param>
-        void updateScale(ref Vector3 scale, SimElement trigger);
-
-        /// <summary>
-        /// Set the SimObject as enabled or disabled. The subsystems will
-        /// determine the exact status that that their objects will go into when
-        /// this is activated. However, this mode can be changed as quickly as
-        /// possible.
-        /// </summary>
-        /// <param name="enabled">True to enable the SimObject, false to disable it.</param>
-        void setEnabled(bool enabled);
-
-        /// <summary>
-        /// Save this SimObject to a SimObjectDefinition.
-        /// </summary>
-        /// <param name="definitionName">The name to give the SimObjectDefinition.</param>
-        /// <returns>A new SimObjectDefinition for this SimObject.</returns>
-        SimObjectDefinition saveToDefinition(String definitionName);
-
-        /// <summary>
-        /// Save the instance specific information for this SimObject.
-        /// </summary>
-        /// <returns>A new SimObjectInstanceDefinition.</returns>
-        SimObjectInstanceDefinition saveInstanceDefinition();
 
         /// <summary>
         /// Get a particular SimElement from the SimObject. This will return

@@ -14,7 +14,7 @@ namespace Engine.ObjectManagement
     /// </summary>
     public interface SimObjectInstanceDefinition : Saveable
     {
-        SimObject createSimObject();
+        SimObjectBase createSimObject();
 
         /// <summary>
         /// The name of the instance of the sim object.

@@ -28,7 +28,7 @@ namespace OgrePlugin
         /// </summary>
         /// <param name="instance">The SimObject that will get the product built by definition.</param>
         /// <param name="definition">The definition to build.</param>
-        public void addSceneNodeDefinition(SimObject instance, SceneNodeDefinition definition)
+        public void addSceneNodeDefinition(SimObjectBase instance, SceneNodeDefinition definition)
         {
             sceneNodes.AddLast(new OgreFactoryEntry(instance, definition));
         }

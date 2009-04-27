@@ -19,7 +19,7 @@ namespace Engine.ObjectManagement
         /// Register with factories to build this definition into the given SimObject.
         /// </summary>
         /// <param name="instance">The SimObject that will get the built elements.</param>
-        void register(SimSubScene subScene, SimObject instance);
+        void register(SimSubScene subScene, SimObjectBase instance);
 
         /// <summary>
         /// Get the EditInterface.

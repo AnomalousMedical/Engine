@@ -84,7 +84,7 @@ namespace Engine.ObjectManagement
             {
                 if (templates.ContainsKey(instance.DefinitionName))
                 {
-                    SimObject simObject = instance.createSimObject();
+                    SimObjectBase simObject = instance.createSimObject();
                     templates[instance.DefinitionName].register(subScene, simObject);
                     manager.addSimObject(simObject);
                 }

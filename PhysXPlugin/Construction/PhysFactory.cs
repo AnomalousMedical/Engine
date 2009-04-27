@@ -39,7 +39,7 @@ namespace PhysXPlugin
         /// Add an actor definition to be built when createProducts is run.
         /// </summary>
         /// <param name="def">The PhysActorDefinition to add.</param>
-        public void addActorDefinition(SimObject instance, PhysActorDefinition def)
+        public void addActorDefinition(SimObjectBase instance, PhysActorDefinition def)
         {
             currentActors.AddLast(new PhysFactoryEntry(instance, def));
         }
@@ -48,7 +48,7 @@ namespace PhysXPlugin
         /// Add a joint definition to be built when createProducts is run.
         /// </summary>
         /// <param name="def">The PhysJointDefinition to add.</param>
-        internal void addJointDefinition(SimObject instance, PhysJointDefinition physJointDefinition)
+        internal void addJointDefinition(SimObjectBase instance, PhysJointDefinition physJointDefinition)
         {
             currentJoints.AddLast(new PhysFactoryEntry(instance, physJointDefinition));
         }

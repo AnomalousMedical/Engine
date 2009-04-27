@@ -41,7 +41,7 @@ namespace Engine
             this.behaviorTemplate = behaviorTemplate;
         }
 
-        public override void register(SimSubScene subscene, SimObject instance)
+        public override void register(SimSubScene subscene, SimObjectBase instance)
         {
             if (subscene.hasSimElementManagerType(typeof(BehaviorManager)))
             {
@@ -63,7 +63,7 @@ namespace Engine
             return editInterface;
         }
 
-        internal Behavior createProduct(SimObject instance, BehaviorManager behaviorManager)
+        internal Behavior createProduct(SimObjectBase instance, BehaviorManager behaviorManager)
         {
             Behavior behavior = MemberCopier.CreateCopy<Behavior>(behaviorTemplate);
             behavior.setAttributes(Name, subscription, behaviorManager);
@@ -71,7 +71,7 @@ namespace Engine
             return behavior;
         }
 
-        internal void createStaticProduct(SimObject instance, BehaviorManager scene)
+        internal void createStaticProduct(SimObjectBase instance, BehaviorManager scene)
         {
             throw new NotImplementedException();
         }

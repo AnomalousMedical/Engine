@@ -104,7 +104,7 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="subscene">The SimSubScene that will get the built product.</param>
         /// <param name="instance">The SimObject that will get the newly created element.</param>
-        public override void register(SimSubScene subscene, SimObject instance)
+        public override void register(SimSubScene subscene, SimObjectBase instance)
         {
             if (subscene.hasSimElementManagerType(typeof(PhysXSceneManager)))
             {
@@ -143,7 +143,7 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="instance">The SimObject to add the element to.</param>
         /// <param name="scene">The PhysSceneManager to create the product with.</param>
-        internal override void createProduct(SimObject instance, PhysXSceneManager scene)
+        internal override void createProduct(SimObjectBase instance, PhysXSceneManager scene)
         {
             if (dynamic)
             {
@@ -185,7 +185,7 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="instance">The SimObject to add the element to.</param>
         /// <param name="scene">The PhysSceneManager to create the product with.</param>
-        internal override void createStaticProduct(SimObject instance, PhysXSceneManager scene)
+        internal override void createStaticProduct(SimObjectBase instance, PhysXSceneManager scene)
         {
             throw new NotImplementedException();
         }

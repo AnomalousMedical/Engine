@@ -92,7 +92,7 @@ namespace OgrePlugin
         /// <param name="element">The SceneNodeElement to add the definition to so it can be destroyed properly.</param>
         /// <param name="scene">The OgreSceneManager that will get the entity.</param>
         /// <param name="simObject">The SimObject that will get the entity.</param>
-        internal void createProduct(SceneNodeElement element, OgreSceneManager scene, SimObject simObject)
+        internal void createProduct(SceneNodeElement element, OgreSceneManager scene, SimObjectBase simObject)
         {
             MovableObject movable = createActualProduct(element, scene, simObject);
             if (movable != null)
@@ -110,7 +110,7 @@ namespace OgrePlugin
         /// <param name="scene">The OgreSceneManager that will get the entity.</param>
         /// <param name="simObject">The SimObject that will get the entity.</param>
         /// <returns>The newly created MovableObject or null if there was an error.</returns>
-        protected abstract MovableObject createActualProduct(SceneNodeElement element, OgreSceneManager scene, SimObject simObject);
+        protected abstract MovableObject createActualProduct(SceneNodeElement element, OgreSceneManager scene, SimObjectBase simObject);
 
         /// <summary>
         /// The name of this entity.

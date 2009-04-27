@@ -69,7 +69,7 @@ namespace PhysXPlugin
             this.jointDesc = jointDesc;
         }
 
-        internal override void createProduct(SimObject instance, PhysXSceneManager scene)
+        internal override void createProduct(SimObjectBase instance, PhysXSceneManager scene)
         {
             PhysActorElement actor0Element;
             PhysActorElement actor1Element;
@@ -116,12 +116,12 @@ namespace PhysXPlugin
         /// </summary>
         protected abstract void configureJoint();
 
-        internal override void createStaticProduct(SimObject instance, PhysXSceneManager scene)
+        internal override void createStaticProduct(SimObjectBase instance, PhysXSceneManager scene)
         {
             throw new NotImplementedException();
         }
 
-        public override void register(SimSubScene subscene, SimObject instance)
+        public override void register(SimSubScene subscene, SimObjectBase instance)
         {
             if (subscene.hasSimElementManagerType(typeof(PhysXSceneManager)))
             {

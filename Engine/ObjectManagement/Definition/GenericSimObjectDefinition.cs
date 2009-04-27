@@ -69,7 +69,7 @@ namespace Engine.ObjectManagement
         /// Register with factories to build this definition into the given SimObject.
         /// </summary>
         /// <param name="instance">The SimObject that will get the built elements.</param>
-        public void register(SimSubScene subScene, SimObject instance)
+        public void register(SimSubScene subScene, SimObjectBase instance)
         {
             foreach (SimElementDefinition definition in definitions.Values)
             {

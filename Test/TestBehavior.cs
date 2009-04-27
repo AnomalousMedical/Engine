@@ -49,7 +49,7 @@ namespace Test
             if (eventManager[TestEvents.Forward].Down)
             {
                 Vector3 newPos = SimObject.Translation + Vector3.Forward * (float)(5.0f * clock.Seconds);
-                SimObject.updateTranslation(ref newPos, this);
+                updateTranslation(ref newPos);
             }
 
         }

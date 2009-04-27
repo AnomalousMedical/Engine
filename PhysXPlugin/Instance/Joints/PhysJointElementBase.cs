@@ -28,22 +28,22 @@ namespace PhysXPlugin
             scene.destroyJoint(jointId);
         }
 
-        protected override void updatePosition(ref Vector3 translation, ref Quaternion rotation)
+        protected override void updatePositionImpl(ref Vector3 translation, ref Quaternion rotation)
         {
             
         }
 
-        protected override void updateTranslation(ref Vector3 translation)
+        protected override void updateTranslationImpl(ref Vector3 translation)
         {
             
         }
 
-        protected override void updateRotation(ref Quaternion rotation)
+        protected override void updateRotationImpl(ref Quaternion rotation)
         {
             
         }
 
-        protected override void updateScale(ref Vector3 scale)
+        protected override void updateScaleImpl(ref Vector3 scale)
         {
             
         }

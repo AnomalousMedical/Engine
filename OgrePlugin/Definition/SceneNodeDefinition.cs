@@ -63,7 +63,7 @@ namespace OgrePlugin
         /// </summary>
         /// <param name="subscene">The subscene to add this definition to.</param>
         /// <param name="instance">The SimObject that will get the product.</param>
-        public override void register(SimSubScene subscene, SimObject instance)
+        public override void register(SimSubScene subscene, SimObjectBase instance)
         {
             if (subscene.hasSimElementManagerType(typeof(OgreSceneManager)))
             {
@@ -165,7 +165,7 @@ namespace OgrePlugin
         /// </summary>
         /// <param name="instance">The instance to get the product.</param>
         /// <param name="scene">The scene to create the product into.</param>
-        internal void createProduct(SimObject instance, OgreSceneManager scene)
+        internal void createProduct(SimObjectBase instance, OgreSceneManager scene)
         {
             Identifier identifier = new Identifier(instance.Name, Name);
             SceneNode node = scene.createSceneNode(identifier);
@@ -206,7 +206,7 @@ namespace OgrePlugin
         /// <param name="instance">The instance to get the product.</param>
         /// <param name="scene">The scene to create the product into.</param>
         /// <param name="parentElement">The element of the parent node.</param>
-        private void createAsChild(SimObject instance, OgreSceneManager scene, SceneNodeElement parentElement)
+        private void createAsChild(SimObjectBase instance, OgreSceneManager scene, SceneNodeElement parentElement)
         {
             Identifier identifier = new Identifier(instance.Name, Name);
             SceneNode node = scene.createSceneNode(identifier);
@@ -229,7 +229,7 @@ namespace OgrePlugin
         /// </summary>
         /// <param name="instance">The instance to get the product.</param>
         /// <param name="scene">The scene to create the product into.</param>
-        internal void createStaticProduct(SimObject instance, OgreSceneManager scene)
+        internal void createStaticProduct(SimObjectBase instance, OgreSceneManager scene)
         {
             throw new NotImplementedException();
         }
