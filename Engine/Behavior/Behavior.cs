@@ -19,16 +19,15 @@ namespace Engine
     public abstract class Behavior : SimElement
     {
         private bool valid = true;
+        private BehaviorManager manager;
 
         #region Constructors
 
         /// <summary>
         /// Base constructor for the behavior.
         /// </summary>
-        /// <param name="name">The name of the behavior.</param>
-        /// <param name="subscription">The subscription updates the behavior listenes to.</param>
-        internal Behavior(String name, Subscription subscription, BehaviorManager behaviorManager)
-            :base(name, subscription)
+        public Behavior()
+            : base("NotInitialized", Subscription.None)
         {
 
         }
@@ -36,6 +35,20 @@ namespace Engine
         #endregion Constructors
 
         #region Functions
+
+        /// <summary>
+        /// This function will set the attributes that would normally be set by a constructor.
+        /// However, since behavior subclasses should not define constructors this function
+        /// will be called to set the same values.
+        /// </summary>
+        /// <param name="name">The name of the Behavior.</param>
+        /// <param name="subscription">The subscription of the behavior.</param>
+        /// <param name="behaviorManager">The BehaviorManager that will update the behavior.</param>
+        internal void setAttributes(String name, Subscription subscription, BehaviorManager behaviorManager)
+        {
+            this._behaviorSetAttributes(name, subscription);
+            this.manager = behaviorManager;
+        }
 
         /// <summary>
         /// Internal function to call the constructed method. This hides the
@@ -67,9 +80,9 @@ namespace Engine
         /// <summary>
         /// This is the update function. It will be called every time the BehaviorManager is updated.
         /// </summary>
-        /// <param name="time">The amount of time in seconds since the last update.</param>
+        /// <param name="clock">The clock with info about the last update.</param>
         /// <param name="eventManager">The EventManager that is gathering input.</param>
-        public abstract void update(double time, EventManager eventManager);
+        public abstract void update(Clock clock, EventManager eventManager);
 
         /// <summary>
         /// This function will blacklist the behavior for this load of the
@@ -142,7 +155,17 @@ namespace Engine
         /// <param name="enabled">True to enable the object. False to disable the object.</param>
         protected override sealed void setEnabled(bool enabled)
         {
-            
+            if (valid)
+            {
+                if (enabled)
+                {
+                    manager.activateBehavior(this);
+                }
+                else
+                {
+                    manager.deactivateBehavior(this);
+                }
+            }
         }
 
         /// <summary>
@@ -151,7 +174,8 @@ namespace Engine
         /// <returns>A new BehaviorDefinition.</returns>
         public override sealed SimElementDefinition saveToDefinition()
         {
-            throw new NotImplementedException();
+            BehaviorDefinition definition = new BehaviorDefinition(this);
+            return definition;
         }
 
         #endregion SimElement

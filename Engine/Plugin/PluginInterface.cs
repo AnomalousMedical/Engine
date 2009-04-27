@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Engine.Platform;
+using Engine.ObjectManagement;
 
 namespace Engine
 {
+    public delegate SimElementDefinition CreateElementDefinition(String name);
+    public delegate SimElementManagerDefinition CreateElementManagerDefinition(String name);
+
     /// <summary>
     /// This is an interface for the main plugin class. Each plugin must define
     /// a single class that inherits from this class and implements a blank

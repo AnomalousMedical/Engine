@@ -8,11 +8,20 @@ namespace Engine
 {
     public class BehaviorFactory : SimElementFactory
     {
+        private List<BehaviorFactoryEntry> currentBehaviors = new List<BehaviorFactoryEntry>();
+        private BehaviorManager manager;
 
+        public BehaviorFactory(BehaviorManager manager)
+        {
+            this.manager = manager;
+        }
 
         public void createProducts()
         {
-            throw new NotImplementedException();
+            foreach (BehaviorFactoryEntry entry in currentBehaviors)
+            {
+                entry.createProduct(manager);
+            }
         }
 
         public void createStaticProducts()
@@ -22,17 +31,20 @@ namespace Engine
 
         public void linkProducts()
         {
-            throw new NotImplementedException();
+            foreach (BehaviorFactoryEntry entry in currentBehaviors)
+            {
+                entry.linkupProducts();
+            }
         }
 
         public void clearDefinitions()
         {
-            throw new NotImplementedException();
+            currentBehaviors.Clear();
         }
 
         internal void addBehaviorDefinition(SimObject instance, BehaviorDefinition behaviorDefinition)
         {
-            throw new NotImplementedException();
+            currentBehaviors.Add(new BehaviorFactoryEntry(instance, behaviorDefinition));
         }
     }
 }

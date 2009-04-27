@@ -7,33 +7,37 @@ using Engine.ObjectManagement;
 
 namespace Engine
 {
-    public class BehaviorManager : SimElementManager
+    public class BehaviorManager : SimElementManager, UpdateListener
     {
         private List<Behavior> activeBehaviors = new List<Behavior>();
         private List<Behavior> blacklistedBehaviors = new List<Behavior>();
         private EventManager eventManager;
-        private BehaviorFactory behaviorFactory = new BehaviorFactory();
+        private BehaviorFactory behaviorFactory;
         private String name;
+        private UpdateTimer timer;
 
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="eventManager">The event manager to process on updates.</param>
-        public BehaviorManager(String name)
+        public BehaviorManager(String name, UpdateTimer timer, EventManager eventManager)
         {
-            this.eventManager = EventManager.Instance;
+            this.eventManager = eventManager;
+            this.timer = timer;
+            timer.addFixedUpdateListener(this);
             this.name = name;
+            behaviorFactory = new BehaviorFactory(this);
         }
 
         /// <summary>
         /// Update all behaviors owned by this manager that are currently active.
         /// </summary>
-        /// <param name="time">The amount of time since the last update.</param>
-        public void updateBehaviors(double time)
+        /// <param name="clock">The clock with info about the last update.</param>
+        public void updateBehaviors(Clock clock)
         {
             foreach (Behavior behavior in activeBehaviors)
             {
-                behavior.update(time, eventManager);
+                behavior.update(clock, eventManager);
             }
         }
 
@@ -84,6 +88,25 @@ namespace Engine
         }
 
         public void Dispose()
+        {
+            timer.removeFixedUpdateListener(this);
+        }
+
+        #endregion
+
+        #region UpdateListener Members
+
+        public void sendUpdate(Clock clock)
+        {
+            updateBehaviors(clock);
+        }
+
+        public void loopStarting()
+        {
+            
+        }
+
+        public void exceededMaxDelta()
         {
             
         }

@@ -10,6 +10,11 @@ namespace Engine
 {
     class BehaviorManagerDefinition : SimElementManagerDefinition
     {
+        internal static BehaviorManagerDefinition Create(String name)
+        {
+            return new BehaviorManagerDefinition(name);
+        }
+
         private EditInterface editInterface;
         private String name;
 
@@ -29,7 +34,7 @@ namespace Engine
 
         public SimElementManager createSimElementManager()
         {
-            BehaviorManager behaviorManager = new BehaviorManager(name);
+            BehaviorManager behaviorManager = new BehaviorManager(name, BehaviorInterface.Instance.Timer, BehaviorInterface.Instance.EventManager);
             return behaviorManager;
         }
 
@@ -53,14 +58,16 @@ namespace Engine
 
         #region Saveable
 
+        private const string NAME = "Name";
+
         private BehaviorManagerDefinition(LoadInfo info)
         {
-
+            name = info.GetString(NAME);
         }
 
         public void getInfo(SaveInfo info)
         {
-            
+            info.AddValue(NAME, name);
         }
 
         #endregion Saveable

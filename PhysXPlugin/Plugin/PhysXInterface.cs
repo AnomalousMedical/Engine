@@ -10,9 +10,6 @@ using Engine.ObjectManagement;
 
 namespace PhysXPlugin
 {
-    internal delegate SimElementDefinition CreateElementDefinition(String name);
-    internal delegate SimElementManagerDefinition CreateElementManagerDefinition(String name);
-
     /// <summary>
     /// This is the ElementPlugin class for the PhysXPlugin.
     /// </summary>

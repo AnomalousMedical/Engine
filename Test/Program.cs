@@ -62,7 +62,7 @@ namespace Test
                 pluginManager.setPlatformInfo(mainTimer, eventManager);
 
                 ObjectEditorForm form;
-                SimObjectDefinition objectDef;
+                GenericSimObjectDefinition objectDef;
 
                 //Create a scene definition
                 SimSceneDefinition sceneDef;
@@ -97,6 +97,7 @@ namespace Test
                         if (!File.Exists("simObjects.xml"))
                         {
                             objectDef = new GenericSimObjectDefinition("Test");
+                            objectDef.addElement(new BehaviorDefinition(typeof(TestBehavior), "Behavior"));
                             form = new ObjectEditorForm();
                             form.EditorPanel.setEditInterface(objectDef.getEditInterface());
                             form.ShowDialog();

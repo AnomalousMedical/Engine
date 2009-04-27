@@ -72,6 +72,7 @@ namespace Engine
             if (instance == null)
             {
                 instance = this;
+                instance.addPlugin(new BehaviorInterface());
             }
             else
             {

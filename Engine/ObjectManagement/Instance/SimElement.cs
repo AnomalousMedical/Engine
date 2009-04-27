@@ -62,6 +62,17 @@ namespace Engine.ObjectManagement
             this.Subscription = subscription;
         }
 
+        /// <summary>
+        /// This is an internal function so behaviors can abuse this interface a little bit and provide an empty constructor.
+        /// </summary>
+        /// <param name="name">The name of the SimElement.</param>
+        /// <param name="subscription">The subscription of events to listen to.</param>
+        internal void _behaviorSetAttributes(String name, Subscription subscription)
+        {
+            this.Name = name;
+            this.Subscription = subscription;
+        }
+
         #endregion
 
         #region Functions
