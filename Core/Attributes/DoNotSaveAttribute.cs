@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Engine.Attributes
 {
-    [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Field, Inherited = true, AllowMultiple = false)]
     public sealed class DoNotSaveAttribute : Attribute
     {
 

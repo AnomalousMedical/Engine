@@ -145,7 +145,15 @@ namespace Engine.Editing
                 else
                 {
                     Object subObject = memberWrapper.getValue(target, null);
-                    edit.addSubInterface(createEditInterface(subObject, scanner, memberWrapper.getWrappedName() + " - " + memberWrapper.getWrappedType(), null));
+                    if (subObject is EditInterfaceOverride)
+                    {
+                        EditInterfaceOverride custom = (EditInterfaceOverride)subObject;
+                        edit.addSubInterface(custom.getEditInterface(memberWrapper.getWrappedName(), scanner));
+                    }
+                    else
+                    {
+                        edit.addSubInterface(createEditInterface(subObject, scanner, memberWrapper.getWrappedName() + " - " + memberWrapper.getWrappedType(), null));
+                    }
                 }
             }
         }

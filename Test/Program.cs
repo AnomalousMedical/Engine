@@ -97,7 +97,8 @@ namespace Test
                         if (!File.Exists("simObjects.xml"))
                         {
                             objectDef = new GenericSimObjectDefinition("Test");
-                            objectDef.addElement(new BehaviorDefinition(typeof(TestBehavior), "Behavior"));
+                            TestBehavior testBehavior = new TestBehavior();
+                            objectDef.addElement(new BehaviorDefinition(new ReflectedBehaviorData(testBehavior)));
                             form = new ObjectEditorForm();
                             form.EditorPanel.setEditInterface(objectDef.getEditInterface());
                             form.ShowDialog();

@@ -16,7 +16,7 @@ namespace Engine
             return new BehaviorDefinition(name);
         }
 
-        private Type behaviorType;
+        private BehaviorData data;
         EditInterface editInterface;
 
         public BehaviorDefinition(String name)
@@ -25,17 +25,10 @@ namespace Engine
 
         }
 
-        public BehaviorDefinition(Behavior behavior)
-            :base(behavior.Name)
+        public BehaviorDefinition(BehaviorData behaviorData)
+            : base(behaviorData.Name)
         {
-            behaviorType = behavior.GetType();
-        }
-
-        //temp
-        public BehaviorDefinition(Type behaviorType, String name)
-            :base(name)
-        {
-            this.behaviorType = behaviorType;
+            data = behaviorData;
         }
 
         public override void register(SimSubScene subscene, SimObject instance)
@@ -53,16 +46,12 @@ namespace Engine
 
         public override EditInterface getEditInterface()
         {
-            if (editInterface == null)
-            {
-                editInterface = new EditInterface(Name + " Behavior");
-            }
-            return editInterface;
+            return data.getEditInterface();
         }
 
         internal Behavior createProduct(SimObject instance, BehaviorManager behaviorManager)
         {
-            Behavior behavior = (Behavior)Activator.CreateInstance(behaviorType);
+            Behavior behavior = data.createNewInstance();
             behavior.setAttributes(Name, subscription, behaviorManager);
             instance.addElement(behavior);
             return behavior;
@@ -75,19 +64,18 @@ namespace Engine
 
         #region Saveable
 
-        private const string BEHAVIOR_TYPE = "Type";
+        private const string BEHAVIOR_DATA = "BehaviorData";
 
         private BehaviorDefinition(LoadInfo info)
             :base(info)
         {
-            String behaviorTypeName = info.GetString(BEHAVIOR_TYPE);
-            behaviorType = Type.GetType(behaviorTypeName);
+            data = info.GetValue<BehaviorData>(BEHAVIOR_DATA);
         }
 
         public override void getInfo(SaveInfo info)
         {
             base.getInfo(info);
-            info.AddValue(BEHAVIOR_TYPE, behaviorType.AssemblyQualifiedName);
+            info.AddValue(BEHAVIOR_DATA, data);
         }
 
         #endregion Saveable

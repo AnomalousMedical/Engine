@@ -5,6 +5,8 @@ using System.Text;
 using Engine;
 using Engine.Platform;
 using EngineMath;
+using Engine.Attributes;
+using Engine.Editing;
 
 namespace Test
 {
@@ -24,6 +26,13 @@ namespace Test
             testInput.addButton(KeyboardButtonCode.KC_W);
             DefaultEvents.registerDefaultEvent(testInput);
         }
+
+        [Editable]
+        private String testVar = "foo";
+
+        [Editable]
+        [DoNotSave]
+        private Vector3 testDoNotSave = Vector3.UnitX;
 
         protected override void constructed()
         {

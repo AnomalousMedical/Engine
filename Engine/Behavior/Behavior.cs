@@ -169,12 +169,15 @@ namespace Engine
         }
 
         /// <summary>
-        /// Save this behavior to a definition.
+        /// Save this behavior to a definition. This function can be overwritten
+        /// to customize the definition, but note that this will invalidate all
+        /// the rules for saving objects. Also do not call base.saveToDefinition
+        /// if this function is overwritten.
         /// </summary>
         /// <returns>A new BehaviorDefinition.</returns>
-        public override sealed SimElementDefinition saveToDefinition()
+        public override SimElementDefinition saveToDefinition()
         {
-            BehaviorDefinition definition = new BehaviorDefinition(this);
+            BehaviorDefinition definition = new BehaviorDefinition(new ReflectedBehaviorData(this));
             return definition;
         }
 
