@@ -57,6 +57,13 @@ namespace Engine
             }
         }
 
+        /// <summary>
+        /// This helper function will run inside of the try... catch block and
+        /// do the actual updates. This reduces the amount that try... catch has
+        /// to be invoked.
+        /// </summary>
+        /// <param name="index">The index of the current behavior.</param>
+        /// <param name="clock">The clock that contains information about the update.</param>
         private void updateBehaviorResume(ref int index, Clock clock)
         {
             while (index < activeBehaviors.Count)

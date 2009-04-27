@@ -10,16 +10,7 @@ namespace Engine.Platform
     /// </summary>
     public class Clock
     {
-        double timeSeconds;
-
-        /// <summary>
-        /// Set the time on this clock in seconds.
-        /// </summary>
-        /// <param name="seconds">The number of seconds to set.</param>
-        public void setTimeSeconds(double seconds)
-        {
-            timeSeconds = seconds;
-        }
+        protected double timeSeconds;
 
         /// <summary>
         /// Get the amount of time on this clock in seconds.
@@ -30,6 +21,15 @@ namespace Engine.Platform
             {
                 return timeSeconds;
             }
+        }
+
+        /// <summary>
+        /// Set the time on this clock in seconds.
+        /// </summary>
+        /// <param name="seconds">The number of seconds to set.</param>
+        internal void setTimeSeconds(double seconds)
+        {
+            timeSeconds = seconds;
         }
     }
 }

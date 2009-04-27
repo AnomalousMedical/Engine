@@ -113,7 +113,7 @@ namespace Engine.Platform
         /// <summary>
         /// Fire a full speed update.
         /// </summary>
-        /// <param name="deltaTime">The amount of time since the last full speed update.</param>
+        /// <param name="deltaTime">The amount of time since the last full speed update in seconds.</param>
         protected void fireFullSpeedUpdate(double deltaTime)
         {
             clock.setTimeSeconds(deltaTime);
