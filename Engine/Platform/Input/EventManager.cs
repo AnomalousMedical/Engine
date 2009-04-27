@@ -14,16 +14,6 @@ namespace Engine.Platform
     /// </summary>
     public class EventManager : IDisposable
     {
-        private static EventManager instance;
-
-        public static EventManager Instance
-        {
-            get
-            {
-                return instance;
-            }
-        }
-
         private InputHandler inputHandler;
         private Keyboard keyboard = null;
         private Mouse mouse = null;
@@ -40,19 +30,11 @@ namespace Engine.Platform
         /// <param name="inputHandler">The input handler to use.</param>
         public EventManager(InputHandler inputHandler)
         {
-            if (instance == null)
-            {
-                EventDetected = new NewEventDetected(addEvent);
-                this.inputHandler = inputHandler;
-                keyboard = inputHandler.createKeyboard(false);
-                mouse = inputHandler.createMouse(false);
-                DefaultEvents.registerEventManager(this);
-                instance = this;
-            }
-            else
-            {
-                throw new InputException("The EventManager can only be created one time.");
-            }
+            EventDetected = new NewEventDetected(addEvent);
+            this.inputHandler = inputHandler;
+            keyboard = inputHandler.createKeyboard(false);
+            mouse = inputHandler.createMouse(false);
+            DefaultEvents.registerEventManager(this);
         }
 
         /// <summary>
