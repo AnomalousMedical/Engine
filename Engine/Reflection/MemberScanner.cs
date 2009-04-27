@@ -33,7 +33,6 @@ namespace Engine.Reflection
         {
             ProcessFields = true;
             ProcessProperties = true;
-            TerminatingType = typeof(Object);
             ProcessNonPublicFields = true;
             ProcessPublicFields = true;
             ProcessNonPublicProperties = true;
@@ -67,7 +66,7 @@ namespace Engine.Reflection
                     searchFlags |= BindingFlags.Public;
                 }
                 Type searchType = type;
-                while (searchType != TerminatingType && searchType.BaseType != null)
+                while ((Filter == null || Filter.allowType(searchType)) && searchType.BaseType != null)
                 {
                     FieldInfo[] levelFields = searchType.GetFields(searchFlags);
                     foreach (FieldInfo levelField in levelFields)
@@ -93,7 +92,7 @@ namespace Engine.Reflection
                     searchFlags |= BindingFlags.Public;
                 }
                 Type searchType = type;
-                while (searchType != TerminatingType && searchType != typeof(Object))
+                while ((Filter == null || Filter.allowType(searchType)) && searchType.BaseType != null)
                 {
                     PropertyInfo[] levelProperties = searchType.GetProperties(searchFlags);
                     foreach (PropertyInfo levelProp in levelProperties)
@@ -113,15 +112,6 @@ namespace Engine.Reflection
         #endregion Functions
 
         #region Properties
-
-        /// <summary>
-        /// This is the type that will terminate the up hierarchy scan of the
-        /// given type. The default is Object, which will cause all types up the
-        /// inheretance chain to be scanned. Note that this type is not included
-        /// in the scan because the scan is stopped when this type is
-        /// encountered.
-        /// </summary>
-        public Type TerminatingType { get; set; }
 
         /// <summary>
         /// This should be true if this MemberScanner will process fields.

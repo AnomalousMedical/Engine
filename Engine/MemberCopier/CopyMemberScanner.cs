@@ -64,7 +64,7 @@ namespace Engine
         /// <returns>True if the type should be scanned.</returns>
         public bool allowType(Type type)
         {
-            return true;
+            return type.GetCustomAttributes(typeof(DoNotCopyAttribute), false).Length == 0;
         }
     }
 }

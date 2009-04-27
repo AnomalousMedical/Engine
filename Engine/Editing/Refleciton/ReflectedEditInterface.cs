@@ -15,7 +15,7 @@ namespace Engine.Editing
     {
         #region Static
 
-        private static MemberScanner defaultScanner = new MemberScanner(EditableAttributeFilter.Instance);
+        private static MemberScanner defaultScanner = new MemberScanner(new EditableAttributeFilter());
 
         public static MemberScanner DefaultScanner
         {

@@ -12,12 +12,10 @@ namespace Engine.Editing
     /// </summary>
     public class EditableAttributeFilter : MemberScannerFilter
     {
-        public readonly static EditableAttributeFilter Instance = new EditableAttributeFilter();
-
         /// <summary>
         /// Initializes a new Instance of Engine.Editing.EditableAttributeFilter
         /// </summary>
-        private EditableAttributeFilter()
+        public EditableAttributeFilter()
         {
 
         }
@@ -41,7 +39,12 @@ namespace Engine.Editing
         /// <returns>True if the type should be scanned.</returns>
         public bool allowType(Type type)
         {
-            return true;
+            return type != TerminatingType;
         }
+
+        /// <summary>
+        /// This is the type the filter will stop allowing types for.
+        /// </summary>
+        public Type TerminatingType { get; set; }
     }
 }

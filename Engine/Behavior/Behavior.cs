@@ -5,6 +5,7 @@ using System.Text;
 using Engine.ObjectManagement;
 using Engine.Platform;
 using Logging;
+using Engine.Attributes;
 
 namespace Engine
 {
@@ -32,6 +33,7 @@ namespace Engine
     /// marked with the DoNotSaveAttribute.
     /// </para>
     /// </summary>
+    [DoNotCopy]
     public abstract class Behavior : SimElement
     {
         private bool valid = true;

@@ -18,8 +18,9 @@ namespace PhysXPlugin
 
         static PhysRevoluteJointDefinition()
         {
-            memberScanner.Filter = EditableAttributeFilter.Instance;
-            memberScanner.TerminatingType = typeof(PhysJointDefinitionBase<PhysRevoluteJointDesc, PhysRevoluteJoint>);
+            EditableAttributeFilter filter = new EditableAttributeFilter();
+            filter.TerminatingType = typeof(PhysJointDefinitionBase<PhysRevoluteJointDesc, PhysRevoluteJoint>);
+            memberScanner.Filter = filter;
         }
 
         /// <summary>

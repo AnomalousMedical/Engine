@@ -19,8 +19,9 @@ namespace PhysXPlugin
 
         static PhysD6JointDefinition()
         {
-            memberScanner.Filter = EditableAttributeFilter.Instance;
-            memberScanner.TerminatingType = typeof(PhysJointDefinitionBase<PhysD6JointDesc, PhysD6Joint>);
+            EditableAttributeFilter filter = new EditableAttributeFilter();
+            filter.TerminatingType = typeof(PhysJointDefinitionBase<PhysD6JointDesc, PhysD6Joint>);
+            memberScanner.Filter = filter;
         }
 
         /// <summary>

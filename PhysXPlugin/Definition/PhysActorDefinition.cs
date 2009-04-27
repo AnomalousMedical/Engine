@@ -29,7 +29,7 @@ namespace PhysXPlugin
         {
             actorMemberScanner = new MemberScanner();
             actorMemberScanner.ProcessFields = false;
-            actorMemberScanner.Filter = EditableAttributeFilter.Instance;
+            actorMemberScanner.Filter = new EditableAttributeFilter();
         }
 
         /// <summary>

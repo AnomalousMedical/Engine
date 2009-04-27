@@ -22,7 +22,6 @@ namespace Engine
         {
             scanner = new MemberScanner(new BehaviorSaveMemberScanner());
             scanner.ProcessProperties = false;
-            scanner.TerminatingType = typeof(Behavior);
         }
 
         public static MemberScanner Scanner
@@ -52,7 +51,7 @@ namespace Engine
         /// <returns>True if the type should be scanned.</returns>
         public bool allowType(Type type)
         {
-            return true;
+            return type != typeof(Behavior);
         }
     }
 }

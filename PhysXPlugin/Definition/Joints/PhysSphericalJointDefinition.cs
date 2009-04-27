@@ -19,8 +19,9 @@ namespace PhysXPlugin
 
         static PhysSphericalJointDefinition()
         {
-            memberScanner.Filter = EditableAttributeFilter.Instance;
-            memberScanner.TerminatingType = typeof(PhysJointDefinitionBase<PhysSphericalJointDesc, PhysSphericalJoint>);
+            EditableAttributeFilter filter = new EditableAttributeFilter();
+            filter.TerminatingType = typeof(PhysJointDefinitionBase<PhysSphericalJointDesc, PhysSphericalJoint>);
+            memberScanner.Filter = filter;
         }
 
         /// <summary>

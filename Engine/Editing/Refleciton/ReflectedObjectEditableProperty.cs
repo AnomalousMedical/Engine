@@ -14,6 +14,13 @@ namespace Engine.Editing
     /// </summary>
     public class ReflectedObjectEditableProperty : EditableProperty
     {
+        private static MemberScanner sharedScanner;
+
+        static ReflectedObjectEditableProperty()
+        {
+            sharedScanner = new MemberScanner(new EditableAttributeFilter());
+        }
+
         #region Fields
 
         private List<ReflectedVariable> variableList;
@@ -29,9 +36,9 @@ namespace Engine.Editing
         /// </summary>
         /// <param name="target">The target object.</param>
         public ReflectedObjectEditableProperty(Object target)
-            : this(target, new MemberScanner(EditableAttributeFilter.Instance))
+            : this(target, sharedScanner)
         {
-                        
+            
         }
 
         /// <summary>

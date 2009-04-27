@@ -28,7 +28,8 @@ namespace OgrePlugin
         {
             memberScanner = new MemberScanner();
             memberScanner.ProcessFields = false;
-            memberScanner.Filter = EditableAttributeFilter.Instance;
+            EditableAttributeFilter filter = new EditableAttributeFilter();
+            memberScanner.Filter = filter;
         }
 
         #endregion Static

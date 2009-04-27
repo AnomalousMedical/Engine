@@ -19,8 +19,9 @@ namespace PhysXPlugin
 
         static PhysPulleyJointDefinition()
         {
-            memberScanner.Filter = EditableAttributeFilter.Instance;
-            memberScanner.TerminatingType = typeof(PhysJointDefinitionBase<PhysPulleyJointDesc, PhysPulleyJoint>);
+            EditableAttributeFilter filter = new EditableAttributeFilter();
+            filter.TerminatingType = typeof(PhysJointDefinitionBase<PhysPulleyJointDesc, PhysPulleyJoint>);
+            memberScanner.Filter = filter;
         }
 
         /// <summary>

@@ -18,8 +18,9 @@ namespace PhysXPlugin
 
         static PhysDistanceJointDefinition()
         {
-            memberScanner.Filter = EditableAttributeFilter.Instance;
-            memberScanner.TerminatingType = typeof(PhysJointDefinitionBase<PhysDistanceJointDesc, PhysDistanceJoint>);
+            EditableAttributeFilter filter = new EditableAttributeFilter();
+            filter.TerminatingType = typeof(PhysJointDefinitionBase<PhysDistanceJointDesc, PhysDistanceJoint>);
+            memberScanner.Filter = filter;
         }
 
         /// <summary>

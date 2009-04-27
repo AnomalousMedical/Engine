@@ -52,7 +52,7 @@ namespace Engine
         {
             if (editInterface == null)
             {
-                editInterface = ReflectedEditInterface.createEditInterface(behaviorTemplate, BehaviorEditMemberScanner.Scanner, behaviorTemplate.GetType().Name, null);
+                editInterface = ReflectedEditInterface.createEditInterface(behaviorTemplate, BehaviorEditMemberScanner.Scanner, Name + " - " + behaviorTemplate.GetType().Name, null);
             }
             return editInterface;
         }

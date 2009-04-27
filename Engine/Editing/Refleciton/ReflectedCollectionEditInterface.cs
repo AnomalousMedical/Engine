@@ -16,6 +16,8 @@ namespace Engine.Editing
     /// <typeparam name="T">The type in the collection this interface wraps. Not the type of the collection itself.</typeparam>
     class ReflectedCollectionEditInterface<T>
     {
+        private static MemberScanner sharedScanner = new MemberScanner(new EditableAttributeFilter());
+
         #region Delegates
 
         /// <summary>
@@ -44,7 +46,7 @@ namespace Engine.Editing
         /// <param name="name">A name for this interface.</param>
         /// <param name="collection">The collection that has the elements this interface will hold.</param>
         public ReflectedCollectionEditInterface(String name, IEnumerable<T> collection)
-            : this(name, collection, new MemberScanner(EditableAttributeFilter.Instance))
+            : this(name, collection, sharedScanner)
         {
 
         }
