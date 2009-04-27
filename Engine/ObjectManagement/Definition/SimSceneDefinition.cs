@@ -5,6 +5,7 @@ using System.Text;
 using Engine.Editing;
 using Logging;
 using Engine.Saving;
+using Engine.Command;
 
 namespace Engine.ObjectManagement
 {
@@ -19,7 +20,7 @@ namespace Engine.ObjectManagement
         private Dictionary<String, SimSubSceneDefinition> subSceneDefinitions = new Dictionary<string, SimSubSceneDefinition>();
         private EditInterfaceManager<SimElementManagerDefinition> elementManagerInterfaces;
         private EditInterfaceManager<SimSubSceneDefinition> subSceneInterfaces;
-        private Dictionary<EditInterfaceCommand, String> createSimElementManagerDefs = new Dictionary<EditInterfaceCommand, string>();
+        private Dictionary<EditInterfaceCommand, AddSimElementManagerCommand> createSimElementManagerDefs = new Dictionary<EditInterfaceCommand, AddSimElementManagerCommand>();
         private EditInterface editInterface;
         private EditInterface simElementEditor;
         private EditInterface subScenes;
@@ -155,10 +156,10 @@ namespace Engine.ObjectManagement
         
                 simElementEditor = new EditInterface("Sim Element Managers");
                 elementManagerInterfaces = new EditInterfaceManager<SimElementManagerDefinition>(simElementEditor);
-                foreach (EngineCommand command in PluginManager.Instance.getCreateSimElementManagerCommands())
+                foreach (AddSimElementManagerCommand command in PluginManager.Instance.getCreateSimElementManagerCommands())
                 {
-                    EditInterfaceCommand interfaceCommand = new EditInterfaceCommand(command.PrettyName, new EditInterfaceFunction(createSimElementManagerDefinition));
-                    createSimElementManagerDefs.Add(interfaceCommand, command.Name);
+                    EditInterfaceCommand interfaceCommand = new EditInterfaceCommand(command.Name, new EditInterfaceFunction(createSimElementManagerDefinition));
+                    createSimElementManagerDefs.Add(interfaceCommand, command);
                     simElementEditor.addCommand(interfaceCommand);
                 }
                 destroySimElementManagerDef = new EditInterfaceCommand("Destroy", destroySimElementManagerDefinition);
@@ -256,7 +257,7 @@ namespace Engine.ObjectManagement
             }
             if (accept)
             {
-                SimElementManagerDefinition def = (SimElementManagerDefinition)PluginManager.Instance.getCreateSimElementManagerCommand(createSimElementManagerDefs[caller]).execute(name);
+                SimElementManagerDefinition def = createSimElementManagerDefs[caller].execute(name, callback);
                 this.addSimElementManagerDefinition(def);
             }
         }

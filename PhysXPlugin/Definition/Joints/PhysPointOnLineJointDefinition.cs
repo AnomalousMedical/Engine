@@ -18,7 +18,7 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="name">The name of the definition to create.</param>
         /// <returns>A new definition.</returns>
-        internal static PhysPointOnLineJointDefinition Create(String name)
+        internal static PhysPointOnLineJointDefinition Create(String name, EditUICallback callback)
         {
             return new PhysPointOnLineJointDefinition(name);
         }

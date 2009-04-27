@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine.Platform;
 using System.Timers;
+using Engine.Command;
 
 namespace Engine
 {
@@ -35,9 +36,9 @@ namespace Engine
 
         public void initialize(PluginManager pluginManager)
         {
-            pluginManager.addCreateSimElementManagerCommand(new EngineCommand("createBehaviorManagerDefinition", "Create Behavior Manager Definition", "Create a new Behavior Manager.", new CreateElementManagerDefinition(BehaviorManagerDefinition.Create)));
+            pluginManager.addCreateSimElementManagerCommand(new AddSimElementManagerCommand("Create Behavior Manager Definition", BehaviorManagerDefinition.Create));
 
-            pluginManager.addCreateSimElementCommand(new EngineCommand("createBehaviorDefinition", "Create Behavior Definition", "Create a new Behavior Definition", new CreateElementDefinition(BehaviorDefinition.Create)));
+            pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create Behavior Definition", BehaviorDefinition.Create));
         }
 
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)

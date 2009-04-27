@@ -31,7 +31,7 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="name">The name of the definition to create.</param>
         /// <returns>A new definition.</returns>
-        internal static PhysXSceneManagerDefinition Create(String name)
+        internal static PhysXSceneManagerDefinition Create(String name, EditUICallback callback)
         {
             return new PhysXSceneManagerDefinition(name);
         }

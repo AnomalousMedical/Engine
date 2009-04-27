@@ -8,6 +8,7 @@ using System.IO;
 using Engine.ObjectManagement;
 using Engine.Platform;
 using Engine.Renderer;
+using Engine.Command;
 
 namespace Engine
 {
@@ -43,8 +44,8 @@ namespace Engine
         #region Fields
 
         private Dictionary<String, PluginInterface> loadedPlugins = new Dictionary<string, PluginInterface>();
-        private CommandManager createSimElementCommands = new CommandManager();
-        private CommandManager createSimElementManagerCommands = new CommandManager();
+        private List<AddSimElementCommand> addSimElementCommands = new List<AddSimElementCommand>();
+        private List<AddSimElementManagerCommand> addElementManagerCommands = new List<AddSimElementManagerCommand>();
         private CommandManager otherCommands = new CommandManager();
         private PlatformPlugin platformPlugin = null;
         private RendererPlugin rendererPlugin = null;
@@ -195,56 +196,36 @@ namespace Engine
         /// Add a command to create a SimElementManagerDescription.
         /// </summary>
         /// <param name="command">A command that creates SimElementManagerDescriptions.</param>
-        public void addCreateSimElementManagerCommand(EngineCommand command)
+        public void addCreateSimElementManagerCommand(AddSimElementManagerCommand command)
         {
-            createSimElementManagerCommands.addCommand(command);
+            addElementManagerCommands.Add(command);
         }
 
         /// <summary>
         /// Get the list of commands from plugins that create SimElementManagers.
         /// </summary>
         /// <returns>The list of commands from plugins that create SimElementManagers.</returns>
-        public IEnumerable<EngineCommand> getCreateSimElementManagerCommands()
+        public IEnumerable<AddSimElementManagerCommand> getCreateSimElementManagerCommands()
         {
-            return createSimElementManagerCommands.getCommandList();
-        }
-
-        /// <summary>
-        /// Get a specific command from plugins that creates a SimElementManager.
-        /// </summary>
-        /// <param name="name">The name of the command.</param>
-        /// <returns>The command.</returns>
-        public EngineCommand getCreateSimElementManagerCommand(String name)
-        {
-            return createSimElementManagerCommands.getCommand(name);
+            return addElementManagerCommands;
         }
 
         /// <summary>
         /// Add a command to create a SimElementDescription.
         /// </summary>
         /// <param name="command">A command that creates SimElementDescriptions.</param>
-        public void addCreateSimElementCommand(EngineCommand command)
+        public void addCreateSimElementCommand(AddSimElementCommand command)
         {
-            createSimElementCommands.addCommand(command);
+            addSimElementCommands.Add(command);
         }
 
         /// <summary>
         /// Get the commands that create SimElements.
         /// </summary>
         /// <returns>A list of commands that create SimElements.</returns>
-        public IEnumerable<EngineCommand> getCreateSimElementCommands()
+        public IEnumerable<AddSimElementCommand> getCreateSimElementCommands()
         {
-            return createSimElementCommands.getCommandList();
-        }
-
-        /// <summary>
-        /// Get a single command that creatse SimElements.
-        /// </summary>
-        /// <param name="name">The name of the command to get.</param>
-        /// <returns>The EngineCommand specified by name.</returns>
-        public EngineCommand getCreateSimElementCommand(String name)
-        {
-            return createSimElementCommands.getCommand(name);
+            return addSimElementCommands;
         }
 
         /// <summary>

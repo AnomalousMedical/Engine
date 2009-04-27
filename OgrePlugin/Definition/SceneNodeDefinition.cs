@@ -19,6 +19,11 @@ namespace OgrePlugin
     {
         #region Static
 
+        internal static SimElementDefinition Create(String name, EditUICallback callback)
+        {
+            return new SceneNodeDefinition(name);
+        }
+
         private static MemberScanner memberScanner;
 
         /// <summary>

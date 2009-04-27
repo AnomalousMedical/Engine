@@ -7,6 +7,7 @@ using OgreWrapper;
 using Engine.Renderer;
 using Logging;
 using Engine.Platform;
+using Engine.Command;
 
 namespace OgrePlugin
 {
@@ -98,12 +99,12 @@ namespace OgrePlugin
                 }
 
                 //Setup commands
-                pluginManager.addCreateSimElementManagerCommand(new EngineCommand("createOgreSceneManager", "Create Ogre Scene Manager", "Creates a new PhysX scene definition.", new CreateSceneManagerDefinition(createSceneManagerDefinition)));
+                pluginManager.addCreateSimElementManagerCommand(new AddSimElementManagerCommand("Create Ogre Scene Manager", OgreSceneManagerDefinition.Create));
 
-                pluginManager.addCreateSimElementCommand(new EngineCommand("createSceneNode", "Create Ogre Scene Node", "Creates a new Ogre Scene Node.", new CreateSceneNodeDefinition(createSceneNodeDefinition)));
+                pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create Ogre Scene Node", SceneNodeDefinition.Create));
 
-                pluginManager.addOtherCommand(new EngineCommand("addResourceLocation", "Add Ogre Resource Location", "Add a resource location to ogre.", new AddResourceLocation(addResourceLocation)));
-                pluginManager.addOtherCommand(new EngineCommand("initializeResourceGroups", "Initialize Ogre Resources", "Initialize all added ogre resources.", new InitializeResourceGroups(initializeResources)));
+                pluginManager.addOtherCommand(new EngineCommand("addResourceLocation", "Add Ogre Resource Location", "Add a resource location to ogre.", new AddResourceLocation(OgreResourceGroupManager.getInstance().addResourceLocation)));
+                pluginManager.addOtherCommand(new EngineCommand("initializeResourceGroups", "Initialize Ogre Resources", "Initialize all added ogre resources.", new InitializeResourceGroups(OgreResourceGroupManager.getInstance().initializeAllResourceGroups)));
                 
             }
             catch (Exception e)
@@ -151,31 +152,6 @@ namespace OgrePlugin
                 Log.Default.sendMessage("Error destroying RendererWindow {0}. It is not a recognized OgreWindow. The window has not been destroyed.", LogLevel.Warning, "OgrePlugin", window.ToString());
             }
         }
-
-        #region Command Functions
-
-        public OgreSceneManagerDefinition createSceneManagerDefinition(String name)
-        {
-            return new OgreSceneManagerDefinition(name);
-        }
-
-        public SceneNodeDefinition createSceneNodeDefinition(String name)
-        {
-            return new SceneNodeDefinition(name);
-        }
-
-        public void addResourceLocation(String name, String locType, String group, bool recursive)
-        {
-            OgreResourceGroupManager.getInstance().addResourceLocation(name, locType, group, recursive);
-            
-        }
-
-        public void initializeResources()
-        {
-            OgreResourceGroupManager.getInstance().initializeAllResourceGroups();
-        }
-
-        #endregion
 
         #endregion Functions
     }

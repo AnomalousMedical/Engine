@@ -15,7 +15,7 @@ namespace Engine
     /// </summary>
     public class BehaviorDefinition : SimElementDefinition
     {
-        internal static BehaviorDefinition Create(String name)
+        internal static BehaviorDefinition Create(String name, EditUICallback callback)
         {
             return new BehaviorDefinition(name);
         }

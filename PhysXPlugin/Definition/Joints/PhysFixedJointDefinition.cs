@@ -18,7 +18,7 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="name">The name of the definition to create.</param>
         /// <returns>A new definition.</returns>
-        internal static PhysFixedJointDefinition Create(String name)
+        internal static PhysFixedJointDefinition Create(String name, EditUICallback callback)
         {
             return new PhysFixedJointDefinition(name);
         }

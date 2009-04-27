@@ -7,6 +7,7 @@ using PhysXWrapper;
 using EngineMath;
 using Engine.Platform;
 using Engine.ObjectManagement;
+using Engine.Command;
 
 namespace PhysXPlugin
 {
@@ -74,18 +75,18 @@ namespace PhysXPlugin
         public void initialize(PluginManager pluginManager)
         {
             physSDK = PhysSDK.Instance;
-            pluginManager.addCreateSimElementManagerCommand(new EngineCommand("createPhysSceneDef", "Create PhysX Scene Definition", "Creates a new PhysX scene definition.", new CreateElementManagerDefinition(PhysXSceneManagerDefinition.Create)));
+            pluginManager.addCreateSimElementManagerCommand(new AddSimElementManagerCommand("Create PhysX Scene Definition", PhysXSceneManagerDefinition.Create));
 
-            pluginManager.addCreateSimElementCommand(new EngineCommand("createPhysActorDef", "Create PhysX Actor", "Creates a new PhysX Actor Definition.", new CreateElementDefinition(PhysActorDefinition.Create)));
-            pluginManager.addCreateSimElementCommand(new EngineCommand("createPhysCylindricalJointDef", "Create PhysX Cylindrical Joint", "Creates a new PhysX Cylindrical Joint Definition.", new CreateElementDefinition(PhysCylindricalJointDefinition.Create)));
-            pluginManager.addCreateSimElementCommand(new EngineCommand("createPhysD6JointDef", "Create PhysX D6 Joint", "Creates a new PhysX D6 Joint Definition.", new CreateElementDefinition(PhysD6JointDefinition.Create)));
-            pluginManager.addCreateSimElementCommand(new EngineCommand("createPhysFixedJointDef", "Create PhysX Fixed Joint", "Creates a new PhysX Fixed Joint Definition.", new CreateElementDefinition(PhysFixedJointDefinition.Create)));
-            pluginManager.addCreateSimElementCommand(new EngineCommand("createPhysPointInPlaneJointDef", "Create PhysX PointInPlane Joint", "Creates a new PhysX PointInPlane Joint Definition.", new CreateElementDefinition(PhysPointInPlaneJointDefinition.Create)));
-            pluginManager.addCreateSimElementCommand(new EngineCommand("createPhysPointOnLineJointDef", "Create PhysX PointOnLine Joint", "Creates a new PhysX PointOnLine Joint Definition.", new CreateElementDefinition(PhysPointOnLineJointDefinition.Create)));
-            pluginManager.addCreateSimElementCommand(new EngineCommand("createPhysPrismaticJointDef", "Create PhysX Prismatic Joint", "Creates a new PhysX Prismatic Joint Definition.", new CreateElementDefinition(PhysPrismaticJointDefinition.Create)));
-            pluginManager.addCreateSimElementCommand(new EngineCommand("createPhysPulleyJointDef", "Create PhysX Pulley Joint", "Creates a new PhysX Pulley Joint Definition.", new CreateElementDefinition(PhysPulleyJointDefinition.Create)));
-            pluginManager.addCreateSimElementCommand(new EngineCommand("createPhysRevoluteJointDef", "Create PhysX Revolute Joint", "Creates a new PhysX Revolute Joint Definition.", new CreateElementDefinition(PhysRevoluteJointDefinition.Create)));
-            pluginManager.addCreateSimElementCommand(new EngineCommand("createPhysSphericalJointDef", "Create PhysX Spherical Joint", "Creates a new PhysX Spherical Joint Definition.", new CreateElementDefinition(PhysSphericalJointDefinition.Create)));
+            pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create PhysX Actor", PhysActorDefinition.Create));
+            pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create PhysX Cylindrical Joint", PhysCylindricalJointDefinition.Create));
+            pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create PhysX D6 Joint", PhysD6JointDefinition.Create));
+            pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create PhysX Fixed Joint", PhysFixedJointDefinition.Create));
+            pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create PhysX PointInPlane Joint", PhysPointInPlaneJointDefinition.Create));
+            pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create PhysX PointOnLine Joint", PhysPointOnLineJointDefinition.Create));
+            pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create PhysX Prismatic Joint", PhysPrismaticJointDefinition.Create));
+            pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create PhysX Pulley Joint", PhysPulleyJointDefinition.Create));
+            pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create PhysX Revolute Joint", PhysRevoluteJointDefinition.Create));
+            pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create PhysX Spherical Joint", PhysSphericalJointDefinition.Create));
         }
 
         /// <summary>

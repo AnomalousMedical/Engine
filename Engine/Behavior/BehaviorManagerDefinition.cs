@@ -10,7 +10,7 @@ namespace Engine
 {
     class BehaviorManagerDefinition : SimElementManagerDefinition
     {
-        internal static BehaviorManagerDefinition Create(String name)
+        internal static BehaviorManagerDefinition Create(String name, EditUICallback callback)
         {
             return new BehaviorManagerDefinition(name);
         }

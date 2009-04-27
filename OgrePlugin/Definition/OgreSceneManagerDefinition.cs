@@ -17,6 +17,11 @@ namespace OgrePlugin
     {
         #region Static
 
+        internal static OgreSceneManagerDefinition Create(String name, EditUICallback callback)
+        {
+            return new OgreSceneManagerDefinition(name);
+        }
+
         private static MemberScanner memberScanner;
 
         /// <summary>

@@ -29,7 +29,7 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="name">The name of the definition to create.</param>
         /// <returns>A new definition.</returns>
-        internal static PhysSphericalJointDefinition Create(String name)
+        internal static PhysSphericalJointDefinition Create(String name, EditUICallback callback)
         {
             return new PhysSphericalJointDefinition(name);
         }

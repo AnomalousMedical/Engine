@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine.Editing;
 using Engine.Saving;
+using Engine.Command;
 
 namespace Engine.ObjectManagement
 {
@@ -14,7 +15,7 @@ namespace Engine.ObjectManagement
         private Dictionary<String, SimElementDefinition> definitions = new Dictionary<String, SimElementDefinition>();
         private String name;
         private EditInterface editInterface = null;
-        private Dictionary<EditInterfaceCommand, String> createCommands = new Dictionary<EditInterfaceCommand, String>();
+        private Dictionary<EditInterfaceCommand, AddSimElementCommand> createCommands = new Dictionary<EditInterfaceCommand, AddSimElementCommand>();
         private EditInterfaceCommand destroySimElement;
         private EditInterfaceManager<SimElementDefinition> elementEditInterfaces;
 
@@ -91,10 +92,10 @@ namespace Engine.ObjectManagement
                 {
                     createElementInterface(definition);
                 }
-                foreach (EngineCommand command in PluginManager.Instance.getCreateSimElementCommands())
+                foreach (AddSimElementCommand command in PluginManager.Instance.getCreateSimElementCommands())
                 {
-                    EditInterfaceCommand createSimElement = new EditInterfaceCommand(command.PrettyName, createSimElementDefinition);
-                    createCommands.Add(createSimElement, command.Name);
+                    EditInterfaceCommand createSimElement = new EditInterfaceCommand(command.Name, createSimElementDefinition);
+                    createCommands.Add(createSimElement, command);
                     editInterface.addCommand(createSimElement);
                 }
             }
@@ -116,7 +117,7 @@ namespace Engine.ObjectManagement
             }
             if (accept)
             {
-                SimElementDefinition definition = (SimElementDefinition)PluginManager.Instance.getCreateSimElementCommand(createCommands[command]).execute(name);
+                SimElementDefinition definition = createCommands[command].execute(name, callback);
                 this.addElement(definition);
             }
         }
