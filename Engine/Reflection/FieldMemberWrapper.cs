@@ -100,6 +100,26 @@ namespace Engine.Reflection
             return fieldInfo.GetCustomAttributes(inherit);
         }
 
+        /// <summary>
+        /// Determine if the MemberWrapper can write to its variable. Will
+        /// return true if it can.
+        /// </summary>
+        /// <returns>True if the MemberWrapper can write to its variable.</returns>
+        public bool canWrite()
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Determine if the MemberWrapper can read from its variable. Will
+        /// return true if it can.
+        /// </summary>
+        /// <returns>True if the MemberWrapper can read from its variable.</returns>
+        public bool canRead()
+        {
+            return true;
+        }
+        
         #endregion Functions
     }
 }

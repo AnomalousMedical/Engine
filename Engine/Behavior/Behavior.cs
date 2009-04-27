@@ -197,9 +197,9 @@ namespace Engine
         /// if this function is overwritten.
         /// </summary>
         /// <returns>A new BehaviorDefinition.</returns>
-        public override SimElementDefinition saveToDefinition()
+        public override sealed SimElementDefinition saveToDefinition()
         {
-            BehaviorDefinition definition = new BehaviorDefinition(Name, this);
+            BehaviorDefinition definition = new BehaviorDefinition(Name, MemberCopier.CreateCopy<Behavior>(this));
             return definition;
         }
 

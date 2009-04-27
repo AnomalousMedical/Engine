@@ -43,5 +43,16 @@ namespace Engine
             return wrapper.getCustomAttributes(typeof(DoNotSaveAttribute), true).Length == 0 
                 && wrapper.getWrappedType().GetCustomAttributes(typeof(DoNotSaveAttribute), true).Length == 0;
         }
+
+        /// <summary>
+        /// This function determines if the given type should be scanned for
+        /// members. It will return true if the member should be accepted.
+        /// </summary>
+        /// <param name="type">The type to potentially scan for members.</param>
+        /// <returns>True if the type should be scanned.</returns>
+        public bool allowType(Type type)
+        {
+            return true;
+        }
     }
 }

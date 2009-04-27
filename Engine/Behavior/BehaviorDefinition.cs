@@ -9,6 +9,10 @@ using Engine.Saving;
 
 namespace Engine
 {
+    /// <summary>
+    /// This is the default behavior definition that will be used. It will
+    /// provide behavior data as described by the Behavior class.
+    /// </summary>
     public class BehaviorDefinition : SimElementDefinition
     {
         internal static BehaviorDefinition Create(String name)
@@ -55,8 +59,7 @@ namespace Engine
 
         internal Behavior createProduct(SimObject instance, BehaviorManager behaviorManager)
         {
-            //temp
-            Behavior behavior = behaviorTemplate;
+            Behavior behavior = MemberCopier.CreateCopy<Behavior>(behaviorTemplate);
             behavior.setAttributes(Name, subscription, behaviorManager);
             instance.addElement(behavior);
             return behavior;

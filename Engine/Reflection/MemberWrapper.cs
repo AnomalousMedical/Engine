@@ -54,5 +54,19 @@ namespace Engine.Reflection
         /// <param name="inherit">True to search inheritance chain for attributes.</param>
         /// <returns>An array of matching attributes.</returns>
         object[] getCustomAttributes(bool inherit);
+
+        /// <summary>
+        /// Determine if the MemberWrapper can write to its variable. Will
+        /// return true if it can.
+        /// </summary>
+        /// <returns>True if the MemberWrapper can write to its variable.</returns>
+        bool canWrite();
+
+        /// <summary>
+        /// Determine if the MemberWrapper can read from its variable. Will
+        /// return true if it can.
+        /// </summary>
+        /// <returns>True if the MemberWrapper can read from its variable.</returns>
+        bool canRead();
     }
 }

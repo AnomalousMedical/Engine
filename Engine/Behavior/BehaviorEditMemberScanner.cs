@@ -18,6 +18,9 @@ namespace Engine
         private static MemberScanner scanner;
         private readonly string BEHAVIOR_OBJECT_INTERFACE = typeof(BehaviorObjectBase).FullName;
 
+        /// <summary>
+        /// Staic constructor.
+        /// </summary>
         static BehaviorEditMemberScanner()
         {
             scanner = new MemberScanner(new BehaviorEditMemberScanner());
@@ -56,6 +59,17 @@ namespace Engine
                 return ReflectedVariable.canCreateVariable(wrappedType) || wrappedType.GetInterface(BEHAVIOR_OBJECT_INTERFACE) != null;
             }
             return false;
+        }
+
+        /// <summary>
+        /// This function determines if the given type should be scanned for
+        /// members. It will return true if the member should be accepted.
+        /// </summary>
+        /// <param name="type">The type to potentially scan for members.</param>
+        /// <returns>True if the type should be scanned.</returns>
+        public bool allowType(Type type)
+        {
+            return true;
         }
     }
 }

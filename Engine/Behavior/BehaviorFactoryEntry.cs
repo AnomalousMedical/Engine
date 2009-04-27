@@ -6,6 +6,10 @@ using Engine.ObjectManagement;
 
 namespace Engine
 {
+    /// <summary>
+    /// This class is a single entry in the BehaviorFactory. It tracks what
+    /// SimObject a behavior will be built into and the created behavior.
+    /// </summary>
     class BehaviorFactoryEntry
     {
         #region Fields
