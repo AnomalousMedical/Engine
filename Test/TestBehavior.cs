@@ -25,10 +25,14 @@ namespace Test
             MessageEvent testInput = new MessageEvent(TestEvents.Forward);
             testInput.addButton(KeyboardButtonCode.KC_W);
             DefaultEvents.registerDefaultEvent(testInput);
+
+            MessageEvent testInput2 = new MessageEvent(TestEvents.Back);
+            testInput2.addButton(KeyboardButtonCode.KC_S);
+            DefaultEvents.registerDefaultEvent(testInput2);
         }
 
         [Editable]
-        private String testVar = "foo";
+        private String testVar = "foobar";
 
         [Editable]
         [DoNotSave]
@@ -36,7 +40,7 @@ namespace Test
 
         protected override void constructed()
         {
-            System.Console.WriteLine("Constructed");
+            System.Console.WriteLine("Constructed " + testVar);
         }
 
         protected override void destroy()
@@ -50,6 +54,10 @@ namespace Test
             {
                 Vector3 newPos = SimObject.Translation + Vector3.Forward * (float)(5.0f * clock.Seconds);
                 updateTranslation(ref newPos);
+            }
+            if (eventManager[TestEvents.Back].Down)
+            {
+                throw new Exception("Test Exception", new Exception("Inner"));
             }
 
         }

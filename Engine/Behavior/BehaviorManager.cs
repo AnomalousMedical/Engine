@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine.Platform;
 using Engine.ObjectManagement;
+using Logging;
 
 namespace Engine
 {
@@ -38,9 +39,30 @@ namespace Engine
         /// <param name="clock">The clock with info about the last update.</param>
         public void updateBehaviors(Clock clock)
         {
-            foreach (Behavior behavior in activeBehaviors)
+            for (int index = 0; index < activeBehaviors.Count; ++index)
             {
-                behavior.update(clock, eventManager);
+                try
+                {
+                    updateBehaviorResume(ref index, clock);
+                }
+                catch (Exception e)
+                {
+                    Log.Default.sendMessage("A behavior threw an exception: {0}.\n{1}\n{2}.", LogLevel.Error, "Behavior", e.GetType().Name, e.Message, e.StackTrace);
+                    while (e.InnerException != null)
+                    {
+                        e = e.InnerException;
+                        Log.Default.sendMessage("--Inner exception: {0}.\n{1}\n{2}.", LogLevel.Error, "Behavior", e.GetType().Name, e.Message, e.StackTrace);
+                    }
+                }
+            }
+        }
+
+        private void updateBehaviorResume(ref int index, Clock clock)
+        {
+            while (index < activeBehaviors.Count)
+            {
+                activeBehaviors[index].update(clock, eventManager);
+                ++index;
             }
         }
 
