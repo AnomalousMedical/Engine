@@ -7,6 +7,9 @@ using Engine.ObjectManagement;
 
 namespace Engine
 {
+    /// <summary>
+    /// This class updates and manages behaviors.
+    /// </summary>
     public class BehaviorManager : SimElementManager, UpdateListener
     {
         private List<Behavior> activeBehaviors = new List<Behavior>();

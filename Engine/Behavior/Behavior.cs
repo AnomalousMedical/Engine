@@ -36,6 +36,7 @@ namespace Engine
     {
         private bool valid = true;
         private BehaviorManager manager;
+        private bool currentlyEnabled = false;
 
         #region Constructors
 
@@ -124,6 +125,10 @@ namespace Engine
         protected override sealed void Dispose()
         {
             destroy();
+            if (currentlyEnabled)
+            {
+                manager.deactivateBehavior(this);
+            }
         }
 
         /// <summary>
@@ -171,7 +176,7 @@ namespace Engine
         /// <param name="enabled">True to enable the object. False to disable the object.</param>
         protected override sealed void setEnabled(bool enabled)
         {
-            if (valid)
+            if (valid && enabled != currentlyEnabled)
             {
                 if (enabled)
                 {
@@ -181,6 +186,7 @@ namespace Engine
                 {
                     manager.deactivateBehavior(this);
                 }
+                currentlyEnabled = enabled;
             }
         }
 
