@@ -25,8 +25,8 @@ namespace Engine
 
         }
 
-        public BehaviorDefinition(BehaviorData behaviorData)
-            : base(behaviorData.Name)
+        public BehaviorDefinition(String name, BehaviorData behaviorData)
+            : base(name)
         {
             data = behaviorData;
         }

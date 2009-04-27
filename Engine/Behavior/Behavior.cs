@@ -15,6 +15,22 @@ namespace Engine
     /// expanding its interface and implementing time based updates. Behaviors
     /// should not implement constructors, but should instead override the
     /// constructed method.
+    /// <para>
+    /// By default a behavior will auto-generate an EditInterface using
+    /// reflection. This interface will be generated for all fields and
+    /// properties both public and nonpublic marked with the EditableAttribute.
+    /// Note that any variables that are not the basic types or members of
+    /// EngineMath must be subclasses of BehaviorObject or impelement the
+    /// BehaviorObjectBase interface.
+    /// </para>
+    /// <para>
+    /// By default a behavior will save all fields that are not marked with the
+    /// DoNotSave attribute. Note that the serializer will not be able to save
+    /// anything that does not extend the Saveable interface or is not a basic
+    /// type. Any helper objects should extend BehaviorObject or
+    /// BehaviorObjectBase in order to be safely delt with or they should be
+    /// marked with the DoNotSaveAttribute.
+    /// </para>
     /// </summary>
     public abstract class Behavior : SimElement
     {
@@ -177,7 +193,7 @@ namespace Engine
         /// <returns>A new BehaviorDefinition.</returns>
         public override SimElementDefinition saveToDefinition()
         {
-            BehaviorDefinition definition = new BehaviorDefinition(new ReflectedBehaviorData(this));
+            BehaviorDefinition definition = new BehaviorDefinition(Name, new ReflectedBehaviorData(this));
             return definition;
         }
 

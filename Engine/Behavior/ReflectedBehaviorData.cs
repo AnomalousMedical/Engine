@@ -7,11 +7,20 @@ using Engine.Editing;
 
 namespace Engine
 {
+    /// <summary>
+    /// This is the default BehaviorData that provides data in the way described
+    /// in the Behavior class.
+    /// </summary>
     public class ReflectedBehaviorData : BehaviorData
     {
         private Behavior behaviorTemplate;
         private EditInterface editInterface;
 
+        /// <summary>
+        /// Constructor. Takes a Behavior instance that will be used as a
+        /// template. This template will be edited and cloned by this class.
+        /// </summary>
+        /// <param name="behaviorTemplate">The template that will be edited, note that the template passed is the template that will be used it is not cloned in the constructor.</param>
         public ReflectedBehaviorData(Behavior behaviorTemplate)
         {
             this.behaviorTemplate = behaviorTemplate;
@@ -63,22 +72,6 @@ namespace Engine
         {
             String shortAssemblyName = type.Assembly.FullName;
             return String.Format(NAME_FORMAT, type.FullName, shortAssemblyName.Remove(shortAssemblyName.IndexOf(',')));
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the
-        /// </summary>
-        /// <value></value>
-        public string Name
-        {
-            get
-            {
-                return behaviorTemplate.Name;
-            }
         }
 
         #endregion

@@ -23,11 +23,5 @@ namespace Engine
         /// </summary>
         /// <returns>A new Behavior for the given data.</returns>
         Behavior createNewInstance();
-
-        /// <summary>
-        /// The name of the behavior. This will be the same as the Behavior.Name
-        /// property.
-        /// </summary>
-        String Name { get; }
     }
 }

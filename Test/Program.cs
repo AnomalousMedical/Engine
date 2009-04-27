@@ -98,7 +98,7 @@ namespace Test
                         {
                             objectDef = new GenericSimObjectDefinition("Test");
                             TestBehavior testBehavior = new TestBehavior();
-                            objectDef.addElement(new BehaviorDefinition(new ReflectedBehaviorData(testBehavior)));
+                            objectDef.addElement(new BehaviorDefinition("Im a test", new ReflectedBehaviorData(testBehavior)));
                             form = new ObjectEditorForm();
                             form.EditorPanel.setEditInterface(objectDef.getEditInterface());
                             form.ShowDialog();
