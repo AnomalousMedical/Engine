@@ -17,17 +17,23 @@ namespace Engine
     {
         internal static BehaviorDefinition Create(String name, EditUICallback callback)
         {
-            return new BehaviorDefinition(name);
+            String behaviorTypeName;
+            bool result = callback.getInputString("Please enter the name of the behavior to create.", out behaviorTypeName);
+            Type behaviorType = Type.GetType(behaviorTypeName);
+            while (result && behaviorType == null)
+            {
+                result = callback.getInputString("That behavior cannot be found. Please enter a valid name.", behaviorTypeName, out behaviorTypeName);
+                behaviorType = Type.GetType(behaviorTypeName);
+            }
+            if (result)
+            {
+                return new BehaviorDefinition(name, (Behavior)Activator.CreateInstance(behaviorType));
+            }
+            return null;
         }
 
         private Behavior behaviorTemplate;
         private EditInterface editInterface;
-
-        public BehaviorDefinition(String name)
-            :base(name)
-        {
-
-        }
 
         public BehaviorDefinition(String name, Behavior behaviorTemplate)
             : base(name)
