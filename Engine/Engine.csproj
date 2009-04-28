@@ -61,6 +61,8 @@
     <Compile Include="Command\AddSimElementManagerCommand.cs" />
     <Compile Include="Command\CommandManager.cs" />
     <Compile Include="Command\EngineCommand.cs" />
+    <Compile Include="Config\ConfigFile.cs" />
+    <Compile Include="Config\ConfigSection.cs" />
     <Compile Include="Coroutine\Coroutine.cs" />
     <Compile Include="Coroutine\CoroutineException.cs" />
     <Compile Include="Coroutine\CoroutineUpdater.cs" />

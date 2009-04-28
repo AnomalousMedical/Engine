@@ -25,6 +25,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OgreWrapper", "OgreWrapper\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OgrePlugin", "OgrePlugin\OgrePlugin.csproj", "{E9FD5768-32E1-42C7-8256-4D7B97C22A9B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anomaly", "Anomaly\Anomaly.csproj", "{1511A2C3-1C24-405F-8E0E-E1BA2D7E0266}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -155,6 +157,16 @@ Global
 		{E9FD5768-32E1-42C7-8256-4D7B97C22A9B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E9FD5768-32E1-42C7-8256-4D7B97C22A9B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E9FD5768-32E1-42C7-8256-4D7B97C22A9B}.Release|Win32.ActiveCfg = Release|Any CPU
+		{1511A2C3-1C24-405F-8E0E-E1BA2D7E0266}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1511A2C3-1C24-405F-8E0E-E1BA2D7E0266}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1511A2C3-1C24-405F-8E0E-E1BA2D7E0266}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{1511A2C3-1C24-405F-8E0E-E1BA2D7E0266}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{1511A2C3-1C24-405F-8E0E-E1BA2D7E0266}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{1511A2C3-1C24-405F-8E0E-E1BA2D7E0266}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1511A2C3-1C24-405F-8E0E-E1BA2D7E0266}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1511A2C3-1C24-405F-8E0E-E1BA2D7E0266}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1511A2C3-1C24-405F-8E0E-E1BA2D7E0266}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{1511A2C3-1C24-405F-8E0E-E1BA2D7E0266}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

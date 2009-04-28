@@ -13,8 +13,6 @@ namespace Engine
     /// </summary>
     public class DynamicDLLPluginLoader : PluginLoader
     {
-        private static String INTERFACE_NAME = typeof(PluginInterface).Name;
-
         private LinkedList<String> paths = new LinkedList<string>();
 
         /// <summary>
@@ -46,25 +44,7 @@ namespace Engine
                 try
                 {
                     Assembly assembly = Assembly.LoadFile(Path.GetFullPath(path));
-                    Type[] exportedTypes = assembly.GetExportedTypes();
-                    Type elementPlugin = null;
-                    foreach (Type type in exportedTypes)
-                    {
-                        if (type.GetInterface(INTERFACE_NAME) != null)
-                        {
-                            elementPlugin = type;
-                            break;
-                        }
-                    }
-                    if (elementPlugin != null)
-                    {
-                        PluginInterface plugin = (PluginInterface)Activator.CreateInstance(elementPlugin);
-                        pluginManager.addPlugin(plugin);
-                    }
-                    else
-                    {
-                        throw new InvalidPluginException(String.Format("Could not find a subclass of PluginInterface in plugin {0}.", path));
-                    }
+                    pluginManager.addPluginAssembly(assembly);
                 }
                 catch (Exception e)
                 {

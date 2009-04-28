@@ -45,6 +45,7 @@ namespace Test
                 pluginLoader.addPath("Win32Platform.dll");
                 pluginLoader.addPath("OgrePlugin.dll");
                 pluginLoader.loadPlugins(pluginManager);
+                pluginManager.initializePlugins();
 
                 pluginManager.getOtherCommand("addResourceLocation").execute("S:/export/Shaders/Articulometrics", "FileSystem", "Test", true);
                 pluginManager.getOtherCommand("addResourceLocation").execute("S:/export/Media/Perfect/Skull", "FileSystem", "Test", true);

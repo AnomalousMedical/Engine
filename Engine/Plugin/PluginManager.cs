@@ -25,6 +25,7 @@ namespace Engine
     {
         #region Static
 
+        private static String INTERFACE_NAME = typeof(PluginInterface).Name;
         private static PluginManager instance;
 
         /// <summary>
@@ -49,6 +50,7 @@ namespace Engine
         private CommandManager otherCommands = new CommandManager();
         private PlatformPlugin platformPlugin = null;
         private RendererPlugin rendererPlugin = null;
+        private List<Assembly> pluginAssemblies = new List<Assembly>();
 
         #endregion Fields
 
@@ -97,15 +99,50 @@ namespace Engine
             loadedPlugins.Clear();
         }
 
-        /// <summary>
-        /// Add a plugin to the PluginManager.
-        /// </summary>
-        /// <param name="plugin">The plugin to add.</param>
-        internal void addPlugin(PluginInterface plugin)
+        public void initializePlugins()
+        {
+            foreach (Assembly assembly in pluginAssemblies)
+            {
+                Type[] exportedTypes = assembly.GetExportedTypes();
+                Type elementPlugin = null;
+                foreach (Type type in exportedTypes)
+                {
+                    if (type.GetInterface(INTERFACE_NAME) != null)
+                    {
+                        elementPlugin = type;
+                        break;
+                    }
+                }
+                if (elementPlugin != null && !elementPlugin.IsInterface && !elementPlugin.IsAbstract)
+                {
+                    PluginInterface plugin = (PluginInterface)Activator.CreateInstance(elementPlugin);
+                    addPlugin(plugin);
+                }
+                else
+                {
+                    Log.Default.sendMessage("Cannot find PluginInterface in assembly {0}. Please implement the PluginInterface function in that assembly.", LogLevel.Error, "Plugin", assembly.FullName);
+                }
+            }
+            if (platformPlugin == null)
+            {
+                throw new InvalidPluginException("No platform plugin defined. Please define a platform plugin.");
+            }
+            if(rendererPlugin == null)
+            {
+                throw new InvalidPluginException("No renderer plugin defined. Please define a renderer plugin.");
+            }
+        }
+
+        private void addPlugin(PluginInterface plugin)
         {
             Log.Default.sendMessage("Plugin {0} added.", LogLevel.Info, "Engine", plugin.getName());
             loadedPlugins.Add(plugin.getName(), plugin);
             plugin.initialize(this);
+        }
+
+        internal void addPluginAssembly(Assembly assembly)
+        {
+            pluginAssemblies.Add(assembly);
         }
 
         /// <summary>

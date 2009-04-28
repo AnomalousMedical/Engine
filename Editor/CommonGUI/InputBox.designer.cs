@@ -78,6 +78,7 @@ namespace Editor
             this.AcceptButton = this.okButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.CancelButton = this.cancelButton;
             this.ClientSize = new System.Drawing.Size(394, 99);
             this.ControlBox = false;
