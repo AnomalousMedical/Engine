@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Engine.Attributes;
 
 namespace Engine.Editing
 {
@@ -10,6 +11,7 @@ namespace Engine.Editing
     /// object it was created from.
     /// </summary>
     /// <typeparam name="T">The class this manager binds to.</typeparam>
+    [DoNotCopy]
     public class EditInterfaceManager<T>
     {
         private Dictionary<T, EditInterface> interfaceDictionary = new Dictionary<T, EditInterface>();

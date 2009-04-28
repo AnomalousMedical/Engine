@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Engine.Attributes;
 
 namespace Engine.Editing
 {
@@ -9,6 +10,7 @@ namespace Engine.Editing
     /// This class contains information about the EditableProperties to be
     /// displayed on a UI.
     /// </summary>
+    [DoNotCopy]
     public class EditablePropertyInfo
     {
         private List<EditablePropertyColumn> columns = new List<EditablePropertyColumn>();

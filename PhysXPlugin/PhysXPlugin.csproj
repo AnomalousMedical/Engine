@@ -72,6 +72,7 @@
     <Compile Include="Definition\PhysXSceneManagerDefinition.cs" />
     <Compile Include="Definition\Shapes\BoxShapeDefinition.cs" />
     <Compile Include="Definition\Shapes\ShapeDefinition.cs" />
+    <Compile Include="Definition\Shapes\ShapeDefinitionBase.cs" />
     <Compile Include="Instance\Joints\PhysCylindricalJointElement.cs" />
     <Compile Include="Instance\Joints\PhysD6JointElement.cs" />
     <Compile Include="Instance\Joints\PhysDistanceJointElement.cs" />

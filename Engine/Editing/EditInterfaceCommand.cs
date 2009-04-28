@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Engine.Attributes;
 
 namespace Engine.Editing
 {
@@ -13,6 +14,7 @@ namespace Engine.Editing
     /// perform some action on a particular interface, such as adding a
     /// subinterface.
     /// </summary>
+    [DoNotCopy]
     public class EditInterfaceCommand
     {
         private EditInterfaceFunction function;

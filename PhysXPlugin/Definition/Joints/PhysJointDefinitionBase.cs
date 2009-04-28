@@ -105,6 +105,8 @@ namespace PhysXPlugin
             else
             {
                 String message = String.Format("Invalid joint description: {0}, {1}.  Must specify at least one valid actor for this joint.", instance.Name, Name);
+                InvalidElement invalidElement = new InvalidElement(this, message);
+                instance.addElement(invalidElement);
                 Log.Default.sendMessage(message, LogLevel.Error, "ObjectManagement");
             }
         }

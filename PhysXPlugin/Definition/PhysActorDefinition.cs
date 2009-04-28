@@ -10,6 +10,7 @@ using Engine.Reflection;
 using Logging;
 using Engine.ObjectManagement;
 using Engine.Saving;
+using Engine.Attributes;
 
 namespace PhysXPlugin
 {
@@ -46,7 +47,9 @@ namespace PhysXPlugin
 
         #region Fields
 
+        [DoNotCopy]
         private PhysActorDesc actorDesc = new PhysActorDesc();
+        [DoNotCopy]
         private PhysBodyDesc bodyDesc = new PhysBodyDesc();
         private bool dynamic = false;
         private String shapeName = null;
@@ -176,7 +179,7 @@ namespace PhysXPlugin
             }
             else
             {
-                Log.Default.sendMessage("Invalid PhysActorDesc in SimObject {0} ActorDesc {1}.", LogLevel.Warning, PhysXInterface.PluginName, instance.Name, this.Name);
+                instance.addElement(createInvalidElement());
             }
         }
 
@@ -192,7 +195,6 @@ namespace PhysXPlugin
 
         public void addShape(ShapeDefinition physShape)
         {
-            //actorDesc.addShape(physShape.PhysShapeDesc);
             shapeDefinitions.AddLast(physShape);
             if (editInterface != null)
             {
@@ -202,7 +204,6 @@ namespace PhysXPlugin
 
         public void removeShape(ShapeDefinition physShape)
         {
-            //actorDesc.removeShape(physShape.PhysShapeDesc);
             shapeDefinitions.Remove(physShape);
             if (editInterface != null)
             {
@@ -225,6 +226,32 @@ namespace PhysXPlugin
         private void addBoxShape(EditUICallback callback, EditInterfaceCommand command)
         {
             addShape(new BoxShapeDefinition());
+        }
+
+        /// <summary>
+        /// Helper function to create the InvalidElement.
+        /// </summary>
+        /// <returns>A new InvalidElement for the error</returns>
+        private InvalidElement createInvalidElement()
+        {
+            String message;
+            if (shapeDefinitions.Count > 0)
+            {
+                if (Dynamic)
+                {
+                    message = String.Format("Invalid actor description: {0}. Dynamic actors can only be defined in the following ways:\n    Density = 0, Mass > 0, MassSpaceInertia.magnitude > 0\n    Density > 0, Mass = 0, MassSpaceInertia.magnitude = 0\n    Density = 0, Mass > 0, MassSpaceInertia.magnitude = 0", Name);
+                }
+                else
+                {
+                    message = String.Format("Invalid actor description: {0}. Static actors must have shapes defined and the given description {1} is not valid.", Name, ShapeName);
+                }
+            }
+            else
+            {
+                message = String.Format("Invalid actor description: {0}. No shapes or shape collection defined.", Name);
+            }
+            Log.Default.sendMessage(message, LogLevel.Error, "ObjectManagement");
+            return new InvalidElement(this, message);
         }
 
         #endregion Functions

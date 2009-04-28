@@ -6,50 +6,38 @@ using PhysXWrapper;
 using Engine.Editing;
 using Engine.Reflection;
 using Engine.Saving;
+using Engine.Attributes;
+using EngineMath;
 
 namespace PhysXPlugin
 {
-    public class ShapeDefinition : Saveable
+    public abstract class ShapeDefinition : Saveable
     {
-        private PhysShapeDesc shapeDesc;
-        private static MemberScanner shapeMemberScanner;
+        public abstract EditInterface getEditInterface();
 
-        static ShapeDefinition()
+        internal abstract PhysShapeDesc PhysShapeDesc
         {
-            shapeMemberScanner = new MemberScanner();
-            shapeMemberScanner.ProcessFields = false;
+            get;
         }
 
-        protected ShapeDefinition(PhysShapeDesc shapeDesc)
-        {
-            this.shapeDesc = shapeDesc;
-        }
+        public abstract void getInfo(SaveInfo info);
 
-        public EditInterface getEditInterface()
-        {
-            return ReflectedEditInterface.createEditInterface(shapeDesc, shapeMemberScanner, shapeDesc.GetType().Name, null);
-        }
+        public abstract float Density { get; set; }
 
-        public PhysShapeDesc PhysShapeDesc
-        {
-            get
-            {
-                return shapeDesc;
-            }
-        }
+        public abstract ushort Group { get; set; }
 
-        #region Saveable Members
+        public abstract float Mass { get; set; }
 
-        protected void restoreShape(LoadInfo info)
-        {
-            ReflectedSaver.RestoreObject(shapeDesc, info, shapeMemberScanner);
-        }
+        public abstract ushort MaterialIndex { get; set; }
 
-        public void getInfo(SaveInfo info)
-        {
-            ReflectedSaver.SaveObject(shapeDesc, info, shapeMemberScanner);
-        }
+        public abstract uint NonInteractingCompartmentTypes { get; set; }
 
-        #endregion
+        public abstract ShapeFlag ShapeFlags { get; set; }
+
+        public abstract float SkinWidth { get; set; }
+
+        public abstract Vector3 LocalTranslation { get; set; }
+
+        public abstract Quaternion LocalRotation { get; set; }
     }
 }

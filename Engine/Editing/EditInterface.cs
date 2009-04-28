@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Engine.Attributes;
 
 namespace Engine.Editing
 {
@@ -17,6 +18,7 @@ namespace Engine.Editing
     /// <summary>
     /// This interface provides a view of an object that can be edited.
     /// </summary>
+    [DoNotCopy]
     public sealed class EditInterface
     {
         private String name;
