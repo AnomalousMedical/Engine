@@ -42,7 +42,10 @@ namespace Engine
         /// </summary>
         public void createStaticProducts()
         {
-            throw new NotImplementedException();
+            foreach (BehaviorFactoryEntry entry in currentBehaviors)
+            {
+                entry.createStaticProduct(manager);
+            }
         }
 
         /// <summary>

@@ -15,6 +15,14 @@ namespace Engine
     /// </summary>
     public class BehaviorDefinition : SimElementDefinition
     {
+        #region Static
+
+        /// <summary>
+        /// Static create function.
+        /// </summary>
+        /// <param name="name">The name of the Definition to create.</param>
+        /// <param name="callback">A UICallback.</param>
+        /// <returns></returns>
         internal static BehaviorDefinition Create(String name, EditUICallback callback)
         {
             String behaviorTypeName;
@@ -31,6 +39,8 @@ namespace Engine
             }
             return null;
         }
+
+        #endregion Static
 
         private Behavior behaviorTemplate;
         private EditInterface editInterface;

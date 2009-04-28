@@ -94,7 +94,6 @@
     <Compile Include="ObjectManagement\Definition\SimSubSceneBinding.cs" />
     <Compile Include="ObjectManagement\Definition\SimSubSceneDefinition.cs" />
     <Compile Include="ObjectManagement\Instance\GenericSimObject.cs" />
-    <Compile Include="ObjectManagement\Instance\InvalidElement.cs" />
     <Compile Include="ObjectManagement\Instance\SimObjectBase.cs" />
     <Compile Include="ObjectManagement\Instance\SimObjectManager.cs" />
     <Compile Include="ObjectManagement\Instance\SimScene.cs" />

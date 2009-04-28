@@ -154,6 +154,21 @@ namespace Engine.ObjectManagement
         }
 
         /// <summary>
+        /// Build all objects registerd with the scene in static mode.
+        /// </summary>
+        public void buildStaticScene()
+        {
+            foreach (SimElementManager manager in simElementManagers.Values)
+            {
+                manager.getFactory().createStaticProducts();
+            }
+            foreach (SimElementManager manager in simElementManagers.Values)
+            {
+                manager.getFactory().linkProducts();
+            }
+        }
+
+        /// <summary>
         /// Create a definition.
         /// </summary>
         /// <returns>A new SimSceneDefinition.</returns>

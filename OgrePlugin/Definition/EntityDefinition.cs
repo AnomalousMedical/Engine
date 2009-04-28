@@ -38,15 +38,6 @@ namespace OgrePlugin
         private String meshName;
 
         /// <summary>
-        /// Parameterless constructor for copy class.
-        /// </summary>
-        public EntityDefinition()
-            :base("", "Entity", null)
-        {
-
-        }
-
-        /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="name">The name of the entity.</param>
@@ -106,7 +97,6 @@ namespace OgrePlugin
             else
             {
                 Log.Default.sendMessage("Cannot create entity {0} because the mesh {1} cannot be found.", LogLevel.Warning, OgreInterface.PluginName, Name, meshName);
-                element.addInvalidDefinition(this);
                 return null;
             }
         }

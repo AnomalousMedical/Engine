@@ -59,19 +59,6 @@ namespace Engine.ObjectManagement
             this.simObjectDef = simObjectDef;
         }
 
-        /// <summary>
-        /// This method will clone the given definition and return the clone.
-        /// The base class version uses the MemberCopier to accomplish this
-        /// task, however, this function can be overwritten to provide
-        /// alternative functionality. Do not call the base function if
-        /// overwritten.
-        /// </summary>
-        /// <returns>A clone of this SimElementDefinition.</returns>
-        public virtual SimElementDefinition clone()
-        {
-            return MemberCopier.CreateCopy<SimElementDefinition>(this);
-        }
-
         #endregion Functions
 
         #region Properties

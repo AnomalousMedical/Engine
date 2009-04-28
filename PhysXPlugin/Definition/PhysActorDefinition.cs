@@ -179,7 +179,7 @@ namespace PhysXPlugin
             }
             else
             {
-                instance.addElement(createInvalidElement());
+                createError();
             }
         }
 
@@ -232,7 +232,7 @@ namespace PhysXPlugin
         /// Helper function to create the InvalidElement.
         /// </summary>
         /// <returns>A new InvalidElement for the error</returns>
-        private InvalidElement createInvalidElement()
+        private String createError()
         {
             String message;
             if (shapeDefinitions.Count > 0)
@@ -250,8 +250,8 @@ namespace PhysXPlugin
             {
                 message = String.Format("Invalid actor description: {0}. No shapes or shape collection defined.", Name);
             }
-            Log.Default.sendMessage(message, LogLevel.Error, "ObjectManagement");
-            return new InvalidElement(this, message);
+            Log.Default.sendMessage(message, LogLevel.Error, "PhysXPlugin");
+            return message;
         }
 
         #endregion Functions

@@ -23,7 +23,6 @@ namespace OgrePlugin
         private List<Identifier> lights = new List<Identifier>();
         private List<Identifier> manualObjects = new List<Identifier>();
         private List<SceneNodeElement> children = new List<SceneNodeElement>();
-        private List<MovableObjectDefinition> invalidObjects;
 
         /// <summary>
         /// Constructor.
@@ -79,15 +78,6 @@ namespace OgrePlugin
         {
             children.Remove(element);
             sceneNode.removeChild(element.sceneNode);
-        }
-
-        public void addInvalidDefinition(MovableObjectDefinition definition)
-        {
-            if (invalidObjects == null)
-            {
-                invalidObjects = new List<MovableObjectDefinition>();
-            }
-            invalidObjects.Add(MemberCopier.CreateCopy<MovableObjectDefinition>(definition));
         }
 
         /// <summary>
@@ -178,13 +168,6 @@ namespace OgrePlugin
             foreach (SceneNodeElement child in children)
             {
                 definition.addChildNode(child.saveToSceneNodeDefinition());
-            }
-            if (invalidObjects != null)
-            {
-                foreach(MovableObjectDefinition invalid in invalidObjects)
-                {
-                    definition.addMovableObjectDefinition(invalid);
-                }
             }
             return definition;
         }
