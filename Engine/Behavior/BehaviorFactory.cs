@@ -42,10 +42,7 @@ namespace Engine
         /// </summary>
         public void createStaticProducts()
         {
-            foreach (BehaviorFactoryEntry entry in currentBehaviors)
-            {
-                entry.createStaticProduct(manager);
-            }
+            
         }
 
         /// <summary>

@@ -225,16 +225,6 @@ namespace OgrePlugin
         }
 
         /// <summary>
-        /// Create a static product.
-        /// </summary>
-        /// <param name="instance">The instance to get the product.</param>
-        /// <param name="scene">The scene to create the product into.</param>
-        internal void createStaticProduct(SimObjectBase instance, OgreSceneManager scene)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// Helper function to add an EditInterface for an EntityDefinition.
         /// </summary>
         /// <param name="definition"></param>

@@ -51,7 +51,7 @@ namespace OgrePlugin
         {
             foreach (OgreFactoryEntry entry in sceneNodes)
             {
-                entry.createStaticProduct(targetScene);
+                entry.createProduct(targetScene);
             }
         }
 

@@ -48,15 +48,6 @@ namespace Engine
         }
 
         /// <summary>
-        /// Build the static version of the product.
-        /// </summary>
-        /// <param name="scene">The scene to add the product to.</param>
-        public void createStaticProduct(BehaviorManager scene)
-        {
-            definition.createStaticProduct(instance, scene);
-        }
-
-        /// <summary>
         /// Called during the linkupProducts phase. This will call the constructed behavior function.
         /// </summary>
         public void linkupProducts()

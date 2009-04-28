@@ -81,11 +81,6 @@ namespace Engine
             return behavior;
         }
 
-        internal void createStaticProduct(SimObjectBase instance, BehaviorManager scene)
-        {
-            throw new NotImplementedException();
-        }
-
         #region Saveable
 
         private const String NAME_FORMAT = "{0}, {1}";

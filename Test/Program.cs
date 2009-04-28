@@ -128,7 +128,7 @@ namespace Test
 
                         using (SimObjectManager manager = simObjectManagerDef.createSimObjectManager(subScene))
                         {
-                            scene.buildScene();
+                            scene.buildStaticScene();
 
                             CameraControl cameraControl = pluginManager.RendererPlugin.PrimaryWindow.createCamera(subScene, "TestCamera", new Vector3(0.0f, 0f, -75f), Vector3.Zero);
                             cameraControl.BackgroundColor = new Color(0.0f, 0.0f, 1.0f);

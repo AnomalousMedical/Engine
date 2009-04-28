@@ -44,15 +44,6 @@ namespace OgrePlugin
             definition.createProduct(instance, scene);
         }
 
-        /// <summary>
-        /// Build the static version of the product.
-        /// </summary>
-        /// <param name="scene">The scene to add the product to.</param>
-        public void createStaticProduct(OgreSceneManager scene)
-        {
-            definition.createStaticProduct(instance, scene);
-        }
-
         #endregion Functions
     }
 }

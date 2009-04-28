@@ -190,7 +190,40 @@ namespace PhysXPlugin
         /// <param name="scene">The PhysSceneManager to create the product with.</param>
         internal override void createStaticProduct(SimObjectBase instance, PhysXSceneManager scene)
         {
-            throw new NotImplementedException();
+            if (dynamic)
+            {
+                actorDesc.Body = bodyDesc;
+                bodyDesc.Flags |= BodyFlag.NX_BF_KINEMATIC;
+            }
+            else
+            {
+                actorDesc.Body = null;
+            }
+            actorDesc.clearShapes();
+            if (shapeName == null || shapeName == String.Empty)
+            {
+                foreach (ShapeDefinition shape in shapeDefinitions)
+                {
+                    actorDesc.addShape(shape.PhysShapeDesc);
+                }
+            }
+            else
+            {
+                //assign shapes from shapecollection
+
+            }
+            if (actorDesc.isValid())
+            {
+                actorDesc.setGlobalPose(instance.Translation, instance.Rotation);
+                Identifier actorId = new Identifier(instance.Name, this.Name);
+                PhysActorElement actor = scene.createPhysActor(actorId, this);
+                actor.ShapeName = shapeName;
+                instance.addElement(actor);
+            }
+            else
+            {
+                createError();
+            }
         }
 
         public void addShape(ShapeDefinition physShape)

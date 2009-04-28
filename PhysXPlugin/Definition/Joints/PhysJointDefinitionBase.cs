@@ -119,7 +119,7 @@ namespace PhysXPlugin
 
         internal override void createStaticProduct(SimObjectBase instance, PhysXSceneManager scene)
         {
-            throw new NotImplementedException();
+            
         }
 
         public override void register(SimSubScene subscene, SimObjectBase instance)
