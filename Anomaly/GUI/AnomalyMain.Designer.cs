@@ -34,7 +34,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(873, 531);
+            this.ClientSize = new System.Drawing.Size(752, 540);
             this.Name = "AnomalyMain";
             this.Text = "Anomaly";
             this.ResumeLayout(false);

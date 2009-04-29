@@ -156,6 +156,11 @@
     <Compile Include="Renderer\OrbitCameraController.cs" />
     <Compile Include="Renderer\RendererPlugin.cs" />
     <Compile Include="Renderer\RendererWindow.cs" />
+    <Compile Include="Resources\Resource.cs" />
+    <Compile Include="Resources\ResourceGroup.cs" />
+    <Compile Include="Resources\ResourceListener.cs" />
+    <Compile Include="Resources\ResourceManager.cs" />
+    <Compile Include="Resources\SubsystemResources.cs" />
     <Compile Include="Saving\Load\LoadControl.cs" />
     <Compile Include="Saving\Save\FooterWriter.cs" />
     <Compile Include="Saving\Save\HeaderWriter.cs" />

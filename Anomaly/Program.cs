@@ -23,9 +23,9 @@ namespace Anomaly
             Log.Default.addLogListener(logListener);
             AnomalyConfig.ConfigFile.loadConfigFile();
 
-            try
+            using (PluginManager pluginManager = new PluginManager())
             {
-                using (PluginManager pluginManager = new PluginManager())
+                try
                 {
                     //pluginManager.OnConfigureDefaultWindow = createWindow;
                     DynamicDLLPluginLoader pluginLoader = new DynamicDLLPluginLoader();
@@ -37,10 +37,16 @@ namespace Anomaly
                     pluginLoader.loadPlugins(pluginManager);
                     pluginManager.initializePlugins();
                 }
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                catch (Exception e)
+                {
+                    Log.Default.sendMessage("Exception: {0}.\n{1}\n{2}.", LogLevel.Error, "Anomaly", e.GetType().Name, e.Message, e.StackTrace);
+                    while (e.InnerException != null)
+                    {
+                        e = e.InnerException;
+                        Log.Default.sendMessage("--Inner exception: {0}.\n{1}\n{2}.", LogLevel.Error, "Anomaly", e.GetType().Name, e.Message, e.StackTrace);
+                    }
+                    MessageBox.Show(e.Message, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
 
             AnomalyConfig.ConfigFile.writeConfigFile();
