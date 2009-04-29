@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Engine;
 using PhysXWrapper;
-using EngineMath;
 using Engine.Editing;
 using Engine.Reflection;
 using Logging;

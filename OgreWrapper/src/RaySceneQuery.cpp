@@ -30,16 +30,16 @@ RaySceneQuery::~RaySceneQuery()
 	
 }
 
-void RaySceneQuery::setRay(EngineMath::Ray3 ray)
+void RaySceneQuery::setRay(Engine::Ray3 ray)
 {
 	Ogre::Ray oRay;
 	MathUtils::copyRay(ray, oRay);
 	query->setRay(oRay);
 }
 
-EngineMath::Ray3 RaySceneQuery::getRay()
+Engine::Ray3 RaySceneQuery::getRay()
 {
-	EngineMath::Ray3 ray;
+	Engine::Ray3 ray;
 	Ogre::Ray oRay = query->getRay();
 	MathUtils::copyRay(oRay, ray);
 	return ray;

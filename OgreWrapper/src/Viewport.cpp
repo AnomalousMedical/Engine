@@ -40,12 +40,12 @@ unsigned int Viewport::getVisibilityMask()
 	return viewport->getVisibilityMask();
 }
 
-void Viewport::setBackgroundColor(EngineMath::Color color)
+void Viewport::setBackgroundColor(Engine::Color color)
 {
 	return viewport->setBackgroundColour(MathUtils::copyColor(color));
 }
 
-EngineMath::Color Viewport::getBackgroundColor()
+Engine::Color Viewport::getBackgroundColor()
 {
 	return MathUtils::copyColor(viewport->getBackgroundColour());
 }

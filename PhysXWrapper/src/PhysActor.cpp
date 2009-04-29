@@ -43,8 +43,8 @@ void PhysActor::fireLocationChanged(NxMat34& newLoc)
 		NxVec3 loc = newLoc.t;
 		NxQuat rot;
 		newLoc.M.toQuat(rot);
-		callback->firePositionUpdate(EngineMath::Vector3(loc.x, loc.y, loc.z), 
-			EngineMath::Quaternion(rot.x, rot.y, rot.z, rot.w));
+		callback->firePositionUpdate(Engine::Vector3(loc.x, loc.y, loc.z), 
+			Engine::Quaternion(rot.x, rot.y, rot.z, rot.w));
 	}
 }
 
@@ -58,22 +58,22 @@ bool PhysActor::saveBodyToDesc(PhysBodyDesc^ bodyDesc)
 	return actor->saveBodyToDesc(*bodyDesc->bodyDesc.Get());
 }
 
-void PhysActor::setGlobalPosition( EngineMath::Vector3 translation )
+void PhysActor::setGlobalPosition( Engine::Vector3 translation )
 {
 	actor->setGlobalPosition( MathUtil::copyVector3(translation) );
 }
 
-void PhysActor::setGlobalOrientationQuat( EngineMath::Quaternion rotation )
+void PhysActor::setGlobalOrientationQuat( Engine::Quaternion rotation )
 {
 	actor->setGlobalOrientationQuat( MathUtil::copyQuaternion( rotation ) );
 }
 
-EngineMath::Vector3 PhysActor::getGlobalPosition()
+Engine::Vector3 PhysActor::getGlobalPosition()
 {
 	return MathUtil::copyVector3(actor->getGlobalPose().t);
 }
 
-EngineMath::Quaternion PhysActor::getGlobalOrientationQuat()
+Engine::Quaternion PhysActor::getGlobalOrientationQuat()
 {
 	return MathUtil::copyQuaternion(actor->getGlobalOrientationQuat());
 }
@@ -144,41 +144,41 @@ bool PhysActor::isDynamic()
 //Forces
 //-----------
 
-void PhysActor::addForceAtPos( EngineMath::Vector3% force, EngineMath::Vector3% pos, ForceMode mode, bool wakeup )
+void PhysActor::addForceAtPos( Engine::Vector3% force, Engine::Vector3% pos, ForceMode mode, bool wakeup )
 {
 	actor->addForceAtPos( MathUtil::copyVector3(force), MathUtil::copyVector3(pos), static_cast<NxForceMode>(mode), wakeup );
 }
 
-void PhysActor::addForceAtLocalPos (const EngineMath::Vector3% force, const EngineMath::Vector3% pos, ForceMode mode, bool wakeup)
+void PhysActor::addForceAtLocalPos (const Engine::Vector3% force, const Engine::Vector3% pos, ForceMode mode, bool wakeup)
 {
 	actor->addForceAtLocalPos( MathUtil::copyVector3(force), MathUtil::copyVector3(pos), (NxForceMode)mode, wakeup );
 }
 
-void PhysActor::addLocalForceAtPos (const EngineMath::Vector3% force, const EngineMath::Vector3% pos, ForceMode mode, bool wakeup){
+void PhysActor::addLocalForceAtPos (const Engine::Vector3% force, const Engine::Vector3% pos, ForceMode mode, bool wakeup){
 	actor->addLocalForceAtPos( MathUtil::copyVector3(force), MathUtil::copyVector3(pos), (NxForceMode)mode, wakeup );
 }
 
-void PhysActor::addLocalForceAtLocalPos (const EngineMath::Vector3% force, const EngineMath::Vector3% pos, ForceMode mode, bool wakeup)
+void PhysActor::addLocalForceAtLocalPos (const Engine::Vector3% force, const Engine::Vector3% pos, ForceMode mode, bool wakeup)
 {
 	actor->addLocalForceAtLocalPos( MathUtil::copyVector3(force), MathUtil::copyVector3(pos), (NxForceMode)mode, wakeup );
 }
 
-void PhysActor::addForce (const EngineMath::Vector3% force, ForceMode mode, bool wakeup)
+void PhysActor::addForce (const Engine::Vector3% force, ForceMode mode, bool wakeup)
 {
 	actor->addForce( MathUtil::copyVector3(force), (NxForceMode)mode, wakeup );
 }
 
-void PhysActor::addLocalForce (const EngineMath::Vector3% force, ForceMode mode, bool wakeup)
+void PhysActor::addLocalForce (const Engine::Vector3% force, ForceMode mode, bool wakeup)
 {
 	actor->addLocalForce( MathUtil::copyVector3(force), (NxForceMode)mode, wakeup );
 }
 
-void PhysActor::addTorque (const EngineMath::Vector3% torque, ForceMode mode, bool wakeup)
+void PhysActor::addTorque (const Engine::Vector3% torque, ForceMode mode, bool wakeup)
 {
 	actor->addTorque( MathUtil::copyVector3(torque), (NxForceMode)mode, wakeup );
 }
 
-void PhysActor::addLocalTorque (const EngineMath::Vector3% torque, ForceMode mode, bool wakeup)
+void PhysActor::addLocalTorque (const Engine::Vector3% torque, ForceMode mode, bool wakeup)
 {
 	actor->addLocalTorque( MathUtil::copyVector3(torque), (NxForceMode)mode, wakeup );
 }	
@@ -193,7 +193,7 @@ void PhysActor::addLocalTorque (const EngineMath::Vector3% torque, ForceMode mod
 	}
 }*/
 
-void PhysActor::moveGlobalPosition (const EngineMath::Vector3% vec)
+void PhysActor::moveGlobalPosition (const Engine::Vector3% vec)
 {
 	actor->moveGlobalPosition( MathUtil::copyVector3(vec) );
 }
@@ -204,7 +204,7 @@ void PhysActor::moveGlobalPosition (const EngineMath::Vector3% vec)
 	}
 }*/
 
-void PhysActor::moveGlobalOrientationQuat (EngineMath::Quaternion% quat)
+void PhysActor::moveGlobalOrientationQuat (Engine::Quaternion% quat)
 {
 	actor->moveGlobalOrientationQuat( MathUtil::copyQuaternion( quat ) );
 }
@@ -218,7 +218,7 @@ void PhysActor::moveGlobalOrientationQuat (EngineMath::Quaternion% quat)
 	actor->setCMassOffsetLocalPose( Conversion::MatrixToNxMat34( mat ) );
 }*/
 
-void PhysActor::setCMassOffsetLocalPosition(EngineMath::Vector3 vec)
+void PhysActor::setCMassOffsetLocalPosition(Engine::Vector3 vec)
 {
 	actor->setCMassOffsetLocalPosition( MathUtil::copyVector3(vec) );
 }
@@ -233,7 +233,7 @@ void PhysActor::setCMassOffsetLocalPosition(EngineMath::Vector3 vec)
 	actor->setCMassOffsetGlobalPose( Conversion::MatrixToNxMat34( mat ) );
 }*/
 
-void PhysActor::setCMassOffsetGlobalPosition(EngineMath::Vector3 vec)
+void PhysActor::setCMassOffsetGlobalPosition(Engine::Vector3 vec)
 {
 	actor->setCMassOffsetGlobalPosition( MathUtil::copyVector3(vec) );
 }
@@ -248,7 +248,7 @@ void PhysActor::setCMassOffsetGlobalPosition(EngineMath::Vector3 vec)
 	actor->setCMassGlobalPose( Conversion::MatrixToNxMat34( mat ) );
 }*/
 
-void PhysActor::setCMassGlobalPosition(EngineMath::Vector3 vec)
+void PhysActor::setCMassGlobalPosition(Engine::Vector3 vec)
 {
 	actor->setCMassGlobalPosition( MathUtil::copyVector3(vec) );
 }
@@ -263,7 +263,7 @@ void PhysActor::setCMassGlobalPosition(EngineMath::Vector3 vec)
 	Conversion::NxMat34ToMatrix( actor->getCMassLocalPose(), cMass );
 }*/
 
-void PhysActor::getCMassLocalPosition( EngineMath::Vector3% cMass )
+void PhysActor::getCMassLocalPosition( Engine::Vector3% cMass )
 {
 	MathUtil::copyVector3( actor->getCMassLocalPosition(), cMass );
 }
@@ -278,7 +278,7 @@ void PhysActor::getCMassLocalPosition( EngineMath::Vector3% cMass )
 	Conversion::NxMat34ToMatrix( actor->getCMassGlobalPose(), cMass );
 }*/
 
-void PhysActor::getCMassGlobalPosition( EngineMath::Vector3% cMass )
+void PhysActor::getCMassGlobalPosition( Engine::Vector3% cMass )
 {
 	MathUtil::copyVector3( actor->getCMassGlobalPosition(), cMass );
 }
@@ -298,12 +298,12 @@ float PhysActor::getMass()
 	return actor->getMass();
 }
 
-void PhysActor::setMassSpaceInertiaTensor(EngineMath::Vector3% m)
+void PhysActor::setMassSpaceInertiaTensor(Engine::Vector3% m)
 {
 	actor->setMassSpaceInertiaTensor( MathUtil::copyVector3(m) );
 }
 
-void PhysActor::getMassSpaceInertiaTensor( EngineMath::Vector3% inertiaTensor )
+void PhysActor::getMassSpaceInertiaTensor( Engine::Vector3% inertiaTensor )
 {
 	return MathUtil::copyVector3( actor->getMassSpaceInertiaTensor(), inertiaTensor );
 }
@@ -348,22 +348,22 @@ float PhysActor::getAngularDamping()
 }
 
 
-void PhysActor::setLinearVelocity(EngineMath::Vector3 linVel)
+void PhysActor::setLinearVelocity(Engine::Vector3 linVel)
 {
 	actor->setLinearVelocity( MathUtil::copyVector3(linVel) );
 }
 
-void PhysActor::setAngularVelocity(EngineMath::Vector3 angVel)
+void PhysActor::setAngularVelocity(Engine::Vector3 angVel)
 {
 	actor->setAngularVelocity( MathUtil::copyVector3(angVel) );
 }  
 
-void PhysActor::getLinearVelocity( EngineMath::Vector3% linVel )
+void PhysActor::getLinearVelocity( Engine::Vector3% linVel )
 {
 	MathUtil::copyVector3( actor->getLinearVelocity(), linVel );
 } 
 
-void PhysActor::getAngularVelocity( EngineMath::Vector3% angVel )
+void PhysActor::getAngularVelocity( Engine::Vector3% angVel )
 {
 	MathUtil::copyVector3( actor->getAngularVelocity(), angVel );
 }
@@ -382,34 +382,34 @@ float PhysActor::getMaxAngularVelocity()
 //Momentum
 //-------------------
 
-void PhysActor::setLinearMomentum(EngineMath::Vector3 linMoment)
+void PhysActor::setLinearMomentum(Engine::Vector3 linMoment)
 {
 	actor->setLinearMomentum( MathUtil::copyVector3(linMoment) );
 }
 
-void PhysActor::setAngularMomentum(EngineMath::Vector3 angMoment)
+void PhysActor::setAngularMomentum(Engine::Vector3 angMoment)
 {
 	actor->setAngularMomentum( MathUtil::copyVector3(angMoment) );
 }
 
-void PhysActor::getLinearMomentum( EngineMath::Vector3% momentum )
+void PhysActor::getLinearMomentum( Engine::Vector3% momentum )
 {
 	MathUtil::copyVector3( actor->getLinearMomentum(), momentum );
 }
   
-void PhysActor::getAngularMomentum( EngineMath::Vector3% momentum )
+void PhysActor::getAngularMomentum( Engine::Vector3% momentum )
 {
 	MathUtil::copyVector3( actor->getAngularMomentum(), momentum );
 }
 
 
-void PhysActor::getPointVelocity(EngineMath::Vector3 point, EngineMath::Vector3% result)
+void PhysActor::getPointVelocity(Engine::Vector3 point, Engine::Vector3% result)
 {
 	NxVec3 pointVel = actor->getPointVelocity( NxVec3(point.x, point.y, point.z) );
 	MathUtil::copyVector3( pointVel, result );
 } 
 
-void PhysActor::getLocalPointVelocity(EngineMath::Vector3 point, EngineMath::Vector3% result){
+void PhysActor::getLocalPointVelocity(Engine::Vector3 point, Engine::Vector3% result){
 	NxVec3 pointVel = actor->getLocalPointVelocity( NxVec3(point.x, point.y, point.z) );
 	MathUtil::copyVector3( pointVel, result );
 }

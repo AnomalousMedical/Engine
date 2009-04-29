@@ -13,12 +13,12 @@ PhysBodyDesc::PhysBodyDesc(void)
 
 }
 
-EngineMath::Vector3 PhysBodyDesc::MassSpaceInertia::get() 
+Engine::Vector3 PhysBodyDesc::MassSpaceInertia::get() 
 { 
 	return MathUtil::copyVector3(bodyDesc->massSpaceInertia);
 }
 
-void PhysBodyDesc::MassSpaceInertia::set(EngineMath::Vector3 inertia) 
+void PhysBodyDesc::MassSpaceInertia::set(Engine::Vector3 inertia) 
 { 
 	MathUtil::copyVector3(inertia, bodyDesc->massSpaceInertia); 
 }
@@ -33,22 +33,22 @@ void PhysBodyDesc::Mass::set(float mass)
 	bodyDesc->mass = mass; 
 }
 
-EngineMath::Vector3 PhysBodyDesc::LinearVelocity::get() 
+Engine::Vector3 PhysBodyDesc::LinearVelocity::get() 
 { 
 	return MathUtil::copyVector3(bodyDesc->linearVelocity);
 }
 
-void PhysBodyDesc::LinearVelocity::set(EngineMath::Vector3 linearVelocity) 
+void PhysBodyDesc::LinearVelocity::set(Engine::Vector3 linearVelocity) 
 {
 	MathUtil::copyVector3(linearVelocity, bodyDesc->linearVelocity);
 }
 
-EngineMath::Vector3 PhysBodyDesc::AngularVelocity::get() 
+Engine::Vector3 PhysBodyDesc::AngularVelocity::get() 
 { 
 	return MathUtil::copyVector3(bodyDesc->angularVelocity);
 }
 
-void PhysBodyDesc::AngularVelocity::set(EngineMath::Vector3 angularVelocity) 
+void PhysBodyDesc::AngularVelocity::set(Engine::Vector3 angularVelocity) 
 {
 	MathUtil::copyVector3(angularVelocity, bodyDesc->angularVelocity); 
 }

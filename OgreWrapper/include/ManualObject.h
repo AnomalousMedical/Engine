@@ -113,7 +113,7 @@ public:
 	/// Add a vertex position, starting a new vertex at the same time. 
 	/// </summary>
 	/// <param name="pos">A vector3 with the position of the vertex.</param>
-	void position(EngineMath::Vector3% pos);
+	void position(Engine::Vector3% pos);
 
 	/// <summary>
 	/// Add a vertex position, starting a new vertex at the same time.
@@ -131,7 +131,7 @@ public:
 	/// Add a vertex normal to the current vertex. 
 	/// </summary>
 	/// <param name="normal">A vector3 with the normal.</param>
-	void normal(EngineMath::Vector3% normal);
+	void normal(Engine::Vector3% normal);
 
 	/// <summary>
 	/// Add a vertex normal to the current vertex. 
@@ -181,7 +181,7 @@ public:
 	/// Add a texture coordinate to the current vertex.
 	/// </summary>
 	/// <param name="uvw">A Vector3 with the coord.</param>
-	void textureCoord(EngineMath::Vector3% uvw);
+	void textureCoord(Engine::Vector3% uvw);
 
 	/// <summary>
 	/// Add a vertex colour to a vertex. 

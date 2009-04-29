@@ -58,9 +58,9 @@ public:
 	/// <returns>The visibility mask.</returns>
 	unsigned int getVisibilityMask();
 
-	void setBackgroundColor(EngineMath::Color color);
+	void setBackgroundColor(Engine::Color color);
 
-	EngineMath::Color getBackgroundColor();
+	Engine::Color getBackgroundColor();
 };
 
 }

@@ -24,12 +24,12 @@ NxPlaneShape* PhysPlaneShape::getNxPlaneShape()
 	return nxPlane;
 }
 
-void PhysPlaneShape::setPlane(EngineMath::Vector3 normal, float d)
+void PhysPlaneShape::setPlane(Engine::Vector3 normal, float d)
 {
 	return nxPlane->setPlane(MathUtil::copyVector3(normal), d);
 }
 
-void PhysPlaneShape::setPlane(EngineMath::Vector3% normal, float d)
+void PhysPlaneShape::setPlane(Engine::Vector3% normal, float d)
 {
 	return nxPlane->setPlane(MathUtil::copyVector3(normal), d);
 }

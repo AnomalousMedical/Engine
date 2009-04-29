@@ -25,10 +25,10 @@ public:
 	/// <summary>
 	/// Diagonal mass space inertia tensor in bodies mass frame.
 	/// </summary>
-	property EngineMath::Vector3 MassSpaceInertia
+	property Engine::Vector3 MassSpaceInertia
 	{
-		EngineMath::Vector3 get();
-		void set(EngineMath::Vector3 inertia);
+		Engine::Vector3 get();
+		void set(Engine::Vector3 inertia);
 	}
 
 	/// <summary>
@@ -43,19 +43,19 @@ public:
 	/// <summary>
 	/// Linear Velocity of the body.
 	/// </summary>
-	property EngineMath::Vector3 LinearVelocity
+	property Engine::Vector3 LinearVelocity
 	{
-		EngineMath::Vector3 get();
-		void set(EngineMath::Vector3 linearVelocity);
+		Engine::Vector3 get();
+		void set(Engine::Vector3 linearVelocity);
 	}
 
 	/// <summary>
 	/// Angular velocity of the body.
 	/// </summary>
-	property EngineMath::Vector3 AngularVelocity
+	property Engine::Vector3 AngularVelocity
 	{
-		EngineMath::Vector3 get();
-		void set(EngineMath::Vector3 angularVelocity);
+		Engine::Vector3 get();
+		void set(Engine::Vector3 angularVelocity);
 	}
 
 	/// <summary>

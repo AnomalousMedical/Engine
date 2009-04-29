@@ -12,7 +12,7 @@ public value class TetraLink
 {
 public:
 	[FieldOffset(0)]
-	EngineMath::Vector3 barycentricCoord;
+	Engine::Vector3 barycentricCoord;
 	[FieldOffset(12)]
 	unsigned int tetraIndex;
 

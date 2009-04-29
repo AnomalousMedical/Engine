@@ -26,10 +26,10 @@ public:
 	/// <summary>
 	/// Gravity vector.
 	/// </summary>
-	property EngineMath::Vector3 Gravity 
+	property Engine::Vector3 Gravity 
 	{ 
-		EngineMath::Vector3 get();
-		void set(EngineMath::Vector3 vec); 
+		Engine::Vector3 get();
+		void set(Engine::Vector3 vec); 
 	}
 
 	/// <summary>

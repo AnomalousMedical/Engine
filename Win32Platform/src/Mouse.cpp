@@ -55,19 +55,19 @@ void OISMouse::windowResized(OSWindow^ window)
 	state.height = window->Height;
 }
 
-EngineMath::Vector3 OISMouse::getAbsMouse()
+Engine::Vector3 OISMouse::getAbsMouse()
 {
 	const OIS::MouseState& state = oisMouse->getMouseState();
-	return EngineMath::Vector3(
+	return Engine::Vector3(
 	(float)state.X.abs * sensitivity,
 	(float)state.Y.abs * sensitivity,
 	(float)state.Z.abs * sensitivity);
 }
 
-EngineMath::Vector3 OISMouse::getRelMouse()
+Engine::Vector3 OISMouse::getRelMouse()
 {
 	const OIS::MouseState& state = oisMouse->getMouseState();
-	return EngineMath::Vector3(
+	return Engine::Vector3(
 	(float)state.X.rel * sensitivity,
 	(float)state.Y.rel * sensitivity,
 	(float)state.Z.rel * sensitivity);

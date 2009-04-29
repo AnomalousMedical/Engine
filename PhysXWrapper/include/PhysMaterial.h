@@ -53,9 +53,9 @@ public:
 
 	float getStaticFrictionV();
 
-	void setDirectionOfAnisotropy(EngineMath::Vector3 dir);
+	void setDirectionOfAnisotropy(Engine::Vector3 dir);
 
-	EngineMath::Vector3 getDirectionOfAnisotropy();
+	Engine::Vector3 getDirectionOfAnisotropy();
 
 	void setFlags(PhysMaterialFlag flags);
 

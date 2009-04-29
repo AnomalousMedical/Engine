@@ -70,87 +70,87 @@ public:
 	/// Sets the position of the eye of the camera.
 	/// </summary>
 	/// <param name="position">The position to set the eye at.</param>
-	void setPosition( EngineMath::Vector3 position );
+	void setPosition( Engine::Vector3 position );
 
 	/// <summary>
 	/// Returns the position of this camera.
 	/// </summary>
 	/// <returns>The camera position.</returns>
-	EngineMath::Vector3 getPosition();
+	Engine::Vector3 getPosition();
 
 	/// <summary>
 	/// Gets the derived orientation of the camera, including any rotation inherited from a node 
 	/// attachment and reflection matrix.
 	/// </summary>
 	/// <returns>The camera orientation.</returns>
-	EngineMath::Quaternion getDerivedOrientation();
+	Engine::Quaternion getDerivedOrientation();
 
 	/// <summary>
 	/// Gets the derived position of the camera, including any translation inherited from a node 
 	/// attachment and reflection matrix. 
 	/// </summary>
 	/// <returns>The camera position.</returns>
-	EngineMath::Vector3 getDerivedPosition();
+	Engine::Vector3 getDerivedPosition();
 
 	/// <summary>
 	/// Gets the derived direction vector of the camera, including any rotation inherited from a node 
 	/// attachment and reflection matrix. 
 	/// </summary>
 	/// <returns>The camera direction.</returns>
-	EngineMath::Vector3 getDerivedDirection();
+	Engine::Vector3 getDerivedDirection();
 
 	/// <summary>
 	/// Gets the derived up vector of the camera, including any rotation inherited from a node 
 	/// attachment and reflection matrix. 
 	/// </summary>
 	/// <returns>The camera up.</returns>
-	EngineMath::Vector3 getDerivedUp();
+	Engine::Vector3 getDerivedUp();
 
 	/// <summary>
 	/// Gets the derived right vector of the camera, including any rotation inherited from a node 
 	/// attachment and reflection matrix. 
 	/// </summary>
 	/// <returns>The camera right.</returns>
-	EngineMath::Vector3 getDerivedRight();
+	Engine::Vector3 getDerivedRight();
 
 	/// <summary>
 	/// Gets the real world orientation of the camera, including any rotation inherited from a node 
 	/// attachment. 
 	/// </summary>
 	/// <returns>The camera orientation.</returns>
-	EngineMath::Quaternion getRealOrientation();
+	Engine::Quaternion getRealOrientation();
 
 	/// <summary>
 	/// Gets the real world position of the camera, including any translation inherited from a node 
 	/// attachment. 
 	/// </summary>
 	/// <returns>The camera position.</returns>
-	EngineMath::Vector3 getRealPosition();
+	Engine::Vector3 getRealPosition();
 
 	/// <summary>
 	/// Gets the real world direction vector of the camera, including any rotation inherited from a node 
 	/// attachment. 
 	/// </summary>
 	/// <returns>The camera direction.</returns>
-	EngineMath::Vector3 getRealDirection();
+	Engine::Vector3 getRealDirection();
 
 	/// <summary>
 	/// Gets the real world up vector of the camera, including any rotation inherited from a node attachment. 
 	/// </summary>
 	/// <returns>The camera up.</returns>
-	EngineMath::Vector3 getRealUp();
+	Engine::Vector3 getRealUp();
 
 	/// <summary>
 	/// Gets the real world right vector of the camera, including any rotation inherited from a node attachment. 
 	/// </summary>
 	/// <returns>The camera right.</returns>
-	EngineMath::Vector3 getRealRight();
+	Engine::Vector3 getRealRight();
 
 	/// <summary>
 	/// Sets the look at position of the camera.
 	/// </summary>
 	/// <param name="lookAt">The position of the look at point.</param>
-	void lookAt( EngineMath::Vector3 lookAt );
+	void lookAt( Engine::Vector3 lookAt );
 
 	/// <summary>
 	/// Sets the level of rendering detail required from this camera.
@@ -176,25 +176,25 @@ public:
 	/// Sets the camera's direction vector. 
 	/// </summary>
 	/// <param name="direction">Vector of the direction.</param>
-	void setDirection(EngineMath::Vector3 direction);
+	void setDirection(Engine::Vector3 direction);
 
 	/// <summary>
 	/// Gets the camera's direction vector. 
 	/// </summary>
 	/// <param name="direction">Vector to fill out with the direction vector.</param>
-	void getDirection(EngineMath::Vector3% direction);
+	void getDirection(Engine::Vector3% direction);
 
 	/// <summary>
 	/// Gets the camera's up vector.
 	/// </summary>
 	/// <param name="up">The vector to fill out.</param>
-	void getUp(EngineMath::Vector3% up);
+	void getUp(Engine::Vector3% up);
 
 	/// <summary>
 	/// Gets the camera's right vector.
 	/// </summary>
 	/// <param name="right">The vector to fill out.</param>
-	void getRight(EngineMath::Vector3% right);
+	void getRight(Engine::Vector3% right);
 	
 	/// <summary>
 	/// This method can be used to influence the overall level of detail of the scenes 
@@ -223,7 +223,7 @@ public:
 	/// <param name="screenx">The x position at which the ray should intersect the viewport, in normalised screen coordinates [0,1]</param>
 	/// <param name="screeny">The y position at which the ray should intersect the viewport, in normalised screen coordinates [0,1]</param>
 	/// <returns></returns>
-	EngineMath::Ray3 getCameraToViewportRay(float screenx, float screeny);
+	Engine::Ray3 getCameraToViewportRay(float screenx, float screeny);
 
 	/// <summary>
 	/// This method can be used to set a subset of the viewport as the rendering target.

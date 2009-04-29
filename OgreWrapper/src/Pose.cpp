@@ -28,12 +28,12 @@ unsigned short Pose::getTarget()
 	return pose->getTarget();
 }
 
-void Pose::addVertex(size_t index, EngineMath::Vector3 offset)
+void Pose::addVertex(size_t index, Engine::Vector3 offset)
 {
 	return pose->addVertex(index, MathUtils::copyVector3(offset));
 }
 
-void Pose::addVertex(size_t index, EngineMath::Vector3% offset)
+void Pose::addVertex(size_t index, Engine::Vector3% offset)
 {
 	return pose->addVertex(index, MathUtils::copyVector3(offset));
 }
@@ -48,7 +48,7 @@ void Pose::clearVertexOffsets()
 	return pose->clearVertexOffsets();
 }
 
-EngineMath::Vector3 Pose::getOffset(size_t index)
+Engine::Vector3 Pose::getOffset(size_t index)
 {
 	Ogre::Pose::VertexOffsetMap map = pose->getVertexOffsets();
 	return MathUtils::copyVector3(map[index]);

@@ -7,35 +7,35 @@
 namespace PhysXWrapper
 {
 
-void MathUtil::copyVector3( const NxVec3& source, EngineMath::Vector3% dest )
+void MathUtil::copyVector3( const NxVec3& source, Engine::Vector3% dest )
 {
 	dest.x = source.x;
 	dest.y = source.y;
 	dest.z = source.z;
 }
 
-void MathUtil::copyVector3( const EngineMath::Vector3% source, NxVec3& dest )
+void MathUtil::copyVector3( const Engine::Vector3% source, NxVec3& dest )
 {
 	dest.x = source.x;
 	dest.y = source.y;
 	dest.z = source.z;
 }
 
-NxVec3 MathUtil::copyVector3(const EngineMath::Vector3% source)
+NxVec3 MathUtil::copyVector3(const Engine::Vector3% source)
 {
 	return NxVec3(source.x, source.y, source.z);
 }
 
-EngineMath::Vector3 MathUtil::copyVector3(const NxVec3& source)
+Engine::Vector3 MathUtil::copyVector3(const NxVec3& source)
 {
-	EngineMath::Vector3 dest;
+	Engine::Vector3 dest;
 	dest.x = source.x;
 	dest.y = source.y;
 	dest.z = source.z;
 	return dest;
 }
 
-NxQuat MathUtil::convertNxQuaternion( EngineMath::Quaternion% quat )
+NxQuat MathUtil::convertNxQuaternion( Engine::Quaternion% quat )
 {
 	NxQuat nxQuat;
 	nxQuat.x = quat.x;
@@ -45,7 +45,7 @@ NxQuat MathUtil::convertNxQuaternion( EngineMath::Quaternion% quat )
 	return nxQuat;
 }
 
-void MathUtil::copyQuaternion( const NxQuat& source, EngineMath::Quaternion% dest )
+void MathUtil::copyQuaternion( const NxQuat& source, Engine::Quaternion% dest )
 {
 	dest.x = source.x;
 	dest.y = source.y;
@@ -53,7 +53,7 @@ void MathUtil::copyQuaternion( const NxQuat& source, EngineMath::Quaternion% des
 	dest.w = source.w;
 }
 
-NxQuat MathUtil::copyQuaternion(EngineMath::Quaternion% source)
+NxQuat MathUtil::copyQuaternion(Engine::Quaternion% source)
 {
 	NxQuat dest;
 	dest.x = source.x;
@@ -63,9 +63,9 @@ NxQuat MathUtil::copyQuaternion(EngineMath::Quaternion% source)
 	return dest;
 }
 
-EngineMath::Quaternion MathUtil::copyQuaternion(const NxQuat& source)
+Engine::Quaternion MathUtil::copyQuaternion(const NxQuat& source)
 {
-	EngineMath::Quaternion dest;
+	Engine::Quaternion dest;
 	dest.x = source.x;
 	dest.y = source.y;
 	dest.z = source.z;
@@ -73,7 +73,7 @@ EngineMath::Quaternion MathUtil::copyQuaternion(const NxQuat& source)
 	return dest;
 }
 
-void MathUtil::copyQuaternion(EngineMath::Quaternion% source, NxMat33& dest)
+void MathUtil::copyQuaternion(Engine::Quaternion% source, NxMat33& dest)
 {
 	NxQuat nxQuat;
 	nxQuat.x = source.x;
@@ -83,43 +83,43 @@ void MathUtil::copyQuaternion(EngineMath::Quaternion% source, NxMat33& dest)
 	dest.fromQuat(nxQuat);
 }
 
-NxMat33 MathUtil::quaternionToMat(EngineMath::Quaternion% source)
+NxMat33 MathUtil::quaternionToMat(Engine::Quaternion% source)
 {
 	NxMat33 ret;
 	copyQuaternion(source, ret);
 	return ret;
 }
 
-void MathUtil::copyMatrix(const NxMat33& source, EngineMath::Quaternion% dest)
+void MathUtil::copyMatrix(const NxMat33& source, Engine::Quaternion% dest)
 {
 	NxQuat nxQuat;
 	source.toQuat(nxQuat);
 	dest.setValue(nxQuat.x, nxQuat.y, nxQuat.z, nxQuat.w);
 }
 
-EngineMath::Quaternion MathUtil::matToQuaternion(const NxMat33& source)
+Engine::Quaternion MathUtil::matToQuaternion(const NxMat33& source)
 {
-	EngineMath::Quaternion ret;
+	Engine::Quaternion ret;
 	copyMatrix(source, ret);
 	return ret;
 }
 
-void MathUtil::copyRay(EngineMath::Ray3% source, NxRay& dest)
+void MathUtil::copyRay(Engine::Ray3% source, NxRay& dest)
 {
 	copyVector3(source.Origin, dest.orig);
 	copyVector3(source.Direction, dest.dir);
 }
 
-void MathUtil::copyRay(const NxRay& source, EngineMath::Ray3% dest)
+void MathUtil::copyRay(const NxRay& source, Engine::Ray3% dest)
 {
-	EngineMath::Vector3 vec = EngineMath::Vector3();
+	Engine::Vector3 vec = Engine::Vector3();
 	copyVector3(source.orig, vec);
 	dest.Origin = vec;
 	copyVector3(source.dir, vec);
 	dest.Direction = vec;
 }
 
-NxRay MathUtil::copyRay(EngineMath::Ray3% source)
+NxRay MathUtil::copyRay(Engine::Ray3% source)
 {
 	NxRay dest;
 	copyVector3(source.Origin, dest.orig);
@@ -127,10 +127,10 @@ NxRay MathUtil::copyRay(EngineMath::Ray3% source)
 	return dest;
 }
 
-EngineMath::Ray3 MathUtil::copyRay(const NxRay& source)
+Engine::Ray3 MathUtil::copyRay(const NxRay& source)
 {
-	EngineMath::Ray3 dest;
-	EngineMath::Vector3 vec = EngineMath::Vector3();
+	Engine::Ray3 dest;
+	Engine::Vector3 vec = Engine::Vector3();
 	copyVector3(source.orig, vec);
 	dest.Origin = vec;
 	copyVector3(source.dir, vec);

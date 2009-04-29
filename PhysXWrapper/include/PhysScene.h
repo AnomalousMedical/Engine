@@ -74,13 +74,13 @@ public:
 	/// Sets the gravity in units per timeunits squared.
 	/// </summary>
 	/// <param name="grav">The gravity to set.</param>
-	void setGravity(EngineMath::Vector3 grav);
+	void setGravity(Engine::Vector3 grav);
 
 	/// <summary>
 	/// Gets the current gravity.
 	/// </summary>
 	/// <param name="grav">The vector3 to hold the result.</param>
-	void getGravity(EngineMath::Vector3% grav);
+	void getGravity(Engine::Vector3% grav);
 
 	/// <summary>
 	/// Creates an actor in this scene.
@@ -140,7 +140,7 @@ public:
 	/// <param name="report">The report callback to use.</param>
 	/// <param name="shapesType">The types of shapes to include in the raycast.</param>
 	/// <returns>Returns the number of shapes hit.</returns>
-	int raycastAllShapes( EngineMath::Ray3 ray, 
+	int raycastAllShapes( Engine::Ray3 ray, 
 						  RaycastReport^ report, 
 					      ShapesType shapesType );
 
@@ -154,7 +154,7 @@ public:
 	/// <param name="report">The report callback to use.</param>
 	/// <param name="shapesType">The types of shapes to include in the raycast.</param>
 	/// <param name="groups">Mask used to filter shape objects.  Works on shape groups.</param>
-	int raycastAllShapes( EngineMath::Ray3 ray, 
+	int raycastAllShapes( Engine::Ray3 ray, 
 						  RaycastReport^ report, 
 					      ShapesType shapesType, 
 						  unsigned int groups );
@@ -170,7 +170,7 @@ public:
 	/// <param name="shapesType">The types of shapes to include in the raycast.</param>
 	/// <param name="groups">Mask used to filter shape objects.  Works on shape groups.</param>
 	/// <param name="maxDistance">Max distance to check along the ray for intersecting objects. Range: (0,inf)</param>
-	int raycastAllShapes( EngineMath::Ray3 ray, 
+	int raycastAllShapes( Engine::Ray3 ray, 
 						  RaycastReport^ report, 
 					      ShapesType shapesType, 
 						  unsigned int groups, 
@@ -188,7 +188,7 @@ public:
 	/// <param name="groups">Mask used to filter shape objects.  Works on shape groups.</param>
 	/// <param name="maxDistance">Max distance to check along the ray for intersecting objects. Range: (0,inf)</param>
 	/// <param name="hintFlags">Allows the user to specify which field of NxRaycastHit they are interested in.</param>
-	int raycastAllShapes( EngineMath::Ray3 ray, 
+	int raycastAllShapes( Engine::Ray3 ray, 
 						  RaycastReport^ report, 
 					      ShapesType shapesType, 
 						  unsigned int groups, 

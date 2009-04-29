@@ -189,30 +189,30 @@ public:
 	/// If the type of xDrive (yDrive,zDrive) is NX_D6JOINT_DRIVE_POSITION, drivePosition 
 	/// defines the goal position.
 	/// </summary>
-	property EngineMath::Vector3 DrivePosition 
+	property Engine::Vector3 DrivePosition 
 	{
-		EngineMath::Vector3 get();
-		void set(EngineMath::Vector3 value);
+		Engine::Vector3 get();
+		void set(Engine::Vector3 value);
 	}
 
 	/// <summary>
 	/// If the type of swingDrive or twistDrive is NX_D6JOINT_DRIVE_POSITION, driveOrientation 
 	/// defines the goal orientation.
 	/// </summary>
-	property EngineMath::Quaternion DriveOrientation 
+	property Engine::Quaternion DriveOrientation 
 	{
-		EngineMath::Quaternion get();
-		void set(EngineMath::Quaternion value);
+		Engine::Quaternion get();
+		void set(Engine::Quaternion value);
 	}
 
 	/// <summary>
 	/// If the type of xDrive (yDrive,zDrive) is NX_D6JOINT_DRIVE_VELOCITY, driveLinearVelocity 
 	/// defines the goal linear velocity.
 	/// </summary>
-	property EngineMath::Vector3 DriveLinearVelocity 
+	property Engine::Vector3 DriveLinearVelocity 
 	{
-		EngineMath::Vector3 get();
-		void set(EngineMath::Vector3 value);
+		Engine::Vector3 get();
+		void set(Engine::Vector3 value);
 	}
 
 	/// <summary>
@@ -221,10 +221,10 @@ public:
 	/// driveAngularVelocity.y - goal angular velocity about the swing1 axis 
 	/// driveAngularVelocity.z - goal angular velocity about the swing2 axis
 	/// </summary>
-	property EngineMath::Vector3 DriveAngularVelocity 
+	property Engine::Vector3 DriveAngularVelocity 
 	{
-		EngineMath::Vector3 get();
-		void set(EngineMath::Vector3 value);
+		Engine::Vector3 get();
+		void set(Engine::Vector3 value);
 	}
 
 	/// <summary>

@@ -27,10 +27,10 @@ public:
 	/// <summary>
 	/// Dimensions of the box as half extents.
 	/// </summary>
-	property EngineMath::Vector3 Dimensions 
+	property Engine::Vector3 Dimensions 
 	{ 
-		EngineMath::Vector3 get();
-		void set(EngineMath::Vector3 dimensions);
+		Engine::Vector3 get();
+		void set(Engine::Vector3 dimensions);
 	}
 };
 

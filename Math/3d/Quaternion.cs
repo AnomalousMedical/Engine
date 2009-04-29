@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace EngineMath
+namespace Engine
 {
     /// <summary>
     /// Quaternion math class.

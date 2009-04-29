@@ -6,8 +6,8 @@ using PhysXWrapper;
 using Engine.Editing;
 using Engine.ObjectManagement;
 using Engine.Saving;
-using EngineMath;
 using Engine.Reflection;
+using Engine;
 
 namespace PhysXPlugin
 {

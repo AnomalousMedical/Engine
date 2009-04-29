@@ -45,7 +45,7 @@ public:
 	/// vector into actor1 resp. actor2's local space. The actor pointers must already be set!
 	/// </summary>
 	/// <param name="wsAnchor">wsAnchor  Global frame anchor point. Range: position vector</param>
-	void setGlobalAnchor(EngineMath::Vector3 wsAnchor);
+	void setGlobalAnchor(Engine::Vector3 wsAnchor);
 
 	/// <summary>
 	/// Set the local axis/normal using a world space axis. 
@@ -54,7 +54,7 @@ public:
 	/// localNormal[0,1]. The actor pointers must already be set!
 	/// </summary>
 	/// <param name="wsAxis">wsAxis  Global frame axis. Range: direction vector</param>
-	void setGlobalAxis(EngineMath::Vector3 wsAxis);
+	void setGlobalAxis(Engine::Vector3 wsAxis);
 
 	/// <summary>
 	/// The two actors connected by the joint.
@@ -75,10 +75,10 @@ public:
 	/// each other, i.e. dot(localNormal[0],localAxis[0])==0 and dot(localNormal[1],
 	/// localAxis[1])==0.
 	/// </summary>
-	property EngineMath::Vector3 LocalNormal[int]
+	property Engine::Vector3 LocalNormal[int]
 	{
-		EngineMath::Vector3 get(int index);
-		void set(int index, EngineMath::Vector3 value);
+		Engine::Vector3 get(int index);
+		void set(int index, Engine::Vector3 value);
 	}
 
 	/// <summary>
@@ -86,19 +86,19 @@ public:
 	/// LocalAxis and LocalNormal should be unit length and at right angles to each other, 
 	/// i.e. dot(localNormal[0],localAxis[0])==0 and dot(localNormal[1],localAxis[1])==0.
 	/// </summary>
-	property EngineMath::Vector3 LocalAxis[int]
+	property Engine::Vector3 LocalAxis[int]
 	{
-		EngineMath::Vector3 get(int index);
-		void set(int index, EngineMath::Vector3 value);
+		Engine::Vector3 get(int index);
+		void set(int index, Engine::Vector3 value);
 	}
 
 	/// <summary>
 	/// Attachment point of joint in actor[i]'s space.
 	/// </summary>
-	property EngineMath::Vector3 LocalAnchor[int]
+	property Engine::Vector3 LocalAnchor[int]
 	{
-		EngineMath::Vector3 get(int index);
-		void set(int index, EngineMath::Vector3 value);
+		Engine::Vector3 get(int index);
+		void set(int index, Engine::Vector3 value);
 	}
 
 	/// <summary>

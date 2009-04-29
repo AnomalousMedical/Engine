@@ -56,7 +56,7 @@ public:
 	/// </summary>
 	/// <param name="normal">The normal of the plane.</param>
 	/// <param name="constant">The distance to move the plane along the normal.</param>
-	Plane(EngineMath::Vector3 normal, float constant);
+	Plane(Engine::Vector3 normal, float constant);
 
 	/// <summary>
 	/// Construct a plane using the 4 constants directly. 
@@ -72,7 +72,7 @@ public:
 	/// </summary>
 	/// <param name="normal">The normal of the plane.</param>
 	/// <param name="point">The point to place the plane on.</param>
-	Plane(EngineMath::Vector3 normal, EngineMath::Vector3 point);
+	Plane(Engine::Vector3 normal, Engine::Vector3 point);
 
 	/// <summary>
 	/// Build a plane based on 3 points.
@@ -80,14 +80,14 @@ public:
 	/// <param name="point0">The first point.</param>
 	/// <param name="point1">The second point.</param>
 	/// <param name="point2">The third point.</param>
-	Plane(EngineMath::Vector3 point0, EngineMath::Vector3 point1, EngineMath::Vector3 point2);
+	Plane(Engine::Vector3 point0, Engine::Vector3 point1, Engine::Vector3 point2);
 
 	/// <summary>
 	/// Get the side of the plane the given point is on.
 	/// </summary>
 	/// <param name="point">The point to test.</param>
 	/// <returns>The Point::Side the point is on.</returns>
-	Side getSide(EngineMath::Vector3 point);
+	Side getSide(Engine::Vector3 point);
 
 	/// <summary>
 	/// Get the side the AxisAlignedBox is on.
@@ -104,7 +104,7 @@ public:
 	/// <param name="center">The centre of the box.</param>
 	/// <param name="halfSize">The half-size of the box. </param>
 	/// <returns>POSITIVE_SIDE if the box complete lies on the "positive side" of the plane, NEGATIVE_SIDE if the box complete lies on the "negative side" of the plane, and BOTH_SIDE if the box intersects the plane.</returns>
-	Side getSide(EngineMath::Vector3 center, EngineMath::Vector3 halfSize);
+	Side getSide(Engine::Vector3 center, Engine::Vector3 halfSize);
 
 	/// <summary>
 	/// This is a pseudodistance.
@@ -118,7 +118,7 @@ public:
 	/// </summary>
 	/// <param name="point">The point to test.</param>
 	/// <returns>The pseudodistance, see explination as to the nature of this distance.</returns>
-	float getDistance(EngineMath::Vector3 point);
+	float getDistance(Engine::Vector3 point);
 
 	/// <summary>
 	/// Redefine this plane based on 3 points. 
@@ -126,14 +126,14 @@ public:
 	/// <param name="point0">The first point.</param>
 	/// <param name="point1">The second point.</param>
 	/// <param name="point2">The third point.</param>
-	void redefine(EngineMath::Vector3 point0, EngineMath::Vector3 point1, EngineMath::Vector3 point2);
+	void redefine(Engine::Vector3 point0, Engine::Vector3 point1, Engine::Vector3 point2);
 
 	/// <summary>
 	/// Redefine the plane from a normal and a point.
 	/// </summary>
 	/// <param name="normal">The normal of the plane.</param>
 	/// <param name="point">The point to place the plane on.</param>
-	void redefine(EngineMath::Vector3 normal, EngineMath::Vector3 point);
+	void redefine(Engine::Vector3 normal, Engine::Vector3 point);
 
 	/// <summary>
 	/// Project a vector onto the plane.
@@ -145,7 +145,7 @@ public:
 	/// </summary>
 	/// <param name="v">The vector to project.</param>
 	/// <returns>The vector projected onto the plane.</returns>
-	EngineMath::Vector3 projectVector(EngineMath::Vector3 v);
+	Engine::Vector3 projectVector(Engine::Vector3 v);
 
 	/// <summary>
 	/// Normalises the plane. 

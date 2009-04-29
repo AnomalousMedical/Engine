@@ -38,7 +38,7 @@ public:
 	/// 
 	/// </summary>
 	/// <param name="dimen"></param>
-	void setDimensions(EngineMath::Vector3 dimen);
+	void setDimensions(Engine::Vector3 dimen);
 
 	/// <summary>
 	/// Sets the box dimensions. 
@@ -48,7 +48,7 @@ public:
 	/// </para>
 	/// </summary>
 	/// <param name="dimen">The new 'radii' of the box. Range: direction vector</param>
-	void setDimensions(EngineMath::Vector3% dimen);
+	void setDimensions(Engine::Vector3% dimen);
 
 	/// <summary>
 	/// Retrieves the dimensions of the box.
@@ -58,7 +58,7 @@ public:
 	/// </para>
 	/// </summary>
 	/// <returns>The 'radii' of the box.</returns>
-	EngineMath::Vector3 getDimensions();
+	Engine::Vector3 getDimensions();
 
 	/// <summary>
 	/// Saves the state of the shape object to a descriptor.

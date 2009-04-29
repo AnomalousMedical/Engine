@@ -59,47 +59,47 @@ System::String^ TextAreaOverlayElement::getFontName()
 	return MarshalUtils::convertString(textArea->getFontName());
 }
 
-void TextAreaOverlayElement::setColor(EngineMath::Color color)
+void TextAreaOverlayElement::setColor(Engine::Color color)
 {
 	return textArea->setColour(MathUtils::copyColor(color));
 }
 
-void TextAreaOverlayElement::setColor(EngineMath::Color% color)
+void TextAreaOverlayElement::setColor(Engine::Color% color)
 {
 	return textArea->setColour(MathUtils::copyColor(color));
 }
 
-EngineMath::Color TextAreaOverlayElement::getColor()
+Engine::Color TextAreaOverlayElement::getColor()
 {
 	return MathUtils::copyColor(textArea->getColour());
 }
 
-void TextAreaOverlayElement::setColorTop(EngineMath::Color color)
+void TextAreaOverlayElement::setColorTop(Engine::Color color)
 {
 	return textArea->setColourTop(MathUtils::copyColor(color));
 }
 
-void TextAreaOverlayElement::setColorTop(EngineMath::Color% color)
+void TextAreaOverlayElement::setColorTop(Engine::Color% color)
 {
 	return textArea->setColourTop(MathUtils::copyColor(color));
 }
 
-EngineMath::Color TextAreaOverlayElement::getColorTop()
+Engine::Color TextAreaOverlayElement::getColorTop()
 {
 	return MathUtils::copyColor(textArea->getColourTop());
 }
 
-void TextAreaOverlayElement::setColorBottom(EngineMath::Color color)
+void TextAreaOverlayElement::setColorBottom(Engine::Color color)
 {
 	return textArea->setColourBottom(MathUtils::copyColor(color));
 }
 
-void TextAreaOverlayElement::setColorBottom(EngineMath::Color% color)
+void TextAreaOverlayElement::setColorBottom(Engine::Color% color)
 {
 	return textArea->setColourBottom(MathUtils::copyColor(color));
 }
 
-EngineMath::Color TextAreaOverlayElement::getColorBottom()
+Engine::Color TextAreaOverlayElement::getColorBottom()
 {
 	return MathUtils::copyColor(textArea->getColourBottom());
 }

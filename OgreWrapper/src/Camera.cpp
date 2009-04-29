@@ -39,67 +39,67 @@ System::String^ Camera::getName()
 	return MarshalUtils::convertString(camera->getName());
 }
 
-void Camera::setPosition( EngineMath::Vector3 position )
+void Camera::setPosition( Engine::Vector3 position )
 {
 	camera->setPosition( MathUtils::copyVector3(position) );
 }
 
-EngineMath::Vector3 Camera::getPosition()
+Engine::Vector3 Camera::getPosition()
 {
 	return MathUtils::copyVector3(camera->getPosition());
 }
 
-EngineMath::Quaternion Camera::getDerivedOrientation()
+Engine::Quaternion Camera::getDerivedOrientation()
 {
 	return MathUtils::copyQuaternion(camera->getDerivedOrientation());
 }
 
-EngineMath::Vector3 Camera::getDerivedPosition()
+Engine::Vector3 Camera::getDerivedPosition()
 {
 	return MathUtils::copyVector3(camera->getDerivedPosition());
 }
 
-EngineMath::Vector3 Camera::getDerivedDirection()
+Engine::Vector3 Camera::getDerivedDirection()
 {
 	return MathUtils::copyVector3(camera->getDerivedDirection());
 }
 
-EngineMath::Vector3 Camera::getDerivedUp()
+Engine::Vector3 Camera::getDerivedUp()
 {
 	return MathUtils::copyVector3(camera->getDerivedUp());
 }
 
-EngineMath::Vector3 Camera::getDerivedRight()
+Engine::Vector3 Camera::getDerivedRight()
 {
 	return MathUtils::copyVector3(camera->getDerivedRight());
 }
 
-EngineMath::Quaternion Camera::getRealOrientation()
+Engine::Quaternion Camera::getRealOrientation()
 {
 	return MathUtils::copyQuaternion(camera->getRealOrientation());
 }
 
-EngineMath::Vector3 Camera::getRealPosition()
+Engine::Vector3 Camera::getRealPosition()
 {
 	return MathUtils::copyVector3(camera->getRealPosition());
 }
 
-EngineMath::Vector3 Camera::getRealDirection()
+Engine::Vector3 Camera::getRealDirection()
 {
 	return MathUtils::copyVector3(camera->getRealDirection());
 }
 
-EngineMath::Vector3 Camera::getRealUp()
+Engine::Vector3 Camera::getRealUp()
 {
 	return MathUtils::copyVector3(camera->getRealUp());
 }
 
-EngineMath::Vector3 Camera::getRealRight()
+Engine::Vector3 Camera::getRealRight()
 {
 	return MathUtils::copyVector3(camera->getRealRight());
 }
 
-void Camera::lookAt( EngineMath::Vector3 lookAt )
+void Camera::lookAt( Engine::Vector3 lookAt )
 {
 	camera->lookAt( MathUtils::copyVector3(lookAt) );
 }
@@ -119,22 +119,22 @@ void Camera::setDirection(float x, float y, float z)
 	camera->setDirection(x, y, z);
 }
 
-void Camera::setDirection(EngineMath::Vector3 direction)
+void Camera::setDirection(Engine::Vector3 direction)
 {
 	camera->setDirection(MathUtils::copyVector3(direction));
 }
 
-void Camera::getDirection(EngineMath::Vector3% direction)
+void Camera::getDirection(Engine::Vector3% direction)
 {
 	MathUtils::copyVector3(camera->getDirection(), direction);
 }
 
-void Camera::getUp(EngineMath::Vector3% up)
+void Camera::getUp(Engine::Vector3% up)
 {
 	MathUtils::copyVector3(camera->getUp(), up);
 }
 
-void Camera::getRight(EngineMath::Vector3% right)
+void Camera::getRight(Engine::Vector3% right)
 {
 	MathUtils::copyVector3(camera->getRight(), right);
 }
@@ -149,9 +149,9 @@ float Camera::getLodBias()
 	return camera->getLodBias();
 }
 
-EngineMath::Ray3 Camera::getCameraToViewportRay(float screenx, float screeny)
+Engine::Ray3 Camera::getCameraToViewportRay(float screenx, float screeny)
 {
-	EngineMath::Ray3 ray = EngineMath::Ray3();
+	Engine::Ray3 ray = Engine::Ray3();
 	MathUtils::copyRay(camera->getCameraToViewportRay(screenx, screeny), ray);
 	return ray;
 }

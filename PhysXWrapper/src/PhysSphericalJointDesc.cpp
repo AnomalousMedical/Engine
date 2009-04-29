@@ -19,13 +19,13 @@ PhysJointDesc(joint.Get())
 	jointSpring = gcnew PhysSpringDesc(&joint->jointSpring);
 }
 
-EngineMath::Vector3 PhysSphericalJointDesc::SwingAxis::get() 
+Engine::Vector3 PhysSphericalJointDesc::SwingAxis::get() 
 {
 	NxVec3 v = joint->swingAxis;
-	return EngineMath::Vector3(v.x, v.y, v.z);
+	return Engine::Vector3(v.x, v.y, v.z);
 }
 
-void PhysSphericalJointDesc::SwingAxis::set(EngineMath::Vector3 value) 
+void PhysSphericalJointDesc::SwingAxis::set(Engine::Vector3 value) 
 {
 	joint->swingAxis = NxVec3(value.x, value.y, value.z);
 }

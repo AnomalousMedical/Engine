@@ -24,7 +24,7 @@ public:
 	/// <summary>
 	/// Set the pose of the shape in the coordinate frame of the owning actor.
 	/// </summary>
-	void setLocalPose(EngineMath::Vector3 trans, EngineMath::Quaternion rot);
+	void setLocalPose(Engine::Vector3 trans, Engine::Quaternion rot);
 
 	/// <summary>
 	/// A combination of ShapeFlag values.

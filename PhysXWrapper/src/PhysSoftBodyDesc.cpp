@@ -15,7 +15,7 @@ softBodyMesh(nullptr)
 	meshData = gcnew PhysMeshData(&desc->meshData);
 }
 
-void PhysSoftBodyDesc::setGlobalPose(EngineMath::Vector3 translation, EngineMath::Quaternion rotation)
+void PhysSoftBodyDesc::setGlobalPose(Engine::Vector3 translation, Engine::Quaternion rotation)
 {
 	desc->globalPose.M.fromQuat( MathUtil::convertNxQuaternion(rotation) );
 	MathUtil::copyVector3(translation, desc->globalPose.t);
@@ -183,12 +183,12 @@ void PhysSoftBodyDesc::SolverIterations::set(System::UInt32 value)
 	desc->solverIterations = value;
 }
 
-EngineMath::Vector3 PhysSoftBodyDesc::ExternalAcceleration::get() 
+Engine::Vector3 PhysSoftBodyDesc::ExternalAcceleration::get() 
 {
 	return MathUtil::copyVector3(desc->externalAcceleration);
 }
 
-void PhysSoftBodyDesc::ExternalAcceleration::set(EngineMath::Vector3 value) 
+void PhysSoftBodyDesc::ExternalAcceleration::set(Engine::Vector3 value) 
 {
 	desc->externalAcceleration = MathUtil::copyVector3(value);
 }

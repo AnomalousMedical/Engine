@@ -30,10 +30,10 @@ public:
 	/// <summary>
 	/// Suspension points of two bodies in world space.
 	/// </summary>
-	property EngineMath::Vector3 Pulley[int]
+	property Engine::Vector3 Pulley[int]
 	{
-		EngineMath::Vector3 get(int index);
-		void set(int index, EngineMath::Vector3 value);
+		Engine::Vector3 get(int index);
+		void set(int index, Engine::Vector3 value);
 	}
 
 	/// <summary>

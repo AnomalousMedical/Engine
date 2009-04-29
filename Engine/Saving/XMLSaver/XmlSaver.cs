@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using Engine.ObjectManagement;
-using EngineMath;
 
 namespace Engine.Saving.XMLSaver
 {

@@ -200,14 +200,14 @@ public:
 	/// <param name="shape">Shape to attach the vertex to.</param>
 	/// <param name="localPos">The position relative to the pose of the shape.</param>
 	/// <param name="attachmentFlags">One or two way interaction, tearable or non-tearable.</param>
-	void attachVertexToShape(System::UInt32 vertexId, PhysShape^ shape, EngineMath::Vector3 localPos, PhysSoftBodyAttachmentFlag attachmentFlags);
+	void attachVertexToShape(System::UInt32 vertexId, PhysShape^ shape, Engine::Vector3 localPos, PhysSoftBodyAttachmentFlag attachmentFlags);
 
 	/// <summary>
 	/// Attaches a soft body vertex to a position in world space.
 	/// </summary>
 	/// <param name="vertexId">Index of the vertex to attach.</param>
 	/// <param name="pos">The position in world space.</param>
-	void attachVertexToGlobalPosition(System::UInt32 vertexId, EngineMath::Vector3% pos);
+	void attachVertexToGlobalPosition(System::UInt32 vertexId, Engine::Vector3% pos);
 
 	/// <summary>
 	/// Frees a previously attached soft body vertex.
@@ -237,7 +237,7 @@ public:
 	/// <param name="vertexId">Index of the vertex to tear.</param>
 	/// <param name="normal">The normal of the split plane.</param>
 	/// <returns>true if the split had an effect (i.e. there were tetrahedra on both sides of the split plane)</returns>
-	bool tearVertex(System::UInt32 vertexId, EngineMath::Vector3% normal);
+	bool tearVertex(System::UInt32 vertexId, Engine::Vector3% normal);
 
 	/// <summary>
 	/// Executes a raycast against the soft body.
@@ -246,7 +246,7 @@ public:
 	/// <param name="hit">The hit position.</param>
 	/// <param name="vertexId">Index to the nearest vertex hit by the raycast.</param>
 	/// <returns>true if the ray hits the soft body.</returns>
-	bool raycast(EngineMath::Ray3% worldRay, EngineMath::Vector3% hit, System::UInt32 vertexId);
+	bool raycast(Engine::Ray3% worldRay, Engine::Vector3% hit, System::UInt32 vertexId);
 
 	/// <summary>
 	/// Sets which collision group this soft body is part of.
@@ -277,7 +277,7 @@ public:
 	/// </summary>
 	/// <param name="position">New position of the vertex.</param>
 	/// <param name="vertexId">Index of the vertex.</param>
-	void setPosition(EngineMath::Vector3% position, System::UInt32 vertexId);
+	void setPosition(Engine::Vector3% position, System::UInt32 vertexId);
 
 	/// <summary>
 	/// Sets the positions of the soft body. 
@@ -294,7 +294,7 @@ public:
 	/// </summary>
 	/// <param name="vertexId">Index of the vertex.</param>
 	/// <returns>The position of the vertex.</returns>
-	EngineMath::Vector3 getPosition(System::UInt32 vertexId);
+	Engine::Vector3 getPosition(System::UInt32 vertexId);
 
 	/// <summary>
 	/// Gets the positions of the soft body. 
@@ -311,7 +311,7 @@ public:
 	/// </summary>
 	/// <param name="velocity">New velocity of the vertex.</param>
 	/// <param name="vertexId">Index of the vertex.</param>
-	void setVelocity(EngineMath::Vector3% velocity, System::UInt32 vertexId);
+	void setVelocity(Engine::Vector3% velocity, System::UInt32 vertexId);
 
 	/// <summary>
 	/// Sets the velocities of the soft body. 
@@ -328,7 +328,7 @@ public:
 	/// </summary>
 	/// <param name="vertexId">Index of the vertex.</param>
 	/// <returns>The velocity of index.</returns>
-	EngineMath::Vector3 getVelocity(System::UInt32 vertexId);
+	Engine::Vector3 getVelocity(System::UInt32 vertexId);
 
 	/// <summary>
 	/// Gets the velocities of the soft body. 
@@ -412,13 +412,13 @@ public:
 	/// Sets an external acceleration which affects all non attached particles of the soft body.
 	/// </summary>
 	/// <param name="acceleration">The acceleration vector (unit length / s^2).</param>
-	void setExternalAcceleration(EngineMath::Vector3 acceleration);
+	void setExternalAcceleration(Engine::Vector3 acceleration);
 
 	/// <summary>
 	/// Retrieves the external acceleration which affects all non attached particles of the soft body.
 	/// </summary>
 	/// <returns>The acceleration vector (unit length / s^2).</returns>
-	EngineMath::Vector3 getExternalAcceleration();
+	Engine::Vector3 getExternalAcceleration();
 
 	/// <summary>
 	/// If the NX_SBF_ADHERE flag is set the soft body moves partially in the
@@ -525,7 +525,7 @@ public:
 	/// <param name="force">Force/impulse to add, defined in the global frame. Range: force vector</param>
 	/// <param name="vertexId">Number of the vertex to add the force at. Range: position vector</param>
 	/// <param name="mode">The mode to use when applying the force/impulse (see NxForceMode, supported modes are NX_FORCE, NX_IMPULSE, NX_ACCELERATION, NX_VELOCITY_CHANGE)</param>
-	void addForceAtVertex(EngineMath::Vector3% force, System::UInt32 vertexId, ForceMode mode);
+	void addForceAtVertex(Engine::Vector3% force, System::UInt32 vertexId, ForceMode mode);
 
 	/// <summary>
 	/// Applies a radial force (or impulse) at a particular position. All
@@ -542,7 +542,7 @@ public:
 	/// <param name="magnitude">Magnitude of the force/impulse to apply.</param>
 	/// <param name="radius">The sphere radius in which particles will be affected. Range: position vector</param>
 	/// <param name="mode">The mode to use when applying the force/impulse (see NxForceMode, supported modes are NX_FORCE, NX_IMPULSE, NX_ACCELERATION, NX_VELOCITY_CHANGE).</param>
-	void addForceAtPos(EngineMath::Vector3% position, float magnitude, float radius, ForceMode mode);
+	void addForceAtPos(Engine::Vector3% position, float magnitude, float radius, ForceMode mode);
 
 	/// <summary>
 	/// Retrieves the actor's force field material index, default index is 0.
@@ -567,7 +567,7 @@ public:
 
 	void detachFromShape(NxShape *shape);
 
-	void attachVertexToShape(System::UInt32 vertexId, NxShape *shape, EngineMath::Vector3 &localPos, System::UInt32 attachmentFlags);
+	void attachVertexToShape(System::UInt32 vertexId, NxShape *shape, Engine::Vector3 &localPos, System::UInt32 attachmentFlags);
 
 	void setGroupsMask(NxGroupsMask& groupsMask);
 

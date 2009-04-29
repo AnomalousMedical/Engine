@@ -115,12 +115,12 @@ void Technique::setAmbient(float red, float green, float blue)
 	return ogreTechnique->setAmbient(red, green, blue);
 }
 
-void Technique::setAmbient(EngineMath::Color color)
+void Technique::setAmbient(Engine::Color color)
 {
 	return ogreTechnique->setAmbient(MathUtils::copyColor(color));
 }
 
-void Technique::setAmbient(EngineMath::Color% color)
+void Technique::setAmbient(Engine::Color% color)
 {
 	return ogreTechnique->setAmbient(MathUtils::copyColor(color));
 }
@@ -130,12 +130,12 @@ void Technique::setDiffuse(float red, float green, float blue, float alpha)
 	return ogreTechnique->setDiffuse(red, green, blue, alpha);
 }
 
-void Technique::setDiffuse(EngineMath::Color color)
+void Technique::setDiffuse(Engine::Color color)
 {
 	return ogreTechnique->setDiffuse(MathUtils::copyColor(color));
 }
 
-void Technique::setDiffuse(EngineMath::Color% color)
+void Technique::setDiffuse(Engine::Color% color)
 {
 	return ogreTechnique->setDiffuse(MathUtils::copyColor(color));
 }
@@ -145,12 +145,12 @@ void Technique::setSpecular(float red, float green, float blue, float alpha)
 	return ogreTechnique->setSpecular(red, green, blue, alpha);
 }
 
-void Technique::setSpecular(EngineMath::Color color)
+void Technique::setSpecular(Engine::Color color)
 {
 	return ogreTechnique->setSpecular(MathUtils::copyColor(color));
 }
 
-void Technique::setSpecular(EngineMath::Color% color)
+void Technique::setSpecular(Engine::Color% color)
 {
 	return ogreTechnique->setSpecular(MathUtils::copyColor(color));
 }
@@ -165,12 +165,12 @@ void Technique::setSelfIllumination(float red, float green, float blue)
 	return ogreTechnique->setSelfIllumination(red, green, blue);
 }
 
-void Technique::setSelfIllumination(EngineMath::Color color)
+void Technique::setSelfIllumination(Engine::Color color)
 {
 	return ogreTechnique->setSelfIllumination(MathUtils::copyColor(color));
 }
 
-void Technique::setSelfIllumination(EngineMath::Color% color)
+void Technique::setSelfIllumination(Engine::Color% color)
 {
 	return ogreTechnique->setSelfIllumination(MathUtils::copyColor(color));
 }
@@ -215,12 +215,12 @@ void Technique::setShadingMode(ShadeOptions mode)
 	return ogreTechnique->setShadingMode((Ogre::ShadeOptions)mode);
 }
 
-void Technique::setFog(bool overrideScene, FogMode mode, EngineMath::Color% color)
+void Technique::setFog(bool overrideScene, FogMode mode, Engine::Color% color)
 {
 	return ogreTechnique->setFog(overrideScene, (Ogre::FogMode)mode, MathUtils::copyColor(color));
 }
 
-void Technique::setFog(bool overrideScene, FogMode mode, EngineMath::Color% color, float expDensity, float linearStart, float linearEnd)
+void Technique::setFog(bool overrideScene, FogMode mode, Engine::Color% color, float expDensity, float linearStart, float linearEnd)
 {
 	return ogreTechnique->setFog(overrideScene, (Ogre::FogMode)mode, MathUtils::copyColor(color), expDensity, linearStart, linearEnd);
 }

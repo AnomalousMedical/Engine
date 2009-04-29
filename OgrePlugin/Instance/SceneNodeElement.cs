@@ -5,7 +5,6 @@ using System.Text;
 using Engine.ObjectManagement;
 using Engine.Editing;
 using OgreWrapper;
-using EngineMath;
 using Engine;
 
 namespace OgrePlugin

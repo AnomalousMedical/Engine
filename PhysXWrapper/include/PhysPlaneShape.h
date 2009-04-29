@@ -57,14 +57,14 @@ public:
 	/// </summary>
 	/// <param name="normal">Normal for the plane, in the global frame. Range: direction vector</param>
 	/// <param name="d">'d' coefficient of the plane equation. Range: (-inf,inf)</param>
-	void setPlane(EngineMath::Vector3 normal, float d);
+	void setPlane(Engine::Vector3 normal, float d);
 
 	/// <summary>
 	/// sets the plane equation.
 	/// </summary>
 	/// <param name="normal">Normal for the plane, in the global frame. Range: direction vector</param>
 	/// <param name="d">'d' coefficient of the plane equation. Range: (-inf,inf)</param>
-	void setPlane(EngineMath::Vector3% normal, float d);
+	void setPlane(Engine::Vector3% normal, float d);
 
 	/// <summary>
 	/// Save to the given description.

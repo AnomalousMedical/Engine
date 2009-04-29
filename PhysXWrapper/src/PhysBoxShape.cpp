@@ -27,17 +27,17 @@ NxBoxShape* PhysBoxShape::getNxBoxShape()
 	return nxBox;
 }
 
-void PhysBoxShape::setDimensions(EngineMath::Vector3 dimen)
+void PhysBoxShape::setDimensions(Engine::Vector3 dimen)
 {
 	nxBox->setDimensions(MathUtil::copyVector3(dimen));
 }
 
-void PhysBoxShape::setDimensions(EngineMath::Vector3% dimen)
+void PhysBoxShape::setDimensions(Engine::Vector3% dimen)
 {
 	nxBox->setDimensions(MathUtil::copyVector3(dimen));
 }
 
-EngineMath::Vector3 PhysBoxShape::getDimensions()
+Engine::Vector3 PhysBoxShape::getDimensions()
 {
 	return MathUtil::copyVector3(nxBox->getDimensions());
 }

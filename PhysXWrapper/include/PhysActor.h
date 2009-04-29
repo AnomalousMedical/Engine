@@ -128,25 +128,25 @@ public:
 	/// Set the global translation of the rigid body.
 	/// </summary>
 	/// <param name="translation">The translation to set.</param>
-	void setGlobalPosition( EngineMath::Vector3 translation );
+	void setGlobalPosition( Engine::Vector3 translation );
 
 	/// <summary>
 	/// Set the global rotation of the rigid body.
 	/// </summary>
 	/// <param name="rotation">The rotation to set.</param>
-	void setGlobalOrientationQuat( EngineMath::Quaternion rotation );
+	void setGlobalOrientationQuat( Engine::Quaternion rotation );
 
 	/// <summary>
 	/// Return the current translation in world coordinates.
 	/// </summary>
 	/// <returns>The global position of the actor.</returns>
-	EngineMath::Vector3 getGlobalPosition();
+	Engine::Vector3 getGlobalPosition();
 
 	/// <summary>
 	/// Return the current rotation in world coordinates.
 	/// </summary>
 	/// <returns>The global orientation of the actor.</returns>
-	EngineMath::Quaternion getGlobalOrientationQuat();
+	Engine::Quaternion getGlobalOrientationQuat();
 
 	/// <summary>
 	/// Makes the actor part of actorGroup.  This way it can participate
@@ -231,7 +231,7 @@ public:
 	/// <param name="pos">Position in the global frame to add the force at. Range: position vector.</param>
 	/// <param name="mode">The mode to use when applying the force/impulse.</param>
 	/// <param name="wakeup">Specify if the call should wake up the actor.</param>
-	void addForceAtPos( EngineMath::Vector3% force, EngineMath::Vector3% pos, ForceMode mode, bool wakeup );
+	void addForceAtPos( Engine::Vector3% force, Engine::Vector3% pos, ForceMode mode, bool wakeup );
 
 	/// <summary>
 	/// Applies a force (or impulse) defined in the global coordinate frame, 
@@ -241,7 +241,7 @@ public:
 	/// <param name="pos">Position in the local frame to add the force at. Range: position vector.</param>
 	/// <param name="mode">The mode to use when applying the force/impulse.</param>
 	/// <param name="wakeup">Specify if the call should wake up the actor.</param>
-	void addForceAtLocalPos (const EngineMath::Vector3% force, const EngineMath::Vector3% pos, ForceMode mode, bool wakeup);
+	void addForceAtLocalPos (const Engine::Vector3% force, const Engine::Vector3% pos, ForceMode mode, bool wakeup);
   
 	/// <summary>
 	/// Applies a force (or impulse) defined in the actor local coordinate 
@@ -251,7 +251,7 @@ public:
 	/// <param name="pos">Position in the global frame to add the force at. Range: position vector.</param>
 	/// <param name="mode">The mode to use when applying the force/impulse.</param>
 	/// <param name="wakeup">Specify if the call should wake up the actor.</param>
-	void addLocalForceAtPos (const EngineMath::Vector3% force, const EngineMath::Vector3% pos, ForceMode mode, bool wakeup);
+	void addLocalForceAtPos (const Engine::Vector3% force, const Engine::Vector3% pos, ForceMode mode, bool wakeup);
 
 	/// <summary>
 	/// Applies a force (or impulse) defined in the actor local coordinate frame, 
@@ -261,7 +261,7 @@ public:
 	/// <param name="pos">Position in the local frame to add the force at. Range: position vector.</param>
 	/// <param name="mode">The mode to use when applying the force/impulse.</param>
 	/// <param name="wakeup">Specify if the call should wake up the actor.</param>
-	void addLocalForceAtLocalPos (const EngineMath::Vector3% force, const EngineMath::Vector3% pos, ForceMode mode, bool wakeup);
+	void addLocalForceAtLocalPos (const Engine::Vector3% force, const Engine::Vector3% pos, ForceMode mode, bool wakeup);
 
 	/// <summary>
 	/// Applies a force (or impulse) defined in the global coordinate frame to the actor. 
@@ -269,7 +269,7 @@ public:
 	/// <param name="force">Force/Impulse to apply defined in the global frame. Range: force vector.</param>
 	/// <param name="mode">The mode to use when applying the force/impulse.</param>
 	/// <param name="wakeup">Specify if the call should wake up the actor.</param>
-	void addForce (const EngineMath::Vector3% force, ForceMode mode, bool wakeup);
+	void addForce (const Engine::Vector3% force, ForceMode mode, bool wakeup);
   
 	/// <summary>
 	/// Applies a force (or impulse) defined in the actor local coordinate frame to the actor. 
@@ -277,7 +277,7 @@ public:
 	/// <param name="force">Force/Impulse to apply defined in the local frame. Range: force vector.</param>
 	/// <param name="mode">The mode to use when applying the force/impulse.</param>
 	/// <param name="wakeup">Specify if the call should wake up the actor.</param>
-	void addLocalForce (const EngineMath::Vector3% force, ForceMode mode, bool wakeup);
+	void addLocalForce (const Engine::Vector3% force, ForceMode mode, bool wakeup);
   
 	/// <summary>
 	/// Applies an impulsive torque defined in the global coordinate frame to the actor. 
@@ -285,7 +285,7 @@ public:
 	/// <param name="torque">Torque to apply defined in the global frame. Range: torque vector.</param>
 	/// <param name="mode">The mode to use when applying the force/impulse.</param>
 	/// <param name="wakeup">Specify if the call should wake up the actor.</param>
-	void addTorque (const EngineMath::Vector3% torque, ForceMode mode, bool wakeup);
+	void addTorque (const Engine::Vector3% torque, ForceMode mode, bool wakeup);
   
 	/// <summary>
 	/// Applies an impulsive torque defined in the actor local coordinate frame to the actor. 
@@ -293,7 +293,7 @@ public:
 	/// <param name="torque">Torque to apply defined in the local frame. Range: torque vector.</param>
 	/// <param name="mode">The mode to use when applying the force/impulse.</param>
 	/// <param name="wakeup">Specify if the call should wake up the actor.</param>
-	void addLocalTorque (const EngineMath::Vector3% torque, ForceMode mode, bool wakeup); 
+	void addLocalTorque (const Engine::Vector3% torque, ForceMode mode, bool wakeup); 
 
 
 	//-----------------
@@ -311,7 +311,7 @@ public:
 	/// through the game world.
 	/// </summary>
 	/// <param name="vec">The desired pose for the kinematic actor, in the global frame. Range: rigid body transform.</param>
-	void moveGlobalPosition (const EngineMath::Vector3% vec);
+	void moveGlobalPosition (const Engine::Vector3% vec);
   
 	/// <summary>
 	/// The moveGlobal* calls serve to move kinematically controlled dynamic actors 
@@ -324,7 +324,7 @@ public:
 	/// through the game world.
 	/// </summary>
 	/// <param name="quat">The desired orientation quaternion for the kinematic actor, in the global frame.</param>
-	void moveGlobalOrientationQuat (EngineMath::Quaternion% quat);
+	void moveGlobalOrientationQuat (Engine::Quaternion% quat);
 
 	//---------------------
 	//Center of mass
@@ -341,7 +341,7 @@ public:
 	/// to the actor. 
 	/// </summary>
 	/// <param name="vec">Mass frame offset relative to the actor frame. Range: position vector.</param>
-	void setCMassOffsetLocalPosition(EngineMath::Vector3 vec);
+	void setCMassOffsetLocalPosition(Engine::Vector3 vec);
   
 	/// <summary>
 	/// The setCMassOffsetLocal*() methods set the pose of the center of mass relative 
@@ -360,7 +360,7 @@ public:
 	/// relative to world space. 
 	/// </summary>
 	/// <param name="vec">Mass frame offset relative to the global frame. Range: position vector.</param>
-	void setCMassOffsetGlobalPosition(EngineMath::Vector3 vec);
+	void setCMassOffsetGlobalPosition(Engine::Vector3 vec);
 
 	/// <summary>
 	/// The setCMassOffsetGlobal*() methods set the pose of the center of mass relative 
@@ -377,7 +377,7 @@ public:
 	/// The setCMassGlobal*() methods move the actor by setting the pose of the center of mass. 
 	/// </summary>
 	/// <param name="vec">Actors new position, from the transformation of the mass frame to the global frame. Range: position vector.</param>
-	void setCMassGlobalPosition(EngineMath::Vector3 vec);
+	void setCMassGlobalPosition(Engine::Vector3 vec);
 
 	/// <summary>
 	/// The setCMassGlobal*() methods move the actor by setting the pose of the center of mass. 
@@ -393,7 +393,7 @@ public:
 	/// The getCMassLocal*() methods retrieve the center of mass pose relative to the actor. 
 	/// </summary>
 	/// <param name="cMass">The vector that will hold the result.</param>
-	void getCMassLocalPosition( EngineMath::Vector3% cMass );
+	void getCMassLocalPosition( Engine::Vector3% cMass );
   
 	/// <summary>
 	/// The getCMassLocal*() methods retrieve the center of mass pose relative to the actor. 
@@ -409,7 +409,7 @@ public:
 	/// The getCMassGlobal*() methods retrieve the center of mass pose in world space. 
 	/// </summary>
 	/// <param name="cMass">The vector that will hold the result.</param>
-	void getCMassGlobalPosition( EngineMath::Vector3% cMass );
+	void getCMassGlobalPosition( Engine::Vector3% cMass );
 	
 	/// <summary>
 	/// The getCMassGlobal*() methods retrieve the center of mass pose in world space. 
@@ -439,13 +439,13 @@ public:
 	/// The actor must be dynamic.
 	/// </remarks>
 	/// <param name="m">New mass space inertia tensor for the actor. Range: inertia vector.</param>
-	void setMassSpaceInertiaTensor(EngineMath::Vector3% m);
+	void setMassSpaceInertiaTensor(Engine::Vector3% m);
   
 	/// <summary>
 	/// Retrieves the diagonal inertia tensor of the actor relative to the mass coordinate frame. 
 	/// </summary>
 	/// <param name="inertiaTensor">The Vector3 that will hold the result.</param>
-	void getMassSpaceInertiaTensor( EngineMath::Vector3% inertiaTensor );
+	void getMassSpaceInertiaTensor( Engine::Vector3% inertiaTensor );
   
 	/// <summary>
 	/// Retrieves the inertia tensor of the actor relative to the world coordinate frame. 
@@ -501,25 +501,25 @@ public:
 	/// Sets the linear velocity of the actor.
 	/// </summary>
 	/// <param name="linVel">The velocity to set.</param>
-	void setLinearVelocity(EngineMath::Vector3 linVel); 
+	void setLinearVelocity(Engine::Vector3 linVel); 
    
 	/// <summary>
 	/// Sets the angular velocity of the actor. 
 	/// </summary>
 	/// <param name="angVel">The velocity to set.</param>
-	void setAngularVelocity(EngineMath::Vector3 angVel);
+	void setAngularVelocity(Engine::Vector3 angVel);
 	  
 	/// <summary>
 	/// Retrieves the linear velocity of an actor. 
 	/// </summary>
 	/// <param name="linVel">The vector3 that will hold the result.</param>
-	void getLinearVelocity( EngineMath::Vector3% linVel );
+	void getLinearVelocity( Engine::Vector3% linVel );
 	  
 	/// <summary>
 	/// Retrieves the angular velocity of the actor.
 	/// </summary>
 	/// <param name="angVel">The vector3 that will hold the result.</param>
-	void getAngularVelocity( EngineMath::Vector3% angVel );
+	void getAngularVelocity( Engine::Vector3% angVel );
 	   
 	/// <summary>
 	/// Lets you set the maximum angular velocity permitted for this actor.
@@ -541,25 +541,25 @@ public:
 	/// Sets the linear momentum of the actor.
 	/// </summary>
 	/// <param name="linMoment">New linear momentum. Range: momentum vector</param>
-	void setLinearMomentum(EngineMath::Vector3 linMoment);
+	void setLinearMomentum(Engine::Vector3 linMoment);
    
 	/// <summary>
 	/// Sets the angular momentum of the actor. 
 	/// </summary>
 	/// <param name="angMoment">New linear momentum. Range: momentum vector</param>
-	void setAngularMomentum(EngineMath::Vector3 angMoment);
+	void setAngularMomentum(Engine::Vector3 angMoment);
   
 	/// <summary>
 	/// Retrieves the linear momentum of an actor. 
 	/// </summary>
 	/// <param name="momentum">The vector to hold the result.</param>
-	void getLinearMomentum( EngineMath::Vector3% momentum );
+	void getLinearMomentum( Engine::Vector3% momentum );
 	  
 	/// <summary>
 	/// Retrieves the angular momentum of an actor.  
 	/// </summary>
 	/// <param name="momentum">The vector to hold the result.</param>
-	void getAngularMomentum( EngineMath::Vector3% momentum );
+	void getAngularMomentum( Engine::Vector3% momentum );
 
 	//---------------
 	//Point Velocity
@@ -571,7 +571,7 @@ public:
 	/// </summary>
 	/// <param name="point">Point we wish to determine the velocity for, defined in the global frame. Range: position vector.</param>
 	/// <param name="result">The vector to hold the result.</param>
-	void getPointVelocity(EngineMath::Vector3 point, EngineMath::Vector3% result);
+	void getPointVelocity(Engine::Vector3 point, Engine::Vector3% result);
   
 	/// <summary>
 	/// Computes the velocity of a point given in body local coordinates as if it 
@@ -579,7 +579,7 @@ public:
 	/// </summary>
 	/// <param name="point">Point we wish to determine the velocity for, defined in the local frame. Range: position vector.</param>
 	/// <param name="result">The vector to hold the result.</param>
-	void getLocalPointVelocity(EngineMath::Vector3 point, EngineMath::Vector3% result);
+	void getLocalPointVelocity(Engine::Vector3 point, Engine::Vector3% result);
 
 	//-------
 	//Shapes

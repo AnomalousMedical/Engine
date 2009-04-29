@@ -138,7 +138,7 @@ namespace Engine
         /// </summary>
         /// <param name="translation">The translation to set.</param>
         /// <param name="rotation">The rotation to set.</param>
-        protected override sealed void updatePositionImpl(ref EngineMath.Vector3 translation, ref EngineMath.Quaternion rotation)
+        protected override sealed void updatePositionImpl(ref Vector3 translation, ref Quaternion rotation)
         {
             
         }
@@ -147,7 +147,7 @@ namespace Engine
         /// This function will update the translation of the SimElement.
         /// </summary>
         /// <param name="translation">The translation to set.</param>
-        protected override sealed void updateTranslationImpl(ref EngineMath.Vector3 translation)
+        protected override sealed void updateTranslationImpl(ref Vector3 translation)
         {
             
         }
@@ -156,7 +156,7 @@ namespace Engine
         /// This function will update the rotation of the SimElement.
         /// </summary>
         /// <param name="rotation">The rotation to set.</param>
-        protected override sealed void updateRotationImpl(ref EngineMath.Quaternion rotation)
+        protected override sealed void updateRotationImpl(ref Quaternion rotation)
         {
             
         }
@@ -165,7 +165,7 @@ namespace Engine
         /// This function will update the scale of the SimElement.
         /// </summary>
         /// <param name="scale">The scale to set.</param>
-        protected override sealed void updateScaleImpl(ref EngineMath.Vector3 scale)
+        protected override sealed void updateScaleImpl(ref Vector3 scale)
         {
             
         }

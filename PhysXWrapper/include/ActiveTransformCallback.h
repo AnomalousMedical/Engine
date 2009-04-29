@@ -17,7 +17,7 @@ public:
 	/// </summary>
 	/// <param name="translation">The new translation of the object.</param>
 	/// <param name="rotation">The new rotation of the object.</param>
-	void firePositionUpdate(EngineMath::Vector3% translation, EngineMath::Quaternion% rotation);
+	void firePositionUpdate(Engine::Vector3% translation, Engine::Quaternion% rotation);
 };
 
 }

@@ -7,7 +7,6 @@ using System.Windows.Forms;
 using Editor;
 using Engine.ObjectManagement;
 using PhysXWrapper;
-using EngineMath;
 using System.Xml;
 using Engine.Saving.XMLSaver;
 using System.IO;

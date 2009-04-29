@@ -84,12 +84,12 @@ float PhysMaterial::getStaticFrictionV()
 	return material->getStaticFrictionV();
 }
 
-void PhysMaterial::setDirectionOfAnisotropy(EngineMath::Vector3 dir)
+void PhysMaterial::setDirectionOfAnisotropy(Engine::Vector3 dir)
 {
 	material->setDirOfAnisotropy(MathUtil::copyVector3(dir));
 }
 
-EngineMath::Vector3 PhysMaterial::getDirectionOfAnisotropy()
+Engine::Vector3 PhysMaterial::getDirectionOfAnisotropy()
 {
 	return MathUtil::copyVector3(material->getDirOfAnisotropy());
 }

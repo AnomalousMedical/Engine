@@ -93,13 +93,13 @@ public:
 	/// and 0, 0.
 	/// </summary>
 	/// <returns>The position of the mouse.</returns>
-	virtual EngineMath::Vector3 getAbsMouse() override;
+	virtual Engine::Vector3 getAbsMouse() override;
 
 	/// <summary>
 	/// Returns the relative mouse position from the last time capture was called.
 	/// </summary>
 	/// <returns>The relative mouse position.</returns>
-	virtual EngineMath::Vector3 getRelMouse() override;
+	virtual Engine::Vector3 getRelMouse() override;
 
 	/// <summary>
 	/// Determines if the specified button is pressed.

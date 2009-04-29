@@ -18,7 +18,7 @@ Bone::~Bone(void)
 	
 }
 
-Bone^ Bone::createChild(unsigned short handle, EngineMath::Vector3 translation, EngineMath::Quaternion rotate)
+Bone^ Bone::createChild(unsigned short handle, Engine::Vector3 translation, Engine::Quaternion rotate)
 {
 	Ogre::Bone* ogreBone = bone->createChild(handle, MathUtils::copyVector3(translation), MathUtils::copyQuaternion(rotate));
 	return bones.getObject(ogreBone);

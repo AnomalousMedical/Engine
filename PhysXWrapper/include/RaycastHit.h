@@ -41,12 +41,12 @@ public:
 	/// <summary>
 	/// Get the impact point in world coordinates.
 	/// </summary>
-	void getWorldImpact( EngineMath::Vector3% impact );
+	void getWorldImpact( Engine::Vector3% impact );
 
 	/// <summary>
 	/// Get the impact normal in world coordinates.
 	/// </summary>
-	void getWorldNormal( EngineMath::Vector3% normal );
+	void getWorldNormal( Engine::Vector3% normal );
 
 	/// <summary>
 	/// Get the distance to the impact point

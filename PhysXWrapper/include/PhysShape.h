@@ -154,7 +154,7 @@ public:
 	/// </para>
 	/// </summary>
 	/// <param name="trans">The new position of the shape relative to the actor frame. Range: position vector</param>
-	void setLocalPosition(EngineMath::Vector3 trans);
+	void setLocalPosition(Engine::Vector3 trans);
 
 	/// <summary>
 	/// The setLocal*() methods set the pose of the shape in actor space, i.e.
@@ -171,7 +171,7 @@ public:
 	/// </para>
 	/// </summary>
 	/// <param name="trans">The new position of the shape relative to the actor frame. Range: position vector</param>
-	void setLocalPosition(EngineMath::Vector3% trans);
+	void setLocalPosition(Engine::Vector3% trans);
 
 	/// <summary>
 	/// The setLocal*() methods set the pose of the shape in actor space, i.e.
@@ -188,7 +188,7 @@ public:
 	/// </para>
 	/// </summary>
 	/// <param name="rot">The new orientation relative to the actor frame.</param>
-	void setLocalOrientation(EngineMath::Quaternion rot);
+	void setLocalOrientation(Engine::Quaternion rot);
 
 	/// <summary>
 	/// The setLocal*() methods set the pose of the shape in actor space, i.e.
@@ -205,7 +205,7 @@ public:
 	/// </para>
 	/// </summary>
 	/// <param name="rot">The new orientation relative to the actor frame.</param>
-	void setLocalOrientation(EngineMath::Quaternion% rot);
+	void setLocalOrientation(Engine::Quaternion% rot);
 
 	/// <summary>
 	/// The getLocal*() methods retrieve the pose of the shape in actor space,
@@ -213,7 +213,7 @@ public:
     /// identity by default.
 	/// </summary>
 	/// <returns>Position of shape relative to actors frame.</returns>
-	EngineMath::Vector3 getLocalPosition();
+	Engine::Vector3 getLocalPosition();
 
 	/// <summary>
 	/// The getLocal*() methods retrieve the pose of the shape in actor space,
@@ -221,7 +221,7 @@ public:
     /// identity by default.
 	/// </summary>
 	/// <returns>Orientation of shape relative to actors frame.</returns>
-	EngineMath::Quaternion getLocalOrientation();
+	Engine::Quaternion getLocalOrientation();
 
 	/// <summary>
 	/// The setGlobal() calls are convenience methods which transform the passed
@@ -236,7 +236,7 @@ public:
 	/// </para>
 	/// </summary>
 	/// <param name="trans">The new shape position, relative to the global frame. Range: position vector</param>
-	void setGlobalPosition(EngineMath::Vector3 trans);
+	void setGlobalPosition(Engine::Vector3 trans);
 
 	/// <summary>
 	/// The setGlobal() calls are convenience methods which transform the passed
@@ -251,7 +251,7 @@ public:
 	/// </para>
 	/// </summary>
 	/// <param name="trans">The new shape position, relative to the global frame. Range: position vector</param>
-	void setGlobalPosition(EngineMath::Vector3% trans);
+	void setGlobalPosition(Engine::Vector3% trans);
 
 	/// <summary>
 	/// The setGlobal() calls are convenience methods which transform the passed
@@ -266,7 +266,7 @@ public:
 	/// </para>
 	/// </summary>
 	/// <param name="rot">The new shape orientation relative to the global frame.</param>
-	void setGlobalOrientation(EngineMath::Quaternion rot);
+	void setGlobalOrientation(Engine::Quaternion rot);
 
 	/// <summary>
 	/// The setGlobal() calls are convenience methods which transform the passed
@@ -281,21 +281,21 @@ public:
 	/// </para>
 	/// </summary>
 	/// <param name="rot">The new shape orientation relative to the global frame.</param>
-	void setGlobalOrientation(EngineMath::Quaternion% rot);
+	void setGlobalOrientation(Engine::Quaternion% rot);
 
 	/// <summary>
 	/// The getGlobal*() methods retrieve the shape's current world space pose.
     /// This is the local pose multiplied by the actor's current global pose. 
 	/// </summary>
 	/// <returns>Pose of shape relative to the global frame.</returns>
-	EngineMath::Vector3 getGlobalPosition();
+	Engine::Vector3 getGlobalPosition();
 
 	/// <summary>
 	/// The getGlobal*() methods retrieve the shape's current world space pose.
     /// This is the local pose multiplied by the actor's current global pose. 
 	/// </summary>
 	/// <returns>Orientation of the shape realative to the global frame.</returns>
-	EngineMath::Quaternion getGlobalOrientation();
+	Engine::Quaternion getGlobalOrientation();
 
 	/// <summary>
 	/// casts a world-space ray against the shape. 
@@ -314,7 +314,7 @@ public:
 	/// <param name="hit">Retrieves the information computed from a ray intersection.</param>
 	/// <param name="firstHit">is a hint saying you're only interested in a boolean answer.</param>
 	/// <returns>True if the ray intersects the shape.</returns>
-	bool raycast(EngineMath::Ray3 worldRay, float maxDist, RaycastBit hint, PhysRaycastHit^ hit, bool firstHit);
+	bool raycast(Engine::Ray3 worldRay, float maxDist, RaycastBit hint, PhysRaycastHit^ hit, bool firstHit);
 
 	/// <summary>
 	/// casts a world-space ray against the shape. 
@@ -333,7 +333,7 @@ public:
 	/// <param name="hit">Retrieves the information computed from a ray intersection.</param>
 	/// <param name="firstHit">is a hint saying you're only interested in a boolean answer.</param>
 	/// <returns>True if the ray intersects the shape.</returns>
-	bool raycast(EngineMath::Ray3% worldRay, float maxDist, RaycastBit hint, PhysRaycastHit^ hit, bool firstHit);
+	bool raycast(Engine::Ray3% worldRay, float maxDist, RaycastBit hint, PhysRaycastHit^ hit, bool firstHit);
 };
 
 }

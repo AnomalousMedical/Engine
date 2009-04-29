@@ -36,10 +36,10 @@ public:
 	/// <summary>
 	/// Swing limit axis defined in the joint space of actor 0.
 	/// </summary>
-	property EngineMath::Vector3 SwingAxis 
+	property Engine::Vector3 SwingAxis 
 	{
-		EngineMath::Vector3 get();
-		void set(EngineMath::Vector3 value);
+		Engine::Vector3 get();
+		void set(Engine::Vector3 value);
 	}
 
 	/// <summary>

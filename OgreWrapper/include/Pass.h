@@ -93,29 +93,29 @@ public:
 
 	void setAmbient(float red, float green, float blue);
 
-	void setAmbient(EngineMath::Color color);
+	void setAmbient(Engine::Color color);
 
-	void setAmbient(EngineMath::Color% color);
+	void setAmbient(Engine::Color% color);
 
 	void setDiffuse(float red, float green, float blue, float alpha);
 
-	void setDiffuse(EngineMath::Color color);
+	void setDiffuse(Engine::Color color);
 
-	void setDiffuse(EngineMath::Color% color);
+	void setDiffuse(Engine::Color% color);
 
 	void setSpecular(float red, float green, float blue, float alpha);
 
-	void setSpecular(EngineMath::Color color);
+	void setSpecular(Engine::Color color);
 
-	void setSpecular(EngineMath::Color% color);
+	void setSpecular(Engine::Color% color);
 
 	void setShininess(float value);
 
 	void setSelfIllumination(float red, float green, float blue);
 
-	void setSelfIllumination(EngineMath::Color color);
+	void setSelfIllumination(Engine::Color color);
 
-	void setSelfIllumination(EngineMath::Color% color);
+	void setSelfIllumination(Engine::Color% color);
 
 	void setVertexColorTracking(TrackVertexColorEnum tracking);
 
@@ -147,13 +147,13 @@ public:
 
 	float getPointMaxSize();
 
-	EngineMath::Color getAmbient();
+	Engine::Color getAmbient();
 
-	EngineMath::Color getDiffuse();
+	Engine::Color getDiffuse();
 
-	EngineMath::Color getSpecular();
+	Engine::Color getSpecular();
 
-	EngineMath::Color getSelfIllumination();
+	Engine::Color getSelfIllumination();
 
 	float getShininess();
 
@@ -227,15 +227,15 @@ public:
 
 	bool getPolygonModeOverrideable();
 
-	void setFog(bool overrideScene, FogMode mode, EngineMath::Color% color);
+	void setFog(bool overrideScene, FogMode mode, Engine::Color% color);
 
-	void setFog(bool overrideScene, FogMode mode, EngineMath::Color% color, float expDensity, float linearStart, float linearEnd);
+	void setFog(bool overrideScene, FogMode mode, Engine::Color% color, float expDensity, float linearStart, float linearEnd);
 
 	bool getFogOverride();
 
 	FogMode getFogMode();
 
-	EngineMath::Color getFogColor();
+	Engine::Color getFogColor();
 
 	float getFogStart();
 

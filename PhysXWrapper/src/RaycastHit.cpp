@@ -34,12 +34,12 @@ PhysActor^ RaycastHit::getCollidedActor()
 	return nullptr;
 }
 
-void RaycastHit::getWorldImpact( EngineMath::Vector3% impact )
+void RaycastHit::getWorldImpact( Engine::Vector3% impact )
 {
 	MathUtil::copyVector3( raycastHit->worldImpact, impact );
 }
 
-void RaycastHit::getWorldNormal( EngineMath::Vector3% normal )
+void RaycastHit::getWorldNormal( Engine::Vector3% normal )
 {
 	MathUtil::copyVector3( raycastHit->worldNormal, normal );
 }

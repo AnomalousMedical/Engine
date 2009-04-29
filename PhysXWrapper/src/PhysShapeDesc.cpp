@@ -18,7 +18,7 @@ PhysShapeDesc::PhysShapeDesc(NxShapeDesc* shapeDesc)
 	
 }
 
-void PhysShapeDesc::setLocalPose(EngineMath::Vector3 trans, EngineMath::Quaternion rot)
+void PhysShapeDesc::setLocalPose(Engine::Vector3 trans, Engine::Quaternion rot)
 {
 	MathUtil::copyVector3(trans, shapeDesc->localPose.t);
 	shapeDesc->localPose.M.fromQuat(MathUtil::convertNxQuaternion(rot));

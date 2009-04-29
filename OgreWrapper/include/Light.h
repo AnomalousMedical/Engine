@@ -87,12 +87,12 @@ public:
 	/// Sets the colour of the diffuse light given off by this source.
 	/// </summary>
 	/// <param name="color">A vector3 with the color info.  x=red, y=green, z=blue</param>
-	void setDiffuseColor(EngineMath::Color color);
+	void setDiffuseColor(Engine::Color color);
 
 	/// <summary>
 	/// Get the diffuse color of the light.
 	/// </summary>
-	EngineMath::Color getDiffuseColor();
+	Engine::Color getDiffuseColor();
 
 	/// <summary>
 	/// Sets the colour of the specular light given off by this source.
@@ -106,12 +106,12 @@ public:
 	/// Sets the colour of the specular light given off by this source.
 	/// </summary>
 	/// <param name="color">A vector3 with the color info.  x=red, y=green, z=blue</param>
-	void setSpecularColor(EngineMath::Color color);
+	void setSpecularColor(Engine::Color color);
 
 	/// <summary>
 	/// Get the specular color of the light.
 	/// </summary>
-	EngineMath::Color getSpecularColor();
+	Engine::Color getSpecularColor();
 
 	/// <summary>
 	/// Sets the attenuation parameters of the light source ie how it diminishes with distance.
@@ -165,12 +165,12 @@ public:
 	/// Sets the direction in which a light points.
 	/// </summary>
 	/// <param name="dir">A vector containing the direction.</param>
-	void setDirection(EngineMath::Vector3 dir);
+	void setDirection(Engine::Vector3 dir);
 
 	/// <summary>
 	/// Get the direction the light is facing.
 	/// </summary>
-	EngineMath::Vector3 getDirection();
+	Engine::Vector3 getDirection();
 
 	/// <summary>
 	/// Sets the range of a spotlight, i.e.

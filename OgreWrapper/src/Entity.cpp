@@ -366,7 +366,7 @@ float computeRayIntersectTriDistance(Ogre::Ray ray, Ogre::Vector3 vert0, Ogre::V
 	return edge2.dotProduct(qvec) * inv_det;
 }
 
-bool Entity::raycastPolygonLevel(EngineMath::Ray3 ray, float% distanceOnRay)
+bool Entity::raycastPolygonLevel(Engine::Ray3 ray, float% distanceOnRay)
 {
 	Ogre::Real closestDistance = -1.0f;
 	Ogre::Ray ogreRay = MathUtils::copyRay(ray);

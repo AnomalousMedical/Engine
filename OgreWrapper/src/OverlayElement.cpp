@@ -142,17 +142,17 @@ System::String^ OverlayElement::getCaption()
 	return MarshalUtils::convertString(overlayElement->getCaption());
 }
 
-void OverlayElement::setColor(EngineMath::Color color)
+void OverlayElement::setColor(Engine::Color color)
 {
 	return overlayElement->setColour(MathUtils::copyColor(color));
 }
 
-void OverlayElement::setColor(EngineMath::Color% color)
+void OverlayElement::setColor(Engine::Color% color)
 {
 	return overlayElement->setColour(MathUtils::copyColor(color));
 }
 
-EngineMath::Color OverlayElement::getColor()
+Engine::Color OverlayElement::getColor()
 {
 	return MathUtils::copyColor(overlayElement->getColour());
 }

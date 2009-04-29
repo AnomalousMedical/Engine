@@ -55,14 +55,14 @@ public:
 	/// </summary>
 	/// <param name="index">The vertex index.</param>
 	/// <param name="offset">The position offset for this pose.</param>
-	void addVertex(size_t index, EngineMath::Vector3 offset);
+	void addVertex(size_t index, Engine::Vector3 offset);
 
 	/// <summary>
 	/// Adds an offset to a vertex for this pose by reference.
 	/// </summary>
 	/// <param name="index">The vertex index.</param>
 	/// <param name="offset">The position offset for this pose.</param>
-	void addVertex(size_t index, EngineMath::Vector3% offset);
+	void addVertex(size_t index, Engine::Vector3% offset);
 
 	/// <summary>
 	/// Remove a vertex offset. 
@@ -80,7 +80,7 @@ public:
 	/// </summary>
 	/// <param name="index">The index of the offset to get.</param>
 	/// <returns></returns>
-	EngineMath::Vector3 getOffset(size_t index);
+	Engine::Vector3 getOffset(size_t index);
 };
 
 }

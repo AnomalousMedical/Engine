@@ -219,19 +219,19 @@ public:
 	/// 
 	/// </summary>
 	/// <param name="color"></param>
-	void setColor(EngineMath::Color color);
+	void setColor(Engine::Color color);
 
 	/// <summary>
 	/// 
 	/// </summary>
 	/// <param name="color"></param>
-	void setColor(EngineMath::Color% color);
+	void setColor(Engine::Color% color);
 
 	/// <summary>
 	/// 
 	/// </summary>
 	/// <returns></returns>
-	EngineMath::Color getColor();
+	Engine::Color getColor();
 
 	/// <summary>
 	/// 

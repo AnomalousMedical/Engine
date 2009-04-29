@@ -63,23 +63,23 @@ public:
 
 	System::String^ getFontName();
 
-	void setColor(EngineMath::Color color);
+	void setColor(Engine::Color color);
 
-	void setColor(EngineMath::Color% color);
+	void setColor(Engine::Color% color);
 
-	EngineMath::Color getColor();
+	Engine::Color getColor();
 
-	void setColorTop(EngineMath::Color color);
+	void setColorTop(Engine::Color color);
 
-	void setColorTop(EngineMath::Color% color);
+	void setColorTop(Engine::Color% color);
 
-	EngineMath::Color getColorTop();
+	Engine::Color getColorTop();
 
-	void setColorBottom(EngineMath::Color color);
+	void setColorBottom(Engine::Color color);
 
-	void setColorBottom(EngineMath::Color% color);
+	void setColorBottom(Engine::Color% color);
 
-	EngineMath::Color getColorBottom();
+	Engine::Color getColorBottom();
 
 	void setAlignment(Alignment a);
 

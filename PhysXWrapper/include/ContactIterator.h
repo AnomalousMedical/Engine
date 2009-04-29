@@ -93,7 +93,7 @@ public:
 	/// <summary>
 	/// Retrieves the patch normal. 
 	/// </summary>
-	void getPatchNormal( EngineMath::Vector3% normal ); 
+	void getPatchNormal( Engine::Vector3% normal ); 
 	  
 	/// <summary>
 	/// Retrieves the number of points in the current patch.
@@ -108,7 +108,7 @@ public:
 	/// <summary>
 	/// Returns the contact point position. 
 	/// </summary>
-	void getPoint( EngineMath::Vector3% point ); 
+	void getPoint( Engine::Vector3% point ); 
 	  
 	/// <summary>
 	/// Return the separation for the contact point. 

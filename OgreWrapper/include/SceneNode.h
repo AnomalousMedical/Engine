@@ -113,7 +113,7 @@ public:
 	/// <param name="enabled">If true, the Camera will track the SceneNode supplied as the next parameter (cannot be null). If false the camera will cease tracking and will remain in it's current orientation.</param>
 	/// <param name="target">Pointer to the SceneNode which this Camera will track. Make sure you don't delete this SceneNode before turning off tracking (e.g. SceneManager::clearScene will delete it so be careful of this). Can be null if and only if the enabled param is false.</param>
 	/// <param name="offset">If supplied, the camera targets this point in local space of the target node instead of the origin of the target node. Good for fine tuning the look at point.</param>
-	void setAutoTracking(bool enabled, SceneNode^ target, EngineMath::Vector3 offset);
+	void setAutoTracking(bool enabled, SceneNode^ target, Engine::Vector3 offset);
 
 
 	/// <summary>

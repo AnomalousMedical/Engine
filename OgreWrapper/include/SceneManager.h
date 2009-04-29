@@ -276,7 +276,7 @@ public:
 	/// <param name="ray"></param>
 	/// <param name="mask"></param>
 	/// <returns></returns>
-	RaySceneQuery^ createRaySceneQuery(EngineMath::Ray3 ray, unsigned long mask);
+	RaySceneQuery^ createRaySceneQuery(Engine::Ray3 ray, unsigned long mask);
 
 	/// <summary>
 	/// Destroys a ray scene query. 

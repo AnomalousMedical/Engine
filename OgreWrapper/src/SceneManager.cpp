@@ -204,7 +204,7 @@ void SceneManager::removeSceneListener(SceneListener^ listener)
 	}
 }
 
-RaySceneQuery^ SceneManager::createRaySceneQuery(EngineMath::Ray3 ray, unsigned long mask)
+RaySceneQuery^ SceneManager::createRaySceneQuery(Engine::Ray3 ray, unsigned long mask)
 {
 	return gcnew RaySceneQuery(sceneManager->createRayQuery(MathUtils::copyRay(ray), mask));
 }

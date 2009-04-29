@@ -20,7 +20,7 @@ shapeList(gcnew ShapeList())
 	
 }
 
-void PhysActorDesc::setGlobalPose(EngineMath::Vector3 translation, EngineMath::Quaternion rotation)
+void PhysActorDesc::setGlobalPose(Engine::Vector3 translation, Engine::Quaternion rotation)
 {
 	actorDesc->globalPose.M.fromQuat( MathUtil::convertNxQuaternion(rotation) );
 	MathUtil::copyVector3(translation, actorDesc->globalPose.t);

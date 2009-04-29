@@ -53,7 +53,7 @@ unsigned int ContactIterator::getNumPatchesRemaining()
 	return contactStreamIterator->getNumPatchesRemaining();
 }
   
-void ContactIterator::getPatchNormal( EngineMath::Vector3% normal )
+void ContactIterator::getPatchNormal( Engine::Vector3% normal )
 {
 	MathUtil::copyVector3( contactStreamIterator->getPatchNormal(), normal );
 }
@@ -68,7 +68,7 @@ unsigned int ContactIterator::getNumPointsRemaining()
 	return contactStreamIterator->getNumPointsRemaining();
 }
   
-void ContactIterator::getPoint( EngineMath::Vector3% point )
+void ContactIterator::getPoint( Engine::Vector3% point )
 {
 	MathUtil::copyVector3( contactStreamIterator->getPoint(), point );
 }

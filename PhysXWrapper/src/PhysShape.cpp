@@ -77,72 +77,72 @@ float PhysShape::getSkinWidth()
 	return nxShape->getSkinWidth();
 }
 
-void PhysShape::setLocalPosition(EngineMath::Vector3 trans)
+void PhysShape::setLocalPosition(Engine::Vector3 trans)
 {
 	return nxShape->setLocalPosition(MathUtil::copyVector3(trans));
 }
 
-void PhysShape::setLocalPosition(EngineMath::Vector3% trans)
+void PhysShape::setLocalPosition(Engine::Vector3% trans)
 {
 	return nxShape->setLocalPosition(MathUtil::copyVector3(trans));
 }
 
-void PhysShape::setLocalOrientation(EngineMath::Quaternion rot)
+void PhysShape::setLocalOrientation(Engine::Quaternion rot)
 {
 	return nxShape->setLocalOrientation(MathUtil::quaternionToMat(rot));
 }
 
-void PhysShape::setLocalOrientation(EngineMath::Quaternion% rot)
+void PhysShape::setLocalOrientation(Engine::Quaternion% rot)
 {
 	return nxShape->setLocalOrientation(MathUtil::quaternionToMat(rot));
 }
 
-EngineMath::Vector3 PhysShape::getLocalPosition()
+Engine::Vector3 PhysShape::getLocalPosition()
 {
 	return MathUtil::copyVector3(nxShape->getLocalPosition());
 }
 
-EngineMath::Quaternion PhysShape::getLocalOrientation()
+Engine::Quaternion PhysShape::getLocalOrientation()
 {
 	return MathUtil::matToQuaternion(nxShape->getLocalOrientation());
 }
 
-void PhysShape::setGlobalPosition(EngineMath::Vector3 trans)
+void PhysShape::setGlobalPosition(Engine::Vector3 trans)
 {
 	return nxShape->setGlobalPosition(MathUtil::copyVector3(trans));
 }
 
-void PhysShape::setGlobalPosition(EngineMath::Vector3% trans)
+void PhysShape::setGlobalPosition(Engine::Vector3% trans)
 {
 	return nxShape->setGlobalPosition(MathUtil::copyVector3(trans));
 }
 
-void PhysShape::setGlobalOrientation(EngineMath::Quaternion rot)
+void PhysShape::setGlobalOrientation(Engine::Quaternion rot)
 {
 	return nxShape->setGlobalOrientation(MathUtil::quaternionToMat(rot));
 }
 
-void PhysShape::setGlobalOrientation(EngineMath::Quaternion% rot)
+void PhysShape::setGlobalOrientation(Engine::Quaternion% rot)
 {
 	return nxShape->setGlobalOrientation(MathUtil::quaternionToMat(rot));
 }
 
-EngineMath::Vector3 PhysShape::getGlobalPosition()
+Engine::Vector3 PhysShape::getGlobalPosition()
 {
 	return MathUtil::copyVector3(nxShape->getGlobalPosition());
 }
 
-EngineMath::Quaternion PhysShape::getGlobalOrientation()
+Engine::Quaternion PhysShape::getGlobalOrientation()
 {
 	return MathUtil::matToQuaternion(nxShape->getGlobalOrientation());
 }
 
-bool PhysShape::raycast(EngineMath::Ray3 worldRay, float maxDist, RaycastBit hint, PhysRaycastHit^ hit, bool firstHit)
+bool PhysShape::raycast(Engine::Ray3 worldRay, float maxDist, RaycastBit hint, PhysRaycastHit^ hit, bool firstHit)
 {
 	return nxShape->raycast(MathUtil::copyRay(worldRay), maxDist, (NxRaycastBit)hint, *hit->getNxRaycastHit(), firstHit);
 }
 
-bool PhysShape::raycast(EngineMath::Ray3% worldRay, float maxDist, RaycastBit hint, PhysRaycastHit^ hit, bool firstHit)
+bool PhysShape::raycast(Engine::Ray3% worldRay, float maxDist, RaycastBit hint, PhysRaycastHit^ hit, bool firstHit)
 {
 	return nxShape->raycast(MathUtil::copyRay(worldRay), maxDist, (NxRaycastBit)hint, *hit->getNxRaycastHit(), firstHit);
 }

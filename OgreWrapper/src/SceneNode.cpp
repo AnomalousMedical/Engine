@@ -84,7 +84,7 @@ MovableObject^ SceneNode::getNodeObject(System::String^ name)
 	return nullptr;
 }
 
-void SceneNode::setAutoTracking(bool enabled, SceneNode^ target, EngineMath::Vector3 offset)
+void SceneNode::setAutoTracking(bool enabled, SceneNode^ target, Engine::Vector3 offset)
 {
 	Ogre::Vector3 ogOffset(offset.x, offset.y, offset.z);
 	sceneNode->setAutoTracking(enabled, target->getSceneNode(), ogOffset);

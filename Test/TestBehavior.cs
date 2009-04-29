@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Engine;
 using Engine.Platform;
-using EngineMath;
 using Engine.Attributes;
 using Engine.Editing;
 

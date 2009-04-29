@@ -23,12 +23,12 @@ bool PhysJointDesc::isValid()
 	return jointDesc->isValid();
 }
 
-void PhysJointDesc::setGlobalAnchor(EngineMath::Vector3 wsAnchor)
+void PhysJointDesc::setGlobalAnchor(Engine::Vector3 wsAnchor)
 {
 	jointDesc->setGlobalAnchor(NxVec3(wsAnchor.x, wsAnchor.y, wsAnchor.z));
 }
 
-void PhysJointDesc::setGlobalAxis(EngineMath::Vector3 wsAxis)
+void PhysJointDesc::setGlobalAxis(Engine::Vector3 wsAxis)
 {
 	jointDesc->setGlobalAxis(NxVec3(wsAxis.x, wsAxis.y, wsAxis.z));
 }
@@ -52,35 +52,35 @@ void PhysJointDesc::Actor::set(int index, PhysActor^ value)
 	}
 }
 
-EngineMath::Vector3 PhysJointDesc::LocalNormal::get(int index) 
+Engine::Vector3 PhysJointDesc::LocalNormal::get(int index) 
 {
 	NxVec3 v = jointDesc->localNormal[index];
-	return EngineMath::Vector3(v.x, v.y, v.z);
+	return Engine::Vector3(v.x, v.y, v.z);
 }
 
-void PhysJointDesc::LocalNormal::set(int index, EngineMath::Vector3 value) 
+void PhysJointDesc::LocalNormal::set(int index, Engine::Vector3 value) 
 {
 	jointDesc->localNormal[index] = NxVec3(value.x, value.y, value.z);
 }
 
-EngineMath::Vector3 PhysJointDesc::LocalAxis::get(int index) 
+Engine::Vector3 PhysJointDesc::LocalAxis::get(int index) 
 {
 	NxVec3 v = jointDesc->localAxis[index];
-	return EngineMath::Vector3(v.x, v.y, v.z);
+	return Engine::Vector3(v.x, v.y, v.z);
 }
 
-void PhysJointDesc::LocalAxis::set(int index, EngineMath::Vector3 value) 
+void PhysJointDesc::LocalAxis::set(int index, Engine::Vector3 value) 
 {
 	jointDesc->localAxis[index] = NxVec3(value.x, value.y, value.z);
 }
 
-EngineMath::Vector3 PhysJointDesc::LocalAnchor::get(int index) 
+Engine::Vector3 PhysJointDesc::LocalAnchor::get(int index) 
 {
 	NxVec3 v = jointDesc->localAnchor[index];
-	return EngineMath::Vector3(v.x, v.y, v.z);
+	return Engine::Vector3(v.x, v.y, v.z);
 }
 
-void PhysJointDesc::LocalAnchor::set(int index, EngineMath::Vector3 value) 
+void PhysJointDesc::LocalAnchor::set(int index, Engine::Vector3 value) 
 {
 	jointDesc->localAnchor[index] = NxVec3(value.x, value.y, value.z);
 }

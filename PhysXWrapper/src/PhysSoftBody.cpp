@@ -138,12 +138,12 @@ void PhysSoftBody::detachFromShape(PhysShape^ shape)
 	return softBody->detachFromShape(shape->getNxShape());
 }
 
-void PhysSoftBody::attachVertexToShape(System::UInt32 vertexId, PhysShape^ shape, EngineMath::Vector3 localPos, PhysSoftBodyAttachmentFlag attachmentFlags)
+void PhysSoftBody::attachVertexToShape(System::UInt32 vertexId, PhysShape^ shape, Engine::Vector3 localPos, PhysSoftBodyAttachmentFlag attachmentFlags)
 {
 	return softBody->attachVertexToShape(vertexId, shape->getNxShape(), MathUtil::copyVector3(localPos), static_cast<NxSoftBodyAttachmentFlag>(attachmentFlags));
 }
 
-void PhysSoftBody::attachVertexToGlobalPosition(System::UInt32 vertexId, EngineMath::Vector3% pos)
+void PhysSoftBody::attachVertexToGlobalPosition(System::UInt32 vertexId, Engine::Vector3% pos)
 {
 	return softBody->attachVertexToGlobalPosition(vertexId, MathUtil::copyVector3(pos));
 }
@@ -153,12 +153,12 @@ void PhysSoftBody::freeVertex(System::UInt32 vertexId)
 	return softBody->freeVertex(vertexId);
 }
 
-bool PhysSoftBody::tearVertex(System::UInt32 vertexId, EngineMath::Vector3% normal)
+bool PhysSoftBody::tearVertex(System::UInt32 vertexId, Engine::Vector3% normal)
 {
 	return softBody->tearVertex(vertexId, MathUtil::copyVector3(normal));
 }
 
-bool PhysSoftBody::raycast(EngineMath::Ray3% worldRay, EngineMath::Vector3% hit, System::UInt32 vertexId)
+bool PhysSoftBody::raycast(Engine::Ray3% worldRay, Engine::Vector3% hit, System::UInt32 vertexId)
 {
 	return softBody->raycast(MathUtil::copyRay(worldRay), MathUtil::copyVector3(hit), vertexId);
 }
@@ -183,7 +183,7 @@ PhysMeshData^ PhysSoftBody::getMeshData()
 	return gcnew PhysMeshData(softBody->getMeshData());
 }
 
-void PhysSoftBody::setPosition(EngineMath::Vector3% position, System::UInt32 vertexId)
+void PhysSoftBody::setPosition(Engine::Vector3% position, System::UInt32 vertexId)
 {
 	return softBody->setPosition(MathUtil::copyVector3(position), vertexId);
 }
@@ -193,7 +193,7 @@ void PhysSoftBody::setPositions(void* buffer, System::UInt32 byteStride)
 	return softBody->setPositions(buffer, byteStride);
 }
 
-EngineMath::Vector3 PhysSoftBody::getPosition(System::UInt32 vertexId)
+Engine::Vector3 PhysSoftBody::getPosition(System::UInt32 vertexId)
 {
 	return MathUtil::copyVector3(softBody->getPosition(vertexId));
 }
@@ -203,7 +203,7 @@ void PhysSoftBody::getPositions(void* buffer, System::UInt32 byteStride)
 	return softBody->getPositions(buffer, byteStride);
 }
 
-void PhysSoftBody::setVelocity(EngineMath::Vector3% velocity, System::UInt32 vertexId)
+void PhysSoftBody::setVelocity(Engine::Vector3% velocity, System::UInt32 vertexId)
 {
 	return softBody->setVelocity(MathUtil::copyVector3(velocity), vertexId);
 }
@@ -213,7 +213,7 @@ void PhysSoftBody::setVelocities(void* buffer, System::UInt32 byteStride)
 	return softBody->setVelocities(buffer, byteStride);
 }
 
-EngineMath::Vector3 PhysSoftBody::getVelocity(System::UInt32 vertexId)
+Engine::Vector3 PhysSoftBody::getVelocity(System::UInt32 vertexId)
 {
 	return MathUtil::copyVector3(softBody->getVelocity(vertexId));
 }
@@ -278,12 +278,12 @@ float PhysSoftBody::getToFluidResponseCoefficient()
 	return softBody->getToFluidResponseCoefficient();
 }
 
-void PhysSoftBody::setExternalAcceleration(EngineMath::Vector3 acceleration)
+void PhysSoftBody::setExternalAcceleration(Engine::Vector3 acceleration)
 {
 	return softBody->setExternalAcceleration(MathUtil::copyVector3(acceleration));
 }
 
-EngineMath::Vector3 PhysSoftBody::getExternalAcceleration()
+Engine::Vector3 PhysSoftBody::getExternalAcceleration()
 {
 	return MathUtil::copyVector3(softBody->getExternalAcceleration());
 }
@@ -333,12 +333,12 @@ PhysSoftBodyFlag PhysSoftBody::getFlags()
 	return (PhysSoftBodyFlag)softBody->getFlags();
 }
 
-void PhysSoftBody::addForceAtVertex(EngineMath::Vector3% force, System::UInt32 vertexId, ForceMode mode)
+void PhysSoftBody::addForceAtVertex(Engine::Vector3% force, System::UInt32 vertexId, ForceMode mode)
 {
 	return softBody->addForceAtVertex(MathUtil::copyVector3(force), vertexId, (NxForceMode)mode);
 }
 
-void PhysSoftBody::addForceAtPos(EngineMath::Vector3% position, float magnitude, float radius, ForceMode mode)
+void PhysSoftBody::addForceAtPos(Engine::Vector3% position, float magnitude, float radius, ForceMode mode)
 {
 	return softBody->addForceAtPos(MathUtil::copyVector3(position), magnitude, radius, (NxForceMode)mode);
 }

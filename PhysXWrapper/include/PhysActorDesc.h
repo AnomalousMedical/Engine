@@ -74,7 +74,7 @@ public:
 	/// </summary>
 	/// <param name="translation"></param>
 	/// <param name="rotation"></param>
-	void setGlobalPose(EngineMath::Vector3 translation, EngineMath::Quaternion rotation);
+	void setGlobalPose(Engine::Vector3 translation, Engine::Quaternion rotation);
 
 	/// <summary>
 	/// Body descriptor, null for static actors.

@@ -57,12 +57,12 @@ void PhysScene::saveToDesc(PhysSceneDesc^ sceneDesc)
 	scene->saveToDesc(*sceneDesc->sceneDesc.Get());
 }
 
-void PhysScene::setGravity(EngineMath::Vector3 grav)
+void PhysScene::setGravity(Engine::Vector3 grav)
 {
 	scene->setGravity(NxVec3(grav.x, grav.y, grav.z));	
 }
 
-void PhysScene::getGravity(EngineMath::Vector3% grav)
+void PhysScene::getGravity(Engine::Vector3% grav)
 {
 	scene->getGravity(*(pooledVector.Get()));
 	MathUtil::copyVector3(*(pooledVector.Get()), grav);
@@ -131,14 +131,14 @@ PhysActorGroupPair PhysScene::getNextActorGroupPair()
 	return PhysActorGroupPair(actorGroupPairBuffer.Get());
 }
 
-int PhysScene::raycastAllShapes( EngineMath::Ray3 ray, 
+int PhysScene::raycastAllShapes( Engine::Ray3 ray, 
 						RaycastReport^ report, 
 						ShapesType shapesType )
 {
 	return raycastAllShapes(ray, report, shapesType, -1, NX_MAX_F32, RaycastBit::NX_RAYCAST_ALL);
 }
 
-int PhysScene::raycastAllShapes( EngineMath::Ray3 ray, 
+int PhysScene::raycastAllShapes( Engine::Ray3 ray, 
 						RaycastReport^ report, 
 						ShapesType shapesType, 
 						unsigned int groups )
@@ -146,7 +146,7 @@ int PhysScene::raycastAllShapes( EngineMath::Ray3 ray,
 	return raycastAllShapes(ray, report, shapesType, groups, NX_MAX_F32, RaycastBit::NX_RAYCAST_ALL);
 }
 
-int PhysScene::raycastAllShapes( EngineMath::Ray3 ray,
+int PhysScene::raycastAllShapes( Engine::Ray3 ray,
 						RaycastReport^ report, 
 						ShapesType shapesType, 
 						unsigned int groups, 
@@ -155,7 +155,7 @@ int PhysScene::raycastAllShapes( EngineMath::Ray3 ray,
 	return raycastAllShapes(ray, report, shapesType, groups, maxDistance, RaycastBit::NX_RAYCAST_ALL);
 }
 
-int PhysScene::raycastAllShapes( EngineMath::Ray3 ray, 
+int PhysScene::raycastAllShapes( Engine::Ray3 ray, 
 						RaycastReport^ report, 
 						ShapesType shapesType, 
 						unsigned int groups, 

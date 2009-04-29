@@ -65,7 +65,7 @@ public:
 	/// The goal position is specified relative to the joint frame corresponding to actor[0].
 	/// </summary>
 	/// <param name="position">The goal position if NX_D6JOINT_DRIVE_POSITION is set for xDrive,yDrive or zDrive. Range: position vector</param>
-	void setDrivePosition(EngineMath::Vector3 position);
+	void setDrivePosition(Engine::Vector3 position);
 
 	/// <summary>
 	/// Set the drive goal orientation when it is being driven. 
@@ -73,7 +73,7 @@ public:
 	/// The goal orientation is specified relative to the joint frame corresponding to actor[0].
 	/// </summary>
 	/// <param name="orientation">The goal orientation if NX_D6JOINT_DRIVE_POSITION is set for swingDrive or twistDrive. Range: unit quaternion</param>
-	void setDriveOrientation(EngineMath::Quaternion orientation);
+	void setDriveOrientation(Engine::Quaternion orientation);
 
 	/// <summary>
 	/// Set the drive goal linear velocity when it is being driven. 
@@ -81,7 +81,7 @@ public:
 	/// The drive linear velocity is specified relative to the actor[0] joint frame.
 	/// </summary>
 	/// <param name="linVel">The goal velocity if NX_D6JOINT_DRIVE_VELOCITY is set for xDrive,yDrive or zDrive. See D6JointDesc. Range: velocity vector</param>
-	void setDriveLinearVelocity(EngineMath::Vector3 linVel);
+	void setDriveLinearVelocity(Engine::Vector3 linVel);
 
 	/// <summary>
 	/// Set the drive angular velocity goal when it is being driven. 
@@ -93,7 +93,7 @@ public:
 	/// other cases.
 	/// </summary>
 	/// <param name="angVel">The goal angular velocity if NX_D6JOINT_DRIVE_VELOCITY is set for swingDrive or twistDrive. Range: angular velocity vector.</param>
-	void setDriveAngularVelocity(EngineMath::Vector3 angVel);
+	void setDriveAngularVelocity(Engine::Vector3 angVel);
 };
 
 }

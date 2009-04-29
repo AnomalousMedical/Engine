@@ -24,7 +24,7 @@ AxisAlignedBox::AxisAlignedBox(Extent e)
 
 }
 
-AxisAlignedBox::AxisAlignedBox(EngineMath::Vector3 minVal, EngineMath::Vector3 maxVal)
+AxisAlignedBox::AxisAlignedBox(Engine::Vector3 minVal, Engine::Vector3 maxVal)
 :ogreBox(new Ogre::AxisAlignedBox(MathUtils::copyVector3(minVal), MathUtils::copyVector3(maxVal)))
 {
 

@@ -345,7 +345,7 @@ public:
 	/// <param name="ray">The ray to test in world coords.</param>
 	/// <param name="distanceOnRay">Output - The distance along the ray where the triangle was intersected.  Only valid if true is returned.</param>
 	/// <returns>True if an intersection occured, false if it did not.</returns>
-	bool raycastPolygonLevel(EngineMath::Ray3 ray, float% distanceOnRay);
+	bool raycastPolygonLevel(Engine::Ray3 ray, float% distanceOnRay);
 };
 
 }

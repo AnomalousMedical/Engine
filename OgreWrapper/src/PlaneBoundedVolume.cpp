@@ -29,12 +29,12 @@ bool PlaneBoundedVolume::intersects(AxisAlignedBox^ box)
 	return ogreVolume->intersects(*(box->getOgreBox()));
 }
 
-bool PlaneBoundedVolume::intersects(EngineMath::Ray3 ray)
+bool PlaneBoundedVolume::intersects(Engine::Ray3 ray)
 {
 	return ogreVolume->intersects(MathUtils::copyRay(ray)).first;
 }
 
-bool PlaneBoundedVolume::intersects(EngineMath::Ray3% ray)
+bool PlaneBoundedVolume::intersects(Engine::Ray3% ray)
 {
 	return ogreVolume->intersects(MathUtils::copyRay(ray)).first;
 }

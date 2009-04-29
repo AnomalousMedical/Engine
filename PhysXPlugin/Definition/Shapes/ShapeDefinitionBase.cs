@@ -7,7 +7,7 @@ using Engine.Saving;
 using Engine.Reflection;
 using Engine.Attributes;
 using Engine.Editing;
-using EngineMath;
+using Engine;
 
 namespace PhysXPlugin
 {

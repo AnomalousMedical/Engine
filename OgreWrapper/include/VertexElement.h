@@ -230,7 +230,7 @@ public:
 	/// <param name="src">Source colour.</param>
 	/// <param name="dst">The destination type.</param>
 	/// <returns>The converted color.</returns>
-	static unsigned int convertColorValue(EngineMath::Color src, VertexElementType dst);
+	static unsigned int convertColorValue(Engine::Color src, VertexElementType dst);
 
 	/// <summary>
 	/// Utility method to get the most appropriate packed colour vertex element format.

@@ -61,7 +61,7 @@ public:
 	/// Set this after setting the actors of the joint.
 	/// </summary>
 	/// <param name="vec">Global connection point.</param>
-	void setGlobalAnchor(EngineMath::Vector3 vec);
+	void setGlobalAnchor(Engine::Vector3 vec);
 
 	/// <summary>
 	/// Sets the direction of the joint's primary axis, specified in global coordinates. 
@@ -69,19 +69,19 @@ public:
 	/// The direction vector should be normalized to unit length.
 	/// </summary>
 	/// <param name="vec">The axis direction.</param>
-	void setGlobalAxis(EngineMath::Vector3 vec);
+	void setGlobalAxis(Engine::Vector3 vec);
 
 	/// <summary>
 	/// Retrieves the joint anchor.
 	/// </summary>
 	/// <returns>The joints anchor point in the global frame.</returns>
-	EngineMath::Vector3 getGlobalAnchor();
+	Engine::Vector3 getGlobalAnchor();
 
 	/// <summary>
 	/// Retrieves the joint axis.
 	/// </summary>
 	/// <returns>The joints axis in the global frame.</returns>
-	EngineMath::Vector3 getGlobalAxis();
+	Engine::Vector3 getGlobalAxis();
 
 	/// <summary>
 	/// Returns the state of the joint.
@@ -193,14 +193,14 @@ public:
 	/// </remarks>
 	/// <param name="point">The limit reference point defined in the global frame. Range: position vector.</param>
 	/// <param name="pointIsOnActor1">if true the point is attached to the second actor. Otherwise it is attached to the first.</param>
-	void setLimitPoint(EngineMath::Vector3% point, bool pointIsOnActor1);
+	void setLimitPoint(Engine::Vector3% point, bool pointIsOnActor1);
 
 	/// <summary>
 	/// Retrieves the global space limit point.
 	/// </summary>
 	/// <param name="worldLimitPoint">Used to store the global frame limit point</param>
 	/// <returns>True if the point is fixed to actor 2 otherwise the point is fixed to actor 1.</returns>
-	bool getLimitPoint(EngineMath::Vector3% worldLimitPoint);
+	bool getLimitPoint(Engine::Vector3% worldLimitPoint);
 
 	/// <summary>
 	/// Adds a limit plane. 
@@ -223,7 +223,7 @@ public:
 	/// <param name="pointInPlane">Point in the limit plane in global coordinates. Range: position vector</param>
 	/// <param name="restitution">Restitution of the limit plane. Range: [0.0, 1.0] Default: 0.0</param>
 	/// <returns></returns>
-	bool addLimitPlane(EngineMath::Vector3% normal, EngineMath::Vector3% pointInPlane, float restitution);
+	bool addLimitPlane(Engine::Vector3% normal, Engine::Vector3% pointInPlane, float restitution);
 
 	/// <summary>
 	/// deletes all limit planes added to the joint. 
@@ -257,19 +257,19 @@ public:
 	/// <param name="planeD">Used to store the plane 'D'.</param>
 	/// <param name="restitution">Optional, used to store restitution of the limit plane.</param>
 	/// <returns></returns>
-	bool getNextLimitPlane(EngineMath::Vector3% planeNormal, float% planeD, float% restitution);
+	bool getNextLimitPlane(Engine::Vector3% planeNormal, float% planeD, float% restitution);
 
 	/// <summary>
 	/// Set the local anchor of object 0.
 	/// </summary>
 	/// <param name="anchor">The local anchor to set in the object's frame.</param>
-	void setLocalAnchor0(EngineMath::Vector3 anchor);
+	void setLocalAnchor0(Engine::Vector3 anchor);
 
 	/// <summary>
 	/// Set the local anchor of object 1.
 	/// </summary>
 	/// <param name="anchor">The local anchor to set in the object's frame.</param>
-	void setLocalAnchor1(EngineMath::Vector3 anchor);
+	void setLocalAnchor1(Engine::Vector3 anchor);
 };
 
 }

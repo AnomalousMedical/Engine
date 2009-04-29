@@ -77,7 +77,7 @@ void ManualObject::beginUpdate(unsigned int sectionIndex)
 	obj->beginUpdate(sectionIndex);
 }
 
-void ManualObject::position(EngineMath::Vector3% pos)
+void ManualObject::position(Engine::Vector3% pos)
 {
 	Ogre::Vector3 ogreVec;
 	MathUtils::copyVector3(pos, ogreVec);
@@ -89,7 +89,7 @@ void ManualObject::position(float x, float y, float z)
 	obj->position(x, y, z);
 }
 
-void ManualObject::normal(EngineMath::Vector3% normal)
+void ManualObject::normal(Engine::Vector3% normal)
 {
 	Ogre::Vector3 ogreVec;
 	MathUtils::copyVector3(normal, ogreVec);
@@ -121,7 +121,7 @@ void ManualObject::textureCoord(float x, float y, float z, float w)
 	obj->textureCoord(x, y, z, w);
 }
 
-void ManualObject::textureCoord(EngineMath::Vector3% uvw)
+void ManualObject::textureCoord(Engine::Vector3% uvw)
 {
 	Ogre::Vector3 ogreVec;
 	MathUtils::copyVector3(uvw, ogreVec);

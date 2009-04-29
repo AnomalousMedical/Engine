@@ -37,9 +37,9 @@ public:
 	/// </summary>
 	~RaySceneQuery();
 
-	void setRay(EngineMath::Ray3 ray);
+	void setRay(Engine::Ray3 ray);
 
-	EngineMath::Ray3 getRay();
+	Engine::Ray3 getRay();
 
 	void setSortByDistance(bool sort);
 

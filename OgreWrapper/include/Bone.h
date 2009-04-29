@@ -50,7 +50,7 @@ public:
 	/// <param name="translation">Initial translation offset of child relative to parent.</param>
 	/// <param name="rotate">Initial rotation relative to parent.</param>
 	/// <returns></returns>
-	Bone^ createChild(unsigned short handle, EngineMath::Vector3 translation, EngineMath::Quaternion rotate);
+	Bone^ createChild(unsigned short handle, Engine::Vector3 translation, Engine::Quaternion rotate);
 
 	/// <summary>
 	/// Gets the numeric handle for this bone (unique within the skeleton).

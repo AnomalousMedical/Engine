@@ -11,13 +11,13 @@ PhysShapeDesc(planeShape.Get())
 {
 }
 
-EngineMath::Vector3 PhysPlaneShapeDesc::Normal::get() 
+Engine::Vector3 PhysPlaneShapeDesc::Normal::get() 
 {
 	NxVec3 v = planeShape->normal;
-	return EngineMath::Vector3(v.x, v.y, v.z);
+	return Engine::Vector3(v.x, v.y, v.z);
 }
 
-void PhysPlaneShapeDesc::Normal::set(EngineMath::Vector3 value) 
+void PhysPlaneShapeDesc::Normal::set(Engine::Vector3 value) 
 {
 	planeShape->normal = NxVec3(value.x, value.y, value.z);
 }

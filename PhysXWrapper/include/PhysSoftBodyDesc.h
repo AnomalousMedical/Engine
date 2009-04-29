@@ -35,7 +35,7 @@ public:
 	/// </summary>
 	/// <param name="position">The position of the soft body.</param>
 	/// <param name="rotation">The rotation of the soft body.</param>
-	void setGlobalPose(EngineMath::Vector3 position, EngineMath::Quaternion rotation);
+	void setGlobalPose(Engine::Vector3 position, Engine::Quaternion rotation);
 	
 	/// <summary>
 	/// The cooked soft body mesh.
@@ -298,10 +298,10 @@ public:
 	/// External acceleration which affects all non attached particles of the soft body. 
 	/// Default: (0,0,0)
 	/// </summary>
-	property EngineMath::Vector3 ExternalAcceleration 
+	property Engine::Vector3 ExternalAcceleration 
 	{
-		EngineMath::Vector3 get();
-		void set(EngineMath::Vector3 value);
+		Engine::Vector3 get();
+		void set(Engine::Vector3 value);
 	}
 
 	/// <summary>

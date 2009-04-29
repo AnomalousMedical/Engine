@@ -132,46 +132,46 @@ PhysJointDriveDesc^ PhysD6JointDesc::SlerpDrive::get()
 	return slerpDrive;
 }
 
-EngineMath::Vector3 PhysD6JointDesc::DrivePosition::get() 
+Engine::Vector3 PhysD6JointDesc::DrivePosition::get() 
 {
 	NxVec3 v = joint->drivePosition;
-	return EngineMath::Vector3(v.x, v.y, v.z);
+	return Engine::Vector3(v.x, v.y, v.z);
 }
 
-void PhysD6JointDesc::DrivePosition::set(EngineMath::Vector3 value) 
+void PhysD6JointDesc::DrivePosition::set(Engine::Vector3 value) 
 {
 	joint->drivePosition = NxVec3(value.x, value.y, value.z);
 }
 
-EngineMath::Quaternion PhysD6JointDesc::DriveOrientation::get() 
+Engine::Quaternion PhysD6JointDesc::DriveOrientation::get() 
 {
 	NxQuat q = joint->driveOrientation;
-	return EngineMath::Quaternion(q.x, q.y, q.z, q.w);
+	return Engine::Quaternion(q.x, q.y, q.z, q.w);
 }
 
-void PhysD6JointDesc::DriveOrientation::set(EngineMath::Quaternion value) 
+void PhysD6JointDesc::DriveOrientation::set(Engine::Quaternion value) 
 {
 	joint->driveOrientation = MathUtil::convertNxQuaternion(value);
 }
 
-EngineMath::Vector3 PhysD6JointDesc::DriveLinearVelocity::get() 
+Engine::Vector3 PhysD6JointDesc::DriveLinearVelocity::get() 
 {
 	NxVec3 v = joint->driveLinearVelocity;
-	return EngineMath::Vector3(v.x, v.y, v.z);
+	return Engine::Vector3(v.x, v.y, v.z);
 }
 
-void PhysD6JointDesc::DriveLinearVelocity::set(EngineMath::Vector3 value) 
+void PhysD6JointDesc::DriveLinearVelocity::set(Engine::Vector3 value) 
 {
 	joint->driveLinearVelocity = NxVec3(value.x, value.y, value.z);
 }
 
-EngineMath::Vector3 PhysD6JointDesc::DriveAngularVelocity::get() 
+Engine::Vector3 PhysD6JointDesc::DriveAngularVelocity::get() 
 {
 	NxVec3 v = joint->driveAngularVelocity;
-	return EngineMath::Vector3(v.x, v.y, v.z);
+	return Engine::Vector3(v.x, v.y, v.z);
 }
 
-void PhysD6JointDesc::DriveAngularVelocity::set(EngineMath::Vector3 value) 
+void PhysD6JointDesc::DriveAngularVelocity::set(Engine::Vector3 value) 
 {
 	joint->driveAngularVelocity = NxVec3(value.x, value.y, value.z);
 }

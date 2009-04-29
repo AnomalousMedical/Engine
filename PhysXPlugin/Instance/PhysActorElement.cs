@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Engine;
 using PhysXWrapper;
-using EngineMath;
 using Engine.ObjectManagement;
 
 namespace PhysXPlugin
@@ -67,7 +66,7 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="translation">The translation to set.</param>
         /// <param name="rotation">The rotation to set.</param>
-        protected override void updatePositionImpl(ref EngineMath.Vector3 translation, ref EngineMath.Quaternion rotation)
+        protected override void updatePositionImpl(ref Vector3 translation, ref Quaternion rotation)
         {
             actor.setGlobalPosition(translation);
             actor.setGlobalOrientationQuat(rotation);
@@ -77,7 +76,7 @@ namespace PhysXPlugin
         /// This function will update the translation of the SimElement.
         /// </summary>
         /// <param name="translation">The translation to set.</param>
-        protected override void updateTranslationImpl(ref EngineMath.Vector3 translation)
+        protected override void updateTranslationImpl(ref Vector3 translation)
         {
             actor.setGlobalPosition(translation);
         }
@@ -86,7 +85,7 @@ namespace PhysXPlugin
         /// This function will update the rotation of the SimElement.
         /// </summary>
         /// <param name="rotation">The rotation to set.</param>
-        protected override void updateRotationImpl(ref EngineMath.Quaternion rotation)
+        protected override void updateRotationImpl(ref Quaternion rotation)
         {
             actor.setGlobalOrientationQuat(rotation);
         }
@@ -95,7 +94,7 @@ namespace PhysXPlugin
         /// Not implemented for PhysActors they do not support scaling.
         /// </summary>
         /// <param name="scale">The scale to set.</param>
-        protected override void updateScaleImpl(ref EngineMath.Vector3 scale)
+        protected override void updateScaleImpl(ref Vector3 scale)
         {
             
         }

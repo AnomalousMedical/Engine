@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EngineMath;
 using System.Xml;
 
 namespace Engine.Saving.XMLSaver

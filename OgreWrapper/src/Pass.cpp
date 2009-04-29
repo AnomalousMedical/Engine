@@ -78,12 +78,12 @@ void Pass::setAmbient(float red, float green, float blue)
 	return ogrePass->setAmbient(red, green, blue);
 }
 
-void Pass::setAmbient(EngineMath::Color color)
+void Pass::setAmbient(Engine::Color color)
 {
 	return ogrePass->setAmbient(MathUtils::copyColor(color));
 }
 
-void Pass::setAmbient(EngineMath::Color% color)
+void Pass::setAmbient(Engine::Color% color)
 {
 	return ogrePass->setAmbient(MathUtils::copyColor(color));
 }
@@ -93,12 +93,12 @@ void Pass::setDiffuse(float red, float green, float blue, float alpha)
 	return ogrePass->setDiffuse(red, green, blue, alpha);
 }
 
-void Pass::setDiffuse(EngineMath::Color color)
+void Pass::setDiffuse(Engine::Color color)
 {
 	return ogrePass->setDiffuse(MathUtils::copyColor(color));
 }
 
-void Pass::setDiffuse(EngineMath::Color% color)
+void Pass::setDiffuse(Engine::Color% color)
 {
 	return ogrePass->setDiffuse(MathUtils::copyColor(color));
 }
@@ -108,12 +108,12 @@ void Pass::setSpecular(float red, float green, float blue, float alpha)
 	return ogrePass->setSpecular(red, green, blue, alpha);
 }
 
-void Pass::setSpecular(EngineMath::Color color)
+void Pass::setSpecular(Engine::Color color)
 {
 	return ogrePass->setSpecular(MathUtils::copyColor(color));
 }
 
-void Pass::setSpecular(EngineMath::Color% color)
+void Pass::setSpecular(Engine::Color% color)
 {
 	return ogrePass->setSpecular(MathUtils::copyColor(color));
 }
@@ -128,12 +128,12 @@ void Pass::setSelfIllumination(float red, float green, float blue)
 	return ogrePass->setSelfIllumination(red, green, blue);
 }
 
-void Pass::setSelfIllumination(EngineMath::Color color)
+void Pass::setSelfIllumination(Engine::Color color)
 {
 	return ogrePass->setSelfIllumination(MathUtils::copyColor(color));
 }
 
-void Pass::setSelfIllumination(EngineMath::Color% color)
+void Pass::setSelfIllumination(Engine::Color% color)
 {
 	return ogrePass->setSelfIllumination(MathUtils::copyColor(color));
 }
@@ -213,22 +213,22 @@ float Pass::getPointMaxSize()
 	return ogrePass->getPointMaxSize();
 }
 
-EngineMath::Color Pass::getAmbient()
+Engine::Color Pass::getAmbient()
 {
 	return MathUtils::copyColor(ogrePass->getAmbient());
 }
 
-EngineMath::Color Pass::getDiffuse()
+Engine::Color Pass::getDiffuse()
 {
 	return MathUtils::copyColor(ogrePass->getDiffuse());
 }
 
-EngineMath::Color Pass::getSpecular()
+Engine::Color Pass::getSpecular()
 {
 	return MathUtils::copyColor(ogrePass->getSpecular());
 }
 
-EngineMath::Color Pass::getSelfIllumination()
+Engine::Color Pass::getSelfIllumination()
 {
 	return MathUtils::copyColor(ogrePass->getSelfIllumination());
 }
@@ -413,12 +413,12 @@ bool Pass::getPolygonModeOverrideable()
 	return ogrePass->getPolygonModeOverrideable();
 }
 
-void Pass::setFog(bool overrideScene, FogMode mode, EngineMath::Color% color)
+void Pass::setFog(bool overrideScene, FogMode mode, Engine::Color% color)
 {
 	return ogrePass->setFog(overrideScene, (Ogre::FogMode)mode, MathUtils::copyColor(color));
 }
 
-void Pass::setFog(bool overrideScene, FogMode mode, EngineMath::Color% color, float expDensity, float linearStart, float linearEnd)
+void Pass::setFog(bool overrideScene, FogMode mode, Engine::Color% color, float expDensity, float linearStart, float linearEnd)
 {
 	return ogrePass->setFog(overrideScene, (Ogre::FogMode)mode, MathUtils::copyColor(color), expDensity, linearStart, linearEnd);
 }
@@ -433,7 +433,7 @@ FogMode Pass::getFogMode()
 	return (FogMode)ogrePass->getFogMode();
 }
 
-EngineMath::Color Pass::getFogColor()
+Engine::Color Pass::getFogColor()
 {
 	return MathUtils::copyColor(ogrePass->getFogColour());
 }

@@ -35,22 +35,22 @@ void PhysD6Joint::loadFromDesc(PhysD6JointDesc^ desc)
 	typedJoint->loadFromDesc(*desc->joint.Get());
 }
 
-void PhysD6Joint::setDrivePosition(EngineMath::Vector3 position)
+void PhysD6Joint::setDrivePosition(Engine::Vector3 position)
 {
 	typedJoint->setDrivePosition(NxVec3(position.x, position.y, position.z));
 }
 
-void PhysD6Joint::setDriveOrientation(EngineMath::Quaternion orientation)
+void PhysD6Joint::setDriveOrientation(Engine::Quaternion orientation)
 {
 	typedJoint->setDriveOrientation(MathUtil::convertNxQuaternion(orientation));
 }
 
-void PhysD6Joint::setDriveLinearVelocity(EngineMath::Vector3 linVel)
+void PhysD6Joint::setDriveLinearVelocity(Engine::Vector3 linVel)
 {
 	typedJoint->setDriveLinearVelocity(NxVec3(linVel.x, linVel.y, linVel.z));
 }
 
-void PhysD6Joint::setDriveAngularVelocity(EngineMath::Vector3 angVel)
+void PhysD6Joint::setDriveAngularVelocity(Engine::Vector3 angVel)
 {
 	typedJoint->setDriveAngularVelocity(NxVec3(angVel.x, angVel.y, angVel.z));
 }

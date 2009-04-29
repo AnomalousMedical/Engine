@@ -9,7 +9,7 @@ namespace Ogre
 
 namespace OgreWrapper{
 
-using namespace EngineMath;
+using namespace Engine;
 
 ref class Plane;
 
@@ -68,7 +68,7 @@ public:
 
 	AxisAlignedBox(Extent e);
 
-	AxisAlignedBox(EngineMath::Vector3 minVal, EngineMath::Vector3 maxVal);
+	AxisAlignedBox(Engine::Vector3 minVal, Engine::Vector3 maxVal);
 
 	AxisAlignedBox(float mx, float my, float mz, float Mx, float My, float Mz);
 

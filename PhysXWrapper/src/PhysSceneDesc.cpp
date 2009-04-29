@@ -16,12 +16,12 @@ PhysSceneDesc::PhysSceneDesc()
 	
 }
 
-EngineMath::Vector3 PhysSceneDesc::Gravity::get() 
+Engine::Vector3 PhysSceneDesc::Gravity::get() 
 {
 	return MathUtil::copyVector3(sceneDesc->gravity);
 }
 
-void PhysSceneDesc::Gravity::set(EngineMath::Vector3 vec) 
+void PhysSceneDesc::Gravity::set(Engine::Vector3 vec) 
 { 
 	MathUtil::copyVector3(vec, sceneDesc->gravity);
 } 

@@ -7,8 +7,8 @@ using Engine.Editing;
 using Logging;
 using OgreWrapper;
 using Engine.Saving;
-using EngineMath;
 using Engine.Reflection;
+using Engine;
 
 namespace OgrePlugin
 {

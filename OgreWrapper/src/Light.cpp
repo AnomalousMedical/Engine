@@ -50,12 +50,12 @@ void Light::setDiffuseColor(float red, float green, float blue)
 	light->setDiffuseColour(red, green, blue);
 }
 
-void Light::setDiffuseColor(EngineMath::Color color)
+void Light::setDiffuseColor(Engine::Color color)
 {
 	light->setDiffuseColour(MathUtils::copyColor(color));
 }
 
-EngineMath::Color Light::getDiffuseColor()
+Engine::Color Light::getDiffuseColor()
 {
 	return MathUtils::copyColor(light->getDiffuseColour());
 }
@@ -65,12 +65,12 @@ void Light::setSpecularColor(float red, float green, float blue)
 	light->setSpecularColour(red, green, blue);
 }
 
-void Light::setSpecularColor(EngineMath::Color color)
+void Light::setSpecularColor(Engine::Color color)
 {
 	light->setSpecularColour(MathUtils::copyColor(color));
 }
 
-EngineMath::Color Light::getSpecularColor()
+Engine::Color Light::getSpecularColor()
 {
 	return MathUtils::copyColor(light->getSpecularColour());
 }
@@ -105,12 +105,12 @@ void Light::setDirection(float x, float y, float z)
 	light->setDirection(x, y, z);
 }
 
-void Light::setDirection(EngineMath::Vector3 dir)
+void Light::setDirection(Engine::Vector3 dir)
 {
 	light->setDirection(MathUtils::copyVector3(dir));
 }
 
-EngineMath::Vector3 Light::getDirection()
+Engine::Vector3 Light::getDirection()
 {
 	return MathUtils::copyVector3(light->getDirection());
 }

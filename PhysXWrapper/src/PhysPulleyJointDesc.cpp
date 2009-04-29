@@ -13,13 +13,13 @@ PhysJointDesc(joint.Get())
 	motor = gcnew PhysMotorDesc(&joint->motor);
 }
 
-EngineMath::Vector3 PhysPulleyJointDesc::Pulley::get(int index)
+Engine::Vector3 PhysPulleyJointDesc::Pulley::get(int index)
 {
 	NxVec3 v = joint->pulley[index];
-	return EngineMath::Vector3(v.x, v.y, v.z);
+	return Engine::Vector3(v.x, v.y, v.z);
 }
 
-void PhysPulleyJointDesc::Pulley::set(int index, EngineMath::Vector3 value)
+void PhysPulleyJointDesc::Pulley::set(int index, Engine::Vector3 value)
 {
 	joint->pulley[index] = NxVec3(value.x, value.y, value.z);
 }

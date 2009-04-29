@@ -57,7 +57,7 @@ public:
 	/// Returns a quaternion representing the nodes orientation. 
 	/// </summary>
 	/// <returns>A quaternion.</returns>
-	EngineMath::Quaternion getOrientation();
+	Engine::Quaternion getOrientation();
 
 	/// <summary>
 	/// Sets the orientation of this node via a quaternion. 
@@ -75,7 +75,7 @@ public:
     /// Note that rotations are oriented around the node's origin. 
 	/// </summary>
 	/// <param name="q">The orientation to set.</param>
-	void setOrientation(EngineMath::Quaternion q);
+	void setOrientation(Engine::Quaternion q);
 
 	/// <summary>
 	/// Sets the orientation of this node via quaternion parameters. 
@@ -95,13 +95,13 @@ public:
 	/// Sets the position of the node relative to it's parent. 
 	/// </summary>
 	/// <param name="pos">The position to set.</param>
-	void setPosition(EngineMath::Vector3 pos);
+	void setPosition(Engine::Vector3 pos);
 
 	/// <summary>
 	/// Gets the position of the node relative to it's parent.
 	/// </summary>
 	/// <returns>A Vector3.</returns>
-	EngineMath::Vector3 getPosition();
+	Engine::Vector3 getPosition();
 
 	/// <summary>
 	/// Sets the scaling factor applied to this node.
@@ -120,13 +120,13 @@ public:
     /// origin. 
 	/// </summary>
 	/// <param name="scale">The scale to set.</param>
-	void setScale(EngineMath::Vector3 scale);
+	void setScale(Engine::Vector3 scale);
 
 	/// <summary>
 	/// Gets the scaling factor of this node. 
 	/// </summary>
 	/// <returns>The scaling factor.</returns>
-	EngineMath::Vector3 getScale();
+	Engine::Vector3 getScale();
 
 	/// <summary>
 	/// Tells the node whether it should inherit orientation from it's parent
@@ -188,7 +188,7 @@ public:
     /// origin. 
 	/// </summary>
 	/// <param name="scale">The scale to set.</param>
-	void scale(EngineMath::Vector3 scale);
+	void scale(Engine::Vector3 scale);
 
 	/// <summary>
 	/// Scales the node, combining it's current scale with the passed in scaling
@@ -206,7 +206,7 @@ public:
 	/// </summary>
 	/// <param name="d">The distance to translate.</param>
 	/// <param name="relativeTo">The transform space to use.</param>
-	void translate(EngineMath::Vector3 d, TransformSpace relativeTo);
+	void translate(Engine::Vector3 d, TransformSpace relativeTo);
 
 	/// <summary>
 	/// Moves the node along the Cartesian axes. 
@@ -244,32 +244,32 @@ public:
 	/// <param name="axis">The axis to rotate around.</param>
 	/// <param name="angle">The amount to rotate.</param>
 	/// <param name="relativeTo">The transform space to use.</param>
-	void rotate(EngineMath::Vector3 axis, float angle, TransformSpace relativeTo);
+	void rotate(Engine::Vector3 axis, float angle, TransformSpace relativeTo);
 
 	/// <summary>
 	/// Rotate the node around an arbitrary axis. 
 	/// </summary>
 	/// <param name="q">The quaternion to rotate by.</param>
 	/// <param name="relativeTo">The transform space to use.</param>
-	void rotate(EngineMath::Quaternion q, TransformSpace relativeTo);
+	void rotate(Engine::Quaternion q, TransformSpace relativeTo);
 
 	/// <summary>
 	/// Gets the position of the node as derived from all parents. 
 	/// </summary>
 	/// <returns>The derived position.</returns>
-	EngineMath::Vector3 getDerivedPosition();
+	Engine::Vector3 getDerivedPosition();
 
 	/// <summary>
 	/// Gets the scaling factor of the node as derived from all parents. 
 	/// </summary>
 	/// <returns>The derived scale.</returns>
-	EngineMath::Vector3 getDerivedScale();
+	Engine::Vector3 getDerivedScale();
 
 	/// <summary>
 	/// Gets the orientation of the node as derived from all parents. 
 	/// </summary>
 	/// <returns>The derived orientation.</returns>
-	EngineMath::Quaternion getDerivedOrientation();
+	Engine::Quaternion getDerivedOrientation();
 };
 
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EngineMath
+namespace Engine
 {
     /// <summary>
     /// This is a color struct. Color values are between 0 and 1.

@@ -25,10 +25,10 @@ public:
 	/// <summary>
 	/// The normal of the plane.
 	/// </summary>
-	property EngineMath::Vector3 Normal 
+	property Engine::Vector3 Normal 
 	{
-		EngineMath::Vector3 get();
-		void set(EngineMath::Vector3 value);
+		Engine::Vector3 get();
+		void set(Engine::Vector3 value);
 	}
 
 	/// <summary>

@@ -32,26 +32,26 @@ PhysActor^ PhysJoint::getActor1()
 	return actor1;
 }
 
-void PhysJoint::setGlobalAnchor(EngineMath::Vector3 vec)
+void PhysJoint::setGlobalAnchor(Engine::Vector3 vec)
 {
 	joint->setGlobalAnchor(NxVec3(vec.x, vec.y, vec.z));
 }
 
-void PhysJoint::setGlobalAxis(EngineMath::Vector3 vec)
+void PhysJoint::setGlobalAxis(Engine::Vector3 vec)
 {
 	joint->setGlobalAxis(NxVec3(vec.x, vec.y, vec.z));
 }
 
-EngineMath::Vector3 PhysJoint::getGlobalAnchor()
+Engine::Vector3 PhysJoint::getGlobalAnchor()
 {
 	NxVec3 v = joint->getGlobalAnchor();
-	return EngineMath::Vector3(v.x, v.y, v.z);
+	return Engine::Vector3(v.x, v.y, v.z);
 }
 
-EngineMath::Vector3 PhysJoint::getGlobalAxis()
+Engine::Vector3 PhysJoint::getGlobalAxis()
 {
 	NxVec3 v = joint->getGlobalAxis();
-	return EngineMath::Vector3(v.x, v.y, v.z);
+	return Engine::Vector3(v.x, v.y, v.z);
 }
 
 JointState PhysJoint::getState()
@@ -105,12 +105,12 @@ PhysScene^ PhysJoint::getScene()
 //---------------
 //   Limits
 //---------------
-void PhysJoint::setLimitPoint(EngineMath::Vector3% point, bool pointIsOnActor1)
+void PhysJoint::setLimitPoint(Engine::Vector3% point, bool pointIsOnActor1)
 {
 	joint->setLimitPoint(NxVec3(point.x, point.y, point.z), pointIsOnActor1);
 }
 
-bool PhysJoint::getLimitPoint(EngineMath::Vector3% worldLimitPoint)
+bool PhysJoint::getLimitPoint(Engine::Vector3% worldLimitPoint)
 {
 	NxVec3 v;
 	bool result = joint->getLimitPoint(v);
@@ -118,7 +118,7 @@ bool PhysJoint::getLimitPoint(EngineMath::Vector3% worldLimitPoint)
 	return result;
 }
 
-bool PhysJoint::addLimitPlane(EngineMath::Vector3% normal, EngineMath::Vector3% pointInPlane, float restitution)
+bool PhysJoint::addLimitPlane(Engine::Vector3% normal, Engine::Vector3% pointInPlane, float restitution)
 {
 	return joint->addLimitPlane(NxVec3(normal.x, normal.y, normal.z), NxVec3(pointInPlane.x, pointInPlane.y, pointInPlane.z), restitution);
 }
@@ -138,7 +138,7 @@ bool PhysJoint::hasMoreLimitPlanes()
 	return joint->hasMoreLimitPlanes();
 }
 
-bool PhysJoint::getNextLimitPlane(EngineMath::Vector3% planeNormal, float% planeD, float% restitution)
+bool PhysJoint::getNextLimitPlane(Engine::Vector3% planeNormal, float% planeD, float% restitution)
 {
 	float pd, rest;
 	NxVec3 v;
@@ -149,14 +149,14 @@ bool PhysJoint::getNextLimitPlane(EngineMath::Vector3% planeNormal, float% plane
 	return result;
 }
 
-void PhysJoint::setLocalAnchor0(EngineMath::Vector3 anchor)
+void PhysJoint::setLocalAnchor0(Engine::Vector3 anchor)
 {
 	NxJointDesc& desc = getDesc();
 	MathUtil::copyVector3(anchor, desc.localAnchor[0]);
 	this->reloadFromDesc(desc);
 }
 
-void PhysJoint::setLocalAnchor1(EngineMath::Vector3 anchor)
+void PhysJoint::setLocalAnchor1(Engine::Vector3 anchor)
 {
 	NxJointDesc& desc = getDesc();
 	MathUtil::copyVector3(anchor, desc.localAnchor[1]);

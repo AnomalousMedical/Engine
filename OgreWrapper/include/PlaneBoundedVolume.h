@@ -59,7 +59,7 @@ public:
 	/// </summary>
 	/// <param name="ray">The ray to test against.</param>
 	/// <returns>True on intersection.</returns>
-	bool intersects(EngineMath::Ray3 ray);
+	bool intersects(Engine::Ray3 ray);
 
 	/// <summary>
 	/// Intersection test with a Ray. 
@@ -68,7 +68,7 @@ public:
 	/// </summary>
 	/// <param name="ray">The ray to test against.</param>
 	/// <returns>True on intersection.</returns>
-	bool intersects(EngineMath::Ray3% ray);
+	bool intersects(Engine::Ray3% ray);
 
 	/// <summary>
 	/// Add a plane to the collection of planes.
