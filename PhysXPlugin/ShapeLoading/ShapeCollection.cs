@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using PhysXWrapper;
 
-namespace Engine.Physics.ShapeLoading
+namespace PhysXPlugin
 {
     /// <summary>
     /// A collection of one or more shapes that describe the collision for an object.

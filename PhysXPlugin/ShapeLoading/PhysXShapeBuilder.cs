@@ -5,8 +5,9 @@ using System.Text;
 using PhysXWrapper.StanHull;
 using PhysXWrapper;
 using Logging;
+using Engine;
 
-namespace Engine.Physics.ShapeLoading
+namespace PhysXPlugin
 {
     /// <summary>
     /// This class will build shapes for the PhysX Engine.
@@ -319,7 +320,7 @@ namespace Engine.Physics.ShapeLoading
         {
             if (material != null)
             {
-                PhysMaterial mat = repository.getMaterial(material);
+                PhysMaterialDesc mat = repository.getMaterial(material);
                 if (mat != null)
                 {
                     throw new NotImplementedException();

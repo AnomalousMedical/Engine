@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PhysXWrapper;
+using Engine;
 
-namespace Engine.Physics.ShapeLoading
+namespace PhysXPlugin
 {
     /// <summary>
     /// This interface will allow clients to get information from a data source to 

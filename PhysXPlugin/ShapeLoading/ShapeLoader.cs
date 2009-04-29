@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Engine.Physics.ShapeLoading
+namespace PhysXPlugin
 {
     /// <summary>
     /// This class allows generic loading of shapes in a variety of formats.

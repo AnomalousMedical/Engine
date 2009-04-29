@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine.Resources;
 
-namespace Engine.Physics.ShapeLoading
+namespace PhysXPlugin
 {
     /// <summary>
     /// A shape location keeps track of all the shapes loaded from a specific place

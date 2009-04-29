@@ -7,6 +7,7 @@ using PhysXWrapper;
 using Engine.Platform;
 using Engine.ObjectManagement;
 using Engine.Command;
+using Engine.Resources;
 
 namespace PhysXPlugin
 {
@@ -33,6 +34,7 @@ namespace PhysXPlugin
 
         private PhysSDK physSDK = null;
         private UpdateTimer mainTimer;
+        ShapeFileManager shapeManager = new ShapeFileManager();
 
         #endregion Fields
 
@@ -86,6 +88,10 @@ namespace PhysXPlugin
             pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create PhysX Pulley Joint", PhysPulleyJointDefinition.Create));
             pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create PhysX Revolute Joint", PhysRevoluteJointDefinition.Create));
             pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create PhysX Spherical Joint", PhysSphericalJointDefinition.Create));
+
+            SubsystemResources physXResources = new SubsystemResources("PhysX");
+            physXResources.addResourceListener(shapeManager);
+            pluginManager.addSubsystemResources(physXResources);
         }
 
         /// <summary>

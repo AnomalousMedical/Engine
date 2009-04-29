@@ -5,8 +5,9 @@ using System.Text;
 using System.Xml;
 using PhysXWrapper;
 using Logging;
+using Engine;
 
-namespace Engine.Physics.ShapeLoading
+namespace PhysXPlugin
 {
     /// <summary>
     /// This class implements a shape loader that can parse XML shape files.

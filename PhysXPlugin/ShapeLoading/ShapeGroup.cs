@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using Logging;
 
-namespace Engine.Physics.ShapeLoading
+namespace PhysXPlugin
 {
     /// <summary>
     /// This is a group of shape resources.  It can process all resource files under
@@ -113,10 +113,7 @@ namespace Engine.Physics.ShapeLoading
                 FileAttributes attr = File.GetAttributes(location.LocName);
                 if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
                 {
-                    if (location.Recursive)
-                    {
-                        scanDirectory(location, loader, builder);
-                    }
+                    scanDirectory(location, loader, builder);
                 }
                 else
                 {
@@ -163,7 +160,10 @@ namespace Engine.Physics.ShapeLoading
                 FileAttributes attr = File.GetAttributes(path);
                 if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
                 {
-                    scanDirectory(location, path, loader, builder);
+                    if (location.Recursive)
+                    {
+                        scanDirectory(location, path, loader, builder);
+                    }
                 }
                 else
                 {

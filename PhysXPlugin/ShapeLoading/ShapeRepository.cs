@@ -5,7 +5,7 @@ using System.Text;
 using PhysXWrapper;
 using Logging;
 
-namespace Engine.Physics.ShapeLoading
+namespace PhysXPlugin
 {
     public delegate void ShapeLoaded(ShapeCollection shape);
     public delegate void ShapeRemoved(ShapeCollection shape);
@@ -142,7 +142,7 @@ namespace Engine.Physics.ShapeLoading
         /// Get the material named name.
         /// </summary>
         /// <param name="name">The name of the material.</param>
-        public abstract PhysMaterial getMaterial(String name);
+        public abstract PhysMaterialDesc getMaterial(String name);
 
         /// <summary>
         /// Destroy a material and remove it from this repositiory.
@@ -173,18 +173,6 @@ namespace Engine.Physics.ShapeLoading
         /// Dispose.  Should release any native resources.
         /// </summary>
         public abstract void Dispose();
-
-        /// <summary>
-        /// Unloads any resources that cannot be shared between scene changes.  For
-        /// the time being this is the scene materials since they are bound to a 
-        /// given scene.
-        /// </summary>
-        public abstract void unloadUnshareableResources();
-
-        /// <summary>
-        /// Reloads any resources that cannot be shared between scene changes.
-        /// </summary>
-        public abstract void reloadUnshareableResources();
 
         /// <summary>
         /// Helper function to fire the OnSoftBodyMeshLoaded event.

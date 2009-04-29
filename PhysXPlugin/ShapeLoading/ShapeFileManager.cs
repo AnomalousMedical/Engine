@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using Engine.Resources;
 using Logging;
+using PhysXWrapper;
 
-namespace Engine.Physics.ShapeLoading
+namespace PhysXPlugin
 {
     /// <summary>
     /// This class responds to the ResourceManager to load and unload shapes.
@@ -64,10 +65,12 @@ namespace Engine.Physics.ShapeLoading
         /// </summary>
         public void loadUnloadedResources()
         {
+            PhysCooking.initCooking();
             foreach (ShapeGroup group in shapeGroups.Values)
             {
                 group.loadShapes(loader, builder);
             }
+            PhysCooking.closeCooking();
         }
 
         /// <summary>
@@ -151,7 +154,7 @@ namespace Engine.Physics.ShapeLoading
 
         public void forceResourceRefresh()
         {
-            
+            loadUnloadedResources();
         }
     }
 }

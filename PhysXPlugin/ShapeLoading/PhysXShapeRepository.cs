@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using PhysXWrapper;
 
-namespace Engine.Physics.ShapeLoading
+namespace PhysXPlugin
 {
     using ConvexMeshList = Dictionary<String, PhysConvexMesh>;
     using TriangleMeshList = Dictionary<String, PhysTriangleMesh>;
-    using MaterialList = Dictionary<String, PhysMaterial>;
-    using MaterialDescList = Dictionary<String, PhysMaterialDesc>;
+    using MaterialList = Dictionary<String, PhysMaterialDesc>;
     using SoftBodyShapeList = Dictionary<String, PhysSoftBodyMesh>;
     using Logging;
 
@@ -23,7 +22,6 @@ namespace Engine.Physics.ShapeLoading
         private ConvexMeshList convexMeshes = new ConvexMeshList();
         private TriangleMeshList triangleMeshes = new TriangleMeshList();
         private MaterialList materials = new MaterialList();
-        private MaterialDescList materialDescs = new MaterialDescList();
         private SoftBodyShapeList softBodies = new SoftBodyShapeList();
 
         public PhysXShapeRepository()
@@ -98,7 +96,7 @@ namespace Engine.Physics.ShapeLoading
         {
             if (!materials.ContainsKey(materialDesc.Name))
             {
-                materialDescs.Add(materialDesc.Name, materialDesc);
+                materials.Add(materialDesc.Name, materialDesc);
                 CurrentLoadingLocation.addMaterial(materialDesc.Name);
             }
             else
@@ -111,7 +109,7 @@ namespace Engine.Physics.ShapeLoading
         /// Get the material named name.
         /// </summary>
         /// <param name="name">The name of the material.</param>
-        public override PhysMaterial getMaterial(String name)
+        public override PhysMaterialDesc getMaterial(String name)
         {
             if (name != null && materials.ContainsKey(name))
             {
@@ -128,12 +126,8 @@ namespace Engine.Physics.ShapeLoading
         {
             if (materials.ContainsKey(name))
             {
-                PhysMaterial material = materials[name];
+                PhysMaterialDesc material = materials[name];
                 materials.Remove(name);
-            }
-            if (materialDescs.ContainsKey(name))
-            {
-                materialDescs.Remove(name);
             }
             else
             {
@@ -205,37 +199,6 @@ namespace Engine.Physics.ShapeLoading
             {
                 PhysSDK.Instance.releaseSoftBodyMesh(mesh);
             }
-        }
-
-        /// <summary>
-        /// Unloads any resources that cannot be shared between scene changes.  For
-        /// the time being this is the scene materials since they are bound to a 
-        /// given scene.
-        /// </summary>
-        public override void unloadUnshareableResources()
-        {
-            //foreach (PhysMaterial material in materials.Values)
-            //{
-            //    sceneManager.Subsystems.PhysScene.releaseMaterial(material);
-            //}
-            //materials.Clear();
-        }
-
-        /// <summary>
-        /// Reloads any resources that cannot be shared between scene changes.
-        /// </summary>
-        public override void reloadUnshareableResources()
-        {
-            //foreach (PhysMaterialDesc desc in materialDescs.Values)
-            //{
-            //    PhysMaterial mat = sceneManager.Subsystems.PhysScene.createMaterial(desc);
-            //    materials.Add(desc.Name, mat);
-            //}
-            ////Reload all shape materials to update to potentially new indexes
-            //foreach (ShapeCollection shape in shapeCollections.Values)
-            //{
-            //    shape.updateMaterials(this);
-            //}
         }
     }
 }
