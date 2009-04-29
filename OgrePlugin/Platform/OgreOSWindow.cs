@@ -28,7 +28,7 @@ namespace OgrePlugin
             handle = new IntPtr(mHandle);
         }
 
-        public override IntPtr Handle
+        public IntPtr Handle
         {
             get
             {
@@ -36,7 +36,7 @@ namespace OgrePlugin
             }
         }
 
-        public override int Width
+        public int Width
         {
             get
             {
@@ -44,12 +44,22 @@ namespace OgrePlugin
             }
         }
 
-        public override int Height
+        public int Height
         {
             get
             {
                 return (int)window.getHeight();
             }
+        }
+
+        public void addListener(OSWindowListener listener)
+        {
+
+        }
+
+        public void removeListener(OSWindowListener listener)
+        {
+
         }
 
         public void Dispose()

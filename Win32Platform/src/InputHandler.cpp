@@ -118,8 +118,7 @@ Mouse^ OISInputHandler::createMouse(bool buffered)
 	{
 		Logging::Log::Default->sendMessage("Creating mouse.", Logging::LogLevel::Info, "Input");
 		createdMouse = gcnew OISMouse((OIS::Mouse*)nInputManager->createInputObject(OIS::OISMouse, buffered), window->Width, window->Height);
-		mouseResizeEvent = gcnew ResizeEvent(createdMouse, &OISMouse::windowResized);
-		window->Resized += mouseResizeEvent;
+		window->addListener(this);
 	}
 	return createdMouse;
 }
@@ -128,8 +127,7 @@ void OISInputHandler::destroyMouse(Mouse^ mouse)
 {
 	if( createdMouse == mouse )
 	{
-		window->Resized -= mouseResizeEvent;
-		mouseResizeEvent = nullptr;
+		window->removeListener(this);
 		Logging::Log::Default->sendMessage("Destroying mouse.", Logging::LogLevel::Info, "Input");
 		nInputManager->destroyInputObject(static_cast<OISMouse^>(mouse)->getMouse());
 		delete mouse;
@@ -146,6 +144,24 @@ void OISInputHandler::destroyMouse(Mouse^ mouse)
 			Logging::Log::Default->sendMessage("Attempted to erase mouse that does not belong to this input manager.  OISMouse not destroyed.", Logging::LogLevel::Error, "Input");
 		}
 	}
+}
+
+void OISInputHandler::moved(Engine::Platform::OSWindow^ window)
+{
+
+}
+
+void OISInputHandler::resized(Engine::Platform::OSWindow^ window)
+{
+	if(createdMouse != nullptr)
+	{
+		createdMouse->windowResized(window);
+	}
+}
+
+void OISInputHandler::closing(Engine::Platform::OSWindow^ window)
+{
+
 }
 
 }

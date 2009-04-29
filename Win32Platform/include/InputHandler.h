@@ -26,7 +26,7 @@ ref class OISMouse;
 /// <summary>
 /// This class creates the input devices.
 /// </summary>
-ref class OISInputHandler : public InputHandler
+ref class OISInputHandler : public InputHandler, public OSWindowListener
 {
 private:
 	OIS::InputManager* nInputManager;
@@ -36,7 +36,6 @@ private:
 	OISKeyboard^ createdKeyboard;
 	OISMouse^ createdMouse;
 	OSWindow^ window;
-	ResizeEvent^ mouseResizeEvent;
 
 public:
 	/// <summary>
@@ -82,6 +81,12 @@ public:
 	/// </summary>
 	/// <param name="mouse">The mouse to destroy.</param>
 	virtual void destroyMouse(Mouse^ mouse) override;
+
+	virtual void moved(Engine::Platform::OSWindow^ window);
+
+	virtual void resized(Engine::Platform::OSWindow^ window);
+
+	virtual void closing(Engine::Platform::OSWindow^ window);
 };
 
 }

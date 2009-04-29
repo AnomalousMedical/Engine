@@ -13,6 +13,7 @@ namespace Test
     public class WindowsFormsWindow : OSWindow
     {
         private Control control;
+        private List<OSWindowListener> listeners = new List<OSWindowListener>(2);
 
         /// <summary>
         /// Constructor.
@@ -24,14 +25,13 @@ namespace Test
             control.Move += new EventHandler(control_Move);
             control.Resize += new EventHandler(control_Resize);
             Form form = control.FindForm();
-            form.Shown += new EventHandler(form_Shown);
             form.FormClosing += new FormClosingEventHandler(form_FormClosing);
         }
 
         /// <summary>
         /// Returns the handle of the control.
         /// </summary>
-        public override IntPtr Handle
+        public IntPtr Handle
         {
             get { return control.Handle; }
         }
@@ -39,7 +39,7 @@ namespace Test
         /// <summary>
         /// Returns the height of the control.
         /// </summary>
-        public override int Height
+        public int Height
         {
             get { return control.Height; }
         }
@@ -47,9 +47,19 @@ namespace Test
         /// <summary>
         /// Returns the width of the control.
         /// </summary>
-        public override int Width
+        public int Width
         {
             get { return control.Width; }
+        }
+
+        public void addListener(OSWindowListener listener)
+        {
+            listeners.Add(listener);
+        }
+
+        public void removeListener(OSWindowListener listener)
+        {
+            listeners.Remove(listener);
         }
 
         /// <summary>
@@ -59,7 +69,10 @@ namespace Test
         /// <param name="e"></param>
         void control_Resize(object sender, EventArgs e)
         {
-            resized();
+            foreach (OSWindowListener listener in listeners)
+            {
+                listener.resized(this);
+            }
         }
 
         /// <summary>
@@ -69,7 +82,10 @@ namespace Test
         /// <param name="e"></param>
         void control_Move(object sender, EventArgs e)
         {
-            moved();
+            foreach (OSWindowListener listener in listeners)
+            {
+                listener.moved(this);
+            }
         }
 
         /// <summary>
@@ -79,17 +95,10 @@ namespace Test
         /// <param name="e"></param>
         void form_FormClosing(object sender, FormClosingEventArgs e)
         {
-            closing();
-        }
-
-        /// <summary>
-        /// Callback for showing event.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void form_Shown(object sender, EventArgs e)
-        {
-            shown();
+            foreach (OSWindowListener listener in listeners)
+            {
+                listener.closing(this);
+            }
         }
     }
 }

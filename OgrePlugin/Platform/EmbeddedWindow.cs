@@ -10,7 +10,7 @@ namespace OgrePlugin
     /// <summary>
     /// A class for RenderWindows from Ogre that have been embedded.
     /// </summary>
-    class EmbeddedWindow : OgreWindow
+    class EmbeddedWindow : OgreWindow, OSWindowListener
     {
         private OSWindow osWindow;
         private RenderWindow renderWindow;
@@ -25,9 +25,7 @@ namespace OgrePlugin
         {
             this.osWindow = osWindow;
             this.renderWindow = renderWindow;
-            osWindow.Resized += windowChanged;
-            osWindow.Moved += windowChanged;
-            osWindow.Closing += windowClosing;
+            osWindow.addListener(this);
         }
 
         /// <summary>
@@ -35,26 +33,20 @@ namespace OgrePlugin
         /// </summary>
         public override void Dispose()
         {
-            osWindow.Resized -= windowChanged;
-            osWindow.Moved -= windowChanged;
-            osWindow.Closing -= windowClosing;
+            osWindow.removeListener(this);
         }
 
-        /// <summary>
-        /// Callback for when the window changes to alert ogre.
-        /// </summary>
-        /// <param name="window"></param>
-        void windowChanged(OSWindow window)
+        public void moved(OSWindow window)
         {
             renderWindow.windowMovedOrResized();
         }
 
-        /// <summary>
-        /// Callback for when the window is closing. This will disable the
-        /// RenderWindow so it will not throw an exception.
-        /// </summary>
-        /// <param name="window"></param>
-        void windowClosing(OSWindow window)
+        public void resized(OSWindow window)
+        {
+            renderWindow.windowMovedOrResized();
+        }
+
+        public void closing(OSWindow window)
         {
             renderWindow.setActive(false);
         }
