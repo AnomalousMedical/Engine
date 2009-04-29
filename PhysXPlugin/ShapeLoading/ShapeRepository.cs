@@ -136,7 +136,14 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="name">The name of the material.</param>
         /// <param name="material">The material itself.</param>
-        public abstract void addMaterial(PhysMaterialDesc materialDesc);
+        public abstract void addMaterial(String name, PhysMaterialDesc materialDesc);
+
+        /// <summary>
+        /// Determine if the repository has a given material.
+        /// </summary>
+        /// <param name="name">The name of the material.</param>
+        /// <returns>True if the repository has the given material.</returns>
+        public abstract bool hasMaterial(String name);
 
         /// <summary>
         /// Get the material named name.

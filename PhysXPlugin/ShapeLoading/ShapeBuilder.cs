@@ -112,6 +112,6 @@ namespace PhysXPlugin
         /// This function will build a material with the given parameters.
         /// </summary>
         /// <param name="material"></param>
-        void createMaterial(PhysMaterialDesc material);
+        void createMaterial(String name, float restitution, float staticFriction, float dynamicFriction);
     }
 }

@@ -165,8 +165,7 @@ namespace PhysXPlugin
             }
             else
             {
-                //assign shapes from shapecollection
-
+                addShapesFromCollection(instance);
             }
             if (actorDesc.isValid())
             {
@@ -208,8 +207,7 @@ namespace PhysXPlugin
             }
             else
             {
-                //assign shapes from shapecollection
-
+                addShapesFromCollection(instance);
             }
             if (actorDesc.isValid())
             {
@@ -240,6 +238,23 @@ namespace PhysXPlugin
             if (editInterface != null)
             {
                 shapeEdits.removeSubInterface(physShape);
+            }
+        }
+
+        private void addShapesFromCollection(SimObjectBase instance)
+        {
+            actorDesc.clearShapes();
+            ShapeCollection shapeCollection = PhysXInterface.Instance.ShapeRepository.getCollection(ShapeName);
+            if (shapeCollection != null)
+            {
+                foreach (PhysShapeDesc shape in shapeCollection.getShapeEnum())
+                {
+                    actorDesc.addShape(shape);
+                }
+            }
+            else
+            {
+                Log.Default.sendMessage("Cannot find shape {0} in the shape repository for the actor {0} - {1}.", LogLevel.Error, PhysXInterface.PluginName, ShapeName, instance.Name, Name);
             }
         }
 

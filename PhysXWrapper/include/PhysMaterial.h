@@ -16,13 +16,12 @@ ref class PhysMaterialDesc;
 public ref class PhysMaterial
 {
 private:
-	System::String^ name;
 	AutoPtr<PhysMaterialGcRoot> gcr;
 
 internal:
 	NxMaterial* material;
 
-	PhysMaterial(NxMaterial* material, System::String^ name);
+	PhysMaterial(NxMaterial* material);
 
 public:	
 	virtual ~PhysMaterial(void);
@@ -31,7 +30,7 @@ public:
 
 	void loadFromDesc(PhysMaterialDesc^ desc);
 
-	PhysMaterialDesc^ saveToDesc();
+	void saveToDesc(PhysMaterialDesc^ desc);
 
 	void setDynamicFriction(float coef);
 
@@ -68,8 +67,6 @@ public:
 	void setRestitutionCombineMode(PhysCombineMode mode);
 
 	PhysCombineMode getRestitutionCombineMode();
-
-	System::String^ getName();
 };
 
 }

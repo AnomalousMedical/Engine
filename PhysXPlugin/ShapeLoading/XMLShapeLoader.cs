@@ -71,59 +71,52 @@ namespace PhysXPlugin
         public override void loadShapes(ShapeBuilder builder, string filename)
         {
             Log.Default.sendMessage("Loading collision shapes from " + filename + ".", LogLevel.Info, "ShapeLoading");
-            try
-            {
-                XmlTextReader textReader = new XmlTextReader(filename);
+            XmlTextReader textReader = new XmlTextReader(filename);
 
-                while (textReader.Read())
+            while (textReader.Read())
+            {
+                if (textReader.NodeType == XmlNodeType.Element)
                 {
-                    if (textReader.NodeType == XmlNodeType.Element)
+                    if (textReader.Name.Equals(COMPOUND))
                     {
-                        if (textReader.Name.Equals(COMPOUND))
-                        {
-                            loadCompound(textReader, builder);
-                        }
-                        else if (textReader.Name.Equals(SPHERE))
-                        {
-                            loadSphere(textReader, builder);
-                        }
-                        else if (textReader.Name.Equals(BOX))
-                        {
-                            loadBox(textReader, builder);
-                        }
-                        else if (textReader.Name.Equals(MESH))
-                        {
-                            loadMesh(textReader, builder);
-                        }
-                        else if (textReader.Name.Equals(CONVEXHULL))
-                        {
-                            loadConvexHull(textReader, builder);
-                        }
-                        else if (textReader.Name.Equals(MATERIAL))
-                        {
-                            loadMaterial(textReader, builder);
-                        }
-                        else if (textReader.Name.Equals(PLANE))
-                        {
-                            loadPlane(textReader, builder);
-                        }
-                        else if (textReader.Name.Equals(CAPSULE))
-                        {
-                            loadCapsule(textReader, builder);
-                        }
-                        else if (textReader.Name.Equals(SOFT_BODY))
-                        {
-                            loadSoftBody(textReader, builder);
-                        }
+                        loadCompound(textReader, builder);
+                    }
+                    else if (textReader.Name.Equals(SPHERE))
+                    {
+                        loadSphere(textReader, builder);
+                    }
+                    else if (textReader.Name.Equals(BOX))
+                    {
+                        loadBox(textReader, builder);
+                    }
+                    else if (textReader.Name.Equals(MESH))
+                    {
+                        loadMesh(textReader, builder);
+                    }
+                    else if (textReader.Name.Equals(CONVEXHULL))
+                    {
+                        loadConvexHull(textReader, builder);
+                    }
+                    else if (textReader.Name.Equals(MATERIAL))
+                    {
+                        loadMaterial(textReader, builder);
+                    }
+                    else if (textReader.Name.Equals(PLANE))
+                    {
+                        loadPlane(textReader, builder);
+                    }
+                    else if (textReader.Name.Equals(CAPSULE))
+                    {
+                        loadCapsule(textReader, builder);
+                    }
+                    else if (textReader.Name.Equals(SOFT_BODY))
+                    {
+                        loadSoftBody(textReader, builder);
                     }
                 }
+            }
 
-                textReader.Close();
-            }
-            catch (Exception e)
-            {
-                Log.Default.sendMessage("Exception loading xml shapes " + e.Message, LogLevel.Error, "ShapeLoading");
-            }
+            textReader.Close();
             Log.Default.sendMessage("Finished loading collision shapes from " + filename + ".", LogLevel.Info, "ShapeLoading");
         }
 
@@ -511,65 +504,68 @@ namespace PhysXPlugin
         {
             currentMaterial = textReader.GetAttribute("name");
             Log.Default.sendMessage("Creating material named {0}.", LogLevel.Info, "ShapeLoading", currentMaterial);
-            PhysMaterialDesc desc = new PhysMaterialDesc(currentMaterial);
+            PhysMaterialDesc desc = new PhysMaterialDesc();
+            float restitution = 0.0f;
+            float staticFriction = 0.0f;
+            float dynamicFriction = 0.0f;
             while (!(textReader.Name == MATERIAL && textReader.NodeType == XmlNodeType.EndElement) && textReader.Read())
             {
                 if (textReader.NodeType == XmlNodeType.Element)
                 {
                     if (textReader.Name.Equals(RESTITUTION))
                     {
-                        readRestitution(textReader, desc);
+                        restitution = readRestitution(textReader);
                     }
                     else if (textReader.Name.Equals(STATIC_FRICTION))
                     {
-                        readStaticFriction(textReader, desc);
+                        staticFriction = readStaticFriction(textReader);
                     }
                     else if (textReader.Name.Equals(DYNAMIC_FRICTION))
                     {
-                        readDynamicFriction(textReader, desc);
+                        dynamicFriction = readDynamicFriction(textReader);
                     }
                 }
             }
-            builder.createMaterial(desc);
+            builder.createMaterial(currentMaterial, restitution, staticFriction, dynamicFriction);
         }
 
-        private void readDynamicFriction(XmlTextReader textReader, PhysMaterialDesc desc)
+        private float readDynamicFriction(XmlTextReader textReader)
         {
+            float result = 0.0f;
             while (!(textReader.Name == DYNAMIC_FRICTION && textReader.NodeType == XmlNodeType.EndElement) && textReader.Read())
             {
                 if (textReader.NodeType == XmlNodeType.Text)
                 {
-                    float result;
                     float.TryParse(textReader.Value, out result);
-                    desc.DynamicFriction = result;
                 }
             }
+            return result;
         }
 
-        private void readStaticFriction(XmlTextReader textReader, PhysMaterialDesc desc)
+        private float readStaticFriction(XmlTextReader textReader)
         {
+            float result = 0.0f;
             while (!(textReader.Name == STATIC_FRICTION && textReader.NodeType == XmlNodeType.EndElement) && textReader.Read())
             {
                 if (textReader.NodeType == XmlNodeType.Text)
                 {
-                    float result;
                     float.TryParse(textReader.Value, out result);
-                    desc.StaticFriction = result;
                 }
             }
+            return result;
         }
 
-        private void readRestitution(XmlTextReader textReader, PhysMaterialDesc desc)
+        private float readRestitution(XmlTextReader textReader)
         {
+            float result = 0.0f;
             while (!(textReader.Name == RESTITUTION && textReader.NodeType == XmlNodeType.EndElement) && textReader.Read())
             {
                 if (textReader.NodeType == XmlNodeType.Text)
                 {
-                    float result;
                     float.TryParse(textReader.Value, out result);
-                    desc.Restitution = result;
                 }
             }
+            return result;
         }        
     }
 }

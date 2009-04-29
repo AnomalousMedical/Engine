@@ -323,7 +323,8 @@ namespace PhysXPlugin
                 PhysMaterialDesc mat = repository.getMaterial(material);
                 if (mat != null)
                 {
-                    throw new NotImplementedException();
+                    Log.Default.sendMessage("Materials not currently supported.", LogLevel.ImportantInfo, "ShapeLoading");
+                    //throw new NotImplementedException();
                     //desc.setMaterial(mat);
                 }
             }
@@ -349,9 +350,16 @@ namespace PhysXPlugin
             repository.CurrentLoadingLocation = location;
         }
 
-        public void createMaterial(PhysMaterialDesc material)
+        public void createMaterial(String name, float restitution, float staticFriction, float dynamicFriction)
         {
-            repository.addMaterial(material);
+            if (!repository.hasMaterial(name))
+            {
+                PhysMaterialDesc material = new PhysMaterialDesc();
+                material.Restitution = restitution;
+                material.StaticFriction = staticFriction;
+                material.DynamicFriction = dynamicFriction;
+                repository.addMaterial(name, material);
+            }
         }
     }
 }

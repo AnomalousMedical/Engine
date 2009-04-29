@@ -6,8 +6,8 @@
 namespace PhysXWrapper
 {
 
-PhysMaterial::PhysMaterial(NxMaterial* material, System::String^ name)
-:material(material), gcr(new PhysMaterialGcRoot(this)), name(name)
+PhysMaterial::PhysMaterial(NxMaterial* material)
+:material(material), gcr(new PhysMaterialGcRoot(this))
 {
 	material->userData = gcr.Get();
 }
@@ -27,11 +27,9 @@ void PhysMaterial::loadFromDesc(PhysMaterialDesc^ desc)
 	material->loadFromDesc((*desc->desc.Get()));
 }
 
-PhysMaterialDesc^ PhysMaterial::saveToDesc()
+void PhysMaterial::saveToDesc(PhysMaterialDesc^ desc)
 {
-	PhysMaterialDesc^ desc = gcnew PhysMaterialDesc(name);
 	material->saveToDesc((*desc->desc.Get()));
-	return desc;
 }
 
 void PhysMaterial::setDynamicFriction(float coef)
@@ -122,11 +120,6 @@ void PhysMaterial::setRestitutionCombineMode(PhysCombineMode mode)
 PhysCombineMode PhysMaterial::getRestitutionCombineMode()
 {
 	return (PhysCombineMode)material->getRestitutionCombineMode();
-}
-
-System::String^ PhysMaterial::getName()
-{
-	return name;
 }
 
 }

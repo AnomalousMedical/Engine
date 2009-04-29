@@ -10,14 +10,11 @@ namespace PhysXWrapper
 
 public ref class PhysMaterialDesc
 {
-private:
-	System::String^ name;
-
 internal:
 	AutoPtr<NxMaterialDesc> desc;
 
 public:
-	PhysMaterialDesc(System::String^ name);
+	PhysMaterialDesc();
 	
 	virtual ~PhysMaterialDesc(void);
 
@@ -37,11 +34,6 @@ public:
 	{
 		float get();
 		void set(float value);
-	}
-
-	property System::String^ Name
-	{
-		System::String^ get();
 	}
 };
 

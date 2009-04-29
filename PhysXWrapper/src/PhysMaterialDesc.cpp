@@ -4,8 +4,8 @@
 namespace PhysXWrapper
 {
 
-PhysMaterialDesc::PhysMaterialDesc(System::String^ name)
-:desc(new NxMaterialDesc()), name(name)
+PhysMaterialDesc::PhysMaterialDesc()
+:desc(new NxMaterialDesc())
 {
 }
 
@@ -42,11 +42,6 @@ float PhysMaterialDesc::DynamicFriction::get()
 void PhysMaterialDesc::DynamicFriction::set(float value) 
 {
 	desc->dynamicFriction = value;
-}
-
-System::String^ PhysMaterialDesc::Name::get() 
-{
-	return name;
 }
 
 }

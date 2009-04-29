@@ -92,17 +92,27 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="name">The name of the material.</param>
         /// <param name="material">The material itself.</param>
-        public override void addMaterial(PhysMaterialDesc materialDesc)
+        public override void addMaterial(String name, PhysMaterialDesc materialDesc)
         {
-            if (!materials.ContainsKey(materialDesc.Name))
+            if (!materials.ContainsKey(name))
             {
-                materials.Add(materialDesc.Name, materialDesc);
-                CurrentLoadingLocation.addMaterial(materialDesc.Name);
+                materials.Add(name, materialDesc);
+                CurrentLoadingLocation.addMaterial(name);
             }
             else
             {
-                Log.Default.sendMessage("Attempted to add a duplicate material {0}.  Duplicate will be ignrored.", LogLevel.Warning, "ShapeLoading", materialDesc.Name);
+                Log.Default.sendMessage("Attempted to add a duplicate material {0}.  Duplicate will be ignrored.", LogLevel.Warning, "ShapeLoading", name);
             }
+        }
+
+        /// <summary>
+        /// Determine if the repository has a given material.
+        /// </summary>
+        /// <param name="name">The name of the material.</param>
+        /// <returns>True if the repository has the given material.</returns>
+        public override bool hasMaterial(string name)
+        {
+            return name != null && materials.ContainsKey(name);
         }
 
         /// <summary>

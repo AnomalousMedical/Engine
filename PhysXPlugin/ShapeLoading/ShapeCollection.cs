@@ -12,6 +12,7 @@ namespace PhysXPlugin
     public class ShapeCollection
     {
         LinkedList<PhysShapeDesc> shapes = new LinkedList<PhysShapeDesc>();
+        //Dictionary<PhysShapeDesc, String> materialBindings = new Dictionary<PhysShapeDesc, string>();
 
         /// <summary>
         /// Constructor, takes a name.  This name must be unique and will be used to
@@ -50,18 +51,31 @@ namespace PhysXPlugin
             return shapes;
         }
 
-        /// <summary>
-        /// This function will update all the material ID's for the shapes in the collection.
-        /// This should be called whenever the material ID's might change.
-        /// </summary>
-        /// <param name="repository">The shape repository that contains the materials.</param>
-        public void updateMaterials(ShapeRepository repository)
-        {
-            //foreach (PhysShapeDesc shape in shapes)
-            //{
-            //    shape.setMaterial(repository.getMaterial(shape.MaterialName));
-            //}
-        }
+        ///// <summary>
+        ///// Add a binding from a given shape to a material. That material will
+        ///// be used on the shape when it is created.
+        ///// </summary>
+        ///// <param name="shape">The shape to add the binding for.</param>
+        ///// <param name="materialName"></param>
+        //public void addMaterialBinding(PhysShapeDesc shape, String materialName)
+        //{
+        //    materialBindings.Add(shape, materialName);
+        //}
+
+        //public void removeMaterialBinding(PhysShapeDesc shape)
+        //{
+        //    materialBindings.Remove(shape);
+        //}
+
+        //public bool hasShapeBinding(PhysShapeDesc shape)
+        //{
+        //    return materialBindings.ContainsKey(shape);
+        //}
+
+        //public String getMaterialBinding(PhysShapeDesc shape)
+        //{
+        //    return materialBindings[shape];
+        //}
 
         /// <summary>
         /// The name of the shape.

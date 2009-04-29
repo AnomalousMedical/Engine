@@ -211,7 +211,7 @@ PhysMaterial^ PhysScene::getMaterialFromIndex(short index)
 PhysMaterial^ PhysScene::createMaterial(PhysMaterialDesc^ desc)
 {
 	NxMaterial* nxMat = scene->createMaterial(*(desc->desc.Get()));
-	return gcnew PhysMaterial(nxMat, desc->Name);
+	return gcnew PhysMaterial(nxMat);
 }
 
 void PhysScene::releaseMaterial(PhysMaterial^ material)

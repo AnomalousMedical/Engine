@@ -144,5 +144,20 @@ namespace PhysXPlugin
         #endregion Creation
 
         #endregion Functions
+
+        #region Properties
+
+        /// <summary>
+        /// The ShapeRepository with all shapes loaded by the plugin.
+        /// </summary>
+        internal ShapeRepository ShapeRepository
+        {
+            get
+            {
+                return shapeManager.getShapeRepository();
+            }
+        }
+
+        #endregion Properties
     }
 }
