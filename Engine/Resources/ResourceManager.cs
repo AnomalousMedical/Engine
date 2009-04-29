@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Logging;
+using Engine.Saving;
 
 namespace Engine.Resources
 {
@@ -15,7 +16,7 @@ namespace Engine.Resources
     /// This way any common resources between the two ResourceManagers can stay in memory
     /// making the transition between two of them go quicker.
     /// </summary>
-    public class ResourceManager
+    public class ResourceManager : Saveable
     {
         #region Fields
 
@@ -175,5 +176,29 @@ namespace Engine.Resources
         }
 
         #endregion Functions
+
+        #region Saveable Members
+
+        private const String SUBSYSTEM_BASE = "Subsystem";
+
+        private ResourceManager(LoadInfo info)
+        {
+            for (int i = 0; info.hasValue(SUBSYSTEM_BASE + i); ++i)
+            {
+                SubsystemResources subsystem = info.GetValue<SubsystemResources>(SUBSYSTEM_BASE + i);
+                this.addSubsystemResource(subsystem);
+            }
+        }
+
+        public void getInfo(SaveInfo info)
+        {
+            int i = 0;
+            foreach (SubsystemResources subsystem in subsystemResources.Values)
+            {
+                info.AddValue(SUBSYSTEM_BASE + i++, subsystem);
+            }
+        }
+
+        #endregion
     }
 }

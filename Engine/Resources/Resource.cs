@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Engine.Saving;
 
 namespace Engine.Resources
 {
@@ -18,7 +19,7 @@ namespace Engine.Resources
     /// A resource is an individual file or folder containing assets that need
     /// to be loaded into the engine.
     /// </summary>
-    public class Resource
+    public class Resource : Saveable
     {
         #region Static
 
@@ -170,5 +171,35 @@ namespace Engine.Resources
         }
 
         #endregion Properties
+
+        #region Saveable Members
+
+        private const String LOC_NAME = "LocName";
+        private const String TYPE = "Type";
+        private const String RECURSIVE = "Recursive";
+
+        /// <summary>
+        /// Load constructor.
+        /// </summary>
+        /// <param name="info">The load info.</param>
+        private Resource(LoadInfo info)
+        {
+            locName = info.GetString(LOC_NAME);
+            type = info.GetValue<ResourceType>(TYPE);
+            recursive = info.GetBoolean(RECURSIVE);
+        }
+
+        /// <summary>
+        /// Save function.
+        /// </summary>
+        /// <param name="info">Save info.</param>
+        public void getInfo(SaveInfo info)
+        {
+            info.AddValue(LOC_NAME, locName);
+            info.AddValue(TYPE, type);
+            info.AddValue(RECURSIVE, recursive);
+        }
+
+        #endregion
     }
 }

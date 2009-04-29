@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Logging;
+using Engine.Saving;
 
 namespace Engine.Resources
 {
@@ -10,7 +11,7 @@ namespace Engine.Resources
     /// This is a group containing resources.  By organizing resources into groups time 
     /// can be saved between scene loads because groups can be skipped in the loading process.
     /// </summary>
-    public class ResourceGroup
+    public class ResourceGroup : Saveable
     {
         #region Fields
 
@@ -213,5 +214,39 @@ namespace Engine.Resources
 
         #endregion Properties
 
+        #region Saveable Members
+
+        private const String RESOURCE_BASE = "Resource";
+        private const String NAME = "Name";
+
+        /// <summary>
+        /// Load constructor.
+        /// </summary>
+        /// <param name="info">The load info.</param>
+        private ResourceGroup(LoadInfo info)
+        {
+            name = info.GetString(NAME);
+            for (int i = 0; info.hasValue(RESOURCE_BASE + i); ++i)
+            {
+                Resource resource = info.GetValue<Resource>(RESOURCE_BASE + i);
+                this.addResource(resource);
+            }
+        }
+
+        /// <summary>
+        /// Save function.
+        /// </summary>
+        /// <param name="info">Save info.</param>
+        public void getInfo(SaveInfo info)
+        {
+            info.AddValue(NAME, name);
+            int i = 0;
+            foreach (Resource resource in resources.Values)
+            {
+                info.AddValue(RESOURCE_BASE + i++, resource);
+            }
+        }
+
+        #endregion
     }
 }

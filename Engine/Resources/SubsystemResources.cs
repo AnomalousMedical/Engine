@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Logging;
+using Engine.Saving;
 
 namespace Engine.Resources
 {
     /// <summary>
     /// This is a collection of resources for a particular subsystem.
     /// </summary>
-    public class SubsystemResources
+    public class SubsystemResources : Saveable
     {
         #region Fields
 
@@ -276,5 +277,40 @@ namespace Engine.Resources
         }
 
         #endregion Properties
+
+        #region Saveable Members
+
+        private const String RESOURCE_GROUP_BASE = "ResourceGroup";
+        private const String NAME = "Name";
+
+        /// <summary>
+        /// Load constructor.
+        /// </summary>
+        /// <param name="info">The load info.</param>
+        private SubsystemResources(LoadInfo info)
+        {
+            name = info.GetString(NAME);
+            for (int i = 0; info.hasValue(RESOURCE_GROUP_BASE + i); ++i)
+            {
+                ResourceGroup group = info.GetValue<ResourceGroup>(RESOURCE_GROUP_BASE + i);
+                this.addResourceGroup(group);
+            }
+        }
+
+        /// <summary>
+        /// Save function.
+        /// </summary>
+        /// <param name="info">Save info.</param>
+        public void getInfo(SaveInfo info)
+        {
+            info.AddValue(NAME, name);
+            int i = 0;
+            foreach (ResourceGroup group in resourceGroups.Values)
+            {
+                info.AddValue(RESOURCE_GROUP_BASE + i++, group);
+            }
+        }
+
+        #endregion
     }
 }
