@@ -66,6 +66,7 @@
     <Compile Include="Platform\OgreUpdate.cs" />
     <Compile Include="Platform\OgreWindow.cs" />
     <Compile Include="Plugin\OgreInterface.cs" />
+    <Compile Include="Plugin\OgreResourceManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

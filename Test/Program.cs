@@ -13,6 +13,7 @@ using Engine.Saving.XMLSaver;
 using System.IO;
 using Engine.Renderer;
 using Engine.Platform;
+using Engine.Resources;
 
 namespace Test
 {
@@ -47,9 +48,17 @@ namespace Test
                 pluginLoader.loadPlugins(pluginManager);
                 pluginManager.initializePlugins();
 
-                pluginManager.getOtherCommand("addResourceLocation").execute("S:/export/Shaders/Articulometrics", "FileSystem", "Test", true);
-                pluginManager.getOtherCommand("addResourceLocation").execute("S:/export/Media/Perfect/Skull", "FileSystem", "Test", true);
-                pluginManager.getOtherCommand("initializeResourceGroups").execute();
+                //pluginManager.getOtherCommand("addResourceLocation").execute("S:/export/Shaders/Articulometrics", "FileSystem", "Test", true);
+                //pluginManager.getOtherCommand("addResourceLocation").execute("S:/export/Media/Perfect/Skull", "FileSystem", "Test", true);
+                //pluginManager.getOtherCommand("initializeResourceGroups").execute();
+                Resource.ResourceRoot = null;
+                ResourceManager secondaryResources = pluginManager.createSecondaryResourceManager();
+                SubsystemResources ogreResources = secondaryResources.getSubsystemResource("Ogre");
+                ResourceGroup ogreTestGroup = ogreResources.addResourceGroup("Test");
+                ogreTestGroup.addResource("S:/export/Shaders/Articulometrics", ResourceType.FileSystem, true);
+                ogreTestGroup.addResource("S:/export/Media/Perfect/Skull", ResourceType.FileSystem, true);
+                pluginManager.PrimaryResourceManager.changeResourcesToMatch(secondaryResources);
+                pluginManager.PrimaryResourceManager.forceResourceRefresh();
 
                 mainTimer = pluginManager.PlatformPlugin.createTimer();
                 mainTimer.processMessageLoop(true);

@@ -8,6 +8,7 @@ using Engine.Renderer;
 using Logging;
 using Engine.Platform;
 using Engine.Command;
+using Engine.Resources;
 
 namespace OgrePlugin
 {
@@ -105,7 +106,11 @@ namespace OgrePlugin
 
                 pluginManager.addOtherCommand(new EngineCommand("addResourceLocation", "Add Ogre Resource Location", "Add a resource location to ogre.", new AddResourceLocation(OgreResourceGroupManager.getInstance().addResourceLocation)));
                 pluginManager.addOtherCommand(new EngineCommand("initializeResourceGroups", "Initialize Ogre Resources", "Initialize all added ogre resources.", new InitializeResourceGroups(OgreResourceGroupManager.getInstance().initializeAllResourceGroups)));
-                
+
+                //Setup Resources
+                SubsystemResources ogreResourcs = new SubsystemResources("Ogre");
+                ogreResourcs.addResourceListener(OgreResourceManager.Instance);
+                pluginManager.addSubsystemResources(ogreResourcs);
             }
             catch (Exception e)
             {

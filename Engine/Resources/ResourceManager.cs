@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Logging;
 using Engine.Saving;
+using Engine.Editing;
 
 namespace Engine.Resources
 {
@@ -21,6 +22,7 @@ namespace Engine.Resources
         #region Fields
 
         Dictionary<String, SubsystemResources> subsystemResources = new Dictionary<string, SubsystemResources>();
+        private EditInterface editInterface;
 
         #endregion Fields
 
@@ -29,7 +31,7 @@ namespace Engine.Resources
         /// <summary>
         /// Constructor.
         /// </summary>
-        ResourceManager()
+        internal ResourceManager()
         {
 
         }
@@ -39,7 +41,7 @@ namespace Engine.Resources
         /// its contents into the new ResourceManager.
         /// </summary>
         /// <param name="toDuplicate">The resource manager to duplicate.</param>
-        ResourceManager(ResourceManager toDuplicate)
+        internal ResourceManager(ResourceManager toDuplicate)
         {
             foreach (SubsystemResources resource in toDuplicate.subsystemResources.Values)
             {
@@ -55,7 +57,7 @@ namespace Engine.Resources
         /// Add a subsystem resource to this resource manager.
         /// </summary>
         /// <param name="resources">The subsystem resources to add.</param>
-        void addSubsystemResource(SubsystemResources resources)
+        internal void addSubsystemResource(SubsystemResources resources)
         {
             if (!subsystemResources.ContainsKey(resources.Name))
             {
@@ -71,7 +73,7 @@ namespace Engine.Resources
         /// Remove a subsystem resource from this manager.
         /// </summary>
         /// <param name="resources">The subsystem resources to remove.</param>
-        void removeSubsystemResource(SubsystemResources resources)
+        internal void removeSubsystemResource(SubsystemResources resources)
         {
             if (subsystemResources.ContainsKey(resources.Name))
             {
@@ -87,7 +89,7 @@ namespace Engine.Resources
         /// Remove a subsystem resources based on its name.
         /// </summary>
         /// <param name="name">The name of the resources to remove.</param>
-        void removeSubsystemResource(String name)
+        internal void removeSubsystemResource(String name)
         {
             if (subsystemResources.ContainsKey(name))
             {
@@ -104,7 +106,7 @@ namespace Engine.Resources
         /// </summary>
         /// <param name="name">The name of the resources to get.</param>
         /// <returns>The subsystem resources identified by name or null if this manager does not contain it.</returns>
-        SubsystemResources getSubsystemResource(String name)
+        public SubsystemResources getSubsystemResource(String name)
         {
             if (subsystemResources.ContainsKey(name))
             {
@@ -123,7 +125,7 @@ namespace Engine.Resources
         /// subscribed delegates.
         /// </summary>
         /// <param name="toMatch">The resource manager to match.</param>
-        void changeResourcesToMatch(ResourceManager toMatch)
+        public void changeResourcesToMatch(ResourceManager toMatch)
         {
             //Unload any non matching subsystems
             LinkedList<String> unloadedResources = new LinkedList<String>();
@@ -155,19 +157,10 @@ namespace Engine.Resources
         }
 
         /// <summary>
-        /// Get an enumeration over all the SubsystemResources in this resource manager.
-        /// </summary>
-        /// <returns>An enumeration over the resources in this manager.</returns>
-        IEnumerable<SubsystemResources> getSubsystemEnum()
-        {
-            return subsystemResources.Values;
-        }
-
-        /// <summary>
         /// This will force all subsystems to validate any resources they have not yet validated.
         /// This may not actually load the resources into memory at this time.
         /// </summary>
-        void forceResourceRefresh()
+        public void forceResourceRefresh()
         {
             foreach (SubsystemResources resource in subsystemResources.Values)
             {

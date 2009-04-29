@@ -27,9 +27,10 @@ namespace Engine.Resources
 
         /// <summary>
 	    /// This is the root directory where resources can be found.  This is static
-	    /// and set for all resources.
+	    /// and set for all resources. This can be set to null to use absolute
+        /// paths for everything. This is only reccomended for testing.
 	    /// </summary>
-	    static String ResourceRoot 
+	    public static String ResourceRoot 
 	    {
 		    get
             {
@@ -136,7 +137,14 @@ namespace Engine.Resources
 	    {
 		    get
             {
-                return resourceRoot + "\\" + locName;
+                if (resourceRoot != null)
+                {
+                    return resourceRoot + "\\" + locName;
+                }
+                else
+                {
+                    return locName;
+                }
             }
 	    }
 

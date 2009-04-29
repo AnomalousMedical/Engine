@@ -157,15 +157,6 @@ namespace Engine.Resources
         }
 
         /// <summary>
-        /// Get an enumeration over all resource groups.
-        /// </summary>
-        /// <returns>An enumeration over the resource groups.</returns>
-        public IEnumerable<ResourceGroup> getResourceGroupEnum()
-        {
-            return resourceGroups.Values;
-        }
-
-        /// <summary>
         /// Add a resource listener.
         /// </summary>
         /// <param name="listener">The resource listener to add.</param>

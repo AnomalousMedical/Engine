@@ -9,6 +9,7 @@ using Engine.ObjectManagement;
 using Engine.Platform;
 using Engine.Renderer;
 using Engine.Command;
+using Engine.Resources;
 
 namespace Engine
 {
@@ -51,6 +52,7 @@ namespace Engine
         private PlatformPlugin platformPlugin = null;
         private RendererPlugin rendererPlugin = null;
         private List<Assembly> pluginAssemblies = new List<Assembly>();
+        private ResourceManager primaryResourceManager = new ResourceManager();
 
         #endregion Fields
 
@@ -99,6 +101,12 @@ namespace Engine
             loadedPlugins.Clear();
         }
 
+        /// <summary>
+        /// Load all plugins for the assemblies that have been registered. This
+        /// should be called before any plugins are used at the start of the
+        /// program. The plugin assemblies need to be registered using
+        /// addPluginAssembly or by using a PluginLoader.
+        /// </summary>
         public void initializePlugins()
         {
             foreach (Assembly assembly in pluginAssemblies)
@@ -133,14 +141,11 @@ namespace Engine
             }
         }
 
-        private void addPlugin(PluginInterface plugin)
-        {
-            Log.Default.sendMessage("Plugin {0} added.", LogLevel.Info, "Engine", plugin.getName());
-            loadedPlugins.Add(plugin.getName(), plugin);
-            plugin.initialize(this);
-        }
-
-        internal void addPluginAssembly(Assembly assembly)
+        /// <summary>
+        /// Add an assembly that will be searched for a plugin.
+        /// </summary>
+        /// <param name="assembly">The assembly to search.</param>
+        public void addPluginAssembly(Assembly assembly)
         {
             pluginAssemblies.Add(assembly);
         }
@@ -210,6 +215,19 @@ namespace Engine
             {
                 throw new InvalidPluginException("A second renderer plugin was added. It is only valid to specify one renderer plugin please correct this issue.");
             }
+        }
+
+        /// <summary>
+        /// Add a set of SubsystemResources to the primary ResourceManager. This
+        /// will allow a plugin to get updates about the resources that are
+        /// requested for a scene. The SubsystemResources passed to this
+        /// function should be configured with a ResourceListener so it can get
+        /// the appropriate callbacks.
+        /// </summary>
+        /// <param name="subsystem">A callback configured SubsystemResources instance.</param>
+        public void addSubsystemResources(SubsystemResources subsystem)
+        {
+            primaryResourceManager.addSubsystemResource(subsystem);
         }
 
         /// <summary>
@@ -294,6 +312,30 @@ namespace Engine
             return otherCommands.getCommand(name);
         }
 
+        /// <summary>
+        /// Create a copy of the PrimaryResourceManager. This will contain all
+        /// of the same resource definitions as the PrimaryResourceManager,
+        /// however, it will not update the subsystems as it is changed. This
+        /// can then be applied to the primary manager to make it update the
+        /// subsystems to match the new definitions.
+        /// </summary>
+        /// <returns>A new ResourceManager that is a copy of the PrimaryResourceManager.</returns>
+        public ResourceManager createSecondaryResourceManager()
+        {
+            return new ResourceManager(primaryResourceManager);
+        }
+
+        /// <summary>
+        /// Helper function to add a plugin.
+        /// </summary>
+        /// <param name="plugin">The plugin to add.</param>
+        private void addPlugin(PluginInterface plugin)
+        {
+            Log.Default.sendMessage("Plugin {0} added.", LogLevel.Info, "Engine", plugin.getName());
+            loadedPlugins.Add(plugin.getName(), plugin);
+            plugin.initialize(this);
+        }
+
         #endregion Functions
 
         #region Properties
@@ -317,6 +359,21 @@ namespace Engine
             get
             {
                 return rendererPlugin;
+            }
+        }
+
+        /// <summary>
+        /// This is the ResourceManager that is hooked up to the plugins. By
+        /// modifying this resource manager the plugins will get updates about
+        /// the resource changes. If you need to change resources without
+        /// modifying the actual loaded resources call
+        /// createSecondaryResourceManager().
+        /// </summary>
+        public ResourceManager PrimaryResourceManager
+        {
+            get
+            {
+                return primaryResourceManager;
             }
         }
 
