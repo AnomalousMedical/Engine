@@ -299,7 +299,7 @@ namespace Engine.Resources
             for (int i = 0; info.hasValue(RESOURCE_BASE + i); ++i)
             {
                 Resource resource = info.GetValue<Resource>(RESOURCE_BASE + i);
-                this.addResource(resource);
+                resources.Add(resource.getLocName(), resource);
             }
         }
 

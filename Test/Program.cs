@@ -52,15 +52,32 @@ namespace Test
                 //pluginManager.getOtherCommand("addResourceLocation").execute("S:/export/Media/Perfect/Skull", "FileSystem", "Test", true);
                 //pluginManager.getOtherCommand("initializeResourceGroups").execute();
                 Resource.ResourceRoot = null;
-                ResourceManager secondaryResources = pluginManager.createSecondaryResourceManager();
-                SubsystemResources ogreResources = secondaryResources.getSubsystemResource("Ogre");
-                ResourceGroup ogreTestGroup = ogreResources.addResourceGroup("Test");
-                ogreTestGroup.addResource("S:/export/Shaders/Articulometrics", ResourceType.FileSystem, true);
-                ogreTestGroup.addResource("S:/export/Media/Perfect/Skull", ResourceType.FileSystem, true);
+                ResourceManager secondaryResources;
+                if (!File.Exists("resources.xml"))
+                {
+                    secondaryResources = pluginManager.createSecondaryResourceManager();
+                    SubsystemResources ogreResources = secondaryResources.getSubsystemResource("Ogre");
+                    ResourceGroup ogreTestGroup = ogreResources.addResourceGroup("Test");
+                    ogreTestGroup.addResource("S:/export/Shaders/Articulometrics", ResourceType.FileSystem, true);
+                    ogreTestGroup.addResource("S:/export/Media/Perfect/Skull", ResourceType.FileSystem, true);
 
-                ObjectEditorForm resourceForm = new ObjectEditorForm();
-                resourceForm.EditorPanel.setEditInterface(secondaryResources.getEditInterface());
-                resourceForm.ShowDialog();
+                    ObjectEditorForm resourceForm = new ObjectEditorForm();
+                    resourceForm.EditorPanel.setEditInterface(secondaryResources.getEditInterface());
+                    resourceForm.ShowDialog();
+
+                    XmlTextWriter resourceWriter = new XmlTextWriter("resources.xml", Encoding.Unicode);
+                    resourceWriter.Formatting = Formatting.Indented;
+                    XmlSaver resourceSaver = new XmlSaver();
+                    resourceSaver.saveObject(secondaryResources, resourceWriter);
+                    resourceWriter.Close();
+                }
+                else
+                {
+                    XmlTextReader resourceReader = new XmlTextReader("resources.xml");
+                    XmlSaver xmlSaver = new XmlSaver();
+                    secondaryResources = xmlSaver.restoreObject(resourceReader) as ResourceManager;
+                    resourceReader.Close();
+                }
 
                 pluginManager.PrimaryResourceManager.changeResourcesToMatch(secondaryResources);
                 pluginManager.PrimaryResourceManager.forceResourceRefresh();
