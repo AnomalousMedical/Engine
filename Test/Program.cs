@@ -57,9 +57,15 @@ namespace Test
                 ResourceGroup ogreTestGroup = ogreResources.addResourceGroup("Test");
                 ogreTestGroup.addResource("S:/export/Shaders/Articulometrics", ResourceType.FileSystem, true);
                 ogreTestGroup.addResource("S:/export/Media/Perfect/Skull", ResourceType.FileSystem, true);
+
+                ObjectEditorForm resourceForm = new ObjectEditorForm();
+                resourceForm.EditorPanel.setEditInterface(secondaryResources.getEditInterface());
+                resourceForm.ShowDialog();
+
                 pluginManager.PrimaryResourceManager.changeResourcesToMatch(secondaryResources);
                 pluginManager.PrimaryResourceManager.forceResourceRefresh();
 
+                //Timer
                 mainTimer = pluginManager.PlatformPlugin.createTimer();
                 mainTimer.processMessageLoop(true);
                 Coroutine.SetTimerFixed(mainTimer);
@@ -136,9 +142,10 @@ namespace Test
                             textReader.Close();
                         }
 
+                        SimObjectManagerDefinition managerDef;
                         using (SimObjectManager manager = simObjectManagerDef.createSimObjectManager(subScene))
                         {
-                            scene.buildStaticScene();
+                            scene.buildScene();
 
                             CameraControl cameraControl = pluginManager.RendererPlugin.PrimaryWindow.createCamera(subScene, "TestCamera", new Vector3(0.0f, 0f, -75f), Vector3.Zero);
                             cameraControl.BackgroundColor = new Color(0.0f, 0.0f, 1.0f);
@@ -153,11 +160,12 @@ namespace Test
                             mainTimer.startLoop();
                             pluginManager.RendererPlugin.PrimaryWindow.destroyCamera(cameraControl);
 
-                            SimObjectManagerDefinition managerDef = manager.saveToDefinition();
-                            form = new ObjectEditorForm();
-                            form.EditorPanel.setEditInterface(managerDef.getTemplate("Test").getEditInterface());
-                            form.ShowDialog();
+                            managerDef = manager.saveToDefinition();
                         }
+
+                        form = new ObjectEditorForm();
+                        form.EditorPanel.setEditInterface(managerDef.getTemplate("Test").getEditInterface());
+                        form.ShowDialog();
                     }
                     eventManager.Dispose();
                     pluginManager.PlatformPlugin.destroyInputHandler(inputHandler);

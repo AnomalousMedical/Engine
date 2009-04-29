@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Logging;
 using Engine.Saving;
+using Engine.Editing;
 
 namespace Engine.Resources
 {
@@ -93,7 +94,12 @@ namespace Engine.Resources
         {
             if (resourceGroups.ContainsKey(name))
             {
-                fireResourceGroupRemoved(resourceGroups[name]);
+                ResourceGroup group = resourceGroups[name];
+                fireResourceGroupRemoved(group);
+                if (editInterface != null)
+                {
+                    groupEdits.removeSubInterface(group);
+                }
                 resourceGroups.Remove(name);
             }
             else
@@ -183,6 +189,10 @@ namespace Engine.Resources
             if (!resourceGroups.ContainsKey(group.Name))
             {
                 resourceGroups.Add(group.Name, group);
+                if (editInterface != null)
+                {
+                    addResourceGroupEditInterface(group);
+                }
                 fireResourceGroupAdded(group);
             }
             else
@@ -268,6 +278,74 @@ namespace Engine.Resources
         }
 
         #endregion Properties
+
+        #region EditInterface
+
+        private EditInterface editInterface;
+        private EditInterfaceManager<ResourceGroup> groupEdits;
+        private EditInterfaceCommand destroyGroup;
+
+        /// <summary>
+        /// Get the EditInterface.
+        /// </summary>
+        /// <returns>The EditInterface</returns>
+        internal EditInterface getEditInterface()
+        {
+            if (editInterface == null)
+            {
+                editInterface = new EditInterface(name);
+                editInterface.addCommand(new EditInterfaceCommand("Add Group", addResourceGroup));
+                groupEdits = new EditInterfaceManager<ResourceGroup>(editInterface);
+                destroyGroup = new EditInterfaceCommand("Remove", destroyResourceGroup);
+                foreach (ResourceGroup group in resourceGroups.Values)
+                {
+                    addResourceGroupEditInterface(group);
+                }
+            }
+            return editInterface;
+        }
+
+        /// <summary>
+        /// Helper function for adding a resource group EditInterface.
+        /// </summary>
+        /// <param name="group">The ResourceGroup to add the interface for.</param>
+        private void addResourceGroupEditInterface(ResourceGroup group)
+        {
+            EditInterface edit = group.getEditInterface();
+            edit.addCommand(destroyGroup);
+            groupEdits.addSubInterface(group, edit);
+        }
+
+        /// <summary>
+        /// Callback to destroy a resource group.
+        /// </summary>
+        /// <param name="callback"></param>
+        /// <param name="caller"></param>
+        private void destroyResourceGroup(EditUICallback callback, EditInterfaceCommand caller)
+        {
+            removeResourceGroup(groupEdits.resolveSourceObject(callback.getSelectedEditInterface()).Name);
+        }
+
+        /// <summary>
+        /// Callback to create a resource group.
+        /// </summary>
+        /// <param name="callback"></param>
+        /// <param name="caller"></param>
+        private void addResourceGroup(EditUICallback callback, EditInterfaceCommand caller)
+        {
+            String name;
+            bool accept = callback.getInputString("Enter a name for the group.", out name);
+            while (accept && resourceGroups.ContainsKey(name))
+            {
+                accept = callback.getInputString("That group name is already in use. Please provide another.", name, out name);
+            }
+            if (accept)
+            {
+                this.addResourceGroup(name);
+            }
+        }
+
+        #endregion EditInterface
 
         #region Saveable Members
 

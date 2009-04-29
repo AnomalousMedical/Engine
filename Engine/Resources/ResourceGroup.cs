@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Logging;
 using Engine.Saving;
+using Engine.Editing;
 
 namespace Engine.Resources
 {
@@ -18,6 +19,7 @@ namespace Engine.Resources
         Dictionary<String, Resource> resources = new Dictionary<string, Resource>();
         String name;
         SubsystemResources parent;
+        EditInterface editInterface;
 
         #endregion Fields
 
@@ -81,6 +83,10 @@ namespace Engine.Resources
             if (resource.getLocName() != null && !resources.ContainsKey(resource.getLocName()))
             {
                 resources.Add(resource.getLocName(), resource);
+                if (editInterface != null)
+                {
+                    editInterface.addEditableProperty(resource);
+                }
                 parent.fireResourceAdded(this, resource);
             }
             else
@@ -125,7 +131,12 @@ namespace Engine.Resources
         {
             if (resources.ContainsKey(locName))
             {
-                parent.fireResourceRemoved(this, resources[locName]);
+                Resource resource = resources[locName];
+                parent.fireResourceRemoved(this, resource);
+                if (editInterface != null)
+                {
+                    editInterface.removeEditableProperty(resource);
+                }
                 resources.Remove(locName);
             }
             else
@@ -188,15 +199,6 @@ namespace Engine.Resources
             }
         }
 
-        /// <summary>
-        /// Get an enumeration over all the resources in this ResourceGroup.
-        /// </summary>
-        /// <returns>An enumeration over all the resources.</returns>
-        public IEnumerable<Resource> getResourceEnum()
-        {
-            return resources.Values;
-        }
-
         #endregion Functions
 
         #region Properties
@@ -213,6 +215,74 @@ namespace Engine.Resources
         }
 
         #endregion Properties
+
+        #region EditInterface
+
+        /// <summary>
+        /// Get the EditInterface.
+        /// </summary>
+        /// <returns>The EditInterface.</returns>
+        internal EditInterface getEditInterface()
+        {
+            if (editInterface == null)
+            {
+                editInterface = new EditInterface(name, addResource, removeResource, validate);
+                editInterface.setPropertyInfo(Resource.Info);
+                foreach (Resource resource in resources.Values)
+                {
+                    editInterface.addEditableProperty(resource);
+                }
+            }
+            return editInterface;
+        }
+
+        /// <summary>
+        /// Callback to add a resource.
+        /// </summary>
+        /// <param name="callback"></param>
+        private void addResource(EditUICallback callback)
+        {
+            addResource(new Resource());
+        }
+
+        /// <summary>
+        /// Callback to remove a resource.
+        /// </summary>
+        /// <param name="callback"></param>
+        /// <param name="property"></param>
+        private void removeResource(EditUICallback callback, EditableProperty property)
+        {
+            removeResource(((Resource)property).getLocName());
+        }
+
+        /// <summary>
+        /// Callback to validate the resources.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        private bool validate(out String message)
+        {
+            foreach (Resource resource in resources.Values)
+            {
+                if (!resource.isValid())
+                {
+                    String locName = resource.getLocName();
+                    if (locName == null || locName == String.Empty)
+                    {
+                        message = "Cannot accept empty locations. Please remove any blank entries.";
+                    }
+                    else
+                    {
+                        message = String.Format("Could not find the path \"{0}\". Please modify or remove that entry", resource.FullPath);
+                    }
+                    return false;
+                }
+            }
+            message = null;
+            return true;
+        }
+
+        #endregion EditInterface
 
         #region Saveable Members
 

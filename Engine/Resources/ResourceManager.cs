@@ -168,6 +168,23 @@ namespace Engine.Resources
             }
         }
 
+        /// <summary>
+        /// Get the EditInterface.
+        /// </summary>
+        /// <returns>The EditInterface.</returns>
+        public EditInterface getEditInterface()
+        {
+            if (editInterface == null)
+            {
+                editInterface = new EditInterface("Resource Manager");
+                foreach (SubsystemResources subsystem in subsystemResources.Values)
+                {
+                    editInterface.addSubInterface(subsystem.getEditInterface());
+                }
+            }
+            return editInterface;
+        }
+
         #endregion Functions
 
         #region Saveable Members

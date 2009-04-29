@@ -71,6 +71,7 @@
     <Compile Include="Editing\EditableProperty.cs" />
     <Compile Include="Editing\EditablePropertyColumn.cs" />
     <Compile Include="Editing\EditablePropertyInfo.cs" />
+    <Compile Include="Editing\EditException.cs" />
     <Compile Include="Editing\EditInterface.cs" />
     <Compile Include="Editing\EditInterfaceCommand.cs" />
     <Compile Include="Editing\EditInterfaceManager.cs" />
