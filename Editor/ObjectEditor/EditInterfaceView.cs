@@ -93,7 +93,7 @@ namespace Editor
         {
             if (parentNode != null)
             {
-                parentNode.Dispose();
+                parentNode.removeCallbacks();
                 this.objectsTree.Nodes.Clear();
                 parentNode = null;
             }

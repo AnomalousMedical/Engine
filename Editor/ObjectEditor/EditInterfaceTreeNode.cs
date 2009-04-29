@@ -11,7 +11,7 @@ namespace Editor
     /// <summary>
     /// This is a tree node that wraps EditInterfaces.
     /// </summary>
-    class EditInterfaceTreeNode : TreeNode, IDisposable
+    class EditInterfaceTreeNode : TreeNode
     {
         #region Fields
 
@@ -52,13 +52,13 @@ namespace Editor
         /// Disconnect the callbacks from this node and all children. Used to
         /// stop listening for updates from the EditInterface this node wraps.
         /// </summary>
-        public void Dispose()
+        public void removeCallbacks()
         {
             editInterface.OnSubInterfaceAdded -= subInterfaceAdded;
             editInterface.OnSubInterfaceRemoved -= subInterfaceRemoved;
             foreach (EditInterfaceTreeNode node in Nodes)
             {
-                node.Dispose();
+                node.removeCallbacks();
             }
         }
 
