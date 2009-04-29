@@ -30,6 +30,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -89,6 +90,16 @@
     <Compile Include="Instance\PhysXSceneManager.cs" />
     <Compile Include="Plugin\PhysXInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShapeLoading\PhysXShapeBuilder.cs" />
+    <Compile Include="ShapeLoading\PhysXShapeRepository.cs" />
+    <Compile Include="ShapeLoading\ShapeBuilder.cs" />
+    <Compile Include="ShapeLoading\ShapeCollection.cs" />
+    <Compile Include="ShapeLoading\ShapeFileManager.cs" />
+    <Compile Include="ShapeLoading\ShapeGroup.cs" />
+    <Compile Include="ShapeLoading\ShapeLoader.cs" />
+    <Compile Include="ShapeLoading\ShapeLocation.cs" />
+    <Compile Include="ShapeLoading\ShapeRepository.cs" />
+    <Compile Include="ShapeLoading\XMLShapeLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">
