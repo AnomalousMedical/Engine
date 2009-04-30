@@ -15,6 +15,27 @@ using Engine.Saving.XMLSaver;
 
 namespace Anomaly
 {
+    /// <summary>
+    /// This delegate is called when a new scene is loaded.
+    /// </summary>
+    /// <param name="controller"></param>
+    /// <param name="scene"></param>
+    delegate void SceneLoaded(AnomalyController controller, SimScene scene);
+
+    /// <summary>
+    /// This delegate is called when a scene is about to unload.
+    /// </summary>
+    /// <param name="controller"></param>
+    /// <param name="scene"></param>
+    delegate void SceneUnloading(AnomalyController controller, SimScene scene);
+
+    /// <summary>
+    /// This delegate is called when a scene has unloaded and is destroyed.
+    /// </summary>
+    /// <param name="controller"></param>
+    /// <param name="scene"></param>
+    delegate void SceneUnloaded(AnomalyController controller);
+
     class AnomalyController : IDisposable
     {
 
@@ -38,6 +59,25 @@ namespace Anomaly
         private SimScene scene;
 
         #endregion Fields
+
+        #region Events
+
+        /// <summary>
+        /// This event is fired when a scene is loaded.
+        /// </summary>
+        public event SceneLoaded OnSceneLoaded;
+
+        /// <summary>
+        /// This event is fired when a scene starts unloading.
+        /// </summary>
+        public event SceneUnloading OnSceneUnloading;
+
+        /// <summary>
+        /// This event is fired when a scene has finished unloading.
+        /// </summary>
+        public event SceneUnloaded OnSceneUnloaded;
+
+        #endregion Events
 
         #region Constructors
 
@@ -109,6 +149,10 @@ namespace Anomaly
         /// </summary>
         public void shutdown()
         {
+            if (scene != null)
+            {
+                destroyScene();
+            }
             mainTimer.stopLoop();
         }
 
@@ -144,6 +188,10 @@ namespace Anomaly
             }
 
             scene = sceneDef.createScene();
+            if (OnSceneLoaded != null)
+            {
+                OnSceneLoaded.Invoke(this, scene);
+            }
         }
 
         private void setupResources()
@@ -173,6 +221,20 @@ namespace Anomaly
 
             pluginManager.PrimaryResourceManager.changeResourcesToMatch(secondaryResources);
             pluginManager.PrimaryResourceManager.forceResourceRefresh();
+        }
+
+        private void destroyScene()
+        {
+            if (OnSceneUnloading != null)
+            {
+                OnSceneUnloading.Invoke(this, scene);
+            }
+            scene.Dispose();
+            scene = null;
+            if (OnSceneUnloaded != null)
+            {
+                OnSceneUnloaded.Invoke(this);
+            }
         }
 
         public void Dispose()

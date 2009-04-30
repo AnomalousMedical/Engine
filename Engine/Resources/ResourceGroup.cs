@@ -83,6 +83,7 @@ namespace Engine.Resources
             if (resource.getLocName() != null && !resources.ContainsKey(resource.getLocName()))
             {
                 resources.Add(resource.getLocName(), resource);
+                resource.setResourceGroup(this);
                 if (editInterface != null)
                 {
                     editInterface.addEditableProperty(resource);
@@ -132,6 +133,7 @@ namespace Engine.Resources
             if (resources.ContainsKey(locName))
             {
                 Resource resource = resources[locName];
+                resource.setResourceGroup(null);
                 parent.fireResourceRemoved(this, resource);
                 if (editInterface != null)
                 {

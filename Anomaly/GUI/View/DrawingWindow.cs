@@ -8,6 +8,9 @@ using System.Text;
 using System.Windows.Forms;
 using Engine.Platform;
 using Engine.Renderer;
+using Engine.ObjectManagement;
+using Logging;
+using Engine;
 
 namespace Anomaly
 {
@@ -16,6 +19,8 @@ namespace Anomaly
         private List<OSWindowListener> listeners = new List<OSWindowListener>();
         private AnomalyController controller;
         private RendererWindow window;
+        private String name;
+        private CameraControl camera;
 
         public DrawingWindow()
         {
@@ -24,7 +29,10 @@ namespace Anomaly
 
         public void initialize(AnomalyController controller, String name)
         {
+            this.name = name;
             this.controller = controller;
+            controller.OnSceneLoaded += new SceneLoaded(sceneLoaded);
+            controller.OnSceneUnloading += new SceneUnloading(controller_OnSceneUnloading);
             window = controller.PluginManager.RendererPlugin.createRendererWindow(this, name);
         }
 
@@ -65,6 +73,25 @@ namespace Anomaly
         }
 
         #endregion
+
+        void sceneLoaded(AnomalyController controller, SimScene scene)
+        {
+            SimSubScene defaultScene = scene.getDefaultSubScene();
+            if (defaultScene != null)
+            {
+                camera = window.createCamera(defaultScene, name, new Vector3(0.0f, 0.0f, -150.0f), Vector3.Zero);
+                camera.BackgroundColor = new Engine.Color(0.0f, 0.0f, 1.0f);
+            }
+            else
+            {
+                Log.Default.sendMessage("Cannot find default subscene for the scene. Not creating camera.", LogLevel.Error, "Anomaly");
+            }
+        }
+
+        void controller_OnSceneUnloading(AnomalyController controller, SimScene scene)
+        {
+            window.destroyCamera(camera);
+        }
 
         protected override void OnResize(EventArgs e)
         {

@@ -53,6 +53,7 @@ namespace Engine.Resources
         private String locName;
         private ResourceType type;
         private bool recursive;
+        private ResourceGroup group;
 
         #endregion Fields
 
@@ -125,6 +126,15 @@ namespace Engine.Resources
         internal String getLocName()
         {
 	        return locName;
+        }
+
+        /// <summary>
+        /// Set the ResourceGroup that owns this resource.
+        /// </summary>
+        /// <param name="group">The ResourceGroup that owns this resource.</param>
+        internal void setResourceGroup(ResourceGroup group)
+        {
+            this.group = group;
         }
 
         #endregion Functions
@@ -270,7 +280,13 @@ namespace Engine.Resources
             switch (column)
             {
                 case LOC_COLUMN:
+                    //This exchange is complex, when the resource is 
+                    //removed the group will be reset so we must keep a 
+                    //local reference to it.
+                    ResourceGroup localGroup = group;
+                    group.removeResource(locName);
                     locName = value;
+                    localGroup.addResource(this);
                     break;
                 case TYPE_COLUMN:
                     type = (ResourceType)Enum.Parse(typeof(ResourceType), value);
@@ -300,6 +316,11 @@ namespace Engine.Resources
                     {
                         errorMessage = null;
                         return true;
+                    }
+                    if (value != locName && group.containsResource(value))
+                    {
+                        errorMessage = "This resource location is already defined.";
+                        return false;
                     }
                     String fullPath;
                     if (resourceRoot == null)
