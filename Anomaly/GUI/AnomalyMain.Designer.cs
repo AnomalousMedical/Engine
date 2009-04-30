@@ -28,20 +28,52 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.editWindow1 = new Anomaly.EditWindow();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.editWindow1);
+            this.splitContainer1.Size = new System.Drawing.Size(752, 540);
+            this.splitContainer1.SplitterDistance = 250;
+            this.splitContainer1.TabIndex = 1;
+            // 
+            // editWindow1
+            // 
+            this.editWindow1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.editWindow1.Location = new System.Drawing.Point(0, 0);
+            this.editWindow1.Name = "editWindow1";
+            this.editWindow1.Size = new System.Drawing.Size(498, 540);
+            this.editWindow1.TabIndex = 1;
             // 
             // AnomalyMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(752, 540);
+            this.Controls.Add(this.splitContainer1);
             this.Name = "AnomalyMain";
             this.Text = "Anomaly";
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private EditWindow editWindow1;
+
     }
 }
 

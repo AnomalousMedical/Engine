@@ -65,7 +65,7 @@ namespace Engine.Renderer
             {
                 if (EmbedWindow != null && width == -1)
                 {
-                    return EmbedWindow.Width;
+                    return EmbedWindow.WindowWidth;
                 }
                 else
                 {
@@ -89,7 +89,7 @@ namespace Engine.Renderer
             {
                 if (EmbedWindow != null && height == -1)
                 {
-                    return EmbedWindow.Height;
+                    return EmbedWindow.WindowHeight;
                 }
                 else
                 {

@@ -94,7 +94,7 @@ namespace OgrePlugin
                 else
                 {
                     Dictionary<String, String> miscParams = new Dictionary<string, string>();
-                    miscParams.Add("externalWindowHandle", defaultWindowInfo.EmbedWindow.Handle.ToInt32().ToString());
+                    miscParams.Add("externalWindowHandle", defaultWindowInfo.EmbedWindow.WindowHandle.ToInt32().ToString());
                     RenderWindow renderWindow = root.createRenderWindow(defaultWindowInfo.AutoWindowTitle, (uint)defaultWindowInfo.Width, (uint)defaultWindowInfo.Height, defaultWindowInfo.Fullscreen, miscParams);
                     primaryWindow = new EmbeddedWindow(defaultWindowInfo.EmbedWindow, renderWindow);
                 }
@@ -139,8 +139,8 @@ namespace OgrePlugin
         public RendererWindow createRendererWindow(OSWindow embedWindow, String name)
         {
             Dictionary<String, String> miscParams = new Dictionary<string, string>();
-            miscParams.Add("externalWindowHandle", embedWindow.Handle.ToInt32().ToString());
-            RenderWindow renderWindow = root.createRenderWindow(name, (uint)embedWindow.Width, (uint)embedWindow.Height, false, miscParams);
+            miscParams.Add("externalWindowHandle", embedWindow.WindowHandle.ToInt32().ToString());
+            RenderWindow renderWindow = root.createRenderWindow(name, (uint)embedWindow.WindowWidth, (uint)embedWindow.WindowHeight, false, miscParams);
             return new EmbeddedWindow(embedWindow, renderWindow);
         }
 

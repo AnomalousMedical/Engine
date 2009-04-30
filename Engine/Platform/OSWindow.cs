@@ -10,17 +10,17 @@ namespace Engine.Platform
         /// <summary>
         /// An int pointer to the handle of the window.
         /// </summary>
-        IntPtr Handle { get; }
+        IntPtr WindowHandle { get; }
 
         /// <summary>
         /// The current width of the window.
         /// </summary>
-        int Width { get; }
+        int WindowWidth { get; }
 
         /// <summary>
         /// The current height of the window.
         /// </summary>
-        int Height { get; }
+        int WindowHeight { get; }
 
         /// <summary>
         /// Add a listener.

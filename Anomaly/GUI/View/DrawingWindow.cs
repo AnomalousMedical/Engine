@@ -1,33 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Engine.Platform;
-using Engine;
+using Engine.Renderer;
 
 namespace Anomaly
 {
-    partial class AnomalyMain : Form, OSWindow
+    partial class DrawingWindow : UserControl, OSWindow
     {
         private List<OSWindowListener> listeners = new List<OSWindowListener>();
         private AnomalyController controller;
+        private RendererWindow window;
 
-        public AnomalyMain()
+        public DrawingWindow()
         {
             InitializeComponent();
         }
 
-        public void initialize(AnomalyController controller)
+        public void initialize(AnomalyController controller, String name)
         {
             this.controller = controller;
-            editWindow1.initialize(controller, "Test");
+            window = controller.PluginManager.RendererPlugin.createRendererWindow(this, name);
         }
 
         #region OSWindow Members
+
+        public void addListener(OSWindowListener listener)
+        {
+            listeners.Add(listener);
+        }
+
+        public void removeListener(OSWindowListener listener)
+        {
+            listeners.Remove(listener);
+        }
 
         public IntPtr WindowHandle
         {
@@ -51,16 +62,6 @@ namespace Anomaly
             {
                 return this.Height;
             }
-        }
-
-        public void addListener(OSWindowListener listener)
-        {
-            listeners.Add(listener);
-        }
-
-        public void removeListener(OSWindowListener listener)
-        {
-            listeners.Remove(listener);
         }
 
         #endregion
@@ -89,16 +90,8 @@ namespace Anomaly
             {
                 listener.closing(this);
             }
+            controller.PluginManager.RendererPlugin.destroyRendererWindow(window);
             base.OnHandleDestroyed(e);
-        }
-
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            if (controller != null)
-            {
-                controller.shutdown();
-            }
-            base.OnFormClosing(e);
         }
     }
 }

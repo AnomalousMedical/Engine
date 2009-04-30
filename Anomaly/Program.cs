@@ -18,24 +18,13 @@ namespace Anomaly
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            LogFileListener logListener = new LogFileListener();
-            logListener.openLogFile(AnomalyConfig.DocRoot + "/log.log");
-            Log.Default.addLogListener(logListener);
-            AnomalyConfig.ConfigFile.loadConfigFile();
-
-            using (PluginManager pluginManager = new PluginManager())
+            using (AnomalyController anomalyController = new AnomalyController())
             {
                 try
                 {
-                    //pluginManager.OnConfigureDefaultWindow = createWindow;
-                    DynamicDLLPluginLoader pluginLoader = new DynamicDLLPluginLoader();
-                    ConfigSection plugins = AnomalyConfig.ConfigFile.createOrRetrieveConfigSection("Plugins");
-                    for (int i = 0; plugins.hasValue("Plugin" + i); ++i)
-                    {
-                        pluginLoader.addPath(plugins.getValue("Plugin" + i, ""));
-                    }
-                    pluginLoader.loadPlugins(pluginManager);
-                    pluginManager.initializePlugins();
+                    anomalyController.intialize();
+                    anomalyController.createNewScene();
+                    anomalyController.start();
                 }
                 catch (Exception e)
                 {
@@ -48,9 +37,6 @@ namespace Anomaly
                     MessageBox.Show(e.Message, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-
-            AnomalyConfig.ConfigFile.writeConfigFile();
-            logListener.closeLogFile();
         }
     }
 }

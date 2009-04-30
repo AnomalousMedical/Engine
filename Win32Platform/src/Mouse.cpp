@@ -51,8 +51,8 @@ OIS::Mouse* OISMouse::getMouse()
 void OISMouse::windowResized(OSWindow^ window)
 {
 	const OIS::MouseState& state = oisMouse->getMouseState();
-	state.width = window->Width;
-	state.height = window->Height;
+	state.width = window->WindowWidth;
+	state.height = window->WindowHeight;
 }
 
 Engine::Vector3 OISMouse::getAbsMouse()

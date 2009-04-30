@@ -24,14 +24,21 @@ namespace Test
             this.control = control;
             control.Move += new EventHandler(control_Move);
             control.Resize += new EventHandler(control_Resize);
-            Form form = control.FindForm();
-            form.FormClosing += new FormClosingEventHandler(form_FormClosing);
+            control.HandleDestroyed += new EventHandler(control_HandleDestroyed);
+        }
+
+        void control_HandleDestroyed(object sender, EventArgs e)
+        {
+            foreach (OSWindowListener listener in listeners)
+            {
+                listener.closing(this);
+            }
         }
 
         /// <summary>
         /// Returns the handle of the control.
         /// </summary>
-        public IntPtr Handle
+        public IntPtr WindowHandle
         {
             get { return control.Handle; }
         }
@@ -39,7 +46,7 @@ namespace Test
         /// <summary>
         /// Returns the height of the control.
         /// </summary>
-        public int Height
+        public int WindowHeight
         {
             get { return control.Height; }
         }
@@ -47,7 +54,7 @@ namespace Test
         /// <summary>
         /// Returns the width of the control.
         /// </summary>
-        public int Width
+        public int WindowWidth
         {
             get { return control.Width; }
         }

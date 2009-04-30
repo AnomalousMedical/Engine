@@ -50,16 +50,33 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\AnomalyConfig.cs" />
+    <Compile Include="Controller\AnomalyController.cs" />
     <Compile Include="GUI\AnomalyMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\AnomalyMain.Designer.cs">
       <DependentUpon>AnomalyMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\View\DrawingWindow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\View\DrawingWindow.Designer.cs">
+      <DependentUpon>DrawingWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\View\EditWindow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\View\EditWindow.Designer.cs">
+      <DependentUpon>EditWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="GUI\AnomalyMain.resx">
       <DependentUpon>AnomalyMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\View\EditWindow.resx">
+      <DependentUpon>EditWindow.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -102,9 +119,6 @@
       <Project>{52213B4F-D940-438C-98DD-BB7CF44F2F98}</Project>
       <Name>Math</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="GUI\View\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

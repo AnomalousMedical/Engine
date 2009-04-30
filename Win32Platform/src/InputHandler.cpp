@@ -30,7 +30,7 @@ window(windowHandle)
 	OIS::ParamList pl;
 
 	std::stringstream ss;
-	ss << windowHandle->Handle.ToInt32();
+	ss << windowHandle->WindowHandle.ToInt32();
 	pl.insert(std::make_pair( std::string("WINDOW"), ss.str() ));
 
 	std::string foregroundMode = "DISCL_BACKGROUND";
@@ -117,7 +117,7 @@ Mouse^ OISInputHandler::createMouse(bool buffered)
 	if( createdMouse == nullptr )
 	{
 		Logging::Log::Default->sendMessage("Creating mouse.", Logging::LogLevel::Info, "Input");
-		createdMouse = gcnew OISMouse((OIS::Mouse*)nInputManager->createInputObject(OIS::OISMouse, buffered), window->Width, window->Height);
+		createdMouse = gcnew OISMouse((OIS::Mouse*)nInputManager->createInputObject(OIS::OISMouse, buffered), window->WindowWidth, window->WindowHeight);
 		window->addListener(this);
 	}
 	return createdMouse;

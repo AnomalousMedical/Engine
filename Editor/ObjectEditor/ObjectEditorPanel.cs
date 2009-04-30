@@ -47,6 +47,11 @@ namespace Editor
             return editInterfaceView.validateAllInterfaces(out errorMessage);
         }
 
+        public void clearEditInterface()
+        {
+            editInterfaceView.clearEditInterface();
+        }
+
         /// <summary>
         /// Callback for when the EditInterface changes.
         /// </summary>

@@ -19,7 +19,6 @@ namespace Engine
 
         public void setValue(String name, String value)
         {
-            value = value.Trim();
             if (!configValues.ContainsKey(name))
             {
                 configValues.Add(name, value);
@@ -340,6 +339,10 @@ namespace Engine
                 if (values.Length == 2)
                 {
                     setValue(values[0].Trim(), values[1].Trim());
+                }
+                else if (values.Length == 1) //length of 1 means a null value
+                {
+                    setValue(values[0].Trim(), null);
                 }
                 line = reader.ReadLine();
             }

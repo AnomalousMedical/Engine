@@ -28,7 +28,7 @@ namespace OgrePlugin
             handle = new IntPtr(mHandle);
         }
 
-        public IntPtr Handle
+        public IntPtr WindowHandle
         {
             get
             {
@@ -36,7 +36,7 @@ namespace OgrePlugin
             }
         }
 
-        public int Width
+        public int WindowWidth
         {
             get
             {
@@ -44,7 +44,7 @@ namespace OgrePlugin
             }
         }
 
-        public int Height
+        public int WindowHeight
         {
             get
             {

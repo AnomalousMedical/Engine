@@ -151,9 +151,15 @@ namespace Editor
         /// <returns>True if all interfaces are valid.</returns>
         public bool validateAllInterfaces(out String errorMessage)
         {
+            errorMessage = "";
+            bool selectedOk = true;
             //Start with the selected node. This way if it has an error the change will be less jarring.
-            EditInterface currentInterface = ((EditInterfaceTreeNode)objectsTree.SelectedNode).EditInterface;
-            if (currentInterface.validate(out errorMessage))
+            if (objectsTree.SelectedNode != null)
+            {
+                EditInterface currentInterface = ((EditInterfaceTreeNode)objectsTree.SelectedNode).EditInterface;
+                selectedOk = currentInterface.validate(out errorMessage);
+            }
+            if (selectedOk)
             {
                 return scanForErrors(out errorMessage, objectsTree.Nodes);
             }
