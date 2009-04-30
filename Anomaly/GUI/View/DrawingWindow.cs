@@ -21,6 +21,7 @@ namespace Anomaly
         private RendererWindow window;
         private String name;
         private CameraControl camera;
+        private OrbitCameraController orbitCamera;
 
         public DrawingWindow()
         {
@@ -31,6 +32,7 @@ namespace Anomaly
         {
             this.name = name;
             this.controller = controller;
+            orbitCamera = new OrbitCameraController(new Vector3(0.0f, 0.0f, 150.0f), Vector3.Zero, controller.EventManager);
             controller.OnSceneLoaded += new SceneLoaded(sceneLoaded);
             controller.OnSceneUnloading += new SceneUnloading(controller_OnSceneUnloading);
             window = controller.PluginManager.RendererPlugin.createRendererWindow(this, name);
@@ -79,8 +81,11 @@ namespace Anomaly
             SimSubScene defaultScene = scene.getDefaultSubScene();
             if (defaultScene != null)
             {
-                camera = window.createCamera(defaultScene, name, new Vector3(0.0f, 0.0f, -150.0f), Vector3.Zero);
+                camera = window.createCamera(defaultScene, name, orbitCamera.Translation, orbitCamera.LookAt);
                 camera.BackgroundColor = new Engine.Color(0.0f, 0.0f, 1.0f);
+                camera.addLight();
+                controller.MainTimer.addFixedUpdateListener(orbitCamera);
+                orbitCamera.setCamera(camera);
             }
             else
             {
@@ -90,7 +95,12 @@ namespace Anomaly
 
         void controller_OnSceneUnloading(AnomalyController controller, SimScene scene)
         {
-            window.destroyCamera(camera);
+            if (camera != null)
+            {
+                orbitCamera.setCamera(null);
+                window.destroyCamera(camera);
+                controller.MainTimer.removeFixedUpdateListener(orbitCamera);
+            }
         }
 
         protected override void OnResize(EventArgs e)

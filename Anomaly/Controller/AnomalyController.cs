@@ -122,7 +122,6 @@ namespace Anomaly
 
             //Create the main form
             mainForm = new AnomalyMain();
-            mainForm.initialize(this);
             objectEditor = new ObjectEditorForm();
 
             //Intialize the platform
@@ -132,6 +131,9 @@ namespace Anomaly
             eventUpdate = new EventUpdateListener(eventManager);
             mainTimer.addFixedUpdateListener(eventUpdate);
             pluginManager.setPlatformInfo(mainTimer, eventManager);
+
+            //Initialize the windows
+            mainForm.initialize(this);
         }
 
         /// <summary>
@@ -160,6 +162,17 @@ namespace Anomaly
         {
             setupResources();
             setupScene();
+            //temp
+            if (File.Exists("simObjects.xml"))
+            {
+                XmlTextReader textReader = new XmlTextReader("simObjects.xml");
+                XmlSaver xmlSaver = new XmlSaver();
+                SimObjectManagerDefinition simObjectManagerDef = xmlSaver.restoreObject(textReader) as SimObjectManagerDefinition;
+                textReader.Close();
+
+                SimObjectManager manager = simObjectManagerDef.createSimObjectManager(scene.getDefaultSubScene());
+                scene.buildScene();
+            }
         }
 
         private void setupScene()
@@ -274,6 +287,22 @@ namespace Anomaly
             get
             {
                 return pluginManager;
+            }
+        }
+
+        public EventManager EventManager
+        {
+            get
+            {
+                return eventManager;
+            }
+        }
+
+        public UpdateTimer MainTimer
+        {
+            get
+            {
+                return mainTimer;
             }
         }
 
