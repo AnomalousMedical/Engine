@@ -10,6 +10,8 @@ namespace Engine.Saving
     /// </summary>
     public struct SaveEntry
     {
+        public const long NULL_ID = -1;
+
         private String name;
         private Type objectType;
         private Object value;
@@ -22,7 +24,7 @@ namespace Engine.Saving
         /// <param name="value">The value of the object.</param>
         /// <param name="objectType">The type of the value.</param>
         public SaveEntry(String name, Object value, Type objectType)
-            : this(name, value, objectType, - 1)
+            : this(name, value, objectType, NULL_ID)
         {
             
         }

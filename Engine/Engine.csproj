@@ -162,6 +162,7 @@
     <Compile Include="Resources\ResourceListener.cs" />
     <Compile Include="Resources\ResourceManager.cs" />
     <Compile Include="Resources\SubsystemResources.cs" />
+    <Compile Include="Saving\CopySaver\CopySaver.cs" />
     <Compile Include="Saving\Load\LoadControl.cs" />
     <Compile Include="Saving\Save\FooterWriter.cs" />
     <Compile Include="Saving\Save\HeaderWriter.cs" />
@@ -215,9 +216,6 @@
       <Project>{52213B4F-D940-438C-98DD-BB7CF44F2F98}</Project>
       <Name>Math</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Saving\CopySaver\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
