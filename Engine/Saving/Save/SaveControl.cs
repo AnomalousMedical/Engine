@@ -17,7 +17,7 @@ namespace Engine.Saving
         private long currentObjectID = 0;
         private Dictionary<Saveable, ObjectIdentifier> identiferMap = new Dictionary<Saveable, ObjectIdentifier>();
         private HeaderWriter headerWriter;
-        private ValueWriterCollection valueWriters;
+        private ValueWriter valueWriters;
         private FooterWriter footerWriter;
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace Engine.Saving
         /// <param name="headerWriter">The HeaderWriter to use to write headers.</param>
         /// <param name="valueWriters">The writers to use to restore values.</param>
         /// <param name="footerWriter">The FooterWriter to write footers.</param>
-        public SaveControl(HeaderWriter headerWriter, ValueWriterCollection valueWriters, FooterWriter footerWriter)
+        public SaveControl(HeaderWriter headerWriter, ValueWriter valueWriters, FooterWriter footerWriter)
         {
             this.headerWriter = headerWriter;
             this.valueWriters = valueWriters;

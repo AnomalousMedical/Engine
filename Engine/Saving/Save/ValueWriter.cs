@@ -6,21 +6,15 @@ using System.Text;
 namespace Engine.Saving
 {
     /// <summary>
-    /// This is an interface for a class that writes a specific value a specific
-    /// way to the underlying stream.
+    /// This interface allows a subclass to be alerted by the SaveControl that a
+    /// value is to be written.
     /// </summary>
     public interface ValueWriter
     {
         /// <summary>
-        /// Write a value to the underlying stream.
+        /// Write an entry to the underlying stream.
         /// </summary>
-        /// <param name="entry">The SaveEntry for the value to write.</param>
+        /// <param name="entry">The entry to write.</param>
         void writeValue(SaveEntry entry);
-
-        /// <summary>
-        /// Get the type that this ValueWriter writes.
-        /// </summary>
-        /// <returns>The Type that this ValueWriter is responsible for writing.</returns>
-        Type getWriteType();
     }
 }

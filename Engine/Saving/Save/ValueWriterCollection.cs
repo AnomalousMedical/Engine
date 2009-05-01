@@ -8,19 +8,21 @@ namespace Engine.Saving
 {
     /// <summary>
     /// This is a collection of ValueWriters for all supported types that can be
-    /// written to a given stream type.
+    /// written to a given stream type. This can be used by any serializer that
+    /// wants to use this interface to write values it is not specific to any
+    /// particular type of formatting.
     /// </summary>
-    public class ValueWriterCollection
+    public class ValueWriterCollection : ValueWriter
     {
-        private Dictionary<Type, ValueWriter> valueWriters = new Dictionary<Type, ValueWriter>();
-        private ValueWriter saveableWriter;
-        private ValueWriter enumWriter;
+        private Dictionary<Type, ValueWriterEntry> valueWriters = new Dictionary<Type, ValueWriterEntry>();
+        private ValueWriterEntry saveableWriter;
+        private ValueWriterEntry enumWriter;
 
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="saveableWriter">The writer to use when a Saveable is encountered.</param>
-        public ValueWriterCollection(ValueWriter saveableWriter, ValueWriter enumWriter)
+        public ValueWriterCollection(ValueWriterEntry saveableWriter, ValueWriterEntry enumWriter)
         {
             this.saveableWriter = saveableWriter;
             this.enumWriter = enumWriter;
@@ -30,7 +32,7 @@ namespace Engine.Saving
         /// Add a ValueWriter for a new type.
         /// </summary>
         /// <param name="writer">The writer to register with a given type.</param>
-        public void addValueWriter(ValueWriter writer)
+        public void addValueWriter(ValueWriterEntry writer)
         {
             valueWriters.Add(writer.getWriteType(), writer);
         }
@@ -39,7 +41,7 @@ namespace Engine.Saving
         /// Remove a ValueWriter.
         /// </summary>
         /// <param name="writer">The ValueWriter to remove.</param>
-        public void removeValueWriter(ValueWriter writer)
+        public void removeValueWriter(ValueWriterEntry writer)
         {
             valueWriters.Remove(writer.getWriteType());
         }
