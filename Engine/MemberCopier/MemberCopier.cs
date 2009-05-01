@@ -11,7 +11,7 @@ namespace Engine
     /// The MemberCopier is designed to produce a complete copy of any object using reflection.
     /// It is a generic way to do a deep copy of any object.
     /// </summary>
-    public abstract class MemberCopier
+    abstract class MemberCopier
     {
         private static Dictionary<Type, MemberCopier> memberCopiers = new Dictionary<Type,MemberCopier>();
         private static DeepMemberCopier deepCopier = new DeepMemberCopier();

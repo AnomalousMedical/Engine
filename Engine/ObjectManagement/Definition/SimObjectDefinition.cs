@@ -17,8 +17,9 @@ namespace Engine.ObjectManagement
         /// <summary>
         /// Register with factories to build this definition into the given SimObject.
         /// </summary>
-        /// <param name="instance">The SimObject that will get the built elements.</param>
-        void register(SimSubScene subScene, SimObjectBase instance);
+        /// <param name="subScene">The SimSubScene to bulid the SimObject into.</param>
+        /// <returns>A new SimObjectBase with the newly created SimObject.</returns>
+        SimObjectBase register(SimSubScene subScene);
 
         /// <summary>
         /// Get the EditInterface.
@@ -33,11 +34,27 @@ namespace Engine.ObjectManagement
         /// <summary>
         /// The instance name of this SimObject.
         /// </summary>
-        String Name
-        {
-            get;
-            set;
-        }
+        String Name { get; set; }
+
+        /// <summary>
+        /// The initial rotation of the sim object.
+        /// </summary>
+        Quaternion Rotation { get; set; }
+
+        /// <summary>
+        /// The initial translation of the sim object.
+        /// </summary>
+        Vector3 Translation { get; set; }
+
+        /// <summary>
+        /// The initial scale of the object.
+        /// </summary>
+        Vector3 Scale { get; set; }
+
+        /// <summary>
+        /// True if the object is enabled, false if it is disabled.
+        /// </summary>
+        bool Enabled { get; set; }
 
         #endregion Properties
     }

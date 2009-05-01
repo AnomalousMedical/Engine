@@ -64,12 +64,6 @@ namespace Engine.ObjectManagement
         /// <returns>A new SimObjectDefinition for this SimObject.</returns>
         SimObjectDefinition saveToDefinition(String definitionName);
 
-        /// <summary>
-        /// Save the instance specific information for this SimObject.
-        /// </summary>
-        /// <returns>A new SimObjectInstanceDefinition.</returns>
-        SimObjectInstanceDefinition saveInstanceDefinition();
-
         #endregion Functions
     }
 }

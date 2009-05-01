@@ -12,8 +12,7 @@ namespace Engine.ObjectManagement
     /// </summary>
     public class SimObjectManagerDefinition : Saveable
     {
-        private Dictionary<String, SimObjectInstanceDefinition> instances = new Dictionary<string, SimObjectInstanceDefinition>();
-        private Dictionary<String, SimObjectDefinition> templates = new Dictionary<string, SimObjectDefinition>();
+        private Dictionary<String, SimObjectDefinition> simObjects = new Dictionary<string, SimObjectDefinition>();
 
         /// <summary>
         /// Constructor.
@@ -24,39 +23,21 @@ namespace Engine.ObjectManagement
         }
 
         /// <summary>
-        /// Add a definition for a single instance of a SimObject.
-        /// </summary>
-        /// <param name="instance">The definition to add.</param>
-        public void addInstanceDefinition(SimObjectInstanceDefinition instance)
-        {
-            instances.Add(instance.Name, instance);
-        }
-
-        /// <summary>
-        /// Remove a definition for a single instance of a SimObject.
-        /// </summary>
-        /// <param name="instance">The instance to remove.</param>
-        public void removeInstanceDefinition(SimObjectInstanceDefinition instance)
-        {
-            instances.Remove(instance.Name);
-        }
-
-        /// <summary>
         /// Add a SimObjectDefinition to use as a template.
         /// </summary>
-        /// <param name="template">The template to add.</param>
-        public void addTemplate(SimObjectDefinition template)
+        /// <param name="definition">The definition to add.</param>
+        public void addSimObject(SimObjectDefinition definition)
         {
-            templates.Add(template.Name, template);
+            simObjects.Add(definition.Name, definition);
         }
 
         /// <summary>
         /// Remove a SimObjectDefinition to use as a template.
         /// </summary>
-        /// <param name="template">The template to remove.</param>
-        public void removeTemplate(SimObjectDefinition template)
+        /// <param name="definition">The definition to remove.</param>
+        public void removeSimObject(SimObjectDefinition definition)
         {
-            templates.Remove(template.Name);
+            simObjects.Remove(definition.Name);
         }
 
         /// <summary>
@@ -64,9 +45,9 @@ namespace Engine.ObjectManagement
         /// </summary>
         /// <param name="name">The name of the template.</param>
         /// <returns>The template.</returns>
-        public SimObjectDefinition getTemplate(String name)
+        public SimObjectDefinition getSimObject(String name)
         {
-            return templates[name];
+            return simObjects[name];
         }
 
         /// <summary>
@@ -79,50 +60,32 @@ namespace Engine.ObjectManagement
         public SimObjectManager createSimObjectManager(SimSubScene subScene)
         {
             SimObjectManager manager = new SimObjectManager(subScene);
-            foreach (SimObjectInstanceDefinition instance in instances.Values)
+            foreach (SimObjectDefinition instance in simObjects.Values)
             {
-                if (templates.ContainsKey(instance.DefinitionName))
-                {
-                    SimObjectBase simObject = instance.createSimObject();
-                    templates[instance.DefinitionName].register(subScene, simObject);
-                    manager.addSimObject(simObject);
-                }
-                else
-                {
-                    Log.Default.sendMessage("Had a definition for a sim object {0} that had an undefined template {1}. Skipped.", LogLevel.Warning, "Engine", instance.Name, instance.DefinitionName);
-                }
+                SimObjectBase simObject = instance.register(subScene);
+                manager.addSimObject(simObject);
             }
             return manager;
         }
 
         #region Saveable Members
 
-        private const string INSTANCE_BASE = "Instance";
-        private const string TEMPLATE_BASE = "Template";
+        private const string SIM_OBJECT_BASE = "SimObject";
 
         private SimObjectManagerDefinition(LoadInfo info)
         {
-            for (int i = 0; info.hasValue(INSTANCE_BASE + i); i++)
+            for(int i = 0; info.hasValue(SIM_OBJECT_BASE + i); i++)
             {
-                addInstanceDefinition(info.GetValue<SimObjectInstanceDefinition>(INSTANCE_BASE + i));
-            }
-            for(int i = 0; info.hasValue(TEMPLATE_BASE + i); i++)
-            {
-                addTemplate(info.GetValue<SimObjectDefinition>(TEMPLATE_BASE + i));
+                addSimObject(info.GetValue<SimObjectDefinition>(SIM_OBJECT_BASE + i));
             }
         }
 
         public void getInfo(SaveInfo info)
         {
             int i = 0;
-            foreach (SimObjectInstanceDefinition instance in instances.Values)
+            foreach (SimObjectDefinition simObject in simObjects.Values)
             {
-                info.AddValue(INSTANCE_BASE + i++, instance);
-            }
-            i = 0;
-            foreach (SimObjectDefinition template in templates.Values)
-            {
-                info.AddValue(TEMPLATE_BASE + i++, template);
+                info.AddValue(SIM_OBJECT_BASE + i++, simObject);
             }
         }
 

@@ -30,6 +30,10 @@ namespace Engine.ObjectManagement
         public GenericSimObjectDefinition(String name)
         {
             this.name = name;
+            this.Translation = Vector3.Zero;
+            this.Rotation = Quaternion.Identity;
+            this.Enabled = false;
+            this.Scale = Vector3.ScaleIdentity;
         }
 
         #endregion Constructors
@@ -69,12 +73,14 @@ namespace Engine.ObjectManagement
         /// Register with factories to build this definition into the given SimObject.
         /// </summary>
         /// <param name="instance">The SimObject that will get the built elements.</param>
-        public void register(SimSubScene subScene, SimObjectBase instance)
+        public SimObjectBase register(SimSubScene subScene)
         {
+            SimObjectBase instance = new GenericSimObject(name, Translation, Rotation, Scale, Enabled);
             foreach (SimElementDefinition definition in definitions.Values)
             {
                 definition.register(subScene, instance);
             }
+            return instance;
         }
 
         /// <summary>
@@ -162,12 +168,36 @@ namespace Engine.ObjectManagement
             }
         }
 
+        /// <summary>
+        /// The initial rotation of the sim object.
+        /// </summary>
+        public Quaternion Rotation { get; set; }
+
+        /// <summary>
+        /// The initial translation of the sim object.
+        /// </summary>
+        public Vector3 Translation { get; set; }
+
+        /// <summary>
+        /// The initial scale of the object.
+        /// </summary>
+        public Vector3 Scale { get; set; }
+
+        /// <summary>
+        /// True if the object is enabled, false if it is disabled.
+        /// </summary>
+        public bool Enabled { get; set; }
+
         #endregion Properties
 
         #region Saveable Members
 
         private const String NAME = "Name";
         private const String ELEMENTS_BASE = "Element";
+        private const String TRANSLATION = "Translation";
+        private const String ROTATION = "Rotation";
+        private const String SCALE = "Scale";
+        private const String ENABLED = "Enabled";
 
         /// <summary>
         /// Deserialize constructor.
@@ -176,6 +206,10 @@ namespace Engine.ObjectManagement
         private GenericSimObjectDefinition(LoadInfo info)
         {
             name = info.GetString(NAME);
+            Translation = info.GetVector3(TRANSLATION);
+            Rotation = info.GetQuaternion(ROTATION);
+            Scale = info.GetVector3(SCALE);
+            Enabled = info.GetBoolean(ENABLED);
             for (int i = 0; info.hasValue(ELEMENTS_BASE + i); i++)
             {
                 addElement(info.GetValue<SimElementDefinition>(ELEMENTS_BASE + i));
@@ -189,6 +223,10 @@ namespace Engine.ObjectManagement
         public void getInfo(SaveInfo info)
         {
             info.AddValue(NAME, Name);
+            info.AddValue(TRANSLATION, Translation);
+            info.AddValue(ROTATION, Rotation);
+            info.AddValue(SCALE, Scale);
+            info.AddValue(ENABLED, Enabled);
             int i = 0;
             foreach (SimElementDefinition element in definitions.Values)
             {

@@ -131,18 +131,15 @@ namespace Test
                             objectDef = new GenericSimObjectDefinition("Test");
                             TestBehavior testBehavior = new TestBehavior();
                             objectDef.addElement(new BehaviorDefinition("Im a test", testBehavior));
+                            objectDef.Translation = new Vector3(0.0f, 5.0f, 0.0f);
+                            objectDef.Enabled = true;
                             form = new ObjectEditorForm();
                             form.EditorPanel.setEditInterface(objectDef.getEditInterface());
                             form.ShowDialog();
 
                             //Test construction
                             simObjectManagerDef = new SimObjectManagerDefinition();
-                            simObjectManagerDef.addTemplate(objectDef);
-                            SimObjectInstanceDefinition instance = new GenericSimObjectInstanceDefinition("Test");
-                            instance.Enabled = true;
-                            instance.Translation = new Vector3(0.0f, 5.0f, 0.0f);
-                            instance.DefinitionName = "Test";
-                            simObjectManagerDef.addInstanceDefinition(instance);
+                            simObjectManagerDef.addSimObject(objectDef);
 
                             XmlTextWriter textWriter = new XmlTextWriter("simObjects.xml", Encoding.Unicode);
                             textWriter.Formatting = Formatting.Indented;
@@ -180,7 +177,7 @@ namespace Test
                         }
 
                         form = new ObjectEditorForm();
-                        form.EditorPanel.setEditInterface(managerDef.getTemplate("Test").getEditInterface());
+                        form.EditorPanel.setEditInterface(managerDef.getSimObject("Test").getEditInterface());
                         form.ShowDialog();
                     }
                     eventManager.Dispose();

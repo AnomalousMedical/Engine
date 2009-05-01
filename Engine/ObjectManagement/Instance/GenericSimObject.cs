@@ -24,9 +24,13 @@ namespace Engine.ObjectManagement
         /// Constructor.
         /// </summary>
         /// <param name="name">The name of this sim object.</param>
-        public GenericSimObject(String name)
+        public GenericSimObject(String name, Vector3 translation, Quaternion rotation, Vector3 scale, bool enabled)
         {
             this.name = name;
+            this.translation = translation;
+            this.rotation = rotation;
+            this.scale = scale;
+            this.enabled = enabled;
         }
 
         #endregion Constructors
@@ -183,27 +187,16 @@ namespace Engine.ObjectManagement
         public SimObjectDefinition saveToDefinition(String definitionName)
         {
             GenericSimObjectDefinition definition = new GenericSimObjectDefinition(definitionName);
+            definition.Enabled = Enabled;
+            definition.Rotation = Rotation;
+            definition.Scale = Scale;
+            definition.Translation = Translation;
             foreach (SimElement element in elements)
             {
                 definition.addElement(element.saveToDefinition());
             }
             return definition;
         }
-
-        /// <summary>
-        /// Save the instance specific information for this SimObject.
-        /// </summary>
-        /// <returns>A new SimObjectInstanceDefinition.</returns>
-        public SimObjectInstanceDefinition saveInstanceDefinition()
-        {
-            GenericSimObjectInstanceDefinition instance = new GenericSimObjectInstanceDefinition(Name);
-            instance.Enabled = Enabled;
-            instance.Rotation = Rotation;
-            instance.Scale = Scale;
-            instance.Translation = Translation;
-            return instance;
-        }
-
 
         /// <summary>
         /// Get a particular SimElement from the SimObject. This will return

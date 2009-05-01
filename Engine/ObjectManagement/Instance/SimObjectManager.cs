@@ -62,10 +62,7 @@ namespace Engine.ObjectManagement
             foreach (SimObjectBase simObject in simObjects.Values)
             {
                 SimObjectDefinition simObjDef = simObject.saveToDefinition(simObject.Name);
-                definition.addTemplate(simObjDef);
-                SimObjectInstanceDefinition instance = simObject.saveInstanceDefinition();
-                instance.DefinitionName = simObjDef.Name;
-                definition.addInstanceDefinition(instance);
+                definition.addSimObject(simObjDef);
             }
             return definition;
         }
