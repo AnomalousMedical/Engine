@@ -131,7 +131,10 @@ namespace Anomaly
             {
                 listener.closing(this);
             }
-            renderer.destroyRendererWindow(window);
+            if (window != null)
+            {
+                renderer.destroyRendererWindow(window);
+            }
             base.OnHandleDestroyed(e);
         }
 
