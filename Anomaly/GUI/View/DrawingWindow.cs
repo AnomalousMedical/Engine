@@ -28,11 +28,11 @@ namespace Anomaly
             InitializeComponent();
         }
 
-        public void initialize(AnomalyController controller, String name)
+        internal void initialize(string name, AnomalyController controller, Vector3 translation, Vector3 lookAt)
         {
             this.name = name;
             this.controller = controller;
-            orbitCamera = new OrbitCameraController(new Vector3(0.0f, 0.0f, 150.0f), Vector3.Zero, controller.EventManager);
+            orbitCamera = new OrbitCameraController(translation, lookAt, controller.EventManager);
             controller.OnSceneLoaded += new SceneLoaded(sceneLoaded);
             controller.OnSceneUnloading += new SceneUnloading(controller_OnSceneUnloading);
             window = controller.PluginManager.RendererPlugin.createRendererWindow(this, name);

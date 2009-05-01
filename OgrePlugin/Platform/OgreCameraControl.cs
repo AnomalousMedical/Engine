@@ -13,9 +13,12 @@ namespace OgrePlugin
     /// </summary>
     class OgreCameraControl : CameraControl, IDisposable
     {
+        private static CameraLightManager lightManager = new CameraLightManager();
+
         private const String CAMERA_RESERVED_NAME = "__AutoCreatedCamera";
         private const String CAMERA_NODE_RESERVED_NAME = "__AutoCreatedCameraNode";
         private const String LIGHT_RESERVED_NAME = "__AutoCreatedLight";
+        private const String LIGHT_NODE_NAME = "__AutoCreatedLightNode";
 
         private SceneNode node;
         private Camera camera;
@@ -59,9 +62,11 @@ namespace OgrePlugin
         {
             if (light == null)
             {
-                lightId = new Identifier(nodeId.ElementName, LIGHT_RESERVED_NAME);
+                lightId = new Identifier(nodeId.SimObjectName, LIGHT_RESERVED_NAME);
                 light = sceneManager.createLight(lightId);
+                light.setRenderQueueGroup(byte.MaxValue);
                 node.attachObject(light);
+                lightManager.addLight(sceneManager.SceneManager, camera, light);
             }
         }
 
@@ -72,6 +77,7 @@ namespace OgrePlugin
         {
             if (light != null)
             {
+                lightManager.removeLight(sceneManager.SceneManager, light);
                 node.detachObject(light);
                 sceneManager.destroyLight(lightId);
                 light = null;
@@ -140,6 +146,103 @@ namespace OgrePlugin
             node.detachObject(camera);
             sceneManager.destroyCamera(cameraId);
             sceneManager.destroySceneNode(nodeId);
+        }
+
+        /// <summary>
+        /// This class is a hack to get around the fact that ogre will render the
+        /// light for the previous camera even if it is disabled in the
+        /// SceneListener callbacks. This will maintain an ordered list of the
+        /// lights by creation/camera and do the approprate enabling and disabling.
+        /// This should only be used by the OgreCameraControl.
+        /// </summary>
+        class CameraLightManager : SceneListener
+        {
+            class LightCameraPair
+            {
+                public Camera camera;
+                public Light light;
+
+                public LightCameraPair(Camera camera, Light light)
+                {
+                    this.camera = camera;
+                    this.light = light;
+                }
+            }
+
+            private Dictionary<SceneManager, List<LightCameraPair>> lights = new Dictionary<SceneManager, List<LightCameraPair>>();
+
+            /// <summary>
+            /// Add a light to be managed. This assumes the light will only be added one time.
+            /// </summary>
+            /// <param name="sceneManager"></param>
+            /// <param name="camera"></param>
+            /// <param name="light"></param>
+            public void addLight(SceneManager sceneManager, Camera camera, Light light)
+            {
+                if (!lights.ContainsKey(sceneManager))
+                {
+                    lights.Add(sceneManager, new List<LightCameraPair>());
+                    sceneManager.addSceneListener(this);
+                }
+                lights[sceneManager].Add(new LightCameraPair(camera, light));
+            }
+
+            /// <summary>
+            /// Remove a light. Call when the light is destroyed.
+            /// </summary>
+            /// <param name="sceneManager"></param>
+            /// <param name="light"></param>
+            public void removeLight(SceneManager sceneManager, Light light)
+            {
+                List<LightCameraPair> pairs = lights[sceneManager];
+                LightCameraPair matchingPair = null;
+                foreach (LightCameraPair pair in pairs)
+                {
+                    if (pair.light == light)
+                    {
+                        matchingPair = pair;
+                        break;
+                    }
+                }
+                if (matchingPair != null)
+                {
+                    pairs.Remove(matchingPair);
+                    if (pairs.Count == 0)
+                    {
+                        sceneManager.removeSceneListener(this);
+                        lights.Remove(sceneManager);
+                    }
+                }
+            }
+
+            #region SceneListener Members
+
+            public void postFindVisibleObjects(SceneManager sceneManager, SceneManager.IlluminationRenderStage irs, Camera camera)
+            {
+                List<LightCameraPair> windows = lights[sceneManager];
+                //The idea here is to enable the light for the next camera that will render
+                //so scan backwards through the list and see if the previous camera is the one
+                //being rendered.
+                for (int i = windows.Count - 1; i >= 0; --i)
+                {
+                    windows[i].light.setVisible(false);
+                    if (i - 1 >= 0)
+                    {
+                        windows[i].light.setVisible(windows[i - 1].camera == camera);
+                    }
+                    else
+                    {
+                        windows[i].light.setVisible(windows[windows.Count - 1].camera == camera);
+                    }
+                }
+            }
+
+            public void preFindVisibleObjects(SceneManager sceneManager, SceneManager.IlluminationRenderStage irs, Camera camera)
+            {
+
+            }
+
+            #endregion
         }
     }
 }

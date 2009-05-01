@@ -157,7 +157,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(OGRE_HOME)\lib\OgreMain.dll $(TargetDir)OgreMain.dll&#x0D;&#x0A;copy $(OGRE_HOME)\lib\RenderSystem_Direct3D9.dll $(TargetDir)RenderSystem_Direct3D9.dll&#x0D;&#x0A;copy $(OGRE_HOME)\lib\Plugin_CgProgramManager.dll $(TargetDir)Plugin_CgProgramManager.dll&#x0D;&#x0A;copy &quot;$(CG_BIN_PATH)\cg.dll&quot; $(TargetDir)cg.dll"
+				CommandLine="copy $(OGRE_HOME)\lib\OgreMain.dll $(TargetDir)OgreMain.dll&#x0D;&#x0A;copy $(OGRE_HOME)\lib\RenderSystem_Direct3D9.dll $(TargetDir)RenderSystem_Direct3D9.dll&#x0D;&#x0A;copy $(OGRE_HOME)\lib\Plugin_CgProgramManager.dll $(TargetDir)Plugin_CgProgramManager.dll&#x0D;&#x0A;copy &quot;$(CG_BIN_PATH)\cg.dll&quot; $(TargetDir)cg.dll&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>
@@ -608,6 +608,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\RenderQueue.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\RenderQueue.h"
+					>
+				</File>
+				<File
 					RelativePath=".\src\RenderSystem.cpp"
 					>
 				</File>
@@ -841,6 +849,14 @@
 				</File>
 				<File
 					RelativePath=".\include\Node.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Renderable.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\Renderable.h"
 					>
 				</File>
 				<File

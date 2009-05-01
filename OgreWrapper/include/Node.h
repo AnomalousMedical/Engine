@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Enums.h"
+#include "Renderable.h"
 
 namespace Ogre
 {
@@ -24,7 +25,7 @@ namespace OgreWrapper
 /// </para>
 /// </summary>
 [Engine::Attributes::DoNotSaveAttribute]
-public ref class Node abstract
+public ref class Node abstract : public Renderable
 {
 public:
 [Engine::Attributes::SingleEnum]

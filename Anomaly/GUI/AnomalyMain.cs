@@ -24,7 +24,7 @@ namespace Anomaly
         public void initialize(AnomalyController controller)
         {
             this.controller = controller;
-            editWindow1.initialize(controller, "Test");
+            fourWaySplit1.initialize(controller);
         }
 
         #region OSWindow Members

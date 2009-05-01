@@ -51,6 +51,8 @@
   <ItemGroup>
     <Compile Include="Config\AnomalyConfig.cs" />
     <Compile Include="Controller\AnomalyController.cs" />
+    <Compile Include="Controller\SplitView.cs" />
+    <Compile Include="Controller\SplitViewController.cs" />
     <Compile Include="GUI\AnomalyMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,11 +65,11 @@
     <Compile Include="GUI\View\DrawingWindow.Designer.cs">
       <DependentUpon>DrawingWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\View\EditWindow.cs">
+    <Compile Include="GUI\View\FourWaySplit.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI\View\EditWindow.Designer.cs">
-      <DependentUpon>EditWindow.cs</DependentUpon>
+    <Compile Include="GUI\View\FourWaySplit.Designer.cs">
+      <DependentUpon>FourWaySplit.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -75,8 +77,8 @@
       <DependentUpon>AnomalyMain.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\View\EditWindow.resx">
-      <DependentUpon>EditWindow.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\View\FourWaySplit.resx">
+      <DependentUpon>FourWaySplit.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

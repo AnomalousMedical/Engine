@@ -26,14 +26,17 @@ using namespace System;
 
 SceneManager::SceneManager(Ogre::SceneManager* sceneManager)
 :sceneManager(sceneManager),
-nativeSceneListener(new NativeSceneListener(this))
+nativeSceneListener(new NativeSceneListener(this)),
+renderQueue(gcnew RenderQueue(sceneManager->getRenderQueue())),
+rootNode(gcnew SceneNode(sceneManager->getRootSceneNode()))
 {
-	rootNode = gcnew SceneNode(sceneManager->getRootSceneNode());
+	
 }
 
 SceneManager::~SceneManager()
 {
 	delete rootNode;
+	delete renderQueue;
 	sceneManager = 0;
 }
 
@@ -247,6 +250,11 @@ void SceneManager::setDisplaySceneNodes(bool display)
 bool SceneManager::getDisplaySceneNodes()
 {
 	return sceneManager->getDisplaySceneNodes();
+}
+
+RenderQueue^ SceneManager::getRenderQueue()
+{
+	return renderQueue;
 }
 
 void SceneManager::showBoundingBoxes(bool bShow)

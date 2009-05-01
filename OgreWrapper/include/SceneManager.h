@@ -15,6 +15,7 @@
 #include "LightCollection.h"
 #include "SceneNodeCollection.h"
 #include "ManualObjectCollection.h"
+#include "RenderQueue.h"
 
 using namespace System;
 
@@ -63,6 +64,7 @@ private:
 	SceneNodeCollection sceneNodes;
 	EntityCollection entities;
 	ManualObjectCollection manualObjects;
+	RenderQueue^ renderQueue;
 
 	SceneNode^ rootNode;
 
@@ -337,6 +339,20 @@ public:
 	/// </summary>
 	/// <returns>True if all scene nodes axis are to be displayed.</returns>
 	bool getDisplaySceneNodes();
+
+	/// <summary>
+	/// Retrieves the internal render queue, for advanced users only. 
+	/// </summary>
+	/// <remarks>
+	/// The render queue is mainly used internally to manage the scene object
+    /// rendering queue, it also exports some methods to allow advanced users to
+    /// configure the behavior of rendering process. Most methods provided by
+    /// RenderQueue are supposed to be used internally only, you should
+    /// reference to the RenderQueue API for more information. Do not access
+    /// this directly unless you know what you are doing. 
+	/// </remarks>
+	/// <returns>The RenderQueue for this SceneManager.</returns>
+	RenderQueue^ getRenderQueue();
 
 	/// <summary>
 	/// Allows all bounding boxes of scene nodes to be displayed. 

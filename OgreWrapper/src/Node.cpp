@@ -6,7 +6,7 @@ namespace OgreWrapper
 {
 
 Node::Node(Ogre::Node* ogreNode)
-:ogreNode(ogreNode)
+:Renderable(ogreNode), ogreNode(ogreNode)
 {
 
 }

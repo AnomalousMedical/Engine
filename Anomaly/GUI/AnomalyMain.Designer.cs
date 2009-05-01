@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.editWindow1 = new Anomaly.EditWindow();
+            this.fourWaySplit1 = new Anomaly.GUI.View.FourWaySplit();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
@@ -42,18 +42,18 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.editWindow1);
+            this.splitContainer1.Panel2.Controls.Add(this.fourWaySplit1);
             this.splitContainer1.Size = new System.Drawing.Size(752, 540);
             this.splitContainer1.SplitterDistance = 250;
             this.splitContainer1.TabIndex = 1;
             // 
-            // editWindow1
+            // fourWaySplit1
             // 
-            this.editWindow1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.editWindow1.Location = new System.Drawing.Point(0, 0);
-            this.editWindow1.Name = "editWindow1";
-            this.editWindow1.Size = new System.Drawing.Size(498, 540);
-            this.editWindow1.TabIndex = 1;
+            this.fourWaySplit1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fourWaySplit1.Location = new System.Drawing.Point(0, 0);
+            this.fourWaySplit1.Name = "fourWaySplit1";
+            this.fourWaySplit1.Size = new System.Drawing.Size(498, 540);
+            this.fourWaySplit1.TabIndex = 0;
             // 
             // AnomalyMain
             // 
@@ -72,7 +72,7 @@
         #endregion
 
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private EditWindow editWindow1;
+        private Anomaly.GUI.View.FourWaySplit fourWaySplit1;
 
     }
 }
