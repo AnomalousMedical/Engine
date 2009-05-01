@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine.Platform;
 
-namespace Engine.Renderer
+namespace Engine
 {
     enum CameraEvents
     {
@@ -49,6 +49,7 @@ namespace Engine.Renderer
         private bool currentlyInMotion;
         private Vector3 lookAt;
         private Vector3 translation;
+        private CameraMotionValidator motionValidator = null;
 
         public OrbitCameraController(CameraControl camera, EventManager eventManager)
         {
@@ -73,7 +74,7 @@ namespace Engine.Renderer
             if (camera != null)
             {
                 Vector3 mouseCoords = events.Mouse.getAbsMouse();
-                bool activeWindow = true;// MotionValidator == null || (MotionValidator.allowMotion((int)mouseCoords.x, (int)mouseCoords.y) && MotionValidator.isActiveWindow());
+                bool activeWindow = motionValidator == null || (motionValidator.allowMotion((int)mouseCoords.x, (int)mouseCoords.y) && motionValidator.isActiveWindow());
                 if (events[CameraEvents.RotateCamera].FirstFrameDown)
                 {
                     if (activeWindow)
@@ -239,6 +240,18 @@ namespace Engine.Renderer
             get
             {
                 return lookAt;
+            }
+        }
+
+        public CameraMotionValidator MotionValidator
+        {
+            get
+            {
+                return motionValidator;
+            }
+            set
+            {
+                motionValidator = value;
             }
         }
     }

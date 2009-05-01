@@ -154,6 +154,7 @@
     <Compile Include="Reflection\UShortReflectedVariable.cs" />
     <Compile Include="Reflection\Vector3ReflectedVariable.cs" />
     <Compile Include="Renderer\Camera.cs" />
+    <Compile Include="Renderer\CameraMotionValidator.cs" />
     <Compile Include="Renderer\DefaultWindowInfo.cs" />
     <Compile Include="Renderer\OrbitCameraController.cs" />
     <Compile Include="Renderer\RendererPlugin.cs" />
