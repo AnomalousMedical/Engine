@@ -51,8 +51,6 @@
   <ItemGroup>
     <Compile Include="Config\AnomalyConfig.cs" />
     <Compile Include="Controller\AnomalyController.cs" />
-    <Compile Include="Controller\SplitView.cs" />
-    <Compile Include="Controller\SplitViewController.cs" />
     <Compile Include="GUI\AnomalyMain.cs">
       <SubType>Form</SubType>
     </Compile>

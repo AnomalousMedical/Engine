@@ -17,25 +17,23 @@ namespace Anomaly
     partial class DrawingWindow : UserControl, OSWindow
     {
         private List<OSWindowListener> listeners = new List<OSWindowListener>();
-        private AnomalyController controller;
         private RendererWindow window;
         private String name;
         private CameraControl camera;
         private OrbitCameraController orbitCamera;
+        private RendererPlugin renderer;
 
         public DrawingWindow()
         {
             InitializeComponent();
         }
 
-        internal void initialize(string name, AnomalyController controller, Vector3 translation, Vector3 lookAt)
+        internal void initialize(string name, EventManager eventManager, RendererPlugin renderer, Vector3 translation, Vector3 lookAt)
         {
             this.name = name;
-            this.controller = controller;
-            orbitCamera = new OrbitCameraController(translation, lookAt, controller.EventManager);
-            controller.OnSceneLoaded += new SceneLoaded(sceneLoaded);
-            controller.OnSceneUnloading += new SceneUnloading(controller_OnSceneUnloading);
-            window = controller.PluginManager.RendererPlugin.createRendererWindow(this, name);
+            this.renderer = renderer;
+            orbitCamera = new OrbitCameraController(translation, lookAt, eventManager);
+            window = renderer.createRendererWindow(this, name);
         }
 
         #region OSWindow Members
@@ -76,7 +74,7 @@ namespace Anomaly
 
         #endregion
 
-        void sceneLoaded(AnomalyController controller, SimScene scene)
+        public void createCamera(UpdateTimer mainTimer, SimScene scene)
         {
             SimSubScene defaultScene = scene.getDefaultSubScene();
             if (defaultScene != null)
@@ -84,7 +82,7 @@ namespace Anomaly
                 camera = window.createCamera(defaultScene, name, orbitCamera.Translation, orbitCamera.LookAt);
                 camera.BackgroundColor = new Engine.Color(0.0f, 0.0f, 1.0f);
                 camera.addLight();
-                controller.MainTimer.addFixedUpdateListener(orbitCamera);
+                mainTimer.addFixedUpdateListener(orbitCamera);
                 orbitCamera.setCamera(camera);
             }
             else
@@ -93,13 +91,13 @@ namespace Anomaly
             }
         }
 
-        void controller_OnSceneUnloading(AnomalyController controller, SimScene scene)
+        public void destroyCamera(UpdateTimer mainTimer)
         {
             if (camera != null)
             {
                 orbitCamera.setCamera(null);
                 window.destroyCamera(camera);
-                controller.MainTimer.removeFixedUpdateListener(orbitCamera);
+                mainTimer.removeFixedUpdateListener(orbitCamera);
             }
         }
 
@@ -127,7 +125,7 @@ namespace Anomaly
             {
                 listener.closing(this);
             }
-            controller.PluginManager.RendererPlugin.destroyRendererWindow(window);
+            renderer.destroyRendererWindow(window);
             base.OnHandleDestroyed(e);
         }
     }
