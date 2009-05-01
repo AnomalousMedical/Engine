@@ -54,6 +54,17 @@ namespace OgrePlugin
             ogreCam.Dispose();
         }
 
+        /// <summary>
+        /// Enable or disable this RendererWindow. If it is disabled it will not
+        /// be updated, which will save an entire render of one window. Very
+        /// useful in multi window situations for a large performance gain.
+        /// </summary>
+        /// <param name="enabled">True to enable the RenderWindow, false to disable.</param>
+        public void setEnabled(bool enabled)
+        {
+            OgreRenderWindow.setActive(enabled);
+        }
+
         public abstract void Dispose();
 
         public abstract RenderWindow OgreRenderWindow

@@ -32,5 +32,13 @@ namespace Engine.Renderer
         /// </summary>
         /// <param name="camera">The camera to destroy.</param>
         void destroyCamera(CameraControl camera);
+
+        /// <summary>
+        /// Enable or disable this RendererWindow. If it is disabled it will not
+        /// be updated, which will save an entire render of one window. Very
+        /// useful in multi window situations for a large performance gain.
+        /// </summary>
+        /// <param name="enabled">True to enable the RenderWindow, false to disable.</param>
+        void setEnabled(bool enabled);
     }
 }

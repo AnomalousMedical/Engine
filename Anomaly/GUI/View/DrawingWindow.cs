@@ -101,6 +101,11 @@ namespace Anomaly
             }
         }
 
+        public void setEnabled(bool enabled)
+        {
+            window.setEnabled(enabled);
+        }
+
         protected override void OnResize(EventArgs e)
         {
             foreach (OSWindowListener listener in listeners)

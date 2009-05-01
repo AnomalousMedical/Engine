@@ -58,6 +58,8 @@ namespace Anomaly
         //Scene
         private SimScene scene;
 
+        private SplitViewController splitViewController = new SplitViewController();
+
         #endregion Fields
 
         #region Events
@@ -134,6 +136,8 @@ namespace Anomaly
 
             //Initialize the windows
             mainForm.initialize(this);
+            splitViewController.initialize(eventManager, pluginManager.RendererPlugin, mainForm.SplitControl);
+            splitViewController.createFourWaySplit();
         }
 
         /// <summary>
@@ -201,6 +205,7 @@ namespace Anomaly
             }
 
             scene = sceneDef.createScene();
+            splitViewController.createCameras(mainTimer, scene);
             if (OnSceneLoaded != null)
             {
                 OnSceneLoaded.Invoke(this, scene);
@@ -238,6 +243,7 @@ namespace Anomaly
 
         private void destroyScene()
         {
+            splitViewController.destroyCameras(mainTimer);
             if (OnSceneUnloading != null)
             {
                 OnSceneUnloading.Invoke(this, scene);

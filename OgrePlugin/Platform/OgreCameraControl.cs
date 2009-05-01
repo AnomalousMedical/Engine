@@ -225,7 +225,6 @@ namespace OgrePlugin
                 //being rendered.
                 for (int i = windows.Count - 1; i >= 0; --i)
                 {
-                    windows[i].light.setVisible(false);
                     if (i - 1 >= 0)
                     {
                         windows[i].light.setVisible(windows[i - 1].camera == camera);

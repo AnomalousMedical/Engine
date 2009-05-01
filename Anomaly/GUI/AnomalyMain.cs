@@ -24,7 +24,14 @@ namespace Anomaly
         public void initialize(AnomalyController controller)
         {
             this.controller = controller;
-            fourWaySplit1.initialize(controller);
+        }
+
+        public Control SplitControl
+        {
+            get
+            {
+                return objectViewSplit.Panel2;
+            }
         }
 
         #region OSWindow Members
