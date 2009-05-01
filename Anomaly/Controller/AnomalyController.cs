@@ -121,6 +121,7 @@ namespace Anomaly
             }
             pluginLoader.loadPlugins(pluginManager);
             pluginManager.initializePlugins();
+            pluginManager.RendererPlugin.PrimaryWindow.setEnabled(false);
 
             //Create the main form
             mainForm = new AnomalyMain();
