@@ -12,7 +12,7 @@ namespace Anomaly
     {
         private String name;
         private Dictionary<String, TemplateGroup> groups = new Dictionary<string,TemplateGroup>();
-        private Dictionary<String, SimObjectDefinition> simObjects = new Dictionary<string, SimObjectDefinition>();
+        private Dictionary<String, Template> templates = new Dictionary<string, Template>();
         private TemplateGroup parentGroup;
         private TemplateWriter templateWriter;
 
@@ -46,27 +46,29 @@ namespace Anomaly
 
         public void addSimObject(SimObjectDefinition simObject)
         {
-            simObjects.Add(simObject.Name, simObject);
+            Template template = new Template(simObject, templateWriter, this);
+            templates.Add(simObject.Name, template);
             templateWriter.saveTemplate(this, simObject);
             if (editInterface != null)
             {
-                addSimObjectSubInterface(simObject);
+                addSimObjectSubInterface(template);
             }
         }
 
         public void removeSimObject(SimObjectDefinition simObject)
         {
-            simObjects.Remove(simObject.Name);
+            Template template = templates[simObject.Name];
+            templates.Remove(simObject.Name);
             templateWriter.deleteTemplate(this, simObject);
             if (editInterface != null)
             {
-                simObjectDefinitionManager.removeSubInterface(simObject);
+                templateManager.removeSubInterface(template);
             }
         }
 
         public void updateTemplate(SimObjectDefinition simObject)
         {
-            if (simObjects.ContainsKey(simObject.Name))
+            if (templates.ContainsKey(simObject.Name))
             {
                 templateWriter.updateTemplate(this, simObject);
             }
@@ -77,7 +79,7 @@ namespace Anomaly
         private EditInterfaceCommand destroyGroup;
         private EditInterfaceCommand destroySimObject;
         private EditInterfaceManager<TemplateGroup> groupManager;
-        private EditInterfaceManager<SimObjectDefinition> simObjectDefinitionManager;
+        private EditInterfaceManager<Template> templateManager;
         private EditInterface editInterface;
 
         public EditInterface getEditInterface()
@@ -90,12 +92,12 @@ namespace Anomaly
                 editInterface.addCommand(new EditInterfaceCommand("Create Group", createGroupCallback));
                 editInterface.addCommand(new EditInterfaceCommand("Create Sim Object", createSimObjectCallback));
                 groupManager = new EditInterfaceManager<TemplateGroup>(editInterface);
-                simObjectDefinitionManager = new EditInterfaceManager<SimObjectDefinition>(editInterface);
+                templateManager = new EditInterfaceManager<Template>(editInterface);
                 foreach (TemplateGroup group in groups.Values)
                 {
                     addGroupSubInterface(group);
                 }
-                foreach (SimObjectDefinition definition in simObjects.Values)
+                foreach (Template definition in templates.Values)
                 {
                     addSimObjectSubInterface(definition);
                 }
@@ -130,17 +132,11 @@ namespace Anomaly
             removeGroup(groupManager.resolveSourceObject(callback.getSelectedEditInterface()));
         }
 
-        private void addSimObjectSubInterface(SimObjectDefinition simObject)
+        private void addSimObjectSubInterface(Template template)
         {
-            EditInterface edit = simObject.getEditInterface();
+            EditInterface edit = template.getEditInterface();
             edit.addCommand(destroySimObject);
-            edit.OnEditInterfaceModified += templateModified;
-            simObjectDefinitionManager.addSubInterface(simObject, edit);
-        }
-
-        void templateModified(EditInterface modified)
-        {
-            updateTemplate(simObjectDefinitionManager.resolveSourceObject(modified));
+            templateManager.addSubInterface(template, edit);
         }
 
         private void createSimObjectCallback(EditUICallback callback, EditInterfaceCommand command)
@@ -160,7 +156,7 @@ namespace Anomaly
 
         private void destroySimObjectCallback(EditUICallback callback, EditInterfaceCommand command)
         {
-            removeSimObject(simObjectDefinitionManager.resolveSourceObject(callback.getSelectedEditInterface()));
+            removeSimObject(templateManager.resolveSourceObject(callback.getSelectedEditInterface()).Definition);
         }
 
         public String FullPath

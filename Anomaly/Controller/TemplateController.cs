@@ -8,6 +8,7 @@ using Logging;
 using Engine.ObjectManagement;
 using System.Xml;
 using Engine.Saving.XMLSaver;
+using Engine.Editing;
 
 namespace Anomaly
 {
@@ -37,10 +38,18 @@ namespace Anomaly
 
         void editInterfaceView_OnEditInterfaceSelectionEdit(EditInterfaceViewEvent evt)
         {
-            objectEditor.EditorPanel.setEditInterface(evt.EditInterface);
-            objectEditor.ShowDialog(editInterfaceView.FindForm());
-            evt.EditInterface.fireInterfaceChanged();
-            objectEditor.EditorPanel.clearEditInterface();
+            EditInterface editInterface = evt.EditInterface;
+            if (editInterface.hasEditableProperties())
+            {
+                Template template = editInterface.getEditableProperties().First() as Template;
+                if (template != null)
+                {
+                    objectEditor.EditorPanel.setEditInterface(template.Definition.getEditInterface());
+                    objectEditor.ShowDialog(editInterfaceView.FindForm());
+                    objectEditor.EditorPanel.clearEditInterface();
+                    template.updated();
+                }
+            }
         }
 
         /// <summary>

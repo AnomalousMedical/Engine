@@ -29,14 +29,6 @@
         private void InitializeComponent()
         {
             this.mainToolStripContainer = new System.Windows.Forms.ToolStripContainer();
-            this.toolPanel = new System.Windows.Forms.Panel();
-            this.movePanel = new Editor.MovePanel();
-            this.objectViewSplit = new System.Windows.Forms.SplitContainer();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.objectsEditInterface = new Editor.EditInterfaceView();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.templatesView = new Editor.EditInterfaceView();
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,15 +36,23 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolPanel = new System.Windows.Forms.Panel();
+            this.movePanel = new Editor.MovePanel();
+            this.objectViewSplit = new System.Windows.Forms.SplitContainer();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.objectsEditInterface = new Editor.EditInterfaceView();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.templatePanel1 = new Anomaly.TemplatePanel();
             this.mainToolStripContainer.ContentPanel.SuspendLayout();
             this.mainToolStripContainer.SuspendLayout();
+            this.mainMenu.SuspendLayout();
             this.toolPanel.SuspendLayout();
             this.objectViewSplit.Panel1.SuspendLayout();
             this.objectViewSplit.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainToolStripContainer
@@ -69,84 +69,6 @@
             this.mainToolStripContainer.Size = new System.Drawing.Size(752, 516);
             this.mainToolStripContainer.TabIndex = 3;
             this.mainToolStripContainer.Text = "toolStripContainer1";
-            // 
-            // toolPanel
-            // 
-            this.toolPanel.Controls.Add(this.movePanel);
-            this.toolPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.toolPanel.Location = new System.Drawing.Point(0, 434);
-            this.toolPanel.Name = "toolPanel";
-            this.toolPanel.Size = new System.Drawing.Size(752, 57);
-            this.toolPanel.TabIndex = 3;
-            // 
-            // movePanel
-            // 
-            this.movePanel.Location = new System.Drawing.Point(3, 3);
-            this.movePanel.Name = "movePanel";
-            this.movePanel.Size = new System.Drawing.Size(243, 52);
-            this.movePanel.TabIndex = 0;
-            // 
-            // objectViewSplit
-            // 
-            this.objectViewSplit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.objectViewSplit.Location = new System.Drawing.Point(0, 0);
-            this.objectViewSplit.Name = "objectViewSplit";
-            // 
-            // objectViewSplit.Panel1
-            // 
-            this.objectViewSplit.Panel1.Controls.Add(this.tabControl1);
-            this.objectViewSplit.Size = new System.Drawing.Size(752, 491);
-            this.objectViewSplit.SplitterDistance = 163;
-            this.objectViewSplit.TabIndex = 2;
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(163, 491);
-            this.tabControl1.TabIndex = 0;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.objectsEditInterface);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(155, 465);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Objects";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // objectsEditInterface
-            // 
-            this.objectsEditInterface.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.objectsEditInterface.Location = new System.Drawing.Point(3, 3);
-            this.objectsEditInterface.Name = "objectsEditInterface";
-            this.objectsEditInterface.Size = new System.Drawing.Size(149, 459);
-            this.objectsEditInterface.TabIndex = 0;
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.templatesView);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(155, 465);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Templates";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // templatesView
-            // 
-            this.templatesView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.templatesView.Location = new System.Drawing.Point(3, 3);
-            this.templatesView.Name = "templatesView";
-            this.templatesView.Size = new System.Drawing.Size(149, 459);
-            this.templatesView.TabIndex = 0;
             // 
             // mainMenu
             // 
@@ -200,6 +122,86 @@
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             // 
+            // toolPanel
+            // 
+            this.toolPanel.Controls.Add(this.movePanel);
+            this.toolPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.toolPanel.Location = new System.Drawing.Point(0, 434);
+            this.toolPanel.Name = "toolPanel";
+            this.toolPanel.Size = new System.Drawing.Size(752, 57);
+            this.toolPanel.TabIndex = 7;
+            // 
+            // movePanel
+            // 
+            this.movePanel.Location = new System.Drawing.Point(3, 3);
+            this.movePanel.Name = "movePanel";
+            this.movePanel.Size = new System.Drawing.Size(243, 52);
+            this.movePanel.TabIndex = 0;
+            // 
+            // objectViewSplit
+            // 
+            this.objectViewSplit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.objectViewSplit.Location = new System.Drawing.Point(0, 0);
+            this.objectViewSplit.Name = "objectViewSplit";
+            // 
+            // objectViewSplit.Panel1
+            // 
+            this.objectViewSplit.Panel1.Controls.Add(this.tabControl1);
+            this.objectViewSplit.Size = new System.Drawing.Size(752, 431);
+            this.objectViewSplit.SplitterDistance = 162;
+            this.objectViewSplit.TabIndex = 6;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(162, 431);
+            this.tabControl1.TabIndex = 0;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.objectsEditInterface);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(154, 405);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Objects";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // objectsEditInterface
+            // 
+            this.objectsEditInterface.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.objectsEditInterface.Location = new System.Drawing.Point(3, 3);
+            this.objectsEditInterface.Name = "objectsEditInterface";
+            this.objectsEditInterface.Size = new System.Drawing.Size(148, 399);
+            this.objectsEditInterface.TabIndex = 0;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.templatePanel1);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(153, 405);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Templates";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // templatePanel1
+            // 
+            this.templatePanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.templatePanel1.Location = new System.Drawing.Point(3, 3);
+            this.templatePanel1.Name = "templatePanel1";
+            this.templatePanel1.Size = new System.Drawing.Size(147, 399);
+            this.templatePanel1.TabIndex = 0;
+            // 
             // AnomalyMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -213,14 +215,14 @@
             this.mainToolStripContainer.ContentPanel.ResumeLayout(false);
             this.mainToolStripContainer.ResumeLayout(false);
             this.mainToolStripContainer.PerformLayout();
+            this.mainMenu.ResumeLayout(false);
+            this.mainMenu.PerformLayout();
             this.toolPanel.ResumeLayout(false);
             this.objectViewSplit.Panel1.ResumeLayout(false);
             this.objectViewSplit.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
-            this.mainMenu.ResumeLayout(false);
-            this.mainMenu.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -229,9 +231,6 @@
         #endregion
 
         private System.Windows.Forms.ToolStripContainer mainToolStripContainer;
-        private System.Windows.Forms.Panel toolPanel;
-        private Editor.MovePanel movePanel;
-        private System.Windows.Forms.SplitContainer objectViewSplit;
         private System.Windows.Forms.MenuStrip mainMenu;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
@@ -239,11 +238,14 @@
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.Panel toolPanel;
+        private Editor.MovePanel movePanel;
+        private System.Windows.Forms.SplitContainer objectViewSplit;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private Editor.EditInterfaceView objectsEditInterface;
         private System.Windows.Forms.TabPage tabPage2;
-        private Editor.EditInterfaceView templatesView;
+        private TemplatePanel templatePanel1;
 
 
 

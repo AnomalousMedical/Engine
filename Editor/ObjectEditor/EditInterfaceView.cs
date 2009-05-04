@@ -254,7 +254,7 @@ namespace Editor
 
         void objectsTree_BeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
-            if (OnEditInterfaceSelectionChanging != null)
+            if (OnEditInterfaceSelectionChanging != null && e.Node != null)
             {
                 EditInterfaceViewEvent evt = new EditInterfaceViewEvent((e.Node as EditInterfaceTreeNode).EditInterface);
                 OnEditInterfaceSelectionChanging.Invoke(evt);

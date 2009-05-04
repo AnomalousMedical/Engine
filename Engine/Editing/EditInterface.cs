@@ -16,12 +16,6 @@ namespace Engine.Editing
     public delegate void SubInterfaceRemoved(EditInterface editInterface);
 
     /// <summary>
-    /// This delegate is called when an EditInterface is modified.
-    /// </summary>
-    /// <param name="modified">The EditInterface that was modified.</param>
-    public delegate void EditInterfaceModified(EditInterface modified);
-
-    /// <summary>
     /// This interface provides a view of an object that can be edited.
     /// </summary>
     [DoNotCopy]
@@ -40,12 +34,6 @@ namespace Engine.Editing
         public event PropertyRemoved OnPropertyRemoved;
         public event SubInterfaceAdded OnSubInterfaceAdded;
         public event SubInterfaceRemoved OnSubInterfaceRemoved;
-
-        /// <summary>
-        /// This event should be fired whenever an EditInterface is modified. It
-        /// will pass the modified EditInterface as the argument.
-        /// </summary>
-        public event EditInterfaceModified OnEditInterfaceModified;
 
         /// <summary>
         /// Constructor.
@@ -290,17 +278,6 @@ namespace Engine.Editing
             }
             errorMessage = null;
             return true;
-        }
-
-        /// <summary>
-        /// Call this function to fire the OnEditInterfaceModified event.
-        /// </summary>
-        public void fireInterfaceChanged()
-        {
-            if (OnEditInterfaceModified != null)
-            {
-                OnEditInterfaceModified.Invoke(this);
-            }
         }
 
         /// <summary>
