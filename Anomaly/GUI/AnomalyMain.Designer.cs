@@ -28,35 +28,224 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.mainToolStripContainer = new System.Windows.Forms.ToolStripContainer();
+            this.toolPanel = new System.Windows.Forms.Panel();
+            this.movePanel = new Editor.MovePanel();
             this.objectViewSplit = new System.Windows.Forms.SplitContainer();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.objectsEditInterface = new Editor.EditInterfaceView();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.templatesView = new Editor.EditInterfaceView();
+            this.mainMenu = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mainToolStripContainer.ContentPanel.SuspendLayout();
+            this.mainToolStripContainer.SuspendLayout();
+            this.toolPanel.SuspendLayout();
+            this.objectViewSplit.Panel1.SuspendLayout();
             this.objectViewSplit.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.mainMenu.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // mainToolStripContainer
+            // 
+            // 
+            // mainToolStripContainer.ContentPanel
+            // 
+            this.mainToolStripContainer.ContentPanel.Controls.Add(this.toolPanel);
+            this.mainToolStripContainer.ContentPanel.Controls.Add(this.objectViewSplit);
+            this.mainToolStripContainer.ContentPanel.Size = new System.Drawing.Size(752, 491);
+            this.mainToolStripContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainToolStripContainer.Location = new System.Drawing.Point(0, 24);
+            this.mainToolStripContainer.Name = "mainToolStripContainer";
+            this.mainToolStripContainer.Size = new System.Drawing.Size(752, 516);
+            this.mainToolStripContainer.TabIndex = 3;
+            this.mainToolStripContainer.Text = "toolStripContainer1";
+            // 
+            // toolPanel
+            // 
+            this.toolPanel.Controls.Add(this.movePanel);
+            this.toolPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.toolPanel.Location = new System.Drawing.Point(0, 434);
+            this.toolPanel.Name = "toolPanel";
+            this.toolPanel.Size = new System.Drawing.Size(752, 57);
+            this.toolPanel.TabIndex = 3;
+            // 
+            // movePanel
+            // 
+            this.movePanel.Location = new System.Drawing.Point(3, 3);
+            this.movePanel.Name = "movePanel";
+            this.movePanel.Size = new System.Drawing.Size(243, 52);
+            this.movePanel.TabIndex = 0;
             // 
             // objectViewSplit
             // 
             this.objectViewSplit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.objectViewSplit.Location = new System.Drawing.Point(0, 0);
             this.objectViewSplit.Name = "objectViewSplit";
-            this.objectViewSplit.Size = new System.Drawing.Size(752, 540);
-            this.objectViewSplit.SplitterDistance = 250;
-            this.objectViewSplit.TabIndex = 1;
+            // 
+            // objectViewSplit.Panel1
+            // 
+            this.objectViewSplit.Panel1.Controls.Add(this.tabControl1);
+            this.objectViewSplit.Size = new System.Drawing.Size(752, 491);
+            this.objectViewSplit.SplitterDistance = 163;
+            this.objectViewSplit.TabIndex = 2;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(163, 491);
+            this.tabControl1.TabIndex = 0;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.objectsEditInterface);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(155, 465);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Objects";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // objectsEditInterface
+            // 
+            this.objectsEditInterface.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.objectsEditInterface.Location = new System.Drawing.Point(3, 3);
+            this.objectsEditInterface.Name = "objectsEditInterface";
+            this.objectsEditInterface.Size = new System.Drawing.Size(149, 459);
+            this.objectsEditInterface.TabIndex = 0;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.templatesView);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(155, 465);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Templates";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // templatesView
+            // 
+            this.templatesView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.templatesView.Location = new System.Drawing.Point(3, 3);
+            this.templatesView.Name = "templatesView";
+            this.templatesView.Size = new System.Drawing.Size(149, 459);
+            this.templatesView.TabIndex = 0;
+            // 
+            // mainMenu
+            // 
+            this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+            this.mainMenu.Location = new System.Drawing.Point(0, 0);
+            this.mainMenu.Name = "mainMenu";
+            this.mainMenu.Size = new System.Drawing.Size(752, 24);
+            this.mainMenu.TabIndex = 4;
+            this.mainMenu.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripMenuItem,
+            this.openToolStripMenuItem,
+            this.saveToolStripMenuItem,
+            this.saveAsToolStripMenuItem,
+            this.exitToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.newToolStripMenuItem.Text = "New";
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.openToolStripMenuItem.Text = "Open";
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.saveToolStripMenuItem.Text = "Save";
+            // 
+            // saveAsToolStripMenuItem
+            // 
+            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.saveAsToolStripMenuItem.Text = "Save As...";
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
             // 
             // AnomalyMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(752, 540);
-            this.Controls.Add(this.objectViewSplit);
+            this.Controls.Add(this.mainToolStripContainer);
+            this.Controls.Add(this.mainMenu);
+            this.MainMenuStrip = this.mainMenu;
             this.Name = "AnomalyMain";
             this.Text = "Anomaly";
+            this.mainToolStripContainer.ContentPanel.ResumeLayout(false);
+            this.mainToolStripContainer.ResumeLayout(false);
+            this.mainToolStripContainer.PerformLayout();
+            this.toolPanel.ResumeLayout(false);
+            this.objectViewSplit.Panel1.ResumeLayout(false);
             this.objectViewSplit.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.mainMenu.ResumeLayout(false);
+            this.mainMenu.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
+        private System.Windows.Forms.ToolStripContainer mainToolStripContainer;
+        private System.Windows.Forms.Panel toolPanel;
+        private Editor.MovePanel movePanel;
         private System.Windows.Forms.SplitContainer objectViewSplit;
+        private System.Windows.Forms.MenuStrip mainMenu;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private Editor.EditInterfaceView objectsEditInterface;
+        private System.Windows.Forms.TabPage tabPage2;
+        private Editor.EditInterfaceView templatesView;
+
+
 
     }
 }

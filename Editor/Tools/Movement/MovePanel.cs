@@ -1,0 +1,104 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using Engine.ObjectManagement;
+using Engine;
+
+namespace Editor
+{
+    public partial class MovePanel : UserControl
+    {
+        MoveController moveController;
+        private bool allowMotionUpdates = true;
+        private bool allowObjectUpdate = true;
+
+        public MovePanel()
+        {
+            InitializeComponent();
+
+            xLoc.Maximum = decimal.MaxValue;
+            xLoc.Minimum = decimal.MinValue;
+            yLoc.Maximum = decimal.MaxValue;
+            yLoc.Minimum = decimal.MinValue;
+            zLoc.Maximum = decimal.MaxValue;
+            zLoc.Minimum = decimal.MinValue;
+
+            xLoc.ValueChanged += new EventHandler(moveObject);
+            yLoc.ValueChanged += new EventHandler(moveObject);
+            zLoc.ValueChanged += new EventHandler(moveObject);
+            xLoc.Click += new EventHandler(numericUpDownClick);
+            yLoc.Click += new EventHandler(numericUpDownClick);
+            zLoc.Click += new EventHandler(numericUpDownClick);
+            xLoc.KeyPress += new KeyPressEventHandler(xLoc_KeyPress);
+            yLoc.KeyPress += new KeyPressEventHandler(yLoc_KeyPress);
+            zLoc.KeyPress += new KeyPressEventHandler(zLoc_KeyPress);
+        }
+
+        public void initialize(MoveController moveController)
+        {
+            this.moveController = moveController;
+            moveController.OnTranslationChanged += new TranslationChanged(selectionManager_OnTranslationChanged);
+        }
+
+        void selectionManager_OnTranslationChanged(Vector3 newTranslation, object sender)
+        {
+            if (allowMotionUpdates && this != sender)
+            {
+                allowObjectUpdate = false;
+                xLoc.Value = (decimal)newTranslation.x;
+                yLoc.Value = (decimal)newTranslation.y;
+                zLoc.Value = (decimal)newTranslation.z;
+                allowObjectUpdate = true;
+            }
+        }
+
+        void zLoc_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r' || e.KeyChar == '\t')
+            {
+                xLoc.Focus();
+                xLoc.Select(0, 10000);
+            }
+        }
+
+        void yLoc_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r' || e.KeyChar == '\t')
+            {
+                zLoc.Focus();
+                zLoc.Select(0, 10000);
+            }
+        }
+
+        void xLoc_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(e.KeyChar == '\r' ||  e.KeyChar == '\t')
+            {
+                yLoc.Focus();
+                yLoc.Select(0, 10000);
+            }
+        }
+
+        void numericUpDownClick(object sender, EventArgs e)
+        {
+            NumericUpDown upDown = (NumericUpDown)sender;
+            upDown.Select(0, 100);
+        }
+
+        void moveObject(object sender, EventArgs e)
+        {
+            if (allowObjectUpdate)
+            {
+                allowMotionUpdates = false;
+                Vector3 newPos = new Vector3((float)xLoc.Value, (float)yLoc.Value, (float)zLoc.Value);
+                moveController.setTranslation(ref newPos, this);
+                allowMotionUpdates = true;
+            }
+        }
+    }
+}

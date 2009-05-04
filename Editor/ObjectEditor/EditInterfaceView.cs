@@ -24,6 +24,13 @@ namespace Editor
     /// <param name="editInterface">The EditInterfaceViewEvent.</param>
     public delegate void EditInterfaceSelectionChanging(EditInterfaceViewEvent evt);
 
+    /// <summary>
+    /// This delegate is called when the selected EditInterface has been
+    /// requested to go into a more in depth edit mode.
+    /// </summary>
+    /// <param name="evt">The EditInterfaceViewEvent.</param>
+    public delegate void EditInterfaceSelectionEdit(EditInterfaceViewEvent evt);
+
     public partial class EditInterfaceView : UserControl, EditUICallback
     {
         #region Fields
@@ -32,6 +39,7 @@ namespace Editor
         private ContextMenuStrip menu = new ContextMenuStrip();
         private EditInterface currentMenuInterface;
         private EditInterfaceTreeNode parentNode;
+        private TreeDblClickPrevent preventDblClick;
 
         #endregion Fields
 
@@ -47,6 +55,12 @@ namespace Editor
         /// </summary>
         public event EditInterfaceSelectionChanging OnEditInterfaceSelectionChanging;
 
+        /// <summary>
+        /// Called when the interface has requested to further edit an object.
+        /// Can be ignored if not applicable.
+        /// </summary>
+        public event EditInterfaceSelectionEdit OnEditInterfaceSelectionEdit;
+
         #endregion Events
 
         #region Constructors
@@ -57,8 +71,10 @@ namespace Editor
             objectsTree.NodeMouseClick += new TreeNodeMouseClickEventHandler(objectsTree_NodeMouseClick);
             objectsTree.AfterSelect += new TreeViewEventHandler(objectsTree_AfterSelect);
             objectsTree.BeforeSelect += new TreeViewCancelEventHandler(objectsTree_BeforeSelect);
+            objectsTree.NodeMouseDoubleClick += new TreeNodeMouseClickEventHandler(objectsTree_NodeMouseDoubleClick);
             menu.ItemClicked += new ToolStripItemClickedEventHandler(menu_ItemClicked);
             this.Disposed += new EventHandler(EditInterfaceView_Disposed);
+            preventDblClick = new TreeDblClickPrevent(objectsTree);
         }
 
         #endregion Constructors
@@ -94,7 +110,10 @@ namespace Editor
             if (parentNode != null)
             {
                 parentNode.removeCallbacks();
-                this.objectsTree.Nodes.Clear();
+                if (!Disposing)
+                {
+                    this.objectsTree.Nodes.Clear();
+                }
                 parentNode = null;
             }
         }
@@ -249,6 +268,15 @@ namespace Editor
             {
                 EditInterfaceViewEvent evt = new EditInterfaceViewEvent((e.Node as EditInterfaceTreeNode).EditInterface);
                 OnEditInterfaceSelectionChanged.Invoke(evt);
+            }
+        }
+
+        void objectsTree_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (OnEditInterfaceSelectionEdit != null)
+            {
+                EditInterfaceViewEvent evt = new EditInterfaceViewEvent((e.Node as EditInterfaceTreeNode).EditInterface);
+                OnEditInterfaceSelectionEdit.Invoke(evt);
             }
         }
 

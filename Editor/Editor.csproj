@@ -110,7 +110,15 @@
     <Compile Include="ObjectEditor\PropertiesTable.Designer.cs">
       <DependentUpon>PropertiesTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="ObjectEditor\TreeDblClickPrevent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\Movement\MoveController.cs" />
+    <Compile Include="Tools\Movement\MovePanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Tools\Movement\MovePanel.designer.cs">
+      <DependentUpon>MovePanel.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">
@@ -161,6 +169,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ObjectEditor\PropertiesTable.resx">
       <DependentUpon>PropertiesTable.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tools\Movement\MovePanel.resx">
+      <DependentUpon>MovePanel.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

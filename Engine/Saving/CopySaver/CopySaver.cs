@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Engine.Saving.CopySaver
+namespace Engine.Saving
 {
     /// <summary>
     /// The CopySaver saves an object by creating a copy of it using the
@@ -11,7 +11,7 @@ namespace Engine.Saving.CopySaver
     /// using the same interface for serializing them, which reduces the amount
     /// of user code that has to be written.
     /// </summary>
-    class CopySaver : HeaderWriter, FooterWriter, ValueWriter
+    public class CopySaver : HeaderWriter, FooterWriter, ValueWriter
     {
         private SaveControl saveControl;
         private LoadControl loadControl = new LoadControl();

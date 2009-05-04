@@ -12,6 +12,7 @@ using Engine.ObjectManagement;
 using Editor;
 using System.Xml;
 using Engine.Saving.XMLSaver;
+using Engine.Saving;
 
 namespace Anomaly
 {
@@ -57,6 +58,10 @@ namespace Anomaly
 
         //Scene
         private SimScene scene;
+        private TemplateController templates = new TemplateController();
+
+        //Tools
+        private MoveController moveController = new MoveController();
 
         private SplitViewController splitViewController = new SplitViewController();
 
@@ -174,6 +179,11 @@ namespace Anomaly
                 XmlSaver xmlSaver = new XmlSaver();
                 SimObjectManagerDefinition simObjectManagerDef = xmlSaver.restoreObject(textReader) as SimObjectManagerDefinition;
                 textReader.Close();
+                CopySaver copySaver = new CopySaver();
+                SimObjectDefinition clone = (SimObjectDefinition)copySaver.copyObject(simObjectManagerDef.getSimObject("Test"));
+                clone.Name = "Clone";
+                clone.Translation = new Vector3(5.0f, 0.0f, 0.0f);
+                simObjectManagerDef.addSimObject(clone);
 
                 SimObjectManager manager = simObjectManagerDef.createSimObjectManager(scene.getDefaultSubScene());
                 scene.buildScene();
@@ -310,6 +320,22 @@ namespace Anomaly
             get
             {
                 return mainTimer;
+            }
+        }
+
+        public MoveController MoveController
+        {
+            get
+            {
+                return moveController;
+            }
+        }
+
+        public TemplateController TemplateController
+        {
+            get
+            {
+                return templates;
             }
         }
 

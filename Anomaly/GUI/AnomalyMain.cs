@@ -24,6 +24,8 @@ namespace Anomaly
         public void initialize(AnomalyController controller)
         {
             this.controller = controller;
+            this.movePanel.initialize(controller.MoveController);
+            controller.TemplateController.setEditInterfaceView(templatesView);
         }
 
         public Control SplitControl

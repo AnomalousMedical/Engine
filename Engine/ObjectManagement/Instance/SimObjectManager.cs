@@ -43,12 +43,25 @@ namespace Engine.ObjectManagement
         }
 
         /// <summary>
-        /// Remove a SimObject.
+        /// Remove a SimObject. This does not destroy it and the caller takes
+        /// ownership of the object for disposal.
         /// </summary>
         /// <param name="simObject">The SimObject to remove.</param>
         public void removeSimObject(SimObjectBase simObject)
         {
             simObjects.Remove(simObject.Name);
+        }
+
+        /// <summary>
+        /// Destroy the SimObject named name. This will dispose the SimObject
+        /// and it will no longer be part of the scene or usable.
+        /// </summary>
+        /// <param name="name">The name of the SimObject to destroy.</param>
+        public void destroySimObject(String name)
+        {
+            SimObjectBase simObject = simObjects[name];
+            simObjects.Remove(name);
+            simObject.Dispose();
         }
 
         /// <summary>
