@@ -36,7 +36,7 @@ namespace Engine.Saving
         /// <summary>
         /// Reset the object mappings.
         /// </summary>
-        protected void reset()
+        public void reset()
         {
             currentObjectID = 0;
             identiferMap.Clear();

@@ -26,6 +26,8 @@ namespace Engine.Saving
         {
             lastLoadedObject = null;
             saveControl.saveObject(source);
+            loadControl.reset();
+            saveControl.reset();
             return lastLoadedObject;
         }
 

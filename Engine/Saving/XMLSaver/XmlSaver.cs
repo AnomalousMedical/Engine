@@ -15,7 +15,7 @@ namespace Engine.Saving.XMLSaver
         private const string DOCUMENT = "Save";
 
         private ValueWriterCollection valueWriters;
-        private SaveControl saveWriter;
+        private SaveControl saveControl;
         private XmlSaveable saveableValue;
         private XmlEnum enumValue;
         private XmlWriter xmlWriter;
@@ -48,7 +48,7 @@ namespace Engine.Saving.XMLSaver
             addXmlValue<ushort>(new XmlUShort(this));
             addXmlValue<Vector3>(new XmlVector3(this));
             addXmlValue<Color>(new XmlColor(this));
-            saveWriter = new SaveControl(this, valueWriters, this);
+            saveControl = new SaveControl(this, valueWriters, this);
         }
 
         private void addXmlValue<T>(XmlValue<T> xmlValue)
@@ -61,8 +61,9 @@ namespace Engine.Saving.XMLSaver
         {
             this.xmlWriter = xmlWriter;
             xmlWriter.WriteStartElement(DOCUMENT);
-            saveWriter.saveObject(save);
+            saveControl.saveObject(save);
             xmlWriter.WriteEndElement();
+            saveControl.reset();
         }
 
         public void writeHeader(ObjectIdentifier objectId)
@@ -94,6 +95,7 @@ namespace Engine.Saving.XMLSaver
                     }
                 }
             }
+            loadControl.reset();
             return lastReadObject;
         }
 

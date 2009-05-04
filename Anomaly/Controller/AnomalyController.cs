@@ -58,7 +58,7 @@ namespace Anomaly
 
         //Scene
         private SimScene scene;
-        private TemplateController templates = new TemplateController();
+        private TemplateController templates = new TemplateController(AnomalyConfig.DocRoot);
 
         //Tools
         private MoveController moveController = new MoveController();

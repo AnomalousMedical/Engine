@@ -55,6 +55,7 @@
     <Compile Include="Controller\SplitViewController.cs" />
     <Compile Include="Controller\TemplateController.cs" />
     <Compile Include="Controller\TemplateGroup.cs" />
+    <Compile Include="Controller\TemplateWriter.cs" />
     <Compile Include="GUI\AnomalyMain.cs">
       <SubType>Form</SubType>
     </Compile>

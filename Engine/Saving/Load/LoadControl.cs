@@ -25,6 +25,14 @@ namespace Engine.Saving
         }
 
         /// <summary>
+        /// Reset so this object can be used again.
+        /// </summary>
+        public void reset()
+        {
+            identiferMap.Clear();
+        }
+
+        /// <summary>
         /// Start defining an object that is being loaded. Call this when a new
         /// object is identified in the stream.
         /// </summary>
