@@ -39,6 +39,7 @@ namespace Anomaly
         private SimScene scene;
         private ObjectEditorForm objectEditor = new ObjectEditorForm();
         private AnomalyController controller;
+        private SimObjectManager manager;
 
         #region Events
 
@@ -69,12 +70,20 @@ namespace Anomaly
             this.controller = controller;
         }
 
+        public void createSimObject(SimObjectDefinition definition)
+        {
+            definition.Enabled = true;
+            definition.Translation = controller.MoveController.Translation;
+            manager.addSimObject(definition.register(scene.getDefaultSubScene()));
+            scene.buildScene();
+        }
+
         public void createNewScene()
         {
             setupResources();
             setupScene();
             //temp
-            if (File.Exists("simObjects.xml"))
+            if (false && File.Exists("simObjects.xml"))
             {
                 XmlTextReader textReader = new XmlTextReader("simObjects.xml");
                 XmlSaver xmlSaver = new XmlSaver();
@@ -86,7 +95,13 @@ namespace Anomaly
                 clone.Translation = new Vector3(5.0f, 0.0f, 0.0f);
                 simObjectManagerDef.addSimObject(clone);
 
-                SimObjectManager manager = simObjectManagerDef.createSimObjectManager(scene.getDefaultSubScene());
+                manager = simObjectManagerDef.createSimObjectManager(scene.getDefaultSubScene());
+                scene.buildScene();
+            }
+            else
+            {
+                SimObjectManagerDefinition simObjectManagerDef = new SimObjectManagerDefinition();
+                manager = simObjectManagerDef.createSimObjectManager(scene.getDefaultSubScene());
                 scene.buildScene();
             }
         }
@@ -158,6 +173,7 @@ namespace Anomaly
             {
                 OnSceneUnloading.Invoke(this, scene);
             }
+            manager.Dispose();
             scene.Dispose();
             scene = null;
             if (OnSceneUnloaded != null)

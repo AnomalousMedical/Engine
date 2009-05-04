@@ -9,6 +9,7 @@ using Engine.ObjectManagement;
 using System.Xml;
 using Engine.Saving.XMLSaver;
 using Engine.Editing;
+using Engine.Saving;
 
 namespace Anomaly
 {
@@ -20,15 +21,16 @@ namespace Anomaly
         private TemplateWriter templateWriter;
         private String rootPath;
         private XmlSaver xmlSaver = new XmlSaver();
-        private MoveController moveController;
+        private AnomalyController anomalyController;
+        private CopySaver copySaver = new CopySaver();
 
-        public TemplateController(String rootPath, MoveController moveController)
+        public TemplateController(String rootPath, AnomalyController anomalyController)
         {
             this.rootPath = rootPath;
             templateWriter = new TemplateWriter(rootPath);
             parentGroup = new TemplateGroup("Templates", templateWriter);
             scanForFiles(parentGroup);
-            this.moveController = moveController;
+            this.anomalyController = anomalyController;
         }
 
         public void setUI(TemplatePanel templatePanel)
@@ -41,13 +43,23 @@ namespace Anomaly
 
         void templatePanel_OnCreateTemplate()
         {
-            EditInterface editInterface = templatePanel.EditInterfaceView.getSelectedEditInterface();
-            if (editInterface.hasEditableProperties())
+            InputResult result = InputBox.GetInput("Create", "Enter a name.", templatePanel.FindForm());
+            while (result.ok && false)
             {
-                Template template = editInterface.getEditableProperties().First() as Template;
-                if (template != null)
+                result = InputBox.GetInput("Create", "Enter a name.", templatePanel.FindForm(), result.text);
+            }
+            if (result.ok)
+            {
+                EditInterface editInterface = templatePanel.EditInterfaceView.getSelectedEditInterface();
+                if (editInterface.hasEditableProperties())
                 {
-
+                    Template template = editInterface.getEditableProperties().First() as Template;
+                    if (template != null)
+                    {
+                        SimObjectDefinition simObjectDefinition = (SimObjectDefinition)copySaver.copyObject(template.Definition);
+                        simObjectDefinition.Name = result.text;
+                        anomalyController.SceneController.createSimObject(simObjectDefinition);
+                    }
                 }
             }
         }

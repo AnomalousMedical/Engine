@@ -151,6 +151,10 @@ namespace Engine.ObjectManagement
             {
                 manager.getFactory().linkProducts();
             }
+            foreach (SimElementManager manager in simElementManagers.Values)
+            {
+                manager.getFactory().clearDefinitions();
+            }
         }
 
         /// <summary>

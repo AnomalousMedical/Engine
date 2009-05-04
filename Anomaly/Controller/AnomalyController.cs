@@ -99,7 +99,7 @@ namespace Anomaly
             pluginManager.setPlatformInfo(mainTimer, eventManager);
 
             //Initialize controllers
-            templates = new TemplateController(AnomalyConfig.DocRoot, moveController);
+            templates = new TemplateController(AnomalyConfig.DocRoot, this);
             sceneController.initialize(this);
             sceneController.OnSceneLoaded += new SceneLoaded(sceneController_OnSceneLoaded);
             sceneController.OnSceneUnloading += new SceneUnloading(sceneController_OnSceneUnloading);

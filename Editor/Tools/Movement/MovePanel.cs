@@ -31,9 +31,6 @@ namespace Editor
             xLoc.ValueChanged += new EventHandler(moveObject);
             yLoc.ValueChanged += new EventHandler(moveObject);
             zLoc.ValueChanged += new EventHandler(moveObject);
-            xLoc.Click += new EventHandler(numericUpDownClick);
-            yLoc.Click += new EventHandler(numericUpDownClick);
-            zLoc.Click += new EventHandler(numericUpDownClick);
             xLoc.KeyPress += new KeyPressEventHandler(xLoc_KeyPress);
             yLoc.KeyPress += new KeyPressEventHandler(yLoc_KeyPress);
             zLoc.KeyPress += new KeyPressEventHandler(zLoc_KeyPress);
@@ -62,7 +59,7 @@ namespace Editor
             if (e.KeyChar == '\r' || e.KeyChar == '\t')
             {
                 xLoc.Focus();
-                xLoc.Select(0, 10000);
+                xLoc.Select(0, xLoc.Text.Length);
             }
         }
 
@@ -71,7 +68,7 @@ namespace Editor
             if (e.KeyChar == '\r' || e.KeyChar == '\t')
             {
                 zLoc.Focus();
-                zLoc.Select(0, 10000);
+                zLoc.Select(0, zLoc.Text.Length);
             }
         }
 
@@ -80,14 +77,8 @@ namespace Editor
             if(e.KeyChar == '\r' ||  e.KeyChar == '\t')
             {
                 yLoc.Focus();
-                yLoc.Select(0, 10000);
+                yLoc.Select(0, yLoc.Text.Length);
             }
-        }
-
-        void numericUpDownClick(object sender, EventArgs e)
-        {
-            NumericUpDown upDown = (NumericUpDown)sender;
-            upDown.Select(0, 100);
         }
 
         void moveObject(object sender, EventArgs e)
