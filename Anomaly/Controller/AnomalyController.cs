@@ -16,27 +16,6 @@ using Engine.Saving;
 
 namespace Anomaly
 {
-    /// <summary>
-    /// This delegate is called when a new scene is loaded.
-    /// </summary>
-    /// <param name="controller"></param>
-    /// <param name="scene"></param>
-    delegate void SceneLoaded(AnomalyController controller, SimScene scene);
-
-    /// <summary>
-    /// This delegate is called when a scene is about to unload.
-    /// </summary>
-    /// <param name="controller"></param>
-    /// <param name="scene"></param>
-    delegate void SceneUnloading(AnomalyController controller, SimScene scene);
-
-    /// <summary>
-    /// This delegate is called when a scene has unloaded and is destroyed.
-    /// </summary>
-    /// <param name="controller"></param>
-    /// <param name="scene"></param>
-    delegate void SceneUnloaded(AnomalyController controller);
-
     class AnomalyController : IDisposable
     {
 
@@ -48,7 +27,6 @@ namespace Anomaly
         //GUI
         private AnomalyMain mainForm;
         private DrawingWindow hiddenEmbedWindow;
-        private ObjectEditorForm objectEditor;
 
         //Platform
         private UpdateTimer mainTimer;
@@ -57,8 +35,8 @@ namespace Anomaly
         private EventUpdateListener eventUpdate;
 
         //Scene
-        private SimScene scene;
-        private TemplateController templates = new TemplateController(AnomalyConfig.DocRoot);
+        private TemplateController templates;
+        private SceneController sceneController = new SceneController();
 
         //Tools
         private MoveController moveController = new MoveController();
@@ -66,25 +44,6 @@ namespace Anomaly
         private SplitViewController splitViewController = new SplitViewController();
 
         #endregion Fields
-
-        #region Events
-
-        /// <summary>
-        /// This event is fired when a scene is loaded.
-        /// </summary>
-        public event SceneLoaded OnSceneLoaded;
-
-        /// <summary>
-        /// This event is fired when a scene starts unloading.
-        /// </summary>
-        public event SceneUnloading OnSceneUnloading;
-
-        /// <summary>
-        /// This event is fired when a scene has finished unloading.
-        /// </summary>
-        public event SceneUnloaded OnSceneUnloaded;
-
-        #endregion Events
 
         #region Constructors
 
@@ -130,7 +89,6 @@ namespace Anomaly
 
             //Create the main form
             mainForm = new AnomalyMain();
-            objectEditor = new ObjectEditorForm();
 
             //Intialize the platform
             mainTimer = pluginManager.PlatformPlugin.createTimer();
@@ -140,10 +98,26 @@ namespace Anomaly
             mainTimer.addFixedUpdateListener(eventUpdate);
             pluginManager.setPlatformInfo(mainTimer, eventManager);
 
+            //Initialize controllers
+            templates = new TemplateController(AnomalyConfig.DocRoot, moveController);
+            sceneController.initialize(this);
+            sceneController.OnSceneLoaded += new SceneLoaded(sceneController_OnSceneLoaded);
+            sceneController.OnSceneUnloading += new SceneUnloading(sceneController_OnSceneUnloading);
+
             //Initialize the windows
             mainForm.initialize(this);
             splitViewController.initialize(eventManager, pluginManager.RendererPlugin, mainForm.SplitControl);
             splitViewController.createFourWaySplit();
+        }
+
+        void sceneController_OnSceneUnloading(SceneController controller, SimScene scene)
+        {
+            splitViewController.destroyCameras(mainTimer);
+        }
+
+        void sceneController_OnSceneLoaded(SceneController controller, SimScene scene)
+        {
+            splitViewController.createCameras(mainTimer, scene);
         }
 
         /// <summary>
@@ -161,110 +135,8 @@ namespace Anomaly
         /// </summary>
         public void shutdown()
         {
-            if (scene != null)
-            {
-                destroyScene();
-            }
+            sceneController.destroyScene();
             mainTimer.stopLoop();
-        }
-
-        public void createNewScene()
-        {
-            setupResources();
-            setupScene();
-            //temp
-            if (File.Exists("simObjects.xml"))
-            {
-                XmlTextReader textReader = new XmlTextReader("simObjects.xml");
-                XmlSaver xmlSaver = new XmlSaver();
-                SimObjectManagerDefinition simObjectManagerDef = xmlSaver.restoreObject(textReader) as SimObjectManagerDefinition;
-                textReader.Close();
-                CopySaver copySaver = new CopySaver();
-                SimObjectDefinition clone = (SimObjectDefinition)copySaver.copyObject(simObjectManagerDef.getSimObject("Test"));
-                clone.Name = "Clone";
-                clone.Translation = new Vector3(5.0f, 0.0f, 0.0f);
-                simObjectManagerDef.addSimObject(clone);
-
-                SimObjectManager manager = simObjectManagerDef.createSimObjectManager(scene.getDefaultSubScene());
-                scene.buildScene();
-            }
-        }
-
-        private void setupScene()
-        {
-            //Create a scene definition
-            SimSceneDefinition sceneDef;
-            if (!File.Exists(AnomalyConfig.DocRoot + "/scene.xml"))
-            {
-                sceneDef = new SimSceneDefinition();
-                objectEditor.EditorPanel.setEditInterface(sceneDef.getEditInterface());
-                objectEditor.ShowDialog();
-                objectEditor.EditorPanel.clearEditInterface();
-
-                XmlTextWriter textWriter = new XmlTextWriter(AnomalyConfig.DocRoot + "/scene.xml", Encoding.Unicode);
-                textWriter.Formatting = Formatting.Indented;
-                XmlSaver xmlSaver = new XmlSaver();
-                xmlSaver.saveObject(sceneDef, textWriter);
-                textWriter.Close();
-            }
-            else
-            {
-                XmlTextReader textReader = new XmlTextReader(AnomalyConfig.DocRoot + "/scene.xml");
-                XmlSaver xmlSaver = new XmlSaver();
-                sceneDef = xmlSaver.restoreObject(textReader) as SimSceneDefinition;
-                textReader.Close();
-            }
-
-            scene = sceneDef.createScene();
-            splitViewController.createCameras(mainTimer, scene);
-            if (OnSceneLoaded != null)
-            {
-                OnSceneLoaded.Invoke(this, scene);
-            }
-        }
-
-        private void setupResources()
-        {
-            ResourceManager secondaryResources;
-            if (!File.Exists(AnomalyConfig.DocRoot + "/resources.xml"))
-            {
-                secondaryResources = pluginManager.createSecondaryResourceManager();
-
-                objectEditor.EditorPanel.setEditInterface(secondaryResources.getEditInterface());
-                objectEditor.ShowDialog();
-                objectEditor.EditorPanel.clearEditInterface();
-
-                XmlTextWriter resourceWriter = new XmlTextWriter(AnomalyConfig.DocRoot + "/resources.xml", Encoding.Unicode);
-                resourceWriter.Formatting = Formatting.Indented;
-                XmlSaver resourceSaver = new XmlSaver();
-                resourceSaver.saveObject(secondaryResources, resourceWriter);
-                resourceWriter.Close();
-            }
-            else
-            {
-                XmlTextReader resourceReader = new XmlTextReader(AnomalyConfig.DocRoot + "/resources.xml");
-                XmlSaver xmlSaver = new XmlSaver();
-                secondaryResources = xmlSaver.restoreObject(resourceReader) as ResourceManager;
-                resourceReader.Close();
-            }
-
-            pluginManager.PrimaryResourceManager.changeResourcesToMatch(secondaryResources);
-            pluginManager.PrimaryResourceManager.forceResourceRefresh();
-        }
-
-        private void destroyScene()
-        {
-            splitViewController.destroyCameras(mainTimer);
-            if (OnSceneUnloading != null)
-            {
-                OnSceneUnloading.Invoke(this, scene);
-            }
-            scene.Dispose();
-            scene = null;
-            if (OnSceneUnloaded != null)
-            {
-                OnSceneUnloaded.Invoke(this);
-            }
         }
 
         public void Dispose()
@@ -336,6 +208,14 @@ namespace Anomaly
             get
             {
                 return templates;
+            }
+        }
+
+        public SceneController SceneController
+        {
+            get
+            {
+                return sceneController;
             }
         }
 

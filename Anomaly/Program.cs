@@ -23,7 +23,7 @@ namespace Anomaly
                 try
                 {
                     anomalyController.intialize();
-                    anomalyController.createNewScene();
+                    anomalyController.SceneController.createNewScene();
                     anomalyController.start();
                 }
                 catch (Exception e)

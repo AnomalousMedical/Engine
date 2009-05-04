@@ -20,13 +20,15 @@ namespace Anomaly
         private TemplateWriter templateWriter;
         private String rootPath;
         private XmlSaver xmlSaver = new XmlSaver();
+        private MoveController moveController;
 
-        public TemplateController(String rootPath)
+        public TemplateController(String rootPath, MoveController moveController)
         {
             this.rootPath = rootPath;
             templateWriter = new TemplateWriter(rootPath);
             parentGroup = new TemplateGroup("Templates", templateWriter);
             scanForFiles(parentGroup);
+            this.moveController = moveController;
         }
 
         public void setUI(TemplatePanel templatePanel)
@@ -34,6 +36,20 @@ namespace Anomaly
             this.templatePanel = templatePanel;
             templatePanel.EditInterfaceView.setEditInterface(parentGroup.getEditInterface());
             templatePanel.EditInterfaceView.OnEditInterfaceSelectionEdit += new EditInterfaceSelectionEdit(editInterfaceView_OnEditInterfaceSelectionEdit);
+            templatePanel.OnCreateTemplate += new CreateTemplate(templatePanel_OnCreateTemplate);
+        }
+
+        void templatePanel_OnCreateTemplate()
+        {
+            EditInterface editInterface = templatePanel.EditInterfaceView.getSelectedEditInterface();
+            if (editInterface.hasEditableProperties())
+            {
+                Template template = editInterface.getEditableProperties().First() as Template;
+                if (template != null)
+                {
+
+                }
+            }
         }
 
         void editInterfaceView_OnEditInterfaceSelectionEdit(EditInterfaceViewEvent evt)
