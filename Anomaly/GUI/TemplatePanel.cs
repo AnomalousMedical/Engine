@@ -6,11 +6,16 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Editor;
 
 namespace Anomaly
 {
+    delegate void CreateTemplate();
+
     partial class TemplatePanel : UserControl
     {
+        public event CreateTemplate OnCreateTemplate;
+
         public TemplatePanel()
         {
             InitializeComponent();
@@ -18,7 +23,23 @@ namespace Anomaly
 
         public void initialize(TemplateController templateController)
         {
-            templateController.setEditInterfaceView(editInterfaceView);
+            templateController.setUI(this);
+        }
+
+        private void createButton_Click(object sender, EventArgs e)
+        {
+            if (OnCreateTemplate != null)
+            {
+                OnCreateTemplate.Invoke();
+            }
+        }
+
+        public EditInterfaceView EditInterfaceView
+        {
+            get
+            {
+                return editInterfaceView;
+            }
         }
     }
 }

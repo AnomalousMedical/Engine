@@ -15,7 +15,7 @@ namespace Anomaly
     class TemplateController
     {
         private TemplateGroup parentGroup;
-        private EditInterfaceView editInterfaceView;
+        TemplatePanel templatePanel;
         private ObjectEditorForm objectEditor = new ObjectEditorForm();
         private TemplateWriter templateWriter;
         private String rootPath;
@@ -29,11 +29,11 @@ namespace Anomaly
             scanForFiles(parentGroup);
         }
 
-        public void setEditInterfaceView(EditInterfaceView editInterfaceView)
+        public void setUI(TemplatePanel templatePanel)
         {
-            this.editInterfaceView = editInterfaceView;
-            editInterfaceView.setEditInterface(parentGroup.getEditInterface());
-            editInterfaceView.OnEditInterfaceSelectionEdit += new EditInterfaceSelectionEdit(editInterfaceView_OnEditInterfaceSelectionEdit);
+            this.templatePanel = templatePanel;
+            templatePanel.EditInterfaceView.setEditInterface(parentGroup.getEditInterface());
+            templatePanel.EditInterfaceView.OnEditInterfaceSelectionEdit += new EditInterfaceSelectionEdit(editInterfaceView_OnEditInterfaceSelectionEdit);
         }
 
         void editInterfaceView_OnEditInterfaceSelectionEdit(EditInterfaceViewEvent evt)
@@ -45,7 +45,7 @@ namespace Anomaly
                 if (template != null)
                 {
                     objectEditor.EditorPanel.setEditInterface(template.Definition.getEditInterface());
-                    objectEditor.ShowDialog(editInterfaceView.FindForm());
+                    objectEditor.ShowDialog(templatePanel.FindForm());
                     objectEditor.EditorPanel.clearEditInterface();
                     template.updated();
                 }
