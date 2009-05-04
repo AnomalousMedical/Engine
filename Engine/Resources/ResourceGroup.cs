@@ -14,6 +14,12 @@ namespace Engine.Resources
     /// </summary>
     public class ResourceGroup : Saveable
     {
+        #region Static
+
+        private static readonly ResourceGroup BLANK = new ResourceGroup("");
+
+        #endregion Static
+
         #region Fields
 
         Dictionary<String, Resource> resources = new Dictionary<string, Resource>();
@@ -30,20 +36,18 @@ namespace Engine.Resources
         /// SubsystemResources.
         /// </summary>
         /// <param name="name">The name of the resource group.</param>
-        internal ResourceGroup(String name, SubsystemResources parent)
+        internal ResourceGroup(String name)
         {
             this.name = name;
-            this.parent = parent;
         }
 
         /// <summary>
         /// This constructor will duplicate the contents of toDuplicate.
         /// </summary>
         /// <param name="toDuplicate">Duplicate the contents of this ResourceGroup.</param>
-        internal ResourceGroup(ResourceGroup toDuplicate, SubsystemResources parent)
+        internal ResourceGroup(ResourceGroup toDuplicate)
         {
             this.name = toDuplicate.name;
-            this.parent = parent;
             foreach (Resource resource in toDuplicate.resources.Values)
             {
                 this.addResource(new Resource(resource.getLocName(), resource.Type, resource.Recursive));
@@ -161,7 +165,7 @@ namespace Engine.Resources
         /// </summary>
         public void clear()
         {
-            changeResourcesToMatch(new ResourceGroup("", null));
+            changeResourcesToMatch(BLANK);
         }
 
         /// <summary>
@@ -199,6 +203,11 @@ namespace Engine.Resources
                     this.addResource(res);
                 }
             }
+        }
+
+        internal void setParent(SubsystemResources parent)
+        {
+            this.parent = parent;
         }
 
         #endregion Functions

@@ -37,7 +37,6 @@ namespace Anomaly
     class SceneController
     {
         private SimScene scene;
-        private ObjectEditorForm objectEditor = new ObjectEditorForm();
         private AnomalyController controller;
         private SimObjectManager manager;
 
@@ -72,15 +71,12 @@ namespace Anomaly
 
         public void createSimObject(SimObjectDefinition definition)
         {
-            definition.Enabled = true;
-            definition.Translation = controller.MoveController.Translation;
             manager.addSimObject(definition.register(scene.getDefaultSubScene()));
             scene.buildScene();
         }
 
         public void createNewScene()
         {
-            setupResources();
             setupScene();
             //temp
             if (false && File.Exists("simObjects.xml"))
@@ -113,9 +109,7 @@ namespace Anomaly
             if (!File.Exists(AnomalyConfig.DocRoot + "/scene.xml"))
             {
                 sceneDef = new SimSceneDefinition();
-                objectEditor.EditorPanel.setEditInterface(sceneDef.getEditInterface());
-                objectEditor.ShowDialog();
-                objectEditor.EditorPanel.clearEditInterface();
+                controller.showObjectEditor(sceneDef.getEditInterface());
 
                 XmlTextWriter textWriter = new XmlTextWriter(AnomalyConfig.DocRoot + "/scene.xml", Encoding.Unicode);
                 textWriter.Formatting = Formatting.Indented;
@@ -136,35 +130,6 @@ namespace Anomaly
             {
                 OnSceneLoaded.Invoke(this, scene);
             }
-        }
-
-        public void setupResources()
-        {
-            ResourceManager secondaryResources;
-            if (!File.Exists(AnomalyConfig.DocRoot + "/resources.xml"))
-            {
-                secondaryResources = controller.PluginManager.createSecondaryResourceManager();
-
-                objectEditor.EditorPanel.setEditInterface(secondaryResources.getEditInterface());
-                objectEditor.ShowDialog();
-                objectEditor.EditorPanel.clearEditInterface();
-
-                XmlTextWriter resourceWriter = new XmlTextWriter(AnomalyConfig.DocRoot + "/resources.xml", Encoding.Unicode);
-                resourceWriter.Formatting = Formatting.Indented;
-                XmlSaver resourceSaver = new XmlSaver();
-                resourceSaver.saveObject(secondaryResources, resourceWriter);
-                resourceWriter.Close();
-            }
-            else
-            {
-                XmlTextReader resourceReader = new XmlTextReader(AnomalyConfig.DocRoot + "/resources.xml");
-                XmlSaver xmlSaver = new XmlSaver();
-                secondaryResources = xmlSaver.restoreObject(resourceReader) as ResourceManager;
-                resourceReader.Close();
-            }
-
-            controller.PluginManager.PrimaryResourceManager.changeResourcesToMatch(secondaryResources);
-            controller.PluginManager.PrimaryResourceManager.forceResourceRefresh();
         }
 
         public void destroyScene()

@@ -109,5 +109,10 @@ namespace Anomaly
             }
             base.OnFormClosing(e);
         }
+
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.ResourceController.editResources();
+        }
     }
 }

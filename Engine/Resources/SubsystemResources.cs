@@ -41,7 +41,7 @@ namespace Engine.Resources
             this.name = toDuplicate.name;
             foreach (ResourceGroup group in toDuplicate.resourceGroups.Values)
             {
-                this.addResourceGroup(new ResourceGroup(group, this));
+                this.addResourceGroup(new ResourceGroup(group));
             }
         }
 
@@ -58,7 +58,7 @@ namespace Engine.Resources
         {
             if (!resourceGroups.ContainsKey(name))
             {
-                ResourceGroup group = new ResourceGroup(name, this);
+                ResourceGroup group = new ResourceGroup(name);
                 addResourceGroup(group);
             }
             else
@@ -136,7 +136,7 @@ namespace Engine.Resources
             {
                 if (!resourceGroups.ContainsKey(group.Name))
                 {
-                    ResourceGroup resourceGroup = new ResourceGroup(group.Name, this);
+                    ResourceGroup resourceGroup = new ResourceGroup(group.Name);
                     this.addResourceGroup(resourceGroup);
                 }
                 resourceGroups[group.Name].changeResourcesToMatch(group);
@@ -188,6 +188,7 @@ namespace Engine.Resources
         {
             if (!resourceGroups.ContainsKey(group.Name))
             {
+                group.setParent(this);
                 resourceGroups.Add(group.Name, group);
                 if (editInterface != null)
                 {

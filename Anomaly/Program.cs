@@ -23,6 +23,7 @@ namespace Anomaly
                 try
                 {
                     anomalyController.intialize();
+                    anomalyController.ResourceController.setupResources();
                     anomalyController.SceneController.createNewScene();
                     anomalyController.start();
                 }

@@ -58,6 +58,8 @@ namespace Anomaly
                     {
                         SimObjectDefinition simObjectDefinition = (SimObjectDefinition)copySaver.copyObject(template.Definition);
                         simObjectDefinition.Name = result.text;
+                        simObjectDefinition.Enabled = true;
+                        simObjectDefinition.Translation = anomalyController.MoveController.Translation;
                         anomalyController.SceneController.createSimObject(simObjectDefinition);
                     }
                 }

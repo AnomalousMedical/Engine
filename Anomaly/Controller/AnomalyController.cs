@@ -13,6 +13,7 @@ using Editor;
 using System.Xml;
 using Engine.Saving.XMLSaver;
 using Engine.Saving;
+using Engine.Editing;
 
 namespace Anomaly
 {
@@ -27,6 +28,7 @@ namespace Anomaly
         //GUI
         private AnomalyMain mainForm;
         private DrawingWindow hiddenEmbedWindow;
+        private ObjectEditorForm objectEditor = new ObjectEditorForm();
 
         //Platform
         private UpdateTimer mainTimer;
@@ -37,6 +39,7 @@ namespace Anomaly
         //Scene
         private TemplateController templates;
         private SceneController sceneController = new SceneController();
+        private ResourceController resourceController = new ResourceController();
 
         //Tools
         private MoveController moveController = new MoveController();
@@ -103,6 +106,7 @@ namespace Anomaly
             sceneController.initialize(this);
             sceneController.OnSceneLoaded += new SceneLoaded(sceneController_OnSceneLoaded);
             sceneController.OnSceneUnloading += new SceneUnloading(sceneController_OnSceneUnloading);
+            resourceController.initialize(this);
 
             //Initialize the windows
             mainForm.initialize(this);
@@ -137,6 +141,13 @@ namespace Anomaly
         {
             sceneController.destroyScene();
             mainTimer.stopLoop();
+        }
+
+        public void showObjectEditor(EditInterface editInterface)
+        {
+            objectEditor.EditorPanel.setEditInterface(editInterface);
+            objectEditor.ShowDialog(mainForm);
+            objectEditor.EditorPanel.clearEditInterface();
         }
 
         public void Dispose()
@@ -216,6 +227,14 @@ namespace Anomaly
             get
             {
                 return sceneController;
+            }
+        }
+
+        public ResourceController ResourceController
+        {
+            get
+            {
+                return resourceController;
             }
         }
 
