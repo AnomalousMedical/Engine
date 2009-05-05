@@ -31,6 +31,12 @@ namespace Editor
     /// <param name="evt">The EditInterfaceViewEvent.</param>
     public delegate void EditInterfaceSelectionEdit(EditInterfaceViewEvent evt);
 
+    /// <summary>
+    /// This delegate is called when an EditInterface is chosen.
+    /// </summary>
+    /// <param name="evt">The EditInterfaceViewEvent.</param>
+    public delegate void EditInterfaceChosen(EditInterfaceViewEvent evt);
+
     public partial class EditInterfaceView : UserControl, EditUICallback
     {
         #region Fields
@@ -60,6 +66,11 @@ namespace Editor
         /// Can be ignored if not applicable.
         /// </summary>
         public event EditInterfaceSelectionEdit OnEditInterfaceSelectionEdit;
+
+        /// <summary>
+        /// Called when an EditInterface has been chosen in some way.
+        /// </summary>
+        public event EditInterfaceChosen OnEditInterfaceChosen;
 
         #endregion Events
 
@@ -223,6 +234,11 @@ namespace Editor
 
         void objectsTree_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            if (OnEditInterfaceChosen != null)
+            {
+                EditInterfaceViewEvent evt = new EditInterfaceViewEvent((e.Node as EditInterfaceTreeNode).EditInterface);
+                OnEditInterfaceChosen.Invoke(evt);
+            }
             if (e.Button == MouseButtons.Right)
             {
                 currentMenuCommands.Clear();

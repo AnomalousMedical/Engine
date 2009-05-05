@@ -37,8 +37,8 @@ namespace Anomaly
         {
             this.panel = panel;
             panel.EditInterface.setEditInterface(getEditInterface());
-            panel.EditInterface.OnEditInterfaceSelectionChanged += new Editor.EditInterfaceSelectionChanged(EditInterface_OnEditInterfaceSelectionChanged);
-            panel.EditInterface.OnEditInterfaceSelectionEdit += new EditInterfaceSelectionEdit(EditInterface_OnEditInterfaceSelectionEdit);
+            panel.EditInterface.OnEditInterfaceChosen += new EditInterfaceChosen(editInterfaceChosen);
+            panel.EditInterface.OnEditInterfaceSelectionEdit += new EditInterfaceSelectionEdit(editInterfaceEdit);
         }
 
         public void createSimObject(SimObjectDefinition definition)
@@ -91,7 +91,7 @@ namespace Anomaly
             this.scene = scene;
         }
 
-        void EditInterface_OnEditInterfaceSelectionEdit(EditInterfaceViewEvent evt)
+        void editInterfaceEdit(EditInterfaceViewEvent evt)
         {
             SelectableSimObject selectable = selectableEdits.resolveSourceObject(evt.EditInterface);
             if (selectable != null)
@@ -105,7 +105,7 @@ namespace Anomaly
             }
         }
 
-        void EditInterface_OnEditInterfaceSelectionChanged(EditInterfaceViewEvent evt)
+        void editInterfaceChosen(EditInterfaceViewEvent evt)
         {
             SelectableSimObject selectable = selectableEdits.resolveSourceObject(evt.EditInterface);
             if (selectable != null)
@@ -122,6 +122,10 @@ namespace Anomaly
                 {
                     controller.SelectionController.setSelectedObject(selectable);
                 }
+            }
+            else
+            {
+                controller.SelectionController.clearSelection();
             }
         }
 

@@ -30,6 +30,7 @@
         {
             this.mainToolStripContainer = new System.Windows.Forms.ToolStripContainer();
             this.toolPanel = new System.Windows.Forms.Panel();
+            this.eulerRotatePanel1 = new Editor.EulerRotatePanel();
             this.movePanel = new Editor.MovePanel();
             this.objectViewSplit = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -47,7 +48,6 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resourcesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.eulerRotatePanel1 = new Editor.EulerRotatePanel();
             this.mainToolStripContainer.ContentPanel.SuspendLayout();
             this.mainToolStripContainer.SuspendLayout();
             this.toolPanel.SuspendLayout();
@@ -83,6 +83,13 @@
             this.toolPanel.Name = "toolPanel";
             this.toolPanel.Size = new System.Drawing.Size(752, 57);
             this.toolPanel.TabIndex = 7;
+            // 
+            // eulerRotatePanel1
+            // 
+            this.eulerRotatePanel1.Location = new System.Drawing.Point(252, 8);
+            this.eulerRotatePanel1.Name = "eulerRotatePanel1";
+            this.eulerRotatePanel1.Size = new System.Drawing.Size(340, 46);
+            this.eulerRotatePanel1.TabIndex = 1;
             // 
             // movePanel
             // 
@@ -190,32 +197,33 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newToolStripMenuItem.Text = "New";
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openToolStripMenuItem.Text = "Open";
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveToolStripMenuItem.Text = "Save";
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveAsToolStripMenuItem.Text = "Save As...";
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // resourcesToolStripMenuItem
             // 
@@ -231,13 +239,6 @@
             this.editToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
-            // 
-            // eulerRotatePanel1
-            // 
-            this.eulerRotatePanel1.Location = new System.Drawing.Point(252, 8);
-            this.eulerRotatePanel1.Name = "eulerRotatePanel1";
-            this.eulerRotatePanel1.Size = new System.Drawing.Size(340, 46);
-            this.eulerRotatePanel1.TabIndex = 1;
             // 
             // AnomalyMain
             // 

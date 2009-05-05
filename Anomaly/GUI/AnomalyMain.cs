@@ -116,5 +116,10 @@ namespace Anomaly
         {
             controller.ResourceController.editResources();
         }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
