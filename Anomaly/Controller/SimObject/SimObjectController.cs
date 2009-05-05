@@ -5,6 +5,7 @@ using System.Text;
 using Engine.Editing;
 using Engine.ObjectManagement;
 using Editor;
+using Engine.Platform;
 
 namespace Anomaly
 {
@@ -56,7 +57,18 @@ namespace Anomaly
             SelectableSimObject selectable = selectableEdits.resolveSourceObject(evt.EditInterface);
             if (selectable != null)
             {
-                controller.SelectionController.setSelectedObject(selectable);
+                if (controller.EventManager.Keyboard.isModifierDown(Modifier.Ctrl))
+                {
+                    controller.SelectionController.addSelectedObject(selectable);
+                }
+                else if (controller.EventManager.Keyboard.isModifierDown(Modifier.Alt))
+                {
+                    controller.SelectionController.removeSelectedObject(selectable);
+                }
+                else
+                {
+                    controller.SelectionController.setSelectedObject(selectable);
+                }
             }
         }
 
