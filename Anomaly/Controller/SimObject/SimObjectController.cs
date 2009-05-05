@@ -114,6 +114,7 @@ namespace Anomaly
 
         private EditInterface editInterface;
         private EditInterfaceManager<SelectableSimObject> selectableEdits;
+        private EditInterfaceCommand destroyCommand;
 
         public EditInterface getEditInterface()
         {
@@ -121,6 +122,7 @@ namespace Anomaly
             {
                 editInterface = new EditInterface("SimObjects");
                 selectableEdits = new EditInterfaceManager<SelectableSimObject>(editInterface);
+                destroyCommand = new EditInterfaceCommand("Remove", destroySimObjectCallback);
                 foreach (SelectableSimObject selectable in selectables.Values)
                 {
                     addSelectableEditInterface(selectable);
@@ -134,6 +136,7 @@ namespace Anomaly
             if (editInterface != null)
             {
                 EditInterface edit = selectable.getEditInterface();
+                edit.addCommand(destroyCommand);
                 selectableEdits.addSubInterface(selectable, edit);
             }
         }
@@ -144,6 +147,11 @@ namespace Anomaly
             {
                 selectableEdits.removeSubInterface(selectable);
             }
+        }
+
+        private void destroySimObjectCallback(EditUICallback callback, EditInterfaceCommand command)
+        {
+            destroySimObject(selectableEdits.resolveSourceObject(callback.getSelectedEditInterface()).Definition);
         }
 
         #endregion EditInterface
