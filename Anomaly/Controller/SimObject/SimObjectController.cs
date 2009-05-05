@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine.Editing;
 using Engine.ObjectManagement;
+using Editor;
 
 namespace Anomaly
 {
@@ -32,6 +33,16 @@ namespace Anomaly
         {
             this.panel = panel;
             panel.EditInterface.setEditInterface(getEditInterface());
+            panel.EditInterface.OnEditInterfaceSelectionChanged += new Editor.EditInterfaceSelectionChanged(EditInterface_OnEditInterfaceSelectionChanged);
+        }
+
+        void EditInterface_OnEditInterfaceSelectionChanged(EditInterfaceViewEvent evt)
+        {
+            SelectableSimObject selectable = selectableEdits.resolveSourceObject(evt.EditInterface);
+            if (selectable != null)
+            {
+                controller.SelectionController.setSelectedObject(selectable);
+            }
         }
 
         public void createSimObject(SimObjectDefinition definition)

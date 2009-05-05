@@ -13,6 +13,7 @@ namespace Engine.Editing
     /// <typeparam name="T">The class this manager binds to.</typeparam>
     [DoNotCopy]
     public class EditInterfaceManager<T>
+        where T : class
     {
         private Dictionary<T, EditInterface> interfaceDictionary = new Dictionary<T, EditInterface>();
         private EditInterface editInterface;
@@ -56,7 +57,7 @@ namespace Engine.Editing
         /// <returns>The creator of subInterface according to this binding.</returns>
         public T resolveSourceObject(EditInterface subInterface)
         {
-            return (T)subInterface.ManagerBinding;
+            return subInterface.ManagerBinding as T;
         }
     }
 }
