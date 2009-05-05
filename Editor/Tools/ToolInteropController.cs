@@ -15,6 +15,7 @@ namespace Editor
     {
         private MoveController moveController;
         private SelectionController selectionController;
+        private RotateController rotateController;
 
         public ToolInteropController()
         {
@@ -32,6 +33,20 @@ namespace Editor
             if (selectionController != null)
             {
                 selectionController.translateSelectedObject(ref newTranslation);
+            }
+        }
+
+        public void setRotateController(RotateController rotateController)
+        {
+            this.rotateController = rotateController;
+            rotateController.OnRotationChanged += onRotationChanged;
+        }
+
+        void onRotationChanged(Quaternion newRotation, object sender)
+        {
+            if (selectionController != null)
+            {
+                selectionController.rotateSelectedObject(ref newRotation);
             }
         }
 
@@ -53,7 +68,10 @@ namespace Editor
 
         void onSelectionRotated(Quaternion newRotation)
         {
-            
+            if (rotateController != null)
+            {
+                rotateController.setRotation(ref newRotation, selectionController);
+            }
         }
 
         void onSelectionChanged(SelectionChangedArgs args)

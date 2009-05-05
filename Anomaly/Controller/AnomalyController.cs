@@ -46,6 +46,7 @@ namespace Anomaly
         private ToolInteropController toolInterop = new ToolInteropController();
         private MoveController moveController = new MoveController();
         private SelectionController selectionController = new SelectionController();
+        private RotateController rotateController = new RotateController();
 
         private SplitViewController splitViewController = new SplitViewController();
 
@@ -113,6 +114,7 @@ namespace Anomaly
             resourceController.initialize(this);
             toolInterop.setMoveController(moveController);
             toolInterop.setSelectionController(selectionController);
+            toolInterop.setRotateController(rotateController);
 
             //Initialize the windows
             mainForm.initialize(this);
@@ -257,6 +259,14 @@ namespace Anomaly
             get
             {
                 return simObjectController;
+            }
+        }
+
+        public RotateController RotateController
+        {
+            get
+            {
+                return rotateController;
             }
         }
 

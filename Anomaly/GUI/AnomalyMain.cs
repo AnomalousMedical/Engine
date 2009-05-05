@@ -27,6 +27,7 @@ namespace Anomaly
             this.movePanel.initialize(controller.MoveController);
             this.templatePanel1.initialize(controller.TemplateController);
             this.simObjectPanel.intialize(controller);
+            this.eulerRotatePanel1.initialize(controller.RotateController);
         }
 
         public Control SplitControl

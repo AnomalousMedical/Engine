@@ -34,6 +34,7 @@
             this.objectViewSplit = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.simObjectPanel = new Anomaly.SimObjectPanel();
             this.objectsEditInterface = new Editor.EditInterfaceView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.templatePanel1 = new Anomaly.TemplatePanel();
@@ -46,7 +47,7 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resourcesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.simObjectPanel = new Anomaly.SimObjectPanel();
+            this.eulerRotatePanel1 = new Editor.EulerRotatePanel();
             this.mainToolStripContainer.ContentPanel.SuspendLayout();
             this.mainToolStripContainer.SuspendLayout();
             this.toolPanel.SuspendLayout();
@@ -75,6 +76,7 @@
             // 
             // toolPanel
             // 
+            this.toolPanel.Controls.Add(this.eulerRotatePanel1);
             this.toolPanel.Controls.Add(this.movePanel);
             this.toolPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.toolPanel.Location = new System.Drawing.Point(0, 434);
@@ -126,6 +128,14 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Objects";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // simObjectPanel
+            // 
+            this.simObjectPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.simObjectPanel.Location = new System.Drawing.Point(3, 3);
+            this.simObjectPanel.Name = "simObjectPanel";
+            this.simObjectPanel.Size = new System.Drawing.Size(148, 399);
+            this.simObjectPanel.TabIndex = 1;
             // 
             // objectsEditInterface
             // 
@@ -222,13 +232,12 @@
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
-            // simObjectPanel
+            // eulerRotatePanel1
             // 
-            this.simObjectPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.simObjectPanel.Location = new System.Drawing.Point(3, 3);
-            this.simObjectPanel.Name = "simObjectPanel";
-            this.simObjectPanel.Size = new System.Drawing.Size(148, 399);
-            this.simObjectPanel.TabIndex = 1;
+            this.eulerRotatePanel1.Location = new System.Drawing.Point(252, 8);
+            this.eulerRotatePanel1.Name = "eulerRotatePanel1";
+            this.eulerRotatePanel1.Size = new System.Drawing.Size(340, 46);
+            this.eulerRotatePanel1.TabIndex = 1;
             // 
             // AnomalyMain
             // 
@@ -277,6 +286,7 @@
         private System.Windows.Forms.ToolStripMenuItem resourcesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private SimObjectPanel simObjectPanel;
+        private Editor.EulerRotatePanel eulerRotatePanel1;
 
 
 
