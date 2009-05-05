@@ -25,6 +25,7 @@ namespace Anomaly
                     anomalyController.intialize();
                     anomalyController.ResourceController.setupResources();
                     anomalyController.SceneController.createNewScene();
+                    anomalyController.SimObjectController.createEmptyManager();
                     anomalyController.start();
                 }
                 catch (Exception e)

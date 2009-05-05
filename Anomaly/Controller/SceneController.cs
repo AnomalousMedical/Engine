@@ -38,7 +38,6 @@ namespace Anomaly
     {
         private SimScene scene;
         private AnomalyController controller;
-        private SimObjectManager manager;
 
         #region Events
 
@@ -69,40 +68,12 @@ namespace Anomaly
             this.controller = controller;
         }
 
-        public void createSimObject(SimObjectDefinition definition)
-        {
-            manager.addSimObject(definition.register(scene.getDefaultSubScene()));
-            scene.buildScene();
-        }
-
         public void createNewScene()
         {
             setupScene();
-            //temp
-            if (false && File.Exists("simObjects.xml"))
-            {
-                XmlTextReader textReader = new XmlTextReader("simObjects.xml");
-                XmlSaver xmlSaver = new XmlSaver();
-                SimObjectManagerDefinition simObjectManagerDef = xmlSaver.restoreObject(textReader) as SimObjectManagerDefinition;
-                textReader.Close();
-                CopySaver copySaver = new CopySaver();
-                SimObjectDefinition clone = (SimObjectDefinition)copySaver.copyObject(simObjectManagerDef.getSimObject("Test"));
-                clone.Name = "Clone";
-                clone.Translation = new Vector3(5.0f, 0.0f, 0.0f);
-                simObjectManagerDef.addSimObject(clone);
-
-                manager = simObjectManagerDef.createSimObjectManager(scene.getDefaultSubScene());
-                scene.buildScene();
-            }
-            else
-            {
-                SimObjectManagerDefinition simObjectManagerDef = new SimObjectManagerDefinition();
-                manager = simObjectManagerDef.createSimObjectManager(scene.getDefaultSubScene());
-                scene.buildScene();
-            }
         }
 
-        public void setupScene()
+        private void setupScene()
         {
             //Create a scene definition
             SimSceneDefinition sceneDef;
@@ -138,7 +109,6 @@ namespace Anomaly
             {
                 OnSceneUnloading.Invoke(this, scene);
             }
-            manager.Dispose();
             scene.Dispose();
             scene = null;
             if (OnSceneUnloaded != null)

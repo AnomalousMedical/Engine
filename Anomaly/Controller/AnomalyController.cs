@@ -40,9 +40,12 @@ namespace Anomaly
         private TemplateController templates;
         private SceneController sceneController = new SceneController();
         private ResourceController resourceController = new ResourceController();
+        private SimObjectController simObjectController = new SimObjectController();
 
         //Tools
+        private ToolInteropController toolInterop = new ToolInteropController();
         private MoveController moveController = new MoveController();
+        private SelectionController selectionController = new SelectionController();
 
         private SplitViewController splitViewController = new SplitViewController();
 
@@ -106,7 +109,10 @@ namespace Anomaly
             sceneController.initialize(this);
             sceneController.OnSceneLoaded += new SceneLoaded(sceneController_OnSceneLoaded);
             sceneController.OnSceneUnloading += new SceneUnloading(sceneController_OnSceneUnloading);
+            simObjectController.initialize(this);
             resourceController.initialize(this);
+            toolInterop.setMoveController(moveController);
+            toolInterop.setSelectionController(selectionController);
 
             //Initialize the windows
             mainForm.initialize(this);
@@ -235,6 +241,22 @@ namespace Anomaly
             get
             {
                 return resourceController;
+            }
+        }
+
+        public SelectionController SelectionController
+        {
+            get
+            {
+                return selectionController;
+            }
+        }
+
+        public SimObjectController SimObjectController
+        {
+            get
+            {
+                return simObjectController;
             }
         }
 

@@ -119,6 +119,11 @@
     <Compile Include="Tools\Movement\MovePanel.designer.cs">
       <DependentUpon>MovePanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tools\Selection\SelectableObject.cs" />
+    <Compile Include="Tools\Selection\SelectedObjectCollection.cs" />
+    <Compile Include="Tools\Selection\SelectionController.cs" />
+    <Compile Include="Tools\Selection\SelectionChangedArgs.cs" />
+    <Compile Include="Tools\ToolInteropController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">

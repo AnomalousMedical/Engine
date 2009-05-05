@@ -13,6 +13,7 @@ namespace Editor
         public event TranslationChanged OnTranslationChanged;
 
         private Vector3 currentTranslation;
+        private bool dispatchingTranslation = false;
 
         public MoveController()
         {
@@ -21,10 +22,15 @@ namespace Editor
 
         public void setTranslation(ref Vector3 translation, Object sender)
         {
-            currentTranslation = translation;
-            if (OnTranslationChanged != null)
+            if (!dispatchingTranslation)
             {
-                OnTranslationChanged.Invoke(translation, sender);
+                dispatchingTranslation = true;
+                currentTranslation = translation;
+                if (OnTranslationChanged != null)
+                {
+                    OnTranslationChanged.Invoke(translation, sender);
+                }
+                dispatchingTranslation = false;
             }
         }
 

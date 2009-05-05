@@ -60,7 +60,7 @@ namespace Anomaly
                         simObjectDefinition.Name = result.text;
                         simObjectDefinition.Enabled = true;
                         simObjectDefinition.Translation = anomalyController.MoveController.Translation;
-                        anomalyController.SceneController.createSimObject(simObjectDefinition);
+                        anomalyController.SimObjectController.createSimObject(simObjectDefinition);
                     }
                 }
             }

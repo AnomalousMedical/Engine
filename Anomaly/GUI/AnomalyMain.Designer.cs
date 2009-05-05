@@ -46,6 +46,7 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resourcesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.simObjectPanel = new Anomaly.SimObjectPanel();
             this.mainToolStripContainer.ContentPanel.SuspendLayout();
             this.mainToolStripContainer.SuspendLayout();
             this.toolPanel.SuspendLayout();
@@ -116,6 +117,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.simObjectPanel);
             this.tabPage1.Controls.Add(this.objectsEditInterface);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
@@ -216,9 +218,17 @@
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
+            // 
+            // simObjectPanel
+            // 
+            this.simObjectPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.simObjectPanel.Location = new System.Drawing.Point(3, 3);
+            this.simObjectPanel.Name = "simObjectPanel";
+            this.simObjectPanel.Size = new System.Drawing.Size(148, 399);
+            this.simObjectPanel.TabIndex = 1;
             // 
             // AnomalyMain
             // 
@@ -266,6 +276,7 @@
         private TemplatePanel templatePanel1;
         private System.Windows.Forms.ToolStripMenuItem resourcesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private SimObjectPanel simObjectPanel;
 
 
 
