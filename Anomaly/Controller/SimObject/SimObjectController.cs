@@ -34,6 +34,21 @@ namespace Anomaly
             this.panel = panel;
             panel.EditInterface.setEditInterface(getEditInterface());
             panel.EditInterface.OnEditInterfaceSelectionChanged += new Editor.EditInterfaceSelectionChanged(EditInterface_OnEditInterfaceSelectionChanged);
+            panel.EditInterface.OnEditInterfaceSelectionEdit += new EditInterfaceSelectionEdit(EditInterface_OnEditInterfaceSelectionEdit);
+        }
+
+        void EditInterface_OnEditInterfaceSelectionEdit(EditInterfaceViewEvent evt)
+        {
+            SelectableSimObject selectable = selectableEdits.resolveSourceObject(evt.EditInterface);
+            if (selectable != null)
+            {
+                controller.showObjectEditor(selectable.Definition.getEditInterface());
+                simObjectManager.destroySimObject(selectable.Instance.Name);
+                SimObjectBase instance = selectable.Definition.register(scene.getDefaultSubScene());
+                scene.buildScene();
+                simObjectManager.addSimObject(instance);
+                selectable.Instance = instance;
+            }
         }
 
         void EditInterface_OnEditInterfaceSelectionChanged(EditInterfaceViewEvent evt)
