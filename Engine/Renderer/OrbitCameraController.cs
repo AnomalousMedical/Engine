@@ -120,14 +120,14 @@ namespace Engine
                             pitch = -HALF_PI;
                         }
 
-                        Quaternion yawRot = new Quaternion(ref Vector3.Up, yaw);
-                        Quaternion pitchRot = new Quaternion(ref Vector3.Left, pitch);
+                        Quaternion yawRot = new Quaternion(Vector3.Up, yaw);
+                        Quaternion pitchRot = new Quaternion(Vector3.Left, pitch);
 
                         normalDirection = Quaternion.quatRotate(yawRot * pitchRot, Vector3.Backward);
                         Vector3 newTrans = normalDirection * orbitDistance + lookAt;
                         camera.Translation = newTrans;
                         camera.LookAt = lookAt;
-                        left = normalDirection.cross(ref Vector3.Up);
+                        left = normalDirection.cross(Vector3.Up);
                     }
                 }
                 if (activeWindow)
@@ -209,7 +209,7 @@ namespace Engine
 
             //Compute the pitch by rotating the local translation to -yaw.
             localTrans.y = localY;
-            localTrans = Quaternion.quatRotate(new Quaternion(ref Vector3.Up, -yaw), localTrans);
+            localTrans = Quaternion.quatRotate(new Quaternion(Vector3.Up, -yaw), localTrans);
             localTrans.x = 0;
             if (localTrans.z >= 0.0f)
             {
@@ -221,10 +221,10 @@ namespace Engine
             }
 
             //Compute the normal direction and the left vector.
-            Quaternion yawRot = new Quaternion(ref Vector3.Up, yaw);
-            Quaternion pitchRot = new Quaternion(ref Vector3.Left, pitch);
+            Quaternion yawRot = new Quaternion(Vector3.Up, yaw);
+            Quaternion pitchRot = new Quaternion(Vector3.Left, pitch);
             normalDirection = Quaternion.quatRotate(yawRot * pitchRot, Vector3.Backward);
-            left = normalDirection.cross(ref Vector3.Up);
+            left = normalDirection.cross(Vector3.Up);
         }
 
         public Vector3 Translation

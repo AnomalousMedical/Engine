@@ -14,6 +14,7 @@ namespace Engine.Editing
     public delegate void PropertyRemoved(EditableProperty property);
     public delegate void SubInterfaceAdded(EditInterface editInterface);
     public delegate void SubInterfaceRemoved(EditInterface editInterface);
+    public delegate void ColorsChanged(EditInterface editInterface);
 
     /// <summary>
     /// This interface provides a view of an object that can be edited.
@@ -29,11 +30,15 @@ namespace Engine.Editing
         private LinkedList<EditInterface> subInterfaces = new LinkedList<EditInterface>();
         private EditablePropertyInfo propertyInfo;
         private LinkedList<EditInterfaceCommand> commands = new LinkedList<EditInterfaceCommand>();
+        private Color backColor = Color.White;
+        private Color foreColor = Color.Black;
 
         public event PropertyAdded OnPropertyAdded;
         public event PropertyRemoved OnPropertyRemoved;
         public event SubInterfaceAdded OnSubInterfaceAdded;
         public event SubInterfaceRemoved OnSubInterfaceRemoved;
+        public event ColorsChanged OnBackColorChanged;
+        public event ColorsChanged OnForeColorChanged;
 
         /// <summary>
         /// Constructor.
@@ -285,5 +290,43 @@ namespace Engine.Editing
         /// Only used by EditInterfaceManager.
         /// </summary>
         internal Object ManagerBinding { get; set; }
+
+        /// <summary>
+        /// Set the background color of this component on the UI.
+        /// </summary>
+        public Color BackColor
+        {
+            get
+            {
+                return backColor;
+            }
+            set
+            {
+                backColor = value;
+                if (OnBackColorChanged != null)
+                {
+                    OnBackColorChanged.Invoke(this);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Set the foreground color of this component on the UI.
+        /// </summary>
+        public Color ForeColor
+        {
+            get
+            {
+                return foreColor;
+            }
+            set
+            {
+                foreColor = value;
+                if (OnForeColorChanged != null)
+                {
+                    OnForeColorChanged.Invoke(this);
+                }
+            }
+        }
     }
 }

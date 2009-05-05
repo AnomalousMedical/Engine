@@ -6,6 +6,8 @@ using Engine.Editing;
 using Engine.ObjectManagement;
 using Editor;
 using Engine.Platform;
+using Engine;
+using System.Drawing;
 
 namespace Anomaly
 {
@@ -28,6 +30,7 @@ namespace Anomaly
             this.controller = controller;
             controller.SceneController.OnSceneLoaded += new SceneLoaded(SceneController_OnSceneLoaded);
             controller.SceneController.OnSceneUnloading += new SceneUnloading(SceneController_OnSceneUnloading);
+            controller.SelectionController.OnSelectionChanged += new ObjectSelected(SelectionController_OnSelectionChanged);
         }
 
         public void setUI(SimObjectPanel panel)
@@ -36,40 +39,6 @@ namespace Anomaly
             panel.EditInterface.setEditInterface(getEditInterface());
             panel.EditInterface.OnEditInterfaceSelectionChanged += new Editor.EditInterfaceSelectionChanged(EditInterface_OnEditInterfaceSelectionChanged);
             panel.EditInterface.OnEditInterfaceSelectionEdit += new EditInterfaceSelectionEdit(EditInterface_OnEditInterfaceSelectionEdit);
-        }
-
-        void EditInterface_OnEditInterfaceSelectionEdit(EditInterfaceViewEvent evt)
-        {
-            SelectableSimObject selectable = selectableEdits.resolveSourceObject(evt.EditInterface);
-            if (selectable != null)
-            {
-                controller.showObjectEditor(selectable.Definition.getEditInterface());
-                simObjectManager.destroySimObject(selectable.Instance.Name);
-                SimObjectBase instance = selectable.Definition.register(scene.getDefaultSubScene());
-                scene.buildScene();
-                simObjectManager.addSimObject(instance);
-                selectable.Instance = instance;
-            }
-        }
-
-        void EditInterface_OnEditInterfaceSelectionChanged(EditInterfaceViewEvent evt)
-        {
-            SelectableSimObject selectable = selectableEdits.resolveSourceObject(evt.EditInterface);
-            if (selectable != null)
-            {
-                if (controller.EventManager.Keyboard.isModifierDown(Modifier.Ctrl))
-                {
-                    controller.SelectionController.addSelectedObject(selectable);
-                }
-                else if (controller.EventManager.Keyboard.isModifierDown(Modifier.Alt))
-                {
-                    controller.SelectionController.removeSelectedObject(selectable);
-                }
-                else
-                {
-                    controller.SelectionController.setSelectedObject(selectable);
-                }
-            }
         }
 
         public void createSimObject(SimObjectDefinition definition)
@@ -120,6 +89,59 @@ namespace Anomaly
         private void SceneController_OnSceneLoaded(SceneController controller, SimScene scene)
         {
             this.scene = scene;
+        }
+
+        void EditInterface_OnEditInterfaceSelectionEdit(EditInterfaceViewEvent evt)
+        {
+            SelectableSimObject selectable = selectableEdits.resolveSourceObject(evt.EditInterface);
+            if (selectable != null)
+            {
+                controller.showObjectEditor(selectable.Definition.getEditInterface());
+                simObjectManager.destroySimObject(selectable.Instance.Name);
+                SimObjectBase instance = selectable.Definition.register(scene.getDefaultSubScene());
+                scene.buildScene();
+                simObjectManager.addSimObject(instance);
+                selectable.Instance = instance;
+            }
+        }
+
+        void EditInterface_OnEditInterfaceSelectionChanged(EditInterfaceViewEvent evt)
+        {
+            SelectableSimObject selectable = selectableEdits.resolveSourceObject(evt.EditInterface);
+            if (selectable != null)
+            {
+                if (controller.EventManager.Keyboard.isModifierDown(Modifier.Ctrl))
+                {
+                    controller.SelectionController.addSelectedObject(selectable);
+                }
+                else if (controller.EventManager.Keyboard.isModifierDown(Modifier.Alt))
+                {
+                    controller.SelectionController.removeSelectedObject(selectable);
+                }
+                else
+                {
+                    controller.SelectionController.setSelectedObject(selectable);
+                }
+            }
+        }
+
+        void SelectionController_OnSelectionChanged(SelectionChangedArgs args)
+        {
+            if (editInterface != null)
+            {
+                foreach (SelectableSimObject selectable in args.ObjectsAdded)
+                {
+                    EditInterface currentEdit = selectableEdits.getEditInterface(selectable);
+                    currentEdit.BackColor = Engine.Color.FromARGB(SystemColors.Highlight.ToArgb());
+                    currentEdit.ForeColor = Engine.Color.FromARGB(SystemColors.HighlightText.ToArgb());
+                }
+                foreach (SelectableSimObject selectable in args.ObjectsRemoved)
+                {
+                    EditInterface currentEdit = selectableEdits.getEditInterface(selectable);
+                    currentEdit.BackColor = Engine.Color.FromARGB(SystemColors.Window.ToArgb());
+                    currentEdit.ForeColor = Engine.Color.FromARGB(SystemColors.WindowText.ToArgb());                    
+                }
+            }
         }
 
         #region EditInterface

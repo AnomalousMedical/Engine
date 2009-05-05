@@ -13,17 +13,17 @@ namespace Engine
     public struct Vector3
     {
         #region Predefined Vectors
-        public static Vector3 Zero = new Vector3(0.0f, 0.0f, 0.0f);
-        public static Vector3 Forward = new Vector3(0.0f, 0.0f, -1.0f);
-        public static Vector3 Backward = new Vector3(0.0f, 0.0f, 1.0f);
-        public static Vector3 Left = new Vector3(-1.0f, 0.0f, 0.0f);
-        public static Vector3 Right = new Vector3(1.0f, 0.0f, 0.0f);
-        public static Vector3 Up = new Vector3(0.0f, 1.0f, 0.0f);
-        public static Vector3 Down = new Vector3(0.0f, -1.0f, 0.0f);
+        public static readonly Vector3 Zero = new Vector3(0.0f, 0.0f, 0.0f);
+        public static readonly Vector3 Forward = new Vector3(0.0f, 0.0f, -1.0f);
+        public static readonly Vector3 Backward = new Vector3(0.0f, 0.0f, 1.0f);
+        public static readonly Vector3 Left = new Vector3(-1.0f, 0.0f, 0.0f);
+        public static readonly Vector3 Right = new Vector3(1.0f, 0.0f, 0.0f);
+        public static readonly Vector3 Up = new Vector3(0.0f, 1.0f, 0.0f);
+        public static readonly Vector3 Down = new Vector3(0.0f, -1.0f, 0.0f);
 
-        public static Vector3 UnitX = new Vector3(1.0f, 0.0f, 0.0f);
-        public static Vector3 UnitY = new Vector3(0.0f, 1.0f, 0.0f);
-        public static Vector3 UnitZ = new Vector3(0.0f, 0.0f, 1.0f);
+        public static readonly Vector3 UnitX = new Vector3(1.0f, 0.0f, 0.0f);
+        public static readonly Vector3 UnitY = new Vector3(0.0f, 1.0f, 0.0f);
+        public static readonly Vector3 UnitZ = new Vector3(0.0f, 0.0f, 1.0f);
 
         public static Vector3 ScaleIdentity = new Vector3(1.0f, 1.0f, 1.0f);
         #endregion Predefined Vectors
@@ -208,6 +208,16 @@ namespace Engine
 			    z * v.x - x * v.z,
 			    x * v.y - y * v.x);
 	    }
+
+        /// <summary>
+        /// Compute the cross product of two vectors.
+        /// </summary>
+        /// <param name="v">The other vector.</param>
+        /// <returns>The cross product of the two vectors.</returns>
+        public Vector3 cross(Vector3 v)
+        {
+            return cross(ref v);
+        }
 
 	    /// <summary>
 	    /// Compute the triple product with this vector as the dot product.

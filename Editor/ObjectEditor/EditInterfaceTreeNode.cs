@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using Engine.Editing;
 using Logging;
+using Engine;
 
 namespace Editor
 {
@@ -35,6 +36,10 @@ namespace Editor
             interfaceRemoved = new SubInterfaceRemoved(subInterfaceRemoved);
             editInterface.OnSubInterfaceAdded += interfaceAdded;
             editInterface.OnSubInterfaceRemoved += interfaceRemoved;
+            editInterface.OnBackColorChanged += backColorChanged;
+            editInterface.OnForeColorChanged += foreColorChanged;
+            BackColor = System.Drawing.Color.FromArgb(editInterface.BackColor.toARGB());
+            ForeColor = System.Drawing.Color.FromArgb(editInterface.ForeColor.toARGB());
             if (editInterface.hasSubEditInterfaces())
             {
                 foreach (EditInterface subInterface in editInterface.getSubEditInterfaces())
@@ -56,6 +61,8 @@ namespace Editor
         {
             editInterface.OnSubInterfaceAdded -= subInterfaceAdded;
             editInterface.OnSubInterfaceRemoved -= subInterfaceRemoved;
+            editInterface.OnBackColorChanged -= backColorChanged;
+            editInterface.OnForeColorChanged -= foreColorChanged;
             foreach (EditInterfaceTreeNode node in Nodes)
             {
                 node.removeCallbacks();
@@ -95,6 +102,16 @@ namespace Editor
             {
                 Log.Default.sendMessage("Malformed EditInterfaceTreeNodes the EditInterface {0} does not contain a child named {1} when remove was attempted.", LogLevel.Error, "Editor", this.editInterface.getName(), editInterface.getName());
             }
+        }
+
+        void foreColorChanged(EditInterface editInterface)
+        {
+            ForeColor = System.Drawing.Color.FromArgb(editInterface.ForeColor.toARGB());
+        }
+
+        void backColorChanged(EditInterface editInterface)
+        {
+            BackColor = System.Drawing.Color.FromArgb(editInterface.BackColor.toARGB());
         }
 
         #endregion Functions

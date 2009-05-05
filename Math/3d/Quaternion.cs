@@ -21,7 +21,7 @@ namespace Engine
         /// <summary>
         /// The identity (no rotation) quaternion.
         /// </summary>
-        public static Quaternion Identity = new Quaternion(0, 0, 0, 1);
+        public static readonly Quaternion Identity = new Quaternion(0, 0, 0, 1);
 
         #endregion Predefined Quaternions
 
@@ -72,6 +72,16 @@ namespace Engine
         /// <param name="axis">Rotation axis.</param>
         /// <param name="angle">Angle of rotation around that axis.</param>
         public Quaternion(ref Vector3 axis, float angle)
+        {
+            setRotation(ref axis, ref angle, out x, out y, out z, out w);
+        }
+
+        /// <summary>
+        /// Constructor.  Set the value using axis angle.
+        /// </summary>
+        /// <param name="axis">Rotation axis.</param>
+        /// <param name="angle">Angle of rotation around that axis.</param>
+        public Quaternion(Vector3 axis, float angle)
         {
             setRotation(ref axis, ref angle, out x, out y, out z, out w);
         }

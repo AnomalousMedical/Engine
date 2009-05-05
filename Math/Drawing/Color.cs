@@ -15,6 +15,28 @@ namespace Engine
         /// </summary>
         private const String FORMAT = "{0}, {1}, {2}, {3}";
 
+        public static readonly Color White = new Color(1.0f, 1.0f, 1.0f);
+        public static readonly Color Black = new Color(0.0f, 0.0f, 0.0f);
+        public static readonly Color Red = new Color(1.0f, 0.0f, 0.0f);
+        public static readonly Color Green = new Color(0.0f, 1.0f, 0.0f);
+        public static readonly Color Blue = new Color(0.0f, 0.0f, 1.0f);
+
+        public static Color FromARGB(byte a, byte r, byte g, byte b)
+        {
+            return new Color((float)r / 255.0f,
+                            (float)g / 255.0f,
+                            (float)b / 255.0f,
+                            (float)a / 255.0f);
+        }
+
+        public static Color FromARGB(int color)
+        {
+            return FromARGB((byte)((color >> 24) & 0xFF),
+                            (byte)((color >> 16) & 0xFF),
+                            (byte)((color >> 8) & 0xFF),
+                            (byte)(color & 0xFF));
+        }
+
         /// <summary>
         /// Red value.
         /// </summary>
@@ -117,6 +139,26 @@ namespace Engine
                 a = 0f;
             }
             return success;
+        }
+
+        public int toARGB()
+        {
+            int argb = 0;
+            byte comp;
+
+            comp = (byte)(a * 255.0f);
+            argb = comp << 24;
+
+            comp = (byte)(r * 255.0f);
+            argb += comp << 16;
+
+            comp = (byte)(g * 255.0f);
+            argb += comp << 8;
+
+            comp = (byte)(b * 255.0f);
+            argb += comp;
+
+            return argb;
         }
 
         #endregion

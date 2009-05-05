@@ -59,5 +59,15 @@ namespace Engine.Editing
         {
             return subInterface.ManagerBinding as T;
         }
+
+        /// <summary>
+        /// Get the EditInterface for the specified source.
+        /// </summary>
+        /// <param name="source">The class that provided the interface to find.</param>
+        /// <returns>The matching EditInterface.</returns>
+        public EditInterface getEditInterface(T source)
+        {
+            return interfaceDictionary[source];
+        }
     }
 }
