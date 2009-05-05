@@ -61,6 +61,16 @@ namespace Engine.Editing
         }
 
         /// <summary>
+        /// Determine if an EditInterface exists for source.
+        /// </summary>
+        /// <param name="source">The source object.</param>
+        /// <returns>True if an EditInterface exists.</returns>
+        public bool hasEditInterface(T source)
+        {
+            return interfaceDictionary.ContainsKey(source);
+        }
+
+        /// <summary>
         /// Get the EditInterface for the specified source.
         /// </summary>
         /// <param name="source">The class that provided the interface to find.</param>

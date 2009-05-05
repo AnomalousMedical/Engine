@@ -141,9 +141,12 @@ namespace Anomaly
                 }
                 foreach (SelectableSimObject selectable in args.ObjectsRemoved)
                 {
-                    EditInterface currentEdit = selectableEdits.getEditInterface(selectable);
-                    currentEdit.BackColor = Engine.Color.FromARGB(SystemColors.Window.ToArgb());
-                    currentEdit.ForeColor = Engine.Color.FromARGB(SystemColors.WindowText.ToArgb());                    
+                    if (selectableEdits.hasEditInterface(selectable))
+                    {
+                        EditInterface currentEdit = selectableEdits.getEditInterface(selectable);
+                        currentEdit.BackColor = Engine.Color.FromARGB(SystemColors.Window.ToArgb());
+                        currentEdit.ForeColor = Engine.Color.FromARGB(SystemColors.WindowText.ToArgb());
+                    }
                 }
             }
         }
@@ -189,7 +192,11 @@ namespace Anomaly
 
         private void destroySimObjectCallback(EditUICallback callback, EditInterfaceCommand command)
         {
-            destroySimObject(selectableEdits.resolveSourceObject(callback.getSelectedEditInterface()).Definition);
+            foreach (SelectableSimObject selectable in controller.SelectionController.getSelectedObjects())
+            {
+                destroySimObject(selectable.Definition);
+            }
+            controller.SelectionController.clearSelection();
         }
 
         #endregion EditInterface
