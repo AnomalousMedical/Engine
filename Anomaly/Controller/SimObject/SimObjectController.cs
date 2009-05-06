@@ -11,8 +11,13 @@ using System.Drawing;
 
 namespace Anomaly
 {
+    /// <summary>
+    /// This class manages the SimObjects.
+    /// </summary>
     class SimObjectController
     {
+        #region Fields
+
         private AnomalyController controller;
         private Dictionary<String, SelectableSimObject> selectables = new Dictionary<string, SelectableSimObject>();
         private SimObjectManager simObjectManager;
@@ -20,11 +25,26 @@ namespace Anomaly
         private SimObjectPanel panel;
         private SimSubScene subScene;
 
+        #endregion Fields
+
+        #region Constructors
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public SimObjectController()
         {
 
         }
 
+        #endregion Constructors
+
+        #region Functions
+
+        /// <summary>
+        /// Initialize function.
+        /// </summary>
+        /// <param name="controller">The AnomalyController.</param>
         public void initialize(AnomalyController controller)
         {
             this.controller = controller;
@@ -33,6 +53,10 @@ namespace Anomaly
             controller.SelectionController.OnSelectionChanged += new ObjectSelected(SelectionController_OnSelectionChanged);
         }
 
+        /// <summary>
+        /// Set the UI that the SimObjects will appear on.
+        /// </summary>
+        /// <param name="panel">The SimObjectPanel.</param>
         public void setUI(SimObjectPanel panel)
         {
             this.panel = panel;
@@ -41,11 +65,20 @@ namespace Anomaly
             panel.EditInterface.OnEditInterfaceSelectionEdit += new EditInterfaceSelectionEdit(editInterfaceEdit);
         }
 
+        /// <summary>
+        /// Get the current SimObjectManagerDefinition. This should be treated
+        /// as read only.
+        /// </summary>
+        /// <returns>The SimObjectManagerDefinition for this class.</returns>
         public SimObjectManagerDefinition getSimObjectManagerDefinition()
         {
             return simObjectManagerDefiniton;
         }
 
+        /// <summary>
+        /// Create a new SimObject and add it.
+        /// </summary>
+        /// <param name="definition">The definition to create.</param>
         public void createSimObject(SimObjectDefinition definition)
         {
             SimObjectBase instance = definition.register(subScene);
@@ -56,6 +89,10 @@ namespace Anomaly
             createSelectable(definition, instance);
         }
 
+        /// <summary>
+        /// Destroy and remove the SimObject defined by definition.
+        /// </summary>
+        /// <param name="definition">The definition to remove.</param>
         public void destroySimObject(SimObjectDefinition definition)
         {
             simObjectManager.destroySimObject(definition.Name);
@@ -66,6 +103,12 @@ namespace Anomaly
             removeSelectableEditInterface(selectable);
         }
 
+        /// <summary>
+        /// This function will update all definitions with the current state of
+        /// their associated SimObjects. It is intended to be called when
+        /// changing from dynamic mode to static mode in order to capture the
+        /// updates made in dynamic mode.
+        /// </summary>
         public void captureSceneProperties()
         {
             foreach (SelectableSimObject selectable in selectables.Values)
@@ -76,6 +119,13 @@ namespace Anomaly
             }
         }
 
+        /// <summary>
+        /// Set the SimObjectManagerDefintion to be used by this controller.
+        /// This will add the definitions to the UI but will not create the
+        /// instances. That will happen when the scene is loaded on the
+        /// callback.
+        /// </summary>
+        /// <param name="definition">The SimObjectManagerDefinition to use.</param>
         public void setSceneManagerDefintion(SimObjectManagerDefinition definition)
         {
             clearEditInterfaces();
@@ -88,11 +138,21 @@ namespace Anomaly
             }
         }
 
+        /// <summary>
+        /// Determine if this controller has a SimObject named name.
+        /// </summary>
+        /// <param name="name">The name to check for.</param>
+        /// <returns>True if name exists in this controller.</returns>
         public bool hasSimObject(String name)
         {
             return selectables.ContainsKey(name);
         }
 
+        /// <summary>
+        /// Helper function to create a selectable.
+        /// </summary>
+        /// <param name="definition"></param>
+        /// <param name="instance"></param>
         private void createSelectable(SimObjectDefinition definition, SimObjectBase instance)
         {
             SelectableSimObject selectable = new SelectableSimObject(definition, instance);
@@ -100,6 +160,11 @@ namespace Anomaly
             addSelectableEditInterface(selectable);
         }
 
+        /// <summary>
+        /// Callback for when the scene is unloading. Will clear all SimObject instances.
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="scene"></param>
         private void SceneController_OnSceneUnloading(SceneController controller, SimScene scene)
         {
             if (simObjectManager != null)
@@ -108,6 +173,12 @@ namespace Anomaly
             }
         }
 
+        /// <summary>
+        /// Callback for when the scene is loading. Will create all instances
+        /// and add them to their selectables.
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="scene"></param>
         private void SceneController_OnSceneLoading(SceneController controller, SimScene scene)
         {
             this.subScene = scene.getDefaultSubScene();
@@ -126,7 +197,12 @@ namespace Anomaly
             }
         }
 
-        void editInterfaceEdit(EditInterfaceViewEvent evt)
+        /// <summary>
+        /// Callback for when the UI has requested an object be edited. Will
+        /// show the UI dialog for editing and recreate the object.
+        /// </summary>
+        /// <param name="evt"></param>
+        public void editInterfaceEdit(EditInterfaceViewEvent evt)
         {
             SelectableSimObject selectable = selectableEdits.resolveSourceObject(evt.EditInterface);
             if (selectable != null)
@@ -140,7 +216,11 @@ namespace Anomaly
             }
         }
 
-        void editInterfaceChosen(EditInterfaceViewEvent evt)
+        /// <summary>
+        /// Callback for when an item is chosen on the UI. Used to select objects.
+        /// </summary>
+        /// <param name="evt"></param>
+        public void editInterfaceChosen(EditInterfaceViewEvent evt)
         {
             SelectableSimObject selectable = selectableEdits.resolveSourceObject(evt.EditInterface);
             if (selectable != null)
@@ -164,7 +244,12 @@ namespace Anomaly
             }
         }
 
-        void SelectionController_OnSelectionChanged(SelectionChangedArgs args)
+        /// <summary>
+        /// Callback for when the seleciton changes. Will highlight the
+        /// EditInterfaces for all selected objects.
+        /// </summary>
+        /// <param name="args"></param>
+        public void SelectionController_OnSelectionChanged(SelectionChangedArgs args)
         {
             if (editInterface != null)
             {
@@ -186,12 +271,18 @@ namespace Anomaly
             }
         }
 
+        #endregion Functions
+
         #region EditInterface
 
         private EditInterface editInterface;
         private EditInterfaceManager<SelectableSimObject> selectableEdits;
         private EditInterfaceCommand destroyCommand;
 
+        /// <summary>
+        /// Get the EditInterface for this controller.
+        /// </summary>
+        /// <returns></returns>
         public EditInterface getEditInterface()
         {
             if (editInterface == null)
@@ -207,6 +298,10 @@ namespace Anomaly
             return editInterface;
         }
 
+        /// <summary>
+        /// Helper function to add a SelectableSimObject EditInterface.
+        /// </summary>
+        /// <param name="selectable"></param>
         private void addSelectableEditInterface(SelectableSimObject selectable)
         {
             if (editInterface != null)
@@ -217,6 +312,10 @@ namespace Anomaly
             }
         }
 
+        /// <summary>
+        /// Helper function to remove an EditInterface.
+        /// </summary>
+        /// <param name="selectable"></param>
         private void removeSelectableEditInterface(SelectableSimObject selectable)
         {
             if (editInterface != null)
@@ -225,6 +324,9 @@ namespace Anomaly
             }
         }
 
+        /// <summary>
+        /// Helper function to clear all EditInterfaces.
+        /// </summary>
         private void clearEditInterfaces()
         {
             if (editInterface != null)
@@ -233,6 +335,11 @@ namespace Anomaly
             }
         }
 
+        /// <summary>
+        /// Callback for when the destroy command is executed. Will erase a SimObject.
+        /// </summary>
+        /// <param name="callback"></param>
+        /// <param name="command"></param>
         private void destroySimObjectCallback(EditUICallback callback, EditInterfaceCommand command)
         {
             foreach (SelectableSimObject selectable in controller.SelectionController.getSelectedObjects())

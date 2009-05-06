@@ -18,6 +18,9 @@ using System.Windows.Forms;
 
 namespace Anomaly
 {
+    /// <summary>
+    /// This is the primary controller for the Anomaly editor.
+    /// </summary>
     class AnomalyController : IDisposable
     {
 
@@ -80,18 +83,17 @@ namespace Anomaly
             Log.Default.addLogListener(logListener);
 
             //Load the config file and set the resource root up.
-            AnomalyConfig.ConfigFile.loadConfigFile();
-            Resource.ResourceRoot = AnomalyConfig.ConfigFile.createOrRetrieveConfigSection("Resources").getValue("Root", ".");
+            Resource.ResourceRoot = AnomalyConfig.ResourceSection.ResourceRoot;
 
             //Initialize the plugins
             hiddenEmbedWindow = new DrawingWindow();
             pluginManager = new PluginManager();
             pluginManager.OnConfigureDefaultWindow = createWindow;
             DynamicDLLPluginLoader pluginLoader = new DynamicDLLPluginLoader();
-            ConfigSection plugins = AnomalyConfig.ConfigFile.createOrRetrieveConfigSection("Plugins");
-            for (int i = 0; plugins.hasValue("Plugin" + i); ++i)
+            AnomalyConfig.PluginSection.resetPluginIterator();
+            while(AnomalyConfig.PluginSection.hasNext())
             {
-                pluginLoader.addPath(plugins.getValue("Plugin" + i, ""));
+                pluginLoader.addPath(AnomalyConfig.PluginSection.nextPlugin());
             }
             pluginLoader.loadPlugins(pluginManager);
             pluginManager.initializePlugins();
@@ -125,14 +127,30 @@ namespace Anomaly
             splitViewController.createFourWaySplit();
         }
 
-        void sceneController_OnSceneUnloading(SceneController controller, SimScene scene)
+        /// <summary>
+        /// Dispose of this controller and cleanup.
+        /// </summary>
+        public void Dispose()
         {
-            splitViewController.destroyCameras(mainTimer);
-        }
+            if (eventManager != null)
+            {
+                eventManager.Dispose();
+            }
+            if (inputHandler != null)
+            {
+                pluginManager.PlatformPlugin.destroyInputHandler(inputHandler);
+            }
+            if (pluginManager != null)
+            {
+                pluginManager.Dispose();
+            }
+            if (hiddenEmbedWindow != null)
+            {
+                hiddenEmbedWindow.Dispose();
+            }
 
-        void sceneController_OnSceneLoaded(SceneController controller, SimScene scene)
-        {
-            splitViewController.createCameras(mainTimer, scene);
+            AnomalyConfig.save();
+            logListener.closeLogFile();
         }
 
         /// <summary>
@@ -154,6 +172,10 @@ namespace Anomaly
             mainTimer.stopLoop();
         }
 
+        /// <summary>
+        /// Show the primary ObjectEditorForm for the given EditInterface.
+        /// </summary>
+        /// <param name="editInterface">The EditInterface to display on the form.</param>
         public void showObjectEditor(EditInterface editInterface)
         {
             objectEditor.EditorPanel.setEditInterface(editInterface);
@@ -161,29 +183,9 @@ namespace Anomaly
             objectEditor.EditorPanel.clearEditInterface();
         }
 
-        public void Dispose()
-        {
-            if (eventManager != null)
-            {
-                eventManager.Dispose();
-            }
-            if (inputHandler != null)
-            {
-                pluginManager.PlatformPlugin.destroyInputHandler(inputHandler);
-            }
-            if (pluginManager != null)
-            {
-                pluginManager.Dispose();
-            }
-            if (hiddenEmbedWindow != null)
-            {
-                hiddenEmbedWindow.Dispose();
-            }
-
-            AnomalyConfig.ConfigFile.writeConfigFile();
-            logListener.closeLogFile();
-        }
-
+        /// <summary>
+        /// Create a new empty scene.
+        /// </summary>
         public void createNewScene()
         {
             ScenePackage emptyScene = new ScenePackage();
@@ -193,6 +195,10 @@ namespace Anomaly
             changeScene(emptyScene);
         }
 
+        /// <summary>
+        /// Load an exisiting scene.
+        /// </summary>
+        /// <param name="filename">The filename to load.</param>
         public void loadScene(String filename)
         {
             XmlTextReader textReader = new XmlTextReader(filename);
@@ -207,15 +213,10 @@ namespace Anomaly
             }
         }
 
-        private void changeScene(ScenePackage scenePackage)
-        {
-            sceneController.destroyScene();
-            sceneController.setSceneDefinition(scenePackage.SceneDefinition);
-            resourceController.setResources(scenePackage.ResourceManager);
-            simObjectController.setSceneManagerDefintion(scenePackage.SimObjectManagerDefinition);
-            sceneController.createScene();
-        }
-
+        /// <summary>
+        /// Save the scene to the given filename.
+        /// </summary>
+        /// <param name="filename">The filename to save to.</param>
         public void saveScene(String filename)
         {
             ScenePackage scenePackage = new ScenePackage();
@@ -227,7 +228,11 @@ namespace Anomaly
             xmlSaver.saveObject(scenePackage, fileWriter);
             fileWriter.Close();
         }
-
+        
+        /// <summary>
+        /// Put the editor into static mode. This allows full editing privlidges
+        /// of all objects.
+        /// </summary>
         public void setStaticMode()
         {
             simObjectController.captureSceneProperties();
@@ -236,6 +241,11 @@ namespace Anomaly
             sceneController.createScene();
         }
 
+        /// <summary>
+        /// Put the editor into dynamic mode. This allows the objects to move
+        /// and behave as they would in the scene, however, it limits editing
+        /// capability.
+        /// </summary>
         public void setDynamicMode()
         {
             sceneController.setMode(true);
@@ -243,15 +253,56 @@ namespace Anomaly
             sceneController.createScene();
         }
 
+        /// <summary>
+        /// Helper function to create the default window. This is the callback
+        /// to the PluginManager.
+        /// </summary>
+        /// <param name="defaultWindow"></param>
         private void createWindow(out DefaultWindowInfo defaultWindow)
         {
             defaultWindow = new DefaultWindowInfo(hiddenEmbedWindow);
+        }
+
+        /// <summary>
+        /// Callback for when the scene is unloading.
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="scene"></param>
+        private void sceneController_OnSceneUnloading(SceneController controller, SimScene scene)
+        {
+            splitViewController.destroyCameras(mainTimer);
+        }
+
+        /// <summary>
+        /// Callback for when the scene is loaded.
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="scene"></param>
+        private void sceneController_OnSceneLoaded(SceneController controller, SimScene scene)
+        {
+            splitViewController.createCameras(mainTimer, scene);
+        }
+
+        /// <summary>
+        /// Helper funciton to change to a new scene from a ScenePackage.
+        /// </summary>
+        /// <param name="scenePackage">The ScenePackage to load.</param>
+        private void changeScene(ScenePackage scenePackage)
+        {
+            sceneController.destroyScene();
+            sceneController.setSceneDefinition(scenePackage.SceneDefinition);
+            resourceController.setResources(scenePackage.ResourceManager);
+            simObjectController.setSceneManagerDefintion(scenePackage.SimObjectManagerDefinition);
+            sceneController.createScene();
         }
 
         #endregion Functions
 
         #region Properties
 
+        /// <summary>
+        /// The PluginManager with all plugins currently loaded.
+        /// </summary>
         public PluginManager PluginManager
         {
             get
@@ -260,6 +311,9 @@ namespace Anomaly
             }
         }
 
+        /// <summary>
+        /// The EventManager for the editor.
+        /// </summary>
         public EventManager EventManager
         {
             get
@@ -268,6 +322,9 @@ namespace Anomaly
             }
         }
 
+        /// <summary>
+        /// The main UpdateTimer driving the main thread.
+        /// </summary>
         public UpdateTimer MainTimer
         {
             get
@@ -276,6 +333,9 @@ namespace Anomaly
             }
         }
 
+        /// <summary>
+        /// The MoveController to move objects with.
+        /// </summary>
         public MoveController MoveController
         {
             get
@@ -284,6 +344,9 @@ namespace Anomaly
             }
         }
 
+        /// <summary>
+        /// The TemplateController that manages the currently created templates.
+        /// </summary>
         public TemplateController TemplateController
         {
             get
@@ -292,6 +355,9 @@ namespace Anomaly
             }
         }
 
+        /// <summary>
+        /// The SceneController that handles aspects of the scene.
+        /// </summary>
         public SceneController SceneController
         {
             get
@@ -300,6 +366,9 @@ namespace Anomaly
             }
         }
 
+        /// <summary>
+        /// The ResourceController that manages the resources.
+        /// </summary>
         public ResourceController ResourceController
         {
             get
@@ -308,6 +377,9 @@ namespace Anomaly
             }
         }
 
+        /// <summary>
+        /// The SelectionController that manages the current selection.
+        /// </summary>
         public SelectionController SelectionController
         {
             get
@@ -316,6 +388,9 @@ namespace Anomaly
             }
         }
 
+        /// <summary>
+        /// The SimObjectController that manages the SimObjects.
+        /// </summary>
         public SimObjectController SimObjectController
         {
             get
@@ -324,6 +399,9 @@ namespace Anomaly
             }
         }
 
+        /// <summary>
+        /// The RotateController that handles rotating objects.
+        /// </summary>
         public RotateController RotateController
         {
             get

@@ -28,33 +28,17 @@ namespace Anomaly
         {
             this.splitControl = splitControl;
 
-            ConfigSection cameras = AnomalyConfig.ConfigFile.createOrRetrieveConfigSection(AnomalyConfig.CAMERA_HEADER);
-            upperLeft.initialize("UpperLeft", eventManager, renderer,
-                cameras.getValue(AnomalyConfig.FRONT_CAMERA_POSITION_ENTRY,
-                    AnomalyConfig.FRONT_CAMERA_POSITION_DEFAULT),
-                cameras.getValue(AnomalyConfig.FRONT_CAMERA_LOOKAT_ENTRY,
-                    AnomalyConfig.FRONT_CAMERA_LOOKAT_DEFAULT));
+            CameraSection cameras = AnomalyConfig.CameraSection;
+            upperLeft.initialize("UpperLeft", eventManager, renderer, cameras.FrontCameraPosition, cameras.FrontCameraLookAt);
             upperLeft.Dock = DockStyle.Fill;
 
-            upperRight.initialize("UpperRight", eventManager, renderer,
-                cameras.getValue(AnomalyConfig.BACK_CAMERA_POSITION_ENTRY,
-                    AnomalyConfig.BACK_CAMERA_POSITION_DEFAULT),
-                cameras.getValue(AnomalyConfig.BACK_CAMERA_LOOKAT_ENTRY,
-                    AnomalyConfig.BACK_CAMERA_LOOKAT_DEFAULT));
+            upperRight.initialize("UpperRight", eventManager, renderer, cameras.BackCameraPosition, cameras.BackCameraLookAt);
             upperRight.Dock = DockStyle.Fill;
 
-            lowerLeft.initialize("BottomLeft", eventManager, renderer,
-                cameras.getValue(AnomalyConfig.RIGHT_CAMERA_POSITION_ENTRY,
-                    AnomalyConfig.RIGHT_CAMERA_POSITION_DEFAULT),
-                cameras.getValue(AnomalyConfig.RIGHT_CAMERA_LOOKAT_ENTRY,
-                    AnomalyConfig.RIGHT_CAMERA_LOOKAT_DEFAULT));
+            lowerLeft.initialize("BottomLeft", eventManager, renderer, cameras.RightCameraPosition, cameras.RightCameraLookAt);
             lowerLeft.Dock = DockStyle.Fill;
 
-            lowerRight.initialize("BottomRight", eventManager, renderer,
-                cameras.getValue(AnomalyConfig.LEFT_CAMERA_POSITION_ENTRY,
-                    AnomalyConfig.LEFT_CAMERA_POSITION_DEFAULT),
-                cameras.getValue(AnomalyConfig.LEFT_CAMERA_LOOKAT_ENTRY,
-                    AnomalyConfig.LEFT_CAMERA_LOOKAT_DEFAULT));
+            lowerRight.initialize("BottomRight", eventManager, renderer, cameras.LeftCameraPosition, cameras.LeftCameraLookAt);
             lowerRight.Dock = DockStyle.Fill;
         }
 

@@ -22,36 +22,68 @@ namespace Anomaly
 
         #endregion Fields
 
+        #region Constructors
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="definition">The definition.</param>
+        /// <param name="simObject">The instance.</param>
         public SelectableSimObject(SimObjectDefinition definition, SimObjectBase simObject)
         {
             this.simObject = simObject;
             this.definition = definition;
         }
 
-        public void editTranslation(ref Vector3 localTrans)
+        #endregion Constructors
+
+        #region Functions
+
+        /// <summary>
+        /// Edit the translation and rotation.
+        /// </summary>
+        /// <param name="translation">The new translation.</param>
+        /// <param name="rotation">The new rotation.</param>
+        public void editPosition(ref Vector3 translation, ref Quaternion rotation)
         {
-            simObject.updateTranslation(ref localTrans, null);
-            definition.Translation = localTrans;
+            simObject.updatePosition(ref translation, ref rotation, null);
+            definition.Translation = translation;
+            definition.Rotation = rotation;
         }
 
-        public void editPosition(ref Vector3 localTrans, ref Quaternion localRot)
+        /// <summary>
+        /// Edit the translation.
+        /// </summary>
+        /// <param name="translation">The new translation.</param>
+        public void editTranslation(ref Vector3 translation)
         {
-            simObject.updatePosition(ref localTrans, ref localRot, null);
-            definition.Translation = localTrans;
-            definition.Rotation = localRot;
+            simObject.updateTranslation(ref translation, null);
+            definition.Translation = translation;
         }
 
-        public void editRotation(ref Quaternion newRot)
+        /// <summary>
+        /// Edit the rotation.
+        /// </summary>
+        /// <param name="rotation">The new rotation to set.</param>
+        public void editRotation(ref Quaternion rotation)
         {
-            simObject.updateRotation(ref newRot, null);
-            definition.Rotation = newRot;
+            simObject.updateRotation(ref rotation, null);
+            definition.Rotation = rotation;
         }
 
+        /// <summary>
+        /// Get the rotation of the object.
+        /// </summary>
+        /// <returns>The rotation.</returns>
         public Quaternion getRotation()
         {
             return simObject.Rotation;
         }
 
+        /// <summary>
+        /// Get the translation of the object.
+        /// </summary>
+        /// <returns>The translation.</returns>
         public Vector3 getTranslation()
         {
             return simObject.Translation;
@@ -65,6 +97,13 @@ namespace Anomaly
             this.definition = Instance.saveToDefinition(Instance.Name);
         }
 
+        #endregion Functions
+
+        #region Properties
+
+        /// <summary>
+        /// The definition.
+        /// </summary>
         public SimObjectDefinition Definition
         {
             get
@@ -73,6 +112,9 @@ namespace Anomaly
             }
         }
 
+        /// <summary>
+        /// The instance.
+        /// </summary>
         public SimObjectBase Instance
         {
             get
@@ -85,10 +127,16 @@ namespace Anomaly
             }
         }
 
+        #endregion Properties
+
         #region EditInterface
 
         private EditInterface editInterface;
 
+        /// <summary>
+        /// Get the EditInterface creating it if required.
+        /// </summary>
+        /// <returns>The EditInterface.</returns>
         public EditInterface getEditInterface()
         {
             if (editInterface == null)
