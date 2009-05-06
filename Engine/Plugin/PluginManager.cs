@@ -53,6 +53,7 @@ namespace Engine
         private RendererPlugin rendererPlugin = null;
         private List<Assembly> pluginAssemblies = new List<Assembly>();
         private ResourceManager primaryResourceManager = new ResourceManager();
+        private ResourceManager emptyResourceManager = new ResourceManager();
 
         #endregion Fields
 
@@ -228,6 +229,7 @@ namespace Engine
         public void addSubsystemResources(SubsystemResources subsystem)
         {
             primaryResourceManager.addSubsystemResource(subsystem);
+            emptyResourceManager.addSubsystemResource(new SubsystemResources(subsystem));
         }
 
         /// <summary>
@@ -323,6 +325,16 @@ namespace Engine
         public ResourceManager createSecondaryResourceManager()
         {
             return new ResourceManager(primaryResourceManager);
+        }
+
+        /// <summary>
+        /// Create a ResourceManager that contains the SubsystemResources for
+        /// each plugin, but not any groups or locations.
+        /// </summary>
+        /// <returns>A new empty ResourceManager.</returns>
+        public ResourceManager createEmptyResourceManager()
+        {
+            return new ResourceManager(emptyResourceManager);
         }
 
         /// <summary>

@@ -187,7 +187,7 @@ namespace Anomaly
         public void createNewScene()
         {
             ScenePackage emptyScene = new ScenePackage();
-            emptyScene.ResourceManager = pluginManager.createSecondaryResourceManager();
+            emptyScene.ResourceManager = pluginManager.createEmptyResourceManager();
             emptyScene.SceneDefinition = new SimSceneDefinition();
             emptyScene.SimObjectManagerDefinition = new SimObjectManagerDefinition();
             changeScene(emptyScene);
