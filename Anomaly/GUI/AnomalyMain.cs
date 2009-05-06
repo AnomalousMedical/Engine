@@ -156,5 +156,10 @@ namespace Anomaly
         {
             controller.createNewScene();
         }
+
+        private void configureToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.SceneController.editScene();
+        }
     }
 }
