@@ -97,6 +97,7 @@ namespace Engine.ObjectManagement
         public SimSubSceneDefinition createDefinition(SimSceneDefinition scene)
         {
             SimSubSceneDefinition definition = new SimSubSceneDefinition(name);
+            definition.setScene(scene);
             foreach (SimElementManager manager in simElements.Values)
             {
                 definition.addBinding(scene.getSimElementManagerDefinition(manager.getName()));

@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Engine.Platform;
 using Engine;
+using Editor;
 
 namespace Anomaly
 {
@@ -15,6 +16,7 @@ namespace Anomaly
     {
         private List<OSWindowListener> listeners = new List<OSWindowListener>();
         private AnomalyController controller;
+        FileTracker fileTracker;
 
         public AnomalyMain()
         {
@@ -23,6 +25,7 @@ namespace Anomaly
 
         public void initialize(AnomalyController controller)
         {
+            fileTracker = new FileTracker("*.sim.xml|*.sim.xml");
             this.controller = controller;
             this.movePanel.initialize(controller.MoveController);
             this.templatePanel1.initialize(controller.TemplateController);
@@ -120,6 +123,38 @@ namespace Anomaly
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            String filename = fileTracker.saveFile(this);
+            if (fileTracker.lastDialogAccepted())
+            {
+                controller.saveScene(filename);
+            }
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            String filename = fileTracker.saveFileAs(this);
+            if (fileTracker.lastDialogAccepted())
+            {
+                controller.saveScene(filename);
+            }
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            String filename = fileTracker.openFile(this);
+            if (fileTracker.lastDialogAccepted())
+            {
+                controller.loadScene(filename);
+            }
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.createNewScene();
         }
     }
 }

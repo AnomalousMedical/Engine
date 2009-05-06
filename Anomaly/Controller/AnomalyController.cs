@@ -14,6 +14,7 @@ using System.Xml;
 using Engine.Saving.XMLSaver;
 using Engine.Saving;
 using Engine.Editing;
+using System.Windows.Forms;
 
 namespace Anomaly
 {
@@ -29,6 +30,7 @@ namespace Anomaly
         private AnomalyMain mainForm;
         private DrawingWindow hiddenEmbedWindow;
         private ObjectEditorForm objectEditor = new ObjectEditorForm();
+        private SplitViewController splitViewController = new SplitViewController();
 
         //Platform
         private UpdateTimer mainTimer;
@@ -48,7 +50,8 @@ namespace Anomaly
         private SelectionController selectionController = new SelectionController();
         private RotateController rotateController = new RotateController();
 
-        private SplitViewController splitViewController = new SplitViewController();
+        //Serialization
+        private XmlSaver xmlSaver = new XmlSaver();
 
         #endregion Fields
 
@@ -108,8 +111,8 @@ namespace Anomaly
             //Initialize controllers
             templates = new TemplateController(AnomalyConfig.DocRoot, this);
             sceneController.initialize(this);
-            sceneController.OnSceneLoaded += new SceneLoaded(sceneController_OnSceneLoaded);
-            sceneController.OnSceneUnloading += new SceneUnloading(sceneController_OnSceneUnloading);
+            sceneController.OnSceneLoaded += sceneController_OnSceneLoaded;
+            sceneController.OnSceneUnloading += sceneController_OnSceneUnloading;
             simObjectController.initialize(this);
             resourceController.initialize(this);
             toolInterop.setMoveController(moveController);
@@ -179,6 +182,50 @@ namespace Anomaly
 
             AnomalyConfig.ConfigFile.writeConfigFile();
             logListener.closeLogFile();
+        }
+
+        public void createNewScene()
+        {
+            ScenePackage emptyScene = new ScenePackage();
+            emptyScene.ResourceManager = pluginManager.createSecondaryResourceManager();
+            emptyScene.SceneDefinition = new SimSceneDefinition();
+            emptyScene.SimObjectManagerDefinition = new SimObjectManagerDefinition();
+            changeScene(emptyScene);
+        }
+
+        public void loadScene(String filename)
+        {
+            XmlTextReader textReader = new XmlTextReader(filename);
+            ScenePackage scenePackage = xmlSaver.restoreObject(textReader) as ScenePackage;
+            if (scenePackage != null)
+            {
+                changeScene(scenePackage);
+            }
+            else
+            {
+                MessageBox.Show(mainForm, String.Format("Could not load scene from {0}.", filename), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void changeScene(ScenePackage scenePackage)
+        {
+            sceneController.destroyScene();
+            sceneController.setSceneDefinition(scenePackage.SceneDefinition);
+            resourceController.setResources(scenePackage.ResourceManager);
+            simObjectController.setSceneManagerDefintion(scenePackage.SimObjectManagerDefinition);
+            sceneController.createDynamicScene();
+        }
+
+        public void saveScene(String filename)
+        {
+            ScenePackage scenePackage = new ScenePackage();
+            scenePackage.SceneDefinition = sceneController.getSceneDefinition();
+            scenePackage.ResourceManager = resourceController.getResourceManager();
+            scenePackage.SimObjectManagerDefinition = simObjectController.getSimObjectManagerDefinition();
+            XmlTextWriter fileWriter = new XmlTextWriter(filename, Encoding.Default);
+            fileWriter.Formatting = Formatting.Indented;
+            xmlSaver.saveObject(scenePackage, fileWriter);
+            fileWriter.Close();
         }
 
         private void createWindow(out DefaultWindowInfo defaultWindow)

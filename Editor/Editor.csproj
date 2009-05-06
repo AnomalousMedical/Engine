@@ -78,6 +78,7 @@
     </Compile>
     <Compile Include="CellEditors\SingleEnum\SingleEnumEditorCell.cs" />
     <Compile Include="CellEditors\SingleEnum\SingleEnumEditorColumn.cs" />
+    <Compile Include="CommonGUI\FileTracker.cs" />
     <Compile Include="CommonGUI\InputBox.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -45,9 +45,10 @@ namespace Engine.Resources
         /// This constructor will duplicate the contents of toDuplicate.
         /// </summary>
         /// <param name="toDuplicate">Duplicate the contents of this ResourceGroup.</param>
-        internal ResourceGroup(ResourceGroup toDuplicate)
+        internal ResourceGroup(ResourceGroup toDuplicate, SubsystemResources parent)
         {
             this.name = toDuplicate.name;
+            this.parent = parent;
             foreach (Resource resource in toDuplicate.resources.Values)
             {
                 this.addResource(new Resource(resource.getLocName(), resource.Type, resource.Recursive));

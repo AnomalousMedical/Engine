@@ -28,8 +28,8 @@ namespace Anomaly
         public void initialize(AnomalyController controller)
         {
             this.controller = controller;
-            controller.SceneController.OnSceneLoaded += new SceneLoaded(SceneController_OnSceneLoaded);
-            controller.SceneController.OnSceneUnloading += new SceneUnloading(SceneController_OnSceneUnloading);
+            controller.SceneController.OnSceneLoading += SceneController_OnSceneLoading;
+            controller.SceneController.OnSceneUnloading += SceneController_OnSceneUnloading;
             controller.SelectionController.OnSelectionChanged += new ObjectSelected(SelectionController_OnSelectionChanged);
         }
 
@@ -41,12 +41,19 @@ namespace Anomaly
             panel.EditInterface.OnEditInterfaceSelectionEdit += new EditInterfaceSelectionEdit(editInterfaceEdit);
         }
 
+        public SimObjectManagerDefinition getSimObjectManagerDefinition()
+        {
+            return simObjectManagerDefiniton;
+        }
+
         public void createSimObject(SimObjectDefinition definition)
         {
             SimObjectBase instance = definition.register(scene.getDefaultSubScene());
             scene.buildScene();
 
-            addSimObject(definition, instance);
+            simObjectManager.addSimObject(instance);
+            simObjectManagerDefiniton.addSimObject(definition);
+            createSelectable(definition, instance);
         }
 
         public void destroySimObject(SimObjectDefinition definition)
@@ -59,23 +66,19 @@ namespace Anomaly
             removeSelectableEditInterface(selectable);
         }
 
-        public void createEmptyManager()
+        public void setSceneManagerDefintion(SimObjectManagerDefinition definition)
         {
-            simObjectManagerDefiniton = new SimObjectManagerDefinition();
-            simObjectManager = simObjectManagerDefiniton.createSimObjectManager(scene.getDefaultSubScene());
-        }
-
-        public void createFromDefinition(SimObjectManagerDefinition definition)
-        {
+            clearEditInterfaces();
+            selectables.Clear();
             simObjectManagerDefiniton = definition;
-            simObjectManager = simObjectManagerDefiniton.createSimObjectManager(scene.getDefaultSubScene());
+            foreach (SimObjectDefinition simObject in simObjectManagerDefiniton.getDefinitionIter())
+            {
+                createSelectable(simObject, null);
+            }
         }
 
-        private void addSimObject(SimObjectDefinition definition, SimObjectBase instance)
+        private void createSelectable(SimObjectDefinition definition, SimObjectBase instance)
         {
-            simObjectManager.addSimObject(instance);
-            simObjectManagerDefiniton.addSimObject(definition);
-
             SelectableSimObject selectable = new SelectableSimObject(definition, instance);
             selectables.Add(definition.Name, selectable);
             addSelectableEditInterface(selectable);
@@ -83,12 +86,28 @@ namespace Anomaly
 
         private void SceneController_OnSceneUnloading(SceneController controller, SimScene scene)
         {
-            simObjectManager.Dispose();
+            if (simObjectManager != null)
+            {
+                simObjectManager.Dispose();
+            }
         }
 
-        private void SceneController_OnSceneLoaded(SceneController controller, SimScene scene)
+        private void SceneController_OnSceneLoading(SceneController controller, SimScene scene)
         {
             this.scene = scene;
+            simObjectManager = simObjectManagerDefiniton.createSimObjectManager(scene.getDefaultSubScene());
+            foreach (SelectableSimObject selectable in selectables.Values)
+            {
+                String name = selectable.Definition.Name;
+                if (simObjectManager.hasSimObject(name))
+                {
+                    selectable.Instance = simObjectManager.getSimObject(name);
+                }
+                else
+                {
+                    selectable.Instance = null;
+                }
+            }
         }
 
         void editInterfaceEdit(EditInterfaceViewEvent evt)
@@ -187,6 +206,14 @@ namespace Anomaly
             if (editInterface != null)
             {
                 selectableEdits.removeSubInterface(selectable);
+            }
+        }
+
+        private void clearEditInterfaces()
+        {
+            if (editInterface != null)
+            {
+                selectableEdits.clearSubInterfaces();
             }
         }
 

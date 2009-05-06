@@ -41,7 +41,7 @@ namespace Engine.Resources
             this.name = toDuplicate.name;
             foreach (ResourceGroup group in toDuplicate.resourceGroups.Values)
             {
-                this.addResourceGroup(new ResourceGroup(group));
+                this.addResourceGroup(new ResourceGroup(group, this));
             }
         }
 

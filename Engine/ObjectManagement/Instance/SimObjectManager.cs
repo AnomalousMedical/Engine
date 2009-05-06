@@ -53,6 +53,26 @@ namespace Engine.ObjectManagement
         }
 
         /// <summary>
+        /// Determine if a SimObject exists.
+        /// </summary>
+        /// <param name="name">The name of the SimObject.</param>
+        /// <returns>True if the SimObject is part of this manager.</returns>
+        public bool hasSimObject(String name)
+        {
+            return simObjects.ContainsKey(name);
+        }
+
+        /// <summary>
+        /// Get the SimObject specified by name.
+        /// </summary>
+        /// <param name="name">The name of the SimObject.</param>
+        /// <returns>The matching SimObject.</returns>
+        public SimObjectBase getSimObject(String name)
+        {
+            return simObjects[name];
+        }
+
+        /// <summary>
         /// Destroy the SimObject named name. This will dispose the SimObject
         /// and it will no longer be part of the scene or usable.
         /// </summary>

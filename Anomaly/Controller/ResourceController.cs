@@ -38,24 +38,16 @@ namespace Anomaly
             controller.PluginManager.PrimaryResourceManager.forceResourceRefresh();
         }
 
-        public void setupResources()
+        public ResourceManager getResourceManager()
         {
-            if (!File.Exists(AnomalyConfig.DocRoot + "/resources.xml"))
-            {
-                secondaryResources = controller.PluginManager.createSecondaryResourceManager();
+            return secondaryResources;
+        }
 
-                editResources();
-            }
-            else
-            {
-                XmlTextReader resourceReader = new XmlTextReader(AnomalyConfig.DocRoot + "/resources.xml");
-                XmlSaver xmlSaver = new XmlSaver();
-                secondaryResources = xmlSaver.restoreObject(resourceReader) as ResourceManager;
-                resourceReader.Close();
-
-                controller.PluginManager.PrimaryResourceManager.changeResourcesToMatch(secondaryResources);
-                controller.PluginManager.PrimaryResourceManager.forceResourceRefresh();
-            }
+        public void setResources(ResourceManager resourceManager)
+        {
+            secondaryResources = resourceManager;
+            controller.PluginManager.PrimaryResourceManager.changeResourcesToMatch(secondaryResources);
+            controller.PluginManager.PrimaryResourceManager.forceResourceRefresh();
         }
     }
 }

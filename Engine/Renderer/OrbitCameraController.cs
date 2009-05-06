@@ -94,7 +94,7 @@ namespace Engine
                         lookAt += left * (mouseCoords.x / (events.Mouse.getMouseAreaWidth() * SCROLL_SCALE) * orbitDistance);
                         Vector3 relUp = left.cross(ref normalDirection);
                         lookAt += relUp * (mouseCoords.y / (events.Mouse.getMouseAreaHeight() * SCROLL_SCALE) * orbitDistance);
-                        camera.Translation = lookAt + normalDirection * orbitDistance;
+                        updateTranslation(lookAt + normalDirection * orbitDistance);
                     }
                     else if (events[CameraEvents.ZoomCamera].Down)
                     {
@@ -104,8 +104,7 @@ namespace Engine
                             orbitDistance = 0.0f;
                         }
                         //camera.setOrthoWindowHeight(orbitDistance);
-                        Vector3 newTrans = normalDirection * orbitDistance + lookAt;
-                        camera.Translation = newTrans;
+                        updateTranslation(normalDirection * orbitDistance + lookAt);
                     }
                     else if (events[CameraEvents.RotateCamera].Down)
                     {
@@ -124,8 +123,7 @@ namespace Engine
                         Quaternion pitchRot = new Quaternion(Vector3.Left, pitch);
 
                         normalDirection = Quaternion.quatRotate(yawRot * pitchRot, Vector3.Backward);
-                        Vector3 newTrans = normalDirection * orbitDistance + lookAt;
-                        camera.Translation = newTrans;
+                        updateTranslation(normalDirection * orbitDistance + lookAt);
                         camera.LookAt = lookAt;
                         left = normalDirection.cross(Vector3.Up);
                     }
@@ -147,8 +145,7 @@ namespace Engine
                             }
                         }
                         //camera.setOrthoWindowHeight(orbitDistance);
-                        Vector3 newTrans = normalDirection * orbitDistance + lookAt;
-                        camera.Translation = newTrans;
+                        updateTranslation(normalDirection * orbitDistance + lookAt);
                     }
                 }
             }
@@ -183,8 +180,7 @@ namespace Engine
             this.lookAt = lookAt;
             computeStartingValues(position - lookAt);
             //camera.setOrthoWindowHeight(orbitDistance);
-            Vector3 newTrans = normalDirection * orbitDistance + lookAt;
-            camera.Translation = newTrans;
+            updateTranslation(normalDirection * orbitDistance + lookAt);
             camera.LookAt = lookAt;
         }
 
@@ -225,6 +221,12 @@ namespace Engine
             Quaternion pitchRot = new Quaternion(Vector3.Left, pitch);
             normalDirection = Quaternion.quatRotate(yawRot * pitchRot, Vector3.Backward);
             left = normalDirection.cross(Vector3.Up);
+        }
+
+        private void updateTranslation(Vector3 translation)
+        {
+            camera.Translation = translation;
+            this.translation = translation;
         }
 
         public Vector3 Translation

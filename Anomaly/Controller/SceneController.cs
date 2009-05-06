@@ -14,47 +14,39 @@ using Editor;
 namespace Anomaly
 {
     /// <summary>
-    /// This delegate is called when a new scene is loaded.
+    /// This delegate is called when the SceneController fires an event.
     /// </summary>
-    /// <param name="controller"></param>
-    /// <param name="scene"></param>
-    delegate void SceneLoaded(SceneController controller, SimScene scene);
-
-    /// <summary>
-    /// This delegate is called when a scene is about to unload.
-    /// </summary>
-    /// <param name="controller"></param>
-    /// <param name="scene"></param>
-    delegate void SceneUnloading(SceneController controller, SimScene scene);
-
-    /// <summary>
-    /// This delegate is called when a scene has unloaded and is destroyed.
-    /// </summary>
-    /// <param name="controller"></param>
-    /// <param name="scene"></param>
-    delegate void SceneUnloaded(SceneController controller);
+    /// <param name="controller">The controller that fired the event.</param>
+    /// <param name="scene">The scene for the event.</param>
+    delegate void SceneControllerEvent(SceneController controller, SimScene scene);
 
     class SceneController
     {
         private SimScene scene;
         private AnomalyController controller;
+        private SimSceneDefinition sceneDefinition;
 
         #region Events
 
         /// <summary>
+        /// This event is fired before a scene loads.
+        /// </summary>
+        public event SceneControllerEvent OnSceneLoading;
+
+        /// <summary>
         /// This event is fired when a scene is loaded.
         /// </summary>
-        public event SceneLoaded OnSceneLoaded;
+        public event SceneControllerEvent OnSceneLoaded;
 
         /// <summary>
         /// This event is fired when a scene starts unloading.
         /// </summary>
-        public event SceneUnloading OnSceneUnloading;
+        public event SceneControllerEvent OnSceneUnloading;
 
         /// <summary>
         /// This event is fired when a scene has finished unloading.
         /// </summary>
-        public event SceneUnloaded OnSceneUnloaded;
+        public event SceneControllerEvent OnSceneUnloaded;
 
         #endregion Events
 
@@ -68,35 +60,24 @@ namespace Anomaly
             this.controller = controller;
         }
 
-        public void createNewScene()
+        public SimSceneDefinition getSceneDefinition()
         {
-            setupScene();
+            return sceneDefinition;
         }
 
-        private void setupScene()
+        public void setSceneDefinition(SimSceneDefinition sceneDefinition)
         {
-            //Create a scene definition
-            SimSceneDefinition sceneDef;
-            if (!File.Exists(AnomalyConfig.DocRoot + "/scene.xml"))
-            {
-                sceneDef = new SimSceneDefinition();
-                controller.showObjectEditor(sceneDef.getEditInterface());
+            this.sceneDefinition = sceneDefinition;
+        }
 
-                XmlTextWriter textWriter = new XmlTextWriter(AnomalyConfig.DocRoot + "/scene.xml", Encoding.Unicode);
-                textWriter.Formatting = Formatting.Indented;
-                XmlSaver xmlSaver = new XmlSaver();
-                xmlSaver.saveObject(sceneDef, textWriter);
-                textWriter.Close();
-            }
-            else
+        public void createDynamicScene()
+        {
+            scene = sceneDefinition.createScene();
+            if (OnSceneLoading != null)
             {
-                XmlTextReader textReader = new XmlTextReader(AnomalyConfig.DocRoot + "/scene.xml");
-                XmlSaver xmlSaver = new XmlSaver();
-                sceneDef = xmlSaver.restoreObject(textReader) as SimSceneDefinition;
-                textReader.Close();
+                OnSceneLoading.Invoke(this, scene);
             }
-
-            scene = sceneDef.createScene();
+            scene.buildScene();
             if (OnSceneLoaded != null)
             {
                 OnSceneLoaded.Invoke(this, scene);
@@ -105,15 +86,18 @@ namespace Anomaly
 
         public void destroyScene()
         {
-            if (OnSceneUnloading != null)
+            if (scene != null)
             {
-                OnSceneUnloading.Invoke(this, scene);
-            }
-            scene.Dispose();
-            scene = null;
-            if (OnSceneUnloaded != null)
-            {
-                OnSceneUnloaded.Invoke(this);
+                if (OnSceneUnloading != null)
+                {
+                    OnSceneUnloading.Invoke(this, scene);
+                }
+                scene.Dispose();
+                scene = null;
+                if (OnSceneUnloaded != null)
+                {
+                    OnSceneUnloaded.Invoke(this, null);
+                }
             }
         }
     }

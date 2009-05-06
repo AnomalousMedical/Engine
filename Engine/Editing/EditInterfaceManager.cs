@@ -51,6 +51,18 @@ namespace Engine.Editing
         }
 
         /// <summary>
+        /// Remove all SubInterfaces controlled by this manager.
+        /// </summary>
+        public void clearSubInterfaces()
+        {
+            foreach (EditInterface subInterface in interfaceDictionary.Values)
+            {
+                editInterface.removeSubInterface(subInterface);
+            }
+            interfaceDictionary.Clear();
+        }
+
+        /// <summary>
         /// Find the source object that was used to create the given EditInterface.
         /// </summary>
         /// <param name="subInterface">The EditInterface to discover the creator of.</param>

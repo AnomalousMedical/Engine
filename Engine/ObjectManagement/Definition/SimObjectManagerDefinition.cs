@@ -68,6 +68,15 @@ namespace Engine.ObjectManagement
             return manager;
         }
 
+        /// <summary>
+        /// Get an iterator over all SimObjectDefinitions in this manager.
+        /// </summary>
+        /// <returns>An iterator over all defintions.</returns>
+        public IEnumerable<SimObjectDefinition> getDefinitionIter()
+        {
+            return simObjects.Values;
+        }
+
         #region Saveable Members
 
         private const string SIM_OBJECT_BASE = "SimObject";

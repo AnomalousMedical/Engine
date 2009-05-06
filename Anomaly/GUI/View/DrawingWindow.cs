@@ -81,7 +81,7 @@ namespace Anomaly
             if (defaultScene != null)
             {
                 camera = window.createCamera(defaultScene, name, orbitCamera.Translation, orbitCamera.LookAt);
-                camera.BackgroundColor = new Engine.Color(0.0f, 0.0f, 1.0f);
+                camera.BackgroundColor = Engine.Color.Blue;
                 camera.addLight();
                 mainTimer.addFixedUpdateListener(orbitCamera);
                 orbitCamera.setCamera(camera);
@@ -99,6 +99,7 @@ namespace Anomaly
                 orbitCamera.setCamera(null);
                 window.destroyCamera(camera);
                 mainTimer.removeFixedUpdateListener(orbitCamera);
+                camera = null;
             }
         }
 
