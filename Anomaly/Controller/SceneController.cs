@@ -25,6 +25,7 @@ namespace Anomaly
         private SimScene scene;
         private AnomalyController controller;
         private SimSceneDefinition sceneDefinition;
+        private bool dynamicMode = false;
 
         #region Events
 
@@ -74,20 +75,32 @@ namespace Anomaly
         {
             controller.showObjectEditor(sceneDefinition.getEditInterface());
             destroyScene();
-            createDynamicScene();
+            createScene();
         }
 
-        public void createDynamicScene()
+        public void createScene()
         {
             scene = sceneDefinition.createScene();
             if (OnSceneLoading != null)
             {
                 OnSceneLoading.Invoke(this, scene);
             }
-            scene.buildScene();
+            createSimObjects();
             if (OnSceneLoaded != null)
             {
                 OnSceneLoaded.Invoke(this, scene);
+            }
+        }
+
+        public void createSimObjects()
+        {
+            if (dynamicMode)
+            {
+                scene.buildScene();
+            }
+            else
+            {
+                scene.buildStaticScene();
             }
         }
 
@@ -106,6 +119,16 @@ namespace Anomaly
                     OnSceneUnloaded.Invoke(this, null);
                 }
             }
+        }
+
+        /// <summary>
+        /// Set the current mode of any scene constructions. Pass true for
+        /// dynamic mode and false for static mode.
+        /// </summary>
+        /// <param name="dynamicMode">True to enable dynamic mode. False to use static mode.</param>
+        public void setMode(bool dynamicMode)
+        {
+            this.dynamicMode = dynamicMode;
         }
     }
 }

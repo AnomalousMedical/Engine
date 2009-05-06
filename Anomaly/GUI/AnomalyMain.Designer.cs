@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnomalyMain));
             this.mainToolStripContainer = new System.Windows.Forms.ToolStripContainer();
             this.toolPanel = new System.Windows.Forms.Panel();
             this.eulerRotatePanel1 = new Editor.EulerRotatePanel();
@@ -35,10 +36,8 @@
             this.objectViewSplit = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.simObjectPanel = new Anomaly.SimObjectPanel();
             this.objectsEditInterface = new Editor.EditInterfaceView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.templatePanel1 = new Anomaly.TemplatePanel();
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,7 +49,13 @@
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sceneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.playButton = new System.Windows.Forms.ToolStripButton();
+            this.pauseButton = new System.Windows.Forms.ToolStripButton();
+            this.simObjectPanel = new Anomaly.SimObjectPanel();
+            this.templatePanel1 = new Anomaly.TemplatePanel();
             this.mainToolStripContainer.ContentPanel.SuspendLayout();
+            this.mainToolStripContainer.TopToolStripPanel.SuspendLayout();
             this.mainToolStripContainer.SuspendLayout();
             this.toolPanel.SuspendLayout();
             this.objectViewSplit.Panel1.SuspendLayout();
@@ -59,6 +64,7 @@
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.mainMenu.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainToolStripContainer
@@ -75,6 +81,10 @@
             this.mainToolStripContainer.Size = new System.Drawing.Size(752, 516);
             this.mainToolStripContainer.TabIndex = 3;
             this.mainToolStripContainer.Text = "toolStripContainer1";
+            // 
+            // mainToolStripContainer.TopToolStripPanel
+            // 
+            this.mainToolStripContainer.TopToolStripPanel.Controls.Add(this.toolStrip1);
             // 
             // toolPanel
             // 
@@ -138,14 +148,6 @@
             this.tabPage1.Text = "Objects";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // simObjectPanel
-            // 
-            this.simObjectPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.simObjectPanel.Location = new System.Drawing.Point(3, 3);
-            this.simObjectPanel.Name = "simObjectPanel";
-            this.simObjectPanel.Size = new System.Drawing.Size(148, 399);
-            this.simObjectPanel.TabIndex = 1;
-            // 
             // objectsEditInterface
             // 
             this.objectsEditInterface.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -164,14 +166,6 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Templates";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // templatePanel1
-            // 
-            this.templatePanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.templatePanel1.Location = new System.Drawing.Point(3, 3);
-            this.templatePanel1.Name = "templatePanel1";
-            this.templatePanel1.Size = new System.Drawing.Size(148, 399);
-            this.templatePanel1.TabIndex = 0;
             // 
             // mainMenu
             // 
@@ -258,9 +252,58 @@
             // configureToolStripMenuItem
             // 
             this.configureToolStripMenuItem.Name = "configureToolStripMenuItem";
-            this.configureToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.configureToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.configureToolStripMenuItem.Text = "Configure";
             this.configureToolStripMenuItem.Click += new System.EventHandler(this.configureToolStripMenuItem_Click);
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.playButton,
+            this.pauseButton});
+            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(118, 25);
+            this.toolStrip1.TabIndex = 0;
+            // 
+            // playButton
+            // 
+            this.playButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.playButton.Image = ((System.Drawing.Image)(resources.GetObject("playButton.Image")));
+            this.playButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.playButton.Name = "playButton";
+            this.playButton.Size = new System.Drawing.Size(33, 22);
+            this.playButton.Text = "Play";
+            this.playButton.Click += new System.EventHandler(this.playButton_Click);
+            // 
+            // pauseButton
+            // 
+            this.pauseButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.pauseButton.Enabled = false;
+            this.pauseButton.Image = ((System.Drawing.Image)(resources.GetObject("pauseButton.Image")));
+            this.pauseButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.pauseButton.Name = "pauseButton";
+            this.pauseButton.Size = new System.Drawing.Size(42, 22);
+            this.pauseButton.Text = "Pause";
+            this.pauseButton.ToolTipText = "Pause";
+            this.pauseButton.Click += new System.EventHandler(this.pauseButton_Click);
+            // 
+            // simObjectPanel
+            // 
+            this.simObjectPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.simObjectPanel.Location = new System.Drawing.Point(3, 3);
+            this.simObjectPanel.Name = "simObjectPanel";
+            this.simObjectPanel.Size = new System.Drawing.Size(148, 399);
+            this.simObjectPanel.TabIndex = 1;
+            // 
+            // templatePanel1
+            // 
+            this.templatePanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.templatePanel1.Location = new System.Drawing.Point(3, 3);
+            this.templatePanel1.Name = "templatePanel1";
+            this.templatePanel1.Size = new System.Drawing.Size(148, 399);
+            this.templatePanel1.TabIndex = 0;
             // 
             // AnomalyMain
             // 
@@ -273,6 +316,8 @@
             this.Name = "AnomalyMain";
             this.Text = "Anomaly";
             this.mainToolStripContainer.ContentPanel.ResumeLayout(false);
+            this.mainToolStripContainer.TopToolStripPanel.ResumeLayout(false);
+            this.mainToolStripContainer.TopToolStripPanel.PerformLayout();
             this.mainToolStripContainer.ResumeLayout(false);
             this.mainToolStripContainer.PerformLayout();
             this.toolPanel.ResumeLayout(false);
@@ -283,6 +328,8 @@
             this.tabPage2.ResumeLayout(false);
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -312,6 +359,9 @@
         private Editor.EulerRotatePanel eulerRotatePanel1;
         private System.Windows.Forms.ToolStripMenuItem sceneToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem configureToolStripMenuItem;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton playButton;
+        private System.Windows.Forms.ToolStripButton pauseButton;
 
 
 

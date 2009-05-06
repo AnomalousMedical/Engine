@@ -213,7 +213,7 @@ namespace Anomaly
             sceneController.setSceneDefinition(scenePackage.SceneDefinition);
             resourceController.setResources(scenePackage.ResourceManager);
             simObjectController.setSceneManagerDefintion(scenePackage.SimObjectManagerDefinition);
-            sceneController.createDynamicScene();
+            sceneController.createScene();
         }
 
         public void saveScene(String filename)
@@ -226,6 +226,21 @@ namespace Anomaly
             fileWriter.Formatting = Formatting.Indented;
             xmlSaver.saveObject(scenePackage, fileWriter);
             fileWriter.Close();
+        }
+
+        public void setStaticMode()
+        {
+            simObjectController.captureSceneProperties();
+            sceneController.setMode(false);
+            sceneController.destroyScene();
+            sceneController.createScene();
+        }
+
+        public void setDynamicMode()
+        {
+            sceneController.setMode(true);
+            sceneController.destroyScene();
+            sceneController.createScene();
         }
 
         private void createWindow(out DefaultWindowInfo defaultWindow)

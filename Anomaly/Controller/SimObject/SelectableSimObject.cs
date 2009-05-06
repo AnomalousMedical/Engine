@@ -49,6 +49,14 @@ namespace Anomaly
             return simObject.Translation;
         }
 
+        /// <summary>
+        /// Make the properties of the definition match the instance.
+        /// </summary>
+        public void captureInstanceProperties()
+        {
+            this.definition = Instance.saveToDefinition(Instance.Name);
+        }
+
         public SimObjectDefinition Definition
         {
             get

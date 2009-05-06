@@ -137,7 +137,26 @@ namespace PhysXPlugin
         /// <returns>A new SimElementDefinition for this SimElement.</returns>
         public override SimElementDefinition saveToDefinition()
         {
-            return new PhysActorDefinition(Name, shapeName, actor);
+            PhysActorDefinition actorDef = new PhysActorDefinition(Name, shapeName, actor);
+            //fix flags that the mediator uses.
+            if (changeKinematicStatus)
+            {
+                actorDef.BodyFlags &= ~BodyFlag.NX_BF_KINEMATIC;
+            }
+            if (changeDisableCollisionStatus)
+            {
+                actorDef.Flags &= ~ActorFlag.NX_AF_DISABLE_COLLISION;
+            }
+
+            //fix state variables that may be saved that cause illegal actors
+            //If we have a density it is illegal to also define mass and mass space intertia
+            //so disable them.
+            if (actorDef.Density > 0.0f)
+            {
+                actorDef.Mass = 0;
+                actorDef.MassSpaceIntertia = Vector3.Zero;
+            }
+            return actorDef;
         }
 
         /// <summary>

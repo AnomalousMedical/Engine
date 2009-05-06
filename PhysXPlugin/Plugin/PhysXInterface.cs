@@ -76,6 +76,7 @@ namespace PhysXPlugin
         public void initialize(PluginManager pluginManager)
         {
             physSDK = PhysSDK.Instance;
+            physSDK.connectRemoteDebugger("127.0.0.1");
             pluginManager.addCreateSimElementManagerCommand(new AddSimElementManagerCommand("Create PhysX Scene Definition", PhysXSceneManagerDefinition.Create));
 
             pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create PhysX Actor", PhysActorDefinition.Create));

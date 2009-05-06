@@ -17,8 +17,8 @@ namespace Anomaly
         private Dictionary<String, SelectableSimObject> selectables = new Dictionary<string, SelectableSimObject>();
         private SimObjectManager simObjectManager;
         private SimObjectManagerDefinition simObjectManagerDefiniton;
-        private SimScene scene;
         private SimObjectPanel panel;
+        private SimSubScene subScene;
 
         public SimObjectController()
         {
@@ -48,8 +48,8 @@ namespace Anomaly
 
         public void createSimObject(SimObjectDefinition definition)
         {
-            SimObjectBase instance = definition.register(scene.getDefaultSubScene());
-            scene.buildScene();
+            SimObjectBase instance = definition.register(subScene);
+            controller.SceneController.createSimObjects();
 
             simObjectManager.addSimObject(instance);
             simObjectManagerDefiniton.addSimObject(definition);
@@ -66,10 +66,21 @@ namespace Anomaly
             removeSelectableEditInterface(selectable);
         }
 
+        public void captureSceneProperties()
+        {
+            foreach (SelectableSimObject selectable in selectables.Values)
+            {
+                simObjectManagerDefiniton.removeSimObject(selectable.Definition);
+                selectable.captureInstanceProperties();
+                simObjectManagerDefiniton.addSimObject(selectable.Definition);
+            }
+        }
+
         public void setSceneManagerDefintion(SimObjectManagerDefinition definition)
         {
             clearEditInterfaces();
             selectables.Clear();
+            controller.SelectionController.clearSelection();
             simObjectManagerDefiniton = definition;
             foreach (SimObjectDefinition simObject in simObjectManagerDefiniton.getDefinitionIter())
             {
@@ -94,7 +105,7 @@ namespace Anomaly
 
         private void SceneController_OnSceneLoading(SceneController controller, SimScene scene)
         {
-            this.scene = scene;
+            this.subScene = scene.getDefaultSubScene();
             simObjectManager = simObjectManagerDefiniton.createSimObjectManager(scene.getDefaultSubScene());
             foreach (SelectableSimObject selectable in selectables.Values)
             {
@@ -117,8 +128,8 @@ namespace Anomaly
             {
                 controller.showObjectEditor(selectable.Definition.getEditInterface());
                 simObjectManager.destroySimObject(selectable.Instance.Name);
-                SimObjectBase instance = selectable.Definition.register(scene.getDefaultSubScene());
-                scene.buildScene();
+                SimObjectBase instance = selectable.Definition.register(subScene);
+                controller.SceneController.createSimObjects();
                 simObjectManager.addSimObject(instance);
                 selectable.Instance = instance;
             }

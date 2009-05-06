@@ -161,5 +161,19 @@ namespace Anomaly
         {
             controller.SceneController.editScene();
         }
+
+        private void playButton_Click(object sender, EventArgs e)
+        {
+            playButton.Enabled = false;
+            pauseButton.Enabled = true;
+            controller.setDynamicMode();
+        }
+
+        private void pauseButton_Click(object sender, EventArgs e)
+        {
+            playButton.Enabled = true;
+            pauseButton.Enabled = false;
+            controller.setStaticMode();
+        }
     }
 }
