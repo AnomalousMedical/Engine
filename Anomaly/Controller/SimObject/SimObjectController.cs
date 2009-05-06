@@ -88,6 +88,11 @@ namespace Anomaly
             }
         }
 
+        public bool hasSimObject(String name)
+        {
+            return selectables.ContainsKey(name);
+        }
+
         private void createSelectable(SimObjectDefinition definition, SimObjectBase instance)
         {
             SelectableSimObject selectable = new SelectableSimObject(definition, instance);

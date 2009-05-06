@@ -44,9 +44,9 @@ namespace Anomaly
         void templatePanel_OnCreateTemplate()
         {
             InputResult result = InputBox.GetInput("Create", "Enter a name.", templatePanel.FindForm());
-            while (result.ok && false)
+            while (result.ok && anomalyController.SimObjectController.hasSimObject(result.text))
             {
-                result = InputBox.GetInput("Create", "Enter a name.", templatePanel.FindForm(), result.text);
+                result = InputBox.GetInput("Create", "That name is already in use. Please enter another.", templatePanel.FindForm(), result.text);
             }
             if (result.ok)
             {

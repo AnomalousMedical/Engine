@@ -9,10 +9,18 @@ using Engine.Editing;
 
 namespace Anomaly
 {
+    /// <summary>
+    /// This class is a container that holds a SimObject and its
+    /// SimObjectDefinition for the SimObjectController.
+    /// </summary>
     class SelectableSimObject : SelectableObject
     {
+        #region Fields
+
         private SimObjectBase simObject;
         SimObjectDefinition definition;
+
+        #endregion Fields
 
         public SelectableSimObject(SimObjectDefinition definition, SimObjectBase simObject)
         {
