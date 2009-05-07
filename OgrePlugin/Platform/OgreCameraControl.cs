@@ -94,6 +94,17 @@ namespace OgrePlugin
             light.setVisible(enabled);
         }
 
+        /// <summary>
+        /// Get a ray that goes from the camera into the 3d space.
+        /// </summary>
+        /// <param name="x">The x value on the camera's 2d surface.</param>
+        /// <param name="y">The y value on the camera's 2d surface.</param>
+        /// <returns>A Ray3 with the ray.</returns>
+        public Ray3 getCameraToViewportRay(float x, float y)
+        {
+            return camera.getCameraToViewportRay(x, y);
+        }
+
         public Vector3 Translation
         {
             get

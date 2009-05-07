@@ -125,7 +125,7 @@ namespace Engine
                         normalDirection = Quaternion.quatRotate(yawRot * pitchRot, Vector3.Backward);
                         updateTranslation(normalDirection * orbitDistance + lookAt);
                         camera.LookAt = lookAt;
-                        left = normalDirection.cross(Vector3.Up);
+                        left = normalDirection.cross(ref Vector3.Up);
                     }
                 }
                 if (activeWindow)
@@ -220,7 +220,7 @@ namespace Engine
             Quaternion yawRot = new Quaternion(Vector3.Up, yaw);
             Quaternion pitchRot = new Quaternion(Vector3.Left, pitch);
             normalDirection = Quaternion.quatRotate(yawRot * pitchRot, Vector3.Backward);
-            left = normalDirection.cross(Vector3.Up);
+            left = normalDirection.cross(ref Vector3.Up);
         }
 
         private void updateTranslation(Vector3 translation)

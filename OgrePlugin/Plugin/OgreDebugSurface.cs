@@ -24,6 +24,7 @@ namespace OgrePlugin
         private float[] xAxisLines = new float[NUM_LINES_IN_45];
         private float[] yAxisLines = new float[NUM_LINES_IN_45];
         private SceneManager scene;
+        private bool visible;
 
         public OgreDebugSurface(String name, SceneManager scene, DrawingType drawingType)
         {
@@ -33,6 +34,7 @@ namespace OgrePlugin
             this.sceneNode = scene.createSceneNode(name + NODE_RESERVED_NAME);
             sceneNode.attachObject(manualObject);
             scene.getRootSceneNode().addChild(sceneNode);
+            visible = true;
             switch (drawingType)
             {
                 case DrawingType.LineList:
@@ -90,6 +92,20 @@ namespace OgrePlugin
         public void moveOrigin(Vector3 newOrigin)
         {
             sceneNode.setPosition(newOrigin);
+        }
+
+        public void setVisible(bool visible)
+        {
+            if (visible && !this.visible)
+            {
+                scene.getRootSceneNode().addChild(sceneNode);
+                this.visible = true;
+            }
+            else if(this.visible && !visible)
+            {
+                scene.getRootSceneNode().removeChild(sceneNode);
+                this.visible = false;
+            }
         }
 
         public void setColor(Color color)

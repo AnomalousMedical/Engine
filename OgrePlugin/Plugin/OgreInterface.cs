@@ -181,13 +181,21 @@ namespace OgrePlugin
         /// <returns>A new DebugDrawingSurface configured appropriatly.</returns>
         public DebugDrawingSurface createDebugDrawingSurface(String name, SimSubScene scene, DrawingType drawingType)
         {
-            if (scene.hasSimElementManagerType(typeof(OgreSceneManager)))
+            if (scene != null)
             {
-                return new OgreDebugSurface(name, scene.getSimElementManager<OgreSceneManager>().SceneManager, drawingType);
+                if (scene.hasSimElementManagerType(typeof(OgreSceneManager)))
+                {
+                    return new OgreDebugSurface(name, scene.getSimElementManager<OgreSceneManager>().SceneManager, drawingType);
+                }
+                else
+                {
+                    Log.Default.sendMessage("Could not find an OgreSceneManager in the SimSubScene {0}. Could not create OgreDebugSurface.", LogLevel.Error, PluginName, scene.Name);
+                    return null;
+                }
             }
             else
             {
-                Log.Default.sendMessage("Could not find an OgreSceneManager in the SimSubScene {0}. Could not create OgreDebugSurface.", LogLevel.Error, PluginName, scene.Name);
+                Log.Default.sendMessage("Could not create OgreDebugSurface. SimSubScene was null.", LogLevel.Error, PluginName);
                 return null;
             }
         }

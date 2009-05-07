@@ -72,6 +72,12 @@ namespace Engine.Renderer
         void moveOrigin(Vector3 newOrigin);
 
         /// <summary>
+        /// Set the visibility of the DebugDrawingSurface.
+        /// </summary>
+        /// <param name="visible">True to be visible false to be invisible.</param>
+        void setVisible(bool visible);
+
+        /// <summary>
         /// Set the current color that will be used when drawing.
         /// </summary>
         /// <param name="color">The color to use for drawing.</param>

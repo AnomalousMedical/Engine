@@ -52,6 +52,8 @@ namespace Anomaly
         private MoveController moveController = new MoveController();
         private SelectionController selectionController = new SelectionController();
         private RotateController rotateController = new RotateController();
+        private MovementTool movementTool;
+        private ToolManager toolManager;
 
         //Serialization
         private XmlSaver xmlSaver = new XmlSaver();
@@ -120,6 +122,13 @@ namespace Anomaly
             toolInterop.setMoveController(moveController);
             toolInterop.setSelectionController(selectionController);
             toolInterop.setRotateController(rotateController);
+
+            toolManager = new ToolManager(eventManager);
+            mainTimer.addFixedUpdateListener(toolManager);
+            toolInterop.setToolManager(toolManager);
+            movementTool = new MovementTool("MovementTool", moveController);
+            toolManager.addTool(movementTool);
+            toolManager.enableTool(movementTool);
 
             //Initialize the windows
             mainForm.initialize(this);
@@ -264,16 +273,6 @@ namespace Anomaly
         }
 
         /// <summary>
-        /// Callback for when the scene is unloading.
-        /// </summary>
-        /// <param name="controller"></param>
-        /// <param name="scene"></param>
-        private void sceneController_OnSceneUnloading(SceneController controller, SimScene scene)
-        {
-            splitViewController.destroyCameras(mainTimer);
-        }
-
-        /// <summary>
         /// Callback for when the scene is loaded.
         /// </summary>
         /// <param name="controller"></param>
@@ -281,6 +280,18 @@ namespace Anomaly
         private void sceneController_OnSceneLoaded(SceneController controller, SimScene scene)
         {
             splitViewController.createCameras(mainTimer, scene);
+            toolManager.createSceneElements(scene.getDefaultSubScene(), pluginManager);
+        }
+
+        /// <summary>
+        /// Callback for when the scene is unloading.
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="scene"></param>
+        private void sceneController_OnSceneUnloading(SceneController controller, SimScene scene)
+        {
+            splitViewController.destroyCameras(mainTimer);
+            toolManager.destroySceneElements(scene.getDefaultSubScene(), pluginManager);
         }
 
         /// <summary>

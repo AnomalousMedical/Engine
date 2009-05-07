@@ -16,6 +16,8 @@ namespace Editor
         private MoveController moveController;
         private SelectionController selectionController;
         private RotateController rotateController;
+        private ToolManager toolManager;
+        private bool allowMovement = true;
 
         public ToolInteropController()
         {
@@ -30,7 +32,7 @@ namespace Editor
 
         void onTranslationChanged(Vector3 newTranslation, object sender)
         {
-            if (selectionController != null)
+            if (selectionController != null && allowMovement)
             {
                 selectionController.translateSelectedObject(ref newTranslation);
             }
@@ -44,7 +46,7 @@ namespace Editor
 
         void onRotationChanged(Quaternion newRotation, object sender)
         {
-            if (selectionController != null)
+            if (selectionController != null && allowMovement)
             {
                 selectionController.rotateSelectedObject(ref newRotation);
             }
@@ -62,7 +64,9 @@ namespace Editor
         {
             if (moveController != null)
             {
+                allowMovement = false;
                 moveController.setTranslation(ref newPosition, selectionController);
+                allowMovement = true;
             }
         }
 
@@ -70,17 +74,35 @@ namespace Editor
         {
             if (rotateController != null)
             {
+                allowMovement = false;
                 rotateController.setRotation(ref newRotation, selectionController);
+                allowMovement = true;
             }
         }
 
         void onSelectionChanged(SelectionChangedArgs args)
         {
+            allowMovement = false;
             if (moveController != null)
             {
                 Vector3 translation = args.Owner.getSelectionTranslation();
                 moveController.setTranslation(ref translation, selectionController);
             }
+            if (rotateController != null)
+            {
+                Quaternion rotation = args.Owner.getSelectionRotation();
+                rotateController.setRotation(ref rotation, selectionController);
+            }
+            if (toolManager != null)
+            {
+                toolManager.setEnabled(args.Owner.hasSelection());
+            }
+            allowMovement = true;
+        }
+
+        public void setToolManager(ToolManager toolManager)
+        {
+            this.toolManager = toolManager;
         }
     }
 }
