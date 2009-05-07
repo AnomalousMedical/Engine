@@ -9,6 +9,8 @@ using Logging;
 using Engine.Platform;
 using Engine.Command;
 using Engine.Resources;
+using System.IO;
+using Engine.ObjectManagement;
 
 namespace OgrePlugin
 {
@@ -111,6 +113,17 @@ namespace OgrePlugin
                 SubsystemResources ogreResourcs = new SubsystemResources("Ogre");
                 ogreResourcs.addResourceListener(OgreResourceManager.Instance);
                 pluginManager.addSubsystemResources(ogreResourcs);
+
+                //Setup the core resources
+                if (File.Exists("OgreCore.zip"))
+                {
+                    Log.Default.sendMessage("Found OgreCore.zip. Debug resources available.", LogLevel.ImportantInfo, PluginName);
+                    OgreResourceGroupManager.getInstance().addResourceLocation("OgreCore.zip", "Zip", "Internal", true);
+                }
+                else
+                {
+                    Log.Default.sendMessage("Could not find OgreCore.zip. Ogre debug resources not available.", LogLevel.Warning, PluginName);
+                }
             }
             catch (Exception e)
             {
@@ -156,6 +169,37 @@ namespace OgrePlugin
             {
                 Log.Default.sendMessage("Error destroying RendererWindow {0}. It is not a recognized OgreWindow. The window has not been destroyed.", LogLevel.Warning, "OgrePlugin", window.ToString());
             }
+        }
+
+        /// <summary>
+        /// Create a new DebugDrawingSurface named name in the specified scene
+        /// that renders in the specified way.
+        /// </summary>
+        /// <param name="name">The name of the DrawingSurface. Must be unique.</param>
+        /// <param name="sceneName">The name of the scene to create the surface into.</param>
+        /// <param name="drawingType">The DrawingType of the surface.</param>
+        /// <returns>A new DebugDrawingSurface configured appropriatly.</returns>
+        public DebugDrawingSurface createDebugDrawingSurface(String name, SimSubScene scene, DrawingType drawingType)
+        {
+            if (scene.hasSimElementManagerType(typeof(OgreSceneManager)))
+            {
+                return new OgreDebugSurface(name, scene.getSimElementManager<OgreSceneManager>().SceneManager, drawingType);
+            }
+            else
+            {
+                Log.Default.sendMessage("Could not find an OgreSceneManager in the SimSubScene {0}. Could not create OgreDebugSurface.", LogLevel.Error, PluginName, scene.Name);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Destroy a DebugDrawingSurface. This should be called before the
+        /// scene it was created in is destroyed.
+        /// </summary>
+        /// <param name="surface">The DebugDrawingSurface to destroy.</param>
+        public void destroyDebugDrawingSurface(DebugDrawingSurface surface)
+        {
+            ((OgreDebugSurface)surface).destroy();
         }
 
         #endregion Functions

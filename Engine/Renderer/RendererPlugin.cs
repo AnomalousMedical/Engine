@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Engine.Platform;
+using Engine.ObjectManagement;
 
 namespace Engine.Renderer
 {
@@ -34,5 +35,22 @@ namespace Engine.Renderer
         /// </summary>
         /// <param name="window">The window to destroy.</param>
         void destroyRendererWindow(RendererWindow window);
+
+        /// <summary>
+        /// Create a new DebugDrawingSurface named name in the specified scene
+        /// that renders in the specified way.
+        /// </summary>
+        /// <param name="name">The name of the DrawingSurface. Must be unique.</param>
+        /// <param name="scene">The scene to create the DrawingSurface into.</param>
+        /// <param name="drawingType">The DrawingType of the surface.</param>
+        /// <returns>A new DebugDrawingSurface configured appropriatly.</returns>
+        DebugDrawingSurface createDebugDrawingSurface(String name, SimSubScene scene, DrawingType drawingType);
+
+        /// <summary>
+        /// Destroy a DebugDrawingSurface. This should be called before the
+        /// scene it was created in is destroyed.
+        /// </summary>
+        /// <param name="surface">The DebugDrawingSurface to destroy.</param>
+        void destroyDebugDrawingSurface(DebugDrawingSurface surface);
     }
 }
