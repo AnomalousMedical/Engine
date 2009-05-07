@@ -11,7 +11,7 @@ namespace OgrePlugin
     /// <summary>
     /// A CameraControl class for ogre cameras.
     /// </summary>
-    class OgreCameraControl : CameraControl, IDisposable
+    class OgreCameraControl : CameraControl, IDisposable, SceneListener
     {
         private static CameraLightManager lightManager = new CameraLightManager();
 
@@ -31,6 +31,8 @@ namespace OgrePlugin
         private Light light = null;
         private String name;
         private RenderWindow renderWindow;
+        private StatsOverlay statsOverlay;
+        private bool showStats = false;
 
         /// <summary>
         /// Constructor.
@@ -52,6 +54,9 @@ namespace OgrePlugin
             node = sceneManager.createSceneNode(nodeId);
             node.attachObject(camera);
             viewport = renderWindow.addViewport(camera);
+            statsOverlay = new StatsOverlay(name);
+            statsOverlay.createOverlays();
+            sceneManager.SceneManager.addSceneListener(this);
         }
 
         /// <summary>
@@ -105,6 +110,40 @@ namespace OgrePlugin
             return camera.getCameraToViewportRay(x, y);
         }
 
+        /// <summary>
+        /// Show the scene stats in the window drawn by this camera.
+        /// </summary>
+        /// <param name="showStats">True to show the scene stats.</param>
+        public void showSceneStats(bool showStats)
+        {
+            this.showStats = showStats;
+        }
+
+        public void Dispose()
+        {
+            sceneManager.SceneManager.removeSceneListener(this);
+            statsOverlay.destroyOverlays();
+            removeLight();
+            renderWindow.destroyViewport(viewport);
+            node.detachObject(camera);
+            sceneManager.destroyCamera(cameraId);
+            sceneManager.destroySceneNode(nodeId);
+        }
+
+        public void postFindVisibleObjects(SceneManager sceneManager, SceneManager.IlluminationRenderStage irs, Camera camera)
+        {
+            //statsOverlay.setVisible(false);
+        }
+
+        public void preFindVisibleObjects(SceneManager sceneManager, SceneManager.IlluminationRenderStage irs, Camera camera)
+        {
+            if (showStats)
+            {
+                statsOverlay.setStats(renderWindow);
+                statsOverlay.setVisible(showStats && this.camera == camera);
+            }
+        }
+
         public Vector3 Translation
         {
             get
@@ -148,15 +187,6 @@ namespace OgrePlugin
             {
                 return viewport;
             }
-        }
-
-        public void Dispose()
-        {
-            removeLight();
-            renderWindow.destroyViewport(viewport);
-            node.detachObject(camera);
-            sceneManager.destroyCamera(cameraId);
-            sceneManager.destroySceneNode(nodeId);
         }
 
         /// <summary>

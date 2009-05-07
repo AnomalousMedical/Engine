@@ -51,5 +51,11 @@ namespace Engine
         /// <param name="y">The y value on the camera's 2d surface.</param>
         /// <returns>A Ray3 with the ray.</returns>
         Ray3 getCameraToViewportRay(float x, float y);
+
+        /// <summary>
+        /// Show the scene stats in the window drawn by this camera.
+        /// </summary>
+        /// <param name="showStats">True to show the scene stats.</param>
+        void showSceneStats(bool showStats);
     }
 }
