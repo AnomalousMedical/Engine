@@ -7,8 +7,8 @@ namespace Engine
 {
     public struct Ray3
     {
-        private Vector3 origin;
-        private Vector3 direction;
+        public Vector3 Origin;
+        public Vector3 Direction;
 
         /// <summary>
 	    /// Constructor.
@@ -17,38 +17,8 @@ namespace Engine
 	    /// <param name="direction">The direction the ray is facing.</param>
         public Ray3(Vector3 origin, Vector3 direction)
         {
-            this.origin = origin;
-            this.direction = direction;
-        }
-
-        /// <summary>
-	    /// The origin.
-	    /// </summary>
-        public Vector3 Origin
-        {
-            get
-            {
-                return origin;
-            }
-            set
-            {
-                this.origin = value;
-            }
-        }
-
-        /// <summary>
-	    /// The direction.
-	    /// </summary>
-        public Vector3 Direction
-        {
-            get
-            {
-                return direction;
-            }
-            set
-            {
-                this.direction = value;
-            }
+            this.Origin = origin;
+            this.Direction = direction;
         }
 
         /// <summary>
@@ -58,7 +28,7 @@ namespace Engine
 	    /// <returns>The point at the given distance.</returns>
         public Vector3 getPoint(float distance)
         {
-            return origin + direction * distance;
+            return Origin + Direction * distance;
         }
 
         /// <summary>
@@ -67,7 +37,7 @@ namespace Engine
         /// <returns>True if all components are != float::NaN</returns>
         public bool isNumber()
         {
-            return origin.isNumber() && direction.isNumber();
+            return Origin.isNumber() && Direction.isNumber();
         }
 
         /// <summary>
@@ -76,7 +46,7 @@ namespace Engine
         /// <returns>The ray as a string.</returns>
         public override String ToString()
         {
-            return "{" + origin.ToString() + ", " + direction.ToString() + "}";
+            return "{" + Origin.ToString() + ", " + Direction.ToString() + "}";
         }
     }
 }

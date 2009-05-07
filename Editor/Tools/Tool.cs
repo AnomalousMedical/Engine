@@ -18,6 +18,8 @@ namespace Editor
 
         void destroySceneElement(SimSubScene subScene, PluginManager pluginManager);
 
+        void setTranslation(Vector3 position);
+
         String Name { get; }
     }
 }

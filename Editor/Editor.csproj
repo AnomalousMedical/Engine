@@ -129,6 +129,8 @@
       <DependentUpon>EulerRotatePanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\Rotation\RotateController.cs" />
+    <Compile Include="Tools\Rotation\RotateTool.cs" />
+    <Compile Include="Tools\Rotation\RotationAxis.cs" />
     <Compile Include="Tools\Selection\SelectableObject.cs" />
     <Compile Include="Tools\Selection\SelectedObjectCollection.cs" />
     <Compile Include="Tools\Selection\SelectionController.cs" />

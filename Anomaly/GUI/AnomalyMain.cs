@@ -175,5 +175,15 @@ namespace Anomaly
             pauseButton.Enabled = false;
             controller.setStaticMode();
         }
+
+        private void moveButton_Click(object sender, EventArgs e)
+        {
+            controller.enableMoveTool();
+        }
+
+        private void rotateButton_Click(object sender, EventArgs e)
+        {
+            controller.enableRotateTool();
+        }
     }
 }

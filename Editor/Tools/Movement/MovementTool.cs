@@ -47,6 +47,7 @@ namespace Editor
         private Vector3 mouseOffset;
         private float currentLength = 10.0f;
         private String name;
+        private bool enabled = true;
 
         #endregion Fields
 
@@ -56,7 +57,6 @@ namespace Editor
         {
             this.moveController = manager;
             this.name = name;
-            manager.OnTranslationChanged += new TranslationChanged(manager_OnTranslationChanged);
             xAxisBox = new Axis(Vector3.Right, currentLength, new Color(1.0f, 0.0f, 0.0f));
             yAxisBox = new Axis(Vector3.Up, currentLength, new Color(0.0f, 0.0f, 1.0f));
             zAxisBox = new Axis(Vector3.Backward, currentLength, new Color(0.0f, 1.0f, 0.0f));
@@ -72,6 +72,10 @@ namespace Editor
         public void createSceneElement(SimSubScene subScene, PluginManager pluginManager)
         {
             axisSurface = pluginManager.RendererPlugin.createDebugDrawingSurface(name, subScene, DrawingType.LineList);
+            if (axisSurface != null)
+            {
+                axisSurface.setVisible(enabled);
+            }
         }
 
         public void destroySceneElement(SimSubScene subScene, PluginManager pluginManager)
@@ -120,9 +124,10 @@ namespace Editor
             {
                 axisSurface.setVisible(enabled);
             }
+            this.enabled = enabled;
         }
 
-        private void manager_OnTranslationChanged(Vector3 newTranslation, object sender)
+        public void setTranslation(Vector3 newTranslation)
         {
             if (axisSurface != null)
             {

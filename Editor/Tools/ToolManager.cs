@@ -55,7 +55,7 @@ namespace Editor
                     currentTool.setEnabled(false);
                 }
             }
-            tool.setEnabled(true);
+            tool.setEnabled(enabled);
             this.currentTool = tool;
         }
 
@@ -63,6 +63,14 @@ namespace Editor
         {
             currentTool.setEnabled(enabled);
             this.enabled = enabled;
+        }
+
+        public void setToolTranslation(Vector3 translation)
+        {
+            foreach (Tool tool in tools)
+            {
+                tool.setTranslation(translation);
+            }
         }
 
         #region UpdateListener Members

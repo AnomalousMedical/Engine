@@ -68,6 +68,10 @@ namespace Editor
                 moveController.setTranslation(ref newPosition, selectionController);
                 allowMovement = true;
             }
+            if (toolManager != null)
+            {
+                toolManager.setToolTranslation(newPosition);
+            }
         }
 
         void onSelectionRotated(Quaternion newRotation)
@@ -96,6 +100,7 @@ namespace Editor
             if (toolManager != null)
             {
                 toolManager.setEnabled(args.Owner.hasSelection());
+                toolManager.setToolTranslation(args.Owner.getSelectionTranslation());
             }
             allowMovement = true;
         }

@@ -53,6 +53,7 @@ namespace Anomaly
         private SelectionController selectionController = new SelectionController();
         private RotateController rotateController = new RotateController();
         private MovementTool movementTool;
+        private RotateTool rotateTool;
         private ToolManager toolManager;
 
         //Serialization
@@ -128,7 +129,9 @@ namespace Anomaly
             toolInterop.setToolManager(toolManager);
             movementTool = new MovementTool("MovementTool", moveController);
             toolManager.addTool(movementTool);
-            toolManager.enableTool(movementTool);
+            rotateTool = new RotateTool("RotateTool", rotateController);
+            toolManager.addTool(rotateTool);
+            toolManager.enableTool(rotateTool);
 
             //Initialize the windows
             mainForm.initialize(this);
@@ -260,6 +263,16 @@ namespace Anomaly
             sceneController.setMode(true);
             sceneController.destroyScene();
             sceneController.createScene();
+        }
+
+        public void enableMoveTool()
+        {
+            toolManager.enableTool(movementTool);
+        }
+
+        public void enableRotateTool()
+        {
+            toolManager.enableTool(rotateTool);
         }
 
         /// <summary>

@@ -179,7 +179,7 @@ namespace OgrePlugin
             //from there
 
             int i;
-            float angleDelta = PI / 4.0f / (float)NUM_LINES_IN_45;
+            float angleDelta = PI / 4.0f / (float)(NUM_LINES_IN_45 - 1);
             float currentAngle = 0.0f;
             for (i = 0; i < NUM_LINES_IN_45; ++i)
             {

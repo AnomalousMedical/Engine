@@ -38,6 +38,9 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.objectsEditInterface = new Editor.EditInterfaceView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.playButton = new System.Windows.Forms.ToolStripButton();
+            this.pauseButton = new System.Windows.Forms.ToolStripButton();
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,9 +52,9 @@
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sceneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.playButton = new System.Windows.Forms.ToolStripButton();
-            this.pauseButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.moveButton = new System.Windows.Forms.ToolStripButton();
+            this.rotateButton = new System.Windows.Forms.ToolStripButton();
             this.simObjectPanel = new Anomaly.SimObjectPanel();
             this.templatePanel1 = new Anomaly.TemplatePanel();
             this.mainToolStripContainer.ContentPanel.SuspendLayout();
@@ -63,8 +66,9 @@
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.mainMenu.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.mainMenu.SuspendLayout();
+            this.toolStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainToolStripContainer
@@ -85,6 +89,7 @@
             // mainToolStripContainer.TopToolStripPanel
             // 
             this.mainToolStripContainer.TopToolStripPanel.Controls.Add(this.toolStrip1);
+            this.mainToolStripContainer.TopToolStripPanel.Controls.Add(this.toolStrip2);
             // 
             // toolPanel
             // 
@@ -121,7 +126,7 @@
             // objectViewSplit.Panel1
             // 
             this.objectViewSplit.Panel1.Controls.Add(this.tabControl1);
-            this.objectViewSplit.Size = new System.Drawing.Size(752, 431);
+            this.objectViewSplit.Size = new System.Drawing.Size(752, 406);
             this.objectViewSplit.SplitterDistance = 162;
             this.objectViewSplit.TabIndex = 6;
             // 
@@ -133,7 +138,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(162, 431);
+            this.tabControl1.Size = new System.Drawing.Size(162, 406);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -143,7 +148,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(154, 405);
+            this.tabPage1.Size = new System.Drawing.Size(154, 380);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Objects";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -153,7 +158,7 @@
             this.objectsEditInterface.Dock = System.Windows.Forms.DockStyle.Fill;
             this.objectsEditInterface.Location = new System.Drawing.Point(3, 3);
             this.objectsEditInterface.Name = "objectsEditInterface";
-            this.objectsEditInterface.Size = new System.Drawing.Size(148, 399);
+            this.objectsEditInterface.Size = new System.Drawing.Size(148, 374);
             this.objectsEditInterface.TabIndex = 0;
             // 
             // tabPage2
@@ -162,10 +167,43 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(154, 405);
+            this.tabPage2.Size = new System.Drawing.Size(154, 380);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Templates";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.playButton,
+            this.pauseButton});
+            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(87, 25);
+            this.toolStrip1.TabIndex = 0;
+            // 
+            // playButton
+            // 
+            this.playButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.playButton.Image = ((System.Drawing.Image)(resources.GetObject("playButton.Image")));
+            this.playButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.playButton.Name = "playButton";
+            this.playButton.Size = new System.Drawing.Size(33, 22);
+            this.playButton.Text = "Play";
+            this.playButton.Click += new System.EventHandler(this.playButton_Click);
+            // 
+            // pauseButton
+            // 
+            this.pauseButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.pauseButton.Enabled = false;
+            this.pauseButton.Image = ((System.Drawing.Image)(resources.GetObject("pauseButton.Image")));
+            this.pauseButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.pauseButton.Name = "pauseButton";
+            this.pauseButton.Size = new System.Drawing.Size(42, 22);
+            this.pauseButton.Text = "Pause";
+            this.pauseButton.ToolTipText = "Pause";
+            this.pauseButton.Click += new System.EventHandler(this.pauseButton_Click);
             // 
             // mainMenu
             // 
@@ -256,45 +294,43 @@
             this.configureToolStripMenuItem.Text = "Configure";
             this.configureToolStripMenuItem.Click += new System.EventHandler(this.configureToolStripMenuItem_Click);
             // 
-            // toolStrip1
+            // toolStrip2
             // 
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.playButton,
-            this.pauseButton});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(118, 25);
-            this.toolStrip1.TabIndex = 0;
+            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.moveButton,
+            this.rotateButton});
+            this.toolStrip2.Location = new System.Drawing.Point(99, 0);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(129, 25);
+            this.toolStrip2.TabIndex = 1;
             // 
-            // playButton
+            // moveButton
             // 
-            this.playButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.playButton.Image = ((System.Drawing.Image)(resources.GetObject("playButton.Image")));
-            this.playButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.playButton.Name = "playButton";
-            this.playButton.Size = new System.Drawing.Size(33, 22);
-            this.playButton.Text = "Play";
-            this.playButton.Click += new System.EventHandler(this.playButton_Click);
+            this.moveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.moveButton.Image = ((System.Drawing.Image)(resources.GetObject("moveButton.Image")));
+            this.moveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.moveButton.Name = "moveButton";
+            this.moveButton.Size = new System.Drawing.Size(41, 22);
+            this.moveButton.Text = "Move";
+            this.moveButton.Click += new System.EventHandler(this.moveButton_Click);
             // 
-            // pauseButton
+            // rotateButton
             // 
-            this.pauseButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.pauseButton.Enabled = false;
-            this.pauseButton.Image = ((System.Drawing.Image)(resources.GetObject("pauseButton.Image")));
-            this.pauseButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.pauseButton.Name = "pauseButton";
-            this.pauseButton.Size = new System.Drawing.Size(42, 22);
-            this.pauseButton.Text = "Pause";
-            this.pauseButton.ToolTipText = "Pause";
-            this.pauseButton.Click += new System.EventHandler(this.pauseButton_Click);
+            this.rotateButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.rotateButton.Image = ((System.Drawing.Image)(resources.GetObject("rotateButton.Image")));
+            this.rotateButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.rotateButton.Name = "rotateButton";
+            this.rotateButton.Size = new System.Drawing.Size(45, 22);
+            this.rotateButton.Text = "Rotate";
+            this.rotateButton.Click += new System.EventHandler(this.rotateButton_Click);
             // 
             // simObjectPanel
             // 
             this.simObjectPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.simObjectPanel.Location = new System.Drawing.Point(3, 3);
             this.simObjectPanel.Name = "simObjectPanel";
-            this.simObjectPanel.Size = new System.Drawing.Size(148, 399);
+            this.simObjectPanel.Size = new System.Drawing.Size(148, 374);
             this.simObjectPanel.TabIndex = 1;
             // 
             // templatePanel1
@@ -302,7 +338,7 @@
             this.templatePanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.templatePanel1.Location = new System.Drawing.Point(3, 3);
             this.templatePanel1.Name = "templatePanel1";
-            this.templatePanel1.Size = new System.Drawing.Size(148, 399);
+            this.templatePanel1.Size = new System.Drawing.Size(148, 374);
             this.templatePanel1.TabIndex = 0;
             // 
             // AnomalyMain
@@ -326,10 +362,12 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
-            this.mainMenu.ResumeLayout(false);
-            this.mainMenu.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.mainMenu.ResumeLayout(false);
+            this.mainMenu.PerformLayout();
+            this.toolStrip2.ResumeLayout(false);
+            this.toolStrip2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -362,6 +400,9 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton playButton;
         private System.Windows.Forms.ToolStripButton pauseButton;
+        private System.Windows.Forms.ToolStrip toolStrip2;
+        private System.Windows.Forms.ToolStripButton moveButton;
+        private System.Windows.Forms.ToolStripButton rotateButton;
 
 
 
