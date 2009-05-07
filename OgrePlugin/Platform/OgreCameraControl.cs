@@ -116,6 +116,10 @@ namespace OgrePlugin
         /// <param name="showStats">True to show the scene stats.</param>
         public void showSceneStats(bool showStats)
         {
+            if (showStats != this.showStats)
+            {
+                statsOverlay.setVisible(showStats);
+            }
             this.showStats = showStats;
         }
 

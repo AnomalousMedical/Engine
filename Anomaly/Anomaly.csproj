@@ -94,6 +94,24 @@
     <Compile Include="GUI\View\FourWaySplit.Designer.cs">
       <DependentUpon>FourWaySplit.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\View\OneWaySplit.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\View\OneWaySplit.Designer.cs">
+      <DependentUpon>OneWaySplit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\View\ThreeWayUpperSplit.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\View\ThreeWayUpperSplit.Designer.cs">
+      <DependentUpon>ThreeWayUpperSplit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\View\TwoWaySplit.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\View\TwoWaySplit.Designer.cs">
+      <DependentUpon>TwoWaySplit.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="GUI\AnomalyMain.resx">
@@ -114,6 +132,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\View\FourWaySplit.resx">
       <DependentUpon>FourWaySplit.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\View\ThreeWayUpperSplit.resx">
+      <DependentUpon>ThreeWayUpperSplit.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\View\TwoWaySplit.resx">
+      <DependentUpon>TwoWaySplit.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

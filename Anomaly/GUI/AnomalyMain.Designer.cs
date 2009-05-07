@@ -36,11 +36,16 @@
             this.objectViewSplit = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.simObjectPanel = new Anomaly.SimObjectPanel();
             this.objectsEditInterface = new Editor.EditInterfaceView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.templatePanel1 = new Anomaly.TemplatePanel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.playButton = new System.Windows.Forms.ToolStripButton();
             this.pauseButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.moveButton = new System.Windows.Forms.ToolStripButton();
+            this.rotateButton = new System.Windows.Forms.ToolStripButton();
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,11 +57,13 @@
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sceneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.moveButton = new System.Windows.Forms.ToolStripButton();
-            this.rotateButton = new System.Windows.Forms.ToolStripButton();
-            this.simObjectPanel = new Anomaly.SimObjectPanel();
-            this.templatePanel1 = new Anomaly.TemplatePanel();
+            this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showStatsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.layoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.oneWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.twoWindowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.threeWindowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fourWindowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainToolStripContainer.ContentPanel.SuspendLayout();
             this.mainToolStripContainer.TopToolStripPanel.SuspendLayout();
             this.mainToolStripContainer.SuspendLayout();
@@ -67,8 +74,8 @@
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
-            this.mainMenu.SuspendLayout();
             this.toolStrip2.SuspendLayout();
+            this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainToolStripContainer
@@ -153,6 +160,14 @@
             this.tabPage1.Text = "Objects";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // simObjectPanel
+            // 
+            this.simObjectPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.simObjectPanel.Location = new System.Drawing.Point(3, 3);
+            this.simObjectPanel.Name = "simObjectPanel";
+            this.simObjectPanel.Size = new System.Drawing.Size(148, 374);
+            this.simObjectPanel.TabIndex = 1;
+            // 
             // objectsEditInterface
             // 
             this.objectsEditInterface.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -171,6 +186,14 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Templates";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // templatePanel1
+            // 
+            this.templatePanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.templatePanel1.Location = new System.Drawing.Point(3, 3);
+            this.templatePanel1.Name = "templatePanel1";
+            this.templatePanel1.Size = new System.Drawing.Size(148, 374);
+            this.templatePanel1.TabIndex = 0;
             // 
             // toolStrip1
             // 
@@ -205,12 +228,44 @@
             this.pauseButton.ToolTipText = "Pause";
             this.pauseButton.Click += new System.EventHandler(this.pauseButton_Click);
             // 
+            // toolStrip2
+            // 
+            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.moveButton,
+            this.rotateButton});
+            this.toolStrip2.Location = new System.Drawing.Point(90, 0);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(98, 25);
+            this.toolStrip2.TabIndex = 1;
+            // 
+            // moveButton
+            // 
+            this.moveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.moveButton.Image = ((System.Drawing.Image)(resources.GetObject("moveButton.Image")));
+            this.moveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.moveButton.Name = "moveButton";
+            this.moveButton.Size = new System.Drawing.Size(41, 22);
+            this.moveButton.Text = "Move";
+            this.moveButton.Click += new System.EventHandler(this.moveButton_Click);
+            // 
+            // rotateButton
+            // 
+            this.rotateButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.rotateButton.Image = ((System.Drawing.Image)(resources.GetObject("rotateButton.Image")));
+            this.rotateButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.rotateButton.Name = "rotateButton";
+            this.rotateButton.Size = new System.Drawing.Size(45, 22);
+            this.rotateButton.Text = "Rotate";
+            this.rotateButton.Click += new System.EventHandler(this.rotateButton_Click);
+            // 
             // mainMenu
             // 
             this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.resourcesToolStripMenuItem,
-            this.sceneToolStripMenuItem});
+            this.sceneToolStripMenuItem,
+            this.windowToolStripMenuItem});
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
             this.mainMenu.Size = new System.Drawing.Size(752, 24);
@@ -294,52 +349,60 @@
             this.configureToolStripMenuItem.Text = "Configure";
             this.configureToolStripMenuItem.Click += new System.EventHandler(this.configureToolStripMenuItem_Click);
             // 
-            // toolStrip2
+            // windowToolStripMenuItem
             // 
-            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.moveButton,
-            this.rotateButton});
-            this.toolStrip2.Location = new System.Drawing.Point(99, 0);
-            this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(129, 25);
-            this.toolStrip2.TabIndex = 1;
+            this.windowToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showStatsToolStripMenuItem,
+            this.layoutToolStripMenuItem});
+            this.windowToolStripMenuItem.Name = "windowToolStripMenuItem";
+            this.windowToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
+            this.windowToolStripMenuItem.Text = "Window";
             // 
-            // moveButton
+            // showStatsToolStripMenuItem
             // 
-            this.moveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.moveButton.Image = ((System.Drawing.Image)(resources.GetObject("moveButton.Image")));
-            this.moveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.moveButton.Name = "moveButton";
-            this.moveButton.Size = new System.Drawing.Size(41, 22);
-            this.moveButton.Text = "Move";
-            this.moveButton.Click += new System.EventHandler(this.moveButton_Click);
+            this.showStatsToolStripMenuItem.Name = "showStatsToolStripMenuItem";
+            this.showStatsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.showStatsToolStripMenuItem.Text = "Show Stats";
+            this.showStatsToolStripMenuItem.Click += new System.EventHandler(this.showStatsToolStripMenuItem_Click);
             // 
-            // rotateButton
+            // layoutToolStripMenuItem
             // 
-            this.rotateButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.rotateButton.Image = ((System.Drawing.Image)(resources.GetObject("rotateButton.Image")));
-            this.rotateButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.rotateButton.Name = "rotateButton";
-            this.rotateButton.Size = new System.Drawing.Size(45, 22);
-            this.rotateButton.Text = "Rotate";
-            this.rotateButton.Click += new System.EventHandler(this.rotateButton_Click);
+            this.layoutToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.oneWindowToolStripMenuItem,
+            this.twoWindowsToolStripMenuItem,
+            this.threeWindowsToolStripMenuItem,
+            this.fourWindowsToolStripMenuItem});
+            this.layoutToolStripMenuItem.Name = "layoutToolStripMenuItem";
+            this.layoutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.layoutToolStripMenuItem.Text = "Layout";
             // 
-            // simObjectPanel
+            // oneWindowToolStripMenuItem
             // 
-            this.simObjectPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.simObjectPanel.Location = new System.Drawing.Point(3, 3);
-            this.simObjectPanel.Name = "simObjectPanel";
-            this.simObjectPanel.Size = new System.Drawing.Size(148, 374);
-            this.simObjectPanel.TabIndex = 1;
+            this.oneWindowToolStripMenuItem.Name = "oneWindowToolStripMenuItem";
+            this.oneWindowToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.oneWindowToolStripMenuItem.Text = "One Window";
+            this.oneWindowToolStripMenuItem.Click += new System.EventHandler(this.oneWindowToolStripMenuItem_Click);
             // 
-            // templatePanel1
+            // twoWindowsToolStripMenuItem
             // 
-            this.templatePanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.templatePanel1.Location = new System.Drawing.Point(3, 3);
-            this.templatePanel1.Name = "templatePanel1";
-            this.templatePanel1.Size = new System.Drawing.Size(148, 374);
-            this.templatePanel1.TabIndex = 0;
+            this.twoWindowsToolStripMenuItem.Name = "twoWindowsToolStripMenuItem";
+            this.twoWindowsToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.twoWindowsToolStripMenuItem.Text = "Two Windows";
+            this.twoWindowsToolStripMenuItem.Click += new System.EventHandler(this.twoWindowsToolStripMenuItem_Click);
+            // 
+            // threeWindowsToolStripMenuItem
+            // 
+            this.threeWindowsToolStripMenuItem.Name = "threeWindowsToolStripMenuItem";
+            this.threeWindowsToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.threeWindowsToolStripMenuItem.Text = "Three Windows";
+            this.threeWindowsToolStripMenuItem.Click += new System.EventHandler(this.threeWindowsToolStripMenuItem_Click);
+            // 
+            // fourWindowsToolStripMenuItem
+            // 
+            this.fourWindowsToolStripMenuItem.Name = "fourWindowsToolStripMenuItem";
+            this.fourWindowsToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.fourWindowsToolStripMenuItem.Text = "Four Windows";
+            this.fourWindowsToolStripMenuItem.Click += new System.EventHandler(this.fourWindowsToolStripMenuItem_Click);
             // 
             // AnomalyMain
             // 
@@ -364,10 +427,10 @@
             this.tabPage2.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            this.mainMenu.ResumeLayout(false);
-            this.mainMenu.PerformLayout();
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
+            this.mainMenu.ResumeLayout(false);
+            this.mainMenu.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -403,6 +466,13 @@
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStripButton moveButton;
         private System.Windows.Forms.ToolStripButton rotateButton;
+        private System.Windows.Forms.ToolStripMenuItem windowToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showStatsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem layoutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem oneWindowToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem twoWindowsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem threeWindowsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fourWindowsToolStripMenuItem;
 
 
 

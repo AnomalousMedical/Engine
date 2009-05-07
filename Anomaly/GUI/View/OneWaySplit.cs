@@ -6,14 +6,12 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Engine;
-using Engine.ObjectManagement;
 
 namespace Anomaly
 {
-    partial class FourWaySplit : UserControl, SplitView
+    public partial class OneWaySplit : UserControl, SplitView
     {
-        public FourWaySplit()
+        public OneWaySplit()
         {
             InitializeComponent();
         }
@@ -24,7 +22,7 @@ namespace Anomaly
         {
             get
             {
-                return leftVertical.Panel1;
+                return this;
             }
         }
 
@@ -32,7 +30,7 @@ namespace Anomaly
         {
             get
             {
-                return rightVertical.Panel1;
+                return null;
             }
         }
 
@@ -40,7 +38,7 @@ namespace Anomaly
         {
             get
             {
-                return leftVertical.Panel2;
+                return null;
             }
         }
 
@@ -48,7 +46,7 @@ namespace Anomaly
         {
             get
             {
-                return rightVertical.Panel2;
+                return null;
             }
         }
 

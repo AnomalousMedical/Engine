@@ -22,6 +22,7 @@ namespace Anomaly
         private CameraControl camera;
         private OrbitCameraController orbitCamera;
         private RendererPlugin renderer;
+        private bool showSceneStats = false;
 
         public DrawingWindow()
         {
@@ -86,6 +87,7 @@ namespace Anomaly
                 mainTimer.addFixedUpdateListener(orbitCamera);
                 orbitCamera.setCamera(camera);
                 CameraResolver.addMotionValidator(this);
+                camera.showSceneStats(showSceneStats);
             }
             else
             {
@@ -108,6 +110,15 @@ namespace Anomaly
         public void setEnabled(bool enabled)
         {
             window.setEnabled(enabled);
+        }
+
+        public void showStats(bool show)
+        {
+            if (camera != null)
+            {
+                camera.showSceneStats(show);
+            }
+            showSceneStats = show;
         }
 
         protected override void OnResize(EventArgs e)

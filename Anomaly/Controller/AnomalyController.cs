@@ -434,6 +434,17 @@ namespace Anomaly
             }
         }
 
+        /// <summary>
+        /// Get the SplitViewController.
+        /// </summary>
+        public SplitViewController ViewController
+        {
+            get
+            {
+                return splitViewController;
+            }
+        }
+
         #endregion Properties
     }
 }

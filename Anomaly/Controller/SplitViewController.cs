@@ -12,10 +12,10 @@ namespace Anomaly
 {
     class SplitViewController
     {
-        DrawingWindow upperLeft = new DrawingWindow();
-        DrawingWindow upperRight = new DrawingWindow();
-        DrawingWindow lowerLeft = new DrawingWindow();
-        DrawingWindow lowerRight = new DrawingWindow();
+        DrawingWindow frontView = new DrawingWindow();
+        DrawingWindow backView = new DrawingWindow();
+        DrawingWindow leftView = new DrawingWindow();
+        DrawingWindow rightView = new DrawingWindow();
         Control splitControl;
         SplitView currentView;
 
@@ -29,17 +29,17 @@ namespace Anomaly
             this.splitControl = splitControl;
 
             CameraSection cameras = AnomalyConfig.CameraSection;
-            upperLeft.initialize("UpperLeft", eventManager, renderer, cameras.FrontCameraPosition, cameras.FrontCameraLookAt);
-            upperLeft.Dock = DockStyle.Fill;
+            frontView.initialize("UpperLeft", eventManager, renderer, cameras.FrontCameraPosition, cameras.FrontCameraLookAt);
+            frontView.Dock = DockStyle.Fill;
 
-            upperRight.initialize("UpperRight", eventManager, renderer, cameras.BackCameraPosition, cameras.BackCameraLookAt);
-            upperRight.Dock = DockStyle.Fill;
+            backView.initialize("UpperRight", eventManager, renderer, cameras.BackCameraPosition, cameras.BackCameraLookAt);
+            backView.Dock = DockStyle.Fill;
 
-            lowerLeft.initialize("BottomLeft", eventManager, renderer, cameras.RightCameraPosition, cameras.RightCameraLookAt);
-            lowerLeft.Dock = DockStyle.Fill;
+            leftView.initialize("BottomLeft", eventManager, renderer, cameras.RightCameraPosition, cameras.RightCameraLookAt);
+            leftView.Dock = DockStyle.Fill;
 
-            lowerRight.initialize("BottomRight", eventManager, renderer, cameras.LeftCameraPosition, cameras.LeftCameraLookAt);
-            lowerRight.Dock = DockStyle.Fill;
+            rightView.initialize("BottomRight", eventManager, renderer, cameras.LeftCameraPosition, cameras.LeftCameraLookAt);
+            rightView.Dock = DockStyle.Fill;
         }
 
         public void createFourWaySplit()
@@ -49,30 +49,103 @@ namespace Anomaly
             currentView = fourWay;
             splitControl.Controls.Clear();
             splitControl.Controls.Add(fourWay);
-            currentView.UpperLeft.Controls.Add(upperLeft);
-            upperLeft.setEnabled(true);
-            currentView.UpperRight.Controls.Add(upperRight);
-            upperRight.setEnabled(true);
-            currentView.LowerLeft.Controls.Add(lowerLeft);
-            lowerLeft.setEnabled(true);
-            currentView.LowerRight.Controls.Add(lowerRight);
-            lowerRight.setEnabled(true);
+            configureWindows();
+        }
+
+        public void createThreeWayUpperSplit()
+        {
+            ThreeWayUpperSplit threeWay = new ThreeWayUpperSplit();
+            threeWay.Dock = DockStyle.Fill;
+            currentView = threeWay;
+            splitControl.Controls.Clear();
+            splitControl.Controls.Add(threeWay);
+            configureWindows();
+        }
+
+        public void createTwoWaySplit()
+        {
+            TwoWaySplit twoWay = new TwoWaySplit();
+            twoWay.Dock = DockStyle.Fill;
+            currentView = twoWay;
+            splitControl.Controls.Clear();
+            splitControl.Controls.Add(twoWay);
+            configureWindows();
+        }
+
+        public void createOneWaySplit()
+        {
+            OneWaySplit oneWay = new OneWaySplit();
+            oneWay.Dock = DockStyle.Fill;
+            currentView = oneWay;
+            splitControl.Controls.Clear();
+            splitControl.Controls.Add(oneWay);
+            configureWindows();
         }
 
         public void destroyCameras(UpdateTimer mainTimer)
         {
-            upperLeft.destroyCamera(mainTimer);
-            upperRight.destroyCamera(mainTimer);
-            lowerLeft.destroyCamera(mainTimer);
-            lowerRight.destroyCamera(mainTimer);
+            frontView.destroyCamera(mainTimer);
+            backView.destroyCamera(mainTimer);
+            leftView.destroyCamera(mainTimer);
+            rightView.destroyCamera(mainTimer);
         }
 
         public void createCameras(UpdateTimer mainTimer, SimScene scene)
         {
-            upperLeft.createCamera(mainTimer, scene);
-            upperRight.createCamera(mainTimer, scene);
-            lowerLeft.createCamera(mainTimer, scene);
-            lowerRight.createCamera(mainTimer, scene);
+            frontView.createCamera(mainTimer, scene);
+            backView.createCamera(mainTimer, scene);
+            leftView.createCamera(mainTimer, scene);
+            rightView.createCamera(mainTimer, scene);
+        }
+
+        public void showStats(bool show)
+        {
+            frontView.showStats(show);
+            backView.showStats(show);
+            leftView.showStats(show);
+            rightView.showStats(show);
+        }
+
+        /// <summary>
+        /// </summary>
+        private void configureWindows()
+        {
+            if (currentView.FrontView != null)
+            {
+                currentView.FrontView.Controls.Add(frontView);
+                frontView.setEnabled(true);
+            }
+            else
+            {
+                frontView.setEnabled(false);
+            }
+            if (currentView.BackView != null)
+            {
+                currentView.BackView.Controls.Add(backView);
+                backView.setEnabled(true);
+            }
+            else
+            {
+                backView.setEnabled(false);
+            }
+            if (currentView.LeftView != null)
+            {
+                currentView.LeftView.Controls.Add(leftView);
+                leftView.setEnabled(true);
+            }
+            else
+            {
+                leftView.setEnabled(false);
+            }
+            if (currentView.RightView != null)
+            {
+                currentView.RightView.Controls.Add(rightView);
+                rightView.setEnabled(true);
+            }
+            else
+            {
+                rightView.setEnabled(false);
+            }
         }
     }
 }

@@ -185,5 +185,31 @@ namespace Anomaly
         {
             controller.enableRotateTool();
         }
+
+        private void showStatsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            showStatsToolStripMenuItem.Checked = !showStatsToolStripMenuItem.Checked;
+            controller.ViewController.showStats(showStatsToolStripMenuItem.Checked);
+        }
+
+        private void oneWindowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.ViewController.createOneWaySplit();
+        }
+
+        private void twoWindowsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.ViewController.createTwoWaySplit();
+        }
+
+        private void threeWindowsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.ViewController.createThreeWayUpperSplit();
+        }
+
+        private void fourWindowsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.ViewController.createFourWaySplit();
+        }
     }
 }

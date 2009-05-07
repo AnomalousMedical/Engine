@@ -8,22 +8,22 @@ namespace Anomaly
 {
     interface SplitView : IDisposable
     {
-        Control UpperLeft
+        Control FrontView
         {
             get;
         }
 
-        Control UpperRight
+        Control BackView
         {
             get;
         }
 
-        Control LowerLeft
+        Control LeftView
         {
             get;
         }
 
-        Control LowerRight
+        Control RightView
         {
             get;
         }
