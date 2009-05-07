@@ -87,6 +87,11 @@ namespace OgrePlugin
             manualObject.end();
         }
 
+        public void moveOrigin(Vector3 newOrigin)
+        {
+            sceneNode.setPosition(newOrigin);
+        }
+
         public void setColor(Color color)
         {
             this.color = color;

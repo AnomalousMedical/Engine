@@ -66,6 +66,12 @@ namespace Engine.Renderer
         void end();
 
         /// <summary>
+        /// Move the origin to a new location.
+        /// </summary>
+        /// <param name="newOrigin">The new origin.</param>
+        void moveOrigin(Vector3 newOrigin);
+
+        /// <summary>
         /// Set the current color that will be used when drawing.
         /// </summary>
         /// <param name="color">The color to use for drawing.</param>
