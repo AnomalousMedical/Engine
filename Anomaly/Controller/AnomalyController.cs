@@ -131,7 +131,7 @@ namespace Anomaly
             toolManager.addTool(movementTool);
             rotateTool = new RotateTool("RotateTool", rotateController);
             toolManager.addTool(rotateTool);
-            toolManager.enableTool(rotateTool);
+            toolManager.enableTool(movementTool);
 
             //Initialize the windows
             mainForm.initialize(this);
