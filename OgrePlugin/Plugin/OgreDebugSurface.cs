@@ -11,7 +11,8 @@ namespace OgrePlugin
     class OgreDebugSurface : DebugDrawingSurface
     {
         private const int NUM_LINES = 32;
-        private const int NUM_LINES_IN_45 = NUM_LINES / 8 + 1;
+        private const int NUM_LINES_IN_45 = NUM_LINES / 8;
+        private const int NUM_LINES_IN_45_PLUS_ONE = NUM_LINES_IN_45 + 1;
         private const float PI = 3.14159265f;
         private const string MANUAL_OBJECT_RESERVED_NAME = "__DebugSurfaceManualObject";
         private const string NODE_RESERVED_NAME = "__DebugSurfaceNode";
@@ -21,8 +22,8 @@ namespace OgrePlugin
         private SceneNode sceneNode;
         OperationType opType;
         private Color color = Color.White;
-        private float[] xAxisLines = new float[NUM_LINES_IN_45];
-        private float[] yAxisLines = new float[NUM_LINES_IN_45];
+        private float[] xAxisLines = new float[NUM_LINES_IN_45_PLUS_ONE];
+        private float[] yAxisLines = new float[NUM_LINES_IN_45_PLUS_ONE];
         private SceneManager scene;
         private bool visible;
 
@@ -179,9 +180,9 @@ namespace OgrePlugin
             //from there
 
             int i;
-            float angleDelta = PI / 4.0f / (float)(NUM_LINES_IN_45 - 1);
+            float angleDelta = PI / 4.0f / (float)(NUM_LINES_IN_45);
             float currentAngle = 0.0f;
-            for (i = 0; i < NUM_LINES_IN_45; ++i)
+            for (i = 0; i < NUM_LINES_IN_45_PLUS_ONE; ++i)
             {
                 xAxisLines[i] = ((float)Math.Cos(currentAngle)) * radius;
                 yAxisLines[i] = ((float)Math.Sin(currentAngle)) * radius;
@@ -189,7 +190,7 @@ namespace OgrePlugin
             }
 
             //first octant
-            for (i = NUM_LINES_IN_45 - 1; i != 0; --i)
+            for (i = NUM_LINES_IN_45; i != 0; --i)
             {
                 manualObject.position(xAxisLines[i] * xAxis.x + yAxisLines[i] * yAxis.x + origin.x,
                                  xAxisLines[i] * xAxis.y + yAxisLines[i] * yAxis.y + origin.y,
@@ -202,7 +203,7 @@ namespace OgrePlugin
             }
 
             //second octant
-            for (i = NUM_LINES_IN_45 - 1; i != 0; --i)
+            for (i = NUM_LINES_IN_45; i != 0; --i)
             {
                 manualObject.position(xAxisLines[i] * yAxis.x + yAxisLines[i] * xAxis.x + origin.x,
                                  xAxisLines[i] * yAxis.y + yAxisLines[i] * xAxis.y + origin.y,
@@ -215,7 +216,7 @@ namespace OgrePlugin
             }
 
             //third octant
-            for (i = NUM_LINES_IN_45 - 1; i != 0; --i)
+            for (i = NUM_LINES_IN_45; i != 0; --i)
             {
                 manualObject.position(xAxisLines[i] * -yAxis.x + yAxisLines[i] * xAxis.x + origin.x,
                                  xAxisLines[i] * -yAxis.y + yAxisLines[i] * xAxis.y + origin.y,
@@ -228,7 +229,7 @@ namespace OgrePlugin
             }
 
             //fourth octant
-            for (i = NUM_LINES_IN_45 - 1; i != 0; --i)
+            for (i = NUM_LINES_IN_45; i != 0; --i)
             {
                 manualObject.position(xAxisLines[i] * -xAxis.x + yAxisLines[i] * yAxis.x + origin.x,
                                  xAxisLines[i] * -xAxis.y + yAxisLines[i] * yAxis.y + origin.y,
@@ -241,7 +242,7 @@ namespace OgrePlugin
             }
 
             //fifth octant
-            for (i = NUM_LINES_IN_45 - 1; i != 0; --i)
+            for (i = NUM_LINES_IN_45; i != 0; --i)
             {
                 manualObject.position(xAxisLines[i] * -xAxis.x + yAxisLines[i] * -yAxis.x + origin.x,
                                  xAxisLines[i] * -xAxis.y + yAxisLines[i] * -yAxis.y + origin.y,
@@ -254,7 +255,7 @@ namespace OgrePlugin
             }
 
             //sixth octant
-            for (i = NUM_LINES_IN_45 - 1; i != 0; --i)
+            for (i = NUM_LINES_IN_45; i != 0; --i)
             {
                 manualObject.position(xAxisLines[i] * -yAxis.x + yAxisLines[i] * -xAxis.x + origin.x,
                                  xAxisLines[i] * -yAxis.y + yAxisLines[i] * -xAxis.y + origin.y,
@@ -267,7 +268,7 @@ namespace OgrePlugin
             }
 
             //seventh octant
-            for (i = NUM_LINES_IN_45 - 1; i != 0; --i)
+            for (i = NUM_LINES_IN_45; i != 0; --i)
             {
                 manualObject.position(xAxisLines[i] * yAxis.x + yAxisLines[i] * -xAxis.x + origin.x,
                                  xAxisLines[i] * yAxis.y + yAxisLines[i] * -xAxis.y + origin.y,
@@ -280,7 +281,7 @@ namespace OgrePlugin
             }
 
             //eigth octant
-            for (i = NUM_LINES_IN_45 - 1; i != 0; --i)
+            for (i = NUM_LINES_IN_45; i != 0; --i)
             {
                 manualObject.position(xAxisLines[i] * xAxis.x + yAxisLines[i] * -yAxis.x + origin.x,
                                  xAxisLines[i] * xAxis.y + yAxisLines[i] * -yAxis.y + origin.y,
