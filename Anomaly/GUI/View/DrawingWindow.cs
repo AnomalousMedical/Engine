@@ -11,6 +11,7 @@ using Engine.Renderer;
 using Engine.ObjectManagement;
 using Logging;
 using Engine;
+using Editor;
 
 namespace Anomaly
 {

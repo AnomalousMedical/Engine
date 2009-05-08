@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Engine.Platform;
+using Engine;
 
-namespace Engine
+namespace Editor
 {
     enum CameraEvents
     {

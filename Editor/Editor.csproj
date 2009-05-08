@@ -47,6 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Camera\CameraMotionValidator.cs" />
+    <Compile Include="Camera\CameraResolver.cs" />
+    <Compile Include="Camera\OrbitCameraController.cs" />
     <Compile Include="CellEditors\MulitEnum\MultiEnumCellEditControl.cs">
       <SubType>Component</SubType>
     </Compile>
