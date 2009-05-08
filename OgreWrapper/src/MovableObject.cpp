@@ -18,6 +18,21 @@ Ogre::MovableObject* MovableObject::getMovableObject()
 	return movableObject;
 }
 
+bool MovableObject::isAttached()
+{
+	return movableObject->isAttached();
+}
+
+void MovableObject::detatchFromParent()
+{
+	return movableObject->detatchFromParent();
+}
+
+bool MovableObject::isInScene()
+{
+	return movableObject->isInScene();
+}
+
 void MovableObject::setVisible(bool visible)
 {
 	movableObject->setVisible(visible);

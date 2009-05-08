@@ -54,12 +54,32 @@ internal:
 	/// <param name="movableObject">The movable object to wrap.</param>
 	MovableObject(Ogre::MovableObject* movableObject);
 
-public:
 	/// <summary>
 	/// Returns the underlying native moveable object.
 	/// </summary>
 	/// <returns>The underlying native moveable object.</returns>
 	Ogre::MovableObject* getMovableObject();
+
+public:
+
+	/// <summary>
+	/// Returns true if this object is attached to a SceneNode or TagPoint. 
+	/// </summary>
+	/// <returns>Returns true if this object is attached to a SceneNode or TagPoint.</returns>
+	bool isAttached();
+
+	/// <summary>
+	/// Detaches an object from a parent SceneNode or TagPoint, if attached.
+	/// </summary>
+	void detatchFromParent();
+
+	/// <summary>
+	/// Returns true if this object is attached to a SceneNode or TagPoint, and
+    /// this SceneNode / TagPoint is currently in an active part of the scene
+    /// graph.
+	/// </summary>
+	/// <returns>True if the above conditions are met.</returns>
+	bool isInScene();
 
 	/// <summary>
 	/// Get the instance name of the render node object.

@@ -154,6 +154,31 @@ public:
 	float getAttenuationQuadric();
 
 	/// <summary>
+	/// Sets the position of the light. Applicable to point lights and
+    /// spotlights only. This will be overridden if the light is attached to a
+    /// SceneNode. 
+	/// </summary>
+	/// <param name="pos">The position to set.</param>
+	void setPosition(Engine::Vector3 pos);
+
+	/// <summary>
+	/// Sets the position of the light. Applicable to point lights and
+    /// spotlights only. This will be overridden if the light is attached to a
+    /// SceneNode. 
+	/// </summary>
+	/// <param name="x">The x translation.</param>
+	/// <param name="y">The y translation.</param>
+	/// <param name="z">The z translation.</param>
+	void setPosition(float x, float y, float z);
+
+	/// <summary>
+	/// Returns the position of the light. Applicable to point lights and
+    /// spotlights only.
+	/// </summary>
+	/// <returns></returns>
+	Engine::Vector3 getPosition();
+
+	/// <summary>
 	/// Sets the direction in which a light points.
 	/// </summary>
 	/// <param name="x">X Direction.</param>

@@ -100,6 +100,21 @@ float Light::getAttenuationQuadric()
 	return light->getAttenuationQuadric();
 }
 
+void Light::setPosition(Engine::Vector3 pos)
+{
+	light->setPosition(MathUtils::copyVector3(pos));
+}
+
+void Light::setPosition(float x, float y, float z)
+{
+	light->setPosition(x, y, z);
+}
+
+Engine::Vector3 Light::getPosition()
+{
+	return MathUtils::copyVector3(light->getPosition());
+}
+
 void Light::setDirection(float x, float y, float z)
 {
 	light->setDirection(x, y, z);
