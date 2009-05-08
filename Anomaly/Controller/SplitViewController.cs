@@ -16,69 +16,61 @@ namespace Anomaly
         DrawingWindow backView = new DrawingWindow();
         DrawingWindow leftView = new DrawingWindow();
         DrawingWindow rightView = new DrawingWindow();
-        Control splitControl;
+        Control viewDock;
         SplitView currentView;
+        DrawingWindow activeWindow = null;
+        bool maximized = false;
 
         public SplitViewController()
         {
 
         }
 
-        public void initialize(EventManager eventManager, RendererPlugin renderer, Control splitControl)
+        public void initialize(EventManager eventManager, RendererPlugin renderer, Control viewDock)
         {
-            this.splitControl = splitControl;
+            this.viewDock = viewDock;
 
             CameraSection cameras = AnomalyConfig.CameraSection;
-            frontView.initialize("UpperLeft", eventManager, renderer, cameras.FrontCameraPosition, cameras.FrontCameraLookAt);
+            frontView.initialize("UpperLeft", eventManager, renderer, cameras.FrontCameraPosition, cameras.FrontCameraLookAt, this);
             frontView.Dock = DockStyle.Fill;
 
-            backView.initialize("UpperRight", eventManager, renderer, cameras.BackCameraPosition, cameras.BackCameraLookAt);
+            backView.initialize("UpperRight", eventManager, renderer, cameras.BackCameraPosition, cameras.BackCameraLookAt, this);
             backView.Dock = DockStyle.Fill;
 
-            leftView.initialize("BottomLeft", eventManager, renderer, cameras.RightCameraPosition, cameras.RightCameraLookAt);
+            leftView.initialize("BottomLeft", eventManager, renderer, cameras.RightCameraPosition, cameras.RightCameraLookAt, this);
             leftView.Dock = DockStyle.Fill;
 
-            rightView.initialize("BottomRight", eventManager, renderer, cameras.LeftCameraPosition, cameras.LeftCameraLookAt);
+            rightView.initialize("BottomRight", eventManager, renderer, cameras.LeftCameraPosition, cameras.LeftCameraLookAt, this);
             rightView.Dock = DockStyle.Fill;
         }
 
         public void createFourWaySplit()
         {
-            FourWaySplit fourWay = new FourWaySplit();
-            fourWay.Dock = DockStyle.Fill;
-            currentView = fourWay;
-            splitControl.Controls.Clear();
-            splitControl.Controls.Add(fourWay);
-            configureWindows();
+            changeSplit(new FourWaySplit());
         }
 
         public void createThreeWayUpperSplit()
         {
-            ThreeWayUpperSplit threeWay = new ThreeWayUpperSplit();
-            threeWay.Dock = DockStyle.Fill;
-            currentView = threeWay;
-            splitControl.Controls.Clear();
-            splitControl.Controls.Add(threeWay);
-            configureWindows();
+            changeSplit(new ThreeWayUpperSplit());
         }
 
         public void createTwoWaySplit()
         {
-            TwoWaySplit twoWay = new TwoWaySplit();
-            twoWay.Dock = DockStyle.Fill;
-            currentView = twoWay;
-            splitControl.Controls.Clear();
-            splitControl.Controls.Add(twoWay);
-            configureWindows();
+            changeSplit(new TwoWaySplit());
         }
 
         public void createOneWaySplit()
         {
-            OneWaySplit oneWay = new OneWaySplit();
-            oneWay.Dock = DockStyle.Fill;
-            currentView = oneWay;
-            splitControl.Controls.Clear();
-            splitControl.Controls.Add(oneWay);
+            changeSplit(new OneWaySplit());
+        }
+
+        private void changeSplit(SplitView splitView)
+        {
+            splitView.Dock = DockStyle.Fill;
+            currentView = splitView;
+            viewDock.Controls.Clear();
+            viewDock.Controls.Add(splitView);
+            activeWindow = null;
             configureWindows();
         }
 
@@ -106,14 +98,50 @@ namespace Anomaly
             rightView.showStats(show);
         }
 
+        public void setActiveWindow(DrawingWindow window)
+        {
+            if (activeWindow != null)
+            {
+                activeWindow.BorderStyle = BorderStyle.None;
+            }
+            activeWindow = window;
+            window.BorderStyle = BorderStyle.Fixed3D;
+        }
+
+        public void toggleMaximize()
+        {
+            if (maximized)
+            {
+                viewDock.Controls.Clear();
+                viewDock.Controls.Add(currentView);
+                configureWindows();
+            }
+            else
+            {
+                maximized = true;
+                frontView.setEnabled(false);
+                backView.setEnabled(false);
+                leftView.setEnabled(false);
+                rightView.setEnabled(false);
+                activeWindow.setEnabled(true);
+                viewDock.Controls.Clear();
+                viewDock.Controls.Add(activeWindow);
+            }
+        }
+
         /// <summary>
         /// </summary>
         private void configureWindows()
         {
+            maximized = false;
             if (currentView.FrontView != null)
             {
                 currentView.FrontView.Controls.Add(frontView);
                 frontView.setEnabled(true);
+                if (activeWindow == null)
+                {
+                    setActiveWindow(frontView);
+                }
             }
             else
             {
@@ -123,6 +151,10 @@ namespace Anomaly
             {
                 currentView.BackView.Controls.Add(backView);
                 backView.setEnabled(true);
+                if (activeWindow == null)
+                {
+                    setActiveWindow(backView);
+                }
             }
             else
             {
@@ -132,6 +164,10 @@ namespace Anomaly
             {
                 currentView.LeftView.Controls.Add(leftView);
                 leftView.setEnabled(true);
+                if (activeWindow == null)
+                {
+                    setActiveWindow(leftView);
+                }
             }
             else
             {
@@ -141,6 +177,10 @@ namespace Anomaly
             {
                 currentView.RightView.Controls.Add(rightView);
                 rightView.setEnabled(true);
+                if (activeWindow == null)
+                {
+                    setActiveWindow(rightView);
+                }
             }
             else
             {

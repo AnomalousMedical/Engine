@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace Anomaly
 {
-    public partial class ThreeWayUpperSplit : UserControl, SplitView
+    partial class ThreeWayUpperSplit : SplitView
     {
         public ThreeWayUpperSplit()
         {
@@ -18,7 +18,7 @@ namespace Anomaly
 
         #region SplitView Members
 
-        public Control FrontView
+        public override Control FrontView
         {
             get
             {
@@ -26,7 +26,7 @@ namespace Anomaly
             }
         }
 
-        public Control BackView
+        public override Control BackView
         {
             get
             {
@@ -34,7 +34,7 @@ namespace Anomaly
             }
         }
 
-        public Control LeftView
+        public override Control LeftView
         {
             get
             {
@@ -42,7 +42,7 @@ namespace Anomaly
             }
         }
 
-        public Control RightView
+        public override Control RightView
         {
             get
             {

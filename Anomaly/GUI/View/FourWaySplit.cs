@@ -11,7 +11,7 @@ using Engine.ObjectManagement;
 
 namespace Anomaly
 {
-    partial class FourWaySplit : UserControl, SplitView
+    partial class FourWaySplit : SplitView
     {
         public FourWaySplit()
         {
@@ -20,7 +20,7 @@ namespace Anomaly
 
         #region SplitView Members
 
-        public Control FrontView
+        public override Control FrontView
         {
             get
             {
@@ -28,7 +28,7 @@ namespace Anomaly
             }
         }
 
-        public Control BackView
+        public override Control BackView
         {
             get
             {
@@ -36,7 +36,7 @@ namespace Anomaly
             }
         }
 
-        public Control LeftView
+        public override Control LeftView
         {
             get
             {
@@ -44,7 +44,7 @@ namespace Anomaly
             }
         }
 
-        public Control RightView
+        public override Control RightView
         {
             get
             {

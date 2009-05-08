@@ -58,7 +58,9 @@
     <Compile Include="Controller\SceneController.cs" />
     <Compile Include="Controller\SimObject\SelectableSimObject.cs" />
     <Compile Include="Controller\SimObject\SimObjectController.cs" />
-    <Compile Include="Controller\SplitView.cs" />
+    <Compile Include="Controller\SplitView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controller\SplitViewController.cs" />
     <Compile Include="Controller\Template.cs" />
     <Compile Include="Controller\TemplateController.cs" />

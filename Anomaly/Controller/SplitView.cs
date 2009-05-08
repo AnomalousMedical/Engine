@@ -6,24 +6,24 @@ using System.Windows.Forms;
 
 namespace Anomaly
 {
-    interface SplitView : IDisposable
+    abstract class SplitView : UserControl
     {
-        Control FrontView
+        public abstract Control FrontView
         {
             get;
         }
 
-        Control BackView
+        public abstract Control BackView
         {
             get;
         }
 
-        Control LeftView
+        public abstract Control LeftView
         {
             get;
         }
 
-        Control RightView
+        public abstract Control RightView
         {
             get;
         }

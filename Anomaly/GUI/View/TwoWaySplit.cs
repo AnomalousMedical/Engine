@@ -9,14 +9,14 @@ using System.Windows.Forms;
 
 namespace Anomaly
 {
-    public partial class TwoWaySplit : UserControl, SplitView
+    partial class TwoWaySplit : SplitView
     {
         public TwoWaySplit()
         {
             InitializeComponent();
         }
 
-        public Control FrontView
+        public override Control FrontView
         {
             get
             {
@@ -24,7 +24,7 @@ namespace Anomaly
             }
         }
 
-        public Control BackView
+        public override Control BackView
         {
             get
             {
@@ -32,7 +32,7 @@ namespace Anomaly
             }
         }
 
-        public Control LeftView
+        public override Control LeftView
         {
             get
             {
@@ -40,7 +40,7 @@ namespace Anomaly
             }
         }
 
-        public Control RightView
+        public override Control RightView
         {
             get
             {

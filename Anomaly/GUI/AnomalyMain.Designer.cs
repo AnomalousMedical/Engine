@@ -64,6 +64,7 @@
             this.twoWindowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.threeWindowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fourWindowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.maximizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainToolStripContainer.ContentPanel.SuspendLayout();
             this.mainToolStripContainer.TopToolStripPanel.SuspendLayout();
             this.mainToolStripContainer.SuspendLayout();
@@ -241,6 +242,8 @@
             // 
             // moveButton
             // 
+            this.moveButton.Checked = true;
+            this.moveButton.CheckState = System.Windows.Forms.CheckState.Checked;
             this.moveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.moveButton.Image = ((System.Drawing.Image)(resources.GetObject("moveButton.Image")));
             this.moveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -353,6 +356,7 @@
             // 
             this.windowToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.showStatsToolStripMenuItem,
+            this.maximizeToolStripMenuItem,
             this.layoutToolStripMenuItem});
             this.windowToolStripMenuItem.Name = "windowToolStripMenuItem";
             this.windowToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
@@ -403,6 +407,13 @@
             this.fourWindowsToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.fourWindowsToolStripMenuItem.Text = "Four Windows";
             this.fourWindowsToolStripMenuItem.Click += new System.EventHandler(this.fourWindowsToolStripMenuItem_Click);
+            // 
+            // maximizeToolStripMenuItem
+            // 
+            this.maximizeToolStripMenuItem.Name = "maximizeToolStripMenuItem";
+            this.maximizeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.maximizeToolStripMenuItem.Text = "Maximize";
+            this.maximizeToolStripMenuItem.Click += new System.EventHandler(this.maximizeToolStripMenuItem_Click);
             // 
             // AnomalyMain
             // 
@@ -473,6 +484,7 @@
         private System.Windows.Forms.ToolStripMenuItem twoWindowsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem threeWindowsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fourWindowsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem maximizeToolStripMenuItem;
 
 
 

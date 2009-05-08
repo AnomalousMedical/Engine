@@ -179,11 +179,15 @@ namespace Anomaly
         private void moveButton_Click(object sender, EventArgs e)
         {
             controller.enableMoveTool();
+            moveButton.Checked = true;
+            rotateButton.Checked = false;
         }
 
         private void rotateButton_Click(object sender, EventArgs e)
         {
             controller.enableRotateTool();
+            moveButton.Checked = false;
+            rotateButton.Checked = true;
         }
 
         private void showStatsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -210,6 +214,11 @@ namespace Anomaly
         private void fourWindowsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             controller.ViewController.createFourWaySplit();
+        }
+
+        private void maximizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.ViewController.toggleMaximize();
         }
     }
 }

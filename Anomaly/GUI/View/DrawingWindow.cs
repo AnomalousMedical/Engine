@@ -23,16 +23,18 @@ namespace Anomaly
         private OrbitCameraController orbitCamera;
         private RendererPlugin renderer;
         private bool showSceneStats = false;
+        private SplitViewController splitController;
 
         public DrawingWindow()
         {
             InitializeComponent();
         }
 
-        internal void initialize(string name, EventManager eventManager, RendererPlugin renderer, Vector3 translation, Vector3 lookAt)
+        internal void initialize(string name, EventManager eventManager, RendererPlugin renderer, Vector3 translation, Vector3 lookAt, SplitViewController splitController)
         {
             this.name = name;
             this.renderer = renderer;
+            this.splitController = splitController;
             orbitCamera = new OrbitCameraController(translation, lookAt, eventManager);
             orbitCamera.MotionValidator = this;
             window = renderer.createRendererWindow(this, name);
@@ -119,6 +121,12 @@ namespace Anomaly
                 camera.showSceneStats(show);
             }
             showSceneStats = show;
+        }
+
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            splitController.setActiveWindow(this);
+            base.OnMouseDown(e);
         }
 
         protected override void OnResize(EventArgs e)
