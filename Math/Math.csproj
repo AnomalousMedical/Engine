@@ -8,7 +8,7 @@
     <ProjectGuid>{52213B4F-D940-438C-98DD-BB7CF44F2F98}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Math</RootNamespace>
+    <RootNamespace>Engine</RootNamespace>
     <AssemblyName>Math</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
