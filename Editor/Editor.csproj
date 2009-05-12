@@ -45,6 +45,10 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.3.1.22263, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dependencies\DockPanel\Src\WinFormsUI\bin\Release\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Camera\CameraMotionValidator.cs" />
@@ -120,13 +124,13 @@
     <Compile Include="Tools\Movement\MoveController.cs" />
     <Compile Include="Tools\Movement\MovementTool.cs" />
     <Compile Include="Tools\Movement\MovePanel.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Tools\Movement\MovePanel.designer.cs">
       <DependentUpon>MovePanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\Rotation\EulerRotatePanel.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Tools\Rotation\EulerRotatePanel.designer.cs">
       <DependentUpon>EulerRotatePanel.cs</DependentUpon>

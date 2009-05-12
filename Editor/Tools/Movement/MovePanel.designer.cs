@@ -134,6 +134,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(243, 54);
+            this.CloseButton = false;
+            this.CloseButtonVisible = false;
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -141,8 +144,13 @@
             this.Controls.Add(this.yLoc);
             this.Controls.Add(this.xLoc);
             this.Controls.Add(this.label1);
+            this.DockAreas = ((WeifenLuo.WinFormsUI.Docking.DockAreas)(((WeifenLuo.WinFormsUI.Docking.DockAreas.Float | WeifenLuo.WinFormsUI.Docking.DockAreas.DockTop)
+                        | WeifenLuo.WinFormsUI.Docking.DockAreas.DockBottom)));
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.HideOnClose = true;
             this.Name = "MovePanel";
-            this.Size = new System.Drawing.Size(243, 52);
+            this.ShowHint = WeifenLuo.WinFormsUI.Docking.DockState.DockBottom;
+            this.Text = "Move";
             ((System.ComponentModel.ISupportInitialize)(this.xLoc)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.yLoc)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.zLoc)).EndInit();

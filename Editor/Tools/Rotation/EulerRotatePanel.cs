@@ -8,10 +8,11 @@ using System.Text;
 using System.Windows.Forms;
 using Engine.ObjectManagement;
 using Engine;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Editor
 {
-    public partial class EulerRotatePanel : UserControl
+    public partial class EulerRotatePanel : DockContent
     {
         RotateController rotationController;
         private bool allowMotionUpdates = true;

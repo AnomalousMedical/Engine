@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using Engine.Platform;
 using Engine;
 using Editor;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Anomaly
 {
@@ -17,6 +18,11 @@ namespace Anomaly
         private List<OSWindowListener> listeners = new List<OSWindowListener>();
         private AnomalyController controller;
         FileTracker fileTracker;
+
+        private MovePanel movePanel = new MovePanel();
+        private TemplatePanel templatePanel1 = new TemplatePanel();
+        private SimObjectPanel simObjectPanel = new SimObjectPanel();
+        private EulerRotatePanel eulerRotatePanel1 = new EulerRotatePanel();
 
         public AnomalyMain()
         {
@@ -31,14 +37,21 @@ namespace Anomaly
             this.templatePanel1.initialize(controller.TemplateController);
             this.simObjectPanel.intialize(controller);
             this.eulerRotatePanel1.initialize(controller.RotateController);
+
+            movePanel.Show(dockPanel);
+            templatePanel1.Show(dockPanel);
+            simObjectPanel.Show(dockPanel);
+            eulerRotatePanel1.Show(dockPanel);
         }
 
-        public Control SplitControl
+        public void showDockContent(DockContent content)
         {
-            get
-            {
-                return objectViewSplit.Panel2;
-            }
+            content.Show(dockPanel);
+        }
+
+        public void hideDockContent(DockContent content)
+        {
+            content.DockHandler.Hide();
         }
 
         #region OSWindow Members

@@ -7,12 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Editor;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Anomaly
 {
     delegate void CreateTemplate();
 
-    partial class TemplatePanel : UserControl
+    partial class TemplatePanel : DockContent
     {
         public event CreateTemplate OnCreateTemplate;
 

@@ -158,6 +158,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(339, 46);
+            this.CloseButton = false;
+            this.CloseButtonVisible = false;
             this.Controls.Add(this.radians);
             this.Controls.Add(this.degrees);
             this.Controls.Add(this.roll);
@@ -167,8 +170,13 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.Rotatelbl);
+            this.DockAreas = ((WeifenLuo.WinFormsUI.Docking.DockAreas)(((WeifenLuo.WinFormsUI.Docking.DockAreas.Float | WeifenLuo.WinFormsUI.Docking.DockAreas.DockTop)
+                        | WeifenLuo.WinFormsUI.Docking.DockAreas.DockBottom)));
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.HideOnClose = true;
             this.Name = "EulerRotatePanel";
-            this.Size = new System.Drawing.Size(340, 46);
+            this.ShowHint = WeifenLuo.WinFormsUI.Docking.DockState.DockBottom;
+            this.Text = "Rotate";
             ((System.ComponentModel.ISupportInitialize)(this.roll)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pitch)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.yaw)).EndInit();

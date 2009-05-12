@@ -7,10 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Editor;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Anomaly
 {
-    partial class SimObjectPanel : UserControl
+    partial class SimObjectPanel : DockContent
     {
         private AnomalyController controller;
 

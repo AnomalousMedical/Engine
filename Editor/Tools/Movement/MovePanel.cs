@@ -8,10 +8,11 @@ using System.Text;
 using System.Windows.Forms;
 using Engine.ObjectManagement;
 using Engine;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Editor
 {
-    public partial class MovePanel : UserControl
+    public partial class MovePanel : DockContent
     {
         MoveController moveController;
         private bool allowMotionUpdates = true;

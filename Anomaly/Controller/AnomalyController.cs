@@ -34,6 +34,7 @@ namespace Anomaly
         private DrawingWindow hiddenEmbedWindow;
         private ObjectEditorForm objectEditor = new ObjectEditorForm();
         private SplitViewController splitViewController = new SplitViewController();
+        private SplitViewHost splitViewHost = new SplitViewHost();
 
         //Platform
         private UpdateTimer mainTimer;
@@ -136,7 +137,8 @@ namespace Anomaly
 
             //Initialize the windows
             mainForm.initialize(this);
-            splitViewController.initialize(eventManager, pluginManager.RendererPlugin, mainForm.SplitControl);
+            mainForm.showDockContent(splitViewHost);
+            splitViewController.initialize(eventManager, pluginManager.RendererPlugin, splitViewHost);
             splitViewController.createFourWaySplit();
         }
 

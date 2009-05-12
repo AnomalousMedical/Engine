@@ -38,9 +38,9 @@
             // 
             this.panel1.Controls.Add(this.createButton);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 431);
+            this.panel1.Location = new System.Drawing.Point(0, 395);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(188, 31);
+            this.panel1.Size = new System.Drawing.Size(172, 31);
             this.panel1.TabIndex = 0;
             // 
             // createButton
@@ -58,17 +58,25 @@
             this.editInterfaceView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.editInterfaceView.Location = new System.Drawing.Point(0, 0);
             this.editInterfaceView.Name = "editInterfaceView";
-            this.editInterfaceView.Size = new System.Drawing.Size(188, 431);
+            this.editInterfaceView.Size = new System.Drawing.Size(172, 395);
             this.editInterfaceView.TabIndex = 1;
             // 
             // TemplatePanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(172, 426);
+            this.CloseButton = false;
+            this.CloseButtonVisible = false;
             this.Controls.Add(this.editInterfaceView);
             this.Controls.Add(this.panel1);
+            this.DockAreas = ((WeifenLuo.WinFormsUI.Docking.DockAreas)(((WeifenLuo.WinFormsUI.Docking.DockAreas.Float | WeifenLuo.WinFormsUI.Docking.DockAreas.DockLeft)
+                        | WeifenLuo.WinFormsUI.Docking.DockAreas.DockRight)));
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.HideOnClose = true;
             this.Name = "TemplatePanel";
-            this.Size = new System.Drawing.Size(188, 462);
+            this.ShowHint = WeifenLuo.WinFormsUI.Docking.DockState.DockLeft;
+            this.Text = "Templates";
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
