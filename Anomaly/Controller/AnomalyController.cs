@@ -21,7 +21,7 @@ namespace Anomaly
     /// <summary>
     /// This is the primary controller for the Anomaly editor.
     /// </summary>
-    class AnomalyController : IDisposable
+    class AnomalyController : IDisposable, UpdateListener
     {
 
         #region Fields
@@ -126,6 +126,7 @@ namespace Anomaly
 
             toolManager = new ToolManager(eventManager);
             mainTimer.addFixedUpdateListener(toolManager);
+            mainTimer.addFullSpeedUpdateListener(this);
             toolInterop.setToolManager(toolManager);
             movementTool = new MovementTool("MovementTool", moveController);
             toolManager.addTool(movementTool);
@@ -170,7 +171,7 @@ namespace Anomaly
         /// </summary>
         public void start()
         {
-            mainTimer.processMessageLoop(true);
+            //mainTimer.processMessageLoop(true);
             mainForm.Show();
             mainTimer.startLoop();
         }
@@ -446,5 +447,24 @@ namespace Anomaly
         }
 
         #endregion Properties
+
+        #region UpdateListener Members
+
+        public void sendUpdate(Clock clock)
+        {
+            Application.DoEvents();
+        }
+
+        public void loopStarting()
+        {
+            
+        }
+
+        public void exceededMaxDelta()
+        {
+            
+        }
+
+        #endregion
     }
 }
