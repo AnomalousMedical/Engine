@@ -38,10 +38,14 @@ namespace Anomaly
             this.simObjectPanel.intialize(controller);
             this.eulerRotatePanel1.initialize(controller.RotateController);
 
+            dockPanel.SuspendLayout();
+
             movePanel.Show(dockPanel);
             templatePanel1.Show(dockPanel);
             simObjectPanel.Show(dockPanel);
             eulerRotatePanel1.Show(dockPanel);
+
+            dockPanel.ResumeLayout();
         }
 
         public void showDockContent(DockContent content)

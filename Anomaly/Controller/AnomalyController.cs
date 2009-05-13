@@ -138,7 +138,7 @@ namespace Anomaly
             //Initialize the windows
             mainForm.initialize(this);
             splitViewController.initialize(this);
-            splitViewController.createFourWaySplit();
+            splitViewController.createOneWaySplit();
         }
 
         /// <summary>

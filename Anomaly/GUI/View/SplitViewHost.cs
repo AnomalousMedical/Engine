@@ -14,11 +14,14 @@ namespace Anomaly
     {
         private List<Control> savedControls = new List<Control>();
         private bool notClosing = true;
+        private SplitViewController controller;
 
-        public SplitViewHost(String name)
+        public SplitViewHost(String name, SplitViewController controller)
         {
             InitializeComponent();
             this.Text = name;
+            this.Name = name;
+            this.controller = controller;
         }
 
         public DrawingWindow DrawingWindow
@@ -31,6 +34,7 @@ namespace Anomaly
 
         protected override void OnClosing(CancelEventArgs e)
         {
+            controller._alertCameraDestroyed(this);
             notClosing = false;
             drawingWindow.destroyCamera();
             base.OnClosing(e);
