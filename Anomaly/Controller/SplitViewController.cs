@@ -16,19 +16,21 @@ namespace Anomaly
         DrawingWindow backView = new DrawingWindow();
         DrawingWindow leftView = new DrawingWindow();
         DrawingWindow rightView = new DrawingWindow();
-        Control viewDock;
+        private SplitViewHost splitViewHost = new SplitViewHost();
         SplitView currentView;
         DrawingWindow activeWindow = null;
         bool maximized = false;
+        private AnomalyController controller;
 
         public SplitViewController()
         {
 
         }
 
-        public void initialize(EventManager eventManager, RendererPlugin renderer, Control viewDock)
+        public void initialize(EventManager eventManager, RendererPlugin renderer, AnomalyController controller)
         {
-            this.viewDock = viewDock;
+            this.controller = controller;
+            controller.showDockContent(splitViewHost);
 
             CameraSection cameras = AnomalyConfig.CameraSection;
             frontView.initialize("UpperLeft", eventManager, renderer, cameras.FrontCameraPosition, cameras.FrontCameraLookAt, this);
@@ -68,8 +70,8 @@ namespace Anomaly
         {
             splitView.Dock = DockStyle.Fill;
             currentView = splitView;
-            viewDock.Controls.Clear();
-            viewDock.Controls.Add(splitView);
+            splitViewHost.Controls.Clear();
+            splitViewHost.Controls.Add(splitView);
             activeWindow = null;
             configureWindows();
         }
@@ -112,8 +114,8 @@ namespace Anomaly
         {
             if (maximized)
             {
-                viewDock.Controls.Clear();
-                viewDock.Controls.Add(currentView);
+                splitViewHost.Controls.Clear();
+                splitViewHost.Controls.Add(currentView);
                 configureWindows();
             }
             else
@@ -124,8 +126,8 @@ namespace Anomaly
                 leftView.setEnabled(false);
                 rightView.setEnabled(false);
                 activeWindow.setEnabled(true);
-                viewDock.Controls.Clear();
-                viewDock.Controls.Add(activeWindow);
+                splitViewHost.Controls.Clear();
+                splitViewHost.Controls.Add(activeWindow);
             }
         }
 

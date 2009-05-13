@@ -15,6 +15,7 @@ using Engine.Saving.XMLSaver;
 using Engine.Saving;
 using Engine.Editing;
 using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Anomaly
 {
@@ -34,7 +35,6 @@ namespace Anomaly
         private DrawingWindow hiddenEmbedWindow;
         private ObjectEditorForm objectEditor = new ObjectEditorForm();
         private SplitViewController splitViewController = new SplitViewController();
-        private SplitViewHost splitViewHost = new SplitViewHost();
 
         //Platform
         private UpdateTimer mainTimer;
@@ -137,8 +137,7 @@ namespace Anomaly
 
             //Initialize the windows
             mainForm.initialize(this);
-            mainForm.showDockContent(splitViewHost);
-            splitViewController.initialize(eventManager, pluginManager.RendererPlugin, splitViewHost);
+            splitViewController.initialize(eventManager, pluginManager.RendererPlugin, this);
             splitViewController.createFourWaySplit();
         }
 
@@ -196,6 +195,16 @@ namespace Anomaly
             objectEditor.EditorPanel.setEditInterface(editInterface);
             objectEditor.ShowDialog(mainForm);
             objectEditor.EditorPanel.clearEditInterface();
+        }
+
+        public void showDockContent(DockContent content)
+        {
+            mainForm.showDockContent(content);
+        }
+
+        public void hideDockContent(DockContent content)
+        {
+            mainForm.hideDockContent(content);
         }
 
         /// <summary>
