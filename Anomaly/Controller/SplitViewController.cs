@@ -12,18 +12,10 @@ namespace Anomaly
 {
     class SplitViewController
     {
-        DrawingWindow frontView = new DrawingWindow();
-        DrawingWindow backView = new DrawingWindow();
-        DrawingWindow leftView = new DrawingWindow();
-        DrawingWindow rightView = new DrawingWindow();
-        private SplitViewHost splitViewHost = new SplitViewHost();
         private SplitViewHost camera1Host = new SplitViewHost();
         private SplitViewHost camera2Host = new SplitViewHost();
         private SplitViewHost camera3Host = new SplitViewHost();
         private SplitViewHost camera4Host = new SplitViewHost();
-        SplitView currentView;
-        DrawingWindow activeWindow = null;
-        bool maximized = false;
         private AnomalyController controller;
 
         public SplitViewController()
@@ -34,28 +26,19 @@ namespace Anomaly
         public void initialize(EventManager eventManager, RendererPlugin renderer, AnomalyController controller)
         {
             this.controller = controller;
-            //controller.showDockContent(splitViewHost);
 
             CameraSection cameras = AnomalyConfig.CameraSection;
             controller.showDockContent(camera1Host);
-            camera1Host.Controls.Add(frontView);
-            frontView.initialize("UpperLeft", eventManager, renderer, cameras.FrontCameraPosition, cameras.FrontCameraLookAt, this);
-            frontView.Dock = DockStyle.Fill;
+            camera1Host.DrawingWindow.initialize("UpperLeft", eventManager, renderer, cameras.FrontCameraPosition, cameras.FrontCameraLookAt, this);
 
             controller.showDockContent(camera2Host);
-            camera2Host.Controls.Add(backView);
-            backView.initialize("UpperRight", eventManager, renderer, cameras.BackCameraPosition, cameras.BackCameraLookAt, this);
-            backView.Dock = DockStyle.Fill;
+            camera2Host.DrawingWindow.initialize("UpperRight", eventManager, renderer, cameras.BackCameraPosition, cameras.BackCameraLookAt, this);
 
             controller.showDockContent(camera3Host);
-            camera3Host.Controls.Add(leftView);
-            leftView.initialize("BottomLeft", eventManager, renderer, cameras.RightCameraPosition, cameras.RightCameraLookAt, this);
-            leftView.Dock = DockStyle.Fill;
+            camera3Host.DrawingWindow.initialize("BottomLeft", eventManager, renderer, cameras.RightCameraPosition, cameras.RightCameraLookAt, this);
 
             controller.showDockContent(camera4Host);
-            camera4Host.Controls.Add(rightView);
-            rightView.initialize("BottomRight", eventManager, renderer, cameras.LeftCameraPosition, cameras.LeftCameraLookAt, this);
-            rightView.Dock = DockStyle.Fill;
+            camera4Host.DrawingWindow.initialize("BottomRight", eventManager, renderer, cameras.LeftCameraPosition, cameras.LeftCameraLookAt, this);
         }
 
         public void createFourWaySplit()
@@ -80,26 +63,26 @@ namespace Anomaly
 
         public void destroyCameras(UpdateTimer mainTimer)
         {
-            frontView.destroyCamera(mainTimer);
-            backView.destroyCamera(mainTimer);
-            leftView.destroyCamera(mainTimer);
-            rightView.destroyCamera(mainTimer);
+            camera1Host.DrawingWindow.destroyCamera(mainTimer);
+            camera2Host.DrawingWindow.destroyCamera(mainTimer);
+            camera3Host.DrawingWindow.destroyCamera(mainTimer);
+            camera4Host.DrawingWindow.destroyCamera(mainTimer);
         }
 
         public void createCameras(UpdateTimer mainTimer, SimScene scene)
         {
-            frontView.createCamera(mainTimer, scene);
-            backView.createCamera(mainTimer, scene);
-            leftView.createCamera(mainTimer, scene);
-            rightView.createCamera(mainTimer, scene);
+            camera1Host.DrawingWindow.createCamera(mainTimer, scene);
+            camera2Host.DrawingWindow.createCamera(mainTimer, scene);
+            camera3Host.DrawingWindow.createCamera(mainTimer, scene);
+            camera4Host.DrawingWindow.createCamera(mainTimer, scene);
         }
 
         public void showStats(bool show)
         {
-            frontView.showStats(show);
-            backView.showStats(show);
-            leftView.showStats(show);
-            rightView.showStats(show);
+            camera1Host.DrawingWindow.showStats(show);
+            camera2Host.DrawingWindow.showStats(show);
+            camera3Host.DrawingWindow.showStats(show);
+            camera4Host.DrawingWindow.showStats(show);
         }
     }
 }

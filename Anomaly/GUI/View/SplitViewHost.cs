@@ -10,23 +10,41 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace Anomaly
 {
-    public partial class SplitViewHost : DockContent
+    partial class SplitViewHost : DockContent
     {
         private List<Control> savedControls = new List<Control>();
+        private bool notClosing = true;
 
         public SplitViewHost()
         {
             InitializeComponent();
         }
 
+        public DrawingWindow DrawingWindow
+        {
+            get
+            {
+                return drawingWindow;
+            }
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            notClosing = false;
+            base.OnClosing(e);
+        }
+
         protected override void OnHandleDestroyed(EventArgs e)
         {
-            savedControls.Clear();
-            foreach (Control control in Controls)
+            if (notClosing)
             {
-                savedControls.Add(control);
+                savedControls.Clear();
+                foreach (Control control in Controls)
+                {
+                    savedControls.Add(control);
+                }
+                this.Controls.Clear();
             }
-            this.Controls.Clear();
             base.OnHandleDestroyed(e);
         }
 
