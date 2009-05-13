@@ -42,7 +42,7 @@
             // xLoc
             // 
             this.xLoc.DecimalPlaces = 4;
-            this.xLoc.Location = new System.Drawing.Point(1, 19);
+            this.xLoc.Location = new System.Drawing.Point(1, 22);
             this.xLoc.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -60,7 +60,7 @@
             // yLoc
             // 
             this.yLoc.DecimalPlaces = 4;
-            this.yLoc.Location = new System.Drawing.Point(75, 19);
+            this.yLoc.Location = new System.Drawing.Point(75, 22);
             this.yLoc.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -78,7 +78,7 @@
             // zLoc
             // 
             this.zLoc.DecimalPlaces = 4;
-            this.zLoc.Location = new System.Drawing.Point(149, 19);
+            this.zLoc.Location = new System.Drawing.Point(149, 22);
             this.zLoc.Maximum = new decimal(new int[] {
             1000000,
             0,
