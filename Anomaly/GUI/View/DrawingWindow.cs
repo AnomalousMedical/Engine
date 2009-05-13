@@ -25,6 +25,7 @@ namespace Anomaly
         private RendererPlugin renderer;
         private bool showSceneStats = false;
         private SplitViewController splitController;
+        private UpdateTimer mainTimer;
 
         public DrawingWindow()
         {
@@ -84,6 +85,7 @@ namespace Anomaly
             SimSubScene defaultScene = scene.getDefaultSubScene();
             if (defaultScene != null)
             {
+                this.mainTimer = mainTimer;
                 camera = window.createCamera(defaultScene, name, orbitCamera.Translation, orbitCamera.LookAt);
                 camera.BackgroundColor = new Engine.Color(0.4f, 0.4f, 0.4f);
                 camera.addLight();
@@ -98,7 +100,7 @@ namespace Anomaly
             }
         }
 
-        public void destroyCamera(UpdateTimer mainTimer)
+        public void destroyCamera()
         {
             if (camera != null)
             {
@@ -112,7 +114,10 @@ namespace Anomaly
 
         public void setEnabled(bool enabled)
         {
-            window.setEnabled(enabled);
+            if (window != null)
+            {
+                window.setEnabled(enabled);
+            }
         }
 
         public void showStats(bool show)

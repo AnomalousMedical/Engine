@@ -12,33 +12,31 @@ namespace Anomaly
 {
     class SplitViewController
     {
-        private SplitViewHost camera1Host = new SplitViewHost();
-        private SplitViewHost camera2Host = new SplitViewHost();
-        private SplitViewHost camera3Host = new SplitViewHost();
-        private SplitViewHost camera4Host = new SplitViewHost();
         private AnomalyController controller;
+        private Dictionary<String, SplitViewHost> cameras = new Dictionary<string, SplitViewHost>();
 
         public SplitViewController()
         {
 
         }
 
-        public void initialize(EventManager eventManager, RendererPlugin renderer, AnomalyController controller)
+        public void initialize(AnomalyController controller)
         {
             this.controller = controller;
 
-            CameraSection cameras = AnomalyConfig.CameraSection;
-            controller.showDockContent(camera1Host);
-            camera1Host.DrawingWindow.initialize("UpperLeft", eventManager, renderer, cameras.FrontCameraPosition, cameras.FrontCameraLookAt, this);
+            CameraSection cameraSection = AnomalyConfig.CameraSection;
+            addCamera("Camera 1",cameraSection.FrontCameraPosition, cameraSection.FrontCameraLookAt);
+            addCamera("Camera 2",cameraSection.BackCameraPosition, cameraSection.BackCameraLookAt);
+            addCamera("Camera 3",cameraSection.RightCameraPosition, cameraSection.RightCameraLookAt);
+            addCamera("Camera 4",cameraSection.LeftCameraPosition, cameraSection.LeftCameraLookAt);
+        }
 
-            controller.showDockContent(camera2Host);
-            camera2Host.DrawingWindow.initialize("UpperRight", eventManager, renderer, cameras.BackCameraPosition, cameras.BackCameraLookAt, this);
-
-            controller.showDockContent(camera3Host);
-            camera3Host.DrawingWindow.initialize("BottomLeft", eventManager, renderer, cameras.RightCameraPosition, cameras.RightCameraLookAt, this);
-
-            controller.showDockContent(camera4Host);
-            camera4Host.DrawingWindow.initialize("BottomRight", eventManager, renderer, cameras.LeftCameraPosition, cameras.LeftCameraLookAt, this);
+        private void addCamera(String name, Vector3 translation, Vector3 lookAt)
+        {
+            SplitViewHost cameraHost = new SplitViewHost(name);
+            controller.showDockContent(cameraHost);
+            cameraHost.DrawingWindow.initialize(name, controller.EventManager, controller.PluginManager.RendererPlugin, translation, lookAt, this);
+            cameras.Add(cameraHost.Text, cameraHost);
         }
 
         public void createFourWaySplit()
@@ -61,28 +59,28 @@ namespace Anomaly
             //changeSplit(new OneWaySplit());
         }
 
-        public void destroyCameras(UpdateTimer mainTimer)
+        public void destroyCameras()
         {
-            camera1Host.DrawingWindow.destroyCamera(mainTimer);
-            camera2Host.DrawingWindow.destroyCamera(mainTimer);
-            camera3Host.DrawingWindow.destroyCamera(mainTimer);
-            camera4Host.DrawingWindow.destroyCamera(mainTimer);
+            foreach (SplitViewHost host in cameras.Values)
+            {
+                host.DrawingWindow.destroyCamera();
+            }
         }
 
         public void createCameras(UpdateTimer mainTimer, SimScene scene)
         {
-            camera1Host.DrawingWindow.createCamera(mainTimer, scene);
-            camera2Host.DrawingWindow.createCamera(mainTimer, scene);
-            camera3Host.DrawingWindow.createCamera(mainTimer, scene);
-            camera4Host.DrawingWindow.createCamera(mainTimer, scene);
+            foreach (SplitViewHost host in cameras.Values)
+            {
+                host.DrawingWindow.createCamera(mainTimer, scene);
+            }
         }
 
         public void showStats(bool show)
         {
-            camera1Host.DrawingWindow.showStats(show);
-            camera2Host.DrawingWindow.showStats(show);
-            camera3Host.DrawingWindow.showStats(show);
-            camera4Host.DrawingWindow.showStats(show);
+            foreach (SplitViewHost host in cameras.Values)
+            {
+                host.DrawingWindow.showStats(show);
+            }
         }
     }
 }

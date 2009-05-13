@@ -15,9 +15,10 @@ namespace Anomaly
         private List<Control> savedControls = new List<Control>();
         private bool notClosing = true;
 
-        public SplitViewHost()
+        public SplitViewHost(String name)
         {
             InitializeComponent();
+            this.Text = name;
         }
 
         public DrawingWindow DrawingWindow
@@ -31,6 +32,7 @@ namespace Anomaly
         protected override void OnClosing(CancelEventArgs e)
         {
             notClosing = false;
+            drawingWindow.destroyCamera();
             base.OnClosing(e);
         }
 
@@ -57,5 +59,25 @@ namespace Anomaly
             savedControls.Clear();
             base.OnHandleCreated(e);
         }
+
+        //protected override void OnActivated(EventArgs e)
+        //{
+        //    drawingWindow.setEnabled(true);
+        //    Console.WriteLine(this.Text + " activated " + this.Pane.ActiveContent);
+        //    base.OnActivated(e);
+        //}
+
+        //protected override void OnDeactivate(EventArgs e)
+        //{
+        //    drawingWindow.setEnabled(false);
+        //    Console.WriteLine(this.Text + " deactivated " + this.Pane.ActiveContent);
+        //    base.OnDeactivate(e);
+        //}
+
+        //protected override void OnDockStateChanged(EventArgs e)
+        //{
+        //    Console.WriteLine(this.Text + " dock changed");
+        //    base.OnDockStateChanged(e);
+        //}
     }
 }

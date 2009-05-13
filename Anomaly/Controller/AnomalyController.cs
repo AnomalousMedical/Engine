@@ -137,7 +137,7 @@ namespace Anomaly
 
             //Initialize the windows
             mainForm.initialize(this);
-            splitViewController.initialize(eventManager, pluginManager.RendererPlugin, this);
+            splitViewController.initialize(this);
             splitViewController.createFourWaySplit();
         }
 
@@ -315,7 +315,7 @@ namespace Anomaly
         /// <param name="scene"></param>
         private void sceneController_OnSceneUnloading(SceneController controller, SimScene scene)
         {
-            splitViewController.destroyCameras(mainTimer);
+            splitViewController.destroyCameras();
             toolManager.destroySceneElements(scene.getDefaultSubScene(), pluginManager);
         }
 
