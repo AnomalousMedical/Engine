@@ -20,9 +20,9 @@ namespace Anomaly
         FileTracker fileTracker;
 
         private MovePanel movePanel = new MovePanel();
-        private TemplatePanel templatePanel1 = new TemplatePanel();
+        private TemplatePanel templatePanel = new TemplatePanel();
         private SimObjectPanel simObjectPanel = new SimObjectPanel();
-        private EulerRotatePanel eulerRotatePanel1 = new EulerRotatePanel();
+        private EulerRotatePanel rotatePanel = new EulerRotatePanel();
 
         public AnomalyMain()
         {
@@ -34,16 +34,16 @@ namespace Anomaly
             fileTracker = new FileTracker("*.sim.xml|*.sim.xml");
             this.controller = controller;
             this.movePanel.initialize(controller.MoveController);
-            this.templatePanel1.initialize(controller.TemplateController);
+            this.templatePanel.initialize(controller.TemplateController);
             this.simObjectPanel.intialize(controller);
-            this.eulerRotatePanel1.initialize(controller.RotateController);
+            this.rotatePanel.initialize(controller.RotateController);
 
             dockPanel.SuspendLayout();
 
             movePanel.Show(dockPanel);
-            templatePanel1.Show(dockPanel);
+            rotatePanel.Show(movePanel.Pane, DockAlignment.Right, 0.5);
+            templatePanel.Show(dockPanel);
             simObjectPanel.Show(dockPanel);
-            eulerRotatePanel1.Show(dockPanel);
 
             dockPanel.ResumeLayout();
         }

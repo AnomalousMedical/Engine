@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
             this.xLoc = new System.Windows.Forms.NumericUpDown();
             this.yLoc = new System.Windows.Forms.NumericUpDown();
             this.zLoc = new System.Windows.Forms.NumericUpDown();
@@ -40,19 +39,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.zLoc)).BeginInit();
             this.SuspendLayout();
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(2, 4);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(34, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Move";
-            // 
             // xLoc
             // 
             this.xLoc.DecimalPlaces = 4;
-            this.xLoc.Location = new System.Drawing.Point(21, 29);
+            this.xLoc.Location = new System.Drawing.Point(1, 19);
             this.xLoc.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -70,7 +60,7 @@
             // yLoc
             // 
             this.yLoc.DecimalPlaces = 4;
-            this.yLoc.Location = new System.Drawing.Point(95, 29);
+            this.yLoc.Location = new System.Drawing.Point(75, 19);
             this.yLoc.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -88,7 +78,7 @@
             // zLoc
             // 
             this.zLoc.DecimalPlaces = 4;
-            this.zLoc.Location = new System.Drawing.Point(169, 29);
+            this.zLoc.Location = new System.Drawing.Point(149, 19);
             this.zLoc.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -106,7 +96,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(45, 13);
+            this.label2.Location = new System.Drawing.Point(25, 3);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(14, 13);
             this.label2.TabIndex = 4;
@@ -115,7 +105,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(117, 13);
+            this.label3.Location = new System.Drawing.Point(97, 3);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(14, 13);
             this.label3.TabIndex = 5;
@@ -124,7 +114,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(191, 13);
+            this.label4.Location = new System.Drawing.Point(171, 3);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(14, 13);
             this.label4.TabIndex = 6;
@@ -134,7 +124,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(243, 54);
+            this.ClientSize = new System.Drawing.Size(219, 43);
             this.CloseButton = false;
             this.CloseButtonVisible = false;
             this.Controls.Add(this.label4);
@@ -143,7 +133,6 @@
             this.Controls.Add(this.zLoc);
             this.Controls.Add(this.yLoc);
             this.Controls.Add(this.xLoc);
-            this.Controls.Add(this.label1);
             this.DockAreas = ((WeifenLuo.WinFormsUI.Docking.DockAreas)(((WeifenLuo.WinFormsUI.Docking.DockAreas.Float | WeifenLuo.WinFormsUI.Docking.DockAreas.DockTop)
                         | WeifenLuo.WinFormsUI.Docking.DockAreas.DockBottom)));
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -161,7 +150,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown xLoc;
         private System.Windows.Forms.NumericUpDown yLoc;
         private System.Windows.Forms.NumericUpDown zLoc;
