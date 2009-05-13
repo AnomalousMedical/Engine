@@ -17,6 +17,10 @@ namespace Anomaly
         DrawingWindow leftView = new DrawingWindow();
         DrawingWindow rightView = new DrawingWindow();
         private SplitViewHost splitViewHost = new SplitViewHost();
+        private SplitViewHost camera1Host = new SplitViewHost();
+        private SplitViewHost camera2Host = new SplitViewHost();
+        private SplitViewHost camera3Host = new SplitViewHost();
+        private SplitViewHost camera4Host = new SplitViewHost();
         SplitView currentView;
         DrawingWindow activeWindow = null;
         bool maximized = false;
@@ -30,50 +34,48 @@ namespace Anomaly
         public void initialize(EventManager eventManager, RendererPlugin renderer, AnomalyController controller)
         {
             this.controller = controller;
-            controller.showDockContent(splitViewHost);
+            //controller.showDockContent(splitViewHost);
 
             CameraSection cameras = AnomalyConfig.CameraSection;
+            controller.showDockContent(camera1Host);
+            camera1Host.Controls.Add(frontView);
             frontView.initialize("UpperLeft", eventManager, renderer, cameras.FrontCameraPosition, cameras.FrontCameraLookAt, this);
             frontView.Dock = DockStyle.Fill;
 
+            controller.showDockContent(camera2Host);
+            camera2Host.Controls.Add(backView);
             backView.initialize("UpperRight", eventManager, renderer, cameras.BackCameraPosition, cameras.BackCameraLookAt, this);
             backView.Dock = DockStyle.Fill;
 
+            controller.showDockContent(camera3Host);
+            camera3Host.Controls.Add(leftView);
             leftView.initialize("BottomLeft", eventManager, renderer, cameras.RightCameraPosition, cameras.RightCameraLookAt, this);
             leftView.Dock = DockStyle.Fill;
 
+            controller.showDockContent(camera4Host);
+            camera4Host.Controls.Add(rightView);
             rightView.initialize("BottomRight", eventManager, renderer, cameras.LeftCameraPosition, cameras.LeftCameraLookAt, this);
             rightView.Dock = DockStyle.Fill;
         }
 
         public void createFourWaySplit()
         {
-            changeSplit(new FourWaySplit());
+            //changeSplit(new FourWaySplit());
         }
 
         public void createThreeWayUpperSplit()
         {
-            changeSplit(new ThreeWayUpperSplit());
+            //changeSplit(new ThreeWayUpperSplit());
         }
 
         public void createTwoWaySplit()
         {
-            changeSplit(new TwoWaySplit());
+            //changeSplit(new TwoWaySplit());
         }
 
         public void createOneWaySplit()
         {
-            changeSplit(new OneWaySplit());
-        }
-
-        private void changeSplit(SplitView splitView)
-        {
-            splitView.Dock = DockStyle.Fill;
-            currentView = splitView;
-            splitViewHost.Controls.Clear();
-            splitViewHost.Controls.Add(splitView);
-            activeWindow = null;
-            configureWindows();
+            //changeSplit(new OneWaySplit());
         }
 
         public void destroyCameras(UpdateTimer mainTimer)
@@ -98,96 +100,6 @@ namespace Anomaly
             backView.showStats(show);
             leftView.showStats(show);
             rightView.showStats(show);
-        }
-
-        public void setActiveWindow(DrawingWindow window)
-        {
-            if (activeWindow != null)
-            {
-                activeWindow.BorderStyle = BorderStyle.None;
-            }
-            activeWindow = window;
-            window.BorderStyle = BorderStyle.Fixed3D;
-        }
-
-        public void toggleMaximize()
-        {
-            if (maximized)
-            {
-                splitViewHost.Controls.Clear();
-                splitViewHost.Controls.Add(currentView);
-                configureWindows();
-            }
-            else
-            {
-                maximized = true;
-                frontView.setEnabled(false);
-                backView.setEnabled(false);
-                leftView.setEnabled(false);
-                rightView.setEnabled(false);
-                activeWindow.setEnabled(true);
-                splitViewHost.Controls.Clear();
-                splitViewHost.Controls.Add(activeWindow);
-            }
-        }
-
-        /// <summary>
-        /// </summary>
-        private void configureWindows()
-        {
-            maximized = false;
-            if (currentView.FrontView != null)
-            {
-                currentView.FrontView.Controls.Add(frontView);
-                frontView.setEnabled(true);
-                if (activeWindow == null)
-                {
-                    setActiveWindow(frontView);
-                }
-            }
-            else
-            {
-                frontView.setEnabled(false);
-            }
-            if (currentView.BackView != null)
-            {
-                currentView.BackView.Controls.Add(backView);
-                backView.setEnabled(true);
-                if (activeWindow == null)
-                {
-                    setActiveWindow(backView);
-                }
-            }
-            else
-            {
-                backView.setEnabled(false);
-            }
-            if (currentView.LeftView != null)
-            {
-                currentView.LeftView.Controls.Add(leftView);
-                leftView.setEnabled(true);
-                if (activeWindow == null)
-                {
-                    setActiveWindow(leftView);
-                }
-            }
-            else
-            {
-                leftView.setEnabled(false);
-            }
-            if (currentView.RightView != null)
-            {
-                currentView.RightView.Controls.Add(rightView);
-                rightView.setEnabled(true);
-                if (activeWindow == null)
-                {
-                    setActiveWindow(rightView);
-                }
-            }
-            else
-            {
-                rightView.setEnabled(false);
-            }
         }
     }
 }

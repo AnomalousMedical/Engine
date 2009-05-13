@@ -231,7 +231,7 @@ namespace Anomaly
 
         private void maximizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            controller.ViewController.toggleMaximize();
+            
         }
     }
 }

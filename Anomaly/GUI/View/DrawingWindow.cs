@@ -124,12 +124,6 @@ namespace Anomaly
             showSceneStats = show;
         }
 
-        protected override void OnMouseDown(MouseEventArgs e)
-        {
-            splitController.setActiveWindow(this);
-            base.OnMouseDown(e);
-        }
-
         protected override void OnResize(EventArgs e)
         {
             foreach (OSWindowListener listener in listeners)
