@@ -23,7 +23,6 @@ namespace Anomaly
             }
             configFile = new ConfigFile(docRoot + "/config.ini");
             configFile.loadConfigFile();
-            CameraSection = new CameraSection(configFile);
             ResourceSection = new ResourceSection(configFile);
             PluginSection = new PluginSection(configFile);
         }
@@ -41,11 +40,17 @@ namespace Anomaly
             configFile.writeConfigFile();
         }
 
-        public static CameraSection CameraSection { get; private set; }
-
         public static ResourceSection ResourceSection { get; private set; }
 
         public static PluginSection PluginSection { get; private set; }
+
+        public static ConfigFile ConfigFile
+        {
+            get
+            {
+                return configFile;
+            }
+        }
 
         private AnomalyConfig()
         {

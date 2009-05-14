@@ -1,4 +1,4 @@
-﻿namespace Anomaly
+﻿namespace Editor
 {
     partial class SplitViewHost
     {
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.drawingWindow = new Anomaly.DrawingWindow();
+            this.drawingWindow = new DrawingWindow();
             this.SuspendLayout();
             // 
             // drawingWindow

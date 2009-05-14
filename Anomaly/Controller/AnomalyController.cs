@@ -22,7 +22,7 @@ namespace Anomaly
     /// <summary>
     /// This is the primary controller for the Anomaly editor.
     /// </summary>
-    class AnomalyController : IDisposable, UpdateListener
+    class AnomalyController : IDisposable, UpdateListener, IDockProvider
     {
 
         #region Fields
@@ -137,7 +137,7 @@ namespace Anomaly
 
             //Initialize the windows
             mainForm.initialize(this);
-            splitViewController.initialize(this);
+            splitViewController.initialize(this, eventManager, pluginManager.RendererPlugin, AnomalyConfig.ConfigFile);
             splitViewController.createOneWaySplit();
 
             //Initialize debug visualizers

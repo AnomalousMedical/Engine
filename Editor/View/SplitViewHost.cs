@@ -8,9 +8,9 @@ using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace Anomaly
+namespace Editor
 {
-    partial class SplitViewHost : DockContent
+    public partial class SplitViewHost : DockContent
     {
         private List<Control> savedControls = new List<Control>();
         private bool notClosing = true;

@@ -9,31 +9,37 @@ using Engine.Platform;
 using Engine.Renderer;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace Anomaly
+namespace Editor
 {
-    class SplitViewController
+    public class SplitViewController
     {
-        private AnomalyController controller;
+        private IDockProvider controller;
         private List<SplitViewHost> cameras = new List<SplitViewHost>();
         private bool camerasActive = false;
         private bool showStatsActive = false;
         private UpdateTimer mainTimer;
         private SimScene scene;
+        private EventManager eventManager;
+        private RendererPlugin rendererPlugin;
+        private CameraSection cameraSection;
 
         public SplitViewController()
         {
 
         }
 
-        public void initialize(AnomalyController controller)
+        public void initialize(IDockProvider controller, EventManager eventManager, RendererPlugin rendererPlugin, ConfigFile configFile)
         {
+            this.cameraSection = new CameraSection(configFile);
             this.controller = controller;
+            this.eventManager = eventManager;
+            this.rendererPlugin = rendererPlugin;
         }
 
         private SplitViewHost addCamera(String name, Vector3 translation, Vector3 lookAt)
         {
             SplitViewHost cameraHost = new SplitViewHost(name, this);
-            cameraHost.DrawingWindow.initialize(name, controller.EventManager, controller.PluginManager.RendererPlugin, translation, lookAt, this);
+            cameraHost.DrawingWindow.initialize(name, eventManager, rendererPlugin, translation, lookAt, this);
             cameras.Add(cameraHost);
             if (camerasActive)
             {
@@ -46,7 +52,6 @@ namespace Anomaly
         public void createFourWaySplit()
         {
             closeAllWindows();
-            CameraSection cameraSection = AnomalyConfig.CameraSection;
             SplitViewHost camera1 = addCamera("Camera 1", cameraSection.FrontCameraPosition, cameraSection.FrontCameraLookAt);
             controller.showDockContent(camera1);
             SplitViewHost camera2 = addCamera("Camera 2", cameraSection.BackCameraPosition, cameraSection.BackCameraLookAt);
@@ -60,7 +65,6 @@ namespace Anomaly
         public void createThreeWayUpperSplit()
         {
             closeAllWindows();
-            CameraSection cameraSection = AnomalyConfig.CameraSection;
             SplitViewHost camera1 = addCamera("Camera 1", cameraSection.FrontCameraPosition, cameraSection.FrontCameraLookAt);
             controller.showDockContent(camera1);
             SplitViewHost camera2 = addCamera("Camera 2", cameraSection.BackCameraPosition, cameraSection.BackCameraLookAt);
@@ -72,7 +76,6 @@ namespace Anomaly
         public void createTwoWaySplit()
         {
             closeAllWindows();
-            CameraSection cameraSection = AnomalyConfig.CameraSection;
             SplitViewHost camera1 = addCamera("Camera 1", cameraSection.FrontCameraPosition, cameraSection.FrontCameraLookAt);
             controller.showDockContent(camera1);
             SplitViewHost camera2 = addCamera("Camera 2", cameraSection.BackCameraPosition, cameraSection.BackCameraLookAt);
@@ -82,7 +85,6 @@ namespace Anomaly
         public void createOneWaySplit()
         {
             closeAllWindows();
-            CameraSection cameraSection = AnomalyConfig.CameraSection;
             SplitViewHost camera1 = addCamera("Camera 1", cameraSection.FrontCameraPosition, cameraSection.FrontCameraLookAt);
             controller.showDockContent(camera1);
         }

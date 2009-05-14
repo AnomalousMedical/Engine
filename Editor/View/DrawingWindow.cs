@@ -13,9 +13,9 @@ using Logging;
 using Engine;
 using Editor;
 
-namespace Anomaly
+namespace Editor
 {
-    partial class DrawingWindow : UserControl, OSWindow, CameraMotionValidator
+    public partial class DrawingWindow : UserControl, OSWindow, CameraMotionValidator
     {
         private List<OSWindowListener> listeners = new List<OSWindowListener>();
         private RendererWindow window;

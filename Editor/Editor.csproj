@@ -98,6 +98,7 @@
     <Compile Include="DebugVisualizer\DebugVisualizer.Designer.cs">
       <DependentUpon>DebugVisualizer.cs</DependentUpon>
     </Compile>
+    <Compile Include="IDockProvider.cs" />
     <Compile Include="ObjectEditor\EditInterfaceViewEvent.cs" />
     <Compile Include="ObjectEditor\EditInterfaceView.cs">
       <SubType>UserControl</SubType>
@@ -152,6 +153,20 @@
     <Compile Include="Tools\ToolEvents.cs" />
     <Compile Include="Tools\ToolInteropController.cs" />
     <Compile Include="Tools\ToolManager.cs" />
+    <Compile Include="View\CameraSection.cs" />
+    <Compile Include="View\DrawingWindow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\DrawingWindow.Designer.cs">
+      <DependentUpon>DrawingWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\SplitViewController.cs" />
+    <Compile Include="View\SplitViewHost.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\SplitViewHost.Designer.cs">
+      <DependentUpon>SplitViewHost.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">
@@ -214,6 +229,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\Rotation\EulerRotatePanel.resx">
       <DependentUpon>EulerRotatePanel.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\DrawingWindow.resx">
+      <DependentUpon>DrawingWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\SplitViewHost.resx">
+      <DependentUpon>SplitViewHost.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

@@ -1,6 +1,6 @@
-﻿namespace Anomaly
+﻿namespace Editor
 {
-    partial class TwoWaySplit
+    partial class DrawingWindow
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,32 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.verticalSplit = new System.Windows.Forms.SplitContainer();
-            this.verticalSplit.SuspendLayout();
             this.SuspendLayout();
             // 
-            // verticalSplit
-            // 
-            this.verticalSplit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.verticalSplit.Location = new System.Drawing.Point(0, 0);
-            this.verticalSplit.Name = "verticalSplit";
-            this.verticalSplit.Size = new System.Drawing.Size(150, 150);
-            this.verticalSplit.SplitterDistance = 71;
-            this.verticalSplit.TabIndex = 0;
-            // 
-            // TwoWaySplit
+            // DrawingWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.verticalSplit);
-            this.Name = "TwoWaySplit";
-            this.verticalSplit.ResumeLayout(false);
+            this.Name = "DrawingWindow";
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.SplitContainer verticalSplit;
     }
 }
