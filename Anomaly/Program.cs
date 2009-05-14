@@ -22,7 +22,7 @@ namespace Anomaly
             {
                 try
                 {
-                    anomalyController.intialize();
+                    anomalyController.initialize();
                     anomalyController.createNewScene();
                     anomalyController.start();
                 }

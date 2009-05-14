@@ -13,9 +13,8 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace Anomaly
 {
-    partial class AnomalyMain : Form, OSWindow
+    partial class AnomalyMain : EditorMainForm 
     {
-        private List<OSWindowListener> listeners = new List<OSWindowListener>();
         private AnomalyController controller;
         FileTracker fileTracker;
 
@@ -56,71 +55,6 @@ namespace Anomaly
         public void hideDockContent(DockContent content)
         {
             content.DockHandler.Hide();
-        }
-
-        #region OSWindow Members
-
-        public IntPtr WindowHandle
-        {
-            get
-            {
-                return this.Handle;
-            }
-        }
-
-        public int WindowWidth
-        {
-            get
-            {
-                return this.Width;
-            }
-        }
-
-        public int WindowHeight
-        {
-            get
-            {
-                return this.Height;
-            }
-        }
-
-        public void addListener(OSWindowListener listener)
-        {
-            listeners.Add(listener);
-        }
-
-        public void removeListener(OSWindowListener listener)
-        {
-            listeners.Remove(listener);
-        }
-
-        #endregion
-
-        protected override void OnResize(EventArgs e)
-        {
-            foreach (OSWindowListener listener in listeners)
-            {
-                listener.resized(this);
-            }
-            base.OnResize(e);
-        }
-
-        protected override void OnMove(EventArgs e)
-        {
-            foreach (OSWindowListener listener in listeners)
-            {
-                listener.moved(this);
-            }
-            base.OnMove(e);
-        }
-
-        protected override void OnHandleDestroyed(EventArgs e)
-        {
-            foreach (OSWindowListener listener in listeners)
-            {
-                listener.closing(this);
-            }
-            base.OnHandleDestroyed(e);
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)

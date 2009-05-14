@@ -6,14 +6,39 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking;
+using Editor;
 
 namespace OgreModelEditor
 {
-    public partial class OgreModelEditorMain : Form
+    partial class OgreModelEditorMain : EditorMainForm
     {
+        private OgreModelEditorController controller;
+
         public OgreModelEditorMain()
         {
             InitializeComponent();
+        }
+
+        public void initialize(OgreModelEditorController controller)
+        {
+            this.controller = controller;
+        }
+
+        public void showDockContent(DockContent content)
+        {
+            content.Show(dockPanel);
+        }
+
+        public void hideDockContent(DockContent content)
+        {
+            content.DockHandler.Hide();
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            controller.shutdown();
+            base.OnClosing(e);
         }
     }
 }

@@ -44,6 +44,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -61,8 +62,14 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.3.1.22263, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dependencies\DockPanel\Src\WinFormsUI\bin\Release\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\OgreModelEditorConfig.cs" />
+    <Compile Include="Controller\OgreModelEditorController.cs" />
     <Compile Include="GUI\OgreModelEditorMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -71,6 +78,10 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="GUI\OgreModelEditorMain.resx">
+      <DependentUpon>OgreModelEditorMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -111,6 +122,36 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Editor\Editor.csproj">
+      <Project>{DDD1DB3A-AB11-4C3A-8480-0A4A9F298D64}</Project>
+      <Name>Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Engine\Engine.csproj">
+      <Project>{57C253F1-157F-4A6A-9FED-345A776B97D5}</Project>
+      <Name>Engine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Log\Log.csproj">
+      <Project>{78048C06-61EF-4C15-8013-C1EC999413D5}</Project>
+      <Name>Log</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Math\Math.csproj">
+      <Project>{52213B4F-D940-438C-98DD-BB7CF44F2F98}</Project>
+      <Name>Math</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OgrePlugin\OgrePlugin.csproj">
+      <Project>{E9FD5768-32E1-42C7-8256-4D7B97C22A9B}</Project>
+      <Name>OgrePlugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OgreWrapper\OgreWrapper.vcproj">
+      <Project>{F6ED8A4F-2444-420D-8436-A5F8BF7A8CBB}</Project>
+      <Name>OgreWrapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Win32Platform\Win32Platform.vcproj">
+      <Project>{08CF7667-CF92-4813-AF41-278015BE3807}</Project>
+      <Name>Win32Platform</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

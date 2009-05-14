@@ -34,7 +34,7 @@ namespace Anomaly
         private AnomalyMain mainForm;
         private DrawingWindow hiddenEmbedWindow;
         private ObjectEditorForm objectEditor = new ObjectEditorForm();
-        private DrawingWindowController splitViewController = new DrawingWindowController();
+        private DrawingWindowController drawingWindowController = new DrawingWindowController();
 
         //Platform
         private UpdateTimer mainTimer;
@@ -79,7 +79,7 @@ namespace Anomaly
         /// <summary>
         /// Intialize all plugins and create everything.
         /// </summary>
-        public void intialize()
+        public void initialize()
         {
             //Create the log.
             logListener = new LogFileListener();
@@ -137,8 +137,8 @@ namespace Anomaly
 
             //Initialize the windows
             mainForm.initialize(this);
-            splitViewController.initialize(this, eventManager, pluginManager.RendererPlugin, AnomalyConfig.ConfigFile);
-            splitViewController.createOneWaySplit();
+            drawingWindowController.initialize(this, eventManager, pluginManager.RendererPlugin, AnomalyConfig.ConfigFile);
+            drawingWindowController.createOneWaySplit();
 
             //Initialize debug visualizers
             foreach (DebugInterface debugInterface in pluginManager.getDebugInterfaces())
@@ -180,7 +180,6 @@ namespace Anomaly
         /// </summary>
         public void start()
         {
-            //mainTimer.processMessageLoop(true);
             mainForm.Show();
             mainTimer.startLoop();
         }
@@ -312,7 +311,7 @@ namespace Anomaly
         /// <param name="scene"></param>
         private void sceneController_OnSceneLoaded(SceneController controller, SimScene scene)
         {
-            splitViewController.createCameras(mainTimer, scene);
+            drawingWindowController.createCameras(mainTimer, scene);
             toolManager.createSceneElements(scene.getDefaultSubScene(), pluginManager);
         }
 
@@ -323,7 +322,7 @@ namespace Anomaly
         /// <param name="scene"></param>
         private void sceneController_OnSceneUnloading(SceneController controller, SimScene scene)
         {
-            splitViewController.destroyCameras();
+            drawingWindowController.destroyCameras();
             toolManager.destroySceneElements(scene.getDefaultSubScene(), pluginManager);
         }
 
@@ -461,7 +460,7 @@ namespace Anomaly
         {
             get
             {
-                return splitViewController;
+                return drawingWindowController;
             }
         }
 
