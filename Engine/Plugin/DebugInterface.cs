@@ -32,5 +32,10 @@ namespace Engine
         /// </summary>
         /// <param name="enabled">True to enable drawing, false to disable.</param>
         void setEnabled(bool enabled);
+
+        /// <summary>
+        /// The name of this visualizer.
+        /// </summary>
+        String Name { get; }
     }
 }

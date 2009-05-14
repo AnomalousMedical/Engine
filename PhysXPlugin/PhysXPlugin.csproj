@@ -88,6 +88,8 @@
     <Compile Include="Instance\PhysActorElement.cs" />
     <Compile Include="Instance\Joints\PhysJointElement.cs" />
     <Compile Include="Instance\PhysXSceneManager.cs" />
+    <Compile Include="Plugin\PhysXDebugEntry.cs" />
+    <Compile Include="Plugin\PhysXDebugInterface.cs" />
     <Compile Include="Plugin\PhysXInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShapeLoading\PhysXShapeBuilder.cs" />

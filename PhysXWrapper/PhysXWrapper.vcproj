@@ -785,6 +785,26 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\PhysDebugLine.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\PhysDebugPoint.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\PhysDebugRenderable.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\PhysDebugRenderable.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\PhysDebugTriangle.h"
+					>
+				</File>
+				<File
 					RelativePath=".\src\PhysMaterial.cpp"
 					>
 				</File>

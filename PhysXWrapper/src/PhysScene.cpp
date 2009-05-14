@@ -25,6 +25,7 @@
 #include "PhysSoftBody.h"
 #include "PhysSoftBodyDesc.h"
 #include "PhysSceneDesc.h"
+#include "PhysDebugRenderable.h"
 
 namespace PhysXWrapper
 {
@@ -35,7 +36,8 @@ pooledVector(new NxVec3()),
 nativeRaycastReport(new NativeRaycastReport()),
 nativeContactReport(new NativeContactReport()),
 actorGroupPairBuffer(new NxActorGroupPair()),
-actorGroupPairPosition(0)
+actorGroupPairPosition(0),
+debugRenderable(gcnew PhysDebugRenderable())
 {
 	//setup callbacks
 	scene->setUserContactReport(nativeContactReport.Get());
@@ -49,7 +51,7 @@ actorGroupPairPosition(0)
 
 PhysScene::~PhysScene()
 {
-	
+	delete debugRenderable;
 }
 
 void PhysScene::saveToDesc(PhysSceneDesc^ sceneDesc)
@@ -66,6 +68,12 @@ void PhysScene::getGravity(Engine::Vector3% grav)
 {
 	scene->getGravity(*(pooledVector.Get()));
 	MathUtil::copyVector3(*(pooledVector.Get()), grav);
+}
+
+PhysDebugRenderable^ PhysScene::getDebugRenderable()
+{
+	debugRenderable->setDebugRenderable(scene->getDebugRenderable());
+	return debugRenderable;
 }
 
 PhysActor^ PhysScene::createActor(PhysActorDesc^ desc)

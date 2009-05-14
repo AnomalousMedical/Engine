@@ -139,6 +139,14 @@ namespace Anomaly
             mainForm.initialize(this);
             splitViewController.initialize(this);
             splitViewController.createOneWaySplit();
+
+            //Initialize debug visualizers
+            foreach (DebugInterface debugInterface in pluginManager.getDebugInterfaces())
+            {
+                DebugVisualizer visualizer = new DebugVisualizer();
+                visualizer.initialize(debugInterface);
+                mainForm.showDockContent(visualizer);
+            }
         }
 
         /// <summary>
@@ -464,6 +472,7 @@ namespace Anomaly
         public void sendUpdate(Clock clock)
         {
             Application.DoEvents();
+            sceneController.drawDebugInformation();
         }
 
         public void loopStarting()

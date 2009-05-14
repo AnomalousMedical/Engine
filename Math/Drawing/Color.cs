@@ -29,9 +29,25 @@ namespace Engine
                             (float)a / 255.0f);
         }
 
+        public static Color FromARGB(uint color)
+        {
+            return FromARGB((byte)((color >> 24) & 0xFF),
+                            (byte)((color >> 16) & 0xFF),
+                            (byte)((color >> 8) & 0xFF),
+                            (byte)(color & 0xFF));
+        }
+
         public static Color FromARGB(int color)
         {
             return FromARGB((byte)((color >> 24) & 0xFF),
+                            (byte)((color >> 16) & 0xFF),
+                            (byte)((color >> 8) & 0xFF),
+                            (byte)(color & 0xFF));
+        }
+
+        public static Color FromRGB(uint color)
+        {
+            return FromARGB((byte)(0xFF),
                             (byte)((color >> 16) & 0xFF),
                             (byte)((color >> 8) & 0xFF),
                             (byte)(color & 0xFF));

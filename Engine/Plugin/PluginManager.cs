@@ -54,6 +54,7 @@ namespace Engine
         private List<Assembly> pluginAssemblies = new List<Assembly>();
         private ResourceManager primaryResourceManager = new ResourceManager();
         private ResourceManager emptyResourceManager = new ResourceManager();
+        private List<DebugInterface> debugInterfaces;
 
         #endregion Fields
 
@@ -335,6 +336,23 @@ namespace Engine
         public ResourceManager createEmptyResourceManager()
         {
             return new ResourceManager(emptyResourceManager);
+        }
+
+        public IEnumerable<DebugInterface> getDebugInterfaces()
+        {
+            if (debugInterfaces == null)
+            {
+                debugInterfaces = new List<DebugInterface>();
+                foreach (PluginInterface plugin in loadedPlugins.Values)
+                {
+                    DebugInterface debug = plugin.getDebugInterface();
+                    if (debug != null)
+                    {
+                        debugInterfaces.Add(debug);
+                    }
+                }
+            }
+            return debugInterfaces;
         }
 
         /// <summary>

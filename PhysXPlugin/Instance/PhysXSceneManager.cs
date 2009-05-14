@@ -192,5 +192,17 @@ namespace PhysXPlugin
         }
 
         #endregion Functions
+
+        #region Properties
+
+        internal PhysScene PhysScene
+        {
+            get
+            {
+                return scene;
+            }
+        }
+
+        #endregion Properties
     }
 }

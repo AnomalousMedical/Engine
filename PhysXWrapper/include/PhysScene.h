@@ -26,6 +26,7 @@ ref class PhysMaterialDesc;
 ref class PhysSoftBody;
 ref class PhysSoftBodyDesc;
 ref class PhysSceneDesc;
+ref class PhysDebugRenderable;
 
 /// <summary>
 /// Wrapper class for NxScene.
@@ -49,6 +50,7 @@ private:
 
 	unsigned int actorGroupPairPosition;
 	AutoPtr<NxActorGroupPair> actorGroupPairBuffer;
+	PhysDebugRenderable^ debugRenderable;
 
 internal:
 	NxScene* scene;
@@ -81,6 +83,13 @@ public:
 	/// </summary>
 	/// <param name="grav">The vector3 to hold the result.</param>
 	void getGravity(Engine::Vector3% grav);
+
+	/// <summary>
+	/// Retrieves the debug renderable. This will contain the results of any
+    /// active visualization for this scene.
+	/// </summary>
+	/// <returns>The debug renderable.</returns>
+	PhysDebugRenderable^ getDebugRenderable();
 
 	/// <summary>
 	/// Creates an actor in this scene.

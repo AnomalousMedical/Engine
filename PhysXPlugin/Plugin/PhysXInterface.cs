@@ -34,7 +34,8 @@ namespace PhysXPlugin
 
         private PhysSDK physSDK = null;
         private UpdateTimer mainTimer;
-        ShapeFileManager shapeManager = new ShapeFileManager();
+        private ShapeFileManager shapeManager = new ShapeFileManager();
+        private PhysXDebugInterface debugInterface;
 
         #endregion Fields
 
@@ -119,7 +120,11 @@ namespace PhysXPlugin
 
         public DebugInterface getDebugInterface()
         {
-            return null;
+            if (debugInterface == null)
+            {
+                debugInterface = new PhysXDebugInterface();
+            }
+            return debugInterface;
         }
 
         /// <summary>

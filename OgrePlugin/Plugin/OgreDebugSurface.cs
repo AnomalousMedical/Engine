@@ -51,37 +51,22 @@ namespace OgrePlugin
             if (manualObjectMap.ContainsKey(sectionName))
             {
                 currentManualObject = manualObjectMap[sectionName];
-                currentManualObject.beginUpdate(0);
+                if (currentManualObject.getNumSections() != 0)
+                {
+                    currentManualObject.beginUpdate(0);
+                }
+                else
+                {
+                    currentManualObject.begin("colorVertexNoDepth", getOpType(drawingType));
+                }
             }
             else
             {
-                OperationType opType = OperationType.OT_LINE_LIST;
-                switch (drawingType)
-                {
-                    case DrawingType.LineList:
-                        opType = OperationType.OT_LINE_LIST;
-                        break;
-                    case DrawingType.LineStrip:
-                        opType = OperationType.OT_LINE_STRIP;
-                        break;
-                    case DrawingType.PointList:
-                        opType = OperationType.OT_POINT_LIST;
-                        break;
-                    case DrawingType.TriangleFan:
-                        opType = OperationType.OT_TRIANGLE_FAN;
-                        break;
-                    case DrawingType.TriangleList:
-                        opType = OperationType.OT_TRIANGLE_LIST;
-                        break;
-                    case DrawingType.TriangleStrip:
-                        opType = OperationType.OT_TRIANGLE_STRIP;
-                        break;
-                }
                 currentManualObject = scene.createManualObject(sectionName + MANUAL_OBJECT_RESERVED_NAME);
                 currentManualObject.setRenderQueueGroup(byte.MaxValue);
                 currentManualObject.setDynamic(true);
                 sceneNode.attachObject(currentManualObject);
-                currentManualObject.begin("colorVertexNoDepth", opType);
+                currentManualObject.begin("colorVertexNoDepth", getOpType(drawingType));
                 manualObjectMap.Add(sectionName, currentManualObject);
             }
         }
@@ -294,6 +279,33 @@ namespace OgrePlugin
                                  xAxisLines[i - 1] * xAxis.z + yAxisLines[i - 1] * -yAxis.z + origin.z);
                 currentManualObject.color(color.r, color.g, color.b, color.a);
             }
+        }
+
+        private OperationType getOpType(DrawingType drawingType)
+        {
+            OperationType opType = OperationType.OT_LINE_LIST;
+            switch (drawingType)
+            {
+                case DrawingType.LineList:
+                    opType = OperationType.OT_LINE_LIST;
+                    break;
+                case DrawingType.LineStrip:
+                    opType = OperationType.OT_LINE_STRIP;
+                    break;
+                case DrawingType.PointList:
+                    opType = OperationType.OT_POINT_LIST;
+                    break;
+                case DrawingType.TriangleFan:
+                    opType = OperationType.OT_TRIANGLE_FAN;
+                    break;
+                case DrawingType.TriangleList:
+                    opType = OperationType.OT_TRIANGLE_LIST;
+                    break;
+                case DrawingType.TriangleStrip:
+                    opType = OperationType.OT_TRIANGLE_STRIP;
+                    break;
+            }
+            return opType;
         }
     }
 }

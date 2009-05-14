@@ -10,6 +10,7 @@ using System.IO;
 using Engine;
 using Engine.Resources;
 using Editor;
+using Engine.Renderer;
 
 namespace Anomaly
 {
@@ -26,6 +27,7 @@ namespace Anomaly
         private AnomalyController controller;
         private SimSceneDefinition sceneDefinition;
         private bool dynamicMode = false;
+        private DebugDrawingSurface debugSurface;
 
         #region Events
 
@@ -90,6 +92,7 @@ namespace Anomaly
             {
                 OnSceneLoaded.Invoke(this, scene);
             }
+            debugSurface = controller.PluginManager.RendererPlugin.createDebugDrawingSurface("SceneDebugDrawer", scene.getDefaultSubScene());
         }
 
         public void createSimObjects()
@@ -108,6 +111,10 @@ namespace Anomaly
         {
             if (scene != null)
             {
+                if (debugSurface != null)
+                {
+                    controller.PluginManager.RendererPlugin.destroyDebugDrawingSurface(debugSurface);
+                }
                 if (OnSceneUnloading != null)
                 {
                     OnSceneUnloading.Invoke(this, scene);
@@ -129,6 +136,21 @@ namespace Anomaly
         public void setMode(bool dynamicMode)
         {
             this.dynamicMode = dynamicMode;
+        }
+
+        /// <summary>
+        /// Draw the debug information for the current scene.
+        /// </summary>
+        /// <param name="debugSurface">The DebugDrawingSurface to render onto.</param>
+        public void drawDebugInformation()
+        {
+            if (scene != null && scene.getDefaultSubScene() != null)
+            {
+                foreach (DebugInterface debugInterface in controller.PluginManager.getDebugInterfaces())
+                {
+                    debugInterface.renderDebug(debugSurface, scene.getDefaultSubScene());
+                }
+            }
         }
     }
 }
