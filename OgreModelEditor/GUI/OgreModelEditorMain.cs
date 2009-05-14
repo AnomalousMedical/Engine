@@ -65,5 +65,25 @@ namespace OgreModelEditor
         {
             controller.refreshResources();
         }
+
+        private void binormalViewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.setBinormalDebug();
+        }
+
+        private void tangentViewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.setTangentDebug();
+        }
+
+        private void normalViewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.setNormalDebug();
+        }
+
+        private void modelViewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.setNormalMaterial();
+        }
     }
 }

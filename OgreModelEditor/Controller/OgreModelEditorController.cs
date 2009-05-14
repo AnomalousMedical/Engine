@@ -48,6 +48,8 @@ namespace OgreModelEditor
         private EntityDefinition entityDefintion;
         private SceneNodeDefinition nodeDefinition;
         private SimObjectBase currentSimObject;
+        private String entityMaterialName;
+        private Entity entity;
 
         //Resources
         private ResourceManager resourceManager;
@@ -93,6 +95,13 @@ namespace OgreModelEditor
             pluginManager.addPluginAssembly(typeof(Win32PlatformPlugin).Assembly);
             pluginManager.initializePlugins();
             pluginManager.RendererPlugin.PrimaryWindow.setEnabled(false);
+
+            if (File.Exists("OgreModelEditor.zip"))
+            {
+                Log.Default.sendMessage("Found OgreModelEditor.zip. Will be able to see debug shaders", LogLevel.ImportantInfo, "OgreModelEditor");
+                OgreResourceGroupManager.getInstance().addResourceLocation("OgreModelEditor.zip", "Zip", "ModelEditor", true);
+                OgreResourceGroupManager.getInstance().initializeAllResourceGroups();
+            }
 
             Engine.Resources.Resource.ResourceRoot = null;
             emptyResourceManager = pluginManager.createEmptyResourceManager();
@@ -189,6 +198,8 @@ namespace OgreModelEditor
             entityDefintion.MeshName = filename;
             currentSimObject = simObjectDefinition.register(scene.getDefaultSubScene());
             scene.buildScene();
+            entity = ((SceneNodeElement)currentSimObject.getElement("EntityNode")).getEntity(new Identifier("EntitySimObject", "Entity"));
+            entityMaterialName = entity.getSubEntity(0).getMaterialName();
         }
 
         public void editExternalResources()
@@ -224,7 +235,29 @@ namespace OgreModelEditor
             {
                 currentSimObject = simObjectDefinition.register(scene.getDefaultSubScene());
                 scene.buildScene();
+                entity = ((SceneNodeElement)currentSimObject.getElement("EntityNode")).getEntity(new Identifier("EntitySimObject", "Entity"));
+                entityMaterialName = entity.getSubEntity(0).getMaterialName();
             }
+        }
+
+        public void setBinormalDebug()
+        {
+            entity.setMaterialName("BinormalDebug");
+        }
+
+        public void setTangentDebug()
+        {
+            entity.setMaterialName("TangentDebug");
+        }
+
+        public void setNormalDebug()
+        {
+            entity.setMaterialName("NormalDebug");
+        }
+
+        public void setNormalMaterial()
+        {
+            entity.setMaterialName(entityMaterialName);
         }
 
         /// <summary>

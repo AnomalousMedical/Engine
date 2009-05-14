@@ -210,7 +210,7 @@ namespace Engine.ObjectManagement
         {
             foreach (SimElement element in elements)
             {
-                if (element.Name == Name)
+                if (element.Name == name)
                 {
                     return element;
                 }
