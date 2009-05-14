@@ -87,7 +87,7 @@ namespace Editor
             {
                 this.mainTimer = mainTimer;
                 camera = window.createCamera(defaultScene, name, orbitCamera.Translation, orbitCamera.LookAt);
-                camera.BackgroundColor = new Engine.Color(0.4f, 0.4f, 0.4f);
+                camera.BackgroundColor = Engine.Color.FromARGB(BackColor.ToArgb());
                 camera.addLight();
                 mainTimer.addFixedUpdateListener(orbitCamera);
                 orbitCamera.setCamera(camera);
@@ -145,6 +145,15 @@ namespace Editor
                 listener.moved(this);
             }
             base.OnMove(e);
+        }
+
+        protected override void OnBackColorChanged(EventArgs e)
+        {
+            if (camera != null)
+            {
+                camera.BackgroundColor = Engine.Color.FromARGB(BackColor.ToArgb());
+            }
+            base.OnBackColorChanged(e);
         }
 
         protected override void OnHandleDestroyed(EventArgs e)

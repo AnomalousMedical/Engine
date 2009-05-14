@@ -64,6 +64,14 @@ namespace Editor
             base.OnHandleCreated(e);
         }
 
+        private void changeBackgroundColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (colorDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                drawingWindow.BackColor = colorDialog.Color;
+            }
+        }
+
         //protected override void OnActivated(EventArgs e)
         //{
         //    drawingWindow.setEnabled(true);
