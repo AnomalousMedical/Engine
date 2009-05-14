@@ -188,7 +188,7 @@ namespace Editor
 
         private void drawCircles()
         {
-            circleSurface.begin();
+            circleSurface.begin("RotateTool", DrawingType.LineList);
             xAxis.draw(circleSurface, Vector3.Zero);
             yAxis.draw(circleSurface, Vector3.Zero);
             zAxis.draw(circleSurface, Vector3.Zero);
@@ -208,7 +208,7 @@ namespace Editor
 
         public void createSceneElement(Engine.ObjectManagement.SimSubScene subScene, PluginManager pluginManager)
         {
-            circleSurface = pluginManager.RendererPlugin.createDebugDrawingSurface(name, subScene, DrawingType.LineList);
+            circleSurface = pluginManager.RendererPlugin.createDebugDrawingSurface(name, subScene);
             if (circleSurface != null)
             {
                 circleSurface.setVisible(enabled);

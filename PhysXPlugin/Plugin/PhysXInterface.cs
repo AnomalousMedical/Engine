@@ -117,6 +117,11 @@ namespace PhysXPlugin
             return PluginName;
         }
 
+        public DebugInterface getDebugInterface()
+        {
+            return null;
+        }
+
         /// <summary>
         /// Get the main timer used by the engine.
         /// </summary>

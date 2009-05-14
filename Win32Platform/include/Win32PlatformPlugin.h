@@ -17,6 +17,8 @@ public:
 
 	virtual System::String^ getName();
 
+	virtual DebugInterface^ getDebugInterface(){return nullptr;}
+
 	virtual UpdateTimer^ createTimer();
 
 	virtual void destroyTimer(UpdateTimer^ timer);

@@ -52,6 +52,11 @@ namespace Engine
             return "Behavior";
         }
 
+        public DebugInterface getDebugInterface()
+        {
+            return null;
+        }
+
         public void Dispose()
         {
             

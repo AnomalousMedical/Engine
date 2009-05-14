@@ -42,9 +42,8 @@ namespace Engine.Renderer
         /// </summary>
         /// <param name="name">The name of the DrawingSurface. Must be unique.</param>
         /// <param name="scene">The scene to create the DrawingSurface into.</param>
-        /// <param name="drawingType">The DrawingType of the surface.</param>
         /// <returns>A new DebugDrawingSurface configured appropriatly.</returns>
-        DebugDrawingSurface createDebugDrawingSurface(String name, SimSubScene scene, DrawingType drawingType);
+        DebugDrawingSurface createDebugDrawingSurface(String name, SimSubScene scene);
 
         /// <summary>
         /// Destroy a DebugDrawingSurface. This should be called before the

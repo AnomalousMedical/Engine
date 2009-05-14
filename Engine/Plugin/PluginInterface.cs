@@ -40,5 +40,14 @@ namespace Engine
         /// </summary>
         /// <returns>The name of the plugin.</returns>
         String getName();
+
+        /// <summary>
+        /// Get the DebugInterface for this plugin. This function might return
+        /// null, which means that the plugin has no debug interface. Ideally
+        /// plugins will not build their DebugInterface unless this funciton is
+        /// called to speed up loading.
+        /// </summary>
+        /// <returns>The DebugInterface for the plugin or null if it does not have one.</returns>
+        DebugInterface getDebugInterface();
     }
 }

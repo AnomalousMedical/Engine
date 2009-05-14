@@ -141,6 +141,11 @@ namespace OgrePlugin
             return "OgrePlugin";
         }
 
+        public DebugInterface getDebugInterface()
+        {
+            return null;
+        }
+
         public RendererWindow PrimaryWindow
         {
             get
@@ -179,13 +184,13 @@ namespace OgrePlugin
         /// <param name="sceneName">The name of the scene to create the surface into.</param>
         /// <param name="drawingType">The DrawingType of the surface.</param>
         /// <returns>A new DebugDrawingSurface configured appropriatly.</returns>
-        public DebugDrawingSurface createDebugDrawingSurface(String name, SimSubScene scene, DrawingType drawingType)
+        public DebugDrawingSurface createDebugDrawingSurface(String name, SimSubScene scene)
         {
             if (scene != null)
             {
                 if (scene.hasSimElementManagerType(typeof(OgreSceneManager)))
                 {
-                    return new OgreDebugSurface(name, scene.getSimElementManager<OgreSceneManager>().SceneManager, drawingType);
+                    return new OgreDebugSurface(name, scene.getSimElementManager<OgreSceneManager>().SceneManager);
                 }
                 else
                 {

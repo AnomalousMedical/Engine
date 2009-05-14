@@ -48,17 +48,11 @@ namespace Engine.Renderer
     public interface DebugDrawingSurface
     {
         /// <summary>
-        /// Estimate the number of vertices that will be drawn. This exact
-        /// number depends on the operation type and what primitive drawing
-        /// functions will be called.
-        /// </summary>
-        /// <param name="numVertices">The estimated number of vertices to draw.</param>
-        void estimateNumVertices(uint numVertices);
-
-        /// <summary>
         /// Start defining drawing surface. Call before any drawing is done.
         /// </summary>
-        void begin();
+        /// <param name="sectionName">The name of the section. If it has not yet been created a new one will be made with the specified DrawingType.</param>
+        /// <param name="drawingType">The DrawingType to use when a new section is created. This is ignored if the section is already defined.</param>
+        void begin(String sectionName, DrawingType drawingType);
 
         /// <summary>
         /// Finish defining the drawing surface. Call when all drawing is finished.

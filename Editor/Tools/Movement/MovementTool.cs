@@ -71,7 +71,7 @@ namespace Editor
 
         public void createSceneElement(SimSubScene subScene, PluginManager pluginManager)
         {
-            axisSurface = pluginManager.RendererPlugin.createDebugDrawingSurface(name, subScene, DrawingType.LineList);
+            axisSurface = pluginManager.RendererPlugin.createDebugDrawingSurface(name, subScene);
             if (axisSurface != null)
             {
                 axisSurface.setVisible(enabled);
@@ -215,7 +215,7 @@ namespace Editor
 
         private void drawAxis()
         {
-            axisSurface.begin();
+            axisSurface.begin("MoveTool", DrawingType.LineList);
             xAxisBox.drawLine(axisSurface);
             yAxisBox.drawLine(axisSurface);
             zAxisBox.drawLine(axisSurface);
