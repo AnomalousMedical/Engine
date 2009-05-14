@@ -79,6 +79,11 @@ namespace OgrePlugin
             sceneNode.removeChild(element.sceneNode);
         }
 
+        public Entity getEntity(Identifier name)
+        {
+            return scene.getEntity(name);
+        }
+
         /// <summary>
         /// Dispose this SceneNode and all attached objects.
         /// </summary>
