@@ -1,6 +1,6 @@
 ﻿namespace Editor
 {
-    partial class SplitViewHost
+    partial class DrawingWindowHost
     {
         /// <summary>
         /// Required designer variable.

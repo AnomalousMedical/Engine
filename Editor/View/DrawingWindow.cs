@@ -24,7 +24,7 @@ namespace Editor
         private OrbitCameraController orbitCamera;
         private RendererPlugin renderer;
         private bool showSceneStats = false;
-        private SplitViewController splitController;
+        private DrawingWindowController splitController;
         private UpdateTimer mainTimer;
 
         public DrawingWindow()
@@ -32,7 +32,7 @@ namespace Editor
             InitializeComponent();
         }
 
-        internal void initialize(string name, EventManager eventManager, RendererPlugin renderer, Vector3 translation, Vector3 lookAt, SplitViewController splitController)
+        internal void initialize(string name, EventManager eventManager, RendererPlugin renderer, Vector3 translation, Vector3 lookAt, DrawingWindowController splitController)
         {
             this.name = name;
             this.renderer = renderer;

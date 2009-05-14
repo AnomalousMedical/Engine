@@ -34,7 +34,7 @@ namespace Anomaly
         private AnomalyMain mainForm;
         private DrawingWindow hiddenEmbedWindow;
         private ObjectEditorForm objectEditor = new ObjectEditorForm();
-        private SplitViewController splitViewController = new SplitViewController();
+        private DrawingWindowController splitViewController = new DrawingWindowController();
 
         //Platform
         private UpdateTimer mainTimer;
@@ -457,7 +457,7 @@ namespace Anomaly
         /// <summary>
         /// Get the SplitViewController.
         /// </summary>
-        public SplitViewController ViewController
+        public DrawingWindowController ViewController
         {
             get
             {

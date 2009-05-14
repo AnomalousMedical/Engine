@@ -10,13 +10,13 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace Editor
 {
-    public partial class SplitViewHost : DockContent
+    public partial class DrawingWindowHost : DockContent
     {
         private List<Control> savedControls = new List<Control>();
         private bool notClosing = true;
-        private SplitViewController controller;
+        private DrawingWindowController controller;
 
-        public SplitViewHost(String name, SplitViewController controller)
+        public DrawingWindowHost(String name, DrawingWindowController controller)
         {
             InitializeComponent();
             this.Text = name;

@@ -11,10 +11,10 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace Editor
 {
-    public class SplitViewController
+    public class DrawingWindowController
     {
         private IDockProvider controller;
-        private List<SplitViewHost> cameras = new List<SplitViewHost>();
+        private List<DrawingWindowHost> cameras = new List<DrawingWindowHost>();
         private bool camerasActive = false;
         private bool showStatsActive = false;
         private UpdateTimer mainTimer;
@@ -23,7 +23,7 @@ namespace Editor
         private RendererPlugin rendererPlugin;
         private CameraSection cameraSection;
 
-        public SplitViewController()
+        public DrawingWindowController()
         {
 
         }
@@ -36,9 +36,9 @@ namespace Editor
             this.rendererPlugin = rendererPlugin;
         }
 
-        private SplitViewHost addCamera(String name, Vector3 translation, Vector3 lookAt)
+        private DrawingWindowHost addCamera(String name, Vector3 translation, Vector3 lookAt)
         {
-            SplitViewHost cameraHost = new SplitViewHost(name, this);
+            DrawingWindowHost cameraHost = new DrawingWindowHost(name, this);
             cameraHost.DrawingWindow.initialize(name, eventManager, rendererPlugin, translation, lookAt, this);
             cameras.Add(cameraHost);
             if (camerasActive)
@@ -52,46 +52,46 @@ namespace Editor
         public void createFourWaySplit()
         {
             closeAllWindows();
-            SplitViewHost camera1 = addCamera("Camera 1", cameraSection.FrontCameraPosition, cameraSection.FrontCameraLookAt);
+            DrawingWindowHost camera1 = addCamera("Camera 1", cameraSection.FrontCameraPosition, cameraSection.FrontCameraLookAt);
             controller.showDockContent(camera1);
-            SplitViewHost camera2 = addCamera("Camera 2", cameraSection.BackCameraPosition, cameraSection.BackCameraLookAt);
+            DrawingWindowHost camera2 = addCamera("Camera 2", cameraSection.BackCameraPosition, cameraSection.BackCameraLookAt);
             camera2.Show(camera1.Pane, DockAlignment.Right, 0.5);
-            SplitViewHost camera3 = addCamera("Camera 3", cameraSection.RightCameraPosition, cameraSection.RightCameraLookAt);
+            DrawingWindowHost camera3 = addCamera("Camera 3", cameraSection.RightCameraPosition, cameraSection.RightCameraLookAt);
             camera3.Show(camera1.Pane, DockAlignment.Bottom, 0.5);
-            SplitViewHost camera4 = addCamera("Camera 4", cameraSection.LeftCameraPosition, cameraSection.LeftCameraLookAt);
+            DrawingWindowHost camera4 = addCamera("Camera 4", cameraSection.LeftCameraPosition, cameraSection.LeftCameraLookAt);
             camera4.Show(camera2.Pane, DockAlignment.Bottom, 0.5);
         }
 
         public void createThreeWayUpperSplit()
         {
             closeAllWindows();
-            SplitViewHost camera1 = addCamera("Camera 1", cameraSection.FrontCameraPosition, cameraSection.FrontCameraLookAt);
+            DrawingWindowHost camera1 = addCamera("Camera 1", cameraSection.FrontCameraPosition, cameraSection.FrontCameraLookAt);
             controller.showDockContent(camera1);
-            SplitViewHost camera2 = addCamera("Camera 2", cameraSection.BackCameraPosition, cameraSection.BackCameraLookAt);
+            DrawingWindowHost camera2 = addCamera("Camera 2", cameraSection.BackCameraPosition, cameraSection.BackCameraLookAt);
             camera2.Show(camera1.Pane, DockAlignment.Bottom, 0.5);
-            SplitViewHost camera3 = addCamera("Camera 3", cameraSection.RightCameraPosition, cameraSection.RightCameraLookAt);
+            DrawingWindowHost camera3 = addCamera("Camera 3", cameraSection.RightCameraPosition, cameraSection.RightCameraLookAt);
             camera3.Show(camera2.Pane, DockAlignment.Right, 0.5);
         }
 
         public void createTwoWaySplit()
         {
             closeAllWindows();
-            SplitViewHost camera1 = addCamera("Camera 1", cameraSection.FrontCameraPosition, cameraSection.FrontCameraLookAt);
+            DrawingWindowHost camera1 = addCamera("Camera 1", cameraSection.FrontCameraPosition, cameraSection.FrontCameraLookAt);
             controller.showDockContent(camera1);
-            SplitViewHost camera2 = addCamera("Camera 2", cameraSection.BackCameraPosition, cameraSection.BackCameraLookAt);
+            DrawingWindowHost camera2 = addCamera("Camera 2", cameraSection.BackCameraPosition, cameraSection.BackCameraLookAt);
             camera2.Show(camera1.Pane, DockAlignment.Right, 0.5);
         }
 
         public void createOneWaySplit()
         {
             closeAllWindows();
-            SplitViewHost camera1 = addCamera("Camera 1", cameraSection.FrontCameraPosition, cameraSection.FrontCameraLookAt);
+            DrawingWindowHost camera1 = addCamera("Camera 1", cameraSection.FrontCameraPosition, cameraSection.FrontCameraLookAt);
             controller.showDockContent(camera1);
         }
 
         public void destroyCameras()
         {
-            foreach (SplitViewHost host in cameras)
+            foreach (DrawingWindowHost host in cameras)
             {
                 host.DrawingWindow.destroyCamera();
             }
@@ -102,7 +102,7 @@ namespace Editor
 
         public void createCameras(UpdateTimer mainTimer, SimScene scene)
         {
-            foreach (SplitViewHost host in cameras)
+            foreach (DrawingWindowHost host in cameras)
             {
                 host.DrawingWindow.createCamera(mainTimer, scene);
             }
@@ -113,22 +113,22 @@ namespace Editor
 
         public void showStats(bool show)
         {
-            foreach (SplitViewHost host in cameras)
+            foreach (DrawingWindowHost host in cameras)
             {
                 host.DrawingWindow.showStats(show);
             }
             showStatsActive = show;
         }
 
-        internal void _alertCameraDestroyed(SplitViewHost host)
+        internal void _alertCameraDestroyed(DrawingWindowHost host)
         {
             cameras.Remove(host);
         }
 
         private void closeAllWindows()
         {
-            List<SplitViewHost> listCopy = new List<SplitViewHost>(cameras);
-            foreach (SplitViewHost host in listCopy)
+            List<DrawingWindowHost> listCopy = new List<DrawingWindowHost>(cameras);
+            foreach (DrawingWindowHost host in listCopy)
             {
                 host.Close();
             }
