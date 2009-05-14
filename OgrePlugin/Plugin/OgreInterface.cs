@@ -24,6 +24,8 @@ namespace OgrePlugin
         public const String PluginName = "OgrePlugin";
         private static OgreInterface instance;
 
+        public static bool FoundOgreCore { get; private set; }
+
         public static OgreInterface Instance
         {
             get
@@ -132,10 +134,12 @@ namespace OgrePlugin
                 pluginManager.addSubsystemResources(ogreResourcs);
 
                 //Setup the core resources
-                if (File.Exists("OgreCore.zip"))
+                FoundOgreCore = File.Exists("OgreCore.zip");
+                if (FoundOgreCore)
                 {
                     Log.Default.sendMessage("Found OgreCore.zip. Debug resources available.", LogLevel.ImportantInfo, PluginName);
                     OgreResourceGroupManager.getInstance().addResourceLocation("OgreCore.zip", "Zip", "Internal", true);
+                    OgreResourceGroupManager.getInstance().initializeAllResourceGroups();
                 }
                 else
                 {

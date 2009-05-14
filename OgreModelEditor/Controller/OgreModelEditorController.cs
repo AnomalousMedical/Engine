@@ -11,6 +11,11 @@ using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using Engine.Renderer;
 using Engine.ObjectManagement;
+using Engine.Resources;
+using System.IO;
+using OgreWrapper;
+using Engine.Saving.XMLSaver;
+using System.Xml;
 
 namespace OgreModelEditor
 {
@@ -31,9 +36,23 @@ namespace OgreModelEditor
         //GUI
         private DrawingWindow hiddenEmbedWindow;
         private OgreModelEditorMain mainForm;
+        private ObjectEditorForm objectEditor = new ObjectEditorForm();
 
         //Controller
         private DrawingWindowController drawingWindowController = new DrawingWindowController();
+
+        //Scene
+        private SimScene scene;
+        private String lastFileName = null;
+        private GenericSimObjectDefinition simObjectDefinition;
+        private EntityDefinition entityDefintion;
+        private SceneNodeDefinition nodeDefinition;
+        private SimObjectBase currentSimObject;
+
+        //Resources
+        private ResourceManager resourceManager;
+        private XmlSaver xmlSaver = new XmlSaver();
+        private ResourceManager emptyResourceManager;
 
         #endregion Fields
 
@@ -75,6 +94,25 @@ namespace OgreModelEditor
             pluginManager.initializePlugins();
             pluginManager.RendererPlugin.PrimaryWindow.setEnabled(false);
 
+            Engine.Resources.Resource.ResourceRoot = null;
+            emptyResourceManager = pluginManager.createEmptyResourceManager();
+            if (!File.Exists(OgreModelEditorConfig.DocRoot + "/resources.xml"))
+            {
+                resourceManager = pluginManager.createEmptyResourceManager();
+            }
+            else
+            {
+                XmlTextReader textReader = new XmlTextReader(OgreModelEditorConfig.DocRoot + "/resources.xml");
+                resourceManager = xmlSaver.restoreObject(textReader) as ResourceManager;
+                if (resourceManager == null)
+                {
+                    resourceManager = pluginManager.createEmptyResourceManager();
+                }
+                pluginManager.PrimaryResourceManager.changeResourcesToMatch(resourceManager);
+                pluginManager.PrimaryResourceManager.forceResourceRefresh();
+                textReader.Close();
+            }
+
             //Create the GUI
             mainForm = new OgreModelEditorMain();
 
@@ -107,6 +145,16 @@ namespace OgreModelEditor
             sceneDefiniton.addSimSubSceneDefinition(mainSubScene);
             mainSubScene.addBinding(ogreScene);
             sceneDefiniton.DefaultSubScene = "Main";
+
+            simObjectDefinition = new GenericSimObjectDefinition("EntitySimObject");
+            simObjectDefinition.Enabled = true;
+            entityDefintion = new EntityDefinition("Entity");
+            nodeDefinition = new SceneNodeDefinition("EntityNode");
+            nodeDefinition.addMovableObjectDefinition(entityDefintion);
+            simObjectDefinition.addElement(nodeDefinition);
+
+            scene = sceneDefiniton.createScene();
+            drawingWindowController.createCameras(mainTimer, scene);
             
             mainTimer.startLoop();
         }
@@ -114,6 +162,69 @@ namespace OgreModelEditor
         public void shutdown()
         {
             mainTimer.stopLoop();
+            drawingWindowController.destroyCameras();
+            if (currentSimObject != null)
+            {
+                currentSimObject.Dispose();
+            }
+            scene.Dispose();
+        }
+
+        public void openModel(String path)
+        {
+            OgreResourceGroupManager groupManager = OgreResourceGroupManager.getInstance();
+            if (currentSimObject != null)
+            {
+                currentSimObject.Dispose();
+                String lastDir = Path.GetDirectoryName(lastFileName);
+                groupManager.removeResourceLocation(lastDir, "LoadedModel");
+                groupManager.initializeAllResourceGroups();
+            }
+
+            lastFileName = path;
+            String dir = Path.GetDirectoryName(path);
+            groupManager.addResourceLocation(dir, "FileSystem", "LoadedModel", true);
+            groupManager.initializeAllResourceGroups();
+            String filename = Path.GetFileName(path);
+            entityDefintion.MeshName = filename;
+            currentSimObject = simObjectDefinition.register(scene.getDefaultSubScene());
+            scene.buildScene();
+        }
+
+        public void editExternalResources()
+        {
+            objectEditor.EditorPanel.setEditInterface(resourceManager.getEditInterface());
+            objectEditor.ShowDialog(mainForm);
+            objectEditor.EditorPanel.clearEditInterface();
+            pluginManager.PrimaryResourceManager.changeResourcesToMatch(resourceManager);
+            pluginManager.PrimaryResourceManager.forceResourceRefresh();
+            XmlTextWriter textWriter = new XmlTextWriter(OgreModelEditorConfig.DocRoot + "/resources.xml", Encoding.Default);
+            textWriter.Formatting = Formatting.Indented;
+            xmlSaver.saveObject(resourceManager, textWriter);
+            textWriter.Close();
+        }
+
+        public void refreshResources()
+        {
+            if (currentSimObject != null)
+            {
+                currentSimObject.Dispose();
+            }
+            pluginManager.PrimaryResourceManager.changeResourcesToMatch(emptyResourceManager);
+            pluginManager.PrimaryResourceManager.forceResourceRefresh();
+            OgreResourceGroupManager groupManager = OgreResourceGroupManager.getInstance();
+            groupManager.destroyResourceGroup("LoadedModel");
+            groupManager.initializeAllResourceGroups();
+            pluginManager.PrimaryResourceManager.changeResourcesToMatch(resourceManager);
+            pluginManager.PrimaryResourceManager.forceResourceRefresh();
+            String path = Path.GetDirectoryName(lastFileName);
+            groupManager.addResourceLocation(path, "FileSystem", "LoadedModel", true);
+            groupManager.initializeAllResourceGroups();
+            if (currentSimObject != null)
+            {
+                currentSimObject = simObjectDefinition.register(scene.getDefaultSubScene());
+                scene.buildScene();
+            }
         }
 
         /// <summary>

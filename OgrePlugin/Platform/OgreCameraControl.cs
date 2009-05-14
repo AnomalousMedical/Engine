@@ -53,8 +53,12 @@ namespace OgrePlugin
             node = sceneManager.createSceneNode(nodeId);
             node.attachObject(camera);
             viewport = renderWindow.addViewport(camera);
-            statsOverlay = new StatsOverlay(name);
-            statsOverlay.createOverlays();
+
+            if (OgreInterface.FoundOgreCore)
+            {
+                statsOverlay = new StatsOverlay(name);
+                statsOverlay.createOverlays();
+            }
             sceneManager.SceneManager.addSceneListener(this);
         }
 
@@ -113,7 +117,7 @@ namespace OgrePlugin
         /// <param name="showStats">True to show the scene stats.</param>
         public void showSceneStats(bool showStats)
         {
-            if (showStats != this.showStats)
+            if (showStats != this.showStats && statsOverlay != null)
             {
                 statsOverlay.setVisible(showStats);
             }
@@ -123,7 +127,10 @@ namespace OgrePlugin
         public void Dispose()
         {
             sceneManager.SceneManager.removeSceneListener(this);
-            statsOverlay.destroyOverlays();
+            if (statsOverlay != null)
+            {
+                statsOverlay.destroyOverlays();
+            }
             removeLight();
             renderWindow.destroyViewport(viewport);
             node.detachObject(camera);
@@ -138,7 +145,7 @@ namespace OgrePlugin
 
         public void preFindVisibleObjects(SceneManager sceneManager, SceneManager.IlluminationRenderStage irs, Camera camera)
         {
-            if (showStats)
+            if (showStats && statsOverlay != null)
             {
                 statsOverlay.setStats(renderWindow);
                 statsOverlay.setVisible(showStats && this.camera == camera);

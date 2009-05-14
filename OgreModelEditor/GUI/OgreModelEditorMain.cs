@@ -14,6 +14,7 @@ namespace OgreModelEditor
     partial class OgreModelEditorMain : EditorMainForm
     {
         private OgreModelEditorController controller;
+        private FileTracker fileTracker = new FileTracker("*.mesh|*.mesh");
 
         public OgreModelEditorMain()
         {
@@ -44,6 +45,25 @@ namespace OgreModelEditor
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fileTracker.openFile(this);
+            if (fileTracker.lastDialogAccepted())
+            {
+                controller.openModel(fileTracker.getCurrentFile());
+            }
+        }
+
+        private void defineExternalResourcesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.editExternalResources();
+        }
+
+        private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.refreshResources();
         }
     }
 }
