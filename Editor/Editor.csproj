@@ -160,7 +160,7 @@
     <Compile Include="View\DrawingWindow.Designer.cs">
       <DependentUpon>DrawingWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\SplitViewController.cs" />
+    <Compile Include="View\DrawingWindowController.cs" />
     <Compile Include="View\DrawingWindowHost.cs">
       <SubType>Form</SubType>
     </Compile>
