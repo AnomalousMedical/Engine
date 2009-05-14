@@ -40,5 +40,10 @@ namespace OgreModelEditor
             controller.shutdown();
             base.OnClosing(e);
         }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

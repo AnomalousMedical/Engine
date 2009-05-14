@@ -22,6 +22,15 @@ namespace OgrePlugin
         #region Static
 
         public const String PluginName = "OgrePlugin";
+        private static OgreInterface instance;
+
+        public static OgreInterface Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
 
         #endregion Static
 
@@ -47,9 +56,17 @@ namespace OgrePlugin
 
         public OgreInterface()
         {
-            root = new Root("", "", "");
-            ogreLog = new OgreLogConnection();
-            ogreUpdate = new OgreUpdate(root);
+            if (instance == null)
+            {
+                root = new Root("", "", "");
+                ogreLog = new OgreLogConnection();
+                ogreUpdate = new OgreUpdate(root);
+                instance = this;
+            }
+            else
+            {
+                throw new InvalidPluginException("The OgrePlugin plugin can only be initialized one time.");
+            }
         }
 
         #endregion Constructors

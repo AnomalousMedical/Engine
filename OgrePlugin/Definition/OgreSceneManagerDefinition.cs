@@ -50,7 +50,7 @@ namespace OgrePlugin
         /// Constructor.
         /// </summary>
         /// <param name="name">The name of the SceneManagerDefinition.</param>
-        internal OgreSceneManagerDefinition(String name)
+        public OgreSceneManagerDefinition(String name)
         {
             this.name = name;
             SceneTypeMask = SceneType.ST_GENERIC;

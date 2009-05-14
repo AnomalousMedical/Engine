@@ -10,6 +10,7 @@ using OgrePlugin;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using Engine.Renderer;
+using Engine.ObjectManagement;
 
 namespace OgreModelEditor
 {
@@ -97,6 +98,16 @@ namespace OgreModelEditor
         public void start()
         {
             mainForm.Show();
+
+            //Create a simple scene to use to show the models
+            SimSceneDefinition sceneDefiniton = new SimSceneDefinition();
+            OgreSceneManagerDefinition ogreScene = new OgreSceneManagerDefinition("Ogre");
+            SimSubSceneDefinition mainSubScene = new SimSubSceneDefinition("Main");
+            sceneDefiniton.addSimElementManagerDefinition(ogreScene);
+            sceneDefiniton.addSimSubSceneDefinition(mainSubScene);
+            mainSubScene.addBinding(ogreScene);
+            sceneDefiniton.DefaultSubScene = "Main";
+            
             mainTimer.startLoop();
         }
 
