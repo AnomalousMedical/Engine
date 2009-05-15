@@ -116,6 +116,22 @@ namespace OgreModelEditor
         protected override void OnKeyDown(KeyEventArgs e)
         {
             base.OnKeyDown(e);
+            if (e.KeyCode == Keys.F1)
+            {
+                controller.setNormalMaterial();
+            }
+            if (e.KeyCode == Keys.F2)
+            {
+                controller.setBinormalDebug();
+            }
+            if (e.KeyCode == Keys.F3)
+            {
+                controller.setTangentDebug();
+            }
+            if (e.KeyCode == Keys.F4)
+            {
+                controller.setNormalDebug();
+            }
             if (e.KeyCode == Keys.F5)
             {
                 controller.refreshResources();
