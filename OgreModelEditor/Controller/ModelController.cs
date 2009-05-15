@@ -21,6 +21,9 @@ namespace OgreModelEditor.Controller
         private String entityMaterialName;
         private Entity entity;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public ModelController()
         {
             simObjectDefinition = new GenericSimObjectDefinition("EntitySimObject");
@@ -65,26 +68,41 @@ namespace OgreModelEditor.Controller
             return currentSimObject != null;
         }
 
+        /// <summary>
+        /// Show the BinormalDebug shader.
+        /// </summary>
         public void setBinormalDebug()
         {
             entity.setMaterialName("BinormalDebug");
         }
 
+        /// <summary>
+        /// Show the TangentDebug shader.
+        /// </summary>
         public void setTangentDebug()
         {
             entity.setMaterialName("TangentDebug");
         }
 
+        /// <summary>
+        /// Show the NormalDebug shader.
+        /// </summary>
         public void setNormalDebug()
         {
             entity.setMaterialName("NormalDebug");
         }
 
+        /// <summary>
+        /// Render the model as normal.
+        /// </summary>
         public void setNormalMaterial()
         {
             entity.setMaterialName(entityMaterialName);
         }
 
+        /// <summary>
+        /// Rebuild or build the Tangent vectors using the ogre calculator.
+        /// </summary>
         public void buildTangentVectors()
         {
             using (MeshPtr mesh = entity.getMesh())
@@ -93,6 +111,9 @@ namespace OgreModelEditor.Controller
             }
         }
 
+        /// <summary>
+        /// Recalculate the binormal vectors as the cross product between the tangents and the normals.
+        /// </summary>
         public unsafe void buildBinormalVectors()
         {
             using (MeshPtr mesh = entity.getMesh())
@@ -145,6 +166,10 @@ namespace OgreModelEditor.Controller
             }
         }
 
+        /// <summary>
+        /// Save the model in binary format.
+        /// </summary>
+        /// <param name="filename">The name of the file to save.</param>
         public void saveModel(String filename)
         {
             if (entity != null)
