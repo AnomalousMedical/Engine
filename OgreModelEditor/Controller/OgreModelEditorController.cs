@@ -260,6 +260,66 @@ namespace OgreModelEditor
             entity.setMaterialName(entityMaterialName);
         }
 
+        public void buildTangentVectors()
+        {
+            using (MeshPtr mesh = entity.getMesh())
+            {
+                mesh.Value.buildTangentVectors();
+            }
+        }
+
+        public unsafe void buildBinormalVectors()
+        {
+            using (MeshPtr mesh = entity.getMesh())
+            {
+                SubMesh subMesh = mesh.Value.getSubMesh(0);
+                VertexData vertexData = subMesh.vertexData;
+                VertexDeclaration vertexDeclaration = vertexData.vertexDeclaration;
+                VertexBufferBinding vertexBinding = vertexData.vertexBufferBinding;
+                VertexElement normalElement = vertexDeclaration.findElementBySemantic(VertexElementSemantic.VES_NORMAL);
+                VertexElement tangentElement = vertexDeclaration.findElementBySemantic(VertexElementSemantic.VES_TANGENT);
+                VertexElement binormalElement = vertexDeclaration.findElementBySemantic(VertexElementSemantic.VES_BINORMAL);
+
+                uint numVertices = vertexData.vertexCount;
+                HardwareVertexBufferSharedPtr normalHardwareBuffer = vertexBinding.getBuffer(normalElement.getSource());
+                uint normalVertexSize = normalHardwareBuffer.Value.getVertexSize();
+                byte* normalBuffer = (byte*)normalHardwareBuffer.Value.@lock(HardwareBuffer.LockOptions.HBL_READ_ONLY);
+
+                HardwareVertexBufferSharedPtr tangentHardwareBuffer = vertexBinding.getBuffer(tangentElement.getSource());
+                uint tangetVertexSize = tangentHardwareBuffer.Value.getVertexSize();
+                byte* tangentBuffer = (byte*)tangentHardwareBuffer.Value.@lock(HardwareBuffer.LockOptions.HBL_READ_ONLY);
+
+                HardwareVertexBufferSharedPtr binormalHardwareBuffer = vertexBinding.getBuffer(binormalElement.getSource());
+                uint binormalVertexSize = binormalHardwareBuffer.Value.getVertexSize();
+                byte* binormalBuffer = (byte*)binormalHardwareBuffer.Value.@lock(HardwareBuffer.LockOptions.HBL_NORMAL);
+
+                Vector3* normal;
+                Vector3* tangent;
+                Vector3* binormal;
+
+                for (int i = 0; i < numVertices; ++i)
+                {
+                    normalElement.baseVertexPointerToElement(normalBuffer, (float**)&normal);
+                    tangentElement.baseVertexPointerToElement(tangentBuffer, (float**)&tangent);
+                    binormalElement.baseVertexPointerToElement(binormalBuffer, (float**)&binormal);
+
+                    *binormal = normal->cross(ref *tangent) * -1.0f;
+
+                    normalBuffer += normalVertexSize;
+                    tangentBuffer += tangetVertexSize;
+                    binormalBuffer += binormalVertexSize;
+                }
+
+                normalHardwareBuffer.Value.unlock();
+                tangentHardwareBuffer.Value.unlock();
+                binormalHardwareBuffer.Value.unlock();
+
+                normalHardwareBuffer.Dispose();
+                tangentHardwareBuffer.Dispose();
+                binormalHardwareBuffer.Dispose();
+            }
+        }
+
         /// <summary>
         /// Helper function to create the default window. This is the callback
         /// to the PluginManager.

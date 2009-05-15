@@ -85,5 +85,11 @@ namespace OgreModelEditor
         {
             controller.setNormalMaterial();
         }
+
+        private void recalculateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.buildTangentVectors();
+            controller.buildBinormalVectors();
+        }
     }
 }

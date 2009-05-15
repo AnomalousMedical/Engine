@@ -59,6 +59,8 @@
             this.modelViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
+            this.tangentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.recalculateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.SuspendLayout();
@@ -68,7 +70,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.resourcesToolStripMenuItem,
-            this.debugToolStripMenuItem});
+            this.debugToolStripMenuItem,
+            this.tangentToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(747, 24);
@@ -241,6 +244,21 @@
             this.dockPanel.Skin = dockPanelSkin1;
             this.dockPanel.TabIndex = 2;
             // 
+            // tangentToolStripMenuItem
+            // 
+            this.tangentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.recalculateToolStripMenuItem});
+            this.tangentToolStripMenuItem.Name = "tangentToolStripMenuItem";
+            this.tangentToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
+            this.tangentToolStripMenuItem.Text = "Tangent";
+            // 
+            // recalculateToolStripMenuItem
+            // 
+            this.recalculateToolStripMenuItem.Name = "recalculateToolStripMenuItem";
+            this.recalculateToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.recalculateToolStripMenuItem.Text = "Recalculate";
+            this.recalculateToolStripMenuItem.Click += new System.EventHandler(this.recalculateToolStripMenuItem_Click);
+            // 
             // OgreModelEditorMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -280,6 +298,8 @@
         private System.Windows.Forms.ToolStripMenuItem tangentViewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem normalViewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem modelViewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tangentToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem recalculateToolStripMenuItem;
     }
 }
 
