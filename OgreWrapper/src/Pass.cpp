@@ -4,6 +4,7 @@
 #include "OgrePass.h"
 #include "MathUtils.h"
 #include "MarshalUtils.h"
+#include "TextureUnitState.h"
 
 namespace OgreWrapper{
 
@@ -241,6 +242,54 @@ float Pass::getShininess()
 TrackVertexColorEnum Pass::getVertexColorTracking()
 {
 	return (TrackVertexColorEnum)ogrePass->getVertexColourTracking();
+}
+
+TextureUnitState^ Pass::createTextureUnitState()
+{
+	return textureUnitStates.getObject(ogrePass->createTextureUnitState());
+}
+
+TextureUnitState^ Pass::createTextureUnitState(System::String^ textureName)
+{
+	return textureUnitStates.getObject(ogrePass->createTextureUnitState(MarshalUtils::convertString(textureName)));
+}
+
+TextureUnitState^ Pass::createTextureUnitState(System::String^ textureName, unsigned short texCoordSet)
+{
+	return textureUnitStates.getObject(ogrePass->createTextureUnitState(MarshalUtils::convertString(textureName), texCoordSet));
+}
+
+TextureUnitState^ Pass::getTextureUnitState(unsigned short index)
+{
+	return textureUnitStates.getObject(ogrePass->getTextureUnitState(index));
+}
+
+TextureUnitState^ Pass::getTextureUnitState(System::String^ name)
+{
+	return textureUnitStates.getObject(ogrePass->getTextureUnitState(MarshalUtils::convertString(name)));
+}
+
+unsigned short Pass::getTextureUnitStateIndex(TextureUnitState^ state)
+{
+	return ogrePass->getTextureUnitStateIndex(state->getTextureUnitState());
+}
+
+void Pass::removeTextureUnitState(unsigned short index)
+{
+	Ogre::TextureUnitState* state = ogrePass->getTextureUnitState(index);
+	textureUnitStates.destroyObject(state);
+	ogrePass->removeTextureUnitState(index);
+}
+
+void Pass::removeAllTextureUnitStates()
+{
+	textureUnitStates.clearObjects();
+	return ogrePass->removeAllTextureUnitStates();
+}
+
+unsigned short Pass::getNumTextureUnitStates()
+{
+	return ogrePass->getNumTextureUnitStates();
 }
 
 void Pass::setSceneBlending(SceneBlendType sbt)

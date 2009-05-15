@@ -754,6 +754,14 @@
 						RelativePath=".\include\Technique.h"
 						>
 					</File>
+					<File
+						RelativePath=".\src\TextureUnitState.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\include\TextureUnitState.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="Meshes"
@@ -1153,6 +1161,14 @@
 				</File>
 				<File
 					RelativePath=".\include\TechniqueCollection.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\TextureUnitStateCollection.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\TextureUnitStateCollection.h"
 					>
 				</File>
 				<File

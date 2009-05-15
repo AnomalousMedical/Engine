@@ -107,10 +107,34 @@ namespace OgreModelEditor
             controller.setNormalMaterial();
         }
 
+        private void viewTextureToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+        }
+
         private void recalculateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             controller.buildTangentVectors();
             controller.buildBinormalVectors();
+        }
+
+        public void setTextureNames(IEnumerable<String> textureNames)
+        {
+            viewTextureToolStripMenuItem.DropDownItems.Clear();
+            foreach (String texName in textureNames)
+            {
+                ToolStripMenuItem item = new ToolStripMenuItem(texName, null, textureNameClicked);
+                viewTextureToolStripMenuItem.DropDownItems.Add(item);
+            }
+        }
+
+        private void textureNameClicked(Object sender, EventArgs e)
+        {
+            ToolStripMenuItem toolItem = sender as ToolStripMenuItem;
+            if (toolItem != null)
+            {
+                controller.setTextureDebug(toolItem.Text);
+            }
         }
 
         protected override void OnKeyDown(KeyEventArgs e)

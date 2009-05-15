@@ -41,7 +41,7 @@ namespace OgreModelEditor
 
         //Controller
         private DrawingWindowController drawingWindowController = new DrawingWindowController();
-        private ModelController modelController = new ModelController();
+        private ModelController modelController;
 
         //Scene
         private SimScene scene;
@@ -56,6 +56,10 @@ namespace OgreModelEditor
 
         public void Dispose()
         {
+            if (modelController != null)
+            {
+                modelController.Dispose();
+            }
             if (eventManager != null)
             {
                 eventManager.Dispose();
@@ -133,6 +137,7 @@ namespace OgreModelEditor
             //Initialize controllers
             drawingWindowController.initialize(this, eventManager, pluginManager.RendererPlugin, OgreModelEditorConfig.ConfigFile);
             drawingWindowController.createOneWaySplit();
+            modelController = new ModelController();
 
             //Initialize GUI
             mainForm.initialize(this);
@@ -184,6 +189,7 @@ namespace OgreModelEditor
             groupManager.initializeAllResourceGroups();
             String meshName = Path.GetFileName(path);
             modelController.createModel(meshName, scene);
+            mainForm.setTextureNames(modelController.TextureNames);
         }
 
         public void editExternalResources()
@@ -216,6 +222,7 @@ namespace OgreModelEditor
                 groupManager.initializeAllResourceGroups();
                 String meshName = Path.GetFileName(lastFileName);
                 modelController.createModel(meshName, scene);
+                mainForm.setTextureNames(modelController.TextureNames);
             }
         }
 
@@ -237,6 +244,11 @@ namespace OgreModelEditor
         public void setNormalMaterial()
         {
             modelController.setNormalMaterial();
+        }
+
+        public void setTextureDebug(String textureName)
+        {
+            modelController.showIndividualTexture(textureName);
         }
 
         public void buildTangentVectors()

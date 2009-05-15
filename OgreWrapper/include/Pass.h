@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Light.h"
+#include "TextureUnitStateCollection.h"
 
 namespace Ogre
 {
@@ -53,6 +54,7 @@ public ref class Pass
 private:
 	Ogre::Pass* ogrePass;
 	Technique^ parent;
+	TextureUnitStateCollection textureUnitStates;
 
 internal:
 	/// <summary>
@@ -158,6 +160,24 @@ public:
 	float getShininess();
 
 	TrackVertexColorEnum getVertexColorTracking();
+
+	TextureUnitState^ createTextureUnitState();
+
+	TextureUnitState^ createTextureUnitState(System::String^ textureName);
+
+	TextureUnitState^ createTextureUnitState(System::String^ textureName, unsigned short texCoordSet);
+
+	TextureUnitState^ getTextureUnitState(unsigned short index);
+
+	TextureUnitState^ getTextureUnitState(System::String^ name);
+
+	unsigned short getTextureUnitStateIndex(TextureUnitState^ state);
+
+	void removeTextureUnitState(unsigned short index);
+
+	void removeAllTextureUnitStates();
+
+	unsigned short getNumTextureUnitStates();
 
 	void setSceneBlending(SceneBlendType sbt);
 

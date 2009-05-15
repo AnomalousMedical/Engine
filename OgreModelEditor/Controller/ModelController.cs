@@ -12,7 +12,7 @@ namespace OgreModelEditor.Controller
     /// <summary>
     /// This class handles the loading and unloading of the model.
     /// </summary>
-    class ModelController
+    class ModelController : IDisposable
     {
         private GenericSimObjectDefinition simObjectDefinition;
         private EntityDefinition entityDefintion;
@@ -20,6 +20,9 @@ namespace OgreModelEditor.Controller
         private SimObjectBase currentSimObject;
         private String entityMaterialName;
         private Entity entity;
+        private MaterialPtr fixedFunctionTextured;
+        private TextureUnitState fixedTexture;
+        private LinkedList<String> modelTextures = new LinkedList<string>();
 
         /// <summary>
         /// Constructor.
@@ -32,6 +35,13 @@ namespace OgreModelEditor.Controller
             nodeDefinition = new SceneNodeDefinition("EntityNode");
             nodeDefinition.addMovableObjectDefinition(entityDefintion);
             simObjectDefinition.addElement(nodeDefinition);
+            fixedFunctionTextured = MaterialManager.getInstance().getByName("FixedFunctionTextured");
+            fixedTexture = fixedFunctionTextured.Value.getTechnique(0).getPass(0).getTextureUnitState(0);
+        }
+
+        public void Dispose()
+        {
+            fixedFunctionTextured.Dispose();
         }
 
         /// <summary>
@@ -45,7 +55,7 @@ namespace OgreModelEditor.Controller
             currentSimObject = simObjectDefinition.register(scene.getDefaultSubScene());
             scene.buildScene();
             entity = ((SceneNodeElement)currentSimObject.getElement("EntityNode")).getEntity(new Identifier("EntitySimObject", "Entity"));
-            entityMaterialName = entity.getSubEntity(0).getMaterialName();
+            readModelInfo();
         }
 
         /// <summary>
@@ -98,6 +108,16 @@ namespace OgreModelEditor.Controller
         public void setNormalMaterial()
         {
             entity.setMaterialName(entityMaterialName);
+        }
+
+        /// <summary>
+        /// Show a particluar texture on the model.
+        /// </summary>
+        /// <param name="textureFileName">The name of the texture to show.</param>
+        public void showIndividualTexture(String textureFileName)
+        {
+            fixedTexture.setTextureName(textureFileName);
+            entity.setMaterialName(fixedFunctionTextured.Value.getName());
         }
 
         /// <summary>
@@ -181,6 +201,40 @@ namespace OgreModelEditor.Controller
                         meshSerializer.exportMesh(mesh.Value, filename);
                     }
                 }
+            }
+        }
+
+        private void readModelInfo()
+        {
+            entityMaterialName = entity.getSubEntity(0).getMaterialName();
+            using (MaterialPtr modelMaterial = MaterialManager.getInstance().getByName(entityMaterialName))
+            {
+                //Get the texture names
+                modelTextures.Clear();
+                ushort numTechniques = modelMaterial.Value.getNumTechniques();
+                for (ushort tech = 0; tech < numTechniques; ++tech)
+                {
+                    Technique technique = modelMaterial.Value.getTechnique(tech);
+                    ushort numPasses = technique.getNumPasses();
+                    for (ushort p = 0; p < numPasses; ++p)
+                    {
+                        Pass pass = technique.getPass(p);
+                        ushort numTextures = pass.getNumTextureUnitStates();
+                        for (ushort tex = 0; tex < numTextures; ++tex)
+                        {
+                            TextureUnitState texture = pass.getTextureUnitState(tex);
+                            modelTextures.AddLast(texture.getTextureName());
+                        }
+                    }
+                }
+            }
+        }
+
+        public IEnumerable<String> TextureNames
+        {
+            get
+            {
+                return modelTextures;
             }
         }
     }
