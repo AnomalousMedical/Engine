@@ -6,6 +6,16 @@ using System.Text;
 namespace Engine
 {
     /// <summary>
+    /// An enum describing the RenderingModes for a camera.
+    /// </summary>
+    public enum RenderingMode
+    {
+        Points,
+        Wireframe,
+        Solid,
+    }
+
+    /// <summary>
     /// This class is the interface for a camera in the Renderer plugin.
     /// </summary>
     public interface CameraControl
@@ -57,5 +67,11 @@ namespace Engine
         /// </summary>
         /// <param name="showStats">True to show the scene stats.</param>
         void showSceneStats(bool showStats);
+
+        /// <summary>
+        /// Change the RenderingMode of the camera.
+        /// </summary>
+        /// <param name="mode">The RenderingMode to set.</param>
+        void setRenderingMode(RenderingMode mode);
     }
 }

@@ -72,6 +72,21 @@ namespace Editor
             }
         }
 
+        private void solidToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            drawingWindow.setRenderingMode(Engine.RenderingMode.Solid);
+        }
+
+        private void wireframeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            drawingWindow.setRenderingMode(Engine.RenderingMode.Wireframe);
+        }
+
+        private void pointToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            drawingWindow.setRenderingMode(Engine.RenderingMode.Points);
+        }
+
         //protected override void OnActivated(EventArgs e)
         //{
         //    drawingWindow.setEnabled(true);

@@ -26,6 +26,7 @@ namespace Editor
         private bool showSceneStats = false;
         private DrawingWindowController splitController;
         private UpdateTimer mainTimer;
+        private RenderingMode renderingMode = RenderingMode.Solid;
 
         public DrawingWindow()
         {
@@ -89,6 +90,7 @@ namespace Editor
                 camera = window.createCamera(defaultScene, name, orbitCamera.Translation, orbitCamera.LookAt);
                 camera.BackgroundColor = Engine.Color.FromARGB(BackColor.ToArgb());
                 camera.addLight();
+                camera.setRenderingMode(renderingMode);
                 mainTimer.addFixedUpdateListener(orbitCamera);
                 orbitCamera.setCamera(camera);
                 CameraResolver.addMotionValidator(this);
@@ -127,6 +129,15 @@ namespace Editor
                 camera.showSceneStats(show);
             }
             showSceneStats = show;
+        }
+
+        public void setRenderingMode(RenderingMode mode)
+        {
+            this.renderingMode = mode;
+            if (camera != null)
+            {
+                camera.setRenderingMode(renderingMode);
+            }
         }
 
         protected override void OnResize(EventArgs e)

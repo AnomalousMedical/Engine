@@ -124,6 +124,26 @@ namespace OgrePlugin
             this.showStats = showStats;
         }
 
+        /// <summary>
+        /// Change the RenderingMode of the camera.
+        /// </summary>
+        /// <param name="mode">The RenderingMode to set.</param>
+        public void setRenderingMode(RenderingMode mode)
+        {
+            switch (mode)
+            {
+                case RenderingMode.Points:
+                    camera.setPolygonMode(PolygonMode.PM_POINTS);
+                    break;
+                case RenderingMode.Wireframe:
+                    camera.setPolygonMode(PolygonMode.PM_WIREFRAME);
+                    break;
+                case RenderingMode.Solid:
+                    camera.setPolygonMode(PolygonMode.PM_SOLID);
+                    break;
+            }
+        }
+
         public void Dispose()
         {
             sceneManager.SceneManager.removeSceneListener(this);

@@ -33,15 +33,20 @@
             this.changeBackgroundColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.drawingWindow = new Editor.DrawingWindow();
             this.colorDialog = new System.Windows.Forms.ColorDialog();
+            this.renderingModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.solidToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.wireframeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pointToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabContextMenu
             // 
             this.tabContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.changeBackgroundColorToolStripMenuItem});
+            this.changeBackgroundColorToolStripMenuItem,
+            this.renderingModeToolStripMenuItem});
             this.tabContextMenu.Name = "contextMenuStrip1";
-            this.tabContextMenu.Size = new System.Drawing.Size(215, 48);
+            this.tabContextMenu.Size = new System.Drawing.Size(215, 70);
             // 
             // changeBackgroundColorToolStripMenuItem
             // 
@@ -52,11 +57,43 @@
             // 
             // drawingWindow
             // 
+            this.drawingWindow.BackColor = System.Drawing.SystemColors.ControlDark;
             this.drawingWindow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.drawingWindow.Location = new System.Drawing.Point(0, 0);
             this.drawingWindow.Name = "drawingWindow";
             this.drawingWindow.Size = new System.Drawing.Size(284, 264);
             this.drawingWindow.TabIndex = 0;
+            // 
+            // renderingModeToolStripMenuItem
+            // 
+            this.renderingModeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.solidToolStripMenuItem,
+            this.wireframeToolStripMenuItem,
+            this.pointToolStripMenuItem});
+            this.renderingModeToolStripMenuItem.Name = "renderingModeToolStripMenuItem";
+            this.renderingModeToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.renderingModeToolStripMenuItem.Text = "Rendering Mode";
+            // 
+            // solidToolStripMenuItem
+            // 
+            this.solidToolStripMenuItem.Name = "solidToolStripMenuItem";
+            this.solidToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.solidToolStripMenuItem.Text = "Solid";
+            this.solidToolStripMenuItem.Click += new System.EventHandler(this.solidToolStripMenuItem_Click);
+            // 
+            // wireframeToolStripMenuItem
+            // 
+            this.wireframeToolStripMenuItem.Name = "wireframeToolStripMenuItem";
+            this.wireframeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.wireframeToolStripMenuItem.Text = "Wireframe";
+            this.wireframeToolStripMenuItem.Click += new System.EventHandler(this.wireframeToolStripMenuItem_Click);
+            // 
+            // pointToolStripMenuItem
+            // 
+            this.pointToolStripMenuItem.Name = "pointToolStripMenuItem";
+            this.pointToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.pointToolStripMenuItem.Text = "Point";
+            this.pointToolStripMenuItem.Click += new System.EventHandler(this.pointToolStripMenuItem_Click);
             // 
             // DrawingWindowHost
             // 
@@ -81,5 +118,9 @@
         private System.Windows.Forms.ContextMenuStrip tabContextMenu;
         private System.Windows.Forms.ToolStripMenuItem changeBackgroundColorToolStripMenuItem;
         private System.Windows.Forms.ColorDialog colorDialog;
+        private System.Windows.Forms.ToolStripMenuItem renderingModeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem solidToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem wireframeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pointToolStripMenuItem;
     }
 }
