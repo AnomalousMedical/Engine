@@ -254,6 +254,31 @@ namespace OgreModelEditor
             modelController.saveModel(filename);
         }
 
+        public void showStats(bool show)
+        {
+            drawingWindowController.showStats(show);
+        }
+
+        public void createOneWindow()
+        {
+            drawingWindowController.createOneWaySplit();
+        }
+
+        public void createTwoWindows()
+        {
+            drawingWindowController.createTwoWaySplit();
+        }
+
+        public void createThreeWindows()
+        {
+            drawingWindowController.createThreeWayUpperSplit();
+        }
+
+        public void createFourWindows()
+        {
+            drawingWindowController.createFourWaySplit();
+        }
+
         /// <summary>
         /// Helper function to create the default window. This is the callback
         /// to the PluginManager.

@@ -137,5 +137,31 @@ namespace OgreModelEditor
                 controller.refreshResources();
             }
         }
+
+        private void oneWinToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.createOneWindow();
+        }
+
+        private void twoWindowsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.createTwoWindows();
+        }
+
+        private void threeWindowsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.createThreeWindows();
+        }
+
+        private void fourWindowsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.createFourWindows();
+        }
+
+        private void showStatsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            showStatsToolStripMenuItem.Checked = !showStatsToolStripMenuItem.Checked;
+            controller.showStats(showStatsToolStripMenuItem.Checked);
+        }
     }
 }
