@@ -220,19 +220,16 @@ namespace OgreModelEditor
             if (currentSimObject != null)
             {
                 currentSimObject.Dispose();
-            }
-            String dir = Path.GetDirectoryName(lastFileName);
-            pluginManager.PrimaryResourceManager.changeResourcesToMatch(emptyResourceManager);
-            pluginManager.PrimaryResourceManager.forceResourceRefresh();
-            OgreResourceGroupManager groupManager = OgreResourceGroupManager.getInstance();
-            groupManager.destroyResourceGroup(dir);
-            groupManager.initializeAllResourceGroups();
-            pluginManager.PrimaryResourceManager.changeResourcesToMatch(resourceManager);
-            pluginManager.PrimaryResourceManager.forceResourceRefresh();
-            groupManager.addResourceLocation(dir, "FileSystem", dir, true);
-            groupManager.initializeAllResourceGroups();
-            if (currentSimObject != null)
-            {
+                String dir = Path.GetDirectoryName(lastFileName);
+                pluginManager.PrimaryResourceManager.changeResourcesToMatch(emptyResourceManager);
+                pluginManager.PrimaryResourceManager.forceResourceRefresh();
+                OgreResourceGroupManager groupManager = OgreResourceGroupManager.getInstance();
+                groupManager.destroyResourceGroup(dir);
+                groupManager.initializeAllResourceGroups();
+                pluginManager.PrimaryResourceManager.changeResourcesToMatch(resourceManager);
+                pluginManager.PrimaryResourceManager.forceResourceRefresh();
+                groupManager.addResourceLocation(dir, "FileSystem", dir, true);
+                groupManager.initializeAllResourceGroups();
                 currentSimObject = simObjectDefinition.register(scene.getDefaultSubScene());
                 scene.buildScene();
                 entity = ((SceneNodeElement)currentSimObject.getElement("EntityNode")).getEntity(new Identifier("EntitySimObject", "Entity"));

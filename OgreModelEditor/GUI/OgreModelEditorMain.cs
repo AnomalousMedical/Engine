@@ -112,5 +112,14 @@ namespace OgreModelEditor
             controller.buildTangentVectors();
             controller.buildBinormalVectors();
         }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+            if (e.KeyCode == Keys.F5)
+            {
+                controller.refreshResources();
+            }
+        }
     }
 }
