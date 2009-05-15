@@ -186,13 +186,13 @@ namespace OgreModelEditor
             {
                 currentSimObject.Dispose();
                 String lastDir = Path.GetDirectoryName(lastFileName);
-                groupManager.removeResourceLocation(lastDir, "LoadedModel");
+                groupManager.removeResourceLocation(lastDir, lastDir);
                 groupManager.initializeAllResourceGroups();
             }
 
             lastFileName = path;
             String dir = Path.GetDirectoryName(path);
-            groupManager.addResourceLocation(dir, "FileSystem", "LoadedModel", true);
+            groupManager.addResourceLocation(dir, "FileSystem", dir, true);
             groupManager.initializeAllResourceGroups();
             String filename = Path.GetFileName(path);
             entityDefintion.MeshName = filename;
@@ -221,15 +221,15 @@ namespace OgreModelEditor
             {
                 currentSimObject.Dispose();
             }
+            String dir = Path.GetDirectoryName(lastFileName);
             pluginManager.PrimaryResourceManager.changeResourcesToMatch(emptyResourceManager);
             pluginManager.PrimaryResourceManager.forceResourceRefresh();
             OgreResourceGroupManager groupManager = OgreResourceGroupManager.getInstance();
-            groupManager.destroyResourceGroup("LoadedModel");
+            groupManager.destroyResourceGroup(dir);
             groupManager.initializeAllResourceGroups();
             pluginManager.PrimaryResourceManager.changeResourcesToMatch(resourceManager);
             pluginManager.PrimaryResourceManager.forceResourceRefresh();
-            String path = Path.GetDirectoryName(lastFileName);
-            groupManager.addResourceLocation(path, "FileSystem", "LoadedModel", true);
+            groupManager.addResourceLocation(dir, "FileSystem", dir, true);
             groupManager.initializeAllResourceGroups();
             if (currentSimObject != null)
             {
