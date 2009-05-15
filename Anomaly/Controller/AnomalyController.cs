@@ -91,7 +91,7 @@ namespace Anomaly
 
             //Initialize the plugins
             hiddenEmbedWindow = new DrawingWindow();
-            pluginManager = new PluginManager();
+            pluginManager = new PluginManager(AnomalyConfig.ConfigFile);
             pluginManager.OnConfigureDefaultWindow = createWindow;
             DynamicDLLPluginLoader pluginLoader = new DynamicDLLPluginLoader();
             AnomalyConfig.PluginSection.resetPluginIterator();

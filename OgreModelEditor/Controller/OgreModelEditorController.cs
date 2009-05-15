@@ -89,7 +89,7 @@ namespace OgreModelEditor
             Log.Default.addLogListener(logListener);
 
             hiddenEmbedWindow = new DrawingWindow();
-            pluginManager = new PluginManager();
+            pluginManager = new PluginManager(OgreModelEditorConfig.ConfigFile);
             pluginManager.OnConfigureDefaultWindow = createWindow;
             pluginManager.addPluginAssembly(typeof(OgreInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(Win32PlatformPlugin).Assembly);

@@ -67,6 +67,7 @@
     <Compile Include="Platform\OgreUpdate.cs" />
     <Compile Include="Platform\OgreWindow.cs" />
     <Compile Include="Platform\StatsOverlay.cs" />
+    <Compile Include="Plugin\OgreConfig.cs" />
     <Compile Include="Plugin\OgreDebugSurface.cs" />
     <Compile Include="Plugin\OgreInterface.cs" />
     <Compile Include="Plugin\OgreResourceManager.cs" />

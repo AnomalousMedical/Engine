@@ -89,6 +89,7 @@ namespace OgrePlugin
         {
             DefaultWindowInfo defaultWindowInfo;
             pluginManager.setRendererPlugin(this, out defaultWindowInfo);
+            new OgreConfig(pluginManager.ConfigFile);
 
             try
             {
@@ -106,6 +107,9 @@ namespace OgrePlugin
                 root.loadPlugin("Plugin_CgProgramManager");
 
                 //Create the default window.
+                Dictionary<String, String> miscParams = new Dictionary<string, string>();
+                miscParams.Add("FSAA", OgreConfig.FSAA.ToString());
+                miscParams.Add("vsync", OgreConfig.VSync.ToString());
                 if (defaultWindowInfo.AutoCreateWindow)
                 {
                     RenderWindow renderWindow = root.createRenderWindow(defaultWindowInfo.AutoWindowTitle, (uint)defaultWindowInfo.Width, (uint)defaultWindowInfo.Height, defaultWindowInfo.Fullscreen);
@@ -114,7 +118,6 @@ namespace OgrePlugin
                 }
                 else
                 {
-                    Dictionary<String, String> miscParams = new Dictionary<string, string>();
                     miscParams.Add("externalWindowHandle", defaultWindowInfo.EmbedWindow.WindowHandle.ToInt32().ToString());
                     RenderWindow renderWindow = root.createRenderWindow(defaultWindowInfo.AutoWindowTitle, (uint)defaultWindowInfo.Width, (uint)defaultWindowInfo.Height, defaultWindowInfo.Fullscreen, miscParams);
                     primaryWindow = new EmbeddedWindow(defaultWindowInfo.EmbedWindow, renderWindow);
@@ -178,6 +181,8 @@ namespace OgrePlugin
         public RendererWindow createRendererWindow(OSWindow embedWindow, String name)
         {
             Dictionary<String, String> miscParams = new Dictionary<string, string>();
+            miscParams.Add("FSAA", OgreConfig.FSAA.ToString());
+            miscParams.Add("vsync", OgreConfig.VSync.ToString());
             miscParams.Add("externalWindowHandle", embedWindow.WindowHandle.ToInt32().ToString());
             RenderWindow renderWindow = root.createRenderWindow(name, (uint)embedWindow.WindowWidth, (uint)embedWindow.WindowHeight, false, miscParams);
             return new EmbeddedWindow(embedWindow, renderWindow);

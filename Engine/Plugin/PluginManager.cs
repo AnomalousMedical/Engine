@@ -55,6 +55,7 @@ namespace Engine
         private ResourceManager primaryResourceManager = new ResourceManager();
         private ResourceManager emptyResourceManager = new ResourceManager();
         private List<DebugInterface> debugInterfaces;
+        private ConfigFile configFile;
 
         #endregion Fields
 
@@ -74,10 +75,11 @@ namespace Engine
         /// <summary>
         /// Constructor. Must be called once before plugins are used.
         /// </summary>
-        public PluginManager()
+        public PluginManager(ConfigFile configFile)
         {
             if (instance == null)
             {
+                this.configFile = configFile;
                 instance = this;
                 instance.addPlugin(new BehaviorInterface());
             }
@@ -404,6 +406,17 @@ namespace Engine
             get
             {
                 return primaryResourceManager;
+            }
+        }
+
+        /// <summary>
+        /// The ConfigFile used by the system.
+        /// </summary>
+        public ConfigFile ConfigFile
+        {
+            get
+            {
+                return configFile;
             }
         }
 

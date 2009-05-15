@@ -36,7 +36,7 @@ namespace Test
             LogFileListener logListener = new LogFileListener();
             logListener.openLogFile("Log.log");
             Log.Default.addLogListener(logListener);
-            using (PluginManager pluginManager = new PluginManager() )
+            using (PluginManager pluginManager = new PluginManager(new ConfigFile("foo.ini")) )
             {
                 
                 pluginManager.OnConfigureDefaultWindow = createWindow;
