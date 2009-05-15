@@ -82,6 +82,7 @@ namespace Anomaly
             if (fileTracker.lastDialogAccepted())
             {
                 controller.saveScene(filename);
+                updateWindowTitle(filename);
             }
         }
 
@@ -91,6 +92,7 @@ namespace Anomaly
             if (fileTracker.lastDialogAccepted())
             {
                 controller.saveScene(filename);
+                updateWindowTitle(filename);
             }
         }
 
@@ -100,12 +102,14 @@ namespace Anomaly
             if (fileTracker.lastDialogAccepted())
             {
                 controller.loadScene(filename);
+                updateWindowTitle(filename);
             }
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             controller.createNewScene();
+            clearWindowTitle();
         }
 
         private void configureToolStripMenuItem_Click(object sender, EventArgs e)

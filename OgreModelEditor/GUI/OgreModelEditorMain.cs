@@ -53,6 +53,27 @@ namespace OgreModelEditor
             if (fileTracker.lastDialogAccepted())
             {
                 controller.openModel(fileTracker.getCurrentFile());
+                updateWindowTitle(fileTracker.getCurrentFile());
+            }
+        }
+
+        private void saveModelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fileTracker.saveFile(this);
+            if (fileTracker.lastDialogAccepted())
+            {
+                controller.saveModel(fileTracker.getCurrentFile());
+                updateWindowTitle(fileTracker.getCurrentFile());
+            }
+        }
+
+        private void saveModelAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fileTracker.saveFileAs(this);
+            if (fileTracker.lastDialogAccepted())
+            {
+                controller.saveModel(fileTracker.getCurrentFile());
+                updateWindowTitle(fileTracker.getCurrentFile());
             }
         }
 

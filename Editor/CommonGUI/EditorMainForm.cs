@@ -13,10 +13,13 @@ namespace Editor
     public partial class EditorMainForm : Form, OSWindow
     {
         private List<OSWindowListener> listeners = new List<OSWindowListener>();
+        private String windowDefaultText;
+        private const String TITLE_FORMAT = "{0} - {1}";
 
         public EditorMainForm()
         {
             InitializeComponent();
+            windowDefaultText = this.Text;
         }
 
         #region OSWindow Members
@@ -56,6 +59,23 @@ namespace Editor
         }
 
         #endregion
+
+        /// <summary>
+        /// Update the title of the window to reflect a current filename or other info.
+        /// </summary>
+        /// <param name="subName">A name to place as a secondary name in the title.</param>
+        protected void updateWindowTitle(String subName)
+        {
+            Text = String.Format(TITLE_FORMAT, windowDefaultText, subName);
+        }
+
+        /// <summary>
+        /// Clear the window title back to the default text.
+        /// </summary>
+        protected void clearWindowTitle()
+        {
+            Text = windowDefaultText;
+        }
 
         protected override void OnResize(EventArgs e)
         {

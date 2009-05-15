@@ -320,6 +320,20 @@ namespace OgreModelEditor
             }
         }
 
+        public void saveModel(String filename)
+        {
+            if (entity != null)
+            {
+                using (MeshSerializer meshSerializer = new MeshSerializer())
+                {
+                    using (MeshPtr mesh = entity.getMesh())
+                    {
+                        meshSerializer.exportMesh(mesh.Value, filename);
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Helper function to create the default window. This is the callback
         /// to the PluginManager.

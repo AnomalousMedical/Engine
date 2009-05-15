@@ -6,10 +6,17 @@ using Engine;
 
 namespace OgrePlugin
 {
+    /// <summary>
+    /// This is the configuration for ogre.
+    /// </summary>
     public class OgreConfig
     {
         private static ConfigSection ogreSection;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="configFile">The ConfigFile to use.</param>
         internal OgreConfig(ConfigFile configFile)
         {
             if (ogreSection == null)
