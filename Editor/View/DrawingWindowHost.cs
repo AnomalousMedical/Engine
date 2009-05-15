@@ -87,6 +87,23 @@ namespace Editor
             drawingWindow.setRenderingMode(Engine.RenderingMode.Points);
         }
 
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+            if (e.KeyCode == Keys.F6)
+            {
+                drawingWindow.setRenderingMode(Engine.RenderingMode.Solid);
+            }
+            if (e.KeyCode == Keys.F7)
+            {
+                drawingWindow.setRenderingMode(Engine.RenderingMode.Wireframe);
+            }
+            if (e.KeyCode == Keys.F8)
+            {
+                drawingWindow.setRenderingMode(Engine.RenderingMode.Points);
+            }
+        }
+
         //protected override void OnActivated(EventArgs e)
         //{
         //    drawingWindow.setEnabled(true);

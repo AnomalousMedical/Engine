@@ -31,12 +31,12 @@
             this.components = new System.ComponentModel.Container();
             this.tabContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.changeBackgroundColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.drawingWindow = new Editor.DrawingWindow();
             this.colorDialog = new System.Windows.Forms.ColorDialog();
             this.renderingModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.solidToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wireframeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pointToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.drawingWindow = new Editor.DrawingWindow();
             this.tabContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,15 +55,6 @@
             this.changeBackgroundColorToolStripMenuItem.Text = "Change Background Color";
             this.changeBackgroundColorToolStripMenuItem.Click += new System.EventHandler(this.changeBackgroundColorToolStripMenuItem_Click);
             // 
-            // drawingWindow
-            // 
-            this.drawingWindow.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.drawingWindow.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.drawingWindow.Location = new System.Drawing.Point(0, 0);
-            this.drawingWindow.Name = "drawingWindow";
-            this.drawingWindow.Size = new System.Drawing.Size(284, 264);
-            this.drawingWindow.TabIndex = 0;
-            // 
             // renderingModeToolStripMenuItem
             // 
             this.renderingModeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -77,6 +68,7 @@
             // solidToolStripMenuItem
             // 
             this.solidToolStripMenuItem.Name = "solidToolStripMenuItem";
+            this.solidToolStripMenuItem.ShortcutKeyDisplayString = "F6";
             this.solidToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.solidToolStripMenuItem.Text = "Solid";
             this.solidToolStripMenuItem.Click += new System.EventHandler(this.solidToolStripMenuItem_Click);
@@ -84,6 +76,7 @@
             // wireframeToolStripMenuItem
             // 
             this.wireframeToolStripMenuItem.Name = "wireframeToolStripMenuItem";
+            this.wireframeToolStripMenuItem.ShortcutKeyDisplayString = "F7";
             this.wireframeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.wireframeToolStripMenuItem.Text = "Wireframe";
             this.wireframeToolStripMenuItem.Click += new System.EventHandler(this.wireframeToolStripMenuItem_Click);
@@ -91,9 +84,19 @@
             // pointToolStripMenuItem
             // 
             this.pointToolStripMenuItem.Name = "pointToolStripMenuItem";
+            this.pointToolStripMenuItem.ShortcutKeyDisplayString = "F8";
             this.pointToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.pointToolStripMenuItem.Text = "Point";
             this.pointToolStripMenuItem.Click += new System.EventHandler(this.pointToolStripMenuItem_Click);
+            // 
+            // drawingWindow
+            // 
+            this.drawingWindow.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.drawingWindow.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.drawingWindow.Location = new System.Drawing.Point(0, 0);
+            this.drawingWindow.Name = "drawingWindow";
+            this.drawingWindow.Size = new System.Drawing.Size(284, 264);
+            this.drawingWindow.TabIndex = 0;
             // 
             // DrawingWindowHost
             // 
@@ -103,6 +106,7 @@
             this.Controls.Add(this.drawingWindow);
             this.DockAreas = WeifenLuo.WinFormsUI.Docking.DockAreas.Document;
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.KeyPreview = true;
             this.Name = "DrawingWindowHost";
             this.ShowHint = WeifenLuo.WinFormsUI.Docking.DockState.Document;
             this.TabPageContextMenuStrip = this.tabContextMenu;
