@@ -149,24 +149,6 @@ namespace OgreModelEditor
             }
         }
 
-
-
-        private IDockContent getDockContent(String persistString)
-        {
-            if (persistString == typeof(ConsoleWindow).ToString())
-            {
-                return consoleWindow;
-            }
-            Vector3 translation;
-            Vector3 lookAt;
-            String name;
-            if (DrawingWindowHost.RestoreFromString(persistString, out name, out translation, out lookAt))
-            {
-                return drawingWindowController.createDrawingWindowHost(name, translation, lookAt);
-            }
-            return null;
-        }
-
         public void start()
         {
             mainForm.Show();
@@ -324,6 +306,27 @@ namespace OgreModelEditor
         private void createWindow(out DefaultWindowInfo defaultWindow)
         {
             defaultWindow = new DefaultWindowInfo(hiddenEmbedWindow);
+        }
+
+        /// <summary>
+        /// Callback to restore the dock windows.
+        /// </summary>
+        /// <param name="persistString"></param>
+        /// <returns></returns>
+        private IDockContent getDockContent(String persistString)
+        {
+            if (persistString == typeof(ConsoleWindow).ToString())
+            {
+                return consoleWindow;
+            }
+            Vector3 translation;
+            Vector3 lookAt;
+            String name;
+            if (DrawingWindowHost.RestoreFromString(persistString, out name, out translation, out lookAt))
+            {
+                return drawingWindowController.createDrawingWindowHost(name, translation, lookAt);
+            }
+            return null;
         }
 
         #region UpdateListener Members

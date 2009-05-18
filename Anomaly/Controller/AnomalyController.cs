@@ -35,6 +35,12 @@ namespace Anomaly
         private DrawingWindow hiddenEmbedWindow;
         private ObjectEditorForm objectEditor = new ObjectEditorForm();
         private DrawingWindowController drawingWindowController = new DrawingWindowController();
+        private MovePanel movePanel = new MovePanel();
+        private TemplatePanel templatePanel = new TemplatePanel();
+        private SimObjectPanel simObjectPanel = new SimObjectPanel();
+        private EulerRotatePanel rotatePanel = new EulerRotatePanel();
+        private Dictionary<String, DebugVisualizer> debugVisualizers = new Dictionary<string, DebugVisualizer>();
+        private ConsoleWindow consoleWindow = new ConsoleWindow();
 
         //Platform
         private UpdateTimer mainTimer;
@@ -85,6 +91,7 @@ namespace Anomaly
             logListener = new LogFileListener();
             logListener.openLogFile(AnomalyConfig.DocRoot + "/log.log");
             Log.Default.addLogListener(logListener);
+            Log.Default.addLogListener(consoleWindow);
 
             //Load the config file and set the resource root up.
             Resource.ResourceRoot = AnomalyConfig.ResourceSection.ResourceRoot;
@@ -138,14 +145,32 @@ namespace Anomaly
             //Initialize the windows
             mainForm.initialize(this);
             drawingWindowController.initialize(this, eventManager, pluginManager.RendererPlugin, AnomalyConfig.ConfigFile);
-            drawingWindowController.createOneWaySplit();
+            movePanel.initialize(moveController);
+            templatePanel.initialize(templates);
+            simObjectPanel.intialize(this);
+            rotatePanel.initialize(rotateController);
 
             //Initialize debug visualizers
             foreach (DebugInterface debugInterface in pluginManager.getDebugInterfaces())
             {
                 DebugVisualizer visualizer = new DebugVisualizer();
                 visualizer.initialize(debugInterface);
-                mainForm.showDockContent(visualizer);
+                debugVisualizers.Add(visualizer.Text, visualizer);
+            }
+
+            //Attempt to restore windows, or create default layout.
+            if (!mainForm.restoreWindows(AnomalyConfig.DocRoot + "/windows.ini", getDockContent))
+            {
+                drawingWindowController.createOneWaySplit();
+                mainForm.showDockContent(movePanel);
+                rotatePanel.Show(movePanel.Pane, DockAlignment.Right, 0.5);
+                mainForm.showDockContent(templatePanel);
+                mainForm.showDockContent(simObjectPanel);
+                foreach (DebugVisualizer visualizer in debugVisualizers.Values)
+                {
+                    mainForm.showDockContent(visualizer);
+                }
+                mainForm.showDockContent(consoleWindow);
             }
         }
 
@@ -189,6 +214,7 @@ namespace Anomaly
         /// </summary>
         public void shutdown()
         {
+            mainForm.saveWindows(AnomalyConfig.DocRoot + "/windows.ini");
             sceneController.destroyScene();
             mainTimer.stopLoop();
         }
@@ -292,6 +318,47 @@ namespace Anomaly
         public void enableRotateTool()
         {
             toolManager.enableTool(rotateTool);
+        }
+
+        /// <summary>
+        /// Restore function for restoring the window layout.
+        /// </summary>
+        /// <param name="persistString">The string describing the window.</param>
+        /// <returns>The IDockContent associated with the given string.</returns>
+        private IDockContent getDockContent(String persistString)
+        {
+            if (persistString == movePanel.GetType().ToString())
+            {
+                return movePanel;
+            }
+            if (persistString == rotatePanel.GetType().ToString())
+            {
+                return rotatePanel;
+            }
+            if (persistString == templatePanel.GetType().ToString())
+            {
+                return templatePanel;
+            }
+            if (persistString == simObjectPanel.GetType().ToString())
+            {
+                return simObjectPanel;
+            }
+            if (persistString == consoleWindow.GetType().ToString())
+            {
+                return consoleWindow;
+            }
+            String name;
+            if (DebugVisualizer.RestoreFromPersistance(persistString, out name))
+            {
+                return debugVisualizers[name];
+            }
+            Vector3 translation;
+            Vector3 lookAt;
+            if (DrawingWindowHost.RestoreFromString(persistString, out name, out translation, out lookAt))
+            {
+                return drawingWindowController.createDrawingWindowHost(name, translation, lookAt);
+            }
+            return null;
         }
 
         /// <summary>

@@ -57,7 +57,7 @@ namespace Editor
                         consoleText.SelectionColor = Color.Red;
                         break;
                     case LogLevel.Warning:
-                        consoleText.SelectionColor = Color.Yellow;
+                        consoleText.SelectionColor = Color.Orange;
                         break;
                     case LogLevel.Info:
                         consoleText.SelectionColor = Color.Black;
