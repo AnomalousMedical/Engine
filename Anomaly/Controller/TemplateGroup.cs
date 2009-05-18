@@ -5,11 +5,14 @@ using System.Text;
 using Engine.Editing;
 using Engine.ObjectManagement;
 using System.IO;
+using Engine.Saving;
 
 namespace Anomaly
 {
     class TemplateGroup
     {
+        private static CopySaver copySaver = new CopySaver();
+
         private String name;
         private Dictionary<String, TemplateGroup> groups = new Dictionary<string,TemplateGroup>();
         private Dictionary<String, Template> templates = new Dictionary<string, Template>();
@@ -74,6 +77,33 @@ namespace Anomaly
             }
         }
 
+        #region Properties
+
+        public String FullPath
+        {
+            get
+            {
+                if (parentGroup != null)
+                {
+                    return parentGroup.FullPath + Path.DirectorySeparatorChar + name;
+                }
+                else
+                {
+                    return name;
+                }
+            }
+        }
+
+        public String Name
+        {
+            get
+            {
+                return name;
+            }
+        }
+
+        #endregion Properties
+
         #region EditInterface
 
         private EditInterfaceCommand destroyGroup;
@@ -81,6 +111,7 @@ namespace Anomaly
         private EditInterfaceManager<TemplateGroup> groupManager;
         private EditInterfaceManager<Template> templateManager;
         private EditInterface editInterface;
+        private EditInterfaceCommand duplicateSimObject;
 
         public EditInterface getEditInterface()
         {
@@ -88,6 +119,7 @@ namespace Anomaly
             {
                 destroyGroup = new EditInterfaceCommand("Remove", destroyGroupCallback);
                 destroySimObject = new EditInterfaceCommand("Remove", destroySimObjectCallback);
+                duplicateSimObject = new EditInterfaceCommand("Duplicate", duplicateSimObjectCallback);
                 editInterface = new EditInterface(name);
                 editInterface.addCommand(new EditInterfaceCommand("Create Group", createGroupCallback));
                 editInterface.addCommand(new EditInterfaceCommand("Create Sim Object", createSimObjectCallback));
@@ -136,6 +168,7 @@ namespace Anomaly
         {
             EditInterface edit = template.getEditInterface();
             edit.addCommand(destroySimObject);
+            edit.addCommand(duplicateSimObject);
             templateManager.addSubInterface(template, edit);
         }
 
@@ -143,7 +176,7 @@ namespace Anomaly
         {
             String name;
             bool accept = callback.getInputString("Enter a name.", out name);
-            while (accept && this.groups.ContainsKey(name))
+            while (accept && this.templates.ContainsKey(name))
             {
                 accept = callback.getInputString("That name is already in use. Please provide another.", name, out name);
             }
@@ -159,26 +192,20 @@ namespace Anomaly
             removeSimObject(templateManager.resolveSourceObject(callback.getSelectedEditInterface()).Definition);
         }
 
-        public String FullPath
+        private void duplicateSimObjectCallback(EditUICallback callback, EditInterfaceCommand command)
         {
-            get
+            String name;
+            bool accept = callback.getInputString("Enter a name.", out name);
+            while (accept && this.templates.ContainsKey(name))
             {
-                if (parentGroup != null)
-                {
-                    return parentGroup.FullPath + Path.DirectorySeparatorChar + name;
-                }
-                else
-                {
-                    return name;
-                }
+                accept = callback.getInputString("That name is already in use. Please provide another.", name, out name);
             }
-        }
-
-        public String Name
-        {
-            get
+            if (accept)
             {
-                return name;
+                SimObjectDefinition sourceObject = templateManager.resolveSourceObject(callback.getSelectedEditInterface()).Definition;
+                SimObjectDefinition simObject = copySaver.copyObject(sourceObject) as SimObjectDefinition;
+                simObject.Name = name;
+                this.addSimObject(simObject);
             }
         }
 
