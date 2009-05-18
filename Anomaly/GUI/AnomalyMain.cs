@@ -26,6 +26,7 @@ namespace Anomaly
         public AnomalyMain()
         {
             InitializeComponent();
+            setDockPanel(dockPanel);
         }
 
         public void initialize(AnomalyController controller)

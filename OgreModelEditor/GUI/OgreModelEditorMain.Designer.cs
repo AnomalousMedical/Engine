@@ -57,6 +57,7 @@
             this.binormalViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tangentViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.normalViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewTextureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tangentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.recalculateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,7 +68,6 @@
             this.threeWindowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fourWindowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
-            this.viewTextureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -192,6 +192,12 @@
             this.normalViewToolStripMenuItem.Text = "View Normals";
             this.normalViewToolStripMenuItem.Click += new System.EventHandler(this.normalViewToolStripMenuItem_Click);
             // 
+            // viewTextureToolStripMenuItem
+            // 
+            this.viewTextureToolStripMenuItem.Name = "viewTextureToolStripMenuItem";
+            this.viewTextureToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.viewTextureToolStripMenuItem.Text = "View Texture";
+            // 
             // tangentToolStripMenuItem
             // 
             this.tangentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -203,7 +209,7 @@
             // recalculateToolStripMenuItem
             // 
             this.recalculateToolStripMenuItem.Name = "recalculateToolStripMenuItem";
-            this.recalculateToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.recalculateToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.recalculateToolStripMenuItem.Text = "Recalculate";
             this.recalculateToolStripMenuItem.Click += new System.EventHandler(this.recalculateToolStripMenuItem_Click);
             // 
@@ -219,7 +225,7 @@
             // showStatsToolStripMenuItem
             // 
             this.showStatsToolStripMenuItem.Name = "showStatsToolStripMenuItem";
-            this.showStatsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.showStatsToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.showStatsToolStripMenuItem.Text = "Show Stats";
             this.showStatsToolStripMenuItem.Click += new System.EventHandler(this.showStatsToolStripMenuItem_Click);
             // 
@@ -231,7 +237,7 @@
             this.threeWindowsToolStripMenuItem,
             this.fourWindowsToolStripMenuItem});
             this.layoutToolStripMenuItem.Name = "layoutToolStripMenuItem";
-            this.layoutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.layoutToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.layoutToolStripMenuItem.Text = "Layout";
             // 
             // oneWinToolStripMenuItem
@@ -316,12 +322,6 @@
             this.dockPanel.Skin = dockPanelSkin1;
             this.dockPanel.TabIndex = 2;
             // 
-            // viewTextureToolStripMenuItem
-            // 
-            this.viewTextureToolStripMenuItem.Name = "viewTextureToolStripMenuItem";
-            this.viewTextureToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
-            this.viewTextureToolStripMenuItem.Text = "View Texture";
-            // 
             // OgreModelEditorMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -334,6 +334,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "OgreModelEditorMain";
             this.Text = "Ogre Model Editor";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);

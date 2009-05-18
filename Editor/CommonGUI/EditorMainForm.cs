@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Engine.Platform;
+using WeifenLuo.WinFormsUI.Docking;
+using System.IO;
 
 namespace Editor
 {
@@ -15,11 +17,46 @@ namespace Editor
         private List<OSWindowListener> listeners = new List<OSWindowListener>();
         private String windowDefaultText;
         private const String TITLE_FORMAT = "{0} - {1}";
+        private DockPanel dockPanel;
 
         public EditorMainForm()
         {
             InitializeComponent();
             windowDefaultText = this.Text;
+        }
+
+        protected void setDockPanel(DockPanel dockPanel)
+        {
+            this.dockPanel = dockPanel;
+        }
+
+        public void saveWindows(String filename)
+        {
+            if (dockPanel == null)
+            {
+                throw new Exception("You must call setDockPanel before calling saveWindows.");
+            }
+            else
+            {
+                dockPanel.SaveAsXml(filename);
+            }
+        }
+
+        public bool restoreWindows(String filename, DeserializeDockContent callback)
+        {
+            if (dockPanel == null)
+            {
+                throw new Exception("You must call restoreWindows before calling saveWindows.");
+            }
+            else
+            {
+                bool restore = File.Exists(filename);
+                if (restore)
+                {
+                    dockPanel.LoadFromXml(filename, callback);
+                }
+                return restore;
+            }
         }
 
         #region OSWindow Members

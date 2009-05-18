@@ -20,6 +20,7 @@ namespace OgreModelEditor
         public OgreModelEditorMain()
         {
             InitializeComponent();
+            setDockPanel(dockPanel);
         }
 
         public void initialize(OgreModelEditorController controller)
@@ -122,21 +123,6 @@ namespace OgreModelEditor
                 ToolStripMenuItem item = new ToolStripMenuItem(texName, null, textureNameClicked);
                 viewTextureToolStripMenuItem.DropDownItems.Add(item);
             }
-        }
-
-        public void saveWindows(String filename)
-        {
-            dockPanel.SaveAsXml(filename);
-        }
-
-        public bool restoreWindows(String filename, DeserializeDockContent callback)
-        {
-            bool restore = File.Exists(filename);
-            if (restore)
-            {
-                dockPanel.LoadFromXml(filename, callback);
-            }
-            return restore;
         }
 
         private void textureNameClicked(Object sender, EventArgs e)
