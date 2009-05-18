@@ -7,11 +7,44 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
+using Engine;
 
 namespace Editor
 {
     public partial class DrawingWindowHost : DockContent
     {
+        private const String PERSIST_STRING = "{0}: {1}: {2}: {3}";
+        private static readonly char[] SEP = { ':' };
+
+        /// <summary>
+        /// This function will attempt to restore a DrawingWindowHost from a
+        /// given persist string. If it is valid the funciton will return true
+        /// and pass the window properties back in the out variables.
+        /// </summary>
+        /// <param name="persistString">The PersistString to restore from.</param>
+        /// <param name="name"></param>
+        /// <param name="translation"></param>
+        /// <param name="lookAt"></param>
+        /// <returns>True if the window was sucessfully restored.</returns>
+        public static bool RestoreFromString(String persistString, out String name, out Vector3 translation, out Vector3 lookAt)
+        {
+            String[] parsed = persistString.Split(SEP);
+            if (parsed.Length == 4 && parsed[0] == typeof(DrawingWindowHost).ToString())
+            {
+                name = parsed[1].Trim();
+                translation = new Vector3(parsed[2]);
+                lookAt = new Vector3(parsed[3]);
+                return true;
+            }
+            else
+            {
+                name = null;
+                translation = Vector3.Zero;
+                lookAt = Vector3.Zero;
+                return false;
+            }
+        }
+
         private List<Control> savedControls = new List<Control>();
         private bool notClosing = true;
         private DrawingWindowController controller;
@@ -102,6 +135,11 @@ namespace Editor
             {
                 drawingWindow.setRenderingMode(Engine.RenderingMode.Points);
             }
+        }
+
+        protected override string GetPersistString()
+        {
+            return String.Format(PERSIST_STRING, typeof(DrawingWindowHost).ToString(), drawingWindow.CameraName, drawingWindow.Translation, drawingWindow.LookAt);
         }
 
         //protected override void OnActivated(EventArgs e)

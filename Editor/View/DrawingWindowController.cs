@@ -89,6 +89,11 @@ namespace Editor
             controller.showDockContent(camera1);
         }
 
+        public DrawingWindowHost createDrawingWindowHost(String name, Vector3 translation, Vector3 lookAt)
+        {
+            return addCamera(name, translation, lookAt);
+        }
+
         public void destroyCameras()
         {
             foreach (DrawingWindowHost host in cameras)

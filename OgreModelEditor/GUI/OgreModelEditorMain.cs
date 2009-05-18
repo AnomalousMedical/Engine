@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using Editor;
+using System.IO;
 
 namespace OgreModelEditor
 {
@@ -107,11 +108,6 @@ namespace OgreModelEditor
             controller.setNormalMaterial();
         }
 
-        private void viewTextureToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            
-        }
-
         private void recalculateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             controller.buildTangentVectors();
@@ -126,6 +122,21 @@ namespace OgreModelEditor
                 ToolStripMenuItem item = new ToolStripMenuItem(texName, null, textureNameClicked);
                 viewTextureToolStripMenuItem.DropDownItems.Add(item);
             }
+        }
+
+        public void saveWindows(String filename)
+        {
+            dockPanel.SaveAsXml(filename);
+        }
+
+        public bool restoreWindows(String filename, DeserializeDockContent callback)
+        {
+            bool restore = File.Exists(filename);
+            if (restore)
+            {
+                dockPanel.LoadFromXml(filename, callback);
+            }
+            return restore;
         }
 
         private void textureNameClicked(Object sender, EventArgs e)

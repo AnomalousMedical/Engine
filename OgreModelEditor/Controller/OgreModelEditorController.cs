@@ -38,6 +38,7 @@ namespace OgreModelEditor
         private DrawingWindow hiddenEmbedWindow;
         private OgreModelEditorMain mainForm;
         private ObjectEditorForm objectEditor = new ObjectEditorForm();
+        private ConsoleWindow consoleWindow = new ConsoleWindow();
 
         //Controller
         private DrawingWindowController drawingWindowController = new DrawingWindowController();
@@ -87,6 +88,7 @@ namespace OgreModelEditor
             logListener = new LogFileListener();
             logListener.openLogFile(OgreModelEditorConfig.DocRoot + "/log.log");
             Log.Default.addLogListener(logListener);
+            Log.Default.addLogListener(consoleWindow);
 
             hiddenEmbedWindow = new DrawingWindow();
             pluginManager = new PluginManager(OgreModelEditorConfig.ConfigFile);
@@ -136,11 +138,33 @@ namespace OgreModelEditor
 
             //Initialize controllers
             drawingWindowController.initialize(this, eventManager, pluginManager.RendererPlugin, OgreModelEditorConfig.ConfigFile);
-            drawingWindowController.createOneWaySplit();
             modelController = new ModelController();
 
             //Initialize GUI
             mainForm.initialize(this);
+            if (!mainForm.restoreWindows(OgreModelEditorConfig.DocRoot + "/windows.ini", getDockContent))
+            {
+                mainForm.showDockContent(consoleWindow);
+                drawingWindowController.createOneWaySplit();
+            }
+        }
+
+
+
+        private IDockContent getDockContent(String persistString)
+        {
+            if (persistString == typeof(ConsoleWindow).ToString())
+            {
+                return consoleWindow;
+            }
+            Vector3 translation;
+            Vector3 lookAt;
+            String name;
+            if (DrawingWindowHost.RestoreFromString(persistString, out name, out translation, out lookAt))
+            {
+                return drawingWindowController.createDrawingWindowHost(name, translation, lookAt);
+            }
+            return null;
         }
 
         public void start()
@@ -166,6 +190,7 @@ namespace OgreModelEditor
 
         public void shutdown()
         {
+            mainForm.saveWindows(OgreModelEditorConfig.DocRoot + "/windows.ini");
             mainTimer.stopLoop();
             drawingWindowController.destroyCameras();
             modelController.destroyModel();

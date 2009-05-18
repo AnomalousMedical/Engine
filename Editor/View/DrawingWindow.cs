@@ -140,6 +140,30 @@ namespace Editor
             }
         }
 
+        public String CameraName
+        {
+            get
+            {
+                return name;
+            }
+        }
+
+        public Vector3 Translation
+        {
+            get
+            {
+                return orbitCamera.Translation;
+            }
+        }
+
+        public Vector3 LookAt
+        {
+            get
+            {
+                return orbitCamera.LookAt;
+            }
+        }
+
         protected override void OnResize(EventArgs e)
         {
             foreach (OSWindowListener listener in listeners)
