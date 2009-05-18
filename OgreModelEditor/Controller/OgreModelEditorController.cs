@@ -90,6 +90,9 @@ namespace OgreModelEditor
             Log.Default.addLogListener(logListener);
             Log.Default.addLogListener(consoleWindow);
 
+            Engine.Resources.Resource.ResourceRoot = null;
+
+            //Initailize plugins
             hiddenEmbedWindow = new DrawingWindow();
             pluginManager = new PluginManager(OgreModelEditorConfig.ConfigFile);
             pluginManager.OnConfigureDefaultWindow = createWindow;
@@ -105,7 +108,6 @@ namespace OgreModelEditor
                 OgreResourceGroupManager.getInstance().initializeAllResourceGroups();
             }
 
-            Engine.Resources.Resource.ResourceRoot = null;
             emptyResourceManager = pluginManager.createEmptyResourceManager();
             if (!File.Exists(OgreModelEditorConfig.DocRoot + "/resources.xml"))
             {

@@ -19,5 +19,11 @@ namespace Engine
         {
 
         }
+
+        public InvalidPluginException(String message, Exception innerException)
+            :base(message, innerException)
+        {
+
+        }
     }
 }

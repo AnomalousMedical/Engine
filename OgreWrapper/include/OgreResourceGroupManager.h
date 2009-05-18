@@ -25,7 +25,7 @@ public delegate void ResourcesInitialized();
 public ref class OgreResourceGroupManager
 {
 private:
-	static OgreResourceGroupManager^ instance = gcnew OgreResourceGroupManager();
+	static OgreResourceGroupManager^ instance;
 
 	Ogre::ResourceGroupManager* resourceManager;
 	ResourcesInitialized^ onResourcesInitialized;

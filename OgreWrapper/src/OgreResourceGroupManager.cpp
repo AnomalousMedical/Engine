@@ -10,12 +10,17 @@ namespace OgreWrapper
 
 OgreResourceGroupManager^ OgreResourceGroupManager::getInstance()
 {
+	if(instance == nullptr)
+	{
+		instance = gcnew OgreResourceGroupManager();
+	}
 	return instance;
 }
 
 OgreResourceGroupManager::OgreResourceGroupManager(void)
 :resourceManager(Ogre::ResourceGroupManager::getSingletonPtr())
 {
+	
 }
 
 void OgreResourceGroupManager::createResourceGroup(System::String^ name)

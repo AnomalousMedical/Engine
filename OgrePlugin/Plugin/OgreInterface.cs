@@ -151,7 +151,7 @@ namespace OgrePlugin
             }
             catch (Exception e)
             {
-                throw new InvalidPluginException(String.Format("Exception initializing renderer. Message: {0}", e.Message));
+                throw new InvalidPluginException(String.Format("Exception initializing renderer. Message: {0}", e.Message), e);
             }
         }
 
