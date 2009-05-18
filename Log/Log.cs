@@ -14,7 +14,8 @@ namespace Logging
         ImportantInfo = 1 << 1,
         Warning = 1 << 2,
         Error = 1 << 3,
-        All = Info | ImportantInfo | Warning | Error,
+        Debug = 1 << 4,
+        All = Info | ImportantInfo | Warning | Error | Debug,
     }
 
     /// <summary>
@@ -86,6 +87,25 @@ namespace Logging
         public void sendMessage(String message, LogLevel logLevel, String subsystem, params object[] args)
         {
             sendMessage(String.Format(message, args), logLevel, subsystem);
+        }
+
+        /// <summary>
+        /// Shortcut to send a debug message.
+        /// </summary>
+        /// <param name="message">The message to send.</param>
+        public void debug(String message)
+        {
+            sendMessage(message, LogLevel.Debug, "Debug");
+        }
+
+        /// <summary>
+        /// Shortcut to send a deubg message. This version formats the message with string.format.
+        /// </summary>
+        /// <param name="message">A message will be formatted.</param>
+        /// <param name="args">Additional objects to go into the formatted message string.</param>
+        public void debug(String message, params object[] args)
+        {
+            sendMessage(String.Format(message, args), LogLevel.Debug, "Debug");
         }
 
 	    /// <summary>

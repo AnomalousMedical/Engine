@@ -65,6 +65,9 @@ namespace Editor
                     case LogLevel.ImportantInfo:
                         consoleText.SelectionColor = Color.Black;
                         break;
+                    case LogLevel.Debug:
+                        consoleText.SelectionColor = Color.DarkGreen;
+                        break;
                 }
                 consoleText.SelectedText += Log.formatMessage(message, subsystem) + "\n";
 
