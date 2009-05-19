@@ -133,7 +133,7 @@ namespace Anomaly
         /// dynamic mode and false for static mode.
         /// </summary>
         /// <param name="dynamicMode">True to enable dynamic mode. False to use static mode.</param>
-        public void setMode(bool dynamicMode)
+        public void setDynamicMode(bool dynamicMode)
         {
             this.dynamicMode = dynamicMode;
         }

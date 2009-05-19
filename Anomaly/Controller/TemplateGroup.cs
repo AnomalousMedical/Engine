@@ -6,6 +6,8 @@ using Engine.Editing;
 using Engine.ObjectManagement;
 using System.IO;
 using Engine.Saving;
+using System.Windows.Forms;
+using Logging;
 
 namespace Anomaly
 {
@@ -38,9 +40,9 @@ namespace Anomaly
 
         public void removeGroup(TemplateGroup group)
         {
+            templateWriter.removeTemplateGroup(group);
             group.parentGroup = null;
             groups.Remove(group.name);
-            templateWriter.removeTemplateGroup(group);
             if (editInterface != null)
             {
                 groupManager.removeSubInterface(group);
@@ -75,6 +77,39 @@ namespace Anomaly
             {
                 templateWriter.updateTemplate(this, simObject);
             }
+        }
+
+        public SimObjectDefinition getTemplateFromPath(String[] elements, int index)
+        {
+            SimObjectDefinition definition = null;
+            //If we are on the last element search for sim objects
+            if (index == elements.Length)
+            {
+                Log.Default.sendMessage("Hit the end of the path before finding a file. The path is malformed", LogLevel.Warning, "Editor");
+            }
+            else if (index == elements.Length - 1)
+            {
+                if (templates.ContainsKey(elements[index]))
+                {
+                    definition = templates[elements[index]].Definition;
+                }
+                else
+                {
+                    Log.Default.sendMessage("Could not find template {0} in group {1}.", LogLevel.Error, "Editor", elements[index], FullPath);
+                }
+            }
+            else
+            {
+                if (groups.ContainsKey(elements[index]))
+                {
+                    definition = groups[elements[index]].getTemplateFromPath(elements, index + 1);
+                }
+                else
+                {
+                    Log.Default.sendMessage("Could not find group {0} in group {1}.", LogLevel.Error, "Editor", elements[index], FullPath);
+                }
+            }
+            return definition;
         }
 
         #region Properties
@@ -112,6 +147,7 @@ namespace Anomaly
         private EditInterfaceManager<Template> templateManager;
         private EditInterface editInterface;
         private EditInterfaceCommand duplicateSimObject;
+        private EditInterfaceCommand copyName;
 
         public EditInterface getEditInterface()
         {
@@ -120,6 +156,7 @@ namespace Anomaly
                 destroyGroup = new EditInterfaceCommand("Remove", destroyGroupCallback);
                 destroySimObject = new EditInterfaceCommand("Remove", destroySimObjectCallback);
                 duplicateSimObject = new EditInterfaceCommand("Duplicate", duplicateSimObjectCallback);
+                copyName = new EditInterfaceCommand("Copy Full Name", copyNameCallback);
                 editInterface = new EditInterface(name);
                 editInterface.addCommand(new EditInterfaceCommand("Create Group", createGroupCallback));
                 editInterface.addCommand(new EditInterfaceCommand("Create Sim Object", createSimObjectCallback));
@@ -169,6 +206,7 @@ namespace Anomaly
             EditInterface edit = template.getEditInterface();
             edit.addCommand(destroySimObject);
             edit.addCommand(duplicateSimObject);
+            edit.addCommand(copyName);
             templateManager.addSubInterface(template, edit);
         }
 
@@ -207,6 +245,12 @@ namespace Anomaly
                 simObject.Name = name;
                 this.addSimObject(simObject);
             }
+        }
+
+        private void copyNameCallback(EditUICallback callback, EditInterfaceCommand command)
+        {
+            SimObjectDefinition sourceObject = templateManager.resolveSourceObject(callback.getSelectedEditInterface()).Definition;
+            Clipboard.SetText(FullPath + Path.DirectorySeparatorChar + sourceObject.Name);
         }
 
         #endregion

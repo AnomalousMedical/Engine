@@ -15,6 +15,8 @@ namespace Anomaly
 {
     class TemplateController
     {
+        private static char[] SEPS = { Path.DirectorySeparatorChar };
+
         private TemplateGroup parentGroup;
         TemplatePanel templatePanel;
         private ObjectEditorForm objectEditor = new ObjectEditorForm();
@@ -117,6 +119,18 @@ namespace Anomaly
                     Log.Default.sendMessage("Could not load template {0} because of {1}.", LogLevel.Error, "Editor", group.FullPath + Path.DirectorySeparatorChar + template, e.Message);
                 }
             }
+        }
+
+        /// <summary>
+        /// Scan the templates and find the definition specified by fullpath. If
+        /// the definition cannot be found null will be returned.
+        /// </summary>
+        /// <param name="fullpath">The path to the defintion to retrieve.</param>
+        /// <returns>The SimObjectDefintion specified by fullpath or null if it cannot be found.</returns>
+        public SimObjectDefinition getTemplateFromPath(String fullpath)
+        {
+            String[] elements = fullpath.Split(SEPS);
+            return parentGroup.getTemplateFromPath(elements, 1);
         }
     }
 }

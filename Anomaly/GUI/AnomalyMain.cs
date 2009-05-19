@@ -10,6 +10,7 @@ using Engine.Platform;
 using Engine;
 using Editor;
 using WeifenLuo.WinFormsUI.Docking;
+using System.IO;
 
 namespace Anomaly
 {
@@ -154,9 +155,20 @@ namespace Anomaly
             controller.ViewController.createFourWaySplit();
         }
 
-        private void maximizeToolStripMenuItem_Click(object sender, EventArgs e)
+        private void importInstancesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+            try
+            {
+                DialogResult result = openFileDialog.ShowDialog(this);
+                if (result == DialogResult.OK)
+                {
+                    controller.importInstances(openFileDialog.FileName);
+                }
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show(String.Format("Error reading {0}:\n{1}.", openFileDialog.FileName, ex.Message), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

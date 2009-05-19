@@ -66,16 +66,6 @@ namespace Anomaly
         }
 
         /// <summary>
-        /// Get the current SimObjectManagerDefinition. This should be treated
-        /// as read only.
-        /// </summary>
-        /// <returns>The SimObjectManagerDefinition for this class.</returns>
-        public SimObjectManagerDefinition getSimObjectManagerDefinition()
-        {
-            return simObjectManagerDefiniton;
-        }
-
-        /// <summary>
         /// Create a new SimObject and add it.
         /// </summary>
         /// <param name="definition">The definition to create.</param>
@@ -136,6 +126,16 @@ namespace Anomaly
             {
                 createSelectable(simObject, null);
             }
+        }
+
+        /// <summary>
+        /// Get the current SimObjectManagerDefinition. This should be treated
+        /// as read only unless you plan on setting it again and reloading the scene.
+        /// </summary>
+        /// <returns>The SimObjectManagerDefinition for this class.</returns>
+        public SimObjectManagerDefinition getSimObjectManagerDefinition()
+        {
+            return simObjectManagerDefiniton;
         }
 
         /// <summary>

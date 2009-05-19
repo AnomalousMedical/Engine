@@ -53,6 +53,7 @@ namespace Anomaly
         private SceneController sceneController = new SceneController();
         private ResourceController resourceController = new ResourceController();
         private SimObjectController simObjectController = new SimObjectController();
+        private InstanceBuilder instanceBuilder;
 
         //Tools
         private ToolInteropController toolInterop = new ToolInteropController();
@@ -95,6 +96,7 @@ namespace Anomaly
 
             //Load the config file and set the resource root up.
             Resource.ResourceRoot = AnomalyConfig.ResourceSection.ResourceRoot;
+            Log.Default.sendMessage("Resource root is \"{0}\".", LogLevel.ImportantInfo, "Editor", Resource.ResourceRoot);
 
             //Initialize the plugins
             hiddenEmbedWindow = new DrawingWindow();
@@ -123,6 +125,7 @@ namespace Anomaly
 
             //Initialize controllers
             templates = new TemplateController(AnomalyConfig.DocRoot, this);
+            instanceBuilder = new InstanceBuilder(templates);
             sceneController.initialize(this);
             sceneController.OnSceneLoaded += sceneController_OnSceneLoaded;
             sceneController.OnSceneUnloading += sceneController_OnSceneUnloading;
@@ -293,7 +296,7 @@ namespace Anomaly
         public void setStaticMode()
         {
             simObjectController.captureSceneProperties();
-            sceneController.setMode(false);
+            sceneController.setDynamicMode(false);
             sceneController.destroyScene();
             sceneController.createScene();
         }
@@ -305,7 +308,7 @@ namespace Anomaly
         /// </summary>
         public void setDynamicMode()
         {
-            sceneController.setMode(true);
+            sceneController.setDynamicMode(true);
             sceneController.destroyScene();
             sceneController.createScene();
         }
@@ -318,6 +321,17 @@ namespace Anomaly
         public void enableRotateTool()
         {
             toolManager.enableTool(rotateTool);
+        }
+
+        public void importInstances(String filename)
+        {
+            XmlTextReader textReader = new XmlTextReader(filename);
+            SimObjectManagerDefinition managerDefintion = simObjectController.getSimObjectManagerDefinition();
+            instanceBuilder.loadInstances(textReader, managerDefintion);
+            simObjectController.setSceneManagerDefintion(managerDefintion);
+            sceneController.destroyScene();
+            sceneController.createScene();
+            textReader.Close();
         }
 
         /// <summary>

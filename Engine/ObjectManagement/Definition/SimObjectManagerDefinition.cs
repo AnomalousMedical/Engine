@@ -41,6 +41,17 @@ namespace Engine.ObjectManagement
         }
 
         /// <summary>
+        /// Determine if the given name is already in use. Will return true if
+        /// it is.
+        /// </summary>
+        /// <param name="name">The name to check for.</param>
+        /// <returns>True if the name is in use. False if it is not.</returns>
+        public bool hasSimObject(String name)
+        {
+            return simObjects.ContainsKey(name);
+        }
+
+        /// <summary>
         /// Get the template specified by name.
         /// </summary>
         /// <param name="name">The name of the template.</param>
