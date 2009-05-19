@@ -55,9 +55,10 @@ namespace Anomaly
                         SimObjectDefinition template = templateController.getTemplateFromPath(templatePath);
                         if (template != null)
                         {
-                            if (objectManager.hasSimObject(template.Name))
+                            if (!objectManager.hasSimObject(template.Name))
                             {
                                 SimObjectDefinition instance = copySaver.copyObject(template) as SimObjectDefinition;
+                                instance.Enabled = true;
                                 while (!(xmlReader.Name == SIMOBJECT_ELEMENT && xmlReader.NodeType == XmlNodeType.EndElement) && xmlReader.Read())
                                 {
                                     if (xmlReader.NodeType == XmlNodeType.Element)
