@@ -24,6 +24,7 @@ namespace Editor
         private Vector3 currentEulerRotation;
         private Quaternion startingRotation = new Quaternion();
         private CameraMotionValidator activeValidator = null;
+        private bool allowMotionUpdates = true;
         private float currentRadius = 5.0f;
         private Quaternion newRot = new Quaternion();
         private Vector3 translation = Vector3.Zero;
@@ -38,6 +39,7 @@ namespace Editor
             yAxis = new RotationAxis(Vector3.Backward, Vector3.Right, YAW, currentRadius, new Color(0.0f, 0.0f, 1.0f));
             zAxis = new RotationAxis(Vector3.Right, Vector3.Up, PITCH, currentRadius, new Color(0.0f, 1.0f, 0.0f));
             this.rotateController = rotateController;
+            rotateController.OnRotationChanged += new RotationChanged(rotateController_OnRotationChanged);
         }
 
         public void update(EventManager events)
@@ -102,7 +104,9 @@ namespace Editor
                 zAxis.computeRotation(ref currentEulerRotation, amount);
                 newRot.setEuler(currentEulerRotation.x, currentEulerRotation.y, currentEulerRotation.z);
                 newRot *= startingRotation;
+                allowMotionUpdates = false;
                 rotateController.setRotation(ref newRot, this);
+                allowMotionUpdates = true;
             }
             else if (events[ToolEvents.Pick].FirstFrameUp && (xAxis.isSelected() || yAxis.isSelected() || zAxis.isSelected()))
             {
@@ -191,6 +195,14 @@ namespace Editor
             yAxis.draw(circleSurface, Vector3.Zero);
             zAxis.draw(circleSurface, Vector3.Zero);
             circleSurface.end();
+        }
+
+        void rotateController_OnRotationChanged(Quaternion newRotation, object sender)
+        {
+            if (allowMotionUpdates)
+            {
+                currentEulerRotation = newRotation.getEuler();
+            }
         }
 
         #region Tool Members
