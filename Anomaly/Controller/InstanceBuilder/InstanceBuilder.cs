@@ -99,28 +99,14 @@ namespace Anomaly
             Quaternion rotation = new Quaternion();
             xmlReader.Read();
             String[] rots = xmlReader.Value.Split(SEPS);
-            //Axis angle
-            if (rots.Length == 4)
-            {
-                Vector3 axis = new Vector3(float.Parse(rots[0]), float.Parse(rots[1]), float.Parse(rots[2]));
-                float angle = float.Parse(rots[3]) * DEG_TO_RAD;
-                if (axis.x == 0.0f && axis.y == 0.0f && axis.z == 0.0f)
-                {
-                    rotation = Quaternion.Identity;
-                }
-                else
-                {
-                    rotation.setRotation(ref axis, angle * DEG_TO_RAD);
-                }
-            }
             //Euler angles
-            else if (rots.Length == 3)
+            if (rots.Length == 3)
             {
-                rotation.setEuler(float.Parse(rots[1]) * DEG_TO_RAD, float.Parse(rots[0]) * DEG_TO_RAD, float.Parse(rots[2]) * DEG_TO_RAD);
+                rotation.setEuler(float.Parse(rots[0]) * DEG_TO_RAD, float.Parse(rots[1]) * DEG_TO_RAD, float.Parse(rots[2]) * DEG_TO_RAD);
             }
             else
             {
-                Log.Default.sendMessage("Error loading rotation does not contain 3 or 4 numbers value: {0}.", LogLevel.Error, "ShapeLoading", xmlReader.Value);
+                Log.Default.sendMessage("Error loading rotation does not contain 3 numbers value: {0}.", LogLevel.Error, "ShapeLoading", xmlReader.Value);
                 rotation = Quaternion.Identity;
             }
             return rotation;

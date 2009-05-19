@@ -104,6 +104,7 @@ namespace Editor
             {
                 parentNode = new EditInterfaceTreeNode(editor);
                 this.objectsTree.Nodes.Add(parentNode);
+                objectsTree.ExpandAll();
             }
             else
             {
