@@ -84,11 +84,15 @@ namespace Engine.Saving.XMLSaver
                     {
                         ObjectIdentifier objectId = new ObjectIdentifier(long.Parse(xmlReader.GetAttribute(ID_ATTIBUTE)), null, Type.GetType(xmlReader.GetAttribute(TYPE_ATTRIBUTE)));
                         loadControl.startDefiningObject(objectId);
-                        while (!(xmlReader.Name == SAVEABLE_ELEMENT && xmlReader.NodeType == XmlNodeType.EndElement) && xmlReader.Read())
+                        //If the element is empty do not bother to loop looking for elements.
+                        if (!xmlReader.IsEmptyElement)
                         {
-                            if (xmlReader.NodeType == XmlNodeType.Element)
+                            while (!(xmlReader.Name == SAVEABLE_ELEMENT && xmlReader.NodeType == XmlNodeType.EndElement) && xmlReader.Read())
                             {
-                                valueReaders[xmlReader.Name].readValue(loadControl, xmlReader);
+                                if (xmlReader.NodeType == XmlNodeType.Element)
+                                {
+                                    valueReaders[xmlReader.Name].readValue(loadControl, xmlReader);
+                                }
                             }
                         }
                         lastReadObject = loadControl.createCurrentObject();
