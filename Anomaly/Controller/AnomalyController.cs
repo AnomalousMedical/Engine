@@ -295,6 +295,10 @@ namespace Anomaly
         public void setStaticMode()
         {
             simObjectController.captureSceneProperties();
+            movePanel.Enabled = true;
+            rotatePanel.Enabled = true;
+            templatePanel.Enabled = true;
+            simObjectPanel.Enabled = true;
             sceneController.setDynamicMode(false);
             sceneController.destroyScene();
             sceneController.createScene();
@@ -309,6 +313,10 @@ namespace Anomaly
         public void setDynamicMode()
         {
             toolManager.setEnabled(false);
+            movePanel.Enabled = false;
+            rotatePanel.Enabled = false;
+            templatePanel.Enabled = false;
+            simObjectPanel.Enabled = false;
             sceneController.setDynamicMode(true);
             sceneController.destroyScene();
             sceneController.createScene();
