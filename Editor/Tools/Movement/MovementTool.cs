@@ -48,6 +48,7 @@ namespace Editor
         private float currentLength = 10.0f;
         private String name;
         private bool enabled = true;
+        private Vector3 savedOrigin = Vector3.Zero; //The origin of the tool when it was destroyed.
 
         #endregion Fields
 
@@ -75,6 +76,7 @@ namespace Editor
             if (axisSurface != null)
             {
                 axisSurface.setVisible(enabled);
+                axisSurface.moveOrigin(savedOrigin);
             }
         }
 
@@ -82,6 +84,7 @@ namespace Editor
         {
             if (axisSurface != null)
             {
+                savedOrigin = axisSurface.getOrigin();
                 pluginManager.RendererPlugin.destroyDebugDrawingSurface(axisSurface);
                 axisSurface = null;
             }

@@ -143,7 +143,6 @@ namespace Anomaly
             toolManager.addTool(movementTool);
             rotateTool = new RotateTool("RotateTool", rotateController);
             toolManager.addTool(rotateTool);
-            toolManager.enableTool(movementTool);
 
             //Initialize the windows
             mainForm.initialize(this);
@@ -299,6 +298,7 @@ namespace Anomaly
             sceneController.setDynamicMode(false);
             sceneController.destroyScene();
             sceneController.createScene();
+            toolManager.setEnabled(true);
         }
 
         /// <summary>
@@ -308,6 +308,7 @@ namespace Anomaly
         /// </summary>
         public void setDynamicMode()
         {
+            toolManager.setEnabled(false);
             sceneController.setDynamicMode(true);
             sceneController.destroyScene();
             sceneController.createScene();
@@ -316,11 +317,18 @@ namespace Anomaly
         public void enableMoveTool()
         {
             toolManager.enableTool(movementTool);
+            toolManager.setEnabled(!sceneController.isDynamicMode());
         }
 
         public void enableRotateTool()
         {
             toolManager.enableTool(rotateTool);
+            toolManager.setEnabled(!sceneController.isDynamicMode());
+        }
+
+        public void enableSelectTool()
+        {
+            toolManager.setEnabled(false);
         }
 
         public void importInstances(String filename)

@@ -61,7 +61,10 @@ namespace Editor
 
         public void setEnabled(bool enabled)
         {
-            currentTool.setEnabled(enabled);
+            if (currentTool != null)
+            {
+                currentTool.setEnabled(enabled);
+            }
             this.enabled = enabled;
         }
 

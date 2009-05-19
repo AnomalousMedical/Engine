@@ -24,12 +24,12 @@ namespace Editor
         private Vector3 currentEulerRotation;
         private Quaternion startingRotation = new Quaternion();
         private CameraMotionValidator activeValidator = null;
-        private bool allowMotionUpdates = true;
         private float currentRadius = 5.0f;
         private Quaternion newRot = new Quaternion();
         private Vector3 translation = Vector3.Zero;
         private String name;
         private bool enabled = true;
+        private Vector3 savedOrigin = Vector3.Zero; //The origin of the tool when it was destroyed.
 
         public RotateTool(String name, RotateController rotateController)
         {
@@ -102,9 +102,7 @@ namespace Editor
                 zAxis.computeRotation(ref currentEulerRotation, amount);
                 newRot.setEuler(currentEulerRotation.x, currentEulerRotation.y, currentEulerRotation.z);
                 newRot *= startingRotation;
-                allowMotionUpdates = false;
                 rotateController.setRotation(ref newRot, this);
-                allowMotionUpdates = true;
             }
             else if (events[ToolEvents.Pick].FirstFrameUp && (xAxis.isSelected() || yAxis.isSelected() || zAxis.isSelected()))
             {
@@ -212,6 +210,7 @@ namespace Editor
             if (circleSurface != null)
             {
                 circleSurface.setVisible(enabled);
+                circleSurface.moveOrigin(savedOrigin);
             }
         }
 
@@ -219,6 +218,7 @@ namespace Editor
         {
             if (circleSurface != null)
             {
+                savedOrigin = circleSurface.getOrigin();
                 pluginManager.RendererPlugin.destroyDebugDrawingSurface(circleSurface);
                 circleSurface = null;
             }

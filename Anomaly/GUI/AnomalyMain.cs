@@ -115,11 +115,20 @@ namespace Anomaly
             controller.setStaticMode();
         }
 
+        private void selectButton_Click(object sender, EventArgs e)
+        {
+            controller.enableSelectTool();
+            moveButton.Checked = false;
+            rotateButton.Checked = false;
+            selectButton.Checked = true;
+        }
+
         private void moveButton_Click(object sender, EventArgs e)
         {
             controller.enableMoveTool();
             moveButton.Checked = true;
             rotateButton.Checked = false;
+            selectButton.Checked = false;
         }
 
         private void rotateButton_Click(object sender, EventArgs e)
@@ -127,6 +136,7 @@ namespace Anomaly
             controller.enableRotateTool();
             moveButton.Checked = false;
             rotateButton.Checked = true;
+            selectButton.Checked = false;
         }
 
         private void showStatsToolStripMenuItem_Click(object sender, EventArgs e)

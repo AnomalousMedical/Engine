@@ -66,6 +66,12 @@ namespace Engine.Renderer
         void moveOrigin(Vector3 newOrigin);
 
         /// <summary>
+        /// Get the origin of this surface.
+        /// </summary>
+        /// <returns>The origin of the surface.</returns>
+        Vector3 getOrigin();
+
+        /// <summary>
         /// Set the visibility of the DebugDrawingSurface.
         /// </summary>
         /// <param name="visible">True to be visible false to be invisible.</param>

@@ -152,5 +152,14 @@ namespace Anomaly
                 }
             }
         }
+
+        /// <summary>
+        /// Determine if the scene is in dynamic mode.
+        /// </summary>
+        /// <returns>True if dynamic mode is enabled.</returns>
+        public bool isDynamicMode()
+        {
+            return dynamicMode;
+        }
     }
 }

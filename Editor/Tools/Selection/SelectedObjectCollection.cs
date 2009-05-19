@@ -147,7 +147,7 @@ namespace Editor
                 }
             }
             //If only one object is selected set its rotation absolutely.
-            else
+            else if(selectedObjects.Count == 1)
             {
                 selectedObjects[0].editRotation(ref newRot);
             }

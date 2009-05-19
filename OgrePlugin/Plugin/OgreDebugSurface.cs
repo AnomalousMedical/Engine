@@ -81,6 +81,15 @@ namespace OgrePlugin
         {
             sceneNode.setPosition(newOrigin);
         }
+        
+        /// <summary>
+        /// Get the origin of this surface.
+        /// </summary>
+        /// <returns>The origin of the surface.</returns>
+        public Vector3 getOrigin()
+        {
+            return sceneNode.getDerivedPosition();
+        }
 
         public void setVisible(bool visible)
         {
