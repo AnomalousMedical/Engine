@@ -123,6 +123,17 @@ namespace Engine
             Log.Default.sendMessage("Behavior {0}, type={1} blacklisted.  Reason: {2}", LogLevel.Error, "Behavior", Name, this.GetType().Name, reason);
         }
 
+        /// <summary>
+        /// This function will blacklist the behavior for this load of the
+        /// scene. This version can take a reason and optional params that will
+        /// be used in a String.Format call.
+        /// </summary>
+        /// <param name="reason">The reason the behavior is being blacklisted. This is printed in the log.</param>
+        protected void blacklist(String reason, params object[] args)
+        {
+            blacklist(String.Format(reason, args));
+        }
+
         #region SimElement
 
         /// <summary>
