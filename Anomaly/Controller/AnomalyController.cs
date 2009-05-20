@@ -270,6 +270,7 @@ namespace Anomaly
             {
                 MessageBox.Show(mainForm, String.Format("Could not load scene from {0}.", filename), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            textReader.Close();
         }
 
         /// <summary>
