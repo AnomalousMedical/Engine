@@ -43,8 +43,12 @@ namespace Editor
 
         private CameraControl camera;
         private EventManager events;
-        private Vector3 normalDirection;
-        private Vector3 left;
+
+        //These three vectors form the axis relative to the current rotation.
+        private Vector3 normalDirection; //z
+        private Vector3 rotatedLeft; //x
+        private Vector3 rotatedUp; //y
+        
         private float orbitDistance;
         private float yaw;
         private float pitch;
@@ -93,9 +97,8 @@ namespace Editor
                 {
                     if (events[CameraEvents.PanCamera].Down)
                     {
-                        lookAt += left * (mouseCoords.x / (events.Mouse.getMouseAreaWidth() * SCROLL_SCALE) * orbitDistance);
-                        Vector3 relUp = left.cross(ref normalDirection);
-                        lookAt += relUp * (mouseCoords.y / (events.Mouse.getMouseAreaHeight() * SCROLL_SCALE) * orbitDistance);
+                        lookAt += rotatedLeft * (mouseCoords.x / (events.Mouse.getMouseAreaWidth() * SCROLL_SCALE) * orbitDistance);
+                        lookAt += rotatedUp * (mouseCoords.y / (events.Mouse.getMouseAreaHeight() * SCROLL_SCALE) * orbitDistance);
                         updateTranslation(lookAt + normalDirection * orbitDistance);
                     }
                     else if (events[CameraEvents.ZoomCamera].Down)
@@ -126,8 +129,8 @@ namespace Editor
 
                         Quaternion rotation = yawRot * pitchRot;
                         normalDirection = Quaternion.quatRotate(ref rotation, ref Vector3.Backward);
-                        Vector3 rotatedUp = Quaternion.quatRotate(ref rotation, ref Vector3.Up);
-                        left = normalDirection.cross(ref rotatedUp);
+                        rotatedUp = Quaternion.quatRotate(ref rotation, ref Vector3.Up);
+                        rotatedLeft = normalDirection.cross(ref rotatedUp);
 
                         updateTranslation(normalDirection * orbitDistance + lookAt);
                         camera.LookAt = lookAt;
@@ -226,8 +229,8 @@ namespace Editor
             Quaternion pitchRot = new Quaternion(Vector3.Left, pitch);
             Quaternion rotation = yawRot * pitchRot;
             normalDirection = Quaternion.quatRotate(ref rotation, ref Vector3.Backward);
-            Vector3 rotatedUp = Quaternion.quatRotate(ref rotation, ref Vector3.Up);
-            left = normalDirection.cross(ref rotatedUp);
+            rotatedUp = Quaternion.quatRotate(ref rotation, ref Vector3.Up);
+            rotatedLeft = normalDirection.cross(ref rotatedUp);
         }
 
         private void updateTranslation(Vector3 translation)
