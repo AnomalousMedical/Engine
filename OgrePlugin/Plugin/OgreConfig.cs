@@ -36,7 +36,7 @@ namespace OgrePlugin
         {
             get
             {
-                return ogreSection.getValue("VSync", false);
+                return ogreSection.getValue("VSync", true);
             }
             set
             {
