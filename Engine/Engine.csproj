@@ -57,6 +57,7 @@
     <Compile Include="Behavior\BehaviorObjectBase.cs" />
     <Compile Include="Behavior\BehaviorEditMemberScanner.cs" />
     <Compile Include="Behavior\BehaviorSaveMemberScanner.cs" />
+    <Compile Include="Behavior\Interface.cs" />
     <Compile Include="Command\AddSimElementCommand.cs" />
     <Compile Include="Command\AddSimElementManagerCommand.cs" />
     <Compile Include="Command\CommandManager.cs" />

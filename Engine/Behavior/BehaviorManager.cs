@@ -14,7 +14,6 @@ namespace Engine
     public class BehaviorManager : SimElementManager, UpdateListener
     {
         private List<Behavior> activeBehaviors = new List<Behavior>();
-        private List<Behavior> blacklistedBehaviors = new List<Behavior>();
         private EventManager eventManager;
         private BehaviorFactory behaviorFactory;
         private String name;

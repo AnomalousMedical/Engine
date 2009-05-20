@@ -36,9 +36,14 @@ namespace Engine
     [DoNotCopy]
     public abstract class Behavior : SimElement
     {
+        #region Fields
+
         private bool valid = true;
         private BehaviorManager manager;
         private bool currentlyEnabled = false;
+        internal bool hasUpdate = true;
+
+        #endregion Fields
 
         #region Constructors
 
@@ -178,7 +183,7 @@ namespace Engine
         /// <param name="enabled">True to enable the object. False to disable the object.</param>
         protected override sealed void setEnabled(bool enabled)
         {
-            if (valid && enabled != currentlyEnabled)
+            if (hasUpdate && valid && enabled != currentlyEnabled)
             {
                 if (enabled)
                 {
