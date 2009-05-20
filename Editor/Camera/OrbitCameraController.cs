@@ -215,13 +215,10 @@ namespace Editor
             localTrans.y = localY;
             localTrans = Quaternion.quatRotate(new Quaternion(Vector3.Up, -yaw), localTrans);
             localTrans.x = 0;
-            if (localTrans.z >= 0.0f)
+            pitch = Vector3.Backward.angle(ref localTrans);
+            if (localTrans.y < 0)
             {
-                pitch = Vector3.Backward.angle(ref localTrans);
-            }
-            else
-            {
-                pitch = Vector3.Forward.angle(ref localTrans);
+                pitch = -pitch;
             }
 
             //Compute the normal direction and the left vector.
