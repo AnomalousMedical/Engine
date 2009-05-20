@@ -22,12 +22,12 @@ namespace Editor
         public EditorMainForm()
         {
             InitializeComponent();
-            windowDefaultText = this.Text;
         }
 
         protected void setDockPanel(DockPanel dockPanel)
         {
             this.dockPanel = dockPanel;
+            windowDefaultText = this.Text;
         }
 
         public void saveWindows(String filename)
