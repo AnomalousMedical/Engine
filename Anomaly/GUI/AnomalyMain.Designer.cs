@@ -71,8 +71,9 @@
             this.twoWindowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.threeWindowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fourWindowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.mainToolStripContainer.TopToolStripPanel.SuspendLayout();
             this.mainToolStripContainer.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -140,7 +141,7 @@
             this.rotateButton});
             this.toolStrip2.Location = new System.Drawing.Point(90, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(169, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(138, 25);
             this.toolStrip2.TabIndex = 1;
             // 
             // selectButton
@@ -328,6 +329,10 @@
             this.fourWindowsToolStripMenuItem.Text = "Four Windows";
             this.fourWindowsToolStripMenuItem.Click += new System.EventHandler(this.fourWindowsToolStripMenuItem_Click);
             // 
+            // openFileDialog
+            // 
+            this.openFileDialog.Filter = "Instance Files|*.instances";
+            // 
             // dockPanel
             // 
             this.dockPanel.ActiveAutoHideContent = null;
@@ -339,7 +344,7 @@
             this.dockPanel.DockTopPortion = 90;
             this.dockPanel.Location = new System.Drawing.Point(0, 50);
             this.dockPanel.Name = "dockPanel";
-            this.dockPanel.Size = new System.Drawing.Size(752, 490);
+            this.dockPanel.Size = new System.Drawing.Size(752, 468);
             dockPanelGradient1.EndColor = System.Drawing.SystemColors.ControlLight;
             dockPanelGradient1.StartColor = System.Drawing.SystemColors.ControlLight;
             autoHideStripSkin1.DockStripGradient = dockPanelGradient1;
@@ -384,11 +389,15 @@
             dockPaneStripSkin1.ToolWindowGradient = dockPaneStripToolWindowGradient1;
             dockPanelSkin1.DockPaneStripSkin = dockPaneStripSkin1;
             this.dockPanel.Skin = dockPanelSkin1;
-            this.dockPanel.TabIndex = 6;
+            this.dockPanel.TabIndex = 11;
             // 
-            // openFileDialog
+            // statusStrip1
             // 
-            this.openFileDialog.Filter = "Instance Files|*.instances";
+            this.statusStrip1.Location = new System.Drawing.Point(0, 518);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(752, 22);
+            this.statusStrip1.TabIndex = 9;
+            this.statusStrip1.Text = "statusStrip1";
             // 
             // AnomalyMain
             // 
@@ -396,6 +405,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(752, 540);
             this.Controls.Add(this.dockPanel);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.mainToolStripContainer);
             this.Controls.Add(this.mainMenu);
             this.IsMdiContainer = true;
@@ -445,10 +455,11 @@
         private System.Windows.Forms.ToolStripMenuItem twoWindowsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem threeWindowsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fourWindowsToolStripMenuItem;
-        private WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
         private System.Windows.Forms.ToolStripMenuItem importInstancesToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.ToolStripButton selectButton;
+        private WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
+        private System.Windows.Forms.StatusStrip statusStrip1;
 
 
 
