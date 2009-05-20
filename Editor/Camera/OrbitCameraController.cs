@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine.Platform;
 using Engine;
+using Logging;
 
 namespace Editor
 {
@@ -123,10 +124,13 @@ namespace Editor
                         Quaternion yawRot = new Quaternion(Vector3.Up, yaw);
                         Quaternion pitchRot = new Quaternion(Vector3.Left, pitch);
 
-                        normalDirection = Quaternion.quatRotate(yawRot * pitchRot, Vector3.Backward);
+                        Quaternion rotation = yawRot * pitchRot;
+                        normalDirection = Quaternion.quatRotate(ref rotation, ref Vector3.Backward);
+                        Vector3 rotatedUp = Quaternion.quatRotate(ref rotation, ref Vector3.Up);
+                        left = normalDirection.cross(ref rotatedUp);
+
                         updateTranslation(normalDirection * orbitDistance + lookAt);
                         camera.LookAt = lookAt;
-                        left = normalDirection.cross(ref Vector3.Up);
                     }
                 }
                 if (activeWindow)
@@ -220,8 +224,10 @@ namespace Editor
             //Compute the normal direction and the left vector.
             Quaternion yawRot = new Quaternion(Vector3.Up, yaw);
             Quaternion pitchRot = new Quaternion(Vector3.Left, pitch);
-            normalDirection = Quaternion.quatRotate(yawRot * pitchRot, Vector3.Backward);
-            left = normalDirection.cross(ref Vector3.Up);
+            Quaternion rotation = yawRot * pitchRot;
+            normalDirection = Quaternion.quatRotate(ref rotation, ref Vector3.Backward);
+            Vector3 rotatedUp = Quaternion.quatRotate(ref rotation, ref Vector3.Up);
+            left = normalDirection.cross(ref rotatedUp);
         }
 
         private void updateTranslation(Vector3 translation)
