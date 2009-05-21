@@ -124,7 +124,10 @@ namespace Engine.ObjectManagement
             if (accept)
             {
                 SimElementDefinition definition = createCommands[command].execute(name, callback);
-                this.addElement(definition);
+                if (definition != null)
+                {
+                    this.addElement(definition);
+                }
             }
         }
 

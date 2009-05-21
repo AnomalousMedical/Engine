@@ -27,15 +27,21 @@ namespace Engine
         {
             String behaviorTypeName;
             bool result = callback.getInputString("Please enter the name of the behavior to create.", out behaviorTypeName);
-            Type behaviorType = Type.GetType(behaviorTypeName);
-            while (result && behaviorType == null)
-            {
-                result = callback.getInputString("That behavior cannot be found. Please enter a valid name.", behaviorTypeName, out behaviorTypeName);
-                behaviorType = Type.GetType(behaviorTypeName);
-            }
             if (result)
             {
-                return new BehaviorDefinition(name, (Behavior)Activator.CreateInstance(behaviorType));
+                Type behaviorType = Type.GetType(behaviorTypeName);
+                while (result && behaviorType == null)
+                {
+                    result = callback.getInputString("That behavior cannot be found. Please enter a valid name.", behaviorTypeName, out behaviorTypeName);
+                    if (result)
+                    {
+                        behaviorType = Type.GetType(behaviorTypeName);
+                    }
+                }
+                if (result)
+                {
+                    return new BehaviorDefinition(name, (Behavior)Activator.CreateInstance(behaviorType));
+                }
             }
             return null;
         }
