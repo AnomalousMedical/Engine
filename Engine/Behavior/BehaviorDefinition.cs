@@ -91,7 +91,7 @@ namespace Engine
             :base(info)
         {
             String behaviorType = info.GetString(BEHAVIOR_TYPE);
-            Type type = Type.GetType(behaviorType, true);
+            Type type = PluginManager.Instance.getType(behaviorType);
             behaviorTemplate = (Behavior)Activator.CreateInstance(type);
             ReflectedSaver.RestoreObject(behaviorTemplate, info, BehaviorSaveMemberScanner.Scanner);
         }

@@ -28,6 +28,7 @@ namespace Engine
 
         private static String INTERFACE_NAME = typeof(PluginInterface).Name;
         private static PluginManager instance;
+        private static readonly char[] SPLIT = { ',' };
 
         /// <summary>
         /// Get the singleton for the PluginManager. It must first be created in
@@ -143,6 +144,24 @@ namespace Engine
             {
                 throw new InvalidPluginException("No renderer plugin defined. Please define a renderer plugin.");
             }
+        }
+
+        public Type getType(String assemblyQualifiedName)
+        {
+            Type type = Type.GetType(assemblyQualifiedName);
+            if (type == null)
+            {
+                String typeName = assemblyQualifiedName.Split(SPLIT)[0];
+                foreach (Assembly assembly in pluginAssemblies)
+                {
+                    type = assembly.GetType(typeName);
+                    if (type != null)
+                    {
+                        break;
+                    }
+                }
+            }
+            return type;
         }
 
         /// <summary>
