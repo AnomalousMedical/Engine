@@ -54,7 +54,7 @@ namespace OgreModelEditor.Controller
             entityDefintion.MeshName = meshName;
             currentSimObject = simObjectDefinition.register(scene.getDefaultSubScene());
             scene.buildScene();
-            entity = ((SceneNodeElement)currentSimObject.getElement("EntityNode")).getEntity(new Identifier("EntitySimObject", "Entity"));
+            entity = ((SceneNodeElement)currentSimObject.getElement("EntityNode")).getNodeObject("Entity") as Entity;
             readModelInfo();
         }
 

@@ -25,7 +25,8 @@ nodeObjects(gcnew NodeObjectList())
 
 SceneNode::SceneNode(System::String^ name, SceneManager^ ownerScene)
 :autoOgreNode(new Ogre::SceneNode(ownerScene->getSceneManager(), MarshalUtils::convertString(name))),
-Node(autoOgreNode.Get())
+Node(autoOgreNode.Get()),
+nodeObjects(gcnew NodeObjectList())
 {
 	sceneNode = autoOgreNode.Get();
 }

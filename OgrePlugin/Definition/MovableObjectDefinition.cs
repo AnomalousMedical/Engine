@@ -90,28 +90,33 @@ namespace OgrePlugin
         /// <summary>
         /// Create the product for this movableobject.
         /// </summary>
-        /// <param name="element">The SceneNodeElement to add the definition to so it can be destroyed properly.</param>
-        /// <param name="scene">The OgreSceneManager that will get the entity.</param>
-        /// <param name="simObject">The SimObject that will get the entity.</param>
-        internal void createProduct(SceneNodeElement element, OgreSceneManager scene, SimObjectBase simObject)
+        /// <param name="scene">The scene to create the product into.</param>
+        /// <param name="baseName">The base name of the MovableObject.</param>
+        /// <returns>The newly created MovableObjectContainer or null if there was an error.</returns>
+        internal MovableObjectContainer createProduct(OgreSceneManager scene, String baseName)
         {
-            MovableObject movable = createActualProduct(element, scene, simObject);
+            MovableObjectContainer movable = createActualProduct(scene, baseName);
             if (movable != null)
             {
-                movable.setRenderQueueGroup(RenderQueue);
+                movable.MovableObject.setRenderQueueGroup(RenderQueue);
             }
+            return movable;
         }
 
         /// <summary>
         /// This funciton will build the MovableObject and return it to this
         /// class so it can be configured with all of the MovableObject
-        /// properties.
+        /// properties. 
+        /// <para>
+        /// DO NOT call this method outside of the
+        /// MovableObjectDefinition. It must be internal because you cannot be
+        /// internal and protected.
+        /// </para>
         /// </summary>
-        /// <param name="element">The SceneNodeElement to add the definition to so it can be destroyed properly.</param>
-        /// <param name="scene">The OgreSceneManager that will get the entity.</param>
-        /// <param name="simObject">The SimObject that will get the entity.</param>
-        /// <returns>The newly created MovableObject or null if there was an error.</returns>
-        protected abstract MovableObject createActualProduct(SceneNodeElement element, OgreSceneManager scene, SimObjectBase simObject);
+        /// <param name="scene">The scene to create the product into.</param>
+        /// <param name="name">The base name of the MovableObject.</param>
+        /// <returns>The newly created MovableObjectContainer or null if there was an error.</returns>
+        internal abstract MovableObjectContainer createActualProduct(OgreSceneManager scene, String baseName);
 
         /// <summary>
         /// The name of this entity.

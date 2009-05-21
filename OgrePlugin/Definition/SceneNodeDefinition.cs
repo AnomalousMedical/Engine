@@ -168,13 +168,13 @@ namespace OgrePlugin
         internal void createProduct(SimObjectBase instance, OgreSceneManager scene)
         {
             Identifier identifier = new Identifier(instance.Name, Name);
-            SceneNode node = scene.createSceneNode(identifier);
+            SceneNode node = scene.SceneManager.createSceneNode(identifier.FullName);
             node.setPosition(instance.Translation);
             node.setOrientation(instance.Rotation);
             SceneNodeElement element = new SceneNodeElement(identifier, this.subscription, scene, node);
             foreach (MovableObjectDefinition movable in movableObjects.Values)
             {
-                movable.createProduct(element, scene, instance);
+                element.attachObject(movable);
             }
             foreach (SceneNodeDefinition child in childNodes.Values)
             {
@@ -209,13 +209,13 @@ namespace OgrePlugin
         private void createAsChild(SimObjectBase instance, OgreSceneManager scene, SceneNodeElement parentElement)
         {
             Identifier identifier = new Identifier(instance.Name, Name);
-            SceneNode node = scene.createSceneNode(identifier);
+            SceneNode node = scene.SceneManager.createSceneNode(identifier.FullName);
             node.setPosition(LocalTranslation);
             node.setOrientation(LocalRotation);
             SceneNodeElement element = new SceneNodeElement(identifier, this.subscription, scene, node);
             foreach (MovableObjectDefinition movable in movableObjects.Values)
             {
-                movable.createProduct(element, scene, instance);
+                element.attachObject(movable);
             }
             foreach (SceneNodeDefinition child in childNodes.Values)
             {

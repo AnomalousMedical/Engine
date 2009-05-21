@@ -69,10 +69,9 @@ namespace OgrePlugin
             ReflectedEditInterface.expandEditInterface(this, memberScanner, editInterface);
         }
 
-        protected override MovableObject createActualProduct(SceneNodeElement element, OgreSceneManager scene, Engine.ObjectManagement.SimObjectBase simObject)
+        internal override MovableObjectContainer createActualProduct(OgreSceneManager scene, String baseName)
         {
-            Identifier id = new Identifier(simObject.Name, Name);
-            Camera camera = scene.createCamera(id);
+            Camera camera = scene.SceneManager.createCamera(baseName + Name);
             camera.setAutoAspectRatio(AutoAspectRatio);
             camera.setLodBias(LodBias);
             camera.setUseRenderingDistance(UseRenderingDistance);
@@ -95,8 +94,7 @@ namespace OgrePlugin
             {
                 camera.setOrthoWindowWidth(OrthoWindowWidth);
             }
-            element.attachObject(id, camera);
-            return camera;
+            return new CameraContainer(Name, camera);
         }
 
         /// <summary>

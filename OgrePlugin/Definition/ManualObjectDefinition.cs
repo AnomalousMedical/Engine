@@ -28,12 +28,15 @@ namespace OgrePlugin
             
         }
 
-        protected override MovableObject createActualProduct(SceneNodeElement element, OgreSceneManager scene, SimObjectBase simObject)
+        /// <summary>
+        /// This method should not be called outside of ManualObjectDefinition.
+        /// </summary>
+        /// <param name="scene"></param>
+        /// <param name="baseName"></param>
+        /// <returns></returns>
+        internal override MovableObjectContainer createActualProduct(OgreSceneManager scene, String baseName)
         {
-            Identifier id = new Identifier(simObject.Name, Name);
-            ManualObject obj = scene.createManualObject(id);
-            element.attachObject(id, obj);
-            return obj;
+            return new ManualObjectContainer(Name, scene.SceneManager.createManualObject(baseName + Name));
         }
 
         private ManualObjectDefinition(LoadInfo info)

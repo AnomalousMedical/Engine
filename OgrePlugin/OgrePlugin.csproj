@@ -58,6 +58,12 @@
     <Compile Include="Definition\OgreSceneManagerDefinition.cs" />
     <Compile Include="Definition\SceneNodeDefinition.cs" />
     <Compile Include="Definition\SkeletonInfo.cs" />
+    <Compile Include="Instance\CameraContainer.cs" />
+    <Compile Include="Instance\EntityContainer.cs" />
+    <Compile Include="Instance\LightContainer.cs" />
+    <Compile Include="Instance\ManualObjectContainer.cs" />
+    <Compile Include="Instance\MovableObjectContainer.cs" />
+    <Compile Include="Instance\MovableObjectContainerBase.cs" />
     <Compile Include="Instance\OgreSceneManager.cs" />
     <Compile Include="Instance\SceneNodeElement.cs" />
     <Compile Include="Platform\AutomaticWindow.cs" />

@@ -70,10 +70,9 @@ namespace OgrePlugin
             ReflectedEditInterface.expandEditInterface(this, memberScanner, editInterface);
         }
 
-        protected override MovableObject createActualProduct(SceneNodeElement element, OgreSceneManager scene, SimObjectBase simObject)
+        internal override MovableObjectContainer createActualProduct(OgreSceneManager scene, String baseName)
         {
-            Identifier id = new Identifier(simObject.Name, Name);
-            Light light = scene.createLight(id);
+            Light light = scene.SceneManager.createLight(baseName + Name);
             light.setType(LightType);
             light.setAttenuation(AttenuationRange, AttenuationConstant, AttenuationLinear, AttenuationQuadric);
             light.setDiffuseColor(DiffuseColor);
@@ -84,8 +83,7 @@ namespace OgrePlugin
             {
                 light.setSpotlightRange(SpotlightInnerAngle, SpotlightOuterAngle, SpotlightFalloff);
             }
-            element.attachObject(id, light);
-            return light;
+            return new LightContainer(Name, light);
         }
 
         [Editable]

@@ -45,12 +45,12 @@ namespace OgrePlugin
             this.sceneManager = sceneManager;
             this.renderWindow = renderWindow;
             cameraId = new Identifier(name, CAMERA_RESERVED_NAME);
-            camera = sceneManager.createCamera(cameraId);
+            camera = sceneManager.SceneManager.createCamera(cameraId.FullName);
             camera.setAutoAspectRatio(true);
             camera.setNearClipDistance(0.1f);
             camera.setFOVy(10.0f);
             nodeId = new Identifier(name, CAMERA_NODE_RESERVED_NAME);
-            node = sceneManager.createSceneNode(nodeId);
+            node = sceneManager.SceneManager.createSceneNode(nodeId.FullName);
             node.attachObject(camera);
             viewport = renderWindow.addViewport(camera);
 
@@ -71,7 +71,7 @@ namespace OgrePlugin
             if (light == null)
             {
                 lightId = new Identifier(nodeId.SimObjectName, LIGHT_RESERVED_NAME);
-                light = sceneManager.createLight(lightId);
+                light = sceneManager.SceneManager.createLight(lightId.FullName);
                 light.setRenderQueueGroup(byte.MaxValue);
                 light.setPosition(reallyFarAway);
             }
@@ -85,7 +85,7 @@ namespace OgrePlugin
             if (light != null)
             {
                 node.detachObject(light);
-                sceneManager.destroyLight(lightId);
+                sceneManager.SceneManager.destroyLight(light);
                 light = null;
             }
         }
@@ -154,8 +154,8 @@ namespace OgrePlugin
             removeLight();
             renderWindow.destroyViewport(viewport);
             node.detachObject(camera);
-            sceneManager.destroyCamera(cameraId);
-            sceneManager.destroySceneNode(nodeId);
+            sceneManager.SceneManager.destroyCamera(camera);
+            sceneManager.SceneManager.destroySceneNode(node);
         }
 
         public void postFindVisibleObjects(SceneManager sceneManager, SceneManager.IlluminationRenderStage irs, Camera camera)

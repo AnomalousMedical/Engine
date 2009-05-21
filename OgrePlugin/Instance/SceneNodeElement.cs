@@ -6,6 +6,7 @@ using Engine.ObjectManagement;
 using Engine.Editing;
 using OgreWrapper;
 using Engine;
+using Logging;
 
 namespace OgrePlugin
 {
@@ -17,11 +18,9 @@ namespace OgrePlugin
         private Identifier sceneID;
         private OgreSceneManager scene;
         private SceneNode sceneNode;
-        private List<Identifier> entities = new List<Identifier>();
-        private List<Identifier> cameras = new List<Identifier>();
-        private List<Identifier> lights = new List<Identifier>();
-        private List<Identifier> manualObjects = new List<Identifier>();
         private List<SceneNodeElement> children = new List<SceneNodeElement>();
+        private Dictionary<String, MovableObjectContainer> nodeObjects = new Dictionary<String, MovableObjectContainer>();
+        
 
         /// <summary>
         /// Constructor.
@@ -43,45 +42,60 @@ namespace OgrePlugin
         /// </summary>
         /// <param name="identifier">The identifier of the Entity.</param>
         /// <param name="entity">The Entity to attach.</param>
-        public void attachObject(Identifier identifier, Entity entity)
+        public void attachObject(MovableObjectDefinition definition)
         {
-            sceneNode.attachObject(entity);
-            entities.Add(identifier);
+            if (!nodeObjects.ContainsKey(definition.Name))
+            {
+                MovableObjectContainer moveObj = definition.createProduct(scene, sceneID.FullName);
+                sceneNode.attachObject(moveObj.MovableObject);
+                nodeObjects.Add(moveObj.DefinitionName, moveObj);
+            }
+            else
+            {
+                Log.Default.sendMessage("Attempted to add another MovableObject to the node {0} named {1} that already exists. The second entry has been ignored.", LogLevel.Warning, "OgrePlugin", this.sceneID.FullName, definition.Name);
+            }
+
         }
 
-        public void attachObject(Identifier identifier, Camera camera)
+        /// <summary>
+        /// Check to see if the node has an object named name.
+        /// </summary>
+        /// <param name="name">The name to test for.</param>
+        /// <returns>True if name exists.</returns>
+        public bool hasNodeObject(String name)
         {
-            sceneNode.attachObject(camera);
-            cameras.Add(identifier);
+            return nodeObjects.ContainsKey(name);
         }
 
-        public void attachObject(Identifier identifier, Light light)
+        /// <summary>
+        /// Get the object specified by name. Test for its existance first using
+        /// hasNodeObject.
+        /// </summary>
+        /// <param name="name">The name to retrieve.</param>
+        /// <returns>The MovableObject specified by name.</returns>
+        public MovableObject getNodeObject(String name)
         {
-            sceneNode.attachObject(light);
-            lights.Add(identifier);
+            return nodeObjects[name].MovableObject;
         }
 
-        public void attachObject(Identifier identifier, ManualObject manualObject)
-        {
-            sceneNode.attachObject(manualObject);
-            manualObjects.Add(identifier);
-        }
-
+        /// <summary>
+        /// Add a child SceneNodeElement.
+        /// </summary>
+        /// <param name="element">The SceneNodeElement to add as a child.</param>
         public void addChild(SceneNodeElement element)
         {
-            children.Add(element);
             sceneNode.addChild(element.sceneNode);
+            children.Add(element);
         }
 
+        /// <summary>
+        /// Remove a child SceneNodeElement.
+        /// </summary>
+        /// <param name="element">The SceneNodeElement to remove.</param>
         public void removeChild(SceneNodeElement element)
         {
-            children.Remove(element);
             sceneNode.removeChild(element.sceneNode);
-        }
-
-        public Entity getEntity(Identifier name)
-        {
-            return scene.getEntity(name);
+            children.Remove(element);
         }
 
         /// <summary>
@@ -89,27 +103,15 @@ namespace OgrePlugin
         /// </summary>
         protected override void Dispose()
         {
-            foreach (Identifier identifier in entities)
+            foreach (MovableObjectContainer movable in nodeObjects.Values)
             {
-                scene.destroyEntity(identifier);
-            }
-            foreach (Identifier identifier in cameras)
-            {
-                scene.destroyCamera(identifier);
-            }
-            foreach (Identifier identifier in lights)
-            {
-                scene.destroyLight(identifier);
-            }
-            foreach (Identifier identifier in manualObjects)
-            {
-                scene.destroyManualObject(identifier);
+                movable.destroy(scene);
             }
             foreach (SceneNodeElement child in children)
             {
                 child.Dispose();
             }
-            scene.destroySceneNode(sceneID);
+            scene.SceneManager.destroySceneNode(sceneNode);
         }
 
         protected override void updatePositionImpl(ref Vector3 translation, ref Quaternion rotation)
@@ -153,21 +155,9 @@ namespace OgrePlugin
             SceneNodeDefinition definition = new SceneNodeDefinition(Name);
             definition.LocalTranslation = sceneNode.getPosition();
             definition.LocalRotation = sceneNode.getOrientation();
-            foreach (Identifier identifier in entities)
+            foreach (MovableObjectContainer movable in nodeObjects.Values)
             {
-                definition.addMovableObjectDefinition(new EntityDefinition(identifier.ElementName, scene.getEntity(identifier)));
-            }
-            foreach (Identifier identifier in cameras)
-            {
-                definition.addMovableObjectDefinition(new CameraDefinition(identifier.ElementName, scene.getCamera(identifier)));
-            }
-            foreach (Identifier identifier in lights)
-            {
-                definition.addMovableObjectDefinition(new LightDefinition(identifier.ElementName, scene.getLight(identifier)));
-            }
-            foreach (Identifier identifier in manualObjects)
-            {
-                definition.addMovableObjectDefinition(new ManualObjectDefinition(identifier.ElementName, scene.getManualObject(identifier)));
+                definition.addMovableObjectDefinition(movable.createDefinition());
             }
             foreach (SceneNodeElement child in children)
             {
