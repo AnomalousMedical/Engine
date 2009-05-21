@@ -47,7 +47,8 @@ namespace Engine
         public bool allowMember(MemberWrapper wrapper)
         {
             if (wrapper.getCustomAttributes(typeof(DoNotCopyAttribute), true).Length == 0 
-                && wrapper.getWrappedType().GetCustomAttributes(typeof(DoNotCopyAttribute), true).Length == 0)
+                && wrapper.getWrappedType().GetCustomAttributes(typeof(DoNotCopyAttribute), true).Length == 0
+                && wrapper.getWrappedType().GetCustomAttributes(typeof(NativeSubsystemTypeAttribute), true).Length == 0)
             {
                 return wrapper.canWrite() && wrapper.canRead();
             }
