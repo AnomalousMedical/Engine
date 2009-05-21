@@ -146,6 +146,19 @@ namespace Engine
             }
         }
 
+        /// <summary>
+        /// Search for a given type using an assemblyQualifiedName. First this
+        /// will use the standard Type.GetType function. If that fails it will
+        /// search all the plugin loaded assemblies for the type directly. If
+        /// that fails the function will return null. If sucessful the matching
+        /// type will be returned.
+        /// </summary>
+        /// <remarks>
+        /// This function could be optimized. For now it will search all loaded
+        /// assemblies in a loop when the Type.GetType function call fails.
+        /// </remarks>
+        /// <param name="assemblyQualifiedName">The AssemblyQualifiedName to search for.</param>
+        /// <returns>The matching type or null if the type cannot be found.</returns>
         public Type getType(String assemblyQualifiedName)
         {
             Type type = Type.GetType(assemblyQualifiedName);
