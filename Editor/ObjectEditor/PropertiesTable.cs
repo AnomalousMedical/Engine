@@ -24,6 +24,7 @@ namespace Editor
         private int editColumnIndex = -1;
         private PropertyAdded propertyAddedCallback;
         private PropertyRemoved propertyRemovedCallback;
+        private BrowserWindow browserWindow = new BrowserWindow();
 
         #endregion Fields
 
@@ -48,6 +49,13 @@ namespace Editor
 
             propertyAddedCallback = new PropertyAdded(editInterface_OnPropertyAdded);
             propertyRemovedCallback = new PropertyRemoved(editInterface_OnPropertyRemoved);
+
+            this.Disposed += new EventHandler(PropertiesTable_Disposed);
+        }
+
+        void PropertiesTable_Disposed(object sender, EventArgs e)
+        {
+            browserWindow.Dispose();
         }
 
         #endregion Constructors
@@ -336,6 +344,13 @@ namespace Editor
         void editInterface_OnPropertyAdded(EditableProperty property)
         {
             addProperty(property);
+        }
+
+        public bool showBrowser(Browser browser, out object result)
+        {
+            DialogResult accept = browserWindow.ShowDialog(this.FindForm());
+            result = browserWindow.SelectedValue;
+            return accept == DialogResult.OK;
         }
 
         #endregion

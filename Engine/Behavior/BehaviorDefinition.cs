@@ -17,6 +17,8 @@ namespace Engine
     {
         #region Static
 
+        private static BehaviorBrowser behaviorBrowser = null;
+
         /// <summary>
         /// Static create function.
         /// </summary>
@@ -25,23 +27,16 @@ namespace Engine
         /// <returns></returns>
         internal static BehaviorDefinition Create(String name, EditUICallback callback)
         {
-            String behaviorTypeName;
-            bool result = callback.getInputString("Please enter the name of the behavior to create.", out behaviorTypeName);
-            if (result)
+            if (behaviorBrowser == null)
             {
-                Type behaviorType = Type.GetType(behaviorTypeName);
-                while (result && behaviorType == null)
-                {
-                    result = callback.getInputString("That behavior cannot be found. Please enter a valid name.", behaviorTypeName, out behaviorTypeName);
-                    if (result)
-                    {
-                        behaviorType = Type.GetType(behaviorTypeName);
-                    }
-                }
-                if (result)
-                {
-                    return new BehaviorDefinition(name, (Behavior)Activator.CreateInstance(behaviorType));
-                }
+                behaviorBrowser = new BehaviorBrowser();
+            }
+            Object objResult;
+            bool result = callback.showBrowser(behaviorBrowser, out objResult);
+            Type behaviorType = objResult as Type;
+            if (result && behaviorType != null)
+            {
+                return new BehaviorDefinition(name, (Behavior)Activator.CreateInstance(behaviorType));
             }
             return null;
         }
@@ -96,7 +91,7 @@ namespace Engine
             :base(info)
         {
             String behaviorType = info.GetString(BEHAVIOR_TYPE);
-            Type type = Type.GetType(behaviorType);
+            Type type = Type.GetType(behaviorType, true);
             behaviorTemplate = (Behavior)Activator.CreateInstance(type);
             ReflectedSaver.RestoreObject(behaviorTemplate, info, BehaviorSaveMemberScanner.Scanner);
         }

@@ -46,6 +46,7 @@ namespace Editor
         private EditInterface currentMenuInterface;
         private EditInterfaceTreeNode parentNode;
         private TreeDblClickPrevent preventDblClick;
+        private BrowserWindow browserWindow = new BrowserWindow();
 
         #endregion Fields
 
@@ -174,6 +175,14 @@ namespace Editor
             return ((EditInterfaceTreeNode)objectsTree.SelectedNode).EditInterface;
         }
 
+        public bool showBrowser(Browser browser, out object result)
+        {
+            browserWindow.setBrowser(browser);
+            DialogResult accept = browserWindow.ShowDialog(this.FindForm());
+            result = browserWindow.SelectedValue;
+            return accept == DialogResult.OK;
+        }
+
         /// <summary>
         /// Validate all EditInterfaces in this view. If one has an error it
         /// will be highlighted and an errorMessage will be returned.
@@ -231,6 +240,7 @@ namespace Editor
         void EditInterfaceView_Disposed(object sender, EventArgs e)
         {
             clearEditInterface();
+            browserWindow.Dispose();
         }
 
         void objectsTree_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
