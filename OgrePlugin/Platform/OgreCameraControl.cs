@@ -20,9 +20,6 @@ namespace OgrePlugin
 
         private SceneNode node;
         private Camera camera;
-        private Identifier nodeId;
-        private Identifier cameraId;
-        private Identifier lightId;
         private OgreSceneManager sceneManager;
         private Vector3 lookAt;
         private Viewport viewport;
@@ -44,13 +41,11 @@ namespace OgrePlugin
             this.name = name;
             this.sceneManager = sceneManager;
             this.renderWindow = renderWindow;
-            cameraId = new Identifier(name, CAMERA_RESERVED_NAME);
-            camera = sceneManager.SceneManager.createCamera(cameraId.FullName);
+            camera = sceneManager.SceneManager.createCamera(name + CAMERA_RESERVED_NAME);
             camera.setAutoAspectRatio(true);
             camera.setNearClipDistance(0.1f);
             camera.setFOVy(10.0f);
-            nodeId = new Identifier(name, CAMERA_NODE_RESERVED_NAME);
-            node = sceneManager.SceneManager.createSceneNode(nodeId.FullName);
+            node = sceneManager.SceneManager.createSceneNode(name + CAMERA_NODE_RESERVED_NAME);
             node.attachObject(camera);
             viewport = renderWindow.addViewport(camera);
 
@@ -70,8 +65,7 @@ namespace OgrePlugin
         {
             if (light == null)
             {
-                lightId = new Identifier(nodeId.SimObjectName, LIGHT_RESERVED_NAME);
-                light = sceneManager.SceneManager.createLight(lightId.FullName);
+                light = sceneManager.SceneManager.createLight(name + LIGHT_RESERVED_NAME);
                 light.setRenderQueueGroup(byte.MaxValue);
                 light.setPosition(reallyFarAway);
             }

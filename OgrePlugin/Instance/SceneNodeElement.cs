@@ -15,7 +15,6 @@ namespace OgrePlugin
     /// </summary>
     public class SceneNodeElement : SimElement
     {
-        private Identifier sceneID;
         private OgreSceneManager scene;
         private SceneNode sceneNode;
         private List<SceneNodeElement> children = new List<SceneNodeElement>();
@@ -29,10 +28,9 @@ namespace OgrePlugin
         /// <param name="subscription">The subscription of the scene node.</param>
         /// <param name="scene">The scene this node belongs to.</param>
         /// <param name="node">The node to manage.</param>
-        public SceneNodeElement(Identifier sceneID, Subscription subscription, OgreSceneManager scene, SceneNode node)
-            :base(sceneID.ElementName, subscription) 
+        public SceneNodeElement(String elementName, Subscription subscription, OgreSceneManager scene, SceneNode node)
+            :base(elementName, subscription) 
         {
-            this.sceneID = sceneID;
             this.scene = scene;
             this.sceneNode = node;
         }
@@ -46,13 +44,13 @@ namespace OgrePlugin
         {
             if (!nodeObjects.ContainsKey(definition.Name))
             {
-                MovableObjectContainer moveObj = definition.createProduct(scene, sceneID.FullName);
+                MovableObjectContainer moveObj = definition.createProduct(scene, SimObject.Name + Name);
                 sceneNode.attachObject(moveObj.MovableObject);
                 nodeObjects.Add(moveObj.DefinitionName, moveObj);
             }
             else
             {
-                Log.Default.sendMessage("Attempted to add another MovableObject to the node {0} named {1} that already exists. The second entry has been ignored.", LogLevel.Warning, "OgrePlugin", this.sceneID.FullName, definition.Name);
+                Log.Default.sendMessage("Attempted to add another MovableObject to the node {0} named {1} that already exists. The second entry has been ignored.", LogLevel.Warning, "OgrePlugin", SimObject.Name + Name, definition.Name);
             }
 
         }

@@ -167,11 +167,11 @@ namespace OgrePlugin
         /// <param name="scene">The scene to create the product into.</param>
         internal void createProduct(SimObjectBase instance, OgreSceneManager scene)
         {
-            Identifier identifier = new Identifier(instance.Name, Name);
-            SceneNode node = scene.SceneManager.createSceneNode(identifier.FullName);
+            SceneNode node = scene.SceneManager.createSceneNode(instance.Name + Name);
             node.setPosition(instance.Translation);
             node.setOrientation(instance.Rotation);
-            SceneNodeElement element = new SceneNodeElement(identifier, this.subscription, scene, node);
+            SceneNodeElement element = new SceneNodeElement(Name, this.subscription, scene, node);
+            instance.addElement(element);
             foreach (MovableObjectDefinition movable in movableObjects.Values)
             {
                 element.attachObject(movable);
@@ -180,7 +180,6 @@ namespace OgrePlugin
             {
                 child.createAsChild(instance, scene, element);
             }
-            instance.addElement(element);
             scene.SceneManager.getRootSceneNode().addChild(node);
         }
         
@@ -208,11 +207,10 @@ namespace OgrePlugin
         /// <param name="parentElement">The element of the parent node.</param>
         private void createAsChild(SimObjectBase instance, OgreSceneManager scene, SceneNodeElement parentElement)
         {
-            Identifier identifier = new Identifier(instance.Name, Name);
-            SceneNode node = scene.SceneManager.createSceneNode(identifier.FullName);
+            SceneNode node = scene.SceneManager.createSceneNode(instance.Name + Name);
             node.setPosition(LocalTranslation);
             node.setOrientation(LocalRotation);
-            SceneNodeElement element = new SceneNodeElement(identifier, this.subscription, scene, node);
+            SceneNodeElement element = new SceneNodeElement(Name, this.subscription, scene, node);
             foreach (MovableObjectDefinition movable in movableObjects.Values)
             {
                 element.attachObject(movable);
