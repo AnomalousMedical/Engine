@@ -76,30 +76,36 @@ namespace Engine.Saving.XMLSaver
         public object restoreObject(XmlReader xmlReader)
         {
             Object lastReadObject = null;
-            while (xmlReader.Read())
+            try
             {
-                if (xmlReader.NodeType == XmlNodeType.Element)
+                while (xmlReader.Read())
                 {
-                    if (xmlReader.Name.Equals(SAVEABLE_ELEMENT))
+                    if (xmlReader.NodeType == XmlNodeType.Element)
                     {
-                        ObjectIdentifier objectId = new ObjectIdentifier(long.Parse(xmlReader.GetAttribute(ID_ATTIBUTE)), null, Type.GetType(xmlReader.GetAttribute(TYPE_ATTRIBUTE)));
-                        loadControl.startDefiningObject(objectId);
-                        //If the element is empty do not bother to loop looking for elements.
-                        if (!xmlReader.IsEmptyElement)
+                        if (xmlReader.Name.Equals(SAVEABLE_ELEMENT))
                         {
-                            while (!(xmlReader.Name == SAVEABLE_ELEMENT && xmlReader.NodeType == XmlNodeType.EndElement) && xmlReader.Read())
+                            ObjectIdentifier objectId = new ObjectIdentifier(long.Parse(xmlReader.GetAttribute(ID_ATTIBUTE)), null, Type.GetType(xmlReader.GetAttribute(TYPE_ATTRIBUTE)));
+                            loadControl.startDefiningObject(objectId);
+                            //If the element is empty do not bother to loop looking for elements.
+                            if (!xmlReader.IsEmptyElement)
                             {
-                                if (xmlReader.NodeType == XmlNodeType.Element)
+                                while (!(xmlReader.Name == SAVEABLE_ELEMENT && xmlReader.NodeType == XmlNodeType.EndElement) && xmlReader.Read())
                                 {
-                                    valueReaders[xmlReader.Name].readValue(loadControl, xmlReader);
+                                    if (xmlReader.NodeType == XmlNodeType.Element)
+                                    {
+                                        valueReaders[xmlReader.Name].readValue(loadControl, xmlReader);
+                                    }
                                 }
                             }
+                            lastReadObject = loadControl.createCurrentObject();
                         }
-                        lastReadObject = loadControl.createCurrentObject();
                     }
                 }
             }
-            loadControl.reset();
+            finally
+            {
+                loadControl.reset();
+            }
             return lastReadObject;
         }
 
