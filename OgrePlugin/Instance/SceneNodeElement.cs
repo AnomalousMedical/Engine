@@ -45,8 +45,11 @@ namespace OgrePlugin
             if (!nodeObjects.ContainsKey(definition.Name))
             {
                 MovableObjectContainer moveObj = definition.createProduct(scene, SimObject.Name + Name);
-                sceneNode.attachObject(moveObj.MovableObject);
-                nodeObjects.Add(moveObj.DefinitionName, moveObj);
+                if (moveObj != null)
+                {
+                    sceneNode.attachObject(moveObj.MovableObject);
+                    nodeObjects.Add(moveObj.DefinitionName, moveObj);
+                }
             }
             else
             {
