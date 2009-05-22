@@ -17,7 +17,7 @@ ref class PhysConvexMeshDesc;
 /// object directly. Instead, you create an instance of this mesh via the 
 /// NxConvexShape class.
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class PhysConvexMesh
 {
 internal:

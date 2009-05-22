@@ -11,7 +11,7 @@ namespace OgreWrapper
 /// <summary>
 /// Specialised KeyFrame which stores a full transform. 
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class TransformKeyFrame
 {
 private:

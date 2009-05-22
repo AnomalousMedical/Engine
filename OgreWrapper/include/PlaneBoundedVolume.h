@@ -15,7 +15,7 @@ ref class AxisAlignedBox;
 /// <summary>
 /// Represents a convex volume bounded by planes. 
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class PlaneBoundedVolume
 {
 private:

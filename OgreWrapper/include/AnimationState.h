@@ -13,7 +13,7 @@ ref class AnimationStateSet;
 /// <summary>
 /// Represents the state of an animation and the weight of it's influence. 
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class AnimationState
 {
 private:

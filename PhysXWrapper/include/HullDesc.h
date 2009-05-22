@@ -39,7 +39,7 @@ public enum class HullFlag : unsigned int
 /// <summary>
 /// Description of hull to process.
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class HullDesc
 {
 internal:

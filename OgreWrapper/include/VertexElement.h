@@ -94,7 +94,7 @@ public enum class VertexElementType
 /// the semantics (position, normal etc), the VertexElement class does. 
 /// </para>
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class VertexElement
 {
 private:

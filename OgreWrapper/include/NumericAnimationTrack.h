@@ -11,7 +11,7 @@ namespace OgreWrapper
 /// <summary>
 /// Specialised AnimationTrack for dealing with generic animable values. 
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class NumericAnimationTrack
 {
 private:

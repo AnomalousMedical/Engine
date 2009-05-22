@@ -38,7 +38,6 @@ typedef gcroot<Entity^> RenderEntityGCRoot;
 /// or a user manipulated 3d object.
 /// </summary>
 [Engine::Attributes::NativeSubsystemType]
-[Engine::Attributes::DoNotSaveAttribute]
 public ref class Entity : MovableObject
 {
 private:

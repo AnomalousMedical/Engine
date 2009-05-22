@@ -48,7 +48,7 @@ public enum class IlluminationStage
 /// <summary>
 /// 
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class Pass
 {
 private:

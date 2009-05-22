@@ -35,7 +35,7 @@ namespace PhysXWrapper
 /// }
 /// </code>
 /// </example>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class ContactIterator
 {
 private:

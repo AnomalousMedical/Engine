@@ -14,7 +14,7 @@ typedef array<PhysActor^> ActorArray;
 /// Wrapper for NxJointDesc.
 /// Joint descriptors for all the different joint types are derived from this class.
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class PhysJointDesc
 {
 protected:

@@ -32,7 +32,6 @@ typedef gcroot<Camera^> CameraGCRoot;
 /// manipulating a 3d camera.
 /// </summary>
 [Engine::Attributes::NativeSubsystemType]
-[Engine::Attributes::DoNotSaveAttribute]
 public ref class Camera : public MovableObject
 {
 private:

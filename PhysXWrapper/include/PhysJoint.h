@@ -21,7 +21,6 @@ ref class PhysScene;
 /// actors, one of them may always be the environment (NULL).
 /// </summary>
 [Engine::Attributes::NativeSubsystemType]
-[Engine::Attributes::DoNotSaveAttribute]
 public ref class PhysJoint abstract
 {
 private:

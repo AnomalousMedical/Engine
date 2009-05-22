@@ -12,7 +12,7 @@ namespace OgreWrapper{
 /// <summary>
 /// 
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class OverlayContainer abstract : public OverlayElement
 {
 private:

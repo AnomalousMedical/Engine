@@ -35,7 +35,6 @@ typedef System::Collections::Generic::List<PhysShape^> ShapeEnumerator;
 /// the actor will be static (fixed in the world).
 /// </summary>
 [Engine::Attributes::NativeSubsystemType]
-[Engine::Attributes::DoNotSaveAttribute]
 public ref class PhysActor
 {
 private:

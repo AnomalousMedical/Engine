@@ -16,7 +16,7 @@ namespace OgreWrapper
 ref class Technique;
 ref class MaterialPtr;
 
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class Material : public Resource
 {
 private:

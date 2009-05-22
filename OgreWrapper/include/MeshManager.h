@@ -26,7 +26,7 @@ ref class Mesh;
 /// see getMeshObject.
 /// </para>
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class MeshManager
 {
 private:

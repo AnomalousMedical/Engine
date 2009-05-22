@@ -16,7 +16,7 @@ typedef System::Collections::Generic::LinkedList<PlaneBoundedVolume^> PlaneBound
 /// <summary>
 /// Specialises the SceneQuery class for querying within a plane-bounded volume. 
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class PlaneBoundedVolumeListSceneQuery
 {
 private:

@@ -125,7 +125,7 @@ public enum class PixelFormat
 /// of "depth" slices, each containing "height" rows of "width" pixels. 
 /// </para>
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class PixelBox
 {
 private:

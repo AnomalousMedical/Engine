@@ -25,7 +25,7 @@ ref class Pose;
 ref class SubMesh;
 ref class VertexData;
 
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class Mesh : public Resource
 {
 private:

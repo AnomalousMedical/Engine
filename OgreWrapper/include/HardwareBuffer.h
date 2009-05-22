@@ -10,7 +10,7 @@ namespace OgreWrapper{
 /// <summary>
 /// A wrapper class for the Ogre::HardwareBuffer
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class HardwareBuffer
 {
 public:

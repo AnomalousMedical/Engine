@@ -29,7 +29,7 @@ typedef System::Collections::Generic::Dictionary<unsigned short, unsigned short>
 /// created and destroyed using the HardwareBufferManager. 
 /// </para>
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class VertexBufferBinding
 {
 private:

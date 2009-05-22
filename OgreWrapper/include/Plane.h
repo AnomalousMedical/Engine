@@ -17,7 +17,7 @@ ref class AxisAlignedBox;
 /// constant (D) which is the distance along the normal you have to go to move
 /// the plane back to the origin. 
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class Plane
 {
 private:

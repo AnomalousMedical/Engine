@@ -11,7 +11,7 @@ ref class PhysJointLimitDesc;
 /// <summary>
 /// Describes a pair of joint limits.
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class PhysJointLimitPairDesc
 {
 private:

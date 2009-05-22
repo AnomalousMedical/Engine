@@ -29,7 +29,7 @@ ref class PixelBox;
 /// This class is where the renderer draws.  It can create viewports that are
 /// linked to individual cameras that are then rendered onto this target.
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class RenderTarget abstract
 {
 public:

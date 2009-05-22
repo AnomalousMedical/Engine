@@ -13,7 +13,7 @@ namespace OgreWrapper{
 ref class SceneNode;
 ref class OverlayContainer;
 
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class Overlay
 {
 private:

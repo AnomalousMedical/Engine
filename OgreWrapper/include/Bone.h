@@ -20,7 +20,7 @@ ref class Bone;
 /// a node in the joint hierarchy. Mesh vertices also have assignments to bones to define how they 
 /// move in relation to the skeleton. 
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class Bone : public Node
 {
 private:

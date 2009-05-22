@@ -12,7 +12,7 @@ namespace PhysXWrapper
 /// The spring is implicitly integrated, so even high spring and damper coefficients 
 /// should be robust.
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class PhysSpringDesc
 {
 private:

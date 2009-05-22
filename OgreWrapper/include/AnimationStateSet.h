@@ -14,7 +14,7 @@ ref class AnimationState;
 /// <summary>
 /// Wrapper for AnimationStateSets.  This is a set of pose animations for an entity.
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class AnimationStateSet
 {
 private:

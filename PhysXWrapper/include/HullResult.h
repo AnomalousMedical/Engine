@@ -13,7 +13,7 @@ namespace StanHull
 /// <summary>
 /// The results of a hull computation.
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class HullResult
 {
 internal:

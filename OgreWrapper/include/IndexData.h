@@ -12,7 +12,7 @@ ref class HardwareIndexBufferSharedPtr;
 /// <summary>
 /// Class collecting index data source information. 
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class IndexData
 {
 private:

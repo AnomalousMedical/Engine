@@ -18,7 +18,7 @@ typedef System::Collections::Generic::List<HardwareBuffer::Usage> BufferUsageLis
 /// <summary>
 /// A wrapper class for the Ogre::VertexData class.
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class VertexData
 {
 private:

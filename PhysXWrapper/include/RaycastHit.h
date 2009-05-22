@@ -10,7 +10,7 @@ ref class PhysActor;
 /// <summary>
 /// This class wraps the NxRaycastHit.  It cannot be constructed directly use PhysRaycastHit for that.
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class RaycastHit
 {
 private:

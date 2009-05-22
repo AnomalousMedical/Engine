@@ -23,7 +23,7 @@ ref class VertexBufferBinding;
 /// <summary>
 /// Wrapper class for the Ogre::HardwareBufferManager.
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class HardwareBufferManager
 {
 private:

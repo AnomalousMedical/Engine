@@ -69,7 +69,7 @@ typedef System::Collections::Generic::List<float> BoneBlendMask;
 /// parent object which owns the animation, e.g. Skeleton.
 /// </para>
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class Animation
 {
 private:

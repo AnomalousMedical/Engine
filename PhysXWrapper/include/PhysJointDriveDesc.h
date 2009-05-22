@@ -9,7 +9,7 @@ namespace PhysXWrapper
 /// <summary>
 /// Class used to describe drive properties for a NxD6Joint.
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class PhysJointDriveDesc
 {
 internal:

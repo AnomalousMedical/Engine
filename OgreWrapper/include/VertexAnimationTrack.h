@@ -25,7 +25,7 @@ ref class VertexData;
 /// <summary>
 /// Specialised AnimationTrack for dealing with changing vertex position information. 
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class VertexAnimationTrack : public AnimationTrack
 {
 public:

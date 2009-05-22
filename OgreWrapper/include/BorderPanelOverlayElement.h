@@ -12,7 +12,7 @@ namespace OgreWrapper{
 /// <summary>
 /// 
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class BorderPanelOverlayElement : public PanelOverlayElement
 {
 private:

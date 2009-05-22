@@ -11,7 +11,7 @@ ref class PhysMaterial;
 /// <summary>
 /// Super class for shape descriptors.
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class PhysShapeDesc
 {
 protected:

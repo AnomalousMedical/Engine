@@ -18,7 +18,7 @@ namespace OgreWrapper
 /// based on blending poses together. 
 /// </para>
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class Pose
 {
 private:

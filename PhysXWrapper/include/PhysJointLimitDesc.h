@@ -8,7 +8,7 @@ namespace PhysXWrapper
 /// <summary>
 /// Describes a joint limit.
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class PhysJointLimitDesc
 {
 internal:

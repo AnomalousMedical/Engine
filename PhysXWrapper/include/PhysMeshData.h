@@ -22,7 +22,7 @@ namespace PhysXWrapper
 /// instead of reading from them. 
 /// </para>
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class PhysMeshData
 {
 private:

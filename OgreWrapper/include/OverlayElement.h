@@ -54,7 +54,7 @@ public enum class GuiVerticalAlignment : unsigned int
 /// <summary>
 /// 
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class OverlayElement abstract
 {
 private:

@@ -14,7 +14,7 @@ ref class PhysMeshData;
 /// <summary>
 /// Descriptor class for PhysSoftBody. 
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class PhysSoftBodyDesc
 {
 private:

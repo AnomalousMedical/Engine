@@ -15,7 +15,7 @@ namespace PhysXWrapper
 /// descriptor. After the creation the user may discard the basic mesh data.
 /// </para>
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class PhysSoftBodyMeshDesc
 {
 private:

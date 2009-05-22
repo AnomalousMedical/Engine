@@ -21,7 +21,6 @@ namespace OgreWrapper
 /// This class wraps a native ManualObjectSection.
 /// </summary>
 [Engine::Attributes::NativeSubsystemType]
-[Engine::Attributes::DoNotSaveAttribute]
 public ref class ManualObjectSection
 {
 private:

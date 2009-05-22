@@ -54,7 +54,7 @@ typedef System::Collections::Generic::IEnumerator<Bone^> BoneIterator;
 /// format. They are loaded on demand, especially when referenced by a Mesh. 
 /// </para>
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class Skeleton : Resource
 {
 private:

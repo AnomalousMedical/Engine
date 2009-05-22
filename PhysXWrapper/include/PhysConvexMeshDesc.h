@@ -11,7 +11,7 @@ namespace PhysXWrapper
 /// Wrapper for NxConvexMeshDesc.
 /// Descriptor class for NxConvexMesh.
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class PhysConvexMeshDesc
 {
 internal:

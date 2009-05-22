@@ -9,7 +9,7 @@ namespace OgreWrapper{
 
 ref class MaterialPtr;
 
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class SubEntity
 {
 private:

@@ -14,7 +14,7 @@ typedef System::Collections::Generic::Dictionary<System::IntPtr, PhysSoftBodyMes
 /// <summary>
 /// A soft body mesh object.
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class PhysSoftBodyMesh
 {
 private:

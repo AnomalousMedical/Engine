@@ -16,8 +16,7 @@ ref class PhysShape;
 /// <summary>
 /// A wrapper for the SoftBody class.
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
-[Engine::Attributes::NativeSubsystemType]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class PhysSoftBody
 {
 private:

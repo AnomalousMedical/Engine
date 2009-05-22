@@ -23,7 +23,7 @@ ref class MovableObject;
 /// This is where Cameras, RenderEntities, Lights etc are created and added to
 /// a scene.
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class RaySceneQuery
 {
 internal:

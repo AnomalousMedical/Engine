@@ -21,7 +21,7 @@ public delegate void ResourcesInitialized();
 /// <summary>
 /// This class wraps Ogre's ResourceGroupManager class.
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class OgreResourceGroupManager
 {
 private:

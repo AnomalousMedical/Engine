@@ -17,7 +17,7 @@ ref class Node;
 /// <summary>
 /// Specialised AnimationTrack for dealing with node transforms. 
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class NodeAnimationTrack : public AnimationTrack
 {
 private:

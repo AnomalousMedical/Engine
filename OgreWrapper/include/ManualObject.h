@@ -30,7 +30,6 @@ typedef gcroot<ManualObject^> ManualObjectRoot;
 /// This class wraps a native manual object.
 /// </summary>
 [Engine::Attributes::NativeSubsystemType]
-[Engine::Attributes::DoNotSaveAttribute]
 public ref class ManualObject : MovableObject
 {
 private:

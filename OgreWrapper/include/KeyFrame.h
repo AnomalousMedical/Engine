@@ -17,7 +17,7 @@ namespace OgreWrapper
 /// frames. 
 /// </para>
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class KeyFrame abstract
 {
 private:

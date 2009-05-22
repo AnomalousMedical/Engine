@@ -41,7 +41,6 @@ public enum class MovableTypes : unsigned int
 /// This abstract class allows SceneNodes to have subclasses attached to them.
 /// </summary>
 [Engine::Attributes::NativeSubsystemType]
-[Engine::Attributes::DoNotSaveAttribute]
 public ref class MovableObject abstract
 {
 private:

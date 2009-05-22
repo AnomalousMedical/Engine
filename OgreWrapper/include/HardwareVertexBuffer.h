@@ -14,7 +14,7 @@ namespace OgreWrapper{
 /// <summary>
 /// Specialisation of HardwareBuffer for vertex buffers.
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class HardwareVertexBuffer : public HardwareBuffer
 {
 private:

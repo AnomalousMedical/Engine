@@ -10,7 +10,7 @@ namespace OgreWrapper{
 ref class Overlay;
 ref class OverlayElement;
 
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class OverlayManager
 {
 private:

@@ -20,7 +20,7 @@ namespace OgreWrapper
 /// <summary>
 /// A subclass of RenderTarget that is specific to rendering into a window.
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class RenderWindow : public RenderTarget
 {
 private:

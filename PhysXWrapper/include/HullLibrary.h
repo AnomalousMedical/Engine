@@ -22,7 +22,7 @@ ref class HullResult;
 /// <summary>
 /// The interface class for the library.
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class HullLibrary
 {
 private:

@@ -26,7 +26,6 @@ typedef System::Collections::Generic::Dictionary<System::String^, MovableObject^
 /// rendering objects can be attached to these nodes.
 /// </summary>
 [Engine::Attributes::NativeSubsystemType]
-[Engine::Attributes::DoNotSaveAttribute]
 public ref class SceneNode : public Node
 {
 private:

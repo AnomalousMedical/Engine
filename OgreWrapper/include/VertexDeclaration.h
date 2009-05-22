@@ -39,7 +39,7 @@ typedef System::Collections::Generic::List<VertexElement^> VertexElementList;
 /// created and destroyed using the HardwareBufferManager. 
 /// </para>
 /// </remarks>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class VertexDeclaration
 {
 private:

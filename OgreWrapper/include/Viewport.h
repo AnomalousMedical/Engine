@@ -19,7 +19,7 @@ namespace OgreWrapper
 /// A viewport is where a camera places its output which is then put onto the
 /// viewport's render target.
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class Viewport
 {
 private:

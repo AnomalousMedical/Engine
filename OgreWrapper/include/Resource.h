@@ -8,7 +8,7 @@ namespace Ogre
 namespace OgreWrapper
 {
 
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class Resource abstract
 {
 public:

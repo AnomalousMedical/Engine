@@ -16,7 +16,7 @@ namespace OgreWrapper
 /// Specialised KeyFrame which stores absolute vertex positions for a complete
 /// buffer, designed to be interpolated with other keys in the same track. 
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class VertexMorphKeyFrame : public KeyFrame
 {
 private:

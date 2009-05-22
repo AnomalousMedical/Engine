@@ -22,7 +22,6 @@ namespace OgreWrapper
 /// Provides a wrapper for a native light.
 /// </summary>
 [Engine::Attributes::NativeSubsystemType]
-[Engine::Attributes::DoNotSaveAttribute]
 public ref class Light : MovableObject
 {
 public:

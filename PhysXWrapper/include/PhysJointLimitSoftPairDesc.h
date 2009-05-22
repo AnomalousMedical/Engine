@@ -10,7 +10,7 @@ ref class PhysJointLimitSoftDesc;
 /// <summary>
 /// Describes a pair of joint limits.
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class PhysJointLimitSoftPairDesc
 {
 private:

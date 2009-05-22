@@ -32,7 +32,7 @@ public:
 /// along with a stack trace of where they were created. It is very important to
 /// call dispose in the appropriate place if a leak occures.
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class HardwareVertexBufferSharedPtr
 {
 private:

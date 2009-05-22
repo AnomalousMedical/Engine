@@ -176,7 +176,7 @@ public enum class VertexAnimationType : unsigned int
 /// change this behaviour using setUseShortestRotationPath() method. 
 /// </para>
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class AnimationTrack abstract
 {
 private:

@@ -7,7 +7,7 @@ namespace PhysXWrapper
 
 ref class PhysTriangleMeshDesc;
 
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class PhysTriangleMesh
 {
 internal:

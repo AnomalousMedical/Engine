@@ -19,7 +19,7 @@ typedef System::Collections::Generic::IEnumerable<PhysShapeDesc^> ShapeIter;
 /// Actor Descriptor. This structure is used to save and load the state of PhysActor objects.
 /// See PhysX docs for more information.
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class PhysActorDesc
 {
 private:

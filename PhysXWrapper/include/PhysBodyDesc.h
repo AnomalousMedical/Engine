@@ -11,7 +11,7 @@ namespace PhysXWrapper
 /// <summary>
 /// Wrapper for the NxBodyDesc class.
 /// </summary>
-[Engine::Attributes::DoNotSaveAttribute]
+[Engine::Attributes::NativeSubsystemTypeAttribute]
 public ref class PhysBodyDesc
 {
 internal:
