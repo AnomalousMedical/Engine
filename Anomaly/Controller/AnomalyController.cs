@@ -160,6 +160,8 @@ namespace Anomaly
                 debugVisualizers.Add(visualizer.Text, visualizer);
             }
 
+            mainForm.SuspendLayout();
+
             //Attempt to restore windows, or create default layout.
             if (!mainForm.restoreWindows(AnomalyConfig.DocRoot + "/windows.ini", getDockContent))
             {
@@ -174,6 +176,8 @@ namespace Anomaly
                 }
                 mainForm.showDockContent(consoleWindow);
             }
+
+            mainForm.ResumeLayout();
         }
 
         /// <summary>

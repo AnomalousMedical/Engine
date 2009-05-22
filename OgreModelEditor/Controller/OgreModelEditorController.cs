@@ -142,6 +142,8 @@ namespace OgreModelEditor
             drawingWindowController.initialize(this, eventManager, pluginManager.RendererPlugin, OgreModelEditorConfig.ConfigFile);
             modelController = new ModelController();
 
+            mainForm.SuspendLayout();
+
             //Initialize GUI
             mainForm.initialize(this);
             if (!mainForm.restoreWindows(OgreModelEditorConfig.DocRoot + "/windows.ini", getDockContent))
@@ -149,6 +151,8 @@ namespace OgreModelEditor
                 mainForm.showDockContent(consoleWindow);
                 drawingWindowController.createOneWaySplit();
             }
+
+            mainForm.ResumeLayout();
         }
 
         public void start()
