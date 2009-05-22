@@ -40,7 +40,8 @@ namespace Engine
         public bool allowMember(MemberWrapper wrapper)
         {
             return wrapper.getCustomAttributes(typeof(DoNotSaveAttribute), true).Length == 0 
-                && wrapper.getWrappedType().GetCustomAttributes(typeof(DoNotSaveAttribute), true).Length == 0;
+                && wrapper.getWrappedType().GetCustomAttributes(typeof(DoNotSaveAttribute), true).Length == 0
+                && wrapper.getWrappedType().GetCustomAttributes(typeof(NativeSubsystemTypeAttribute), true).Length == 0;
         }
 
         /// <summary>
