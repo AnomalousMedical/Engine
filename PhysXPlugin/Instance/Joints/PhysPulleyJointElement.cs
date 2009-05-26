@@ -9,15 +9,15 @@ namespace PhysXPlugin
 {
     public class PhysPulleyJointElement : PhysJointElementBase<PhysPulleyJoint>
     {
-        internal PhysPulleyJointElement(Identifier jointId, PhysPulleyJoint joint, PhysXSceneManager scene, Subscription subscription)
-            : base(jointId, joint, scene, subscription)
+        internal PhysPulleyJointElement(String name, PhysPulleyJoint joint, PhysXSceneManager scene, Subscription subscription)
+            : base(name, joint, scene, subscription)
         {
 
         }
 
         public override SimElementDefinition saveToDefinition()
         {
-            return new PhysPulleyJointDefinition(jointId.ElementName, this);
+            return new PhysPulleyJointDefinition(Name, this);
         }
     }
 }

@@ -9,15 +9,15 @@ namespace PhysXPlugin
 {
     public class PhysDistanceJointElement : PhysJointElementBase<PhysDistanceJoint>
     {
-        internal PhysDistanceJointElement(Identifier jointId, PhysDistanceJoint joint, PhysXSceneManager scene, Subscription subscription)
-            : base(jointId, joint, scene, subscription)
+        internal PhysDistanceJointElement(String name, PhysDistanceJoint joint, PhysXSceneManager scene, Subscription subscription)
+            : base(name, joint, scene, subscription)
         {
 
         }
 
         public override SimElementDefinition saveToDefinition()
         {
-            return new PhysDistanceJointDefinition(jointId.ElementName, this);
+            return new PhysDistanceJointDefinition(Name, this);
         }
     }
 }

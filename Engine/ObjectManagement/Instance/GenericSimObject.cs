@@ -40,7 +40,7 @@ namespace Engine.ObjectManagement
         /// <summary>
         /// Dispose function.
         /// </summary>
-        public void Dispose()
+        public override void Dispose()
         {
             foreach (SimElement element in elements)
             {
@@ -52,7 +52,7 @@ namespace Engine.ObjectManagement
         /// Add a SimElement to this SimObject.
         /// </summary>
         /// <param name="element">The element to add.</param>
-        public void addElement(SimElement element)
+        public override void addElement(SimElement element)
         {
             elements.Add(element);
             element.setSimObject(this);
@@ -99,7 +99,7 @@ namespace Engine.ObjectManagement
         /// <param name="translation">The translation to set.</param>
         /// <param name="rotation">The rotation to set.</param>
         /// <param name="trigger">The object that triggered the update. Can be null.</param>
-        public void updatePosition(ref Vector3 translation, ref Quaternion rotation, SimElement trigger)
+        public override void updatePosition(ref Vector3 translation, ref Quaternion rotation, SimElement trigger)
         {
             this.translation = translation;
             this.rotation = rotation;
@@ -117,7 +117,7 @@ namespace Engine.ObjectManagement
         /// </summary>
         /// <param name="translation">The translation to set.</param>
         /// <param name="trigger">The object that triggered the update. Can be null.</param>
-        public void updateTranslation(ref Vector3 translation, SimElement trigger)
+        public override void updateTranslation(ref Vector3 translation, SimElement trigger)
         {
             this.translation = translation;
             foreach (SimElement element in elements)
@@ -134,7 +134,7 @@ namespace Engine.ObjectManagement
         /// </summary>
         /// <param name="rotation">The rotation to set.</param>
         /// <param name="trigger">The object that triggered the update. Can be null.</param>
-        public void updateRotation(ref Quaternion rotation, SimElement trigger)
+        public override void updateRotation(ref Quaternion rotation, SimElement trigger)
         {
             this.rotation = rotation;
             foreach (SimElement element in elements)
@@ -151,7 +151,7 @@ namespace Engine.ObjectManagement
         /// </summary>
         /// <param name="scale">The scale to set.</param>
         /// <param name="trigger">The object that triggered the update. Can be null.</param>
-        public void updateScale(ref Vector3 scale, SimElement trigger)
+        public override void updateScale(ref Vector3 scale, SimElement trigger)
         {
             this.scale = scale;
             foreach (SimElement element in elements)
@@ -170,7 +170,7 @@ namespace Engine.ObjectManagement
         /// possible.
         /// </summary>
         /// <param name="enabled">True to enable the SimObject, false to disable it.</param>
-        public void setEnabled(bool enabled)
+        public override void setEnabled(bool enabled)
         {
             this.enabled = enabled;
             foreach (SimElement element in elements)
@@ -184,7 +184,7 @@ namespace Engine.ObjectManagement
         /// </summary>
         /// <param name="definitionName">The name to give the SimObjectDefinition.</param>
         /// <returns>A new SimObjectDefinition for this SimObject.</returns>
-        public SimObjectDefinition saveToDefinition(String definitionName)
+        public override SimObjectDefinition saveToDefinition(String definitionName)
         {
             GenericSimObjectDefinition definition = new GenericSimObjectDefinition(definitionName);
             definition.Enabled = Enabled;
@@ -206,7 +206,7 @@ namespace Engine.ObjectManagement
         /// </summary>
         /// <param name="name">The name of the SimElement to retrieve.</param>
         /// <returns>The SimElement specified by name or null if it cannot be found.</returns>
-        public SimElement getElement(String name)
+        public override SimElement getElement(String name)
         {
             foreach (SimElement element in elements)
             {
@@ -225,7 +225,7 @@ namespace Engine.ObjectManagement
         /// <summary>
         /// Get the name of this SimObject.
         /// </summary>
-        public String Name
+        public override String Name
         {
             get
             {
@@ -236,7 +236,7 @@ namespace Engine.ObjectManagement
         /// <summary>
         /// Get the enabled status of this SimObject.
         /// </summary>
-        public bool Enabled
+        public override bool Enabled
         {
             get
             {
@@ -247,7 +247,7 @@ namespace Engine.ObjectManagement
         /// <summary>
         /// Get the translation of this SimObject.
         /// </summary>
-        public Vector3 Translation
+        public override Vector3 Translation
         {
             get
             {
@@ -258,7 +258,7 @@ namespace Engine.ObjectManagement
         /// <summary>
         /// Get the rotation of the SimObject.
         /// </summary>
-        public Quaternion Rotation
+        public override Quaternion Rotation
         {
             get
             {
@@ -269,7 +269,7 @@ namespace Engine.ObjectManagement
         /// <summary>
         /// Get the scale of the SimObject.
         /// </summary>
-        public Vector3 Scale
+        public override Vector3 Scale
         {
             get
             {

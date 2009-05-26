@@ -9,15 +9,15 @@ namespace PhysXPlugin
 {
     public class PhysFixedJointElement : PhysJointElementBase<PhysFixedJoint>
     {
-        internal PhysFixedJointElement(Identifier jointId, PhysFixedJoint joint, PhysXSceneManager scene, Subscription subscription)
-            :base(jointId, joint, scene, subscription)
+        internal PhysFixedJointElement(String name, PhysFixedJoint joint, PhysXSceneManager scene, Subscription subscription)
+            :base(name, joint, scene, subscription)
         {
 
         }
 
         public override SimElementDefinition saveToDefinition()
         {
-            return new PhysFixedJointDefinition(jointId.ElementName, this);
+            return new PhysFixedJointDefinition(Name, this);
         }
     }
 }

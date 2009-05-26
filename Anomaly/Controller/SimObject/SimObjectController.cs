@@ -72,9 +72,8 @@ namespace Anomaly
         public void createSimObject(SimObjectDefinition definition)
         {
             SimObjectBase instance = definition.register(subScene);
-            controller.SceneController.createSimObjects();
-
             simObjectManager.addSimObject(instance);
+            controller.SceneController.createSimObjects();
             simObjectManagerDefiniton.addSimObject(definition);
             createSelectable(definition, instance);
         }
@@ -210,8 +209,8 @@ namespace Anomaly
                 controller.showObjectEditor(selectable.Definition.getEditInterface());
                 simObjectManager.destroySimObject(selectable.Instance.Name);
                 SimObjectBase instance = selectable.Definition.register(subScene);
-                controller.SceneController.createSimObjects();
                 simObjectManager.addSimObject(instance);
+                controller.SceneController.createSimObjects();
                 selectable.Instance = instance;
             }
         }

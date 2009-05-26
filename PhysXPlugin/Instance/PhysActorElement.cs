@@ -22,7 +22,6 @@ namespace PhysXPlugin
         private PhysXSceneManager scene;
         private bool changeKinematicStatus;
         private bool changeDisableCollisionStatus;
-        private Identifier actorId;
         private String shapeName;
 
         #endregion
@@ -36,12 +35,11 @@ namespace PhysXPlugin
         /// <param name="scene">The scene the actor belongs to.</param>
         /// <param name="name">The name of this Element.</param>
         /// <param name="subscription">The subscription of events this Element listens to.</param>
-        internal PhysActorElement(PhysActor actor, PhysXSceneManager scene, Identifier name, Subscription subscription)
-            : base(name.ElementName, subscription)
+        internal PhysActorElement(PhysActor actor, PhysXSceneManager scene, String name, Subscription subscription)
+            : base(name, subscription)
         {
             this.actor = actor;
             this.scene = scene;
-            this.actorId = name;
             this.shapeName = null;
             actor.setActiveTransformCallback(this);
             changeKinematicStatus = actor.isDynamic() && !actor.readBodyFlag(BodyFlag.NX_BF_KINEMATIC);
@@ -58,7 +56,7 @@ namespace PhysXPlugin
         /// </summary>
         protected override void Dispose()
         {
-            scene.destroyPhysActor(actorId);
+            scene.destroyPhysActor(this);
         }
 
         /// <summary>

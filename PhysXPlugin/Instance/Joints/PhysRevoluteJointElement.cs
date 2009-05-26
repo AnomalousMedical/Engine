@@ -9,15 +9,15 @@ namespace PhysXPlugin
 {
     public class PhysRevoluteJointElement : PhysJointElementBase<PhysRevoluteJoint>
     {
-        internal PhysRevoluteJointElement(Identifier jointId, PhysRevoluteJoint joint, PhysXSceneManager scene, Subscription subscription)
-            : base(jointId, joint, scene, subscription)
+        internal PhysRevoluteJointElement(String name, PhysRevoluteJoint joint, PhysXSceneManager scene, Subscription subscription)
+            : base(name, joint, scene, subscription)
         {
 
         }
 
         public override SimElementDefinition saveToDefinition()
         {
-            return new PhysRevoluteJointDefinition(jointId.ElementName, this);
+            return new PhysRevoluteJointDefinition(Name, this);
         }
     }
 }

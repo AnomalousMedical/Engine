@@ -131,7 +131,6 @@
     <Compile Include="Reflection\EnumReflectedVariable.cs" />
     <Compile Include="Reflection\FieldMemberWrapper.cs" />
     <Compile Include="Reflection\FloatReflectedVariable.cs" />
-    <Compile Include="Reflection\IdentifierReflectedVariable.cs" />
     <Compile Include="Reflection\IntReflectedVariable.cs" />
     <Compile Include="Reflection\LongReflectedVariable.cs" />
     <Compile Include="Reflection\MemberScannerFilter.cs" />
@@ -141,7 +140,6 @@
     <Compile Include="ObjectManagement\Construction\SimElementFactory.cs" />
     <Compile Include="ObjectManagement\Definition\SimElementDefinition.cs" />
     <Compile Include="ObjectManagement\Definition\SimObjectDefinition.cs" />
-    <Compile Include="ObjectManagement\Identifier.cs" />
     <Compile Include="ObjectManagement\Instance\SimElement.cs" />
     <Compile Include="ObjectManagement\Instance\SimElementManager.cs" />
     <Compile Include="ObjectManagement\Instance\SimObject.cs" />
@@ -191,7 +189,6 @@
     <Compile Include="Saving\XMLSaver\Values\XmlDouble.cs" />
     <Compile Include="Saving\XMLSaver\Values\XmlEnum.cs" />
     <Compile Include="Saving\XMLSaver\Values\XmlFloat.cs" />
-    <Compile Include="Saving\XMLSaver\Values\XmlIdentifier.cs" />
     <Compile Include="Saving\XMLSaver\Values\XmlInt.cs" />
     <Compile Include="Saving\XMLSaver\Values\XmlLong.cs" />
     <Compile Include="Saving\XMLSaver\Values\XmlQuaternion.cs" />

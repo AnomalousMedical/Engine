@@ -142,12 +142,6 @@ namespace Engine.Saving
             entries.Add(name, new SaveEntry(name, value, typeof(Ray3)));
         }
 
-        public void AddValue(string name, Identifier value)
-        {
-            validate(name, value);
-            entries.Add(name, new SaveEntry(name, value, typeof(Identifier)));
-        }
-
         public void AddValue(string name, Color value)
         {
             validate(name, value);

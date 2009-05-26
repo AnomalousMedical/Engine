@@ -73,9 +73,9 @@ namespace PhysXPlugin
         /// <param name="joint">The joint that was created.</param>
         /// <param name="scene">The scene that contains the joint.</param>
         /// <returns>A new PhysJointElement for this specific joint type.</returns>
-        internal override PhysJointElement createElement(Identifier jointId, PhysJoint joint, PhysXSceneManager scene)
+        internal override PhysJointElement createElement(PhysJoint joint, PhysXSceneManager scene)
         {
-            return new PhysPrismaticJointElement(jointId, (PhysPrismaticJoint)joint, scene, subscription);
+            return new PhysPrismaticJointElement(Name, (PhysPrismaticJoint)joint, scene, subscription);
         }
 
         #region Saveable

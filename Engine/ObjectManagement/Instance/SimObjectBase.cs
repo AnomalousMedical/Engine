@@ -9,15 +9,20 @@ namespace Engine.ObjectManagement
     /// This is the class new SimObjects should be extended from as it provides
     /// the entire interface.
     /// </summary>
-    public interface SimObjectBase : SimObject, IDisposable
+    public abstract class SimObjectBase : SimObject, IDisposable
     {
         #region Functions
+
+        /// <summary>
+        /// Dispose function. Destroys subsystem objects, which may or may not be unmanaged.
+        /// </summary>
+        public abstract void Dispose();
 
         /// <summary>
         /// Add a SimElement to this SimObject.
         /// </summary>
         /// <param name="element">The element to add.</param>
-        void addElement(SimElement element);
+        public abstract void addElement(SimElement element);
 
         /// <summary>
         /// Update the position of the SimObject.
@@ -25,28 +30,28 @@ namespace Engine.ObjectManagement
         /// <param name="translation">The translation to set.</param>
         /// <param name="rotation">The rotation to set.</param>
         /// <param name="trigger">The object that triggered the update. Can be null.</param>
-        void updatePosition(ref Vector3 translation, ref Quaternion rotation, SimElement trigger);
+        public abstract void updatePosition(ref Vector3 translation, ref Quaternion rotation, SimElement trigger);
 
         /// <summary>
         /// Update the translation of the SimObject.
         /// </summary>
         /// <param name="translation">The translation to set.</param>
         /// <param name="trigger">The object that triggered the update. Can be null.</param>
-        void updateTranslation(ref Vector3 translation, SimElement trigger);
+        public abstract void updateTranslation(ref Vector3 translation, SimElement trigger);
 
         /// <summary>
         /// Update the rotation of the SimObject.
         /// </summary>
         /// <param name="rotation">The rotation to set.</param>
         /// <param name="trigger">The object that triggered the update. Can be null.</param>
-        void updateRotation(ref Quaternion rotation, SimElement trigger);
+        public abstract void updateRotation(ref Quaternion rotation, SimElement trigger);
 
         /// <summary>
         /// Update the scale of the SimObject.
         /// </summary>
         /// <param name="scale">The scale to set.</param>
         /// <param name="trigger">The object that triggered the update. Can be null.</param>
-        void updateScale(ref Vector3 scale, SimElement trigger);
+        public abstract void updateScale(ref Vector3 scale, SimElement trigger);
 
         /// <summary>
         /// Set the SimObject as enabled or disabled. The subsystems will
@@ -55,14 +60,14 @@ namespace Engine.ObjectManagement
         /// possible.
         /// </summary>
         /// <param name="enabled">True to enable the SimObject, false to disable it.</param>
-        void setEnabled(bool enabled);
+        public abstract void setEnabled(bool enabled);
 
         /// <summary>
         /// Save this SimObject to a SimObjectDefinition.
         /// </summary>
         /// <param name="definitionName">The name to give the SimObjectDefinition.</param>
         /// <returns>A new SimObjectDefinition for this SimObject.</returns>
-        SimObjectDefinition saveToDefinition(String definitionName);
+        public abstract SimObjectDefinition saveToDefinition(String definitionName);
 
         #endregion Functions
     }

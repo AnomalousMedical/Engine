@@ -35,7 +35,6 @@ namespace Engine.Saving.XMLSaver
             addXmlValue<decimal>(new XmlDecimal(this));
             addXmlValue<double>(new XmlDouble(this));
             addXmlValue<float>(new XmlFloat(this));
-            addXmlValue<Identifier>(new XmlIdentifier(this));
             addXmlValue<int>(new XmlInt(this));
             addXmlValue<long>(new XmlLong(this));
             addXmlValue<Quaternion>(new XmlQuaternion(this));

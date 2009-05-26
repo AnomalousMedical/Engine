@@ -161,7 +161,7 @@ namespace Engine
         /// <returns>The matching type or null if the type cannot be found.</returns>
         public Type getType(String assemblyQualifiedName)
         {
-            Type type = Type.GetType(assemblyQualifiedName);
+            Type type = Type.GetType(assemblyQualifiedName, false);
             if (type == null)
             {
                 String typeName = assemblyQualifiedName.Split(SPLIT)[0];

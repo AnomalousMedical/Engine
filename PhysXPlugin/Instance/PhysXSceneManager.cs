@@ -20,8 +20,6 @@ namespace PhysXPlugin
         private PhysScene scene;
         private PhysSDK physSDK;
         private PhysFactory factory;
-        private Dictionary<Identifier, PhysActorElement> actors = new Dictionary<Identifier, PhysActorElement>();
-        private Dictionary<Identifier, PhysJointElement> joints = new Dictionary<Identifier, PhysJointElement>();
         private String name;
         private UpdateTimer mainTimer;
 
@@ -116,20 +114,11 @@ namespace PhysXPlugin
         /// <param name="name">The name of the PhysActor.</param>
         /// <param name="actorDesc">The description to build the actor with.</param>
         /// <returns>The newly created PhysActor or null if an error occured.</returns>
-        internal PhysActorElement createPhysActor(Identifier name, PhysActorDefinition actorDesc)
+        internal PhysActorElement createPhysActor(PhysActorDefinition actorDesc)
         {
-            if (!actors.ContainsKey(name))
-            {
-                PhysActor actor = scene.createActor(actorDesc.ActorDesc);
-                PhysActorElement element = new PhysActorElement(actor, this, name, actorDesc.Subscription);
-                actors.Add(name, element);
-                return element;
-            }
-            else
-            {
-                Log.Default.sendMessage("Attempted to create an actor named {0} that already exists. No changes made.", LogLevel.Warning, PhysXInterface.PluginName, name);
-                return null;
-            }
+            PhysActor actor = scene.createActor(actorDesc.ActorDesc);
+            PhysActorElement element = new PhysActorElement(actor, this, actorDesc.Name, actorDesc.Subscription);
+            return element;
         }
 
         /// <summary>
@@ -137,43 +126,21 @@ namespace PhysXPlugin
         /// that is created.
         /// </summary>
         /// <param name="name">The name of the actor to destroy.</param>
-        internal void destroyPhysActor(Identifier name)
+        internal void destroyPhysActor(PhysActorElement actor)
         {
-            if (actors.ContainsKey(name))
-            {
-                scene.releaseActor(actors[name].Actor);
-                actors.Remove(name);
-            }
-            else
-            {
-                Log.Default.sendMessage("Attempted to erase an actor named {0} that does not exist. No changes made.", LogLevel.Warning, PhysXInterface.PluginName, name);
-            }
+            scene.releaseActor(actor.Actor);
         }
 
-        /// <summary>
-        /// Get the PhysActor specified by name.
-        /// </summary>
-        /// <param name="name">The name of the PhysActor.</param>
-        /// <returns>The matching PhysActor or null if it was not found.</returns>
-        internal PhysActorElement getPhysActor(Identifier name)
-        {
-            PhysActorElement actor;
-            actors.TryGetValue(name, out actor);
-            return actor;
-        }
-
-        internal PhysJointElement createJoint(Identifier name, PhysJointDefinition jointDef)
+        internal PhysJointElement createJoint(PhysJointDefinition jointDef)
         {
             PhysJoint joint = scene.createJoint(jointDef.JointDesc);
-            PhysJointElement element = jointDef.createElement(name, joint, this);
-            joints.Add(name, element);
+            PhysJointElement element = jointDef.createElement(joint, this);
             return element;
         }
 
-        internal void destroyJoint(Identifier jointId)
+        internal void destroyJoint(PhysJointElement joint)
         {
-            scene.releaseJoint(joints[jointId].Joint);
-            joints.Remove(jointId);
+            scene.releaseJoint(joint.Joint);
         }
 
         public void sendUpdate(Clock clock)

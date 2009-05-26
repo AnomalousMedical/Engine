@@ -132,11 +132,6 @@ namespace Engine.Saving
             return (T)entries[name].Value;
         }
 
-        public Identifier GetIdentifier(String name)
-        {
-            return (Identifier)entries[name].Value;
-        }
-
         /// <summary>
         /// Internal function to just get the value directly as an object. Used
         /// by the ReflectedSaver.

@@ -9,15 +9,15 @@ namespace PhysXPlugin
 {
     public class PhysPointOnLineJointElement : PhysJointElementBase<PhysPointOnLineJoint>
     {
-        internal PhysPointOnLineJointElement(Identifier jointId, PhysPointOnLineJoint joint, PhysXSceneManager scene, Subscription subscription)
-            : base(jointId, joint, scene, subscription)
+        internal PhysPointOnLineJointElement(String name, PhysPointOnLineJoint joint, PhysXSceneManager scene, Subscription subscription)
+            : base(name, joint, scene, subscription)
         {
 
         }
 
         public override SimElementDefinition saveToDefinition()
         {
-            return new PhysPointOnLineJointDefinition(jointId.ElementName, this);
+            return new PhysPointOnLineJointDefinition(Name, this);
         }
     }
 }

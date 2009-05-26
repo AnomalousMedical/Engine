@@ -170,8 +170,7 @@ namespace PhysXPlugin
             if (actorDesc.isValid())
             {
                 actorDesc.setGlobalPose(instance.Translation, instance.Rotation);
-                Identifier actorId = new Identifier(instance.Name, this.Name);
-                PhysActorElement actor = scene.createPhysActor(actorId, this);
+                PhysActorElement actor = scene.createPhysActor(this);
                 actor.ShapeName = shapeName;
                 instance.addElement(actor);
             }

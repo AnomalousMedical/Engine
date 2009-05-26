@@ -53,8 +53,6 @@ namespace PhysXPlugin
         public PhysJointDefinitionBase(Desc jointDesc, String name, String jointTypeName, Validate validateCallback)
             : base(name)
         {
-            Actor0Name = new Identifier("", "");
-            Actor1Name = new Identifier("", "");
             this.jointTypeName = jointTypeName;
             this.validateCallback = validateCallback;
             this.jointDesc = jointDesc;
@@ -63,8 +61,14 @@ namespace PhysXPlugin
         internal PhysJointDefinitionBase(Desc jointDesc, PhysJointElement joint, String name, String jointTypeName, Validate validateCallback)
             : base(name)
         {
-            Actor0Name = new Identifier(joint.Actor0Identifier);
-            Actor1Name = new Identifier(joint.Actor1Identifier);
+            PhysActorElement actor = joint.Actor0;
+            Actor0SimObject = actor != null ? actor.SimObject.Name : null;
+            Actor0Element = actor != null ? actor.Name : null;
+
+            actor = joint.Actor1;
+            Actor1SimObject = actor != null ? actor.SimObject.Name : null;
+            Actor1Element = actor != null ? actor.Name : null;
+            
             this.jointTypeName = jointTypeName;
             this.validateCallback = validateCallback;
             this.jointDesc = jointDesc;
@@ -72,35 +76,31 @@ namespace PhysXPlugin
 
         internal override void createProduct(SimObjectBase instance, PhysXSceneManager scene)
         {
-            PhysActorElement actor0Element;
-            PhysActorElement actor1Element;
-            if (Actor0Name.SimObjectName == "this")
+            PhysActorElement actor0Element = null;
+            PhysActorElement actor1Element = null;
+
+            SimObject simObject0 = instance.getOtherSimObject(Actor0SimObject);
+            if (simObject0 != null)
             {
-                actor0Element = scene.getPhysActor(new Identifier(instance.Name, Actor0Name.ElementName));
+                actor0Element = simObject0.getElement(Actor0Element) as PhysActorElement;
             }
-            else
+
+            SimObject simObject1 = instance.getOtherSimObject(Actor1SimObject);
+            if (simObject1 != null)
             {
-                actor0Element = scene.getPhysActor(Actor0Name);
+                actor1Element = simObject1.getElement(Actor1Element) as PhysActorElement;
             }
-            if (Actor1Name.SimObjectName == "this")
-            {
-                actor1Element = scene.getPhysActor(new Identifier(instance.Name, Actor1Name.ElementName));
-            }
-            else
-            {
-                actor1Element = scene.getPhysActor(Actor1Name);
-            }
+
             jointDesc.set_Actor(0, actor0Element != null ? actor0Element.Actor : null);
             jointDesc.set_Actor(1, actor1Element != null ? actor1Element.Actor : null);
             if (jointDesc.get_Actor(0) != null || jointDesc.get_Actor(1) != null)
             {
-                Identifier identifier = new Identifier(instance.Name, this.Name);
                 jointDesc.setGlobalAnchor(instance.Translation);
                 jointDesc.setGlobalAxis(Quaternion.quatRotate(instance.Rotation, Vector3.Forward));
                 configureJoint();
-                PhysJointElement joint = scene.createJoint(identifier, this);
-                joint.Actor0Identifier = new Identifier(Actor0Name);
-                joint.Actor1Identifier = new Identifier(Actor1Name);
+                PhysJointElement joint = scene.createJoint(this);
+                joint.Actor0 = actor0Element;
+                joint.Actor1 = actor1Element;
                 instance.addElement(joint);
             }
             else
@@ -159,11 +159,17 @@ namespace PhysXPlugin
             }
         }
 
-        [Editable]//(typeof(PhysActor))]
-        public Identifier Actor0Name { get; set; }
+        [Editable]
+        public String Actor0SimObject { get; set; }
 
         [Editable]//(typeof(PhysActor))]
-        public Identifier Actor1Name { get; set; }
+        public String Actor0Element { get; set; }
+
+        [Editable]
+        public String Actor1SimObject { get; set; }
+
+        [Editable]//(typeof(PhysActor))]
+        public String Actor1Element { get; set; }
 
         [Editable]
         public Vector3 GlobalAxis { get; set; }
@@ -312,8 +318,10 @@ namespace PhysXPlugin
 
         #region Saveable
 
-        private const String ACTOR_0_NAME = "PhysJointDefinitionActor0Name";
-        private const String ACTOR_1_NAME = "PhysJointDefinitionActor1Name";
+        private const String ACTOR_0_SIMOBJECT = "PhysJointDefinitionActor0SimObject";
+        private const String ACTOR_0_ELEMENT = "PhysJointDefinitionActor0Element";
+        private const String ACTOR_1_SIMOBJECT = "PhysJointDefinitionActor1SimObject";
+        private const String ACTOR_1_ELEMENT = "PhysJointDefinitionActor1Element";
         private const String GLOBAL_AXIS = "PhysJointDefinitionGlobalAxis";
         private const String GLOBAL_ANCHOR = "PhysJointDefinitionGlobalAnchor";
         private const String MAX_FORCE = "PhysJointDefinitionMaxForce";
@@ -333,8 +341,10 @@ namespace PhysXPlugin
             : base(info)
         {
             this.jointDesc = jointDesc;
-            Actor0Name = info.GetIdentifier(ACTOR_0_NAME);
-            Actor1Name = info.GetIdentifier(ACTOR_1_NAME);
+            Actor0SimObject = info.GetString(ACTOR_0_SIMOBJECT);
+            Actor0Element = info.GetString(ACTOR_0_ELEMENT);
+            Actor1SimObject = info.GetString(ACTOR_1_SIMOBJECT);
+            Actor1Element = info.GetString(ACTOR_1_ELEMENT);
             GlobalAxis = info.GetVector3(GLOBAL_AXIS);
             GlobalAnchor = info.GetVector3(GLOBAL_ANCHOR);
             MaxForce = info.GetFloat(MAX_FORCE);
@@ -353,8 +363,10 @@ namespace PhysXPlugin
         public override void getInfo(SaveInfo info)
         {
             base.getInfo(info);
-            info.AddValue(ACTOR_0_NAME, Actor0Name);
-            info.AddValue(ACTOR_1_NAME, Actor1Name);
+            info.AddValue(ACTOR_0_SIMOBJECT, Actor0SimObject);
+            info.AddValue(ACTOR_0_ELEMENT, Actor0Element);
+            info.AddValue(ACTOR_1_SIMOBJECT, Actor1SimObject);
+            info.AddValue(ACTOR_1_ELEMENT, Actor1Element);
             info.AddValue(GLOBAL_AXIS, GlobalAxis);
             info.AddValue(GLOBAL_ANCHOR, GlobalAnchor);
             info.AddValue(MAX_FORCE, MaxForce);

@@ -30,7 +30,9 @@ namespace Engine.ObjectManagement
             foreach (SimObjectBase simObject in simObjects.Values)
             {
                 simObject.Dispose();
+                simObject._unsetSimObjectManager();
             }
+            simObjects.Clear();
         }
 
         /// <summary>
@@ -40,6 +42,7 @@ namespace Engine.ObjectManagement
         public void addSimObject(SimObjectBase simObject)
         {
             simObjects.Add(simObject.Name, simObject);
+            simObject._setSimObjectManager(this);
         }
 
         /// <summary>
@@ -50,6 +53,7 @@ namespace Engine.ObjectManagement
         public void removeSimObject(SimObjectBase simObject)
         {
             simObjects.Remove(simObject.Name);
+            simObject._unsetSimObjectManager();
         }
 
         /// <summary>
@@ -59,7 +63,7 @@ namespace Engine.ObjectManagement
         /// <returns>True if the SimObject is part of this manager.</returns>
         public bool hasSimObject(String name)
         {
-            return simObjects.ContainsKey(name);
+            return name != null && simObjects.ContainsKey(name);
         }
 
         /// <summary>
@@ -82,6 +86,7 @@ namespace Engine.ObjectManagement
             SimObjectBase simObject = simObjects[name];
             simObjects.Remove(name);
             simObject.Dispose();
+            simObject._unsetSimObjectManager();
         }
 
         /// <summary>

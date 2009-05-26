@@ -20,8 +20,8 @@ namespace PhysXPlugin
             get;
         }
 
-        internal Identifier Actor0Identifier { get; set; }
+        public PhysActorElement Actor0 { get; set; }
 
-        internal Identifier Actor1Identifier { get; set; }
+        public PhysActorElement Actor1 { get; set; }
     }
 }

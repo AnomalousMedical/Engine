@@ -9,15 +9,15 @@ namespace PhysXPlugin
 {
     public class PhysSphericalJointElement : PhysJointElementBase<PhysSphericalJoint>
     {
-        internal PhysSphericalJointElement(Identifier jointId, PhysSphericalJoint joint, PhysXSceneManager scene, Subscription subscription)
-            : base(jointId, joint, scene, subscription)
+        internal PhysSphericalJointElement(String name, PhysSphericalJoint joint, PhysXSceneManager scene, Subscription subscription)
+            : base(name, joint, scene, subscription)
         {
 
         }
 
         public override SimElementDefinition saveToDefinition()
         {
-            return new PhysSphericalJointDefinition(jointId.ElementName, this);
+            return new PhysSphericalJointDefinition(Name, this);
         }
     }
 }

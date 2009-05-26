@@ -11,21 +11,19 @@ namespace PhysXPlugin
     public abstract class PhysJointElementBase<JointType> : PhysJointElement
         where JointType : PhysJoint
     {
-        protected Identifier jointId;
         protected JointType joint;
         private PhysXSceneManager scene;
 
-        internal PhysJointElementBase(Identifier jointId, JointType joint, PhysXSceneManager scene, Subscription subscription)
-            :base(jointId.ElementName, subscription)
+        internal PhysJointElementBase(String name, JointType joint, PhysXSceneManager scene, Subscription subscription)
+            :base(name, subscription)
         {
-            this.jointId = jointId;
             this.joint = joint;
             this.scene = scene;
         }
 
         protected override void Dispose()
         {
-            scene.destroyJoint(jointId);
+            scene.destroyJoint(this);
         }
 
         protected override void updatePositionImpl(ref Vector3 translation, ref Quaternion rotation)

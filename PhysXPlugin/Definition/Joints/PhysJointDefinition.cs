@@ -29,7 +29,7 @@ namespace PhysXPlugin
 
         }
 
-        internal abstract PhysJointElement createElement(Identifier jointId, PhysJoint joint, PhysXSceneManager scene);
+        internal abstract PhysJointElement createElement(PhysJoint joint, PhysXSceneManager scene);
 
         internal abstract PhysJointDesc JointDesc
         {

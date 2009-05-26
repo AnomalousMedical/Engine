@@ -22,8 +22,10 @@ namespace Engine.ObjectManagement
     /// New SimObject types should implement the SimObjectBase interface instead
     /// of this one so they provide the entire required interface.
     /// </remarks>
-    public interface SimObject
+    public abstract class SimObject
     {
+        private SimObjectManager simObjectManager;
+
         #region Functions
 
         /// <summary>
@@ -34,7 +36,50 @@ namespace Engine.ObjectManagement
         /// </summary>
         /// <param name="name">The name of the SimElement to retrieve.</param>
         /// <returns>The SimElement specified by name or null if it cannot be found.</returns>
-        SimElement getElement(String name);
+        public abstract SimElement getElement(String name);
+
+        /// <summary>
+        /// Get another SimObject in the same scene. This will return null if the 
+        /// other SimObject could not be found. Passing a name of "this" will return
+        /// this SimObject. This can be used as a way to refer to the same object
+        /// genericly by name through editors.
+        /// </summary>
+        /// <param name="name">The name of the other SimObject. If this is the string "this" this SimObject will be returned.</param>
+        /// <returns>The other SimObject or null if it could not be found.</returns>
+        public SimObject getOtherSimObject(String name)
+        {
+            if (name == "this")
+            {
+                return this;
+            }
+            else
+            {
+                if (simObjectManager != null && simObjectManager.hasSimObject(name))
+                {
+                    return simObjectManager.getSimObject(name);
+                }
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// This function will set the SimObjectManager used to lookup other SimObjects. 
+        /// It should only be called by the SimObjectManager.
+        /// </summary>
+        /// <param name="manager">The SimObjectManager this SimObject now belongs to.</param>
+        internal void _setSimObjectManager(SimObjectManager manager)
+        {
+            simObjectManager = manager;
+        }
+
+        /// <summary>
+        /// This function will unset the SimObjectManager used to lookup other SimObjects.
+        /// It should only be called by the SimObjectManager.
+        /// </summary>
+        internal void _unsetSimObjectManager()
+        {
+            simObjectManager = null;
+        }
 
         #endregion Functions
 
@@ -43,7 +88,7 @@ namespace Engine.ObjectManagement
         /// <summary>
         /// Get the name of this SimObject.
         /// </summary>
-        String Name
+        public abstract String Name
         {
             get;
         }
@@ -51,7 +96,7 @@ namespace Engine.ObjectManagement
         /// <summary>
         /// Get the enabled status of this SimObject.
         /// </summary>
-        bool Enabled
+        public abstract bool Enabled
         {
             get;
         }
@@ -59,7 +104,7 @@ namespace Engine.ObjectManagement
         /// <summary>
         /// Get the translation of this SimObject.
         /// </summary>
-        Vector3 Translation
+        public abstract Vector3 Translation
         {
             get;
         }
@@ -67,7 +112,7 @@ namespace Engine.ObjectManagement
         /// <summary>
         /// Get the rotation of the SimObject.
         /// </summary>
-        Quaternion Rotation
+        public abstract Quaternion Rotation
         {
             get;
         }
@@ -75,7 +120,7 @@ namespace Engine.ObjectManagement
         /// <summary>
         /// Get the scale of the SimObject.
         /// </summary>
-        Vector3 Scale
+        public abstract Vector3 Scale
         {
             get;
         }
