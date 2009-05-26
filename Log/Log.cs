@@ -90,6 +90,20 @@ namespace Logging
         }
 
         /// <summary>
+        /// Print an exception out to the log including all inner exceptions.
+        /// </summary>
+        /// <param name="e">The Exception to print.</param>
+        public void printException(Exception e)
+        {
+            sendMessage("Exception: {0}.\n{1}\n{2}.", LogLevel.Error, "Anomaly", e.GetType().Name, e.Message, e.StackTrace);
+            while (e.InnerException != null)
+            {
+                e = e.InnerException;
+                sendMessage("--Inner exception: {0}.\n{1}\n{2}.", LogLevel.Error, "Anomaly", e.GetType().Name, e.Message, e.StackTrace);
+            }
+        }
+
+        /// <summary>
         /// Shortcut to send a debug message.
         /// </summary>
         /// <param name="message">The message to send.</param>

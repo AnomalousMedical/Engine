@@ -346,13 +346,28 @@ namespace Anomaly
 
         public void importInstances(String filename)
         {
-            XmlTextReader textReader = new XmlTextReader(filename);
-            SimObjectManagerDefinition managerDefintion = simObjectController.getSimObjectManagerDefinition();
-            instanceBuilder.loadInstances(textReader, managerDefintion);
-            simObjectController.setSceneManagerDefintion(managerDefintion);
-            sceneController.destroyScene();
-            sceneController.createScene();
-            textReader.Close();
+            XmlTextReader textReader = null;
+            try
+            {
+                textReader = new XmlTextReader(filename);
+                SimObjectManagerDefinition managerDefintion = simObjectController.getSimObjectManagerDefinition();
+                instanceBuilder.loadInstances(textReader, managerDefintion);
+                simObjectController.setSceneManagerDefintion(managerDefintion);
+                sceneController.destroyScene();
+                sceneController.createScene();
+            }
+            catch(Exception e)
+            {
+                Log.Default.printException(e);
+                MessageBox.Show(mainForm, String.Format("An exception occured when loading the instances:\n{0}.", e.Message), "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (textReader != null)
+                {
+                    textReader.Close();
+                }
+            }
         }
 
         /// <summary>

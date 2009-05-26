@@ -28,12 +28,7 @@ namespace Anomaly
                 }
                 catch (Exception e)
                 {
-                    Log.Default.sendMessage("Exception: {0}.\n{1}\n{2}.", LogLevel.Error, "Anomaly", e.GetType().Name, e.Message, e.StackTrace);
-                    while (e.InnerException != null)
-                    {
-                        e = e.InnerException;
-                        Log.Default.sendMessage("--Inner exception: {0}.\n{1}\n{2}.", LogLevel.Error, "Anomaly", e.GetType().Name, e.Message, e.StackTrace);
-                    }
+                    Log.Default.printException(e);
                     MessageBox.Show(e.Message, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
