@@ -6,6 +6,7 @@ using Engine.ObjectManagement;
 using OgrePlugin;
 using OgreWrapper;
 using Engine;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace OgreModelEditor.Controller
 {
@@ -24,10 +25,15 @@ namespace OgreModelEditor.Controller
         private TextureUnitState fixedTexture;
         private LinkedList<String> modelTextures = new LinkedList<string>();
 
+        OgreModelEditorController controller;
+
+        //GUI
+        private SkeletonWindow skeletonWindow = new SkeletonWindow();
+
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ModelController()
+        public ModelController(OgreModelEditorController controller)
         {
             simObjectDefinition = new GenericSimObjectDefinition("EntitySimObject");
             simObjectDefinition.Enabled = true;
@@ -37,11 +43,27 @@ namespace OgreModelEditor.Controller
             simObjectDefinition.addElement(nodeDefinition);
             fixedFunctionTextured = MaterialManager.getInstance().getByName("FixedFunctionTextured");
             fixedTexture = fixedFunctionTextured.Value.getTechnique(0).getPass(0).getTextureUnitState(0);
+            this.controller = controller;
+        }
+
+        public DockContent getDockContent(String persistString)
+        {
+            if (skeletonWindow.GetType().ToString() == persistString)
+            {
+                return skeletonWindow;
+            }
+            return null;
+        }
+
+        public void createDefaultWindows()
+        {
+            controller.showDockContent(skeletonWindow);
         }
 
         public void Dispose()
         {
             fixedFunctionTextured.Dispose();
+            skeletonWindow.Dispose();
         }
 
         /// <summary>
@@ -227,6 +249,14 @@ namespace OgreModelEditor.Controller
                         }
                     }
                 }
+            }
+            if (entity.hasSkeleton())
+            {
+                skeletonWindow.setSkeleton(entity.getSkeleton());
+            }
+            else
+            {
+                skeletonWindow.clearSkeleton();
             }
         }
 

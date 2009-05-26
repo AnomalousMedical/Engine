@@ -140,7 +140,7 @@ namespace OgreModelEditor
 
             //Initialize controllers
             drawingWindowController.initialize(this, eventManager, pluginManager.RendererPlugin, OgreModelEditorConfig.ConfigFile);
-            modelController = new ModelController();
+            modelController = new ModelController(this);
 
             mainForm.SuspendLayout();
 
@@ -150,6 +150,7 @@ namespace OgreModelEditor
             {
                 mainForm.showDockContent(consoleWindow);
                 drawingWindowController.createOneWaySplit();
+                modelController.createDefaultWindows();
             }
 
             mainForm.ResumeLayout();
@@ -321,6 +322,11 @@ namespace OgreModelEditor
         /// <returns></returns>
         private IDockContent getDockContent(String persistString)
         {
+            DockContent content = modelController.getDockContent(persistString);
+            if (content != null)
+            {
+                return content;
+            }
             if (persistString == typeof(ConsoleWindow).ToString())
             {
                 return consoleWindow;
