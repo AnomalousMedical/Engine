@@ -100,9 +100,12 @@ namespace Anomaly
             foreach (String groupPath in groups)
             {
                 String dir = Path.GetFileName(groupPath);
-                TemplateGroup subGroup = new TemplateGroup(dir, templateWriter);
-                group.addGroup(subGroup);
-                scanForFiles(subGroup);
+                if ((File.GetAttributes(path + Path.DirectorySeparatorChar + dir) & FileAttributes.Hidden) != FileAttributes.Hidden)
+                {
+                    TemplateGroup subGroup = new TemplateGroup(dir, templateWriter);
+                    group.addGroup(subGroup);
+                    scanForFiles(subGroup);
+                }
             }
             String[] templates = Directory.GetFiles(path, "*.tpl", SearchOption.TopDirectoryOnly);
             foreach (String template in templates)

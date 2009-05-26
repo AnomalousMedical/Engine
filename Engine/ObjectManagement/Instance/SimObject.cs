@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Engine;
+using Engine.Attributes;
 
 namespace Engine.ObjectManagement
 {
@@ -22,6 +23,8 @@ namespace Engine.ObjectManagement
     /// New SimObject types should implement the SimObjectBase interface instead
     /// of this one so they provide the entire required interface.
     /// </remarks>
+    [DoNotCopy]
+    [DoNotSave]
     public abstract class SimObject
     {
         private SimObjectManager simObjectManager;

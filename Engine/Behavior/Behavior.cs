@@ -119,6 +119,10 @@ namespace Engine
         /// <param name="reason">The reason the behavior is being blacklisted. This is printed in the log.</param>
         protected void blacklist(String reason)
         {
+            if (valid && currentlyEnabled)
+            {
+                manager.deactivateBehavior(this);
+            }
             valid = false;
             Log.Default.sendMessage("Behavior {0}, type={1} blacklisted.  Reason: {2}", LogLevel.Error, "Behavior", Name, this.GetType().Name, reason);
         }

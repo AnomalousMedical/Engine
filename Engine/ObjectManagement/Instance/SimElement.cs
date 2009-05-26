@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Engine;
+using Engine.Attributes;
 
 namespace Engine.ObjectManagement
 {
@@ -40,6 +41,8 @@ namespace Engine.ObjectManagement
     /// access them. However, the engine core itself does not need to have any
     /// knowledge of the individual SimElements.
     /// </summary>
+    [DoNotCopy]
+    [DoNotSave]
     public abstract class SimElement
     {
         #region Fields
