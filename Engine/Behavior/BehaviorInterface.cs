@@ -21,6 +21,7 @@ namespace Engine
 
         private UpdateTimer timer;
         private EventManager eventManager;
+        private BehaviorDebugInterface debugInterface;
 
         public BehaviorInterface()
         {
@@ -54,7 +55,11 @@ namespace Engine
 
         public DebugInterface getDebugInterface()
         {
-            return null;
+            if (debugInterface == null)
+            {
+                debugInterface = new BehaviorDebugInterface();
+            }
+            return debugInterface;
         }
 
         public void Dispose()

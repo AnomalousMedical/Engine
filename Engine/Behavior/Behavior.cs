@@ -6,6 +6,7 @@ using Engine.ObjectManagement;
 using Engine.Platform;
 using Logging;
 using Engine.Attributes;
+using Engine.Renderer;
 
 namespace Engine
 {
@@ -107,6 +108,16 @@ namespace Engine
         /// <param name="clock">The clock with info about the last update.</param>
         /// <param name="eventManager">The EventManager that is gathering input.</param>
         public abstract void update(Clock clock, EventManager eventManager);
+
+        /// <summary>
+        /// This function can be overwritten to draw debugging information when
+        /// the BehaviorManager draws debug info and the behavior is active.
+        /// </summary>
+        /// <param name="debugDrawing">The DebugDrawingSurface to render to.</param>
+        public virtual void drawDebugInfo(DebugDrawingSurface debugDrawing)
+        {
+
+        }
 
         /// <summary>
         /// This function will blacklist the behavior for this load of the

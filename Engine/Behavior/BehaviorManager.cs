@@ -5,6 +5,7 @@ using System.Text;
 using Engine.Platform;
 using Engine.ObjectManagement;
 using Logging;
+using Engine.Renderer;
 
 namespace Engine
 {
@@ -90,9 +91,25 @@ namespace Engine
             activeBehaviors.Remove(behavior);
         }
 
+        /// <summary>
+        /// Get the BehaviorFactory for this manager.
+        /// </summary>
+        /// <returns></returns>
         internal BehaviorFactory getBehaviorFactory()
         {
             return behaviorFactory;
+        }
+
+        /// <summary>
+        /// Render all active behaviors debug info.
+        /// </summary>
+        /// <param name="debugDrawing"></param>
+        internal void renderDebugInfo(DebugDrawingSurface debugDrawing)
+        {
+            foreach (Behavior behavior in activeBehaviors)
+            {
+                behavior.drawDebugInfo(debugDrawing);
+            }
         }
 
         #region SimElementManager Members
