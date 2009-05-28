@@ -54,11 +54,4 @@ JointProjectionMode PhysSphericalJoint::getProjectionMode()
 	return (JointProjectionMode)typedJoint->getProjectionMode();
 }
 
-NxJointDesc& PhysSphericalJoint::getDesc()
-{
-	NxSphericalJointDesc desc;
-	typedJoint->saveToDesc(desc);
-	return desc;
-}
-
 }

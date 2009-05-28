@@ -55,11 +55,4 @@ PulleyJointFlag PhysPulleyJoint::getFlags()
 	return (PulleyJointFlag)typedJoint->getFlags();
 }
 
-NxJointDesc& PhysPulleyJoint::getDesc()
-{
-	NxPulleyJointDesc desc;
-	typedJoint->saveToDesc(desc);
-	return desc;
-}
-
 }

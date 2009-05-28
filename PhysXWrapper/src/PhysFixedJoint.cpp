@@ -34,11 +34,4 @@ void PhysFixedJoint::loadFromDesc(PhysFixedJointDesc^ desc)
 	typedJoint->loadFromDesc(*desc->joint.Get());
 }
 
-NxJointDesc& PhysFixedJoint::getDesc()
-{
-	NxFixedJointDesc desc;
-	typedJoint->saveToDesc(desc);
-	return desc;
-}
-
 }

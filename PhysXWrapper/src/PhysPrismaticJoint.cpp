@@ -34,11 +34,4 @@ void PhysPrismaticJoint::loadFromDesc(PhysPrismaticJointDesc^ desc)
 	typedJoint->loadFromDesc(*desc->joint.Get());
 }
 
-NxJointDesc& PhysPrismaticJoint::getDesc()
-{
-	NxPrismaticJointDesc desc;
-	typedJoint->saveToDesc(desc);
-	return desc;
-}
-
 }

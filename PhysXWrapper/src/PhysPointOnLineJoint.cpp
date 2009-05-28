@@ -34,11 +34,4 @@ void PhysPointOnLineJoint::loadFromDesc(PhysPointOnLineJointDesc^ desc)
 	typedJoint->loadFromDesc(*desc->joint.Get());
 }
 
-NxJointDesc& PhysPointOnLineJoint::getDesc()
-{
-	NxPointOnLineJointDesc desc;
-	typedJoint->saveToDesc(desc);
-	return desc;
-}
-
 }

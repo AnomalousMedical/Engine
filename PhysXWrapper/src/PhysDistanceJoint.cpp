@@ -34,11 +34,4 @@ void PhysDistanceJoint::loadFromDesc(PhysDistanceJointDesc^ desc)
 	typedJoint->loadFromDesc(*desc->joint.Get());
 }
 
-NxJointDesc& PhysDistanceJoint::getDesc()
-{
-	NxDistanceJointDesc desc;
-	typedJoint->saveToDesc(desc);
-	return desc;
-}
-
 }

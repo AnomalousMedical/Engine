@@ -55,11 +55,4 @@ void PhysD6Joint::setDriveAngularVelocity(Engine::Vector3 angVel)
 	typedJoint->setDriveAngularVelocity(NxVec3(angVel.x, angVel.y, angVel.z));
 }
 
-NxJointDesc& PhysD6Joint::getDesc()
-{
-	NxD6JointDesc desc;
-	typedJoint->saveToDesc(desc);
-	return desc;
-}
-
 }

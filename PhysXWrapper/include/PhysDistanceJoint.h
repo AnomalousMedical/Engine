@@ -23,14 +23,8 @@ internal:
 	/// </summary>
 	PhysDistanceJoint(NxDistanceJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene);
 
-	virtual NxJointDesc& getDesc() override;
 	//A pointer to the actual joint subclass.
 	NxDistanceJoint* typedJoint;
-
-	virtual void reloadFromDesc(NxJointDesc& desc) override
-	{
-		typedJoint->loadFromDesc((NxDistanceJointDesc&)desc);
-	}
 
 	/// <summary>
 	/// Destructor

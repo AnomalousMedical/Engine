@@ -26,11 +26,6 @@ internal:
 
 	//A pointer to the actual joint subclass.
 	NxSphericalJoint* typedJoint;
-	virtual NxJointDesc& getDesc() override;
-	virtual void reloadFromDesc(NxJointDesc& desc) override
-	{
-		typedJoint->loadFromDesc((NxSphericalJointDesc&)desc);
-	}
 
 	/// <summary>
 	/// Destructor

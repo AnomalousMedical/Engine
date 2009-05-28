@@ -25,12 +25,6 @@ internal:
 
 	//A pointer to the actual joint subclass.
 	NxPrismaticJoint* typedJoint;
-	virtual NxJointDesc& getDesc() override;
-
-	virtual void reloadFromDesc(NxJointDesc& desc) override
-	{
-		typedJoint->loadFromDesc((NxPrismaticJointDesc&)desc);
-	}
 
 	/// <summary>
 	/// Destructor

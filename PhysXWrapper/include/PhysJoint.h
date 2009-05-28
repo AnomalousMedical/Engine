@@ -33,9 +33,6 @@ protected:
 internal:
 	NxJoint* joint;
 	PhysJoint(NxJoint* joint, PhysActor^ actor0, PhysActor^ actor1, PhysScene^ scene);
-	virtual NxJointDesc& getDesc() = 0;
-
-	virtual void reloadFromDesc(NxJointDesc& desc) = 0;
 
 	/// <summary>
 	/// Destructor
@@ -257,18 +254,6 @@ public:
 	/// <param name="restitution">Optional, used to store restitution of the limit plane.</param>
 	/// <returns></returns>
 	bool getNextLimitPlane(Engine::Vector3% planeNormal, float% planeD, float% restitution);
-
-	/// <summary>
-	/// Set the local anchor of object 0.
-	/// </summary>
-	/// <param name="anchor">The local anchor to set in the object's frame.</param>
-	void setLocalAnchor0(Engine::Vector3 anchor);
-
-	/// <summary>
-	/// Set the local anchor of object 1.
-	/// </summary>
-	/// <param name="anchor">The local anchor to set in the object's frame.</param>
-	void setLocalAnchor1(Engine::Vector3 anchor);
 };
 
 }

@@ -34,11 +34,4 @@ void PhysCylindricalJoint::loadFromDesc(PhysCylindricalJointDesc^ desc)
 	typedJoint->loadFromDesc(*desc->joint.Get());
 }
 
-NxJointDesc& PhysCylindricalJoint::getDesc()
-{
-	NxCylindricalJointDesc desc;
-	typedJoint->saveToDesc(desc);
-	return desc;
-}
-
 }

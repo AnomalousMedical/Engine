@@ -239,5 +239,22 @@ namespace Engine
         #endregion SimElement
 
         #endregion Functions
+
+        #region Properties
+
+        /// <summary>
+        /// This will be true unless the behavior was blacklisted. This allows
+        /// for easy checking to see if all components were sucessfully
+        /// identified.
+        /// </summary>
+        protected bool Valid
+        {
+            get
+            {
+                return valid;
+            }
+        }
+
+        #endregion Properties
     }
 }

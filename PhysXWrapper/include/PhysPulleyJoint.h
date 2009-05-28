@@ -26,12 +26,6 @@ internal:
 
 	//A pointer to the actual joint subclass.
 	NxPulleyJoint* typedJoint;
-	virtual NxJointDesc& getDesc() override;
-
-	virtual void reloadFromDesc(NxJointDesc& desc) override
-	{
-		typedJoint->loadFromDesc((NxPulleyJointDesc&)desc);
-	}
 
 	/// <summary>
 	/// Destructor

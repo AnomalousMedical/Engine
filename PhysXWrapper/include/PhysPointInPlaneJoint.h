@@ -25,12 +25,6 @@ internal:
 
 	//A pointer to the actual joint subclass.
 	NxPointInPlaneJoint* typedJoint;
-	virtual NxJointDesc& getDesc() override;
-
-	virtual void reloadFromDesc(NxJointDesc& desc) override
-	{
-		typedJoint->loadFromDesc((NxPointInPlaneJointDesc&)desc);
-	}
 
 	/// <summary>
 	/// Destructor

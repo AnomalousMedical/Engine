@@ -97,11 +97,4 @@ JointProjectionMode PhysRevoluteJoint::getProjectionMode()
 	return (JointProjectionMode)typedJoint->getProjectionMode();
 }
 
-NxJointDesc& PhysRevoluteJoint::getDesc()
-{
-	NxRevoluteJointDesc desc;
-	typedJoint->saveToDesc(desc);
-	return desc;
-}
-
 }

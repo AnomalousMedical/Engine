@@ -29,12 +29,6 @@ internal:
 
 	//A pointer to the actual joint subclass.
 	NxRevoluteJoint* typedJoint;
-	virtual NxJointDesc& getDesc() override;
-
-	virtual void reloadFromDesc(NxJointDesc& desc) override
-	{
-		typedJoint->loadFromDesc((NxRevoluteJointDesc&)desc);
-	}
 
 	/// <summary>
 	/// Destructor

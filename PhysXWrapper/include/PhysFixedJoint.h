@@ -25,12 +25,6 @@ internal:
 
 	//A pointer to the actual joint subclass.
 	NxFixedJoint* typedJoint;
-	virtual NxJointDesc& getDesc() override;
-
-	virtual void reloadFromDesc(NxJointDesc& desc) override
-	{
-		typedJoint->loadFromDesc((NxFixedJointDesc&)desc);
-	}
 
 	/// <summary>
 	/// Destructor

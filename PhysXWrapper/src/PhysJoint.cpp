@@ -149,18 +149,4 @@ bool PhysJoint::getNextLimitPlane(Engine::Vector3% planeNormal, float% planeD, f
 	return result;
 }
 
-void PhysJoint::setLocalAnchor0(Engine::Vector3 anchor)
-{
-	NxJointDesc& desc = getDesc();
-	MathUtil::copyVector3(anchor, desc.localAnchor[0]);
-	this->reloadFromDesc(desc);
-}
-
-void PhysJoint::setLocalAnchor1(Engine::Vector3 anchor)
-{
-	NxJointDesc& desc = getDesc();
-	MathUtil::copyVector3(anchor, desc.localAnchor[1]);
-	this->reloadFromDesc(desc);
-}
-
 }
