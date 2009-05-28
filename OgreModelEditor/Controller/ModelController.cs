@@ -7,6 +7,7 @@ using OgrePlugin;
 using OgreWrapper;
 using Engine;
 using WeifenLuo.WinFormsUI.Docking;
+using Logging;
 
 namespace OgreModelEditor.Controller
 {
@@ -258,6 +259,7 @@ namespace OgreModelEditor.Controller
             {
                 skeletonWindow.clearSkeleton();
             }
+            Log.Default.debug("Model has {0} sub entities.", entity.getNumSubEntities());
         }
 
         public IEnumerable<String> TextureNames
