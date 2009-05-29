@@ -62,11 +62,11 @@ namespace PhysXPlugin
             : base(name)
         {
             PhysActorElement actor = joint.Actor0;
-            Actor0SimObject = actor != null ? actor.SimObject.Name : null;
+            Actor0SimObject = actor != null ? actor.Owner.Name : null;
             Actor0Element = actor != null ? actor.Name : null;
 
             actor = joint.Actor1;
-            Actor1SimObject = actor != null ? actor.SimObject.Name : null;
+            Actor1SimObject = actor != null ? actor.Owner.Name : null;
             Actor1Element = actor != null ? actor.Name : null;
             
             this.jointTypeName = jointTypeName;

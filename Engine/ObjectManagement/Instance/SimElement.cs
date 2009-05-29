@@ -316,9 +316,9 @@ namespace Engine.ObjectManagement
         public Subscription Subscription { get; private set; }
 
         /// <summary>
-        /// The SimObject for this SimElement.
+        /// The SimObject that owns this SimElement.
         /// </summary>
-        public SimObject SimObject
+        public SimObject Owner
         {
             get
             {

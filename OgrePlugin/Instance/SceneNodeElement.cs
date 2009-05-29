@@ -44,7 +44,7 @@ namespace OgrePlugin
         {
             if (!nodeObjects.ContainsKey(definition.Name))
             {
-                MovableObjectContainer moveObj = definition.createProduct(scene, SimObject.Name + Name);
+                MovableObjectContainer moveObj = definition.createProduct(scene, Owner.Name + Name);
                 if (moveObj != null)
                 {
                     sceneNode.attachObject(moveObj.MovableObject);
@@ -53,7 +53,7 @@ namespace OgrePlugin
             }
             else
             {
-                Log.Default.sendMessage("Attempted to add another MovableObject to the node {0} named {1} that already exists. The second entry has been ignored.", LogLevel.Warning, "OgrePlugin", SimObject.Name + Name, definition.Name);
+                Log.Default.sendMessage("Attempted to add another MovableObject to the node {0} named {1} that already exists. The second entry has been ignored.", LogLevel.Warning, "OgrePlugin", Owner.Name + Name, definition.Name);
             }
 
         }

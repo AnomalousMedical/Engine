@@ -51,7 +51,7 @@ namespace Test
         {
             if (eventManager[TestEvents.Forward].Down)
             {
-                Vector3 newPos = SimObject.Translation + Vector3.Forward * (float)(5.0f * clock.Seconds);
+                Vector3 newPos = Owner.Translation + Vector3.Forward * (float)(5.0f * clock.Seconds);
                 updateTranslation(ref newPos);
             }
             if (eventManager[TestEvents.Back].Down)
