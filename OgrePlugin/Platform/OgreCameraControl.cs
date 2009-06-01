@@ -43,7 +43,6 @@ namespace OgrePlugin
             this.renderWindow = renderWindow;
             camera = sceneManager.SceneManager.createCamera(name + CAMERA_RESERVED_NAME);
             camera.setAutoAspectRatio(true);
-            camera.setNearClipDistance(0.1f);
             camera.setFOVy(10.0f);
             node = sceneManager.SceneManager.createSceneNode(name + CAMERA_NODE_RESERVED_NAME);
             node.attachObject(camera);
@@ -69,6 +68,24 @@ namespace OgrePlugin
                 light.setRenderQueueGroup(byte.MaxValue);
                 light.setPosition(reallyFarAway);
             }
+        }
+
+        /// <summary>
+        /// Set the near clip distance of the camera.
+        /// </summary>
+        /// <param name="distance">The distance to set.</param>
+        public void setNearClipDistance(float distance)
+        {
+            camera.setNearClipDistance(distance);
+        }
+
+        /// <summary>
+        /// Set the far clip distance of the camera.
+        /// </summary>
+        /// <param name="distance">The distance to set.</param>
+        public void setFarClipDistance(float distance)
+        {
+            camera.setFarClipDistance(distance);
         }
 
         /// <summary>

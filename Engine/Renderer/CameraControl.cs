@@ -27,6 +27,18 @@ namespace Engine
         void addLight();
 
         /// <summary>
+        /// Set the near clip distance of the camera.
+        /// </summary>
+        /// <param name="distance">The distance to set.</param>
+        void setNearClipDistance(float distance);
+
+        /// <summary>
+        /// Set the far clip distance of the camera.
+        /// </summary>
+        /// <param name="distance">The distance to set.</param>
+        void setFarClipDistance(float distance);
+
+        /// <summary>
         /// Remove the light from the camera.
         /// </summary>
         void removeLight();
