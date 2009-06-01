@@ -76,7 +76,9 @@ namespace OgrePlugin
         /// <returns>The MovableObject specified by name.</returns>
         public MovableObject getNodeObject(String name)
         {
-            return nodeObjects[name].MovableObject;
+            MovableObjectContainer container;
+            nodeObjects.TryGetValue(name, out container);
+            return container != null ? container.MovableObject : null;
         }
 
         /// <summary>
