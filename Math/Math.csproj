@@ -50,6 +50,7 @@
     <Compile Include="3d\Ray3.cs" />
     <Compile Include="3d\Segment3.cs" />
     <Compile Include="3d\Vector3.cs" />
+    <Compile Include="Curves\BezierCurve2.cs" />
     <Compile Include="Drawing\Color.cs" />
     <Compile Include="Numerics\Distance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
