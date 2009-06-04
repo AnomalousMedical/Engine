@@ -49,7 +49,10 @@ namespace Engine
                 }
                 i = i - 1;
             }
-            i = xSpline.Count - 1;
+            else
+            {
+                i = xSpline.Count - 1;
+            }
             return new Vector3(xSpline[i].interpolate(percent), ySpline[i].interpolate(percent), zSpline[i].interpolate(percent));
         }
 
