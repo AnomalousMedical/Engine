@@ -84,12 +84,26 @@ void ManualObject::position(Engine::Vector3% pos)
 	obj->position(ogreVec);
 }
 
+void ManualObject::position(Engine::Vector3 pos)
+{
+	Ogre::Vector3 ogreVec;
+	MathUtils::copyVector3(pos, ogreVec);
+	obj->position(ogreVec);
+}
+
 void ManualObject::position(float x, float y, float z)
 {
 	obj->position(x, y, z);
 }
 
 void ManualObject::normal(Engine::Vector3% normal)
+{
+	Ogre::Vector3 ogreVec;
+	MathUtils::copyVector3(normal, ogreVec);
+	obj->normal(ogreVec);
+}
+
+void ManualObject::normal(Engine::Vector3 normal)
 {
 	Ogre::Vector3 ogreVec;
 	MathUtils::copyVector3(normal, ogreVec);

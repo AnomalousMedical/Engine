@@ -115,6 +115,12 @@ public:
 	void position(Engine::Vector3% pos);
 
 	/// <summary>
+	/// Add a vertex position, starting a new vertex at the same time. 
+	/// </summary>
+	/// <param name="pos">A vector3 with the position of the vertex.</param>
+	void position(Engine::Vector3 pos);
+
+	/// <summary>
 	/// Add a vertex position, starting a new vertex at the same time.
 	/// A vertex position is slightly special among the other vertex data methods like normal() 
 	/// and textureCoord(), since calling it indicates the start of a new vertex. All other 
@@ -131,6 +137,12 @@ public:
 	/// </summary>
 	/// <param name="normal">A vector3 with the normal.</param>
 	void normal(Engine::Vector3% normal);
+
+	/// <summary>
+	/// Add a vertex normal to the current vertex. 
+	/// </summary>
+	/// <param name="normal">A vector3 with the normal.</param>
+	void normal(Engine::Vector3 normal);
 
 	/// <summary>
 	/// Add a vertex normal to the current vertex. 
