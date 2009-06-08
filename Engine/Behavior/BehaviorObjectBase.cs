@@ -16,7 +16,7 @@ namespace Engine
     /// class) unless it is an EngineMath member or a basic type (e.g. int,
     /// float etc.).
     /// </summary>
-    interface BehaviorObjectBase : EditInterfaceOverride, Saveable
+    public interface BehaviorObjectBase : EditInterfaceOverride, Saveable
     {
     }
 }

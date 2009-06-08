@@ -115,7 +115,7 @@ namespace Anomaly
                     XmlTextReader textReader = new XmlTextReader(Path.GetFullPath(template));
                     SimObjectDefinition simObjectDef = (SimObjectDefinition)xmlSaver.restoreObject(textReader);
                     textReader.Close();
-                    group.addSimObject(simObjectDef);
+                    group.addExistingSimObject(simObjectDef);
                 }
                 catch (Exception e)
                 {

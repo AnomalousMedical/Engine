@@ -49,11 +49,30 @@ namespace Anomaly
             }
         }
 
+        /// <summary>
+        /// Add a template and save the defintion.
+        /// </summary>
+        /// <param name="simObject"></param>
         public void addSimObject(SimObjectDefinition simObject)
         {
             Template template = new Template(simObject, templateWriter, this);
             templates.Add(simObject.Name, template);
             templateWriter.saveTemplate(this, simObject);
+            if (editInterface != null)
+            {
+                addSimObjectSubInterface(template);
+            }
+        }
+
+        /// <summary>
+        /// This function adds a SimObject but does not save the template. Used
+        /// only to reload a template from a file.
+        /// </summary>
+        /// <param name="simObject"></param>
+        public void addExistingSimObject(SimObjectDefinition simObject)
+        {
+            Template template = new Template(simObject, templateWriter, this);
+            templates.Add(simObject.Name, template);
             if (editInterface != null)
             {
                 addSimObjectSubInterface(template);

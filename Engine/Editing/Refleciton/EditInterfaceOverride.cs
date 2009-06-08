@@ -13,7 +13,7 @@ namespace Engine.Editing
     /// interface it will call the getEditInterface funciton instead of using
     /// reflection to grab the properties.
     /// </summary>
-    interface EditInterfaceOverride
+    public interface EditInterfaceOverride
     {
         /// <summary>
         /// This function will provide the customized EditInterface for this

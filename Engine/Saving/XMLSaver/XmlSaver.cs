@@ -83,7 +83,7 @@ namespace Engine.Saving.XMLSaver
                     {
                         if (xmlReader.Name.Equals(SAVEABLE_ELEMENT))
                         {
-                            ObjectIdentifier objectId = new ObjectIdentifier(long.Parse(xmlReader.GetAttribute(ID_ATTIBUTE)), null, Type.GetType(xmlReader.GetAttribute(TYPE_ATTRIBUTE)));
+                            ObjectIdentifier objectId = new ObjectIdentifier(long.Parse(xmlReader.GetAttribute(ID_ATTIBUTE)), null, PluginManager.Instance.getType(xmlReader.GetAttribute(TYPE_ATTRIBUTE)));
                             loadControl.startDefiningObject(objectId);
                             //If the element is empty do not bother to loop looking for elements.
                             if (!xmlReader.IsEmptyElement)

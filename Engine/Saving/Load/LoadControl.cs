@@ -81,8 +81,15 @@ namespace Engine.Saving
         /// <param name="objectID">The objectID of a previously loaded object to use as the value.</param>
         public void addObjectValue(string name, long objectID)
         {
-            ObjectIdentifier id = identiferMap[objectID];
-            loadInfo.addValue(name, id.Value, id.ObjectType);
+            if (objectID != -1)
+            {
+                ObjectIdentifier id = identiferMap[objectID];
+                loadInfo.addValue(name, id.Value, id.ObjectType);
+            }
+            else
+            {
+                loadInfo.addValue(name, null, typeof(Object));
+            }
         }
     }
 }

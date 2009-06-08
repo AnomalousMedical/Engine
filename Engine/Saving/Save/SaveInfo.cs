@@ -12,6 +12,8 @@ namespace Engine.Saving
     /// </summary>
     public class SaveInfo
     {
+        private readonly String SAVEABLE_TYPE = typeof(Saveable).ToString();
+
         private Dictionary<String, SaveEntry> entries = new Dictionary<String, SaveEntry>();
         private SaveControl writer;
 
@@ -159,7 +161,15 @@ namespace Engine.Saving
         internal void AddReflectedValue(string name, Object value, Type objectType)
         {
             validate(name, value);
-            entries.Add(name, new SaveEntry(name, value, objectType));
+            if (objectType.GetInterface(SAVEABLE_TYPE) != null)
+            {
+                long objectID = writer.saveObject((Saveable)value);
+                entries.Add(name, new SaveEntry(name, value, value.GetType(), objectID));
+            }
+            else
+            {
+                entries.Add(name, new SaveEntry(name, value, objectType));
+            }
         }
 
         /// <summary>

@@ -150,7 +150,7 @@ namespace Engine.Editing
                         EditInterfaceOverride custom = (EditInterfaceOverride)subObject;
                         edit.addSubInterface(custom.getEditInterface(memberWrapper.getWrappedName(), scanner));
                     }
-                    else
+                    else if(subObject != null)
                     {
                         edit.addSubInterface(createEditInterface(subObject, scanner, memberWrapper.getWrappedName() + " - " + memberWrapper.getWrappedType(), null));
                     }
