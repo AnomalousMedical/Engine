@@ -51,6 +51,7 @@
     <Compile Include="Behavior\BehaviorBrowser.cs" />
     <Compile Include="Behavior\BehaviorDebugInterface.cs" />
     <Compile Include="Behavior\BehaviorDefinition.cs" />
+    <Compile Include="Behavior\BehaviorException.cs" />
     <Compile Include="Behavior\BehaviorFactory.cs" />
     <Compile Include="Behavior\BehaviorFactoryEntry.cs" />
     <Compile Include="Behavior\BehaviorInterface.cs" />

@@ -92,8 +92,16 @@ namespace Engine
         {
             String behaviorType = info.GetString(BEHAVIOR_TYPE);
             Type type = PluginManager.Instance.getType(behaviorType);
-            behaviorTemplate = (Behavior)Activator.CreateInstance(type);
-            ReflectedSaver.RestoreObject(behaviorTemplate, info, BehaviorSaveMemberScanner.Scanner);
+            if (type != null)
+            {
+                behaviorTemplate = (Behavior)Activator.CreateInstance(type);
+                ReflectedSaver.RestoreObject(behaviorTemplate, info, BehaviorSaveMemberScanner.Scanner);
+                behaviorTemplate.callCustomLoad(info);
+            }
+            else
+            {
+                throw new BehaviorException(String.Format("Could not load behavior of type {0}. The type could not be found.", behaviorType));
+            }
         }
 
         public override void getInfo(SaveInfo info)
@@ -101,6 +109,7 @@ namespace Engine
             base.getInfo(info);
             info.AddValue(BEHAVIOR_TYPE, createShortTypeString(behaviorTemplate.GetType()));
             ReflectedSaver.SaveObject(behaviorTemplate, info, BehaviorSaveMemberScanner.Scanner);
+            behaviorTemplate.callCustomSave(info);
         }
 
         private static String createShortTypeString(Type type)

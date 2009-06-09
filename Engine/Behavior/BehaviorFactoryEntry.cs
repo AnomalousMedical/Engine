@@ -50,11 +50,22 @@ namespace Engine
         /// <summary>
         /// Called during the linkupProducts phase. This will call the constructed behavior function.
         /// </summary>
-        public void linkupProducts()
+        public void constructed()
         {
             if (createdBehavior != null)
             {
                 createdBehavior.callConstructed();
+            }
+        }
+
+        /// <summary>
+        /// Called during the linkupProducts phase. This will call the link behavior function.
+        /// </summary>
+        public void linkupProducts()
+        {
+            if (createdBehavior != null)
+            {
+                createdBehavior.callLink();
             }
         }
 

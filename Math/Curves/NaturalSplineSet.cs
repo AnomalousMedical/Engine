@@ -5,11 +5,22 @@ using System.Text;
 
 namespace Engine
 {
+    /// <summary>
+    /// This is a set of cubic NaturalSplines that connect a series of control points.
+    /// </summary>
     public class NaturalSplineSet
     {
+        /// <summary>
+        /// This is a spline representation.
+        /// </summary>
         class Spline
         {
             public float a, b, c, d, xt;
+
+            public Spline()
+            {
+
+            }
 
             public Spline(float a, float b, float c, float d, float xt)
             {
@@ -33,11 +44,61 @@ namespace Engine
         List<Spline> zSpline = new List<Spline>();
         float[] s;
 
+        /// <summary>
+        /// Add a control point to the set. You must call computeSplines to
+        /// update the changes.
+        /// </summary>
+        /// <param name="controlPoint">The control point to add.</param>
         public void addControlPoint(Vector3 controlPoint)
         {
             controlPoints.Add(controlPoint);
         }
 
+        /// <summary>
+        /// Remove a control point from the set. You must call computeSplines to
+        /// update the changes.
+        /// </summary>
+        /// <param name="index">The index of the control point to remove.</param>
+        public void removeControlPoint(int index)
+        {
+            controlPoints.RemoveAt(index);
+        }
+
+        /// <summary>
+        /// Update the control point at a given index. You must call
+        /// computeSplines to update the changes.
+        /// </summary>
+        /// <param name="index">The index of the control point to update.</param>
+        /// <param name="value">The value to set at index.</param>
+        public void updateControlPoint(int index, Vector3 value)
+        {
+            controlPoints[index] = value;
+        }
+
+        /// <summary>
+        /// Get the number of control points in the spline set.
+        /// </summary>
+        /// <returns>The number of control points.</returns>
+        public int getNumControlPoints()
+        {
+            return controlPoints.Count;
+        }
+
+        /// <summary>
+        /// Get a specific control point in the spline set.
+        /// </summary>
+        /// <param name="index">The index of the control point to retrieve.</param>
+        /// <returns>The index of the control point.</returns>
+        public Vector3 getControlPoint(int index)
+        {
+            return controlPoints[index];
+        }
+
+        /// <summary>
+        /// Get the value of the spline at a certain percentage.
+        /// </summary>
+        /// <param name="percent">A value between 0 and 1 for the position on the spline.</param>
+        /// <returns>A Vector3 with the location of the spline.</returns>
         public Vector3 interpolate(float percent)
         {
             int i;
@@ -56,6 +117,10 @@ namespace Engine
             return new Vector3(xSpline[i].interpolate(percent), ySpline[i].interpolate(percent), zSpline[i].interpolate(percent));
         }
 
+        /// <summary>
+        /// Recompute the splines in the set. This must be called every time the
+        /// control points are changed.
+        /// </summary>
         public void computeSplines()
         {
             int n = controlPoints.Count - 1; //n is the number of splines.

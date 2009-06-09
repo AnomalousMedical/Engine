@@ -7,6 +7,7 @@ using Engine.Platform;
 using Logging;
 using Engine.Attributes;
 using Engine.Renderer;
+using Engine.Saving;
 
 namespace Engine
 {
@@ -95,6 +96,24 @@ namespace Engine
         }
 
         /// <summary>
+        /// Internal function to call the link function.
+        /// </summary>
+        internal void callLink()
+        {
+            link();
+        }
+
+        /// <summary>
+        /// Override this function to perform custom operations after all
+        /// behaviors have had their constructed functions called. Here it will
+        /// be safe to do any operations that could be done in update.
+        /// </summary>
+        protected virtual void link()
+        {
+
+        }
+
+        /// <summary>
         /// Override this function to provide custom destroy behavior.
         /// </summary>
         protected virtual void destroy()
@@ -147,6 +166,43 @@ namespace Engine
         protected void blacklist(String reason, params object[] args)
         {
             blacklist(String.Format(reason, args));
+        }
+
+        /// <summary>
+        /// Internal function to call the custom load function.
+        /// </summary>
+        /// <param name="info">The LoadInfo.</param>
+        internal void callCustomLoad(LoadInfo info)
+        {
+            customLoad(info);
+        }
+
+        /// <summary>
+        /// Override this function to load custom information from the LoadInfo
+        /// object.
+        /// </summary>
+        /// <param name="info">The LoadInfo to load data from.</param>
+        protected virtual void customLoad(LoadInfo info)
+        {
+
+        }
+
+        /// <summary>
+        /// Internal function to call the custom save function.
+        /// </summary>
+        /// <param name="info">The SaveInfo.</param>
+        internal void callCustomSave(SaveInfo info)
+        {
+            customSave(info);
+        }
+
+        /// <summary>
+        /// Override this function to add custom data to be saved.
+        /// </summary>
+        /// <param name="info">The SaveInfo to add custom data to.</param>
+        protected virtual void customSave(SaveInfo info)
+        {
+
         }
 
         #region SimElement

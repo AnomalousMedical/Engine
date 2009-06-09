@@ -54,6 +54,10 @@ namespace Engine
         {
             foreach (BehaviorFactoryEntry entry in currentBehaviors)
             {
+                entry.constructed();
+            }
+            foreach (BehaviorFactoryEntry entry in currentBehaviors)
+            {
                 entry.linkupProducts();
             }
         }
