@@ -2369,4 +2369,18 @@ public enum class PhysShapeType
 	NX_SHAPE_FORCE_DWORD = 0x7fffffff
 };
 
+/// <summary>
+/// Used to specify timestepping behavior.
+/// </summary>
+[Engine::Attributes::SingleEnum]
+public enum class PhysTimeStepMethod : unsigned int
+{
+	NX_TIMESTEP_FIXED,				//!< The simulation automatically subdivides the passed elapsed time into maxTimeStep-sized substeps.
+	NX_TIMESTEP_VARIABLE,			//!< The simulation uses the elapsed time that the user passes as-is, substeps (maxTimeStep, maxIter) are not used.
+	NX_TIMESTEP_INHERIT,			//!< Inherit timing settings from primary scene.  Only valid for compartments.
+	NX_NUM_TIMESTEP_METHODS,
+
+	NX_TSM_FORCE_DWORD = 0x7fffffff	//!< Just to make sure sizeof(enum) == 4, not a valid value.
+};
+
 }

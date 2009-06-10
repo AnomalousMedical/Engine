@@ -46,6 +46,16 @@ void PhysSceneDesc::MaxIter::set(unsigned int iter)
 	sceneDesc->maxIter = iter; 
 }
 
+PhysTimeStepMethod PhysSceneDesc::TimeStepMethod::get() 
+{ 
+	return static_cast<PhysTimeStepMethod>(sceneDesc->timeStepMethod); 
+}
+
+void PhysSceneDesc::TimeStepMethod::set(PhysTimeStepMethod value) 
+{ 
+	sceneDesc->timeStepMethod = static_cast<NxTimeStepMethod>(value); 
+}
+
 bool PhysSceneDesc::GroundPlane::get() 
 { 
 	return sceneDesc->groundPlane; 

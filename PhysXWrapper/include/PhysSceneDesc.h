@@ -50,7 +50,11 @@ public:
 		void set(unsigned int iter);
 	}
 
-	//property NxTimeStepMethod timeStepMethod;
+	property PhysTimeStepMethod TimeStepMethod
+	{
+		PhysTimeStepMethod get();
+		void set(PhysTimeStepMethod value);
+	}
 
 	//property NxBounds3 maxBounds
 
