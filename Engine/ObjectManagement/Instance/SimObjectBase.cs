@@ -14,7 +14,9 @@ namespace Engine.ObjectManagement
         #region Functions
 
         /// <summary>
-        /// Dispose function. Destroys subsystem objects, which may or may not be unmanaged.
+        /// Dispose function. Destroys subsystem objects, which may or may not
+        /// be unmanaged. Do not call this function directly. The
+        /// SimObjectManager will take care of it.
         /// </summary>
         public abstract void Dispose();
 

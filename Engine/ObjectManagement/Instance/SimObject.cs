@@ -66,6 +66,16 @@ namespace Engine.ObjectManagement
         }
 
         /// <summary>
+        /// Destroy this SimObject. This will completely remove it from the
+        /// scene and cleanup all resources. It will no longer be usable after
+        /// this call.
+        /// </summary>
+        public void destroy()
+        {
+            simObjectManager.destroySimObject(Name);
+        }
+
+        /// <summary>
         /// This function will set the SimObjectManager used to lookup other SimObjects. 
         /// It should only be called by the SimObjectManager.
         /// </summary>
