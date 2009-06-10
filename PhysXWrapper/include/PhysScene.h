@@ -299,6 +299,12 @@ public:
 	/// </summary>
 	/// <param name="softBody">Soft body to release.</param>
 	void releaseSoftBody(PhysSoftBody^ softBody);
+
+	/// <summary>
+	/// Set the ContactReport for the scene. Set this to null to disable any contact reporting.
+	/// </summary>
+	/// <param name="report">The PhysContactReport subclass to set.</param>
+	void setContactReport(PhysContactReport^ report);
 };
 
 }

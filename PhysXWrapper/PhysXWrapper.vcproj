@@ -456,6 +456,18 @@
 					RelativePath=".\include\NativeContactReport.h"
 					>
 				</File>
+				<File
+					RelativePath=".\src\PhysContactPair.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\PhysContactPair.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\PhysContactReport.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Cooking"

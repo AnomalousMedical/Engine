@@ -13,7 +13,7 @@ namespace PhysXPlugin
     /// <summary>
     /// This class manages a single PhysX scene.
     /// </summary>
-    public class PhysXSceneManager : SimElementManager, UpdateListener
+    public class PhysXSceneManager : SimElementManager, UpdateListener, PhysContactReport
     {
         #region Fields
 
@@ -41,6 +41,7 @@ namespace PhysXPlugin
             this.name = name;
             this.mainTimer = mainTimer;
             mainTimer.addFixedUpdateListener(this);
+            scene.setContactReport(this);
         }
 
         #endregion Constructors
@@ -177,5 +178,14 @@ namespace PhysXPlugin
         }
 
         #endregion Properties
+
+        #region PhysContactReport Members
+
+        public void onContactNotify(PhysContactPair pair, ContactPairFlag events)
+        {
+            
+        }
+
+        #endregion
     }
 }

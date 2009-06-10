@@ -6,7 +6,8 @@
 namespace PhysXWrapper
 {
 
-ref class ContactIterator;
+ref class PhysContactPair;
+interface class PhysContactReport;
 
 /// <summary>
 /// This class interacts with the PhysX SDK and forwards messages to the wrapped
@@ -15,7 +16,8 @@ ref class ContactIterator;
 class NativeContactReport : public NxUserContactReport
 {
 private:
-	gcroot<ContactIterator^> contactIterator;
+	gcroot<PhysContactPair^> contactPair;
+	gcroot<PhysContactReport^> contactReport;
 
 public:
 	NativeContactReport(void);
@@ -23,6 +25,11 @@ public:
 	~NativeContactReport();
 
 	virtual void onContactNotify( NxContactPair& pair, NxU32 events );
+
+	void setContactReport(PhysContactReport^ report)
+	{
+		contactReport = report;
+	}
 };
 
 }

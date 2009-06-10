@@ -39,9 +39,6 @@ actorGroupPairBuffer(new NxActorGroupPair()),
 actorGroupPairPosition(0),
 debugRenderable(gcnew PhysDebugRenderable())
 {
-	//setup callbacks
-	scene->setUserContactReport(nativeContactReport.Get());
-
 	//temp
 	NxMaterial* defaultMaterial = scene->getMaterialFromIndex(0);
 	defaultMaterial->setRestitution(0.5);
@@ -243,6 +240,19 @@ void PhysScene::releaseSoftBody(PhysSoftBody^ softBody)
 	NxSoftBody* nxSoftBody = softBody->softBody;
 	softBodies.destroyObject(nxSoftBody);
 	scene->releaseSoftBody(*nxSoftBody);
+}
+
+void PhysScene::setContactReport(PhysContactReport^ report)
+{
+	if(report != nullptr)
+	{
+		nativeContactReport->setContactReport(report);
+		scene->setUserContactReport(nativeContactReport.Get());
+	}
+	else
+	{
+		scene->setUserContactReport(0);
+	}
 }
 
 }
