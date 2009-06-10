@@ -44,6 +44,8 @@ namespace PhysXPlugin
         private String name;
         private EditInterface editInterface = null;
         private PhysXInterface physInterface;
+        private LinkedList<PhysActorGroupPairDefinition> actorGroupPairs = new LinkedList<PhysActorGroupPairDefinition>();
+        private EditInterface actorGroupPairsEdit;
 
         #endregion Fields
 
@@ -72,26 +74,64 @@ namespace PhysXPlugin
         }
 
         /// <summary>
-        /// Get an EditInterface.
-        /// </summary>
-        /// <returns>An EditInterface for the definition or null if there is no interface.</returns>
-        public EditInterface getEditInterface()
-        {
-            if (editInterface == null)
-            {
-                editInterface = ReflectedEditInterface.createEditInterface(this, memberScanner, Name + " PhysX Scene", null);
-            }
-            return editInterface;
-        }
-
-        /// <summary>
         /// Create the SimElementManager this definition defines and return it.
         /// This may not be safe to call more than once per definition.
         /// </summary>
         /// <returns>The SimElementManager this definition is designed to create.</returns>
         public SimElementManager createSimElementManager()
         {
-            return physInterface.createScene(this);
+            PhysXSceneManager scene = physInterface.createScene(this);
+            foreach(PhysActorGroupPairDefinition pair in actorGroupPairs)
+            {
+                scene.PhysScene.setActorGroupPairFlags(pair.Group0, pair.Group1, pair.Flags);
+            }
+            return scene;
+        }
+
+        /// <summary>
+        /// This will return the type the SimElementManager wishes to report
+        /// itself as. Usually this will be the type of the class itself,
+        /// however, it is possible to specify a superclass if desired. This
+        /// will be the type reported to the SimSubScene. This should be the
+        /// value returned by the SimElementManager this definition creates.
+        /// </summary>
+        /// <returns></returns>
+        public Type getSimElementManagerType()
+        {
+            return typeof(PhysXSceneManager);
+        }
+
+        /// <summary>
+        /// Add an ActorGroupPair to the defintion.
+        /// </summary>
+        /// <param name="group0"></param>
+        /// <param name="group1"></param>
+        /// <param name="flags"></param>
+        public void addActorGroupPair(ushort group0, ushort group1, ContactPairFlag flags)
+        {
+            PhysActorGroupPairDefinition def = new PhysActorGroupPairDefinition(group0, group1, flags);
+            actorGroupPairs.AddLast(def);
+            if (actorGroupPairsEdit != null)
+            {
+                actorGroupPairsEdit.addEditableProperty(def);
+            }
+        }
+
+        /// <summary>
+        /// Remove the pair defined at index.
+        /// </summary>
+        /// <param name="index"></param>
+        public void removeActorGroupPair(int index)
+        {
+            if (index < actorGroupPairs.Count)
+            {
+                PhysActorGroupPairDefinition def = actorGroupPairs.ElementAt(index);
+                actorGroupPairs.Remove(def);
+                if (actorGroupPairsEdit != null)
+                {
+                    actorGroupPairsEdit.removeEditableProperty(def);
+                }
+            }
         }
 
         #endregion Functions
@@ -118,19 +158,6 @@ namespace PhysXPlugin
             {
                 return sceneDesc;
             }
-        }
-
-        /// <summary>
-        /// This will return the type the SimElementManager wishes to report
-        /// itself as. Usually this will be the type of the class itself,
-        /// however, it is possible to specify a superclass if desired. This
-        /// will be the type reported to the SimSubScene. This should be the
-        /// value returned by the SimElementManager this definition creates.
-        /// </summary>
-        /// <returns></returns>
-        public Type getSimElementManagerType()
-        {
-            return typeof(PhysXSceneManager);
         }
 
         /// <summary>
@@ -564,6 +591,56 @@ namespace PhysXPlugin
 
         #endregion Properties
 
+        #region EditInterface
+
+        /// <summary>
+        /// Get an EditInterface.
+        /// </summary>
+        /// <returns>An EditInterface for the definition or null if there is no interface.</returns>
+        public EditInterface getEditInterface()
+        {
+            if (editInterface == null)
+            {
+                editInterface = ReflectedEditInterface.createEditInterface(this, memberScanner, Name + " PhysX Scene", null);
+
+                //Actor group pairs
+                actorGroupPairsEdit = new EditInterface("Actor Group Pairs", addActorGroupPair, removeActorGroupPair);
+                EditablePropertyInfo actorGroupPairsPropInfo = new EditablePropertyInfo();
+                actorGroupPairsPropInfo.addColumn(new EditablePropertyColumn("Group 0", false));
+                actorGroupPairsPropInfo.addColumn(new EditablePropertyColumn("Group 1", false));
+                actorGroupPairsPropInfo.addColumn(new EditablePropertyColumn("Flags", false));
+                actorGroupPairsEdit.setPropertyInfo(actorGroupPairsPropInfo);
+                foreach (PhysActorGroupPairDefinition pair in actorGroupPairs)
+                {
+                    actorGroupPairsEdit.addEditableProperty(pair);
+                }
+
+                editInterface.addSubInterface(actorGroupPairsEdit);
+            }
+            return editInterface;
+        }
+
+        private void addActorGroupPair(EditUICallback callback)
+        {
+            PhysActorGroupPairDefinition binding = new PhysActorGroupPairDefinition();
+            actorGroupPairs.AddLast(binding);
+            if (actorGroupPairsEdit != null)
+            {
+                actorGroupPairsEdit.addEditableProperty(binding);
+            }
+        }
+
+        private void removeActorGroupPair(EditUICallback callback, EditableProperty property)
+        {
+            actorGroupPairs.Remove((PhysActorGroupPairDefinition)property);
+            if (actorGroupPairsEdit != null)
+            {
+                actorGroupPairsEdit.removeEditableProperty(property);
+            }
+        }
+
+        #endregion
+
         #region Saveable Members
 
         private const String NAME = "DefinitionName";
@@ -594,6 +671,7 @@ namespace PhysXPlugin
         private const String STATIC_STRUCTURE = "StaticStructure";
         private const String DYNAMIC_STRUCTURE = "DynamicStructure";
         private const String BP_TYPE = "BpType";
+        private const String ACTOR_GROUP_PAIR_BASE = "ActorGroupPair";
 
         private PhysXSceneManagerDefinition(LoadInfo info)
         {
@@ -626,6 +704,10 @@ namespace PhysXPlugin
             StaticStructure = info.GetValue<PhysPruningStructure>(STATIC_STRUCTURE);
             DynamicStructure = info.GetValue<PhysPruningStructure>(DYNAMIC_STRUCTURE);
             BpType = info.GetValue<PhysBroadPhaseType>(BP_TYPE);
+            for (int i = 0; info.hasValue(ACTOR_GROUP_PAIR_BASE + i); ++i)
+            {
+                actorGroupPairs.AddLast(info.GetValue<PhysActorGroupPairDefinition>(ACTOR_GROUP_PAIR_BASE + i));
+            }
         }
 
         public void getInfo(SaveInfo info)
@@ -658,6 +740,11 @@ namespace PhysXPlugin
             info.AddValue(STATIC_STRUCTURE, StaticStructure);
             info.AddValue(DYNAMIC_STRUCTURE, DynamicStructure);
             info.AddValue(BP_TYPE, BpType);
+            int i = 0;
+            foreach (PhysActorGroupPairDefinition pair in actorGroupPairs)
+            {
+                info.AddValue(ACTOR_GROUP_PAIR_BASE + i++, pair);
+            }
         }
 
         #endregion

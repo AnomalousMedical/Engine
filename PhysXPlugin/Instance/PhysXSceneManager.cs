@@ -104,6 +104,12 @@ namespace PhysXPlugin
         {
             PhysXSceneManagerDefinition definition = new PhysXSceneManagerDefinition(name);
             scene.saveToDesc(definition.SceneDesc);
+            scene.startActorGroupPairIter();
+            while (scene.hasNextActorGroupPair())
+            {
+                PhysActorGroupPair pair = scene.getNextActorGroupPair();
+                definition.addActorGroupPair(pair.Group0, pair.Group1, pair.Flags);
+            }
             return definition;
         }
 

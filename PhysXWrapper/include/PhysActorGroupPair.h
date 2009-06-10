@@ -13,8 +13,8 @@ internal:
 	PhysActorGroupPair(NxActorGroupPair* pair);
 
 	ContactPairFlag flags;
-	int group0;
-	int group1;
+	unsigned short group0;
+	unsigned short group1;
 
 public:
 	property ContactPairFlag Flags 
@@ -25,17 +25,17 @@ public:
 		}
 	}
 
-	property int Group0 
+	property unsigned short Group0 
 	{
-		int get()
+		unsigned short get()
 		{
 			return group0;
 		}
 	}
 
-	property int Group1 
+	property unsigned short Group1 
 	{
-		int get()
+		unsigned short get()
 		{
 			return group1;
 		}

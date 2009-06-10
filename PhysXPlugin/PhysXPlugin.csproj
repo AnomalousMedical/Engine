@@ -69,6 +69,7 @@
     <Compile Include="Definition\Joints\PhysSphericalJointDefinition.cs" />
     <Compile Include="Definition\Joints\PhysSpringDescription.cs" />
     <Compile Include="Definition\PhysActorDefinition.cs" />
+    <Compile Include="Definition\PhysActorGroupPairDefinition.cs" />
     <Compile Include="Definition\PhysElementDefinition.cs" />
     <Compile Include="Definition\PhysXSceneManagerDefinition.cs" />
     <Compile Include="Definition\Shapes\BoxShapeDefinition.cs" />
