@@ -50,6 +50,10 @@ public:
 		void set(unsigned int iter);
 	}
 
+
+	/// <summary>
+	/// Used to specify the timestepping behavior. 
+	/// </summary>
 	property PhysTimeStepMethod TimeStepMethod
 	{
 		PhysTimeStepMethod get();
@@ -104,7 +108,11 @@ public:
 		void set(unsigned int size);
 	}
 
-	//property NxThreadPriority simThreadPriority
+	property PhysThreadPriority SimThreadPriority
+	{
+		PhysThreadPriority get();
+		void set(PhysThreadPriority value);
+	}
 
 	/// <summary>
 	/// Allows the user to specify which (logical) 
@@ -135,8 +143,11 @@ public:
 		void set(unsigned int size);
 	}
 
-
-	//Property NxThreadPriority WorkerThreadPriority
+	property PhysThreadPriority WorkerThreadPriority
+	{
+		PhysThreadPriority get();
+		void set(PhysThreadPriority value);
+	}
 
 	/// <summary>
 	/// Allows the user to specify which (logical) processor to allocate SDK 
@@ -157,7 +168,11 @@ public:
 		void set(unsigned int count);
 	}
 
-	//Property NxThreadPriority BackgroundThreadPriority
+	property PhysThreadPriority BackgroundThreadPriority
+	{
+		PhysThreadPriority get();
+		void set(PhysThreadPriority value);
+	}
 
 	/// <summary>
 	/// Allows the user to specify which (logical) processor to allocate 
@@ -195,9 +210,17 @@ public:
 		void set(unsigned int level);
 	}
 
-	//NxPruningStructure staticStructure
+	property PhysPruningStructure StaticStructure
+	{
+		PhysPruningStructure get();
+		void set(PhysPruningStructure value);
+	}
 
-	//NxPruningStructure dynamicStructure
+	property PhysPruningStructure DynamicStructure
+	{
+		PhysPruningStructure get();
+		void set(PhysPruningStructure value);
+	}
 
 	/// <summary>
 	/// Hint for how much work should be done per simulation frame to 
@@ -211,7 +234,11 @@ public:
 
 	//void* userData, can implement with object/gcroot or even template
 
-	//NxBroadPhaseType bpType
+	property PhysBroadPhaseType BpType
+	{
+		PhysBroadPhaseType get();
+		void set(PhysBroadPhaseType value);
+	}
 
 	/// <summary>
 	/// Defines the number of broadphase cells along the grid x-axis.

@@ -181,7 +181,18 @@ namespace PhysXPlugin
             }
 	    }
 
-	    //public NxTimeStepMethod timeStepMethod;
+        [Editable]
+        public PhysTimeStepMethod TimeStepMethod
+        {
+            get
+            {
+                return sceneDesc.TimeStepMethod;
+            }
+            set
+            {
+                sceneDesc.TimeStepMethod = value;
+            }
+        }
 
 	    //public NxBounds3 maxBounds
 
@@ -266,7 +277,18 @@ namespace PhysXPlugin
             }
 	    }
 
-	    //public NxThreadPriority simThreadPriority
+        [Editable]
+        public PhysThreadPriority SimThreadPriority
+        {
+            get
+            {
+                return sceneDesc.SimThreadPriority;
+            }
+            set
+            {
+                sceneDesc.SimThreadPriority = value;
+            }
+        }
 
 	    /// <summary>
 	    /// Allows the user to specify which (logical) 
@@ -318,8 +340,18 @@ namespace PhysXPlugin
             }
 	    }
 
-
-	    //Property NxThreadPriority WorkerThreadPriority
+        [Editable]
+        public PhysThreadPriority WorkerThreadPriority
+        {
+            get
+            {
+                return sceneDesc.WorkerThreadPriority;
+            }
+            set
+            {
+                sceneDesc.WorkerThreadPriority = value;
+            }
+        }
 
 	    /// <summary>
 	    /// Allows the user to specify which (logical) processor to allocate SDK 
@@ -354,7 +386,18 @@ namespace PhysXPlugin
             }
 	    }
 
-	    //Property NxThreadPriority BackgroundThreadPriority
+        [Editable]
+        public PhysThreadPriority BackgroundThreadPriority
+        {
+            get
+            {
+                return sceneDesc.BackgroundThreadPriority;
+            }
+            set
+            {
+                sceneDesc.BackgroundThreadPriority = value;
+            }
+        }
 
 	    /// <summary>
 	    /// Allows the user to specify which (logical) processor to allocate 
@@ -413,9 +456,31 @@ namespace PhysXPlugin
             }
 	    }
 
-	    //NxPruningStructure staticStructure
+        [Editable]
+        public PhysPruningStructure StaticStructure
+        {
+            get
+            {
+                return sceneDesc.StaticStructure;
+            }
+            set
+            {
+                sceneDesc.StaticStructure = value;
+            }
+        }
 
-	    //NxPruningStructure dynamicStructure
+        [Editable]
+        public PhysPruningStructure DynamicStructure
+        {
+            get
+            {
+                return sceneDesc.DynamicStructure;
+            }
+            set
+            {
+                sceneDesc.DynamicStructure = value;
+            }
+        }
 
 	    /// <summary>
 	    /// Hint for how much work should be done per simulation frame to 
@@ -436,7 +501,18 @@ namespace PhysXPlugin
 
 	    //void* userData, can implement with object/gcroot or even template
 
-	    //NxBroadPhaseType bpType
+        [Editable]
+        public PhysBroadPhaseType BpType
+        {
+            get
+            {
+                return sceneDesc.BpType;
+            }
+            set
+            {
+                sceneDesc.BpType = value;
+            }
+        }
 
 	    /// <summary>
 	    /// Defines the number of broadphase cells along the grid x-axis.
@@ -511,6 +587,13 @@ namespace PhysXPlugin
         private const String MAX_ITER = "MaxIter";
         private const String MAX_TIMESTAMP = "MaxTimestamp";
         private const String GRAVITY = "Gravity";
+        private const String TIME_STEP_METHOD = "TimeStepMethod";
+        private const String SIM_THREAD_PRIORITY = "SimThreadPriority";
+        private const String WORKER_THREAD_PRIORITY = "WorkerThreadPriority";
+        private const String BACKGROUND_THREAD_PRIORITY = "BackgroundThreadPriority";
+        private const String STATIC_STRUCTURE = "StaticStructure";
+        private const String DYNAMIC_STRUCTURE = "DynamicStructure";
+        private const String BP_TYPE = "BpType";
 
         private PhysXSceneManagerDefinition(LoadInfo info)
         {
@@ -536,6 +619,13 @@ namespace PhysXPlugin
             MaxIter = info.GetUInt32(MAX_ITER);
             MaxTimestamp = info.GetFloat(MAX_TIMESTAMP);
             Gravity = info.GetVector3(GRAVITY);
+            TimeStepMethod = info.GetValue<PhysTimeStepMethod>(TIME_STEP_METHOD);
+            SimThreadPriority = info.GetValue<PhysThreadPriority>(SIM_THREAD_PRIORITY);
+            WorkerThreadPriority = info.GetValue<PhysThreadPriority>(WORKER_THREAD_PRIORITY);
+            BackgroundThreadPriority = info.GetValue<PhysThreadPriority>(BACKGROUND_THREAD_PRIORITY);
+            StaticStructure = info.GetValue<PhysPruningStructure>(STATIC_STRUCTURE);
+            DynamicStructure = info.GetValue<PhysPruningStructure>(DYNAMIC_STRUCTURE);
+            BpType = info.GetValue<PhysBroadPhaseType>(BP_TYPE);
         }
 
         public void getInfo(SaveInfo info)
@@ -561,6 +651,13 @@ namespace PhysXPlugin
             info.AddValue(MAX_ITER, MaxIter);
             info.AddValue(MAX_TIMESTAMP, MaxTimestamp);
             info.AddValue(GRAVITY, Gravity);
+            info.AddValue(TIME_STEP_METHOD, TimeStepMethod);
+            info.AddValue(SIM_THREAD_PRIORITY, SimThreadPriority);
+            info.AddValue(WORKER_THREAD_PRIORITY, WorkerThreadPriority);
+            info.AddValue(BACKGROUND_THREAD_PRIORITY, BackgroundThreadPriority);
+            info.AddValue(STATIC_STRUCTURE, StaticStructure);
+            info.AddValue(DYNAMIC_STRUCTURE, DynamicStructure);
+            info.AddValue(BP_TYPE, BpType);
         }
 
         #endregion

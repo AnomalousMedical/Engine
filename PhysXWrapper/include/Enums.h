@@ -2383,4 +2383,93 @@ public enum class PhysTimeStepMethod : unsigned int
 	NX_TSM_FORCE_DWORD = 0x7fffffff	//!< Just to make sure sizeof(enum) == 4, not a valid value.
 };
 
+/**
+\brief Used to specify a thread priority.
+*/
+[Engine::Attributes::SingleEnum]
+public enum class PhysThreadPriority : unsigned int
+{
+	/**
+	\brief High priority
+	*/
+	NX_TP_HIGH		    =0,
+
+    /**
+	\brief Above Normal priority
+	*/
+	NX_TP_ABOVE_NORMAL  =1,
+
+	/**
+	\brief Normal/default priority
+	*/
+	NX_TP_NORMAL	    =2,
+
+    /**
+	\brief Below Normal priority
+	*/
+    NX_TP_BELOW_NORMAL  =3,
+
+	/**
+	\brief Low priority.
+	*/
+	NX_TP_LOW		    =4,
+
+	NX_TP_FORCE_DWORD = 0xffFFffFF
+};
+
+[Engine::Attributes::SingleEnum]
+public enum class PhysPruningStructure : unsigned int
+{
+	NX_PRUNING_NONE,				//!< No structure, using a linear list of objects
+	NX_PRUNING_OCTREE,				//!< Using a preallocated loose octree
+	NX_PRUNING_QUADTREE,			//!< Using a preallocated loose quadtree
+	NX_PRUNING_DYNAMIC_AABB_TREE,	//!< Using a dynamic AABB tree
+	NX_PRUNING_STATIC_AABB_TREE,	//!< Using a static AABB tree
+};
+
+/**
+\brief Selects a broadphase type.
+*/
+[Engine::Attributes::SingleEnum]
+public enum class PhysBroadPhaseType : unsigned int
+{
+	/**
+	\brief A sweep-and-prune (SAP) algorithm to find pairs of potentially colliding shapes.
+
+	<b>Platform:</b>
+	\li PC SW: Yes
+	\li PPU  : Yes
+	\li PS3  : Yes
+	\li XB360: Yes
+	*/
+    NX_BP_TYPE_SAP_SINGLE,
+
+	/**
+	\brief A multi sweep-and-prune algorithm to find pairs of potentially colliding shapes.
+	
+	Uses a configurable 2D grid to divide the scene space into cells. The potentially overlapping 
+	shape pairs are detected in each cell and the information is merged together. This approach
+	is usually faster than NX_BP_TYPE_SAP_SINGLE in scenarios with many shapes and a high creation/deletion
+	rate of shapes. However, the amount of memory required is considerably higher depending on the
+	number of grid cells used.
+
+	\note The following extra parameters need to be defined:
+	\li NxSceneDesc.maxBounds
+	\li NxSceneDesc.upAxis
+	\li NxSceneDesc.nbGridCellsX
+	\li NxSceneDesc.nbGridCellsY
+
+	\n
+
+	<b>Platform:</b>
+	\li PC SW: Yes
+	\li PPU  : No
+	\li PS3  : No
+	\li XB360: Yes
+
+	@see NxSceneDesc.bpType
+	*/
+    NX_BP_TYPE_SAP_MULTI,
+};
+
 }

@@ -95,6 +95,16 @@ void PhysSceneDesc::SimThreadStackSize::set(unsigned int size)
 	sceneDesc->simThreadStackSize = size; 
 }
 
+PhysThreadPriority PhysSceneDesc::SimThreadPriority::get()
+{ 
+	return static_cast<PhysThreadPriority>(sceneDesc->simThreadPriority); 
+}
+
+void PhysSceneDesc::SimThreadPriority::set(PhysThreadPriority value) 
+{ 
+	sceneDesc->simThreadPriority = static_cast<NxThreadPriority>(value);
+}
+
 unsigned int PhysSceneDesc::SimThreadMask::get() 
 { 
 	return sceneDesc->simThreadMask; 
@@ -125,6 +135,16 @@ void PhysSceneDesc::WorkerThreadStackSize::set(unsigned int size)
 	sceneDesc->workerThreadStackSize = size; 
 }
 
+PhysThreadPriority PhysSceneDesc::WorkerThreadPriority::get()
+{ 
+	return static_cast<PhysThreadPriority>(sceneDesc->workerThreadPriority); 
+}
+
+void PhysSceneDesc::WorkerThreadPriority::set(PhysThreadPriority value) 
+{ 
+	sceneDesc->workerThreadPriority = static_cast<NxThreadPriority>(value);
+}
+
 unsigned int PhysSceneDesc::ThreadMask::get() 
 { 
 	return sceneDesc->threadMask; 
@@ -143,6 +163,16 @@ unsigned int PhysSceneDesc::BackgroundThreadCount::get()
 void PhysSceneDesc::BackgroundThreadCount::set(unsigned int count) 
 { 
 	sceneDesc->backgroundThreadCount = count; 
+}
+
+PhysThreadPriority PhysSceneDesc::BackgroundThreadPriority::get()
+{ 
+	return static_cast<PhysThreadPriority>(sceneDesc->backgroundThreadPriority); 
+}
+
+void PhysSceneDesc::BackgroundThreadPriority::set(PhysThreadPriority value) 
+{ 
+	sceneDesc->backgroundThreadPriority = static_cast<NxThreadPriority>(value);
 }
 
 unsigned int PhysSceneDesc::BackgroundThreadMask::get() 
@@ -175,6 +205,26 @@ void PhysSceneDesc::SubdivisionLevel::set(unsigned int level)
 	sceneDesc->subdivisionLevel = level; 
 }
 
+PhysPruningStructure PhysSceneDesc::StaticStructure::get() 
+{ 
+	return static_cast<PhysPruningStructure>(sceneDesc->staticStructure); 
+}
+
+void PhysSceneDesc::StaticStructure::set(PhysPruningStructure level) 
+{ 
+	sceneDesc->staticStructure = static_cast<NxPruningStructure>(level); 
+}
+
+PhysPruningStructure PhysSceneDesc::DynamicStructure::get() 
+{ 
+	return static_cast<PhysPruningStructure>(sceneDesc->dynamicStructure); 
+}
+
+void PhysSceneDesc::DynamicStructure::set(PhysPruningStructure level) 
+{ 
+	sceneDesc->dynamicStructure = static_cast<NxPruningStructure>(level); 
+}
+
 unsigned int PhysSceneDesc::DynamicTreeRebuildRateHint::get()
 { 
 	return sceneDesc->dynamicTreeRebuildRateHint; 
@@ -183,6 +233,16 @@ unsigned int PhysSceneDesc::DynamicTreeRebuildRateHint::get()
 void PhysSceneDesc::DynamicTreeRebuildRateHint::set(unsigned int hint) 
 { 
 	sceneDesc->dynamicTreeRebuildRateHint = hint; 
+}
+
+PhysBroadPhaseType PhysSceneDesc::BpType::get()
+{ 
+	return static_cast<PhysBroadPhaseType>(sceneDesc->bpType); 
+}
+
+void PhysSceneDesc::BpType::set(PhysBroadPhaseType value) 
+{ 
+	sceneDesc->bpType = static_cast<NxBroadPhaseType>(value); 
 }
 
 unsigned int PhysSceneDesc::NbGridCellsX::get() 
