@@ -14,12 +14,10 @@ namespace PhysXWrapper
 
 ref class PhysActor;
 ref class ContactIterator;
-interface class ContactListener;
 ref class PhysActorDesc;
 ref class PhysBodyDesc;
 ref class PhysShapeDesc;
 
-typedef System::Collections::Generic::LinkedList<ContactListener^> ContactListenerList;
 typedef gcroot<PhysActor^> PhysActorGCRoot;
 
 interface class ActiveTransformCallback;
@@ -39,11 +37,11 @@ public ref class PhysActor
 {
 private:
 	ActiveTransformCallback^ callback;
-	ContactListenerList^ contactListeners;
 
 	AutoPtr<PhysActorGCRoot> actorRoot;
 
 	PhysShapeCollection shapes;
+	Object^ userData;
 
 internal:
 	//NxActor is avaliable internally for easy use in SDK functions.
@@ -61,16 +59,6 @@ internal:
 	/// </summary>
 	/// <param name="newLoc">The new location.</param>
 	void fireLocationChanged(NxMat34& newLoc);
-
-	/// <summary>
-	/// Called by the NativeContactReport when this actor contacts another actor.  Will
-	/// dispatch messages to the ContactListeners owned by this actor.
-	/// </summary>
-	/// <param name="contactWith">The item being contacted with.</param>
-	/// <param name="myself">The owner item contacting the other item.</param>
-	/// <param name="contacts">The contact iterator with the contact point information.</param>
-	/// <param name="contactType">The type of contact.</param>
-	void alertContact( PhysActor^ contactWith, PhysActor^ myself, ContactIterator^ contacts, ContactPairFlag contactType );
 
 public:
 	/// <summary>
@@ -110,18 +98,6 @@ public:
 	/// </summary>
 	/// <param name="callback">The callback class.</param>
 	void setActiveTransformCallback(ActiveTransformCallback^ callback);
-
-	/// <summary>
-	/// Adds a listener that gets fired when this object contacts another object.
-	/// </summary>
-	/// <param name="listener">The listener to add.</param>
-	void addContactListener( ContactListener^ listener );
-
-	/// <summary>
-	/// Remove the contact listener.
-	/// </summary>
-	/// <param name="listener">The listener to remove.</param>
-	void removeContactListener( ContactListener^ listener );
 
 	/// <summary>
 	/// Set the global translation of the rigid body.
@@ -672,6 +648,24 @@ public:
 	/// </summary>
 	/// <returns>A new list with all the shapes in this actor.</returns>
 	ShapeEnumerator^ getShapes();
+
+	/// <summary>
+	/// Get the userdata on this actor.
+	/// </summary>
+	/// <returns>The userdata for this actor.</returns>
+	Object^ getUserData()
+	{
+		return userData;
+	}
+
+	/// <summary>
+	/// Set some application specific userdata for this actor.
+	/// </summary>
+	/// <param name="userData">The userdata to set for this actor.</param>
+	void setUserData(Object^ userData)
+	{
+		this->userData = userData;
+	}
 };
 
 }

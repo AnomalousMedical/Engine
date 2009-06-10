@@ -125,6 +125,7 @@ namespace PhysXPlugin
         {
             PhysActor actor = scene.createActor(actorDesc.ActorDesc);
             PhysActorElement element = new PhysActorElement(actor, this, actorDesc.Name, actorDesc.Subscription);
+            actor.setUserData(element);
             return element;
         }
 
@@ -135,6 +136,7 @@ namespace PhysXPlugin
         /// <param name="name">The name of the actor to destroy.</param>
         internal void destroyPhysActor(PhysActorElement actor)
         {
+            actor.Actor.setUserData(null);
             scene.releaseActor(actor.Actor);
         }
 
@@ -183,7 +185,24 @@ namespace PhysXPlugin
 
         public void onContactNotify(PhysContactPair pair, ContactPairFlag events)
         {
-            
+            PhysActorElement actor0 = null;
+            PhysActorElement actor1 = null;
+            if (!pair.isActorDeleted(0))
+            {
+                actor0 = pair.getActor(0).getUserData() as PhysActorElement;
+            }
+            if (!pair.isActorDeleted(1))
+            {
+                actor1 = pair.getActor(1).getUserData() as PhysActorElement;
+            }
+            if (actor0 != null)
+            {
+                actor0.fireContactEvent(actor1, actor0, pair.getContactIterator(), events);
+            }
+            if (actor1 != null)
+            {
+                actor1.fireContactEvent(actor0, actor1, pair.getContactIterator(), events);
+            }
         }
 
         #endregion

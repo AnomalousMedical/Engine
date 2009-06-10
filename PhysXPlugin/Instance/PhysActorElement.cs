@@ -23,6 +23,7 @@ namespace PhysXPlugin
         private bool changeKinematicStatus;
         private bool changeDisableCollisionStatus;
         private String shapeName;
+        private List<PhysContactListener> listeners = new List<PhysContactListener>(); 
 
         #endregion
 
@@ -166,6 +167,39 @@ namespace PhysXPlugin
         public void firePositionUpdate(ref Vector3 translation, ref Quaternion rotation)
         {
             updatePosition(ref translation, ref rotation);
+        }
+
+        /// <summary>
+        /// Add a PhysContactListener.
+        /// </summary>
+        /// <param name="listener">The listener to add.</param>
+        public void addContactListener(PhysContactListener listener)
+        {
+            listeners.Add(listener);
+        }
+
+        /// <summary>
+        /// Remove a PhysContactListener.
+        /// </summary>
+        /// <param name="listener">The listener to remove.</param>
+        public void removeContactListener(PhysContactListener listener)
+        {
+            listeners.Remove(listener);
+        }
+
+        /// <summary>
+        /// Fire the contact event.
+        /// </summary>
+        /// <param name="contactWith">The item being contacted with. This will be null if the PhysActorElement being collided with is deleted.</param>
+        /// <param name="myself">The owner item contacting the other item. This will be null if the PhysActorElement is deleted.</param>
+        /// <param name="contacts">The contact iterator with the contact point information.</param>
+        /// <param name="contactType">The type of contact.</param>
+        internal void fireContactEvent(PhysActorElement contactWith, PhysActorElement myself, ContactIterator contacts, ContactPairFlag contactType)
+        {
+            foreach (PhysContactListener listener in listeners)
+            {
+                listener.onContact(contactWith, myself, contacts, contactType);
+            }
         }
 
         #endregion

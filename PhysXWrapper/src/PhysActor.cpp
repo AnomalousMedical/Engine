@@ -5,7 +5,6 @@
 #include "MarshalUtils.h"
 #include "MathUtil.h"
 #include "ActiveTransformCallback.h"
-#include "ContactListener.h"
 #include "PhysActorDesc.h"
 #include "PhysBodyDesc.h"
 #include "PhysShape.h"
@@ -19,8 +18,7 @@ using namespace System;
 PhysActor::PhysActor(NxActor* actor)
 :actor(actor), 
 actorRoot(new PhysActorGCRoot()), 
-callback( nullptr ),
-contactListeners( gcnew ContactListenerList() )
+callback( nullptr )
 {
 	*actorRoot.Get() = this;
 	actor->userData = actorRoot.Get();
@@ -412,24 +410,6 @@ void PhysActor::getPointVelocity(Engine::Vector3 point, Engine::Vector3% result)
 void PhysActor::getLocalPointVelocity(Engine::Vector3 point, Engine::Vector3% result){
 	NxVec3 pointVel = actor->getLocalPointVelocity( NxVec3(point.x, point.y, point.z) );
 	MathUtil::copyVector3( pointVel, result );
-}
-
-void PhysActor::addContactListener( ContactListener^ listener )
-{
-	contactListeners->AddLast( listener );
-}
-
-void PhysActor::removeContactListener( ContactListener^ listener )
-{
-	contactListeners->Remove( listener );
-}
-
-void PhysActor::alertContact( PhysActor^ contactWith, PhysActor^ myself, ContactIterator^ contacts, ContactPairFlag contactType )
-{
-	for each( ContactListener^ listener in contactListeners )
-	{
-		listener->contact( contactWith, myself, contacts, contactType );
-	}
 }
 
 PhysShape^ PhysActor::createShape(PhysShapeDesc^ desc)

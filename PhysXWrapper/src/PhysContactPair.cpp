@@ -34,14 +34,7 @@ bool PhysContactPair::isActorDeleted(int actor)
 
 PhysActor^ PhysContactPair::getActor(int actor)
 {
-	if(contactPair->isDeletedActor[actor])
-	{
-		return nullptr;
-	}
-	else
-	{
-		return *(PhysActorGCRoot*)(contactPair->actors[actor]->userData);
-	}
+	return *(PhysActorGCRoot*)(contactPair->actors[actor]->userData);
 }
 
 ContactIterator^ PhysContactPair::getContactIterator()
