@@ -85,7 +85,7 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="loadInfo"></param>
         private PhysPointOnLineJointDefinition(LoadInfo loadInfo)
-            :base(new PhysPointOnLineJointDesc(), loadInfo)
+            : base(new PhysPointOnLineJointDesc(), "PointOnLine Joint", loadInfo)
         {
 
         }

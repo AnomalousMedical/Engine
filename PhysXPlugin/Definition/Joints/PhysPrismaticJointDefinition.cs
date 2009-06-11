@@ -85,7 +85,7 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="loadInfo"></param>
         private PhysPrismaticJointDefinition(LoadInfo loadInfo)
-            :base(new PhysPrismaticJointDesc(), loadInfo)
+            : base(new PhysPrismaticJointDesc(), "Prismatic Joint", loadInfo)
         {
 
         }

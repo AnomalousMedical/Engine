@@ -177,7 +177,7 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="loadInfo"></param>
         private PhysRevoluteJointDefinition(LoadInfo info)
-            :base(new PhysRevoluteJointDesc(), info)
+            : base(new PhysRevoluteJointDesc(), "Revolute Joint", info)
         {
             limit = info.GetValue<PhysJointLimitPairDescription>(LIMIT);
             motor = info.GetValue<PhysMotorDescription>(MOTOR);

@@ -187,7 +187,7 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="loadInfo"></param>
         private PhysSphericalJointDefinition(LoadInfo info)
-            : base(new PhysSphericalJointDesc(), info)
+            : base(new PhysSphericalJointDesc(), "Spherical Joint", info)
         {
             twistLimit = info.GetValue<PhysJointLimitPairDescription>(TWIST_LIMIT);
             swingLimit = info.GetValue<PhysJointLimitDescription>(SWING_LIMIT);

@@ -85,7 +85,7 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="loadInfo"></param>
         private PhysFixedJointDefinition(LoadInfo loadInfo)
-            :base(new PhysFixedJointDesc(), loadInfo)
+            : base(new PhysFixedJointDesc(), "Fixed Joint", loadInfo)
         {
 
         }

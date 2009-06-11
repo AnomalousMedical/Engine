@@ -85,7 +85,7 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="loadInfo"></param>
         private PhysCylindricalJointDefinition(LoadInfo loadInfo)
-            : base(new PhysCylindricalJointDesc(), loadInfo)
+            : base(new PhysCylindricalJointDesc(), "Cylindrical Joint", loadInfo)
         {
 
         }

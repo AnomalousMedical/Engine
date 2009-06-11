@@ -151,7 +151,7 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="loadInfo"></param>
         private PhysDistanceJointDefinition(LoadInfo info)
-            : base(new PhysDistanceJointDesc(), info)
+            : base(new PhysDistanceJointDesc(), "Distance Joint", info)
         {
             spring = info.GetValue<PhysSpringDescription>(SPRING);
             MaxDistance = info.GetFloat(MAX_DISTANCE);

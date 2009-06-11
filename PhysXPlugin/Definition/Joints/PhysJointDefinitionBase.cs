@@ -337,10 +337,11 @@ namespace PhysXPlugin
         private const String LOCAL_ANCHOR_0 = "PhysJointDefinitionLocalAnchor0";
         private const String LOCAL_ANCHOR_1 = "PhysJointDefinitionLocalAnchor1";
 
-        protected PhysJointDefinitionBase(Desc jointDesc, LoadInfo info)
+        protected PhysJointDefinitionBase(Desc jointDesc, String jointTypeName, LoadInfo info)
             : base(info)
         {
             this.jointDesc = jointDesc;
+            this.jointTypeName = jointTypeName;
             Actor0SimObject = info.GetString(ACTOR_0_SIMOBJECT);
             Actor0Element = info.GetString(ACTOR_0_ELEMENT);
             Actor1SimObject = info.GetString(ACTOR_1_SIMOBJECT);

@@ -85,7 +85,7 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="loadInfo"></param>
         private PhysPointInPlaneJointDefinition(LoadInfo loadInfo)
-            :base(new PhysPointInPlaneJointDesc(), loadInfo)
+            : base(new PhysPointInPlaneJointDesc(), "PointInPlane Joint", loadInfo)
         {
 
         }

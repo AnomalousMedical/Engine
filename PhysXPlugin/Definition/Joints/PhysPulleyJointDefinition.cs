@@ -195,7 +195,7 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="loadInfo"></param>
         private PhysPulleyJointDefinition(LoadInfo info)
-            :base(new PhysPulleyJointDesc(), info)
+            : base(new PhysPulleyJointDesc(), "Pulley Joint", info)
         {
             motor = info.GetValue<PhysMotorDescription>(MOTOR);
             Pulley0 = info.GetVector3(PULLEY_0);

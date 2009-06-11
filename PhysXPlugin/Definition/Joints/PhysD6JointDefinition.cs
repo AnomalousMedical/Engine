@@ -369,7 +369,7 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="loadInfo"></param>
         private PhysD6JointDefinition(LoadInfo info)
-            : base(new PhysD6JointDesc(), info)
+            : base(new PhysD6JointDesc(), "D6 Joint", info)
         {
             linearLimit = info.GetValue<PhysJointLimitSoftDescription>(LINEAR_LIMIT);
             swing1Limit = info.GetValue<PhysJointLimitSoftDescription>(SWING_1_LIMIT);
