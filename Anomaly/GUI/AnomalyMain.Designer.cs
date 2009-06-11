@@ -408,6 +408,7 @@
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.mainToolStripContainer);
             this.Controls.Add(this.mainMenu);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.mainMenu;
             this.Name = "AnomalyMain";

@@ -81,6 +81,9 @@
             this.Controls.Add(this.browserTree);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "BrowserWindow";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Browse...";
             this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
