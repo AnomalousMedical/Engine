@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Logging;
 using Engine;
+using Anomaly.GUI;
 
 namespace Anomaly
 {
@@ -17,13 +18,17 @@ namespace Anomaly
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
+            SplashScreen splash = new SplashScreen();
+            splash.Show();
+            Application.DoEvents();
             using (AnomalyController anomalyController = new AnomalyController())
             {
                 try
                 {
                     anomalyController.initialize();
                     anomalyController.createNewScene();
+                    splash.Close();
+                    splash.Dispose();
                     anomalyController.start();
                 }
                 catch (Exception e)
