@@ -62,37 +62,40 @@ namespace Engine
 
         public void loadConfigFile()
         {
-            StreamReader reader = null;
-            try
+            if (File.Exists(BackingFile))
             {
-		        reader = new StreamReader(new BufferedStream(File.Open(BackingFile, FileMode.Open, FileAccess.Read)));
-                String line = reader.ReadLine();
-                while (line != null && !line.StartsWith(SECTION_HEADER))
+                StreamReader reader = null;
+                try
                 {
-                    line = reader.ReadLine();
-                }
-                if (line != null)
-                {
-			        line = line.Replace("[", String.Empty).Replace("]", String.Empty);
-                    ConfigSection section = createOrRetrieveConfigSection(line);
-                    line = section.readSection(reader);
-                    while (line != null)
+                    reader = new StreamReader(new BufferedStream(File.Open(BackingFile, FileMode.Open, FileAccess.Read)));
+                    String line = reader.ReadLine();
+                    while (line != null && !line.StartsWith(SECTION_HEADER))
                     {
-				        line = line.Replace("[", String.Empty).Replace("]", String.Empty);
-                        section = createOrRetrieveConfigSection(line);
+                        line = reader.ReadLine();
+                    }
+                    if (line != null)
+                    {
+                        line = line.Replace("[", String.Empty).Replace("]", String.Empty);
+                        ConfigSection section = createOrRetrieveConfigSection(line);
                         line = section.readSection(reader);
+                        while (line != null)
+                        {
+                            line = line.Replace("[", String.Empty).Replace("]", String.Empty);
+                            section = createOrRetrieveConfigSection(line);
+                            line = section.readSection(reader);
+                        }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-		        Log.Default.sendMessage("Error loading config file {0}.\n{1}.", LogLevel.Error, "Config", backingFile, ex.Message);
-            }
-            finally
-            {
-                if (reader != null)
+                catch (Exception ex)
                 {
-                    reader.Close();
+                    Log.Default.sendMessage("Error loading config file {0}.\n{1}.", LogLevel.Error, "Config", backingFile, ex.Message);
+                }
+                finally
+                {
+                    if (reader != null)
+                    {
+                        reader.Close();
+                    }
                 }
             }
         }
