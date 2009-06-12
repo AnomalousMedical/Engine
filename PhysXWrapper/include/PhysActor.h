@@ -193,6 +193,12 @@ public:
 	/// <returns>True if the actor is dynamic.</returns>
 	bool isDynamic();
 
+	/// <summary>
+	/// Computes the total kinetic rotational and translational energy of the object.
+	/// </summary>
+	/// <returns>The kinetic energy of the actor.</returns>
+	float computeKineticEnergy();
+
 
 	//----------------------
 	//Forces

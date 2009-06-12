@@ -138,6 +138,11 @@ bool PhysActor::isDynamic()
 	return actor->isDynamic();
 }
 
+float PhysActor::computeKineticEnergy()
+{
+	return actor->computeKineticEnergy();
+}
+
 //-----------
 //Forces
 //-----------
