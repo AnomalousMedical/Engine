@@ -19,9 +19,9 @@ public:
 
 	virtual DebugInterface^ getDebugInterface(){return nullptr;}
 
-	virtual UpdateTimer^ createTimer();
+	virtual SystemTimer^ createTimer();
 
-	virtual void destroyTimer(UpdateTimer^ timer);
+	virtual void destroyTimer(SystemTimer^ timer);
 
 	virtual InputHandler^ createInputHandler(OSWindow^ window, bool foreground, bool exclusive, bool noWinKey);
 

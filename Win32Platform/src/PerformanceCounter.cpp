@@ -37,6 +37,11 @@ double PerformanceCounter::getDelta()
 	QueryPerformanceCounter(&thisTime);
 	double deltaTime = static_cast<double>(thisTime.QuadPart - lastTime.QuadPart) / static_cast<double>(performanceFrequency.QuadPart);
 	lastTime = thisTime;
+	//Prevent negative deltas
+	if(deltaTime < 0.0)
+	{
+		deltaTime = 0.0;
+	}
 	return deltaTime;
 }
 

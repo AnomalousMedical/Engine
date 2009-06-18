@@ -216,10 +216,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\PerformanceTimer.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Stdafx.cpp"
 				>
 				<FileConfiguration
@@ -241,6 +237,10 @@
 			</File>
 			<File
 				RelativePath=".\src\Win32PlatformPlugin.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Win32SystemTimer.cpp"
 				>
 			</File>
 			<File
@@ -278,10 +278,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\PerformanceTimer.h"
-				>
-			</File>
-			<File
 				RelativePath=".\resource.h"
 				>
 			</File>
@@ -291,6 +287,10 @@
 			</File>
 			<File
 				RelativePath=".\include\Win32PlatformPlugin.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\Win32SystemTimer.h"
 				>
 			</File>
 			<File

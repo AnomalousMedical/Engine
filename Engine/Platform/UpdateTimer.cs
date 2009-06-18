@@ -8,18 +8,28 @@ namespace Engine.Platform
     /// <summary>
     /// This class is an abstract base class for a timer.
     /// </summary>
-    public abstract class UpdateTimer
+    public class UpdateTimer
     {
         List<UpdateListener> fixedListeners = new List<UpdateListener>();
         List<UpdateListener> fullSpeedListeners = new List<UpdateListener>();
 
         Clock clock = new Clock();
+        private SystemTimer systemTimer;
 
-        public UpdateTimer()
+        double fixedFrequency;
+        double maxDelta;
+        int maxFrameSkip;
+
+        double totalTime = 0.0; //The total time for all frames that hasnt been processed
+
+        bool started = false;
+
+        public UpdateTimer(SystemTimer systemTimer)
         {
-            FixedFrequency = 1.0 / 60.0;
-            MaxDelta = 0.1;
-            MaxFrameSkip = 7;
+            this.systemTimer = systemTimer;
+            fixedFrequency = 1.0 / 60.0;
+            maxDelta = 0.1;
+            maxFrameSkip = 7;
         }
 
         /// <summary>
@@ -59,29 +69,69 @@ namespace Engine.Platform
         }
 
         /// <summary>
-        /// Pass true to this function to tell this timer to process the
-        /// platform's message loop if the platform requires that and the loop
-        /// thread is the same thread the windows are running on.
-        /// </summary>
-        /// <param name="process">True to have this timer process the platform's message loop.</param>
-        public abstract void processMessageLoop(bool process);
-
-        /// <summary>
         /// Starts the loop iterating at the set update frequency.  This function will return
         /// once the loop is stopped.
         /// </summary>
-        public abstract bool startLoop();
+        public bool startLoop()
+        {
+            if (systemTimer.initialize())
+            {
+                return false;
+            }
+
+            started = true;
+            fireLoopStarted();
+            systemTimer.prime();
+            double deltaTime;
+            totalTime = 0;
+            int loops = 0;
+
+            while (started)
+            {
+                deltaTime = systemTimer.getDelta();
+                if (deltaTime > maxDelta)
+                {
+                    deltaTime = maxDelta;
+                    fireExceededMaxDelta();
+                }
+                totalTime += deltaTime;
+
+                loops = 0;
+                while (totalTime > fixedFrequency && loops < maxFrameSkip)
+                {
+                    fireFixedUpdate();
+                    totalTime -= fixedFrequency;
+                    loops++;
+                }
+
+                fireFullSpeedUpdate(deltaTime);
+            }
+            return true;
+        }
 
         /// <summary>
         /// Stops the loop.
         /// </summary>
-        public abstract void stopLoop();
+        public void stopLoop()
+        {
+            started = false;
+        }
 
         /// <summary>
         /// Sets the frequency of the fixed updates in seconds. The default is
         /// 1/60 (60Hz).
         /// </summary>
-        public abstract double FixedFrequency { get; set; }
+        public double FixedFrequency
+        {
+            get
+            {
+                return fixedFrequency;
+            }
+            set
+            {
+                fixedFrequency = value;
+            }
+        }
 
         /// <summary>
         /// Set the maximum delta that the timer can report. If the true delta
@@ -89,14 +139,34 @@ namespace Engine.Platform
         /// (10 fps). This will cause the simulation to run slow if it is
         /// running at less than the max delta.
         /// </summary>
-        public abstract double MaxDelta { get; set; }
+        public double MaxDelta
+        {
+            get
+            {
+                return maxDelta;
+            }
+            set
+            {
+                maxDelta = value;
+            }
+        }
 
         /// <summary>
         /// Sets the maximum number of frames that can be skipped in the full
         /// speed updater if the fixed updater is running slow. The default is
         /// 7.
         /// </summary>
-        public abstract int MaxFrameSkip { get; set; }
+        public int MaxFrameSkip
+        {
+            get
+            {
+                return maxFrameSkip;
+            }
+            set
+            {
+                maxFrameSkip = value;
+            }
+        }
 
         /// <summary>
         /// Fire a fixed update.

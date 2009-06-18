@@ -44,6 +44,7 @@ namespace Anomaly
 
         //Platform
         private UpdateTimer mainTimer;
+        private SystemTimer systemTimer;
         private EventManager eventManager;
         private InputHandler inputHandler;
         private EventUpdateListener eventUpdate;
@@ -116,7 +117,8 @@ namespace Anomaly
             mainForm = new AnomalyMain();
 
             //Intialize the platform
-            mainTimer = pluginManager.PlatformPlugin.createTimer();
+            systemTimer = pluginManager.PlatformPlugin.createTimer();
+            mainTimer = new UpdateTimer(systemTimer);
             inputHandler = pluginManager.PlatformPlugin.createInputHandler(mainForm, false, false, false);
             eventManager = new EventManager(inputHandler);
             eventUpdate = new EventUpdateListener(eventManager);
@@ -192,6 +194,10 @@ namespace Anomaly
             if (inputHandler != null)
             {
                 pluginManager.PlatformPlugin.destroyInputHandler(inputHandler);
+            }
+            if(systemTimer != null)
+            {
+                pluginManager.PlatformPlugin.destroyTimer(systemTimer);
             }
             if (pluginManager != null)
             {

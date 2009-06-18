@@ -119,6 +119,7 @@
     <Compile Include="Platform\Input\Mouse.cs" />
     <Compile Include="Platform\OSWindow.cs" />
     <Compile Include="Platform\OSWindowListener.cs" />
+    <Compile Include="Platform\SystemTimer.cs" />
     <Compile Include="Platform\UpdateListener.cs" />
     <Compile Include="Platform\UpdateTimer.cs" />
     <Compile Include="Plugin\DebugEntry.cs" />

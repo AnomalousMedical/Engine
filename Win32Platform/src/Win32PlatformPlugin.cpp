@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include "..\include\Win32PlatformPlugin.h"
-#include "PerformanceTimer.h"
+#include "Win32SystemTimer.h"
 #include "InputHandler.h"
 
 namespace Engine
@@ -29,14 +29,14 @@ System::String^ Win32PlatformPlugin::getName()
 	return "Win32Platform";
 }
 
-UpdateTimer^ Win32PlatformPlugin::createTimer()
+SystemTimer^ Win32PlatformPlugin::createTimer()
 {
-	return gcnew PerformanceTimer();
+	return gcnew Win32SystemTimer();
 }
 
-void Win32PlatformPlugin::destroyTimer(UpdateTimer^ timer)
+void Win32PlatformPlugin::destroyTimer(SystemTimer^ timer)
 {
-	delete static_cast<PerformanceTimer^>(timer);
+	delete static_cast<Win32SystemTimer^>(timer);
 }
 
 InputHandler^ Win32PlatformPlugin::createInputHandler(OSWindow^ window, bool foreground, bool exclusive, bool noWinKey)
