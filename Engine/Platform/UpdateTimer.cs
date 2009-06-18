@@ -10,10 +10,11 @@ namespace Engine.Platform
     /// </summary>
     public class UpdateTimer
     {
-        List<UpdateListener> fixedListeners = new List<UpdateListener>();
-        List<UpdateListener> fullSpeedListeners = new List<UpdateListener>();
+        private List<UpdateListener> fixedListeners = new List<UpdateListener>();
+        private List<UpdateListener> fullSpeedListeners = new List<UpdateListener>();
+        private UpdateListener systemMessageListener;
 
-        Clock clock = new Clock();
+        private Clock clock = new Clock();
         private SystemTimer systemTimer;
 
         double fixedFrequency;
@@ -24,9 +25,18 @@ namespace Engine.Platform
 
         bool started = false;
 
-        public UpdateTimer(SystemTimer systemTimer)
+        /// <summary>
+        /// Create a new UpdateTimer. The SystemMesssageListener field specifies
+        /// an UpdateListener that processes the OS message loop. This will be
+        /// called for every fixed and full speed update to process messages as
+        /// much as possible.
+        /// </summary>
+        /// <param name="systemTimer">The SystemTimer to get high performance time measurements from.</param>
+        /// <param name="systemMessageListener">The UpdateListener that processses system messages.</param>
+        public UpdateTimer(SystemTimer systemTimer, UpdateListener systemMessageListener)
         {
             this.systemTimer = systemTimer;
+            this.systemMessageListener = systemMessageListener;
             fixedFrequency = 1.0 / 60.0;
             maxDelta = 0.1;
             maxFrameSkip = 7;
@@ -178,6 +188,7 @@ namespace Engine.Platform
             {
                 fixedListener.sendUpdate(clock);
             }
+            systemMessageListener.sendUpdate(clock);
         }
 
         /// <summary>
@@ -191,6 +202,7 @@ namespace Engine.Platform
             {
                 fullSpeedListener.sendUpdate(clock);
             }
+            systemMessageListener.sendUpdate(clock);
         }
 
         /// <summary>
@@ -206,6 +218,7 @@ namespace Engine.Platform
             {
                 fullSpeedListener.loopStarting();
             }
+            systemMessageListener.loopStarting();
         }
 
         /// <summary>
@@ -221,6 +234,7 @@ namespace Engine.Platform
             {
                 fullSpeedListener.exceededMaxDelta();
             }
+            systemMessageListener.exceededMaxDelta();
         }
     }
 }

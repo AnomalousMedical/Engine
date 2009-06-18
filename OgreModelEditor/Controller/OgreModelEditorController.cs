@@ -20,7 +20,7 @@ using OgreModelEditor.Controller;
 
 namespace OgreModelEditor
 {
-    class OgreModelEditorController : IDisposable, UpdateListener, IDockProvider
+    class OgreModelEditorController : IDisposable, IDockProvider
     {
         #region Fields
 
@@ -136,12 +136,11 @@ namespace OgreModelEditor
 
             //Intialize the platform
             systemTimer = pluginManager.PlatformPlugin.createTimer();
-            mainTimer = new UpdateTimer(systemTimer);
+            mainTimer = new UpdateTimer(systemTimer, new WindowsFormsUpdate());
             inputHandler = pluginManager.PlatformPlugin.createInputHandler(mainForm, false, false, false);
             eventManager = new EventManager(inputHandler);
             eventUpdate = new EventUpdateListener(eventManager);
             mainTimer.addFixedUpdateListener(eventUpdate);
-            mainTimer.addFullSpeedUpdateListener(this);
             pluginManager.setPlatformInfo(mainTimer, eventManager);
 
             //Initialize controllers
@@ -346,25 +345,6 @@ namespace OgreModelEditor
             }
             return null;
         }
-
-        #region UpdateListener Members
-
-        public void sendUpdate(Clock clock)
-        {
-            Application.DoEvents();
-        }
-
-        public void loopStarting()
-        {
-
-        }
-
-        public void exceededMaxDelta()
-        {
-
-        }
-
-        #endregion
 
         #region IDockProvider Members
 

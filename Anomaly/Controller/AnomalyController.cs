@@ -22,7 +22,7 @@ namespace Anomaly
     /// <summary>
     /// This is the primary controller for the Anomaly editor.
     /// </summary>
-    class AnomalyController : IDisposable, UpdateListener, IDockProvider
+    class AnomalyController : IDisposable, IDockProvider
     {
 
         #region Fields
@@ -48,6 +48,7 @@ namespace Anomaly
         private EventManager eventManager;
         private InputHandler inputHandler;
         private EventUpdateListener eventUpdate;
+        private FullSpeedUpdateListener fixedUpdate;
 
         //Scene
         private TemplateController templates;
@@ -118,7 +119,7 @@ namespace Anomaly
 
             //Intialize the platform
             systemTimer = pluginManager.PlatformPlugin.createTimer();
-            mainTimer = new UpdateTimer(systemTimer);
+            mainTimer = new UpdateTimer(systemTimer, new WindowsFormsUpdate());
             inputHandler = pluginManager.PlatformPlugin.createInputHandler(mainForm, false, false, false);
             eventManager = new EventManager(inputHandler);
             eventUpdate = new EventUpdateListener(eventManager);
@@ -139,7 +140,8 @@ namespace Anomaly
 
             toolManager = new ToolManager(eventManager);
             mainTimer.addFixedUpdateListener(toolManager);
-            mainTimer.addFullSpeedUpdateListener(this);
+            fixedUpdate = new FullSpeedUpdateListener(sceneController);
+            mainTimer.addFullSpeedUpdateListener(fixedUpdate);
             toolInterop.setToolManager(toolManager);
             movementTool = new MovementTool("MovementTool", moveController);
             toolManager.addTool(movementTool);
@@ -588,25 +590,5 @@ namespace Anomaly
         }
 
         #endregion Properties
-
-        #region UpdateListener Members
-
-        public void sendUpdate(Clock clock)
-        {
-            Application.DoEvents();
-            sceneController.drawDebugInformation();
-        }
-
-        public void loopStarting()
-        {
-            
-        }
-
-        public void exceededMaxDelta()
-        {
-            
-        }
-
-        #endregion
     }
 }
