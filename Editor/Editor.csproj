@@ -57,8 +57,6 @@
     <Compile Include="Browser\BrowserWindow.Designer.cs">
       <DependentUpon>BrowserWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Camera\CameraMotionValidator.cs" />
-    <Compile Include="Camera\CameraResolver.cs" />
     <Compile Include="Camera\OrbitCameraController.cs" />
     <Compile Include="CellEditors\MulitEnum\MultiEnumCellEditControl.cs">
       <SubType>Component</SubType>
