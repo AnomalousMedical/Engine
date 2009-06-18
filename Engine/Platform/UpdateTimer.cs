@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace Engine.Platform
 {
@@ -20,6 +21,7 @@ namespace Engine.Platform
         double fixedFrequency;
         double maxDelta;
         int maxFrameSkip;
+        double framerateCap;
 
         double totalTime = 0.0; //The total time for all frames that hasnt been processed
 
@@ -40,6 +42,7 @@ namespace Engine.Platform
             fixedFrequency = 1.0 / 60.0;
             maxDelta = 0.1;
             maxFrameSkip = 7;
+            framerateCap = 0.0;
         }
 
         /// <summary>
@@ -99,6 +102,15 @@ namespace Engine.Platform
             while (started)
             {
                 deltaTime = systemTimer.getDelta();
+
+                //If the time is faster than the framerate cap sleep for the difference.
+                //This is not exact, but any error will be handled by the rest of the timer.
+                while (deltaTime < framerateCap)
+                {
+                    Thread.Sleep((int)((framerateCap - deltaTime) * 1000));
+                    deltaTime += systemTimer.getDelta();
+                }
+
                 if (deltaTime > maxDelta)
                 {
                     deltaTime = maxDelta;
@@ -175,6 +187,26 @@ namespace Engine.Platform
             set
             {
                 maxFrameSkip = value;
+            }
+        }
+
+        public double FramerateCap
+        {
+            get
+            {
+                if (framerateCap > 0.9)
+                {
+                    return 1.0 / framerateCap;
+                }
+                return 0.0;
+            }
+            set
+            {
+                if (value > 0.9)
+                {
+                    framerateCap = 1.0 / value;
+                }
+                value = 0.0;
             }
         }
 
