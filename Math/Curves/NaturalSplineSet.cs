@@ -122,6 +122,9 @@ namespace Engine
         /// </summary>
         public void computeSplines()
         {
+            xSpline.Clear();
+            ySpline.Clear();
+            zSpline.Clear();
             if (controlPoints.Count > 0)
             {
                 int n = controlPoints.Count - 1; //n is the number of splines.
