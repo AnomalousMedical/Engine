@@ -54,6 +54,15 @@ namespace OgreModelEditor
         private XmlSaver xmlSaver = new XmlSaver();
         private ResourceManager emptyResourceManager;
 
+        //Tools
+        private ToolInteropController toolInterop = new ToolInteropController();
+        private MoveController moveController = new MoveController();
+        private SelectionController selectionController = new SelectionController();
+        private RotateController rotateController = new RotateController();
+        private MovementTool movementTool;
+        private RotateTool rotateTool;
+        private ToolManager toolManager;
+
         #endregion Fields
 
         public void Dispose()
@@ -148,6 +157,18 @@ namespace OgreModelEditor
             drawingWindowController.initialize(this, eventManager, pluginManager.RendererPlugin, OgreModelEditorConfig.ConfigFile);
             modelController = new ModelController(this);
 
+            toolInterop.setMoveController(moveController);
+            toolInterop.setSelectionController(selectionController);
+            toolInterop.setRotateController(rotateController);
+
+            toolManager = new ToolManager(eventManager);
+            mainTimer.addFixedUpdateListener(toolManager);
+            toolInterop.setToolManager(toolManager);
+            movementTool = new MovementTool("MovementTool", moveController);
+            toolManager.addTool(movementTool);
+            rotateTool = new RotateTool("RotateTool", rotateController);
+            toolManager.addTool(rotateTool);
+
             mainForm.SuspendLayout();
 
             //Initialize GUI
@@ -179,6 +200,7 @@ namespace OgreModelEditor
 
             scene = sceneDefiniton.createScene();
             drawingWindowController.createCameras(mainTimer, scene);
+            toolManager.createSceneElements(scene.getDefaultSubScene(), PluginManager.Instance);
             
             mainTimer.startLoop();
         }
@@ -187,6 +209,7 @@ namespace OgreModelEditor
         {
             mainForm.saveWindows(OgreModelEditorConfig.DocRoot + "/windows.ini");
             mainTimer.stopLoop();
+            toolManager.destroySceneElements(scene.getDefaultSubScene(), PluginManager.Instance);
             drawingWindowController.destroyCameras();
             modelController.destroyModel();
             scene.Dispose();
@@ -311,6 +334,23 @@ namespace OgreModelEditor
             drawingWindowController.createFourWaySplit();
         }
 
+        public void enableMoveTool()
+        {
+            toolManager.enableTool(movementTool);
+            toolManager.setEnabled(true);
+        }
+
+        public void enableRotateTool()
+        {
+            toolManager.enableTool(rotateTool);
+            toolManager.setEnabled(true);
+        }
+
+        public void enableSelectTool()
+        {
+            toolManager.setEnabled(false);
+        }
+
         /// <summary>
         /// Helper function to create the default window. This is the callback
         /// to the PluginManager.
@@ -360,5 +400,13 @@ namespace OgreModelEditor
         }
 
         #endregion
+
+        public SelectionController Selection
+        {
+            get
+            {
+                return selectionController;
+            }
+        }
     }
 }

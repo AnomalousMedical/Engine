@@ -184,5 +184,29 @@ namespace OgreModelEditor
             showStatsToolStripMenuItem.Checked = !showStatsToolStripMenuItem.Checked;
             controller.showStats(showStatsToolStripMenuItem.Checked);
         }
+
+        private void selectButton_Click(object sender, EventArgs e)
+        {
+            controller.enableSelectTool();
+            moveButton.Checked = false;
+            rotateButton.Checked = false;
+            selectButton.Checked = true;
+        }
+
+        private void moveButton_Click(object sender, EventArgs e)
+        {
+            controller.enableMoveTool();
+            moveButton.Checked = true;
+            rotateButton.Checked = false;
+            selectButton.Checked = false;
+        }
+
+        private void rotateButton_Click(object sender, EventArgs e)
+        {
+            controller.enableRotateTool();
+            moveButton.Checked = false;
+            rotateButton.Checked = true;
+            selectButton.Checked = false;
+        }
     }
 }

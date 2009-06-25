@@ -25,6 +25,7 @@ namespace OgreModelEditor.Controller
         private MaterialPtr fixedFunctionTextured;
         private TextureUnitState fixedTexture;
         private LinkedList<String> modelTextures = new LinkedList<string>();
+        private SelectableModel selectableModel = new SelectableModel();
 
         OgreModelEditorController controller;
 
@@ -79,6 +80,8 @@ namespace OgreModelEditor.Controller
             scene.buildScene();
             entity = ((SceneNodeElement)currentSimObject.getElement("EntityNode")).getNodeObject("Entity") as Entity;
             readModelInfo();
+            selectableModel.ModelObject = currentSimObject;
+            controller.Selection.setSelectedObject(selectableModel);
         }
 
         /// <summary>
