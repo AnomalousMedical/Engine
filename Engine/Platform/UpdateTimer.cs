@@ -206,7 +206,10 @@ namespace Engine.Platform
                 {
                     framerateCap = 1.0 / value;
                 }
-                value = 0.0;
+                else
+                {
+                    framerateCap = 0.0;
+                }
             }
         }
 
