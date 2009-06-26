@@ -20,6 +20,7 @@ namespace OgreModelEditor
             }
             configFile = new ConfigFile(docRoot + "/config.ini");
             configFile.loadConfigFile();
+            EngineConfig = new EngineConfig(configFile);
         }
 
         public static String DocRoot
@@ -42,5 +43,7 @@ namespace OgreModelEditor
                 return configFile;
             }
         }
+
+        public static EngineConfig EngineConfig { get; private set; }
     }
 }
