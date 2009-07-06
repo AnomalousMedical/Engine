@@ -133,19 +133,7 @@ namespace Engine.Platform
 
                 if (sleptThisFrame)
                 {
-                    double currentFPS = 1.0 / deltaTime;
-                    if (currentFPS < framerateCap - 5)
-                    {
-                        framerateTime /= 2.0;
-                        Logging.Log.Default.debug("Current " + currentFPS);
-                        Logging.Log.Default.debug("Adjust " + framerateTime);
-                    }
-                    else if (currentFPS > framerateCap + 5)
-                    {
-                        framerateTime *= 2.0;
-                        Logging.Log.Default.debug("Current " + currentFPS);
-                        Logging.Log.Default.debug("Adjust " + framerateTime);
-                    }
+                    framerateTime -= deltaTime - 1 / framerateCap;
                     sleptThisFrame = false;
                 }
             }
