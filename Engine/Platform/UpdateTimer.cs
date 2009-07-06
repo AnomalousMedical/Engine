@@ -21,6 +21,7 @@ namespace Engine.Platform
         double fixedFrequency;
         double maxDelta;
         int maxFrameSkip;
+        double framerateTime;
         double framerateCap;
 
         double totalTime = 0.0; //The total time for all frames that hasnt been processed
@@ -42,7 +43,7 @@ namespace Engine.Platform
             fixedFrequency = 1.0 / 60.0;
             maxDelta = 0.1;
             maxFrameSkip = 7;
-            framerateCap = 0.0;
+            framerateTime = 0.0;
         }
 
         /// <summary>
@@ -98,6 +99,7 @@ namespace Engine.Platform
             double deltaTime;
             totalTime = 0;
             int loops = 0;
+            bool sleptThisFrame = false;
 
             while (started)
             {
@@ -105,10 +107,11 @@ namespace Engine.Platform
 
                 //If the time is faster than the framerate cap sleep for the difference.
                 //This is not exact, but any error will be handled by the rest of the timer.
-                while (deltaTime < framerateCap)
+                while (deltaTime < framerateTime)
                 {
-                    Thread.Sleep((int)((framerateCap - deltaTime) * 1000));
+                    Thread.Sleep((int)((framerateTime - deltaTime) * 1000));
                     deltaTime += systemTimer.getDelta();
+                    sleptThisFrame = true;
                 }
 
                 if (deltaTime > maxDelta)
@@ -127,6 +130,24 @@ namespace Engine.Platform
                 }
 
                 fireFullSpeedUpdate(deltaTime);
+
+                if (sleptThisFrame)
+                {
+                    double currentFPS = 1.0 / deltaTime;
+                    if (currentFPS < framerateCap - 5)
+                    {
+                        framerateTime /= 2.0;
+                        Logging.Log.Default.debug("Current " + currentFPS);
+                        Logging.Log.Default.debug("Adjust " + framerateTime);
+                    }
+                    else if (currentFPS > framerateCap + 5)
+                    {
+                        framerateTime *= 2.0;
+                        Logging.Log.Default.debug("Current " + currentFPS);
+                        Logging.Log.Default.debug("Adjust " + framerateTime);
+                    }
+                    sleptThisFrame = false;
+                }
             }
             return true;
         }
@@ -194,22 +215,19 @@ namespace Engine.Platform
         {
             get
             {
-                if (framerateCap > 0.9)
-                {
-                    return 1.0 / framerateCap;
-                }
-                return 0.0;
+                return framerateCap;
             }
             set
             {
                 if (value > 0.9)
                 {
-                    framerateCap = 1.0 / value;
+                    framerateTime = 1.0 / value;
                 }
                 else
                 {
-                    framerateCap = 0.0;
+                    framerateTime = 0.0;
                 }
+                framerateCap = value;
             }
         }
 
