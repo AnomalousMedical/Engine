@@ -21,8 +21,8 @@ namespace Engine.Platform
         double fixedFrequency;
         double maxDelta;
         int maxFrameSkip;
-        double framerateTime;
-        double framerateCap;
+        double framerateTime; //The self adjusting time to sleep to maintain the framerate cap.
+        double framerateCap; //The amount of time between frames for the framerate cap.
 
         double totalTime = 0.0; //The total time for all frames that hasnt been processed
 
@@ -131,9 +131,18 @@ namespace Engine.Platform
 
                 fireFullSpeedUpdate(deltaTime);
 
+                //If sleep was called adjust the framerate time as required to run at the framerate cap.
+                //Sometimes sleep takes too long and adjusting the time this way allows for sleep to take
+                //longer but the cap to be maintained.
                 if (sleptThisFrame)
                 {
-                    framerateTime -= deltaTime - 1 / framerateCap;
+                    framerateTime -= deltaTime - framerateCap;
+                    //Make sure the framerate does not go to 0 or negative or the cap will disable.
+                    //If that happens just reset the time to the original cap.
+                    if (framerateTime <= 0.0)
+                    {
+                        framerateTime = framerateCap;
+                    }
                     sleptThisFrame = false;
                 }
             }
@@ -203,19 +212,23 @@ namespace Engine.Platform
         {
             get
             {
-                return framerateCap;
+                if (framerateCap > 0.9)
+                {
+                    return 1.0 / framerateCap;
+                }
+                return 0.0;
             }
             set
             {
                 if (value > 0.9)
                 {
                     framerateTime = 1.0 / value;
+                    framerateCap = framerateTime;
                 }
                 else
                 {
                     framerateTime = 0.0;
                 }
-                framerateCap = value;
             }
         }
 
