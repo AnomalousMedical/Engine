@@ -155,6 +155,14 @@ namespace OgrePlugin
             }
         }
 
+        /// <summary>
+        /// Force this camera to redraw immediately.
+        /// </summary>
+        public void update(bool swapBuffers)
+        {
+            renderWindow.update(swapBuffers);
+        }
+
         public void Dispose()
         {
             sceneManager.SceneManager.removeSceneListener(this);

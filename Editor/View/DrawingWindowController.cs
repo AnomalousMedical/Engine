@@ -39,7 +39,7 @@ namespace Editor
         private DrawingWindowHost addCamera(String name, Vector3 translation, Vector3 lookAt)
         {
             DrawingWindowHost cameraHost = new DrawingWindowHost(name, this);
-            cameraHost.DrawingWindow.initialize(name, eventManager, rendererPlugin, translation, lookAt, this);
+            cameraHost.DrawingWindow.initialize(name, eventManager, rendererPlugin, translation, lookAt);
             cameras.Add(cameraHost);
             if (camerasActive)
             {

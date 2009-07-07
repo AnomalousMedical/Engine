@@ -85,5 +85,11 @@ namespace Engine
         /// </summary>
         /// <param name="mode">The RenderingMode to set.</param>
         void setRenderingMode(RenderingMode mode);
+
+        /// <summary>
+        /// Force this camera to redraw immediately.
+        /// </summary>
+        /// <param name="swapBuffers">True to swap the back buffer to the front buffer.</param>
+        void update(bool swapBuffers);
     }
 }
