@@ -256,5 +256,13 @@ namespace OgrePlugin
                 return viewport;
             }
         }
+
+        public Camera Camera
+        {
+            get
+            {
+                return camera;
+            }
+        }
     }
 }

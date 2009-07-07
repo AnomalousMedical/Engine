@@ -632,6 +632,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\RenderTexture.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\RenderTexture.h"
+					>
+				</File>
+				<File
 					RelativePath=".\src\RenderWindow.cpp"
 					>
 				</File>
@@ -799,6 +807,26 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="Textures"
+					>
+					<File
+						RelativePath=".\src\Texture.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\include\Texture.h"
+						>
+					</File>
+					<File
+						RelativePath=".\src\TextureManager.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\include\TextureManager.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="SceneObjects"
@@ -884,6 +912,18 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="PixelData"
+				>
+				<File
+					RelativePath=".\src\HardwarePixelBuffer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\HardwarePixelBuffer.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Unimplemented"
@@ -956,6 +996,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\HardwarePixelBufferSharedPtr.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\HardwarePixelBufferSharedPtr.h"
+					>
+				</File>
+				<File
 					RelativePath=".\src\HardwareVertexBufferSharedPtr.cpp"
 					>
 				</File>
@@ -985,6 +1033,14 @@
 				</File>
 				<File
 					RelativePath=".\include\SkeletonPtr.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\TexturePtr.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\TexturePtr.h"
 					>
 				</File>
 			</Filter>

@@ -6,6 +6,7 @@
 #include "VertexBufferBindingCollection.h"
 #include "HardwareBuffer.h"
 #include "HardwareIndexBuffer.h"
+#include "HardwarePixelBufferSharedPtr.h"
 
 namespace Ogre
 {
@@ -18,7 +19,7 @@ ref class HardwareVertexBuffer;
 ref class HardwareIndexBuffer;
 ref class VertexDeclaration;
 ref class VertexBufferBinding;
-
+ref class HardwarePixelBuffer;
 
 /// <summary>
 /// Wrapper class for the Ogre::HardwareBufferManager.
@@ -31,6 +32,7 @@ private:
 
 	HardwareVertexBufferSharedPtrCollection vertexBuffers;
 	HardwareIndexBufferSharedPtrCollection indexBuffers;
+	HardwarePixelBufferSharedPtrCollection pixelBuffers;
 
 	static HardwareBufferManager^ instance = gcnew HardwareBufferManager();
 
@@ -46,6 +48,8 @@ internal:
 	HardwareVertexBufferSharedPtr^ getObject(const Ogre::HardwareVertexBufferSharedPtr& vertexBuffer);
 
 	HardwareIndexBufferSharedPtr^ getObject(const Ogre::HardwareIndexBufferSharedPtr& indexBuffer);
+
+	HardwarePixelBufferSharedPtr^ getObject(const Ogre::HardwarePixelBufferSharedPtr& pixelBuffer);
 
 	/// <summary>
 	/// Get the wrapper object for VertexDeclaration.

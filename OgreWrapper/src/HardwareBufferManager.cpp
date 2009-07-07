@@ -33,6 +33,11 @@ HardwareIndexBufferSharedPtr^ HardwareBufferManager::getObject(const Ogre::Hardw
 	return indexBuffers.getObject(indexBuffer);
 }
 
+HardwarePixelBufferSharedPtr^ HardwareBufferManager::getObject(const Ogre::HardwarePixelBufferSharedPtr& pixelBuffer)
+{
+	return pixelBuffers.getObject(pixelBuffer);
+}
+
 HardwareBufferManager^ HardwareBufferManager::getInstance()
 {
 	return instance;
