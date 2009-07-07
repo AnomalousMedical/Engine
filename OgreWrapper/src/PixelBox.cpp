@@ -26,36 +26,32 @@ PixelBox::PixelBox()
 :ogrePixelAuto(new Ogre::PixelBox()),
 ogrePixel(ogrePixelAuto.Get())
 {
-
+	ogrePixel = ogrePixelAuto.Get();
 }
 
 PixelBox::PixelBox(size_t left, size_t top, size_t right, size_t bottom, PixelFormat pixelFormat)
-:ogrePixelAuto(new Ogre::PixelBox(Ogre::Box(left, top, right, bottom), static_cast<Ogre::PixelFormat>(pixelFormat))),
-ogrePixel(ogrePixelAuto.Get())
+:ogrePixelAuto(new Ogre::PixelBox(Ogre::Box(left, top, right, bottom), static_cast<Ogre::PixelFormat>(pixelFormat)))
 {
-
+	ogrePixel = ogrePixelAuto.Get();
 }
 
 PixelBox::PixelBox(size_t left, size_t top, size_t right, size_t bottom, PixelFormat pixelFormat, void* pixelData)
 :ogrePixelAuto(new Ogre::PixelBox(Ogre::Box(left, top, right, bottom), 
-			   static_cast<Ogre::PixelFormat>(pixelFormat), pixelData)),
-ogrePixel(ogrePixelAuto.Get())
+			   static_cast<Ogre::PixelFormat>(pixelFormat), pixelData))
 {
-
+	ogrePixel = ogrePixelAuto.Get();
 }
 
 PixelBox::PixelBox(size_t width, size_t height, size_t depth, PixelFormat pixelFormat)
-:ogrePixelAuto(new Ogre::PixelBox(width, height, depth, static_cast<Ogre::PixelFormat>(pixelFormat))),
-ogrePixel(ogrePixelAuto.Get())
+:ogrePixelAuto(new Ogre::PixelBox(width, height, depth, static_cast<Ogre::PixelFormat>(pixelFormat)))
 {
-
+	ogrePixel = ogrePixelAuto.Get();
 }
 
 PixelBox::PixelBox(size_t width, size_t height, size_t depth, PixelFormat pixelFormat, void* pixelData)
-:ogrePixelAuto(new Ogre::PixelBox(width, height, depth, static_cast<Ogre::PixelFormat>(pixelFormat), pixelData)),
-ogrePixel(ogrePixelAuto.Get())
+:ogrePixelAuto(new Ogre::PixelBox(width, height, depth, static_cast<Ogre::PixelFormat>(pixelFormat), pixelData))
 {
-
+	ogrePixel = ogrePixelAuto.Get();
 }
 
 void PixelBox::setConsecutive()

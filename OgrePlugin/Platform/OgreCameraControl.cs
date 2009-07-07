@@ -11,7 +11,7 @@ namespace OgrePlugin
     /// <summary>
     /// A CameraControl class for ogre cameras.
     /// </summary>
-    class OgreCameraControl : CameraControl, IDisposable, SceneListener
+    public class OgreCameraControl : CameraControl, IDisposable, SceneListener
     {
         private const String CAMERA_RESERVED_NAME = "__AutoCreatedCamera";
         private const String CAMERA_NODE_RESERVED_NAME = "__AutoCreatedCameraNode";
@@ -192,6 +192,16 @@ namespace OgrePlugin
                     light.setPosition(reallyFarAway);
                 }
             }
+        }
+
+        public void copyContentsToMemory(PixelBox pixelBox, RenderTarget.FrameBuffer buffer)
+        {
+            renderWindow.copyContentsToMemory(pixelBox, buffer);
+        }
+
+        public PixelFormat suggestPixelFormat()
+        {
+            return renderWindow.suggestPixelFormat();
         }
 
         public Vector3 Translation
