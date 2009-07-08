@@ -49,7 +49,6 @@ namespace Engine
         private Dictionary<String, PluginInterface> loadedPlugins = new Dictionary<string, PluginInterface>();
         private List<AddSimElementCommand> addSimElementCommands = new List<AddSimElementCommand>();
         private List<AddSimElementManagerCommand> addElementManagerCommands = new List<AddSimElementManagerCommand>();
-        private CommandManager otherCommands = new CommandManager();
         private PlatformPlugin platformPlugin = null;
         private RendererPlugin rendererPlugin = null;
         private List<Assembly> pluginAssemblies = new List<Assembly>();
@@ -321,32 +320,17 @@ namespace Engine
         }
 
         /// <summary>
-        /// Add an other command, which is a general purpose command for a
-        /// plugin.
+        /// Create the debugging commands for the various plugins.
         /// </summary>
-        /// <param name="command">The command to add.</param>
-        public void addOtherCommand(EngineCommand command)
+        /// <returns>A list of command managers for each plugin.</returns>
+        public List<CommandManager> createDebugCommands()
         {
-            otherCommands.addCommand(command);
-        }
-
-        /// <summary>
-        /// Get a list of all other commands registered by plugins.
-        /// </summary>
-        /// <returns>An enumerable over all commands.</returns>
-        public IEnumerable<EngineCommand> getOtherCommands()
-        {
-            return otherCommands.getCommandList();
-        }
-
-        /// <summary>
-        /// Get a specific other command by name.
-        /// </summary>
-        /// <param name="name">The name of the command to get.</param>
-        /// <returns>The EngineCommand that matches name.</returns>
-        public EngineCommand getOtherCommand(String name)
-        {
-            return otherCommands.getCommand(name);
+            List<CommandManager> commands = new List<CommandManager>();
+            foreach (PluginInterface plugin in loadedPlugins.Values)
+            {
+                plugin.createDebugCommands(commands);
+            }
+            return commands;
         }
 
         /// <summary>

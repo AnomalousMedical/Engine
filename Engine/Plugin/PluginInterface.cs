@@ -49,5 +49,11 @@ namespace Engine
         /// </summary>
         /// <returns>The DebugInterface for the plugin or null if it does not have one.</returns>
         DebugInterface getDebugInterface();
+
+        /// <summary>
+        /// This function will create any debug commands for the plugin and add them to the commands list.
+        /// </summary>
+        /// <param name="commands">A list of CommandManagers to add debug commands to.</param>
+        void createDebugCommands(List<CommandManager> commands);
     }
 }

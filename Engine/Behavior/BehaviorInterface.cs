@@ -67,6 +67,15 @@ namespace Engine
             
         }
 
+        /// <summary>
+        /// This function will create any debug commands for the plugin and add them to the commands list.
+        /// </summary>
+        /// <param name="commands">A list of CommandManagers to add debug commands to.</param>
+        public void createDebugCommands(List<CommandManager> commands)
+        {
+
+        }
+
         public UpdateTimer Timer
         {
             get

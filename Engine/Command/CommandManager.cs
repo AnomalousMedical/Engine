@@ -21,9 +21,9 @@ namespace Engine
         /// <summary>
         /// Constructor.
         /// </summary>
-        public CommandManager()
+        public CommandManager(String name)
         {
-
+            this.Name = name;
         }
 
         #endregion Constructors
@@ -70,5 +70,11 @@ namespace Engine
         }
 
         #endregion Functions
+
+        #region Properties
+
+        public String Name { get; set; }
+
+        #endregion Properties
     }
 }

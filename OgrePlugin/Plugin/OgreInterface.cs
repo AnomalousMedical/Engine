@@ -125,11 +125,7 @@ namespace OgrePlugin
 
                 //Setup commands
                 pluginManager.addCreateSimElementManagerCommand(new AddSimElementManagerCommand("Create Ogre Scene Manager", OgreSceneManagerDefinition.Create));
-
                 pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create Ogre Scene Node", SceneNodeDefinition.Create));
-
-                pluginManager.addOtherCommand(new EngineCommand("addResourceLocation", "Add Ogre Resource Location", "Add a resource location to ogre.", new AddResourceLocation(OgreResourceGroupManager.getInstance().addResourceLocation)));
-                pluginManager.addOtherCommand(new EngineCommand("initializeResourceGroups", "Initialize Ogre Resources", "Initialize all added ogre resources.", new InitializeResourceGroups(OgreResourceGroupManager.getInstance().initializeAllResourceGroups)));
 
                 //Setup Resources
                 SubsystemResources ogreResourcs = new SubsystemResources("Ogre");
@@ -153,6 +149,18 @@ namespace OgrePlugin
             {
                 throw new InvalidPluginException(String.Format("Exception initializing renderer. Message: {0}", e.Message), e);
             }
+        }
+
+        /// <summary>
+        /// This function will create any debug commands for the plugin and add them to the commands list.
+        /// </summary>
+        /// <param name="commands">A list of CommandManagers to add debug commands to.</param>
+        public void createDebugCommands(List<CommandManager> commands)
+        {
+            CommandManager ogreDebugCommands = new CommandManager("Ogre");
+            ogreDebugCommands.addCommand(new EngineCommand("addResourceLocation", "Add Ogre Resource Location", "Add a resource location to ogre.", new AddResourceLocation(OgreResourceGroupManager.getInstance().addResourceLocation)));
+            ogreDebugCommands.addCommand(new EngineCommand("initializeResourceGroups", "Initialize Ogre Resources", "Initialize all added ogre resources.", new InitializeResourceGroups(OgreResourceGroupManager.getInstance().initializeAllResourceGroups)));
+            commands.Add(ogreDebugCommands);
         }
 
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)

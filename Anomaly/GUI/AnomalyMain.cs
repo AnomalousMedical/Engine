@@ -23,6 +23,37 @@ namespace Anomaly
         {
             InitializeComponent();
             setDockPanel(dockPanel);
+            List<CommandManager> commands = PluginManager.Instance.createDebugCommands();
+            if(commands.Count > 0)
+            {
+                ToolStripMenuItem debugMenu = new ToolStripMenuItem("Debug");
+                mainMenu.Items.Add(debugMenu);
+                foreach (CommandManager commandManager in commands)
+                {
+                    ToolStripMenuItem pluginMenu = new ToolStripMenuItem(commandManager.Name);
+                    debugMenu.DropDownItems.Add(pluginMenu);
+                    foreach (EngineCommand command in commandManager.getCommandList())
+                    {
+                        ToolStripMenuItem commandItem = new ToolStripMenuItem(command.PrettyName);
+                        commandItem.Tag = command;
+                        commandItem.Click += commandItem_Click;
+                        pluginMenu.DropDownItems.Add(commandItem);
+                    }
+                }
+            }
+        }
+
+        void commandItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem commandItem = sender as ToolStripMenuItem;
+            if (commandItem != null)
+            {
+                EngineCommand command = commandItem.Tag as EngineCommand;
+                if (command != null)
+                {
+                    command.execute();
+                }
+            }
         }
 
         public void initialize(AnomalyController controller)

@@ -11,6 +11,8 @@ using Engine.Resources;
 
 namespace PhysXPlugin
 {
+    delegate void ConnectRemoteDebugger();
+
     /// <summary>
     /// This is the ElementPlugin class for the PhysXPlugin.
     /// </summary>
@@ -128,6 +130,18 @@ namespace PhysXPlugin
         }
 
         /// <summary>
+        /// This function will create any debug commands for the plugin and add them to the commands list.
+        /// </summary>
+        /// <param name="commands">A list of CommandManagers to add debug commands to.</param>
+        public void createDebugCommands(List<CommandManager> commands)
+        {
+            CommandManager debugCommands = new CommandManager("PhysX");
+            debugCommands.addCommand(new EngineCommand("connectRemoteDebugger", "Connect Remote Debugger", "Connect to the PhysX remote debugger.", new ConnectRemoteDebugger(connectRemoteDebugger)));
+            debugCommands.addCommand(new EngineCommand("disconnectRemoteDebugger", "Disonnect Remote Debugger", "Disconnect from the PhysX remote debugger.", new ConnectRemoteDebugger(disconnectRemoteDebugger)));
+            commands.Add(debugCommands);
+        }
+
+        /// <summary>
         /// Get the main timer used by the engine.
         /// </summary>
         /// <returns>The timer that has been set as the main timer.</returns>
@@ -152,6 +166,16 @@ namespace PhysXPlugin
         }
 
         #endregion Creation
+
+        private void connectRemoteDebugger()
+        {
+            physSDK.connectRemoteDebugger("localhost");
+        }
+
+        private void disconnectRemoteDebugger()
+        {
+            physSDK.disconnectRemoteDebugger();
+        }
 
         #endregion Functions
 
