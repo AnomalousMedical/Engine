@@ -132,6 +132,32 @@ namespace Engine.Saving
             return (T)entries[name].Value;
         }
 
+        public void RebuildDictionary<KeyType, ValueType>(String baseName, Dictionary<KeyType, ValueType> dictionary)
+        {
+            String keyBase = baseName + "Key";
+            String valueBase = baseName + "Value";
+            for (int i = 0; entries.ContainsKey(keyBase + i); ++i)
+            {
+                dictionary.Add((KeyType)entries[keyBase + i].Value, (ValueType)entries[valueBase + i].Value);
+            }
+        }
+
+        public void RebuildList<ValueType>(String baseName, List<ValueType> values)
+        {
+            for (int i = 0; entries.ContainsKey(baseName + i); ++i)
+            {
+                values.Add((ValueType)entries[baseName + i].Value);
+            }
+        }
+
+        public void RebuildLinkedList<ValueType>(String baseName, LinkedList<ValueType> values)
+        {
+            for (int i = 0; entries.ContainsKey(baseName + i); ++i)
+            {
+                values.AddLast((ValueType)entries[baseName + i].Value);
+            }
+        }
+
         /// <summary>
         /// Internal function to just get the value directly as an object. Used
         /// by the ReflectedSaver.

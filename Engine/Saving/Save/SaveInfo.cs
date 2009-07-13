@@ -150,6 +150,40 @@ namespace Engine.Saving
             entries.Add(name, new SaveEntry(name, value, typeof(Color)));
         }
 
+        public void ExtractDictionary<KeyType, ValueType>(String baseName, Dictionary<KeyType, ValueType> dictionary)
+        {
+            String keyBase = baseName + "Key";
+            String valueBase = baseName + "Value";
+            int i = 0;
+            Type keyT = typeof(KeyType);
+            Type valueT = typeof(ValueType);
+            foreach (KeyType key in dictionary.Keys)
+            {
+                AddReflectedValue(keyBase + i, key, keyT);
+                AddReflectedValue(valueBase + i++, dictionary[key], valueT);
+            }
+        }
+
+        public void ExtractList<ValueType>(String baseName, List<ValueType> values)
+        {
+            int i = 0;
+            Type valueT = typeof(ValueType);
+            foreach (ValueType value in values)
+            {
+                AddReflectedValue(baseName + i++, value, valueT);
+            }
+        }
+
+        public void ExtractLinkedList<ValueType>(String baseName, LinkedList<ValueType> values)
+        {
+            int i = 0;
+            Type valueT = typeof(ValueType);
+            foreach (ValueType value in values)
+            {
+                AddReflectedValue(baseName + i++, value, valueT);
+            }
+        }
+
         /// <summary>
         /// Internal function to be used by the ReflectedSaver to add a type.
         /// This is not public because the interface is designed to only accept
