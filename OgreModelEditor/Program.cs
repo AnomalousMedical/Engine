@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using Logging;
+using System.IO;
 
 namespace OgreModelEditor
 {
@@ -22,6 +23,15 @@ namespace OgreModelEditor
                 try
                 {
                     controller.initialize();
+                    String[] commandLine = Environment.GetCommandLineArgs();
+                    if (commandLine.Length > 1)
+                    {
+                        String file = commandLine[1];
+                        if (File.Exists(file) && file.EndsWith(".mesh"))
+                        {
+                            controller.openModel(file);
+                        }
+                    }
                     controller.start();
                 }
                 catch (Exception e)

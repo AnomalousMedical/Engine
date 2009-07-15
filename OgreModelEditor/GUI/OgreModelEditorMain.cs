@@ -208,5 +208,37 @@ namespace OgreModelEditor
             rotateButton.Checked = true;
             selectButton.Checked = false;
         }
+
+        protected override void OnDragEnter(DragEventArgs drgevent)
+        {
+            base.OnDragEnter(drgevent);
+            if (drgevent.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                String[] files = drgevent.Data.GetData(DataFormats.FileDrop) as String[];
+                if (files.Length > 0)
+                {
+                    if (files[0].EndsWith(".mesh"))
+                    {
+                        drgevent.Effect = DragDropEffects.All;
+                    }
+                }
+            }
+        }
+
+        protected override void OnDragDrop(DragEventArgs drgevent)
+        {
+            base.OnDragDrop(drgevent);
+            if (drgevent.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                String[] files = drgevent.Data.GetData(DataFormats.FileDrop) as String[];
+                if (files.Length > 0)
+                {
+                    if (files[0].EndsWith(".mesh"))
+                    {
+                        controller.openModel(files[0]);
+                    }
+                }
+            }
+        }
     }
 }

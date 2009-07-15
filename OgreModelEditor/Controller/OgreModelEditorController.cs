@@ -17,6 +17,7 @@ using OgreWrapper;
 using Engine.Saving.XMLSaver;
 using System.Xml;
 using OgreModelEditor.Controller;
+using System.Reflection;
 
 namespace OgreModelEditor
 {
@@ -115,10 +116,12 @@ namespace OgreModelEditor
             pluginManager.initializePlugins();
             pluginManager.RendererPlugin.PrimaryWindow.setEnabled(false);
 
-            if (File.Exists("OgreModelEditor.zip"))
+            Uri assemblyLocation = new Uri(Assembly.GetExecutingAssembly().CodeBase);
+            String ogreModelEditorZip = Path.GetDirectoryName(assemblyLocation.AbsolutePath) + Path.DirectorySeparatorChar + "OgreModelEditor.zip";
+            if (File.Exists(ogreModelEditorZip))
             {
-                Log.Default.sendMessage("Found OgreModelEditor.zip. Will be able to see debug shaders", LogLevel.ImportantInfo, "OgreModelEditor");
-                OgreResourceGroupManager.getInstance().addResourceLocation("OgreModelEditor.zip", "Zip", "ModelEditor", true);
+                Log.Default.sendMessage("Found OgreModelEditor.zip at {0}. Will be able to see debug shaders", LogLevel.ImportantInfo, "OgreModelEditor", ogreModelEditorZip);
+                OgreResourceGroupManager.getInstance().addResourceLocation(ogreModelEditorZip, "Zip", "ModelEditor", true);
                 OgreResourceGroupManager.getInstance().initializeAllResourceGroups();
             }
 
@@ -181,11 +184,10 @@ namespace OgreModelEditor
             }
 
             mainForm.ResumeLayout();
-        }
 
-        public void start()
-        {
+            //startup the form
             mainForm.Show();
+            Application.DoEvents();
 
             //Create a simple scene to use to show the models
             SimSceneDefinition sceneDefiniton = new SimSceneDefinition();
@@ -196,12 +198,13 @@ namespace OgreModelEditor
             mainSubScene.addBinding(ogreScene);
             sceneDefiniton.DefaultSubScene = "Main";
 
-            
-
             scene = sceneDefiniton.createScene();
             drawingWindowController.createCameras(mainTimer, scene);
             toolManager.createSceneElements(scene.getDefaultSubScene(), PluginManager.Instance);
-            
+        }
+
+        public void start()
+        {
             mainTimer.startLoop();
         }
 

@@ -11,6 +11,7 @@ using Engine.Command;
 using Engine.Resources;
 using System.IO;
 using Engine.ObjectManagement;
+using System.Reflection;
 
 namespace OgrePlugin
 {
@@ -133,16 +134,18 @@ namespace OgrePlugin
                 pluginManager.addSubsystemResources(ogreResourcs);
 
                 //Setup the core resources
-                FoundOgreCore = File.Exists("OgreCore.zip");
+                Uri assemblyLocation = new Uri(Assembly.GetExecutingAssembly().CodeBase);
+                String ogreCoreLocation = Path.GetDirectoryName(assemblyLocation.AbsolutePath) + Path.DirectorySeparatorChar + "OgreCore.zip";
+                FoundOgreCore = File.Exists(ogreCoreLocation);
                 if (FoundOgreCore)
                 {
-                    Log.Default.sendMessage("Found OgreCore.zip. Debug resources available.", LogLevel.ImportantInfo, PluginName);
-                    OgreResourceGroupManager.getInstance().addResourceLocation("OgreCore.zip", "Zip", "Internal", true);
+                    Log.Default.sendMessage("Found OgreCore.zip at {0}. Debug resources available.", LogLevel.ImportantInfo, PluginName, ogreCoreLocation);
+                    OgreResourceGroupManager.getInstance().addResourceLocation(ogreCoreLocation, "Zip", "Internal", true);
                     OgreResourceGroupManager.getInstance().initializeAllResourceGroups();
                 }
                 else
                 {
-                    Log.Default.sendMessage("Could not find OgreCore.zip. Ogre debug resources not available.", LogLevel.Warning, PluginName);
+                    Log.Default.sendMessage("Could not find OgreCore.zip at {0}. Ogre debug resources not available.", LogLevel.Warning, PluginName, ogreCoreLocation);
                 }
             }
             catch (Exception e)
