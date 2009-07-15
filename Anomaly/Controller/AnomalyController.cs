@@ -88,7 +88,7 @@ namespace Anomaly
         /// <summary>
         /// Intialize all plugins and create everything.
         /// </summary>
-        public void initialize()
+        public void initialize(AnomalyProject project)
         {
             //Create the log.
             logListener = new LogFileListener();
@@ -97,7 +97,7 @@ namespace Anomaly
             Log.Default.addLogListener(consoleWindow);
 
             //Load the config file and set the resource root up.
-            Resource.ResourceRoot = AnomalyConfig.ResourceSection.ResourceRoot;
+            Resource.ResourceRoot = project.ResourceSection.ResourceRoot;
             Log.Default.sendMessage("Resource root is \"{0}\".", LogLevel.ImportantInfo, "Editor", Resource.ResourceRoot);
 
             //Initialize the plugins
@@ -105,10 +105,10 @@ namespace Anomaly
             pluginManager = new PluginManager(AnomalyConfig.ConfigFile);
             pluginManager.OnConfigureDefaultWindow = createWindow;
             DynamicDLLPluginLoader pluginLoader = new DynamicDLLPluginLoader();
-            AnomalyConfig.PluginSection.resetPluginIterator();
-            while(AnomalyConfig.PluginSection.hasNext())
+            project.PluginSection.resetPluginIterator();
+            while (project.PluginSection.hasNext())
             {
-                pluginLoader.addPath(AnomalyConfig.PluginSection.nextPlugin());
+                pluginLoader.addPath(project.PluginSection.nextPlugin());
             }
             pluginLoader.loadPlugins(pluginManager);
             pluginManager.initializePlugins();
@@ -128,7 +128,7 @@ namespace Anomaly
             pluginManager.setPlatformInfo(mainTimer, eventManager);
 
             //Initialize controllers
-            templates = new TemplateController(AnomalyConfig.DocRoot, this);
+            templates = new TemplateController(project.WorkingDirectory, this);
             instanceBuilder = new InstanceBuilder(templates);
             sceneController.initialize(this);
             sceneController.OnSceneLoaded += sceneController_OnSceneLoaded;
