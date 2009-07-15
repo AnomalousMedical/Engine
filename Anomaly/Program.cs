@@ -34,6 +34,7 @@ namespace Anomaly
             if (projectFileName == null)
             {
                 OpenFileDialog openFile = new OpenFileDialog();
+                openFile.Filter = "Anomaly Projects(*.ano)|*.ano;";
                 DialogResult result = openFile.ShowDialog(splash);
                 if (result == DialogResult.OK)
                 {
