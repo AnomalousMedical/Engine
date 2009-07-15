@@ -49,13 +49,18 @@ namespace OgreModelEditor
             this.Close();
         }
 
+        public void currentFileChanged(String filename)
+        {
+            fileTracker.setCurrentFile(filename);
+            updateWindowTitle(fileTracker.getCurrentFile());
+        }
+
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             fileTracker.openFile(this);
             if (fileTracker.lastDialogAccepted())
             {
                 controller.openModel(fileTracker.getCurrentFile());
-                updateWindowTitle(fileTracker.getCurrentFile());
             }
         }
 

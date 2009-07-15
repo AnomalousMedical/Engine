@@ -118,6 +118,15 @@ namespace Editor
         }
 
         /// <summary>
+        /// Force the current file to be a specific file.
+        /// </summary>
+        /// <param name="filename"></param>
+        public void setCurrentFile(String filename)
+        {
+            currentFile = filename;
+        }
+
+        /// <summary>
         /// Check to see if the user really decided to save the file.
         /// </summary>
         /// <returns>True if the use clicked Ok.  False if they clicked Cancel.</returns>

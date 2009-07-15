@@ -236,6 +236,7 @@ namespace OgreModelEditor
             String meshName = Path.GetFileName(path);
             modelController.createModel(meshName, scene);
             mainForm.setTextureNames(modelController.TextureNames);
+            mainForm.currentFileChanged(path);
         }
 
         public void editExternalResources()
