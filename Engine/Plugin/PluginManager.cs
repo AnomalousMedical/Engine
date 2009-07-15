@@ -56,6 +56,7 @@ namespace Engine
         private ResourceManager emptyResourceManager = new ResourceManager();
         private List<DebugInterface> debugInterfaces;
         private ConfigFile configFile;
+        private String pluginDirectory = null;
 
         #endregion Fields
 
@@ -433,6 +434,22 @@ namespace Engine
             get
             {
                 return configFile;
+            }
+        }
+
+        public String PluginDirectory
+        {
+            get
+            {
+                if (pluginDirectory == null)
+                {
+                    String[] args = Environment.GetCommandLineArgs();
+                    if (args.Length > 0)
+                    {
+                        pluginDirectory = Path.GetDirectoryName(args[0]);
+                    }
+                }
+                return pluginDirectory;
             }
         }
 

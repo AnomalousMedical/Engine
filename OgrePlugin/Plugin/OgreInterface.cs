@@ -134,8 +134,7 @@ namespace OgrePlugin
                 pluginManager.addSubsystemResources(ogreResourcs);
 
                 //Setup the core resources
-                Uri assemblyLocation = new Uri(Assembly.GetExecutingAssembly().CodeBase);
-                String ogreCoreLocation = Path.GetDirectoryName(assemblyLocation.AbsolutePath) + Path.DirectorySeparatorChar + "OgreCore.zip";
+                String ogreCoreLocation = pluginManager.PluginDirectory + Path.DirectorySeparatorChar + "OgreCore.zip";
                 FoundOgreCore = File.Exists(ogreCoreLocation);
                 if (FoundOgreCore)
                 {

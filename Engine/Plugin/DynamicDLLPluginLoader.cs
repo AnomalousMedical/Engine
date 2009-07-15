@@ -39,8 +39,6 @@ namespace Engine
         /// <param name="pluginManager"></param>
         public void loadPlugins(PluginManager pluginManager)
         {
-            //The application path will be detected and filled in if needed to load plugins.
-            String applicationPath = null;
             foreach (String path in paths)
             {
                 try
@@ -49,15 +47,7 @@ namespace Engine
                     //If the path cannot be found search the current working directories.
                     if (!File.Exists(loadPath))
                     {
-                        if (applicationPath == null)
-                        {
-                            String[] commandLine = Environment.GetCommandLineArgs();
-                            if (commandLine.Length > 0)
-                            {
-                                applicationPath = Path.GetDirectoryName(commandLine[0]);
-                            }
-                        }
-                        loadPath = applicationPath + Path.DirectorySeparatorChar + path;
+                        loadPath = pluginManager.PluginDirectory + Path.DirectorySeparatorChar + path;
                     }
                     Assembly assembly = Assembly.LoadFile(Path.GetFullPath(loadPath));
                     pluginManager.addPluginAssembly(assembly);
