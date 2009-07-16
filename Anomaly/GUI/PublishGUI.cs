@@ -67,14 +67,22 @@ namespace Anomaly
 
         private void publishButton_Click(object sender, EventArgs e)
         {
-            if (Path.GetFullPath(outputLocationTextBox.Text).ToLower() != Path.GetFullPath(Resource.ResourceRoot).ToLower())
+            try
             {
-                fileList.copyResources(Path.GetFullPath(outputLocationTextBox.Text));
-                MessageBox.Show(this, String.Format("Finished publishing resources to:\n{0}.", Path.GetFullPath(outputLocationTextBox.Text)), "Publish Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                String destination = Path.GetFullPath(outputLocationTextBox.Text);
+                if (destination.ToLower() != Path.GetFullPath(Resource.ResourceRoot).ToLower())
+                {
+                    fileList.copyResources(destination);
+                    MessageBox.Show(this, String.Format("Finished publishing resources to:\n{0}.", destination), "Publish Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show(this, String.Format("Can not publish resources to the same directory as the resource root:\n{0}.", Path.GetFullPath(Resource.ResourceRoot)), "Publish Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show(this, String.Format("Can not publish resources to the same directory as the resource root:\n{0}.", Path.GetFullPath(Resource.ResourceRoot)), "Publish Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, String.Format("Error copying files:\n{0}.", ex.Message), "Publish Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
