@@ -206,6 +206,15 @@ namespace Engine.Resources
             }
         }
 
+        /// <summary>
+        /// Get an enumertor over all resources.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Resource> getResourceEnumerator()
+        {
+            return resources.Values;
+        }
+
         internal void setParent(SubsystemResources parent)
         {
             this.parent = parent;

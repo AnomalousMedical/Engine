@@ -181,6 +181,15 @@ namespace Engine.Resources
         }
 
         /// <summary>
+        /// Get an enumerator over all resource groups.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<ResourceGroup> getResourceGroupEnumerator()
+        {
+            return resourceGroups.Values;
+        }
+
+        /// <summary>
         /// Add a resource group directly.
         /// </summary>
         /// <param name="group">The group to add.</param>

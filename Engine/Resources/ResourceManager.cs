@@ -185,6 +185,15 @@ namespace Engine.Resources
             return editInterface;
         }
 
+        /// <summary>
+        /// Get an Enumerator over all SubsystemResources.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<SubsystemResources> getSubsystemEnumerator()
+        {
+            return subsystemResources.Values;
+        }
+
         #endregion Functions
 
         #region Saveable Members

@@ -18,6 +18,7 @@ namespace Anomaly
     {
         private AnomalyController controller;
         FileTracker fileTracker;
+        private PublishGUI publishGUI = new PublishGUI();
 
         public AnomalyMain()
         {
@@ -210,6 +211,11 @@ namespace Anomaly
             {
                 MessageBox.Show(String.Format("Error reading {0}:\n{1}.", openFileDialog.FileName, ex.Message), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void publishToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            publishGUI.ShowDialog(this);
         }
     }
 }
