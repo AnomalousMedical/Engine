@@ -249,12 +249,24 @@ namespace OgrePlugin
         /// <returns>True if the user entered a valid name.</returns>
         private bool getMovableName(EditUICallback callback, out String name)
         {
-            bool accept = callback.getInputString("Enter a name.", out name);
-            while (accept && findTopLevelNode().isMovableNameTaken(name))
-            {
-                accept = callback.getInputString("That name is already in use. Please provide another.", name, out name);
-            }
+            bool accept = callback.getInputString("Enter a name.", out name, validateMovableCreate);
             return accept;
+        }
+
+        private bool validateMovableCreate(String input, out String errorPrompt)
+        {
+            if (input == null || input == "")
+            {
+                errorPrompt = "Please enter a non empty name.";
+                return false;
+            }
+            if (findTopLevelNode().isMovableNameTaken(input))
+            {
+                errorPrompt = "That name is already in use. Please provide another.";
+                return false;
+            }
+            errorPrompt = "";
+            return true;
         }
 
         /// <summary>
@@ -266,13 +278,25 @@ namespace OgrePlugin
         /// <returns>True if the user entered a valid name.</returns>
         private bool getChildNodeName(EditUICallback callback, out String name)
         {
-            bool accept = callback.getInputString("Enter a name.", out name);
-            SceneNodeDefinition topLevel = findTopLevelNode();
-            while (accept && (name == topLevel.Name || topLevel.isNodeNameTaken(name)))
-            {
-                accept = callback.getInputString("That name is already in use. Please provide another.", name, out name);
-            }
+            bool accept = callback.getInputString("Enter a name.", out name, validateChildNodeCreate);
             return accept;
+        }
+
+        private bool validateChildNodeCreate(String input, out String errorPrompt)
+        {
+            if (input == null || input == "")
+            {
+                errorPrompt = "Please enter a non empty name.";
+                return false;
+            }
+            SceneNodeDefinition topLevel = findTopLevelNode();
+            if (input == topLevel.Name || topLevel.isNodeNameTaken(input))
+            {
+                errorPrompt = "That name is already in use. Please provide another.";
+                return false;
+            }
+            errorPrompt = "";
+            return true;
         }
 
         /// <summary>

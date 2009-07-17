@@ -45,11 +45,7 @@ namespace Anomaly
 
         void templatePanel_OnCreateTemplate()
         {
-            InputResult result = InputBox.GetInput("Create", "Enter a name.", templatePanel.FindForm());
-            while (result.ok && anomalyController.SimObjectController.hasSimObject(result.text))
-            {
-                result = InputBox.GetInput("Create", "That name is already in use. Please enter another.", templatePanel.FindForm(), result.text);
-            }
+            InputResult result = InputBox.GetInput("Create", "Enter a name.", templatePanel.FindForm(), validateTemplateCreate);
             if (result.ok)
             {
                 EditInterface editInterface = templatePanel.EditInterfaceView.getSelectedEditInterface();
@@ -66,6 +62,22 @@ namespace Anomaly
                     }
                 }
             }
+        }
+
+        private bool validateTemplateCreate(String input, out String errorPrompt)
+        {
+            if (input == null || input == "")
+            {
+                errorPrompt = "Please enter a non empty name.";
+                return false;
+            }
+            if (anomalyController.SimObjectController.hasSimObject(input))
+            {
+                errorPrompt = "That name is already in use. Please provide another.";
+                return false;
+            }
+            errorPrompt = "";
+            return true;
         }
 
         void editInterfaceView_OnEditInterfaceSelectionEdit(EditInterfaceViewEvent evt)

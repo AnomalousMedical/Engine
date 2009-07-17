@@ -302,27 +302,9 @@ namespace Editor
         /// <param name="prompt">The propmpt to show the user.</param>
         /// <param name="result">The result of the user input.</param>
         /// <returns>True if the user entered input, false if they canceled it.</returns>
-        public bool getInputString(string prompt, out string result)
+        public bool getInputString(string prompt, out string result, ValidateUIInput validate)
         {
-            InputResult inRes = InputBox.GetInput("Input value", prompt, propGridView.FindForm());
-            result = inRes.text;
-            return inRes.ok;
-        }
-
-        /// <summary>
-        /// Call back to the UI to get an input string for a given prompt. This
-        /// function will return true if the user entered valid input or false
-        /// if they canceled or did not enter valid input. If false is returned
-        /// the operation in progress should be stopped and any changes
-        /// reverted.
-        /// </summary>
-        /// <param name="prompt">The propmpt to show the user.</param>
-        /// <param name="preloadValue">A value to preload the input with.</param>
-        /// <param name="result">The result of the user input.</param>
-        /// <returns>True if the user entered input, false if they canceled it.</returns>
-        public bool getInputString(string prompt, string preloadValue, out string result)
-        {
-            InputResult inRes = InputBox.GetInput("Input value", prompt, propGridView.FindForm(), preloadValue);
+            InputResult inRes = InputBox.GetInput("Input value", prompt, propGridView.FindForm(), validate);
             result = inRes.text;
             return inRes.ok;
         }

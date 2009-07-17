@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using Engine.Editing;
 
 namespace Editor
 {
@@ -34,12 +35,21 @@ namespace Editor
 
         }
 
-        public static InputResult GetInput(String title, String message, IWin32Window parent)
+        public static InputResult GetInput(String title, String message, IWin32Window parent, ValidateUIInput validate)
         {
-            return GetInput(title, message, parent, "");
+            InputResult result = GetInput(title, message, parent, "");
+            if (validate != null)
+            {
+                String error;
+                while (result.ok && !validate.Invoke(result.text, out error))
+                {
+                    result = GetInput(title, error, parent, result.text);
+                }
+            }
+            return result;
         }
 
-        public static InputResult GetInput(String title, String message, IWin32Window parent, String text)
+        private static InputResult GetInput(String title, String message, IWin32Window parent, String text)
         {
             InputResult inputResult = new InputResult();
             using (InputBox inputBox = new InputBox(title, message, text))

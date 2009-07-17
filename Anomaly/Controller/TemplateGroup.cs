@@ -203,16 +203,28 @@ namespace Anomaly
         private void createGroupCallback(EditUICallback callback, EditInterfaceCommand command)
         {
             String name;
-            bool accept = callback.getInputString("Enter a name.", out name);
-            while (accept && this.groups.ContainsKey(name))
-            {
-                accept = callback.getInputString("That name is already in use. Please provide another.", name, out name);
-            }
+            bool accept = callback.getInputString("Enter a name.", out name, validateGroupCreate);
             if (accept)
             {
                 TemplateGroup group = new TemplateGroup(name, templateWriter);
                 this.addGroup(group);
             }
+        }
+
+        private bool validateGroupCreate(String input, out String errorPrompt)
+        {
+            if (input == null || input == "")
+            {
+                errorPrompt = "Please enter a non empty name.";
+                return false;
+            }
+            if (this.groups.ContainsKey(input))
+            {
+                errorPrompt = "That name is already in use. Please provide another.";
+                return false;
+            }
+            errorPrompt = "";
+            return true;
         }
 
         private void destroyGroupCallback(EditUICallback callback, EditInterfaceCommand command)
@@ -232,16 +244,28 @@ namespace Anomaly
         private void createSimObjectCallback(EditUICallback callback, EditInterfaceCommand command)
         {
             String name;
-            bool accept = callback.getInputString("Enter a name.", out name);
-            while (accept && this.templates.ContainsKey(name))
-            {
-                accept = callback.getInputString("That name is already in use. Please provide another.", name, out name);
-            }
+            bool accept = callback.getInputString("Enter a name.", out name, validateSimObjectCreate);
             if (accept)
             {
                 SimObjectDefinition simObject = new GenericSimObjectDefinition(name);
                 this.addSimObject(simObject);
             }
+        }
+
+        private bool validateSimObjectCreate(String input, out String errorPrompt)
+        {
+            if (input == null || input == "")
+            {
+                errorPrompt = "Please enter a non empty name.";
+                return false;
+            }
+            if (this.templates.ContainsKey(input))
+            {
+                errorPrompt = "That name is already in use. Please provide another.";
+                return false;
+            }
+            errorPrompt = "";
+            return true;
         }
 
         private void destroySimObjectCallback(EditUICallback callback, EditInterfaceCommand command)
@@ -252,11 +276,7 @@ namespace Anomaly
         private void duplicateSimObjectCallback(EditUICallback callback, EditInterfaceCommand command)
         {
             String name;
-            bool accept = callback.getInputString("Enter a name.", out name);
-            while (accept && this.templates.ContainsKey(name))
-            {
-                accept = callback.getInputString("That name is already in use. Please provide another.", name, out name);
-            }
+            bool accept = callback.getInputString("Enter a name.", out name, validateDuplicateSimObject);
             if (accept)
             {
                 SimObjectDefinition sourceObject = templateManager.resolveSourceObject(callback.getSelectedEditInterface()).Definition;
@@ -264,6 +284,22 @@ namespace Anomaly
                 simObject.Name = name;
                 this.addSimObject(simObject);
             }
+        }
+
+        private bool validateDuplicateSimObject(String input, out String errorPrompt)
+        {
+            if (input == null || input == "")
+            {
+                errorPrompt = "Please enter a non empty name.";
+                return false;
+            }
+            if (this.templates.ContainsKey(input))
+            {
+                errorPrompt = "That name is already in use. Please provide another.";
+                return false;
+            }
+            errorPrompt = "";
+            return true;
         }
 
         private void copyNameCallback(EditUICallback callback, EditInterfaceCommand command)

@@ -250,16 +250,28 @@ namespace Engine.ObjectManagement
         private void createSimElementManagerDefinition(EditUICallback callback, EditInterfaceCommand caller)
         {
             String name;
-            bool accept = callback.getInputString("Enter a name.", out name);
-            while (accept && this.hasSimElementManagerDefinition(name))
-            {
-                accept = callback.getInputString("That name is already in use. Please provide another.", name, out name);
-            }
+            bool accept = callback.getInputString("Enter a name.", out name, validateSimElementManagerCreate);
             if (accept)
             {
                 SimElementManagerDefinition def = createSimElementManagerDefs[caller].execute(name, callback);
                 this.addSimElementManagerDefinition(def);
             }
+        }
+
+        private bool validateSimElementManagerCreate(String input, out String errorPrompt)
+        {
+            if (input == null || input == "")
+            {
+                errorPrompt = "Please enter a non empty name.";
+                return false;
+            }
+            if (this.hasSimElementManagerDefinition(input))
+            {
+                errorPrompt = "That name is already in use. Please provide another.";
+                return false;
+            }
+            errorPrompt = "";
+            return true;
         }
 
         /// <summary>
@@ -281,16 +293,28 @@ namespace Engine.ObjectManagement
         private void createSimSubSceneDefinition(EditUICallback callback, EditInterfaceCommand caller)
         {
             String name;
-            bool accept = callback.getInputString("Enter a name.", out name);
-            while (accept && this.hasSimSubSceneDefinition(name))
-            {
-                accept = callback.getInputString("That name is already in use. Please provide another.", name, out name);
-            }
+            bool accept = callback.getInputString("Enter a name.", out name, validateSimSubSceneCreate);
             if (accept)
             {
                 SimSubSceneDefinition def = new SimSubSceneDefinition(name);
                 this.addSimSubSceneDefinition(def);
             }
+        }
+
+        private bool validateSimSubSceneCreate(String input, out String errorPrompt)
+        {
+            if (input == null || input == "")
+            {
+                errorPrompt = "Please enter a non empty name.";
+                return false;
+            }
+            if (this.hasSimSubSceneDefinition(input))
+            {
+                errorPrompt = "That name is already in use. Please provide another.";
+                return false;
+            }
+            errorPrompt = "";
+            return true;
         }
 
         /// <summary>
