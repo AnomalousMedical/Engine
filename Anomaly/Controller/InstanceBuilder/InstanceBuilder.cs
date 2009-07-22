@@ -58,7 +58,6 @@ namespace Anomaly
                             if (!objectManager.hasSimObject(template.Name))
                             {
                                 SimObjectDefinition instance = copySaver.copyObject(template) as SimObjectDefinition;
-                                instance.Enabled = true;
                                 while (!(xmlReader.Name == SIMOBJECT_ELEMENT && xmlReader.NodeType == XmlNodeType.EndElement) && xmlReader.Read())
                                 {
                                     if (xmlReader.NodeType == XmlNodeType.Element)

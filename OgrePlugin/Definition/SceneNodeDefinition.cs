@@ -180,7 +180,6 @@ namespace OgrePlugin
             {
                 child.createAsChild(instance, scene, element);
             }
-            scene.SceneManager.getRootSceneNode().addChild(node);
         }
         
         /// <summary>

@@ -140,7 +140,14 @@ namespace OgrePlugin
 
         protected override void setEnabled(bool enabled)
         {
-            sceneNode.setVisible(enabled);
+            if (enabled)
+            {
+                scene.SceneManager.getRootSceneNode().addChild(sceneNode);
+            }
+            else
+            {
+                scene.SceneManager.getRootSceneNode().removeChild(sceneNode);
+            }
         }
 
         public override SimElementDefinition saveToDefinition()

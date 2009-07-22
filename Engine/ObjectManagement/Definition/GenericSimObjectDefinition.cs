@@ -5,11 +5,28 @@ using System.Text;
 using Engine.Editing;
 using Engine.Saving;
 using Engine.Command;
+using Engine.Reflection;
 
 namespace Engine.ObjectManagement
 {
     public class GenericSimObjectDefinition : SimObjectDefinition
     {
+        #region Static
+
+        private static MemberScanner genericSimObjectScanner;
+
+        /// <summary>
+        /// Static constructor.
+        /// </summary>
+        static GenericSimObjectDefinition()
+        {
+            genericSimObjectScanner = new MemberScanner();
+            genericSimObjectScanner.ProcessFields = false;
+            genericSimObjectScanner.Filter = new EditableAttributeFilter();
+        }
+
+        #endregion Static
+
         #region Fields
 
         private Dictionary<String, SimElementDefinition> definitions = new Dictionary<String, SimElementDefinition>();
@@ -32,7 +49,7 @@ namespace Engine.ObjectManagement
             this.name = name;
             this.Translation = Vector3.Zero;
             this.Rotation = Quaternion.Identity;
-            this.Enabled = false;
+            this.Enabled = true;
             this.Scale = Vector3.ScaleIdentity;
         }
 
@@ -91,7 +108,7 @@ namespace Engine.ObjectManagement
         {
             if (editInterface == null)
             {
-                editInterface = new EditInterface(name);
+                editInterface = ReflectedEditInterface.createEditInterface(this, genericSimObjectScanner, name, null);//new EditInterface(name);
                 elementEditInterfaces = new EditInterfaceManager<SimElementDefinition>(editInterface);
                 destroySimElement = new EditInterfaceCommand("Remove", removeSimElementDefinition);
                 foreach (SimElementDefinition definition in definitions.Values)
@@ -201,6 +218,7 @@ namespace Engine.ObjectManagement
         /// <summary>
         /// True if the object is enabled, false if it is disabled.
         /// </summary>
+        [Editable]
         public bool Enabled { get; set; }
 
         #endregion Properties
