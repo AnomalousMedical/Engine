@@ -15,6 +15,7 @@ namespace Engine.Editing
     /// subinterface.
     /// </summary>
     [DoNotCopy]
+    [DoNotSave]
     public class EditInterfaceCommand
     {
         private EditInterfaceFunction function;

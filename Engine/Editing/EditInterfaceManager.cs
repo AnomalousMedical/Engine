@@ -12,6 +12,7 @@ namespace Engine.Editing
     /// </summary>
     /// <typeparam name="T">The class this manager binds to.</typeparam>
     [DoNotCopy]
+    [DoNotSave]
     public class EditInterfaceManager<T>
         where T : class
     {

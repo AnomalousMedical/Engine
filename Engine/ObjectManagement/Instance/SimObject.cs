@@ -94,6 +94,15 @@ namespace Engine.ObjectManagement
             simObjectManager = null;
         }
 
+        /// <summary>
+        /// Set the SimObject as enabled or disabled. The subsystems will
+        /// determine the exact status that that their objects will go into when
+        /// this is activated. However, this mode can be changed as quickly as
+        /// possible.
+        /// </summary>
+        /// <param name="enabled">True to enable the SimObject, false to disable it.</param>
+        public abstract void setEnabled(bool enabled);
+
         #endregion Functions
 
         #region Properties

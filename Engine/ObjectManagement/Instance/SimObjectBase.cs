@@ -56,15 +56,6 @@ namespace Engine.ObjectManagement
         public abstract void updateScale(ref Vector3 scale, SimElement trigger);
 
         /// <summary>
-        /// Set the SimObject as enabled or disabled. The subsystems will
-        /// determine the exact status that that their objects will go into when
-        /// this is activated. However, this mode can be changed as quickly as
-        /// possible.
-        /// </summary>
-        /// <param name="enabled">True to enable the SimObject, false to disable it.</param>
-        public abstract void setEnabled(bool enabled);
-
-        /// <summary>
         /// Save this SimObject to a SimObjectDefinition.
         /// </summary>
         /// <param name="definitionName">The name to give the SimObjectDefinition.</param>
