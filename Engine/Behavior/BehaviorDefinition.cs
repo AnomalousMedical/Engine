@@ -70,6 +70,7 @@ namespace Engine
             if (editInterface == null)
             {
                 editInterface = ReflectedEditInterface.createEditInterface(behaviorTemplate, BehaviorEditMemberScanner.Scanner, Name + " - " + behaviorTemplate.GetType().Name, null);
+                behaviorTemplate.callCustomizeEditInterface(editInterface);
             }
             return editInterface;
         }

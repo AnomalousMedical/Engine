@@ -8,6 +8,7 @@ using Logging;
 using Engine.Attributes;
 using Engine.Renderer;
 using Engine.Saving;
+using Engine.Editing;
 
 namespace Engine
 {
@@ -201,6 +202,24 @@ namespace Engine
         /// </summary>
         /// <param name="info">The SaveInfo to add custom data to.</param>
         protected virtual void customSave(SaveInfo info)
+        {
+
+        }
+
+        /// <summary>
+        /// Internal function to call the customizeEditInterface function.
+        /// </summary>
+        /// <param name="editInterface">The EditInterface for this behavior.</param>
+        internal void callCustomizeEditInterface(EditInterface editInterface)
+        {
+            customizeEditInterface(editInterface);
+        }
+
+        /// <summary>
+        /// Override this funciton to add custom data to the behavior's EditInterface.
+        /// </summary>
+        /// <param name="editInterface">The EditInterface for this behavior.</param>
+        protected virtual void customizeEditInterface(EditInterface editInterface)
         {
 
         }
