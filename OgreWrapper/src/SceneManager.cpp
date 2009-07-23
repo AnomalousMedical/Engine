@@ -267,6 +267,16 @@ bool SceneManager::getShowBoundingBoxes()
 	return sceneManager->getShowBoundingBoxes();
 }
 
+void SceneManager::setShadowTechnique(ShadowTechnique technique)
+{
+	sceneManager->setShadowTechnique(static_cast<Ogre::ShadowTechnique>(technique));
+}
+
+ShadowTechnique SceneManager::getShadowTechnique()
+{
+	return static_cast<ShadowTechnique>(sceneManager->getShadowTechnique());
+}
+
 void SceneManager::setShowDebugShadows(bool debug)
 {
 	sceneManager->setShowDebugShadows(debug);
@@ -275,6 +285,190 @@ void SceneManager::setShowDebugShadows(bool debug)
 bool SceneManager::getShowDebugShadows()
 {
 	return sceneManager->getShowDebugShadows();
+}
+
+void SceneManager::setShadowColor(Engine::Color color)
+{
+	sceneManager->setShadowColour(MathUtils::copyColor(color));
+}
+
+Engine::Color SceneManager::getShadowColor()
+{
+	return MathUtils::copyColor(sceneManager->getShadowColour());
+}
+
+void SceneManager::setShadowDirectionalLightExtrusionDistance(float dist)
+{
+	sceneManager->setShadowDirectionalLightExtrusionDistance(dist);
+}
+
+float SceneManager::getShadowDirectionalLightExtrusionDistance()
+{
+	return sceneManager->getShadowDirectionalLightExtrusionDistance();
+}
+
+void SceneManager::setShadowFarDistance(float distance)
+{
+	sceneManager->setShadowFarDistance(distance);
+}
+
+float SceneManager::getShadowFarDistance()
+{
+	return sceneManager->getShadowFarDistance();
+}
+
+float SceneManager::getShadowFarDistanceSquared()
+{
+	return sceneManager->getShadowFarDistanceSquared();
+}
+
+void SceneManager::setShadowIndexBufferSizec(size_t size)
+{
+	sceneManager->setShadowIndexBufferSize(size);
+}
+
+size_t SceneManager::getShadowIndexBufferSize()
+{
+	return sceneManager->getShadowIndexBufferSize();
+}
+
+void SceneManager::setShadowTextureSize(unsigned short size)
+{
+	sceneManager->setShadowTextureSize(size);
+}
+
+void SceneManager::setShadowTextureConfig(size_t shadowIndex, unsigned short width, unsigned short height, PixelFormat format)
+{
+	sceneManager->setShadowTextureConfig(shadowIndex, width, height, static_cast<Ogre::PixelFormat>(format));
+}
+
+void SceneManager::setShadowTexturePixelFormat(PixelFormat fmt)
+{
+	return sceneManager->setShadowTexturePixelFormat(static_cast<Ogre::PixelFormat>(fmt));
+}
+
+void SceneManager::setShadowTextureCount(size_t count)
+{
+	return sceneManager->setShadowTextureCount(count);
+}
+
+size_t SceneManager::getShadowTextureCount()
+{
+	return sceneManager->getShadowTextureCount();
+}
+
+void SceneManager::setShadowTextureCountPerLightType (Light::LightTypes type, size_t count)
+{
+	return sceneManager->setShadowTextureCountPerLightType(static_cast<Ogre::Light::LightTypes>(type), count);
+}
+
+size_t SceneManager::getShadowTextureCountPerLightType(Light::LightTypes type)
+{
+	return sceneManager->getShadowTextureCountPerLightType(static_cast<Ogre::Light::LightTypes>(type));
+}
+
+void SceneManager::setShadowTextureSettings(unsigned short size, unsigned short count, PixelFormat fmt)
+{
+	return sceneManager->setShadowTextureSettings(size, count, static_cast<Ogre::PixelFormat>(fmt));
+}
+
+void SceneManager::setShadowDirLightTextureOffset(float offset)
+{
+	return sceneManager->setShadowDirLightTextureOffset(offset);
+}
+	
+float SceneManager::getShadowDirLightTextureOffset(void)
+{
+	return sceneManager->getShadowDirLightTextureOffset();
+}
+
+void SceneManager::setShadowTextureFadeStart(float fadeStart)
+{
+	return sceneManager->setShadowTextureFadeStart(fadeStart);
+}
+
+void SceneManager::setShadowTextureFadeEnd(float fadeEnd)
+{
+	return sceneManager->setShadowTextureFadeEnd(fadeEnd);
+}
+
+void SceneManager::setShadowTextureSelfShadow(bool selfShadow)
+{
+	return sceneManager->setShadowTextureSelfShadow(selfShadow);
+}
+
+bool SceneManager::getShadowTextureSelfShadow(void)
+{
+	return sceneManager->getShadowTextureSelfShadow();
+}
+
+void SceneManager::setShadowTextureCasterMaterial(System::String^ name)
+{
+	return sceneManager->setShadowTextureCasterMaterial(MarshalUtils::convertString(name));
+}
+
+void SceneManager::setShadowTextureReceiverMaterial(System::String^ name)
+{
+	return sceneManager->setShadowTextureReceiverMaterial(MarshalUtils::convertString(name));
+}
+
+void SceneManager::setShadowCasterRenderBackFaces(bool bf)
+{
+	return sceneManager->setShadowCasterRenderBackFaces(bf);
+}
+
+bool SceneManager::getShadowCasterRenderBackFaces()
+{
+	return sceneManager->getShadowCasterRenderBackFaces();
+}
+
+//void setShadowCameraSetup (const ShadowCameraSetupPtr &shadowSetup);
+
+//virtual constShadowCameraSetupPtr & 	getShadowCameraSetup () const
+
+void SceneManager::setShadowUseInfiniteFarPlane(bool enable)
+{
+	return sceneManager->setShadowUseInfiniteFarPlane(enable);
+}
+
+bool SceneManager::isShadowTechniqueStencilBased(void)
+{
+	return sceneManager->isShadowTechniqueStencilBased();
+}
+
+bool SceneManager::isShadowTechniqueTextureBased(void)
+{
+	return sceneManager->isShadowTechniqueTextureBased();
+}
+
+bool SceneManager::isShadowTechniqueModulative(void)
+{
+	return sceneManager->isShadowTechniqueModulative();
+}
+
+bool SceneManager::isShadowTechniqueAdditive(void)
+{
+	return sceneManager->isShadowTechniqueAdditive();
+}
+
+bool SceneManager::isShadowTechniqueIntegrated(void)
+{
+	return sceneManager->isShadowTechniqueIntegrated();
+}
+
+bool SceneManager::isShadowTechniqueInUse(void)
+{
+	return sceneManager->isShadowTechniqueInUse();
+}
+
+void SceneManager::setShadowUseLightClipPlanes(bool enabled)
+{
+	return sceneManager->setShadowUseLightClipPlanes(enabled);
+}
+
+bool SceneManager::getShadowUseLightClipPlanes()
+{
+	return sceneManager->getShadowUseLightClipPlanes();
 }
 
 }

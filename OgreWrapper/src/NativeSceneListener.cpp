@@ -22,16 +22,30 @@ void NativeSceneListener::preFindVisibleObjects(Ogre::SceneManager* source, Ogre
 {
 	Ogre::Camera* cam = v->getCamera();
 	VoidUserDefinedObject* userObj = (VoidUserDefinedObject*)cam->getUserObject();
-	CameraGCRoot* camRoot = (CameraGCRoot*)userObj->object;
-	managedListener->preFindVisibleObjects(ownerScene, (SceneManager::IlluminationRenderStage)irs, *camRoot);
+	if(userObj != 0)
+	{
+		CameraGCRoot* camRoot = (CameraGCRoot*)userObj->object;
+		managedListener->preFindVisibleObjects(ownerScene, (SceneManager::IlluminationRenderStage)irs, *camRoot);
+	}
+	else
+	{
+		managedListener->preFindVisibleObjects(ownerScene, (SceneManager::IlluminationRenderStage)irs, nullptr);
+	}
 }
 	
 void NativeSceneListener::postFindVisibleObjects(Ogre::SceneManager* source, Ogre::SceneManager::IlluminationRenderStage irs, Ogre::Viewport* v)
 {
 	Ogre::Camera* cam = v->getCamera();
 	VoidUserDefinedObject* userObj = (VoidUserDefinedObject*)cam->getUserObject();
-	CameraGCRoot* camRoot = (CameraGCRoot*)userObj->object;
-	managedListener->postFindVisibleObjects(ownerScene, (SceneManager::IlluminationRenderStage)irs, *camRoot);
+	if(userObj != 0)
+	{
+		CameraGCRoot* camRoot = (CameraGCRoot*)userObj->object;
+		managedListener->postFindVisibleObjects(ownerScene, (SceneManager::IlluminationRenderStage)irs, *camRoot);
+	}
+	else
+	{
+		managedListener->preFindVisibleObjects(ownerScene, (SceneManager::IlluminationRenderStage)irs, nullptr);
+	}
 }
 
 void NativeSceneListener::addSceneListener(gcroot<SceneListener^> sceneListener)

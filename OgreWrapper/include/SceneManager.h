@@ -16,6 +16,8 @@
 #include "SceneNodeCollection.h"
 #include "ManualObjectCollection.h"
 #include "RenderQueue.h"
+#include "PixelBox.h"
+#include "Light.h"
 
 using namespace System;
 
@@ -38,6 +40,92 @@ interface class SceneListener;
 ref class ManualObject;
 ref class RaySceneQuery;
 ref class PlaneBoundedVolumeListSceneQuery;
+
+/** An enumeration of broad shadow techniques */
+public enum class ShadowTechnique
+{
+    /** No shadows */
+    SHADOWTYPE_NONE = 0x00,
+	/** Mask for additive shadows (not for direct use, use  SHADOWTYPE_ enum instead)
+	*/
+	SHADOWDETAILTYPE_ADDITIVE = 0x01,
+	/** Mask for modulative shadows (not for direct use, use  SHADOWTYPE_ enum instead)
+	*/
+	SHADOWDETAILTYPE_MODULATIVE = 0x02,
+	/** Mask for integrated shadows (not for direct use, use SHADOWTYPE_ enum instead)
+	*/
+	SHADOWDETAILTYPE_INTEGRATED = 0x04,
+	/** Mask for stencil shadows (not for direct use, use  SHADOWTYPE_ enum instead)
+	*/
+	SHADOWDETAILTYPE_STENCIL = 0x10,
+	/** Mask for texture shadows (not for direct use, use  SHADOWTYPE_ enum instead)
+	*/
+	SHADOWDETAILTYPE_TEXTURE = 0x20,
+	
+    /** Stencil shadow technique which renders all shadow volumes as
+        a modulation after all the non-transparent areas have been 
+        rendered. This technique is considerably less fillrate intensive 
+        than the additive stencil shadow approach when there are multiple
+        lights, but is not an accurate model. 
+    */
+    SHADOWTYPE_STENCIL_MODULATIVE = 0x12,
+    /** Stencil shadow technique which renders each light as a separate
+        additive pass to the scene. This technique can be very fillrate
+        intensive because it requires at least 2 passes of the entire
+        scene, more if there are multiple lights. However, it is a more
+        accurate model than the modulative stencil approach and this is
+        especially apparent when using coloured lights or bump mapping.
+    */
+    SHADOWTYPE_STENCIL_ADDITIVE = 0x11,
+    /** Texture-based shadow technique which involves a monochrome render-to-texture
+        of the shadow caster and a projection of that texture onto the 
+        shadow receivers as a modulative pass. 
+    */
+    SHADOWTYPE_TEXTURE_MODULATIVE = 0x22,
+	
+    /** Texture-based shadow technique which involves a render-to-texture
+        of the shadow caster and a projection of that texture onto the 
+        shadow receivers, built up per light as additive passes. 
+		This technique can be very fillrate intensive because it requires numLights + 2 
+		passes of the entire scene. However, it is a more accurate model than the 
+		modulative approach and this is especially apparent when using coloured lights 
+		or bump mapping.
+    */
+    SHADOWTYPE_TEXTURE_ADDITIVE = 0x21,
+
+	/** Texture-based shadow technique which involves a render-to-texture
+	of the shadow caster and a projection of that texture on to the shadow
+	receivers, with the usage of those shadow textures completely controlled
+	by the materials of the receivers.
+	This technique is easily the most flexible of all techniques because 
+	the material author is in complete control over how the shadows are
+	combined with regular rendering. It can perform shadows as accurately
+	as SHADOWTYPE_TEXTURE_ADDITIVE but more efficiently because it requires
+	less passes. However it also requires more expertise to use, and 
+	in almost all cases, shader capable hardware to really use to the full.
+	@note The 'additive' part of this mode means that the colour of
+	the rendered shadow texture is by default plain black. It does
+	not mean it does the adding on your receivers automatically though, how you
+	use that result is up to you.
+	*/
+	SHADOWTYPE_TEXTURE_ADDITIVE_INTEGRATED = 0x25,
+	/** Texture-based shadow technique which involves a render-to-texture
+		of the shadow caster and a projection of that texture on to the shadow
+		receivers, with the usage of those shadow textures completely controlled
+		by the materials of the receivers.
+		This technique is easily the most flexible of all techniques because 
+		the material author is in complete control over how the shadows are
+		combined with regular rendering. It can perform shadows as accurately
+		as SHADOWTYPE_TEXTURE_ADDITIVE but more efficiently because it requires
+		less passes. However it also requires more expertise to use, and 
+		in almost all cases, shader capable hardware to really use to the full.
+		@note The 'modulative' part of this mode means that the colour of
+		the rendered shadow texture is by default the 'shadow colour'. It does
+		not mean it modulates on your receivers automatically though, how you
+		use that result is up to you.
+	*/
+	SHADOWTYPE_TEXTURE_MODULATIVE_INTEGRATED = 0x26
+};
 
 /// <summary>
 /// This is a scene in the renderer.  You can have multiple scenes at any time.
@@ -366,6 +454,10 @@ public:
 	/// <returns>Returns true if all bounding boxes of scene nodes are to be displayed. </returns>
 	bool getShowBoundingBoxes();
 
+	void setShadowTechnique(ShadowTechnique technique);
+
+	ShadowTechnique getShadowTechnique();
+
 	/// <summary>
 	/// Enables / disables the rendering of debug information for shadows.
 	/// </summary>
@@ -377,6 +469,84 @@ public:
 	/// </summary>
 	/// <returns>True if shadows are being rendered.</returns>
 	bool getShowDebugShadows();
+
+	void setShadowColor(Engine::Color color);
+
+	Engine::Color getShadowColor();	
+
+	void setShadowDirectionalLightExtrusionDistance(float dist);
+
+	float getShadowDirectionalLightExtrusionDistance();
+
+	void setShadowFarDistance(float distance);
+
+	float getShadowFarDistance();
+
+	float getShadowFarDistanceSquared();
+
+	void setShadowIndexBufferSizec(size_t size);
+
+	size_t getShadowIndexBufferSize();
+
+	void setShadowTextureSize(unsigned short size);
+
+	void setShadowTextureConfig(size_t shadowIndex, unsigned short width, unsigned short height, PixelFormat format);
+
+	void setShadowTexturePixelFormat(PixelFormat fmt);
+
+	void setShadowTextureCount(size_t count);
+	
+	size_t getShadowTextureCount();
+
+	void setShadowTextureCountPerLightType (Light::LightTypes type, size_t count);
+
+	size_t getShadowTextureCountPerLightType(Light::LightTypes type);
+
+	void setShadowTextureSettings(unsigned short size, unsigned short count, PixelFormat fmt);
+
+	//getShadowTexture
+
+	void setShadowDirLightTextureOffset(float offset);
+	
+	float getShadowDirLightTextureOffset(void);
+	
+	void setShadowTextureFadeStart(float fadeStart);
+	
+	void setShadowTextureFadeEnd(float fadeEnd);
+	
+	void setShadowTextureSelfShadow(bool selfShadow);
+	
+	bool getShadowTextureSelfShadow(void);
+	
+	void setShadowTextureCasterMaterial(System::String^ name);
+	
+	void setShadowTextureReceiverMaterial(System::String^ name);
+	
+	void setShadowCasterRenderBackFaces(bool bf);
+	
+	bool getShadowCasterRenderBackFaces();
+	
+	//void setShadowCameraSetup (const ShadowCameraSetupPtr &shadowSetup);
+	
+	//virtual constShadowCameraSetupPtr & 	getShadowCameraSetup () const
+	
+	void setShadowUseInfiniteFarPlane(bool enable);
+	
+	bool isShadowTechniqueStencilBased(void);
+	
+	bool isShadowTechniqueTextureBased(void);
+	
+	bool isShadowTechniqueModulative(void);
+	
+	bool isShadowTechniqueAdditive(void);
+	
+	bool isShadowTechniqueIntegrated(void);
+	
+	bool isShadowTechniqueInUse(void);
+	
+	void setShadowUseLightClipPlanes(bool enabled);
+	
+	bool getShadowUseLightClipPlanes();
 };
 
 }
