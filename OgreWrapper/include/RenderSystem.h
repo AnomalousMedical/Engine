@@ -7,6 +7,8 @@ namespace Ogre
 
 namespace OgreWrapper{
 
+ref class ConfigOption;
+
 /// <summary>
 /// 
 /// </summary>
@@ -41,6 +43,10 @@ public:
 	System::String^ validateConfigOptions();
 
 	void _initRenderTargets();
+
+	System::Collections::Generic::Dictionary<System::String^, ConfigOption^>^ getConfigOptions();
+
+	void setConfigOption(System::String^ name, System::String^ value);
 };
 
 }

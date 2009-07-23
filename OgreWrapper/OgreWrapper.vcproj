@@ -600,6 +600,14 @@
 				Name="Renderer"
 				>
 				<File
+					RelativePath=".\src\ConfigOption.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\ConfigOption.h"
+					>
+				</File>
+				<File
 					RelativePath=".\src\PixelBox.cpp"
 					>
 				</File>
