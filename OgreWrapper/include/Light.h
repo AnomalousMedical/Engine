@@ -255,6 +255,10 @@ public:
 	/// </summary>
 	/// <returns>Get the scaling factor which indicates the relative power of a light.</returns>
 	float getPowerScale();
+
+	void setCastShadows(bool cast);
+
+	bool getCastShadows();
 };
 
 }

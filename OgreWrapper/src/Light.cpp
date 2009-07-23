@@ -175,4 +175,14 @@ float Light::getPowerScale()
 	return light->getPowerScale();
 }
 
+void Light::setCastShadows(bool cast)
+{
+	return light->setCastShadows(cast);
+}
+
+bool Light::getCastShadows()
+{
+	return light->getCastShadows();
+}
+
 }
