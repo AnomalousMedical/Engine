@@ -33,6 +33,7 @@ namespace Engine.ObjectManagement
         /// <param name="managerName">The name of the SimElementManager.</param>
         public SimSubSceneBinding(SimSubSceneDefinition subScene, String managerName)
         {
+            this.subScene = subScene;
             simElementManager = subScene.getSimElementManager(managerName);
         }
 
@@ -43,6 +44,7 @@ namespace Engine.ObjectManagement
         /// <param name="simElementManager">The SimElementManagerDefinition.</param>
         public SimSubSceneBinding(SimSubSceneDefinition subScene, SimElementManagerDefinition simElementManager)
         {
+            this.subScene = subScene;
             this.simElementManager = simElementManager;
         }
 
