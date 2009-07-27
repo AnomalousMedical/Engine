@@ -17,6 +17,7 @@ namespace Engine.Editing
         where T : class
     {
         private Dictionary<T, EditInterface> interfaceDictionary = new Dictionary<T, EditInterface>();
+        private LinkedList<EditInterfaceCommand> commandList = new LinkedList<EditInterfaceCommand>();
         private EditInterface editInterface;
 
         /// <summary>
@@ -38,6 +39,10 @@ namespace Engine.Editing
             editInterface.addSubInterface(subInterface);
             subInterface.ManagerBinding = source;
             interfaceDictionary.Add(source, subInterface);
+            foreach (EditInterfaceCommand command in commandList)
+            {
+                subInterface.addCommand(command);
+            }
         }
 
         /// <summary>
@@ -91,6 +96,21 @@ namespace Engine.Editing
         public EditInterface getEditInterface(T source)
         {
             return interfaceDictionary[source];
+        }
+
+        /// <summary>
+        /// Add a command that will be added to every sub interface added to
+        /// this manager. This must be done before any sub interfaces are added
+        /// or else they will not have the command. This will not add commands
+        /// to any existing interfaces.
+        /// </summary>
+        /// <param name="command"></param>
+        public void addCommand(EditInterfaceCommand command)
+        {
+            if (!commandList.Contains(command))
+            {
+                commandList.AddLast(command);
+            }
         }
     }
 }
