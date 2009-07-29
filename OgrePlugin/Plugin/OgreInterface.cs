@@ -139,7 +139,7 @@ namespace OgrePlugin
                 if (FoundOgreCore)
                 {
                     Log.Default.sendMessage("Found OgreCore.zip at {0}. Debug resources available.", LogLevel.ImportantInfo, PluginName, ogreCoreLocation);
-                    OgreResourceGroupManager.getInstance().addResourceLocation(ogreCoreLocation, "Zip", "Internal", true);
+                    OgreResourceGroupManager.getInstance().addResourceLocation(ogreCoreLocation, "Zip", "Bootstrap", true);
                     OgreResourceGroupManager.getInstance().initializeAllResourceGroups();
                 }
                 else
