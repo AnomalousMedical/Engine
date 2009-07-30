@@ -63,7 +63,7 @@ namespace OgrePlugin
         /// </summary>
         /// <param name="subscene">The subscene to add this definition to.</param>
         /// <param name="instance">The SimObject that will get the product.</param>
-        public override void register(SimSubScene subscene, SimObjectBase instance)
+        public override void registerScene(SimSubScene subscene, SimObjectBase instance)
         {
             if (subscene.hasSimElementManagerType(typeof(OgreSceneManager)))
             {

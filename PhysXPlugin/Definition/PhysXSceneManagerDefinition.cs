@@ -43,7 +43,6 @@ namespace PhysXPlugin
         private PhysSceneDesc sceneDesc = new PhysSceneDesc();
         private String name;
         private EditInterface editInterface = null;
-        private PhysXInterface physInterface;
         private LinkedList<PhysActorGroupPairDefinition> actorGroupPairs = new LinkedList<PhysActorGroupPairDefinition>();
         private EditInterface actorGroupPairsEdit;
 
@@ -58,7 +57,6 @@ namespace PhysXPlugin
         internal PhysXSceneManagerDefinition(String name)
         {
             this.name = name;
-            this.physInterface = PhysXInterface.Instance;
         }
 
         #endregion Constructors
@@ -80,7 +78,7 @@ namespace PhysXPlugin
         /// <returns>The SimElementManager this definition is designed to create.</returns>
         public SimElementManager createSimElementManager()
         {
-            PhysXSceneManager scene = physInterface.createScene(this);
+            PhysXSceneManager scene = PhysXInterface.Instance.createScene(this);
             foreach(PhysActorGroupPairDefinition pair in actorGroupPairs)
             {
                 scene.PhysScene.setActorGroupPairFlags(pair.Group0, pair.Group1, pair.Flags);
@@ -676,7 +674,6 @@ namespace PhysXPlugin
         private PhysXSceneManagerDefinition(LoadInfo info)
         {
             name = info.GetString(NAME);
-            this.physInterface = PhysXInterface.Instance;
             SolverBatchSize = info.GetUInt32(SOLVER_BATCH_SIZE);
             NbGridCellsY = info.GetUInt32(NB_GRID_CELLS_Y);
             NbGridCellsX = info.GetUInt32(NB_GRID_CELLS_X);

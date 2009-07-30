@@ -3,10 +3,7 @@
 // but are changed infrequently
 
 #pragma once
+
 #pragma unmanaged
-#pragma warning(push)
-#pragma warning(disable : 4635)
-#include "NxPhysics.h"
-#pragma warning(pop)
+#include "btBulletDynamicsCommon.h"
 #pragma managed
-#include "Enums.h"

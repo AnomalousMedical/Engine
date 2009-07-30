@@ -12,7 +12,9 @@ typedef System::IntPtr PtrType;
 // Shortcut out define.
 #define _OUT [System::Runtime::InteropServices::Out]
 
+#pragma unmanaged
 #pragma warning(push)
 #pragma warning(disable : 4635)
 #include "Ogre.h"
 #pragma warning(pop)
+#pragma managed

@@ -95,7 +95,7 @@ namespace Engine.ObjectManagement
             SimObjectBase instance = new GenericSimObject(name, Translation, Rotation, Scale, Enabled);
             foreach (SimElementDefinition definition in definitions.Values)
             {
-                definition.register(subScene, instance);
+                definition.registerScene(subScene, instance);
             }
             return instance;
         }

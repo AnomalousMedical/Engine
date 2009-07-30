@@ -106,7 +106,7 @@ namespace PhysXPlugin
         /// </summary>
         /// <param name="subscene">The SimSubScene that will get the built product.</param>
         /// <param name="instance">The SimObject that will get the newly created element.</param>
-        public override void register(SimSubScene subscene, SimObjectBase instance)
+        public override void registerScene(SimSubScene subscene, SimObjectBase instance)
         {
             if (subscene.hasSimElementManagerType(typeof(PhysXSceneManager)))
             {

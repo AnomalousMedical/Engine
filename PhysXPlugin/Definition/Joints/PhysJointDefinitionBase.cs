@@ -122,7 +122,7 @@ namespace PhysXPlugin
             
         }
 
-        public override void register(SimSubScene subscene, SimObjectBase instance)
+        public override void registerScene(SimSubScene subscene, SimObjectBase instance)
         {
             if (subscene.hasSimElementManagerType(typeof(PhysXSceneManager)))
             {

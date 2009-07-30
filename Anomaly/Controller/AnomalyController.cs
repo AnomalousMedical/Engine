@@ -409,7 +409,11 @@ namespace Anomaly
             String name;
             if (DebugVisualizer.RestoreFromPersistance(persistString, out name))
             {
-                return debugVisualizers[name];
+                if (debugVisualizers.ContainsKey(name))
+                {
+                    return debugVisualizers[name];
+                }
+                return null;
             }
             Vector3 translation;
             Vector3 lookAt;
