@@ -2,6 +2,7 @@
 
 using namespace Engine::ObjectManagement;
 using namespace System;
+using namespace Engine::Saving;
 
 namespace BulletPlugin
 {
@@ -28,7 +29,15 @@ internal:
 public:
 	BulletElementDefinition(String^ name);
 
-	
+//Saving
+
+protected:
+	BulletElementDefinition(LoadInfo^ info);
+
+public:
+	virtual void getInfo(SaveInfo^ info) override;
+
+//End Saving
 };
 
 }

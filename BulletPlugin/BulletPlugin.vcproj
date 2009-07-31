@@ -113,7 +113,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(BULLET_HOME)\src&quot;;include"
+				AdditionalIncludeDirectories="..\WrapperUtilities\include;&quot;$(BULLET_HOME)\src&quot;;include"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -293,6 +293,22 @@
 			</File>
 			<File
 				RelativePath=".\include\BulletScene.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\MotionState.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\MotionState.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\RigidBody.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\RigidBody.h"
 				>
 			</File>
 		</Filter>

@@ -104,36 +104,6 @@ namespace Engine.ObjectManagement
         }
 
         /// <summary>
-        /// This function will update the position of the entire SimObject.
-        /// </summary>
-        /// <param name="translation">The translation to set.</param>
-        /// <param name="rotation">The rotation to set.</param>
-        public void updatePosition(Vector3 translation, Quaternion rotation)
-        {
-            simObject.updatePosition(ref translation, ref rotation, this);
-        }
-
-        /// <summary>
-        /// This function will update the position of the entire SimObject.
-        /// </summary>
-        /// <param name="translation">The translation to set.</param>
-        /// <param name="rotation">The rotation to set.</param>
-        public void updatePosition(Vector3 translation, ref Quaternion rotation)
-        {
-            simObject.updatePosition(ref translation, ref rotation, this);
-        }
-
-        /// <summary>
-        /// This function will update the position of the entire SimObject.
-        /// </summary>
-        /// <param name="translation">The translation to set.</param>
-        /// <param name="rotation">The rotation to set.</param>
-        public void updatePosition(ref Vector3 translation, Quaternion rotation)
-        {
-            simObject.updatePosition(ref translation, ref rotation, this);
-        }
-
-        /// <summary>
         /// This function will update the position of the SimElement. It is set
         /// as internal to prevent other libraries from directly modifying a
         /// SimElement, since this is not allowed. This will call the

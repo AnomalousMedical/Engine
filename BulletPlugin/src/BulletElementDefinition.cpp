@@ -9,4 +9,15 @@ BulletElementDefinition::BulletElementDefinition(String^ name)
 {
 }
 
+BulletElementDefinition::BulletElementDefinition(LoadInfo^ info)
+:SimElementDefinition(info)
+{
+
+}
+
+void BulletElementDefinition::getInfo(SaveInfo^ info)
+{
+	SimElementDefinition::getInfo(info);
+}
+
 }

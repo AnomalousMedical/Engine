@@ -2,6 +2,7 @@
 #include "..\include\BulletInterface.h"
 #include "BulletSceneDefinition.h"
 #include "BulletScene.h"
+#include "RigidBodyDefinition.h"
 
 using namespace Engine::Command;
 
@@ -28,6 +29,8 @@ BulletInterface::~BulletInterface(void)
 void BulletInterface::initialize(PluginManager^ pluginManager)
 {
 	pluginManager->addCreateSimElementManagerCommand(gcnew AddSimElementManagerCommand("Create Bullet Scene Definition", gcnew CreateSimElementManager(BulletSceneDefinition::Create)));
+
+	pluginManager->addCreateSimElementCommand(gcnew AddSimElementCommand("Create Bullet Rigid Body", gcnew CreateSimElement(RigidBodyDefinition::Create)));
 }
 
 void BulletInterface::setPlatformInfo(Platform::UpdateTimer^ mainTimer, Platform::EventManager^ eventManager)

@@ -30,6 +30,14 @@ internal:
 
 	BulletFactory^ getBulletFactory();
 
+	property btDiscreteDynamicsWorld* DynamicsWorld
+	{
+		btDiscreteDynamicsWorld* get()
+		{
+			return dynamicsWorld;
+		}
+	}
+
 public:
 	virtual ~BulletScene(void);
 
