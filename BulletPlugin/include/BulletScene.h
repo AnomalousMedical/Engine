@@ -11,7 +11,7 @@ namespace BulletPlugin
 ref class BulletSceneDefinition;
 ref class BulletFactory;
 
-public ref class BulletScene : SimElementManager, UpdateListener
+public ref class BulletScene : public SimElementManager, UpdateListener
 {
 private:
 	String^ name;
@@ -27,6 +27,8 @@ private:
 
 internal:
 	BulletScene(BulletSceneDefinition^ definition, UpdateTimer^ timer);
+
+	BulletFactory^ getBulletFactory();
 
 public:
 	virtual ~BulletScene(void);

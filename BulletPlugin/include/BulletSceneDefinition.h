@@ -11,7 +11,7 @@ using namespace Engine::Reflection;
 namespace BulletPlugin
 {
 
-public ref class BulletSceneDefinition : SimElementManagerDefinition
+public ref class BulletSceneDefinition : public SimElementManagerDefinition
 {
 private:
 	String^ name;	

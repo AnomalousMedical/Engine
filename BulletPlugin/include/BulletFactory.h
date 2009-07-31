@@ -2,14 +2,26 @@
 
 using namespace Engine;
 using namespace Engine::ObjectManagement;
+using namespace System::Collections::Generic;
 
 namespace BulletPlugin
 {
 
-ref class BulletFactory : SimElementFactory
+ref class RigidBodyDefinition;
+ref class BulletFactoryEntry;
+ref class BulletScene;
+
+ref class BulletFactory : public SimElementFactory
 {
+private:
+	BulletScene^ scene;
+	List<BulletFactoryEntry^> rigidBodies;
+
+internal:
+	void addRigidBody(RigidBodyDefinition^ definition, SimObjectBase^ instance);
+
 public:
-	BulletFactory(void);
+	BulletFactory(BulletScene^ scene);
 
 	virtual void createProducts();
 

@@ -44,9 +44,9 @@ void getBroadphaseAabb(btAxisSweep3* axisSweep, float* aabbMin, float* aabbMax)
 BulletScene::BulletScene(BulletSceneDefinition^ definition, UpdateTimer^ timer)
 :name(definition->Name), 
 timer(timer), 
-factory(gcnew BulletFactory()), 
 maxProxies(definition->MaxProxies)
 {
+	factory = gcnew BulletFactory(this);
 	collisionConfiguration = new btDefaultCollisionConfiguration();
 	dispatcher = new btCollisionDispatcher(collisionConfiguration);
 
@@ -118,6 +118,11 @@ void BulletScene::loopStarting()
 void BulletScene::exceededMaxDelta()
 {
 
+}
+
+BulletFactory^ BulletScene::getBulletFactory()
+{
+	return factory;
 }
 
 }

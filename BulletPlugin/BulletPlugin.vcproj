@@ -210,6 +210,14 @@
 			Name="Definition"
 			>
 			<File
+				RelativePath=".\src\BulletElementDefinition.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\BulletElementDefinition.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\BulletSceneDefinition.cpp"
 				>
 			</File>
@@ -297,6 +305,14 @@
 			</File>
 			<File
 				RelativePath=".\include\BulletFactory.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\BulletFactoryEntry.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\BulletFactoryEntry.h"
 				>
 			</File>
 		</Filter>
