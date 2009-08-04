@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Reflection;
+using Logging;
 
 namespace Engine.Saving.XMLSaver
 {
@@ -33,9 +34,16 @@ namespace Engine.Saving.XMLSaver
         public override void readValue(LoadControl loadControl, XmlReader xmlReader)
         {
             Type enumType = PluginManager.Instance.getType(xmlReader.GetAttribute(TYPE));
-            String name = xmlReader.GetAttribute(NAME_ENTRY);
-            Object value = Enum.Parse(enumType, xmlReader.ReadElementContentAsString());
-            loadControl.addValue(name, value, enumType);
+            if (enumType != null)
+            {
+                String name = xmlReader.GetAttribute(NAME_ENTRY);
+                Object value = Enum.Parse(enumType, xmlReader.ReadElementContentAsString());
+                loadControl.addValue(name, value, enumType);
+            }
+            else
+            {
+                Log.Default.sendMessage("Could not find enum type {0}. Value not loaded.", LogLevel.Warning, "Saving", xmlReader.GetAttribute(TYPE));
+            }
         }
 
         public override Enum parseValue(XmlReader xmlReader)

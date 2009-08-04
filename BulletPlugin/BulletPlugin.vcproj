@@ -233,6 +233,26 @@
 				RelativePath=".\include\RigidBodyDefinition.h"
 				>
 			</File>
+			<Filter
+				Name="Joints"
+				>
+				<File
+					RelativePath=".\src\Generic6DofConstraintDefinition.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\Generic6DofConstraintDefinition.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\TypedConstraintDefinition.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\TypedConstraintDefinition.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -311,6 +331,26 @@
 				RelativePath=".\include\RigidBody.h"
 				>
 			</File>
+			<Filter
+				Name="Joints"
+				>
+				<File
+					RelativePath=".\src\Generic6DofConstraintElement.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\Generic6DofConstraintElement.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\TypedConstraintElement.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\TypedConstraintElement.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Construction"

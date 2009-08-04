@@ -43,20 +43,23 @@ namespace Anomaly
                 openFile.Dispose();
             }
             Application.DoEvents();
-            using (AnomalyController anomalyController = new AnomalyController())
+            if (projectFileName != null)
             {
-                try
+                using (AnomalyController anomalyController = new AnomalyController())
                 {
-                    anomalyController.initialize(new AnomalyProject(projectFileName));
-                    anomalyController.createNewScene();
-                    splash.Close();
-                    splash.Dispose();
-                    anomalyController.start();
-                }
-                catch (Exception e)
-                {
-                    Log.Default.printException(e);
-                    MessageBox.Show(e.Message, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    try
+                    {
+                        anomalyController.initialize(new AnomalyProject(projectFileName));
+                        anomalyController.createNewScene();
+                        splash.Close();
+                        splash.Dispose();
+                        anomalyController.start();
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Default.printException(e);
+                        MessageBox.Show(e.Message, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
         }

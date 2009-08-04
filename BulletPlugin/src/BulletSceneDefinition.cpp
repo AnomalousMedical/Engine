@@ -12,7 +12,7 @@ editInterface(nullptr),
 worldAabbMin(Vector3(-10000, -10000, -10000)),
 worldAabbMax(Vector3(10000, 10000, 10000)),
 maxProxies(1024),
-gravity(Vector3(0, -9.8, 0))
+gravity(Vector3(0, -9.8f, 0))
 {
 
 }

@@ -12,12 +12,12 @@ namespace BulletPlugin
 MotionState::MotionState(gcroot<RigidBody^> rigidBody)
 :rigidBody(rigidBody)
 {
-
+	transform.setIdentity();
 }
 
 void MotionState::getWorldTransform (btTransform &worldTrans) const
 {
-	
+	worldTrans = transform;
 }
 
 void MotionState::setWorldTransform (const btTransform &worldTrans)
@@ -25,6 +25,15 @@ void MotionState::setWorldTransform (const btTransform &worldTrans)
 	btQuaternion rot;
 	worldTrans.getBasis().getRotation(rot);
 	updateRigidBody(&worldTrans.getOrigin().x(), &rot.x());
+}
+
+void MotionState::setStartingTransform(float* trans, float* rot)
+{
+	btVector3& origin = transform.getOrigin();
+	origin.setX(trans[0]);
+	origin.setY(trans[1]);
+	origin.setZ(trans[2]);
+	transform.getBasis().setRotation(btQuaternion(rot[0], rot[1], rot[2], rot[3]));
 }
 
 #pragma managed

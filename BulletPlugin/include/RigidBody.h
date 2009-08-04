@@ -29,6 +29,15 @@ protected:
 
 	virtual void setEnabled(bool enabled) override;
 
+internal:
+	property btRigidBody* Body
+	{
+		btRigidBody* get()
+		{
+			return rigidBody;
+		}
+	}
+
 public:
 	RigidBody(RigidBodyDefinition^ description, BulletScene^ scene);
 

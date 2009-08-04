@@ -2,6 +2,7 @@
 #include "..\include\BulletFactory.h"
 #include "BulletFactoryEntry.h"
 #include "RigidBodyDefinition.h"
+#include "TypedConstraintDefinition.h"
 
 namespace BulletPlugin
 {
@@ -17,11 +18,19 @@ void BulletFactory::createProducts()
 	{
 		entry->createProduct(scene);
 	}
+	for each(BulletFactoryEntry^ entry in typedConstraints)
+	{
+		entry->createProduct(scene);
+	}
 }
 
 void BulletFactory::createStaticProducts()
 {
 	for each(BulletFactoryEntry^ entry in rigidBodies)
+	{
+		entry->createStaticProduct(scene);
+	}
+	for each(BulletFactoryEntry^ entry in typedConstraints)
 	{
 		entry->createStaticProduct(scene);
 	}
@@ -40,6 +49,11 @@ void BulletFactory::clearDefinitions()
 void BulletFactory::addRigidBody(RigidBodyDefinition^ definition, SimObjectBase^ instance)
 {
 	rigidBodies.Add(gcnew BulletFactoryEntry(instance, definition));
+}
+
+void BulletFactory::addTypedConstraint(TypedConstraintDefinition^ definition, SimObjectBase^ instance)
+{
+	typedConstraints.Add(gcnew BulletFactoryEntry(instance, definition));
 }
 
 }

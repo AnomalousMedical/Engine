@@ -11,6 +11,7 @@ class MotionState : public btMotionState
 {
 private:
 	gcroot<RigidBody^> rigidBody;
+	btTransform transform;
 
 	void updateRigidBody(const float* trans, const float* rot);
 
@@ -22,6 +23,8 @@ public:
 	virtual void getWorldTransform (btTransform &worldTrans) const;
 
 	virtual void setWorldTransform (const btTransform &worldTrans);
+
+	void setStartingTransform(float* trans, float* rot);
 };
 
 }
