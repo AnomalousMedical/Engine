@@ -9,6 +9,72 @@ namespace BulletPlugin
 
 #pragma unmanaged
 
+float computeImpulseDenominator(btRigidBody* rigidBody, float* pos, float* normal)
+{
+	return rigidBody->computeImpulseDenominator(btVector3(pos[0], pos[1], pos[2]), btVector3(normal[0], normal[1], normal[2]));
+}
+
+void getAabb(btRigidBody* rigidBody, float* aabbMinOut, float* aabbMaxOut)
+{
+	btVector3 btMin, btMax;
+	rigidBody->getAabb(btMin, btMax);
+	aabbMinOut[0] = btMin.x();
+	aabbMinOut[1] = btMin.y();
+	aabbMinOut[2] = btMin.z();
+	aabbMaxOut[0] = btMax.x();
+	aabbMaxOut[1] = btMax.y();
+	aabbMaxOut[2] = btMax.z();
+
+}
+
+void translate(btRigidBody* rigidBody, float* vector)
+{
+	rigidBody->translate(btVector3(vector[0], vector[1], vector[2]));
+}
+
+void getVelocityInLocalPoint(btRigidBody* rigidBody, float* vector, float* outVector)
+{
+	btVector3 btVec3 = rigidBody->getVelocityInLocalPoint(btVector3(vector[0], vector[1], vector[2]));
+	outVector[0] = btVec3.x();
+	outVector[1] = btVec3.y();
+	outVector[2] = btVec3.z();
+}
+
+void applyTorqueImpulse(btRigidBody* rigidBody, float* torque)
+{
+	rigidBody->applyTorqueImpulse(btVector3(torque[0], torque[1], torque[2]));
+}
+
+void applyCentralImpulse(btRigidBody* rigidBody, float* impulse)
+{
+	rigidBody->applyCentralImpulse(btVector3(impulse[0], impulse[1], impulse[2]));
+}
+
+void applyForce(btRigidBody* rigidBody, float* force, float* rel_pos)
+{
+	rigidBody->applyForce(btVector3(force[0], force[1], force[2]), btVector3(rel_pos[0], rel_pos[1], rel_pos[2]));
+}
+
+void applyTorque(btRigidBody* rigidBody, float* vector)
+{
+	rigidBody->applyTorque(btVector3(vector[0], vector[1], vector[2]));
+}
+
+void applyCentralForce(btRigidBody* rigidBody, float* vector)
+{
+	rigidBody->applyCentralForce(btVector3(vector[0], vector[1], vector[2]));
+}
+
+float computeAngularImpulseDenominator(btRigidBody* rigidBody, float* vector)
+{
+	return rigidBody->computeAngularImpulseDenominator(btVector3(vector[0], vector[1], vector[2]));
+}
+
+void setMassProps(btRigidBody* body, float mass, float* vector)
+{
+	body->setMassProps(mass, btVector3(vector[0], vector[1], vector[2]));
+}
+
 void setWorldTranslation(btRigidBody* rigidBody, float* trans)
 {
 	btTransform& transform = rigidBody->getWorldTransform();
@@ -56,8 +122,8 @@ scene(scene)
 	motionState = new MotionState(this);
 	description->ConstructionInfo->m_motionState = motionState;
 	rigidBody = new btRigidBody(*description->ConstructionInfo);
-	setLinearVelocity(rigidBody, &description->LinearVelocity.x);
-	setAngularVelocity(rigidBody, &description->AngularVelocity.x);
+	BulletPlugin::setLinearVelocity(rigidBody, &description->LinearVelocity.x);
+	BulletPlugin::setAngularVelocity(rigidBody, &description->AngularVelocity.x);
 	rigidBody->forceActivationState(static_cast<int>(description->CurrentActivationState));
 	setAnisotropicFriction(rigidBody, &description->AnisotropicFriction.x);
 	rigidBody->setDeactivationTime(description->DeactivationTime);
@@ -151,6 +217,150 @@ void RigidBody::setWorldTransform(Vector3 translation, Quaternion rotation)
 {
 	BulletPlugin::setWorldTransform(rigidBody, &translation.x, &rotation.x);
 	motionState->setStartingTransform(&translation.x, &rotation.x);
+}
+
+float RigidBody::getLinearDamping()
+{
+	return rigidBody->getLinearDamping();
+}
+
+float RigidBody::getAngularDamping()
+{
+	return rigidBody->getAngularDamping();
+}
+
+float RigidBody::getLinearSleepingThreshold()
+{
+	return rigidBody->getLinearSleepingThreshold();
+}
+
+float RigidBody::getAngularSleepingThreshold()
+{
+	return rigidBody->getAngularSleepingThreshold();
+}
+
+void RigidBody::setMassProps(float mass, Vector3 inertia)
+{
+	BulletPlugin::setMassProps(rigidBody, mass, &inertia.x);
+}
+
+float RigidBody::getInvMass()
+{
+	return rigidBody->getInvMass();
+}
+
+void RigidBody::applyCentralForce(Vector3 force)
+{
+	BulletPlugin::applyCentralForce(rigidBody, &force.x);
+}
+
+Vector3 RigidBody::getTotalForce()
+{
+	const btVector3& totalForce = rigidBody->getTotalForce();
+	return Vector3(totalForce.x(), totalForce.y(), totalForce.z());
+}
+
+Vector3 RigidBody::getTotalTorque()
+{
+	const btVector3& torque = rigidBody->getTotalTorque();
+	return Vector3(torque.x(), torque.y(), torque.z());
+}
+
+void RigidBody::setSleepingThresholds(float linear, float angular)
+{
+	return rigidBody->setSleepingThresholds(linear, angular);
+}
+
+void RigidBody::applyTorque(Vector3 torque)
+{
+	BulletPlugin::applyTorque(rigidBody, &torque.x);
+}
+
+void RigidBody::applyForce(Vector3 force, Vector3 rel_pos)
+{
+	BulletPlugin::applyForce(rigidBody, &force.x, &rel_pos.x);
+}
+
+void RigidBody::applyCentralImpulse(Vector3 impulse)
+{
+	BulletPlugin::applyCentralImpulse(rigidBody, &impulse.x);
+}
+
+void RigidBody::applyTorqueImpulse(Vector3 torque)
+{
+	BulletPlugin::applyTorqueImpulse(rigidBody, &torque.x);
+}
+
+void RigidBody::clearForces()
+{
+	return rigidBody->clearForces();
+}
+
+Vector3 RigidBody::getCenterOfMassPosition()
+{
+	const btVector3& centerOfMass = rigidBody->getCenterOfMassPosition();
+	return Vector3(centerOfMass.x(), centerOfMass.y(), centerOfMass.z());
+}
+
+Vector3 RigidBody::getLinearVelocity()
+{
+	const btVector3& velocity = rigidBody->getLinearVelocity();
+	return Vector3(velocity.x(), velocity.y(), velocity.z());
+}
+
+Vector3 RigidBody::getAngularVelocity()
+{
+	const btVector3& velocity = rigidBody->getAngularVelocity();
+	return Vector3(velocity.x(), velocity.y(), velocity.z());
+}
+
+void RigidBody::setLinearVelocity(Vector3 lin_vel)
+{
+	BulletPlugin::setLinearVelocity(rigidBody, &lin_vel.x);
+}
+
+void RigidBody::setAngularVelocity(Vector3 ang_vel)
+{
+	BulletPlugin::setAngularVelocity(rigidBody, &ang_vel.x);
+}
+
+Vector3 RigidBody::getVelocityInLocalPoint(Vector3 rel_pos)
+{
+	Vector3 ret;
+	BulletPlugin::getVelocityInLocalPoint(rigidBody, &rel_pos.x, &ret.x);
+	return ret;
+}
+
+void RigidBody::translate(Vector3 v)
+{
+	BulletPlugin::translate(rigidBody, &v.x);
+}
+
+void RigidBody::getAabb(Vector3% aabbMin, Vector3% aabbMax)
+{
+	pin_ptr<Vector3> pinMin = &aabbMin;
+	pin_ptr<Vector3> pinMax = &aabbMax;
+	BulletPlugin::getAabb(rigidBody, &pinMin->x, &pinMax->x);
+}
+
+float RigidBody::computeImpulseDenominator(Vector3 pos, Vector3 normal)
+{
+	return BulletPlugin::computeImpulseDenominator(rigidBody, &pos.x, &normal.x);
+}
+
+float RigidBody::computeAngularImpulseDenominator(Vector3 axis)
+{
+	return BulletPlugin::computeAngularImpulseDenominator(rigidBody, &axis.x);
+}
+
+bool RigidBody::wantsSleeping()
+{
+	return rigidBody->wantsSleeping();
+}
+
+bool RigidBody::isInWorld()
+{
+	return rigidBody->isInWorld();
 }
 
 }
