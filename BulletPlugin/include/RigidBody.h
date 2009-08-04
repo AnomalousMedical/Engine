@@ -100,6 +100,48 @@ public:
 	bool wantsSleeping();
 
 	bool isInWorld();
+
+	void setAnisotropicFriction(Vector3 anisotropicFriction);
+
+	Vector3 getAnisotropicFriction();
+
+	bool hasAnisotropicFriction();
+
+	bool isStaticObject();
+
+	bool isKinematicObject();
+
+	bool isStaticOrKinematicObject();
+
+	ActivationState getActivationState();
+
+	void setActivationState(ActivationState state);
+
+	void setDeactivationTime(float time);
+
+	float getDeactivationTime();
+
+	void forceActivationState(ActivationState state);
+
+	void activate(bool forceActivation);
+
+	bool isActive();
+
+	void setRestitution(float restitution);
+
+	float getRestitution();
+
+	void setFriction(float friction);
+
+	float getFriction();
+
+	void setHitFraction(float fraction);
+
+	float getHitFraction();
+
+	CollisionFlags getCollisionFlags();
+
+	void setCollisionFlags(CollisionFlags flags);
 };
 
 }

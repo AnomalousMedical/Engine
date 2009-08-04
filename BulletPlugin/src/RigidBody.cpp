@@ -125,7 +125,7 @@ scene(scene)
 	BulletPlugin::setLinearVelocity(rigidBody, &description->LinearVelocity.x);
 	BulletPlugin::setAngularVelocity(rigidBody, &description->AngularVelocity.x);
 	rigidBody->forceActivationState(static_cast<int>(description->CurrentActivationState));
-	setAnisotropicFriction(rigidBody, &description->AnisotropicFriction.x);
+	BulletPlugin::setAnisotropicFriction(rigidBody, &description->AnisotropicFriction.x);
 	rigidBody->setDeactivationTime(description->DeactivationTime);
 	rigidBody->setCollisionFlags(static_cast<int>(description->Flags));
 	rigidBody->setHitFraction(description->HitFraction);
@@ -361,6 +361,112 @@ bool RigidBody::wantsSleeping()
 bool RigidBody::isInWorld()
 {
 	return rigidBody->isInWorld();
+}
+
+void RigidBody::setAnisotropicFriction(Vector3 anisotropicFriction)
+{
+	BulletPlugin::setAnisotropicFriction(rigidBody, &anisotropicFriction.x);
+}
+
+Vector3 RigidBody::getAnisotropicFriction()
+{
+	const btVector3& friction = rigidBody->getAnisotropicFriction();
+	return Vector3(friction.x(), friction.y(), friction.z());
+}
+
+bool RigidBody::hasAnisotropicFriction()
+{
+	return rigidBody->hasAnisotropicFriction();
+}
+
+bool RigidBody::isStaticObject()
+{
+	return rigidBody->isStaticObject();
+}
+
+bool RigidBody::isKinematicObject()
+{
+	return rigidBody->isKinematicObject();
+}
+
+bool RigidBody::isStaticOrKinematicObject()
+{
+	return rigidBody->isStaticOrKinematicObject();
+}
+
+ActivationState RigidBody::getActivationState()
+{
+	return static_cast<ActivationState>(rigidBody->getActivationState());
+}
+
+void RigidBody::setActivationState(ActivationState state)
+{
+	return rigidBody->setActivationState(static_cast<int>(state));
+}
+
+void RigidBody::setDeactivationTime(float time)
+{
+	return rigidBody->setDeactivationTime(time);
+}
+
+float RigidBody::getDeactivationTime()
+{
+	return rigidBody->getDeactivationTime();
+}
+
+void RigidBody::forceActivationState(ActivationState state)
+{
+	return rigidBody->forceActivationState(static_cast<int>(state));
+}
+
+void RigidBody::activate(bool forceActivation)
+{
+	return rigidBody->activate(forceActivation);
+}
+
+bool RigidBody::isActive()
+{
+	return rigidBody->isActive();
+}
+
+void RigidBody::setRestitution(float restitution)
+{
+	return rigidBody->setRestitution(restitution);
+}
+
+float RigidBody::getRestitution()
+{
+	return rigidBody->getRestitution();
+}
+
+void RigidBody::setFriction(float friction)
+{
+	return rigidBody->setFriction(friction);
+}
+
+float RigidBody::getFriction()
+{
+	return rigidBody->getFriction();
+}
+
+void RigidBody::setHitFraction(float fraction)
+{
+	return rigidBody->setHitFraction(fraction);
+}
+
+float RigidBody::getHitFraction()
+{
+	return rigidBody->getHitFraction();
+}
+
+CollisionFlags RigidBody::getCollisionFlags()
+{
+	return static_cast<CollisionFlags>(rigidBody->getCollisionFlags());
+}
+
+void RigidBody::setCollisionFlags(CollisionFlags flags)
+{
+	return rigidBody->setCollisionFlags(static_cast<int>(flags));
 }
 
 }

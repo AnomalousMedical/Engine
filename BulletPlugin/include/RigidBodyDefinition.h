@@ -13,26 +13,6 @@ using namespace Engine::Saving;
 namespace BulletPlugin
 {
 
-[Engine::Attributes::SingleEnum]
-public enum class ActivationState : int
-{
-	ActiveTag = ACTIVE_TAG,
-	IslandSleeping = ISLAND_SLEEPING,
-	WantsDeactivation = WANTS_DEACTIVATION,
-	DisableDeactivation = DISABLE_DEACTIVATION,
-	DisableSimulation = DISABLE_SIMULATION,
-};
-
-[Engine::Attributes::MultiEnum]
-enum class CollisionFlags : int
-{
-	StaticObject = ::btCollisionObject::CF_STATIC_OBJECT,
-	KinematicObject = ::btCollisionObject::CF_KINEMATIC_OBJECT,
-	NoContactResponse = ::btCollisionObject::CF_NO_CONTACT_RESPONSE,
-	CustomMaterialCallback = ::btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK,
-	CharacterCallback = ::btCollisionObject::CF_CHARACTER_OBJECT,
-};
-
 public ref class RigidBodyDefinition : public BulletElementDefinition
 {
 private:
