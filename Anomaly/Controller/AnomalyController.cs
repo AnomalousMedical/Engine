@@ -181,6 +181,16 @@ namespace Anomaly
                 }
                 mainForm.showDockContent(consoleWindow);
             }
+            else
+            {
+                foreach (DebugVisualizer visualizer in debugVisualizers.Values)
+                {
+                    if (visualizer.DockPanel == null)
+                    {
+                        mainForm.showDockContent(visualizer);
+                    }
+                }
+            }
 
             mainForm.ResumeLayout();
         }
