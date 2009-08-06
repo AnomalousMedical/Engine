@@ -11,6 +11,7 @@ namespace BulletPlugin
 ref class BulletScene;
 ref class BulletSceneDefinition;
 ref class BulletShapeFileManager;
+ref class BulletShapeRepository;
 
 public ref class BulletInterface : public PluginInterface
 {
@@ -46,6 +47,11 @@ public:
 	virtual void createDebugCommands(System::Collections::Generic::List<CommandManager^>^ commandList);
 
 	BulletScene^ createScene(BulletSceneDefinition^ definition);
+
+	property BulletShapeRepository^ ShapeRepository
+	{
+		BulletShapeRepository^ get();
+	}
 };
 
 }

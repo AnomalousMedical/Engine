@@ -2,16 +2,50 @@
 
 using namespace System;
 using namespace Engine;
+using namespace System::Collections::Generic;
 
 namespace BulletPlugin
 {
 
-ref class BulletShapeRepository : ShapeRepository
+ref class BulletShapeCollection;
+
+ref class BulletShapeRepository : public ShapeRepository
 {
+private:
+	Dictionary<String^, BulletShapeCollection^> shapes;
+
 public:
 	BulletShapeRepository(void);
 
 	virtual ~BulletShapeRepository();
+
+	/// <summary>
+    /// Add a shape collection to the repository.  The name of the shape is deteremined
+    /// by the name set on it, which must be unique.
+    /// </summary>
+    /// <param name="collection">The shape to add.</param>
+    /// <returns>True if the shape was added sucessfully.  False if there was a problem.  The shape should be considered invalid if false is returned and can be cleaned up.</returns>
+    bool addCollection(BulletShapeCollection^ collection);
+
+	/// <summary>
+    /// Removes a shape from the repository.
+    /// </summary>
+    /// <param name="name">The shape to remove.</param>
+	virtual void removeCollection(String^ name) override;
+
+	/// <summary>
+    /// Get a specific shape collection from the repository.
+    /// </summary>
+    /// <param name="name">The name of the shape to get.</param>
+    /// <returns>The shape specified by name, or null if no such shape exists.</returns>
+    BulletShapeCollection^ getCollection(String^ name);
+
+	/// <summary>
+    /// Returns true if the shape collection specified by name exists and has shapes in it.
+    /// </summary>
+    /// <param name="name">The name of the collection to test.</param>
+    /// <returns>True if the collection exists and contains shapes.  False if it is invalid.</returns>
+    bool containsValidCollection(String^ name);
 
 	/// <summary>
     /// Add a convex mesh that will be managed by this reposotory.  This will

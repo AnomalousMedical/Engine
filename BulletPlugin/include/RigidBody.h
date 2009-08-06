@@ -18,6 +18,7 @@ private:
 	MotionState* motionState;
 	BulletScene^ scene;
 	btRigidBody* rigidBody;
+	String^ shapeName;
 
 protected:
 	virtual void updatePositionImpl(Vector3% translation, Quaternion% rotation) override;

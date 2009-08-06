@@ -5,8 +5,9 @@ namespace BulletPlugin
 {
 
 BulletShapeCollection::BulletShapeCollection(btCollisionShape* collisionShape, String^ name)
-:ShapeCollection(name),
-collisionShape(collisionShape)
+:collisionShape(collisionShape),
+name(name), 
+sourceLocation(nullptr)
 {
 }
 

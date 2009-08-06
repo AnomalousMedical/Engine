@@ -103,15 +103,6 @@ namespace Engine
         }
 
         /// <summary>
-        /// Get the shape repository being written to by this file manager.
-        /// </summary>
-        /// <returns>The shape repository with this file manager's shapes.</returns>
-        public ShapeRepository getShapeRepository()
-        {
-            return shapeRepository;
-        }
-
-        /// <summary>
         /// Handler for when resources are added to the SubsystemResources in control.
         /// </summary>
         /// <param name="group">The group the resource was added to.</param>

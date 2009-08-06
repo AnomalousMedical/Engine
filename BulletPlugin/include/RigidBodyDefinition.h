@@ -26,6 +26,7 @@ private:
 	float deactivationTime;
 	CollisionFlags flags;
 	float hitFraction;
+	String^ shapeName;
 
 	static MemberScanner^ memberScanner = gcnew MemberScanner();
 
@@ -249,6 +250,19 @@ public:
 		void set(float value)
 		{
 			constructionInfo->m_mass = value;
+		}
+	}
+
+	[Editable]
+	property String^ ShapeName
+	{
+		String^ get()
+		{
+			return shapeName;
+		}
+		void set(String^ value)
+		{
+			shapeName = value;
 		}
 	}
 

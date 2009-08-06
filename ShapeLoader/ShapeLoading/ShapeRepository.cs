@@ -15,98 +15,20 @@ namespace Engine
     /// </summary>
     public abstract class ShapeRepository : IDisposable
     {
-        public delegate void ShapeLoaded(ShapeCollection shape);
-        public delegate void ShapeRemoved(ShapeCollection shape);
         public delegate void SoftBodyMeshLoaded(SoftBodyMesh softBodyMesh);
         public delegate void SoftBodyMeshRemoved(SoftBodyMesh softBodyMesh);
 
-        public event ShapeLoaded OnShapeLoaded;
-        public event ShapeRemoved OnShapeRemoved;
         public event SoftBodyMeshLoaded OnSoftBodyMeshLoaded;
         public event SoftBodyMeshRemoved OnSoftBodyMeshRemoved;
 
-        protected Dictionary<String, ShapeCollection> shapeCollections = new Dictionary<String, ShapeCollection>();
-
         public ShapeLocation CurrentLoadingLocation { get; set; }
-
-        /// <summary>
-        /// Add a shape collection to the repository.  The name of the shape is deteremined
-        /// by the name set on it, which must be unique.
-        /// </summary>
-        /// <param name="collection">The shape to add.</param>
-        /// <returns>True if the shape was added sucessfully.  False if there was a problem.  The shape should be considered invalid if false is returned and can be cleaned up.</returns>
-        public bool addCollection(ShapeCollection collection)
-        {
-            if( shapeCollections.ContainsKey(collection.Name))
-            {
-                Log.Default.sendMessage("Attempted to add a shape with a duplicate name " + collection.Name + " ignoring the new shape.", LogLevel.Error, "Physics");
-                return false;
-            }
-            else
-            {
-                shapeCollections.Add(collection.Name, collection);
-                collection.SourceLocation = CurrentLoadingLocation;
-                CurrentLoadingLocation.addShape(collection.Name);
-
-                if (OnShapeLoaded != null)
-                {
-                    OnShapeLoaded.Invoke(collection);
-                }
-
-                return true;
-            }
-        }
 
         /// <summary>
         /// Removes a shape from the repository.
         /// </summary>
         /// <param name="name">The shape to remove.</param>
-        public void removeCollection(String name)
-        {
-            if (shapeCollections.ContainsKey(name))
-            {
-                if (OnShapeRemoved != null)
-                {
-                    OnShapeRemoved.Invoke(shapeCollections[name]);
-                }
-                ShapeCollection collection = shapeCollections[name];
-                shapeCollections.Remove(name);
-                collection.Dispose();
-            }
-            else
-            {
-                Log.Default.sendMessage("Attempted to remove a shape " + name + " that does not exist.  No changes made.", LogLevel.Error, "Physics");
-            }
-        }
-
-        /// <summary>
-        /// Get a specific shape collection from the repository.
-        /// </summary>
-        /// <param name="name">The name of the shape to get.</param>
-        /// <returns>The shape specified by name, or null if no such shape exists.</returns>
-        public ShapeCollection getCollection(String name)
-        {
-            if (name != null && shapeCollections.ContainsKey(name))
-            {
-                return shapeCollections[name];
-            }
-            else
-            {
-                Log.Default.sendMessage("Could not find a shape named " + name + ".", LogLevel.Error, "Physics");
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Returns true if the shape collection specified by name exists and has shapes in it.
-        /// </summary>
-        /// <param name="name">The name of the collection to test.</param>
-        /// <returns>True if the collection exists and contains shapes.  False if it is invalid.</returns>
-        public bool containsValidCollection(String name)
-        {
-            return name != null && shapeCollections.ContainsKey(name) && shapeCollections[name].Count > 0;
-        }
-
+        public abstract void removeCollection(String name);
+        
         /// <summary>
         /// Add a convex mesh that will be managed by this reposotory.  This will
         /// be released when this object is disposed.

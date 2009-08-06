@@ -66,4 +66,10 @@ BulletScene^ BulletInterface::createScene(BulletSceneDefinition^ definition)
 	return gcnew BulletScene(definition, timer);
 }
 
+
+BulletShapeRepository^ BulletInterface::ShapeRepository::get()
+{
+	return fileManager->ShapeRepository;
+}
+
 }

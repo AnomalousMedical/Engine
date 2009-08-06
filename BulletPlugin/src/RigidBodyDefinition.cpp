@@ -4,6 +4,8 @@
 #include "BulletFactory.h"
 #include "BulletInterface.h"
 #include "RigidBody.h"
+#include "BulletShapeCollection.h"
+#include "BulletShapeRepository.h"
 
 namespace BulletPlugin
 {
@@ -55,15 +57,23 @@ EditInterface^ RigidBodyDefinition::getEditInterface()
 
 void RigidBodyDefinition::createProduct(SimObjectBase^ instance, BulletScene^ scene)
 {
-	btCollisionShape* shape = new btSphereShape(1.);
-	constructionInfo->m_collisionShape = shape;
-	if(constructionInfo->m_mass != 0.0f)
+	BulletShapeRepository^ repository = BulletInterface::Instance->ShapeRepository;
+	if(repository->containsValidCollection(shapeName))
 	{
-		shape->calculateLocalInertia(constructionInfo->m_mass, constructionInfo->m_localInertia);
+		btCollisionShape* shape = new btSphereShape(1.0f);// repository->getCollection(shapeName)->CollisionShape;
+		constructionInfo->m_collisionShape = shape;
+		if(constructionInfo->m_mass != 0.0f)
+		{
+			shape->calculateLocalInertia(constructionInfo->m_mass, constructionInfo->m_localInertia);
+		}
+		RigidBody^ rigidBody = gcnew RigidBody(this, scene);
+		rigidBody->setWorldTransform(instance->Translation, instance->Rotation);
+		instance->addElement(rigidBody);
 	}
-	RigidBody^ rigidBody = gcnew RigidBody(this, scene);
-	rigidBody->setWorldTransform(instance->Translation, instance->Rotation);
-	instance->addElement(rigidBody);
+	else
+	{
+		Logging::Log::Default->sendMessage("Could not find collision shape named {0}.", Logging::LogLevel::Warning, "BulletPlugin", shapeName);
+	}
 }
 
 void RigidBodyDefinition::createStaticProduct(SimObjectBase^ instance, BulletScene^ scene)
@@ -90,6 +100,7 @@ RigidBodyDefinition::RigidBodyDefinition(LoadInfo^ info)
 	DeactivationTime = info->GetFloat("DeactivationTime");
 	Flags = info->GetValue<CollisionFlags>("Flags");
 	HitFraction = info->GetFloat("HitFraction");
+	ShapeName = info->GetString("ShapeName");
 }
 
 void RigidBodyDefinition::getInfo(SaveInfo^ info)
@@ -109,6 +120,7 @@ void RigidBodyDefinition::getInfo(SaveInfo^ info)
 	info->AddValue("DeactivationTime", DeactivationTime);
 	info->AddValue("Flags", Flags);
 	info->AddValue("HitFraction", HitFraction);
+	info->AddValue("ShapeName", ShapeName);
 }
 //End saving
 

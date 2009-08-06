@@ -8,7 +8,7 @@ namespace BulletPlugin
 
 ref class BulletShapeRepository;
 
-ref class BulletShapeBuilder : ShapeBuilder
+ref class BulletShapeBuilder : public ShapeBuilder
 {
 private:
 	btCompoundShape* currentCompound;

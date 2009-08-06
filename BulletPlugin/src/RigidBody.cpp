@@ -117,7 +117,8 @@ void setAnisotropicFriction(btRigidBody* rigidBody, float* vector)
 
 RigidBody::RigidBody(RigidBodyDefinition^ description, BulletScene^ scene)
 :SimElement(description->Name, description->Subscription),
-scene(scene)
+scene(scene),
+shapeName(description->ShapeName)
 {
 	motionState = new MotionState(this);
 	description->ConstructionInfo->m_motionState = motionState;
@@ -210,6 +211,7 @@ SimElementDefinition^ RigidBody::saveToDefinition()
 	definition->DeactivationTime = rigidBody->getDeactivationTime();
 	definition->Flags = static_cast<CollisionFlags>(rigidBody->getCollisionFlags());
 	definition->HitFraction = rigidBody->getHitFraction();
+	definition->ShapeName = shapeName;
 	return definition;
 }
 

@@ -5,7 +5,7 @@
 namespace BulletPlugin
 {
 
-ref class CompoundShapeCollection : BulletShapeCollection
+ref class CompoundShapeCollection : public BulletShapeCollection
 {
 private:
 	btCompoundShape* compound;

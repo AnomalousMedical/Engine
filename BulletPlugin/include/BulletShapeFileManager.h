@@ -9,7 +9,7 @@ namespace BulletPlugin
 ref class BulletShapeRepository;
 ref class BulletShapeBuilder;
 
-ref class BulletShapeFileManager : ShapeFileManager
+ref class BulletShapeFileManager : public ShapeFileManager
 {
 private:
 	BulletShapeRepository^ shapeRepository;
@@ -30,6 +30,14 @@ protected:
 
 public:
 	BulletShapeFileManager(void);
+
+	property BulletShapeRepository^ ShapeRepository
+	{
+		BulletShapeRepository^ get()
+		{
+			return shapeRepository;
+		}
+	}
 };
 
 }
