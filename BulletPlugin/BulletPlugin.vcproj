@@ -420,6 +420,18 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="DebugDraw"
+			>
+			<File
+				RelativePath=".\src\BulletDebugDraw.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\BulletDebugDraw.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"
 			>

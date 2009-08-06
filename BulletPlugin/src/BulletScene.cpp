@@ -3,6 +3,7 @@
 #include "BulletSceneDefinition.h"
 #include "BulletFactory.h"
 #include "vcclr.h"
+#include "BulletDebugDraw.h"
 
 namespace BulletPlugin
 {
@@ -44,7 +45,8 @@ void getBroadphaseAabb(btAxisSweep3* axisSweep, float* aabbMin, float* aabbMax)
 BulletScene::BulletScene(BulletSceneDefinition^ definition, UpdateTimer^ timer)
 :name(definition->Name), 
 timer(timer), 
-maxProxies(definition->MaxProxies)
+maxProxies(definition->MaxProxies),
+debugDraw(new BulletDebugDraw())
 {
 	factory = gcnew BulletFactory(this);
 	collisionConfiguration = new btDefaultCollisionConfiguration();
@@ -55,12 +57,16 @@ maxProxies(definition->MaxProxies)
 	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher,overlappingPairCache,solver,collisionConfiguration);
 	setGravity(dynamicsWorld, &definition->Gravity.x);
 
+	dynamicsWorld->setDebugDrawer(debugDraw);
+
 	timer->addFixedUpdateListener(this);
 }
 
 BulletScene::~BulletScene(void)
 {
 	timer->removeFixedUpdateListener(this);
+
+	delete debugDraw;
 
 	//delete dynamics world
 	delete dynamicsWorld;

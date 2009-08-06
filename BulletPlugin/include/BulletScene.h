@@ -8,6 +8,8 @@ using namespace Engine::Platform;
 namespace BulletPlugin
 {
 
+class BulletDebugDraw;
+
 ref class BulletSceneDefinition;
 ref class BulletFactory;
 
@@ -19,6 +21,7 @@ private:
 	UpdateTimer^ timer;
 	BulletFactory^ factory;
 	int maxProxies;
+	BulletDebugDraw* debugDraw;
 
 	btDefaultCollisionConfiguration* collisionConfiguration;
 	btCollisionDispatcher* dispatcher;
