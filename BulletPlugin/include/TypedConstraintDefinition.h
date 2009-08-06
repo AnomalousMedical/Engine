@@ -46,7 +46,6 @@ internal:
 public:
 	static TypedConstraintDefinition()
     {
-        memberScanner->ProcessFields = false;
         memberScanner->Filter = gcnew EditableAttributeFilter();
     }
 

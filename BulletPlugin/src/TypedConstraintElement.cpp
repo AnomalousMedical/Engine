@@ -22,6 +22,7 @@ TypedConstraintElement::~TypedConstraintElement()
 		{
 			scene->DynamicsWorld->removeConstraint(constraint);
 		}
+		delete constraint;
 		constraint = 0;
 	}
 }
