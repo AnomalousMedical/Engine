@@ -14,7 +14,8 @@ namespace BulletPlugin
 ref class RigidBody;
 ref class TypedConstraintElement;
 
-ref class TypedConstraintDefinition abstract : public BulletElementDefinition
+[Engine::Attributes::NativeSubsystemType]
+public ref class TypedConstraintDefinition abstract : public BulletElementDefinition
 {
 private:
 	EditInterface^ editInterface;

@@ -9,6 +9,7 @@ namespace BulletPlugin
 
 ref class BulletScene;
 
+[Engine::Attributes::NativeSubsystemType]
 public ref class BulletElementDefinition abstract : public SimElementDefinition
 {
 internal:

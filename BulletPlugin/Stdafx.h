@@ -21,7 +21,7 @@ public enum class ActivationState : int
 };
 
 [Engine::Attributes::MultiEnum]
-enum class CollisionFlags : int
+public enum class CollisionFlags : int
 {
 	StaticObject = ::btCollisionObject::CF_STATIC_OBJECT,
 	KinematicObject = ::btCollisionObject::CF_KINEMATIC_OBJECT,

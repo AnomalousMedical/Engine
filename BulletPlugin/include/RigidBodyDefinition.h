@@ -13,6 +13,7 @@ using namespace Engine::Saving;
 namespace BulletPlugin
 {
 
+[Engine::Attributes::NativeSubsystemType]
 public ref class RigidBodyDefinition : public BulletElementDefinition
 {
 private:

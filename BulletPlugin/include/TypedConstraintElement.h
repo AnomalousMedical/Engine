@@ -10,7 +10,8 @@ namespace BulletPlugin
 ref class BulletScene;
 ref class RigidBody;
 
-ref class TypedConstraintElement abstract : public SimElement
+[Engine::Attributes::NativeSubsystemType]
+public ref class TypedConstraintElement abstract : public SimElement
 {
 private:
 	btTypedConstraint* constraint;

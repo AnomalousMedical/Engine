@@ -9,6 +9,7 @@ using namespace Engine::Saving;
 namespace BulletPlugin
 {
 
+[Engine::Attributes::NativeSubsystemType]
 public ref class TranslationalLimitMotorDefinition : Saveable
 {
 private:

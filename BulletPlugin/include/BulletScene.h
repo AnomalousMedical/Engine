@@ -11,6 +11,7 @@ namespace BulletPlugin
 ref class BulletSceneDefinition;
 ref class BulletFactory;
 
+[Engine::Attributes::NativeSubsystemType]
 public ref class BulletScene : public SimElementManager, UpdateListener
 {
 private:

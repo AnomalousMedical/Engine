@@ -12,7 +12,8 @@ ref class Generic6DofConstraintDefinition;
 ref class RigidBody;
 ref class BulletScene;
 
-ref class Generic6DofConstraintElement : public TypedConstraintElement
+[Engine::Attributes::NativeSubsystemType]
+public ref class Generic6DofConstraintElement : public TypedConstraintElement
 {
 private:
 	btGeneric6DofConstraint* dof;

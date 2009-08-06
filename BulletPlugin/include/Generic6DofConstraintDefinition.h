@@ -14,7 +14,8 @@ namespace BulletPlugin
 ref class RotationalLimitMotorDefinition;
 ref class TranslationalLimitMotorDefinition;
 
-ref class Generic6DofConstraintDefinition : public TypedConstraintDefinition
+[Engine::Attributes::NativeSubsystemType]
+public ref class Generic6DofConstraintDefinition : public TypedConstraintDefinition
 {
 private:
 	[Editable] TranslationalLimitMotorDefinition^ translationMotor;

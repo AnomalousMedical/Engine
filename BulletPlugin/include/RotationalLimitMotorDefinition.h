@@ -9,7 +9,8 @@ using namespace Engine::Saving;
 namespace BulletPlugin
 {
 
-ref class RotationalLimitMotorDefinition : Saveable
+[Engine::Attributes::NativeSubsystemType]
+public ref class RotationalLimitMotorDefinition : Saveable
 {
 private:
 	AutoPtr<btRotationalLimitMotor> motor;

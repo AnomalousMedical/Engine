@@ -11,6 +11,7 @@ class MotionState;
 ref class RigidBodyDefinition;
 ref class BulletScene;
 
+[Engine::Attributes::NativeSubsystemType]
 public ref class RigidBody : public SimElement
 {
 private:
@@ -142,6 +143,10 @@ public:
 	CollisionFlags getCollisionFlags();
 
 	void setCollisionFlags(CollisionFlags flags);
+
+	void raiseCollisionFlag(CollisionFlags flag);
+
+	void clearCollisionFlag(CollisionFlags flag);
 };
 
 }
