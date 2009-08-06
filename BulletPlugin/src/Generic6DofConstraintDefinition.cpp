@@ -11,11 +11,11 @@ Generic6DofConstraintDefinition::Generic6DofConstraintDefinition(String^ name)
 
 }
 
-TypedConstraintElement^ Generic6DofConstraintDefinition::createConstraint(RigidBody^ rbA, RigidBody^ rbB, BulletScene^ scene)
+TypedConstraintElement^ Generic6DofConstraintDefinition::createConstraint(RigidBody^ rbA, RigidBody^ rbB, SimObjectBase^ instance, BulletScene^ scene)
 {
 	if(rbA != nullptr && rbB != nullptr)
 	{
-		return gcnew Generic6DofConstraintElement(this, rbA, rbB, scene);
+		return gcnew Generic6DofConstraintElement(this, instance, rbA, rbB, scene);
 	}
 	return nullptr;
 }

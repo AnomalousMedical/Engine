@@ -31,7 +31,7 @@ void TypedConstraintDefinition::createProduct(SimObjectBase^ instance, BulletSce
 		rbB = dynamic_cast<RigidBody^>(other->getElement(rigidBodyBElement));
 	}
 	
-	TypedConstraintElement^ element = createConstraint(rbA, rbB, scene);
+	TypedConstraintElement^ element = createConstraint(rbA, rbB, instance, scene);
 	if(element != nullptr)
 	{
 		instance->addElement(element);

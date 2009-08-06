@@ -13,7 +13,7 @@ namespace BulletPlugin
 ref class Generic6DofConstraintDefinition : public TypedConstraintDefinition
 {
 protected:
-	virtual TypedConstraintElement^ createConstraint(RigidBody^ rbA, RigidBody^ rbB, BulletScene^ scene) override;
+	virtual TypedConstraintElement^ createConstraint(RigidBody^ rbA, RigidBody^ rbB, SimObjectBase^ instance, BulletScene^ scene) override;
 
 internal:
 	static SimElementDefinition^ Create(String^ name, EditUICallback^ callback)

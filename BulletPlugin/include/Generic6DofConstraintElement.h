@@ -18,7 +18,7 @@ private:
 	btGeneric6DofConstraint* dof;
 
 public:
-	Generic6DofConstraintElement(Generic6DofConstraintDefinition^ definition, RigidBody^ rbA, RigidBody^ rbB, BulletScene^ scene);
+	Generic6DofConstraintElement(Generic6DofConstraintDefinition^ definition, SimObjectBase^ instance, RigidBody^ rbA, RigidBody^ rbB, BulletScene^ scene);
 
 	virtual ~Generic6DofConstraintElement(void);
 

@@ -26,7 +26,7 @@ private:
 	static MemberScanner^ memberScanner = gcnew MemberScanner();
 
 protected:
-	virtual TypedConstraintElement^ createConstraint(RigidBody^ rbA, RigidBody^ rbB, BulletScene^ scene) = 0;
+	virtual TypedConstraintElement^ createConstraint(RigidBody^ rbA, RigidBody^ rbB, SimObjectBase^ instance, BulletScene^ scene) = 0;
 
 internal:
 	/// <summary>

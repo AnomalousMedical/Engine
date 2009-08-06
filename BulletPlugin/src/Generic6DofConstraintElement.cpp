@@ -8,22 +8,21 @@ namespace BulletPlugin
 
 #pragma unmanaged
 
-btGeneric6DofConstraint* createConstraint(btRigidBody* rbA, btRigidBody* rbB)
+btGeneric6DofConstraint* createConstraint(btRigidBody* rbA, btRigidBody* rbB, float* jointPos, float* jointRot)
 {
-	btTransform tfA;
-	btTransform tfB;
-	tfA.setIdentity();
-	tfB.setIdentity();
-	tfB.getOrigin().setX(10.0f);
-	return new btGeneric6DofConstraint(*rbA, *rbB, tfA, tfB, true);
+	btTransform jointTf;
+	jointTf.setIdentity();
+	jointTf.setOrigin(btVector3(jointPos[0], jointPos[1], jointPos[2]));
+	jointTf.getBasis().setRotation(btQuaternion(jointRot[0], jointRot[1], jointRot[2], jointRot[3]));
+	return new btGeneric6DofConstraint(*rbA, *rbB, rbA->getCenterOfMassTransform().inverse() * jointTf, rbB->getCenterOfMassTransform().inverse() * jointTf, true);
 }
 
 #pragma managed
 
-Generic6DofConstraintElement::Generic6DofConstraintElement(Generic6DofConstraintDefinition^ definition, RigidBody^ rbA, RigidBody^ rbB, BulletScene^ scene)
+Generic6DofConstraintElement::Generic6DofConstraintElement(Generic6DofConstraintDefinition^ definition, SimObjectBase^ instance, RigidBody^ rbA, RigidBody^ rbB, BulletScene^ scene)
 :TypedConstraintElement(definition->Name, definition->Subscription, scene, rbA, rbB)
 {
-	btGeneric6DofConstraint* dof = createConstraint(rbA->Body, rbB->Body);
+	btGeneric6DofConstraint* dof = createConstraint(rbA->Body, rbB->Body, &instance->Translation.x, &instance->Rotation.x);
 	this->setConstraint(dof);
 	/*dof->setLimit(0, 0.0f, 0.0f);
 	dof->setLimit(1, 0.0f, 0.0f);
