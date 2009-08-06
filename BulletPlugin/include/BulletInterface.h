@@ -3,18 +3,22 @@
 using namespace System;
 using namespace System::Collections::Generic;
 using namespace Engine;
+using namespace Engine::Resources;
 
 namespace BulletPlugin
 {
 
 ref class BulletScene;
 ref class BulletSceneDefinition;
+ref class BulletShapeFileManager;
 
 public ref class BulletInterface : public PluginInterface
 {
 private:
 	static BulletInterface^ instance;
 	Platform::UpdateTimer^ timer;
+	BulletShapeFileManager^ fileManager;
+	SubsystemResources^ bulletResources;
 
 public:
 	static String^ PluginName = "BulletPlugin";

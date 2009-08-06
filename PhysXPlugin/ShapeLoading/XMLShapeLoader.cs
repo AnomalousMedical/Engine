@@ -490,7 +490,6 @@ namespace PhysXPlugin
         {
             currentMaterial = textReader.GetAttribute("name");
             Log.Default.sendMessage("Creating material named {0}.", LogLevel.Info, "ShapeLoading", currentMaterial);
-            PhysMaterialDesc desc = new PhysMaterialDesc();
             float restitution = 0.0f;
             float staticFriction = 0.0f;
             float dynamicFriction = 0.0f;
