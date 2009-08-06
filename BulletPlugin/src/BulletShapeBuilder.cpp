@@ -65,13 +65,15 @@ void BulletShapeBuilder::buildCapsule(String^ name, float radius, float height, 
 void BulletShapeBuilder::buildConvexHull(String^ name, cli::array<float>^ vertices, cli::array<int>^ faces, Vector3 translation, Quaternion rotation, String^ material)
 {
 	pin_ptr<float> verts = &vertices[0];
-	commitShape(name, translation, rotation, new btConvexHullShape(verts, vertices->Length));
+	btConvexHullShape* convexHull = new btConvexHullShape(verts, vertices->Length / 3, sizeof(float) * 3);
+	commitShape(name, translation, rotation, convexHull);
 }
 
 void BulletShapeBuilder::buildConvexHull(String^ name, cli::array<float>^ vertices, Vector3 translation, Quaternion rotation, String^ material)
 {
 	pin_ptr<float> verts = &vertices[0];
-	commitShape(name, translation, rotation, new btConvexHullShape(verts, vertices->Length));
+	btConvexHullShape* convexHull = new btConvexHullShape(verts, vertices->Length / 3, sizeof(float) * 3);
+	commitShape(name, translation, rotation, convexHull);
 }
 
 void BulletShapeBuilder::buildSoftBody(String^ name, cli::array<float>^ vertices, cli::array<int>^ tetrahedra, Vector3 translation, Quaternion rotation)

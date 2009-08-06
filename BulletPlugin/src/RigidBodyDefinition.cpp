@@ -60,7 +60,7 @@ void RigidBodyDefinition::createProduct(SimObjectBase^ instance, BulletScene^ sc
 	BulletShapeRepository^ repository = BulletInterface::Instance->ShapeRepository;
 	if(repository->containsValidCollection(shapeName))
 	{
-		btCollisionShape* shape = new btSphereShape(1.0f);// repository->getCollection(shapeName)->CollisionShape;
+		btCollisionShape* shape = repository->getCollection(shapeName)->CollisionShape;
 		constructionInfo->m_collisionShape = shape;
 		if(constructionInfo->m_mass != 0.0f)
 		{
