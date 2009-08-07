@@ -7,6 +7,8 @@ namespace BulletPlugin
 RotationalLimitMotorDefinition::RotationalLimitMotorDefinition(void)
 :motor(new btRotationalLimitMotor())
 {
+	LoLimit = 0;
+	HiLimit = 0;
 }
 
 RotationalLimitMotorDefinition::RotationalLimitMotorDefinition(LoadInfo^ info)
