@@ -5,6 +5,7 @@
 #include "RigidBodyDefinition.h"
 #include "Generic6DofConstraintDefinition.h"
 #include "BulletShapeFileManager.h"
+#include "BulletDebugInterface.h"
 
 using namespace Engine::Command;
 
@@ -13,7 +14,8 @@ namespace BulletPlugin
 
 BulletInterface::BulletInterface(void)
 :fileManager(gcnew BulletShapeFileManager()),
-bulletResources(gcnew SubsystemResources("Bullet"))
+bulletResources(gcnew SubsystemResources("Bullet")),
+debugInterface(nullptr)
 {
 	if (instance == nullptr)
     {
@@ -53,7 +55,11 @@ String^ BulletInterface::getName()
 
 DebugInterface^ BulletInterface::getDebugInterface()
 {
-	return nullptr;
+	if(debugInterface == nullptr)
+	{
+		debugInterface = gcnew BulletDebugInterface();
+	}
+	return debugInterface;
 }
 
 void BulletInterface::createDebugCommands(System::Collections::Generic::List<CommandManager^>^ commandList)

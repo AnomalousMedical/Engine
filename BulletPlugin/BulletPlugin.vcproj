@@ -431,6 +431,22 @@
 				RelativePath=".\include\BulletDebugDraw.h"
 				>
 			</File>
+			<File
+				RelativePath=".\src\BulletDebugEntry.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\BulletDebugEntry.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\BulletDebugInterface.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\BulletDebugInterface.h"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"

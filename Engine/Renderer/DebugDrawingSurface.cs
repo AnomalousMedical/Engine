@@ -90,26 +90,12 @@ namespace Engine.Renderer
         void drawPoint(Vector3 p);
 
         /// <summary>
-        /// Draw a single point. For simplest results use PointList.
-        /// </summary>
-        /// <param name="p">The point to draw.</param>
-        void drawPoint(ref Vector3 p);
-
-        /// <summary>
         /// Draw a line between p1 and p2. How this line is represented depends
         /// on the DrawingType. For simplest results use LineList.
         /// </summary>
         /// <param name="p1">The first point.</param>
         /// <param name="p2">The second point.</param>
         void drawLine(Vector3 p1, Vector3 p2);
-
-        /// <summary>
-        /// Draw a line between p1 and p2. How this line is represented depends
-        /// on the DrawingType. For simplest results use LineList.
-        /// </summary>
-        /// <param name="p1">The first point.</param>
-        /// <param name="p2">The second point.</param>
-        void drawLine(ref Vector3 p1, ref Vector3 p2);
 
         /// <summary>
         /// Draw a single triangle. For simplest results use TriangleList.
@@ -120,14 +106,6 @@ namespace Engine.Renderer
         void drawTriangle(Vector3 p1, Vector3 p2, Vector3 p3);
 
         /// <summary>
-        /// Draw a single triangle. For simplest results use TriangleList.
-        /// </summary>
-        /// <param name="p1">The first point.</param>
-        /// <param name="p2">The second point.</param>
-        /// <param name="p3">The third point.</param>
-        void drawTriangle(ref Vector3 p1, ref Vector3 p2, ref Vector3 p3);
-
-        /// <summary>
         /// Draw a circle. For easiest results use LineList.
         /// </summary>
         /// <param name="origin">The origin of the circle.</param>
@@ -135,23 +113,5 @@ namespace Engine.Renderer
         /// <param name="yAxis">A vector along the Y-Axis of the circle.</param>
         /// <param name="radius">The radius of the circle.</param>
         void drawCircle(Vector3 origin, Vector3 xAxis, Vector3 yAxis, float radius);
-
-        /// <summary>
-        /// Draw a circle. For easiest results use LineList.
-        /// </summary>
-        /// <param name="origin">The origin of the circle.</param>
-        /// <param name="xAxis">A vector along the X-Axis of the circle.</param>
-        /// <param name="yAxis">A vector along the Y-Axis of the circle.</param>
-        /// <param name="radius">The radius of the circle.</param>
-	    void drawCircle(ref Vector3 origin, Vector3 xAxis, Vector3 yAxis, float radius);
-
-        /// <summary>
-        /// Draw a circle. For easiest results use LineList.
-        /// </summary>
-        /// <param name="origin">The origin of the circle.</param>
-        /// <param name="xAxis">A vector along the X-Axis of the circle.</param>
-        /// <param name="yAxis">A vector along the Y-Axis of the circle.</param>
-        /// <param name="radius">The radius of the circle.</param>
-	    void drawCircle(ref Vector3 origin, ref Vector3 xAxis, ref Vector3 yAxis, float radius);
     }
 }

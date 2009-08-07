@@ -4,6 +4,7 @@ using namespace Engine;
 using namespace Engine::ObjectManagement;
 using namespace System;
 using namespace Engine::Platform;
+using namespace Engine::Renderer;
 
 namespace BulletPlugin
 {
@@ -58,6 +59,8 @@ public:
 	virtual void loopStarting();
 
 	virtual void exceededMaxDelta();
+
+	void drawDebug(DebugDrawingSurface^ drawingSurface);
 };
 
 }

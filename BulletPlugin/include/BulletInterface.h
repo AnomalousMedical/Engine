@@ -12,6 +12,7 @@ ref class BulletScene;
 ref class BulletSceneDefinition;
 ref class BulletShapeFileManager;
 ref class BulletShapeRepository;
+ref class BulletDebugInterface;
 
 public ref class BulletInterface : public PluginInterface
 {
@@ -20,6 +21,7 @@ private:
 	Platform::UpdateTimer^ timer;
 	BulletShapeFileManager^ fileManager;
 	SubsystemResources^ bulletResources;
+	BulletDebugInterface^ debugInterface;
 
 public:
 	static String^ PluginName = "BulletPlugin";

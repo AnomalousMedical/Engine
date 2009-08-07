@@ -131,4 +131,12 @@ BulletFactory^ BulletScene::getBulletFactory()
 	return factory;
 }
 
+void BulletScene::drawDebug(DebugDrawingSurface^ drawingSurface)
+{
+	drawingSurface->begin(name + "BulletDebug", Engine::Renderer::DrawingType::LineList);
+	debugDraw->setDrawingSurface(drawingSurface);
+	dynamicsWorld->debugDrawWorld();
+	drawingSurface->end();
+}
+
 }

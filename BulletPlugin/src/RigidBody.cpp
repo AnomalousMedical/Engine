@@ -472,15 +472,15 @@ void RigidBody::setCollisionFlags(CollisionFlags flags)
 }
 
 void RigidBody::raiseCollisionFlag(CollisionFlags flag)
-{
-	int collisionFlags = rigidBody->getCollisionFlags();
-	int clear = !static_cast<int>(flag);
-	rigidBody->setCollisionFlags(collisionFlags & clear);
+{	
+	rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | static_cast<int>(flag));
 }
 
 void RigidBody::clearCollisionFlag(CollisionFlags flag)
 {
-	rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | static_cast<int>(flag));
+	int collisionFlags = rigidBody->getCollisionFlags();
+	int clear = ~static_cast<int>(flag);
+	rigidBody->setCollisionFlags(collisionFlags & clear);
 }
 
 }
