@@ -13,6 +13,7 @@ ref class BulletShapeBuilder : public ShapeBuilder
 private:
 	btCompoundShape* currentCompound;
 	BulletShapeRepository^ repository;
+	float shapeMargin;
 
 	void commitShape(String^ name, Vector3 translation, Quaternion rotation, btCollisionShape* collisionShape);
 
@@ -121,6 +122,18 @@ public:
     /// </summary>
     /// <param name="material"></param>
     virtual void createMaterial(String^ name, float restitution, float staticFriction, float dynamicFriction);
+
+	property float ShapeMargin
+	{
+		float get()
+		{
+			return shapeMargin;
+		}
+		void set(float value)
+		{
+			shapeMargin = value;
+		}
+	}
 };
 
 }

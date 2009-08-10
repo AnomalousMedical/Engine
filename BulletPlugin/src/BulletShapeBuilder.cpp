@@ -27,7 +27,8 @@ btBoxShape* createBoxShape(float* extents)
 #pragma managed
 
 BulletShapeBuilder::BulletShapeBuilder()
-:currentCompound(0)
+:currentCompound(0),
+shapeMargin(0.04f)
 {
 
 }
@@ -111,6 +112,7 @@ void BulletShapeBuilder::createMaterial(String^ name, float restitution, float s
 
 void BulletShapeBuilder::commitShape(String^ name, Vector3 translation, Quaternion rotation, btCollisionShape* collisionShape)
 {
+	collisionShape->setMargin(shapeMargin);
 	if(currentCompound != 0)
 	{
 		addChildShape(currentCompound, collisionShape, &translation.x, &rotation.x);

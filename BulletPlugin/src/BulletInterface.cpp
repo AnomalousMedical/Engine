@@ -78,4 +78,15 @@ BulletShapeRepository^ BulletInterface::ShapeRepository::get()
 	return fileManager->ShapeRepository;
 }
 
+
+float BulletInterface::ShapeMargin::get()
+{
+	return fileManager->ShapeMargin;
+}
+
+void BulletInterface::ShapeMargin::set(float value)
+{
+	fileManager->ShapeMargin = value;
+}
+
 }

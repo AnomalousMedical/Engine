@@ -54,6 +54,12 @@ public:
 	{
 		BulletShapeRepository^ get();
 	}
+
+	property float ShapeMargin
+	{
+		float get();
+		void set(float value);
+	}
 };
 
 }

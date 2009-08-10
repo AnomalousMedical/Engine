@@ -24,4 +24,13 @@ void BulletShapeFileManager::loadEnded()
 
 }
 
+float BulletShapeFileManager::ShapeMargin::get()
+{
+	return shapeBuilder->ShapeMargin;
+}
+void BulletShapeFileManager::ShapeMargin::set(float value)
+{
+	shapeBuilder->ShapeMargin = value;
+}
+
 }

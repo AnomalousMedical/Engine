@@ -38,6 +38,20 @@ public:
 			return shapeRepository;
 		}
 	}
+
+	property BulletShapeBuilder^ ShapeBuilder
+	{
+		BulletShapeBuilder^ get()
+		{
+			return shapeBuilder;
+		}
+	}
+
+	property float ShapeMargin
+	{
+		float get();
+		void set(float value);
+	}
 };
 
 }
