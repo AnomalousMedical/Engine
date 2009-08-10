@@ -26,6 +26,11 @@ void copyMotor(btTranslationalLimitMotor* src, btTranslationalLimitMotor* dest)
 	*dest = *src;
 }
 
+void setRotation(btMatrix3x3& mat, float* rot)
+{
+	mat.setRotation(btQuaternion(rot[0], rot[1], rot[2], rot[3]));
+}
+
 #pragma managed
 
 Generic6DofConstraintElement::Generic6DofConstraintElement(Generic6DofConstraintDefinition^ definition, SimObjectBase^ instance, RigidBody^ rbA, RigidBody^ rbB, BulletScene^ scene)
@@ -58,6 +63,54 @@ SimElementDefinition^ Generic6DofConstraintElement::saveToDefinition()
 	*definition->ZRotMotor->Motor = *dof->getRotationalLimitMotor(2);
 	copyMotor(dof->getTranslationalLimitMotor(), definition->TranslationMotor->Motor);
 	return definition;
+}
+
+void Generic6DofConstraintElement::setFrameOffsetA(Vector3 origin)
+{
+	btTransform& tf = dof->getFrameOffsetA();
+	btVector3& btOrigin = tf.getOrigin();
+	btOrigin.setX(origin.x);
+	btOrigin.setY(origin.y);
+	btOrigin.setZ(origin.z);
+}
+
+void Generic6DofConstraintElement::setFrameOffsetA(Quaternion basis)
+{
+	setRotation(dof->getFrameOffsetA().getBasis(), &basis.x);
+}
+
+void Generic6DofConstraintElement::setFrameOffsetA(Vector3 origin, Quaternion basis)
+{
+	btTransform& tf = dof->getFrameOffsetA();
+	btVector3& btOrigin = tf.getOrigin();
+	btOrigin.setX(origin.x);
+	btOrigin.setY(origin.y);
+	btOrigin.setZ(origin.z);
+	setRotation(tf.getBasis(), &basis.x);
+}
+
+void Generic6DofConstraintElement::setFrameOffsetB(Vector3 origin)
+{
+	btTransform& tf = dof->getFrameOffsetB();
+	btVector3& btOrigin = tf.getOrigin();
+	btOrigin.setX(origin.x);
+	btOrigin.setY(origin.y);
+	btOrigin.setZ(origin.z);
+}
+
+void Generic6DofConstraintElement::setFrameOffsetB(Quaternion basis)
+{
+	setRotation(dof->getFrameOffsetB().getBasis(), &basis.x);
+}
+
+void Generic6DofConstraintElement::setFrameOffsetB(Vector3 origin, Quaternion basis)
+{
+	btTransform& tf = dof->getFrameOffsetB();
+	btVector3& btOrigin = tf.getOrigin();
+	btOrigin.setX(origin.x);
+	btOrigin.setY(origin.y);
+	btOrigin.setZ(origin.z);
+	setRotation(tf.getBasis(), &basis.x);
 }
 
 }

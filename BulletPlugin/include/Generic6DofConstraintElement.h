@@ -24,6 +24,18 @@ public:
 	virtual ~Generic6DofConstraintElement(void);
 
 	virtual SimElementDefinition^ saveToDefinition() override;
+
+	void setFrameOffsetA(Vector3 origin);
+
+	void setFrameOffsetA(Quaternion basis);
+
+	void setFrameOffsetA(Vector3 origin, Quaternion basis);
+
+	void setFrameOffsetB(Vector3 origin);
+
+	void setFrameOffsetB(Quaternion basis);
+
+	void setFrameOffsetB(Vector3 origin, Quaternion basis);
 };
 
 }
