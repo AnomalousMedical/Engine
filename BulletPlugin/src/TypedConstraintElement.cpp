@@ -10,7 +10,9 @@ TypedConstraintElement::TypedConstraintElement(String^ name, Engine::ObjectManag
 constraint(0),
 scene(scene),
 rbA(rbA),
-rbB(rbB)
+rbB(rbB),
+active(true),
+enabled(false)
 {
 }
 
@@ -18,13 +20,26 @@ TypedConstraintElement::~TypedConstraintElement()
 {
 	if(constraint != 0)
 	{
-		if(Owner->Enabled)
+		ConstraintGCRoot* root = static_cast<ConstraintGCRoot*>(constraint->getUserData());
+		delete root;
+
+		if(active && Owner->Enabled)
 		{
 			scene->DynamicsWorld->removeConstraint(constraint);
 		}
+
 		delete constraint;
 		constraint = 0;
 	}
+}
+
+void TypedConstraintElement::setInactive()
+{
+	if(active && Owner->Enabled)
+	{
+		scene->DynamicsWorld->removeConstraint(constraint);
+	}
+	active = false;
 }
 
 void TypedConstraintElement::updatePositionImpl(Vector3% translation, Quaternion% rotation)
@@ -45,13 +60,17 @@ void TypedConstraintElement::updateScaleImpl(Vector3% scale)
 
 void TypedConstraintElement::setEnabled(bool enabled) 
 {
-	if(enabled)
+	if(this->enabled != enabled)
 	{
-		scene->DynamicsWorld->addConstraint(constraint);
-	}
-	else
-	{
-		scene->DynamicsWorld->removeConstraint(constraint);
+		if(enabled)
+		{
+			scene->DynamicsWorld->addConstraint(constraint, true);
+		}
+		else
+		{
+			scene->DynamicsWorld->removeConstraint(constraint);
+		}
+		this->enabled = enabled;
 	}
 }
 

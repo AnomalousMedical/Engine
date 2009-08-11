@@ -3,6 +3,7 @@
 #include "MotionState.h"
 #include "RigidBodyDefinition.h"
 #include "BulletScene.h"
+#include "TypedConstraintElement.h"
 
 namespace BulletPlugin
 {
@@ -136,14 +137,30 @@ RigidBody::~RigidBody(void)
 {
 	if(rigidBody != 0)
 	{
+		System::Collections::Generic::List<TypedConstraintElement^> constraints(rigidBody->getNumConstraintRefs());
+		//Gather up all constraints
+		for(int i = 0; i < rigidBody->getNumConstraintRefs(); ++i)
+		{
+			btTypedConstraint* typedConstraint = rigidBody->getConstraintRef(i);
+			ConstraintGCRoot* root = static_cast<ConstraintGCRoot*>(typedConstraint->getUserData());
+			constraints.Add(*root);
+		}
+		//Set all constraints to inactive
+		for each(TypedConstraintElement^ constraint in constraints)
+		{
+			constraint->setInactive();
+		}
+
+		delete motionState;
+		motionState = 0;
+
 		if(Owner->Enabled)
 		{
 			scene->DynamicsWorld->removeRigidBody(rigidBody);
 		}
+
 		delete rigidBody;
 		rigidBody = 0;
-		delete motionState;
-		motionState = 0;
 	}
 }
 
