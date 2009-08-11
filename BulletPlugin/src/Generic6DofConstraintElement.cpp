@@ -113,4 +113,30 @@ void Generic6DofConstraintElement::setFrameOffsetB(Vector3 origin, Quaternion ba
 	setRotation(tf.getBasis(), &basis.x);
 }
 
+Vector3 Generic6DofConstraintElement::getFrameOffsetOriginA()
+{
+	const btVector3& origin = dof->getFrameOffsetA().getOrigin();
+	return Vector3(origin.x(), origin.y(), origin.z());
+}
+
+Quaternion Generic6DofConstraintElement::getFrameOffsetBasisA()
+{
+	Quaternion quat;
+	GetRotation(dof->getFrameOffsetA(), &quat.x);
+	return quat;
+}
+
+Vector3 Generic6DofConstraintElement::getFrameOffsetOriginB()
+{
+	const btVector3& origin = dof->getFrameOffsetB().getOrigin();
+	return Vector3(origin.x(), origin.y(), origin.z());
+}
+
+Quaternion Generic6DofConstraintElement::getFrameOffsetBasisB()
+{
+	Quaternion quat;
+	GetRotation(dof->getFrameOffsetB(), &quat.x);
+	return quat;
+}
+
 }

@@ -8,6 +8,8 @@
 #include "btBulletDynamicsCommon.h"
 #pragma managed
 
+#include "ConversionUtils.h"
+
 namespace BulletPlugin
 {
 [Engine::Attributes::SingleEnum]
@@ -29,4 +31,5 @@ public enum class CollisionFlags : int
 	CustomMaterialCallback = ::btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK,
 	CharacterCallback = ::btCollisionObject::CF_CHARACTER_OBJECT,
 };
+
 }

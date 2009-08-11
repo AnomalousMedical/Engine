@@ -36,6 +36,14 @@ public:
 	void setFrameOffsetB(Quaternion basis);
 
 	void setFrameOffsetB(Vector3 origin, Quaternion basis);
+
+	Vector3 getFrameOffsetOriginA();
+
+	Quaternion getFrameOffsetBasisA();
+
+	Vector3 getFrameOffsetOriginB();
+
+	Quaternion getFrameOffsetBasisB();
 };
 
 }

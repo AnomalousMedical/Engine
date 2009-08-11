@@ -280,6 +280,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\ConversionUtils.h"
+				>
+			</File>
+			<File
 				RelativePath=".\resource.h"
 				>
 			</File>
