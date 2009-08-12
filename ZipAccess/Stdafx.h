@@ -4,4 +4,12 @@
 
 #pragma once
 
+#pragma unmanaged
+#include <zzip/zzip.h>
+#pragma managed
 
+#include <string>
+#include <msclr/marshal.h>
+
+std::string convertString( System::String^ str );
+System::String^ convertString( std::string str );

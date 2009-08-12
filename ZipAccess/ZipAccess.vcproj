@@ -113,6 +113,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="include;&quot;$(OGRE_HOME)\Dependencies\include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -130,8 +131,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(NoInherit)"
+				AdditionalDependencies="zlib.lib zziplib.lib $(NOINHERIT)"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="$(OGRE_HOME)\Dependencies\lib\Release"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
 			/>
@@ -176,6 +178,34 @@
 		/>
 	</References>
 	<Files>
+		<Filter
+			Name="Zip"
+			>
+			<File
+				RelativePath=".\src\ZipFile.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ZipFile.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ZipIOException.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ZipIOException.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ZipStream.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ZipStream.h"
+				>
+			</File>
+		</Filter>
 		<Filter
 			Name="Resource Files"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
