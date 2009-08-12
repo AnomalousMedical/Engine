@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.IO;
 using Logging;
+using Engine.Resources;
 
 namespace Engine
 {
@@ -107,19 +107,20 @@ namespace Engine
         /// <param name="builder">The builder to use.</param>
         private void loadShape(ShapeLocation location, ShapeLoader loader, ShapeBuilder builder)
         {
+            Archive archive = null;
             try
             {
+                archive = FileSystem.OpenArchive(location.LocName);
                 builder.setCurrentShapeLocation(location);
-                FileAttributes attr = File.GetAttributes(location.LocName);
-                if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
+                if (archive.isDirectory(location.LocName))
                 {
-                    scanDirectory(location, loader, builder);
+                    scanDirectory(location, loader, builder, archive);
                 }
                 else
                 {
                     if (loader.canLoadShape(location.LocName))
                     {
-                        loader.loadShapes(builder, location.LocName);
+                        loader.loadShapes(builder, location.LocName, archive);
                     }
                     else
                     {
@@ -128,22 +129,29 @@ namespace Engine
                 }
                 location.Loaded = true;
             }
-            catch (FileNotFoundException)
+            finally
             {
-                Logging.Log.Default.sendMessage("Cannot load collision file {0}.  Location does not exist.", LogLevel.Error, "ShapeLoading", location.LocName);
+                if (archive != null)
+                {
+                    FileSystem.CloseArchive(archive);
+                }
             }
-            catch (DirectoryNotFoundException)
-            {
-                Logging.Log.Default.sendMessage("Cannot load collision directory {0}.  Location does not exist.", LogLevel.Error, "ShapeLoading", location.LocName);
-            }
-            catch (NotSupportedException)
-            {
-                Logging.Log.Default.sendMessage("The given path format is not supported {0}.", LogLevel.Error, "ShapeLoading", location.LocName);
-            }
-            catch (IOException e)
-            {
-                Logging.Log.Default.sendMessage("General IO error loading collision {0}.\n{1}", LogLevel.Error, "ShapeLoading", location.LocName, e.Message);
-            }
+            //catch (FileNotFoundException)
+            //{
+            //    Logging.Log.Default.sendMessage("Cannot load collision file {0}.  Location does not exist.", LogLevel.Error, "ShapeLoading", location.LocName);
+            //}
+            //catch (DirectoryNotFoundException)
+            //{
+            //    Logging.Log.Default.sendMessage("Cannot load collision directory {0}.  Location does not exist.", LogLevel.Error, "ShapeLoading", location.LocName);
+            //}
+            //catch (NotSupportedException)
+            //{
+            //    Logging.Log.Default.sendMessage("The given path format is not supported {0}.", LogLevel.Error, "ShapeLoading", location.LocName);
+            //}
+            //catch (IOException e)
+            //{
+            //    Logging.Log.Default.sendMessage("General IO error loading collision {0}.\n{1}", LogLevel.Error, "ShapeLoading", location.LocName, e.Message);
+            //}
         }
 
         /// <summary>
@@ -152,24 +160,23 @@ namespace Engine
         /// <param name="location"></param>
         /// <param name="loader"></param>
         /// <param name="builder"></param>
-        private void scanDirectory(ShapeLocation location, ShapeLoader loader, ShapeBuilder builder)
+        private void scanDirectory(ShapeLocation location, ShapeLoader loader, ShapeBuilder builder, Archive archive)
         {
-            String[] files = Directory.GetFiles(location.LocName);
+            String[] files = archive.listFiles(location.LocName);
             foreach (String path in files)
             {
-                FileAttributes attr = File.GetAttributes(path);
-                if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
+                if (archive.isDirectory(path))
                 {
                     if (location.Recursive)
                     {
-                        scanDirectory(location, path, loader, builder);
+                        scanDirectory(location, path, loader, builder, archive);
                     }
                 }
                 else
                 {
                     if (loader.canLoadShape(path))
                     {
-                        loader.loadShapes(builder, path);
+                        loader.loadShapes(builder, path, archive);
                     }
                 }
             }
@@ -182,21 +189,20 @@ namespace Engine
         /// <param name="parentPath"></param>
         /// <param name="loader"></param>
         /// <param name="builder"></param>
-        private void scanDirectory(ShapeLocation location, String parentPath, ShapeLoader loader, ShapeBuilder builder)
+        private void scanDirectory(ShapeLocation location, String parentPath, ShapeLoader loader, ShapeBuilder builder, Archive archive)
         {
-            String[] files = Directory.GetFiles(parentPath);
+            String[] files = archive.listFiles(parentPath);
             foreach (String path in files)
             {
-                FileAttributes attr = File.GetAttributes(path);
-                if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
+                if (archive.isDirectory(path))
                 {
-                    scanDirectory(location, path, loader, builder);
+                    scanDirectory(location, path, loader, builder, archive);
                 }
                 else
                 {
                     if (loader.canLoadShape(path))
                     {
-                        loader.loadShapes(builder, path);
+                        loader.loadShapes(builder, path, archive);
                     }
                 }
             }

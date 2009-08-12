@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using Logging;
 using Engine;
+using Engine.Resources;
 
 namespace Engine
 {
@@ -67,10 +68,10 @@ namespace Engine
             return canLoad;
         }
 
-        public override void loadShapes(ShapeBuilder builder, string filename)
+        public override void loadShapes(ShapeBuilder builder, string filename, Archive archive)
         {
             Log.Default.sendMessage("Loading collision shapes from " + filename + ".", LogLevel.Info, "ShapeLoading");
-            XmlTextReader textReader = new XmlTextReader(filename);
+            XmlTextReader textReader = new XmlTextReader(archive.openStream(filename, FileMode.Open, FileAccess.Read));
 
             while (textReader.Read())
             {
