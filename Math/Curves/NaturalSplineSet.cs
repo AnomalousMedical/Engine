@@ -116,6 +116,21 @@ namespace Engine
             return new Vector3(xSpline[i].interpolate(percent), ySpline[i].interpolate(percent), zSpline[i].interpolate(percent));
         }
 
+        public Quaternion interpolateRotation(float percent, float offset, Vector3 startingDirection)
+        {
+            //Fix the numbers
+            if (percent == 1.0f)
+            {
+                percent = 1.0f - offset;
+            }
+            else if (percent + offset > 1.0f)
+            {
+                offset = 1.0f - percent;
+            }
+            Vector3 curvePosition = interpolate(percent + offset) - interpolate(percent);
+            return Quaternion.shortestArcQuatNormalize2(ref startingDirection, ref curvePosition);
+        }
+
         /// <summary>
         /// Recompute the splines in the set. This must be called every time the
         /// control points are changed.
