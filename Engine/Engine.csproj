@@ -229,6 +229,10 @@
       <Project>{52213B4F-D940-438C-98DD-BB7CF44F2F98}</Project>
       <Name>Math</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ZipAccess\ZipAccess.vcproj">
+      <Project>{3F2EAD47-7DEC-4E56-8CEE-8DBBCCE7A6C7}</Project>
+      <Name>ZipAccess</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

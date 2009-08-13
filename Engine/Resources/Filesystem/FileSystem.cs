@@ -12,12 +12,12 @@ namespace Engine.Resources
 
         public static Archive OpenArchive(String url)
         {
+            if (ZipArchive.CanOpenURL(url))
+            {
+                Archive zipArchive = new ZipArchive(url);
+                return zipArchive;
+            }
             return defaultArchive;
-        }
-
-        public static void CloseArchive(Archive archive)
-        {
-            archive.close();
         }
     }
 }

@@ -6,12 +6,6 @@ using System.IO;
 
 namespace Engine.Resources
 {
-    public enum SearchType
-    {
-        AllDirectories,
-        TopDirectoryOnly
-    }
-
     public enum FileMode
     {
         // Summary:
@@ -77,23 +71,11 @@ namespace Engine.Resources
         ReadWrite = System.IO.FileAccess.ReadWrite,
     }
 
-    public abstract class Archive
+    public abstract class Archive : IDisposable
     {
-        internal abstract void open();
+        public abstract void Dispose();
 
-        internal abstract void close();
-
-        public abstract String[] listFiles(String url);
-
-        public abstract String[] listFiles(String url, String searchPattern);
-
-        public abstract String[] listFiles(String url, String searchPattern, SearchType searchType);
-
-        public abstract String[] listDirectories(String url);
-
-        public abstract String[] listDirectories(String url, String searchPattern);
-
-        public abstract String[] listDirectories(String url, String searchPattern, SearchType searchType);
+        public abstract String[] listFiles(String url, bool recursive);
 
         public abstract Stream openStream(String url, FileMode mode);
 

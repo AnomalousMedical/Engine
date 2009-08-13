@@ -22,19 +22,64 @@ namespace Test
         [STAThread]
         static void Main(string[] args)
         {
-            using (ZipFile zipFile = new ZipFile())
+            try
             {
-                zipFile.open("Testinzipstuff.zip");
-                ZipStream stream = zipFile.openFile("folder/file1.txt");
-                StreamReader reader = new StreamReader(stream);
-                while (!reader.EndOfStream)
+                //ZipFile zipFile = new ZipFile())
+                using (ZipFile zipFile = new ZipFile("TestZip.zip"))
                 {
-                    Console.WriteLine(reader.ReadLine());
+                    List<String> files;
+                    Console.WriteLine("Root folder recursive");
+                    files = zipFile.listFiles("", true);
+                    foreach (String file in files)
+                    {
+                        Console.WriteLine(file);
+                    }
+                    Console.WriteLine("");
+
+                    Console.WriteLine("Root folder nonrecursive");
+                    files = zipFile.listFiles("", false);
+                    foreach (String file in files)
+                    {
+                        Console.WriteLine(file);
+                    }
+                    Console.WriteLine("");
+
+                    Console.WriteLine("Folder folder recursive");
+                    files = zipFile.listFiles("folder", true);
+                    foreach (String file in files)
+                    {
+                        Console.WriteLine(file);
+                    }
+                    Console.WriteLine("");
+
+                    Console.WriteLine("Folder folder nonrecursive");
+                    files = zipFile.listFiles("folder", false);
+                    foreach (String file in files)
+                    {
+                        Console.WriteLine(file);
+                    }
+                    Console.WriteLine("");
+
+                    Console.WriteLine("Reading folder/file1.txt");
+                    using (ZipStream stream = zipFile.openFile("folder/file1.txt"))
+                    {
+                        Console.WriteLine("Root folder recursive");
+                        StreamReader reader = new StreamReader(stream);
+                        while (!reader.EndOfStream)
+                        {
+                            Console.WriteLine(reader.ReadLine());
+                        }
+                        reader.Close();
+                    }
+
+                    Console.WriteLine("Attemping to read bad file got {0}.", zipFile.openFile("null"));
                 }
-                reader.Close();
-                zipFile.close();
+                Console.ReadLine();
             }
-            Console.ReadLine();
+            catch(ZipIOException)
+            {
+
+            }
         }
     }
 }

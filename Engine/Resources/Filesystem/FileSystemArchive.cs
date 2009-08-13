@@ -8,44 +8,14 @@ namespace Engine.Resources
 {
     class FileSystemArchive : Archive
     {
-        internal override void open()
+        public override void Dispose()
         {
 
         }
 
-        internal override void close()
+        public override String[] listFiles(String url, bool recursive)
         {
-
-        }
-
-        public override String[] listFiles(String url)
-        {
-            return Directory.GetFiles(url);
-        }
-
-        public override String[] listFiles(String url, String searchPattern)
-        {
-            return Directory.GetFiles(url, searchPattern);
-        }
-
-        public override String[] listFiles(String url, String searchPattern, SearchType searchType)
-        {
-            return Directory.GetFiles(url, searchPattern, searchType == SearchType.AllDirectories ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
-        }
-
-        public override String[] listDirectories(String url)
-        {
-            return Directory.GetFiles(url);
-        }
-
-        public override String[] listDirectories(String url, String searchPattern)
-        {
-            return Directory.GetFiles(url, searchPattern);
-        }
-
-        public override String[] listDirectories(String url, String searchPattern, SearchType searchType)
-        {
-            return Directory.GetDirectories(url, searchPattern, searchType == SearchType.AllDirectories ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
+            return Directory.GetFiles(url, "*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
         }
 
         public override Stream openStream(String url, FileMode mode)

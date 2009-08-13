@@ -12,17 +12,17 @@ public ref class ZipFile
 {
 private:
 	ZZIP_DIR* zzipDir;
+	String^ file;
+	List<String^>^ files;
 
 public:
-	ZipFile(void);
+	ZipFile(String^ filename);
 
 	virtual ~ZipFile(void);
 
-	void open(String^ filename);
-
-	void close();
-
 	ZipStream^ openFile(String^ filename);
+
+	List<String^>^ listFiles(String^ path, bool recursive);
 };
 
 }

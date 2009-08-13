@@ -107,10 +107,9 @@ namespace Engine
         /// <param name="builder">The builder to use.</param>
         private void loadShape(ShapeLocation location, ShapeLoader loader, ShapeBuilder builder)
         {
-            Archive archive = null;
-            try
+
+            using (Archive archive = FileSystem.OpenArchive(location.LocName))
             {
-                archive = FileSystem.OpenArchive(location.LocName);
                 builder.setCurrentShapeLocation(location);
                 if (archive.isDirectory(location.LocName))
                 {
@@ -124,17 +123,10 @@ namespace Engine
                     }
                     else
                     {
-                        Logging.Log.Default.sendMessage("Cannot load collision file {0}.", LogLevel.Error, "ShapeLoading", location);
+                        Logging.Log.Default.sendMessage("Cannot load collision file {0}.", LogLevel.Error, "ShapeLoading", location.LocName);
                     }
                 }
                 location.Loaded = true;
-            }
-            finally
-            {
-                if (archive != null)
-                {
-                    FileSystem.CloseArchive(archive);
-                }
             }
             //catch (FileNotFoundException)
             //{
@@ -162,48 +154,12 @@ namespace Engine
         /// <param name="builder"></param>
         private void scanDirectory(ShapeLocation location, ShapeLoader loader, ShapeBuilder builder, Archive archive)
         {
-            String[] files = archive.listFiles(location.LocName);
+            String[] files = archive.listFiles(location.LocName, location.Recursive);
             foreach (String path in files)
-            {
-                if (archive.isDirectory(path))
+            {  
+                if (loader.canLoadShape(path))
                 {
-                    if (location.Recursive)
-                    {
-                        scanDirectory(location, path, loader, builder, archive);
-                    }
-                }
-                else
-                {
-                    if (loader.canLoadShape(path))
-                    {
-                        loader.loadShapes(builder, path, archive);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Scan a directory for all files.
-        /// </summary>
-        /// <param name="location"></param>
-        /// <param name="parentPath"></param>
-        /// <param name="loader"></param>
-        /// <param name="builder"></param>
-        private void scanDirectory(ShapeLocation location, String parentPath, ShapeLoader loader, ShapeBuilder builder, Archive archive)
-        {
-            String[] files = archive.listFiles(parentPath);
-            foreach (String path in files)
-            {
-                if (archive.isDirectory(path))
-                {
-                    scanDirectory(location, path, loader, builder, archive);
-                }
-                else
-                {
-                    if (loader.canLoadShape(path))
-                    {
-                        loader.loadShapes(builder, path, archive);
-                    }
+                    loader.loadShapes(builder, path, archive);
                 }
             }
         }
