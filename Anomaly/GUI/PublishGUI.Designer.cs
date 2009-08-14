@@ -29,18 +29,20 @@
         private void InitializeComponent()
         {
             this.buttonPanel = new System.Windows.Forms.Panel();
+            this.browseButton = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.outputLocationTextBox = new System.Windows.Forms.TextBox();
+            this.publishButton = new System.Windows.Forms.Button();
             this.fileView = new System.Windows.Forms.ListView();
             this.fileNameColumn = new System.Windows.Forms.ColumnHeader();
-            this.publishButton = new System.Windows.Forms.Button();
-            this.outputLocationTextBox = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.browseButton = new System.Windows.Forms.Button();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.flattenCheck = new System.Windows.Forms.CheckBox();
             this.buttonPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonPanel
             // 
+            this.buttonPanel.Controls.Add(this.flattenCheck);
             this.buttonPanel.Controls.Add(this.browseButton);
             this.buttonPanel.Controls.Add(this.label1);
             this.buttonPanel.Controls.Add(this.outputLocationTextBox);
@@ -50,6 +52,42 @@
             this.buttonPanel.Name = "buttonPanel";
             this.buttonPanel.Size = new System.Drawing.Size(526, 34);
             this.buttonPanel.TabIndex = 0;
+            // 
+            // browseButton
+            // 
+            this.browseButton.Location = new System.Drawing.Point(367, 6);
+            this.browseButton.Name = "browseButton";
+            this.browseButton.Size = new System.Drawing.Size(75, 23);
+            this.browseButton.TabIndex = 3;
+            this.browseButton.Text = "Browse";
+            this.browseButton.UseVisualStyleBackColor = true;
+            this.browseButton.Click += new System.EventHandler(this.browseButton_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(4, 11);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(84, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Output Directory";
+            // 
+            // outputLocationTextBox
+            // 
+            this.outputLocationTextBox.Location = new System.Drawing.Point(94, 8);
+            this.outputLocationTextBox.Name = "outputLocationTextBox";
+            this.outputLocationTextBox.Size = new System.Drawing.Size(203, 20);
+            this.outputLocationTextBox.TabIndex = 1;
+            // 
+            // publishButton
+            // 
+            this.publishButton.Location = new System.Drawing.Point(448, 6);
+            this.publishButton.Name = "publishButton";
+            this.publishButton.Size = new System.Drawing.Size(75, 23);
+            this.publishButton.TabIndex = 0;
+            this.publishButton.Text = "Publish";
+            this.publishButton.UseVisualStyleBackColor = true;
+            this.publishButton.Click += new System.EventHandler(this.publishButton_Click);
             // 
             // fileView
             // 
@@ -67,41 +105,15 @@
             // 
             this.fileNameColumn.Text = "Name";
             // 
-            // publishButton
+            // flattenCheck
             // 
-            this.publishButton.Location = new System.Drawing.Point(448, 6);
-            this.publishButton.Name = "publishButton";
-            this.publishButton.Size = new System.Drawing.Size(75, 23);
-            this.publishButton.TabIndex = 0;
-            this.publishButton.Text = "Publish";
-            this.publishButton.UseVisualStyleBackColor = true;
-            this.publishButton.Click += new System.EventHandler(this.publishButton_Click);
-            // 
-            // outputLocationTextBox
-            // 
-            this.outputLocationTextBox.Location = new System.Drawing.Point(94, 8);
-            this.outputLocationTextBox.Name = "outputLocationTextBox";
-            this.outputLocationTextBox.Size = new System.Drawing.Size(267, 20);
-            this.outputLocationTextBox.TabIndex = 1;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 11);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(84, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Output Directory";
-            // 
-            // browseButton
-            // 
-            this.browseButton.Location = new System.Drawing.Point(367, 6);
-            this.browseButton.Name = "browseButton";
-            this.browseButton.Size = new System.Drawing.Size(75, 23);
-            this.browseButton.TabIndex = 3;
-            this.browseButton.Text = "Browse";
-            this.browseButton.UseVisualStyleBackColor = true;
-            this.browseButton.Click += new System.EventHandler(this.browseButton_Click);
+            this.flattenCheck.AutoSize = true;
+            this.flattenCheck.Location = new System.Drawing.Point(303, 10);
+            this.flattenCheck.Name = "flattenCheck";
+            this.flattenCheck.Size = new System.Drawing.Size(58, 17);
+            this.flattenCheck.TabIndex = 4;
+            this.flattenCheck.Text = "Flatten";
+            this.flattenCheck.UseVisualStyleBackColor = true;
             // 
             // PublishGUI
             // 
@@ -131,5 +143,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox outputLocationTextBox;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
+        private System.Windows.Forms.CheckBox flattenCheck;
     }
 }

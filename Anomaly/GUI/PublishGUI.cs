@@ -28,9 +28,9 @@ namespace Anomaly
             groups.Clear();
             fileView.Groups.Clear();
             fileView.Items.Clear();
-            foreach (String file in fileList.getPrettyFileList())
+            foreach (FileInfo file in fileList.getPrettyFileList())
             {
-                String directory = Path.GetDirectoryName(file);
+                String directory = Path.GetDirectoryName(file.File);
                 ListViewGroup group;
                 groups.TryGetValue(directory, out group);
                 if (group == null)
@@ -39,7 +39,7 @@ namespace Anomaly
                     groups.Add(directory, group);
                     fileView.Groups.Add(group);
                 }
-                ListViewItem listViewFile = new ListViewItem(Path.GetFileName(file), group);
+                ListViewItem listViewFile = new ListViewItem(Path.GetFileName(file.File), group);
                 fileView.Items.Add(listViewFile);
             }
         }
@@ -72,7 +72,7 @@ namespace Anomaly
                 String destination = Path.GetFullPath(outputLocationTextBox.Text);
                 if (destination.ToLower() != Path.GetFullPath(Resource.ResourceRoot).ToLower())
                 {
-                    fileList.copyResources(destination);
+                    fileList.copyResources(destination, flattenCheck.Checked);
                     MessageBox.Show(this, String.Format("Finished publishing resources to:\n{0}.", destination), "Publish Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
