@@ -4,6 +4,8 @@
 #include "BulletFactory.h"
 #include "vcclr.h"
 #include "BulletDebugDraw.h"
+#include "MotionState.h"
+#include "RigidBody.h"
 
 namespace BulletPlugin
 {
@@ -42,12 +44,20 @@ void getBroadphaseAabb(btAxisSweep3* axisSweep, float* aabbMin, float* aabbMax)
 
 #pragma managed
 
+static void tickCallback(btDynamicsWorld *world, btScalar timeStep)
+{
+	gcroot<BulletScene^>* scene = static_cast<gcroot<BulletScene^>*>(world->getWorldUserInfo());
+	(*scene)->tickCallback(timeStep);
+}
+
 BulletScene::BulletScene(BulletSceneDefinition^ definition, UpdateTimer^ timer)
 :name(definition->Name), 
 timer(timer), 
 maxProxies(definition->MaxProxies),
 debugDraw(new BulletDebugDraw())
 {
+	sceneRoot = new gcroot<BulletScene^>(this);
+
 	factory = gcnew BulletFactory(this);
 	collisionConfiguration = new btDefaultCollisionConfiguration();
 	dispatcher = new btCollisionDispatcher(collisionConfiguration);
@@ -55,6 +65,7 @@ debugDraw(new BulletDebugDraw())
 	overlappingPairCache = createAxisSweep(&definition->WorldAabbMin.x, &definition->WorldAabbMax.x, definition->MaxProxies);
 	solver = new btSequentialImpulseConstraintSolver;
 	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher,overlappingPairCache,solver,collisionConfiguration);
+	dynamicsWorld->setInternalTickCallback(BulletPlugin::tickCallback, static_cast<void*>(sceneRoot));
 	setGravity(dynamicsWorld, &definition->Gravity.x);
 
 	dynamicsWorld->setDebugDrawer(debugDraw);
@@ -81,6 +92,19 @@ BulletScene::~BulletScene(void)
 	delete dispatcher;
 
 	delete collisionConfiguration;
+
+	delete sceneRoot;
+}
+
+void BulletScene::tickCallback(btScalar timeStep)
+{
+	int numManifolds = dispatcher->getNumManifolds();
+	for(int i = 0; i < numManifolds; ++i)
+	{
+		btPersistentManifold* contactManifold = dispatcher->getManifoldByIndexInternal(i);
+		contactCache.addManifold(contactManifold);
+	}
+	contactCache.dispatchContacts();
 }
 
 SimElementFactory^ BulletScene::getFactory()

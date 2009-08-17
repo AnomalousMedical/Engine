@@ -359,6 +359,26 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Contact"
+				>
+				<File
+					RelativePath=".\src\ContactCache.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\ContactCache.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ContactInfo.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\ContactInfo.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Construction"

@@ -1,5 +1,8 @@
 #pragma once
 
+#include "vcclr.h"
+#include "ContactCache.h"
+
 using namespace Engine;
 using namespace Engine::ObjectManagement;
 using namespace System;
@@ -30,10 +33,15 @@ private:
 	btSequentialImpulseConstraintSolver* solver;
 	btDiscreteDynamicsWorld* dynamicsWorld;
 
+	gcroot<BulletScene^>* sceneRoot;
+	ContactCache contactCache;
+
 internal:
 	BulletScene(BulletSceneDefinition^ definition, UpdateTimer^ timer);
 
 	BulletFactory^ getBulletFactory();
+
+	void tickCallback(btScalar timeStep);
 
 	property btDiscreteDynamicsWorld* DynamicsWorld
 	{
