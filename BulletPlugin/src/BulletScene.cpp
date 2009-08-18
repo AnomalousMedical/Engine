@@ -68,8 +68,6 @@ debugDraw(new BulletDebugDraw())
 	dynamicsWorld->setInternalTickCallback(BulletPlugin::tickCallback, static_cast<void*>(sceneRoot));
 	setGravity(dynamicsWorld, &definition->Gravity.x);
 
-	dynamicsWorld->setDebugDrawer(debugDraw);
-
 	timer->addFixedUpdateListener(this);
 }
 
@@ -159,7 +157,9 @@ void BulletScene::drawDebug(DebugDrawingSurface^ drawingSurface)
 {
 	drawingSurface->begin(name + "BulletDebug", Engine::Renderer::DrawingType::LineList);
 	debugDraw->setDrawingSurface(drawingSurface);
+	dynamicsWorld->setDebugDrawer(debugDraw);
 	dynamicsWorld->debugDrawWorld();
+	dynamicsWorld->setDebugDrawer(0);
 	drawingSurface->end();
 }
 

@@ -15,7 +15,6 @@ public ref class ContactInfo : public PooledObject
 private:
 	btRigidBody* rbA;
 	btRigidBody* rbB;
-	List<IntPtr> contactManifolds;
 	unsigned long key;
 	ContactInfo^ previous;
 	ContactInfo^ next;
@@ -23,6 +22,8 @@ private:
 	RigidBody^ pluginBodyA;
 	RigidBody^ pluginBodyB;
 	bool firstFrame;
+	cli::array<btPersistentManifold*>^ manifoldArray;
+	int numManifolds;
 
 internal:
 	property btRigidBody* RbA

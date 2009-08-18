@@ -14,7 +14,9 @@ previous(nullptr),
 next(nullptr),
 pluginBodyA(nullptr),
 pluginBodyB(nullptr),
-firstFrame(true)
+firstFrame(true),
+manifoldArray(gcnew cli::array<btPersistentManifold*>(10)),
+numManifolds(0)
 {
 
 }
@@ -23,18 +25,18 @@ void ContactInfo::reset()
 {
 	rbA = 0;
 	rbB = 0;
-	contactManifolds.Clear();
 	next = nullptr;
 	previous = nullptr;
 	pluginBodyA = nullptr;
 	pluginBodyB = nullptr;
 	firstFrame = true;
+	numManifolds = 0;
 }
 
 void ContactInfo::process()
 {
 	//finished
-	if(contactManifolds.Count == 0)
+	if(numManifolds == 0)
 	{
 		pluginBodyA->fireContactEnded(this, pluginBodyB, true);
 		pluginBodyB->fireContactEnded(this, pluginBodyA, false);
@@ -53,7 +55,7 @@ void ContactInfo::process()
 			pluginBodyA->fireContactContinues(this, pluginBodyB, true);
 			pluginBodyB->fireContactContinues(this, pluginBodyA, false);
 		}
-		contactManifolds.Clear();
+		numManifolds = 0;
 	}
 }
 
@@ -120,7 +122,24 @@ void ContactInfo::add(ContactInfo^ info)
 
 void ContactInfo::addManifold(btPersistentManifold* manifold)
 {
-	contactManifolds.Add(IntPtr(manifold));
+	if(numManifolds < manifoldArray->Length)
+	{	
+		bool add = false;
+		int numPoints = manifold->getNumContacts();
+		for(int i = 0; i < numPoints; ++i)
+		{
+			btManifoldPoint& pt = manifold->getContactPoint(i);
+			if(pt.getDistance() < 0.0f)
+			{
+				add = true;
+				break;
+			}
+		}
+		if(add)
+		{
+			manifoldArray[numManifolds++] = manifold;
+		}
+	}
 }
 
 
