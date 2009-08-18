@@ -37,7 +37,7 @@ void ContactInfo::process()
 	if(contactManifolds.Count == 0)
 	{
 		pluginBodyA->fireContactEnded(this, pluginBodyB, true);
-		pluginBodyA->fireContactEnded(this, pluginBodyA, false);
+		pluginBodyB->fireContactEnded(this, pluginBodyA, false);
 		cache->queueRemoval(this);
 	}
 	else
@@ -45,13 +45,13 @@ void ContactInfo::process()
 		if(firstFrame)
 		{
 			pluginBodyA->fireContactStarted(this, pluginBodyB, true);
-			pluginBodyA->fireContactStarted(this, pluginBodyA, false);
+			pluginBodyB->fireContactStarted(this, pluginBodyA, false);
 			firstFrame = false;
 		}
 		else
 		{
 			pluginBodyA->fireContactContinues(this, pluginBodyB, true);
-			pluginBodyA->fireContactContinues(this, pluginBodyA, false);
+			pluginBodyB->fireContactContinues(this, pluginBodyA, false);
 		}
 		contactManifolds.Clear();
 	}
