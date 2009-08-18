@@ -8,8 +8,9 @@ namespace BulletPlugin
 {
 
 ref class ContactCache;
+ref class RigidBody;
 
-ref class ContactInfo : public PooledObject
+public ref class ContactInfo : public PooledObject
 {
 private:
 	btRigidBody* rbA;
@@ -19,6 +20,9 @@ private:
 	ContactInfo^ previous;
 	ContactInfo^ next;
 	ContactCache^ cache;
+	RigidBody^ pluginBodyA;
+	RigidBody^ pluginBodyB;
+	bool firstFrame;
 
 internal:
 	property btRigidBody* RbA
@@ -27,10 +31,7 @@ internal:
 		{
 			return rbA;
 		}
-		void set(btRigidBody* value)
-		{
-			rbA = value;
-		}
+		void set(btRigidBody* value);
 	}
 
 	property btRigidBody* RbB
@@ -39,10 +40,7 @@ internal:
 		{
 			return rbB;
 		}
-		void set(btRigidBody* value)
-		{
-			rbB = value;
-		}
+		void set(btRigidBody* value);
 	}
 
 	property unsigned long Key
@@ -69,6 +67,9 @@ internal:
 		}
 	}
 
+protected:
+	virtual void reset() override;
+
 internal:
 	void process();
 
@@ -83,7 +84,21 @@ internal:
 public:
 	ContactInfo(void);
 
-	virtual void reset() override;
+	property RigidBody^ RigidBodyA
+	{
+		RigidBody^ get()
+		{
+			return pluginBodyA;
+		}
+	}
+
+	property RigidBody^ RigidBodyB
+	{
+		RigidBody^ get()
+		{
+			return pluginBodyB;
+		}
+	}
 };
 
 }

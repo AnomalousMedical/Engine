@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "..\include\ContactInfo.h"
 #include "ContactCache.h"
+#include "MotionState.h"
+#include "RigidBody.h"
 
 namespace BulletPlugin
 {
@@ -9,7 +11,10 @@ ContactInfo::ContactInfo(void)
 :rbA(0),
 rbB(0),
 previous(nullptr),
-next(nullptr)
+next(nullptr),
+pluginBodyA(nullptr),
+pluginBodyB(nullptr),
+firstFrame(true)
 {
 
 }
@@ -21,6 +26,9 @@ void ContactInfo::reset()
 	contactManifolds.Clear();
 	next = nullptr;
 	previous = nullptr;
+	pluginBodyA = nullptr;
+	pluginBodyB = nullptr;
+	firstFrame = true;
 }
 
 void ContactInfo::process()
@@ -28,14 +36,23 @@ void ContactInfo::process()
 	//finished
 	if(contactManifolds.Count == 0)
 	{
+		pluginBodyA->fireContactEnded(this, pluginBodyB, true);
+		pluginBodyA->fireContactEnded(this, pluginBodyA, false);
 		cache->queueRemoval(this);
 	}
 	else
 	{
-		/*MotionState* msA = static_cast<MotionState*>(btRbA->getMotionState());
-	MotionState* msB = static_cast<MotionState*>(btRbB->getMotionState());
-	RigidBody^ rbA = msA->getRigidBody();
-	RigidBody^ rbB = msB->getRigidBody();*/
+		if(firstFrame)
+		{
+			pluginBodyA->fireContactStarted(this, pluginBodyB, true);
+			pluginBodyA->fireContactStarted(this, pluginBodyA, false);
+			firstFrame = false;
+		}
+		else
+		{
+			pluginBodyA->fireContactContinues(this, pluginBodyB, true);
+			pluginBodyA->fireContactContinues(this, pluginBodyA, false);
+		}
 		contactManifolds.Clear();
 	}
 }
@@ -104,6 +121,21 @@ void ContactInfo::add(ContactInfo^ info)
 void ContactInfo::addManifold(btPersistentManifold* manifold)
 {
 	contactManifolds.Add(IntPtr(manifold));
+}
+
+
+void ContactInfo::RbA::set(btRigidBody* value)
+{
+	rbA = value;
+	MotionState* ms = static_cast<MotionState*>(value->getMotionState());
+	pluginBodyA = ms->getRigidBody();
+}
+
+void ContactInfo::RbB::set(btRigidBody* value)
+{
+	rbB = value;
+	MotionState* ms = static_cast<MotionState*>(value->getMotionState());
+	pluginBodyB = ms->getRigidBody();
 }
 
 }

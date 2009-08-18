@@ -10,6 +10,16 @@ namespace BulletPlugin
 class MotionState;
 ref class RigidBodyDefinition;
 ref class BulletScene;
+ref class ContactInfo;
+ref class RigidBody;
+
+/// <summary>
+/// This is the callback for a collision event. The contact info has information
+/// about the contact, sourceBody is the body that fired the event, otherBody is
+/// the other rigid body in the collision and isBodyA indicates if the RigidBody
+/// that fired the event is rigidBodyA in the contact info.
+/// </summary>
+public delegate void CollisionCallback(ContactInfo^ contact, RigidBody^ sourceBody, RigidBody^ otherBody, bool isBodyA);
 
 [Engine::Attributes::NativeSubsystemType]
 public ref class RigidBody : public SimElement
@@ -40,7 +50,28 @@ internal:
 		}
 	}
 
+	void fireContactStarted(ContactInfo^ contact, RigidBody^ otherBody, bool isBodyA)
+	{
+		ContactStarted(contact, this, otherBody, isBodyA);
+	}
+
+	void fireContactContinues(ContactInfo^ contact, RigidBody^ otherBody, bool isBodyA)
+	{
+		ContactContinues(contact, this, otherBody, isBodyA);
+	}
+
+	void fireContactEnded(ContactInfo^ contact, RigidBody^ otherBody, bool isBodyA)
+	{
+		ContactEnded(contact, this, otherBody, isBodyA);
+	}
+
 public:
+	event CollisionCallback^ ContactStarted;
+
+	event CollisionCallback^ ContactContinues;
+
+	event CollisionCallback^ ContactEnded;
+
 	RigidBody(RigidBodyDefinition^ description, BulletScene^ scene);
 
 	virtual ~RigidBody(void);
