@@ -124,21 +124,7 @@ void ContactInfo::addManifold(btPersistentManifold* manifold)
 {
 	if(numManifolds < manifoldArray->Length)
 	{	
-		bool add = false;
-		int numPoints = manifold->getNumContacts();
-		for(int i = 0; i < numPoints; ++i)
-		{
-			btManifoldPoint& pt = manifold->getContactPoint(i);
-			if(pt.getDistance() < 0.0f)
-			{
-				add = true;
-				break;
-			}
-		}
-		if(add)
-		{
-			manifoldArray[numManifolds++] = manifold;
-		}
+		manifoldArray[numManifolds++] = manifold;
 	}
 }
 
