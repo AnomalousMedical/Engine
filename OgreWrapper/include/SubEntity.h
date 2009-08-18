@@ -30,6 +30,10 @@ public:
 	bool isVisible();
 	
 	MaterialPtr^ getMaterial();
+
+	void setCustomParameter(size_t index, Engine::Quaternion value);
+
+	Engine::Quaternion getCustomParameter(size_t index);
 };
 
 }

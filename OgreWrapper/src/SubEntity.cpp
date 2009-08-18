@@ -42,4 +42,15 @@ MaterialPtr^ SubEntity::getMaterial()
 	return MaterialManager::getInstance()->getObject(subEntity->getMaterial());
 }
 
+void SubEntity::setCustomParameter(size_t index, Engine::Quaternion value)
+{
+	subEntity->setCustomParameter(index, Ogre::Vector4(value.x, value.y, value.z, value.w));
+}
+
+Engine::Quaternion SubEntity::getCustomParameter(size_t index)
+{
+	Ogre::Vector4 value = subEntity->getCustomParameter(index);
+	return Engine::Quaternion(value.x, value.y, value.z, value.w);
+}
+
 }
