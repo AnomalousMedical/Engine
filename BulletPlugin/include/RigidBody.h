@@ -29,6 +29,7 @@ private:
 	BulletScene^ scene;
 	btRigidBody* rigidBody;
 	String^ shapeName;
+	float maxContactDistance;
 
 protected:
 	virtual void updatePositionImpl(Vector3% translation, Quaternion% rotation) override;
@@ -179,6 +180,18 @@ public:
 	void raiseCollisionFlag(CollisionFlags flag);
 
 	void clearCollisionFlag(CollisionFlags flag);
+
+	property float MaxContactDistance
+	{
+		float get()
+		{
+			return maxContactDistance;
+		}
+		void set(float value)
+		{
+			maxContactDistance = value;
+		}
+	}
 };
 
 }

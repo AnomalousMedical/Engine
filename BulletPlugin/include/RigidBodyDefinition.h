@@ -27,6 +27,7 @@ private:
 	CollisionFlags flags;
 	float hitFraction;
 	String^ shapeName;
+	float maxContactDistance;
 
 	static MemberScanner^ memberScanner = gcnew MemberScanner();
 
@@ -237,6 +238,19 @@ public:
 		void set(float value)
 		{
 			constructionInfo->m_linearDamping = value;
+		}
+	}
+
+	[Editable]
+	property float MaxContactDistance
+	{
+		float get()
+		{
+			return maxContactDistance;
+		}
+		void set(float value)
+		{
+			maxContactDistance = value;
 		}
 	}
 

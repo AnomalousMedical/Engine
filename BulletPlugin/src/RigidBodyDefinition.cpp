@@ -28,7 +28,8 @@ activationState(ActivationState::ActiveTag),
 anisotropicFriction(Vector3(1.0f, 1.0f, 1.0f)),
 deactivationTime(0.0f),
 flags(static_cast<CollisionFlags>(0)),
-hitFraction(1.0f)
+hitFraction(1.0f),
+maxContactDistance(0.0f)
 {
 	constructionInfo = createConstructionInfo();
 }
@@ -101,6 +102,10 @@ RigidBodyDefinition::RigidBodyDefinition(LoadInfo^ info)
 	Flags = info->GetValue<CollisionFlags>("Flags");
 	HitFraction = info->GetFloat("HitFraction");
 	ShapeName = info->GetString("ShapeName");
+	if(info->hasValue("MaxContactDistance"))
+	{
+		MaxContactDistance = info->GetFloat("MaxContactDistance");
+	}
 }
 
 void RigidBodyDefinition::getInfo(SaveInfo^ info)
@@ -121,6 +126,7 @@ void RigidBodyDefinition::getInfo(SaveInfo^ info)
 	info->AddValue("Flags", Flags);
 	info->AddValue("HitFraction", HitFraction);
 	info->AddValue("ShapeName", ShapeName);
+	info->AddValue("MaxContactDistance", MaxContactDistance);
 }
 //End saving
 

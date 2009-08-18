@@ -21,7 +21,9 @@ private:
 	ContactCache^ cache;
 	RigidBody^ pluginBodyA;
 	RigidBody^ pluginBodyB;
-	bool firstFrame;
+	bool dispatchStartA;	//True if RigidBodyA has gotten a ContactStarted Event
+	bool dispatchStartB;	//True if RigidBodyB has gotten a ContactStarted Event
+	float closestPoint;		//The closest contact point found this frame
 	cli::array<btPersistentManifold*>^ manifoldArray;
 	int numManifolds;
 
@@ -80,7 +82,7 @@ internal:
 
 	void add(ContactInfo^ info);
 
-	void addManifold(btPersistentManifold* manifold);
+	void addManifold(btPersistentManifold* contactManifold);
 
 public:
 	ContactInfo(void);

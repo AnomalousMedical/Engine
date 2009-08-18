@@ -14,9 +14,11 @@ previous(nullptr),
 next(nullptr),
 pluginBodyA(nullptr),
 pluginBodyB(nullptr),
-firstFrame(true),
+dispatchStartA(false),
+dispatchStartB(false),
 manifoldArray(gcnew cli::array<btPersistentManifold*>(10)),
-numManifolds(0)
+numManifolds(0),
+closestPoint(Single::MaxValue)
 {
 
 }
@@ -29,8 +31,10 @@ void ContactInfo::reset()
 	previous = nullptr;
 	pluginBodyA = nullptr;
 	pluginBodyB = nullptr;
-	firstFrame = true;
+	dispatchStartA = false;
+	dispatchStartB = false;
 	numManifolds = 0;
+	closestPoint = Single::MaxValue;
 }
 
 void ContactInfo::process()
@@ -38,25 +42,58 @@ void ContactInfo::process()
 	//finished
 	if(numManifolds == 0)
 	{
-		pluginBodyA->fireContactEnded(this, pluginBodyB, true);
-		pluginBodyB->fireContactEnded(this, pluginBodyA, false);
+		if(dispatchStartA)
+		{
+			pluginBodyA->fireContactEnded(this, pluginBodyB, true);
+		}
+		if(dispatchStartB)
+		{
+			pluginBodyB->fireContactEnded(this, pluginBodyA, false);
+		}
 		cache->queueRemoval(this);
 	}
 	else
 	{
-		if(firstFrame)
+		//Body A
+		if(closestPoint <= pluginBodyA->MaxContactDistance)
 		{
-			pluginBodyA->fireContactStarted(this, pluginBodyB, true);
-			pluginBodyB->fireContactStarted(this, pluginBodyA, false);
-			firstFrame = false;
+			if(dispatchStartA)
+			{
+				pluginBodyA->fireContactContinues(this, pluginBodyB, true);
+			}
+			else
+			{
+				pluginBodyA->fireContactStarted(this, pluginBodyB, true);
+				dispatchStartA = true;
+			}
 		}
-		else
+		else if(dispatchStartA)
 		{
-			pluginBodyA->fireContactContinues(this, pluginBodyB, true);
-			pluginBodyB->fireContactContinues(this, pluginBodyA, false);
+			pluginBodyA->fireContactEnded(this, pluginBodyB, true);
+			dispatchStartA = false;
 		}
-		numManifolds = 0;
+
+		//Body B
+		if(closestPoint <= pluginBodyB->MaxContactDistance)
+		{
+			if(dispatchStartB)
+			{
+				pluginBodyB->fireContactContinues(this, pluginBodyA, false);
+			}
+			else
+			{
+				pluginBodyB->fireContactStarted(this, pluginBodyA, false);
+				dispatchStartB = true;
+			}
+		}
+		else if(dispatchStartB)
+		{
+			pluginBodyB->fireContactEnded(this, pluginBodyA, false);
+			dispatchStartB = false;
+		}
 	}
+	numManifolds = 0;
+	closestPoint = Single::MaxValue;
 }
 
 void ContactInfo::destroy()
@@ -120,11 +157,21 @@ void ContactInfo::add(ContactInfo^ info)
 	}
 }
 
-void ContactInfo::addManifold(btPersistentManifold* manifold)
+void ContactInfo::addManifold(btPersistentManifold* contactManifold)
 {
 	if(numManifolds < manifoldArray->Length)
 	{	
-		manifoldArray[numManifolds++] = manifold;
+		int numPoints = contactManifold->getNumContacts();
+		for(int i = 0; i < numPoints; ++i)
+		{
+			btManifoldPoint& pt = contactManifold->getContactPoint(i);
+			float dis = pt.getDistance();
+			if(dis < closestPoint)
+			{
+				closestPoint = dis;
+			}
+		}
+		manifoldArray[numManifolds++] = contactManifold;
 	}
 }
 
