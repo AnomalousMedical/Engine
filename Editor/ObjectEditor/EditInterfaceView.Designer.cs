@@ -34,6 +34,7 @@
             // objectsTree
             // 
             this.objectsTree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.objectsTree.HideSelection = false;
             this.objectsTree.Location = new System.Drawing.Point(0, 0);
             this.objectsTree.Name = "objectsTree";
             this.objectsTree.Size = new System.Drawing.Size(213, 429);

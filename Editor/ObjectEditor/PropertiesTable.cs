@@ -148,6 +148,7 @@ namespace Editor
             {
                 var.setValueStr(e.ColumnIndex, propGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].EditedFormattedValue.ToString());
                 changesMade = true;
+                updateData();
             }
         }
 
@@ -199,6 +200,21 @@ namespace Editor
             editCell.Value = property;
             newRow.Cells.Add(editCell);
             propGridView.Rows.Add(newRow);
+        }
+
+        private void updateData()
+        {
+            foreach (DataGridViewRow row in propGridView.Rows)
+            {
+                EditableProperty var = (EditableProperty)row.Cells[editColumnIndex].Value;
+                if (var != null)
+                {
+                    for (int i = 0; i < currentPropInfo.getNumColumns(); i++)
+                    {
+                        row.Cells[i].Value = var.getValue(i);
+                    }
+                }
+            }
         }
 
         private DataGridViewCell createCell(Type propType)
