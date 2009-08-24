@@ -139,4 +139,9 @@ Quaternion Generic6DofConstraintElement::getFrameOffsetBasisB()
 	return quat;
 }
 
+void Generic6DofConstraintElement::setLimit(int axis, float lo, float hi)
+{
+	dof->setLimit(axis, lo, hi);
+}
+
 }

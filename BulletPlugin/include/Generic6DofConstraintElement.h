@@ -44,6 +44,8 @@ public:
 	Vector3 getFrameOffsetOriginB();
 
 	Quaternion getFrameOffsetBasisB();
+
+	void setLimit(int axis, float lo, float hi);
 };
 
 }
