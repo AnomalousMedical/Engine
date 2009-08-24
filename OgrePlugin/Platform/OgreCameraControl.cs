@@ -9,6 +9,12 @@ using Engine.ObjectManagement;
 namespace OgrePlugin
 {
     /// <summary>
+    /// This delegate allows subscribers to listen to Ogre camera events through this camera.
+    /// </summary>
+    /// <param name="callingCameraRender">True if the camera dispatching the event is the camera that is being rendered.</param>
+    public delegate void OgreCameraCallback(bool callingCameraRender);
+
+    /// <summary>
     /// A CameraControl class for ogre cameras.
     /// </summary>
     public class OgreCameraControl : CameraControl, IDisposable, SceneListener
@@ -179,7 +185,10 @@ namespace OgrePlugin
 
         public void postFindVisibleObjects(SceneManager sceneManager, SceneManager.IlluminationRenderStage irs, Camera camera)
         {
-            
+            if (PostFindVisibleObjects != null)
+            {
+                PostFindVisibleObjects.Invoke(this.camera == camera);
+            }
         }
 
         public void preFindVisibleObjects(SceneManager sceneManager, SceneManager.IlluminationRenderStage irs, Camera camera)
@@ -199,6 +208,10 @@ namespace OgrePlugin
                 {
                     light.setPosition(reallyFarAway);
                 }
+            }
+            if (PreFindVisibleObjects != null)
+            {
+                PreFindVisibleObjects.Invoke(this.camera == camera);
             }
         }
 
@@ -264,5 +277,9 @@ namespace OgrePlugin
                 return camera;
             }
         }
+
+        public event OgreCameraCallback PreFindVisibleObjects;
+
+        public event OgreCameraCallback PostFindVisibleObjects;
     }
 }
