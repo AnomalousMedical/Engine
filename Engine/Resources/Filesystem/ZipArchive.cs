@@ -38,6 +38,11 @@ namespace Engine.Resources
             return zipFile.listFiles(url, recursive).ToArray();
         }
 
+        public override String[] listFiles(String url, String searchPattern, bool recursive)
+        {
+            throw new NotImplementedException();
+        }
+
         public override System.IO.Stream openStream(string url, FileMode mode)
         {
             return zipFile.openFile(url);

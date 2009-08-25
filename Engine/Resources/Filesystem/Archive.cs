@@ -77,6 +77,8 @@ namespace Engine.Resources
 
         public abstract String[] listFiles(String url, bool recursive);
 
+        public abstract String[] listFiles(String url, String searchPattern, bool recursive);
+
         public abstract Stream openStream(String url, FileMode mode);
 
         public abstract Stream openStream(String url, FileMode mode, FileAccess access);

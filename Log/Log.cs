@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 
 namespace Logging
 {
@@ -158,6 +159,106 @@ namespace Logging
         public static String formatMessage(String message, String subsystem)
         {
             return String.Format("{0} [{1}]: {2}", DateTime.Now.ToString(), subsystem, message);
+        }
+
+        /// <summary>
+        /// Shortcut to send a debug message to the default log.
+        /// </summary>
+        /// <param name="message">The message to send.</param>
+        public static void Debug(String message)
+        {
+            defaultLog.sendMessage(message, LogLevel.Debug, Assembly.GetCallingAssembly().GetName().Name);
+        }
+
+        /// <summary>
+        /// Shortcut to send a deubg message to the default log. This version
+        /// formats the message with string.format.
+        /// </summary>
+        /// <param name="message">A message will be formatted.</param>
+        /// <param name="args">Additional objects to go into the formatted message string.</param>
+        public static void Debug(String message, params object[] args)
+        {
+            defaultLog.sendMessage(String.Format(message, args), LogLevel.Debug, Assembly.GetCallingAssembly().GetName().Name);
+        }
+
+        /// <summary>
+        /// Shortcut to send an error message to the default log.
+        /// </summary>
+        /// <param name="message">The message to send.</param>
+        public static void Error(String message)
+        {
+            defaultLog.sendMessage(message, LogLevel.Error, Assembly.GetCallingAssembly().GetName().Name);
+        }
+
+        /// <summary>
+        /// Shortcut to send a error message to the default log. This version
+        /// formats the message with string.format.
+        /// </summary>
+        /// <param name="message">A message will be formatted.</param>
+        /// <param name="args">Additional objects to go into the formatted message string.</param>
+        public static void Error(String message, params object[] args)
+        {
+            defaultLog.sendMessage(String.Format(message, args), LogLevel.Error, Assembly.GetCallingAssembly().GetName().Name);
+        }
+
+        /// <summary>
+        /// Shortcut to send a warning message to the default log.
+        /// </summary>
+        /// <param name="message">The message to send.</param>
+        public static void Warning(String message)
+        {
+            defaultLog.sendMessage(message, LogLevel.Warning, Assembly.GetCallingAssembly().GetName().Name);
+        }
+
+        /// <summary>
+        /// Shortcut to send a warning message to the default log. This version
+        /// formats the message with string.format.
+        /// </summary>
+        /// <param name="message">A message will be formatted.</param>
+        /// <param name="args">Additional objects to go into the formatted message string.</param>
+        public static void Warning(String message, params object[] args)
+        {
+            defaultLog.sendMessage(String.Format(message, args), LogLevel.Warning, Assembly.GetCallingAssembly().GetName().Name);
+        }
+
+        /// <summary>
+        /// Shortcut to send an Info message to the default log.
+        /// </summary>
+        /// <param name="message">The message to send.</param>
+        public static void Info(String message)
+        {
+            defaultLog.sendMessage(message, LogLevel.Info, Assembly.GetCallingAssembly().GetName().Name);
+        }
+
+        /// <summary>
+        /// Shortcut to send an Info message to the default log. This version
+        /// formats the message with string.format.
+        /// </summary>
+        /// <param name="message">A message will be formatted.</param>
+        /// <param name="args">Additional objects to go into the formatted message string.</param>
+        public static void Info(String message, params object[] args)
+        {
+            defaultLog.sendMessage(String.Format(message, args), LogLevel.Info, Assembly.GetCallingAssembly().GetName().Name);
+        }
+
+        /// <summary>
+        /// Shortcut to send an ImportantInfo message to the default log.
+        /// </summary>
+        /// <param name="message">The message to send.</param>
+        public static void ImportantInfo(String message)
+        {
+            defaultLog.sendMessage(message, LogLevel.ImportantInfo, Assembly.GetCallingAssembly().GetName().Name);
+        }
+
+        /// <summary>
+        /// Shortcut to send an ImportantInfo message to the default log. This version
+        /// formats the message with string.format.
+        /// </summary>
+        /// <param name="message">A message will be formatted.</param>
+        /// <param name="args">Additional objects to go into the formatted message string.</param>
+        public static void ImportantInfo(String message, params object[] args)
+        {
+            defaultLog.sendMessage(String.Format(message, args), LogLevel.ImportantInfo, Assembly.GetCallingAssembly().GetName().Name);
         }
     }
 }

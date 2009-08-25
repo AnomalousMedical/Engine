@@ -18,6 +18,11 @@ namespace Engine.Resources
             return Directory.GetFiles(url, "*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
         }
 
+        public override String[] listFiles(String url, String searchPattern, bool recursive)
+        {
+            return Directory.GetFiles(url, searchPattern, recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
+        }
+
         public override Stream openStream(String url, FileMode mode)
         {
             return File.Open(url, (System.IO.FileMode)mode);
