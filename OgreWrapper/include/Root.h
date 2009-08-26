@@ -4,6 +4,7 @@
 #include "SceneManagerCollection.h"
 #include "RenderTargetCollection.h"
 #include "RenderSystemCollection.h"
+#include "EmbeddedResourceArchiveFactory.h"
 
 namespace Ogre
 {
@@ -37,7 +38,8 @@ typedef System::Collections::Generic::Dictionary<System::String^, System::String
 public ref class Root
 {
 private:
-	AutoPtr<Ogre::Root> ogreRoot;
+	Ogre::Root* ogreRoot;
+	EmbeddedResourceArchiveFactory* embeddedResourceArchiveFactory;
 	static Root^ instance;
 	RenderSystemCollection renderSystems;
 	RenderSceneCollection scenes;

@@ -1301,6 +1301,34 @@
 				</File>
 			</Filter>
 		</Filter>
+		<Filter
+			Name="CustomArchives"
+			>
+			<File
+				RelativePath=".\src\EmbeddedResourceArchive.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\EmbeddedResourceArchive.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\EmbeddedResourceArchiveFactory.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\EmbeddedResourceArchiveFactory.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\OgreManagedStream.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\OgreManagedStream.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"
 			>

@@ -12,37 +12,46 @@ namespace OgreWrapper
 {
 
 Root::Root()
-:ogreRoot(new Ogre::Root())
+:ogreRoot(new Ogre::Root()),
+embeddedResourceArchiveFactory(new EmbeddedResourceArchiveFactory())
 {
 	instance = this;
+	Ogre::ArchiveManager::getSingleton().addArchiveFactory(embeddedResourceArchiveFactory);
 }
 
 Root::Root(System::String^ pluginFileName)
-:ogreRoot(new Ogre::Root(MarshalUtils::convertString(pluginFileName)))
+:ogreRoot(new Ogre::Root(MarshalUtils::convertString(pluginFileName))),
+embeddedResourceArchiveFactory(new EmbeddedResourceArchiveFactory())
 {
 	instance = this;
+	Ogre::ArchiveManager::getSingleton().addArchiveFactory(embeddedResourceArchiveFactory);
 }
 
 Root::Root(System::String^ pluginFileName, System::String^ configFileName)
-:ogreRoot(new Ogre::Root(MarshalUtils::convertString(pluginFileName), MarshalUtils::convertString(configFileName)))
+:ogreRoot(new Ogre::Root(MarshalUtils::convertString(pluginFileName), MarshalUtils::convertString(configFileName))),
+embeddedResourceArchiveFactory(new EmbeddedResourceArchiveFactory())
 {
 	instance = this;
+	Ogre::ArchiveManager::getSingleton().addArchiveFactory(embeddedResourceArchiveFactory);
 }
 
 Root::Root(System::String^ pluginFileName, System::String^ configFileName, System::String^ logFileName)
-:ogreRoot(new Ogre::Root(MarshalUtils::convertString(pluginFileName), MarshalUtils::convertString(configFileName), MarshalUtils::convertString(logFileName)))
+:ogreRoot(new Ogre::Root(MarshalUtils::convertString(pluginFileName), MarshalUtils::convertString(configFileName), MarshalUtils::convertString(logFileName))),
+embeddedResourceArchiveFactory(new EmbeddedResourceArchiveFactory())
 {
 	instance = this;
+	Ogre::ArchiveManager::getSingleton().addArchiveFactory(embeddedResourceArchiveFactory);
 }
 
 Root::~Root()
 {
-	
+	delete ogreRoot;
+	delete embeddedResourceArchiveFactory;
 }
 
 Ogre::Root* Root::getRoot()
 {
-	return ogreRoot.Get();
+	return ogreRoot;
 }
 
 void Root::saveConfig()
