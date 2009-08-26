@@ -131,7 +131,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libbulletdynamics.lib libbulletcollision.lib libbulletmath.lib $(NOINHERIT)"
+				AdditionalDependencies="libbulletdynamics.lib libbulletcollision.lib libbulletmath.lib libbulletmultithreaded.lib $(NOINHERIT)"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(BULLET_HOME)\out\release8\libs"
 				GenerateDebugInformation="true"

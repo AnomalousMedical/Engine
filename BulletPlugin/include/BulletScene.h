@@ -9,6 +9,12 @@ using namespace System;
 using namespace Engine::Platform;
 using namespace Engine::Renderer;
 
+//#define USE_PARALLEL_DISPATCHER 1
+
+#ifdef USE_PARALLEL_DISPATCHER
+class Win32ThreadSupport;
+#endif
+
 namespace BulletPlugin
 {
 
@@ -35,6 +41,10 @@ private:
 
 	gcroot<BulletScene^>* sceneRoot;
 	ContactCache contactCache;
+
+	#ifdef USE_PARALLEL_DISPATCHER
+	Win32ThreadSupport* m_threadSupportCollision;
+	#endif
 
 internal:
 	BulletScene(BulletSceneDefinition^ definition, UpdateTimer^ timer);

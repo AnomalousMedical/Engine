@@ -7,6 +7,13 @@
 #include "MotionState.h"
 #include "RigidBody.h"
 
+#ifdef USE_PARALLEL_DISPATCHER
+#include "BulletMultiThreaded/SpuGatheringCollisionDispatcher.h"
+#include "BulletMultiThreaded/PlatformDefinitions.h"
+#include "BulletMultiThreaded/Win32ThreadSupport.h"
+#include "BulletMultiThreaded/SpuNarrowPhaseCollisionTask/SpuGatheringCollisionTask.h"
+#endif
+
 namespace BulletPlugin
 {
 
@@ -60,12 +67,28 @@ debugDraw(new BulletDebugDraw())
 
 	factory = gcnew BulletFactory(this);
 	collisionConfiguration = new btDefaultCollisionConfiguration();
+
+#ifdef USE_PARALLEL_DISPATCHER
+	int maxNumOutstandingTasks = 4;
+
+	m_threadSupportCollision = new Win32ThreadSupport(Win32ThreadSupport::Win32ThreadConstructionInfo(
+								"collision",
+								processCollisionTask,
+								createCollisionLocalStoreMemory,
+								maxNumOutstandingTasks));
+
+	dispatcher = new	SpuGatheringCollisionDispatcher(m_threadSupportCollision,maxNumOutstandingTasks,collisionConfiguration);
+	
+#else
 	dispatcher = new btCollisionDispatcher(collisionConfiguration);
+#endif
 
 	overlappingPairCache = createAxisSweep(&definition->WorldAabbMin.x, &definition->WorldAabbMax.x, definition->MaxProxies);
 	solver = new btSequentialImpulseConstraintSolver;
 	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher,overlappingPairCache,solver,collisionConfiguration);
 	dynamicsWorld->setInternalTickCallback(BulletPlugin::tickCallback, static_cast<void*>(sceneRoot));
+	/*dynamicsWorld->getDispatchInfo().m_useConvexConservativeDistanceUtil = true;
+	dynamicsWorld->getDispatchInfo().m_convexConservativeDistanceThreshold = 0.01;*/
 	setGravity(dynamicsWorld, &definition->Gravity.x);
 
 	timer->addFixedUpdateListener(this);
@@ -88,6 +111,10 @@ BulletScene::~BulletScene(void)
 
 	//delete dispatcher
 	delete dispatcher;
+
+#ifdef USE_PARALLEL_DISPATCHER
+	delete m_threadSupportCollision;
+#endif
 
 	delete collisionConfiguration;
 
