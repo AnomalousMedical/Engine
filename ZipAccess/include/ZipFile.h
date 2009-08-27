@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ZipFileInfo.h"
+
 using namespace System;
 using namespace System::Collections::Generic;
 
@@ -13,10 +15,14 @@ public ref class ZipFile
 private:
 	ZZIP_DIR* zzipDir;
 	String^ file;
-	List<String^>^ files;
-	List<String^>^ directories;
+	List<ZipFileInfo^>^ files;
+	List<ZipFileInfo^>^ directories;
 
-	List<String^>^ findMatches(List<String^>^ sourceList, String^ path, String^ searchPattern, bool recursive);
+	List<ZipFileInfo^>^ findMatches(List<ZipFileInfo^>^ sourceList, String^ path, String^ searchPattern, bool recursive);
+
+	String^ wildcardToRegex(String^ wildcard);
+	String^ fixPathDir(String^ path);
+	String^ fixPathFile(String^ path);
 
 public:
 	ZipFile(String^ filename);
@@ -25,15 +31,17 @@ public:
 
 	ZipStream^ openFile(String^ filename);
 
-	List<String^>^ listFiles(String^ path, bool recursive);
+	List<ZipFileInfo^>^ listFiles(String^ path, bool recursive);
 
-	List<String^>^ listFiles(String^ path, String^ searchPattern, bool recursive);
+	List<ZipFileInfo^>^ listFiles(String^ path, String^ searchPattern, bool recursive);
 
-	List<String^>^ listDirectories(String^ path, bool recursive);
+	List<ZipFileInfo^>^ listDirectories(String^ path, bool recursive);
 
-	List<String^>^ listDirectories(String^ path, String^ searchPattern, bool recursive);
+	List<ZipFileInfo^>^ listDirectories(String^ path, String^ searchPattern, bool recursive);
 
 	bool exists(String^ filename);
+
+	ZipFileInfo^ getFileInfo(String^ filename);
 };
 
 }

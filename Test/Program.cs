@@ -27,36 +27,36 @@ namespace Test
                 //ZipFile zipFile = new ZipFile())
                 using (ZipFile zipFile = new ZipFile("TestZip.zip"))
                 {
-                    List<String> files;
+                    List<ZipFileInfo> files;
                     Console.WriteLine("Root folder recursive");
                     files = zipFile.listFiles("", true);
-                    foreach (String file in files)
+                    foreach (ZipFileInfo file in files)
                     {
-                        Console.WriteLine(file);
+                        Console.WriteLine(file.FullName);
                     }
                     Console.WriteLine("");
 
                     Console.WriteLine("Root folder nonrecursive");
                     files = zipFile.listFiles("", false);
-                    foreach (String file in files)
+                    foreach (ZipFileInfo file in files)
                     {
-                        Console.WriteLine(file);
+                        Console.WriteLine(file.FullName);
                     }
                     Console.WriteLine("");
 
                     Console.WriteLine("Folder folder recursive");
                     files = zipFile.listFiles("folder", true);
-                    foreach (String file in files)
+                    foreach (ZipFileInfo file in files)
                     {
-                        Console.WriteLine(file);
+                        Console.WriteLine(file.FullName);
                     }
                     Console.WriteLine("");
 
                     Console.WriteLine("Folder folder nonrecursive");
                     files = zipFile.listFiles("folder", false);
-                    foreach (String file in files)
+                    foreach (ZipFileInfo file in files)
                     {
-                        Console.WriteLine(file);
+                        Console.WriteLine(file.FullName);
                     }
                     Console.WriteLine("");
 

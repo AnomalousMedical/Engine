@@ -190,6 +190,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ZipFileInfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ZipFileInfo.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\ZipIOException.cpp"
 				>
 			</File>

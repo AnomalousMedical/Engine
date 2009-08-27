@@ -18,7 +18,7 @@ namespace Engine.Resources
 
         public ZipArchive(String filename)
         {
-            zipFile = new ZipFile(filename);
+            zipFile = new ZipFile(parseZipName(filename));
         }
 
         public override void Dispose()
@@ -32,45 +32,51 @@ namespace Engine.Resources
 
         public override string[] listFiles(string url, bool recursive)
         {
-            return zipFile.listFiles(parseURL(url), recursive).ToArray();
+            return getArray(zipFile.listFiles(parseURLInZip(url), recursive));
         }
 
         public override String[] listFiles(String url, String searchPattern, bool recursive)
         {
-            return zipFile.listFiles(parseURL(url), searchPattern, recursive).ToArray();
+            return getArray(zipFile.listFiles(parseURLInZip(url), searchPattern, recursive));
         }
 
         public override String[] listDirectories(String url, bool recursive)
         {
-            return zipFile.listDirectories(parseURL(url), recursive).ToArray();
+            return getArray(zipFile.listDirectories(parseURLInZip(url), recursive));
         }
 
         public override String[] listDirectories(String url, String searchPattern, bool recursive)
         {
-            return zipFile.listDirectories(parseURL(url), searchPattern, recursive).ToArray();
+            return getArray(zipFile.listDirectories(parseURLInZip(url), searchPattern, recursive));
         }
 
         public override System.IO.Stream openStream(string url, FileMode mode)
         {
-            return zipFile.openFile(url);
+            return zipFile.openFile(parseURLInZip(url));
         }
 
         public override System.IO.Stream openStream(string url, FileMode mode, FileAccess access)
         {
-            return zipFile.openFile(url);
+            return zipFile.openFile(parseURLInZip(url));
         }
 
         public override bool isDirectory(string url)
         {
-            return !url.Contains(".") || url.EndsWith(".zip");
+            ZipFileInfo info = zipFile.getFileInfo(parseURLInZip(url));
+            return info != null && info.IsDirectory;
         }
 
         public override bool exists(String filename)
         {
-            return zipFile.exists(filename);
+            return zipFile.exists(parseURLInZip(filename));
         }
 
-        private String parseURL(String url)
+        public override ArchiveFileInfo getFileInfo(String filename)
+        {
+            return new ZipArchiveFileInfo(zipFile.getFileInfo(parseURLInZip(filename)));
+        }
+
+        private String parseURLInZip(String url)
         {
             String searchDirectory = url;
             if (url.Contains(".zip"))
@@ -92,12 +98,39 @@ namespace Engine.Resources
                     }
                 }
             }
-            return url;
+            return searchDirectory;
         }
 
-        public override ArchiveFileInfo getFileInfo(String filename)
+        private String parseZipName(String url)
         {
-            throw new NotImplementedException();
+            String searchDirectory = url;
+            if (url.Contains(".zip"))
+            {
+                if (url.EndsWith(".zip"))
+                {
+                    searchDirectory = url;
+                }
+                else
+                {
+                    String[] split = url.Split(splitPattern, StringSplitOptions.None);
+                    if (split.Length > 0)
+                    {
+                        searchDirectory = split[0] + ".zip";
+                    }
+                }
+            }
+            return searchDirectory;
+        }
+
+        private String[] getArray(List<ZipFileInfo> zipFiles)
+        {
+            String[] ret = new String[zipFiles.Count];
+            int i = 0;
+            foreach (ZipFileInfo info in zipFiles)
+            {
+                ret[i++] = info.FullName;
+            }
+            return ret;
         }
     }
 }

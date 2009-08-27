@@ -11,7 +11,8 @@ namespace ZipAccess
 
 ZipFile::ZipFile(String^ filename)
 :zzipDir(0),
-files(gcnew List<String^>())
+files(gcnew List<ZipFileInfo^>()),
+directories(gcnew List<ZipFileInfo^>())
 {
 	file = filename;
 	if (!zzipDir)
@@ -51,14 +52,15 @@ files(gcnew List<String^>())
         while (zzip_dir_read(zzipDir, &zzipEntry))
         {
 			String^ entryName = convertString(zzipEntry.d_name);
+			ZipFileInfo^ fileInfo = gcnew ZipFileInfo(entryName, zzipEntry.d_csize, zzipEntry.st_size);
 			//Make sure we don't end with a /
-			if(!entryName->EndsWith("/"))
+			if(fileInfo->IsDirectory)
 			{
-				files->Add(entryName);
+				directories->Add(fileInfo);
 			}
 			else
 			{
-				directories->Add(entryName);
+				files->Add(fileInfo);
 			}
 		}
     }
@@ -75,7 +77,7 @@ ZipFile::~ZipFile(void)
 
 ZipStream^ ZipFile::openFile(String^ filename)
 {
-	std::string cFile = convertString(filename);
+	std::string cFile = convertString(fixPathFile(filename));
 	//Get uncompressed size
 	ZZIP_STAT zstat;
 	zzip_dir_stat(zzipDir, cFile.c_str(), &zstat, ZZIP_CASEINSENSITIVE);
@@ -92,54 +94,76 @@ ZipStream^ ZipFile::openFile(String^ filename)
 	}
 }
 
-List<String^>^ ZipFile::listFiles(String^ path, bool recursive)
+List<ZipFileInfo^>^ ZipFile::listFiles(String^ path, bool recursive)
 {
 	return findMatches(files, path, "*", recursive);
 }
 
-List<String^>^ ZipFile::listFiles(String^ path, String^ searchPattern, bool recursive)
+List<ZipFileInfo^>^ ZipFile::listFiles(String^ path, String^ searchPattern, bool recursive)
 {
 	return findMatches(files, path, searchPattern, recursive);
 }
 
-List<String^>^ ZipFile::listDirectories(String^ path, bool recursive)
+List<ZipFileInfo^>^ ZipFile::listDirectories(String^ path, bool recursive)
 {
 	return findMatches(directories, path, "*", recursive);
 }
 
-List<String^>^ ZipFile::listDirectories(String^ path, String^ searchPattern, bool recursive)
+List<ZipFileInfo^>^ ZipFile::listDirectories(String^ path, String^ searchPattern, bool recursive)
 {
 	return findMatches(directories, path, searchPattern, recursive);
 }
 
 bool ZipFile::exists(String^ filename)
 {
-	std::string cFile = convertString(filename);
+	std::string cFile = convertString(fixPathFile(filename));
 	ZZIP_STAT zstat;
 	int res = zzip_dir_stat(zzipDir, cFile.c_str(), &zstat, ZZIP_CASEINSENSITIVE);
 	return (res == ZZIP_NO_ERROR);
 }
 
-List<String^>^ ZipFile::findMatches(List<String^>^ sourceList, String^ path, String^ searchPattern, bool recursive)
+ZipFileInfo^ ZipFile::getFileInfo(String^ filename)
 {
-	Regex^ r = gcnew Regex(searchPattern);
-	path->Replace('\\', '/');
-	bool matchBaseDir = (path == "" || path == "/");
-	if(!matchBaseDir && !path->EndsWith("/"))
+	String^ fixedFileName = fixPathFile(filename);
+	for each(ZipFileInfo^ file in files)
 	{
-		path += "/";
+		if(file->FullName == fixedFileName)
+		{
+			return file;
+		}
+	}
+	fixedFileName = fixPathDir(filename);
+	for each(ZipFileInfo^ file in directories)
+	{
+		if(file->FullName == fixedFileName)
+		{
+			return file;
+		}
+	}
+	return nullptr;
+}
+
+List<ZipFileInfo^>^ ZipFile::findMatches(List<ZipFileInfo^>^ sourceList, String^ path, String^ searchPattern, bool recursive)
+{
+	bool matchAll = searchPattern == "*";
+	searchPattern = wildcardToRegex(searchPattern);
+	Regex^ r = gcnew Regex(searchPattern);
+	bool matchBaseDir = (path == "" || path == "/");
+	if(!matchBaseDir)
+	{
+		path = fixPathDir(path);
 	}
 
-	List<String^>^ files = gcnew List<String^>();
+	List<ZipFileInfo^>^ files = gcnew List<ZipFileInfo^>();
 	//recursive
 	if(recursive)
 	{
 		//looking in root folder
 		if(matchBaseDir)
 		{
-			for each(String^ file in sourceList)
+			for each(ZipFileInfo^ file in sourceList)
 			{
-				if(r->Match(file)->Success)
+				if(matchAll || r->Match(file->FullName)->Success)
 				{
 					files->Add(file);
 				}
@@ -148,9 +172,14 @@ List<String^>^ ZipFile::findMatches(List<String^>^ sourceList, String^ path, Str
 		//looking in a specific folder
 		else
 		{
-			for each(String^ file in sourceList)
+			for each(ZipFileInfo^ file in sourceList)
 			{
-				if(file->Contains(path) && r->Match(file)->Success)
+				if(file->FullName->Contains("shaders"))
+				{
+					Console::WriteLine("woot");
+				}
+				Match^ fuck = r->Match(file->FullName);
+				if(file->FullName->Contains(path) && (matchAll || fuck->Success))
 				{
 					files->Add(file);
 				}
@@ -163,9 +192,9 @@ List<String^>^ ZipFile::findMatches(List<String^>^ sourceList, String^ path, Str
 		//looking in root folder
 		if(matchBaseDir)
 		{
-			for each(String^ file in sourceList)
+			for each(ZipFileInfo^ file in sourceList)
 			{
-				if(!file->Contains("/") && r->Match(file)->Success)
+				if(!file->FullName->Contains("/") && (matchAll || r->Match(file->FullName)->Success))
 				{
 					files->Add(file);
 				}
@@ -174,11 +203,11 @@ List<String^>^ ZipFile::findMatches(List<String^>^ sourceList, String^ path, Str
 		//looking in specific folder
 		else
 		{
-			for each(String^ file in sourceList)
+			for each(ZipFileInfo^ file in sourceList)
 			{
-				if(file->Contains(path) && r->Match(file)->Success)
+				if(file->FullName->Contains(path) && (matchAll || r->Match(file->FullName)->Success))
 				{
-					String^ cut = file->Replace(path, "");
+					String^ cut = file->FullName->Replace(path, "");
 					if(!cut->Contains("/"))
 					{
 						files->Add(file);
@@ -189,5 +218,57 @@ List<String^>^ ZipFile::findMatches(List<String^>^ sourceList, String^ path, Str
 	}
 	return files;
 }
+
+String^ ZipFile::wildcardToRegex(String^ wildcard)
+{
+	String^ expression = "^";
+	for(int i = 0; i < wildcard->Length; i++)
+	{
+		switch(wildcard[i])
+		{
+			case '?':
+				expression += '.'; // regular expression notation.
+				//mIsWild = true;
+				break;
+			case '*':
+				expression += ".*";
+				//mIsWild = true;
+				break;
+			case '.':
+				expression += "\\";
+				expression += wildcard[i];
+				break;
+			case ';':
+				expression += "|";
+				//mIsWild = true;
+				break;
+			default:
+				expression += wildcard[i];
+				break;
+		}
+	}
+	return expression;
+}
+
+String^ ZipFile::fixPathFile(String^ path)
+{
+	path = path->Replace('\\', '/');
+	if(path->StartsWith("/"))
+	{
+		path = path->Substring(1);
+	}
+	return path;
+}
+
+String^ ZipFile::fixPathDir(String^ path)
+{
+	path = fixPathFile(path);
+	if(!path->EndsWith("/"))
+	{
+		path += "/";
+	}
+	return path;
+}
+
 
 }
