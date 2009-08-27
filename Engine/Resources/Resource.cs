@@ -17,6 +17,7 @@ namespace Engine.Resources
     {
 	    FileSystem = 0,
 	    ZipArchive = 1,
+        EngineArchive = 2,
     };
 
     /// <summary>
@@ -181,7 +182,7 @@ namespace Engine.Resources
 	    {
 		    get
             {
-                return type;
+                return ResourceType.EngineArchive;
             }
 		    set
             {

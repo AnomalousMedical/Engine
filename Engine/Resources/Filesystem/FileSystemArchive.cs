@@ -23,6 +23,16 @@ namespace Engine.Resources
             return Directory.GetFiles(url, searchPattern, recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
         }
 
+        public override String[] listDirectories(String url, bool recursive)
+        {
+            return Directory.GetDirectories(url, "*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
+        }
+
+        public override String[] listDirectories(String url, String searchPattern, bool recursive)
+        {
+            return Directory.GetDirectories(url, searchPattern, recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
+        }
+
         public override Stream openStream(String url, FileMode mode)
         {
             return File.Open(url, (System.IO.FileMode)mode);
@@ -37,6 +47,16 @@ namespace Engine.Resources
         {
             FileAttributes attr = File.GetAttributes(url);
             return (attr & FileAttributes.Directory) == FileAttributes.Directory;
+        }
+
+        public override bool exists(String filename)
+        {
+            return File.Exists(filename);
+        }
+
+        public override ArchiveFileInfo getFileInfo(String filename)
+        {
+            return new FileSystemFileInfo(filename);
         }
     }
 }

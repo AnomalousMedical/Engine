@@ -193,6 +193,10 @@
 			ReferencedProjectIdentifier="{78048C06-61EF-4C15-8013-C1EC999413D5}"
 			RelativePathToProject=".\Log\Log.csproj"
 		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{57C253F1-157F-4A6A-9FED-345A776B97D5}"
+			RelativePathToProject=".\Engine\Engine.csproj"
+		/>
 	</References>
 	<Files>
 		<Filter
@@ -1304,30 +1308,54 @@
 		<Filter
 			Name="CustomArchives"
 			>
-			<File
-				RelativePath=".\src\EmbeddedResourceArchive.cpp"
+			<Filter
+				Name="Embedded"
 				>
-			</File>
-			<File
-				RelativePath=".\include\EmbeddedResourceArchive.h"
+				<File
+					RelativePath=".\src\EmbeddedResourceArchive.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\EmbeddedResourceArchive.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\EmbeddedResourceArchiveFactory.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\EmbeddedResourceArchiveFactory.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\OgreManagedStream.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\OgreManagedStream.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="EngineArchive"
 				>
-			</File>
-			<File
-				RelativePath=".\src\EmbeddedResourceArchiveFactory.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\EmbeddedResourceArchiveFactory.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\OgreManagedStream.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\OgreManagedStream.h"
-				>
-			</File>
+				<File
+					RelativePath=".\src\OgreEngineArchive.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\OgreEngineArchive.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\OgreEngineArchiveFactory.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\OgreEngineArchiveFactory.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"

@@ -79,10 +79,18 @@ namespace Engine.Resources
 
         public abstract String[] listFiles(String url, String searchPattern, bool recursive);
 
+        public abstract String[] listDirectories(String url, bool recursive);
+
+        public abstract String[] listDirectories(String url, String searchPattern, bool recursive);
+
         public abstract Stream openStream(String url, FileMode mode);
 
         public abstract Stream openStream(String url, FileMode mode, FileAccess access);
 
         public abstract bool isDirectory(String url);
+
+        public abstract bool exists(String filename);
+
+        public abstract ArchiveFileInfo getFileInfo(String filename);
     }
 }

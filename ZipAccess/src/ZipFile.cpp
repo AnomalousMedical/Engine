@@ -4,6 +4,7 @@
 #include "ZipIOException.h"
 
 using namespace System::IO;
+using namespace System::Text::RegularExpressions;
 
 namespace ZipAccess
 {
@@ -55,6 +56,10 @@ files(gcnew List<String^>())
 			{
 				files->Add(entryName);
 			}
+			else
+			{
+				directories->Add(entryName);
+			}
 		}
     }
 }
@@ -89,6 +94,35 @@ ZipStream^ ZipFile::openFile(String^ filename)
 
 List<String^>^ ZipFile::listFiles(String^ path, bool recursive)
 {
+	return findMatches(files, path, "*", recursive);
+}
+
+List<String^>^ ZipFile::listFiles(String^ path, String^ searchPattern, bool recursive)
+{
+	return findMatches(files, path, searchPattern, recursive);
+}
+
+List<String^>^ ZipFile::listDirectories(String^ path, bool recursive)
+{
+	return findMatches(directories, path, "*", recursive);
+}
+
+List<String^>^ ZipFile::listDirectories(String^ path, String^ searchPattern, bool recursive)
+{
+	return findMatches(directories, path, searchPattern, recursive);
+}
+
+bool ZipFile::exists(String^ filename)
+{
+	std::string cFile = convertString(filename);
+	ZZIP_STAT zstat;
+	int res = zzip_dir_stat(zzipDir, cFile.c_str(), &zstat, ZZIP_CASEINSENSITIVE);
+	return (res == ZZIP_NO_ERROR);
+}
+
+List<String^>^ ZipFile::findMatches(List<String^>^ sourceList, String^ path, String^ searchPattern, bool recursive)
+{
+	Regex^ r = gcnew Regex(searchPattern);
 	path->Replace('\\', '/');
 	bool matchBaseDir = (path == "" || path == "/");
 	if(!matchBaseDir && !path->EndsWith("/"))
@@ -97,40 +131,52 @@ List<String^>^ ZipFile::listFiles(String^ path, bool recursive)
 	}
 
 	List<String^>^ files = gcnew List<String^>();
+	//recursive
 	if(recursive)
 	{
+		//looking in root folder
 		if(matchBaseDir)
 		{
-			files->AddRange(this->files);
+			for each(String^ file in sourceList)
+			{
+				if(r->Match(file)->Success)
+				{
+					files->Add(file);
+				}
+			}
 		}
+		//looking in a specific folder
 		else
 		{
-			for each(String^ file in this->files)
+			for each(String^ file in sourceList)
 			{
-				if(file->Contains(path))
+				if(file->Contains(path) && r->Match(file)->Success)
 				{
 					files->Add(file);
 				}
 			}
 		}
 	}
+	//Non recursive
 	else
 	{
+		//looking in root folder
 		if(matchBaseDir)
 		{
-			for each(String^ file in this->files)
+			for each(String^ file in sourceList)
 			{
-				if(!file->Contains("/"))
+				if(!file->Contains("/") && r->Match(file)->Success)
 				{
 					files->Add(file);
 				}
 			}
 		}
+		//looking in specific folder
 		else
 		{
-			for each(String^ file in this->files)
+			for each(String^ file in sourceList)
 			{
-				if(file->Contains(path))
+				if(file->Contains(path) && r->Match(file)->Success)
 				{
 					String^ cut = file->Replace(path, "");
 					if(!cut->Contains("/"))

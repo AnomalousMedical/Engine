@@ -5,6 +5,7 @@
 #include "RenderTargetCollection.h"
 #include "RenderSystemCollection.h"
 #include "EmbeddedResourceArchiveFactory.h"
+#include "OgreEngineArchiveFactory.h"
 
 namespace Ogre
 {
@@ -40,6 +41,7 @@ public ref class Root
 private:
 	Ogre::Root* ogreRoot;
 	EmbeddedResourceArchiveFactory* embeddedResourceArchiveFactory;
+	OgreEngineArchiveFactory* engineArchive;
 	static Root^ instance;
 	RenderSystemCollection renderSystems;
 	RenderSceneCollection scenes;

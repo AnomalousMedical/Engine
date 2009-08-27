@@ -36,6 +36,9 @@ namespace OgrePlugin
 		        case ResourceType.ZipArchive:
 			        resourceType = "Zip";
 			        break;
+                case ResourceType.EngineArchive:
+                    resourceType = "EngineArchive";
+                    break;
 		        default:
 			        resourceType = "FileSystem";
 			        break;

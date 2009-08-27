@@ -39,6 +39,7 @@ void EmbeddedResourceArchive::load()
 void EmbeddedResourceArchive::unload()
 {
 	assembly = nullptr;
+	mFileList.clear();
 }
 
 Ogre::DataStreamPtr EmbeddedResourceArchive::open(const Ogre::String& filename) const
