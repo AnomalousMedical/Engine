@@ -18,7 +18,16 @@ namespace Engine.Resources
 
         public ZipArchive(String filename)
         {
-            zipFile = new ZipFile(parseZipName(filename));
+            String zipName = parseZipName(filename);
+            String subDir = parseURLInZip(filename);
+            if (subDir == "")
+            {
+                zipFile = new ZipFile(zipName);
+            }
+            else
+            {
+                zipFile = new ZipFile(zipName, subDir);
+            }
         }
 
         public override void Dispose()

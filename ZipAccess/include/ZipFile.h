@@ -15,6 +15,7 @@ public ref class ZipFile
 private:
 	ZZIP_DIR* zzipDir;
 	String^ file;
+	String^ fileFilter;
 	List<ZipFileInfo^>^ files;
 	List<ZipFileInfo^>^ directories;
 
@@ -24,8 +25,12 @@ private:
 	String^ fixPathDir(String^ path);
 	String^ fixPathFile(String^ path);
 
+	void commonLoad();
+
 public:
 	ZipFile(String^ filename);
+
+	ZipFile(String^ filename, String^ fileFilter);
 
 	virtual ~ZipFile(void);
 

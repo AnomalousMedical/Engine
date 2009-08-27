@@ -12,46 +12,62 @@ namespace ZipAccess
 ZipFile::ZipFile(String^ filename)
 :zzipDir(0),
 files(gcnew List<ZipFileInfo^>()),
-directories(gcnew List<ZipFileInfo^>())
+directories(gcnew List<ZipFileInfo^>()),
+file(filename),
+fileFilter(nullptr)
 {
-	file = filename;
-	if (!zzipDir)
-    {
-        zzip_error_t zzipError;
-		std::string mName = convertString(filename);
-        zzipDir = zzip_dir_open(mName.c_str(), &zzipError);
-		if(zzipError != ZZIP_NO_ERROR)
-		{
-			System::String^ errorMessage;
-			switch (zzipError)
-			{
-				case ZZIP_OUTOFMEM:
-					errorMessage = "Out of memory";
-					break;            
-				case ZZIP_DIR_OPEN:
-				case ZZIP_DIR_STAT: 
-				case ZZIP_DIR_SEEK:
-				case ZZIP_DIR_READ:
-					errorMessage = "Unable to read zip file";
-					break;           
-				case ZZIP_UNSUPP_COMPR:
-					errorMessage = "Unsupported compression format";
-					break;            
-				case ZZIP_CORRUPTED:
-					errorMessage = "Archive corrupted";
-					break;            
-				default:
-					errorMessage = "Unknown ZZIP error number";
-					break;            
-			};
-			throw gcnew ZipIOException("Could not open zip file {0} because of {1}", filename, errorMessage);
-		}
+	commonLoad();
+}
 
-        //Read the directories and files out of the zip file
-        ZZIP_DIRENT zzipEntry;
-        while (zzip_dir_read(zzipDir, &zzipEntry))
-        {
-			String^ entryName = convertString(zzipEntry.d_name);
+ZipFile::ZipFile(String^ filename, String^ fileFilter)
+:zzipDir(0),
+files(gcnew List<ZipFileInfo^>()),
+directories(gcnew List<ZipFileInfo^>()),
+file(filename),
+fileFilter(fixPathDir(fileFilter))
+{
+	commonLoad();
+}
+
+void ZipFile::commonLoad()
+{
+    zzip_error_t zzipError;
+	std::string mName = convertString(file);
+    zzipDir = zzip_dir_open(mName.c_str(), &zzipError);
+	if(zzipError != ZZIP_NO_ERROR)
+	{
+		System::String^ errorMessage;
+		switch (zzipError)
+		{
+			case ZZIP_OUTOFMEM:
+				errorMessage = "Out of memory";
+				break;            
+			case ZZIP_DIR_OPEN:
+			case ZZIP_DIR_STAT: 
+			case ZZIP_DIR_SEEK:
+			case ZZIP_DIR_READ:
+				errorMessage = "Unable to read zip file";
+				break;           
+			case ZZIP_UNSUPP_COMPR:
+				errorMessage = "Unsupported compression format";
+				break;            
+			case ZZIP_CORRUPTED:
+				errorMessage = "Archive corrupted";
+				break;            
+			default:
+				errorMessage = "Unknown ZZIP error number";
+				break;            
+		};
+		throw gcnew ZipIOException("Could not open zip file {0} because of {1}", file, errorMessage);
+	}
+
+    //Read the directories and files out of the zip file
+    ZZIP_DIRENT zzipEntry;
+    while (zzip_dir_read(zzipDir, &zzipEntry))
+    {
+		String^ entryName = convertString(zzipEntry.d_name);
+		if(fileFilter == nullptr || entryName->StartsWith(fileFilter))
+		{
 			ZipFileInfo^ fileInfo = gcnew ZipFileInfo(entryName, zzipEntry.d_csize, zzipEntry.st_size);
 			//Make sure we don't end with a /
 			if(fileInfo->IsDirectory)
@@ -63,7 +79,7 @@ directories(gcnew List<ZipFileInfo^>())
 				files->Add(fileInfo);
 			}
 		}
-    }
+	}
 }
 
 ZipFile::~ZipFile(void)

@@ -16,6 +16,7 @@ using Engine.Saving;
 using Engine.Editing;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
+using System.Diagnostics;
 
 namespace Anomaly
 {
@@ -65,6 +66,8 @@ namespace Anomaly
         private MovementTool movementTool;
         private RotateTool rotateTool;
         private ToolManager toolManager;
+
+        Stopwatch stopwatch = new Stopwatch();
 
         //Serialization
         private XmlSaver xmlSaver = new XmlSaver();
@@ -283,6 +286,7 @@ namespace Anomaly
         /// <param name="filename">The filename to load.</param>
         public void loadScene(String filename)
         {
+            stopwatch.Start();
             XmlTextReader textReader = new XmlTextReader(filename);
             ScenePackage scenePackage = xmlSaver.restoreObject(textReader) as ScenePackage;
             if (scenePackage != null)
@@ -294,6 +298,9 @@ namespace Anomaly
                 MessageBox.Show(mainForm, String.Format("Could not load scene from {0}.", filename), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             textReader.Close();
+            stopwatch.Stop();
+            Log.Info("Scene loaded in {0} seconds.", stopwatch.Elapsed.TotalSeconds);
+            stopwatch.Reset();
         }
 
         /// <summary>
