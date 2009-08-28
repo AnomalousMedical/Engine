@@ -79,7 +79,7 @@ namespace Anomaly
             }
         }
 
-        public void copyResources(String targetDirectory, bool flatten)
+        public void copyResources(String targetDirectory)
         {
             int resourceRootSize = 0;
             if (Resource.ResourceRoot != null)
@@ -88,15 +88,7 @@ namespace Anomaly
             }
             foreach (FileInfo sourceFile in files)
             {
-                String trimmedSource;
-                if (flatten)
-                {
-                    trimmedSource = sourceFile.File.Substring(sourceFile.BasePath.Length);
-                }
-                else
-                {
-                    trimmedSource = sourceFile.File.Substring(resourceRootSize);
-                }
+                String trimmedSource = sourceFile.File.Substring(resourceRootSize);
                 String destination = targetDirectory + trimmedSource;
                 String directory = Path.GetDirectoryName(destination);
                 if (!Directory.Exists(directory))

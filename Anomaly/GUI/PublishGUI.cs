@@ -77,7 +77,7 @@ namespace Anomaly
                 String destination = Path.GetFullPath(outputLocationTextBox.Text);
                 if (destination.ToLower() != Path.GetFullPath(Resource.ResourceRoot).ToLower())
                 {
-                    fileList.copyResources(destination, flattenCheck.Checked);
+                    fileList.copyResources(destination);
                     MessageBox.Show(this, String.Format("Finished publishing resources to:\n{0}.", destination), "Publish Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
