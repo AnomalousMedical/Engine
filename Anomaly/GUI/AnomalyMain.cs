@@ -60,6 +60,7 @@ namespace Anomaly
         public void initialize(AnomalyController controller)
         {
             fileTracker = new FileTracker("*.sim.xml|*.sim.xml");
+            publishGUI.initialize(controller);
             this.controller = controller;
         }
 

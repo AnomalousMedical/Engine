@@ -12,14 +12,19 @@ using System.IO;
 
 namespace Anomaly
 {
-    public partial class PublishGUI : Form
+    partial class PublishGUI : Form
     {
-        private PublishController fileList = new PublishController();
+        private PublishController fileList;
         private Dictionary<String, ListViewGroup> groups = new Dictionary<string, ListViewGroup>();
 
         public PublishGUI()
         {
             InitializeComponent();
+        }
+
+        public void initialize(AnomalyController controller)
+        {
+            fileList = new PublishController(controller.AnomalyProject);
         }
 
         public void scanResources(ResourceManager resourceManager)

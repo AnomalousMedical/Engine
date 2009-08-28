@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine.Resources;
 using System.IO;
+using Engine;
 
 namespace Anomaly
 {
@@ -44,42 +45,33 @@ namespace Anomaly
     {
         //Use a dictionary to ensure that the files are unique the key is a lowercase mangled name and the value is the filename as returned.
         private HashSet<FileInfo> files = new HashSet<FileInfo>();
+        HashSet<String> recursiveDirectories = new HashSet<string>();
+        private AnomalyProject project;
 
-        public PublishController()
+        public PublishController(AnomalyProject project)
         {
-
+            this.project = project;
         }
 
         public void scanResources(ResourceManager resourceManager)
         {
             files.Clear();
-            HashSet<String> recursiveDirectories = new HashSet<string>();
+            recursiveDirectories.Clear();
             foreach (SubsystemResources subsystem in resourceManager.getSubsystemEnumerator())
             {
                 foreach (ResourceGroup group in subsystem.getResourceGroupEnumerator())
                 {
                     foreach (Resource resource in group.getResourceEnumerator())
                     {
-                        if (File.Exists(resource.FullPath))
-                        {
-                            processFile(resource.FullPath, Path.GetDirectoryName(resource.FullPath));
-                        }
-                        else if (Directory.Exists(resource.FullPath))
-                        {
-                            if (resource.Recursive)
-                            {
-                                recursiveDirectories.Add(resource.FullPath);
-                            }
-                            else
-                            {
-                                foreach (String file in Directory.GetFiles(resource.FullPath))
-                                {
-                                    processFile(file, resource.FullPath);
-                                }
-                            }
-                        }
+                        processFile(resource.FullPath, resource.Recursive);
                     }
                 }
+            }
+            ConfigIterator additionalResources = project.ResourceSection.AdditionalResources;
+            additionalResources.reset();
+            while (additionalResources.hasNext())
+            {
+                processFile(Resource.ResourceRoot + "/" + additionalResources.next(), true);
             }
             foreach (String directory in recursiveDirectories)
             {
@@ -125,7 +117,29 @@ namespace Anomaly
             return files;
         }
 
-        private void processFile(String file, String baseDir)
+        private void processFile(String url, bool recursive)
+        {
+            if (File.Exists(url))
+            {
+                addFile(url, Path.GetDirectoryName(url));
+            }
+            else if (Directory.Exists(url))
+            {
+                if (recursive)
+                {
+                    recursiveDirectories.Add(url);
+                }
+                else
+                {
+                    foreach (String file in Directory.GetFiles(url))
+                    {
+                        addFile(file, url);
+                    }
+                }
+            }
+        }
+
+        private void addFile(String file, String baseDir)
         {
             if (!file.EndsWith("~") && !file.Contains(".svn"))
             {
@@ -137,7 +151,7 @@ namespace Anomaly
         {
             foreach (String file in Directory.GetFiles(directory, "*", SearchOption.AllDirectories))
             {
-                processFile(file, directory);
+                addFile(file, directory);
             }
         }
     }

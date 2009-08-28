@@ -67,7 +67,8 @@ namespace Anomaly
         private RotateTool rotateTool;
         private ToolManager toolManager;
 
-        Stopwatch stopwatch = new Stopwatch();
+        private Stopwatch stopwatch = new Stopwatch();
+        private AnomalyProject project;
 
         //Serialization
         private XmlSaver xmlSaver = new XmlSaver();
@@ -93,6 +94,8 @@ namespace Anomaly
         /// </summary>
         public void initialize(AnomalyProject project)
         {
+            this.project = project;
+
             //Create the log.
             logListener = new LogFileListener();
             logListener.openLogFile(AnomalyConfig.DocRoot + "/log.log");
@@ -609,6 +612,14 @@ namespace Anomaly
             get
             {
                 return drawingWindowController;
+            }
+        }
+
+        public AnomalyProject AnomalyProject
+        {
+            get
+            {
+                return project;
             }
         }
 
