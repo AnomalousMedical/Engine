@@ -9,10 +9,12 @@ namespace Anomaly
     class ResourceSection
     {
         private ConfigSection resourceSection;
+        private ConfigIterator additionalResources;
 
         public ResourceSection(ConfigFile configFile)
         {
             resourceSection = configFile.createOrRetrieveConfigSection("Resources");
+            additionalResources = new ConfigIterator(resourceSection, "External");
         }
 
         public String ResourceRoot
@@ -24,6 +26,14 @@ namespace Anomaly
             set
             {
                 resourceSection.setValue("Root", value);
+            }
+        }
+
+        public ConfigIterator AdditionalResources
+        {
+            get
+            {
+                return additionalResources;
             }
         }
     }

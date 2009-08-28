@@ -108,10 +108,11 @@ namespace Anomaly
             pluginManager = new PluginManager(AnomalyConfig.ConfigFile);
             pluginManager.OnConfigureDefaultWindow = createWindow;
             DynamicDLLPluginLoader pluginLoader = new DynamicDLLPluginLoader();
-            project.PluginSection.resetPluginIterator();
-            while (project.PluginSection.hasNext())
+            ConfigIterator pluginIterator = project.PluginSection.PluginIterator;
+            pluginIterator.reset();
+            while (pluginIterator.hasNext())
             {
-                pluginLoader.addPath(project.PluginSection.nextPlugin());
+                pluginLoader.addPath(pluginIterator.next());
             }
             pluginLoader.loadPlugins(pluginManager);
             pluginManager.initializePlugins();

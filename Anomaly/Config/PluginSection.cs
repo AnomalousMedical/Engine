@@ -9,26 +9,20 @@ namespace Anomaly
     class PluginSection
     {
         private ConfigSection pluginSection;
-        private int currentPlugin = 0;
+        private ConfigIterator pluginIterator;
 
         public PluginSection(ConfigFile configFile)
         {
             pluginSection = configFile.createOrRetrieveConfigSection("Plugins");
+            pluginIterator = new ConfigIterator(pluginSection, "Plugin");
         }
 
-        public void resetPluginIterator()
+        public ConfigIterator PluginIterator
         {
-            currentPlugin = 0;
-        }
-
-        public String nextPlugin()
-        {
-            return pluginSection.getValue("Plugin" + currentPlugin++, "");
-        }
-
-        public bool hasNext()
-        {
-            return pluginSection.hasValue("Plugin" + currentPlugin);
+            get
+            {
+                return pluginIterator;
+            }
         }
     }
 }
