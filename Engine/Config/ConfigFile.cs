@@ -28,6 +28,15 @@ namespace Engine
             return sections[name];
         }
 
+        public ConfigSection createOrRetrieveConfigSection(String name, bool hidden)
+        {
+            if (!sections.ContainsKey(name))
+            {
+                sections.Add(name, new ConfigSection(name, hidden));
+            }
+            return sections[name];
+        }
+
         public void destroyConfigSection(String name)
         {
             if (sections.ContainsKey(name))

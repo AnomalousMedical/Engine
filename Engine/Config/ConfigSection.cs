@@ -11,10 +11,29 @@ namespace Engine
         private String name;
         private Dictionary<String, String> configValues = new Dictionary<string,string>();
         private String[] sep = { "=" };
+        private bool hidden = false; //Determine if this section is written to config files, note this section will not ever be hidden if it exists in a config file
 
+        /// <summary>
+        /// Default constructor. Always visible.
+        /// </summary>
+        /// <param name="name">The name of the config section.</param>
         public ConfigSection(String name)
         {
             this.name = name;
+        }
+
+        /// <summary>
+        /// Constructor. If hidden is true this file will not be written to the
+        /// config file. Please note, however, that if the hidden section is in
+        /// the config file this constructor will never be called and that
+        /// section will be written anyway.
+        /// </summary>
+        /// <param name="name">The name of the config section.</param>
+        /// <param name="hidden">If true this section will not be written to the config file.</param>
+        public ConfigSection(String name, bool hidden)
+        {
+            this.name = name;
+            this.hidden = hidden;
         }
 
         public void setValue(String name, String value)
@@ -317,10 +336,13 @@ namespace Engine
 
         internal void writeSection(StreamWriter writer)
         {
-            writer.WriteLine("[{0}]", Name);
-            foreach (String key in configValues.Keys)
+            if (!hidden)
             {
-		        writer.WriteLine("{0}{1}{2}", key, sep[0], configValues[key]);
+                writer.WriteLine("[{0}]", Name);
+                foreach (String key in configValues.Keys)
+                {
+                    writer.WriteLine("{0}{1}{2}", key, sep[0], configValues[key]);
+                }
             }
         }
 
