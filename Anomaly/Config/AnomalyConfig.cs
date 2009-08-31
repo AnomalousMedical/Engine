@@ -14,6 +14,7 @@ namespace Anomaly
     {
         private static ConfigFile configFile;
         private static String docRoot = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Anomaly";
+        private static ToolsConfig tools;
 
         static AnomalyConfig()
         {
@@ -26,6 +27,7 @@ namespace Anomaly
             //ResourceSection = new ResourceSection(configFile);
             //PluginSection = new PluginSection(configFile);
             EngineConfig = new EngineConfig(configFile);
+            tools = new ToolsConfig(configFile);
         }
 
         public static String DocRoot
@@ -52,6 +54,14 @@ namespace Anomaly
             get
             {
                 return configFile;
+            }
+        }
+
+        public static ToolsConfig Tools
+        {
+            get
+            {
+                return tools;
             }
         }
 

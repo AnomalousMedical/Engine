@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.buttonPanel = new System.Windows.Forms.Panel();
+            this.archiveNameText = new System.Windows.Forms.TextBox();
+            this.obfuscateCheckBox = new System.Windows.Forms.CheckBox();
+            this.archiveCheckBox = new System.Windows.Forms.CheckBox();
             this.browseButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.outputLocationTextBox = new System.Windows.Forms.TextBox();
@@ -41,15 +44,49 @@
             // 
             // buttonPanel
             // 
+            this.buttonPanel.Controls.Add(this.archiveNameText);
+            this.buttonPanel.Controls.Add(this.obfuscateCheckBox);
+            this.buttonPanel.Controls.Add(this.archiveCheckBox);
             this.buttonPanel.Controls.Add(this.browseButton);
             this.buttonPanel.Controls.Add(this.label1);
             this.buttonPanel.Controls.Add(this.outputLocationTextBox);
             this.buttonPanel.Controls.Add(this.publishButton);
             this.buttonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.buttonPanel.Location = new System.Drawing.Point(0, 398);
+            this.buttonPanel.Location = new System.Drawing.Point(0, 381);
             this.buttonPanel.Name = "buttonPanel";
-            this.buttonPanel.Size = new System.Drawing.Size(526, 34);
+            this.buttonPanel.Size = new System.Drawing.Size(526, 116);
             this.buttonPanel.TabIndex = 0;
+            // 
+            // archiveNameText
+            // 
+            this.archiveNameText.Location = new System.Drawing.Point(109, 37);
+            this.archiveNameText.Name = "archiveNameText";
+            this.archiveNameText.Size = new System.Drawing.Size(252, 20);
+            this.archiveNameText.TabIndex = 6;
+            // 
+            // obfuscateCheckBox
+            // 
+            this.obfuscateCheckBox.AutoSize = true;
+            this.obfuscateCheckBox.Checked = true;
+            this.obfuscateCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.obfuscateCheckBox.Location = new System.Drawing.Point(7, 63);
+            this.obfuscateCheckBox.Name = "obfuscateCheckBox";
+            this.obfuscateCheckBox.Size = new System.Drawing.Size(75, 17);
+            this.obfuscateCheckBox.TabIndex = 5;
+            this.obfuscateCheckBox.Text = "Obfuscate";
+            this.obfuscateCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // archiveCheckBox
+            // 
+            this.archiveCheckBox.AutoSize = true;
+            this.archiveCheckBox.Checked = true;
+            this.archiveCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.archiveCheckBox.Location = new System.Drawing.Point(7, 40);
+            this.archiveCheckBox.Name = "archiveCheckBox";
+            this.archiveCheckBox.Size = new System.Drawing.Size(96, 17);
+            this.archiveCheckBox.TabIndex = 4;
+            this.archiveCheckBox.Text = "Create Archive";
+            this.archiveCheckBox.UseVisualStyleBackColor = true;
             // 
             // browseButton
             // 
@@ -79,7 +116,7 @@
             // 
             // publishButton
             // 
-            this.publishButton.Location = new System.Drawing.Point(448, 6);
+            this.publishButton.Location = new System.Drawing.Point(7, 86);
             this.publishButton.Name = "publishButton";
             this.publishButton.Size = new System.Drawing.Size(75, 23);
             this.publishButton.TabIndex = 0;
@@ -94,7 +131,7 @@
             this.fileView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.fileView.Location = new System.Drawing.Point(0, 0);
             this.fileView.Name = "fileView";
-            this.fileView.Size = new System.Drawing.Size(526, 398);
+            this.fileView.Size = new System.Drawing.Size(526, 381);
             this.fileView.TabIndex = 1;
             this.fileView.UseCompatibleStateImageBehavior = false;
             this.fileView.View = System.Windows.Forms.View.Details;
@@ -107,7 +144,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(526, 432);
+            this.ClientSize = new System.Drawing.Size(526, 497);
             this.Controls.Add(this.fileView);
             this.Controls.Add(this.buttonPanel);
             this.Name = "PublishGUI";
@@ -131,5 +168,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox outputLocationTextBox;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
+        private System.Windows.Forms.TextBox archiveNameText;
+        private System.Windows.Forms.CheckBox obfuscateCheckBox;
+        private System.Windows.Forms.CheckBox archiveCheckBox;
     }
 }

@@ -75,6 +75,7 @@
     <Compile Include="Config\EngineConfig.cs" />
     <Compile Include="Config\PluginSection.cs" />
     <Compile Include="Config\ResourceSection.cs" />
+    <Compile Include="Config\ToolsConfig.cs" />
     <Compile Include="Controller\AnomalyController.cs" />
     <Compile Include="Controller\FullSpeedUpdateListener.cs" />
     <Compile Include="Controller\InstanceBuilder\InstanceBuilder.cs" />
