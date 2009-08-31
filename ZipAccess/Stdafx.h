@@ -6,6 +6,7 @@
 
 #pragma unmanaged
 #include <zzip/zzip.h>
+#include <zzip/plugin.h>
 #pragma managed
 
 #include <string>

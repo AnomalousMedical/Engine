@@ -9,6 +9,9 @@ using namespace System::Text::RegularExpressions;
 namespace ZipAccess
 {
 
+static zzip_plugin_io_handlers xor_handlers;
+static zzip_strings_t xor_fileext[] = { ".dat", "", 0 };
+
 ZipFile::ZipFile(String^ filename)
 :zzipDir(0),
 files(gcnew List<ZipFileInfo^>()),

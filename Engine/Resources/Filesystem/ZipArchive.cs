@@ -9,11 +9,11 @@ namespace Engine.Resources
     class ZipArchive : Archive
     {
         private ZipFile zipFile = null;
-        private static String[] splitPattern = { ".zip" };
+        private static String[] splitPattern = { ".zip", ".dat" };
 
         internal static bool CanOpenURL(String url)
         {
-            return url.Contains(".zip");
+            return url.Contains(".zip") || url.Contains(".dat");
         }
 
         public ZipArchive(String filename)
@@ -88,9 +88,9 @@ namespace Engine.Resources
         private String parseURLInZip(String url)
         {
             String searchDirectory = url;
-            if (url.Contains(".zip"))
+            if (url.Contains(".zip") || url.Contains(".dat"))
             {
-                if (url.EndsWith(".zip"))
+                if (url.EndsWith(".zip") || url.EndsWith(".dat"))
                 {
                     searchDirectory = "";
                 }
@@ -113,9 +113,9 @@ namespace Engine.Resources
         private String parseZipName(String url)
         {
             String searchDirectory = url;
-            if (url.Contains(".zip"))
+            if (url.Contains(".zip") || url.Contains(".dat"))
             {
-                if (url.EndsWith(".zip"))
+                if (url.EndsWith(".zip") || url.EndsWith(".dat"))
                 {
                     searchDirectory = url;
                 }

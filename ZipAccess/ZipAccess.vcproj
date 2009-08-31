@@ -113,7 +113,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="include;&quot;$(OGRE_HOME)\Dependencies\include&quot;"
+				AdditionalIncludeDirectories="include;&quot;$(ZZIPLIB_HOME)&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -131,9 +131,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib.lib zziplib.lib $(NOINHERIT)"
+				AdditionalDependencies="zzip.lib $(NOINHERIT)"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(OGRE_HOME)\Dependencies\lib\Release"
+				AdditionalLibraryDirectories="&quot;$(ZZIPLIB_HOME)\msvc9\Release&quot;"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
 			/>
@@ -157,6 +157,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="copy $(ZZIPLIB_HOME)\msvc9\Release\zzip.dll $(TargetDir)zzip.dll"
 			/>
 		</Configuration>
 	</Configurations>
