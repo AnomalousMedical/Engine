@@ -113,9 +113,10 @@ namespace Engine.Resources
         private String parseZipName(String url)
         {
             String searchDirectory = url;
-            if (url.Contains(".zip") || url.Contains(".dat"))
+            //zip file
+            if (url.Contains(".zip"))
             {
-                if (url.EndsWith(".zip") || url.EndsWith(".dat"))
+                if (url.EndsWith(".zip"))
                 {
                     searchDirectory = url;
                 }
@@ -125,6 +126,22 @@ namespace Engine.Resources
                     if (split.Length > 0)
                     {
                         searchDirectory = split[0] + ".zip";
+                    }
+                }
+            }
+            //dat file
+            else if (url.Contains(".dat"))
+            {
+                if (url.EndsWith(".dat"))
+                {
+                    searchDirectory = url;
+                }
+                else
+                {
+                    String[] split = url.Split(splitPattern, StringSplitOptions.None);
+                    if (split.Length > 0)
+                    {
+                        searchDirectory = split[0] + ".dat";
                     }
                 }
             }

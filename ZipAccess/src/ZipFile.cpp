@@ -9,8 +9,41 @@ using namespace System::Text::RegularExpressions;
 namespace ZipAccess
 {
 
+#pragma unmanaged
+
+static int xor_value;
+
+static zzip_ssize_t xor_read (int f, void* p, zzip_size_t l)
+{
+    zzip_ssize_t r = _read(f, p, l);
+    zzip_ssize_t x; 
+	char* q; 
+	for (x=0, q=(char*)p; x < r; x++)
+	{
+		q[x] ^= 73;
+	}
+    return r;
+}
+
 static zzip_plugin_io_handlers xor_handlers;
-static zzip_strings_t xor_fileext[] = { ".dat", "", 0 };
+static zzip_strings_t xor_fileext[] = { ".dat", ".DAT", 0 }; 
+
+ZZIP_DIR* openDir(const std::string& filename, zzip_error_t * zzipError)
+{
+	if(filename.find(".dat") != std::string::npos || filename.find(".DAT") != std::string::npos)
+	{
+		zzip_init_io (&xor_handlers, 0); 
+		xor_handlers.fd.read = &xor_read;
+		
+		return zzip_dir_open_ext_io (filename.c_str(), zzipError, xor_fileext, &xor_handlers);
+	}
+	else
+	{
+		return zzip_dir_open(filename.c_str(), zzipError);
+	}
+}
+
+#pragma managed
 
 ZipFile::ZipFile(String^ filename)
 :zzipDir(0),
@@ -36,7 +69,8 @@ void ZipFile::commonLoad()
 {
     zzip_error_t zzipError;
 	std::string mName = convertString(file);
-    zzipDir = zzip_dir_open(mName.c_str(), &zzipError);
+    //zzipDir = zzip_dir_open(mName.c_str(), &zzipError);
+	zzipDir = openDir(mName, &zzipError);
 	if(zzipError != ZZIP_NO_ERROR)
 	{
 		System::String^ errorMessage;
@@ -193,12 +227,8 @@ List<ZipFileInfo^>^ ZipFile::findMatches(List<ZipFileInfo^>^ sourceList, String^
 		{
 			for each(ZipFileInfo^ file in sourceList)
 			{
-				if(file->FullName->Contains("shaders"))
-				{
-					Console::WriteLine("woot");
-				}
-				Match^ fuck = r->Match(file->FullName);
-				if(file->FullName->Contains(path) && (matchAll || fuck->Success))
+				Match^ match = r->Match(file->FullName);
+				if(file->FullName->Contains(path) && (matchAll || match->Success))
 				{
 					files->Add(file);
 				}

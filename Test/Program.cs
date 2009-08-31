@@ -22,6 +22,26 @@ namespace Test
         [STAThread]
         static void Main(string[] args)
         {
+            byte[] buffer = new byte[4096];
+            using (Stream source = File.Open(args[0], System.IO.FileMode.Open, System.IO.FileAccess.Read))
+            {
+                using (Stream dest = File.Open(args[0].Replace(".zip", ".dat"), System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write))
+                {
+                    int numRead;
+                    while ((numRead = source.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        for (int i = 0; i < numRead; ++i)
+                        {
+                            buffer[i] ^= 73;
+                        }
+                        dest.Write(buffer, 0, numRead);
+                    }
+                }
+            }
+        }
+
+        static void testZip()
+        {
             try
             {
                 //ZipFile zipFile = new ZipFile())
@@ -76,7 +96,7 @@ namespace Test
                 }
                 Console.ReadLine();
             }
-            catch(ZipIOException)
+            catch (ZipIOException)
             {
 
             }
