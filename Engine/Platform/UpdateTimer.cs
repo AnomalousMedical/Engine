@@ -120,13 +120,15 @@ namespace Engine.Platform
                     fireExceededMaxDelta();
                 }
                 totalTime += deltaTime;
+                if (totalTime > fixedFrequency * maxFrameSkip)
+                {
+                    totalTime = fixedFrequency * maxFrameSkip;
+                }
 
-                loops = 0;
-                while (totalTime > fixedFrequency && loops < maxFrameSkip)
+                while (totalTime >= fixedFrequency)
                 {
                     fireFixedUpdate();
                     totalTime -= fixedFrequency;
-                    loops++;
                 }
 
                 fireFullSpeedUpdate(deltaTime);
