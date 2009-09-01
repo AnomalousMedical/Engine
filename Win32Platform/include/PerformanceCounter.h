@@ -20,10 +20,15 @@ class PerformanceCounter
 {
 private:
 	DWORD threadAffinity;
+	DWORD currentTickCount;
+	DWORD lastTickCount;
+	DWORD tickElapsed;
 
 	LARGE_INTEGER lastTime;
 	LARGE_INTEGER thisTime;
 	LARGE_INTEGER performanceFrequency;
+
+	double deltaTime;
 
 public:
 	/// <summary>
