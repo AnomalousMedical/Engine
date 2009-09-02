@@ -98,8 +98,8 @@ namespace Engine.Platform
             systemTimer.prime();
             double deltaTime;
             totalTime = 0;
-            int loops = 0;
             bool sleptThisFrame = false;
+
 
             while (started)
             {
