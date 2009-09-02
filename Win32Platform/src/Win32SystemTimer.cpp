@@ -24,14 +24,9 @@ bool Win32SystemTimer::initialize()
 	return performanceTimer->initialize();
 }
 
-void Win32SystemTimer::prime()
+System::Int64 Win32SystemTimer::getCurrentTime()
 {
-	performanceTimer->prime();
-}
-
-double Win32SystemTimer::getDelta()
-{
-	return performanceTimer->getDelta();
+	return performanceTimer->getCurrentTime();
 }
 
 }

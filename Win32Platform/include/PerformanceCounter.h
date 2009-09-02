@@ -1,5 +1,7 @@
 #pragma once
 
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
 #include "windows.h"
 
 namespace Engine
@@ -18,17 +20,13 @@ namespace Platform
 /// </summary>
 class PerformanceCounter
 {
-private:
-	DWORD threadAffinity;
-	DWORD currentTickCount;
-	DWORD lastTickCount;
-	DWORD tickElapsed;
+private:	
+	DWORD startTick;
+	LONGLONG lastTime;
+	LARGE_INTEGER startTime;
+	LARGE_INTEGER frequency;
 
-	LARGE_INTEGER lastTime;
-	LARGE_INTEGER thisTime;
-	LARGE_INTEGER performanceFrequency;
-
-	double deltaTime;
+	DWORD timerMask;
 
 public:
 	/// <summary>
@@ -48,16 +46,10 @@ public:
 	bool initialize();
 
 	/// <summary>
-	/// Prime the counter's lastTime value. Should be called once before getDelta.
+	/// Get the current time in milliseconds.
 	/// </summary>
-	void prime();
-
-	/// <summary>
-	/// Get the time since the last call to prime or the last call to
-    /// getDelta().
-	/// </summary>
-	/// <returns>The time since the last call.</returns>
-	double getDelta();
+	/// <returns>The current time in milliseconds.</returns>
+	LONGLONG getCurrentTime();
 };
 
 }

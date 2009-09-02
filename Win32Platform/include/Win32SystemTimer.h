@@ -20,9 +20,7 @@ public:
 
 	virtual bool initialize();
 
-	virtual void prime();
-
-	virtual double getDelta();
+	virtual System::Int64 getCurrentTime();
 };
 
 }

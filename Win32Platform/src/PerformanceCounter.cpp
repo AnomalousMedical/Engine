@@ -2,6 +2,7 @@
 #include "PerformanceCounter.h"
 #include "winbase.h"
 #include "mmsystem.h"
+#include <algorithm>
 
 namespace Engine
 {
@@ -12,7 +13,7 @@ namespace Platform
 #pragma unmanaged
 
 PerformanceCounter::PerformanceCounter()
-:threadAffinity( 1 << 0 )
+:timerMask(0)
 {
 
 }
@@ -24,44 +25,70 @@ PerformanceCounter::~PerformanceCounter()
 
 bool PerformanceCounter::initialize()
 {
-	return !QueryPerformanceFrequency(&performanceFrequency) || !SetThreadAffinityMask( GetCurrentThread(), threadAffinity );
-}
+	DWORD procMask;
+	DWORD sysMask;
 
-void PerformanceCounter::prime()
-{
-	QueryPerformanceCounter(&lastTime);
-	lastTickCount = GetTickCount();
-}
-
-double PerformanceCounter::getDelta()
-{
-	QueryPerformanceCounter(&thisTime);
-	currentTickCount = GetTickCount();
-
-	LONGLONG largeElapsed = thisTime.QuadPart - lastTime.QuadPart;
-
-	tickElapsed = currentTickCount - lastTickCount;
-	deltaTime = static_cast<double>(largeElapsed) / static_cast<double>(performanceFrequency.QuadPart);
-
-	signed long check = tickElapsed - (signed long)(deltaTime * 1000);
-	if(check < -100 | check > 100)
+	//Find the lowest used core
+	GetProcessAffinityMask(GetCurrentProcess(), &procMask, &sysMask);
+	if(procMask ==0)
 	{
-		LONGLONG adjust = check * performanceFrequency.QuadPart / 1000;
-		thisTime.QuadPart -= adjust;
-
-		deltaTime = static_cast<double>(thisTime.QuadPart - lastTime.QuadPart) / static_cast<double>(performanceFrequency.QuadPart);
+		procMask = 1;
 	}
-	
-	//Prevent negative deltas
-	if(deltaTime < 0.0)
+	if(timerMask == 0)
 	{
-		deltaTime = 0.0;
+		timerMask = 1;
+		while( ( timerMask & procMask ) == 0 )
+		{
+			timerMask <<= 1;
+		}
 	}
 
-	lastTime = thisTime;
-	lastTickCount = currentTickCount;
+	//Change affinity and read counter values
+	HANDLE thread = GetCurrentThread();
+	DWORD oldMask = SetThreadAffinityMask(thread, timerMask);
+	bool valid = QueryPerformanceFrequency(&frequency);
+	if(valid)
+	{
+		QueryPerformanceCounter(&startTime);
+		startTick = GetTickCount();
+	}
+	SetThreadAffinityMask(thread, oldMask);
 
-	return deltaTime;
+	//Finish and return
+	lastTime = 0;
+	return valid;
+}
+
+LONGLONG PerformanceCounter::getCurrentTime()
+{
+	//Set affinity and read current time
+	LARGE_INTEGER currentTime;
+	HANDLE thread = GetCurrentThread();
+	DWORD oldMask = SetThreadAffinityMask(thread, timerMask);
+	QueryPerformanceCounter(&currentTime);
+	SetThreadAffinityMask(thread, oldMask);
+
+	//Compute the number of ticks in milliseconds since initialize was called.
+	LONGLONG time = currentTime.QuadPart - startTime.QuadPart;
+	LONGLONG ticks = 1000 * time / frequency.QuadPart;
+
+	//Check for performance counter leaps
+	DWORD check = GetTickCount() - startTick;
+	signed long off = (signed long)(ticks - check);
+	if(off < -100 || off > 100)
+	{
+		//Adjust timer
+		LONGLONG adjust = (std::min)(off * frequency.QuadPart / 1000, time - lastTime);
+        startTime.QuadPart += adjust;
+        time -= adjust;
+
+        // Re-calculate milliseconds
+        ticks = (unsigned long) (1000 * time / frequency.QuadPart);
+	}
+
+	lastTime = time;
+
+	return ticks;
 }
 
 #pragma managed
