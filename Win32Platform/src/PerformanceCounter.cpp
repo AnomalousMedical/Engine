@@ -81,14 +81,11 @@ LONGLONG PerformanceCounter::getCurrentTime()
 		LONGLONG adjust = (std::min)(off * frequency.QuadPart / 1000, time - lastTime);
         startTime.QuadPart += adjust;
         time -= adjust;
-
-        // Re-calculate milliseconds
-        ticks = (unsigned long) (1000 * time / frequency.QuadPart);
 	}
 
 	lastTime = time;
 
-	return ticks;
+	return 1000000 * time / frequency.QuadPart;
 }
 
 #pragma managed

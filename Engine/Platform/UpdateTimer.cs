@@ -38,8 +38,8 @@ namespace Engine.Platform
         {
             this.systemTimer = systemTimer;
             this.systemMessageListener = systemMessageListener;
-            fixedFrequency = 1000 / 60;
-            maxDelta = 100;
+            fixedFrequency = 1000000 / 60;
+            maxDelta = 100000;
             maxFrameSkip = 7;
         }
 
@@ -95,31 +95,14 @@ namespace Engine.Platform
             
             Int64 deltaTime;
             Int64 totalTime = 0;
-            Int64 currentTime;
+            Int64 frameStartTime;
             Int64 lastTime = systemTimer.getCurrentTime();
+            Int64 totalFrameTime;
 
             while (started)
             {
-                currentTime = systemTimer.getCurrentTime();
-                deltaTime = currentTime - lastTime;//systemTimer.getDelta();
-
-                ////If the time is faster than the framerate cap sleep for the difference.
-                ////This is not exact, but any error will be handled by the rest of the timer.
-                //while (deltaTime < framerateTime)
-                //{
-                //    sleepTime = framerateTime - deltaTime + extraSleepTime;
-                //    if (sleepTime < 0.0)
-                //    {
-                //        sleepTime = 0.0;
-                //    }
-                //    Thread.Sleep((int)((sleepTime) * 1000));
-                //    sleptTime = 0.0;// systemTimer.getDelta();
-                //    Log.Debug("Sleep {0} slept {1} startdelta {2} enddelta {3} frametime {4} extrasleep {5}", sleepTime, sleptTime, deltaTime, deltaTime + sleptTime, framerateTime, extraSleepTime);
-                //    deltaTime += sleptTime;
-                //    sleptThisFrame = true;
-                //}
-
-                //Log.Debug("continuing frame");
+                frameStartTime = systemTimer.getCurrentTime();
+                deltaTime = frameStartTime - lastTime;
 
                 if (deltaTime > maxDelta)
                 {
@@ -140,22 +123,15 @@ namespace Engine.Platform
 
                 fireFullSpeedUpdate(deltaTime);
 
-                lastTime = currentTime;
+                lastTime = frameStartTime;
 
-                //If sleep was called adjust the framerate time as required to run at the framerate cap.
-                //Sometimes sleep takes too long and adjusting the time this way allows for sleep to take
-                //longer but the cap to be maintained.
-                //if (sleptThisFrame)
-                //{
-                //    framerateTime -= deltaTime - framerateCap;
-                //    //Make sure the framerate does not go to 0 or negative or the cap will disable.
-                //    //If that happens just reset the time to the original cap.
-                //    if (framerateTime <= 0.0)
-                //    {
-                //        framerateTime = framerateCap;
-                //    }
-                //    sleptThisFrame = false;
-                //}
+                //cap the framerate if required
+                totalFrameTime = systemTimer.getCurrentTime() - frameStartTime;
+                while (totalFrameTime < framerateCap)
+                {
+                    Thread.Sleep((int)((framerateCap - totalFrameTime) / 1000));
+                    totalFrameTime = systemTimer.getCurrentTime() - frameStartTime;
+                }
             }
             return true;
         }
@@ -186,7 +162,7 @@ namespace Engine.Platform
 
         /// <summary>
         /// Set the maximum delta that the timer can report. If the true delta
-        /// is greater than this value it will be clamped. The default is 100ms
+        /// is greater than this value it will be clamped. The default is 100000 ms
         /// (10 fps). This will cause the simulation to run slow if it is
         /// running at less than the max delta.
         /// </summary>
@@ -225,7 +201,7 @@ namespace Engine.Platform
             {
                 if (framerateCap > 0)
                 {
-                    return 1000 / framerateCap;
+                    return 1000000 / framerateCap;
                 }
                 return 0;
             }
@@ -233,7 +209,7 @@ namespace Engine.Platform
             {
                 if (value > 0)
                 {
-                    framerateCap = 1000 / value;
+                    framerateCap = 1000000 / value;
                 }
                 else
                 {
@@ -247,7 +223,7 @@ namespace Engine.Platform
         /// </summary>
         protected void fireFixedUpdate()
         {
-            clock.setTimeMilliseconds(FixedFrequency);
+            clock.setTimeMicroseconds(FixedFrequency);
             foreach (UpdateListener fixedListener in fixedListeners)
             {
                 fixedListener.sendUpdate(clock);
@@ -261,7 +237,7 @@ namespace Engine.Platform
         /// <param name="deltaTime">The amount of time since the last full speed update in seconds.</param>
         protected void fireFullSpeedUpdate(Int64 deltaTime)
         {
-            clock.setTimeMilliseconds(deltaTime);
+            clock.setTimeMicroseconds(deltaTime);
             foreach (UpdateListener fullSpeedListener in fullSpeedListeners)
             {
                 fullSpeedListener.sendUpdate(clock);

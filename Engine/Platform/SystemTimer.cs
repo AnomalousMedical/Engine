@@ -14,9 +14,9 @@ namespace Engine.Platform
         bool initialize();
 
         /// <summary>
-        /// Get the current time in milliseconds since the timer was initialized..
+        /// Get the current time in microseconds since the timer was initialized..
         /// </summary>
-        /// <returns>The current time in milliseconds since the timer was initialized.</returns>
+        /// <returns>The current time in microseconds since the timer was initialized.</returns>
         Int64 getCurrentTime();
     }
 }

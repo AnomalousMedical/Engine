@@ -10,7 +10,7 @@ namespace Engine.Platform
     /// </summary>
     public class Clock
     {
-        protected Int64 timeMs;
+        protected Int64 timeMicro;
 
         /// <summary>
         /// Get the amount of time on this clock in seconds.
@@ -19,17 +19,17 @@ namespace Engine.Platform
         {
             get
             {
-                return timeMs / 1000.0f;
+                return timeMicro / 1000000.0;
             }
         }
 
         /// <summary>
-        /// Set the time on this clock in milliseconds.
+        /// Set the time on this clock in microseconds.
         /// </summary>
-        /// <param name="ms">The number of milliseconds to set.</param>
-        internal void setTimeMilliseconds(Int64 ms)
+        /// <param name="micro">The number of microseconds to set.</param>
+        internal void setTimeMicroseconds(Int64 micro)
         {
-            timeMs = ms;
+            timeMicro = micro;
         }
     }
 }

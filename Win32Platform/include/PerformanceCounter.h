@@ -46,9 +46,9 @@ public:
 	bool initialize();
 
 	/// <summary>
-	/// Get the current time in milliseconds.
+	/// Get the current time in microseconds.
 	/// </summary>
-	/// <returns>The current time in milliseconds.</returns>
+	/// <returns>The current time in microseconds.</returns>
 	LONGLONG getCurrentTime();
 };
 
