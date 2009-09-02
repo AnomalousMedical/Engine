@@ -61,7 +61,8 @@ BulletScene::BulletScene(BulletSceneDefinition^ definition, UpdateTimer^ timer)
 :name(definition->Name), 
 timer(timer), 
 maxProxies(definition->MaxProxies),
-debugDraw(new BulletDebugDraw())
+debugDraw(new BulletDebugDraw()),
+internalTimestep(1.0f / 60.0f)
 {
 	sceneRoot = new gcroot<BulletScene^>(this);
 
@@ -162,7 +163,17 @@ SimElementManagerDefinition^ BulletScene::createDefinition()
 
 void BulletScene::sendUpdate(Clock^ clock)
 {
-	dynamicsWorld->stepSimulation((float)clock->Seconds);
+	float seconds = (float)clock->Seconds;
+	int subSteps = 2;
+	if(seconds > internalTimestep)
+	{
+		subSteps = seconds / internalTimestep + 1;
+		if(subSteps > 7)
+		{
+			subSteps = 7;
+		}
+	}
+	dynamicsWorld->stepSimulation(seconds, subSteps, internalTimestep);
 }
 
 void BulletScene::loopStarting()

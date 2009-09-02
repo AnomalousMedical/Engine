@@ -41,6 +41,7 @@ private:
 
 	gcroot<BulletScene^>* sceneRoot;
 	ContactCache contactCache;
+	float internalTimestep;
 
 	#ifdef USE_PARALLEL_DISPATCHER
 	Win32ThreadSupport* m_threadSupportCollision;
