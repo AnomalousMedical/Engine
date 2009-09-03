@@ -71,6 +71,15 @@ float computeAngularImpulseDenominator(btRigidBody* rigidBody, float* vector)
 	return rigidBody->computeAngularImpulseDenominator(btVector3(vector[0], vector[1], vector[2]));
 }
 
+void setMassProps(btRigidBody* body, float mass)
+{
+	btVector3 inertia = body->getInvInertiaDiagLocal();
+	inertia.setX(inertia.x() != btScalar(0.0) ? btScalar(1.0) / inertia.x(): btScalar(0.0));
+	inertia.setY(inertia.x() != btScalar(0.0) ? btScalar(1.0) / inertia.y(): btScalar(0.0));
+	inertia.setZ(inertia.x() != btScalar(0.0) ? btScalar(1.0) / inertia.z(): btScalar(0.0));
+	body->setMassProps(mass, inertia);
+}
+
 void setMassProps(btRigidBody* body, float mass, float* vector)
 {
 	body->setMassProps(mass, btVector3(vector[0], vector[1], vector[2]));
@@ -258,6 +267,11 @@ float RigidBody::getLinearSleepingThreshold()
 float RigidBody::getAngularSleepingThreshold()
 {
 	return rigidBody->getAngularSleepingThreshold();
+}
+
+void RigidBody::setMassProps(float mass)
+{
+	BulletPlugin::setMassProps(rigidBody, mass);
 }
 
 void RigidBody::setMassProps(float mass, Vector3 inertia)

@@ -89,6 +89,8 @@ public:
 
 	float getAngularSleepingThreshold();
 
+	void setMassProps(float mass);
+
 	void setMassProps(float mass, Vector3 inertia);
 
 	float getInvMass();
