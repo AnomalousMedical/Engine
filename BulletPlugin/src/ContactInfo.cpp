@@ -179,7 +179,8 @@ void ContactInfo::addManifold(btPersistentManifold* contactManifold)
 			closestPoint = dis;
 		}
 	}
-	//Add the manifold if needed
+	//Add the manifold if its point is below one of the contact distances and
+	//slots are avaliable.
 	if(addManifold && numManifolds < manifoldArray->Length)
 	{
 		manifoldArray[numManifolds++] = contactManifold;
