@@ -94,6 +94,11 @@ void ContactInfo::process()
 	}
 	numManifolds = 0;
 	closestPoint = Single::MaxValue;
+	//Process the next value
+	if(next != nullptr)
+	{
+		next->process();
+	}
 }
 
 void ContactInfo::destroy()
@@ -158,19 +163,25 @@ void ContactInfo::add(ContactInfo^ info)
 }
 
 void ContactInfo::addManifold(btPersistentManifold* contactManifold)
-{
-	if(numManifolds < manifoldArray->Length)
-	{	
-		int numPoints = contactManifold->getNumContacts();
-		for(int i = 0; i < numPoints; ++i)
+{	
+	bool addManifold = false;
+	int numPoints = contactManifold->getNumContacts();
+	for(int i = 0; i < numPoints; ++i)
+	{
+		btManifoldPoint& pt = contactManifold->getContactPoint(i);
+		float dis = pt.getDistance();
+		if(dis < pluginBodyA->MaxContactDistance || dis < pluginBodyB->MaxContactDistance)
 		{
-			btManifoldPoint& pt = contactManifold->getContactPoint(i);
-			float dis = pt.getDistance();
-			if(dis < closestPoint)
-			{
-				closestPoint = dis;
-			}
+			addManifold = true;
 		}
+		if(dis < closestPoint)
+		{
+			closestPoint = dis;
+		}
+	}
+	//Add the manifold if needed
+	if(addManifold && numManifolds < manifoldArray->Length)
+	{
 		manifoldArray[numManifolds++] = contactManifold;
 	}
 }
