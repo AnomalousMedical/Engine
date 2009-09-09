@@ -145,7 +145,9 @@ namespace Engine
         /// never be made active. This allows for an easy way to disable a
         /// behavior if it is not valid when it is initialized. The destroy
         /// function will still be called, however, so make provisions when
-        /// destroying resources if any errors occur.
+        /// destroying resources if any errors occur.  This function will 
+        /// internally thrown an exception so if blacklist is called the 
+        /// execution of the calling function is halted at that point.
         /// </summary>
         /// <param name="reason">The reason the behavior is being blacklisted. This is printed in the log.</param>
         protected void blacklist(String reason)
@@ -156,6 +158,7 @@ namespace Engine
             }
             valid = false;
             Log.Default.sendMessage("Behavior {0}, type={1} blacklisted.  Reason: {2}", LogLevel.Error, "Behavior", Name, this.GetType().Name, reason);
+            throw new BehaviorBlacklistException();
         }
 
         /// <summary>
@@ -322,7 +325,7 @@ namespace Engine
         /// for easy checking to see if all components were sucessfully
         /// identified.
         /// </summary>
-        protected bool Valid
+        internal bool Valid
         {
             get
             {

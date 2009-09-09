@@ -54,11 +54,25 @@ namespace Engine
         {
             foreach (BehaviorFactoryEntry entry in currentBehaviors)
             {
-                entry.constructed();
+                try
+                {
+                    entry.constructed();
+                }
+                catch (BehaviorBlacklistException)
+                {
+
+                }
             }
             foreach (BehaviorFactoryEntry entry in currentBehaviors)
             {
-                entry.linkupProducts();
+                try
+                {
+                    entry.linkupProducts();
+                }
+                catch (BehaviorBlacklistException)
+                {
+
+                }
             }
         }
 

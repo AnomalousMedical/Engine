@@ -63,7 +63,7 @@ namespace Engine
         /// </summary>
         public void linkupProducts()
         {
-            if (createdBehavior != null)
+            if (createdBehavior != null && createdBehavior.Valid)
             {
                 createdBehavior.callLink();
             }

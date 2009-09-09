@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Attributes\DoNotCopyAttribute.cs" />
     <Compile Include="Behavior\Behavior.cs" />
+    <Compile Include="Behavior\BehaviorBlacklistException.cs" />
     <Compile Include="Behavior\BehaviorBrowser.cs" />
     <Compile Include="Behavior\BehaviorDebugInterface.cs" />
     <Compile Include="Behavior\BehaviorDefinition.cs" />
