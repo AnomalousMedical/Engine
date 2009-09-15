@@ -126,6 +126,16 @@ MaterialPtr^ OverlayElement::getMaterial()
 	return MaterialManager::getInstance()->getObject(overlayElement->getMaterial());
 }
 
+float OverlayElement::getDerivedLeft()
+{
+	return overlayElement->_getDerivedLeft();
+}
+
+float OverlayElement::getDerivedTop()
+{
+	return overlayElement->_getDerivedTop();
+}
+
 System::String^ OverlayElement::getTypeName()
 {
 	return MarshalUtils::convertString(overlayElement->getTypeName());

@@ -201,6 +201,18 @@ public:
 	/// 
 	/// </summary>
 	/// <returns></returns>
+	float getDerivedLeft();
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <returns></returns>
+	float getDerivedTop();
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <returns></returns>
 	System::String^ getTypeName();
 
 	/// <summary>
