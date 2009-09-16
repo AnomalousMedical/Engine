@@ -47,7 +47,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="3d\Matrix3x3.cs" />
     <Compile Include="3d\Matrix4x4.cs" />
     <Compile Include="3d\Quaternion.cs" />
     <Compile Include="3d\Ray3.cs" />
