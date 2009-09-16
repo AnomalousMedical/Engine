@@ -342,6 +342,41 @@ namespace Engine
 
         #region Operators
 
+        internal float this[int i]
+        {
+            get
+            {
+                switch (i)
+                {
+                    case 0:
+                        return x;
+                        break;
+                    case 1:
+                        return y;
+                        break;
+                    case 2:
+                        return z;
+                        break;
+                }
+                return 0.0f;
+            }
+            set
+            {
+                switch (i)
+                {
+                    case 0:
+                        x = value;
+                        break;
+                    case 1:
+                        y = value;
+                        break;
+                    case 2:
+                        z = value;
+                        break;
+                }
+            }
+        }
+
         public static Vector3 operator + (Vector3 v1, Vector3 v2)
         {
             return new Vector3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);

@@ -395,6 +395,47 @@ namespace Engine
 
         #region Operators
 
+        internal float this[int i]
+        {
+            get
+            {
+                switch (i)
+                {
+                    case 0:
+                        return x;
+                        break;
+                    case 1:
+                        return y;
+                        break;
+                    case 2:
+                        return z;
+                        break;
+                    case 3:
+                        return w;
+                        break;
+                }
+                return 0.0f;
+            }
+            set
+            {
+                switch (i)
+                {
+                    case 0:
+                        x = value;
+                        break;
+                    case 1:
+                        y = value;
+                        break;
+                    case 2:
+                        z = value;
+                        break;
+                    case 3:
+                        z = value;
+                        break;
+                }
+            }
+        }
+
         public static Quaternion operator * (Quaternion q1, Quaternion q2)
         {
             return new Quaternion(q1.w * q2.x + q1.x * q2.w + q1.y * q2.z - q1.z * q2.y,
