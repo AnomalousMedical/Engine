@@ -2,27 +2,56 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.InteropServices;
 
 namespace Engine
 {
-    class Matrix3x3
+    [StructLayout(LayoutKind.Explicit, Size = 36)]
+    struct Matrix3x3
     {
         private const float SIMD_2_PI = 6.283185307179586232f;
 
-        protected float cofac(int r1, int c1, int r2, int c2)
+        public unsafe float cofac(int r1, int c1, int r2, int c2)
         {
-            return m_el[r1][c1] * m_el[r2][c2] - m_el[r1][c2] * m_el[r2][c1];
+            fixed (float* m_el_f = &this.xx)
+            {
+                Vector3* m_el = (Vector3*)m_el_f;
+                return m_el[r1][c1] * m_el[r2][c2] - m_el[r1][c2] * m_el[r2][c1];
+            }
         }
 
-        protected Vector3[] m_el = new Vector3[3];
+        //protected Vector3[] m_el = new Vector3[3];
 
-        public Matrix3x3()
-        {
-            setIdentity();
-        }
+        [FieldOffset(0)]
+        float xx;
+        [FieldOffset(4)]
+        float xy;
+        [FieldOffset(8)]
+        float xz;
+        [FieldOffset(12)]
+        float yx;
+        [FieldOffset(16)]
+        float yy; 
+        [FieldOffset(20)]
+        float yz;
+        [FieldOffset(24)]
+        float zx;
+        [FieldOffset(28)]
+        float zy; 
+        [FieldOffset(32)]
+        float zz;
 
         public Matrix3x3(Quaternion q)
         {
+            this.xx = 0.0f;
+            this.xy = 0.0f;
+            this.xz = 0.0f;
+            this.yx = 0.0f;
+            this.yy = 0.0f;
+            this.yz = 0.0f;
+            this.zx = 0.0f;
+            this.zy = 0.0f;
+            this.zz = 0.0f;
             setRotation(q);
         }
 
@@ -30,34 +59,48 @@ namespace Engine
                   float yx, float yy, float yz,
                   float zx, float zy, float zz)
         {
-            setValue(xx, xy, xz,
-                     yx, yy, yz,
-                     zx, zy, zz);
+            this.xx = xx;
+            this.xy = xy;
+            this.xz = xz;
+            this.yx = yx;
+            this.yy = yy;
+            this.yz = yz;
+            this.zx = zx;
+            this.zy = zy;
+            this.zz = zz;
         }
 
-        public Vector3 getColumn(int i)
+        public unsafe Vector3 getColumn(int i)
         {
-            return new Vector3(m_el[0][i], m_el[1][i], m_el[2][i]);
+            fixed (float* m_el_f = &this.xx)
+            {
+                Vector3* m_el = (Vector3*)m_el_f;
+                return new Vector3(m_el[0][i], m_el[1][i], m_el[2][i]);
+            }
         }
 
-        public Vector3 getRow(int i)
+        public unsafe Vector3 getRow(int i)
         {
-            return m_el[i];
+            fixed (float* m_el_f = &this.xx)
+            {
+                Vector3* m_el = (Vector3*)m_el_f;
+                return m_el[i];
+            }
         }
 
         public void setValue(float xx, float xy, float xz,
                       float yx, float yy, float yz,
                       float zx, float zy, float zz)
         {
-            m_el[0].x = xx;
-            m_el[0].y = xy;
-            m_el[0].z = xz;
-            m_el[1].x = yx;
-            m_el[1].y = yy;
-            m_el[1].z = yz;
-            m_el[2].x = zx;
-            m_el[2].y = zy;
-            m_el[2].z = zz;
+            this.xx = xx;
+            this.xy = xy;
+            this.xz = xz;
+            this.yx = yx;
+            this.yy = yy;
+            this.yz = yz;
+            this.zx = zx;
+            this.zy = zy;
+            this.zz = zz;
         }
 
         public void setRotation(Quaternion q)
@@ -126,9 +169,9 @@ namespace Engine
                      0.0f, 0.0f, 1.0f);
         }
 
-        public void getRotation(Quaternion q)
+        public unsafe void getRotation(Quaternion q)
         {
-            float trace = m_el[0].x + m_el[1].y + m_el[2].z;
+            float trace = xx + yy + zz;
 
             if (trace > 0.0f)
             {
@@ -136,90 +179,102 @@ namespace Engine
                 q.w = s * 0.5f;
                 s = 0.5f / s;
 
-                q.x = (m_el[2].y - m_el[1].z) * s;
-                q.y = (m_el[0].z - m_el[2].x) * s;
-                q.z = (m_el[1].x - m_el[0].y) * s;
+                q.x = (zy - yz) * s;
+                q.y = (xz - zx) * s;
+                q.z = (yx - xy) * s;
             }
             else
             {
-                int i = m_el[0].x < m_el[1].y ?
-                    (m_el[1].y < m_el[2].z ? 2 : 1) :
-                    (m_el[0].x < m_el[2].z ? 2 : 0);
+                int i = xx < yy ?
+                    (yy < zz ? 2 : 1) :
+                    (xx < zz ? 2 : 0);
                 int j = (i + 1) % 3;
                 int k = (i + 2) % 3;
 
-                float s = (float)Math.Sqrt(m_el[i][i] - m_el[j][j] - m_el[k][k] + 1.0f);
-                q[i] = s * 0.5f;
-                s = 0.5f / s;
+                fixed (float* m_el_f = &this.xx)
+                {
+                    Vector3* m_el = (Vector3*)m_el_f;
+                    float s = (float)Math.Sqrt(m_el[i][i] - m_el[j][j] - m_el[k][k] + 1.0f);
+                    q[i] = s * 0.5f;
+                    s = 0.5f / s;
 
-                q.w = (m_el[k][j] - m_el[j][k]) * s;
-                q[j] = (m_el[j][i] + m_el[i][j]) * s;
-                q[k] = (m_el[k][i] + m_el[i][k]) * s;
+                    q.w = (m_el[k][j] - m_el[j][k]) * s;
+                    q[j] = (m_el[j][i] + m_el[i][j]) * s;
+                    q[k] = (m_el[k][i] + m_el[i][k]) * s;
+                }
             }
         }
 
         public void getEuler(float yaw, float pitch, float roll)
         {
-            pitch = (float)Math.Asin(-m_el[2].x);
+            pitch = (float)Math.Asin(-zx);
             if (pitch < SIMD_2_PI)
             {
                 if (pitch > SIMD_2_PI)
                 {
-                    yaw = (float)Math.Atan2(m_el[1].x, m_el[0].x);
-                    roll = (float)Math.Atan2(m_el[2].y, m_el[2].z);
+                    yaw = (float)Math.Atan2(yx, xx);
+                    roll = (float)Math.Atan2(zy, zz);
                 }
                 else
                 {
-                    yaw = -(float)Math.Atan2(-m_el[0].y, m_el[0].z);
+                    yaw = -(float)Math.Atan2(-xy, xz);
                     roll = 0.0f;
                 }
             }
             else
             {
-                yaw = (float)Math.Atan2(-m_el[0].y, m_el[0].z);
+                yaw = (float)Math.Atan2(-xy, xz);
                 roll = 0.0f;
             }
         }
 
         public Vector3 getScaling()
         {
-            return new Vector3(m_el[0].x * m_el[0].x + m_el[1].x * m_el[1].x + m_el[2].x * m_el[2].x,
-                                   m_el[0].y * m_el[0].y + m_el[1].y * m_el[1].y + m_el[2].y * m_el[2].y,
-                                   m_el[0].z * m_el[0].z + m_el[1].z * m_el[1].z + m_el[2].z * m_el[2].z);
+            return new Vector3(xx * xx + yx * yx + zx * zx,
+                                   xy * xy + yy * yy + zy * zy,
+                                   xz * xz + yz * yz + zz * zz);
         }
 
 
         public Matrix3x3 scaled(Vector3 s)
         {
-            return new Matrix3x3(m_el[0].x * s.x, m_el[0].y * s.y, m_el[0].z * s.z,
-                                     m_el[1].x * s.x, m_el[1].y * s.y, m_el[1].z * s.z,
-                                     m_el[2].x * s.x, m_el[2].y * s.y, m_el[2].z * s.z);
+            return new Matrix3x3(xx * s.x, xy * s.y, xz * s.z,
+                                     yx * s.x, yy * s.y, yz * s.z,
+                                     zx * s.x, zy * s.y, zz * s.z);
         }
 
-        public float tdot(int c, Vector3 v)
+        public unsafe float tdot(int c, Vector3 v)
         {
-            return m_el[0][c] * v.x + m_el[1][c] * v.y + m_el[2][c] * v.z;
+            fixed (float* m_el_f = &this.xx)
+            {
+                Vector3* m_el = (Vector3*)m_el_f;
+                return m_el[0][c] * v.x + m_el[1][c] * v.y + m_el[2][c] * v.z;
+            }
         }
 
-        public float determinant()
+        public unsafe float determinant()
         {
-            return m_el[0].triple(ref m_el[1], ref m_el[2]);
+            fixed (float* m_el_f = &this.xx)
+            {
+                Vector3* m_el = (Vector3*)m_el_f;
+                return m_el[0].triple(ref m_el[1], ref m_el[2]);
+            }
         }
 
 
         public Matrix3x3 absolute()
         {
             return new Matrix3x3(
-                (float)Math.Abs(m_el[0].x), (float)Math.Abs(m_el[0].y), (float)Math.Abs(m_el[0].z),
-                (float)Math.Abs(m_el[1].x), (float)Math.Abs(m_el[1].y), (float)Math.Abs(m_el[1].z),
-                (float)Math.Abs(m_el[2].x), (float)Math.Abs(m_el[2].y), (float)Math.Abs(m_el[2].z));
+                (float)Math.Abs(xx), (float)Math.Abs(xy), (float)Math.Abs(xz),
+                (float)Math.Abs(yx), (float)Math.Abs(yy), (float)Math.Abs(yz),
+                (float)Math.Abs(zx), (float)Math.Abs(zy), (float)Math.Abs(zz));
         }
 
         public Matrix3x3 transpose()
         {
-            return new Matrix3x3(m_el[0].x, m_el[1].x, m_el[2].x,
-                                     m_el[0].y, m_el[1].y, m_el[2].y,
-                                     m_el[0].z, m_el[1].z, m_el[2].z);
+            return new Matrix3x3(xx, yx, zx,
+                                     xy, yy, zy,
+                                     xz, yz, zz);
         }
 
         public Matrix3x3 adjoint()
@@ -229,10 +284,15 @@ namespace Engine
                                      cofac(1, 0, 2, 1), cofac(0, 1, 2, 0), cofac(0, 0, 1, 1));
         }
 
-        public Matrix3x3 inverse()
+        public unsafe Matrix3x3 inverse()
         {
             Vector3 co = new Vector3(cofac(1, 1, 2, 2), cofac(1, 2, 2, 0), cofac(1, 0, 2, 1));
-            float det = m_el[0].dot(ref co);
+            float det;
+            fixed (float* m_el_f = &this.xx)
+            {
+                Vector3* m_el = (Vector3*)m_el_f;
+                det = m_el[0].dot(ref co);
+            }
             float s = 1.0f / det;
             return new Matrix3x3(co.x * s, cofac(0, 2, 2, 1) * s, cofac(0, 1, 1, 2) * s,
                                      co.y * s, cofac(0, 0, 2, 2) * s, cofac(0, 2, 1, 0) * s,
@@ -242,29 +302,35 @@ namespace Engine
         public Matrix3x3 transposeTimes(Matrix3x3 m)
         {
             return new Matrix3x3(
-                m_el[0].x * m.m_el[0].x + m_el[1].x * m.m_el[1].x + m_el[2].x * m.m_el[2].x,
-                m_el[0].x * m.m_el[0].y + m_el[1].x * m.m_el[1].y + m_el[2].x * m.m_el[2].y,
-                m_el[0].x * m.m_el[0].z + m_el[1].x * m.m_el[1].z + m_el[2].x * m.m_el[2].z,
-                m_el[0].y * m.m_el[0].x + m_el[1].y * m.m_el[1].x + m_el[2].y * m.m_el[2].x,
-                m_el[0].y * m.m_el[0].y + m_el[1].y * m.m_el[1].y + m_el[2].y * m.m_el[2].y,
-                m_el[0].y * m.m_el[0].z + m_el[1].y * m.m_el[1].z + m_el[2].y * m.m_el[2].z,
-                m_el[0].z * m.m_el[0].x + m_el[1].z * m.m_el[1].x + m_el[2].z * m.m_el[2].x,
-                m_el[0].z * m.m_el[0].y + m_el[1].z * m.m_el[1].y + m_el[2].z * m.m_el[2].y,
-                m_el[0].z * m.m_el[0].z + m_el[1].z * m.m_el[1].z + m_el[2].z * m.m_el[2].z);
+                xx * m.xx + yx * m.yx + zx * m.zx,
+                xx * m.xy + yx * m.yy + zx * m.zy,
+                xx * m.xz + yx * m.yz + zx * m.zz,
+                xy * m.xx + yy * m.yx + zy * m.zx,
+                xy * m.xy + yy * m.yy + zy * m.zy,
+                xy * m.xz + yy * m.yz + zy * m.zz,
+                xz * m.xx + yz * m.yx + zz * m.zx,
+                xz * m.xy + yz * m.yy + zz * m.zy,
+                xz * m.xz + yz * m.yz + zz * m.zz);
         }
 
-        public Matrix3x3 timesTranspose(Matrix3x3 m)
+        public unsafe Matrix3x3 timesTranspose(Matrix3x3 m)
         {
-            return new Matrix3x3(
-                m_el[0].dot(ref m.m_el[0]), m_el[0].dot(ref m.m_el[1]), m_el[0].dot(ref m.m_el[2]),
-                m_el[1].dot(ref m.m_el[0]), m_el[1].dot(ref m.m_el[1]), m_el[1].dot(ref m.m_el[2]),
-                m_el[2].dot(ref m.m_el[0]), m_el[2].dot(ref m.m_el[1]), m_el[2].dot(ref m.m_el[2]));
+            fixed (float* m_el_f = &this.xx)
+            {
+                Vector3* m_el = (Vector3*)m_el_f;
+                Vector3* other_el = (Vector3*)&m.xx;
+                return new Matrix3x3(
+                    m_el[0].dot(ref other_el[0]), m_el[0].dot(ref other_el[1]), m_el[0].dot(ref other_el[2]),
+                    m_el[1].dot(ref other_el[0]), m_el[1].dot(ref other_el[1]), m_el[1].dot(ref other_el[2]),
+                    m_el[2].dot(ref other_el[0]), m_el[2].dot(ref other_el[1]), m_el[2].dot(ref other_el[2]));
+            }
 
         }
 
-        public static Vector3 operator *(Matrix3x3 m, Vector3 v)
+        public unsafe static Vector3 operator *(Matrix3x3 m, Vector3 v)
         {
-            return new Vector3(m.m_el[0].dot(ref v), m.m_el[1].dot(ref v), m.m_el[2].dot(ref v));
+            Vector3* m_el = (Vector3*)&m.xx;
+            return new Vector3(m_el[0].dot(ref v), m_el[1].dot(ref v), m_el[2].dot(ref v));
         }
 
         public static Vector3 operator *(Vector3 v, Matrix3x3 m)
@@ -272,26 +338,27 @@ namespace Engine
             return new Vector3(m.tdot(0, v), m.tdot(1, v), m.tdot(2, v));
         }
 
-        public static Matrix3x3 operator *(Matrix3x3 m1, Matrix3x3 m2)
+        public unsafe static Matrix3x3 operator *(Matrix3x3 m1, Matrix3x3 m2)
         {
+            Vector3* m_el_1 = (Vector3*)&m1.xx;
             return new Matrix3x3(
-                m2.tdot(0, m1.m_el[0]), m2.tdot(1, m1.m_el[0]), m2.tdot(2, m1.m_el[0]),
-                m2.tdot(0, m1.m_el[1]), m2.tdot(1, m1.m_el[1]), m2.tdot(2, m1.m_el[1]),
-                m2.tdot(0, m1.m_el[2]), m2.tdot(1, m1.m_el[2]), m2.tdot(2, m1.m_el[2]));
+                m2.tdot(0, m_el_1[0]), m2.tdot(1, m_el_1[0]), m2.tdot(2, m_el_1[0]),
+                m2.tdot(0, m_el_1[1]), m2.tdot(1, m_el_1[1]), m2.tdot(2, m_el_1[1]),
+                m2.tdot(0, m_el_1[2]), m2.tdot(1, m_el_1[2]), m2.tdot(2, m_el_1[2]));
         }
 
         public Matrix3x3 btMultTransposeLeft(Matrix3x3 m1, Matrix3x3 m2)
         {
             return new Matrix3x3(
-                m1.m_el[0].x * m2.m_el[0].x + m1.m_el[1].x * m2.m_el[1].x + m1.m_el[2].x * m2.m_el[2].x,
-                m1.m_el[0].x * m2.m_el[0].y + m1.m_el[1].x * m2.m_el[1].y + m1.m_el[2].x * m2.m_el[2].y,
-                m1.m_el[0].x * m2.m_el[0].z + m1.m_el[1].x * m2.m_el[1].z + m1.m_el[2].x * m2.m_el[2].z,
-                m1.m_el[0].y * m2.m_el[0].x + m1.m_el[1].y * m2.m_el[1].x + m1.m_el[2].y * m2.m_el[2].x,
-                m1.m_el[0].y * m2.m_el[0].y + m1.m_el[1].y * m2.m_el[1].y + m1.m_el[2].y * m2.m_el[2].y,
-                m1.m_el[0].y * m2.m_el[0].z + m1.m_el[1].y * m2.m_el[1].z + m1.m_el[2].y * m2.m_el[2].z,
-                m1.m_el[0].z * m2.m_el[0].x + m1.m_el[1].z * m2.m_el[1].x + m1.m_el[2].z * m2.m_el[2].x,
-                m1.m_el[0].z * m2.m_el[0].y + m1.m_el[1].z * m2.m_el[1].y + m1.m_el[2].z * m2.m_el[2].y,
-                m1.m_el[0].z * m2.m_el[0].z + m1.m_el[1].z * m2.m_el[1].z + m1.m_el[2].z * m2.m_el[2].z);
+                m1.xx * m2.xx + m1.yx * m2.yx + m1.zx * m2.zx,
+                m1.xx * m2.xy + m1.yx * m2.yy + m1.zx * m2.zy,
+                m1.xx * m2.xz + m1.yx * m2.yz + m1.zx * m2.zz,
+                m1.xy * m2.xx + m1.yy * m2.yx + m1.zy * m2.zx,
+                m1.xy * m2.xy + m1.yy * m2.yy + m1.zy * m2.zy,
+                m1.xy * m2.xz + m1.yy * m2.yz + m1.zy * m2.zz,
+                m1.xz * m2.xx + m1.yz * m2.yx + m1.zz * m2.zx,
+                m1.xz * m2.xy + m1.yz * m2.yy + m1.zz * m2.zy,
+                m1.xz * m2.xz + m1.yz * m2.yz + m1.zz * m2.zz);
         }
     };
 }

@@ -342,37 +342,20 @@ namespace Engine
 
         #region Operators
 
-        internal float this[int i]
+        internal unsafe float this[int i]
         {
             get
             {
-                switch (i)
+                fixed (float* p = &this.x)
                 {
-                    case 0:
-                        return x;
-                        break;
-                    case 1:
-                        return y;
-                        break;
-                    case 2:
-                        return z;
-                        break;
+                    return p[i];
                 }
-                return 0.0f;
             }
             set
             {
-                switch (i)
+                fixed (float* p = &this.x)
                 {
-                    case 0:
-                        x = value;
-                        break;
-                    case 1:
-                        y = value;
-                        break;
-                    case 2:
-                        z = value;
-                        break;
+                    p[i] = value;
                 }
             }
         }
