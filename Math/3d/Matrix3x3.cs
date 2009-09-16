@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 namespace Engine
 {
     [StructLayout(LayoutKind.Explicit, Size = 36)]
-    struct Matrix3x3
+    public struct Matrix3x3
     {
         private const float SIMD_2_PI = 6.283185307179586232f;
 
@@ -23,23 +23,23 @@ namespace Engine
         //protected Vector3[] m_el = new Vector3[3];
 
         [FieldOffset(0)]
-        float xx;
+        public float xx;
         [FieldOffset(4)]
-        float xy;
+        public float xy;
         [FieldOffset(8)]
-        float xz;
+        public float xz;
         [FieldOffset(12)]
-        float yx;
+        public float yx;
         [FieldOffset(16)]
-        float yy; 
+        public float yy; 
         [FieldOffset(20)]
-        float yz;
+        public float yz;
         [FieldOffset(24)]
-        float zx;
+        public float zx;
         [FieldOffset(28)]
-        float zy; 
+        public float zy; 
         [FieldOffset(32)]
-        float zz;
+        public float zz;
 
         public Matrix3x3(Quaternion q)
         {
