@@ -278,6 +278,16 @@ namespace OgrePlugin
             }
         }
 
+        public Matrix4x4 ViewMatrix
+        {
+            get { return camera.getViewMatrix(); }
+        }
+
+        public Matrix4x4 ProjectionMatrix
+        {
+            get { return camera.getProjectionMatrix(); }
+        }
+
         public event OgreCameraCallback PreFindVisibleObjects;
 
         public event OgreCameraCallback PostFindVisibleObjects;

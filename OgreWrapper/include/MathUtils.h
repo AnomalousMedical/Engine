@@ -101,6 +101,8 @@ public:
 	/// </summary>
 	/// <param name="source">Copy from this.</param>
 	static Ogre::ColourValue copyColor(Engine::Color% source);
+
+	static Engine::Matrix4x4 copyMatrix4x4(const Ogre::Matrix4& source);
 };
 
 }

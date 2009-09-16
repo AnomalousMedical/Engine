@@ -415,6 +415,10 @@ public:
 	/// </summary>
 	/// <returns>The window height.</returns>
 	float getOrthoWindowHeight();
+
+	Engine::Matrix4x4 getViewMatrix();
+
+	Engine::Matrix4x4 getProjectionMatrix();
 };
 
 }

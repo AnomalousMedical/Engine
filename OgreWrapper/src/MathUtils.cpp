@@ -93,4 +93,9 @@ Ogre::ColourValue MathUtils::copyColor(Engine::Color% source)
 	return Ogre::ColourValue(source.r, source.g, source.b, source.a);
 }
 
+Engine::Matrix4x4 MathUtils::copyMatrix4x4(const Ogre::Matrix4& source)
+{
+	return *(Engine::Matrix4x4*)&source;
+}
+
 }

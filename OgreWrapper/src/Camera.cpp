@@ -276,4 +276,14 @@ float Camera::getOrthoWindowHeight()
 	return camera->getOrthoWindowHeight();
 }
 
+Engine::Matrix4x4 Camera::getViewMatrix()
+{
+	return MathUtils::copyMatrix4x4(camera->getViewMatrix());
+}
+
+Engine::Matrix4x4 Camera::getProjectionMatrix()
+{
+	return MathUtils::copyMatrix4x4(camera->getProjectionMatrix());
+}
+
 }

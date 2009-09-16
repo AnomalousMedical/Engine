@@ -91,5 +91,15 @@ namespace Engine
         /// </summary>
         /// <param name="swapBuffers">True to swap the back buffer to the front buffer.</param>
         void update(bool swapBuffers);
+
+        /// <summary>
+        /// The View matrix of the camera.
+        /// </summary>
+        Matrix4x4 ViewMatrix { get; }
+
+        /// <summary>
+        /// The Projection matrix of the camera.
+        /// </summary>
+        Matrix4x4 ProjectionMatrix { get; }
     }
 }
