@@ -288,6 +288,22 @@ namespace OgrePlugin
             get { return camera.getProjectionMatrix(); }
         }
 
+        public int RenderWidth
+        {
+            get
+            {
+                return viewport.getActualWidth();
+            }
+        }
+
+        public int RenderHeight
+        {
+            get
+            {
+                return viewport.getActualHeight();
+            }
+        }
+
         public event OgreCameraCallback PreFindVisibleObjects;
 
         public event OgreCameraCallback PostFindVisibleObjects;

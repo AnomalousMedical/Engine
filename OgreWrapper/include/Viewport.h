@@ -61,6 +61,48 @@ public:
 	void setBackgroundColor(Engine::Color color);
 
 	Engine::Color getBackgroundColor();
+
+	float getLeft();
+
+	float getTop();
+
+	float getWidth();
+
+	float getHeight();
+
+	int getActualLeft();
+
+	int getActualTop();
+
+	int getActualWidth();
+
+	int getActualHeight();
+
+	void setDimensions(float left, float top, float width, float height);
+
+	void setClearEveryFrame(bool clear);
+
+	bool getClearEveryFrame();
+
+	void setMaterialScheme(System::String^ schemeName);
+
+	System::String^ getMaterialScheme();
+
+	void setOverlaysEnabled(bool enabled);
+
+	bool getOverlaysEnabled();
+
+	void setSkiesEnabled(bool enabled);
+
+	bool getSkiesEnabled();
+
+	void setShadowsEnabled(bool enabled);
+
+	bool getShadowsEnabled();
+
+	void setRenderQueueInvocationSequenceName(System::String^ sequenceName);
+
+	System::String^ getRenderQueueInvocationSequenceName();
 };
 
 }

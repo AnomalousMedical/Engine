@@ -101,5 +101,9 @@ namespace Engine
         /// The Projection matrix of the camera.
         /// </summary>
         Matrix4x4 ProjectionMatrix { get; }
+
+        int RenderWidth{ get; }
+
+        int RenderHeight{ get; }
     }
 }
