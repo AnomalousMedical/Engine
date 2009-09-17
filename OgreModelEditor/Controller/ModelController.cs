@@ -8,6 +8,7 @@ using OgreWrapper;
 using Engine;
 using WeifenLuo.WinFormsUI.Docking;
 using Logging;
+using System.Diagnostics;
 
 namespace OgreModelEditor.Controller
 {
@@ -77,7 +78,11 @@ namespace OgreModelEditor.Controller
         {
             entityDefintion.MeshName = meshName;
             currentSimObject = simObjectDefinition.register(scene.getDefaultSubScene());
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
             scene.buildScene();
+            sw.Stop();
+            Log.Debug("Scene loaded in {0} ms.", sw.ElapsedMilliseconds);
             entity = ((SceneNodeElement)currentSimObject.getElement("EntityNode")).getNodeObject("Entity") as Entity;
             readModelInfo();
             selectableModel.ModelObject = currentSimObject;
