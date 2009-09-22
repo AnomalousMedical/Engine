@@ -16,6 +16,7 @@ namespace OgreWrapper
 {
 
 ref class AxisAlignedBox;
+ref class SceneNode;
 
 /// <summary>
 /// Enum of possible movement types.
@@ -169,6 +170,8 @@ public:
 	/// </summary>
 	/// <returns>The render queue group of this object.</returns>
 	unsigned char getRenderQueueGroup();
+
+	SceneNode^ getParentSceneNode();
 };
 
 }

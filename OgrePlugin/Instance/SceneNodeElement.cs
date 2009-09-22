@@ -33,6 +33,7 @@ namespace OgrePlugin
         {
             this.scene = scene;
             this.sceneNode = node;
+            node.UserObject = this;
         }
 
         /// <summary>

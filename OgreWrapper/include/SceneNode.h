@@ -8,6 +8,7 @@
 
 #include "AutoPtr.h"
 #include "Node.h"
+#include "vcclr.h"
 
 namespace Ogre
 {
@@ -19,7 +20,9 @@ namespace OgreWrapper
 
 ref class MovableObject;
 ref class SceneManager;
+ref class SceneNode;
 typedef System::Collections::Generic::Dictionary<System::String^, MovableObject^> NodeObjectList;
+typedef gcroot<SceneNode^> SceneNodeGCRoot;
 
 /// <summary>
 /// This is a wrapper for a node in the underlying renderer's scene graph.  Multiple
@@ -32,6 +35,8 @@ private:
 	Ogre::SceneNode* sceneNode;
 	NodeObjectList^ nodeObjects;
 	AutoPtr<Ogre::SceneNode> autoOgreNode;
+	SceneNodeGCRoot* sceneNodeRoot;
+	System::Object^ userObject;
 
 internal:
 	/// <summary>
@@ -46,6 +51,8 @@ internal:
 	/// </summary>
 	/// <returns>The underlying native scene node.</returns>
 	Ogre::SceneNode* getSceneNode();
+
+	static SceneNode^ getManagedNode(Ogre::SceneNode* node);
 public:
 	SceneNode(System::String^ name, SceneManager^ ownerScene);
 
@@ -128,6 +135,19 @@ public:
 	/// <param name="visible">Whether the objects are to be made visible or invisible.</param>
 	/// <param name="cascade">If true, this setting cascades into child nodes too.</param>
 	void setVisible(bool visible, bool cascade);
+
+	property System::Object^ UserObject
+	{
+		System::Object^ get()
+		{
+			return userObject;
+		}
+		
+		void set(System::Object^ value)
+		{
+			userObject = value;
+		}
+	}
 };
 
 }

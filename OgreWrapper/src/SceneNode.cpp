@@ -18,21 +18,33 @@ namespace OgreWrapper{
 SceneNode::SceneNode(Ogre::SceneNode* sceneNode)
 :Node(sceneNode),
 sceneNode( sceneNode ), 
-nodeObjects(gcnew NodeObjectList())
+nodeObjects(gcnew NodeObjectList()),
+sceneNodeRoot(new SceneNodeGCRoot(this))
 {
-
+	Ogre::Any userPtr;
+	userPtr = (void*)sceneNodeRoot;
+	sceneNode->setUserAny(userPtr);
 }
 
 SceneNode::SceneNode(System::String^ name, SceneManager^ ownerScene)
 :autoOgreNode(new Ogre::SceneNode(ownerScene->getSceneManager(), MarshalUtils::convertString(name))),
 Node(autoOgreNode.Get()),
-nodeObjects(gcnew NodeObjectList())
+nodeObjects(gcnew NodeObjectList()),
+sceneNodeRoot(new SceneNodeGCRoot(this))
 {
 	sceneNode = autoOgreNode.Get();
+	Ogre::Any userPtr;
+	userPtr = (void*)sceneNodeRoot;
+	sceneNode->setUserAny(userPtr);
 }
 
 SceneNode::~SceneNode()
 {
+	if(sceneNodeRoot != 0)
+	{
+		delete sceneNodeRoot;
+		sceneNodeRoot = 0;
+	}
 	sceneNode = 0;
 }
 
@@ -99,6 +111,12 @@ void SceneNode::setVisible(bool visible)
 void SceneNode::setVisible(bool visible, bool cascade)
 {
 	sceneNode->setVisible(visible, cascade);
+}
+
+SceneNode^ SceneNode::getManagedNode(Ogre::SceneNode* node)
+{
+	SceneNodeGCRoot* root = static_cast<SceneNodeGCRoot*>(Ogre::any_cast<void*>(node->getUserAny()));
+	return (*root);
 }
 
 }

@@ -3,6 +3,7 @@
 #include "MarshalUtils.h"
 #include "Ogre.h"
 #include "AxisAlignedBox.h"
+#include "SceneNode.h"
 
 namespace OgreWrapper
 {
@@ -148,6 +149,11 @@ void MovableObject::setRenderQueueGroup(unsigned char queueID)
 unsigned char MovableObject::getRenderQueueGroup()
 {
 	return movableObject->getRenderQueueGroup();
+}
+
+SceneNode^ MovableObject::getParentSceneNode()
+{
+	return SceneNode::getManagedNode(movableObject->getParentSceneNode());
 }
 
 }
