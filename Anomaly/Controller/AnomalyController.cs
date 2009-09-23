@@ -238,6 +238,7 @@ namespace Anomaly
         public void start()
         {
             mainForm.Show();
+            mainForm.Activate();
             mainTimer.startLoop();
         }
 
