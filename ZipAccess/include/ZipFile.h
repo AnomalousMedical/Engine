@@ -27,7 +27,7 @@ private:
 
 	void commonLoad();
 
-	static cli::array<wchar_t>^ SEPS = {'/'};
+	static cli::array<wchar_t>^ SEPS = {'/', '\\'};
 
 public:
 	ZipFile(String^ filename);

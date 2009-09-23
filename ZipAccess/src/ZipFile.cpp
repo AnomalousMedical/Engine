@@ -301,14 +301,8 @@ String^ ZipFile::wildcardToRegex(String^ wildcard)
 
 String^ ZipFile::fixPathFile(String^ path)
 {
-	path = path->Replace('\\', '/');
-	if(path->StartsWith("/"))
-	{
-		path = path->Substring(1);
-	}
-
 	//Fix up any ../ sections to point to the upper directory.
-	cli::array<System::String^>^ splitPath = path->Split(SEPS);
+	cli::array<System::String^>^ splitPath = path->Split(SEPS, StringSplitOptions::RemoveEmptyEntries);
 	int lenMinusOne = splitPath->Length - 1;
 	System::Text::StringBuilder pathString(path->Length);
 	for(int i = 0; i < lenMinusOne; ++i)
@@ -333,10 +327,7 @@ String^ ZipFile::fixPathFile(String^ path)
 String^ ZipFile::fixPathDir(String^ path)
 {
 	path = fixPathFile(path);
-	if(!path->EndsWith("/"))
-	{
-		path += "/";
-	}
+	path += "/";
 	return path;
 }
 
