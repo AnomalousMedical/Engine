@@ -70,12 +70,12 @@ void ZipStream::Write(cli::array<unsigned char, 1>^ buffer, int offset, int coun
 
 bool ZipStream::CanRead::get()
 {
-	return (zzip_tell(zzipFile) < static_cast<zzip_off_t>(uncompressedSize));
+	return true;// (zzip_tell(zzipFile) < static_cast<zzip_off_t>(uncompressedSize));
 } 
 
 bool ZipStream::CanSeek::get()
 {
-	return (zzip_tell(zzipFile) < static_cast<zzip_off_t>(uncompressedSize));
+	return true;// (zzip_tell(zzipFile) < static_cast<zzip_off_t>(uncompressedSize));
 } 
 
 bool ZipStream::CanWrite::get()
