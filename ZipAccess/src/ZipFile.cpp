@@ -306,7 +306,28 @@ String^ ZipFile::fixPathFile(String^ path)
 	{
 		path = path->Substring(1);
 	}
-	return path;
+
+	//Fix up any ../ sections to point to the upper directory.
+	cli::array<System::String^>^ splitPath = path->Split(SEPS);
+	int lenMinusOne = splitPath->Length - 1;
+	System::Text::StringBuilder pathString(path->Length);
+	for(int i = 0; i < lenMinusOne; ++i)
+	{
+		if(splitPath[i+1] != "..")
+		{
+			pathString.Append(splitPath[i]);
+			pathString.Append("/");
+		}
+		else
+		{
+			++i;
+		}
+	}
+	if(splitPath[lenMinusOne] != "..")
+	{
+		pathString.Append(splitPath[lenMinusOne]);
+	}
+	return pathString.ToString();
 }
 
 String^ ZipFile::fixPathDir(String^ path)
