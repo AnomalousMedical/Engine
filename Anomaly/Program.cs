@@ -19,29 +19,59 @@ namespace Anomaly
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            SplashScreen splash = new SplashScreen();
-            splash.Show();
+
+            //Parse command line
             String projectFileName = null;
             String[] commandArgs = Environment.GetCommandLineArgs();
+            bool startGUI = false;
             if (commandArgs.Length > 1)
             {
-                projectFileName = commandArgs[1];
-                if (!File.Exists(projectFileName))
+                //Handle the os passing a file name
+                if (commandArgs.Length == 2)
                 {
-                    projectFileName = null;
+                    projectFileName = commandArgs[1];
+                    startGUI = File.Exists(projectFileName);
+                }
+                //Process a command from the command line
+                else
+                {
+                    if (commandArgs[1].ToLower() == "publish")
+                    {
+                        PublishMode publishMode = new PublishMode();
+                        publishMode.getSettingsFromCommandLine(commandArgs);
+                        publishMode.publishResources();
+                    }
                 }
             }
-            if (projectFileName == null)
+            else
             {
-                OpenFileDialog openFile = new OpenFileDialog();
+                projectFileName = findProjectFile();
+                startGUI = File.Exists(projectFileName);
+            }
+            if (startGUI)
+            {
+                Program.startGUI(projectFileName);
+            }
+        }
+
+        static String findProjectFile()
+        {
+            using (OpenFileDialog openFile = new OpenFileDialog())
+            {
                 openFile.Filter = "Anomaly Projects(*.ano)|*.ano;";
-                DialogResult result = openFile.ShowDialog(splash);
+                DialogResult result = openFile.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                    projectFileName = openFile.FileName;
+                    return openFile.FileName;
                 }
-                openFile.Dispose();
+                return null;
             }
+        }
+
+        static void startGUI(String projectFileName)
+        {
+            SplashScreen splash = new SplashScreen();
+            splash.Show();
             Application.DoEvents();
             if (projectFileName != null)
             {

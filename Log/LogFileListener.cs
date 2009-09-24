@@ -9,10 +9,20 @@ namespace Logging
     /// <summary>
     /// This class will write the log messages to a file.
     /// </summary>
-    public class LogFileListener : LogListener
+    public class LogFileListener : LogListener, IDisposable
     {
         private StreamWriter fileWriter;
         private bool closed;
+
+        public LogFileListener()
+        {
+
+        }
+
+        public void Dispose()
+        {
+            closeLogFile();
+        }
 
         /// <summary>
         /// Gets a message from the log.
