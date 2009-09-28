@@ -46,6 +46,14 @@ public:
 	Quaternion getFrameOffsetBasisB();
 
 	void setLimit(int axis, float lo, float hi);
+
+	void setLinearLowerLimit(Vector3 linearLower);
+
+	void setLinearUpperLimit(Vector3 linearUpper);
+
+	void setAngularLowerLimit(Vector3 angularLower);
+
+	void setAngularUpperLimit(Vector3 angularUpper);
 };
 
 }

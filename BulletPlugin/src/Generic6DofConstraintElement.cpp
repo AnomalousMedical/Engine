@@ -31,6 +31,26 @@ void setRotation(btMatrix3x3& mat, float* rot)
 	mat.setRotation(btQuaternion(rot[0], rot[1], rot[2], rot[3]));
 }
 
+void setLinearLowerLimit(btGeneric6DofConstraint* joint, float* linearLower)
+{
+	joint->setLinearLowerLimit(btVector3(linearLower[0], linearLower[1], linearLower[2]));
+}
+
+void setLinearUpperLimit(btGeneric6DofConstraint* joint, float* linearUpper)
+{
+	joint->setLinearUpperLimit(btVector3(linearUpper[0], linearUpper[1], linearUpper[2]));
+}
+
+void setAngularLowerLimit(btGeneric6DofConstraint* joint, float* angularLower)
+{
+	joint->setAngularLowerLimit(btVector3(angularLower[0], angularLower[1], angularLower[2]));
+}
+
+void setAngularUpperLimit(btGeneric6DofConstraint* joint, float* angularUpper)
+{
+	joint->setAngularUpperLimit(btVector3(angularUpper[0], angularUpper[1], angularUpper[2]));
+}
+
 #pragma managed
 
 Generic6DofConstraintElement::Generic6DofConstraintElement(Generic6DofConstraintDefinition^ definition, SimObjectBase^ instance, RigidBody^ rbA, RigidBody^ rbB, BulletScene^ scene)
@@ -142,6 +162,26 @@ Quaternion Generic6DofConstraintElement::getFrameOffsetBasisB()
 void Generic6DofConstraintElement::setLimit(int axis, float lo, float hi)
 {
 	dof->setLimit(axis, lo, hi);
+}
+
+void Generic6DofConstraintElement::setLinearLowerLimit(Vector3 linearLower)
+{
+	BulletPlugin::setLinearLowerLimit(dof, &linearLower.x);
+}
+
+void Generic6DofConstraintElement::setLinearUpperLimit(Vector3 linearUpper)
+{
+	BulletPlugin::setLinearUpperLimit(dof, &linearUpper.x);
+}
+
+void Generic6DofConstraintElement::setAngularLowerLimit(Vector3 angularLower)
+{
+	BulletPlugin::setAngularLowerLimit(dof, &angularLower.x);
+}
+
+void Generic6DofConstraintElement::setAngularUpperLimit(Vector3 angularUpper)
+{
+	BulletPlugin::setAngularUpperLimit(dof, &angularUpper.x);
 }
 
 }

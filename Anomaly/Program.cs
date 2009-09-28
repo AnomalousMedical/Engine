@@ -9,6 +9,7 @@ using System.IO;
 
 namespace Anomaly
 {
+    //publish s:\export\scenes\Medical.ano s:\export\scenes\BlankHeadScene.sim.xml t:/publishtest -a Articulometrics -o
     static class Program
     {
         /// <summary>
