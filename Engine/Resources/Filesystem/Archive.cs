@@ -92,5 +92,7 @@ namespace Engine.Resources
         public abstract bool exists(String filename);
 
         public abstract ArchiveFileInfo getFileInfo(String filename);
+
+        public abstract String getFullPath(String filename);
     }
 }

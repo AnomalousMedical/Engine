@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ZipAccess;
+using System.IO;
 
 namespace Engine.Resources
 {
@@ -10,6 +11,7 @@ namespace Engine.Resources
     {
         private ZipFile zipFile = null;
         private static String[] splitPattern = { ".zip", ".dat" };
+        private String fullZipPath;
 
         internal static bool CanOpenURL(String url)
         {
@@ -19,6 +21,7 @@ namespace Engine.Resources
         public ZipArchive(String filename)
         {
             String zipName = parseZipName(filename);
+            fullZipPath = Path.GetFullPath(zipName);
             String subDir = parseURLInZip(filename);
             if (subDir == "")
             {
@@ -83,6 +86,18 @@ namespace Engine.Resources
         public override ArchiveFileInfo getFileInfo(String filename)
         {
             return new ZipArchiveFileInfo(zipFile.getFileInfo(parseURLInZip(filename)));
+        }
+
+        public override String getFullPath(String filename)
+        {
+            if (filename.Contains(".zip") || filename.Contains(".dat"))
+            {
+                return filename;
+            }
+            else
+            {
+                return fullZipPath + "/" + filename;
+            }
         }
 
         private String parseURLInZip(String url)

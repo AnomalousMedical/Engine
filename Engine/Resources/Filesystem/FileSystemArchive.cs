@@ -58,5 +58,10 @@ namespace Engine.Resources
         {
             return new FileSystemFileInfo(filename);
         }
+
+        public override String getFullPath(String filename)
+        {
+            return Path.GetFullPath(filename);
+        }
     }
 }

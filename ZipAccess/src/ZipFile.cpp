@@ -257,6 +257,10 @@ List<ZipFileInfo^>^ ZipFile::findMatches(List<ZipFileInfo^>^ sourceList, String^
 				if(file->FullName->Contains(path) && (matchAll || r->Match(file->FullName)->Success))
 				{
 					String^ cut = file->FullName->Replace(path, "");
+					if(cut->EndsWith("/"))
+					{
+						cut = cut->Substring(0, cut->Length - 1);
+					}
 					if(!cut->Contains("/"))
 					{
 						files->Add(file);
