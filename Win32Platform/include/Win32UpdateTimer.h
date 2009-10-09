@@ -15,6 +15,7 @@ private:
 	HACCEL hAccel;
 	HWND hWnd;
 	HINSTANCE hInstance;
+	UpdateListener^ systemMessageListener;
 
 public:
 	Win32UpdateTimer(SystemTimer^ systemTimer);
@@ -24,6 +25,8 @@ public:
 	virtual bool startLoop() override;
 
 	void setWindowHandle(OSWindow^ window);
+
+	void setSystemMessageListener(UpdateListener^ systemMessageListener);
 };
 
 }
