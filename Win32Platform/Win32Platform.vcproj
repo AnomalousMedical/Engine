@@ -244,6 +244,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Win32UpdateTimer.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\WindowsMessageHandler.cpp"
 				>
 			</File>
@@ -291,6 +295,10 @@
 			</File>
 			<File
 				RelativePath=".\include\Win32SystemTimer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\Win32UpdateTimer.h"
 				>
 			</File>
 			<File

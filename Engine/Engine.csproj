@@ -110,6 +110,7 @@
     <Compile Include="ObjectManagement\Instance\SimScene.cs" />
     <Compile Include="ObjectManagement\Instance\SimSubScene.cs" />
     <Compile Include="Platform\Clock.cs" />
+    <Compile Include="Platform\FullSpeedOnlyUpdateTimer.cs" />
     <Compile Include="Platform\Input\DefaultEvents.cs" />
     <Compile Include="Platform\Input\EventManager.cs" />
     <Compile Include="Platform\Input\EventUpdateListener.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="Platform\Input\KeyCodes.cs" />
     <Compile Include="Platform\Input\MessageEvent.cs" />
     <Compile Include="Platform\Input\Mouse.cs" />
+    <Compile Include="Platform\ManagedUpdateTimer.cs" />
     <Compile Include="Platform\OSWindow.cs" />
     <Compile Include="Platform\OSWindowListener.cs" />
     <Compile Include="Platform\SystemTimer.cs" />

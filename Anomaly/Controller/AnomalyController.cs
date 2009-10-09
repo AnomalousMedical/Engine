@@ -126,7 +126,7 @@ namespace Anomaly
 
             //Intialize the platform
             systemTimer = pluginManager.PlatformPlugin.createTimer();
-            mainTimer = new UpdateTimer(systemTimer, new WindowsFormsUpdate());
+            mainTimer = new ManagedUpdateTimer(systemTimer, new WindowsFormsUpdate());
             mainTimer.FramerateCap = AnomalyConfig.EngineConfig.MaxFPS;
             inputHandler = pluginManager.PlatformPlugin.createInputHandler(mainForm, false, false, false);
             eventManager = new EventManager(inputHandler);
