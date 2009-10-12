@@ -10,8 +10,7 @@ namespace Platform
 Win32UpdateTimer::Win32UpdateTimer(SystemTimer^ systemTimer)
 :UpdateTimer(systemTimer),
 hAccel(NULL),
-hWnd(NULL),
-systemMessageListener(nullptr)
+hWnd(NULL)
 {
 }
 
@@ -42,17 +41,11 @@ bool Win32UpdateTimer::startLoop()
 
     while (started)
     {
-		gotMessage = ( PeekMessage( &msg, NULL, 0, 0, PM_NOREMOVE ) != 0 );
-		if(gotMessage)
-		{
-			if(systemMessageListener != nullptr)
-			{
-				systemMessageListener->sendUpdate(clock);
-			}
-		}
 		gotMessage = ( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) != 0 );
 		if(gotMessage)
 		{
+			MessageReceived(WinMsg(msg));
+
 			if( hAccel == NULL || hWnd == NULL || 
                 0 == TranslateAccelerator( hWnd, hAccel, &msg ) )
             {
@@ -108,11 +101,6 @@ void Win32UpdateTimer::setWindowHandle(OSWindow^ window)
 {
 	hWnd = (HWND)window->WindowHandle.ToInt32();
 	hInstance = (HINSTANCE)GetWindowLongPtr(hWnd, GWLP_HINSTANCE);
-}
-
-void Win32UpdateTimer::setSystemMessageListener(UpdateListener^ systemMessageListener)
-{
-	this->systemMessageListener = systemMessageListener;
 }
 
 }
