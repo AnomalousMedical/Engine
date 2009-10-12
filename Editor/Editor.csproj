@@ -142,7 +142,6 @@
       <DependentUpon>PropertiesTable.cs</DependentUpon>
     </Compile>
     <Compile Include="ObjectEditor\TreeDblClickPrevent.cs" />
-    <Compile Include="Platform\WindowsFormsUpdate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyObjectEditor\PropertyBag.cs" />
     <Compile Include="Tools\Movement\Axis.cs" />

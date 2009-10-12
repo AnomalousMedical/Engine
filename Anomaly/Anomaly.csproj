@@ -182,6 +182,10 @@
       <Project>{52213B4F-D940-438C-98DD-BB7CF44F2F98}</Project>
       <Name>Math</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Win32Platform\Win32Platform.vcproj">
+      <Project>{08CF7667-CF92-4813-AF41-278015BE3807}</Project>
+      <Name>Win32Platform</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">

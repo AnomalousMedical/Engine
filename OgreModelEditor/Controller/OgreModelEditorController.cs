@@ -150,7 +150,11 @@ namespace OgreModelEditor
 
             //Intialize the platform
             systemTimer = pluginManager.PlatformPlugin.createTimer();
-            mainTimer = new ManagedUpdateTimer(systemTimer, new WindowsFormsUpdate());
+
+            Win32UpdateTimer win32Timer = new Win32UpdateTimer(systemTimer);
+            win32Timer.MessageReceived += new PumpMessageEvent(win32Timer_MessageReceived);
+            mainTimer = win32Timer;
+
             mainTimer.FramerateCap = OgreModelEditorConfig.EngineConfig.MaxFPS;
             inputHandler = pluginManager.PlatformPlugin.createInputHandler(mainForm, false, false, false);
             eventManager = new EventManager(inputHandler);
@@ -189,7 +193,6 @@ namespace OgreModelEditor
 
             //startup the form
             mainForm.Show();
-            Application.DoEvents();
 
             //Create a simple scene to use to show the models
             SimSceneDefinition sceneDefiniton = new SimSceneDefinition();
@@ -203,6 +206,12 @@ namespace OgreModelEditor
             scene = sceneDefiniton.createScene();
             drawingWindowController.createCameras(mainTimer, scene);
             toolManager.createSceneElements(scene.getDefaultSubScene(), PluginManager.Instance);
+        }
+
+        void win32Timer_MessageReceived(ref WinMsg message)
+        {
+            Message msg = Message.Create(message.hwnd, message.message, message.wParam, message.lParam);
+            ManualMessagePump.pumpMessage(ref msg);
         }
 
         public void start()
