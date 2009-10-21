@@ -1,0 +1,8 @@
+StatsFont
+{
+	type 		truetype
+	source 		OgrePlugin.Resources.Tuffy.ttf
+	size 		32
+	resolution 	55
+}
+

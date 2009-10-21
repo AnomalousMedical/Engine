@@ -26,7 +26,7 @@ namespace OgrePlugin
             statsPanel = OverlayManager.getInstance().createOverlayElement(PanelOverlayElement.TypeName, name + "StatsOverlayPanel__") as PanelOverlayElement;
             fpsTextArea = OverlayManager.getInstance().createOverlayElement(TextAreaOverlayElement.TypeName, name + "StatsFpsText__") as TextAreaOverlayElement;
             statsPanel.addChild(fpsTextArea);
-            fpsTextArea.setFontName("BlueHighway");
+            fpsTextArea.setFontName("StatsFont");
             fpsTextArea.setMetricsMode(GuiMetricsMode.GMM_PIXELS);
             fpsTextArea.setCharHeight(15.0f);
 

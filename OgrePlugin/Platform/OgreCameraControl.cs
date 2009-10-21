@@ -54,11 +54,8 @@ namespace OgrePlugin
             node.attachObject(camera);
             viewport = renderWindow.addViewport(camera);
 
-            if (OgreInterface.FoundOgreCore)
-            {
-                statsOverlay = new StatsOverlay(name);
-                statsOverlay.createOverlays();
-            }
+            statsOverlay = new StatsOverlay(name);
+            statsOverlay.createOverlays();
             sceneManager.SceneManager.addSceneListener(this);
         }
 

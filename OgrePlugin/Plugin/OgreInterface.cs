@@ -134,6 +134,7 @@ namespace OgrePlugin
                 pluginManager.addSubsystemResources(ogreResourcs);
 
                 //Setup the core resources
+                OgreResourceGroupManager.getInstance().addResourceLocation(typeof(OgreInterface).AssemblyQualifiedName, "EmbeddedResource", "Bootstrap", true);
                 String ogreCoreLocation = pluginManager.PluginDirectory + Path.DirectorySeparatorChar + "OgreCore.zip";
                 FoundOgreCore = File.Exists(ogreCoreLocation);
                 if (FoundOgreCore)
