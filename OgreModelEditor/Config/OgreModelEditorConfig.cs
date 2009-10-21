@@ -10,7 +10,7 @@ namespace OgreModelEditor
     class OgreModelEditorConfig
     {
         private static ConfigFile configFile;
-        private static String docRoot = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OgreModelEditor";
+        private static String docRoot = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Anomalous Software/OgreModelEditor";
 
         static OgreModelEditorConfig()
         {

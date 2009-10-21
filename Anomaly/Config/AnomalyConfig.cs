@@ -13,7 +13,7 @@ namespace Anomaly
     class AnomalyConfig
     {
         private static ConfigFile configFile;
-        private static String docRoot = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Anomaly";
+        private static String docRoot = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Anomalous Software/Anomaly";
         private static ToolsConfig tools;
 
         static AnomalyConfig()
