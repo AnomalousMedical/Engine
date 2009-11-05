@@ -122,6 +122,11 @@ namespace Engine.Saving
             return (Color)entries[name].Value;
         }
 
+        public byte[] GetBlob(String name)
+        {
+            return (byte[])entries[name].Value;
+        }
+
         public Saveable GetValue(string name, Type type)
         {
             return (Saveable)entries[name].Value;

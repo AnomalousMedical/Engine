@@ -150,6 +150,12 @@ namespace Engine.Saving
             entries.Add(name, new SaveEntry(name, value, typeof(Color)));
         }
 
+        public void AddValue(String name, byte[] value)
+        {
+            validate(name, value);
+            entries.Add(name, new SaveEntry(name, value, typeof(byte[])));
+        }
+
         public void ExtractDictionary<KeyType, ValueType>(String baseName, Dictionary<KeyType, ValueType> dictionary)
         {
             String keyBase = baseName + "Key";

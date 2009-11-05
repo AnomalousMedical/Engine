@@ -198,6 +198,7 @@
     <Compile Include="Saving\Save\ValueWriter.cs" />
     <Compile Include="Saving\Save\ValueWriterEntry.cs" />
     <Compile Include="Saving\Save\ValueWriterCollection.cs" />
+    <Compile Include="Saving\XMLSaver\Values\XmlBlob.cs" />
     <Compile Include="Saving\XMLSaver\Values\XmlBool.cs" />
     <Compile Include="Saving\XMLSaver\Values\XmlByte.cs" />
     <Compile Include="Saving\XMLSaver\Values\XmlChar.cs" />
