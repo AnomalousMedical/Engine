@@ -57,9 +57,19 @@ namespace Engine.Resources
             return getArray(zipFile.listDirectories(parseURLInZip(url), recursive));
         }
 
+        public override string[] listDirectories(string url, bool recursive, bool includeHidden)
+        {
+            return listDirectories(url, recursive);
+        }
+
         public override String[] listDirectories(String url, String searchPattern, bool recursive)
         {
             return getArray(zipFile.listDirectories(parseURLInZip(url), searchPattern, recursive));
+        }
+
+        public override string[] listDirectories(string url, string searchPattern, bool recursive, bool includeHidden)
+        {
+            return listDirectories(url, searchPattern, recursive);
         }
 
         public override System.IO.Stream openStream(string url, FileMode mode)

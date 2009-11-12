@@ -81,7 +81,11 @@ namespace Engine.Resources
 
         public abstract String[] listDirectories(String url, bool recursive);
 
+        public abstract String[] listDirectories(String url, bool recursive, bool includeHidden);
+
         public abstract String[] listDirectories(String url, String searchPattern, bool recursive);
+
+        public abstract String[] listDirectories(String url, String searchPattern, bool recursive, bool includeHidden);
 
         public abstract Stream openStream(String url, FileMode mode);
 

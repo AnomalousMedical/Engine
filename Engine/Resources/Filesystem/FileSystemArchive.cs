@@ -28,9 +28,33 @@ namespace Engine.Resources
             return Directory.GetDirectories(url, "*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
         }
 
+        public override String[] listDirectories(String url, bool recursive, bool includeHidden)
+        {
+            return listDirectories(url, "*", recursive, includeHidden);
+        }
+
         public override String[] listDirectories(String url, String searchPattern, bool recursive)
         {
             return Directory.GetDirectories(url, searchPattern, recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
+        }
+
+        public override String[] listDirectories(String url, String searchPattern, bool recursive, bool includeHidden)
+        {
+            String[] directories = listDirectories(url, searchPattern, recursive);
+            if (!includeHidden)
+            {
+                List<String> ret = new List<string>();
+                foreach (String dir in directories)
+                {
+                    FileAttributes attr = File.GetAttributes(dir);
+                    if ((attr & FileAttributes.Hidden) != FileAttributes.Hidden)
+                    {
+                        ret.Add(dir);
+                    }
+                }
+                return ret.ToArray();
+            }
+            return directories;
         }
 
         public override Stream openStream(String url, FileMode mode)
