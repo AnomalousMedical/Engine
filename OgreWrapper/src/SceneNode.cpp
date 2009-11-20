@@ -10,6 +10,7 @@
 #include "SceneManager.h"
 #include "MovableObject.h"
 #include "MarshalUtils.h"
+#include "MathUtils.h"
 
 #include "Ogre.h"
 
@@ -117,6 +118,16 @@ SceneNode^ SceneNode::getManagedNode(Ogre::SceneNode* node)
 {
 	SceneNodeGCRoot* root = static_cast<SceneNodeGCRoot*>(Ogre::any_cast<void*>(node->getUserAny()));
 	return (*root);
+}
+
+void SceneNode::lookAt(Engine::Vector3 targetPoint, TransformSpace relativeTo)
+{
+	sceneNode->lookAt(MathUtils::copyVector3(targetPoint), static_cast<Ogre::Node::TransformSpace>(relativeTo));
+}
+
+void SceneNode::lookAt(Engine::Vector3 targetPoint, TransformSpace relativeTo, Engine::Vector3 localDirectionVector)
+{
+	sceneNode->lookAt(MathUtils::copyVector3(targetPoint), static_cast<Ogre::Node::TransformSpace>(relativeTo), MathUtils::copyVector3(localDirectionVector));
 }
 
 }

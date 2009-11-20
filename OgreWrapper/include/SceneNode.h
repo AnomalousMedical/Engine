@@ -136,6 +136,10 @@ public:
 	/// <param name="cascade">If true, this setting cascades into child nodes too.</param>
 	void setVisible(bool visible, bool cascade);
 
+	void lookAt(Engine::Vector3 targetPoint, TransformSpace relativeTo);
+
+	void lookAt(Engine::Vector3 targetPoint, TransformSpace relativeTo, Engine::Vector3 localDirectionVector);
+
 	property System::Object^ UserObject
 	{
 		System::Object^ get()

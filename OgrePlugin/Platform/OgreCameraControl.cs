@@ -53,6 +53,7 @@ namespace OgrePlugin
             node = sceneManager.SceneManager.createSceneNode(name + CAMERA_NODE_RESERVED_NAME);
             node.attachObject(camera);
             viewport = renderWindow.addViewport(camera);
+            sceneManager.SceneManager.getRootSceneNode().addChild(node);
 
             statsOverlay = new StatsOverlay(name);
             statsOverlay.createOverlays();
@@ -173,6 +174,7 @@ namespace OgrePlugin
             {
                 statsOverlay.destroyOverlays();
             }
+            sceneManager.SceneManager.getRootSceneNode().removeChild(node);
             removeLight();
             renderWindow.destroyViewport(viewport);
             node.detachObject(camera);
@@ -243,6 +245,7 @@ namespace OgrePlugin
             set
             {
                 lookAt = value;
+                node.lookAt(lookAt, Node.TransformSpace.TS_WORLD);
                 camera.lookAt(lookAt);
             }
         }
