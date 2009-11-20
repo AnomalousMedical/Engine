@@ -56,6 +56,16 @@ namespace Engine
         Vector3 Translation { get; set; }
 
         /// <summary>
+        /// The current direction the camera is facing.
+        /// </summary>
+        Vector3 Direction { get; }
+
+        /// <summary>
+        /// The current orientation of the camera.
+        /// </summary>
+        Quaternion Orientation { get; }
+
+        /// <summary>
         /// The last set look at point of the camera. Setting this will cause
         /// the camera to look at the new location.
         /// </summary>

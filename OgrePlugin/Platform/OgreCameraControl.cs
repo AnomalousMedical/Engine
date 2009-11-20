@@ -236,6 +236,22 @@ namespace OgrePlugin
             }
         }
 
+        public Vector3 Direction
+        {
+            get
+            {
+                return camera.getRealDirection();
+            }
+        }
+
+        public Quaternion Orientation
+        {
+            get
+            {
+                return camera.getRealOrientation();
+            }
+        }
+
         public Vector3 LookAt
         {
             get
