@@ -49,6 +49,7 @@ namespace OgrePlugin
             this.name = name;
             this.interfaceName = interfaceName;
             this.validateCallback = validateCallback;
+            RenderQueue = 50;
         }
 
         /// <summary>

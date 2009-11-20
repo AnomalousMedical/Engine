@@ -471,4 +471,22 @@ bool SceneManager::getShadowUseLightClipPlanes()
 	return sceneManager->getShadowUseLightClipPlanes();
 }
 
+void SceneManager::setSkyPlane(bool enabled, float d, Engine::Vector3 normal, System::String^ matName, float scale, float tiling, bool drawFirst, int bow)
+{
+	Ogre::Plane p;
+	p.d = d;
+	p.normal = MathUtils::copyVector3(normal);
+	sceneManager->setSkyPlane(enabled, p, MarshalUtils::convertString(matName), scale, tiling, drawFirst, bow);
+}
+
+void SceneManager::setSkyBox(bool enabled, System::String^ matName, float distance, bool drawFirst)
+{
+	sceneManager->setSkyBox(enabled, MarshalUtils::convertString(matName), distance, drawFirst);
+}
+
+void SceneManager::setSkyDome(bool enabled, System::String^ matName)
+{
+	sceneManager->setSkyDome(enabled, MarshalUtils::convertString(matName));
+}
+
 }

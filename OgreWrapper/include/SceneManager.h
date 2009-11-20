@@ -547,6 +547,12 @@ public:
 	void setShadowUseLightClipPlanes(bool enabled);
 	
 	bool getShadowUseLightClipPlanes();
+
+	void setSkyPlane(bool enabled, float d, Engine::Vector3 normal, System::String^ matName, float scale, float tiling, bool drawFirst, int bow);
+
+	void setSkyBox(bool enabled, System::String^ matName, float distance, bool drawFirst);
+
+	void setSkyDome(bool enabled, System::String^ matName);
 };
 
 }
