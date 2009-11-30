@@ -419,6 +419,10 @@ public:
 	Engine::Matrix4x4 getViewMatrix();
 
 	Engine::Matrix4x4 getProjectionMatrix();
+
+	void getFrustumExtents(_OUT float% outLeft, _OUT float% outRight, _OUT float% outTop, _OUT float% outBottom);
+
+	void setFrustumExtents(float left, float right, float top, float bottom);
 };
 
 }

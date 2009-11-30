@@ -286,4 +286,19 @@ Engine::Matrix4x4 Camera::getProjectionMatrix()
 	return MathUtils::copyMatrix4x4(camera->getProjectionMatrix());
 }
 
+void Camera::getFrustumExtents(_OUT float% outLeft, _OUT float% outRight, _OUT float% outTop, _OUT float% outBottom)
+{
+	Ogre::Real l, r, t, b;
+	camera->getFrustumExtents(l, r, t, b);
+	outLeft = l;
+	outRight = r;
+	outTop = t;
+	outBottom = b;
+}
+
+void Camera::setFrustumExtents(float left, float right, float top, float bottom)
+{
+	camera->setFrustumExtents(left, right, top, bottom);
+}
+
 }
