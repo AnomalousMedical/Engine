@@ -6,8 +6,13 @@ using System.IO;
 
 namespace Engine
 {
+    public delegate void ConfigEvent(ConfigSection source);
+
     public class ConfigSection
     {
+        public event ConfigEvent SectionSaving;
+        public event ConfigEvent SectionLoaded;
+
         private String name;
         private Dictionary<String, String> configValues = new Dictionary<string,string>();
         private String[] sep = { "=" };
@@ -334,8 +339,17 @@ namespace Engine
 	        return defaultVal;
         }
 
+        public void clearValues()
+        {
+            configValues.Clear();
+        }
+
         internal void writeSection(StreamWriter writer)
         {
+            if (SectionSaving != null)
+            {
+                SectionSaving.Invoke(this);
+            }
             if (!hidden)
             {
                 writer.WriteLine("[{0}]", Name);
@@ -367,6 +381,10 @@ namespace Engine
                     setValue(values[0].Trim(), null);
                 }
                 line = reader.ReadLine();
+            }
+            if (SectionLoaded != null)
+            {
+                SectionLoaded.Invoke(this);
             }
             return line;
         }
