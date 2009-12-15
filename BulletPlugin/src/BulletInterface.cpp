@@ -6,6 +6,7 @@
 #include "Generic6DofConstraintDefinition.h"
 #include "BulletShapeFileManager.h"
 #include "BulletDebugInterface.h"
+#include "SoftBodyDefinition.h"
 
 using namespace Engine::Command;
 
@@ -37,6 +38,7 @@ void BulletInterface::initialize(PluginManager^ pluginManager)
 	pluginManager->addCreateSimElementManagerCommand(gcnew AddSimElementManagerCommand("Create Bullet Scene Definition", gcnew CreateSimElementManager(BulletSceneDefinition::Create)));
 
 	pluginManager->addCreateSimElementCommand(gcnew AddSimElementCommand("Create Bullet Rigid Body", gcnew CreateSimElement(RigidBodyDefinition::Create)));
+	pluginManager->addCreateSimElementCommand(gcnew AddSimElementCommand("Create Bullet Soft Body", gcnew CreateSimElement(SoftBodyDefinition::Create)));
 	pluginManager->addCreateSimElementCommand(gcnew AddSimElementCommand("Create Bullet Generic 6 Dof Constraint", gcnew CreateSimElement(Generic6DofConstraintDefinition::Create)));
 
 	bulletResources->addResourceListener(fileManager);

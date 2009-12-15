@@ -16,7 +16,7 @@ class Win32ThreadSupport;
 #endif
 
 #ifdef USE_SOFTBODY_WORLD
-class btSoftBodyWorldInfo;
+struct btSoftBodyWorldInfo;
 #endif
 
 namespace BulletPlugin
@@ -41,7 +41,13 @@ private:
 	btCollisionDispatcher* dispatcher;
 	btAxisSweep3* overlappingPairCache;
 	btSequentialImpulseConstraintSolver* solver;
+
+#ifdef USE_SOFTBODY_WORLD
+	btSoftRigidDynamicsWorld* dynamicsWorld;
+	btSoftBodyWorldInfo* softBodyWorldInfo;
+#else
 	btDiscreteDynamicsWorld* dynamicsWorld;
+#endif
 
 	gcroot<BulletScene^>* sceneRoot;
 	ContactCache contactCache;
@@ -51,10 +57,6 @@ private:
 	Win32ThreadSupport* m_threadSupportCollision;
 	#endif
 
-	#ifdef USE_SOFTBODY_WORLD
-	btSoftBodyWorldInfo* softBodyWorldInfo;
-	#endif
-
 internal:
 	BulletScene(BulletSceneDefinition^ definition, UpdateTimer^ timer);
 
@@ -62,6 +64,23 @@ internal:
 
 	void tickCallback(btScalar timeStep);
 
+#ifdef USE_SOFTBODY_WORLD
+	property btSoftRigidDynamicsWorld* DynamicsWorld
+	{
+		btSoftRigidDynamicsWorld* get()
+		{
+			return dynamicsWorld;
+		}
+	}
+
+	property btSoftBodyWorldInfo* SoftBodyWorldInfo
+	{
+		btSoftBodyWorldInfo* get()
+		{
+			return softBodyWorldInfo;
+		}
+	}
+#else
 	property btDiscreteDynamicsWorld* DynamicsWorld
 	{
 		btDiscreteDynamicsWorld* get()
@@ -69,6 +88,7 @@ internal:
 			return dynamicsWorld;
 		}
 	}
+#endif
 
 public:
 	virtual ~BulletScene(void);

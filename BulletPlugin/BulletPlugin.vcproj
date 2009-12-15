@@ -221,6 +221,14 @@
 				RelativePath=".\include\RigidBodyDefinition.h"
 				>
 			</File>
+			<File
+				RelativePath=".\src\SoftBodyDefinition.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\SoftBodyDefinition.h"
+				>
+			</File>
 			<Filter
 				Name="Joints"
 				>
@@ -337,6 +345,14 @@
 			</File>
 			<File
 				RelativePath=".\include\RigidBody.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\SoftBody.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\SoftBody.h"
 				>
 			</File>
 			<Filter

@@ -135,6 +135,7 @@ softBodyWorldInfo(new btSoftBodyWorldInfo())
 	softBodyWorldInfo->water_offset	= 0;
 	float waterNormal[3] = {0, 0, 0};
 	setWaterNormal(softBodyWorldInfo, waterNormal);
+	dynamicsWorld->setDrawFlags(fDrawFlags::Std);
 #endif
 }
 

@@ -43,7 +43,7 @@ void RigidBodyDefinition::registerScene(SimSubScene^ subscene, SimObjectBase^ in
     }
     else
     {
-		Logging::Log::Default->sendMessage("Cannot add PhysActorDefinition {0} to SimSubScene {1} because it does not contain a PhysXSceneManager.", Logging::LogLevel::Warning, BulletInterface::PluginName, Name, subscene->Name);
+		Logging::Log::Default->sendMessage("Cannot add RigidBodyDefinition {0} to SimSubScene {1} because it does not contain a BulletSceneManager.", Logging::LogLevel::Warning, BulletInterface::PluginName, Name, subscene->Name);
     }
 }
 

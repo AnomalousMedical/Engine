@@ -11,18 +11,22 @@ ref class RigidBodyDefinition;
 ref class BulletFactoryEntry;
 ref class BulletScene;
 ref class TypedConstraintDefinition;
+ref class SoftBodyDefinition;
 
 ref class BulletFactory : public SimElementFactory
 {
 private:
 	BulletScene^ scene;
 	List<BulletFactoryEntry^> rigidBodies;
+	List<BulletFactoryEntry^> softBodies;
 	List<BulletFactoryEntry^> typedConstraints;
 
 internal:
 	void addRigidBody(RigidBodyDefinition^ definition, SimObjectBase^ instance);
 
 	void addTypedConstraint(TypedConstraintDefinition^ definition, SimObjectBase^ instance);
+
+	void addSoftBody(SoftBodyDefinition^ definition, SimObjectBase^ instance);
 
 public:
 	BulletFactory(BulletScene^ scene);
