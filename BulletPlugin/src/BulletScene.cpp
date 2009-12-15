@@ -14,6 +14,10 @@
 #include "BulletMultiThreaded/SpuNarrowPhaseCollisionTask/SpuGatheringCollisionTask.h"
 #endif
 
+#ifdef USE_SOFTBODY_WORLD
+
+#endif
+
 namespace BulletPlugin
 {
 
@@ -24,8 +28,19 @@ btAxisSweep3* createAxisSweep(float* worldMin, float* worldMax, int maxProxies)
 	return new btAxisSweep3(btVector3(worldMin[0], worldMin[1], worldMin[2]), btVector3(worldMax[0], worldMax[1], worldMax[2]), maxProxies);
 }
 
+#ifdef USE_SOFTBODY_WORLD
+void setWaterNormal(btSoftBodyWorldInfo* softBodyWorldInfo, float* norm)
+{
+	softBodyWorldInfo->water_normal	= btVector3(norm[0], norm[1], norm[2]);
+}
+
+void setGravity(btDiscreteDynamicsWorld* dynamicsWorld, btSoftBodyWorldInfo* softBodyWorldInfo, float* gravity)
+{
+	softBodyWorldInfo->m_gravity.setValue(gravity[0], gravity[1], gravity[2]);
+#else
 void setGravity(btDiscreteDynamicsWorld* dynamicsWorld, float* gravity)
 {
+#endif
 	dynamicsWorld->setGravity(btVector3(gravity[0], gravity[1], gravity[2]));
 }
 
@@ -63,11 +78,20 @@ timer(timer),
 maxProxies(definition->MaxProxies),
 debugDraw(new BulletDebugDraw()),
 internalTimestep(1.0f / 60.0f)
+#if USE_SOFTBODY_WORLD
+,
+softBodyWorldInfo(new btSoftBodyWorldInfo())
+#endif
 {
 	sceneRoot = new gcroot<BulletScene^>(this);
 
 	factory = gcnew BulletFactory(this);
+
+#ifdef USE_SOFTBODY_WORLD
+	collisionConfiguration = new btSoftBodyRigidBodyCollisionConfiguration();
+#else
 	collisionConfiguration = new btDefaultCollisionConfiguration();
+#endif
 
 #ifdef USE_PARALLEL_DISPATCHER
 	int maxNumOutstandingTasks = 4;
@@ -85,14 +109,33 @@ internalTimestep(1.0f / 60.0f)
 #endif
 
 	overlappingPairCache = createAxisSweep(&definition->WorldAabbMin.x, &definition->WorldAabbMax.x, definition->MaxProxies);
-	solver = new btSequentialImpulseConstraintSolver;
+	solver = new btSequentialImpulseConstraintSolver();
+
+#ifdef USE_SOFTBODY_WORLD
+	softBodyWorldInfo->m_dispatcher = dispatcher;
+	softBodyWorldInfo->m_broadphase = overlappingPairCache;
+	dynamicsWorld = new btSoftRigidDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration);
+	setGravity(dynamicsWorld, softBodyWorldInfo, &definition->Gravity.x);
+#else
 	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher,overlappingPairCache,solver,collisionConfiguration);
+	setGravity(dynamicsWorld, &definition->Gravity.x);
+#endif
+
 	dynamicsWorld->setInternalTickCallback(BulletPlugin::tickCallback, static_cast<void*>(sceneRoot));
 	/*dynamicsWorld->getDispatchInfo().m_useConvexConservativeDistanceUtil = true;
 	dynamicsWorld->getDispatchInfo().m_convexConservativeDistanceThreshold = 0.01;*/
-	setGravity(dynamicsWorld, &definition->Gravity.x);
 
 	timer->addFixedUpdateListener(this);
+
+#ifdef USE_SOFTBODY_WORLD
+	softBodyWorldInfo->m_sparsesdf.Initialize();
+	softBodyWorldInfo->m_sparsesdf.Reset();
+	softBodyWorldInfo->air_density = (btScalar)1.2;
+	softBodyWorldInfo->water_density = 0;
+	softBodyWorldInfo->water_offset	= 0;
+	float waterNormal[3] = {0, 0, 0};
+	setWaterNormal(softBodyWorldInfo, waterNormal);
+#endif
 }
 
 BulletScene::~BulletScene(void)
@@ -115,6 +158,10 @@ BulletScene::~BulletScene(void)
 
 #ifdef USE_PARALLEL_DISPATCHER
 	delete m_threadSupportCollision;
+#endif
+
+#ifdef USE_SOFTBODY_WORLD
+	delete softBodyWorldInfo;
 #endif
 
 	delete collisionConfiguration;

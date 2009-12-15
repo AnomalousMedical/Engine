@@ -114,7 +114,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\WrapperUtilities\include;&quot;$(BULLET_HOME)\src&quot;;include"
-				PreprocessorDefinitions="WIN32;NDEBUG"
+				PreprocessorDefinitions="WIN32;NDEBUG;USE_SOFTBODY_WORLD"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
@@ -131,7 +131,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libbulletdynamics.lib libbulletcollision.lib libbulletmath.lib libbulletmultithreaded.lib $(NOINHERIT)"
+				AdditionalDependencies="libbulletsoftbody.lib libbulletdynamics.lib libbulletcollision.lib libbulletmath.lib libbulletmultithreaded.lib $(NOINHERIT)"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(BULLET_HOME)\out\release8\libs"
 				GenerateDebugInformation="true"

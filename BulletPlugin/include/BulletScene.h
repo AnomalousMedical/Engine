@@ -15,6 +15,10 @@ using namespace Engine::Renderer;
 class Win32ThreadSupport;
 #endif
 
+#ifdef USE_SOFTBODY_WORLD
+class btSoftBodyWorldInfo;
+#endif
+
 namespace BulletPlugin
 {
 
@@ -45,6 +49,10 @@ private:
 
 	#ifdef USE_PARALLEL_DISPATCHER
 	Win32ThreadSupport* m_threadSupportCollision;
+	#endif
+
+	#ifdef USE_SOFTBODY_WORLD
+	btSoftBodyWorldInfo* softBodyWorldInfo;
 	#endif
 
 internal:

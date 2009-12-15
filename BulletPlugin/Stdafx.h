@@ -6,6 +6,8 @@
 
 #pragma unmanaged
 #include "btBulletDynamicsCommon.h"
+#include "BulletSoftBody\btSoftRigidDynamicsWorld.h"
+#include "BulletSoftBody\btSoftBodyRigidBodyCollisionConfiguration.h"
 #pragma managed
 
 #include "ConversionUtils.h"
