@@ -22,6 +22,12 @@ private:
 	bool massFromFaces;
 	bool randomizeConstraints;
 
+internal:
+	void setInitialPosition(Vector3% translation, Quaternion% rotation)
+	{
+		updatePositionImpl(translation, rotation);
+	}
+
 protected:
 	virtual void updatePositionImpl(Vector3% translation, Quaternion% rotation) override;
 

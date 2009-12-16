@@ -14,6 +14,30 @@ btSoftBody* createElipsoid(btSoftBodyWorldInfo* worldInfo, float* center, float*
 	return btSoftBodyHelpers::CreateEllipsoid(*worldInfo, btVector3(center[0], center[1], center[2]), btVector3(radius[0], radius[1], radius[2]), res);
 }
 
+void translate(btSoftBody* softBody, float* pos)
+{
+	softBody->translate(btVector3(pos[0], pos[1], pos[2]));
+}
+
+void rotate(btSoftBody* softBody, float* rot)
+{
+	softBody->rotate(btQuaternion(rot[0], rot[1], rot[2], rot[3]));
+}
+
+void transform(btSoftBody* softBody, float* pos, float* rot)
+{
+	btTransform trans;
+	trans.setIdentity();
+	trans.setOrigin(btVector3(pos[0], pos[1], pos[2]));
+	trans.setRotation(btQuaternion(rot[0], rot[1], rot[2], rot[3]));
+	softBody->transform(trans);
+}
+
+void scale(btSoftBody* softBody, float* scale)
+{
+	softBody->scale(btVector3(scale[0], scale[1], scale[2]));
+}
+
 #pragma managed
 
 SoftBody::SoftBody(SoftBodyDefinition^ description, BulletScene^ scene)
@@ -125,22 +149,27 @@ SimElementDefinition^ SoftBody::saveToDefinition()
 
 void SoftBody::updatePositionImpl(Vector3% translation, Quaternion% rotation)
 {
-
+	Vector3 localTrans = translation;
+	Quaternion localRot = rotation;
+	transform(softBody, &localTrans.x, &localRot.x);
 }
 
 void SoftBody::updateTranslationImpl(Vector3% translation)
 {
-
+	Vector3 localTrans = translation;
+	translate(softBody, &localTrans.x);
 }
 
 void SoftBody::updateRotationImpl(Quaternion% rotation)
 {
-
+	Quaternion localRot = rotation;
+	rotate(softBody, &localRot.x);
 }
 
 void SoftBody::updateScaleImpl(Vector3% scale)
 {
-
+	Vector3 localScale = scale;
+	BulletPlugin::scale(softBody, &localScale.x);
 }
 
 void SoftBody::setEnabled(bool enabled)

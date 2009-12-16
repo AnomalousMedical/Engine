@@ -81,6 +81,7 @@ EditInterface^ SoftBodyDefinition::getEditInterface()
 void SoftBodyDefinition::createProduct(SimObjectBase^ instance, BulletScene^ scene)
 {
 	SoftBody^ softBody = gcnew SoftBody(this, scene);
+	softBody->setInitialPosition(instance->Translation, instance->Rotation);
 	instance->addElement(softBody);
 }
 
