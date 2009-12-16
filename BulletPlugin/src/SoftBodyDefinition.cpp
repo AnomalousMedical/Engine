@@ -46,6 +46,10 @@ material(new btSoftBody::Material())
 	material->m_kAST = 1.0f;
 	material->m_kVST = 1.0f;
 	material->m_flags = btSoftBody::fMaterial::Default;
+
+	mass = 10.0f;
+	massFromFaces = true;
+	randomizeConstraints = true;
 }
 
 SoftBodyDefinition::~SoftBodyDefinition(void)
@@ -124,6 +128,11 @@ material(new btSoftBody::Material())
 	material->m_kAST = info->GetFloat("kAST");
 	material->m_kVST = info->GetFloat("kVST");
 	material->m_flags = btSoftBody::fMaterial::Default;
+
+	//Mass properties
+	mass = info->GetFloat("mass");
+	massFromFaces = info->GetBoolean("massFromFaces");
+	randomizeConstraints = info->GetBoolean("randomizeConstraints");
 }
 
 void SoftBodyDefinition::getInfo(SaveInfo^ info)
@@ -162,6 +171,11 @@ void SoftBodyDefinition::getInfo(SaveInfo^ info)
 	info->AddValue("kLST", material->m_kLST);
 	info->AddValue("kAST", material->m_kAST);
 	info->AddValue("kVST", material->m_kVST);
+
+	//Mass properties
+	info->AddValue("mass", mass);
+	info->AddValue("massFromFaces", massFromFaces);
+	info->AddValue("randomizeConstraints", randomizeConstraints);
 }
 //End saving
 

@@ -18,6 +18,9 @@ public ref class SoftBody : public SimElement
 private:
 	BulletScene^ scene;
 	btSoftBody* softBody;
+	float mass; //recorded because the getTotalMass function looses some value each time it is called.
+	bool massFromFaces;
+	bool randomizeConstraints;
 
 protected:
 	virtual void updatePositionImpl(Vector3% translation, Quaternion% rotation) override;

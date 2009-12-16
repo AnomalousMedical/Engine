@@ -55,6 +55,15 @@ scene(scene)
 	softBody->m_materials[0]->m_kLST = description->DefaultMaterial->m_kLST;
 	softBody->m_materials[0]->m_kAST = description->DefaultMaterial->m_kAST;
 	softBody->m_materials[0]->m_kVST = description->DefaultMaterial->m_kVST;
+
+	mass = description->Mass;
+	massFromFaces = description->MassFromFaces;
+	softBody->setTotalMass(mass, massFromFaces);
+	randomizeConstraints = description->RandomizeConstraints;
+	if(randomizeConstraints)
+	{
+		softBody->randomizeConstraints();
+	}
 }
 
 SoftBody::~SoftBody(void)
@@ -106,6 +115,10 @@ SimElementDefinition^ SoftBody::saveToDefinition()
 	def->DefaultMaterial->m_kLST = softBody->m_materials[0]->m_kLST;
 	def->DefaultMaterial->m_kAST = softBody->m_materials[0]->m_kAST;
 	def->DefaultMaterial->m_kVST = softBody->m_materials[0]->m_kVST;
+
+	def->Mass = mass;
+	def->MassFromFaces = massFromFaces;
+	def->RandomizeConstraints = randomizeConstraints;
 
 	return def;
 }

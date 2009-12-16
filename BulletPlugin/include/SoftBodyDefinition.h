@@ -50,6 +50,9 @@ private:
 	EditInterface^ editInterface;
 	AutoPtr<btSoftBody::Config> config;
 	AutoPtr<btSoftBody::Material> material;
+	float mass;
+	bool massFromFaces;
+	bool randomizeConstraints;
 
 	static MemberScanner^ memberScanner = gcnew MemberScanner();
 
@@ -535,6 +538,48 @@ property float DefMat_kVST
 	void set(float value)
 	{
 		material->m_kVST = value;
+	}
+}
+
+[Editable]
+property float Mass
+{
+	float get()
+	{
+		return mass;
+	}
+	
+	void set(float value)
+	{
+		mass = value;
+	}
+}
+
+[Editable]
+property bool MassFromFaces
+{
+	bool get()
+	{
+		return massFromFaces;
+	}
+	
+	void set(bool value)
+	{
+		massFromFaces = value;
+	}
+}
+
+[Editable]
+property bool RandomizeConstraints
+{
+	bool get()
+	{
+		return randomizeConstraints;
+	}
+	
+	void set(bool value)
+	{
+		randomizeConstraints = value;
 	}
 }
 
