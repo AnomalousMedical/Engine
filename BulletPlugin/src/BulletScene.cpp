@@ -6,6 +6,7 @@
 #include "BulletDebugDraw.h"
 #include "MotionState.h"
 #include "RigidBody.h"
+#include "SoftBodyProvider.h"
 
 #ifdef USE_PARALLEL_DISPATCHER
 #include "BulletMultiThreaded/SpuGatheringCollisionDispatcher.h"
@@ -181,6 +182,16 @@ void BulletScene::tickCallback(btScalar timeStep)
 	contactCache.dispatchContacts();
 }
 
+void BulletScene::addSoftBodyProvider(SoftBodyProvider^ sbProvider)
+{
+	softBodyProviders.Add(sbProvider);
+}
+
+void BulletScene::removeSoftBodyProvider(SoftBodyProvider^ sbProvider)
+{
+	softBodyProviders.Remove(sbProvider);
+}
+
 SimElementFactory^ BulletScene::getFactory()
 {
 	return factory;
@@ -222,6 +233,11 @@ void BulletScene::sendUpdate(Clock^ clock)
 		}
 	}
 	dynamicsWorld->stepSimulation(seconds, subSteps, internalTimestep);
+	//Update soft body providers
+	for each(SoftBodyProvider^ sbProvider in softBodyProviders)
+	{
+		sbProvider->updateOtherSubsystems();
+	}
 }
 
 void BulletScene::loopStarting()

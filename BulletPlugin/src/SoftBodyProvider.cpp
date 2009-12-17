@@ -16,7 +16,9 @@ SoftBodyProvider::~SoftBodyProvider(void)
 
 btSoftBody* SoftBodyProvider::createSoftBody(BulletScene^ scene)
 {
-	return createSoftBodyImpl(scene);
+	btSoftBody* softBody = createSoftBodyImpl(scene);
+
+	return softBody;
 }
 
 void SoftBodyProvider::destroySoftBody(BulletScene^ scene)

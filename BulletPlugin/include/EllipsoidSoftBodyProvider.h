@@ -13,6 +13,7 @@ ref class EllipsoidSoftBodyProvider : public SoftBodyProvider
 {
 private:
 	btSoftBody* softBody;
+	BulletScene^ scene;
 
 protected:
 	virtual void updatePositionImpl(Vector3% translation, Quaternion% rotation) override;
@@ -35,6 +36,8 @@ public:
 	virtual ~EllipsoidSoftBodyProvider(void);
 
 	virtual SimElementDefinition^ saveToDefinition() override;
+
+	virtual void updateOtherSubsystems() override;
 };
 
 }

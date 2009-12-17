@@ -43,6 +43,7 @@ void EllipsoidSoftBodyProvider::updateScaleImpl(Vector3% scale)
 
 void EllipsoidSoftBodyProvider::setEnabled(bool enabled)
 {
+	
 }
 
 btSoftBody* EllipsoidSoftBodyProvider::createSoftBodyImpl(BulletScene^ scene)
@@ -67,6 +68,12 @@ void EllipsoidSoftBodyProvider::destroySoftBodyImpl(BulletScene^ scene)
 SimElementDefinition^ EllipsoidSoftBodyProvider::saveToDefinition()
 {
 	return gcnew EllipsoidSoftBodyProviderDefinition(this->Name);
+}
+
+void EllipsoidSoftBodyProvider::updateOtherSubsystems()
+{
+	//If this had other subystem attachments they would be updated here. Also somewhere this has to be registered with the scene.
+	//This example class does not do so because it has no updates.
 }
 
 }

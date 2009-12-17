@@ -32,6 +32,8 @@ public:
 	SoftBodyProvider(SoftBodyProviderDefinition^ description);
 
 	virtual ~SoftBodyProvider(void);
+
+	virtual void updateOtherSubsystems() = 0;
 };
 
 }

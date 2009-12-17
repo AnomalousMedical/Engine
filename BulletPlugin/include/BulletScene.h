@@ -26,6 +26,7 @@ class BulletDebugDraw;
 
 ref class BulletSceneDefinition;
 ref class BulletFactory;
+ref class SoftBodyProvider;
 
 [Engine::Attributes::NativeSubsystemType]
 public ref class BulletScene : public SimElementManager, UpdateListener
@@ -41,6 +42,9 @@ private:
 	btCollisionDispatcher* dispatcher;
 	btAxisSweep3* overlappingPairCache;
 	btSequentialImpulseConstraintSolver* solver;
+
+	//List of soft body providers to be called back for update
+	List<SoftBodyProvider^> softBodyProviders;
 
 #ifdef USE_SOFTBODY_WORLD
 	btSoftRigidDynamicsWorld* dynamicsWorld;
@@ -63,6 +67,10 @@ internal:
 	BulletFactory^ getBulletFactory();
 
 	void tickCallback(btScalar timeStep);
+
+	void addSoftBodyProvider(SoftBodyProvider^ sbProvider);
+
+	void removeSoftBodyProvider(SoftBodyProvider^ sbProvider);
 
 #ifdef USE_SOFTBODY_WORLD
 	property btSoftRigidDynamicsWorld* DynamicsWorld
