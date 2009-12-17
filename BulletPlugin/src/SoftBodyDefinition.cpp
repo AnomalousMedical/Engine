@@ -13,7 +13,8 @@ SoftBodyDefinition::SoftBodyDefinition(String^ name)
 :BulletElementDefinition(name),
 editInterface(nullptr),
 config(new btSoftBody::Config()),
-material(new btSoftBody::Material())
+material(new btSoftBody::Material()),
+softBodyProviderName("")
 {
 	config->aeromodel		=	btSoftBody::eAeroModel::V_Point;
 	config->kVCF			=	1;
@@ -80,9 +81,17 @@ EditInterface^ SoftBodyDefinition::getEditInterface()
 
 void SoftBodyDefinition::createProduct(SimObjectBase^ instance, BulletScene^ scene)
 {
-	SoftBody^ softBody = gcnew SoftBody(this, scene);
-	softBody->setInitialPosition(instance->Translation, instance->Rotation);
-	instance->addElement(softBody);
+	SoftBodyProvider^ sbProvider = (SoftBodyProvider^)instance->getElement(softBodyProviderName);
+	if(sbProvider != nullptr)
+	{
+		SoftBody^ softBody = gcnew SoftBody(this, scene, sbProvider);
+		softBody->setInitialPosition(instance->Translation, instance->Rotation);
+		instance->addElement(softBody);
+	}
+	else
+	{
+		Logging::Log::Default->sendMessage("Cannot create Soft Body {0} because the soft body provider {1} cannot be found", Logging::LogLevel::Warning, BulletInterface::PluginName, Name, softBodyProviderName);
+	}
 }
 
 void SoftBodyDefinition::createStaticProduct(SimObjectBase^ instance, BulletScene^ scene)
@@ -134,6 +143,8 @@ material(new btSoftBody::Material())
 	mass = info->GetFloat("mass");
 	massFromFaces = info->GetBoolean("massFromFaces");
 	randomizeConstraints = info->GetBoolean("randomizeConstraints");
+
+	softBodyProviderName = info->GetString("softBodyProviderName");
 }
 
 void SoftBodyDefinition::getInfo(SaveInfo^ info)
@@ -177,6 +188,8 @@ void SoftBodyDefinition::getInfo(SaveInfo^ info)
 	info->AddValue("mass", mass);
 	info->AddValue("massFromFaces", massFromFaces);
 	info->AddValue("randomizeConstraints", randomizeConstraints);
+
+	info->AddValue("softBodyProviderName", softBodyProviderName);
 }
 //End saving
 

@@ -44,7 +44,7 @@ enum class SoftBodyAeroModel
 	END
 };
 
-ref class SoftBodyDefinition : public BulletElementDefinition
+public ref class SoftBodyDefinition : public BulletElementDefinition
 {
 private:
 	EditInterface^ editInterface;
@@ -53,6 +53,7 @@ private:
 	float mass;
 	bool massFromFaces;
 	bool randomizeConstraints;
+	String^ softBodyProviderName;
 
 	static MemberScanner^ memberScanner = gcnew MemberScanner();
 
@@ -580,6 +581,20 @@ property bool RandomizeConstraints
 	void set(bool value)
 	{
 		randomizeConstraints = value;
+	}
+}
+
+[Editable]
+property String^ SoftBodyProviderName
+{
+	String^ get()
+	{
+		return softBodyProviderName;
+	}
+	
+	void set(String^ value)
+	{
+		softBodyProviderName = value;
 	}
 }
 

@@ -11,6 +11,7 @@ namespace BulletPlugin
 
 ref class SoftBodyDefinition;
 ref class BulletScene;
+ref class SoftBodyProvider;
 
 [Engine::Attributes::NativeSubsystemType]
 public ref class SoftBody : public SimElement
@@ -21,6 +22,7 @@ private:
 	float mass; //recorded because the getTotalMass function looses some value each time it is called.
 	bool massFromFaces;
 	bool randomizeConstraints;
+	SoftBodyProvider^ sbProvider;
 
 internal:
 	void setInitialPosition(Vector3% translation, Quaternion% rotation)
@@ -40,7 +42,7 @@ protected:
 	virtual void setEnabled(bool enabled) override;
 
 public:
-	SoftBody(SoftBodyDefinition^ description, BulletScene^ scene);
+	SoftBody(SoftBodyDefinition^ description, BulletScene^ scene, SoftBodyProvider^ sbProvider);
 
 	virtual ~SoftBody(void);
 

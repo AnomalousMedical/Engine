@@ -214,6 +214,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\EllipsoidSoftBodyProviderDefinition.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\EllipsoidSoftBodyProviderDefinition.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\RigidBodyDefinition.cpp"
 				>
 			</File>
@@ -227,6 +235,14 @@
 			</File>
 			<File
 				RelativePath=".\include\SoftBodyDefinition.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\SoftBodyProviderDefinition.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\SoftBodyProviderDefinition.h"
 				>
 			</File>
 			<Filter
@@ -332,6 +348,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\EllipsoidSoftBodyProvider.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\EllipsoidSoftBodyProvider.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\MotionState.cpp"
 				>
 			</File>
@@ -353,6 +377,14 @@
 			</File>
 			<File
 				RelativePath=".\include\SoftBody.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\SoftBodyProvider.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\SoftBodyProvider.h"
 				>
 			</File>
 			<Filter
@@ -413,6 +445,14 @@
 			</File>
 			<File
 				RelativePath=".\include\BulletFactoryEntry.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\SoftBodyProviderEntry.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\SoftBodyProviderEntry.h"
 				>
 			</File>
 		</Filter>

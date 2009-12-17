@@ -3,16 +3,12 @@
 
 #include "SoftBodyDefinition.h"
 #include "BulletScene.h"
+#include "SoftBodyProvider.h"
 
 namespace BulletPlugin
 {
 
 #pragma unmanaged
-
-btSoftBody* createElipsoid(btSoftBodyWorldInfo* worldInfo, float* center, float* radius, int res)
-{
-	return btSoftBodyHelpers::CreateEllipsoid(*worldInfo, btVector3(center[0], center[1], center[2]), btVector3(radius[0], radius[1], radius[2]), res);
-}
 
 void translate(btSoftBody* softBody, float* pos)
 {
@@ -40,13 +36,12 @@ void scale(btSoftBody* softBody, float* scale)
 
 #pragma managed
 
-SoftBody::SoftBody(SoftBodyDefinition^ description, BulletScene^ scene)
+SoftBody::SoftBody(SoftBodyDefinition^ description, BulletScene^ scene, SoftBodyProvider^ sbProvider)
 :SimElement(description->Name, description->Subscription),
-scene(scene)
+scene(scene),
+sbProvider(sbProvider)
 {
-	float center[3] = {0, 0, 0};
-	float radius[3] = {1, 1, 1};
-	softBody = createElipsoid(scene->SoftBodyWorldInfo, center, radius, 512);
+	softBody = sbProvider->createSoftBody(scene);
 
 	btSoftBody::Config* config = description->sbConfig;
 	softBody->m_cfg.aeromodel = config->aeromodel;
@@ -98,7 +93,7 @@ SoftBody::~SoftBody(void)
 		{
 			scene->DynamicsWorld->removeSoftBody(softBody);
 		}
-		delete softBody;
+		sbProvider->destroySoftBody(scene);
 		softBody = 0;
 	}
 }
@@ -143,6 +138,8 @@ SimElementDefinition^ SoftBody::saveToDefinition()
 	def->Mass = mass;
 	def->MassFromFaces = massFromFaces;
 	def->RandomizeConstraints = randomizeConstraints;
+	
+	def->SoftBodyProviderName = sbProvider->Name;
 
 	return def;
 }
