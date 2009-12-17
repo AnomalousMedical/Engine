@@ -29,7 +29,7 @@ namespace Engine.ObjectManagement
 
         #region Fields
 
-        private Dictionary<String, SimElementDefinition> definitions = new Dictionary<String, SimElementDefinition>();
+        private LinkedList<SimElementDefinition> definitions = new LinkedList<SimElementDefinition>();
         private String name;
         private EditInterface editInterface = null;
         private Dictionary<EditInterfaceCommand, AddSimElementCommand> createCommands = new Dictionary<EditInterfaceCommand, AddSimElementCommand>();
@@ -65,7 +65,7 @@ namespace Engine.ObjectManagement
         public void addElement(SimElementDefinition definition)
         {
             definition.setSimObjectDefinition(this);
-            definitions.Add(definition.Name, definition);
+            definitions.AddLast(definition);
             if (editInterface != null)
             {
                 createElementInterface(definition);
@@ -79,7 +79,7 @@ namespace Engine.ObjectManagement
         public void removeElement(SimElementDefinition definition)
         {
             definition.setSimObjectDefinition(null);
-            definitions.Remove(definition.Name);
+            definitions.Remove(definition);
             if (editInterface != null)
             {
                 elementEditInterfaces.removeSubInterface(definition);
@@ -93,7 +93,7 @@ namespace Engine.ObjectManagement
         public SimObjectBase register(SimSubScene subScene)
         {
             SimObjectBase instance = new GenericSimObject(name, Translation, Rotation, Scale, Enabled);
-            foreach (SimElementDefinition definition in definitions.Values)
+            foreach (SimElementDefinition definition in definitions)
             {
                 definition.registerScene(subScene, instance);
             }
@@ -111,7 +111,7 @@ namespace Engine.ObjectManagement
                 editInterface = ReflectedEditInterface.createEditInterface(this, genericSimObjectScanner, name, null);//new EditInterface(name);
                 elementEditInterfaces = new EditInterfaceManager<SimElementDefinition>(editInterface);
                 destroySimElement = new EditInterfaceCommand("Remove", removeSimElementDefinition);
-                foreach (SimElementDefinition definition in definitions.Values)
+                foreach (SimElementDefinition definition in definitions)
                 {
                     createElementInterface(definition);
                 }
@@ -151,10 +151,13 @@ namespace Engine.ObjectManagement
                 errorPrompt = "Please enter a non empty name.";
                 return false;
             }
-            if (this.definitions.ContainsKey(input))
+            foreach (SimElementDefinition definition in definitions)
             {
-                errorPrompt = "That name is already in use. Please provide another.";
-                return false;
+                if (definition.Name == input)
+                {
+                    errorPrompt = "That name is already in use. Please provide another.";
+                    return false;
+                }
             }
             errorPrompt = "";
             return true;
@@ -261,7 +264,7 @@ namespace Engine.ObjectManagement
             info.AddValue(SCALE, Scale);
             info.AddValue(ENABLED, Enabled);
             int i = 0;
-            foreach (SimElementDefinition element in definitions.Values)
+            foreach (SimElementDefinition element in definitions)
             {
                 info.AddValue(ELEMENTS_BASE + i++, element);
             }
