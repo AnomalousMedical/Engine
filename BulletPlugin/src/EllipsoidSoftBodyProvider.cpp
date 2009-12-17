@@ -61,6 +61,7 @@ void EllipsoidSoftBodyProvider::destroySoftBodyImpl(BulletScene^ scene)
 	assert(softBody != 0);
 
 	delete softBody;
+	softBody = 0;
 }
 
 SimElementDefinition^ EllipsoidSoftBodyProvider::saveToDefinition()
