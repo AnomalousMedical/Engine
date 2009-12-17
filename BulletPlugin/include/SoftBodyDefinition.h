@@ -54,6 +54,7 @@ private:
 	bool massFromFaces;
 	bool randomizeConstraints;
 	String^ softBodyProviderName;
+	float collisionMargin;
 
 	static MemberScanner^ memberScanner = gcnew MemberScanner();
 
@@ -539,6 +540,20 @@ property float DefMat_kVST
 	void set(float value)
 	{
 		material->m_kVST = value;
+	}
+}
+
+[Editable]
+property float CollisionMargin
+{
+	float get()
+	{
+		return collisionMargin;
+	}
+	
+	void set(float value)
+	{
+		collisionMargin = value;
 	}
 }
 

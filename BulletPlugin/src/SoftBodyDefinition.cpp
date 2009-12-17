@@ -14,7 +14,8 @@ SoftBodyDefinition::SoftBodyDefinition(String^ name)
 editInterface(nullptr),
 config(new btSoftBody::Config()),
 material(new btSoftBody::Material()),
-softBodyProviderName("")
+softBodyProviderName(""),
+collisionMargin(0.25f)
 {
 	config->aeromodel		=	btSoftBody::eAeroModel::V_Point;
 	config->kVCF			=	1;
@@ -144,6 +145,7 @@ material(new btSoftBody::Material())
 	massFromFaces = info->GetBoolean("massFromFaces");
 	randomizeConstraints = info->GetBoolean("randomizeConstraints");
 
+	collisionMargin = info->GetFloat("collisionMargin");
 	softBodyProviderName = info->GetString("softBodyProviderName");
 }
 
@@ -189,6 +191,7 @@ void SoftBodyDefinition::getInfo(SaveInfo^ info)
 	info->AddValue("massFromFaces", massFromFaces);
 	info->AddValue("randomizeConstraints", randomizeConstraints);
 
+	info->AddValue("collisionMargin", collisionMargin);
 	info->AddValue("softBodyProviderName", softBodyProviderName);
 }
 //End saving

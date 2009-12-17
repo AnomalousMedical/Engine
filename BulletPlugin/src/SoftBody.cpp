@@ -75,6 +75,8 @@ sbProvider(sbProvider)
 	softBody->m_materials[0]->m_kAST = description->DefaultMaterial->m_kAST;
 	softBody->m_materials[0]->m_kVST = description->DefaultMaterial->m_kVST;
 
+	softBody->getCollisionShape()->setMargin(description->CollisionMargin);
+
 	mass = description->Mass;
 	massFromFaces = description->MassFromFaces;
 	softBody->setTotalMass(mass, massFromFaces);
@@ -134,6 +136,8 @@ SimElementDefinition^ SoftBody::saveToDefinition()
 	def->DefaultMaterial->m_kLST = softBody->m_materials[0]->m_kLST;
 	def->DefaultMaterial->m_kAST = softBody->m_materials[0]->m_kAST;
 	def->DefaultMaterial->m_kVST = softBody->m_materials[0]->m_kVST;
+
+	def->CollisionMargin = softBody->getCollisionShape()->getMargin();
 
 	def->Mass = mass;
 	def->MassFromFaces = massFromFaces;
