@@ -116,6 +116,16 @@ public:
 	virtual void exceededMaxDelta();
 
 	void drawDebug(DebugDrawingSurface^ drawingSurface);
+
+	#ifdef USE_SOFTBODY_WORLD
+	property void* SoftBodyWorldInfoExternal
+	{
+		void* get()
+		{
+			return softBodyWorldInfo;
+		}
+	}
+	#endif
 };
 
 }

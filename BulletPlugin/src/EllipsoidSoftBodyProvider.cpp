@@ -46,7 +46,7 @@ void EllipsoidSoftBodyProvider::setEnabled(bool enabled)
 	
 }
 
-btSoftBody* EllipsoidSoftBodyProvider::createSoftBodyImpl(BulletScene^ scene)
+void* EllipsoidSoftBodyProvider::createSoftBodyImpl(BulletScene^ scene)
 {
 	assert(softBody == 0);
 

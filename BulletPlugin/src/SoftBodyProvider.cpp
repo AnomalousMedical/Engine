@@ -16,7 +16,7 @@ SoftBodyProvider::~SoftBodyProvider(void)
 
 btSoftBody* SoftBodyProvider::createSoftBody(BulletScene^ scene)
 {
-	btSoftBody* softBody = createSoftBodyImpl(scene);
+	btSoftBody* softBody = static_cast<btSoftBody*>(createSoftBodyImpl(scene));
 
 	return softBody;
 }

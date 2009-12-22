@@ -26,7 +26,7 @@ protected:
 
 	virtual void setEnabled(bool enabled) override;
 
-	virtual btSoftBody* createSoftBodyImpl(BulletScene^ scene) override;
+	virtual void* createSoftBodyImpl(BulletScene^ scene) override;
 
 	virtual void destroySoftBodyImpl(BulletScene^ scene) override;
 

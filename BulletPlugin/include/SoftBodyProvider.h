@@ -19,7 +19,7 @@ ref class SoftBodyProviderDefinition;
 public ref class SoftBodyProvider abstract : public SimElement
 {
 protected:
-	virtual btSoftBody* createSoftBodyImpl(BulletScene^ scene) = 0;
+	virtual void* createSoftBodyImpl(BulletScene^ scene) = 0;
 
 	virtual void destroySoftBodyImpl(BulletScene^ scene) = 0;
 
