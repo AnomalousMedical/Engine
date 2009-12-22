@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShapeLoader", "ShapeLoader\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZipAccess", "ZipAccess\ZipAccess.vcproj", "{3F2EAD47-7DEC-4E56-8CEE-8DBBCCE7A6C7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BulletOgrePlugin", "BulletOgrePlugin\BulletOgrePlugin.vcproj", "{FF496726-D041-4CE8-B636-C6BD6BF75035}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -215,6 +217,16 @@ Global
 		{3F2EAD47-7DEC-4E56-8CEE-8DBBCCE7A6C7}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{3F2EAD47-7DEC-4E56-8CEE-8DBBCCE7A6C7}.Release|Win32.ActiveCfg = Release|Win32
 		{3F2EAD47-7DEC-4E56-8CEE-8DBBCCE7A6C7}.Release|Win32.Build.0 = Release|Win32
+		{FF496726-D041-4CE8-B636-C6BD6BF75035}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{FF496726-D041-4CE8-B636-C6BD6BF75035}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{FF496726-D041-4CE8-B636-C6BD6BF75035}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{FF496726-D041-4CE8-B636-C6BD6BF75035}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FF496726-D041-4CE8-B636-C6BD6BF75035}.Debug|Win32.Build.0 = Debug|Win32
+		{FF496726-D041-4CE8-B636-C6BD6BF75035}.Release|Any CPU.ActiveCfg = Release|Win32
+		{FF496726-D041-4CE8-B636-C6BD6BF75035}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{FF496726-D041-4CE8-B636-C6BD6BF75035}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{FF496726-D041-4CE8-B636-C6BD6BF75035}.Release|Win32.ActiveCfg = Release|Win32
+		{FF496726-D041-4CE8-B636-C6BD6BF75035}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
