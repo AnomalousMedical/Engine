@@ -3,6 +3,9 @@
 using namespace BulletPlugin;
 using namespace Engine;
 using namespace Engine::ObjectManagement;
+using namespace OgrePlugin;
+using namespace OgreWrapper;
+using namespace System;
 
 class btSoftBody;
 
@@ -16,6 +19,10 @@ ref class BulletOgreSoftBodyProvider : public BulletPlugin::SoftBodyProvider
 private:
 	btSoftBody* softBody;
 	BulletScene^ scene;
+	SceneNode^ node;
+	Entity^ entity;
+	OgreSceneManager^ ogreScene;
+	String^ meshName;
 
 protected:
 	virtual void updatePositionImpl(Vector3% translation, Quaternion% rotation) override;
@@ -33,7 +40,7 @@ protected:
 	virtual void destroySoftBodyImpl(BulletScene^ scene) override;
 
 public:
-	BulletOgreSoftBodyProvider(BulletOgreSoftBodyProviderDefinition^ def);
+	BulletOgreSoftBodyProvider(BulletOgreSoftBodyProviderDefinition^ def, OgreSceneManager^ ogreScene);
 
 	virtual ~BulletOgreSoftBodyProvider(void);
 

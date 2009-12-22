@@ -184,6 +184,10 @@
 			ReferencedProjectIdentifier="{F6ED8A4F-2444-420D-8436-A5F8BF7A8CBB}"
 			RelativePathToProject=".\OgreWrapper\OgreWrapper.vcproj"
 		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{E9FD5768-32E1-42C7-8256-4D7B97C22A9B}"
+			RelativePathToProject=".\OgrePlugin\OgrePlugin.csproj"
+		/>
 	</References>
 	<Files>
 		<Filter

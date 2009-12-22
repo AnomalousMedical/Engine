@@ -11,9 +11,9 @@
 //#include "BulletSoftBody\btSoftBodyHelpers.h"
 //#pragma managed
 //
-//#pragma unmanaged
-//#pragma warning(push)
-//#pragma warning(disable : 4635)
-//#include "Ogre.h"
-//#pragma warning(pop)
-//#pragma managed
+#pragma unmanaged
+#pragma warning(push)
+#pragma warning(disable : 4635)
+#include "Ogre.h"
+#pragma warning(pop)
+#pragma managed
