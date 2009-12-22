@@ -68,10 +68,6 @@ internal:
 
 	void tickCallback(btScalar timeStep);
 
-	void addSoftBodyProvider(SoftBodyProvider^ sbProvider);
-
-	void removeSoftBodyProvider(SoftBodyProvider^ sbProvider);
-
 #ifdef USE_SOFTBODY_WORLD
 	property btSoftRigidDynamicsWorld* DynamicsWorld
 	{
@@ -116,6 +112,10 @@ public:
 	virtual void exceededMaxDelta();
 
 	void drawDebug(DebugDrawingSurface^ drawingSurface);
+
+	void addSoftBodyProvider(SoftBodyProvider^ sbProvider);
+
+	void removeSoftBodyProvider(SoftBodyProvider^ sbProvider);
 
 	#ifdef USE_SOFTBODY_WORLD
 	property void* SoftBodyWorldInfoExternal

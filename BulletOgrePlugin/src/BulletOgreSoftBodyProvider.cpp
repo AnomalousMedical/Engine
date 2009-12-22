@@ -141,12 +141,16 @@ void* BulletOgreSoftBodyProvider::createSoftBodyImpl(BulletScene^ scene)
     delete indexBuffer;
 	delete meshPtr;
 
+	scene->addSoftBodyProvider(this);	
+
 	return softBody;
 }
 
 void BulletOgreSoftBodyProvider::destroySoftBodyImpl(BulletScene^ scene)
 {
 	assert(softBody != 0);
+
+	scene->removeSoftBodyProvider(this);
 
 	SceneManager^ sceneManager = ogreScene->SceneManager;
 	sceneManager->getRootSceneNode()->removeChild(node);
@@ -167,8 +171,47 @@ SimElementDefinition^ BulletOgreSoftBodyProvider::saveToDefinition()
 
 void BulletOgreSoftBodyProvider::updateOtherSubsystems()
 {
-	//If this had other subystem attachments they would be updated here. Also somewhere this has to be registered with the scene.
-	//This example class does not do so because it has no updates.
+	btSoftBody::tNodeArray& btNodes = softBody->m_nodes;
+
+	//Gather data from ogre mesh
+	MeshPtr^ meshPtr = entity->getMesh();
+
+    SubMesh^ subMesh = meshPtr->Value->getSubMesh(0);
+    VertexData^ vertexData = subMesh->vertexData;
+    IndexData^ indexData = subMesh->indexData;
+    if (subMesh->UseSharedVertices)
+    {
+        vertexData = meshPtr->Value->SharedVertexData;
+    }
+
+    VertexDeclaration^ vertexDeclaration = vertexData->vertexDeclaration;
+	VertexElement^ positionElement = vertexDeclaration->findElementBySemantic(VertexElementSemantic::VES_POSITION);
+
+    VertexBufferBinding^ vertexBinding = vertexData->vertexBufferBinding;
+    HardwareVertexBufferSharedPtr^ vertexBuffer = vertexBinding->getBuffer(positionElement->getSource());
+    unsigned int vertexSize = vertexBuffer->Value->getVertexSize();
+    
+    unsigned int numVertices = vertexBuffer->Value->getNumVertices();
+    unsigned int positionOffset = positionElement->getOffset();
+
+    // Get vertex data
+	int index = 0;
+	unsigned char* vertexBufferData = (unsigned char*)vertexBuffer->Value->lock(HardwareBuffer::LockOptions::HBL_NORMAL);
+    float* elemStart;
+    for (unsigned int i = 0; i < numVertices; ++i)
+    {
+        positionElement->baseVertexPointerToElement(vertexBufferData, &elemStart);
+        *elemStart++ = btNodes[index].m_x.x();
+        *elemStart++ = btNodes[index].m_x.y();
+        *elemStart++ = btNodes[index].m_x.z();
+        vertexBufferData += vertexSize;
+		index++;
+    }
+    vertexBuffer->Value->unlock();
+
+	//Cleanup
+	delete vertexBuffer;
+	delete meshPtr;
 }
 
 }
