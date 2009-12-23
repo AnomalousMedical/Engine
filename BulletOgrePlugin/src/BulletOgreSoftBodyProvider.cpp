@@ -205,8 +205,6 @@ void* BulletOgreSoftBodyProvider::createSoftBodyImpl(BulletScene^ scene)
 
 	scene->addSoftBodyProvider(this);
 
-	//softBody->generateBendingConstraints(2);
-
 	return softBody;
 }
 

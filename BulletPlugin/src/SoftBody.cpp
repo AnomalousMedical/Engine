@@ -39,7 +39,9 @@ void scale(btSoftBody* softBody, float* scale)
 SoftBody::SoftBody(SoftBodyDefinition^ description, BulletScene^ scene, SoftBodyProvider^ sbProvider)
 :SimElement(description->Name, description->Subscription),
 scene(scene),
-sbProvider(sbProvider)
+sbProvider(sbProvider),
+generateBendingConstraints(description->GenerateBendingConstraints),
+bendingConstraintDistance(description->BendingConstraintDistance)
 {
 	softBody = sbProvider->createSoftBody(scene);
 
@@ -74,6 +76,11 @@ sbProvider(sbProvider)
 	softBody->m_materials[0]->m_kLST = description->DefaultMaterial->m_kLST;
 	softBody->m_materials[0]->m_kAST = description->DefaultMaterial->m_kAST;
 	softBody->m_materials[0]->m_kVST = description->DefaultMaterial->m_kVST;
+
+	if(generateBendingConstraints)
+	{
+		softBody->generateBendingConstraints(bendingConstraintDistance);
+	}
 
 	softBody->getCollisionShape()->setMargin(description->CollisionMargin);
 
@@ -144,6 +151,9 @@ SimElementDefinition^ SoftBody::saveToDefinition()
 	def->RandomizeConstraints = randomizeConstraints;
 	
 	def->SoftBodyProviderName = sbProvider->Name;
+
+	def->GenerateBendingConstraints = generateBendingConstraints;
+	def->BendingConstraintDistance = bendingConstraintDistance;
 
 	return def;
 }

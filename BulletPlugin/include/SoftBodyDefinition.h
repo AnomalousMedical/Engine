@@ -55,6 +55,8 @@ private:
 	bool randomizeConstraints;
 	String^ softBodyProviderName;
 	float collisionMargin;
+	bool generateBendingConstraints;
+	int bendingConstraintDistance;
 
 	static MemberScanner^ memberScanner = gcnew MemberScanner();
 
@@ -596,6 +598,34 @@ property bool RandomizeConstraints
 	void set(bool value)
 	{
 		randomizeConstraints = value;
+	}
+}
+
+[Editable]
+property bool GenerateBendingConstraints
+{
+	bool get()
+	{
+		return generateBendingConstraints;
+	}
+	
+	void set(bool value)
+	{
+		generateBendingConstraints = value;
+	}
+}
+
+[Editable]
+property int BendingConstraintDistance
+{
+	int get()
+	{
+		return bendingConstraintDistance;
+	}
+	
+	void set(int value)
+	{
+		bendingConstraintDistance = value;
 	}
 }
 

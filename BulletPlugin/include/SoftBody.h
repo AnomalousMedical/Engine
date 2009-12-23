@@ -23,6 +23,8 @@ private:
 	bool massFromFaces;
 	bool randomizeConstraints;
 	SoftBodyProvider^ sbProvider;
+	bool generateBendingConstraints;
+	int bendingConstraintDistance;
 
 internal:
 	void setInitialPosition(Vector3% translation, Quaternion% rotation)

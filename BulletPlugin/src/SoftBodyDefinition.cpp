@@ -15,7 +15,9 @@ editInterface(nullptr),
 config(new btSoftBody::Config()),
 material(new btSoftBody::Material()),
 softBodyProviderName(""),
-collisionMargin(0.25f)
+collisionMargin(0.25f),
+generateBendingConstraints(false),
+bendingConstraintDistance(2)
 {
 	config->aeromodel		=	btSoftBody::eAeroModel::V_Point;
 	config->kVCF			=	1;
@@ -147,6 +149,9 @@ material(new btSoftBody::Material())
 
 	collisionMargin = info->GetFloat("collisionMargin");
 	softBodyProviderName = info->GetString("softBodyProviderName");
+
+	generateBendingConstraints = info->GetBoolean("generateBendingConstraints");
+	bendingConstraintDistance = info->GetInt32("bendingConstraintDistance");
 }
 
 void SoftBodyDefinition::getInfo(SaveInfo^ info)
@@ -193,6 +198,10 @@ void SoftBodyDefinition::getInfo(SaveInfo^ info)
 
 	info->AddValue("collisionMargin", collisionMargin);
 	info->AddValue("softBodyProviderName", softBodyProviderName);
+
+	//Bending constraints
+	info->AddValue("generateBendingConstraints", generateBendingConstraints);
+	info->AddValue("bendingConstraintDistance", bendingConstraintDistance);
 }
 //End saving
 
