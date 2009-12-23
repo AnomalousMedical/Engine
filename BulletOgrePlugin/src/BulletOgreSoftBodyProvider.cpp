@@ -26,12 +26,21 @@ BulletOgreSoftBodyProvider::BulletOgreSoftBodyProvider(BulletOgreSoftBodyProvide
 softBody(0),
 ogreScene(ogreScene),
 meshName(def->MeshName),
-groupName(def->GroupName)
+groupName(def->GroupName),
+mDupVertices(0),
+mNewIndexes(0)
 {
 }
 
 BulletOgreSoftBodyProvider::~BulletOgreSoftBodyProvider(void)
 {
+	if(mDupVertices != 0)
+	{
+		delete[] mDupVertices;
+		mDupVertices = 0;
+		delete[] mNewIndexes;
+		mNewIndexes = 0;
+	}
 }
 
 void BulletOgreSoftBodyProvider::updatePositionImpl(Vector3% translation, Quaternion% rotation)
@@ -102,6 +111,10 @@ void* BulletOgreSoftBodyProvider::createSoftBodyImpl(BulletScene^ scene)
     float* vertices = new float[vertexBuffer->Value->getNumVertices() * 3];
     unsigned int* indices = new unsigned int[indexBuffer->Value->getNumIndexes()];
 
+	mDupVertices = new int[numVertices];
+	mNewIndexes = new int[numVertices];
+	mDupVerticesCount = 0;
+
     // Get vertex data
     Vector3* verticesPtr = (Vector3*)vertices;
 	unsigned char* vertexBufferData = (unsigned char*)vertexBuffer->Value->lock(HardwareBuffer::LockOptions::HBL_DISCARD);
@@ -137,10 +150,54 @@ void* BulletOgreSoftBodyProvider::createSoftBodyImpl(BulletScene^ scene)
         indexBuffer->Value->unlock();
     }
 
-	softBody = createFromTriMesh(static_cast<btSoftBodyWorldInfo*>(scene->SoftBodyWorldInfoExternal), vertices, (int*)indices, numIndices / 3);
+	//Search for duplicate vertices
+	verticesPtr = (Vector3*)vertices;
+	for(int i=0; i < numVertices; i++)
+	{
+		Vector3 v1 =  verticesPtr[i];
+		mDupVertices[i] = -1;
+		mNewIndexes[i] = i - mDupVerticesCount;
+		for(int j=0; j < i; j++)
+		{
+			Vector3 v2 =  verticesPtr[j];
+			if (v1 == v2) {
+				mDupVertices[i] = j;
+				mDupVerticesCount++;
+				break;
+			}
+		}
+	}
+	//Logging::Log::Debug("Num duplicate vertices {0}", mDupVerticesCount);
 
-	delete vertices;
-	delete indices;
+	//Reassign duplicate vertices
+	int newVertexCount = numVertices - mDupVerticesCount;
+	//Logging::Log::Debug("new vertex count {0}", newVertexCount);
+	float* sbVertices = new float[newVertexCount * 3];
+	int j=0;
+	for(int i=0; i < numVertices; i++)
+	{
+		if (mDupVertices[i] == -1) {
+			Vector3 v =  verticesPtr[i];
+			sbVertices[j++] = v.x;
+			sbVertices[j++] = v.y;
+			sbVertices[j++] = v.z;
+		}
+	}
+
+	//Reassign indices
+	int* sbIndexes = new int[numIndices];
+	for(int i=0; i < numIndices; i++)
+	{
+		sbIndexes[i] = getBulletIndex(indices[i]);
+	}
+	int sbTriangles = numIndices / 3;
+
+	softBody = createFromTriMesh(static_cast<btSoftBodyWorldInfo*>(scene->SoftBodyWorldInfoExternal), sbVertices, sbIndexes, sbTriangles);
+
+	delete[] sbIndexes;
+	delete[] sbVertices;
+	delete[] vertices;
+	delete[] indices;
 
 	delete vertexBuffer;
     delete indexBuffer;
@@ -204,22 +261,30 @@ void BulletOgreSoftBodyProvider::updateOtherSubsystems()
 
     // Get vertex data
 	int index = 0;
+	int ogreIndex = 0;
 	unsigned char* vertexBufferData = (unsigned char*)vertexBuffer->Value->lock(HardwareBuffer::LockOptions::HBL_NORMAL);
     float* elemStart;
     for (unsigned int i = 0; i < numVertices; ++i)
     {
+		index = getBulletIndex(ogreIndex);
         positionElement->baseVertexPointerToElement(vertexBufferData, &elemStart);
         *elemStart++ = btNodes[index].m_x.x();
         *elemStart++ = btNodes[index].m_x.y();
         *elemStart++ = btNodes[index].m_x.z();
         vertexBufferData += vertexSize;
-		index++;
+		ogreIndex++;
     }
     vertexBuffer->Value->unlock();
 
 	//Cleanup
 	delete vertexBuffer;
 	delete meshPtr;
+}
+
+int BulletOgreSoftBodyProvider::getBulletIndex(int idx) 
+{
+	int idxDup = mDupVertices[idx];
+	return mNewIndexes[idxDup == -1 ? idx : idxDup];
 }
 
 }

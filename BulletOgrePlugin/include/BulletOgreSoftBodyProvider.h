@@ -25,6 +25,10 @@ private:
 	String^ meshName;
 	String^ groupName;
 
+	int *mDupVertices;
+	int *mNewIndexes;
+	int mDupVerticesCount;
+
 protected:
 	virtual void updatePositionImpl(Vector3% translation, Quaternion% rotation) override;
 
@@ -40,6 +44,7 @@ protected:
 
 	virtual void destroySoftBodyImpl(BulletScene^ scene) override;
 
+	int getBulletIndex(int idx);
 public:
 	BulletOgreSoftBodyProvider(BulletOgreSoftBodyProviderDefinition^ def, OgreSceneManager^ ogreScene);
 
