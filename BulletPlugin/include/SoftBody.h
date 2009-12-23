@@ -26,6 +26,11 @@ private:
 	bool generateBendingConstraints;
 	int bendingConstraintDistance;
 
+	//Pose
+	bool setPose;
+	bool setPoseVolume;
+	bool setPoseFrame;
+
 internal:
 	void setInitialPosition(Vector3% translation, Quaternion% rotation)
 	{

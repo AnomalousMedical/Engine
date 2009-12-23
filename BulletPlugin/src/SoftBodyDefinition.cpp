@@ -17,7 +17,10 @@ material(new btSoftBody::Material()),
 softBodyProviderName(""),
 collisionMargin(0.25f),
 generateBendingConstraints(false),
-bendingConstraintDistance(2)
+bendingConstraintDistance(2),
+setPose(false),
+setPoseVolume(true),
+setPoseFrame(false)
 {
 	config->aeromodel		=	btSoftBody::eAeroModel::V_Point;
 	config->kVCF			=	1;
@@ -152,6 +155,11 @@ material(new btSoftBody::Material())
 
 	generateBendingConstraints = info->GetBoolean("generateBendingConstraints");
 	bendingConstraintDistance = info->GetInt32("bendingConstraintDistance");
+
+	//Pose
+	setPose = info->GetBoolean("setPose");
+	setPoseVolume = info->GetBoolean("setPoseVolume");
+	setPoseFrame = info->GetBoolean("setPoseFrame");
 }
 
 void SoftBodyDefinition::getInfo(SaveInfo^ info)
@@ -202,6 +210,11 @@ void SoftBodyDefinition::getInfo(SaveInfo^ info)
 	//Bending constraints
 	info->AddValue("generateBendingConstraints", generateBendingConstraints);
 	info->AddValue("bendingConstraintDistance", bendingConstraintDistance);
+
+	//Pose
+	info->AddValue("setPose", setPose);
+	info->AddValue("setPoseVolume", setPoseVolume);
+	info->AddValue("setPoseFrame", setPoseFrame);
 }
 //End saving
 

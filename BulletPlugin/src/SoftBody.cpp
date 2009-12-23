@@ -41,7 +41,10 @@ SoftBody::SoftBody(SoftBodyDefinition^ description, BulletScene^ scene, SoftBody
 scene(scene),
 sbProvider(sbProvider),
 generateBendingConstraints(description->GenerateBendingConstraints),
-bendingConstraintDistance(description->BendingConstraintDistance)
+bendingConstraintDistance(description->BendingConstraintDistance),
+setPose(description->SetPose),
+setPoseVolume(description->SetPoseVolume),
+setPoseFrame(description->SetPoseFrame)
 {
 	softBody = sbProvider->createSoftBody(scene);
 
@@ -91,6 +94,11 @@ bendingConstraintDistance(description->BendingConstraintDistance)
 	if(randomizeConstraints)
 	{
 		softBody->randomizeConstraints();
+	}
+
+	if(setPose)
+	{
+		softBody->setPose(setPoseVolume, setPoseFrame);
 	}
 }
 
@@ -154,6 +162,11 @@ SimElementDefinition^ SoftBody::saveToDefinition()
 
 	def->GenerateBendingConstraints = generateBendingConstraints;
 	def->BendingConstraintDistance = bendingConstraintDistance;
+
+	//Pose
+	def->SetPose = setPose;
+	def->SetPoseVolume = setPoseVolume;
+	def->SetPoseFrame = setPoseFrame;
 
 	return def;
 }

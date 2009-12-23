@@ -58,6 +58,11 @@ private:
 	bool generateBendingConstraints;
 	int bendingConstraintDistance;
 
+	//Pose
+	bool setPose;
+	bool setPoseVolume;
+	bool setPoseFrame;
+
 	static MemberScanner^ memberScanner = gcnew MemberScanner();
 
 internal:
@@ -626,6 +631,48 @@ property int BendingConstraintDistance
 	void set(int value)
 	{
 		bendingConstraintDistance = value;
+	}
+}
+
+[Editable]
+property bool SetPose
+{
+	bool get()
+	{
+		return setPose;
+	}
+	
+	void set(bool value)
+	{
+		setPose = value;
+	}
+}
+
+[Editable]
+property bool SetPoseVolume
+{
+	bool get()
+	{
+		return setPoseVolume;
+	}
+	
+	void set(bool value)
+	{
+		setPoseVolume = value;
+	}
+}
+
+[Editable]
+property bool SetPoseFrame
+{
+	bool get()
+	{
+		return setPoseFrame;
+	}
+	
+	void set(bool value)
+	{
+		setPoseFrame = value;
 	}
 }
 
