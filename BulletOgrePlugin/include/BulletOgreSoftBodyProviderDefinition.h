@@ -16,6 +16,7 @@ public ref class BulletOgreSoftBodyProviderDefinition : public SoftBodyProviderD
 {
 private:
 	String^ meshName;
+	String^ groupName;
 	unsigned char renderQueue;
 
 internal:
@@ -43,6 +44,20 @@ public:
 		void set(String^ value)
 		{
 			meshName = value;
+		}
+	}
+
+	[Editable]
+	property String^ GroupName
+	{
+		String^ get()
+		{
+			return groupName;
+		}
+
+		void set(String^ value)
+		{
+			groupName = value;
 		}
 	}
 

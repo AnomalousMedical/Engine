@@ -25,7 +25,8 @@ BulletOgreSoftBodyProvider::BulletOgreSoftBodyProvider(BulletOgreSoftBodyProvide
 :SoftBodyProvider(def),
 softBody(0),
 ogreScene(ogreScene),
-meshName(def->MeshName)
+meshName(def->MeshName),
+groupName(def->GroupName)
 {
 }
 
@@ -58,19 +59,23 @@ void* BulletOgreSoftBodyProvider::createSoftBodyImpl(BulletScene^ scene)
 {
 	assert(softBody == 0);
 
-	//float center[3] = {0, 0, 0};
-	//float radius[3] = {1, 2, 1};
-	//softBody = createElipsoid(static_cast<btSoftBodyWorldInfo*>(scene->SoftBodyWorldInfoExternal), center, radius, 512);
+	//Clone the specified mesh
+	OgreWrapper::MeshManager^ meshManager = OgreWrapper::MeshManager::getInstance();
+	MeshPtr^ originalMesh = meshManager->load(meshName, groupName, HardwareBuffer::Usage::HBU_DYNAMIC, HardwareBuffer::Usage::HBU_STATIC, true, true);
+	MeshPtr^ meshPtr = originalMesh->Value->clone(meshName + "_" + this->Name + "_SoftBody", "SoftBodyMeshes");
+	meshPtr->Value->removeAllAnimations();
+	meshPtr->Value->setSkeletonName("");
 
+	//Create the ogre stuff
 	SceneManager^ sceneManager = ogreScene->SceneManager;
 	node = sceneManager->createSceneNode(this->Name + "__SoftBodyNode");
-	entity = ogreScene->SceneManager->createEntity(this->Name, meshName);
+	entity = ogreScene->SceneManager->createEntity(this->Name, meshPtr->Value->getName());
 	node->attachObject(entity);
 	sceneManager->getRootSceneNode()->addChild(node);
 
-	//Gather data from ogre mesh
-	MeshPtr^ meshPtr = entity->getMesh();
+	delete originalMesh;
 
+	//Gather data from ogre mesh
     SubMesh^ subMesh = meshPtr->Value->getSubMesh(0);
     VertexData^ vertexData = subMesh->vertexData;
     IndexData^ indexData = subMesh->indexData;
@@ -141,7 +146,9 @@ void* BulletOgreSoftBodyProvider::createSoftBodyImpl(BulletScene^ scene)
     delete indexBuffer;
 	delete meshPtr;
 
-	scene->addSoftBodyProvider(this);	
+	scene->addSoftBodyProvider(this);
+
+	//softBody->generateBendingConstraints(2);
 
 	return softBody;
 }
@@ -165,7 +172,8 @@ SimElementDefinition^ BulletOgreSoftBodyProvider::saveToDefinition()
 {
 	BulletOgreSoftBodyProviderDefinition^ def = gcnew BulletOgreSoftBodyProviderDefinition(this->Name);
 	def->MeshName = meshName;
-
+	def->GroupName = groupName;
+	def->RenderQueue = entity->getRenderQueueGroup();
 	return def;
 }
 

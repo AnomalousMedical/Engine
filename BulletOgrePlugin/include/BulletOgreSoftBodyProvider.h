@@ -23,6 +23,7 @@ private:
 	Entity^ entity;
 	OgreSceneManager^ ogreScene;
 	String^ meshName;
+	String^ groupName;
 
 protected:
 	virtual void updatePositionImpl(Vector3% translation, Quaternion% rotation) override;

@@ -27,6 +27,7 @@ BulletOgreSoftBodyProviderDefinition::BulletOgreSoftBodyProviderDefinition(LoadI
 :SoftBodyProviderDefinition(info)
 {
 	meshName = info->GetString("MeshName");
+	groupName = info->GetString("GroupName");
 	renderQueue = info->GetByte("RenderQueue");
 }
 
@@ -35,6 +36,7 @@ void BulletOgreSoftBodyProviderDefinition::getInfo(SaveInfo^ info)
 	SoftBodyProviderDefinition::getInfo(info);
 	info->AddValue("MeshName", meshName);
 	info->AddValue("RenderQueue", renderQueue);
+	info->AddValue("GroupName", groupName);
 }
 
 }
