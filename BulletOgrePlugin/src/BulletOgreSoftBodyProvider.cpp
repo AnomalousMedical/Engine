@@ -257,6 +257,14 @@ void BulletOgreSoftBodyProvider::updateOtherSubsystems()
     unsigned int numVertices = vertexBuffer->Value->getNumVertices();
     unsigned int positionOffset = positionElement->getOffset();
 
+	//Get first vertex as origin
+	Vector3 origin(btNodes[0].m_x.x(), btNodes[0].m_x.y(), btNodes[0].m_x.z());
+	node->setPosition(origin);
+	this->UpdatingPosition = true;
+	Quaternion ident = Quaternion::Identity;
+	this->updatePosition(origin, ident);
+	this->UpdatingPosition = false;
+
     // Get vertex data
 	int index = 0;
 	int ogreIndex = 0;
@@ -266,9 +274,9 @@ void BulletOgreSoftBodyProvider::updateOtherSubsystems()
     {
 		index = getBulletIndex(ogreIndex);
         positionElement->baseVertexPointerToElement(vertexBufferData, &elemStart);
-        *elemStart++ = btNodes[index].m_x.x();
-        *elemStart++ = btNodes[index].m_x.y();
-        *elemStart++ = btNodes[index].m_x.z();
+        *elemStart++ = btNodes[index].m_x.x() - origin.x;
+        *elemStart++ = btNodes[index].m_x.y() - origin.y;
+        *elemStart++ = btNodes[index].m_x.z() - origin.z;
         vertexBufferData += vertexSize;
 		ogreIndex++;
     }

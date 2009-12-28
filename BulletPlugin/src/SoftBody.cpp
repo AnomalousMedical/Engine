@@ -173,27 +173,39 @@ SimElementDefinition^ SoftBody::saveToDefinition()
 
 void SoftBody::updatePositionImpl(Vector3% translation, Quaternion% rotation)
 {
-	Vector3 localTrans = translation;
-	Quaternion localRot = rotation;
-	transform(softBody, &localTrans.x, &localRot.x);
+	if(!sbProvider->IsUpdatingPosition)
+	{
+		Vector3 localTrans = translation;
+		Quaternion localRot = rotation;
+		transform(softBody, &localTrans.x, &localRot.x);
+	}
 }
 
 void SoftBody::updateTranslationImpl(Vector3% translation)
 {
-	Vector3 localTrans = translation;
-	translate(softBody, &localTrans.x);
+	if(!sbProvider->IsUpdatingPosition)
+	{
+		Vector3 localTrans = translation;
+		translate(softBody, &localTrans.x);
+	}
 }
 
 void SoftBody::updateRotationImpl(Quaternion% rotation)
 {
-	Quaternion localRot = rotation;
-	rotate(softBody, &localRot.x);
+	if(!sbProvider->IsUpdatingPosition)
+	{
+		Quaternion localRot = rotation;
+		rotate(softBody, &localRot.x);
+	}
 }
 
 void SoftBody::updateScaleImpl(Vector3% scale)
 {
-	Vector3 localScale = scale;
-	BulletPlugin::scale(softBody, &localScale.x);
+	if(!sbProvider->IsUpdatingPosition)
+	{
+		Vector3 localScale = scale;
+		BulletPlugin::scale(softBody, &localScale.x);
+	}
 }
 
 void SoftBody::setEnabled(bool enabled)
