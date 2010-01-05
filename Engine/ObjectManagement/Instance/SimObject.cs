@@ -42,6 +42,12 @@ namespace Engine.ObjectManagement
         public abstract SimElement getElement(String name);
 
         /// <summary>
+        /// Get an iterator over all sim elements.
+        /// </summary>
+        /// <returns>An IEnumerable over all sim elements.</returns>
+        public abstract IEnumerable<SimElement> getElementIter();
+
+        /// <summary>
         /// Get another SimObject in the same scene. This will return null if the 
         /// other SimObject could not be found. Passing a name of "this" will return
         /// this SimObject. This can be used as a way to refer to the same object

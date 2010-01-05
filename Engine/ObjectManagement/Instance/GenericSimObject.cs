@@ -218,6 +218,15 @@ namespace Engine.ObjectManagement
             return null;
         }
 
+        /// <summary>
+        /// Get an iterator over all sim elements.
+        /// </summary>
+        /// <returns>An IEnumerable over all sim elements.</returns>
+        public override IEnumerable<SimElement> getElementIter()
+        {
+            return elements;
+        }
+
         #endregion Functions
 
         #region Properties
