@@ -109,7 +109,17 @@ namespace OgrePlugin
 
                 //Create the default window.
                 Dictionary<String, String> miscParams = new Dictionary<string, string>();
-                miscParams.Add("FSAA", OgreConfig.FSAA.ToString());
+                String fsaa = OgreConfig.FSAA;
+                if (fsaa.Contains("Quality"))
+                {
+                    miscParams.Add("FSAAHint", "Quality");
+                }
+                int spaceIndex = fsaa.IndexOf(' ');
+                if(spaceIndex != -1)
+                {
+                    fsaa = fsaa.Substring(0, spaceIndex);
+                }
+                miscParams.Add("FSAA", fsaa);
                 miscParams.Add("vsync", OgreConfig.VSync.ToString());
                 if (defaultWindowInfo.AutoCreateWindow)
                 {
@@ -192,7 +202,17 @@ namespace OgrePlugin
         public RendererWindow createRendererWindow(OSWindow embedWindow, String name)
         {
             Dictionary<String, String> miscParams = new Dictionary<string, string>();
-            miscParams.Add("FSAA", OgreConfig.FSAA.ToString());
+            String fsaa = OgreConfig.FSAA;
+            if (fsaa.Contains("Quality"))
+            {
+                miscParams.Add("FSAAHint", "Quality");
+            }
+            int spaceIndex = fsaa.IndexOf(' ');
+            if (spaceIndex != -1)
+            {
+                fsaa = fsaa.Substring(0, spaceIndex);
+            }
+            miscParams.Add("FSAA", fsaa);
             miscParams.Add("vsync", OgreConfig.VSync.ToString());
             miscParams.Add("externalWindowHandle", embedWindow.WindowHandle.ToInt32().ToString());
             RenderWindow renderWindow = root.createRenderWindow(name, (uint)embedWindow.WindowWidth, (uint)embedWindow.WindowHeight, false, miscParams);

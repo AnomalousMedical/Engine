@@ -47,11 +47,11 @@ namespace OgrePlugin
         /// <summary>
         /// The Full Screen Anti Aliasing mode.
         /// </summary>
-        public static int FSAA
+        public static String FSAA
         {
             get
             {
-                return ogreSection.getValue("FSAA", 0);
+                return ogreSection.getValue("FSAA", "0");
             }
             set
             {
