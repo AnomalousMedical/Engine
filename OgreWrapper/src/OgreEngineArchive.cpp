@@ -34,7 +34,7 @@ void OgreEngineArchive::unload()
 	}
 }
 
-Ogre::DataStreamPtr OgreEngineArchive::open(const Ogre::String& filename) const
+Ogre::DataStreamPtr OgreEngineArchive::open(const Ogre::String& filename, bool readOnly) const
 {
 	System::String^ file = MarshalUtils::convertString(filename);
 	if(!archive->exists(file))

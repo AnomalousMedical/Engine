@@ -113,7 +113,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(BULLET_HOME)\src&quot;;include;..\BulletPlugin\include;$(OGRE_HOME)\OgreMain\include"
+				AdditionalOptions="-Zm200"
+				AdditionalIncludeDirectories="&quot;$(BULLET_HOME)\src&quot;;include;..\BulletPlugin\include;&quot;$(OGRE_HOME)\build\include&quot;;&quot;$(OGRE_HOME)\src\OgreMain\include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -133,7 +134,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="OgreMain.lib libbulletsoftbody.lib libbulletdynamics.lib libbulletcollision.lib libbulletmath.lib libbulletmultithreaded.lib $(NOINHERIT)"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(BULLET_HOME)\out\release8\libs&quot;;&quot;$(OGRE_HOME)\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(BULLET_HOME)\out\release8\libs&quot;;&quot;$(OGRE_HOME)\build\lib\Release&quot;"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
 			/>

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Enums.h"
-#include "Renderable.h"
 
 namespace Ogre
 {
@@ -25,7 +24,7 @@ namespace OgreWrapper
 /// </para>
 /// </summary>
 [Engine::Attributes::NativeSubsystemTypeAttribute]
-public ref class Node abstract : public Renderable
+public ref class Node abstract
 {
 public:
 [Engine::Attributes::SingleEnum]

@@ -169,11 +169,6 @@ unsigned short Mesh::getLodIndex(float depth)
 	return mesh->getLodIndex(depth);
 }
 
-unsigned short Mesh::getLodIndexSquaredDepth(float squaredDepth)
-{
-	return mesh->getLodIndexSquaredDepth(squaredDepth);
-}
-
 bool Mesh::isLodManual()
 {
 	return mesh->isLodManual();

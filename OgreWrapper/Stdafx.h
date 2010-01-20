@@ -18,3 +18,6 @@ typedef System::IntPtr PtrType;
 #include "Ogre.h"
 #pragma warning(pop)
 #pragma managed
+
+//GCROOT anys
+#define GCROOT_ANY_KEY "GCROOT"

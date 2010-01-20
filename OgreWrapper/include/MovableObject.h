@@ -71,7 +71,7 @@ public:
 	/// <summary>
 	/// Detaches an object from a parent SceneNode or TagPoint, if attached.
 	/// </summary>
-	void detatchFromParent();
+	void detachFromParent();
 
 	/// <summary>
 	/// Returns true if this object is attached to a SceneNode or TagPoint, and

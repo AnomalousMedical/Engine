@@ -42,7 +42,7 @@ void EmbeddedResourceArchive::unload()
 	mFileList.clear();
 }
 
-Ogre::DataStreamPtr EmbeddedResourceArchive::open(const Ogre::String& filename) const
+Ogre::DataStreamPtr EmbeddedResourceArchive::open(const Ogre::String& filename, bool readOnly) const
 {
 	return Ogre::DataStreamPtr(OGRE_NEW OgreManagedStream(filename, assembly->GetManifestResourceStream(MarshalUtils::convertString(filename))));
 }

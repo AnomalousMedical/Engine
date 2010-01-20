@@ -85,9 +85,9 @@ void Root::addRenderSystem(RenderSystem^ newRend)
 
 RenderSystemList^ Root::getAvailableRenderers()
 {
-	Ogre::RenderSystemList* ogreRenderSystems = ogreRoot->getAvailableRenderers();
-	RenderSystemList^ renderSystemList = gcnew RenderSystemList(ogreRenderSystems->size());
-	for(Ogre::RenderSystemList::iterator iter = ogreRenderSystems->begin(); iter != ogreRenderSystems->end(); iter++)
+	const Ogre::RenderSystemList& ogreRenderSystems = ogreRoot->getAvailableRenderers();
+	RenderSystemList^ renderSystemList = gcnew RenderSystemList(ogreRenderSystems.size());
+	for(Ogre::RenderSystemList::const_iterator iter = ogreRenderSystems.begin(); iter != ogreRenderSystems.end(); iter++)
 	{
 		renderSystemList->Add(renderSystems.getObject(*iter));
 	}

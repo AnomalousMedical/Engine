@@ -1,6 +1,6 @@
 #pragma once
 
-#include "OgreUserDefinedObject.h"
+//#include "OgreUserDefinedObject.h"
 
 namespace OgreWrapper
 {
@@ -12,7 +12,7 @@ enum ObjectType
 	LIGHT_GCROOT
 };
 
-class VoidUserDefinedObject : public Ogre::UserDefinedObject
+class VoidUserDefinedObject// : public Ogre::UserDefinedObject
 {
 public:
 	void* object;

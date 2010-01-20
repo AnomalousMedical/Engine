@@ -24,9 +24,9 @@ bool MovableObject::isAttached()
 	return movableObject->isAttached();
 }
 
-void MovableObject::detatchFromParent()
+void MovableObject::detachFromParent()
 {
-	return movableObject->detatchFromParent();
+	return movableObject->detachFromParent();
 }
 
 bool MovableObject::isInScene()

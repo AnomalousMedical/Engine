@@ -105,8 +105,6 @@ public:
 
 	unsigned short getLodIndex(float depth);
 
-	unsigned short getLodIndexSquaredDepth(float squaredDepth);
-
 	bool isLodManual();
 
 	void removeLodLevels();
