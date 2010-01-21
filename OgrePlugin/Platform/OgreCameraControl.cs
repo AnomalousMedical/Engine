@@ -58,6 +58,24 @@ namespace OgrePlugin
             statsOverlay = new StatsOverlay(name);
             statsOverlay.createOverlays();
             sceneManager.SceneManager.addSceneListener(this);
+
+            Root.getSingleton().FrameRenderingQueued += OgreCameraControl_FrameRenderingQueued;
+        }
+
+        public void Dispose()
+        {
+            Root.getSingleton().FrameRenderingQueued -= OgreCameraControl_FrameRenderingQueued;
+            sceneManager.SceneManager.removeSceneListener(this);
+            if (statsOverlay != null)
+            {
+                statsOverlay.destroyOverlays();
+            }
+            sceneManager.SceneManager.getRootSceneNode().removeChild(node);
+            removeLight();
+            renderWindow.destroyViewport(viewport);
+            node.detachObject(camera);
+            sceneManager.SceneManager.destroyCamera(camera);
+            sceneManager.SceneManager.destroySceneNode(node);
         }
 
         /// <summary>
@@ -167,21 +185,6 @@ namespace OgrePlugin
             renderWindow.update(swapBuffers);
         }
 
-        public void Dispose()
-        {
-            sceneManager.SceneManager.removeSceneListener(this);
-            if (statsOverlay != null)
-            {
-                statsOverlay.destroyOverlays();
-            }
-            sceneManager.SceneManager.getRootSceneNode().removeChild(node);
-            removeLight();
-            renderWindow.destroyViewport(viewport);
-            node.detachObject(camera);
-            sceneManager.SceneManager.destroyCamera(camera);
-            sceneManager.SceneManager.destroySceneNode(node);
-        }
-
         public void postFindVisibleObjects(SceneManager sceneManager, SceneManager.IlluminationRenderStage irs, Camera camera)
         {
             if (PostFindVisibleObjects != null)
@@ -194,7 +197,6 @@ namespace OgrePlugin
         {
             if (showStats && statsOverlay != null)
             {
-                statsOverlay.setStats(renderWindow);
                 statsOverlay.setVisible(showStats && this.camera == camera);
             }
             if (light != null)
@@ -318,6 +320,11 @@ namespace OgrePlugin
             {
                 return viewport.getActualHeight();
             }
+        }
+
+        void OgreCameraControl_FrameRenderingQueued(FrameEvent frameEvent)
+        {
+            statsOverlay.setStats(renderWindow);
         }
 
         public event OgreCameraCallback PreFindVisibleObjects;

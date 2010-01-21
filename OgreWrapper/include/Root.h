@@ -6,6 +6,7 @@
 #include "RenderSystemCollection.h"
 #include "EmbeddedResourceArchiveFactory.h"
 #include "OgreEngineArchiveFactory.h"
+#include "vcclr.h"
 
 namespace Ogre
 {
@@ -33,6 +34,30 @@ typedef System::Collections::Generic::List<RenderSystem^> RenderSystemList;
 typedef System::Collections::Generic::List<SceneManager^> SceneManagerList;
 typedef System::Collections::Generic::Dictionary<System::String^, System::String^> ParamList;
 
+public ref class FrameEvent
+{
+public:
+	/** Elapsed time in seconds since the last event.
+        This gives you time between frame start & frame end,
+        and between frame end and next frame start.
+        @remarks
+            This may not be the elapsed time but the average
+            elapsed time between recently fired events.
+    */
+    float timeSinceLastEvent;
+    /** Elapsed time in seconds since the last event of the same type,
+        i.e. time for a complete frame.
+        @remarks
+            This may not be the elapsed time but the average
+            elapsed time between recently fired events of the same type.
+    */
+    float timeSinceLastFrame;
+};
+
+public delegate void FrameEventHandler(FrameEvent^ frameEvent);
+
+class ManagedFrameListener;
+
 /// <summary>
 /// 
 /// </summary>
@@ -46,6 +71,7 @@ private:
 	RenderSystemCollection renderSystems;
 	RenderSceneCollection scenes;
 	RenderTargetCollection renderTargets;
+	ManagedFrameListener* frameListener;
 
 internal:
 	/// <summary>
@@ -54,6 +80,10 @@ internal:
 	Ogre::Root* getRoot();
 
 public:
+	event FrameEventHandler^ FrameStarted;
+	event FrameEventHandler^ FrameRenderingQueued;
+	event FrameEventHandler^ FrameEnded;
+
 	/// <summary>
 	/// Get the singleton for this root. Note that you must call the constructor
     /// once before calling this function.
@@ -180,6 +210,66 @@ public:
 	float getFrameSmoothingPeriod();
 
 	bool _updateAllRenderTargets();
+
+internal:
+	void fireFrameStartedEvent(FrameEvent^ frameEvent)
+	{
+		FrameStarted(frameEvent);
+	}
+
+	void fireFrameRenderingQueuedEvent(FrameEvent^ frameEvent)
+	{
+		FrameRenderingQueued(frameEvent);
+	}
+
+	void fireFrameEndedEvent(FrameEvent^ frameEvent)
+	{
+		FrameEnded(frameEvent);
+	}
+};
+
+class ManagedFrameListener : public Ogre::FrameListener
+{
+private:
+	gcroot<Root^> root;
+	gcroot<FrameEvent^> frameEvent;
+
+public:
+	ManagedFrameListener(gcroot<Root^> root)
+		:root(root),
+		frameEvent(gcnew FrameEvent())
+	{
+
+	}
+
+	virtual ~ManagedFrameListener() 
+	{
+		root = nullptr;
+	}
+
+	virtual bool frameStarted(const Ogre::FrameEvent& evt)
+    {
+		frameEvent->timeSinceLastEvent = evt.timeSinceLastEvent;
+		frameEvent->timeSinceLastFrame = evt.timeSinceLastFrame;
+		root->fireFrameStartedEvent(frameEvent);
+		return true; 
+	}
+	
+	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt)
+    { 
+		frameEvent->timeSinceLastEvent = evt.timeSinceLastEvent;
+		frameEvent->timeSinceLastFrame = evt.timeSinceLastFrame;
+		root->fireFrameRenderingQueuedEvent(frameEvent);
+		return true; 
+	}
+
+    virtual bool frameEnded(const Ogre::FrameEvent& evt)
+    { 
+		frameEvent->timeSinceLastEvent = evt.timeSinceLastEvent;
+		frameEvent->timeSinceLastFrame = evt.timeSinceLastFrame;
+		root->fireFrameEndedEvent(frameEvent);
+		return true; 
+	}
 };
 
 }

@@ -14,45 +14,55 @@ namespace OgreWrapper
 Root::Root()
 :ogreRoot(new Ogre::Root()),
 embeddedResourceArchiveFactory(new EmbeddedResourceArchiveFactory()),
-engineArchive(new OgreEngineArchiveFactory())
+engineArchive(new OgreEngineArchiveFactory()),
+frameListener(new ManagedFrameListener(this))
 {
 	instance = this;
 	Ogre::ArchiveManager::getSingleton().addArchiveFactory(embeddedResourceArchiveFactory);
 	Ogre::ArchiveManager::getSingleton().addArchiveFactory(engineArchive);
+	ogreRoot->addFrameListener(frameListener);
 }
 
 Root::Root(System::String^ pluginFileName)
 :ogreRoot(new Ogre::Root(MarshalUtils::convertString(pluginFileName))),
 embeddedResourceArchiveFactory(new EmbeddedResourceArchiveFactory()),
-engineArchive(new OgreEngineArchiveFactory())
+engineArchive(new OgreEngineArchiveFactory()),
+frameListener(new ManagedFrameListener(this))
 {
 	instance = this;
 	Ogre::ArchiveManager::getSingleton().addArchiveFactory(embeddedResourceArchiveFactory);
 	Ogre::ArchiveManager::getSingleton().addArchiveFactory(engineArchive);
+	ogreRoot->addFrameListener(frameListener);
 }
 
 Root::Root(System::String^ pluginFileName, System::String^ configFileName)
 :ogreRoot(new Ogre::Root(MarshalUtils::convertString(pluginFileName), MarshalUtils::convertString(configFileName))),
 embeddedResourceArchiveFactory(new EmbeddedResourceArchiveFactory()),
-engineArchive(new OgreEngineArchiveFactory())
+engineArchive(new OgreEngineArchiveFactory()),
+frameListener(new ManagedFrameListener(this))
 {
 	instance = this;
 	Ogre::ArchiveManager::getSingleton().addArchiveFactory(embeddedResourceArchiveFactory);
 	Ogre::ArchiveManager::getSingleton().addArchiveFactory(engineArchive);
+	ogreRoot->addFrameListener(frameListener);
 }
 
 Root::Root(System::String^ pluginFileName, System::String^ configFileName, System::String^ logFileName)
 :ogreRoot(new Ogre::Root(MarshalUtils::convertString(pluginFileName), MarshalUtils::convertString(configFileName), MarshalUtils::convertString(logFileName))),
 embeddedResourceArchiveFactory(new EmbeddedResourceArchiveFactory()),
-engineArchive(new OgreEngineArchiveFactory())
+engineArchive(new OgreEngineArchiveFactory()),
+frameListener(new ManagedFrameListener(this))
 {
 	instance = this;
 	Ogre::ArchiveManager::getSingleton().addArchiveFactory(embeddedResourceArchiveFactory);
 	Ogre::ArchiveManager::getSingleton().addArchiveFactory(engineArchive);
+	ogreRoot->addFrameListener(frameListener);
 }
 
 Root::~Root()
 {
+	ogreRoot->removeFrameListener(frameListener);
+	delete frameListener;
 	delete ogreRoot;
 	delete embeddedResourceArchiveFactory;
 	delete engineArchive;
