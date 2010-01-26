@@ -183,16 +183,8 @@
 			RelativePathToProject=".\Core\Core.csproj"
 		/>
 		<ProjectReference
-			ReferencedProjectIdentifier="{52213B4F-D940-438C-98DD-BB7CF44F2F98}"
-			RelativePathToProject=".\Math\Math.csproj"
-		/>
-		<ProjectReference
 			ReferencedProjectIdentifier="{67CFCE08-408F-439E-AB9A-3319349B72D1}"
 			RelativePathToProject=".\WrapperUtilities\WrapperUtilities.vcproj"
-		/>
-		<ProjectReference
-			ReferencedProjectIdentifier="{78048C06-61EF-4C15-8013-C1EC999413D5}"
-			RelativePathToProject=".\Log\Log.csproj"
 		/>
 		<ProjectReference
 			ReferencedProjectIdentifier="{57C253F1-157F-4A6A-9FED-345A776B97D5}"
