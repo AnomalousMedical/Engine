@@ -131,9 +131,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zzip.lib $(NOINHERIT)"
+				AdditionalDependencies="zzip.lib zlib.lib $(NOINHERIT)"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(ZZIPLIB_HOME)\msvc9\Release&quot;"
+				AdditionalLibraryDirectories="&quot;$(ZZIPLIB_HOME)\msvc9\Release&quot;;&quot;$(ZLIB_HOME)\projects\visualc6\Win32_LIB_Release&quot;"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
 			/>
@@ -157,7 +157,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(ZZIPLIB_HOME)\msvc9\Release\zzip.dll $(TargetDir)zzip.dll"
+				CommandLine=""
 			/>
 		</Configuration>
 	</Configurations>
