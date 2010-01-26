@@ -68,6 +68,11 @@
     <Compile Include="Math\Numerics\Distance.cs" />
     <Compile Include="Math\Shapes\Box3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WrapperUtilities\WrapperCollection.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="WrapperUtilities\AutoPtr.h" />
+    <Content Include="WrapperUtilities\MarshalUtils.h" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

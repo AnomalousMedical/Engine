@@ -113,7 +113,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\WrapperUtilities\include;&quot;$(BULLET_HOME)\src&quot;;include"
+				AdditionalIncludeDirectories="..\Core\WrapperUtilities;&quot;$(BULLET_HOME)\src&quot;;include"
 				PreprocessorDefinitions="WIN32;NDEBUG;USE_SOFTBODY_WORLD"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"

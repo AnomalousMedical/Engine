@@ -113,7 +113,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(OIS_HOME)\includes&quot;;include;..\WrapperUtilities\include"
+				AdditionalIncludeDirectories="&quot;$(OIS_HOME)\includes&quot;;include;..\Core\WrapperUtilities"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"

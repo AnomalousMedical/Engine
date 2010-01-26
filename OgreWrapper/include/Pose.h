@@ -38,6 +38,15 @@ internal:
 	Ogre::Pose* getOgrePose();
 
 public:
+
+	/// <summary>
+	/// Destructor. 
+	/// </summary>
+	~Pose()
+	{
+		pose = 0;
+	}
+
 	/// <summary>
 	/// Return the name of the pose (may be blank). 
 	/// </summary>

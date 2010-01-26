@@ -114,7 +114,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="-Zm200"
-				AdditionalIncludeDirectories="include;..\WrapperUtilities\include;&quot;$(OGRE_HOME)\Dependencies\include&quot;;&quot;$(OGRE_HOME)\Dependencies\include\Cg&quot;;&quot;$(OGRE_HOME)\StaticBuild\include&quot;;&quot;$(OGRE_HOME)\src\OgreMain\include&quot;;&quot;$(OGRE_HOME)\src\PlugIns\CgProgramManager\include&quot;;&quot;$(OGRE_HOME)\src\RenderSystems\Direct3D9\include&quot;"
+				AdditionalIncludeDirectories="include;..\Core\WrapperUtilities;&quot;$(OGRE_HOME)\Dependencies\include&quot;;&quot;$(OGRE_HOME)\Dependencies\include\Cg&quot;;&quot;$(OGRE_HOME)\StaticBuild\include&quot;;&quot;$(OGRE_HOME)\src\OgreMain\include&quot;;&quot;$(OGRE_HOME)\src\PlugIns\CgProgramManager\include&quot;;&quot;$(OGRE_HOME)\src\RenderSystems\Direct3D9\include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;SHOW_PTR_STACK_TRACES"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -181,10 +181,6 @@
 		<ProjectReference
 			ReferencedProjectIdentifier="{6603C379-3B5F-4291-8764-63B020F613FA}"
 			RelativePathToProject=".\Core\Core.csproj"
-		/>
-		<ProjectReference
-			ReferencedProjectIdentifier="{67CFCE08-408F-439E-AB9A-3319349B72D1}"
-			RelativePathToProject=".\WrapperUtilities\WrapperUtilities.vcproj"
 		/>
 		<ProjectReference
 			ReferencedProjectIdentifier="{57C253F1-157F-4A6A-9FED-345A776B97D5}"
