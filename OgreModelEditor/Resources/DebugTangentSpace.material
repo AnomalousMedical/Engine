@@ -1,0 +1,62 @@
+material BinormalDebug
+{
+	technique
+	{
+		pass Color
+		{
+			iteration once
+
+			vertex_program_ref DebugTangentSpace\VP
+			{
+				
+			}
+
+			fragment_program_ref DebugTangentSpace\BinormalsFP
+			{
+				
+			}
+		}
+	}
+}
+
+material TangentDebug
+{
+	technique
+	{
+		pass Color
+		{
+			iteration once
+
+			vertex_program_ref DebugTangentSpace\VP
+			{
+				
+			}
+
+			fragment_program_ref DebugTangentSpace\TangentsFP
+			{
+				
+			}
+		}
+	}
+}
+
+material NormalDebug
+{
+	technique
+	{
+		pass Color
+		{
+			iteration once
+
+			vertex_program_ref DebugTangentSpace\VP
+			{
+				
+			}
+
+			fragment_program_ref DebugTangentSpace\NormalsFP
+			{
+				
+			}
+		}
+	}
+}

@@ -145,18 +145,18 @@ namespace OgrePlugin
 
                 //Setup the core resources
                 OgreResourceGroupManager.getInstance().addResourceLocation(typeof(OgreInterface).AssemblyQualifiedName, "EmbeddedResource", "Bootstrap", true);
-                String ogreCoreLocation = pluginManager.PluginDirectory + Path.DirectorySeparatorChar + "OgreCore.zip";
-                FoundOgreCore = File.Exists(ogreCoreLocation);
-                if (FoundOgreCore)
-                {
-                    Log.Default.sendMessage("Found OgreCore.zip at {0}. Debug resources available.", LogLevel.ImportantInfo, PluginName, ogreCoreLocation);
-                    OgreResourceGroupManager.getInstance().addResourceLocation(ogreCoreLocation, "Zip", "Bootstrap", true);
-                    OgreResourceGroupManager.getInstance().initializeAllResourceGroups();
-                }
-                else
-                {
-                    Log.Default.sendMessage("Could not find OgreCore.zip at {0}. Ogre debug resources not available.", LogLevel.Warning, PluginName, ogreCoreLocation);
-                }
+                //String ogreCoreLocation = pluginManager.PluginDirectory + Path.DirectorySeparatorChar + "OgreCore.zip";
+                //FoundOgreCore = File.Exists(ogreCoreLocation);
+                //if (FoundOgreCore)
+                //{
+                //    Log.Default.sendMessage("Found OgreCore.zip at {0}. Debug resources available.", LogLevel.ImportantInfo, PluginName, ogreCoreLocation);
+                //    OgreResourceGroupManager.getInstance().addResourceLocation(ogreCoreLocation, "Zip", "Bootstrap", true);
+                //    OgreResourceGroupManager.getInstance().initializeAllResourceGroups();
+                //}
+                //else
+                //{
+                //    Log.Default.sendMessage("Could not find OgreCore.zip at {0}. Ogre debug resources not available.", LogLevel.Warning, PluginName, ogreCoreLocation);
+                //}
             }
             catch (Exception e)
             {

@@ -1,0 +1,32 @@
+vertex_program DebugTangentSpace\VP cg
+{
+	source OgreModelEditor.Resources.DebugTangentSpace.cg
+	entry_point mainVP
+	profiles vs_3_0
+	
+	default_params
+	{
+		param_named_auto worldViewProj worldviewproj_matrix
+	}
+}
+
+fragment_program DebugTangentSpace\BinormalsFP cg
+{
+	source OgreModelEditor.Resources.DebugTangentSpace.cg
+	entry_point showBinormalsFP
+	profiles ps_3_0
+}
+
+fragment_program DebugTangentSpace\TangentsFP cg
+{
+	source OgreModelEditor.Resources.DebugTangentSpace.cg
+	entry_point showTangentsFP
+	profiles ps_3_0
+}
+
+fragment_program DebugTangentSpace\NormalsFP cg
+{
+	source OgreModelEditor.Resources.DebugTangentSpace.cg
+	entry_point showNormalsFP
+	profiles ps_3_0
+}

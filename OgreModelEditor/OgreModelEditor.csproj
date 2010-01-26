@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{49EEC126-950A-4775-8907-142F5A53EFE5}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -111,6 +111,10 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <EmbeddedResource Include="Resources\DebugTangentSpace.cg" />
+    <EmbeddedResource Include="Resources\DebugTangentSpace.material" />
+    <EmbeddedResource Include="Resources\DebugTangentSpace.program" />
+    <EmbeddedResource Include="Resources\FixedFunctionTextured.material" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -185,6 +189,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>copy $(ProjectDir)OgreModelEditor.zip $(TargetDir)OgreModelEditor.zip</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>
