@@ -114,7 +114,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="-Zm200"
-				AdditionalIncludeDirectories="include;..\WrapperUtilities\include;&quot;$(OGRE_HOME)\build\include&quot;;&quot;$(OGRE_HOME)\src\OgreMain\include&quot;"
+				AdditionalIncludeDirectories="include;..\WrapperUtilities\include;&quot;$(OGRE_HOME)\Dependencies\include&quot;;&quot;$(OGRE_HOME)\Dependencies\include\Cg&quot;;&quot;$(OGRE_HOME)\StaticBuild\include&quot;;&quot;$(OGRE_HOME)\src\OgreMain\include&quot;;&quot;$(OGRE_HOME)\src\PlugIns\CgProgramManager\include&quot;;&quot;$(OGRE_HOME)\src\RenderSystems\Direct3D9\include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;SHOW_PTR_STACK_TRACES"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -132,9 +132,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain.lib $(NoInherit)"
+				AdditionalDependencies="kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib FreeImage.lib freetype2311.lib zlib.lib zziplib.lib OgreMainStatic.lib cg.lib Plugin_CgProgramManagerStatic.lib &quot;C:\Program Files (x86)\Microsoft DirectX SDK (August 2009)\Lib\x86\d3d9.lib&quot; &quot;C:\Program Files (x86)\Microsoft DirectX SDK (August 2009)\Lib\x86\d3dx9.lib&quot; &quot;C:\Program Files (x86)\Microsoft DirectX SDK (August 2009)\Lib\x86\DxErr.lib&quot; &quot;C:\Program Files (x86)\Microsoft DirectX SDK (August 2009)\Lib\x86\dxguid.lib&quot; RenderSystem_Direct3D9Static.lib $(NOINHERIT)"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(OGRE_HOME)\build\lib\Release&quot;"
+				AdditionalLibraryDirectories="&quot;$(OGRE_HOME)\Dependencies\lib\Release&quot;;&quot;$(OGRE_HOME)\StaticBuild\lib\Release&quot;"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
 			/>
@@ -158,7 +158,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(OGRE_HOME)\build\bin\release\OgreMain.dll $(TargetDir)OgreMain.dll&#x0D;&#x0A;copy $(OGRE_HOME)\build\bin\release\RenderSystem_Direct3D9.dll $(TargetDir)RenderSystem_Direct3D9.dll&#x0D;&#x0A;copy $(OGRE_HOME)\build\bin\release\Plugin_CgProgramManager.dll $(TargetDir)Plugin_CgProgramManager.dll&#x0D;&#x0A;copy &quot;$(CG_BIN_PATH)\cg.dll&quot; $(TargetDir)cg.dll&#x0D;&#x0A;"
+				CommandLine="copy &quot;$(CG_BIN_PATH)\cg.dll&quot; $(TargetDir)cg.dll&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>

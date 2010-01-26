@@ -95,7 +95,7 @@ namespace OgrePlugin
             try
             {
                 //Initialize Ogre
-                root.loadPlugin("RenderSystem_Direct3D9");
+                //root.loadPlugin("RenderSystem_Direct3D9");
                 RenderSystem rs = root.getRenderSystemByName("Direct3D9 Rendering Subsystem");
                 String valid = rs.validateConfigOptions();
                 if (valid.Length != 0)
@@ -105,7 +105,7 @@ namespace OgrePlugin
                 root.setRenderSystem(rs);
                 root.initialize(false);
 
-                root.loadPlugin("Plugin_CgProgramManager");
+                //root.loadPlugin("Plugin_CgProgramManager");
 
                 //Create the default window.
                 Dictionary<String, String> miscParams = new Dictionary<string, string>();

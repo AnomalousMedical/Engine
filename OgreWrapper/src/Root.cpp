@@ -15,48 +15,64 @@ Root::Root()
 :ogreRoot(new Ogre::Root()),
 embeddedResourceArchiveFactory(new EmbeddedResourceArchiveFactory()),
 engineArchive(new OgreEngineArchiveFactory()),
-frameListener(new ManagedFrameListener(this))
+frameListener(new ManagedFrameListener(this)),
+d3d9Plugin(new Ogre::D3D9Plugin()),
+cgPlugin(new Ogre::CgPlugin())
 {
 	instance = this;
 	Ogre::ArchiveManager::getSingleton().addArchiveFactory(embeddedResourceArchiveFactory);
 	Ogre::ArchiveManager::getSingleton().addArchiveFactory(engineArchive);
 	ogreRoot->addFrameListener(frameListener);
+	ogreRoot->installPlugin(d3d9Plugin);
+	ogreRoot->installPlugin(cgPlugin);
 }
 
 Root::Root(System::String^ pluginFileName)
 :ogreRoot(new Ogre::Root(MarshalUtils::convertString(pluginFileName))),
 embeddedResourceArchiveFactory(new EmbeddedResourceArchiveFactory()),
 engineArchive(new OgreEngineArchiveFactory()),
-frameListener(new ManagedFrameListener(this))
+frameListener(new ManagedFrameListener(this)),
+d3d9Plugin(new Ogre::D3D9Plugin()),
+cgPlugin(new Ogre::CgPlugin())
 {
 	instance = this;
 	Ogre::ArchiveManager::getSingleton().addArchiveFactory(embeddedResourceArchiveFactory);
 	Ogre::ArchiveManager::getSingleton().addArchiveFactory(engineArchive);
 	ogreRoot->addFrameListener(frameListener);
+	ogreRoot->installPlugin(d3d9Plugin);
+	ogreRoot->installPlugin(cgPlugin);
 }
 
 Root::Root(System::String^ pluginFileName, System::String^ configFileName)
 :ogreRoot(new Ogre::Root(MarshalUtils::convertString(pluginFileName), MarshalUtils::convertString(configFileName))),
 embeddedResourceArchiveFactory(new EmbeddedResourceArchiveFactory()),
 engineArchive(new OgreEngineArchiveFactory()),
-frameListener(new ManagedFrameListener(this))
+frameListener(new ManagedFrameListener(this)),
+d3d9Plugin(new Ogre::D3D9Plugin()),
+cgPlugin(new Ogre::CgPlugin())
 {
 	instance = this;
 	Ogre::ArchiveManager::getSingleton().addArchiveFactory(embeddedResourceArchiveFactory);
 	Ogre::ArchiveManager::getSingleton().addArchiveFactory(engineArchive);
 	ogreRoot->addFrameListener(frameListener);
+	ogreRoot->installPlugin(d3d9Plugin);
+	ogreRoot->installPlugin(cgPlugin);
 }
 
 Root::Root(System::String^ pluginFileName, System::String^ configFileName, System::String^ logFileName)
 :ogreRoot(new Ogre::Root(MarshalUtils::convertString(pluginFileName), MarshalUtils::convertString(configFileName), MarshalUtils::convertString(logFileName))),
 embeddedResourceArchiveFactory(new EmbeddedResourceArchiveFactory()),
 engineArchive(new OgreEngineArchiveFactory()),
-frameListener(new ManagedFrameListener(this))
+frameListener(new ManagedFrameListener(this)),
+d3d9Plugin(new Ogre::D3D9Plugin()),
+cgPlugin(new Ogre::CgPlugin())
 {
 	instance = this;
 	Ogre::ArchiveManager::getSingleton().addArchiveFactory(embeddedResourceArchiveFactory);
 	Ogre::ArchiveManager::getSingleton().addArchiveFactory(engineArchive);
 	ogreRoot->addFrameListener(frameListener);
+	ogreRoot->installPlugin(d3d9Plugin);
+	ogreRoot->installPlugin(cgPlugin);
 }
 
 Root::~Root()
@@ -66,6 +82,8 @@ Root::~Root()
 	delete ogreRoot;
 	delete embeddedResourceArchiveFactory;
 	delete engineArchive;
+	delete d3d9Plugin;
+	delete cgPlugin;
 }
 
 Ogre::Root* Root::getRoot()

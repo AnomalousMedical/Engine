@@ -72,6 +72,8 @@ private:
 	RenderSceneCollection scenes;
 	RenderTargetCollection renderTargets;
 	ManagedFrameListener* frameListener;
+	Ogre::D3D9Plugin* d3d9Plugin;
+	Ogre::CgPlugin* cgPlugin;
 
 internal:
 	/// <summary>
