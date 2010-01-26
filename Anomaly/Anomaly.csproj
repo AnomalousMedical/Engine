@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{1511A2C3-1C24-405F-8E0E-E1BA2D7E0266}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -173,14 +173,6 @@
     <ProjectReference Include="..\Engine\Engine.csproj">
       <Project>{57C253F1-157F-4A6A-9FED-345A776B97D5}</Project>
       <Name>Engine</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Log\Log.csproj">
-      <Project>{78048C06-61EF-4C15-8013-C1EC999413D5}</Project>
-      <Name>Log</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Math\Math.csproj">
-      <Project>{52213B4F-D940-438C-98DD-BB7CF44F2F98}</Project>
-      <Name>Math</Name>
     </ProjectReference>
     <ProjectReference Include="..\Win32Platform\Win32Platform.vcproj">
       <Project>{08CF7667-CF92-4813-AF41-278015BE3807}</Project>

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{6603C379-3B5F-4291-8764-63B020F613FA}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -30,6 +30,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -51,6 +52,21 @@
     <Compile Include="Attributes\MultiEnumAttribute.cs" />
     <Compile Include="Attributes\NativeSubsystemTypeAttribute.cs" />
     <Compile Include="Attributes\SingleEnumAttribute.cs" />
+    <Compile Include="Log\Log.cs" />
+    <Compile Include="Log\LogFileListener.cs" />
+    <Compile Include="Log\LogListener.cs" />
+    <Compile Include="Math\3d\Matrix4x4.cs" />
+    <Compile Include="Math\3d\Quaternion.cs" />
+    <Compile Include="Math\3d\Ray3.cs" />
+    <Compile Include="Math\3d\Segment3.cs" />
+    <Compile Include="Math\3d\Vector3.cs" />
+    <Compile Include="Math\3d\Vector4.cs" />
+    <Compile Include="Math\Curves\MultiQuadraticBezierCurve.cs" />
+    <Compile Include="Math\Curves\NaturalSplineSet.cs" />
+    <Compile Include="Math\Curves\QuadraticBezierCurve3.cs" />
+    <Compile Include="Math\Drawing\Color.cs" />
+    <Compile Include="Math\Numerics\Distance.cs" />
+    <Compile Include="Math\Shapes\Box3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

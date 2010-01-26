@@ -88,14 +88,6 @@
       <Project>{57C253F1-157F-4A6A-9FED-345A776B97D5}</Project>
       <Name>Engine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Log\Log.csproj">
-      <Project>{78048C06-61EF-4C15-8013-C1EC999413D5}</Project>
-      <Name>Log</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Math\Math.csproj">
-      <Project>{52213B4F-D940-438C-98DD-BB7CF44F2F98}</Project>
-      <Name>Math</Name>
-    </ProjectReference>
     <ProjectReference Include="..\OgreWrapper\OgreWrapper.vcproj">
       <Project>{F6ED8A4F-2444-420D-8436-A5F8BF7A8CBB}</Project>
       <Name>OgreWrapper</Name>
