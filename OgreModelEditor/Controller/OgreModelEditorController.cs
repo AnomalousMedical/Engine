@@ -117,17 +117,6 @@ namespace OgreModelEditor
             pluginManager.RendererPlugin.PrimaryWindow.setEnabled(false);
 
             OgreResourceGroupManager.getInstance().addResourceLocation(typeof(OgreModelEditorController).AssemblyQualifiedName, "EmbeddedResource", "Bootstrap", true);
-            //String ogreModelEditorZip = pluginManager.PluginDirectory + Path.DirectorySeparatorChar + "OgreModelEditor.zip";
-            //if (File.Exists(ogreModelEditorZip))
-            //{
-            //    Log.Default.sendMessage("Found OgreModelEditor.zip at {0}. Will be able to see debug shaders", LogLevel.ImportantInfo, "OgreModelEditor", ogreModelEditorZip);
-            //    OgreResourceGroupManager.getInstance().addResourceLocation(ogreModelEditorZip, "Zip", "ModelEditor", true);
-            //    OgreResourceGroupManager.getInstance().initializeAllResourceGroups();
-            //}
-            //else
-            //{
-            //    Log.Default.sendMessage("Could not find OgreModelEditor.zip at {0}. Will not be able to see debug shaders", LogLevel.Error, "OgreModelEditor", ogreModelEditorZip);
-            //}
             emptyResourceManager = pluginManager.createEmptyResourceManager();
             if (!File.Exists(OgreModelEditorConfig.DocRoot + "/resources.xml"))
             {
