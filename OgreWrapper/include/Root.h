@@ -72,9 +72,10 @@ private:
 	RenderSceneCollection scenes;
 	RenderTargetCollection renderTargets;
 	ManagedFrameListener* frameListener;
+#ifdef STATIC_OGRE
 	Ogre::D3D9Plugin* d3d9Plugin;
 	Ogre::CgPlugin* cgPlugin;
-
+#endif
 internal:
 	/// <summary>
 	/// Returns the native Root

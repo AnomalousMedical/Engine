@@ -113,9 +113,11 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="-Zm200"
+				AdditionalOptions=" /Zm1000 /fp:fast"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="include;..\Core\WrapperUtilities;&quot;$(OGRE_HOME)\Dependencies\include&quot;;&quot;$(OGRE_HOME)\Dependencies\include\Cg&quot;;&quot;$(OGRE_HOME)\StaticBuild\include&quot;;&quot;$(OGRE_HOME)\src\OgreMain\include&quot;;&quot;$(OGRE_HOME)\src\PlugIns\CgProgramManager\include&quot;;&quot;$(OGRE_HOME)\src\RenderSystems\Direct3D9\include&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;SHOW_PTR_STACK_TRACES"
+				PreprocessorDefinitions="WIN32;NDEBUG;SHOW_PTR_STACK_TRACES;STATIC_OGRE"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"

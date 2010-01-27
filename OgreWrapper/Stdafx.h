@@ -16,8 +16,10 @@ typedef System::IntPtr PtrType;
 #pragma warning(push)
 #pragma warning(disable : 4635)
 #include "Ogre.h"
+#ifdef STATIC_OGRE
 #include "OgreCgPlugin.h"
 #include "OgreD3D9Plugin.h"
+#endif
 #pragma warning(pop)
 #pragma managed
 
