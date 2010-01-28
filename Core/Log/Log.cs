@@ -67,7 +67,7 @@ namespace Logging
 	    /// <param name="subsystem">The subsystem the message originated from.</param>
         public void sendMessage(String message, LogLevel logLevel, String subsystem)
         {
-            if((logLevel | messageTypes) != 0)
+            if((logLevel & messageTypes) != 0)
             {
 		        LinkedListNode<LogListener> currentNode = logListeners.First;
 		        while( currentNode != null )
