@@ -60,7 +60,7 @@ ZipFile::ZipFile(String^ filename, String^ fileFilter)
 files(gcnew List<ZipFileInfo^>()),
 directories(gcnew List<ZipFileInfo^>()),
 file(filename),
-fileFilter(fixPathDir(fileFilter))
+fileFilter(fixPathFile(fileFilter))
 {
 	commonLoad();
 }
@@ -334,6 +334,5 @@ String^ ZipFile::fixPathDir(String^ path)
 	path += "/";
 	return path;
 }
-
 
 }
