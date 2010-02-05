@@ -72,6 +72,18 @@ namespace Engine.Renderer
         Vector3 getOrigin();
 
         /// <summary>
+        /// Change the orientation of the surface.
+        /// </summary>
+        /// <param name="orientation">The orientation to set.</param>
+        void setOrientation(Quaternion orientation);
+
+        /// <summary>
+        /// Get the orientation of the surface.
+        /// </summary>
+        /// <returns>The orientation of the surface.</returns>
+        Quaternion getOrientation();
+
+        /// <summary>
         /// Set the visibility of the DebugDrawingSurface.
         /// </summary>
         /// <param name="visible">True to be visible false to be invisible.</param>

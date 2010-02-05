@@ -91,6 +91,24 @@ namespace OgrePlugin
             return sceneNode.getDerivedPosition();
         }
 
+        /// <summary>
+        /// Change the orientation of the surface.
+        /// </summary>
+        /// <param name="orientation">The orientation to set.</param>
+        public void setOrientation(Quaternion orientation)
+        {
+            sceneNode.setOrientation(orientation);
+        }
+
+        /// <summary>
+        /// Get the orientation of the surface.
+        /// </summary>
+        /// <returns>The orientation of the surface.</returns>
+        public Quaternion getOrientation()
+        {
+            return sceneNode.getDerivedOrientation();
+        }
+
         public void setVisible(bool visible)
         {
             if (visible && !this.visible)
