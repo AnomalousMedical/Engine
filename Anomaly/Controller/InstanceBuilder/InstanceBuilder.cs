@@ -105,7 +105,7 @@ namespace Anomaly
             }
             else
             {
-                Log.Default.sendMessage("Error loading rotation does not contain 3 numbers value: {0}.", LogLevel.Error, "ShapeLoading", xmlReader.Value);
+                Log.Default.sendMessage("Error loading rotation does not contain 3 numbers value: {0}.", LogLevel.Warning, "ShapeLoading", xmlReader.Value);
                 rotation = Quaternion.Identity;
             }
             return rotation;

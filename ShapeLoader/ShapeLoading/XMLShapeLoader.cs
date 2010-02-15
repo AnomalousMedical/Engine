@@ -132,7 +132,7 @@ namespace Engine
             }
             else
             {
-                Log.Default.sendMessage("Error loading rotation on line " + textReader.LineNumber + " does not contain 3 or 4 numbers value: " + textReader.Value, LogLevel.Error, "ShapeLoading");
+                Log.Default.sendMessage("Error loading rotation on line " + textReader.LineNumber + " does not contain 3 or 4 numbers value: " + textReader.Value, LogLevel.Warning, "ShapeLoading");
                 rotation = Quaternion.Identity;
             }
             return rotation;
