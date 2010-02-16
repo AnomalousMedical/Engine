@@ -36,4 +36,14 @@ bool MaterialManager::resourceExists(System::String^ name)
 	return materialManager->resourceExists(MarshalUtils::convertString(name));
 }
 
+System::String^ MaterialManager::getActiveScheme()
+{
+	return MarshalUtils::convertString(materialManager->getActiveScheme());
+}
+
+void MaterialManager::setActiveScheme(System::String^ name)
+{
+	return materialManager->setActiveScheme(MarshalUtils::convertString(name));
+}
+
 }

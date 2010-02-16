@@ -53,6 +53,10 @@ public:
 
 	bool resourceExists(System::String^ name);
 
+	System::String^ getActiveScheme();
+
+	void setActiveScheme(System::String^ name);
+
 	//Material^ createManual(System::String^ name, System::String^ groupName, bool isManual);
 };
 
