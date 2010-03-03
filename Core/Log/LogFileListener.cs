@@ -13,6 +13,7 @@ namespace Logging
     {
         private StreamWriter fileWriter;
         private bool closed;
+        private String logFileName;
 
         public LogFileListener()
         {
@@ -48,6 +49,7 @@ namespace Logging
         {
             try
             {
+                logFileName = fileName;
                 fileWriter = new StreamWriter(new FileStream(fileName, FileMode.Create, FileAccess.Write));
                 closed = false;
             }
@@ -66,6 +68,26 @@ namespace Logging
             {
                 closed = true;
                 fileWriter.Close();
+            }
+        }
+
+        public void saveCrashLog(String crashFile)
+        {
+            try
+            {
+                String crashDir = Path.GetDirectoryName(crashFile);
+                if (!Directory.Exists(crashDir))
+                {
+                    Directory.CreateDirectory(crashDir);
+                }
+
+                fileWriter.Flush();
+                DateTime now = DateTime.Now;
+                File.Copy(logFileName, crashFile, true);
+            }
+            catch (Exception e)
+            {
+
             }
         }
     }
