@@ -98,6 +98,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="subwcrev $(ProjectDir) $(ProjectDir)VersionSource.h $(ProjectDir)Version.h"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -333,6 +334,14 @@
 			</File>
 			<File
 				RelativePath=".\Stdafx.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Version.rc2"
+				>
+			</File>
+			<File
+				RelativePath=".\VersionSource.h"
 				>
 			</File>
 		</Filter>
