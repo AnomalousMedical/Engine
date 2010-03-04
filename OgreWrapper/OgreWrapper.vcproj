@@ -204,6 +204,10 @@
 				RelativePath=".\app.rc"
 				>
 			</File>
+			<File
+				RelativePath=".\Version.rc2"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="DLL"
@@ -238,10 +242,6 @@
 			</File>
 			<File
 				RelativePath=".\Stdafx.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Version.rc2"
 				>
 			</File>
 			<File
