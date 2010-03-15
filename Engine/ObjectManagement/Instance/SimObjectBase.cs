@@ -27,6 +27,28 @@ namespace Engine.ObjectManagement
         public abstract void addElement(SimElement element);
 
         /// <summary>
+        /// Add an element that will take this sim object as an owner, but will
+        /// not show up in the sim object itself. This means that the .Owner
+        /// property of the element will report this sim object, but the object
+        /// will not be accessible through this SimObject and will not be
+        /// managed in any way by the SimObject.
+        /// </summary>
+        /// <param name="element">The element to add as a weak element.</param>
+        public void addWeakElement(SimElement element)
+        {
+            element.setSimObject(this);
+        }
+
+        /// <summary>
+        /// Remove a SimElement as a weak element setting its sim object back to null.
+        /// </summary>
+        /// <param name="element">The element to remove.</param>
+        public void removeWeakElement(SimElement element)
+        {
+            element.setSimObject(null);
+        }
+
+        /// <summary>
         /// Update the position of the SimObject.
         /// </summary>
         /// <param name="translation">The translation to set.</param>

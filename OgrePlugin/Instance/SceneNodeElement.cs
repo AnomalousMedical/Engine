@@ -19,7 +19,7 @@ namespace OgrePlugin
         private SceneNode sceneNode;
         private List<SceneNodeElement> children = new List<SceneNodeElement>();
         private Dictionary<String, MovableObjectContainer> nodeObjects = new Dictionary<String, MovableObjectContainer>();
-        
+        private SceneNode parentNode;
 
         /// <summary>
         /// Constructor.
@@ -28,12 +28,13 @@ namespace OgrePlugin
         /// <param name="subscription">The subscription of the scene node.</param>
         /// <param name="scene">The scene this node belongs to.</param>
         /// <param name="node">The node to manage.</param>
-        public SceneNodeElement(String elementName, Subscription subscription, OgreSceneManager scene, SceneNode node)
+        public SceneNodeElement(String elementName, Subscription subscription, OgreSceneManager scene, SceneNode node, SceneNode parentNode)
             :base(elementName, subscription) 
         {
             this.scene = scene;
             this.sceneNode = node;
             node.UserObject = this;
+            this.parentNode = parentNode;
         }
 
         /// <summary>
@@ -88,7 +89,6 @@ namespace OgrePlugin
         /// <param name="element">The SceneNodeElement to add as a child.</param>
         public void addChild(SceneNodeElement element)
         {
-            sceneNode.addChild(element.sceneNode);
             children.Add(element);
         }
 
@@ -98,8 +98,34 @@ namespace OgrePlugin
         /// <param name="element">The SceneNodeElement to remove.</param>
         public void removeChild(SceneNodeElement element)
         {
-            sceneNode.removeChild(element.sceneNode);
             children.Remove(element);
+        }
+
+        /// <summary>
+        /// Get the derived position.
+        /// </summary>
+        /// <returns>The derived position.</returns>
+        public Vector3 getDerivedPosition()
+        {
+            return sceneNode.getDerivedPosition();
+        }
+
+        /// <summary>
+        /// Get the derived orientation.
+        /// </summary>
+        /// <returns>The derived orientation.</returns>
+        public Quaternion getDerivedOrientation()
+        {
+            return sceneNode.getDerivedOrientation();
+        }
+
+        /// <summary>
+        /// Get the derived scale.
+        /// </summary>
+        /// <returns>The derived scale.</returns>
+        public Vector3 getDerivedScale()
+        {
+            return sceneNode.getDerivedScale();
         }
 
         /// <summary>
@@ -143,17 +169,25 @@ namespace OgrePlugin
         {
             if (enabled)
             {
-                scene.SceneManager.getRootSceneNode().addChild(sceneNode);
+                parentNode.addChild(sceneNode);
             }
             else
             {
-                scene.SceneManager.getRootSceneNode().removeChild(sceneNode);
+                parentNode.removeChild(sceneNode);
             }
         }
 
         public override SimElementDefinition saveToDefinition()
         {
             return saveToSceneNodeDefinition();
+        }
+
+        internal SceneNode SceneNode
+        {
+            get
+            {
+                return sceneNode;
+            }
         }
 
         /// <summary>
