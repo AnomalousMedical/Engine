@@ -68,10 +68,15 @@ void* BulletOgreSoftBodyProvider::createSoftBodyImpl(BulletScene^ scene)
 {
 	assert(softBody == 0);
 
+	if(!OgreWrapper::OgreResourceGroupManager::getInstance()->resourceGroupExists("_SoftBodyMeshes"))
+	{
+		OgreWrapper::OgreResourceGroupManager::getInstance()->createResourceGroup("_SoftBodyMeshes");
+	}
+
 	//Clone the specified mesh
 	OgreWrapper::MeshManager^ meshManager = OgreWrapper::MeshManager::getInstance();
 	MeshPtr^ originalMesh = meshManager->load(meshName, groupName, HardwareBuffer::Usage::HBU_DYNAMIC, HardwareBuffer::Usage::HBU_STATIC, true, true);
-	MeshPtr^ meshPtr = originalMesh->Value->clone(meshName + "_" + this->Name + "_SoftBody", "SoftBodyMeshes");
+	MeshPtr^ meshPtr = originalMesh->Value->clone(meshName + "_" + this->Name + "_SoftBody", "_SoftBodyMeshes");
 	meshPtr->Value->removeAllAnimations();
 	meshPtr->Value->setSkeletonName("");
 

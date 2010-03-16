@@ -132,6 +132,11 @@ FileInfoEnum^ OgreResourceGroupManager::findResourceFileInfo(System::String^ gro
 	return files;
 }
 
+bool OgreResourceGroupManager::resourceGroupExists(System::String^ name)
+{
+	return resourceManager->resourceGroupExists(MarshalUtils::convertString(name));
+}
+
 System::String^ OgreResourceGroupManager::findGroupContainingResource(System::String^ resourceName)
 {
 	if(resourceName == nullptr)

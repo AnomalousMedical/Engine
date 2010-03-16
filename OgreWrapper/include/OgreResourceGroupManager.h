@@ -104,6 +104,8 @@ public:
 	/// <returns>The name of the group containg the resource or null if the resource was not found.</returns>
 	System::String^ findGroupContainingResource(System::String^ resourceName);
 
+	bool resourceGroupExists(System::String^ name);
+
 	/// <summary>
 	/// Called when the resources are initialized.
 	/// </summary>

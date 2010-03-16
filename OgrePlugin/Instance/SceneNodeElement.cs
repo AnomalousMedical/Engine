@@ -102,6 +102,30 @@ namespace OgrePlugin
         }
 
         /// <summary>
+        /// Find a child SceneNodeElement with the given name. Will search all scene nodes below this one.
+        /// </summary>
+        /// <param name="name">The name of the child node to find.</param>
+        /// <returns>The matching node or null if it cannot be found.</returns>
+        public SceneNodeElement findChildNode(String name)
+        {
+            if (name != null && children.Count > 0)
+            {
+                foreach (SceneNodeElement element in children)
+                {
+                    if (element.Name == name)
+                    {
+                        return element;
+                    }
+                    if (element.findChildNode(name) != null)
+                    {
+                        return element;
+                    }
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Get the derived position.
         /// </summary>
         /// <returns>The derived position.</returns>
