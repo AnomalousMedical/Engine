@@ -30,6 +30,10 @@ protected:
 
 	virtual void destroySoftBodyImpl(BulletScene^ scene) override;
 
+	virtual void createStaticRepresentationImpl() override;
+
+	virtual void destroyStaticRepresentationImpl() override;
+
 public:
 	EllipsoidSoftBodyProvider(EllipsoidSoftBodyProviderDefinition^ def);
 

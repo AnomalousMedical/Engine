@@ -20,12 +20,16 @@ public ref class SoftBodyProvider abstract : public SimElement
 {
 private:
 	bool updatingPosition;
+	bool staticRepresentationCreated;
 
 protected:
 	virtual void* createSoftBodyImpl(BulletScene^ scene) = 0;
 
 	virtual void destroySoftBodyImpl(BulletScene^ scene) = 0;
 
+	virtual void createStaticRepresentationImpl() = 0;
+
+	virtual void destroyStaticRepresentationImpl() = 0;
 
 	/// <summary>
 	/// This property should be set to true when a soft body provider subclass
@@ -50,6 +54,8 @@ internal:
 	btSoftBody* createSoftBody(BulletScene^ scene);
 
 	void destroySoftBody(BulletScene^ scene);
+
+	void createStaticRepresentation();
 
 	property bool IsUpdatingPosition
 	{

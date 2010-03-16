@@ -37,6 +37,14 @@ internal:
 		updatePositionImpl(translation, rotation);
 	}
 
+	property btSoftBody* Body
+	{
+		btSoftBody* get()
+		{
+			return softBody;
+		}
+	}
+
 protected:
 	virtual void updatePositionImpl(Vector3% translation, Quaternion% rotation) override;
 

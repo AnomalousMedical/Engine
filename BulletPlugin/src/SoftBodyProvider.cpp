@@ -6,12 +6,17 @@ namespace BulletPlugin
 {
 
 SoftBodyProvider::SoftBodyProvider(SoftBodyProviderDefinition^ description)
-:SimElement(description->Name, description->Subscription)
+:SimElement(description->Name, description->Subscription),
+staticRepresentationCreated(false)
 {
 }
 
 SoftBodyProvider::~SoftBodyProvider(void)
 {
+	if(staticRepresentationCreated)
+	{
+		destroyStaticRepresentationImpl();
+	}
 }
 
 btSoftBody* SoftBodyProvider::createSoftBody(BulletScene^ scene)
@@ -24,6 +29,12 @@ btSoftBody* SoftBodyProvider::createSoftBody(BulletScene^ scene)
 void SoftBodyProvider::destroySoftBody(BulletScene^ scene)
 {
 	destroySoftBodyImpl(scene);
+}
+
+void SoftBodyProvider::createStaticRepresentation()
+{
+	staticRepresentationCreated = true;
+	createStaticRepresentationImpl();
 }
 
 }

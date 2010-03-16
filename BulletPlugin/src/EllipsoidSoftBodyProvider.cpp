@@ -65,6 +65,16 @@ void EllipsoidSoftBodyProvider::destroySoftBodyImpl(BulletScene^ scene)
 	softBody = 0;
 }
 
+void EllipsoidSoftBodyProvider::createStaticRepresentationImpl()
+{
+
+}
+
+void EllipsoidSoftBodyProvider::destroyStaticRepresentationImpl()
+{
+
+}
+
 SimElementDefinition^ EllipsoidSoftBodyProvider::saveToDefinition()
 {
 	return gcnew EllipsoidSoftBodyProviderDefinition(this->Name);

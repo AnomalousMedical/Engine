@@ -8,6 +8,7 @@
 #include "BulletDebugInterface.h"
 #include "SoftBodyDefinition.h"
 #include "EllipsoidSoftBodyProviderDefinition.h"
+#include "SoftBodyAnchorDefinition.h"
 
 using namespace Engine::Command;
 
@@ -42,6 +43,7 @@ void BulletInterface::initialize(PluginManager^ pluginManager)
 	pluginManager->addCreateSimElementCommand(gcnew AddSimElementCommand("Create Bullet Soft Body", gcnew CreateSimElement(SoftBodyDefinition::Create)));
 	pluginManager->addCreateSimElementCommand(gcnew AddSimElementCommand("Create Bullet Generic 6 Dof Constraint", gcnew CreateSimElement(Generic6DofConstraintDefinition::Create)));
 	pluginManager->addCreateSimElementCommand(gcnew AddSimElementCommand("Create Bullet Elipsoid Soft Body Provider", gcnew CreateSimElement(EllipsoidSoftBodyProviderDefinition::Create)));
+	pluginManager->addCreateSimElementCommand(gcnew AddSimElementCommand("Create Bullet Soft Body Anchor", gcnew CreateSimElement(SoftBodyAnchorDefinition::Create)));
 
 	bulletResources->addResourceListener(fileManager);
 	pluginManager->addSubsystemResources(bulletResources);

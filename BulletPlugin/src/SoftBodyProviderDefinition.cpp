@@ -57,6 +57,7 @@ void SoftBodyProviderDefinition::createStaticProduct(SimObjectBase^ instance, Bu
 	SoftBodyProvider^ provider = createProductImpl(instance, bulletScene, subScene);
 	if(provider != nullptr)
 	{
+		provider->createStaticRepresentation();
 		instance->addElement(provider);
 	}
 	else

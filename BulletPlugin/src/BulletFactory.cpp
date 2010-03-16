@@ -5,6 +5,7 @@
 #include "TypedConstraintDefinition.h"
 #include "SoftBodyDefinition.h"
 #include "SoftBodyProviderEntry.h"
+#include "SoftBodyAnchorDefinition.h"
 
 namespace BulletPlugin
 {
@@ -32,6 +33,10 @@ void BulletFactory::createProducts()
 	{
 		entry->createProduct(scene);
 	}
+	for each(BulletFactoryEntry^ entry in softBodyAnchors)
+	{
+		entry->createProduct(scene);
+	}
 }
 
 void BulletFactory::createStaticProducts()
@@ -49,6 +54,10 @@ void BulletFactory::createStaticProducts()
 		entry->createStaticProduct(scene);
 	}
 	for each(BulletFactoryEntry^ entry in typedConstraints)
+	{
+		entry->createStaticProduct(scene);
+	}
+	for each(BulletFactoryEntry^ entry in softBodyAnchors)
 	{
 		entry->createStaticProduct(scene);
 	}
@@ -85,6 +94,11 @@ void BulletFactory::addTypedConstraint(TypedConstraintDefinition^ definition, Si
 void BulletFactory::addSoftBodyProviderDefinition(SoftBodyProviderDefinition^ definition, SimObjectBase^ instance, SimSubScene^ subScene)
 {
 	softBodyProviders.Add(gcnew SoftBodyProviderEntry(instance, definition, subScene));
+}
+
+void BulletFactory::addSoftBodyAnchorDefinition(SoftBodyAnchorDefinition^ definition, SimObjectBase^ instance)
+{
+	softBodyAnchors.Add(gcnew BulletFactoryEntry(instance, definition));
 }
 
 }

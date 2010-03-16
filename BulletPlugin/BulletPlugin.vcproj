@@ -231,6 +231,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\SoftBodyAnchorDefinition.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\SoftBodyAnchorDefinition.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\SoftBodyDefinition.cpp"
 				>
 			</File>

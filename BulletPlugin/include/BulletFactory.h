@@ -14,6 +14,7 @@ ref class TypedConstraintDefinition;
 ref class SoftBodyDefinition;
 ref class SoftBodyProviderEntry;
 ref class SoftBodyProviderDefinition;
+ref class SoftBodyAnchorDefinition;
 
 ref class BulletFactory : public SimElementFactory
 {
@@ -23,6 +24,7 @@ private:
 	List<BulletFactoryEntry^> softBodies;
 	List<BulletFactoryEntry^> typedConstraints;
 	List<SoftBodyProviderEntry^> softBodyProviders;
+	List<BulletFactoryEntry^> softBodyAnchors;
 
 internal:
 	void addRigidBody(RigidBodyDefinition^ definition, SimObjectBase^ instance);
@@ -32,6 +34,8 @@ internal:
 	void addSoftBody(SoftBodyDefinition^ definition, SimObjectBase^ instance);
 
 	void addSoftBodyProviderDefinition(SoftBodyProviderDefinition^ definition, SimObjectBase^ instance, SimSubScene^ subScene);
+
+	void addSoftBodyAnchorDefinition(SoftBodyAnchorDefinition^ definition, SimObjectBase^ instance);
 
 public:
 	BulletFactory(BulletScene^ scene);

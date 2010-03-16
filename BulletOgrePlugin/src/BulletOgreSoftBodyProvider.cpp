@@ -228,6 +228,23 @@ void BulletOgreSoftBodyProvider::destroySoftBodyImpl(BulletScene^ scene)
 	softBody = 0;
 }
 
+void BulletOgreSoftBodyProvider::createStaticRepresentationImpl()
+{
+	SceneManager^ sceneManager = ogreScene->SceneManager;
+	node = sceneManager->createSceneNode(this->Name + "__SoftBodyNode");
+	entity = ogreScene->SceneManager->createEntity(this->Name, meshName);
+	node->attachObject(entity);
+	sceneManager->getRootSceneNode()->addChild(node);
+}
+
+void BulletOgreSoftBodyProvider::destroyStaticRepresentationImpl()
+{
+	SceneManager^ sceneManager = ogreScene->SceneManager;
+	sceneManager->getRootSceneNode()->removeChild(node);
+	sceneManager->destroyEntity(entity);
+	sceneManager->destroySceneNode(node);
+}
+
 SimElementDefinition^ BulletOgreSoftBodyProvider::saveToDefinition()
 {
 	BulletOgreSoftBodyProviderDefinition^ def = gcnew BulletOgreSoftBodyProviderDefinition(this->Name);

@@ -44,6 +44,10 @@ protected:
 
 	virtual void destroySoftBodyImpl(BulletScene^ scene) override;
 
+	virtual void createStaticRepresentationImpl() override;
+
+	virtual void destroyStaticRepresentationImpl() override;
+
 	int getBulletIndex(int idx);
 public:
 	BulletOgreSoftBodyProvider(BulletOgreSoftBodyProviderDefinition^ def, OgreSceneManager^ ogreScene);
