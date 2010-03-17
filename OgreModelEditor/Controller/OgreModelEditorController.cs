@@ -135,6 +135,8 @@ namespace OgreModelEditor
                 textReader.Close();
             }
 
+            OgreResourceGroupManager.getInstance().initializeAllResourceGroups();
+
             //Create the GUI
             mainForm = new OgreModelEditorMain();
 
