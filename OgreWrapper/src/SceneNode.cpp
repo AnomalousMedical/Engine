@@ -130,4 +130,9 @@ void SceneNode::lookAt(Engine::Vector3 targetPoint, TransformSpace relativeTo, E
 	sceneNode->lookAt(MathUtils::copyVector3(targetPoint), static_cast<Ogre::Node::TransformSpace>(relativeTo), MathUtils::copyVector3(localDirectionVector));
 }
 
+void SceneNode::setDebugDisplayEnabled(bool enabled, bool cascade)
+{
+	sceneNode->setDebugDisplayEnabled(enabled, cascade);
+}
+
 }

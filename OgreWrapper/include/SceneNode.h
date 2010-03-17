@@ -140,6 +140,8 @@ public:
 
 	void lookAt(Engine::Vector3 targetPoint, TransformSpace relativeTo, Engine::Vector3 localDirectionVector);
 
+	void setDebugDisplayEnabled(bool enabled, bool cascade);
+
 	property System::Object^ UserObject
 	{
 		System::Object^ get()

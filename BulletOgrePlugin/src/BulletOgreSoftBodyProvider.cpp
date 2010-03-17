@@ -45,18 +45,35 @@ BulletOgreSoftBodyProvider::~BulletOgreSoftBodyProvider(void)
 
 void BulletOgreSoftBodyProvider::updatePositionImpl(Vector3% translation, Quaternion% rotation)
 {
+	if(staticRepresentationCreated)
+	{
+		node->setPosition(translation);
+		node->setOrientation(rotation);
+	}
 }
 
 void BulletOgreSoftBodyProvider::updateTranslationImpl(Vector3% translation)
 {
+	if(staticRepresentationCreated)
+	{
+		node->setPosition(translation);
+	}
 }
 
 void BulletOgreSoftBodyProvider::updateRotationImpl(Quaternion% rotation)
 {
+	if(staticRepresentationCreated)
+	{
+		node->setOrientation(rotation);
+	}
 }
 
 void BulletOgreSoftBodyProvider::updateScaleImpl(Vector3% scale)
 {
+	if(staticRepresentationCreated)
+	{
+		node->setScale(scale);
+	}
 }
 
 void BulletOgreSoftBodyProvider::setEnabled(bool enabled)

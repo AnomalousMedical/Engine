@@ -20,9 +20,10 @@ public ref class SoftBodyProvider abstract : public SimElement
 {
 private:
 	bool updatingPosition;
-	bool staticRepresentationCreated;
 
 protected:
+	bool staticRepresentationCreated;
+
 	virtual void* createSoftBodyImpl(BulletScene^ scene) = 0;
 
 	virtual void destroySoftBodyImpl(BulletScene^ scene) = 0;
