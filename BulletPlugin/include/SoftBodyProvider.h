@@ -66,6 +66,8 @@ internal:
 		}
 	}
 
+	void setInitialPosition(Vector3% translation, Quaternion% rotation);
+
 public:
 	SoftBodyProvider(SoftBodyProviderDefinition^ description);
 

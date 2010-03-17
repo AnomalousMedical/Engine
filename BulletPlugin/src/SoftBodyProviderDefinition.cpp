@@ -44,6 +44,7 @@ void SoftBodyProviderDefinition::createProduct(SimObjectBase^ instance, BulletSc
 	SoftBodyProvider^ provider = createProductImpl(instance, bulletScene, subScene);
 	if(provider != nullptr)
 	{
+		provider->setInitialPosition(instance->Translation, instance->Rotation);
 		instance->addElement(provider);
 	}
 	else
@@ -58,6 +59,7 @@ void SoftBodyProviderDefinition::createStaticProduct(SimObjectBase^ instance, Bu
 	if(provider != nullptr)
 	{
 		provider->createStaticRepresentation();
+		provider->setInitialPosition(instance->Translation, instance->Rotation);
 		instance->addElement(provider);
 	}
 	else

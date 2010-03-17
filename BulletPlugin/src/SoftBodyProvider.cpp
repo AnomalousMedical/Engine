@@ -37,4 +37,9 @@ void SoftBodyProvider::createStaticRepresentation()
 	createStaticRepresentationImpl();
 }
 
+void SoftBodyProvider::setInitialPosition(Vector3% translation, Quaternion% rotation)
+{
+	updatePositionImpl(translation, rotation);
+}
+
 }
