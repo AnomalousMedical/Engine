@@ -243,12 +243,6 @@ SimElementDefinition^ RigidBody::saveToDefinition()
 	return definition;
 }
 
-void RigidBody::setWorldTransform(Vector3 translation, Quaternion rotation)
-{
-	BulletPlugin::setWorldTransform(rigidBody, &translation.x, &rotation.x);
-	motionState->setStartingTransform(&translation.x, &rotation.x);
-}
-
 float RigidBody::getLinearDamping()
 {
 	return rigidBody->getLinearDamping();

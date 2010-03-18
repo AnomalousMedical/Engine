@@ -24,8 +24,6 @@ public:
 
 	virtual void setWorldTransform (const btTransform &worldTrans);
 
-	void setStartingTransform(float* trans, float* rot);
-
 	gcroot<RigidBody^> getRigidBody()
 	{
 		return rigidBody;

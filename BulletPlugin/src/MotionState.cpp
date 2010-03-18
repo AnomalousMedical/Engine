@@ -13,7 +13,11 @@ MotionState::MotionState(gcroot<RigidBody^> rigidBody, float* initialTrans, floa
 :rigidBody(rigidBody)
 {
 	transform.setIdentity();
-	setStartingTransform(initialTrans, initialRot);
+	btVector3& origin = transform.getOrigin();
+	origin.setX(initialTrans[0]);
+	origin.setY(initialTrans[1]);
+	origin.setZ(initialTrans[2]);
+	transform.getBasis().setRotation(btQuaternion(initialRot[0], initialRot[1], initialRot[2], initialRot[3]));
 }
 
 void MotionState::getWorldTransform (btTransform &worldTrans) const
@@ -26,15 +30,6 @@ void MotionState::setWorldTransform (const btTransform &worldTrans)
 	btQuaternion rot;
 	worldTrans.getBasis().getRotation(rot);
 	updateRigidBody(&worldTrans.getOrigin().x(), &rot.x());
-}
-
-void MotionState::setStartingTransform(float* trans, float* rot)
-{
-	btVector3& origin = transform.getOrigin();
-	origin.setX(trans[0]);
-	origin.setY(trans[1]);
-	origin.setZ(trans[2]);
-	transform.getBasis().setRotation(btQuaternion(rot[0], rot[1], rot[2], rot[3]));
 }
 
 #pragma managed

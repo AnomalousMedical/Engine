@@ -79,8 +79,6 @@ public:
 
 	virtual SimElementDefinition^ saveToDefinition() override;
 
-	void setWorldTransform(Vector3 translation, Quaternion rotation);
-
 	float getLinearDamping();
 
 	float getAngularDamping();
