@@ -17,7 +17,7 @@ namespace BulletPlugin
 {
 
 //Enums
-[Engine::Attributes::SingleEnum]
+[Engine::Attributes::MultiEnum]
 enum class SoftBodyCollision
 {
 	RVSmask	=	0x000f,	///Rigid versus soft mask
@@ -63,7 +63,7 @@ private:
 	bool setPoseVolume;
 	bool setPoseFrame;
 
-	//Clusters, change the rigidity of the model more clusters = more squishyness
+	//Clusters, change the rigidity of the model more clusters = more squishyness, 0 = 1 per tetrahedron
 	bool generateClusters;
 	int numClusters;
 
@@ -122,7 +122,7 @@ public:
 
 //Properties
 
-//The number of clusters to generate. Requires GenerateClusters == true to do anything. More clusters = more squishyness.
+//The number of clusters to generate. Requires GenerateClusters == true to do anything. More clusters = more squishyness. 0 = 1 per tetrahedron or triangle.
 [Editable]
 property int NumClusters
 {

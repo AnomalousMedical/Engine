@@ -231,14 +231,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\SoftBodyAnchorDefinition.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\SoftBodyAnchorDefinition.h"
-				>
-			</File>
-			<File
 				RelativePath=".\src\SoftBodyDefinition.cpp"
 				>
 			</File>
@@ -287,6 +279,34 @@
 				</File>
 				<File
 					RelativePath=".\include\TypedConstraintDefinition.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="SoftBodyJoints"
+				>
+				<File
+					RelativePath=".\src\SoftBodyAnchorDefinition.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\SoftBodyAnchorDefinition.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\SoftBodyAngularJointDefinition.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\SoftBodyAngularJointDefinition.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\SoftBodyLinearJointDefinition.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\SoftBodyLinearJointDefinition.h"
 					>
 				</File>
 			</Filter>
@@ -397,14 +417,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\SoftBodyAnchor.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\include\SoftBodyAnchor.h"
-				>
-			</File>
-			<File
 				RelativePath=".\src\SoftBodyProvider.cpp"
 				>
 			</File>
@@ -449,6 +461,18 @@
 				</File>
 				<File
 					RelativePath=".\include\ContactInfo.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="SoftBodyJoints"
+				>
+				<File
+					RelativePath=".\src\SoftBodyAnchor.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\SoftBodyAnchor.h"
 					>
 				</File>
 			</Filter>

@@ -14,7 +14,7 @@ ref class TypedConstraintDefinition;
 ref class SoftBodyDefinition;
 ref class SoftBodyProviderEntry;
 ref class SoftBodyProviderDefinition;
-ref class SoftBodyAnchorDefinition;
+ref class BulletElementDefinition;
 
 ref class BulletFactory : public SimElementFactory
 {
@@ -35,7 +35,7 @@ internal:
 
 	void addSoftBodyProviderDefinition(SoftBodyProviderDefinition^ definition, SimObjectBase^ instance, SimSubScene^ subScene);
 
-	void addSoftBodyAnchorDefinition(SoftBodyAnchorDefinition^ definition, SimObjectBase^ instance);
+	void addSoftBodyAnchorOrJointDefinition(BulletElementDefinition^ definition, SimObjectBase^ instance);
 
 public:
 	BulletFactory(BulletScene^ scene);

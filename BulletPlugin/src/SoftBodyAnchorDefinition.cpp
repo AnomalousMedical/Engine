@@ -10,39 +10,6 @@
 namespace BulletPlugin
 {
 
-SoftBodyAnchorDefinition::SoftBodyAnchorDefinition(System::String^ name)
-:BulletElementDefinition(name),
-findClosestNode(true),
-specificNode(0)
-{
-}
-
-SoftBodyAnchorDefinition::~SoftBodyAnchorDefinition(void)
-{
-}
-
-void SoftBodyAnchorDefinition::registerScene(SimSubScene^ subscene, SimObjectBase^ instance)
-{
-	if (subscene->hasSimElementManagerType(BulletScene::typeid))
-    {
-        BulletScene^ sceneManager = subscene->getSimElementManager<BulletScene^>();
-        sceneManager->getBulletFactory()->addSoftBodyAnchorDefinition(this, instance);
-    }
-    else
-    {
-		Logging::Log::Default->sendMessage("Cannot add SoftBodyAnchorDefinition {0} to SimSubScene {1} because it does not contain a BulletSceneManager.", Logging::LogLevel::Warning, BulletInterface::PluginName, Name, subscene->Name);
-    }
-}
-
-EditInterface^ SoftBodyAnchorDefinition::getEditInterface()
-{
-	if(editInterface == nullptr)
-	{
-		editInterface = ReflectedEditInterface::createEditInterface(this, memberScanner, this->Name + " - Soft Body", nullptr);
-	}
-	return editInterface;
-}
-
 #pragma unmanaged
 int findClosestNodeAt(float posX, float posY, float posZ, btSoftBody* softBody)
 {
@@ -64,6 +31,39 @@ int findClosestNodeAt(float posX, float posY, float posZ, btSoftBody* softBody)
 	return closestIndex;
 }
 #pragma managed
+
+SoftBodyAnchorDefinition::SoftBodyAnchorDefinition(System::String^ name)
+:BulletElementDefinition(name),
+findClosestNode(true),
+specificNode(0)
+{
+}
+
+SoftBodyAnchorDefinition::~SoftBodyAnchorDefinition(void)
+{
+}
+
+void SoftBodyAnchorDefinition::registerScene(SimSubScene^ subscene, SimObjectBase^ instance)
+{
+	if (subscene->hasSimElementManagerType(BulletScene::typeid))
+    {
+        BulletScene^ sceneManager = subscene->getSimElementManager<BulletScene^>();
+        sceneManager->getBulletFactory()->addSoftBodyAnchorOrJointDefinition(this, instance);
+    }
+    else
+    {
+		Logging::Log::Default->sendMessage("Cannot add SoftBodyAnchorDefinition {0} to SimSubScene {1} because it does not contain a BulletSceneManager.", Logging::LogLevel::Warning, BulletInterface::PluginName, Name, subscene->Name);
+    }
+}
+
+EditInterface^ SoftBodyAnchorDefinition::getEditInterface()
+{
+	if(editInterface == nullptr)
+	{
+		editInterface = ReflectedEditInterface::createEditInterface(this, memberScanner, this->Name + " - Soft Body", nullptr);
+	}
+	return editInterface;
+}
 
 void SoftBodyAnchorDefinition::createProduct(SimObjectBase^ instance, BulletScene^ scene)
 {

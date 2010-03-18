@@ -96,7 +96,7 @@ void BulletFactory::addSoftBodyProviderDefinition(SoftBodyProviderDefinition^ de
 	softBodyProviders.Add(gcnew SoftBodyProviderEntry(instance, definition, subScene));
 }
 
-void BulletFactory::addSoftBodyAnchorDefinition(SoftBodyAnchorDefinition^ definition, SimObjectBase^ instance)
+void BulletFactory::addSoftBodyAnchorOrJointDefinition(BulletElementDefinition^ definition, SimObjectBase^ instance)
 {
 	softBodyAnchors.Add(gcnew BulletFactoryEntry(instance, definition));
 }
