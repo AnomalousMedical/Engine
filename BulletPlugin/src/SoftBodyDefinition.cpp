@@ -20,7 +20,9 @@ generateBendingConstraints(false),
 bendingConstraintDistance(2),
 setPose(false),
 setPoseVolume(true),
-setPoseFrame(false)
+setPoseFrame(false),
+generateClusters(false),
+numClusters(1)
 {
 	config->aeromodel		=	btSoftBody::eAeroModel::V_Point;
 	config->kVCF			=	1;
@@ -90,8 +92,7 @@ void SoftBodyDefinition::createProduct(SimObjectBase^ instance, BulletScene^ sce
 	SoftBodyProvider^ sbProvider = (SoftBodyProvider^)instance->getElement(softBodyProviderName);
 	if(sbProvider != nullptr)
 	{
-		SoftBody^ softBody = gcnew SoftBody(this, scene, sbProvider);
-		softBody->setInitialPosition(instance->Translation, instance->Rotation);
+		SoftBody^ softBody = gcnew SoftBody(this, scene, sbProvider, instance->Translation, instance->Rotation);
 		instance->addElement(softBody);
 	}
 	else
@@ -160,6 +161,10 @@ material(new btSoftBody::Material())
 	setPose = info->GetBoolean("setPose");
 	setPoseVolume = info->GetBoolean("setPoseVolume");
 	setPoseFrame = info->GetBoolean("setPoseFrame");
+
+	//Clusters
+	generateClusters = info->GetBoolean("generateClusters", false);
+	numClusters = info->GetInt32("numClusters", 1);
 }
 
 void SoftBodyDefinition::getInfo(SaveInfo^ info)
@@ -215,6 +220,10 @@ void SoftBodyDefinition::getInfo(SaveInfo^ info)
 	info->AddValue("setPose", setPose);
 	info->AddValue("setPoseVolume", setPoseVolume);
 	info->AddValue("setPoseFrame", setPoseFrame);
+
+	//Clusters
+	info->AddValue("generateClusters", generateClusters);
+	info->AddValue("numClusters", numClusters);
 }
 //End saving
 

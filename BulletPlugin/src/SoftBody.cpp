@@ -36,7 +36,7 @@ void scale(btSoftBody* softBody, float* scale)
 
 #pragma managed
 
-SoftBody::SoftBody(SoftBodyDefinition^ description, BulletScene^ scene, SoftBodyProvider^ sbProvider)
+SoftBody::SoftBody(SoftBodyDefinition^ description, BulletScene^ scene, SoftBodyProvider^ sbProvider, Vector3 translation, Quaternion rotation)
 :SimElement(description->Name, description->Subscription),
 scene(scene),
 sbProvider(sbProvider),
@@ -44,7 +44,9 @@ generateBendingConstraints(description->GenerateBendingConstraints),
 bendingConstraintDistance(description->BendingConstraintDistance),
 setPose(description->SetPose),
 setPoseVolume(description->SetPoseVolume),
-setPoseFrame(description->SetPoseFrame)
+setPoseFrame(description->SetPoseFrame),
+generateClusters(description->GenerateClusters),
+numClusters(description->NumClusters)
 {
 	softBody = sbProvider->createSoftBody(scene);
 
@@ -99,6 +101,13 @@ setPoseFrame(description->SetPoseFrame)
 	if(setPose)
 	{
 		softBody->setPose(setPoseVolume, setPoseFrame);
+	}
+
+	transform(softBody, &translation.x, &rotation.x);
+
+	if(generateClusters)
+	{
+		softBody->generateClusters(numClusters);
 	}
 }
 
@@ -167,6 +176,10 @@ SimElementDefinition^ SoftBody::saveToDefinition()
 	def->SetPose = setPose;
 	def->SetPoseVolume = setPoseVolume;
 	def->SetPoseFrame = setPoseFrame;
+
+	//Clusters
+	def->GenerateClusters = generateClusters;
+	def->NumClusters = numClusters;
 
 	return def;
 }

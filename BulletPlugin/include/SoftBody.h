@@ -31,12 +31,11 @@ private:
 	bool setPoseVolume;
 	bool setPoseFrame;
 
-internal:
-	void setInitialPosition(Vector3% translation, Quaternion% rotation)
-	{
-		updatePositionImpl(translation, rotation);
-	}
+	//Clusters
+	bool generateClusters;
+	int numClusters;
 
+internal:
 	property btSoftBody* Body
 	{
 		btSoftBody* get()
@@ -57,7 +56,7 @@ protected:
 	virtual void setEnabled(bool enabled) override;
 
 public:
-	SoftBody(SoftBodyDefinition^ description, BulletScene^ scene, SoftBodyProvider^ sbProvider);
+	SoftBody(SoftBodyDefinition^ description, BulletScene^ scene, SoftBodyProvider^ sbProvider, Vector3 translation, Quaternion rotation);
 
 	virtual ~SoftBody(void);
 

@@ -63,6 +63,10 @@ private:
 	bool setPoseVolume;
 	bool setPoseFrame;
 
+	//Clusters, change the rigidity of the model more clusters = more squishyness
+	bool generateClusters;
+	int numClusters;
+
 	static MemberScanner^ memberScanner = gcnew MemberScanner();
 
 internal:
@@ -117,6 +121,37 @@ public:
 	virtual EditInterface^ getEditInterface() override;
 
 //Properties
+
+//The number of clusters to generate. Requires GenerateClusters == true to do anything. More clusters = more squishyness.
+[Editable]
+property int NumClusters
+{
+	int get()
+	{
+		return numClusters;
+	}
+	
+	void set(int value)
+	{
+		numClusters = value;
+	}
+}
+
+// Generate clusters, this will make the model more and less squishy and is required for linear and angular joints.
+[Editable]
+property bool GenerateClusters
+{
+	bool get()
+	{
+		return generateClusters;
+	}
+	
+	void set(bool value)
+	{
+		generateClusters = value;
+	}
+}
+
 //Configuration
 [Editable]
 property SoftBodyAeroModel AeroModel
