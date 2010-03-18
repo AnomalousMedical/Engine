@@ -67,8 +67,7 @@ void RigidBodyDefinition::createProduct(SimObjectBase^ instance, BulletScene^ sc
 		{
 			shape->calculateLocalInertia(constructionInfo->m_mass, constructionInfo->m_localInertia);
 		}
-		RigidBody^ rigidBody = gcnew RigidBody(this, scene);
-		rigidBody->setWorldTransform(instance->Translation, instance->Rotation);
+		RigidBody^ rigidBody = gcnew RigidBody(this, scene, instance->Translation, instance->Rotation);
 		instance->addElement(rigidBody);
 	}
 	else

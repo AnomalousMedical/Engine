@@ -9,10 +9,11 @@ namespace BulletPlugin
 
 #pragma unmanaged
 
-MotionState::MotionState(gcroot<RigidBody^> rigidBody)
+MotionState::MotionState(gcroot<RigidBody^> rigidBody, float* initialTrans, float* initialRot)
 :rigidBody(rigidBody)
 {
 	transform.setIdentity();
+	setStartingTransform(initialTrans, initialRot);
 }
 
 void MotionState::getWorldTransform (btTransform &worldTrans) const

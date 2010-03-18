@@ -125,13 +125,13 @@ void setAnisotropicFriction(btRigidBody* rigidBody, float* vector)
 
 #pragma managed
 
-RigidBody::RigidBody(RigidBodyDefinition^ description, BulletScene^ scene)
+RigidBody::RigidBody(RigidBodyDefinition^ description, BulletScene^ scene, Vector3 initialTrans, Quaternion initialRot)
 :SimElement(description->Name, description->Subscription),
 scene(scene),
 shapeName(description->ShapeName),
 maxContactDistance(description->MaxContactDistance)
 {
-	motionState = new MotionState(this);
+	motionState = new MotionState(this, &initialTrans.x, &initialRot.x);
 	description->ConstructionInfo->m_motionState = motionState;
 	rigidBody = new btRigidBody(*description->ConstructionInfo);
 	BulletPlugin::setLinearVelocity(rigidBody, &description->LinearVelocity.x);

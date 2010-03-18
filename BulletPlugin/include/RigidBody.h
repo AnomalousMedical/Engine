@@ -73,7 +73,7 @@ public:
 
 	event CollisionCallback^ ContactEnded;
 
-	RigidBody(RigidBodyDefinition^ description, BulletScene^ scene);
+	RigidBody(RigidBodyDefinition^ description, BulletScene^ scene, Vector3 initialTrans, Quaternion initialRot);
 
 	virtual ~RigidBody(void);
 

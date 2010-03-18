@@ -16,7 +16,7 @@ private:
 	void updateRigidBody(const float* trans, const float* rot);
 
 public:
-	MotionState(gcroot<RigidBody^> rigidBody);
+	MotionState(gcroot<RigidBody^> rigidBody, float* initialTrans, float* initialRot);
 
 	virtual ~MotionState(void);
 
