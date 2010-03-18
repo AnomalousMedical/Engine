@@ -14,7 +14,7 @@ using namespace Engine::Attributes;
 namespace BulletPlugin
 {
 
-ref class SoftBodyAnchorDefinition : public BulletElementDefinition
+public ref class SoftBodyAnchorDefinition : public BulletElementDefinition
 {
 private:
 	static MemberScanner^ memberScanner = gcnew MemberScanner();
@@ -25,6 +25,8 @@ private:
 	String^ softBodySimObject;
 	String^ softBodyElement;
 	bool disableCollisionBetweenNodes;
+	bool findClosestNode;
+	int specificNode;
 
 internal:
 	/// <summary>
@@ -60,6 +62,32 @@ public:
 	virtual void registerScene(SimSubScene^ subscene, SimObjectBase^ instance) override;
 
 	virtual EditInterface^ getEditInterface() override;
+
+	[Editable]
+	property int SpecificNode
+	{
+		int get()
+		{
+			return specificNode;
+		}
+		void set(int value)
+		{
+			specificNode = value;
+		}
+	}
+
+	[Editable]
+	property bool FindClosestNode
+	{
+		bool get()
+		{
+			return findClosestNode;
+		}
+		void set(bool value)
+		{
+			findClosestNode = value;
+		}
+	}
 
 	[Editable]
 	property bool DisableCollisionBetweenNodes

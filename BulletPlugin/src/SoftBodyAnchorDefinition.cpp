@@ -5,12 +5,15 @@
 #include "BulletInterface.h"
 #include "RigidBody.h"
 #include "SoftBody.h"
+#include "SoftBodyAnchor.h"
 
 namespace BulletPlugin
 {
 
 SoftBodyAnchorDefinition::SoftBodyAnchorDefinition(System::String^ name)
-:BulletElementDefinition(name)
+:BulletElementDefinition(name),
+findClosestNode(true),
+specificNode(0)
 {
 }
 
@@ -41,7 +44,7 @@ EditInterface^ SoftBodyAnchorDefinition::getEditInterface()
 }
 
 #pragma unmanaged
-int findClosestNode(float posX, float posY, float posZ, btSoftBody* softBody)
+int findClosestNodeAt(float posX, float posY, float posZ, btSoftBody* softBody)
 {
 	btSoftBody::tNodeArray nodeArray = softBody->m_nodes;
 	int numNodes = nodeArray.size();
@@ -60,7 +63,6 @@ int findClosestNode(float posX, float posY, float posZ, btSoftBody* softBody)
 	}
 	return closestIndex;
 }
-
 #pragma managed
 
 void SoftBodyAnchorDefinition::createProduct(SimObjectBase^ instance, BulletScene^ scene)
@@ -81,8 +83,14 @@ void SoftBodyAnchorDefinition::createProduct(SimObjectBase^ instance, BulletScen
 				if(sb != nullptr)
 				{
 					Vector3 trans = instance->Translation;
-					int closestNode = findClosestNode(trans.x, trans.y, trans.z, sb->Body);
-					sb->Body->appendAnchor(closestNode, rb->Body, disableCollisionBetweenNodes);
+					int node = specificNode;
+					if(findClosestNode)
+					{
+						node = findClosestNodeAt(trans.x, trans.y, trans.z, sb->Body);
+					}
+					sb->Body->appendAnchor(node, rb->Body, disableCollisionBetweenNodes);
+					SoftBodyAnchor^ anchor = gcnew SoftBodyAnchor(this);
+					instance->addElement(anchor);
 				}
 				else
 				{
@@ -119,6 +127,8 @@ SoftBodyAnchorDefinition::SoftBodyAnchorDefinition(LoadInfo^ info)
 	softBodySimObject = info->GetString("softBodySimObject");
 	softBodyElement = info->GetString("softBodyElement");
 	disableCollisionBetweenNodes = info->GetBoolean("disableCollisionBetweenNodes");
+	findClosestNode = info->GetBoolean("findClosestNode", true);
+	specificNode = info->GetInt32("specificNode", 0);
 }
 
 void SoftBodyAnchorDefinition::getInfo(SaveInfo^ info)
@@ -130,6 +140,8 @@ void SoftBodyAnchorDefinition::getInfo(SaveInfo^ info)
 	info->AddValue("softBodySimObject", softBodySimObject);
 	info->AddValue("softBodyElement", softBodyElement);
 	info->AddValue("disableCollisionBetweenNodes", disableCollisionBetweenNodes);
+	info->AddValue("findClosestNode", findClosestNode);
+	info->AddValue("specificNode", specificNode);
 }
 //End saving
 

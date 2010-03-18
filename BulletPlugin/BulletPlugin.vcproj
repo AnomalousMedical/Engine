@@ -397,6 +397,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\SoftBodyAnchor.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\SoftBodyAnchor.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\SoftBodyProvider.cpp"
 				>
 			</File>
