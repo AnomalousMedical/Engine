@@ -265,4 +265,10 @@ void BulletScene::drawDebug(DebugDrawingSurface^ drawingSurface)
 	drawingSurface->end();
 }
 
+void BulletScene::clearDebug(DebugDrawingSurface^ drawingSurface)
+{
+	drawingSurface->begin(name + "BulletDebug", Engine::Renderer::DrawingType::LineList);
+	drawingSurface->end();
+}
+
 }

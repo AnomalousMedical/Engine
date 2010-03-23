@@ -8,7 +8,8 @@ namespace BulletPlugin
 
 BulletDebugInterface::BulletDebugInterface(void)
 :enabled(false),
-debugEntries(gcnew List<DebugEntry^>())
+debugEntries(gcnew List<DebugEntry^>()),
+firstFrameDisabled(false)
 {
 	debugEntries->Add(gcnew BulletDebugEntry("Draw Wireframe", btIDebugDraw::DBG_DrawWireframe));
 	debugEntries->Add(gcnew BulletDebugEntry("Draw AABB", btIDebugDraw::DBG_DrawAabb));
@@ -46,10 +47,23 @@ void BulletDebugInterface::renderDebug(DebugDrawingSurface^ drawingSurface, SimS
 			sceneManager->drawDebug(drawingSurface);
 		}
 	}
+	else if(firstFrameDisabled)
+	{
+		BulletScene^ sceneManager = subScene->getSimElementManager<BulletScene^>();
+		if(sceneManager != nullptr)
+		{
+			sceneManager->clearDebug(drawingSurface);
+		}
+		firstFrameDisabled = false;
+	}
 }
 
 void BulletDebugInterface::setEnabled(bool enabled)
 {
+	if(this->enabled && !enabled)
+	{
+		firstFrameDisabled = true;
+	}
 	this->enabled = enabled;
 }
 

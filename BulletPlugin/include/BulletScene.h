@@ -113,6 +113,8 @@ public:
 
 	void drawDebug(DebugDrawingSurface^ drawingSurface);
 
+	void clearDebug(DebugDrawingSurface^ drawingSurface);
+
 	void addSoftBodyProvider(SoftBodyProvider^ sbProvider);
 
 	void removeSoftBodyProvider(SoftBodyProvider^ sbProvider);

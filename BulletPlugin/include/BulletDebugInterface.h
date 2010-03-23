@@ -14,6 +14,7 @@ ref class BulletDebugInterface : public DebugInterface
 private:
 	List<DebugEntry^>^ debugEntries;
 	bool enabled;
+	bool firstFrameDisabled;
 
 public:
 	BulletDebugInterface(void);
