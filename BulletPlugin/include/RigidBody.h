@@ -30,6 +30,8 @@ private:
 	btRigidBody* rigidBody;
 	String^ shapeName;
 	float maxContactDistance;
+	short collisionFilterMask;
+	short collisionFilterGroup;
 
 protected:
 	virtual void updatePositionImpl(Vector3% translation, Quaternion% rotation) override;

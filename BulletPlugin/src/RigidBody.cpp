@@ -129,7 +129,9 @@ RigidBody::RigidBody(RigidBodyDefinition^ description, BulletScene^ scene, Vecto
 :SimElement(description->Name, description->Subscription),
 scene(scene),
 shapeName(description->ShapeName),
-maxContactDistance(description->MaxContactDistance)
+maxContactDistance(description->MaxContactDistance),
+collisionFilterMask(description->CollisionFilterMask),
+collisionFilterGroup(description->CollisionFilterGroup)
 {
 	motionState = new MotionState(this, &initialTrans.x, &initialRot.x);
 	description->ConstructionInfo->m_motionState = motionState;
@@ -202,7 +204,7 @@ void RigidBody::setEnabled(bool enabled)
 {
 	if(enabled)
 	{
-		scene->DynamicsWorld->addRigidBody(rigidBody);
+		scene->DynamicsWorld->addRigidBody(rigidBody, collisionFilterGroup, collisionFilterMask);
 	}
 	else
 	{
@@ -240,6 +242,8 @@ SimElementDefinition^ RigidBody::saveToDefinition()
 	definition->HitFraction = rigidBody->getHitFraction();
 	definition->ShapeName = shapeName;
 	definition->MaxContactDistance = maxContactDistance;
+	definition->CollisionFilterGroup = collisionFilterGroup;
+	definition->CollisionFilterMask = collisionFilterMask;
 	return definition;
 }
 

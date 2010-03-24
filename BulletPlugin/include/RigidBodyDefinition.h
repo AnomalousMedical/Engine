@@ -28,6 +28,8 @@ private:
 	float hitFraction;
 	String^ shapeName;
 	float maxContactDistance;
+	short collisionFilterMask;
+	short collisionFilterGroup;
 
 	static MemberScanner^ memberScanner = gcnew MemberScanner();
 
@@ -71,6 +73,32 @@ public:
 	virtual void registerScene(SimSubScene^ subscene, SimObjectBase^ instance) override;
 
 	virtual EditInterface^ getEditInterface() override;
+
+	[Editable]
+	property short CollisionFilterMask
+	{
+		short get()
+		{
+			return collisionFilterMask;
+		}
+		void set(short value)
+		{
+			collisionFilterMask = value;
+		}
+	}
+
+	[Editable]
+	property short CollisionFilterGroup
+	{
+		short get()
+		{
+			return collisionFilterGroup;
+		}
+		void set(short value)
+		{
+			collisionFilterGroup = value;
+		}
+	}
 
 	[Editable]
 	property float HitFraction
