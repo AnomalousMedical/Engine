@@ -27,14 +27,14 @@ namespace Engine
         /// <summary>
         /// A map of files to the archives that contain them
         /// </summary>
-        Dictionary<String, Archive> fileMap = new Dictionary<string, Archive>();
+        Dictionary<String, Archive> fileMap = new Dictionary<string, Archive>(1, StringComparer.InvariantCultureIgnoreCase);
 
         /// <summary>
         /// A map of directories to the archives that have them. A single
         /// directory can be in multiple archives and there is no definition as
         /// to which is defined here. It is considered to not matter.
         /// </summary>
-        Dictionary<String, DirectoryEntry> directoryMap = new Dictionary<String, DirectoryEntry>();
+        Dictionary<String, DirectoryEntry> directoryMap = new Dictionary<String, DirectoryEntry>(1, StringComparer.InvariantCultureIgnoreCase);
 
         List<Archive> archives = new List<Archive>();
 
