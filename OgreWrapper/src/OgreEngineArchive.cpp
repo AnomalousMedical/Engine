@@ -21,17 +21,12 @@ OgreEngineArchive::~OgreEngineArchive()
 
 void OgreEngineArchive::load()
 {
-	archive = FileSystem::OpenArchive(baseName);
+	archive = VirtualFileSystem::Instance;
 }
 
 void OgreEngineArchive::unload()
 {
-	Engine::Resources::Archive^ arch = archive;
-	if(arch != nullptr)
-	{
-		delete archive;
-		archive = nullptr;
-	}
+	archive = nullptr;
 }
 
 Ogre::DataStreamPtr OgreEngineArchive::open(const Ogre::String& filename, bool readOnly) const

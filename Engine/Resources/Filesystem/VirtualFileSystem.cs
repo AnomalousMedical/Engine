@@ -8,6 +8,20 @@ namespace Engine.Resources
 {
     public class VirtualFileSystem : IDisposable
     {
+        #region Static
+
+        static VirtualFileSystem instance;
+
+        public static VirtualFileSystem Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
+
+        #endregion Static
+
         /// <summary>
         /// A map of files to the archives that contain them
         /// </summary>
@@ -24,7 +38,21 @@ namespace Engine.Resources
 
         public VirtualFileSystem()
         {
+            if (instance != null)
+            {
+                throw new Exception("Only one VirtualFileSystem can be created at a time.");
+            }
+            instance = this;
             directoryMap.Add("/", new DirectoryEntry());
+        }
+
+        public void Dispose()
+        {
+            foreach (Archive archive in archives)
+            {
+                archive.Dispose();
+            }
+            instance = null;
         }
 
         public void addArchive(String path)
@@ -62,14 +90,6 @@ namespace Engine.Resources
                 {
                     fileMap.Add(file, archive);
                 }
-            }
-        }
-
-        public void Dispose()
-        {
-            foreach (Archive archive in archives)
-            {
-                archive.Dispose();
             }
         }
 
