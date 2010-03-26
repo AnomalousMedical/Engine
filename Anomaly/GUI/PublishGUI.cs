@@ -33,9 +33,9 @@ namespace Anomaly
             groups.Clear();
             fileView.Groups.Clear();
             fileView.Items.Clear();
-            foreach (FileInfo file in fileList.getPrettyFileList())
+            foreach (VirtualFileInfo file in fileList.getPrettyFileList())
             {
-                String directory = Path.GetDirectoryName(file.File);
+                String directory = file.DirectoryName;
                 ListViewGroup group;
                 groups.TryGetValue(directory, out group);
                 if (group == null)
@@ -44,7 +44,7 @@ namespace Anomaly
                     groups.Add(directory, group);
                     fileView.Groups.Add(group);
                 }
-                ListViewItem listViewFile = new ListViewItem(Path.GetFileName(file.File), group);
+                ListViewItem listViewFile = new ListViewItem(file.Name, group);
                 fileView.Items.Add(listViewFile);
             }
         }

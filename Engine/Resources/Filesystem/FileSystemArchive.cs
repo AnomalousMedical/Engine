@@ -115,19 +115,31 @@ namespace Engine.Resources
 
         public override bool isDirectory(String url)
         {
-            FileAttributes attr = File.GetAttributes(fixIncomingDirectoryURL(url));
-            return (attr & FileAttributes.Directory) == FileAttributes.Directory;
+            bool isDirectory;
+            FileAttributes attr = File.GetAttributes(fixIncomingURL(url, out isDirectory));
+            return isDirectory;
+            //return (attr & FileAttributes.Directory) == FileAttributes.Directory;
         }
 
         public override bool exists(String filename)
         {
-            return File.Exists(fixIncomingDirectoryURL(filename));
+            bool isDirectory;
+            return File.Exists(fixIncomingURL(filename, out isDirectory));
         }
 
         public override VirtualFileInfo getFileInfo(String filename)
         {
-            FileInfo info = new FileInfo(fixIncomingDirectoryURL(filename));
-            return new VirtualFileInfo(info.Name, fixOutgoingDirectoryString(info.DirectoryName), fixOutgoingDirectoryString(info.FullName), info.FullName, info.Length, info.Length);
+            bool isDirectory;
+            String fixedUrl = fixIncomingURL(filename, out isDirectory);
+            FileInfo info = new FileInfo(fixedUrl);
+            if (isDirectory)
+            {
+                return new VirtualFileInfo(info.Name, fixOutgoingDirectoryString(info.DirectoryName), fixOutgoingDirectoryString(info.FullName), info.FullName, info.Length, info.Length);
+            }
+            else
+            {
+                return new VirtualFileInfo(info.Name, fixOutgoingDirectoryString(info.DirectoryName), fixOutgoingFileString(info.FullName), info.FullName, info.Length, info.Length);
+            }
         }
 
         public override String getFullPath(String filename)
@@ -143,6 +155,23 @@ namespace Engine.Resources
         private String fixOutgoingDirectoryString(String url)
         {
             return FileSystem.fixPathDir(url).Replace(baseDirectory, "");
+        }
+
+        private String fixIncomingURL(String url, out bool isDirectory)
+        {
+            String asFile = fixIncomingFileURL(url);
+            if (File.Exists(asFile))
+            {
+                isDirectory = false;
+                return asFile;
+            }
+            String asDirectory = fixIncomingDirectoryURL(url);
+            if (Directory.Exists(asDirectory))
+            {
+                isDirectory = true;
+                return asDirectory;
+            }
+            throw new FileNotFoundException("Could not convert url.", url);
         }
 
         private String fixIncomingDirectoryURL(String url)
