@@ -75,9 +75,13 @@ namespace Engine.Resources
     {
         public abstract void Dispose();
 
+        public abstract String[] listFiles(bool recursive);
+
         public abstract String[] listFiles(String url, bool recursive);
 
         public abstract String[] listFiles(String url, String searchPattern, bool recursive);
+
+        public abstract String[] listDirectories(bool recursive);
 
         public abstract String[] listDirectories(String url, bool recursive);
 

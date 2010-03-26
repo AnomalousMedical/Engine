@@ -176,6 +176,7 @@
     <Compile Include="Resources\Filesystem\FileSystem.cs" />
     <Compile Include="Resources\Filesystem\FileSystemArchive.cs" />
     <Compile Include="Resources\Filesystem\FileSystemFileInfo.cs" />
+    <Compile Include="Resources\Filesystem\VirtualFileSystem.cs" />
     <Compile Include="Resources\Filesystem\ZipArchive.cs" />
     <Compile Include="Resources\Filesystem\ZipArchiveFileInfo.cs" />
     <Compile Include="Resources\Resource.cs" />

@@ -42,6 +42,11 @@ namespace Engine.Resources
             }
         }
 
+        public override string[] listFiles(bool recursive)
+        {
+            return getArray(zipFile.listFiles("", recursive));
+        }
+
         public override string[] listFiles(string url, bool recursive)
         {
             return getArray(zipFile.listFiles(parseURLInZip(url), recursive));
@@ -50,6 +55,11 @@ namespace Engine.Resources
         public override String[] listFiles(String url, String searchPattern, bool recursive)
         {
             return getArray(zipFile.listFiles(parseURLInZip(url), searchPattern, recursive));
+        }
+
+        public override string[] listDirectories(bool recursive)
+        {
+            return getArray(zipFile.listDirectories("", recursive));
         }
 
         public override String[] listDirectories(String url, bool recursive)

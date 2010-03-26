@@ -6,7 +6,6 @@ using Logging;
 using System.Windows.Forms;
 using Editor;
 using Engine.ObjectManagement;
-using PhysXWrapper;
 using System.Xml;
 using Engine.Saving.XMLSaver;
 using System.IO;
@@ -22,83 +21,47 @@ namespace Test
         [STAThread]
         static void Main(string[] args)
         {
-            byte[] buffer = new byte[4096];
-            using (Stream source = File.Open(args[0], System.IO.FileMode.Open, System.IO.FileAccess.Read))
+            using (VirtualFileSystem fileSystem = new VirtualFileSystem())
             {
-                using (Stream dest = File.Open(args[0].Replace(".zip", ".dat"), System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write))
+                fileSystem.addArchive("S:/vfstest\\RootDir1");
+                fileSystem.addArchive("S:/vfstest/RootDir2");
+                fileSystem.addArchive("S:/vfstest/ZipDir.zip");
+
+                Console.WriteLine("--List of all files--");
+                foreach (String file in fileSystem.listFiles(true))
                 {
-                    int numRead;
-                    while ((numRead = source.Read(buffer, 0, buffer.Length)) > 0)
-                    {
-                        for (int i = 0; i < numRead; ++i)
-                        {
-                            buffer[i] ^= 73;
-                        }
-                        dest.Write(buffer, 0, numRead);
-                    }
+                    Console.WriteLine(file);
                 }
+
+                Console.WriteLine("\n--List of all directories--");
+                foreach (String file in fileSystem.listDirectories(true))
+                {
+                    Console.WriteLine(file);
+                }
+
+
+                printFileContents("Folder3/DuplicateTextDoc.txt", fileSystem);
+                printFileContents("Folder1/TextDoc1Folder1.txt", fileSystem);
+                printFileContents("Folder1/TextDoc2Folder1.txt", fileSystem);
+                printFileContents("Folder2/Folder2TextDoc1.txt", fileSystem);
+
+                Console.ReadLine();
             }
         }
 
-        static void testZip()
+        private static void printFileContents(String fileName, VirtualFileSystem fileSystem)
         {
-            try
+            using (Stream stream = fileSystem.openStream(fileName, Engine.Resources.FileMode.Open))
             {
-                //ZipFile zipFile = new ZipFile())
-                using (ZipFile zipFile = new ZipFile("TestZip.zip"))
+                Console.WriteLine("--------------Contents of {0}--------------", fileName);
+                TextReader textReader = new StreamReader(stream);
+                String line = textReader.ReadLine();
+                while (line != null)
                 {
-                    List<ZipFileInfo> files;
-                    Console.WriteLine("Root folder recursive");
-                    files = zipFile.listFiles("", true);
-                    foreach (ZipFileInfo file in files)
-                    {
-                        Console.WriteLine(file.FullName);
-                    }
-                    Console.WriteLine("");
-
-                    Console.WriteLine("Root folder nonrecursive");
-                    files = zipFile.listFiles("", false);
-                    foreach (ZipFileInfo file in files)
-                    {
-                        Console.WriteLine(file.FullName);
-                    }
-                    Console.WriteLine("");
-
-                    Console.WriteLine("Folder folder recursive");
-                    files = zipFile.listFiles("folder", true);
-                    foreach (ZipFileInfo file in files)
-                    {
-                        Console.WriteLine(file.FullName);
-                    }
-                    Console.WriteLine("");
-
-                    Console.WriteLine("Folder folder nonrecursive");
-                    files = zipFile.listFiles("folder", false);
-                    foreach (ZipFileInfo file in files)
-                    {
-                        Console.WriteLine(file.FullName);
-                    }
-                    Console.WriteLine("");
-
-                    Console.WriteLine("Reading folder/file1.txt");
-                    using (ZipStream stream = zipFile.openFile("folder/file1.txt"))
-                    {
-                        Console.WriteLine("Root folder recursive");
-                        StreamReader reader = new StreamReader(stream);
-                        while (!reader.EndOfStream)
-                        {
-                            Console.WriteLine(reader.ReadLine());
-                        }
-                        reader.Close();
-                    }
-
-                    Console.WriteLine("Attemping to read bad file got {0}.", zipFile.openFile("null"));
+                    Console.WriteLine(line);
+                    line = textReader.ReadLine();
                 }
-                Console.ReadLine();
-            }
-            catch (ZipIOException)
-            {
-
+                Console.WriteLine("------------------------------------------");
             }
         }
     }
