@@ -10,7 +10,7 @@ namespace Engine.Resources
     {
         static char[] SEPS = { '/', '\\' };
 
-        public static Archive OpenArchive(String url)
+        internal static Archive OpenArchive(String url)
         {
             if (ZipArchive.CanOpenURL(url))
             {

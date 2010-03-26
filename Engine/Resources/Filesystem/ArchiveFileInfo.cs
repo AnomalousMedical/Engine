@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Engine.Resources
 {
-    public interface ArchiveFileInfo
+    interface ArchiveFileInfo
     {
         Int64 CompressedSize { get; }
 

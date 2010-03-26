@@ -12,7 +12,7 @@ namespace OgreWrapper
 class OgreEngineArchive : public Ogre::Archive 
 {
 private:
-	gcroot<Engine::Resources::VirtualFileSystem^> archive;
+	gcroot<Engine::VirtualFileSystem^> archive;
 	gcroot<String^> baseName;
 
 	Ogre::FileInfoList mFileList;

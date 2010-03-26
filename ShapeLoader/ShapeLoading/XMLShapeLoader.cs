@@ -68,10 +68,10 @@ namespace Engine
             return canLoad;
         }
 
-        public override void loadShapes(ShapeBuilder builder, string filename, Archive archive)
+        public override void loadShapes(ShapeBuilder builder, string filename, VirtualFileSystem vfs)
         {
             Log.Default.sendMessage("Loading collision shapes from " + filename + ".", LogLevel.Info, "ShapeLoading");
-            XmlTextReader textReader = new XmlTextReader(archive.openStream(filename, FileMode.Open, FileAccess.Read));
+            XmlTextReader textReader = new XmlTextReader(vfs.openStream(filename, FileMode.Open, FileAccess.Read));
 
             while (textReader.Read())
             {

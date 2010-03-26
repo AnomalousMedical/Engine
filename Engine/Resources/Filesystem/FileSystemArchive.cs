@@ -124,9 +124,10 @@ namespace Engine.Resources
             return File.Exists(fixIncomingDirectoryURL(filename));
         }
 
-        public override ArchiveFileInfo getFileInfo(String filename)
+        public override VirtualFileInfo getFileInfo(String filename)
         {
-            return new FileSystemFileInfo(fixIncomingDirectoryURL(filename));
+            FileInfo info = new FileInfo(fixIncomingDirectoryURL(filename));
+            return new VirtualFileInfo(info.Name, fixOutgoingDirectoryString(info.DirectoryName), fixOutgoingDirectoryString(info.FullName), info.FullName, info.Length, info.Length);
         }
 
         public override String getFullPath(String filename)

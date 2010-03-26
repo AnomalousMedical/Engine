@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using Engine.Resources;
+using Logging;
 
-namespace Engine.Resources
+namespace Engine
 {
     public class VirtualFileSystem : IDisposable
     {
@@ -57,6 +59,7 @@ namespace Engine.Resources
 
         public void addArchive(String path)
         {
+            Log.Debug("Added resource archive {0}.", path);
             Archive archive = FileSystem.OpenArchive(path);
 
             directoryMap["/"].addArchive(archive);
@@ -157,7 +160,7 @@ namespace Engine.Resources
             throw new FileNotFoundException("Could not find directory in virtual file system.", url);
         }
 
-        public Stream openStream(String url, FileMode mode)
+        public Stream openStream(String url, Resources.FileMode mode)
         {
             url = FileSystem.fixPathFile(url);
             Archive targetArchive;
@@ -168,7 +171,7 @@ namespace Engine.Resources
             throw new FileNotFoundException("Could not find file in virtual file system.", url);
         }
 
-        public Stream openStream(String url, FileMode mode, FileAccess access)
+        public Stream openStream(String url, Resources.FileMode mode, Resources.FileAccess access)
         {
             url = FileSystem.fixPathFile(url);
             Archive targetArchive;
@@ -196,7 +199,7 @@ namespace Engine.Resources
             return directoryMap.ContainsKey(asDir);
         }
 
-        public ArchiveFileInfo getFileInfo(String filename)
+        public VirtualFileInfo getFileInfo(String filename)
         {
             Archive targetArchive;
             String asFile = FileSystem.fixPathFile(filename);
@@ -248,7 +251,7 @@ namespace Engine.Resources
                 archives.Add(archive);
             }
 
-            public ArchiveFileInfo getFileInfo(String filename)
+            public VirtualFileInfo getFileInfo(String filename)
             {
                 return archives[archives.Count - 1].getFileInfo(filename);
             }

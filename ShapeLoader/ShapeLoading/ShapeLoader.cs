@@ -44,6 +44,6 @@ namespace Engine
         /// </summary>
         /// <param name="builder">The builder to build the shapes with.</param>
         /// <param name="filename">The filename to load the shapes from.</param>
-        public abstract void loadShapes(ShapeBuilder builder, String filename, Archive archive);
+        public abstract void loadShapes(ShapeBuilder builder, String filename, VirtualFileSystem vfs);
     }
 }

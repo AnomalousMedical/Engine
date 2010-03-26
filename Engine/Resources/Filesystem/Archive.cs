@@ -71,7 +71,7 @@ namespace Engine.Resources
         ReadWrite = System.IO.FileAccess.ReadWrite,
     }
 
-    public abstract class Archive : IDisposable
+    abstract class Archive : IDisposable
     {
         public abstract void Dispose();
 
@@ -99,7 +99,7 @@ namespace Engine.Resources
 
         public abstract bool exists(String filename);
 
-        public abstract ArchiveFileInfo getFileInfo(String filename);
+        public abstract VirtualFileInfo getFileInfo(String filename);
 
         public abstract String getFullPath(String filename);
     }

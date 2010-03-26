@@ -105,8 +105,6 @@ namespace OgreModelEditor
             Log.Default.addLogListener(logListener);
             Log.Default.addLogListener(consoleWindow);
 
-            Engine.Resources.Resource.ResourceRoot = null;
-
             //Initailize plugins
             hiddenEmbedWindow = new DrawingWindow();
             pluginManager = new PluginManager(OgreModelEditorConfig.ConfigFile);

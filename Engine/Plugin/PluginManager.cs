@@ -57,6 +57,7 @@ namespace Engine
         private List<DebugInterface> debugInterfaces;
         private ConfigFile configFile;
         private String pluginDirectory = null;
+        private VirtualFileSystem virtualFileSystem;
 
         #endregion Fields
 
@@ -83,6 +84,7 @@ namespace Engine
                 this.configFile = configFile;
                 instance = this;
                 instance.addPlugin(new BehaviorInterface());
+                virtualFileSystem = new VirtualFileSystem();
             }
             else
             {
@@ -99,6 +101,7 @@ namespace Engine
         /// </summary>
         public void Dispose()
         {
+            virtualFileSystem.Dispose();
             foreach (PluginInterface plugin in loadedPlugins.Values)
             {
                 plugin.Dispose();

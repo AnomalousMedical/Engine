@@ -103,9 +103,10 @@ namespace Engine.Resources
             return zipFile.exists(parseURLInZip(filename));
         }
 
-        public override ArchiveFileInfo getFileInfo(String filename)
+        public override VirtualFileInfo getFileInfo(String filename)
         {
-            return new ZipArchiveFileInfo(zipFile.getFileInfo(parseURLInZip(filename)));
+            ZipFileInfo info = zipFile.getFileInfo(parseURLInZip(filename));
+            return new VirtualFileInfo(info.Name, info.DirectoryName, info.FullName, getFullPath(info.FullName), info.CompressedSize, info.UncompressedSize);
         }
 
         public override String getFullPath(String filename)

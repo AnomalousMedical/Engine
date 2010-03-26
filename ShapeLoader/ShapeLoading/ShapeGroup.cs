@@ -107,27 +107,24 @@ namespace Engine
         /// <param name="builder">The builder to use.</param>
         private void loadShape(ShapeLocation location, ShapeLoader loader, ShapeBuilder builder)
         {
-
-            using (Archive archive = FileSystem.OpenArchive(location.LocName))
+            VirtualFileSystem vfs = VirtualFileSystem.Instance;
+            builder.setCurrentShapeLocation(location);
+            if (vfs.isDirectory(location.LocName))
             {
-                builder.setCurrentShapeLocation(location);
-                if (archive.isDirectory(location.LocName))
+                scanDirectory(location, loader, builder, vfs);
+            }
+            else
+            {
+                if (loader.canLoadShape(location.LocName))
                 {
-                    scanDirectory(location, loader, builder, archive);
+                    loader.loadShapes(builder, location.LocName, vfs);
                 }
                 else
                 {
-                    if (loader.canLoadShape(location.LocName))
-                    {
-                        loader.loadShapes(builder, location.LocName, archive);
-                    }
-                    else
-                    {
-                        Logging.Log.Default.sendMessage("Cannot load collision file {0}.", LogLevel.Error, "ShapeLoading", location.LocName);
-                    }
+                    Logging.Log.Default.sendMessage("Cannot load collision file {0}.", LogLevel.Error, "ShapeLoading", location.LocName);
                 }
-                location.Loaded = true;
             }
+            location.Loaded = true;
             //catch (FileNotFoundException)
             //{
             //    Logging.Log.Default.sendMessage("Cannot load collision file {0}.  Location does not exist.", LogLevel.Error, "ShapeLoading", location.LocName);
@@ -152,14 +149,14 @@ namespace Engine
         /// <param name="location"></param>
         /// <param name="loader"></param>
         /// <param name="builder"></param>
-        private void scanDirectory(ShapeLocation location, ShapeLoader loader, ShapeBuilder builder, Archive archive)
+        private void scanDirectory(ShapeLocation location, ShapeLoader loader, ShapeBuilder builder, VirtualFileSystem vfs)
         {
-            String[] files = archive.listFiles(location.LocName, location.Recursive);
+            String[] files = vfs.listFiles(location.LocName, location.Recursive);
             foreach (String path in files)
             {  
                 if (loader.canLoadShape(path))
                 {
-                    loader.loadShapes(builder, path, archive);
+                    loader.loadShapes(builder, path, vfs);
                 }
             }
         }

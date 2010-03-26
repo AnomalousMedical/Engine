@@ -26,29 +26,6 @@ namespace Engine.Resources
     /// </summary>
     public class Resource : Saveable, EditableProperty
     {
-        #region Static
-
-        private static String resourceRoot = ".";
-
-        /// <summary>
-	    /// This is the root directory where resources can be found.  This is static
-	    /// and set for all resources. This can be set to null to use absolute
-        /// paths for everything. This is only reccomended for testing.
-	    /// </summary>
-	    public static String ResourceRoot 
-	    {
-		    get
-            {
-                return resourceRoot;
-            }
-		    set
-            {
-                resourceRoot = value;
-            }
-        }
-
-        #endregion Static
-
         #region Fields
 
         private String locName;
@@ -164,14 +141,7 @@ namespace Engine.Resources
 	    {
 		    get
             {
-                if (resourceRoot != null)
-                {
-                    return resourceRoot + "\\" + locName;
-                }
-                else
-                {
-                    return locName;
-                }
+                return locName;
             }
 	    }
 
@@ -323,16 +293,8 @@ namespace Engine.Resources
                         errorMessage = "This resource location is already defined.";
                         return false;
                     }
-                    String fullPath;
-                    if (resourceRoot == null)
-                    {
-                        fullPath = value;
-                    }
-                    else
-                    {
-                        fullPath = ResourceRoot + "\\" + value;
-                    }
-                    if (Directory.Exists(fullPath) || File.Exists(fullPath))
+                    String fullPath = value;
+                    if (VirtualFileSystem.Instance.exists(fullPath))
                     {
                         errorMessage = null;
                         return true;

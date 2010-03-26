@@ -82,13 +82,12 @@ namespace Anomaly
             XmlSaver xmlSaver = new XmlSaver();
             AnomalyProject project = new AnomalyProject(ProjectFile);
 
-            Resource.ResourceRoot = project.ResourceSection.ResourceRoot;
-            Log.Default.sendMessage("Resource root is \"{0}\".", LogLevel.ImportantInfo, "Editor", Resource.ResourceRoot);
-
-            PublishController publisher = new PublishController(project);
-
             using (PluginManager pluginManager = new PluginManager(AnomalyConfig.ConfigFile))
             {
+                PublishController publisher = new PublishController(project);
+
+                VirtualFileSystem.Instance.addArchive(project.ResourceSection.ResourceRoot);
+
                 DynamicDLLPluginLoader pluginLoader = new DynamicDLLPluginLoader();
                 ConfigIterator pluginIterator = project.PluginSection.PluginIterator;
                 pluginIterator.reset();

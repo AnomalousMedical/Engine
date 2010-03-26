@@ -102,10 +102,6 @@ namespace Anomaly
             Log.Default.addLogListener(logListener);
             Log.Default.addLogListener(consoleWindow);
 
-            //Load the config file and set the resource root up.
-            Resource.ResourceRoot = project.ResourceSection.ResourceRoot;
-            Log.Default.sendMessage("Resource root is \"{0}\".", LogLevel.ImportantInfo, "Editor", Resource.ResourceRoot);
-
             //Initialize the plugins
             hiddenEmbedWindow = new DrawingWindow();
             pluginManager = new PluginManager(AnomalyConfig.ConfigFile);
@@ -120,6 +116,9 @@ namespace Anomaly
             pluginLoader.loadPlugins(pluginManager);
             pluginManager.initializePlugins();
             pluginManager.RendererPlugin.PrimaryWindow.setEnabled(false);
+
+            //Load the config file and set the resource root up.
+            VirtualFileSystem.Instance.addArchive(project.ResourceSection.ResourceRoot);
 
             //Create the main form
             mainForm = new AnomalyMain();

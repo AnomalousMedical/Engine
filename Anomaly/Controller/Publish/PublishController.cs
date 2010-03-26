@@ -73,7 +73,7 @@ namespace Anomaly
             additionalResources.reset();
             while (additionalResources.hasNext())
             {
-                processFile(Resource.ResourceRoot + "/" + additionalResources.next(), true);
+                processFile(additionalResources.next(), true);
             }
             foreach (String directory in recursiveDirectories)
             {
@@ -83,83 +83,84 @@ namespace Anomaly
 
         public void copyResources(String targetDirectory, String archiveName, bool compress, bool obfuscate)
         {
-            String originalDirectory = targetDirectory;
-            if (compress)
-            {
-                targetDirectory += "/zipTemp";
-            }
-            int resourceRootSize = 0;
-            if (Resource.ResourceRoot != null)
-            {
-                resourceRootSize = Path.GetFullPath(Resource.ResourceRoot).Length;
-            }
-            Log.Debug("Starting file copy to {0}", targetDirectory);
-            foreach (FileInfo sourceFile in files)
-            {
-                String trimmedSource = sourceFile.File.Substring(resourceRootSize);
-                String destination = targetDirectory + trimmedSource;
-                String directory = Path.GetDirectoryName(destination);
-                if (!Directory.Exists(directory))
-                {
-                    Directory.CreateDirectory(directory);
-                }
-                Log.Debug("Copying {0} to {1}.", sourceFile.File, destination);
-                File.Copy(sourceFile.File, destination, true);
-            }
-            if (compress)
-            {
-                String zipFileName = originalDirectory + "\\" + archiveName + ".zip";
-                Log.Debug("Starting compression to {0}", zipFileName);
-                if (File.Exists(zipFileName))
-                {
-                    File.Delete(zipFileName);
-                }
-                Process sevenZip = new Process();
-                sevenZip.StartInfo.UseShellExecute = false;
-                sevenZip.StartInfo.RedirectStandardOutput = true;
-                sevenZip.StartInfo.FileName = AnomalyConfig.Tools.SevenZipExecutable;
-                sevenZip.StartInfo.Arguments = "a -tzip \"" + zipFileName + "\" \"" + targetDirectory + "/*\"";
-                sevenZip.Start();
-                using (StreamReader reader = sevenZip.StandardOutput)
-                {
-                    while (reader.Peek() != -1)
-                    {
-                        Log.Debug(reader.ReadLine());
-                    }
-                }
-                sevenZip.WaitForExit();
-                Log.Debug("Finished compression to {0}", zipFileName);
-                Directory.Delete(targetDirectory, true);
+            throw new NotImplementedException();
+            //String originalDirectory = targetDirectory;
+            //if (compress)
+            //{
+            //    targetDirectory += "/zipTemp";
+            //}
+            //int resourceRootSize = 0;
+            //if (Resource.ResourceRoot != null)
+            //{
+            //    resourceRootSize = Path.GetFullPath(Resource.ResourceRoot).Length;
+            //}
+            //Log.Debug("Starting file copy to {0}", targetDirectory);
+            //foreach (FileInfo sourceFile in files)
+            //{
+            //    String trimmedSource = sourceFile.File.Substring(resourceRootSize);
+            //    String destination = targetDirectory + trimmedSource;
+            //    String directory = Path.GetDirectoryName(destination);
+            //    if (!Directory.Exists(directory))
+            //    {
+            //        Directory.CreateDirectory(directory);
+            //    }
+            //    Log.Debug("Copying {0} to {1}.", sourceFile.File, destination);
+            //    File.Copy(sourceFile.File, destination, true);
+            //}
+            //if (compress)
+            //{
+            //    String zipFileName = originalDirectory + "\\" + archiveName + ".zip";
+            //    Log.Debug("Starting compression to {0}", zipFileName);
+            //    if (File.Exists(zipFileName))
+            //    {
+            //        File.Delete(zipFileName);
+            //    }
+            //    Process sevenZip = new Process();
+            //    sevenZip.StartInfo.UseShellExecute = false;
+            //    sevenZip.StartInfo.RedirectStandardOutput = true;
+            //    sevenZip.StartInfo.FileName = AnomalyConfig.Tools.SevenZipExecutable;
+            //    sevenZip.StartInfo.Arguments = "a -tzip \"" + zipFileName + "\" \"" + targetDirectory + "/*\"";
+            //    sevenZip.Start();
+            //    using (StreamReader reader = sevenZip.StandardOutput)
+            //    {
+            //        while (reader.Peek() != -1)
+            //        {
+            //            Log.Debug(reader.ReadLine());
+            //        }
+            //    }
+            //    sevenZip.WaitForExit();
+            //    Log.Debug("Finished compression to {0}", zipFileName);
+            //    Directory.Delete(targetDirectory, true);
 
-                if (obfuscate)
-                {
-                    String obfuscateFileName = originalDirectory + "\\" + archiveName + ".dat";
-                    Log.Debug("Starting obfuscation to {0}", obfuscateFileName);
-                    if (File.Exists(obfuscateFileName))
-                    {
-                        File.Delete(obfuscateFileName);
-                    }
+            //    if (obfuscate)
+            //    {
+            //        String obfuscateFileName = originalDirectory + "\\" + archiveName + ".dat";
+            //        Log.Debug("Starting obfuscation to {0}", obfuscateFileName);
+            //        if (File.Exists(obfuscateFileName))
+            //        {
+            //            File.Delete(obfuscateFileName);
+            //        }
 
-                    byte[] buffer = new byte[4096];
-                    using (Stream source = File.Open(zipFileName, System.IO.FileMode.Open, System.IO.FileAccess.Read))
-                    {
-                        using (Stream dest = File.Open(obfuscateFileName, System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write))
-                        {
-                            int numRead;
-                            while ((numRead = source.Read(buffer, 0, buffer.Length)) > 0)
-                            {
-                                for (int i = 0; i < numRead; ++i)
-                                {
-                                    buffer[i] ^= 73;
-                                }
-                                dest.Write(buffer, 0, numRead);
-                            }
-                        }
-                    }
-                    Log.Debug("Finished obfuscation to {0}", obfuscateFileName);
-                    File.Delete(zipFileName);
-                }
-            }
+            //        byte[] buffer = new byte[4096];
+            //        using (Stream source = File.Open(zipFileName, System.IO.FileMode.Open, System.IO.FileAccess.Read))
+            //        {
+            //            using (Stream dest = File.Open(obfuscateFileName, System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write))
+            //            {
+            //                int numRead;
+            //                while ((numRead = source.Read(buffer, 0, buffer.Length)) > 0)
+            //                {
+            //                    for (int i = 0; i < numRead; ++i)
+            //                    {
+            //                        buffer[i] ^= 73;
+            //                    }
+            //                    dest.Write(buffer, 0, numRead);
+            //                }
+            //            }
+            //        }
+            //        Log.Debug("Finished obfuscation to {0}", obfuscateFileName);
+            //        File.Delete(zipFileName);
+            //    }
+            //}
         }
 
         /// <summary>

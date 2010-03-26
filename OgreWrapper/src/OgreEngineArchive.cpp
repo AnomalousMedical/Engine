@@ -21,7 +21,7 @@ OgreEngineArchive::~OgreEngineArchive()
 
 void OgreEngineArchive::load()
 {
-	archive = VirtualFileSystem::Instance;
+	archive = Engine::VirtualFileSystem::Instance;
 }
 
 void OgreEngineArchive::unload()
@@ -82,7 +82,7 @@ Ogre::FileInfoListPtr OgreEngineArchive::listFileInfo(bool recursive, bool dirs)
 		files = archive->listFiles(baseName, recursive);
 		for each(String^ file in files)
 		{
-			ArchiveFileInfo^ archiveInfo = archive->getFileInfo(file);
+			Engine::VirtualFileInfo^ archiveInfo = archive->getFileInfo(file);
 			Ogre::FileInfo ogreInfo;
 			ogreInfo.archive = this;
 			ogreInfo.compressedSize = archiveInfo->CompressedSize;
@@ -139,7 +139,7 @@ Ogre::FileInfoListPtr OgreEngineArchive::findFileInfo(const Ogre::String& patter
 		files = archive->listFiles(baseName, MarshalUtils::convertString(pattern), recursive);
 		for each(String^ file in files)
 		{
-			ArchiveFileInfo^ archiveInfo = archive->getFileInfo(file);
+			Engine::VirtualFileInfo^ archiveInfo = archive->getFileInfo(file);
 			Ogre::FileInfo ogreInfo;
 			ogreInfo.archive = this;
 			ogreInfo.compressedSize = archiveInfo->CompressedSize;
