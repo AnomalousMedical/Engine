@@ -95,32 +95,37 @@ namespace Anomaly
                 if (obfuscate)
                 {
                     String obfuscateFileName = originalDirectory + "\\" + archiveName + ".dat";
-                    Log.Debug("Starting obfuscation to {0}", obfuscateFileName);
-                    if (File.Exists(obfuscateFileName))
-                    {
-                        File.Delete(obfuscateFileName);
-                    }
-
-                    byte[] buffer = new byte[4096];
-                    using (Stream source = File.Open(zipFileName, System.IO.FileMode.Open, System.IO.FileAccess.Read))
-                    {
-                        using (Stream dest = File.Open(obfuscateFileName, System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write))
-                        {
-                            int numRead;
-                            while ((numRead = source.Read(buffer, 0, buffer.Length)) > 0)
-                            {
-                                for (int i = 0; i < numRead; ++i)
-                                {
-                                    buffer[i] ^= 73;
-                                }
-                                dest.Write(buffer, 0, numRead);
-                            }
-                        }
-                    }
-                    Log.Debug("Finished obfuscation to {0}", obfuscateFileName);
+                    obfuscateZipFile(zipFileName, obfuscateFileName);
                     File.Delete(zipFileName);
                 }
             }
+        }
+
+        public static void obfuscateZipFile(String zipFileName, String obfuscateFileName)
+        {
+            Log.Debug("Starting obfuscation to {0}", obfuscateFileName);
+            if (File.Exists(obfuscateFileName))
+            {
+                File.Delete(obfuscateFileName);
+            }
+
+            byte[] buffer = new byte[4096];
+            using (Stream source = File.Open(zipFileName, System.IO.FileMode.Open, System.IO.FileAccess.Read))
+            {
+                using (Stream dest = File.Open(obfuscateFileName, System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write))
+                {
+                    int numRead;
+                    while ((numRead = source.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        for (int i = 0; i < numRead; ++i)
+                        {
+                            buffer[i] ^= 73;
+                        }
+                        dest.Write(buffer, 0, numRead);
+                    }
+                }
+            }
+            Log.Debug("Finished obfuscation to {0}", obfuscateFileName);
         }
 
         /// <summary>

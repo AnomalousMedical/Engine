@@ -19,6 +19,7 @@ namespace Anomaly
         private AnomalyController controller;
         FileTracker fileTracker;
         private PublishGUI publishGUI = new PublishGUI();
+        private ObfuscateZipFileGUI obfuscateGUI = new ObfuscateZipFileGUI();
 
         public AnomalyMain()
         {
@@ -217,6 +218,11 @@ namespace Anomaly
         private void publishToolStripMenuItem_Click(object sender, EventArgs e)
         {
             publishGUI.ShowDialog(this);
+        }
+
+        private void obfuscateArchiveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            obfuscateGUI.ShowDialog(this);
         }
     }
 }

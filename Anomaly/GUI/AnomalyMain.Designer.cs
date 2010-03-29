@@ -75,6 +75,7 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.obfuscateArchiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainToolStripContainer.TopToolStripPanel.SuspendLayout();
             this.mainToolStripContainer.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -241,7 +242,8 @@
             // 
             this.resourcesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.editToolStripMenuItem,
-            this.publishToolStripMenuItem});
+            this.publishToolStripMenuItem,
+            this.obfuscateArchiveToolStripMenuItem});
             this.resourcesToolStripMenuItem.Name = "resourcesToolStripMenuItem";
             this.resourcesToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
             this.resourcesToolStripMenuItem.Text = "Resources";
@@ -249,14 +251,14 @@
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
             // publishToolStripMenuItem
             // 
             this.publishToolStripMenuItem.Name = "publishToolStripMenuItem";
-            this.publishToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.publishToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.publishToolStripMenuItem.Text = "Publish";
             this.publishToolStripMenuItem.Click += new System.EventHandler(this.publishToolStripMenuItem_Click);
             // 
@@ -408,6 +410,13 @@
             this.statusStrip1.TabIndex = 9;
             this.statusStrip1.Text = "statusStrip1";
             // 
+            // obfuscateArchiveToolStripMenuItem
+            // 
+            this.obfuscateArchiveToolStripMenuItem.Name = "obfuscateArchiveToolStripMenuItem";
+            this.obfuscateArchiveToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.obfuscateArchiveToolStripMenuItem.Text = "Obfuscate Archive";
+            this.obfuscateArchiveToolStripMenuItem.Click += new System.EventHandler(this.obfuscateArchiveToolStripMenuItem_Click);
+            // 
             // AnomalyMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -471,6 +480,7 @@
         private WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripMenuItem publishToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem obfuscateArchiveToolStripMenuItem;
 
 
 
