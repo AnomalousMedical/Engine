@@ -22,6 +22,29 @@ namespace Engine
             }
         }
 
+        public static String GetFileName(String url)
+        {
+            url = url.Replace('\\', '/');
+            int lastSlash = url.LastIndexOf('/');
+            lastSlash++;
+            if (lastSlash > url.Length - 1)
+            {
+                lastSlash = url.Length - 1;
+            }
+            return url.Substring(lastSlash);
+        }
+
+        public static String GetDirectoryName(String url)
+        {
+            String repUrl = url.Replace('\\', '/');
+            int lastSlash = repUrl.LastIndexOf('/');
+            if (lastSlash < 0)
+            {
+                lastSlash = 0;
+            }
+            return url.Substring(0, lastSlash);
+        }
+
         #endregion Static
 
         /// <summary>
@@ -57,43 +80,49 @@ namespace Engine
             instance = null;
         }
 
-        public void addArchive(String path)
+        public bool addArchive(String path)
         {
-            Log.Debug("Added resource archive {0}.", path);
             Archive archive = FileSystem.OpenArchive(path);
-
-            directoryMap["/"].addArchive(archive);
-
-            //Add all directory entries.
-            String[] directories = archive.listDirectories(path, true, true);
-            DirectoryEntry currentEntry;
-            String directory;
-            foreach (String directoryIter in directories)
+            if (archive != null)
             {
-                directory = FileSystem.fixPathDir(directoryIter);
-                if (!directoryMap.TryGetValue(directory, out currentEntry))
+                Log.Debug("Added resource archive {0}.", path);
+                directoryMap["/"].addArchive(archive);
+
+                //Add all directory entries.
+                String[] directories = archive.listDirectories(path, true, true);
+                DirectoryEntry currentEntry;
+                String directory;
+                foreach (String directoryIter in directories)
                 {
-                    currentEntry = new DirectoryEntry();
-                    directoryMap.Add(directory, currentEntry);
+                    directory = FileSystem.fixPathDir(directoryIter);
+                    if (!directoryMap.TryGetValue(directory, out currentEntry))
+                    {
+                        currentEntry = new DirectoryEntry();
+                        directoryMap.Add(directory, currentEntry);
+                    }
+                    currentEntry.addArchive(archive);
                 }
-                currentEntry.addArchive(archive);
+
+                //Add all file entries, replacing archives for duplicate files
+                String[] files = archive.listFiles(path, true);
+                String file;
+                foreach (String fileIter in files)
+                {
+                    file = FileSystem.fixPathFile(fileIter);
+                    if (fileMap.ContainsKey(file))
+                    {
+                        fileMap[file] = archive;
+                    }
+                    else
+                    {
+                        fileMap.Add(file, archive);
+                    }
+                }
+                return true;
             }
 
-            //Add all file entries, replacing archives for duplicate files
-            String[] files = archive.listFiles(path, true);
-            String file;
-            foreach (String fileIter in files)
-            {
-                file = FileSystem.fixPathFile(fileIter);
-                if (fileMap.ContainsKey(file))
-                {
-                    fileMap[file] = archive;
-                }
-                else
-                {
-                    fileMap.Add(file, archive);
-                }
-            }
+            Log.Warning("Could not find archive {0}. Archive not loaded into virtual file system", path);
+            return false;
         }
 
         public String[] listFiles(bool recursive)

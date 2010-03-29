@@ -134,7 +134,7 @@ namespace Engine.Resources
             return searchDirectory;
         }
 
-        private String parseZipName(String url)
+        public static String parseZipName(String url)
         {
             String searchDirectory = url;
             //zip file

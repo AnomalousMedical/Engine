@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Engine.Resources
 {
-    public class FileSystem
+    class FileSystem
     {
         static char[] SEPS = { '/', '\\' };
 
@@ -14,36 +14,17 @@ namespace Engine.Resources
         {
             if (ZipArchive.CanOpenURL(url))
             {
-                Archive zipArchive = new ZipArchive(url);
-                return zipArchive;
+                if (File.Exists(ZipArchive.parseZipName(url)))
+                {
+                    Archive zipArchive = new ZipArchive(url);
+                    return zipArchive;
+                }
             }
-            else
+            else if(Directory.Exists(url) || File.Exists(url))
             {
                 return new FileSystemArchive(url);
             }
-        }
-
-        public static String GetFileName(String url)
-        {
-            url = url.Replace('\\', '/');
-            int lastSlash = url.LastIndexOf('/');
-            lastSlash++;
-            if (lastSlash > url.Length - 1)
-            {
-                lastSlash = url.Length - 1;
-            }
-            return url.Substring(lastSlash);
-        }
-
-        public static String GetDirectoryName(String url)
-        {
-            String repUrl = url.Replace('\\', '/');
-            int lastSlash = repUrl.LastIndexOf('/');
-            if (lastSlash < 0)
-            {
-                lastSlash = 0;
-            }
-            return url.Substring(0, lastSlash);
+            return null;
         }
 
         internal static String fixPathFile(String path)
