@@ -142,11 +142,6 @@ namespace Engine.Resources
             }
         }
 
-        public override String getFullPath(String filename)
-        {
-            return Path.GetFullPath(fixIncomingDirectoryURL(filename));
-        }
-
         private String fixOutgoingFileString(String url)
         {
             return FileSystem.fixPathFile(url).Replace(baseDirectory, "");

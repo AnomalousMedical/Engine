@@ -216,23 +216,6 @@ namespace Engine
             throw new FileNotFoundException("Could not find file in virtual file system.", filename);
         }
 
-        public String getFullPath(String filename)
-        {
-            Archive targetArchive;
-            String asFile = FileSystem.fixPathFile(filename);
-            if (fileMap.TryGetValue(asFile, out targetArchive))
-            {
-                return targetArchive.getFullPath(asFile);
-            }
-            String asDir = FileSystem.fixPathDir(filename);
-            DirectoryEntry dirEntry;
-            if (directoryMap.TryGetValue(asDir, out dirEntry))
-            {
-                return dirEntry.getFullPath(asDir);
-            }
-            throw new FileNotFoundException("Could not find file in virtual file system.", filename);
-        }
-
         /// <summary>
         /// A container that holds all archives that contain a particular
         /// directory. NOTE that this is all the information that is stored. The
@@ -254,11 +237,6 @@ namespace Engine
             public VirtualFileInfo getFileInfo(String filename)
             {
                 return archives[archives.Count - 1].getFileInfo(filename);
-            }
-
-            public String getFullPath(String filename)
-            {
-                return archives[archives.Count - 1].getFullPath(filename);
             }
 
             public String[] listFiles(String url, bool recursive)

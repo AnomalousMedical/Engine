@@ -100,7 +100,5 @@ namespace Engine.Resources
         public abstract bool exists(String filename);
 
         public abstract VirtualFileInfo getFileInfo(String filename);
-
-        public abstract String getFullPath(String filename);
     }
 }

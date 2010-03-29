@@ -109,18 +109,6 @@ namespace Engine.Resources
             return new VirtualFileInfo(info.Name, info.DirectoryName, info.FullName, getFullPath(info.FullName), info.CompressedSize, info.UncompressedSize);
         }
 
-        public override String getFullPath(String filename)
-        {
-            if (filename.Contains(".zip") || filename.Contains(".dat"))
-            {
-                return filename;
-            }
-            else
-            {
-                return fullZipPath + "/" + filename;
-            }
-        }
-
         private String parseURLInZip(String url)
         {
             String searchDirectory = url;
@@ -193,6 +181,18 @@ namespace Engine.Resources
                 ret[i++] = info.FullName;
             }
             return ret;
+        }
+
+        private String getFullPath(String filename)
+        {
+            if (filename.Contains(".zip") || filename.Contains(".dat"))
+            {
+                return filename;
+            }
+            else
+            {
+                return fullZipPath + "/" + filename;
+            }
         }
     }
 }
