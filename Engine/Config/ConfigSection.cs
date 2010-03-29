@@ -372,13 +372,25 @@ namespace Engine
 	        while (line != null && !line.StartsWith(ConfigFile.SECTION_HEADER))
             {
 		        String[] values = line.Split(sep, System.StringSplitOptions.RemoveEmptyEntries);
-                if (values.Length == 2)
+                if (values.Length > 0)
                 {
-                    setValue(values[0].Trim(), values[1].Trim());
-                }
-                else if (values.Length == 1) //length of 1 means a null value
-                {
-                    setValue(values[0].Trim(), null);
+                    String key = values[0].Trim();
+                    //Look for array value and put this value in the first index found if it is an array value
+                    if (key.EndsWith("[]"))
+                    {
+                        key = key.Substring(0, key.Length - 2);
+                        int i;
+                        for (i = 0; hasValue(key + i); ++i) { }
+                        key += i;
+                    }
+                    if (values.Length == 2)
+                    {
+                        setValue(key, values[1].Trim());
+                    }
+                    else if (values.Length == 1) //length of 1 means a null value
+                    {
+                        setValue(key, null);
+                    }
                 }
                 line = reader.ReadLine();
             }
