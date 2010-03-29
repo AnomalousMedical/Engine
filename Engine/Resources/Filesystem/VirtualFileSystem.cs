@@ -216,7 +216,7 @@ namespace Engine
             throw new FileNotFoundException("Could not find file in virtual file system.", filename);
         }
 
-        public String getRealFullPath(String filename)
+        public String getFullPath(String filename)
         {
             Archive targetArchive;
             String asFile = FileSystem.fixPathFile(filename);

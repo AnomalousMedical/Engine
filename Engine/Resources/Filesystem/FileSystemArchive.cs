@@ -82,7 +82,7 @@ namespace Engine.Resources
 
         public override String[] listDirectories(String url, String searchPattern, bool recursive, bool includeHidden)
         {
-            String[] directories = listDirectories(fixIncomingDirectoryURL(url), searchPattern, recursive);
+            String[] directories = Directory.GetDirectories(fixIncomingDirectoryURL(url), searchPattern, recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
             if (!includeHidden)
             {
                 List<String> ret = new List<string>();
@@ -134,7 +134,7 @@ namespace Engine.Resources
             FileInfo info = new FileInfo(fixedUrl);
             if (isDirectory)
             {
-                return new VirtualFileInfo(info.Name, fixOutgoingDirectoryString(info.DirectoryName), fixOutgoingDirectoryString(info.FullName), info.FullName, info.Length, info.Length);
+                return new VirtualFileInfo(info.Name, fixOutgoingDirectoryString(info.DirectoryName), fixOutgoingDirectoryString(info.FullName), info.FullName, 0, 0);
             }
             else
             {
@@ -184,6 +184,10 @@ namespace Engine.Resources
             if (url.StartsWith("/"))
             {
                 url = url.Substring(1);
+            }
+            if (url.EndsWith("/"))
+            {
+                url = url.Substring(0, url.Length - 1);
             }
             return baseDirectory + url;
         }
