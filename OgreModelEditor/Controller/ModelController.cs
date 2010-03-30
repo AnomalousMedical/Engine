@@ -27,6 +27,7 @@ namespace OgreModelEditor.Controller
         private TextureUnitState fixedTexture;
         private LinkedList<String> modelTextures = new LinkedList<string>();
         private SelectableModel selectableModel = new SelectableModel();
+        private bool showSkeleton = false;
 
         OgreModelEditorController controller;
 
@@ -85,6 +86,7 @@ namespace OgreModelEditor.Controller
             Log.Debug("Scene loaded in {0} ms.", sw.ElapsedMilliseconds);
             entity = ((SceneNodeElement)currentSimObject.getElement("EntityNode")).getNodeObject("Entity") as Entity;
             readModelInfo();
+            entity.setDisplaySkeleton(showSkeleton);
             selectableModel.ModelObject = currentSimObject;
             controller.Selection.setSelectedObject(selectableModel);
         }
@@ -275,6 +277,22 @@ namespace OgreModelEditor.Controller
             get
             {
                 return modelTextures;
+            }
+        }
+
+        public bool ShowSkeleton
+        {
+            get
+            {
+                return showSkeleton;
+            }
+            set
+            {
+                showSkeleton = value;
+                if (entity != null)
+                {
+                    entity.setDisplaySkeleton(showSkeleton);
+                }
             }
         }
     }

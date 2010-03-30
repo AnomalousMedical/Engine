@@ -245,5 +245,11 @@ namespace OgreModelEditor
                 }
             }
         }
+
+        private void showSkeletonToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            showSkeletonToolStripMenuItem.Checked = !showSkeletonToolStripMenuItem.Checked;
+            controller.setShowSkeleton(showSkeletonToolStripMenuItem.Checked);
+        }
     }
 }

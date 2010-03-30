@@ -82,7 +82,7 @@ namespace Engine.Resources
         /// <returns>True if this resource points to a valid location.</returns>
         public bool isValid()
         {
-            return File.Exists(FullPath) || Directory.Exists(FullPath);
+            return VirtualFileSystem.Instance.exists(FullPath);
         }
 
         /// <summary>

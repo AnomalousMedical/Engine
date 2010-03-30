@@ -75,6 +75,7 @@
             this.selectButton = new System.Windows.Forms.ToolStripButton();
             this.moveButton = new System.Windows.Forms.ToolStripButton();
             this.rotateButton = new System.Windows.Forms.ToolStripButton();
+            this.showSkeletonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -165,7 +166,8 @@
             this.binormalViewToolStripMenuItem,
             this.tangentViewToolStripMenuItem,
             this.normalViewToolStripMenuItem,
-            this.viewTextureToolStripMenuItem});
+            this.viewTextureToolStripMenuItem,
+            this.showSkeletonToolStripMenuItem});
             this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
             this.debugToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
             this.debugToolStripMenuItem.Text = "Debug";
@@ -401,6 +403,13 @@
             this.rotateButton.Text = "Rotate";
             this.rotateButton.Click += new System.EventHandler(this.rotateButton_Click);
             // 
+            // showSkeletonToolStripMenuItem
+            // 
+            this.showSkeletonToolStripMenuItem.Name = "showSkeletonToolStripMenuItem";
+            this.showSkeletonToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.showSkeletonToolStripMenuItem.Text = "Show Skeleton";
+            this.showSkeletonToolStripMenuItem.Click += new System.EventHandler(this.showSkeletonToolStripMenuItem_Click);
+            // 
             // OgreModelEditorMain
             // 
             this.AllowDrop = true;
@@ -464,6 +473,7 @@
         private System.Windows.Forms.ToolStripButton selectButton;
         private System.Windows.Forms.ToolStripButton moveButton;
         private System.Windows.Forms.ToolStripButton rotateButton;
+        private System.Windows.Forms.ToolStripMenuItem showSkeletonToolStripMenuItem;
     }
 }
 

@@ -11,6 +11,7 @@ namespace OgreModelEditor
     {
         private static ConfigFile configFile;
         private static String docRoot = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Anomalous Software/OgreModelEditor";
+        private static ConfigSection modelEditorSection;
 
         static OgreModelEditorConfig()
         {
@@ -21,6 +22,8 @@ namespace OgreModelEditor
             configFile = new ConfigFile(docRoot + "/config.ini");
             configFile.loadConfigFile();
             EngineConfig = new EngineConfig(configFile);
+
+            modelEditorSection = configFile.createOrRetrieveConfigSection("ModelEditor");
         }
 
         public static String DocRoot
@@ -28,6 +31,18 @@ namespace OgreModelEditor
             get
             {
                 return docRoot;
+            }
+        }
+
+        public static String VFSRoot
+        {
+            get
+            {
+                return modelEditorSection.getValue("VFSRoot", ".");
+            }
+            set
+            {
+                modelEditorSection.setValue("VFSRoot", value);
             }
         }
 

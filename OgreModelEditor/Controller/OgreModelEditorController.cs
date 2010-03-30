@@ -114,6 +114,8 @@ namespace OgreModelEditor
             pluginManager.initializePlugins();
             pluginManager.RendererPlugin.PrimaryWindow.setEnabled(false);
 
+            VirtualFileSystem.Instance.addArchive(OgreModelEditorConfig.VFSRoot);
+
             OgreResourceGroupManager.getInstance().addResourceLocation(typeof(OgreModelEditorController).AssemblyQualifiedName, "EmbeddedResource", "Bootstrap", true);
             emptyResourceManager = pluginManager.createEmptyResourceManager();
             if (!File.Exists(OgreModelEditorConfig.DocRoot + "/resources.xml"))
@@ -354,6 +356,11 @@ namespace OgreModelEditor
         public void enableSelectTool()
         {
             toolManager.setEnabled(false);
+        }
+
+        public void setShowSkeleton(bool show)
+        {
+            modelController.ShowSkeleton = show;
         }
 
         /// <summary>
