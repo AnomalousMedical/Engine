@@ -80,7 +80,29 @@ void RigidBodyDefinition::createProduct(SimObjectBase^ instance, BulletScene^ sc
 
 void RigidBodyDefinition::createStaticProduct(SimObjectBase^ instance, BulletScene^ scene)
 {
+	//This code allows the rigid bodies to be seen, however it will still attempt to move them it is left as a reference but breaks things badly.
+	/*RigidBodyDefinition^ staticBody = gcnew RigidBodyDefinition(this->Name);
+	staticBody->ShapeName = this->ShapeName;
+	staticBody->Mass = 10;
+	staticBody->CollisionFilterMask = 0;
+	staticBody->Flags = CollisionFlags::NoContactResponse | CollisionFlags::StaticObject;
 
+	BulletShapeRepository^ repository = BulletInterface::Instance->ShapeRepository;
+	if(repository->containsValidCollection(shapeName))
+	{
+		btCollisionShape* shape = repository->getCollection(shapeName)->CollisionShape;
+		staticBody->constructionInfo->m_collisionShape = shape;
+		if(staticBody->constructionInfo->m_mass != 0.0f)
+		{
+			shape->calculateLocalInertia(staticBody->constructionInfo->m_mass, constructionInfo->m_localInertia);
+		}
+		RigidBody^ rigidBody = gcnew RigidBody(staticBody, scene, instance->Translation, instance->Rotation);
+		instance->addElement(rigidBody);
+	}
+	else
+	{
+		Logging::Log::Default->sendMessage("Could not find collision shape named {0}.", Logging::LogLevel::Warning, "BulletPlugin", shapeName);
+	}*/
 }
 
 //Saving
