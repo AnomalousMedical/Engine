@@ -81,6 +81,8 @@ public:
 
 	virtual SimElementDefinition^ saveToDefinition() override;
 
+	void setDamping(float linearDamping, float angularDamping);
+
 	float getLinearDamping();
 
 	float getAngularDamping();

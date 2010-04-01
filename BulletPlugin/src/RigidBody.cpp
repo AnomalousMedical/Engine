@@ -247,6 +247,11 @@ SimElementDefinition^ RigidBody::saveToDefinition()
 	return definition;
 }
 
+void RigidBody::setDamping(float linearDamping, float angularDamping)
+{
+	rigidBody->setDamping(linearDamping, angularDamping);
+}
+
 float RigidBody::getLinearDamping()
 {
 	return rigidBody->getLinearDamping();
