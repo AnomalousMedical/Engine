@@ -331,6 +331,7 @@ namespace Anomaly
             fileWriter.Formatting = Formatting.Indented;
             xmlSaver.saveObject(scenePackage, fileWriter);
             fileWriter.Close();
+            Log.ImportantInfo("Scene saved to {0}.", filename);
         }
         
         /// <summary>
