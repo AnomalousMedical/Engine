@@ -24,7 +24,9 @@ void BulletDebugDraw::drawLine(const btVector3& from,const btVector3& to,const b
 
 void BulletDebugDraw::drawContactPoint(const btVector3& PointOnB,const btVector3& normalOnB,btScalar distance,int lifeTime,const btVector3& color)
 {
-	
+	btVector3 to = PointOnB + normalOnB * distance;
+	const btVector3& from = PointOnB;
+	drawLine(from, to, color);
 }
 
 void BulletDebugDraw::reportErrorWarning(const char* warningString)
