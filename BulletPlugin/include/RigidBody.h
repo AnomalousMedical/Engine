@@ -185,6 +185,10 @@ public:
 
 	void clearCollisionFlag(CollisionFlags flag);
 
+	void setLocalScaling(Vector3 scaling);
+
+	Vector3 getLocalScaling();
+
 	property float MaxContactDistance
 	{
 		float get()

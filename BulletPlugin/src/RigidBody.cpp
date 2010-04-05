@@ -123,6 +123,19 @@ void setAnisotropicFriction(btRigidBody* rigidBody, float* vector)
 	rigidBody->setAnisotropicFriction(btVector3(vector[0], vector[1], vector[2]));
 }
 
+void setLocalScaling(btRigidBody* rigidBody, float* vector)
+{
+	rigidBody->getCollisionShape()->setLocalScaling(btVector3(vector[0], vector[1], vector[2]));
+}
+
+void getLocalScaling(btRigidBody* rigidBody, float* vector)
+{
+	const btVector3& scaling = rigidBody->getCollisionShape()->getLocalScaling();
+	vector[0] = scaling.x();
+	vector[1] = scaling.y();
+	vector[2] = scaling.z();
+}
+
 #pragma managed
 
 RigidBody::RigidBody(RigidBodyDefinition^ description, BulletScene^ scene, Vector3 initialTrans, Quaternion initialRot)
@@ -517,6 +530,18 @@ void RigidBody::clearCollisionFlag(CollisionFlags flag)
 	int collisionFlags = rigidBody->getCollisionFlags();
 	int clear = ~static_cast<int>(flag);
 	rigidBody->setCollisionFlags(collisionFlags & clear);
+}
+
+void RigidBody::setLocalScaling(Vector3 scaling)
+{
+	BulletPlugin::setLocalScaling(rigidBody, &scaling.x);
+}
+
+Vector3 RigidBody::getLocalScaling()
+{
+	Vector3 ret;
+	BulletPlugin::getLocalScaling(rigidBody, &ret.x);
+	return ret;
 }
 
 }
