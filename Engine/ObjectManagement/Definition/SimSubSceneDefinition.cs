@@ -130,7 +130,7 @@ namespace Engine.ObjectManagement
         /// <returns>The newly created sub scene.</returns>
         public SimSubScene createSubScene(SimScene scene)
         {
-            SimSubScene subscene = new SimSubScene(Name);
+            SimSubScene subscene = new SimSubScene(Name, scene);
             foreach (SimSubSceneBinding elementManager in bindings)
             {
                 SimElementManager manager = scene.getSimElementManager(elementManager.SimElementManager.Name);

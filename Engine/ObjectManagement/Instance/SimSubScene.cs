@@ -27,6 +27,7 @@ namespace Engine.ObjectManagement
 
         private Dictionary<Type, SimElementManager> simElements = new Dictionary<Type, SimElementManager>();
         private String name;
+        private SimScene scene;
 
         #endregion Fields
 
@@ -36,9 +37,10 @@ namespace Engine.ObjectManagement
         /// Constructor.
         /// </summary>
         /// <param name="name">The name of the SimSubScene.</param>
-        public SimSubScene(String name)
+        public SimSubScene(String name, SimScene scene)
         {
             this.name = name;
+            this.scene = scene;
         }
 
         #endregion Constructors
@@ -103,6 +105,15 @@ namespace Engine.ObjectManagement
                 definition.addBinding(scene.getSimElementManagerDefinition(manager.getName()));
             }
             return definition;
+        }
+
+        /// <summary>
+        /// Force the parent scene to run its build routines again. This will
+        /// create any sim objects that are pending since the last build.
+        /// </summary>
+        public void buildScene()
+        {
+            scene.buildScene();
         }
 
         #endregion Functions

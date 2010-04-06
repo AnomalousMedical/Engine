@@ -106,6 +106,7 @@
     <Compile Include="ObjectManagement\Definition\SimSubSceneDefinition.cs" />
     <Compile Include="ObjectManagement\Instance\GenericSimObject.cs" />
     <Compile Include="ObjectManagement\Instance\SimObjectBase.cs" />
+    <Compile Include="ObjectManagement\Instance\SimObjectException.cs" />
     <Compile Include="ObjectManagement\Instance\SimObjectManager.cs" />
     <Compile Include="ObjectManagement\Instance\SimScene.cs" />
     <Compile Include="ObjectManagement\Instance\SimSubScene.cs" />

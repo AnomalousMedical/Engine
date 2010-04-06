@@ -77,6 +77,26 @@ namespace Engine.ObjectManagement
         }
 
         /// <summary>
+        /// Create and add a SimObject to this manager. This is used to create
+        /// objects after the build process has run during scene execution.
+        /// </summary>
+        /// <param name="definition">The definition of the object to create.</param>
+        public SimObjectBase createLiveSimObject(SimObjectDefinition definition)
+        {
+            if (!simObjects.ContainsKey(definition.Name))
+            {
+                SimObjectBase simObj = definition.register(subScene);
+                addSimObject(simObj);
+                subScene.buildScene();
+                return simObj;
+            }
+            else
+            {
+                throw new SimObjectException(String.Format("Attempted to create a SimObject {0} that already exists in sub scene {1}.", definition.Name, subScene.Name));
+            }
+        }
+
+        /// <summary>
         /// Destroy the SimObject named name. This will dispose the SimObject
         /// and it will no longer be part of the scene or usable.
         /// </summary>

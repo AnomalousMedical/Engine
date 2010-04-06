@@ -71,6 +71,18 @@ namespace Engine.ObjectManagement
             }
         }
 
+        public SimObject createOtherSimObject(SimObjectDefinition definition)
+        {
+            if (simObjectManager != null)
+            {
+                return simObjectManager.createLiveSimObject(definition);
+            }
+            else
+            {
+                throw new SimObjectException(String.Format("Could not create another SimObject using {0} because it is not registered.", Name));
+            }
+        }
+
         /// <summary>
         /// Destroy this SimObject. This will completely remove it from the
         /// scene and cleanup all resources. It will no longer be usable after
