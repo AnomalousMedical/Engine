@@ -92,6 +92,7 @@ namespace OgrePlugin
                 editInterface.addCommand(new EditInterfaceCommand("Add Camera", addCamera));
                 editInterface.addCommand(new EditInterfaceCommand("Add Manual Object", addManualObject));
                 editInterface.addCommand(new EditInterfaceCommand("Add Child Node", addChildNode));
+                editInterface.IconReferenceTag = EngineIcons.Node;
                 destroyMovableObject = new EditInterfaceCommand("Remove", removeMovableObject);
                 destroyChildNode = new EditInterfaceCommand("Remove", removeChildNode);
                 foreach (MovableObjectDefinition movable in movableObjects.Values)

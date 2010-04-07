@@ -5,6 +5,7 @@ using System.Text;
 using System.Drawing;
 using Editor.Properties;
 using System.Windows.Forms;
+using Engine.Editing;
 
 namespace Editor
 {
@@ -21,11 +22,25 @@ namespace Editor
 
         static EditInterfaceIconCollection()
         {
-            imageList.Images.Add("QuestionMark", Resources.QuestionMark);
-            imageList.Images.Add("Folder", Resources.Folder);
+            addIcon(EditorIcons.Folder, Resources.Folder);
+            addIcon(EditorIcons.QuestionMark, Resources.QuestionMark);
+            
+            addIcon(EngineIcons.Entity, Resources.Entity);
+            addIcon(EngineIcons.Joint, Resources.Joint);
+            addIcon(EngineIcons.Light, Resources.Light);
+            addIcon(EngineIcons.Node, Resources.Node);
+            addIcon(EngineIcons.RigidBody, Resources.RigidBody);
+            //addIcon(EngineIcons.Camera, Resources.Camera);
+            addIcon(EngineIcons.ManualObject, Resources.ManualObject);
+            //addIcon(EngineIcons.Scene, Resources.Scene);
+            addIcon(EngineIcons.SimObject, Resources.SimObject);
+            addIcon(EngineIcons.Behavior, Resources.Behavior);
+        }
 
-            iconDictionary.Add(EditorIcons.Folder, "Folder");
-            iconDictionary.Add(EditorIcons.QuestionMark, "QuestionMark");
+        static void addIcon(Object key, Image image)
+        {
+            imageList.Images.Add(key.ToString(), image);
+            iconDictionary.Add(key, key.ToString());
         }
 
         public static String getImageKey(Object key)

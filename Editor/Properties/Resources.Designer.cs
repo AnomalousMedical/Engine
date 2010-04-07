@@ -60,6 +60,20 @@ namespace Editor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Behavior {
+            get {
+                object obj = ResourceManager.GetObject("Behavior", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Entity {
+            get {
+                object obj = ResourceManager.GetObject("Entity", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Folder {
             get {
                 object obj = ResourceManager.GetObject("Folder", resourceCulture);
@@ -67,9 +81,51 @@ namespace Editor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Joint {
+            get {
+                object obj = ResourceManager.GetObject("Joint", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Light {
+            get {
+                object obj = ResourceManager.GetObject("Light", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap ManualObject {
+            get {
+                object obj = ResourceManager.GetObject("ManualObject", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Node {
+            get {
+                object obj = ResourceManager.GetObject("Node", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap QuestionMark {
             get {
                 object obj = ResourceManager.GetObject("QuestionMark", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap RigidBody {
+            get {
+                object obj = ResourceManager.GetObject("RigidBody", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap SimObject {
+            get {
+                object obj = ResourceManager.GetObject("SimObject", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

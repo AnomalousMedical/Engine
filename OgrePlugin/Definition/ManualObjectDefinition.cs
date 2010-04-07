@@ -25,7 +25,7 @@ namespace OgrePlugin
 
         protected override void setupEditInterface(EditInterface editInterface)
         {
-            
+            editInterface.IconReferenceTag = EngineIcons.ManualObject;
         }
 
         /// <summary>

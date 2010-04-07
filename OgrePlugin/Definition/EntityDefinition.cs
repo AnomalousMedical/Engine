@@ -69,6 +69,7 @@ namespace OgrePlugin
         protected override void setupEditInterface(EditInterface editInterface)
         {
             ReflectedEditInterface.expandEditInterface(this, memberScanner, editInterface);
+            editInterface.IconReferenceTag = EngineIcons.Entity;
         }
 
 

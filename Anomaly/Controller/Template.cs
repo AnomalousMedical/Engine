@@ -27,6 +27,7 @@ namespace Anomaly
             {
                 editInterface = new EditInterface(definition.Name);
                 editInterface.addEditableProperty(this);
+                editInterface.IconReferenceTag = EngineIcons.SimObject;
             }
             return editInterface;
         }

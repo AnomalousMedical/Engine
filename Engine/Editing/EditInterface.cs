@@ -16,6 +16,20 @@ namespace Engine.Editing
     public delegate void SubInterfaceRemoved(EditInterface editInterface);
     public delegate void ColorsChanged(EditInterface editInterface);
 
+    public enum EngineIcons
+    {
+        Scene,
+        Node,
+        Entity,
+        Light,
+        ManualObject,
+        Camera,
+        RigidBody,
+        Joint,
+        SimObject,
+        Behavior
+    }
+
     /// <summary>
     /// This interface provides a view of an object that can be edited.
     /// </summary>

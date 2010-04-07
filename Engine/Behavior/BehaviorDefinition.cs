@@ -71,6 +71,7 @@ namespace Engine
             {
                 editInterface = ReflectedEditInterface.createEditInterface(behaviorTemplate, BehaviorEditMemberScanner.Scanner, Name + " - " + behaviorTemplate.GetType().Name, null);
                 behaviorTemplate.callCustomizeEditInterface(editInterface);
+                editInterface.IconReferenceTag = EngineIcons.Behavior;
             }
             return editInterface;
         }

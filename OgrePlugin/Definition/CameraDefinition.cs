@@ -67,6 +67,7 @@ namespace OgrePlugin
         protected override void setupEditInterface(EditInterface editInterface)
         {
             ReflectedEditInterface.expandEditInterface(this, memberScanner, editInterface);
+            editInterface.IconReferenceTag = EngineIcons.Camera;
         }
 
         internal override MovableObjectContainer createActualProduct(OgreSceneManager scene, String baseName)

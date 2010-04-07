@@ -283,6 +283,30 @@
   <ItemGroup>
     <None Include="Resources\Folder.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Entity.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SimObject.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Node.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Joint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Light.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ManualObject.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RigidBody.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Behavior.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

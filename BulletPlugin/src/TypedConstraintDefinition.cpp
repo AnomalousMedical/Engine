@@ -61,6 +61,7 @@ EditInterface^ TypedConstraintDefinition::getEditInterface()
 	if(editInterface == nullptr)
 	{
 		editInterface = ReflectedEditInterface::createEditInterface(this, memberScanner, this->Name + " - " + JointType, nullptr);
+		editInterface->IconReferenceTag = EngineIcons::Joint;
 	}
 	return editInterface;
 }

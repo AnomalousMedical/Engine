@@ -54,6 +54,7 @@ EditInterface^ RigidBodyDefinition::getEditInterface()
 	if(editInterface == nullptr)
 	{
 		editInterface = ReflectedEditInterface::createEditInterface(this, memberScanner, this->Name + " - Rigid Body", nullptr);
+		editInterface->IconReferenceTag = EngineIcons::RigidBody;
 	}
 	return editInterface;
 }
