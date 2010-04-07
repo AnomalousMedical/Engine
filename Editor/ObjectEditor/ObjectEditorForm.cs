@@ -6,10 +6,11 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Engine.Editing;
 
 namespace Editor
 {
-    public partial class ObjectEditorForm : Form
+    public partial class ObjectEditorForm : Form, IObjectEditorGUI
     {
         public ObjectEditorForm()
         {
@@ -27,11 +28,14 @@ namespace Editor
             }
         }
 
-        public ObjectEditorPanel EditorPanel
+        public void setEditInterface(EditInterface editInterface, object editingObject, ObjectEditorGUIEvent CommitObjectChangesCallback)
         {
-            get
+            objectEditorPanel.setEditInterface(editInterface);
+            this.ShowDialog();
+            objectEditorPanel.clearEditInterface();
+            if (CommitObjectChangesCallback != null)
             {
-                return objectEditorPanel;
+                CommitObjectChangesCallback.Invoke(editInterface, editingObject);
             }
         }
     }

@@ -19,27 +19,31 @@ namespace Anomaly
 
         private TemplateGroup parentGroup;
         TemplatePanel templatePanel;
-        private ObjectEditorForm objectEditor = new ObjectEditorForm();
         private TemplateWriter templateWriter;
         private String rootPath;
         private XmlSaver xmlSaver = new XmlSaver();
         private AnomalyController anomalyController;
         private CopySaver copySaver = new CopySaver();
+        private IObjectEditorGUI objectEditor;
+        private ObjectEditorGUIEvent updateCallback;
 
-        public TemplateController(String rootPath, AnomalyController anomalyController)
+        public TemplateController(String rootPath, AnomalyController anomalyController, IObjectEditorGUI objectEditor)
         {
             this.rootPath = rootPath;
             templateWriter = new TemplateWriter(rootPath);
             parentGroup = new TemplateGroup("Templates", templateWriter);
             scanForFiles(parentGroup);
             this.anomalyController = anomalyController;
+            this.objectEditor = objectEditor;
+            updateCallback = new ObjectEditorGUIEvent(templateUpdatedByUI);
         }
 
         public void setUI(TemplatePanel templatePanel)
         {
             this.templatePanel = templatePanel;
             templatePanel.EditInterfaceView.setEditInterface(parentGroup.getEditInterface());
-            templatePanel.EditInterfaceView.OnEditInterfaceSelectionEdit += new EditInterfaceSelectionEdit(editInterfaceView_OnEditInterfaceSelectionEdit);
+            templatePanel.EditInterfaceView.OnEditInterfaceChosen += new EditInterfaceChosen(EditInterfaceView_OnEditInterfaceChosen);
+            //templatePanel.EditInterfaceView.OnEditInterfaceSelectionEdit += new EditInterfaceSelectionEdit(editInterfaceView_OnEditInterfaceSelectionEdit);
             templatePanel.OnCreateTemplate += new CreateTemplate(templatePanel_OnCreateTemplate);
         }
 
@@ -79,7 +83,7 @@ namespace Anomaly
             return true;
         }
 
-        void editInterfaceView_OnEditInterfaceSelectionEdit(EditInterfaceViewEvent evt)
+        void EditInterfaceView_OnEditInterfaceChosen(EditInterfaceViewEvent evt)
         {
             EditInterface editInterface = evt.EditInterface;
             if (editInterface.hasEditableProperties())
@@ -87,11 +91,17 @@ namespace Anomaly
                 Template template = editInterface.getEditableProperties().First() as Template;
                 if (template != null)
                 {
-                    objectEditor.EditorPanel.setEditInterface(template.Definition.getEditInterface());
-                    objectEditor.ShowDialog(templatePanel.FindForm());
-                    objectEditor.EditorPanel.clearEditInterface();
-                    template.updated();
+                    objectEditor.setEditInterface(template.Definition.getEditInterface(), template, updateCallback);
                 }
+            }
+        }
+
+        void templateUpdatedByUI(EditInterface editInterface, object editingObject)
+        {
+            Template template = editingObject as Template;
+            if (template != null)
+            {
+                template.updated();
             }
         }
 

@@ -34,7 +34,7 @@ namespace Anomaly
         //GUI
         private AnomalyMain mainForm;
         private DrawingWindow hiddenEmbedWindow;
-        private ObjectEditorForm objectEditor = new ObjectEditorForm();
+        private IObjectEditorGUI mainObjectEditor = new ObjectEditorForm();
         private DrawingWindowController drawingWindowController = new DrawingWindowController();
         private MovePanel movePanel = new MovePanel();
         private TemplatePanel templatePanel = new TemplatePanel();
@@ -42,6 +42,7 @@ namespace Anomaly
         private EulerRotatePanel rotatePanel = new EulerRotatePanel();
         private Dictionary<String, DebugVisualizer> debugVisualizers = new Dictionary<string, DebugVisualizer>();
         private ConsoleWindow consoleWindow = new ConsoleWindow();
+        private VerticalObjectEditor verticalObjectEditor = new VerticalObjectEditor();
 
         //Platform
         private UpdateTimer mainTimer;
@@ -138,7 +139,7 @@ namespace Anomaly
             pluginManager.setPlatformInfo(mainTimer, eventManager);
 
             //Initialize controllers
-            templates = new TemplateController(project.WorkingDirectory, this);
+            templates = new TemplateController(project.WorkingDirectory, this, verticalObjectEditor);
             instanceBuilder = new InstanceBuilder(templates);
             sceneController.initialize(this);
             sceneController.OnSceneLoaded += sceneController_OnSceneLoaded;
@@ -185,6 +186,7 @@ namespace Anomaly
                 rotatePanel.Show(movePanel.Pane, DockAlignment.Right, 0.5);
                 mainForm.showDockContent(templatePanel);
                 mainForm.showDockContent(simObjectPanel);
+                mainForm.showDockContent(verticalObjectEditor);
                 foreach (DebugVisualizer visualizer in debugVisualizers.Values)
                 {
                     mainForm.showDockContent(visualizer);
@@ -267,9 +269,7 @@ namespace Anomaly
         /// <param name="editInterface">The EditInterface to display on the form.</param>
         public void showObjectEditor(EditInterface editInterface)
         {
-            objectEditor.EditorPanel.setEditInterface(editInterface);
-            objectEditor.ShowDialog(mainForm);
-            objectEditor.EditorPanel.clearEditInterface();
+            mainObjectEditor.setEditInterface(editInterface, null, null);
         }
 
         public void showDockContent(DockContent content)
@@ -349,6 +349,7 @@ namespace Anomaly
             sceneController.destroyScene();
             sceneController.createScene();
             toolManager.setEnabled(true);
+            verticalObjectEditor.Enabled = true;
         }
 
         /// <summary>
@@ -366,6 +367,7 @@ namespace Anomaly
             sceneController.setDynamicMode(true);
             sceneController.destroyScene();
             sceneController.createScene();
+            verticalObjectEditor.Enabled = false;
         }
 
         public void enableMoveTool()
@@ -437,6 +439,10 @@ namespace Anomaly
             if (persistString == consoleWindow.GetType().ToString())
             {
                 return consoleWindow;
+            }
+            if (persistString == verticalObjectEditor.GetType().ToString())
+            {
+                return verticalObjectEditor;
             }
             String name;
             if (DebugVisualizer.RestoreFromPersistance(persistString, out name))
