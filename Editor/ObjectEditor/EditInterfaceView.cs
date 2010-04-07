@@ -87,6 +87,7 @@ namespace Editor
             menu.ItemClicked += new ToolStripItemClickedEventHandler(menu_ItemClicked);
             this.Disposed += new EventHandler(EditInterfaceView_Disposed);
             preventDblClick = new TreeDblClickPrevent(objectsTree);
+            EditInterfaceIconCollection.setupTreeIcons(objectsTree);
         }
 
         #endregion Constructors

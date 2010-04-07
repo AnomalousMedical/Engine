@@ -40,6 +40,8 @@ namespace Editor
             editInterface.OnForeColorChanged += foreColorChanged;
             BackColor = System.Drawing.Color.FromArgb(editInterface.BackColor.toARGB());
             ForeColor = System.Drawing.Color.FromArgb(editInterface.ForeColor.toARGB());
+            ImageKey = EditInterfaceIconCollection.getImageKey(editInterface.IconReferenceTag);
+            SelectedImageKey = EditInterfaceIconCollection.getImageKey(editInterface.IconReferenceTag);
             if (editInterface.hasSubEditInterfaces())
             {
                 foreach (EditInterface subInterface in editInterface.getSubEditInterfaces())

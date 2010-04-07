@@ -32,6 +32,7 @@ namespace Engine.Editing
         private LinkedList<EditInterfaceCommand> commands = new LinkedList<EditInterfaceCommand>();
         private Color backColor = Color.White;
         private Color foreColor = Color.Black;
+        private Object iconReferenceTag = null;
 
         public event PropertyAdded OnPropertyAdded;
         public event PropertyRemoved OnPropertyRemoved;
@@ -326,6 +327,18 @@ namespace Engine.Editing
                 {
                     OnForeColorChanged.Invoke(this);
                 }
+            }
+        }
+
+        public Object IconReferenceTag
+        {
+            get
+            {
+                return iconReferenceTag;
+            }
+            set
+            {
+                iconReferenceTag = value;
             }
         }
     }

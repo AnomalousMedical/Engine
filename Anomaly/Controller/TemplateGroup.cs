@@ -8,6 +8,7 @@ using System.IO;
 using Engine.Saving;
 using System.Windows.Forms;
 using Logging;
+using Editor;
 
 namespace Anomaly
 {
@@ -179,6 +180,7 @@ namespace Anomaly
                 editInterface = new EditInterface(name);
                 editInterface.addCommand(new EditInterfaceCommand("Create Group", createGroupCallback));
                 editInterface.addCommand(new EditInterfaceCommand("Create Sim Object", createSimObjectCallback));
+                editInterface.IconReferenceTag = EditorIcons.Folder;
                 groupManager = new EditInterfaceManager<TemplateGroup>(editInterface);
                 templateManager = new EditInterfaceManager<Template>(editInterface);
                 foreach (TemplateGroup group in groups.Values)
