@@ -67,10 +67,9 @@ namespace Anomaly
         /// only to reload a instance from a file.
         /// </summary>
         /// <param name="simObject"></param>
-        public void addExistingSimObject(SimObjectDefinition simObject)
+        public void addExistingInstance(Instance instance)
         {
-            Instance instance = new Instance(simObject.Name, simObject);
-            instances.Add(simObject.Name, instance);
+            instances.Add(instance.Name, instance);
             if (editInterface != null)
             {
                 addSimObjectSubInterface(instance);

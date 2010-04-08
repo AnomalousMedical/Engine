@@ -11,14 +11,22 @@ namespace Anomaly
     {
         private String name;
         private InstanceGroup instanceGroup;
-        private String path;
+        private String workingDirectory;
 
-        public Project(String name, String path)
+        public Project(String name, String workingDirectory)
         {
             this.name = name;
-            this.path = path;
-            instanceGroup = new InstanceGroup("Instances", Path.Combine(path, "Instances"));
-            InstanceWriter.Instance.addInstanceGroup(instanceGroup);
+            this.workingDirectory = workingDirectory;
+            String instancesPath = Path.Combine(workingDirectory, "Instances");
+            instanceGroup = new InstanceGroup("Instances", instancesPath);
+            if (!Directory.Exists(instancesPath))
+            {
+                InstanceWriter.Instance.addInstanceGroup(instanceGroup);
+            }
+            else
+            {
+                InstanceWriter.Instance.scanForFiles(instanceGroup);
+            }
         }
 
         public String Name
@@ -26,6 +34,14 @@ namespace Anomaly
             get
             {
                 return name;
+            }
+        }
+
+        public String WorkingDirectory
+        {
+            get
+            {
+                return workingDirectory;
             }
         }
     }

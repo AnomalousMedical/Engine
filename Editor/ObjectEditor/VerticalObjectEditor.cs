@@ -49,6 +49,7 @@ namespace Editor
         {
             editInterfaceView.clearEditInterface();
             propertiesTable.showEditableProperties(null);
+            this.Text = "Properties";
         }
 
         /// <summary>

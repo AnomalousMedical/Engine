@@ -361,7 +361,7 @@ namespace Engine.ObjectManagement
                 }
                 if (!hasSimSubSceneDefinition(DefaultSubScene))
                 {
-                    message = String.Format("{0} is not a valid Subscene. Please specify an existing scene.");
+                    message = String.Format("{0} is not a valid Subscene. Please specify an existing scene.", DefaultSubScene);
                     return false;
                 }
             }

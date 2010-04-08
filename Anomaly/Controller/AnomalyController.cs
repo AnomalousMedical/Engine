@@ -125,6 +125,8 @@ namespace Anomaly
             //Load the config file and set the resource root up.
             VirtualFileSystem.Instance.addArchive(solution.ResourceSection.ResourceRoot);
 
+            solution.loadExternalFiles(pluginManager);
+
             //Create the main form
             AnomalyTreeIcons.createIcons();
             mainForm = new AnomalyMain();

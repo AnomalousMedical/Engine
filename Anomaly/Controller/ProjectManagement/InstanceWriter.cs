@@ -6,6 +6,7 @@ using Logging;
 using System.IO;
 using Engine.Saving.XMLSaver;
 using System.Xml;
+using Engine.ObjectManagement;
 
 namespace Anomaly
 {
@@ -100,6 +101,62 @@ namespace Anomaly
             catch (Exception e)
             {
                 Log.Default.sendMessage("Could not remove directory for template group {0} because of {1}.", LogLevel.Error, "Anomaly", group.Name, e.Message);
+            }
+        }
+
+        public void scanForFiles(InstanceGroup group)
+        {
+            String path = group.FullPath;
+
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            String[] groups = Directory.GetDirectories(path, "*", SearchOption.TopDirectoryOnly);
+            foreach (String groupPath in groups)
+            {
+                String dir = Path.GetFileName(groupPath);
+                if ((File.GetAttributes(path + Path.DirectorySeparatorChar + dir) & FileAttributes.Hidden) != FileAttributes.Hidden)
+                {
+                    InstanceGroup subGroup = new InstanceGroup(dir, groupPath);
+                    group.addGroup(subGroup);
+                    scanForFiles(subGroup);
+                }
+            }
+            
+            String[] instances = Directory.GetFiles(path, "*.ins", SearchOption.TopDirectoryOnly);
+            foreach (String instanceFile in instances)
+            {
+                try
+                {
+                    XmlTextReader textReader = new XmlTextReader(Path.GetFullPath(instanceFile));
+                    Instance instance = (Instance)xmlSaver.restoreObject(textReader);
+                    textReader.Close();
+                    group.addExistingInstance(instance);
+                }
+                catch (Exception e)
+                {
+                    Log.Default.sendMessage("Could not load instance {0} because of {1}.", LogLevel.Error, "Editor", group.FullPath + Path.DirectorySeparatorChar + instanceFile, e.Message);
+                }
+            }
+
+            //Load legacy files
+            String[] templates = Directory.GetFiles(path, "*.tpl", SearchOption.TopDirectoryOnly);
+            foreach (String template in templates)
+            {
+                try
+                {
+                    XmlTextReader textReader = new XmlTextReader(Path.GetFullPath(template));
+                    SimObjectDefinition simObjectDef = (SimObjectDefinition)xmlSaver.restoreObject(textReader);
+                    textReader.Close();
+                    Instance instance = new Instance(simObjectDef.Name, simObjectDef);
+                    group.addExistingInstance(instance);
+                }
+                catch (Exception e)
+                {
+                    Log.Default.sendMessage("Could not load template {0} because of {1}.", LogLevel.Error, "Editor", group.FullPath + Path.DirectorySeparatorChar + template, e.Message);
+                }
             }
         }
     }

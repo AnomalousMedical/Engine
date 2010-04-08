@@ -5,11 +5,17 @@ using System.Text;
 using Engine.Editing;
 using System.IO;
 using Engine;
+using Engine.ObjectManagement;
+using Engine.Saving.XMLSaver;
+using System.Xml;
+using Engine.Resources;
 
 namespace Anomaly
 {
     public partial class Solution
     {
+        private static XmlSaver xmlSaver = new XmlSaver();
+
         private String name;
         private Dictionary<String, Project> projects = new Dictionary<string, Project>();
 
@@ -17,19 +23,71 @@ namespace Anomaly
         private ResourceSection resourceSection;
         private ConfigFile backingFile;
         private String workingDirectory;
+        private SolutionSection solutionSection;
+        private String emptySceneFile;
+        private String globalResourcesFile;
+
+        private SimSceneDefinition sceneDefinition;
+        private ResourceManager globalResources;
 
         public Solution(String projectFileName)
         {
+            name = Path.GetFileNameWithoutExtension(projectFileName);
             workingDirectory = Path.GetDirectoryName(projectFileName);
             backingFile = new ConfigFile(projectFileName);
             backingFile.loadConfigFile();
             pluginSection = new PluginSection(backingFile);
             resourceSection = new ResourceSection(backingFile);
+            solutionSection = new SolutionSection(backingFile);
+        }
+
+        public void loadExternalFiles(PluginManager pluginManager)
+        {
+            emptySceneFile = Path.Combine(workingDirectory, solutionSection.EmptySceneFile);
+            if (!File.Exists(emptySceneFile))
+            {
+                sceneDefinition = new SimSceneDefinition();
+            }
+            else
+            {
+                using (XmlTextReader textReader = new XmlTextReader(emptySceneFile))
+                {
+                    sceneDefinition = xmlSaver.restoreObject(textReader) as SimSceneDefinition;
+                }
+                if (sceneDefinition == null)
+                {
+                    throw new Exception(String.Format("Error reading empty scene definition from file {0}", emptySceneFile));
+                }
+            }
+
+            globalResourcesFile = Path.Combine(workingDirectory, solutionSection.GlobalResourceFile);
+            if (!File.Exists(globalResourcesFile))
+            {
+                globalResources = pluginManager.createEmptyResourceManager();
+            }
+            else
+            {
+                using (XmlTextReader textReader = new XmlTextReader(globalResourcesFile))
+                {
+                    globalResources = xmlSaver.restoreObject(textReader) as ResourceManager;
+                }
+                if (globalResources == null)
+                {
+                    throw new Exception(String.Format("Error reading global resources from file {0}", globalResourcesFile));
+                }
+            }
+
+            foreach (String projectFile in Directory.GetFiles(workingDirectory, "*.prj", SearchOption.AllDirectories))
+            {
+                Project project = new Project(Path.GetFileNameWithoutExtension(projectFile), Path.GetDirectoryName(projectFile));
+                addProject(project);
+            }
         }
 
         public void addProject(Project project)
         {
             projects.Add(project.Name, project);
+            ProjectWriter.addProject(project);
             onProjectAdded(project);
         }
 
@@ -37,6 +95,21 @@ namespace Anomaly
         {
             projects.Remove(project.Name);
             onProjectRemoved(project);
+        }
+
+        public void save()
+        {
+            using (XmlTextWriter textWriter = new XmlTextWriter(emptySceneFile, Encoding.Default))
+            {
+                textWriter.Formatting = Formatting.Indented;
+                xmlSaver.saveObject(sceneDefinition, textWriter);
+            }
+
+            using (XmlTextWriter textWriter = new XmlTextWriter(globalResourcesFile, Encoding.Default))
+            {
+                textWriter.Formatting = Formatting.Indented;
+                xmlSaver.saveObject(globalResources, textWriter);
+            }
         }
 
         public PluginSection PluginSection
@@ -77,6 +150,9 @@ namespace Anomaly
             {
                 editInterface = new EditInterface(name);
                 editInterface.IconReferenceTag = AnomalyIcons.Solution;
+
+                editInterface.addSubInterface(sceneDefinition.getEditInterface());
+                editInterface.addSubInterface(globalResources.getEditInterface());
 
                 editInterface.addCommand(new EditInterfaceCommand("Create Project", createProjectCallback));
                 projectInterfaceManager = new EditInterfaceManager<Project>(editInterface);

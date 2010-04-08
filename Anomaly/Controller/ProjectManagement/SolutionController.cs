@@ -25,7 +25,7 @@ namespace Anomaly
         void solutionPanel_InterfaceChosen(Editor.EditInterfaceViewEvent evt)
         {
             EditInterface editInterface = evt.EditInterface;
-            if (editInterface.hasEditableProperties())
+            if (editInterface.hasEditableProperties() || editInterface.canAddRemoveProperties())
             {
                 objectEditor.setEditInterface(editInterface, null, null);
             }
