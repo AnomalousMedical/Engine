@@ -71,6 +71,10 @@ namespace Anomaly
         private Stopwatch stopwatch = new Stopwatch();
         private AnomalyProject project;
 
+        //Solution
+        private SolutionController solutionController;
+        private SolutionPanel solutionPanel = new SolutionPanel();
+
         //Serialization
         private XmlSaver xmlSaver = new XmlSaver();
 
@@ -122,6 +126,7 @@ namespace Anomaly
             VirtualFileSystem.Instance.addArchive(project.ResourceSection.ResourceRoot);
 
             //Create the main form
+            AnomalyTreeIcons.createIcons();
             mainForm = new AnomalyMain();
 
             //Intialize the platform
@@ -160,6 +165,8 @@ namespace Anomaly
             rotateTool = new RotateTool("RotateTool", rotateController);
             toolManager.addTool(rotateTool);
 
+            solutionController = new SolutionController(new Solution("TestSolution", project.WorkingDirectory), solutionPanel, verticalObjectEditor);
+
             //Initialize the windows
             mainForm.initialize(this);
             drawingWindowController.initialize(this, eventManager, pluginManager.RendererPlugin, AnomalyConfig.ConfigFile);
@@ -187,6 +194,7 @@ namespace Anomaly
                 mainForm.showDockContent(templatePanel);
                 mainForm.showDockContent(simObjectPanel);
                 mainForm.showDockContent(verticalObjectEditor);
+                mainForm.showDockContent(solutionPanel);
                 foreach (DebugVisualizer visualizer in debugVisualizers.Values)
                 {
                     mainForm.showDockContent(visualizer);
@@ -350,6 +358,7 @@ namespace Anomaly
             sceneController.createScene();
             toolManager.setEnabled(true);
             verticalObjectEditor.Enabled = true;
+            solutionPanel.Enabled = true;
         }
 
         /// <summary>
@@ -368,6 +377,7 @@ namespace Anomaly
             sceneController.destroyScene();
             sceneController.createScene();
             verticalObjectEditor.Enabled = false;
+            solutionPanel.Enabled = false;
         }
 
         public void enableMoveTool()
@@ -443,6 +453,10 @@ namespace Anomaly
             if (persistString == verticalObjectEditor.GetType().ToString())
             {
                 return verticalObjectEditor;
+            }
+            if (persistString == solutionPanel.GetType().ToString())
+            {
+                return solutionPanel;
             }
             String name;
             if (DebugVisualizer.RestoreFromPersistance(persistString, out name))

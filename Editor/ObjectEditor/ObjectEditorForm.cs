@@ -38,5 +38,10 @@ namespace Editor
                 CommitObjectChangesCallback.Invoke(editInterface, editingObject);
             }
         }
+
+        public void clearEditInterface()
+        {
+            objectEditorPanel.clearEditInterface();
+        }
     }
 }

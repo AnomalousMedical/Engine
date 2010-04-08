@@ -45,6 +45,12 @@ namespace Editor
             currentCommitCallback = CommitObjectChangesCallback;
         }
 
+        public void clearEditInterface()
+        {
+            editInterfaceView.clearEditInterface();
+            propertiesTable.showEditableProperties(null);
+        }
+
         /// <summary>
         /// Callback for when the EditInterface changes.
         /// </summary>

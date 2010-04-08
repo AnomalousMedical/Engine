@@ -75,32 +75,35 @@ namespace Editor
             }
 
             this.currentEditInterface = editInterface;
-
-            editInterface.OnPropertyAdded += propertyAddedCallback;
-            editInterface.OnPropertyRemoved += propertyRemovedCallback;
-
             propGridView.DataSource = null;
             propGridView.Rows.Clear();
             propGridView.Columns.Clear();
-            addRemovePanel.Visible = editInterface.canAddRemoveProperties();
-            currentPropInfo = editInterface.getPropertyInfo();
-            if (currentPropInfo != null)
+
+            if (editInterface != null)
             {
-                foreach (EditablePropertyColumn column in currentPropInfo.getColumns())
+                editInterface.OnPropertyAdded += propertyAddedCallback;
+                editInterface.OnPropertyRemoved += propertyRemovedCallback;
+
+                addRemovePanel.Visible = editInterface.canAddRemoveProperties();
+                currentPropInfo = editInterface.getPropertyInfo();
+                if (currentPropInfo != null)
                 {
-                    DataGridViewColumn dgvColumn = new DataGridViewTextBoxColumn();
-                    dgvColumn.HeaderText = column.Header;
-                    dgvColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    dgvColumn.ReadOnly = column.ReadOnly;
-                    propGridView.Columns.Add(dgvColumn);
+                    foreach (EditablePropertyColumn column in currentPropInfo.getColumns())
+                    {
+                        DataGridViewColumn dgvColumn = new DataGridViewTextBoxColumn();
+                        dgvColumn.HeaderText = column.Header;
+                        dgvColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                        dgvColumn.ReadOnly = column.ReadOnly;
+                        propGridView.Columns.Add(dgvColumn);
+                    }
+                    editColumnIndex = propGridView.Columns.Add(editColumn);
                 }
-                editColumnIndex = propGridView.Columns.Add(editColumn);
-            }
-            if (editInterface.hasEditableProperties())
-            {
-                foreach (EditableProperty editProp in editInterface.getEditableProperties())
+                if (editInterface.hasEditableProperties())
                 {
-                    addProperty(editProp);
+                    foreach (EditableProperty editProp in editInterface.getEditableProperties())
+                    {
+                        addProperty(editProp);
+                    }
                 }
             }
 

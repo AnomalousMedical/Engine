@@ -20,5 +20,10 @@ namespace Editor
         /// <param name="editingObject">The object being edited. Can be null it is only passed back to the callback.</param>
         /// <param name="CommitObjectChangesCallback">The function to call when the object has been changed. Null to call nothing.</param>
         void setEditInterface(EditInterface editInterface, object editingObject, ObjectEditorGUIEvent CommitObjectChangesCallback);
+
+        /// <summary>
+        /// Clear any EditInterface that is shown.
+        /// </summary>
+        void clearEditInterface();
     }
 }

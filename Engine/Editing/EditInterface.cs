@@ -18,7 +18,6 @@ namespace Engine.Editing
 
     public enum EngineIcons
     {
-        Scene,
         Node,
         Entity,
         Light,

@@ -37,7 +37,7 @@ namespace Editor
             addIcon(EngineIcons.Behavior, Resources.Behavior);
         }
 
-        static void addIcon(Object key, Image image)
+        static public void addIcon(Object key, Image image)
         {
             imageList.Images.Add(key.ToString(), image);
             iconDictionary.Add(key, key.ToString());
