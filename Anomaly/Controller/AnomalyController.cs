@@ -69,7 +69,7 @@ namespace Anomaly
         private ToolManager toolManager;
 
         private Stopwatch stopwatch = new Stopwatch();
-        private AnomalyProject project;
+        private Solution solution;
 
         //Solution
         private SolutionController solutionController;
@@ -97,9 +97,9 @@ namespace Anomaly
         /// <summary>
         /// Intialize all plugins and create everything.
         /// </summary>
-        public void initialize(AnomalyProject project)
+        public void initialize(Solution solution)
         {
-            this.project = project;
+            this.solution = solution;
 
             //Create the log.
             logListener = new LogFileListener();
@@ -112,7 +112,7 @@ namespace Anomaly
             pluginManager = new PluginManager(AnomalyConfig.ConfigFile);
             pluginManager.OnConfigureDefaultWindow = createWindow;
             DynamicDLLPluginLoader pluginLoader = new DynamicDLLPluginLoader();
-            ConfigIterator pluginIterator = project.PluginSection.PluginIterator;
+            ConfigIterator pluginIterator = solution.PluginSection.PluginIterator;
             pluginIterator.reset();
             while (pluginIterator.hasNext())
             {
@@ -123,7 +123,7 @@ namespace Anomaly
             pluginManager.RendererPlugin.PrimaryWindow.setEnabled(false);
 
             //Load the config file and set the resource root up.
-            VirtualFileSystem.Instance.addArchive(project.ResourceSection.ResourceRoot);
+            VirtualFileSystem.Instance.addArchive(solution.ResourceSection.ResourceRoot);
 
             //Create the main form
             AnomalyTreeIcons.createIcons();
@@ -144,7 +144,7 @@ namespace Anomaly
             pluginManager.setPlatformInfo(mainTimer, eventManager);
 
             //Initialize controllers
-            templates = new TemplateController(project.WorkingDirectory, this, verticalObjectEditor);
+            templates = new TemplateController(solution.WorkingDirectory, this, verticalObjectEditor);
             instanceBuilder = new InstanceBuilder(templates);
             sceneController.initialize(this);
             sceneController.OnSceneLoaded += sceneController_OnSceneLoaded;
@@ -165,7 +165,7 @@ namespace Anomaly
             rotateTool = new RotateTool("RotateTool", rotateController);
             toolManager.addTool(rotateTool);
 
-            solutionController = new SolutionController(new Solution("TestSolution", project.WorkingDirectory), solutionPanel, verticalObjectEditor);
+            solutionController = new SolutionController(solution, solutionPanel, verticalObjectEditor);
 
             //Initialize the windows
             mainForm.initialize(this);
@@ -646,11 +646,11 @@ namespace Anomaly
             }
         }
 
-        public AnomalyProject AnomalyProject
+        public Solution Solution
         {
             get
             {
-                return project;
+                return solution;
             }
         }
 

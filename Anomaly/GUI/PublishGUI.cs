@@ -24,7 +24,7 @@ namespace Anomaly
 
         public void initialize(AnomalyController controller)
         {
-            fileList = new PublishController(controller.AnomalyProject);
+            fileList = new PublishController(controller.Solution);
         }
 
         public void scanResources(ResourceManager resourceManager)

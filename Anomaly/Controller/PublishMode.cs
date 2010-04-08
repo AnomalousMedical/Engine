@@ -24,7 +24,7 @@ namespace Anomaly
         {
             if (commandLine.Length >= 5)
             {
-                ProjectFile = commandLine[2];
+                SolutionFile = commandLine[2];
                 SceneFile = commandLine[3];
                 Destination = commandLine[4];
                 for (int i = 4; i < commandLine.Length; ++i)
@@ -53,9 +53,9 @@ namespace Anomaly
             {
                 logListener.openLogFile(AnomalyConfig.DocRoot + "/log.log");
                 Log.Default.addLogListener(logListener);
-                if (!File.Exists(ProjectFile))
+                if (!File.Exists(SolutionFile))
                 {
-                    Log.Error("Could not find project file {0}.", ProjectFile);
+                    Log.Error("Could not find solution file {0}.", SolutionFile);
                     return;
                 }
                 if (!File.Exists(SceneFile))
@@ -69,7 +69,7 @@ namespace Anomaly
 
         private void doPublish()
         {
-            Log.Info("Publishing resources for scene {0} from project {1} to {2}.", SceneFile, ProjectFile, Destination);
+            Log.Info("Publishing resources for scene {0} from solution {1} to {2}.", SceneFile, SolutionFile, Destination);
             if (Archive)
             {
                 Log.Info("An archive named {0} will be created.", ArchiveName);
@@ -80,16 +80,16 @@ namespace Anomaly
             }
             
             XmlSaver xmlSaver = new XmlSaver();
-            AnomalyProject project = new AnomalyProject(ProjectFile);
+            Solution solution = new Solution(SolutionFile);
 
             using (PluginManager pluginManager = new PluginManager(AnomalyConfig.ConfigFile))
             {
-                PublishController publisher = new PublishController(project);
+                PublishController publisher = new PublishController(solution);
 
-                VirtualFileSystem.Instance.addArchive(project.ResourceSection.ResourceRoot);
+                VirtualFileSystem.Instance.addArchive(solution.ResourceSection.ResourceRoot);
 
                 DynamicDLLPluginLoader pluginLoader = new DynamicDLLPluginLoader();
-                ConfigIterator pluginIterator = project.PluginSection.PluginIterator;
+                ConfigIterator pluginIterator = solution.PluginSection.PluginIterator;
                 pluginIterator.reset();
                 while (pluginIterator.hasNext())
                 {
@@ -106,7 +106,7 @@ namespace Anomaly
             Log.Info("Finished publishing resources to {0}.", Destination);
         }
 
-        public String ProjectFile { get; set; }
+        public String SolutionFile { get; set; }
 
         public String SceneFile { get; set; }
 

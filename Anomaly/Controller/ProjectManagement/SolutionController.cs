@@ -7,7 +7,7 @@ using Engine.Editing;
 
 namespace Anomaly
 {
-    public class SolutionController
+    class SolutionController
     {
         private Solution solution;
         private SolutionPanel solutionPanel;

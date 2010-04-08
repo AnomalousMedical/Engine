@@ -15,11 +15,11 @@ namespace Anomaly
         //Use a dictionary to ensure that the files are unique the key is a lowercase mangled name and the value is the filename as returned.
         private List<VirtualFileInfo> files = new List<VirtualFileInfo>();
         HashSet<String> recursiveDirectories = new HashSet<string>();
-        private AnomalyProject project;
+        private Solution solution;
 
-        public PublishController(AnomalyProject project)
+        public PublishController(Solution solution)
         {
-            this.project = project;
+            this.solution = solution;
         }
 
         public void scanResources(ResourceManager resourceManager)
@@ -36,7 +36,7 @@ namespace Anomaly
                     }
                 }
             }
-            ConfigIterator additionalResources = project.ResourceSection.AdditionalResources;
+            ConfigIterator additionalResources = solution.ResourceSection.AdditionalResources;
             additionalResources.reset();
             while (additionalResources.hasNext())
             {

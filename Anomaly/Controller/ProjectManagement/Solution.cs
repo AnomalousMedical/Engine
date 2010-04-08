@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine.Editing;
 using System.IO;
+using Engine;
 
 namespace Anomaly
 {
@@ -11,12 +12,19 @@ namespace Anomaly
     {
         private String name;
         private Dictionary<String, Project> projects = new Dictionary<string, Project>();
+
+        private PluginSection pluginSection;
+        private ResourceSection resourceSection;
+        private ConfigFile backingFile;
         private String workingDirectory;
 
-        public Solution(String name, String workingDirectory)
+        public Solution(String projectFileName)
         {
-            this.name = name;
-            this.workingDirectory = workingDirectory;
+            workingDirectory = Path.GetDirectoryName(projectFileName);
+            backingFile = new ConfigFile(projectFileName);
+            backingFile.loadConfigFile();
+            pluginSection = new PluginSection(backingFile);
+            resourceSection = new ResourceSection(backingFile);
         }
 
         public void addProject(Project project)
@@ -30,9 +38,33 @@ namespace Anomaly
             projects.Remove(project.Name);
             onProjectRemoved(project);
         }
+
+        public PluginSection PluginSection
+        {
+            get
+            {
+                return pluginSection;
+            }
+        }
+
+        public ResourceSection ResourceSection
+        {
+            get
+            {
+                return resourceSection;
+            }
+        }
+
+        public String WorkingDirectory
+        {
+            get
+            {
+                return workingDirectory;
+            }
+        }
     }
 
-    public partial class Solution
+    partial class Solution
     {
         private EditInterface editInterface;
 

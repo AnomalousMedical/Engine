@@ -80,7 +80,7 @@ namespace Anomaly
                 {
                     try
                     {
-                        anomalyController.initialize(new AnomalyProject(projectFileName));
+                        anomalyController.initialize(new Solution(projectFileName));
                         anomalyController.createNewScene();
                         splash.Close();
                         splash.Dispose();

@@ -71,7 +71,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\AnomalyConfig.cs" />
-    <Compile Include="Config\AnomalyProject.cs" />
     <Compile Include="Config\EngineConfig.cs" />
     <Compile Include="Config\PluginSection.cs" />
     <Compile Include="Config\ResourceSection.cs" />

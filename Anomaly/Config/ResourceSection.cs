@@ -6,7 +6,7 @@ using Engine;
 
 namespace Anomaly
 {
-    class ResourceSection
+    public class ResourceSection
     {
         private ConfigSection resourceSection;
         private ConfigIterator additionalResources;

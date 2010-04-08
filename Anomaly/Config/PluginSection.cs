@@ -6,7 +6,7 @@ using Engine;
 
 namespace Anomaly
 {
-    class PluginSection
+    public class PluginSection
     {
         private ConfigSection pluginSection;
         private ConfigIterator pluginIterator;
