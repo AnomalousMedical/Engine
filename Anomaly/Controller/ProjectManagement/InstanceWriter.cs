@@ -138,26 +138,21 @@ namespace Anomaly
                 group.addInstanceFile(Path.GetFileNameWithoutExtension(instanceFile));
             }
         }
+
+        public SimObjectDefinition loadTemplate(String template)
+        {
+            try
+            {
+                using(XmlTextReader textReader = new XmlTextReader(Path.GetFullPath(template)))
+                {
+                    return (SimObjectDefinition)xmlSaver.restoreObject(textReader);
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Default.sendMessage("Could not load template {0} because of {1}.", LogLevel.Error, "Editor", template, e.Message);
+            }
+            return null;
+        }
     }
 }
-
-
-
-
-            ////Load legacy files
-            //String[] templates = Directory.GetFiles(path, "*.tpl", SearchOption.TopDirectoryOnly);
-            //foreach (String template in templates)
-            //{
-            //    try
-            //    {
-            //        XmlTextReader textReader = new XmlTextReader(Path.GetFullPath(template));
-            //        SimObjectDefinition simObjectDef = (SimObjectDefinition)xmlSaver.restoreObject(textReader);
-            //        textReader.Close();
-            //        Instance instance = new Instance(simObjectDef.Name, simObjectDef);
-            //        group.addExistingInstance(instance);
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        Log.Default.sendMessage("Could not load template {0} because of {1}.", LogLevel.Error, "Editor", group.FullPath + Path.DirectorySeparatorChar + template, e.Message);
-            //    }
-            //}

@@ -9,6 +9,7 @@ using Engine.Saving;
 using System.Windows.Forms;
 using Logging;
 using Editor;
+using System.Xml;
 
 namespace Anomaly
 {
@@ -102,6 +103,7 @@ namespace Anomaly
                 editInterface = new EditInterface(name);
                 editInterface.addCommand(new EditInterfaceCommand("Create Group", createGroupCallback));
                 editInterface.addCommand(new EditInterfaceCommand("Create Sim Object", createSimObjectCallback));
+                editInterface.addCommand(new EditInterfaceCommand("Import legacy templates", importTemplates));
                 editInterface.IconReferenceTag = EditorIcons.Folder;
                 groupManager = new EditInterfaceManager<InstanceGroup>(editInterface);
                 instanceFileManager = new EditInterfaceManager<String>(editInterface);
@@ -246,6 +248,38 @@ namespace Anomaly
             if (InstanceWriter.Instance.saveInstance(this, instance))
             {
                 this.addInstanceFile(simObject.Name);
+            }
+        }
+
+        private void importTemplates(EditUICallback callback, EditInterfaceCommand command)
+        {
+            String folder;
+            bool accept = callback.showFolderBrowserDialog(out folder);
+            if (accept)
+            {
+                doImportTemplates(folder);
+            }
+        }
+
+        private void doImportTemplates(String directory)
+        {
+            foreach (String template in Directory.GetFiles(directory, "*.tpl", SearchOption.TopDirectoryOnly))
+            {
+                createInstance(InstanceWriter.Instance.loadTemplate(template));
+            }
+            foreach (String groupDir in Directory.GetDirectories(directory, "*", SearchOption.TopDirectoryOnly))
+            {
+                DirectoryInfo dirInfo = new DirectoryInfo(groupDir);
+                if ((dirInfo.Attributes & FileAttributes.Hidden) != FileAttributes.Hidden)
+                {
+                    String name = dirInfo.Name;
+                    if (!groups.ContainsKey(groupDir))
+                    {
+                        InstanceGroup group = new InstanceGroup(name, Path.Combine(path, name));
+                        addGroup(group);
+                    }
+                    groups[name].doImportTemplates(groupDir);
+                }
             }
         }
 

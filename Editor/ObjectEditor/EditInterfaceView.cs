@@ -39,6 +39,10 @@ namespace Editor
 
     public partial class EditInterfaceView : UserControl, EditUICallback
     {
+        static OpenFileDialog openDialog = new OpenFileDialog();
+        static SaveFileDialog saveDialog = new SaveFileDialog();
+        static FolderBrowserDialog folderBrowser = new FolderBrowserDialog();
+
         #region Fields
 
         private Dictionary<ToolStripItem, EditInterfaceCommand> currentMenuCommands = new Dictionary<ToolStripItem, EditInterfaceCommand>();
@@ -163,6 +167,56 @@ namespace Editor
             DialogResult accept = browserWindow.ShowDialog(this.FindForm());
             result = browserWindow.SelectedValue;
             return accept == DialogResult.OK;
+        }
+
+        /// <summary>
+        /// Call back to the UI to open a open file browser.
+        /// </summary>
+        /// <param name="filename">The filename chosen by the file browser.</param>
+        /// <returns>True if the user entered input, false if they canceled it.</returns>
+        public bool showOpenFileDialog(String filterString, out String filename)
+        {
+            openDialog.Filter = filterString;
+            if (openDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                filename = openDialog.FileName;
+                return true;
+            }
+            filename = null;
+            return false;
+        }
+
+        /// <summary>
+        /// Call back to the UI to open a save file browser.
+        /// </summary>
+        /// <param name="filename">The filename chosen by the file browser.</param>
+        /// <returns>True if the user entered input, false if they canceled it.</returns>
+        public bool showSaveFileDialog(String filterString, out String filename)
+        {
+            saveDialog.Filter = filterString;
+            if (saveDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                filename = saveDialog.FileName;
+                return true;
+            }
+            filename = null;
+            return false;
+        }
+
+        /// <summary>
+        /// Call back to the UI to open a folder browser dialog.
+        /// </summary>
+        /// <param name="folderName">The folder chosen by the folder browser.</param>
+        /// <returns>True if the user entered input, false if they canceled it.</returns>
+        public bool showFolderBrowserDialog(out String folderName)
+        {
+            if (folderBrowser.ShowDialog(this) == DialogResult.OK)
+            {
+                folderName = folderBrowser.SelectedPath;
+                return true;
+            }
+            folderName = null;
+            return false;
         }
 
         /// <summary>

@@ -39,6 +39,27 @@ namespace Engine.Editing
         bool showBrowser(Browser browser, out Object result);
 
         /// <summary>
+        /// Call back to the UI to open a open file browser.
+        /// </summary>
+        /// <param name="filename">The filename chosen by the file browser.</param>
+        /// <returns>True if the user entered input, false if they canceled it.</returns>
+        bool showOpenFileDialog(String filterString, out String filename);
+
+        /// <summary>
+        /// Call back to the UI to open a save file browser.
+        /// </summary>
+        /// <param name="filename">The filename chosen by the file browser.</param>
+        /// <returns>True if the user entered input, false if they canceled it.</returns>
+        bool showSaveFileDialog(String filterString, out String filename);
+
+        /// <summary>
+        /// Call back to the UI to open a folder browser dialog.
+        /// </summary>
+        /// <param name="folderName">The folder chosen by the folder browser.</param>
+        /// <returns>True if the user entered input, false if they canceled it.</returns>
+        bool showFolderBrowserDialog(out String folderName);
+
+        /// <summary>
         /// Get the EditInterface that is currently selected on the UI.
         /// </summary>
         /// <returns>The EditInterface that is currently selected.</returns>
