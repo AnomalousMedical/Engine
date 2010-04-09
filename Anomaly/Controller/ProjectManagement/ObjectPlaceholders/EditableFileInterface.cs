@@ -61,5 +61,13 @@ namespace Anomaly
         }
 
         public bool Deleted { get; set; }
+
+        public String Filename
+        {
+            get
+            {
+                return filename;
+            }
+        }
     }
 }

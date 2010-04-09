@@ -28,6 +28,14 @@ namespace Anomaly
             return editInterface;
         }
 
+        public String Name
+        {
+            get
+            {
+                return editInterface.getName();
+            }
+        }
+
         public string getValue(int column)
         {
             return "";

@@ -19,7 +19,7 @@ namespace Anomaly
 
         private String name;
         private Dictionary<String, InstanceGroup> groups = new Dictionary<string, InstanceGroup>();
-        private List<String> instanceFiles = new List<String>();
+        private Dictionary<String, InstanceFileInterface> instanceFiles = new Dictionary<String, InstanceFileInterface>();
         private String path;
 
         public InstanceGroup(String name, String path)
@@ -52,16 +52,18 @@ namespace Anomaly
         /// Add a instance and save the defintion.
         /// </summary>
         /// <param name="simObject"></param>
-        public void addInstanceFile(String instanceFile)
+        public void addInstanceFile(String instanceName)
         {
-            instanceFiles.Add(instanceFile);
-            onInstanceFileAdded(instanceFile);
+            InstanceFileInterface fileInterface = new InstanceFileInterface(instanceName, AnomalyIcons.Instance, InstanceWriter.Instance.getInstanceFileName(this, instanceName));
+            instanceFiles.Add(instanceName, fileInterface);
+            onInstanceFileAdded(fileInterface);
         }
 
-        public void removeInstanceFile(String instanceFile)
+        public void removeInstanceFile(String instanceName)
         {
-            instanceFiles.Remove(instanceFile);
-            onInstanceFileRemoved(instanceFile);
+            InstanceFileInterface fileInterface = instanceFiles[instanceName];
+            instanceFiles.Remove(instanceName);
+            onInstanceFileRemoved(fileInterface);
         }
 
         #region Properties
@@ -89,7 +91,7 @@ namespace Anomaly
         private EditInterfaceCommand destroyGroup;
         private EditInterfaceCommand destroySimObject;
         private EditInterfaceManager<InstanceGroup> groupManager;
-        private EditInterfaceManager<String> instanceFileManager;
+        private EditInterfaceManager<InstanceFileInterface> instanceFileManager;
         private EditInterface editInterface;
         private EditInterfaceCommand duplicateSimObject;
 
@@ -106,12 +108,12 @@ namespace Anomaly
                 editInterface.addCommand(new EditInterfaceCommand("Import legacy templates", importTemplates));
                 editInterface.IconReferenceTag = EditorIcons.Folder;
                 groupManager = new EditInterfaceManager<InstanceGroup>(editInterface);
-                instanceFileManager = new EditInterfaceManager<String>(editInterface);
+                instanceFileManager = new EditInterfaceManager<InstanceFileInterface>(editInterface);
                 foreach (InstanceGroup group in groups.Values)
                 {
                     addGroupSubInterface(group);
                 }
-                foreach (String file in instanceFiles)
+                foreach (InstanceFileInterface file in instanceFiles.Values)
                 {
                     onInstanceFileAdded(file);
                 }
@@ -158,23 +160,22 @@ namespace Anomaly
             removeGroup(groupManager.resolveSourceObject(callback.getSelectedEditInterface()));
         }
 
-        private void onInstanceFileAdded(String instanceName)
+        private void onInstanceFileAdded(InstanceFileInterface fileInterface)
         {
             if (editInterface != null)
             {
-                InstanceFileInterface fileInterface = new InstanceFileInterface(instanceName, AnomalyIcons.Instance, InstanceWriter.Instance.getInstanceFileName(this, instanceName));
                 EditInterface edit = fileInterface.getEditInterface();
                 edit.addCommand(destroySimObject);
                 edit.addCommand(duplicateSimObject);
-                instanceFileManager.addSubInterface(instanceName, edit);
+                instanceFileManager.addSubInterface(fileInterface, edit);
             }
         }
 
-        private void onInstanceFileRemoved(string instanceFile)
+        private void onInstanceFileRemoved(InstanceFileInterface fileInterface)
         {
             if (editInterface != null)
             {
-                instanceFileManager.removeSubInterface(instanceFile);
+                instanceFileManager.removeSubInterface(fileInterface);
             }
         }
 
@@ -196,7 +197,7 @@ namespace Anomaly
                 errorPrompt = "Please enter a non empty name.";
                 return false;
             }
-            if (this.instanceFiles.Contains(input))
+            if (this.instanceFiles.ContainsKey(input))
             {
                 errorPrompt = "That name is already in use. Please provide another.";
                 return false;
@@ -212,9 +213,9 @@ namespace Anomaly
             {
                 InstanceFileInterface file = editInterface.getEditableProperties().First() as InstanceFileInterface;
                 file.Deleted = true;
-                String instanceFile = instanceFileManager.resolveSourceObject(editInterface);
-                InstanceWriter.Instance.deleteInstance(this, instanceFile);
-                removeInstanceFile(instanceFile);
+                InstanceFileInterface instanceFile = instanceFileManager.resolveSourceObject(editInterface);
+                InstanceWriter.Instance.deleteInstance(this, instanceFile.Name);
+                removeInstanceFile(instanceFile.Name);
             }
         }
 
@@ -239,7 +240,7 @@ namespace Anomaly
                 errorPrompt = "Please enter a non empty name.";
                 return false;
             }
-            if (this.instanceFiles.Contains(input))
+            if (this.instanceFiles.ContainsKey(input))
             {
                 errorPrompt = "That name is already in use. Please provide another.";
                 return false;
