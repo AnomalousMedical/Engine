@@ -8,6 +8,7 @@ using Engine.Resources;
 using System.Xml;
 using Engine;
 using Engine.Saving.XMLSaver;
+using Engine.ObjectManagement;
 
 namespace Anomaly
 {
@@ -19,6 +20,7 @@ namespace Anomaly
         private InstanceGroup instanceGroup;
         private String workingDirectory;
         private String resourcesFile;
+        private String sceneDefinitionFile;
 
         public Project(String name, String workingDirectory)
         {
@@ -45,6 +47,43 @@ namespace Anomaly
                     xmlSaver.saveObject(resources, textWriter);
                 }
             }
+
+            sceneDefinitionFile = Path.Combine(workingDirectory, "SceneDefinition.xml");
+            if (!File.Exists(sceneDefinitionFile))
+            {
+                SimSceneDefinition sceneDefinition = new SimSceneDefinition();
+                using (XmlTextWriter textWriter = new XmlTextWriter(sceneDefinitionFile, Encoding.Default))
+                {
+                    textWriter.Formatting = Formatting.Indented;
+                    xmlSaver.saveObject(sceneDefinition, textWriter);
+                }
+            }
+        }
+
+        public ScenePackage buildProject()
+        {
+            ScenePackage package = new ScenePackage();
+            package.SceneDefinition = loadSceneDefinition();
+            package.ResourceManager = loadResourceManager();
+            package.SimObjectManagerDefinition = new SimObjectManagerDefinition();
+
+            return package;
+        }
+
+        private SimSceneDefinition loadSceneDefinition()
+        {
+            using (XmlTextReader textReader = new XmlTextReader(sceneDefinitionFile))
+            {
+                return xmlSaver.restoreObject(textReader) as SimSceneDefinition;
+            }
+        }
+
+        private ResourceManager loadResourceManager()
+        {
+            using (XmlTextReader textReader = new XmlTextReader(resourcesFile))
+            {
+                return xmlSaver.restoreObject(textReader) as ResourceManager;
+            }
         }
 
         public String Name
@@ -68,6 +107,7 @@ namespace Anomaly
     {
         private EditInterface editInterface;
         private ResourceManagerFileInterface resourceFileInterface;
+        private SimSceneFileInterface sceneFileInterface;
 
         public EditInterface getEditInterface()
         {
@@ -77,7 +117,10 @@ namespace Anomaly
                 editInterface.IconReferenceTag = AnomalyIcons.Project;
 
                 resourceFileInterface = new ResourceManagerFileInterface("Resources", null, resourcesFile);
+                sceneFileInterface = new SimSceneFileInterface("Scene Definition", null, sceneDefinitionFile);
+
                 editInterface.addSubInterface(resourceFileInterface.getEditInterface());
+                editInterface.addSubInterface(sceneFileInterface.getEditInterface());
 
                 editInterface.addSubInterface(instanceGroup.getEditInterface());
             }

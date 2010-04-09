@@ -24,7 +24,6 @@ namespace Anomaly
         private ConfigFile backingFile;
         private String workingDirectory;
         private SolutionSection solutionSection;
-        private String emptySceneFile;
         private String globalResourcesFile;
 
         public Solution(String projectFileName)
@@ -40,17 +39,6 @@ namespace Anomaly
 
         public void loadExternalFiles(PluginManager pluginManager)
         {
-            emptySceneFile = Path.Combine(workingDirectory, solutionSection.EmptySceneFile);
-            if (!File.Exists(emptySceneFile))
-            {
-                SimSceneDefinition sceneDefinition = new SimSceneDefinition();
-                using (XmlTextWriter textWriter = new XmlTextWriter(emptySceneFile, Encoding.Default))
-                {
-                    textWriter.Formatting = Formatting.Indented;
-                    xmlSaver.saveObject(sceneDefinition, textWriter);
-                }
-            }
-
             globalResourcesFile = Path.Combine(workingDirectory, solutionSection.GlobalResourceFile);
             if (!File.Exists(globalResourcesFile))
             {
@@ -82,19 +70,27 @@ namespace Anomaly
             onProjectRemoved(project);
         }
 
-        /// <summary>
-        /// Load the scene file and return the definition.
-        /// </summary>
-        /// <returns>The SimSceneDefintion loaded from the scene file.</returns>
-        public SimSceneDefinition getCopyOfEmptySceneFile()
+        public ScenePackage createCurrentProject()
         {
-            using (XmlTextReader textReader = new XmlTextReader(emptySceneFile))
+            ResourceManager globalResources = loadResourceManager();
+            if (projects.Count > 0)
             {
-                return xmlSaver.restoreObject(textReader) as SimSceneDefinition;
+                ScenePackage projectPackage = projects.First().Value.buildProject();
+                projectPackage.ResourceManager.addResources(globalResources);
+                return projectPackage;
+            }
+            else
+            {
+                ScenePackage package = new ScenePackage();
+                package.SceneDefinition = new SimSceneDefinition();
+                package.ResourceManager = globalResources;
+                package.SimObjectManagerDefinition = new SimObjectManagerDefinition();
+
+                return package;
             }
         }
 
-        public ResourceManager getCopyOfGlobalResourceManager()
+        private ResourceManager loadResourceManager()
         {
             using (XmlTextReader textReader = new XmlTextReader(globalResourcesFile))
             {
@@ -134,7 +130,6 @@ namespace Anomaly
         private EditInterfaceCommand destroyProject;
         private EditInterfaceManager<Project> projectInterfaceManager;
 
-        private SimSceneFileInterface sceneFileInterface;
         private ResourceManagerFileInterface resourceFileInterface;
 
         public EditInterface getEditInterface()
@@ -144,10 +139,8 @@ namespace Anomaly
                 editInterface = new EditInterface(name);
                 editInterface.IconReferenceTag = AnomalyIcons.Solution;
 
-                sceneFileInterface = new SimSceneFileInterface("Empty Scene", null, emptySceneFile);
                 resourceFileInterface = new ResourceManagerFileInterface("Global Resources", null, globalResourcesFile);
 
-                editInterface.addSubInterface(sceneFileInterface.getEditInterface());
                 editInterface.addSubInterface(resourceFileInterface.getEditInterface());
 
                 editInterface.addCommand(new EditInterfaceCommand("Create Project", createProjectCallback));

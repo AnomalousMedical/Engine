@@ -41,6 +41,15 @@ namespace Engine.ObjectManagement
         }
 
         /// <summary>
+        /// Remove a SimObjectDefinition to use as a template.
+        /// </summary>
+        /// <param name="definition">The definition to remove.</param>
+        public void removeSimObject(String name)
+        {
+            simObjects.Remove(name);
+        }
+
+        /// <summary>
         /// Determine if the given name is already in use. Will return true if
         /// it is.
         /// </summary>

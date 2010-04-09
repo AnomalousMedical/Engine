@@ -37,7 +37,6 @@ namespace Anomaly
         private IObjectEditorGUI mainObjectEditor = new ObjectEditorForm();
         private DrawingWindowController drawingWindowController = new DrawingWindowController();
         private MovePanel movePanel = new MovePanel();
-        private SimObjectPanel simObjectPanel = new SimObjectPanel();
         private EulerRotatePanel rotatePanel = new EulerRotatePanel();
         private Dictionary<String, DebugVisualizer> debugVisualizers = new Dictionary<string, DebugVisualizer>();
         private ConsoleWindow consoleWindow = new ConsoleWindow();
@@ -54,7 +53,6 @@ namespace Anomaly
         //Scene
         private SceneController sceneController = new SceneController();
         private ResourceController resourceController = new ResourceController();
-        private SimObjectController simObjectController = new SimObjectController();
         private InstanceBuilder instanceBuilder;
 
         //Tools
@@ -148,7 +146,6 @@ namespace Anomaly
             sceneController.initialize(this);
             sceneController.OnSceneLoaded += sceneController_OnSceneLoaded;
             sceneController.OnSceneUnloading += sceneController_OnSceneUnloading;
-            simObjectController.initialize(this);
             resourceController.initialize(this);
             toolInterop.setMoveController(moveController);
             toolInterop.setSelectionController(selectionController);
@@ -170,7 +167,6 @@ namespace Anomaly
             mainForm.initialize(this);
             drawingWindowController.initialize(this, eventManager, pluginManager.RendererPlugin, AnomalyConfig.ConfigFile);
             movePanel.initialize(moveController);
-            simObjectPanel.intialize(this);
             rotatePanel.initialize(rotateController);
 
             //Initialize debug visualizers
@@ -189,7 +185,6 @@ namespace Anomaly
                 drawingWindowController.createOneWaySplit();
                 mainForm.showDockContent(movePanel);
                 rotatePanel.Show(movePanel.Pane, DockAlignment.Right, 0.5);
-                mainForm.showDockContent(simObjectPanel);
                 mainForm.showDockContent(verticalObjectEditor);
                 mainForm.showDockContent(solutionPanel);
                 foreach (DebugVisualizer visualizer in debugVisualizers.Values)
@@ -292,11 +287,7 @@ namespace Anomaly
         /// </summary>
         public void createNewScene()
         {
-            ScenePackage emptyScene = new ScenePackage();
-            emptyScene.ResourceManager = Solution.getCopyOfGlobalResourceManager();
-            emptyScene.SceneDefinition = Solution.getCopyOfEmptySceneFile();
-            emptyScene.SimObjectManagerDefinition = new SimObjectManagerDefinition();
-            changeScene(emptyScene);
+            changeScene(solution.createCurrentProject());
         }
 
         /// <summary>
@@ -331,7 +322,8 @@ namespace Anomaly
             ScenePackage scenePackage = new ScenePackage();
             scenePackage.SceneDefinition = sceneController.getSceneDefinition();
             scenePackage.ResourceManager = resourceController.getResourceManager();
-            scenePackage.SimObjectManagerDefinition = simObjectController.getSimObjectManagerDefinition();
+            throw new NotImplementedException();
+            //scenePackage.SimObjectManagerDefinition = simObjectController.getSimObjectManagerDefinition();
             XmlTextWriter fileWriter = new XmlTextWriter(filename, Encoding.Default);
             fileWriter.Formatting = Formatting.Indented;
             xmlSaver.saveObject(scenePackage, fileWriter);
@@ -345,10 +337,8 @@ namespace Anomaly
         /// </summary>
         public void setStaticMode()
         {
-            simObjectController.captureSceneProperties();
             movePanel.Enabled = true;
             rotatePanel.Enabled = true;
-            simObjectPanel.Enabled = true;
             sceneController.setDynamicMode(false);
             sceneController.destroyScene();
             sceneController.createScene();
@@ -367,7 +357,6 @@ namespace Anomaly
             toolManager.setEnabled(false);
             movePanel.Enabled = false;
             rotatePanel.Enabled = false;
-            simObjectPanel.Enabled = false;
             sceneController.setDynamicMode(true);
             sceneController.destroyScene();
             sceneController.createScene();
@@ -394,28 +383,29 @@ namespace Anomaly
 
         public void importInstances(String filename)
         {
-            XmlTextReader textReader = null;
-            try
-            {
-                textReader = new XmlTextReader(filename);
-                SimObjectManagerDefinition managerDefintion = simObjectController.getSimObjectManagerDefinition();
-                instanceBuilder.loadInstances(textReader, managerDefintion);
-                simObjectController.setSceneManagerDefintion(managerDefintion);
-                sceneController.destroyScene();
-                sceneController.createScene();
-            }
-            catch(Exception e)
-            {
-                Log.Default.printException(e);
-                MessageBox.Show(mainForm, String.Format("An exception occured when loading the instances:\n{0}.", e.Message), "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                if (textReader != null)
-                {
-                    textReader.Close();
-                }
-            }
+            throw new NotImplementedException();
+            //XmlTextReader textReader = null;
+            //try
+            //{
+            //    textReader = new XmlTextReader(filename);
+            //    SimObjectManagerDefinition managerDefintion = simObjectController.getSimObjectManagerDefinition();
+            //    instanceBuilder.loadInstances(textReader, managerDefintion);
+            //    simObjectController.setSceneManagerDefintion(managerDefintion);
+            //    sceneController.destroyScene();
+            //    sceneController.createScene();
+            //}
+            //catch(Exception e)
+            //{
+            //    Log.Default.printException(e);
+            //    MessageBox.Show(mainForm, String.Format("An exception occured when loading the instances:\n{0}.", e.Message), "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
+            //finally
+            //{
+            //    if (textReader != null)
+            //    {
+            //        textReader.Close();
+            //    }
+            //}
         }
 
         /// <summary>
@@ -432,10 +422,6 @@ namespace Anomaly
             if (persistString == rotatePanel.GetType().ToString())
             {
                 return rotatePanel;
-            }
-            if (persistString == simObjectPanel.GetType().ToString())
-            {
-                return simObjectPanel;
             }
             if (persistString == consoleWindow.GetType().ToString())
             {
@@ -508,7 +494,7 @@ namespace Anomaly
             sceneController.destroyScene();
             sceneController.setSceneDefinition(scenePackage.SceneDefinition);
             resourceController.setResources(scenePackage.ResourceManager);
-            simObjectController.setSceneManagerDefintion(scenePackage.SimObjectManagerDefinition);
+            //simObjectController.setSceneManagerDefintion(scenePackage.SimObjectManagerDefinition);
             sceneController.createScene();
         }
 
@@ -590,17 +576,6 @@ namespace Anomaly
             get
             {
                 return selectionController;
-            }
-        }
-
-        /// <summary>
-        /// The SimObjectController that manages the SimObjects.
-        /// </summary>
-        public SimObjectController SimObjectController
-        {
-            get
-            {
-                return simObjectController;
             }
         }
 
