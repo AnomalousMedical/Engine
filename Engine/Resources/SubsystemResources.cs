@@ -144,6 +144,24 @@ namespace Engine.Resources
         }
 
         /// <summary>
+        /// Add resources without removing old ones.
+        /// </summary>
+        /// <param name="toAdd">The resources to add.</param>
+        public void addResources(SubsystemResources toAdd)
+        {
+            //Add any new groups
+            foreach (ResourceGroup group in toAdd.resourceGroups.Values)
+            {
+                if (!resourceGroups.ContainsKey(group.Name))
+                {
+                    ResourceGroup resourceGroup = new ResourceGroup(group.Name);
+                    this.addResourceGroup(resourceGroup);
+                }
+                resourceGroups[group.Name].addResources(group);
+            }
+        }
+
+        /// <summary>
         /// Send unload signals to all resource groups.
         /// </summary>
         public void sendUnloadSignals()

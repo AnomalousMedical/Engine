@@ -207,6 +207,23 @@ namespace Engine.Resources
         }
 
         /// <summary>
+        /// Add resources without removing old ones. Use this to combine multiple groups together.
+        /// </summary>
+        /// <param name="toAdd">The group with resources to add.</param>
+        public void addResources(ResourceGroup toAdd)
+        {
+            //Add any new resources that are not already added
+            foreach (Resource resource in toAdd.resources.Values)
+            {
+                if (!resources.ContainsKey(resource.getLocName()))
+                {
+                    Resource res = new Resource(resource);
+                    this.addResource(res);
+                }
+            }
+        }
+
+        /// <summary>
         /// Get an enumertor over all resources.
         /// </summary>
         /// <returns></returns>

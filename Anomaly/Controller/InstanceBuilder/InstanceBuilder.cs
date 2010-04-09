@@ -25,16 +25,15 @@ namespace Anomaly
         private static readonly char[] SEPS = { ',' };
         private const float DEG_TO_RAD = 0.0174532925f;
 
-        private TemplateController templateController;
         private CopySaver copySaver = new CopySaver();
 
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="templateController">The TemplateController to grab templates from.</param>
-        public InstanceBuilder(TemplateController templateController)
+        public InstanceBuilder()
         {
-            this.templateController = templateController;
+            
         }
 
         /// <summary>
@@ -52,7 +51,7 @@ namespace Anomaly
                     if (xmlReader.Name.Equals(SIMOBJECT_ELEMENT))
                     {
                         String templatePath = xmlReader.GetAttribute(TEMPLATE_ATTRIBUTE);
-                        SimObjectDefinition template = templateController.getTemplateFromPath(templatePath);
+                        SimObjectDefinition template = null;//= templateController.getTemplateFromPath(templatePath);
                         if (template != null)
                         {
                             if (!objectManager.hasSimObject(template.Name))

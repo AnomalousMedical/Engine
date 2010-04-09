@@ -82,6 +82,26 @@ namespace Anomaly
             onProjectRemoved(project);
         }
 
+        /// <summary>
+        /// Load the scene file and return the definition.
+        /// </summary>
+        /// <returns>The SimSceneDefintion loaded from the scene file.</returns>
+        public SimSceneDefinition getCopyOfEmptySceneFile()
+        {
+            using (XmlTextReader textReader = new XmlTextReader(emptySceneFile))
+            {
+                return xmlSaver.restoreObject(textReader) as SimSceneDefinition;
+            }
+        }
+
+        public ResourceManager getCopyOfGlobalResourceManager()
+        {
+            using (XmlTextReader textReader = new XmlTextReader(globalResourcesFile))
+            {
+                return xmlSaver.restoreObject(textReader) as ResourceManager;
+            }
+        }
+
         public PluginSection PluginSection
         {
             get

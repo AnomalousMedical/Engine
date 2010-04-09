@@ -157,6 +157,24 @@ namespace Engine.Resources
         }
 
         /// <summary>
+        /// Add resources without removing old ones. Use to combine multiple ResourceManagers together.
+        /// </summary>
+        /// <param name="toAdd">The ResourceManager to add resources from.</param>
+        public void addResources(ResourceManager toAdd)
+        {
+            //Add new resources
+            foreach (SubsystemResources resource in toAdd.subsystemResources.Values)
+            {
+                if (!subsystemResources.ContainsKey(resource.Name))
+                {
+                    SubsystemResources sub = new SubsystemResources(resource.Name);
+                    subsystemResources.Add(resource.Name, sub);
+                }
+                subsystemResources[resource.Name].addResources(resource);
+            }
+        }
+
+        /// <summary>
         /// This will force all subsystems to validate any resources they have not yet validated.
         /// This may not actually load the resources into memory at this time.
         /// </summary>

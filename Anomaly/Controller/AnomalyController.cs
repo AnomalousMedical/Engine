@@ -37,7 +37,6 @@ namespace Anomaly
         private IObjectEditorGUI mainObjectEditor = new ObjectEditorForm();
         private DrawingWindowController drawingWindowController = new DrawingWindowController();
         private MovePanel movePanel = new MovePanel();
-        private TemplatePanel templatePanel = new TemplatePanel();
         private SimObjectPanel simObjectPanel = new SimObjectPanel();
         private EulerRotatePanel rotatePanel = new EulerRotatePanel();
         private Dictionary<String, DebugVisualizer> debugVisualizers = new Dictionary<string, DebugVisualizer>();
@@ -53,7 +52,6 @@ namespace Anomaly
         private FullSpeedUpdateListener fixedUpdate;
 
         //Scene
-        private TemplateController templates;
         private SceneController sceneController = new SceneController();
         private ResourceController resourceController = new ResourceController();
         private SimObjectController simObjectController = new SimObjectController();
@@ -146,8 +144,7 @@ namespace Anomaly
             pluginManager.setPlatformInfo(mainTimer, eventManager);
 
             //Initialize controllers
-            templates = new TemplateController(solution.WorkingDirectory, this, verticalObjectEditor);
-            instanceBuilder = new InstanceBuilder(templates);
+            instanceBuilder = new InstanceBuilder();
             sceneController.initialize(this);
             sceneController.OnSceneLoaded += sceneController_OnSceneLoaded;
             sceneController.OnSceneUnloading += sceneController_OnSceneUnloading;
@@ -173,7 +170,6 @@ namespace Anomaly
             mainForm.initialize(this);
             drawingWindowController.initialize(this, eventManager, pluginManager.RendererPlugin, AnomalyConfig.ConfigFile);
             movePanel.initialize(moveController);
-            templatePanel.initialize(templates);
             simObjectPanel.intialize(this);
             rotatePanel.initialize(rotateController);
 
@@ -193,7 +189,6 @@ namespace Anomaly
                 drawingWindowController.createOneWaySplit();
                 mainForm.showDockContent(movePanel);
                 rotatePanel.Show(movePanel.Pane, DockAlignment.Right, 0.5);
-                mainForm.showDockContent(templatePanel);
                 mainForm.showDockContent(simObjectPanel);
                 mainForm.showDockContent(verticalObjectEditor);
                 mainForm.showDockContent(solutionPanel);
@@ -298,8 +293,8 @@ namespace Anomaly
         public void createNewScene()
         {
             ScenePackage emptyScene = new ScenePackage();
-            emptyScene.ResourceManager = pluginManager.createEmptyResourceManager();
-            emptyScene.SceneDefinition = new SimSceneDefinition();
+            emptyScene.ResourceManager = Solution.getCopyOfGlobalResourceManager();
+            emptyScene.SceneDefinition = Solution.getCopyOfEmptySceneFile();
             emptyScene.SimObjectManagerDefinition = new SimObjectManagerDefinition();
             changeScene(emptyScene);
         }
@@ -353,7 +348,6 @@ namespace Anomaly
             simObjectController.captureSceneProperties();
             movePanel.Enabled = true;
             rotatePanel.Enabled = true;
-            templatePanel.Enabled = true;
             simObjectPanel.Enabled = true;
             sceneController.setDynamicMode(false);
             sceneController.destroyScene();
@@ -373,7 +367,6 @@ namespace Anomaly
             toolManager.setEnabled(false);
             movePanel.Enabled = false;
             rotatePanel.Enabled = false;
-            templatePanel.Enabled = false;
             simObjectPanel.Enabled = false;
             sceneController.setDynamicMode(true);
             sceneController.destroyScene();
@@ -439,10 +432,6 @@ namespace Anomaly
             if (persistString == rotatePanel.GetType().ToString())
             {
                 return rotatePanel;
-            }
-            if (persistString == templatePanel.GetType().ToString())
-            {
-                return templatePanel;
             }
             if (persistString == simObjectPanel.GetType().ToString())
             {
@@ -568,17 +557,6 @@ namespace Anomaly
             get
             {
                 return moveController;
-            }
-        }
-
-        /// <summary>
-        /// The TemplateController that manages the currently created templates.
-        /// </summary>
-        public TemplateController TemplateController
-        {
-            get
-            {
-                return templates;
             }
         }
 
