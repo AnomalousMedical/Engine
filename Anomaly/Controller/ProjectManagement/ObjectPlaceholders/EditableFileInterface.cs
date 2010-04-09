@@ -24,6 +24,7 @@ namespace Anomaly
             :base(name, iconReferenceTag)
         {
             this.filename = filename;
+            Deleted = false;
         }
 
         public override object getObject()
@@ -41,19 +42,24 @@ namespace Anomaly
 
         public override void saveObject(Object obj)
         {
-            T fileObj = obj as T;
-            if (fileObj != null)
+            if (!Deleted)
             {
-                using (XmlTextWriter textWriter = new XmlTextWriter(filename, Encoding.Default))
+                T fileObj = obj as T;
+                if (fileObj != null)
                 {
-                    textWriter.Formatting = Formatting.Indented;
-                    xmlSaver.saveObject(fileObj, textWriter);
+                    using (XmlTextWriter textWriter = new XmlTextWriter(filename, Encoding.Default))
+                    {
+                        textWriter.Formatting = Formatting.Indented;
+                        xmlSaver.saveObject(fileObj, textWriter);
+                    }
+                }
+                else
+                {
+                    throw new Exception(String.Format("Cannot save object {0} because it is not of type {1}", obj.ToString(), typeof(T).ToString()));
                 }
             }
-            else
-            {
-                throw new Exception(String.Format("Cannot save object {0} because it is not of type {1}", obj.ToString(), typeof(T).ToString()));
-            }
         }
+
+        public bool Deleted { get; set; }
     }
 }

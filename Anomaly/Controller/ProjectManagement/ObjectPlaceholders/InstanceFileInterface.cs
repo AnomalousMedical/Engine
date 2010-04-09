@@ -11,7 +11,7 @@ namespace Anomaly
         public InstanceFileInterface(String name, Object iconReferenceTag, String filename)
             :base(name, iconReferenceTag, filename)
         {
-            Deleted = false;
+
         }
 
         public override EditInterface getObjectEditInterface(object obj)
@@ -26,15 +26,5 @@ namespace Anomaly
                 throw new Exception(String.Format("Cannot get edit interface for object {0} because it is not of type {1}", obj.ToString(), typeof(Instance).ToString()));
             }
         }
-
-        public override void saveObject(object obj)
-        {
-            if (!Deleted)
-            {
-                base.saveObject(obj);
-            }
-        }
-
-        public bool Deleted { get; set; }
     }
 }
