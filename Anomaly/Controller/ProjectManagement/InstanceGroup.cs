@@ -207,9 +207,15 @@ namespace Anomaly
 
         private void destroySimObjectCallback(EditUICallback callback, EditInterfaceCommand command)
         {
-            String instanceFile = instanceFileManager.resolveSourceObject(callback.getSelectedEditInterface());
-            InstanceWriter.Instance.deleteInstance(this, instanceFile);
-            removeInstanceFile(instanceFile);
+            EditInterface editInterface = callback.getSelectedEditInterface();
+            if (editInterface.hasEditableProperties())
+            {
+                InstanceFileInterface file = editInterface.getEditableProperties().First() as InstanceFileInterface;
+                file.Deleted = true;
+                String instanceFile = instanceFileManager.resolveSourceObject(editInterface);
+                InstanceWriter.Instance.deleteInstance(this, instanceFile);
+                removeInstanceFile(instanceFile);
+            }
         }
 
         private void duplicateSimObjectCallback(EditUICallback callback, EditInterfaceCommand command)
