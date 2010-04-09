@@ -60,17 +60,7 @@ namespace Anomaly
             }
         }
 
-        public ScenePackage buildProject()
-        {
-            ScenePackage package = new ScenePackage();
-            package.SceneDefinition = loadSceneDefinition();
-            package.ResourceManager = loadResourceManager();
-            package.SimObjectManagerDefinition = new SimObjectManagerDefinition();
-
-            return package;
-        }
-
-        private SimSceneDefinition loadSceneDefinition()
+        public SimSceneDefinition loadSceneDefinition()
         {
             using (XmlTextReader textReader = new XmlTextReader(sceneDefinitionFile))
             {
@@ -78,12 +68,17 @@ namespace Anomaly
             }
         }
 
-        private ResourceManager loadResourceManager()
+        public ResourceManager loadResourceManager()
         {
             using (XmlTextReader textReader = new XmlTextReader(resourcesFile))
             {
                 return xmlSaver.restoreObject(textReader) as ResourceManager;
             }
+        }
+
+        public void addSimObjects(SimObjectManagerDefinition simObjectManager)
+        {
+            instanceGroup.buildInstances(simObjectManager);
         }
 
         public String Name

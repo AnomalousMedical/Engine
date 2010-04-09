@@ -73,21 +73,24 @@ namespace Anomaly
         public ScenePackage createCurrentProject()
         {
             ResourceManager globalResources = loadResourceManager();
+
+            ScenePackage projectPackage = new ScenePackage();
+            projectPackage.ResourceManager = globalResources;
+            projectPackage.SimObjectManagerDefinition = new SimObjectManagerDefinition();
+
             if (projects.Count > 0)
             {
-                ScenePackage projectPackage = projects.First().Value.buildProject();
-                projectPackage.ResourceManager.addResources(globalResources);
-                return projectPackage;
+                Project project = projects.Values.First();
+
+                projectPackage.ResourceManager.addResources(project.loadResourceManager());
+                projectPackage.SceneDefinition = project.loadSceneDefinition();
+                project.addSimObjects(projectPackage.SimObjectManagerDefinition);
             }
             else
             {
-                ScenePackage package = new ScenePackage();
-                package.SceneDefinition = new SimSceneDefinition();
-                package.ResourceManager = globalResources;
-                package.SimObjectManagerDefinition = new SimObjectManagerDefinition();
-
-                return package;
+                projectPackage.SceneDefinition = new SimSceneDefinition();
             }
+            return projectPackage;
         }
 
         private ResourceManager loadResourceManager()

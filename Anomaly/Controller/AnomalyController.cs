@@ -53,6 +53,7 @@ namespace Anomaly
         //Scene
         private SceneController sceneController = new SceneController();
         private ResourceController resourceController = new ResourceController();
+        private SimObjectController simObjectController;
         private InstanceBuilder instanceBuilder;
 
         //Tools
@@ -150,6 +151,7 @@ namespace Anomaly
             toolInterop.setMoveController(moveController);
             toolInterop.setSelectionController(selectionController);
             toolInterop.setRotateController(rotateController);
+            simObjectController = new SimObjectController(this);
 
             toolManager = new ToolManager(eventManager);
             mainTimer.addFixedUpdateListener(toolManager);
@@ -322,8 +324,7 @@ namespace Anomaly
             ScenePackage scenePackage = new ScenePackage();
             scenePackage.SceneDefinition = sceneController.getSceneDefinition();
             scenePackage.ResourceManager = resourceController.getResourceManager();
-            throw new NotImplementedException();
-            //scenePackage.SimObjectManagerDefinition = simObjectController.getSimObjectManagerDefinition();
+            scenePackage.SimObjectManagerDefinition = simObjectController.getSimObjectManagerDefinition();
             XmlTextWriter fileWriter = new XmlTextWriter(filename, Encoding.Default);
             fileWriter.Formatting = Formatting.Indented;
             xmlSaver.saveObject(scenePackage, fileWriter);
@@ -494,7 +495,7 @@ namespace Anomaly
             sceneController.destroyScene();
             sceneController.setSceneDefinition(scenePackage.SceneDefinition);
             resourceController.setResources(scenePackage.ResourceManager);
-            //simObjectController.setSceneManagerDefintion(scenePackage.SimObjectManagerDefinition);
+            simObjectController.setSceneManagerDefintion(scenePackage.SimObjectManagerDefinition);
             sceneController.createScene();
         }
 

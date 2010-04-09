@@ -96,6 +96,7 @@
     <Compile Include="Controller\ResourceController.cs" />
     <Compile Include="Controller\SceneController.cs" />
     <Compile Include="Controller\ProjectManagement\Solution.cs" />
+    <Compile Include="Controller\SimObjectController.cs" />
     <Compile Include="GUI\AnomalyMain.cs">
       <SubType>Form</SubType>
     </Compile>

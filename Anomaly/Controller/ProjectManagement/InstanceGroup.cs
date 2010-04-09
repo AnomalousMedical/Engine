@@ -66,6 +66,27 @@ namespace Anomaly
             onInstanceFileRemoved(fileInterface);
         }
 
+        public void buildInstances(SimObjectManagerDefinition simObjectManager)
+        {
+            foreach (InstanceFileInterface instanceFileInterface in instanceFiles.Values)
+            {
+                Instance instance = instanceFileInterface.getFileObject();
+                if (instance != null)
+                {
+                    simObjectManager.addSimObject(instance.Definition);
+                }
+                else
+                {
+                    Log.Error("Could not create SimObject {0} in group {1}.", instance.Name, this.name);
+                }
+            }
+
+            foreach (InstanceGroup group in groups.Values)
+            {
+                group.buildInstances(simObjectManager);
+            }
+        }
+
         #region Properties
 
         public String Name
