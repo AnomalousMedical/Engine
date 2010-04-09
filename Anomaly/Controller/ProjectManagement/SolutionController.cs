@@ -28,29 +28,39 @@ namespace Anomaly
         void solutionPanel_InterfaceChosen(Editor.EditInterfaceViewEvent evt)
         {
             EditInterface editInterface = evt.EditInterface;
-            if (editInterface.hasEditableProperties() || editInterface.canAddRemoveProperties())
+            if (editInterface.hasEditableProperties())
             {
                 EditableFileInterface<Instance> instanceFile = editInterface.getEditableProperties().First() as EditableFileInterface<Instance>;
                 if (instanceFile != null)
                 {
-                    Instance instance = instanceFile.getFileObject();
-                    if (instance != null)
-                    {
-                        objectEditor.setEditInterface(instance.getEditInterface(), instance, instanceUpdatedByUI);
-                        currentInstanceFile = instanceFile;
-                    }
-                    else
-                    {
-                        Log.Error("Could not load instance {0}. File is invalid.", instanceFile.Filename);
-                    }
+                    showInstance(instanceFile);
                 }
                 else
                 {
                     objectEditor.setEditInterface(editInterface, null, null);
                 }
             }
+            else if (editInterface.canAddRemoveProperties())
+            {
+                objectEditor.setEditInterface(editInterface, null, null);
+            }
             else
             {
+                objectEditor.clearEditInterface();
+            }
+        }
+
+        private void showInstance(EditableFileInterface<Instance> instanceFile)
+        {
+            Instance instance = instanceFile.getFileObject();
+            if (instance != null)
+            {
+                objectEditor.setEditInterface(instance.getEditInterface(), instance, instanceUpdatedByUI);
+                currentInstanceFile = instanceFile;
+            }
+            else
+            {
+                Log.Error("Could not load instance {0}. File is invalid.", instanceFile.Filename);
                 objectEditor.clearEditInterface();
             }
         }
