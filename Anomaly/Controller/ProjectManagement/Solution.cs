@@ -27,9 +27,6 @@ namespace Anomaly
         private String emptySceneFile;
         private String globalResourcesFile;
 
-        private SimSceneDefinition sceneDefinition;
-        private ResourceManager globalResources;
-
         public Solution(String projectFileName)
         {
             name = Path.GetFileNameWithoutExtension(projectFileName);
@@ -46,34 +43,22 @@ namespace Anomaly
             emptySceneFile = Path.Combine(workingDirectory, solutionSection.EmptySceneFile);
             if (!File.Exists(emptySceneFile))
             {
-                sceneDefinition = new SimSceneDefinition();
-            }
-            else
-            {
-                using (XmlTextReader textReader = new XmlTextReader(emptySceneFile))
+                SimSceneDefinition sceneDefinition = new SimSceneDefinition();
+                using (XmlTextWriter textWriter = new XmlTextWriter(emptySceneFile, Encoding.Default))
                 {
-                    sceneDefinition = xmlSaver.restoreObject(textReader) as SimSceneDefinition;
-                }
-                if (sceneDefinition == null)
-                {
-                    throw new Exception(String.Format("Error reading empty scene definition from file {0}", emptySceneFile));
+                    textWriter.Formatting = Formatting.Indented;
+                    xmlSaver.saveObject(sceneDefinition, textWriter);
                 }
             }
 
             globalResourcesFile = Path.Combine(workingDirectory, solutionSection.GlobalResourceFile);
             if (!File.Exists(globalResourcesFile))
             {
-                globalResources = pluginManager.createEmptyResourceManager();
-            }
-            else
-            {
-                using (XmlTextReader textReader = new XmlTextReader(globalResourcesFile))
+                ResourceManager globalResources = pluginManager.createEmptyResourceManager();
+                using (XmlTextWriter textWriter = new XmlTextWriter(globalResourcesFile, Encoding.Default))
                 {
-                    globalResources = xmlSaver.restoreObject(textReader) as ResourceManager;
-                }
-                if (globalResources == null)
-                {
-                    throw new Exception(String.Format("Error reading global resources from file {0}", globalResourcesFile));
+                    textWriter.Formatting = Formatting.Indented;
+                    xmlSaver.saveObject(globalResources, textWriter);
                 }
             }
 
@@ -95,21 +80,6 @@ namespace Anomaly
         {
             projects.Remove(project.Name);
             onProjectRemoved(project);
-        }
-
-        public void save()
-        {
-            using (XmlTextWriter textWriter = new XmlTextWriter(emptySceneFile, Encoding.Default))
-            {
-                textWriter.Formatting = Formatting.Indented;
-                xmlSaver.saveObject(sceneDefinition, textWriter);
-            }
-
-            using (XmlTextWriter textWriter = new XmlTextWriter(globalResourcesFile, Encoding.Default))
-            {
-                textWriter.Formatting = Formatting.Indented;
-                xmlSaver.saveObject(globalResources, textWriter);
-            }
         }
 
         public PluginSection PluginSection
@@ -144,6 +114,9 @@ namespace Anomaly
         private EditInterfaceCommand destroyProject;
         private EditInterfaceManager<Project> projectInterfaceManager;
 
+        private EditableFileInterface<SimSceneDefinition> sceneFileInterface;
+        private EditableFileInterface<ResourceManager> resourceFileInterface;
+
         public EditInterface getEditInterface()
         {
             if (editInterface == null)
@@ -151,8 +124,11 @@ namespace Anomaly
                 editInterface = new EditInterface(name);
                 editInterface.IconReferenceTag = AnomalyIcons.Solution;
 
-                editInterface.addSubInterface(sceneDefinition.getEditInterface());
-                editInterface.addSubInterface(globalResources.getEditInterface());
+                sceneFileInterface = new EditableFileInterface<SimSceneDefinition>("Empty Scene", null, emptySceneFile);
+                resourceFileInterface = new EditableFileInterface<ResourceManager>("Global Resources", null, globalResourcesFile);
+
+                editInterface.addSubInterface(sceneFileInterface.getEditInterface());
+                editInterface.addSubInterface(resourceFileInterface.getEditInterface());
 
                 editInterface.addCommand(new EditInterfaceCommand("Create Project", createProjectCallback));
                 projectInterfaceManager = new EditInterfaceManager<Project>(editInterface);
