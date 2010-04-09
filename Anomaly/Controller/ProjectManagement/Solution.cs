@@ -114,8 +114,8 @@ namespace Anomaly
         private EditInterfaceCommand destroyProject;
         private EditInterfaceManager<Project> projectInterfaceManager;
 
-        private EditableFileInterface<SimSceneDefinition> sceneFileInterface;
-        private EditableFileInterface<ResourceManager> resourceFileInterface;
+        private SimSceneFileInterface sceneFileInterface;
+        private ResourceManagerFileInterface resourceFileInterface;
 
         public EditInterface getEditInterface()
         {
@@ -124,8 +124,8 @@ namespace Anomaly
                 editInterface = new EditInterface(name);
                 editInterface.IconReferenceTag = AnomalyIcons.Solution;
 
-                sceneFileInterface = new EditableFileInterface<SimSceneDefinition>("Empty Scene", null, emptySceneFile);
-                resourceFileInterface = new EditableFileInterface<ResourceManager>("Global Resources", null, globalResourcesFile);
+                sceneFileInterface = new SimSceneFileInterface("Empty Scene", null, emptySceneFile);
+                resourceFileInterface = new ResourceManagerFileInterface("Global Resources", null, globalResourcesFile);
 
                 editInterface.addSubInterface(sceneFileInterface.getEditInterface());
                 editInterface.addSubInterface(resourceFileInterface.getEditInterface());

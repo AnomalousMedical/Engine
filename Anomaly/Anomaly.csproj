@@ -80,9 +80,13 @@
     <Compile Include="Controller\FullSpeedUpdateListener.cs" />
     <Compile Include="Controller\InstanceBuilder\InstanceBuilder.cs" />
     <Compile Include="Controller\ProjectManagement\AnomalyTreeIcons.cs" />
-    <Compile Include="Controller\ProjectManagement\EditableFileInterface.cs" />
+    <Compile Include="Controller\ProjectManagement\ObjectPlaceholders\EditableFileInterface.cs" />
     <Compile Include="Controller\ProjectManagement\Instance.cs" />
     <Compile Include="Controller\ProjectManagement\InstanceWriter.cs" />
+    <Compile Include="Controller\ProjectManagement\ObjectPlaceholders\InstanceFileInterface.cs" />
+    <Compile Include="Controller\ProjectManagement\ObjectPlaceholders\ObjectPlaceholderInterface.cs" />
+    <Compile Include="Controller\ProjectManagement\ObjectPlaceholders\ResourceManagerFileInterface.cs" />
+    <Compile Include="Controller\ProjectManagement\ObjectPlaceholders\SimSceneFileInterface.cs" />
     <Compile Include="Controller\ProjectManagement\Project.cs" />
     <Compile Include="Controller\ProjectManagement\ProjectWriter.cs" />
     <Compile Include="Controller\ProjectManagement\SolutionController.cs" />

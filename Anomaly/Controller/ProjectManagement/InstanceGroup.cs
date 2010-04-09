@@ -160,7 +160,7 @@ namespace Anomaly
         {
             if (editInterface != null)
             {
-                EditableFileInterface<Instance> fileInterface = new EditableFileInterface<Instance>(instanceName, AnomalyIcons.Instance, InstanceWriter.Instance.getInstanceFileName(this, instanceName));
+                InstanceFileInterface fileInterface = new InstanceFileInterface(instanceName, AnomalyIcons.Instance, InstanceWriter.Instance.getInstanceFileName(this, instanceName));
                 EditInterface edit = fileInterface.getEditInterface();
                 edit.addCommand(destroySimObject);
                 edit.addCommand(duplicateSimObject);
@@ -216,7 +216,7 @@ namespace Anomaly
             bool accept = callback.getInputString("Enter a name.", out name, validateDuplicateSimObject);
             if (accept)
             {
-                EditableFileInterface<Instance> instanceFile = callback.getSelectedEditInterface().getEditableProperties().First() as EditableFileInterface<Instance>;
+                InstanceFileInterface instanceFile = callback.getSelectedEditInterface().getEditableProperties().First() as InstanceFileInterface;
                 SimObjectDefinition sourceObject = instanceFile.getFileObject().Definition;
                 SimObjectDefinition simObject = copySaver.copyObject(sourceObject) as SimObjectDefinition;
                 simObject.Name = name;
