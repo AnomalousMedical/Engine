@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Editor;
 using Engine.Editing;
+using Logging;
 
 namespace Anomaly
 {
@@ -12,6 +13,8 @@ namespace Anomaly
         private Solution solution;
         private SolutionPanel solutionPanel;
         private IObjectEditorGUI objectEditor;
+
+        private EditableFileInterface<Instance> currentInstanceFile;
 
         public SolutionController(Solution solution, SolutionPanel solutionPanel, IObjectEditorGUI objectEditor)
         {
@@ -27,11 +30,37 @@ namespace Anomaly
             EditInterface editInterface = evt.EditInterface;
             if (editInterface.hasEditableProperties() || editInterface.canAddRemoveProperties())
             {
-                objectEditor.setEditInterface(editInterface, null, null);
+                EditableFileInterface<Instance> instanceFile = editInterface.getEditableProperties().First() as EditableFileInterface<Instance>;
+                if (instanceFile != null)
+                {
+                    Instance instance = instanceFile.getFileObject();
+                    if (instance != null)
+                    {
+                        objectEditor.setEditInterface(instance.getEditInterface(), instance, instanceUpdatedByUI);
+                        currentInstanceFile = instanceFile;
+                    }
+                    else
+                    {
+                        Log.Error("Could not load instance {0}. File is invalid.", instanceFile.Filename);
+                    }
+                }
+                else
+                {
+                    objectEditor.setEditInterface(editInterface, null, null);
+                }
             }
             else
             {
                 objectEditor.clearEditInterface();
+            }
+        }
+
+        void instanceUpdatedByUI(EditInterface editInterface, object editingObject)
+        {
+            Instance instance = editingObject as Instance;
+            if (instance != null)
+            {
+                currentInstanceFile.saveObject(instance);
             }
         }
     }

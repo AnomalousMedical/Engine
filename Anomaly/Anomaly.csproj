@@ -80,6 +80,7 @@
     <Compile Include="Controller\FullSpeedUpdateListener.cs" />
     <Compile Include="Controller\InstanceBuilder\InstanceBuilder.cs" />
     <Compile Include="Controller\ProjectManagement\AnomalyTreeIcons.cs" />
+    <Compile Include="Controller\ProjectManagement\EditableFileInterface.cs" />
     <Compile Include="Controller\ProjectManagement\Instance.cs" />
     <Compile Include="Controller\ProjectManagement\InstanceWriter.cs" />
     <Compile Include="Controller\ProjectManagement\Project.cs" />

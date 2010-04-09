@@ -26,19 +26,21 @@ namespace Anomaly
         /// </summary>
         /// <param name="group">The group the template belongs to.</param>
         /// <param name="template">The template to save.</param>
-        public void saveInstance(InstanceGroup group, Instance instance)
+        public bool saveInstance(InstanceGroup group, Instance instance)
         {
             try
             {
-                String path = group.FullPath + Path.DirectorySeparatorChar + instance.Name + ".ins";
+                String path = getInstanceFileName(group, instance.Name);
                 XmlTextWriter textWriter = new XmlTextWriter(path, Encoding.Unicode);
                 textWriter.Formatting = Formatting.Indented;
                 xmlSaver.saveObject(instance, textWriter);
                 textWriter.Close();
+                return true;
             }
             catch (Exception e)
             {
                 Log.Default.sendMessage("Could not save instance {0} because of {1}.", LogLevel.Error, "Anomaly", instance.Name, e.Message);
+                return false;
             }
         }
 
@@ -57,17 +59,22 @@ namespace Anomaly
         /// </summary>
         /// <param name="group">The group the template belongs to.</param>
         /// <param name="template">The template to save.</param>
-        public void deleteInstance(InstanceGroup group, Instance instance)
+        public void deleteInstance(InstanceGroup group, String instanceName)
         {
             try
             {
-                String path = group.FullPath + Path.DirectorySeparatorChar + instance.Name + ".ins";
+                String path = getInstanceFileName(group, instanceName);
                 File.Delete(path);
             }
             catch (Exception e)
             {
-                Log.Default.sendMessage("Could not delete instance {0} because of {1}.", LogLevel.Error, "Anomaly", instance.Name, e.Message);
+                Log.Default.sendMessage("Could not delete instance {0} because of {1}.", LogLevel.Error, "Anomaly", instanceName, e.Message);
             }
+        }
+
+        public String getInstanceFileName(InstanceGroup group, String instanceName)
+        {
+            return group.FullPath + Path.DirectorySeparatorChar + instanceName + ".ins";
         }
 
         /// <summary>
@@ -128,36 +135,29 @@ namespace Anomaly
             String[] instances = Directory.GetFiles(path, "*.ins", SearchOption.TopDirectoryOnly);
             foreach (String instanceFile in instances)
             {
-                try
-                {
-                    XmlTextReader textReader = new XmlTextReader(Path.GetFullPath(instanceFile));
-                    Instance instance = (Instance)xmlSaver.restoreObject(textReader);
-                    textReader.Close();
-                    group.addExistingInstance(instance);
-                }
-                catch (Exception e)
-                {
-                    Log.Default.sendMessage("Could not load instance {0} because of {1}.", LogLevel.Error, "Editor", group.FullPath + Path.DirectorySeparatorChar + instanceFile, e.Message);
-                }
-            }
-
-            //Load legacy files
-            String[] templates = Directory.GetFiles(path, "*.tpl", SearchOption.TopDirectoryOnly);
-            foreach (String template in templates)
-            {
-                try
-                {
-                    XmlTextReader textReader = new XmlTextReader(Path.GetFullPath(template));
-                    SimObjectDefinition simObjectDef = (SimObjectDefinition)xmlSaver.restoreObject(textReader);
-                    textReader.Close();
-                    Instance instance = new Instance(simObjectDef.Name, simObjectDef);
-                    group.addExistingInstance(instance);
-                }
-                catch (Exception e)
-                {
-                    Log.Default.sendMessage("Could not load template {0} because of {1}.", LogLevel.Error, "Editor", group.FullPath + Path.DirectorySeparatorChar + template, e.Message);
-                }
+                group.addInstanceFile(Path.GetFileNameWithoutExtension(instanceFile));
             }
         }
     }
 }
+
+
+
+
+            ////Load legacy files
+            //String[] templates = Directory.GetFiles(path, "*.tpl", SearchOption.TopDirectoryOnly);
+            //foreach (String template in templates)
+            //{
+            //    try
+            //    {
+            //        XmlTextReader textReader = new XmlTextReader(Path.GetFullPath(template));
+            //        SimObjectDefinition simObjectDef = (SimObjectDefinition)xmlSaver.restoreObject(textReader);
+            //        textReader.Close();
+            //        Instance instance = new Instance(simObjectDef.Name, simObjectDef);
+            //        group.addExistingInstance(instance);
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        Log.Default.sendMessage("Could not load template {0} because of {1}.", LogLevel.Error, "Editor", group.FullPath + Path.DirectorySeparatorChar + template, e.Message);
+            //    }
+            //}

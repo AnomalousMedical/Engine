@@ -47,6 +47,11 @@ namespace Editor
 
         public void clearEditInterface()
         {
+            if (currentCommitCallback != null)
+            {
+                currentCommitCallback.Invoke(currentEditInterface, currentEditingObject);
+            }
+
             editInterfaceView.clearEditInterface();
             propertiesTable.showEditableProperties(null);
             this.Text = "Properties";
