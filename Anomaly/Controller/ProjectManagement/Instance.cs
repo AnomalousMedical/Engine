@@ -27,6 +27,7 @@ namespace Anomaly
         public Instance(String name, SimObjectDefinition definition)
         {
             this.name = name;
+            this.positionKey = name;
             simObject = definition;
         }
 
