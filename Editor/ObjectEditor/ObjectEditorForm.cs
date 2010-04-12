@@ -28,14 +28,14 @@ namespace Editor
             }
         }
 
-        public void setEditInterface(EditInterface editInterface, object editingObject, ObjectEditorGUIEvent CommitObjectChangesCallback)
+        public void setEditInterface(EditInterface editInterface, object editingObject, ObjectEditorGUIEvent FieldChangedCallback, ObjectEditorGUIEvent EditingCompletedCallback)
         {
             objectEditorPanel.setEditInterface(editInterface);
             this.ShowDialog();
             objectEditorPanel.clearEditInterface();
-            if (CommitObjectChangesCallback != null)
+            if (EditingCompletedCallback != null)
             {
-                CommitObjectChangesCallback.Invoke(editInterface, editingObject);
+                EditingCompletedCallback.Invoke(editInterface, editingObject);
             }
         }
 

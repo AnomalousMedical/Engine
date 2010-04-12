@@ -40,11 +40,16 @@ namespace Anomaly
             }
         }
 
-        public override void saveObject(Object obj)
+        public override void uiFieldUpdateCallback(EditInterface editInterface, object editingObject)
+        {
+            
+        }
+
+        public override void uiEditingCompletedCallback(EditInterface editInterface, object editingObject)
         {
             if (!Deleted)
             {
-                T fileObj = obj as T;
+                T fileObj = editingObject as T;
                 if (fileObj != null)
                 {
                     using (XmlTextWriter textWriter = new XmlTextWriter(filename, Encoding.Default))
@@ -55,7 +60,7 @@ namespace Anomaly
                 }
                 else
                 {
-                    throw new Exception(String.Format("Cannot save object {0} because it is not of type {1}", obj.ToString(), typeof(T).ToString()));
+                    throw new Exception(String.Format("Cannot save object {0} because it is not of type {1}", editingObject.ToString(), typeof(T).ToString()));
                 }
             }
         }

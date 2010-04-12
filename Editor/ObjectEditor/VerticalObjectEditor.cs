@@ -15,24 +15,26 @@ namespace Editor
     {
         private object currentEditingObject;
         private EditInterface currentEditInterface;
-        private ObjectEditorGUIEvent currentCommitCallback;
+        private ObjectEditorGUIEvent currentEditingCompleteCommitCallback;
+        private ObjectEditorGUIEvent currentFieldChangedCallback;
 
         public VerticalObjectEditor()
         {
             InitializeComponent();
             editInterfaceView.OnEditInterfaceSelectionChanging += new EditInterfaceSelectionChanging(editInterfaceView_OnEditInterfaceSelectionChanging);
             editInterfaceView.OnEditInterfaceSelectionChanged += new EditInterfaceSelectionChanged(editInterfaceView_OnEditInterfaceSelectionChanged);
+            propertiesTable.EditablePropertyValueChanged += new EditablePropertyValueChanged(propertiesTable_EditablePropertyValueChanged);
         }
 
         /// <summary>
         /// Set the current EditInterface shown on this panel.
         /// </summary>
         /// <param name="editor">The editor to show.</param>
-        public void setEditInterface(EditInterface editInterface, object editingObject, ObjectEditorGUIEvent CommitObjectChangesCallback)
+        public void setEditInterface(EditInterface editInterface, object editingObject, ObjectEditorGUIEvent FieldChangedCallback, ObjectEditorGUIEvent EditingCompletedCallback)
         {
-            if (currentCommitCallback != null)
+            if (currentEditingCompleteCommitCallback != null)
             {
-                currentCommitCallback.Invoke(currentEditInterface, currentEditingObject);
+                currentEditingCompleteCommitCallback.Invoke(currentEditInterface, currentEditingObject);
             }
 
             editInterfaceView.clearEditInterface();
@@ -42,19 +44,21 @@ namespace Editor
 
             currentEditInterface = editInterface;
             currentEditingObject = editingObject;
-            currentCommitCallback = CommitObjectChangesCallback;
+            currentEditingCompleteCommitCallback = EditingCompletedCallback;
+            currentFieldChangedCallback = FieldChangedCallback;
         }
 
         public void clearEditInterface()
         {
-            if (currentCommitCallback != null)
+            if (currentEditingCompleteCommitCallback != null)
             {
-                currentCommitCallback.Invoke(currentEditInterface, currentEditingObject);
+                currentEditingCompleteCommitCallback.Invoke(currentEditInterface, currentEditingObject);
             }
 
-            currentCommitCallback = null;
+            currentEditingCompleteCommitCallback = null;
             currentEditInterface = null;
             currentEditingObject = null;
+            currentFieldChangedCallback = null;
 
             editInterfaceView.clearEditInterface();
             propertiesTable.showEditableProperties(null);
@@ -81,6 +85,14 @@ namespace Editor
             {
                 evt.Cancel = true;
                 MessageBox.Show(this, error, "Invalid Settings", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        void propertiesTable_EditablePropertyValueChanged(EditableProperty var)
+        {
+            if (currentFieldChangedCallback != null)
+            {
+                currentFieldChangedCallback.Invoke(currentEditInterface, currentEditingObject);
             }
         }
     }

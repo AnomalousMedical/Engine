@@ -11,11 +11,19 @@ using Engine.Attributes;
 
 namespace Editor
 {
+    public delegate void EditablePropertyValueChanged(EditableProperty var);
+
     public partial class PropertiesTable : UserControl, EditUICallback
     {
         static OpenFileDialog openDialog = new OpenFileDialog();
         static SaveFileDialog saveDialog = new SaveFileDialog();
         static FolderBrowserDialog folderBrowser = new FolderBrowserDialog();
+
+        #region Events
+
+        public event EditablePropertyValueChanged EditablePropertyValueChanged;
+
+        #endregion
 
         #region Fields
 
@@ -155,6 +163,10 @@ namespace Editor
             {
                 var.setValueStr(e.ColumnIndex, propGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].EditedFormattedValue.ToString());
                 changesMade = true;
+                if (EditablePropertyValueChanged != null)
+                {
+                    EditablePropertyValueChanged.Invoke(var);
+                }
                 updateData();
             }
         }

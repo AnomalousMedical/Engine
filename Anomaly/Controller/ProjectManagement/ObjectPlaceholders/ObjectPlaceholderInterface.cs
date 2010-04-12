@@ -21,7 +21,9 @@ namespace Anomaly
 
         public abstract EditInterface getObjectEditInterface(Object obj);
 
-        public abstract void saveObject(Object obj);
+        public abstract void uiFieldUpdateCallback(EditInterface editInterface, object editingObject);
+
+        public abstract void uiEditingCompletedCallback(EditInterface editInterface, object editingObject);
 
         public EditInterface getEditInterface()
         {

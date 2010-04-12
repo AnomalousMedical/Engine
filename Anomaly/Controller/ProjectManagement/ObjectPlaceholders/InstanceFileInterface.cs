@@ -30,12 +30,23 @@ namespace Anomaly
             }
         }
 
-        public override void saveObject(object obj)
+        public override void uiEditingCompletedCallback(EditInterface editInterface, object editingObject)
         {
-            base.saveObject(obj);
+            base.uiEditingCompletedCallback(editInterface, editingObject);
             if (simObjectController != null)
             {
-                Instance instance = obj as Instance;
+                Instance instance = editingObject as Instance;
+                simObjectController.destroySimObject(instance.Name);
+                simObjectController.createSimObject(instance.Definition);
+            }
+        }
+
+        public override void uiFieldUpdateCallback(EditInterface editInterface, object editingObject)
+        {
+            base.uiFieldUpdateCallback(editInterface, editingObject);
+            if (simObjectController != null)
+            {
+                Instance instance = editingObject as Instance;
                 simObjectController.destroySimObject(instance.Name);
                 simObjectController.createSimObject(instance.Definition);
             }

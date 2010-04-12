@@ -271,7 +271,7 @@ namespace Anomaly
         /// <param name="editInterface">The EditInterface to display on the form.</param>
         public void showObjectEditor(EditInterface editInterface)
         {
-            mainObjectEditor.setEditInterface(editInterface, null, null);
+            mainObjectEditor.setEditInterface(editInterface, null, null, null);
         }
 
         public void showDockContent(DockContent content)

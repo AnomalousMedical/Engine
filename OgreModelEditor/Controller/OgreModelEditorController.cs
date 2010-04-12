@@ -244,7 +244,7 @@ namespace OgreModelEditor
 
         public void editExternalResources()
         {
-            objectEditor.setEditInterface(resourceManager.getEditInterface(), null, null);
+            objectEditor.setEditInterface(resourceManager.getEditInterface(), null, null, null);
             pluginManager.PrimaryResourceManager.changeResourcesToMatch(resourceManager);
             pluginManager.PrimaryResourceManager.forceResourceRefresh();
             XmlTextWriter textWriter = new XmlTextWriter(OgreModelEditorConfig.DocRoot + "/resources.xml", Encoding.Default);
