@@ -89,6 +89,8 @@ namespace Anomaly
             if (simObjectManager != null)
             {
                 simObjectManager.Dispose();
+                simObjectManager = null;
+                subScene = null;
             }
         }
 

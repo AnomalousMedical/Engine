@@ -26,6 +26,10 @@ namespace Anomaly
         private SolutionSection solutionSection;
         private ResourceManagerFileInterface resourceFileInterface;
 
+        private Project currentProject;
+
+        private AnomalyController anomalyController;
+
         public Solution(String solutionFileName)
         {
             name = Path.GetFileNameWithoutExtension(solutionFileName);
@@ -37,12 +41,13 @@ namespace Anomaly
             solutionSection = new SolutionSection(backingFile);
         }
 
-        public void loadExternalFiles(PluginManager pluginManager)
+        public void loadExternalFiles(AnomalyController controller)
         {
+            this.anomalyController = controller;
             String globalResourcesFile = Path.Combine(workingDirectory, solutionSection.GlobalResourceFile);
             if (!File.Exists(globalResourcesFile))
             {
-                ResourceManager globalResources = pluginManager.createEmptyResourceManager();
+                ResourceManager globalResources = controller.PluginManager.createEmptyResourceManager();
                 using (XmlTextWriter textWriter = new XmlTextWriter(globalResourcesFile, Encoding.Default))
                 {
                     textWriter.Formatting = Formatting.Indented;
@@ -56,6 +61,10 @@ namespace Anomaly
             {
                 Project project = new Project(Path.GetFileNameWithoutExtension(projectFile), Path.GetDirectoryName(projectFile));
                 addProject(project);
+                if (currentProject == null)
+                {
+                    currentProject = project;
+                }
             }
         }
 
@@ -72,25 +81,23 @@ namespace Anomaly
             onProjectRemoved(project);
         }
 
-        public void createCurrentProject(AnomalyController controller)
+        public void createCurrentProject()
         {
-            controller.ResourceController.clearResources();
-            controller.ResourceController.addResources(resourceFileInterface.getFileObject());
-            if (projects.Count > 0)
+            anomalyController.ResourceController.clearResources();
+            anomalyController.ResourceController.addResources(resourceFileInterface.getFileObject());
+            if (currentProject != null)
             {
-                Project project = projects.Values.First();
-
-                project.buildScene(controller);
+                currentProject.buildScene(anomalyController);
             }
             else //Create an empty scene
             {
                 SimSceneDefinition sceneDefinition = new SimSceneDefinition();
-                controller.SceneController.setSceneDefinition(sceneDefinition);
+                anomalyController.SceneController.setSceneDefinition(sceneDefinition);
 
                 SimObjectManagerDefinition simObjectManager = new SimObjectManagerDefinition();
-                controller.SimObjectController.setSceneManagerDefintion(simObjectManager);
+                anomalyController.SimObjectController.setSceneManagerDefintion(simObjectManager);
             }
-            controller.ResourceController.applyToScene();
+            anomalyController.ResourceController.applyToScene();
         }
 
         public void save()
@@ -132,6 +139,7 @@ namespace Anomaly
         private EditInterface editInterface;
 
         private EditInterfaceCommand destroyProject;
+        private EditInterfaceCommand setActiveProject;
         private EditInterfaceManager<Project> projectInterfaceManager;
 
         public EditInterface getEditInterface()
@@ -146,6 +154,7 @@ namespace Anomaly
                 editInterface.addCommand(new EditInterfaceCommand("Create Project", createProjectCallback));
                 projectInterfaceManager = new EditInterfaceManager<Project>(editInterface);
                 destroyProject = new EditInterfaceCommand("Remove", destroyProjectCallback);
+                setActiveProject = new EditInterfaceCommand("Set Active", setActiveProjectCallback);
                 foreach (Project project in projects.Values)
                 {
                     onProjectAdded(project);
@@ -189,11 +198,19 @@ namespace Anomaly
             removeProject(projectInterfaceManager.resolveSourceObject(callback.getSelectedEditInterface()));
         }
 
+        private void setActiveProjectCallback(EditUICallback callback, EditInterfaceCommand command)
+        {
+            currentProject.unloadScene(anomalyController);
+            currentProject = projectInterfaceManager.resolveSourceObject(callback.getSelectedEditInterface());
+            anomalyController.createNewScene();
+        }
+
         private void onProjectAdded(Project project)
         {
             if (editInterface != null)
             {
                 EditInterface edit = project.getEditInterface();
+                edit.addCommand(setActiveProject);
                 edit.addCommand(destroyProject);
                 projectInterfaceManager.addSubInterface(project, edit);
             }

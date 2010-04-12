@@ -170,10 +170,13 @@ namespace Anomaly
 
         public void editPosition(ref Vector3 translation, ref Quaternion rotation)
         {
-            SimObjectBase simObj = simObjectController.getSimObject(Name) as SimObjectBase;
-            if (simObj != null)
+            if (simObjectController != null)
             {
-                simObj.updatePosition(ref translation, ref rotation, null);
+                SimObjectBase simObj = simObjectController.getSimObject(Name) as SimObjectBase;
+                if (simObj != null)
+                {
+                    simObj.updatePosition(ref translation, ref rotation, null);
+                }
             }
             instance.Translation = translation;
             instance.Definition.Rotation = rotation;
@@ -182,10 +185,13 @@ namespace Anomaly
 
         public void editTranslation(ref Vector3 translation)
         {
-            SimObjectBase simObj = simObjectController.getSimObject(Name) as SimObjectBase;
-            if (simObj != null)
+            if (simObjectController != null)
             {
-                simObj.updateTranslation(ref translation, null);
+                SimObjectBase simObj = simObjectController.getSimObject(Name) as SimObjectBase;
+                if (simObj != null)
+                {
+                    simObj.updateTranslation(ref translation, null);
+                }
             }
             instance.Translation = translation;
             modified = true;
@@ -193,10 +199,13 @@ namespace Anomaly
 
         public void editRotation(ref Quaternion rotation)
         {
-            SimObjectBase simObj = simObjectController.getSimObject(Name) as SimObjectBase;
-            if (simObj != null)
+            if (simObjectController != null)
             {
-                simObj.updateRotation(ref rotation, null);
+                SimObjectBase simObj = simObjectController.getSimObject(Name) as SimObjectBase;
+                if (simObj != null)
+                {
+                    simObj.updateRotation(ref rotation, null);
+                }
             }
             instance.Definition.Rotation = rotation;
             modified = true;

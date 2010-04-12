@@ -122,7 +122,7 @@ namespace Anomaly
             //Load the config file and set the resource root up.
             VirtualFileSystem.Instance.addArchive(solution.ResourceSection.ResourceRoot);
 
-            solution.loadExternalFiles(pluginManager);
+            solution.loadExternalFiles(this);
 
             //Create the main form
             AnomalyTreeIcons.createIcons();
@@ -498,7 +498,7 @@ namespace Anomaly
         private void buildScene()
         {
             sceneController.destroyScene();
-            solution.createCurrentProject(this);
+            solution.createCurrentProject();
             sceneController.createScene();
         }
 
