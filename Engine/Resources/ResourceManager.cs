@@ -195,6 +195,7 @@ namespace Engine.Resources
             if (editInterface == null)
             {
                 editInterface = new EditInterface("Resource Manager");
+                editInterface.IconReferenceTag = EngineIcons.Resources;
                 foreach (SubsystemResources subsystem in subsystemResources.Values)
                 {
                     editInterface.addSubInterface(subsystem.getEditInterface());

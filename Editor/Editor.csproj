@@ -307,6 +307,15 @@
   <ItemGroup>
     <None Include="Resources\Behavior.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Resource.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Scene.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Camera.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

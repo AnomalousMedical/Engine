@@ -26,7 +26,9 @@ namespace Engine.Editing
         RigidBody,
         Joint,
         SimObject,
-        Behavior
+        Behavior,
+        Scene,
+        Resources
     }
 
     /// <summary>

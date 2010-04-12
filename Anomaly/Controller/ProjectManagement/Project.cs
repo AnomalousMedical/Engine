@@ -60,8 +60,8 @@ namespace Anomaly
                 }
             }
 
-            resourceFileInterface = new ResourceManagerFileInterface("Resources", null, resourcesFile);
-            sceneFileInterface = new SimSceneFileInterface("Scene Definition", null, sceneDefinitionFile);
+            resourceFileInterface = new ResourceManagerFileInterface("Resources", EngineIcons.Resources, resourcesFile);
+            sceneFileInterface = new SimSceneFileInterface("Scene Definition", EngineIcons.Scene, sceneDefinitionFile);
         }
 
         public void buildScene(AnomalyController anomalyController)

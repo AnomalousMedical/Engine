@@ -67,6 +67,13 @@ namespace Editor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Camera {
+            get {
+                object obj = ResourceManager.GetObject("Camera", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Entity {
             get {
                 object obj = ResourceManager.GetObject("Entity", resourceCulture);
@@ -116,9 +123,23 @@ namespace Editor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Resource {
+            get {
+                object obj = ResourceManager.GetObject("Resource", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap RigidBody {
             get {
                 object obj = ResourceManager.GetObject("RigidBody", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Scene {
+            get {
+                object obj = ResourceManager.GetObject("Scene", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

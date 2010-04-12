@@ -153,6 +153,7 @@ namespace Engine.ObjectManagement
             if (editInterface == null)
             {
                 editInterface = ReflectedEditInterface.createEditInterface(this, ReflectedEditInterface.DefaultScanner, "Sim Scene", validate);
+                editInterface.IconReferenceTag = EngineIcons.Scene;
         
                 simElementEditor = new EditInterface("Sim Element Managers");
                 elementManagerInterfaces = new EditInterfaceManager<SimElementManagerDefinition>(simElementEditor);

@@ -55,7 +55,7 @@ namespace Anomaly
                 }
             }
 
-            resourceFileInterface = new ResourceManagerFileInterface("Global Resources", null, globalResourcesFile);
+            resourceFileInterface = new ResourceManagerFileInterface("Global Resources", EngineIcons.Resources, globalResourcesFile);
 
             foreach (String projectFile in Directory.GetFiles(workingDirectory, "*.prj", SearchOption.AllDirectories))
             {

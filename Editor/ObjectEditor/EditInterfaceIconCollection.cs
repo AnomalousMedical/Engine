@@ -30,11 +30,12 @@ namespace Editor
             addIcon(EngineIcons.Light, Resources.Light);
             addIcon(EngineIcons.Node, Resources.Node);
             addIcon(EngineIcons.RigidBody, Resources.RigidBody);
-            //addIcon(EngineIcons.Camera, Resources.Camera);
+            addIcon(EngineIcons.Camera, Resources.Camera);
             addIcon(EngineIcons.ManualObject, Resources.ManualObject);
-            //addIcon(EngineIcons.Scene, Resources.Scene);
+            addIcon(EngineIcons.Scene, Resources.Scene);
             addIcon(EngineIcons.SimObject, Resources.SimObject);
             addIcon(EngineIcons.Behavior, Resources.Behavior);
+            addIcon(EngineIcons.Resources, Resources.Resource);
         }
 
         static public void addIcon(Object key, Image image)
