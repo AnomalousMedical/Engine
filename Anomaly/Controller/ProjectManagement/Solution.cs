@@ -24,7 +24,7 @@ namespace Anomaly
         private ConfigFile backingFile;
         private String workingDirectory;
         private SolutionSection solutionSection;
-        private String globalResourcesFile;
+        private ResourceManagerFileInterface resourceFileInterface;
 
         public Solution(String solutionFileName)
         {
@@ -39,7 +39,7 @@ namespace Anomaly
 
         public void loadExternalFiles(PluginManager pluginManager)
         {
-            globalResourcesFile = Path.Combine(workingDirectory, solutionSection.GlobalResourceFile);
+            String globalResourcesFile = Path.Combine(workingDirectory, solutionSection.GlobalResourceFile);
             if (!File.Exists(globalResourcesFile))
             {
                 ResourceManager globalResources = pluginManager.createEmptyResourceManager();
@@ -49,6 +49,8 @@ namespace Anomaly
                     xmlSaver.saveObject(globalResources, textWriter);
                 }
             }
+
+            resourceFileInterface = new ResourceManagerFileInterface("Global Resources", null, globalResourcesFile);
 
             foreach (String projectFile in Directory.GetFiles(workingDirectory, "*.prj", SearchOption.AllDirectories))
             {
@@ -73,7 +75,7 @@ namespace Anomaly
         public void createCurrentProject(AnomalyController controller)
         {
             controller.ResourceController.clearResources();
-            controller.ResourceController.addResources(loadResourceManager());
+            controller.ResourceController.addResources(resourceFileInterface.getFileObject());
             if (projects.Count > 0)
             {
                 Project project = projects.Values.First();
@@ -96,14 +98,6 @@ namespace Anomaly
             foreach (Project project in projects.Values)
             {
                 project.save();
-            }
-        }
-
-        private ResourceManager loadResourceManager()
-        {
-            using (XmlTextReader textReader = new XmlTextReader(globalResourcesFile))
-            {
-                return xmlSaver.restoreObject(textReader) as ResourceManager;
             }
         }
 
@@ -139,16 +133,12 @@ namespace Anomaly
         private EditInterfaceCommand destroyProject;
         private EditInterfaceManager<Project> projectInterfaceManager;
 
-        private ResourceManagerFileInterface resourceFileInterface;
-
         public EditInterface getEditInterface()
         {
             if (editInterface == null)
             {
                 editInterface = new EditInterface(name);
                 editInterface.IconReferenceTag = AnomalyIcons.Solution;
-
-                resourceFileInterface = new ResourceManagerFileInterface("Global Resources", null, globalResourcesFile);
 
                 editInterface.addSubInterface(resourceFileInterface.getEditInterface());
 

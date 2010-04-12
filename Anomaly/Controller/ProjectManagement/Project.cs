@@ -19,9 +19,9 @@ namespace Anomaly
         private String name;
         private InstanceGroup instanceGroup;
         private String workingDirectory;
-        private String resourcesFile;
-        private String sceneDefinitionFile;
         private bool built = false;
+        private ResourceManagerFileInterface resourceFileInterface;
+        private SimSceneFileInterface sceneFileInterface;
 
         public Project(String name, String workingDirectory)
         {
@@ -38,7 +38,7 @@ namespace Anomaly
                 InstanceWriter.Instance.scanForFiles(instanceGroup);
             }
 
-            resourcesFile = Path.Combine(workingDirectory, "Resources.xml");
+            String resourcesFile = Path.Combine(workingDirectory, "Resources.xml");
             if (!File.Exists(resourcesFile))
             {
                 ResourceManager resources = PluginManager.Instance.createEmptyResourceManager();
@@ -49,7 +49,7 @@ namespace Anomaly
                 }
             }
 
-            sceneDefinitionFile = Path.Combine(workingDirectory, "SceneDefinition.xml");
+            String sceneDefinitionFile = Path.Combine(workingDirectory, "SceneDefinition.xml");
             if (!File.Exists(sceneDefinitionFile))
             {
                 SimSceneDefinition sceneDefinition = new SimSceneDefinition();
@@ -59,14 +59,17 @@ namespace Anomaly
                     xmlSaver.saveObject(sceneDefinition, textWriter);
                 }
             }
+
+            resourceFileInterface = new ResourceManagerFileInterface("Resources", null, resourcesFile);
+            sceneFileInterface = new SimSceneFileInterface("Scene Definition", null, sceneDefinitionFile);
         }
 
         public void buildScene(AnomalyController anomalyController)
         {
             built = true;
 
-            anomalyController.ResourceController.addResources(loadResourceManager());
-            anomalyController.SceneController.setSceneDefinition(loadSceneDefinition());
+            anomalyController.ResourceController.addResources(resourceFileInterface.getFileObject());
+            anomalyController.SceneController.setSceneDefinition(sceneFileInterface.getFileObject());
 
             SimObjectManagerDefinition simObjectManager = new SimObjectManagerDefinition();
             anomalyController.SimObjectController.setSceneManagerDefintion(simObjectManager);
@@ -82,22 +85,6 @@ namespace Anomaly
         public void save()
         {
             instanceGroup.save();
-        }
-
-        private SimSceneDefinition loadSceneDefinition()
-        {
-            using (XmlTextReader textReader = new XmlTextReader(sceneDefinitionFile))
-            {
-                return xmlSaver.restoreObject(textReader) as SimSceneDefinition;
-            }
-        }
-
-        private ResourceManager loadResourceManager()
-        {
-            using (XmlTextReader textReader = new XmlTextReader(resourcesFile))
-            {
-                return xmlSaver.restoreObject(textReader) as ResourceManager;
-            }
         }
 
         public String Name
@@ -120,8 +107,6 @@ namespace Anomaly
     public partial class Project
     {
         private EditInterface editInterface;
-        private ResourceManagerFileInterface resourceFileInterface;
-        private SimSceneFileInterface sceneFileInterface;
 
         public EditInterface getEditInterface()
         {
@@ -129,9 +114,6 @@ namespace Anomaly
             {
                 editInterface = new EditInterface(name);
                 editInterface.IconReferenceTag = AnomalyIcons.Project;
-
-                resourceFileInterface = new ResourceManagerFileInterface("Resources", null, resourcesFile);
-                sceneFileInterface = new SimSceneFileInterface("Scene Definition", null, sceneDefinitionFile);
 
                 editInterface.addSubInterface(resourceFileInterface.getEditInterface());
                 editInterface.addSubInterface(sceneFileInterface.getEditInterface());
