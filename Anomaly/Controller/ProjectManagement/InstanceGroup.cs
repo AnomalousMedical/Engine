@@ -13,7 +13,7 @@ using System.Xml;
 
 namespace Anomaly
 {
-    class InstanceGroup
+    class InstanceGroup : IDisposable
     {
         private static CopySaver copySaver = new CopySaver();
 
@@ -21,6 +21,8 @@ namespace Anomaly
         private Dictionary<String, InstanceGroup> groups = new Dictionary<string, InstanceGroup>();
         private Dictionary<String, InstanceFileInterface> instanceFiles = new Dictionary<String, InstanceFileInterface>();
         private String path;
+        private bool instancesBuilt = false; //True if instances for this group are currently in the scene.
+        private SimObjectController simObjectController;
 
         public InstanceGroup(String name, String path)
         {
@@ -28,10 +30,27 @@ namespace Anomaly
             this.path = path;
         }
 
+        public void Dispose()
+        {
+            foreach (InstanceGroup group in groups.Values)
+            {
+                group.Dispose();
+            }
+
+            foreach (InstanceFileInterface fileInterface in instanceFiles.Values)
+            {
+                fileInterface.Dispose();
+            }
+        }
+
         public void addGroup(InstanceGroup group)
         {
             groups.Add(group.name, group);
             InstanceWriter.Instance.addInstanceGroup(group);
+            if (instancesBuilt)
+            {
+                group.buildInstances(simObjectController);
+            }
             if (editInterface != null)
             {
                 addGroupSubInterface(group);
@@ -41,6 +60,7 @@ namespace Anomaly
         public void removeGroup(InstanceGroup group)
         {
             groups.Remove(group.name);
+            group.Dispose();
             InstanceWriter.Instance.removeInstanceGroup(group);
             if (editInterface != null)
             {
@@ -55,6 +75,10 @@ namespace Anomaly
         public void addInstanceFile(String instanceName)
         {
             InstanceFileInterface fileInterface = new InstanceFileInterface(instanceName, AnomalyIcons.Instance, InstanceWriter.Instance.getInstanceFileName(this, instanceName));
+            if (instancesBuilt)
+            {
+                fileInterface.createInstance(simObjectController);
+            }
             instanceFiles.Add(instanceName, fileInterface);
             onInstanceFileAdded(fileInterface);
         }
@@ -62,12 +86,16 @@ namespace Anomaly
         public void removeInstanceFile(String instanceName)
         {
             InstanceFileInterface fileInterface = instanceFiles[instanceName];
+            fileInterface.Dispose();
             instanceFiles.Remove(instanceName);
             onInstanceFileRemoved(fileInterface);
         }
 
         public void buildInstances(SimObjectController simObjectController)
         {
+            this.simObjectController = simObjectController;
+            this.instancesBuilt = true;
+
             foreach (InstanceFileInterface instanceFileInterface in instanceFiles.Values)
             {
                 instanceFileInterface.createInstance(simObjectController);

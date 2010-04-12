@@ -7,14 +7,19 @@ using Logging;
 
 namespace Anomaly
 {
-    public class InstanceFileInterface : EditableFileInterface<Instance>
+    public class InstanceFileInterface : EditableFileInterface<Instance>, IDisposable
     {
         private SimObjectController simObjectController;
 
         public InstanceFileInterface(String name, Object iconReferenceTag, String filename)
             :base(name, iconReferenceTag, filename)
         {
-            
+
+        }
+
+        public void Dispose()
+        {
+            destroyInstance(simObjectController);
         }
 
         public override EditInterface getObjectEditInterface(object obj)
@@ -64,6 +69,15 @@ namespace Anomaly
             else
             {
                 Log.Error("Could not create SimObject {0} because the instance definition could not be loaded.", instance.Name);
+            }
+        }
+
+        public void destroyInstance(SimObjectController simObjectController)
+        {
+            if (this.simObjectController != null)
+            {
+                this.simObjectController = null;
+                simObjectController.destroySimObject(Name);
             }
         }
     }
