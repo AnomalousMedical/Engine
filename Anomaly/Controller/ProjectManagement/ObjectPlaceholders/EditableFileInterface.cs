@@ -19,53 +19,52 @@ namespace Anomaly
         private static XmlSaver xmlSaver = new XmlSaver();
 
         private string filename;
+        private T fileObj;
+        private bool modified = false;
 
         public EditableFileInterface(String name, Object iconReferenceTag, String filename)
             :base(name, iconReferenceTag)
         {
             this.filename = filename;
-            Deleted = false;
+
+            using (XmlTextReader textReader = new XmlTextReader(filename))
+            {
+                fileObj = xmlSaver.restoreObject(textReader) as T;
+            }
+        }
+
+        public void save()
+        {
+            if (modified)
+            {
+                using (XmlTextWriter textWriter = new XmlTextWriter(filename, Encoding.Default))
+                {
+                    textWriter.Formatting = Formatting.Indented;
+                    xmlSaver.saveObject(fileObj, textWriter);
+                }
+                modified = false;
+            }
         }
 
         public override object getObject()
         {
-            return getFileObject();
+            return fileObj;
         }
 
         public T getFileObject()
         {
-            using (XmlTextReader textReader = new XmlTextReader(filename))
-            {
-                return xmlSaver.restoreObject(textReader) as T;
-            }
+            return fileObj;
         }
 
         public override void uiFieldUpdateCallback(EditInterface editInterface, object editingObject)
         {
-            
+            modified = true;
         }
 
         public override void uiEditingCompletedCallback(EditInterface editInterface, object editingObject)
         {
-            if (!Deleted)
-            {
-                T fileObj = editingObject as T;
-                if (fileObj != null)
-                {
-                    using (XmlTextWriter textWriter = new XmlTextWriter(filename, Encoding.Default))
-                    {
-                        textWriter.Formatting = Formatting.Indented;
-                        xmlSaver.saveObject(fileObj, textWriter);
-                    }
-                }
-                else
-                {
-                    throw new Exception(String.Format("Cannot save object {0} because it is not of type {1}", editingObject.ToString(), typeof(T).ToString()));
-                }
-            }
+            
         }
-
-        public bool Deleted { get; set; }
 
         public String Filename
         {

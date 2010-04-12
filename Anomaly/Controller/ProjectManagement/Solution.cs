@@ -95,6 +95,7 @@ namespace Anomaly
 
         public void save()
         {
+            resourceFileInterface.save();
             foreach (Project project in projects.Values)
             {
                 project.save();

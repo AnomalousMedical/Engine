@@ -84,6 +84,8 @@ namespace Anomaly
 
         public void save()
         {
+            sceneFileInterface.save();
+            resourceFileInterface.save();
             instanceGroup.save();
         }
 
