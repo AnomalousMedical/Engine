@@ -21,7 +21,7 @@ namespace Anomaly
         private Dictionary<String, InstanceGroup> groups = new Dictionary<string, InstanceGroup>();
         private Dictionary<String, InstanceFileInterface> instanceFiles = new Dictionary<String, InstanceFileInterface>();
         private String path;
-        private bool instancesBuilt = false; //True if instances for this group are currently in the scene.
+        private bool instancesDisplayed = false; //True if instances for this group are currently in the scene.
         private SimObjectController simObjectController;
 
         public InstanceGroup(String name, String path)
@@ -47,7 +47,7 @@ namespace Anomaly
         {
             groups.Add(group.name, group);
             InstanceWriter.Instance.addInstanceGroup(group);
-            if (instancesBuilt)
+            if (instancesDisplayed)
             {
                 group.buildInstances(simObjectController);
             }
@@ -75,7 +75,7 @@ namespace Anomaly
         public void addInstanceFile(String instanceName)
         {
             InstanceFileInterface fileInterface = new InstanceFileInterface(instanceName, AnomalyIcons.Instance, InstanceWriter.Instance.getInstanceFileName(this, instanceName));
-            if (instancesBuilt)
+            if (instancesDisplayed)
             {
                 fileInterface.createInstance(simObjectController);
             }
@@ -94,7 +94,7 @@ namespace Anomaly
         public void buildInstances(SimObjectController simObjectController)
         {
             this.simObjectController = simObjectController;
-            this.instancesBuilt = true;
+            this.instancesDisplayed = true;
 
             foreach (InstanceFileInterface instanceFileInterface in instanceFiles.Values)
             {
@@ -110,7 +110,7 @@ namespace Anomaly
         public void destroyInstances(SimObjectController simObjectController)
         {
             this.simObjectController = null;
-            this.instancesBuilt = false;
+            this.instancesDisplayed = false;
 
             foreach (InstanceFileInterface instanceFileInterface in instanceFiles.Values)
             {

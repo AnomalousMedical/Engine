@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using Engine.Editing;
 using Logging;
+using Engine.ObjectManagement;
 
 namespace Anomaly
 {
     public class InstanceFileInterface : EditableFileInterface<Instance>, IDisposable
     {
         private SimObjectController simObjectController;
+        private bool showInstance = true;
 
         public InstanceFileInterface(String name, Object iconReferenceTag, String filename)
             :base(name, iconReferenceTag, filename)
@@ -27,7 +29,9 @@ namespace Anomaly
             Instance instance = obj as Instance;
             if (instance != null)
             {
-                return instance.getEditInterface();
+                EditInterface editInterface = instance.getEditInterface();
+                editInterface.addCommand(new EditInterfaceCommand("Toggle Display", toggleHidden));
+                return editInterface;
             }
             else
             {
@@ -38,23 +42,27 @@ namespace Anomaly
         public override void uiEditingCompletedCallback(EditInterface editInterface, object editingObject)
         {
             base.uiEditingCompletedCallback(editInterface, editingObject);
+            createSimObject(editingObject);
+        }
+
+        private void createSimObject(object editingObject)
+        {
             if (simObjectController != null)
             {
                 Instance instance = editingObject as Instance;
                 simObjectController.destroySimObject(instance.Name);
-                simObjectController.createSimObject(instance.Definition);
+                SimObject simObj = simObjectController.createSimObject(instance.Definition);
+                if (simObj != null && !showInstance)
+                {
+                    simObj.setEnabled(showInstance);
+                }
             }
         }
 
         public override void uiFieldUpdateCallback(EditInterface editInterface, object editingObject)
         {
             base.uiFieldUpdateCallback(editInterface, editingObject);
-            if (simObjectController != null)
-            {
-                Instance instance = editingObject as Instance;
-                simObjectController.destroySimObject(instance.Name);
-                simObjectController.createSimObject(instance.Definition);
-            }
+            createSimObject(editingObject);
         }
 
         public void createInstance(SimObjectController simObjectController)
@@ -79,6 +87,21 @@ namespace Anomaly
                 this.simObjectController = null;
                 simObjectController.destroySimObject(Name);
             }
+        }
+
+        public void setVisible(bool visible)
+        {
+            showInstance = visible;
+            if (simObjectController != null)
+            {
+                SimObject obj = simObjectController.getSimObject(Name);
+                obj.setEnabled(showInstance);
+            }
+        }
+
+        private void toggleHidden(EditUICallback callback, EditInterfaceCommand command)
+        {
+            setVisible(!showInstance);
         }
     }
 }

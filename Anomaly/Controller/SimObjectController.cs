@@ -25,15 +25,18 @@ namespace Anomaly
         /// Create a new SimObject and add it.
         /// </summary>
         /// <param name="definition">The definition to create.</param>
-        public void createSimObject(SimObjectDefinition definition)
+        /// <returns>A SimObject if one was created. Not returning one does not indicate an error it just means the sim object hasnt been created yet.</returns>
+        public SimObject createSimObject(SimObjectDefinition definition)
         {
+            simObjectManagerDefiniton.addSimObject(definition);
             if (subScene != null)
             {
                 SimObjectBase instance = definition.register(subScene);
                 simObjectManager.addSimObject(instance);
                 controller.SceneController.createSimObjects();
+                return instance;
             }
-            simObjectManagerDefiniton.addSimObject(definition);
+            return null;
             //createSelectable(definition, instance);
         }
 
@@ -52,6 +55,15 @@ namespace Anomaly
             //SelectableSimObject selectable = selectables[definition.Name];
             //selectables.Remove(definition.Name);
             //removeSelectableEditInterface(selectable);
+        }
+
+        public SimObject getSimObject(String name)
+        {
+            if (simObjectManager != null)
+            {
+                return simObjectManager.getSimObject(name);
+            }
+            return null;
         }
 
         /// <summary>
