@@ -107,6 +107,22 @@ namespace Anomaly
             }
         }
 
+        public void destroyInstances(SimObjectController simObjectController)
+        {
+            this.simObjectController = null;
+            this.instancesBuilt = false;
+
+            foreach (InstanceFileInterface instanceFileInterface in instanceFiles.Values)
+            {
+                instanceFileInterface.destroyInstance(simObjectController);
+            }
+
+            foreach (InstanceGroup group in groups.Values)
+            {
+                group.destroyInstances(simObjectController);
+            }
+        }
+
         #region Properties
 
         public String Name

@@ -23,6 +23,7 @@ namespace Anomaly
         public void initialize(AnomalyController controller)
         {
             this.controller = controller;
+            secondaryResources = controller.PluginManager.createEmptyResourceManager();
         }
 
         public void editResources()
@@ -39,16 +40,25 @@ namespace Anomaly
             controller.PluginManager.PrimaryResourceManager.forceResourceRefresh();
         }
 
+        public void clearResources()
+        {
+            secondaryResources = controller.PluginManager.createEmptyResourceManager();
+        }
+
+        public void addResources(ResourceManager toAdd)
+        {
+            secondaryResources.addResources(toAdd);
+        }
+
+        public void applyToScene()
+        {
+            controller.PluginManager.PrimaryResourceManager.changeResourcesToMatch(secondaryResources);
+            controller.PluginManager.PrimaryResourceManager.forceResourceRefresh();
+        }
+
         public ResourceManager getResourceManager()
         {
             return secondaryResources;
-        }
-
-        public void setResources(ResourceManager resourceManager)
-        {
-            secondaryResources = resourceManager;
-            controller.PluginManager.PrimaryResourceManager.changeResourcesToMatch(secondaryResources);
-            controller.PluginManager.PrimaryResourceManager.forceResourceRefresh();
         }
     }
 }

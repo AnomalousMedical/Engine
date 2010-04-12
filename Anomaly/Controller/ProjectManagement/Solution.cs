@@ -72,34 +72,23 @@ namespace Anomaly
 
         public void createCurrentProject(AnomalyController controller)
         {
+            controller.ResourceController.clearResources();
+            controller.ResourceController.addResources(loadResourceManager());
             if (projects.Count > 0)
             {
                 Project project = projects.Values.First();
 
-                ResourceManager resources = PluginManager.Instance.createEmptyResourceManager();
-                resources.addResources(loadResourceManager());
-                resources.addResources(project.loadResourceManager());
-                controller.ResourceController.setResources(resources);
-
-                SimSceneDefinition sceneDefinition = project.loadSceneDefinition();
-                controller.SceneController.setSceneDefinition(sceneDefinition);
-
-                SimObjectManagerDefinition simObjectManager = new SimObjectManagerDefinition();
-                controller.SimObjectController.setSceneManagerDefintion(simObjectManager);
-                project.addSimObjects(controller.SimObjectController);
+                project.buildScene(controller);
             }
             else //Create an empty scene
             {
-                ResourceManager resources = PluginManager.Instance.createEmptyResourceManager();
-                resources.addResources(loadResourceManager());
-                controller.ResourceController.setResources(resources);
-
                 SimSceneDefinition sceneDefinition = new SimSceneDefinition();
                 controller.SceneController.setSceneDefinition(sceneDefinition);
 
                 SimObjectManagerDefinition simObjectManager = new SimObjectManagerDefinition();
                 controller.SimObjectController.setSceneManagerDefintion(simObjectManager);
             }
+            controller.ResourceController.applyToScene();
         }
 
         private ResourceManager loadResourceManager()

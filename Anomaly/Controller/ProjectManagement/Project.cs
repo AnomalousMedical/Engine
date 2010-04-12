@@ -21,6 +21,7 @@ namespace Anomaly
         private String workingDirectory;
         private String resourcesFile;
         private String sceneDefinitionFile;
+        private bool built = false;
 
         public Project(String name, String workingDirectory)
         {
@@ -60,7 +61,25 @@ namespace Anomaly
             }
         }
 
-        public SimSceneDefinition loadSceneDefinition()
+        public void buildScene(AnomalyController anomalyController)
+        {
+            built = true;
+
+            anomalyController.ResourceController.addResources(loadResourceManager());
+            anomalyController.SceneController.setSceneDefinition(loadSceneDefinition());
+
+            SimObjectManagerDefinition simObjectManager = new SimObjectManagerDefinition();
+            anomalyController.SimObjectController.setSceneManagerDefintion(simObjectManager);
+            instanceGroup.buildInstances(anomalyController.SimObjectController);
+        }
+
+        public void unloadScene(AnomalyController anomalyController)
+        {
+            built = false;
+            instanceGroup.destroyInstances(anomalyController.SimObjectController);
+        }
+
+        private SimSceneDefinition loadSceneDefinition()
         {
             using (XmlTextReader textReader = new XmlTextReader(sceneDefinitionFile))
             {
@@ -68,17 +87,12 @@ namespace Anomaly
             }
         }
 
-        public ResourceManager loadResourceManager()
+        private ResourceManager loadResourceManager()
         {
             using (XmlTextReader textReader = new XmlTextReader(resourcesFile))
             {
                 return xmlSaver.restoreObject(textReader) as ResourceManager;
             }
-        }
-
-        public void addSimObjects(SimObjectController simObjectController)
-        {
-            instanceGroup.buildInstances(simObjectController);
         }
 
         public String Name
