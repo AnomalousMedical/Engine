@@ -21,8 +21,10 @@ namespace Editor
         public VerticalObjectEditor()
         {
             InitializeComponent();
-            editInterfaceView.OnEditInterfaceSelectionChanging += new EditInterfaceSelectionChanging(editInterfaceView_OnEditInterfaceSelectionChanging);
-            editInterfaceView.OnEditInterfaceSelectionChanged += new EditInterfaceSelectionChanged(editInterfaceView_OnEditInterfaceSelectionChanged);
+            editInterfaceView.OnEditInterfaceSelectionChanging += new EditInterfaceEvent(editInterfaceView_OnEditInterfaceSelectionChanging);
+            editInterfaceView.OnEditInterfaceSelectionChanged += new EditInterfaceEvent(editInterfaceView_OnEditInterfaceSelectionChanged);
+            editInterfaceView.OnEditInterfaceAdded += new EditInterfaceEvent(editInterfaceView_OnEditInterfaceAdded);
+            editInterfaceView.OnEditInterfaceRemoved += new EditInterfaceEvent(editInterfaceView_OnEditInterfaceRemoved);
             propertiesTable.EditablePropertyValueChanged += new EditablePropertyValueChanged(propertiesTable_EditablePropertyValueChanged);
         }
 
@@ -89,6 +91,22 @@ namespace Editor
         }
 
         void propertiesTable_EditablePropertyValueChanged(EditableProperty var)
+        {
+            if (currentFieldChangedCallback != null)
+            {
+                currentFieldChangedCallback.Invoke(currentEditInterface, currentEditingObject);
+            }
+        }
+
+        void editInterfaceView_OnEditInterfaceRemoved(EditInterfaceViewEvent evt)
+        {
+            if (currentFieldChangedCallback != null)
+            {
+                currentFieldChangedCallback.Invoke(currentEditInterface, currentEditingObject);
+            }
+        }
+
+        void editInterfaceView_OnEditInterfaceAdded(EditInterfaceViewEvent evt)
         {
             if (currentFieldChangedCallback != null)
             {

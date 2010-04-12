@@ -23,7 +23,7 @@ namespace Anomaly
             editInterfaceView.setEditInterface(solution.getEditInterface());
         }
 
-        public event EditInterfaceChosen InterfaceChosen
+        public event EditInterfaceEvent InterfaceChosen
         {
             add
             {

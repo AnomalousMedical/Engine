@@ -24,7 +24,7 @@ namespace Anomaly
             this.solutionPanel = solutionPanel;
             solutionPanel.setSolution(solution);
             this.objectEditor = objectEditor;
-            solutionPanel.InterfaceChosen += new Editor.EditInterfaceChosen(solutionPanel_InterfaceChosen);
+            solutionPanel.InterfaceChosen += new Editor.EditInterfaceEvent(solutionPanel_InterfaceChosen);
         }
 
         void solutionPanel_InterfaceChosen(Editor.EditInterfaceViewEvent evt)

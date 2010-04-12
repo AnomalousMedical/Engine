@@ -19,6 +19,7 @@ namespace Editor
         private EditInterface editInterface;
         private SubInterfaceAdded interfaceAdded;
         private SubInterfaceRemoved interfaceRemoved;
+        private EditInterfaceView view;
 
         #endregion Fields
 
@@ -28,10 +29,11 @@ namespace Editor
         /// Constructor. Takes the EditInterface to wrap.
         /// </summary>
         /// <param name="editInterface">The EditInterface this tree node holds.</param>
-        public EditInterfaceTreeNode(EditInterface editInterface)
+        public EditInterfaceTreeNode(EditInterface editInterface, EditInterfaceView view)
             :base(editInterface.getName())
         {
             this.editInterface = editInterface;
+            this.view = view;
             interfaceAdded = new SubInterfaceAdded(subInterfaceAdded);
             interfaceRemoved = new SubInterfaceRemoved(subInterfaceRemoved);
             editInterface.OnSubInterfaceAdded += interfaceAdded;
@@ -46,7 +48,7 @@ namespace Editor
             {
                 foreach (EditInterface subInterface in editInterface.getSubEditInterfaces())
                 {
-                    this.Nodes.Add(new EditInterfaceTreeNode(subInterface));
+                    this.Nodes.Add(new EditInterfaceTreeNode(subInterface, view));
                 }
             }
         }
@@ -77,7 +79,8 @@ namespace Editor
         /// <param name="editInterface"></param>
         private void subInterfaceAdded(EditInterface editInterface)
         {
-            this.Nodes.Add(new EditInterfaceTreeNode(editInterface));
+            this.Nodes.Add(new EditInterfaceTreeNode(editInterface, view));
+            view.nodeAdded(this);
         }
 
         /// <summary>
@@ -97,6 +100,7 @@ namespace Editor
             }
             if (matchingNode != null)
             {
+                view.nodeRemoved(this);
                 this.Nodes.Remove(matchingNode);
             }
             else

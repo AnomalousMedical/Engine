@@ -12,30 +12,10 @@ using Engine;
 namespace Editor
 {
     /// <summary>
-    /// This delegate is called when the selected EditInterface changes.
-    /// </summary>
-    /// <param name="editInterface">The EditInterfaceViewEvent.</param>
-    public delegate void EditInterfaceSelectionChanged(EditInterfaceViewEvent evt);
-
-    /// <summary>
-    /// This delegate is called when the selected EditInterface is about to
-    /// change.
-    /// </summary>
-    /// <param name="editInterface">The EditInterfaceViewEvent.</param>
-    public delegate void EditInterfaceSelectionChanging(EditInterfaceViewEvent evt);
-
-    /// <summary>
-    /// This delegate is called when the selected EditInterface has been
-    /// requested to go into a more in depth edit mode.
+    /// The delegate for EditInterfaceViews.
     /// </summary>
     /// <param name="evt">The EditInterfaceViewEvent.</param>
-    public delegate void EditInterfaceSelectionEdit(EditInterfaceViewEvent evt);
-
-    /// <summary>
-    /// This delegate is called when an EditInterface is chosen.
-    /// </summary>
-    /// <param name="evt">The EditInterfaceViewEvent.</param>
-    public delegate void EditInterfaceChosen(EditInterfaceViewEvent evt);
+    public delegate void EditInterfaceEvent(EditInterfaceViewEvent evt);
 
     public partial class EditInterfaceView : UserControl, EditUICallback
     {
@@ -59,23 +39,33 @@ namespace Editor
         /// <summary>
         /// Called when the selected EditInterface has changed. Cannot be canceled.
         /// </summary>
-        public event EditInterfaceSelectionChanged OnEditInterfaceSelectionChanged;
+        public event EditInterfaceEvent OnEditInterfaceSelectionChanged;
 
         /// <summary>
         /// Called when the selected EditInterface is about to change. Can be canceled.
         /// </summary>
-        public event EditInterfaceSelectionChanging OnEditInterfaceSelectionChanging;
+        public event EditInterfaceEvent OnEditInterfaceSelectionChanging;
 
         /// <summary>
         /// Called when the interface has requested to further edit an object.
         /// Can be ignored if not applicable.
         /// </summary>
-        public event EditInterfaceSelectionEdit OnEditInterfaceSelectionEdit;
+        public event EditInterfaceEvent OnEditInterfaceSelectionEdit;
 
         /// <summary>
         /// Called when an EditInterface has been chosen in some way.
         /// </summary>
-        public event EditInterfaceChosen OnEditInterfaceChosen;
+        public event EditInterfaceEvent OnEditInterfaceChosen;
+
+        /// <summary>
+        /// Called when an EditInterface is added.
+        /// </summary>
+        public event EditInterfaceEvent OnEditInterfaceAdded;
+
+        /// <summary>
+        /// Called when an EditInterface is removed.
+        /// </summary>
+        public event EditInterfaceEvent OnEditInterfaceRemoved;
 
         #endregion Events
 
@@ -108,7 +98,7 @@ namespace Editor
         {
             if (parentNode == null)
             {
-                parentNode = new EditInterfaceTreeNode(editor);
+                parentNode = new EditInterfaceTreeNode(editor, this);
                 this.objectsTree.Nodes.Add(parentNode);
             }
             else
@@ -267,6 +257,22 @@ namespace Editor
             }
             errorMessage = null;
             return true;
+        }
+
+        internal void nodeAdded(EditInterfaceTreeNode editInterfaceTreeNode)
+        {
+            if (OnEditInterfaceAdded != null)
+            {
+                OnEditInterfaceAdded.Invoke(new EditInterfaceViewEvent(editInterfaceTreeNode.EditInterface));
+            }
+        }
+
+        internal void nodeRemoved(EditInterfaceTreeNode editInterfaceTreeNode)
+        {
+            if (OnEditInterfaceRemoved != null)
+            {
+                OnEditInterfaceRemoved.Invoke(new EditInterfaceViewEvent(editInterfaceTreeNode.EditInterface));
+            }
         }
 
         #endregion Functions

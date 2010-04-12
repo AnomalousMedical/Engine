@@ -24,8 +24,8 @@ namespace Editor
         public ObjectEditorPanel()
         {
             InitializeComponent();
-            editInterfaceView.OnEditInterfaceSelectionChanging += new EditInterfaceSelectionChanging(editInterfaceView_OnEditInterfaceSelectionChanging);
-            editInterfaceView.OnEditInterfaceSelectionChanged += new EditInterfaceSelectionChanged(editInterfaceView_OnEditInterfaceSelectionChanged);
+            editInterfaceView.OnEditInterfaceSelectionChanging += new EditInterfaceEvent(editInterfaceView_OnEditInterfaceSelectionChanging);
+            editInterfaceView.OnEditInterfaceSelectionChanged += new EditInterfaceEvent(editInterfaceView_OnEditInterfaceSelectionChanged);
         }
 
         #endregion Constructors
