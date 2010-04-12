@@ -96,12 +96,13 @@ namespace Anomaly
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            String filename = fileTracker.saveFile(this);
-            if (fileTracker.lastDialogAccepted())
-            {
-                controller.saveScene(filename);
-                updateWindowTitle(filename);
-            }
+            //String filename = fileTracker.saveFile(this);
+            //if (fileTracker.lastDialogAccepted())
+            //{
+            //    controller.saveScene(filename);
+            //    updateWindowTitle(filename);
+            //}
+            controller.saveSolution();
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)

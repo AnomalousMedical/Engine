@@ -79,6 +79,11 @@ namespace Anomaly
             instanceGroup.destroyInstances(anomalyController.SimObjectController);
         }
 
+        public void save()
+        {
+            instanceGroup.save();
+        }
+
         private SimSceneDefinition loadSceneDefinition()
         {
             using (XmlTextReader textReader = new XmlTextReader(sceneDefinitionFile))

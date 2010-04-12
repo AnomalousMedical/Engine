@@ -21,57 +21,6 @@ namespace Anomaly
 
         XmlSaver xmlSaver = new XmlSaver();
 
-        /// <summary>
-        /// Save a template to the target.
-        /// </summary>
-        /// <param name="group">The group the template belongs to.</param>
-        /// <param name="template">The template to save.</param>
-        public bool saveInstance(InstanceGroup group, Instance instance)
-        {
-            try
-            {
-                String path = getInstanceFileName(group, instance.Name);
-                XmlTextWriter textWriter = new XmlTextWriter(path, Encoding.Unicode);
-                textWriter.Formatting = Formatting.Indented;
-                xmlSaver.saveObject(instance, textWriter);
-                textWriter.Close();
-                return true;
-            }
-            catch (Exception e)
-            {
-                Log.Default.sendMessage("Could not save instance {0} because of {1}.", LogLevel.Error, "Anomaly", instance.Name, e.Message);
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Update an exising template on the target.
-        /// </summary>
-        /// <param name="group">The group the template belongs to.</param>
-        /// <param name="template">The template to save.</param>
-        public void updateInstance(InstanceGroup group, Instance instance)
-        {
-            saveInstance(group, instance);
-        }
-
-        /// <summary>
-        /// Delete an existing template from the target.
-        /// </summary>
-        /// <param name="group">The group the template belongs to.</param>
-        /// <param name="template">The template to save.</param>
-        public void deleteInstance(InstanceGroup group, String instanceName)
-        {
-            try
-            {
-                String path = getInstanceFileName(group, instanceName);
-                File.Delete(path);
-            }
-            catch (Exception e)
-            {
-                Log.Default.sendMessage("Could not delete instance {0} because of {1}.", LogLevel.Error, "Anomaly", instanceName, e.Message);
-            }
-        }
-
         public String getInstanceFileName(InstanceGroup group, String instanceName)
         {
             return group.FullPath + Path.DirectorySeparatorChar + instanceName + ".ins";

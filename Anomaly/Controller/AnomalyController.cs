@@ -331,6 +331,11 @@ namespace Anomaly
             fileWriter.Close();
             Log.ImportantInfo("Scene saved to {0}.", filename);
         }
+
+        public void saveSolution()
+        {
+            solution.save();
+        }
         
         /// <summary>
         /// Put the editor into static mode. This allows full editing privlidges

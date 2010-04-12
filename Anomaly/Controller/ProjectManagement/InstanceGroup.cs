@@ -24,6 +24,9 @@ namespace Anomaly
         private bool instancesDisplayed = false; //True if instances for this group are currently in the scene.
         private SimObjectController simObjectController;
 
+        private List<InstanceGroup> deletedGroups = new List<InstanceGroup>();
+        private List<InstanceFileInterface> deletedInstances = new List<InstanceFileInterface>();
+
         public InstanceGroup(String name, String path)
         {
             this.name = name;
@@ -46,7 +49,6 @@ namespace Anomaly
         public void addGroup(InstanceGroup group)
         {
             groups.Add(group.name, group);
-            InstanceWriter.Instance.addInstanceGroup(group);
             if (instancesDisplayed)
             {
                 group.buildInstances(simObjectController);
@@ -61,7 +63,7 @@ namespace Anomaly
         {
             groups.Remove(group.name);
             group.Dispose();
-            InstanceWriter.Instance.removeInstanceGroup(group);
+            deletedGroups.Add(group);
             if (editInterface != null)
             {
                 groupManager.removeSubInterface(group);
@@ -83,11 +85,23 @@ namespace Anomaly
             onInstanceFileAdded(fileInterface);
         }
 
+        public void addInstance(Instance instance)
+        {
+            InstanceFileInterface fileInterface = new InstanceFileInterface(instance.Name, AnomalyIcons.Instance, InstanceWriter.Instance.getInstanceFileName(this, instance.Name), instance);
+            if (instancesDisplayed)
+            {
+                fileInterface.createInstance(simObjectController);
+            }
+            instanceFiles.Add(instance.Name, fileInterface);
+            onInstanceFileAdded(fileInterface);
+        }
+
         public void removeInstanceFile(String instanceName)
         {
             InstanceFileInterface fileInterface = instanceFiles[instanceName];
             fileInterface.Dispose();
             instanceFiles.Remove(instanceName);
+            deletedInstances.Add(fileInterface);
             onInstanceFileRemoved(fileInterface);
         }
 
@@ -120,6 +134,32 @@ namespace Anomaly
             foreach (InstanceGroup group in groups.Values)
             {
                 group.destroyInstances(simObjectController);
+            }
+        }
+
+        public void save()
+        {
+            InstanceWriter.Instance.addInstanceGroup(this);
+            foreach (InstanceGroup group in deletedGroups)
+            {
+                InstanceWriter.Instance.removeInstanceGroup(group);
+            }
+            deletedGroups.Clear();
+
+            foreach (InstanceFileInterface instanceFile in deletedInstances)
+            {
+                instanceFile.save();
+            }
+            deletedInstances.Clear();
+
+            foreach (InstanceFileInterface instanceFile in instanceFiles.Values)
+            {
+                instanceFile.save();
+            }
+
+            foreach (InstanceGroup group in groups.Values)
+            {
+                group.save();
             }
         }
 
@@ -271,7 +311,6 @@ namespace Anomaly
                 InstanceFileInterface file = editInterface.getEditableProperties().First() as InstanceFileInterface;
                 file.Deleted = true;
                 InstanceFileInterface instanceFile = instanceFileManager.resolveSourceObject(editInterface);
-                InstanceWriter.Instance.deleteInstance(this, instanceFile.Name);
                 removeInstanceFile(instanceFile.Name);
             }
         }
@@ -309,10 +348,7 @@ namespace Anomaly
         private void createInstance(SimObjectDefinition simObject)
         {
             Instance instance = new Instance(simObject.Name, simObject);
-            if (InstanceWriter.Instance.saveInstance(this, instance))
-            {
-                this.addInstanceFile(simObject.Name);
-            }
+            this.addInstance(instance);
         }
 
         private void importTemplates(EditUICallback callback, EditInterfaceCommand command)

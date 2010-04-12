@@ -91,6 +91,14 @@ namespace Anomaly
             controller.ResourceController.applyToScene();
         }
 
+        public void save()
+        {
+            foreach (Project project in projects.Values)
+            {
+                project.save();
+            }
+        }
+
         private ResourceManager loadResourceManager()
         {
             using (XmlTextReader textReader = new XmlTextReader(globalResourcesFile))

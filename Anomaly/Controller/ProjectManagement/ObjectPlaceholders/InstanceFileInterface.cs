@@ -9,6 +9,7 @@ using Editor;
 using Engine;
 using System.Xml;
 using Engine.Saving.XMLSaver;
+using System.IO;
 
 namespace Anomaly
 {
@@ -20,21 +21,56 @@ namespace Anomaly
         private bool showInstance = true;
         private Instance instance;
         private String filename;
+        private bool modified = false;
 
         public InstanceFileInterface(String name, Object iconReferenceTag, String filename)
             :base(name, iconReferenceTag)
         {
             Deleted = false;
             this.filename = filename;
-            using (XmlTextReader textReader = new XmlTextReader(filename))
+            if (File.Exists(filename))
             {
-                instance = xmlSaver.restoreObject(textReader) as Instance;
+                try
+                {
+                    using (XmlTextReader textReader = new XmlTextReader(filename))
+                    {
+                        instance = xmlSaver.restoreObject(textReader) as Instance;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Error("Could not load Instance {0} because {1}", filename, ex.Message);
+                    instance = new Instance(name, new GenericSimObjectDefinition(name));
+                }
             }
+        }
+
+        public InstanceFileInterface(String name, Object iconReferenceTag, String filename, Instance instance)
+            :this(name, iconReferenceTag, filename)
+        {
+            this.instance = instance;
         }
 
         public void Dispose()
         {
             destroyInstance(simObjectController);
+        }
+
+        public void save()
+        {
+            if (Deleted && File.Exists(filename))
+            {
+                File.Delete(filename);
+            }
+            else if (modified)
+            {
+                using (XmlTextWriter textWriter = new XmlTextWriter(filename, Encoding.Default))
+                {
+                    textWriter.Formatting = Formatting.Indented;
+                    xmlSaver.saveObject(instance, textWriter);
+                }
+                modified = false;
+            }
         }
 
         public override object getObject()
@@ -59,23 +95,7 @@ namespace Anomaly
 
         public override void uiEditingCompletedCallback(EditInterface editInterface, object editingObject)
         {
-            if (!Deleted)
-            {
-                Instance fileObj = editingObject as Instance;
-                if (fileObj != null)
-                {
-                    using (XmlTextWriter textWriter = new XmlTextWriter(filename, Encoding.Default))
-                    {
-                        textWriter.Formatting = Formatting.Indented;
-                        xmlSaver.saveObject(fileObj, textWriter);
-                    }
-                }
-                else
-                {
-                    throw new Exception(String.Format("Cannot save object {0} because it is not of type {1}", editingObject.ToString(), typeof(Instance).ToString()));
-                }
-            }
-            createSimObject(editingObject);
+            
         }
 
         private void createSimObject(object editingObject)
@@ -95,6 +115,7 @@ namespace Anomaly
         public override void uiFieldUpdateCallback(EditInterface editInterface, object editingObject)
         {
             createSimObject(editingObject);
+            modified = true;
         }
 
         public void createInstance(SimObjectController simObjectController)
@@ -156,6 +177,7 @@ namespace Anomaly
             }
             instance.Translation = translation;
             instance.Definition.Rotation = rotation;
+            modified = true;
         }
 
         public void editTranslation(ref Vector3 translation)
@@ -166,6 +188,7 @@ namespace Anomaly
                 simObj.updateTranslation(ref translation, null);
             }
             instance.Translation = translation;
+            modified = true;
         }
 
         public void editRotation(ref Quaternion rotation)
@@ -176,6 +199,7 @@ namespace Anomaly
                 simObj.updateRotation(ref rotation, null);
             }
             instance.Definition.Rotation = rotation;
+            modified = true;
         }
 
         public Quaternion getRotation()
