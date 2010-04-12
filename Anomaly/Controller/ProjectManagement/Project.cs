@@ -76,9 +76,9 @@ namespace Anomaly
             }
         }
 
-        public void addSimObjects(SimObjectManagerDefinition simObjectManager)
+        public void addSimObjects(SimObjectController simObjectController)
         {
-            instanceGroup.buildInstances(simObjectManager);
+            instanceGroup.buildInstances(simObjectController);
         }
 
         public String Name

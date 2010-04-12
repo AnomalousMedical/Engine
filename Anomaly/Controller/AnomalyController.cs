@@ -23,7 +23,7 @@ namespace Anomaly
     /// <summary>
     /// This is the primary controller for the Anomaly editor.
     /// </summary>
-    class AnomalyController : IDisposable, IDockProvider
+    public class AnomalyController : IDisposable, IDockProvider
     {
 
         #region Fields
@@ -289,7 +289,7 @@ namespace Anomaly
         /// </summary>
         public void createNewScene()
         {
-            changeScene(solution.createCurrentProject());
+            buildScene();
         }
 
         /// <summary>
@@ -298,21 +298,21 @@ namespace Anomaly
         /// <param name="filename">The filename to load.</param>
         public void loadScene(String filename)
         {
-            stopwatch.Start();
-            XmlTextReader textReader = new XmlTextReader(filename);
-            ScenePackage scenePackage = xmlSaver.restoreObject(textReader) as ScenePackage;
-            if (scenePackage != null)
-            {
-                changeScene(scenePackage);
-            }
-            else
-            {
-                MessageBox.Show(mainForm, String.Format("Could not load scene from {0}.", filename), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            textReader.Close();
-            stopwatch.Stop();
-            Log.Info("Scene loaded in {0} seconds.", stopwatch.Elapsed.TotalSeconds);
-            stopwatch.Reset();
+            //stopwatch.Start();
+            //XmlTextReader textReader = new XmlTextReader(filename);
+            //ScenePackage scenePackage = xmlSaver.restoreObject(textReader) as ScenePackage;
+            //if (scenePackage != null)
+            //{
+            //    changeScene(scenePackage);
+            //}
+            //else
+            //{
+            //    MessageBox.Show(mainForm, String.Format("Could not load scene from {0}.", filename), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
+            //textReader.Close();
+            //stopwatch.Stop();
+            //Log.Info("Scene loaded in {0} seconds.", stopwatch.Elapsed.TotalSeconds);
+            //stopwatch.Reset();
         }
 
         /// <summary>
@@ -490,12 +490,10 @@ namespace Anomaly
         /// Helper funciton to change to a new scene from a ScenePackage.
         /// </summary>
         /// <param name="scenePackage">The ScenePackage to load.</param>
-        private void changeScene(ScenePackage scenePackage)
+        private void buildScene()
         {
             sceneController.destroyScene();
-            sceneController.setSceneDefinition(scenePackage.SceneDefinition);
-            resourceController.setResources(scenePackage.ResourceManager);
-            simObjectController.setSceneManagerDefintion(scenePackage.SimObjectManagerDefinition);
+            solution.createCurrentProject(this);
             sceneController.createScene();
         }
 
@@ -555,6 +553,14 @@ namespace Anomaly
             get
             {
                 return sceneController;
+            }
+        }
+
+        public SimObjectController SimObjectController
+        {
+            get
+            {
+                return simObjectController;
             }
         }
 

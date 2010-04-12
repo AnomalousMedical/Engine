@@ -66,24 +66,16 @@ namespace Anomaly
             onInstanceFileRemoved(fileInterface);
         }
 
-        public void buildInstances(SimObjectManagerDefinition simObjectManager)
+        public void buildInstances(SimObjectController simObjectController)
         {
             foreach (InstanceFileInterface instanceFileInterface in instanceFiles.Values)
             {
-                Instance instance = instanceFileInterface.getFileObject();
-                if (instance != null)
-                {
-                    simObjectManager.addSimObject(instance.Definition);
-                }
-                else
-                {
-                    Log.Error("Could not create SimObject {0} in group {1}.", instance.Name, this.name);
-                }
+                instanceFileInterface.createInstance(simObjectController);
             }
 
             foreach (InstanceGroup group in groups.Values)
             {
-                group.buildInstances(simObjectManager);
+                group.buildInstances(simObjectController);
             }
         }
 

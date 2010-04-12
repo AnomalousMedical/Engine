@@ -26,11 +26,11 @@ namespace Anomaly
         private SolutionSection solutionSection;
         private String globalResourcesFile;
 
-        public Solution(String projectFileName)
+        public Solution(String solutionFileName)
         {
-            name = Path.GetFileNameWithoutExtension(projectFileName);
-            workingDirectory = Path.GetDirectoryName(projectFileName);
-            backingFile = new ConfigFile(projectFileName);
+            name = Path.GetFileNameWithoutExtension(solutionFileName);
+            workingDirectory = Path.GetDirectoryName(solutionFileName);
+            backingFile = new ConfigFile(solutionFileName);
             backingFile.loadConfigFile();
             pluginSection = new PluginSection(backingFile);
             resourceSection = new ResourceSection(backingFile);
@@ -70,27 +70,36 @@ namespace Anomaly
             onProjectRemoved(project);
         }
 
-        public ScenePackage createCurrentProject()
+        public void createCurrentProject(AnomalyController controller)
         {
-            ResourceManager globalResources = loadResourceManager();
-
-            ScenePackage projectPackage = new ScenePackage();
-            projectPackage.ResourceManager = globalResources;
-            projectPackage.SimObjectManagerDefinition = new SimObjectManagerDefinition();
-
             if (projects.Count > 0)
             {
                 Project project = projects.Values.First();
 
-                projectPackage.ResourceManager.addResources(project.loadResourceManager());
-                projectPackage.SceneDefinition = project.loadSceneDefinition();
-                project.addSimObjects(projectPackage.SimObjectManagerDefinition);
+                ResourceManager resources = PluginManager.Instance.createEmptyResourceManager();
+                resources.addResources(loadResourceManager());
+                resources.addResources(project.loadResourceManager());
+                controller.ResourceController.setResources(resources);
+
+                SimSceneDefinition sceneDefinition = project.loadSceneDefinition();
+                controller.SceneController.setSceneDefinition(sceneDefinition);
+
+                SimObjectManagerDefinition simObjectManager = new SimObjectManagerDefinition();
+                controller.SimObjectController.setSceneManagerDefintion(simObjectManager);
+                project.addSimObjects(controller.SimObjectController);
             }
-            else
+            else //Create an empty scene
             {
-                projectPackage.SceneDefinition = new SimSceneDefinition();
+                ResourceManager resources = PluginManager.Instance.createEmptyResourceManager();
+                resources.addResources(loadResourceManager());
+                controller.ResourceController.setResources(resources);
+
+                SimSceneDefinition sceneDefinition = new SimSceneDefinition();
+                controller.SceneController.setSceneDefinition(sceneDefinition);
+
+                SimObjectManagerDefinition simObjectManager = new SimObjectManagerDefinition();
+                controller.SimObjectController.setSceneManagerDefintion(simObjectManager);
             }
-            return projectPackage;
         }
 
         private ResourceManager loadResourceManager()

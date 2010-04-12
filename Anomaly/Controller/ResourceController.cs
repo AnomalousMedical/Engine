@@ -6,17 +6,18 @@ using Engine.Resources;
 using System.IO;
 using System.Xml;
 using Engine.Saving.XMLSaver;
+using Engine;
 
 namespace Anomaly
 {
-    class ResourceController
+    public class ResourceController
     {
         private AnomalyController controller;
         ResourceManager secondaryResources;
 
         public ResourceController()
         {
-
+            
         }
 
         public void initialize(AnomalyController controller)

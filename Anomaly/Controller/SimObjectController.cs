@@ -6,7 +6,7 @@ using Engine.ObjectManagement;
 
 namespace Anomaly
 {
-    class SimObjectController
+    public class SimObjectController
     {
         private SimObjectManagerDefinition simObjectManagerDefiniton;
         private SimObjectManager simObjectManager;
@@ -27,9 +27,12 @@ namespace Anomaly
         /// <param name="definition">The definition to create.</param>
         public void createSimObject(SimObjectDefinition definition)
         {
-            SimObjectBase instance = definition.register(subScene);
-            simObjectManager.addSimObject(instance);
-            controller.SceneController.createSimObjects();
+            if (subScene != null)
+            {
+                SimObjectBase instance = definition.register(subScene);
+                simObjectManager.addSimObject(instance);
+                controller.SceneController.createSimObjects();
+            }
             simObjectManagerDefiniton.addSimObject(definition);
             //createSelectable(definition, instance);
         }
@@ -38,10 +41,13 @@ namespace Anomaly
         /// Destroy and remove the SimObject defined by definition.
         /// </summary>
         /// <param name="definition">The definition to remove.</param>
-        public void destroySimObject(SimObjectDefinition definition)
+        public void destroySimObject(String name)
         {
-            simObjectManager.destroySimObject(definition.Name);
-            simObjectManagerDefiniton.removeSimObject(definition);
+            if (subScene != null)
+            {
+                simObjectManager.destroySimObject(name);
+            }
+            simObjectManagerDefiniton.removeSimObject(name);
 
             //SelectableSimObject selectable = selectables[definition.Name];
             //selectables.Remove(definition.Name);
