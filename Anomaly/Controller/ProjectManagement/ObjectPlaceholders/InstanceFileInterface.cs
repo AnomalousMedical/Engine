@@ -5,23 +5,41 @@ using System.Text;
 using Engine.Editing;
 using Logging;
 using Engine.ObjectManagement;
+using Editor;
+using Engine;
+using System.Xml;
+using Engine.Saving.XMLSaver;
 
 namespace Anomaly
 {
-    public class InstanceFileInterface : EditableFileInterface<Instance>, IDisposable
+    public class InstanceFileInterface : ObjectPlaceholderInterface, IDisposable, SelectableObject
     {
+        private static XmlSaver xmlSaver = new XmlSaver();
+
         private SimObjectController simObjectController;
         private bool showInstance = true;
+        private Instance instance;
+        private String filename;
 
         public InstanceFileInterface(String name, Object iconReferenceTag, String filename)
-            :base(name, iconReferenceTag, filename)
+            :base(name, iconReferenceTag)
         {
-
+            Deleted = false;
+            this.filename = filename;
+            using (XmlTextReader textReader = new XmlTextReader(filename))
+            {
+                instance = xmlSaver.restoreObject(textReader) as Instance;
+            }
         }
 
         public void Dispose()
         {
             destroyInstance(simObjectController);
+        }
+
+        public override object getObject()
+        {
+            return instance;
         }
 
         public override EditInterface getObjectEditInterface(object obj)
@@ -41,7 +59,22 @@ namespace Anomaly
 
         public override void uiEditingCompletedCallback(EditInterface editInterface, object editingObject)
         {
-            base.uiEditingCompletedCallback(editInterface, editingObject);
+            if (!Deleted)
+            {
+                Instance fileObj = editingObject as Instance;
+                if (fileObj != null)
+                {
+                    using (XmlTextWriter textWriter = new XmlTextWriter(filename, Encoding.Default))
+                    {
+                        textWriter.Formatting = Formatting.Indented;
+                        xmlSaver.saveObject(fileObj, textWriter);
+                    }
+                }
+                else
+                {
+                    throw new Exception(String.Format("Cannot save object {0} because it is not of type {1}", editingObject.ToString(), typeof(Instance).ToString()));
+                }
+            }
             createSimObject(editingObject);
         }
 
@@ -61,7 +94,6 @@ namespace Anomaly
 
         public override void uiFieldUpdateCallback(EditInterface editInterface, object editingObject)
         {
-            base.uiFieldUpdateCallback(editInterface, editingObject);
             createSimObject(editingObject);
         }
 
@@ -69,7 +101,6 @@ namespace Anomaly
         {
             this.simObjectController = simObjectController;
 
-            Instance instance = getFileObject();
             if (instance != null)
             {
                 simObjectController.createSimObject(instance.Definition);
@@ -89,6 +120,16 @@ namespace Anomaly
             }
         }
 
+        public bool Deleted { get; set; }
+
+        public Instance Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
+
         public void setVisible(bool visible)
         {
             showInstance = visible;
@@ -103,5 +144,50 @@ namespace Anomaly
         {
             setVisible(!showInstance);
         }
+
+        #region SelectableObject Members
+
+        public void editPosition(ref Vector3 translation, ref Quaternion rotation)
+        {
+            SimObjectBase simObj = simObjectController.getSimObject(Name) as SimObjectBase;
+            if (simObj != null)
+            {
+                simObj.updatePosition(ref translation, ref rotation, null);
+            }
+            instance.Translation = translation;
+            instance.Definition.Rotation = rotation;
+        }
+
+        public void editTranslation(ref Vector3 translation)
+        {
+            SimObjectBase simObj = simObjectController.getSimObject(Name) as SimObjectBase;
+            if (simObj != null)
+            {
+                simObj.updateTranslation(ref translation, null);
+            }
+            instance.Translation = translation;
+        }
+
+        public void editRotation(ref Quaternion rotation)
+        {
+            SimObjectBase simObj = simObjectController.getSimObject(Name) as SimObjectBase;
+            if (simObj != null)
+            {
+                simObj.updateRotation(ref rotation, null);
+            }
+            instance.Definition.Rotation = rotation;
+        }
+
+        public Quaternion getRotation()
+        {
+            return instance.Definition.Rotation;
+        }
+
+        public Vector3 getTranslation()
+        {
+            return instance.Translation;
+        }
+
+        #endregion
     }
 }

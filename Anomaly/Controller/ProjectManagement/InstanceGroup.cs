@@ -283,7 +283,7 @@ namespace Anomaly
             if (accept)
             {
                 InstanceFileInterface instanceFile = callback.getSelectedEditInterface().getEditableProperties().First() as InstanceFileInterface;
-                SimObjectDefinition sourceObject = instanceFile.getFileObject().Definition;
+                SimObjectDefinition sourceObject = instanceFile.Instance.Definition;
                 SimObjectDefinition simObject = copySaver.copyObject(sourceObject) as SimObjectDefinition;
                 simObject.Name = name;
                 createInstance(simObject);

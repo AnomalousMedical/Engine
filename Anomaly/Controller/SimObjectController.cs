@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Engine.ObjectManagement;
+using Editor;
 
 namespace Anomaly
 {
@@ -18,7 +19,6 @@ namespace Anomaly
             this.controller = controller;
             controller.SceneController.OnSceneLoading += SceneController_OnSceneLoading;
             controller.SceneController.OnSceneUnloading += SceneController_OnSceneUnloading;
-            //controller.SelectionController.OnSelectionChanged += new ObjectSelected(SelectionController_OnSelectionChanged);
         }
 
         /// <summary>
@@ -37,7 +37,6 @@ namespace Anomaly
                 return instance;
             }
             return null;
-            //createSelectable(definition, instance);
         }
 
         /// <summary>
@@ -51,10 +50,6 @@ namespace Anomaly
                 simObjectManager.destroySimObject(name);
             }
             simObjectManagerDefiniton.removeSimObject(name);
-
-            //SelectableSimObject selectable = selectables[definition.Name];
-            //selectables.Remove(definition.Name);
-            //removeSelectableEditInterface(selectable);
         }
 
         public SimObject getSimObject(String name)
@@ -75,14 +70,8 @@ namespace Anomaly
         /// <param name="definition">The SimObjectManagerDefinition to use.</param>
         public void setSceneManagerDefintion(SimObjectManagerDefinition definition)
         {
-            //clearEditInterfaces();
-            //selectables.Clear();
             controller.SelectionController.clearSelection();
             simObjectManagerDefiniton = definition;
-            //foreach (SimObjectDefinition simObject in simObjectManagerDefiniton.getDefinitionIter())
-            //{
-            //    createSelectable(simObject, null);
-            //}
         }
 
         public SimObjectManagerDefinition getSimObjectManagerDefinition()
@@ -113,18 +102,6 @@ namespace Anomaly
         {
             this.subScene = scene.getDefaultSubScene();
             simObjectManager = simObjectManagerDefiniton.createSimObjectManager(scene.getDefaultSubScene());
-            //foreach (SelectableSimObject selectable in selectables.Values)
-            //{
-            //    String name = selectable.Definition.Name;
-            //    if (simObjectManager.hasSimObject(name))
-            //    {
-            //        selectable.Instance = simObjectManager.getSimObject(name);
-            //    }
-            //    else
-            //    {
-            //        selectable.Instance = null;
-            //    }
-            //}
         }
     }
 }

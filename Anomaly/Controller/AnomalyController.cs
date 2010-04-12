@@ -163,7 +163,7 @@ namespace Anomaly
             rotateTool = new RotateTool("RotateTool", rotateController);
             toolManager.addTool(rotateTool);
 
-            solutionController = new SolutionController(solution, solutionPanel, verticalObjectEditor);
+            solutionController = new SolutionController(solution, solutionPanel, this, verticalObjectEditor);
 
             //Initialize the windows
             mainForm.initialize(this);
