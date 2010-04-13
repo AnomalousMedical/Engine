@@ -349,6 +349,7 @@ namespace Anomaly
         {
             Instance instance = new Instance(simObject.Name, simObject);
             this.addInstance(instance);
+            instanceFiles[instance.Name].Modified = true;
         }
 
         private void importTemplates(EditUICallback callback, EditInterfaceCommand command)

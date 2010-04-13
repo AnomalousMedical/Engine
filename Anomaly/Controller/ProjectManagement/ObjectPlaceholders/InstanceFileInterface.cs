@@ -149,6 +149,18 @@ namespace Anomaly
 
         public bool Deleted { get; set; }
 
+        public bool Modified
+        {
+            get
+            {
+                return modified;
+            }
+            set
+            {
+                modified = value;
+            }
+        }
+
         public Instance Instance
         {
             get
