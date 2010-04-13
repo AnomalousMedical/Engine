@@ -74,6 +74,27 @@ namespace Anomaly.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap InstanceHidden {
+            get {
+                object obj = ResourceManager.GetObject("InstanceHidden", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap InstanceModified {
+            get {
+                object obj = ResourceManager.GetObject("InstanceModified", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap InstanceModifiedHidden {
+            get {
+                object obj = ResourceManager.GetObject("InstanceModifiedHidden", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Project {
             get {
                 object obj = ResourceManager.GetObject("Project", resourceCulture);

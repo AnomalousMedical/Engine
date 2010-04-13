@@ -8,7 +8,7 @@ namespace Anomaly
 {
     public abstract class ObjectPlaceholderInterface : EditableProperty
     {
-        private EditInterface editInterface;
+        protected EditInterface editInterface;
 
         public ObjectPlaceholderInterface(String name, Object iconReferenceTag)
         {

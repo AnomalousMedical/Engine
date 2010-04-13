@@ -26,6 +26,7 @@ namespace Anomaly
         public InstanceFileInterface(String name, Object iconReferenceTag, String filename)
             :base(name, iconReferenceTag)
         {
+            editInterface.addCommand(new EditInterfaceCommand("Toggle Display", toggleHidden));
             Deleted = false;
             this.filename = filename;
             if (File.Exists(filename))
@@ -62,14 +63,14 @@ namespace Anomaly
             {
                 File.Delete(filename);
             }
-            else if (modified)
+            else if (Modified)
             {
                 using (XmlTextWriter textWriter = new XmlTextWriter(filename, Encoding.Default))
                 {
                     textWriter.Formatting = Formatting.Indented;
                     xmlSaver.saveObject(instance, textWriter);
                 }
-                modified = false;
+                Modified = false;
             }
         }
 
@@ -84,7 +85,6 @@ namespace Anomaly
             if (instance != null)
             {
                 EditInterface editInterface = instance.getEditInterface();
-                editInterface.addCommand(new EditInterfaceCommand("Toggle Display", toggleHidden));
                 return editInterface;
             }
             else
@@ -115,7 +115,7 @@ namespace Anomaly
         public override void uiFieldUpdateCallback(EditInterface editInterface, object editingObject)
         {
             createSimObject(editingObject);
-            modified = true;
+            Modified = true;
         }
 
         public void createInstance(SimObjectController simObjectController)
@@ -144,6 +144,7 @@ namespace Anomaly
             {
                 this.simObjectController = null;
                 simObjectController.destroySimObject(Name);
+                setVisible(true);
             }
         }
 
@@ -168,7 +169,11 @@ namespace Anomaly
             }
             set
             {
-                modified = value;
+                if (modified != value)
+                {
+                    modified = value;
+                    determineIcon();
+                }
             }
         }
 
@@ -188,11 +193,38 @@ namespace Anomaly
                 SimObject obj = simObjectController.getSimObject(Name);
                 obj.setEnabled(showInstance);
             }
+            determineIcon();
         }
 
         private void toggleHidden(EditUICallback callback, EditInterfaceCommand command)
         {
             setVisible(!showInstance);
+        }
+
+        private void determineIcon()
+        {
+            if (Modified)
+            {
+                if (showInstance)
+                {
+                    editInterface.IconReferenceTag = AnomalyIcons.InstanceModified;
+                }
+                else
+                {
+                    editInterface.IconReferenceTag = AnomalyIcons.InstanceModifiedHidden;
+                }
+            }
+            else
+            {
+                if (showInstance)
+                {
+                    editInterface.IconReferenceTag = AnomalyIcons.Instance;
+                }
+                else
+                {
+                    editInterface.IconReferenceTag = AnomalyIcons.InstanceHidden;
+                }
+            }
         }
 
         #region SelectableObject Members
@@ -209,7 +241,7 @@ namespace Anomaly
             }
             instance.Translation = translation;
             instance.Definition.Rotation = rotation;
-            modified = true;
+            Modified = true;
         }
 
         public void editTranslation(ref Vector3 translation)
@@ -223,7 +255,7 @@ namespace Anomaly
                 }
             }
             instance.Translation = translation;
-            modified = true;
+            Modified = true;
         }
 
         public void editRotation(ref Quaternion rotation)
@@ -237,7 +269,7 @@ namespace Anomaly
                 }
             }
             instance.Definition.Rotation = rotation;
-            modified = true;
+            Modified = true;
         }
 
         public Quaternion getRotation()

@@ -14,6 +14,9 @@ namespace Anomaly
         ReferencedProjects,
         Solution,
         Instance,
+        InstanceModified,
+        InstanceModifiedHidden,
+        InstanceHidden,
     }
 
     class AnomalyTreeIcons
@@ -30,6 +33,9 @@ namespace Anomaly
             EditInterfaceIconCollection.addIcon(AnomalyIcons.Instance, Resources.Instance);
             EditInterfaceIconCollection.addIcon(AnomalyIcons.ProjectBuilt, Resources.ProjectBuilt);
             EditInterfaceIconCollection.addIcon(AnomalyIcons.ReferencedProjects, Resources.ReferencedProjects);
+            EditInterfaceIconCollection.addIcon(AnomalyIcons.InstanceModified, Resources.InstanceModified);
+            EditInterfaceIconCollection.addIcon(AnomalyIcons.InstanceModifiedHidden, Resources.InstanceModifiedHidden);
+            EditInterfaceIconCollection.addIcon(AnomalyIcons.InstanceHidden, Resources.InstanceHidden);
         }
     }
 }
