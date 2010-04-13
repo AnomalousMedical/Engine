@@ -183,6 +183,7 @@
     <Compile Include="Resources\Filesystem\ZipArchiveFileInfo.cs" />
     <Compile Include="Resources\Resource.cs" />
     <Compile Include="Resources\ResourceGroup.cs" />
+    <Compile Include="Resources\ResourceGroupCollection.cs" />
     <Compile Include="Resources\ResourceListener.cs" />
     <Compile Include="Resources\ResourceManager.cs" />
     <Compile Include="Resources\SubsystemResources.cs" />

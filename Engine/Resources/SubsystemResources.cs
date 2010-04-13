@@ -15,7 +15,7 @@ namespace Engine.Resources
     {
         #region Fields
 
-        private Dictionary<String, ResourceGroup> resourceGroups = new Dictionary<string, ResourceGroup>();
+        private ResourceGroupCollection resourceGroups = new ResourceGroupCollection();
         private String name;
         private List<ResourceListener> listeners = new List<ResourceListener>();
 
@@ -117,11 +117,11 @@ namespace Engine.Resources
         {
             //Unload non matching groups
             LinkedList<String> unloadedResources = new LinkedList<String>();
-            foreach (String group in resourceGroups.Keys)
+            foreach (ResourceGroup group in resourceGroups.Values)
             {
-                if (!toMatch.resourceGroups.ContainsKey(group))
+                if (!toMatch.resourceGroups.ContainsKey(group.Name))
                 {
-                    unloadedResources.AddLast(group);
+                    unloadedResources.AddLast(group.Name);
                 }
             }
 

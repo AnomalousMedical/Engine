@@ -143,6 +143,7 @@ namespace OgrePlugin
 
                 //Setup the core resources
                 OgreResourceGroupManager.getInstance().addResourceLocation(typeof(OgreInterface).AssemblyQualifiedName, "EmbeddedResource", "Bootstrap", true);
+                OgreResourceGroupManager.getInstance().initializeAllResourceGroups();
             }
             catch (Exception e)
             {

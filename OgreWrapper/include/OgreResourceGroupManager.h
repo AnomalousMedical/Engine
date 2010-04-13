@@ -45,6 +45,8 @@ public:
 	/// </summary>
 	void initializeAllResourceGroups();
 
+	void initializeResourceGroup(System::String^ name);
+
 	void destroyResourceGroup(System::String^ name);
 
 	/// <summary>

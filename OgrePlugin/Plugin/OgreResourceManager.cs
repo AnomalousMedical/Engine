@@ -14,6 +14,7 @@ namespace OgrePlugin
         public static OgreResourceManager Instance { get { return instance; } }
 
         private OgreResourceGroupManager ogreResourceManager;
+        private List<String> resourceGroupOrder = new List<string>();
 
         private OgreResourceManager()
         {
@@ -22,7 +23,10 @@ namespace OgrePlugin
 
         public void forceResourceRefresh()
         {
-            ogreResourceManager.initializeAllResourceGroups();
+            foreach (String group in resourceGroupOrder)
+            {
+                ogreResourceManager.initializeResourceGroup(group);
+            }
         }
 
         public void resourceAdded(ResourceGroup group, Engine.Resources.Resource resource)
@@ -33,11 +37,13 @@ namespace OgrePlugin
         public void resourceGroupAdded(ResourceGroup group)
         {
             ogreResourceManager.createResourceGroup(group.Name);
+            resourceGroupOrder.Add(group.Name);
         }
 
         public void resourceGroupRemoved(ResourceGroup group)
         {
             ogreResourceManager.destroyResourceGroup(group.Name);
+            resourceGroupOrder.Remove(group.Name);
         }
 
         public void resourceRemoved(ResourceGroup group, Engine.Resources.Resource resource)

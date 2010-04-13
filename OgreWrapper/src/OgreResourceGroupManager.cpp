@@ -45,6 +45,23 @@ void OgreResourceGroupManager::initializeAllResourceGroups()
 	}
 }
 
+void OgreResourceGroupManager::initializeResourceGroup(System::String^ name)
+{
+	try
+	{
+		resourceManager->initialiseResourceGroup(MarshalUtils::convertString(name));
+
+		if(onResourcesInitialized != nullptr)
+		{
+			onResourcesInitialized->Invoke();
+		}
+	}
+	catch(Ogre::Exception e)
+	{
+		Logging::Log::Default->sendMessage("Error loading resources {0}", Logging::LogLevel::Error, "Renderer", MarshalUtils::convertString(e.getFullDescription()));
+	}
+}
+
 void OgreResourceGroupManager::destroyResourceGroup(System::String^ name)
 {
 	resourceManager->destroyResourceGroup(MarshalUtils::convertString(name));
