@@ -15,6 +15,7 @@ namespace Engine.Editing
     public delegate void SubInterfaceAdded(EditInterface editInterface);
     public delegate void SubInterfaceRemoved(EditInterface editInterface);
     public delegate void ColorsChanged(EditInterface editInterface);
+    public delegate void EditInterfaceEvent(EditInterface editInterface); //Generalized delegate, use this from now on.
 
     public enum EngineIcons
     {
@@ -55,6 +56,7 @@ namespace Engine.Editing
         public event SubInterfaceRemoved OnSubInterfaceRemoved;
         public event ColorsChanged OnBackColorChanged;
         public event ColorsChanged OnForeColorChanged;
+        public event EditInterfaceEvent OnIconReferenceChanged;
 
         /// <summary>
         /// Constructor.
@@ -354,6 +356,10 @@ namespace Engine.Editing
             set
             {
                 iconReferenceTag = value;
+                if (OnIconReferenceChanged != null)
+                {
+                    OnIconReferenceChanged.Invoke(this);
+                }
             }
         }
     }

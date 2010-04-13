@@ -58,6 +58,7 @@ namespace Anomaly
             if (editInterface == null)
             {
                 editInterface = new EditInterface("Referenced Projects", addReferenceCallback, removeReferenceCallback, validate);
+                editInterface.IconReferenceTag = AnomalyIcons.ReferencedProjects;
                 EditablePropertyInfo propertyInfo = new EditablePropertyInfo();
                 propertyInfo.addColumn(new EditablePropertyColumn("Project", false));
                 editInterface.setPropertyInfo(propertyInfo);

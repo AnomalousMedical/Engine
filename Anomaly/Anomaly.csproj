@@ -211,6 +211,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Anomaly.ico" />
+    <None Include="Resources\ReferencedProjects.png" />
+    <None Include="Resources\ProjectBuilt.png" />
     <None Include="Resources\Solution.png" />
     <None Include="Resources\Project.png" />
     <None Include="Resources\Instance.png" />

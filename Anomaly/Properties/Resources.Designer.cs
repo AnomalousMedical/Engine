@@ -81,6 +81,20 @@ namespace Anomaly.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap ProjectBuilt {
+            get {
+                object obj = ResourceManager.GetObject("ProjectBuilt", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap ReferencedProjects {
+            get {
+                object obj = ResourceManager.GetObject("ReferencedProjects", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Solution {
             get {
                 object obj = ResourceManager.GetObject("Solution", resourceCulture);

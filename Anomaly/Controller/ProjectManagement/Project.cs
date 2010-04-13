@@ -72,6 +72,11 @@ namespace Anomaly
         {
             if (!built)
             {
+                if (editInterface != null)
+                {
+                    editInterface.IconReferenceTag = AnomalyIcons.ProjectBuilt;
+                }
+
                 built = true;
 
                 anomalyController.ResourceController.addResources(resourceFileInterface.getFileObject());
@@ -100,6 +105,11 @@ namespace Anomaly
         {
             if (!built)
             {
+                if (editInterface != null)
+                {
+                    editInterface.IconReferenceTag = AnomalyIcons.ProjectBuilt;
+                }
+
                 built = true;
 
                 anomalyController.ResourceController.addResources(resourceFileInterface.getFileObject());
@@ -125,6 +135,11 @@ namespace Anomaly
         {
             if (built)
             {
+                if (editInterface != null)
+                {
+                    editInterface.IconReferenceTag = AnomalyIcons.Project;
+                }
+
                 built = false;
                 instanceGroup.destroyInstances(anomalyController.SimObjectController);
 
