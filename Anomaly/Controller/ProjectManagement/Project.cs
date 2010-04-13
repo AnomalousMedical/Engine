@@ -9,6 +9,7 @@ using System.Xml;
 using Engine;
 using Engine.Saving.XMLSaver;
 using Engine.ObjectManagement;
+using Logging;
 
 namespace Anomaly
 {
@@ -22,9 +23,12 @@ namespace Anomaly
         private bool built = false;
         private ResourceManagerFileInterface resourceFileInterface;
         private SimSceneFileInterface sceneFileInterface;
+        private ProjectReferenceManager projectReferences = new ProjectReferenceManager();
+        private Solution solution;
 
-        public Project(String name, String workingDirectory)
+        public Project(Solution solution, String name, String workingDirectory)
         {
+            this.solution = solution;
             this.name = name;
             this.workingDirectory = workingDirectory;
             String instancesPath = Path.Combine(workingDirectory, "Instances");
@@ -66,20 +70,77 @@ namespace Anomaly
 
         public void buildScene(AnomalyController anomalyController)
         {
-            built = true;
+            if (!built)
+            {
+                built = true;
 
-            anomalyController.ResourceController.addResources(resourceFileInterface.getFileObject());
-            anomalyController.SceneController.setSceneDefinition(sceneFileInterface.getFileObject());
+                anomalyController.ResourceController.addResources(resourceFileInterface.getFileObject());
+                anomalyController.SceneController.setSceneDefinition(sceneFileInterface.getFileObject());
 
-            SimObjectManagerDefinition simObjectManager = new SimObjectManagerDefinition();
-            anomalyController.SimObjectController.setSceneManagerDefintion(simObjectManager);
-            instanceGroup.buildInstances(anomalyController.SimObjectController);
+                SimObjectManagerDefinition simObjectManager = new SimObjectManagerDefinition();
+                anomalyController.SimObjectController.setSceneManagerDefintion(simObjectManager);
+                instanceGroup.buildInstances(anomalyController.SimObjectController);
+
+                foreach (ProjectReference reference in projectReferences.ReferencedProjectNames)
+                {
+                    Project subProject = solution.getProject(reference.ProjectName);
+                    if (subProject != null)
+                    {
+                        subProject.buildAsReferencedScene(anomalyController);
+                    }
+                    else
+                    {
+                        Log.Error("Could not find referenced project {0} for project {1}. Project could not be built.", reference.ProjectName, Name);
+                    }
+                }
+            }
+        }
+
+        private void buildAsReferencedScene(AnomalyController anomalyController)
+        {
+            if (!built)
+            {
+                built = true;
+
+                anomalyController.ResourceController.addResources(resourceFileInterface.getFileObject());
+
+                instanceGroup.buildInstances(anomalyController.SimObjectController);
+
+                foreach (ProjectReference reference in projectReferences.ReferencedProjectNames)
+                {
+                    Project subProject = solution.getProject(reference.ProjectName);
+                    if (subProject != null)
+                    {
+                        subProject.buildAsReferencedScene(anomalyController);
+                    }
+                    else
+                    {
+                        Log.Error("Could not find referenced project {0} for project {1}. Project could not be built.", reference.ProjectName, Name);
+                    }
+                }
+            }
         }
 
         public void unloadScene(AnomalyController anomalyController)
         {
-            built = false;
-            instanceGroup.destroyInstances(anomalyController.SimObjectController);
+            if (built)
+            {
+                built = false;
+                instanceGroup.destroyInstances(anomalyController.SimObjectController);
+
+                foreach (ProjectReference reference in projectReferences.ReferencedProjectNames)
+                {
+                    Project subProject = solution.getProject(reference.ProjectName);
+                    if (subProject != null)
+                    {
+                        subProject.unloadScene(anomalyController);
+                    }
+                    else
+                    {
+                        Log.Error("Could not find referenced project {0} for project {1}. Project could not be destroyed.", reference.ProjectName, Name);
+                    }
+                }
+            }
         }
 
         public void save()
@@ -117,6 +178,7 @@ namespace Anomaly
                 editInterface = new EditInterface(name);
                 editInterface.IconReferenceTag = AnomalyIcons.Project;
 
+                editInterface.addSubInterface(projectReferences.getEditInterface());
                 editInterface.addSubInterface(resourceFileInterface.getEditInterface());
                 editInterface.addSubInterface(sceneFileInterface.getEditInterface());
 

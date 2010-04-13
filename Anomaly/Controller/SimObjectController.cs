@@ -61,6 +61,11 @@ namespace Anomaly
             return null;
         }
 
+        internal bool hasSimObject(string name)
+        {
+            return simObjectManagerDefiniton.hasSimObject(name);
+        }
+
         /// <summary>
         /// Set the SimObjectManagerDefintion to be used by this controller.
         /// This will add the definitions to the UI but will not create the

@@ -88,6 +88,8 @@
     <Compile Include="Controller\ProjectManagement\ObjectPlaceholders\ResourceManagerFileInterface.cs" />
     <Compile Include="Controller\ProjectManagement\ObjectPlaceholders\SimSceneFileInterface.cs" />
     <Compile Include="Controller\ProjectManagement\Project.cs" />
+    <Compile Include="Controller\ProjectManagement\ProjectReference.cs" />
+    <Compile Include="Controller\ProjectManagement\ProjectReferenceManager.cs" />
     <Compile Include="Controller\ProjectManagement\ProjectWriter.cs" />
     <Compile Include="Controller\ProjectManagement\SolutionController.cs" />
     <Compile Include="Controller\ProjectManagement\InstanceGroup.cs" />

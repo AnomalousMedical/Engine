@@ -9,12 +9,14 @@ using Engine.ObjectManagement;
 using Engine.Saving.XMLSaver;
 using System.Xml;
 using Engine.Resources;
+using System.Drawing;
 
 namespace Anomaly
 {
     public partial class Solution
     {
         private static XmlSaver xmlSaver = new XmlSaver();
+        private static Engine.Color ACTIVE_PROJECT_COLOR = new Engine.Color(0.133f, 0.694f, 0.298f);
 
         private String name;
         private Dictionary<String, Project> projects = new Dictionary<string, Project>();
@@ -59,7 +61,7 @@ namespace Anomaly
 
             foreach (String projectFile in Directory.GetFiles(workingDirectory, "*.prj", SearchOption.AllDirectories))
             {
-                Project project = new Project(Path.GetFileNameWithoutExtension(projectFile), Path.GetDirectoryName(projectFile));
+                Project project = new Project(this, Path.GetFileNameWithoutExtension(projectFile), Path.GetDirectoryName(projectFile));
                 addProject(project);
                 if (currentProject == null)
                 {
@@ -79,6 +81,13 @@ namespace Anomaly
         {
             projects.Remove(project.Name);
             onProjectRemoved(project);
+        }
+
+        public Project getProject(String name)
+        {
+            Project project = null;
+            projects.TryGetValue(name, out project);
+            return project;
         }
 
         public void createCurrentProject()
@@ -158,6 +167,11 @@ namespace Anomaly
                 foreach (Project project in projects.Values)
                 {
                     onProjectAdded(project);
+                    if (project == currentProject)
+                    {
+                        EditInterface edit = project.getEditInterface();
+                        edit.ForeColor = ACTIVE_PROJECT_COLOR;
+                    }
                 }
             }
 
@@ -172,7 +186,7 @@ namespace Anomaly
             bool accept = callback.getInputString("Enter a name.", out name, validateProjectCreate);
             if (accept)
             {
-                Project project = new Project(name, Path.Combine(workingDirectory, name));
+                Project project = new Project(this, name, Path.Combine(workingDirectory, name));
                 addProject(project);
             }
         }
@@ -200,8 +214,10 @@ namespace Anomaly
 
         private void setActiveProjectCallback(EditUICallback callback, EditInterfaceCommand command)
         {
+            currentProject.getEditInterface().ForeColor = Engine.Color.FromARGB(SystemColors.WindowText.ToArgb());
             currentProject.unloadScene(anomalyController);
             currentProject = projectInterfaceManager.resolveSourceObject(callback.getSelectedEditInterface());
+            callback.getSelectedEditInterface().ForeColor = ACTIVE_PROJECT_COLOR;
             anomalyController.createNewScene();
         }
 

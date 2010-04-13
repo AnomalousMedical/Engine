@@ -120,11 +120,17 @@ namespace Anomaly
 
         public void createInstance(SimObjectController simObjectController)
         {
-            this.simObjectController = simObjectController;
-
             if (instance != null)
             {
-                simObjectController.createSimObject(instance.Definition);
+                if (!simObjectController.hasSimObject(instance.Name))
+                {
+                    simObjectController.createSimObject(instance.Definition);
+                    this.simObjectController = simObjectController;
+                }
+                else
+                {
+                    Log.Warning("A SimObject named {0} already exists in the scene. This instance has not been created.", Name);
+                }
             }
             else
             {
