@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Engine.Editing;
+using Engine.Saving;
 
 namespace Anomaly
 {
-    public class ProjectReference : EditableProperty
+    public class ProjectReference : EditableProperty, Saveable
     {
         public ProjectReference(String projectName)
         {
@@ -36,6 +37,22 @@ namespace Anomaly
         public Type getPropertyType(int column)
         {
             return typeof(String);
+        }
+
+        #endregion
+
+        #region Saveable Members
+
+        private const String PROJECT_NAME = "ProjectName";
+
+        protected ProjectReference(LoadInfo info)
+        {
+            ProjectName = info.GetString(PROJECT_NAME);
+        }
+
+        public void getInfo(SaveInfo info)
+        {
+            info.AddValue(PROJECT_NAME, ProjectName);
         }
 
         #endregion

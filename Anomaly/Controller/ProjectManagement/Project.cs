@@ -23,8 +23,9 @@ namespace Anomaly
         private bool built = false;
         private ResourceManagerFileInterface resourceFileInterface;
         private SimSceneFileInterface sceneFileInterface;
-        private ProjectReferenceManager projectReferences = new ProjectReferenceManager();
+        private ProjectReferenceManager projectReferences;
         private Solution solution;
+        private String projectFile;
 
         public Project(Solution solution, String name, String workingDirectory)
         {
@@ -40,6 +41,26 @@ namespace Anomaly
             else
             {
                 InstanceWriter.Instance.scanForFiles(instanceGroup);
+            }
+
+            projectFile = Path.Combine(WorkingDirectory, Name + ".prj");
+            if (File.Exists(projectFile))
+            {
+                try
+                {
+                    using (XmlTextReader textReader = new XmlTextReader(projectFile))
+                    {
+                        projectReferences = xmlSaver.restoreObject(textReader) as ProjectReferenceManager;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Log.Error("Could not load project references file {0} because:\n{1}", projectFile, e.Message);
+                }
+            }
+            if(projectReferences == null)
+            {
+                projectReferences = new ProjectReferenceManager();
             }
 
             String resourcesFile = Path.Combine(workingDirectory, "Resources.xml");
@@ -140,6 +161,11 @@ namespace Anomaly
 
         public void save()
         {
+            using (XmlTextWriter textWriter = new XmlTextWriter(projectFile, Encoding.Default))
+            {
+                textWriter.Formatting = Formatting.Indented;
+                xmlSaver.saveObject(projectReferences, textWriter);
+            }
             sceneFileInterface.save();
             resourceFileInterface.save();
             instanceGroup.save();

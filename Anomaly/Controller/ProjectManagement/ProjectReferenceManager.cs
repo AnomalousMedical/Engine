@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Engine.Editing;
+using Engine.Saving;
 
 namespace Anomaly
 {
@@ -46,6 +47,21 @@ namespace Anomaly
             {
                 return referencedProjects;
             }
+        }
+    }
+
+    public partial class ProjectReferenceManager : Saveable
+    {
+        private const string PROJECT_REFERENCES = "ProjectReferences";
+
+        protected ProjectReferenceManager(LoadInfo info)
+        {
+            info.RebuildList<ProjectReference>(PROJECT_REFERENCES, referencedProjects);
+        }
+
+        public void getInfo(SaveInfo info)
+        {
+            info.ExtractList<ProjectReference>(PROJECT_REFERENCES, referencedProjects);
         }
     }
 
