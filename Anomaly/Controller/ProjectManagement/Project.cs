@@ -72,36 +72,16 @@ namespace Anomaly
         {
             if (!built)
             {
-                if (editInterface != null)
-                {
-                    editInterface.IconReferenceTag = AnomalyIcons.ProjectBuilt;
-                }
-
-                built = true;
-
-                anomalyController.ResourceController.addResources(resourceFileInterface.getFileObject());
                 anomalyController.SceneController.setSceneDefinition(sceneFileInterface.getFileObject());
 
                 SimObjectManagerDefinition simObjectManager = new SimObjectManagerDefinition();
                 anomalyController.SimObjectController.setSceneManagerDefintion(simObjectManager);
-                instanceGroup.buildInstances(anomalyController.SimObjectController);
 
-                foreach (ProjectReference reference in projectReferences.ReferencedProjectNames)
-                {
-                    Project subProject = solution.getProject(reference.ProjectName);
-                    if (subProject != null)
-                    {
-                        subProject.buildAsReferencedScene(anomalyController);
-                    }
-                    else
-                    {
-                        Log.Error("Could not find referenced project {0} for project {1}. Project could not be built.", reference.ProjectName, Name);
-                    }
-                }
+                commonBuild(anomalyController);
             }
         }
 
-        private void buildAsReferencedScene(AnomalyController anomalyController)
+        private void commonBuild(AnomalyController anomalyController)
         {
             if (!built)
             {
@@ -121,7 +101,7 @@ namespace Anomaly
                     Project subProject = solution.getProject(reference.ProjectName);
                     if (subProject != null)
                     {
-                        subProject.buildAsReferencedScene(anomalyController);
+                        subProject.commonBuild(anomalyController);
                     }
                     else
                     {
