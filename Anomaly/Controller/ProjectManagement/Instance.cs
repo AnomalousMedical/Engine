@@ -14,7 +14,6 @@ namespace Anomaly
         /// <summary>
         /// The key from a positions file that determines where this instance goes.
         /// </summary>
-        [Editable]
         private String positionKey;
 
         /// <summary>
@@ -44,6 +43,19 @@ namespace Anomaly
             get
             {
                 return simObject;
+            }
+        }
+
+        [Editable]
+        public String PositionKey
+        {
+            get
+            {
+                return positionKey;
+            }
+            set
+            {
+                positionKey = value;
             }
         }
 

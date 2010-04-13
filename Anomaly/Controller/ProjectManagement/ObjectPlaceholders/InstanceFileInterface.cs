@@ -147,6 +147,17 @@ namespace Anomaly
             }
         }
 
+        internal void updatePosition(PositionCollection positions)
+        {
+            Position pos = positions.getPosition(instance.PositionKey);
+            if (pos != null)
+            {
+                Vector3 trans = pos.Translation;
+                Quaternion rot = pos.Rotation;
+                editPosition(ref trans, ref rot);
+            }
+        }
+
         public bool Deleted { get; set; }
 
         public bool Modified

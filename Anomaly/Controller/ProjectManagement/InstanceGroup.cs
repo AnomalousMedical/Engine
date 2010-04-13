@@ -137,6 +137,19 @@ namespace Anomaly
             }
         }
 
+        public void updatePositions(PositionCollection positions)
+        {
+            foreach (InstanceGroup group in groups.Values)
+            {
+                group.updatePositions(positions);
+            }
+
+            foreach (InstanceFileInterface instance in instanceFiles.Values)
+            {
+                instance.updatePosition(positions);
+            }
+        }
+
         public void save()
         {
             InstanceWriter.Instance.addInstanceGroup(this);
@@ -202,6 +215,7 @@ namespace Anomaly
                 editInterface = new EditInterface(name);
                 editInterface.addCommand(new EditInterfaceCommand("Create Group", createGroupCallback));
                 editInterface.addCommand(new EditInterfaceCommand("Create Sim Object", createSimObjectCallback));
+                editInterface.addCommand(new EditInterfaceCommand("Import Positions", importPositionsCallback));
                 editInterface.addCommand(new EditInterfaceCommand("Import legacy templates", importTemplates));
                 editInterface.IconReferenceTag = EditorIcons.Folder;
                 groupManager = new EditInterfaceManager<InstanceGroup>(editInterface);
@@ -350,6 +364,28 @@ namespace Anomaly
             Instance instance = new Instance(simObject.Name, simObject);
             this.addInstance(instance);
             instanceFiles[instance.Name].Modified = true;
+        }
+
+        private void importPositionsCallback(EditUICallback callback, EditInterfaceCommand command)
+        {
+            String file;
+            bool accept = callback.showOpenFileDialog("*.positions|*.positions", out file);
+            if (accept)
+            {
+                PositionCollection positions = new PositionCollection();
+                try
+                {
+                    using (XmlTextReader textReader = new XmlTextReader(file))
+                    {
+                        positions.loadPositions(textReader);
+                    }
+                    this.updatePositions(positions);
+                }
+                catch(Exception e)
+                {
+                    Log.Error("Could not load positions file {0} because:\n{1}", file, e.Message);
+                }
+            }
         }
 
         private void importTemplates(EditUICallback callback, EditInterfaceCommand command)
