@@ -100,7 +100,7 @@ namespace Engine.Resources
                 {
                     groupEdits.removeSubInterface(group);
                 }
-                resourceGroups.Remove(name);
+                resourceGroups.Remove(group);
             }
             else
             {
@@ -216,7 +216,7 @@ namespace Engine.Resources
             if (!resourceGroups.ContainsKey(group.Name))
             {
                 group.setParent(this);
-                resourceGroups.Add(group.Name, group);
+                resourceGroups.Add(group);
                 if (editInterface != null)
                 {
                     addResourceGroupEditInterface(group);

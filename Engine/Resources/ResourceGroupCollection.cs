@@ -21,45 +21,20 @@ namespace Engine.Resources
             return false;
         }
 
-        public void Remove(String key)
+        public void Remove(ResourceGroup group)
         {
-            ResourceGroup foundGroup = null;
-            foreach (ResourceGroup group in resourceGroups)
-            {
-                if (group.Name == key)
-                {
-                    foundGroup = group;
-                    break;
-                }
-            }
-            if (foundGroup != null)
-            {
-                resourceGroups.Remove(foundGroup);
-            }
-            else
-            {
-                throw new KeyNotFoundException(String.Format("Could not find key {0}.", key));
-            }
+            resourceGroups.Remove(group);
         }
 
-        public void Add(String key, ResourceGroup toAdd)
+        public void Add(ResourceGroup toAdd)
         {
-            ResourceGroup foundGroup = null;
-            foreach (ResourceGroup group in resourceGroups)
-            {
-                if (group.Name == key)
-                {
-                    foundGroup = group;
-                    break;
-                }
-            }
-            if (foundGroup == null)
+            if (!ContainsKey(toAdd.Name))
             {
                 resourceGroups.Add(toAdd);
             }
             else
             {
-                throw new ArgumentException(String.Format("Key already defined {0}.", key));
+                throw new ArgumentException(String.Format("Group already defined {0}.", toAdd.Name));
             }
         }
 
