@@ -29,7 +29,6 @@ namespace Engine
         private LinkedList<String> softBodiesFound = new LinkedList<string>();
 
         public String LocName { get; set; }
-        public ResourceType Type { get; set; }
         public bool Recursive { get; set; }
         public bool Loaded { get; set; }
 
@@ -39,10 +38,9 @@ namespace Engine
         /// <param name="locName">The name of the location (the path).</param>
         /// <param name="type">The type of the location.</param>
         /// <param name="recursive">If this is true and the location is a directory it will be scanned for all valid files.</param>
-        public ShapeLocation(String locName, ResourceType type, bool recursive, ShapeGroup parentGroup)
+        public ShapeLocation(String locName, bool recursive, ShapeGroup parentGroup)
         {
             this.LocName = locName;
-            this.Type = type;
             this.Recursive = recursive;
             this.Loaded = false;
             this.Path = parentGroup.Name + pathSeparators[0] + locName;

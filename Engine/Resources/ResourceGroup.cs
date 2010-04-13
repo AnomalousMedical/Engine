@@ -51,7 +51,7 @@ namespace Engine.Resources
             this.parent = parent;
             foreach (Resource resource in toDuplicate.resources.Values)
             {
-                this.addResource(new Resource(resource.getLocName(), resource.Type, resource.Recursive));
+                this.addResource(new Resource(resource.getLocName(), resource.Recursive));
             }
         }
 
@@ -63,13 +63,12 @@ namespace Engine.Resources
         /// Add a resource to this resource group.  This is the ideal way to construct resources.
         /// </summary>
         /// <param name="locName">The location of the resource group.</param>
-        /// <param name="type">The type of the resource group.</param>
         /// <param name="recursive">When true if the resource is a directory, subdirectories will be scanned.  False means this directory only.</param>
-        public Resource addResource(String locName, ResourceType type, bool recursive)
+        public Resource addResource(String locName, bool recursive)
         {
             if (!resources.ContainsKey(locName))
             {
-                Resource resource = new Resource(locName, type, recursive);
+                Resource resource = new Resource(locName, recursive);
                 addResource(resource);
             }
             else

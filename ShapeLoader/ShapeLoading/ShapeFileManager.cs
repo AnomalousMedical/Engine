@@ -110,7 +110,7 @@ namespace Engine
         public void resourceAdded(ResourceGroup group, Resource resource)
         {
             ShapeGroup localGroup = declareGroup(group.Name);
-            localGroup.addShapeLocation(new ShapeLocation(resource.FullPath, resource.Type, resource.Recursive, localGroup), loader, builder);
+            localGroup.addShapeLocation(new ShapeLocation(resource.FullPath, resource.Recursive, localGroup), loader, builder);
         }
 
         /// <summary>

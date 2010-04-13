@@ -10,17 +10,6 @@ using Engine.Attributes;
 namespace Engine.Resources
 {
     /// <summary>
-    /// This describes the type of location the resource is saved into.
-    /// </summary>
-    [SingleEnum]
-    public enum ResourceType : uint
-    {
-	    FileSystem = 0,
-	    ZipArchive = 1,
-        EngineArchive = 2,
-    };
-
-    /// <summary>
     /// A resource is an individual file or folder containing assets that need
     /// to be loaded into the engine.
     /// </summary>
@@ -29,7 +18,6 @@ namespace Engine.Resources
         #region Fields
 
         private String locName;
-        private ResourceType type;
         private bool recursive;
         private ResourceGroup group;
 
@@ -43,7 +31,6 @@ namespace Engine.Resources
         internal Resource()
         {
             locName = "";
-            type = ResourceType.FileSystem;
             recursive = false;
         }
 
@@ -53,10 +40,9 @@ namespace Engine.Resources
 	    /// <param name="locName">The location of the resource.</param>
 	    /// <param name="type">The type of the resource.</param>
 	    /// <param name="recursive">True to recurse subdirectories.</param>
-        internal Resource(String locName, ResourceType type, bool recursive)
+        internal Resource(String locName, bool recursive)
         {
             this.locName = locName;
-            this.type = type;
             this.recursive = recursive;
         }
 
@@ -67,7 +53,6 @@ namespace Engine.Resources
         internal Resource(Resource toCopy)
         {
         	this.locName = toCopy.locName;
-            this.type = toCopy.type;
             this.recursive = toCopy.recursive;
         }
 
@@ -93,7 +78,6 @@ namespace Engine.Resources
         internal bool allPropertiesMatch(Resource checkAgainst)
         {
 	        return locName == checkAgainst.locName && 
-		        type == checkAgainst.type && 
 		        recursive == checkAgainst.recursive;
         }
 
@@ -146,21 +130,6 @@ namespace Engine.Resources
 	    }
 
 	    /// <summary>
-	    /// This is the type of the resource.
-	    /// </summary>
-        public ResourceType Type 
-	    {
-		    get
-            {
-                return ResourceType.EngineArchive;
-            }
-		    set
-            {
-                type = value;
-            }
-	    }
-
-	    /// <summary>
 	    /// True if the resource should scan subdirectories.
 	    /// </summary>
         public bool Recursive 
@@ -180,7 +149,6 @@ namespace Engine.Resources
         #region Saveable Members
 
         private const String LOC_NAME = "LocName";
-        private const String TYPE = "Type";
         private const String RECURSIVE = "Recursive";
 
         /// <summary>
@@ -190,7 +158,6 @@ namespace Engine.Resources
         private Resource(LoadInfo info)
         {
             locName = info.GetString(LOC_NAME);
-            type = info.GetValue<ResourceType>(TYPE);
             recursive = info.GetBoolean(RECURSIVE);
         }
 
@@ -201,7 +168,6 @@ namespace Engine.Resources
         public void getInfo(SaveInfo info)
         {
             info.AddValue(LOC_NAME, locName);
-            info.AddValue(TYPE, type);
             info.AddValue(RECURSIVE, recursive);
         }
 
@@ -210,15 +176,13 @@ namespace Engine.Resources
         #region EditableProperty Members
 
         private const int LOC_COLUMN = 0;
-        private const int TYPE_COLUMN = 1;
-        private const int RECURSIVE_COLUMN = 2;
+        private const int RECURSIVE_COLUMN = 1;
 
         internal static readonly EditablePropertyInfo Info = new EditablePropertyInfo();
 
         static Resource()
         {
             Info.addColumn(new EditablePropertyColumn("Location", false));
-            Info.addColumn(new EditablePropertyColumn("Type", false));
             Info.addColumn(new EditablePropertyColumn("Recursive", false));
         }
 
@@ -233,8 +197,6 @@ namespace Engine.Resources
             {
                 case LOC_COLUMN:
                     return locName;
-                case TYPE_COLUMN:
-                    return type.ToString();
                 case RECURSIVE_COLUMN:
                     return recursive.ToString();
             }
@@ -258,9 +220,6 @@ namespace Engine.Resources
                     group.removeResource(locName);
                     locName = value;
                     localGroup.addResource(this);
-                    break;
-                case TYPE_COLUMN:
-                    type = (ResourceType)Enum.Parse(typeof(ResourceType), value);
                     break;
                 case RECURSIVE_COLUMN:
                     recursive = bool.Parse(value);
@@ -304,18 +263,6 @@ namespace Engine.Resources
                         errorMessage = String.Format("Could not find resource path \"{0}\".", fullPath);
                         return false;
                     }
-                case TYPE_COLUMN:
-                    try
-                    {
-                        Enum.Parse(typeof(ResourceType), value);
-                    }
-                    catch (ArgumentException)
-                    {
-                        errorMessage = "Invalid resource type";
-                        return false;
-                    }
-                    errorMessage = null;
-                    return true;
                 case RECURSIVE_COLUMN:
                     errorMessage = "Cannot evaluate recursive value as a bool";
                     bool result;
@@ -335,8 +282,6 @@ namespace Engine.Resources
             {
                 case LOC_COLUMN:
                     return typeof(String);
-                case TYPE_COLUMN:
-                    return typeof(ResourceType);
                 case RECURSIVE_COLUMN:
                     return typeof(bool);
             }

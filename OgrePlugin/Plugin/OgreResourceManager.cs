@@ -27,23 +27,7 @@ namespace OgrePlugin
 
         public void resourceAdded(ResourceGroup group, Engine.Resources.Resource resource)
         {
-            String resourceType;
-            switch(resource.Type)
-	        {
-		        case ResourceType.FileSystem:
-			        resourceType = "FileSystem";
-			        break;
-		        case ResourceType.ZipArchive:
-			        resourceType = "Zip";
-			        break;
-                case ResourceType.EngineArchive:
-                    resourceType = "EngineArchive";
-                    break;
-		        default:
-			        resourceType = "FileSystem";
-			        break;
-	        }
-            ogreResourceManager.addResourceLocation(resource.FullPath, resourceType, group.Name, resource.Recursive);
+            ogreResourceManager.addResourceLocation(resource.FullPath, "EngineArchive", group.Name, resource.Recursive);
         }
 
         public void resourceGroupAdded(ResourceGroup group)
