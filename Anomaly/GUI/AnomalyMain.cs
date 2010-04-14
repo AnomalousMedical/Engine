@@ -84,11 +84,6 @@ namespace Anomaly
             base.OnFormClosing(e);
         }
 
-        private void editToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            controller.ResourceController.editResources();
-        }
-
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -96,39 +91,7 @@ namespace Anomaly
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //String filename = fileTracker.saveFile(this);
-            //if (fileTracker.lastDialogAccepted())
-            //{
-            //    controller.saveScene(filename);
-            //    updateWindowTitle(filename);
-            //}
             controller.saveSolution();
-        }
-
-        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            String filename = fileTracker.saveFileAs(this);
-            if (fileTracker.lastDialogAccepted())
-            {
-                controller.saveScene(filename);
-                updateWindowTitle(filename);
-            }
-        }
-
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            String filename = fileTracker.openFile(this);
-            if (fileTracker.lastDialogAccepted())
-            {
-                controller.loadScene(filename);
-                updateWindowTitle(filename);
-            }
-        }
-
-        private void newToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            controller.createNewScene();
-            clearWindowTitle();
         }
 
         private void configureToolStripMenuItem_Click(object sender, EventArgs e)
@@ -200,22 +163,6 @@ namespace Anomaly
             controller.ViewController.createFourWaySplit();
         }
 
-        private void importInstancesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                DialogResult result = openFileDialog.ShowDialog(this);
-                if (result == DialogResult.OK)
-                {
-                    controller.importInstances(openFileDialog.FileName);
-                }
-            }
-            catch (IOException ex)
-            {
-                MessageBox.Show(String.Format("Error reading {0}:\n{1}.", openFileDialog.FileName, ex.Message), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
         private void publishToolStripMenuItem_Click(object sender, EventArgs e)
         {
             publishGUI.ShowDialog(this);
@@ -224,6 +171,11 @@ namespace Anomaly
         private void obfuscateArchiveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             obfuscateGUI.ShowDialog(this);
+        }
+
+        private void viewResourcesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.ResourceController.viewResources();
         }
     }
 }

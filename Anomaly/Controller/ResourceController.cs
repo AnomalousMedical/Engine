@@ -26,7 +26,7 @@ namespace Anomaly
             secondaryResources = controller.PluginManager.createEmptyResourceManager();
         }
 
-        public void editResources()
+        public void viewResources()
         {
             controller.showObjectEditor(secondaryResources.getEditInterface());
 
