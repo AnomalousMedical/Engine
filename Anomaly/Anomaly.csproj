@@ -74,12 +74,13 @@
     <Compile Include="Config\EngineConfig.cs" />
     <Compile Include="Config\PluginSection.cs" />
     <Compile Include="Config\ResourceSection.cs" />
-    <Compile Include="Config\SolutionSection.cs" />
     <Compile Include="Config\ToolsConfig.cs" />
     <Compile Include="Controller\AnomalyController.cs" />
     <Compile Include="Controller\FullSpeedUpdateListener.cs" />
     <Compile Include="Controller\InstanceBuilder\InstanceBuilder.cs" />
     <Compile Include="Controller\ProjectManagement\AnomalyTreeIcons.cs" />
+    <Compile Include="Controller\ProjectManagement\ExternalResource.cs" />
+    <Compile Include="Controller\ProjectManagement\ExternalResourceManager.cs" />
     <Compile Include="Controller\ProjectManagement\ObjectPlaceholders\EditableFileInterface.cs" />
     <Compile Include="Controller\ProjectManagement\Instance.cs" />
     <Compile Include="Controller\ProjectManagement\InstanceWriter.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Controller\ProjectManagement\ProjectWriter.cs" />
     <Compile Include="Controller\ProjectManagement\SolutionController.cs" />
     <Compile Include="Controller\ProjectManagement\InstanceGroup.cs" />
+    <Compile Include="Controller\ProjectManagement\SolutionData.cs" />
     <Compile Include="Controller\PublishMode.cs" />
     <Compile Include="Controller\Publish\PublishController.cs" />
     <Compile Include="Controller\ResourceController.cs" />
@@ -214,6 +216,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Anomaly.ico" />
+    <None Include="Resources\ExternalResources.png" />
     <None Include="Resources\InstanceModifiedHidden.png" />
     <None Include="Resources\InstanceHidden.png" />
     <None Include="Resources\InstanceModified.png" />

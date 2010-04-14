@@ -120,7 +120,7 @@ namespace Anomaly
             pluginManager.RendererPlugin.PrimaryWindow.setEnabled(false);
 
             //Load the config file and set the resource root up.
-            VirtualFileSystem.Instance.addArchive(solution.ResourceSection.ResourceRoot);
+            VirtualFileSystem.Instance.addArchive(solution.ResourceRoot);
 
             solution.loadExternalFiles(this);
 

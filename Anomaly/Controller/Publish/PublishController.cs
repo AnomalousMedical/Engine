@@ -36,11 +36,9 @@ namespace Anomaly
                     }
                 }
             }
-            ConfigIterator additionalResources = solution.ResourceSection.AdditionalResources;
-            additionalResources.reset();
-            while (additionalResources.hasNext())
+            foreach (ExternalResource additionalResource in solution.AdditionalResources)
             {
-                processFile(additionalResources.next(), true);
+                processFile(additionalResource.Path, true);
             }
             foreach (String directory in recursiveDirectories)
             {

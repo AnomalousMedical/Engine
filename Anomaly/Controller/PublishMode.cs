@@ -86,7 +86,7 @@ namespace Anomaly
             {
                 PublishController publisher = new PublishController(solution);
 
-                VirtualFileSystem.Instance.addArchive(solution.ResourceSection.ResourceRoot);
+                VirtualFileSystem.Instance.addArchive(solution.ResourceRoot);
 
                 DynamicDLLPluginLoader pluginLoader = new DynamicDLLPluginLoader();
                 ConfigIterator pluginIterator = solution.PluginSection.PluginIterator;

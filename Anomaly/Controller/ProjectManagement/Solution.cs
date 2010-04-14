@@ -10,6 +10,7 @@ using Engine.Saving.XMLSaver;
 using System.Xml;
 using Engine.Resources;
 using System.Drawing;
+using Logging;
 
 namespace Anomaly
 {
@@ -23,30 +24,53 @@ namespace Anomaly
 
         private PluginSection pluginSection;
         private ResourceSection resourceSection;
-        private ConfigFile backingFile;
+        private ConfigFile engineConfiguration;
         private String workingDirectory;
-        private SolutionSection solutionSection;
         private ResourceManagerFileInterface resourceFileInterface;
 
         private Project currentProject;
 
         private AnomalyController anomalyController;
 
+        private String solutionFile;
+        private SolutionData solutionData;
+
         public Solution(String solutionFileName)
         {
+            this.solutionFile = solutionFileName;
             name = Path.GetFileNameWithoutExtension(solutionFileName);
             workingDirectory = Path.GetDirectoryName(solutionFileName);
-            backingFile = new ConfigFile(solutionFileName);
-            backingFile.loadConfigFile();
-            pluginSection = new PluginSection(backingFile);
-            resourceSection = new ResourceSection(backingFile);
-            solutionSection = new SolutionSection(backingFile);
+
+            String engineConfigFile = Path.Combine(workingDirectory, name + ".ecfg");
+            engineConfiguration = new ConfigFile(engineConfigFile);
+            engineConfiguration.loadConfigFile();
+            pluginSection = new PluginSection(engineConfiguration);
+            resourceSection = new ResourceSection(engineConfiguration);
         }
 
         public void loadExternalFiles(AnomalyController controller)
         {
+            if (File.Exists(solutionFile))
+            {
+                try
+                {
+                    using (XmlTextReader textReader = new XmlTextReader(solutionFile))
+                    {
+                        solutionData = xmlSaver.restoreObject(textReader) as SolutionData;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Log.Error("Could not load solution data file {0} because:\n{1}", solutionFile, e.Message);
+                }
+            }
+            if (solutionData == null)
+            {
+                solutionData = new SolutionData();
+            }
+
             this.anomalyController = controller;
-            String globalResourcesFile = Path.Combine(workingDirectory, solutionSection.GlobalResourceFile);
+            String globalResourcesFile = Path.Combine(workingDirectory, "Resources.xml");
             if (!File.Exists(globalResourcesFile))
             {
                 ResourceManager globalResources = controller.PluginManager.createEmptyResourceManager();
@@ -119,6 +143,11 @@ namespace Anomaly
 
         public void save()
         {
+            using (XmlTextWriter xmlWriter = new XmlTextWriter(solutionFile, Encoding.Default))
+            {
+                xmlWriter.Formatting = Formatting.Indented;
+                xmlSaver.saveObject(solutionData, xmlWriter);
+            }
             resourceFileInterface.save();
             foreach (Project project in projects.Values)
             {
@@ -134,11 +163,19 @@ namespace Anomaly
             }
         }
 
-        public ResourceSection ResourceSection
+        public String ResourceRoot
         {
             get
             {
-                return resourceSection;
+                return resourceSection.ResourceRoot;
+            }
+        }
+
+        public IEnumerable<ExternalResource> AdditionalResources
+        {
+            get
+            {
+                return solutionData.ExternalResources.ExternalResources;
             }
         }
 
@@ -176,6 +213,7 @@ namespace Anomaly
                 editInterface.IconReferenceTag = AnomalyIcons.Solution;
 
                 editInterface.addSubInterface(resourceFileInterface.getEditInterface());
+                editInterface.addSubInterface(solutionData.ExternalResources.getEditInterface());
 
                 editInterface.addCommand(new EditInterfaceCommand("Create Project", createProjectCallback));
                 projectInterfaceManager = new EditInterfaceManager<Project>(editInterface);

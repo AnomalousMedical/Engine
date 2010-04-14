@@ -17,6 +17,7 @@ namespace Anomaly
         InstanceModified,
         InstanceModifiedHidden,
         InstanceHidden,
+        ExternalResources,
     }
 
     class AnomalyTreeIcons
@@ -36,6 +37,7 @@ namespace Anomaly
             EditInterfaceIconCollection.addIcon(AnomalyIcons.InstanceModified, Resources.InstanceModified);
             EditInterfaceIconCollection.addIcon(AnomalyIcons.InstanceModifiedHidden, Resources.InstanceModifiedHidden);
             EditInterfaceIconCollection.addIcon(AnomalyIcons.InstanceHidden, Resources.InstanceHidden);
+            EditInterfaceIconCollection.addIcon(AnomalyIcons.ExternalResources, Resources.ExternalResources);
         }
     }
 }

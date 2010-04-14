@@ -67,6 +67,13 @@ namespace Anomaly.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap ExternalResources {
+            get {
+                object obj = ResourceManager.GetObject("ExternalResources", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Instance {
             get {
                 object obj = ResourceManager.GetObject("Instance", resourceCulture);
