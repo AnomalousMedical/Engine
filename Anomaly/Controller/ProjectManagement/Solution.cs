@@ -96,7 +96,7 @@ namespace Anomaly
             anomalyController.ResourceController.addResources(resourceFileInterface.getFileObject());
             if (currentProject != null)
             {
-                currentProject.buildScene(anomalyController);
+                currentProject.showScene(anomalyController);
             }
             else //Create an empty scene
             {
@@ -107,6 +107,14 @@ namespace Anomaly
                 anomalyController.SimObjectController.setSceneManagerDefintion(simObjectManager);
             }
             anomalyController.ResourceController.applyToScene();
+        }
+
+        public void build()
+        {
+            foreach (Project project in projects.Values)
+            {
+                project.build();
+            }
         }
 
         public void save()
@@ -141,6 +149,14 @@ namespace Anomaly
                 return workingDirectory;
             }
         }
+
+        public ResourceManager GlobalResources
+        {
+            get
+            {
+                return resourceFileInterface.getFileObject();
+            }
+        }
     }
 
     partial class Solution
@@ -149,6 +165,7 @@ namespace Anomaly
 
         private EditInterfaceCommand destroyProject;
         private EditInterfaceCommand setActiveProject;
+        private EditInterfaceCommand buildProject;
         private EditInterfaceManager<Project> projectInterfaceManager;
 
         public EditInterface getEditInterface()
@@ -164,6 +181,7 @@ namespace Anomaly
                 projectInterfaceManager = new EditInterfaceManager<Project>(editInterface);
                 destroyProject = new EditInterfaceCommand("Remove", destroyProjectCallback);
                 setActiveProject = new EditInterfaceCommand("Set Active", setActiveProjectCallback);
+                buildProject = new EditInterfaceCommand("Build Project", buildProjectCallback);
                 foreach (Project project in projects.Values)
                 {
                     onProjectAdded(project);
@@ -221,12 +239,19 @@ namespace Anomaly
             anomalyController.createNewScene();
         }
 
+        private void buildProjectCallback(EditUICallback callback, EditInterfaceCommand command)
+        {
+            Project project = projectInterfaceManager.resolveSourceObject(callback.getSelectedEditInterface());
+            project.build();
+        }
+
         private void onProjectAdded(Project project)
         {
             if (editInterface != null)
             {
                 EditInterface edit = project.getEditInterface();
                 edit.addCommand(setActiveProject);
+                edit.addCommand(buildProject);
                 edit.addCommand(destroyProject);
                 projectInterfaceManager.addSubInterface(project, edit);
             }

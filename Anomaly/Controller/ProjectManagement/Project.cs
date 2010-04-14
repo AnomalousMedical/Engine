@@ -20,12 +20,12 @@ namespace Anomaly
         private String name;
         private InstanceGroup instanceGroup;
         private String workingDirectory;
-        private bool built = false;
+        private bool shown = false;
         private ResourceManagerFileInterface resourceFileInterface;
         private SimSceneFileInterface sceneFileInterface;
-        private ProjectReferenceManager projectReferences;
         private Solution solution;
         private String projectFile;
+        private ProjectData projectData;
 
         public Project(Solution solution, String name, String workingDirectory)
         {
@@ -50,7 +50,7 @@ namespace Anomaly
                 {
                     using (XmlTextReader textReader = new XmlTextReader(projectFile))
                     {
-                        projectReferences = xmlSaver.restoreObject(textReader) as ProjectReferenceManager;
+                        projectData = xmlSaver.restoreObject(textReader) as ProjectData;
                     }
                 }
                 catch (Exception e)
@@ -58,9 +58,10 @@ namespace Anomaly
                     Log.Error("Could not load project references file {0} because:\n{1}", projectFile, e.Message);
                 }
             }
-            if(projectReferences == null)
+            if(projectData == null)
             {
-                projectReferences = new ProjectReferenceManager();
+                projectData = new ProjectData();
+                projectData.SceneFileName = name + ".sim.xml";
             }
 
             String resourcesFile = Path.Combine(workingDirectory, "Resources.xml");
@@ -89,44 +90,44 @@ namespace Anomaly
             sceneFileInterface = new SimSceneFileInterface("Scene Definition", EngineIcons.Scene, sceneDefinitionFile);
         }
 
-        public void buildScene(AnomalyController anomalyController)
+        public void showScene(AnomalyController anomalyController)
         {
-            if (!built)
+            if (!shown)
             {
                 anomalyController.SceneController.setSceneDefinition(sceneFileInterface.getFileObject());
 
                 SimObjectManagerDefinition simObjectManager = new SimObjectManagerDefinition();
                 anomalyController.SimObjectController.setSceneManagerDefintion(simObjectManager);
 
-                commonBuild(anomalyController);
+                commonShowScene(anomalyController);
             }
         }
 
-        private void commonBuild(AnomalyController anomalyController)
+        private void commonShowScene(AnomalyController anomalyController)
         {
-            if (!built)
+            if (!shown)
             {
                 if (editInterface != null)
                 {
                     editInterface.IconReferenceTag = AnomalyIcons.ProjectBuilt;
                 }
 
-                built = true;
+                shown = true;
 
                 anomalyController.ResourceController.addResources(resourceFileInterface.getFileObject());
 
-                instanceGroup.buildInstances(anomalyController.SimObjectController);
+                instanceGroup.showInstances(anomalyController.SimObjectController);
 
-                foreach (ProjectReference reference in projectReferences.ReferencedProjectNames)
+                foreach (ProjectReference reference in projectData.ProjectReferences.ReferencedProjectNames)
                 {
                     Project subProject = solution.getProject(reference.ProjectName);
                     if (subProject != null)
                     {
-                        subProject.commonBuild(anomalyController);
+                        subProject.commonShowScene(anomalyController);
                     }
                     else
                     {
-                        Log.Error("Could not find referenced project {0} for project {1}. Project could not be built.", reference.ProjectName, Name);
+                        Log.Error("Could not find referenced project {0} for project {1}. Project could not be shown.", reference.ProjectName, Name);
                     }
                 }
             }
@@ -134,17 +135,17 @@ namespace Anomaly
 
         public void unloadScene(AnomalyController anomalyController)
         {
-            if (built)
+            if (shown)
             {
                 if (editInterface != null)
                 {
                     editInterface.IconReferenceTag = AnomalyIcons.Project;
                 }
 
-                built = false;
+                shown = false;
                 instanceGroup.destroyInstances(anomalyController.SimObjectController);
 
-                foreach (ProjectReference reference in projectReferences.ReferencedProjectNames)
+                foreach (ProjectReference reference in projectData.ProjectReferences.ReferencedProjectNames)
                 {
                     Project subProject = solution.getProject(reference.ProjectName);
                     if (subProject != null)
@@ -159,12 +160,61 @@ namespace Anomaly
             }
         }
 
+        public void build()
+        {
+            if (projectData.CreateSceneFile)
+            {
+                Log.ImportantInfo("Building project {0}", name);
+                ScenePackage scenePackage = new ScenePackage();
+                scenePackage.ResourceManager = PluginManager.Instance.createEmptyResourceManager();
+                scenePackage.ResourceManager.addResources(solution.GlobalResources);
+                scenePackage.SceneDefinition = sceneFileInterface.getFileObject();
+                scenePackage.SimObjectManagerDefinition = new SimObjectManagerDefinition();
+                commonBuild(scenePackage);
+
+                String sceneFileName = Path.GetFullPath(Path.Combine(workingDirectory, projectData.SceneFileName));
+                try
+                {
+                    using (XmlTextWriter textWriter = new XmlTextWriter(sceneFileName, Encoding.Default))
+                    {
+                        textWriter.Formatting = Formatting.Indented;
+                        xmlSaver.saveObject(scenePackage, textWriter);
+                        Log.ImportantInfo("Finished building project {0} to {1}.", name, sceneFileName);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Log.Error("Could not save project {0} to file {1} because:\n{2}", name, sceneFileName, e.Message);
+                }
+            }
+        }
+
+        public void commonBuild(ScenePackage scenePackage)
+        {
+            scenePackage.ResourceManager.addResources(resourceFileInterface.getFileObject());
+            instanceGroup.buildInstances(scenePackage);
+
+            foreach (ProjectReference reference in projectData.ProjectReferences.ReferencedProjectNames)
+            {
+                Project refProject = solution.getProject(reference.ProjectName);
+                if (refProject != null)
+                {
+                    Log.ImportantInfo("Building referenced project {0}.", refProject.Name);
+                    refProject.commonBuild(scenePackage);
+                }
+                else
+                {
+                    Log.Error("Could not find referenced project {0} for project {1}. Project could not be built.", reference.ProjectName, Name);
+                }
+            }
+        }
+
         public void save()
         {
             using (XmlTextWriter textWriter = new XmlTextWriter(projectFile, Encoding.Default))
             {
                 textWriter.Formatting = Formatting.Indented;
-                xmlSaver.saveObject(projectReferences, textWriter);
+                xmlSaver.saveObject(projectData, textWriter);
             }
             sceneFileInterface.save();
             resourceFileInterface.save();
@@ -186,6 +236,32 @@ namespace Anomaly
                 return workingDirectory;
             }
         }
+
+        [Editable]
+        public bool CreateSceneFile
+        {
+            get
+            {
+                return projectData.CreateSceneFile;
+            }
+            set
+            {
+                projectData.CreateSceneFile = value;
+            }
+        }
+
+        [Editable]
+        public String SceneFileName
+        {
+            get
+            {
+                return projectData.SceneFileName;
+            }
+            set
+            {
+                projectData.SceneFileName = value;
+            }
+        }
     }
 
     public partial class Project
@@ -196,10 +272,10 @@ namespace Anomaly
         {
             if (editInterface == null)
             {
-                editInterface = new EditInterface(name);
+                editInterface = ReflectedEditInterface.createEditInterface(this, ReflectedEditInterface.DefaultScanner, name, null);// new EditInterface(name);
                 editInterface.IconReferenceTag = AnomalyIcons.Project;
 
-                editInterface.addSubInterface(projectReferences.getEditInterface());
+                editInterface.addSubInterface(projectData.ProjectReferences.getEditInterface());
                 editInterface.addSubInterface(resourceFileInterface.getEditInterface());
                 editInterface.addSubInterface(sceneFileInterface.getEditInterface());
 

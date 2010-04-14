@@ -51,7 +51,7 @@ namespace Anomaly
             groups.Add(group.name, group);
             if (instancesDisplayed)
             {
-                group.buildInstances(simObjectController);
+                group.showInstances(simObjectController);
             }
             if (editInterface != null)
             {
@@ -105,7 +105,7 @@ namespace Anomaly
             onInstanceFileRemoved(fileInterface);
         }
 
-        public void buildInstances(SimObjectController simObjectController)
+        public void showInstances(SimObjectController simObjectController)
         {
             this.simObjectController = simObjectController;
             this.instancesDisplayed = true;
@@ -117,7 +117,7 @@ namespace Anomaly
 
             foreach (InstanceGroup group in groups.Values)
             {
-                group.buildInstances(simObjectController);
+                group.showInstances(simObjectController);
             }
         }
 
@@ -134,6 +134,19 @@ namespace Anomaly
             foreach (InstanceGroup group in groups.Values)
             {
                 group.destroyInstances(simObjectController);
+            }
+        }
+
+        internal void buildInstances(ScenePackage scenePackage)
+        {
+            foreach (InstanceFileInterface instanceFileInterface in instanceFiles.Values)
+            {
+                instanceFileInterface.buildInstance(scenePackage.SimObjectManagerDefinition);
+            }
+
+            foreach (InstanceGroup group in groups.Values)
+            {
+                group.buildInstances(scenePackage);
             }
         }
 

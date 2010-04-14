@@ -148,6 +148,25 @@ namespace Anomaly
             }
         }
 
+        internal void buildInstance(SimObjectManagerDefinition simObjectManagerDefinition)
+        {
+            if (instance != null)
+            {
+                if (!simObjectManagerDefinition.hasSimObject(instance.Definition.Name))
+                {
+                    simObjectManagerDefinition.addSimObject(instance.Definition);
+                }
+                else
+                {
+                    Log.Error("Could not create SimObject {0} because an instance with that name already exists.", instance.Name);
+                }
+            }
+            else
+            {
+                Log.Error("Could not create SimObject {0} because the instance definition could not be loaded.", instance.Name);
+            }
+        }
+
         internal void updatePosition(PositionCollection positions)
         {
             Position pos = positions.getPosition(instance.PositionKey);

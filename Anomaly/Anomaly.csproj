@@ -90,6 +90,7 @@
     <Compile Include="Controller\ProjectManagement\PositionImport\Position.cs" />
     <Compile Include="Controller\ProjectManagement\PositionImport\PositionCollection.cs" />
     <Compile Include="Controller\ProjectManagement\Project.cs" />
+    <Compile Include="Controller\ProjectManagement\ProjectData.cs" />
     <Compile Include="Controller\ProjectManagement\ProjectReference.cs" />
     <Compile Include="Controller\ProjectManagement\ProjectReferenceManager.cs" />
     <Compile Include="Controller\ProjectManagement\ProjectWriter.cs" />
