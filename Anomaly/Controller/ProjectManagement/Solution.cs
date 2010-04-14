@@ -155,6 +155,21 @@ namespace Anomaly
             }
         }
 
+        /// <summary>
+        /// Get the resources from all projects.
+        /// </summary>
+        /// <returns></returns>
+        public ResourceManager getAllResources()
+        {
+            ResourceManager resourceManager = PluginManager.Instance.createEmptyResourceManager();
+            resourceManager.addResources(GlobalResources);
+            foreach (Project project in projects.Values)
+            {
+                project.getResources(resourceManager);
+            }
+            return resourceManager;
+        }
+
         public PluginSection PluginSection
         {
             get

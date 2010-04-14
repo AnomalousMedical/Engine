@@ -99,7 +99,7 @@ namespace Anomaly
 
                 XmlTextReader textReader = new XmlTextReader(SceneFile);
                 ScenePackage scenePackage = xmlSaver.restoreObject(textReader) as ScenePackage;
-                publisher.scanResources(scenePackage.ResourceManager);
+                publisher.scanResources();
                 publisher.copyResources(Destination, ArchiveName, Archive, Obfuscate);
             }
 

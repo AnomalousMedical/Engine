@@ -22,8 +22,10 @@ namespace Anomaly
             this.solution = solution;
         }
 
-        public void scanResources(ResourceManager resourceManager)
+        public void scanResources()
         {
+            ResourceManager resourceManager = solution.getAllResources();
+
             files.Clear();
             recursiveDirectories.Clear();
             foreach (SubsystemResources subsystem in resourceManager.getSubsystemEnumerator())

@@ -209,6 +209,11 @@ namespace Anomaly
             }
         }
 
+        internal void getResources(ResourceManager resourceManager)
+        {
+            resourceManager.addResources(resourceFileInterface.getFileObject());
+        }
+
         public void save()
         {
             using (XmlTextWriter textWriter = new XmlTextWriter(projectFile, Encoding.Default))

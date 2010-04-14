@@ -29,7 +29,7 @@ namespace Anomaly
 
         public void scanResources(ResourceManager resourceManager)
         {
-            fileList.scanResources(resourceManager);
+            fileList.scanResources();
             groups.Clear();
             fileView.Groups.Clear();
             fileView.Items.Clear();
