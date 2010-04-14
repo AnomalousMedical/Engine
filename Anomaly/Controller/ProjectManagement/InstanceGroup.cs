@@ -27,6 +27,8 @@ namespace Anomaly
         private List<InstanceGroup> deletedGroups = new List<InstanceGroup>();
         private List<InstanceFileInterface> deletedInstances = new List<InstanceFileInterface>();
 
+        private InstanceGroup parent = null;
+
         public InstanceGroup(String name, String path)
         {
             this.name = name;
@@ -48,6 +50,7 @@ namespace Anomaly
 
         public void addGroup(InstanceGroup group)
         {
+            group.parent = this;
             groups.Add(group.name, group);
             if (instancesDisplayed)
             {
@@ -61,6 +64,7 @@ namespace Anomaly
 
         public void removeGroup(InstanceGroup group)
         {
+            group.parent = null;
             groups.Remove(group.name);
             group.Dispose();
             deletedGroups.Add(group);
@@ -187,6 +191,49 @@ namespace Anomaly
             {
                 group.save();
             }
+        }
+
+        /// <summary>
+        /// Search for the InstanceGroup that contains instanceName. Will return null if the instance does not exist.
+        /// </summary>
+        /// <param name="instanceName">The instance name to search for.</param>
+        /// <returns>The group containing the instance or null if it does not exist.</returns>
+        public InstanceGroup findInstanceGroup(String instanceName)
+        {
+            //recurse up to the parent.
+            if (parent != null)
+            {
+                return parent.findInstanceGroup(instanceName);
+            }
+            else //if we are the top level search all nodes.
+            {
+                return doFindInstanceGroup(instanceName);
+            }
+        }
+
+        /// <summary>
+        /// The method that actually searches for the instance name. Called only by findInstanceGroup.
+        /// </summary>
+        /// <param name="instanceName">The instance name to search for.</param>
+        /// <returns>The group containing the instance or null if it does not exist.</returns>
+        private InstanceGroup doFindInstanceGroup(String instanceName)
+        {
+            if (instanceFiles.ContainsKey(instanceName))
+            {
+                return this;
+            }
+            else
+            {
+                foreach (InstanceGroup group in groups.Values)
+                {
+                    InstanceGroup foundGroup = group.doFindInstanceGroup(instanceName);
+                    if (foundGroup != null)
+                    {
+                        return foundGroup;
+                    }
+                }
+            }
+            return null;
         }
 
         #region Properties
@@ -321,9 +368,10 @@ namespace Anomaly
                 errorPrompt = "Please enter a non empty name.";
                 return false;
             }
-            if (this.instanceFiles.ContainsKey(input))
+            InstanceGroup groupWithInstance = findInstanceGroup(input);
+            if (groupWithInstance != null)
             {
-                errorPrompt = "That name is already in use. Please provide another.";
+                errorPrompt = String.Format("The name {0} is already in use in group {1}. Please provide another.", input, groupWithInstance.Name);
                 return false;
             }
             errorPrompt = "";
