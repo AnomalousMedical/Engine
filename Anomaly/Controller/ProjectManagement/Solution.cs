@@ -215,7 +215,9 @@ namespace Anomaly
                 editInterface.addSubInterface(resourceFileInterface.getEditInterface());
                 editInterface.addSubInterface(solutionData.ExternalResources.getEditInterface());
 
+                editInterface.addCommand(new EditInterfaceCommand("Build Solution", buildSolutionCallback));
                 editInterface.addCommand(new EditInterfaceCommand("Create Project", createProjectCallback));
+
                 projectInterfaceManager = new EditInterfaceManager<Project>(editInterface);
                 destroyProject = new EditInterfaceCommand("Remove", destroyProjectCallback);
                 setActiveProject = new EditInterfaceCommand("Set Active", setActiveProjectCallback);
@@ -304,5 +306,12 @@ namespace Anomaly
         }
 
         #endregion
+
+        private void buildSolutionCallback(EditUICallback callback, EditInterfaceCommand command)
+        {
+            Log.ImportantInfo("Building solution {0}.", name);
+            this.build();
+            Log.ImportantInfo("Finished building solution {0}.", name);
+        }
     }
 }
