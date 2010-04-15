@@ -63,6 +63,7 @@ namespace Anomaly
             fileTracker = new FileTracker("*.sim.xml|*.sim.xml");
             publishGUI.initialize(controller);
             this.controller = controller;
+            this.Text = controller.Solution.Name + " - Anomaly";
         }
 
         public void showDockContent(DockContent content)

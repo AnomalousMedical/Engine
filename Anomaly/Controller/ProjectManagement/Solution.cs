@@ -209,6 +209,14 @@ namespace Anomaly
                 return resourceFileInterface.getFileObject();
             }
         }
+
+        public String Name
+        {
+            get
+            {
+                return name;
+            }
+        }
     }
 
     partial class Solution
