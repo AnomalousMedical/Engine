@@ -417,6 +417,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ReshapeableRigidBodySection.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ReshapeableRigidBodySection.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\RigidBody.cpp"
 				>
 			</File>
