@@ -60,6 +60,11 @@ namespace Engine.Renderer
         void end();
 
         /// <summary>
+        /// Clear everything in this drawing surface.
+        /// </summary>
+        void clearAll();
+
+        /// <summary>
         /// Move the origin to a new location.
         /// </summary>
         /// <param name="newOrigin">The new origin.</param>

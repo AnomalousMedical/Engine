@@ -362,5 +362,7 @@ namespace Engine.Editing
                 }
             }
         }
+
+        public EditInterfaceRenderer Renderer { get; set; }
     }
 }

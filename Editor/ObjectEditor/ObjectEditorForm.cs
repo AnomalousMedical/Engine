@@ -12,6 +12,21 @@ namespace Editor
 {
     public partial class ObjectEditorForm : Form, IObjectEditorGUI
     {
+        /// <summary>
+        /// Called when the main object in this ui has changed.
+        /// </summary>
+        public event ObjectEditorGUIEvent MainInterfaceChanged;
+
+        /// <summary>
+        /// Called when the active interface has changed.
+        /// </summary>
+        public event ObjectEditorGUIEvent ActiveInterfaceChanged;
+
+        /// <summary>
+        /// Called when a field has been changed.
+        /// </summary>
+        public event ObjectEditorGUIEvent FieldChanged;
+
         public ObjectEditorForm()
         {
             InitializeComponent();

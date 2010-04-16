@@ -14,6 +14,21 @@ namespace Editor
     public interface IObjectEditorGUI
     {
         /// <summary>
+        /// Called when the main object in this ui has changed.
+        /// </summary>
+        event ObjectEditorGUIEvent MainInterfaceChanged;
+
+        /// <summary>
+        /// Called when the active interface being edited has changed.
+        /// </summary>
+        event ObjectEditorGUIEvent ActiveInterfaceChanged;
+
+        /// <summary>
+        /// Called when a field has been changed.
+        /// </summary>
+        event ObjectEditorGUIEvent FieldChanged;
+
+        /// <summary>
         /// Set the EditInterface this gui is editing.
         /// </summary>
         /// <param name="editInterface">The EditInterface to edit.</param>

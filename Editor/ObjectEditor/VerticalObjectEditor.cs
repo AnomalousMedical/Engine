@@ -13,6 +13,21 @@ namespace Editor
 {
     public partial class VerticalObjectEditor : DockContent, IObjectEditorGUI
     {
+        /// <summary>
+        /// Called when the main object in this ui has changed.
+        /// </summary>
+        public event ObjectEditorGUIEvent MainInterfaceChanged;
+
+        /// <summary>
+        /// Called when the active interface has changed.
+        /// </summary>
+        public event ObjectEditorGUIEvent ActiveInterfaceChanged;
+
+        /// <summary>
+        /// Called when a field has been changed.
+        /// </summary>
+        public event ObjectEditorGUIEvent FieldChanged;
+
         private object currentEditingObject;
         private EditInterface currentEditInterface;
         private ObjectEditorGUIEvent currentEditingCompleteCommitCallback;
@@ -48,6 +63,16 @@ namespace Editor
             currentEditingObject = editingObject;
             currentEditingCompleteCommitCallback = EditingCompletedCallback;
             currentFieldChangedCallback = FieldChangedCallback;
+
+            if (MainInterfaceChanged != null)
+            {
+                MainInterfaceChanged.Invoke(editInterface, editingObject);
+            }
+
+            if (ActiveInterfaceChanged != null)
+            {
+                ActiveInterfaceChanged.Invoke(editInterface, editingObject);
+            }
         }
 
         public void clearEditInterface()
@@ -65,6 +90,11 @@ namespace Editor
             editInterfaceView.clearEditInterface();
             propertiesTable.showEditableProperties(null);
             this.Text = "Properties";
+
+            if (MainInterfaceChanged != null)
+            {
+                MainInterfaceChanged.Invoke(null, null);
+            }
         }
 
         /// <summary>
@@ -74,6 +104,10 @@ namespace Editor
         void editInterfaceView_OnEditInterfaceSelectionChanged(EditInterfaceViewEvent evt)
         {
             propertiesTable.showEditableProperties(evt.EditInterface);
+            if (ActiveInterfaceChanged != null)
+            {
+                ActiveInterfaceChanged.Invoke(evt.EditInterface, null);
+            }
         }
 
         /// <summary>
@@ -95,6 +129,10 @@ namespace Editor
             if (currentFieldChangedCallback != null)
             {
                 currentFieldChangedCallback.Invoke(currentEditInterface, currentEditingObject);
+            }
+            if (FieldChanged != null)
+            {
+                FieldChanged.Invoke(propertiesTable.getCurrentEditInterface(), null);
             }
         }
 

@@ -84,6 +84,7 @@
     <Compile Include="Editing\EditInterface.cs" />
     <Compile Include="Editing\EditInterfaceCommand.cs" />
     <Compile Include="Editing\EditInterfaceManager.cs" />
+    <Compile Include="Editing\EditInterfaceRenderer.cs" />
     <Compile Include="Editing\EditUICallback.cs" />
     <Compile Include="Editing\Refleciton\EditableAttribute.cs" />
     <Compile Include="Editing\Refleciton\EditableAttributeFilter.cs" />

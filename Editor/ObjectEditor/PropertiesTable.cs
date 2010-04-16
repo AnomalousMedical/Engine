@@ -122,6 +122,11 @@ namespace Editor
             allowValidation = true;
         }
 
+        public EditInterface getCurrentEditInterface()
+        {
+            return currentEditInterface;
+        }
+
         #region Helper Functions
 
         /// <summary>

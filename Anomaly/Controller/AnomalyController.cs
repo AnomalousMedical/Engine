@@ -55,6 +55,7 @@ namespace Anomaly
         private ResourceController resourceController = new ResourceController();
         private SimObjectController simObjectController;
         private InstanceBuilder instanceBuilder;
+        private EditInterfaceRendererController interfaceRenderer;
 
         //Tools
         private ToolInteropController toolInterop = new ToolInteropController();
@@ -162,6 +163,8 @@ namespace Anomaly
             toolManager.addTool(movementTool);
             rotateTool = new RotateTool("RotateTool", rotateController);
             toolManager.addTool(rotateTool);
+
+            interfaceRenderer = new EditInterfaceRendererController(pluginManager.RendererPlugin, mainTimer, sceneController, verticalObjectEditor);
 
             solutionController = new SolutionController(solution, solutionPanel, this, verticalObjectEditor);
 

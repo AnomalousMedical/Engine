@@ -76,6 +76,7 @@
     <Compile Include="Config\ResourceSection.cs" />
     <Compile Include="Config\ToolsConfig.cs" />
     <Compile Include="Controller\AnomalyController.cs" />
+    <Compile Include="Controller\EditInterfaceRendererController.cs" />
     <Compile Include="Controller\FullSpeedUpdateListener.cs" />
     <Compile Include="Controller\InstanceBuilder\InstanceBuilder.cs" />
     <Compile Include="Controller\ProjectManagement\AnomalyTreeIcons.cs" />

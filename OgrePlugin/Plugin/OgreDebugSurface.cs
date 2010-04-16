@@ -77,6 +77,19 @@ namespace OgrePlugin
             currentManualObject = null;
         }
 
+        /// <summary>
+        /// Clear everything in this drawing surface.
+        /// </summary>
+        public void clearAll()
+        {
+            foreach (ManualObject manualObject in manualObjectMap.Values)
+            {
+                sceneNode.detachObject(manualObject);
+                scene.destroyManualObject(manualObject);
+            }
+            manualObjectMap.Clear();
+        }
+
         public void moveOrigin(Vector3 newOrigin)
         {
             sceneNode.setPosition(newOrigin);
