@@ -5,8 +5,9 @@
 namespace BulletPlugin
 {
 
-typedef System::Collections::Generic::List<IntPtr> ConvexHullList;
-typedef System::Collections::Generic::Dictionary<System::String^, ConvexHullList^> HullRegionMap;
+class ReshapeableRigidBodySection;
+
+typedef System::Collections::Generic::Dictionary<System::String^, IntPtr> HullRegionMap;
 
 ref class ReshapeableRigidBodyDefinition;
 ref class ConvexDecompositionDesc;

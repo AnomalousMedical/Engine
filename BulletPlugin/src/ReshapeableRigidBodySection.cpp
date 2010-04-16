@@ -4,7 +4,6 @@
 namespace BulletPlugin
 {
 
-
 #pragma unmanaged
 
 ReshapeableRigidBodySection::ReshapeableRigidBodySection(void)
@@ -13,6 +12,7 @@ ReshapeableRigidBodySection::ReshapeableRigidBodySection(void)
 
 ReshapeableRigidBodySection::~ReshapeableRigidBodySection(void)
 {
+	deleteShapes();
 }
 
 void ReshapeableRigidBodySection::addShapes(btCompoundShape* compoundShape)
@@ -26,6 +26,26 @@ void ReshapeableRigidBodySection::addShapes(btCompoundShape* compoundShape)
 		btConvexHullShape* convexShape = m_convexShapes[i];
 		compoundShape->addChildShape(trans, convexShape);
 	}
+}
+
+void ReshapeableRigidBodySection::removeShapes(btCompoundShape* compoundShape)
+{
+	for (int i=0; i < m_convexShapes.size(); ++i)
+	{
+		btConvexHullShape* convexShape = m_convexShapes[i];
+		compoundShape->removeChildShape(convexShape);
+	}
+}
+
+void ReshapeableRigidBodySection::deleteShapes()
+{
+	for (int i=0; i < m_convexShapes.size(); ++i)
+	{
+		btConvexHullShape* convexShape = m_convexShapes[i];
+		delete convexShape;
+	}
+	m_convexShapes.clear();
+	m_convexCentroids.clear();
 }
 
 void ReshapeableRigidBodySection::ConvexDecompResult(ConvexDecomposition::ConvexResult &result)
@@ -56,7 +76,7 @@ void ReshapeableRigidBodySection::ConvexDecompResult(ConvexDecomposition::Convex
 	//Create convex hull
 	btConvexHullShape* convexShape = new btConvexHullShape(&(vertices[0].getX()),vertices.size());
 
-	convexShape->setMargin(0.01f);
+	convexShape->setMargin(0.0f);
 	m_convexShapes.push_back(convexShape);
 	m_convexCentroids.push_back(centroid);
 }

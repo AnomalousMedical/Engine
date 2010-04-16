@@ -16,6 +16,16 @@ compoundShape(static_cast<btCompoundShape*>(description->ConstructionInfo->m_col
 
 ReshapeableRigidBody::~ReshapeableRigidBody(void)
 {
+	//Clear and delete all hullregions.
+	for each(IntPtr ptr in hullRegions.Values)
+	{
+		ReshapeableRigidBodySection* section = static_cast<ReshapeableRigidBodySection*>(ptr.ToPointer());
+		section->removeShapes(compoundShape);
+		delete section;
+	}
+	hullRegions.Clear();
+
+	//Delete the compound shape.
 	if(compoundShape != 0)
 	{
 		delete compoundShape;
@@ -32,6 +42,23 @@ SimElementDefinition^ ReshapeableRigidBody::saveToDefinition()
 
 void ReshapeableRigidBody::createHullRegion(System::String^ name, ConvexDecompositionDesc^ desc)
 {
+	//Find the section.
+	ReshapeableRigidBodySection* section;
+	IntPtr ptr;
+	if(hullRegions.TryGetValue(name, ptr))
+	{
+		section = static_cast<ReshapeableRigidBodySection*>(ptr.ToPointer());
+	}
+	else
+	{
+		section = new ReshapeableRigidBodySection();
+		hullRegions.Add(name, IntPtr(section));
+	}
+
+	section->removeShapes(compoundShape);
+	section->deleteShapes();
+
+	//Build the hulls
 	ConvexDecomposition::DecompDesc btDesc;
 	btDesc.mVcount       =desc->mVcount;
 	btDesc.mVertices     = desc->mVertices;
@@ -42,18 +69,12 @@ void ReshapeableRigidBody::createHullRegion(System::String^ name, ConvexDecompos
 	btDesc.mPpercent     = desc->mPpercent;
 	btDesc.mMaxVertices  = desc->mMaxVertices;
 	btDesc.mSkinWidth    = desc->mSkinWidth;
-
-	//there are going to be major pointer problems here with the created hulls
-	ReshapeableRigidBodySection* convexDecomposition = new ReshapeableRigidBodySection();
-	btDesc.mCallback = convexDecomposition;
+	btDesc.mCallback = section;
 
 	ConvexBuilder cb(btDesc.mCallback);
 	cb.process(btDesc);
 
-	//Add the shapes OMG THE POINTER ISSUES THE WHOLE ALGORITHM NEEDS TO BE LOOKED AT
-	convexDecomposition->addShapes(compoundShape);
-
-	delete convexDecomposition;
+	section->addShapes(compoundShape);
 }
 
 #pragma unmanaged
