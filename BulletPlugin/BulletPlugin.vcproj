@@ -114,7 +114,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\Core\WrapperUtilities;&quot;$(BULLET_HOME)\src&quot;;include"
+				AdditionalIncludeDirectories="..\Core\WrapperUtilities;&quot;$(BULLET_HOME)\src&quot;;include;&quot;$(BULLET_HOME)\Extras\ConvexDecomposition&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;USE_SOFTBODY_WORLD"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -132,7 +132,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libbulletsoftbody.lib libbulletdynamics.lib libbulletcollision.lib libbulletmath.lib libbulletmultithreaded.lib $(NOINHERIT)"
+				AdditionalDependencies="libbulletsoftbody.lib libbulletdynamics.lib libbulletcollision.lib libbulletmath.lib libbulletmultithreaded.lib libconvexdecomposition.lib $(NOINHERIT)"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(BULLET_HOME)\out\release8\libs&quot;;&quot;$(SolutionDir)\Release&quot;"
 				GenerateDebugInformation="true"
@@ -220,6 +220,14 @@
 			</File>
 			<File
 				RelativePath=".\include\EllipsoidSoftBodyProviderDefinition.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ReshapeableRigidBodyDefinition.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ReshapeableRigidBodyDefinition.h"
 				>
 			</File>
 			<File
@@ -398,6 +406,14 @@
 			</File>
 			<File
 				RelativePath=".\include\MotionState.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ReshapeableRigidBody.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ReshapeableRigidBody.h"
 				>
 			</File>
 			<File

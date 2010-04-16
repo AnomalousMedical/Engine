@@ -44,6 +44,8 @@ protected:
 
 	virtual void setEnabled(bool enabled) override;
 
+	void fillOutDefinition(RigidBodyDefinition^ definition);
+
 internal:
 	property btRigidBody* Body
 	{

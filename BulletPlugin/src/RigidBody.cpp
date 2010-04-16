@@ -225,9 +225,8 @@ void RigidBody::setEnabled(bool enabled)
 	}
 }
 
-SimElementDefinition^ RigidBody::saveToDefinition()
+void RigidBody::fillOutDefinition(RigidBodyDefinition^ definition)
 {
-	RigidBodyDefinition^ definition = gcnew RigidBodyDefinition(Name);
 	float mass = rigidBody->getInvMass();
 	if(mass > 0.0f)
 	{
@@ -257,6 +256,12 @@ SimElementDefinition^ RigidBody::saveToDefinition()
 	definition->MaxContactDistance = maxContactDistance;
 	definition->CollisionFilterGroup = collisionFilterGroup;
 	definition->CollisionFilterMask = collisionFilterMask;
+}
+
+SimElementDefinition^ RigidBody::saveToDefinition()
+{
+	RigidBodyDefinition^ definition = gcnew RigidBodyDefinition(Name);
+	fillOutDefinition(definition);
 	return definition;
 }
 

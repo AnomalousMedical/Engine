@@ -20,8 +20,6 @@ private:
 	Vector3 linearVelocity;
 	Vector3 angularVelocity;
 	ActivationState activationState;
-	EditInterface^ editInterface;
-	btRigidBody::btRigidBodyConstructionInfo* constructionInfo;
 	Vector3 anisotropicFriction;
 	float deactivationTime;
 	CollisionFlags flags;
@@ -30,6 +28,10 @@ private:
 	float maxContactDistance;
 	short collisionFilterMask;
 	short collisionFilterGroup;
+
+protected:
+	btRigidBody::btRigidBodyConstructionInfo* constructionInfo;
+	EditInterface^ editInterface;
 
 	static MemberScanner^ memberScanner = gcnew MemberScanner();
 
