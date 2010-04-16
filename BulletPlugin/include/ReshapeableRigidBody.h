@@ -12,6 +12,9 @@ typedef System::Collections::Generic::Dictionary<System::String^, IntPtr> HullRe
 ref class ReshapeableRigidBodyDefinition;
 ref class ConvexDecompositionDesc;
 
+/// <summary>
+/// This class is a rigid body that can have its shape altered dynamically.
+/// </summary>
 public ref class ReshapeableRigidBody : public RigidBody
 {
 private:
@@ -19,17 +22,45 @@ private:
 	HullRegionMap hullRegions;
 
 public:
+	/// <summary>
+	/// Constructor
+	/// </summary>
+	/// <param name="description"></param>
+	/// <param name="scene"></param>
+	/// <param name="initialTrans"></param>
+	/// <param name="initialRot"></param>
 	ReshapeableRigidBody(ReshapeableRigidBodyDefinition^ description, BulletScene^ scene, Vector3 initialTrans, Quaternion initialRot);
 
+	/// <summary>
+	/// Destructor
+	/// </summary>
 	virtual ~ReshapeableRigidBody(void);
 
+	/// <summary>
+	/// Definition save function. Will not save what shapes are currently created.
+	/// </summary>
+	/// <returns>The new definition.</returns>
 	virtual SimElementDefinition^ saveToDefinition() override;
 
+	/// <summary>
+	/// Create a new hull region by decomposing the mesh in desc. If the region
+    /// does not exist it will be created. If it does exist it will be cleared
+    /// and recreated.
+	/// </summary>
+	/// <param name="name">The name of the region.</param>
+	/// <param name="desc">The mesh description and algorithm configuration settings.</param>
 	void createHullRegion(System::String^ name, ConvexDecompositionDesc^ desc);
 
+	/// <summary>
+	/// This function will recompute the mass props. It should be called when
+    /// the collision shape is changed.
+	/// </summary>
 	void recomputeMassProps();
 };
 
+/// <summary>
+/// The description for a convex decomposition.
+/// </summary>
 public ref class ConvexDecompositionDesc
 {
 	public:
