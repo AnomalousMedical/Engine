@@ -13,9 +13,6 @@ private:
 	btAlignedObjectArray<btConvexHullShape*> m_convexShapes;
 	btAlignedObjectArray<btVector3> m_convexCentroids;
 
-	int mBaseCount;
-	int	mHullCount;
-
 public:
 	ReshapeableRigidBodySection(void);
 
