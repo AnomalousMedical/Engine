@@ -45,8 +45,18 @@ namespace Engine
             if (editInterface == null)
             {
                 editInterface = ReflectedEditInterface.createEditInterface(this, BehaviorEditMemberScanner.Scanner, memberName + " - " + this.GetType().Name, null);
+                customizeEditInterface(editInterface);
             }
             return editInterface;
+        }
+
+        /// <summary>
+        /// Add any custom properties to the edit interface.
+        /// </summary>
+        /// <param name="editInterface">The EditInterface to modify.</param>
+        protected virtual void customizeEditInterface(EditInterface editInterface)
+        {
+
         }
 
         /// <summary>
@@ -66,6 +76,16 @@ namespace Engine
         public void getInfo(SaveInfo info)
         {
             ReflectedSaver.SaveObject(this, info, BehaviorSaveMemberScanner.Scanner);
+            customizeSave(info);
+        }
+
+        /// <summary>
+        /// Add any custom properties to the save info.
+        /// </summary>
+        /// <param name="info">The SaveInfo to modify.</param>
+        protected virtual void customizeSave(SaveInfo info)
+        {
+
         }
     }
 }

@@ -84,6 +84,9 @@ namespace Engine
 
 	    /// <summary>
 	    /// Compute the vertices of this box and put them in the vertices array.
+        /// 0-3 are in the -z direction
+        /// 4-7 are in the +z direction
+        /// The points make up the sides in the + and - z plane counter clockwise starting from the -x, -y point.
 	    /// </summary>
 	    /// <param name="vertices">An 8 element array of vertices.</param>
         public void computeVertices(Vector3[] vertices)
@@ -103,6 +106,17 @@ namespace Engine
             vertices[5] = center + extentAxis[0] - extentAxis[1] + extentAxis[2];
             vertices[6] = center + extentAxis[0] + extentAxis[1] + extentAxis[2];
             vertices[7] = center - extentAxis[0] + extentAxis[1] + extentAxis[2];
+        }
+
+        public bool isInside(Vector3 point)
+        {
+            point -= center;
+            point = point.absolute();
+            if (point.x <= extents.x && point.y <= extents.y && point.z <= extents.z)
+            {
+                return true;
+            }
+            return false;
         }
 
 	    /// <summary>
