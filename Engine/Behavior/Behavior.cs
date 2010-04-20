@@ -173,6 +173,22 @@ namespace Engine
         }
 
         /// <summary>
+        /// This function will blacklist an object for an exception that made it
+        /// out of the link or constructed functions that was not handled by the
+        /// user. It is intended to only be called by BehaivorFactory.
+        /// </summary>
+        /// <param name="reason"></param>
+        internal void _unanticipatedBlacklistError(Exception reason)
+        {
+            if (valid && currentlyEnabled)
+            {
+                manager.deactivateBehavior(this);
+            }
+            valid = false;
+            Log.Default.sendMessage("Behavior {0}, type={1} blacklisted.  Reason: {2}\n{3}", LogLevel.Error, "Behavior", Name, this.GetType().Name, reason.Message, reason.StackTrace);
+        }
+
+        /// <summary>
         /// Internal function to call the custom load function.
         /// </summary>
         /// <param name="info">The LoadInfo.</param>
@@ -235,10 +251,13 @@ namespace Engine
         /// </summary>
         protected override sealed void Dispose()
         {
-            destroy();
-            if (currentlyEnabled)
+            if (valid)
             {
-                manager.deactivateBehavior(this);
+                destroy();
+                if (currentlyEnabled)
+                {
+                    manager.deactivateBehavior(this);
+                }
             }
         }
 

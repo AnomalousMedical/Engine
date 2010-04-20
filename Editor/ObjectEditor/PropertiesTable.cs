@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Engine.Editing;
 using Engine.Attributes;
+using Logging;
 
 namespace Editor
 {
@@ -18,6 +19,9 @@ namespace Editor
         static OpenFileDialog openDialog = new OpenFileDialog();
         static SaveFileDialog saveDialog = new SaveFileDialog();
         static FolderBrowserDialog folderBrowser = new FolderBrowserDialog();
+
+        static char[] rowSplitter = { '\r', '\n' };
+        static char[] columnSplitter = { '\t' };
 
         #region Events
 
@@ -54,6 +58,7 @@ namespace Editor
             propGridView.CellParsing += new DataGridViewCellParsingEventHandler(propGridView_CellParsing);
             propGridView.CellValidating += new DataGridViewCellValidatingEventHandler(propGridView_CellValidating);
             propGridView.CellValueChanged += new DataGridViewCellEventHandler(propGridView_CellValueChanged);
+            propGridView.KeyUp += new KeyEventHandler(propGridView_KeyUp);
 
             editColumn.Visible = false;
             editColumn.ReadOnly = true;
@@ -63,6 +68,48 @@ namespace Editor
             propertyRemovedCallback = new PropertyRemoved(editInterface_OnPropertyRemoved);
 
             this.Disposed += new EventHandler(PropertiesTable_Disposed);
+        }
+
+        void propGridView_KeyUp(object sender, KeyEventArgs e)
+        {
+            //Only allow global paste if the add/remove controls are not visible
+            if (!addRemovePanel.Visible)
+            {
+                if (e.Control && e.KeyCode == Keys.V)
+                {
+                    IDataObject dataInClipboard = Clipboard.GetDataObject();
+                    string stringInClipboard = (string)dataInClipboard.GetData(DataFormats.Text);
+
+                    // Split it into lines
+                    string[] rowsInClipboard = stringInClipboard.Split(rowSplitter, StringSplitOptions.RemoveEmptyEntries);
+
+                    if (rowsInClipboard.Length == propGridView.Rows.Count)
+                    {
+                        for (int i = 0; i < rowsInClipboard.Length; ++i)
+                        {
+                            // Split row into cell values
+                            string[] valuesInRow = rowsInClipboard[i].Split(columnSplitter);
+                            if (valuesInRow.Length != propGridView.Columns.Count) //there will be an extra empty value at the start
+                            {
+                                Log.Info("Could not paste into this table, the column count does not match.");
+                                break;
+                            }
+
+                            for (int j = 0; j < valuesInRow.Length; j++)
+                            {
+                                if (!propGridView.Columns[j].ReadOnly)
+                                {
+                                    propGridView.Rows[i].Cells[j].Value = valuesInRow[j + 1];
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Log.Info("Could not paste into this table, the row count does not match.");
+                    }
+                }
+            }
         }
 
         void PropertiesTable_Disposed(object sender, EventArgs e)

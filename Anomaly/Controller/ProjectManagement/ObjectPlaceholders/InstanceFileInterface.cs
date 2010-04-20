@@ -206,13 +206,16 @@ namespace Anomaly
 
         public void setVisible(bool visible)
         {
-            showInstance = visible;
-            if (simObjectController != null)
+            if (showInstance != visible)
             {
-                SimObject obj = simObjectController.getSimObject(Name);
-                obj.setEnabled(showInstance);
+                showInstance = visible;
+                if (simObjectController != null)
+                {
+                    SimObject obj = simObjectController.getSimObject(Name);
+                    obj.setEnabled(showInstance);
+                }
+                determineIcon();
             }
-            determineIcon();
         }
 
         private void toggleHidden(EditUICallback callback, EditInterfaceCommand command)

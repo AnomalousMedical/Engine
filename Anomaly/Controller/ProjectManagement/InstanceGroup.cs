@@ -275,6 +275,8 @@ namespace Anomaly
                 editInterface = new EditInterface(name);
                 editInterface.addCommand(new EditInterfaceCommand("Create Group", createGroupCallback));
                 editInterface.addCommand(new EditInterfaceCommand("Create Sim Object", createSimObjectCallback));
+                editInterface.addCommand(new EditInterfaceCommand("Show All", showAllCallback));
+                editInterface.addCommand(new EditInterfaceCommand("Hide All", hideAllCallback));
                 editInterface.addCommand(new EditInterfaceCommand("Import Positions", importPositionsCallback));
                 editInterface.addCommand(new EditInterfaceCommand("Import legacy templates", importTemplates));
                 editInterface.IconReferenceTag = EditorIcons.Folder;
@@ -478,6 +480,32 @@ namespace Anomaly
                     }
                     groups[name].doImportTemplates(groupDir);
                 }
+            }
+        }
+
+        private void showAllCallback(EditUICallback callback, EditInterfaceCommand command)
+        {
+            foreach (InstanceFileInterface instance in instanceFiles.Values)
+            {
+                instance.setVisible(true);
+            }
+
+            foreach (InstanceGroup group in groups.Values)
+            {
+                group.showAllCallback(callback, command);
+            }
+        }
+
+        private void hideAllCallback(EditUICallback callback, EditInterfaceCommand command)
+        {
+            foreach (InstanceFileInterface instance in instanceFiles.Values)
+            {
+                instance.setVisible(false);
+            }
+
+            foreach (InstanceGroup group in groups.Values)
+            {
+                group.hideAllCallback(callback, command);
             }
         }
 

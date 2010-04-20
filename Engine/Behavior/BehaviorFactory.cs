@@ -62,6 +62,10 @@ namespace Engine
                 {
 
                 }
+                catch (Exception e)
+                {
+                    entry._unanticipatedBlacklistError(e);
+                }
             }
             foreach (BehaviorFactoryEntry entry in currentBehaviors)
             {
@@ -72,6 +76,10 @@ namespace Engine
                 catch (BehaviorBlacklistException)
                 {
 
+                }
+                catch (Exception e)
+                {
+                    entry._unanticipatedBlacklistError(e);
                 }
             }
         }

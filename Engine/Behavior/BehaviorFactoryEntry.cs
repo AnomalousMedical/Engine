@@ -69,6 +69,14 @@ namespace Engine
             }
         }
 
+        public void _unanticipatedBlacklistError(Exception e)
+        {
+            if (createdBehavior != null)
+            {
+                createdBehavior._unanticipatedBlacklistError(e);
+            }
+        }
+
         #endregion Functions
     }
 }
