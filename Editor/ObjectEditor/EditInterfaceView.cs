@@ -82,6 +82,7 @@ namespace Editor
             this.Disposed += new EventHandler(EditInterfaceView_Disposed);
             preventDblClick = new TreeDblClickPrevent(objectsTree);
             EditInterfaceIconCollection.setupTreeIcons(objectsTree);
+            AutoExpand = false;
         }
 
         #endregion Constructors
@@ -100,6 +101,10 @@ namespace Editor
             {
                 parentNode = new EditInterfaceTreeNode(editor, this);
                 this.objectsTree.Nodes.Add(parentNode);
+                if (AutoExpand)
+                {
+                    objectsTree.ExpandAll();
+                }
             }
             else
             {
@@ -235,6 +240,8 @@ namespace Editor
                 return false;
             }
         }
+
+        public bool AutoExpand { get; set; }
 
         /// <summary>
         /// Recursive helper function to scan the whole tree.

@@ -18,6 +18,8 @@ namespace Anomaly
         private UpdateTimer timer;
         private EditInterfaceRenderer currentRenderer;
         private IObjectEditorGUI mainEditor;
+        private Vector3 currentOrigin;
+        private Quaternion currentRotation;
 
         public EditInterfaceRendererController(RendererPlugin renderer, UpdateTimer timer, SceneController sceneController, IObjectEditorGUI mainEditor)
         {
@@ -39,14 +41,16 @@ namespace Anomaly
             Instance instance = editingObject as Instance;
             if (instance != null)
             {
-                debugSurface.moveOrigin(instance.Translation);
-                debugSurface.setOrientation(instance.Definition.Rotation);
+                currentOrigin = instance.Translation;
+                currentRotation = instance.Definition.Rotation;
             }
             else
             {
-                debugSurface.moveOrigin(Vector3.Zero);
-                debugSurface.setOrientation(Quaternion.Identity);
+                currentOrigin = Vector3.Zero;
+                currentRotation = Quaternion.Identity;
             }
+            debugSurface.moveOrigin(currentOrigin);
+            debugSurface.setOrientation(currentRotation);
         }
 
         void mainEditor_FieldChanged(EditInterface editInterface, object editingObject)
@@ -74,6 +78,8 @@ namespace Anomaly
         void sceneController_OnSceneLoaded(SceneController controller, SimScene scene)
         {
             debugSurface = renderer.createDebugDrawingSurface("EditInterfaceRenderer", scene.getDefaultSubScene());
+            debugSurface.moveOrigin(currentOrigin);
+            debugSurface.setOrientation(currentRotation);
         }
 
         void sceneController_OnSceneUnloading(SceneController controller, Engine.ObjectManagement.SimScene scene)

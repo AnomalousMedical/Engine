@@ -97,6 +97,18 @@ namespace Editor
             }
         }
 
+        public bool AutoExpand
+        {
+            get
+            {
+                return editInterfaceView.AutoExpand;
+            }
+            set
+            {
+                editInterfaceView.AutoExpand = value;
+            }
+        }
+
         /// <summary>
         /// Callback for when the EditInterface changes.
         /// </summary>

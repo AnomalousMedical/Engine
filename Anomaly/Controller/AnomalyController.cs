@@ -173,6 +173,7 @@ namespace Anomaly
             drawingWindowController.initialize(this, eventManager, pluginManager.RendererPlugin, AnomalyConfig.ConfigFile);
             movePanel.initialize(moveController);
             rotatePanel.initialize(rotateController);
+            verticalObjectEditor.AutoExpand = true;
 
             //Initialize debug visualizers
             foreach (DebugInterface debugInterface in pluginManager.getDebugInterfaces())
