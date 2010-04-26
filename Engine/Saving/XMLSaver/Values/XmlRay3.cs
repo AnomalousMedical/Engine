@@ -16,7 +16,7 @@ namespace Engine.Saving.XMLSaver
 
         public override Ray3 parseValue(XmlReader xmlReader)
         {
-            throw new NotImplementedException();//return new Ray3(
+            return new Ray3(xmlReader.ReadElementContentAsString());
         }
     }
 }

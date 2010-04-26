@@ -212,7 +212,10 @@ namespace Anomaly
                 if (simObjectController != null)
                 {
                     SimObject obj = simObjectController.getSimObject(Name);
-                    obj.setEnabled(showInstance);
+                    if (obj.Enabled != showInstance)
+                    {
+                        obj.setEnabled(showInstance);
+                    }
                 }
                 determineIcon();
             }

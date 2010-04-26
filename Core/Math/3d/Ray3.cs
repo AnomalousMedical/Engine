@@ -9,6 +9,7 @@ namespace Engine
     {
         public Vector3 Origin;
         public Vector3 Direction;
+        private static char[] SEP = {'|'};
 
         /// <summary>
 	    /// Constructor.
@@ -19,6 +20,21 @@ namespace Engine
         {
             this.Origin = origin;
             this.Direction = direction;
+        }
+
+        public Ray3(String origDirString)
+        {
+            String[] vecStrings = origDirString.Split(SEP);
+            if (vecStrings.Length == 2)
+            {
+                this.Origin = new Vector3(vecStrings[0]);
+                this.Direction = new Vector3(vecStrings[1]);
+            }
+            else
+            {
+                this.Origin = Vector3.Zero;
+                this.Direction = Vector3.Backward;
+            }
         }
 
         /// <summary>
@@ -46,7 +62,7 @@ namespace Engine
         /// <returns>The ray as a string.</returns>
         public override String ToString()
         {
-            return "{" + Origin.ToString() + ", " + Direction.ToString() + "}";
+            return String.Format("{0}|{1}", Origin.ToString(), Direction.ToString());
         }
     }
 }
