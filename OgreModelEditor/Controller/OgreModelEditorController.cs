@@ -116,7 +116,7 @@ namespace OgreModelEditor
 
             VirtualFileSystem.Instance.addArchive(OgreModelEditorConfig.VFSRoot);
 
-            OgreResourceGroupManager.getInstance().addResourceLocation(typeof(OgreModelEditorController).AssemblyQualifiedName, "EmbeddedResource", "Bootstrap", true);
+            OgreResourceGroupManager.getInstance().addResourceLocation(typeof(OgreModelEditorController).AssemblyQualifiedName, "EmbeddedResource", "DebugShaders", true);
             emptyResourceManager = pluginManager.createEmptyResourceManager();
             if (!File.Exists(OgreModelEditorConfig.DocRoot + "/resources.xml"))
             {
