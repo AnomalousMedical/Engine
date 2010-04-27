@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.InteropServices;
 
 namespace Engine
 {
+    [StructLayout(LayoutKind.Explicit, Size = 24)]
     public struct Ray3
     {
+        [FieldOffset(0)]
         public Vector3 Origin;
+
+        [FieldOffset(12)]
         public Vector3 Direction;
         private static char[] SEP = {'|'};
 

@@ -996,6 +996,14 @@
 				RelativePath=".\include\VoidUserDefinedObject.h"
 				>
 			</File>
+			<File
+				RelativePath=".\src\WrapperMath.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\WrapperMath.h"
+				>
+			</File>
 			<Filter
 				Name="SharedPtrCollections"
 				>
