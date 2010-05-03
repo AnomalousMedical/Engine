@@ -9,6 +9,7 @@ namespace BulletPlugin
 
 ref class ContactCache;
 ref class RigidBody;
+ref class ManifoldPoint;
 
 public ref class ContactInfo : public PooledObject
 {
@@ -102,6 +103,10 @@ public:
 			return pluginBodyB;
 		}
 	}
+
+	int getNumContacts();
+
+	void getContactPoint(int index, ManifoldPoint^ point);
 };
 
 }

@@ -487,6 +487,14 @@
 					RelativePath=".\include\ContactInfo.h"
 					>
 				</File>
+				<File
+					RelativePath=".\src\ManifoldPoint.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\ManifoldPoint.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="SoftBodyJoints"

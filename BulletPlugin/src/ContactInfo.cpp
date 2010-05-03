@@ -3,6 +3,7 @@
 #include "ContactCache.h"
 #include "MotionState.h"
 #include "RigidBody.h"
+#include "ManifoldPoint.h"
 
 namespace BulletPlugin
 {
@@ -200,6 +201,33 @@ void ContactInfo::RbB::set(btRigidBody* value)
 	rbB = value;
 	MotionState* ms = static_cast<MotionState*>(value->getMotionState());
 	pluginBodyB = ms->getRigidBody();
+}
+
+int ContactInfo::getNumContacts()
+{
+	int totalContacts = 0;
+	for(int i = 0; i < numManifolds; ++i)
+	{
+		totalContacts += manifoldArray[i]->getNumContacts();
+	}
+	return totalContacts;
+}
+
+void ContactInfo::getContactPoint(int index, ManifoldPoint^ point)
+{
+	for(int i = 0; i < numManifolds; ++i)
+	{
+		int numContacts = manifoldArray[i]->getNumContacts();
+		if(index < numContacts)
+		{
+			point->setInfo(manifoldArray[i]->getContactPoint(index));
+			return;
+		}
+		else
+		{
+			index -= numContacts;
+		}
+	}
 }
 
 }

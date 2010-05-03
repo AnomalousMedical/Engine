@@ -11,6 +11,7 @@ namespace Engine
     {
         private List<DebugEntry> entries = new List<DebugEntry>();
         private bool enabled = false;
+        private bool clearSurface = false;
 
         public IEnumerable<DebugEntry> getEntries()
         {
@@ -27,11 +28,20 @@ namespace Engine
                     manager.renderDebugInfo(drawingSurface);
                 }
             }
+            else if (clearSurface)
+            {
+                clearSurface = false;
+                drawingSurface.clearAll();
+            }
         }
 
         public void setEnabled(bool enabled)
         {
             this.enabled = enabled;
+            if (!enabled)
+            {
+                clearSurface = true;
+            }
         }
 
         public string Name
