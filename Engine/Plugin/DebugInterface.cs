@@ -25,13 +25,39 @@ namespace Engine
         /// </summary>
         /// <param name="drawingSurface">The DebugDrawingSurface to render onto.</param>
         /// <param name="subScene">The SubScene contents to render.</param>
-        void renderDebug(DebugDrawingSurface drawingSurface, SimSubScene subScene);
+        void renderDebug(SimSubScene subScene);
 
         /// <summary>
         /// Enable or disable the rendering for this entire interface.
         /// </summary>
         /// <param name="enabled">True to enable drawing, false to disable.</param>
         void setEnabled(bool enabled);
+
+        /// <summary>
+        /// Create a debug interface.
+        /// </summary>
+        /// <param name="rendererPlugin">The renderer plugin to use.</param>
+        /// <param name="subScene">The subScene to put the debug surface into.</param>
+        void createDebugInterface(RendererPlugin rendererPlugin, SimSubScene subScene);
+
+        /// <summary>
+        /// Destroy the debug interface.
+        /// </summary>
+        /// <param name="rendererPlugin">The renderer plugin to use.</param>
+        /// /// <param name="subScene">The subScene to put the debug surface into.</param>
+        void destroyDebugInterface(RendererPlugin rendererPlugin, SimSubScene subScene);
+
+        /// <summary>
+        /// Tell the debug interface to draw itself with depth testing enabled or disabled.
+        /// </summary>
+        /// <param name="depthCheckEnabled">True to enable depth checking.</param>
+        void setDepthTesting(bool depthCheckEnabled);
+
+        /// <summary>
+        /// Check to see if depth testing is enabled.
+        /// </summary>
+        /// <returns>True if depth testing is enabled.</returns>
+        bool isDepthTestingEnabled();
 
         /// <summary>
         /// The name of this visualizer.

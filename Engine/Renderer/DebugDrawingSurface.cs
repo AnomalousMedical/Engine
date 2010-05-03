@@ -65,6 +65,18 @@ namespace Engine.Renderer
         void clearAll();
 
         /// <summary>
+        /// Tell the debug drawer to draw itself with depth testing enabled or disabled.
+        /// </summary>
+        /// <param name="depthCheckEnabled">True to enable depth checking.</param>
+        void setDepthTesting(bool depthCheckEnabled);
+
+        /// <summary>
+        /// Check to see if depth testing is enabled.
+        /// </summary>
+        /// <returns>True if depth testing is enabled.</returns>
+        bool isDepthTestingEnabled();
+
+        /// <summary>
         /// Move the origin to a new location.
         /// </summary>
         /// <param name="newOrigin">The new origin.</param>

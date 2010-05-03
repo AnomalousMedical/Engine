@@ -9,7 +9,8 @@ namespace BulletPlugin
 BulletDebugInterface::BulletDebugInterface(void)
 :enabled(false),
 debugEntries(gcnew List<DebugEntry^>()),
-firstFrameDisabled(false)
+firstFrameDisabled(false),
+drawingSurface(nullptr)
 {
 	debugEntries->Add(gcnew BulletDebugEntry("Draw Wireframe", btIDebugDraw::DBG_DrawWireframe));
 	debugEntries->Add(gcnew BulletDebugEntry("Draw AABB", btIDebugDraw::DBG_DrawAabb));
@@ -37,7 +38,7 @@ IEnumerable<DebugEntry^>^ BulletDebugInterface::getEntries()
 	return debugEntries;
 }
 
-void BulletDebugInterface::renderDebug(DebugDrawingSurface^ drawingSurface, SimSubScene^ subScene)
+void BulletDebugInterface::renderDebug(SimSubScene^ subScene)
 {
 	if(enabled)
 	{
@@ -56,6 +57,35 @@ void BulletDebugInterface::renderDebug(DebugDrawingSurface^ drawingSurface, SimS
 		}
 		firstFrameDisabled = false;
 	}
+}
+
+void BulletDebugInterface::createDebugInterface(RendererPlugin^ rendererPlugin, SimSubScene^ subScene)
+{
+    drawingSurface = rendererPlugin->createDebugDrawingSurface("BulletDebugSurface", subScene);
+	drawingSurface->setDepthTesting(depthTesting);
+}
+
+void BulletDebugInterface::destroyDebugInterface(RendererPlugin^ rendererPlugin, SimSubScene^ subScene)
+{
+    if (drawingSurface != nullptr)
+    {
+        rendererPlugin->destroyDebugDrawingSurface(drawingSurface);
+        drawingSurface = nullptr;
+    }
+}
+
+void BulletDebugInterface::setDepthTesting(bool depthCheckEnabled)
+{
+    depthTesting = depthCheckEnabled;
+	if(drawingSurface != nullptr)
+	{
+		drawingSurface->setDepthTesting(depthTesting);
+	}
+}
+
+bool BulletDebugInterface::isDepthTestingEnabled()
+{
+    return depthTesting;
 }
 
 void BulletDebugInterface::setEnabled(bool enabled)

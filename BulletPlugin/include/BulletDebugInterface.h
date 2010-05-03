@@ -15,6 +15,8 @@ private:
 	List<DebugEntry^>^ debugEntries;
 	bool enabled;
 	bool firstFrameDisabled;
+	DebugDrawingSurface^ drawingSurface;
+	bool depthTesting;
 
 public:
 	BulletDebugInterface(void);
@@ -23,7 +25,15 @@ public:
 
 	virtual IEnumerable<DebugEntry^>^ getEntries();
 
-	virtual void renderDebug(DebugDrawingSurface^ drawingSurface, SimSubScene^ subScene);
+	virtual void renderDebug(SimSubScene^ subScene);
+
+	virtual void createDebugInterface(RendererPlugin^ rendererPlugin, SimSubScene^ subScene);
+
+    virtual void destroyDebugInterface(RendererPlugin^ rendererPlugin, SimSubScene^ subScene);
+
+	virtual void setDepthTesting(bool depthCheckEnabled);
+
+	virtual bool isDepthTestingEnabled();
 
 	virtual void setEnabled(bool enabled);
 

@@ -26,6 +26,8 @@ namespace OgrePlugin
         private SceneManager scene;
         private bool visible;
 
+        private String currentMaterial = "colorvertex";
+
         public OgreDebugSurface(String name, SceneManager scene)
         {
             this.scene = scene;
@@ -57,7 +59,7 @@ namespace OgrePlugin
                 }
                 else
                 {
-                    currentManualObject.begin("colorVertexNoDepth", getOpType(drawingType));
+                    currentManualObject.begin(currentMaterial, getOpType(drawingType));
                 }
             }
             else
@@ -66,7 +68,7 @@ namespace OgrePlugin
                 currentManualObject.setRenderQueueGroup(byte.MaxValue);
                 currentManualObject.setDynamic(true);
                 sceneNode.attachObject(currentManualObject);
-                currentManualObject.begin("colorVertexNoDepth", getOpType(drawingType));
+                currentManualObject.begin(currentMaterial, getOpType(drawingType));
                 manualObjectMap.Add(sectionName, currentManualObject);
             }
         }
@@ -88,6 +90,30 @@ namespace OgrePlugin
                 scene.destroyManualObject(manualObject);
             }
             manualObjectMap.Clear();
+        }
+
+        public void setDepthTesting(bool depthCheckEnabled)
+        {
+            if (depthCheckEnabled)
+            {
+                currentMaterial = "colorvertex";
+            }
+            else
+            {
+                currentMaterial = "colorVertexNoDepth";
+            }
+            foreach (ManualObject manualObject in manualObjectMap.Values)
+            {
+                if (manualObject.getNumSections() != 0)
+                {
+                    manualObject.setMaterialName(0, currentMaterial);
+                }
+            }
+        }
+
+        public bool isDepthTestingEnabled()
+        {
+            return currentMaterial == "colorvertex";
         }
 
         public void moveOrigin(Vector3 newOrigin)

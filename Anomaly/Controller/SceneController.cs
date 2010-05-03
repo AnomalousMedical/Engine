@@ -27,7 +27,6 @@ namespace Anomaly
         private AnomalyController controller;
         private SimSceneDefinition sceneDefinition;
         private bool dynamicMode = false;
-        private DebugDrawingSurface debugSurface;
 
         #region Events
 
@@ -92,7 +91,10 @@ namespace Anomaly
             {
                 OnSceneLoaded.Invoke(this, scene);
             }
-            debugSurface = controller.PluginManager.RendererPlugin.createDebugDrawingSurface("SceneDebugDrawer", scene.getDefaultSubScene());
+            foreach (DebugInterface debugInterface in controller.PluginManager.getDebugInterfaces())
+            {
+                debugInterface.createDebugInterface(controller.PluginManager.RendererPlugin, scene.getDefaultSubScene());
+            }
         }
 
         public void createSimObjects()
@@ -111,9 +113,10 @@ namespace Anomaly
         {
             if (scene != null)
             {
-                if (debugSurface != null)
+
+                foreach (DebugInterface debugInterface in controller.PluginManager.getDebugInterfaces())
                 {
-                    controller.PluginManager.RendererPlugin.destroyDebugDrawingSurface(debugSurface);
+                    debugInterface.destroyDebugInterface(controller.PluginManager.RendererPlugin, scene.getDefaultSubScene());
                 }
                 if (OnSceneUnloading != null)
                 {
@@ -148,7 +151,7 @@ namespace Anomaly
             {
                 foreach (DebugInterface debugInterface in controller.PluginManager.getDebugInterfaces())
                 {
-                    debugInterface.renderDebug(debugSurface, scene.getDefaultSubScene());
+                    debugInterface.renderDebug(scene.getDefaultSubScene());
                 }
             }
         }

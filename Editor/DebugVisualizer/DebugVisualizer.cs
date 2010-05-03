@@ -49,6 +49,7 @@ namespace Editor
         {
             this.Text = debugInterface.Name;
             this.debugInterface = debugInterface;
+            depthCheckCheck.Checked = debugInterface.isDepthTestingEnabled();
             foreach (DebugEntry entry in debugInterface.getEntries())
             {
                 visualListBox.Items.Add(entry, false);
@@ -69,6 +70,11 @@ namespace Editor
         {
             DebugEntry entry = (DebugEntry)visualListBox.Items[e.Index];
             entry.setEnabled(e.NewValue == CheckState.Checked);
+        }
+
+        private void depthCheckCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            debugInterface.setDepthTesting(depthCheckCheck.Checked);
         }
     }
 }
