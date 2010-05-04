@@ -118,7 +118,7 @@ public:
 		}
 	}
 
-	[Editable]
+	/*[Editable]
 	property float ERP
 	{
 		float get()
@@ -129,7 +129,7 @@ public:
 		{
 			motor->m_ERP = value;
 		}
-	}
+	}*/
 
 	[Editable]
 	property float Bounce

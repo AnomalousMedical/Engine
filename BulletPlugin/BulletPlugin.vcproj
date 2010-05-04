@@ -132,9 +132,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libbulletsoftbody.lib libbulletdynamics.lib libbulletcollision.lib libbulletmath.lib libbulletmultithreaded.lib libconvexdecomposition.lib $(NOINHERIT)"
+				AdditionalDependencies="bulletsoftbody.lib bulletdynamics.lib bulletcollision.lib linearmath.lib bulletmultithreaded.lib convexdecomposition.lib $(NOINHERIT)"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(BULLET_HOME)\out\release8\libs&quot;;&quot;$(SolutionDir)\Release&quot;"
+				AdditionalLibraryDirectories="&quot;$(BULLET_HOME)\msvc\2008\Extras\ConvexDecomposition\Release&quot;;&quot;$(BULLET_HOME)\msvc\2008\src\BulletSoftBody\Release&quot;;&quot;$(BULLET_HOME)\msvc\2008\src\BulletMultiThreaded\Release&quot;;&quot;$(BULLET_HOME)\msvc\2008\src\BulletDynamics\Release&quot;;&quot;$(BULLET_HOME)\msvc\2008\src\LinearMath\Release&quot;;&quot;$(BULLET_HOME)\msvc\2008\src\BulletCollision\Release&quot;;&quot;$(SolutionDir)\Release&quot;"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
 			/>
