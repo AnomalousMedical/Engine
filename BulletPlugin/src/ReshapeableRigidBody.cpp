@@ -42,16 +42,22 @@ SimElementDefinition^ ReshapeableRigidBody::saveToDefinition()
 
 void ReshapeableRigidBody::createHullRegion(System::String^ name, ConvexDecompositionDesc^ desc)
 {
+	createHullRegion(name, desc, Engine::Vector3::Zero, Engine::Quaternion::Identity);
+}
+
+void ReshapeableRigidBody::createHullRegion(System::String^ name, ConvexDecompositionDesc^ desc, Engine::Vector3 origin, Engine::Quaternion orientation)
+{
 	//Find the section.
 	ReshapeableRigidBodySection* section;
 	IntPtr ptr;
 	if(hullRegions.TryGetValue(name, ptr))
 	{
 		section = static_cast<ReshapeableRigidBodySection*>(ptr.ToPointer());
+		section->moveOrigin(&origin.x, &orientation.x);
 	}
 	else
 	{
-		section = new ReshapeableRigidBodySection();
+		section = new ReshapeableRigidBodySection(&origin.x, &orientation.x);
 		hullRegions.Add(name, IntPtr(section));
 	}
 
@@ -75,6 +81,39 @@ void ReshapeableRigidBody::createHullRegion(System::String^ name, ConvexDecompos
 	cb.process(btDesc);
 
 	section->addShapes(compoundShape);
+}
+
+void ReshapeableRigidBody::addSphereShape(System::String^ regionName, float radius, Engine::Vector3 origin)
+{
+	//Find the section.
+	ReshapeableRigidBodySection* section;
+	IntPtr ptr;
+	if(hullRegions.TryGetValue(regionName, ptr))
+	{
+		section = static_cast<ReshapeableRigidBodySection*>(ptr.ToPointer());
+	}
+	else
+	{
+		section = new ReshapeableRigidBodySection();
+		hullRegions.Add(regionName, IntPtr(section));
+	}
+
+	section->addSphere(radius, &origin.x, compoundShape);
+}
+
+void ReshapeableRigidBody::destroyRegion(System::String^ name)
+{
+	//Find the section.
+	ReshapeableRigidBodySection* section;
+	IntPtr ptr;
+	if(hullRegions.TryGetValue(name, ptr))
+	{
+		section = static_cast<ReshapeableRigidBodySection*>(ptr.ToPointer());
+		section->removeShapes(compoundShape);
+		section->deleteShapes();
+		hullRegions.Remove(name);
+		delete section;
+	}
 }
 
 #pragma unmanaged

@@ -8,6 +8,13 @@ namespace BulletPlugin
 
 ReshapeableRigidBodySection::ReshapeableRigidBodySection(void)
 {
+	transform.setIdentity();
+}
+
+ReshapeableRigidBodySection::ReshapeableRigidBodySection(float* translation, float* orientation)
+{
+	transform.setOrigin(btVector3(translation[0], translation[1], translation[2]));
+	transform.setRotation(btQuaternion(orientation[0], orientation[1], orientation[2], orientation[3]));
 }
 
 ReshapeableRigidBodySection::~ReshapeableRigidBodySection(void)
@@ -18,12 +25,13 @@ ReshapeableRigidBodySection::~ReshapeableRigidBodySection(void)
 void ReshapeableRigidBodySection::addShapes(btCompoundShape* compoundShape)
 {
 	btTransform trans;
-	trans.setIdentity();
 	for (int i=0; i < m_convexShapes.size(); ++i)
 	{
+		trans.setIdentity();
 		btVector3 centroid = m_convexCentroids[i];
 		trans.setOrigin(centroid);
-		btConvexHullShape* convexShape = m_convexShapes[i];
+		trans = transform * trans;
+		btCollisionShape* convexShape = m_convexShapes[i];
 		compoundShape->addChildShape(trans, convexShape);
 	}
 }
@@ -32,7 +40,7 @@ void ReshapeableRigidBodySection::removeShapes(btCompoundShape* compoundShape)
 {
 	for (int i=0; i < m_convexShapes.size(); ++i)
 	{
-		btConvexHullShape* convexShape = m_convexShapes[i];
+		btCollisionShape* convexShape = m_convexShapes[i];
 		compoundShape->removeChildShape(convexShape);
 	}
 }
@@ -41,11 +49,32 @@ void ReshapeableRigidBodySection::deleteShapes()
 {
 	for (int i=0; i < m_convexShapes.size(); ++i)
 	{
-		btConvexHullShape* convexShape = m_convexShapes[i];
+		btCollisionShape* convexShape = m_convexShapes[i];
 		delete convexShape;
 	}
 	m_convexShapes.clear();
 	m_convexCentroids.clear();
+}
+
+void ReshapeableRigidBodySection::addSphere(float radius, float* translation, btCompoundShape* compoundShape)
+{
+	btSphereShape* sphereShape = new btSphereShape(radius);
+	btVector3 centroid(translation[0], translation[1], translation[2]);
+	m_convexShapes.push_back(sphereShape);
+	m_convexCentroids.push_back(centroid);
+	if(compoundShape != 0)
+	{
+		btTransform transform;
+		transform.setIdentity();
+		transform.setOrigin(centroid);
+		compoundShape->addChildShape(transform, sphereShape);
+	}
+}
+
+void ReshapeableRigidBodySection::moveOrigin(float* translation, float* orientation)
+{
+	transform.setOrigin(btVector3(translation[0], translation[1], translation[2]));
+	transform.setRotation(btQuaternion(orientation[0], orientation[1], orientation[2], orientation[3]));
 }
 
 void ReshapeableRigidBodySection::ConvexDecompResult(ConvexDecomposition::ConvexResult &result)

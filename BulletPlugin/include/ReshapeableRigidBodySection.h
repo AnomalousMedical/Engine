@@ -14,14 +14,22 @@ namespace BulletPlugin
 class ReshapeableRigidBodySection : public ConvexDecomposition::ConvexDecompInterface
 {
 private:
-	btAlignedObjectArray<btConvexHullShape*> m_convexShapes;
+	btAlignedObjectArray<btCollisionShape*> m_convexShapes;
 	btAlignedObjectArray<btVector3> m_convexCentroids;
+	btTransform transform;
 
 public:
 	/// <summary>
 	/// Constructor
 	/// </summary>
 	ReshapeableRigidBodySection(void);
+
+	/// <summary>
+	/// Constructor
+	/// </summary>
+	/// <param name="translation">The translation of the origin.</param>
+	/// <param name="orientation">The orientation of the origin.</param>
+	ReshapeableRigidBodySection(float* translation, float* orientation);
 
 	/// <summary>
 	/// Destructor
@@ -45,6 +53,21 @@ public:
     /// of any other collision object first.
 	/// </summary>
 	void deleteShapes();
+
+	/// <summary>
+	/// Add a sphere to this RigidBodySection.
+	/// </summary>
+	/// <param name="radius">The radius.</param>
+	/// <param name="translation">The translation of the sphere.</param>
+	/// <param name="compoundShape">The compoundShape to add the new sphere shape to. Can be 0 to not add the sphere to anything yet.</param>
+	void addSphere(float radius, float* translation, btCompoundShape* compoundShape = 0);
+
+	/// <summary>
+	/// Move the origin of this section. Will not take effect until the shapes are removed and readded.
+	/// </summary>
+	/// <param name="translation">The translation of the origin.</param>
+	/// <param name="orientation">The orientation of the origin.</param>
+	void moveOrigin(float* translation, float* orientation);
 
 	/// <summary>
 	/// Callback from the convex decomposition algorithm. Will build the actual
