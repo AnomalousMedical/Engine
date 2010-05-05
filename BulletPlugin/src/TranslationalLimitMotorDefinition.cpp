@@ -27,6 +27,9 @@ TranslationalLimitMotorDefinition::TranslationalLimitMotorDefinition(LoadInfo^ i
 	CurrentLimitX = info->GetInt32("CurrentLimitX");
 	CurrentLimitY = info->GetInt32("CurrentLimitY");
 	CurrentLimitZ = info->GetInt32("CurrentLimitZ");
+	NormalCFM = info->GetVector3("NormalCFM", NormalCFM);
+	StopERP = info->GetVector3("StopERP", StopERP);
+	StopCFM = info->GetVector3("StopCFM", StopCFM);
 }
 
 void TranslationalLimitMotorDefinition::getInfo(SaveInfo^ info)
@@ -46,6 +49,9 @@ void TranslationalLimitMotorDefinition::getInfo(SaveInfo^ info)
 	info->AddValue("CurrentLimitX", CurrentLimitX);
 	info->AddValue("CurrentLimitY", CurrentLimitY);
 	info->AddValue("CurrentLimitZ", CurrentLimitZ);
+	info->AddValue("NormalCFM", NormalCFM);
+	info->AddValue("StopERP", StopERP);
+	info->AddValue("StopCFM", StopCFM);
 }
 
 }

@@ -184,4 +184,9 @@ void Generic6DofConstraintElement::setAngularUpperLimit(Vector3 angularUpper)
 	BulletPlugin::setAngularUpperLimit(dof, &angularUpper.x);
 }
 
+void Generic6DofConstraintElement::setParam(Param num, float value, int axis)
+{
+	dof->setParam(static_cast<int>(num), value, axis);
+}
+
 }

@@ -54,6 +54,15 @@ public:
 	void setAngularLowerLimit(Vector3 angularLower);
 
 	void setAngularUpperLimit(Vector3 angularUpper);
+
+	enum class Param
+	{
+		CONSTRAINT_STOP_ERP = BT_CONSTRAINT_STOP_ERP,
+		CONSTRAINT_STOP_CFM = BT_CONSTRAINT_STOP_CFM,
+		CONSTRAINT_CFM = BT_CONSTRAINT_CFM,
+	};
+
+	void setParam(Param num, float value, int axis);
 };
 
 }

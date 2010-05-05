@@ -118,18 +118,44 @@ public:
 		}
 	}
 
-	/*[Editable]
-	property float ERP
+	[Editable]
+	property float NormalCFM
 	{
 		float get()
 		{
-			return motor->m_ERP;
+			return motor->m_normalCFM;
 		}
 		void set(float value)
 		{
-			motor->m_ERP = value;
+			motor->m_normalCFM = value;
 		}
-	}*/
+	}
+
+	[Editable]
+	property float StopERP
+	{
+		float get()
+		{
+			return motor->m_stopERP;
+		}
+		void set(float value)
+		{
+			motor->m_stopERP = value;
+		}
+	}
+
+	[Editable]
+	property float StopCFM
+	{
+		float get()
+		{
+			return motor->m_stopCFM;
+		}
+		void set(float value)
+		{
+			motor->m_stopCFM = value;
+		}
+	}
 
 	[Editable]
 	property float Bounce

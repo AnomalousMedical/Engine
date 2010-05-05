@@ -234,6 +234,51 @@ public:
 		}
 	}
 
+	[Editable]
+	property Vector3 NormalCFM
+	{
+		Vector3 get()
+		{
+			return Vector3(motor->m_normalCFM.x(), motor->m_normalCFM.y(), motor->m_normalCFM.z());
+		}
+		void set(Vector3 value)
+		{
+			motor->m_normalCFM.setX(value.x);
+			motor->m_normalCFM.setY(value.y);
+			motor->m_normalCFM.setZ(value.z);
+		}
+	}
+
+	[Editable]
+	property Vector3 StopERP
+	{
+		Vector3 get()
+		{
+			return Vector3(motor->m_stopERP.x(), motor->m_stopERP.y(), motor->m_stopERP.z());
+		}
+		void set(Vector3 value)
+		{
+			motor->m_stopERP.setX(value.x);
+			motor->m_stopERP.setY(value.y);
+			motor->m_stopERP.setZ(value.z);
+		}
+	}
+
+	[Editable]
+	property Vector3 StopCFM
+	{
+		Vector3 get()
+		{
+			return Vector3(motor->m_stopCFM.x(), motor->m_stopCFM.y(), motor->m_stopCFM.z());
+		}
+		void set(Vector3 value)
+		{
+			motor->m_stopCFM.setX(value.x);
+			motor->m_stopCFM.setY(value.y);
+			motor->m_stopCFM.setZ(value.z);
+		}
+	}
+
 //Saving
 
 protected:

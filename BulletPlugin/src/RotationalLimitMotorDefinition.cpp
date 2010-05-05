@@ -21,7 +21,9 @@ RotationalLimitMotorDefinition::RotationalLimitMotorDefinition(LoadInfo^ info)
     MaxLimitForce = info->GetFloat("MaxLimitForce");
     Damping = info->GetFloat("Damping");
     LimitSoftness = info->GetFloat("LimitSoftness");
-    //ERP = info->GetFloat("ERP");
+    NormalCFM = info->GetFloat("NormalCFM", NormalCFM);
+	StopERP = info->GetFloat("StopERP", StopERP);
+	StopCFM = info->GetFloat("StopCFM", StopCFM);
     Bounce = info->GetFloat("Bounce");
     EnableMotor = info->GetBoolean("EnableMotor");
     CurrentLimitError = info->GetFloat("CurrentLimitError");
@@ -38,7 +40,9 @@ void RotationalLimitMotorDefinition::getInfo(SaveInfo^ info)
     info->AddValue("MaxLimitForce", MaxLimitForce);
     info->AddValue("Damping", Damping);
     info->AddValue("LimitSoftness", LimitSoftness);
-    //info->AddValue("ERP", ERP);
+    info->AddValue("NormalCFM", NormalCFM);
+	info->AddValue("StopERP", StopERP);
+	info->AddValue("StopCFM", StopCFM);
     info->AddValue("Bounce", Bounce);
     info->AddValue("EnableMotor", EnableMotor);
     info->AddValue("CurrentLimitError", CurrentLimitError);
