@@ -141,6 +141,10 @@ public:
 
 	bool isInWorld();
 
+	void removeFromWorld();
+
+	void addToWorld();
+
 	void setAnisotropicFriction(Vector3 anisotropicFriction);
 
 	Vector3 getAnisotropicFriction();

@@ -419,6 +419,16 @@ bool RigidBody::isInWorld()
 	return rigidBody->isInWorld();
 }
 
+void RigidBody::removeFromWorld()
+{
+	scene->DynamicsWorld->removeRigidBody(rigidBody);
+}
+
+void RigidBody::addToWorld()
+{
+	scene->DynamicsWorld->addRigidBody(rigidBody, collisionFilterGroup, collisionFilterMask);
+}
+
 void RigidBody::setAnisotropicFriction(Vector3 anisotropicFriction)
 {
 	BulletPlugin::setAnisotropicFriction(rigidBody, &anisotropicFriction.x);
