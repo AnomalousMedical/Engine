@@ -73,6 +73,7 @@
     <Compile Include="Config\AnomalyConfig.cs" />
     <Compile Include="Config\EngineConfig.cs" />
     <Compile Include="Config\PluginSection.cs" />
+    <Compile Include="Config\RecentDocuments.cs" />
     <Compile Include="Config\ResourceSection.cs" />
     <Compile Include="Config\ToolsConfig.cs" />
     <Compile Include="Controller\AnomalyController.cs" />
@@ -117,6 +118,12 @@
     <Compile Include="GUI\ObfuscateZipFileGUI.Designer.cs">
       <DependentUpon>ObfuscateZipFileGUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\ProjectSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\ProjectSelector.Designer.cs">
+      <DependentUpon>ProjectSelector.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\PublishGUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -143,6 +150,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\ObfuscateZipFileGUI.resx">
       <DependentUpon>ObfuscateZipFileGUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\ProjectSelector.resx">
+      <DependentUpon>ProjectSelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\PublishGUI.resx">
       <DependentUpon>PublishGUI.cs</DependentUpon>

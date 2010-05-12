@@ -48,6 +48,10 @@ namespace Anomaly
             {
                 projectFileName = findProjectFile();
                 startGUI = File.Exists(projectFileName);
+                if (startGUI) //Add file to recent documents list.
+                {
+                    AnomalyConfig.RecentDocuments.addDocument(projectFileName);
+                }
             }
             if (startGUI)
             {
@@ -57,16 +61,15 @@ namespace Anomaly
 
         static String findProjectFile()
         {
-            using (OpenFileDialog openFile = new OpenFileDialog())
+            using (ProjectSelector openFile = new ProjectSelector())
             {
-                openFile.Filter = "Anomaly Projects(*.ano)|*.ano;";
-                DialogResult result = openFile.ShowDialog();
-                if (result == DialogResult.OK)
+                openFile.setRecentFiles(AnomalyConfig.RecentDocuments);
+                if (openFile.ShowDialog() == DialogResult.OK)
                 {
-                    return openFile.FileName;
+                    return openFile.SelectedFile;
                 }
-                return null;
             }
+            return "";
         }
 
         static void startGUI(String projectFileName)

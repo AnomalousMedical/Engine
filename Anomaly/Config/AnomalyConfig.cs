@@ -23,9 +23,8 @@ namespace Anomaly
                 Directory.CreateDirectory(docRoot);
             }
             configFile = new ConfigFile(docRoot + "/config.ini");
+            RecentDocuments = new RecentDocuments(configFile);
             configFile.loadConfigFile();
-            //ResourceSection = new ResourceSection(configFile);
-            //PluginSection = new PluginSection(configFile);
             EngineConfig = new EngineConfig(configFile);
             tools = new ToolsConfig(configFile);
         }
@@ -43,9 +42,7 @@ namespace Anomaly
             configFile.writeConfigFile();
         }
 
-        //public static ResourceSection ResourceSection { get; private set; }
-
-        //public static PluginSection PluginSection { get; private set; }
+        public static RecentDocuments RecentDocuments { get; private set; }
 
         public static EngineConfig EngineConfig { get; private set; }
 
