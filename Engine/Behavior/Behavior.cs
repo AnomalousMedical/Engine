@@ -173,6 +173,22 @@ namespace Engine
         }
 
         /// <summary>
+        /// Validate something passed through condition. Allows for one liner
+        /// blacklist statements. Will call blacklist with the reason and args
+        /// if condition is false.
+        /// </summary>
+        /// <param name="pass">True or false. If true the function does nothing if false blacklist with the message and reason is called.</param>
+        /// <param name="message">The message for the blacklist.</param>
+        /// <param name="args">The args to message.</param>
+        protected void validate(bool pass, String message, params object[] args)
+        {
+            if (!pass)
+            {
+                blacklist(message, args);
+            }
+        }
+
+        /// <summary>
         /// This function will blacklist an object for an exception that made it
         /// out of the link or constructed functions that was not handled by the
         /// user. It is intended to only be called by BehaivorFactory.
