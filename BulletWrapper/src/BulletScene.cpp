@@ -118,6 +118,16 @@ void BulletScene::removeRigidBody(btRigidBody* rigidBody)
 	dynamicsWorld->removeRigidBody(rigidBody);
 }
 
+void BulletScene::addConstraint(btTypedConstraint* constraint, bool disableCollisionsBetweenLinkedBodies)
+{
+	dynamicsWorld->addConstraint(constraint, disableCollisionsBetweenLinkedBodies);
+}
+
+void BulletScene::removeConstraint(btTypedConstraint* constraint)
+{
+	dynamicsWorld->removeConstraint(constraint);
+}
+
 //--------------------------------------------------
 //Wrapper functions
 //--------------------------------------------------
@@ -149,4 +159,14 @@ extern "C" _declspec(dllexport) void BulletScene_addRigidBody(BulletScene* insta
 extern "C" _declspec(dllexport) void BulletScene_removeRigidBody(BulletScene* instance, btRigidBody* rigidBody)
 {
 	instance->removeRigidBody(rigidBody);
+}
+
+extern "C" _declspec(dllexport) void BulletScene_addConstraint(BulletScene* instance, btTypedConstraint* constraint, bool disableCollisionsBetweenLinkedBodies)
+{
+	instance->addConstraint(constraint, disableCollisionsBetweenLinkedBodies);
+}
+
+extern "C" _declspec(dllexport) void BulletScene_removeConstraint(BulletScene* instance, btTypedConstraint* constraint)
+{
+	instance->removeConstraint(constraint);
 }

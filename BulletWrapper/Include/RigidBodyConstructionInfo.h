@@ -1,6 +1,6 @@
 #pragma  once
 
-_declspec(dllexport) class RigidBodyConstructionInfo
+class RigidBodyConstructionInfo
 {
 public:
 	float			m_mass;

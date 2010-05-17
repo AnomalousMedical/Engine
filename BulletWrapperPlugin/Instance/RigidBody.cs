@@ -70,20 +70,23 @@ namespace BulletPlugin
         {
             if(rigidBody.Handle != nullIntPtr)
             {
-                //Need to do constraint delete, look at old bullet plugin
-                //System::Collections::Generic::List<TypedConstraintElement^> constraints(rigidBody->getNumConstraintRefs());
-                ////Gather up all constraints
-                //for(int i = 0; i < rigidBody->getNumConstraintRefs(); ++i)
-                //{
-                //    btTypedConstraint* typedConstraint = rigidBody->getConstraintRef(i);
-                //    ConstraintGCRoot* root = static_cast<ConstraintGCRoot*>(typedConstraint->getUserData());
-                //    constraints.Add(*root);
-                //}
-                ////Set all constraints to inactive
-                //for each(TypedConstraintElement^ constraint in constraints)
-                //{
-                //    constraint->setInactive();
-                //}
+                int numRefs = btRigidBody_getNumConstraintRefs(rigidBody);
+                List<TypedConstraintElement> constraints = new List<TypedConstraintElement>(numRefs);
+                //Gather up all constraints
+                for(int i = 0; i < numRefs; ++i)
+                {
+                    IntPtr typedConstraint = btRigidBody_getConstraintRef(rigidBody, i);
+                    TypedConstraintElement element = TypedConstraintManager.getElement(typedConstraint);
+                    if(element != null)
+                    {
+                        constraints.Add(element);
+                    }
+                }
+                //Set all constraints to inactive
+                foreach(TypedConstraintElement constraint in constraints)
+                {
+                    constraint.setInactive();
+                }
 
                 MotionState_Delete(motionState);
                 motionState = nullIntPtr;
@@ -639,6 +642,12 @@ namespace BulletPlugin
 
         [DllImport("BulletWrapper")]
         private static extern void btRigidBody_setWorldTransform(HandleRef rigidBody, ref Vector3 trans, ref Quaternion rot);
+
+        [DllImport("BulletWrapper")]
+        private static extern int btRigidBody_getNumConstraintRefs(HandleRef rigidBody);
+
+        [DllImport("BulletWrapper")]
+        private static extern IntPtr btRigidBody_getConstraintRef(HandleRef rigidBody, int num);
 
         //MotionState
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

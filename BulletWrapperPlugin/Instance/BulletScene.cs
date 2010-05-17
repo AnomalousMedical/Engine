@@ -43,6 +43,16 @@ namespace BulletPlugin
             BulletScene_removeRigidBody(bulletScene, rigidBody.NativeRigidBody);
         }
 
+        internal void addConstraint(TypedConstraintElement constraint, bool disableCollisionsBetweenLinkedBodies)
+        {
+            BulletScene_addConstraint(bulletScene, constraint.constraint, disableCollisionsBetweenLinkedBodies);
+        }
+
+        internal void removeConstraint(TypedConstraintElement constraint)
+        {
+            BulletScene_removeConstraint(bulletScene, constraint.constraint);
+        }
+
         #region SimElementManager Members
 
         public SimElementFactory getFactory()
@@ -117,5 +127,11 @@ namespace BulletPlugin
 
         [DllImport("BulletWrapper")]
         private static extern void BulletScene_removeRigidBody(HandleRef instance, HandleRef rigidBody);
+
+        [DllImport("BulletWrapper")]
+        private static extern void BulletScene_addConstraint(HandleRef instance, IntPtr constraint, bool disableCollisionsBetweenLinkedBodies);
+
+        [DllImport("BulletWrapper")]
+        private static extern void BulletScene_removeConstraint(HandleRef instance, IntPtr constraint);
     }
 }

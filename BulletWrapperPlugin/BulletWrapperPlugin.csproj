@@ -51,9 +51,12 @@
     <Compile Include="Definition\BulletElementDefinition.cs" />
     <Compile Include="Definition\BulletSceneDefinition.cs" />
     <Compile Include="Definition\BulletSceneInfo.cs" />
+    <Compile Include="Definition\Joints\TypedConstraintDefinition.cs" />
     <Compile Include="Definition\RigidBodyDefinition.cs" />
     <Compile Include="Definition\RigidBodyConstructionInfo.cs" />
     <Compile Include="Instance\BulletScene.cs" />
+    <Compile Include="Instance\Joints\TypedConstraintElement.cs" />
+    <Compile Include="Instance\Joints\TypedConstraintManager.cs" />
     <Compile Include="Plugin\BulletInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Instance\RigidBody.cs" />

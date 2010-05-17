@@ -54,4 +54,8 @@ public:
 	void addRigidBody(btRigidBody* rigidBody, short group, short mask);
 
 	void removeRigidBody(btRigidBody* rigidBody);
+
+	void addConstraint(btTypedConstraint* constraint, bool disableCollisionsBetweenLinkedBodies);
+
+	void removeConstraint(btTypedConstraint* constraint);
 };

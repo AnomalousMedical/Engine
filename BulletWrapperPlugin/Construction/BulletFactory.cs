@@ -25,7 +25,10 @@ namespace BulletPlugin
             rigidBodies.Add(new BulletFactoryEntry(instance, definition));
         }
 
-        //internal void addTypedConstraint(TypedConstraintDefinition definition, SimObjectBase instance);
+        internal void addTypedConstraint(TypedConstraintDefinition definition, SimObjectBase instance)
+        {
+            typedConstraints.Add(new BulletFactoryEntry(instance, definition));
+        }
 
         //internal void addSoftBody(SoftBodyDefinition definition, SimObjectBase instance);
 

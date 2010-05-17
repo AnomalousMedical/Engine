@@ -303,4 +303,14 @@ extern "C" _declspec(dllexport) void btRigidBody_setWorldTransform(btRigidBody* 
 	transform.getBasis().setRotation(btQuaternion(rot->x, rot->y, rot->z, rot->w));
 }
 
+extern "C" _declspec(dllexport) int btRigidBody_getNumConstraintRefs(btRigidBody* rigidBody)
+{
+	return rigidBody->getNumConstraintRefs();
+}
+
+extern "C" _declspec(dllexport) btTypedConstraint* btRigidBody_getConstraintRef(btRigidBody* rigidBody, int num)
+{
+	return rigidBody->getConstraintRef(num);
+}
+
 #pragma warning(pop)
