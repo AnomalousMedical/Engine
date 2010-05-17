@@ -21,13 +21,16 @@ namespace BulletPlugin
         }
 
         private String name;
-        internal BulletSceneInfo sceneInfo;
+        internal BulletSceneInfo sceneInfo = new BulletSceneInfo();
         EditInterface editInterface;
 
         public BulletSceneDefinition(String name)
         {
             this.name = name;
-            this.sceneInfo = new BulletSceneInfo();
+            sceneInfo.maxProxies = 1024;
+            sceneInfo.gravity = new Vector3(0f, -9.8f, 0f);
+            sceneInfo.worldAabbMax = new Vector3(10000f, 10000f, 10000f);
+            sceneInfo.worldAabbMin = new Vector3(-10000f, -10000f, -10000f);
         }
 
         public void Dispose()
