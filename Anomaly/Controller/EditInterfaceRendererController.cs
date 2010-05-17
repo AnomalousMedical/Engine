@@ -49,8 +49,11 @@ namespace Anomaly
                 currentOrigin = Vector3.Zero;
                 currentRotation = Quaternion.Identity;
             }
-            debugSurface.moveOrigin(currentOrigin);
-            debugSurface.setOrientation(currentRotation);
+            if(debugSurface != null)
+            {
+                debugSurface.moveOrigin(currentOrigin);
+                debugSurface.setOrientation(currentRotation);
+            }
         }
 
         void mainEditor_FieldChanged(EditInterface editInterface, object editingObject)
@@ -67,7 +70,10 @@ namespace Anomaly
             {
                 currentRenderer.interfaceDeselected(debugSurface);
             }
-            debugSurface.clearAll();
+            if(debugSurface != null)
+            {
+                debugSurface.clearAll();
+            }
             currentRenderer = editInterface.Renderer;
             if (currentRenderer != null)
             {
@@ -78,13 +84,19 @@ namespace Anomaly
         void sceneController_OnSceneLoaded(SceneController controller, SimScene scene)
         {
             debugSurface = renderer.createDebugDrawingSurface("EditInterfaceRenderer", scene.getDefaultSubScene());
-            debugSurface.moveOrigin(currentOrigin);
-            debugSurface.setOrientation(currentRotation);
+            if (debugSurface != null)
+            {
+                debugSurface.moveOrigin(currentOrigin);
+                debugSurface.setOrientation(currentRotation);
+            }
         }
 
         void sceneController_OnSceneUnloading(SceneController controller, Engine.ObjectManagement.SimScene scene)
         {
-            renderer.destroyDebugDrawingSurface(debugSurface);
+            if(debugSurface != null)
+            {
+                renderer.destroyDebugDrawingSurface(debugSurface);
+            }
         }
 
         #region UpdateListener Members

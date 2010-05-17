@@ -40,7 +40,10 @@ namespace Engine
         public void createDebugInterface(RendererPlugin rendererPlugin, SimSubScene subScene)
         {
             drawingSurface = rendererPlugin.createDebugDrawingSurface("BehaviorSurface", subScene);
-            drawingSurface.setDepthTesting(depthTesting);
+            if(drawingSurface != null)
+            {
+                drawingSurface.setDepthTesting(depthTesting);
+            }
         }
 
         public void destroyDebugInterface(RendererPlugin rendererPlugin, SimSubScene subScene)
