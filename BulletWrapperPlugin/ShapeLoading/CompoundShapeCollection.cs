@@ -19,7 +19,6 @@ namespace BulletPlugin
             if (collisionShape != IntPtr.Zero)
             {
                 CollisionShapeInterface.CompoundShape_DeleteChildren(collisionShape);
-                collisionShape = IntPtr.Zero;
             }
             base.Dispose();
         }
