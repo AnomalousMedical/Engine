@@ -101,7 +101,6 @@ namespace BulletPlugin
 
         private void commitShape(String name, Vector3 translation, Quaternion rotation, IntPtr collisionShape)
         {
-            //collisionShape->setMargin(shapeMargin);
 	        if(currentCompound != IntPtr.Zero)
 	        {
                 CollisionShapeInterface.CompoundShape_addChildShape(currentCompound, collisionShape, ref translation, ref rotation);
