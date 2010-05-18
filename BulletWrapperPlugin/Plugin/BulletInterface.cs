@@ -53,7 +53,7 @@ namespace BulletPlugin
             pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create Bullet Rigid Body", new CreateSimElement(RigidBodyDefinition.Create)));
             //pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create Bullet Reshapeable Rigid Body", new CreateSimElement(ReshapeableRigidBodyDefinition::Create)));
             //pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create Bullet Soft Body", new CreateSimElement(SoftBodyDefinition::Create)));
-            //pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create Bullet Generic 6 Dof Constraint", new CreateSimElement(Generic6DofConstraintDefinition::Create)));
+            pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create Bullet Generic 6 Dof Constraint", new CreateSimElement(Generic6DofConstraintDefinition.Create)));
             //pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create Bullet Elipsoid Soft Body Provider", new CreateSimElement(EllipsoidSoftBodyProviderDefinition::Create)));
             //pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create Bullet Soft Body Anchor", new CreateSimElement(SoftBodyAnchorDefinition::Create)));
 

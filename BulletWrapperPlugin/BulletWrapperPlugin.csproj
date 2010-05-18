@@ -51,10 +51,14 @@
     <Compile Include="Definition\BulletElementDefinition.cs" />
     <Compile Include="Definition\BulletSceneDefinition.cs" />
     <Compile Include="Definition\BulletSceneInfo.cs" />
+    <Compile Include="Definition\Joints\Generic6DofConstraintDefinition.cs" />
+    <Compile Include="Definition\Joints\RotationalLimitMotorDefinition.cs" />
+    <Compile Include="Definition\Joints\TranslationalLimitMotorDefinition.cs" />
     <Compile Include="Definition\Joints\TypedConstraintDefinition.cs" />
     <Compile Include="Definition\RigidBodyDefinition.cs" />
     <Compile Include="Definition\RigidBodyConstructionInfo.cs" />
     <Compile Include="Instance\BulletScene.cs" />
+    <Compile Include="Instance\Joints\Generic6DofConstraintElement.cs" />
     <Compile Include="Instance\Joints\TypedConstraintElement.cs" />
     <Compile Include="Instance\Joints\TypedConstraintManager.cs" />
     <Compile Include="Plugin\BulletInterface.cs" />

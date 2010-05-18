@@ -83,7 +83,6 @@ namespace BulletPlugin
 
         static TypedConstraintDefinition()
         {
-            memberScanner.ProcessFields = false;
             memberScanner.Filter = new EditableAttributeFilter();
         }
 

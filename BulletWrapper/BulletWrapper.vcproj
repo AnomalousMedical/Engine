@@ -184,7 +184,15 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\src\btGeneric6DofConstraintWrapper.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\btRigidBodyWrapper.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\btTypedConstraintWrapper.cpp"
 				>
 			</File>
 			<File
@@ -227,6 +235,10 @@
 			>
 			<File
 				RelativePath=".\Include\BulletScene.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Generic6DofConstriantMotors.h"
 				>
 			</File>
 			<File

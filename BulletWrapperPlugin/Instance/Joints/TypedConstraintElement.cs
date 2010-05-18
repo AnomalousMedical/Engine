@@ -9,6 +9,14 @@ namespace BulletPlugin
 {
     public abstract partial class TypedConstraintElement : SimElement
     {
+        public enum Param : int
+        {
+            CONSTRAINT_ERP = 1,
+            CONSTRAINT_STOP_ERP,
+            CONSTRAINT_STOP_CFM,
+            CONSTRAINT_CFM,
+        };
+
         internal IntPtr constraint;
 	    BulletScene scene;
 	    RigidBody rbA;
