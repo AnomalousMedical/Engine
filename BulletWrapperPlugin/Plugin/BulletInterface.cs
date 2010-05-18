@@ -86,7 +86,17 @@ namespace BulletPlugin
             
         }
 
-        public float ShapeMargin { get; set; }
+        public float ShapeMargin
+        {
+            get
+            {
+                return fileManager.ShapeBuilder.ShapeMargin;
+            }
+            set
+            {
+                fileManager.ShapeBuilder.ShapeMargin = value;
+            }
+        }
 
         internal BulletScene createScene(BulletSceneDefinition definition)
         {

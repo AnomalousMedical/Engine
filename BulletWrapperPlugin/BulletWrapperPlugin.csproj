@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BulletPlugin</RootNamespace>
-    <AssemblyName>BulletWrapperPlugin</AssemblyName>
+    <AssemblyName>BulletPlugin</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -58,9 +58,13 @@
     <Compile Include="Definition\RigidBodyDefinition.cs" />
     <Compile Include="Definition\RigidBodyConstructionInfo.cs" />
     <Compile Include="Instance\BulletScene.cs" />
+    <Compile Include="Instance\Contact\ContactInfo.cs" />
+    <Compile Include="Instance\Contact\ManifoldPoint.cs" />
+    <Compile Include="Instance\ConvexDecompositionDesc.cs" />
     <Compile Include="Instance\Joints\Generic6DofConstraintElement.cs" />
     <Compile Include="Instance\Joints\TypedConstraintElement.cs" />
     <Compile Include="Instance\Joints\TypedConstraintManager.cs" />
+    <Compile Include="Instance\ReshapeableRigidBody.cs" />
     <Compile Include="Plugin\BulletInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Instance\RigidBody.cs" />
@@ -93,4 +97,8 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
 </Project>

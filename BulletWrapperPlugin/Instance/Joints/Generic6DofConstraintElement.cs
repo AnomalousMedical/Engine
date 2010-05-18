@@ -27,82 +27,82 @@ namespace BulletPlugin
 	        return definition;
         }
 
-        void setFrameOffsetA(Vector3 origin)
+        public void setFrameOffsetA(Vector3 origin)
         {
             btGeneric6DofConstraint_setFrameOffsetOriginA(constraint, ref origin);
         }
 
-	    void setFrameOffsetA(Quaternion basis)
+        public void setFrameOffsetA(Quaternion basis)
         {
             btGeneric6DofConstraint_setFrameOffsetBasisA(constraint, ref basis);
         }
 
-	    void setFrameOffsetA(Vector3 origin, Quaternion basis)
+        public void setFrameOffsetA(Vector3 origin, Quaternion basis)
         {
             btGeneric6DofConstraint_setFrameOffsetOriginBasisA(constraint, ref origin, ref basis);
         }
 
-	    void setFrameOffsetB(Vector3 origin)
+        public void setFrameOffsetB(Vector3 origin)
         {
             btGeneric6DofConstraint_setFrameOffsetOriginB(constraint, ref origin);
         }
 
-	    void setFrameOffsetB(Quaternion basis)
+        public void setFrameOffsetB(Quaternion basis)
         {
             btGeneric6DofConstraint_setFrameOffsetBasisB(constraint, ref basis);
         }
 
-	    void setFrameOffsetB(Vector3 origin, Quaternion basis)
+        public void setFrameOffsetB(Vector3 origin, Quaternion basis)
         {
             btGeneric6DofConstraint_setFrameOffsetBasisB(constraint, ref basis);
         }
 
-	    Vector3 getFrameOffsetOriginA()
+        public Vector3 getFrameOffsetOriginA()
         {
             return btGeneric6DofConstraint_getFrameOffsetOriginA(constraint);
         }
 
-	    Quaternion getFrameOffsetBasisA()
+        public Quaternion getFrameOffsetBasisA()
         {
             return btGeneric6DofConstraint_getFrameOffsetBasisA(constraint);
         }
 
-	    Vector3 getFrameOffsetOriginB()
+        public Vector3 getFrameOffsetOriginB()
         {
             return btGeneric6DofConstraint_getFrameOffsetOriginB(constraint);
         }
 
-	    Quaternion getFrameOffsetBasisB()
+        public Quaternion getFrameOffsetBasisB()
         {
             return btGeneric6DofConstraint_getFrameOffsetBasisB(constraint);
         }
 
-	    void setLimit(int axis, float lo, float hi)
+        public void setLimit(int axis, float lo, float hi)
         {
             btGeneric6DofConstraint_setLimit(constraint, axis, lo, hi);
         }
 
-	    void setLinearLowerLimit(Vector3 linearLower)
+        public void setLinearLowerLimit(Vector3 linearLower)
         {
             btGeneric6DofConstraint_setLinearLowerLimit(constraint, ref linearLower);
         }
 
-	    void setLinearUpperLimit(Vector3 linearUpper)
+        public void setLinearUpperLimit(Vector3 linearUpper)
         {
             btGeneric6DofConstraint_setLinearUpperLimit(constraint, ref linearUpper);
         }
 
-	    void setAngularLowerLimit(Vector3 angularLower)
+        public void setAngularLowerLimit(Vector3 angularLower)
         {
             btGeneric6DofConstraint_setAngularLowerLimit(constraint, ref angularLower);
         }
 
-	    void setAngularUpperLimit(Vector3 angularUpper)
+        public void setAngularUpperLimit(Vector3 angularUpper)
         {
             btGeneric6DofConstraint_setAngularUpperLimit(constraint, ref angularUpper);
         }
 
-	    void setParam(Param num, float value, int axis)
+        public void setParam(Param num, float value, int axis)
         {
             btGeneric6DofConstraint_setParam(constraint, (int)num, value, axis);
         }

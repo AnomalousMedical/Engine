@@ -8,6 +8,14 @@ using Engine.ObjectManagement;
 
 namespace BulletPlugin
 {
+    /// <summary>
+    /// This is the callback for a collision event. The contact info has information
+    /// about the contact, sourceBody is the body that fired the event, otherBody is
+    /// the other rigid body in the collision and isBodyA indicates if the RigidBody
+    /// that fired the event is rigidBodyA in the contact info.
+    /// </summary>
+    public delegate void CollisionCallback(ContactInfo contact, RigidBody sourceBody, RigidBody otherBody, bool isBodyA);
+
     [Engine.Attributes.SingleEnum]
     public enum ActivationState : int
     {
@@ -43,6 +51,10 @@ namespace BulletPlugin
         short collisionFilterGroup;
         private SetXformCallback xformCallback;
         private IntPtr motionState;
+
+        public event CollisionCallback ContactStarted;
+        public event CollisionCallback ContactContinues;
+        public event CollisionCallback ContactEnded;
 
         public unsafe RigidBody(RigidBodyDefinition description, BulletScene scene, IntPtr collisionShape, Vector3 initialTrans, Quaternion initialRot)
             :base(description.Name, description.Subscription)
@@ -464,6 +476,18 @@ namespace BulletPlugin
         public Vector3 getLocalScaling()
         {
 	        return btRigidBody_getLocalScaling(rigidBody);
+        }
+
+        public float MaxContactDistance
+        {
+            get
+            {
+                return maxContactDistance;
+            }
+            set
+            {
+                maxContactDistance = value;
+            }
         }
     }
 
