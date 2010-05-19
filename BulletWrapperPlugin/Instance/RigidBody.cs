@@ -46,26 +46,89 @@ namespace BulletPlugin
         private HandleRef rigidBody;
         private BulletScene scene;
         String shapeName;
-        float maxContactDistance;
         short collisionFilterMask;
         short collisionFilterGroup;
         private SetXformCallback xformCallback;
+        private ContactCallback contactStartedCallback;
+        private ContactCallback contactEndedCallback;
+        private ContactCallback contactContinuesCallback;
         private IntPtr motionState;
 
-        public event CollisionCallback ContactStarted;
-        public event CollisionCallback ContactContinues;
-        public event CollisionCallback ContactEnded;
+        private event CollisionCallback m_contactStarted;
+        public event CollisionCallback ContactStarted
+        {
+            add
+            {
+                if(m_contactStarted == null)
+                {
+                    MotionState_setHasContactStartedCallback(motionState, true);
+                }
+                m_contactStarted += value;
+            }
+            remove
+            {
+                m_contactStarted -= value;
+                if (m_contactStarted == null)
+                {
+                    MotionState_setHasContactStartedCallback(motionState, false);
+                }
+            }
+        }
+
+        private event CollisionCallback m_contactContinues;
+        public event CollisionCallback ContactContinues
+        {
+            add
+            {
+                if (m_contactContinues == null)
+                {
+                    MotionState_setHasContactContinuesCallback(motionState, true);
+                }
+                m_contactContinues += value;
+            }
+            remove
+            {
+                m_contactContinues -= value;
+                if (m_contactContinues == null)
+                {
+                    MotionState_setHasContactContinuesCallback(motionState, false);
+                }
+            }
+        }
+
+        private event CollisionCallback m_contactEnded;
+        public event CollisionCallback ContactEnded
+        {
+            add
+            {
+                if (m_contactEnded == null)
+                {
+                    MotionState_setHasContactEndedCallback(motionState, true);
+                }
+                m_contactEnded += value;
+            }
+            remove
+            {
+                m_contactEnded -= value;
+                if (m_contactEnded == null)
+                {
+                    MotionState_setHasContactEndedCallback(motionState, false);
+                }
+            }
+        }
 
         public unsafe RigidBody(RigidBodyDefinition description, BulletScene scene, IntPtr collisionShape, Vector3 initialTrans, Quaternion initialRot)
             :base(description.Name, description.Subscription)
         {
             this.scene = scene;
             shapeName = description.ShapeName;
-            maxContactDistance = description.MaxContactDistance;
             collisionFilterMask = description.CollisionFilterMask;
             collisionFilterGroup = description.CollisionFilterGroup;
             xformCallback = new SetXformCallback(motionStateCallback);
-            motionState = MotionState_Create(xformCallback, ref initialTrans, ref initialRot);
+            contactStartedCallback = new ContactCallback(contactStartedCallbackFunc);
+            contactEndedCallback = new ContactCallback(contactEndedCallbackFunc);
+            contactContinuesCallback = new ContactCallback(contactContinuesCallbackFunc);
+            motionState = MotionState_Create(xformCallback, contactStartedCallback, contactEndedCallback, contactContinuesCallback, description.MaxContactDistance, ref initialTrans, ref initialRot);
 	
             rigidBody = new HandleRef(this, btRigidBody_Create(ref description.constructionInfo, motionState, collisionShape));
 
@@ -122,9 +185,24 @@ namespace BulletPlugin
             }
         }
 
-        protected void motionStateCallback(Vector3 trans, Quaternion rot)
+        private void motionStateCallback(Vector3 trans, Quaternion rot)
         {
             this.updatePosition(ref trans, ref rot);
+        }
+
+        private void contactStartedCallbackFunc(IntPtr contact, IntPtr sourceBody, IntPtr otherBody, bool isBodyA)
+        {
+            
+        }
+
+        private void contactEndedCallbackFunc(IntPtr contact, IntPtr sourceBody, IntPtr otherBody, bool isBodyA)
+        {
+
+        }
+
+        private void contactContinuesCallbackFunc(IntPtr contact, IntPtr sourceBody, IntPtr otherBody, bool isBodyA)
+        {
+
         }
 
         protected override void updatePositionImpl(ref Vector3 translation, ref Quaternion rotation)
@@ -191,7 +269,7 @@ namespace BulletPlugin
             definition.Flags = getCollisionFlags();
             definition.HitFraction = getHitFraction();
             definition.ShapeName = shapeName;
-            definition.MaxContactDistance = maxContactDistance;
+            definition.MaxContactDistance = MotionState_getMaxContactDistance(motionState);
             definition.CollisionFilterGroup = collisionFilterGroup;
             definition.CollisionFilterMask = collisionFilterMask;
         }
@@ -482,11 +560,11 @@ namespace BulletPlugin
         {
             get
             {
-                return maxContactDistance;
+                return MotionState_getMaxContactDistance(motionState);
             }
             set
             {
-                maxContactDistance = value;
+                MotionState_setMaxContactDistance(motionState, value);
             }
         }
     }
@@ -677,10 +755,28 @@ namespace BulletPlugin
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate void SetXformCallback(Vector3 trans, Quaternion rot);
 
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        delegate void ContactCallback(IntPtr contact, IntPtr sourceBody, IntPtr otherBody, bool isBodyA);
+
         [DllImport("BulletWrapper")]
-        private static extern IntPtr MotionState_Create(SetXformCallback xformCallback, ref Vector3 initialTrans, ref Quaternion initialRot);
+        private static extern IntPtr MotionState_Create(SetXformCallback xformCallback, ContactCallback contactStartedCallback, ContactCallback contactEndedCallback, ContactCallback contactContinuesCallback, float maxContactDistance, ref Vector3 initialTrans, ref Quaternion initialRot);
 
         [DllImport("BulletWrapper")]
         private static extern void MotionState_Delete(IntPtr instance);
+
+        [DllImport("BulletWrapper")]
+        private static extern void MotionState_setHasContactStartedCallback(IntPtr instance, bool hasCallback);
+
+        [DllImport("BulletWrapper")]
+        private static extern void MotionState_setHasContactEndedCallback(IntPtr instance, bool hasCallback);
+
+        [DllImport("BulletWrapper")]
+        private static extern void MotionState_setHasContactContinuesCallback(IntPtr instance, bool hasCallback);
+
+        [DllImport("BulletWrapper")]
+        private static extern void MotionState_setMaxContactDistance(IntPtr instance, float maxContactDistance);
+
+        [DllImport("BulletWrapper")]
+        private static extern float MotionState_getMaxContactDistance(IntPtr instance);
     }
 }

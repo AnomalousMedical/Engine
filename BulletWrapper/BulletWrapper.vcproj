@@ -204,6 +204,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ContactCache.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ContactInfo.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\MotionState.cpp"
 				>
 			</File>
@@ -235,6 +243,14 @@
 			>
 			<File
 				RelativePath=".\Include\BulletScene.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Include\ContactCache.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Include\ContactInfo.h"
 				>
 			</File>
 			<File

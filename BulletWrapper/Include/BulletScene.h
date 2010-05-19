@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ContactCache.h"
 
 /// <summary>
 /// Info for the bullet scene.
@@ -35,7 +36,7 @@ private:
 	btDiscreteDynamicsWorld* dynamicsWorld;
 #endif
 
-	//ContactCache contactCache;
+	ContactCache contactCache;
 	float internalTimestep;
 
 #ifdef USE_PARALLEL_DISPATCHER
@@ -58,4 +59,6 @@ public:
 	void addConstraint(btTypedConstraint* constraint, bool disableCollisionsBetweenLinkedBodies);
 
 	void removeConstraint(btTypedConstraint* constraint);
+
+	void tickCallback(btScalar timeStep);
 };

@@ -1,0 +1,82 @@
+#include "StdAfx.h"
+#include "..\Include\ContactCache.h"
+
+ContactCache::ContactCache(void)
+{
+}
+
+ContactCache::~ContactCache(void)
+{
+}
+
+void ContactCache::queueRemoval(ContactInfo* info)
+{
+	finishedContacts.push_back(info);
+}
+
+void ContactCache::replaceHead(ContactInfo* newHead)
+{
+	liveContacts[newHead->key] = newHead;
+}
+
+void ContactCache::destroyHead(ContactInfo* head)
+{
+	liveContacts.erase(head->key);
+}
+
+void ContactCache::addManifold(btPersistentManifold* contactManifold)
+{
+	btRigidBody* btRbA = static_cast<btRigidBody*>(contactManifold->getBody0());
+	btRigidBody* btRbB = static_cast<btRigidBody*>(contactManifold->getBody1());
+	unsigned long sumPtr = (unsigned long)btRbA + (unsigned long)btRbB;
+	ContactInfo* info = 0;
+	ContactMapIter head = liveContacts.find(sumPtr);
+	//Something with sumPtr is already in the map so search for these bodies
+	if(head != liveContacts.end())
+	{
+		info = head->second->findMatch(btRbA, btRbB);
+	}
+	//Need to make a new ContactInfo
+	if(info == 0)
+	{
+		info = getPooledObject();
+		info->setValues(btRbA, btRbB, sumPtr, this);
+		if(head == liveContacts.end())
+		{
+			liveContacts[sumPtr] = info;
+		}
+		else
+		{
+			head->second->add(info);
+		}
+	}
+	info->addManifold(contactManifold);
+}
+
+void ContactCache::dispatchContacts()
+{
+	for(ContactMapIter mapIter = liveContacts.begin(); mapIter != liveContacts.end(); ++mapIter)
+	{
+		mapIter->second->process();
+	}
+	for(ContactInfoVectorIter vecIter = finishedContacts.begin(); vecIter != finishedContacts.end(); ++vecIter)
+	{
+		(*vecIter)->destroy();
+	}
+	finishedContacts.clear();
+}
+
+void ContactCache::returnToPool(ContactInfo* info)
+{
+	info->reset();
+	contactPool.push_back(info);
+}
+
+ContactInfo* ContactCache::getPooledObject()
+{
+	if(contactPool.size() == 0)
+	{
+		return new ContactInfo();
+	}
+	return *contactPool.begin();
+}

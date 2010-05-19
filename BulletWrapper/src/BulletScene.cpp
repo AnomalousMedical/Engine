@@ -1,6 +1,12 @@
 #include "StdAfx.h"
 #include "..\Include\BulletScene.h"
 
+static void tickCallback(btDynamicsWorld *world, btScalar timeStep)
+{
+	BulletScene* scene = static_cast<BulletScene*>(world->getWorldUserInfo());
+	scene->tickCallback(timeStep);
+}
+
 BulletScene::BulletScene(BulletSceneInfo* sceneInfo)
 :maxProxies(sceneInfo->maxProxies),
 //debugDraw(new BulletDebugDraw()),
@@ -44,7 +50,7 @@ softBodyWorldInfo(new btSoftBodyWorldInfo())
 #endif
 	dynamicsWorld->setGravity(sceneInfo->gravity.toBullet());
 
-	//dynamicsWorld->setInternalTickCallback(BulletPlugin::tickCallback, static_cast<void*>(sceneRoot));
+	dynamicsWorld->setInternalTickCallback(::tickCallback, static_cast<void*>(this));
 
 #ifdef USE_SOFTBODY_WORLD
 	softBodyWorldInfo->m_sparsesdf.Initialize();
@@ -126,6 +132,17 @@ void BulletScene::addConstraint(btTypedConstraint* constraint, bool disableColli
 void BulletScene::removeConstraint(btTypedConstraint* constraint)
 {
 	dynamicsWorld->removeConstraint(constraint);
+}
+
+void BulletScene::tickCallback(btScalar timeStep)
+{
+	int numManifolds = dispatcher->getNumManifolds();
+	for(int i = 0; i < numManifolds; ++i)
+	{
+		btPersistentManifold* contactManifold = dispatcher->getManifoldByIndexInternal(i);
+		contactCache.addManifold(contactManifold);
+	}
+	contactCache.dispatchContacts();
 }
 
 //--------------------------------------------------
