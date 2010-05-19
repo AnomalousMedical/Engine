@@ -1,7 +1,6 @@
 #pragma once
 
 class ContactCache;
-class ManifoldPoint;
 class MotionState;
 
 class ContactInfo
@@ -14,6 +13,10 @@ private:
 	float closestPoint;		//The closest contact point found this frame
 	btAlignedObjectArray<btPersistentManifold*> manifoldArray;
 	int numManifolds;
+
+	//Point Iterator
+	int currentManifold;
+	int currentPoint;
 
 public:
 	btRigidBody* rbA;
@@ -43,5 +46,9 @@ public:
 
 	int getNumContacts();
 
-	void getContactPoint(int index, ManifoldPoint* point);
+	void startPointIterator();
+
+	bool hasNextPoint();
+
+	btManifoldPoint* nextPoint();
 };

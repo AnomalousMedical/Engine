@@ -216,19 +216,49 @@ int ContactInfo::getNumContacts()
 	return totalContacts;
 }
 
-void ContactInfo::getContactPoint(int index, ManifoldPoint* point)
+void ContactInfo::startPointIterator()
 {
-	for(int i = 0; i < numManifolds; ++i)
+	currentManifold = 0;
+	currentPoint = 0;
+}
+
+bool ContactInfo::hasNextPoint()
+{
+	return currentManifold < numManifolds;
+}
+
+btManifoldPoint* ContactInfo::nextPoint()
+{
+	if(currentPoint < manifoldArray[currentManifold]->getNumContacts())
 	{
-		int numContacts = manifoldArray[i]->getNumContacts();
-		if(index < numContacts)
+		return &manifoldArray[currentManifold]->getContactPoint(currentPoint);
+	}
+	else
+	{
+		currentPoint = 0;
+		if(++currentManifold < numManifolds)
 		{
-			//point->setInfo(manifoldArray[i]->getContactPoint(index));
-			return;
-		}
-		else
-		{
-			index -= numContacts;
+			return nextPoint();
 		}
 	}
+}
+
+extern "C" _declspec(dllexport) int ContactInfo_getNumContacts(ContactInfo* contactInfo)
+{
+	return contactInfo->getNumContacts();
+}
+
+extern "C" _declspec(dllexport) void ContactInfo_startPointIterator(ContactInfo* contactInfo)
+{
+	contactInfo->startPointIterator();
+}
+
+extern "C" _declspec(dllexport) bool ContactInfo_hasNextPoint(ContactInfo* contactInfo)
+{
+	return contactInfo->hasNextPoint();
+}
+
+extern "C" _declspec(dllexport) btManifoldPoint* ContactInfo_nextPoint(ContactInfo* contactInfo)
+{
+	return contactInfo->nextPoint();
 }

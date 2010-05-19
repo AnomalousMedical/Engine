@@ -50,7 +50,7 @@ namespace BulletPlugin
         private ContactCallback contactEndedCallback;
         private ContactCallback contactContinuesCallback;
         private IntPtr motionState;
-
+        ContactInfo contactInfo = new ContactInfo();
         private event CollisionCallback m_contactStarted;
         public event CollisionCallback ContactStarted
         {
@@ -192,27 +192,27 @@ namespace BulletPlugin
 
         private void contactStartedCallbackFunc(IntPtr contact, IntPtr sourceBody, IntPtr otherBody, bool isBodyA)
         {
-            ContactInfo contactInfo = new ContactInfo();
             if(m_contactStarted != null)
             {
+                contactInfo.setInfo(contact);
                 m_contactStarted.Invoke(contactInfo, RigidBodyManager.get(sourceBody), RigidBodyManager.get(otherBody), isBodyA);
             }
         }
 
         private void contactEndedCallbackFunc(IntPtr contact, IntPtr sourceBody, IntPtr otherBody, bool isBodyA)
         {
-            ContactInfo contactInfo = new ContactInfo();
             if (m_contactEnded != null)
             {
+                contactInfo.setInfo(contact);
                 m_contactEnded.Invoke(contactInfo, RigidBodyManager.get(sourceBody), RigidBodyManager.get(otherBody), isBodyA);
             }
         }
 
         private void contactContinuesCallbackFunc(IntPtr contact, IntPtr sourceBody, IntPtr otherBody, bool isBodyA)
         {
-            ContactInfo contactInfo = new ContactInfo();
             if (m_contactContinues != null)
             {
+                contactInfo.setInfo(contact);
                 m_contactContinues.Invoke(contactInfo, RigidBodyManager.get(sourceBody), RigidBodyManager.get(otherBody), isBodyA);
             }
         }

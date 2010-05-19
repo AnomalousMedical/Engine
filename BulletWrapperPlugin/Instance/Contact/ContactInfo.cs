@@ -2,23 +2,56 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.InteropServices;
 
 namespace BulletPlugin
 {
     public class ContactInfo
     {
-        public RigidBody RigidBodyA { get; set; }
+        IntPtr contactInfo;
+        ManifoldPoint manifoldPoint = new ManifoldPoint();
 
-        public RigidBody RigidBodyB { get; set; }
+        public ContactInfo()
+        {
+
+        }
+
+        internal void setInfo(IntPtr contactInfo)
+        {
+            this.contactInfo = contactInfo;
+        }
 
         public int getNumContacts()
         {
-            throw new NotImplementedException();
+            return ContactInfo_getNumContacts(contactInfo);
         }
 
-        public void getContactPoint(int index, ManifoldPoint point)
+        public void startPointIterator()
         {
-            throw new NotImplementedException();
+            ContactInfo_startPointIterator(contactInfo);
         }
+
+        public bool hasNextPoint()
+        {
+            return ContactInfo_hasNextPoint(contactInfo);
+        }
+
+        public ManifoldPoint nextPoint()
+        {
+            manifoldPoint.setPoint(ContactInfo_nextPoint(contactInfo));
+            return manifoldPoint;
+        }
+
+        [DllImport("BulletWrapper")]
+        private static extern int ContactInfo_getNumContacts(IntPtr contactInfo);
+
+        [DllImport("BulletWrapper")]
+        private static extern void ContactInfo_startPointIterator(IntPtr contactInfo);
+
+        [DllImport("BulletWrapper")]
+        private static extern bool ContactInfo_hasNextPoint(IntPtr contactInfo);
+
+        [DllImport("BulletWrapper")]
+        private static extern IntPtr ContactInfo_nextPoint(IntPtr contactInfo);
     }
 }
