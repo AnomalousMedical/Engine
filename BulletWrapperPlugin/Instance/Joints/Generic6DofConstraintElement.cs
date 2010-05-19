@@ -111,7 +111,7 @@ namespace BulletPlugin
     partial class Generic6DofConstraintElement
     {
         [DllImport("BulletWrapper")]
-        private static extern IntPtr btGeneric6DofConstraint_Create(HandleRef rbA, HandleRef rbB, Vector3 jointPos, Quaternion jointRot, TranslationalLimitMotorDefinition transMotor, RotationalLimitMotorDefinition xRotMotor, RotationalLimitMotorDefinition yRotMotor, RotationalLimitMotorDefinition zRotMotor);
+        private static extern IntPtr btGeneric6DofConstraint_Create(IntPtr rbA, IntPtr rbB, Vector3 jointPos, Quaternion jointRot, TranslationalLimitMotorDefinition transMotor, RotationalLimitMotorDefinition xRotMotor, RotationalLimitMotorDefinition yRotMotor, RotationalLimitMotorDefinition zRotMotor);
 
         [DllImport("BulletWrapper")]
         private static extern void btGeneric6DofConstraint_setFrameOffsetOriginA(IntPtr instance, ref Vector3 origin);

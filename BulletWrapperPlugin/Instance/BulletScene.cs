@@ -13,13 +13,13 @@ namespace BulletPlugin
         private String name;
         private UpdateTimer timer;
         private BulletFactory factory;
-        private HandleRef bulletScene;
+        private IntPtr bulletScene;
 
         public unsafe BulletScene(BulletSceneDefinition definition, UpdateTimer timer)
         {
             fixed (BulletSceneInfo* info = &definition.sceneInfo)
             {
-                bulletScene = new HandleRef(this, BulletScene_CreateBulletScene(info));
+                bulletScene = BulletScene_CreateBulletScene(info);
             }
             this.timer = timer;
             this.name = definition.Name;
@@ -114,24 +114,24 @@ namespace BulletPlugin
         private static extern IntPtr BulletScene_CreateBulletScene(BulletSceneInfo* sceneInfo);
 
         [DllImport("BulletWrapper")]
-        private static extern void BulletScene_DestroyBulletScene(HandleRef instance);
+        private static extern void BulletScene_DestroyBulletScene(IntPtr instance);
 
         [DllImport("BulletWrapper")]
-        private static extern void BulletScene_fillOutInfo(HandleRef instance, BulletSceneInfo* sceneInfo);
+        private static extern void BulletScene_fillOutInfo(IntPtr instance, BulletSceneInfo* sceneInfo);
 
         [DllImport("BulletWrapper")]
-        private static extern void BulletScene_update(HandleRef instance, float seconds);
+        private static extern void BulletScene_update(IntPtr instance, float seconds);
 
         [DllImport("BulletWrapper")]
-        private static extern void BulletScene_addRigidBody(HandleRef instance, HandleRef rigidBody, short group, short mask);
+        private static extern void BulletScene_addRigidBody(IntPtr instance, IntPtr rigidBody, short group, short mask);
 
         [DllImport("BulletWrapper")]
-        private static extern void BulletScene_removeRigidBody(HandleRef instance, HandleRef rigidBody);
+        private static extern void BulletScene_removeRigidBody(IntPtr instance, IntPtr rigidBody);
 
         [DllImport("BulletWrapper")]
-        private static extern void BulletScene_addConstraint(HandleRef instance, IntPtr constraint, bool disableCollisionsBetweenLinkedBodies);
+        private static extern void BulletScene_addConstraint(IntPtr instance, IntPtr constraint, bool disableCollisionsBetweenLinkedBodies);
 
         [DllImport("BulletWrapper")]
-        private static extern void BulletScene_removeConstraint(HandleRef instance, IntPtr constraint);
+        private static extern void BulletScene_removeConstraint(IntPtr instance, IntPtr constraint);
     }
 }

@@ -40,10 +40,7 @@ namespace BulletPlugin
 
     public partial class RigidBody : SimElement
     {
-        private static IntPtr nullIntPtr = new IntPtr(0);
-        private static HandleRef deletedRef = new HandleRef(null, nullIntPtr);
-
-        private HandleRef rigidBody;
+        private IntPtr rigidBody;
         private BulletScene scene;
         String shapeName;
         short collisionFilterMask;
@@ -130,7 +127,7 @@ namespace BulletPlugin
             contactContinuesCallback = new ContactCallback(contactContinuesCallbackFunc);
             motionState = MotionState_Create(xformCallback, contactStartedCallback, contactEndedCallback, contactContinuesCallback, description.MaxContactDistance, ref initialTrans, ref initialRot);
 	
-            rigidBody = new HandleRef(this, btRigidBody_Create(ref description.constructionInfo, motionState, collisionShape));
+            rigidBody = btRigidBody_Create(ref description.constructionInfo, motionState, collisionShape);
 
             setLinearVelocity(description.LinearVelocity);
 	        setAngularVelocity(description.AngularVelocity);
@@ -139,12 +136,15 @@ namespace BulletPlugin
 	        setDeactivationTime(description.DeactivationTime);
 	        setCollisionFlags(description.Flags);
 	        setHitFraction(description.HitFraction);
+
+            RigidBodyManager.add(rigidBody, this);
         }
 
         protected override void Dispose()
         {
-            if(rigidBody.Handle != nullIntPtr)
+            if(rigidBody != IntPtr.Zero)
             {
+                RigidBodyManager.remove(rigidBody);
                 int numRefs = btRigidBody_getNumConstraintRefs(rigidBody);
                 List<TypedConstraintElement> constraints = new List<TypedConstraintElement>(numRefs);
                 //Gather up all constraints
@@ -164,7 +164,7 @@ namespace BulletPlugin
                 }
 
                 MotionState_Delete(motionState);
-                motionState = nullIntPtr;
+                motionState = IntPtr.Zero;
                 xformCallback = null;
 
                 if (Owner.Enabled)
@@ -173,11 +173,11 @@ namespace BulletPlugin
                 }
 
                 btRigidBody_Delete(rigidBody);
-                rigidBody = deletedRef;
+                rigidBody = IntPtr.Zero;
             }
         }
 
-        internal HandleRef NativeRigidBody
+        internal IntPtr NativeRigidBody
         {
             get
             {
@@ -192,17 +192,29 @@ namespace BulletPlugin
 
         private void contactStartedCallbackFunc(IntPtr contact, IntPtr sourceBody, IntPtr otherBody, bool isBodyA)
         {
-            
+            ContactInfo contactInfo = new ContactInfo();
+            if(m_contactStarted != null)
+            {
+                m_contactStarted.Invoke(contactInfo, RigidBodyManager.get(sourceBody), RigidBodyManager.get(otherBody), isBodyA);
+            }
         }
 
         private void contactEndedCallbackFunc(IntPtr contact, IntPtr sourceBody, IntPtr otherBody, bool isBodyA)
         {
-
+            ContactInfo contactInfo = new ContactInfo();
+            if (m_contactEnded != null)
+            {
+                m_contactEnded.Invoke(contactInfo, RigidBodyManager.get(sourceBody), RigidBodyManager.get(otherBody), isBodyA);
+            }
         }
 
         private void contactContinuesCallbackFunc(IntPtr contact, IntPtr sourceBody, IntPtr otherBody, bool isBodyA)
         {
-
+            ContactInfo contactInfo = new ContactInfo();
+            if (m_contactContinues != null)
+            {
+                m_contactContinues.Invoke(contactInfo, RigidBodyManager.get(sourceBody), RigidBodyManager.get(otherBody), isBodyA);
+            }
         }
 
         protected override void updatePositionImpl(ref Vector3 translation, ref Quaternion rotation)
@@ -578,178 +590,178 @@ namespace BulletPlugin
         private static extern IntPtr btRigidBody_Create(ref RigidBodyConstructionInfo constructionInfo, IntPtr motionState, IntPtr collisionShape);
 
         [DllImport("BulletWrapper")]
-        private static extern void btRigidBody_Delete(HandleRef instance);
+        private static extern void btRigidBody_Delete(IntPtr instance);
 
         [DllImport("BulletWrapper")]
-        private static extern void btRigidBody_setDamping(HandleRef instance, float linearDamping, float angularDamping);
+        private static extern void btRigidBody_setDamping(IntPtr instance, float linearDamping, float angularDamping);
 
         [DllImport("BulletWrapper")]
-        private static extern float btRigidBody_getLinearDamping(HandleRef instance);
+        private static extern float btRigidBody_getLinearDamping(IntPtr instance);
 
         [DllImport("BulletWrapper")]
-        private static extern float btRigidBody_getAngularDamping(HandleRef instance);
+        private static extern float btRigidBody_getAngularDamping(IntPtr instance);
 
         [DllImport("BulletWrapper")]
-        private static extern float btRigidBody_getLinearSleepingThreshold(HandleRef instance);
+        private static extern float btRigidBody_getLinearSleepingThreshold(IntPtr instance);
 
         [DllImport("BulletWrapper")]
-        private static extern float btRigidBody_getAngularSleepingThreshold(HandleRef instance);
+        private static extern float btRigidBody_getAngularSleepingThreshold(IntPtr instance);
 
         [DllImport("BulletWrapper")]
-        private static extern void btRigidBody_setMassProps(HandleRef instance, float mass);
+        private static extern void btRigidBody_setMassProps(IntPtr instance, float mass);
 
         [DllImport("BulletWrapper")]
-        private static extern void btRigidBody_setMassPropsInertia(HandleRef instance, float mass, ref Vector3 inertia);
+        private static extern void btRigidBody_setMassPropsInertia(IntPtr instance, float mass, ref Vector3 inertia);
 
         [DllImport("BulletWrapper")]
-        private static extern float btRigidBody_getInvMass(HandleRef instance);
+        private static extern float btRigidBody_getInvMass(IntPtr instance);
 
         [DllImport("BulletWrapper")]
-        private static extern void btRigidBody_applyCentralForce(HandleRef instance, ref Vector3 force);
+        private static extern void btRigidBody_applyCentralForce(IntPtr instance, ref Vector3 force);
 
         [DllImport("BulletWrapper")]
-        private static extern Vector3 btRigidBody_getTotalForce(HandleRef instance);
+        private static extern Vector3 btRigidBody_getTotalForce(IntPtr instance);
 
         [DllImport("BulletWrapper")]
-        private static extern Vector3 btRigidBody_getTotalTorque(HandleRef instance);
+        private static extern Vector3 btRigidBody_getTotalTorque(IntPtr instance);
 
         [DllImport("BulletWrapper")]
-        private static extern void btRigidBody_setSleepingThresholds(HandleRef instance, float linear, float angular);
+        private static extern void btRigidBody_setSleepingThresholds(IntPtr instance, float linear, float angular);
 
         [DllImport("BulletWrapper")]
-        private static extern void btRigidBody_applyTorque(HandleRef instance, ref Vector3 torque);
+        private static extern void btRigidBody_applyTorque(IntPtr instance, ref Vector3 torque);
 
         [DllImport("BulletWrapper")]
-        private static extern void btRigidBody_applyForce(HandleRef instance, ref Vector3 force, ref Vector3 rel_pos);
+        private static extern void btRigidBody_applyForce(IntPtr instance, ref Vector3 force, ref Vector3 rel_pos);
 
         [DllImport("BulletWrapper")]
-        private static extern void btRigidBody_applyCentralImpulse(HandleRef instance, ref Vector3 impulse);
+        private static extern void btRigidBody_applyCentralImpulse(IntPtr instance, ref Vector3 impulse);
 
         [DllImport("BulletWrapper")]
-        private static extern void btRigidBody_applyTorqueImpulse(HandleRef instance, ref Vector3 torque);
+        private static extern void btRigidBody_applyTorqueImpulse(IntPtr instance, ref Vector3 torque);
 
         [DllImport("BulletWrapper")]
-        private static extern void btRigidBody_clearForces(HandleRef instance);
+        private static extern void btRigidBody_clearForces(IntPtr instance);
 
         [DllImport("BulletWrapper")]
-        private static extern Vector3 btRigidBody_getCenterOfMassPosition(HandleRef instance);
+        private static extern Vector3 btRigidBody_getCenterOfMassPosition(IntPtr instance);
 
         [DllImport("BulletWrapper")]
-        private static extern Vector3 btRigidBody_getLinearVelocity(HandleRef instance);
+        private static extern Vector3 btRigidBody_getLinearVelocity(IntPtr instance);
 
         [DllImport("BulletWrapper")]
-        private static extern Vector3 btRigidBody_getAngularVelocity(HandleRef instance);
+        private static extern Vector3 btRigidBody_getAngularVelocity(IntPtr instance);
 
         [DllImport("BulletWrapper")]
-        private static extern void btRigidBody_setLinearVelocity(HandleRef instance, ref Vector3 lin_vel);
+        private static extern void btRigidBody_setLinearVelocity(IntPtr instance, ref Vector3 lin_vel);
 
         [DllImport("BulletWrapper")]
-        private static extern void btRigidBody_setAngularVelocity(HandleRef instance, ref Vector3 ang_vel);
+        private static extern void btRigidBody_setAngularVelocity(IntPtr instance, ref Vector3 ang_vel);
 
         [DllImport("BulletWrapper")]
-        private static extern Vector3 btRigidBody_getVelocityInLocalPoint(HandleRef instance, ref Vector3 rel_pos);
+        private static extern Vector3 btRigidBody_getVelocityInLocalPoint(IntPtr instance, ref Vector3 rel_pos);
 
         [DllImport("BulletWrapper")]
-        private static extern void btRigidBody_translate(HandleRef instance, ref Vector3 v);
+        private static extern void btRigidBody_translate(IntPtr instance, ref Vector3 v);
 
         [DllImport("BulletWrapper")]
-        private static extern void btRigidBody_getAabb(HandleRef instance, out Vector3 aabbMin, out Vector3 aabbMax);
+        private static extern void btRigidBody_getAabb(IntPtr instance, out Vector3 aabbMin, out Vector3 aabbMax);
 
         [DllImport("BulletWrapper")]
-        private static extern float btRigidBody_computeImpulseDenominator(HandleRef instance, ref Vector3 pos, ref Vector3 normal);
+        private static extern float btRigidBody_computeImpulseDenominator(IntPtr instance, ref Vector3 pos, ref Vector3 normal);
 
         [DllImport("BulletWrapper")]
-        private static extern float btRigidBody_computeAngularImpulseDenominator(HandleRef instance, ref Vector3 axis);
+        private static extern float btRigidBody_computeAngularImpulseDenominator(IntPtr instance, ref Vector3 axis);
 
         [DllImport("BulletWrapper")]
-        private static extern bool btRigidBody_wantsSleeping(HandleRef instance);
+        private static extern bool btRigidBody_wantsSleeping(IntPtr instance);
 
         [DllImport("BulletWrapper")]
-        private static extern bool btRigidBody_isInWorld(HandleRef instance);
+        private static extern bool btRigidBody_isInWorld(IntPtr instance);
 
         [DllImport("BulletWrapper")]
-        private static extern void btRigidBody_setAnisotropicFriction(HandleRef instance, ref Vector3 anisotropicFriction);
+        private static extern void btRigidBody_setAnisotropicFriction(IntPtr instance, ref Vector3 anisotropicFriction);
 
         [DllImport("BulletWrapper")]
-        private static extern Vector3 btRigidBody_getAnisotropicFriction(HandleRef instance);
+        private static extern Vector3 btRigidBody_getAnisotropicFriction(IntPtr instance);
 
         [DllImport("BulletWrapper")]
-        private static extern bool btRigidBody_hasAnisotropicFriction(HandleRef instance);
+        private static extern bool btRigidBody_hasAnisotropicFriction(IntPtr instance);
 
         [DllImport("BulletWrapper")]
-        private static extern bool btRigidBody_isStaticObject(HandleRef instance);
+        private static extern bool btRigidBody_isStaticObject(IntPtr instance);
 
         [DllImport("BulletWrapper")]
-        private static extern bool btRigidBody_isKinematicObject(HandleRef instance);
+        private static extern bool btRigidBody_isKinematicObject(IntPtr instance);
 
         [DllImport("BulletWrapper")]
-        private static extern bool btRigidBody_isStaticOrKinematicObject(HandleRef instance);
+        private static extern bool btRigidBody_isStaticOrKinematicObject(IntPtr instance);
 
         [DllImport("BulletWrapper")]
-        private static extern int btRigidBody_getActivationState(HandleRef instance);
+        private static extern int btRigidBody_getActivationState(IntPtr instance);
 
         [DllImport("BulletWrapper")]
-        private static extern void btRigidBody_setActivationState(HandleRef instance, int state);
+        private static extern void btRigidBody_setActivationState(IntPtr instance, int state);
 
         [DllImport("BulletWrapper")]
-        private static extern void btRigidBody_setDeactivationTime(HandleRef instance, float time);
+        private static extern void btRigidBody_setDeactivationTime(IntPtr instance, float time);
 
         [DllImport("BulletWrapper")]
-        private static extern float btRigidBody_getDeactivationTime(HandleRef instance);
+        private static extern float btRigidBody_getDeactivationTime(IntPtr instance);
 
         [DllImport("BulletWrapper")]
-        private static extern void btRigidBody_forceActivationState(HandleRef instance, int state);
+        private static extern void btRigidBody_forceActivationState(IntPtr instance, int state);
 
         [DllImport("BulletWrapper")]
-        private static extern void btRigidBody_activate(HandleRef instance, bool forceActivation);
+        private static extern void btRigidBody_activate(IntPtr instance, bool forceActivation);
 
         [DllImport("BulletWrapper")]
-        private static extern bool btRigidBody_isActive(HandleRef instance);
+        private static extern bool btRigidBody_isActive(IntPtr instance);
 
         [DllImport("BulletWrapper")]
-        private static extern void btRigidBody_setRestitution(HandleRef instance, float restitution);
+        private static extern void btRigidBody_setRestitution(IntPtr instance, float restitution);
 
         [DllImport("BulletWrapper")]
-        private static extern float btRigidBody_getRestitution(HandleRef instance);
+        private static extern float btRigidBody_getRestitution(IntPtr instance);
 
         [DllImport("BulletWrapper")]
-        private static extern void btRigidBody_setFriction(HandleRef instance, float friction);
+        private static extern void btRigidBody_setFriction(IntPtr instance, float friction);
 
         [DllImport("BulletWrapper")]
-        private static extern float btRigidBody_getFriction(HandleRef instance);
+        private static extern float btRigidBody_getFriction(IntPtr instance);
 
         [DllImport("BulletWrapper")]
-        private static extern void btRigidBody_setHitFraction(HandleRef instance, float fraction);
+        private static extern void btRigidBody_setHitFraction(IntPtr instance, float fraction);
 
         [DllImport("BulletWrapper")]
-        private static extern float btRigidBody_getHitFraction(HandleRef instance);
+        private static extern float btRigidBody_getHitFraction(IntPtr instance);
 
         [DllImport("BulletWrapper")]
-        private static extern int btRigidBody_getCollisionFlags(HandleRef instance);
+        private static extern int btRigidBody_getCollisionFlags(IntPtr instance);
 
         [DllImport("BulletWrapper")]
-        private static extern void btRigidBody_setCollisionFlags(HandleRef instance, int flags);
+        private static extern void btRigidBody_setCollisionFlags(IntPtr instance, int flags);
 
         [DllImport("BulletWrapper")]
-        private static extern void btRigidBody_setLocalScaling(HandleRef instance, ref Vector3 scaling);
+        private static extern void btRigidBody_setLocalScaling(IntPtr instance, ref Vector3 scaling);
 
         [DllImport("BulletWrapper")]
-        private static extern Vector3 btRigidBody_getLocalScaling(HandleRef instance);
+        private static extern Vector3 btRigidBody_getLocalScaling(IntPtr instance);
 
         [DllImport("BulletWrapper")]
-        private static extern void btRigidBody_setWorldTranslation(HandleRef rigidBody, ref Vector3 trans);
+        private static extern void btRigidBody_setWorldTranslation(IntPtr rigidBody, ref Vector3 trans);
 
         [DllImport("BulletWrapper")]
-        private static extern void btRigidBody_setWorldRotation(HandleRef rigidBody, ref Quaternion rot);
+        private static extern void btRigidBody_setWorldRotation(IntPtr rigidBody, ref Quaternion rot);
 
         [DllImport("BulletWrapper")]
-        private static extern void btRigidBody_setWorldTransform(HandleRef rigidBody, ref Vector3 trans, ref Quaternion rot);
+        private static extern void btRigidBody_setWorldTransform(IntPtr rigidBody, ref Vector3 trans, ref Quaternion rot);
 
         [DllImport("BulletWrapper")]
-        private static extern int btRigidBody_getNumConstraintRefs(HandleRef rigidBody);
+        private static extern int btRigidBody_getNumConstraintRefs(IntPtr rigidBody);
 
         [DllImport("BulletWrapper")]
-        private static extern IntPtr btRigidBody_getConstraintRef(HandleRef rigidBody, int num);
+        private static extern IntPtr btRigidBody_getConstraintRef(IntPtr rigidBody, int num);
 
         //MotionState
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
