@@ -21,7 +21,7 @@ namespace Engine
         /// <summary>
         /// The identity (no rotation) quaternion.
         /// </summary>
-        public static readonly Quaternion Identity = new Quaternion(0, 0, 0, 1);
+        public static Quaternion Identity = new Quaternion(0, 0, 0, 1);
 
         #endregion Predefined Quaternions
 

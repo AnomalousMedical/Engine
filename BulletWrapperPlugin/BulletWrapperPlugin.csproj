@@ -55,6 +55,7 @@
     <Compile Include="Definition\Joints\RotationalLimitMotorDefinition.cs" />
     <Compile Include="Definition\Joints\TranslationalLimitMotorDefinition.cs" />
     <Compile Include="Definition\Joints\TypedConstraintDefinition.cs" />
+    <Compile Include="Definition\ReshapeableRigidBodyDefinition.cs" />
     <Compile Include="Definition\RigidBodyDefinition.cs" />
     <Compile Include="Definition\RigidBodyConstructionInfo.cs" />
     <Compile Include="Instance\BulletScene.cs" />

@@ -15,7 +15,7 @@ namespace BulletPlugin
     public partial class RigidBodyDefinition : BulletElementDefinition
     {
         internal RigidBodyConstructionInfo constructionInfo = new RigidBodyConstructionInfo(0.0f);
-        private EditInterface editInterface;
+        protected EditInterface editInterface;
 
         public RigidBodyDefinition(String name)
             :base(name)
@@ -205,7 +205,7 @@ namespace BulletPlugin
 
     partial class RigidBodyDefinition
     {
-        static MemberScanner memberScanner = new MemberScanner();
+        protected static MemberScanner memberScanner = new MemberScanner();
 
         static RigidBodyDefinition()
         {

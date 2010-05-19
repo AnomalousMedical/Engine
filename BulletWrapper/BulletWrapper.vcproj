@@ -220,6 +220,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ReshapeableRigidBody.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ReshapeableRigidBodySection.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Stdafx.cpp"
 				>
 				<FileConfiguration
@@ -263,6 +271,14 @@
 			</File>
 			<File
 				RelativePath=".\Include\MotionState.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Include\ReshapeableRigidBody.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Include\ReshapeableRigidBodySection.h"
 				>
 			</File>
 			<File

@@ -3,20 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Engine;
+using System.Runtime.InteropServices;
 
 namespace BulletPlugin
 {
     public class ReshapeableRigidBody : RigidBody
     {
-        ReshapeableRigidBody(/*Reshapeable*/RigidBodyDefinition description, BulletScene scene, IntPtr collisionShape, Vector3 initialTrans, Quaternion initialRot)
+        private IntPtr nativeReshapeable;
+
+        public ReshapeableRigidBody(ReshapeableRigidBodyDefinition description, BulletScene scene, IntPtr collisionShape, Vector3 initialTrans, Quaternion initialRot)
             :base(description, scene, collisionShape, initialTrans, initialRot)
         {
-
+            nativeReshapeable = ReshapeableRigidBody_Create(NativeRigidBody, collisionShape);
         }
 
         protected override void Dispose()
         {
-
+            if(nativeReshapeable != IntPtr.Zero)
+            {
+                ReshapeableRigidBody_Delete(nativeReshapeable);
+            }
         }
 
         /// <summary>
@@ -28,7 +34,7 @@ namespace BulletPlugin
 	    /// <param name="desc">The mesh description and algorithm configuration settings.</param>
         public void createHullRegion(String name, ConvexDecompositionDesc desc)
         {
-            throw new NotImplementedException();
+            ReshapeableRigidBody_createHullRegion(nativeReshapeable, name, desc, ref Vector3.Zero, ref Quaternion.Identity);
         }
 
 	    /// <summary>
@@ -42,7 +48,7 @@ namespace BulletPlugin
 	    /// <param name="orientation">An orientation for the hull region.</param>
         public void createHullRegion(String name, ConvexDecompositionDesc desc, Vector3 origin, Quaternion orientation)
         {
-            throw new NotImplementedException();
+            ReshapeableRigidBody_createHullRegion(nativeReshapeable, name, desc, ref origin, ref orientation);
         }
 
 	    /// <summary>
@@ -54,7 +60,7 @@ namespace BulletPlugin
 	    /// <param name="origin">The origin of the sphere.</param>
         public void addSphereShape(String regionName, float radius, Vector3 origin)
         {
-            throw new NotImplementedException();
+            ReshapeableRigidBody_addSphereShape(nativeReshapeable, regionName, radius, ref origin);
         }
 
 	    /// <summary>
@@ -63,7 +69,7 @@ namespace BulletPlugin
 	    /// <param name="name">The name of the region to destroy.</param>
         public void destroyRegion(String name)
         {
-            throw new NotImplementedException();
+            ReshapeableRigidBody_destroyRegion(nativeReshapeable, name);
         }
 
 	    /// <summary>
@@ -72,7 +78,26 @@ namespace BulletPlugin
 	    /// </summary>
         public void recomputeMassProps()
         {
-            throw new NotImplementedException();
+            ReshapeableRigidBody_recomputeMassProps(nativeReshapeable);
         }
+
+        //Imports
+        [DllImport("BulletWrapper")]
+        private static extern IntPtr ReshapeableRigidBody_Create(IntPtr rigidBody, IntPtr compoundShape);
+
+        [DllImport("BulletWrapper")]
+        private static extern void ReshapeableRigidBody_Delete(IntPtr body);
+
+        [DllImport("BulletWrapper")]
+        private static extern void ReshapeableRigidBody_createHullRegion(IntPtr body, String name, ConvexDecompositionDesc desc, ref Vector3 origin, ref Quaternion orientation);
+
+        [DllImport("BulletWrapper")]
+        private static extern void ReshapeableRigidBody_addSphereShape(IntPtr body, String regionName, float radius, ref Vector3 origin);
+
+        [DllImport("BulletWrapper")]
+        private static extern void ReshapeableRigidBody_destroyRegion(IntPtr body, String name);
+
+        [DllImport("BulletWrapper")]
+        private static extern void ReshapeableRigidBody_recomputeMassProps(IntPtr body);
     }
 }

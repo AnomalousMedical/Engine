@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.InteropServices;
 
 namespace BulletPlugin
 {
     /// <summary>
     /// The description for a convex decomposition.
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public unsafe class ConvexDecompositionDesc
     {
 	    public ConvexDecompositionDesc()
