@@ -64,6 +64,7 @@
     <Compile Include="Instance\Joints\Generic6DofConstraintElement.cs" />
     <Compile Include="Instance\Joints\TypedConstraintElement.cs" />
     <Compile Include="Instance\Joints\TypedConstraintManager.cs" />
+    <Compile Include="Instance\MotionState.cs" />
     <Compile Include="Instance\ReshapeableRigidBody.cs" />
     <Compile Include="Instance\RigidBodyManager.cs" />
     <Compile Include="Plugin\BulletInterface.cs" />
