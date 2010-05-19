@@ -3,6 +3,7 @@
 #include "ContactInfo.h"
 #include <map>
 #include <vector>
+#include <stack>
 
 typedef std::map<unsigned long, ContactInfo*> ContactMap;
 typedef ContactMap::iterator ContactMapIter;
@@ -10,13 +11,15 @@ typedef ContactMap::iterator ContactMapIter;
 typedef std::vector<ContactInfo*> ContactInfoVector;
 typedef ContactInfoVector::iterator ContactInfoVectorIter;
 
+typedef std::stack<ContactInfo*> ContactInfoStack;
+
 class ContactCache
 {
 private:
 	/*GenericObjectPool<ContactInfo^> contactPool;
 	Dictionary<unsigned long, ContactInfo^> liveContacts;
 	List<ContactInfo^> finishedContacts;*/
-	ContactInfoVector contactPool;
+	ContactInfoStack contactPool;
 	ContactMap liveContacts;
 	ContactInfoVector finishedContacts;
 

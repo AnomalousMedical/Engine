@@ -69,14 +69,16 @@ void ContactCache::dispatchContacts()
 void ContactCache::returnToPool(ContactInfo* info)
 {
 	info->reset();
-	contactPool.push_back(info);
+	contactPool.push(info);
 }
 
 ContactInfo* ContactCache::getPooledObject()
 {
-	if(contactPool.size() == 0)
+	if(contactPool.empty())
 	{
 		return new ContactInfo();
 	}
-	return *contactPool.begin();
+	ContactInfo* info = contactPool.top();
+	contactPool.pop();
+	return info;
 }
