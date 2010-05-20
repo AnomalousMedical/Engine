@@ -42,7 +42,6 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SplashScreen";
-            this.TopMost = true;
             this.ResumeLayout(false);
 
         }

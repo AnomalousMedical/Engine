@@ -30,6 +30,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -231,15 +232,16 @@
     <Compile Include="Utility\GenericObjectPool.cs" />
     <Compile Include="Utility\ObjectPool.cs" />
     <Compile Include="Utility\PooledObject.cs" />
+    <Compile Include="Zip\ZipFile.cs" />
+    <Compile Include="Zip\ZipFileInfo.cs" />
+    <Compile Include="Zip\ZipIOException.cs" />
+    <Compile Include="Zip\ZipStream.cs" />
+    <Compile Include="Zip\ZZipStat.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{6603C379-3B5F-4291-8764-63B020F613FA}</Project>
       <Name>Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ZipAccess\ZipAccess.vcproj">
-      <Project>{3F2EAD47-7DEC-4E56-8CEE-8DBBCCE7A6C7}</Project>
-      <Name>ZipAccess</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
