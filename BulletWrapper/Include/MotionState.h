@@ -2,7 +2,7 @@
 
 class ContactInfo;
 
-typedef void (*SetXformCallback)(Vector3 trans, Quaternion rot);
+typedef void (*SetXformCallback)(const Vector3& trans, const Quaternion& rot);
 typedef void (*ContactCallback)(ContactInfo* contact, btRigidBody* sourceBody, btRigidBody* otherBody, bool isBodyA);
 
 class MotionState : public btMotionState

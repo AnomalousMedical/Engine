@@ -52,7 +52,7 @@ namespace BulletPlugin
             }
         }
 
-        private void motionStateCallback(Vector3 trans, Quaternion rot)
+        private void motionStateCallback(ref Vector3 trans, ref Quaternion rot)
         {
             rigidBody.updateObjectPosition(ref trans, ref rot);
         }
@@ -149,7 +149,7 @@ namespace BulletPlugin
 
         //MotionState
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        delegate void SetXformCallback(Vector3 trans, Quaternion rot);
+        delegate void SetXformCallback(ref Vector3 trans, ref Quaternion rot);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate void ContactCallback(IntPtr contact, IntPtr sourceBody, IntPtr otherBody, bool isBodyA);
