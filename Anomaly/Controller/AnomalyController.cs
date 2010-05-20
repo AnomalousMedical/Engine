@@ -474,9 +474,13 @@ namespace Anomaly
         /// <param name="scenePackage">The ScenePackage to load.</param>
         private void buildScene()
         {
+            stopwatch.Start();
             sceneController.destroyScene();
             solution.createCurrentProject();
             sceneController.createScene();
+            stopwatch.Stop();
+            Log.Info("Scene loaded in {0} seconds.", stopwatch.Elapsed.TotalSeconds);
+            stopwatch.Reset();
         }
 
         #endregion Functions
