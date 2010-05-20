@@ -29,13 +29,18 @@ namespace ZipAccess
             ZZIP_DIR_LARGEFILE = ZZIP_ERROR-33
         }
 
-        const int ZZIP_CASELESS =   (1<<12); /* ignore filename case inside zips */
-        const int ZZIP_NOPATHS =    (1<<13); /* ignore subdir paths, just filename*/
-        const int ZZIP_PREFERZIP =  (1<<14); /* try first zipped file, then real*/
-        const int ZZIP_ONLYZIP =    (1<<16); /* try _only_ zipped file, skip real*/
-        const int ZZIP_FACTORY =    (1<<17); /* old file handle is not closed */
-        const int ZZIP_ALLOWREAL =  (1<<18); /* real files use default_io (magic) */
-        const int ZZIP_THREADED = (1 << 19); /* try to be safe for multithreading */
+        enum ZZipFlags : int
+        {
+            ZZIP_CASELESS =   (1<<12), /* ignore filename case inside zips */
+            ZZIP_NOPATHS =    (1<<13), /* ignore subdir paths, just filename*/
+            ZZIP_PREFERZIP =  (1<<14), /* try first zipped file, then real*/
+            ZZIP_ONLYZIP =    (1<<16), /* try _only_ zipped file, skip real*/
+            ZZIP_FACTORY =    (1<<17), /* old file handle is not closed */
+            ZZIP_ALLOWREAL =  (1<<18), /* real files use default_io (magic) */
+            ZZIP_THREADED = (1 << 19), /* try to be safe for multithreading */
+        }
+
+        const int ZZIP_CASEINSENSITIVE = 0x0008;
 
         static char[] SEPS = { '/', '\\' };
 
@@ -73,10 +78,10 @@ namespace ZipAccess
             String cFile = fixPathFile(filename);
 	        //Get uncompressed size
 	        ZZipStat zstat = new ZZipStat();
-	        ZipFile_DirStat(zzipDir, cFile, &zstat, ZZIP_CASELESS);
+	        ZipFile_DirStat(zzipDir, cFile, &zstat, ZZIP_CASEINSENSITIVE);
 
 	        //Open file
-	        IntPtr zzipFile = ZipFile_OpenFile(zzipDir, cFile, ZZIP_ONLYZIP | ZZIP_CASELESS);
+            IntPtr zzipFile = ZipFile_OpenFile(zzipDir, cFile, ZZipFlags.ZZIP_ONLYZIP | ZZipFlags.ZZIP_CASELESS);
 	        if(zzipFile != IntPtr.Zero)
 	        {
 		        return new ZipStream(zzipFile, zstat.UncompressedSize);
@@ -111,7 +116,7 @@ namespace ZipAccess
         {
             String cFile = fixPathFile(filename);
 	        ZZipStat zstat = new ZZipStat();
-            ZZipError res = ZipFile_DirStat(zzipDir, cFile, &zstat, ZZIP_CASELESS);
+            ZZipError res = ZipFile_DirStat(zzipDir, cFile, &zstat, ZZIP_CASEINSENSITIVE);
             return (res == ZZipError.ZZIP_NO_ERROR);
         }
 
@@ -341,6 +346,6 @@ namespace ZipAccess
         private static unsafe extern ZZipError ZipFile_DirStat(IntPtr zzipDir, String filename, ZZipStat* zstat, int mode);
 
         [DllImport("Zip")]
-        private static extern IntPtr ZipFile_OpenFile(IntPtr zzipDir, String filename, int mode);
+        private static extern IntPtr ZipFile_OpenFile(IntPtr zzipDir, String filename, ZZipFlags mode);
     }
 }
