@@ -5,6 +5,7 @@ using System.Text;
 using Engine.Platform;
 using System.Runtime.InteropServices;
 using Engine.ObjectManagement;
+using Engine.Renderer;
 
 namespace BulletPlugin
 {
@@ -14,6 +15,7 @@ namespace BulletPlugin
         private UpdateTimer timer;
         private BulletFactory factory;
         private IntPtr bulletScene;
+        private BulletDebugDraw debugDraw;
 
         public unsafe BulletScene(BulletSceneDefinition definition, UpdateTimer timer)
         {
@@ -25,12 +27,14 @@ namespace BulletPlugin
             this.name = definition.Name;
             timer.addFixedUpdateListener(this);
             factory = new BulletFactory(this);
+            debugDraw = new BulletDebugDraw();
         }
 
         public void Dispose()
         {
             timer.removeFixedUpdateListener(this);
             BulletScene_DestroyBulletScene(bulletScene);
+            debugDraw.Dispose();
         }
 
         public void addRigidBody(RigidBody rigidBody, short collisionFilterGroup, short collisionFilterMask)
@@ -105,6 +109,20 @@ namespace BulletPlugin
         }
 
         #endregion
+
+        internal void drawDebug(DebugDrawingSurface drawingSurface)
+        {
+            drawingSurface.begin(name + "BulletDebug", DrawingType.LineList);
+            debugDraw.setDrawingSurface(drawingSurface);
+            BulletScene_debugDrawWorld(bulletScene, debugDraw.nativeDraw);
+            drawingSurface.end();
+        }
+
+        internal void clearDebug(DebugDrawingSurface drawingSurface)
+        {
+            drawingSurface.begin(name + "BulletDebug", DrawingType.LineList);
+            drawingSurface.end();
+        }
     }
 
     //Dll Imports
@@ -133,5 +151,8 @@ namespace BulletPlugin
 
         [DllImport("BulletWrapper")]
         private static extern void BulletScene_removeConstraint(IntPtr instance, IntPtr constraint);
+
+        [DllImport("BulletWrapper")]
+        private static extern void BulletScene_debugDrawWorld(IntPtr instance, IntPtr debugDrawer);
     }
 }

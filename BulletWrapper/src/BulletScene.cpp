@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "..\Include\BulletScene.h"
+#include "BulletDebugDraw.h"
 
 static void tickCallback(btDynamicsWorld *world, btScalar timeStep)
 {
@@ -145,6 +146,13 @@ void BulletScene::tickCallback(btScalar timeStep)
 	contactCache.dispatchContacts();
 }
 
+void BulletScene::debugDrawWorld(BulletDebugDraw* debugDrawer)
+{
+	dynamicsWorld->setDebugDrawer(debugDrawer);
+	dynamicsWorld->debugDrawWorld();
+	dynamicsWorld->setDebugDrawer(0);
+}
+
 //--------------------------------------------------
 //Wrapper functions
 //--------------------------------------------------
@@ -186,4 +194,9 @@ extern "C" _declspec(dllexport) void BulletScene_addConstraint(BulletScene* inst
 extern "C" _declspec(dllexport) void BulletScene_removeConstraint(BulletScene* instance, btTypedConstraint* constraint)
 {
 	instance->removeConstraint(constraint);
+}
+
+extern "C" _declspec(dllexport) void BulletScene_debugDrawWorld(BulletScene* instance, BulletDebugDraw* debugDrawer)
+{
+	instance->debugDrawWorld(debugDrawer);
 }

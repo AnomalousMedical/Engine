@@ -48,6 +48,9 @@
   <ItemGroup>
     <Compile Include="Construction\BulletFactory.cs" />
     <Compile Include="Construction\BulletFactoryEntry.cs" />
+    <Compile Include="DebugDraw\BulletDebugDraw.cs" />
+    <Compile Include="DebugDraw\BulletDebugEntry.cs" />
+    <Compile Include="DebugDraw\BulletDebugInterface.cs" />
     <Compile Include="Definition\BulletElementDefinition.cs" />
     <Compile Include="Definition\BulletSceneDefinition.cs" />
     <Compile Include="Definition\BulletSceneInfo.cs" />

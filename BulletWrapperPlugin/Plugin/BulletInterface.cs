@@ -14,8 +14,8 @@ namespace BulletPlugin
         private static BulletInterface instance;
         UpdateTimer timer;
         BulletShapeFileManager fileManager = new BulletShapeFileManager(new BulletShapeRepository(), new BulletShapeBuilder());
-        SubsystemResources resources;
-        //BulletDebugInterface debugInterface;
+        SubsystemResources resources = new SubsystemResources("Bullet");
+        BulletDebugInterface debugInterface = null;
 
         public const String PluginName = "BulletPlugin";
 
@@ -37,8 +37,6 @@ namespace BulletPlugin
             {
                 throw new Exception("Cannot create the BulletInterface more than once. Only call the constructor one time.");
             }
-            resources = new SubsystemResources("Bullet");
-            //debugInterface = null;
         }
 
         public void Dispose()
@@ -73,12 +71,11 @@ namespace BulletPlugin
 
         public DebugInterface getDebugInterface()
         {
-            //if(debugInterface == nullptr)
-            //{
-            //    debugInterface = gcnew BulletDebugInterface();
-            //}
-            //return debugInterface;
-            return null;
+            if(debugInterface == null)
+            {
+                debugInterface = new BulletDebugInterface();
+            }
+            return debugInterface;
         }
 
         public void createDebugCommands(List<CommandManager> commands)

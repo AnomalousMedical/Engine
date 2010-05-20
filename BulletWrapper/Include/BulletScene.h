@@ -2,6 +2,8 @@
 
 #include "ContactCache.h"
 
+class BulletDebugDraw;
+
 /// <summary>
 /// Info for the bullet scene.
 /// </summary>
@@ -61,4 +63,6 @@ public:
 	void removeConstraint(btTypedConstraint* constraint);
 
 	void tickCallback(btScalar timeStep);
+
+	void debugDrawWorld(BulletDebugDraw* debugDrawer);
 };
