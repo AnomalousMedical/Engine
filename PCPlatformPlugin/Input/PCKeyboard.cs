@@ -10,7 +10,7 @@ namespace PCPlatform
     class PCKeyboard : Keyboard
     {
         private IntPtr keyboard;
-        private char[] keys = new char[256];
+        private sbyte[] keys = new sbyte[256];
 
         public PCKeyboard(IntPtr keyboard)
         {
@@ -34,7 +34,7 @@ namespace PCPlatform
 
         public unsafe override void capture()
         {
-            fixed(char* keyBuf = &keys[0])
+            fixed (sbyte* keyBuf = &keys[0])
             {
                 oisKeyboard_capture(keyboard, keyBuf);
             }
@@ -55,6 +55,6 @@ namespace PCPlatform
         private static extern IntPtr oisKeyboard_getAsString(IntPtr keyboard, KeyboardButtonCode code);
 
         [DllImport("PCPlatform")]
-        private static unsafe extern void oisKeyboard_capture(IntPtr keyboard, char* keys);
+        private static unsafe extern void oisKeyboard_capture(IntPtr keyboard, sbyte* keys);
     }
 }
