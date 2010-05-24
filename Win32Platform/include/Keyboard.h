@@ -54,16 +54,6 @@ internal:
 
 public:
 	/// <summary>
-	/// This event is called when a key is pressed.
-	/// </summary>
-	event KeyboardPressedEvent^ KeyboardPressed;
-
-	/// <summary>
-	/// This event is called when a key is released.
-	/// </summary>
-	event KeyboardReleasedEvent^ KeyboardReleased;
-
-	/// <summary>
 	/// Destructor
 	/// </summary>
 	~OISKeyboard();

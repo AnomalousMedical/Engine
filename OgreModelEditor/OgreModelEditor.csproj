@@ -164,9 +164,9 @@
       <Project>{F6ED8A4F-2444-420D-8436-A5F8BF7A8CBB}</Project>
       <Name>OgreWrapper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Win32Platform\Win32Platform.vcproj">
-      <Project>{08CF7667-CF92-4813-AF41-278015BE3807}</Project>
-      <Name>Win32Platform</Name>
+    <ProjectReference Include="..\PCPlatformPlugin\PCPlatformPlugin.csproj">
+      <Project>{2D5AB440-5081-4C71-A2C2-9F7E05969EDE}</Project>
+      <Name>PCPlatformPlugin</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

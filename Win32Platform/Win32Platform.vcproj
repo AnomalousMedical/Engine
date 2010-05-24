@@ -248,10 +248,6 @@
 				RelativePath=".\src\Win32UpdateTimer.cpp"
 				>
 			</File>
-			<File
-				RelativePath=".\src\WindowsMessageHandler.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -304,10 +300,6 @@
 			</File>
 			<File
 				RelativePath=".\include\Win32UpdateTimer.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\WindowsMessageHandler.h"
 				>
 			</File>
 		</Filter>

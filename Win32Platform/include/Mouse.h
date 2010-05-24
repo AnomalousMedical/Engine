@@ -69,21 +69,6 @@ internal:
 
 public:
 	/// <summary>
-	/// Fired when the mouse moves.
-	/// </summary>
-	event MouseMovedEvent^ MouseMoved;
-	
-	/// <summary>
-	/// Fired when a mouse button is pressed.
-	/// </summary>
-	event MousePressedEvent^ MousePressed;
-
-	/// <summary>
-	/// Fired when a mouse button is released.
-	/// </summary>
-	event MouseReleasedEvent^ MouseReleased;
-
-	/// <summary>
 	/// Destructor
 	/// </summary>
 	~OISMouse();

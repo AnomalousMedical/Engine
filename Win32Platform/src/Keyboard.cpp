@@ -29,12 +29,12 @@ OISKeyboard::~OISKeyboard()
 
 void OISKeyboard::keyPressed(OIS::KeyCode button, unsigned int text)
 {
-	KeyboardPressed(this, (KeyboardButtonCode)button, text);
+	
 }
 
 void OISKeyboard::keyReleased(OIS::KeyCode button, unsigned int text)
 {
-	KeyboardReleased(this, (KeyboardButtonCode)button, text);
+	
 }
 
 OIS::Keyboard* OISKeyboard::getKeyboard()

@@ -17,6 +17,7 @@ using Engine.Editing;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using System.Diagnostics;
+using PCPlatform;
 
 namespace Anomaly
 {
@@ -132,8 +133,10 @@ namespace Anomaly
             //Intialize the platform
             systemTimer = pluginManager.PlatformPlugin.createTimer();
 
-            Win32UpdateTimer win32Timer = new Win32UpdateTimer(systemTimer);
-            win32Timer.MessageReceived += new PumpMessageEvent(win32Timer_MessageReceived);
+            PCUpdateTimer win32Timer = new PCUpdateTimer(systemTimer);
+            WindowsMessagePump windowsPump = new WindowsMessagePump();
+            windowsPump.MessageReceived += new PumpMessageEvent(win32Timer_MessageReceived);
+            win32Timer.MessagePump = windowsPump;
             mainTimer = win32Timer;
 
             mainTimer.FramerateCap = AnomalyConfig.EngineConfig.MaxFPS;

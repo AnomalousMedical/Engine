@@ -18,6 +18,7 @@ using Engine.Saving.XMLSaver;
 using System.Xml;
 using OgreModelEditor.Controller;
 using System.Reflection;
+using PCPlatform;
 
 namespace OgreModelEditor
 {
@@ -110,7 +111,7 @@ namespace OgreModelEditor
             pluginManager = new PluginManager(OgreModelEditorConfig.ConfigFile);
             pluginManager.OnConfigureDefaultWindow = createWindow;
             pluginManager.addPluginAssembly(typeof(OgreInterface).Assembly);
-            pluginManager.addPluginAssembly(typeof(Win32PlatformPlugin).Assembly);
+            pluginManager.addPluginAssembly(typeof(PCPlatformPlugin).Assembly);
             pluginManager.initializePlugins();
             pluginManager.RendererPlugin.PrimaryWindow.setEnabled(false);
 
@@ -143,8 +144,10 @@ namespace OgreModelEditor
             //Intialize the platform
             systemTimer = pluginManager.PlatformPlugin.createTimer();
 
-            Win32UpdateTimer win32Timer = new Win32UpdateTimer(systemTimer);
-            win32Timer.MessageReceived += new PumpMessageEvent(win32Timer_MessageReceived);
+            PCUpdateTimer win32Timer = new PCUpdateTimer(systemTimer);
+            WindowsMessagePump windowsPump = new WindowsMessagePump();
+            windowsPump.MessageReceived += new PumpMessageEvent(win32Timer_MessageReceived);
+            win32Timer.MessagePump = windowsPump;
             mainTimer = win32Timer;
 
             mainTimer.FramerateCap = OgreModelEditorConfig.EngineConfig.MaxFPS;

@@ -30,17 +30,17 @@ OISMouse::~OISMouse()
 
 void OISMouse::moved()
 {
-	this->MouseMoved(this);
+	
 }
 
 void OISMouse::buttonPressed(OIS::MouseButtonID id)
 {
-	this->MousePressed(this, (MouseButtonCode)id);
+	
 }
 
 void OISMouse::buttonReleased(OIS::MouseButtonID id)
 {
-	this->MouseReleased(this, (MouseButtonCode)id);
+	
 }
 
 OIS::Mouse* OISMouse::getMouse()
