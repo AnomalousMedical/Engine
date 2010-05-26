@@ -5,7 +5,20 @@ using System.Text;
 
 namespace OgreWrapper
 {
-    class TextAreaOverlayElement
+    class TextAreaOverlayElement : OverlayElement
     {
+        internal TextAreaOverlayElement(IntPtr overlayElement)
+            : base(overlayElement)
+        {
+
+        }
+
+        public static String TypeName
+        {
+            get
+            {
+                return "TextArea";
+            }
+        }
     }
 }

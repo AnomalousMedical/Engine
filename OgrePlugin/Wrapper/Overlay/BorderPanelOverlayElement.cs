@@ -5,7 +5,20 @@ using System.Text;
 
 namespace OgreWrapper
 {
-    class BorderPanelOverlayElement
+    public class BorderPanelOverlayElement : OverlayElement
     {
+        internal BorderPanelOverlayElement(IntPtr overlayElement)
+            : base(overlayElement)
+        {
+
+        }
+
+        public static String TypeName
+	    {
+		    get
+		    {
+			    return "BorderPanel";
+		    }
+	    }
     }
 }

@@ -149,15 +149,15 @@ extern "C" __declspec(dllexport) Ogre::RenderWindow* Root_createRenderWindowPara
 {
 	Ogre::NameValuePairList params;
 	params["vsync"] = vsync;
-	if(fsaaHint != Ogre::StringUtil::BLANK)
+	if(fsaaHint != 0 && fsaaHint != Ogre::StringUtil::BLANK)
 	{
 		params["FSAAHint"] = fsaaHint;
 	}
-	if(aaMode != Ogre::StringUtil::BLANK)
+	if(aaMode != 0 && aaMode != Ogre::StringUtil::BLANK)
 	{
 		params["FSAA"] = aaMode;
 	}
-	if(externalWindowHandle != Ogre::StringUtil::BLANK)
+	if(externalWindowHandle != 0 && externalWindowHandle != Ogre::StringUtil::BLANK)
 	{
 		params["externalWindowHandle"] = externalWindowHandle;
 	}

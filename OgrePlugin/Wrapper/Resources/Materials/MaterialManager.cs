@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OgreWrapper
 {
-    public class MeshManager : IDisposable
+    public class MaterialManager : IDisposable
     {
         static MaterialManager instance = new MaterialManager();
 
@@ -18,10 +18,6 @@ namespace OgreWrapper
         {
 
         }
-
-        internal MeshPtr getPtr(IntPtr ogreMeshPtr)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
+

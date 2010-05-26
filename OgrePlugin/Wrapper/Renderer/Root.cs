@@ -189,8 +189,17 @@ namespace OgreWrapper
             return renderTargets.getObject(Root_createRenderWindow(ogreRoot, name, width, height, fullScreen), RenderTargetType.RenderWindow) as RenderWindow;
         }
 
-        public RenderWindow createRenderWindow(String name, uint width, uint height, bool fullScreen, bool vsync, String aaMode, String fsaaHint, String externalWindowHandle)
+        public RenderWindow createRenderWindow(String name, uint width, uint height, bool fullScreen, Dictionary<String, String> miscParams)
         {
+            //Retain miscParams for backward compatability, but split it up here to pass to ogre
+            String vsync;
+            String aaMode;
+            String fsaaHint;
+            String externalWindowHandle;
+            miscParams.TryGetValue("vsync", out vsync);
+            miscParams.TryGetValue("FSAA", out aaMode);
+            miscParams.TryGetValue("FSAAHint", out fsaaHint);
+            miscParams.TryGetValue("externalWindowHandle", out externalWindowHandle);
             return renderTargets.getObject(Root_createRenderWindowParams(ogreRoot, name, width, height, fullScreen, vsync.ToString(), aaMode, fsaaHint, externalWindowHandle), RenderTargetType.RenderWindow) as RenderWindow;
         }
 

@@ -5,9 +5,10 @@ using System.Text;
 
 namespace OgreWrapper
 {
-    public class SkeletonInstance : IDisposable
+    public class SkeletonInstance : Skeleton
     {
-        public void Dispose()
+        internal SkeletonInstance(IntPtr skeleton)
+            :base(skeleton)
         {
 
         }

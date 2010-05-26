@@ -5,8 +5,13 @@ using System.Text;
 
 namespace OgreWrapper
 {
-    public class MeshPtr
+    public class MeshPtr : IDisposable
     {
-        
+        public void Dispose()
+        {
+
+        }
+
+        public Mesh Value { get; set; }
     }
 }

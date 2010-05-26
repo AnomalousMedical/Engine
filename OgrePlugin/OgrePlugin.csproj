@@ -78,12 +78,17 @@
     <Compile Include="Plugin\OgreInterface.cs" />
     <Compile Include="Plugin\OgreResourceManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Wrapper\Animation\Animation.cs" />
     <Compile Include="Wrapper\Animation\AnimationState.cs" />
     <Compile Include="Wrapper\Animation\AnimationStateSet.cs" />
     <Compile Include="Wrapper\Animation\Skeletal\Bone.cs" />
+    <Compile Include="Wrapper\Animation\Skeletal\BoneIterator.cs" />
+    <Compile Include="Wrapper\Animation\Skeletal\Skeleton.cs" />
     <Compile Include="Wrapper\Animation\Skeletal\SkeletonInstance.cs" />
+    <Compile Include="Wrapper\Animation\Skeletal\SkeletonManager.cs" />
     <Compile Include="Wrapper\BoundingVolumes\AxisAlignedBox.cs" />
     <Compile Include="Wrapper\BoundingVolumes\PlaneBoundedVolume.cs" />
+    <Compile Include="Wrapper\MeshData\HardwareBufferManager.cs" />
     <Compile Include="Wrapper\Overlay\BorderPanelOverlayElement.cs" />
     <Compile Include="Wrapper\Overlay\Overlay.cs" />
     <Compile Include="Wrapper\Overlay\OverlayContainer.cs" />
@@ -106,6 +111,7 @@
     <Compile Include="Wrapper\Renderer\SceneListener\SceneListener.cs" />
     <Compile Include="Wrapper\Renderer\SceneManager.cs" />
     <Compile Include="Wrapper\Renderer\Viewport.cs" />
+    <Compile Include="Wrapper\Resources\Materials\MaterialManager.cs" />
     <Compile Include="Wrapper\Resources\Materials\MaterialPtr.cs" />
     <Compile Include="Wrapper\Resources\Meshes\Mesh.cs" />
     <Compile Include="Wrapper\Resources\Meshes\MeshManager.cs" />

@@ -7,5 +7,9 @@ namespace OgreWrapper
 {
     public class Mesh
     {
+        public String getName()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

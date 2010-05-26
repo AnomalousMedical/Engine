@@ -184,6 +184,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\Src\Bone.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\Camera.cpp"
 				>
 			</File>
@@ -221,6 +225,10 @@
 			</File>
 			<File
 				RelativePath=".\Src\OgreResourceGroupManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\OverlayManager.cpp"
 				>
 			</File>
 			<File
