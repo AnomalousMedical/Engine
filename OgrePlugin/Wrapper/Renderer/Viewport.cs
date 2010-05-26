@@ -24,7 +24,7 @@ namespace OgreWrapper
             viewport = IntPtr.Zero;
         }
 
-        internal IntPtr Viewport
+        internal IntPtr OgreViewport
         {
             get
             {

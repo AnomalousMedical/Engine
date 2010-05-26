@@ -23,7 +23,7 @@ namespace OgreWrapper
     {
         WrapperCollection<ManualObjectSection> sections = new WrapperCollection<ManualObjectSection>(ManualObjectSection.createWrapper);
 
-        internal ManualObject createWrapper(IntPtr manualObject)
+        internal static ManualObject createWrapper(IntPtr manualObject, object[] args)
         {
             return new ManualObject(manualObject);
         }

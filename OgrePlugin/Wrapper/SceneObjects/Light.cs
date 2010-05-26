@@ -18,7 +18,7 @@ namespace OgreWrapper
 	        LT_SPOTLIGHT
         };
 
-        internal Light createWrapper(IntPtr light)
+        internal static Light createWrapper(IntPtr light, object[] args)
         {
             return new Light(light);
         }

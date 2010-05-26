@@ -30,6 +30,14 @@ namespace OgreWrapper
             ogreNode = IntPtr.Zero;
         }
 
+        internal IntPtr OgreNode
+        {
+            get
+            {
+                return ogreNode;
+            }
+        }
+
         /// <summary>
         /// Returns a quaternion representing the nodes orientation. 
         /// </summary>

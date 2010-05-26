@@ -208,11 +208,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\NativeSceneListener.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\Node.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\Src\PixelBox.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\RenderQueue.cpp"
 				>
 			</File>
 			<File
@@ -229,6 +237,10 @@
 			</File>
 			<File
 				RelativePath=".\Src\Root.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\SceneManager.cpp"
 				>
 			</File>
 			<File
@@ -265,6 +277,10 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\Include\NativeSceneListener.h"
+				>
+			</File>
 			<File
 				RelativePath=".\resource.h"
 				>

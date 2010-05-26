@@ -25,6 +25,15 @@ namespace OgreWrapper
 
     public class Camera : MovableObject
     {
+        private static Dictionary<IntPtr, Camera> pointerToCamera = new Dictionary<IntPtr, Camera>();
+
+        internal static Camera resolvePointer(IntPtr cameraPtr)
+        {
+            Camera cam;
+            pointerToCamera.TryGetValue(cameraPtr, out cam);
+            return cam;
+        }
+
         internal static Camera createWrapper(IntPtr camera, object[] args)
         {
             return new Camera(camera);
@@ -33,7 +42,13 @@ namespace OgreWrapper
         private Camera(IntPtr camera)
             :base(camera)
         {
+            pointerToCamera.Add(ogreObject, this);
+        }
 
+        public override void Dispose()
+        {
+            pointerToCamera.Remove(ogreObject);
+            base.Dispose();
         }
 
         /// <summary>

@@ -11,7 +11,7 @@ namespace OgreWrapper
     {
         private Dictionary<String, MovableObject> nodeObjectList = new Dictionary<String, MovableObject>();
 
-        internal SceneNode createWrapper(IntPtr ogreSceneNode)
+        internal static SceneNode createWrapper(IntPtr ogreSceneNode, object[] args)
         {
             return new SceneNode(ogreSceneNode);
         }
@@ -28,7 +28,7 @@ namespace OgreWrapper
 	    /// <param name="child">The child scene node to add.</param>
         public void addChild(SceneNode child)
         {
-            SceneNode_addChild(ogreNode, child);
+            SceneNode_addChild(ogreNode, child.ogreNode);
         }
 
 	    /// <summary>
@@ -37,7 +37,7 @@ namespace OgreWrapper
 	    /// <param name="child">The child scene node to remove.</param>
         public void removeChild(SceneNode child)
         {
-            SceneNode_removeChild(ogreNode, child);
+            SceneNode_removeChild(ogreNode, child.ogreNode);
         }
 
 	    /// <summary>

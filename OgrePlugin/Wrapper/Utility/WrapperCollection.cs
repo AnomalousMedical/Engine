@@ -50,7 +50,7 @@ namespace OgreWrapper
         {
             if (ptrDictionary.ContainsKey(nativeObject))
             {
-                ((IDisposable)ptrDictionary[nativeObject]).Dispose();
+                ptrDictionary[nativeObject].Dispose();
                 ptrDictionary.Remove(nativeObject);
             }
         }
