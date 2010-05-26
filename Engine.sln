@@ -41,6 +41,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PCPlatform", "PCPlatform\PC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCPlatformPlugin", "PCPlatformPlugin\PCPlatformPlugin.csproj", "{2D5AB440-5081-4C71-A2C2-9F7E05969EDE}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OgreCWrapper", "OgreCWrapper\OgreCWrapper.vcproj", "{D9E3A6BA-5CDD-4CCE-978B-8E25403CA82F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -251,6 +253,16 @@ Global
 		{2D5AB440-5081-4C71-A2C2-9F7E05969EDE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{2D5AB440-5081-4C71-A2C2-9F7E05969EDE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{2D5AB440-5081-4C71-A2C2-9F7E05969EDE}.Release|Win32.ActiveCfg = Release|Any CPU
+		{D9E3A6BA-5CDD-4CCE-978B-8E25403CA82F}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{D9E3A6BA-5CDD-4CCE-978B-8E25403CA82F}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{D9E3A6BA-5CDD-4CCE-978B-8E25403CA82F}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{D9E3A6BA-5CDD-4CCE-978B-8E25403CA82F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D9E3A6BA-5CDD-4CCE-978B-8E25403CA82F}.Debug|Win32.Build.0 = Debug|Win32
+		{D9E3A6BA-5CDD-4CCE-978B-8E25403CA82F}.Release|Any CPU.ActiveCfg = Release|Win32
+		{D9E3A6BA-5CDD-4CCE-978B-8E25403CA82F}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{D9E3A6BA-5CDD-4CCE-978B-8E25403CA82F}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{D9E3A6BA-5CDD-4CCE-978B-8E25403CA82F}.Release|Win32.ActiveCfg = Release|Win32
+		{D9E3A6BA-5CDD-4CCE-978B-8E25403CA82F}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
