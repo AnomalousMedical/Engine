@@ -53,7 +53,7 @@ internal:
 	Ogre::Node* getOgreNode();
 
 public:
-/// <summary>
+	/// <summary>
 	/// Returns a quaternion representing the nodes orientation. 
 	/// </summary>
 	/// <returns>A quaternion.</returns>
