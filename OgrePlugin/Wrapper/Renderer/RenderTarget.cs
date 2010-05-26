@@ -67,7 +67,7 @@ namespace OgreWrapper
         /// Returns the name of this render target.
         /// </summary>
         /// <returns>The name of the render target.</returns>
-        String getName()
+        public String getName()
         {
             return Marshal.PtrToStringAnsi(RenderTarget_getName(renderTarget));
         }
@@ -86,7 +86,7 @@ namespace OgreWrapper
         /// </remarks>
         /// <param name="camera">The camera to use for the viewport.</param>
         /// <returns>A new viewport.</returns>
-        Viewport addViewport(Camera camera)
+        public Viewport addViewport(Camera camera)
         {
             return viewports.getObject(RenderTarget_addViewport(renderTarget, camera.OgreObject));
         }
@@ -110,7 +110,7 @@ namespace OgreWrapper
         /// <param name="width">The relative width of the viewport on the target, as a value between 0 and 1. </param>
         /// <param name="height">The relative height of the viewport on the target, as a value between 0 and 1.</param>
         /// <returns>A new viewport.</returns>
-        Viewport addViewport(Camera camera, int zOrder, float left, float top, float width, float height)
+        public Viewport addViewport(Camera camera, int zOrder, float left, float top, float width, float height)
         {
             return viewports.getObject(RenderTarget_addViewportExt(renderTarget, camera.OgreObject, zOrder, left, top, width, height));
         }
@@ -118,17 +118,17 @@ namespace OgreWrapper
         /// <summary>
         /// This will destroy the passed viewport.
         /// </summary>
-        void destroyViewport(Viewport viewport)
+        public void destroyViewport(Viewport viewport)
         {
-            viewports.destroyObject(viewport.Viewport);
-            RenderTarget_destroyViewport(renderTarget, viewport.Viewport);
+            viewports.destroyObject(viewport.OgreViewport);
+            RenderTarget_destroyViewport(renderTarget, viewport.OgreViewport);
         }
 
         /// <summary>
         /// Get the width of the RenderTarget.
         /// </summary>
         /// <returns>The width.</returns>
-        uint getWidth()
+        public uint getWidth()
         {
             return RenderTarget_getWidth(renderTarget);
         }
@@ -137,7 +137,7 @@ namespace OgreWrapper
         /// Get the height of the RenderTarget.
         /// </summary>
         /// <returns>The height.</returns>
-        uint getHeight()
+        public uint getHeight()
         {
             return RenderTarget_getHeight(renderTarget);
         }
@@ -146,7 +146,7 @@ namespace OgreWrapper
         /// Get the color depth of the RenderTarget.
         /// </summary>
         /// <returns>The color depth.</returns>
-        uint getColorDepth()
+        public uint getColorDepth()
         {
             return RenderTarget_getColorDepth(renderTarget);
         }
@@ -164,7 +164,7 @@ namespace OgreWrapper
         /// to be refreshed only when required, rather than constantly as with the
         /// automatic rendering loop. 
         /// </summary>
-        void update()
+        public void update()
         {
             RenderTarget_update(renderTarget);
         }
@@ -183,7 +183,7 @@ namespace OgreWrapper
         /// automatic rendering loop. 
         /// </summary>
         /// <param name="swapBuffers">For targets that support double-buffering, if set to true, the target will immediately swap it's buffers after update. Otherwise, the buffers are not swapped, and you have to call swapBuffers yourself sometime later. You might want to do this on some rendersystems which pause for queued rendering commands to complete before accepting swap buffers calls - so you could do other CPU tasks whilst the queued commands complete. Or, you might do this if you want custom control over your windows, such as for externally created windows.</param>
-        void update(bool swapBuffers)
+        public void update(bool swapBuffers)
         {
             RenderTarget_updateSwap(renderTarget, swapBuffers);
         }
@@ -196,7 +196,7 @@ namespace OgreWrapper
         /// completed (to an off-screen version of the window) the buffers are
         /// swapped to display the new frame.
         /// </summary>
-        void swapBuffers()
+        public void swapBuffers()
         {
             RenderTarget_swapBuffers(renderTarget);
         }
@@ -210,7 +210,7 @@ namespace OgreWrapper
         /// swapped to display the new frame.
         /// </summary>
         /// <param name="waitForVsync">If true, the system waits for the next vertical blank period (when the CRT beam turns off as it travels from bottom-right to top-left at the end of the pass) before flipping. If false, flipping occurs no matter what the beam position. Waiting for a vertical blank can be slower (and limits the framerate to the monitor refresh rate) but results in a steadier image with no 'tearing' (a flicker resulting from flipping buffers when the beam is in the progress of drawing the last frame).</param>
-        void swapBuffers(bool waitForVsync)
+        public void swapBuffers(bool waitForVsync)
         {
             RenderTarget_swapBuffersVsync(renderTarget, waitForVsync);
         }
@@ -219,7 +219,7 @@ namespace OgreWrapper
         /// Get the number of viewports attached to this target. 
         /// </summary>
         /// <returns>The number of viewports.</returns>
-        ushort getNumViewports()
+        public ushort getNumViewports()
         {
             return RenderTarget_getNumViewports(renderTarget);
         }
@@ -229,7 +229,7 @@ namespace OgreWrapper
         /// </summary>
         /// <param name="index">The index of the viewport to get.</param>
         /// <returns>The viewport identified by name or null if it is not found.</returns>
-        Viewport getViewport(ushort index)
+        public Viewport getViewport(ushort index)
         {
             return viewports.getObject(RenderTarget_getViewport(renderTarget, index));
         }
@@ -238,7 +238,7 @@ namespace OgreWrapper
         /// Individual stats access - gets the number of frames per second (FPS) based on the last frame rendered. 
         /// </summary>
         /// <returns>The last fps.</returns>
-        float getLastFPS()
+        public float getLastFPS()
         {
             return RenderTarget_getLastFPS(renderTarget);
         }
@@ -247,7 +247,7 @@ namespace OgreWrapper
         /// Individual stats access - gets the average frames per second (FPS) since call to Root::startRendering. 
         /// </summary>
         /// <returns>The average fps.</returns>
-        float getAverageFPS()
+        public float getAverageFPS()
         {
             return RenderTarget_getAverageFPS(renderTarget);
         }
@@ -256,7 +256,7 @@ namespace OgreWrapper
         /// Individual stats access - gets the best frames per second (FPS) since call to Root::startRendering. 
         /// </summary>
         /// <returns>The best fps.</returns>
-        float getBestFPS()
+        public float getBestFPS()
         {
             return RenderTarget_getBestFPS(renderTarget);
         }
@@ -265,7 +265,7 @@ namespace OgreWrapper
         /// Individual stats access - gets the worst frames per second (FPS) since call to Root::startRendering. 
         /// </summary>
         /// <returns>The worst fps.</returns>
-        float getWorstFPS()
+        public float getWorstFPS()
         {
             return RenderTarget_getWorstFPS(renderTarget);
         }
@@ -274,7 +274,7 @@ namespace OgreWrapper
         /// Individual stats access - gets the best frame time. 
         /// </summary>
         /// <returns>The best frame time.</returns>
-        float getBestFrameTime()
+        public float getBestFrameTime()
         {
             return RenderTarget_getBestFrameTime(renderTarget);
         }
@@ -283,7 +283,7 @@ namespace OgreWrapper
         /// Individual stats access - gets the worst frame time. 
         /// </summary>
         /// <returns>The worst frame time.</returns>
-        float getWorstFrameTime()
+        public float getWorstFrameTime()
         {
             return RenderTarget_getWorstFrameTime(renderTarget);
         }
@@ -291,7 +291,7 @@ namespace OgreWrapper
         /// <summary>
         /// Resets saved frame-rate statistices. 
         /// </summary>
-        void resetStatistics()
+        public void resetStatistics()
         {
             RenderTarget_resetStatistics(renderTarget);
         }
@@ -306,7 +306,7 @@ namespace OgreWrapper
         /// </summary>
         /// <param name="name">The name of the attribute.</param>
         /// <param name="pData">Pointer to memory of the right kind of structure to receive the info.</param>
-        unsafe void getCustomAttribute(String name, void* pData)
+        public unsafe void getCustomAttribute(String name, void* pData)
         {
             RenderTarget_getCustomAttribute(renderTarget, name, pData);
         }
@@ -321,7 +321,7 @@ namespace OgreWrapper
         /// afterwards will not affect the ordering. 
         /// </summary>
         /// <param name="priority">The priority to set.</param>
-        void setPriority(byte priority)
+        public void setPriority(byte priority)
         {
             RenderTarget_setPriority(renderTarget, priority);
         }
@@ -330,7 +330,7 @@ namespace OgreWrapper
         /// Gets the priority of a render target. 
         /// </summary>
         /// <returns>The priority.</returns>
-        byte getPriority()
+        public byte getPriority()
         {
             return RenderTarget_getPriority(renderTarget);
         }
@@ -339,7 +339,7 @@ namespace OgreWrapper
         /// Used to retrieve the active state of the render target. 
         /// </summary>
         /// <returns>True if the viewport is active, false if disabled.</returns>
-        bool isActive()
+        public bool isActive()
         {
             return RenderTarget_isActive(renderTarget);
         }
@@ -348,7 +348,7 @@ namespace OgreWrapper
         /// Used to set the active state of the render target. 
         /// </summary>
         /// <param name="active">True to activate false to deactivate.</param>
-        void setActive(bool active)
+        public void setActive(bool active)
         {
             RenderTarget_setActive(renderTarget, active);
         }
@@ -364,7 +364,7 @@ namespace OgreWrapper
         /// periodically. 
         /// </summary>
         /// <param name="autoUpdate">If true, the render target is updated during the automatic render loop or when Root::_updateAllRenderTargets is called. If false, the target is only updated when its update() method is called explicitly. </param>
-        void setAutoUpdated(bool autoUpdate)
+        public void setAutoUpdated(bool autoUpdate)
         {
             RenderTarget_setAutoUpdated(renderTarget, autoUpdate);
         }
@@ -374,7 +374,7 @@ namespace OgreWrapper
         /// loop or Root::_updateAllRenderTargets is being used. 
         /// </summary>
         /// <returns>True if the target is autoupdated, false if it is not.</returns>
-        bool isAutoUpdated()
+        public bool isAutoUpdated()
         {
             return RenderTarget_isAutoUpdated(renderTarget);
         }
@@ -388,7 +388,7 @@ namespace OgreWrapper
         /// </para>
         /// </summary>
         /// <param name="dest">The PixelBox to write the results to.</param>
-        void copyContentsToMemory(PixelBox dest)
+        public void copyContentsToMemory(PixelBox dest)
         {
             RenderTarget_copyContentsToMemory(renderTarget, dest.OgreBox);
         }
@@ -403,7 +403,7 @@ namespace OgreWrapper
         /// </summary>
         /// <param name="dest">The PixelBox to write the results to.</param>
         /// <param name="buffer">The frame buffer to copy the contents from.</param>
-        void copyContentsToMemory(PixelBox dest, FrameBuffer buffer)
+        public void copyContentsToMemory(PixelBox dest, FrameBuffer buffer)
         {
             RenderTarget_copyContentsToMemoryBuffer(renderTarget, dest.OgreBox, buffer);
         }
@@ -413,7 +413,7 @@ namespace OgreWrapper
         /// when calling copyContentsToMemory.
         /// </summary>
         /// <returns>The reccomended pixel format.</returns>
-        PixelFormat suggestPixelFormat()
+        public PixelFormat suggestPixelFormat()
         {
             return RenderTarget_suggestPixelFormat(renderTarget);
         }
@@ -422,7 +422,7 @@ namespace OgreWrapper
         /// Writes the current contents of the render target to the named file. 
         /// </summary>
         /// <param name="filename">The file to write the contents to.</param>
-        void writeContentsToFile(String filename)
+        public void writeContentsToFile(String filename)
         {
             RenderTarget_writeContentsToFile(renderTarget, filename);
         }
@@ -432,7 +432,7 @@ namespace OgreWrapper
         /// </summary>
         /// <param name="filenamePrefix"></param>
         /// <param name="filenameSuffix"></param>
-        String writeContentsToTimestampedFile(String filenamePrefix, String filenameSuffix)
+        public String writeContentsToTimestampedFile(String filenamePrefix, String filenameSuffix)
         {
             return Marshal.PtrToStringAnsi(RenderTarget_writeContentsToTimestampedFile(renderTarget, filenamePrefix, filenameSuffix));
         }
@@ -441,7 +441,7 @@ namespace OgreWrapper
         /// Determine if this render target requires texture flipping.
         /// </summary>
         /// <returns>True if texture flipping is required, false if not.</returns>
-        bool requiresTextureFlipping()
+        public bool requiresTextureFlipping()
         {
             return RenderTarget_requiresTextureFlipping(renderTarget);
         }
@@ -450,7 +450,7 @@ namespace OgreWrapper
         /// Gets the number of triangles rendered in the last update() call. 
         /// </summary>
         /// <returns>The number of triangles.</returns>
-        uint getTriangleCount()
+        public uint getTriangleCount()
         {
             return RenderTarget_getTriangleCount(renderTarget);
         }
@@ -459,7 +459,7 @@ namespace OgreWrapper
         /// Gets the number of batches rendered in the last update() call. 
         /// </summary>
         /// <returns>The number of batches.</returns>
-        uint getBatchCount()
+        public uint getBatchCount()
         {
             return RenderTarget_getBatchCount(renderTarget);
         }
@@ -472,7 +472,7 @@ namespace OgreWrapper
         /// holds the context for vertex, index buffers and textures. 
         /// </summary>
         /// <returns>True if this is the primary target.</returns>
-        bool isPrimary()
+        public bool isPrimary()
         {
             return RenderTarget_isPrimary(renderTarget);
         }
@@ -488,7 +488,7 @@ namespace OgreWrapper
         /// parameter to the create call. 
         /// </summary>
         /// <returns>True if enabled.</returns>
-        bool isHardwareGammaEnabled()
+        public bool isHardwareGammaEnabled()
         {
             return RenderTarget_isHardwareGammaEnabled(renderTarget);
         }
@@ -497,7 +497,7 @@ namespace OgreWrapper
         /// Indicates whether multisampling is performed on rendering and at what level. 
         /// </summary>
         /// <returns>The level of FSAA.</returns>
-        uint getFSAA()
+        public uint getFSAA()
         {
             return RenderTarget_getFSAA(renderTarget);
         }

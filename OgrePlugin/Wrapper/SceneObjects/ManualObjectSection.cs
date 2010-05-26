@@ -20,6 +20,11 @@ namespace OgreWrapper
             this.ogreSection = ogreSection;
         }
 
+        public void Dispose()
+        {
+            ogreSection = IntPtr.Zero;
+        }
+
         /// <summary>
 	    /// Retrieve the material name in use. 
 	    /// </summary>

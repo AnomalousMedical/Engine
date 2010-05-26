@@ -4,7 +4,7 @@
 
 typedef void (*FindVisibleCallback)(Ogre::SceneManager* sceneManager, Ogre::SceneManager::IlluminationRenderStage irs, Ogre::Camera* camera);
 
-class NativeSceneListener : Ogre::SceneManager::Listener
+class NativeSceneListener : public Ogre::SceneManager::Listener
 {
 private:
 	FindVisibleCallback preFind;

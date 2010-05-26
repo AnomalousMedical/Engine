@@ -9,7 +9,7 @@ namespace OgreWrapper
     {
         internal MeshPtr getPtr(IntPtr ogreMeshPtr)
         {
-
+            throw new NotImplementedException();
         }
     }
 }

@@ -242,3 +242,13 @@ extern "C" __declspec(dllexport) bool Root__updateAllRenderTargets(Ogre::Root* r
 {
 	return root->_updateAllRenderTargets();
 }
+
+extern "C" __declspec(dllexport) void Root_addFrameListener(Ogre::Root* root, Ogre::FrameListener* nativeFrameListener)
+{
+	root->addFrameListener(nativeFrameListener);
+}
+
+extern "C" __declspec(dllexport) void Root_removeFrameListener(Ogre::Root* root, Ogre::FrameListener* nativeFrameListener)
+{
+	root->removeFrameListener(nativeFrameListener);
+}

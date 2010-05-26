@@ -208,11 +208,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\NativeFrameListener.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\NativeSceneListener.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\Src\Node.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\OgreResourceGroupManager.cpp"
 				>
 			</File>
 			<File
@@ -277,6 +285,10 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\Include\NativeFrameListener.h"
+				>
+			</File>
 			<File
 				RelativePath=".\Include\NativeSceneListener.h"
 				>

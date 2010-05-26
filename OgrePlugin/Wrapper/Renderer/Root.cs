@@ -17,6 +17,8 @@ namespace OgreWrapper
 	    ST_INTERIOR = 16
     };
 
+    public delegate void FrameEventHandler(FrameEvent frameEvent);
+
     public class Root : IDisposable
     {
         WrapperCollection<RenderSystem> renderSystems = new WrapperCollection<RenderSystem>(RenderSystem.createWrapper);
@@ -27,11 +29,21 @@ namespace OgreWrapper
         IntPtr renderSystemPlugin;
         IntPtr cgPlugin;
 
+        IntPtr nativeFrameListener;
+        FrameEventCallback frameStart;
+        FrameEventCallback frameQueue;
+        FrameEventCallback frameEnd;
+        FrameEvent frameEvent = new FrameEvent();
+
+        public event FrameEventHandler FrameStarted;
+        public event FrameEventHandler FrameRenderingQueued;
+        public event FrameEventHandler FrameEnded;
+
         //Pointers to archive factories (engine archive and embedded)
 
         static Root instance;
 
-        static Root getSingleton()
+        public static Root getSingleton()
         {
             return instance;
         }
@@ -41,17 +53,24 @@ namespace OgreWrapper
             ogreRoot = Root_Create(pluginFileName, configFileName, logFileName);
             renderSystemPlugin = RenderSystemPlugin_Create();
             cgPlugin = CGPlugin_Create();
+            frameStart = new FrameEventCallback(frameStartedCallback);
+            frameQueue = new FrameEventCallback(frameEndedCallback);
+            frameEnd = new FrameEventCallback(frameEndedCallback);
+            nativeFrameListener = NativeFrameListener_Create(frameStart, frameQueue, frameEnd);
+            Root_addFrameListener(ogreRoot, nativeFrameListener);
             instance = this;
         }
 
         public void Dispose()
         {
-            Root_Delete(ogreRoot);
+            Root_removeFrameListener(ogreRoot, nativeFrameListener);
+            NativeFrameListener_Delete(nativeFrameListener);
             RenderSystemPlugin_Delete(renderSystemPlugin);
             CGPlugin_Delete(cgPlugin);
             renderSystems.Dispose();
             scenes.Dispose();
             renderTargets.Dispose();
+            Root_Delete(ogreRoot);
         }
 
         public void saveConfig()
@@ -253,6 +272,37 @@ namespace OgreWrapper
             return Root__updateAllRenderTargets(ogreRoot);
         }
 
+        void frameStartedCallback(float timeSinceLastEvent, float timeSinceLastFrame)
+        {
+            if(FrameStarted != null)
+            {
+                frameEvent.timeSinceLastEvent = timeSinceLastEvent;
+                frameEvent.timeSinceLastFrame = timeSinceLastFrame;
+                FrameStarted.Invoke(frameEvent);
+            }
+        }
+
+        void frameQueuedCallback(float timeSinceLastEvent, float timeSinceLastFrame)
+        {
+            if (FrameRenderingQueued != null)
+            {
+                frameEvent.timeSinceLastEvent = timeSinceLastEvent;
+                frameEvent.timeSinceLastFrame = timeSinceLastFrame;
+                FrameRenderingQueued.Invoke(frameEvent);
+            }
+        }
+
+        void frameEndedCallback(float timeSinceLastEvent, float timeSinceLastFrame)
+        {
+            if (FrameEnded != null)
+            {
+                frameEvent.timeSinceLastEvent = timeSinceLastEvent;
+                frameEvent.timeSinceLastFrame = timeSinceLastFrame;
+                FrameEnded.Invoke(frameEvent);
+            }
+        }
+
+
         #region PInvoke
 
         [DllImport("OgreCWrapper")]
@@ -386,6 +436,22 @@ namespace OgreWrapper
 
         [DllImport("OgreCWrapper")]
         private static extern bool Root__updateAllRenderTargets(IntPtr root);
+
+        [DllImport("OgreCWrapper")]
+        private static extern void Root_addFrameListener(IntPtr root, IntPtr nativeFrameListener);
+
+        [DllImport("OgreCWrapper")]
+        private static extern void Root_removeFrameListener(IntPtr root, IntPtr nativeFrameListener);
+
+        //NativeFrameListener
+
+        private delegate void FrameEventCallback(float timeSinceLastEvent, float timeSinceLastFrame);
+
+        [DllImport("OgreCWrapper")]
+        private static extern IntPtr NativeFrameListener_Create(FrameEventCallback frameStartedCallback, FrameEventCallback frameRenderingQueuedCallback, FrameEventCallback frameEndedCallback);
+
+        [DllImport("OgreCWrapper")]
+        private static extern void NativeFrameListener_Delete(IntPtr nativeFrameListener);
 
         #endregion 
     }

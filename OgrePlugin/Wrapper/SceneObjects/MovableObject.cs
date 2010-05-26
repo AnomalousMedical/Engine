@@ -62,7 +62,7 @@ namespace OgreWrapper
 	    /// </summary>
 	    public void detachFromParent()
         {
-            MovableObject_detachFromParent(movableObject);
+            MovableObject_detachFromParent(ogreObject);
         }
 
 	    /// <summary>

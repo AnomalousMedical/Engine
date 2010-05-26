@@ -17,7 +17,7 @@ namespace OgreWrapper
         /// <summary>
         /// Call this function if the render window moves or is resized.
         /// </summary>
-        void windowMovedOrResized()
+        public void windowMovedOrResized()
         {
             RenderWindow_windowMovedOrResized(renderTarget);
         }
