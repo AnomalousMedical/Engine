@@ -78,6 +78,31 @@
     <Compile Include="Plugin\OgreInterface.cs" />
     <Compile Include="Plugin\OgreResourceManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Wrapper\Animation\AnimationState.cs" />
+    <Compile Include="Wrapper\Animation\AnimationStateSet.cs" />
+    <Compile Include="Wrapper\Animation\Skeletal\SkeletonInstance.cs" />
+    <Compile Include="Wrapper\BoundingVolumes\AxisAlignedBox.cs" />
+    <Compile Include="Wrapper\Renderer\PixelBox.cs" />
+    <Compile Include="Wrapper\Renderer\RenderSystem.cs" />
+    <Compile Include="Wrapper\Renderer\RenderTarget.cs" />
+    <Compile Include="Wrapper\Renderer\RenderWindow.cs" />
+    <Compile Include="Wrapper\Renderer\Root.cs" />
+    <Compile Include="Wrapper\Renderer\SceneManager.cs" />
+    <Compile Include="Wrapper\Renderer\Viewport.cs" />
+    <Compile Include="Wrapper\Resources\Materials\MaterialPtr.cs" />
+    <Compile Include="Wrapper\Resources\Meshes\Mesh.cs" />
+    <Compile Include="Wrapper\Resources\Meshes\MeshManager.cs" />
+    <Compile Include="Wrapper\Resources\Meshes\MeshPtr.cs" />
+    <Compile Include="Wrapper\SceneObjects\Camera.cs" />
+    <Compile Include="Wrapper\SceneObjects\Entity.cs" />
+    <Compile Include="Wrapper\SceneObjects\Light.cs" />
+    <Compile Include="Wrapper\SceneObjects\ManualObject.cs" />
+    <Compile Include="Wrapper\SceneObjects\ManualObjectSection.cs" />
+    <Compile Include="Wrapper\SceneObjects\MovableObject.cs" />
+    <Compile Include="Wrapper\SceneObjects\Node.cs" />
+    <Compile Include="Wrapper\SceneObjects\SceneNode.cs" />
+    <Compile Include="Wrapper\SceneObjects\SubEntity.cs" />
+    <Compile Include="Wrapper\Utility\WrapperCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">
@@ -87,10 +112,6 @@
     <ProjectReference Include="..\Engine\Engine.csproj">
       <Project>{57C253F1-157F-4A6A-9FED-345A776B97D5}</Project>
       <Name>Engine</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OgreWrapper\OgreWrapper.vcproj">
-      <Project>{F6ED8A4F-2444-420D-8436-A5F8BF7A8CBB}</Project>
-      <Name>OgreWrapper</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
