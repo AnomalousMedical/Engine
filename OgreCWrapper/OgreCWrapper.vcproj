@@ -228,6 +228,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\OgreLogListener.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\OgreManagedArchive.cpp"
 				>
 			</File>
@@ -335,6 +339,10 @@
 			</File>
 			<File
 				RelativePath=".\Include\NativeSceneListener.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Include\OgreLogListener.h"
 				>
 			</File>
 			<File
