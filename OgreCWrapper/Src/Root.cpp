@@ -7,12 +7,16 @@ extern "C" __declspec(dllexport) Ogre::Root* Root_Create(const char* pluginFileN
 
 extern "C" __declspec(dllexport) Ogre::Plugin* RenderSystemPlugin_Create()
 {
-	return new Ogre::D3D9Plugin();
+	Ogre::Plugin* plugin = new Ogre::D3D9Plugin();
+	Ogre::Root::getSingleton().installPlugin(plugin);
+	return plugin;
 }
 
 extern "C" __declspec(dllexport) Ogre::Plugin* CGPlugin_Create()
 {
-	return new Ogre::CgPlugin();
+	Ogre::Plugin* plugin = new Ogre::CgPlugin();
+	Ogre::Root::getSingleton().installPlugin(plugin);
+	return plugin;
 }
 
 extern "C" __declspec(dllexport) void Root_Delete(Ogre::Root* ogreRoot)

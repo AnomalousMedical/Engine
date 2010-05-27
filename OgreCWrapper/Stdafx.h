@@ -145,3 +145,16 @@ public:
 		return Ogre::ColourValue(r, g, b, a);
 	}
 };
+
+/// <Summary>
+/// This method will return a copy of the passed string in a new buffer that can
+/// be freed by the clr safely. This is the default behavior if a String is
+/// returned on the C# side. This only needs to be used when Ogre returns a
+/// string by value or else it will go out of scope before the method ends.
+/// </Summary>
+inline String createClrFreeableString(const Ogre::String& ogreString)
+{
+	char* clrBuf = new char[ogreString.length() + 1];
+	strcpy(clrBuf, ogreString.c_str());
+	return clrBuf;
+}

@@ -65,12 +65,12 @@ namespace OgreWrapper
         {
             Root_removeFrameListener(ogreRoot, nativeFrameListener);
             NativeFrameListener_Delete(nativeFrameListener);
-            RenderSystemPlugin_Delete(renderSystemPlugin);
-            CGPlugin_Delete(cgPlugin);
             renderSystems.Dispose();
             scenes.Dispose();
             renderTargets.Dispose();
             Root_Delete(ogreRoot);
+            RenderSystemPlugin_Delete(renderSystemPlugin);
+            CGPlugin_Delete(cgPlugin);
         }
 
         public void saveConfig()

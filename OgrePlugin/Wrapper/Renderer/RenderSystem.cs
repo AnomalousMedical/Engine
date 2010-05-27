@@ -40,7 +40,7 @@ namespace OgreWrapper
 	    /// <returns>An error message or an empty string if there are no problems.</returns>
         public String validateConfigOptions()
         {
-            return Marshal.PtrToStringAnsi(RenderSystem_validateConfigOptions(renderSystem));
+            return RenderSystem_validateConfigOptions(renderSystem);
         }
 
         public void _initRenderTargets()
@@ -56,7 +56,7 @@ namespace OgreWrapper
         #region PInvoke
 
         [DllImport("OgreCWrapper")]
-        private static extern IntPtr RenderSystem_validateConfigOptions(IntPtr renderSystem);
+        private static extern String RenderSystem_validateConfigOptions(IntPtr renderSystem);
 
         [DllImport("OgreCWrapper")]
         private static extern void RenderSystem__initRenderTargets(IntPtr renderSystem);

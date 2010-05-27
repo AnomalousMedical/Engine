@@ -2,7 +2,7 @@
 
 extern "C" __declspec(dllexport) const char* RenderSystem_validateConfigOptions(Ogre::RenderSystem* renderSystem)
 {
-	return renderSystem->validateConfigOptions().c_str();
+	return createClrFreeableString(renderSystem->validateConfigOptions());
 }
 
 extern "C" __declspec(dllexport) void RenderSystem__initRenderTargets(Ogre::RenderSystem* renderSystem)
