@@ -188,6 +188,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\BorderPanelOverlayElement.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\Camera.cpp"
 				>
 			</File>
@@ -228,7 +232,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\Overlay.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\OverlayContainer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\OverlayElement.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\OverlayManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\PanelOverlayElement.cpp"
 				>
 			</File>
 			<File
@@ -285,6 +305,10 @@
 			</File>
 			<File
 				RelativePath=".\Src\SubEntity.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\TextAreaOverlayElement.cpp"
 				>
 			</File>
 		</Filter>
