@@ -55,7 +55,7 @@ namespace OgreWrapper
             closeCallback = new CloseDelegate(close);
             deletedCallback = new DeletedDelegate(deleted);
 
-            nativeStream = OgreManagedStream_Create(name, readCallback, skipCallback, seekCallback, tellCallback, eofCallback, closeCallback, deletedCallback);
+            nativeStream = OgreManagedStream_Create(name, new IntPtr(stream.Length), readCallback, skipCallback, seekCallback, tellCallback, eofCallback, closeCallback, deletedCallback);
 
             handle = GCHandle.Alloc(this, GCHandleType.Normal);
         }
@@ -146,7 +146,7 @@ namespace OgreWrapper
         private delegate void DeletedDelegate();
 
         [DllImport("OgreCWrapper")]
-        private static extern IntPtr OgreManagedStream_Create(String name, ReadDelegate read, SkipDelegate skip, SeekDelegate seek, TellDelegate tell, EofDelegate eof, CloseDelegate close, DeletedDelegate deleted);
+        private static extern IntPtr OgreManagedStream_Create(String name, IntPtr size, ReadDelegate read, SkipDelegate skip, SeekDelegate seek, TellDelegate tell, EofDelegate eof, CloseDelegate close, DeletedDelegate deleted);
 
 #endregion
     }

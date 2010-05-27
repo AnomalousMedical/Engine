@@ -20,7 +20,7 @@ private:
 	DeletedDelegate deletedCb;
 
 public:
-	OgreManagedStream(String name, ReadDelegate read, SkipDelegate skip, SeekDelegate seek, TellDelegate tell, EofDelegate eof, CloseDelegate close, DeletedDelegate deleted);
+	OgreManagedStream(String name, size_t size, ReadDelegate read, SkipDelegate skip, SeekDelegate seek, TellDelegate tell, EofDelegate eof, CloseDelegate close, DeletedDelegate deleted);
 
 	virtual ~OgreManagedStream();
 
