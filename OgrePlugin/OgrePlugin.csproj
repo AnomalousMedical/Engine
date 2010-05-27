@@ -88,6 +88,11 @@
     <Compile Include="Wrapper\Animation\Skeletal\SkeletonManager.cs" />
     <Compile Include="Wrapper\BoundingVolumes\AxisAlignedBox.cs" />
     <Compile Include="Wrapper\BoundingVolumes\PlaneBoundedVolume.cs" />
+    <Compile Include="Wrapper\CustomArchives\Embedded\EmbeddedResourceArchive.cs" />
+    <Compile Include="Wrapper\CustomArchives\Embedded\EmbeddedResourceArchiveFactory.cs" />
+    <Compile Include="Wrapper\CustomArchives\OgreManagedArchive.cs" />
+    <Compile Include="Wrapper\CustomArchives\OgreManagedArchiveFactory.cs" />
+    <Compile Include="Wrapper\CustomArchives\OgreManagedStream.cs" />
     <Compile Include="Wrapper\MeshData\HardwareBufferManager.cs" />
     <Compile Include="Wrapper\Overlay\BorderPanelOverlayElement.cs" />
     <Compile Include="Wrapper\Overlay\Overlay.cs" />

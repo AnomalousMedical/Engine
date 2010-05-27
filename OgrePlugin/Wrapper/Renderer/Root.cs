@@ -40,6 +40,7 @@ namespace OgreWrapper
         public event FrameEventHandler FrameEnded;
 
         //Pointers to archive factories (engine archive and embedded)
+        EmbeddedResourceArchiveFactory embeddedResources = new EmbeddedResourceArchiveFactory();
 
         static Root instance;
 
@@ -58,6 +59,7 @@ namespace OgreWrapper
             frameEnd = new FrameEventCallback(frameEndedCallback);
             nativeFrameListener = NativeFrameListener_Create(frameStart, frameQueue, frameEnd);
             Root_addFrameListener(ogreRoot, nativeFrameListener);
+            ArchiveManager_addArchiveFactory(embeddedResources.NativeFactory);
             instance = this;
         }
 
@@ -69,6 +71,7 @@ namespace OgreWrapper
             scenes.Dispose();
             renderTargets.Dispose();
             Root_Delete(ogreRoot);
+            embeddedResources.Dispose();
             RenderSystemPlugin_Delete(renderSystemPlugin);
             CGPlugin_Delete(cgPlugin);
         }
@@ -453,7 +456,7 @@ namespace OgreWrapper
         private static extern void Root_removeFrameListener(IntPtr root, IntPtr nativeFrameListener);
 
         //NativeFrameListener
-
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void FrameEventCallback(float timeSinceLastEvent, float timeSinceLastFrame);
 
         [DllImport("OgreCWrapper")]
@@ -461,6 +464,9 @@ namespace OgreWrapper
 
         [DllImport("OgreCWrapper")]
         private static extern void NativeFrameListener_Delete(IntPtr nativeFrameListener);
+
+        [DllImport("OgreCWrapper")]
+        private static extern void ArchiveManager_addArchiveFactory(IntPtr archiveFactory);
 
         #endregion 
     }

@@ -228,6 +228,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\OgreManagedArchive.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\OgreManagedArchiveFactory.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\OgreManagedStream.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\OgreResourceGroupManager.cpp"
 				>
 			</File>
@@ -323,6 +335,18 @@
 			</File>
 			<File
 				RelativePath=".\Include\NativeSceneListener.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Include\OgreManagedArchive.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Include\OgreManagedArchiveFactory.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Include\OgreManagedStream.h"
 				>
 			</File>
 			<File

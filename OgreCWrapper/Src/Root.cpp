@@ -256,3 +256,8 @@ extern "C" __declspec(dllexport) void Root_removeFrameListener(Ogre::Root* root,
 {
 	root->removeFrameListener(nativeFrameListener);
 }
+
+extern "C" __declspec(dllexport) void ArchiveManager_addArchiveFactory(Ogre::ArchiveFactory* archiveFactory)
+{
+	Ogre::ArchiveManager::getSingleton().addArchiveFactory(archiveFactory);
+}
