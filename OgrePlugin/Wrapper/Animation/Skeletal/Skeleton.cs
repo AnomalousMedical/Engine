@@ -14,6 +14,7 @@ namespace OgreWrapper
 	    ANIMBLEND_CUMULATIVE
     };
 
+    [NativeSubsystemType]
     public class Skeleton : IDisposable
     {
         protected IntPtr skeleton;

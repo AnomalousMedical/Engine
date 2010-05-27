@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 using Engine;
+using Engine.Attributes;
 
 namespace OgreWrapper
 {
+    [NativeSubsystemType]
     public class TextAreaOverlayElement : OverlayElement
     {
         public enum Alignment : uint

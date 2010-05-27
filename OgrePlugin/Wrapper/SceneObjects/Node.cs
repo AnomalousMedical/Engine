@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 
 namespace OgreWrapper
 {
+    [NativeSubsystemType]
     public abstract class Node : IDisposable
     {
         [SingleEnum]

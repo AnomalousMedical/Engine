@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using Engine;
 using System.Runtime.InteropServices;
+using Engine.Attributes;
 
 namespace OgreWrapper
 {
+    [NativeSubsystemType]
     public class SubEntity : IDisposable
     {
         private IntPtr subEntity;

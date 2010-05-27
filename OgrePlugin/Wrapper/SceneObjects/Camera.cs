@@ -23,6 +23,7 @@ namespace OgreWrapper
         PT_PERSPECTIVE
     };
 
+    [NativeSubsystemType]
     public class Camera : MovableObject
     {
         private static Dictionary<IntPtr, Camera> pointerToCamera = new Dictionary<IntPtr, Camera>();

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 using Engine;
+using Engine.Attributes;
 
 namespace OgreWrapper
 {
@@ -48,6 +49,7 @@ namespace OgreWrapper
         GVA_BOTTOM
     };
 
+    [NativeSubsystemType]
     public class OverlayElement : IDisposable
     {
         internal static OverlayElement createWrapper(IntPtr nativeObject, object[] args)

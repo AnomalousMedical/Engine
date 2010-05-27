@@ -19,6 +19,7 @@ namespace OgreWrapper
 	    OT_TRIANGLE_FAN = 6
     };
 
+    [NativeSubsystemType]
     public class ManualObject : MovableObject
     {
         WrapperCollection<ManualObjectSection> sections = new WrapperCollection<ManualObjectSection>(ManualObjectSection.createWrapper);

@@ -8,6 +8,7 @@ using Engine;
 
 namespace OgreWrapper
 {
+    [NativeSubsystemType]
     public class Light : MovableObject
     {
         [SingleEnum]

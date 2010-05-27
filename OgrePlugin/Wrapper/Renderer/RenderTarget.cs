@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
+using Engine.Attributes;
 
 namespace OgreWrapper
 {
@@ -13,6 +14,7 @@ namespace OgreWrapper
 	    MultiRenderTarget
     };
 
+    [NativeSubsystemType]
     public abstract class RenderTarget : IDisposable
     {
         public enum FrameBuffer

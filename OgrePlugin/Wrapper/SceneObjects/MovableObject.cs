@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
+using Engine.Attributes;
 
 namespace OgreWrapper
 {
@@ -26,6 +27,7 @@ namespace OgreWrapper
 	    Other
     };
 
+    [NativeSubsystemType]
     public abstract class MovableObject : IDisposable
     {
         protected IntPtr ogreObject;

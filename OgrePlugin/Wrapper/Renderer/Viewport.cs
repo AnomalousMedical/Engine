@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 using Engine;
+using Engine.Attributes;
 
 namespace OgreWrapper
 {
+    [NativeSubsystemType]
     public class Viewport : IDisposable
     {
         internal static Viewport createWrapper(IntPtr nativePtr, object[] args)
