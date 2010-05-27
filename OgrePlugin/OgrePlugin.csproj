@@ -90,6 +90,8 @@
     <Compile Include="Wrapper\BoundingVolumes\PlaneBoundedVolume.cs" />
     <Compile Include="Wrapper\CustomArchives\Embedded\EmbeddedResourceArchive.cs" />
     <Compile Include="Wrapper\CustomArchives\Embedded\EmbeddedResourceArchiveFactory.cs" />
+    <Compile Include="Wrapper\CustomArchives\EngineArchive\OgreEngineArchive.cs" />
+    <Compile Include="Wrapper\CustomArchives\EngineArchive\OgreEngineArchiveFactory.cs" />
     <Compile Include="Wrapper\CustomArchives\OgreManagedArchive.cs" />
     <Compile Include="Wrapper\CustomArchives\OgreManagedArchiveFactory.cs" />
     <Compile Include="Wrapper\CustomArchives\OgreManagedStream.cs" />
