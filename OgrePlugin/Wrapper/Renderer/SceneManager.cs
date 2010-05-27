@@ -107,8 +107,9 @@ namespace OgreWrapper
 	    /// <param name="camera">The camera to destroy.</param>
         public void destroyCamera(Camera camera)
         {
-            cameras.destroyObject(camera.OgreObject);
-            SceneManager_destroyCamera(ogreSceneManager, camera.OgreObject);
+            IntPtr ogreCamera = camera.OgreObject;
+            cameras.destroyObject(ogreCamera);
+            SceneManager_destroyCamera(ogreSceneManager, ogreCamera);
         }
 
 	    /// <summary>
@@ -147,8 +148,9 @@ namespace OgreWrapper
 	    /// <param name="light">The light to destroy.</param>
         public void destroyLight(Light light)
         {
-            lights.destroyObject(light.OgreObject);
-            SceneManager_destroyLight(ogreSceneManager, light.OgreObject);
+            IntPtr ogreLight = light.OgreObject;
+            lights.destroyObject(ogreLight);
+            SceneManager_destroyLight(ogreSceneManager, ogreLight);
         }
 
 	    /// <summary>
@@ -197,8 +199,9 @@ namespace OgreWrapper
 	    /// <param name="node">The SceneNode to destroy.</param>
         public void destroySceneNode(SceneNode node)
         {
-            sceneNodes.destroyObject(node.OgreNode);
-            SceneManager_destroySceneNode(ogreSceneManager, node.OgreNode);
+            IntPtr ogreNode = node.OgreNode;
+            sceneNodes.destroyObject(ogreNode);
+            SceneManager_destroySceneNode(ogreSceneManager, ogreNode);
         }
 
 	    /// <summary>
@@ -238,8 +241,9 @@ namespace OgreWrapper
 	    /// <param name="entity">The Entity to destroy.</param>
         public void destroyEntity(Entity entity)
         {
-            entities.destroyObject(entity.OgreObject);
-            SceneManager_destroyEntity(ogreSceneManager, entity.OgreObject);
+            IntPtr ogreEntity = entity.OgreObject;
+            entities.destroyObject(ogreEntity);
+            SceneManager_destroyEntity(ogreSceneManager, ogreEntity);
         }
 
 	    /// <summary>
@@ -279,8 +283,9 @@ namespace OgreWrapper
 	    /// <param name="obj">The object to destroy.</param>
         public void destroyManualObject(ManualObject obj)
         {
-            manualObjects.destroyObject(obj.OgreObject);
-            SceneManager_destroyManualObject(ogreSceneManager, obj.OgreObject);
+            IntPtr ogreManual = obj.OgreObject;
+            manualObjects.destroyObject(ogreManual);
+            SceneManager_destroyManualObject(ogreSceneManager, ogreManual);
         }
 
 	    /// <summary>

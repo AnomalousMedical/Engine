@@ -54,7 +54,14 @@ extern "C" __declspec(dllexport) void ResourceGroupManager_removeResourceLocatio
 
 extern "C" __declspec(dllexport) String ResourceGroupManager_findGroupContainingResource(String resourceName)
 {
-	return Ogre::ResourceGroupManager::getSingleton().findGroupContainingResource(resourceName).c_str();
+	try
+	{
+		return Ogre::ResourceGroupManager::getSingleton().findGroupContainingResource(resourceName).c_str();
+	}
+	catch (Ogre::Exception& e)
+	{
+		return 0;	
+	}
 }
 
 extern "C" __declspec(dllexport) bool ResourceGroupManager_resourceGroupExists(String name)

@@ -112,14 +112,16 @@ namespace OgreWrapper
 
         public void destroyOverlayElement(OverlayElement element)
         {
-            overlayElements.destroyObject(element.OgreObject);
-            OverlayManager_destroyOverlayElement(overlayManager, element.OgreObject);
+            IntPtr ogreElement = element.OgreObject;
+            overlayElements.destroyObject(ogreElement);
+            OverlayManager_destroyOverlayElement(overlayManager, ogreElement);
         }
 
         public void destroyOverlayElement(OverlayElement element, bool isTemplate)
         {
-            overlayElements.destroyObject(element.OgreObject);
-            OverlayManager_destroyOverlayElementTemplate(overlayManager, element.OgreObject, isTemplate);
+            IntPtr ogreElement = element.OgreObject;
+            overlayElements.destroyObject(ogreElement);
+            OverlayManager_destroyOverlayElementTemplate(overlayManager, ogreElement, isTemplate);
         }
 
         public void destroyAllOverlayElements()

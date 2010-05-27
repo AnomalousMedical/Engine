@@ -327,6 +327,10 @@
 				RelativePath=".\Src\TextAreaOverlayElement.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\Src\Viewport.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"

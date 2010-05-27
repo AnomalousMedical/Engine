@@ -156,8 +156,9 @@ namespace OgreWrapper
 
         public void destroySceneManager(SceneManager sceneManager)
         {
-            scenes.destroyObject(sceneManager.OgreSceneManager);
-            Root_destroySceneManager(ogreRoot, sceneManager.OgreSceneManager);
+            IntPtr ogreSceneManager = sceneManager.OgreSceneManager;
+            scenes.destroyObject(ogreSceneManager);
+            Root_destroySceneManager(ogreRoot, ogreSceneManager);
         }
 
         public SceneManager getSceneManager(String instanceName)
@@ -211,8 +212,9 @@ namespace OgreWrapper
 
         public void detachRenderTarget(RenderTarget pWin)
         {
-            renderTargets.destroyObject(pWin.OgreRenderTarget);
-            Root_detachRenderTarget(ogreRoot, pWin.OgreRenderTarget);
+            IntPtr ogreWindow = pWin.OgreRenderTarget;
+            renderTargets.destroyObject(ogreWindow);
+            Root_detachRenderTarget(ogreRoot, ogreWindow);
         }
 
         public void detachRenderTarget(String name)

@@ -211,7 +211,8 @@ namespace OgreWrapper
 	    /// <param name="name">The name of the animation to remove.</param>
         public void removeAnimation(String name)
         {
-            animations.destroyObject(Skeleton_getAnimation(skeleton, name));
+            IntPtr ogreAnim = Skeleton_getAnimation(skeleton, name);
+            animations.destroyObject(ogreAnim);
             Skeleton_removeAnimation(skeleton, name);
         }
 

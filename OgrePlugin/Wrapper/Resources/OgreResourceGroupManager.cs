@@ -95,7 +95,15 @@ namespace OgreWrapper
 	    /// <returns>The name of the group containg the resource or null if the resource was not found.</returns>
         public String findGroupContainingResource(String resourceName)
         {
-            return Marshal.PtrToStringAnsi(ResourceGroupManager_findGroupContainingResource(resourceName));
+            if(resourceName != null)
+            {
+                IntPtr strPtr = ResourceGroupManager_findGroupContainingResource(resourceName);
+                if (strPtr != IntPtr.Zero)
+                {
+                    return Marshal.PtrToStringAnsi(strPtr);
+                }
+            }
+            return null;
         }
 
         public bool resourceGroupExists(String name)

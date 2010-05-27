@@ -122,8 +122,9 @@ namespace OgreWrapper
         /// </summary>
         public void destroyViewport(Viewport viewport)
         {
-            viewports.destroyObject(viewport.OgreViewport);
-            RenderTarget_destroyViewport(renderTarget, viewport.OgreViewport);
+            IntPtr ogreViewport = viewport.OgreViewport;
+            viewports.destroyObject(ogreViewport);
+            RenderTarget_destroyViewport(renderTarget, ogreViewport);
         }
 
         /// <summary>
