@@ -74,7 +74,7 @@ namespace OgreWrapper
         /// <param name="stackSharedPtr">A SharedPtr on the stack from ogre.</param>
         public void processWrapperObject(IntPtr nativeObject, IntPtr stackSharedPtr)
         {
-            if(!ptrDictionary.ContainsKey(nativeObject))
+            if(nativeObject != IntPtr.Zero && !ptrDictionary.ContainsKey(nativeObject))
             {
                 SharedPtrEntry<T> entry = new SharedPtrEntry<T>(createWrapper(nativeObject), nativeObject, createHeapSharedPtr(stackSharedPtr));
                 ptrDictionary.Add(nativeObject, entry);
@@ -89,7 +89,7 @@ namespace OgreWrapper
         public SharedPtr<T> getObject(IntPtr nativeObject)
         {
             SharedPtrEntry<T> entry;
-            if(ptrDictionary.TryGetValue(nativeObject, out entry))
+            if (nativeObject != IntPtr.Zero && ptrDictionary.TryGetValue(nativeObject, out entry))
             {
                 SharedPtr<T> sp = new SharedPtr<T>(entry.ManagedWrapper, nativeObject, this);
                 entry.addPointer(sp);
