@@ -16,6 +16,60 @@ namespace OgreWrapper
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     internal delegate void ProcessWrapperObjectDelegate(IntPtr nativeObject, IntPtr stackSharedPtr);
 
+    /// <summary>
+    /// <para>
+    /// This class provides a mechanism for dealing with Ogre::SharedPtr
+    /// instances. These are reference counted pointers owned by unmanaged ogre
+    /// memory that are usually used to hold a memory intensive resource or
+    /// something similar. They just contain a pointer to another class that
+    /// contains what we are actually interested in. However, they cannot simply
+    /// be moved over to the managed side or there could be memory problems if
+    /// the pointer is freed on the unmanaged side while the managed side still
+    /// thinks its alive.
+    /// </para>
+    /// <para>
+    /// To get around this problem this collection provides a way to deal with
+    /// the SharedPtrs by allocating one on the unmanaged heap the first time it
+    /// is requested by managed code. This SharedPtr will now be kept around
+    /// keeping the Ogre resource alive until all the managed pointers to it
+    /// have gone away. The heap SharedPtr will then be deleted and Ogre will
+    /// take over from there. Obviously the user on the managed side must
+    /// dispose the pointers they are returned or this will not work. This is
+    /// easily accomplished with using blocks.
+    /// </para>
+    /// <para>
+    /// The process involved to accomplish this is somewhat tricky, but it is
+    /// easily repeatable. The idea is to have the PInvoke function that returns
+    /// the SharedPtr instead have its signature modified from the basic Ogre
+    /// implementation. It should take the object and arguments to get the
+    /// results as normal, but also include a ProcessWrapperObjectDelegate
+    /// argument that calls back into this class.  This can be passed through 
+    /// whatever appropriate method is needed. It should also return a pointer
+    /// to the object the SharedPtr points to or the actual resource itself. See
+    /// the MaterialManager for some examples.
+    /// </para>
+    /// <para>
+    /// Now the actual process goes like this. 
+    /// <list type="">
+    /// <item>The managed wrapper function calls the native function with the correct arguments.</item>
+    /// <item>The unmanaged function gets a stack allocated Ogre::SharedPtr using the appropriate method being wrapped.</item>
+    /// <item>This pointer and the actual object pointer are passed to the ProcessWrapperObjectDelegate.</item>
+    /// <item>This function processes the shared pointer and if needed will create the heap allocated unmanaged SharedPtr</item>
+    /// <item>These methods return, now it is imperative that a managed SharedPtr be returned so the reference counting on this side can take effect or the heap pointer will leak and cause the ogre resource (which can be large) to leak.</item>
+    /// <item>The user does something with the pointer and disposes of it when they are done.</item>
+    /// <item>If all references are deleted when the object is disposed the heap allocated pointer is destroyed.</item>
+    /// </list>
+    /// </para>
+    /// <para>
+    /// The collections work off of three callback delegates. The first will
+    /// create the managed wrapper class using the pointer to the actual ogre
+    /// object to be wrapped. The second will create a heap allocated
+    /// Ogre::SharedPtr from the given Ogre::SharedPtr and will likely just
+    /// point to a PInvoke import. The third will delete this shared pointer off
+    /// the heap when required.
+    /// </para>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     class SharedPtrCollection<T> : IDisposable
         where T : IDisposable
     {

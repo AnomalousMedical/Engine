@@ -50,8 +50,8 @@ namespace OgreWrapper
 
         public MaterialPtr getMaterial()
         {
-            //SubEntity_(subEntity);
-            throw new NotImplementedException();
+            MaterialManager matManager = MaterialManager.getInstance();
+            return matManager.getObject(SubEntity_getMaterial(subEntity, matManager.ProcessWrapperObjectCallback));
         }
 
         public void setCustomParameter(int index, Quaternion value)
@@ -80,8 +80,7 @@ namespace OgreWrapper
         private static extern bool SubEntity_isVisible(IntPtr subEntity);
 
         [DllImport("OgreCWrapper")]
-        //Warning this will return a pointer to a newly allocated heap Ogre::MaterialPtr this must be deleted or it will leak.
-        private static extern IntPtr SubEntity_getMaterial(IntPtr subEntity);
+        private static extern IntPtr SubEntity_getMaterial(IntPtr subEntity, ProcessWrapperObjectDelegate processMaterialPtr);
 
         [DllImport("OgreCWrapper")]
         private static extern void SubEntity_setCustomParameter(IntPtr subEntity, IntPtr index, Quaternion value);

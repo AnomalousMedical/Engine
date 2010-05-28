@@ -23,9 +23,11 @@ extern "C" __declspec(dllexport) bool SubEntity_isVisible(Ogre::SubEntity* subEn
 	return subEntity->isVisible();
 }
 
-extern "C" __declspec(dllexport) Ogre::MaterialPtr* SubEntity_getMaterial(Ogre::SubEntity* subEntity)
+extern "C" __declspec(dllexport) Ogre::Material* SubEntity_getMaterial(Ogre::SubEntity* subEntity, ProcessWrapperObjectDelegate processWrapperObject)
 {
-	return new Ogre::MaterialPtr(subEntity->getMaterial());
+	const Ogre::MaterialPtr& materialPtr = subEntity->getMaterial();
+	processWrapperObject(materialPtr.getPointer(), &materialPtr);
+	return materialPtr.getPointer();
 }
 
 extern "C" __declspec(dllexport) void SubEntity_setCustomParameter(Ogre::SubEntity* subEntity, size_t index, Quaternion value)
