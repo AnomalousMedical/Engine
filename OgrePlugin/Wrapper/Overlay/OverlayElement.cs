@@ -187,8 +187,8 @@ namespace OgreWrapper
 
         public MaterialPtr getMaterial()
         {
-            throw new NotImplementedException();
-            //return OverlayElement_getMaterial(overlayElement);
+            MaterialManager matManager = MaterialManager.getInstance();
+            return matManager.getObject(OverlayElement_getMaterial(overlayElement, matManager.ProcessWrapperObjectCallback));
         }
 
         public float getDerivedLeft()
@@ -373,8 +373,7 @@ namespace OgreWrapper
         private static extern void OverlayElement_setMaterialName(IntPtr overlayElement, String matName);
 
         [DllImport("OgreCWrapper")]
-        //Will return a new heap allocated Ogre::MaterialPtr that must be deleted
-        private static extern IntPtr OverlayElement_getMaterial(IntPtr overlayElement);
+        private static extern IntPtr OverlayElement_getMaterial(IntPtr overlayElement, ProcessWrapperObjectDelegate processWrapper);
 
         [DllImport("OgreCWrapper")]
         private static extern float OverlayElement_getDerivedLeft(IntPtr overlayElement);

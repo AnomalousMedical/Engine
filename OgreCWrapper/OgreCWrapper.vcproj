@@ -300,6 +300,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\SharedPtrs.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Stdafx.cpp"
 				>
 				<FileConfiguration

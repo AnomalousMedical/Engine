@@ -118,6 +118,7 @@
     <Compile Include="Wrapper\Renderer\SceneListener\SceneListener.cs" />
     <Compile Include="Wrapper\Renderer\SceneManager.cs" />
     <Compile Include="Wrapper\Renderer\Viewport.cs" />
+    <Compile Include="Wrapper\Resources\Materials\Material.cs" />
     <Compile Include="Wrapper\Resources\Materials\MaterialManager.cs" />
     <Compile Include="Wrapper\Resources\Materials\MaterialPtr.cs" />
     <Compile Include="Wrapper\Resources\Meshes\Mesh.cs" />
@@ -134,6 +135,9 @@
     <Compile Include="Wrapper\SceneObjects\SceneNode.cs" />
     <Compile Include="Wrapper\SceneObjects\SubEntity.cs" />
     <Compile Include="Wrapper\Utility\OgreLogConnection.cs" />
+    <Compile Include="Wrapper\Utility\SharedPtr.cs" />
+    <Compile Include="Wrapper\Utility\SharedPtrCollection.cs" />
+    <Compile Include="Wrapper\Utility\SharedPtrEntry.cs" />
     <Compile Include="Wrapper\Utility\WrapperCollection.cs" />
   </ItemGroup>
   <ItemGroup>

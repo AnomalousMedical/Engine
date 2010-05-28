@@ -95,10 +95,11 @@ extern "C" __declspec(dllexport) void OverlayElement_setMaterialName(Ogre::Overl
 	overlayElement->setMaterialName(matName);
 }
 
-//Will return a new heap allocated Ogre::MaterialPtr that must be deleted
-extern "C" __declspec(dllexport) Ogre::MaterialPtr* OverlayElement_getMaterial(Ogre::OverlayElement* overlayElement)
+extern "C" __declspec(dllexport) Ogre::Material* OverlayElement_getMaterial(Ogre::OverlayElement* overlayElement, ProcessWrapperObjectDelegate processWrapper)
 {
-	return new Ogre::MaterialPtr(overlayElement->getMaterial());
+	const Ogre::MaterialPtr& materialPtr = overlayElement->getMaterial();
+	processWrapper(materialPtr.getPointer(), &materialPtr);
+	return materialPtr.getPointer();
 }
 
 extern "C" __declspec(dllexport) float OverlayElement_getDerivedLeft(Ogre::OverlayElement* overlayElement)

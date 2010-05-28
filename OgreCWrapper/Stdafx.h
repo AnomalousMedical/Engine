@@ -158,3 +158,9 @@ inline String createClrFreeableString(const Ogre::String& ogreString)
 	strcpy(clrBuf, ogreString.c_str());
 	return clrBuf;
 }
+
+/// <Summary>
+/// This function pointer will pass an Ogre::SharedPtr instance to the managed
+/// side so a managed wrapper can be created if needed.
+/// </Summary>
+typedef void (*ProcessWrapperObjectDelegate)(const void* nativeObject, const void* stackSharedPtr);
