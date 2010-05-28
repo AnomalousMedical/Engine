@@ -216,6 +216,7 @@ namespace OgreWrapper
         private static extern void Viewport_setClearEveryFrame(IntPtr viewport, bool clear);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Viewport_getClearEveryFrame(IntPtr viewport);
 
         [DllImport("OgreCWrapper")]
@@ -228,18 +229,21 @@ namespace OgreWrapper
         private static extern void Viewport_setOverlaysEnabled(IntPtr viewport, bool enabled);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Viewport_getOverlaysEnabled(IntPtr viewport);
 
         [DllImport("OgreCWrapper")]
         private static extern void Viewport_setSkiesEnabled(IntPtr viewport, bool enabled);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Viewport_getSkiesEnabled(IntPtr viewport);
 
         [DllImport("OgreCWrapper")]
         private static extern void Viewport_setShadowsEnabled(IntPtr viewport, bool enabled);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Viewport_getShadowsEnabled(IntPtr viewport);
 
         [DllImport("OgreCWrapper")]

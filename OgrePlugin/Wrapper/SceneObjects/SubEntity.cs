@@ -76,6 +76,7 @@ namespace OgreWrapper
         private static extern void SubEntity_setVisible(IntPtr subEntity, bool visible);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SubEntity_isVisible(IntPtr subEntity);
 
         [DllImport("OgreCWrapper")]

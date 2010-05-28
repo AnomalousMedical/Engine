@@ -224,12 +224,14 @@ namespace OgreWrapper
         #region CWrapper
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool MovableObject_isAttached(IntPtr movableObject);
 
 	    [DllImport("OgreCWrapper")]
         private static extern void MovableObject_detachFromParent(IntPtr movableObject);
 
 	    [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool MovableObject_isInScene(IntPtr movableObject);
 
         [DllImport("OgreCWrapper")]
@@ -239,6 +241,7 @@ namespace OgreWrapper
         private static extern void MovableObject_setVisible(IntPtr movableObject, bool visible);
 
 	    [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool MovableObject_isVisible(IntPtr movableObject);
 
 	    [DllImport("OgreCWrapper")]
@@ -266,6 +269,7 @@ namespace OgreWrapper
         private static extern void MovableObject_setDebugDisplayEnabled(IntPtr movableObject, bool enabled);
 
 	    [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool MovableObject_isDebugDisplayEnabled(IntPtr movableObject);
 
 	    [DllImport("OgreCWrapper")]

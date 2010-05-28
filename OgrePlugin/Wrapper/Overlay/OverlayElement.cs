@@ -326,9 +326,11 @@ namespace OgreWrapper
         private static extern void OverlayElement_hide(IntPtr overlayElement);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool OverlayElement_isVisible(IntPtr overlayElement);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool OverlayElement_isEnabled(IntPtr overlayElement);
 
         [DllImport("OgreCWrapper")]
@@ -414,18 +416,22 @@ namespace OgreWrapper
         private static extern GuiVerticalAlignment OverlayElement_getVerticalAlignment(IntPtr overlayElement);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool OverlayElement_contains(IntPtr overlayElement, float x, float y);
 
         [DllImport("OgreCWrapper")]
         private static extern IntPtr OverlayElement_findElementAt(IntPtr overlayElement, float x, float y);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool OverlayElement_isContainer(IntPtr overlayElement);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool OverlayElement_isKeyEnabled(IntPtr overlayElement);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool OverlayElement_isCloneable(IntPtr overlayElement);
 
         [DllImport("OgreCWrapper")]

@@ -132,6 +132,7 @@ namespace OgreWrapper
         private static extern void Bone_setManuallyControlled(IntPtr bone, bool manuallyControlled);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Bone_isManuallyControlled(IntPtr bone);
 
         [DllImport("OgreCWrapper")]

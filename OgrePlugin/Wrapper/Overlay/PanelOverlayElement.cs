@@ -104,6 +104,7 @@ namespace OgreWrapper
         private static extern void PanelOverlayElement_setTransparent(IntPtr panelOverlayElement, bool isTransparent);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool PanelOverlayElement_isTransparent(IntPtr panelOverlayElement);
 
 #endregion

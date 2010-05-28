@@ -408,6 +408,7 @@ namespace OgreWrapper
         private static extern void Light_setCastShadows(IntPtr light, bool cast);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Light_getCastShadows(IntPtr light);
 
         #endregion 

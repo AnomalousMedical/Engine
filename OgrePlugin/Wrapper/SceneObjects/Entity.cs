@@ -424,6 +424,7 @@ namespace OgreWrapper
         private static extern void Entity_setDisplaySkeleton(IntPtr entity, bool display);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Entity_getDisplaySkeleton(IntPtr entity);
 
         [DllImport("OgreCWrapper")]
@@ -451,12 +452,14 @@ namespace OgreWrapper
         private static extern float Entity_getBoundingRadius(IntPtr entity);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Entity_hasSkeleton(IntPtr entity);
 
         [DllImport("OgreCWrapper")]
         private static extern IntPtr Entity_getSkeleton(IntPtr entity);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Entity_isHardwareAnimationEnabled(IntPtr entity);
 
         [DllImport("OgreCWrapper")]
@@ -475,27 +478,32 @@ namespace OgreWrapper
         private static extern void Entity_shareSkeletonInstanceWith(IntPtr entity, IntPtr shareEntity);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Entity_hasVertexAnimation(IntPtr entity);
 
         [DllImport("OgreCWrapper")]
         private static extern void Entity_stopSharingSkeletonInstance(IntPtr entity);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Entity_sharesSkeletonInstance(IntPtr entity);
 
         [DllImport("OgreCWrapper")]
         private static extern void Entity_refreshAvailableAnimationState(IntPtr entity);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Entity_isInitialzed(IntPtr entity);
 
         [DllImport("OgreCWrapper")]
         private static extern void Entity_setCastShadows(IntPtr entity, bool castShadows);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Entity_getCastShadows(IntPtr entity);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Entity_raycastPolygonLevel(IntPtr entity, Ray3 ray, float distanceOnRay);
 
         #endregion

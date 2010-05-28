@@ -402,6 +402,7 @@ namespace OgreWrapper
         private static extern void ManualObject_setDynamic(IntPtr manualObject, bool dyn);
 
 	    [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool ManualObject_getDynamic(IntPtr manualObject);
 
 	    [DllImport("OgreCWrapper")]
@@ -462,12 +463,14 @@ namespace OgreWrapper
         private static extern void ManualObject_setUseIdentityProjection(IntPtr manualObject, bool useIdentityProjection);
 
 	    [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool ManualObject_getUseIdentityProjection(IntPtr manualObject);
 
 	    [DllImport("OgreCWrapper")]
         private static extern void ManualObject_setUseIdentityView(IntPtr manualObject, bool useIdentityView);
 
 	    [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool ManualObject_getUseIdentityView(IntPtr manualObject);
 
 	    [DllImport("OgreCWrapper")]
@@ -480,6 +483,7 @@ namespace OgreWrapper
         private static extern void ManualObject_setKeepDeclarationOrder(IntPtr manualObject, bool keepOrder);
 
 	    [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool ManualObject_getKeepDeclarationOrder(IntPtr manualObject);
 
 	    [DllImport("OgreCWrapper")]

@@ -573,6 +573,7 @@ namespace OgreWrapper
         private static extern byte RenderTarget_getPriority(IntPtr renderTarget);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool RenderTarget_isActive(IntPtr renderTarget);
 
         [DllImport("OgreCWrapper")]
@@ -582,6 +583,7 @@ namespace OgreWrapper
         private static extern void RenderTarget_setAutoUpdated(IntPtr renderTarget, bool autoUpdate);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool RenderTarget_isAutoUpdated(IntPtr renderTarget);
 
         [DllImport("OgreCWrapper")]
@@ -600,6 +602,7 @@ namespace OgreWrapper
         private static extern IntPtr RenderTarget_writeContentsToTimestampedFile(IntPtr renderTarget, String filenamePrefix, String filenameSuffix);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool RenderTarget_requiresTextureFlipping(IntPtr renderTarget);
 
         [DllImport("OgreCWrapper")]
@@ -609,9 +612,11 @@ namespace OgreWrapper
         private static extern uint RenderTarget_getBatchCount(IntPtr renderTarget);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool RenderTarget_isPrimary(IntPtr renderTarget);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool RenderTarget_isHardwareGammaEnabled(IntPtr renderTarget);
 
         [DllImport("OgreCWrapper")]

@@ -320,6 +320,7 @@ namespace OgreWrapper
         private static extern IntPtr Skeleton_getBoneName(IntPtr skeleton, String name);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Skeleton_hasBone(IntPtr skeleton, String name);
 
         [DllImport("OgreCWrapper")]
@@ -338,6 +339,7 @@ namespace OgreWrapper
         private static extern IntPtr Skeleton_getAnimation(IntPtr skeleton, String name);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Skeleton_hasAnimation(IntPtr skeleton, String name);
 
         [DllImport("OgreCWrapper")]
@@ -359,9 +361,11 @@ namespace OgreWrapper
         private static extern void Skeleton_optimizeAllAnimations(IntPtr skeleton, bool preservingIdentityNodeTracks);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Skeleton_getManualBonesDirty(IntPtr skeleton);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Skeleton_hasManualBones(IntPtr skeleton);
 
 #endregion

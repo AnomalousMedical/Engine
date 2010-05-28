@@ -117,9 +117,11 @@ namespace OgreWrapper
         private static extern void ResourceGroupManager_createResourceGroup(String name);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool ResourceGroupManager_initializeAllResourceGroups();
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool ResourceGroupManager_initializeResourceGroup(String name);
 
         [DllImport("OgreCWrapper")]
@@ -135,6 +137,7 @@ namespace OgreWrapper
         private static extern IntPtr ResourceGroupManager_findGroupContainingResource(String resourceName);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool ResourceGroupManager_resourceGroupExists(String name);
 
 #endregion

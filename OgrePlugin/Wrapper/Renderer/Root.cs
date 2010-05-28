@@ -344,9 +344,11 @@ namespace OgreWrapper
         private static extern void Root_saveConfig(IntPtr root);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Root_restoreConfig(IntPtr root);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Root_showConfigDialog(IntPtr root);
 
         [DllImport("OgreCWrapper")]
@@ -371,6 +373,7 @@ namespace OgreWrapper
         private static extern IntPtr Root_initializeTitleCustomCap(IntPtr root, bool autoCreateWindow, String windowTitle, String customCapabilitiesConfig);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Root_isInitialized(IntPtr root);
 
         [DllImport("OgreCWrapper")]
@@ -398,6 +401,7 @@ namespace OgreWrapper
         private static extern void Root_startRendering(IntPtr root);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Root_renderOneFrame(IntPtr root);
 
         [DllImport("OgreCWrapper")]
@@ -425,21 +429,27 @@ namespace OgreWrapper
         private static extern void Root_unloadPlugin(IntPtr root, String pluginName);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Root__fireFrameStarted(IntPtr root, float timeSinceLastEvent, float timeSinceLastFrame);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Root__fireFrameRenderingQueued(IntPtr root, float timeSinceLastEvent, float timeSinceLastFrame);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Root__fireFrameEnded(IntPtr root, float timeSinceLastEvent, float timeSinceLastFrame);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Root__fireFrameStartedNoArg(IntPtr root);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Root__fireFrameRenderingQueuedNoArg(IntPtr root);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Root__fireFrameEndedNoArg(IntPtr root);
 
         [DllImport("OgreCWrapper")]
@@ -452,6 +462,7 @@ namespace OgreWrapper
         private static extern float Root_getFrameSmoothingPeriod(IntPtr root);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Root__updateAllRenderTargets(IntPtr root);
 
         [DllImport("OgreCWrapper")]

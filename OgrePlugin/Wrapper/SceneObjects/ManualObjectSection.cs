@@ -75,6 +75,7 @@ namespace OgreWrapper
         private static extern void ManualObjectSection_set32BitIndices(IntPtr ogreSection, bool n32);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool ManualObjectSection_get32BitIndices(IntPtr ogreSection);
 
         #endregion

@@ -642,12 +642,14 @@ namespace OgreWrapper
         private static extern void Camera_resetWindow(IntPtr camera);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Camera_isWindowSet(IntPtr camera);
 
         [DllImport("OgreCWrapper")]
         private static extern void Camera_setAutoAspectRatio(IntPtr camera, bool autoRatio);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Camera_getAutoAspectRatio(IntPtr camera);
 
         [DllImport("OgreCWrapper")]
@@ -660,6 +662,7 @@ namespace OgreWrapper
         private static extern void Camera_setUseRenderingDistance(IntPtr camera, bool use);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Camera_getUseRenderingDistance(IntPtr camera);
 
         [DllImport("OgreCWrapper")]

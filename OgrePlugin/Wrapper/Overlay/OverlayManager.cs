@@ -171,6 +171,7 @@ namespace OgreWrapper
         private static extern void OverlayManager_destroyAll(IntPtr overlayManager);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool OverlayManager_hasViewportChanged(IntPtr overlayManager);
 
         [DllImport("OgreCWrapper")]

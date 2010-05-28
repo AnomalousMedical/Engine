@@ -359,12 +359,14 @@ namespace OgreWrapper
         private static extern void Node_setInheritOrientation(IntPtr ogreNode, bool inherit);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Node_getInheritOrientation(IntPtr ogreNode);
 
         [DllImport("OgreCWrapper")]
         private static extern void Node_setInheritScale(IntPtr ogreNode, bool inherit);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Node_getInheritScale(IntPtr ogreNode);
 
         [DllImport("OgreCWrapper")]

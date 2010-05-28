@@ -379,6 +379,7 @@ namespace OgreWrapper
         private static extern int PixelBox_getSliceSkip(IntPtr pixelBox);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool PixelBox_isConsecutive(IntPtr pixelBox);
 
         [DllImport("OgreCWrapper")]

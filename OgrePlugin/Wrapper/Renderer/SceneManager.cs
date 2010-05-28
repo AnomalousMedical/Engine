@@ -716,6 +716,7 @@ namespace OgreWrapper
         private static extern IntPtr SceneManager_getCamera(IntPtr ogreSceneManager, String name);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_hasCamera(IntPtr ogreSceneManager, String name);
 
         [DllImport("OgreCWrapper")]
@@ -728,6 +729,7 @@ namespace OgreWrapper
         private static extern IntPtr SceneManager_getLight(IntPtr ogreSceneManager, String name);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_hasLight(IntPtr ogreSceneManager, String name);
 
         [DllImport("OgreCWrapper")]
@@ -743,6 +745,7 @@ namespace OgreWrapper
         private static extern IntPtr SceneManager_getSceneNode(IntPtr ogreSceneManager, String name);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_hasSceneNode(IntPtr ogreSceneManager, String name);
 
         [DllImport("OgreCWrapper")]
@@ -755,6 +758,7 @@ namespace OgreWrapper
         private static extern IntPtr SceneManager_getEntity(IntPtr ogreSceneManager, String name);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_hasEntity(IntPtr ogreSceneManager, String name);
 
         [DllImport("OgreCWrapper")]
@@ -767,6 +771,7 @@ namespace OgreWrapper
         private static extern IntPtr SceneManager_getManualObject(IntPtr ogreSceneManager, String name);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_hasManualObject(IntPtr ogreSceneManager, String name);
 
         [DllImport("OgreCWrapper")]
@@ -803,12 +808,14 @@ namespace OgreWrapper
         private static extern void SceneManager_setDisplaySceneNodes(IntPtr ogreSceneManager, bool display);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_getDisplaySceneNodes(IntPtr ogreSceneManager);
 
         [DllImport("OgreCWrapper")]
         private static extern void SceneManager_showBoundingBoxes(IntPtr ogreSceneManager, bool bShow);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_getShowBoundingBoxes(IntPtr ogreSceneManager);
 
         [DllImport("OgreCWrapper")]
@@ -821,6 +828,7 @@ namespace OgreWrapper
         private static extern void SceneManager_setShowDebugShadows(IntPtr ogreSceneManager, bool debug);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_getShowDebugShadows(IntPtr ogreSceneManager);
 
         [DllImport("OgreCWrapper")]
@@ -890,6 +898,7 @@ namespace OgreWrapper
         private static extern void SceneManager_setShadowTextureSelfShadow(IntPtr ogreSceneManager, bool selfShadow);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_getShadowTextureSelfShadow(IntPtr ogreSceneManager);
 
         [DllImport("OgreCWrapper")]
@@ -902,33 +911,41 @@ namespace OgreWrapper
         private static extern void SceneManager_setShadowCasterRenderBackFaces(IntPtr ogreSceneManager, bool bf);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_getShadowCasterRenderBackFaces(IntPtr ogreSceneManager);
 
         [DllImport("OgreCWrapper")]
         private static extern void SceneManager_setShadowUseInfiniteFarPlane(IntPtr ogreSceneManager, bool enable);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_isShadowTechniqueStencilBased(IntPtr ogreSceneManager);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_isShadowTechniqueTextureBased(IntPtr ogreSceneManager);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_isShadowTechniqueModulative(IntPtr ogreSceneManager);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_isShadowTechniqueAdditive(IntPtr ogreSceneManager);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_isShadowTechniqueIntegrated(IntPtr ogreSceneManager);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_isShadowTechniqueInUse(IntPtr ogreSceneManager);
 
         [DllImport("OgreCWrapper")]
         private static extern void SceneManager_setShadowUseLightClipPlanes(IntPtr ogreSceneManager, bool enabled);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_getShadowUseLightClipPlanes(IntPtr ogreSceneManager);
 
         [DllImport("OgreCWrapper")]
