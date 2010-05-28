@@ -121,6 +121,8 @@
     <Compile Include="Wrapper\Resources\Materials\Material.cs" />
     <Compile Include="Wrapper\Resources\Materials\MaterialManager.cs" />
     <Compile Include="Wrapper\Resources\Materials\MaterialPtr.cs" />
+    <Compile Include="Wrapper\Resources\Materials\Pass.cs" />
+    <Compile Include="Wrapper\Resources\Materials\Technique.cs" />
     <Compile Include="Wrapper\Resources\Meshes\Mesh.cs" />
     <Compile Include="Wrapper\Resources\Meshes\MeshManager.cs" />
     <Compile Include="Wrapper\Resources\Meshes\MeshPtr.cs" />
