@@ -16,7 +16,7 @@ namespace OgreWrapper
 
         }
 
-        public static String TypeName
+        public new static String TypeName
 	    {
 		    get
 		    {

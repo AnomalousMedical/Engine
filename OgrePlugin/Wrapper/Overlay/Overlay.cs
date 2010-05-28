@@ -165,6 +165,7 @@ namespace OgreWrapper
         private static extern ushort Overlay_getZOrder(IntPtr overlay);
 
         [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Overlay_isVisible(IntPtr overlay);
 
         [DllImport("OgreCWrapper")]

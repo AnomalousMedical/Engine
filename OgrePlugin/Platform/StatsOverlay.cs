@@ -17,7 +17,7 @@ namespace OgrePlugin
         private float lastFPS;
         private uint lastTriangleCount = uint.MaxValue;
         private uint lastBatchCount = uint.MaxValue;
-        private bool visible = false;
+        //private bool visible = false;
 
         public StatsOverlay(String name)
         {

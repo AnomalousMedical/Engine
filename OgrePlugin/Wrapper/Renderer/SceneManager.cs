@@ -5,6 +5,7 @@ using System.Text;
 using Engine;
 using System.Runtime.InteropServices;
 using Engine.Attributes;
+using Logging;
 
 namespace OgreWrapper
 {
@@ -32,6 +33,7 @@ namespace OgreWrapper
         WrapperCollection<ManualObject> manualObjects = new WrapperCollection<ManualObject>(ManualObject.createWrapper);
         RenderQueue renderQueue;
         ManagedSceneListener sceneListener;
+        SceneNode rootNode;
 
         protected SceneManager(IntPtr ogreSceneManager)
         {
@@ -39,6 +41,7 @@ namespace OgreWrapper
             renderQueue = new RenderQueue(SceneManager_getRenderQueue(ogreSceneManager));
             sceneListener = new ManagedSceneListener(this);
             SceneManager_addSceneListener(ogreSceneManager, sceneListener.NativeSceneListener);
+            rootNode = new SceneNode(SceneManager_getRootSceneNode(ogreSceneManager));
         }
 
         public void Dispose()
@@ -169,7 +172,7 @@ namespace OgreWrapper
 	    /// <returns>The root SceneNode.</returns>
         public SceneNode getRootSceneNode()
         {
-            return sceneNodes.getObject(SceneManager_getRootSceneNode(ogreSceneManager));
+            return rootNode;
         }
 
 	    /// <summary>
@@ -199,9 +202,16 @@ namespace OgreWrapper
 	    /// <param name="node">The SceneNode to destroy.</param>
         public void destroySceneNode(SceneNode node)
         {
-            IntPtr ogreNode = node.OgreNode;
-            sceneNodes.destroyObject(ogreNode);
-            SceneManager_destroySceneNode(ogreSceneManager, ogreNode);
+            if(!node.Equals(rootNode))
+            {
+                IntPtr ogreNode = node.OgreNode;
+                sceneNodes.destroyObject(ogreNode);
+                SceneManager_destroySceneNode(ogreSceneManager, ogreNode);
+            }
+            else
+            {
+                Log.Warning("Attempted to destroy the root node, node not destroyed.");
+            }
         }
 
 	    /// <summary>

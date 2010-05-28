@@ -62,16 +62,6 @@ namespace OgreWrapper
             return Marshal.PtrToStringAnsi(TextAreaOverlayElement_getFontName(overlayElement));
         }
 
-        public void setColor(Color color)
-        {
-            TextAreaOverlayElement_setColor(overlayElement, color);
-        }
-
-        public Color getColor()
-        {
-            return TextAreaOverlayElement_getColor(overlayElement);
-        }
-
         public void setColorTop(Color color)
         {
             TextAreaOverlayElement_setColorTop(overlayElement, color);

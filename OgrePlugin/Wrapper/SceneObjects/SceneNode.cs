@@ -18,7 +18,7 @@ namespace OgreWrapper
             return new SceneNode(ogreSceneNode);
         }
 
-        private SceneNode(IntPtr ogreSceneNode)
+        internal SceneNode(IntPtr ogreSceneNode)
             :base(ogreSceneNode)
         {
 

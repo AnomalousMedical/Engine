@@ -56,7 +56,7 @@ namespace OgreWrapper
             renderSystemPlugin = RenderSystemPlugin_Create();
             cgPlugin = CGPlugin_Create();
             frameStart = new FrameEventCallback(frameStartedCallback);
-            frameQueue = new FrameEventCallback(frameEndedCallback);
+            frameQueue = new FrameEventCallback(frameQueuedCallback);
             frameEnd = new FrameEventCallback(frameEndedCallback);
             nativeFrameListener = NativeFrameListener_Create(frameStart, frameQueue, frameEnd);
             Root_addFrameListener(ogreRoot, nativeFrameListener);

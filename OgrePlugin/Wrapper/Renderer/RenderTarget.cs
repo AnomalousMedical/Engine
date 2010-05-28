@@ -31,16 +31,12 @@ namespace OgreWrapper
 	        {
 	        case RenderTargetType.RenderWindow:
                 return new RenderWindow(nativePtr);
-		        break;
 	        case RenderTargetType.RenderTexture:
 		        throw new NotImplementedException();
-		        break;
 	        case RenderTargetType.MultiRenderTarget:
 		        throw new NotImplementedException();
-		        break;
 	        default:
 		        throw new NotImplementedException();
-		        break;
 	        }
         }
 
