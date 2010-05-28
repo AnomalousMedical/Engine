@@ -48,6 +48,7 @@ namespace OgrePlugin
             this.sceneManager = sceneManager;
             this.renderWindow = renderWindow;
             camera = sceneManager.SceneManager.createCamera(name + CAMERA_RESERVED_NAME);
+            camera.setNearClipDistance(1.0f);
             camera.setAutoAspectRatio(true);
             camera.setFOVy(10.0f);
             node = sceneManager.SceneManager.createSceneNode(name + CAMERA_NODE_RESERVED_NAME);

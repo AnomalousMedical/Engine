@@ -165,12 +165,12 @@ extern "C" __declspec(dllexport) bool Camera_getUseRenderingDistance(Ogre::Camer
 
 extern "C" __declspec(dllexport) void Camera_setFOVy(Ogre::Camera* camera, float fovy)
 {
-	camera->setFOVy(Ogre::Radian(fovy));
+	camera->setFOVy(Ogre::Degree(fovy));
 }
 
 extern "C" __declspec(dllexport) float Camera_getFOVy(Ogre::Camera* camera)
 {
-	return camera->getFOVy().valueRadians();
+	return camera->getFOVy().valueDegrees();
 }
 
 extern "C" __declspec(dllexport) void Camera_setNearClipDistance(Ogre::Camera* camera, float nearDistance)

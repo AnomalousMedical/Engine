@@ -139,6 +139,11 @@ namespace OgreWrapper
             SceneNode_setDebugDisplayEnabled(ogreNode, enabled, cascade);
         }
 
+        public void showBoundingBox(bool show)
+        {
+            SceneNode_showBoundingBox(ogreNode, show);
+        }
+
         public object UserObject { get; set; }
 
         #region PInvoke
@@ -172,6 +177,10 @@ namespace OgreWrapper
 
         [DllImport("OgreCWrapper")]
         private static extern void SceneNode_setDebugDisplayEnabled(IntPtr sceneNode, bool enabled, bool cascade);
+
+        [DllImport("OgreCWrapper")]
+        private static extern void SceneNode_showBoundingBox(IntPtr sceneNode, bool show);
+
         #endregion
     }
 }

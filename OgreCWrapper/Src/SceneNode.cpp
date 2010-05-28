@@ -49,3 +49,8 @@ extern "C" __declspec(dllexport) void SceneNode_setDebugDisplayEnabled(Ogre::Sce
 {
 	sceneNode->setDebugDisplayEnabled(enabled, cascade);
 }
+
+extern "C" __declspec(dllexport) void SceneNode_showBoundingBox(Ogre::SceneNode* sceneNode, bool show)
+{
+	sceneNode->showBoundingBox(show);
+}
