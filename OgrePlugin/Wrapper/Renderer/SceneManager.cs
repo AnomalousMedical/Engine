@@ -43,15 +43,15 @@ namespace OgreWrapper
 
         public void Dispose()
         {
-            SceneManager_addSceneListener(ogreSceneManager, sceneListener.NativeSceneListener);
+            SceneManager_removeSceneListener(ogreSceneManager, sceneListener.NativeSceneListener);
             sceneListener.Dispose();
-            ogreSceneManager = IntPtr.Zero;
             cameras.Dispose();
             lights.Dispose();
             sceneNodes.Dispose();
             entities.Dispose();
             manualObjects.Dispose();
             renderQueue.Dispose();
+            ogreSceneManager = IntPtr.Zero;
         }
 
         internal IntPtr OgreSceneManager

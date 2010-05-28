@@ -49,8 +49,7 @@ namespace OgreWrapper
 
         public void destroy(Overlay overlay)
         {
-            overlays.destroyObject(overlay.OgreObject);
-            OverlayManager_destroy(overlayManager, overlay.OgreObject);
+            OverlayManager_destroy(overlayManager, overlays.destroyObject(overlay.OgreObject));
         }
 
         public void destroyAll()

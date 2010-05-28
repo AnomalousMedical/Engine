@@ -8,7 +8,6 @@ typedef Ogre::FileInfoList* (*ListFileInfoDelegate)(bool recursive, bool dirs);
 typedef Ogre::StringVector* (*FindDelegate)(String pattern, bool recursive, bool dirs);
 typedef Ogre::FileInfoList* (*FindFileInfoDelegate)(String pattern, bool recursive, bool dirs);
 typedef bool (*ExistsDelegate)(String filename);
-typedef void (*DeleteDelegate)();
 
 class OgreManagedArchive : public Ogre::Archive
 {
@@ -21,10 +20,9 @@ private:
 	FindDelegate findCallback;
 	FindFileInfoDelegate findFileInfoCallback;
 	ExistsDelegate existsCallback;
-	DeleteDelegate deletedCallback;
 
 public:
-	OgreManagedArchive(String name, String archType, LoadDelegate loadCallback, UnloadDelegate unloadCallback, OpenDelegate openCallback, ListDelegate listCallback, ListFileInfoDelegate listFileInfoCallback, FindDelegate findCallback, FindFileInfoDelegate findFileInfoCallback, ExistsDelegate existsCallback, DeleteDelegate deletedCallback);
+	OgreManagedArchive(String name, String archType, LoadDelegate loadCallback, UnloadDelegate unloadCallback, OpenDelegate openCallback, ListDelegate listCallback, ListFileInfoDelegate listFileInfoCallback, FindDelegate findCallback, FindFileInfoDelegate findFileInfoCallback, ExistsDelegate existsCallback);
 
 	virtual ~OgreManagedArchive(void);
 

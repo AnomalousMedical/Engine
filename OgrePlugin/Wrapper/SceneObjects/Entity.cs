@@ -29,7 +29,10 @@ namespace OgreWrapper
         public override void Dispose()
         {
             base.Dispose();
-            skeleton.Dispose();
+            if(skeleton != null)
+            {
+                skeleton.Dispose();   
+            }
             subEntities.Dispose();
             lodEntities.Dispose();
         }

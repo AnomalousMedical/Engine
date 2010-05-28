@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "..\Include\OgreManagedArchive.h"
 
-OgreManagedArchive::OgreManagedArchive(String name, String archType, LoadDelegate loadCallback, UnloadDelegate unloadCallback, OpenDelegate openCallback, ListDelegate listCallback, ListFileInfoDelegate listFileInfoCallback, FindDelegate findCallback, FindFileInfoDelegate findFileInfoCallback, ExistsDelegate existsCallback, DeleteDelegate deletedCallback)
+OgreManagedArchive::OgreManagedArchive(String name, String archType, LoadDelegate loadCallback, UnloadDelegate unloadCallback, OpenDelegate openCallback, ListDelegate listCallback, ListFileInfoDelegate listFileInfoCallback, FindDelegate findCallback, FindFileInfoDelegate findFileInfoCallback, ExistsDelegate existsCallback)
 :Ogre::Archive(name, archType),
 loadCallback(loadCallback),
 unloadCallback(unloadCallback),
@@ -10,14 +10,13 @@ listCallback(listCallback),
 listFileInfoCallback(listFileInfoCallback),
 findCallback(findCallback),
 findFileInfoCallback(findFileInfoCallback),
-existsCallback(existsCallback),
-deletedCallback(deletedCallback)
+existsCallback(existsCallback)
 {
 }
 
 OgreManagedArchive::~OgreManagedArchive(void)
 {
-	deletedCallback();
+	
 }
 
 void OgreManagedArchive::load()
@@ -61,9 +60,9 @@ bool OgreManagedArchive::exists(const Ogre::String& filename)
 }
 
 //PInvoke functions
-extern "C" __declspec(dllexport) OgreManagedArchive* OgreManagedArchive_Create(String name, String archType, LoadDelegate loadCallback, UnloadDelegate unloadCallback, OpenDelegate openCallback, ListDelegate listCallback, ListFileInfoDelegate listFileInfoCallback, FindDelegate findCallback, FindFileInfoDelegate findFileInfoCallback, ExistsDelegate existsCallback, DeleteDelegate deletedCallback)
+extern "C" __declspec(dllexport) OgreManagedArchive* OgreManagedArchive_Create(String name, String archType, LoadDelegate loadCallback, UnloadDelegate unloadCallback, OpenDelegate openCallback, ListDelegate listCallback, ListFileInfoDelegate listFileInfoCallback, FindDelegate findCallback, FindFileInfoDelegate findFileInfoCallback, ExistsDelegate existsCallback)
 {
-	return OGRE_NEW OgreManagedArchive(name, archType, loadCallback, unloadCallback, openCallback, listCallback, listFileInfoCallback, findCallback, findFileInfoCallback, existsCallback, deletedCallback);
+	return OGRE_NEW OgreManagedArchive(name, archType, loadCallback, unloadCallback, openCallback, listCallback, listFileInfoCallback, findCallback, findFileInfoCallback, existsCallback);
 }
 
 extern "C" __declspec(dllexport) void OgreManagedArchive_Delete(OgreManagedArchive* archive)
