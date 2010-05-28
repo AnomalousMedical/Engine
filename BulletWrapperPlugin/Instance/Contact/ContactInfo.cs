@@ -49,6 +49,7 @@ namespace BulletPlugin
         private static extern void ContactInfo_startPointIterator(IntPtr contactInfo);
 
         [DllImport("BulletWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool ContactInfo_hasNextPoint(IntPtr contactInfo);
 
         [DllImport("BulletWrapper")]

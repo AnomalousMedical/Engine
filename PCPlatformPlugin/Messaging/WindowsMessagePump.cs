@@ -59,6 +59,7 @@ namespace PCPlatform
         private static extern IntPtr WindowsMessagePump_primeMessages();
 
         [DllImport("PCPlatform")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool WindowsMessagePump_peekMessage(IntPtr msgHandle, out WinMsg msg);
 
         [DllImport("PCPlatform")]

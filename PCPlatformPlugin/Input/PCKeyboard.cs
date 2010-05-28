@@ -49,6 +49,7 @@ namespace PCPlatform
         }
 
         [DllImport("PCPlatform")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool oisKeyboard_isModifierDown(IntPtr keyboard, Modifier keyCode);
 
         [DllImport("PCPlatform")]

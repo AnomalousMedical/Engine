@@ -38,6 +38,7 @@ namespace PCPlatform
         private static extern void PerformanceCounter_Delete(IntPtr counter);
 
         [DllImport("PCPlatform")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool PerformanceCounter_initialize(IntPtr counter);
 
         [DllImport("PCPlatform")]

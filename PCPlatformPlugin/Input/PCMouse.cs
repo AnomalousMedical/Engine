@@ -79,6 +79,7 @@ namespace PCPlatform
         private static extern void oisMouse_setWindowSize(IntPtr mouse, int width, int height);
 
         [DllImport("PCPlatform")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool oisMouse_buttonDown(IntPtr mouse, MouseButtonCode button);
 
         [DllImport("PCPlatform")]

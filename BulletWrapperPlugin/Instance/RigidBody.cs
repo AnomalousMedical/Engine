@@ -610,9 +610,11 @@ namespace BulletPlugin
         private static extern float btRigidBody_computeAngularImpulseDenominator(IntPtr instance, ref Vector3 axis);
 
         [DllImport("BulletWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool btRigidBody_wantsSleeping(IntPtr instance);
 
         [DllImport("BulletWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool btRigidBody_isInWorld(IntPtr instance);
 
         [DllImport("BulletWrapper")]
@@ -622,15 +624,19 @@ namespace BulletPlugin
         private static extern Vector3 btRigidBody_getAnisotropicFriction(IntPtr instance);
 
         [DllImport("BulletWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool btRigidBody_hasAnisotropicFriction(IntPtr instance);
 
         [DllImport("BulletWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool btRigidBody_isStaticObject(IntPtr instance);
 
         [DllImport("BulletWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool btRigidBody_isKinematicObject(IntPtr instance);
 
         [DllImport("BulletWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool btRigidBody_isStaticOrKinematicObject(IntPtr instance);
 
         [DllImport("BulletWrapper")]
@@ -652,6 +658,7 @@ namespace BulletPlugin
         private static extern void btRigidBody_activate(IntPtr instance, bool forceActivation);
 
         [DllImport("BulletWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool btRigidBody_isActive(IntPtr instance);
 
         [DllImport("BulletWrapper")]
