@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Engine.Attributes;
 
 namespace OgreWrapper
 {
-    [NativeSubsystemType]
-    public class MeshPtr : IDisposable
+    public class SkeletonPtr : IDisposable
     {
-        private SharedPtr<Mesh> sharedPtr;
+        private SharedPtr<Skeleton> sharedPtr;
 
-        internal MeshPtr(SharedPtr<Mesh> sharedPtr)
+        internal SkeletonPtr(SharedPtr<Skeleton> sharedPtr)
         {
             this.sharedPtr = sharedPtr;
         }
@@ -21,7 +19,7 @@ namespace OgreWrapper
             sharedPtr.Dispose();
         }
 
-        public Mesh Value
+        public Skeleton Value
         {
             get
             {

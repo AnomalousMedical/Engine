@@ -17,11 +17,16 @@ namespace OgreWrapper
     [NativeSubsystemType]
     public class Skeleton : IDisposable
     {
+        internal static Skeleton createWrapper(IntPtr nativePtr)
+        {
+            return new Skeleton(nativePtr);
+        }
+
         protected IntPtr skeleton;
         private WrapperCollection<Animation> animations = new WrapperCollection<Animation>(Animation.createWrapper);
         private WrapperCollection<Bone> bones = new WrapperCollection<Bone>(Bone.createWrapper);
 
-        public Skeleton(IntPtr skeleton)
+        protected Skeleton(IntPtr skeleton)
         {
             this.skeleton = skeleton;
         }

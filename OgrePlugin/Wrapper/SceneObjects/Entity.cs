@@ -14,6 +14,7 @@ namespace OgreWrapper
         private WrapperCollection<SubEntity> subEntities = new WrapperCollection<SubEntity>(SubEntity.createWrapper);
         private WrapperCollection<Entity> lodEntities = new WrapperCollection<Entity>(Entity.createWrapper);
         private SkeletonInstance skeleton;
+        private AnimationStateSet animationStateSet = null;
 
         internal static Entity createWrapper(IntPtr entity, object[] args)
         {
@@ -23,7 +24,10 @@ namespace OgreWrapper
         internal Entity(IntPtr entity)
             :base(entity)
         {
-
+            if(hasSkeleton())
+            {
+                skeleton = new SkeletonInstance(Entity_getSkeleton(ogreObject));
+            }
         }
 
         public override void Dispose()
@@ -43,7 +47,8 @@ namespace OgreWrapper
 	    /// <returns>The mesh for this entity.</returns>
 	    public MeshPtr getMesh()
         {
-            throw new NotImplementedException();
+            MeshManager meshManager = MeshManager.getInstance();
+            return meshManager.getObject(Entity_getMesh(ogreObject, meshManager.ProcessWrapperObjectCallback));
         }
 
 	    /// <summary>
@@ -91,8 +96,11 @@ namespace OgreWrapper
 	    /// <returns>The AnimationState specified or nullptr if it does not exist.</returns>
         public AnimationState getAnimationState(String name)
         {
-            //Entity_getAnimationState(ogreObject, name);
-            throw new NotImplementedException();
+            if(animationStateSet == null)
+            {
+                animationStateSet = new AnimationStateSet(Entity_getAllAnimationStates(ogreObject));
+            }
+            return animationStateSet.getAnimationState(name);
         }
 
 	    /// <summary>
@@ -101,8 +109,11 @@ namespace OgreWrapper
 	    /// <returns>The AnimationStateSet for this Entity.</returns>
         public AnimationStateSet getAllAnimationStates()
         {
-            //Entity_getAllAnimationStates(ogreObject);
-            throw new NotImplementedException();
+            if (animationStateSet == null)
+            {
+                animationStateSet = new AnimationStateSet(Entity_getAllAnimationStates(ogreObject));
+            }
+            return animationStateSet;
         }
 
 	    /// <summary>
@@ -237,8 +248,7 @@ namespace OgreWrapper
 	    /// <returns>The skeleton if the entity has one or null if it does not.</returns>
         public SkeletonInstance getSkeleton()
         {
-            Entity_getSkeleton(ogreObject);
-            throw new NotImplementedException();
+            return skeleton;
         }
 
 	    /// <summary>
@@ -399,8 +409,7 @@ namespace OgreWrapper
         #region NativeWrapper
 
         [DllImport("OgreCWrapper")]
-        //This will return a pointer to a new Ogre::MeshPtr that must be deleted. Pass it to the MeshManager and it will take care of it.
-        private static extern IntPtr Entity_getMesh(IntPtr entity);
+        private static extern IntPtr Entity_getMesh(IntPtr entity, ProcessWrapperObjectDelegate processWrapper);
 
         [DllImport("OgreCWrapper")]
         private static extern IntPtr Entity_getSubEntityIndex(IntPtr entity, uint index);

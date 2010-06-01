@@ -1,9 +1,10 @@
 #include "Stdafx.h"
 
-//This will return a pointer to a new Ogre::MeshPtr that must be deleted. Pass it to the MeshManager and it will take care of it.
-extern "C" __declspec(dllexport) Ogre::MeshPtr* Entity_getMesh(Ogre::Entity* entity)
+extern "C" __declspec(dllexport) Ogre::Mesh* Entity_getMesh(Ogre::Entity* entity, ProcessWrapperObjectDelegate processWrapper)
 {
-	return new Ogre::MeshPtr(entity->getMesh());
+	const Ogre::MeshPtr& meshPtr = entity->getMesh();
+	processWrapper(meshPtr.getPointer(), &meshPtr);
+	return meshPtr.getPointer();
 }
 
 extern "C" __declspec(dllexport) Ogre::SubEntity* Entity_getSubEntityIndex(Ogre::Entity* entity, uint index)

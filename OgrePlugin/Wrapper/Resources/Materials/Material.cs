@@ -188,9 +188,8 @@ namespace OgreWrapper
     };
 
     [NativeSubsystemType]
-    public class Material : IDisposable
+    public class Material : Resource
     {
-        private IntPtr material;
         private WrapperCollection<Technique> techniques = new WrapperCollection<Technique>(Technique.createWrapper);
 
         internal static Material createWrapper(IntPtr material)
@@ -199,268 +198,269 @@ namespace OgreWrapper
         }
 
         private Material(IntPtr material)
+            :base(material)
         {
-            this.material = material;
+            
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             techniques.Dispose();
-            material = IntPtr.Zero;
+            base.Dispose();
         }
 
         public bool isTransparent()
         {
-            return Material_isTransparent(material);
+            return Material_isTransparent(resource);
         }
 
         public void setReceiveShadows(bool enabled)
         {
-            Material_setReceiveShadows(material, enabled);
+            Material_setReceiveShadows(resource, enabled);
         }
 
         public bool getReceiveShadows()
         {
-            return Material_getReceiveShadows(material);
+            return Material_getReceiveShadows(resource);
         }
 
         public void setTransparencyCastsShadows(bool enabled)
         {
-            Material_setTransparencyCastsShadows(material, enabled);
+            Material_setTransparencyCastsShadows(resource, enabled);
         }
 
         public bool getTransparencyCastsShadows()
         {
-            return Material_getTransparencyCastsShadows(material);
+            return Material_getTransparencyCastsShadows(resource);
         }
 
         public Technique createTechnique()
         {
-            return techniques.getObject(Material_createTechnique(material), this);
+            return techniques.getObject(Material_createTechnique(resource), this);
         }
 
         public Technique getTechnique(ushort index)
         {
-            return techniques.getObject(Material_getTechniqueIndex(material, index), this);
+            return techniques.getObject(Material_getTechniqueIndex(resource, index), this);
         }
 
         public Technique getTechnique(String name)
         {
-            return techniques.getObject(Material_getTechnique(material, name), this);
+            return techniques.getObject(Material_getTechnique(resource, name), this);
         }
 
         public ushort getNumTechniques()
         {
-            return Material_getNumTechniques(material);
+            return Material_getNumTechniques(resource);
         }
 
         public void removeTechnique(ushort index)
         {
-            techniques.destroyObject(Material_getTechniqueIndex(material, index));
-            Material_removeTechnique(material, index);
+            techniques.destroyObject(Material_getTechniqueIndex(resource, index));
+            Material_removeTechnique(resource, index);
         }
 
         public void removeAllTechniques()
         {
             techniques.clearObjects();
-            Material_removeAllTechniques(material);
+            Material_removeAllTechniques(resource);
         }
 
         public Technique getSupportedTechnique(ushort index)
         {
-            return techniques.getObject(Material_getSupportedTechnique(material, index), this);
+            return techniques.getObject(Material_getSupportedTechnique(resource, index), this);
         }
 
         public ushort getNumSupportedTechniques()
         {
-            return Material_getNumSupportedTechniques(material);
+            return Material_getNumSupportedTechniques(resource);
         }
 
         public String getUnsupportedTechniquesExplanation()
         {
-            return Marshal.PtrToStringAnsi(Material_getUnsupportedTechniquesExplanation(material));
+            return Marshal.PtrToStringAnsi(Material_getUnsupportedTechniquesExplanation(resource));
         }
 
         public ushort getNumLodLevels(ushort schemeIndex)
         {
-            return Material_getNumLodLevels(material, schemeIndex);
+            return Material_getNumLodLevels(resource, schemeIndex);
         }
 
         public ushort getNumLodLevels(String schemeName)
         {
-            return Material_getNumLodLevelsName(material, schemeName);
+            return Material_getNumLodLevelsName(resource, schemeName);
         }
 
         public Technique getBestTechnique()
         {
-            return techniques.getObject(Material_getBestTechnique(material), this);
+            return techniques.getObject(Material_getBestTechnique(resource), this);
         }
 
         public Technique getBestTechnique(ushort lodIndex)
         {
-            return techniques.getObject(Material_getBestTechniqueLod(material, lodIndex), this);
+            return techniques.getObject(Material_getBestTechniqueLod(resource, lodIndex), this);
         }
 
         public MaterialPtr clone(String newName)
         {
             MaterialManager matManager = MaterialManager.getInstance();
-            return matManager.getObject(Material_clone(material, newName, matManager.ProcessWrapperObjectCallback));
+            return matManager.getObject(Material_clone(resource, newName, matManager.ProcessWrapperObjectCallback));
         }
 
         public MaterialPtr clone(String newName, bool changeGroup, String newGroup)
         {
             MaterialManager matManager = MaterialManager.getInstance();
-            return matManager.getObject(Material_cloneChangeGroup(material, newName, changeGroup, newGroup, matManager.ProcessWrapperObjectCallback));
+            return matManager.getObject(Material_cloneChangeGroup(resource, newName, changeGroup, newGroup, matManager.ProcessWrapperObjectCallback));
         }
 
         public void copyDetailsTo(Material material)
         {
-            Material_copyDetailsTo(this.material, material.material);
+            Material_copyDetailsTo(this.resource, material.resource);
         }
 
         public void compile()
         {
-            Material_compile(material);
+            Material_compile(resource);
         }
 
         public void compile(bool autoManageTextureUnits)
         {
-            Material_compileAutoManage(material, autoManageTextureUnits);
+            Material_compileAutoManage(resource, autoManageTextureUnits);
         }
 
         public void setPointSize(float ps)
         {
-            Material_setPointSize(material, ps);
+            Material_setPointSize(resource, ps);
         }
 
         public void setAmbient(float red, float green, float blue)
         {
-            Material_setAmbient(material, red, green, blue);
+            Material_setAmbient(resource, red, green, blue);
         }
 
         public void setAmbient(Color color)
         {
-            Material_setAmbientColor(material, color);
+            Material_setAmbientColor(resource, color);
         }
 
         public void setDiffuse(float red, float green, float blue, float alpha)
         {
-            Material_setDiffuse(material, red, green, blue, alpha);
+            Material_setDiffuse(resource, red, green, blue, alpha);
         }
 
         public void setDiffuse(Color color)
         {
-            Material_setDiffuseColor(material, color);
+            Material_setDiffuseColor(resource, color);
         }
 
         public void setSpecular(float red, float green, float blue, float alpha)
         {
-            Material_setSpecular(material, red, green, blue, alpha);
+            Material_setSpecular(resource, red, green, blue, alpha);
         }
 
         public void setSpecular(Color color)
         {
-            Material_setSpecularColor(material, color);
+            Material_setSpecularColor(resource, color);
         }
 
         public void setShininess(float value)
         {
-            Material_setShininess(material, value);
+            Material_setShininess(resource, value);
         }
 
         public void setSelfIllumination(float red, float green, float blue)
         {
-            Material_setSelfIllumination(material, red, green, blue);
+            Material_setSelfIllumination(resource, red, green, blue);
         }
 
         public void setSelfIllumination(Color color)
         {
-            Material_setSelfIlluminationColor(material, color);
+            Material_setSelfIlluminationColor(resource, color);
         }
 
         public void setDepthCheckEnabled(bool enabled)
         {
-            Material_setDepthCheckEnabled(material, enabled);
+            Material_setDepthCheckEnabled(resource, enabled);
         }
 
         public void setDepthWriteEnabled(bool enabled)
         {
-            Material_setDepthWriteEnabled(material, enabled);
+            Material_setDepthWriteEnabled(resource, enabled);
         }
 
         public void setDepthFunction(CompareFunction func)
         {
-            Material_setDepthFunction(material, func);
+            Material_setDepthFunction(resource, func);
         }
 
         public void setColorWriteEnabled(bool enabled)
         {
-            Material_setColorWriteEnabled(material, enabled);
+            Material_setColorWriteEnabled(resource, enabled);
         }
 
         public void setCullingMode(CullingMode mode)
         {
-            Material_setCullingMode(material, mode);
+            Material_setCullingMode(resource, mode);
         }
 
         public void setManualCullingMode(ManualCullingMode mode)
         {
-            Material_setManualCullingMode(material, mode);
+            Material_setManualCullingMode(resource, mode);
         }
 
         public void setLightingEnabled(bool enabled)
         {
-            Material_setLightingEnabled(material, enabled);
+            Material_setLightingEnabled(resource, enabled);
         }
 
         public void setShadingMode(ShadeOptions mode)
         {
-            Material_setShadingMode(material, mode);
+            Material_setShadingMode(resource, mode);
         }
 
         public void setFog(bool overrideScene, FogMode mode, Color color)
         {
-            Material_setFog(material, overrideScene, mode, color);
+            Material_setFog(resource, overrideScene, mode, color);
         }
 
         public void setFog(bool overrideScene, FogMode mode, Color color, float expDensity, float linearStart, float linearEnd)
         {
-            Material_setFog2(material, overrideScene, mode, color, expDensity, linearStart, linearEnd);
+            Material_setFog2(resource, overrideScene, mode, color, expDensity, linearStart, linearEnd);
         }
 
         public void setDepthBias(float constantBias, float slopeScaleBias)
         {
-            Material_setDepthBias(material, constantBias, slopeScaleBias);
+            Material_setDepthBias(resource, constantBias, slopeScaleBias);
         }
 
         public void setTextureFiltering(TextureFilterOptions filterType)
         {
-            Material_setTextureFiltering(material, filterType);
+            Material_setTextureFiltering(resource, filterType);
         }
 
         public void setTextureAnisotropy(int maxAniso)
         {
-            Material_setTextureAnisotropy(material, maxAniso);
+            Material_setTextureAnisotropy(resource, maxAniso);
         }
 
         public void setSceneBlending(SceneBlendType sbt)
         {
-            Material_setSceneBlending(material, sbt);
+            Material_setSceneBlending(resource, sbt);
         }
 
         public void setSeparateSceneBlending(SceneBlendType sbt, SceneBlendType sbta)
         {
-            Material_setSeparateSceneBlending(material, sbt, sbta);
+            Material_setSeparateSceneBlending(resource, sbt, sbta);
         }
 
         public void setSceneBlending(SceneBlendFactor sourceFactor, SceneBlendFactor destFactor)
         {
-            Material_setSceneBlending2(material, sourceFactor, destFactor);
+            Material_setSceneBlending2(resource, sourceFactor, destFactor);
         }
 
         public void setSeparateSceneBlending(SceneBlendFactor sourceFactor, SceneBlendFactor destFactor, SceneBlendFactor sourceFactorAlpha, SceneBlendFactor destFactorAlpha)
         {
-            Material_setSeparateSceneBlending2(material, sourceFactor, destFactor, sourceFactorAlpha, destFactorAlpha);
+            Material_setSeparateSceneBlending2(resource, sourceFactor, destFactor, sourceFactorAlpha, destFactorAlpha);
         }
 
 #region PInvoke

@@ -220,6 +220,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\Mesh.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\MeshManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\MeshSerializer.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\MovableObject.cpp"
 				>
 			</File>
@@ -276,6 +288,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\Pass.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\PixelBox.cpp"
 				>
 			</File>
@@ -293,6 +309,10 @@
 			</File>
 			<File
 				RelativePath=".\Src\RenderWindow.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\Resource.cpp"
 				>
 			</File>
 			<File
@@ -332,11 +352,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\SubMesh.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\Technique.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\Src\TextAreaOverlayElement.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\TextureUnitState.cpp"
 				>
 			</File>
 			<File
