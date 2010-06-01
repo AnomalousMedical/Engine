@@ -145,7 +145,7 @@ namespace OgreWrapper
             SharedPtrEntry<T> entry;
             if (nativeObject != IntPtr.Zero && ptrDictionary.TryGetValue(nativeObject, out entry))
             {
-                SharedPtr<T> sp = new SharedPtr<T>(entry.ManagedWrapper, nativeObject, this);
+                SharedPtr<T> sp = new SharedPtr<T>(entry.ManagedWrapper, nativeObject, entry.HeapSharedPtr, this);
                 entry.addPointer(sp);
                 return sp;
             }

@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Engine.Attributes;
+using System.Runtime.InteropServices;
 
 namespace OgreWrapper
 {
     [NativeSubsystemType]
-    public class HardwareBuffer
+    public unsafe abstract class HardwareBuffer : IDisposable
     {
         [SingleEnum]
         public enum Usage : uint
@@ -98,5 +99,196 @@ namespace OgreWrapper
             HBL_NO_OVERWRITE
         };
 
+        protected IntPtr hardwareBuffer;
+
+        internal HardwareBuffer(IntPtr hardwareBuffer)
+        {
+            this.hardwareBuffer = hardwareBuffer;
+        }
+
+        public void Dispose()
+        {
+            hardwareBuffer = IntPtr.Zero;
+        }
+
+        public IntPtr OgreObject
+        {
+            get
+            {
+                return hardwareBuffer;
+            }
+        }
+
+        /// <summary>
+	    /// Lock the buffer for (potentially) reading / writing.
+	    /// </summary>
+	    /// <param name="offset">The byte offset from the start of the buffer to lock.</param>
+	    /// <param name="length">The size of the area to lock, in bytes.</param>
+	    /// <param name="options">Locking options.</param>
+	    /// <returns>A pointer to the locked buffer.</returns>
+        void* lockBuf(IntPtr offset, IntPtr length, LockOptions options)
+        {
+            return HardwareBuffer_lockBuf(hardwareBuffer, offset, length, options);
+        }
+
+	    /// <summary>
+	    /// Lock the entire buffer for (potentially) reading / writing.
+	    /// </summary>
+	    /// <param name="options">Locking options</param>
+	    /// <returns>A pointer to the locked buffer.</returns>
+        void* lockBuf(LockOptions options)
+        {
+            return HardwareBuffer_lockBufAll(hardwareBuffer, options);
+        }
+
+	    /// <summary>
+	    /// Releases the lock on this buffer.
+	    /// <para>
+        /// Locking and unlocking a buffer can, in some rare circumstances such as
+        /// switching video modes whilst the buffer is locked, corrupt the contents
+        /// of a buffer. This is pretty rare, but if it occurs, this method will
+        /// throw an exception, meaning you must re-upload the data. 
+	    /// </para>
+	    /// <para>
+        /// Note that using the 'read' and 'write' forms of updating the buffer does
+        /// not suffer from this problem, so if you want to be 100% sure your data
+        /// will not be lost, use the 'read' and 'write' forms instead. 
+	    /// </para>
+	    /// </summary>
+        void unlock()
+        {
+            HardwareBuffer_unlock(hardwareBuffer);
+        }
+
+	    /// <summary>
+	    /// Reads data from the buffer and places it in the memory pointed to by pDest.
+	    /// </summary>
+	    /// <param name="offset">The byte offset from the start of the buffer to read.</param>
+	    /// <param name="length">The size of the area to read, in bytes.</param>
+	    /// <param name="dest">The area of memory in which to place the data, must be large enough to accommodate the data!</param>
+        void readData(IntPtr offset, IntPtr length, void* dest)
+        {
+            HardwareBuffer_readData(hardwareBuffer, offset, length, dest);
+        }
+
+	    /// <summary>
+	    /// Writes data to the buffer from an area of system memory; note that you must ensure that your buffer is big enough.
+	    /// </summary>
+	    /// <param name="offset">The byte offset from the start of the buffer to start writing.</param>
+	    /// <param name="length">The size of the data to write to, in bytes.</param>
+	    /// <param name="source">The source of the data to be written.</param>
+        void writeData(IntPtr offset, IntPtr length, void* source)
+        {
+            HardwareBuffer_writeData(hardwareBuffer, offset, length, source);
+        }
+
+	    /// <summary>
+	    /// Writes data to the buffer from an area of system memory; note that you must ensure that your buffer is big enough.
+	    /// </summary>
+	    /// <param name="offset">The byte offset from the start of the buffer to start writing.</param>
+	    /// <param name="length">The size of the data to write to, in bytes.</param>
+	    /// <param name="source">The source of the data to be written.</param>
+	    /// <param name="discardWholeBuffer">	If true, this allows the driver to discard the entire buffer when writing, such that DMA stalls can be avoided; use if you can.</param>
+        void writeData(IntPtr offset, IntPtr length, void* source, bool discardWholeBuffer)
+        {
+            HardwareBuffer_writeDataDiscard(hardwareBuffer, offset, length, source, discardWholeBuffer);
+        }
+
+	    /// <summary>
+	    /// Returns the size of this buffer in bytes.
+	    /// </summary>
+	    /// <returns>The size of the buffer in bytes.</returns>
+        IntPtr getSizeInBytes()
+        {
+            return HardwareBuffer_getSizeInBytes(hardwareBuffer);
+        }
+
+	    /// <summary>
+	    /// Returns the Usage flags with which this buffer was created.
+	    /// </summary>
+	    /// <returns>The usage flags of the buffer.</returns>
+        Usage getUsage()
+        {
+            return HardwareBuffer_getUsage(hardwareBuffer);
+        }
+
+	    /// <summary>
+	    /// Returns whether this buffer is held in system memory.
+	    /// </summary>
+	    /// <returns>True if the buffer is in system memory.</returns>
+        bool isSystemMemory()
+        {
+            return HardwareBuffer_isSystemMemory(hardwareBuffer);
+        }
+
+	    /// <summary>
+	    /// Returns whether this buffer has a system memory shadow for quicker reading.
+	    /// </summary>
+	    /// <returns>True if there is a shadow buffer.</returns>
+        bool hasShadowBuffer()
+        {
+            return HardwareBuffer_hasShadowBuffer(hardwareBuffer);
+        }
+
+	    /// <summary>
+	    /// Returns whether or not this buffer is currently locked.
+	    /// </summary>
+	    /// <returns>True if the buffer was locked.</returns>
+        bool isLocked()
+        {
+            return HardwareBuffer_isLocked(hardwareBuffer);
+        }
+
+	    /// <summary>
+	    /// Pass true to suppress hardware upload of shadow buffer changes. 
+	    /// </summary>
+	    /// <param name="suppress">True to suppress hardware upload of shadow buffer changes.</param>
+        void suppressHardwareUpdate(bool suppress)
+        {
+            HardwareBuffer_suppressHardwareUpdate(hardwareBuffer, suppress);
+        }
+
+#region PInvoke
+
+        [DllImport("OgreCWrapper")]
+        private static extern void* HardwareBuffer_lockBuf(IntPtr hardwareBuffer, IntPtr offset, IntPtr length, LockOptions options);
+
+        [DllImport("OgreCWrapper")]
+        private static extern void* HardwareBuffer_lockBufAll(IntPtr hardwareBuffer, LockOptions options);
+
+        [DllImport("OgreCWrapper")]
+        private static extern void HardwareBuffer_unlock(IntPtr hardwareBuffer);
+
+        [DllImport("OgreCWrapper")]
+        private static extern void HardwareBuffer_readData(IntPtr hardwareBuffer, IntPtr offset, IntPtr length, void* dest);
+
+        [DllImport("OgreCWrapper")]
+        private static extern void HardwareBuffer_writeData(IntPtr hardwareBuffer, IntPtr offset, IntPtr length, void* source);
+
+        [DllImport("OgreCWrapper")]
+        private static extern void HardwareBuffer_writeDataDiscard(IntPtr hardwareBuffer, IntPtr offset, IntPtr length, void* source, bool discardWholeBuffer);
+
+        [DllImport("OgreCWrapper")]
+        private static extern IntPtr HardwareBuffer_getSizeInBytes(IntPtr hardwareBuffer);
+
+        [DllImport("OgreCWrapper")]
+        private static extern Usage HardwareBuffer_getUsage(IntPtr hardwareBuffer);
+
+        [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool HardwareBuffer_isSystemMemory(IntPtr hardwareBuffer);
+
+        [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool HardwareBuffer_hasShadowBuffer(IntPtr hardwareBuffer);
+
+        [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool HardwareBuffer_isLocked(IntPtr hardwareBuffer);
+
+        [DllImport("OgreCWrapper")]
+        private static extern void HardwareBuffer_suppressHardwareUpdate(IntPtr hardwareBuffer, bool suppress);
+
+#endregion
     }
 }

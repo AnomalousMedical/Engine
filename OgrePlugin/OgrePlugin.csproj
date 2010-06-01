@@ -100,8 +100,14 @@
     <Compile Include="Wrapper\CustomArchives\OgreManagedStream.cs" />
     <Compile Include="Wrapper\MeshData\HardwareBuffer.cs" />
     <Compile Include="Wrapper\MeshData\HardwareBufferManager.cs" />
+    <Compile Include="Wrapper\MeshData\HardwareIndexBuffer.cs" />
+    <Compile Include="Wrapper\MeshData\HardwareIndexBufferSharedPtr.cs" />
+    <Compile Include="Wrapper\MeshData\HardwareVertexBuffer.cs" />
+    <Compile Include="Wrapper\MeshData\HardwareVertexBufferSharedPtr.cs" />
     <Compile Include="Wrapper\MeshData\IndexData.cs" />
+    <Compile Include="Wrapper\MeshData\VertexBufferBinding.cs" />
     <Compile Include="Wrapper\MeshData\VertexData.cs" />
+    <Compile Include="Wrapper\MeshData\VertexDeclaration.cs" />
     <Compile Include="Wrapper\MeshData\VertexElement.cs" />
     <Compile Include="Wrapper\Overlay\BorderPanelOverlayElement.cs" />
     <Compile Include="Wrapper\Overlay\Overlay.cs" />

@@ -14,12 +14,14 @@ namespace OgreWrapper
         private SharedPtrCollection<T> owner;
         private StackTrace st;
         private IntPtr nativeObject;
+        private IntPtr heapSharedPtr;
 
-        internal SharedPtr(T value, IntPtr nativeObject, SharedPtrCollection<T> owner)
+        internal SharedPtr(T value, IntPtr nativeObject, IntPtr heapSharedPtr, SharedPtrCollection<T> owner)
         {
             this.value = value;
             this.nativeObject = nativeObject;
             this.owner = owner;
+            this.heapSharedPtr = heapSharedPtr;
             st = new StackTrace(true);
         }
 
@@ -41,6 +43,14 @@ namespace OgreWrapper
             get
             {
                 return nativeObject;
+            }
+        }
+
+        internal IntPtr HeapSharedPtr
+        {
+            get
+            {
+                return heapSharedPtr;
             }
         }
 

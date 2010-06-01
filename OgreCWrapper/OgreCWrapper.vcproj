@@ -200,6 +200,22 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\HardwareBuffer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\HardwareIndexBuffer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\HardwareVertexBuffer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\IndexData.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\Light.cpp"
 				>
 			</File>
@@ -365,6 +381,22 @@
 			</File>
 			<File
 				RelativePath=".\Src\TextureUnitState.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\VertexBufferBinding.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\VertexData.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\VertexDeclaration.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\VertexElement.cpp"
 				>
 			</File>
 			<File
