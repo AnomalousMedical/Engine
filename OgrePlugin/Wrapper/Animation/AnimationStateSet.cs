@@ -37,7 +37,7 @@ namespace OgreWrapper
 	    /// <returns>A new AnimationState with the given parameters.</returns>
         public AnimationState createAnimationState(String animName, float timePos, float length, float weight, bool enabled)
         {
-            return states.getObject(AnimationStateSet_createAnimationState(animationStateSet, animName, timePos, length, weight, enabled));
+            return states.getObject(AnimationStateSet_createAnimationState(animationStateSet, animName, timePos, length, weight, enabled), this);
         }
 
 	    /// <summary>
@@ -47,7 +47,7 @@ namespace OgreWrapper
 	    /// <returns>The animation state specified by name or null if it does not exist.</returns>
         public AnimationState getAnimationState(String name)
         {
-            return states.getObject(AnimationStateSet_getAnimationState(animationStateSet, name));
+            return states.getObject(AnimationStateSet_getAnimationState(animationStateSet, name), this);
         }
 
 	    /// <summary>

@@ -420,6 +420,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\Texture.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\TextureManager.cpp"
 				>
 			</File>
@@ -445,6 +449,10 @@
 			</File>
 			<File
 				RelativePath=".\Src\VertexElement.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\VertexPoseKeyFrame.cpp"
 				>
 			</File>
 			<File
