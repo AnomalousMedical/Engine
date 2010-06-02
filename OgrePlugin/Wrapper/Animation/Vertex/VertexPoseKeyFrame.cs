@@ -26,7 +26,7 @@ namespace OgreWrapper
 	    /// </summary>
 	    /// <param name="poseIndex">The index of the pose.</param>
 	    /// <param name="influence">The influence for this key frame.</param>
-	    void addPoseReference(ushort poseIndex, float influence)
+	    public void addPoseReference(ushort poseIndex, float influence)
         {
             VertexPoseKeyFrame_addPoseReference(keyFrame, poseIndex, influence);
         }
@@ -36,7 +36,7 @@ namespace OgreWrapper
 	    /// </summary>
 	    /// <param name="poseIndex">The index of the pose.</param>
 	    /// <param name="influence">The new influence for this key frame.</param>
-        void updatePoseReference(ushort poseIndex, float influence)
+        public void updatePoseReference(ushort poseIndex, float influence)
         {
             VertexPoseKeyFrame_updatePoseReference(keyFrame, poseIndex, influence);
         }
@@ -45,7 +45,7 @@ namespace OgreWrapper
 	    /// Remove reference to a given pose. 
 	    /// </summary>
 	    /// <param name="poseIndex">The pose index (not the index of the reference).</param>
-        void removePoseReference(ushort poseIndex)
+        public void removePoseReference(ushort poseIndex)
         {
             VertexPoseKeyFrame_removePoseReference(keyFrame, poseIndex);
         }
@@ -53,7 +53,7 @@ namespace OgreWrapper
 	    /// <summary>
 	    /// Remove all pose references.
 	    /// </summary>
-        void removeAllPoseReferences()
+        public void removeAllPoseReferences()
         {
             VertexPoseKeyFrame_removeAllPoseReferences(keyFrame);
         }

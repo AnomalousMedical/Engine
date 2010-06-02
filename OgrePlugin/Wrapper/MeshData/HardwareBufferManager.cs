@@ -19,11 +19,13 @@ namespace OgreWrapper
 
         private SharedPtrCollection<HardwareIndexBuffer> indexBuffers = new SharedPtrCollection<HardwareIndexBuffer>(HardwareIndexBuffer.createWrapper, HardwareIndexBufferPtr_createHeapPtr, HardwareIndexBufferPtr_Delete);
         private SharedPtrCollection<HardwareVertexBuffer> vertexBuffers = new SharedPtrCollection<HardwareVertexBuffer>(HardwareVertexBuffer.createWrapper, HardwareVertexBufferPtr_createHeapPtr, HardwareVertexBufferPtr_Delete);
+        private SharedPtrCollection<HardwarePixelBuffer> pixelBuffers = new SharedPtrCollection<HardwarePixelBuffer>(HardwarePixelBuffer.createWrapper, HardwarePixelBufferPtr_createHeapPtr, HardwarePixelBufferPtr_Delete);
 
         public void Dispose()
         {
             indexBuffers.Dispose();
             vertexBuffers.Dispose();
+            pixelBuffers.Dispose();
         }
 
         internal HardwareIndexBufferSharedPtr getIndexBufferObject(IntPtr hardwareIndexBuffer)
@@ -52,6 +54,19 @@ namespace OgreWrapper
             }
         }
 
+        internal HardwarePixelBufferSharedPtr getPixelBufferObject(IntPtr hardwarePixelBuffer)
+        {
+            return new HardwarePixelBufferSharedPtr(pixelBuffers.getObject(hardwarePixelBuffer));
+        }
+
+        internal ProcessWrapperObjectDelegate ProcessPixelBufferCallback
+        {
+            get
+            {
+                return pixelBuffers.ProcessWrapperCallback;
+            }
+        }
+
 #region PInvoke
 
         //HardwareIndexBufferPtr
@@ -67,6 +82,13 @@ namespace OgreWrapper
 
         [DllImport("OgreCWrapper")]
         private static extern void HardwareVertexBufferPtr_Delete(IntPtr heapSharedPtr);
+
+        //HardwarePixelBufferPtr
+        [DllImport("OgreCWrapper")]
+        private static extern IntPtr HardwarePixelBufferPtr_createHeapPtr(IntPtr stackSharedPtr);
+
+        [DllImport("OgreCWrapper")]
+        private static extern void HardwarePixelBufferPtr_Delete(IntPtr heapSharedPtr);
 
 #endregion
     }

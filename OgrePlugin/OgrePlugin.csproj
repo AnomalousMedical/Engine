@@ -110,6 +110,8 @@
     <Compile Include="Wrapper\MeshData\HardwareBufferManager.cs" />
     <Compile Include="Wrapper\MeshData\HardwareIndexBuffer.cs" />
     <Compile Include="Wrapper\MeshData\HardwareIndexBufferSharedPtr.cs" />
+    <Compile Include="Wrapper\MeshData\HardwarePixelBuffer.cs" />
+    <Compile Include="Wrapper\MeshData\HardwarePixelBufferSharedPtr.cs" />
     <Compile Include="Wrapper\MeshData\HardwareVertexBuffer.cs" />
     <Compile Include="Wrapper\MeshData\HardwareVertexBufferSharedPtr.cs" />
     <Compile Include="Wrapper\MeshData\IndexData.cs" />
@@ -133,6 +135,7 @@
     <Compile Include="Wrapper\Renderer\RenderQueue.cs" />
     <Compile Include="Wrapper\Renderer\RenderSystem.cs" />
     <Compile Include="Wrapper\Renderer\RenderTarget.cs" />
+    <Compile Include="Wrapper\Renderer\RenderTexture.cs" />
     <Compile Include="Wrapper\Renderer\RenderWindow.cs" />
     <Compile Include="Wrapper\Renderer\Root.cs" />
     <Compile Include="Wrapper\Renderer\SceneListener\ManagedSceneListener.cs" />
@@ -152,6 +155,9 @@
     <Compile Include="Wrapper\Resources\Meshes\SubMesh.cs" />
     <Compile Include="Wrapper\Resources\OgreResourceGroupManager.cs" />
     <Compile Include="Wrapper\Resources\Resource.cs" />
+    <Compile Include="Wrapper\Resources\Textures\Texture.cs" />
+    <Compile Include="Wrapper\Resources\Textures\TextureManager.cs" />
+    <Compile Include="Wrapper\Resources\Textures\TexturePtr.cs" />
     <Compile Include="Wrapper\SceneObjects\Camera.cs" />
     <Compile Include="Wrapper\SceneObjects\Entity.cs" />
     <Compile Include="Wrapper\SceneObjects\Light.cs" />
@@ -166,6 +172,7 @@
     <Compile Include="Wrapper\Utility\SharedPtrCollection.cs" />
     <Compile Include="Wrapper\Utility\SharedPtrEntry.cs" />
     <Compile Include="Wrapper\Utility\WrapperCollection.cs" />
+    <Compile Include="Wrapper\Utility\WrapperMath.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">

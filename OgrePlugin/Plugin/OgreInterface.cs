@@ -80,6 +80,7 @@ namespace OgrePlugin
             MeshManager.getInstance().Dispose();
             SkeletonManager.getInstance().Dispose();
             HardwareBufferManager.getInstance().Dispose();
+            TextureManager.getInstance().Dispose();
             destroyRendererWindow(primaryWindow);
             root.Dispose();
         }

@@ -13,7 +13,7 @@ namespace OgreWrapper
         /// <summary>
 	    /// The type of index.
 	    /// </summary>
-	    enum IndexType : uint
+	    public enum IndexType : uint
 	    {
 		    /// <summary>
 		    /// 16 bit indices.
@@ -40,7 +40,7 @@ namespace OgreWrapper
         /// Get the type of indexes used in this buffer. 
         /// </summary>
         /// <returns>The IndexType of the buffer.</returns>
-        IndexType getType()
+        public IndexType getType()
         {
             return HardwareIndexBuffer_getType(hardwareBuffer);
         }
@@ -49,7 +49,7 @@ namespace OgreWrapper
         /// Get the number of indexes in this buffer.
         /// </summary>
         /// <returns>The number of indexes in the buffer.</returns>
-        IntPtr getNumIndexes()
+        public IntPtr getNumIndexes()
         {
             return HardwareIndexBuffer_getNumIndexes(hardwareBuffer);
         }
@@ -58,7 +58,7 @@ namespace OgreWrapper
         /// Get the size in bytes of each index.
         /// </summary>
         /// <returns>The size of a single index in bytes.</returns>
-        IntPtr getIndexSize()
+        public IntPtr getIndexSize()
         {
             return HardwareIndexBuffer_getIndexSize(hardwareBuffer);
         }

@@ -139,7 +139,7 @@ namespace OgreWrapper
         /// <param name="right">Right side of the box.</param>
         /// <param name="bottom">Bottom of the box.</param>
         /// <param name="pixelFormat">The pixel format to use.</param>
-        PixelBox(int left, int top, int right, int bottom, PixelFormat pixelFormat)
+        public PixelBox(int left, int top, int right, int bottom, PixelFormat pixelFormat)
         {
             this.pixelBox = PixelBox_Create1(left, top, right, bottom, pixelFormat);
         }
@@ -158,7 +158,7 @@ namespace OgreWrapper
         /// <param name="bottom">Bottom of the box.</param>
         /// <param name="pixelFormat">The pixel format to use.</param>
         /// <param name="pixelData">A pointer to the buffer data.  Make sure this is pinned if it is managed.</param>
-        PixelBox(int left, int top, int right, int bottom, PixelFormat pixelFormat, void* pixelData)
+        public PixelBox(int left, int top, int right, int bottom, PixelFormat pixelFormat, void* pixelData)
         {
             this.pixelBox = PixelBox_Create2(left, top, right, bottom, pixelFormat, pixelData);
         }
@@ -175,7 +175,7 @@ namespace OgreWrapper
         /// <param name="height">Height of the region.</param>
         /// <param name="depth">Depth of the region.</param>
         /// <param name="pixelFormat">Format of this buffer.</param>
-        PixelBox(int width, int height, int depth, PixelFormat pixelFormat)
+        public PixelBox(int width, int height, int depth, PixelFormat pixelFormat)
         {
             this.pixelBox = PixelBox_Create3(width, height, depth, pixelFormat);
         }
@@ -193,7 +193,7 @@ namespace OgreWrapper
         /// <param name="depth">Depth of the region.</param>
         /// <param name="pixelFormat">Format of this buffer.</param>
         /// <param name="pixelData">A pointer to the buffer data.  Make sure this is pinned if it is managed.</param>
-        PixelBox(int width, int height, int depth, PixelFormat pixelFormat, void* pixelData)
+        public PixelBox(int width, int height, int depth, PixelFormat pixelFormat, void* pixelData)
         {
             this.pixelBox = PixelBox_Create4(width, height, depth, pixelFormat, pixelData);
         }
@@ -215,7 +215,7 @@ namespace OgreWrapper
         /// <summary>
 	    /// Set the rowPitch and slicePitch so that the buffer is laid out consecutive in memory. 
 	    /// </summary>
-	    void setConsecutive()
+        public void setConsecutive()
         {
             PixelBox_setConsecutive(pixelBox);
         }
@@ -225,7 +225,7 @@ namespace OgreWrapper
         /// row and the leftmost pixel of the next row. 
 	    /// </summary>
 	    /// <returns>The row skip or 0 if rows are consecutive.</returns>
-        int getRowSkip()
+        public int getRowSkip()
         {
             return PixelBox_getRowSkip(pixelBox);
         }
@@ -235,7 +235,7 @@ namespace OgreWrapper
         /// one slice and the left top pixel of the next slice. 
 	    /// </summary>
 	    /// <returns>The number of pixels or 0 if the slices are consecutive.</returns>
-        int getSliceSkip()
+        public int getSliceSkip()
         {
             return PixelBox_getSliceSkip(pixelBox);
         }
@@ -245,7 +245,7 @@ namespace OgreWrapper
         /// pitches are equal to the dimensions).
 	    /// </summary>
 	    /// <returns>True if consecutive.</returns>
-        bool isConsecutive()
+        public bool isConsecutive()
         {
             return PixelBox_isConsecutive(pixelBox);
         }
@@ -255,7 +255,7 @@ namespace OgreWrapper
         /// consecutive in memory.
 	    /// </summary>
 	    /// <returns>The size.</returns>
-        int getConsecutiveSize()
+        public int getConsecutiveSize()
         {
             return PixelBox_getConsecutiveSize(pixelBox);
         }
@@ -264,7 +264,7 @@ namespace OgreWrapper
 	    /// Get the width of this box. 
 	    /// </summary>
 	    /// <returns>The width.</returns>
-        int getWidth()
+        public int getWidth()
         {
             return PixelBox_getWidth(pixelBox);
         }
@@ -273,7 +273,7 @@ namespace OgreWrapper
 	    /// Get the height of this box. 
 	    /// </summary>
 	    /// <returns>The height.</returns>
-        int getHeight()
+        public int getHeight()
         {
             return PixelBox_getHeight(pixelBox);
         }
@@ -282,7 +282,7 @@ namespace OgreWrapper
 	    /// Get the depth of this box. 
 	    /// </summary>
 	    /// <returns>The depth.</returns>
-        int getDepth()
+        public int getDepth()
         {
             return PixelBox_getDepth(pixelBox);
         }
@@ -290,7 +290,7 @@ namespace OgreWrapper
 	    /// <summary>
 	    /// The data pointer.
 	    /// </summary>
-	    void* Data 
+        public void* Data 
 	    {
 		    get
             {
@@ -305,7 +305,7 @@ namespace OgreWrapper
 	    /// <summary>
 	    /// The pixel format.
 	    /// </summary>
-	    PixelFormat Format 
+        public PixelFormat Format 
 	    {
 		    get
             {
@@ -321,7 +321,7 @@ namespace OgreWrapper
 	    /// Number of elements between the leftmost pixel of one row and the left
         /// pixel of the next. 
 	    /// </summary>
-	    int RowPitch 
+        public int RowPitch 
 	    {
             get
             {
@@ -337,7 +337,7 @@ namespace OgreWrapper
 	    /// Number of elements between the top left pixel of one (depth) slice and
         /// the top left pixel of the next. 
 	    /// </summary>
-	    int SlicePitch 
+        public int SlicePitch 
 	    {
             get
             {

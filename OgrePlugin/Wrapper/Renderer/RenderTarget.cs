@@ -32,7 +32,7 @@ namespace OgreWrapper
 	        case RenderTargetType.RenderWindow:
                 return new RenderWindow(nativePtr);
 	        case RenderTargetType.RenderTexture:
-		        throw new NotImplementedException();
+                return new RenderTexture(nativePtr);
 	        case RenderTargetType.MultiRenderTarget:
 		        throw new NotImplementedException();
 	        default:

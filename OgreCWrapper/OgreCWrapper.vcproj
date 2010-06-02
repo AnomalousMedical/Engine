@@ -220,7 +220,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\HardwareBufferManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\HardwareIndexBuffer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\HardwarePixelBuffer.cpp"
 				>
 			</File>
 			<File
@@ -372,6 +380,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\Skeleton.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Stdafx.cpp"
 				>
 				<FileConfiguration
@@ -408,6 +420,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\TextureManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\TextureUnitState.cpp"
 				>
 			</File>
@@ -433,6 +449,10 @@
 			</File>
 			<File
 				RelativePath=".\Src\Viewport.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\WrapperMath.cpp"
 				>
 			</File>
 		</Filter>

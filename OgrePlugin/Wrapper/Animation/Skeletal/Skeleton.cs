@@ -321,10 +321,10 @@ namespace OgreWrapper
         private static extern ushort Skeleton_getNumBones(IntPtr skeleton);
 
         [DllImport("OgreCWrapper")]
-        private static extern IEnumerator<Bone> Skeleton_getRootBoneIterator(IntPtr skeleton, BoneIterator.BoneFoundCallback boneFound);
+        private static extern void Skeleton_getRootBoneIterator(IntPtr skeleton, BoneIterator.BoneFoundCallback boneFound);
 
         [DllImport("OgreCWrapper")]
-        private static extern IEnumerator<Bone> Skeleton_getBoneIterator(IntPtr skeleton, BoneIterator.BoneFoundCallback boneFound);
+        private static extern void Skeleton_getBoneIterator(IntPtr skeleton, BoneIterator.BoneFoundCallback boneFound);
 
         [DllImport("OgreCWrapper")]
         private static extern IntPtr Skeleton_getBoneHandle(IntPtr skeleton, ushort handle);

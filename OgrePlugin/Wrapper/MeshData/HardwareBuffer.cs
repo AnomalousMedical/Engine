@@ -126,7 +126,7 @@ namespace OgreWrapper
 	    /// <param name="length">The size of the area to lock, in bytes.</param>
 	    /// <param name="options">Locking options.</param>
 	    /// <returns>A pointer to the locked buffer.</returns>
-        void* lockBuf(IntPtr offset, IntPtr length, LockOptions options)
+        public void* lockBuf(IntPtr offset, IntPtr length, LockOptions options)
         {
             return HardwareBuffer_lockBuf(hardwareBuffer, offset, length, options);
         }
@@ -136,7 +136,7 @@ namespace OgreWrapper
 	    /// </summary>
 	    /// <param name="options">Locking options</param>
 	    /// <returns>A pointer to the locked buffer.</returns>
-        void* lockBuf(LockOptions options)
+        public void* lockBuf(LockOptions options)
         {
             return HardwareBuffer_lockBufAll(hardwareBuffer, options);
         }
@@ -155,7 +155,7 @@ namespace OgreWrapper
         /// will not be lost, use the 'read' and 'write' forms instead. 
 	    /// </para>
 	    /// </summary>
-        void unlock()
+        public void unlock()
         {
             HardwareBuffer_unlock(hardwareBuffer);
         }
@@ -166,7 +166,7 @@ namespace OgreWrapper
 	    /// <param name="offset">The byte offset from the start of the buffer to read.</param>
 	    /// <param name="length">The size of the area to read, in bytes.</param>
 	    /// <param name="dest">The area of memory in which to place the data, must be large enough to accommodate the data!</param>
-        void readData(IntPtr offset, IntPtr length, void* dest)
+        public void readData(IntPtr offset, IntPtr length, void* dest)
         {
             HardwareBuffer_readData(hardwareBuffer, offset, length, dest);
         }
@@ -177,7 +177,7 @@ namespace OgreWrapper
 	    /// <param name="offset">The byte offset from the start of the buffer to start writing.</param>
 	    /// <param name="length">The size of the data to write to, in bytes.</param>
 	    /// <param name="source">The source of the data to be written.</param>
-        void writeData(IntPtr offset, IntPtr length, void* source)
+        public void writeData(IntPtr offset, IntPtr length, void* source)
         {
             HardwareBuffer_writeData(hardwareBuffer, offset, length, source);
         }
@@ -189,7 +189,7 @@ namespace OgreWrapper
 	    /// <param name="length">The size of the data to write to, in bytes.</param>
 	    /// <param name="source">The source of the data to be written.</param>
 	    /// <param name="discardWholeBuffer">	If true, this allows the driver to discard the entire buffer when writing, such that DMA stalls can be avoided; use if you can.</param>
-        void writeData(IntPtr offset, IntPtr length, void* source, bool discardWholeBuffer)
+        public void writeData(IntPtr offset, IntPtr length, void* source, bool discardWholeBuffer)
         {
             HardwareBuffer_writeDataDiscard(hardwareBuffer, offset, length, source, discardWholeBuffer);
         }
@@ -198,7 +198,7 @@ namespace OgreWrapper
 	    /// Returns the size of this buffer in bytes.
 	    /// </summary>
 	    /// <returns>The size of the buffer in bytes.</returns>
-        IntPtr getSizeInBytes()
+        public IntPtr getSizeInBytes()
         {
             return HardwareBuffer_getSizeInBytes(hardwareBuffer);
         }
@@ -207,7 +207,7 @@ namespace OgreWrapper
 	    /// Returns the Usage flags with which this buffer was created.
 	    /// </summary>
 	    /// <returns>The usage flags of the buffer.</returns>
-        Usage getUsage()
+        public Usage getUsage()
         {
             return HardwareBuffer_getUsage(hardwareBuffer);
         }
@@ -216,7 +216,7 @@ namespace OgreWrapper
 	    /// Returns whether this buffer is held in system memory.
 	    /// </summary>
 	    /// <returns>True if the buffer is in system memory.</returns>
-        bool isSystemMemory()
+        public bool isSystemMemory()
         {
             return HardwareBuffer_isSystemMemory(hardwareBuffer);
         }
@@ -225,7 +225,7 @@ namespace OgreWrapper
 	    /// Returns whether this buffer has a system memory shadow for quicker reading.
 	    /// </summary>
 	    /// <returns>True if there is a shadow buffer.</returns>
-        bool hasShadowBuffer()
+        public bool hasShadowBuffer()
         {
             return HardwareBuffer_hasShadowBuffer(hardwareBuffer);
         }
@@ -234,7 +234,7 @@ namespace OgreWrapper
 	    /// Returns whether or not this buffer is currently locked.
 	    /// </summary>
 	    /// <returns>True if the buffer was locked.</returns>
-        bool isLocked()
+        public bool isLocked()
         {
             return HardwareBuffer_isLocked(hardwareBuffer);
         }
@@ -243,7 +243,7 @@ namespace OgreWrapper
 	    /// Pass true to suppress hardware upload of shadow buffer changes. 
 	    /// </summary>
 	    /// <param name="suppress">True to suppress hardware upload of shadow buffer changes.</param>
-        void suppressHardwareUpdate(bool suppress)
+        public void suppressHardwareUpdate(bool suppress)
         {
             HardwareBuffer_suppressHardwareUpdate(hardwareBuffer, suppress);
         }

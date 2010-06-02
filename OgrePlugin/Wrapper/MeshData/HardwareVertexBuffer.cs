@@ -25,7 +25,7 @@ namespace OgreWrapper
         /// Gets the size in bytes of a single vertex in this buffer.
         /// </summary>
         /// <returns>The size in bytes of a vertex.</returns>
-        IntPtr getVertexSize()
+        public IntPtr getVertexSize()
         {
             return HardwareVertexBuffer_getVertexSize(hardwareBuffer);
         }
@@ -34,7 +34,7 @@ namespace OgreWrapper
         /// Get the number of vertices in this buffer. 
         /// </summary>
         /// <returns>The number of vertices.</returns>
-        IntPtr getNumVertices()
+        public IntPtr getNumVertices()
         {
             return HardwareVertexBuffer_getNumVertices(hardwareBuffer);
         }
