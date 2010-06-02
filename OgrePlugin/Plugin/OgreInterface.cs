@@ -96,11 +96,11 @@ namespace OgrePlugin
                 //Initialize Ogre
                 //root.loadPlugin("RenderSystem_Direct3D9");
                 RenderSystem rs = root.getRenderSystemByName("Direct3D9 Rendering Subsystem");
-                String valid = rs.validateConfigOptions();
-                if (valid.Length != 0)
-                {
-                    throw new InvalidPluginException(String.Format("Invalid Ogre configuration {0}", valid));
-                }
+                //String valid = rs.validateConfigOptions();
+                //if (valid.Length != 0)
+                //{
+                //    throw new InvalidPluginException(String.Format("Invalid Ogre configuration {0}", valid));
+                //}
                 root.setRenderSystem(rs);
                 root.initialize(false);
 
