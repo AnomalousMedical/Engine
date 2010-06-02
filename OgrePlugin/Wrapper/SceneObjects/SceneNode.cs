@@ -11,17 +11,38 @@ namespace OgreWrapper
     [NativeSubsystemType]
     public class SceneNode : Node
     {
-        private Dictionary<String, MovableObject> nodeObjectList = new Dictionary<String, MovableObject>();
+#region Static
 
-        internal static SceneNode createWrapper(IntPtr ogreSceneNode, object[] args)
+        private static SceneNode createWrapper(IntPtr ogreSceneNode, object[] args)
         {
             return new SceneNode(ogreSceneNode);
         }
 
-        internal SceneNode(IntPtr ogreSceneNode)
+        private static WrapperCollection<SceneNode> sceneNodes = new WrapperCollection<SceneNode>(SceneNode.createWrapper);
+
+        internal static SceneNode getManagedNode(IntPtr ogreSceneNode)
+        {
+            return sceneNodes.getObject(ogreSceneNode);
+        }
+
+        internal static void destroyManagedNode(SceneNode sceneNode)
+        {
+            sceneNodes.destroyObject(sceneNode.ogreNode);
+        }
+
+#endregion
+
+        private Dictionary<String, MovableObject> nodeObjectList = new Dictionary<String, MovableObject>();
+
+        protected SceneNode(IntPtr ogreSceneNode)
             :base(ogreSceneNode)
         {
 
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
         }
 
         /// <summary>

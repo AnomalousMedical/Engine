@@ -184,6 +184,22 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\Src\Animation.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\AnimationState.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\AnimationStateSet.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\AnimationTrack.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\Bone.cpp"
 				>
 			</File>
@@ -213,6 +229,10 @@
 			</File>
 			<File
 				RelativePath=".\Src\IndexData.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\KeyFrame.cpp"
 				>
 			</File>
 			<File
@@ -264,6 +284,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\NodeAnimationTrack.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\OgreLogListener.cpp"
 				>
 			</File>
@@ -309,6 +333,10 @@
 			</File>
 			<File
 				RelativePath=".\Src\PixelBox.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\Pose.cpp"
 				>
 			</File>
 			<File
@@ -381,6 +409,10 @@
 			</File>
 			<File
 				RelativePath=".\Src\TextureUnitState.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\VertexAnimationTrack.cpp"
 				>
 			</File>
 			<File

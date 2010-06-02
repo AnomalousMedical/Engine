@@ -28,7 +28,6 @@ namespace OgreWrapper
         IntPtr ogreSceneManager;
         WrapperCollection<Camera> cameras = new WrapperCollection<Camera>(Camera.createWrapper);
         WrapperCollection<Light> lights = new WrapperCollection<Light>(Light.createWrapper);
-        WrapperCollection<SceneNode> sceneNodes = new WrapperCollection<SceneNode>(SceneNode.createWrapper);
         WrapperCollection<Entity> entities = new WrapperCollection<Entity>(Entity.createWrapper);
         WrapperCollection<ManualObject> manualObjects = new WrapperCollection<ManualObject>(ManualObject.createWrapper);
         RenderQueue renderQueue;
@@ -41,7 +40,7 @@ namespace OgreWrapper
             renderQueue = new RenderQueue(SceneManager_getRenderQueue(ogreSceneManager));
             sceneListener = new ManagedSceneListener(this);
             SceneManager_addSceneListener(ogreSceneManager, sceneListener.NativeSceneListener);
-            rootNode = new SceneNode(SceneManager_getRootSceneNode(ogreSceneManager));
+            rootNode = SceneNode.getManagedNode(SceneManager_getRootSceneNode(ogreSceneManager));
         }
 
         public void Dispose()
@@ -50,7 +49,6 @@ namespace OgreWrapper
             sceneListener.Dispose();
             cameras.Dispose();
             lights.Dispose();
-            sceneNodes.Dispose();
             entities.Dispose();
             manualObjects.Dispose();
             renderQueue.Dispose();
@@ -163,7 +161,7 @@ namespace OgreWrapper
 	    /// <returns>A new render node with the given name.</returns>
         public SceneNode createSceneNode(String name)
         {
-            return sceneNodes.getObject(SceneManager_createSceneNode(ogreSceneManager, name));
+            return SceneNode.getManagedNode(SceneManager_createSceneNode(ogreSceneManager, name));
         }
 
 	    /// <summary>
@@ -182,7 +180,7 @@ namespace OgreWrapper
 	    /// <returns>The Render node if it exists or else null.</returns>
         public SceneNode getSceneNode(String name)
         {
-            return sceneNodes.getObject(SceneManager_getSceneNode(ogreSceneManager, name));
+            return SceneNode.getManagedNode(SceneManager_getSceneNode(ogreSceneManager, name));
         }
 
 	    /// <summary>
@@ -205,7 +203,7 @@ namespace OgreWrapper
             if(!node.Equals(rootNode))
             {
                 IntPtr ogreNode = node.OgreNode;
-                sceneNodes.destroyObject(ogreNode);
+                SceneNode.destroyManagedNode(node);
                 SceneManager_destroySceneNode(ogreSceneManager, ogreNode);
             }
             else

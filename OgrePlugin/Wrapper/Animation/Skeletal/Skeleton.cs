@@ -38,6 +38,14 @@ namespace OgreWrapper
             bones.Dispose();
         }
 
+        internal IntPtr OgreSkeleton
+        {
+            get
+            {
+                return skeleton;
+            }
+        }
+
         /// <summary>
 	    /// Creates a brand new Bone owned by this Skeleton. 
 	    /// </summary>

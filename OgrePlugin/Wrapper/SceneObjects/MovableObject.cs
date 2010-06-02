@@ -166,16 +166,6 @@ namespace OgreWrapper
         }
 
 	    /// <summary>
-	    /// Get an axis aligned bounding box for this movable object.
-	    /// </summary>
-	    /// <returns>The AABB for this object.</returns>
-        //public AxisAlignedBox getBoundingBox()
-        //{
-        //    //MovableObject_getBoundingBox(ogreObject);
-        //    throw new NotImplementedException();
-        //}
-
-	    /// <summary>
 	    /// Sets whether or not the debug display of this object is enabled. 
 	    /// </summary>
 	    /// <param name="enabled">True to enable debug rendering.  False to disable.</param>
@@ -217,8 +207,7 @@ namespace OgreWrapper
         /// <returns></returns>
 	    public SceneNode getParentSceneNode()
         {
-            //return MovableObject_getParentSceneNode(ogreObject);
-            throw new NotImplementedException();
+            return SceneNode.getManagedNode(MovableObject_getParentSceneNode(ogreObject));
         }
 
         #region CWrapper

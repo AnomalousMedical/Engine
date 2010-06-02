@@ -308,6 +308,11 @@ namespace OgreWrapper
             return vertexElement.GetHashCode();
         }
 
+        public override bool Equals(object obj)
+        {
+            return obj is VertexElement && ((VertexElement)obj).vertexElement == vertexElement;
+        }
+
 #region PInvoke
 
         [DllImport("OgreCWrapper")]
