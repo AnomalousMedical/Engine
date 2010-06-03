@@ -49,6 +49,7 @@
     <Compile Include="Input\PCInputHandler.cs" />
     <Compile Include="Input\PCKeyboard.cs" />
     <Compile Include="Input\PCMouse.cs" />
+    <Compile Include="Messaging\AgnosticMessagePump.cs" />
     <Compile Include="Messaging\NullMessagePump.cs" />
     <Compile Include="Messaging\OSMessagePump.cs" />
     <Compile Include="Messaging\WindowsMessagePump.cs" />
