@@ -50,18 +50,19 @@ namespace Engine
 
         }
 
-        public override bool canLoadShape(string filename)
+        public override bool canLoadShape(string filename, VirtualFileSystem vfs)
         {
             bool canLoad = filename.EndsWith(extension);
             if (canLoad)
             {
                 try
                 {
-                    XmlTextReader textReader = new XmlTextReader(filename);
+                    XmlTextReader textReader = new XmlTextReader(vfs.openStream(filename, FileMode.Open, FileAccess.Read));
                     textReader.Close();
                 }
                 catch (Exception e)
                 {
+                    Log.Error("Failed to load {0} because of exception {1}", filename, e.Message);
                     canLoad = false;
                 }
             }

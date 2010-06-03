@@ -36,7 +36,7 @@ namespace Engine
         /// </summary>
         /// <param name="filename">The file to test.</param>
         /// <returns>True if the file can be loaded using this loader.</returns>
-        public abstract bool canLoadShape(String filename);
+        public abstract bool canLoadShape(String filename, VirtualFileSystem vfs);
 
         /// <summary>
         /// Loads the contents of the given file and bulids the shapes using the specified

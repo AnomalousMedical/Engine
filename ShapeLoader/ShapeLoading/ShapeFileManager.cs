@@ -37,6 +37,7 @@ namespace Engine
             if (!shapeGroups.ContainsKey(name))
             {
                 shapeGroups.Add(name, new ShapeGroup(name));
+                Log.Info("Created shape resource group {0}.", name);
             }
             return shapeGroups[name];
         }
@@ -52,6 +53,7 @@ namespace Engine
                 ShapeGroup localGroup = declareGroup(name);
                 localGroup.unloadShapes(shapeRepository);
                 shapeGroups.Remove(name);
+                Log.Info("Destroyed shape resource group {0}.", name);
             }
             else
             {
@@ -64,12 +66,14 @@ namespace Engine
         /// </summary>
         public void loadUnloadedResources()
         {
+            Log.Info("Started loading shape resources.");
             loadStarted();
             foreach (ShapeGroup group in shapeGroups.Values)
             {
                 group.loadShapes(loader, builder);
             }
             loadEnded();
+            Log.Info("Finished loading shape resources.");
         }
 
         /// <summary>

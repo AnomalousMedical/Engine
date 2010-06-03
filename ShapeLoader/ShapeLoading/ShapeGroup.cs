@@ -70,6 +70,7 @@ namespace Engine
         /// <param name="builder">The builder to use to construct the shapes.</param>
         public void loadShapes(ShapeLoader loader, ShapeBuilder builder)
         {
+            Log.Info("Loading shape group {0}", Name);
             foreach (ShapeLocation location in shapeLocations.Values)
             {
                 if (!location.Loaded)
@@ -86,6 +87,7 @@ namespace Engine
         /// <param name="repository">The repository to unload the shapes from.</param>
         public void unloadShapes(ShapeRepository repository)
         {
+            Log.Info("Unloading shape group {0}", Name);
             foreach (ShapeLocation location in shapeLocations.Values)
             {
                 location.destroyResources(repository);
@@ -115,7 +117,7 @@ namespace Engine
             }
             else
             {
-                if (loader.canLoadShape(location.LocName))
+                if (loader.canLoadShape(location.LocName, vfs))
                 {
                     loader.loadShapes(builder, location.LocName, vfs);
                 }
@@ -153,8 +155,8 @@ namespace Engine
         {
             String[] files = vfs.listFiles(location.LocName, location.Recursive);
             foreach (String path in files)
-            {  
-                if (loader.canLoadShape(path))
+            {
+                if (loader.canLoadShape(path, vfs))
                 {
                     loader.loadShapes(builder, path, vfs);
                 }
