@@ -48,6 +48,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\DoNotCopyAttribute.cs" />
+    <Compile Include="Attributes\DoNotSaveAttribute.cs" />
+    <Compile Include="Attributes\InclusiveEnumFieldAttribute.cs" />
+    <Compile Include="Attributes\MultiEnumAttribute.cs" />
+    <Compile Include="Attributes\NativeSubsystemTypeAttribute.cs" />
+    <Compile Include="Attributes\SingleEnumAttribute.cs" />
     <Compile Include="Behavior\Behavior.cs" />
     <Compile Include="Behavior\BehaviorBlacklistException.cs" />
     <Compile Include="Behavior\BehaviorBrowser.cs" />
@@ -92,6 +97,21 @@
     <Compile Include="Editing\Refleciton\EditInterfaceOverride.cs" />
     <Compile Include="Editing\Refleciton\ReflectedCollectionEditInterface.cs" />
     <Compile Include="Editing\Refleciton\ReflectedObjectEditableProperty.cs" />
+    <Compile Include="Log\Log.cs" />
+    <Compile Include="Log\LogFileListener.cs" />
+    <Compile Include="Log\LogListener.cs" />
+    <Compile Include="Math\3d\Matrix4x4.cs" />
+    <Compile Include="Math\3d\Quaternion.cs" />
+    <Compile Include="Math\3d\Ray3.cs" />
+    <Compile Include="Math\3d\Segment3.cs" />
+    <Compile Include="Math\3d\Vector3.cs" />
+    <Compile Include="Math\3d\Vector4.cs" />
+    <Compile Include="Math\Curves\MultiQuadraticBezierCurve.cs" />
+    <Compile Include="Math\Curves\NaturalSplineSet.cs" />
+    <Compile Include="Math\Curves\QuadraticBezierCurve3.cs" />
+    <Compile Include="Math\Drawing\Color.cs" />
+    <Compile Include="Math\Numerics\Distance.cs" />
+    <Compile Include="Math\Shapes\Box3.cs" />
     <Compile Include="MemberCopier\CopyFilter.cs" />
     <Compile Include="MemberCopier\CopyMemberScanner.cs" />
     <Compile Include="MemberCopier\DeepMemberCopier.cs" />
@@ -231,18 +251,14 @@
     <Compile Include="Saving\XMLSaver\XmlValueReader.cs" />
     <Compile Include="Utility\GenericObjectPool.cs" />
     <Compile Include="Utility\ObjectPool.cs" />
+    <Compile Include="Utility\Pair.cs" />
     <Compile Include="Utility\PooledObject.cs" />
+    <Compile Include="Utility\WrapperCollection.cs" />
     <Compile Include="Zip\ZipFile.cs" />
     <Compile Include="Zip\ZipFileInfo.cs" />
     <Compile Include="Zip\ZipIOException.cs" />
     <Compile Include="Zip\ZipStream.cs" />
     <Compile Include="Zip\ZZipStat.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj">
-      <Project>{6603C379-3B5F-4291-8764-63B020F613FA}</Project>
-      <Name>Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

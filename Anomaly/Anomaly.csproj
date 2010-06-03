@@ -186,10 +186,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj">
-      <Project>{6603C379-3B5F-4291-8764-63B020F613FA}</Project>
-      <Name>Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Editor\Editor.csproj">
       <Project>{DDD1DB3A-AB11-4C3A-8480-0A4A9F298D64}</Project>
       <Name>Editor</Name>

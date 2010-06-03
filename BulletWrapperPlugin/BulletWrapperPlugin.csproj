@@ -82,10 +82,6 @@
     <Compile Include="ShapeLoading\CompoundShapeCollection.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj">
-      <Project>{6603C379-3B5F-4291-8764-63B020F613FA}</Project>
-      <Name>Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Engine\Engine.csproj">
       <Project>{57C253F1-157F-4A6A-9FED-345A776B97D5}</Project>
       <Name>Engine</Name>

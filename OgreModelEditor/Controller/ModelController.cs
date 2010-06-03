@@ -179,18 +179,18 @@ namespace OgreModelEditor.Controller
                 VertexElement tangentElement = vertexDeclaration.findElementBySemantic(VertexElementSemantic.VES_TANGENT);
                 VertexElement binormalElement = vertexDeclaration.findElementBySemantic(VertexElementSemantic.VES_BINORMAL);
 
-                uint numVertices = vertexData.vertexCount;
+                int numVertices = vertexData.vertexCount.ToInt32();
                 HardwareVertexBufferSharedPtr normalHardwareBuffer = vertexBinding.getBuffer(normalElement.getSource());
-                uint normalVertexSize = normalHardwareBuffer.Value.getVertexSize();
-                byte* normalBuffer = (byte*)normalHardwareBuffer.Value.@lock(HardwareBuffer.LockOptions.HBL_READ_ONLY);
+                int normalVertexSize = normalHardwareBuffer.Value.getVertexSize().ToInt32();
+                byte* normalBuffer = (byte*)normalHardwareBuffer.Value.lockBuf(HardwareBuffer.LockOptions.HBL_READ_ONLY);
 
                 HardwareVertexBufferSharedPtr tangentHardwareBuffer = vertexBinding.getBuffer(tangentElement.getSource());
-                uint tangetVertexSize = tangentHardwareBuffer.Value.getVertexSize();
-                byte* tangentBuffer = (byte*)tangentHardwareBuffer.Value.@lock(HardwareBuffer.LockOptions.HBL_READ_ONLY);
+                int tangetVertexSize = tangentHardwareBuffer.Value.getVertexSize().ToInt32();
+                byte* tangentBuffer = (byte*)tangentHardwareBuffer.Value.lockBuf(HardwareBuffer.LockOptions.HBL_READ_ONLY);
 
                 HardwareVertexBufferSharedPtr binormalHardwareBuffer = vertexBinding.getBuffer(binormalElement.getSource());
-                uint binormalVertexSize = binormalHardwareBuffer.Value.getVertexSize();
-                byte* binormalBuffer = (byte*)binormalHardwareBuffer.Value.@lock(HardwareBuffer.LockOptions.HBL_NORMAL);
+                int binormalVertexSize = binormalHardwareBuffer.Value.getVertexSize().ToInt32();
+                byte* binormalBuffer = (byte*)binormalHardwareBuffer.Value.lockBuf(HardwareBuffer.LockOptions.HBL_NORMAL);
 
                 Vector3* normal;
                 Vector3* tangent;
