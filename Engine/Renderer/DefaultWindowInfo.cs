@@ -25,6 +25,7 @@ namespace Engine.Renderer
             AutoWindowTitle = windowTitle;
             this.width = width;
             this.height = height;
+            MonitorIndex = 0;
         }
 
         /// <summary>
@@ -36,6 +37,7 @@ namespace Engine.Renderer
             AutoCreateWindow = false;
             AutoWindowTitle = "";
             EmbedWindow = embedWindow;
+            MonitorIndex = 0;
         }
 
         /// <summary>
@@ -53,6 +55,11 @@ namespace Engine.Renderer
         /// Returns the name to use for the created window if AutoCreateWindow is true.
         /// </summary>
         public String AutoWindowTitle { get; private set; }
+
+        /// <summary>
+        /// The index of the monitor to start ogre on.
+        /// </summary>
+        public int MonitorIndex { get; set; }
 
         /// <summary>
         /// Get/Set the width of the window. If an EmbedWindow is provided this

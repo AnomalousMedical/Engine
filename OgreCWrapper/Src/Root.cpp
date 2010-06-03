@@ -149,7 +149,7 @@ extern "C" __declspec(dllexport) Ogre::RenderWindow* Root_createRenderWindow(Ogr
 	return root->createRenderWindow(name, width, height, fullScreen);
 }
 
-extern "C" __declspec(dllexport) Ogre::RenderWindow* Root_createRenderWindowParams(Ogre::Root* root, const char* name, uint width, uint height, bool fullScreen, const char* vsync, const char* aaMode, const char* fsaaHint, const char* externalWindowHandle)
+extern "C" __declspec(dllexport) Ogre::RenderWindow* Root_createRenderWindowParams(Ogre::Root* root, const char* name, uint width, uint height, bool fullScreen, const char* vsync, const char* aaMode, const char* fsaaHint, const char* externalWindowHandle, const char* monitorIndex)
 {
 	Ogre::NameValuePairList params;
 	params["vsync"] = vsync;
@@ -165,6 +165,7 @@ extern "C" __declspec(dllexport) Ogre::RenderWindow* Root_createRenderWindowPara
 	{
 		params["externalWindowHandle"] = externalWindowHandle;
 	}
+	params["monitorIndex"] = monitorIndex;
 	return root->createRenderWindow(name, width, height, fullScreen, &params);
 }
 
