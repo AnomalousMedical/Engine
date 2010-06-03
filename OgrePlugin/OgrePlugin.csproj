@@ -72,6 +72,7 @@
     <Compile Include="Platform\OgreOSWindow.cs" />
     <Compile Include="Platform\OgreUpdate.cs" />
     <Compile Include="Platform\OgreWindow.cs" />
+    <Compile Include="Platform\OgreWindowListener.cs" />
     <Compile Include="Platform\StatsOverlay.cs" />
     <Compile Include="Plugin\OgreConfig.cs" />
     <Compile Include="Plugin\OgreDebugSurface.cs" />
@@ -142,6 +143,8 @@
     <Compile Include="Wrapper\Renderer\SceneListener\SceneListener.cs" />
     <Compile Include="Wrapper\Renderer\SceneManager.cs" />
     <Compile Include="Wrapper\Renderer\Viewport.cs" />
+    <Compile Include="Wrapper\Renderer\WindowEventListener.cs" />
+    <Compile Include="Wrapper\Renderer\WindowEventUtilities.cs" />
     <Compile Include="Wrapper\Resources\Materials\Material.cs" />
     <Compile Include="Wrapper\Resources\Materials\MaterialManager.cs" />
     <Compile Include="Wrapper\Resources\Materials\MaterialPtr.cs" />

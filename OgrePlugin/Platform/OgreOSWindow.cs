@@ -16,6 +16,8 @@ namespace OgrePlugin
     {
         private RenderWindow window;
         private IntPtr handle;
+        private List<OSWindowListener> windowListeners = new List<OSWindowListener>();
+        private OgreWindowListener ogreWindowListener;
 
         public OgreOSWindow(RenderWindow window)
         {
@@ -26,6 +28,14 @@ namespace OgrePlugin
                 window.getCustomAttribute("WINDOW", &mHandle);
             }
             handle = new IntPtr(mHandle);
+            ogreWindowListener = new OgreWindowListener(this);
+            WindowEventUtilities.addWindowEventListener(window, ogreWindowListener);
+        }
+
+        public void Dispose()
+        {
+            WindowEventUtilities.removeWindowEventListener(window, ogreWindowListener);
+            ogreWindowListener.Dispose();
         }
 
         public IntPtr WindowHandle
@@ -54,17 +64,12 @@ namespace OgrePlugin
 
         public void addListener(OSWindowListener listener)
         {
-
+            windowListeners.Add(listener);
         }
 
         public void removeListener(OSWindowListener listener)
         {
-
-        }
-
-        public void Dispose()
-        {
-            //for now does nothing will do stuff when the callbacks are hooked up
+            windowListeners.Remove(listener);
         }
 
         public RenderWindow RenderWindow
@@ -72,6 +77,30 @@ namespace OgrePlugin
             get
             {
                 return window;
+            }
+        }
+
+        internal void _fireWindowMoved()
+        {
+            foreach (OSWindowListener listener in windowListeners)
+            {
+                listener.moved(this);
+            }
+        }
+
+        internal void _fireWindowResized()
+        {
+            foreach (OSWindowListener listener in windowListeners)
+            {
+                listener.resized(this);
+            }
+        }
+
+        internal void _fireWindowClosing()
+        {
+            foreach (OSWindowListener listener in windowListeners)
+            {
+                listener.closing(this);
             }
         }
     }

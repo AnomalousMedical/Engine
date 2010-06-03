@@ -288,6 +288,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\NativeWindowListener.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\Node.cpp"
 				>
 			</File>
@@ -460,6 +464,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\WindowEventUtilities.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\WrapperMath.cpp"
 				>
 			</File>
@@ -475,6 +483,10 @@
 			</File>
 			<File
 				RelativePath=".\Include\NativeSceneListener.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Include\NativeWindowListener.h"
 				>
 			</File>
 			<File
