@@ -7,16 +7,20 @@ extern "C" __declspec(dllexport) Ogre::Root* Root_Create(const char* pluginFileN
 
 extern "C" __declspec(dllexport) Ogre::Plugin* RenderSystemPlugin_Create()
 {
-	Ogre::Plugin* plugin = new Ogre::D3D9Plugin();
+	/*Ogre::Plugin* plugin = new Ogre::D3D9Plugin();
 	Ogre::Root::getSingleton().installPlugin(plugin);
-	return plugin;
+	return plugin;*/
+	Ogre::Root::getSingleton().loadPlugin("RenderSystem_Direct3D9");
+	return NULL;
 }
 
 extern "C" __declspec(dllexport) Ogre::Plugin* CGPlugin_Create()
 {
-	Ogre::Plugin* plugin = new Ogre::CgPlugin();
+	/*Ogre::Plugin* plugin = new Ogre::CgPlugin();
 	Ogre::Root::getSingleton().installPlugin(plugin);
-	return plugin;
+	return plugin;*/
+	Ogre::Root::getSingleton().loadPlugin("Plugin_CgProgramManager");
+	return NULL;
 }
 
 extern "C" __declspec(dllexport) void Root_Delete(Ogre::Root* ogreRoot)
@@ -26,12 +30,12 @@ extern "C" __declspec(dllexport) void Root_Delete(Ogre::Root* ogreRoot)
 
 extern "C" __declspec(dllexport) void RenderSystemPlugin_Delete(Ogre::Plugin* renderSystemPlugin)
 {
-	delete renderSystemPlugin;
+	//delete renderSystemPlugin;
 }
 
 extern "C" __declspec(dllexport) void CGPlugin_Delete(Ogre::Plugin* cgPlugin)
 {
-	delete cgPlugin;
+	//delete cgPlugin;
 }
 
 extern "C" __declspec(dllexport) void Root_saveConfig(Ogre::Root* root)

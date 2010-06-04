@@ -7,8 +7,6 @@
 #pragma warning(push)
 #pragma warning(disable : 4635)
 #include "Ogre.h"
-#include "OgreCgPlugin.h"
-#include "OgreD3D9Plugin.h"
 #pragma warning(pop)
 
 typedef unsigned int uint;
