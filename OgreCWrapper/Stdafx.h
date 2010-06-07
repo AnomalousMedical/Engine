@@ -9,6 +9,8 @@
 #include "Ogre.h"
 #pragma warning(pop)
 
+#define _AnomalousExport __attribute__ ((visibility("default")))
+
 typedef unsigned int uint;
 typedef unsigned char byte;
 typedef unsigned short ushort;

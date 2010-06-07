@@ -15,19 +15,19 @@ public:
 	}
 };
 
-extern "C" __declspec(dllexport) void oisMouse_setWindowSize(OIS::Mouse* mouse, int width, int height)
+extern "C" _AnomalousExport void oisMouse_setWindowSize(OIS::Mouse* mouse, int width, int height)
 {
 	const OIS::MouseState& state = mouse->getMouseState();
 	state.width = width;
 	state.height = height;
 }
 
-extern "C" __declspec(dllexport) bool oisMouse_buttonDown(OIS::Mouse* mouse, OIS::MouseButtonID button)
+extern "C" _AnomalousExport bool oisMouse_buttonDown(OIS::Mouse* mouse, OIS::MouseButtonID button)
 {
 	return mouse->getMouseState().buttonDown(button);
 }
 
-extern "C" __declspec(dllexport) void oisMouse_capture(OIS::Mouse* mouse, Vector3* absPos, Vector3* relPos)
+extern "C" _AnomalousExport void oisMouse_capture(OIS::Mouse* mouse, Vector3* absPos, Vector3* relPos)
 {
 	mouse->capture();
 

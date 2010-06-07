@@ -1,13 +1,17 @@
 #include "stdafx.h"
 #include "PerformanceCounter.h"
+#ifdef WINDOWS
 #include "winbase.h"
 #include "mmsystem.h"
 #include <algorithm>
+#endif
 
 PerformanceCounter::PerformanceCounter()
+#ifdef WINDOWS
 :timerMask(0)
+#endif
 {
-
+	
 }
 
 PerformanceCounter::~PerformanceCounter()
@@ -17,6 +21,7 @@ PerformanceCounter::~PerformanceCounter()
 
 bool PerformanceCounter::initialize()
 {
+#ifdef WINDOWS
 	DWORD procMask;
 	DWORD sysMask;
 
@@ -49,10 +54,17 @@ bool PerformanceCounter::initialize()
 	//Finish and return
 	lastTime = 0;
 	return valid;
+#endif
+
+	zeroClock = clock();
+	gettimeofday(&start, NULL);
+	return true;
 }
 
-LONGLONG PerformanceCounter::getCurrentTime()
+long PerformanceCounter::getCurrentTime()
 {
+
+#ifdef WINDOWS
 	//Set affinity and read current time
 	LARGE_INTEGER currentTime;
 	HANDLE thread = GetCurrentThread();
@@ -78,24 +90,30 @@ LONGLONG PerformanceCounter::getCurrentTime()
 	lastTime = time;
 
 	return 1000000 * time / frequency.QuadPart;
+
+#endif
+
+	struct timeval now;
+	gettimeofday(&now, NULL);
+	return (now.tv_sec-start.tv_sec)*1000+(now.tv_usec-start.tv_usec)/1000;
 }
 
-extern "C" __declspec(dllexport) PerformanceCounter* PerformanceCounter_Create()
+extern "C" _AnomalousExport PerformanceCounter* PerformanceCounter_Create()
 {
 	return new PerformanceCounter();
 }
 
-extern "C" __declspec(dllexport) void PerformanceCounter_Delete(PerformanceCounter* counter)
+extern "C" _AnomalousExport void PerformanceCounter_Delete(PerformanceCounter* counter)
 {
 	delete counter;
 }
 
-extern "C" __declspec(dllexport) bool PerformanceCounter_initialize(PerformanceCounter* counter)
+extern "C" _AnomalousExport bool PerformanceCounter_initialize(PerformanceCounter* counter)
 {
 	return counter->initialize();
 }
 
-extern "C" __declspec(dllexport) long PerformanceCounter_getCurrentTime(PerformanceCounter* counter)
+extern "C" _AnomalousExport long PerformanceCounter_getCurrentTime(PerformanceCounter* counter)
 {
 	return counter->getCurrentTime();
 }

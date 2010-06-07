@@ -1,163 +1,163 @@
 #include "Stdafx.h"
 
-extern "C" __declspec(dllexport) Ogre::Mesh* Entity_getMesh(Ogre::Entity* entity, ProcessWrapperObjectDelegate processWrapper)
+extern "C" _AnomalousExport Ogre::Mesh* Entity_getMesh(Ogre::Entity* entity, ProcessWrapperObjectDelegate processWrapper)
 {
 	const Ogre::MeshPtr& meshPtr = entity->getMesh();
 	processWrapper(meshPtr.getPointer(), &meshPtr);
 	return meshPtr.getPointer();
 }
 
-extern "C" __declspec(dllexport) Ogre::SubEntity* Entity_getSubEntityIndex(Ogre::Entity* entity, uint index)
+extern "C" _AnomalousExport Ogre::SubEntity* Entity_getSubEntityIndex(Ogre::Entity* entity, uint index)
 {
 	return entity->getSubEntity(index);
 }
 
-extern "C" __declspec(dllexport) Ogre::SubEntity* Entity_getSubEntity(Ogre::Entity* entity, const char* name)
+extern "C" _AnomalousExport Ogre::SubEntity* Entity_getSubEntity(Ogre::Entity* entity, const char* name)
 {
 	return entity->getSubEntity(name);
 }
 
-extern "C" __declspec(dllexport) uint Entity_getNumSubEntities(Ogre::Entity* entity)
+extern "C" _AnomalousExport uint Entity_getNumSubEntities(Ogre::Entity* entity)
 {
 	return entity->getNumSubEntities();
 }
 
-extern "C" __declspec(dllexport) void Entity_setMaterialName(Ogre::Entity* entity, const char* name)
+extern "C" _AnomalousExport void Entity_setMaterialName(Ogre::Entity* entity, const char* name)
 {
 	entity->setMaterialName(name);
 }
 
-extern "C" __declspec(dllexport) Ogre::AnimationState* Entity_getAnimationState(Ogre::Entity* entity, const char* name)
+extern "C" _AnomalousExport Ogre::AnimationState* Entity_getAnimationState(Ogre::Entity* entity, const char* name)
 {
 	return entity->getAnimationState(name);
 }
 
-extern "C" __declspec(dllexport) Ogre::AnimationStateSet* Entity_getAllAnimationStates(Ogre::Entity* entity)
+extern "C" _AnomalousExport Ogre::AnimationStateSet* Entity_getAllAnimationStates(Ogre::Entity* entity)
 {
 	return entity->getAllAnimationStates();
 }
 
-extern "C" __declspec(dllexport) void Entity_setDisplaySkeleton(Ogre::Entity* entity, bool display)
+extern "C" _AnomalousExport void Entity_setDisplaySkeleton(Ogre::Entity* entity, bool display)
 {
 	entity->setDisplaySkeleton(display);
 }
 
-extern "C" __declspec(dllexport) bool Entity_getDisplaySkeleton(Ogre::Entity* entity)
+extern "C" _AnomalousExport bool Entity_getDisplaySkeleton(Ogre::Entity* entity)
 {
 	return entity->getDisplaySkeleton();
 }
 
-extern "C" __declspec(dllexport) Ogre::Entity* Entity_getManualLodLevel(Ogre::Entity* entity, uint index)
+extern "C" _AnomalousExport Ogre::Entity* Entity_getManualLodLevel(Ogre::Entity* entity, uint index)
 {
 	return entity->getManualLodLevel(index);
 }
 
-extern "C" __declspec(dllexport) uint Entity_getNumManualLodLevels(Ogre::Entity* entity)
+extern "C" _AnomalousExport uint Entity_getNumManualLodLevels(Ogre::Entity* entity)
 {
 	return entity->getNumManualLodLevels();
 }
 
-extern "C" __declspec(dllexport) ushort Entity_getCurrentLodIndex(Ogre::Entity* entity)
+extern "C" _AnomalousExport ushort Entity_getCurrentLodIndex(Ogre::Entity* entity)
 {
 	return entity->getCurrentLodIndex();
 }
 
-extern "C" __declspec(dllexport) void Entity_setMeshLodBias(Ogre::Entity* entity, float factor, ushort maxDetailIndex, ushort minDetailIndex)
+extern "C" _AnomalousExport void Entity_setMeshLodBias(Ogre::Entity* entity, float factor, ushort maxDetailIndex, ushort minDetailIndex)
 {
 	entity->setMeshLodBias(factor, maxDetailIndex, minDetailIndex);
 }
 
-extern "C" __declspec(dllexport) void Entity_setMaterialLodBias(Ogre::Entity* entity, float factor, ushort maxDetailIndex, ushort minDetailIndex)
+extern "C" _AnomalousExport void Entity_setMaterialLodBias(Ogre::Entity* entity, float factor, ushort maxDetailIndex, ushort minDetailIndex)
 {
 	entity->setMaterialLodBias(factor, maxDetailIndex, minDetailIndex);
 }
 
-extern "C" __declspec(dllexport) void Entity_setPolygonModeOverrideable(Ogre::Entity* entity, bool polygonModeOverrideable)
+extern "C" _AnomalousExport void Entity_setPolygonModeOverrideable(Ogre::Entity* entity, bool polygonModeOverrideable)
 {
 	entity->setPolygonModeOverrideable(polygonModeOverrideable);
 }
 
-extern "C" __declspec(dllexport) void Entity_detachAllObjectsFromBone(Ogre::Entity* entity)
+extern "C" _AnomalousExport void Entity_detachAllObjectsFromBone(Ogre::Entity* entity)
 {
 	entity->detachAllObjectsFromBone();
 }
 
-extern "C" __declspec(dllexport) float Entity_getBoundingRadius(Ogre::Entity* entity)
+extern "C" _AnomalousExport float Entity_getBoundingRadius(Ogre::Entity* entity)
 {
 	return entity->getBoundingRadius();
 }
 
-extern "C" __declspec(dllexport) bool Entity_hasSkeleton(Ogre::Entity* entity)
+extern "C" _AnomalousExport bool Entity_hasSkeleton(Ogre::Entity* entity)
 {
 	return entity->hasSkeleton();
 }
 
-extern "C" __declspec(dllexport) Ogre::SkeletonInstance* Entity_getSkeleton(Ogre::Entity* entity)
+extern "C" _AnomalousExport Ogre::SkeletonInstance* Entity_getSkeleton(Ogre::Entity* entity)
 {
 	return entity->getSkeleton();
 }
 
-extern "C" __declspec(dllexport) bool Entity_isHardwareAnimationEnabled(Ogre::Entity* entity)
+extern "C" _AnomalousExport bool Entity_isHardwareAnimationEnabled(Ogre::Entity* entity)
 {
 	return entity->isHardwareAnimationEnabled();
 }
 
-extern "C" __declspec(dllexport) int Entity_getSoftwareAnimationRequests(Ogre::Entity* entity)
+extern "C" _AnomalousExport int Entity_getSoftwareAnimationRequests(Ogre::Entity* entity)
 {
 	return entity->getSoftwareAnimationRequests();
 }
 
-extern "C" __declspec(dllexport) int Entity_getSoftwareAnimationNormalsRequests(Ogre::Entity* entity)
+extern "C" _AnomalousExport int Entity_getSoftwareAnimationNormalsRequests(Ogre::Entity* entity)
 {
 	return entity->getSoftwareAnimationNormalsRequests();
 }
 
-extern "C" __declspec(dllexport) void Entity_addSoftwareAnimationRequest(Ogre::Entity* entity, bool normalsAlso)
+extern "C" _AnomalousExport void Entity_addSoftwareAnimationRequest(Ogre::Entity* entity, bool normalsAlso)
 {
 	entity->addSoftwareAnimationRequest(normalsAlso);
 }
 
-extern "C" __declspec(dllexport) void Entity_removeSoftwareAnimationRequest(Ogre::Entity* entity, bool normalsAlso)
+extern "C" _AnomalousExport void Entity_removeSoftwareAnimationRequest(Ogre::Entity* entity, bool normalsAlso)
 {
 	entity->removeSoftwareAnimationRequest(normalsAlso);
 }
 
-extern "C" __declspec(dllexport) void Entity_shareSkeletonInstanceWith(Ogre::Entity* entity, Ogre::Entity* shareEntity)
+extern "C" _AnomalousExport void Entity_shareSkeletonInstanceWith(Ogre::Entity* entity, Ogre::Entity* shareEntity)
 {
 	entity->shareSkeletonInstanceWith(shareEntity);
 }
 
-extern "C" __declspec(dllexport) bool Entity_hasVertexAnimation(Ogre::Entity* entity)
+extern "C" _AnomalousExport bool Entity_hasVertexAnimation(Ogre::Entity* entity)
 {
 	return entity->hasVertexAnimation();
 }
 
-extern "C" __declspec(dllexport) void Entity_stopSharingSkeletonInstance(Ogre::Entity* entity)
+extern "C" _AnomalousExport void Entity_stopSharingSkeletonInstance(Ogre::Entity* entity)
 {
 	entity->stopSharingSkeletonInstance();
 }
 
-extern "C" __declspec(dllexport) bool Entity_sharesSkeletonInstance(Ogre::Entity* entity)
+extern "C" _AnomalousExport bool Entity_sharesSkeletonInstance(Ogre::Entity* entity)
 {
 	return entity->sharesSkeletonInstance();
 }
 
-extern "C" __declspec(dllexport) void Entity_refreshAvailableAnimationState(Ogre::Entity* entity)
+extern "C" _AnomalousExport void Entity_refreshAvailableAnimationState(Ogre::Entity* entity)
 {
 	return entity->refreshAvailableAnimationState();
 }
 
-extern "C" __declspec(dllexport) bool Entity_isInitialzed(Ogre::Entity* entity)
+extern "C" _AnomalousExport bool Entity_isInitialzed(Ogre::Entity* entity)
 {
 	return entity->isInitialised();
 }
 
-extern "C" __declspec(dllexport) void Entity_setCastShadows(Ogre::Entity* entity, bool castShadows)
+extern "C" _AnomalousExport void Entity_setCastShadows(Ogre::Entity* entity, bool castShadows)
 {
 	entity->setCastShadows(castShadows);
 }
 
-extern "C" __declspec(dllexport) bool Entity_getCastShadows(Ogre::Entity* entity)
+extern "C" _AnomalousExport bool Entity_getCastShadows(Ogre::Entity* entity)
 {
 	return entity->getCastShadows();
 }
@@ -168,7 +168,7 @@ void getMeshInformation(Ogre::Entity* entity, size_t &vertexCount, Ogre::Vector3
 								const Ogre::Vector3 &position, const Ogre::Quaternion &orient,
 								const Ogre::Vector3 &scale);
 
-extern "C" __declspec(dllexport) bool Entity_raycastPolygonLevel(Ogre::Entity* entity, Ray3 ray, float distanceOnRay)
+extern "C" _AnomalousExport bool Entity_raycastPolygonLevel(Ogre::Entity* entity, Ray3 ray, float distanceOnRay)
 {
 	Ogre::Real closestDistance = -1.0f;
 	Ogre::Ray ogreRay = ray.toOgre();

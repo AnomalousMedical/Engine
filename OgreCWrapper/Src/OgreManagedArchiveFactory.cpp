@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "..\Include\OgreManagedArchiveFactory.h"
+#include "../Include/OgreManagedArchiveFactory.h"
 
 OgreManagedArchiveFactory::OgreManagedArchiveFactory(String archType, CreateInstanceDelegate createInstanceCallback, DestroyInstanceDelegate destroyInstanceCallback)
 :createInstanceCallback(createInstanceCallback),
@@ -12,12 +12,12 @@ OgreManagedArchiveFactory::~OgreManagedArchiveFactory(void)
 {
 }
 
-extern "C" __declspec(dllexport) OgreManagedArchiveFactory* OgreManagedArchiveFactory_Create(String archType, CreateInstanceDelegate createInstanceCallback, DestroyInstanceDelegate destroyInstanceCallback)
+extern "C" _AnomalousExport OgreManagedArchiveFactory* OgreManagedArchiveFactory_Create(String archType, CreateInstanceDelegate createInstanceCallback, DestroyInstanceDelegate destroyInstanceCallback)
 {
 	return new OgreManagedArchiveFactory(archType, createInstanceCallback, destroyInstanceCallback);
 }
 
-extern "C" __declspec(dllexport) void OgreManagedArchiveFactory_Delete(OgreManagedArchiveFactory* archive)
+extern "C" _AnomalousExport void OgreManagedArchiveFactory_Delete(OgreManagedArchiveFactory* archive)
 {
 	delete archive;
 }

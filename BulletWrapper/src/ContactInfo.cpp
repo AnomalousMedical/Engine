@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "..\Include\ContactInfo.h"
+#include "../Include/ContactInfo.h"
 #include "float.h"
 #include "ContactCache.h"
 #include "MotionState.h"
@@ -243,22 +243,22 @@ btManifoldPoint* ContactInfo::nextPoint()
 	}
 }
 
-extern "C" _declspec(dllexport) int ContactInfo_getNumContacts(ContactInfo* contactInfo)
+extern "C" _AnomalousExport int ContactInfo_getNumContacts(ContactInfo* contactInfo)
 {
 	return contactInfo->getNumContacts();
 }
 
-extern "C" _declspec(dllexport) void ContactInfo_startPointIterator(ContactInfo* contactInfo)
+extern "C" _AnomalousExport void ContactInfo_startPointIterator(ContactInfo* contactInfo)
 {
 	contactInfo->startPointIterator();
 }
 
-extern "C" _declspec(dllexport) bool ContactInfo_hasNextPoint(ContactInfo* contactInfo)
+extern "C" _AnomalousExport bool ContactInfo_hasNextPoint(ContactInfo* contactInfo)
 {
 	return contactInfo->hasNextPoint();
 }
 
-extern "C" _declspec(dllexport) btManifoldPoint* ContactInfo_nextPoint(ContactInfo* contactInfo)
+extern "C" _AnomalousExport btManifoldPoint* ContactInfo_nextPoint(ContactInfo* contactInfo)
 {
 	return contactInfo->nextPoint();
 }

@@ -1,8 +1,12 @@
 #pragma once
 
+#ifdef WINDOWS
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 #include "windows.h"
+#endif
+
+#include <sys/time.h>
 
 /// <summary>
 /// This class provides access to the QueryPerformanceCounter functions as a
@@ -15,12 +19,18 @@
 class PerformanceCounter
 {
 private:	
+#ifdef WINDOWS
 	DWORD startTick;
 	LONGLONG lastTime;
 	LARGE_INTEGER startTime;
 	LARGE_INTEGER frequency;
 
 	DWORD timerMask;
+
+#endif
+	struct timeval start;
+	clock_t zeroClock;
+
 
 public:
 	/// <summary>
@@ -43,5 +53,5 @@ public:
 	/// Get the current time in microseconds.
 	/// </summary>
 	/// <returns>The current time in microseconds.</returns>
-	LONGLONG getCurrentTime();
+	long getCurrentTime();
 };

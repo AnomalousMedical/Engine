@@ -19,7 +19,7 @@ static zzip_ssize_t xor_read (int f, void* p, zzip_size_t l)
 static zzip_plugin_io_handlers xor_handlers;
 static zzip_strings_t xor_fileext[] = { ".dat", ".DAT", 0 }; 
 
-extern "C" __declspec(dllexport) ZZIP_DIR* ZipFile_OpenDir(const char* cName, zzip_error_t * zzipError)
+extern "C" _AnomalousExport ZZIP_DIR* ZipFile_OpenDir(const char* cName, zzip_error_t * zzipError)
 {
 	std::string filename = cName;
 	if(filename.find(".dat") != std::string::npos || filename.find(".DAT") != std::string::npos)
@@ -35,22 +35,22 @@ extern "C" __declspec(dllexport) ZZIP_DIR* ZipFile_OpenDir(const char* cName, zz
 	}
 }
 
-extern "C" __declspec(dllexport) void ZipFile_Close(ZZIP_DIR* zzipFile)
+extern "C" _AnomalousExport void ZipFile_Close(ZZIP_DIR* zzipFile)
 {
 	zzip_dir_close(zzipFile);
 }
 
-extern "C" __declspec(dllexport) bool ZipFile_Read(ZZIP_DIR* zzipDir, ZZIP_DIRENT* zstat)
+extern "C" _AnomalousExport bool ZipFile_Read(ZZIP_DIR* zzipDir, ZZIP_DIRENT* zstat)
 {
 	return zzip_dir_read(zzipDir, zstat);
 }
 
-extern "C" __declspec(dllexport) int ZipFile_DirStat(ZZIP_DIR* zzipDir, const char* filename, ZZIP_STAT* zstat, int mode)
+extern "C" _AnomalousExport int ZipFile_DirStat(ZZIP_DIR* zzipDir, const char* filename, ZZIP_STAT* zstat, int mode)
 {
 	return zzip_dir_stat(zzipDir, filename, zstat, mode);
 }
 
-extern "C" __declspec(dllexport) ZZIP_FILE* ZipFile_OpenFile(ZZIP_DIR* zzipDir, const char* filename, int mode)
+extern "C" _AnomalousExport ZZIP_FILE* ZipFile_OpenFile(ZZIP_DIR* zzipDir, const char* filename, int mode)
 {
 	return zzip_file_open(zzipDir, filename, mode);
 }

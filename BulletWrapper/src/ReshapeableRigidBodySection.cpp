@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "..\Include\ReshapeableRigidBodySection.h"
+#include "../Include/ReshapeableRigidBodySection.h"
 
 ReshapeableRigidBodySection::ReshapeableRigidBodySection(void)
 {

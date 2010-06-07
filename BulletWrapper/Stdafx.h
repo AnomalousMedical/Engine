@@ -5,9 +5,11 @@
 #pragma once
 
 #include "btBulletDynamicsCommon.h"
-#include "BulletSoftBody\btSoftRigidDynamicsWorld.h"
-#include "BulletSoftBody\btSoftBodyRigidBodyCollisionConfiguration.h"
-#include "BulletSoftBody\btSoftBodyHelpers.h"
+#include "BulletSoftBody/btSoftRigidDynamicsWorld.h"
+#include "BulletSoftBody/btSoftBodyRigidBodyCollisionConfiguration.h"
+#include "BulletSoftBody/btSoftBodyHelpers.h"
+
+#define _AnomalousExport __attribute__ ((visibility("default")))
 
 class Vector3
 {

@@ -6,3 +6,5 @@
 
 #include <zzip/zzip.h>
 #include <zzip/plugin.h>
+
+#define _AnomalousExport

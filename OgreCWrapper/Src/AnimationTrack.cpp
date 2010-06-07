@@ -1,21 +1,21 @@
 #include "Stdafx.h"
 
-extern "C" __declspec(dllexport) bool AnimationTrack_hasNonZeroKeyFrames(Ogre::AnimationTrack* animationTrack)
+extern "C" _AnomalousExport bool AnimationTrack_hasNonZeroKeyFrames(Ogre::AnimationTrack* animationTrack)
 {
 	return animationTrack->hasNonZeroKeyFrames();
 }
 
-extern "C" __declspec(dllexport) void AnimationTrack_optimize(Ogre::AnimationTrack* animationTrack)
+extern "C" _AnomalousExport void AnimationTrack_optimize(Ogre::AnimationTrack* animationTrack)
 {
 	animationTrack->optimise();
 }
 
-extern "C" __declspec(dllexport) ushort AnimationTrack_getHandle(Ogre::AnimationTrack* animationTrack)
+extern "C" _AnomalousExport ushort AnimationTrack_getHandle(Ogre::AnimationTrack* animationTrack)
 {
 	return animationTrack->getHandle();
 }
 
-extern "C" __declspec(dllexport) ushort AnimationTrack_getNumKeyFrames(Ogre::AnimationTrack* animationTrack)
+extern "C" _AnomalousExport ushort AnimationTrack_getNumKeyFrames(Ogre::AnimationTrack* animationTrack)
 {
 	return animationTrack->getNumKeyFrames();
 }

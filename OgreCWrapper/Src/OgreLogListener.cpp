@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "..\Include\OgreLogListener.h"
+#include "../Include/OgreLogListener.h"
 
 OgreLogListener::OgreLogListener(MessageLoggedDelegate messageLoggedCallback)
 :messageLoggedCallback(messageLoggedCallback)
@@ -20,12 +20,12 @@ void OgreLogListener::messageLogged( const Ogre::String& message, Ogre::LogMessa
 	messageLoggedCallback(message.c_str(), lml);
 }
 
-extern "C" __declspec(dllexport) OgreLogListener* OgreLogListener_Create(MessageLoggedDelegate messageLoggedCallback)
+extern "C" _AnomalousExport OgreLogListener* OgreLogListener_Create(MessageLoggedDelegate messageLoggedCallback)
 {
 	return new OgreLogListener(messageLoggedCallback);
 }
 
-extern "C" __declspec(dllexport) void OgreLogListener_Delete(OgreLogListener* logListener)
+extern "C" _AnomalousExport void OgreLogListener_Delete(OgreLogListener* logListener)
 {
 	delete logListener;
 }

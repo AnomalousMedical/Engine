@@ -5,3 +5,4 @@
 #pragma once
 
 
+#define _AnomalousExport __attribute__ ((visibility("default")))

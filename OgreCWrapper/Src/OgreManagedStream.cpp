@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "..\Include\OgreManagedStream.h"
+#include "../Include/OgreManagedStream.h"
 
 OgreManagedStream::OgreManagedStream(String name, size_t size, ReadDelegate read, SkipDelegate skip, SeekDelegate seek, TellDelegate tell, EofDelegate eof, CloseDelegate close, DeletedDelegate deleted)
 :Ogre::DataStream(name),
@@ -19,7 +19,7 @@ OgreManagedStream::~OgreManagedStream(void)
 	deletedCb();
 }
 
-extern "C" __declspec(dllexport) OgreManagedStream* OgreManagedStream_Create(String name, size_t size, ReadDelegate read, SkipDelegate skip, SeekDelegate seek, TellDelegate tell, EofDelegate eof, CloseDelegate close, DeletedDelegate deleted)
+extern "C" _AnomalousExport OgreManagedStream* OgreManagedStream_Create(String name, size_t size, ReadDelegate read, SkipDelegate skip, SeekDelegate seek, TellDelegate tell, EofDelegate eof, CloseDelegate close, DeletedDelegate deleted)
 {
 	return new OgreManagedStream(name, size, read, skip, seek, tell, eof, close, deleted);
 }

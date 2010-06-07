@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "..\Include\BulletScene.h"
+#include "../Include/BulletScene.h"
 #include "BulletDebugDraw.h"
 
 static void tickCallback(btDynamicsWorld *world, btScalar timeStep)
@@ -156,47 +156,47 @@ void BulletScene::debugDrawWorld(BulletDebugDraw* debugDrawer)
 //--------------------------------------------------
 //Wrapper functions
 //--------------------------------------------------
-extern "C" _declspec(dllexport) BulletScene* BulletScene_CreateBulletScene(BulletSceneInfo* sceneInfo)
+extern "C" _AnomalousExport BulletScene* BulletScene_CreateBulletScene(BulletSceneInfo* sceneInfo)
 {
 	return new BulletScene(sceneInfo);
 }
 
-extern "C" _declspec(dllexport) void BulletScene_DestroyBulletScene(BulletScene* instance)
+extern "C" _AnomalousExport void BulletScene_DestroyBulletScene(BulletScene* instance)
 {
 	delete instance;
 }
 
-extern "C" _declspec(dllexport) void BulletScene_fillOutInfo(BulletScene* instance, BulletSceneInfo* sceneInfo)
+extern "C" _AnomalousExport void BulletScene_fillOutInfo(BulletScene* instance, BulletSceneInfo* sceneInfo)
 {
 	instance->fillOutInfo(sceneInfo);
 }
 
-extern "C" _declspec(dllexport) void BulletScene_update(BulletScene* instance, float seconds)
+extern "C" _AnomalousExport void BulletScene_update(BulletScene* instance, float seconds)
 {
 	instance->update(seconds);
 }
 
-extern "C" _declspec(dllexport) void BulletScene_addRigidBody(BulletScene* instance, btRigidBody* rigidBody, short group, short mask)
+extern "C" _AnomalousExport void BulletScene_addRigidBody(BulletScene* instance, btRigidBody* rigidBody, short group, short mask)
 {
 	instance->addRigidBody(rigidBody, group, mask);
 }
 
-extern "C" _declspec(dllexport) void BulletScene_removeRigidBody(BulletScene* instance, btRigidBody* rigidBody)
+extern "C" _AnomalousExport void BulletScene_removeRigidBody(BulletScene* instance, btRigidBody* rigidBody)
 {
 	instance->removeRigidBody(rigidBody);
 }
 
-extern "C" _declspec(dllexport) void BulletScene_addConstraint(BulletScene* instance, btTypedConstraint* constraint, bool disableCollisionsBetweenLinkedBodies)
+extern "C" _AnomalousExport void BulletScene_addConstraint(BulletScene* instance, btTypedConstraint* constraint, bool disableCollisionsBetweenLinkedBodies)
 {
 	instance->addConstraint(constraint, disableCollisionsBetweenLinkedBodies);
 }
 
-extern "C" _declspec(dllexport) void BulletScene_removeConstraint(BulletScene* instance, btTypedConstraint* constraint)
+extern "C" _AnomalousExport void BulletScene_removeConstraint(BulletScene* instance, btTypedConstraint* constraint)
 {
 	instance->removeConstraint(constraint);
 }
 
-extern "C" _declspec(dllexport) void BulletScene_debugDrawWorld(BulletScene* instance, BulletDebugDraw* debugDrawer)
+extern "C" _AnomalousExport void BulletScene_debugDrawWorld(BulletScene* instance, BulletDebugDraw* debugDrawer)
 {
 	instance->debugDrawWorld(debugDrawer);
 }

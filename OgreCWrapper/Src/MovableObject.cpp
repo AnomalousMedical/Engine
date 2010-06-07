@@ -17,57 +17,57 @@ enum MovableTypes
 	Other
 };
 
-extern "C" __declspec(dllexport) bool MovableObject_isAttached(Ogre::MovableObject* movableObject)
+extern "C" _AnomalousExport bool MovableObject_isAttached(Ogre::MovableObject* movableObject)
 {
 	return movableObject->isAttached();
 }
 
-extern "C" __declspec(dllexport) void MovableObject_detachFromParent(Ogre::MovableObject* movableObject)
+extern "C" _AnomalousExport void MovableObject_detachFromParent(Ogre::MovableObject* movableObject)
 {
 	movableObject->detachFromParent();
 }
 
-extern "C" __declspec(dllexport) bool MovableObject_isInScene(Ogre::MovableObject* movableObject)
+extern "C" _AnomalousExport bool MovableObject_isInScene(Ogre::MovableObject* movableObject)
 {
 	return movableObject->isInScene();
 }
 
-extern "C" __declspec(dllexport) const char* MovableObject_getName(Ogre::MovableObject* movableObject)
+extern "C" _AnomalousExport const char* MovableObject_getName(Ogre::MovableObject* movableObject)
 {
 	return movableObject->getName().c_str();
 }
 
-extern "C" __declspec(dllexport) void MovableObject_setVisible(Ogre::MovableObject* movableObject, bool visible)
+extern "C" _AnomalousExport void MovableObject_setVisible(Ogre::MovableObject* movableObject, bool visible)
 {
 	movableObject->setVisible(visible);
 }
 
-extern "C" __declspec(dllexport) bool MovableObject_isVisible(Ogre::MovableObject* movableObject)
+extern "C" _AnomalousExport bool MovableObject_isVisible(Ogre::MovableObject* movableObject)
 {
 	return movableObject->isVisible();
 }
 
-extern "C" __declspec(dllexport) void MovableObject_setVisibilityFlags(Ogre::MovableObject* movableObject, uint flags)
+extern "C" _AnomalousExport void MovableObject_setVisibilityFlags(Ogre::MovableObject* movableObject, uint flags)
 {
 	movableObject->setVisibilityFlags(flags);
 }
 
-extern "C" __declspec(dllexport) void MovableObject_addVisiblityFlags(Ogre::MovableObject* movableObject, uint flags)
+extern "C" _AnomalousExport void MovableObject_addVisiblityFlags(Ogre::MovableObject* movableObject, uint flags)
 {
 	movableObject->addVisibilityFlags(flags);
 }
 
-extern "C" __declspec(dllexport) void MovableObject_removeVisibilityFlags(Ogre::MovableObject* movableObject, uint flags)
+extern "C" _AnomalousExport void MovableObject_removeVisibilityFlags(Ogre::MovableObject* movableObject, uint flags)
 {
 	movableObject->removeVisibilityFlags(flags);
 }
 
-extern "C" __declspec(dllexport) uint MovableObject_getVisibilityFlags(Ogre::MovableObject* movableObject)
+extern "C" _AnomalousExport uint MovableObject_getVisibilityFlags(Ogre::MovableObject* movableObject)
 {
 	return movableObject->getVisibilityFlags();
 }
 
-extern "C" __declspec(dllexport) MovableTypes MovableObject_getMovableType(Ogre::MovableObject* movableObject)
+extern "C" _AnomalousExport MovableTypes MovableObject_getMovableType(Ogre::MovableObject* movableObject)
 {
 	Ogre::String type = movableObject->getMovableType();
 	if(type.compare(Ogre::EntityFactory::FACTORY_TYPE_NAME) == 0)
@@ -124,37 +124,37 @@ extern "C" __declspec(dllexport) MovableTypes MovableObject_getMovableType(Ogre:
 	}
 }
 
-extern "C" __declspec(dllexport) const char* MovableObject_getOgreMovableType(Ogre::MovableObject* movableObject)
+extern "C" _AnomalousExport const char* MovableObject_getOgreMovableType(Ogre::MovableObject* movableObject)
 {
 	return movableObject->getMovableType().c_str();
 }
 
-//extern "C" __declspec(dllexport) Ogre::AxisAlignedBox* MovableObject_getBoundingBox(Ogre::MovableObject* movableObject)
+//extern "C" _AnomalousExport Ogre::AxisAlignedBox* MovableObject_getBoundingBox(Ogre::MovableObject* movableObject)
 //{
 //	return &movableObject->getBoundingBox();
 //}
 
-extern "C" __declspec(dllexport) void MovableObject_setDebugDisplayEnabled(Ogre::MovableObject* movableObject, bool enabled)
+extern "C" _AnomalousExport void MovableObject_setDebugDisplayEnabled(Ogre::MovableObject* movableObject, bool enabled)
 {
 	movableObject->setDebugDisplayEnabled(enabled);
 }
 
-extern "C" __declspec(dllexport) bool MovableObject_isDebugDisplayEnabled(Ogre::MovableObject* movableObject)
+extern "C" _AnomalousExport bool MovableObject_isDebugDisplayEnabled(Ogre::MovableObject* movableObject)
 {
 	return movableObject->isDebugDisplayEnabled();
 }
 
-extern "C" __declspec(dllexport) void MovableObject_setRenderQueueGroup(Ogre::MovableObject* movableObject, byte queueID)
+extern "C" _AnomalousExport void MovableObject_setRenderQueueGroup(Ogre::MovableObject* movableObject, byte queueID)
 {
 	movableObject->setRenderQueueGroup(queueID);
 }
 
-extern "C" __declspec(dllexport) byte MovableObject_getRenderQueueGroup(Ogre::MovableObject* movableObject)
+extern "C" _AnomalousExport byte MovableObject_getRenderQueueGroup(Ogre::MovableObject* movableObject)
 {
 	return movableObject->getRenderQueueGroup();
 }
 
-extern "C" __declspec(dllexport) Ogre::SceneNode* MovableObject_getParentSceneNode(Ogre::MovableObject* movableObject)
+extern "C" _AnomalousExport Ogre::SceneNode* MovableObject_getParentSceneNode(Ogre::MovableObject* movableObject)
 {
 	return movableObject->getParentSceneNode();
 }

@@ -1,11 +1,11 @@
 #include "Stdafx.h"
 
-extern "C" __declspec(dllexport) void ResourceGroupManager_createResourceGroup(String name)
+extern "C" _AnomalousExport void ResourceGroupManager_createResourceGroup(String name)
 {
 	Ogre::ResourceGroupManager::getSingleton().createResourceGroup(name);
 }
 
-extern "C" __declspec(dllexport) bool ResourceGroupManager_initializeAllResourceGroups()
+extern "C" _AnomalousExport bool ResourceGroupManager_initializeAllResourceGroups()
 {
 	try
 	{
@@ -18,7 +18,7 @@ extern "C" __declspec(dllexport) bool ResourceGroupManager_initializeAllResource
 	return true;
 }
 
-extern "C" __declspec(dllexport) bool ResourceGroupManager_initializeResourceGroup(String name)
+extern "C" _AnomalousExport bool ResourceGroupManager_initializeResourceGroup(String name)
 {
 	try
 	{
@@ -31,12 +31,12 @@ extern "C" __declspec(dllexport) bool ResourceGroupManager_initializeResourceGro
 	return true;
 }
 
-extern "C" __declspec(dllexport) void ResourceGroupManager_destroyResourceGroup(String name)
+extern "C" _AnomalousExport void ResourceGroupManager_destroyResourceGroup(String name)
 {
 	Ogre::ResourceGroupManager::getSingleton().destroyResourceGroup(name);
 }
 
-extern "C" __declspec(dllexport) void ResourceGroupManager_addResourceLocation(String name, String locType, String group, bool recursive)
+extern "C" _AnomalousExport void ResourceGroupManager_addResourceLocation(String name, String locType, String group, bool recursive)
 {
 	try
 	{
@@ -47,12 +47,12 @@ extern "C" __declspec(dllexport) void ResourceGroupManager_addResourceLocation(S
 	}
 }
 
-extern "C" __declspec(dllexport) void ResourceGroupManager_removeResourceLocation(String name, String resGroup)
+extern "C" _AnomalousExport void ResourceGroupManager_removeResourceLocation(String name, String resGroup)
 {
 	Ogre::ResourceGroupManager::getSingleton().removeResourceLocation(name);
 }
 
-extern "C" __declspec(dllexport) String ResourceGroupManager_findGroupContainingResource(String resourceName)
+extern "C" _AnomalousExport String ResourceGroupManager_findGroupContainingResource(String resourceName)
 {
 	try
 	{
@@ -64,7 +64,7 @@ extern "C" __declspec(dllexport) String ResourceGroupManager_findGroupContaining
 	}
 }
 
-extern "C" __declspec(dllexport) bool ResourceGroupManager_resourceGroupExists(String name)
+extern "C" _AnomalousExport bool ResourceGroupManager_resourceGroupExists(String name)
 {
 	return Ogre::ResourceGroupManager::getSingleton().resourceGroupExists(name);
 }

@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "..\Include\MotionState.h"
+#include "../Include/MotionState.h"
 
 MotionState::MotionState(SetXformCallback xformCallback, ContactCallback contactStartedCallback, ContactCallback contactEndedCallback, ContactCallback contactContinuesCallback, float maxContactDistance, const Vector3* initialTrans, const Quaternion* initialRot)
 :xformCallback(xformCallback),
@@ -32,36 +32,36 @@ void MotionState::setWorldTransform (const btTransform &worldTrans)
 	xformCallback(worldTrans.getOrigin(), rot);
 }
 
-extern "C" _declspec(dllexport) MotionState* MotionState_Create(SetXformCallback xformCallback, ContactCallback contactStartedCallback,	ContactCallback contactEndedCallback, ContactCallback contactContinuesCallback, float maxContactDistance, const Vector3* initialTrans, const Quaternion* initialRot)
+extern "C" _AnomalousExport MotionState* MotionState_Create(SetXformCallback xformCallback, ContactCallback contactStartedCallback,	ContactCallback contactEndedCallback, ContactCallback contactContinuesCallback, float maxContactDistance, const Vector3* initialTrans, const Quaternion* initialRot)
 {
 	return new MotionState(xformCallback, contactStartedCallback, contactEndedCallback, contactContinuesCallback, maxContactDistance, initialTrans, initialRot);
 }
 
-extern "C" _declspec(dllexport) void MotionState_Delete(MotionState* instance)
+extern "C" _AnomalousExport void MotionState_Delete(MotionState* instance)
 {
 	delete instance;
 }
 
-extern "C" _declspec(dllexport) void MotionState_setHasContactStartedCallback(MotionState* instance, bool hasCallback)
+extern "C" _AnomalousExport void MotionState_setHasContactStartedCallback(MotionState* instance, bool hasCallback)
 {
 	instance->hasContactStartedCallback = hasCallback;
 }
 
-extern "C" _declspec(dllexport) void MotionState_setHasContactEndedCallback(MotionState* instance, bool hasCallback)
+extern "C" _AnomalousExport void MotionState_setHasContactEndedCallback(MotionState* instance, bool hasCallback)
 {
 	instance->hasContactEndedCallback = hasCallback;
 }
 
-extern "C" _declspec(dllexport) void MotionState_setHasContactContinuesCallback(MotionState* instance, bool hasCallback)
+extern "C" _AnomalousExport void MotionState_setHasContactContinuesCallback(MotionState* instance, bool hasCallback)
 {
 	instance->hasContactContinuesCallback = hasCallback;
 }
-extern "C" _declspec(dllexport) void MotionState_setMaxContactDistance(MotionState* instance, float maxContactDistance)
+extern "C" _AnomalousExport void MotionState_setMaxContactDistance(MotionState* instance, float maxContactDistance)
 {
 	instance->maxContactDistance = maxContactDistance;
 }
 
-extern "C" _declspec(dllexport) float MotionState_getMaxContactDistance(MotionState* instance)
+extern "C" _AnomalousExport float MotionState_getMaxContactDistance(MotionState* instance)
 {
 	return instance->maxContactDistance;
 }

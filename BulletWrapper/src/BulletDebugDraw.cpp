@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "..\Include\BulletDebugDraw.h"
+#include "../Include/BulletDebugDraw.h"
 
 int BulletDebugDraw::debugMode = 0;
 
@@ -67,32 +67,32 @@ void BulletDebugDraw::disableGlobalDebugMode(int mode)
 	BulletDebugDraw::debugMode &= (~mode);
 }
 
-extern "C" _declspec(dllexport) BulletDebugDraw* BulletDebugDraw_Create(DrawLineCallback drawLine, ReportErrorWarningCallback reportWarning)
+extern "C" _AnomalousExport BulletDebugDraw* BulletDebugDraw_Create(DrawLineCallback drawLine, ReportErrorWarningCallback reportWarning)
 {
 	return new BulletDebugDraw(drawLine, reportWarning);
 }
 
-extern "C" _declspec(dllexport) void BulletDebugDraw_Delete(BulletDebugDraw* debugDraw)
+extern "C" _AnomalousExport void BulletDebugDraw_Delete(BulletDebugDraw* debugDraw)
 {
 	delete debugDraw;
 }
 
-extern "C" _declspec(dllexport) void BulletDebugDraw_setGlobalDebugMode(int debugMode)
+extern "C" _AnomalousExport void BulletDebugDraw_setGlobalDebugMode(int debugMode)
 {
 	BulletDebugDraw::setGlobalDebugMode(debugMode);
 }
 
-extern "C" _declspec(dllexport) void BulletDebugDraw_enableGlobalDebugMode(int debugMode)
+extern "C" _AnomalousExport void BulletDebugDraw_enableGlobalDebugMode(int debugMode)
 {
 	BulletDebugDraw::enableGlobalDebugMode(debugMode);
 }
 
-extern "C" _declspec(dllexport) void BulletDebugDraw_disableGlobalDebugMode(int debugMode)
+extern "C" _AnomalousExport void BulletDebugDraw_disableGlobalDebugMode(int debugMode)
 {
 	BulletDebugDraw::disableGlobalDebugMode(debugMode);
 }
 
-extern "C" _declspec(dllexport) int BulletDebugDraw_getGlobalDebugMode()
+extern "C" _AnomalousExport int BulletDebugDraw_getGlobalDebugMode()
 {
 	return BulletDebugDraw::getGlobalDebugMode();
 }

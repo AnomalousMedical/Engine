@@ -1,4 +1,6 @@
 #include "Stdafx.h"
+
+#ifdef WINDOWS
 #define WIN32_LEAN_AND_MEAN
 #include "windows.h"
 
@@ -12,9 +14,10 @@ public:
 	int time;
 	int pt_x;
 	int pt_y;
+	int foo;
 };
 
-extern "C" __declspec(dllexport) MSG* WindowsMessagePump_primeMessages()
+extern "C" _AnomalousExport MSG* WindowsMessagePump_primeMessages()
 {
 	MSG* msg = new MSG();
 	msg->message = WM_NULL;
@@ -22,7 +25,7 @@ extern "C" __declspec(dllexport) MSG* WindowsMessagePump_primeMessages()
 	return msg;
 }
 
-extern "C" __declspec(dllexport) bool WindowsMessagePump_peekMessage(MSG* msgHandle, WinMsg* msg)
+extern "C" _AnomalousExport bool WindowsMessagePump_peekMessage(MSG* msgHandle, WinMsg* msg)
 {
 	if(PeekMessage(msgHandle, NULL, 0, 0, PM_REMOVE) != 0)
 	{
@@ -38,7 +41,7 @@ extern "C" __declspec(dllexport) bool WindowsMessagePump_peekMessage(MSG* msgHan
 	return false;
 }
 
-extern "C" __declspec(dllexport) void WindowsMessagePump_translateAndDispatchMessage(MSG* msgHandle)
+extern "C" _AnomalousExport void WindowsMessagePump_translateAndDispatchMessage(MSG* msgHandle)
 {
 	/*if( hAccel == NULL || hWnd == NULL || 
 		0 == TranslateAccelerator( hWnd, hAccel, &msg ) )
@@ -48,7 +51,7 @@ extern "C" __declspec(dllexport) void WindowsMessagePump_translateAndDispatchMes
 	//}
 }
 
-extern "C" __declspec(dllexport) void WindowsMessagePump_finishMessages(MSG* msgHandle)
+extern "C" _AnomalousExport void WindowsMessagePump_finishMessages(MSG* msgHandle)
 {
 	/*if(hAccel != NULL)
 	{
@@ -57,3 +60,5 @@ extern "C" __declspec(dllexport) void WindowsMessagePump_finishMessages(MSG* msg
 	}*/
 	delete msgHandle;
 }
+
+#endif

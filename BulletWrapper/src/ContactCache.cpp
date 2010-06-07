@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "..\Include\ContactCache.h"
+#include "../Include/ContactCache.h"
 
 ContactCache::ContactCache(void)
 {

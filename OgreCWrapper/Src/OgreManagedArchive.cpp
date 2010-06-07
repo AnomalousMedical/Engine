@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "..\Include\OgreManagedArchive.h"
+#include "../Include/OgreManagedArchive.h"
 
 OgreManagedArchive::OgreManagedArchive(String name, String archType, LoadDelegate loadCallback, UnloadDelegate unloadCallback, OpenDelegate openCallback, ListDelegate listCallback, ListFileInfoDelegate listFileInfoCallback, FindDelegate findCallback, FindFileInfoDelegate findFileInfoCallback, ExistsDelegate existsCallback)
 :Ogre::Archive(name, archType),
@@ -60,32 +60,32 @@ bool OgreManagedArchive::exists(const Ogre::String& filename)
 }
 
 //PInvoke functions
-extern "C" __declspec(dllexport) OgreManagedArchive* OgreManagedArchive_Create(String name, String archType, LoadDelegate loadCallback, UnloadDelegate unloadCallback, OpenDelegate openCallback, ListDelegate listCallback, ListFileInfoDelegate listFileInfoCallback, FindDelegate findCallback, FindFileInfoDelegate findFileInfoCallback, ExistsDelegate existsCallback)
+extern "C" _AnomalousExport OgreManagedArchive* OgreManagedArchive_Create(String name, String archType, LoadDelegate loadCallback, UnloadDelegate unloadCallback, OpenDelegate openCallback, ListDelegate listCallback, ListFileInfoDelegate listFileInfoCallback, FindDelegate findCallback, FindFileInfoDelegate findFileInfoCallback, ExistsDelegate existsCallback)
 {
 	return OGRE_NEW OgreManagedArchive(name, archType, loadCallback, unloadCallback, openCallback, listCallback, listFileInfoCallback, findCallback, findFileInfoCallback, existsCallback);
 }
 
-extern "C" __declspec(dllexport) void OgreManagedArchive_Delete(OgreManagedArchive* archive)
+extern "C" _AnomalousExport void OgreManagedArchive_Delete(OgreManagedArchive* archive)
 {
 	OGRE_DELETE archive;
 }
 
-extern "C" __declspec(dllexport) Ogre::StringVector* OgreManagedArchive_createOgreStringVector()
+extern "C" _AnomalousExport Ogre::StringVector* OgreManagedArchive_createOgreStringVector()
 {
 	return OGRE_NEW_T(Ogre::StringVector, Ogre::MEMCATEGORY_GENERAL)();
 }
 
-extern "C" __declspec(dllexport) void OgreStringVector_push_back(Ogre::StringVector* stringVector, String value)
+extern "C" _AnomalousExport void OgreStringVector_push_back(Ogre::StringVector* stringVector, String value)
 {
 	stringVector->push_back(value);
 }
 
-extern "C" __declspec(dllexport) Ogre::FileInfoList* OgreManagedArchive_createOgreFileInfoList()
+extern "C" _AnomalousExport Ogre::FileInfoList* OgreManagedArchive_createOgreFileInfoList()
 {
 	return OGRE_NEW_T(Ogre::FileInfoList, Ogre::MEMCATEGORY_GENERAL)();
 }
 
-extern "C" __declspec(dllexport) void OgreFileInfoList_push_back(Ogre::FileInfoList* fileList, OgreManagedArchive* archive, size_t compressedSize, size_t uncompressedSize, String baseName, String filename, String path)
+extern "C" _AnomalousExport void OgreFileInfoList_push_back(Ogre::FileInfoList* fileList, OgreManagedArchive* archive, size_t compressedSize, size_t uncompressedSize, String baseName, String filename, String path)
 {
 	Ogre::FileInfo info;
 	info.archive = archive;

@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "..\Include\NativeWindowListener.h"
+#include "../Include/NativeWindowListener.h"
 
 NativeWindowListener::NativeWindowListener(WindowEventDelegate windowMovedCallback, WindowEventDelegate windowResizedCallback, WindowClosingDelegate windowClosingCallback, WindowEventDelegate windowClosedCallback, WindowEventDelegate windowFocusChangeCallback)
 :windowMovedCallback(windowMovedCallback), 
@@ -39,12 +39,12 @@ void NativeWindowListener::windowFocusChange (Ogre::RenderWindow *rw)
 	windowFocusChangeCallback(rw);
 }
 
-extern "C" __declspec(dllexport) NativeWindowListener* NativeWindowListener_Create(WindowEventDelegate windowMovedCallback, WindowEventDelegate windowResizedCallback, WindowClosingDelegate windowClosingCallback, WindowEventDelegate windowClosedCallback, WindowEventDelegate windowFocusChangeCallback)
+extern "C" _AnomalousExport NativeWindowListener* NativeWindowListener_Create(WindowEventDelegate windowMovedCallback, WindowEventDelegate windowResizedCallback, WindowClosingDelegate windowClosingCallback, WindowEventDelegate windowClosedCallback, WindowEventDelegate windowFocusChangeCallback)
 {
 	return new NativeWindowListener(windowMovedCallback, windowResizedCallback, windowClosingCallback, windowClosedCallback, windowFocusChangeCallback);
 }
 
-extern "C" __declspec(dllexport) void NativeWindowListener_Delete(NativeWindowListener* windowListener)
+extern "C" _AnomalousExport void NativeWindowListener_Delete(NativeWindowListener* windowListener)
 {
 	delete windowListener;
 }

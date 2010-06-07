@@ -1,7 +1,7 @@
 #include "Stdafx.h"
 #include "OIS.h"
 
-extern "C" __declspec(dllexport) OIS::InputManager* InputManager_Create(char* windowHandle, bool foreground, bool exclusive, bool noWinKey)
+extern "C" _AnomalousExport OIS::InputManager* InputManager_Create(char* windowHandle, bool foreground, bool exclusive, bool noWinKey)
 {
 	OIS::ParamList pl;
 
@@ -27,37 +27,37 @@ extern "C" __declspec(dllexport) OIS::InputManager* InputManager_Create(char* wi
 	return OIS::InputManager::createInputSystem(pl);
 }
 
-extern "C" __declspec(dllexport) void InputManager_Delete(OIS::InputManager* inputManager)
+extern "C" _AnomalousExport void InputManager_Delete(OIS::InputManager* inputManager)
 {
 	OIS::InputManager::destroyInputSystem(inputManager);
 }
 
-extern "C" __declspec(dllexport) int InputManager_getNumberOfDevices(OIS::InputManager* inputManager, OIS::Type inputType)
+extern "C" _AnomalousExport int InputManager_getNumberOfDevices(OIS::InputManager* inputManager, OIS::Type inputType)
 {
 	return inputManager->getNumberOfDevices(inputType);
 }
 
-extern "C" __declspec(dllexport) unsigned int InputManager_getVersionNumber(OIS::InputManager* inputManager)
+extern "C" _AnomalousExport unsigned int InputManager_getVersionNumber(OIS::InputManager* inputManager)
 {
 	return inputManager->getVersionNumber();
 }
 
-extern "C" __declspec(dllexport) const char* InputManager_getVersionName(OIS::InputManager* inputManager)
+extern "C" _AnomalousExport const char* InputManager_getVersionName(OIS::InputManager* inputManager)
 {
 	return inputManager->getVersionName().c_str();
 }
 
-extern "C" __declspec(dllexport) const char* InputManager_inputSystemName(OIS::InputManager* inputManager)
+extern "C" _AnomalousExport const char* InputManager_inputSystemName(OIS::InputManager* inputManager)
 {
 	return inputManager->inputSystemName().c_str();
 }
 
-extern "C" __declspec(dllexport) OIS::Object* InputManager_createInputObject(OIS::InputManager* inputManager, OIS::Type inputType, bool buffered)
+extern "C" _AnomalousExport OIS::Object* InputManager_createInputObject(OIS::InputManager* inputManager, OIS::Type inputType, bool buffered)
 {
 	return inputManager->createInputObject(inputType, buffered);
 }
 
-extern "C" __declspec(dllexport) void InputManager_destroyInputObject(OIS::InputManager* inputManager, OIS::Object* inputObject)
+extern "C" _AnomalousExport void InputManager_destroyInputObject(OIS::InputManager* inputManager, OIS::Object* inputObject)
 {
 	inputManager->destroyInputObject(inputObject);
 }

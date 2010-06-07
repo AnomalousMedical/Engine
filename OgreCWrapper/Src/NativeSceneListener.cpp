@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "..\Include\NativeSceneListener.h"
+#include "../Include/NativeSceneListener.h"
 
 NativeSceneListener::NativeSceneListener(FindVisibleCallback preFind, FindVisibleCallback postFind)
 :preFind(preFind),
@@ -21,12 +21,12 @@ void NativeSceneListener::postFindVisibleObjects(Ogre::SceneManager* source, Ogr
 	postFind(source, irs, v->getCamera());
 }
 
-extern "C" __declspec(dllexport) NativeSceneListener* NativeSceneListener_Create(FindVisibleCallback preFind, FindVisibleCallback postFind)
+extern "C" _AnomalousExport NativeSceneListener* NativeSceneListener_Create(FindVisibleCallback preFind, FindVisibleCallback postFind)
 {
 	return new NativeSceneListener(preFind, postFind);
 }
 
-extern "C" __declspec(dllexport) void NativeSceneListener_Delete(NativeSceneListener* nativeSceneListener)
+extern "C" _AnomalousExport void NativeSceneListener_Delete(NativeSceneListener* nativeSceneListener)
 {
 	delete nativeSceneListener;
 }

@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "..\Include\ReshapeableRigidBody.h"
+#include "../Include/ReshapeableRigidBody.h"
 #include "ReshapeableRigidBodySection.h"
 #include "ConvexBuilder.h"
 
@@ -117,32 +117,32 @@ void ReshapeableRigidBody::recomputeMassProps()
 
 
 //C Wrapper
-extern "C" _declspec(dllexport) ReshapeableRigidBody* ReshapeableRigidBody_Create(btRigidBody* rigidBody, btCompoundShape* compoundShape)
+extern "C" _AnomalousExport ReshapeableRigidBody* ReshapeableRigidBody_Create(btRigidBody* rigidBody, btCompoundShape* compoundShape)
 {
 	return new ReshapeableRigidBody(rigidBody, compoundShape);
 }
 
-extern "C" _declspec(dllexport) void ReshapeableRigidBody_Delete(ReshapeableRigidBody* body)
+extern "C" _AnomalousExport void ReshapeableRigidBody_Delete(ReshapeableRigidBody* body)
 {
 	delete body;
 }
 
-extern "C" _declspec(dllexport) void ReshapeableRigidBody_createHullRegion(ReshapeableRigidBody* body, char* name, ConvexDecompositionDesc* desc, Vector3* origin, Quaternion* orientation)
+extern "C" _AnomalousExport void ReshapeableRigidBody_createHullRegion(ReshapeableRigidBody* body, char* name, ConvexDecompositionDesc* desc, Vector3* origin, Quaternion* orientation)
 {
 	body->createHullRegion(name, desc, origin, orientation);
 }
 
-extern "C" _declspec(dllexport) void ReshapeableRigidBody_addSphereShape(ReshapeableRigidBody* body, char* regionName, float radius, Vector3* origin)
+extern "C" _AnomalousExport void ReshapeableRigidBody_addSphereShape(ReshapeableRigidBody* body, char* regionName, float radius, Vector3* origin)
 {
 	body->addSphereShape(regionName, radius, origin);
 }
 
-extern "C" _declspec(dllexport) void ReshapeableRigidBody_destroyRegion(ReshapeableRigidBody* body, char* name)
+extern "C" _AnomalousExport void ReshapeableRigidBody_destroyRegion(ReshapeableRigidBody* body, char* name)
 {
 	body->destroyRegion(name);
 }
 
-extern "C" _declspec(dllexport) void ReshapeableRigidBody_recomputeMassProps(ReshapeableRigidBody* body)
+extern "C" _AnomalousExport void ReshapeableRigidBody_recomputeMassProps(ReshapeableRigidBody* body)
 {
 	body->recomputeMassProps();
 }
