@@ -32,7 +32,6 @@ private:
 
 #ifdef MAC_OSX
 	struct timeval start;
-	clock_t zeroClock;
 #endif
 
 

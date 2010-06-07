@@ -57,7 +57,6 @@ bool PerformanceCounter::initialize()
 #endif
 
 #ifdef MAC_OSX
-	zeroClock = clock();
 	gettimeofday(&start, NULL);
 	return true;
 #endif
