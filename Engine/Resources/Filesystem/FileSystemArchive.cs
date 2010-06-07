@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using Logging;
 
 namespace Engine.Resources
 {
@@ -13,6 +14,12 @@ namespace Engine.Resources
         public FileSystemArchive(String baseDirectory)
         {
             this.baseDirectory = FileSystem.fixPathDir(Path.GetFullPath(baseDirectory));
+            //Temp mac os fix
+            if (!Directory.Exists(this.baseDirectory))
+            {
+                this.baseDirectory = "/" + this.baseDirectory;
+            }
+            Log.Debug("Base directory is {0}", this.baseDirectory);
         }
 
         public override void Dispose()
@@ -131,6 +138,7 @@ namespace Engine.Resources
         {
             bool isDirectory;
             String fixedUrl = fixIncomingURL(filename, out isDirectory);
+            Log.Debug("Fixed file info url is {0}.", fixedUrl);
             FileInfo info = new FileInfo(fixedUrl);
             if (isDirectory)
             {
@@ -144,12 +152,32 @@ namespace Engine.Resources
 
         private String fixOutgoingFileString(String url)
         {
-            return FileSystem.fixPathFile(url).Replace(baseDirectory, "");
+            String fixedUrl = FileSystem.fixPathFile(url);
+            if(fixedUrl.StartsWith(baseDirectory))
+            {
+                fixedUrl = fixedUrl.Substring(baseDirectory.Length);
+            }
+                //OMG LOOK HERE
+            else if (fixedUrl.StartsWith(baseDirectory.Substring(1))) //store this string in a buffer and reuse that
+            {
+                fixedUrl = fixedUrl.Substring(baseDirectory.Length - 1);
+            }
+            return fixedUrl;
         }
 
         private String fixOutgoingDirectoryString(String url)
         {
-            return FileSystem.fixPathDir(url).Replace(baseDirectory, "");
+            String fixedUrl = FileSystem.fixPathDir(url).Replace(baseDirectory, "");
+            if (fixedUrl.StartsWith(baseDirectory))
+            {
+                fixedUrl = fixedUrl.Substring(baseDirectory.Length);
+            }
+            //OMG LOOK HERE
+            else if (fixedUrl.StartsWith(baseDirectory.Substring(1)))
+            {
+                fixedUrl = fixedUrl.Substring(baseDirectory.Length - 1);
+            }
+            return fixedUrl;
         }
 
         private String fixIncomingURL(String url, out bool isDirectory)
@@ -172,6 +200,14 @@ namespace Engine.Resources
         private String fixIncomingDirectoryURL(String url)
         {
             url = FileSystem.fixPathDir(url);
+
+            //temp osx fix
+            if (!Directory.Exists(url))
+            {
+                url = "/" + url;
+            }
+            //end
+
             if (url.StartsWith(baseDirectory))
             {
                 url = url.Substring(baseDirectory.Length - 1);
@@ -190,6 +226,14 @@ namespace Engine.Resources
         private String fixIncomingFileURL(String url)
         {
             url = FileSystem.fixPathFile(url);
+
+            //temp osx fix
+            if (!File.Exists(url))
+            {
+                url = "/" + url;
+            }
+            //end
+
             if (url.StartsWith(baseDirectory))
             {
                 url = url.Substring(baseDirectory.Length - 1);

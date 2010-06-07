@@ -53,8 +53,8 @@ namespace OgreWrapper
         public Root(String pluginFileName, String configFileName, String logFileName)
         {
             ogreRoot = Root_Create(pluginFileName, configFileName, logFileName);
-            renderSystemPlugin = RenderSystemPlugin_Create();
             cgPlugin = CGPlugin_Create();
+            renderSystemPlugin = RenderSystemPlugin_Create();
             frameStart = new FrameEventCallback(frameStartedCallback);
             frameQueue = new FrameEventCallback(frameQueuedCallback);
             frameEnd = new FrameEventCallback(frameEndedCallback);
@@ -102,6 +102,11 @@ namespace OgreWrapper
         public RenderSystem getRenderSystemByName(String name)
         {
             return renderSystems.getObject(Root_getRenderSystemByName(ogreRoot, name));
+        }
+
+        public RenderSystem getPlatformDefaultRenderSystem()
+        {
+            return renderSystems.getObject(Root_getPlatformDefaultRenderSystem(ogreRoot));
         }
 
         public void setRenderSystem(RenderSystem system)
@@ -361,6 +366,9 @@ namespace OgreWrapper
 
         [DllImport("OgreCWrapper")]
         private static extern IntPtr Root_getRenderSystemByName(IntPtr root, String name);
+
+        [DllImport("OgreCWrapper")]
+        private static extern IntPtr Root_getPlatformDefaultRenderSystem(IntPtr ogreRoot);
 
         [DllImport("OgreCWrapper")]
         private static extern void Root_setRenderSystem(IntPtr root, IntPtr system);

@@ -66,11 +66,11 @@ namespace PCPlatform
 
 			        //cap the framerate if required
 			        totalFrameTime = systemTimer.getCurrentTime() - frameStartTime;
-			        while (totalFrameTime < framerateCap)
-			        {
-				        Thread.Sleep((int)((framerateCap - totalFrameTime) / 1000));
-				        totalFrameTime = systemTimer.getCurrentTime() - frameStartTime;
-			        }
+                    //while (totalFrameTime < framerateCap)
+                    //{
+                    //    Thread.Sleep((int)((framerateCap - totalFrameTime) / 1000));
+                    //    totalFrameTime = systemTimer.getCurrentTime() - frameStartTime;
+                    //}
 		        }
             }
             messagePump.loopCompleted();

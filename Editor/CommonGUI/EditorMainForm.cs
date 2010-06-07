@@ -61,11 +61,11 @@ namespace Editor
 
         #region OSWindow Members
 
-        public IntPtr WindowHandle
+        public String WindowHandle
         {
             get
             {
-                return this.Handle;
+                return this.Handle.ToString();
             }
         }
 

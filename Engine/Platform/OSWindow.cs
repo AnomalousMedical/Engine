@@ -10,7 +10,7 @@ namespace Engine.Platform
         /// <summary>
         /// An int pointer to the handle of the window.
         /// </summary>
-        IntPtr WindowHandle { get; }
+        String WindowHandle { get; }
 
         /// <summary>
         /// The current width of the window.

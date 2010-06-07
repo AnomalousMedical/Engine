@@ -21,7 +21,7 @@ namespace Engine.Platform
         protected Int64 fixedFrequency;
         protected Int64 maxDelta;
         protected int maxFrameSkip;
-        protected Int64 framerateCap; //The amount of time between frames for the framerate cap.
+        protected Int64 framerateCap = 0; //The amount of time between frames for the framerate cap.
 
         protected bool started = false;
 

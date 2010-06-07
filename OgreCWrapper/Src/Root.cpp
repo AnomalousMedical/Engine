@@ -63,6 +63,11 @@ extern "C" __declspec(dllexport) Ogre::RenderSystem* Root_getRenderSystemByName(
 	return root->getRenderSystemByName(name);
 }
 
+extern "C" __declspec(dllexport) Ogre::RenderSystem* Root_getPlatformDefaultRenderSystem(Ogre::Root* root)
+{
+	return root->getRenderSystemByName("Direct3D9 Rendering Subsystem");
+}
+
 extern "C" __declspec(dllexport) void Root_setRenderSystem(Ogre::Root* root, Ogre::RenderSystem* system)
 {
 	root->setRenderSystem(system);

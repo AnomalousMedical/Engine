@@ -15,19 +15,14 @@ namespace OgrePlugin
     class OgreOSWindow : OSWindow, IDisposable
     {
         private RenderWindow window;
-        private IntPtr handle;
+        private String handle;
         private List<OSWindowListener> windowListeners = new List<OSWindowListener>();
         private OgreWindowListener ogreWindowListener;
 
         public OgreOSWindow(RenderWindow window)
         {
             this.window = window;
-            uint mHandle;
-            unsafe
-            {
-                window.getCustomAttribute("WINDOW", &mHandle);
-            }
-            handle = new IntPtr(mHandle);
+            handle = window.getWindowHandleStr();
             ogreWindowListener = new OgreWindowListener(this);
             WindowEventUtilities.addWindowEventListener(window, ogreWindowListener);
         }
@@ -38,7 +33,7 @@ namespace OgrePlugin
             ogreWindowListener.Dispose();
         }
 
-        public IntPtr WindowHandle
+        public String WindowHandle
         {
             get
             {

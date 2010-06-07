@@ -95,7 +95,7 @@ namespace OgrePlugin
             {
                 //Initialize Ogre
                 //root.loadPlugin("RenderSystem_Direct3D9");
-                RenderSystem rs = root.getRenderSystemByName("Direct3D9 Rendering Subsystem");
+                RenderSystem rs = root.getPlatformDefaultRenderSystem();
                 //String valid = rs.validateConfigOptions();
                 //if (valid.Length != 0)
                 //{
@@ -129,7 +129,7 @@ namespace OgrePlugin
                 }
                 else
                 {
-                    miscParams.Add("externalWindowHandle", defaultWindowInfo.EmbedWindow.WindowHandle.ToInt32().ToString());
+                    miscParams.Add("externalWindowHandle", defaultWindowInfo.EmbedWindow.WindowHandle);
                     RenderWindow renderWindow = root.createRenderWindow(defaultWindowInfo.AutoWindowTitle, (uint)defaultWindowInfo.Width, (uint)defaultWindowInfo.Height, defaultWindowInfo.Fullscreen, miscParams);
                     primaryWindow = new EmbeddedWindow(defaultWindowInfo.EmbedWindow, renderWindow);
                 }
@@ -203,7 +203,7 @@ namespace OgrePlugin
             }
             miscParams.Add("FSAA", fsaa);
             miscParams.Add("vsync", OgreConfig.VSync.ToString());
-            miscParams.Add("externalWindowHandle", embedWindow.WindowHandle.ToInt32().ToString());
+            miscParams.Add("externalWindowHandle", embedWindow.WindowHandle);
             RenderWindow renderWindow = root.createRenderWindow(name, (uint)embedWindow.WindowWidth, (uint)embedWindow.WindowHeight, false, miscParams);
             return new EmbeddedWindow(embedWindow, renderWindow);
         }
