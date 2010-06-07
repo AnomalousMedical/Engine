@@ -56,9 +56,11 @@ bool PerformanceCounter::initialize()
 	return valid;
 #endif
 
+#ifdef MAC_OSX
 	zeroClock = clock();
 	gettimeofday(&start, NULL);
 	return true;
+#endif
 }
 
 long PerformanceCounter::getCurrentTime()
@@ -93,9 +95,11 @@ long PerformanceCounter::getCurrentTime()
 
 #endif
 
+#ifdef MAC_OSX
 	struct timeval now;
 	gettimeofday(&now, NULL);
 	return (now.tv_sec-start.tv_sec)*1000+(now.tv_usec-start.tv_usec)/1000;
+#endif
 }
 
 extern "C" _AnomalousExport PerformanceCounter* PerformanceCounter_Create()

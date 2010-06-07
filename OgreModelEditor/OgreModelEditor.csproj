@@ -83,6 +83,7 @@
       <DependentUpon>OgreModelEditorMain.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\SkeletonWindow.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\SkeletonWindow.Designer.cs">
       <DependentUpon>SkeletonWindow.cs</DependentUpon>

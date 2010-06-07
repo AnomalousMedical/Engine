@@ -7,4 +7,10 @@
 #include <zzip/zzip.h>
 #include <zzip/plugin.h>
 
-#define _AnomalousExport
+#ifdef WINDOWS
+#define _AnomalousExport __declspec(dllexport)
+#endif
+
+#ifdef MAC_OSX
+#define _AnomalousExport __attribute__ ((visibility("default")))
+#endif

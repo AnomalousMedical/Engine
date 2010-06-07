@@ -6,7 +6,9 @@
 #include "windows.h"
 #endif
 
+#ifdef MAC_OSX
 #include <sys/time.h>
+#endif
 
 /// <summary>
 /// This class provides access to the QueryPerformanceCounter functions as a
@@ -26,10 +28,12 @@ private:
 	LARGE_INTEGER frequency;
 
 	DWORD timerMask;
-
 #endif
+
+#ifdef MAC_OSX
 	struct timeval start;
 	clock_t zeroClock;
+#endif
 
 
 public:

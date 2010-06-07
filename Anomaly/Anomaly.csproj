@@ -131,6 +131,7 @@
       <DependentUpon>PublishGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\SolutionPanel.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\SolutionPanel.Designer.cs">
       <DependentUpon>SolutionPanel.cs</DependentUpon>

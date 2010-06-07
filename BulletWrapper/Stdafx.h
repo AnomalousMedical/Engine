@@ -9,7 +9,13 @@
 #include "BulletSoftBody/btSoftBodyRigidBodyCollisionConfiguration.h"
 #include "BulletSoftBody/btSoftBodyHelpers.h"
 
+#ifdef WINDOWS
+#define _AnomalousExport __declspec(dllexport)
+#endif
+
+#ifdef MAC_OSX
 #define _AnomalousExport __attribute__ ((visibility("default")))
+#endif
 
 class Vector3
 {

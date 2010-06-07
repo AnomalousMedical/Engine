@@ -114,7 +114,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="&quot;$(BULLET_HOME)\src&quot;;include;&quot;$(BULLET_HOME)\Extras\ConvexDecomposition&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;USE_SOFTBODY_WORLD"
+				PreprocessorDefinitions="WIN32;NDEBUG;USE_SOFTBODY_WORLD;WINDOWS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"

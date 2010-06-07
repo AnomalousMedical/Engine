@@ -4,7 +4,9 @@
 #include "windows.h"
 #endif
 
-#  include <Carbon/Carbon.h>
+#ifdef MAC_OSX
+#include <Carbon/Carbon.h>
+#endif
 
 extern "C" _AnomalousExport void AgnosticMessagePump_primeMessages()
 {
@@ -25,6 +27,7 @@ extern "C" _AnomalousExport bool AgnosticMessagePump_processMessage()
 	}
 #endif
 
+#ifdef MAC_OSX
 	// OSX Message Pump
 	EventRef event = NULL;
 	EventTargetRef targetWindow;
@@ -40,6 +43,7 @@ extern "C" _AnomalousExport bool AgnosticMessagePump_processMessage()
 		SendEventToEventTarget( event, targetWindow );
 		ReleaseEvent( event );
 	}
+#endif
 
 	return false;
 }

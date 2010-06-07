@@ -103,11 +103,13 @@
       <DependentUpon>InputBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Console\ConsoleWindow.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Console\ConsoleWindow.Designer.cs">
       <DependentUpon>ConsoleWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="DebugVisualizer\DebugVisualizer.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="DebugVisualizer\DebugVisualizer.Designer.cs">
       <DependentUpon>DebugVisualizer.cs</DependentUpon>
@@ -143,6 +145,7 @@
     </Compile>
     <Compile Include="ObjectEditor\TreeDblClickPrevent.cs" />
     <Compile Include="ObjectEditor\VerticalObjectEditor.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="ObjectEditor\VerticalObjectEditor.Designer.cs">
       <DependentUpon>VerticalObjectEditor.cs</DependentUpon>
@@ -158,11 +161,13 @@
     <Compile Include="Tools\Movement\MoveController.cs" />
     <Compile Include="Tools\Movement\MovementTool.cs" />
     <Compile Include="Tools\Movement\MovePanel.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Tools\Movement\MovePanel.designer.cs">
       <DependentUpon>MovePanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\Rotation\EulerRotatePanel.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Tools\Rotation\EulerRotatePanel.designer.cs">
       <DependentUpon>EulerRotatePanel.cs</DependentUpon>
@@ -187,6 +192,7 @@
     </Compile>
     <Compile Include="View\DrawingWindowController.cs" />
     <Compile Include="View\DrawingWindowHost.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="View\DrawingWindowHost.Designer.cs">
       <DependentUpon>DrawingWindowHost.cs</DependentUpon>
