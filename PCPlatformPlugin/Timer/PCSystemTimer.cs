@@ -42,6 +42,6 @@ namespace PCPlatform
         private static extern bool PerformanceCounter_initialize(IntPtr counter);
 
         [DllImport("PCPlatform")]
-        private static extern long PerformanceCounter_getCurrentTime(IntPtr counter);
+        private static extern Int32 PerformanceCounter_getCurrentTime(IntPtr counter);
     }
 }
