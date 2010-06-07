@@ -7,6 +7,7 @@ extern "C" _AnomalousExport OIS::InputManager* InputManager_Create(char* windowH
 
 	pl.insert(std::make_pair( std::string("WINDOW"), windowHandle ));
 
+#ifdef WINDOWS
 	std::string foregroundMode = "DISCL_BACKGROUND";
 	if( foreground )
 	{
@@ -23,6 +24,11 @@ extern "C" _AnomalousExport OIS::InputManager* InputManager_Create(char* windowH
 	{
 		pl.insert(std::make_pair(std::string("w32_mouse"), std::string("DISCL_NOWINKEY")));
 	}
+#endif
+	
+#ifdef MAC_OSX
+	pl.insert(std::make_pair(std::string("MacHideMouse"), exclusive ? "true" : "false"));
+#endif
 
 	return OIS::InputManager::createInputSystem(pl);
 }
