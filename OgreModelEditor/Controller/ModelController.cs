@@ -83,7 +83,7 @@ namespace OgreModelEditor.Controller
             sw.Start();
             scene.buildScene();
             sw.Stop();
-            Log.Debug("Scene loaded in {0} ms.", sw.ElapsedMilliseconds);
+            Log.Info("Scene loaded in {0} ms.", sw.ElapsedMilliseconds);
             entity = ((SceneNodeElement)currentSimObject.getElement("EntityNode")).getNodeObject("Entity") as Entity;
             readModelInfo();
             entity.setDisplaySkeleton(showSkeleton);

@@ -19,7 +19,6 @@ namespace Engine.Resources
             {
                 this.baseDirectory = "/" + this.baseDirectory;
             }
-            Log.Debug("Base directory is {0}", this.baseDirectory);
         }
 
         public override void Dispose()
@@ -138,7 +137,6 @@ namespace Engine.Resources
         {
             bool isDirectory;
             String fixedUrl = fixIncomingURL(filename, out isDirectory);
-            Log.Debug("Fixed file info url is {0}.", fixedUrl);
             FileInfo info = new FileInfo(fixedUrl);
             if (isDirectory)
             {

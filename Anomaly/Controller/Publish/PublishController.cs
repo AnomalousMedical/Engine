@@ -55,7 +55,7 @@ namespace Anomaly
             {
                 targetDirectory += "/zipTemp";
             }
-            Log.Debug("Starting file copy to {0}", targetDirectory);
+            Log.Info("Starting file copy to {0}", targetDirectory);
             foreach (VirtualFileInfo sourceFile in files)
             {
                 String destination = targetDirectory + Path.DirectorySeparatorChar + sourceFile.FullName;
@@ -64,13 +64,13 @@ namespace Anomaly
                 {
                     Directory.CreateDirectory(directory);
                 }
-                Log.Debug("Copying {0} to {1}.", sourceFile.RealLocation, destination);
+                Log.Info("Copying {0} to {1}.", sourceFile.RealLocation, destination);
                 File.Copy(sourceFile.RealLocation, destination, true);
             }
             if (compress)
             {
                 String zipFileName = originalDirectory + "\\" + archiveName + ".zip";
-                Log.Debug("Starting compression to {0}", zipFileName);
+                Log.Info("Starting compression to {0}", zipFileName);
                 if (File.Exists(zipFileName))
                 {
                     File.Delete(zipFileName);
@@ -85,11 +85,11 @@ namespace Anomaly
                 {
                     while (reader.Peek() != -1)
                     {
-                        Log.Debug(reader.ReadLine());
+                        Log.Info(reader.ReadLine());
                     }
                 }
                 sevenZip.WaitForExit();
-                Log.Debug("Finished compression to {0}", zipFileName);
+                Log.Info("Finished compression to {0}", zipFileName);
                 Directory.Delete(targetDirectory, true);
 
                 if (obfuscate)
@@ -103,7 +103,7 @@ namespace Anomaly
 
         public static void obfuscateZipFile(String zipFileName, String obfuscateFileName)
         {
-            Log.Debug("Starting obfuscation to {0}", obfuscateFileName);
+            Log.Info("Starting obfuscation to {0}", obfuscateFileName);
             if (File.Exists(obfuscateFileName))
             {
                 File.Delete(obfuscateFileName);
@@ -125,7 +125,7 @@ namespace Anomaly
                     }
                 }
             }
-            Log.Debug("Finished obfuscation to {0}", obfuscateFileName);
+            Log.Info("Finished obfuscation to {0}", obfuscateFileName);
         }
 
         /// <summary>

@@ -68,7 +68,7 @@ namespace BulletPlugin
 
         private void reportErrorWarning(String warning)
         {
-            Log.Debug(warning);
+            Log.Warning(warning);
         }
 
 
