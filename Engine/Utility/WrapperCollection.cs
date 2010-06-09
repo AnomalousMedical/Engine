@@ -3,59 +3,62 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public abstract unsafe class WrapperCollection<T> : IDisposable
+namespace Engine
 {
-    private	Dictionary<IntPtr, T> ptrDictionary = new Dictionary<IntPtr,T>();
-
-    public WrapperCollection()
+    public class WrapperCollection<T> : IDisposable
+        where T : IDisposable
     {
-        
-    }
+        public delegate T CreateWrapper(IntPtr nativeObject, object[] args);
 
-    public virtual void Dispose()
-    {
-        clearObjects();
-    }
+        private Dictionary<IntPtr, T> ptrDictionary = new Dictionary<IntPtr, T>();
+        private CreateWrapper createCallback;
 
-    public void clearObjects()
-    {
-        foreach(T obj in ptrDictionary.Values)
-	    {
-            ((IDisposable)obj).Dispose();
-	    }
-	    ptrDictionary.Clear();
-    }
-
-    protected T getObjectVoid(void* nativeObject, params object[] args)
-    {
-        IntPtr key = new IntPtr(nativeObject);
-        if (!ptrDictionary.ContainsKey(key))
+        public WrapperCollection(CreateWrapper createCallback)
         {
-            ptrDictionary.Add(key, createWrapper(nativeObject, args));
+            this.createCallback = createCallback;
         }
-        return ptrDictionary[key];
-    }
 
-    protected bool getObjectVoidNoCreate(void* nativeObject, ref T obj)
-    {
-        IntPtr key = new IntPtr(nativeObject);
-        if (ptrDictionary.ContainsKey(key))
+        public virtual void Dispose()
         {
-            obj = ptrDictionary[key];
-            return true;
+            clearObjects();
         }
-        return false;
-    }
 
-    protected void destroyObjectVoid(void* nativeObject)
-    {
-        IntPtr key = new IntPtr(nativeObject);
-        if (ptrDictionary.ContainsKey(key))
+        public void clearObjects()
         {
-            ((IDisposable)ptrDictionary[key]).Dispose();
-            ptrDictionary.Remove(key);
+            foreach (T obj in ptrDictionary.Values)
+            {
+                ((IDisposable)obj).Dispose();
+            }
+            ptrDictionary.Clear();
+        }
+
+        public T getObject(IntPtr nativeObject, params object[] args)
+        {
+            if (!ptrDictionary.ContainsKey(nativeObject))
+            {
+                ptrDictionary.Add(nativeObject, createCallback(nativeObject, args));
+            }
+            return ptrDictionary[nativeObject];
+        }
+
+        public bool getObjectNoCreate(IntPtr nativeObject, out T obj)
+        {
+            return ptrDictionary.TryGetValue(nativeObject, out obj);
+        }
+
+        /// <summary>
+        /// Destroy an object. Returns the pointer that was passed in.
+        /// </summary>
+        /// <param name="nativeObject">The native object pointer, will be returned.</param>
+        /// <returns>The IntPtr for the native object that was passed in.</returns>
+        public IntPtr destroyObject(IntPtr nativeObject)
+        {
+            if (ptrDictionary.ContainsKey(nativeObject))
+            {
+                ptrDictionary[nativeObject].Dispose();
+                ptrDictionary.Remove(nativeObject);
+            }
+            return nativeObject;
         }
     }
-
-    protected abstract T createWrapper(void* nativeObject, object[] args);
 }

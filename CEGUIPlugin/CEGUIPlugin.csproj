@@ -51,6 +51,9 @@
     <Compile Include="Wrapper\System\CEGUIRenderer.cs" />
     <Compile Include="Wrapper\System\CEGUISystem.cs" />
     <Compile Include="Wrapper\System\CustomLogger.cs" />
+    <Compile Include="Wrapper\System\SchemeManager.cs" />
+    <Compile Include="Wrapper\System\WindowManager.cs" />
+    <Compile Include="Wrapper\Windows\Window.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">

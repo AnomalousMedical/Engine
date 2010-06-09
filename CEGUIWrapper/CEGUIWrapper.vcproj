@@ -199,6 +199,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\SchemeManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Stdafx.cpp"
 				>
 				<FileConfiguration
@@ -217,6 +221,10 @@
 						UsePrecompiledHeader="1"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\Src\WindowManager.cpp"
+				>
 			</File>
 		</Filter>
 		<Filter

@@ -174,7 +174,6 @@
     <Compile Include="Wrapper\Utility\SharedPtr.cs" />
     <Compile Include="Wrapper\Utility\SharedPtrCollection.cs" />
     <Compile Include="Wrapper\Utility\SharedPtrEntry.cs" />
-    <Compile Include="Wrapper\Utility\WrapperCollection.cs" />
     <Compile Include="Wrapper\Utility\WrapperMath.cs" />
   </ItemGroup>
   <ItemGroup>

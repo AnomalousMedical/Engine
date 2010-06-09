@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine.Attributes;
 using System.Runtime.InteropServices;
+using Engine;
 
 namespace OgreWrapper
 {

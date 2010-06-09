@@ -7,7 +7,7 @@ using Logging;
 
 namespace CEGUIPlugin
 {
-    enum LoggingLevel
+    public enum LoggingLevel
     {
 	    Errors,			//!< Only actual error conditions will be logged.
         Warnings,       //!< Warnings will be logged as well.
@@ -19,17 +19,17 @@ namespace CEGUIPlugin
     class CustomLogger : IDisposable
     {
         private LogEventDelegate logEventCallback;
-        private IntPtr customLogger;
+        private IntPtr log;
 
         public CustomLogger()
         {
             logEventCallback = new LogEventDelegate(logEvent);
-            customLogger = CustomLogger_create(logEventCallback);
+            log = CustomLogger_create(logEventCallback);
         }
 
         public void Dispose()
         {
-            CustomLogger_delete(customLogger);
+            CustomLogger_delete(log);
             logEventCallback = null;
         }
 
@@ -55,6 +55,11 @@ namespace CEGUIPlugin
             }
         }
 
+        public void setLogLevel(LoggingLevel level)
+        {
+            CustomLogger_setLoggingLevel(log, level);
+        }
+
 #region PInvoke
 #endregion
         private delegate void LogEventDelegate(String message, LoggingLevel level);
@@ -64,5 +69,8 @@ namespace CEGUIPlugin
 
         [DllImport("CEGUIWrapper")]
         private static extern void CustomLogger_delete(IntPtr log);
+
+        [DllImport("CEGUIWrapper")]
+        private static extern void CustomLogger_setLoggingLevel(IntPtr log, LoggingLevel level);
     }
 }
