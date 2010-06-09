@@ -53,7 +53,7 @@ namespace OgreWrapper
             renderTarget = IntPtr.Zero;
         }
 
-        internal IntPtr OgreRenderTarget
+        public IntPtr OgreRenderTarget
         {
             get
             {
