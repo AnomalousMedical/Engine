@@ -5,7 +5,6 @@
 #pragma once
 
 #include "CEGUI.h"
-#include "RendererModules/Ogre/CEGUIOgreRenderer.h"
 
 #ifdef WINDOWS
 #define _AnomalousExport __declspec(dllexport)
@@ -14,3 +13,5 @@
 #ifdef MAC_OSX
 #define _AnomalousExport __attribute__ ((visibility("default")))
 #endif
+
+typedef const char* String;

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CEGUIPlugin
 {
-    abstract class CEGUIRenderer : IDisposable
+    public abstract class CEGUIRenderer : IDisposable
     {
         public abstract void Dispose();
 

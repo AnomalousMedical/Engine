@@ -14,7 +14,7 @@ namespace OgrePlugin
     /// <summary>
     /// A RendererWindow for Ogre.
     /// </summary>
-    abstract class OgreWindow : RendererWindow, IDisposable
+    public abstract class OgreWindow : RendererWindow, IDisposable
     {
         private OSWindow handle;
 

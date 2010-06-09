@@ -113,9 +113,12 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				OmitFramePointers="false"
 				AdditionalIncludeDirectories="&quot;$(CEGUI_HOME)/cegui/include&quot;;&quot;$(OGRE_HOME)/src/OgreMain/include&quot;;&quot;$(OGRE_HOME)/WindowsBuild/include&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;WINDOWS"
+				PreprocessorDefinitions="WIN32;NDEBUG;WINDOWS;CEGUI_STATIC"
+				StringPooling="true"
 				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
 				DebugInformationFormat="3"
@@ -131,9 +134,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="CEGUIBase_Static.lib CEGUIFalagardWRBase_Static.lib CEGUIOgreRenderer_Static.lib CEGUITinyXMLParser_Static.lib freetype2311.lib pcre.lib Winmm.lib OgreMain.lib $(NOINHERIT)"
+				AdditionalDependencies="CEGUIBase_Static.lib CEGUIFalagardWRBase_Static.lib CEGUIOgreRenderer_Static.lib CEGUITinyXMLParser_Static.lib OgreMain.lib Winmm.lib freetype2311.lib pcre.lib $(NOINHERIT)"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(CEGUI_HOME)/lib&quot;;&quot;$(CEGUI_HOME)/dependencies/lib/static&quot;;&quot;$(OGRE_HOME)/WindowsBuild/lib/release&quot;;&quot;$(OGRE_HOME)/WindowsDependency/lib/Release&quot;"
+				AdditionalLibraryDirectories="&quot;$(CEGUI_HOME)/lib&quot;;&quot;$(CEGUI_HOME)/dependencies/Windows/Release&quot;;&quot;$(OGRE_HOME)/WindowsBuild/lib/release&quot;;&quot;$(OGRE_HOME)/WindowsDependency/lib/Release&quot;"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
 			/>
@@ -184,6 +187,18 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\Src\CEGUIOgreRenderer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\CEGUISystem.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\CustomLogger.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Stdafx.cpp"
 				>
 				<FileConfiguration
@@ -209,6 +224,10 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\Include\CustomLogger.h"
+				>
+			</File>
 			<File
 				RelativePath=".\resource.h"
 				>
