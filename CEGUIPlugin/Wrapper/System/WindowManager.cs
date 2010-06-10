@@ -32,18 +32,20 @@ namespace CEGUIPlugin
             windows.Dispose();
         }
 
-        internal Window getWindow(IntPtr nativeWindow)
+        internal T getWindow<T>(IntPtr nativeWindow)
+            where T : Window
         {
             if(nativeWindow != IntPtr.Zero)
             {
-                return windows.getObject(nativeWindow);
+                return windows.getObject(nativeWindow, typeof(T)) as T;
             }
             return null;
         }
 
-        public Window loadWindowLayout(String layoutName)
+        public T loadWindowLayout<T>(String layoutName)
+            where T : Window
         {
-            return getWindow(WindowManager_loadWindowLayout(windowManager, layoutName));
+            return getWindow<T>(WindowManager_loadWindowLayout(windowManager, layoutName));
         }
 
 #region PInvoke

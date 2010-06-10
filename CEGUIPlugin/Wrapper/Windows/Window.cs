@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Logging;
 using System.Runtime.InteropServices;
+using System.Reflection;
 
 namespace CEGUIPlugin
 {
@@ -49,36 +50,26 @@ namespace CEGUIPlugin
 
     public class Window : IDisposable
     {
+        private static readonly Type[] constructorArgs = { typeof(IntPtr) };
+
         internal static Window createWrapper(IntPtr nativeObject, object[] args)
         {
-            return new Window(nativeObject);
+            Type windowType = args[0] as Type;
+            ConstructorInfo constructor = windowType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, constructorArgs, null);
+            return (Window)constructor.Invoke(new Object[] { nativeObject });
+            //return new Window(nativeObject);
         }
 
         private IntPtr window;
-        private WindowEventTranslator clickedTranslator;
 
         protected Window(IntPtr window)
         {
-            clickedTranslator = new WindowEventTranslator("Clicked", this);
             this.window = window;
         }
 
         public virtual void Dispose()
         {
-            clickedTranslator.Dispose();
             window = IntPtr.Zero;
-        }
-
-        public event CEGUIEvent Clicked
-        {
-            add
-            {
-                clickedTranslator.BoundEvent += value;
-            }
-            remove
-            {
-                clickedTranslator.BoundEvent -= value;
-            }
         }
 
         internal IntPtr CEGUIWindow
@@ -89,9 +80,10 @@ namespace CEGUIPlugin
             }
         }
 
-        public Window getChildRecursive(String name)
+        public T getChildRecursive<T>(String name)
+            where T : Window
         {
-            return WindowManager.Singleton.getWindow(Window_getChildRecursive(window, name));
+            return WindowManager.Singleton.getWindow<T>(Window_getChildRecursive(window, name));
         }
 
 #region PInvoke
