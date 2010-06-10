@@ -15,6 +15,8 @@ namespace CEGUIPlugin
         private UpdateTimer mainTimer;
         private EventManager eventManager;
         private CEGUIUpdate update;
+        private CEGUIWindowListener windowListener;
+        private OSWindow mainWindow;
 
         public CEGUIInterface()
         {
@@ -23,6 +25,7 @@ namespace CEGUIPlugin
 
         public void Dispose()
         {
+            mainWindow.removeListener(windowListener);
             mainTimer.removeFixedUpdateListener(update);
             ceguiSystem.Dispose();
             ceguiRenderer.Dispose();
@@ -33,7 +36,9 @@ namespace CEGUIPlugin
             OgreWindow window = pluginManager.RendererPlugin.PrimaryWindow as OgreWindow;
             ceguiRenderer = new CEGUIOgreRenderer(window.OgreRenderWindow);
             ceguiSystem = new CEGUISystem(ceguiRenderer);
-            ceguiSystem.setLogLevel(LoggingLevel.Standard);
+            windowListener = new CEGUIWindowListener(ceguiSystem);
+            mainWindow = window.Handle;
+            mainWindow.addListener(windowListener);
         }
 
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)

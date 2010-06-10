@@ -115,6 +115,11 @@ namespace CEGUIPlugin
             return CEGUISystem_injectTimePulse(timeElapsed);
         }
 
+        public void notifyDisplaySizeChanged(float width, float height)
+        {
+            CEGUISystem_notifyDisplaySizeChanged(width, height);
+        }
+
 #region PInvoke
 
         [DllImport("CEGUIWrapper")]
@@ -165,6 +170,9 @@ namespace CEGUIPlugin
         [DllImport("CEGUIWrapper")]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool CEGUISystem_injectTimePulse(float timeElapsed);
+
+        [DllImport("CEGUIWrapper")]
+        private static extern void CEGUISystem_notifyDisplaySizeChanged(float width, float height);
 
 #endregion
     }

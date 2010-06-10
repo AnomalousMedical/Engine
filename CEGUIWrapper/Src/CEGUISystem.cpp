@@ -64,3 +64,8 @@ extern "C" _AnomalousExport bool CEGUISystem_injectTimePulse(float timeElapsed)
 {
 	return CEGUI::System::getSingleton().injectTimePulse(timeElapsed);
 }
+
+extern "C" _AnomalousExport void CEGUISystem_notifyDisplaySizeChanged(float width, float height)
+{
+	return CEGUI::System::getSingleton().notifyDisplaySizeChanged(CEGUI::Size(width, height));
+}

@@ -53,7 +53,7 @@ namespace OgrePlugin
             camera.setFOVy(10.0f);
             node = sceneManager.SceneManager.createSceneNode(name + CAMERA_NODE_RESERVED_NAME);
             node.attachObject(camera);
-            viewport = renderWindow.addViewport(camera);
+            viewport = renderWindow.addViewport(camera, renderWindow.getNumViewports(), 0, 0, 1, 1);
             sceneManager.SceneManager.getRootSceneNode().addChild(node);
 
             statsOverlay = new StatsOverlay(name);
@@ -321,6 +321,11 @@ namespace OgrePlugin
             {
                 return viewport.getActualHeight();
             }
+        }
+
+        public void setDimensions(float left, float top, float width, float height)
+        {
+            viewport.setDimensions(left, top, width, height);
         }
 
         void OgreCameraControl_FrameRenderingQueued(FrameEvent frameEvent)

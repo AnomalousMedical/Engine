@@ -112,8 +112,23 @@ namespace Engine
         /// </summary>
         Matrix4x4 ProjectionMatrix { get; }
 
+        /// <summary>
+        /// Get the real render width of this view.
+        /// </summary>
         int RenderWidth{ get; }
 
+        /// <summary>
+        /// Get the real render height of this view.
+        /// </summary>
         int RenderHeight{ get; }
+
+        /// <summary>
+        /// Set the dimensions of this SceneView using relative numbers between 0 and 1.
+        /// </summary>
+        /// <param name="left">The left position of the view.</param>
+        /// <param name="top">The top position of the view.</param>
+        /// <param name="width">The width of the view.</param>
+        /// <param name="height">The height of the view.</param>
+        void setDimensions(float left, float top, float width, float height);
     }
 }
