@@ -49,25 +49,36 @@ namespace CEGUIPlugin
 
     public class Window : IDisposable
     {
-        private WindowEventTranslator TEMP_TEST_TRANSLATOR;
-
         internal static Window createWrapper(IntPtr nativeObject, object[] args)
         {
             return new Window(nativeObject);
         }
 
         private IntPtr window;
+        private WindowEventTranslator clickedTranslator;
 
-        private Window(IntPtr window)
+        protected Window(IntPtr window)
         {
+            clickedTranslator = new WindowEventTranslator("Clicked", this);
             this.window = window;
-            TEMP_TEST_TRANSLATOR = new WindowEventTranslator("Clicked", FIRE_TEST_EVENT, this);
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
-            TEMP_TEST_TRANSLATOR.Dispose();
+            clickedTranslator.Dispose();
             window = IntPtr.Zero;
+        }
+
+        public event CEGUIEvent Clicked
+        {
+            add
+            {
+                clickedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                clickedTranslator.BoundEvent -= value;
+            }
         }
 
         internal IntPtr CEGUIWindow
@@ -81,37 +92,6 @@ namespace CEGUIPlugin
         public Window getChildRecursive(String name)
         {
             return WindowManager.Singleton.getWindow(Window_getChildRecursive(window, name));
-        }
-
-        private void FIRE_TEST_EVENT(EventArgs args)
-        {
-            Log.Debug("Event recieved plugin.");
-            if (m_TestEvent != null)
-            {
-                m_TestEvent.Invoke(args);
-            }
-        }
-
-        private event CEGUIEvent m_TestEvent;
-
-        public event CEGUIEvent TestEvent
-        {
-            add
-            {
-                if(m_TestEvent == null)
-                {
-                    TEMP_TEST_TRANSLATOR.bindEvent();
-                }
-                m_TestEvent += value;
-            }
-            remove
-            {
-                m_TestEvent -= value;
-                if (m_TestEvent == null)
-                {
-                    TEMP_TEST_TRANSLATOR.unbindEvent();
-                }
-            }
         }
 
 #region PInvoke

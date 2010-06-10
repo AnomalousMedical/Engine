@@ -3,26 +3,58 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
+using Logging;
 
 namespace CEGUIPlugin
 {
-    delegate void FireWindowEventDelegate(EventArgs args);
-    
+    /// <summary>
+    /// This class wraps up a single CEGUI event and allows it to be dispatched
+    /// using a .net event. It does this by subscribing to the event with a
+    /// native class also called WindowEventTranslator that calls back into this
+    /// class, which fires the event. It will automatically bind and unbind the
+    /// event on the native side as needed. To use the class create an instance of it.
+    /// <code>
+    /// clickedTranslator = new WindowEventTranslator("Clicked", this);
+    /// </code>
+    /// Then create a public delegate and overwrite add and remove to forward to this class.
+    /// <code>
+    /// public event CEGUIEvent Clicked
+    /// {
+    ///     add
+    ///     {
+    ///         clickedTranslator.BoundEvent += value;
+    ///     }
+    ///     remove
+    ///     {
+    ///         clickedTranslator.BoundEvent -= value;
+    ///     }
+    /// }
+    /// </code>
+    /// Don't forget to dispose it in your dispose method.
+    /// </summary>
     class WindowEventTranslator : IDisposable
     {
-        FireWindowEventDelegate fireWindowEvent;
         Window ceguiWindow;
         IntPtr nativeEventTranslator;
         BasicEventDelegate basicEventCallback;
 
-        public WindowEventTranslator(String eventName, FireWindowEventDelegate fireWindowEvent, Window ceguiWindow)
+        private event CEGUIEvent m_BoundEvent;
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="eventName">The name of the CEGUI event to listen to.</param>
+        /// <param name="ceguiWindow">The window to subscribe to.</param>
+        public WindowEventTranslator(String eventName, Window ceguiWindow)
         {
-            this.fireWindowEvent = fireWindowEvent;
             this.ceguiWindow = ceguiWindow;
             basicEventCallback = new BasicEventDelegate(basicEvent);
             nativeEventTranslator = WindowEventTranslator_create(eventName, basicEventCallback);
         }
 
+        /// <summary>
+        /// Dispose the native class.
+        /// </summary>
         public void Dispose()
         {
             WindowEventTranslator_delete(nativeEventTranslator);
@@ -30,20 +62,39 @@ namespace CEGUIPlugin
             basicEventCallback = null;
         }
 
-        public void bindEvent()
+        /// <summary>
+        /// The event that will be called back.
+        /// </summary>
+        public event CEGUIEvent BoundEvent
         {
-            WindowEventTranslator_bindEvent(nativeEventTranslator, ceguiWindow.CEGUIWindow);
+            add
+            {
+                if (m_BoundEvent == null)
+                {
+                    WindowEventTranslator_bindEvent(nativeEventTranslator, ceguiWindow.CEGUIWindow);
+                }
+                m_BoundEvent += value;
+            }
+            remove
+            {
+                m_BoundEvent -= value;
+                if (m_BoundEvent == null)
+                {
+                    WindowEventTranslator_unbindEvent(nativeEventTranslator);
+                }
+            }
         }
 
-        public void unbindEvent()
+        /// <summary>
+        /// Callback from native code.
+        /// </summary>
+        /// <returns>True, to say the event was handled.</returns>
+        private bool basicEvent()
         {
-            WindowEventTranslator_unbindEvent(nativeEventTranslator);
-        }
-
-        bool basicEvent()
-        {
-            fireWindowEvent(null);
-
+            if (m_BoundEvent != null)
+            {
+                m_BoundEvent.Invoke(null);
+            }
             return true;
         }
 

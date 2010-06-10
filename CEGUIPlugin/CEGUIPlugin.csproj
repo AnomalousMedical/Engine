@@ -57,6 +57,7 @@
     <Compile Include="Wrapper\System\CustomLogger.cs" />
     <Compile Include="Wrapper\System\SchemeManager.cs" />
     <Compile Include="Wrapper\System\WindowManager.cs" />
+    <Compile Include="Wrapper\Windows\PushButton.cs" />
     <Compile Include="Wrapper\Windows\Window.cs" />
     <Compile Include="Wrapper\Events\WindowEventTranslator.cs" />
   </ItemGroup>
