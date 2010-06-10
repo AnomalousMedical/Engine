@@ -223,6 +223,14 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\Src\Window.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\WindowEventTranslator.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\WindowManager.cpp"
 				>
 			</File>
@@ -242,6 +250,10 @@
 			</File>
 			<File
 				RelativePath=".\Stdafx.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Include\WindowEventTranslator.h"
 				>
 			</File>
 		</Filter>

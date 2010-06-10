@@ -29,7 +29,11 @@ namespace CEGUIPlugin
 
         internal Window getWindow(IntPtr nativeWindow)
         {
-            return windows.getObject(nativeWindow);
+            if(nativeWindow != IntPtr.Zero)
+            {
+                return windows.getObject(nativeWindow);
+            }
+            return null;
         }
 
         public Window loadWindowLayout(String layoutName)
