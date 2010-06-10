@@ -20,7 +20,7 @@ namespace Editor
         private List<OSWindowListener> listeners = new List<OSWindowListener>();
         private RendererWindow window;
         private String name;
-        private CameraControl camera;
+        private SceneView camera;
         private OrbitCameraController orbitCamera;
         private RendererPlugin renderer;
         private bool showSceneStats = false;
@@ -85,7 +85,7 @@ namespace Editor
             if (defaultScene != null)
             {
                 this.mainTimer = mainTimer;
-                camera = window.createCamera(defaultScene, name, orbitCamera.Translation, orbitCamera.LookAt);
+                camera = window.createSceneView(defaultScene, name, orbitCamera.Translation, orbitCamera.LookAt);
                 camera.BackgroundColor = Engine.Color.FromARGB(BackColor.ToArgb());
                 camera.addLight();
                 camera.setRenderingMode(renderingMode);
@@ -105,7 +105,7 @@ namespace Editor
             if (camera != null)
             {
                 orbitCamera.setCamera(null);
-                window.destroyCamera(camera);
+                window.destroySceneView(camera);
                 mainTimer.removeFixedUpdateListener(orbitCamera);
                 camera = null;
                 CameraResolver.removeMotionValidator(this);
@@ -284,7 +284,7 @@ namespace Editor
         /// Get the camera for this motion validator.
         /// </summary>
         /// <returns>The camera for this validator.</returns>
-        public CameraControl getCamera()
+        public SceneView getCamera()
         {
             return camera;
         }

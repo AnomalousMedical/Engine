@@ -86,7 +86,7 @@ namespace Editor
         private void processSelection(EventManager events, CameraMotionValidator validator, Mouse mouse, ref Vector3 mouseLoc)
         {
             Vector3 trans = translation;
-            CameraControl camera = validator.getCamera();
+            SceneView camera = validator.getCamera();
             Ray3 spaceRay = camera.getCameraToViewportRay(mouseLoc.x / validator.getMouseAreaWidth(), mouseLoc.y / validator.getMouseAreaHeight());
             if (events[ToolEvents.Pick].FirstFrameDown && (xAxis.isSelected() || yAxis.isSelected() || zAxis.isSelected()))
             {

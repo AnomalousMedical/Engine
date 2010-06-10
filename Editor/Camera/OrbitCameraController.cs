@@ -41,7 +41,7 @@ namespace Editor
 
         #endregion Static
 
-        private CameraControl camera;
+        private SceneView camera;
         private EventManager events;
 
         //These three vectors form the axis relative to the current rotation.
@@ -57,7 +57,7 @@ namespace Editor
         private Vector3 translation;
         private CameraMotionValidator motionValidator = null;
 
-        public OrbitCameraController(CameraControl camera, EventManager eventManager)
+        public OrbitCameraController(SceneView camera, EventManager eventManager)
         {
             this.camera = camera;
             this.events = eventManager;
@@ -173,7 +173,7 @@ namespace Editor
         /// set the current camera for this controller. This can be set to null to disable the controller.
         /// </summary>
         /// <param name="camera">The camera to use.</param>
-        public void setCamera(CameraControl camera)
+        public void setCamera(SceneView camera)
         {
             this.camera = camera;
         }

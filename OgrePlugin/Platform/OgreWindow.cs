@@ -31,12 +31,12 @@ namespace OgrePlugin
             }
         }
 
-        public CameraControl createCamera(SimSubScene subScene, String name, Vector3 positon, Vector3 lookAt)
+        public SceneView createSceneView(SimSubScene subScene, String name, Vector3 positon, Vector3 lookAt)
         {
             if (subScene.hasSimElementManagerType(typeof(OgreSceneManager)))
             {
                 OgreSceneManager sceneManager = subScene.getSimElementManager<OgreSceneManager>();
-                OgreCameraControl camControl = new OgreCameraControl(name, sceneManager, OgreRenderWindow);
+                OgreSceneView camControl = new OgreSceneView(name, sceneManager, OgreRenderWindow);
                 camControl.Translation = positon;
                 camControl.LookAt = lookAt;
                 return camControl;
@@ -48,9 +48,9 @@ namespace OgrePlugin
             }
         }
 
-        public void destroyCamera(CameraControl camera)
+        public void destroySceneView(SceneView camera)
         {
-            OgreCameraControl ogreCam = camera as OgreCameraControl;
+            OgreSceneView ogreCam = camera as OgreSceneView;
             ogreCam.Dispose();
         }
 

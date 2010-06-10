@@ -151,7 +151,7 @@ namespace Editor
         private void processSelection(EventManager events, CameraMotionValidator validator, ref Vector3 mouseLoc)
         {
             Vector3 trans = moveController.Translation;
-            CameraControl camera = validator.getCamera();
+            SceneView camera = validator.getCamera();
             Ray3 spaceRay = camera.getCameraToViewportRay(mouseLoc.x / validator.getMouseAreaWidth(), mouseLoc.y / validator.getMouseAreaHeight());
             float distance = (camera.Translation - moveController.Translation).length();
             Vector3 spacePoint = spaceRay.Direction * distance + spaceRay.Origin;

@@ -17,7 +17,7 @@ namespace OgrePlugin
     /// <summary>
     /// A CameraControl class for ogre cameras.
     /// </summary>
-    public class OgreCameraControl : CameraControl, IDisposable, SceneListener
+    public class OgreSceneView : SceneView, IDisposable, SceneListener
     {
         private const String CAMERA_RESERVED_NAME = "__AutoCreatedCamera";
         private const String CAMERA_NODE_RESERVED_NAME = "__AutoCreatedCameraNode";
@@ -42,7 +42,7 @@ namespace OgrePlugin
         /// <param name="name">The name of the camera control.</param>
         /// <param name="sceneManager">The scene manager to build the camera into.</param>
         /// <param name="renderWindow">The renderwindow to create a viewport on.</param>
-        public OgreCameraControl(String name, OgreSceneManager sceneManager, RenderWindow renderWindow)
+        public OgreSceneView(String name, OgreSceneManager sceneManager, RenderWindow renderWindow)
         {
             this.name = name;
             this.sceneManager = sceneManager;

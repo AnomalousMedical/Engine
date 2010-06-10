@@ -18,7 +18,7 @@ namespace Engine
     /// <summary>
     /// This class is the interface for a camera in the Renderer plugin.
     /// </summary>
-    public interface CameraControl
+    public interface SceneView
     {
         /// <summary>
         /// Add a light that follows the camera around. This will only create

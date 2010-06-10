@@ -47,6 +47,6 @@ namespace Engine
         /// Get the camera for this motion validator.
         /// </summary>
         /// <returns>The camera for this validator.</returns>
-        CameraControl getCamera();
+        SceneView getCamera();
     }
 }
