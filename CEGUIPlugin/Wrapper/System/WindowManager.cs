@@ -7,7 +7,7 @@ using Engine;
 
 namespace CEGUIPlugin
 {
-    public class WindowManager
+    public class WindowManager : IDisposable
     {
         static WindowManager instance = new WindowManager();
 
@@ -25,6 +25,11 @@ namespace CEGUIPlugin
         private WindowManager()
         {
             windowManager = WindowManager_getSingletonPtr();
+        }
+
+        public void Dispose()
+        {
+            windows.Dispose();
         }
 
         internal Window getWindow(IntPtr nativeWindow)

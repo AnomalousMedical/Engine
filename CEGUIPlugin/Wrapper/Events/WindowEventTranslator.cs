@@ -26,12 +26,18 @@ namespace CEGUIPlugin
         public void Dispose()
         {
             WindowEventTranslator_delete(nativeEventTranslator);
+            nativeEventTranslator = IntPtr.Zero;
             basicEventCallback = null;
         }
 
         public void bindEvent()
         {
             WindowEventTranslator_bindEvent(nativeEventTranslator, ceguiWindow.CEGUIWindow);
+        }
+
+        public void unbindEvent()
+        {
+            WindowEventTranslator_unbindEvent(nativeEventTranslator);
         }
 
         bool basicEvent()
@@ -54,6 +60,9 @@ namespace CEGUIPlugin
 
         [DllImport("CEGUIWrapper")]
         private static extern void WindowEventTranslator_bindEvent(IntPtr nativeEventTranslator, IntPtr window);
+
+        [DllImport("CEGUIWrapper")]
+        private static extern void WindowEventTranslator_unbindEvent(IntPtr nativeEventTranslator);
 
 #endregion
     }

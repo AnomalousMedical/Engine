@@ -9,15 +9,21 @@ eventName(eventName)
 
 WindowEventTranslator::~WindowEventTranslator(void)
 {
-	if(connection.isValid())
-	{
-		connection->disconnect();
-	}
+	unbindEvent();
 }
 
 void WindowEventTranslator::bindEvent(CEGUI::Window* window)
 {
 	connection = window->subscribeEvent(eventName, CEGUI::Event::Subscriber(&WindowEventTranslator::eventCallback, this));
+}
+
+void WindowEventTranslator::unbindEvent()
+{
+	if(connection.isValid())
+	{
+		connection->disconnect();
+		connection = CEGUI::Event::Connection(0);
+	}
 }
 
 bool WindowEventTranslator::eventCallback(const CEGUI::EventArgs& event)
@@ -38,4 +44,9 @@ extern "C" _AnomalousExport void WindowEventTranslator_delete(WindowEventTransla
 extern "C" _AnomalousExport void WindowEventTranslator_bindEvent(WindowEventTranslator* nativeEventTranslator, CEGUI::Window* window)
 {
 	nativeEventTranslator->bindEvent(window);
+}
+
+extern "C" _AnomalousExport void WindowEventTranslator_unbindEvent(WindowEventTranslator* nativeEventTranslator)
+{
+	nativeEventTranslator->unbindEvent();
 }

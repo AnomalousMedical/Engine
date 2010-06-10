@@ -66,6 +66,7 @@ namespace CEGUIPlugin
 
         public void Dispose()
         {
+            TEMP_TEST_TRANSLATOR.Dispose();
             window = IntPtr.Zero;
         }
 
@@ -106,6 +107,10 @@ namespace CEGUIPlugin
             remove
             {
                 m_TestEvent -= value;
+                if (m_TestEvent == null)
+                {
+                    TEMP_TEST_TRANSLATOR.unbindEvent();
+                }
             }
         }
 

@@ -16,5 +16,7 @@ public:
 
 	void bindEvent(CEGUI::Window* window);
 
+	void unbindEvent();
+
 	bool eventCallback(const CEGUI::EventArgs& event);
 };
