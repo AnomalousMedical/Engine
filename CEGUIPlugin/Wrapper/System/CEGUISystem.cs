@@ -7,6 +7,24 @@ using Engine;
 
 namespace CEGUIPlugin
 {
+    public enum MouseButton
+    {
+        //! The left mouse button.
+        LeftButton,
+        //! The right mouse button.
+        RightButton,
+        //! The middle mouse button.
+        MiddleButton,
+        //! The first 'extra' mouse button.
+        X1Button,
+        //! The second 'extra' mouse button.
+        X2Button,
+        //! Value that equals the number of mouse buttons supported by CEGUI.
+        MouseButtonCount,
+        //! Value set for no mouse button.  NB: This is not 0, do not assume!
+        NoButton
+    };
+
     public class CEGUISystem : IDisposable
     {
         private static CEGUISystem instance;
@@ -47,7 +65,58 @@ namespace CEGUIPlugin
             customLogger.setLogLevel(level);
         }
 
+        public bool injectMouseMove(float delta_x, float delta_y)
+        {
+            return CEGUISystem_injectMouseMove(delta_x, delta_y);
+        }
+
+        public bool injectMousePosition(float x_pos, float y_pos)
+        {
+            return CEGUISystem_injectMousePosition(x_pos, y_pos);
+        }
+
+        public bool injectMouseLeaves()
+        {
+            return CEGUISystem_injectMouseLeaves();
+        }
+
+        public bool injectMouseButtonDown(MouseButton button)
+        {
+            return CEGUISystem_injectMouseButtonDown(button);
+        }
+
+        public bool injectMouseButtonUp(MouseButton button)
+        {
+            return CEGUISystem_injectMouseButtonUp(button);
+        }
+
+        public bool injectKeyDown(uint key_code)
+        {
+            return CEGUISystem_injectKeyDown(key_code);
+        }
+
+        public bool injectKeyUp(uint key_cod)
+        {
+            return CEGUISystem_injectKeyUp(key_cod);
+        }
+
+        public bool injectChar(UInt32 code_point)
+        {
+            return CEGUISystem_injectChar(code_point);
+        }
+
+        public bool injectMouseWheelChange(float delta)
+        {
+            return CEGUISystem_injectMouseWheelChange(delta);
+        }
+
+        public bool injectTimePulse(float timeElapsed)
+        {
+            return CEGUISystem_injectTimePulse(timeElapsed);
+        }
+
 #region PInvoke
+
         [DllImport("CEGUIWrapper")]
         private static extern void CEGUISystem_create(IntPtr renderer, IntPtr resourceProvider, IntPtr xmlParser, IntPtr imageCodec, IntPtr scriptModule, String configFile, String logFile);
 
@@ -56,6 +125,47 @@ namespace CEGUIPlugin
 
         [DllImport("CEGUIWrapper")]
         private static extern IntPtr CEGUISystem_setGUISheet(IntPtr window);
+
+        [DllImport("CEGUIWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool CEGUISystem_injectMouseMove(float delta_x, float delta_y);
+
+        [DllImport("CEGUIWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool CEGUISystem_injectMousePosition(float x_pos, float y_pos);
+
+        [DllImport("CEGUIWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool CEGUISystem_injectMouseLeaves();
+
+        [DllImport("CEGUIWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool CEGUISystem_injectMouseButtonDown(MouseButton button);
+
+        [DllImport("CEGUIWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool CEGUISystem_injectMouseButtonUp(MouseButton button);
+
+        [DllImport("CEGUIWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool CEGUISystem_injectKeyDown(uint key_code);
+
+        [DllImport("CEGUIWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool CEGUISystem_injectKeyUp(uint key_cod);
+
+        [DllImport("CEGUIWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool CEGUISystem_injectChar(UInt32 code_point);
+
+        [DllImport("CEGUIWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool CEGUISystem_injectMouseWheelChange(float delta);
+
+        [DllImport("CEGUIWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool CEGUISystem_injectTimePulse(float timeElapsed);
+
 #endregion
     }
 }

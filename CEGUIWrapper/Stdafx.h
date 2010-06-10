@@ -15,3 +15,6 @@
 #endif
 
 typedef const char* String;
+
+typedef unsigned int uint;
+typedef unsigned int UInt32;

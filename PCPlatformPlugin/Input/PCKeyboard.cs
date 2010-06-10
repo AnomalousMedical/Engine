@@ -32,6 +32,11 @@ namespace PCPlatform
             return Marshal.PtrToStringAnsi(oisKeyboard_getAsString(keyboard, code));
         }
 
+        public override int translateText(KeyboardButtonCode code)
+        {
+            return oisKeyboard_translateText(code);
+        }
+
         public unsafe override void capture()
         {
             fixed (sbyte* keyBuf = &keys[0])
@@ -54,6 +59,9 @@ namespace PCPlatform
 
         [DllImport("PCPlatform")]
         private static extern IntPtr oisKeyboard_getAsString(IntPtr keyboard, KeyboardButtonCode code);
+
+        [DllImport("PCPlatform")]
+        private static extern int oisKeyboard_translateText(KeyboardButtonCode code);
 
         [DllImport("PCPlatform")]
         private static unsafe extern void oisKeyboard_capture(IntPtr keyboard, sbyte* keys);

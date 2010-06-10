@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Plugin\CEGUIInterface.cs" />
+    <Compile Include="Plugin\CEGUIUpdate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wrapper\System\CEGUIOgreRenderer.cs" />
     <Compile Include="Wrapper\System\CEGUIRenderer.cs" />

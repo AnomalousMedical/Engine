@@ -23,6 +23,14 @@ namespace Engine.Platform
             }
         }
 
+        public float fSeconds
+        {
+            get
+            {
+                return (float)(timeMicro / 1000000.0);
+            }
+        }
+
         /// <summary>
         /// Set the time on this clock in microseconds.
         /// </summary>

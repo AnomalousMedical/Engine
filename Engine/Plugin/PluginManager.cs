@@ -46,7 +46,7 @@ namespace Engine
 
         #region Fields
 
-        private Dictionary<String, PluginInterface> loadedPlugins = new Dictionary<string, PluginInterface>();
+        private List<PluginInterface> loadedPlugins = new List<PluginInterface>();
         private List<AddSimElementCommand> addSimElementCommands = new List<AddSimElementCommand>();
         private List<AddSimElementManagerCommand> addElementManagerCommands = new List<AddSimElementManagerCommand>();
         private PlatformPlugin platformPlugin = null;
@@ -102,9 +102,10 @@ namespace Engine
         public void Dispose()
         {
             virtualFileSystem.Dispose();
-            foreach (PluginInterface plugin in loadedPlugins.Values)
+            //Unload plugins in reverse order
+            for (int i = loadedPlugins.Count - 1; i >= 0; --i)
             {
-                plugin.Dispose();
+                loadedPlugins[i].Dispose();
             }
             loadedPlugins.Clear();
         }
@@ -196,9 +197,12 @@ namespace Engine
         /// <returns>The ElementPlugin if it is found or null if it is not.</returns>
         public PluginInterface getPlugin(String name)
         {
-            if (loadedPlugins.ContainsKey(name))
+            foreach(PluginInterface plugin in loadedPlugins)
             {
-                return loadedPlugins[name];
+                if(plugin.getName() == name)
+                {
+                    return plugin;
+                }
             }
             return null;
         }
@@ -281,7 +285,7 @@ namespace Engine
         /// <param name="eventManager">The main event manager.</param>
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
         {
-            foreach (PluginInterface plugin in loadedPlugins.Values)
+            foreach (PluginInterface plugin in loadedPlugins)
             {
                 plugin.setPlatformInfo(mainTimer, eventManager);
             }
@@ -330,7 +334,7 @@ namespace Engine
         public List<CommandManager> createDebugCommands()
         {
             List<CommandManager> commands = new List<CommandManager>();
-            foreach (PluginInterface plugin in loadedPlugins.Values)
+            foreach (PluginInterface plugin in loadedPlugins)
             {
                 plugin.createDebugCommands(commands);
             }
@@ -365,7 +369,7 @@ namespace Engine
             if (debugInterfaces == null)
             {
                 debugInterfaces = new List<DebugInterface>();
-                foreach (PluginInterface plugin in loadedPlugins.Values)
+                foreach (PluginInterface plugin in loadedPlugins)
                 {
                     DebugInterface debug = plugin.getDebugInterface();
                     if (debug != null)
@@ -384,7 +388,7 @@ namespace Engine
         private void addPlugin(PluginInterface plugin)
         {
             Log.Default.sendMessage("Plugin {0} added.", LogLevel.Info, "Engine", plugin.getName());
-            loadedPlugins.Add(plugin.getName(), plugin);
+            loadedPlugins.Add(plugin);
             plugin.initialize(this);
         }
 
