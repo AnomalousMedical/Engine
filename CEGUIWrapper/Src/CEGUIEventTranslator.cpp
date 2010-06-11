@@ -13,7 +13,7 @@ CEGUIEventTranslator::~CEGUIEventTranslator(void)
 
 void CEGUIEventTranslator::bindEvent(CEGUI::Window* window)
 {
-	connection = window->subscribeEvent(eventName, CEGUI::Event::Subscriber(&CEGUIEventTranslator::eventCallback, this));
+	connection = window->subscribeEvent(eventName, CEGUI::Event::Subscriber(&CEGUIEventTranslator::handleEvent, this));
 }
 
 void CEGUIEventTranslator::unbindEvent()
@@ -23,11 +23,6 @@ void CEGUIEventTranslator::unbindEvent()
 		connection->disconnect();
 		connection = CEGUI::Event::Connection(0);
 	}
-}
-
-bool CEGUIEventTranslator::eventCallback(const CEGUI::EventArgs& event)
-{
-	return handleEvent(event);
 }
 
 extern "C" _AnomalousExport void CEGUIEventTranslator_delete(CEGUIEventTranslator* nativeEventTranslator)

@@ -15,7 +15,5 @@ public:
 
 	void unbindEvent();
 
-	bool eventCallback(const CEGUI::EventArgs& event);
-
 	virtual bool handleEvent(const CEGUI::EventArgs& event) = 0;
 };
