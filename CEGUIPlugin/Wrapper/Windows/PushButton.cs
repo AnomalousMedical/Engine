@@ -9,7 +9,7 @@ namespace CEGUIPlugin
     {
         private WindowEventTranslator clickedTranslator;
 
-        protected PushButton(IntPtr pushButton)
+        internal PushButton(IntPtr pushButton)
             :base(pushButton)
         {
             clickedTranslator = new WindowEventTranslator("Clicked", this);

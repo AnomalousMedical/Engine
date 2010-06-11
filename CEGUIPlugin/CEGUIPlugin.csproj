@@ -60,6 +60,7 @@
     <Compile Include="Wrapper\Windows\PushButton.cs" />
     <Compile Include="Wrapper\Windows\Window.cs" />
     <Compile Include="Wrapper\Events\WindowEventTranslator.cs" />
+    <Compile Include="Wrapper\Windows\WindowTypeManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">

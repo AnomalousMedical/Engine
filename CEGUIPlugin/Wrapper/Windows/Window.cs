@@ -50,19 +50,9 @@ namespace CEGUIPlugin
 
     public class Window : IDisposable
     {
-        private static readonly Type[] constructorArgs = { typeof(IntPtr) };
-
-        internal static Window createWrapper(IntPtr nativeObject, object[] args)
-        {
-            Type windowType = args[0] as Type;
-            ConstructorInfo constructor = windowType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, constructorArgs, null);
-            return (Window)constructor.Invoke(new Object[] { nativeObject });
-            //return new Window(nativeObject);
-        }
-
         private IntPtr window;
 
-        protected Window(IntPtr window)
+        internal Window(IntPtr window)
         {
             this.window = window;
         }
@@ -80,16 +70,27 @@ namespace CEGUIPlugin
             }
         }
 
-        public T getChildRecursive<T>(String name)
-            where T : Window
+        public String getType()
         {
-            return WindowManager.Singleton.getWindow<T>(Window_getChildRecursive(window, name));
+            return Marshal.PtrToStringAnsi(Window_getType(window));
+        }
+
+        public Window getChildRecursive(String name)
+        {
+            return WindowManager.Singleton.getWindow(Window_getChildRecursive(window, name));
         }
 
 #region PInvoke
 
         [DllImport("CEGUIWrapper")]
+        private static extern IntPtr Window_getType(IntPtr window);
+
+        [DllImport("CEGUIWrapper")]
         private static extern IntPtr Window_getChildRecursive(IntPtr window, String name);
+
+        [DllImport("CEGUIWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool Window_testClassName(IntPtr window, String name);
 
 #endregion
     }

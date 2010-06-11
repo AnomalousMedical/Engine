@@ -234,6 +234,10 @@
 				RelativePath=".\Src\WindowManager.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\Src\WindowTypeManager.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -254,6 +258,10 @@
 			</File>
 			<File
 				RelativePath=".\Include\WindowEventTranslator.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Include\WindowTypeManager.h"
 				>
 			</File>
 		</Filter>

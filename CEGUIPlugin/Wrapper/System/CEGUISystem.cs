@@ -57,7 +57,7 @@ namespace CEGUIPlugin
 
         public Window setGUISheet(Window window)
         {
-            return WindowManager.Singleton.getWindow<Window>(CEGUISystem_setGUISheet(window.CEGUIWindow));
+            return WindowManager.Singleton.getWindow(CEGUISystem_setGUISheet(window.CEGUIWindow));
         }
 
         public void setLogLevel(LoggingLevel level)
