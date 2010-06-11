@@ -11,6 +11,17 @@ namespace CEGUIPlugin
     public class WindowManager : IDisposable
     {
         static WindowManager instance = new WindowManager();
+        
+        public static WindowManager Singleton
+        {
+            get
+            {
+                return instance;
+            }
+        }
+
+        #region Wrapper
+        private static readonly Type[] constructorArgs = { typeof(IntPtr) };
         static WindowTypeManager windowTypeManager;
 
         static WindowManager()
@@ -22,22 +33,13 @@ namespace CEGUIPlugin
             windowTypeManager.addLeafType(typeof(PushButton));
         }
 
-        public static WindowManager Singleton
-        {
-            get
-            {
-                return instance;
-            }
-        }
-
-        private static readonly Type[] constructorArgs = { typeof(IntPtr) };
-
         private static Window createWrapper(IntPtr nativeObject, object[] args)
         {
             Type windowType = windowTypeManager.searchType(nativeObject);
             ConstructorInfo constructor = windowType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, constructorArgs, null);
             return (Window)constructor.Invoke(new Object[] { nativeObject });
         }
+        #endregion Wrapper
 
         private IntPtr windowManager;
         private WrapperCollection<Window> windows = new WrapperCollection<Window>(createWrapper);
@@ -61,6 +63,22 @@ namespace CEGUIPlugin
             return null;
         }
 
+        internal IntPtr deleteWrapper(IntPtr window)
+        {
+            return windows.destroyObject(window);
+        }
+
+        internal IntPtr deleteWrapperAndChildren(Window window)
+        {
+            window.eraseAllChildren();
+            return deleteWrapper(window.CEGUIWindow);
+        }
+
+        public void destroyWindow(Window window)
+        {
+            WindowManager_destroyWindow(windowManager, deleteWrapperAndChildren(window));
+        }
+
         public Window loadWindowLayout(String layoutName)
         {
             return getWindow(WindowManager_loadWindowLayout(windowManager, layoutName));
@@ -70,6 +88,9 @@ namespace CEGUIPlugin
 
         [DllImport("CEGUIWrapper")]
         private static extern IntPtr WindowManager_getSingletonPtr();
+
+        [DllImport("CEGUIWrapper")]
+        private static extern void WindowManager_destroyWindow(IntPtr windowManager, IntPtr window);
 
         [DllImport("CEGUIWrapper")]
         private static extern IntPtr WindowManager_loadWindowLayout(IntPtr windowManager, String layoutName);

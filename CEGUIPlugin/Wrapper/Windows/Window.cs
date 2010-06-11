@@ -62,6 +62,22 @@ namespace CEGUIPlugin
             window = IntPtr.Zero;
         }
 
+        internal void eraseAllChildren()
+        {
+            WindowManager windowManager = WindowManager.Singleton;
+            recursiveEraseChildren(window, windowManager);
+        }
+
+        private void recursiveEraseChildren(IntPtr parentWindow, WindowManager windowManager)
+        {
+            uint numChildren = Window_getChildCount(parentWindow).ToUInt32();
+            for (uint i = 0; i < numChildren; i++)
+            {
+                recursiveEraseChildren(Window_getChildIndex(parentWindow, i), windowManager);
+            }
+            windowManager.deleteWrapper(parentWindow);
+        }
+
         internal IntPtr CEGUIWindow
         {
             get
@@ -75,6 +91,16 @@ namespace CEGUIPlugin
             return Marshal.PtrToStringAnsi(Window_getType(window));
         }
 
+        public uint getChildCount()
+        {
+            return Window_getChildCount(window).ToUInt32();
+        }
+
+        public Window getChild(uint id)
+        {
+            return WindowManager.Singleton.getWindow(Window_getChildId(window, id));
+        }
+
         public Window getChildRecursive(String name)
         {
             return WindowManager.Singleton.getWindow(Window_getChildRecursive(window, name));
@@ -84,6 +110,15 @@ namespace CEGUIPlugin
 
         [DllImport("CEGUIWrapper")]
         private static extern IntPtr Window_getType(IntPtr window);
+
+        [DllImport("CEGUIWrapper")]
+        private static extern UIntPtr Window_getChildCount(IntPtr window);
+
+        [DllImport("CEGUIWrapper")]
+        private static extern IntPtr Window_getChildIndex(IntPtr window, uint index);
+
+        [DllImport("CEGUIWrapper")]
+        private static extern IntPtr Window_getChildId(IntPtr window, uint id);
 
         [DllImport("CEGUIWrapper")]
         private static extern IntPtr Window_getChildRecursive(IntPtr window, String name);
