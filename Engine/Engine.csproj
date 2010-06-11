@@ -100,6 +100,8 @@
     <Compile Include="Log\Log.cs" />
     <Compile Include="Log\LogFileListener.cs" />
     <Compile Include="Log\LogListener.cs" />
+    <Compile Include="Math\2d\Size.cs" />
+    <Compile Include="Math\2d\Vector2.cs" />
     <Compile Include="Math\3d\Matrix4x4.cs" />
     <Compile Include="Math\3d\Quaternion.cs" />
     <Compile Include="Math\3d\Ray3.cs" />
@@ -112,6 +114,7 @@
     <Compile Include="Math\Drawing\Color.cs" />
     <Compile Include="Math\Numerics\Distance.cs" />
     <Compile Include="Math\Shapes\Box3.cs" />
+    <Compile Include="Math\Shapes\Rect.cs" />
     <Compile Include="MemberCopier\CopyFilter.cs" />
     <Compile Include="MemberCopier\CopyMemberScanner.cs" />
     <Compile Include="MemberCopier\DeepMemberCopier.cs" />

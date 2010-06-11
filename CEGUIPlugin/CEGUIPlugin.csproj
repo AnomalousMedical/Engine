@@ -51,6 +51,9 @@
     <Compile Include="Plugin\CEGUIWindowListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wrapper\Events\EventArgs.cs" />
+    <Compile Include="Wrapper\Math\UDim.cs" />
+    <Compile Include="Wrapper\Math\URect.cs" />
+    <Compile Include="Wrapper\Math\UVector2.cs" />
     <Compile Include="Wrapper\System\CEGUIOgreRenderer.cs" />
     <Compile Include="Wrapper\System\CEGUIRenderer.cs" />
     <Compile Include="Wrapper\System\CEGUISystem.cs" />
@@ -58,6 +61,7 @@
     <Compile Include="Wrapper\System\SchemeManager.cs" />
     <Compile Include="Wrapper\System\WindowManager.cs" />
     <Compile Include="Wrapper\Windows\PushButton.cs" />
+    <Compile Include="Wrapper\Windows\Tooltip.cs" />
     <Compile Include="Wrapper\Windows\Window.cs" />
     <Compile Include="Wrapper\Events\WindowEventTranslator.cs" />
     <Compile Include="Wrapper\Windows\WindowTypeManager.cs" />

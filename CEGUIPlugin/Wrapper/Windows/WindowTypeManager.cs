@@ -16,10 +16,16 @@ namespace CEGUIPlugin
         private IntPtr nativeTypeManager;
         private List<Type> types = new List<Type>();
 
-        public WindowTypeManager(Type baseType)
+        public WindowTypeManager()
         {
-            types.Add(baseType);
-            nativeTypeManager = WindowTypeManager_Create(baseType.Name, 0);
+            types.Add(typeof(Window));
+            nativeTypeManager = WindowTypeManager_Create(typeof(Window).Name, 0);
+
+            //Buttons
+            addLeafType(typeof(PushButton));
+
+            //Tooltips
+            addLeafType(typeof(Tooltip));
         }
 
         public void Dispose()
