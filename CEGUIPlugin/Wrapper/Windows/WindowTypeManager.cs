@@ -6,6 +6,11 @@ using System.Runtime.InteropServices;
 
 namespace CEGUIPlugin
 {
+    /// <summary>
+    /// This class can determine the type of a CEGUI window from an IntPtr. This
+    /// is done using a native class that looks almost the same as this one. The
+    /// layout of the class hierarchy is defined in the WindowManager.
+    /// </summary>
     class WindowTypeManager : IDisposable
     {
         private IntPtr nativeTypeManager;
