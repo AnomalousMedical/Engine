@@ -18,25 +18,20 @@ namespace CEGUIPlugin
             }
         }
 
-        private IntPtr schemeManager;
-
         private SchemeManager()
         {
-            schemeManager = SchemeManager_getSingletonPtr();
+            
         }
 
         public void create(String scheme)
         {
-            SchemeManager_create(schemeManager, scheme);
+            SchemeManager_create(scheme);
         }
 
 #region PInvoke
 
         [DllImport("CEGUIWrapper")]
-        private static extern IntPtr SchemeManager_getSingletonPtr();
-
-        [DllImport("CEGUIWrapper")]
-        private static extern IntPtr SchemeManager_create(IntPtr schemeManager, String scheme);
+        private static extern IntPtr SchemeManager_create(String scheme);
 
 #endregion
     }
