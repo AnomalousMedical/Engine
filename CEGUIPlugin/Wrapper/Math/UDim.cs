@@ -14,5 +14,11 @@ namespace CEGUIPlugin
 
         [FieldOffset(4)]
         public float offset;
+
+        public UDim(float scale, float offset)
+        {
+            this.scale = scale;
+            this.offset = offset;
+        }
     }
 }
