@@ -32,11 +32,10 @@ namespace CEGUIPlugin
     /// </code>
     /// Don't forget to dispose it in your dispose method.
     /// </summary>
-    class CEGUIEventTranslator : IDisposable
+    abstract class CEGUIEventTranslator : IDisposable
     {
         Window ceguiWindow;
         IntPtr nativeEventTranslator;
-        BasicEventDelegate basicEventCallback;
 
         private event CEGUIEvent m_BoundEvent;
 
@@ -45,11 +44,19 @@ namespace CEGUIPlugin
         /// </summary>
         /// <param name="eventName">The name of the CEGUI event to listen to.</param>
         /// <param name="ceguiWindow">The window to subscribe to.</param>
-        public CEGUIEventTranslator(String eventName, Window ceguiWindow)
+        protected CEGUIEventTranslator(Window ceguiWindow)
         {
             this.ceguiWindow = ceguiWindow;
-            basicEventCallback = new BasicEventDelegate(basicEvent);
-            nativeEventTranslator = CEGUIEventTranslator_create(eventName, basicEventCallback);
+        }
+
+        /// <summary>
+        /// This function must be called in subclass constructors. It must be
+        /// like this since the event must be made in the constructor.
+        /// </summary>
+        /// <param name="nativeEventTranslator"></param>
+        protected void setNativeEventTranslator(IntPtr nativeEventTranslator)
+        {
+            this.nativeEventTranslator = nativeEventTranslator;
         }
 
         /// <summary>
@@ -59,7 +66,6 @@ namespace CEGUIPlugin
         {
             CEGUIEventTranslator_delete(nativeEventTranslator);
             nativeEventTranslator = IntPtr.Zero;
-            basicEventCallback = null;
         }
 
         /// <summary>
@@ -89,22 +95,16 @@ namespace CEGUIPlugin
         /// Callback from native code.
         /// </summary>
         /// <returns>True, to say the event was handled.</returns>
-        private bool basicEvent()
+        protected bool fireEvent(EventArgs args)
         {
             if (m_BoundEvent != null)
             {
-                m_BoundEvent.Invoke(null);
+                m_BoundEvent.Invoke(args);
             }
             return true;
         }
 
 #region PInvoke
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        delegate bool BasicEventDelegate();
-
-        [DllImport("CEGUIWrapper")]
-        private static extern IntPtr CEGUIEventTranslator_create(String eventName, BasicEventDelegate basicEvent);
 
         [DllImport("CEGUIWrapper")]
         private static extern void CEGUIEventTranslator_delete(IntPtr nativeEventTranslator);

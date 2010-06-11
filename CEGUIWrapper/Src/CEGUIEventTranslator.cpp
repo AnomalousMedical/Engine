@@ -1,9 +1,8 @@
 #include "StdAfx.h"
 #include "..\Include\CEGUIEventTranslator.h"
 
-CEGUIEventTranslator::CEGUIEventTranslator(String eventName, BasicEventDelegate basicEvent)
-:basicEvent(basicEvent),
-eventName(eventName)
+CEGUIEventTranslator::CEGUIEventTranslator(String eventName)
+:eventName(eventName)
 {
 }
 
@@ -28,12 +27,7 @@ void CEGUIEventTranslator::unbindEvent()
 
 bool CEGUIEventTranslator::eventCallback(const CEGUI::EventArgs& event)
 {
-	return basicEvent();
-}
-
-extern "C" _AnomalousExport CEGUIEventTranslator* CEGUIEventTranslator_create(String eventName, BasicEventDelegate basicEvent)
-{
-	return new CEGUIEventTranslator(eventName, basicEvent);
+	return handleEvent(event);
 }
 
 extern "C" _AnomalousExport void CEGUIEventTranslator_delete(CEGUIEventTranslator* nativeEventTranslator)
