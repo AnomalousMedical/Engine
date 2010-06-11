@@ -7,12 +7,12 @@ namespace CEGUIPlugin
 {
     public class PushButton : Window
     {
-        private WindowEventTranslator clickedTranslator;
+        private CEGUIEventTranslator clickedTranslator;
 
         internal PushButton(IntPtr pushButton)
             :base(pushButton)
         {
-            clickedTranslator = new WindowEventTranslator("Clicked", this);
+            clickedTranslator = new CEGUIEventTranslator("Clicked", this);
         }
 
         public override void Dispose()

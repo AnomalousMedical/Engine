@@ -2,7 +2,7 @@
 
 typedef bool (*BasicEventDelegate)();
 
-class WindowEventTranslator
+class CEGUIEventTranslator
 {
 private:
 	BasicEventDelegate basicEvent;
@@ -10,9 +10,9 @@ private:
 	CEGUI::Event::Connection connection;
 
 public:
-	WindowEventTranslator(String eventName, BasicEventDelegate basicEvent);
+	CEGUIEventTranslator(String eventName, BasicEventDelegate basicEvent);
 
-	virtual ~WindowEventTranslator(void);
+	virtual ~CEGUIEventTranslator(void);
 
 	void bindEvent(CEGUI::Window* window);
 

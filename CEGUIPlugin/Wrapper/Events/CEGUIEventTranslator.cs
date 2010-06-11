@@ -32,7 +32,7 @@ namespace CEGUIPlugin
     /// </code>
     /// Don't forget to dispose it in your dispose method.
     /// </summary>
-    class WindowEventTranslator : IDisposable
+    class CEGUIEventTranslator : IDisposable
     {
         Window ceguiWindow;
         IntPtr nativeEventTranslator;
@@ -45,11 +45,11 @@ namespace CEGUIPlugin
         /// </summary>
         /// <param name="eventName">The name of the CEGUI event to listen to.</param>
         /// <param name="ceguiWindow">The window to subscribe to.</param>
-        public WindowEventTranslator(String eventName, Window ceguiWindow)
+        public CEGUIEventTranslator(String eventName, Window ceguiWindow)
         {
             this.ceguiWindow = ceguiWindow;
             basicEventCallback = new BasicEventDelegate(basicEvent);
-            nativeEventTranslator = WindowEventTranslator_create(eventName, basicEventCallback);
+            nativeEventTranslator = CEGUIEventTranslator_create(eventName, basicEventCallback);
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace CEGUIPlugin
         /// </summary>
         public void Dispose()
         {
-            WindowEventTranslator_delete(nativeEventTranslator);
+            CEGUIEventTranslator_delete(nativeEventTranslator);
             nativeEventTranslator = IntPtr.Zero;
             basicEventCallback = null;
         }
@@ -71,7 +71,7 @@ namespace CEGUIPlugin
             {
                 if (m_BoundEvent == null)
                 {
-                    WindowEventTranslator_bindEvent(nativeEventTranslator, ceguiWindow.CEGUIWindow);
+                    CEGUIEventTranslator_bindEvent(nativeEventTranslator, ceguiWindow.CEGUIWindow);
                 }
                 m_BoundEvent += value;
             }
@@ -80,7 +80,7 @@ namespace CEGUIPlugin
                 m_BoundEvent -= value;
                 if (m_BoundEvent == null)
                 {
-                    WindowEventTranslator_unbindEvent(nativeEventTranslator);
+                    CEGUIEventTranslator_unbindEvent(nativeEventTranslator);
                 }
             }
         }
@@ -104,16 +104,16 @@ namespace CEGUIPlugin
         delegate bool BasicEventDelegate();
 
         [DllImport("CEGUIWrapper")]
-        private static extern IntPtr WindowEventTranslator_create(String eventName, BasicEventDelegate basicEvent);
+        private static extern IntPtr CEGUIEventTranslator_create(String eventName, BasicEventDelegate basicEvent);
 
         [DllImport("CEGUIWrapper")]
-        private static extern void WindowEventTranslator_delete(IntPtr nativeEventTranslator);
+        private static extern void CEGUIEventTranslator_delete(IntPtr nativeEventTranslator);
 
         [DllImport("CEGUIWrapper")]
-        private static extern void WindowEventTranslator_bindEvent(IntPtr nativeEventTranslator, IntPtr window);
+        private static extern void CEGUIEventTranslator_bindEvent(IntPtr nativeEventTranslator, IntPtr window);
 
         [DllImport("CEGUIWrapper")]
-        private static extern void WindowEventTranslator_unbindEvent(IntPtr nativeEventTranslator);
+        private static extern void CEGUIEventTranslator_unbindEvent(IntPtr nativeEventTranslator);
 
 #endregion
     }
