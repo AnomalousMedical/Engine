@@ -51,6 +51,10 @@
     <Compile Include="Plugin\CEGUIWindowListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wrapper\Events\EventArgs.cs" />
+    <Compile Include="Wrapper\Events\KeyEventArgs.cs" />
+    <Compile Include="Wrapper\Events\KeyEventTranslator.cs" />
+    <Compile Include="Wrapper\Events\MouseEventArgs.cs" />
+    <Compile Include="Wrapper\Events\MouseEventTranslator.cs" />
     <Compile Include="Wrapper\Events\WindowEventArgs.cs" />
     <Compile Include="Wrapper\Events\WindowEventTranslator.cs" />
     <Compile Include="Wrapper\Math\UDim.cs" />

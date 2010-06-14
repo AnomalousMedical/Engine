@@ -203,6 +203,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\KeyEventTranslator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\MouseEventTranslator.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\SchemeManager.cpp"
 				>
 			</File>
@@ -254,6 +262,14 @@
 			</File>
 			<File
 				RelativePath=".\Include\CustomLogger.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Include\KeyEventTranslator.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Include\MouseEventTranslator.h"
 				>
 			</File>
 			<File

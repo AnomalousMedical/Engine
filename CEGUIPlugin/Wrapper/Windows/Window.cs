@@ -60,6 +60,7 @@ namespace CEGUIPlugin
 
         public virtual void Dispose()
         {
+            disposeEvents();
             window = IntPtr.Zero;
         }
 
@@ -91,6 +92,7 @@ namespace CEGUIPlugin
 
 #endregion
 
+#region Functions
         public String getType()
         {
             return Marshal.PtrToStringAnsi(Window_getType(window));
@@ -845,6 +847,979 @@ namespace CEGUIPlugin
         {
             return Window_getUnprojectedPosition(window, pos);
         }
+
+#endregion Functions
+
+#region Events
+#region EventConstants
+        const String EventNamespace = "Window";
+        const String EventWindowUpdated  = "WindowUpdate";
+        const String EventParentSized = "ParentSized";
+        const String EventSized = "Sized";
+        const String EventMoved = "Moved";
+        const String EventTextChanged = "TextChanged";
+        const String EventFontChanged = "FontChanged";
+        const String EventAlphaChanged = "AlphaChanged";
+        const String EventIDChanged = "IDChanged";
+        const String EventActivated = "Activated";
+        const String EventDeactivated = "Deactivated";
+        const String EventShown = "Shown";
+        const String EventHidden = "Hidden";
+        const String EventEnabled = "Enabled";
+        const String EventDisabled = "Disabled";
+        const String EventClippedByParentChanged = "ClippingChanged";
+        const String EventDestroyedByParentChanged = "DestroyedByParentChanged";
+        const String EventInheritsAlphaChanged = "InheritAlphaChanged";
+        const String EventAlwaysOnTopChanged = "AlwaysOnTopChanged";
+        const String EventInputCaptureGained = "CaptureGained";
+        const String EventInputCaptureLost = "CaptureLost";
+        const String EventRenderingStarted = "StartRender";
+        const String EventRenderingEnded = "EndRender";
+        const String EventChildAdded = "AddedChild";
+        const String EventChildRemoved = "RemovedChild";
+        const String EventDestructionStarted = "DestructStart";
+        const String EventZOrderChanged = "ZChanged";
+        const String EventDragDropItemEnters = "DragDropItemEnters";
+        const String EventDragDropItemLeaves = "DragDropItemLeaves";
+        const String EventDragDropItemDropped = "DragDropItemDropped";
+        const String EventVerticalAlignmentChanged = "VerticalAlignmentChanged";
+        const String EventHorizontalAlignmentChanged = "HorizontalAlignmentChanged";
+        const String EventWindowRendererAttached = "WindowRendererAttached";
+        const String EventWindowRendererDetached = "WindowRendererDetached";
+        const String EventRotated = "Rotated";
+        const String EventNonClientChanged = "NonClientChanged";
+        const String EventTextParsingChanged = "TextParsingChanged";
+        const String EventMouseEnters = "MouseEnter";
+        const String EventMouseLeaves = "MouseLeave";
+        const String EventMouseMove = "MouseMove";
+        const String EventMouseWheel = "MouseWheel";
+        const String EventMouseButtonDown = "MouseButtonDown";
+        const String EventMouseButtonUp = "MouseButtonUp";
+        const String EventMouseClick = "MouseClick";
+        const String EventMouseDoubleClick = "MouseDoubleClick";
+        const String EventMouseTripleClick = "MouseTripleClick";
+        const String EventKeyDown = "KeyDown";
+        const String EventKeyUp = "KeyUp";
+        const String EventCharacterKey = "CharacterKey";
+#endregion
+
+        private void disposeEvents()
+        {
+            if (WindowUpdatedTranslator != null) WindowUpdatedTranslator.Dispose();
+            if (ParentSizedTranslator != null) ParentSizedTranslator.Dispose();
+            if (SizedTranslator != null) SizedTranslator.Dispose();
+            if (MovedTranslator != null) MovedTranslator.Dispose();
+            if (TextChangedTranslator != null) TextChangedTranslator.Dispose();
+            if (FontChangedTranslator != null) FontChangedTranslator.Dispose();
+            if (AlphaChangedTranslator != null) AlphaChangedTranslator.Dispose();
+            if (IDChangedTranslator != null) IDChangedTranslator.Dispose();
+            if (ActivatedTranslator != null) ActivatedTranslator.Dispose();
+            if (DeactivatedTranslator != null) DeactivatedTranslator.Dispose();
+            if (ShownTranslator != null) ShownTranslator.Dispose();
+            if (HiddenTranslator != null) HiddenTranslator.Dispose();
+            if (EnabledTranslator != null) EnabledTranslator.Dispose();
+            if (DisabledTranslator != null) DisabledTranslator.Dispose();
+            if (ClippedByParentChangedTranslator != null) ClippedByParentChangedTranslator.Dispose();
+            if (DestroyedByParentChangedTranslator != null) DestroyedByParentChangedTranslator.Dispose();
+            if (InheritsAlphaChangedTranslator != null) InheritsAlphaChangedTranslator.Dispose();
+            if (AlwaysOnTopChangedTranslator != null) AlwaysOnTopChangedTranslator.Dispose();
+            if (InputCaptureGainedTranslator != null) InputCaptureGainedTranslator.Dispose();
+            if (InputCaptureLostTranslator != null) InputCaptureLostTranslator.Dispose();
+            if (RenderingStartedTranslator != null) RenderingStartedTranslator.Dispose();
+            if (RenderingEndedTranslator != null) RenderingEndedTranslator.Dispose();
+            if (ChildAddedTranslator != null) ChildAddedTranslator.Dispose();
+            if (ChildRemovedTranslator != null) ChildRemovedTranslator.Dispose();
+            if (DestructionStartedTranslator != null) DestructionStartedTranslator.Dispose();
+            if (ZOrderChangedTranslator != null) ZOrderChangedTranslator.Dispose();
+            if (DragDropItemEntersTranslator != null) DragDropItemEntersTranslator.Dispose();
+            if (DragDropItemLeavesTranslator != null) DragDropItemLeavesTranslator.Dispose();
+            if (DragDropItemDroppedTranslator != null) DragDropItemDroppedTranslator.Dispose();
+            if (VerticalAlignmentChangedTranslator != null) VerticalAlignmentChangedTranslator.Dispose();
+            if (HorizontalAlignmentChangedTranslator != null) HorizontalAlignmentChangedTranslator.Dispose();
+            if (WindowRendererAttachedTranslator != null) WindowRendererAttachedTranslator.Dispose();
+            if (WindowRendererDetachedTranslator != null) WindowRendererDetachedTranslator.Dispose();
+            if (RotatedTranslator != null) RotatedTranslator.Dispose();
+            if (NonClientChangedTranslator != null) NonClientChangedTranslator.Dispose();
+            if (TextParsingChangedTranslator != null) TextParsingChangedTranslator.Dispose();
+            if (MouseEntersTranslator != null) MouseEntersTranslator.Dispose();
+            if (MouseLeavesTranslator != null) MouseLeavesTranslator.Dispose();
+            if (MouseMoveTranslator != null) MouseMoveTranslator.Dispose();
+            if (MouseWheelTranslator != null) MouseWheelTranslator.Dispose();
+            if (MouseButtonDownTranslator != null) MouseButtonDownTranslator.Dispose();
+            if (MouseButtonUpTranslator != null) MouseButtonUpTranslator.Dispose();
+            if (MouseClickTranslator != null) MouseClickTranslator.Dispose();
+            if (MouseDoubleClickTranslator != null) MouseDoubleClickTranslator.Dispose();
+            if (MouseTripleClickTranslator != null) MouseTripleClickTranslator.Dispose();
+            if (KeyDownTranslator != null) KeyDownTranslator.Dispose();
+            if (KeyUpTranslator != null) KeyUpTranslator.Dispose();
+            if (CharacterKeyTranslator != null) CharacterKeyTranslator.Dispose();
+        }
+
+        private CEGUIEventTranslator WindowUpdatedTranslator;
+
+        public event CEGUIEvent WindowUpdated
+        {
+            add
+            {
+                if (WindowUpdatedTranslator == null)
+                {
+                    WindowUpdatedTranslator = new WindowEventTranslator(EventWindowUpdated, this);
+                }
+                WindowUpdatedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                WindowUpdatedTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator ParentSizedTranslator;
+
+        public event CEGUIEvent ParentSized
+        {
+            add
+            {
+                if (ParentSizedTranslator == null)
+                {
+                    ParentSizedTranslator = new WindowEventTranslator(EventParentSized, this);
+                }
+                ParentSizedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                ParentSizedTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator SizedTranslator;
+
+        public event CEGUIEvent Sized
+        {
+            add
+            {
+                if (SizedTranslator == null)
+                {
+                    SizedTranslator = new WindowEventTranslator(EventSized, this);
+                }
+                SizedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                SizedTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator MovedTranslator;
+
+        public event CEGUIEvent Moved
+        {
+            add
+            {
+                if (MovedTranslator == null)
+                {
+                    MovedTranslator = new WindowEventTranslator(EventMoved, this);
+                }
+                MovedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                MovedTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator TextChangedTranslator;
+
+        public event CEGUIEvent TextChanged
+        {
+            add
+            {
+                if (TextChangedTranslator == null)
+                {
+                    TextChangedTranslator = new WindowEventTranslator(EventTextChanged, this);
+                }
+                TextChangedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                TextChangedTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator FontChangedTranslator;
+
+        public event CEGUIEvent FontChanged
+        {
+            add
+            {
+                if (FontChangedTranslator == null)
+                {
+                    FontChangedTranslator = new WindowEventTranslator(EventFontChanged, this);
+                }
+                FontChangedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                FontChangedTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator AlphaChangedTranslator;
+
+        public event CEGUIEvent AlphaChanged
+        {
+            add
+            {
+                if (AlphaChangedTranslator == null)
+                {
+                    AlphaChangedTranslator = new WindowEventTranslator(EventAlphaChanged, this);
+                }
+                AlphaChangedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                AlphaChangedTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator IDChangedTranslator;
+
+        public event CEGUIEvent IDChanged
+        {
+            add
+            {
+                if (IDChangedTranslator == null)
+                {
+                    IDChangedTranslator = new WindowEventTranslator(EventIDChanged, this);
+                }
+                IDChangedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                IDChangedTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator ActivatedTranslator;
+
+        public event CEGUIEvent Activated
+        {
+            add
+            {
+                if (ActivatedTranslator == null)
+                {
+                    ActivatedTranslator = new WindowEventTranslator(EventActivated, this);
+                }
+                ActivatedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                ActivatedTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator DeactivatedTranslator;
+
+        public event CEGUIEvent Deactivated
+        {
+            add
+            {
+                if (DeactivatedTranslator == null)
+                {
+                    DeactivatedTranslator = new WindowEventTranslator(EventDeactivated, this);
+                }
+                DeactivatedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                DeactivatedTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator ShownTranslator;
+
+        public event CEGUIEvent Shown
+        {
+            add
+            {
+                if (ShownTranslator == null)
+                {
+                    ShownTranslator = new WindowEventTranslator(EventShown, this);
+                }
+                ShownTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                ShownTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator HiddenTranslator;
+
+        public event CEGUIEvent Hidden
+        {
+            add
+            {
+                if (HiddenTranslator == null)
+                {
+                    HiddenTranslator = new WindowEventTranslator(EventHidden, this);
+                }
+                HiddenTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                HiddenTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator EnabledTranslator;
+
+        public event CEGUIEvent Enabled
+        {
+            add
+            {
+                if (EnabledTranslator == null)
+                {
+                    EnabledTranslator = new WindowEventTranslator(EventEnabled, this);
+                }
+                EnabledTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                EnabledTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator DisabledTranslator;
+
+        public event CEGUIEvent Disabled
+        {
+            add
+            {
+                if (DisabledTranslator == null)
+                {
+                    DisabledTranslator = new WindowEventTranslator(EventDisabled, this);
+                }
+                DisabledTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                DisabledTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator ClippedByParentChangedTranslator;
+
+        public event CEGUIEvent ClippedByParentChanged
+        {
+            add
+            {
+                if (ClippedByParentChangedTranslator == null)
+                {
+                    ClippedByParentChangedTranslator = new WindowEventTranslator(EventClippedByParentChanged, this);
+                }
+                ClippedByParentChangedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                ClippedByParentChangedTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator DestroyedByParentChangedTranslator;
+
+        public event CEGUIEvent DestroyedByParentChanged
+        {
+            add
+            {
+                if (DestroyedByParentChangedTranslator == null)
+                {
+                    DestroyedByParentChangedTranslator = new WindowEventTranslator(EventDestroyedByParentChanged, this);
+                }
+                DestroyedByParentChangedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                DestroyedByParentChangedTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator InheritsAlphaChangedTranslator;
+
+        public event CEGUIEvent InheritsAlphaChanged
+        {
+            add
+            {
+                if (InheritsAlphaChangedTranslator == null)
+                {
+                    InheritsAlphaChangedTranslator = new WindowEventTranslator(EventInheritsAlphaChanged, this);
+                }
+                InheritsAlphaChangedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                InheritsAlphaChangedTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator AlwaysOnTopChangedTranslator;
+
+        public event CEGUIEvent AlwaysOnTopChanged
+        {
+            add
+            {
+                if (AlwaysOnTopChangedTranslator == null)
+                {
+                    AlwaysOnTopChangedTranslator = new WindowEventTranslator(EventAlwaysOnTopChanged, this);
+                }
+                AlwaysOnTopChangedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                AlwaysOnTopChangedTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator InputCaptureGainedTranslator;
+
+        public event CEGUIEvent InputCaptureGained
+        {
+            add
+            {
+                if (InputCaptureGainedTranslator == null)
+                {
+                    InputCaptureGainedTranslator = new WindowEventTranslator(EventInputCaptureGained, this);
+                }
+                InputCaptureGainedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                InputCaptureGainedTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator InputCaptureLostTranslator;
+
+        public event CEGUIEvent InputCaptureLost
+        {
+            add
+            {
+                if (InputCaptureLostTranslator == null)
+                {
+                    InputCaptureLostTranslator = new WindowEventTranslator(EventInputCaptureLost, this);
+                }
+                InputCaptureLostTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                InputCaptureLostTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator RenderingStartedTranslator;
+
+        public event CEGUIEvent RenderingStarted
+        {
+            add
+            {
+                if (RenderingStartedTranslator == null)
+                {
+                    RenderingStartedTranslator = new WindowEventTranslator(EventRenderingStarted, this);
+                }
+                RenderingStartedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                RenderingStartedTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator RenderingEndedTranslator;
+
+        public event CEGUIEvent RenderingEnded
+        {
+            add
+            {
+                if (RenderingEndedTranslator == null)
+                {
+                    RenderingEndedTranslator = new WindowEventTranslator(EventRenderingEnded, this);
+                }
+                RenderingEndedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                RenderingEndedTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator ChildAddedTranslator;
+
+        public event CEGUIEvent ChildAdded
+        {
+            add
+            {
+                if (ChildAddedTranslator == null)
+                {
+                    ChildAddedTranslator = new WindowEventTranslator(EventChildAdded, this);
+                }
+                ChildAddedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                ChildAddedTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator ChildRemovedTranslator;
+
+        public event CEGUIEvent ChildRemoved
+        {
+            add
+            {
+                if (ChildRemovedTranslator == null)
+                {
+                    ChildRemovedTranslator = new WindowEventTranslator(EventChildRemoved, this);
+                }
+                ChildRemovedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                ChildRemovedTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator DestructionStartedTranslator;
+
+        public event CEGUIEvent DestructionStarted
+        {
+            add
+            {
+                if (DestructionStartedTranslator == null)
+                {
+                    DestructionStartedTranslator = new WindowEventTranslator(EventDestructionStarted, this);
+                }
+                DestructionStartedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                DestructionStartedTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator ZOrderChangedTranslator;
+
+        public event CEGUIEvent ZOrderChanged
+        {
+            add
+            {
+                if (ZOrderChangedTranslator == null)
+                {
+                    ZOrderChangedTranslator = new WindowEventTranslator(EventZOrderChanged, this);
+                }
+                ZOrderChangedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                ZOrderChangedTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator DragDropItemEntersTranslator;
+
+        public event CEGUIEvent DragDropItemEnters
+        {
+            add
+            {
+                if (DragDropItemEntersTranslator == null)
+                {
+                    DragDropItemEntersTranslator = new WindowEventTranslator(EventDragDropItemEnters, this);
+                }
+                DragDropItemEntersTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                DragDropItemEntersTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator DragDropItemLeavesTranslator;
+
+        public event CEGUIEvent DragDropItemLeaves
+        {
+            add
+            {
+                if (DragDropItemLeavesTranslator == null)
+                {
+                    DragDropItemLeavesTranslator = new WindowEventTranslator(EventDragDropItemLeaves, this);
+                }
+                DragDropItemLeavesTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                DragDropItemLeavesTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator DragDropItemDroppedTranslator;
+
+        public event CEGUIEvent DragDropItemDropped
+        {
+            add
+            {
+                if (DragDropItemDroppedTranslator == null)
+                {
+                    DragDropItemDroppedTranslator = new WindowEventTranslator(EventDragDropItemDropped, this);
+                }
+                DragDropItemDroppedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                DragDropItemDroppedTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator VerticalAlignmentChangedTranslator;
+
+        public event CEGUIEvent VerticalAlignmentChanged
+        {
+            add
+            {
+                if (VerticalAlignmentChangedTranslator == null)
+                {
+                    VerticalAlignmentChangedTranslator = new WindowEventTranslator(EventVerticalAlignmentChanged, this);
+                }
+                VerticalAlignmentChangedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                VerticalAlignmentChangedTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator HorizontalAlignmentChangedTranslator;
+
+        public event CEGUIEvent HorizontalAlignmentChanged
+        {
+            add
+            {
+                if (HorizontalAlignmentChangedTranslator == null)
+                {
+                    HorizontalAlignmentChangedTranslator = new WindowEventTranslator(EventHorizontalAlignmentChanged, this);
+                }
+                HorizontalAlignmentChangedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                HorizontalAlignmentChangedTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator WindowRendererAttachedTranslator;
+
+        public event CEGUIEvent WindowRendererAttached
+        {
+            add
+            {
+                if (WindowRendererAttachedTranslator == null)
+                {
+                    WindowRendererAttachedTranslator = new WindowEventTranslator(EventWindowRendererAttached, this);
+                }
+                WindowRendererAttachedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                WindowRendererAttachedTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator WindowRendererDetachedTranslator;
+
+        public event CEGUIEvent WindowRendererDetached
+        {
+            add
+            {
+                if (WindowRendererDetachedTranslator == null)
+                {
+                    WindowRendererDetachedTranslator = new WindowEventTranslator(EventWindowRendererDetached, this);
+                }
+                WindowRendererDetachedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                WindowRendererDetachedTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator RotatedTranslator;
+
+        public event CEGUIEvent Rotated
+        {
+            add
+            {
+                if (RotatedTranslator == null)
+                {
+                    RotatedTranslator = new WindowEventTranslator(EventRotated, this);
+                }
+                RotatedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                RotatedTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator NonClientChangedTranslator;
+
+        public event CEGUIEvent NonClientChanged
+        {
+            add
+            {
+                if (NonClientChangedTranslator == null)
+                {
+                    NonClientChangedTranslator = new WindowEventTranslator(EventNonClientChanged, this);
+                }
+                NonClientChangedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                NonClientChangedTranslator.BoundEvent -= value;
+            }
+        }
+
+        private CEGUIEventTranslator TextParsingChangedTranslator;
+
+        public event CEGUIEvent TextParsingChanged
+        {
+            add
+            {
+                if (TextParsingChangedTranslator == null)
+                {
+                    TextParsingChangedTranslator = new WindowEventTranslator(EventTextParsingChanged, this);
+                }
+                TextParsingChangedTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                TextParsingChangedTranslator.BoundEvent -= value;
+            }
+        }
+
+        private MouseEventTranslator MouseEntersTranslator;
+
+        public event CEGUIEvent MouseEnters
+        {
+            add
+            {
+                if (MouseEntersTranslator == null)
+                {
+                    MouseEntersTranslator = new MouseEventTranslator(EventMouseEnters, this);
+                }
+                MouseEntersTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                MouseEntersTranslator.BoundEvent -= value;
+            }
+        }
+
+        private MouseEventTranslator MouseLeavesTranslator;
+
+        public event CEGUIEvent MouseLeaves
+        {
+            add
+            {
+                if (MouseLeavesTranslator == null)
+                {
+                    MouseLeavesTranslator = new MouseEventTranslator(EventMouseLeaves, this);
+                }
+                MouseLeavesTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                MouseLeavesTranslator.BoundEvent -= value;
+            }
+        }
+
+        private MouseEventTranslator MouseMoveTranslator;
+
+        public event CEGUIEvent MouseMove
+        {
+            add
+            {
+                if (MouseMoveTranslator == null)
+                {
+                    MouseMoveTranslator = new MouseEventTranslator(EventMouseMove, this);
+                }
+                MouseMoveTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                MouseMoveTranslator.BoundEvent -= value;
+            }
+        }
+
+        private MouseEventTranslator MouseWheelTranslator;
+
+        public event CEGUIEvent MouseWheel
+        {
+            add
+            {
+                if (MouseWheelTranslator == null)
+                {
+                    MouseWheelTranslator = new MouseEventTranslator(EventMouseWheel, this);
+                }
+                MouseWheelTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                MouseWheelTranslator.BoundEvent -= value;
+            }
+        }
+
+        private MouseEventTranslator MouseButtonDownTranslator;
+
+        public event CEGUIEvent MouseButtonDown
+        {
+            add
+            {
+                if (MouseButtonDownTranslator == null)
+                {
+                    MouseButtonDownTranslator = new MouseEventTranslator(EventMouseButtonDown, this);
+                }
+                MouseButtonDownTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                MouseButtonDownTranslator.BoundEvent -= value;
+            }
+        }
+
+        private MouseEventTranslator MouseButtonUpTranslator;
+
+        public event CEGUIEvent MouseButtonUp
+        {
+            add
+            {
+                if (MouseButtonUpTranslator == null)
+                {
+                    MouseButtonUpTranslator = new MouseEventTranslator(EventMouseButtonUp, this);
+                }
+                MouseButtonUpTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                MouseButtonUpTranslator.BoundEvent -= value;
+            }
+        }
+
+        private MouseEventTranslator MouseClickTranslator;
+
+        public event CEGUIEvent MouseClick
+        {
+            add
+            {
+                if (MouseClickTranslator == null)
+                {
+                    MouseClickTranslator = new MouseEventTranslator(EventMouseClick, this);
+                }
+                MouseClickTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                MouseClickTranslator.BoundEvent -= value;
+            }
+        }
+
+        private MouseEventTranslator MouseDoubleClickTranslator;
+
+        public event CEGUIEvent MouseDoubleClick
+        {
+            add
+            {
+                if (MouseDoubleClickTranslator == null)
+                {
+                    MouseDoubleClickTranslator = new MouseEventTranslator(EventMouseDoubleClick, this);
+                }
+                MouseDoubleClickTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                MouseDoubleClickTranslator.BoundEvent -= value;
+            }
+        }
+
+        private MouseEventTranslator MouseTripleClickTranslator;
+
+        public event CEGUIEvent MouseTripleClick
+        {
+            add
+            {
+                if (MouseTripleClickTranslator == null)
+                {
+                    MouseTripleClickTranslator = new MouseEventTranslator(EventMouseTripleClick, this);
+                }
+                MouseTripleClickTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                MouseTripleClickTranslator.BoundEvent -= value;
+            }
+        }
+
+        private KeyEventTranslator KeyDownTranslator;
+
+        public event CEGUIEvent KeyDown
+        {
+            add
+            {
+                if (KeyDownTranslator == null)
+                {
+                    KeyDownTranslator = new KeyEventTranslator(EventKeyDown, this);
+                }
+                KeyDownTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                KeyDownTranslator.BoundEvent -= value;
+            }
+        }
+
+        private KeyEventTranslator KeyUpTranslator;
+
+        public event CEGUIEvent KeyUp
+        {
+            add
+            {
+                if (KeyUpTranslator == null)
+                {
+                    KeyUpTranslator = new KeyEventTranslator(EventKeyUp, this);
+                }
+                KeyUpTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                KeyUpTranslator.BoundEvent -= value;
+            }
+        }
+
+        private KeyEventTranslator CharacterKeyTranslator;
+
+        public event CEGUIEvent CharacterKey
+        {
+            add
+            {
+                if (CharacterKeyTranslator == null)
+                {
+                    CharacterKeyTranslator = new KeyEventTranslator(EventCharacterKey, this);
+                }
+                CharacterKeyTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                CharacterKeyTranslator.BoundEvent -= value;
+            }
+        } 
+
+#endregion
 
 #region PInvoke
 
