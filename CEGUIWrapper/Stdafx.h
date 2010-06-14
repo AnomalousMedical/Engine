@@ -95,3 +95,29 @@ public:
 		return CEGUI::Vector3(x, y, z);
 	}
 };
+
+class FloatStructHack
+{
+public:
+	float x;
+	float y;
+	float z;
+
+	FloatStructHack(const CEGUI::Size& sz)
+	{
+		x = sz.d_width;
+		y = sz.d_height;
+	}
+
+	FloatStructHack(const CEGUI::Vector2& vec)
+	{
+		x = vec.d_x;
+		y = vec.d_y;
+	}
+
+	FloatStructHack(const CEGUI::UDim& udim)
+	{
+		x = udim.d_scale;
+		y = udim.d_offset;
+	}
+};

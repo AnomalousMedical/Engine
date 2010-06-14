@@ -325,7 +325,7 @@ namespace CEGUIPlugin
 
         public Size getPixelSize()
         {
-            return Window_getPixelSize(window);
+            return Window_getPixelSize(window).toSize();
         }
 
         public bool restoresOldCapture()
@@ -420,7 +420,7 @@ namespace CEGUIPlugin
 
         public Size getParentPixelSize()
         {
-            return Window_getParentPixelSize(window);
+            return Window_getParentPixelSize(window).toSize();
         }
 
         public float getParentPixelWidth()
@@ -775,12 +775,12 @@ namespace CEGUIPlugin
 
         public UDim getXPosition()
         {
-            return Window_getXPosition(window);
+            return Window_getXPosition(window).toUDim();
         }
 
         public UDim getYPosition()
         {
-            return Window_getYPosition(window);
+            return Window_getYPosition(window).toUDim();
         }
 
         public UVector2 getSize()
@@ -790,12 +790,12 @@ namespace CEGUIPlugin
 
         public UDim getWidth()
         {
-            return Window_getWidth(window);
+            return Window_getWidth(window).toUDim();
         }
 
         public UDim getHeight()
         {
-            return Window_getHeight(window);
+            return Window_getHeight(window).toUDim();
         }
 
         public UVector2 getMaxSize()
@@ -845,7 +845,7 @@ namespace CEGUIPlugin
 
         public Vector2 getUnprojectedPosition(Vector2 pos)
         {
-            return Window_getUnprojectedPosition(window, pos);
+            return Window_getUnprojectedPosition(window, pos).toVector2();
         }
 
 #endregion Functions
@@ -1983,7 +1983,7 @@ namespace CEGUIPlugin
         private static extern IntPtr Window_getParent(IntPtr window);
 
         [DllImport("CEGUIWrapper")]
-        private static extern Size Window_getPixelSize(IntPtr window);
+        private static extern FloatStructHack Window_getPixelSize(IntPtr window);
 
         [DllImport("CEGUIWrapper")]
         [return: MarshalAs(UnmanagedType.I1)]
@@ -2049,7 +2049,7 @@ namespace CEGUIPlugin
         private static extern IntPtr Window_getActiveSibling(IntPtr window);
 
         [DllImport("CEGUIWrapper")]
-        private static extern Size Window_getParentPixelSize(IntPtr window);
+        private static extern FloatStructHack Window_getParentPixelSize(IntPtr window);
 
         [DllImport("CEGUIWrapper")]
         private static extern float Window_getParentPixelWidth(IntPtr window);
@@ -2267,19 +2267,19 @@ namespace CEGUIPlugin
         private static extern UVector2 Window_getPosition(IntPtr window);
 
         [DllImport("CEGUIWrapper")]
-        private static extern UDim Window_getXPosition(IntPtr window);
+        private static extern FloatStructHack Window_getXPosition(IntPtr window);
 
         [DllImport("CEGUIWrapper")]
-        private static extern UDim Window_getYPosition(IntPtr window);
+        private static extern FloatStructHack Window_getYPosition(IntPtr window);
 
         [DllImport("CEGUIWrapper")]
         private static extern UVector2 Window_getSize(IntPtr window);
 
         [DllImport("CEGUIWrapper")]
-        private static extern UDim Window_getWidth(IntPtr window);
+        private static extern FloatStructHack Window_getWidth(IntPtr window);
 
         [DllImport("CEGUIWrapper")]
-        private static extern UDim Window_getHeight(IntPtr window);
+        private static extern FloatStructHack Window_getHeight(IntPtr window);
 
         [DllImport("CEGUIWrapper")]
         private static extern UVector2 Window_getMaxSize(IntPtr window);
@@ -2310,7 +2310,7 @@ namespace CEGUIPlugin
         private static extern void Window_setTextParsingEnabled(IntPtr window, bool setting);
 
         [DllImport("CEGUIWrapper")]
-        private static extern Vector2 Window_getUnprojectedPosition(IntPtr window, Vector2 pos);
+        private static extern FloatStructHack Window_getUnprojectedPosition(IntPtr window, Vector2 pos);
 
 #endregion
     }

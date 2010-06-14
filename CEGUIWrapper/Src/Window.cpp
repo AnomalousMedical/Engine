@@ -233,7 +233,7 @@ extern "C" _AnomalousExport CEGUI::Window* Window_getParent(CEGUI::Window* windo
 	return window->getParent();
 }
 
-extern "C" _AnomalousExport Size Window_getPixelSize(CEGUI::Window* window)
+extern "C" _AnomalousExport FloatStructHack Window_getPixelSize(CEGUI::Window* window)
 {
 	return window->getPixelSize();
 }
@@ -328,7 +328,7 @@ extern "C" _AnomalousExport CEGUI::Window* Window_getActiveSibling(CEGUI::Window
 	return window->getActiveSibling();
 }
 
-extern "C" _AnomalousExport Size Window_getParentPixelSize(CEGUI::Window* window)
+extern "C" _AnomalousExport FloatStructHack Window_getParentPixelSize(CEGUI::Window* window)
 {
 	return window->getParentPixelSize();
 }
@@ -683,12 +683,12 @@ extern "C" _AnomalousExport CEGUI::UVector2 Window_getPosition(CEGUI::Window* wi
 	return window->getPosition();
 }
 
-extern "C" _AnomalousExport CEGUI::UDim Window_getXPosition(CEGUI::Window* window)
+extern "C" _AnomalousExport FloatStructHack Window_getXPosition(CEGUI::Window* window)
 {
 	return window->getXPosition();
 }
 
-extern "C" _AnomalousExport CEGUI::UDim Window_getYPosition(CEGUI::Window* window)
+extern "C" _AnomalousExport FloatStructHack Window_getYPosition(CEGUI::Window* window)
 {
 	return window->getYPosition();
 }
@@ -698,12 +698,12 @@ extern "C" _AnomalousExport CEGUI::UVector2 Window_getSize(CEGUI::Window* window
 	return window->getSize();
 }
 
-extern "C" _AnomalousExport CEGUI::UDim Window_getWidth(CEGUI::Window* window)
+extern "C" _AnomalousExport FloatStructHack Window_getWidth(CEGUI::Window* window)
 {
 	return window->getWidth();
 }
 
-extern "C" _AnomalousExport CEGUI::UDim Window_getHeight(CEGUI::Window* window)
+extern "C" _AnomalousExport FloatStructHack Window_getHeight(CEGUI::Window* window)
 {
 	return window->getHeight();
 }
@@ -753,7 +753,7 @@ extern "C" _AnomalousExport void Window_setTextParsingEnabled(CEGUI::Window* win
 	window->setTextParsingEnabled(setting);
 }
 
-extern "C" _AnomalousExport Vector2 Window_getUnprojectedPosition(CEGUI::Window* window, Vector2 pos)
+extern "C" _AnomalousExport FloatStructHack Window_getUnprojectedPosition(CEGUI::Window* window, Vector2 pos)
 {
 	return window->getUnprojectedPosition(pos.toCEGUI());
 }
