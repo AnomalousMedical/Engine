@@ -10,12 +10,16 @@ namespace CEGUIPlugin
 {
     public class WindowManager : IDisposable
     {
-        static WindowManager instance = new WindowManager();
+        static WindowManager instance;
         
         public static WindowManager Singleton
         {
             get
             {
+                if(instance == null)
+                {
+                    instance = new WindowManager();
+                }
                 return instance;
             }
         }
