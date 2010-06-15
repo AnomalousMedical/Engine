@@ -207,6 +207,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\ItemListBase.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\KeyEventTranslator.cpp"
 				>
 			</File>

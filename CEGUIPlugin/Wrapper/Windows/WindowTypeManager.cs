@@ -26,6 +26,16 @@ namespace CEGUIPlugin
 
             //Tooltips
             addLeafType(typeof(Tooltip));
+
+            //ItemListBase
+            pushType(typeof(ItemListBase));
+
+            popType(); //ItemListBase
+
+            //ItemEntry
+            pushType(typeof(ItemEntry));
+
+            popType(); //ItemEntry
         }
 
         public void Dispose()

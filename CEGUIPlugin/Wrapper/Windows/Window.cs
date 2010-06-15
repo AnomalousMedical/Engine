@@ -51,7 +51,7 @@ namespace CEGUIPlugin
 
     public class Window : IDisposable
     {
-        private IntPtr window;
+        protected IntPtr window;
 
         internal Window(IntPtr window)
         {
@@ -903,7 +903,7 @@ namespace CEGUIPlugin
         const String EventCharacterKey = "CharacterKey";
 #endregion
 
-        private void disposeEvents()
+        protected virtual void disposeEvents()
         {
             if (WindowUpdatedTranslator != null) WindowUpdatedTranslator.Dispose();
             if (ParentSizedTranslator != null) ParentSizedTranslator.Dispose();
