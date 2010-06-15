@@ -64,6 +64,8 @@
     <Compile Include="Wrapper\System\CEGUIRenderer.cs" />
     <Compile Include="Wrapper\System\CEGUISystem.cs" />
     <Compile Include="Wrapper\System\CustomLogger.cs" />
+    <Compile Include="Wrapper\System\ImageSet.cs" />
+    <Compile Include="Wrapper\System\ImagesetManager.cs" />
     <Compile Include="Wrapper\System\SchemeManager.cs" />
     <Compile Include="Wrapper\System\WindowManager.cs" />
     <Compile Include="Wrapper\Utility\FloatStructHack.cs" />

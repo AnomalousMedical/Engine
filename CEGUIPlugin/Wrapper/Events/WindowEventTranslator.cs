@@ -19,7 +19,7 @@ namespace CEGUIPlugin
 
         private bool eventRecieved(IntPtr window)
         {
-            return fireEvent(new WindowEventArgs(WindowManager.Singleton.getWindow(window)));
+            return fireEvent(new WindowEventArgs(WindowManager.Instance.getWindow(window)));
         }
 
 #region PInvoke

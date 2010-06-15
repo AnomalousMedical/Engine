@@ -20,7 +20,7 @@ namespace CEGUIPlugin
 
         private bool eventRecieved(IntPtr window, Vector2 position, Vector2 moveDelta, MouseButton button, uint sysKeys, float wheelChange, uint clickCount)
         {
-            return fireEvent(new MouseEventArgs(WindowManager.Singleton.getWindow(window), position, moveDelta, button, sysKeys, wheelChange, clickCount));
+            return fireEvent(new MouseEventArgs(WindowManager.Instance.getWindow(window), position, moveDelta, button, sysKeys, wheelChange, clickCount));
         }
 
 #region PInvoke

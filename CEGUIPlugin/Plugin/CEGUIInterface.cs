@@ -27,7 +27,8 @@ namespace CEGUIPlugin
         {
             mainWindow.removeListener(windowListener);
             mainTimer.removeFixedUpdateListener(update);
-            WindowManager.Singleton.Dispose();
+            WindowManager.Instance.Dispose();
+            ImagesetManager.Instance.Dispose();
             ceguiSystem.Dispose();
             ceguiRenderer.Dispose();
         }

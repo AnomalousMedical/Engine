@@ -19,7 +19,7 @@ namespace CEGUIPlugin
 
         private bool eventRecieved(IntPtr window, uint codepoint, KeyScan scancode, uint sysKeys)
         {
-            return fireEvent(new KeyEventArgs(WindowManager.Singleton.getWindow(window), codepoint, scancode, sysKeys));
+            return fireEvent(new KeyEventArgs(WindowManager.Instance.getWindow(window), codepoint, scancode, sysKeys));
         }
 
 #region PInvoke

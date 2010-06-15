@@ -12,7 +12,7 @@ namespace CEGUIPlugin
     {
         static WindowManager instance;
         
-        public static WindowManager Singleton
+        public static WindowManager Instance
         {
             get
             {

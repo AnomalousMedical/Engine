@@ -68,7 +68,7 @@ namespace CEGUIPlugin
 
         internal void eraseAllChildren()
         {
-            WindowManager windowManager = WindowManager.Singleton;
+            WindowManager windowManager = WindowManager.Instance;
             recursiveEraseChildren(window, windowManager);
         }
 
@@ -175,32 +175,32 @@ namespace CEGUIPlugin
 
         public Window getChild(String name)
         {
-            return WindowManager.Singleton.getWindow(Window_getChild(window, name));
+            return WindowManager.Instance.getWindow(Window_getChild(window, name));
         }
 
         public Window getChild(uint id)
         {
-            return WindowManager.Singleton.getWindow(Window_getChildId(window, id));
+            return WindowManager.Instance.getWindow(Window_getChildId(window, id));
         }
 
         public Window getChildRecursive(String name)
         {
-            return WindowManager.Singleton.getWindow(Window_getChildRecursive(window, name));
+            return WindowManager.Instance.getWindow(Window_getChildRecursive(window, name));
         }
 
         public Window getChildRecursive(uint id)
         {
-            return WindowManager.Singleton.getWindow(Window_getChildRecursiveId(window, id));
+            return WindowManager.Instance.getWindow(Window_getChildRecursiveId(window, id));
         }
 
         public Window getChildAtIdx(uint index)
         {
-            return WindowManager.Singleton.getWindow(Window_getChildAtIdx(window, index));
+            return WindowManager.Instance.getWindow(Window_getChildAtIdx(window, index));
         }
 
         public Window getActiveChild()
         {
-            return WindowManager.Singleton.getWindow(Window_getActiveChild(window));
+            return WindowManager.Instance.getWindow(Window_getActiveChild(window));
         }
 
         public bool isAncestor(String name)
@@ -305,22 +305,22 @@ namespace CEGUIPlugin
 
         public Window getChildAtPosition(Vector2 position)
         {
-            return WindowManager.Singleton.getWindow(Window_getChildAtPosition(window, position));
+            return WindowManager.Instance.getWindow(Window_getChildAtPosition(window, position));
         }
 
         public Window getTargetChildAtPosition(Vector2 position)
         {
-            return WindowManager.Singleton.getWindow(Window_getTargetChildAtPosition(window, position));
+            return WindowManager.Instance.getWindow(Window_getTargetChildAtPosition(window, position));
         }
 
         public Window getTargetChildAtPosition(Vector2 position, bool allowDisabled)
         {
-            return WindowManager.Singleton.getWindow(Window_getTargetChildAtPosition2(window, position, allowDisabled));
+            return WindowManager.Instance.getWindow(Window_getTargetChildAtPosition2(window, position, allowDisabled));
         }
 
         public Window getParent()
         {
-            return WindowManager.Singleton.getWindow(Window_getParent(window));
+            return WindowManager.Instance.getWindow(Window_getParent(window));
         }
 
         public Size getPixelSize()
@@ -370,7 +370,7 @@ namespace CEGUIPlugin
 
         public Tooltip getTooltip()
         {
-            return WindowManager.Singleton.getWindow(Window_getTooltip(window)) as Tooltip;
+            return WindowManager.Instance.getWindow(Window_getTooltip(window)) as Tooltip;
         }
 
         public String getTooltipType()
@@ -415,7 +415,7 @@ namespace CEGUIPlugin
 
         public Window getActiveSibling()
         {
-            return WindowManager.Singleton.getWindow(Window_getActiveSibling(window));
+            return WindowManager.Instance.getWindow(Window_getActiveSibling(window));
         }
 
         public Size getParentPixelSize()
@@ -450,7 +450,7 @@ namespace CEGUIPlugin
 
         public Window getRootWindow()
         {
-            return WindowManager.Singleton.getWindow(Window_getRootWindow(window));
+            return WindowManager.Instance.getWindow(Window_getRootWindow(window));
         }
 
         public Vector3 getRotation()
