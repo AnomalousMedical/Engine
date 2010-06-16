@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
+using Engine;
 
 namespace OgreWrapper
 {
@@ -53,6 +54,21 @@ namespace OgreWrapper
             RenderSystem_setConfigOption(renderSystem, name, value);
         }
 
+        public void _setViewMatrix(Matrix4x4 view)
+        {
+            RenderSystem__setViewMatrix(renderSystem, view);
+        }
+
+        public void _setProjectionMatrix(Matrix4x4 projection)
+        {
+            RenderSystem__setProjectionMatrix(renderSystem, projection);
+        }
+
+        public void _setViewport(Viewport vp)
+        {
+            RenderSystem__setViewport(renderSystem, vp.OgreViewport);
+        }
+
         #region PInvoke
 
         [DllImport("OgreCWrapper")]
@@ -63,6 +79,15 @@ namespace OgreWrapper
 
         [DllImport("OgreCWrapper")]
         private static extern void RenderSystem_setConfigOption(IntPtr renderSystem, String name, String value);
+
+        [DllImport("OgreCWrapper")]
+        private static extern void RenderSystem__setViewMatrix(IntPtr renderSystem, Matrix4x4 view);
+
+        [DllImport("OgreCWrapper")]
+        private static extern void RenderSystem__setProjectionMatrix(IntPtr renderSystem, Matrix4x4 projection);
+
+        [DllImport("OgreCWrapper")]
+        private static extern void RenderSystem__setViewport(IntPtr renderSystem, IntPtr vp);
 
         #endregion 
     }

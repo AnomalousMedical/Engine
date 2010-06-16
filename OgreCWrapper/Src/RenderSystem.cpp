@@ -14,3 +14,18 @@ extern "C" _AnomalousExport void RenderSystem_setConfigOption(Ogre::RenderSystem
 {
 	renderSystem->setConfigOption(name, value);
 }
+
+extern "C" _AnomalousExport void RenderSystem__setViewMatrix(Ogre::RenderSystem* renderSystem, Matrix4x4 view)
+{
+	renderSystem->_setViewMatrix(view.toOgre());
+}
+
+extern "C" _AnomalousExport void RenderSystem__setProjectionMatrix(Ogre::RenderSystem* renderSystem, Matrix4x4 projection)
+{
+	renderSystem->_setProjectionMatrix(projection.toOgre());
+}
+
+extern "C" _AnomalousExport void RenderSystem__setViewport(Ogre::RenderSystem* renderSystem, Ogre::Viewport* vp)
+{
+	renderSystem->_setViewport(vp);
+}
