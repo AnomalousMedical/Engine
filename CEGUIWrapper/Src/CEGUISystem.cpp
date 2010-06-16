@@ -10,6 +10,11 @@ extern "C" _AnomalousExport void CEGUISystem_destroy()
 	CEGUI::System::destroy();
 }
 
+extern "C" _AnomalousExport void CEGUISystem_renderGUI()
+{
+	CEGUI::System::getSingleton().renderGUI();
+}
+
 extern "C" _AnomalousExport CEGUI::Window* CEGUISystem_setGUISheet(CEGUI::Window* window)
 {
 	return CEGUI::System::getSingleton().setGUISheet(window);

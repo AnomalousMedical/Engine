@@ -30,3 +30,8 @@ extern "C" _AnomalousExport void CEGUIOgreRenderer_destroyOgreImageCodec(CEGUI::
 {
 	CEGUI::OgreRenderer::destroyOgreImageCodec(*ogreImageCodec);
 }
+
+extern "C" _AnomalousExport void CEGUIOgreRenderer_setRenderingEnabled(CEGUI::OgreRenderer* ogreRenderer, bool enabled)
+{
+	ogreRenderer->setRenderingEnabled(enabled);
+}

@@ -5,6 +5,7 @@ using System.Text;
 using Engine;
 using Engine.Platform;
 using OgrePlugin;
+using OgreWrapper;
 
 namespace CEGUIPlugin
 {
@@ -41,6 +42,15 @@ namespace CEGUIPlugin
             windowListener = new CEGUIWindowListener(ceguiSystem);
             mainWindow = window.Handle;
             mainWindow.addListener(windowListener);
+
+            //CEGUI + 3d vision does not work right with some controls in its default mode, but rendering it on FrameEnded fixes the problem.
+            ceguiRenderer.setRenderingEnabled(false);
+            Root.getSingleton().FrameEnded += new FrameEventHandler(CEGUIInterface_FrameEnded);
+        }
+
+        void CEGUIInterface_FrameEnded(FrameEvent frameEvent)
+        {
+            ceguiSystem.renderGUI();
         }
 
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)

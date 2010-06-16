@@ -27,6 +27,11 @@ namespace CEGUIPlugin
             CEGUIOgreRenderer_destroy(ogreRenderer);
         }
 
+        public void setRenderingEnabled(bool enabled)
+        {
+            CEGUIOgreRenderer_setRenderingEnabled(ogreRenderer, enabled);
+        }
+
         internal override IntPtr Renderer
         {
             get { return ogreRenderer; }
@@ -61,6 +66,9 @@ namespace CEGUIPlugin
 
         [DllImport("CEGUIWrapper")]
         private static extern void CEGUIOgreRenderer_destroyOgreImageCodec(IntPtr ogreImageCodec);
+
+        [DllImport("CEGUIWrapper")]
+        private static extern void CEGUIOgreRenderer_setRenderingEnabled(IntPtr ogreRenderer, bool enabled);
 
 #endregion
     }

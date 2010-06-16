@@ -55,6 +55,11 @@ namespace CEGUIPlugin
             customLogger.Dispose();
         }
 
+        public void renderGUI()
+        {
+            CEGUISystem_renderGUI();
+        }
+
         public Window setGUISheet(Window window)
         {
             return WindowManager.Instance.getWindow(CEGUISystem_setGUISheet(window.CEGUIWindow));
@@ -127,6 +132,9 @@ namespace CEGUIPlugin
 
         [DllImport("CEGUIWrapper")]
         private static extern void CEGUISystem_destroy();
+
+        [DllImport("CEGUIWrapper")]
+        private static extern void CEGUISystem_renderGUI();
 
         [DllImport("CEGUIWrapper")]
         private static extern IntPtr CEGUISystem_setGUISheet(IntPtr window);
