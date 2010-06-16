@@ -12,9 +12,9 @@ extern "C" _AnomalousExport void OgrePlatform_Delete(MyGUI::OgrePlatform* ogrePl
 	delete ogrePlatform;
 }
 
-extern "C" _AnomalousExport void OgrePlatform_initialize(MyGUI::OgrePlatform* ogrePlatform, Ogre::RenderWindow* renderWindow, Ogre::SceneManager* sceneManager)
+extern "C" _AnomalousExport void OgrePlatform_initialize(MyGUI::OgrePlatform* ogrePlatform, Ogre::RenderWindow* renderWindow, Ogre::SceneManager* sceneManager, String resourceGroup)
 {
-	ogrePlatform->initialise(renderWindow, sceneManager);
+	ogrePlatform->initialise(renderWindow, sceneManager, resourceGroup);
 }
 
 extern "C" _AnomalousExport void OgrePlatform_shutdown(MyGUI::OgrePlatform* ogrePlatform)

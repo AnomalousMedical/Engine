@@ -21,9 +21,9 @@ namespace MyGUIPlugin
             OgrePlatform_Delete(ogrePlatform);
         }
 
-        public void initialize(RenderWindow window, SceneManager sceneManager)
+        public void initialize(RenderWindow window, SceneManager sceneManager, String resourceGroup)
         {
-            OgrePlatform_initialize(ogrePlatform, window.OgreRenderTarget, sceneManager.OgreSceneManager);
+            OgrePlatform_initialize(ogrePlatform, window.OgreRenderTarget, sceneManager.OgreSceneManager, resourceGroup);
         }
 
         public void shutdown()
@@ -40,7 +40,7 @@ namespace MyGUIPlugin
         private static extern void OgrePlatform_Delete(IntPtr ogrePlatform);
 
         [DllImport("MyGUIWrapper")]
-        private static extern void OgrePlatform_initialize(IntPtr ogrePlatform, IntPtr renderWindow, IntPtr sceneManager);
+        private static extern void OgrePlatform_initialize(IntPtr ogrePlatform, IntPtr renderWindow, IntPtr sceneManager, String resourceGroup);
 
         [DllImport("MyGUIWrapper")]
         private static extern void OgrePlatform_shutdown(IntPtr ogrePlatform);
