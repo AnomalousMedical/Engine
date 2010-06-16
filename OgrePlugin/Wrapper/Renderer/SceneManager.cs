@@ -55,7 +55,7 @@ namespace OgreWrapper
             ogreSceneManager = IntPtr.Zero;
         }
 
-        internal IntPtr OgreSceneManager
+        public IntPtr OgreSceneManager
         {
             get
             {

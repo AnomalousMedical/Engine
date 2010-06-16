@@ -1,7 +1,21 @@
 #include "Stdafx.h"
 
-#include "MyGUI_OgrePlatform.h"
+extern "C" _AnomalousExport MyGUI::Gui* Gui_Create()
+{
+	return new MyGUI::Gui();
+}
 
-MyGUI::Gui myGui;
+extern "C" _AnomalousExport void Gui_Delete(MyGUI::Gui* gui)
+{
+	delete gui;
+}
 
-MyGUI::OgrePlatform* mPlatform = new MyGUI::OgrePlatform();
+extern "C" _AnomalousExport void Gui_initialize(MyGUI::Gui* gui, String coreConfig, String logFile)
+{
+	gui->initialise(coreConfig, logFile);
+}
+
+extern "C" _AnomalousExport void Gui_shutdown(MyGUI::Gui* gui)
+{
+	gui->shutdown();
+}
