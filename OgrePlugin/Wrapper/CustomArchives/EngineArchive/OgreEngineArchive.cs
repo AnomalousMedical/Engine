@@ -70,8 +70,7 @@ namespace OgreWrapper
                 files = vfs.listFiles(baseName, recursive);
 		        foreach(String file in files)
 		        {
-                    VirtualFileInfo archiveInfo = vfs.getFileInfo(file);
-                    OgreFileInfoList_push_back(ogreFileList, archive, new IntPtr(archiveInfo.CompressedSize), new IntPtr(archiveInfo.UncompressedSize), archiveInfo.Name, archiveInfo.FullName, archiveInfo.DirectoryName);
+                    pushFixedFileInfo(file, ogreFileList, archive);
 		        }
 	        }
         }
@@ -109,10 +108,15 @@ namespace OgreWrapper
                 files = vfs.listFiles(baseName, pattern, recursive);
                 foreach (String file in files)
                 {
-                    VirtualFileInfo archiveInfo = vfs.getFileInfo(file);
-                    OgreFileInfoList_push_back(ogreFileList, archive, new IntPtr(archiveInfo.CompressedSize), new IntPtr(archiveInfo.UncompressedSize), archiveInfo.Name, archiveInfo.FullName, archiveInfo.DirectoryName);
+                    pushFixedFileInfo(file, ogreFileList, archive);
                 }
             }
+        }
+
+        protected void pushFixedFileInfo(String file, IntPtr ogreFileList, IntPtr archive)
+        {
+            VirtualFileInfo archiveInfo = vfs.getFileInfo(file);
+            OgreFileInfoList_push_back(ogreFileList, archive, new IntPtr(archiveInfo.CompressedSize), new IntPtr(archiveInfo.UncompressedSize), archiveInfo.Name, archiveInfo.FullName.Replace(baseName + '/', ""), archiveInfo.DirectoryName.Replace(baseName + '/', ""));
         }
 
         protected override bool exists(string filename)
