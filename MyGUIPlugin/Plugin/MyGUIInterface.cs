@@ -41,12 +41,14 @@ namespace MyGUIPlugin
 
         public void initialize(PluginManager pluginManager)
         {
+            OgreResourceGroupManager.getInstance().addResourceLocation("GUI/MyGUI", "EngineArchive", "MyGUI", true);
+
             sceneManager = Root.getSingleton().createSceneManager(SceneType.ST_GENERIC, "MyGUIScene");
             ogreWindow = pluginManager.RendererPlugin.PrimaryWindow as OgreWindow;
             ogrePlatform = new OgrePlatform();
             ogrePlatform.initialize(ogreWindow.OgreRenderWindow, sceneManager);
             gui = new Gui();
-            gui.initialize("test.xml", "MyGUI.log");
+            gui.initialize("core.xml", "MyGUI.log");
         }
 
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
