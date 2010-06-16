@@ -19,3 +19,8 @@ extern "C" _AnomalousExport void Gui_shutdown(MyGUI::Gui* gui)
 {
 	gui->shutdown();
 }
+
+extern "C" _AnomalousExport MyGUI::Widget* Gui_createWidgetT(MyGUI::Gui* gui, String type, String skin, int left, int top, int width, int height, MyGUI::Align align, String layer, String name)
+{
+	return gui->createWidgetT(type, skin, left, top, width, height, align, layer, name);
+}

@@ -10,15 +10,23 @@ namespace MyGUIPlugin
     public class OgrePlatform : IDisposable
     {
         IntPtr ogrePlatform;
+        OgreRenderManager renderManager;
 
         public OgrePlatform()
         {
             ogrePlatform = OgrePlatform_Create();
+            renderManager = new OgreRenderManager(OgrePlatform_getRenderManagerPtr(ogrePlatform));
         }
 
         public void Dispose()
         {
+            renderManager.Dispose();
             OgrePlatform_Delete(ogrePlatform);
+        }
+
+        public OgreRenderManager getRenderManager()
+        {
+            return renderManager;
         }
 
         public void initialize(RenderWindow window, SceneManager sceneManager, String resourceGroup)
@@ -35,6 +43,9 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper")]
         private static extern IntPtr OgrePlatform_Create();
+
+        [DllImport("MyGUIWrapper")]
+        private static extern IntPtr OgrePlatform_getRenderManagerPtr(IntPtr ogrePlatform);
 
         [DllImport("MyGUIWrapper")]
         private static extern void OgrePlatform_Delete(IntPtr ogrePlatform);

@@ -16,6 +16,8 @@ namespace MyGUIPlugin
         private Gui gui;
         private SceneManager sceneManager;
         private OgreWindow ogreWindow;
+        Camera camera;
+        Viewport vp;
 
         public MyGUIInterface()
         {
@@ -24,6 +26,14 @@ namespace MyGUIPlugin
 
         public void Dispose()
         {
+            if (vp != null)
+            {
+                ogreWindow.OgreRenderWindow.destroyViewport(vp);
+            }
+            if (camera != null)
+            {
+                sceneManager.destroyCamera(camera);
+            }
             if(gui != null)
             {
                 gui.shutdown();
@@ -44,10 +54,6 @@ namespace MyGUIPlugin
         {
             Log.Info("Initializing MyGUI");
 
-            //OgreResourceGroupManager.getInstance().addResourceLocation("S:/junk/MyGUI3.0/Media", "FileSystem", "MyGUI", true);
-            //OgreResourceGroupManager.getInstance().addResourceLocation("S:/junk/MyGUI3.0/Media/MyGUI_Media", "FileSystem", "MyGUI", true);
-            //OgreResourceGroupManager.getInstance().addResourceLocation("S:/export/GUI/MyGUI", "FileSystem", "MyGUI", true);
-
             OgreResourceGroupManager.getInstance().addResourceLocation("GUI/MyGUI", "EngineArchive", "MyGUI", true);
             OgreResourceGroupManager.getInstance().initializeAllResourceGroups();
 
@@ -55,6 +61,13 @@ namespace MyGUIPlugin
             ogreWindow = pluginManager.RendererPlugin.PrimaryWindow as OgreWindow;
             ogrePlatform = new OgrePlatform();
             ogrePlatform.initialize(ogreWindow.OgreRenderWindow, sceneManager, "MyGUI");
+
+            //Create camera and viewport
+            camera = sceneManager.createCamera("MyGUICamera");
+            vp = ogreWindow.OgreRenderWindow.addViewport(camera, 10, 0.0f, 0.0f, 0.5f, 1.0f);
+            vp.setBackgroundColor(new Color(1.0f, 0.0f, 0.0f, 0.0f));
+            vp.setClearEveryFrame(false);
+
             gui = new Gui();
             gui.initialize("core.xml", "MyGUI.log");
 
@@ -79,6 +92,14 @@ namespace MyGUIPlugin
         public void createDebugCommands(List<CommandManager> commands)
         {
             
+        }
+
+        public OgrePlatform OgrePlatform
+        {
+            get
+            {
+                return ogrePlatform;
+            }
         }
     }
 }
