@@ -73,6 +73,8 @@ namespace MyGUIPlugin
         {
             switch(WidgetManager_getType(widget))
             {
+                case WidgetType.Button:
+                    return new Button(widget);
                 default:
                     return new Widget(widget);
             }

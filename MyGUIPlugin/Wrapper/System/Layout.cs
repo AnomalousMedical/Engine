@@ -32,12 +32,22 @@ namespace MyGUIPlugin
             vectorWidgetPtr = IntPtr.Zero;
         }
 
-        public IntPtr VectorWidgetPtr
+        internal IntPtr VectorWidgetPtr
         {
             get
             {
                 return vectorWidgetPtr;
             }
+        }
+
+        public uint getNumWidgets()
+        {
+            return VectorWidgetPtr_getNumRootWidgets(vectorWidgetPtr).ToUInt32();
+        }
+
+        public Widget getWidget(uint index)
+        {
+            return WidgetManager.getWidget(VectorWidgetPtr_getRootWidget(vectorWidgetPtr, new UIntPtr(index)));
         }
 
 #region PInvoke
