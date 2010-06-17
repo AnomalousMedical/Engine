@@ -198,6 +198,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\Layout.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\LayoutManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\OgrePlatform.cpp"
 				>
 			</File>
@@ -224,6 +232,10 @@
 						UsePrecompiledHeader="1"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\Src\Widget.cpp"
+				>
 			</File>
 		</Filter>
 		<Filter

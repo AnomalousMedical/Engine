@@ -54,9 +54,12 @@
     <Compile Include="Wrapper\Events\MyGUIEventTranslator.cs" />
     <Compile Include="Wrapper\System\Align.cs" />
     <Compile Include="Wrapper\System\Gui.cs" />
+    <Compile Include="Wrapper\System\Layout.cs" />
+    <Compile Include="Wrapper\System\LayoutManager.cs" />
     <Compile Include="Wrapper\System\OgrePlatform.cs" />
     <Compile Include="Wrapper\System\OgreRenderManager.cs" />
     <Compile Include="Wrapper\Widgets\Widget.cs" />
+    <Compile Include="Wrapper\Widgets\WidgetManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">

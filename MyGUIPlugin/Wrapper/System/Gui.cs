@@ -34,7 +34,7 @@ namespace MyGUIPlugin
 
         public void Dispose()
         {
-            Widget.destroyAllWrappers();
+            WidgetManager.destroyAllWrappers();
             Gui_Delete(gui);
         }
 
@@ -50,7 +50,7 @@ namespace MyGUIPlugin
 
         public Widget createWidgetT(String type, String skin, int left, int top, int width, int height, Align align, String layer, String name)
         {
-            return Widget.getWidget(Gui_createWidgetT(gui, type, skin, left, top, width, height, align, layer, name));
+            return WidgetManager.getWidget(Gui_createWidgetT(gui, type, skin, left, top, width, height, align, layer, name));
         }
 
         public bool injectMouseMove(int absx, int absy, int absz)
