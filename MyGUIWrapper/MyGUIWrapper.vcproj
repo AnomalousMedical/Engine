@@ -237,6 +237,10 @@
 				RelativePath=".\Src\Widget.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\Src\WidgetManager.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"

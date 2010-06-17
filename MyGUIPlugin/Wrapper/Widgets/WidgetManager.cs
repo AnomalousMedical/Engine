@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Engine;
+using System.Runtime.InteropServices;
 
 namespace MyGUIPlugin
 {
@@ -11,6 +12,31 @@ namespace MyGUIPlugin
     /// </summary>
     class WidgetManager
     {
+        enum WidgetType
+        {
+            Widget,
+            Button,
+            Canvas,
+            ComboBox,
+            DDContainer,
+            Edit,
+            HScroll,
+            ItemBox,
+            List,
+            MenuCtrl,
+            Message,
+            MultiList,
+            PopupMenu,
+            Progress,
+            RenderBox,
+            ScrollView,
+            StaticImage,
+            StaticText,
+            Tab,
+            VScroll,
+            Window,
+        }
+
         private static WrapperCollection<Widget> widgets = new WrapperCollection<Widget>(createWrapper);
 
         internal static Widget getWidget(IntPtr widget)
@@ -45,7 +71,18 @@ namespace MyGUIPlugin
 
         private static Widget createWrapper(IntPtr widget, object[] args)
         {
-            return new Widget(widget);
+            switch(WidgetManager_getType(widget))
+            {
+                default:
+                    return new Widget(widget);
+            }
         }
+
+#region PInvoke
+
+        [DllImport("MyGUIWrapper")]
+        private static extern WidgetType WidgetManager_getType(IntPtr widget);
+
+#endregion
     }
 }
