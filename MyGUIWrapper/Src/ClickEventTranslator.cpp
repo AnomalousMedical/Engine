@@ -4,7 +4,7 @@
 class ClickEventTranslator : public MyGUIEventTranslator
 {
 public:
-	typedef void (*NativeEventDelegate)();
+	typedef void (*NativeEventDelegate)(MyGUI::Widget* sender);
 
 private:
 	MyGUI::Widget* widget;
@@ -25,17 +25,12 @@ public:
 
 	virtual void bindEvent()
 	{
-		widget->eventMouseButtonClick = MyGUI::newDelegate(this, &ClickEventTranslator::eventCallback);
+		widget->eventMouseButtonClick = MyGUI::newDelegate(nativeEvent);
 	}
 
 	virtual void unbindEvent()
 	{
 		widget->eventMouseButtonClick = NULL;
-	}
-
-	void eventCallback(MyGUI::Widget* sender)
-	{
-		nativeEvent();
 	}
 };
 

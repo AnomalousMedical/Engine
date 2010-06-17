@@ -9,7 +9,7 @@ namespace MyGUIPlugin
 {
     class ClickEventTranslator : MyGUIEventTranslator
     {
-        delegate void NativeEventDelegate();
+        delegate void NativeEventDelegate(IntPtr widget);
 
         private NativeEventDelegate nativeEventCallback;
 
@@ -29,7 +29,7 @@ namespace MyGUIPlugin
             return ClickEventTranslator_Create(widget.WidgetPtr, nativeEventCallback);
         }
 
-        private void nativeEvent()
+        private void nativeEvent(IntPtr widget)
         {
             fireEvent(EventArgs.Empty);
         }
