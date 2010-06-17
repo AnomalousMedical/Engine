@@ -9,7 +9,7 @@ namespace MyGUIPlugin
 {
     public class Widget : IDisposable
     {
-        private IntPtr widget;
+        protected IntPtr widget;
         private MyGUIEventManager eventManager;
 
         internal Widget(IntPtr widget)
