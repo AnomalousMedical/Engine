@@ -27,9 +27,9 @@ namespace PCPlatform
 
         internal void windowResized(OSWindow window)
         {
-            oisMouse_setWindowSize(mouse, windowWidth, windowHeight);
             this.windowWidth = window.WindowWidth;
             this.windowHeight = window.WindowHeight;
+            oisMouse_setWindowSize(mouse, windowWidth, windowHeight);
         }
 
         public override Vector3 getAbsMouse()
