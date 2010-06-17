@@ -48,9 +48,50 @@ namespace MyGUIPlugin
             Gui_shutdown(gui);
         }
 
+        /// <summary>
+        /// Create a widget.
+        /// </summary>
+        /// <param name="type">Widget type.</param>
+        /// <param name="skin">Widget skin.</param>
+        /// <param name="left">Widget x pos.</param>
+        /// <param name="top">Widget y pos.</param>
+        /// <param name="width">Width</param>
+        /// <param name="height">Height</param>
+        /// <param name="align">Widget align.</param>
+        /// <param name="layer">Layer where the widget will be created.</param>
+        /// <param name="name">The name to find the widget later.</param>
+        /// <returns></returns>
         public Widget createWidgetT(String type, String skin, int left, int top, int width, int height, Align align, String layer, String name)
         {
             return WidgetManager.getWidget(Gui_createWidgetT(gui, type, skin, left, top, width, height, align, layer, name));
+        }
+
+        /// <summary>
+        /// Create a widget using coords relative to the parent.
+        /// </summary>
+        /// <param name="type">Widget type.</param>
+        /// <param name="skin">Widget skin.</param>
+        /// <param name="left">Widget x pos.</param>
+        /// <param name="top">Widget y pos.</param>
+        /// <param name="width">Width</param>
+        /// <param name="height">Height</param>
+        /// <param name="align">Widget align.</param>
+        /// <param name="layer">Layer where the widget will be created.</param>
+        /// <param name="name">The name to find the widget later.</param>
+        /// <returns></returns>
+        public Widget createWidgetRealT(String type, String skin, int left, int top, int width, int height, Align align, String layer, String name)
+        {
+            return WidgetManager.getWidget(Gui_createWidgetRealT(gui, type, skin, left, top, width, height, align, layer, name));
+        }
+
+        public int getViewWidth()
+        {
+            return Gui_getViewWidth(gui);
+        }
+
+        public int getViewHeight()
+        {
+            return Gui_getViewHeight(gui);
         }
 
         public bool injectMouseMove(int absx, int absy, int absz)
@@ -76,6 +117,21 @@ namespace MyGUIPlugin
         public bool injectKeyRelease(KeyboardButtonCode key)
         {
             return Gui_injectKeyRelease(gui, key);
+        }
+
+        public void destroyWidget(Widget widget)
+        {
+            Gui_destroyWidget(gui, WidgetManager.deleteWrapperAndChildren(widget));
+        }
+
+        public Widget findWidgetT(String name)
+        {
+            return WidgetManager.getWidget(Gui_findWidgetT(gui, name));
+        }
+
+        public Widget findWidgetT(String name, String prefix)
+        {
+            return WidgetManager.getWidget(Gui_findWidgetT2(gui, name, prefix));
         }
 
         public void setVisiblePointer(bool visible)
@@ -106,6 +162,15 @@ namespace MyGUIPlugin
         private static extern IntPtr Gui_createWidgetT(IntPtr gui, String type, String skin, int left, int top, int width, int height, Align align, String layer, String name);
 
         [DllImport("MyGUIWrapper")]
+        private static extern IntPtr Gui_createWidgetRealT(IntPtr gui, String type, String skin, int left, int top, int width, int height, Align align, String layer, String name);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern int Gui_getViewWidth(IntPtr gui);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern int Gui_getViewHeight(IntPtr gui);
+
+        [DllImport("MyGUIWrapper")]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Gui_injectMouseMove(IntPtr gui, int absx, int absy, int absz);
 
@@ -124,6 +189,15 @@ namespace MyGUIPlugin
         [DllImport("MyGUIWrapper")]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Gui_injectKeyRelease(IntPtr gui, KeyboardButtonCode key);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern void Gui_destroyWidget(IntPtr gui, IntPtr widget);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern IntPtr Gui_findWidgetT(IntPtr gui, String name);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern IntPtr Gui_findWidgetT2(IntPtr gui, String name, String prefix);
 
         [DllImport("MyGUIWrapper")]
         private static extern void Gui_setVisiblePointer(IntPtr gui, bool visible);

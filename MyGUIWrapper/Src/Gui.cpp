@@ -25,6 +25,21 @@ extern "C" _AnomalousExport MyGUI::Widget* Gui_createWidgetT(MyGUI::Gui* gui, St
 	return gui->createWidgetT(type, skin, left, top, width, height, align, layer, name);
 }
 
+extern "C" _AnomalousExport MyGUI::Widget* Gui_createWidgetRealT(MyGUI::Gui* gui, String type, String skin, int left, int top, int width, int height, MyGUI::Align align, String layer, String name)
+{
+	return gui->createWidgetRealT(type, skin, left, top, width, height, align, layer, name);
+}
+
+extern "C" _AnomalousExport int Gui_getViewWidth(MyGUI::Gui* gui)
+{
+	return gui->getViewWidth();
+}
+
+extern "C" _AnomalousExport int Gui_getViewHeight(MyGUI::Gui* gui)
+{
+	return gui->getViewHeight();
+}
+
 extern "C" _AnomalousExport bool Gui_injectMouseMove(MyGUI::Gui* gui, int absx, int absy, int absz)
 {
 	return gui->injectMouseMove(absx, absy, absz);
@@ -48,6 +63,21 @@ extern "C" _AnomalousExport bool Gui_injectKeyPress(MyGUI::Gui* gui, MyGUI::KeyC
 extern "C" _AnomalousExport bool Gui_injectKeyRelease(MyGUI::Gui* gui, MyGUI::KeyCode key)
 {
 	return gui->injectKeyRelease(key);
+}
+
+extern "C" _AnomalousExport void Gui_destroyWidget(MyGUI::Gui* gui, MyGUI::Widget* widget)
+{
+	gui->destroyWidget(widget);
+}
+
+extern "C" _AnomalousExport MyGUI::Widget* Gui_findWidgetT(MyGUI::Gui* gui, String name)
+{
+	return gui->findWidgetT(name, false);
+}
+
+extern "C" _AnomalousExport MyGUI::Widget* Gui_findWidgetT2(MyGUI::Gui* gui, String name, String prefix)
+{
+	return gui->findWidgetT(name, prefix, false);
 }
 
 extern "C" _AnomalousExport void Gui_setVisiblePointer(MyGUI::Gui* gui, bool visible)
