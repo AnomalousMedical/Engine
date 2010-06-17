@@ -116,7 +116,17 @@ namespace OgreWrapper
         protected void pushFixedFileInfo(String file, IntPtr ogreFileList, IntPtr archive)
         {
             VirtualFileInfo archiveInfo = vfs.getFileInfo(file);
-            OgreFileInfoList_push_back(ogreFileList, archive, new IntPtr(archiveInfo.CompressedSize), new IntPtr(archiveInfo.UncompressedSize), archiveInfo.Name, archiveInfo.FullName.Replace(baseName + '/', ""), archiveInfo.DirectoryName.Replace(baseName + '/', ""));
+            String fixedFilename = archiveInfo.FullName.Replace(baseName, "");
+            if(fixedFilename.StartsWith("/"))
+            {
+                fixedFilename = fixedFilename.Substring(1);
+            }
+            String fixedPath = archiveInfo.DirectoryName.Replace(baseName, "");
+            if(fixedPath.StartsWith("/"))
+            {
+                fixedPath = fixedPath.Substring(1);
+            }
+            OgreFileInfoList_push_back(ogreFileList, archive, new IntPtr(archiveInfo.CompressedSize), new IntPtr(archiveInfo.UncompressedSize), archiveInfo.Name, fixedFilename, fixedPath);
         }
 
         protected override bool exists(string filename)

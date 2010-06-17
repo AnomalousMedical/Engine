@@ -19,6 +19,9 @@ namespace MyGUIPlugin
         Camera camera;
         Viewport vp;
 
+        private UpdateTimer mainTimer;
+        private MyGUIUpdate myGUIUpdate;
+
         public MyGUIInterface()
         {
 
@@ -26,6 +29,10 @@ namespace MyGUIPlugin
 
         public void Dispose()
         {
+            if(mainTimer != null)
+            {
+                mainTimer.removeFixedUpdateListener(myGUIUpdate);
+            }
             if (vp != null)
             {
                 ogreWindow.OgreRenderWindow.destroyViewport(vp);
@@ -64,7 +71,7 @@ namespace MyGUIPlugin
 
             //Create camera and viewport
             camera = sceneManager.createCamera("MyGUICamera");
-            vp = ogreWindow.OgreRenderWindow.addViewport(camera, 10, 0.0f, 0.0f, 0.5f, 1.0f);
+            vp = ogreWindow.OgreRenderWindow.addViewport(camera, int.MaxValue, 0.0f, 0.0f, 1.0f, 1.0f);
             vp.setBackgroundColor(new Color(1.0f, 0.0f, 0.0f, 0.0f));
             vp.setClearEveryFrame(false);
 
@@ -76,7 +83,9 @@ namespace MyGUIPlugin
 
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
         {
-            
+            this.mainTimer = mainTimer;
+            myGUIUpdate = new MyGUIUpdate(gui, eventManager);
+            mainTimer.addFixedUpdateListener(myGUIUpdate);
         }
 
         public string getName()

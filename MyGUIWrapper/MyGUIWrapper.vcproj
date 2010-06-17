@@ -254,6 +254,22 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="Events"
+			>
+			<File
+				RelativePath=".\Src\ClickEventTranslator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\MyGUIEventTranslator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Include\MyGUIEventTranslator.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"
 			>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 using Engine;
+using Engine.Platform;
 
 namespace MyGUIPlugin
 {
@@ -52,6 +53,41 @@ namespace MyGUIPlugin
             return Widget.getWidget(Gui_createWidgetT(gui, type, skin, left, top, width, height, align, layer, name));
         }
 
+        public bool injectMouseMove(int absx, int absy, int absz)
+        {
+            return Gui_injectMouseMove(gui, absx, absy, absz);
+        }
+
+        public bool injectMousePress(int absx, int absy, MouseButtonCode id)
+        {
+            return Gui_injectMousePress(gui, absx, absy, id);
+        }
+
+        public bool injectMouseRelease(int absx, int absy, MouseButtonCode id)
+        {
+            return Gui_injectMouseRelease(gui, absx, absy, id);
+        }
+
+        public bool injectKeyPress(KeyboardButtonCode key, uint text)
+        {
+            return Gui_injectKeyPress(gui, key, text);
+        }
+
+        public bool injectKeyRelease(KeyboardButtonCode key)
+        {
+            return Gui_injectKeyRelease(gui, key);
+        }
+
+        public void setVisiblePointer(bool visible)
+        {
+            Gui_setVisiblePointer(gui, visible);
+        }
+
+        public bool isVisiblePointer()
+        {
+            return Gui_isVisiblePointer(gui);
+        }
+
 #region PInvoke
 
         [DllImport("MyGUIWrapper")]
@@ -68,6 +104,33 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper")]
         private static extern IntPtr Gui_createWidgetT(IntPtr gui, String type, String skin, int left, int top, int width, int height, Align align, String layer, String name);
+
+        [DllImport("MyGUIWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool Gui_injectMouseMove(IntPtr gui, int absx, int absy, int absz);
+
+        [DllImport("MyGUIWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool Gui_injectMousePress(IntPtr gui, int absx, int absy, MouseButtonCode id);
+
+        [DllImport("MyGUIWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool Gui_injectMouseRelease(IntPtr gui, int absx, int absy, MouseButtonCode id);
+
+        [DllImport("MyGUIWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool Gui_injectKeyPress(IntPtr gui, KeyboardButtonCode key, uint text);
+
+        [DllImport("MyGUIWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool Gui_injectKeyRelease(IntPtr gui, KeyboardButtonCode key);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern void Gui_setVisiblePointer(IntPtr gui, bool visible);
+
+        [DllImport("MyGUIWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool Gui_isVisiblePointer(IntPtr gui);
 
 #endregion
     }

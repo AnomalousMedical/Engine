@@ -17,7 +17,8 @@ namespace Engine.Platform
 	    MB_BUTTON4 = 4,	
 	    MB_BUTTON5 = 5, 
 	    MB_BUTTON6 = 6,	
-	    MB_BUTTON7 = 7
+	    MB_BUTTON7 = 7,
+        NUM_BUTTONS = 8,
     };
 
     /// <summary>

@@ -25,15 +25,18 @@ namespace MyGUIPlugin
             return new Widget(widget);
         }
 
-        IntPtr widget;
+        private IntPtr widget;
+        private MyGUIEventManager eventManager;
 
         protected Widget(IntPtr widget)
         {
             this.widget = widget;
+            eventManager = new MyGUIEventManager(this);
         }
 
         public void Dispose()
         {
+            eventManager.Dispose();
             widget = IntPtr.Zero;
         }
 
@@ -44,5 +47,21 @@ namespace MyGUIPlugin
                 return widget;
             }
         }
+
+#region Events
+
+        public event MyGUIEvent MouseButtonClick
+        {
+            add
+            {
+                eventManager.addDelegate<ClickEventTranslator>(value);
+            }
+            remove
+            {
+                eventManager.removeDelegate<ClickEventTranslator>(value);
+            }
+        }
+
+#endregion
     }
 }
