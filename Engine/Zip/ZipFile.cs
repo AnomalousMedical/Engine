@@ -219,7 +219,7 @@ namespace ZipAccess
 
         private String wildcardToRegex(String wildcard)
         {
-            String expression = "^";
+            String expression = "^.*";
             for (int i = 0; i < wildcard.Length; i++)
             {
                 switch (wildcard[i])
