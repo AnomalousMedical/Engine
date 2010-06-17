@@ -89,3 +89,8 @@ extern "C" _AnomalousExport bool Gui_isVisiblePointer(MyGUI::Gui* gui)
 {
 	return gui->isVisiblePointer();
 }
+
+extern "C" _AnomalousExport bool Gui_load(MyGUI::Gui* gui, String file)
+{
+	return gui->load(file);
+}

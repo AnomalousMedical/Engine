@@ -198,6 +198,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\LanguageManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\Layout.cpp"
 				>
 			</File>

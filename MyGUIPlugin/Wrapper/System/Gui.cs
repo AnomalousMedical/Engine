@@ -144,6 +144,11 @@ namespace MyGUIPlugin
             return Gui_isVisiblePointer(gui);
         }
 
+        public bool load(String file)
+        {
+            return Gui_load(gui, file);
+        }
+
 #region PInvoke
 
         [DllImport("MyGUIWrapper")]
@@ -205,6 +210,10 @@ namespace MyGUIPlugin
         [DllImport("MyGUIWrapper")]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Gui_isVisiblePointer(IntPtr gui);
+
+        [DllImport("MyGUIWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool Gui_load(IntPtr gui, String file);
 
 #endregion
     }
