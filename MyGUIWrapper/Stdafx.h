@@ -22,3 +22,23 @@ typedef unsigned short ushort;
 typedef const char* String;
 
 typedef const wchar_t* UString;
+
+class Color
+{
+public:
+	float r, g, b, a;
+
+	Color(const MyGUI::Colour myColor)
+		:r(myColor.red),
+		g(myColor.green),
+		b(myColor.blue),
+		a(myColor.alpha)
+	{
+
+	}
+
+	MyGUI::Colour toMyGUI() const
+	{
+		return MyGUI::Colour(r, g, b, a);
+	}
+};
