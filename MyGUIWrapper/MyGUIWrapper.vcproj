@@ -222,6 +222,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\StaticImage.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Stdafx.cpp"
 				>
 				<FileConfiguration
