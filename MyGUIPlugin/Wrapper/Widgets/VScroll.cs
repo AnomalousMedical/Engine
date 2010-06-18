@@ -14,79 +14,96 @@ namespace MyGUIPlugin
             
         }
 
-        public void setScrollRange(uint value)
+        public uint ScrollRange
         {
-            VScroll_setScrollRange(widget, new UIntPtr(value));
+            get
+            {
+                return VScroll_getScrollRange(widget).ToUInt32();
+            }
+            set
+            {
+                VScroll_setScrollRange(widget, new UIntPtr(value));
+            }
         }
 
-        public uint getScrollRange()
+        public uint ScrollPosition
         {
-            return VScroll_getScrollRange(widget).ToUInt32();
+            get
+            {
+                return VScroll_getScrollPosition(widget).ToUInt32();
+            }
+            set
+            {
+                VScroll_setScrollPosition(widget, new UIntPtr(value));
+            }
         }
 
-        public void setScrollPosition(uint value)
+        public uint ScrollPage
         {
-            VScroll_setScrollPosition(widget, new UIntPtr(value));
+            get
+            {
+                return VScroll_getScrollPage(widget).ToUInt32();
+            }
+            set
+            {
+                VScroll_setScrollPage(widget, new UIntPtr(value));
+            }
         }
 
-        public uint getScrollPosition()
+        public uint setScrollViewPage
         {
-            return VScroll_getScrollPosition(widget).ToUInt32();
+            get
+            {
+                return VScroll_getScrollViewPage(widget).ToUInt32();
+            }
+            set
+            {
+                VScroll_setScrollViewPage(widget, new UIntPtr(value));
+            }
         }
 
-        public void setScrollPage(uint value)
+        public int LineSize
         {
-            VScroll_setScrollPage(widget, new UIntPtr(value));
+            get
+            {
+                return VScroll_getLineSize(widget);
+            }
         }
 
-        public uint getScrollPage()
+        public int TrackSize
         {
-            return VScroll_getScrollPage(widget).ToUInt32();
+            get
+            {
+                return VScroll_getTrackSize(widget);
+            }
+            set
+            {
+                VScroll_setTrackSize(widget, value);
+            }
         }
 
-        public void setScrollViewPage(uint value)
+        public int MinTrackSize
         {
-            VScroll_setScrollViewPage(widget, new UIntPtr(value));
+            get
+            {
+                return VScroll_getMinTrackSize(widget);
+            }
+            set
+            {
+                VScroll_setMinTrackSize(widget, value);
+            }
         }
 
-        public uint getScrollViewPage()
+        public bool MoveToClick
         {
-            return VScroll_getScrollViewPage(widget).ToUInt32();
-        }
-
-        public int getLineSize()
-        {
-            return VScroll_getLineSize(widget);
-        }
-
-        public void setTrackSize(int value)
-        {
-            VScroll_setTrackSize(widget, value);
-        }
-
-        public int getTrackSize()
-        {
-            return VScroll_getTrackSize(widget);
-        }
-
-        public void setMinTrackSize(int value)
-        {
-            VScroll_setMinTrackSize(widget, value);
-        }
-
-        public int getMinTrackSize()
-        {
-            return VScroll_getMinTrackSize(widget);
-        }
-
-        public void setMoveToClick(bool value)
-        {
-            VScroll_setMoveToClick(widget, value);
-        }
-
-        public bool getMoveToClick()
-        {
-            return VScroll_getMoveToClick(widget);
+            get
+            {
+                return VScroll_getMoveToClick(widget);
+            }
+            set
+            {
+                VScroll_setMoveToClick(widget, value);
+            }
         }
 
         public event MyGUIEvent ScrollChangePosition
