@@ -334,7 +334,7 @@ extern "C" _AnomalousExport MyGUI::IntCoord Widget_getTextCoord(MyGUI::Widget* w
 	return widget->getTextCoord();
 }
 
-extern "C" _AnomalousExport MyGUI::IntSize Widget_getTextSize(MyGUI::Widget* widget)
+extern "C" _AnomalousExport ThreeIntHack Widget_getTextSize(MyGUI::Widget* widget)
 {
 	return widget->getTextSize();
 }

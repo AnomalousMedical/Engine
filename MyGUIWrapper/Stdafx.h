@@ -42,3 +42,18 @@ public:
 		return MyGUI::Colour(r, g, b, a);
 	}
 };
+
+class ThreeIntHack
+{
+public:
+	int x;
+    int y;
+    int z;
+
+	ThreeIntHack(const MyGUI::IntSize& size)
+    {
+        x = size.width;
+        y = size.height;
+        z = 0;
+    }
+};

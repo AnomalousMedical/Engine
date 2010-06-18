@@ -113,122 +113,122 @@ namespace MyGUIPlugin
             return WidgetManager.getWidget(Widget_getChildAt(widget, new UIntPtr(index)));
         }
 
-        bool isRootWidget()
+        public bool isRootWidget()
         {
             return Widget_isRootWidget(widget);
         }
 
-        Widget getParent()
+        public Widget getParent()
         {
             return WidgetManager.getWidget(Widget_getParent(widget));
         }
 
-        Widget findWidget(String name)
+        public Widget findWidget(String name)
         {
             return WidgetManager.getWidget(Widget_findWidget(widget, name));
         }
 
-        void setMaskPick(String filename)
+        public void setMaskPick(String filename)
         {
             Widget_setMaskPick(widget, filename);
         }
 
-        void setEnabledSilent(bool value)
+        public void setEnabledSilent(bool value)
         {
             Widget_setEnabledSilent(widget, value);
         }
 
-        IntCoord getClientCoord()
+        public IntCoord getClientCoord()
         {
             return Widget_getClientCoord(widget);
         }
 
-        Widget getClientWidget()
+        public Widget getClientWidget()
         {
             return WidgetManager.getWidget(Widget_getClientWidget(widget));
         }
 
-        void detachFromWidget()
+        public void detachFromWidget()
         {
             Widget_detachFromWidget(widget);
         }
 
-        void detachFromWidget(String layer)
+        public void detachFromWidget(String layer)
         {
             Widget_detachFromWidget2(widget, layer);
         }
 
-        void attachToWidget(Widget parent)
+        public void attachToWidget(Widget parent)
         {
             Widget_attachToWidget(widget, parent.WidgetPtr);
         }
 
-        void attachToWidget(Widget parent, WidgetStyle style)
+        public void attachToWidget(Widget parent, WidgetStyle style)
         {
             Widget_attachToWidget2(widget, parent.WidgetPtr, style);
         }
 
-        void attachToWidget(Widget parent, WidgetStyle style, String layer)
+        public void attachToWidget(Widget parent, WidgetStyle style, String layer)
         {
             Widget_attachToWidget3(widget, parent.WidgetPtr, style, layer);
         }
 
-        void changeWidgetSkin(String skinname)
+        public void changeWidgetSkin(String skinname)
         {
             Widget_changeWidgetSkin(widget, skinname);
         }
 
-        void setWidgetStyle(WidgetStyle style)
+        public void setWidgetStyle(WidgetStyle style)
         {
             Widget_setWidgetStyle(widget, style);
         }
 
-        void setWidgetStyle(WidgetStyle style, String layer)
+        public void setWidgetStyle(WidgetStyle style, String layer)
         {
             Widget_setWidgetStyle2(widget, style, layer);
         }
 
-        WidgetStyle getWidgetStyle()
+        public WidgetStyle getWidgetStyle()
         {
             return Widget_getWidgetStyle(widget);
         }
 
-        void setProperty(String key, String value)
+        public void setProperty(String key, String value)
         {
             Widget_setProperty(widget, key, value);
         }
 
-        void setCaptionWithNewLine(String value)
+        public void setCaptionWithNewLine(String value)
         {
             Widget_setCaptionWithNewLine(widget, value);
         }
 
-        void setMaskPeek(String filename)
+        public void setMaskPeek(String filename)
         {
             Widget_setMaskPeek(widget, filename);
         }
 
-        IntCoord getTextCoord()
+        public IntCoord getTextCoord()
         {
             return Widget_getTextCoord(widget);
         }
 
-        IntSize getTextSize()
+        public Size getTextSize()
         {
-            return Widget_getTextSize(widget);
+            return Widget_getTextSize(widget).toSize();
         }
 
-        String getLayerName()
+        public String getLayerName()
         {
             return Marshal.PtrToStringAnsi(Widget_getLayerName(widget));
         }
 
-        bool setState(String value)
+        public bool setState(String value)
         {
             return Widget_setState(widget, value);
         }
 
-        void setColour(Color value)
+        public void setColour(Color value)
         {
             Widget_setColour(widget, value);
         }
@@ -693,7 +693,7 @@ namespace MyGUIPlugin
         private static extern IntCoord Widget_getTextCoord(IntPtr widget);
 
         [DllImport("MyGUIWrapper")]
-        private static extern IntSize Widget_getTextSize(IntPtr widget);
+        private static extern ThreeIntHack Widget_getTextSize(IntPtr widget);
 
         [DllImport("MyGUIWrapper")]
         private static extern void Widget_setFontName(IntPtr widget, String font);
