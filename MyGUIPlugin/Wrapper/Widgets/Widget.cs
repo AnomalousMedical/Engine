@@ -10,7 +10,7 @@ namespace MyGUIPlugin
     public class Widget : IDisposable
     {
         protected IntPtr widget;
-        private MyGUIEventManager eventManager;
+        internal MyGUIEventManager eventManager; //Event manager, this is internal but it should be considered internal, protected, do not touch outside of Widget or subclass
 
         internal Widget(IntPtr widget)
         {

@@ -89,6 +89,18 @@ namespace MyGUIPlugin
             return VScroll_getMoveToClick(widget);
         }
 
+        public event MyGUIEvent ScrollChangePosition
+        {
+            add
+            {
+                eventManager.addDelegate<ScrollChangePositionET>(value);
+            }
+            remove
+            {
+                eventManager.removeDelegate<ScrollChangePositionET>(value);
+            }
+        }
+
 #region PInvoke
 
         [DllImport("MyGUIWrapper")]

@@ -242,6 +242,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\Src\VScroll.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\Widget.cpp"
 				>
 			</File>
@@ -291,6 +295,10 @@
 			</File>
 			<File
 				RelativePath=".\Include\MyGUIEventTranslator.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\ScrollChangePositionET.cpp"
 				>
 			</File>
 		</Filter>

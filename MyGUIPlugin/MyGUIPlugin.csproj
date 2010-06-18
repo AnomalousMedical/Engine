@@ -52,6 +52,8 @@
     <Compile Include="Wrapper\Events\ClickEventTranslator.cs" />
     <Compile Include="Wrapper\Events\MyGUIEventManager.cs" />
     <Compile Include="Wrapper\Events\MyGUIEventTranslator.cs" />
+    <Compile Include="Wrapper\Events\ScrollChangePositionET.cs" />
+    <Compile Include="Wrapper\Events\Template.cs" />
     <Compile Include="Wrapper\System\Align.cs" />
     <Compile Include="Wrapper\System\Gui.cs" />
     <Compile Include="Wrapper\System\LanguageManager.cs" />
