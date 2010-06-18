@@ -60,7 +60,9 @@
     <Compile Include="Wrapper\System\OgrePlatform.cs" />
     <Compile Include="Wrapper\System\OgreRenderManager.cs" />
     <Compile Include="Wrapper\Widgets\Button.cs" />
+    <Compile Include="Wrapper\Widgets\HScroll.cs" />
     <Compile Include="Wrapper\Widgets\StaticImage.cs" />
+    <Compile Include="Wrapper\Widgets\VScroll.cs" />
     <Compile Include="Wrapper\Widgets\Widget.cs" />
     <Compile Include="Wrapper\Widgets\WidgetManager.cs" />
   </ItemGroup>

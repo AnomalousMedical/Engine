@@ -15,26 +15,30 @@ namespace MyGUIPlugin
         enum WidgetType
         {
             Widget,
-            Button,
-            Canvas,
-            ComboBox,
-            DDContainer,
-            Edit,
-            HScroll,
-            ItemBox,
-            List,
-            MenuCtrl,
-            Message,
-            MultiList,
-            PopupMenu,
-            Progress,
-            RenderBox,
-            ScrollView,
-            StaticImage,
-            StaticText,
-            Tab,
-            VScroll,
-            Window,
+                Canvas,
+                DDContainer,
+                    ItemBox,
+                    ListCtrl,
+                        ListBox,
+                List,
+                MenuCtrl,
+                    MenuBar,
+                    PopupMenu,
+                MultiList,
+                Progress,
+                ScrollView,
+                StaticImage,
+                StaticText,
+                    Button,
+                        MenuItem,
+                    Edit,
+                        ComboBox,
+                Tab,
+                TabItem,
+                VScroll,
+                    HScroll,
+                Window,
+                    Message,
         }
 
         private static WrapperCollection<Widget> widgets = new WrapperCollection<Widget>(createWrapper);
@@ -73,11 +77,82 @@ namespace MyGUIPlugin
         {
             switch(WidgetManager_getType(widget))
             {
+                case WidgetType.Widget:
+                    return new Widget(widget);
+
+                case WidgetType.Canvas:
+                    return new Widget(widget);
+
+                case WidgetType.DDContainer:
+                    return new Widget(widget);
+
+                case WidgetType.ItemBox:
+                    return new Widget(widget);
+
+                case WidgetType.ListCtrl:
+                    return new Widget(widget);
+
+                case WidgetType.ListBox:
+                    return new Widget(widget);
+
+                case WidgetType.List:
+                    return new Widget(widget);
+
+                case WidgetType.MenuCtrl:
+                    return new Widget(widget);
+
+                case WidgetType.MenuBar:
+                    return new Widget(widget);
+
+                case WidgetType.PopupMenu:
+                    return new Widget(widget);
+
+                case WidgetType.MultiList:
+                    return new Widget(widget);
+
+                case WidgetType.Progress:
+                    return new Widget(widget);
+
+                case WidgetType.ScrollView:
+                    return new Widget(widget);
+
+                case WidgetType.StaticImage:
+                    return new StaticImage(widget);
+
+                case WidgetType.StaticText:
+                    return new Widget(widget);
+
                 case WidgetType.Button:
                     return new Button(widget);
-                default:
+
+                case WidgetType.MenuItem:
+                    return new Widget(widget);
+
+                case WidgetType.Edit:
+                    return new Widget(widget);
+
+                case WidgetType.ComboBox:
+                    return new Widget(widget);
+
+                case WidgetType.Tab:
+                    return new Widget(widget);
+
+                case WidgetType.TabItem:
+                    return new Widget(widget);
+
+                case WidgetType.VScroll:
+                    return new VScroll(widget);
+
+                case WidgetType.HScroll:
+                    return new HScroll(widget);
+
+                case WidgetType.Window:
+                    return new Widget(widget);
+
+                case WidgetType.Message:
                     return new Widget(widget);
             }
+            return new Widget(widget);
         }
 
 #region PInvoke
@@ -88,3 +163,10 @@ namespace MyGUIPlugin
 #endregion
     }
 }
+
+/*
+ case WidgetType.Button:
+                    return new Button(widget);
+                default:
+                    return new Widget(widget);
+ */

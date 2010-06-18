@@ -2,34 +2,59 @@
 
 enum WidgetType
 {
-	Widget,
-	Button,
-	Canvas,
-	ComboBox,
-	DDContainer,
-	Edit,
-	HScroll,
-	ItemBox,
-	List,
-	MenuCtrl,
-	Message,
-	MultiList,
-	PopupMenu,
-	Progress,
-	RenderBox,
-	ScrollView,
-	StaticImage,
-	StaticText,
-	Tab,
-	VScroll,
-	Window,
+    Widget,
+        Canvas,
+        DDContainer,
+            ItemBox,
+            ListCtrl,
+                ListBox,
+        List,
+        MenuCtrl,
+            MenuBar,
+            PopupMenu,
+        MultiList,
+        Progress,
+        ScrollView,
+        StaticImage,
+        StaticText,
+            Button,
+                MenuItem,
+            Edit,
+                ComboBox,
+        Tab,
+        TabItem,
+        VScroll,
+            HScroll,
+        Window,
+            Message,
 };
 
 extern "C" _AnomalousExport WidgetType WidgetManager_getType(MyGUI::Widget* widget)
 {
-	if(widget->isType<MyGUI::Button>())
+	//Check for buttons first since they are likely to be the most common control
+	if(widget->isType<MyGUI::StaticText>())
 	{
-		return Button;
+		if(widget->isType<MyGUI::Button>())
+		{
+			if(widget->isType<MyGUI::MenuItem>())
+			{
+				return MenuItem;
+			}
+
+			return Button;
+		}
+
+		if(widget->isType<MyGUI::Edit>())
+		{
+			if(widget->isType<MyGUI::ComboBox>())
+			{
+				return ComboBox;
+			}
+
+			return Edit;
+		}
+
+		return StaticText;
 	}
 
 	if(widget->isType<MyGUI::Canvas>())
@@ -37,29 +62,24 @@ extern "C" _AnomalousExport WidgetType WidgetManager_getType(MyGUI::Widget* widg
 		return Canvas;
 	}
 
-	if(widget->isType<MyGUI::ComboBox>())
-	{
-		return ComboBox;
-	}
-
 	if(widget->isType<MyGUI::DDContainer>())
 	{
+		if(widget->isType<MyGUI::ItemBox>())
+		{
+			return ItemBox;
+		}
+
+		if(widget->isType<MyGUI::ListCtrl>())
+		{
+			if(widget->isType<MyGUI::ListBox>())
+			{
+				return ListBox;
+			}
+
+			return ListCtrl;
+		}
+
 		return DDContainer;
-	}
-
-	if(widget->isType<MyGUI::Edit>())
-	{
-		return Edit;
-	}
-
-	if(widget->isType<MyGUI::HScroll>())
-	{
-		return HScroll;
-	}
-
-	if(widget->isType<MyGUI::ItemBox>())
-	{
-		return ItemBox;
 	}
 
 	if(widget->isType<MyGUI::List>())
@@ -69,12 +89,17 @@ extern "C" _AnomalousExport WidgetType WidgetManager_getType(MyGUI::Widget* widg
 
 	if(widget->isType<MyGUI::MenuCtrl>())
 	{
-		return MenuCtrl;
-	}
+		if(widget->isType<MyGUI::MenuBar>())
+		{
+			return MenuBar;
+		}
 
-	if(widget->isType<MyGUI::Message>())
-	{
-		return Message;
+		if(widget->isType<MyGUI::PopupMenu>())
+		{
+			return PopupMenu;
+		}
+
+		return MenuCtrl;
 	}
 
 	if(widget->isType<MyGUI::MultiList>())
@@ -82,19 +107,9 @@ extern "C" _AnomalousExport WidgetType WidgetManager_getType(MyGUI::Widget* widg
 		return MultiList;
 	}
 
-	if(widget->isType<MyGUI::PopupMenu>())
-	{
-		return PopupMenu;
-	}
-
 	if(widget->isType<MyGUI::Progress>())
 	{
 		return Progress;
-	}
-
-	if(widget->isType<MyGUI::RenderBox>())
-	{
-		return RenderBox;
 	}
 
 	if(widget->isType<MyGUI::ScrollView>())
@@ -107,25 +122,35 @@ extern "C" _AnomalousExport WidgetType WidgetManager_getType(MyGUI::Widget* widg
 		return StaticImage;
 	}
 
-	if(widget->isType<MyGUI::StaticText>())
-	{
-		return StaticText;
-	}
-
 	if(widget->isType<MyGUI::Tab>())
 	{
 		return Tab;
 	}
 
+	if(widget->isType<MyGUI::TabItem>())
+	{
+		return TabItem;
+	}
+
 	if(widget->isType<MyGUI::VScroll>())
 	{
+		if(widget->isType<MyGUI::HScroll>())
+		{
+			return HScroll;
+		}
+
 		return VScroll;
 	}
 
 	if(widget->isType<MyGUI::Window>())
 	{
+		if(widget->isType<MyGUI::Message>())
+		{
+			return Message;
+		}
+
 		return Window;
 	}
-	
+
 	return Widget;
 }
