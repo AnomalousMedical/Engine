@@ -14,39 +14,48 @@ namespace MyGUIPlugin
 
         }
 
-        public void setStateCheck(bool value)
+        public bool StateCheck
         {
-            Button_setStateCheck(widget, value);
+            get
+            {
+                return Button_getStateCheck(widget);
+            }
+            set
+            {
+                Button_setStateCheck(widget, value);
+            }
         }
 
-        public bool getStateCheck()
+        public uint ImageIndex
         {
-            return Button_getStateCheck(widget);
+            get
+            {
+                return Button_getImageIndex(widget).ToUInt32();
+            }
+            set
+            {
+                Button_setImageIndex(widget, new UIntPtr(value));
+            }
         }
 
-        public void setImageIndex(uint value)
+        public bool ModeImage
         {
-            Button_setImageIndex(widget, new UIntPtr(value));
+            get
+            {
+                return Button_getModeImage(widget);
+            }
+            set
+            {
+                Button_setModeImage(widget, value);
+            }
         }
 
-        public uint getImageIndex()
+        public StaticImage StaticImage
         {
-            return Button_getImageIndex(widget).ToUInt32();
-        }
-
-        public void setModeImage(bool value)
-        {
-            Button_setModeImage(widget, value);
-        }
-
-        public bool getModeImage()
-        {
-            return Button_getModeImage(widget);
-        }
-
-        public StaticImage getStaticImage()
-        {
-            return WidgetManager.getWidget(Button_getStaticImage(widget)) as StaticImage;
+            get
+            {
+                return WidgetManager.getWidget(Button_getStaticImage(widget)) as StaticImage;
+            }
         }
 
 #region PInvoke
