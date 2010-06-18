@@ -24,7 +24,7 @@ namespace MyGUIPlugin
 
         public MyGUIInterface()
         {
-
+            
         }
 
         public void Dispose()
@@ -67,7 +67,7 @@ namespace MyGUIPlugin
             sceneManager = Root.getSingleton().createSceneManager(SceneType.ST_GENERIC, "MyGUIScene");
             ogreWindow = pluginManager.RendererPlugin.PrimaryWindow as OgreWindow;
             ogrePlatform = new OgrePlatform();
-            ogrePlatform.initialize(ogreWindow.OgreRenderWindow, sceneManager, "MyGUI");
+            ogrePlatform.initialize(ogreWindow.OgreRenderWindow, sceneManager, "MyGUI", LogFile);
 
             //Create camera and viewport
             camera = sceneManager.createCamera("MyGUICamera");
@@ -76,7 +76,7 @@ namespace MyGUIPlugin
             vp.setClearEveryFrame(false);
 
             gui = new Gui();
-            gui.initialize("core.xml", "MyGUI.log");
+            gui.initialize("core.xml", LogFile);
 
             Log.Info("Finished initializing MyGUI");
         }
@@ -110,5 +110,12 @@ namespace MyGUIPlugin
                 return ogrePlatform;
             }
         }
+
+        static MyGUIInterface()
+        {
+            LogFile = "MyGUI.log";
+        }
+
+        public static String LogFile { get; set; }
     }
 }
