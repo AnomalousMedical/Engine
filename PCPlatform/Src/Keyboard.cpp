@@ -71,7 +71,7 @@ extern "C" _AnomalousExport int oisKeyboard_translateText(OIS::KeyCode kc)
 #endif
 
 #ifdef MAC_OSX
-extern "C" _AnomalousExport int oisKeyboard_translateText(IntPtr keyboard, KeyboardButtonCode code)
+extern "C" _AnomalousExport int oisKeyboard_translateText(OIS::KeyCode kc)
 {
 	return 0;
 }
