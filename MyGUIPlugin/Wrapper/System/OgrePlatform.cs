@@ -15,7 +15,6 @@ namespace MyGUIPlugin
         public OgrePlatform()
         {
             ogrePlatform = OgrePlatform_Create();
-            renderManager = new OgreRenderManager(OgrePlatform_getRenderManagerPtr(ogrePlatform));
         }
 
         public void Dispose()
@@ -32,6 +31,7 @@ namespace MyGUIPlugin
         public void initialize(RenderWindow window, SceneManager sceneManager, String resourceGroup, String logName)
         {
             OgrePlatform_initialize(ogrePlatform, window.OgreRenderTarget, sceneManager.OgreSceneManager, resourceGroup, logName);
+            renderManager = new OgreRenderManager(OgrePlatform_getRenderManagerPtr(ogrePlatform));
         }
 
         public void shutdown()
