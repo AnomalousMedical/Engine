@@ -26,6 +26,14 @@ namespace Engine
             this.right = right;
         }
 
+        public void setValues(float top, float bottom, float left, float right)
+        {
+            this.top = top;
+            this.bottom = bottom;
+            this.left = left;
+            this.right = right;
+        }
+
         public float Top
         {
             get
