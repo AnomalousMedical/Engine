@@ -238,6 +238,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\StaticText.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Stdafx.cpp"
 				>
 				<FileConfiguration

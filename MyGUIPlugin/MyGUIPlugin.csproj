@@ -71,6 +71,7 @@
     <Compile Include="Wrapper\Widgets\MenuItem.cs" />
     <Compile Include="Wrapper\Widgets\PopupMenu.cs" />
     <Compile Include="Wrapper\Widgets\StaticImage.cs" />
+    <Compile Include="Wrapper\Widgets\StaticText.cs" />
     <Compile Include="Wrapper\Widgets\VScroll.cs" />
     <Compile Include="Wrapper\Widgets\Widget.cs" />
     <Compile Include="Wrapper\Widgets\WidgetManager.cs" />

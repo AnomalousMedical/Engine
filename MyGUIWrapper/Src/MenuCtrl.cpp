@@ -187,38 +187,12 @@ extern "C" _AnomalousExport void MenuCtrl_removeItemChild(MyGUI::MenuCtrl* menuC
 
 extern "C" _AnomalousExport MyGUI::MenuItemType::Enum MenuCtrl_getItemTypeAt(MyGUI::MenuCtrl* menuCtrl, size_t index)
 {
-	MyGUI::MenuItemType type = menuCtrl->getItemTypeAt(index);
-	if(type == MyGUI::MenuItemType::Normal)
-	{
-		return MyGUI::MenuItemType::Normal;
-	}
-	else if(type == MyGUI::MenuItemType::Popup)
-	{
-		return MyGUI::MenuItemType::Popup;
-	}
-	else if(type == MyGUI::MenuItemType::Separator)
-	{
-		return MyGUI::MenuItemType::Separator;
-	}
-	return MyGUI::MenuItemType::MAX;
+	return getMenuItemTypeEnumVal(menuCtrl->getItemTypeAt(index));
 }
 
 extern "C" _AnomalousExport MyGUI::MenuItemType::Enum MenuCtrl_getItemType(MyGUI::MenuCtrl* menuCtrl, MyGUI::MenuItem* item)
 {
-	MyGUI::MenuItemType type = menuCtrl->getItemType(item);
-	if(type == MyGUI::MenuItemType::Normal)
-	{
-		return MyGUI::MenuItemType::Normal;
-	}
-	else if(type == MyGUI::MenuItemType::Popup)
-	{
-		return MyGUI::MenuItemType::Popup;
-	}
-	else if(type == MyGUI::MenuItemType::Separator)
-	{
-		return MyGUI::MenuItemType::Separator;
-	}
-	return MyGUI::MenuItemType::MAX;
+	return getMenuItemTypeEnumVal(menuCtrl->getItemType(item));
 }
 
 extern "C" _AnomalousExport void MenuCtrl_setItemTypeAt(MyGUI::MenuCtrl* menuCtrl, size_t index, MyGUI::MenuItemType::Enum type)

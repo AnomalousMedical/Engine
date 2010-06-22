@@ -120,7 +120,7 @@ namespace MyGUIPlugin
                     return new StaticImage(widget);
 
                 case WidgetType.StaticText:
-                    return new Widget(widget);
+                    return new StaticText(widget);
 
                 case WidgetType.Button:
                     return new Button(widget);

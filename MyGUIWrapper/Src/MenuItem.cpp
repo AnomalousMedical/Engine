@@ -42,20 +42,7 @@ extern "C" _AnomalousExport void MenuItem_setItemType(MyGUI::MenuItem* menuItem,
 
 extern "C" _AnomalousExport MyGUI::MenuItemType::Enum MenuItem_getItemType(MyGUI::MenuItem* menuItem)
 {
-	MyGUI::MenuItemType type = menuItem->getItemType();
-	if(type == MyGUI::MenuItemType::Normal)
-	{
-		return MyGUI::MenuItemType::Normal;
-	}
-	else if(type == MyGUI::MenuItemType::Popup)
-	{
-		return MyGUI::MenuItemType::Popup;
-	}
-	else if(type == MyGUI::MenuItemType::Separator)
-	{
-		return MyGUI::MenuItemType::Separator;
-	}
-	return MyGUI::MenuItemType::MAX;
+	return getMenuItemTypeEnumVal(menuItem->getItemType());
 }
 
 extern "C" _AnomalousExport void MenuItem_setItemChildVisible(MyGUI::MenuItem* menuItem, bool value)

@@ -203,21 +203,6 @@ namespace MyGUIPlugin
             Widget_setCaptionWithNewLine(widget, value);
         }
 
-        public void setMaskPeek(String filename)
-        {
-            Widget_setMaskPeek(widget, filename);
-        }
-
-        public IntCoord getTextCoord()
-        {
-            return Widget_getTextCoord(widget);
-        }
-
-        public Size getTextSize()
-        {
-            return Widget_getTextSize(widget).toSize();
-        }
-
         public String getLayerName()
         {
             return Marshal.PtrToStringAnsi(Widget_getLayerName(widget));
@@ -374,66 +359,6 @@ namespace MyGUIPlugin
             set
             {
                 Widget_setEnableToolTip(widget, value);
-            }
-        }
-
-        public bool InheritsPeek
-        {
-            get
-            {
-                return Widget_isInheritsPeek(widget);
-            }
-            set
-            {
-                Widget_setInheritsPeek(widget, value);
-            }
-        }
-
-        public String Font
-        {
-            get
-            {
-                return Marshal.PtrToStringAnsi(Widget_getFontName(widget));
-            }
-            set
-            {
-                Widget_setFontName(widget, value);
-            }
-        }
-
-        public int FontHeight
-        {
-            get
-            {
-                return Widget_getFontHeight(widget);
-            }
-            set
-            {
-                Widget_setFontHeight(widget, value);
-            }
-        }
-
-        public Align TextAlign
-        {
-            get
-            {
-                return Widget_getTextAlign(widget);
-            }
-            set
-            {
-                Widget_setTextAlign(widget, value);
-            }
-        }
-
-        public Color TextColor
-        {
-            get
-            {
-                return Widget_getTextColour(widget);
-            }
-            set
-            {
-                Widget_setTextColour(widget, value);
             }
         }
         
@@ -675,49 +600,6 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper")]
         private static extern void Widget_setCaptionWithNewLine(IntPtr widget, String value);
-
-        [DllImport("MyGUIWrapper")]
-        private static extern void Widget_enableToolTip(IntPtr widget, bool enable);
-
-        [DllImport("MyGUIWrapper")]
-        private static extern void Widget_setInheritsPeek(IntPtr widget, bool inherits);
-
-        [DllImport("MyGUIWrapper")]
-        [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Widget_isInheritsPeek(IntPtr widget);
-
-        [DllImport("MyGUIWrapper")]
-        private static extern void Widget_setMaskPeek(IntPtr widget, String filename);
-
-        [DllImport("MyGUIWrapper")]
-        private static extern IntCoord Widget_getTextCoord(IntPtr widget);
-
-        [DllImport("MyGUIWrapper")]
-        private static extern ThreeIntHack Widget_getTextSize(IntPtr widget);
-
-        [DllImport("MyGUIWrapper")]
-        private static extern void Widget_setFontName(IntPtr widget, String font);
-
-        [DllImport("MyGUIWrapper")]
-        private static extern IntPtr Widget_getFontName(IntPtr widget);
-
-        [DllImport("MyGUIWrapper")]
-        private static extern void Widget_setFontHeight(IntPtr widget, int height);
-
-        [DllImport("MyGUIWrapper")]
-        private static extern int Widget_getFontHeight(IntPtr widget);
-
-        [DllImport("MyGUIWrapper")]
-        private static extern void Widget_setTextAlign(IntPtr widget, Align align);
-
-        [DllImport("MyGUIWrapper")]
-        private static extern Align Widget_getTextAlign(IntPtr widget);
-
-        [DllImport("MyGUIWrapper")]
-        private static extern void Widget_setTextColour(IntPtr widget, Color colour);
-
-        [DllImport("MyGUIWrapper")]
-        private static extern Color Widget_getTextColour(IntPtr widget);
 
 #endregion
     }

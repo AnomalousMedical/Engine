@@ -1,5 +1,8 @@
 #include "Stdafx.h"
 
+#pragma warning(push)
+#pragma warning(disable : 4190) //Disable c linkage warning
+
 extern "C" _AnomalousExport int Widget_getAbsoluteLeft(MyGUI::Widget* widget)
 {
 	return widget->getAbsoluteLeft();
@@ -80,10 +83,6 @@ extern "C" _AnomalousExport MyGUI::Widget* Widget_getChildAt(MyGUI::Widget* widg
 	return widget->getChildAt(index);
 }
 
-//new
-
-//new functions
-
 extern "C" _AnomalousExport void Widget_setVisible(MyGUI::Widget* widget, bool value)
 {
 	widget->setVisible(value);
@@ -101,7 +100,7 @@ extern "C" _AnomalousExport void Widget_setAlign(MyGUI::Widget* widget, MyGUI::A
 
 extern "C" _AnomalousExport MyGUI::Align::Enum Widget_getAlign(MyGUI::Widget* widget)
 {
-	return MyGUI::Align::Default;
+	return getAlignEnumVal(widget->getAlign());
 }
 
 extern "C" _AnomalousExport void Widget_setCaption(MyGUI::Widget* widget, UStringIn value)
@@ -309,72 +308,4 @@ extern "C" _AnomalousExport void Widget_setCaptionWithNewLine(MyGUI::Widget* wid
 	widget->setCaptionWithNewLine(value);
 }
 
-extern "C" _AnomalousExport void Widget_enableToolTip(MyGUI::Widget* widget, bool enable)
-{
-	widget->enableToolTip(enable);
-}
-
-extern "C" _AnomalousExport void Widget_setInheritsPeek(MyGUI::Widget* widget, bool inherits)
-{
-	widget->setInheritsPeek(inherits);
-}
-
-extern "C" _AnomalousExport bool Widget_isInheritsPeek(MyGUI::Widget* widget)
-{
-	return widget->isInheritsPeek();
-}
-
-extern "C" _AnomalousExport void Widget_setMaskPeek(MyGUI::Widget* widget, String filename)
-{
-	widget->setMaskPeek(filename);
-}
-
-extern "C" _AnomalousExport MyGUI::IntCoord Widget_getTextCoord(MyGUI::Widget* widget)
-{
-	return widget->getTextCoord();
-}
-
-extern "C" _AnomalousExport ThreeIntHack Widget_getTextSize(MyGUI::Widget* widget)
-{
-	return widget->getTextSize();
-}
-
-extern "C" _AnomalousExport void Widget_setFontName(MyGUI::Widget* widget, String font)
-{
-	widget->setFontName(font);
-}
-
-extern "C" _AnomalousExport String Widget_getFontName(MyGUI::Widget* widget)
-{
-	return widget->getFontName().c_str();
-}
-
-extern "C" _AnomalousExport void Widget_setFontHeight(MyGUI::Widget* widget, int height)
-{
-	widget->setFontHeight(height);
-}
-
-extern "C" _AnomalousExport int Widget_getFontHeight(MyGUI::Widget* widget)
-{
-	return widget->getFontHeight();
-}
-
-extern "C" _AnomalousExport void Widget_setTextAlign(MyGUI::Widget* widget, MyGUI::Align::Enum align)
-{
-	widget->setTextAlign(align);
-}
-
-extern "C" _AnomalousExport MyGUI::Align::Enum Widget_getTextAlign(MyGUI::Widget* widget)
-{
-	return MyGUI::Align::Default;
-}
-
-extern "C" _AnomalousExport void Widget_setTextColour(MyGUI::Widget* widget, Color colour)
-{
-	widget->setTextColour(colour.toMyGUI());
-}
-
-extern "C" _AnomalousExport Color Widget_getTextColour(MyGUI::Widget* widget)
-{
-	return widget->getTextColour();
-}
+#pragma warning(pop)
