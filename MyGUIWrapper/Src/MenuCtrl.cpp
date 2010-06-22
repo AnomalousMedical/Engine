@@ -1,5 +1,10 @@
 #include "Stdafx.h"
 
+extern "C" _AnomalousExport void MenuCtrl_setVisibleSmooth(MyGUI::MenuCtrl* widget, bool value)
+{
+	widget->setVisibleSmooth(value);
+}
+
 extern "C" _AnomalousExport size_t MenuCtrl_getItemCount(MyGUI::MenuCtrl* menuCtrl)
 {
 	return menuCtrl->getItemCount();

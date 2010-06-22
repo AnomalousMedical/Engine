@@ -14,207 +14,212 @@ namespace MyGUIPlugin
             
         }
 
-        uint getItemCount()
+        public void setVisibleSmooth(bool value)
+        {
+            MenuCtrl_setVisibleSmooth(widget, value);
+        }
+
+        public uint getItemCount()
         {
             return MenuCtrl_getItemCount(widget).ToUInt32();
         }
 
-        MenuItem insertItemAt(uint index, String name)
+        public MenuItem insertItemAt(uint index, String name)
         {
             return (MenuItem)WidgetManager.getWidget(MenuCtrl_insertItemAt(widget, new UIntPtr(index), name));
         }
 
-        MenuItem insertItemAt(uint index, String name, MenuItemType type)
+        public MenuItem insertItemAt(uint index, String name, MenuItemType type)
         {
             return (MenuItem)WidgetManager.getWidget(MenuCtrl_insertItemAt2(widget, new UIntPtr(index), name, type));
         }
 
-        MenuItem insertItemAt(uint index, String name, MenuItemType type, String id)
+        public MenuItem insertItemAt(uint index, String name, MenuItemType type, String id)
         {
             return (MenuItem)WidgetManager.getWidget(MenuCtrl_insertItemAt3(widget, new UIntPtr(index), name, type, id));
         }
 
-        MenuItem insertItem(MenuItem to, String name)
+        public MenuItem insertItem(MenuItem to, String name)
         {
             return (MenuItem)WidgetManager.getWidget(MenuCtrl_insertItem(widget, to.WidgetPtr, name));
         }
 
-        MenuItem insertItem(MenuItem to, String name, MenuItemType type)
+        public MenuItem insertItem(MenuItem to, String name, MenuItemType type)
         {
             return (MenuItem)WidgetManager.getWidget(MenuCtrl_insertItem2(widget, to.WidgetPtr, name, type));
         }
 
-        MenuItem insertItem(MenuItem to, String name, MenuItemType type, String id)
+        public MenuItem insertItem(MenuItem to, String name, MenuItemType type, String id)
         {
             return (MenuItem)WidgetManager.getWidget(MenuCtrl_insertItem3(widget, to.WidgetPtr, name, type, id));
         }
 
-        MenuItem addItem(String name)
+        public MenuItem addItem(String name)
         {
             return (MenuItem)WidgetManager.getWidget(MenuCtrl_addItem(widget, name));
         }
 
-        MenuItem addItem(String name, MenuItemType type)
+        public MenuItem addItem(String name, MenuItemType type)
         {
             return (MenuItem)WidgetManager.getWidget(MenuCtrl_addItem2(widget, name, type));
         }
 
-        MenuItem addItem(String name, MenuItemType type, String id)
+        public MenuItem addItem(String name, MenuItemType type, String id)
         {
             return (MenuItem)WidgetManager.getWidget(MenuCtrl_addItem3(widget, name, type, id));
         }
 
-        void removeItemAt(uint index)
+        public void removeItemAt(uint index)
         {
             MenuCtrl_removeItemAt(widget, new UIntPtr(index));
         }
 
-        void removeItem(MenuItem item)
+        public void removeItem(MenuItem item)
         {
             MenuCtrl_removeItem(widget, item.WidgetPtr);
         }
 
-        void removeAllItems()
+        public void removeAllItems()
         {
             MenuCtrl_removeAllItems(widget);
         }
 
-        MenuItem getItemAt(uint index)
+        public MenuItem getItemAt(uint index)
         {
             return (MenuItem)WidgetManager.getWidget(MenuCtrl_getItemAt(widget, new UIntPtr(index)));
         }
 
-        uint getItemIndex(MenuItem item)
+        public uint getItemIndex(MenuItem item)
         {
             return MenuCtrl_getItemIndex(widget, item.WidgetPtr).ToUInt32();
         }
 
-        uint findItemIndex(MenuItem item)
+        public uint findItemIndex(MenuItem item)
         {
             return MenuCtrl_findItemIndex(widget, item.WidgetPtr).ToUInt32();
         }
 
-        MenuItem findItemWith(String name)
+        public MenuItem findItemWith(String name)
         {
             return (MenuItem)WidgetManager.getWidget(MenuCtrl_findItemWith(widget, name));
         }
 
-        void setItemIdAt(uint index, String id)
+        public void setItemIdAt(uint index, String id)
         {
             MenuCtrl_setItemIdAt(widget, new UIntPtr(index), id);
         }
 
-        void setItemId(MenuItem item, String id)
+        public void setItemId(MenuItem item, String id)
         {
             MenuCtrl_setItemId(widget, item.WidgetPtr, id);
         }
 
-        String getItemIdAt(uint index)
+        public String getItemIdAt(uint index)
         {
             return Marshal.PtrToStringAnsi(MenuCtrl_getItemIdAt(widget, new UIntPtr(index)));
         }
 
-        String getItemId(MenuItem item)
+        public String getItemId(MenuItem item)
         {
             return Marshal.PtrToStringAnsi(MenuCtrl_getItemId(widget, item.WidgetPtr));
         }
 
-        MenuItem getItemById(String id)
+        public MenuItem getItemById(String id)
         {
             return (MenuItem)WidgetManager.getWidget(MenuCtrl_getItemById(widget, id));
         }
 
-        uint getItemIndexById(String id)
+        public uint getItemIndexById(String id)
         {
             return MenuCtrl_getItemIndexById(widget, id).ToUInt32();
         }
 
-        void setItemNameAt(uint index, String name)
+        public void setItemNameAt(uint index, String name)
         {
             MenuCtrl_setItemNameAt(widget, new UIntPtr(index), name);
         }
 
-        void setItemName(MenuItem item, String name)
+        public void setItemName(MenuItem item, String name)
         {
             MenuCtrl_setItemName(widget, item.WidgetPtr, name);
         }
 
-        String getItemNameAt(uint index)
+        public String getItemNameAt(uint index)
         {
             return Marshal.PtrToStringUni(MenuCtrl_getItemNameAt(widget, new UIntPtr(index)));
         }
 
-        String getItemName(MenuItem item)
+        public String getItemName(MenuItem item)
         {
             return Marshal.PtrToStringUni(MenuCtrl_getItemName(widget, item.WidgetPtr));
         }
 
-        uint findItemIndexWith(String name)
+        public uint findItemIndexWith(String name)
         {
             return MenuCtrl_findItemIndexWith(widget, name).ToUInt32();
         }
 
-        void setItemChildVisibleAt(uint index, bool visible)
+        public void setItemChildVisibleAt(uint index, bool visible)
         {
             MenuCtrl_setItemChildVisibleAt(widget, new UIntPtr(index), visible);
         }
 
-        void setItemChildVisible(MenuItem item, bool visible)
+        public void setItemChildVisible(MenuItem item, bool visible)
         {
             MenuCtrl_setItemChildVisible(widget, item.WidgetPtr, visible);
         }
 
-        MenuCtrl getItemChildAt(uint index)
+        public MenuCtrl getItemChildAt(uint index)
         {
             return (MenuCtrl)WidgetManager.getWidget(MenuCtrl_getItemChildAt(widget, new UIntPtr(index)));
         }
 
-        MenuCtrl getItemChild(MenuItem item)
+        public MenuCtrl getItemChild(MenuItem item)
         {
             return (MenuCtrl)WidgetManager.getWidget(MenuCtrl_getItemChild(widget, item.WidgetPtr));
         }
 
-        MenuCtrl createItemChildAt(uint index)
+        public MenuCtrl createItemChildAt(uint index)
         {
             return (MenuCtrl)WidgetManager.getWidget(MenuCtrl_createItemChildAt(widget, new UIntPtr(index)));
         }
 
-        MenuCtrl createItemChild(MenuItem item)
+        public MenuCtrl createItemChild(MenuItem item)
         {
             return (MenuCtrl)WidgetManager.getWidget(MenuCtrl_createItemChild(widget, item.WidgetPtr));
         }
 
-        void removeItemChildAt(uint index)
+        public void removeItemChildAt(uint index)
         {
             MenuCtrl_removeItemChildAt(widget, new UIntPtr(index));
         }
 
-        void removeItemChild(MenuItem item)
+        public void removeItemChild(MenuItem item)
         {
             MenuCtrl_removeItemChild(widget, item.WidgetPtr);
         }
 
-        MenuItemType getItemTypeAt(uint index)
+        public MenuItemType getItemTypeAt(uint index)
         {
             return MenuCtrl_getItemTypeAt(widget, new UIntPtr(index));
         }
 
-        MenuItemType getItemType(MenuItem item)
+        public MenuItemType getItemType(MenuItem item)
         {
             return MenuCtrl_getItemType(widget, item.WidgetPtr);
         }
 
-        void setItemTypeAt(uint index, MenuItemType type)
+        public void setItemTypeAt(uint index, MenuItemType type)
         {
             MenuCtrl_setItemTypeAt(widget, new UIntPtr(index), type);
         }
 
-        void setItemType(MenuItem item, MenuItemType type)
+        public void setItemType(MenuItem item, MenuItemType type)
         {
             MenuCtrl_setItemType(widget, item.WidgetPtr, type);
         }
 
-        MenuItem getMenuItemParent()
+        public MenuItem getMenuItemParent()
         {
             return (MenuItem)WidgetManager.getWidget(MenuCtrl_getMenuItemParent(widget));
         }
@@ -232,6 +237,9 @@ namespace MyGUIPlugin
         }
 
 #region PInvoke
+
+        [DllImport("MyGUIWrapper")]
+        private static extern void MenuCtrl_setVisibleSmooth(IntPtr widget, bool value);
 
         [DllImport("MyGUIWrapper")]
         private static extern UIntPtr MenuCtrl_getItemCount(IntPtr menuCtrl);
