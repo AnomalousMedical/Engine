@@ -206,6 +206,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\LayerManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\Layout.cpp"
 				>
 			</File>
