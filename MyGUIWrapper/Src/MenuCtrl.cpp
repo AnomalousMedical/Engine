@@ -10,47 +10,47 @@ extern "C" _AnomalousExport size_t MenuCtrl_getItemCount(MyGUI::MenuCtrl* menuCt
 	return menuCtrl->getItemCount();
 }
 
-extern "C" _AnomalousExport MyGUI::MenuItem* MenuCtrl_insertItemAt(MyGUI::MenuCtrl* menuCtrl, size_t index, UString name)
+extern "C" _AnomalousExport MyGUI::MenuItem* MenuCtrl_insertItemAt(MyGUI::MenuCtrl* menuCtrl, size_t index, UStringIn name)
 {
 	return menuCtrl->insertItemAt(index, name);
 }
 
-extern "C" _AnomalousExport MyGUI::MenuItem* MenuCtrl_insertItemAt2(MyGUI::MenuCtrl* menuCtrl, size_t index, UString name, MyGUI::MenuItemType::Enum type)
+extern "C" _AnomalousExport MyGUI::MenuItem* MenuCtrl_insertItemAt2(MyGUI::MenuCtrl* menuCtrl, size_t index, UStringIn name, MyGUI::MenuItemType::Enum type)
 {
 	return menuCtrl->insertItemAt(index, name, type);
 }
 
-extern "C" _AnomalousExport MyGUI::MenuItem* MenuCtrl_insertItemAt3(MyGUI::MenuCtrl* menuCtrl, size_t index, UString name, MyGUI::MenuItemType::Enum type, String id)
+extern "C" _AnomalousExport MyGUI::MenuItem* MenuCtrl_insertItemAt3(MyGUI::MenuCtrl* menuCtrl, size_t index, UStringIn name, MyGUI::MenuItemType::Enum type, String id)
 {
 	return menuCtrl->insertItemAt(index, name, type, id);
 }
 
-extern "C" _AnomalousExport MyGUI::MenuItem* MenuCtrl_insertItem(MyGUI::MenuCtrl* menuCtrl, MyGUI::MenuItem* to, UString name)
+extern "C" _AnomalousExport MyGUI::MenuItem* MenuCtrl_insertItem(MyGUI::MenuCtrl* menuCtrl, MyGUI::MenuItem* to, UStringIn name)
 {
 	return menuCtrl->insertItem(to, name);
 }
 
-extern "C" _AnomalousExport MyGUI::MenuItem* MenuCtrl_insertItem2(MyGUI::MenuCtrl* menuCtrl, MyGUI::MenuItem* to, UString name, MyGUI::MenuItemType::Enum type)
+extern "C" _AnomalousExport MyGUI::MenuItem* MenuCtrl_insertItem2(MyGUI::MenuCtrl* menuCtrl, MyGUI::MenuItem* to, UStringIn name, MyGUI::MenuItemType::Enum type)
 {
 	return menuCtrl->insertItem(to, name, type);
 }
 
-extern "C" _AnomalousExport MyGUI::MenuItem* MenuCtrl_insertItem3(MyGUI::MenuCtrl* menuCtrl, MyGUI::MenuItem* to, UString name, MyGUI::MenuItemType::Enum type, String id)
+extern "C" _AnomalousExport MyGUI::MenuItem* MenuCtrl_insertItem3(MyGUI::MenuCtrl* menuCtrl, MyGUI::MenuItem* to, UStringIn name, MyGUI::MenuItemType::Enum type, String id)
 {
 	return menuCtrl->insertItem(to, name, type, id);
 }
 
-extern "C" _AnomalousExport MyGUI::MenuItem* MenuCtrl_addItem(MyGUI::MenuCtrl* menuCtrl, UString name)
+extern "C" _AnomalousExport MyGUI::MenuItem* MenuCtrl_addItem(MyGUI::MenuCtrl* menuCtrl, UStringIn name)
 {
 	return menuCtrl->addItem(name);
 }
 
-extern "C" _AnomalousExport MyGUI::MenuItem* MenuCtrl_addItem2(MyGUI::MenuCtrl* menuCtrl, UString name, MyGUI::MenuItemType::Enum type)
+extern "C" _AnomalousExport MyGUI::MenuItem* MenuCtrl_addItem2(MyGUI::MenuCtrl* menuCtrl, UStringIn name, MyGUI::MenuItemType::Enum type)
 {
 	return menuCtrl->addItem(name, type);
 }
 
-extern "C" _AnomalousExport MyGUI::MenuItem* MenuCtrl_addItem3(MyGUI::MenuCtrl* menuCtrl, UString name, MyGUI::MenuItemType::Enum type, String id)
+extern "C" _AnomalousExport MyGUI::MenuItem* MenuCtrl_addItem3(MyGUI::MenuCtrl* menuCtrl, UStringIn name, MyGUI::MenuItemType::Enum type, String id)
 {
 	return menuCtrl->addItem(name, type, id);
 }
@@ -85,7 +85,7 @@ extern "C" _AnomalousExport size_t MenuCtrl_findItemIndex(MyGUI::MenuCtrl* menuC
 	return menuCtrl->findItemIndex(item);
 }
 
-extern "C" _AnomalousExport MyGUI::MenuItem* MenuCtrl_findItemWith(MyGUI::MenuCtrl* menuCtrl, UString name)
+extern "C" _AnomalousExport MyGUI::MenuItem* MenuCtrl_findItemWith(MyGUI::MenuCtrl* menuCtrl, UStringIn name)
 {
 	return menuCtrl->findItemWith(name);
 }
@@ -120,12 +120,12 @@ extern "C" _AnomalousExport size_t MenuCtrl_getItemIndexById(MyGUI::MenuCtrl* me
 	return menuCtrl->getItemIndexById(id);
 }
 
-extern "C" _AnomalousExport void MenuCtrl_setItemNameAt(MyGUI::MenuCtrl* menuCtrl, size_t index, UString name)
+extern "C" _AnomalousExport void MenuCtrl_setItemNameAt(MyGUI::MenuCtrl* menuCtrl, size_t index, UStringIn name)
 {
 	menuCtrl->setItemNameAt(index, name);
 }
 
-extern "C" _AnomalousExport void MenuCtrl_setItemName(MyGUI::MenuCtrl* menuCtrl, MyGUI::MenuItem* item, UString name)
+extern "C" _AnomalousExport void MenuCtrl_setItemName(MyGUI::MenuCtrl* menuCtrl, MyGUI::MenuItem* item, UStringIn name)
 {
 	menuCtrl->setItemName(item, name);
 }
@@ -140,7 +140,7 @@ extern "C" _AnomalousExport const MyGUI::UString::code_point* MenuCtrl_getItemNa
 	return menuCtrl->getItemName(item).c_str();
 }
 
-extern "C" _AnomalousExport size_t MenuCtrl_findItemIndexWith(MyGUI::MenuCtrl* menuCtrl, UString name)
+extern "C" _AnomalousExport size_t MenuCtrl_findItemIndexWith(MyGUI::MenuCtrl* menuCtrl, UStringIn name)
 {
 	return menuCtrl->findItemIndexWith(name);
 }

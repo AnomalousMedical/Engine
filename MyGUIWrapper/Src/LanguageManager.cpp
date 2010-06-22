@@ -15,7 +15,7 @@ extern "C" _AnomalousExport String LanguageManager_getCurrentLanguage(MyGUI::Lan
 	return languageManager->getCurrentLanguage().c_str();
 }
 
-extern "C" _AnomalousExport void LanguageManager_addUserTag(MyGUI::LanguageManager* languageManager, UString tag, UString replace)
+extern "C" _AnomalousExport void LanguageManager_addUserTag(MyGUI::LanguageManager* languageManager, UStringIn tag, UStringIn replace)
 {
 	languageManager->addUserTag(tag, replace);
 }

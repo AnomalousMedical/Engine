@@ -545,7 +545,7 @@ namespace MyGUIPlugin
         private static extern Align Widget_getAlign(IntPtr widget);
 
         [DllImport("MyGUIWrapper")]
-        private static extern void Widget_setCaption(IntPtr widget, String value);
+        private static extern void Widget_setCaption(IntPtr widget, [MarshalAs(UnmanagedType.LPWStr)] String value);
 
         [DllImport("MyGUIWrapper")]
         private static extern IntPtr Widget_getCaption(IntPtr widget);

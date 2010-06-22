@@ -85,7 +85,7 @@ namespace MyGUIPlugin
 #region PInvoke
 
         [DllImport("MyGUIWrapper")]
-        private static extern void MenuItem_setItemName(IntPtr menuItem, String value);
+        private static extern void MenuItem_setItemName(IntPtr menuItem, [MarshalAs(UnmanagedType.LPWStr)] String value);
 
         [DllImport("MyGUIWrapper")]
         private static extern IntPtr MenuItem_getItemName(IntPtr menuItem);

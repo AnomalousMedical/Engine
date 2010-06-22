@@ -1,6 +1,6 @@
 #include "Stdafx.h"
 
-extern "C" _AnomalousExport void MenuItem_setItemName(MyGUI::MenuItem* menuItem, UString value)
+extern "C" _AnomalousExport void MenuItem_setItemName(MyGUI::MenuItem* menuItem, UStringIn value)
 {
 	menuItem->setItemName(value);
 }

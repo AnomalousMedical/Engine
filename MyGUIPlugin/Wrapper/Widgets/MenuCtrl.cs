@@ -245,31 +245,31 @@ namespace MyGUIPlugin
         private static extern UIntPtr MenuCtrl_getItemCount(IntPtr menuCtrl);
 
         [DllImport("MyGUIWrapper")]
-        private static extern IntPtr MenuCtrl_insertItemAt(IntPtr menuCtrl, UIntPtr index, String name);
+        private static extern IntPtr MenuCtrl_insertItemAt(IntPtr menuCtrl, UIntPtr index, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
         [DllImport("MyGUIWrapper")]
-        private static extern IntPtr MenuCtrl_insertItemAt2(IntPtr menuCtrl, UIntPtr index, String name, MenuItemType type);
+        private static extern IntPtr MenuCtrl_insertItemAt2(IntPtr menuCtrl, UIntPtr index, [MarshalAs(UnmanagedType.LPWStr)] String name, MenuItemType type);
 
         [DllImport("MyGUIWrapper")]
-        private static extern IntPtr MenuCtrl_insertItemAt3(IntPtr menuCtrl, UIntPtr index, String name, MenuItemType type, String id);
+        private static extern IntPtr MenuCtrl_insertItemAt3(IntPtr menuCtrl, UIntPtr index, [MarshalAs(UnmanagedType.LPWStr)] String name, MenuItemType type, String id);
 
         [DllImport("MyGUIWrapper")]
-        private static extern IntPtr MenuCtrl_insertItem(IntPtr menuCtrl, IntPtr to, String name);
+        private static extern IntPtr MenuCtrl_insertItem(IntPtr menuCtrl, IntPtr to, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
         [DllImport("MyGUIWrapper")]
-        private static extern IntPtr MenuCtrl_insertItem2(IntPtr menuCtrl, IntPtr to, String name, MenuItemType type);
+        private static extern IntPtr MenuCtrl_insertItem2(IntPtr menuCtrl, IntPtr to, [MarshalAs(UnmanagedType.LPWStr)] String name, MenuItemType type);
 
         [DllImport("MyGUIWrapper")]
-        private static extern IntPtr MenuCtrl_insertItem3(IntPtr menuCtrl, IntPtr to, String name, MenuItemType type, String id);
+        private static extern IntPtr MenuCtrl_insertItem3(IntPtr menuCtrl, IntPtr to, [MarshalAs(UnmanagedType.LPWStr)] String name, MenuItemType type, String id);
 
         [DllImport("MyGUIWrapper")]
-        private static extern IntPtr MenuCtrl_addItem(IntPtr menuCtrl, String name);
+        private static extern IntPtr MenuCtrl_addItem(IntPtr menuCtrl, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
         [DllImport("MyGUIWrapper")]
-        private static extern IntPtr MenuCtrl_addItem2(IntPtr menuCtrl, String name, MenuItemType type);
+        private static extern IntPtr MenuCtrl_addItem2(IntPtr menuCtrl, [MarshalAs(UnmanagedType.LPWStr)] String name, MenuItemType type);
 
         [DllImport("MyGUIWrapper")]
-        private static extern IntPtr MenuCtrl_addItem3(IntPtr menuCtrl, String name, MenuItemType type, String id);
+        private static extern IntPtr MenuCtrl_addItem3(IntPtr menuCtrl, [MarshalAs(UnmanagedType.LPWStr)] String name, MenuItemType type, String id);
 
         [DllImport("MyGUIWrapper")]
         private static extern void MenuCtrl_removeItemAt(IntPtr menuCtrl, UIntPtr index);
@@ -290,7 +290,7 @@ namespace MyGUIPlugin
         private static extern UIntPtr MenuCtrl_findItemIndex(IntPtr menuCtrl, IntPtr item);
 
         [DllImport("MyGUIWrapper")]
-        private static extern IntPtr MenuCtrl_findItemWith(IntPtr menuCtrl, String name);
+        private static extern IntPtr MenuCtrl_findItemWith(IntPtr menuCtrl, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
         [DllImport("MyGUIWrapper")]
         private static extern void MenuCtrl_setItemIdAt(IntPtr menuCtrl, UIntPtr index, String id);
@@ -311,10 +311,10 @@ namespace MyGUIPlugin
         private static extern UIntPtr MenuCtrl_getItemIndexById(IntPtr menuCtrl, String id);
 
         [DllImport("MyGUIWrapper")]
-        private static extern void MenuCtrl_setItemNameAt(IntPtr menuCtrl, UIntPtr index, String name);
+        private static extern void MenuCtrl_setItemNameAt(IntPtr menuCtrl, UIntPtr index, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
         [DllImport("MyGUIWrapper")]
-        private static extern void MenuCtrl_setItemName(IntPtr menuCtrl, IntPtr item, String name);
+        private static extern void MenuCtrl_setItemName(IntPtr menuCtrl, IntPtr item, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
         [DllImport("MyGUIWrapper")]
         private static extern IntPtr MenuCtrl_getItemNameAt(IntPtr menuCtrl, UIntPtr index);
@@ -323,7 +323,7 @@ namespace MyGUIPlugin
         private static extern IntPtr MenuCtrl_getItemName(IntPtr menuCtrl, IntPtr item);
 
         [DllImport("MyGUIWrapper")]
-        private static extern UIntPtr MenuCtrl_findItemIndexWith(IntPtr menuCtrl, String name);
+        private static extern UIntPtr MenuCtrl_findItemIndexWith(IntPtr menuCtrl, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
         [DllImport("MyGUIWrapper")]
         private static extern void MenuCtrl_setItemChildVisibleAt(IntPtr menuCtrl, UIntPtr index, bool visible);

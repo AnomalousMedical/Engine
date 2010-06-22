@@ -104,7 +104,7 @@ extern "C" _AnomalousExport MyGUI::Align::Enum Widget_getAlign(MyGUI::Widget* wi
 	return MyGUI::Align::Default;
 }
 
-extern "C" _AnomalousExport void Widget_setCaption(MyGUI::Widget* widget, UString value)
+extern "C" _AnomalousExport void Widget_setCaption(MyGUI::Widget* widget, UStringIn value)
 {
 	widget->setCaption(value);
 }

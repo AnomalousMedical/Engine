@@ -21,7 +21,7 @@ typedef unsigned short ushort;
 
 typedef const char* String;
 
-typedef const wchar_t* UString;
+typedef const wchar_t* UStringIn;
 
 class Color
 {

@@ -66,7 +66,7 @@ namespace MyGUIPlugin
         private static extern String LanguageManager_getCurrentLanguage(IntPtr languageManager);
 
         [DllImport("MyGUIWrapper")]
-        private static extern void LanguageManager_addUserTag(IntPtr languageManager, String tag, String replace);
+        private static extern void LanguageManager_addUserTag(IntPtr languageManager, [MarshalAs(UnmanagedType.LPWStr)] String tag, [MarshalAs(UnmanagedType.LPWStr)] String replace);
 
         [DllImport("MyGUIWrapper")]
         private static extern void LanguageManager_clearUserTags(IntPtr languageManager);
