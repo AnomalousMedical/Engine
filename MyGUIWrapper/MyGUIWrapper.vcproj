@@ -114,7 +114,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="&quot;$(MYGUI_HOME)\Src\MyGUIEngine\include&quot;;&quot;$(MYGUI_HOME)\Src\Platforms\Ogre\OgrePlatform\include&quot;;&quot;$(OGRE_HOME)\src\OgreMain\include&quot;;&quot;$(OGRE_HOME)\WindowsBuild\include&quot;"
-				PreprocessorDefinitions="WINDOWS;WIN32;NDEBUG;MYGUI_STATIC;_WINDOWS;MYGUI_USE_FREETYPE;MYGUI_BUILD;NOMINMAX;CMAKE_INTDIR=\&quot;Release\&quot;;MyGUIEngine_EXPORTS"
+				PreprocessorDefinitions="WINDOWS;WIN32;NDEBUG;MYGUI_STATIC;_WINDOWS;MYGUI_USE_FREETYPE;MYGUI_BUILD;NOMINMAX;CMAKE_INTDIR=\&quot;Release\&quot;;MyGUIEngine_EXPORTS;MYGUI_DONT_USE_OBSOLETE"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
