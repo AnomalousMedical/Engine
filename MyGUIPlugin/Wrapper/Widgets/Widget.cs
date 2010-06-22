@@ -103,12 +103,12 @@ namespace MyGUIPlugin
             Widget_setRealCoord(widget, left, top, width, height);
         }
 
-        public uint getChildCount(IntPtr widget)
+        public uint getChildCount()
         {
             return Widget_getChildCount(widget).ToUInt32();
         }
 
-        public Widget getChildAt(IntPtr widget, uint index)
+        public Widget getChildAt(uint index)
         {
             return WidgetManager.getWidget(Widget_getChildAt(widget, new UIntPtr(index)));
         }
