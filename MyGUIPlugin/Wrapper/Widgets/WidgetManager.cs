@@ -99,13 +99,13 @@ namespace MyGUIPlugin
                     return new Widget(widget);
 
                 case WidgetType.MenuCtrl:
-                    return new Widget(widget);
+                    return new MenuCtrl(widget);
 
                 case WidgetType.MenuBar:
-                    return new Widget(widget);
+                    return new MenuBar(widget);
 
                 case WidgetType.PopupMenu:
-                    return new Widget(widget);
+                    return new PopupMenu(widget);
 
                 case WidgetType.MultiList:
                     return new Widget(widget);
@@ -126,7 +126,7 @@ namespace MyGUIPlugin
                     return new Button(widget);
 
                 case WidgetType.MenuItem:
-                    return new Widget(widget);
+                    return new MenuItem(widget);
 
                 case WidgetType.Edit:
                     return new Widget(widget);

@@ -218,6 +218,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\MenuCtrl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\MenuItem.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\OgrePlatform.cpp"
 				>
 			</File>

@@ -66,6 +66,10 @@
     <Compile Include="Wrapper\System\OgreRenderManager.cs" />
     <Compile Include="Wrapper\Widgets\Button.cs" />
     <Compile Include="Wrapper\Widgets\HScroll.cs" />
+    <Compile Include="Wrapper\Widgets\MenuBar.cs" />
+    <Compile Include="Wrapper\Widgets\MenuCtrl.cs" />
+    <Compile Include="Wrapper\Widgets\MenuItem.cs" />
+    <Compile Include="Wrapper\Widgets\PopupMenu.cs" />
     <Compile Include="Wrapper\Widgets\StaticImage.cs" />
     <Compile Include="Wrapper\Widgets\VScroll.cs" />
     <Compile Include="Wrapper\Widgets\Widget.cs" />
