@@ -3,6 +3,33 @@
 #pragma warning(push)
 #pragma warning(disable : 4190) //Disable c linkage warning
 
+//UserData
+extern "C" _AnomalousExport void Widget_setUserString(MyGUI::Widget* widget, String key, String value)
+{
+	widget->setUserString(key, value);
+}
+
+extern "C" _AnomalousExport String Widget_getUserString(MyGUI::Widget* widget, String key)
+{
+	return widget->getUserString(key).c_str();
+}
+
+extern "C" _AnomalousExport bool Widget_clearUserString(MyGUI::Widget* widget, String key)
+{
+	return widget->clearUserString(key);
+}
+
+extern "C" _AnomalousExport bool Widget_isUserString(MyGUI::Widget* widget, String key)
+{
+	return widget->isUserString(key);
+}
+
+extern "C" _AnomalousExport void Widget_clearUserStrings(MyGUI::Widget* widget)
+{
+	widget->clearUserStrings();
+}
+
+//Clipped Rectangle
 extern "C" _AnomalousExport int Widget_getAbsoluteLeft(MyGUI::Widget* widget)
 {
 	return widget->getAbsoluteLeft();

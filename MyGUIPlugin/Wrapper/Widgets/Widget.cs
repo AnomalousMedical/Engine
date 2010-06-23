@@ -33,6 +33,33 @@ namespace MyGUIPlugin
             widget = IntPtr.Zero;
         }
 
+        //UserData
+        public void setUserString(String key, String value)
+        {
+            Widget_setUserString(widget, key, value);
+        }
+
+        public String getUserString(String key)
+        {
+            return Marshal.PtrToStringAnsi(Widget_getUserString(widget, key));
+        }
+
+        public bool clearUserString(String key)
+        {
+            return Widget_clearUserString(widget, key);
+        }
+
+        public bool isUserString(String key)
+        {
+            return Widget_isUserString(widget, key);
+        }
+
+        public void clearUserStrings()
+        {
+            Widget_clearUserStrings(widget);
+        }
+
+        //Clipped Rectangle
         public int getAbsoluteLeft()
         {
             return Widget_getAbsoluteLeft(widget);
@@ -409,6 +436,25 @@ namespace MyGUIPlugin
 
 #region PInvoke
 
+        //UserData
+        [DllImport("MyGUIWrapper")]
+        private static extern void Widget_setUserString(IntPtr widget, String key, String value);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern IntPtr Widget_getUserString(IntPtr widget, String key);
+
+        [DllImport("MyGUIWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool Widget_clearUserString(IntPtr widget, String key);
+
+        [DllImport("MyGUIWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool Widget_isUserString(IntPtr widget, String key);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern void Widget_clearUserStrings(IntPtr widget);
+
+        //Clipped Rectangle
         [DllImport("MyGUIWrapper")]
         private static extern int Widget_getAbsoluteLeft(IntPtr widget);
 
