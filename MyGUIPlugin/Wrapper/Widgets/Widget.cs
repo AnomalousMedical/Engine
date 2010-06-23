@@ -361,7 +361,8 @@ namespace MyGUIPlugin
                 Widget_setEnableToolTip(widget, value);
             }
         }
-        
+
+        public Object UserObject { get; set; }
         
 #region Internal Management
 
