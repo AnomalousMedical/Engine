@@ -166,8 +166,10 @@ namespace Engine
         public Type getType(String assemblyQualifiedName)
         {
             Type type = Type.GetType(assemblyQualifiedName, false);
+            //If that fails do the slow search.
             if (type == null)
             {
+                Log.Warning("Had to do slow search looking for type \'{0}\'. You should fix the source file searching for this type", assemblyQualifiedName);
                 String typeName = assemblyQualifiedName.Split(SPLIT)[0];
                 foreach (Assembly assembly in pluginAssemblies)
                 {
@@ -175,6 +177,24 @@ namespace Engine
                     if (type != null)
                     {
                         break;
+                    }
+                }
+                //If that fails search the main assembly
+                if (type == null)
+                {
+                    Assembly mainAssembly = Assembly.GetEntryAssembly();
+                    type = mainAssembly.GetType(typeName);
+                    //If that fails search all loaded assemblies.
+                    if (type == null)
+                    {
+                        foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+                        {
+                            type = assembly.GetType(typeName);
+                            if (type != null)
+                            {
+                                break;
+                            }
+                        }
                     }
                 }
             }

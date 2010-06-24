@@ -180,6 +180,8 @@ namespace Engine.Platform
 	    KC_WEBBACK     = 0xEA,    // Web Back
 	    KC_MYCOMPUTER  = 0xEB,    // My Computer
 	    KC_MAIL        = 0xEC,    // Mail
-	    KC_MEDIASELECT = 0xED     // Media Select
+	    KC_MEDIASELECT = 0xED,     // Media Select
+
+        None = KC_UNASSIGNED,
     };
 }
