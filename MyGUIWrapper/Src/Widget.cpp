@@ -335,4 +335,14 @@ extern "C" _AnomalousExport void Widget_setCaptionWithNewLine(MyGUI::Widget* wid
 	widget->setCaptionWithNewLine(value);
 }
 
+extern "C" _AnomalousExport MyGUI::Widget* Widget_createWidgetT(MyGUI::Widget* widget, String type, String skin, int left, int top, int width, int height, MyGUI::Align::Enum align, String name)
+{
+	return widget->createWidgetT(type, skin, left, top, width, height, align, name);
+}
+
+extern "C" _AnomalousExport MyGUI::Widget* Widget_createWidgetRealT(MyGUI::Widget* widget, String type, String skin, int left, int top, int width, int height, MyGUI::Align::Enum align, String name)
+{
+	return widget->createWidgetRealT(type, skin, left, top, width, height, align, name);
+}
+
 #pragma warning(pop)

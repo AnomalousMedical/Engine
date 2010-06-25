@@ -130,6 +130,7 @@ namespace MyGUIPlugin
             Widget_setRealCoord(widget, left, top, width, height);
         }
 
+        //Widget
         public uint getChildCount()
         {
             return Widget_getChildCount(widget).ToUInt32();
@@ -243,6 +244,42 @@ namespace MyGUIPlugin
         public void setColour(Color value)
         {
             Widget_setColour(widget, value);
+        }
+
+        /// <summary>
+        /// Create a widget.
+        /// </summary>
+        /// <param name="type">Widget type.</param>
+        /// <param name="skin">Widget skin.</param>
+        /// <param name="left">Widget x pos.</param>
+        /// <param name="top">Widget y pos.</param>
+        /// <param name="width">Width</param>
+        /// <param name="height">Height</param>
+        /// <param name="align">Widget align.</param>
+        /// <param name="layer">Layer where the widget will be created.</param>
+        /// <param name="name">The name to find the widget later.</param>
+        /// <returns></returns>
+        public Widget createWidgetT(String type, String skin, int left, int top, int width, int height, Align align, String name)
+        {
+            return WidgetManager.getWidget(Widget_createWidgetT(widget, type, skin, left, top, width, height, align, name));
+        }
+
+        /// <summary>
+        /// Create a widget using coords relative to the parent.
+        /// </summary>
+        /// <param name="type">Widget type.</param>
+        /// <param name="skin">Widget skin.</param>
+        /// <param name="left">Widget x pos.</param>
+        /// <param name="top">Widget y pos.</param>
+        /// <param name="width">Width</param>
+        /// <param name="height">Height</param>
+        /// <param name="align">Widget align.</param>
+        /// <param name="layer">Layer where the widget will be created.</param>
+        /// <param name="name">The name to find the widget later.</param>
+        /// <returns></returns>
+        public Widget createWidgetRealT(String type, String skin, int left, int top, int width, int height, Align align, String name)
+        {
+            return WidgetManager.getWidget(Widget_createWidgetRealT(widget, type, skin, left, top, width, height, align, name));
         }
 
         public bool Visible
@@ -541,6 +578,12 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper")]
         private static extern void Widget_setColour(IntPtr widget, Color value);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern IntPtr Widget_createWidgetT(IntPtr widget, String type, String skin, int left, int top, int width, int height, Align align, String name);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern IntPtr Widget_createWidgetRealT(IntPtr widget, String type, String skin, int left, int top, int width, int height, Align align, String name);
 
         [DllImport("MyGUIWrapper")]
         [return: MarshalAs(UnmanagedType.I1)]

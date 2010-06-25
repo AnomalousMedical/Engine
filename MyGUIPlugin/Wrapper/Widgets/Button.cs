@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace MyGUIPlugin
 {
-    public class Button : Widget
+    public class Button : StaticText
     {
         internal Button(IntPtr button)
             :base(button)
