@@ -42,7 +42,7 @@ namespace MyGUIPlugin
 
         protected override IntPtr doInitialize(Widget widget)
         {
-            return EVENTTRANSCLASS_Create(widget.WidgetPtr, nativeEventCallback);
+            return EVENT_TRANS_CLASS_Create(widget.WidgetPtr, nativeEventCallback);
         }
 
         private void nativeEvent(IntPtr widget, CALLBACK_ARGS)
@@ -54,7 +54,7 @@ namespace MyGUIPlugin
         #region PInvoke
 
         [DllImport("MyGUIWrapper")]
-        private static extern IntPtr EVENTTRANSCLASS_Create(IntPtr widget, NativeEventDelegate nativeEventCallback);
+        private static extern IntPtr EVENT_TRANS_CLASS_Create(IntPtr widget, NativeEventDelegate nativeEventCallback);
 
         #endregion
     }

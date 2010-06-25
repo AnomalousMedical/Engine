@@ -21,10 +21,20 @@ namespace MyGUIPlugin
             return ComboBox_getItemCount(widget).ToUInt32();
         }
 
+        public void insertItemAt(uint index, String name)
+        {
+            insertItemAt(index, name, null);
+        }
+
         public void insertItemAt(uint index, String name, Object data)
         {
             ComboBox_insertItemAt(widget, new UIntPtr(index), name);
             objectsList.Insert((int)index, data);
+        }
+
+        public void addItem(String name)
+        {
+            addItem(name, null);
         }
 
         public void addItem(String name, Object data)
@@ -48,16 +58,6 @@ namespace MyGUIPlugin
         public uint findItemIndexWith(String name)
         {
             return ComboBox_findItemIndexWith(widget, name).ToUInt32();
-        }
-
-        public uint getIndexSelected()
-        {
-            return ComboBox_getIndexSelected(widget).ToUInt32();
-        }
-
-        public void setIndexSelected(uint index)
-        {
-            ComboBox_setIndexSelected(widget, new UIntPtr(index));
         }
 
         public void clearIndexSelected()
@@ -108,6 +108,18 @@ namespace MyGUIPlugin
         public void beginToItemSelected()
         {
             ComboBox_beginToItemSelected(widget);
+        }
+
+        public uint SelectedIndex
+        {
+            get
+            {
+                return ComboBox_getIndexSelected(widget).ToUInt32();
+            }
+            set
+            {
+                ComboBox_setIndexSelected(widget, new UIntPtr(value));
+            }
         }
 
         public bool ComboModeDrop

@@ -27,7 +27,7 @@ namespace MyGUIPlugin
 
         protected override IntPtr doInitialize(Widget widget)
         {
-            return EVENTTRANSCLASS_Create(widget.WidgetPtr, nativeEventCallback);
+            return EventComboAcceptTranslator_Create(widget.WidgetPtr, nativeEventCallback);
         }
 
         private void nativeEvent(IntPtr widget, UIntPtr index)
@@ -40,7 +40,7 @@ namespace MyGUIPlugin
         #region PInvoke
 
         [DllImport("MyGUIWrapper")]
-        private static extern IntPtr EVENTTRANSCLASS_Create(IntPtr widget, NativeEventDelegate nativeEventCallback);
+        private static extern IntPtr EventComboAcceptTranslator_Create(IntPtr widget, NativeEventDelegate nativeEventCallback);
 
         #endregion
     }

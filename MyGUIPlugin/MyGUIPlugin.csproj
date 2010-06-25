@@ -68,6 +68,7 @@
     <Compile Include="Wrapper\System\OgrePlatform.cs" />
     <Compile Include="Wrapper\System\OgreRenderManager.cs" />
     <Compile Include="Wrapper\Widgets\Button.cs" />
+    <Compile Include="Wrapper\Widgets\ButtonGroup.cs" />
     <Compile Include="Wrapper\Widgets\ComboBox.cs" />
     <Compile Include="Wrapper\Widgets\HScroll.cs" />
     <Compile Include="Wrapper\Widgets\MenuBar.cs" />
