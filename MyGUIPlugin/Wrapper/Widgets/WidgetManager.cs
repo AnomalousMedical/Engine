@@ -132,7 +132,7 @@ namespace MyGUIPlugin
                     return new Widget(widget);
 
                 case WidgetType.ComboBox:
-                    return new Widget(widget);
+                    return new ComboBox(widget);
 
                 case WidgetType.Tab:
                     return new Widget(widget);

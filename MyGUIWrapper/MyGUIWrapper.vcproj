@@ -198,6 +198,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\ComboBox.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\Gui.cpp"
 				>
 			</File>
@@ -307,6 +311,14 @@
 			>
 			<File
 				RelativePath=".\Src\ClickEventTranslator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\EventComboAcceptTranslator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\EventComboChangePositionTranslator.cpp"
 				>
 			</File>
 			<File

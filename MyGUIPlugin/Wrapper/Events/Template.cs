@@ -3,10 +3,10 @@ This file serves as a template for the MyGUIEventTranslator implementations.
 Copy the entire thing, replace the variables and then split it into two files.
 
 Replace the following variables with what you want the class to be:
- * EVENTTRANSCLASS - The name of the event translator class.
- * EVENTARGS - The list of arguments for the class.
- * NATIVEEVENT - The event on the widget to subscribe to.
- * EVENTARGS - The EventArgs or subclass of such that you wish to fire.
+ * EVENT_TRANS_CLASS - The name of the event translator class.
+ * CALLBACK_ARGS - The list of arguments for the class.
+ * NATIVE_EVENT - The event on the widget to subscribe to.
+ * EVENT_ARGS_TYPE - The EventArgs or subclass of such that you wish to fire.
  * MyGUI::Widget* - If MyGUI::Widget* is not the class with the event (optional).
 
 -----------------------------------------------------------
@@ -22,13 +22,14 @@ using Logging;
 
 namespace MyGUIPlugin
 {
-    class EVENTTRANSCLASS : MyGUIEventTranslator
+    class EVENT_TRANS_CLASS : MyGUIEventTranslator
     {
-        delegate void NativeEventDelegate(IntPtr widget, EVENTARGS);
+        delegate void NativeEventDelegate(IntPtr widget, CALLBACK_ARGS);
+        static EVENT_ARGS_TYPE eventArgs = new EVENT_ARGS_TYPE();
 
         private NativeEventDelegate nativeEventCallback;
 
-        public EVENTTRANSCLASS()
+        public EVENT_TRANS_CLASS()
         {
             nativeEventCallback = new NativeEventDelegate(nativeEvent);
         }
@@ -44,9 +45,10 @@ namespace MyGUIPlugin
             return EVENTTRANSCLASS_Create(widget.WidgetPtr, nativeEventCallback);
         }
 
-        private void nativeEvent(IntPtr widget, EVENTARGS)
+        private void nativeEvent(IntPtr widget, CALLBACK_ARGS)
         {
-            fireEvent(EVENTARGS);
+            //Fill out the EVENT_ARGS_TYPE
+            fireEvent(eventArgs);
         }
 
         #region PInvoke
@@ -65,42 +67,42 @@ c++ class - put into a source file, will not need a header.
 #include "StdAfx.h"
 #include "../Include/MyGUIEventTranslator.h"
 
-class EVENTTRANSCLASS : public MyGUIEventTranslator
+class EVENT_TRANS_CLASS : public MyGUIEventTranslator
 {
 public:
-	typedef void (*NativeEventDelegate)(MyGUI::Widget* sender, EVENTARGS);
+	typedef void (*NativeEventDelegate)(MyGUI::Widget* sender, CALLBACK_ARGS);
 
 private:
 	MyGUI::Widget* widget;
 	NativeEventDelegate nativeEvent;
 
 public:
-	EVENTTRANSCLASS(MyGUI::Widget* widget, EVENTTRANSCLASS::NativeEventDelegate nativeEventCallback)
+	EVENT_TRANS_CLASS(MyGUI::Widget* widget, EVENT_TRANS_CLASS::NativeEventDelegate nativeEventCallback)
 		:widget(widget),
 		nativeEvent(nativeEventCallback)
 	{
 
 	}
 
-	virtual ~EVENTTRANSCLASS()
+	virtual ~EVENT_TRANS_CLASS()
 	{
 
 	}
 
 	virtual void bindEvent()
 	{
-		widget->NATIVEEVENT = MyGUI::newDelegate(nativeEvent);
+		widget->NATIVE_EVENT = MyGUI::newDelegate(nativeEvent);
 	}
 
 	virtual void unbindEvent()
 	{
-		widget->NATIVEEVENT = NULL;
+		widget->NATIVE_EVENT = NULL;
 	}
 };
 
-extern "C" _AnomalousExport EVENTTRANSCLASS* EVENTTRANSCLASS_Create(MyGUI::Widget* widget, EVENTTRANSCLASS::NativeEventDelegate nativeEventCallback)
+extern "C" _AnomalousExport EVENT_TRANS_CLASS* EVENT_TRANS_CLASS_Create(MyGUI::Widget* widget, EVENT_TRANS_CLASS::NativeEventDelegate nativeEventCallback)
 {
-	return new EVENTTRANSCLASS(widget, nativeEventCallback);
+	return new EVENT_TRANS_CLASS(widget, nativeEventCallback);
 }
 
 */
