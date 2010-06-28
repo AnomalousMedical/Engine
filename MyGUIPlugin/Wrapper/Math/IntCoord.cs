@@ -10,16 +10,16 @@ namespace MyGUIPlugin
     public struct IntCoord
     {
         [FieldOffset(0)]
-        int left;
+        public int left;
 
         [FieldOffset(4)]
-        int top;
+        public int top;
 
         [FieldOffset(8)]
-        int width;
+        public int width;
 
         [FieldOffset(12)]
-        int height;
+        public int height;
 
         public IntCoord(int left, int top, int width, int height)
         {

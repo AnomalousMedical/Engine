@@ -60,6 +60,7 @@
     <Compile Include="Wrapper\Math\IntCoord.cs" />
     <Compile Include="Wrapper\Math\ThreeIntHack.cs" />
     <Compile Include="Wrapper\System\Align.cs" />
+    <Compile Include="Wrapper\System\FontManager.cs" />
     <Compile Include="Wrapper\System\Gui.cs" />
     <Compile Include="Wrapper\System\LanguageManager.cs" />
     <Compile Include="Wrapper\System\LayerManager.cs" />
