@@ -56,5 +56,5 @@ public:
 	/// Get the current time in microseconds.
 	/// </summary>
 	/// <returns>The current time in microseconds.</returns>
-	long getCurrentTime();
+	LONGLONG getCurrentTime();
 };
