@@ -44,6 +44,18 @@ public:
 	}
 };
 
+class Vector2
+{
+public:
+	float x;
+    float y;
+
+	MyGUI::IntPoint toIntPoint()
+	{
+		return MyGUI::IntPoint(x, y);
+	}
+};
+
 class ThreeIntHack
 {
 public:

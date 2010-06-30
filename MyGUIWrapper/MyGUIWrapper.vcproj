@@ -242,6 +242,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\ScrollView.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\StaticImage.cpp"
 				>
 			</File>

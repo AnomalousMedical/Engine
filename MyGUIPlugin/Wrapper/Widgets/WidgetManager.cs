@@ -114,7 +114,7 @@ namespace MyGUIPlugin
                     return new Widget(widget);
 
                 case WidgetType.ScrollView:
-                    return new Widget(widget);
+                    return new ScrollView(widget);
 
                 case WidgetType.StaticImage:
                     return new StaticImage(widget);

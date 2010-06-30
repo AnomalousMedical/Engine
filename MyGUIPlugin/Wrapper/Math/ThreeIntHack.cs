@@ -33,5 +33,10 @@ namespace MyGUIPlugin
         {
             return new Size(x, y);
         }
+
+        public Vector2 toVector2()
+        {
+            return new Vector2(x, y);
+        }
     }
 }
