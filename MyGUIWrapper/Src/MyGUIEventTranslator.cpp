@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "..\Include\MyGUIEventTranslator.h"
+#include "../Include/MyGUIEventTranslator.h"
 
 MyGUIEventTranslator::MyGUIEventTranslator(void)
 {

@@ -7,8 +7,10 @@
 
 #ifdef WINDOWS
 #define _AnomalousExport __declspec(dllexport)
+#define Int64 LONGLONG
 #endif
 
 #ifdef MAC_OSX
 #define _AnomalousExport __attribute__ ((visibility("default")))
+#define Int64 __int64_t
 #endif

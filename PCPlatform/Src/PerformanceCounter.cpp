@@ -62,7 +62,7 @@ bool PerformanceCounter::initialize()
 #endif
 }
 
-LONGLONG PerformanceCounter::getCurrentTime()
+Int64 PerformanceCounter::getCurrentTime()
 {
 
 #ifdef WINDOWS
@@ -116,7 +116,7 @@ extern "C" _AnomalousExport bool PerformanceCounter_initialize(PerformanceCounte
 	return counter->initialize();
 }
 
-extern "C" _AnomalousExport LONGLONG PerformanceCounter_getCurrentTime(PerformanceCounter* counter)
+extern "C" _AnomalousExport Int64 PerformanceCounter_getCurrentTime(PerformanceCounter* counter)
 {
 	return counter->getCurrentTime();
 }
