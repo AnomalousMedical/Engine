@@ -15,7 +15,7 @@ namespace MyGUIPlugin
         internal ButtonListItem(ButtonList list)
         {
             this.list = list;
-            button = list.ScrollView.createWidgetT("Button", list.ButtonSkin, 0, 0, list.ScrollView.getWidth(), list.ItemHeight, Align.Top | Align.Left, "") as Button;
+            button = list.ScrollView.createWidgetT("Button", list.ButtonSkin, 0, 0, list.ItemWidth, list.ItemHeight, Align.Top | Align.Left, "") as Button;
             button.MouseButtonClick += new MyGUIEvent(button_MouseButtonClick);
         }
 
@@ -128,7 +128,7 @@ namespace MyGUIPlugin
             item.Caption = caption;
             item.Index = items.Count;
             items.Add(item);
-            scrollView.CanvasSize = new Size(scrollView.getWidth(), computeYPosForIndex(items.Count));
+            scrollView.CanvasSize = new Size(ItemWidth, computeYPosForIndex(items.Count));
             return item;
         }
 
@@ -165,6 +165,14 @@ namespace MyGUIPlugin
         public int ItemHeight { get; set; }
 
         public int ItemPadding { get; set; }
+
+        public int ItemWidth
+        {
+            get
+            {
+                return (int)scrollView.CanvasSize.Width;
+            }
+        }
 
         public int ItemCount
         {
