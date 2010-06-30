@@ -64,8 +64,9 @@ namespace MyGUIPlugin
         /// <returns>The pointer of the window that was destroyed.</returns>
         internal static IntPtr deleteWrapperAndChildren(Widget widget)
         {
+            IntPtr widgetPtr = widget.WidgetPtr;
             widget.eraseAllChildren();
-            return deleteWrapper(widget.WidgetPtr);
+            return widgetPtr;
         }
 
         internal static void destroyAllWrappers()
