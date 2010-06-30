@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Plugin\MyGUIUpdate.cs" />
     <Compile Include="Plugin\MyGUIInterface.cs" />
+    <Compile Include="Plugin\Widgets\MinMaxScroll.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wrapper\Events\ClickEventTranslator.cs" />
     <Compile Include="Wrapper\Events\ComboBoxEventArgs.cs" />
@@ -69,7 +70,7 @@
     <Compile Include="Wrapper\System\OgrePlatform.cs" />
     <Compile Include="Wrapper\System\OgreRenderManager.cs" />
     <Compile Include="Wrapper\Widgets\Button.cs" />
-    <Compile Include="Wrapper\Widgets\ButtonGroup.cs" />
+    <Compile Include="Plugin\Widgets\ButtonGroup.cs" />
     <Compile Include="Wrapper\Widgets\ComboBox.cs" />
     <Compile Include="Wrapper\Widgets\HScroll.cs" />
     <Compile Include="Wrapper\Widgets\MenuBar.cs" />

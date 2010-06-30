@@ -320,9 +320,22 @@ extern "C" _AnomalousExport void Widget_setWidgetStyle2(MyGUI::Widget* widget, M
 	widget->setWidgetStyle(style, layer);
 }
 
-extern "C" _AnomalousExport MyGUI::WidgetStyle Widget_getWidgetStyle(MyGUI::Widget* widget)
+extern "C" _AnomalousExport MyGUI::WidgetStyle::Enum Widget_getWidgetStyle(MyGUI::Widget* widget)
 {
-	return widget->getWidgetStyle();
+	MyGUI::WidgetStyle style = widget->getWidgetStyle();
+	if(style == MyGUI::WidgetStyle::Child)
+	{
+		return MyGUI::WidgetStyle::Child;
+	}
+	else if(style == MyGUI::WidgetStyle::Popup)
+	{
+		return MyGUI::WidgetStyle::Popup;
+	}
+	else if(style == MyGUI::WidgetStyle::Overlapped)
+	{
+		return MyGUI::WidgetStyle::Overlapped;
+	}
+	return MyGUI::WidgetStyle::MAX;
 }
 
 extern "C" _AnomalousExport void Widget_setProperty(MyGUI::Widget* widget, String key, String value)
