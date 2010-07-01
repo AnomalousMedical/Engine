@@ -1,0 +1,415 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		01B1BD3211CFA7580069A935 /* MyGUIEventTranslator.h in Headers */ = {isa = PBXBuildFile; fileRef = 01B1BD2011CFA7580069A935 /* MyGUIEventTranslator.h */; };
+		01B1BD4111CFA7580069A935 /* Stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01B1BD3011CFA7580069A935 /* Stdafx.cpp */; };
+		01B1BD4211CFA7580069A935 /* Stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 01B1BD3111CFA7580069A935 /* Stdafx.h */; };
+		01B1BD4A11CFA7990069A935 /* libMyGUI.OgrePlatform.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01B1BD4811CFA7990069A935 /* libMyGUI.OgrePlatform.a */; };
+		01B1BD4B11CFA7990069A935 /* libMyGUIEngineStatic.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01B1BD4911CFA7990069A935 /* libMyGUIEngineStatic.a */; };
+		01B1BE7311CFA97D0069A935 /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01EFBAC311BE7B0D00B9F880 /* Ogre.framework */; };
+		01E66BC711DBCF030044CFA5 /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BB011DBCF030044CFA5 /* Button.cpp */; };
+		01E66BC811DBCF030044CFA5 /* ClickEventTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BB111DBCF030044CFA5 /* ClickEventTranslator.cpp */; };
+		01E66BC911DBCF030044CFA5 /* ComboBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BB211DBCF030044CFA5 /* ComboBox.cpp */; };
+		01E66BCA11DBCF030044CFA5 /* EventComboAcceptTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BB311DBCF030044CFA5 /* EventComboAcceptTranslator.cpp */; };
+		01E66BCB11DBCF030044CFA5 /* EventComboChangePositionTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BB411DBCF030044CFA5 /* EventComboChangePositionTranslator.cpp */; };
+		01E66BCC11DBCF030044CFA5 /* FontManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BB511DBCF030044CFA5 /* FontManager.cpp */; };
+		01E66BCD11DBCF030044CFA5 /* Gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BB611DBCF030044CFA5 /* Gui.cpp */; };
+		01E66BCE11DBCF030044CFA5 /* LanguageManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BB711DBCF030044CFA5 /* LanguageManager.cpp */; };
+		01E66BCF11DBCF030044CFA5 /* LayerManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BB811DBCF030044CFA5 /* LayerManager.cpp */; };
+		01E66BD011DBCF030044CFA5 /* Layout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BB911DBCF030044CFA5 /* Layout.cpp */; };
+		01E66BD111DBCF030044CFA5 /* LayoutManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BBA11DBCF030044CFA5 /* LayoutManager.cpp */; };
+		01E66BD211DBCF030044CFA5 /* MenuCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BBB11DBCF030044CFA5 /* MenuCtrl.cpp */; };
+		01E66BD311DBCF030044CFA5 /* MenuItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BBC11DBCF030044CFA5 /* MenuItem.cpp */; };
+		01E66BD411DBCF030044CFA5 /* MyGUIEventTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BBD11DBCF030044CFA5 /* MyGUIEventTranslator.cpp */; };
+		01E66BD511DBCF030044CFA5 /* OgrePlatform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BBE11DBCF030044CFA5 /* OgrePlatform.cpp */; };
+		01E66BD611DBCF030044CFA5 /* OgreRenderManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BBF11DBCF030044CFA5 /* OgreRenderManager.cpp */; };
+		01E66BD711DBCF030044CFA5 /* ScrollChangePositionET.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BC011DBCF030044CFA5 /* ScrollChangePositionET.cpp */; };
+		01E66BD811DBCF030044CFA5 /* ScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BC111DBCF030044CFA5 /* ScrollView.cpp */; };
+		01E66BD911DBCF030044CFA5 /* StaticImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BC211DBCF030044CFA5 /* StaticImage.cpp */; };
+		01E66BDA11DBCF030044CFA5 /* StaticText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BC311DBCF030044CFA5 /* StaticText.cpp */; };
+		01E66BDB11DBCF030044CFA5 /* VScroll.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BC411DBCF030044CFA5 /* VScroll.cpp */; };
+		01E66BDC11DBCF030044CFA5 /* Widget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BC511DBCF030044CFA5 /* Widget.cpp */; };
+		01E66BDD11DBCF030044CFA5 /* WidgetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BC611DBCF030044CFA5 /* WidgetManager.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		01B1BD1A11CFA6FD0069A935 /* libMyGUIWrapper.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libMyGUIWrapper.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		01B1BD2011CFA7580069A935 /* MyGUIEventTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyGUIEventTranslator.h; sourceTree = "<group>"; };
+		01B1BD3011CFA7580069A935 /* Stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Stdafx.cpp; path = ../../MyGUIWrapper/Stdafx.cpp; sourceTree = SOURCE_ROOT; };
+		01B1BD3111CFA7580069A935 /* Stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stdafx.h; path = ../../MyGUIWrapper/Stdafx.h; sourceTree = SOURCE_ROOT; };
+		01B1BD4811CFA7990069A935 /* libMyGUI.OgrePlatform.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMyGUI.OgrePlatform.a; path = ../../../Dependencies/MyGUI/OSXBuild/lib/Release/libMyGUI.OgrePlatform.a; sourceTree = SOURCE_ROOT; };
+		01B1BD4911CFA7990069A935 /* libMyGUIEngineStatic.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMyGUIEngineStatic.a; path = ../../../Dependencies/MyGUI/OSXBuild/lib/Release/libMyGUIEngineStatic.a; sourceTree = SOURCE_ROOT; };
+		01E66BB011DBCF030044CFA5 /* Button.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Button.cpp; sourceTree = "<group>"; };
+		01E66BB111DBCF030044CFA5 /* ClickEventTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClickEventTranslator.cpp; sourceTree = "<group>"; };
+		01E66BB211DBCF030044CFA5 /* ComboBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ComboBox.cpp; sourceTree = "<group>"; };
+		01E66BB311DBCF030044CFA5 /* EventComboAcceptTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventComboAcceptTranslator.cpp; sourceTree = "<group>"; };
+		01E66BB411DBCF030044CFA5 /* EventComboChangePositionTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventComboChangePositionTranslator.cpp; sourceTree = "<group>"; };
+		01E66BB511DBCF030044CFA5 /* FontManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FontManager.cpp; sourceTree = "<group>"; };
+		01E66BB611DBCF030044CFA5 /* Gui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Gui.cpp; sourceTree = "<group>"; };
+		01E66BB711DBCF030044CFA5 /* LanguageManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LanguageManager.cpp; sourceTree = "<group>"; };
+		01E66BB811DBCF030044CFA5 /* LayerManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LayerManager.cpp; sourceTree = "<group>"; };
+		01E66BB911DBCF030044CFA5 /* Layout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Layout.cpp; sourceTree = "<group>"; };
+		01E66BBA11DBCF030044CFA5 /* LayoutManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LayoutManager.cpp; sourceTree = "<group>"; };
+		01E66BBB11DBCF030044CFA5 /* MenuCtrl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MenuCtrl.cpp; sourceTree = "<group>"; };
+		01E66BBC11DBCF030044CFA5 /* MenuItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MenuItem.cpp; sourceTree = "<group>"; };
+		01E66BBD11DBCF030044CFA5 /* MyGUIEventTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MyGUIEventTranslator.cpp; sourceTree = "<group>"; };
+		01E66BBE11DBCF030044CFA5 /* OgrePlatform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OgrePlatform.cpp; sourceTree = "<group>"; };
+		01E66BBF11DBCF030044CFA5 /* OgreRenderManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OgreRenderManager.cpp; sourceTree = "<group>"; };
+		01E66BC011DBCF030044CFA5 /* ScrollChangePositionET.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScrollChangePositionET.cpp; sourceTree = "<group>"; };
+		01E66BC111DBCF030044CFA5 /* ScrollView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScrollView.cpp; sourceTree = "<group>"; };
+		01E66BC211DBCF030044CFA5 /* StaticImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StaticImage.cpp; sourceTree = "<group>"; };
+		01E66BC311DBCF030044CFA5 /* StaticText.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StaticText.cpp; sourceTree = "<group>"; };
+		01E66BC411DBCF030044CFA5 /* VScroll.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VScroll.cpp; sourceTree = "<group>"; };
+		01E66BC511DBCF030044CFA5 /* Widget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Widget.cpp; sourceTree = "<group>"; };
+		01E66BC611DBCF030044CFA5 /* WidgetManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WidgetManager.cpp; sourceTree = "<group>"; };
+		01EFBAC311BE7B0D00B9F880 /* Ogre.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ogre.framework; path = ../../../Dependencies/Ogre/OSXBuild/lib/Release/Ogre.framework; sourceTree = SOURCE_ROOT; };
+		01EFBCF711BE87C800B9F880 /* libBulletCollision.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBulletCollision.a; path = ../../../Dependencies/Bullet/OSXBuild/src/BulletCollision/Release/libBulletCollision.a; sourceTree = SOURCE_ROOT; };
+		01EFBCF911BE87D900B9F880 /* libBulletDynamics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBulletDynamics.a; path = ../../../Dependencies/Bullet/OSXBuild/src/BulletDynamics/Release/libBulletDynamics.a; sourceTree = SOURCE_ROOT; };
+		01EFBCFB11BE87E400B9F880 /* libBulletSoftBody.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBulletSoftBody.a; path = ../../../Dependencies/Bullet/OSXBuild/src/BulletSoftBody/Release/libBulletSoftBody.a; sourceTree = SOURCE_ROOT; };
+		01EFBCFD11BE87F100B9F880 /* libLinearMath.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLinearMath.a; path = ../../../Dependencies/Bullet/OSXBuild/src/LinearMath/Release/libLinearMath.a; sourceTree = SOURCE_ROOT; };
+		01EFBCFF11BE881E00B9F880 /* libConvexDecomposition.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libConvexDecomposition.a; path = ../../../Dependencies/Bullet/OSXBuild/Extras/ConvexDecomposition/Release/libConvexDecomposition.a; sourceTree = SOURCE_ROOT; };
+		01EFBD3F11BE8A5B00B9F880 /* libOIS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOIS.a; path = "../../../Dependencies/ois/Mac/XCode-2.2/build/Release/libOIS.a"; sourceTree = SOURCE_ROOT; };
+		01EFBD4911BE8AD500B9F880 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
+		01EFBD4B11BE8AD500B9F880 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		01EFBD4D11BE8AD500B9F880 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		5073E0C609E734A800EC74B6 /* EngineProj.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = EngineProj.xcconfig; sourceTree = "<group>"; };
+		5073E0C709E734A800EC74B6 /* EngineTarget.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = EngineTarget.xcconfig; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		01B1BD1811CFA6FD0069A935 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01B1BE7311CFA97D0069A935 /* Ogre.framework in Frameworks */,
+				01B1BD4A11CFA7990069A935 /* libMyGUI.OgrePlatform.a in Frameworks */,
+				01B1BD4B11CFA7990069A935 /* libMyGUIEngineStatic.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		01B1BD1E11CFA7280069A935 /* MyGUIWrapper */ = {
+			isa = PBXGroup;
+			children = (
+				01B1BD1F11CFA7580069A935 /* Include */,
+				01B1BD2111CFA7580069A935 /* Src */,
+				01B1BD3011CFA7580069A935 /* Stdafx.cpp */,
+				01B1BD3111CFA7580069A935 /* Stdafx.h */,
+			);
+			name = MyGUIWrapper;
+			sourceTree = "<group>";
+		};
+		01B1BD1F11CFA7580069A935 /* Include */ = {
+			isa = PBXGroup;
+			children = (
+				01B1BD2011CFA7580069A935 /* MyGUIEventTranslator.h */,
+			);
+			name = Include;
+			path = ../../MyGUIWrapper/Include;
+			sourceTree = SOURCE_ROOT;
+		};
+		01B1BD2111CFA7580069A935 /* Src */ = {
+			isa = PBXGroup;
+			children = (
+				01E66BB011DBCF030044CFA5 /* Button.cpp */,
+				01E66BB111DBCF030044CFA5 /* ClickEventTranslator.cpp */,
+				01E66BB211DBCF030044CFA5 /* ComboBox.cpp */,
+				01E66BB311DBCF030044CFA5 /* EventComboAcceptTranslator.cpp */,
+				01E66BB411DBCF030044CFA5 /* EventComboChangePositionTranslator.cpp */,
+				01E66BB511DBCF030044CFA5 /* FontManager.cpp */,
+				01E66BB611DBCF030044CFA5 /* Gui.cpp */,
+				01E66BB711DBCF030044CFA5 /* LanguageManager.cpp */,
+				01E66BB811DBCF030044CFA5 /* LayerManager.cpp */,
+				01E66BB911DBCF030044CFA5 /* Layout.cpp */,
+				01E66BBA11DBCF030044CFA5 /* LayoutManager.cpp */,
+				01E66BBB11DBCF030044CFA5 /* MenuCtrl.cpp */,
+				01E66BBC11DBCF030044CFA5 /* MenuItem.cpp */,
+				01E66BBD11DBCF030044CFA5 /* MyGUIEventTranslator.cpp */,
+				01E66BBE11DBCF030044CFA5 /* OgrePlatform.cpp */,
+				01E66BBF11DBCF030044CFA5 /* OgreRenderManager.cpp */,
+				01E66BC011DBCF030044CFA5 /* ScrollChangePositionET.cpp */,
+				01E66BC111DBCF030044CFA5 /* ScrollView.cpp */,
+				01E66BC211DBCF030044CFA5 /* StaticImage.cpp */,
+				01E66BC311DBCF030044CFA5 /* StaticText.cpp */,
+				01E66BC411DBCF030044CFA5 /* VScroll.cpp */,
+				01E66BC511DBCF030044CFA5 /* Widget.cpp */,
+				01E66BC611DBCF030044CFA5 /* WidgetManager.cpp */,
+			);
+			name = Src;
+			path = ../../MyGUIWrapper/Src;
+			sourceTree = SOURCE_ROOT;
+		};
+		034768DDFF38A45A11DB9C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				01B1BD1A11CFA6FD0069A935 /* libMyGUIWrapper.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0867D691FE84028FC02AAC07 /* Engine */ = {
+			isa = PBXGroup;
+			children = (
+				01B1BD1E11CFA7280069A935 /* MyGUIWrapper */,
+				5073E0CA09E734BC00EC74B6 /* Configuration Files */,
+				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				034768DDFF38A45A11DB9C8B /* Products */,
+			);
+			name = Engine;
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				01EFBD4911BE8AD500B9F880 /* Carbon.framework */,
+				01EFBD4B11BE8AD500B9F880 /* CoreFoundation.framework */,
+				01EFBD4D11BE8AD500B9F880 /* IOKit.framework */,
+				01EFBD3F11BE8A5B00B9F880 /* libOIS.a */,
+				01EFBCFF11BE881E00B9F880 /* libConvexDecomposition.a */,
+				01EFBCFD11BE87F100B9F880 /* libLinearMath.a */,
+				01EFBCFB11BE87E400B9F880 /* libBulletSoftBody.a */,
+				01B1BD4811CFA7990069A935 /* libMyGUI.OgrePlatform.a */,
+				01B1BD4911CFA7990069A935 /* libMyGUIEngineStatic.a */,
+				01EFBCF911BE87D900B9F880 /* libBulletDynamics.a */,
+				01EFBCF711BE87C800B9F880 /* libBulletCollision.a */,
+				01EFBAC311BE7B0D00B9F880 /* Ogre.framework */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		5073E0CA09E734BC00EC74B6 /* Configuration Files */ = {
+			isa = PBXGroup;
+			children = (
+				5073E0C609E734A800EC74B6 /* EngineProj.xcconfig */,
+				5073E0C709E734A800EC74B6 /* EngineTarget.xcconfig */,
+			);
+			name = "Configuration Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		01B1BD1611CFA6FD0069A935 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01B1BD3211CFA7580069A935 /* MyGUIEventTranslator.h in Headers */,
+				01B1BD4211CFA7580069A935 /* Stdafx.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		01B1BD1911CFA6FD0069A935 /* MyGUIWrapper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 01B1BD1D11CFA71B0069A935 /* Build configuration list for PBXNativeTarget "MyGUIWrapper" */;
+			buildPhases = (
+				01B1BD1611CFA6FD0069A935 /* Headers */,
+				01B1BD1711CFA6FD0069A935 /* Sources */,
+				01B1BD1811CFA6FD0069A935 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MyGUIWrapper;
+			productName = MyGUIWrapper;
+			productReference = 01B1BD1A11CFA6FD0069A935 /* libMyGUIWrapper.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0867D690FE84028FC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB916408733D950010E9CD /* Build configuration list for PBXProject "MyGUI" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 0867D691FE84028FC02AAC07 /* Engine */;
+			productRefGroup = 034768DDFF38A45A11DB9C8B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				01B1BD1911CFA6FD0069A935 /* MyGUIWrapper */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		01B1BD1711CFA6FD0069A935 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01B1BD4111CFA7580069A935 /* Stdafx.cpp in Sources */,
+				01E66BC711DBCF030044CFA5 /* Button.cpp in Sources */,
+				01E66BC811DBCF030044CFA5 /* ClickEventTranslator.cpp in Sources */,
+				01E66BC911DBCF030044CFA5 /* ComboBox.cpp in Sources */,
+				01E66BCA11DBCF030044CFA5 /* EventComboAcceptTranslator.cpp in Sources */,
+				01E66BCB11DBCF030044CFA5 /* EventComboChangePositionTranslator.cpp in Sources */,
+				01E66BCC11DBCF030044CFA5 /* FontManager.cpp in Sources */,
+				01E66BCD11DBCF030044CFA5 /* Gui.cpp in Sources */,
+				01E66BCE11DBCF030044CFA5 /* LanguageManager.cpp in Sources */,
+				01E66BCF11DBCF030044CFA5 /* LayerManager.cpp in Sources */,
+				01E66BD011DBCF030044CFA5 /* Layout.cpp in Sources */,
+				01E66BD111DBCF030044CFA5 /* LayoutManager.cpp in Sources */,
+				01E66BD211DBCF030044CFA5 /* MenuCtrl.cpp in Sources */,
+				01E66BD311DBCF030044CFA5 /* MenuItem.cpp in Sources */,
+				01E66BD411DBCF030044CFA5 /* MyGUIEventTranslator.cpp in Sources */,
+				01E66BD511DBCF030044CFA5 /* OgrePlatform.cpp in Sources */,
+				01E66BD611DBCF030044CFA5 /* OgreRenderManager.cpp in Sources */,
+				01E66BD711DBCF030044CFA5 /* ScrollChangePositionET.cpp in Sources */,
+				01E66BD811DBCF030044CFA5 /* ScrollView.cpp in Sources */,
+				01E66BD911DBCF030044CFA5 /* StaticImage.cpp in Sources */,
+				01E66BDA11DBCF030044CFA5 /* StaticText.cpp in Sources */,
+				01E66BDB11DBCF030044CFA5 /* VScroll.cpp in Sources */,
+				01E66BDC11DBCF030044CFA5 /* Widget.cpp in Sources */,
+				01E66BDD11DBCF030044CFA5 /* WidgetManager.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		01B1BD1B11CFA6FD0069A935 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/lib/Release\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../Dependencies/MyGUI/OSXBuild/lib/Release\"",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = MyGUIWrapper;
+			};
+			name = Debug;
+		};
+		01B1BD1C11CFA6FD0069A935 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/lib/Release\"",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../../MyGUIWrapper/Stdafx.h;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					MyGUIEngine_Exports,
+					MYGUI_BUILD,
+					MYGUI_USE_FREETYPE,
+					MYGUI_STATIC,
+					MAC_OSX,
+				);
+				HEADER_SEARCH_PATHS = (
+					/Users/andrewpiper/Development/Dependencies/MyGUI/Src/MyGUIEngine/include,
+					/Users/andrewpiper/Development/Dependencies/MyGUI/Src/Platforms/Ogre/OgrePlatform/include,
+					/Users/andrewpiper/Development/Dependencies/Ogre/src/OgreMain/include,
+					/Users/andrewpiper/Development/Dependencies/Ogre/OSXBuild/include,
+				);
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../Dependencies/MyGUI/OSXBuild/lib/Release\"",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = libMyGUIWrapper;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		1DEB916508733D950010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5073E0C609E734A800EC74B6 /* EngineProj.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+			};
+			name = Debug;
+		};
+		1DEB916608733D950010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5073E0C609E734A800EC74B6 /* EngineProj.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = MAC_OSX;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+				VALID_ARCHS = "i386 x86_64";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		01B1BD1D11CFA71B0069A935 /* Build configuration list for PBXNativeTarget "MyGUIWrapper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				01B1BD1B11CFA6FD0069A935 /* Debug */,
+				01B1BD1C11CFA6FD0069A935 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB916408733D950010E9CD /* Build configuration list for PBXProject "MyGUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB916508733D950010E9CD /* Debug */,
+				1DEB916608733D950010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+}
