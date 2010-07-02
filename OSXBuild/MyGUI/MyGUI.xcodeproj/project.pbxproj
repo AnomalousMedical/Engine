@@ -7,67 +7,73 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		01B1BD3211CFA7580069A935 /* MyGUIEventTranslator.h in Headers */ = {isa = PBXBuildFile; fileRef = 01B1BD2011CFA7580069A935 /* MyGUIEventTranslator.h */; };
-		01B1BD4111CFA7580069A935 /* Stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01B1BD3011CFA7580069A935 /* Stdafx.cpp */; };
-		01B1BD4211CFA7580069A935 /* Stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 01B1BD3111CFA7580069A935 /* Stdafx.h */; };
+		01141FA711DE323A005BB169 /* MyGUIEventTranslator.h in Headers */ = {isa = PBXBuildFile; fileRef = 01141F8911DE323A005BB169 /* MyGUIEventTranslator.h */; };
+		01141FA811DE323A005BB169 /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141F8B11DE323A005BB169 /* Button.cpp */; };
+		01141FA911DE323A005BB169 /* ClickEventTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141F8C11DE323A005BB169 /* ClickEventTranslator.cpp */; };
+		01141FAA11DE323A005BB169 /* ComboBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141F8D11DE323A005BB169 /* ComboBox.cpp */; };
+		01141FAB11DE323A005BB169 /* Edit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141F8E11DE323A005BB169 /* Edit.cpp */; };
+		01141FAC11DE323A005BB169 /* EventComboAcceptTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141F8F11DE323A005BB169 /* EventComboAcceptTranslator.cpp */; };
+		01141FAD11DE323A005BB169 /* EventComboChangePositionTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141F9011DE323A005BB169 /* EventComboChangePositionTranslator.cpp */; };
+		01141FAE11DE323A005BB169 /* EventEditSelectAcceptTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141F9111DE323A005BB169 /* EventEditSelectAcceptTranslator.cpp */; };
+		01141FAF11DE323A005BB169 /* EventEditTextChangeTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141F9211DE323A005BB169 /* EventEditTextChangeTranslator.cpp */; };
+		01141FB011DE323A005BB169 /* FontManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141F9311DE323A005BB169 /* FontManager.cpp */; };
+		01141FB111DE323A005BB169 /* Gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141F9411DE323A005BB169 /* Gui.cpp */; };
+		01141FB211DE323A005BB169 /* LanguageManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141F9511DE323A005BB169 /* LanguageManager.cpp */; };
+		01141FB311DE323A005BB169 /* LayerManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141F9611DE323A005BB169 /* LayerManager.cpp */; };
+		01141FB411DE323A005BB169 /* Layout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141F9711DE323A005BB169 /* Layout.cpp */; };
+		01141FB511DE323A005BB169 /* LayoutManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141F9811DE323A005BB169 /* LayoutManager.cpp */; };
+		01141FB611DE323A005BB169 /* MenuCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141F9911DE323A005BB169 /* MenuCtrl.cpp */; };
+		01141FB711DE323A005BB169 /* MenuItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141F9A11DE323A005BB169 /* MenuItem.cpp */; };
+		01141FB811DE323A005BB169 /* MyGUIEventTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141F9B11DE323A005BB169 /* MyGUIEventTranslator.cpp */; };
+		01141FB911DE323A005BB169 /* OgrePlatform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141F9C11DE323A005BB169 /* OgrePlatform.cpp */; };
+		01141FBA11DE323A005BB169 /* OgreRenderManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141F9D11DE323A005BB169 /* OgreRenderManager.cpp */; };
+		01141FBB11DE323A005BB169 /* ScrollChangePositionET.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141F9E11DE323A005BB169 /* ScrollChangePositionET.cpp */; };
+		01141FBC11DE323A005BB169 /* ScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141F9F11DE323A005BB169 /* ScrollView.cpp */; };
+		01141FBD11DE323A005BB169 /* StaticImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141FA011DE323A005BB169 /* StaticImage.cpp */; };
+		01141FBE11DE323A005BB169 /* StaticText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141FA111DE323A005BB169 /* StaticText.cpp */; };
+		01141FBF11DE323A005BB169 /* VScroll.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141FA211DE323A005BB169 /* VScroll.cpp */; };
+		01141FC011DE323A005BB169 /* Widget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141FA311DE323A005BB169 /* Widget.cpp */; };
+		01141FC111DE323A005BB169 /* WidgetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141FA411DE323A005BB169 /* WidgetManager.cpp */; };
+		01141FC211DE323A005BB169 /* Stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141FA511DE323A005BB169 /* Stdafx.cpp */; };
+		01141FC311DE323A005BB169 /* Stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 01141FA611DE323A005BB169 /* Stdafx.h */; };
 		01B1BD4A11CFA7990069A935 /* libMyGUI.OgrePlatform.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01B1BD4811CFA7990069A935 /* libMyGUI.OgrePlatform.a */; };
 		01B1BD4B11CFA7990069A935 /* libMyGUIEngineStatic.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01B1BD4911CFA7990069A935 /* libMyGUIEngineStatic.a */; };
 		01B1BE7311CFA97D0069A935 /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01EFBAC311BE7B0D00B9F880 /* Ogre.framework */; };
-		01E66BC711DBCF030044CFA5 /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BB011DBCF030044CFA5 /* Button.cpp */; };
-		01E66BC811DBCF030044CFA5 /* ClickEventTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BB111DBCF030044CFA5 /* ClickEventTranslator.cpp */; };
-		01E66BC911DBCF030044CFA5 /* ComboBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BB211DBCF030044CFA5 /* ComboBox.cpp */; };
-		01E66BCA11DBCF030044CFA5 /* EventComboAcceptTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BB311DBCF030044CFA5 /* EventComboAcceptTranslator.cpp */; };
-		01E66BCB11DBCF030044CFA5 /* EventComboChangePositionTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BB411DBCF030044CFA5 /* EventComboChangePositionTranslator.cpp */; };
-		01E66BCC11DBCF030044CFA5 /* FontManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BB511DBCF030044CFA5 /* FontManager.cpp */; };
-		01E66BCD11DBCF030044CFA5 /* Gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BB611DBCF030044CFA5 /* Gui.cpp */; };
-		01E66BCE11DBCF030044CFA5 /* LanguageManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BB711DBCF030044CFA5 /* LanguageManager.cpp */; };
-		01E66BCF11DBCF030044CFA5 /* LayerManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BB811DBCF030044CFA5 /* LayerManager.cpp */; };
-		01E66BD011DBCF030044CFA5 /* Layout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BB911DBCF030044CFA5 /* Layout.cpp */; };
-		01E66BD111DBCF030044CFA5 /* LayoutManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BBA11DBCF030044CFA5 /* LayoutManager.cpp */; };
-		01E66BD211DBCF030044CFA5 /* MenuCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BBB11DBCF030044CFA5 /* MenuCtrl.cpp */; };
-		01E66BD311DBCF030044CFA5 /* MenuItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BBC11DBCF030044CFA5 /* MenuItem.cpp */; };
-		01E66BD411DBCF030044CFA5 /* MyGUIEventTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BBD11DBCF030044CFA5 /* MyGUIEventTranslator.cpp */; };
-		01E66BD511DBCF030044CFA5 /* OgrePlatform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BBE11DBCF030044CFA5 /* OgrePlatform.cpp */; };
-		01E66BD611DBCF030044CFA5 /* OgreRenderManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BBF11DBCF030044CFA5 /* OgreRenderManager.cpp */; };
-		01E66BD711DBCF030044CFA5 /* ScrollChangePositionET.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BC011DBCF030044CFA5 /* ScrollChangePositionET.cpp */; };
-		01E66BD811DBCF030044CFA5 /* ScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BC111DBCF030044CFA5 /* ScrollView.cpp */; };
-		01E66BD911DBCF030044CFA5 /* StaticImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BC211DBCF030044CFA5 /* StaticImage.cpp */; };
-		01E66BDA11DBCF030044CFA5 /* StaticText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BC311DBCF030044CFA5 /* StaticText.cpp */; };
-		01E66BDB11DBCF030044CFA5 /* VScroll.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BC411DBCF030044CFA5 /* VScroll.cpp */; };
-		01E66BDC11DBCF030044CFA5 /* Widget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BC511DBCF030044CFA5 /* Widget.cpp */; };
-		01E66BDD11DBCF030044CFA5 /* WidgetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E66BC611DBCF030044CFA5 /* WidgetManager.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		01141F8911DE323A005BB169 /* MyGUIEventTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyGUIEventTranslator.h; sourceTree = "<group>"; };
+		01141F8B11DE323A005BB169 /* Button.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Button.cpp; sourceTree = "<group>"; };
+		01141F8C11DE323A005BB169 /* ClickEventTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClickEventTranslator.cpp; sourceTree = "<group>"; };
+		01141F8D11DE323A005BB169 /* ComboBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ComboBox.cpp; sourceTree = "<group>"; };
+		01141F8E11DE323A005BB169 /* Edit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Edit.cpp; sourceTree = "<group>"; };
+		01141F8F11DE323A005BB169 /* EventComboAcceptTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventComboAcceptTranslator.cpp; sourceTree = "<group>"; };
+		01141F9011DE323A005BB169 /* EventComboChangePositionTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventComboChangePositionTranslator.cpp; sourceTree = "<group>"; };
+		01141F9111DE323A005BB169 /* EventEditSelectAcceptTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventEditSelectAcceptTranslator.cpp; sourceTree = "<group>"; };
+		01141F9211DE323A005BB169 /* EventEditTextChangeTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventEditTextChangeTranslator.cpp; sourceTree = "<group>"; };
+		01141F9311DE323A005BB169 /* FontManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FontManager.cpp; sourceTree = "<group>"; };
+		01141F9411DE323A005BB169 /* Gui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Gui.cpp; sourceTree = "<group>"; };
+		01141F9511DE323A005BB169 /* LanguageManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LanguageManager.cpp; sourceTree = "<group>"; };
+		01141F9611DE323A005BB169 /* LayerManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LayerManager.cpp; sourceTree = "<group>"; };
+		01141F9711DE323A005BB169 /* Layout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Layout.cpp; sourceTree = "<group>"; };
+		01141F9811DE323A005BB169 /* LayoutManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LayoutManager.cpp; sourceTree = "<group>"; };
+		01141F9911DE323A005BB169 /* MenuCtrl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MenuCtrl.cpp; sourceTree = "<group>"; };
+		01141F9A11DE323A005BB169 /* MenuItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MenuItem.cpp; sourceTree = "<group>"; };
+		01141F9B11DE323A005BB169 /* MyGUIEventTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MyGUIEventTranslator.cpp; sourceTree = "<group>"; };
+		01141F9C11DE323A005BB169 /* OgrePlatform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OgrePlatform.cpp; sourceTree = "<group>"; };
+		01141F9D11DE323A005BB169 /* OgreRenderManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OgreRenderManager.cpp; sourceTree = "<group>"; };
+		01141F9E11DE323A005BB169 /* ScrollChangePositionET.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScrollChangePositionET.cpp; sourceTree = "<group>"; };
+		01141F9F11DE323A005BB169 /* ScrollView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScrollView.cpp; sourceTree = "<group>"; };
+		01141FA011DE323A005BB169 /* StaticImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StaticImage.cpp; sourceTree = "<group>"; };
+		01141FA111DE323A005BB169 /* StaticText.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StaticText.cpp; sourceTree = "<group>"; };
+		01141FA211DE323A005BB169 /* VScroll.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VScroll.cpp; sourceTree = "<group>"; };
+		01141FA311DE323A005BB169 /* Widget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Widget.cpp; sourceTree = "<group>"; };
+		01141FA411DE323A005BB169 /* WidgetManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WidgetManager.cpp; sourceTree = "<group>"; };
+		01141FA511DE323A005BB169 /* Stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Stdafx.cpp; path = ../../MyGUIWrapper/Stdafx.cpp; sourceTree = SOURCE_ROOT; };
+		01141FA611DE323A005BB169 /* Stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stdafx.h; path = ../../MyGUIWrapper/Stdafx.h; sourceTree = SOURCE_ROOT; };
 		01B1BD1A11CFA6FD0069A935 /* libMyGUIWrapper.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libMyGUIWrapper.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
-		01B1BD2011CFA7580069A935 /* MyGUIEventTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyGUIEventTranslator.h; sourceTree = "<group>"; };
-		01B1BD3011CFA7580069A935 /* Stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Stdafx.cpp; path = ../../MyGUIWrapper/Stdafx.cpp; sourceTree = SOURCE_ROOT; };
-		01B1BD3111CFA7580069A935 /* Stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stdafx.h; path = ../../MyGUIWrapper/Stdafx.h; sourceTree = SOURCE_ROOT; };
 		01B1BD4811CFA7990069A935 /* libMyGUI.OgrePlatform.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMyGUI.OgrePlatform.a; path = ../../../Dependencies/MyGUI/OSXBuild/lib/Release/libMyGUI.OgrePlatform.a; sourceTree = SOURCE_ROOT; };
 		01B1BD4911CFA7990069A935 /* libMyGUIEngineStatic.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMyGUIEngineStatic.a; path = ../../../Dependencies/MyGUI/OSXBuild/lib/Release/libMyGUIEngineStatic.a; sourceTree = SOURCE_ROOT; };
-		01E66BB011DBCF030044CFA5 /* Button.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Button.cpp; sourceTree = "<group>"; };
-		01E66BB111DBCF030044CFA5 /* ClickEventTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClickEventTranslator.cpp; sourceTree = "<group>"; };
-		01E66BB211DBCF030044CFA5 /* ComboBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ComboBox.cpp; sourceTree = "<group>"; };
-		01E66BB311DBCF030044CFA5 /* EventComboAcceptTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventComboAcceptTranslator.cpp; sourceTree = "<group>"; };
-		01E66BB411DBCF030044CFA5 /* EventComboChangePositionTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventComboChangePositionTranslator.cpp; sourceTree = "<group>"; };
-		01E66BB511DBCF030044CFA5 /* FontManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FontManager.cpp; sourceTree = "<group>"; };
-		01E66BB611DBCF030044CFA5 /* Gui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Gui.cpp; sourceTree = "<group>"; };
-		01E66BB711DBCF030044CFA5 /* LanguageManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LanguageManager.cpp; sourceTree = "<group>"; };
-		01E66BB811DBCF030044CFA5 /* LayerManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LayerManager.cpp; sourceTree = "<group>"; };
-		01E66BB911DBCF030044CFA5 /* Layout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Layout.cpp; sourceTree = "<group>"; };
-		01E66BBA11DBCF030044CFA5 /* LayoutManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LayoutManager.cpp; sourceTree = "<group>"; };
-		01E66BBB11DBCF030044CFA5 /* MenuCtrl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MenuCtrl.cpp; sourceTree = "<group>"; };
-		01E66BBC11DBCF030044CFA5 /* MenuItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MenuItem.cpp; sourceTree = "<group>"; };
-		01E66BBD11DBCF030044CFA5 /* MyGUIEventTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MyGUIEventTranslator.cpp; sourceTree = "<group>"; };
-		01E66BBE11DBCF030044CFA5 /* OgrePlatform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OgrePlatform.cpp; sourceTree = "<group>"; };
-		01E66BBF11DBCF030044CFA5 /* OgreRenderManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OgreRenderManager.cpp; sourceTree = "<group>"; };
-		01E66BC011DBCF030044CFA5 /* ScrollChangePositionET.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScrollChangePositionET.cpp; sourceTree = "<group>"; };
-		01E66BC111DBCF030044CFA5 /* ScrollView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScrollView.cpp; sourceTree = "<group>"; };
-		01E66BC211DBCF030044CFA5 /* StaticImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StaticImage.cpp; sourceTree = "<group>"; };
-		01E66BC311DBCF030044CFA5 /* StaticText.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StaticText.cpp; sourceTree = "<group>"; };
-		01E66BC411DBCF030044CFA5 /* VScroll.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VScroll.cpp; sourceTree = "<group>"; };
-		01E66BC511DBCF030044CFA5 /* Widget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Widget.cpp; sourceTree = "<group>"; };
-		01E66BC611DBCF030044CFA5 /* WidgetManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WidgetManager.cpp; sourceTree = "<group>"; };
 		01EFBAC311BE7B0D00B9F880 /* Ogre.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ogre.framework; path = ../../../Dependencies/Ogre/OSXBuild/lib/Release/Ogre.framework; sourceTree = SOURCE_ROOT; };
 		01EFBCF711BE87C800B9F880 /* libBulletCollision.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBulletCollision.a; path = ../../../Dependencies/Bullet/OSXBuild/src/BulletCollision/Release/libBulletCollision.a; sourceTree = SOURCE_ROOT; };
 		01EFBCF911BE87D900B9F880 /* libBulletDynamics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBulletDynamics.a; path = ../../../Dependencies/Bullet/OSXBuild/src/BulletDynamics/Release/libBulletDynamics.a; sourceTree = SOURCE_ROOT; };
@@ -96,56 +102,59 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		01B1BD1E11CFA7280069A935 /* MyGUIWrapper */ = {
+		01141F8811DE323A005BB169 /* Include */ = {
 			isa = PBXGroup;
 			children = (
-				01B1BD1F11CFA7580069A935 /* Include */,
-				01B1BD2111CFA7580069A935 /* Src */,
-				01B1BD3011CFA7580069A935 /* Stdafx.cpp */,
-				01B1BD3111CFA7580069A935 /* Stdafx.h */,
-			);
-			name = MyGUIWrapper;
-			sourceTree = "<group>";
-		};
-		01B1BD1F11CFA7580069A935 /* Include */ = {
-			isa = PBXGroup;
-			children = (
-				01B1BD2011CFA7580069A935 /* MyGUIEventTranslator.h */,
+				01141F8911DE323A005BB169 /* MyGUIEventTranslator.h */,
 			);
 			name = Include;
 			path = ../../MyGUIWrapper/Include;
 			sourceTree = SOURCE_ROOT;
 		};
-		01B1BD2111CFA7580069A935 /* Src */ = {
+		01141F8A11DE323A005BB169 /* Src */ = {
 			isa = PBXGroup;
 			children = (
-				01E66BB011DBCF030044CFA5 /* Button.cpp */,
-				01E66BB111DBCF030044CFA5 /* ClickEventTranslator.cpp */,
-				01E66BB211DBCF030044CFA5 /* ComboBox.cpp */,
-				01E66BB311DBCF030044CFA5 /* EventComboAcceptTranslator.cpp */,
-				01E66BB411DBCF030044CFA5 /* EventComboChangePositionTranslator.cpp */,
-				01E66BB511DBCF030044CFA5 /* FontManager.cpp */,
-				01E66BB611DBCF030044CFA5 /* Gui.cpp */,
-				01E66BB711DBCF030044CFA5 /* LanguageManager.cpp */,
-				01E66BB811DBCF030044CFA5 /* LayerManager.cpp */,
-				01E66BB911DBCF030044CFA5 /* Layout.cpp */,
-				01E66BBA11DBCF030044CFA5 /* LayoutManager.cpp */,
-				01E66BBB11DBCF030044CFA5 /* MenuCtrl.cpp */,
-				01E66BBC11DBCF030044CFA5 /* MenuItem.cpp */,
-				01E66BBD11DBCF030044CFA5 /* MyGUIEventTranslator.cpp */,
-				01E66BBE11DBCF030044CFA5 /* OgrePlatform.cpp */,
-				01E66BBF11DBCF030044CFA5 /* OgreRenderManager.cpp */,
-				01E66BC011DBCF030044CFA5 /* ScrollChangePositionET.cpp */,
-				01E66BC111DBCF030044CFA5 /* ScrollView.cpp */,
-				01E66BC211DBCF030044CFA5 /* StaticImage.cpp */,
-				01E66BC311DBCF030044CFA5 /* StaticText.cpp */,
-				01E66BC411DBCF030044CFA5 /* VScroll.cpp */,
-				01E66BC511DBCF030044CFA5 /* Widget.cpp */,
-				01E66BC611DBCF030044CFA5 /* WidgetManager.cpp */,
+				01141F8B11DE323A005BB169 /* Button.cpp */,
+				01141F8C11DE323A005BB169 /* ClickEventTranslator.cpp */,
+				01141F8D11DE323A005BB169 /* ComboBox.cpp */,
+				01141F8E11DE323A005BB169 /* Edit.cpp */,
+				01141F8F11DE323A005BB169 /* EventComboAcceptTranslator.cpp */,
+				01141F9011DE323A005BB169 /* EventComboChangePositionTranslator.cpp */,
+				01141F9111DE323A005BB169 /* EventEditSelectAcceptTranslator.cpp */,
+				01141F9211DE323A005BB169 /* EventEditTextChangeTranslator.cpp */,
+				01141F9311DE323A005BB169 /* FontManager.cpp */,
+				01141F9411DE323A005BB169 /* Gui.cpp */,
+				01141F9511DE323A005BB169 /* LanguageManager.cpp */,
+				01141F9611DE323A005BB169 /* LayerManager.cpp */,
+				01141F9711DE323A005BB169 /* Layout.cpp */,
+				01141F9811DE323A005BB169 /* LayoutManager.cpp */,
+				01141F9911DE323A005BB169 /* MenuCtrl.cpp */,
+				01141F9A11DE323A005BB169 /* MenuItem.cpp */,
+				01141F9B11DE323A005BB169 /* MyGUIEventTranslator.cpp */,
+				01141F9C11DE323A005BB169 /* OgrePlatform.cpp */,
+				01141F9D11DE323A005BB169 /* OgreRenderManager.cpp */,
+				01141F9E11DE323A005BB169 /* ScrollChangePositionET.cpp */,
+				01141F9F11DE323A005BB169 /* ScrollView.cpp */,
+				01141FA011DE323A005BB169 /* StaticImage.cpp */,
+				01141FA111DE323A005BB169 /* StaticText.cpp */,
+				01141FA211DE323A005BB169 /* VScroll.cpp */,
+				01141FA311DE323A005BB169 /* Widget.cpp */,
+				01141FA411DE323A005BB169 /* WidgetManager.cpp */,
 			);
 			name = Src;
 			path = ../../MyGUIWrapper/Src;
 			sourceTree = SOURCE_ROOT;
+		};
+		01B1BD1E11CFA7280069A935 /* MyGUIWrapper */ = {
+			isa = PBXGroup;
+			children = (
+				01141F8811DE323A005BB169 /* Include */,
+				01141F8A11DE323A005BB169 /* Src */,
+				01141FA511DE323A005BB169 /* Stdafx.cpp */,
+				01141FA611DE323A005BB169 /* Stdafx.h */,
+			);
+			name = MyGUIWrapper;
+			sourceTree = "<group>";
 		};
 		034768DDFF38A45A11DB9C8B /* Products */ = {
 			isa = PBXGroup;
@@ -201,8 +210,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				01B1BD3211CFA7580069A935 /* MyGUIEventTranslator.h in Headers */,
-				01B1BD4211CFA7580069A935 /* Stdafx.h in Headers */,
+				01141FA711DE323A005BB169 /* MyGUIEventTranslator.h in Headers */,
+				01141FC311DE323A005BB169 /* Stdafx.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,30 +258,33 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				01B1BD4111CFA7580069A935 /* Stdafx.cpp in Sources */,
-				01E66BC711DBCF030044CFA5 /* Button.cpp in Sources */,
-				01E66BC811DBCF030044CFA5 /* ClickEventTranslator.cpp in Sources */,
-				01E66BC911DBCF030044CFA5 /* ComboBox.cpp in Sources */,
-				01E66BCA11DBCF030044CFA5 /* EventComboAcceptTranslator.cpp in Sources */,
-				01E66BCB11DBCF030044CFA5 /* EventComboChangePositionTranslator.cpp in Sources */,
-				01E66BCC11DBCF030044CFA5 /* FontManager.cpp in Sources */,
-				01E66BCD11DBCF030044CFA5 /* Gui.cpp in Sources */,
-				01E66BCE11DBCF030044CFA5 /* LanguageManager.cpp in Sources */,
-				01E66BCF11DBCF030044CFA5 /* LayerManager.cpp in Sources */,
-				01E66BD011DBCF030044CFA5 /* Layout.cpp in Sources */,
-				01E66BD111DBCF030044CFA5 /* LayoutManager.cpp in Sources */,
-				01E66BD211DBCF030044CFA5 /* MenuCtrl.cpp in Sources */,
-				01E66BD311DBCF030044CFA5 /* MenuItem.cpp in Sources */,
-				01E66BD411DBCF030044CFA5 /* MyGUIEventTranslator.cpp in Sources */,
-				01E66BD511DBCF030044CFA5 /* OgrePlatform.cpp in Sources */,
-				01E66BD611DBCF030044CFA5 /* OgreRenderManager.cpp in Sources */,
-				01E66BD711DBCF030044CFA5 /* ScrollChangePositionET.cpp in Sources */,
-				01E66BD811DBCF030044CFA5 /* ScrollView.cpp in Sources */,
-				01E66BD911DBCF030044CFA5 /* StaticImage.cpp in Sources */,
-				01E66BDA11DBCF030044CFA5 /* StaticText.cpp in Sources */,
-				01E66BDB11DBCF030044CFA5 /* VScroll.cpp in Sources */,
-				01E66BDC11DBCF030044CFA5 /* Widget.cpp in Sources */,
-				01E66BDD11DBCF030044CFA5 /* WidgetManager.cpp in Sources */,
+				01141FA811DE323A005BB169 /* Button.cpp in Sources */,
+				01141FA911DE323A005BB169 /* ClickEventTranslator.cpp in Sources */,
+				01141FAA11DE323A005BB169 /* ComboBox.cpp in Sources */,
+				01141FAB11DE323A005BB169 /* Edit.cpp in Sources */,
+				01141FAC11DE323A005BB169 /* EventComboAcceptTranslator.cpp in Sources */,
+				01141FAD11DE323A005BB169 /* EventComboChangePositionTranslator.cpp in Sources */,
+				01141FAE11DE323A005BB169 /* EventEditSelectAcceptTranslator.cpp in Sources */,
+				01141FAF11DE323A005BB169 /* EventEditTextChangeTranslator.cpp in Sources */,
+				01141FB011DE323A005BB169 /* FontManager.cpp in Sources */,
+				01141FB111DE323A005BB169 /* Gui.cpp in Sources */,
+				01141FB211DE323A005BB169 /* LanguageManager.cpp in Sources */,
+				01141FB311DE323A005BB169 /* LayerManager.cpp in Sources */,
+				01141FB411DE323A005BB169 /* Layout.cpp in Sources */,
+				01141FB511DE323A005BB169 /* LayoutManager.cpp in Sources */,
+				01141FB611DE323A005BB169 /* MenuCtrl.cpp in Sources */,
+				01141FB711DE323A005BB169 /* MenuItem.cpp in Sources */,
+				01141FB811DE323A005BB169 /* MyGUIEventTranslator.cpp in Sources */,
+				01141FB911DE323A005BB169 /* OgrePlatform.cpp in Sources */,
+				01141FBA11DE323A005BB169 /* OgreRenderManager.cpp in Sources */,
+				01141FBB11DE323A005BB169 /* ScrollChangePositionET.cpp in Sources */,
+				01141FBC11DE323A005BB169 /* ScrollView.cpp in Sources */,
+				01141FBD11DE323A005BB169 /* StaticImage.cpp in Sources */,
+				01141FBE11DE323A005BB169 /* StaticText.cpp in Sources */,
+				01141FBF11DE323A005BB169 /* VScroll.cpp in Sources */,
+				01141FC011DE323A005BB169 /* Widget.cpp in Sources */,
+				01141FC111DE323A005BB169 /* WidgetManager.cpp in Sources */,
+				01141FC211DE323A005BB169 /* Stdafx.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
