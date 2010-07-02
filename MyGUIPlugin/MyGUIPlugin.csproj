@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Plugin\MyGUIUpdate.cs" />
     <Compile Include="Plugin\MyGUIInterface.cs" />
+    <Compile Include="Plugin\Widgets\ButtonGrid.cs" />
     <Compile Include="Plugin\Widgets\ButtonList.cs" />
     <Compile Include="Plugin\Widgets\CheckButton.cs" />
     <Compile Include="Plugin\Widgets\MinMaxScroll.cs" />
