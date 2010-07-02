@@ -202,6 +202,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\Edit.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\FontManager.cpp"
 				>
 			</File>
@@ -327,6 +331,14 @@
 			</File>
 			<File
 				RelativePath=".\Src\EventComboChangePositionTranslator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\EventEditSelectAcceptTranslator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\EventEditTextChangeTranslator.cpp"
 				>
 			</File>
 			<File

@@ -130,7 +130,7 @@ namespace MyGUIPlugin
                     return new MenuItem(widget);
 
                 case WidgetType.Edit:
-                    return new Widget(widget);
+                    return new Edit(widget);
 
                 case WidgetType.ComboBox:
                     return new ComboBox(widget);
