@@ -33,6 +33,7 @@ namespace OgreWrapper
         RenderQueue renderQueue;
         ManagedSceneListener sceneListener;
         SceneNode rootNode;
+        ManagedRenderQueueListener managedRenderQueueListener;
 
         protected SceneManager(IntPtr ogreSceneManager)
         {
@@ -41,10 +42,12 @@ namespace OgreWrapper
             sceneListener = new ManagedSceneListener(this);
             SceneManager_addSceneListener(ogreSceneManager, sceneListener.NativeSceneListener);
             rootNode = SceneNode.getManagedNode(SceneManager_getRootSceneNode(ogreSceneManager));
+            managedRenderQueueListener = new ManagedRenderQueueListener(this);
         }
 
         public void Dispose()
         {
+            managedRenderQueueListener.Dispose();
             SceneManager_removeSceneListener(ogreSceneManager, sceneListener.NativeSceneListener);
             sceneListener.Dispose();
             cameras.Dispose();
@@ -699,6 +702,21 @@ namespace OgreWrapper
             SceneManager_setSkyDome(ogreSceneManager, enabled, matName);
         }
 
+        public Viewport getCurrentViewport()
+        {
+            return ViewportManager.getViewportNoCreate(SceneManager_getCurrentViewport(ogreSceneManager));
+        }
+
+        public void addRenderQueueListener(RenderQueueListener listener)
+        {
+            managedRenderQueueListener.addListener(listener);
+        }
+
+        public void removeRenderQueueListener(RenderQueueListener listener)
+        {
+            managedRenderQueueListener.removeListener(listener);
+        }
+
         #region PInvoke
 
         [DllImport("OgreCWrapper")]
@@ -954,6 +972,9 @@ namespace OgreWrapper
 
         [DllImport("OgreCWrapper")]
         private static extern void SceneManager_setSkyDome(IntPtr ogreSceneManager, bool enabled, String matName);
+
+        [DllImport("OgreCWrapper")]
+        private static extern IntPtr SceneManager_getCurrentViewport(IntPtr ogreSceneManager);
 
         #endregion
     }

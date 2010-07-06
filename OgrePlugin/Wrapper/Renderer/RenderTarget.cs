@@ -42,7 +42,7 @@ namespace OgreWrapper
         }
 
         protected IntPtr renderTarget;
-        private WrapperCollection<Viewport> viewports = new WrapperCollection<Viewport>(Viewport.createWrapper);
+        private List<Viewport> viewports = new List<Viewport>();
 
         public RenderTarget(IntPtr renderTarget)
         {
@@ -51,6 +51,11 @@ namespace OgreWrapper
 
         public void Dispose()
         {
+            foreach (Viewport vp in viewports)
+            {
+                ViewportManager.destroyViewport(vp);
+            }
+            viewports.Clear();
             renderTarget = IntPtr.Zero;
         }
 
@@ -87,7 +92,9 @@ namespace OgreWrapper
         /// <returns>A new viewport.</returns>
         public Viewport addViewport(Camera camera)
         {
-            return viewports.getObject(RenderTarget_addViewport(renderTarget, camera.OgreObject));
+            Viewport vp = ViewportManager.getViewport(RenderTarget_addViewport(renderTarget, camera.OgreObject));
+            viewports.Add(vp);
+            return vp;
         }
 
         /// <summary>
@@ -111,7 +118,9 @@ namespace OgreWrapper
         /// <returns>A new viewport.</returns>
         public Viewport addViewport(Camera camera, int zOrder, float left, float top, float width, float height)
         {
-            return viewports.getObject(RenderTarget_addViewportExt(renderTarget, camera.OgreObject, zOrder, left, top, width, height));
+            Viewport vp = ViewportManager.getViewport(RenderTarget_addViewportExt(renderTarget, camera.OgreObject, zOrder, left, top, width, height));
+            viewports.Add(vp);
+            return vp;
         }
 
         /// <summary>
@@ -119,9 +128,8 @@ namespace OgreWrapper
         /// </summary>
         public void destroyViewport(Viewport viewport)
         {
-            IntPtr ogreViewport = viewport.OgreViewport;
-            viewports.destroyObject(ogreViewport);
-            RenderTarget_destroyViewport(renderTarget, ogreViewport);
+            viewports.Remove(viewport);
+            RenderTarget_destroyViewport(renderTarget, ViewportManager.destroyViewport(viewport));
         }
 
         /// <summary>
@@ -231,7 +239,7 @@ namespace OgreWrapper
         /// <returns>The viewport identified by name or null if it is not found.</returns>
         public Viewport getViewport(ushort index)
         {
-            return viewports.getObject(RenderTarget_getViewport(renderTarget, index));
+            return ViewportManager.getViewport(RenderTarget_getViewport(renderTarget, index));
         }
 
         /// <summary>

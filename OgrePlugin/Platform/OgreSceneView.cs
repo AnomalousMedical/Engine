@@ -5,6 +5,7 @@ using System.Text;
 using Engine;
 using OgreWrapper;
 using Engine.ObjectManagement;
+using Logging;
 
 namespace OgrePlugin
 {
@@ -17,7 +18,7 @@ namespace OgrePlugin
     /// <summary>
     /// A CameraControl class for ogre cameras.
     /// </summary>
-    public class OgreSceneView : SceneView, IDisposable, SceneListener
+    public class OgreSceneView : SceneView, IDisposable, SceneListener, RenderQueueListener
     {
         private const String CAMERA_RESERVED_NAME = "__AutoCreatedCamera";
         private const String CAMERA_NODE_RESERVED_NAME = "__AutoCreatedCameraNode";
@@ -59,6 +60,7 @@ namespace OgrePlugin
             statsOverlay = new StatsOverlay(name);
             statsOverlay.createOverlays();
             sceneManager.SceneManager.addSceneListener(this);
+            sceneManager.SceneManager.addRenderQueueListener(this);
 
             Root.getSingleton().FrameRenderingQueued += OgreCameraControl_FrameRenderingQueued;
         }
@@ -67,6 +69,7 @@ namespace OgrePlugin
         {
             Root.getSingleton().FrameRenderingQueued -= OgreCameraControl_FrameRenderingQueued;
             sceneManager.SceneManager.removeSceneListener(this);
+            sceneManager.SceneManager.removeRenderQueueListener(this);
             if (statsOverlay != null)
             {
                 statsOverlay.destroyOverlays();
@@ -215,6 +218,29 @@ namespace OgrePlugin
             {
                 PreFindVisibleObjects.Invoke(this.camera == camera);
             }
+        }
+
+        public void preRenderQueues()
+        {
+            
+        }
+
+        public void postRenderQueues()
+        {
+            if (showStats)
+            {
+                statsOverlay.setVisible(false);
+            }
+        }
+
+        public void renderQueueStarted(byte queueGroupId, string invocation, ref bool skipThisInvocation)
+        {
+            
+        }
+
+        public void renderQueueEnded(byte queueGroupId, string invocation, ref bool repeatThisInvocation)
+        {
+            
         }
 
         public void copyContentsToMemory(PixelBox pixelBox, RenderTarget.FrameBuffer buffer)

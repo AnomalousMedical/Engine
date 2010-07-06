@@ -249,6 +249,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\ManagedRenderQueueListener.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\ManualObject.cpp"
 				>
 			</File>

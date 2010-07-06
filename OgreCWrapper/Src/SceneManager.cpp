@@ -386,4 +386,9 @@ extern "C" _AnomalousExport void SceneManager_setSkyDome(Ogre::SceneManager* sce
 	sceneManager->setSkyDome(enabled, matName);
 }
 
+extern "C" _AnomalousExport Ogre::Viewport* SceneManager_getCurrentViewport(Ogre::SceneManager* sceneManager)
+{
+	return sceneManager->getCurrentViewport();
+}
+
 #pragma warning(pop)
