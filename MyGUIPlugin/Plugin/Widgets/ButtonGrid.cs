@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Engine;
+using Logging;
 
 namespace MyGUIPlugin
 {
@@ -39,6 +40,21 @@ namespace MyGUIPlugin
             {
                 button.Caption = value;
             }
+        }
+
+        public Object UserObject { get; set; }
+
+        internal int Width
+        {
+            get
+            {
+                return button.getWidth();
+            }
+        }
+
+        internal void setPosition(Vector2 position)
+        {
+            button.setPosition((int)position.x, (int)position.y);
         }
 
         internal ButtonGridGroup Group { get; private set; }
@@ -108,6 +124,22 @@ namespace MyGUIPlugin
         {
             Vector2 currentPosition = startPosition;
 
+            if (grid.ShowGroupCaptions)
+            {
+
+            }
+
+            foreach (ButtonGridItem item in items)
+            {
+                if (currentPosition.x + item.Width > grid.ScrollView.CanvasSize.Width)
+                {
+                    currentPosition.x = 0;
+                    currentPosition.y += grid.ItemHeight + grid.ItemPaddingY;
+                }
+                Log.Debug(currentPosition.ToString());
+                item.setPosition(currentPosition);
+                currentPosition.x += item.Width + grid.ItemPaddingX;
+            }
 
             return currentPosition;
         }
@@ -128,6 +160,7 @@ namespace MyGUIPlugin
             String read;
             bool boolValue;
             int intValue;
+            SuppressLayout = false;
 
             this.scrollView = scrollView;
 
@@ -139,7 +172,7 @@ namespace MyGUIPlugin
             }
             else
             {
-                ItemHeight = 32;
+                ItemHeight = 100;
             }
 
             read = scrollView.getUserString("ItemWidth");
@@ -149,7 +182,7 @@ namespace MyGUIPlugin
             }
             else
             {
-                ItemWidth = 0;
+                ItemWidth = 100;
             }
 
             read = scrollView.getUserString("ItemPaddingX");
@@ -289,6 +322,7 @@ namespace MyGUIPlugin
                 {
                     currentPosition = group.layout(currentPosition);
                 }
+                scrollView.CanvasSize = new Size(scrollView.CanvasSize.Width, currentPosition.y);
             }
         }
 
