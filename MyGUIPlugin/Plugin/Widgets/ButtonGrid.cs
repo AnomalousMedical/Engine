@@ -59,6 +59,18 @@ namespace MyGUIPlugin
 
         internal ButtonGridGroup Group { get; private set; }
 
+        internal bool StateCheck
+        {
+            get
+            {
+                return button.StateCheck;
+            }
+            set
+            {
+                button.StateCheck = value;
+            }
+        }
+
         public void setImage(String imageResource)
         {
             StaticImage image = button.StaticImage;
@@ -86,9 +98,10 @@ namespace MyGUIPlugin
                 captionText = grid.ScrollView.createWidgetT("StaticText", grid.GroupCaptionSkin, 0, 0, 10, 10, Align.Left | Align.Top, "") as StaticText;
                 captionText.Font = grid.GroupCaptionFont;
                 captionText.Caption = name;
-                captionText.setSize((int)captionText.FontHeight, (int)FontManager.Instance.measureStringWidth(captionText.Font, name));
+                captionText.setSize((int)FontManager.Instance.measureStringWidth(captionText.Font, name) + 30, (int)captionText.FontHeight);
 
-                separator = grid.ScrollView.createWidgetT("Widget", grid.GroupSeparatorSkin, 0, 0, 10, 2, Align.Left | Align.Top, "");
+                separator = grid.ScrollView.createWidgetT("Widget", grid.GroupSeparatorSkin, 0, 0, 10, 1, Align.Left | Align.Top, "");
+                separator.setSize((int)(grid.ScrollView.CanvasSize.Width - captionText.getWidth()) - 10, 1);
             }
         }
 
@@ -126,7 +139,10 @@ namespace MyGUIPlugin
 
             if (grid.ShowGroupCaptions)
             {
-
+                currentPosition.y += 5;
+                captionText.setPosition((int)currentPosition.x, (int)currentPosition.y);
+                separator.setPosition((int)(currentPosition.x + captionText.getWidth()), (int)(currentPosition.y + captionText.getHeight() / 2));
+                currentPosition.y += captionText.getHeight() + 5;
             }
 
             foreach (ButtonGridItem item in items)
@@ -136,10 +152,12 @@ namespace MyGUIPlugin
                     currentPosition.x = 0;
                     currentPosition.y += grid.ItemHeight + grid.ItemPaddingY;
                 }
-                Log.Debug(currentPosition.ToString());
                 item.setPosition(currentPosition);
                 currentPosition.x += item.Width + grid.ItemPaddingX;
             }
+
+            currentPosition.x = 0;
+            currentPosition.y += grid.ItemHeight + grid.ItemPaddingY;
 
             return currentPosition;
         }
@@ -192,7 +210,7 @@ namespace MyGUIPlugin
             }
             else
             {
-                ItemPaddingX = 0;
+                ItemPaddingX = 2;
             }
 
             read = scrollView.getUserString("ItemPaddingY");
@@ -202,7 +220,7 @@ namespace MyGUIPlugin
             }
             else
             {
-                ItemPaddingY = 0;
+                ItemPaddingY = 2;
             }
 
             ButtonSkin = scrollView.getUserString("ButtonSkin");
@@ -384,6 +402,7 @@ namespace MyGUIPlugin
             {
                 if (selectedItem != value)
                 {
+                    
                     selectedItem = value;
                     if (SelectedValueChanged != null)
                     {
