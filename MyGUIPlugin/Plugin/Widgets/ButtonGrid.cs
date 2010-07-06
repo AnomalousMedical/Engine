@@ -81,7 +81,7 @@ namespace MyGUIPlugin
         }
     }
 
-    public class ButtonGridGroup
+    internal class ButtonGridGroup
     {
         private ButtonGrid grid;
         private List<ButtonGridItem> items = new List<ButtonGridItem>();
@@ -162,7 +162,20 @@ namespace MyGUIPlugin
             return currentPosition;
         }
 
+        public int Count
+        {
+            get
+            {
+                return items.Count;
+            }
+        }
+
         public String Name { get; private set; }
+
+        internal ButtonGridItem getItem(int index)
+        {
+            return items[index];
+        }
     }
 
     public class ButtonGrid : IDisposable
@@ -170,6 +183,7 @@ namespace MyGUIPlugin
         private ScrollView scrollView;
         private ButtonGridItem selectedItem;
         private List<ButtonGridGroup> groups = new List<ButtonGridGroup>();
+        private int itemCount = 0;
 
         public event EventHandler SelectedValueChanged;
 
@@ -289,6 +303,7 @@ namespace MyGUIPlugin
                 groups.Add(addGroup);
             }
             ButtonGridItem item = addGroup.addItem(caption);
+            itemCount++;
             layout();
             return item;
         }
@@ -313,6 +328,7 @@ namespace MyGUIPlugin
         /// <param name="item">The item to remove.</param>
         public void removeItem(ButtonGridItem item)
         {
+            itemCount--;
             item.Group.removeItem(item);
             layout();
         }
@@ -342,6 +358,26 @@ namespace MyGUIPlugin
                 }
                 scrollView.CanvasSize = new Size(scrollView.CanvasSize.Width, currentPosition.y);
             }
+        }
+
+        public ButtonGridItem getItem(int index)
+        {
+            if (index >= itemCount)
+            {
+                throw new Exception("Index exceeded the number of items.");
+            }
+            else
+            {
+                foreach (ButtonGridGroup group in groups)
+                {
+                    if (index < group.Count)
+                    {
+                        return group.getItem(index);
+                    }
+                    index -= group.Count;
+                }
+            }
+            throw new Exception("Should not get this exception.");
         }
 
         /// <summary>
@@ -402,8 +438,15 @@ namespace MyGUIPlugin
             {
                 if (selectedItem != value)
                 {
-                    
+                    if (selectedItem != null)
+                    {
+                        selectedItem.StateCheck = false;
+                    }
                     selectedItem = value;
+                    if (selectedItem != null)
+                    {
+                        selectedItem.StateCheck = true;
+                    }
                     if (SelectedValueChanged != null)
                     {
                         SelectedValueChanged.Invoke(this, EventArgs.Empty);
@@ -418,6 +461,17 @@ namespace MyGUIPlugin
         /// items (make sure you set SuppressLayout back to true).
         /// </summary>
         public bool SuppressLayout { get; set; }
+
+        /// <summary>
+        /// The number of items.
+        /// </summary>
+        public int Count
+        {
+            get
+            {
+                return itemCount;
+            }
+        }
 
         /// <summary>
         /// The ScrollView for the grid.
