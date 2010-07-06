@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01BD39DA11E3C74E00F2C77C /* ManagedRenderQueueListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BD39D911E3C74E00F2C77C /* ManagedRenderQueueListener.cpp */; };
 		01EFBC2911BE812D00B9F880 /* Stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 01EFBA7611BE7A4200B9F880 /* Stdafx.h */; };
 		01EFBC2A11BE813300B9F880 /* NativeFrameListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 01EFBA2A11BE7A4200B9F880 /* NativeFrameListener.h */; };
 		01EFBC2B11BE813300B9F880 /* NativeSceneListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 01EFBA2B11BE7A4200B9F880 /* NativeSceneListener.h */; };
@@ -130,6 +131,7 @@
 /* Begin PBXFileReference section */
 		01B1BD4811CFA7990069A935 /* libMyGUI.OgrePlatform.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMyGUI.OgrePlatform.a; path = ../../../Dependencies/MyGUI/OSXBuild/lib/Release/libMyGUI.OgrePlatform.a; sourceTree = SOURCE_ROOT; };
 		01B1BD4911CFA7990069A935 /* libMyGUIEngineStatic.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMyGUIEngineStatic.a; path = ../../../Dependencies/MyGUI/OSXBuild/lib/Release/libMyGUIEngineStatic.a; sourceTree = SOURCE_ROOT; };
+		01BD39D911E3C74E00F2C77C /* ManagedRenderQueueListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManagedRenderQueueListener.cpp; sourceTree = "<group>"; };
 		01EFBA2A11BE7A4200B9F880 /* NativeFrameListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeFrameListener.h; sourceTree = "<group>"; };
 		01EFBA2B11BE7A4200B9F880 /* NativeSceneListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeSceneListener.h; sourceTree = "<group>"; };
 		01EFBA2C11BE7A4200B9F880 /* NativeWindowListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeWindowListener.h; sourceTree = "<group>"; };
@@ -319,6 +321,7 @@
 		01EFBA3111BE7A4200B9F880 /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				01BD39D911E3C74E00F2C77C /* ManagedRenderQueueListener.cpp */,
 				01EFBA3211BE7A4200B9F880 /* Animation.cpp */,
 				01EFBA3311BE7A4200B9F880 /* AnimationState.cpp */,
 				01EFBA3411BE7A4200B9F880 /* AnimationStateSet.cpp */,
@@ -715,6 +718,7 @@
 				01EFBC7111BE813D00B9F880 /* Viewport.cpp in Sources */,
 				01EFBC7211BE813D00B9F880 /* WindowEventUtilities.cpp in Sources */,
 				01EFBC7311BE813D00B9F880 /* WrapperMath.cpp in Sources */,
+				01BD39DA11E3C74E00F2C77C /* ManagedRenderQueueListener.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
