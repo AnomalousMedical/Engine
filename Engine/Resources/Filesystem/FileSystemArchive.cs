@@ -43,12 +43,19 @@ namespace Engine.Resources
 
         public override String[] listFiles(String url, String searchPattern, bool recursive)
         {
-            String[] files = Directory.GetFiles(fixIncomingDirectoryURL(url), searchPattern, recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
-            for (int i = 0; i < files.Length; ++i)
+            try
             {
-                files[i] = fixOutgoingFileString(files[i]);
+                String[] files = Directory.GetFiles(fixIncomingDirectoryURL(url), searchPattern, recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
+                for (int i = 0; i < files.Length; ++i)
+                {
+                    files[i] = fixOutgoingFileString(files[i]);
+                }
+                return files;
             }
-            return files;
+            catch (DirectoryNotFoundException)
+            {
+                return new String[0];
+            }
         }
 
         public override String[] listDirectories(bool recursive)

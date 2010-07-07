@@ -7,40 +7,29 @@ using System.Text.RegularExpressions;
 
 namespace OgreWrapper
 {
-    abstract class MemoryFileInfo
+    class MemoryStreamInfo : IDisposable
     {
-        public abstract long Size { get; }
-
-        public abstract String BaseName { get; }
-
-        public abstract String FileName { get; }
-
-        public abstract String Path { get; }
-
-        public abstract Stream openStream();
-    }
-
-    class MemoryStringInfo : MemoryFileInfo
-    {
-        private String memStr;
+        private MemoryStream stream;
         private long size;
         private String baseName;
         private String fileName;
         private String path;
 
-        public MemoryStringInfo(String resourceName, String archivePath, String memString)
+        public MemoryStreamInfo(String resourceName, String archivePath, MemoryStream stream)
         {
-            this.memStr = memString;
-            baseName = archivePath + resourceName;
-            fileName = resourceName;
+            this.stream = stream;
+            baseName = resourceName;
+            fileName = archivePath + resourceName;
             path = archivePath;
-            using (Stream stream = openStream())
-            {
-                size = stream.Length;
-            }
+            size = stream.Length;
         }
 
-        public override long Size
+        public void Dispose()
+        {
+            stream.Dispose();
+        }
+
+        public long Size
         {
             get
             {
@@ -48,7 +37,7 @@ namespace OgreWrapper
             }
         }
 
-        public override string BaseName
+        public string BaseName
         {
             get
             {
@@ -56,7 +45,7 @@ namespace OgreWrapper
             }
         }
 
-        public override string FileName
+        public string FileName
         {
             get
             {
@@ -64,7 +53,7 @@ namespace OgreWrapper
             }
         }
 
-        public override string Path
+        public string Path
         {
             get
             {
@@ -72,9 +61,12 @@ namespace OgreWrapper
             }
         }
 
-        public override Stream openStream()
+        public Stream openStream()
         {
-            return new MemoryStream(ASCIIEncoding.Default.GetBytes(memStr));
+            MemoryStream newStream = new MemoryStream((int)stream.Length);
+            stream.WriteTo(newStream);
+            newStream.Position = 0;
+            return newStream;
         }
     }
 
@@ -84,7 +76,7 @@ namespace OgreWrapper
     public class MemoryArchive : OgreManagedArchive
     {
         MemoryArchiveFactory factory;
-        Dictionary<String, MemoryFileInfo> fileList = new Dictionary<String, MemoryFileInfo>();
+        Dictionary<String, MemoryStreamInfo> fileList = new Dictionary<String, MemoryStreamInfo>();
 
         public MemoryArchive(String name, String archType, MemoryArchiveFactory factory)
             :base(name, archType)
@@ -92,15 +84,19 @@ namespace OgreWrapper
             this.factory = factory;
         }
 
-        public void addStringResource(String resourceName, String memString)
+        /// <summary>
+        /// Add a stream resource to this archive. The stream passed will NOT be
+        /// copied and the archive will take ownership of it for disposal. So
+        /// you can add a stream and do not have to worry about disposing it.
+        /// However, do not dispose it or it will break that resource in the
+        /// archive as well.
+        /// </summary>
+        /// <param name="resourceName">The name of the stream resource.</param>
+        /// <param name="stream">The MemoryStream of the resource.</param>
+        public void addMemoryStreamResource(String resourceName, MemoryStream stream)
         {
-            MemoryStringInfo strInfo = new MemoryStringInfo(resourceName, name, memString);
-            fileList.Add(strInfo.BaseName, strInfo);
-        }
-
-        public void removeStringResource(String resourceName)
-        {
-            fileList.Remove(resourceName);
+            MemoryStreamInfo memStrInfo = new MemoryStreamInfo(resourceName, name, stream);
+            fileList.Add(memStrInfo.FileName, memStrInfo);
         }
 
         protected override void load()
@@ -110,6 +106,11 @@ namespace OgreWrapper
 
         protected override void unload()
         {
+            foreach (MemoryStreamInfo info in fileList.Values)
+            {
+                info.Dispose();
+            }
+            fileList.Clear();
             factory.archiveUnloaded(this);
         }
 
@@ -120,7 +121,7 @@ namespace OgreWrapper
 
         protected override void doList(bool recursive, bool dirs, IntPtr ogreStringVector)
         {
-            foreach(MemoryFileInfo i in fileList.Values)
+            foreach (MemoryStreamInfo i in fileList.Values)
             {
                 OgreStringVector_push_back(ogreStringVector, i.FileName);
             }
@@ -128,7 +129,7 @@ namespace OgreWrapper
 
         protected override void doListFileInfo(bool recursive, bool dirs, IntPtr ogreFileList, IntPtr archive)
         {
-            foreach (MemoryFileInfo i in fileList.Values)
+            foreach (MemoryStreamInfo i in fileList.Values)
             {
                 OgreFileInfoList_push_back(ogreFileList, archive, new IntPtr(i.Size), new IntPtr(i.Size), i.BaseName, i.FileName, i.Path);
             }
@@ -138,7 +139,7 @@ namespace OgreWrapper
         {
             Regex r = new Regex(wildcardToRegex(pattern));
             bool fullMatch = pattern.Contains('/') || pattern.Contains('\\');
-            foreach (MemoryFileInfo i in fileList.Values)
+            foreach (MemoryStreamInfo i in fileList.Values)
             {
                 if(r.Match(fullMatch ? i.FileName : i.BaseName).Success)
                 {
@@ -151,11 +152,11 @@ namespace OgreWrapper
         {
             Regex r = new Regex(wildcardToRegex(pattern));
             bool fullMatch = pattern.Contains('/') || pattern.Contains('\\');
-            foreach (MemoryFileInfo i in fileList.Values)
+            foreach (MemoryStreamInfo i in fileList.Values)
             {
                 if (r.Match(fullMatch ? i.FileName : i.BaseName).Success)
                 {
-                    OgreFileInfoList_push_back(ogreFileList, archive, new IntPtr(i.Size), new IntPtr(i.Size), i.BaseName, i.FileName, i.Path);
+                    OgreFileInfoList_push_back(ogreFileList, archive, new IntPtr(i.Size), new IntPtr(i.Size), i.BaseName, i.FileName.Replace(name, ""), i.Path.Replace(name, ""));
                 }
             }
         }
