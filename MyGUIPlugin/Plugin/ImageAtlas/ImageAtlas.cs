@@ -28,8 +28,8 @@ namespace MyGUIPlugin
 
         public void Dispose()
         {
+            clear();
             OgreResourceGroupManager.getInstance().removeResourceLocation(name, "MyGUI");
-            //delete the created resources too TODO <------------------ DO THIS SOON
         }
 
         public String addImage(String key, Image image)
@@ -44,7 +44,6 @@ namespace MyGUIPlugin
 
             String xmlString = String.Format(resourceXML, guidStr, name + guidStr + ".png");
             memoryArchive.addMemoryStreamResource(guidStr + ".xml", new MemoryStream(ASCIIEncoding.UTF8.GetBytes(xmlString)));
-            Log.Debug(xmlString);
 
             ResourceManager.Instance.load(name + guidStr + ".xml");
             return guidStr;
@@ -55,12 +54,27 @@ namespace MyGUIPlugin
             Guid guid = Guid.Empty;
             if(guidDictionary.TryGetValue(key, out guid))
             {
-                String guidStr = guid.ToString();
-                ResourceManager.Instance.remove(guidStr);
-                memoryArchive.destroyMemoryStreamResource(guidStr + ".png");
-                memoryArchive.destroyMemoryStreamResource(guidStr + ".xml");
+                guid = deleteImage(guid);
                 guidDictionary.Remove(key);
             }
+        }
+
+        public void clear()
+        {
+            foreach (Guid guid in guidDictionary.Values)
+            {
+                deleteImage(guid);
+            }
+            guidDictionary.Clear();
+        }
+
+        private Guid deleteImage(Guid guid)
+        {
+            String guidStr = guid.ToString();
+            ResourceManager.Instance.remove(guidStr);
+            memoryArchive.destroyMemoryStreamResource(guidStr + ".png");
+            memoryArchive.destroyMemoryStreamResource(guidStr + ".xml");
+            return guid;
         }
 
         private string resourceXML = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
