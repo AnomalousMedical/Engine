@@ -17,7 +17,7 @@ namespace MyGUIPlugin
         private Size2 imageSize;
         private Size2 atlasPageSize;
         private MemoryArchive memoryArchive;
-        private Dictionary<String, Guid> guidDictionary = new Dictionary<string, Guid>();
+        private Dictionary<String, String> guidDictionary = new Dictionary<String, String>();
 
         public ImageAtlas(String name, Size2 imageSize, Size2 atlasPageSize)
         {
@@ -37,8 +37,8 @@ namespace MyGUIPlugin
         public String addImage(String key, Image image)
         {
             Guid guid = Guid.NewGuid();
-            guidDictionary.Add(key, guid);
             String guidStr = Guid.NewGuid().ToString();
+            guidDictionary.Add(key, guidStr);
 
             //resize the image if it does not match
             bool resizedImage = false;
@@ -68,30 +68,28 @@ namespace MyGUIPlugin
 
         public void removeImage(String key)
         {
-            Guid guid = Guid.Empty;
+            String guid = null;
             if(guidDictionary.TryGetValue(key, out guid))
             {
-                guid = deleteImage(guid);
+                deleteImage(guid);
                 guidDictionary.Remove(key);
             }
         }
 
         public void clear()
         {
-            foreach (Guid guid in guidDictionary.Values)
+            foreach (String guid in guidDictionary.Values)
             {
                 deleteImage(guid);
             }
             guidDictionary.Clear();
         }
 
-        private Guid deleteImage(Guid guid)
+        private void deleteImage(String guid)
         {
-            String guidStr = guid.ToString();
-            ResourceManager.Instance.remove(guidStr);
-            memoryArchive.destroyMemoryStreamResource(guidStr + ".png");
-            memoryArchive.destroyMemoryStreamResource(guidStr + ".xml");
-            return guid;
+            ResourceManager.Instance.remove(guid);
+            memoryArchive.destroyMemoryStreamResource(guid + ".png");
+            memoryArchive.destroyMemoryStreamResource(guid + ".xml");
         }
 
         private string resourceXML = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
