@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Text.RegularExpressions;
+using Logging;
 
 namespace OgreWrapper
 {
@@ -96,7 +97,28 @@ namespace OgreWrapper
         public void addMemoryStreamResource(String resourceName, MemoryStream stream)
         {
             MemoryStreamInfo memStrInfo = new MemoryStreamInfo(resourceName, name, stream);
-            fileList.Add(memStrInfo.FileName, memStrInfo);
+            fileList.Add(resourceName, memStrInfo);
+        }
+
+        /// <summary>
+        /// Destroy a stream held by this MemoryArchive and deletes it out of
+        /// the archive. Will destroy the underlying stream and it must be
+        /// created and readded to be used again.
+        /// </summary>
+        /// <param name="resourceName">The name of the resource to destroy.</param>
+        public void destroyMemoryStreamResource(String resourceName)
+        {
+            MemoryStreamInfo info;
+            fileList.TryGetValue(resourceName, out info);
+            if (info != null)
+            {
+                info.Dispose();
+                fileList.Remove(resourceName);
+            }
+            else
+            {
+                Log.Warning("Attempted to erase resource {0} out of MemoryArchive {1} that does not exist. No changes made.", resourceName, name);
+            }
         }
 
         protected override void load()
@@ -116,6 +138,7 @@ namespace OgreWrapper
 
         protected override Stream doOpen(string filename)
         {
+            filename = filename.Substring(name.Length);
             return fileList[filename].openStream();
         }
 
@@ -163,7 +186,15 @@ namespace OgreWrapper
 
         protected override bool exists(string filename)
         {
-            return fileList.ContainsKey(filename);
+            if (filename.StartsWith(name))
+            {
+                filename = filename.Substring(name.Length);
+                return fileList.ContainsKey(filename);
+            }
+            else
+            {
+                return false;
+            }
         }
 
         internal String ArchiveName
