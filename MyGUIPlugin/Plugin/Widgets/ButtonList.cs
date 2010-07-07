@@ -128,7 +128,7 @@ namespace MyGUIPlugin
             item.Caption = caption;
             item.Index = items.Count;
             items.Add(item);
-            scrollView.CanvasSize = new Size(ItemWidth, computeYPosForIndex(items.Count));
+            scrollView.CanvasSize = new Size2(ItemWidth, computeYPosForIndex(items.Count));
             return item;
         }
 

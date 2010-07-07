@@ -29,9 +29,9 @@ namespace MyGUIPlugin
             this.z = 0;
         }
 
-        public Size toSize()
+        public Size2 toSize()
         {
-            return new Size(x, y);
+            return new Size2(x, y);
         }
 
         public Vector2 toVector2()

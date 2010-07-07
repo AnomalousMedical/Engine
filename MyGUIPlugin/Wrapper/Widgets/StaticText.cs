@@ -20,7 +20,7 @@ namespace MyGUIPlugin
             return StaticText_getTextRegion(widget);
         }
 
-        public Size getTextSize()
+        public Size2 getTextSize()
         {
             return StaticText_getTextSize(widget).toSize();
         }

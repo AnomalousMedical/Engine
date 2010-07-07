@@ -21,7 +21,7 @@ namespace MyGUIPlugin
             ScrollView_setCanvasSize(widget, width, height);
         }
 
-        public Size CanvasSize
+        public Size2 CanvasSize
         {
             get
             {

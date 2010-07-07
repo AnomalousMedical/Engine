@@ -100,7 +100,7 @@
     <Compile Include="Log\Log.cs" />
     <Compile Include="Log\LogFileListener.cs" />
     <Compile Include="Log\LogListener.cs" />
-    <Compile Include="Math\2d\Size.cs" />
+    <Compile Include="Math\2d\Size2.cs" />
     <Compile Include="Math\2d\Vector2.cs" />
     <Compile Include="Math\3d\Matrix4x4.cs" />
     <Compile Include="Math\3d\Quaternion.cs" />

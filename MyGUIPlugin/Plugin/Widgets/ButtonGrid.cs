@@ -356,7 +356,7 @@ namespace MyGUIPlugin
                 {
                     currentPosition = group.layout(currentPosition);
                 }
-                scrollView.CanvasSize = new Size(scrollView.CanvasSize.Width, currentPosition.y);
+                scrollView.CanvasSize = new Size2(scrollView.CanvasSize.Width, currentPosition.y);
             }
         }
 

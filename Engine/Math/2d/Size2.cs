@@ -6,8 +6,11 @@ using System.Runtime.InteropServices;
 
 namespace Engine
 {
+    /// <summary>
+    /// A 2 dimensional size class.
+    /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 8)]
-    public struct Size
+    public struct Size2
     {
         [FieldOffset(0)]
         public float Width;
@@ -15,7 +18,7 @@ namespace Engine
         [FieldOffset(4)]
         public float Height;
 
-        public Size(float width, float height)
+        public Size2(float width, float height)
         {
             this.Width = width;
             this.Height = height;
@@ -45,44 +48,44 @@ namespace Engine
         //    }
         //}
 
-        public static Size operator +(Size v1, Size v2)
+        public static Size2 operator +(Size2 v1, Size2 v2)
         {
-            return new Size(v1.Width + v2.Width, v1.Height + v2.Height);
+            return new Size2(v1.Width + v2.Width, v1.Height + v2.Height);
         }
 
-        public static Size operator *(Size v1, Size v2)
+        public static Size2 operator *(Size2 v1, Size2 v2)
         {
-            return new Size(v1.Width * v2.Width, v1.Height * v2.Height);
+            return new Size2(v1.Width * v2.Width, v1.Height * v2.Height);
         }
 
-        public static Size operator -(Size v1, Size v2)
+        public static Size2 operator -(Size2 v1, Size2 v2)
         {
-            return new Size(v1.Width - v2.Width, v1.Height - v2.Height);
+            return new Size2(v1.Width - v2.Width, v1.Height - v2.Height);
         }
 
-        public static Size operator -(Size v)
+        public static Size2 operator -(Size2 v)
         {
-            return new Size(-v.Width, -v.Height);
+            return new Size2(-v.Width, -v.Height);
         }
 
-        public static Size operator *(Size v, float s)
+        public static Size2 operator *(Size2 v, float s)
         {
-            return new Size(v.Width + s, v.Height + s);
+            return new Size2(v.Width + s, v.Height + s);
         }
 
-        public static Size operator *(float s, Size v)
+        public static Size2 operator *(float s, Size2 v)
         {
             return v * s;
         }
 
-        public static Size operator /(Size v, float s)
+        public static Size2 operator /(Size2 v, float s)
         {
             return v * (1.0f / s);
         }
 
-        public static Size operator /(Size v1, Size v2)
+        public static Size2 operator /(Size2 v1, Size2 v2)
         {
-            return new Size(v1.Width / v2.Width, v1.Height / v2.Height);
+            return new Size2(v1.Width / v2.Width, v1.Height / v2.Height);
         }
     }
 }
