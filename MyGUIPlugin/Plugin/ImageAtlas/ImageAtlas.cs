@@ -22,6 +22,8 @@ namespace MyGUIPlugin
         public ImageAtlas(String name, Size2 imageSize, Size2 atlasPageSize)
         {
             this.name = name;
+            this.imageSize = imageSize;
+            this.atlasPageSize = atlasPageSize;
             OgreResourceGroupManager.getInstance().addResourceLocation(name, "Memory", "MyGUI", true);
             memoryArchive = MemoryArchiveFactory.Instance.getArchive(name);
         }
@@ -37,15 +39,30 @@ namespace MyGUIPlugin
             Guid guid = Guid.NewGuid();
             guidDictionary.Add(key, guid);
             String guidStr = Guid.NewGuid().ToString();
-            
+
+            //resize the image if it does not match
+            bool resizedImage = false;
+            Size addImageSize = image.Size;
+            if (addImageSize.Width != imageSize.Width || imageSize.Height != addImageSize.Height)
+            {
+                image = new Bitmap(image, new Size((int)imageSize.Width, (int)imageSize.Height));
+                resizedImage = true;
+            }
+
             MemoryStream imageStream = new MemoryStream();
             image.Save(imageStream, ImageFormat.Png);
             memoryArchive.addMemoryStreamResource(guidStr + ".png", imageStream);
 
-            String xmlString = String.Format(resourceXML, guidStr, name + guidStr + ".png");
+            String xmlString = String.Format(resourceXML, guidStr, name + guidStr + ".png", imageSize.Width, imageSize.Height);
             memoryArchive.addMemoryStreamResource(guidStr + ".xml", new MemoryStream(ASCIIEncoding.UTF8.GetBytes(xmlString)));
 
             ResourceManager.Instance.load(name + guidStr + ".xml");
+
+            //Dispose the image if it was resized
+            if (resizedImage)
+            {
+                image.Dispose();
+            }
             return guidStr;
         }
 
@@ -80,7 +97,7 @@ namespace MyGUIPlugin
         private string resourceXML = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
                                 "<MyGUI type=\"Resource\" version=\"1.1\">\n" +
                                   "<Resource type=\"ResourceImageSet\" name=\"{0}\">\n" +
-                                    "<Group name=\"Icons\" texture=\"{1}\" size=\"32 32\">\n" +
+                                    "<Group name=\"Icons\" texture=\"{1}\" size=\"{2} {3}\">\n" +
                                       "<Index name=\"Skin\">\n" +
                                         "<Frame point=\"0 0\"/>\n" +
                                       "</Index>\n" +

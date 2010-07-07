@@ -204,7 +204,7 @@ namespace MyGUIPlugin
             }
             else
             {
-                ItemHeight = 100;
+                ItemHeight = 122;
             }
 
             read = scrollView.getUserString("ItemWidth");
@@ -214,7 +214,7 @@ namespace MyGUIPlugin
             }
             else
             {
-                ItemWidth = 100;
+                ItemWidth = 122;
             }
 
             read = scrollView.getUserString("ItemPaddingX");
@@ -224,7 +224,7 @@ namespace MyGUIPlugin
             }
             else
             {
-                ItemPaddingX = 2;
+                ItemPaddingX = 10;
             }
 
             read = scrollView.getUserString("ItemPaddingY");
@@ -240,7 +240,7 @@ namespace MyGUIPlugin
             ButtonSkin = scrollView.getUserString("ButtonSkin");
             if (ButtonSkin == null || ButtonSkin == String.Empty)
             {
-                ButtonSkin = "Button";
+                ButtonSkin = "ButtonGridButton";
             }
 
             GroupCaptionFont = scrollView.getUserString("GroupCaptionFont");
