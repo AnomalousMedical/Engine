@@ -2,12 +2,77 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Engine;
+using OgreWrapper;
+using System.Drawing;
+using System.IO;
+using System.Drawing.Imaging;
+using Logging;
 
 namespace MyGUIPlugin
 {
-    public class ImageAtlas
+    public class ImageAtlas : IDisposable
     {
-        //public 
+        private String name;
+        private Size2 imageSize;
+        private Size2 atlasPageSize;
+        private MemoryArchive memoryArchive;
+        private Dictionary<String, Guid> guidDictionary = new Dictionary<string, Guid>();
+
+        public ImageAtlas(String name, Size2 imageSize, Size2 atlasPageSize)
+        {
+            this.name = name;
+            OgreResourceGroupManager.getInstance().addResourceLocation(name, "Memory", "MyGUI", true);
+            memoryArchive = MemoryArchiveFactory.Instance.getArchive(name);
+        }
+
+        public void Dispose()
+        {
+            OgreResourceGroupManager.getInstance().removeResourceLocation(name, "MyGUI");
+            //delete the created resources too TODO <------------------ DO THIS SOON
+        }
+
+        public String addImage(String key, Image image)
+        {
+            Guid guid = Guid.NewGuid();
+            guidDictionary.Add(key, guid);
+            String guidStr = Guid.NewGuid().ToString();
+            
+            MemoryStream imageStream = new MemoryStream();
+            image.Save(imageStream, ImageFormat.Png);
+            memoryArchive.addMemoryStreamResource(guidStr + ".png", imageStream);
+
+            String xmlString = String.Format(resourceXML, guidStr, name + guidStr + ".png");
+            memoryArchive.addMemoryStreamResource(guidStr + ".xml", new MemoryStream(ASCIIEncoding.UTF8.GetBytes(xmlString)));
+            Log.Debug(xmlString);
+
+            ResourceManager.Instance.load(name + guidStr + ".xml");
+            return guidStr;
+        }
+
+        public void removeImage(String key)
+        {
+            Guid guid = Guid.Empty;
+            if(guidDictionary.TryGetValue(key, out guid))
+            {
+                String guidStr = guid.ToString();
+                ResourceManager.Instance.remove(guidStr);
+                memoryArchive.destroyMemoryStreamResource(guidStr + ".png");
+                memoryArchive.destroyMemoryStreamResource(guidStr + ".xml");
+                guidDictionary.Remove(key);
+            }
+        }
+
+        private string resourceXML = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+                                "<MyGUI type=\"Resource\" version=\"1.1\">\n" +
+                                  "<Resource type=\"ResourceImageSet\" name=\"{0}\">\n" +
+                                    "<Group name=\"Icons\" texture=\"{1}\" size=\"32 32\">\n" +
+                                      "<Index name=\"Skin\">\n" +
+                                        "<Frame point=\"0 0\"/>\n" +
+                                      "</Index>\n" +
+                                    "</Group>\n" +
+                                  "</Resource>\n" +
+                                "</MyGUI>";
     }
 }
 /*

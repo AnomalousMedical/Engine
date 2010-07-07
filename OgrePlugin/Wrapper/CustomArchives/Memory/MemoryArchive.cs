@@ -173,6 +173,10 @@ namespace OgreWrapper
 
         protected override void dofindFileInfo(String pattern, bool recursive, bool dirs, IntPtr ogreFileList, IntPtr archive)
         {
+            if (pattern.StartsWith(name))
+            {
+                pattern = pattern.Substring(name.Length);
+            }
             Regex r = new Regex(wildcardToRegex(pattern));
             bool fullMatch = pattern.Contains('/') || pattern.Contains('\\');
             foreach (MemoryStreamInfo i in fileList.Values)
