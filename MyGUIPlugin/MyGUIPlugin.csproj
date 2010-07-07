@@ -36,6 +36,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -46,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Plugin\ImageAtlas\ImageAtlas.cs" />
     <Compile Include="Plugin\MyGUIUpdate.cs" />
     <Compile Include="Plugin\MyGUIInterface.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid.cs" />
@@ -74,6 +76,7 @@
     <Compile Include="Wrapper\System\LayoutManager.cs" />
     <Compile Include="Wrapper\System\OgrePlatform.cs" />
     <Compile Include="Wrapper\System\OgreRenderManager.cs" />
+    <Compile Include="Wrapper\System\ResourceManager.cs" />
     <Compile Include="Wrapper\Widgets\Button.cs" />
     <Compile Include="Plugin\Widgets\ButtonGroup.cs" />
     <Compile Include="Wrapper\Widgets\ComboBox.cs" />

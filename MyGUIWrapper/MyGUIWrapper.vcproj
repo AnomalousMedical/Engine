@@ -246,6 +246,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\ResourceManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\ScrollView.cpp"
 				>
 			</File>
