@@ -18,14 +18,21 @@ namespace OgreWrapper
 
         public void Dispose()
         {
-            sharedPtr.Dispose();
+            if (sharedPtr != null)
+            {
+                sharedPtr.Dispose();
+            }
         }
 
         public Texture Value
         {
             get
             {
-                return sharedPtr.Value;
+                if (sharedPtr != null)
+                {
+                    return sharedPtr.Value;
+                }
+                return null;
             }
         }
     }

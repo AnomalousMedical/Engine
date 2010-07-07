@@ -7,6 +7,20 @@ extern "C" _AnomalousExport Ogre::Texture* TextureManager_createManual(String na
 	return texturePtr.getPointer();
 }
 
+extern "C" _AnomalousExport Ogre::Texture* TextureManager_getByName1(String name, ProcessWrapperObjectDelegate processWrapper)
+{
+	const Ogre::TexturePtr& texturePtr = Ogre::TextureManager::getSingleton().getByName(name);
+	processWrapper(texturePtr.getPointer(), &texturePtr);
+	return texturePtr.getPointer();
+}
+
+extern "C" _AnomalousExport Ogre::Texture* TextureManager_getByName2(String name, String group, ProcessWrapperObjectDelegate processWrapper)
+{
+	const Ogre::TexturePtr& texturePtr = Ogre::TextureManager::getSingleton().getByName(name, group);
+	processWrapper(texturePtr.getPointer(), &texturePtr);
+	return texturePtr.getPointer();
+}
+
 //TexturePtr
 extern "C" _AnomalousExport Ogre::TexturePtr* TexturePtr_createHeapPtr(Ogre::TexturePtr* stackSharedPtr)
 {

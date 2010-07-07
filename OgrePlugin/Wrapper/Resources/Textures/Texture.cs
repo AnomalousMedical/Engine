@@ -40,7 +40,7 @@ namespace OgreWrapper
         TEX_TYPE_CUBE_MAP = 4
     };
 
-    public class Texture : IDisposable
+    public class Texture : Resource
     {
         internal static Texture createWrapper(IntPtr texture)
         {
@@ -50,13 +50,15 @@ namespace OgreWrapper
         private IntPtr texture;
 
         private Texture(IntPtr texture)
+            :base(texture)
         {
             this.texture = texture;
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             texture = IntPtr.Zero;
+            base.Dispose();
         }
 
         public HardwarePixelBufferSharedPtr getBuffer()

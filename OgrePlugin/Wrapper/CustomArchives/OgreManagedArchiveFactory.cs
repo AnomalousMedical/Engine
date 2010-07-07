@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace OgreWrapper
 {
-    abstract class OgreManagedArchiveFactory : IDisposable
+    public abstract class OgreManagedArchiveFactory : IDisposable
     {
         CreateInstanceDelegate createInstanceCallback;
         DestroyInstanceDelegate destroyInstanceCallback;

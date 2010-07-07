@@ -43,6 +43,7 @@ namespace OgreWrapper
         //Pointers to archive factories (engine archive and embedded)
         EmbeddedResourceArchiveFactory embeddedResources = new EmbeddedResourceArchiveFactory();
         OgreEngineArchiveFactory engineArchives = new OgreEngineArchiveFactory();
+        MemoryArchiveFactory memoryArchives = new MemoryArchiveFactory();
 
         static Root instance;
 
@@ -63,6 +64,7 @@ namespace OgreWrapper
             Root_addFrameListener(ogreRoot, nativeFrameListener);
             ArchiveManager_addArchiveFactory(embeddedResources.NativeFactory);
             ArchiveManager_addArchiveFactory(engineArchives.NativeFactory);
+            ArchiveManager_addArchiveFactory(memoryArchives.NativeFactory);
             instance = this;
         }
 
@@ -76,6 +78,7 @@ namespace OgreWrapper
             Root_Delete(ogreRoot);
             embeddedResources.Dispose();
             engineArchives.Dispose();
+            memoryArchives.Dispose();
             RenderSystemPlugin_Delete(renderSystemPlugin);
             CGPlugin_Delete(cgPlugin);
         }

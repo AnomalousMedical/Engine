@@ -29,6 +29,16 @@ namespace OgreWrapper
             return getObject(TextureManager_createManual(name, group, texType, width, height, depth, num_mips, format, usage, hwGammaCorrection, fsaa, ProcessWrapperObjectCallback));
         }
 
+        public TexturePtr getByName(String name)
+        {
+            return getObject(TextureManager_getByName1(name, ProcessWrapperObjectCallback));
+        }
+
+        public TexturePtr getByName(String name, String groupName)
+        {
+            return getObject(TextureManager_getByName2(name, groupName, ProcessWrapperObjectCallback));
+        }
+
         internal TexturePtr getObject(IntPtr nativeTexture)
         {
             return new TexturePtr(textureCollection.getObject(nativeTexture));
@@ -46,6 +56,12 @@ namespace OgreWrapper
 
         [DllImport("OgreCWrapper")]
         private static extern IntPtr TextureManager_createManual(String name, String group, TextureType texType, uint width, uint height, uint depth, int num_mips, PixelFormat format, TextureUsage usage, bool hwGammaCorrection, uint fsaa, ProcessWrapperObjectDelegate processWrapper);
+
+        [DllImport("OgreCWrapper")]
+        private static extern IntPtr TextureManager_getByName1(String name, ProcessWrapperObjectDelegate processWrapper);
+
+        [DllImport("OgreCWrapper")]
+        private static extern IntPtr TextureManager_getByName2(String name, String group, ProcessWrapperObjectDelegate processWrapper);
 
         //TexturePtr
         [DllImport("OgreCWrapper")]

@@ -7,7 +7,7 @@ using System.IO;
 
 namespace OgreWrapper
 {
-    abstract class OgreManagedArchive : IDisposable
+    public abstract class OgreManagedArchive : IDisposable
     {
         LoadDelegate loadCallback;
         UnloadDelegate unloadCallback;
