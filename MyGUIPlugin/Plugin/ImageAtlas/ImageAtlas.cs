@@ -17,7 +17,7 @@ namespace MyGUIPlugin
         private Size2 imageSize;
         private Size2 atlasPageSize;
         private MemoryArchive memoryArchive;
-        private Dictionary<String, String> guidDictionary = new Dictionary<String, String>();
+        private Dictionary<Object, String> guidDictionary = new Dictionary<Object, String>();
 
         public ImageAtlas(String name, Size2 imageSize, Size2 atlasPageSize)
         {
@@ -34,11 +34,11 @@ namespace MyGUIPlugin
             OgreResourceGroupManager.getInstance().removeResourceLocation(name, "MyGUI");
         }
 
-        public String addImage(String resourceName, Image image)
+        public String addImage(Object resourceKey, Image image)
         {
             Guid guid = Guid.NewGuid();
             String guidStr = Guid.NewGuid().ToString();
-            guidDictionary.Add(resourceName, guidStr);
+            guidDictionary.Add(resourceKey, guidStr);
 
             //resize the image if it does not match
             bool resizedImage = false;
@@ -66,25 +66,25 @@ namespace MyGUIPlugin
             return guidStr;
         }
 
-        public void removeImage(String resourceName)
+        public void removeImage(Object resourceKey)
         {
             String guid = null;
-            if(guidDictionary.TryGetValue(resourceName, out guid))
+            if(guidDictionary.TryGetValue(resourceKey, out guid))
             {
                 deleteImage(guid);
-                guidDictionary.Remove(resourceName);
+                guidDictionary.Remove(resourceKey);
             }
         }
 
-        public bool containsImage(String resourceName)
+        public bool containsImage(Object resourceKey)
         {
-            return guidDictionary.ContainsKey(resourceName);
+            return guidDictionary.ContainsKey(resourceKey);
         }
 
-        public String getImageId(String resourceName)
+        public String getImageId(Object resourceKey)
         {
             String guid = null;
-            guidDictionary.TryGetValue(resourceName, out guid);
+            guidDictionary.TryGetValue(resourceKey, out guid);
             return guid;
         }
 
