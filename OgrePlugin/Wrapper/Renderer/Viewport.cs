@@ -171,6 +171,11 @@ namespace OgreWrapper
             return Marshal.PtrToStringAnsi(Viewport_getRenderQueueInvocationSequenceName(viewport));
         }
 
+        public Camera getCamera()
+        {
+            return Camera.resolvePointer(Viewport_getCamera(viewport));
+        }
+
 #region PInvoke
 
         [DllImport("OgreCWrapper")]
@@ -251,6 +256,9 @@ namespace OgreWrapper
 
         [DllImport("OgreCWrapper")]
         private static extern IntPtr Viewport_getRenderQueueInvocationSequenceName(IntPtr viewport);
+
+        [DllImport("OgreCWrapper")]
+        private static extern IntPtr Viewport_getCamera(IntPtr viewport);
 
 #endregion
     }

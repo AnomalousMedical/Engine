@@ -2,7 +2,7 @@
 
 #include "OgreSceneManager.h"
 
-typedef void (*FindVisibleCallback)(Ogre::SceneManager* sceneManager, Ogre::SceneManager::IlluminationRenderStage irs, Ogre::Camera* camera);
+typedef void (*FindVisibleCallback)(Ogre::SceneManager* sceneManager, Ogre::SceneManager::IlluminationRenderStage irs, Ogre::Viewport* viewport);
 
 class NativeSceneListener : public Ogre::SceneManager::Listener
 {

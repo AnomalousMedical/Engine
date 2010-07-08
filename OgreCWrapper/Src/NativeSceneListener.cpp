@@ -13,12 +13,12 @@ NativeSceneListener::~NativeSceneListener(void)
 
 void NativeSceneListener::preFindVisibleObjects(Ogre::SceneManager* source, Ogre::SceneManager::IlluminationRenderStage irs, Ogre::Viewport* v)
 {
-	preFind(source, irs, v->getCamera());
+	preFind(source, irs, v);
 }
 
 void NativeSceneListener::postFindVisibleObjects(Ogre::SceneManager* source, Ogre::SceneManager::IlluminationRenderStage irs, Ogre::Viewport* v)
 {
-	postFind(source, irs, v->getCamera());
+	postFind(source, irs, v);
 }
 
 extern "C" _AnomalousExport NativeSceneListener* NativeSceneListener_Create(FindVisibleCallback preFind, FindVisibleCallback postFind)

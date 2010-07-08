@@ -64,13 +64,13 @@ namespace OgreWrapper
 	    /// <param name="sceneManager">The scene manager raising the event.</param>
 	    /// <param name="irs">The stage of illumination being dealt with. IRS_NONE for a regular 
 	    /// render, IRS_RENDER_TO_TEXTURE for a shadow caster render.</param>
-	    /// <param name="camera">The camera containing the viewport being updated.</param>
-	    void preFindVisibleObjects(IntPtr sceneManager, SceneManager.IlluminationRenderStage irs, IntPtr camera)
+        /// <param name="viewport">The viewport being updated.</param>
+	    void preFindVisibleObjects(IntPtr sceneManager, SceneManager.IlluminationRenderStage irs, IntPtr viewport)
         {
-            Camera cam = Camera.resolvePointer(camera);
+            Viewport vp = ViewportManager.getViewportNoCreate(viewport);
             foreach(SceneListener listener in sceneListeners)
             {
-                listener.preFindVisibleObjects(this.sceneManager, irs, cam);
+                listener.preFindVisibleObjects(this.sceneManager, irs, vp);
             }
         }
 
@@ -82,13 +82,13 @@ namespace OgreWrapper
 	    /// <param name="sceneManager">The SceneManager instance raising this event.</param>
 	    /// <param name="irs">The stage of illumination being dealt with. IRS_NONE for a regular 
 	    /// render, IRS_RENDER_TO_TEXTURE for a shadow caster render.</param>
-	    /// <param name="camera">The camera containing the viewport being updated.</param>
-        void postFindVisibleObjects(IntPtr sceneManager, SceneManager.IlluminationRenderStage irs, IntPtr camera)
+        /// <param name="viewport">The viewport being updated.</param>
+        void postFindVisibleObjects(IntPtr sceneManager, SceneManager.IlluminationRenderStage irs, IntPtr viewport)
         {
-            Camera cam = Camera.resolvePointer(camera);
+            Viewport vp = ViewportManager.getViewportNoCreate(viewport);
             foreach (SceneListener listener in sceneListeners)
             {
-                listener.postFindVisibleObjects(this.sceneManager, irs, cam);
+                listener.postFindVisibleObjects(this.sceneManager, irs, vp);
             }
         }
 

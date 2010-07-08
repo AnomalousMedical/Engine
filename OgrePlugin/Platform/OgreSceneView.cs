@@ -189,23 +189,23 @@ namespace OgrePlugin
             renderWindow.update(swapBuffers);
         }
 
-        public void postFindVisibleObjects(SceneManager sceneManager, SceneManager.IlluminationRenderStage irs, Camera camera)
+        public void postFindVisibleObjects(SceneManager sceneManager, SceneManager.IlluminationRenderStage irs, Viewport viewport)
         {
             if (PostFindVisibleObjects != null)
             {
-                PostFindVisibleObjects.Invoke(this.camera == camera);
+                PostFindVisibleObjects.Invoke(this.viewport == viewport);
             }
         }
 
-        public void preFindVisibleObjects(SceneManager sceneManager, SceneManager.IlluminationRenderStage irs, Camera camera)
+        public void preFindVisibleObjects(SceneManager sceneManager, SceneManager.IlluminationRenderStage irs, Viewport viewport)
         {
             if (showStats && statsOverlay != null)
             {
-                statsOverlay.setVisible(showStats && this.camera == camera);
+                statsOverlay.setVisible(showStats && this.viewport == viewport);
             }
             if (light != null)
             {
-                if (this.camera == camera)
+                if (this.viewport == viewport)
                 {
                     light.setPosition(node.getDerivedPosition());
                 }
@@ -216,7 +216,7 @@ namespace OgrePlugin
             }
             if (PreFindVisibleObjects != null)
             {
-                PreFindVisibleObjects.Invoke(this.camera == camera);
+                PreFindVisibleObjects.Invoke(this.viewport == viewport);
             }
         }
 

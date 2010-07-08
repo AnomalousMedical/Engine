@@ -124,3 +124,8 @@ extern "C" _AnomalousExport String Viewport_getRenderQueueInvocationSequenceName
 {
 	return viewport->getRenderQueueInvocationSequenceName().c_str();
 }
+
+extern "C" _AnomalousExport Ogre::Camera* Viewport_getCamera(Ogre::Viewport* viewport)
+{
+	return viewport->getCamera();
+}

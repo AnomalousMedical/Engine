@@ -15,8 +15,8 @@ namespace OgreWrapper
 	    /// <param name="sceneManager">The scene manager raising the event.</param>
 	    /// <param name="irs">The stage of illumination being dealt with. IRS_NONE for a regular 
 	    /// render, IRS_RENDER_TO_TEXTURE for a shadow caster render.</param>
-	    /// <param name="camera">The camera containing the viewport being updated.</param>
-	    void preFindVisibleObjects(SceneManager sceneManager, SceneManager.IlluminationRenderStage irs, Camera camera);
+        /// <param name="viewport">The viewport being updated.</param>
+	    void preFindVisibleObjects(SceneManager sceneManager, SceneManager.IlluminationRenderStage irs, Viewport viewport);
 
 	    /// <summary>
 	    /// Called after searching for visible objects in this SceneManager.
@@ -26,8 +26,8 @@ namespace OgreWrapper
 	    /// <param name="sceneManager">The SceneManager instance raising this event.</param>
 	    /// <param name="irs">The stage of illumination being dealt with. IRS_NONE for a regular 
 	    /// render, IRS_RENDER_TO_TEXTURE for a shadow caster render.</param>
-	    /// <param name="camera">The camera containing the viewport being updated.</param>
-	    void postFindVisibleObjects(SceneManager sceneManager, SceneManager.IlluminationRenderStage irs, Camera camera);
+        /// <param name="viewport">The viewport being updated.</param>
+        void postFindVisibleObjects(SceneManager sceneManager, SceneManager.IlluminationRenderStage irs, Viewport viewport);
     }
 
 }
