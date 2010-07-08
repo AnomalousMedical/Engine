@@ -21,6 +21,7 @@ namespace MyGUIPlugin
 
         private UpdateTimer mainTimer;
         private MyGUIUpdate myGUIUpdate;
+        private MyGUIRenderListener renderListener;
 
         public MyGUIInterface()
         {
@@ -75,6 +76,8 @@ namespace MyGUIPlugin
             vp.setBackgroundColor(new Color(1.0f, 0.0f, 0.0f, 0.0f));
             vp.setClearEveryFrame(false);
 
+            renderListener = new MyGUIRenderListener(vp, sceneManager);
+
             gui = new Gui();
             gui.initialize("core.xml", LogFile);
 
@@ -117,5 +120,35 @@ namespace MyGUIPlugin
         }
 
         public static String LogFile { get; set; }
+
+        /// <summary>
+        /// This event is fired before MyGUI renders.
+        /// </summary>
+        public event EventHandler RenderStarted
+        {
+            add
+            {
+                renderListener.RenderStarted += value;
+            }
+            remove
+            {
+                renderListener.RenderStarted -= value;
+            }
+        }
+
+        /// <summary>
+        /// This event is fired after MyGUI renders.
+        /// </summary>
+        public event EventHandler RenderEnded
+        {
+            add
+            {
+                renderListener.RenderEnded += value;
+            }
+            remove
+            {
+                renderListener.RenderEnded -= value;
+            }
+        }
     }
 }

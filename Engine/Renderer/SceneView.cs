@@ -16,10 +16,34 @@ namespace Engine
     }
 
     /// <summary>
+    /// An event for SceneViews.
+    /// </summary>
+    /// <param name="sceneView">The scene view that fired the event.</param>
+    public delegate void SceneViewEvent(SceneView sceneView);
+
+    /// <summary>
     /// This class is the interface for a camera in the Renderer plugin.
     /// </summary>
     public interface SceneView
     {
+        /// <summary>
+        /// Called before the SceneView is rendered.
+        /// </summary>
+        event SceneViewEvent RenderingStarted;
+
+        /// <summary>
+        /// Called after the SceneView has finished rendering.
+        /// </summary>
+        event SceneViewEvent RenderingEnded;
+
+        /// <summary>
+        /// This is called when any SceneView is finding its visible objects.
+        /// You can check the CurrentlyRendering property if you need to change
+        /// an object's visibility based on whether or not this SceneView is the
+        /// current one rendering.
+        /// </summary>
+        event SceneViewEvent FindVisibleObjects;
+
         /// <summary>
         /// Add a light that follows the camera around. This will only create
         /// one light.
@@ -121,6 +145,11 @@ namespace Engine
         /// Get the real render height of this view.
         /// </summary>
         int RenderHeight{ get; }
+
+        /// <summary>
+        /// This will be true if the SceneView is currently rendering.
+        /// </summary>
+        bool CurrentlyRendering { get; }
 
         /// <summary>
         /// Set the dimensions of this SceneView using relative numbers between 0 and 1.

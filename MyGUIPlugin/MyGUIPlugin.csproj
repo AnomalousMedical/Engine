@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Plugin\ImageAtlas\ImageAtlas.cs" />
+    <Compile Include="Plugin\MyGUIRenderListener.cs" />
     <Compile Include="Plugin\MyGUIUpdate.cs" />
     <Compile Include="Plugin\MyGUIInterface.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid.cs" />

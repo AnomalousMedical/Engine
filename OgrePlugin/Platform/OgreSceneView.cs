@@ -10,16 +10,14 @@ using Logging;
 namespace OgrePlugin
 {
     /// <summary>
-    /// This delegate allows subscribers to listen to Ogre camera events through this camera.
-    /// </summary>
-    /// <param name="callingCameraRender">True if the camera dispatching the event is the camera that is being rendered.</param>
-    public delegate void OgreCameraCallback(bool callingCameraRender);
-
-    /// <summary>
     /// A CameraControl class for ogre cameras.
     /// </summary>
     public class OgreSceneView : SceneView, IDisposable, SceneListener, RenderQueueListener
     {
+        public event SceneViewEvent RenderingStarted;
+        public event SceneViewEvent RenderingEnded;
+        public event SceneViewEvent FindVisibleObjects;
+
         private const String CAMERA_RESERVED_NAME = "__AutoCreatedCamera";
         private const String CAMERA_NODE_RESERVED_NAME = "__AutoCreatedCameraNode";
         private const String LIGHT_RESERVED_NAME = "__AutoCreatedLight";
@@ -189,60 +187,6 @@ namespace OgrePlugin
             renderWindow.update(swapBuffers);
         }
 
-        public void postFindVisibleObjects(SceneManager sceneManager, SceneManager.IlluminationRenderStage irs, Viewport viewport)
-        {
-            if (PostFindVisibleObjects != null)
-            {
-                PostFindVisibleObjects.Invoke(this.viewport == viewport);
-            }
-        }
-
-        public void preFindVisibleObjects(SceneManager sceneManager, SceneManager.IlluminationRenderStage irs, Viewport viewport)
-        {
-            if (showStats && statsOverlay != null)
-            {
-                statsOverlay.setVisible(showStats && this.viewport == viewport);
-            }
-            if (light != null)
-            {
-                if (this.viewport == viewport)
-                {
-                    light.setPosition(node.getDerivedPosition());
-                }
-                else
-                {
-                    light.setPosition(reallyFarAway);
-                }
-            }
-            if (PreFindVisibleObjects != null)
-            {
-                PreFindVisibleObjects.Invoke(this.viewport == viewport);
-            }
-        }
-
-        public void preRenderQueues()
-        {
-            
-        }
-
-        public void postRenderQueues()
-        {
-            if (showStats)
-            {
-                statsOverlay.setVisible(false);
-            }
-        }
-
-        public void renderQueueStarted(byte queueGroupId, string invocation, ref bool skipThisInvocation)
-        {
-            
-        }
-
-        public void renderQueueEnded(byte queueGroupId, string invocation, ref bool repeatThisInvocation)
-        {
-            
-        }
-
         public void copyContentsToMemory(PixelBox pixelBox, RenderTarget.FrameBuffer buffer)
         {
             renderWindow.copyContentsToMemory(pixelBox, buffer);
@@ -349,6 +293,8 @@ namespace OgrePlugin
             }
         }
 
+        public bool CurrentlyRendering { get; private set; }
+
         public void setDimensions(float left, float top, float width, float height)
         {
             viewport.setDimensions(left, top, width, height);
@@ -359,8 +305,89 @@ namespace OgrePlugin
             statsOverlay.setStats(renderWindow);
         }
 
-        public event OgreCameraCallback PreFindVisibleObjects;
+        private void fireRenderingStarted()
+        {
+            if (showStats && statsOverlay != null)
+            {
+                statsOverlay.setVisible(true);
+            }
+            if (RenderingStarted != null)
+            {
+                RenderingStarted.Invoke(this);
+            }
+        }
 
-        public event OgreCameraCallback PostFindVisibleObjects;
+        private void fireRenderingEnded()
+        {
+            if (showStats && statsOverlay != null)
+            {
+                statsOverlay.setVisible(false);
+            }
+            if (RenderingEnded != null)
+            {
+                RenderingEnded.Invoke(this);
+            }
+        }
+
+        private void fireFindVisibleObjects()
+        {
+            if (light != null)
+            {
+                if (CurrentlyRendering)
+                {
+                    light.setPosition(node.getDerivedPosition());
+                }
+                else
+                {
+                    light.setPosition(reallyFarAway);
+                }
+            }
+            if (FindVisibleObjects != null)
+            {
+                FindVisibleObjects.Invoke(this);
+            }
+        }
+
+        #region SceneListener and RenderQueueListener
+
+        public void postFindVisibleObjects(SceneManager sceneManager, SceneManager.IlluminationRenderStage irs, Viewport viewport)
+        {
+            
+        }
+
+        public void preFindVisibleObjects(SceneManager sceneManager, SceneManager.IlluminationRenderStage irs, Viewport viewport)
+        {
+            CurrentlyRendering = this.viewport == viewport;
+            if (CurrentlyRendering)
+            {
+                fireRenderingStarted();
+            }
+            fireFindVisibleObjects();
+        }
+
+        public void preRenderQueues()
+        {
+            
+        }
+
+        public void postRenderQueues()
+        {
+            if (sceneManager.SceneManager.getCurrentViewport() == viewport)
+            {
+                fireRenderingEnded();
+            }
+        }
+
+        public void renderQueueStarted(byte queueGroupId, string invocation, ref bool skipThisInvocation)
+        {
+
+        }
+
+        public void renderQueueEnded(byte queueGroupId, string invocation, ref bool repeatThisInvocation)
+        {
+
+        }
+
+        #endregion
     }
 }
