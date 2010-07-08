@@ -85,6 +85,14 @@ namespace MyGUIPlugin
             guidDictionary.Clear();
         }
 
+        public Size2 ImageSize
+        {
+            get
+            {
+                return imageSize;
+            }
+        }
+
         private void deleteImage(String guid)
         {
             ResourceManager.Instance.remove(guid);
