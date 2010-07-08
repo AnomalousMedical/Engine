@@ -36,6 +36,7 @@
 		01141FC111DE323A005BB169 /* WidgetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141FA411DE323A005BB169 /* WidgetManager.cpp */; };
 		01141FC211DE323A005BB169 /* Stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141FA511DE323A005BB169 /* Stdafx.cpp */; };
 		01141FC311DE323A005BB169 /* Stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 01141FA611DE323A005BB169 /* Stdafx.h */; };
+		0150614411E621CF00BD1C99 /* ResourceManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0150614311E621CF00BD1C99 /* ResourceManager.cpp */; };
 		01B1BD4A11CFA7990069A935 /* libMyGUI.OgrePlatform.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01B1BD4811CFA7990069A935 /* libMyGUI.OgrePlatform.a */; };
 		01B1BD4B11CFA7990069A935 /* libMyGUIEngineStatic.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01B1BD4911CFA7990069A935 /* libMyGUIEngineStatic.a */; };
 		01B1BE7311CFA97D0069A935 /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01EFBAC311BE7B0D00B9F880 /* Ogre.framework */; };
@@ -71,6 +72,7 @@
 		01141FA411DE323A005BB169 /* WidgetManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WidgetManager.cpp; sourceTree = "<group>"; };
 		01141FA511DE323A005BB169 /* Stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Stdafx.cpp; path = ../../MyGUIWrapper/Stdafx.cpp; sourceTree = SOURCE_ROOT; };
 		01141FA611DE323A005BB169 /* Stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stdafx.h; path = ../../MyGUIWrapper/Stdafx.h; sourceTree = SOURCE_ROOT; };
+		0150614311E621CF00BD1C99 /* ResourceManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ResourceManager.cpp; sourceTree = "<group>"; };
 		01B1BD1A11CFA6FD0069A935 /* libMyGUIWrapper.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libMyGUIWrapper.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		01B1BD4811CFA7990069A935 /* libMyGUI.OgrePlatform.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMyGUI.OgrePlatform.a; path = ../../../Dependencies/MyGUI/OSXBuild/lib/Release/libMyGUI.OgrePlatform.a; sourceTree = SOURCE_ROOT; };
 		01B1BD4911CFA7990069A935 /* libMyGUIEngineStatic.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMyGUIEngineStatic.a; path = ../../../Dependencies/MyGUI/OSXBuild/lib/Release/libMyGUIEngineStatic.a; sourceTree = SOURCE_ROOT; };
@@ -114,6 +116,7 @@
 		01141F8A11DE323A005BB169 /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				0150614311E621CF00BD1C99 /* ResourceManager.cpp */,
 				01141F8B11DE323A005BB169 /* Button.cpp */,
 				01141F8C11DE323A005BB169 /* ClickEventTranslator.cpp */,
 				01141F8D11DE323A005BB169 /* ComboBox.cpp */,
@@ -285,6 +288,7 @@
 				01141FC011DE323A005BB169 /* Widget.cpp in Sources */,
 				01141FC111DE323A005BB169 /* WidgetManager.cpp in Sources */,
 				01141FC211DE323A005BB169 /* Stdafx.cpp in Sources */,
+				0150614411E621CF00BD1C99 /* ResourceManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
