@@ -34,11 +34,11 @@ namespace MyGUIPlugin
             OgreResourceGroupManager.getInstance().removeResourceLocation(name, "MyGUI");
         }
 
-        public String addImage(String key, Image image)
+        public String addImage(String resourceName, Image image)
         {
             Guid guid = Guid.NewGuid();
             String guidStr = Guid.NewGuid().ToString();
-            guidDictionary.Add(key, guidStr);
+            guidDictionary.Add(resourceName, guidStr);
 
             //resize the image if it does not match
             bool resizedImage = false;
@@ -66,14 +66,26 @@ namespace MyGUIPlugin
             return guidStr;
         }
 
-        public void removeImage(String key)
+        public void removeImage(String resourceName)
         {
             String guid = null;
-            if(guidDictionary.TryGetValue(key, out guid))
+            if(guidDictionary.TryGetValue(resourceName, out guid))
             {
                 deleteImage(guid);
-                guidDictionary.Remove(key);
+                guidDictionary.Remove(resourceName);
             }
+        }
+
+        public bool containsImage(String resourceName)
+        {
+            return guidDictionary.ContainsKey(resourceName);
+        }
+
+        public String getImageId(String resourceName)
+        {
+            String guid = null;
+            guidDictionary.TryGetValue(resourceName, out guid);
+            return guid;
         }
 
         public void clear()
