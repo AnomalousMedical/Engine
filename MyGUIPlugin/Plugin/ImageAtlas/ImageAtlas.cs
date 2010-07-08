@@ -40,29 +40,7 @@ namespace MyGUIPlugin
             String guidStr = Guid.NewGuid().ToString();
             guidDictionary.Add(resourceKey, guidStr);
 
-            //resize the image if it does not match
-            bool resizedImage = false;
-            Size addImageSize = image.Size;
-            if (addImageSize.Width != imageSize.Width || imageSize.Height != addImageSize.Height)
-            {
-                image = new Bitmap(image, new Size((int)imageSize.Width, (int)imageSize.Height));
-                resizedImage = true;
-            }
-
-            MemoryStream imageStream = new MemoryStream();
-            image.Save(imageStream, ImageFormat.Png);
-            memoryArchive.addMemoryStreamResource(guidStr + ".png", imageStream);
-
-            String xmlString = String.Format(resourceXML, guidStr, name + guidStr + ".png", imageSize.Width, imageSize.Height);
-            memoryArchive.addMemoryStreamResource(guidStr + ".xml", new MemoryStream(ASCIIEncoding.UTF8.GetBytes(xmlString)));
-
-            ResourceManager.Instance.load(name + guidStr + ".xml");
-
-            //Dispose the image if it was resized
-            if (resizedImage)
-            {
-                image.Dispose();
-            }
+            image = createImage(guidStr, image);
             return guidStr;
         }
 
@@ -73,6 +51,16 @@ namespace MyGUIPlugin
             {
                 deleteImage(guid);
                 guidDictionary.Remove(resourceKey);
+            }
+        }
+
+        public void replaceImage(Object resourceKey, Image newImage)
+        {
+            String guid = null;
+            if (guidDictionary.TryGetValue(resourceKey, out guid))
+            {
+                deleteImage(guid);
+                createImage(guid, newImage);
             }
         }
 
@@ -102,6 +90,34 @@ namespace MyGUIPlugin
             ResourceManager.Instance.remove(guid);
             memoryArchive.destroyMemoryStreamResource(guid + ".png");
             memoryArchive.destroyMemoryStreamResource(guid + ".xml");
+        }
+
+        private Image createImage(String guidStr, Image image)
+        {
+            //resize the image if it does not match
+            bool resizedImage = false;
+            Size addImageSize = image.Size;
+            if (addImageSize.Width != imageSize.Width || imageSize.Height != addImageSize.Height)
+            {
+                image = new Bitmap(image, new Size((int)imageSize.Width, (int)imageSize.Height));
+                resizedImage = true;
+            }
+
+            MemoryStream imageStream = new MemoryStream();
+            image.Save(imageStream, ImageFormat.Png);
+            memoryArchive.addMemoryStreamResource(guidStr + ".png", imageStream);
+
+            String xmlString = String.Format(resourceXML, guidStr, name + guidStr + ".png", imageSize.Width, imageSize.Height);
+            memoryArchive.addMemoryStreamResource(guidStr + ".xml", new MemoryStream(ASCIIEncoding.UTF8.GetBytes(xmlString)));
+
+            ResourceManager.Instance.load(name + guidStr + ".xml");
+
+            //Dispose the image if it was resized
+            if (resizedImage)
+            {
+                image.Dispose();
+            }
+            return image;
         }
 
         private string resourceXML = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
