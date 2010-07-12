@@ -79,7 +79,17 @@ namespace MyGUIPlugin
             renderListener = new MyGUIRenderListener(vp, sceneManager);
 
             gui = new Gui();
-            gui.initialize("core.xml", LogFile);
+            gui.initialize("", LogFile);
+
+            //Load config files
+            gui.load(Theme);
+            gui.load(Language);
+            gui.load(Font);
+            gui.load(Resource);
+            gui.load(Skin);
+            gui.load(Pointer);
+            gui.load(Layer);
+            gui.load(Settings);
 
             Log.Info("Finished initializing MyGUI");
         }
@@ -117,9 +127,60 @@ namespace MyGUIPlugin
         static MyGUIInterface()
         {
             LogFile = "MyGUI.log";
+            Theme = "core_theme.xml";
+            Language = "core_language.xml";
+            Font = "core_font.xml";
+            Resource = "core_resource.xml";
+            Skin = "core_skin.xml";
+            Pointer = "core_pointer.xml";
+            Layer = "core_layer.xml";
+            Settings = "core_settings.xml";
         }
 
+        /// <summary>
+        /// The log file location for MyGUI. Set before initializing.
+        /// </summary>
         public static String LogFile { get; set; }
+
+        /// <summary>
+        /// The file to load the theme tags for MyGUI. Set before initializing.
+        /// </summary>
+        public static String Theme { get; set; }
+
+        /// <summary>
+        /// The file to load the language for MyGUI. Set before initializing.
+        /// </summary>
+        public static String Language { get; set; }
+
+        /// <summary>
+        /// The file to load the fonts for MyGUI. Set before initializing.
+        /// </summary>
+        public static String Font { get; set; }
+
+        /// <summary>
+        /// The file to load the resources for MyGUI. Set before initializing.
+        /// </summary>
+        public static String Resource { get; set; }
+
+        /// <summary>
+        /// The file to load the skin settings for MyGUI. Set before initializing.
+        /// </summary>
+        public static String Skin { get; set; }
+
+        /// <summary>
+        /// The file to load pointer info for MyGUI. Set before initializing.
+        /// </summary>
+        public static String Pointer { get; set; }
+
+        /// <summary>
+        /// The file to load layer info for MyGUI. Set before initializing.
+        /// </summary>
+        public static String Layer { get; set; }
+
+        /// <summary>
+        /// The file to load settings for MyGUI. Set before initializing.
+        /// </summary>
+        public static String Settings { get; set; }
 
         /// <summary>
         /// This event is fired before MyGUI renders.

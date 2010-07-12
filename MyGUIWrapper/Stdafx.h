@@ -56,6 +56,18 @@ public:
 	}
 };
 
+class Size2
+{
+public:
+	float width;
+    float height;
+
+	MyGUI::IntSize toIntSize()
+	{
+		return MyGUI::IntSize(width, height);
+	}
+};
+
 class ThreeIntHack
 {
 public:
@@ -69,6 +81,13 @@ public:
         y = size.height;
         z = 0;
     }
+
+	ThreeIntHack(const MyGUI::IntPoint& point)
+	{
+		x = point.left;
+        y = point.top;
+        z = 0;
+	}
 };
 
 MyGUI::MenuItemType::Enum getMenuItemTypeEnumVal(const MyGUI::MenuItemType& type);

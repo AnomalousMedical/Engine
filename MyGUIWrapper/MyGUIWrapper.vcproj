@@ -214,6 +214,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\InputManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\LanguageManager.cpp"
 				>
 			</File>
@@ -293,6 +297,10 @@
 				RelativePath=".\Src\WidgetManager.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\Src\Window.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -343,6 +351,14 @@
 			</File>
 			<File
 				RelativePath=".\Src\EventEditTextChangeTranslator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\EventWindowButtonPressedTranslator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\EventWindowChangeCoordTranslator.cpp"
 				>
 			</File>
 			<File

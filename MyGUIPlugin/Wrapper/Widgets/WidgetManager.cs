@@ -148,7 +148,7 @@ namespace MyGUIPlugin
                     return new HScroll(widget);
 
                 case WidgetType.Window:
-                    return new Widget(widget);
+                    return new Window(widget);
 
                 case WidgetType.Message:
                     return new Widget(widget);
