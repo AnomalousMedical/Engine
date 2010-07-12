@@ -67,6 +67,7 @@
     <Compile Include="Wrapper\Events\MyGUIEventTranslator.cs" />
     <Compile Include="Wrapper\Events\VScroll\ScrollChangePositionET.cs" />
     <Compile Include="Wrapper\Events\Template.cs" />
+    <Compile Include="Wrapper\Events\Widget\EventMouseButtonDoubleClickTranslator.cs" />
     <Compile Include="Wrapper\Events\Window\EventWindowButtonPressedTranslator.cs" />
     <Compile Include="Wrapper\Events\Window\EventWindowChangeCoordTranslator.cs" />
     <Compile Include="Wrapper\Math\IntCoord.cs" />

@@ -170,10 +170,19 @@ namespace Engine.Platform
         /// </summary>
         protected virtual void fireFixedUpdate(long time)
         {
-            clock.setTimeMicroseconds(time);
-            foreach (UpdateListener fixedListener in fixedListeners)
+            try
             {
-                fixedListener.sendUpdate(clock);
+                clock.setTimeMicroseconds(time);
+                foreach (UpdateListener fixedListener in fixedListeners)
+                {
+                    fixedListener.sendUpdate(clock);
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                //Ignore, allows listeners to modify the fixed listeners.
+                //This is needed to do things like change scenes during a listener
+                //or other such events.
             }
         }
 

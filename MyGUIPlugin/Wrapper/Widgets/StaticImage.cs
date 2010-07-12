@@ -16,6 +16,10 @@ namespace MyGUIPlugin
 
         public void setItemResource(String value)
         {
+            if (value == null)
+            {
+                value = "";
+            }
             StaticImage_setItemResource(widget, value);
         }
 

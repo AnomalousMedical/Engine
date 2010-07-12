@@ -18,11 +18,17 @@ namespace MyGUIPlugin
             this.Group = group;
             button = list.ScrollView.createWidgetT("Button", list.ButtonSkin, 0, 0, list.ItemWidth, list.ItemHeight, Align.Top | Align.Left, "") as Button;
             button.MouseButtonClick += new MyGUIEvent(button_MouseButtonClick);
+            button.MouseButtonDoubleClick += new MyGUIEvent(button_MouseButtonDoubleClick);
         }
 
         void button_MouseButtonClick(Widget source, EventArgs e)
         {
             grid.SelectedItem = this;
+        }
+
+        void button_MouseButtonDoubleClick(Widget source, EventArgs e)
+        {
+            grid.itemActivated(this);
         }
 
         public void Dispose()
@@ -178,6 +184,23 @@ namespace MyGUIPlugin
         }
     }
 
+    /// <summary>
+    /// This class will create a series of buttons on a ScrollView making it
+    /// work like a grid of buttons.
+    /// </summary>
+    /// <remarks>
+    /// The view can be customized by some user options on the ScrollView.
+    /// 
+    /// ItemHeight - The height of each item.
+    /// ItemWidth - The width of each item.
+    /// ItemPaddingX - The padding between items in the x direction.
+    /// ItemPaddingY - The padding between items in the y direction.
+    /// ButtonSkin - The skin to use for buttons.
+    /// GroupCaptionFont - The font to use for group captions.
+    /// ShowGroupCaptions - True to show captions False to hide them.
+    /// GroupCaptionSkin - The skin to use for group captions.
+    /// GroupSeparatorSkin - The skin to use for group caption separators.
+    /// </remarks>
     public class ButtonGrid : IDisposable
     {
         private ScrollView scrollView;
@@ -186,7 +209,12 @@ namespace MyGUIPlugin
         private int itemCount = 0;
 
         public event EventHandler SelectedValueChanged;
+        public event EventHandler ItemActivated;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="scrollView"></param>
         public ButtonGrid(ScrollView scrollView)
         {
             String read;
@@ -481,6 +509,14 @@ namespace MyGUIPlugin
             get
             {
                 return scrollView;
+            }
+        }
+
+        internal void itemActivated(ButtonGridItem item)
+        {
+            if (ItemActivated != null)
+            {
+                ItemActivated.Invoke(item, EventArgs.Empty);
             }
         }
     }

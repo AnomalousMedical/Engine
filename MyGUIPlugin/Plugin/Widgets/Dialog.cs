@@ -12,6 +12,11 @@ namespace MyGUIPlugin
         private bool modal = false;
 
         /// <summary>
+        /// Called after the dialog opens.
+        /// </summary>
+        public event EventHandler Shown;
+
+        /// <summary>
         /// Called when the dialog is closing, but is still open.
         /// </summary>
         public event EventHandler Closing;
@@ -98,6 +103,10 @@ namespace MyGUIPlugin
                     else
                     {
                         window.Visible = value;
+                    }
+                    if (Shown != null)
+                    {
+                        Shown.Invoke(this, EventArgs.Empty);
                     }
                 }
             }

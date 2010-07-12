@@ -469,6 +469,18 @@ namespace MyGUIPlugin
             }
         }
 
+        public event MyGUIEvent MouseButtonDoubleClick
+        {
+            add
+            {
+                eventManager.addDelegate<EventMouseButtonDoubleClickTranslator>(value);
+            }
+            remove
+            {
+                eventManager.removeDelegate<EventMouseButtonDoubleClickTranslator>(value);
+            }
+        }
+
 #endregion
 
 #region PInvoke
