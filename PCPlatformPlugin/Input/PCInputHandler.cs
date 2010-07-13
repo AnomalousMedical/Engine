@@ -66,6 +66,7 @@ namespace PCPlatform
 	        {
 		        Log.Info("Creating keyboard.");
 		        createdKeyboard = new PCKeyboard(InputManager_createInputObject(nInputManager, InputType.OISKeyboard, buffered));
+                createdKeyboard.TranslationMode = PCKeyboard.TextTranslationMode.Unicode;
 	        }
 	        return createdKeyboard;
         }

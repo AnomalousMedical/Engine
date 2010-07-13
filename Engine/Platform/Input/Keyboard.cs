@@ -45,13 +45,6 @@ namespace Engine.Platform
 	    /// <param name="code">The code of the button to check for.</param>
 	    /// <returns>The button as a string.</returns>
         public abstract String getAsString(KeyboardButtonCode code);
-
-        /// <summary>
-        /// Change the code into the appropriate character for the keyboard and locale.
-        /// </summary>
-        /// <param name="code">The code.</param>
-        /// <returns>The character code as an int.</returns>
-        public abstract int translateText(KeyboardButtonCode code);
     	
 	    /// <summary>
 	    /// Reads the state of the keyboard.

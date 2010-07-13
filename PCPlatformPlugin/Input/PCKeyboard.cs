@@ -10,6 +10,13 @@ namespace PCPlatform
 {
     class PCKeyboard : Keyboard, IDisposable
     {
+        public enum TextTranslationMode
+        {
+            Off,
+            Unicode,
+            Ascii
+        };
+
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void KeyCallback(KeyboardButtonCode key, uint text);
 
@@ -60,16 +67,23 @@ namespace PCPlatform
             return Marshal.PtrToStringAnsi(oisKeyboard_getAsString(keyboard, code));
         }
 
-        public override int translateText(KeyboardButtonCode code)
-        {
-            return oisKeyboard_translateText(code);
-        }
-
         public unsafe override void capture()
         {
             fixed (sbyte* keyBuf = &keys[0])
             {
                 oisKeyboard_capture(keyboard, keyBuf);
+            }
+        }
+
+        public TextTranslationMode TranslationMode
+        {
+            get
+            {
+                return oisKeyboard_getTextTranslationMode(keyboard);
+            }
+            set
+            {
+                oisKeyboard_setTextTranslationMode(keyboard, value);
             }
         }
 
@@ -105,9 +119,6 @@ namespace PCPlatform
         private static extern IntPtr oisKeyboard_getAsString(IntPtr keyboard, KeyboardButtonCode code);
 
         [DllImport("PCPlatform")]
-        private static extern int oisKeyboard_translateText(KeyboardButtonCode code);
-
-        [DllImport("PCPlatform")]
         private static unsafe extern void oisKeyboard_capture(IntPtr keyboard, sbyte* keys);
 
         [DllImport("PCPlatform")]
@@ -115,5 +126,11 @@ namespace PCPlatform
 
         [DllImport("PCPlatform")]
         private static extern void oisKeyboard_destroyListener(IntPtr keyboard, IntPtr listener);
+
+        [DllImport("PCPlatform")]
+        private static extern void oisKeyboard_setTextTranslationMode(IntPtr keyboard, TextTranslationMode mode);
+
+        [DllImport("PCPlatform")]
+        private static extern TextTranslationMode oisKeyboard_getTextTranslationMode(IntPtr keyboard);
     }
 }
