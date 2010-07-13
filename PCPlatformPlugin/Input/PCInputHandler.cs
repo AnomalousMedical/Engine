@@ -74,8 +74,10 @@ namespace PCPlatform
         {
             if( createdKeyboard == keyboard )
 	        {
+                PCKeyboard pcKeyboard = (PCKeyboard)keyboard;
+                pcKeyboard.Dispose();
 		        Log.Info("Destroying keyboard.");
-		        InputManager_destroyInputObject(nInputManager, ((PCKeyboard)keyboard).KeyboardHandle);
+                InputManager_destroyInputObject(nInputManager, pcKeyboard.KeyboardHandle);
 		        createdKeyboard = null;
 	        }
 	        else

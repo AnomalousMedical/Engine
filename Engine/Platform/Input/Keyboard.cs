@@ -5,11 +5,25 @@ using System.Text;
 
 namespace Engine.Platform
 {
+    public delegate void KeyEvent(KeyboardButtonCode keyCode, uint keyChar);
+
     /// <summary>
     /// This class provides access to a keyboard plugged into the computer.
     /// </summary>
     public abstract class Keyboard
     {
+        /// <summary>
+        /// This event is fired when a key is pressed. Will only be fired if the
+        /// keyboard is created with buffered=true.
+        /// </summary>
+        public abstract event KeyEvent KeyPressed;
+
+        /// <summary>
+        /// This event is fired when a key is released. Will only be fired if the
+        /// keyboard is created with buffered=true.
+        /// </summary>
+        public abstract event KeyEvent KeyReleased;
+
 	    /// <summary>
 	    /// Checks to see if the given key is pressed.
 	    /// </summary>

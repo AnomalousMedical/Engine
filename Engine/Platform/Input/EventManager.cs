@@ -32,7 +32,7 @@ namespace Engine.Platform
         {
             EventDetected = new NewEventDetected(addEvent);
             this.inputHandler = inputHandler;
-            keyboard = inputHandler.createKeyboard(false);
+            keyboard = inputHandler.createKeyboard(true);
             mouse = inputHandler.createMouse(false);
             DefaultEvents.registerEventManager(this);
         }
