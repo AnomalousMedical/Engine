@@ -71,6 +71,14 @@ namespace MyGUIPlugin
             }
         }
 
+        protected virtual void onShown(EventArgs args)
+        {
+            if (Shown != null)
+            {
+                Shown.Invoke(this, args);
+            }
+        }
+
         /// <summary>
         /// True if the window is shown, false otherwise. Setting to true will
         /// show the window with the current properties.
@@ -104,10 +112,7 @@ namespace MyGUIPlugin
                     {
                         window.Visible = value;
                     }
-                    if (Shown != null)
-                    {
-                        Shown.Invoke(this, EventArgs.Empty);
-                    }
+                    onShown(EventArgs.Empty);
                 }
             }
         }
