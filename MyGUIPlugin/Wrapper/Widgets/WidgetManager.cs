@@ -151,7 +151,7 @@ namespace MyGUIPlugin
                     return new Window(widget);
 
                 case WidgetType.Message:
-                    return new Widget(widget);
+                    return new Message(widget);
             }
             return new Widget(widget);
         }

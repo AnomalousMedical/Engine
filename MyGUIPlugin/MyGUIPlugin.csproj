@@ -59,6 +59,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wrapper\Events\Edit\EventEditSelectAcceptTranslator.cs" />
     <Compile Include="Wrapper\Events\Edit\EventEditTextChangeTranslator.cs" />
+    <Compile Include="Wrapper\Events\Message\EventMessageBoxResultTranslator.cs" />
     <Compile Include="Wrapper\Events\Widget\ClickEventTranslator.cs" />
     <Compile Include="Wrapper\Events\Combo\ComboBoxEventArgs.cs" />
     <Compile Include="Wrapper\Events\Combo\EventComboAcceptTranslator.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Wrapper\Widgets\MenuBar.cs" />
     <Compile Include="Wrapper\Widgets\MenuCtrl.cs" />
     <Compile Include="Wrapper\Widgets\MenuItem.cs" />
+    <Compile Include="Wrapper\Widgets\Message.cs" />
     <Compile Include="Wrapper\Widgets\PopupMenu.cs" />
     <Compile Include="Wrapper\Widgets\ScrollView.cs" />
     <Compile Include="Wrapper\Widgets\StaticImage.cs" />

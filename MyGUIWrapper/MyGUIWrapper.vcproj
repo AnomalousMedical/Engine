@@ -242,6 +242,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\Message.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\OgrePlatform.cpp"
 				>
 			</File>
@@ -351,6 +355,10 @@
 			</File>
 			<File
 				RelativePath=".\Src\EventEditTextChangeTranslator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\EventMessageBoxResultTranslator.cpp"
 				>
 			</File>
 			<File
