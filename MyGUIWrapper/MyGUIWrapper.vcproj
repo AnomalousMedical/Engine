@@ -246,6 +246,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\MultiList.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\OgrePlatform.cpp"
 				>
 			</File>
@@ -355,6 +359,14 @@
 			</File>
 			<File
 				RelativePath=".\Src\EventEditTextChangeTranslator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\EventListChangePositionTranslator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\EventListSelectAcceptTranslator.cpp"
 				>
 			</File>
 			<File

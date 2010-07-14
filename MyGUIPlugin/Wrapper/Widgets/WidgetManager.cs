@@ -109,7 +109,7 @@ namespace MyGUIPlugin
                     return new PopupMenu(widget);
 
                 case WidgetType.MultiList:
-                    return new Widget(widget);
+                    return new MultiList(widget);
 
                 case WidgetType.Progress:
                     return new Widget(widget);

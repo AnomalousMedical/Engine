@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 
 namespace MyGUIPlugin
 {
@@ -71,14 +72,6 @@ namespace MyGUIPlugin
             }
         }
 
-        protected virtual void onShown(EventArgs args)
-        {
-            if (Shown != null)
-            {
-                Shown.Invoke(this, args);
-            }
-        }
-
         /// <summary>
         /// True if the window is shown, false otherwise. Setting to true will
         /// show the window with the current properties.
@@ -142,16 +135,38 @@ namespace MyGUIPlugin
         /// </summary>
         public bool SmoothShow { get; set; }
 
-        void window_WindowButtonPressed(Widget source, EventArgs e)
+        protected virtual void onShown(EventArgs args)
+        {
+            if (Shown != null)
+            {
+                Shown.Invoke(this, args);
+            }
+        }
+
+        protected virtual void onClosing(CancelEventArgs args)
         {
             if (Closing != null)
             {
                 Closing.Invoke(this, EventArgs.Empty);
             }
-            close();
+        }
+
+        protected virtual void onClosed(EventArgs args)
+        {
             if (Closed != null)
             {
                 Closed.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        void window_WindowButtonPressed(Widget source, EventArgs e)
+        {
+            CancelEventArgs cancelEvent = new CancelEventArgs();
+            onClosing(cancelEvent);
+            if (!cancelEvent.Cancel)
+            {
+                close();
+                onClosed(e);
             }
         }
     }
