@@ -86,27 +86,49 @@ namespace MyGUIPlugin
             {
                 if (window.Visible != value)
                 {
-                    if (modal)
+                    if (value)
                     {
-                        if (value)
-                        {
-                            InputManager.Instance.addWidgetModal(window);
-                        }
-                        else
-                        {
-                            InputManager.Instance.removeWidgetModal(window);
-                        }
-                    }
-                    if (SmoothShow)
-                    {
-                        window.setVisibleSmooth(value);
+                        doChangeVisibility(value);
+                        onShown(EventArgs.Empty);
                     }
                     else
                     {
-                        window.Visible = value;
+                        CancelEventArgs cancelEvent = new CancelEventArgs();
+                        onClosing(cancelEvent);
+                        if (!cancelEvent.Cancel)
+                        {
+                            doChangeVisibility(value);
+                            onClosed(EventArgs.Empty);
+                        }
                     }
-                    onShown(EventArgs.Empty);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Acutally change the window visibility, called from Visible.set
+        /// </summary>
+        /// <param name="value"></param>
+        private void doChangeVisibility(bool value)
+        {
+            if (modal)
+            {
+                if (value)
+                {
+                    InputManager.Instance.addWidgetModal(window);
+                }
+                else
+                {
+                    InputManager.Instance.removeWidgetModal(window);
+                }
+            }
+            if (SmoothShow)
+            {
+                window.setVisibleSmooth(value);
+            }
+            else
+            {
+                window.Visible = value;
             }
         }
 
@@ -161,13 +183,7 @@ namespace MyGUIPlugin
 
         void window_WindowButtonPressed(Widget source, EventArgs e)
         {
-            CancelEventArgs cancelEvent = new CancelEventArgs();
-            onClosing(cancelEvent);
-            if (!cancelEvent.Cancel)
-            {
-                close();
-                onClosed(e);
-            }
+            Visible = false;
         }
     }
 }
