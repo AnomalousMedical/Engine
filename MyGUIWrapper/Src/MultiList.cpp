@@ -124,3 +124,13 @@ extern "C" _AnomalousExport size_t MultiList_findSubItemWith(MyGUI::MultiList* m
 {
 	return multiList->findSubItemWith(column, name);
 }
+
+extern "C" _AnomalousExport void MultiList_setSortOnChanges(MyGUI::MultiList* multiList, bool value)
+{
+	multiList->setSortOnChanges(value);
+}
+
+extern "C" _AnomalousExport bool MultiList_getSortOnChanges(MyGUI::MultiList* multiList)
+{
+	return multiList->getSortOnChanges();
+}

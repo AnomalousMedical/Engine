@@ -262,6 +262,18 @@ namespace MyGUIPlugin
         //    return itemData[(int)index][(int)column];
         //}
 
+        public bool SortOnChanges
+        {
+            get
+            {
+                return MultiList_getSortOnChanges(widget);
+            }
+            set
+            {
+                MultiList_setSortOnChanges(widget, value);
+            }
+        }
+
         #region Events
 
         public event MyGUIEvent ListSelectAccept
@@ -366,6 +378,13 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper")]
         private static extern UIntPtr MultiList_findSubItemWith(IntPtr multiList, UIntPtr column, [MarshalAs(UnmanagedType.LPWStr)] String name);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern void MultiList_setSortOnChanges(IntPtr multiList, bool value);
+
+        [DllImport("MyGUIWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool MultiList_getSortOnChanges(IntPtr multiList);
 
 #endregion
     }
