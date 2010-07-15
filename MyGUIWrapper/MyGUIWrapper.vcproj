@@ -258,6 +258,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\Progress.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\ResourceManager.cpp"
 				>
 			</File>

@@ -112,7 +112,7 @@ namespace MyGUIPlugin
                     return new MultiList(widget);
 
                 case WidgetType.Progress:
-                    return new Widget(widget);
+                    return new Progress(widget);
 
                 case WidgetType.ScrollView:
                     return new ScrollView(widget);

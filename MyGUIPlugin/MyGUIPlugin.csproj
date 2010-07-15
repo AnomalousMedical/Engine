@@ -99,6 +99,7 @@
     <Compile Include="Wrapper\Widgets\Message.cs" />
     <Compile Include="Wrapper\Widgets\MultiList.cs" />
     <Compile Include="Wrapper\Widgets\PopupMenu.cs" />
+    <Compile Include="Wrapper\Widgets\Progress.cs" />
     <Compile Include="Wrapper\Widgets\ScrollView.cs" />
     <Compile Include="Wrapper\Widgets\StaticImage.cs" />
     <Compile Include="Wrapper\Widgets\StaticText.cs" />
