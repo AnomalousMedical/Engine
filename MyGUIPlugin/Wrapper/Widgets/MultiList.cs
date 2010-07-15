@@ -11,7 +11,7 @@ namespace MyGUIPlugin
     {
         private List<Object> columnData = new List<Object>();
         private List<Object> rowData = new List<Object>();
-        private List<List<Object>> itemData = new List<List<Object>>();
+        //private List<List<Object>> itemData = new List<List<Object>>();
 
         internal MultiList(IntPtr multiList)
             :base(multiList)
@@ -31,32 +31,36 @@ namespace MyGUIPlugin
 
         public void insertColumnAt(uint column, String name, int width)
         {
-            MultiList_insertColumnAt(widget, new UIntPtr(column), name, width);
+            insertColumnAt(column, name, width, null);
         }
 
         public void insertColumnAt(uint column, String name, int width, Object data)
         {
-            throw new NotImplementedException();
+            MultiList_insertColumnAt(widget, new UIntPtr(column), name, width);
+            columnData.Insert((int)column, data);
         }
 
-        public void addColumn(/*UString*/ String name, int width)
+        public void addColumn(String name, int width)
+        {
+            addColumn(name, width, null);
+        }
+
+        public void addColumn(String name, int width, Object data)
         {
             MultiList_addColumn(widget, name, width);
-        }
-
-        public void addColumn(/*UString*/ String name, int width, Object data)
-        {
-            throw new NotImplementedException();
+            columnData.Add(data);
         }
 
         public void removeColumnAt(uint column)
         {
             MultiList_removeColumnAt(widget, new UIntPtr(column));
+            columnData.RemoveAt((int)column);
         }
 
         public void removeAllColumns()
         {
             MultiList_removeAllColumns(widget);
+            columnData.Clear();
         }
 
 
@@ -98,17 +102,17 @@ namespace MyGUIPlugin
 
         public void setColumnDataAt(uint index, Object data)
         {
-            throw new NotImplementedException();
+            columnData[(int)index] = data;
         }
 
         public void clearColumnDataAt(uint index)
         {
-            throw new NotImplementedException();
+            columnData[(int)index] = null;
         }
 
         public Object getColumnDataAt(uint index)
         {
-            throw new NotImplementedException();
+            return columnData[(int)index];
         }
 
         //------------------------------------------------------------------------------//
@@ -123,32 +127,36 @@ namespace MyGUIPlugin
 
         public void insertItemAt(uint index, String name)
         {
-            MultiList_insertItemAt(widget, new UIntPtr(index), name);
+            insertItemAt(index, name, null);
         }
 
         public void insertItemAt(uint index, String name, Object data)
         {
-            throw new NotImplementedException();
+            MultiList_insertItemAt(widget, new UIntPtr(index), name);
+            rowData.Insert((int)index, data);
         }
 
-        public void addItem(/*UString*/ String name)
+        public void addItem(String name)
+        {
+            addItem(name, null);
+        }
+
+        public void addItem(String name, Object data)
         {
             MultiList_addItem(widget, name);
-        }
-
-        public void addItem(/*UString*/ String name, Object data)
-        {
-            throw new NotImplementedException();
+            rowData.Add(data);
         }
 
         public void removeItemAt(uint index)
         {
             MultiList_removeItemAt(widget, new UIntPtr(index));
+            rowData.RemoveAt((int)index);
         }
 
         public void removeAllItems()
         {
             MultiList_removeAllItems(widget);
+            rowData.Clear();
         }
 
         public void swapItemsAt(uint index1, uint index2)
@@ -189,23 +197,29 @@ namespace MyGUIPlugin
             MultiList_clearIndexSelected(widget);
         }
 
+        public bool hasItemSelected()
+        {
+            UIntPtr result = MultiList_getIndexSelected(widget);
+            //Check for max values depending on current runtime (32 or 64 bit).
+            return UIntPtr.Size == 4 ? result.ToUInt32() != UInt32.MaxValue : result.ToUInt64() != UInt64.MaxValue;
+        }
+
 
         //------------------------------------------------------------------------------//
         // Item Data
-
         public void setItemDataAt(uint index, Object data)
         {
-            throw new NotImplementedException();
+            rowData[(int)index] = data;
         }
 
         public void clearItemDataAt(uint index)
         {
-            throw new NotImplementedException();
+            rowData[(int)index] = null;
         }
 
         public Object getItemDataAt(uint index)
         {
-            throw new NotImplementedException();
+            return rowData[(int)index];
         }
 
 
@@ -232,20 +246,21 @@ namespace MyGUIPlugin
 
         //Set SubItem data
 
-        public void setSubItemDataAt(uint column, uint index, Object data)
-        {
-            throw new NotImplementedException();
-        }
+        //unsupported for now
+        //public void setSubItemDataAt(uint column, uint index, Object data)
+        //{
+        //    itemData[(int)index][(int)column] = data;
+        //}
 
-        public void clearSubItemDataAt(uint column, uint index)
-        {
-            throw new NotImplementedException();
-        }
+        //public void clearSubItemDataAt(uint column, uint index)
+        //{
+        //    itemData[(int)index][(int)column] = null;
+        //}
 
-        public Object getSubItemDataAt(uint column, uint index)
-        {
-            throw new NotImplementedException();
-        }
+        //public Object getSubItemDataAt(uint column, uint index)
+        //{
+        //    return itemData[(int)index][(int)column];
+        //}
 
         #region Events
 

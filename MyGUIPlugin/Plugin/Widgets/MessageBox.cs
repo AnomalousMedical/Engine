@@ -36,7 +36,11 @@ namespace MyGUIPlugin
         static void box_MessageBoxResult(Widget source, EventArgs e)
         {
             Message srcMsg = (Message)source;
-            delegates[srcMsg](((MessageEventArgs)e).Result);
+            Delegate del = delegates[srcMsg];
+            if (del != null)
+            {
+                del.DynamicInvoke(((MessageEventArgs)e).Result);
+            }
             delegates.Remove(srcMsg);
         }
     }
