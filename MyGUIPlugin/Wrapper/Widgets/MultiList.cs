@@ -239,9 +239,11 @@ namespace MyGUIPlugin
             return Marshal.PtrToStringUni(MultiList_getSubItemNameAt(widget, new UIntPtr(column), new UIntPtr(index)));
         }
 
-        public uint findSubItemWith(uint column, String name)
+        public bool findSubItemWith(uint column, String name, out uint index)
         {
-            return MultiList_findSubItemWith(widget, new UIntPtr(column), name).ToUInt32();
+            UIntPtr result = MultiList_findSubItemWith(widget, new UIntPtr(column), name);
+            index = result.ToUInt32();
+            return UIntPtr.Size == 4 ? result.ToUInt32() != UInt32.MaxValue : result.ToUInt64() != UInt64.MaxValue;
         }
 
         //Set SubItem data
