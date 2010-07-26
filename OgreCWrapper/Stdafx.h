@@ -115,10 +115,10 @@ public:
 	float m33;
 
 	Matrix4x4(const Ogre::Matrix4& matrix)
-		:m00(m00), m01(m01), m02(m02), m03(m03),
-		m10(m10), m11(m11), m12(m12), m13(m13),
-		m20(m20), m21(m21), m22(m22), m23(m23),
-		m30(m30), m31(m31), m32(m32), m33(m33)
+		:m00(matrix[0][0]), m01(matrix[0][1]), m02(matrix[0][2]), m03(matrix[0][3]),
+		m10(matrix[1][0]), m11(matrix[1][1]), m12(matrix[1][2]), m13(matrix[1][3]),
+		m20(matrix[2][0]), m21(matrix[2][1]), m22(matrix[2][2]), m23(matrix[2][3]),
+		m30(matrix[3][0]), m31(matrix[3][1]), m32(matrix[3][2]), m33(matrix[3][3])
 	{
 
 	}
