@@ -39,6 +39,13 @@
 		0150614411E621CF00BD1C99 /* ResourceManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0150614311E621CF00BD1C99 /* ResourceManager.cpp */; };
 		01635A4A11EE083600880488 /* EventMessageBoxResultTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01635A4811EE083600880488 /* EventMessageBoxResultTranslator.cpp */; };
 		01635A4B11EE083600880488 /* Message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01635A4911EE083600880488 /* Message.cpp */; };
+		01690F7711EF789E006083AD /* EventListChangePositionTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01690F7311EF789E006083AD /* EventListChangePositionTranslator.cpp */; };
+		01690F7811EF789E006083AD /* EventListSelectAcceptTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01690F7411EF789E006083AD /* EventListSelectAcceptTranslator.cpp */; };
+		01690F7911EF789E006083AD /* MultiList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01690F7511EF789E006083AD /* MultiList.cpp */; };
+		01690F7A11EF789E006083AD /* Progress.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01690F7611EF789E006083AD /* Progress.cpp */; };
+		016F1E45120349640053C045 /* EventMouseButtonPressedTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 016F1E42120349640053C045 /* EventMouseButtonPressedTranslator.cpp */; };
+		016F1E46120349640053C045 /* EventMouseButtonReleasedTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 016F1E43120349640053C045 /* EventMouseButtonReleasedTranslator.cpp */; };
+		016F1E47120349640053C045 /* EventMouseDragTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 016F1E44120349640053C045 /* EventMouseDragTranslator.cpp */; };
 		019842FB11EB9ECD0081D1A6 /* EventMouseButtonDoubleClickTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 019842F611EB9ECD0081D1A6 /* EventMouseButtonDoubleClickTranslator.cpp */; };
 		019842FC11EB9ECD0081D1A6 /* EventWindowButtonPressedTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 019842F711EB9ECD0081D1A6 /* EventWindowButtonPressedTranslator.cpp */; };
 		019842FD11EB9ECD0081D1A6 /* EventWindowChangeCoordTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 019842F811EB9ECD0081D1A6 /* EventWindowChangeCoordTranslator.cpp */; };
@@ -82,6 +89,13 @@
 		0150614311E621CF00BD1C99 /* ResourceManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ResourceManager.cpp; sourceTree = "<group>"; };
 		01635A4811EE083600880488 /* EventMessageBoxResultTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMessageBoxResultTranslator.cpp; sourceTree = "<group>"; };
 		01635A4911EE083600880488 /* Message.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Message.cpp; sourceTree = "<group>"; };
+		01690F7311EF789E006083AD /* EventListChangePositionTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventListChangePositionTranslator.cpp; sourceTree = "<group>"; };
+		01690F7411EF789E006083AD /* EventListSelectAcceptTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventListSelectAcceptTranslator.cpp; sourceTree = "<group>"; };
+		01690F7511EF789E006083AD /* MultiList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MultiList.cpp; sourceTree = "<group>"; };
+		01690F7611EF789E006083AD /* Progress.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Progress.cpp; sourceTree = "<group>"; };
+		016F1E42120349640053C045 /* EventMouseButtonPressedTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMouseButtonPressedTranslator.cpp; sourceTree = "<group>"; };
+		016F1E43120349640053C045 /* EventMouseButtonReleasedTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMouseButtonReleasedTranslator.cpp; sourceTree = "<group>"; };
+		016F1E44120349640053C045 /* EventMouseDragTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMouseDragTranslator.cpp; sourceTree = "<group>"; };
 		019842F611EB9ECD0081D1A6 /* EventMouseButtonDoubleClickTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMouseButtonDoubleClickTranslator.cpp; sourceTree = "<group>"; };
 		019842F711EB9ECD0081D1A6 /* EventWindowButtonPressedTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventWindowButtonPressedTranslator.cpp; sourceTree = "<group>"; };
 		019842F811EB9ECD0081D1A6 /* EventWindowChangeCoordTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventWindowChangeCoordTranslator.cpp; sourceTree = "<group>"; };
@@ -130,6 +144,13 @@
 		01141F8A11DE323A005BB169 /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				016F1E42120349640053C045 /* EventMouseButtonPressedTranslator.cpp */,
+				016F1E43120349640053C045 /* EventMouseButtonReleasedTranslator.cpp */,
+				016F1E44120349640053C045 /* EventMouseDragTranslator.cpp */,
+				01690F7311EF789E006083AD /* EventListChangePositionTranslator.cpp */,
+				01690F7411EF789E006083AD /* EventListSelectAcceptTranslator.cpp */,
+				01690F7511EF789E006083AD /* MultiList.cpp */,
+				01690F7611EF789E006083AD /* Progress.cpp */,
 				01635A4811EE083600880488 /* EventMessageBoxResultTranslator.cpp */,
 				01635A4911EE083600880488 /* Message.cpp */,
 				019842F611EB9ECD0081D1A6 /* EventMouseButtonDoubleClickTranslator.cpp */,
@@ -317,6 +338,13 @@
 				019842FF11EB9ECD0081D1A6 /* Window.cpp in Sources */,
 				01635A4A11EE083600880488 /* EventMessageBoxResultTranslator.cpp in Sources */,
 				01635A4B11EE083600880488 /* Message.cpp in Sources */,
+				01690F7711EF789E006083AD /* EventListChangePositionTranslator.cpp in Sources */,
+				01690F7811EF789E006083AD /* EventListSelectAcceptTranslator.cpp in Sources */,
+				01690F7911EF789E006083AD /* MultiList.cpp in Sources */,
+				01690F7A11EF789E006083AD /* Progress.cpp in Sources */,
+				016F1E45120349640053C045 /* EventMouseButtonPressedTranslator.cpp in Sources */,
+				016F1E46120349640053C045 /* EventMouseButtonReleasedTranslator.cpp in Sources */,
+				016F1E47120349640053C045 /* EventMouseDragTranslator.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
