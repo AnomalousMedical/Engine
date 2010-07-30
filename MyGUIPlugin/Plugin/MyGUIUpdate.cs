@@ -28,6 +28,7 @@ namespace MyGUIPlugin
             float time = clock.fSeconds;
 
             //Mouse
+            gui.HandledMouseButtons = false;
             Mouse mouse = eventManager.Mouse;
             Vector3 mousePos = mouse.getAbsMouse();
             gui.injectMouseMove((int)mousePos.x, (int)mousePos.y, (int)mousePos.z);
@@ -38,11 +39,17 @@ namespace MyGUIPlugin
                 {
                     if (down)
                     {
-                        gui.injectMousePress((int)mousePos.x, (int)mousePos.y, (MouseButtonCode)i);
+                        if (gui.injectMousePress((int)mousePos.x, (int)mousePos.y, (MouseButtonCode)i))
+                        {
+                            gui.HandledMouseButtons = true;
+                        }
                     }
                     else
                     {
-                        gui.injectMouseRelease((int)mousePos.x, (int)mousePos.y, (MouseButtonCode)i);
+                        if (gui.injectMouseRelease((int)mousePos.x, (int)mousePos.y, (MouseButtonCode)i))
+                        {
+                            gui.HandledMouseButtons = true;
+                        }
                     }
                     mouseButtonsDown[i] = down;
                 }

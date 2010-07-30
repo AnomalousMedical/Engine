@@ -149,6 +149,8 @@ namespace MyGUIPlugin
             return Gui_load(gui, file);
         }
 
+        public bool HandledMouseButtons { get; internal set; }
+
 #region PInvoke
 
         [DllImport("MyGUIWrapper")]
