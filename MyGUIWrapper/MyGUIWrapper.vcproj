@@ -382,6 +382,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\EventMouseButtonPressedTranslator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\EventMouseButtonReleasedTranslator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\EventMouseDragTranslator.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\EventWindowButtonPressedTranslator.cpp"
 				>
 			</File>

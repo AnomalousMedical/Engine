@@ -481,6 +481,42 @@ namespace MyGUIPlugin
             }
         }
 
+        public event MyGUIEvent MouseButtonPressed
+        {
+            add
+            {
+                eventManager.addDelegate<EventMouseButtonPressedTranslator>(value);
+            }
+            remove
+            {
+                eventManager.removeDelegate<EventMouseButtonPressedTranslator>(value);
+            }
+        }
+
+        public event MyGUIEvent MouseButtonReleased
+        {
+            add
+            {
+                eventManager.addDelegate<EventMouseButtonReleasedTranslator>(value);
+            }
+            remove
+            {
+                eventManager.removeDelegate<EventMouseButtonReleasedTranslator>(value);
+            }
+        }
+
+        public event MyGUIEvent MouseDrag
+        {
+            add
+            {
+                eventManager.addDelegate<EventMouseDragTranslator>(value);
+            }
+            remove
+            {
+                eventManager.removeDelegate<EventMouseDragTranslator>(value);
+            }
+        }
+
 #endregion
 
 #region PInvoke
