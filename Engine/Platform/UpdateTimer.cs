@@ -25,6 +25,8 @@ namespace Engine.Platform
 
         protected bool started = false;
 
+        private int fixedUpdateIndex = -1;
+
         /// <summary>
         /// Create a new UpdateTimer. The SystemMesssageListener field specifies
         /// an UpdateListener that processes the OS message loop. This will be
@@ -56,7 +58,14 @@ namespace Engine.Platform
         /// <param name="listener">The listener to remove.</param>
         public void removeFixedUpdateListener(UpdateListener listener)
         {
-            fixedListeners.Remove(listener);
+            int index = fixedListeners.IndexOf(listener);
+            fixedListeners.RemoveAt(index);
+            //Adjust the iteration index backwards if the element being removed is before or on the index.
+            //This way nothing gets skipped.
+            if (index != -1 && index <= fixedUpdateIndex)
+            {
+                --fixedUpdateIndex;
+            }
         }
 
         /// <summary>
@@ -170,20 +179,15 @@ namespace Engine.Platform
         /// </summary>
         protected virtual void fireFixedUpdate(long time)
         {
-            try
+            clock.setTimeMicroseconds(time);
+
+            //Iterate manually, this way fixedListeners can be added/removed during the iteration of this loop.
+            //If a listener is removed the fixedUpdateIndex will be adjusted if needed.
+            for (fixedUpdateIndex = 0; fixedUpdateIndex < fixedListeners.Count; fixedUpdateIndex++)
             {
-                clock.setTimeMicroseconds(time);
-                foreach (UpdateListener fixedListener in fixedListeners)
-                {
-                    fixedListener.sendUpdate(clock);
-                }
+                fixedListeners[fixedUpdateIndex].sendUpdate(clock);
             }
-            catch (InvalidOperationException)
-            {
-                //Ignore, allows listeners to modify the fixed listeners.
-                //This is needed to do things like change scenes during a listener
-                //or other such events.
-            }
+            fixedUpdateIndex = -1;
         }
 
         /// <summary>
