@@ -161,6 +161,7 @@ namespace MyGUIPlugin
                 currentPosition.y += 5;
                 captionText.setPosition((int)currentPosition.x, (int)currentPosition.y);
                 separator.setPosition((int)(currentPosition.x + captionText.getWidth()), (int)(currentPosition.y + captionText.getHeight() / 2));
+                separator.setSize((int)(grid.ScrollView.CanvasSize.Width - captionText.getWidth()) - 10, 1);
                 currentPosition.y += captionText.getHeight() + 5;
             }
 
