@@ -11,6 +11,7 @@ namespace MyGUIPlugin
     {
         private Button button;
         private ButtonGrid grid;
+        public event EventHandler ItemClicked;
 
         internal ButtonGridItem(ButtonGridGroup group, ButtonGrid list)
         {
@@ -24,6 +25,10 @@ namespace MyGUIPlugin
         void button_MouseButtonClick(Widget source, EventArgs e)
         {
             grid.SelectedItem = this;
+            if (ItemClicked != null)
+            {
+                ItemClicked.Invoke(this, EventArgs.Empty);
+            }
         }
 
         void button_MouseButtonDoubleClick(Widget source, EventArgs e)
@@ -49,6 +54,14 @@ namespace MyGUIPlugin
         }
 
         public Object UserObject { get; set; }
+
+        public ButtonGrid ButtonGrid
+        {
+            get
+            {
+                return Group.Grid;
+            }
+        }
 
         internal int Width
         {
@@ -177,6 +190,14 @@ namespace MyGUIPlugin
         }
 
         public String Name { get; private set; }
+
+        internal ButtonGrid Grid
+        {
+            get
+            {
+                return grid;
+            }
+        }
 
         internal ButtonGridItem getItem(int index)
         {
@@ -500,6 +521,11 @@ namespace MyGUIPlugin
                 return itemCount;
             }
         }
+
+        /// <summary>
+        /// A UserObject. Not used directly by this class.
+        /// </summary>
+        public Object UserObject { get; set; }
 
         /// <summary>
         /// The ScrollView for the grid.
