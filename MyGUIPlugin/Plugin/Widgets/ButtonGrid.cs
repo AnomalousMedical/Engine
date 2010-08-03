@@ -117,7 +117,7 @@ namespace MyGUIPlugin
                 captionText = grid.ScrollView.createWidgetT("StaticText", grid.GroupCaptionSkin, 0, 0, 10, 10, Align.Left | Align.Top, "") as StaticText;
                 captionText.Font = grid.GroupCaptionFont;
                 captionText.Caption = name;
-                captionText.setSize((int)FontManager.Instance.measureStringWidth(captionText.Font, name) + 30, (int)captionText.FontHeight);
+                captionText.setSize((int)captionText.getTextSize().Width + 5, (int)captionText.FontHeight);
 
                 separator = grid.ScrollView.createWidgetT("Widget", grid.GroupSeparatorSkin, 0, 0, 10, 1, Align.Left | Align.Top, "");
                 separator.setSize((int)(grid.ScrollView.CanvasSize.Width - captionText.getWidth()) - 10, 1);

@@ -57,6 +57,7 @@
     <Compile Include="Plugin\Widgets\Dialog.cs" />
     <Compile Include="Plugin\Widgets\MessageBox.cs" />
     <Compile Include="Plugin\Widgets\MinMaxScroll.cs" />
+    <Compile Include="Plugin\Widgets\PopupContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wrapper\Events\Edit\EventEditSelectAcceptTranslator.cs" />
     <Compile Include="Wrapper\Events\Edit\EventEditTextChangeTranslator.cs" />
