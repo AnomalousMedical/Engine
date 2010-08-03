@@ -182,17 +182,6 @@ namespace MyGUIPlugin
             return currentPosition;
         }
 
-        public int computeGroupHeight(int rowCount)
-        {
-            int numRows = items.Count / rowCount + 1;
-            int height = numRows * (grid.ItemHeight + grid.ItemPaddingY) + grid.ItemPaddingY;
-            if (grid.ShowGroupCaptions)
-            {
-                height += captionText.getHeight() + 10;
-            }
-            return height;
-        }
-
         public int Count
         {
             get
@@ -408,22 +397,6 @@ namespace MyGUIPlugin
             layout();
         }
 
-        /// <summary>
-        /// Resize to fit the elements in the grid.
-        /// </summary>
-        /// <param name="rowCount">The number of elements per row in the grid.</param>
-        public void resizeToFitElements(int rowCount)
-        {
-            int height = 0;
-            foreach (ButtonGridGroup group in groups)
-            {
-                height += group.computeGroupHeight(rowCount);
-            }
-            Size2 finalSize = new Size2((ItemWidth + ItemPaddingX) * rowCount, height);
-            scrollView.CanvasSize = finalSize;
-            scrollView.setSize((int)finalSize.Width + 23, (int)finalSize.Height);
-        }
-
         public void layout()
         {
             if (!SuppressLayout)
@@ -435,6 +408,22 @@ namespace MyGUIPlugin
                 }
                 scrollView.CanvasSize = new Size2(scrollView.CanvasSize.Width, currentPosition.y);
             }
+        }
+
+        public void layoutAndResize(int rowCount)
+        {
+            Size2 finalSize = new Size2((ItemWidth + ItemPaddingX) * rowCount, 300);
+            scrollView.CanvasSize = finalSize;
+            Vector2 currentPosition = new Vector2(0.0f, 0.0f);
+            foreach (ButtonGridGroup group in groups)
+            {
+                currentPosition = group.layout(currentPosition);
+            }
+            finalSize.Height = currentPosition.y;
+            scrollView.CanvasSize = finalSize;
+            //Set the final size with or without padding depending if the scroll bars are visible in that direction or not.
+            scrollView.setSize(scrollView.VisibleHScroll ? (int)finalSize.Width + 23 : (int)finalSize.Width, 
+                scrollView.VisibleVScroll ? (int)finalSize.Height + 23 : (int)finalSize.Height);
         }
 
         public ButtonGridItem getItem(int index)
