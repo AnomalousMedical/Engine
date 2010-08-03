@@ -28,6 +28,7 @@ namespace MyGUIPlugin
         public void sendUpdate(Clock clock)
         {
             float time = clock.fSeconds;
+            Gui.Instance.fireUpdateEvent(time);
 
             //Mouse
             gui.HandledMouseButtons = false;
