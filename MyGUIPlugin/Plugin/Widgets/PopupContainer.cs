@@ -43,11 +43,11 @@ namespace MyGUIPlugin
                 widget.Visible = value;
                 if (value)
                 {
-                    MyGUIUpdate.Instance.MouseButtonPressed += MouseButtonPressed;
+                    Gui.Instance.MouseButtonPressed += MouseButtonPressed;
                 }
                 else
                 {
-                    MyGUIUpdate.Instance.MouseButtonPressed -= MouseButtonPressed;
+                    Gui.Instance.MouseButtonPressed -= MouseButtonPressed;
                 }
             }
         }

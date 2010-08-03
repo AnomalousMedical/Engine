@@ -8,42 +8,21 @@ using Logging;
 
 namespace MyGUIPlugin
 {
-    internal delegate void MouseEvent(int x, int y, MouseButtonCode button);
-
     class MyGUIUpdate : UpdateListener
     {
-        static MyGUIUpdate instance;
-
-        static public MyGUIUpdate Instance
-        {
-            get
-            {
-                return instance;
-            }
-        }
-
         Gui gui;
         EventManager eventManager;
         bool[] mouseButtonsDown = new bool[(int)MouseButtonCode.NUM_BUTTONS];
 
-        internal event MouseEvent MouseButtonPressed;
-        internal event MouseEvent MouseButtonReleased;
+        
 
         public MyGUIUpdate(Gui system, EventManager eventManager)
         {
-            if (instance == null)
-            {
-                instance = this;
-                this.gui = system;
-                this.eventManager = eventManager;
-                Keyboard keyboard = eventManager.Keyboard;
-                keyboard.KeyPressed += new KeyEvent(keyboard_KeyPressed);
-                keyboard.KeyReleased += new KeyEvent(keyboard_KeyReleased);
-            }
-            else
-            {
-                throw new Exception("Can only have one instance of the MyGUIUpdate class");
-            }
+            this.gui = system;
+            this.eventManager = eventManager;
+            Keyboard keyboard = eventManager.Keyboard;
+            keyboard.KeyPressed += new KeyEvent(keyboard_KeyPressed);
+            keyboard.KeyReleased += new KeyEvent(keyboard_KeyReleased);
         }
 
         public void sendUpdate(Clock clock)
@@ -66,20 +45,12 @@ namespace MyGUIPlugin
                         {
                             gui.HandledMouseButtons = true;
                         }
-                        if (MouseButtonPressed != null)
-                        {
-                            MouseButtonPressed.Invoke((int)mousePos.x, (int)mousePos.y, (MouseButtonCode)i);
-                        }
                     }
                     else
                     {
                         if (gui.injectMouseRelease((int)mousePos.x, (int)mousePos.y, (MouseButtonCode)i))
                         {
                             gui.HandledMouseButtons = true;
-                        }
-                        if (MouseButtonReleased != null)
-                        {
-                            MouseButtonReleased.Invoke((int)mousePos.x, (int)mousePos.y, (MouseButtonCode)i);
                         }
                     }
                     mouseButtonsDown[i] = down;

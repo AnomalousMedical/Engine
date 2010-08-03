@@ -8,6 +8,8 @@ using Engine.Platform;
 
 namespace MyGUIPlugin
 {
+    internal delegate void MouseEvent(int x, int y, MouseButtonCode button);
+
     public class Gui : IDisposable
     {
         static Gui instance;
@@ -19,6 +21,9 @@ namespace MyGUIPlugin
                 return instance;
             }
         }
+
+        internal event MouseEvent MouseButtonPressed;
+        internal event MouseEvent MouseButtonReleased;
 
         IntPtr gui;
 
@@ -101,12 +106,22 @@ namespace MyGUIPlugin
 
         public bool injectMousePress(int absx, int absy, MouseButtonCode id)
         {
-            return Gui_injectMousePress(gui, absx, absy, id);
+            bool handled = Gui_injectMousePress(gui, absx, absy, id);
+            if (MouseButtonPressed != null)
+            {
+                MouseButtonPressed.Invoke(absx, absy, id);
+            }
+            return handled;
         }
 
         public bool injectMouseRelease(int absx, int absy, MouseButtonCode id)
         {
-            return Gui_injectMouseRelease(gui, absx, absy, id);
+            bool handled = Gui_injectMouseRelease(gui, absx, absy, id);
+            if (MouseButtonReleased != null)
+            {
+                MouseButtonReleased.Invoke(absx, absy, id);
+            }
+            return handled;
         }
 
         public bool injectKeyPress(KeyboardButtonCode key, uint text)
