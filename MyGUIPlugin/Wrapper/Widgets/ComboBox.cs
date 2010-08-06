@@ -195,7 +195,7 @@ namespace MyGUIPlugin
         private static extern void ComboBox_insertItemAt(IntPtr comboBox, UIntPtr index, String name);
 
         [DllImport("MyGUIWrapper")]
-        private static extern void ComboBox_addItem(IntPtr comboBox, String name);
+        private static extern void ComboBox_addItem(IntPtr comboBox, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
         [DllImport("MyGUIWrapper")]
         private static extern void ComboBox_removeItemAt(IntPtr comboBox, UIntPtr index);
@@ -204,7 +204,7 @@ namespace MyGUIPlugin
         private static extern void ComboBox_removeAllItems(IntPtr comboBox);
 
         [DllImport("MyGUIWrapper")]
-        private static extern UIntPtr ComboBox_findItemIndexWith(IntPtr comboBox, String name);
+        private static extern UIntPtr ComboBox_findItemIndexWith(IntPtr comboBox, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
         [DllImport("MyGUIWrapper")]
         private static extern UIntPtr ComboBox_getIndexSelected(IntPtr comboBox);
@@ -216,7 +216,7 @@ namespace MyGUIPlugin
         private static extern void ComboBox_clearIndexSelected(IntPtr comboBox);
 
         [DllImport("MyGUIWrapper")]
-        private static extern void ComboBox_setItemNameAt(IntPtr comboBox, UIntPtr index, String name);
+        private static extern void ComboBox_setItemNameAt(IntPtr comboBox, UIntPtr index, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
         [DllImport("MyGUIWrapper")]
         private static extern IntPtr ComboBox_getItemNameAt(IntPtr comboBox, UIntPtr index);

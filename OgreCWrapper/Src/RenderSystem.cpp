@@ -1,5 +1,8 @@
 #include "Stdafx.h"
 
+typedef void (*SetConfigInfo)(String name, String currentValue, bool immutable);
+typedef void (*AddPossibleValue)(String possibleValue);
+
 extern "C" _AnomalousExport const char* RenderSystem_validateConfigOptions(Ogre::RenderSystem* renderSystem)
 {
 	return createClrFreeableString(renderSystem->validateConfigOptions());
@@ -28,4 +31,28 @@ extern "C" _AnomalousExport void RenderSystem__setProjectionMatrix(Ogre::RenderS
 extern "C" _AnomalousExport void RenderSystem__setViewport(Ogre::RenderSystem* renderSystem, Ogre::Viewport* vp)
 {
 	renderSystem->_setViewport(vp);
+}
+
+extern "C" _AnomalousExport bool RenderSystem_hasConfigOption(Ogre::RenderSystem* renderSystem, String option)
+{
+	Ogre::ConfigOptionMap& optionMap = renderSystem->getConfigOptions();
+	return optionMap.find(option) != optionMap.end();
+}
+
+extern "C" _AnomalousExport void RenderSystem_getConfigOptionInfo(Ogre::RenderSystem* renderSystem, String option, SetConfigInfo setInfo, AddPossibleValue addValues)
+{
+	Ogre::ConfigOptionMap& optionMap = renderSystem->getConfigOptions();
+	Ogre::_ConfigOption& configOption = optionMap[option];
+	setInfo(configOption.name.c_str(), configOption.currentValue.c_str(), configOption.immutable);
+	//Should use a std iter, but it causes access violation exceptions for some reason.
+	/*size_t numEntries = configOption.possibleValues.size();
+	for(int i = 0; i < numEntries; ++i)
+	{
+		addValues(configOption.possibleValues[i].c_str());
+	}*/
+	Ogre::StringVector::iterator end = configOption.possibleValues.end();
+	for(Ogre::StringVector::iterator iter = configOption.possibleValues.begin(); iter != end; ++iter)
+	{
+		addValues((*iter).c_str());
+	}
 }

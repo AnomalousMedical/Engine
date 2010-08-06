@@ -133,6 +133,7 @@
     <Compile Include="Wrapper\Queries\RaySceneQuery.cs" />
     <Compile Include="Wrapper\Queries\RaySceneQueryResultEntry.cs" />
     <Compile Include="Wrapper\Queries\SceneQueryResult.cs" />
+    <Compile Include="Wrapper\Renderer\ConfigOption.cs" />
     <Compile Include="Wrapper\Renderer\FrameEvent.cs" />
     <Compile Include="Wrapper\Renderer\PixelBox.cs" />
     <Compile Include="Wrapper\Renderer\RenderQueue.cs" />

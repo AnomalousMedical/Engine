@@ -44,6 +44,18 @@ namespace OgreWrapper
             return RenderSystem_validateConfigOptions(renderSystem);
         }
 
+        public bool hasConfigOption(String name)
+        {
+            return RenderSystem_hasConfigOption(renderSystem, name);
+        }
+
+        public ConfigOption getConfigOption(String name)
+        {
+            ConfigOption option = new ConfigOption();
+            RenderSystem_getConfigOptionInfo(renderSystem, name, option.SetInfo, option.AddValue);
+            return option;
+        }
+
         public void _initRenderTargets()
         {
             RenderSystem__initRenderTargets(renderSystem);
@@ -88,6 +100,13 @@ namespace OgreWrapper
 
         [DllImport("OgreCWrapper")]
         private static extern void RenderSystem__setViewport(IntPtr renderSystem, IntPtr vp);
+
+        [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool RenderSystem_hasConfigOption(IntPtr renderSystem, String option);
+
+        [DllImport("OgreCWrapper")]
+        private static extern void RenderSystem_getConfigOptionInfo(IntPtr renderSystem, String option, SetConfigInfo setInfo, AddPossibleValue addValues);
 
         #endregion 
     }
