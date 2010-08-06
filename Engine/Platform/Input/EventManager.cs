@@ -38,6 +38,34 @@ namespace Engine.Platform
         }
 
         /// <summary>
+        /// Destroyes the created keyboard and mouse.
+        /// </summary>
+        public void Dispose()
+        {
+            destroyInputObjects();
+            DefaultEvents.unregisterEventManager(this);
+        }
+
+        public void destroyInputObjects()
+        {
+            if (keyboard != null)
+            {
+                inputHandler.destroyKeyboard(keyboard);
+            }
+            if (mouse != null)
+            {
+                inputHandler.destroyMouse(mouse);
+            }
+        }
+
+        public void changeInputHandler(InputHandler newHandler)
+        {
+            this.inputHandler = newHandler;
+            keyboard = inputHandler.createKeyboard(true);
+            mouse = inputHandler.createMouse(false);
+        }
+
+        /// <summary>
         /// Add an event to this event manager.
         /// </summary>
         /// <param name="evt">The event to add.</param>
@@ -123,22 +151,6 @@ namespace Engine.Platform
             {
                 evt.update(this);
             }
-        }
-
-        /// <summary>
-        /// Destroyes the created keyboard and mouse.
-        /// </summary>
-        public void Dispose()
-        {
-            if (keyboard != null)
-            {
-                inputHandler.destroyKeyboard(keyboard);
-            }
-            if (mouse != null)
-            {
-                inputHandler.destroyMouse(mouse);
-            }
-            DefaultEvents.unregisterEventManager(this);
         }
 
         /// <summary>

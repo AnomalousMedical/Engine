@@ -281,6 +281,22 @@ namespace Engine
         }
 
         /// <summary>
+        /// Call this to recall the default window function and setup the window again.
+        /// </summary>
+        /// <param name="defaultWindow">The parameters for the default window.</param>
+        public void reconfigureDefaultWindow(out DefaultWindowInfo defaultWindow)
+        {
+            if (OnConfigureDefaultWindow != null)
+            {
+                OnConfigureDefaultWindow.Invoke(out defaultWindow);
+            }
+            else
+            {
+                defaultWindow = new DefaultWindowInfo("Anomalous Engine", 640, 480);
+            }
+        }
+
+        /// <summary>
         /// Add a set of SubsystemResources to the primary ResourceManager. This
         /// will allow a plugin to get updates about the resources that are
         /// requested for a scene. The SubsystemResources passed to this

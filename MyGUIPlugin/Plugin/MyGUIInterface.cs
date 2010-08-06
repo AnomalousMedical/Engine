@@ -7,11 +7,14 @@ using Engine.Platform;
 using OgreWrapper;
 using OgrePlugin;
 using Logging;
+using Engine.Renderer;
 
 namespace MyGUIPlugin
 {
     public class MyGUIInterface : PluginInterface
     {
+        public static MyGUIInterface Instance { get; private set; }
+
         private OgrePlatform ogrePlatform;
         private Gui gui;
         private SceneManager sceneManager;
@@ -25,7 +28,14 @@ namespace MyGUIPlugin
 
         public MyGUIInterface()
         {
-            
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                throw new Exception("Can only create MyGUIInterface one time.");
+            }
         }
 
         public void Dispose()
@@ -114,6 +124,21 @@ namespace MyGUIPlugin
         public void createDebugCommands(List<CommandManager> commands)
         {
             
+        }
+
+        public void destroyViewport()
+        {
+            ogreWindow.OgreRenderWindow.destroyViewport(vp);
+            vp = null;
+        }
+
+        public void recreateViewport(RendererWindow window)
+        {
+            ogreWindow = window as OgreWindow;
+            ogrePlatform.getRenderManager().setRenderWindow(ogreWindow.OgreRenderWindow);
+            vp = ogreWindow.OgreRenderWindow.addViewport(camera, int.MaxValue, 0.0f, 0.0f, 1.0f, 1.0f);
+            vp.setBackgroundColor(new Color(1.0f, 0.0f, 0.0f, 0.0f));
+            vp.setClearEveryFrame(false);
         }
 
         public OgrePlatform OgrePlatform

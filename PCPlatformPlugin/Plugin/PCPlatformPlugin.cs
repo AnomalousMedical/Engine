@@ -10,9 +10,18 @@ namespace PCPlatform
 {
     public class PCPlatformPlugin : PlatformPlugin
     {
+        public static PCPlatformPlugin Instance { get; private set; }
+
         public PCPlatformPlugin()
         {
-
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                throw new Exception("Can only create PCPlatformPlugin one time.");
+            }
         }
 
         public void Dispose()

@@ -188,6 +188,44 @@ namespace OgrePlugin
             }
         }
 
+        public RendererWindow recreatePrimaryWindow()
+        {
+            destroyRendererWindow(primaryWindow);
+
+            DefaultWindowInfo defaultWindowInfo;
+            PluginManager.Instance.reconfigureDefaultWindow(out defaultWindowInfo);
+
+            //Create the default window.
+            Dictionary<String, String> miscParams = new Dictionary<string, string>();
+            String fsaa = OgreConfig.FSAA;
+            if (fsaa.Contains("Quality"))
+            {
+                miscParams.Add("FSAAHint", "Quality");
+            }
+            int spaceIndex = fsaa.IndexOf(' ');
+            if (spaceIndex != -1)
+            {
+                fsaa = fsaa.Substring(0, spaceIndex);
+            }
+            miscParams.Add("FSAA", fsaa);
+            miscParams.Add("vsync", OgreConfig.VSync.ToString());
+            miscParams.Add("monitorIndex", defaultWindowInfo.MonitorIndex.ToString());
+            if (defaultWindowInfo.AutoCreateWindow)
+            {
+                RenderWindow renderWindow = root.createRenderWindow(defaultWindowInfo.AutoWindowTitle, (uint)defaultWindowInfo.Width, (uint)defaultWindowInfo.Height, defaultWindowInfo.Fullscreen, miscParams);
+                OgreOSWindow ogreWindow = new OgreOSWindow(renderWindow);
+                primaryWindow = new AutomaticWindow(ogreWindow);
+            }
+            else
+            {
+                miscParams.Add("externalWindowHandle", defaultWindowInfo.EmbedWindow.WindowHandle);
+                RenderWindow renderWindow = root.createRenderWindow(defaultWindowInfo.AutoWindowTitle, (uint)defaultWindowInfo.Width, (uint)defaultWindowInfo.Height, defaultWindowInfo.Fullscreen, miscParams);
+                primaryWindow = new EmbeddedWindow(defaultWindowInfo.EmbedWindow, renderWindow);
+            }
+
+            return primaryWindow;
+        }
+
         public RendererWindow createRendererWindow(OSWindow embedWindow, String name)
         {
             Dictionary<String, String> miscParams = new Dictionary<string, string>();
