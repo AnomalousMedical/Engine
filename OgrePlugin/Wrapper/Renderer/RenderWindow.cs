@@ -37,6 +37,23 @@ namespace OgreWrapper
             return windowHandleString;
         }
 
+        public void setFullscreen(bool fullscreen, uint width, uint height)
+        {
+            RenderWindow_setFullscreen(renderTarget, fullscreen, width, height);
+        }
+
+        public bool DeactivateOnFocusChange
+        {
+            get
+            {
+                return RenderWindow_isDeactivatedOnFocusChange(renderTarget);
+            }
+            set
+            {
+                RenderWindow_setDeactivatedOnFocusChange(renderTarget, value);
+            }
+        }
+
         private void getWindowString(String value)
         {
             this.windowHandleString = value;
@@ -52,6 +69,16 @@ namespace OgreWrapper
 
         [DllImport("OgreCWrapper")]
         private static extern void RenderWindow_getWindowHandleStr(IntPtr renderWindow, GiveWindowStringDelegate giveWindowString);
+
+        [DllImport("OgreCWrapper")]
+        private static extern void RenderWindow_setFullscreen(IntPtr renderWindow, bool fullscreen, uint width, uint height);
+
+        [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool RenderWindow_isDeactivatedOnFocusChange(IntPtr renderWindow);
+
+        [DllImport("OgreCWrapper")]
+        private static extern void RenderWindow_setDeactivatedOnFocusChange(IntPtr renderWindow, bool deactivate);
         
         #endregion
     }

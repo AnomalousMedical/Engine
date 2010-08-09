@@ -188,6 +188,14 @@ namespace OgrePlugin
             }
         }
 
+        public OgreWindow OgrePrimaryWindow
+        {
+            get
+            {
+                return primaryWindow;
+            }
+        }
+
         public RendererWindow recreatePrimaryWindow()
         {
             destroyRendererWindow(primaryWindow);

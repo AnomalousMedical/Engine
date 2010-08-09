@@ -17,3 +17,18 @@ extern "C" _AnomalousExport void RenderWindow_getWindowHandleStr(Ogre::RenderWin
 	winHandleStr << winHandle;
 	giveWindowString(winHandleStr.str().c_str());
 }
+
+extern "C" _AnomalousExport void RenderWindow_setFullscreen(Ogre::RenderWindow* renderWindow, bool fullscreen, uint width, uint height)
+{
+	renderWindow->setFullscreen(fullscreen, width, height);
+}
+
+extern "C" _AnomalousExport bool RenderWindow_isDeactivatedOnFocusChange(Ogre::RenderWindow* renderWindow)
+{
+	return renderWindow->isDeactivatedOnFocusChange();
+}
+
+extern "C" _AnomalousExport void RenderWindow_setDeactivatedOnFocusChange(Ogre::RenderWindow* renderWindow, bool deactivate)
+{
+	renderWindow->setDeactivateOnFocusChange(deactivate);
+}
