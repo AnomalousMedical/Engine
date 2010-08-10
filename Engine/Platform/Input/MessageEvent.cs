@@ -5,6 +5,8 @@ using System.Text;
 
 namespace Engine.Platform
 {
+    public delegate void MessageEventCallback();
+
     /// <summary>
     /// This is an event.  It can tell the client if it is down or up and if this
     /// was the first frame the event was down or up.  Events can be thought of as
@@ -12,6 +14,9 @@ namespace Engine.Platform
     /// </summary>
     public class MessageEvent
     {
+        public event MessageEventCallback FirstFrameDownEvent;
+        public event MessageEventCallback FirstFrameUpEvent;
+
         private HashSet<KeyboardButtonCode> keyboardButtons = new HashSet<KeyboardButtonCode>();
         private HashSet<MouseButtonCode> mouseButtons = new HashSet<MouseButtonCode>();
 
@@ -113,6 +118,10 @@ namespace Engine.Platform
                 else if (!Down)
                 {
                     FirstFrameDown = true;
+                    if (FirstFrameDownEvent != null)
+                    {
+                        FirstFrameDownEvent.Invoke();
+                    }
                 }
                 FirstFrameUp = false;
                 Up = false;
@@ -127,6 +136,10 @@ namespace Engine.Platform
                 else if (!Up)
                 {
                     FirstFrameUp = true;
+                    if (FirstFrameUpEvent != null)
+                    {
+                        FirstFrameUpEvent.Invoke();
+                    }
                 }
                 FirstFrameDown = false;
                 Down = false;

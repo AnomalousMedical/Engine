@@ -25,6 +25,7 @@ namespace OgrePlugin
             handle = window.getWindowHandleStr();
             ogreWindowListener = new OgreWindowListener(this);
             WindowEventUtilities.addWindowEventListener(window, ogreWindowListener);
+            Focused = true;
         }
 
         public void Dispose()
@@ -57,13 +58,7 @@ namespace OgrePlugin
             }
         }
 
-        public bool Focused
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public bool Focused { get; private set; }
 
         public void addListener(OSWindowListener listener)
         {
@@ -117,6 +112,7 @@ namespace OgrePlugin
 
         internal void _fireFocusChanged()
         {
+            Focused = !Focused;
             foreach (OSWindowListener listener in windowListeners)
             {
                 listener.focusChanged(this);
