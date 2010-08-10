@@ -28,7 +28,7 @@ namespace MyGUIPlugin
         public void sendUpdate(Clock clock)
         {
             float time = clock.fSeconds;
-            Gui.Instance.fireUpdateEvent(time);
+            gui.fireUpdateEvent(time);
 
             //Mouse
             gui.HandledMouseButtons = false;
@@ -61,12 +61,12 @@ namespace MyGUIPlugin
 
         void keyboard_KeyReleased(KeyboardButtonCode keyCode, uint keyChar)
         {
-            gui.injectKeyRelease(keyCode);
+            gui.HandledKeyboardButtons = gui.injectKeyRelease(keyCode);
         }
 
         void keyboard_KeyPressed(KeyboardButtonCode keyCode, uint keyChar)
         {
-            gui.injectKeyPress(keyCode, keyChar);
+            gui.HandledKeyboardButtons = gui.injectKeyPress(keyCode, keyChar);
         }
 
         public void loopStarting()

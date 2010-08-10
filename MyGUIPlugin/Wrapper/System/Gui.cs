@@ -168,6 +168,8 @@ namespace MyGUIPlugin
 
         public bool HandledMouseButtons { get; internal set; }
 
+        public bool HandledKeyboardButtons { get; internal set; }
+
         internal void fireUpdateEvent(float updateTime)
         {
             if (Update != null)
