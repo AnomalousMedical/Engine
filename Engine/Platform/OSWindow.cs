@@ -23,6 +23,11 @@ namespace Engine.Platform
         int WindowHeight { get; }
 
         /// <summary>
+        /// True if the window has focus.
+        /// </summary>
+        bool Focused { get; }
+
+        /// <summary>
         /// Add a listener.
         /// </summary>
         /// <param name="listener">The listener to add.</param>

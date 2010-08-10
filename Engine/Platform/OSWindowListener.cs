@@ -25,5 +25,17 @@ namespace Engine.Platform
         /// </summary>
         /// <param name="window">The window.</param>
         void closing(OSWindow window);
+
+        /// <summary>
+        /// Called whenthe window has closed.
+        /// </summary>
+        /// <param name="window">The window that closed.</param>
+        void closed(OSWindow window);
+
+        /// <summary>
+        /// Called when the focus has changed on the window.
+        /// </summary>
+        /// <param name="window"></param>
+        void focusChanged(OSWindow window);
     }
 }

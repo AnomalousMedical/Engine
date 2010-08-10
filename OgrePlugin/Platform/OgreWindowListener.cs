@@ -33,12 +33,12 @@ namespace OgrePlugin
 
         protected override void windowClosed(IntPtr renderWindow)
         {
-            
+            ogreWindow._fireWindowClosed();
         }
 
         protected override void windowFocusChange(IntPtr renderWindow)
         {
-            
+            ogreWindow._fireFocusChanged();
         }
     }
 }

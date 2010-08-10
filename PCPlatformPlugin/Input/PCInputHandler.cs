@@ -145,6 +145,16 @@ namespace PCPlatform
             
         }
 
+        public void closed(OSWindow window)
+        {
+
+        }
+
+        public void focusChanged(OSWindow window)
+        {
+
+        }
+
         public String VersionName
         {
             get

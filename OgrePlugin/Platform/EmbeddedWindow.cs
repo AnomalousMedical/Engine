@@ -61,5 +61,15 @@ namespace OgrePlugin
                 return renderWindow;
             }
         }
+
+        public void closed(OSWindow window)
+        {
+            
+        }
+
+        public void focusChanged(OSWindow window)
+        {
+            
+        }
     }
 }

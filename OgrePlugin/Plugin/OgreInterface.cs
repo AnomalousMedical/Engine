@@ -234,6 +234,11 @@ namespace OgrePlugin
             return primaryWindow;
         }
 
+        public RendererWindow createRendererWindow(String name)
+        {
+            return createRendererWindow(null, name);
+        }
+
         public RendererWindow createRendererWindow(OSWindow embedWindow, String name)
         {
             Dictionary<String, String> miscParams = new Dictionary<string, string>();
@@ -249,9 +254,24 @@ namespace OgrePlugin
             }
             miscParams.Add("FSAA", fsaa);
             miscParams.Add("vsync", OgreConfig.VSync.ToString());
-            miscParams.Add("externalWindowHandle", embedWindow.WindowHandle);
-            RenderWindow renderWindow = root.createRenderWindow(name, (uint)embedWindow.WindowWidth, (uint)embedWindow.WindowHeight, false, miscParams);
-            return new EmbeddedWindow(embedWindow, renderWindow);
+            uint width = 800;
+            uint height = 600;
+            if (embedWindow != null)
+            {
+                miscParams.Add("externalWindowHandle", embedWindow.WindowHandle);
+                width = (uint)embedWindow.WindowWidth;
+                height = (uint)embedWindow.WindowHeight;
+            }
+            RenderWindow renderWindow = root.createRenderWindow(name, width, height, false, miscParams);
+            if (embedWindow != null)
+            {
+                return new EmbeddedWindow(embedWindow, renderWindow);
+            }
+            else
+            {
+                OgreOSWindow ogreWindow = new OgreOSWindow(renderWindow);
+                return new AutomaticWindow(ogreWindow);
+            }
         }
 
         public void destroyRendererWindow(RendererWindow window)

@@ -57,6 +57,14 @@ namespace OgrePlugin
             }
         }
 
+        public bool Focused
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         public void addListener(OSWindowListener listener)
         {
             windowListeners.Add(listener);
@@ -96,6 +104,22 @@ namespace OgrePlugin
             foreach (OSWindowListener listener in windowListeners)
             {
                 listener.closing(this);
+            }
+        }
+
+        internal void _fireWindowClosed()
+        {
+            foreach (OSWindowListener listener in windowListeners)
+            {
+                listener.closed(this);
+            }
+        }
+
+        internal void _fireFocusChanged()
+        {
+            foreach (OSWindowListener listener in windowListeners)
+            {
+                listener.focusChanged(this);
             }
         }
     }
