@@ -7,9 +7,9 @@ using Engine.Platform;
 namespace Engine.Renderer
 {
     /// <summary>
-    /// This class controls how the default window is created for a RendererPlugin.
+    /// This class controls how the windows are created for a RendererPlugin.
     /// </summary>
-    public class DefaultWindowInfo
+    public class WindowInfo
     {
         private int width = -1;
         private int height = -1;
@@ -19,7 +19,7 @@ namespace Engine.Renderer
         /// Constructor to have the renderer auto-create its window with the given title.
         /// </summary>
         /// <param name="windowTitle">The title to give to the renderer's auto-created window.</param>
-        public DefaultWindowInfo(String windowTitle, int width, int height)
+        public WindowInfo(String windowTitle, int width, int height)
         {
             AutoCreateWindow = true;
             AutoWindowTitle = windowTitle;
@@ -32,10 +32,10 @@ namespace Engine.Renderer
         /// Constructor to have the renderer embed its primary window.
         /// </summary>
         /// <param name="embedWindow">The OSWindow to embed into.</param>
-        public DefaultWindowInfo(OSWindow embedWindow)
+        public WindowInfo(OSWindow embedWindow, String name)
         {
             AutoCreateWindow = false;
-            AutoWindowTitle = "";
+            AutoWindowTitle = name;
             EmbedWindow = embedWindow;
             MonitorIndex = 0;
         }

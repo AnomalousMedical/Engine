@@ -369,9 +369,9 @@ namespace OgreModelEditor
         /// to the PluginManager.
         /// </summary>
         /// <param name="defaultWindow"></param>
-        private void createWindow(out DefaultWindowInfo defaultWindow)
+        private void createWindow(out WindowInfo defaultWindow)
         {
-            defaultWindow = new DefaultWindowInfo(hiddenEmbedWindow);
+            defaultWindow = new WindowInfo(hiddenEmbedWindow, "Primary");
         }
 
         /// <summary>

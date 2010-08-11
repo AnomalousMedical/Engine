@@ -87,7 +87,7 @@ namespace OgrePlugin
 
         public void initialize(PluginManager pluginManager)
         {
-            DefaultWindowInfo defaultWindowInfo;
+            WindowInfo defaultWindowInfo;
             pluginManager.setRendererPlugin(this, out defaultWindowInfo);
             new OgreConfig(pluginManager.ConfigFile);
 
@@ -200,7 +200,7 @@ namespace OgrePlugin
         {
             destroyRendererWindow(primaryWindow);
 
-            DefaultWindowInfo defaultWindowInfo;
+            WindowInfo defaultWindowInfo;
             PluginManager.Instance.reconfigureDefaultWindow(out defaultWindowInfo);
 
             //Create the default window.
@@ -241,6 +241,12 @@ namespace OgrePlugin
 
         public RendererWindow createRendererWindow(OSWindow embedWindow, String name)
         {
+            WindowInfo windowInfo = new WindowInfo(embedWindow, name);
+            return createRendererWindow(windowInfo);
+        }
+
+        public RendererWindow createRendererWindow(WindowInfo windowInfo)
+        {
             Dictionary<String, String> miscParams = new Dictionary<string, string>();
             String fsaa = OgreConfig.FSAA;
             if (fsaa.Contains("Quality"))
@@ -254,15 +260,13 @@ namespace OgrePlugin
             }
             miscParams.Add("FSAA", fsaa);
             miscParams.Add("vsync", OgreConfig.VSync.ToString());
-            uint width = 800;
-            uint height = 600;
+            miscParams.Add("monitorIndex", windowInfo.MonitorIndex.ToString());
+            OSWindow embedWindow = windowInfo.EmbedWindow;
             if (embedWindow != null)
             {
                 miscParams.Add("externalWindowHandle", embedWindow.WindowHandle);
-                width = (uint)embedWindow.WindowWidth;
-                height = (uint)embedWindow.WindowHeight;
             }
-            RenderWindow renderWindow = root.createRenderWindow(name, width, height, false, miscParams);
+            RenderWindow renderWindow = root.createRenderWindow(windowInfo.AutoWindowTitle, (uint)windowInfo.Width, (uint)windowInfo.Height, windowInfo.Fullscreen, miscParams);
             if (embedWindow != null)
             {
                 return new EmbeddedWindow(embedWindow, renderWindow);

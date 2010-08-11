@@ -17,7 +17,7 @@ namespace Engine
     /// Callback for when the renderer plugin is found and needs to configure its window.
     /// </summary>
     /// <param name="defaultWindow">Assign this to a new DefaultWindowInfo instance.</param>
-    public delegate void ConfigureDefaultWindow(out DefaultWindowInfo defaultWindow);
+    public delegate void ConfigureDefaultWindow(out WindowInfo defaultWindow);
 
     /// <summary>
     /// This class loads and unloads the various plugins for the system.
@@ -255,7 +255,7 @@ namespace Engine
         /// </summary>
         /// <param name="plugin">The RendererPlugin to use.</param>
         /// <param name="defaultWindow">Out variable that will contain the setup for the default window.</param>
-        public void setRendererPlugin(RendererPlugin plugin, out DefaultWindowInfo defaultWindow)
+        public void setRendererPlugin(RendererPlugin plugin, out WindowInfo defaultWindow)
         {
             if (rendererPlugin == null)
             {
@@ -271,7 +271,7 @@ namespace Engine
                 }
                 else
                 {
-                    defaultWindow = new DefaultWindowInfo("Anomalous Engine", 640, 480);
+                    defaultWindow = new WindowInfo("Anomalous Engine", 640, 480);
                 }
             }
             else
@@ -284,7 +284,7 @@ namespace Engine
         /// Call this to recall the default window function and setup the window again.
         /// </summary>
         /// <param name="defaultWindow">The parameters for the default window.</param>
-        public void reconfigureDefaultWindow(out DefaultWindowInfo defaultWindow)
+        public void reconfigureDefaultWindow(out WindowInfo defaultWindow)
         {
             if (OnConfigureDefaultWindow != null)
             {
@@ -292,7 +292,7 @@ namespace Engine
             }
             else
             {
-                defaultWindow = new DefaultWindowInfo("Anomalous Engine", 640, 480);
+                defaultWindow = new WindowInfo("Anomalous Engine", 640, 480);
             }
         }
 

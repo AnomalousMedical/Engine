@@ -193,7 +193,7 @@
     <Compile Include="Renderer\SceneView.cs" />
     <Compile Include="Renderer\CameraMotionValidator.cs" />
     <Compile Include="Renderer\CameraResolver.cs" />
-    <Compile Include="Renderer\DefaultWindowInfo.cs" />
+    <Compile Include="Renderer\WindowInfo.cs" />
     <Compile Include="Renderer\DebugDrawingSurface.cs" />
     <Compile Include="Renderer\RendererPlugin.cs" />
     <Compile Include="Renderer\RendererWindow.cs" />
