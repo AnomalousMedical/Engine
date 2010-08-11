@@ -18,6 +18,11 @@ namespace MyGUIPlugin
         private bool runningShowTransition; //True to be making the popup visible, false to be hiding.
 
         /// <summary>
+        /// This event is called after the popup has been hidden completely.
+        /// </summary>
+        public event EventHandler Hidden;
+
+        /// <summary>
         /// Empty constructor for subclassing this class. Must call initialize
         /// with the main widget in the subclass constructor.
         /// </summary>
@@ -65,6 +70,13 @@ namespace MyGUIPlugin
                 subscribeToUpdate();
                 runningShowTransition = false;
                 widget.Visible = true;
+            }
+            else
+            {
+                if (Hidden != null)
+                {
+                    Hidden.Invoke(this, EventArgs.Empty);
+                }
             }
         }
 
@@ -157,8 +169,16 @@ namespace MyGUIPlugin
                     smoothShowPosition = SmoothShowDuration;
                     unsubscribeFromUpdate();
                     widget.Visible = false;
+                    widget.Alpha = 0.0f;
+                    if (Hidden != null)
+                    {
+                        Hidden.Invoke(this, EventArgs.Empty);
+                    }
                 }
-                widget.Alpha = 1 - smoothShowPosition / SmoothShowDuration;
+                else
+                {
+                    widget.Alpha = 1 - smoothShowPosition / SmoothShowDuration;
+                }
             }
         }
     }
