@@ -77,14 +77,16 @@ namespace MyGUIPlugin
 
             sceneManager = Root.getSingleton().createSceneManager(SceneType.ST_GENERIC, "MyGUIScene");
             ogreWindow = pluginManager.RendererPlugin.PrimaryWindow as OgreWindow;
-            ogrePlatform = new OgrePlatform();
-            ogrePlatform.initialize(ogreWindow.OgreRenderWindow, sceneManager, "MyGUI", LogFile);
 
             //Create camera and viewport
             camera = sceneManager.createCamera("MyGUICamera");
             vp = ogreWindow.OgreRenderWindow.addViewport(camera, int.MaxValue, 0.0f, 0.0f, 1.0f, 1.0f);
             vp.setBackgroundColor(new Color(1.0f, 0.0f, 0.0f, 0.0f));
             vp.setClearEveryFrame(false);
+
+            //Create Ogre Platform
+            ogrePlatform = new OgrePlatform();
+            ogrePlatform.initialize(ogreWindow.OgreRenderWindow, sceneManager, "MyGUI", LogFile);
 
             renderListener = new MyGUIRenderListener(vp, sceneManager);
 

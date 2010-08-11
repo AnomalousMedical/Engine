@@ -303,6 +303,11 @@ namespace OgreWrapper
             return Root__updateAllRenderTargets(ogreRoot);
         }
 
+        public uint getDisplayMonitorCount()
+        {
+            return Root_getDisplayMonitorCount(ogreRoot);
+        }
+
         void frameStartedCallback(float timeSinceLastEvent, float timeSinceLastFrame)
         {
             if(FrameStarted != null)
@@ -500,6 +505,9 @@ namespace OgreWrapper
 
         [DllImport("OgreCWrapper")]
         private static extern void ArchiveManager_addArchiveFactory(IntPtr archiveFactory);
+
+        [DllImport("OgreCWrapper")]
+        private static extern uint Root_getDisplayMonitorCount(IntPtr ogreRoot);
 
         #endregion 
     }

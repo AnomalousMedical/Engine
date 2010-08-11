@@ -59,6 +59,18 @@ namespace OgreWrapper
             this.windowHandleString = value;
         }
 
+        public bool Visible
+        {
+            get
+            {
+                return RenderWindow_isVisible(renderTarget);
+            }
+            set
+            {
+                RenderWindow_setVisible(renderTarget, value);
+            }
+        }
+
         #region PInvoke
         
         [DllImport("OgreCWrapper")]
@@ -79,6 +91,13 @@ namespace OgreWrapper
 
         [DllImport("OgreCWrapper")]
         private static extern void RenderWindow_setDeactivatedOnFocusChange(IntPtr renderWindow, bool deactivate);
+
+        [DllImport("OgreCWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool RenderWindow_isVisible(IntPtr renderWindow);
+
+        [DllImport("OgreCWrapper")]
+        private static extern void RenderWindow_setVisible(IntPtr renderWindow, bool visible);
         
         #endregion
     }

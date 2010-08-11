@@ -284,3 +284,8 @@ extern "C" _AnomalousExport void ArchiveManager_addArchiveFactory(Ogre::ArchiveF
 {
 	Ogre::ArchiveManager::getSingleton().addArchiveFactory(archiveFactory);
 }
+
+extern "C" _AnomalousExport unsigned int Root_getDisplayMonitorCount(Ogre::Root* ogreRoot)
+{
+	return ogreRoot->getDisplayMonitorCount();
+}

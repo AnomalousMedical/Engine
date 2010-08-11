@@ -32,3 +32,13 @@ extern "C" _AnomalousExport void RenderWindow_setDeactivatedOnFocusChange(Ogre::
 {
 	renderWindow->setDeactivateOnFocusChange(deactivate);
 }
+
+extern "C" _AnomalousExport bool RenderWindow_isVisible(Ogre::RenderWindow* renderWindow)
+{
+	return renderWindow->isVisible();
+}
+
+extern "C" _AnomalousExport void RenderWindow_setVisible(Ogre::RenderWindow* renderWindow, bool visible)
+{
+	renderWindow->setVisible(visible);
+}
