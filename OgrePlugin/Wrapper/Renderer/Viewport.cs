@@ -8,6 +8,13 @@ using Engine.Attributes;
 
 namespace OgreWrapper
 {
+    public enum FrameBufferType
+    {
+        FBT_COLOUR = 0x1,
+        FBT_DEPTH = 0x2,
+        FBT_STENCIL = 0x4
+    }
+
     [NativeSubsystemType]
     public class Viewport : IDisposable
     {
@@ -176,6 +183,31 @@ namespace OgreWrapper
             return Camera.resolvePointer(Viewport_getCamera(viewport));
         }
 
+        public void clear()
+        {
+            Viewport_clear1(viewport);
+        }
+
+        public void clear(FrameBufferType buffers)
+        {
+            Viewport_clear2(viewport, buffers);
+        }
+
+        public void clear(FrameBufferType buffers, Color color)
+        {
+            Viewport_clear3(viewport, buffers, color);
+        }
+
+        public void clear(FrameBufferType buffers, Color color, float depth)
+        {
+            Viewport_clear4(viewport, buffers, color, depth);
+        }
+
+        public void clear(FrameBufferType buffers, Color color, float depth, ushort stencil)
+        {
+            Viewport_clear5(viewport, buffers, color, depth, stencil);
+        }
+
 #region PInvoke
 
         [DllImport("OgreCWrapper")]
@@ -259,6 +291,21 @@ namespace OgreWrapper
 
         [DllImport("OgreCWrapper")]
         private static extern IntPtr Viewport_getCamera(IntPtr viewport);
+
+        [DllImport("OgreCWrapper")]
+        private static extern void Viewport_clear1(IntPtr viewport);
+
+        [DllImport("OgreCWrapper")]
+        private static extern void Viewport_clear2(IntPtr viewport, FrameBufferType buffers);
+
+        [DllImport("OgreCWrapper")]
+        private static extern void Viewport_clear3(IntPtr viewport, FrameBufferType buffers, Color color);
+
+        [DllImport("OgreCWrapper")]
+        private static extern void Viewport_clear4(IntPtr viewport, FrameBufferType buffers, Color color, float depth);
+
+        [DllImport("OgreCWrapper")]
+        private static extern void Viewport_clear5(IntPtr viewport, FrameBufferType buffers, Color color, float depth, ushort stencil);
 
 #endregion
     }

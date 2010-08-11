@@ -129,3 +129,28 @@ extern "C" _AnomalousExport Ogre::Camera* Viewport_getCamera(Ogre::Viewport* vie
 {
 	return viewport->getCamera();
 }
+
+extern "C" _AnomalousExport void Viewport_clear1(Ogre::Viewport* viewport)
+{
+	viewport->clear();
+}
+
+extern "C" _AnomalousExport void Viewport_clear2(Ogre::Viewport* viewport, Ogre::FrameBufferType buffers)
+{
+	viewport->clear(buffers);
+}
+
+extern "C" _AnomalousExport void Viewport_clear3(Ogre::Viewport* viewport, Ogre::FrameBufferType buffers, Color color)
+{
+	viewport->clear(buffers, color.toOgre());
+}
+
+extern "C" _AnomalousExport void Viewport_clear4(Ogre::Viewport* viewport, Ogre::FrameBufferType buffers, Color color, float depth)
+{
+	viewport->clear(buffers, color.toOgre(), depth);
+}
+
+extern "C" _AnomalousExport void Viewport_clear5(Ogre::Viewport* viewport, Ogre::FrameBufferType buffers, Color color, float depth, ushort stencil)
+{
+	viewport->clear(buffers, color.toOgre(), depth, stencil);
+}

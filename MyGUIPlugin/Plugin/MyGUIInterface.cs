@@ -83,6 +83,7 @@ namespace MyGUIPlugin
             vp = ogreWindow.OgreRenderWindow.addViewport(camera, int.MaxValue, 0.0f, 0.0f, 1.0f, 1.0f);
             vp.setBackgroundColor(new Color(1.0f, 0.0f, 0.0f, 0.0f));
             vp.setClearEveryFrame(false);
+            vp.clear();
 
             //Create Ogre Platform
             ogrePlatform = new OgrePlatform();
