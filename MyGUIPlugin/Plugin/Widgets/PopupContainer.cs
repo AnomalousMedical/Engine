@@ -17,7 +17,25 @@ namespace MyGUIPlugin
         private float smoothShowPosition;
         private bool runningShowTransition; //True to be making the popup visible, false to be hiding.
 
+        /// <summary>
+        /// Empty constructor for subclassing this class. Must call initialize
+        /// with the main widget in the subclass constructor.
+        /// </summary>
+        protected PopupContainer()
+        {
+
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="widget">The widget to pop up.</param>
         public PopupContainer(Widget widget)
+        {
+            initialize(widget);
+        }
+
+        protected void initialize(Widget widget)
         {
             this.widget = widget;
             SmoothShow = true;
