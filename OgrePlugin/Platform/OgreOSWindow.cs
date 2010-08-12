@@ -32,6 +32,7 @@ namespace OgrePlugin
         {
             WindowEventUtilities.removeWindowEventListener(window, ogreWindowListener);
             ogreWindowListener.Dispose();
+            window.destroy();
         }
 
         public String WindowHandle

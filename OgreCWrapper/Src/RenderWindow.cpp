@@ -2,6 +2,11 @@
 
 #include <sstream>
 
+extern "C" _AnomalousExport void RenderWindow_destroy(Ogre::RenderWindow* renderWindow)
+{
+	renderWindow->destroy();
+}
+
 extern "C" _AnomalousExport void RenderWindow_windowMovedOrResized(Ogre::RenderWindow* renderWindow)
 {
 	renderWindow->windowMovedOrResized();

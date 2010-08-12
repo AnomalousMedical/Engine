@@ -284,8 +284,8 @@ namespace OgrePlugin
             if (ogreWindow != null)
             {
                 Log.Default.sendMessage("Destroying RenderWindow {0}.", LogLevel.Info, "OgrePlugin", ogreWindow.OgreRenderWindow.getName());
-                root.detachRenderTarget(ogreWindow.OgreRenderWindow);
                 ogreWindow.Dispose();
+                root.detachRenderTarget(ogreWindow.OgreRenderWindow);
             }
             else
             {

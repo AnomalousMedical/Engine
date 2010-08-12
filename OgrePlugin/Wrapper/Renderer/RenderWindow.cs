@@ -24,6 +24,11 @@ namespace OgreWrapper
             }
         }
 
+        public void destroy()
+        {
+            RenderWindow_destroy(renderTarget);
+        }
+
         /// <summary>
         /// Call this function if the render window moves or is resized.
         /// </summary>
@@ -73,6 +78,9 @@ namespace OgreWrapper
 
         #region PInvoke
         
+        [DllImport("OgreCWrapper")]
+        private static extern void RenderWindow_destroy(IntPtr renderWindow);
+
         [DllImport("OgreCWrapper")]
         private static extern void RenderWindow_windowMovedOrResized(IntPtr renderWindow);
 
