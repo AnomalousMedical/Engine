@@ -188,6 +188,9 @@ extern "C" _AnomalousExport Ogre::RenderWindow* Root_createRenderWindowParams(Og
 		params["externalWindowHandle"] = externalWindowHandle;
 	}
 	params["monitorIndex"] = monitorIndex;
+	#ifdef MAC_OSX
+		params["macAPI"] = "cocoa";
+	#endif
 	return root->createRenderWindow(name, width, height, fullScreen, &params);
 }
 

@@ -133,6 +133,7 @@ namespace OgrePlugin
                     RenderWindow renderWindow = root.createRenderWindow(defaultWindowInfo.AutoWindowTitle, (uint)defaultWindowInfo.Width, (uint)defaultWindowInfo.Height, defaultWindowInfo.Fullscreen, miscParams);
                     primaryWindow = new EmbeddedWindow(defaultWindowInfo.EmbedWindow, renderWindow);
                 }
+                defaultWindowInfo._fireWindowCreated(new WindowInfoEventArgs(primaryWindow));
 
                 //Setup commands
                 pluginManager.addCreateSimElementManagerCommand(new AddSimElementManagerCommand("Create Ogre Scene Manager", OgreSceneManagerDefinition.Create));
@@ -230,6 +231,7 @@ namespace OgrePlugin
                 RenderWindow renderWindow = root.createRenderWindow(defaultWindowInfo.AutoWindowTitle, (uint)defaultWindowInfo.Width, (uint)defaultWindowInfo.Height, defaultWindowInfo.Fullscreen, miscParams);
                 primaryWindow = new EmbeddedWindow(defaultWindowInfo.EmbedWindow, renderWindow);
             }
+            defaultWindowInfo._fireWindowCreated(new WindowInfoEventArgs(primaryWindow));
 
             return primaryWindow;
         }
@@ -267,15 +269,17 @@ namespace OgrePlugin
                 miscParams.Add("externalWindowHandle", embedWindow.WindowHandle);
             }
             RenderWindow renderWindow = root.createRenderWindow(windowInfo.AutoWindowTitle, (uint)windowInfo.Width, (uint)windowInfo.Height, windowInfo.Fullscreen, miscParams);
+            OgreWindow ogreWindow;
             if (embedWindow != null)
             {
-                return new EmbeddedWindow(embedWindow, renderWindow);
+                ogreWindow = new EmbeddedWindow(embedWindow, renderWindow);
             }
             else
             {
-                OgreOSWindow ogreWindow = new OgreOSWindow(renderWindow);
-                return new AutomaticWindow(ogreWindow);
+                ogreWindow = new AutomaticWindow(new OgreOSWindow(renderWindow));
             }
+            windowInfo._fireWindowCreated(new WindowInfoEventArgs(ogreWindow));
+            return ogreWindow;
         }
 
         public void destroyRendererWindow(RendererWindow window)

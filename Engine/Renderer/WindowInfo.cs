@@ -6,11 +6,23 @@ using Engine.Platform;
 
 namespace Engine.Renderer
 {
+    public class WindowInfoEventArgs : EventArgs
+    {
+        public WindowInfoEventArgs(RendererWindow createdWindow)
+        {
+            CreatedWindow = createdWindow;
+        }
+
+        public RendererWindow CreatedWindow { get; private set; }
+    }
+
     /// <summary>
     /// This class controls how the windows are created for a RendererPlugin.
     /// </summary>
     public class WindowInfo
     {
+        public event EventHandler WindowCreated;
+
         private int width = -1;
         private int height = -1;
         private bool fullscreen = false;
@@ -38,6 +50,18 @@ namespace Engine.Renderer
             AutoWindowTitle = name;
             EmbedWindow = embedWindow;
             MonitorIndex = 0;
+        }
+
+        /// <summary>
+        /// Fire the WindowCreated event. This should only be called by whatever
+        /// class creates the window described by this class.
+        /// </summary>
+        public void _fireWindowCreated(WindowInfoEventArgs eventArgs)
+        {
+            if (WindowCreated != null)
+            {
+                WindowCreated.Invoke(this, eventArgs);
+            }
         }
 
         /// <summary>
