@@ -41,6 +41,11 @@ namespace MyGUIPlugin
             OgreRenderManager_setActiveViewport(renderManager, new UIntPtr(num));
         }
 
+        public void windowMovedOrResized()
+        {
+            OgreRenderManager_windowMovedOrResized(renderManager);
+        }
+
 #region PInvoke
 
         [DllImport("MyGUIWrapper")]
@@ -54,6 +59,9 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper")]
         private static extern void OgreRenderManager_setActiveViewport(IntPtr renderManager, UIntPtr num);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern void OgreRenderManager_windowMovedOrResized(IntPtr renderManager);
 
 #endregion
     }

@@ -21,3 +21,8 @@ extern "C" _AnomalousExport void OgreRenderManager_setActiveViewport(MyGUI::Ogre
 {
 	renderManager->setActiveViewport(num);
 }
+
+extern "C" _AnomalousExport void OgreRenderManager_windowMovedOrResized(MyGUI::OgreRenderManager* renderManager)
+{
+	renderManager->windowMovedOrResized();
+}
