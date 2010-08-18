@@ -138,7 +138,7 @@ namespace Engine
             {
                 return dirEntry.listFiles(asDir, recursive);
             }
-            throw new FileNotFoundException("Could not find directory in virtual file system.", url);
+            throw new FileNotFoundException(String.Format("Could not find directory \"{0}\" in virtual file system.", url), url);
         }
 
         public String[] listFiles(String url, String searchPattern, bool recursive)
@@ -149,7 +149,7 @@ namespace Engine
             {
                 return dirEntry.listFiles(asDir, searchPattern, recursive);
             }
-            throw new FileNotFoundException("Could not find directory in virtual file system.", url);
+            throw new FileNotFoundException(String.Format("Could not find directory \"{0}\" in virtual file system.", url), url);
         }
 
         public String[] listDirectories(bool recursive)
@@ -170,7 +170,7 @@ namespace Engine
             {
                 return dirEntry.listDirectories(asDir, recursive, includeHidden);
             }
-            throw new FileNotFoundException("Could not find directory in virtual file system.", url);
+            throw new FileNotFoundException(String.Format("Could not find directory \"{0}\" in virtual file system.", url), url);
         }
 
         public String[] listDirectories(String url, String searchPattern, bool recursive)
@@ -186,7 +186,7 @@ namespace Engine
             {
                 return dirEntry.listDirectories(asDir, searchPattern, recursive, includeHidden);
             }
-            throw new FileNotFoundException("Could not find directory in virtual file system.", url);
+            throw new FileNotFoundException(String.Format("Could not find directory \"{0}\" in virtual file system.", url), url);
         }
 
         public Stream openStream(String url, Resources.FileMode mode)
@@ -197,7 +197,7 @@ namespace Engine
             {
                 return targetArchive.openStream(url, mode);
             }
-            throw new FileNotFoundException("Could not find file in virtual file system.", url);
+            throw new FileNotFoundException(String.Format("Could not find file \"{0}\" in virtual file system.", url), url);
         }
 
         public Stream openStream(String url, Resources.FileMode mode, Resources.FileAccess access)
@@ -208,7 +208,7 @@ namespace Engine
             {
                 return targetArchive.openStream(url, mode, access);
             }
-            throw new FileNotFoundException("Could not find file in virtual file system.", url);
+            throw new FileNotFoundException(String.Format("Could not find file \"{0}\" in virtual file system.", url), url);
         }
 
         public bool isDirectory(String url)
@@ -242,7 +242,7 @@ namespace Engine
             {
                 return dirEntry.getFileInfo(asDir);
             }
-            throw new FileNotFoundException("Could not find file in virtual file system.", filename);
+            throw new FileNotFoundException(String.Format("Could not find file \"{0}\" in virtual file system.", filename), filename);
         }
 
         /// <summary>
