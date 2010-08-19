@@ -58,6 +58,7 @@ namespace Engine
         private ConfigFile configFile;
         private String pluginDirectory = null;
         private VirtualFileSystem virtualFileSystem;
+        private Dictionary<String, Type> slowSearchTypeCache = new Dictionary<string, Type>();//After a slow search is done for a type it will be stored here for faster lookup if it is needed again.
 
         #endregion Fields
 
@@ -169,32 +170,40 @@ namespace Engine
             //If that fails do the slow search.
             if (type == null)
             {
-                Log.Warning("Had to do slow search looking for type \'{0}\'. You should fix the source file searching for this type", assemblyQualifiedName);
-                String typeName = assemblyQualifiedName.Split(SPLIT)[0];
-                foreach (Assembly assembly in pluginAssemblies)
-                {
-                    type = assembly.GetType(typeName);
-                    if (type != null)
-                    {
-                        break;
-                    }
-                }
-                //If that fails search the main assembly
+                slowSearchTypeCache.TryGetValue(assemblyQualifiedName, out type);
                 if (type == null)
                 {
-                    Assembly mainAssembly = Assembly.GetEntryAssembly();
-                    type = mainAssembly.GetType(typeName);
-                    //If that fails search all loaded assemblies.
+                    Log.Warning("Had to do slow search looking for type \'{0}\'. You should fix the source file searching for this type", assemblyQualifiedName);
+                    String typeName = assemblyQualifiedName.Split(SPLIT)[0];
+                    foreach (Assembly assembly in pluginAssemblies)
+                    {
+                        type = assembly.GetType(typeName);
+                        if (type != null)
+                        {
+                            break;
+                        }
+                    }
+                    //If that fails search the main assembly
                     if (type == null)
                     {
-                        foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+                        Assembly mainAssembly = Assembly.GetEntryAssembly();
+                        type = mainAssembly.GetType(typeName);
+                        //If that fails search all loaded assemblies.
+                        if (type == null)
                         {
-                            type = assembly.GetType(typeName);
-                            if (type != null)
+                            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
                             {
-                                break;
+                                type = assembly.GetType(typeName);
+                                if (type != null)
+                                {
+                                    break;
+                                }
                             }
                         }
+                    }
+                    if (type != null)
+                    {
+                        slowSearchTypeCache.Add(assemblyQualifiedName, type);
                     }
                 }
             }
