@@ -5,11 +5,28 @@ using System.Text;
 
 namespace Engine.Platform
 {
+    public delegate void MouseCallback(Mouse mouse, MouseButtonCode buttonCode);
+
     /// <summary>
     /// This class allows access to the state of a mouse.
     /// </summary>
     public abstract class Mouse
     {
+        /// <summary>
+        /// Called when a mouse button is pressed.
+        /// </summary>
+        public event MouseCallback ButtonDown;
+
+        /// <summary>
+        /// Called when a mouse button is released.
+        /// </summary>
+        public event MouseCallback ButtonUp;
+
+        /// <summary>
+        /// Called when the mouse moves. The scroll wheel moving counts as a movement.
+        /// </summary>
+        public event MouseCallback Moved;
+
 	    /// <summary>
 	    /// Returns the absolute mouse position on the screen bounded by the mouse area
 	    /// and 0, 0.
@@ -51,5 +68,29 @@ namespace Engine.Platform
 	    /// </summary>
 	    /// <returns>The height of the mouse area.</returns>
         public abstract float getMouseAreaHeight();
+
+        protected void fireButtonDown(MouseButtonCode button)
+        {
+            if (ButtonDown != null)
+            {
+                ButtonDown.Invoke(this, button);
+            }
+        }
+
+        protected void fireButtonUp(MouseButtonCode button)
+        {
+            if (ButtonUp != null)
+            {
+                ButtonUp.Invoke(this, button);
+            }
+        }
+
+        protected void fireMoved(MouseButtonCode button)
+        {
+            if (Moved != null)
+            {
+                Moved.Invoke(this, button);
+            }
+        }
     }
 }
