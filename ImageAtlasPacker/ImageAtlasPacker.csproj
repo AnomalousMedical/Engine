@@ -50,6 +50,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BitmapEntry.cs" />
+    <Compile Include="ImageIndexControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ImageIndexControl.Designer.cs">
+      <DependentUpon>ImageIndexControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="ImagePackTreeNode.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -65,6 +71,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ImageIndexControl.resx">
+      <DependentUpon>ImageIndexControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -14,7 +14,6 @@ namespace ImageAtlasPacker
     public partial class ImagePropertiesControl : UserControl
     {
         private List<BitmapEntry> images = new List<BitmapEntry>();
-        ImagePackTreeNode root;
 
         public ImagePropertiesControl()
         {
@@ -31,6 +30,14 @@ namespace ImageAtlasPacker
         }
 
         public PictureBox PictureBox { get; set; }
+
+        public IEnumerable<BitmapEntry> Bitmaps
+        {
+            get
+            {
+                return images;
+            }
+        }
 
         private void addTexturesButton_Click(object sender, EventArgs e)
         {
@@ -61,16 +68,17 @@ namespace ImageAtlasPacker
 
         private void updateButton_Click(object sender, EventArgs e)
         {
-            root = new ImagePackTreeNode(new Size((int)widthText.Value, (int)heightText.Value));
+            ImagePackTreeNode imageInfo = new ImagePackTreeNode(new Size((int)widthText.Value, (int)heightText.Value));
             Bitmap atlas = new Bitmap((int)widthText.Value, (int)heightText.Value, PixelFormat.Format32bppArgb);
             using (Graphics g = Graphics.FromImage(atlas))
             {
                 foreach (BitmapEntry entry in images)
                 {
-                    ImagePackTreeNode node = root.insert(entry.ImageFile, entry.Bitmap);
+                    ImagePackTreeNode node = imageInfo.insert(entry.ImageFile, entry.Bitmap);
                     if (node != null)
                     {
                         g.DrawImage(entry.Bitmap, node.LocationRect);
+                        entry.ImageLocation = node.LocationRect;
                     }
                     else
                     {

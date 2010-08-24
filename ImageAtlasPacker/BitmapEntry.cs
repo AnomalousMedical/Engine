@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
+using System.IO;
 
 namespace ImageAtlasPacker
 {
-    class BitmapEntry : IDisposable
+    public class BitmapEntry : IDisposable
     {
         public BitmapEntry(String imageFile, Bitmap bitmap, ListViewItem listItem)
         {
@@ -26,5 +27,15 @@ namespace ImageAtlasPacker
         public Bitmap Bitmap { get; set; }
 
         public ListViewItem ListItem { get; set; }
+
+        public Rectangle ImageLocation { get; set; }
+
+        public String ImageKey
+        {
+            get
+            {
+                return Path.GetFileNameWithoutExtension(ImageFile);
+            }
+        }
     }
 }
