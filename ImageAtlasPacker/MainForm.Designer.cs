@@ -39,10 +39,10 @@
             this.saveIndexTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadIndexTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.imagePropertiesControl1 = new ImageAtlasPacker.ImagePropertiesControl();
-            this.imageIndexControl1 = new ImageAtlasPacker.ImageIndexControl();
             this.openTemplateDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveTemplateDialog = new System.Windows.Forms.SaveFileDialog();
+            this.imagePropertiesControl1 = new ImageAtlasPacker.ImagePropertiesControl();
+            this.imageIndexControl1 = new ImageAtlasPacker.ImageIndexControl();
             this.menuStrip1.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -123,6 +123,7 @@
             // 
             // pictureBox1
             // 
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(100, 50);
@@ -160,6 +161,14 @@
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
+            // openTemplateDialog
+            // 
+            this.openTemplateDialog.Filter = "Text Files(*.txt)|*.txt;";
+            // 
+            // saveTemplateDialog
+            // 
+            this.saveTemplateDialog.Filter = "Text Files(*.txt)|*.txt;";
+            // 
             // imagePropertiesControl1
             // 
             this.imagePropertiesControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -179,14 +188,6 @@
             this.imageIndexControl1.Name = "imageIndexControl1";
             this.imageIndexControl1.Size = new System.Drawing.Size(258, 565);
             this.imageIndexControl1.TabIndex = 0;
-            // 
-            // openTemplateDialog
-            // 
-            this.openTemplateDialog.Filter = "Text Files(*.txt)|*.txt;";
-            // 
-            // saveTemplateDialog
-            // 
-            this.saveTemplateDialog.Filter = "Text Files(*.txt)|*.txt;";
             // 
             // MainForm
             // 
