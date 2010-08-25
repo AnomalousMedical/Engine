@@ -12,5 +12,7 @@ namespace MyGUIPlugin
         public Vector2 Position { get; internal set; }
 
         public MouseButtonCode Button { get; internal set; }
+
+        public int RelativeWheelPosition { get; internal set; }
     }
 }

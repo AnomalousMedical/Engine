@@ -78,6 +78,7 @@
     <Compile Include="Wrapper\Events\Widget\EventMouseButtonPressedTranslator.cs" />
     <Compile Include="Wrapper\Events\Widget\EventMouseButtonReleasedTranslator.cs" />
     <Compile Include="Wrapper\Events\Widget\EventMouseDragTranslator.cs" />
+    <Compile Include="Wrapper\Events\Widget\EventMouseWheelTranslator.cs" />
     <Compile Include="Wrapper\Events\Widget\MouseEventArgs.cs" />
     <Compile Include="Wrapper\Events\Window\EventWindowButtonPressedTranslator.cs" />
     <Compile Include="Wrapper\Events\Window\EventWindowChangeCoordTranslator.cs" />

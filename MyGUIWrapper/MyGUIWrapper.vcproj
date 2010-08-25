@@ -394,6 +394,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\EventMouseWheelTranslator.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\EventWindowButtonPressedTranslator.cpp"
 				>
 			</File>

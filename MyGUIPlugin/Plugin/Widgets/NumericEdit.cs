@@ -7,6 +7,8 @@ namespace MyGUIPlugin
 {
     public class NumericEdit
     {
+        public event MyGUIEvent ValueChanged;
+
         private Edit edit;
         private String lastCaption;
         private bool allowFloat;
@@ -18,6 +20,8 @@ namespace MyGUIPlugin
             this.edit = edit;
             lastCaption = edit.Caption;
             edit.EventEditTextChange += new MyGUIEvent(edit_EventEditTextChange);
+            edit.MouseWheel += new MyGUIEvent(edit_MouseWheel);
+            Increment = 1;
 
             //AllowFloat
             String userString = edit.getUserString("AllowFloat");
@@ -41,6 +45,13 @@ namespace MyGUIPlugin
             }
         }
 
+        public NumericEdit(Edit edit, Button upButton, Button downButton)
+            :this(edit)
+        {
+            upButton.MouseButtonClick += new MyGUIEvent(upButton_MouseButtonClick);
+            downButton.MouseButtonClick += new MyGUIEvent(downButton_MouseButtonClick);
+        }
+
         void edit_EventEditTextChange(Widget source, EventArgs e)
         {
             String currentCaption = edit.Caption;
@@ -61,6 +72,10 @@ namespace MyGUIPlugin
                         if (value >= minValue && value <= maxValue)
                         {
                             edit.Caption = value.ToString();
+                            if (ValueChanged != null)
+                            {
+                                ValueChanged.Invoke(edit, EventArgs.Empty);
+                            }
                         }
                         else
                         {
@@ -80,6 +95,10 @@ namespace MyGUIPlugin
                         if (value >= minValue && value <= maxValue)
                         {
                             edit.Caption = value.ToString();
+                            if (ValueChanged != null)
+                            {
+                                ValueChanged.Invoke(edit, EventArgs.Empty);
+                            }
                         }
                         else
                         {
@@ -165,11 +184,59 @@ namespace MyGUIPlugin
             }
         }
 
+        public float Increment { get; set; }
+
         public Edit Edit
         {
             get
             {
                 return edit;
+            }
+        }
+
+        void downButton_MouseButtonClick(Widget source, EventArgs e)
+        {
+            float newVal = FloatValue - Increment;
+            if (newVal < minValue)
+            {
+                newVal = minValue;
+            }
+            FloatValue = newVal;
+            if (ValueChanged != null)
+            {
+                ValueChanged.Invoke(edit, EventArgs.Empty);
+            }
+        }
+
+        void upButton_MouseButtonClick(Widget source, EventArgs e)
+        {
+            float newVal = FloatValue + Increment;
+            if (newVal > maxValue)
+            {
+                newVal = maxValue;
+            }
+            FloatValue = newVal;
+            if (ValueChanged != null)
+            {
+                ValueChanged.Invoke(edit, EventArgs.Empty);
+            }
+        }
+
+        void edit_MouseWheel(Widget source, EventArgs e)
+        {
+            float newVal = FloatValue + Increment * ((MouseEventArgs)e).RelativeWheelPosition;
+            if (newVal > maxValue)
+            {
+                newVal = maxValue;
+            }
+            else if (newVal < minValue)
+            {
+                newVal = minValue;
+            }
+            FloatValue = newVal;
+            if (ValueChanged != null)
+            {
+                ValueChanged.Invoke(edit, EventArgs.Empty);
             }
         }
     }
