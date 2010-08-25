@@ -46,6 +46,7 @@
 		016F1E45120349640053C045 /* EventMouseButtonPressedTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 016F1E42120349640053C045 /* EventMouseButtonPressedTranslator.cpp */; };
 		016F1E46120349640053C045 /* EventMouseButtonReleasedTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 016F1E43120349640053C045 /* EventMouseButtonReleasedTranslator.cpp */; };
 		016F1E47120349640053C045 /* EventMouseDragTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 016F1E44120349640053C045 /* EventMouseDragTranslator.cpp */; };
+		018C28091225ADB6004C1053 /* EventMouseWheelTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 018C28081225ADB6004C1053 /* EventMouseWheelTranslator.cpp */; };
 		019842FB11EB9ECD0081D1A6 /* EventMouseButtonDoubleClickTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 019842F611EB9ECD0081D1A6 /* EventMouseButtonDoubleClickTranslator.cpp */; };
 		019842FC11EB9ECD0081D1A6 /* EventWindowButtonPressedTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 019842F711EB9ECD0081D1A6 /* EventWindowButtonPressedTranslator.cpp */; };
 		019842FD11EB9ECD0081D1A6 /* EventWindowChangeCoordTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 019842F811EB9ECD0081D1A6 /* EventWindowChangeCoordTranslator.cpp */; };
@@ -96,6 +97,7 @@
 		016F1E42120349640053C045 /* EventMouseButtonPressedTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMouseButtonPressedTranslator.cpp; sourceTree = "<group>"; };
 		016F1E43120349640053C045 /* EventMouseButtonReleasedTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMouseButtonReleasedTranslator.cpp; sourceTree = "<group>"; };
 		016F1E44120349640053C045 /* EventMouseDragTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMouseDragTranslator.cpp; sourceTree = "<group>"; };
+		018C28081225ADB6004C1053 /* EventMouseWheelTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMouseWheelTranslator.cpp; sourceTree = "<group>"; };
 		019842F611EB9ECD0081D1A6 /* EventMouseButtonDoubleClickTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMouseButtonDoubleClickTranslator.cpp; sourceTree = "<group>"; };
 		019842F711EB9ECD0081D1A6 /* EventWindowButtonPressedTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventWindowButtonPressedTranslator.cpp; sourceTree = "<group>"; };
 		019842F811EB9ECD0081D1A6 /* EventWindowChangeCoordTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventWindowChangeCoordTranslator.cpp; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 		01141F8A11DE323A005BB169 /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				018C28081225ADB6004C1053 /* EventMouseWheelTranslator.cpp */,
 				016F1E42120349640053C045 /* EventMouseButtonPressedTranslator.cpp */,
 				016F1E43120349640053C045 /* EventMouseButtonReleasedTranslator.cpp */,
 				016F1E44120349640053C045 /* EventMouseDragTranslator.cpp */,
@@ -345,6 +348,7 @@
 				016F1E45120349640053C045 /* EventMouseButtonPressedTranslator.cpp in Sources */,
 				016F1E46120349640053C045 /* EventMouseButtonReleasedTranslator.cpp in Sources */,
 				016F1E47120349640053C045 /* EventMouseDragTranslator.cpp in Sources */,
+				018C28091225ADB6004C1053 /* EventMouseWheelTranslator.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -456,7 +460,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
 				SDKROOT = macosx10.6;
-				VALID_ARCHS = "i386 x86_64";
+				VALID_ARCHS = i386;
 			};
 			name = Release;
 		};
