@@ -282,6 +282,14 @@ namespace MyGUIPlugin
             return WidgetManager.getWidget(Widget_createWidgetRealT(widget, type, skin, left, top, width, height, align, name));
         }
 
+        public String Name
+        {
+            get
+            {
+                return Marshal.PtrToStringAnsi(Widget_getName(widget));
+            }
+        }
+
         public bool Visible
         {
             get
@@ -749,7 +757,10 @@ namespace MyGUIPlugin
         private static extern void Widget_setProperty(IntPtr widget, String key, String value);
 
         [DllImport("MyGUIWrapper")]
-        private static extern void Widget_setCaptionWithNewLine(IntPtr widget, String value);
+        private static extern void Widget_setCaptionWithNewLine(IntPtr widget, [MarshalAs(UnmanagedType.LPWStr)] String value);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern IntPtr Widget_getName(IntPtr widget);
 
 #endregion
     }
