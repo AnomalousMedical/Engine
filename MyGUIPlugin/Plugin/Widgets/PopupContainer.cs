@@ -106,10 +106,10 @@ namespace MyGUIPlugin
 
         void MouseButtonPressed(int x, int y, MouseButtonCode button)
         {
-            int left = widget.getAbsoluteLeft();
-            int top = widget.getAbsoluteTop();
-            int right = left + widget.getWidth();
-            int bottom = top + widget.getHeight();
+            int left = widget.AbsoluteLeft;
+            int top = widget.AbsoluteTop;
+            int right = left + widget.Width;
+            int bottom = top + widget.Height;
             if (x < left || x > right || y < top || y > bottom)
             {
                 hide();

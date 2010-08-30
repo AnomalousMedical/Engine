@@ -67,7 +67,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return button.getWidth();
+                return button.Width;
             }
         }
 
@@ -120,7 +120,7 @@ namespace MyGUIPlugin
                 captionText.setSize((int)captionText.getTextSize().Width + 5, (int)captionText.FontHeight);
 
                 separator = grid.ScrollView.createWidgetT("Widget", grid.GroupSeparatorSkin, 0, 0, 10, 1, Align.Left | Align.Top, "");
-                separator.setSize((int)(grid.ScrollView.CanvasSize.Width - captionText.getWidth()) - 10, 1);
+                separator.setSize((int)(grid.ScrollView.CanvasSize.Width - captionText.Width) - 10, 1);
             }
         }
 
@@ -160,9 +160,9 @@ namespace MyGUIPlugin
             {
                 currentPosition.y += 5;
                 captionText.setPosition((int)currentPosition.x, (int)currentPosition.y);
-                separator.setPosition((int)(currentPosition.x + captionText.getWidth()), (int)(currentPosition.y + captionText.getHeight() / 2));
-                separator.setSize((int)(grid.ScrollView.CanvasSize.Width - captionText.getWidth()) - 10, 1);
-                currentPosition.y += captionText.getHeight() + 5;
+                separator.setPosition((int)(currentPosition.x + captionText.Width), (int)(currentPosition.y + captionText.Height / 2));
+                separator.setSize((int)(grid.ScrollView.CanvasSize.Width - captionText.Width) - 10, 1);
+                currentPosition.y += captionText.Height + 5;
             }
 
             foreach (ButtonGridItem item in items)

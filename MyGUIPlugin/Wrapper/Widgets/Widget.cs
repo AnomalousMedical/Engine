@@ -60,44 +60,68 @@ namespace MyGUIPlugin
         }
 
         //Clipped Rectangle
-        public int getAbsoluteLeft()
+        public int AbsoluteLeft
         {
-            return Widget_getAbsoluteLeft(widget);
+            get
+            {
+                return Widget_getAbsoluteLeft(widget);
+            }
         }
 
-        public int getAbsoluteTop()
+        public int AbsoluteTop
         {
-            return Widget_getAbsoluteTop(widget);
+            get
+            {
+                return Widget_getAbsoluteTop(widget);
+            }
         }
 
-        public int getLeft()
+        public int Left
         {
-            return Widget_getLeft(widget);
+            get
+            {
+                return Widget_getLeft(widget);
+            }
         }
 
-        public int getRight()
+        public int Right
         {
-            return Widget_getRight(widget);
+            get
+            {
+                return Widget_getRight(widget);
+            }
         }
 
-        public int getTop()
+        public int Top
         {
-            return Widget_getTop(widget);
+            get
+            {
+                return Widget_getTop(widget);
+            }
         }
 
-        public int getBottom()
+        public int Bottom
         {
-            return Widget_getBottom(widget);
+            get
+            {
+                return Widget_getBottom(widget);
+            }
         }
 
-        public int getWidth()
+        public int Width
         {
-            return Widget_getWidth(widget);
+            get
+            {
+                return Widget_getWidth(widget);
+            }
         }
 
-        public int getHeight()
+        public int Height
         {
-            return Widget_getHeight(widget);
+            get
+            {
+                return Widget_getHeight(widget);
+            }
         }
 
         public void setPosition(int left, int top)
@@ -131,25 +155,34 @@ namespace MyGUIPlugin
         }
 
         //Widget
-        public uint getChildCount()
+        public uint ChildCount
         {
-            return Widget_getChildCount(widget).ToUInt32();
-        }
+            get
+            {
+                return Widget_getChildCount(widget).ToUInt32();
+            }
+        }        
 
         public Widget getChildAt(uint index)
         {
             return WidgetManager.getWidget(Widget_getChildAt(widget, new UIntPtr(index)));
         }
 
-        public bool isRootWidget()
+        public bool IsRootWidget
         {
-            return Widget_isRootWidget(widget);
+            get
+            {
+                return Widget_isRootWidget(widget);
+            }
         }
 
-        public Widget getParent()
+        public Widget Parent
         {
-            return WidgetManager.getWidget(Widget_getParent(widget));
-        }
+            get
+            {
+                return WidgetManager.getWidget(Widget_getParent(widget));
+            }
+        }        
 
         public Widget findWidget(String name)
         {
@@ -166,14 +199,20 @@ namespace MyGUIPlugin
             Widget_setEnabledSilent(widget, value);
         }
 
-        public IntCoord getClientCoord()
+        public IntCoord ClientCoord
         {
-            return Widget_getClientCoord(widget);
+            get
+            {
+                return Widget_getClientCoord(widget);
+            }
         }
 
-        public Widget getClientWidget()
+        public Widget ClientWidget
         {
-            return WidgetManager.getWidget(Widget_getClientWidget(widget));
+            get
+            {
+                return WidgetManager.getWidget(Widget_getClientWidget(widget));
+            }
         }
 
         public void detachFromWidget()
