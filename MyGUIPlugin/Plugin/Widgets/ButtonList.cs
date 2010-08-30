@@ -54,6 +54,18 @@ namespace MyGUIPlugin
             }
         }
 
+        internal bool StateCheck
+        {
+            get
+            {
+                return button.StateCheck;
+            }
+            set
+            {
+                button.StateCheck = value;
+            }
+        }
+
         public void setImage(String imageResource)
         {
             StaticImage image = button.StaticImage;
@@ -208,7 +220,15 @@ namespace MyGUIPlugin
             {
                 if (selectedItem != value)
                 {
+                    if (selectedItem != null)
+                    {
+                        selectedItem.StateCheck = false;
+                    }
                     selectedItem = value;
+                    if (selectedItem != null)
+                    {
+                        selectedItem.StateCheck = true;
+                    }
                     if (SelectedValueChanged != null)
                     {
                         SelectedValueChanged.Invoke(this, EventArgs.Empty);
