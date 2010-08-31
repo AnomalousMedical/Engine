@@ -153,6 +153,10 @@ namespace MyGUIPlugin
 
         public void removeItem(ButtonListItem item)
         {
+            if (item == selectedItem)
+            {
+                SelectedItem = null;
+            }
             int removeIndex = item.Index;
             items.RemoveAt(removeIndex);
             for (int i = removeIndex; i < items.Count; ++i)
