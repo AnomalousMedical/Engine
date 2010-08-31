@@ -21,6 +21,17 @@ extern "C" _AnomalousExport Ogre::Texture* TextureManager_getByName2(String name
 	return texturePtr.getPointer();
 }
 
+extern "C" _AnomalousExport void TextureManager_removeName(String name)
+{
+	Ogre::TextureManager::getSingleton().remove(name);
+}
+
+extern "C" _AnomalousExport void TextureManager_removeResource(Ogre::TexturePtr* heapSharedPtr)
+{
+	Ogre::ResourcePtr texturePtr = *heapSharedPtr;
+	Ogre::TextureManager::getSingleton().remove(texturePtr);
+}
+
 //TexturePtr
 extern "C" _AnomalousExport Ogre::TexturePtr* TexturePtr_createHeapPtr(Ogre::TexturePtr* stackSharedPtr)
 {

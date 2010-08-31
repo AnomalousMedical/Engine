@@ -29,6 +29,16 @@ namespace OgreWrapper
             return getObject(TextureManager_createManual(name, group, texType, width, height, depth, num_mips, format, usage, hwGammaCorrection, fsaa, ProcessWrapperObjectCallback));
         }
 
+        public void remove(String name)
+        {
+            TextureManager_removeName(name);
+        }
+
+        public void remove(TexturePtr resource)
+        {
+            TextureManager_removeResource(resource.HeapSharedPtr);
+        }
+
         public TexturePtr getByName(String name)
         {
             return getObject(TextureManager_getByName1(name, ProcessWrapperObjectCallback));
@@ -62,6 +72,12 @@ namespace OgreWrapper
 
         [DllImport("OgreCWrapper")]
         private static extern IntPtr TextureManager_getByName2(String name, String group, ProcessWrapperObjectDelegate processWrapper);
+
+        [DllImport("OgreCWrapper")]
+        private static extern void TextureManager_removeName(String name);
+
+        [DllImport("OgreCWrapper")]
+        private static extern void TextureManager_removeResource(IntPtr heapSharedPtr);
 
         //TexturePtr
         [DllImport("OgreCWrapper")]

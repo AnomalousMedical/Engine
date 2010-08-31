@@ -35,5 +35,13 @@ namespace OgreWrapper
                 return null;
             }
         }
+
+        internal IntPtr HeapSharedPtr
+        {
+            get
+            {
+                return sharedPtr.HeapSharedPtr;
+            }
+        }
     }
 }
