@@ -50,6 +50,30 @@ namespace MyGUIPlugin
         public void show(int left, int top)
         {
             LayerManager.Instance.upLayerItem(widget);
+            int guiWidth = Gui.Instance.getViewWidth();
+            int guiHeight = Gui.Instance.getViewHeight();
+
+            int right = left + widget.Width;
+            int bottom = top + widget.Height;
+
+            if (right > guiWidth)
+            {
+                left -= right - guiWidth;
+                if (left < 0)
+                {
+                    left = 0;
+                }
+            }
+
+            if (bottom > guiHeight)
+            {
+                top -= bottom - guiHeight;
+                if (top < 0)
+                {
+                    top = 0;
+                }
+            }
+
             widget.setPosition(left, top);
             Visible = true;
             if (SmoothShow)

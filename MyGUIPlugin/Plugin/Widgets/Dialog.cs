@@ -88,6 +88,35 @@ namespace MyGUIPlugin
                 {
                     if (value)
                     {
+                        //Adjust the position if needed
+                        int left = window.AbsoluteLeft;
+                        int top = window.AbsoluteTop;
+                        int right = left + window.Width;
+                        int bottom = top + window.Height;
+
+                        int guiWidth = Gui.Instance.getViewWidth();
+                        int guiHeight = Gui.Instance.getViewHeight();
+
+                        if (right > guiWidth)
+                        {
+                            left -= right - guiWidth;
+                            if (left < 0)
+                            {
+                                left = 0;
+                            }
+                        }
+
+                        if (bottom > guiHeight)
+                        {
+                            top -= bottom - guiHeight;
+                            if (top < 0)
+                            {
+                                top = 0;
+                            }
+                        }
+
+                        window.setPosition(left, top);
+
                         doChangeVisibility(value);
                         onShown(EventArgs.Empty);
                     }
