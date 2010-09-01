@@ -41,6 +41,7 @@ namespace MyGUIPlugin
 
         public void Dispose()
         {
+            PointerManager.Instance.Dispose();
             WidgetManager.destroyAllWrappers();
             Gui_Delete(gui);
         }

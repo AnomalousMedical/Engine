@@ -9,7 +9,7 @@ using Engine.Platform;
 
 namespace MyGUIPlugin
 {
-    class EventMouseDragTranslator : MyGUIEventTranslator
+    class EventMouseDragTranslator : MyGUIWidgetEventTranslator
     {
         delegate void NativeEventDelegate(IntPtr widget, int left, int top);
         static MouseEventArgs eventArgs = new MouseEventArgs();

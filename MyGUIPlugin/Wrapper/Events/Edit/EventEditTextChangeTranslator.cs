@@ -7,7 +7,7 @@ using Logging;
 
 namespace MyGUIPlugin
 {
-    class EventEditTextChangeTranslator : MyGUIEventTranslator
+    class EventEditTextChangeTranslator : MyGUIWidgetEventTranslator
     {
         delegate void NativeEventDelegate(IntPtr widget);
 

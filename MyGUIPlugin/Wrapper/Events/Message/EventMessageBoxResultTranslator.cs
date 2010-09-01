@@ -17,7 +17,7 @@ namespace MyGUIPlugin
         public MessageBoxStyle Result { get; internal set; }
     }
 
-    class EventMessageBoxResultTranslator : MyGUIEventTranslator
+    class EventMessageBoxResultTranslator : MyGUIWidgetEventTranslator
     {
         delegate void NativeEventDelegate(IntPtr widget, MessageBoxStyle result);
         static MessageEventArgs eventArgs = new MessageEventArgs();

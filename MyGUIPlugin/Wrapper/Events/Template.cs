@@ -22,7 +22,7 @@ using Logging;
 
 namespace MyGUIPlugin
 {
-    class EVENT_TRANS_CLASS : MyGUIEventTranslator
+    class EVENT_TRANS_CLASS : MyGUIWidgetEventTranslator
     {
         delegate void NativeEventDelegate(IntPtr widget, CALLBACK_ARGS);
         static EVENT_ARGS_TYPE eventArgs = new EVENT_ARGS_TYPE();

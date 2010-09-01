@@ -258,6 +258,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\PointerManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\Progress.cpp"
 				>
 			</File>
@@ -347,6 +351,10 @@
 			>
 			<File
 				RelativePath=".\Src\ClickEventTranslator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\EventChangeMousePointerTranslator.cpp"
 				>
 			</File>
 			<File

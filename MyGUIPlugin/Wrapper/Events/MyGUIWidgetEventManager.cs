@@ -5,28 +5,31 @@ using System.Text;
 
 namespace MyGUIPlugin
 {
-    class MyGUIEventManager : IDisposable
+    /// <summary>
+    /// This class manages events on a widget.
+    /// </summary>
+    class MyGUIWidgetEventManager : IDisposable
     {
-        private Dictionary<Type, MyGUIEventTranslator> events = new Dictionary<Type, MyGUIEventTranslator>();
+        private Dictionary<Type, MyGUIWidgetEventTranslator> events = new Dictionary<Type, MyGUIWidgetEventTranslator>();
         private Widget widget;
 
-        public MyGUIEventManager(Widget widget)
+        public MyGUIWidgetEventManager(Widget widget)
         {
             this.widget = widget;
         }
 
         public void Dispose()
         {
-            foreach (MyGUIEventTranslator trans in events.Values)
+            foreach (MyGUIWidgetEventTranslator trans in events.Values)
             {
                 trans.Dispose();
             }
         }
 
         public void addDelegate<T>(MyGUIEvent evt)
-            where T : MyGUIEventTranslator, new()
+            where T : MyGUIWidgetEventTranslator, new()
         {
-            MyGUIEventTranslator trans;
+            MyGUIWidgetEventTranslator trans;
             events.TryGetValue(typeof(T), out trans);
             if(trans == null)
             {
@@ -39,7 +42,7 @@ namespace MyGUIPlugin
 
         public void removeDelegate<T>(MyGUIEvent evt)
         {
-            MyGUIEventTranslator trans;
+            MyGUIWidgetEventTranslator trans;
             events.TryGetValue(typeof(T), out trans);
             if(trans != null)
             {

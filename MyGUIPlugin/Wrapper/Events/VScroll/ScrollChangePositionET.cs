@@ -12,7 +12,7 @@ namespace MyGUIPlugin
         public uint Position { get; internal set; }
     }
 
-    class ScrollChangePositionET : MyGUIEventTranslator
+    class ScrollChangePositionET : MyGUIWidgetEventTranslator
     {
         static ScrollEventArgs eventArgs = new ScrollEventArgs();
 

@@ -7,7 +7,7 @@ using Logging;
 
 namespace MyGUIPlugin
 {
-    class EventListChangePositionTranslator : MyGUIEventTranslator
+    class EventListChangePositionTranslator : MyGUIWidgetEventTranslator
     {
         delegate void NativeEventDelegate(IntPtr widget, UIntPtr index);
         static MultiListEventArgs eventArgs = new MultiListEventArgs();

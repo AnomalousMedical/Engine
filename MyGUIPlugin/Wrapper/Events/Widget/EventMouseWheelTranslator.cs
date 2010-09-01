@@ -7,7 +7,7 @@ using Logging;
 
 namespace MyGUIPlugin
 {
-    class EventMouseWheelTranslator : MyGUIEventTranslator
+    class EventMouseWheelTranslator : MyGUIWidgetEventTranslator
     {
         delegate void NativeEventDelegate(IntPtr widget, int relWheel);
         static MouseEventArgs eventArgs = new MouseEventArgs();

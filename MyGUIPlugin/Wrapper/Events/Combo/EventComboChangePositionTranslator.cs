@@ -7,7 +7,7 @@ using Logging;
 
 namespace MyGUIPlugin
 {
-    class EventComboChangePositionTranslator : MyGUIEventTranslator
+    class EventComboChangePositionTranslator : MyGUIWidgetEventTranslator
     {
         delegate void NativeEventDelegate(IntPtr widget, UIntPtr index);
         static ComboBoxEventArgs eventArgs = new ComboBoxEventArgs();

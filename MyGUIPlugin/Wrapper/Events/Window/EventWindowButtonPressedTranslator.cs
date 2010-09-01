@@ -18,7 +18,7 @@ namespace MyGUIPlugin
 
     }
 
-    class EventWindowButtonPressedTranslator : MyGUIEventTranslator
+    class EventWindowButtonPressedTranslator : MyGUIWidgetEventTranslator
     {
         delegate void NativeEventDelegate(IntPtr widget, IntPtr name);
         static WindowEventArgs eventArgs = new WindowEventArgs();

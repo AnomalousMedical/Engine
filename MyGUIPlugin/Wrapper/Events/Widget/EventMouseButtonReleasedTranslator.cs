@@ -9,7 +9,7 @@ using Engine;
 
 namespace MyGUIPlugin
 {
-    class EventMouseButtonReleasedTranslator : MyGUIEventTranslator
+    class EventMouseButtonReleasedTranslator : MyGUIWidgetEventTranslator
     {
         delegate void NativeEventDelegate(IntPtr widget, int left, int top, MouseButtonCode id);
         static MouseEventArgs eventArgs = new MouseEventArgs();
