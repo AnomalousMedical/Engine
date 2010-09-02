@@ -423,7 +423,7 @@ namespace MyGUIPlugin
             scrollView.CanvasSize = finalSize;
             //Set the final size with or without padding depending if the scroll bars are visible in that direction or not.
             scrollView.setSize(scrollView.VisibleHScroll ? (int)finalSize.Width + 23 : (int)finalSize.Width, 
-                scrollView.VisibleVScroll ? (int)finalSize.Height + 23 : (int)finalSize.Height);
+                scrollView.VisibleVScroll ? (int)finalSize.Height + 23 : (int)finalSize.Height + 5);
         }
 
         public ButtonGridItem getItem(int index)
