@@ -31,6 +31,7 @@ namespace MyGUIPlugin
             if (Instance == null)
             {
                 Instance = this;
+                SmoothShowDuration = 0.25f;
             }
             else
             {
@@ -209,6 +210,11 @@ namespace MyGUIPlugin
         /// The file to load settings for MyGUI. Set before initializing.
         /// </summary>
         public static String Settings { get; set; }
+
+        /// <summary>
+        /// The amount of time Smooth Show transitions should take.
+        /// </summary>
+        public static float SmoothShowDuration { get; set; }
 
         /// <summary>
         /// This event is fired before MyGUI renders.

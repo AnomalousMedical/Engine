@@ -44,62 +44,67 @@ namespace MyGUIPlugin
         {
             this.widget = widget;
             SmoothShow = true;
-            SmoothShowDuration = 0.5f;
         }
 
         public void show(int left, int top)
         {
-            LayerManager.Instance.upLayerItem(widget);
-            int guiWidth = Gui.Instance.getViewWidth();
-            int guiHeight = Gui.Instance.getViewHeight();
-
-            int right = left + widget.Width;
-            int bottom = top + widget.Height;
-
-            if (right > guiWidth)
+            if (!Visible)
             {
-                left -= right - guiWidth;
-                if (left < 0)
+                LayerManager.Instance.upLayerItem(widget);
+                int guiWidth = Gui.Instance.getViewWidth();
+                int guiHeight = Gui.Instance.getViewHeight();
+
+                int right = left + widget.Width;
+                int bottom = top + widget.Height;
+
+                if (right > guiWidth)
                 {
-                    left = 0;
+                    left -= right - guiWidth;
+                    if (left < 0)
+                    {
+                        left = 0;
+                    }
                 }
-            }
 
-            if (bottom > guiHeight)
-            {
-                top -= bottom - guiHeight;
-                if (top < 0)
+                if (bottom > guiHeight)
                 {
-                    top = 0;
+                    top -= bottom - guiHeight;
+                    if (top < 0)
+                    {
+                        top = 0;
+                    }
                 }
-            }
 
-            widget.setPosition(left, top);
-            Visible = true;
-            if (SmoothShow)
-            {
-                widget.Alpha = 0.0f;
-                smoothShowPosition = 0.0f;
-                subscribeToUpdate();
-                runningShowTransition = true;
+                widget.setPosition(left, top);
+                Visible = true;
+                if (SmoothShow)
+                {
+                    widget.Alpha = 0.0f;
+                    smoothShowPosition = 0.0f;
+                    subscribeToUpdate();
+                    runningShowTransition = true;
+                }
             }
         }
 
         public void hide()
         {
-            Visible = false;
-            if (SmoothShow)
+            if (Visible)
             {
-                smoothShowPosition = 0.0f;
-                subscribeToUpdate();
-                runningShowTransition = false;
-                widget.Visible = true;
-            }
-            else
-            {
-                if (Hidden != null)
+                Visible = false;
+                if (SmoothShow)
                 {
-                    Hidden.Invoke(this, EventArgs.Empty);
+                    smoothShowPosition = 0.0f;
+                    subscribeToUpdate();
+                    runningShowTransition = false;
+                    widget.Visible = true;
+                }
+                else
+                {
+                    if (Hidden != null)
+                    {
+                        Hidden.Invoke(this, EventArgs.Empty);
+                    }
                 }
             }
         }
@@ -112,17 +117,20 @@ namespace MyGUIPlugin
             }
             private set
             {
-                widget.Visible = value;
-                if (value)
+                if (widget.Visible != value)
                 {
-                    Gui.Instance.MouseButtonPressed += MouseButtonPressed;
-                }
-                else
-                {
-                    Gui.Instance.MouseButtonPressed -= MouseButtonPressed;
-                    if (!SmoothShow) //Unsubscribe if not smooth showing.
+                    widget.Visible = value;
+                    if (value)
                     {
-                        unsubscribeFromUpdate();
+                        Gui.Instance.MouseButtonPressed += MouseButtonPressed;
+                    }
+                    else
+                    {
+                        Gui.Instance.MouseButtonPressed -= MouseButtonPressed;
+                        if (!SmoothShow) //Unsubscribe if not smooth showing.
+                        {
+                            unsubscribeFromUpdate();
+                        }
                     }
                 }
             }
@@ -152,8 +160,6 @@ namespace MyGUIPlugin
 
         public bool SmoothShow { get; set; }
 
-        public float SmoothShowDuration { get; set; }
-
         private bool subscribedToUpdate = false;
 
         private void subscribeToUpdate()
@@ -179,18 +185,18 @@ namespace MyGUIPlugin
             smoothShowPosition += updateTime;
             if (runningShowTransition)
             {
-                if (smoothShowPosition > SmoothShowDuration)
+                if (smoothShowPosition > MyGUIInterface.SmoothShowDuration)
                 {
-                    smoothShowPosition = SmoothShowDuration;
+                    smoothShowPosition = MyGUIInterface.SmoothShowDuration;
                     unsubscribeFromUpdate();
                 }
-                widget.Alpha = smoothShowPosition / SmoothShowDuration;
+                widget.Alpha = smoothShowPosition / MyGUIInterface.SmoothShowDuration;
             }
             else
             {
-                if (smoothShowPosition > SmoothShowDuration)
+                if (smoothShowPosition > MyGUIInterface.SmoothShowDuration)
                 {
-                    smoothShowPosition = SmoothShowDuration;
+                    smoothShowPosition = MyGUIInterface.SmoothShowDuration;
                     unsubscribeFromUpdate();
                     widget.Visible = false;
                     widget.Alpha = 0.0f;
@@ -201,7 +207,7 @@ namespace MyGUIPlugin
                 }
                 else
                 {
-                    widget.Alpha = 1 - smoothShowPosition / SmoothShowDuration;
+                    widget.Alpha = 1 - smoothShowPosition / MyGUIInterface.SmoothShowDuration;
                 }
             }
         }
