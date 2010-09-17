@@ -115,6 +115,12 @@ namespace Engine
         void showSceneStats(bool showStats);
 
         /// <summary>
+        /// Move the scene stats to a different position.
+        /// </summary>
+        /// <param name="position">The new position of the scene stats.</param>
+        void moveSceneStats(Vector2 position);
+
+        /// <summary>
         /// Change the RenderingMode of the camera.
         /// </summary>
         /// <param name="mode">The RenderingMode to set.</param>

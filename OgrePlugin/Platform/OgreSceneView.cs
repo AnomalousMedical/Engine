@@ -159,6 +159,11 @@ namespace OgrePlugin
             this.showStats = showStats;
         }
 
+        public void moveSceneStats(Vector2 position)
+        {
+            statsOverlay.StatsPosition = position;
+        }
+
         /// <summary>
         /// Change the RenderingMode of the camera.
         /// </summary>

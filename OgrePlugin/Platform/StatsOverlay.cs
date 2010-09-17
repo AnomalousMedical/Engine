@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OgreWrapper;
+using Engine;
 
 namespace OgrePlugin
 {
@@ -18,6 +19,7 @@ namespace OgrePlugin
         private uint lastTriangleCount = uint.MaxValue;
         private uint lastBatchCount = uint.MaxValue;
         //private bool visible = false;
+        private Vector2 position = new Vector2();
 
         public StatsOverlay(String name)
         {
@@ -28,6 +30,7 @@ namespace OgrePlugin
         {
             overlay = OverlayManager.getInstance().create(name + "Overlay__");
             statsPanel = OverlayManager.getInstance().createOverlayElement(PanelOverlayElement.TypeName, name + "StatsOverlayPanel__") as PanelOverlayElement;
+            statsPanel.setPosition(position.x, position.y);
             
             fpsTextArea = OverlayManager.getInstance().createOverlayElement(TextAreaOverlayElement.TypeName, name + "StatsFpsText__") as TextAreaOverlayElement;
             statsPanel.addChild(fpsTextArea);
@@ -97,6 +100,19 @@ namespace OgrePlugin
                 statsPanel = null;
                 fpsTextArea = null;
                 overlay = null;
+            }
+        }
+
+        public Vector2 StatsPosition
+        {
+            get
+            {
+                return new Vector2(fpsTextArea.getLeft(), fpsTextArea.getTop());
+            }
+            set
+            {
+                statsPanel.setPosition(value.x, value.y);
+                position = value;
             }
         }
     }
