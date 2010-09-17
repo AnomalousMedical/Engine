@@ -87,5 +87,15 @@ namespace Engine
         {
             return new Size2(v1.Width / v2.Width, v1.Height / v2.Height);
         }
+
+        public static bool operator ==(Size2 p1, Size2 p2)
+        {
+            return p1.Width == p2.Width && p1.Height == p2.Height;
+        }
+
+        public static bool operator !=(Size2 p1, Size2 p2)
+        {
+            return !(p1.Width == p2.Width && p1.Height == p2.Height);
+        }
     }
 }
