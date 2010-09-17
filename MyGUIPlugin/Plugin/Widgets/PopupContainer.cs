@@ -16,6 +16,7 @@ namespace MyGUIPlugin
         private Widget widget;
         private float smoothShowPosition;
         private bool runningShowTransition; //True to be making the popup visible, false to be hiding.
+        private List<Widget> childPopups = null;
 
         /// <summary>
         /// This event is called after the popup has been hidden completely.
@@ -44,6 +45,25 @@ namespace MyGUIPlugin
         {
             this.widget = widget;
             SmoothShow = true;
+        }
+
+        /// <summary>
+        /// Add a child popup. This will prevent this popup from being closed if
+        /// the mouse is clicked inside of the child popup.
+        /// </summary>
+        /// <param name="child"></param>
+        public void addChildPopup(Widget child)
+        {
+            if (childPopups == null)
+            {
+                childPopups = new List<Widget>();
+            }
+            childPopups.Add(child);
+        }
+
+        public void removeChildPopup(Widget child)
+        {
+            childPopups.Remove(child);
         }
 
         public void show(int left, int top)
@@ -144,6 +164,24 @@ namespace MyGUIPlugin
             int bottom = top + widget.Height;
             if (x < left || x > right || y < top || y > bottom)
             {
+                if (childPopups != null)
+                {
+                    foreach (Widget childWidget in childPopups)
+                    {
+                        if (childWidget.Visible)
+                        {
+                            left = childWidget.AbsoluteLeft;
+                            top = childWidget.AbsoluteTop;
+                            right = left + childWidget.Width;
+                            bottom = top + childWidget.Height;
+                            if (x > left && x < right && y > top && y < bottom)
+                            {
+                                //inside of child. return.
+                                return;
+                            }
+                        }
+                    }
+                }
                 hide();
             }
         }
