@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using Engine;
 
 namespace MyGUIPlugin
 {
@@ -185,6 +186,18 @@ namespace MyGUIPlugin
         /// True to show the window smoothly.
         /// </summary>
         public bool SmoothShow { get; set; }
+
+        public Vector2 Position
+        {
+            get
+            {
+                return new Vector2(window.Left, window.Top);
+            }
+            set
+            {
+                window.setPosition((int)value.x, (int)value.y);
+            }
+        }
 
         protected virtual void onShown(EventArgs args)
         {
