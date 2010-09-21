@@ -164,6 +164,7 @@ namespace MyGUIPlugin
                 items[i].Index--;
             }
             item.Dispose();
+            scrollView.CanvasSize = new Size2(ItemWidth, computeYPosForIndex(items.Count));
         }
 
         public void clear()
