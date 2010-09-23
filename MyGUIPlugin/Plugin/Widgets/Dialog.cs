@@ -177,6 +177,10 @@ namespace MyGUIPlugin
         /// <param name="value"></param>
         private void doChangeVisibility(bool value)
         {
+            if (value)
+            {
+                LayerManager.Instance.upLayerItem(window);
+            }
             if (modal)
             {
                 if (value)
