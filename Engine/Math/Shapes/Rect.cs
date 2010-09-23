@@ -10,52 +10,28 @@ namespace Engine
     public struct Rect
     {
         [FieldOffset(0)]
-        private float top;
-        [FieldOffset(4)]
-        private float bottom;
-        [FieldOffset(8)]
         private float left;
+        [FieldOffset(4)]
+        private float top;
+        [FieldOffset(8)]
+        private float width;
         [FieldOffset(12)]
-        private float right;
+        private float height;
 
-        public Rect(float top, float bottom, float left, float right)
+        public Rect(float left, float top, float width, float height)
         {
-            this.top = top;
-            this.bottom = bottom;
             this.left = left;
-            this.right = right;
-        }
-
-        public void setValues(float top, float bottom, float left, float right)
-        {
             this.top = top;
-            this.bottom = bottom;
+            this.width = width;
+            this.height = height;
+        }
+
+        public void setValues(float left, float top, float width, float height)
+        {
             this.left = left;
-            this.right = right;
-        }
-
-        public float Top
-        {
-            get
-            {
-                return top;
-            }
-            set
-            {
-                top = value;
-            }
-        }
-
-        public float Bottom
-        {
-            get
-            {
-                return bottom;
-            }
-            set
-            {
-                bottom = value;
-            }
+            this.top = top;
+            this.width = width;
+            this.height = height;
         }
 
         public float Left
@@ -70,16 +46,59 @@ namespace Engine
             }
         }
 
-        public float Right
+        public float Top
         {
             get
             {
-                return right;
+                return top;
             }
             set
             {
-                right = value;
+                top = value;
             }
+        }
+
+        public float Width
+        {
+            get
+            {
+                return width;
+            }
+            set
+            {
+                width = value;
+            }
+        }
+
+        public float Height
+        {
+            get
+            {
+                return height;
+            }
+            set
+            {
+                height = value;
+            }
+        }
+
+        private static readonly char[] SEPS = { ',' };
+
+        public void fromString(String str)
+        {
+            String[] subStrs = str.Split(SEPS);
+            if (subStrs.Length == 4)
+            {
+                float.TryParse(subStrs[0], out left);
+                float.TryParse(subStrs[1], out top);
+                float.TryParse(subStrs[2], out width);
+                float.TryParse(subStrs[3], out height);
+            }
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{0}, {1}, {2}, {3}", left, top, width, height);
         }
     }
 }

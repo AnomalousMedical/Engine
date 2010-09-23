@@ -12,6 +12,8 @@ namespace MyGUIPlugin
         private Layout dialogLayout;
         protected Window window;
         private bool modal = false;
+        private Rect desiredLocation;
+        String persistName;
 
         /// <summary>
         /// Called after the dialog opens.
@@ -28,17 +30,28 @@ namespace MyGUIPlugin
         /// </summary>
         public event EventHandler Closed;
 
+        public Dialog(String layoutFile)
+            :this(layoutFile, "")
+        {
+            Type t = GetType();
+            persistName = String.Format("{0}.{1}", t.Namespace, t.Name);
+        }
+
         /// <summary>
         /// Constructor. Takes the layout file to load.
         /// </summary>
         /// <param name="layoutFile">The layout file of the dialog.</param>
-        public Dialog(String layoutFile)
+        public Dialog(String layoutFile, String persistName)
         {
+            this.persistName = persistName;
             dialogLayout = LayoutManager.Instance.loadLayout(layoutFile);
             window = dialogLayout.getWidget(0) as Window;
             window.Visible = false;
             window.WindowButtonPressed += new MyGUIEvent(window_WindowButtonPressed);
             SmoothShow = true;
+            IgnorePositionChanges = false;
+            desiredLocation = new Rect(window.Left, window.Top, window.Width, window.Height);
+            window.WindowChangedCoord += new MyGUIEvent(window_WindowChangedCoord);
         }
 
         /// <summary>
@@ -135,6 +148,20 @@ namespace MyGUIPlugin
             }
         }
 
+        public void serialize(ConfigFile configFile)
+        {
+            ConfigSection section = configFile.createOrRetrieveConfigSection(persistName);
+            section.setValue("Location", desiredLocation.ToString());
+        }
+
+        public void deserialize(ConfigFile configFile)
+        {
+            ConfigSection section = configFile.createOrRetrieveConfigSection(persistName);
+            String location = section.getValue("Location", desiredLocation.ToString());
+            desiredLocation.fromString(location);
+            window.setCoord((int)desiredLocation.Left, (int)desiredLocation.Top, (int)desiredLocation.Width, (int)desiredLocation.Height);
+        }
+
         /// <summary>
         /// Acutally change the window visibility, called from Visible.set
         /// </summary>
@@ -187,6 +214,20 @@ namespace MyGUIPlugin
         /// </summary>
         public bool SmoothShow { get; set; }
 
+        public Rect DesiredLocation
+        {
+            get
+            {
+                return desiredLocation;
+            }
+            set
+            {
+                desiredLocation = value;
+            }
+        }
+
+        public bool IgnorePositionChanges { get; set; }
+
         public Vector2 Position
         {
             get
@@ -226,6 +267,17 @@ namespace MyGUIPlugin
         void window_WindowButtonPressed(Widget source, EventArgs e)
         {
             Visible = false;
+        }
+
+        void window_WindowChangedCoord(Widget source, EventArgs e)
+        {
+            if (!IgnorePositionChanges)
+            {
+                desiredLocation.Left = window.Left;
+                desiredLocation.Top = window.Top;
+                desiredLocation.Width = window.Width;
+                desiredLocation.Height = window.Height;
+            }
         }
     }
 }
