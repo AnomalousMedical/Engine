@@ -129,7 +129,9 @@ namespace MyGUIPlugin
                             }
                         }
 
+                        IgnorePositionChanges = true;
                         window.setPosition(left, top);
+                        IgnorePositionChanges = false;
 
                         doChangeVisibility(value);
                         onShown(EventArgs.Empty);
