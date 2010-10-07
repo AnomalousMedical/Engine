@@ -71,7 +71,6 @@ namespace MyGUIPlugin
                     {
                         if (value >= minValue && value <= maxValue)
                         {
-                            edit.Caption = value.ToString();
                             if (ValueChanged != null)
                             {
                                 ValueChanged.Invoke(edit, EventArgs.Empty);
@@ -94,7 +93,6 @@ namespace MyGUIPlugin
                     {
                         if (value >= minValue && value <= maxValue)
                         {
-                            edit.Caption = value.ToString();
                             if (ValueChanged != null)
                             {
                                 ValueChanged.Invoke(edit, EventArgs.Empty);
