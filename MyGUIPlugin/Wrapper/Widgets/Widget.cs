@@ -361,7 +361,14 @@ namespace MyGUIPlugin
             }
             set
             {
-                Widget_setCaption(widget, value);
+                if (value != null)
+                {
+                    Widget_setCaption(widget, value);
+                }
+                else
+                {
+                    Widget_setCaption(widget, "");
+                }
             }
         }
 
