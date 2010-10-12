@@ -49,4 +49,14 @@ extern "C" _AnomalousExport MyGUI::IntCoord ScrollView_getClientCoord(MyGUI::Scr
 	return scrollView->getClientCoord();
 }
 
+extern "C" _AnomalousExport ThreeIntHack ScrollView_getCanvasPosition(MyGUI::ScrollView* scrollView)
+{
+	return scrollView->getCanvasPosition();
+}
+
+extern "C" _AnomalousExport void ScrollView_setCanvasPosition(MyGUI::ScrollView* scrollView, int x, int y)
+{
+	scrollView->setCanvasPosition(MyGUI::IntPoint(x, y));
+}
+
 #pragma warning(pop)

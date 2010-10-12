@@ -77,6 +77,18 @@ namespace MyGUIPlugin
             }
         }
 
+        public Vector2 CanvasPosition
+        {
+            get
+            {
+                return ScrollView_getCanvasPosition(widget).toVector2();
+            }
+            set
+            {
+                ScrollView_setCanvasPosition(widget, (int)value.x, (int)value.y);
+            }
+        }
+
 #region PInvoke
 
         //ScrollView
@@ -108,6 +120,12 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper")]
         private static extern IntCoord ScrollView_getClientCoord(IntPtr scrollView);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern ThreeIntHack ScrollView_getCanvasPosition(IntPtr scrollView);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern void ScrollView_setCanvasPosition(IntPtr scrollView, int x, int y);
 
 #endregion
     }
