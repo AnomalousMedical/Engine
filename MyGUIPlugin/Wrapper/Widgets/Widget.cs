@@ -511,6 +511,30 @@ namespace MyGUIPlugin
 
 #region Events
 
+        public event MyGUIEvent MouseLostFocus
+        {
+            add
+            {
+                eventManager.addDelegate<EventMouseLostFocusTranslator>(value);
+            }
+            remove
+            {
+                eventManager.removeDelegate<EventMouseLostFocusTranslator>(value);
+            }
+        }
+
+        public event MyGUIEvent MouseSetFocus
+        {
+            add
+            {
+                eventManager.addDelegate<EventMouseSetFocusTranslator>(value);
+            }
+            remove
+            {
+                eventManager.removeDelegate<EventMouseSetFocusTranslator>(value);
+            }
+        }
+
         public event MyGUIEvent MouseButtonClick
         {
             add
@@ -580,6 +604,90 @@ namespace MyGUIPlugin
             remove
             {
                 eventManager.removeDelegate<EventMouseWheelTranslator>(value);
+            }
+        }
+
+        public event MyGUIEvent KeyLostFocus
+        {
+            add
+            {
+                eventManager.addDelegate<EventKeyLostFocusTranslator>(value);
+            }
+            remove
+            {
+                eventManager.removeDelegate<EventKeyLostFocusTranslator>(value);
+            }
+        }
+
+        public event MyGUIEvent KeySetFocus
+        {
+            add
+            {
+                eventManager.addDelegate<EventKeySetFocusTranslator>(value);
+            }
+            remove
+            {
+                eventManager.removeDelegate<EventKeySetFocusTranslator>(value);
+            }
+        }
+
+        public event MyGUIEvent KeyButtonPressed
+        {
+            add
+            {
+                eventManager.addDelegate<EventKeyButtonPressedTranslator>(value);
+            }
+            remove
+            {
+                eventManager.removeDelegate<EventKeyButtonPressedTranslator>(value);
+            }
+        }
+
+        public event MyGUIEvent KeyButtonReleased
+        {
+            add
+            {
+                eventManager.addDelegate<EventKeyButtonReleasedTranslator>(value);
+            }
+            remove
+            {
+                eventManager.removeDelegate<EventKeyButtonReleasedTranslator>(value);
+            }
+        }
+
+        public event MyGUIEvent RootMouseChangeFocus
+        {
+            add
+            {
+                eventManager.addDelegate<EventRootMouseChangeFocusTranslator>(value);
+            }
+            remove
+            {
+                eventManager.removeDelegate<EventRootMouseChangeFocusTranslator>(value);
+            }
+        }
+
+        public event MyGUIEvent RootKeyChangeFocus
+        {
+            add
+            {
+                eventManager.addDelegate<EventRootKeyChangeFocusTranslator>(value);
+            }
+            remove
+            {
+                eventManager.removeDelegate<EventRootKeyChangeFocusTranslator>(value);
+            }
+        }
+
+        public event MyGUIEvent EventToolTip
+        {
+            add
+            {
+                eventManager.addDelegate<EventToolTipTranslator>(value);
+            }
+            remove
+            {
+                eventManager.removeDelegate<EventToolTipTranslator>(value);
             }
         }
 

@@ -374,6 +374,22 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\EventKeyButtonPressedTranslator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\EventKeyButtonReleasedTranslator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\EventKeyLostFocusTranslator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\EventKeySetFocusTranslator.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\EventListChangePositionTranslator.cpp"
 				>
 			</File>
@@ -402,7 +418,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\EventMouseLostFocusTranslator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\EventMouseSetFocusTranslator.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\EventMouseWheelTranslator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\EventRootKeyChangeFocusTranslator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\EventRootMouseChangeFocusTranslator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Src\EventToolTipTranslator.cpp"
 				>
 			</File>
 			<File

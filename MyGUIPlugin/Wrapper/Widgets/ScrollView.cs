@@ -69,14 +69,6 @@ namespace MyGUIPlugin
             }
         }
 
-        public IntCoord ClientCoord
-        {
-            get
-            {
-                return ScrollView_getClientCoord(widget);
-            }
-        }
-
         public Vector2 CanvasPosition
         {
             get
@@ -86,6 +78,30 @@ namespace MyGUIPlugin
             set
             {
                 ScrollView_setCanvasPosition(widget, (int)value.x, (int)value.y);
+            }
+        }
+
+        public bool FavorVertical
+        {
+            get
+            {
+                return ScrollView_getFavorVertical(widget);
+            }
+            set
+            {
+                ScrollView_setFavorVertical(widget, value);
+            }
+        }
+
+        public bool AllowMouseScroll
+        {
+            get
+            {
+                return ScrollView_getAllowMouseScroll(widget);
+            }
+            set
+            {
+                ScrollView_setAllowMouseScroll(widget, value);
             }
         }
 
@@ -126,6 +142,20 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper")]
         private static extern void ScrollView_setCanvasPosition(IntPtr scrollView, int x, int y);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern void ScrollView_setFavorVertical(IntPtr scrollView, bool value);
+
+        [DllImport("MyGUIWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool ScrollView_getFavorVertical(IntPtr scrollView);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern void ScrollView_setAllowMouseScroll(IntPtr scrollView, bool value);
+        
+        [DllImport("MyGUIWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool ScrollView_getAllowMouseScroll(IntPtr scrollView);
 
 #endregion
     }
