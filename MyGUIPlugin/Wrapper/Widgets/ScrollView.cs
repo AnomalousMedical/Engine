@@ -105,6 +105,15 @@ namespace MyGUIPlugin
             }
         }
 
+        //This has a warning, but if it does not exist you do not get the correct client coord.
+        public IntCoord ClientCoord
+        {
+            get
+            {
+                return ScrollView_getClientCoord(widget);
+            }
+        }
+
 #region PInvoke
 
         //ScrollView
