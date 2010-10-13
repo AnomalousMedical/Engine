@@ -59,4 +59,24 @@ extern "C" _AnomalousExport void ScrollView_setCanvasPosition(MyGUI::ScrollView*
 	scrollView->setCanvasPosition(MyGUI::IntPoint(x, y));
 }
 
+extern "C" _AnomalousExport void ScrollView_setFavorVertical(MyGUI::ScrollView* scrollView, bool value)
+{
+	scrollView->setFavorVertical(value);
+}
+
+extern "C" _AnomalousExport bool ScrollView_getFavorVertical(MyGUI::ScrollView* scrollView)
+{
+	return scrollView->getFavorVertical();
+}
+
+extern "C" _AnomalousExport void ScrollView_setAllowMouseScroll(MyGUI::ScrollView* scrollView, bool value)
+{
+	scrollView->setAllowMouseScroll(value);
+}
+
+extern "C" _AnomalousExport bool ScrollView_getAllowMouseScroll(MyGUI::ScrollView* scrollView)
+{
+	return scrollView->getAllowMouseScroll();
+}
+
 #pragma warning(pop)
