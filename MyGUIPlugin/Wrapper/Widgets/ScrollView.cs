@@ -114,6 +114,18 @@ namespace MyGUIPlugin
             }
         }
 
+        public event MyGUIEvent CanvasPositionChanged
+        {
+            add
+            {
+                eventManager.addDelegate<EventCanvasPositionChangedTranslator>(value);
+            }
+            remove
+            {
+                eventManager.removeDelegate<EventCanvasPositionChangedTranslator>(value);
+            }
+        }
+
 #region PInvoke
 
         //ScrollView

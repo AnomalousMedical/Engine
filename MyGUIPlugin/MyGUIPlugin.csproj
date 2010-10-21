@@ -68,6 +68,8 @@
     <Compile Include="Wrapper\Events\MultiList\MultiListEventArgs.cs" />
     <Compile Include="Wrapper\Events\MyGUIEventTranslator.cs" />
     <Compile Include="Wrapper\Events\PointerManager\EventChangeMousePointerTranslator.cs" />
+    <Compile Include="Wrapper\Events\ScrollView\CanvasEventArgs.cs" />
+    <Compile Include="Wrapper\Events\ScrollView\EventCanvasPositionChangedTranslator.cs" />
     <Compile Include="Wrapper\Events\Widget\ClickEventTranslator.cs" />
     <Compile Include="Wrapper\Events\Combo\ComboBoxEventArgs.cs" />
     <Compile Include="Wrapper\Events\Combo\EventComboAcceptTranslator.cs" />
