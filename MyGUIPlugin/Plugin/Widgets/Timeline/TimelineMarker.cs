@@ -18,7 +18,7 @@ namespace MyGUIPlugin
 
         public TimelineMarker(TimelineView actionView, ScrollView scrollView)
         {
-            this.widget = scrollView.createWidgetT("Widget", "Separator1", 1, 0, 1, (int)scrollView.CanvasSize.Height, Align.Left | Align.Top, "");
+            this.widget = scrollView.createWidgetT("Widget", "Separator1", 1, 0, 2, (int)scrollView.CanvasSize.Height, Align.Left | Align.Top, "");
             widget.Pointer = "size_horz";
             widget.MouseDrag += new MyGUIEvent(widget_MouseDrag);
             widget.MouseButtonPressed += new MyGUIEvent(widget_MouseButtonPressed);
@@ -43,9 +43,9 @@ namespace MyGUIPlugin
             {
                 time = value;
                 int physicalPosition = (int)(time * pixelsPerSecond);
-                if(physicalPosition < 1)
+                if(physicalPosition < 0)
                 {
-                    physicalPosition = 1;
+                    physicalPosition = 0;
                 }
                 widget.setPosition(physicalPosition, widget.Top);
                 if (CoordChanged != null)
