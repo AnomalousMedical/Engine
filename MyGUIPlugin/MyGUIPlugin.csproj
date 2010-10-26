@@ -128,6 +128,15 @@
     <Compile Include="Wrapper\Widgets\ScrollView.cs" />
     <Compile Include="Wrapper\Widgets\StaticImage.cs" />
     <Compile Include="Wrapper\Widgets\StaticText.cs" />
+    <Compile Include="Plugin\Widgets\Timeline\NumberLine.cs" />
+    <Compile Include="Plugin\Widgets\Timeline\TimelineData.cs" />
+    <Compile Include="Plugin\Widgets\Timeline\TimelineMarker.cs" />
+    <Compile Include="Plugin\Widgets\Timeline\TimelineScrollView.cs" />
+    <Compile Include="Plugin\Widgets\Timeline\TimelineView.cs" />
+    <Compile Include="Plugin\Widgets\Timeline\TimelineViewButton.cs" />
+    <Compile Include="Plugin\Widgets\Timeline\TimelineViewTrack.cs" />
+    <Compile Include="Plugin\Widgets\Timeline\TrackFilter.cs" />
+    <Compile Include="Plugin\Widgets\Timeline\TrackFilterButton.cs" />
     <Compile Include="Wrapper\Widgets\VScroll.cs" />
     <Compile Include="Wrapper\Widgets\Widget.cs" />
     <Compile Include="Wrapper\Widgets\WidgetManager.cs" />
