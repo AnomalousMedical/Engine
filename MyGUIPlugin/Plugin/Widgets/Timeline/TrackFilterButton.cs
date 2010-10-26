@@ -9,15 +9,16 @@ namespace MyGUIPlugin
     class TrackFilterButton : IDisposable
     {
         private Button button;
-        private CheckButton checkButton;
+        private StaticText text;
 
-        public TrackFilterButton(Button button, String actionType)
+        public event EventHandler CreateButtonClicked;
+
+        public TrackFilterButton(Button button, StaticText text, String actionType)
         {
             this.button = button;
-            button.Caption = actionType;
-            checkButton = new CheckButton(button);
-            checkButton.Checked = true;
-            checkButton.CheckedChanged += new MyGUIEvent(checkButton_CheckedChanged);
+            button.MouseButtonClick += new MyGUIEvent(button_MouseButtonClick);
+            this.text = text;
+            text.Caption = actionType;
         }
 
         public void Dispose()
@@ -28,11 +29,23 @@ namespace MyGUIPlugin
         public void moveButtonTop(int newPosition)
         {
             button.setPosition(button.Left, newPosition);
+            text.setPosition(text.Left, newPosition);
         }
 
-        void checkButton_CheckedChanged(Widget source, EventArgs e)
+        public String Caption
         {
-            
+            get
+            {
+                return text.Caption;
+            }
+        }
+
+        void button_MouseButtonClick(Widget source, EventArgs e)
+        {
+            if (CreateButtonClicked != null)
+            {
+                CreateButtonClicked.Invoke(this, e);
+            }
         }
     }
 }

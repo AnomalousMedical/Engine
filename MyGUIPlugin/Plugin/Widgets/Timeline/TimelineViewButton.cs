@@ -109,7 +109,6 @@ namespace MyGUIPlugin
             set
             {
                 timelineData.StartTime = value;
-                updatePosition();
             }
         }
 
@@ -122,7 +121,6 @@ namespace MyGUIPlugin
             set
             {
                 timelineData.Duration = value;
-                updateDurationWidth();
             }
         }
 

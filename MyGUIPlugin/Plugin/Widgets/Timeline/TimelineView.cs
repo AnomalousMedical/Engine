@@ -84,12 +84,16 @@ namespace MyGUIPlugin
 
         public void addTrack(String name, Color color)
         {
-            TimelineViewTrack actionViewRow = new TimelineViewTrack(name, trackY, pixelsPerSecond, color);
-            actionViewRow.BottomChanged += new EventHandler(actionViewRow_BottomChanged);
-            tracks.Add(actionViewRow);
+            TimelineViewTrack track = new TimelineViewTrack(name, trackY, pixelsPerSecond, color);
+            track.BottomChanged += new EventHandler(actionViewRow_BottomChanged);
+            tracks.Add(track);
             rowIndexes.Add(name, tracks.Count - 1);
-            trackY = actionViewRow.Bottom;
+            trackY = track.Bottom;
             timelineScrollView.CanvasHeight = trackY;
+            if (TrackAdded != null)
+            {
+                TrackAdded.Invoke(track);
+            }
         }
 
         public void addData(TimelineData data)
