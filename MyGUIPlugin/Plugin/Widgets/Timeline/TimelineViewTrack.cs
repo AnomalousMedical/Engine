@@ -75,7 +75,7 @@ namespace MyGUIPlugin
             return null;
         }
 
-        public void removeAllActions()
+        internal void removeAllActions()
         {
             foreach (TimelineViewButton button in buttons)
             {
@@ -84,7 +84,7 @@ namespace MyGUIPlugin
             buttons.Clear();
         }
 
-        public void changePixelsPerSecond(int pixelsPerSecond)
+        internal void changePixelsPerSecond(int pixelsPerSecond)
         {
             this.pixelsPerSecond = pixelsPerSecond;
             foreach (TimelineViewButton button in buttons)
@@ -108,7 +108,7 @@ namespace MyGUIPlugin
             }
         }
 
-        public void moveEntireRow(int newYPosition)
+        internal void moveEntireRow(int newYPosition)
         {
             processButtonChanges = false;
             bottom = newYPosition + ROW_HEIGHT;
@@ -125,7 +125,7 @@ namespace MyGUIPlugin
             processButtonChanges = true;
         }
 
-        public int Bottom
+        internal int Bottom
         {
             get
             {
@@ -133,7 +133,7 @@ namespace MyGUIPlugin
             }
         }
 
-        public int Top
+        internal int Top
         {
             get
             {
@@ -151,7 +151,7 @@ namespace MyGUIPlugin
             }
         }
 
-        void viewButton_CoordChanged(object sender, EventArgs e)
+        private void viewButton_CoordChanged(object sender, EventArgs e)
         {
             if (processButtonChanges)
             {
@@ -237,7 +237,7 @@ namespace MyGUIPlugin
             return -1;
         }
 
-        void findIntersectingButtons(List<TimelineViewButton> results, int left, int right)
+        private void findIntersectingButtons(List<TimelineViewButton> results, int left, int right)
         {
             foreach (TimelineViewButton compare in buttons)
             {
@@ -251,7 +251,7 @@ namespace MyGUIPlugin
             }
         }
 
-        void insertButtonIntoStack(List<TimelineViewButton> buttonStack, TimelineViewButton insert)
+        private void insertButtonIntoStack(List<TimelineViewButton> buttonStack, TimelineViewButton insert)
         {
             //Sort the stack in order from top to bottom.
             buttonStack.Sort(topSortButtons);
@@ -276,12 +276,12 @@ namespace MyGUIPlugin
             insert._moveTop(insertYPos);
         }
 
-        int topSortButtons(TimelineViewButton a1, TimelineViewButton a2)
+        private int topSortButtons(TimelineViewButton a1, TimelineViewButton a2)
         {
             return a1.Top - a2.Top;
         }
 
-        void findLowestButton()
+        private void findLowestButton()
         {
             int lowest = yPosition + ROW_HEIGHT;
             foreach (TimelineViewButton button in buttons)
