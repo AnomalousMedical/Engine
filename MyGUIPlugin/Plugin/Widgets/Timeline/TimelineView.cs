@@ -22,7 +22,7 @@ namespace MyGUIPlugin
         private TimelineMarker timelineMarker;
         private int trackY = TRACK_START_Y;
 
-        public event EventHandler ActiveActionChanged;
+        public event EventHandler ActiveDataChanged;
         public event TimelineTrackEvent TrackPositionChanged;
         public event TimelineTrackEvent TrackAdded;
         public event EventHandler PixelsPerSecondChanged;
@@ -375,9 +375,9 @@ namespace MyGUIPlugin
                     currentButton.StateCheck = true;
                     currentButton.CoordChanged += currentButton_CoordChanged;
                 }
-                if (ActiveActionChanged != null)
+                if (ActiveDataChanged != null)
                 {
-                    ActiveActionChanged.Invoke(this, EventArgs.Empty);
+                    ActiveDataChanged.Invoke(this, EventArgs.Empty);
                 }
             }
         }

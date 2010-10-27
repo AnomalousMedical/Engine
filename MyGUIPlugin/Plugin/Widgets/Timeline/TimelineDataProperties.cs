@@ -10,6 +10,7 @@ namespace MyGUIPlugin
     {
         private ScrollView propScroll;
         private TimelineData data;
+        private TimelineView timelineView;
 
         private NumericEdit startTime;
         private NumericEdit duration;
@@ -18,9 +19,11 @@ namespace MyGUIPlugin
         private Vector2 additionalPropertiesPosition;
         private TimelineDataPanel currentPanel;
 
-        public TimelineDataProperties(ScrollView propScroll)
+        public TimelineDataProperties(ScrollView propScroll, TimelineView timelineView)
         {
             this.propScroll = propScroll;
+            this.timelineView = timelineView;
+            timelineView.ActiveDataChanged += new EventHandler(timelineView_ActiveDataChanged);
 
             startTime = new NumericEdit(propScroll.findWidget("StartTime") as Edit);
             startTime.ValueChanged += new MyGUIEvent(startTime_ValueChanged);
@@ -100,6 +103,20 @@ namespace MyGUIPlugin
             if (data != null)
             {
                 data.StartTime = startTime.FloatValue;
+            }
+        }
+
+        void timelineView_ActiveDataChanged(object sender, EventArgs e)
+        {
+            if (timelineView.CurrentData != null)
+            {
+                CurrentData = timelineView.CurrentData;
+                Visible = true;
+            }
+            else
+            {
+                CurrentData = null;
+                Visible = false;
             }
         }
     }
