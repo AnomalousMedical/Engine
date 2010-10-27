@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Engine.Platform;
 
 namespace MyGUIPlugin
 {
@@ -14,6 +15,7 @@ namespace MyGUIPlugin
         private bool allowFloat;
         private float minValue;
         private float maxValue;
+        private float keyFocusValue = float.NaN;
 
         public NumericEdit(Edit edit)
         {
@@ -21,7 +23,11 @@ namespace MyGUIPlugin
             lastCaption = edit.Caption;
             edit.EventEditTextChange += new MyGUIEvent(edit_EventEditTextChange);
             edit.MouseWheel += new MyGUIEvent(edit_MouseWheel);
+            edit.KeyLostFocus += new MyGUIEvent(edit_KeyLostFocus);
+            edit.KeySetFocus += new MyGUIEvent(edit_KeySetFocus);
+            edit.KeyButtonReleased += new MyGUIEvent(edit_KeyButtonReleased);
             Increment = 1;
+            FireValueChangedOnType = false;
 
             //AllowFloat
             String userString = edit.getUserString("AllowFloat");
@@ -71,9 +77,9 @@ namespace MyGUIPlugin
                     {
                         if (value >= minValue && value <= maxValue)
                         {
-                            if (ValueChanged != null)
+                            if (FireValueChangedOnType)
                             {
-                                ValueChanged.Invoke(edit, EventArgs.Empty);
+                                fireValueChanged();
                             }
                         }
                         else
@@ -93,9 +99,9 @@ namespace MyGUIPlugin
                     {
                         if (value >= minValue && value <= maxValue)
                         {
-                            if (ValueChanged != null)
+                            if (FireValueChangedOnType)
                             {
-                                ValueChanged.Invoke(edit, EventArgs.Empty);
+                                fireValueChanged();
                             }
                         }
                         else
@@ -192,6 +198,11 @@ namespace MyGUIPlugin
             }
         }
 
+        /// <summary>
+        /// Determines if the ValueChanged event is fired as the user types. Default: false.
+        /// </summary>
+        public bool FireValueChangedOnType { get; set; }
+
         void downButton_MouseButtonClick(Widget source, EventArgs e)
         {
             float newVal = FloatValue - Increment;
@@ -200,10 +211,7 @@ namespace MyGUIPlugin
                 newVal = minValue;
             }
             FloatValue = newVal;
-            if (ValueChanged != null)
-            {
-                ValueChanged.Invoke(edit, EventArgs.Empty);
-            }
+            fireValueChanged();
         }
 
         void upButton_MouseButtonClick(Widget source, EventArgs e)
@@ -214,10 +222,7 @@ namespace MyGUIPlugin
                 newVal = maxValue;
             }
             FloatValue = newVal;
-            if (ValueChanged != null)
-            {
-                ValueChanged.Invoke(edit, EventArgs.Empty);
-            }
+            fireValueChanged();
         }
 
         void edit_MouseWheel(Widget source, EventArgs e)
@@ -232,9 +237,39 @@ namespace MyGUIPlugin
                 newVal = minValue;
             }
             FloatValue = newVal;
+            fireValueChanged();
+        }
+
+        private void fireValueChanged()
+        {
             if (ValueChanged != null)
             {
                 ValueChanged.Invoke(edit, EventArgs.Empty);
+            }
+        }
+
+        void edit_KeySetFocus(Widget source, EventArgs e)
+        {
+            keyFocusValue = FloatValue;
+        }
+
+        void edit_KeyLostFocus(Widget source, EventArgs e)
+        {
+            if (FloatValue != keyFocusValue)
+            {
+                fireValueChanged();
+            }
+        }
+
+        void edit_KeyButtonReleased(Widget source, EventArgs e)
+        {
+            KeyEventArgs ke = e as KeyEventArgs;
+            if (ke.Key == KeyboardButtonCode.KC_RETURN || ke.Key == KeyboardButtonCode.KC_NUMPADENTER)
+            {
+                if (FloatValue != keyFocusValue)
+                {
+                    fireValueChanged();
+                }
             }
         }
     }
