@@ -14,18 +14,20 @@ namespace MyGUIPlugin
         private List<TimelineViewButton> buttons = new List<TimelineViewButton>();
         private int yPosition;
         private int pixelsPerSecond;
+        private float timelineDuration;
         private Color color;
         private int ROW_HEIGHT = 19;
         private int STACKED_BUTTON_SPACE = 3;
         private int bottom;
         private bool processButtonChanges = true;
 
-        public TimelineViewTrack(String name, int yPosition, int pixelsPerSecond, Color color)
+        public TimelineViewTrack(String name, int yPosition, int pixelsPerSecond, float timelineDuration, Color color)
         {
             this.Name = name;
             this.yPosition = yPosition;
             this.color = color;
             this.pixelsPerSecond = pixelsPerSecond;
+            this.timelineDuration = timelineDuration;
             bottom = yPosition + ROW_HEIGHT;
         }
 
@@ -39,7 +41,7 @@ namespace MyGUIPlugin
 
         internal TimelineViewButton addButton(Button button, TimelineData data)
         {
-            TimelineViewButton viewButton = new TimelineViewButton(pixelsPerSecond, button, data);
+            TimelineViewButton viewButton = new TimelineViewButton(pixelsPerSecond, timelineDuration, button, data);
             buttons.Add(viewButton);
             button.setPosition(button.Left, yPosition);
             button.setColour(color);
@@ -90,6 +92,15 @@ namespace MyGUIPlugin
             foreach (TimelineViewButton button in buttons)
             {
                 button.changePixelsPerSecond(pixelsPerSecond);
+            }
+        }
+
+        internal void changeDuration(float duration)
+        {
+            this.timelineDuration = duration;
+            foreach (TimelineViewButton button in buttons)
+            {
+                button.changeDuration(duration);
             }
         }
 

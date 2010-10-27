@@ -21,11 +21,13 @@ namespace MyGUIPlugin
         private TimelineViewButton currentButton;
         private TimelineMarker timelineMarker;
         private int trackY = TRACK_START_Y;
+        private float duration = float.MaxValue;
 
         public event EventHandler ActiveDataChanged;
         public event TimelineTrackEvent TrackPositionChanged;
         public event TimelineTrackEvent TrackAdded;
         public event EventHandler PixelsPerSecondChanged;
+        public event EventHandler DurationChanged;
         public event CanvasSizeChanged CanvasWidthChanged
         {
             add
@@ -84,7 +86,7 @@ namespace MyGUIPlugin
 
         public void addTrack(String name, Color color)
         {
-            TimelineViewTrack track = new TimelineViewTrack(name, trackY, pixelsPerSecond, color);
+            TimelineViewTrack track = new TimelineViewTrack(name, trackY, pixelsPerSecond, duration, color);
             track.BottomChanged += new EventHandler(actionViewRow_BottomChanged);
             tracks.Add(track);
             rowIndexes.Add(name, tracks.Count - 1);
@@ -206,6 +208,31 @@ namespace MyGUIPlugin
             {
                 TimelineViewButton button = tracks[rowIndexes[value.Track]].findButton(value);
                 CurrentButton = button;
+            }
+        }
+
+        public float Duration
+        {
+            get
+            {
+                return duration;
+            }
+            set
+            {
+                duration = value;
+                if (duration < 0.0f)
+                {
+                    duration = 0.0f;
+                }
+                foreach (TimelineViewTrack row in tracks)
+                {
+                    row.changeDuration(duration);
+                }
+                trimVisibleArea();
+                if (DurationChanged != null)
+                {
+                    DurationChanged.Invoke(this, EventArgs.Empty);
+                }
             }
         }
 

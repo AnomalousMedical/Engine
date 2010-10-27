@@ -7,92 +7,24 @@ using Engine;
 
 namespace MyGUIPlugin
 {
-    class NumberLineNumber
-    {
-        private StaticText text;
-        private Widget hashMark;
-        private float time;
-        private NumberLine numberLine;
-
-        public NumberLineNumber(StaticText text, Widget hashMark, NumberLine numberLine)
-        {
-            this.text = text;
-            this.hashMark = hashMark;
-            this.numberLine = numberLine;
-        }
-
-        public int Left
-        {
-            get
-            {
-                return text.Left;
-            }
-        }
-
-        public int Right
-        {
-            get
-            {
-                return text.Right;
-            }
-        }
-
-        public float Time
-        {
-            get
-            {
-                return time;
-            }
-            set
-            {
-                time = value;
-                int min = (int)(time / 60);
-                int sec = (int)(time % 60);
-                if (sec < 10)
-                {
-                    text.Caption = String.Format("{0}:0{1}", min, sec);
-                }
-                else
-                {
-                    text.Caption = String.Format("{0}:{1}", min, sec);
-                }
-                Size2 textSize = text.getTextSize();
-                text.setSize((int)textSize.Width, (int)textSize.Height);
-                text.setPosition((int)((numberLine.PixelsPerSecond * time) - text.Width / 2), text.Top);
-                hashMark.setPosition((int)(numberLine.PixelsPerSecond * time), hashMark.Top);
-            }
-        }
-
-        public bool Visible
-        {
-            get
-            {
-                return text.Visible;
-            }
-            set
-            {
-                text.Visible = value;
-                hashMark.Visible = value;
-            }
-        }
-    }
-
     public class NumberLine
     {
         private ScrollView numberlineScroller;
         private int pixelsPerSecond;
         private float numberSeparationDuration = 1.0f;
+        private TimelineView timelineView;
 
         private List<NumberLineNumber> activeNumbers = new List<NumberLineNumber>();
         private List<NumberLineNumber> inactiveNumbers = new List<NumberLineNumber>();
 
-        public NumberLine(ScrollView numberlineScroller, TimelineView actionView)
+        public NumberLine(ScrollView numberlineScroller, TimelineView timelineView)
         {
             this.numberlineScroller = numberlineScroller;
-            pixelsPerSecond = actionView.PixelsPerSecond;
-            actionView.CanvasPositionChanged += new CanvasPositionChanged(actionView_CanvasPositionChanged);
-            actionView.CanvasWidthChanged += new CanvasSizeChanged(actionView_CanvasWidthChanged);
-            actionView.PixelsPerSecondChanged += new EventHandler(actionView_PixelsPerSecondChanged);
+            this.timelineView = timelineView;
+            pixelsPerSecond = timelineView.PixelsPerSecond;
+            timelineView.CanvasPositionChanged += new CanvasPositionChanged(actionView_CanvasPositionChanged);
+            timelineView.CanvasWidthChanged += new CanvasSizeChanged(actionView_CanvasWidthChanged);
+            timelineView.PixelsPerSecondChanged += new EventHandler(actionView_PixelsPerSecondChanged);
             canvasModified();
         }
 
@@ -195,7 +127,7 @@ namespace MyGUIPlugin
 
                 //Add numbers to the back of the list
                 startingPoint = activeNumbers[activeNumbers.Count - 1].Time + numberSeparationDuration;
-                for (float i = startingPoint; i * pixelsPerSecond < rightSide; i += numberSeparationDuration)
+                for (float i = startingPoint; i < timelineView.Duration && i * pixelsPerSecond < rightSide; i += numberSeparationDuration)
                 {
                     NumberLineNumber number = getPooledNumber();
                     number.Time = i;
@@ -208,7 +140,7 @@ namespace MyGUIPlugin
                 //NEED TO COMPUTE THE STARTING VALUE CORRECTLY SO IT STAYS ALIGNED
                 float startingPoint = leftSide / pixelsPerSecond;
                 NumberLineNumber number = null;
-                for (float i = startingPoint; i * pixelsPerSecond < rightSide; i += numberSeparationDuration)
+                for (float i = startingPoint; i < timelineView.Duration && i * pixelsPerSecond < rightSide; i += numberSeparationDuration)
                 {
                     number = getPooledNumber();
                     number.Time = i;

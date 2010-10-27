@@ -13,19 +13,21 @@ namespace MyGUIPlugin
         private float dragStartPos;
         private float dragStartTime;
         private float time = 0.0f;
+        private TimelineView timelineView;
 
         public event EventHandler CoordChanged;
 
-        public TimelineMarker(TimelineView actionView, ScrollView scrollView)
+        public TimelineMarker(TimelineView timelineView, ScrollView scrollView)
         {
-            this.widget = scrollView.createWidgetT("Widget", "Separator1", 1, 0, 2, (int)scrollView.CanvasSize.Height, Align.Left | Align.Top, "");
+            this.widget = scrollView.createWidgetT("Widget", "Separator2", 1, 0, 2, (int)scrollView.CanvasSize.Height, Align.Left | Align.Top, "");
             widget.Pointer = "size_horz";
             widget.MouseDrag += new MyGUIEvent(widget_MouseDrag);
             widget.MouseButtonPressed += new MyGUIEvent(widget_MouseButtonPressed);
 
-            pixelsPerSecond = actionView.PixelsPerSecond;
-            actionView.CanvasHeightChanged += new CanvasSizeChanged(actionView_CanvasHeightChanged);
-            actionView.PixelsPerSecondChanged += new EventHandler(actionView_PixelsPerSecondChanged);
+            this.timelineView = timelineView;
+            pixelsPerSecond = timelineView.PixelsPerSecond;
+            timelineView.CanvasHeightChanged += new CanvasSizeChanged(timelineView_CanvasHeightChanged);
+            timelineView.PixelsPerSecondChanged += new EventHandler(timelineView_PixelsPerSecondChanged);
         }
 
         public void Dispose()
@@ -42,11 +44,15 @@ namespace MyGUIPlugin
             set
             {
                 time = value;
-                int physicalPosition = (int)(time * pixelsPerSecond);
-                if(physicalPosition < 0)
+                if (time < 0)
                 {
-                    physicalPosition = 0;
+                    time = 0;
                 }
+                else if (time > timelineView.Duration)
+                {
+                    time = timelineView.Duration;
+                }
+                int physicalPosition = (int)(time * pixelsPerSecond);
                 widget.setPosition(physicalPosition, widget.Top);
                 if (CoordChanged != null)
                 {
@@ -100,12 +106,12 @@ namespace MyGUIPlugin
             Time = newTime;
         }
 
-        void actionView_CanvasHeightChanged(float newSize)
+        void timelineView_CanvasHeightChanged(float newSize)
         {
             widget.setSize(widget.Width, (int)newSize);
         }
 
-        void actionView_PixelsPerSecondChanged(object sender, EventArgs e)
+        void timelineView_PixelsPerSecondChanged(object sender, EventArgs e)
         {
             this.pixelsPerSecond = ((TimelineView)sender).PixelsPerSecond;
             Time = time;

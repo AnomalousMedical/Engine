@@ -7,11 +7,11 @@ using Engine;
 
 namespace MyGUIPlugin
 {
-    public delegate void AddTrackCallback(String name);
+    public delegate void AddTrackItemCallback(String name);
 
     public class TrackFilter : IDisposable
     {
-        public event AddTrackCallback AddTrack;
+        public event AddTrackItemCallback AddTrackItem;
 
         private ScrollView scrollView;
         private Dictionary<TimelineViewTrack, TrackFilterButton> filterButtons = new Dictionary<TimelineViewTrack, TrackFilterButton>();
@@ -84,9 +84,9 @@ namespace MyGUIPlugin
 
         void filterButton_CreateButtonClicked(object sender, EventArgs e)
         {
-            if (AddTrack != null)
+            if (AddTrackItem != null)
             {
-                AddTrack.Invoke(((TrackFilterButton)sender).Caption);
+                AddTrackItem.Invoke(((TrackFilterButton)sender).Caption);
             }
         }
     }

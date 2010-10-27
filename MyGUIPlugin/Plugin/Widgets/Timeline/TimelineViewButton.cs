@@ -30,6 +30,7 @@ namespace MyGUIPlugin
         private int pixelsPerSecond;
         private float dragStartPos;
         private float dragStartTime;
+        private float timelineDuration;
         private TimelineData timelineData;
 
         public event EventHandler Clicked;
@@ -37,11 +38,12 @@ namespace MyGUIPlugin
 
         private static TimelineViewButtonEventArgs sharedEventArgs = new TimelineViewButtonEventArgs();
 
-        public TimelineViewButton(int pixelsPerSecond, Button button, TimelineData timelineData)
+        public TimelineViewButton(int pixelsPerSecond, float timelineDuration, Button button, TimelineData timelineData)
         {
             this.pixelsPerSecond = pixelsPerSecond;
             this.button = button;
             this.timelineData = timelineData;
+            this.timelineDuration = timelineDuration;
             timelineData._CurrentButton = this;
             button.MouseDrag += new MyGUIEvent(button_MouseDrag);
             button.MouseButtonPressed += new MyGUIEvent(button_MouseButtonPressed);
@@ -79,6 +81,10 @@ namespace MyGUIPlugin
             if(newStartTime < 0.0f)
             {
                 newStartTime = 0.0f;
+            }
+            if (newStartTime + Duration > timelineDuration)
+            {
+                newStartTime = timelineDuration - Duration;
             }
             StartTime = newStartTime;
         }
@@ -186,6 +192,25 @@ namespace MyGUIPlugin
             this.pixelsPerSecond = pixelsPerSecond;
             updatePosition();
             updateDurationWidth();
+        }
+
+        internal void changeDuration(float duration)
+        {
+            this.timelineDuration = duration;
+            if (StartTime + Duration > timelineDuration)
+            {
+                //Figure out where the button should move to if it is longer than the duration
+                float durationTime = timelineDuration - Duration;
+                if (durationTime < 0)
+                {
+                    StartTime = 0;
+                    Duration = timelineDuration;
+                }
+                else
+                {
+                    StartTime = timelineDuration - Duration;
+                }
+            }
         }
 
         internal void updatePosition()
