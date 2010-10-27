@@ -59,6 +59,8 @@
     <Compile Include="Plugin\Widgets\MinMaxScroll.cs" />
     <Compile Include="Plugin\Widgets\NumericEdit.cs" />
     <Compile Include="Plugin\Widgets\PopupContainer.cs" />
+    <Compile Include="Plugin\Widgets\Timeline\TimelineDataPanel.cs" />
+    <Compile Include="Plugin\Widgets\Timeline\TimelineDataProperties.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wrapper\Events\Edit\EventEditSelectAcceptTranslator.cs" />
     <Compile Include="Wrapper\Events\Edit\EventEditTextChangeTranslator.cs" />
