@@ -127,7 +127,7 @@ namespace MyGUIPlugin
 
                 //Add numbers to the back of the list
                 startingPoint = activeNumbers[activeNumbers.Count - 1].Time + numberSeparationDuration;
-                for (float i = startingPoint; i < timelineView.Duration && i * pixelsPerSecond < rightSide; i += numberSeparationDuration)
+                for (float i = startingPoint; i <= timelineView.Duration && i * pixelsPerSecond < rightSide; i += numberSeparationDuration)
                 {
                     NumberLineNumber number = getPooledNumber();
                     number.Time = i;
@@ -140,7 +140,7 @@ namespace MyGUIPlugin
                 //NEED TO COMPUTE THE STARTING VALUE CORRECTLY SO IT STAYS ALIGNED
                 float startingPoint = leftSide / pixelsPerSecond;
                 NumberLineNumber number = null;
-                for (float i = startingPoint; i < timelineView.Duration && i * pixelsPerSecond < rightSide; i += numberSeparationDuration)
+                for (float i = startingPoint; i <= timelineView.Duration && i * pixelsPerSecond < rightSide; i += numberSeparationDuration)
                 {
                     number = getPooledNumber();
                     number.Time = i;
