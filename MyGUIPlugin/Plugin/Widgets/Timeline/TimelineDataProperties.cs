@@ -28,11 +28,19 @@ namespace MyGUIPlugin
             startTime = new NumericEdit(propScroll.findWidget("StartTime") as Edit);
             startTime.ValueChanged += new MyGUIEvent(startTime_ValueChanged);
             startTime.MaxValue = float.MaxValue;
-            duration = new NumericEdit(propScroll.findWidget("Duration") as Edit);
-            duration.ValueChanged += new MyGUIEvent(duration_ValueChanged);
-            duration.MaxValue = float.MaxValue;
 
-            additionalPropertiesPosition = new Vector2(1, duration.Edit.Bottom + 2);
+            Edit durationEdit = propScroll.findWidget("Duration") as Edit;
+            if (duration != null)
+            {
+                duration = new NumericEdit(durationEdit);
+                duration.ValueChanged += new MyGUIEvent(duration_ValueChanged);
+                duration.MaxValue = float.MaxValue;
+                additionalPropertiesPosition = new Vector2(1, duration.Edit.Bottom + 2);
+            }
+            else
+            {
+                additionalPropertiesPosition = new Vector2(1, startTime.Edit.Bottom + 2);
+            }
         }
 
         public void addPanel(String track, TimelineDataPanel panel)
@@ -59,7 +67,10 @@ namespace MyGUIPlugin
                 if (data != null)
                 {
                     startTime.FloatValue = data.StartTime;
-                    duration.FloatValue = data.Duration;
+                    if (duration != null)
+                    {
+                        duration.FloatValue = data.Duration;
+                    }
                     data.editingStarted();
                     additionalProperties.TryGetValue(data.Track, out currentPanel);
                     if (currentPanel != null)
@@ -72,7 +83,10 @@ namespace MyGUIPlugin
                 else
                 {
                     startTime.FloatValue = 0.0f;
-                    duration.FloatValue = 0.0f;
+                    if (duration != null)
+                    {
+                        duration.FloatValue = 0.0f;
+                    }
                     currentPanel = null;
                 }
                 propScroll.CanvasSize = canvasSize;
