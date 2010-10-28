@@ -60,6 +60,7 @@ namespace MyGUIPlugin
                 {
                     startTime.FloatValue = data.StartTime;
                     duration.FloatValue = data.Duration;
+                    data.editingStarted();
                     additionalProperties.TryGetValue(data.Track, out currentPanel);
                     if (currentPanel != null)
                     {
