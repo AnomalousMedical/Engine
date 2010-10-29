@@ -16,11 +16,6 @@ namespace MyGUIPlugin
 
         }
 
-        public uint getItemCount()
-        {
-            return ComboBox_getItemCount(widget).ToUInt32();
-        }
-
         public void insertItemAt(uint index, String name)
         {
             insertItemAt(index, name, null);
@@ -108,6 +103,14 @@ namespace MyGUIPlugin
         public void beginToItemSelected()
         {
             ComboBox_beginToItemSelected(widget);
+        }
+
+        public uint ItemCount
+        {
+            get
+            {
+                return ComboBox_getItemCount(widget).ToUInt32();
+            }
         }
 
         public uint SelectedIndex
