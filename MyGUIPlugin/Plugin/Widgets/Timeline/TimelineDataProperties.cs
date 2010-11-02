@@ -30,7 +30,7 @@ namespace MyGUIPlugin
             startTime.MaxValue = float.MaxValue;
 
             Edit durationEdit = propScroll.findWidget("Duration") as Edit;
-            if (duration != null)
+            if (durationEdit != null)
             {
                 duration = new NumericEdit(durationEdit);
                 duration.ValueChanged += new MyGUIEvent(duration_ValueChanged);
