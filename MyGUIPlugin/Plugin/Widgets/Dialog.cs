@@ -250,6 +250,7 @@ namespace MyGUIPlugin
             set
             {
                 window.setPosition((int)value.x, (int)value.y);
+                updateDesiredLocation();
             }
         }
 
@@ -283,6 +284,11 @@ namespace MyGUIPlugin
         }
 
         void window_WindowChangedCoord(Widget source, EventArgs e)
+        {
+            updateDesiredLocation();
+        }
+
+        private void updateDesiredLocation()
         {
             if (!IgnorePositionChanges)
             {
