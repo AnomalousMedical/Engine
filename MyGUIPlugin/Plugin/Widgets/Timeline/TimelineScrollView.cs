@@ -34,7 +34,7 @@ namespace MyGUIPlugin
 
         public Button createButton(float left, float width)
         {
-            Button button = scrollView.createWidgetT("Button", "Button", (int)left, 0, width > 10 ? (int)width : 10, 10, Align.Left | Align.Top, "") as Button;
+            Button button = scrollView.createWidgetT("Button", "TimelineButton", (int)left, 0, width > 10 ? (int)width : 10, 10, Align.Left | Align.Top, "") as Button;
             if (button.Right > scrollView.CanvasSize.Width)
             {
                 CanvasWidth = button.Right;

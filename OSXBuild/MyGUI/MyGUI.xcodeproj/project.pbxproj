@@ -36,6 +36,16 @@
 		01141FC111DE323A005BB169 /* WidgetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141FA411DE323A005BB169 /* WidgetManager.cpp */; };
 		01141FC211DE323A005BB169 /* Stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01141FA511DE323A005BB169 /* Stdafx.cpp */; };
 		01141FC311DE323A005BB169 /* Stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 01141FA611DE323A005BB169 /* Stdafx.h */; };
+		0133894C1282F7A7007A0E4A /* EventCanvasPositionChanged.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 013389421282F7A7007A0E4A /* EventCanvasPositionChanged.cpp */; };
+		0133894D1282F7A7007A0E4A /* EventKeyButtonPressedTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 013389431282F7A7007A0E4A /* EventKeyButtonPressedTranslator.cpp */; };
+		0133894E1282F7A7007A0E4A /* EventKeyButtonReleasedTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 013389441282F7A7007A0E4A /* EventKeyButtonReleasedTranslator.cpp */; };
+		0133894F1282F7A7007A0E4A /* EventKeyLostFocusTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 013389451282F7A7007A0E4A /* EventKeyLostFocusTranslator.cpp */; };
+		013389501282F7A7007A0E4A /* EventKeySetFocusTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 013389461282F7A7007A0E4A /* EventKeySetFocusTranslator.cpp */; };
+		013389511282F7A7007A0E4A /* EventMouseLostFocusTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 013389471282F7A7007A0E4A /* EventMouseLostFocusTranslator.cpp */; };
+		013389521282F7A7007A0E4A /* EventMouseSetFocusTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 013389481282F7A7007A0E4A /* EventMouseSetFocusTranslator.cpp */; };
+		013389531282F7A7007A0E4A /* EventRootKeyChangeFocusTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 013389491282F7A7007A0E4A /* EventRootKeyChangeFocusTranslator.cpp */; };
+		013389541282F7A7007A0E4A /* EventRootMouseChangeFocusTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0133894A1282F7A7007A0E4A /* EventRootMouseChangeFocusTranslator.cpp */; };
+		013389551282F7A7007A0E4A /* EventToolTipTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0133894B1282F7A7007A0E4A /* EventToolTipTranslator.cpp */; };
 		0150614411E621CF00BD1C99 /* ResourceManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0150614311E621CF00BD1C99 /* ResourceManager.cpp */; };
 		01635A4A11EE083600880488 /* EventMessageBoxResultTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01635A4811EE083600880488 /* EventMessageBoxResultTranslator.cpp */; };
 		01635A4B11EE083600880488 /* Message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01635A4911EE083600880488 /* Message.cpp */; };
@@ -89,6 +99,16 @@
 		01141FA411DE323A005BB169 /* WidgetManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WidgetManager.cpp; sourceTree = "<group>"; };
 		01141FA511DE323A005BB169 /* Stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Stdafx.cpp; path = ../../MyGUIWrapper/Stdafx.cpp; sourceTree = SOURCE_ROOT; };
 		01141FA611DE323A005BB169 /* Stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stdafx.h; path = ../../MyGUIWrapper/Stdafx.h; sourceTree = SOURCE_ROOT; };
+		013389421282F7A7007A0E4A /* EventCanvasPositionChanged.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventCanvasPositionChanged.cpp; sourceTree = "<group>"; };
+		013389431282F7A7007A0E4A /* EventKeyButtonPressedTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventKeyButtonPressedTranslator.cpp; sourceTree = "<group>"; };
+		013389441282F7A7007A0E4A /* EventKeyButtonReleasedTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventKeyButtonReleasedTranslator.cpp; sourceTree = "<group>"; };
+		013389451282F7A7007A0E4A /* EventKeyLostFocusTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventKeyLostFocusTranslator.cpp; sourceTree = "<group>"; };
+		013389461282F7A7007A0E4A /* EventKeySetFocusTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventKeySetFocusTranslator.cpp; sourceTree = "<group>"; };
+		013389471282F7A7007A0E4A /* EventMouseLostFocusTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMouseLostFocusTranslator.cpp; sourceTree = "<group>"; };
+		013389481282F7A7007A0E4A /* EventMouseSetFocusTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMouseSetFocusTranslator.cpp; sourceTree = "<group>"; };
+		013389491282F7A7007A0E4A /* EventRootKeyChangeFocusTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventRootKeyChangeFocusTranslator.cpp; sourceTree = "<group>"; };
+		0133894A1282F7A7007A0E4A /* EventRootMouseChangeFocusTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventRootMouseChangeFocusTranslator.cpp; sourceTree = "<group>"; };
+		0133894B1282F7A7007A0E4A /* EventToolTipTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventToolTipTranslator.cpp; sourceTree = "<group>"; };
 		0150614311E621CF00BD1C99 /* ResourceManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ResourceManager.cpp; sourceTree = "<group>"; };
 		01635A4811EE083600880488 /* EventMessageBoxResultTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMessageBoxResultTranslator.cpp; sourceTree = "<group>"; };
 		01635A4911EE083600880488 /* Message.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Message.cpp; sourceTree = "<group>"; };
@@ -150,6 +170,16 @@
 		01141F8A11DE323A005BB169 /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				013389421282F7A7007A0E4A /* EventCanvasPositionChanged.cpp */,
+				013389431282F7A7007A0E4A /* EventKeyButtonPressedTranslator.cpp */,
+				013389441282F7A7007A0E4A /* EventKeyButtonReleasedTranslator.cpp */,
+				013389451282F7A7007A0E4A /* EventKeyLostFocusTranslator.cpp */,
+				013389461282F7A7007A0E4A /* EventKeySetFocusTranslator.cpp */,
+				013389471282F7A7007A0E4A /* EventMouseLostFocusTranslator.cpp */,
+				013389481282F7A7007A0E4A /* EventMouseSetFocusTranslator.cpp */,
+				013389491282F7A7007A0E4A /* EventRootKeyChangeFocusTranslator.cpp */,
+				0133894A1282F7A7007A0E4A /* EventRootMouseChangeFocusTranslator.cpp */,
+				0133894B1282F7A7007A0E4A /* EventToolTipTranslator.cpp */,
 				018C6E8A122E98C3001A65A9 /* EventChangeMousePointerTranslator.cpp */,
 				018C6E8B122E98C3001A65A9 /* PointerManager.cpp */,
 				018C28081225ADB6004C1053 /* EventMouseWheelTranslator.cpp */,
@@ -357,6 +387,16 @@
 				018C28091225ADB6004C1053 /* EventMouseWheelTranslator.cpp in Sources */,
 				018C6E8C122E98C3001A65A9 /* EventChangeMousePointerTranslator.cpp in Sources */,
 				018C6E8D122E98C3001A65A9 /* PointerManager.cpp in Sources */,
+				0133894C1282F7A7007A0E4A /* EventCanvasPositionChanged.cpp in Sources */,
+				0133894D1282F7A7007A0E4A /* EventKeyButtonPressedTranslator.cpp in Sources */,
+				0133894E1282F7A7007A0E4A /* EventKeyButtonReleasedTranslator.cpp in Sources */,
+				0133894F1282F7A7007A0E4A /* EventKeyLostFocusTranslator.cpp in Sources */,
+				013389501282F7A7007A0E4A /* EventKeySetFocusTranslator.cpp in Sources */,
+				013389511282F7A7007A0E4A /* EventMouseLostFocusTranslator.cpp in Sources */,
+				013389521282F7A7007A0E4A /* EventMouseSetFocusTranslator.cpp in Sources */,
+				013389531282F7A7007A0E4A /* EventRootKeyChangeFocusTranslator.cpp in Sources */,
+				013389541282F7A7007A0E4A /* EventRootMouseChangeFocusTranslator.cpp in Sources */,
+				013389551282F7A7007A0E4A /* EventToolTipTranslator.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
