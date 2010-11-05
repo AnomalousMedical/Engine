@@ -47,6 +47,18 @@ namespace MyGUIPlugin
             }
         }
 
+        public bool Enabled
+        {
+            get
+            {
+                return button.Enabled;
+            }
+            set
+            {
+                button.Enabled = value;
+            }
+        }
+
         public Button Button
         {
             get
