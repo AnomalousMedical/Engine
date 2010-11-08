@@ -1,0 +1,11 @@
+// stdafx.h : include file for standard system include files,
+// or project specific include files that are used frequently,
+// but are changed infrequently
+
+#pragma once
+
+#include "al.h" 
+#include "alc.h" 
+
+#define ENDIAN 0
+#define BUFFER_SIZE   32768     // 32 KB buffers

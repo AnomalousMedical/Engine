@@ -1,0 +1,96 @@
+#include "StdAfx.h"
+#include "OggStream.h"
+#include <iostream>
+
+
+OggStream::OggStream(const char* file)
+{
+	f = fopen(file, "rb");
+
+	ov_callbacks callbacks;
+	callbacks.read_func = read_cb;
+    callbacks.seek_func = seek_cb;
+    callbacks.tell_func = tell_cb;
+    callbacks.close_func = close_cb;
+
+	int result = 0;
+
+	if((result = ov_open_callbacks(f, &oggStream, NULL, 0, callbacks)) < 0)
+	{
+		cout << "Ogg error " << errorString(result) << endl;
+	}
+
+	pInfo = ov_info(&oggStream, -1);
+}
+
+OggStream::~OggStream(void)
+{
+	close();
+}
+
+int OggStream::getNumChannels()
+{
+	return pInfo->channels;
+}
+
+int OggStream::getSamplingFrequency()
+{
+	return pInfo->rate;
+}
+
+size_t OggStream::read(char* buffer, int length)
+{
+	int bitStream;
+	return ov_read(&oggStream, buffer, length, ENDIAN, 2, 1, &bitStream);
+}
+
+void OggStream::close()
+{
+	ov_clear(&oggStream);
+}
+
+bool OggStream::eof()
+{
+	return feof(f);
+}
+
+size_t OggStream::read_cb(void *ptr, size_t size, size_t nmemb, void *datasource)
+{
+	return fread(ptr, size, nmemb, (FILE*)datasource);
+}
+
+int OggStream::seek_cb(void *datasource, ogg_int64_t offset, int whence)
+{
+	return fseek((FILE*)datasource, offset, whence);
+}
+
+int OggStream::close_cb(void *datasource)
+{
+	fclose((FILE*)datasource);
+	return 0; //ignored by ogg/vorbis
+}
+
+long OggStream::tell_cb(void *datasource)
+{
+	return ftell((FILE*)datasource);
+}
+
+string OggStream::errorString(int code)
+{
+    switch(code)
+    {
+        case OV_EREAD:
+            return string("Error reading from media.");
+        case OV_ENOTVORBIS:
+            return string("Not Vorbis data.");
+        case OV_EVERSION:
+            return string("Vorbis version mismatch.");
+        case OV_EBADHEADER:
+            return string("Invalid Vorbis header.");
+        case OV_EFAULT:
+            return string("Internal logic fault (bug or heap/stack corruption.");
+        default:
+            return string("Unknown Ogg error.");
+    }
+}
+
