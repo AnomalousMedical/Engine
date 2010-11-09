@@ -2,7 +2,7 @@
 
 #include "Sound.h"
 
-class _AnomalousExport Source
+class Source
 {
 private:
 	ALuint sourceID;

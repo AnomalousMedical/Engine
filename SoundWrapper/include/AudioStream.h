@@ -1,6 +1,6 @@
 #pragma once
 
-class _AnomalousExport AudioStream
+class AudioStream
 {
 public:
 	virtual ~AudioStream() {};
