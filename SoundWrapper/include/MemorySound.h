@@ -4,7 +4,7 @@
 
 class AudioStream;
 
-class MemorySound : public Sound
+class _AnomalousExport MemorySound : public Sound
 {
 private:
     ALuint bufferID;                        //The OpenAL sound buffer ID

@@ -7,7 +7,7 @@
 
 using namespace std;
 
-class OggStream : public AudioStream
+class _AnomalousExport OggStream : public AudioStream
 {
 private:
 	OggVorbis_File oggStream;

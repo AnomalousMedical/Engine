@@ -2,7 +2,7 @@
 
 class Source;
 
-class Sound
+class _AnomalousExport Sound
 {
 protected:
 	bool repeat;

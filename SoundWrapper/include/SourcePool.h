@@ -6,7 +6,7 @@ class Source;
 
 using namespace std;
 
-class SourcePool
+class _AnomalousExport SourcePool
 {
 private:
 	vector<Source*> sources;

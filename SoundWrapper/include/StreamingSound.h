@@ -3,7 +3,7 @@
 
 class AudioStream;
 
-class StreamingSound : public Sound
+class _AnomalousExport StreamingSound : public Sound
 {
 private:
 	ALuint* bufferIDs;

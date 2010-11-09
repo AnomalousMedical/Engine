@@ -66,7 +66,7 @@ size_t OggStream::read_cb(void *ptr, size_t size, size_t nmemb, void *datasource
 
 int OggStream::seek_cb(void *datasource, ogg_int64_t offset, int whence)
 {
-	return fseek((FILE*)datasource, offset, whence);
+	return fseek((FILE*)datasource, (long)offset, whence);
 }
 
 int OggStream::close_cb(void *datasource)

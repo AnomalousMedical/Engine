@@ -10,3 +10,11 @@
 #define ENDIAN 0
 
 void checkOpenAL();
+
+#ifdef WINDOWS
+#define _AnomalousExport __declspec(dllexport)
+#endif
+
+#ifdef MAC_OSX
+#define _AnomalousExport __attribute__ ((visibility("default")))
+#endif
