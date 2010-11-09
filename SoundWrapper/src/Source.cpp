@@ -2,7 +2,8 @@
 #include "Source.h"
 
 Source::Source(ALuint sourceID)
-:sourceID(sourceID)
+:sourceID(sourceID),
+paused(false)
 {
 	//Set default source info.
     alSource3f(sourceID, AL_POSITION,        0.0, 0.0, 0.0);
@@ -17,7 +18,7 @@ Source::~Source(void)
 	alSourceStop(sourceID);
     empty();
     alDeleteSources(1, &sourceID);
-    check();
+    checkOpenAL();
 }
 
 bool Source::playSound(Sound* sound)
@@ -27,28 +28,50 @@ bool Source::playSound(Sound* sound)
         return true;
 	}
     
-	sound->enqueueSource(this);
-    alSourcePlay(sourceID);
-    
-    return true;
+	if(sound->enqueueSource(this))
+	{
+		paused = false;
+		alSourcePlay(sourceID);
+		return true;
+	}
+
+	return false;
 }
 
 bool Source::playing()
 {
     ALenum state;
-    
     alGetSourcei(sourceID, AL_SOURCE_STATE, &state);
-    
     return (state == AL_PLAYING);
 }
 
-void Source::check()
+void Source::stop()
 {
-    int error = alGetError();
- 
-    if(error != AL_NO_ERROR)
+	paused = false;
+	alSourceStop(sourceID);
+	empty();
+}
+
+void Source::pause()
+{
+	if(!paused && playing())
 	{
-        
+		paused = true;
+		alSourcePause(sourceID);
+	}
+}
+
+bool Source::resume()
+{
+	if(paused)
+	{
+		paused = false;
+		alSourcePlay(sourceID);
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
 
@@ -66,6 +89,6 @@ void Source::empty()
     {
         ALuint buffer;
         alSourceUnqueueBuffers(sourceID, 1, &buffer);
-        check();
+        checkOpenAL();
     }
 }

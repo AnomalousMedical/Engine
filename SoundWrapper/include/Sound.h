@@ -11,5 +11,5 @@ public:
 
 	virtual void close() = 0;
 
-	virtual void enqueueSource(Source* source) = 0;
+	virtual bool enqueueSource(Source* source) = 0;
 };

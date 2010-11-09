@@ -16,13 +16,10 @@ public:
 
 	virtual void close();
 
-	virtual void enqueueSource(Source* source);
+	virtual bool enqueueSource(Source* source);
 
 	ALuint getBufferID()
 	{
 		return bufferID;
 	}
-
-protected:
-	void check();
 };

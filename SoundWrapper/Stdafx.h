@@ -8,4 +8,5 @@
 #include "alc.h" 
 
 #define ENDIAN 0
-#define BUFFER_SIZE   32768     // 32 KB buffers
+
+void checkOpenAL();

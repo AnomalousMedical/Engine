@@ -5,7 +5,8 @@
 class Source
 {
 private:
-	ALuint sourceID;                        // The OpenAL sound source
+	ALuint sourceID;
+	bool paused;
 
 public:
 	Source(ALuint sourceID);
@@ -21,8 +22,12 @@ public:
 
 	bool playing();
 
-protected:
-	void check();
+	void stop();
 
+	void pause();
+
+	bool resume();
+
+protected:
 	void empty();
 };

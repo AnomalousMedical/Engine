@@ -3,3 +3,13 @@
 // stdafx.obj will contain the pre-compiled type information
 
 #include "stdafx.h"
+
+void checkOpenAL()
+{
+    int error = alGetError();
+ 
+    if(error != AL_NO_ERROR)
+	{
+        
+	}
+}

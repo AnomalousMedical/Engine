@@ -3,9 +3,10 @@
 #include "AudioStream.h"
 #include "Source.h"
 
-
 #include <vector>
 using namespace std;
+
+#define BUFFER_SIZE   32768     // 32 KB buffers
 
 MemorySound::MemorySound(AudioStream* audioStream)
 {
@@ -14,7 +15,7 @@ MemorySound::MemorySound(AudioStream* audioStream)
 
 	//Create buffer.
 	alGenBuffers(1, &bufferID);
-    check();
+    checkOpenAL();
 
 	//Load the actual sound data from the buffer.
 	long bytes;
@@ -54,21 +55,12 @@ MemorySound::~MemorySound(void)
 void MemorySound::close()
 {
 	alDeleteBuffers(1, &bufferID);
-    check();
+    checkOpenAL();
 }
 
-void MemorySound::enqueueSource(Source* source)
+bool MemorySound::enqueueSource(Source* source)
 {
 	alSourcei(source->getSourceID(), AL_BUFFER, bufferID);
-}
-
-void MemorySound::check()
-{
-    int error = alGetError();
- 
-    if(error != AL_NO_ERROR)
-	{
-        
-	}
+	return true;
 }
 
