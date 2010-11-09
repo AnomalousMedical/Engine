@@ -16,7 +16,7 @@ class OggCodec : public AudioCodec
 private:
 	OggVorbis_File oggStream;
 	vorbis_info *pInfo;
-	Stream* stream;
+	Stream* stream; //Stream is deleted in close_cb
 
 public:
 	OggCodec(Stream* stream);

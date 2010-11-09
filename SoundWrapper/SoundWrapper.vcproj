@@ -185,6 +185,10 @@
 				Name="Stream"
 				>
 				<File
+					RelativePath=".\src\ManagedStream.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\NativeStream.cpp"
 					>
 				</File>

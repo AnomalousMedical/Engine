@@ -29,10 +29,28 @@ namespace SoundPlugin
             OpenALManager_destroy(openALManager);
         }
 
-        //public Sound createMemorySound(Stream stream)
-        //{
+        public Sound createMemorySound(Stream stream)
+        {
+            ManagedStream managedStream = new ManagedStream(stream);
+            return new Sound(OpenALManager_createMemorySound(openALManager, managedStream.Pointer));
+        }
 
-        //}
+        public Sound createStreamingSound(Stream stream)
+        {
+            ManagedStream managedStream = new ManagedStream(stream);
+            return new Sound(OpenALManager_createStreamingSound(openALManager, managedStream.Pointer));
+        }
+
+        public Sound createStreamingSound(Stream stream, int bufferSize, int numBuffers)
+        {
+            ManagedStream managedStream = new ManagedStream(stream);
+            return new Sound(OpenALManager_createStreamingSound2(openALManager, managedStream.Pointer, bufferSize, numBuffers));
+        }
+
+        public void destroySound(Sound sound)
+        {
+            OpenALManager_destroySound(openALManager, sound.Pointer);
+        }
 
         #region PInvoke
 
