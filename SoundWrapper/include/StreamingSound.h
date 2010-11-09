@@ -33,4 +33,7 @@ public:
 	virtual bool update();
 
 	virtual bool stream(ALuint buffer);
+
+private:
+	void readBuffers(char* data, int& size);
 };

@@ -29,6 +29,8 @@ public:
 
 	virtual bool eof();
 
+	virtual void seekToStart();
+
 private:
 	static size_t read_cb(void *ptr, size_t size, size_t nmemb, void *datasource);
 

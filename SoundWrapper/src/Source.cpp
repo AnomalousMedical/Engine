@@ -75,6 +75,13 @@ bool Source::resume()
 	}
 }
 
+bool Source::getLooping()
+{
+	ALint ret;
+	alGetSourcei(sourceID, AL_LOOPING, &ret);
+	return ret == AL_TRUE;
+}
+
 void Source::empty()
 {
     int queued;

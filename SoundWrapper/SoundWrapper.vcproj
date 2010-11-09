@@ -179,6 +179,10 @@
 	</References>
 	<Files>
 		<Filter
+			Name="OpenAL"
+			>
+		</Filter>
+		<Filter
 			Name="FileHandling"
 			>
 			<File

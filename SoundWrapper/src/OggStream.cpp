@@ -54,6 +54,11 @@ bool OggStream::eof()
 	return feof(f);
 }
 
+void OggStream::seekToStart()
+{
+	ov_raw_seek(&oggStream, 0);
+}
+
 size_t OggStream::read_cb(void *ptr, size_t size, size_t nmemb, void *datasource)
 {
 	return fread(ptr, size, nmemb, (FILE*)datasource);

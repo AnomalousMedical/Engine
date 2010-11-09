@@ -14,4 +14,6 @@ public:
 	virtual void close() = 0;
 
 	virtual bool eof() = 0;
+
+	virtual void seekToStart() = 0;
 };

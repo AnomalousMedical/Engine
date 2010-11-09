@@ -74,7 +74,7 @@ bool StreamingSound::enqueueSource(Source* source)
 			return false;
 		}
 	}
-
+	alSourcei(source->getSourceID(), AL_LOOPING, false);
 	alSourceQueueBuffers(source->getSourceID(), numBuffers, bufferIDs);
 	return true;
 }
@@ -96,21 +96,20 @@ bool StreamingSound::update()
  
         active = stream(buffer);
  
-        alSourceQueueBuffers(source, 1, &buffer);
-        checkOpenAL();
+		if(active)
+		{
+			alSourceQueueBuffers(source, 1, &buffer);
+			checkOpenAL();
+		}
     }
 
     return active;
 }
 
-bool StreamingSound::stream(ALuint buffer)
+void StreamingSound::readBuffers(char* data, int& size)
 {
-	char* data = new char[bufferSize];
-    int  size = 0;
-    int  section;
-    int  result;
- 
-    while(size < bufferSize)
+	int result;
+	while(size < bufferSize)
     {
 		result = audioStream->read(data + size, bufferSize - size);
     
@@ -123,7 +122,25 @@ bool StreamingSound::stream(ALuint buffer)
 			break;
 		}
     }
+}
+
+bool StreamingSound::stream(ALuint buffer)
+{
+	char* data = new char[bufferSize];
+    int  size = 0;
+ 
+	//Read from the stream normally.
+    readBuffers(data, size);
+
+	/// Check to see if the stream has been set to repeat and if so did we get
+    /// too small of a buffer and it needs data from the start of the stream.
+	if(repeat && size < bufferSize)
+	{
+		audioStream->seekToStart();
+		readBuffers(data, size);
+	}
     
+	//Make sure some data was read.
     if(size == 0)
 	{
         return false;

@@ -60,6 +60,7 @@ void MemorySound::close()
 
 bool MemorySound::enqueueSource(Source* source)
 {
+	alSourcei(source->getSourceID(), AL_LOOPING, repeat);
 	alSourcei(source->getSourceID(), AL_BUFFER, bufferID);
 	return true;
 }

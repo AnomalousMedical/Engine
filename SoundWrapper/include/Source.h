@@ -28,6 +28,8 @@ public:
 
 	bool resume();
 
+	bool getLooping();
+
 protected:
 	void empty();
 };

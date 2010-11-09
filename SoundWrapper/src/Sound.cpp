@@ -2,6 +2,7 @@
 #include "Sound.h"
 
 Sound::Sound(void)
+:repeat(false)
 {
 }
 
