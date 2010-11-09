@@ -2,6 +2,8 @@
 #include "OggStream.h"
 #include <iostream>
 
+namespace SoundWrapper
+{
 
 OggStream::OggStream(const char* file)
 {
@@ -99,3 +101,4 @@ string OggStream::errorString(int code)
     }
 }
 
+}

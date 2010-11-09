@@ -2,6 +2,9 @@
 
 #include <vector>
 
+namespace SoundWrapper
+{
+
 class Source;
 
 using namespace std;
@@ -18,3 +21,5 @@ public:
 
 	Source* getPooledSource();
 };
+
+}

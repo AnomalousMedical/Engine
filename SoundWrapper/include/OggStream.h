@@ -7,6 +7,9 @@
 
 using namespace std;
 
+namespace SoundWrapper
+{
+
 class OggStream : public AudioStream
 {
 private:
@@ -42,3 +45,5 @@ private:
 
 	static string errorString(int code);
 };
+
+}

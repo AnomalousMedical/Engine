@@ -1,6 +1,9 @@
 #pragma once
 #include "Sound.h"
 
+namespace SoundWrapper
+{
+
 class AudioStream;
 
 class StreamingSound : public Sound
@@ -37,3 +40,5 @@ public:
 private:
 	void readBuffers(char* data, int& size);
 };
+
+}

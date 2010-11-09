@@ -8,6 +8,9 @@ using namespace std;
 
 #define BUFFER_SIZE   32768     // 32 KB buffers
 
+namespace SoundWrapper
+{
+
 MemorySound::MemorySound(AudioStream* audioStream)
 {
 	ALenum format;
@@ -65,3 +68,4 @@ bool MemorySound::enqueueSource(Source* source)
 	return true;
 }
 
+}

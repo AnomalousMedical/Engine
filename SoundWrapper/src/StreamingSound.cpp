@@ -3,8 +3,8 @@
 #include "AudioStream.h"
 #include "Source.h"
 
-#include <vector>
-using namespace std;
+namespace SoundWrapper
+{
 
 StreamingSound::StreamingSound(AudioStream* audioStream)
 :audioStream(audioStream),
@@ -153,4 +153,6 @@ bool StreamingSound::stream(ALuint buffer)
 	delete[] data;
 
     return true;
+}
+
 }

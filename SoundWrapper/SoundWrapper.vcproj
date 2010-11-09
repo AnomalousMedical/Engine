@@ -181,6 +181,14 @@
 		<Filter
 			Name="OpenAL"
 			>
+			<File
+				RelativePath=".\src\OpenALManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\include\OpenALManager.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="FileHandling"

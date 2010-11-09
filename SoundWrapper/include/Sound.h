@@ -1,5 +1,8 @@
 #pragma once
 
+namespace SoundWrapper
+{
+
 class Source;
 
 class Sound
@@ -26,3 +29,5 @@ public:
 		return repeat;
 	}
 };
+
+}

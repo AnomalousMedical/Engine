@@ -2,6 +2,9 @@
 #include "SourcePool.h"
 #include "Source.h"
 
+namespace SoundWrapper
+{
+
 SourcePool::SourcePool(void)
 {
 	int error = AL_NO_ERROR;
@@ -42,4 +45,6 @@ Source* SourcePool::getPooledSource()
 	{
 		return NULL;
 	}
+}
+
 }

@@ -2,6 +2,9 @@
 
 #include "Sound.h"
 
+namespace SoundWrapper
+{
+
 class Source
 {
 private:
@@ -33,3 +36,5 @@ public:
 protected:
 	void empty();
 };
+
+}

@@ -1,6 +1,9 @@
 #include "StdAfx.h"
 #include "Source.h"
 
+namespace SoundWrapper
+{
+
 Source::Source(ALuint sourceID)
 :sourceID(sourceID),
 paused(false)
@@ -98,4 +101,6 @@ void Source::empty()
         alSourceUnqueueBuffers(sourceID, 1, &buffer);
         checkOpenAL();
     }
+}
+
 }

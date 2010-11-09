@@ -2,6 +2,9 @@
 
 #include "Sound.h"
 
+namespace SoundWrapper
+{
+
 class AudioStream;
 
 class MemorySound : public Sound
@@ -23,3 +26,5 @@ public:
 		return bufferID;
 	}
 };
+
+}

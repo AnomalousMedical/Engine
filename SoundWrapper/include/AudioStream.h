@@ -1,5 +1,8 @@
 #pragma once
 
+namespace SoundWrapper
+{
+
 class AudioStream
 {
 public:
@@ -17,3 +20,5 @@ public:
 
 	virtual void seekToStart() = 0;
 };
+
+}
