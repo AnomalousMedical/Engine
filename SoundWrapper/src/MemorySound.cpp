@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include "MemorySound.h"
-#include "AudioStream.h"
+#include "AudioCodec.h"
 #include "Source.h"
 
 #include <vector>
@@ -11,7 +11,7 @@ using namespace std;
 namespace SoundWrapper
 {
 
-MemorySound::MemorySound(AudioStream* audioStream)
+MemorySound::MemorySound(AudioCodec* audioCodec)
 {
 	ALenum format;
     ALsizei freq;
@@ -25,7 +25,7 @@ MemorySound::MemorySound(AudioStream* audioStream)
 	char array[BUFFER_SIZE];    // Local fixed size array
 	vector<char> buffer;
 
-	if (audioStream->getNumChannels() == 1)
+	if (audioCodec->getNumChannels() == 1)
 	{
 		format = AL_FORMAT_MONO16;
 	}
@@ -34,12 +34,12 @@ MemorySound::MemorySound(AudioStream* audioStream)
 		format = AL_FORMAT_STEREO16;
 	}
 
-	freq = audioStream->getSamplingFrequency();
+	freq = audioCodec->getSamplingFrequency();
 
 	do 
 	{
 		// Read up to a buffer's worth of decoded sound data
-		bytes = audioStream->read(array, BUFFER_SIZE);
+		bytes = audioCodec->read(array, BUFFER_SIZE);
 		// Append to end of buffer
 		buffer.insert(buffer.end(), array, array + bytes);
 	} 
@@ -47,7 +47,7 @@ MemorySound::MemorySound(AudioStream* audioStream)
 
 	alBufferData(bufferID, format, &buffer[0], static_cast<ALsizei>(buffer.size()), freq);
 
-	audioStream->close();
+	audioCodec->close();
 }
 
 MemorySound::~MemorySound(void)

@@ -1,7 +1,6 @@
 #pragma once
 
-#include "AudioStream.h"
-#include <fstream>
+#include "AudioCodec.h"
 #include <vorbis/vorbisfile.h>
 #include <string>
 
@@ -10,17 +9,19 @@ using namespace std;
 namespace SoundWrapper
 {
 
-class OggStream : public AudioStream
+class Stream;
+
+class OggCodec : public AudioCodec
 {
 private:
 	OggVorbis_File oggStream;
 	vorbis_info *pInfo;
-	FILE* f;
+	Stream* stream;
 
 public:
-	OggStream(const char* file);
+	OggCodec(Stream* stream);
 
-	virtual ~OggStream(void);
+	virtual ~OggCodec(void);
 
 	virtual int getNumChannels();
 

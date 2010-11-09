@@ -1,29 +1,29 @@
 #include "StdAfx.h"
 #include "StreamingSound.h"
-#include "AudioStream.h"
+#include "AudioCodec.h"
 #include "Source.h"
 
 namespace SoundWrapper
 {
 
-StreamingSound::StreamingSound(AudioStream* audioStream)
-:audioStream(audioStream),
+StreamingSound::StreamingSound(AudioCodec* audioCodec)
+:audioCodec(audioCodec),
 bufferSize(48000),
 numBuffers(2)
 {
 	configure();
 }
 
-StreamingSound::StreamingSound(AudioStream* audioStream, int bufferSize)
-:audioStream(audioStream),
+StreamingSound::StreamingSound(AudioCodec* audioCodec, int bufferSize)
+:audioCodec(audioCodec),
 bufferSize(bufferSize),
 numBuffers(2)
 {
 	configure();
 }
 
-StreamingSound::StreamingSound(AudioStream* audioStream, int bufferSize, int numBuffers)
-:audioStream(audioStream),
+StreamingSound::StreamingSound(AudioCodec* audioCodec, int bufferSize, int numBuffers)
+:audioCodec(audioCodec),
 bufferSize(bufferSize),
 numBuffers(numBuffers)
 {
@@ -38,7 +38,7 @@ void StreamingSound::configure()
 	alGenBuffers(numBuffers, bufferIDs);
     checkOpenAL();
 
-	if (audioStream->getNumChannels() == 1)
+	if (audioCodec->getNumChannels() == 1)
 	{
 		format = AL_FORMAT_MONO16;
 	}
@@ -47,7 +47,7 @@ void StreamingSound::configure()
 		format = AL_FORMAT_STEREO16;
 	}
 
-	freq = audioStream->getSamplingFrequency();
+	freq = audioCodec->getSamplingFrequency();
 }
 
 StreamingSound::~StreamingSound(void)
@@ -57,10 +57,15 @@ StreamingSound::~StreamingSound(void)
 
 void StreamingSound::close()
 {
-	alDeleteBuffers(numBuffers, bufferIDs);
-	delete[] bufferIDs;
-    checkOpenAL();
-	audioStream->close();
+	if(audioCodec != 0)
+	{
+		alDeleteBuffers(numBuffers, bufferIDs);
+		delete[] bufferIDs;
+		checkOpenAL();
+		audioCodec->close();
+		delete audioCodec;
+		audioCodec = 0;
+	}
 }
 
 bool StreamingSound::enqueueSource(Source* source)
@@ -111,7 +116,7 @@ void StreamingSound::readBuffers(char* data, int& size)
 	int result;
 	while(size < bufferSize)
     {
-		result = audioStream->read(data + size, bufferSize - size);
+		result = audioCodec->read(data + size, bufferSize - size);
     
         if(result > 0)
 		{
@@ -136,7 +141,7 @@ bool StreamingSound::stream(ALuint buffer)
     /// too small of a buffer and it needs data from the start of the stream.
 	if(repeat && size < bufferSize)
 	{
-		audioStream->seekToStart();
+		audioCodec->seekToStart();
 		readBuffers(data, size);
 	}
     

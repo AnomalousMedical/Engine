@@ -3,10 +3,10 @@
 namespace SoundWrapper
 {
 
-class AudioStream
+class AudioCodec
 {
 public:
-	virtual ~AudioStream() {};
+	virtual ~AudioCodec() {};
 
 	virtual int getNumChannels() = 0;
 

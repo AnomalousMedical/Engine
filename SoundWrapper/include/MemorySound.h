@@ -5,7 +5,7 @@
 namespace SoundWrapper
 {
 
-class AudioStream;
+class AudioCodec;
 
 class MemorySound : public Sound
 {
@@ -13,7 +13,7 @@ private:
     ALuint bufferID;                        //The OpenAL sound buffer ID
 
 public:
-	MemorySound(AudioStream* audioStream);
+	MemorySound(AudioCodec* audioCodec);
 
 	virtual ~MemorySound(void);
 

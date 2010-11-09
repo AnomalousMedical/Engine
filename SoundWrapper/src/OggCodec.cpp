@@ -1,14 +1,13 @@
 #include "StdAfx.h"
-#include "OggStream.h"
-#include <iostream>
+#include "OggCodec.h"
+#include "Stream.h"
 
 namespace SoundWrapper
 {
 
-OggStream::OggStream(const char* file)
+OggCodec::OggCodec(Stream* stream)
+:stream(stream)
 {
-	f = fopen(file, "rb");
-
 	ov_callbacks callbacks;
 	callbacks.read_func = read_cb;
     callbacks.seek_func = seek_cb;
@@ -17,72 +16,74 @@ OggStream::OggStream(const char* file)
 
 	int result = 0;
 
-	if((result = ov_open_callbacks(f, &oggStream, NULL, 0, callbacks)) < 0)
+	if((result = ov_open_callbacks(stream, &oggStream, NULL, 0, callbacks)) < 0)
 	{
-		cout << "Ogg error " << errorString(result) << endl;
+		//cout << "Ogg error " << errorString(result) << endl;
 	}
 
 	pInfo = ov_info(&oggStream, -1);
 }
 
-OggStream::~OggStream(void)
+OggCodec::~OggCodec(void)
 {
 	close();
 }
 
-int OggStream::getNumChannels()
+int OggCodec::getNumChannels()
 {
 	return pInfo->channels;
 }
 
-int OggStream::getSamplingFrequency()
+int OggCodec::getSamplingFrequency()
 {
 	return pInfo->rate;
 }
 
-size_t OggStream::read(char* buffer, int length)
+size_t OggCodec::read(char* buffer, int length)
 {
 	int bitStream;
 	return ov_read(&oggStream, buffer, length, ENDIAN, 2, 1, &bitStream);
 }
 
-void OggStream::close()
+void OggCodec::close()
 {
 	ov_clear(&oggStream);
 }
 
-bool OggStream::eof()
+bool OggCodec::eof()
 {
-	return feof(f);
+	return stream->eof();
 }
 
-void OggStream::seekToStart()
+void OggCodec::seekToStart()
 {
 	ov_raw_seek(&oggStream, 0);
 }
 
-size_t OggStream::read_cb(void *ptr, size_t size, size_t nmemb, void *datasource)
+size_t OggCodec::read_cb(void *ptr, size_t size, size_t nmemb, void *datasource)
 {
-	return fread(ptr, size, nmemb, (FILE*)datasource);
+	return ((Stream*)datasource)->read(ptr, size, nmemb);
 }
 
-int OggStream::seek_cb(void *datasource, ogg_int64_t offset, int whence)
+int OggCodec::seek_cb(void *datasource, ogg_int64_t offset, int whence)
 {
-	return fseek((FILE*)datasource, (long)offset, whence);
+	return ((Stream*)datasource)->seek((long)offset, (SeekMode)whence);
 }
 
-int OggStream::close_cb(void *datasource)
+int OggCodec::close_cb(void *datasource)
 {
-	fclose((FILE*)datasource);
+	Stream* stream = (Stream*)datasource;
+	stream->close();
+	delete stream;
 	return 0; //ignored by ogg/vorbis
 }
 
-long OggStream::tell_cb(void *datasource)
+long OggCodec::tell_cb(void *datasource)
 {
-	return ftell((FILE*)datasource);
+	return ((Stream*)datasource)->tell();
 }
 
-string OggStream::errorString(int code)
+string OggCodec::errorString(int code)
 {
     switch(code)
     {

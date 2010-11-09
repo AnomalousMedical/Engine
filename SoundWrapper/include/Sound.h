@@ -15,10 +15,6 @@ public:
 
 	virtual ~Sound(void);
 
-	virtual void close() = 0;
-
-	virtual bool enqueueSource(Source* source) = 0;
-
 	void setRepeat(bool value)
 	{
 		repeat = value;
@@ -28,6 +24,11 @@ public:
 	{
 		return repeat;
 	}
+
+	//Internal, do not expose via wrapper
+	virtual void close() = 0;
+
+	virtual bool enqueueSource(Source* source) = 0;
 };
 
 }

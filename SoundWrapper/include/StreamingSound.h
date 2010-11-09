@@ -4,7 +4,7 @@
 namespace SoundWrapper
 {
 
-class AudioStream;
+class AudioCodec;
 
 class StreamingSound : public Sound
 {
@@ -12,7 +12,7 @@ private:
 	ALuint* bufferIDs;
 	ALenum format;
     ALsizei freq;
-	AudioStream* audioStream;
+	AudioCodec* audioCodec;
 	int bufferSize;
 	int numBuffers;
 
@@ -21,11 +21,11 @@ private:
 	void configure();
 
 public:
-	StreamingSound(AudioStream* audioStream);
+	StreamingSound(AudioCodec* audioCodec);
 
-	StreamingSound(AudioStream* audioStream, int bufferSize);
+	StreamingSound(AudioCodec* audioCodec, int bufferSize);
 
-	StreamingSound(AudioStream* audioStream, int bufferSize, int numBuffers);
+	StreamingSound(AudioCodec* audioCodec, int bufferSize, int numBuffers);
 
 	virtual ~StreamingSound(void);
 

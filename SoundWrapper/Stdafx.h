@@ -18,3 +18,5 @@ void checkOpenAL();
 #ifdef MAC_OSX
 #define _AnomalousExport __attribute__ ((visibility("default")))
 #endif
+
+#define NULL 0
