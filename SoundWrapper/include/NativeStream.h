@@ -20,7 +20,7 @@ public:
 
 	virtual size_t read(void* buffer, int size, int count);
 
-	virtual int seek(long offset, SeekMode origin);
+	virtual int seek(long offset, int origin);
 
 	virtual void close();
 

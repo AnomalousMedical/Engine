@@ -5,7 +5,7 @@ namespace SoundWrapper
 {
 
 typedef size_t (*ReadDelegate)(void* buffer, int size, int count);
-typedef int (*SeekDelegate)(long offset, SeekMode origin);
+typedef int (*SeekDelegate)(size_t offset, size_t origin);
 typedef void (*CloseDelegate)();
 typedef size_t (*TellDelegate)();
 typedef bool (*EofDelegate)();
@@ -38,7 +38,7 @@ public:
 		return readCB(buffer, size, count);
 	}
 
-	virtual int seek(long offset, SeekMode origin)
+	virtual int seek(long offset, int origin)
 	{
 		return seekCB(offset, origin);
 	}

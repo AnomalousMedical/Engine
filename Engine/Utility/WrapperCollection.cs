@@ -53,7 +53,7 @@ namespace Engine
         {
             foreach (T obj in ptrDictionary.Values)
             {
-                ((IDisposable)obj).Dispose();
+                destroyCallback(obj);
             }
             ptrDictionary.Clear();
         }

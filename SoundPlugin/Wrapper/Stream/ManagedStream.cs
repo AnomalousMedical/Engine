@@ -7,13 +7,6 @@ using System.Runtime.InteropServices;
 
 namespace SoundPlugin
 {
-    enum SeekMode
-    {
-        Set = 0,
-        Current = 1,
-        End = 2,
-    };
-
     unsafe class ManagedStream
     {
         const int ARRAY_SIZE = 512;
@@ -98,9 +91,10 @@ namespace SoundPlugin
             return new UIntPtr(i);
         }
 
-        private int seek(long offset, SeekMode origin)
+        private int seek(IntPtr offset, int origin)
         {
-            return (int)stream.Seek(offset, (SeekOrigin)origin);
+            SeekOrigin seekOrigin = (SeekOrigin)origin; //This maps directly to the seek given 0 = begin, 1 = current, 2 = end.
+            return (int)stream.Seek(offset.ToInt64(), seekOrigin);
         }
 
         private void close()
@@ -123,7 +117,7 @@ namespace SoundPlugin
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate UIntPtr ReadDelegate(void* buffer, int size, int count);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate int SeekDelegate(long offset, SeekMode origin);
+        private delegate int SeekDelegate(IntPtr offset, int origin);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void CloseDelegate();
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

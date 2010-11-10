@@ -8,7 +8,7 @@ namespace SoundPlugin
 {
     class SourceManager : IDisposable
     {
-        private WrapperCollection<Source> sources = new WrapperCollection<Source>(createWrapper);
+        private WrapperCollection<Source> sources = new WrapperCollection<Source>(createWrapper, destroyWrapper);
 
         public Source getSource(IntPtr source)
         {
@@ -32,6 +32,11 @@ namespace SoundPlugin
         private static Source createWrapper(IntPtr source, object[] args)
         {
             return new Source(source);
+        }
+
+        private static void destroyWrapper(Source source)
+        {
+            source.delete();
         }
     }
 }

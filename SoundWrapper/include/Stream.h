@@ -3,13 +3,6 @@
 namespace SoundWrapper
 {
 
-enum SeekMode
-{
-	Set = 0,
-	Current = 1,
-	End = 2,
-};
-
 class Stream
 {
 public:
@@ -19,7 +12,7 @@ public:
 
 	virtual size_t read(void* buffer, int size, int count) = 0;
 
-	virtual int seek(long offset, SeekMode origin) = 0;
+	virtual int seek(long offset, int origin) = 0;
 
 	virtual void close() = 0;
 

@@ -22,9 +22,9 @@ size_t NativeStream::read(void* buffer, int size, int count)
 	return fread(buffer, size, count, f);
 }
 
-int NativeStream::seek(long offset, SeekMode origin)
+int NativeStream::seek(long offset, int origin)
 {
-	return fseek(f, (long)offset, (int)origin);
+	return fseek(f, (long)offset, origin);
 }
 
 void NativeStream::close()

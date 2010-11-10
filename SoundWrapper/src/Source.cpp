@@ -104,3 +104,37 @@ void Source::empty()
 }
 
 }
+
+//CWrapper
+
+using namespace SoundWrapper;
+
+extern "C" _AnomalousExport bool Source_playSound(Source* source, Sound* sound)
+{
+	return source->playSound(sound);
+}
+
+extern "C" _AnomalousExport bool Source_playing(Source* source)
+{
+	return source->playing();
+}
+
+extern "C" _AnomalousExport void Source_stop(Source* source)
+{
+	source->stop();
+}
+
+extern "C" _AnomalousExport void Source_pause(Source* source)
+{
+	source->pause();
+}
+
+extern "C" _AnomalousExport bool Source_resume(Source* source)
+{
+	return source->resume();
+}
+
+extern "C" _AnomalousExport bool Source_getLooping(Source* source)
+{
+	return source->getLooping();
+}
