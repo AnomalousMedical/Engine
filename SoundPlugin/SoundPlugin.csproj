@@ -48,8 +48,17 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wrapper\OpenAL\OpenALManager.cs" />
+    <Compile Include="Wrapper\SoundPluginObject.cs" />
     <Compile Include="Wrapper\Sound\Sound.cs" />
+    <Compile Include="Wrapper\Source\Source.cs" />
+    <Compile Include="Wrapper\Source\SourceManager.cs" />
     <Compile Include="Wrapper\Stream\ManagedStream.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Engine\Engine.csproj">
+      <Project>{57C253F1-157F-4A6A-9FED-345A776B97D5}</Project>
+      <Name>Engine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

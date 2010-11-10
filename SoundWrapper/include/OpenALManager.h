@@ -7,6 +7,7 @@ class SourcePool;
 class Sound;
 class Stream;
 class AudioCodec;
+class Source;
 
 class OpenALManager
 {
@@ -33,6 +34,8 @@ public:
 	Sound* createStreamingSound(Stream* stream, int bufferSize, int numBuffers);
 
 	void destroySound(Sound* sound);
+
+	Source* getSource();
 
 private:
 	AudioCodec* getCodecForStream(Stream* stream);

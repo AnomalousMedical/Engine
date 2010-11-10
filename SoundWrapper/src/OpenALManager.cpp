@@ -69,6 +69,11 @@ AudioCodec* OpenALManager::getCodecForStream(Stream* stream)
 	return new OggCodec(stream);
 }
 
+Source* OpenALManager::getSource()
+{
+	return sourcePool->getPooledSource();
+}
+
 }
 
 
@@ -104,4 +109,9 @@ extern "C" _AnomalousExport Sound* OpenALManager_createStreamingSound2(OpenALMan
 extern "C" _AnomalousExport void OpenALManager_destroySound(OpenALManager* openALManager, Sound* sound)
 {
 	openALManager->destroySound(sound);
+}
+
+extern "C" _AnomalousExport Source* OpenALManager_getSource(OpenALManager* openALManager)
+{
+	return openALManager->getSource();	
 }

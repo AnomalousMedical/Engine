@@ -7,49 +7,50 @@ using System.IO;
 
 namespace SoundPlugin
 {
-    public class OpenALManager : IDisposable
+    public class OpenALManager : SoundPluginObject, IDisposable
     {
-        private IntPtr openALManager;
-
-        internal IntPtr Pointer
-        {
-            get
-            {
-                return openALManager;
-            }
-        }
+        private SourceManager sourceManager = new SourceManager();
 
         public OpenALManager()
+            :base(OpenALManager_create())
         {
-            openALManager = OpenALManager_create();
+            
         }
 
         public void Dispose()
         {
-            OpenALManager_destroy(openALManager);
+            sourceManager.Dispose();
+            OpenALManager_destroy(Pointer);
+            delete();
         }
 
         public Sound createMemorySound(Stream stream)
         {
             ManagedStream managedStream = new ManagedStream(stream);
-            return new Sound(OpenALManager_createMemorySound(openALManager, managedStream.Pointer));
+            return new Sound(OpenALManager_createMemorySound(Pointer, managedStream.Pointer));
         }
 
         public Sound createStreamingSound(Stream stream)
         {
             ManagedStream managedStream = new ManagedStream(stream);
-            return new Sound(OpenALManager_createStreamingSound(openALManager, managedStream.Pointer));
+            return new Sound(OpenALManager_createStreamingSound(Pointer, managedStream.Pointer));
         }
 
         public Sound createStreamingSound(Stream stream, int bufferSize, int numBuffers)
         {
             ManagedStream managedStream = new ManagedStream(stream);
-            return new Sound(OpenALManager_createStreamingSound2(openALManager, managedStream.Pointer, bufferSize, numBuffers));
+            return new Sound(OpenALManager_createStreamingSound2(Pointer, managedStream.Pointer, bufferSize, numBuffers));
         }
 
         public void destroySound(Sound sound)
         {
-            OpenALManager_destroySound(openALManager, sound.Pointer);
+            OpenALManager_destroySound(Pointer, sound.Pointer);
+            sound.delete();
+        }
+
+        public Source getSource()
+        {
+            return sourceManager.getSource(OpenALManager_getSource(Pointer));
         }
 
         #region PInvoke
@@ -71,6 +72,9 @@ namespace SoundPlugin
 
         [DllImport("SoundWrapper")]
         private static extern void OpenALManager_destroySound(IntPtr openALManager, IntPtr sound);
+
+        [DllImport("SoundWrapper")]
+        private static extern IntPtr OpenALManager_getSource(IntPtr openALManager);
 
         #endregion
     }

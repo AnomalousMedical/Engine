@@ -6,37 +6,23 @@ using System.Runtime.InteropServices;
 
 namespace SoundPlugin
 {
-    public class Sound : IDisposable
+    public class Sound : SoundPluginObject
     {
-        private IntPtr sound;
-
-        public IntPtr Pointer
-        {
-            get
-            {
-                return sound;
-            }
-        }
-
         internal Sound(IntPtr sound)
+            :base(sound)
         {
-            this.sound = sound;
-        }
-
-        public void Dispose()
-        {
-            sound = IntPtr.Zero;
+            
         }
 
         public bool Repeat
         {
             get
             {
-                return Sound_getRepeat(sound);
+                return Sound_getRepeat(Pointer);
             }
             set
             {
-                Sound_setRepeat(sound, value);
+                Sound_setRepeat(Pointer, value);
             }
         }
 
