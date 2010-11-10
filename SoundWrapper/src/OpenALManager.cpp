@@ -13,6 +13,8 @@ namespace SoundWrapper
 OpenALManager::OpenALManager(void)
 :ready(true)
 {
+	log << "Starting OpenAL" << info;
+
 	device = alcOpenDevice(NULL);
 	if (device == NULL)
 	{
@@ -34,6 +36,8 @@ OpenALManager::OpenALManager(void)
 
 OpenALManager::~OpenALManager(void)
 {
+	log << "Shutting down OpenAL" << info;
+
 	delete sourceManager;
 
 	//Disable context

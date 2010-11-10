@@ -9,8 +9,6 @@
 
 #define ENDIAN 0
 
-void checkOpenAL();
-
 #ifdef WINDOWS
 #define _AnomalousExport __declspec(dllexport)
 #endif
@@ -20,3 +18,14 @@ void checkOpenAL();
 #endif
 
 #define NULL 0
+
+#include "NativeLog.h"
+
+namespace SoundWrapper
+{
+
+extern NativeLog log;
+
+void checkOpenAL();
+
+}

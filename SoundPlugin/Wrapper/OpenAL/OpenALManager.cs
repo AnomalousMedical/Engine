@@ -10,6 +10,7 @@ namespace SoundPlugin
     public class OpenALManager : SoundPluginObject, IDisposable
     {
         private SourceManager sourceManager = new SourceManager();
+        private ManagedLogListener managedLogListener = new ManagedLogListener();
 
         public OpenALManager()
             :base(OpenALManager_create())
@@ -22,6 +23,7 @@ namespace SoundPlugin
             sourceManager.Dispose();
             OpenALManager_destroy(Pointer);
             delete();
+            managedLogListener.Dispose();
         }
 
         public Sound createMemorySound(Stream stream)

@@ -277,6 +277,22 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Log"
+				>
+				<File
+					RelativePath=".\src\ManagedLogListener.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\NativeLog.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\NativeLog.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Dll"

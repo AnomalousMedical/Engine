@@ -4,6 +4,11 @@
 
 #include "stdafx.h"
 
+namespace SoundWrapper
+{
+
+NativeLog log("SoundWrapper");
+
 void checkOpenAL()
 {
     int error = alGetError();
@@ -12,4 +17,14 @@ void checkOpenAL()
 	{
         
 	}
+}
+
+}
+
+//Log add listener function
+using namespace SoundWrapper;
+
+extern "C" _AnomalousExport void NativeLog_addLogListener(NativeLogListener* logListener)
+{
+	log.addListener(logListener);
 }
