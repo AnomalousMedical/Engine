@@ -29,6 +29,8 @@ public:
 	virtual void close() = 0;
 
 	virtual bool enqueueSource(Source* source) = 0;
+
+	virtual bool update() = 0;
 };
 
 }

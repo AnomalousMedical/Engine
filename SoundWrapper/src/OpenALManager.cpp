@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include "OpenALManager.h"
-#include "SourcePool.h"
+#include "SourceManager.h"
 #include "MemorySound.h"
 #include "StreamingSound.h"
 
@@ -29,12 +29,12 @@ OpenALManager::OpenALManager(void)
 	// Clear Error Code
 	alGetError();
 
-	sourcePool = new SourcePool();
+	sourceManager = new SourceManager();
 }
 
 OpenALManager::~OpenALManager(void)
 {
-	delete sourcePool;
+	delete sourceManager;
 
 	//Disable context
 	alcMakeContextCurrent(NULL);
@@ -71,7 +71,12 @@ AudioCodec* OpenALManager::getCodecForStream(Stream* stream)
 
 Source* OpenALManager::getSource()
 {
-	return sourcePool->getPooledSource();
+	return sourceManager->getPooledSource();
+}
+
+void OpenALManager::update()
+{
+	sourceManager->_update();
 }
 
 }
@@ -114,4 +119,9 @@ extern "C" _AnomalousExport void OpenALManager_destroySound(OpenALManager* openA
 extern "C" _AnomalousExport Source* OpenALManager_getSource(OpenALManager* openALManager)
 {
 	return openALManager->getSource();	
+}
+
+extern "C" _AnomalousExport void OpenALManager_update(OpenALManager* openALManager)
+{
+	openALManager->update();	
 }

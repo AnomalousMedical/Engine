@@ -5,14 +5,19 @@
 namespace SoundWrapper
 {
 
+class SourceManager;
+class Sound;
+
 class Source
 {
 private:
 	ALuint sourceID;
 	bool paused;
+	SourceManager* sourceManager;
+	Sound* currentSound;
 
 public:
-	Source(ALuint sourceID);
+	Source(ALuint sourceID, SourceManager* sourceManager);
 
 	~Source(void);
 
@@ -32,6 +37,10 @@ public:
 	bool resume();
 
 	bool getLooping();
+
+	//Internal do not create wrapper
+	//Call only from SourceManager. Will cause underlying sound to update and checks to see if the sound is finished.
+	void _update();
 
 protected:
 	void empty();

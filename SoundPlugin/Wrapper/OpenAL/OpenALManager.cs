@@ -53,6 +53,11 @@ namespace SoundPlugin
             return sourceManager.getSource(OpenALManager_getSource(Pointer));
         }
 
+        public void update()
+        {
+            OpenALManager_update(Pointer);
+        }
+
         #region PInvoke
 
         [DllImport("SoundWrapper")]
@@ -75,6 +80,9 @@ namespace SoundPlugin
 
         [DllImport("SoundWrapper")]
         private static extern IntPtr OpenALManager_getSource(IntPtr openALManager);
+
+        [DllImport("SoundWrapper")]
+        private static extern void OpenALManager_update(IntPtr openALManager);
 
         #endregion
     }

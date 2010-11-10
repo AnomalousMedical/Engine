@@ -3,7 +3,7 @@
 namespace SoundWrapper
 {
 
-class SourcePool;
+class SourceManager;
 class Sound;
 class Stream;
 class AudioCodec;
@@ -15,7 +15,7 @@ private:
 	ALCcontext* context;
 	ALCdevice* device;
 	bool ready;
-	SourcePool* sourcePool;
+	SourceManager* sourceManager;
 
 public:
 	OpenALManager(void);
@@ -36,6 +36,8 @@ public:
 	void destroySound(Sound* sound);
 
 	Source* getSource();
+
+	void update();
 
 private:
 	AudioCodec* getCodecForStream(Stream* stream);

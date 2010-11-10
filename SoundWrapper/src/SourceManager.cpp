@@ -1,11 +1,11 @@
 #include "StdAfx.h"
-#include "SourcePool.h"
+#include "SourceManager.h"
 #include "Source.h"
 
 namespace SoundWrapper
 {
 
-SourcePool::SourcePool(void)
+SourceManager::SourceManager(void)
 {
 	int error = AL_NO_ERROR;
 	ALuint sourceID;
@@ -15,7 +15,7 @@ SourcePool::SourcePool(void)
 		error = alGetError();
 		if(error == AL_NO_ERROR)
 		{
-			sources.push_back(new Source(sourceID));
+			sources.push_back(new Source(sourceID, this));
 		}
 		else
 		{
@@ -24,7 +24,7 @@ SourcePool::SourcePool(void)
 	}
 }
 
-SourcePool::~SourcePool(void)
+SourceManager::~SourceManager(void)
 {
 	for(vector<Source*>::iterator iter = sources.begin(); iter != sources.end(); ++iter)
 	{
@@ -33,7 +33,7 @@ SourcePool::~SourcePool(void)
 	sources.clear();
 }
 
-Source* SourcePool::getPooledSource()
+Source* SourceManager::getPooledSource()
 {
 	if(sources.size() > 0)
 	{
@@ -44,6 +44,24 @@ Source* SourcePool::getPooledSource()
 	else
 	{
 		return NULL;
+	}
+}
+
+void SourceManager::_addPlayingSource(Source* source)
+{
+	playingSources.push_back(source);
+}
+
+void SourceManager::_removePlayingSource(Source* source)
+{
+	playingSources.remove(source);
+}
+
+void SourceManager::_update()
+{
+	for(list<Source*>::iterator iter = playingSources.begin(); iter != playingSources.end(); ++iter)
+	{
+		(*iter)->_update();
 	}
 }
 

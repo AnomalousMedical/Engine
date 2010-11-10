@@ -25,6 +25,11 @@ public:
 	{
 		return bufferID;
 	}
+
+	virtual bool update()
+	{
+		return true;
+	}
 };
 
 }

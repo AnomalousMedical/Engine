@@ -1,12 +1,14 @@
 #include "StdAfx.h"
 #include "Source.h"
+#include "SourceManager.h"
 
 namespace SoundWrapper
 {
 
-Source::Source(ALuint sourceID)
+Source::Source(ALuint sourceID, SourceManager* sourceManager)
 :sourceID(sourceID),
-paused(false)
+paused(false),
+sourceManager(sourceManager)
 {
 	//Set default source info.
     alSource3f(sourceID, AL_POSITION,        0.0, 0.0, 0.0);
@@ -35,6 +37,8 @@ bool Source::playSound(Sound* sound)
 	{
 		paused = false;
 		alSourcePlay(sourceID);
+		sourceManager->_addPlayingSource(this);
+		currentSound = sound;
 		return true;
 	}
 
@@ -52,6 +56,7 @@ void Source::stop()
 {
 	paused = false;
 	alSourceStop(sourceID);
+	sourceManager->_removePlayingSource(this);
 	empty();
 }
 
@@ -61,6 +66,7 @@ void Source::pause()
 	{
 		paused = true;
 		alSourcePause(sourceID);
+		sourceManager->_removePlayingSource(this);
 	}
 }
 
@@ -70,6 +76,7 @@ bool Source::resume()
 	{
 		paused = false;
 		alSourcePlay(sourceID);
+		sourceManager->_addPlayingSource(this);
 		return true;
 	}
 	else
@@ -83,6 +90,11 @@ bool Source::getLooping()
 	ALint ret;
 	alGetSourcei(sourceID, AL_LOOPING, &ret);
 	return ret == AL_TRUE;
+}
+
+void Source::_update()
+{
+	currentSound->update();
 }
 
 void Source::empty()
