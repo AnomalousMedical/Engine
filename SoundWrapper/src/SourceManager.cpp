@@ -98,6 +98,7 @@ void SourceManager::_update()
 	{
 		playingSources.remove(*iter);
 	}
+	removedSources.clear();
 
 	//Add any sources that need to be added.
 	vector<Source*>::iterator addedEnd = addedSources.end();
@@ -105,6 +106,7 @@ void SourceManager::_update()
 	{
 		playingSources.push_back(*iter);
 	}
+	addedSources.clear();
 }
 
 }
