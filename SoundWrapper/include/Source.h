@@ -43,6 +43,129 @@ public:
 
 	bool getLooping();
 
+//Properties
+
+	//alSourcef
+	void setPitch(float value)
+	{
+		alSourcef(sourceID, AL_PITCH, value);
+	}
+
+	float getPitch()
+	{
+		float returnVal;
+		alGetSourcef(sourceID, AL_PITCH, &returnVal);
+		return returnVal;
+	}
+
+	void setGain(float value)
+	{
+		alSourcef(sourceID, AL_GAIN, value);
+	}
+
+	float getGain()
+	{
+		float returnVal;
+		alGetSourcef(sourceID, AL_GAIN, &returnVal);
+		return returnVal;
+	}
+
+	void setMinGain(float value)
+	{
+		alSourcef(sourceID, AL_MIN_GAIN, value);
+	}
+
+	float getMinGain()
+	{
+		float returnVal;
+		alGetSourcef(sourceID, AL_MIN_GAIN, &returnVal);
+		return returnVal;
+	}
+
+	void setMaxGain(float value)
+	{
+		alSourcef(sourceID, AL_MAX_GAIN, value);
+	}
+
+	float getMaxGain()
+	{
+		float returnVal;
+		alGetSourcef(sourceID, AL_MAX_GAIN, &returnVal);
+		return returnVal;
+	}
+
+	void setMaxDistance(float value)
+	{
+		alSourcef(sourceID, AL_MAX_DISTANCE, value);
+	}
+
+	float getMaxDistance()
+	{
+		float returnVal;
+		alGetSourcef(sourceID, AL_MAX_DISTANCE, &returnVal);
+		return returnVal;
+	}
+
+	void setRolloffFactor(float value)
+	{
+		alSourcef(sourceID, AL_ROLLOFF_FACTOR, value);
+	}
+
+	float getRolloffFactor()
+	{
+		float returnVal;
+		alGetSourcef(sourceID, AL_ROLLOFF_FACTOR, &returnVal);
+		return returnVal;
+	}
+
+	void setConeOuterGain(float value)
+	{
+		alSourcef(sourceID, AL_CONE_OUTER_GAIN, value);
+	}
+
+	float getConeOuterGain()
+	{
+		float returnVal;
+		alGetSourcef(sourceID, AL_CONE_OUTER_GAIN, &returnVal);
+		return returnVal;
+	}
+
+	void setConeInnerAngle(float value)
+	{
+		alSourcef(sourceID, AL_CONE_INNER_ANGLE, value);
+	}
+
+	float getConeInnerAngle()
+	{
+		float returnVal;
+		alGetSourcef(sourceID, AL_CONE_INNER_ANGLE, &returnVal);
+		return returnVal;
+	}
+
+	void setConeOuterAngle(float value)
+	{
+		alSourcef(sourceID, AL_CONE_OUTER_ANGLE, value);
+	}
+
+	float getConeOuterAngle()
+	{
+		float returnVal;
+		alGetSourcef(sourceID, AL_CONE_OUTER_ANGLE, &returnVal);
+		return returnVal;
+	}
+
+	void setReferenceDistance(float value)
+	{
+		alSourcef(sourceID, AL_REFERENCE_DISTANCE, value);
+	}
+
+	float getReferenceDistance()
+	{
+		float returnVal;
+		alGetSourcef(sourceID, AL_REFERENCE_DISTANCE, &returnVal);
+		return returnVal;
+	}
+
 	void setFinishedCallback(SourceFinishedCallback callback)
 	{
 		finishedCallback = callback;

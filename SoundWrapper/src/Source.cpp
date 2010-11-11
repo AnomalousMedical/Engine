@@ -177,6 +177,106 @@ extern "C" _AnomalousExport bool Source_getLooping(Source* source)
 	return source->getLooping();
 }
 
+extern "C" _AnomalousExport void Source_setPitch(Source* source, float value)
+{
+	source->setPitch(value);
+}
+
+extern "C" _AnomalousExport float Source_getPitch(Source* source)
+{
+	return source->getPitch();
+}
+
+extern "C" _AnomalousExport void Source_setGain(Source* source, float value)
+{
+	source->setGain(value);
+}
+
+extern "C" _AnomalousExport float Source_getGain(Source* source)
+{
+	return source->getGain();
+}
+
+extern "C" _AnomalousExport void Source_setMinGain(Source* source, float value)
+{
+	source->setMinGain(value);
+}
+
+extern "C" _AnomalousExport float Source_getMinGain(Source* source)
+{
+	return source->getMinGain();
+}
+
+extern "C" _AnomalousExport void Source_setMaxGain(Source* source, float value)
+{
+	source->setMaxGain(value);
+}
+
+extern "C" _AnomalousExport float Source_getMaxGain(Source* source)
+{
+	return source->getMaxGain();
+}
+
+extern "C" _AnomalousExport void Source_setMaxDistance(Source* source, float value)
+{
+	source->setMaxDistance(value);
+}
+
+extern "C" _AnomalousExport float Source_getMaxDistance(Source* source)
+{
+	return source->getMaxDistance();
+}
+
+extern "C" _AnomalousExport void Source_setRolloffFactor(Source* source, float value)
+{
+	source->setRolloffFactor(value);
+}
+
+extern "C" _AnomalousExport float Source_getRolloffFactor(Source* source)
+{
+	return source->getRolloffFactor();
+}
+
+extern "C" _AnomalousExport void Source_setConeOuterGain(Source* source, float value)
+{
+	source->setConeOuterGain(value);
+}
+
+extern "C" _AnomalousExport float Source_getConeOuterGain(Source* source)
+{
+	return source->getConeOuterGain();
+}
+
+extern "C" _AnomalousExport void Source_setConeInnerAngle(Source* source, float value)
+{
+	source->setConeInnerAngle(value);
+}
+
+extern "C" _AnomalousExport float Source_getConeInnerAngle(Source* source)
+{
+	return source->getConeInnerAngle();
+}
+
+extern "C" _AnomalousExport void Source_setConeOuterAngle(Source* source, float value)
+{
+	source->setConeOuterAngle(value);
+}
+
+extern "C" _AnomalousExport float Source_getConeOuterAngle(Source* source)
+{
+	return source->getConeOuterAngle();
+}
+
+extern "C" _AnomalousExport void Source_setReferenceDistance(Source* source, float value)
+{
+	source->setReferenceDistance(value);
+}
+
+extern "C" _AnomalousExport float Source_getReferenceDistance(Source* source)
+{
+	return source->getReferenceDistance();
+}
+
 extern "C" _AnomalousExport void Source_setFinishedCallback(Source* source, SourceFinishedCallback callback)
 {
 	source->setFinishedCallback(callback);
