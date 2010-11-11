@@ -86,6 +86,11 @@ bool Source::resume()
 	}
 }
 
+void Source::rewind()
+{
+	alSourceRewind(sourceID);
+}
+
 bool Source::getLooping()
 {
 	ALint ret;
@@ -160,6 +165,11 @@ extern "C" _AnomalousExport void Source_pause(Source* source)
 extern "C" _AnomalousExport bool Source_resume(Source* source)
 {
 	return source->resume();
+}
+
+extern "C" _AnomalousExport void Source_rewind(Source* source)
+{
+	source->rewind();
 }
 
 extern "C" _AnomalousExport bool Source_getLooping(Source* source)

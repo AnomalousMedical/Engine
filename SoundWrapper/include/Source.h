@@ -39,6 +39,8 @@ public:
 
 	bool resume();
 
+	void rewind();
+
 	bool getLooping();
 
 	void setFinishedCallback(SourceFinishedCallback callback)

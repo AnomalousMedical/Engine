@@ -41,6 +41,11 @@ namespace SoundPlugin
             return Source_resume(Pointer);
         }
 
+        public void rewind()
+        {
+            Source_rewind(Pointer);
+        }
+
         public bool Playing
         {
             get
@@ -91,6 +96,9 @@ namespace SoundPlugin
         [DllImport("SoundWrapper")]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Source_getLooping(IntPtr source);
+
+        [DllImport("SoundWrapper")]
+        private static extern void Source_rewind(IntPtr source);
 
         [DllImport("SoundWrapper")]
         private static extern void Source_setFinishedCallback(IntPtr source, SourceFinishedCallback callback);
