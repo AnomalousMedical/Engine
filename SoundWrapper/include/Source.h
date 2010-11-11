@@ -44,6 +44,8 @@ public:
 
 protected:
 	void empty();
+
+	void finished();
 };
 
 }

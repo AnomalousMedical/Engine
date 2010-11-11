@@ -56,8 +56,8 @@ void Source::stop()
 {
 	paused = false;
 	alSourceStop(sourceID);
-	sourceManager->_removePlayingSource(this);
 	empty();
+	finished();
 }
 
 void Source::pause()
@@ -95,6 +95,10 @@ bool Source::getLooping()
 void Source::_update()
 {
 	currentSound->update();
+	if(!playing())
+	{
+		finished();
+	}
 }
 
 void Source::empty()
@@ -113,6 +117,13 @@ void Source::empty()
         alSourceUnqueueBuffers(sourceID, 1, &buffer);
         checkOpenAL();
     }
+}
+
+void Source::finished()
+{
+	currentSound = NULL;
+	sourceManager->_removePlayingSource(this);
+	sourceManager->_addSourceToPool(this);
 }
 
 }
