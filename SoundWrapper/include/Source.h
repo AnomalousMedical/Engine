@@ -5,6 +5,8 @@
 namespace SoundWrapper
 {
 
+typedef void (*SourceFinishedCallback)(Source* source);
+
 class SourceManager;
 class Sound;
 
@@ -15,6 +17,7 @@ private:
 	bool paused;
 	SourceManager* sourceManager;
 	Sound* currentSound;
+	SourceFinishedCallback finishedCallback;
 
 public:
 	Source(ALuint sourceID, SourceManager* sourceManager);
@@ -37,6 +40,11 @@ public:
 	bool resume();
 
 	bool getLooping();
+
+	void setFinishedCallback(SourceFinishedCallback callback)
+	{
+		finishedCallback = callback;
+	}
 
 	//Internal do not create wrapper
 	//Call only from SourceManager. Will cause underlying sound to update and checks to see if the sound is finished.

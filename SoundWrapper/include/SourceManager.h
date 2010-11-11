@@ -16,6 +16,7 @@ private:
 	vector<Source*> sources;
 	list<Source*> playingSources;
 	vector<Source*> removedSources; //Used when calling the update function so the iterator does not break.
+	vector<Source*> addedSources; //Used when calling the update function so the iterator does not break.
 	bool inUpdateIterLoop;
 
 public:

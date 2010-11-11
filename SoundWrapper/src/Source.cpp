@@ -8,7 +8,8 @@ namespace SoundWrapper
 Source::Source(ALuint sourceID, SourceManager* sourceManager)
 :sourceID(sourceID),
 paused(false),
-sourceManager(sourceManager)
+sourceManager(sourceManager),
+finishedCallback(NULL)
 {
 	//Set default source info.
     alSource3f(sourceID, AL_POSITION,        0.0, 0.0, 0.0);
@@ -121,6 +122,10 @@ void Source::empty()
 
 void Source::finished()
 {
+	if(finishedCallback != NULL)
+	{
+		finishedCallback(this);
+	}
 	currentSound = NULL;
 	sourceManager->_removePlayingSource(this);
 	sourceManager->_addSourceToPool(this);
@@ -160,4 +165,9 @@ extern "C" _AnomalousExport bool Source_resume(Source* source)
 extern "C" _AnomalousExport bool Source_getLooping(Source* source)
 {
 	return source->getLooping();
+}
+
+extern "C" _AnomalousExport void Source_setFinishedCallback(Source* source, SourceFinishedCallback callback)
+{
+	source->setFinishedCallback(callback);
 }

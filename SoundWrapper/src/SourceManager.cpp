@@ -23,6 +23,7 @@ SourceManager::SourceManager(void)
 			break;
 		}
 	}
+	log << "Created " << sources.size() << " sources." << info;
 }
 
 SourceManager::~SourceManager(void)
@@ -40,7 +41,7 @@ Source* SourceManager::getPooledSource()
 	{
 		Source* returnVal = sources.back();
 		sources.pop_back();
-		//log << "Source checked out " << returnVal << debug;
+		log << "Source checked out " << returnVal << debug;
 		return returnVal;
 	}
 	else
@@ -51,13 +52,20 @@ Source* SourceManager::getPooledSource()
 
 void SourceManager::_addPlayingSource(Source* source)
 {
-	//log << "Playing source added " << source << debug;
-	playingSources.push_back(source);
+	log << "Playing source added " << source << debug;
+	if(inUpdateIterLoop)
+	{
+		addedSources.push_back(source);
+	}
+	else
+	{
+		playingSources.push_back(source);
+	}
 }
 
 void SourceManager::_removePlayingSource(Source* source)
 {
-	//log << "Playing source removed " << source << debug;
+	log << "Playing source removed " << source << debug;
 	if(inUpdateIterLoop)
 	{
 		removedSources.push_back(source);
@@ -71,12 +79,11 @@ void SourceManager::_removePlayingSource(Source* source)
 void SourceManager::_addSourceToPool(Source* source)
 {
 	sources.push_back(source);
-	//log << "Source returned " << source << debug;
+	log << "Source returned " << source << debug;
 }
 
 void SourceManager::_update()
 {
-	//log << "Update" << debug;
 	inUpdateIterLoop = true;
 	list<Source*>::iterator sourceEnd = playingSources.end();
 	for(list<Source*>::iterator iter = playingSources.begin(); iter != sourceEnd; ++iter)
@@ -85,10 +92,18 @@ void SourceManager::_update()
 	}
 	inUpdateIterLoop = false;
 	
+	//Remove any sources that need to be removed.
 	vector<Source*>::iterator removedEnd = removedSources.end();
 	for(vector<Source*>::iterator iter = removedSources.begin(); iter != removedEnd; ++iter)
 	{
 		playingSources.remove(*iter);
+	}
+
+	//Add any sources that need to be added.
+	vector<Source*>::iterator addedEnd = addedSources.end();
+	for(vector<Source*>::iterator iter = addedSources.begin(); iter != addedEnd; ++iter)
+	{
+		playingSources.push_back(*iter);
 	}
 }
 

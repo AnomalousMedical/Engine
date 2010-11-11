@@ -7,12 +7,18 @@ using System.Runtime.InteropServices;
 
 namespace SoundPlugin
 {
+    public delegate void SourceFinishedDelegate(Source source);
+
     public class Source : SoundPluginObject
     {
+        private SourceFinishedCallback finishedCB;
+        public event SourceFinishedDelegate PlaybackFinished;
+
         internal Source(IntPtr source)
             : base(source)
         {
-
+            finishedCB = finished;
+            Source_setFinishedCallback(Pointer, finishedCB);
         }
 
         public bool playSound(Sound sound)
@@ -51,7 +57,18 @@ namespace SoundPlugin
             }
         }
 
+        private void finished(IntPtr source)
+        {
+            if (PlaybackFinished != null)
+            {
+                PlaybackFinished.Invoke(this);
+            }
+        }
+
         #region PInvoke
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        delegate void SourceFinishedCallback(IntPtr source);
 
         [DllImport("SoundWrapper")]
         [return: MarshalAs(UnmanagedType.I1)]
@@ -74,6 +91,9 @@ namespace SoundPlugin
         [DllImport("SoundWrapper")]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Source_getLooping(IntPtr source);
+
+        [DllImport("SoundWrapper")]
+        private static extern void Source_setFinishedCallback(IntPtr source, SourceFinishedCallback callback);
 
         #endregion
     }

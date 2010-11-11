@@ -72,6 +72,8 @@ bool StreamingSound::enqueueSource(Source* source)
 {
 	currentSource = source;
 
+	audioCodec->seekToStart();
+
 	for(int i = 0; i < numBuffers; ++i)
 	{
 		if(!stream(bufferIDs[i]))
