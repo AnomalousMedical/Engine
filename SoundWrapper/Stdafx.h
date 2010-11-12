@@ -42,6 +42,14 @@ public:
 	{
 
 	}
+
+	Vector3(const Vector3& rValue)
+		:x(rValue.x),
+		y(rValue.y),
+		z(rValue.z)
+	{
+
+	}
 };
 
 extern NativeLog log;

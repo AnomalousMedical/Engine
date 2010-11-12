@@ -205,6 +205,14 @@
 				Name="OpenAL"
 				>
 				<File
+					RelativePath=".\src\Listener.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\Listener.h"
+					>
+				</File>
+				<File
 					RelativePath=".\src\OpenALManager.cpp"
 					>
 				</File>

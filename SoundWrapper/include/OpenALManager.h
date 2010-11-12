@@ -8,6 +8,7 @@ class Sound;
 class Stream;
 class AudioCodec;
 class Source;
+class Listener;
 
 class OpenALManager
 {
@@ -16,6 +17,7 @@ private:
 	ALCdevice* device;
 	bool ready;
 	SourceManager* sourceManager;
+	Listener* listener;
 
 public:
 	OpenALManager(void);
@@ -38,6 +40,11 @@ public:
 	Source* getSource();
 
 	void update();
+
+	Listener* getListener()
+	{
+		return listener;
+	}
 
 private:
 	AudioCodec* getCodecForStream(Stream* stream);

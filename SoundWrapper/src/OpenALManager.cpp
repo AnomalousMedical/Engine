@@ -3,6 +3,7 @@
 #include "SourceManager.h"
 #include "MemorySound.h"
 #include "StreamingSound.h"
+#include "Listener.h"
 
 //Codecs
 #include "OggCodec.h"
@@ -11,7 +12,8 @@ namespace SoundWrapper
 {
 
 OpenALManager::OpenALManager(void)
-:ready(true)
+:ready(true),
+listener(new Listener())
 {
 	log << "Starting OpenAL" << info;
 
@@ -46,6 +48,8 @@ OpenALManager::~OpenALManager(void)
 	alcDestroyContext(context);
 	//Close device
 	alcCloseDevice(device);
+
+	delete listener;
 }
 
 Sound* OpenALManager::createMemorySound(Stream* stream)
@@ -128,4 +132,9 @@ extern "C" _AnomalousExport Source* OpenALManager_getSource(OpenALManager* openA
 extern "C" _AnomalousExport void OpenALManager_update(OpenALManager* openALManager)
 {
 	openALManager->update();	
+}
+
+extern "C" _AnomalousExport Listener* OpenALManager_getListener(OpenALManager* openALManager)
+{
+	return openALManager->getListener();
 }

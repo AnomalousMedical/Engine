@@ -11,11 +11,12 @@ namespace SoundPlugin
     {
         private SourceManager sourceManager = new SourceManager();
         private ManagedLogListener managedLogListener = new ManagedLogListener();
+        private Listener listener;
 
         public OpenALManager()
             :base(OpenALManager_create())
         {
-            
+            listener = new Listener(OpenALManager_getListener(Pointer));
         }
 
         public void Dispose()
@@ -24,6 +25,11 @@ namespace SoundPlugin
             OpenALManager_destroy(Pointer);
             delete();
             managedLogListener.Dispose();
+        }
+
+        public Listener getListener()
+        {
+            return listener;
         }
 
         public Sound createMemorySound(Stream stream)
@@ -85,6 +91,9 @@ namespace SoundPlugin
 
         [DllImport("SoundWrapper")]
         private static extern void OpenALManager_update(IntPtr openALManager);
+
+        [DllImport("SoundWrapper")]
+        private static extern IntPtr OpenALManager_getListener(IntPtr openALManager);
 
         #endregion
     }
