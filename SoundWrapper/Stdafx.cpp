@@ -15,7 +15,7 @@ void checkOpenAL()
  
     if(error != AL_NO_ERROR)
 	{
-        
+		log << "OpenAL error code gotten " << error << SoundWrapper::error;
 	}
 }
 
