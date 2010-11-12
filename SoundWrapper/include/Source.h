@@ -166,6 +166,56 @@ public:
 		return returnVal;
 	}
 
+	//alSourcefv
+	void setPosition(const Vector3& value)
+	{
+		alSourcefv(sourceID, AL_POSITION, (ALfloat*)&value);
+	}
+
+	Vector3 getPosition()
+	{
+		Vector3 returnVal;
+		alGetSourcefv(sourceID, AL_POSITION, (ALfloat*)&returnVal);
+		return returnVal;
+	}
+
+	void setVelocity(const Vector3& value)
+	{
+		alSourcefv(sourceID, AL_VELOCITY, (ALfloat*)&value);
+	}
+
+	Vector3 getVelocity()
+	{
+		Vector3 returnVal;
+		alGetSourcefv(sourceID, AL_VELOCITY, (ALfloat*)&returnVal);
+		return returnVal;
+	}
+
+	void setDirection(const Vector3& value)
+	{
+		alSourcefv(sourceID, AL_DIRECTION, (ALfloat*)&value);
+	}
+
+	Vector3 getDirection()
+	{
+		Vector3 returnVal;
+		alGetSourcefv(sourceID, AL_DIRECTION, (ALfloat*)&returnVal);
+		return returnVal;
+	}
+
+	//alSourcei
+	void setSourceRelative(bool value)
+	{
+		alSourcei(sourceID, AL_SOURCE_RELATIVE, value);
+	}
+
+	bool getSourceRelative()
+	{
+		int returnVal;
+		alGetSourcei(sourceID, AL_SOURCE_RELATIVE, &returnVal);
+		return returnVal;
+	}
+
 	void setFinishedCallback(SourceFinishedCallback callback)
 	{
 		finishedCallback = callback;

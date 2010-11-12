@@ -16,7 +16,6 @@ finishedCallback(NULL)
     alSource3f(sourceID, AL_VELOCITY,        0.0, 0.0, 0.0);
     alSource3f(sourceID, AL_DIRECTION,       0.0, 0.0, 0.0);
     alSourcef (sourceID, AL_ROLLOFF_FACTOR,  0.0          );
-    alSourcei (sourceID, AL_SOURCE_RELATIVE, AL_TRUE      );
 }
 
 Source::~Source(void)
@@ -275,6 +274,46 @@ extern "C" _AnomalousExport void Source_setReferenceDistance(Source* source, flo
 extern "C" _AnomalousExport float Source_getReferenceDistance(Source* source)
 {
 	return source->getReferenceDistance();
+}
+
+extern "C" _AnomalousExport void Source_setPosition(Source* source, Vector3 value)
+{
+	source->setPosition(value);
+}
+
+extern "C" _AnomalousExport Vector3 Source_getPosition(Source* source)
+{
+	return source->getPosition();
+}
+
+extern "C" _AnomalousExport void Source_setVelocity(Source* source, Vector3 value)
+{
+	source->setVelocity(value);
+}
+
+extern "C" _AnomalousExport Vector3 Source_getVelocity(Source* source)
+{
+	return source->getVelocity();
+}
+
+extern "C" _AnomalousExport void Source_setDirection(Source* source, Vector3 value)
+{
+	source->setDirection(value);
+}
+
+extern "C" _AnomalousExport Vector3 Source_getDirection(Source* source)
+{
+	return source->getDirection();
+}
+
+extern "C" _AnomalousExport void Source_setSourceRelative(Source* source, bool value)
+{
+	source->setSourceRelative(value);
+}
+
+extern "C" _AnomalousExport bool Source_getSourceRelative(Source* source)
+{
+	return source->getSourceRelative();
 }
 
 extern "C" _AnomalousExport void Source_setFinishedCallback(Source* source, SourceFinishedCallback callback)

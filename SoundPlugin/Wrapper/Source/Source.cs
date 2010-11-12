@@ -62,6 +62,10 @@ namespace SoundPlugin
             }
         }
 
+        /// <summary>
+        /// pitch multiplier
+        /// always positive
+        /// </summary>
         public float Pitch
         {
             get
@@ -74,6 +78,10 @@ namespace SoundPlugin
             }
         }
 
+        /// <summary>
+        /// source gain
+        /// value should be positive
+        /// </summary>
         public float Gain
         {
             get
@@ -86,6 +94,9 @@ namespace SoundPlugin
             }
         }
 
+        /// <summary>
+        /// the minimum gain for this source
+        /// </summary>
         public float MinGain
         {
             get
@@ -98,6 +109,9 @@ namespace SoundPlugin
             }
         }
 
+        /// <summary>
+        /// the maximum gain for this source
+        /// </summary>
         public float MaxGain
         {
             get
@@ -110,6 +124,10 @@ namespace SoundPlugin
             }
         }
 
+        /// <summary>
+        /// used with the Inverse Clamped Distance Model to set the distance
+        /// where there will no longer be any attenuation of the source.
+        /// </summary>
         public float MaxDistance
         {
             get
@@ -122,6 +140,10 @@ namespace SoundPlugin
             }
         }
 
+        /// <summary>
+        /// the rolloff rate for the source
+        /// default is 1.0
+        /// </summary>
         public float RolloffFactor
         {
             get
@@ -134,6 +156,9 @@ namespace SoundPlugin
             }
         }
 
+        /// <summary>
+        /// the gain when outside the oriented cone
+        /// </summary>
         public float ConeOuterGain
         {
             get
@@ -146,6 +171,9 @@ namespace SoundPlugin
             }
         }
 
+        /// <summary>
+        /// the gain when inside the oriented cone
+        /// </summary>
         public float ConeInnerAngle
         {
             get
@@ -158,6 +186,10 @@ namespace SoundPlugin
             }
         }
 
+        /// <summary>
+        /// outer angle of the sound cone, in degrees
+        /// default is 360
+        /// </summary>
         public float ConeOuterAngle
         {
             get
@@ -170,6 +202,11 @@ namespace SoundPlugin
             }
         }
 
+        /// <summary>
+        /// the distance under which the volume for the source would normally
+        /// drop by half (before being influenced by rolloff factor or
+        /// MaxDistance)
+        /// </summary>
         public float ReferenceDistance
         {
             get
@@ -182,6 +219,71 @@ namespace SoundPlugin
             }
         }
 
+        /// <summary>
+        /// The position of the source.
+        /// </summary>
+        public Vector3 Position
+        {
+            get
+            {
+                return Source_getPosition(Pointer);
+            }
+            set
+            {
+                Source_setPosition(Pointer, value);
+            }
+        }
+
+        /// <summary>
+        /// The velocity of the source.
+        /// </summary>
+        public Vector3 Velocity
+        {
+            get
+            {
+                return Source_getVelocity(Pointer);
+            }
+            set
+            {
+                Source_setVelocity(Pointer, value);
+            }
+        }
+
+        /// <summary>
+        /// The direction of the source.
+        /// </summary>
+        public Vector3 Direction
+        {
+            get
+            {
+                return Source_getDirection(Pointer);
+            }
+            set
+            {
+                Source_setDirection(Pointer, value);
+            }
+        }
+
+        /// <summary>
+        /// determines if the positions are relative to the listener
+        /// default is AL_FALSE
+        /// </summary>
+        public bool SourceRelative
+        {
+            get
+            {
+                return Source_getSourceRelative(Pointer);
+            }
+            set
+            {
+                Source_setSourceRelative(Pointer, value);
+            }
+        }
+
+        /// <summary>
+        /// Private callback for when the Source is finished playing and will be returned to the pool.
+        /// </summary>
+        /// <param name="source">The source that triggered the callback.</param>
         private void finished(IntPtr source)
         {
             if (PlaybackFinished != null)
@@ -282,6 +384,31 @@ namespace SoundPlugin
 
         [DllImport("SoundWrapper")]
         private static extern float Source_getReferenceDistance(IntPtr source);
+
+        [DllImport("SoundWrapper")]
+        private static extern void Source_setPosition(IntPtr source, Vector3 value);
+
+        [DllImport("SoundWrapper")]
+        private static extern Vector3 Source_getPosition(IntPtr source);
+
+        [DllImport("SoundWrapper")]
+        private static extern void Source_setVelocity(IntPtr source, Vector3 value);
+
+        [DllImport("SoundWrapper")]
+        private static extern Vector3 Source_getVelocity(IntPtr source);
+
+        [DllImport("SoundWrapper")]
+        private static extern void Source_setDirection(IntPtr source, Vector3 value);
+
+        [DllImport("SoundWrapper")]
+        private static extern Vector3 Source_getDirection(IntPtr source);
+
+        [DllImport("SoundWrapper")]
+        private static extern void Source_setSourceRelative(IntPtr source, bool value);
+
+        [DllImport("SoundWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool Source_getSourceRelative(IntPtr source);
 
         #endregion
     }
