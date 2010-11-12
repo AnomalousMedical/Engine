@@ -16,12 +16,31 @@ OpenALManager::OpenALManager(void)
 listener(new Listener())
 {
 	log << "Starting OpenAL" << info;
-
+	
 	device = alcOpenDevice(NULL);
 	if (device == NULL)
 	{
+		log << "Error creatig OpenAL Device." << error;
 		ready = false;
 		return;
+	}
+
+	const ALchar* vendor = alGetString(AL_VENDOR);
+	if(vendor != NULL)
+	{
+		log << " Vendor: " << vendor << info;
+	}
+
+	const ALchar* version = alGetString(AL_VERSION);
+	if(version != NULL)
+	{
+		log << " Version: " << version << info;
+	}
+
+	const ALchar* renderer = alGetString(AL_RENDERER);
+	if(renderer != NULL)
+	{
+		log << " Renderer: " << renderer << info;
 	}
 
 	//Create context(s)
