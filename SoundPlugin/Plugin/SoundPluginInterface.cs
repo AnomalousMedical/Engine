@@ -12,16 +12,27 @@ namespace SoundPlugin
         private OpenALManager openALManager = null;
         private SoundUpdateListener soundUpdate;
         private UpdateTimer mainTimer;
+        private SoundManager soundManager;
+
+        public static SoundPluginInterface Instance { get; private set; }
 
         public SoundPluginInterface()
         {
-
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                throw new Exception("Cannot create the SoundPlugin more than once");
+            }
         }
 
         public void Dispose()
         {
             if (openALManager != null)
             {
+                mainTimer.removeFixedUpdateListener(soundUpdate);
                 openALManager.Dispose();
                 openALManager = null;
             }
@@ -31,6 +42,7 @@ namespace SoundPlugin
         {
             openALManager = new OpenALManager();
             soundUpdate = new SoundUpdateListener(openALManager);
+            soundManager = new SoundManager(openALManager);
         }
 
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
@@ -52,6 +64,14 @@ namespace SoundPlugin
         public void createDebugCommands(List<CommandManager> commands)
         {
             
+        }
+
+        public SoundManager SoundManager
+        {
+            get
+            {
+                return soundManager;
+            }
         }
     }
 }
