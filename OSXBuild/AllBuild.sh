@@ -2,6 +2,7 @@
 xcodebuild -project Engine/Engine.xcodeproj -alltargets
 xcodebuild -project MyGUI/MyGUI.xcodeproj -alltargets
 xcodebuild -project Zip/Zip.xcodeproj -alltargets
+xcodebuild -project SoundWrapper/SoundWrapper.xcodeproj -alltargets
 
 mkdir Release
 cp Engine/build/Release/libBulletWrapper.dylib Release/libBulletWrapper.dylib
@@ -11,3 +12,5 @@ cp Engine/build/Release/libPCPlatform.dylib Release/libPCPlatform.dylib
 cp MyGUI/build/Release/libMyGUIWrapper.dylib Release/libMyGUIWrapper.dylib
 
 cp Zip/build/Release/libZip.dylib Release/libZip.dylib
+
+cp SoundWrapper/build/Release/libSoundWrapper.dylib Release/libSoundWrapper.dylib
