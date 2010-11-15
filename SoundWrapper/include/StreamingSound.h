@@ -37,6 +37,8 @@ public:
 
 	virtual bool stream(ALuint buffer);
 
+	virtual double getDuration();
+
 private:
 	void readBuffers(char* data, int& size);
 };

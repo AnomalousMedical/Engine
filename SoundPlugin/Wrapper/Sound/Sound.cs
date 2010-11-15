@@ -26,6 +26,14 @@ namespace SoundPlugin
             }
         }
 
+        public double Duration
+        {
+            get
+            {
+                return Sound_getDuration(Pointer);
+            }
+        }
+
         #region PInvoke
 
         [DllImport("SoundWrapper")]
@@ -34,6 +42,9 @@ namespace SoundPlugin
         [DllImport("SoundWrapper")]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Sound_getRepeat(IntPtr sound);
+
+        [DllImport("SoundWrapper")]
+        private static extern double Sound_getDuration(IntPtr sound);
 
         #endregion
     }

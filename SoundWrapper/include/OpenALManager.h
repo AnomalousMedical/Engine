@@ -29,11 +29,21 @@ public:
 		return ready;
 	}
 
+	AudioCodec* createAudioCodec(Stream* stream);
+
+	void destroyAudioCodec(AudioCodec* codec);
+
 	Sound* createMemorySound(Stream* stream);
+
+	Sound* createMemorySound(AudioCodec* codec);
 
 	Sound* createStreamingSound(Stream* stream);
 
+	Sound* createStreamingSound(AudioCodec* codec);
+
 	Sound* createStreamingSound(Stream* stream, int bufferSize, int numBuffers);
+
+	Sound* createStreamingSound(AudioCodec* codec, int bufferSize, int numBuffers);
 
 	void destroySound(Sound* sound);
 

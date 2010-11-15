@@ -35,6 +35,8 @@ public:
 
 	virtual void seekToStart();
 
+	virtual double getDuration();
+
 private:
 	static size_t read_cb(void *ptr, size_t size, size_t nmemb, void *datasource);
 

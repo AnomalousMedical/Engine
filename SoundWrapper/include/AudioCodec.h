@@ -19,6 +19,8 @@ public:
 	virtual bool eof() = 0;
 
 	virtual void seekToStart() = 0;
+
+	virtual double getDuration() = 0;
 };
 
 }

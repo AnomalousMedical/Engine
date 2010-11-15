@@ -35,6 +35,7 @@ MemorySound::MemorySound(AudioCodec* audioCodec)
 	}
 
 	freq = audioCodec->getSamplingFrequency();
+	duration = audioCodec->getDuration();
 
 	do 
 	{

@@ -11,6 +11,7 @@ class MemorySound : public Sound
 {
 private:
     ALuint bufferID;                        //The OpenAL sound buffer ID
+	double duration;
 
 public:
 	MemorySound(AudioCodec* audioCodec);
@@ -29,6 +30,11 @@ public:
 	virtual bool update()
 	{
 		return true;
+	}
+
+	virtual double getDuration()
+	{
+		return duration;
 	}
 };
 

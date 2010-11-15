@@ -31,6 +31,8 @@ public:
 	virtual bool enqueueSource(Source* source) = 0;
 
 	virtual bool update() = 0;
+
+	virtual double getDuration() = 0;
 };
 
 }

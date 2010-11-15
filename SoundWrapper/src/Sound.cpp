@@ -29,3 +29,8 @@ extern "C" _AnomalousExport bool Sound_getRepeat(Sound* sound)
 	return sound->getRepeat();
 }
 
+extern "C" _AnomalousExport double Sound_getDuration(Sound* sound)
+{
+	return sound->getDuration();
+}
+

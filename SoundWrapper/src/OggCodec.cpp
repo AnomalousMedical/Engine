@@ -83,6 +83,11 @@ long OggCodec::tell_cb(void *datasource)
 	return ((Stream*)datasource)->tell();
 }
 
+double OggCodec::getDuration()
+{
+	return ov_time_total(&oggStream, -1);
+}
+
 string OggCodec::errorString(int code)
 {
     switch(code)

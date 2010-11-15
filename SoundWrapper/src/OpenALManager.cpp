@@ -71,9 +71,24 @@ OpenALManager::~OpenALManager(void)
 	delete listener;
 }
 
+AudioCodec* OpenALManager::createAudioCodec(Stream* stream)
+{
+	return getCodecForStream(stream);
+}
+
+void OpenALManager::destroyAudioCodec(AudioCodec* codec)
+{
+	delete codec;
+}
+
 Sound* OpenALManager::createMemorySound(Stream* stream)
 {
 	return new MemorySound(getCodecForStream(stream));
+}
+
+Sound* OpenALManager::createMemorySound(AudioCodec* codec)
+{
+	return new MemorySound(codec);
 }
 
 Sound* OpenALManager::createStreamingSound(Stream* stream)
@@ -81,9 +96,19 @@ Sound* OpenALManager::createStreamingSound(Stream* stream)
 	return new StreamingSound(getCodecForStream(stream));
 }
 
+Sound* OpenALManager::createStreamingSound(AudioCodec* codec)
+{
+	return new StreamingSound(codec);
+}
+
 Sound* OpenALManager::createStreamingSound(Stream* stream, int bufferSize, int numBuffers)
 {
 	return new StreamingSound(getCodecForStream(stream), bufferSize, numBuffers);
+}
+
+Sound* OpenALManager::createStreamingSound(AudioCodec* codec, int bufferSize, int numBuffers)
+{
+	return new StreamingSound(codec, bufferSize, numBuffers);
 }
 
 void OpenALManager::destroySound(Sound* sound)
@@ -123,9 +148,24 @@ extern "C" _AnomalousExport void OpenALManager_destroy(OpenALManager* openALMana
 	delete openALManager;
 }
 
+extern "C" _AnomalousExport AudioCodec* OpenALManager_createAudioCodec(OpenALManager* openALManager, Stream* stream)
+{
+	return openALManager->createAudioCodec(stream);
+}
+
+extern "C" _AnomalousExport void OpenALManager_destroyAudioCodec(OpenALManager* openALManager, AudioCodec* codec)
+{
+	openALManager->destroyAudioCodec(codec);
+}
+
 extern "C" _AnomalousExport Sound* OpenALManager_createMemorySound(OpenALManager* openALManager, Stream* stream)
 {
 	return openALManager->createMemorySound(stream);
+}
+
+extern "C" _AnomalousExport Sound* OpenALManager_createMemorySoundCodec(OpenALManager* openALManager, AudioCodec* codec)
+{
+	return openALManager->createMemorySound(codec);
 }
 
 extern "C" _AnomalousExport Sound* OpenALManager_createStreamingSound(OpenALManager* openALManager, Stream* stream)
@@ -133,9 +173,19 @@ extern "C" _AnomalousExport Sound* OpenALManager_createStreamingSound(OpenALMana
 	return openALManager->createStreamingSound(stream);
 }
 
+extern "C" _AnomalousExport Sound* OpenALManager_createStreamingSoundCodec(OpenALManager* openALManager, AudioCodec* codec)
+{
+	return openALManager->createStreamingSound(codec);
+}
+
 extern "C" _AnomalousExport Sound* OpenALManager_createStreamingSound2(OpenALManager* openALManager, Stream* stream, int bufferSize, int numBuffers)
 {
 	return openALManager->createStreamingSound(stream, bufferSize, numBuffers);
+}
+
+extern "C" _AnomalousExport Sound* OpenALManager_createStreamingSound2Codec(OpenALManager* openALManager, AudioCodec* codec, int bufferSize, int numBuffers)
+{
+	return openALManager->createStreamingSound(codec, bufferSize, numBuffers);
 }
 
 extern "C" _AnomalousExport void OpenALManager_destroySound(OpenALManager* openALManager, Sound* sound)

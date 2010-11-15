@@ -54,6 +54,8 @@
     <Compile Include="Wrapper\OpenAL\Listener.cs" />
     <Compile Include="Wrapper\OpenAL\OpenALManager.cs" />
     <Compile Include="Wrapper\SoundPluginObject.cs" />
+    <Compile Include="Wrapper\Sound\AudioCodec.cs" />
+    <Compile Include="Wrapper\Sound\AudioCodecManager.cs" />
     <Compile Include="Wrapper\Sound\Sound.cs" />
     <Compile Include="Wrapper\Source\Source.cs" />
     <Compile Include="Wrapper\Source\SourceManager.cs" />

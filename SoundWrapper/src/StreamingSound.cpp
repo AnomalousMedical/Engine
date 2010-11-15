@@ -162,4 +162,9 @@ bool StreamingSound::stream(ALuint buffer)
     return true;
 }
 
+double StreamingSound::getDuration()
+{
+	return audioCodec->getDuration();
+}
+
 }
