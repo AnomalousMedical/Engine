@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "..\include\NativeLog.h"
+#include "NativeLog.h"
 
 namespace SoundWrapper
 {

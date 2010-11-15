@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "..\include\Listener.h"
+#include "Listener.h"
 
 namespace SoundWrapper
 {
