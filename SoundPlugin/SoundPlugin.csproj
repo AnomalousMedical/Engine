@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Plugin\SoundPluginInterface.cs" />
+    <Compile Include="Plugin\SoundUpdateListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wrapper\Log\ManagedLogListener.cs" />
     <Compile Include="Wrapper\OpenAL\Listener.cs" />
