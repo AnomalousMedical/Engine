@@ -35,6 +35,14 @@ namespace SoundPlugin
             return null;
         }
 
+        public double getDuration(Stream soundStream)
+        {
+            AudioCodec codec = openALManager.createAudioCodec(soundStream);
+            double duration = codec.Duration;
+            openALManager.destroyAudioCodec(codec);
+            return duration;
+        }
+
         void source_PlaybackFinished(Source source)
         {
             source.PlaybackFinished -= source_PlaybackFinished;
