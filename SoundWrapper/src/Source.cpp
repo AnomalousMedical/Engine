@@ -54,10 +54,16 @@ bool Source::playing()
 
 void Source::stop()
 {
+	if(playing())
+	{
+		alSourceStop(sourceID);
+		finished();
+	}
+	else if(paused)
+	{
+		finished();
+	}
 	paused = false;
-	alSourceStop(sourceID);
-	empty();
-	finished();
 }
 
 void Source::pause()
@@ -108,9 +114,10 @@ void Source::_update()
 
 void Source::empty()
 {
-    int queued;
+    int queued = 0;
     
     alGetSourcei(sourceID, AL_BUFFERS_QUEUED, &queued);
+	checkOpenAL();
 	if(queued < 0)
 	{
 		queued = 0;
@@ -126,6 +133,8 @@ void Source::empty()
 
 void Source::finished()
 {
+	empty();
+
 	if(finishedCallback != NULL)
 	{
 		finishedCallback(this);

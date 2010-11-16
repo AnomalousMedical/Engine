@@ -9,13 +9,38 @@ namespace SoundWrapper
 
 NativeLog log("SoundWrapper");
 
-void checkOpenAL()
+void checkOpenAL(const char* hint)
 {
     int error = alGetError();
  
     if(error != AL_NO_ERROR)
 	{
-		log << "OpenAL error code gotten " << error << SoundWrapper::error;
+		switch(error)
+		{
+			case AL_INVALID_NAME:
+				log << "OpenAL invalid name gotten. Code: " << error;
+				break;
+			case AL_INVALID_ENUM:
+				log << "OpenAL invalid enum gotten. Code: " << error;
+				break;
+			case AL_INVALID_VALUE:
+				log << "OpenAL invalid value gotten. Code: " << error;
+				break;
+			case AL_INVALID_OPERATION:
+				log << "OpenAL invalid operation gotten. Code: " << error;
+				break;
+			case AL_OUT_OF_MEMORY:
+				log << "OpenAL out of memory. Code: " << error;
+				break;
+			default:
+				log << "Unknown OpenAL error code " << error;
+				break;
+		}
+		if(hint != NULL)
+		{
+			log << " " << hint;
+		}
+		log << SoundWrapper::error;
 	}
 }
 
