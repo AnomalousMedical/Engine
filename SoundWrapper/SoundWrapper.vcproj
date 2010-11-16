@@ -273,7 +273,7 @@
 				Name="Codec"
 				>
 				<File
-					RelativePath=".\AudioCodec.cpp"
+					RelativePath=".\src\AudioCodec.cpp"
 					>
 				</File>
 				<File
