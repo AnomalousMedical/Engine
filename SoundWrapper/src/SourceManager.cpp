@@ -41,7 +41,6 @@ Source* SourceManager::getPooledSource()
 	{
 		Source* returnVal = sources.back();
 		sources.pop_back();
-		log << "Source checked out " << returnVal << debug;
 		return returnVal;
 	}
 	else
@@ -52,7 +51,6 @@ Source* SourceManager::getPooledSource()
 
 void SourceManager::_addPlayingSource(Source* source)
 {
-	log << "Playing source added " << source << debug;
 	if(inUpdateIterLoop)
 	{
 		addedSources.push_back(source);
@@ -65,7 +63,6 @@ void SourceManager::_addPlayingSource(Source* source)
 
 void SourceManager::_removePlayingSource(Source* source)
 {
-	log << "Playing source removed " << source << debug;
 	if(inUpdateIterLoop)
 	{
 		removedSources.push_back(source);
@@ -79,7 +76,6 @@ void SourceManager::_removePlayingSource(Source* source)
 void SourceManager::_addSourceToPool(Source* source)
 {
 	sources.push_back(source);
-	log << "Source returned " << source << debug;
 }
 
 void SourceManager::_update()
