@@ -227,7 +227,9 @@ namespace MyGUIPlugin
 
         void edit_MouseWheel(Widget source, EventArgs e)
         {
-            float newVal = FloatValue + Increment * ((MouseEventArgs)e).RelativeWheelPosition;
+            MouseEventArgs me = (MouseEventArgs)e;
+            int wheelDelta = me.RelativeWheelPosition > 0 ? 1 : -1;
+            float newVal = FloatValue + Increment * wheelDelta;
             if (newVal > maxValue)
             {
                 newVal = maxValue;
