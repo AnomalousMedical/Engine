@@ -229,3 +229,13 @@ extern "C" _AnomalousExport void Edit_setHScrollPosition(MyGUI::Edit* edit, size
 {
 	edit->setHScrollPosition(index);
 }
+
+extern "C" _AnomalousExport void Edit_setAllowMouseScroll(MyGUI::Edit* edit, bool value)
+{
+	edit->setAllowMouseScroll(value);
+}
+
+extern "C" _AnomalousExport bool Edit_getAllowMouseScroll(MyGUI::Edit* edit)
+{
+	return edit->getAllowMouseScroll();
+}

@@ -26,6 +26,7 @@ namespace MyGUIPlugin
             edit.KeyLostFocus += new MyGUIEvent(edit_KeyLostFocus);
             edit.KeySetFocus += new MyGUIEvent(edit_KeySetFocus);
             edit.KeyButtonReleased += new MyGUIEvent(edit_KeyButtonReleased);
+            edit.AllowMouseScroll = false;
             Increment = 1;
             FireValueChangedOnType = false;
 

@@ -296,6 +296,18 @@ namespace MyGUIPlugin
             }
         }
 
+        public bool AllowMouseScroll
+        {
+            get
+            {
+                return Edit_getAllowMouseScroll(widget);
+            }
+            set
+            {
+                Edit_setAllowMouseScroll(widget, value);
+            }
+        }
+
         #region Events
 
         public event MyGUIEvent EventEditSelectAccept
@@ -474,6 +486,13 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper")]
         private static extern void Edit_setHScrollPosition(IntPtr edit, UIntPtr index);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern void Edit_setAllowMouseScroll(IntPtr edit, bool value);
+
+        [DllImport("MyGUIWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool Edit_getAllowMouseScroll(IntPtr edit);
 
 #endregion
     }
