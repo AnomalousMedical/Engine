@@ -144,6 +144,7 @@ namespace MyGUIPlugin
                 if (value >= minValue && value <= maxValue)
                 {
                     edit.Caption = value.ToString();
+                    lastCaption = edit.Caption;
                 }
             }
         }
@@ -161,6 +162,7 @@ namespace MyGUIPlugin
                 if (value >= minValue && value <= maxValue)
                 {
                     edit.Caption = value.ToString();
+                    lastCaption = edit.Caption;
                 }
             }
         }
