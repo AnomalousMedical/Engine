@@ -54,6 +54,7 @@
     <Compile Include="Plugin\Widgets\ButtonGrid.cs" />
     <Compile Include="Plugin\Widgets\ButtonList.cs" />
     <Compile Include="Plugin\Widgets\CheckButton.cs" />
+    <Compile Include="Plugin\Widgets\Component.cs" />
     <Compile Include="Plugin\Widgets\Dialog.cs" />
     <Compile Include="Plugin\Widgets\MessageBox.cs" />
     <Compile Include="Plugin\Widgets\MinMaxScroll.cs" />
