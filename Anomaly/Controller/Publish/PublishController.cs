@@ -7,6 +7,7 @@ using System.IO;
 using Engine;
 using System.Diagnostics;
 using Logging;
+using Ionic.Zip;
 
 namespace Anomaly
 {
@@ -75,20 +76,13 @@ namespace Anomaly
                 {
                     File.Delete(zipFileName);
                 }
-                Process sevenZip = new Process();
-                sevenZip.StartInfo.UseShellExecute = false;
-                sevenZip.StartInfo.RedirectStandardOutput = true;
-                sevenZip.StartInfo.FileName = AnomalyConfig.Tools.SevenZipExecutable;
-                sevenZip.StartInfo.Arguments = "a -tzip \"" + zipFileName + "\" \"" + targetDirectory + "/*\"";
-                sevenZip.Start();
-                using (StreamReader reader = sevenZip.StandardOutput)
+
+                using (ZipFile zipFile = new ZipFile(zipFileName))
                 {
-                    while (reader.Peek() != -1)
-                    {
-                        Log.Info(reader.ReadLine());
-                    }
+                    zipFile.AddDirectory(targetDirectory, "");
+                    zipFile.Save();
                 }
-                sevenZip.WaitForExit();
+
                 Log.Info("Finished compression to {0}", zipFileName);
                 Directory.Delete(targetDirectory, true);
 
@@ -165,6 +159,14 @@ namespace Anomaly
         {
             if (!fileInfo.Name.EndsWith("~") && !fileInfo.DirectoryName.Contains(".svn"))
             {
+                //Make sure the file does not already exist in the list.
+                foreach (VirtualFileInfo existingInfo in files)
+                {
+                    if (existingInfo.RealLocation == fileInfo.RealLocation)
+                    {
+                        return;
+                    }
+                }
                 files.Add(fileInfo);
             }
         }
