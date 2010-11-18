@@ -77,7 +77,7 @@ namespace Anomaly
                     File.Delete(zipFileName);
                 }
 
-                using (ZipFile zipFile = new ZipFile(zipFileName))
+                using (ZipFile zipFile = new ZipFile(zipFileName, new ZipStatusTextWriter()))
                 {
                     zipFile.AddDirectory(targetDirectory, "");
                     zipFile.Save();

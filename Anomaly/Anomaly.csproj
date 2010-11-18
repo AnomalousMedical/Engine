@@ -106,6 +106,7 @@
     <Compile Include="Controller\ProjectManagement\SolutionData.cs" />
     <Compile Include="Controller\PublishMode.cs" />
     <Compile Include="Controller\Publish\PublishController.cs" />
+    <Compile Include="Controller\Publish\ZipStatusTextWriter.cs" />
     <Compile Include="Controller\ResourceController.cs" />
     <Compile Include="Controller\SceneController.cs" />
     <Compile Include="Controller\ProjectManagement\Solution.cs" />
