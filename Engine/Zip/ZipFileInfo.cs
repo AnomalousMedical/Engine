@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ZipAccess
 {
-    class ZipFileInfo
+    public class ZipFileInfo
     {
         public ZipFileInfo(String fullName, long compressedSize, long uncompressedSize)
         {

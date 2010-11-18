@@ -41,8 +41,9 @@ namespace SoundPlugin
 
         public void destroyAudioCodec(AudioCodec codec)
         {
+            IntPtr codecPointer = codec.Pointer;
             codecManager.deleteWrapper(codec.Pointer);
-            OpenALManager_destroyAudioCodec(Pointer, codec.Pointer);
+            OpenALManager_destroyAudioCodec(Pointer, codecPointer);
         }
 
         public Sound createMemorySound(Stream stream)

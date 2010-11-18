@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace ZipAccess
 {
-    class ZipFile : IDisposable
+    public class ZipFile : IDisposable
     {
         const int ZZIP_ERROR = -4096;
 

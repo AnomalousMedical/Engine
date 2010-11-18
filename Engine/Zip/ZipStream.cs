@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace ZipAccess
 {
-    class ZipStream : Stream
+    public class ZipStream : Stream
     {
         //Seek method constants (stdio.h)
         private const int SEEK_CUR = 1;
