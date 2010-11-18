@@ -40,6 +40,18 @@ namespace MyGUIPlugin
             }
         }
 
+        public bool Enabled
+        {
+            get
+            {
+                return button.Enabled;
+            }
+            set
+            {
+                button.Enabled = value;
+            }
+        }
+
         void button_MouseButtonClick(Widget source, EventArgs e)
         {
             if (CreateButtonClicked != null)

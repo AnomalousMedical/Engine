@@ -22,6 +22,7 @@ namespace MyGUIPlugin
         private TimelineMarker timelineMarker;
         private int trackY = TRACK_START_Y;
         private float duration = float.MaxValue;
+        private bool enabled = true;
 
         public event EventHandler ActiveDataChanged;
         public event TimelineTrackEvent TrackPositionChanged;
@@ -232,6 +233,22 @@ namespace MyGUIPlugin
                 if (DurationChanged != null)
                 {
                     DurationChanged.Invoke(this, EventArgs.Empty);
+                }
+            }
+        }
+
+        public bool Enabled
+        {
+            get
+            {
+                return enabled;
+            }
+            set
+            {
+                if (enabled != value)
+                {
+                    enabled = value;
+                    timelineMarker.Enabled = enabled;
                 }
             }
         }

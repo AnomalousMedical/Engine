@@ -61,6 +61,18 @@ namespace MyGUIPlugin
             }
         }
 
+        public bool Enabled
+        {
+            get
+            {
+                return widget.Enabled;
+            }
+            set
+            {
+                widget.Enabled = value;
+            }
+        }
+
         public int Left
         {
             get

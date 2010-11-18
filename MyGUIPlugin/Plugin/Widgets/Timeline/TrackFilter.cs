@@ -20,6 +20,8 @@ namespace MyGUIPlugin
         private int textWidth;
         private int buttonHeight = 19;
 
+        private bool enabled = true;
+
         public TrackFilter(ScrollView scrollView, TimelineView actionView)
         {
             this.scrollView = scrollView;
@@ -50,6 +52,7 @@ namespace MyGUIPlugin
             TrackFilterButton filterButton = new TrackFilterButton(button, staticText, actionName);
             filterButtons.Add(row, filterButton);
             filterButton.CreateButtonClicked += new EventHandler(filterButton_CreateButtonClicked);
+            filterButton.Enabled = enabled;
 
             //Resize canvas
             Size2 canvasSize = scrollView.CanvasSize;
@@ -60,6 +63,25 @@ namespace MyGUIPlugin
         public void Dispose()
         {
 
+        }
+
+        public bool Enabled
+        {
+            get
+            {
+                return enabled;
+            }
+            set
+            {
+                if (enabled != value)
+                {
+                    enabled = value;
+                    foreach (TrackFilterButton button in filterButtons.Values)
+                    {
+                        button.Enabled = enabled;
+                    }
+                }
+            }
         }
 
         void actionView_TrackPositionChanged(TimelineViewTrack row)
