@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
+using Engine.Saving;
 
 namespace Engine
 {
     [StructLayout(LayoutKind.Explicit, Size = 8)]
-    public struct Vector2
+    public struct Vector2 : Saveable
     {
         [FieldOffset(0)]
         public float x;
@@ -60,5 +61,21 @@ namespace Engine
         {
             return new Vector2(v1.x / v2.x, v1.y / v2.y);
         }
+
+        #region Saving
+
+        private Vector2(LoadInfo info)
+        {
+            x = info.GetFloat("x", 0.0f);
+            y = info.GetFloat("y", 0.0f);
+        }
+
+        public void getInfo(SaveInfo info)
+        {
+            info.AddValue("x", x);
+            info.AddValue("y", y);
+        }
+
+        #endregion
     }
 }
