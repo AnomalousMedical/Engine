@@ -207,8 +207,15 @@ namespace MyGUIPlugin
             }
             set
             {
-                TimelineViewButton button = tracks[rowIndexes[value.Track]].findButton(value);
-                CurrentButton = button;
+                if (value != null)
+                {
+                    TimelineViewButton button = tracks[rowIndexes[value.Track]].findButton(value);
+                    CurrentButton = button;
+                }
+                else
+                {
+                    CurrentButton = null;
+                }
             }
         }
 

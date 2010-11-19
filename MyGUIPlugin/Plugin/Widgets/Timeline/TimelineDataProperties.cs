@@ -57,12 +57,19 @@ namespace MyGUIPlugin
             }
             set
             {
+                //Alert old data that we are done with it.
                 Size2 canvasSize = propScroll.CanvasSize;
                 canvasSize.Height = additionalPropertiesPosition.y;
                 if (currentPanel != null)
                 {
                     currentPanel.Visible = false;
                 }
+                if (data != null)
+                {
+                    data.editingCompleted();
+                }
+                
+                //Assign new data
                 data = value;
                 if (data != null)
                 {

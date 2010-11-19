@@ -44,6 +44,11 @@ namespace MyGUIPlugin
 
         }
 
+        public virtual void editingCompleted()
+        {
+
+        }
+
         public abstract String Track { get; }
 
         public abstract float _StartTime { get; set; }
