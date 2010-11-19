@@ -46,6 +46,11 @@ namespace MyGUIPlugin
             OgreRenderManager_windowMovedOrResized(renderManager);
         }
 
+        public void destroyTexture(String name)
+        {
+            OgreRenderManager_destroyTextureString(renderManager, name);
+        }
+
 #region PInvoke
 
         [DllImport("MyGUIWrapper")]
@@ -62,6 +67,9 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper")]
         private static extern void OgreRenderManager_windowMovedOrResized(IntPtr renderManager);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern void OgreRenderManager_destroyTextureString(IntPtr renderManager, String name);
 
 #endregion
     }

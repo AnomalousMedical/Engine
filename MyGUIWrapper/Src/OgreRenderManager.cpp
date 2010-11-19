@@ -26,3 +26,12 @@ extern "C" _AnomalousExport void OgreRenderManager_windowMovedOrResized(MyGUI::O
 {
 	renderManager->windowMovedOrResized();
 }
+
+extern "C" _AnomalousExport void OgreRenderManager_destroyTextureString(MyGUI::OgreRenderManager* renderManager, const char* name)
+{
+	MyGUI::ITexture* texture = renderManager->getTexture(name);
+	if(texture != nullptr)
+	{
+		renderManager->destroyTexture(texture);
+	}
+}
