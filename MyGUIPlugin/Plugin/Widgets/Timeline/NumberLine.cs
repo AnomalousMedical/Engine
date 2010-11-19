@@ -139,6 +139,9 @@ namespace MyGUIPlugin
             {
                 //NEED TO COMPUTE THE STARTING VALUE CORRECTLY SO IT STAYS ALIGNED
                 float startingPoint = leftSide / pixelsPerSecond;
+                int numTicks = (int)(startingPoint / numberSeparationDuration);
+                startingPoint = numTicks * numberSeparationDuration;
+                Logging.Log.Debug("Starting point {0}", startingPoint);
                 NumberLineNumber number = null;
                 for (float i = startingPoint; i <= timelineView.Duration && i * pixelsPerSecond < rightSide; i += numberSeparationDuration)
                 {
@@ -146,7 +149,9 @@ namespace MyGUIPlugin
                     number.Time = i;
                     activeNumbers.Add(number);
                 }
+                Vector2 scrollPos = numberlineScroller.CanvasPosition;
                 numberlineScroller.CanvasSize = new Size2(number.Right, numberlineScroller.Height);
+                numberlineScroller.CanvasPosition = scrollPos; //Have to set the position back cause sometimes it changes.
             }
         }
 
