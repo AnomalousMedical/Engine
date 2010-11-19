@@ -116,32 +116,43 @@ namespace MyGUIPlugin
             //If there are any active numbers
             if (activeNumbers.Count > 0)
             {
+                NumberLineNumber number = null;
+
                 //See if any numbers need to be added to the front of the list
                 float startingPoint = activeNumbers[0].Time - numberSeparationDuration;
                 for (float i = startingPoint; i * pixelsPerSecond > leftSide; i -= numberSeparationDuration)
                 {
-                    NumberLineNumber number = getPooledNumber();
+                    number = getPooledNumber();
                     number.Time = i;
                     activeNumbers.Insert(0, number);
                 }
 
                 //Add numbers to the back of the list
+                number = null;
                 startingPoint = activeNumbers[activeNumbers.Count - 1].Time + numberSeparationDuration;
                 for (float i = startingPoint; i <= timelineView.Duration && i * pixelsPerSecond < rightSide; i += numberSeparationDuration)
                 {
-                    NumberLineNumber number = getPooledNumber();
+                    number = getPooledNumber();
                     number.Time = i;
                     activeNumbers.Add(number);
+                }
+                if (number != null)
+                {
+                    Size2 canvasSize = numberlineScroller.CanvasSize;
+                    if (number.Right > canvasSize.Width)
+                    {
+                        canvasSize.Width = number.Right;
+                        numberlineScroller.CanvasSize = canvasSize;
+                    }
                 }
             }
             //If there are currently no active numbers
             else
             {
-                //NEED TO COMPUTE THE STARTING VALUE CORRECTLY SO IT STAYS ALIGNED
+                //Compute the starting point on the next even start point.
                 float startingPoint = leftSide / pixelsPerSecond;
                 int numTicks = (int)(startingPoint / numberSeparationDuration);
                 startingPoint = numTicks * numberSeparationDuration;
-                Logging.Log.Debug("Starting point {0}", startingPoint);
                 NumberLineNumber number = null;
                 for (float i = startingPoint; i <= timelineView.Duration && i * pixelsPerSecond < rightSide; i += numberSeparationDuration)
                 {
