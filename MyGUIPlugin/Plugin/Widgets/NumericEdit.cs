@@ -25,7 +25,7 @@ namespace MyGUIPlugin
             edit.MouseWheel += new MyGUIEvent(edit_MouseWheel);
             edit.KeyLostFocus += new MyGUIEvent(edit_KeyLostFocus);
             edit.KeySetFocus += new MyGUIEvent(edit_KeySetFocus);
-            edit.KeyButtonReleased += new MyGUIEvent(edit_KeyButtonReleased);
+            edit.EventEditSelectAccept += new MyGUIEvent(edit_EventEditSelectAccept);
             edit.AllowMouseScroll = false;
             Increment = 1;
             FireValueChangedOnType = false;
@@ -266,15 +266,12 @@ namespace MyGUIPlugin
             }
         }
 
-        void edit_KeyButtonReleased(Widget source, EventArgs e)
+        void edit_EventEditSelectAccept(Widget source, EventArgs e)
         {
-            KeyEventArgs ke = e as KeyEventArgs;
-            if (ke.Key == KeyboardButtonCode.KC_RETURN || ke.Key == KeyboardButtonCode.KC_NUMPADENTER)
+            if (FloatValue != keyFocusValue)
             {
-                if (FloatValue != keyFocusValue)
-                {
-                    fireValueChanged();
-                }
+                fireValueChanged();
+                keyFocusValue = FloatValue;
             }
         }
     }
