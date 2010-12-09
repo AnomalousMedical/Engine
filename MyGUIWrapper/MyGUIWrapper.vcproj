@@ -218,6 +218,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Src\ISubWidgetText.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Src\LanguageManager.cpp"
 				>
 			</File>

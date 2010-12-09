@@ -20,6 +20,7 @@ namespace MyGUIPlugin
     {
         protected IntPtr widget;
         internal MyGUIWidgetEventManager eventManager; //Event manager, this is internal but it should be considered internal, protected, do not touch outside of Widget or subclass
+        private ISubWidgetText text;
 
         internal Widget(IntPtr widget)
         {
@@ -480,6 +481,22 @@ namespace MyGUIPlugin
             }
         }
 
+        public ISubWidgetText SubWidgetText
+        {
+            get
+            {
+                if (text == null)
+                {
+                    IntPtr textPtr = Widget_getSubWidgetText(widget);
+                    if (textPtr != IntPtr.Zero)
+                    {
+                        text = new ISubWidgetText(textPtr);
+                    }
+                }
+                return text;
+            }
+        }
+
         public Object UserObject { get; set; }
         
 #region Internal Management
@@ -915,6 +932,9 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper")]
         private static extern IntPtr Widget_getName(IntPtr widget);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern IntPtr Widget_getSubWidgetText(IntPtr widget);
 
 #endregion
     }

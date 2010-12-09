@@ -363,4 +363,9 @@ extern "C" _AnomalousExport String Widget_getName(MyGUI::Widget* widget)
 	return widget->getName().c_str();
 }
 
+extern "C" _AnomalousExport MyGUI::ISubWidgetText* Widget_getSubWidgetText(MyGUI::Widget* widget)
+{
+	return widget->getSubWidgetText();
+}
+
 #pragma warning(pop)
