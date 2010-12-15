@@ -33,6 +33,7 @@ namespace OgreModelEditor.Controller
 
         //GUI
         private SkeletonWindow skeletonWindow = new SkeletonWindow();
+        private new CustomParameterControl customParameters = new CustomParameterControl();
 
         /// <summary>
         /// Constructor.
@@ -56,12 +57,17 @@ namespace OgreModelEditor.Controller
             {
                 return skeletonWindow;
             }
+            if (customParameters.GetType().ToString() == persistString)
+            {
+                return customParameters;
+            }
             return null;
         }
 
         public void createDefaultWindows()
         {
             controller.showDockContent(skeletonWindow);
+            controller.showDockContent(customParameters);
         }
 
         public void Dispose()
@@ -261,6 +267,7 @@ namespace OgreModelEditor.Controller
                     }
                 }
             }
+            customParameters.SubEntity = entity.getSubEntity(0);
             if (entity.hasSkeleton())
             {
                 skeletonWindow.setSkeleton(entity.getSkeleton());
