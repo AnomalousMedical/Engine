@@ -256,6 +256,7 @@
     <Compile Include="Utility\ObjectPool.cs" />
     <Compile Include="Utility\Pair.cs" />
     <Compile Include="Utility\PooledObject.cs" />
+    <Compile Include="Utility\UniqueKeyGenerator.cs" />
     <Compile Include="Utility\WrapperCollection.cs" />
     <Compile Include="Zip\ZipFile.cs" />
     <Compile Include="Zip\ZipFileInfo.cs" />

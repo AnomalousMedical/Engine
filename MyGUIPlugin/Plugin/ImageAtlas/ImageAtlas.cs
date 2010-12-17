@@ -36,8 +36,7 @@ namespace MyGUIPlugin
 
         public String addImage(Object resourceKey, Image image)
         {
-            Guid guid = Guid.NewGuid();
-            String guidStr = Guid.NewGuid().ToString();
+            String guidStr = UniqueKeyGenerator.generateStringKey();
             guidDictionary.Add(resourceKey, guidStr);
 
             image = createImage(guidStr, image);
