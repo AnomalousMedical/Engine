@@ -8,6 +8,8 @@ namespace MyGUIPlugin
 {
     public class ComboBox : Widget
     {
+        public const uint Invalid = uint.MaxValue;
+
         private List<Object> objectsList = new List<object>();
 
         public ComboBox(IntPtr comboBox)
