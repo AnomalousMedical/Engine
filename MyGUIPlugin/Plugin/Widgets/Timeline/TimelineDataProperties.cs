@@ -62,6 +62,7 @@ namespace MyGUIPlugin
                 canvasSize.Height = additionalPropertiesPosition.y;
                 if (currentPanel != null)
                 {
+                    currentPanel.editingCompleted();
                     currentPanel.Visible = false;
                 }
                 if (data != null)

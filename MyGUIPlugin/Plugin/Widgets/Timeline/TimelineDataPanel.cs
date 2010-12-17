@@ -51,5 +51,10 @@ namespace MyGUIPlugin
         }
 
         public abstract void setCurrentData(TimelineData data);
+
+        public virtual void editingCompleted()
+        {
+
+        }
     }
 }
