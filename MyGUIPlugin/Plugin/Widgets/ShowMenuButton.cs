@@ -23,6 +23,18 @@ namespace MyGUIPlugin
             button.MouseButtonClick += new MyGUIEvent(button_MouseButtonClick);
         }
 
+        public bool Enabled
+        {
+            get
+            {
+                return button.Enabled;
+            }
+            set
+            {
+                button.Enabled = value;
+            }
+        }
+
         void button_MouseButtonClick(Widget source, EventArgs e)
         {
             int left = source.AbsoluteLeft;
