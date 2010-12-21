@@ -22,6 +22,12 @@ namespace Engine.Saving
             saveControl = new SaveControl(this, this, this);
         }
 
+        public T copy<T>(T source)
+            where T : Saveable
+        {
+            return (T)copyObject(source);
+        }
+
         public Object copyObject(Saveable source)
         {
             lastLoadedObject = null;
