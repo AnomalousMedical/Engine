@@ -239,3 +239,13 @@ extern "C" _AnomalousExport bool Edit_getAllowMouseScroll(MyGUI::Edit* edit)
 {
 	return edit->getAllowMouseScroll();
 }
+
+extern "C" _AnomalousExport void Edit_setOnlyText(MyGUI::Edit* edit, UStringIn value)
+{
+	edit->setOnlyText(value);
+}
+
+extern "C" _AnomalousExport void Edit_getOnlyText(MyGUI::Edit* edit, TempStringCallback onlyTextDelegate)
+{
+	onlyTextDelegate(edit->getOnlyText().c_str());
+}

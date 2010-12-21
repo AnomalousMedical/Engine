@@ -9,10 +9,12 @@ namespace MyGUIPlugin
 {
     public class Edit : StaticText
     {
+        TempStringCallback onlyTextDelegate;
+
         public Edit(IntPtr edit)
             :base(edit)
         {
-
+            onlyTextDelegate = new TempStringCallback(onlyTextCallback);
         }
 
         public void setTextIntervalColor(uint start, uint count, Color color)
@@ -308,6 +310,33 @@ namespace MyGUIPlugin
             }
         }
 
+        private String onlyTextBuffer;
+
+        public String OnlyText
+        {
+            get
+            {
+                Edit_getOnlyText(widget, onlyTextDelegate);
+                return onlyTextBuffer;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    Edit_setOnlyText(widget, value);
+                }
+                else
+                {
+                    Edit_setOnlyText(widget, "");
+                }
+            }
+        }
+
+        private void onlyTextCallback(IntPtr str)
+        {
+            onlyTextBuffer = Marshal.PtrToStringUni(str);
+        }
+
         #region Events
 
         public event MyGUIEvent EventEditSelectAccept
@@ -493,6 +522,12 @@ namespace MyGUIPlugin
         [DllImport("MyGUIWrapper")]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Edit_getAllowMouseScroll(IntPtr edit);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern void Edit_setOnlyText(IntPtr edit, [MarshalAs(UnmanagedType.LPWStr)] String value);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern void Edit_getOnlyText(IntPtr edit, TempStringCallback onlyTextDelegate);
 
 #endregion
     }
