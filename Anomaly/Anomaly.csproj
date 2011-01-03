@@ -112,6 +112,7 @@
     <Compile Include="Controller\ProjectManagement\Solution.cs" />
     <Compile Include="Controller\SimObjectController.cs" />
     <Compile Include="GUI\AnomalyMain.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\AnomalyMain.Designer.cs">
       <DependentUpon>AnomalyMain.cs</DependentUpon>
