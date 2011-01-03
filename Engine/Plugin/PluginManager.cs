@@ -203,6 +203,7 @@ namespace Engine
                     }
                     if (type != null)
                     {
+                        Log.Warning("Slow search match found for type \'{0}\'. Replacement type is \'{1}\'", assemblyQualifiedName, type.AssemblyQualifiedName);
                         slowSearchTypeCache.Add(assemblyQualifiedName, type);
                     }
                 }
