@@ -9,7 +9,7 @@ using Engine.Platform;
 namespace MyGUIPlugin
 {
     internal delegate void MouseEvent(int x, int y, MouseButtonCode button);
-    internal delegate void UpdateEvent(float updateTime);
+    public delegate void UpdateEvent(float updateTime);
 
     public class Gui : IDisposable
     {
@@ -25,7 +25,7 @@ namespace MyGUIPlugin
 
         internal event MouseEvent MouseButtonPressed;
         internal event MouseEvent MouseButtonReleased;
-        internal event UpdateEvent Update;
+        public event UpdateEvent Update;
 
         IntPtr gui;
 

@@ -11,9 +11,10 @@ namespace MyGUIPlugin
     /// This class assists in using any widget as a popup that will
     /// automatically close when it is no longer clicked.
     /// </summary>
-    public class PopupContainer
+    public class PopupContainer : IDisposable
     {
-        private Widget widget;
+        private Layout layout;
+        protected Widget widget;
         private float smoothShowPosition;
         private bool runningShowTransition; //True to be making the popup visible, false to be hiding.
         private List<Widget> childPopups = null;
@@ -24,27 +25,33 @@ namespace MyGUIPlugin
         public event EventHandler Hidden;
 
         /// <summary>
-        /// Empty constructor for subclassing this class. Must call initialize
-        /// with the main widget in the subclass constructor.
+        /// Constructor
         /// </summary>
-        protected PopupContainer()
+        /// <param name="layoutFile"></param>
+        public PopupContainer(String layoutFile)
         {
-
+            layout = LayoutManager.Instance.loadLayout(layoutFile);
+            initialize(layout.getWidget(0));
         }
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="widget">The widget to pop up.</param>
         public PopupContainer(Widget widget)
         {
             initialize(widget);
         }
 
-        protected void initialize(Widget widget)
+        private void initialize(Widget widget)
         {
             this.widget = widget;
+            widget.Visible = false;
             SmoothShow = true;
+        }
+
+        public virtual void Dispose()
+        {
+            if (layout != null)
+            {
+                LayoutManager.Instance.unloadLayout(layout);
+            }
         }
 
         /// <summary>
@@ -156,6 +163,22 @@ namespace MyGUIPlugin
             }
         }
 
+        public int Width
+        {
+            get
+            {
+                return widget.Width;
+            }
+        }
+
+        public int Height
+        {
+            get
+            {
+                return widget.Height;
+            }
+        }
+
         void MouseButtonPressed(int x, int y, MouseButtonCode button)
         {
             int left = widget.AbsoluteLeft;
@@ -183,14 +206,6 @@ namespace MyGUIPlugin
                     }
                 }
                 hide();
-            }
-        }
-
-        public Widget Widget
-        {
-            get
-            {
-                return widget;
             }
         }
 
