@@ -47,17 +47,17 @@ namespace MyGUIPlugin
             }
         }
 
-        bool load(String file)
+        public bool load(String file)
         {
             return PointerManager_load(pointerManager, file);
         }
 
-        void setPointer(String name)
+        public void setPointer(String name)
         {
             PointerManager_setPointer(pointerManager, name);
         }
 
-        void resetToDefaultPointer()
+        public void resetToDefaultPointer()
         {
             PointerManager_resetToDefaultPointer(pointerManager);
         }
