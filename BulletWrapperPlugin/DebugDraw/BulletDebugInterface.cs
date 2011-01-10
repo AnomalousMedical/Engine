@@ -62,7 +62,10 @@ namespace BulletPlugin
         public void createDebugInterface(RendererPlugin rendererPlugin, SimSubScene subScene)
         {
             drawingSurface = rendererPlugin.createDebugDrawingSurface("BulletDebugSurface", subScene);
-	        drawingSurface.setDepthTesting(depthTesting);
+            if (drawingSurface != null)
+            {
+                drawingSurface.setDepthTesting(depthTesting);
+            }
         }
 
         public void destroyDebugInterface(RendererPlugin rendererPlugin, SimSubScene subScene)
