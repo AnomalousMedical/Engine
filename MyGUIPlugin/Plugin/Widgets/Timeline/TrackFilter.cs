@@ -31,6 +31,7 @@ namespace MyGUIPlugin
             actionView.CanvasHeightChanged += new CanvasSizeChanged(actionView_CanvasHeightChanged);
             actionView.CanvasPositionChanged += new CanvasPositionChanged(actionView_CanvasPositionChanged);
             actionView.TrackAdded += new TimelineTrackEvent(actionView_RowAdded);
+            actionView.TrackRemoved += new TimelineTrackEvent(actionView_TrackRemoved);
 
             foreach (TimelineViewTrack row in actionView.Tracks)
             {
@@ -58,6 +59,13 @@ namespace MyGUIPlugin
             Size2 canvasSize = scrollView.CanvasSize;
             canvasSize.Height = button.Bottom;
             scrollView.CanvasSize = canvasSize;
+        }
+
+        void actionView_TrackRemoved(TimelineViewTrack track)
+        {
+            TrackFilterButton filterButton = filterButtons[track];
+            filterButtons.Remove(track);
+            filterButton.Dispose();
         }
 
         public void Dispose()

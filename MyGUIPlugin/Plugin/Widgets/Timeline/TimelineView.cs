@@ -27,6 +27,7 @@ namespace MyGUIPlugin
         public event EventHandler ActiveDataChanged;
         public event TimelineTrackEvent TrackPositionChanged;
         public event TimelineTrackEvent TrackAdded;
+        public event TimelineTrackEvent TrackRemoved;
         public event EventHandler PixelsPerSecondChanged;
         public event EventHandler DurationChanged;
         public event CanvasSizeChanged CanvasWidthChanged
@@ -97,6 +98,36 @@ namespace MyGUIPlugin
             {
                 TrackAdded.Invoke(track);
             }
+        }
+
+        public void removeTrack(String name)
+        {
+            int index = rowIndexes[name];
+            TimelineViewTrack track = tracks[index];
+            track.removeAllActions();
+            rowIndexes.Remove(name);
+            tracks.RemoveAt(index);
+            //Decrement any tracks that come after this one in the row indexes. Also look for new bottom.
+            int lowestTrack = TRACK_START_Y;
+            foreach (String trackName in rowIndexes.Keys)
+            {
+                int trIdx = rowIndexes[trackName];
+                if (trIdx > index)
+                {
+                    rowIndexes[trackName] = --trIdx;
+                }
+                int bottom = tracks[trIdx].Bottom;
+                if (bottom > lowestTrack)
+                {
+                    lowestTrack = bottom;
+                }
+            }
+            trackY = lowestTrack;
+            if (TrackRemoved != null)
+            {
+                TrackRemoved.Invoke(track);
+            }
+            track.Dispose();
         }
 
         public void addData(TimelineData data)

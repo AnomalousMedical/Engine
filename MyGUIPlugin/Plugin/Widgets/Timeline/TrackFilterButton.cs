@@ -24,6 +24,7 @@ namespace MyGUIPlugin
         public void Dispose()
         {
             Gui.Instance.destroyWidget(button);
+            Gui.Instance.destroyWidget(text);
         }
 
         public void moveButtonTop(int newPosition)
