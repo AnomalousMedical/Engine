@@ -102,6 +102,10 @@ namespace MyGUIPlugin
 
         public void removeTrack(String name)
         {
+            if (CurrentButton.Data.Track == name)
+            {
+                CurrentButton = null;
+            }
             TimelineViewTrack track = namedTracks[name];
             track.removeAllActions();
             namedTracks.Remove(name);
@@ -126,6 +130,7 @@ namespace MyGUIPlugin
 
         public void clearTracks()
         {
+            CurrentButton = null;
             foreach (TimelineViewTrack track in tracks)
             {
                 if (TrackRemoved != null)
