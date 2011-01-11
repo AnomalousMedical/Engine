@@ -16,7 +16,7 @@ namespace MyGUIPlugin
 
         private TimelineScrollView timelineScrollView;
         private int pixelsPerSecond = 100;
-        private Dictionary<String, int> rowIndexes = new Dictionary<string, int>();
+        private Dictionary<String, TimelineViewTrack> namedTracks = new Dictionary<string, TimelineViewTrack>();
         private List<TimelineViewTrack> tracks = new List<TimelineViewTrack>();
         private TimelineViewButton currentButton;
         private TimelineMarker timelineMarker;
@@ -91,7 +91,7 @@ namespace MyGUIPlugin
             TimelineViewTrack track = new TimelineViewTrack(name, trackY, pixelsPerSecond, duration, color);
             track.BottomChanged += new EventHandler(actionViewRow_BottomChanged);
             tracks.Add(track);
-            rowIndexes.Add(name, tracks.Count - 1);
+            namedTracks.Add(name, track);
             trackY = track.Bottom;
             timelineScrollView.CanvasHeight = trackY;
             if (TrackAdded != null)
@@ -102,21 +102,15 @@ namespace MyGUIPlugin
 
         public void removeTrack(String name)
         {
-            int index = rowIndexes[name];
-            TimelineViewTrack track = tracks[index];
+            TimelineViewTrack track = namedTracks[name];
             track.removeAllActions();
-            rowIndexes.Remove(name);
-            tracks.RemoveAt(index);
-            //Decrement any tracks that come after this one in the row indexes. Also look for new bottom.
+            namedTracks.Remove(name);
+            tracks.Remove(track);
+            //Look for new bottom.
             int lowestTrack = TRACK_START_Y;
-            foreach (String trackName in rowIndexes.Keys)
+            foreach (TimelineViewTrack leftoverTrack in tracks)
             {
-                int trIdx = rowIndexes[trackName];
-                if (trIdx > index)
-                {
-                    rowIndexes[trackName] = --trIdx;
-                }
-                int bottom = tracks[trIdx].Bottom;
+                int bottom = leftoverTrack.Bottom;
                 if (bottom > lowestTrack)
                 {
                     lowestTrack = bottom;
@@ -133,13 +127,13 @@ namespace MyGUIPlugin
         public void addData(TimelineData data)
         {
             Button button = timelineScrollView.createButton(pixelsPerSecond * data.StartTime, pixelsPerSecond * data.Duration);
-            TimelineViewButton actionButton = tracks[rowIndexes[data.Track]].addButton(button, data);
+            TimelineViewButton actionButton = namedTracks[data.Track].addButton(button, data);
             actionButton.Clicked += new EventHandler(actionButton_Clicked);
         }
 
         public void removeData(TimelineData data)
         {
-            TimelineViewButton button = tracks[rowIndexes[data.Track]].removeButton(data);
+            TimelineViewButton button = namedTracks[data.Track].removeButton(data);
             if (button == CurrentButton)
             {
                 //Null the internal property first as you do not want to toggle the state of the button that has already been disposed.
@@ -240,7 +234,7 @@ namespace MyGUIPlugin
             {
                 if (value != null)
                 {
-                    TimelineViewButton button = tracks[rowIndexes[value.Track]].findButton(value);
+                    TimelineViewButton button = namedTracks[value.Track].findButton(value);
                     CurrentButton = button;
                 }
                 else
