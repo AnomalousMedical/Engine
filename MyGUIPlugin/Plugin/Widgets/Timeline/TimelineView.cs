@@ -124,6 +124,21 @@ namespace MyGUIPlugin
             track.Dispose();
         }
 
+        public void clearTracks()
+        {
+            foreach (TimelineViewTrack track in tracks)
+            {
+                if (TrackRemoved != null)
+                {
+                    TrackRemoved.Invoke(track);
+                }
+                track.Dispose();
+            }
+            trackY = TRACK_START_Y;
+            namedTracks.Clear();
+            tracks.Clear();
+        }
+
         public void addData(TimelineData data)
         {
             Button button = timelineScrollView.createButton(pixelsPerSecond * data.StartTime, pixelsPerSecond * data.Duration);
