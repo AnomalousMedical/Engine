@@ -49,6 +49,16 @@ namespace MyGUIPlugin
             additionalProperties.Add(track, panel);
         }
 
+        public void removePanel(String track)
+        {
+            additionalProperties.Remove(track);
+        }
+
+        public void clearPanels()
+        {
+            additionalProperties.Clear();
+        }
+
         public TimelineData CurrentData
         {
             get
