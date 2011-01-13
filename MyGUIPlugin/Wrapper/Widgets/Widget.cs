@@ -457,7 +457,7 @@ namespace MyGUIPlugin
             }
         }
 
-        public bool NeedToolTop
+        public bool NeedToolTip
         {
             get
             {
@@ -469,7 +469,7 @@ namespace MyGUIPlugin
             }
         }
 
-        public bool EnableToolTop
+        public bool EnableToolTip
         {
             get
             {
