@@ -16,8 +16,14 @@ namespace MyGUIPlugin
         public NumberLineNumber(StaticText text, Widget hashMark, NumberLine numberLine)
         {
             this.text = text;
+            text.MouseButtonClick += new MyGUIEvent(text_MouseButtonClick);
             this.hashMark = hashMark;
             this.numberLine = numberLine;
+        }
+
+        void text_MouseButtonClick(Widget source, EventArgs e)
+        {
+            numberLine.moveMarker(time);
         }
 
         public int Left

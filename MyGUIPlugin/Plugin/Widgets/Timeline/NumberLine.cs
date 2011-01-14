@@ -74,6 +74,11 @@ namespace MyGUIPlugin
             }
         }
 
+        internal void moveMarker(float time)
+        {
+            timelineView.MarkerTime = time;
+        }
+
         void actionView_CanvasPositionChanged(CanvasEventArgs info)
         {
             numberlineScroller.CanvasPosition = new Vector2(-info.Left, 0.0f);
