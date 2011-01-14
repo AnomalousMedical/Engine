@@ -27,6 +27,7 @@ namespace MyGUIPlugin
     class TimelineViewButton
     {
         private Button button;
+        private Button durationButton;
         private int pixelsPerSecond;
         private float dragStartPos;
         private float dragStartTime;
@@ -42,6 +43,10 @@ namespace MyGUIPlugin
         {
             this.pixelsPerSecond = pixelsPerSecond;
             this.button = button;
+            durationButton = button.createWidgetT("Button", "TimelineButton", button.Width - 3, button.Top, 3, button.Height, Align.Top | Align.Right, "") as Button;
+            durationButton.MouseDrag += new MyGUIEvent(durationButton_MouseDrag);
+            durationButton.MouseButtonPressed += new MyGUIEvent(durationButton_MouseButtonPressed);
+            durationButton.Pointer = "size_horz";
             this.timelineData = timelineData;
             this.timelineDuration = timelineDuration;
             timelineData._CurrentButton = this;
@@ -87,6 +92,31 @@ namespace MyGUIPlugin
                 newStartTime = timelineDuration - Duration;
             }
             StartTime = newStartTime;
+        }
+
+        void durationButton_MouseButtonPressed(Widget source, EventArgs e)
+        {
+            MouseEventArgs me = e as MouseEventArgs;
+            if (me.Button == Engine.Platform.MouseButtonCode.MB_BUTTON0)
+            {
+                dragStartPos = me.Position.x;
+                dragStartTime = Duration;
+            }
+        }
+
+        void durationButton_MouseDrag(Widget source, EventArgs e)
+        {
+            MouseEventArgs me = e as MouseEventArgs;
+            float newDuration = dragStartTime + (me.Position.x - dragStartPos) / pixelsPerSecond;
+            if (newDuration < 0.0f)
+            {
+                newDuration = 0.0f;
+            }
+            if (newDuration + StartTime > timelineDuration)
+            {
+                newDuration = timelineDuration - Duration;
+            }
+            Duration = newDuration;
         }
 
         public void Dispose()
