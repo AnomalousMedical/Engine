@@ -73,6 +73,7 @@ namespace MyGUIPlugin
             scrollView.MouseWheel += new MyGUIEvent(scrollView_MouseWheel);
             scrollView.KeyButtonPressed += new MyGUIEvent(scrollView_KeyButtonPressed);
             scrollView.KeyButtonReleased += new MyGUIEvent(scrollView_KeyButtonReleased);
+            scrollView.ClientWidget.MouseButtonClick += new MyGUIEvent(ClientWidget_MouseButtonClick);
             timelineMarker = new TimelineMarker(this, scrollView);
             timelineMarker.CoordChanged += new EventHandler(timelineMarker_CoordChanged);
         }
@@ -422,6 +423,11 @@ namespace MyGUIPlugin
                     timelineScrollView.AllowMouseScroll = true;
                 }
             }
+        }
+
+        void ClientWidget_MouseButtonClick(Widget source, EventArgs e)
+        {
+            this.CurrentData = null;
         }
 
         void fireRowPositionChanged(TimelineViewTrack row)
