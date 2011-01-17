@@ -25,6 +25,7 @@ namespace MyGUIPlugin
             timelineView.CanvasPositionChanged += new CanvasPositionChanged(actionView_CanvasPositionChanged);
             timelineView.CanvasWidthChanged += new CanvasSizeChanged(actionView_CanvasWidthChanged);
             timelineView.PixelsPerSecondChanged += new EventHandler(actionView_PixelsPerSecondChanged);
+            numberlineScroller.ClientWidget.MouseButtonReleased += new MyGUIEvent(ClientWidget_MouseButtonReleased);
             canvasModified();
         }
 
@@ -77,6 +78,12 @@ namespace MyGUIPlugin
         internal void moveMarker(float time)
         {
             timelineView.MarkerTime = time;
+        }
+
+        void ClientWidget_MouseButtonReleased(Widget source, EventArgs e)
+        {
+            MouseEventArgs me = (MouseEventArgs)e;
+            moveMarker((me.Position.x - numberlineScroller.AbsoluteLeft + numberlineScroller.CanvasPosition.x) / PixelsPerSecond);
         }
 
         void actionView_CanvasPositionChanged(CanvasEventArgs info)
