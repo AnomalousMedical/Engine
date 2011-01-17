@@ -28,9 +28,11 @@ namespace MyGUIPlugin
     {
         private Button button;
         private Button durationButton;
+        private Button startTimeButton;
         private int pixelsPerSecond;
         private float dragStartPos;
         private float dragStartTime;
+        private float durationStartTime;
         private float timelineDuration;
         private TimelineData timelineData;
 
@@ -47,6 +49,10 @@ namespace MyGUIPlugin
             durationButton.MouseDrag += new MyGUIEvent(durationButton_MouseDrag);
             durationButton.MouseButtonPressed += new MyGUIEvent(durationButton_MouseButtonPressed);
             durationButton.Pointer = "size_horz";
+            startTimeButton = button.createWidgetT("Button", "TimelineButton", 0, button.Top, 3, button.Height, Align.Top | Align.Left, "") as Button;
+            startTimeButton.MouseDrag += new MyGUIEvent(startTimeButton_MouseDrag);
+            startTimeButton.MouseButtonPressed += new MyGUIEvent(startTimeButton_MouseButtonPressed);
+            startTimeButton.Pointer = "size_horz";
             this.timelineData = timelineData;
             this.timelineDuration = timelineDuration;
             timelineData._CurrentButton = this;
@@ -100,14 +106,14 @@ namespace MyGUIPlugin
             if (me.Button == Engine.Platform.MouseButtonCode.MB_BUTTON0)
             {
                 dragStartPos = me.Position.x;
-                dragStartTime = Duration;
+                durationStartTime = Duration;
             }
         }
 
         void durationButton_MouseDrag(Widget source, EventArgs e)
         {
             MouseEventArgs me = e as MouseEventArgs;
-            float newDuration = dragStartTime + (me.Position.x - dragStartPos) / pixelsPerSecond;
+            float newDuration = durationStartTime + (me.Position.x - dragStartPos) / pixelsPerSecond;
             if (newDuration < 0.0f)
             {
                 newDuration = 0.0f;
@@ -116,6 +122,35 @@ namespace MyGUIPlugin
             {
                 newDuration = timelineDuration - Duration;
             }
+            Duration = newDuration;
+        }
+
+        void startTimeButton_MouseButtonPressed(Widget source, EventArgs e)
+        {
+            MouseEventArgs me = e as MouseEventArgs;
+            if (me.Button == Engine.Platform.MouseButtonCode.MB_BUTTON0)
+            {
+                dragStartPos = me.Position.x;
+                dragStartTime = StartTime;
+                durationStartTime = Duration;
+            }
+        }
+
+        void startTimeButton_MouseDrag(Widget source, EventArgs e)
+        {
+            MouseEventArgs me = e as MouseEventArgs;
+            float delta = (me.Position.x - dragStartPos) / pixelsPerSecond;
+            float newStartTime = dragStartTime + delta;
+            float newDuration = durationStartTime - delta;
+            if (newStartTime + newDuration > timelineDuration)
+            {
+                newDuration = timelineDuration - newStartTime;
+            }
+            if (newStartTime < 0.0f)
+            {
+                newStartTime = 0.0f;
+            }
+            StartTime = newStartTime;
             Duration = newDuration;
         }
 
