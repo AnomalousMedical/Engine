@@ -118,7 +118,9 @@ namespace Engine
             }
 
             textReader.Close();
+#if VERBOSE
             Log.Default.sendMessage("Finished loading collision shapes from " + filename + ".", LogLevel.Info, "ShapeLoading");
+#endif
         }
 
         private Quaternion readRotation(XmlTextReader textReader)
@@ -271,7 +273,9 @@ namespace Engine
             }
             builder.buildSphere(name, radius, location, currentMaterial);
             currentMaterial = null;
+#if VERBOSE
             Log.Default.sendMessage("Creating collision sphere named " + name + ".", LogLevel.Info, "ShapeLoading");
+#endif
         }
 
         private void loadBox(XmlTextReader textReader, ShapeBuilder builder)
@@ -296,7 +300,9 @@ namespace Engine
             }
             builder.buildBox(name, extents, location, rotation, currentMaterial);
             currentMaterial = null;
+#if VERBOSE
             Log.Default.sendMessage("Creating collision box named " + name + ".", LogLevel.Info, "ShapeLoading");
+#endif
         }
 
         private void loadMesh(XmlTextReader textReader, ShapeBuilder builder)
@@ -330,7 +336,9 @@ namespace Engine
             }
             builder.buildMesh(name, vertices, faces, location, rotation, currentMaterial);
             currentMaterial = null;
+#if VERBOSE
             Log.Default.sendMessage("Creating collision mesh named " + name + ".", LogLevel.Info, "ShapeLoading");
+#endif
         }
 
         void loadPlane(XmlTextReader textReader, ShapeBuilder builder)
@@ -340,7 +348,9 @@ namespace Engine
             float d = readPlaneDistance(textReader);
             builder.buildPlane(name, normal, d, currentMaterial);
             currentMaterial = null;
+#if VERBOSE
             Log.Default.sendMessage("Creating collision plane named " + name + ".", LogLevel.Info, "ShapeLoading");
+#endif
         }
 
         void loadCapsule(XmlTextReader textReader, ShapeBuilder builder)
@@ -366,7 +376,9 @@ namespace Engine
             }
             builder.buildCapsule(name, radius, height, location, rotation, currentMaterial);
             currentMaterial = null;
+#if VERBOSE
             Log.Default.sendMessage("Creating collision capsule named " + name + ".", LogLevel.Info, "ShapeLoading");
+#endif
         }
 
         void loadConvexHull(XmlTextReader textReader, ShapeBuilder builder)
@@ -407,7 +419,9 @@ namespace Engine
                 builder.buildConvexHull(name, vertices, location, rotation, currentMaterial);
             }
             currentMaterial = null;
+#if VERBOSE
             Log.Default.sendMessage("Creating collision convex hull named " + name + ".", LogLevel.Info, "ShapeLoading");
+#endif
         }
 
         private void loadSoftBody(XmlTextReader textReader, ShapeBuilder builder)
@@ -439,7 +453,9 @@ namespace Engine
                     }
                 }
             }
+#if VERBOSE
             Log.Default.sendMessage("Creating collision soft body named " + name + ".", LogLevel.Info, "ShapeLoading");
+#endif
             builder.buildSoftBody(name, vertices, tetrahedra, location, rotation);
             currentMaterial = null;
         }
@@ -448,7 +464,9 @@ namespace Engine
         {
             String name = readName(textReader);
             builder.startCompound(name);
+#if VERBOSE
             Log.Default.sendMessage("--Started compound collision shape named " + name + ".--", LogLevel.Info, "ShapeLoading");
+#endif
             while (!(textReader.Name == COMPOUND && textReader.NodeType == XmlNodeType.EndElement) && textReader.Read())
             {
                 if (textReader.NodeType == XmlNodeType.Element)
@@ -484,13 +502,17 @@ namespace Engine
                 }
             }
             builder.stopCompound(name);
+#if VERBOSE
             Log.Default.sendMessage("--Finished compound collision shape named " + name + ".--", LogLevel.Info, "ShapeLoading");
+#endif
         }
 
         private void loadMaterial(XmlTextReader textReader, ShapeBuilder builder)
         {
             currentMaterial = textReader.GetAttribute("name");
+#if VERBOSE
             Log.Default.sendMessage("Creating material named {0}.", LogLevel.Info, "ShapeLoading", currentMaterial);
+#endif
             float restitution = 0.0f;
             float staticFriction = 0.0f;
             float dynamicFriction = 0.0f;

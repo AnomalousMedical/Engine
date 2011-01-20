@@ -250,5 +250,17 @@ namespace OgreModelEditor
             showSkeletonToolStripMenuItem.Checked = !showSkeletonToolStripMenuItem.Checked;
             controller.setShowSkeleton(showSkeletonToolStripMenuItem.Checked);
         }
+
+        private void batchUpgradeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (FolderBrowserDialog folderBrowser = new FolderBrowserDialog())
+            {
+                if (folderBrowser.ShowDialog(this) == DialogResult.OK)
+                {
+                    String path = folderBrowser.SelectedPath;
+                    controller.batchResaveMeshes(path);
+                }
+            }
+        }
     }
 }

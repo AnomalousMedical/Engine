@@ -364,6 +364,18 @@ namespace OgreModelEditor
             modelController.ShowSkeleton = show;
         }
 
+        public void batchResaveMeshes(String rootPath)
+        {
+            Log.ImportantInfo("Upgrading meshes in {0}", rootPath);
+            String[] meshFiles = Directory.GetFiles(rootPath, "*.mesh", SearchOption.AllDirectories);
+            foreach (String meshFile in meshFiles)
+            {
+                Log.ImportantInfo("Upgrading mesh {0}", meshFile);
+                openModel(meshFile);
+                saveModel(meshFile);
+            }
+        }
+
         /// <summary>
         /// Helper function to create the default window. This is the callback
         /// to the PluginManager.
