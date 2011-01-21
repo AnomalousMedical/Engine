@@ -97,6 +97,15 @@ namespace Engine
             return this / length();
         }
 
+        /// <summary>
+        /// ToString.
+        /// </summary>
+        /// <returns>The Vector as a string. This string is in the correct format to be used with setValue.</returns>
+        public override string ToString()
+        {
+            return String.Format("{0}, {1}", x, y);
+        }
+
         public static Vector2 operator +(Vector2 v1, Vector2 v2)
         {
             return new Vector2(v1.x + v2.x, v1.y + v2.y);

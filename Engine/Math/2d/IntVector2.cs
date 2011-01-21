@@ -80,6 +80,15 @@ namespace Engine
             return vec2.normalized();
         }
 
+        /// <summary>
+        /// ToString.
+        /// </summary>
+        /// <returns>The Vector as a string. This string is in the correct format to be used with setValue.</returns>
+        public override string ToString()
+        {
+            return String.Format("{0}, {1}", x, y);
+        }
+
         public static IntVector2 operator +(IntVector2 v1, IntVector2 v2)
         {
             return new IntVector2(v1.x + v2.x, v1.y + v2.y);
