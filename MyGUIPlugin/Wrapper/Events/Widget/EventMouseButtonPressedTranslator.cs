@@ -36,7 +36,7 @@ namespace MyGUIPlugin
         {
             //Fill out the MouseEventArgs
             eventArgs.Button = id;
-            eventArgs.Position = new Vector2(left, top);
+            eventArgs.Position = new IntVector2(left, top);
             fireEvent(eventArgs);
         }
 

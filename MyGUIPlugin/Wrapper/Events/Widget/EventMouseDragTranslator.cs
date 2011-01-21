@@ -36,7 +36,7 @@ namespace MyGUIPlugin
         private void nativeEvent(IntPtr widget, int left, int top)
         {
             //Fill out the MouseEventArgs
-            eventArgs.Position = new Vector2(left, top);
+            eventArgs.Position = new IntVector2(left, top);
             fireEvent(eventArgs);
         }
 

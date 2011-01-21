@@ -9,7 +9,7 @@ namespace MyGUIPlugin
 {
     public class MouseEventArgs : EventArgs
     {
-        public Vector2 Position { get; internal set; }
+        public IntVector2 Position { get; internal set; }
 
         public MouseButtonCode Button { get; internal set; }
 

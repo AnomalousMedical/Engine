@@ -22,6 +22,64 @@ namespace Engine
             this.y = y;
         }
 
+        /// <summary>
+        /// Compute the dot product of this vector and another.
+        /// </summary>
+        /// <param name="v">The other vector.</param>
+        /// <returns>The dot product.</returns>
+        public int dot(ref IntVector2 v)
+        {
+            return x * v.x + y * v.y;
+        }
+
+        /// <summary>
+        /// Compute the length squared of this vector.  Avoids sqrt call.
+        /// </summary>
+        /// <returns>The sqared length.</returns>
+        public int length2()
+        {
+            return dot(ref this);
+        }
+
+        /// <summary>
+        /// Compute the length of this vector.
+        /// </summary>
+        /// <returns>The length of the vector.</returns>
+        public int length()
+        {
+            return (int)System.Math.Sqrt(length2());
+        }
+
+        /// <summary>
+        /// Compute the squared distance between two vectors.  Avoids sqrt call.
+        /// </summary>
+        /// <param name="v">The other vector.</param>
+        /// <returns>The squared distance between the two vectors,</returns>
+        public float distance2(ref IntVector2 v)
+        {
+            return (v - this).length2();
+        }
+
+        /// <summary>
+        /// Compute the distance between two vectors.
+        /// </summary>
+        /// <param name="v">The other vector.</param>
+        /// <returns>The distance between the two vectors.</returns>
+        public float distance(ref IntVector2 v)
+        {
+            return (v - this).length();
+        }
+
+        /// <summary>
+        /// Get a normalized copy of this vector. Does not modify this vector.
+        /// </summary>
+        /// <returns>A normalized copy of this vector.</returns>
+        public Vector2 normalized()
+        {
+            Vector2 vec2 = new Vector2(x, y);
+            return vec2.normalized();
+        }
+
         public static IntVector2 operator +(IntVector2 v1, IntVector2 v2)
         {
             return new IntVector2(v1.x + v2.x, v1.y + v2.y);
@@ -44,7 +102,12 @@ namespace Engine
 
         public static IntVector2 operator *(IntVector2 v, int s)
         {
-            return new IntVector2(v.x + s, v.y + s);
+            return new IntVector2(v.x * s, v.y * s);
+        }
+
+        public static IntVector2 operator *(IntVector2 v, float s)
+        {
+            return new IntVector2((int)(v.x * s), (int)(v.y * s));
         }
 
         public static IntVector2 operator *(int s, IntVector2 v)
@@ -55,6 +118,53 @@ namespace Engine
         public static IntVector2 operator /(IntVector2 v1, IntVector2 v2)
         {
             return new IntVector2(v1.x / v2.x, v1.y / v2.y);
+        }
+
+        public static IntVector2 operator /(IntVector2 v, float s)
+        {
+            return v * (1.0f / s);
+        }
+
+        //Vector2 operators
+        public static Vector2 operator +(IntVector2 v1, Vector2 v2)
+        {
+            return new Vector2(v1.x + v2.x, v1.y + v2.y);
+        }
+
+        public static Vector2 operator *(IntVector2 v1, Vector2 v2)
+        {
+            return new Vector2(v1.x * v2.x, v1.y * v2.y);
+        }
+
+        public static Vector2 operator -(IntVector2 v1, Vector2 v2)
+        {
+            return new Vector2(v1.x - v2.x, v1.y - v2.y);
+        }
+
+        public static Vector2 operator /(IntVector2 v1, Vector2 v2)
+        {
+            return new Vector2(v1.x / v2.x, v1.y / v2.y);
+        }
+
+        //Vector 2 other way
+        public static Vector2 operator +(Vector2 v1, IntVector2 v2)
+        {
+            return new Vector2(v1.x + v2.x, v1.y + v2.y);
+        }
+
+        public static Vector2 operator *(Vector2 v1, IntVector2 v2)
+        {
+            return new Vector2(v1.x * v2.x, v1.y * v2.y);
+        }
+
+        public static Vector2 operator -(Vector2 v1, IntVector2 v2)
+        {
+            return new Vector2(v1.x - v2.x, v1.y - v2.y);
+        }
+
+        public static Vector2 operator /(Vector2 v1, IntVector2 v2)
+        {
+            return new Vector2(v1.x / v2.x, v1.y / v2.y);
         }
 
         #region Saving
