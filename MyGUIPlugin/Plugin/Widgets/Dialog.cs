@@ -157,13 +157,13 @@ namespace MyGUIPlugin
             IgnorePositionChanges = false;
         }
 
-        public void serialize(ConfigFile configFile)
+        public virtual void serialize(ConfigFile configFile)
         {
             ConfigSection section = configFile.createOrRetrieveConfigSection(persistName);
             section.setValue("Location", desiredLocation.ToString());
         }
 
-        public void deserialize(ConfigFile configFile)
+        public virtual void deserialize(ConfigFile configFile)
         {
             ConfigSection section = configFile.createOrRetrieveConfigSection(persistName);
             String location = section.getValue("Location", desiredLocation.ToString());
