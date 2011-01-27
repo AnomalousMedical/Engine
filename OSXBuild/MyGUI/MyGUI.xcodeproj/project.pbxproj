@@ -46,6 +46,7 @@
 		013389531282F7A7007A0E4A /* EventRootKeyChangeFocusTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 013389491282F7A7007A0E4A /* EventRootKeyChangeFocusTranslator.cpp */; };
 		013389541282F7A7007A0E4A /* EventRootMouseChangeFocusTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0133894A1282F7A7007A0E4A /* EventRootMouseChangeFocusTranslator.cpp */; };
 		013389551282F7A7007A0E4A /* EventToolTipTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0133894B1282F7A7007A0E4A /* EventToolTipTranslator.cpp */; };
+		014EE2A112B1673C00E8DE88 /* ISubWidgetText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 014EE2A012B1673C00E8DE88 /* ISubWidgetText.cpp */; };
 		0150614411E621CF00BD1C99 /* ResourceManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0150614311E621CF00BD1C99 /* ResourceManager.cpp */; };
 		01635A4A11EE083600880488 /* EventMessageBoxResultTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01635A4811EE083600880488 /* EventMessageBoxResultTranslator.cpp */; };
 		01635A4B11EE083600880488 /* Message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01635A4911EE083600880488 /* Message.cpp */; };
@@ -109,6 +110,7 @@
 		013389491282F7A7007A0E4A /* EventRootKeyChangeFocusTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventRootKeyChangeFocusTranslator.cpp; sourceTree = "<group>"; };
 		0133894A1282F7A7007A0E4A /* EventRootMouseChangeFocusTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventRootMouseChangeFocusTranslator.cpp; sourceTree = "<group>"; };
 		0133894B1282F7A7007A0E4A /* EventToolTipTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventToolTipTranslator.cpp; sourceTree = "<group>"; };
+		014EE2A012B1673C00E8DE88 /* ISubWidgetText.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ISubWidgetText.cpp; sourceTree = "<group>"; };
 		0150614311E621CF00BD1C99 /* ResourceManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ResourceManager.cpp; sourceTree = "<group>"; };
 		01635A4811EE083600880488 /* EventMessageBoxResultTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMessageBoxResultTranslator.cpp; sourceTree = "<group>"; };
 		01635A4911EE083600880488 /* Message.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Message.cpp; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 		01141F8A11DE323A005BB169 /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				014EE2A012B1673C00E8DE88 /* ISubWidgetText.cpp */,
 				013389421282F7A7007A0E4A /* EventCanvasPositionChanged.cpp */,
 				013389431282F7A7007A0E4A /* EventKeyButtonPressedTranslator.cpp */,
 				013389441282F7A7007A0E4A /* EventKeyButtonReleasedTranslator.cpp */,
@@ -397,6 +400,7 @@
 				013389531282F7A7007A0E4A /* EventRootKeyChangeFocusTranslator.cpp in Sources */,
 				013389541282F7A7007A0E4A /* EventRootMouseChangeFocusTranslator.cpp in Sources */,
 				013389551282F7A7007A0E4A /* EventToolTipTranslator.cpp in Sources */,
+				014EE2A112B1673C00E8DE88 /* ISubWidgetText.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

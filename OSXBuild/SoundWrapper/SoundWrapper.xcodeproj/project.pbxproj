@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01E47C53129317890045D12D /* AudioCodec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E47C52129317890045D12D /* AudioCodec.cpp */; };
 		01F9A219128DE59F00447019 /* AudioCodec.h in Headers */ = {isa = PBXBuildFile; fileRef = 01F9A1FE128DE59F00447019 /* AudioCodec.h */; };
 		01F9A21A128DE59F00447019 /* Listener.h in Headers */ = {isa = PBXBuildFile; fileRef = 01F9A1FF128DE59F00447019 /* Listener.h */; };
 		01F9A21B128DE59F00447019 /* MemorySound.h in Headers */ = {isa = PBXBuildFile; fileRef = 01F9A200128DE59F00447019 /* MemorySound.h */; };
@@ -40,6 +41,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		01E47C52129317890045D12D /* AudioCodec.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioCodec.cpp; sourceTree = "<group>"; };
 		01F9A1F8128DE55D00447019 /* libSoundWrapper.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libSoundWrapper.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		01F9A1FE128DE59F00447019 /* AudioCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioCodec.h; sourceTree = "<group>"; };
 		01F9A1FF128DE59F00447019 /* Listener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Listener.h; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 		01F9A20A128DE59F00447019 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				01E47C52129317890045D12D /* AudioCodec.cpp */,
 				01F9A20B128DE59F00447019 /* Listener.cpp */,
 				01F9A20C128DE59F00447019 /* ManagedLogListener.cpp */,
 				01F9A20D128DE59F00447019 /* ManagedStream.cpp */,
@@ -259,6 +262,7 @@
 				01F9A22F128DE59F00447019 /* SourceManager.cpp in Sources */,
 				01F9A230128DE59F00447019 /* StreamingSound.cpp in Sources */,
 				01F9A231128DE59F00447019 /* Stdafx.cpp in Sources */,
+				01E47C53129317890045D12D /* AudioCodec.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
