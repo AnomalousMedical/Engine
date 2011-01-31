@@ -37,6 +37,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -246,6 +247,7 @@
     <Compile Include="Saving\XMLSaver\Values\XmlVector3.cs" />
     <Compile Include="Saving\XMLSaver\XmlValueCollection.cs" />
     <Compile Include="Saving\XMLSaver\XmlValueReader.cs" />
+    <Compile Include="Utility\FastIteratorMap.cs" />
     <Compile Include="Utility\GenericObjectPool.cs" />
     <Compile Include="Utility\ObjectPool.cs" />
     <Compile Include="Utility\Pair.cs" />
