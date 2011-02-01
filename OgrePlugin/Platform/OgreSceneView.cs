@@ -192,11 +192,6 @@ namespace OgrePlugin
             renderWindow.update(swapBuffers);
         }
 
-        public void copyContentsToMemory(PixelBox pixelBox, RenderTarget.FrameBuffer buffer)
-        {
-            renderWindow.copyContentsToMemory(pixelBox, buffer);
-        }
-
         public PixelFormat suggestPixelFormat()
         {
             return renderWindow.suggestPixelFormat();

@@ -13,7 +13,7 @@ namespace MyGUIPlugin
         protected Window window;
         private bool modal = false;
         private Rect desiredLocation;
-        String persistName;
+        private String persistName;
 
         /// <summary>
         /// Called after the dialog opens.
@@ -251,6 +251,14 @@ namespace MyGUIPlugin
             {
                 window.setPosition((int)value.x, (int)value.y);
                 updateDesiredLocation();
+            }
+        }
+
+        protected String PersistName
+        {
+            get
+            {
+                return persistName;
             }
         }
 

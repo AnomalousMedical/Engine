@@ -36,6 +36,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -51,6 +52,7 @@
     <Compile Include="Plugin\Widgets\CheckButton.cs" />
     <Compile Include="Plugin\Widgets\Component.cs" />
     <Compile Include="Plugin\Widgets\Dialog.cs" />
+    <Compile Include="Plugin\Widgets\FixedSizeDialog.cs" />
     <Compile Include="Plugin\Widgets\MessageBox.cs" />
     <Compile Include="Plugin\Widgets\MinMaxScroll.cs" />
     <Compile Include="Plugin\Widgets\NumericEdit.cs" />

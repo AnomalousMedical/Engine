@@ -65,6 +65,11 @@ namespace OgrePlugin
             OgreRenderWindow.setActive(enabled);
         }
 
+        public void copyContentsToMemory(PixelBox pixelBox, RenderTarget.FrameBuffer buffer)
+        {
+            OgreRenderWindow.copyContentsToMemory(pixelBox, buffer);
+        }
+
         public abstract void Dispose();
 
         public abstract RenderWindow OgreRenderWindow
