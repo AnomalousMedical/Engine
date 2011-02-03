@@ -171,6 +171,13 @@ namespace MyGUIPlugin
             window.setCoord((int)desiredLocation.Left, (int)desiredLocation.Top, (int)desiredLocation.Width, (int)desiredLocation.Height);
         }
 
+        public void center()
+        {
+            desiredLocation.Left = Gui.Instance.getViewWidth() / 2 - window.Width / 2;
+            desiredLocation.Top = Gui.Instance.getViewHeight() / 2 - window.Height / 2;
+            window.setCoord((int)desiredLocation.Left, (int)desiredLocation.Top, (int)desiredLocation.Width, (int)desiredLocation.Height);
+        }
+
         /// <summary>
         /// Acutally change the window visibility, called from Visible.set
         /// </summary>
@@ -251,6 +258,22 @@ namespace MyGUIPlugin
             {
                 window.setPosition((int)value.x, (int)value.y);
                 updateDesiredLocation();
+            }
+        }
+
+        public int Width
+        {
+            get
+            {
+                return window.Width;
+            }
+        }
+
+        public int Height
+        {
+            get
+            {
+                return window.Height;
             }
         }
 
