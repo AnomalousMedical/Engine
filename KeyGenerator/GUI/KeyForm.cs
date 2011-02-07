@@ -78,7 +78,7 @@ namespace KeyGenerator
                     }
                 }
                 String key = KeyCreator.createKey(programNameText.Text);
-                while (usedKeys.Contains(key))
+                while (usedKeys.Contains(key) && !KeyChecker.checkValid(programNameText.Text, key))
                 {
                     key = KeyCreator.createKey(programNameText.Text);
                 }

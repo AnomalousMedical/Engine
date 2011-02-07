@@ -21,42 +21,44 @@ namespace Engine
             }
             String[] splitArgs = { "-" };
             String[] split = key.Split(splitArgs, StringSplitOptions.None);
-            String tempVar = String.Join("-", split, 0, 4) + "-";
-
-            long genVal = 0;
-            for (int i = 0; i < tempVar.Length; ++i)
+            if (split.Length == 5)
             {
-                if (i < appName.Length)
+                String tempVar = String.Join("-", split, 0, 4) + "-";
+
+                long genVal = 0;
+                for (int i = 0; i < tempVar.Length; ++i)
                 {
-                    if (getPlusMinus(appName[i]) == false)
+                    if (i < appName.Length)
                     {
-                        genVal += tempVar[i];
+                        if (getPlusMinus(appName[i]) == false)
+                        {
+                            genVal += tempVar[i];
+                        }
+                        else
+                        {
+                            genVal -= tempVar[i];
+                        }
                     }
                     else
                     {
-                        genVal -= tempVar[i];
+                        if (i % 2 == 0)
+                        {
+                            genVal -= tempVar[i];
+                        }
+                        else
+                        {
+                            genVal += tempVar[i];
+                        }
                     }
                 }
-                else
+                if (genVal < 0)
                 {
-                    if (i % 2 == 0)
-                    {
-                        genVal -= tempVar[i];
-                    }
-                    else
-                    {
-                        genVal += tempVar[i];
-                    }
+                    genVal = -genVal;
                 }
-            }
-            if (genVal < 0)
-            {
-                genVal = -genVal;
-            }
 
-            //Console.WriteLine(String.Format("GenVal {0} AppVal {1} KeyString {2}", genVal, appVal, tempVar));
-
-            return ((genVal * appVal).ToString() + "JSDEU").Substring(0, 5) == split[4];
+                return ((genVal * appVal).ToString() + "JSDEU").Substring(0, 5) == split[4];
+            }
+            return false;
         }
 
         /// <summary>
