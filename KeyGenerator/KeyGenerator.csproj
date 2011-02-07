@@ -49,17 +49,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GUI\KeyChecker.cs" />
-    <Compile Include="GUI\KeyCreator.cs" />
-    <Compile Include="KeyAlgorithm\KeyForm.cs">
+    <Compile Include="KeyAlgorithm\KeyChecker.cs" />
+    <Compile Include="KeyAlgorithm\KeyCreator.cs" />
+    <Compile Include="GUI\KeyForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="KeyAlgorithm\KeyForm.designer.cs">
+    <Compile Include="GUI\KeyForm.designer.cs">
       <DependentUpon>KeyForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="KeyAlgorithm\KeyForm.resx">
+    <EmbeddedResource Include="GUI\KeyForm.resx">
       <DependentUpon>KeyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
