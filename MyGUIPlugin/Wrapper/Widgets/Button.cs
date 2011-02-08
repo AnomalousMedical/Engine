@@ -8,10 +8,21 @@ namespace MyGUIPlugin
 {
     public class Button : StaticText
     {
+        private StaticImage staticImage = null;
+
         internal Button(IntPtr button)
             :base(button)
         {
 
+        }
+
+        public override void Dispose()
+        {
+            if (staticImage != null && !Gui.Instance.Disposing)
+            {
+                WidgetManager.deleteWrapperAndChildren(staticImage);
+            }
+            base.Dispose();
         }
 
         public bool StateCheck
@@ -54,7 +65,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return WidgetManager.getWidget(Button_getStaticImage(widget)) as StaticImage;
+                if (staticImage == null)
+                {
+                    staticImage = WidgetManager.getWidget(Button_getStaticImage(widget)) as StaticImage;
+                }
+                return staticImage;
             }
         }
 

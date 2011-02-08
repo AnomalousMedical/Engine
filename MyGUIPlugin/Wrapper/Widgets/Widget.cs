@@ -28,7 +28,7 @@ namespace MyGUIPlugin
             eventManager = new MyGUIWidgetEventManager(this);
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             eventManager.Dispose();
             widget = IntPtr.Zero;

@@ -37,10 +37,12 @@ namespace MyGUIPlugin
             }
             gui = Gui_Create();
             instance = this;
+            Disposing = false;
         }
 
         public void Dispose()
         {
+            Disposing = true;
             PointerManager.Instance.Dispose();
             WidgetManager.destroyAllWrappers();
             Gui_Delete(gui);
@@ -178,6 +180,8 @@ namespace MyGUIPlugin
                 Update.Invoke(updateTime);
             }
         }
+
+        internal bool Disposing { get; private set; }
 
 #region PInvoke
 
