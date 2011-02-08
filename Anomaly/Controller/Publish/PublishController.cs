@@ -13,10 +13,15 @@ namespace Anomaly
 {
     class PublishController
     {
+        private static PublishControllerEventArgs eventArgs = new PublishControllerEventArgs();
+        public event EventHandler<PublishControllerEventArgs> DirectoryIgnored;
+
         //Use a dictionary to ensure that the files are unique the key is a lowercase mangled name and the value is the filename as returned.
         private List<VirtualFileInfo> files = new List<VirtualFileInfo>();
         HashSet<String> recursiveDirectories = new HashSet<string>();
         private Solution solution;
+        private List<String> ignoreFiles = new List<String>();
+        private List<String> ignoreDirectories = new List<string>();
 
         public PublishController(Solution solution)
         {
@@ -49,6 +54,42 @@ namespace Anomaly
             }
         }
 
+        public void openResourceProfile(String profileName)
+        {
+            ConfigFile configFile = new ConfigFile(Path.Combine(solution.WorkingDirectory, profileName + ".rpr"));
+            configFile.loadConfigFile();
+            ConfigSection ignoredDirectories = configFile.createOrRetrieveConfigSection("IgnoredDirectories");
+            ConfigIterator dirIter = new ConfigIterator(ignoredDirectories, "Dir");
+            while (dirIter.hasNext())
+            {
+                addIgnoreDirectory(dirIter.next());
+            }
+            ConfigSection ignoredFiles = configFile.createOrRetrieveConfigSection("IgnoredFiles");
+            ConfigIterator fileIter = new ConfigIterator(ignoredFiles, "File");
+            while (fileIter.hasNext())
+            {
+                addIgnoreFile(fileIter.next());
+            }
+        }
+
+        public void saveResourceProfile(String profileName)
+        {
+            ConfigFile configFile = new ConfigFile(Path.Combine(solution.WorkingDirectory, profileName + ".rpr"));
+            ConfigSection ignoredDirectories = configFile.createOrRetrieveConfigSection("IgnoredDirectories");
+            int i = 0;
+            foreach(String dir in ignoreDirectories)
+            {
+                ignoredDirectories.setValue("Dir" + i++, dir);
+            }
+            ConfigSection ignoredFiles = configFile.createOrRetrieveConfigSection("IgnoredFiles");
+            i = 0;
+            foreach(String file in ignoreFiles)
+            {
+                ignoredFiles.setValue("File" + i++, file);
+            }
+            configFile.writeConfigFile();
+        }
+
         public void copyResources(String targetDirectory, String archiveName, bool compress, bool obfuscate)
         {
             String originalDirectory = targetDirectory;
@@ -59,14 +100,17 @@ namespace Anomaly
             Log.Info("Starting file copy to {0}", targetDirectory);
             foreach (VirtualFileInfo sourceFile in files)
             {
-                String destination = targetDirectory + Path.DirectorySeparatorChar + sourceFile.FullName;
-                String directory = Path.GetDirectoryName(destination);
-                if (!Directory.Exists(directory))
+                if (!ignoreFiles.Contains(sourceFile.FullName) && !ignoreDirectories.Contains(sourceFile.DirectoryName))
                 {
-                    Directory.CreateDirectory(directory);
+                    String destination = targetDirectory + Path.DirectorySeparatorChar + sourceFile.FullName;
+                    String directory = Path.GetDirectoryName(destination);
+                    if (!Directory.Exists(directory))
+                    {
+                        Directory.CreateDirectory(directory);
+                    }
+                    Log.Info("Copying {0} to {1}.", sourceFile.RealLocation, destination);
+                    File.Copy(sourceFile.RealLocation, destination, true);
                 }
-                Log.Info("Copying {0} to {1}.", sourceFile.RealLocation, destination);
-                File.Copy(sourceFile.RealLocation, destination, true);
             }
             if (compress)
             {
@@ -132,6 +176,56 @@ namespace Anomaly
             return files;
         }
 
+        public void addIgnoreFile(VirtualFileInfo fileInfo)
+        {
+            addIgnoreFile(fileInfo.FullName);
+        }
+
+        private void addIgnoreFile(String fileName)
+        {
+            ignoreFiles.Add(fileName);
+        }
+
+        public void removeIgnoreFile(VirtualFileInfo fileInfo)
+        {
+            ignoreFiles.Remove(fileInfo.FullName);
+        }
+
+        public bool isIgnoreFile(VirtualFileInfo fileInfo)
+        {
+            return ignoreFiles.Contains(fileInfo.FullName);
+        }
+
+        public void clearIgnoreFiles()
+        {
+            ignoreFiles.Clear();
+        }
+
+        public void addIgnoreDirectory(String directory)
+        {
+            ignoreDirectories.Add(directory);
+            if (DirectoryIgnored != null)
+            {
+                eventArgs.Path = directory;
+                DirectoryIgnored.Invoke(this, eventArgs);
+            }
+        }
+
+        public void removeIgnoreDirectory(String directory)
+        {
+            ignoreDirectories.Remove(directory);
+        }
+
+        public bool isIgnoreDirectory(String directory)
+        {
+            return ignoreDirectories.Contains(directory);
+        }
+
+        public void clearIgnoreDirectories()
+        {
+            ignoreDirectories.Clear();
+        }
+
         private void processFile(String url, bool recursive)
         {
             VirtualFileSystem vfs = VirtualFileSystem.Instance;
@@ -178,5 +272,10 @@ namespace Anomaly
                 addFile(VirtualFileSystem.Instance.getFileInfo(file));
             }
         }
+    }
+
+    class PublishControllerEventArgs : EventArgs
+    {
+        public String Path { get; internal set; }
     }
 }
