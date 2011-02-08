@@ -175,15 +175,18 @@ namespace Anomaly
                         allowResourceProfileSelectedIndexChanged = false;
                         resourceProfileCombo.SelectedItem = result.text;
                         allowResourceProfileSelectedIndexChanged = true;
+                        archiveNameText.Text = result.text;
                     }
                 }
                 else if (resourceProfileCombo.SelectedIndex == 0)
                 {
                     scanResources(null);
+                    archiveNameText.Text = "";
                 }
                 else
                 {
                     scanResources(resourceProfileCombo.SelectedItem.ToString());
+                    archiveNameText.Text = resourceProfileCombo.SelectedItem.ToString();
                 }
             }
         }
