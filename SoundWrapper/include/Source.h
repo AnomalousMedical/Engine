@@ -41,6 +41,10 @@ public:
 
 	void rewind();
 
+	void setPlaybackPosition(float time);
+
+	float getPlaybackPosition();
+
 	bool getLooping();
 
 //Properties

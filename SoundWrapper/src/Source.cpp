@@ -96,6 +96,18 @@ void Source::rewind()
 	alSourceRewind(sourceID);
 }
 
+void Source::setPlaybackPosition(float time)
+{
+	currentSound->setPlaybackPosition(time);
+}
+
+float Source::getPlaybackPosition()
+{
+	float value;
+	alGetSourcef(sourceID, AL_SEC_OFFSET, &value);
+	return value;
+}
+
 bool Source::getLooping()
 {
 	ALint ret;
@@ -178,6 +190,16 @@ extern "C" _AnomalousExport bool Source_resume(Source* source)
 extern "C" _AnomalousExport void Source_rewind(Source* source)
 {
 	source->rewind();
+}
+
+extern "C" _AnomalousExport void Source_setPlaybackPosition(Source* source, float time)
+{
+	source->setPlaybackPosition(time);
+}
+
+extern "C" _AnomalousExport float Source_getPlaybackPosition(Source* source)
+{
+	return source->getPlaybackPosition();
 }
 
 extern "C" _AnomalousExport bool Source_getLooping(Source* source)

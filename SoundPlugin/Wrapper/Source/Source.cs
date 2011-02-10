@@ -280,6 +280,18 @@ namespace SoundPlugin
             }
         }
 
+        public float PlaybackPosition
+        {
+            get
+            {
+                return Source_getPlaybackPosition(Pointer);
+            }
+            set
+            {
+                Source_setPlaybackPosition(Pointer, value);
+            }
+        }
+
         /// <summary>
         /// Private callback for when the Source is finished playing and will be returned to the pool.
         /// </summary>
@@ -321,6 +333,12 @@ namespace SoundPlugin
 
         [DllImport("SoundWrapper")]
         private static extern void Source_rewind(IntPtr source);
+
+        [DllImport("SoundWrapper")]
+        private static extern void Source_setPlaybackPosition(IntPtr source, float time);
+
+        [DllImport("SoundWrapper")]
+        private static extern float Source_getPlaybackPosition(IntPtr source);
 
         [DllImport("SoundWrapper")]
         private static extern void Source_setFinishedCallback(IntPtr source, SourceFinishedCallback callback);

@@ -64,9 +64,15 @@ void MemorySound::close()
 
 bool MemorySound::enqueueSource(Source* source)
 {
+	currentSource = source;
 	alSourcei(source->getSourceID(), AL_LOOPING, repeat);
 	alSourcei(source->getSourceID(), AL_BUFFER, bufferID);
 	return true;
+}
+
+void MemorySound::setPlaybackPosition(float time)
+{
+	alSourcef(currentSource->getSourceID(), AL_SEC_OFFSET, time);
 }
 
 }

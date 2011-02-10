@@ -88,6 +88,11 @@ double OggCodec::getDuration()
 	return ov_time_total(&oggStream, -1);
 }
 
+void OggCodec::setPlaybackPosition(float time)
+{
+	ov_time_seek(&oggStream, time);
+}
+
 string OggCodec::errorString(int code)
 {
     switch(code)

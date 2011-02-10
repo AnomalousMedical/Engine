@@ -167,4 +167,52 @@ double StreamingSound::getDuration()
 	return audioCodec->getDuration();
 }
 
+void StreamingSound::setPlaybackPosition(float time)
+{
+	int sourceID = currentSource->getSourceID();
+	bool playing = currentSource->playing();
+	if(playing)
+	{
+		//Stop the source if playing
+		alSourceStop(sourceID);
+	}
+
+	//Dequeue all buffers
+	int queued = 0;
+    
+	alGetSourcei(sourceID, AL_BUFFERS_PROCESSED, &queued);
+	checkOpenAL();
+	if(queued < 0)
+	{
+		queued = 0;
+	}
+    
+	while(queued--)
+	{
+		ALuint buffer;
+		alSourceUnqueueBuffers(sourceID, 1, &buffer);
+		checkOpenAL();
+	}
+
+	//Set the playback position
+	audioCodec->setPlaybackPosition(time);
+
+	//Enqueue the buffers again
+	for(int i = 0; i < numBuffers; ++i)
+	{
+		if(!stream(bufferIDs[i]))
+		{
+			return;
+		}
+	}
+	alSourcei(sourceID, AL_LOOPING, false);
+	alSourceQueueBuffers(sourceID, numBuffers, bufferIDs);
+
+	if(playing)
+	{
+		//Resume playback if playing.
+		alSourcePlay(sourceID);
+	}
+}
+
 }

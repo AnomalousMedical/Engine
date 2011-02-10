@@ -12,6 +12,7 @@ class MemorySound : public Sound
 private:
     ALuint bufferID;                        //The OpenAL sound buffer ID
 	double duration;
+	Source* currentSource;
 
 public:
 	MemorySound(AudioCodec* audioCodec);
@@ -36,6 +37,8 @@ public:
 	{
 		return duration;
 	}
+
+	virtual void setPlaybackPosition(float time);
 };
 
 }

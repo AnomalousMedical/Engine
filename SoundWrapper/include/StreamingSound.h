@@ -39,6 +39,8 @@ public:
 
 	virtual double getDuration();
 
+	virtual void setPlaybackPosition(float time);
+
 private:
 	void readBuffers(char* data, int& size);
 };

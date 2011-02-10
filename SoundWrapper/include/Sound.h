@@ -33,6 +33,8 @@ public:
 	virtual bool update() = 0;
 
 	virtual double getDuration() = 0;
+
+	virtual void setPlaybackPosition(float time) = 0;
 };
 
 }
