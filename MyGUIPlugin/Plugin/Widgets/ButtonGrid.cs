@@ -426,6 +426,14 @@ namespace MyGUIPlugin
                 scrollView.VisibleVScroll ? (int)finalSize.Height + 23 : (int)finalSize.Height + 5);
         }
 
+        public void resizeAndLayout(int newWidth)
+        {
+            Size2 canvasSize = scrollView.CanvasSize;
+            canvasSize.Width = newWidth;
+            scrollView.CanvasSize = canvasSize;
+            layout();
+        }
+
         public ButtonGridItem getItem(int index)
         {
             if (index >= itemCount)
