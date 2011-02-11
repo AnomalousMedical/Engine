@@ -16,6 +16,8 @@ namespace Anomaly
     {
         private PublishController fileList;
         private Dictionary<String, ListViewGroup> groups = new Dictionary<string, ListViewGroup>();
+        private bool allowExternalFileChanges = true;
+        private AnomalyController controller;
 
         public PublishGUI()
         {
@@ -27,8 +29,10 @@ namespace Anomaly
 
         public void initialize(AnomalyController controller)
         {
+            this.controller = controller;
             fileList = new PublishController(controller.Solution);
             fileList.DirectoryIgnored += new EventHandler<PublishControllerEventArgs>(fileList_DirectoryIgnored);
+            fileList.ExternalFileAdded += new EventHandler<PublishControllerEventArgs>(fileList_ExternalFileAdded);
 
             resourceProfileCombo.Items.Add("None");
             foreach (String profileFile in Directory.GetFiles(controller.Solution.WorkingDirectory, "*.rpr", SearchOption.TopDirectoryOnly))
@@ -42,32 +46,21 @@ namespace Anomaly
         {
             fileList.clearIgnoreDirectories();
             fileList.clearIgnoreFiles();
+            fileList.clearExternalDirectories();
+            fileList.clearExternalFiles();
             fileList.scanResources();
+            allowExternalFileChanges = false;
             if(resourceProfile != null)
             {
                 fileList.openResourceProfile(resourceProfile);
             }
+            allowExternalFileChanges = true;
             groups.Clear();
             fileView.Groups.Clear();
             fileView.Items.Clear();
             foreach (VirtualFileInfo file in fileList.getPrettyFileList())
             {
-                String directory = file.DirectoryName;
-                if (!fileList.isIgnoreDirectory(directory) && !fileList.isIgnoreFile(file))
-                {
-                    ListViewGroup group;
-                    groups.TryGetValue(directory, out group);
-                    if (group == null)
-                    {
-                        group = new ListViewGroup(directory);
-                        groups.Add(directory, group);
-                        fileView.Groups.Add(group);
-                    }
-                    ListViewItem listViewFile = new ListViewItem(file.Name, group);
-                    listViewFile.Checked = true;
-                    listViewFile.Tag = file;
-                    fileView.Items.Add(listViewFile);
-                }
+                addFileToGUIList(file);
             }
         }
 
@@ -151,12 +144,23 @@ namespace Anomaly
 
         void fileList_DirectoryIgnored(object sender, PublishControllerEventArgs e)
         {
-            ListViewGroup group = groups[e.Path];
-            ListViewItem[] groupItems = new ListViewItem[group.Items.Count];
-            group.Items.CopyTo(groupItems, 0);
-            foreach (ListViewItem item in groupItems)
+            ListViewGroup group;
+            if(groups.TryGetValue(e.FileInfo.FullName, out group))
             {
-                fileView.Items.Remove(item);
+                ListViewItem[] groupItems = new ListViewItem[group.Items.Count];
+                group.Items.CopyTo(groupItems, 0);
+                foreach (ListViewItem item in groupItems)
+                {
+                    fileView.Items.Remove(item);
+                }
+            }
+        }
+
+        void fileList_ExternalFileAdded(object sender, PublishControllerEventArgs e)
+        {
+            if (allowExternalFileChanges)
+            {
+                addFileToGUIList(e.FileInfo);
             }
         }
 
@@ -191,6 +195,26 @@ namespace Anomaly
             }
         }
 
+        private void addFileToGUIList(VirtualFileInfo file)
+        {
+            String directory = file.DirectoryName;
+            if (!fileList.isIgnoreDirectory(directory) && !fileList.isIgnoreFile(file))
+            {
+                ListViewGroup group;
+                groups.TryGetValue(directory, out group);
+                if (group == null)
+                {
+                    group = new ListViewGroup(directory);
+                    groups.Add(directory, group);
+                    fileView.Groups.Add(group);
+                }
+                ListViewItem listViewFile = new ListViewItem(file.Name, group);
+                listViewFile.Checked = true;
+                listViewFile.Tag = file;
+                fileView.Items.Add(listViewFile);
+            }
+        }
+
         private void saveResourceProfile_Click(object sender, EventArgs e)
         {
             if (resourceProfileCombo.SelectedIndex != 0)
@@ -200,6 +224,40 @@ namespace Anomaly
             else
             {
                 MessageBox.Show(this, "Cannot save the \"None\" resource profile.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void addDirectoryButton_Click(object sender, EventArgs e)
+        {
+            if (folderBrowserDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                String resourceRoot = controller.Solution.ResourceRoot;
+                String folder = folderBrowserDialog.SelectedPath.Substring(resourceRoot.Length);
+                if (VirtualFileSystem.Instance.exists(folder))
+                {
+                    fileList.addExternalDirectory(VirtualFileSystem.Instance.getFileInfo(folder), recursiveCheckBox.Checked);
+                }
+                else
+                {
+                    MessageBox.Show(this, String.Format("Could not add path {0} because it is not under the resource root {1}.", folderBrowserDialog.SelectedPath, resourceRoot), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void addFileButton_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                String resourceRoot = controller.Solution.ResourceRoot;
+                String file = openFileDialog.FileName.Substring(resourceRoot.Length);
+                if (VirtualFileSystem.Instance.exists(file))
+                {
+                    fileList.addExternalFile(VirtualFileSystem.Instance.getFileInfo(file));
+                }
+                else
+                {
+                    MessageBox.Show(this, String.Format("Could not add path {0} because it is not under the resource root {1}.", openFileDialog.FileName, resourceRoot), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }
