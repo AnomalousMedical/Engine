@@ -46,7 +46,7 @@ namespace KeyGenerator
                 configFile = new ConfigFile(openFileDialog.FileName);
                 configFile.loadConfigFile();
                 keySection = configFile.createOrRetrieveConfigSection("ValidKeys");
-                programNameText.Text = Path.GetFileNameWithoutExtension(openFileDialog.FileName);
+                programNameText.Text = Path.GetFileName(openFileDialog.FileName);
                 ConfigIterator keyIter = new ConfigIterator(keySection, "Key");
                 while (keyIter.hasNext())
                 {
@@ -83,9 +83,13 @@ namespace KeyGenerator
                 for (int i = 0; i < numberOfKeys.Value; ++i)
                 {
                     String key = KeyCreator.createKey(programNameText.Text);
-                    while (usedKeys.Contains(key) && !KeyChecker.checkValid(programNameText.Text, key))
+                    while (usedKeys.Contains(key))
                     {
                         key = KeyCreator.createKey(programNameText.Text);
+                        while (!KeyChecker.checkValid(programNameText.Text, key))
+                        {
+                            key = KeyCreator.createKey(programNameText.Text);
+                        }
                     }
                     keySection.setValue("Key" + usedKeys.Count, key);
                     usedKeys.Add(key);
