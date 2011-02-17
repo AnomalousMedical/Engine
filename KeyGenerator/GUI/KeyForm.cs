@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Engine;
 using System.IO;
+using System.Drawing.Imaging;
 
 namespace KeyGenerator
 {
@@ -16,10 +17,12 @@ namespace KeyGenerator
         private ConfigFile configFile;
         private ConfigSection keySection;
         private List<String> usedKeys = new List<string>();
+        private Image keyCardBitmap;
 
         public KeyForm()
         {
             InitializeComponent();
+            keyCardPreview.SizeMode = PictureBoxSizeMode.Zoom;
         }
 
         protected override void OnClosed(EventArgs e)
@@ -77,15 +80,57 @@ namespace KeyGenerator
                         usedKeys.Add(keyIter.next());
                     }
                 }
-                String key = KeyCreator.createKey(programNameText.Text);
-                while (usedKeys.Contains(key) && !KeyChecker.checkValid(programNameText.Text, key))
+                for (int i = 0; i < numberOfKeys.Value; ++i)
                 {
-                    key = KeyCreator.createKey(programNameText.Text);
+                    String key = KeyCreator.createKey(programNameText.Text);
+                    while (usedKeys.Contains(key) && !KeyChecker.checkValid(programNameText.Text, key))
+                    {
+                        key = KeyCreator.createKey(programNameText.Text);
+                    }
+                    keySection.setValue("Key" + usedKeys.Count, key);
+                    usedKeys.Add(key);
+                    keyText.Text = key;
+                    configFile.writeConfigFile();
+                    if (keyCardBitmap != null)
+                    {
+                        using (Image cloneImage = (Image)keyCardBitmap.Clone())
+                        {
+                            using (Graphics g = Graphics.FromImage(cloneImage))
+                            {
+                                using (Font font = new Font(FontFamily.GenericMonospace, 14))
+                                {
+                                    SizeF stringSize = g.MeasureString(key, font);
+                                    float xLoc = (cloneImage.Width - stringSize.Width) / 2.0f;
+                                    int yLoc = 1391;
+                                    using (Brush brush = new SolidBrush(System.Drawing.Color.Black))
+                                    {
+                                        g.DrawString(key, font, brush, new Point((int)xLoc, yLoc));
+                                    }
+                                }
+
+                                if (!Directory.Exists(programNameText.Text + "KeyCards"))
+                                {
+                                    Directory.CreateDirectory(programNameText.Text + "KeyCards");
+                                }
+                                cloneImage.Save(programNameText.Text + "KeyCards/" + key + ".tif", ImageFormat.Tiff);
+                            }
+                        }
+                    }
                 }
-                keySection.setValue("Key" + usedKeys.Count, key);
-                usedKeys.Add(key);
-                keyText.Text = key;
-                Clipboard.SetData(DataFormats.Text, key);
+            }
+        }
+
+        private void openImageButton_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                if (keyCardBitmap != null)
+                {
+                    keyCardBitmap.Dispose();
+                }
+                keyCardPreview.Image = null;
+                keyCardBitmap = Bitmap.FromFile(openFileDialog.FileName);
+                keyCardPreview.Image = keyCardBitmap;
             }
         }
     }
