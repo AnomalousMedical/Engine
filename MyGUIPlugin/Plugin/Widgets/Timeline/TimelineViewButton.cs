@@ -26,6 +26,8 @@ namespace MyGUIPlugin
 
     class TimelineViewButton
     {
+        private const int MIN_BUTTON_SIZE = 17;
+
         private Button button;
         private Button durationButton;
         private Button startTimeButton;
@@ -45,6 +47,12 @@ namespace MyGUIPlugin
         {
             this.pixelsPerSecond = pixelsPerSecond;
             this.button = button;
+
+            if (button.Width < MIN_BUTTON_SIZE)
+            {
+                button.setSize(MIN_BUTTON_SIZE, button.Height);
+            }
+
             durationButton = button.createWidgetT("Button", "TimelineButton", button.Width - 3, button.Top, 3, button.Height, Align.Top | Align.Right, "") as Button;
             durationButton.MouseDrag += new MyGUIEvent(durationButton_MouseDrag);
             durationButton.MouseButtonPressed += new MyGUIEvent(durationButton_MouseButtonPressed);
@@ -292,9 +300,9 @@ namespace MyGUIPlugin
         {
             sharedEventArgs._setValues(button);
             int buttonWidth = (int)(timelineData.Duration * pixelsPerSecond);
-            if (buttonWidth < 10)
+            if (buttonWidth < MIN_BUTTON_SIZE)
             {
-                buttonWidth = 10;
+                buttonWidth = MIN_BUTTON_SIZE;
             }
             button.setSize(buttonWidth, button.Height);
             if (CoordChanged != null)
