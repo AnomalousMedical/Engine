@@ -18,6 +18,12 @@ namespace SoundPlugin
             :base(OpenALManager_create())
         {
             listener = new Listener(OpenALManager_getListener(Pointer));
+            SoundConfig.MasterVolumeChanged += new EventHandler(SoundConfig_MasterVolumeChanged);
+        }
+
+        void SoundConfig_MasterVolumeChanged(object sender, EventArgs e)
+        {
+            listener.Gain = SoundConfig.MasterVolume;
         }
 
         public void Dispose()
