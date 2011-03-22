@@ -246,6 +246,7 @@ namespace OgreModelEditor.Controller
         private void readModelInfo()
         {
             entityMaterialName = entity.getSubEntity(0).getMaterialName();
+            Log.Debug("Material name is {0}.", entityMaterialName);
             using (MaterialPtr modelMaterial = MaterialManager.getInstance().getByName(entityMaterialName))
             {
                 //Get the texture names
