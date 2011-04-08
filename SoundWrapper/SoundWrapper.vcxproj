@@ -75,7 +75,7 @@
     <Link>
       <AdditionalDependencies>OpenAL32.lib;libogg_static.lib;libvorbis_static.lib;libvorbisfile_static.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OPENAL_HOME)\libs\Win32;$(OGG_HOME)\win32\VS2010\Win32\Release;$(VORBIS_HOME)\win32\VS2010\Win32\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>

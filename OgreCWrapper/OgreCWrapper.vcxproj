@@ -65,7 +65,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>include;$(OGRE_HOME)\WindowsBuild\include;$(OGRE_HOME)\ogre_src_v1-7-2\OgreMain\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;$(OGRE_HOME)\Windows\Build\include;$(OGRE_HOME)\src\OgreMain\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;WINDOWS;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -75,15 +75,15 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>OgreMain.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(OGRE_HOME)\WindowsBuild\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(OGRE_HOME)\Windows\Build\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(OGRE_HOME)\WindowsBuild\bin\Release\OgreMain.dll $(OutDir)OgreMain.dll
-copy $(OGRE_HOME)\WindowsBuild\bin\Release\Plugin_CgProgramManager.dll $(OutDir)Plugin_CgProgramManager.dll
-copy $(OGRE_HOME)\WindowsBuild\bin\Release\RenderSystem_Direct3D9.dll $(OutDir)RenderSystem_Direct3D9.dll
-copy $(OGRE_HOME)\WindowsDependencies\bin\Release\cg.dll $(OutDir)cg.dll
+      <Command>copy $(OGRE_HOME)\Windows\Build\bin\Release\OgreMain.dll $(OutDir)OgreMain.dll
+copy $(OGRE_HOME)\Windows\Build\bin\Release\Plugin_CgProgramManager.dll $(OutDir)Plugin_CgProgramManager.dll
+copy $(OGRE_HOME)\Windows\Build\bin\Release\RenderSystem_Direct3D9.dll $(OutDir)RenderSystem_Direct3D9.dll
+copy $(OGRE_HOME)\Windows\Dependencies\bin\Release\cg.dll $(OutDir)cg.dll
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

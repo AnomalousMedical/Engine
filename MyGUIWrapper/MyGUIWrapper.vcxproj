@@ -65,7 +65,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(MYGUI_HOME)\Src\MyGUIEngine\include;$(MYGUI_HOME)\Src\Platforms\Ogre\OgrePlatform\include;$(OGRE_HOME)\ogre_src_v1-7-2\OgreMain\include;$(OGRE_HOME)\WindowsBuild\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MYGUI_HOME)\Src\MyGUIEngine\include;$(MYGUI_HOME)\Src\Platforms\Ogre\OgrePlatform\include;$(OGRE_HOME)\src\OgreMain\include;$(OGRE_HOME)\Windows\Build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WINDOWS;WIN32;NDEBUG;MYGUI_STATIC;_WINDOWS;MYGUI_USE_FREETYPE;MYGUI_BUILD;NOMINMAX;CMAKE_INTDIR="Release";MyGUIEngine_EXPORTS;MYGUI_DONT_USE_OBSOLETE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -74,8 +74,8 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;freetype2311.lib;MyGUI.OgrePlatform.lib;MyGUIEngineStatic.lib;OgreMain.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(OGRE_HOME)\WindowsDependencies\lib\Release;$(MYGUI_HOME)\WindowsBuild\lib\Release;$(OGRE_HOME)\WindowsBuild\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(OGRE_HOME)\Windows\Dependencies\lib\Release;$(MYGUI_HOME)\WindowsBuild\lib\Release;$(OGRE_HOME)\Windows\Build\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>

@@ -75,7 +75,7 @@
     <Link>
       <AdditionalDependencies>OIS_static.lib;kernel32.lib;user32.lib;Winmm.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OIS_HOME)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>

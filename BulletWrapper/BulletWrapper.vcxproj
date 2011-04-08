@@ -75,7 +75,7 @@
     <Link>
       <AdditionalDependencies>bulletsoftbody.lib;bulletdynamics.lib;bulletcollision.lib;linearmath.lib;bulletmultithreaded.lib;convexdecomposition.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(BULLET_HOME)\msvc\2008\Extras\ConvexDecomposition\Release;$(BULLET_HOME)\msvc\2008\src\BulletSoftBody\Release;$(BULLET_HOME)\msvc\2008\src\BulletMultiThreaded\Release;$(BULLET_HOME)\msvc\2008\src\BulletDynamics\Release;$(BULLET_HOME)\msvc\2008\src\LinearMath\Release;$(BULLET_HOME)\msvc\2008\src\BulletCollision\Release;$(SolutionDir)\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>

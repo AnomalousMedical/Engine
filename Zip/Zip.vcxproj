@@ -75,7 +75,7 @@
     <Link>
       <AdditionalDependencies>zzip.lib;zlib.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ZZIPLIB_HOME)\msvc9\Release;$(ZLIB_HOME)\projects\visualc6\Win32_LIB_Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
