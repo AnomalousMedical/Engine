@@ -52,6 +52,7 @@ namespace OgreWrapper
 
         #region PInvoke
 
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void MessageLoggedDelegate(String message, LogMessageLevel lml);
 
         [DllImport("OgreCWrapper")]

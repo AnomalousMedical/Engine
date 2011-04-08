@@ -124,15 +124,15 @@ namespace OgreWrapper
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate void UnloadDelegate();
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        delegate IntPtr OpenDelegate(String filename, bool readOnly);
+        delegate IntPtr OpenDelegate(String filename, [MarshalAs(UnmanagedType.I1)] bool readOnly);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        delegate IntPtr ListDelegate(bool recursive, bool dirs);
+        delegate IntPtr ListDelegate([MarshalAs(UnmanagedType.I1)] bool recursive, [MarshalAs(UnmanagedType.I1)] bool dirs);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        delegate IntPtr ListFileInfoDelegate(bool recursive, bool dirs);
+        delegate IntPtr ListFileInfoDelegate([MarshalAs(UnmanagedType.I1)] bool recursive, [MarshalAs(UnmanagedType.I1)] bool dirs);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        delegate IntPtr FindDelegate(String pattern, bool recursive, bool dirs);
+        delegate IntPtr FindDelegate(String pattern, [MarshalAs(UnmanagedType.I1)] bool recursive, [MarshalAs(UnmanagedType.I1)] bool dirs);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        delegate IntPtr FindFileInfoDelegate(String pattern, bool recursive, bool dirs);
+        delegate IntPtr FindFileInfoDelegate(String pattern, [MarshalAs(UnmanagedType.I1)] bool recursive, [MarshalAs(UnmanagedType.I1)] bool dirs);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate bool ExistsDelegate(String filename);
 
