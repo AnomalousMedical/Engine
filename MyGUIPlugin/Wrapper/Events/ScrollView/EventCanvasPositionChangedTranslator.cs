@@ -9,6 +9,7 @@ namespace MyGUIPlugin
 {
     class EventCanvasPositionChangedTranslator : MyGUIWidgetEventTranslator
     {
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate void NativeEventDelegate(IntPtr widget, int x, int y);
         static CanvasEventArgs eventArgs = new CanvasEventArgs();
 

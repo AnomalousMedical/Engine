@@ -9,6 +9,7 @@ namespace MyGUIPlugin
 {
     class EventMouseWheelTranslator : MyGUIWidgetEventTranslator
     {
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate void NativeEventDelegate(IntPtr widget, int relWheel);
         static MouseEventArgs eventArgs = new MouseEventArgs();
 

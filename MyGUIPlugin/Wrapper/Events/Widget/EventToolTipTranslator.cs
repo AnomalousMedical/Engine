@@ -10,6 +10,7 @@ namespace MyGUIPlugin
 {
     class EventToolTipTranslator : MyGUIWidgetEventTranslator
     {
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate void NativeEventDelegate(IntPtr widget, ToolTipType type, uint index, int x, int y);
         static ToolTipEventArgs eventArgs = new ToolTipEventArgs();
 

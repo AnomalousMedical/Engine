@@ -11,6 +11,7 @@ namespace MyGUIPlugin
 {
     class EventMouseDragTranslator : MyGUIWidgetEventTranslator
     {
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate void NativeEventDelegate(IntPtr widget, int left, int top);
         static MouseEventArgs eventArgs = new MouseEventArgs();
 

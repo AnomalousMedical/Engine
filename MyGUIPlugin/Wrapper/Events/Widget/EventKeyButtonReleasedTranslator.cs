@@ -10,6 +10,7 @@ namespace MyGUIPlugin
 {
     class EventKeyButtonReleasedTranslator : MyGUIWidgetEventTranslator
     {
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate void NativeEventDelegate(IntPtr widget, KeyboardButtonCode key);
         static KeyEventArgs eventArgs = new KeyEventArgs();
 

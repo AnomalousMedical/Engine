@@ -11,6 +11,7 @@ namespace MyGUIPlugin
 
     class EventChangeMousePointerTranslator : MyGUIEventTranslator
     {
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate void NativeEventDelegate(IntPtr pointerName);
 
         private NativeEventDelegate nativeEventCallback;

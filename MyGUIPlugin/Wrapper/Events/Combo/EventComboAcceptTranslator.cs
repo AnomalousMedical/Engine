@@ -9,6 +9,7 @@ namespace MyGUIPlugin
 {
     class EventComboAcceptTranslator : MyGUIWidgetEventTranslator
     {
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate void NativeEventDelegate(IntPtr widget, UIntPtr index);
         static ComboBoxEventArgs eventArgs = new ComboBoxEventArgs();
 

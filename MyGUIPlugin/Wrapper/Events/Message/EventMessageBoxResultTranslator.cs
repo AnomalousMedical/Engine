@@ -19,6 +19,7 @@ namespace MyGUIPlugin
 
     class EventMessageBoxResultTranslator : MyGUIWidgetEventTranslator
     {
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate void NativeEventDelegate(IntPtr widget, MessageBoxStyle result);
         static MessageEventArgs eventArgs = new MessageEventArgs();
 

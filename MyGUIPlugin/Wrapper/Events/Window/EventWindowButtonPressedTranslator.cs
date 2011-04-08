@@ -20,6 +20,7 @@ namespace MyGUIPlugin
 
     class EventWindowButtonPressedTranslator : MyGUIWidgetEventTranslator
     {
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate void NativeEventDelegate(IntPtr widget, IntPtr name);
         static WindowEventArgs eventArgs = new WindowEventArgs();
 

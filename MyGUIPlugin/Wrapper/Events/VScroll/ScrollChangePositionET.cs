@@ -16,6 +16,7 @@ namespace MyGUIPlugin
     {
         static ScrollEventArgs eventArgs = new ScrollEventArgs();
 
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate void NativeEventDelegate(IntPtr widget, UIntPtr position);
 
         private NativeEventDelegate nativeEventCallback;

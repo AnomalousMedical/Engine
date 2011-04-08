@@ -9,6 +9,7 @@ namespace MyGUIPlugin
 {
     class EventKeySetFocusTranslator : MyGUIWidgetEventTranslator
     {
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate void NativeEventDelegate(IntPtr widget, IntPtr old);
         static FocusEventArgs eventArgs = new FocusEventArgs();
 

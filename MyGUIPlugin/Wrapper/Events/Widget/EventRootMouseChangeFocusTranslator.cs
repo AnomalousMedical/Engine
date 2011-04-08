@@ -9,6 +9,7 @@ namespace MyGUIPlugin
 {
     class EventRootMouseChangeFocusTranslator : MyGUIWidgetEventTranslator
     {
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate void NativeEventDelegate(IntPtr widget, bool focus);
         static RootFocusEventArgs eventArgs = new RootFocusEventArgs();
 

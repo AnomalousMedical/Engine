@@ -9,6 +9,7 @@ namespace MyGUIPlugin
 {
     class EventListSelectAcceptTranslator : MyGUIWidgetEventTranslator
     {
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate void NativeEventDelegate(IntPtr widget, UIntPtr index);
         static MultiListEventArgs eventArgs = new MultiListEventArgs();
 

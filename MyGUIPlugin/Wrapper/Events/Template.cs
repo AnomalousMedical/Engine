@@ -24,6 +24,7 @@ namespace MyGUIPlugin
 {
     class EVENT_TRANS_CLASS : MyGUIWidgetEventTranslator
     {
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate void NativeEventDelegate(IntPtr widget, CALLBACK_ARGS);
         static EVENT_ARGS_TYPE eventArgs = new EVENT_ARGS_TYPE();
 

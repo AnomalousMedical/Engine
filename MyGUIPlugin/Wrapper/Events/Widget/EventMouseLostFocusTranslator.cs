@@ -9,6 +9,7 @@ namespace MyGUIPlugin
 {
     class EventMouseLostFocusTranslator : MyGUIWidgetEventTranslator
     {
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate void NativeEventDelegate(IntPtr widget, IntPtr newFocus);
         static FocusEventArgs eventArgs = new FocusEventArgs();
 

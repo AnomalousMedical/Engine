@@ -11,6 +11,7 @@ namespace MyGUIPlugin
 {
     class EventMouseButtonReleasedTranslator : MyGUIWidgetEventTranslator
     {
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate void NativeEventDelegate(IntPtr widget, int left, int top, MouseButtonCode id);
         static MouseEventArgs eventArgs = new MouseEventArgs();
 

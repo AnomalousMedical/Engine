@@ -9,6 +9,7 @@ namespace MyGUIPlugin
 {
     class EventEditTextChangeTranslator : MyGUIWidgetEventTranslator
     {
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate void NativeEventDelegate(IntPtr widget);
 
         private NativeEventDelegate nativeEventCallback;
