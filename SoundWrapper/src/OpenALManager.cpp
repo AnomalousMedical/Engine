@@ -15,12 +15,12 @@ OpenALManager::OpenALManager(void)
 :ready(true),
 listener(new Listener())
 {
-	log << "Starting OpenAL" << info;
+	logger << "Starting OpenAL" << info;
 	
 	device = alcOpenDevice(NULL);
 	if (device == NULL)
 	{
-		log << "Error creatig OpenAL Device." << error;
+		logger << "Error creatig OpenAL Device." << error;
 		ready = false;
 		return;
 	}
@@ -28,19 +28,19 @@ listener(new Listener())
 	const ALchar* vendor = alGetString(AL_VENDOR);
 	if(vendor != NULL)
 	{
-		log << " Vendor: " << vendor << info;
+		logger << " Vendor: " << vendor << info;
 	}
 
 	const ALchar* version = alGetString(AL_VERSION);
 	if(version != NULL)
 	{
-		log << " Version: " << version << info;
+		logger << " Version: " << version << info;
 	}
 
 	const ALchar* renderer = alGetString(AL_RENDERER);
 	if(renderer != NULL)
 	{
-		log << " Renderer: " << renderer << info;
+		logger << " Renderer: " << renderer << info;
 	}
 
 	//Create context(s)
@@ -57,7 +57,7 @@ listener(new Listener())
 
 OpenALManager::~OpenALManager(void)
 {
-	log << "Shutting down OpenAL" << info;
+	logger << "Shutting down OpenAL" << info;
 
 	delete sourceManager;
 

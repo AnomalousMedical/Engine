@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "Stdafx.h"
 #include "SourceManager.h"
 #include "Source.h"
 
@@ -23,7 +23,7 @@ SourceManager::SourceManager(void)
 			break;
 		}
 	}
-	log << "Created " << sources.size() << " sources." << info;
+	logger << "Created " << sources.size() << " sources." << info;
 }
 
 SourceManager::~SourceManager(void)

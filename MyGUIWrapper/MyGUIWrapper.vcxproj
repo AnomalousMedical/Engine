@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A6D8D083-A1A3-4A90-B2CF-447DAA79404B}</ProjectGuid>
+    <RootNamespace>MyGUIWrapper</RootNamespace>
+    <Keyword>ManagedCProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>true</CLRSupport>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AssemblyDebug>true</AssemblyDebug>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(MYGUI_HOME)\Src\MyGUIEngine\include;$(MYGUI_HOME)\Src\Platforms\Ogre\OgrePlatform\include;$(OGRE_HOME)\ogre_src_v1-7-2\OgreMain\include;$(OGRE_HOME)\WindowsBuild\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WINDOWS;WIN32;NDEBUG;MYGUI_STATIC;_WINDOWS;MYGUI_USE_FREETYPE;MYGUI_BUILD;NOMINMAX;CMAKE_INTDIR="Release";MyGUIEngine_EXPORTS;MYGUI_DONT_USE_OBSOLETE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;freetype2311.lib;MyGUI.OgrePlatform.lib;MyGUIEngineStatic.lib;OgreMain.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OGRE_HOME)\WindowsDependencies\lib\Release;$(MYGUI_HOME)\WindowsBuild\lib\Release;$(OGRE_HOME)\WindowsBuild\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </Reference>
+    <Reference Include="System.Data">
+      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </Reference>
+    <Reference Include="System.Xml">
+      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Src\Button.cpp" />
+    <ClCompile Include="Src\ComboBox.cpp" />
+    <ClCompile Include="Src\Edit.cpp" />
+    <ClCompile Include="Src\FontManager.cpp" />
+    <ClCompile Include="Src\Gui.cpp" />
+    <ClCompile Include="Src\InputManager.cpp" />
+    <ClCompile Include="Src\ISubWidgetText.cpp" />
+    <ClCompile Include="Src\LanguageManager.cpp" />
+    <ClCompile Include="Src\LayerManager.cpp" />
+    <ClCompile Include="Src\Layout.cpp" />
+    <ClCompile Include="Src\LayoutManager.cpp" />
+    <ClCompile Include="Src\MenuCtrl.cpp" />
+    <ClCompile Include="Src\MenuItem.cpp" />
+    <ClCompile Include="Src\Message.cpp" />
+    <ClCompile Include="Src\MultiList.cpp" />
+    <ClCompile Include="Src\OgrePlatform.cpp" />
+    <ClCompile Include="Src\OgreRenderManager.cpp" />
+    <ClCompile Include="Src\PointerManager.cpp" />
+    <ClCompile Include="Src\Progress.cpp" />
+    <ClCompile Include="Src\ResourceManager.cpp" />
+    <ClCompile Include="Src\ScrollView.cpp" />
+    <ClCompile Include="Src\StaticImage.cpp" />
+    <ClCompile Include="Src\StaticText.cpp" />
+    <ClCompile Include="Stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Src\VScroll.cpp" />
+    <ClCompile Include="Src\Widget.cpp" />
+    <ClCompile Include="Src\WidgetManager.cpp" />
+    <ClCompile Include="Src\Window.cpp" />
+    <ClCompile Include="Src\ClickEventTranslator.cpp" />
+    <ClCompile Include="Src\EventCanvasPositionChanged.cpp" />
+    <ClCompile Include="Src\EventChangeMousePointerTranslator.cpp" />
+    <ClCompile Include="Src\EventComboAcceptTranslator.cpp" />
+    <ClCompile Include="Src\EventComboChangePositionTranslator.cpp" />
+    <ClCompile Include="Src\EventEditSelectAcceptTranslator.cpp" />
+    <ClCompile Include="Src\EventEditTextChangeTranslator.cpp" />
+    <ClCompile Include="Src\EventKeyButtonPressedTranslator.cpp" />
+    <ClCompile Include="Src\EventKeyButtonReleasedTranslator.cpp" />
+    <ClCompile Include="Src\EventKeyLostFocusTranslator.cpp" />
+    <ClCompile Include="Src\EventKeySetFocusTranslator.cpp" />
+    <ClCompile Include="Src\EventListChangePositionTranslator.cpp" />
+    <ClCompile Include="Src\EventListSelectAcceptTranslator.cpp" />
+    <ClCompile Include="Src\EventMessageBoxResultTranslator.cpp" />
+    <ClCompile Include="Src\EventMouseButtonDoubleClickTranslator.cpp" />
+    <ClCompile Include="Src\EventMouseButtonPressedTranslator.cpp" />
+    <ClCompile Include="Src\EventMouseButtonReleasedTranslator.cpp" />
+    <ClCompile Include="Src\EventMouseDragTranslator.cpp" />
+    <ClCompile Include="Src\EventMouseLostFocusTranslator.cpp" />
+    <ClCompile Include="Src\EventMouseSetFocusTranslator.cpp" />
+    <ClCompile Include="Src\EventMouseWheelTranslator.cpp" />
+    <ClCompile Include="Src\EventRootKeyChangeFocusTranslator.cpp" />
+    <ClCompile Include="Src\EventRootMouseChangeFocusTranslator.cpp" />
+    <ClCompile Include="Src\EventToolTipTranslator.cpp" />
+    <ClCompile Include="Src\EventWindowButtonPressedTranslator.cpp" />
+    <ClCompile Include="Src\EventWindowChangeCoordTranslator.cpp" />
+    <ClCompile Include="Src\MyGUIEventTranslator.cpp" />
+    <ClCompile Include="Src\ScrollChangePositionET.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Stdafx.h" />
+    <ClInclude Include="Include\MyGUIEventTranslator.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.ico" />
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="app.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

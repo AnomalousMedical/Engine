@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "Engine\Engine.csproj", "{57C253F1-157F-4A6A-9FED-345A776B97D5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Editor", "Editor\Editor.csproj", "{DDD1DB3A-AB11-4C3A-8480-0A4A9F298D64}"
@@ -15,23 +15,23 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShapeLoader", "ShapeLoader\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulletWrapperPlugin", "BulletWrapperPlugin\BulletWrapperPlugin.csproj", "{EBA88DC3-837D-45D8-A91A-E291C6AE444E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BulletWrapper", "BulletWrapper\BulletWrapper.vcproj", "{2260FE23-93C4-42F2-8EF5-2CAC54B6D5C1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BulletWrapper", "BulletWrapper\BulletWrapper.vcxproj", "{2260FE23-93C4-42F2-8EF5-2CAC54B6D5C1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Zip", "Zip\Zip.vcproj", "{69A0214B-7625-450D-880B-4C363AA288C1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Zip", "Zip\Zip.vcxproj", "{69A0214B-7625-450D-880B-4C363AA288C1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PCPlatform", "PCPlatform\PCPlatform.vcproj", "{BA9BC022-B94C-4549-A403-98473FC8AA78}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PCPlatform", "PCPlatform\PCPlatform.vcxproj", "{BA9BC022-B94C-4549-A403-98473FC8AA78}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCPlatformPlugin", "PCPlatformPlugin\PCPlatformPlugin.csproj", "{2D5AB440-5081-4C71-A2C2-9F7E05969EDE}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OgreCWrapper", "OgreCWrapper\OgreCWrapper.vcproj", "{D9E3A6BA-5CDD-4CCE-978B-8E25403CA82F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OgreCWrapper", "OgreCWrapper\OgreCWrapper.vcxproj", "{D9E3A6BA-5CDD-4CCE-978B-8E25403CA82F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyGUIPlugin", "MyGUIPlugin\MyGUIPlugin.csproj", "{02D4DA85-FD6C-421F-81C3-8F58F790BC81}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyGUIWrapper", "MyGUIWrapper\MyGUIWrapper.vcproj", "{A6D8D083-A1A3-4A90-B2CF-447DAA79404B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyGUIWrapper", "MyGUIWrapper\MyGUIWrapper.vcxproj", "{A6D8D083-A1A3-4A90-B2CF-447DAA79404B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageAtlasPacker", "ImageAtlasPacker\ImageAtlasPacker.csproj", "{A5A6C939-C52E-4A84-9BC5-6BBD763F6A7B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SoundWrapper", "SoundWrapper\SoundWrapper.vcproj", "{6AA322EB-D00E-4724-B723-85D2560C2F61}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SoundWrapper", "SoundWrapper\SoundWrapper.vcxproj", "{6AA322EB-D00E-4724-B723-85D2560C2F61}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundPlugin", "SoundPlugin\SoundPlugin.csproj", "{CCAEFE0A-AD1F-42E8-88DA-5A685CC7C73D}"
 EndProject

@@ -44,7 +44,7 @@ public:
 	}
 };
 
-extern NativeLog log;
+extern NativeLog logger;
 
 void checkOpenAL(const char* hint = NULL);
 

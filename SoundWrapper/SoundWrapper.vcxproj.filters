@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="SoundLibrary">
+      <UniqueIdentifier>{41a44b90-6513-4f6d-a5f2-e7a3d63eeaac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SoundLibrary\Stream">
+      <UniqueIdentifier>{3403c37c-66ce-43a5-8851-72122adc82a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SoundLibrary\OpenAL">
+      <UniqueIdentifier>{f2850bb6-b9ff-444f-9ed9-b35eb4970c30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SoundLibrary\Sound">
+      <UniqueIdentifier>{51578691-b4f6-4705-b4f6-c82874f48458}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SoundLibrary\Source">
+      <UniqueIdentifier>{9b711dd8-c552-42d5-bcac-c124a9b6d690}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SoundLibrary\Codec">
+      <UniqueIdentifier>{961d9279-522f-48b9-921d-f271b1033aee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SoundLibrary\Log">
+      <UniqueIdentifier>{fe3c2564-d873-4ded-b708-68af924d983a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dll">
+      <UniqueIdentifier>{f1a5d199-1e40-428b-a3ea-4d5167396c70}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\ManagedStream.cpp">
+      <Filter>SoundLibrary\Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NativeStream.cpp">
+      <Filter>SoundLibrary\Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Listener.cpp">
+      <Filter>SoundLibrary\OpenAL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OpenALManager.cpp">
+      <Filter>SoundLibrary\OpenAL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MemorySound.cpp">
+      <Filter>SoundLibrary\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sound.cpp">
+      <Filter>SoundLibrary\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StreamingSound.cpp">
+      <Filter>SoundLibrary\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Source.cpp">
+      <Filter>SoundLibrary\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SourceManager.cpp">
+      <Filter>SoundLibrary\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AudioCodec.cpp">
+      <Filter>SoundLibrary\Codec</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OggCodec.cpp">
+      <Filter>SoundLibrary\Codec</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ManagedLogListener.cpp">
+      <Filter>SoundLibrary\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NativeLog.cpp">
+      <Filter>SoundLibrary\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="Stdafx.cpp">
+      <Filter>Dll</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\NativeStream.h">
+      <Filter>SoundLibrary\Stream</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Stream.h">
+      <Filter>SoundLibrary\Stream</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Listener.h">
+      <Filter>SoundLibrary\OpenAL</Filter>
+    </ClInclude>
+    <ClInclude Include="include\OpenALManager.h">
+      <Filter>SoundLibrary\OpenAL</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MemorySound.h">
+      <Filter>SoundLibrary\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Sound.h">
+      <Filter>SoundLibrary\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="include\StreamingSound.h">
+      <Filter>SoundLibrary\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Source.h">
+      <Filter>SoundLibrary\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SourceManager.h">
+      <Filter>SoundLibrary\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AudioCodec.h">
+      <Filter>SoundLibrary\Codec</Filter>
+    </ClInclude>
+    <ClInclude Include="include\OggCodec.h">
+      <Filter>SoundLibrary\Codec</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NativeLog.h">
+      <Filter>SoundLibrary\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Dll</Filter>
+    </ClInclude>
+    <ClInclude Include="Stdafx.h">
+      <Filter>Dll</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.ico">
+      <Filter>Dll</Filter>
+    </None>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="app.rc">
+      <Filter>Dll</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
