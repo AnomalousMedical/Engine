@@ -75,14 +75,14 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>OgreMain.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(OGRE_HOME)\WindowsBuild\lib\relwithdebinfo;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OGRE_HOME)\WindowsBuild\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(OGRE_HOME)\WindowsBuild\bin\relwithdebinfo\OgreMain.dll $(OutDir)OgreMain.dll
-copy $(OGRE_HOME)\WindowsBuild\bin\relwithdebinfo\Plugin_CgProgramManager.dll $(OutDir)Plugin_CgProgramManager.dll
-copy $(OGRE_HOME)\WindowsBuild\bin\relwithdebinfo\RenderSystem_Direct3D9.dll $(OutDir)RenderSystem_Direct3D9.dll
+      <Command>copy $(OGRE_HOME)\WindowsBuild\bin\Release\OgreMain.dll $(OutDir)OgreMain.dll
+copy $(OGRE_HOME)\WindowsBuild\bin\Release\Plugin_CgProgramManager.dll $(OutDir)Plugin_CgProgramManager.dll
+copy $(OGRE_HOME)\WindowsBuild\bin\Release\RenderSystem_Direct3D9.dll $(OutDir)RenderSystem_Direct3D9.dll
 copy $(OGRE_HOME)\WindowsDependencies\bin\Release\cg.dll $(OutDir)cg.dll
 </Command>
     </PostBuildEvent>
