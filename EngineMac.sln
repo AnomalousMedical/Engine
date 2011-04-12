@@ -3,11 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "Engine\Engine.csproj", "{57C253F1-157F-4A6A-9FED-345A776B97D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Editor", "Editor\Editor.csproj", "{DDD1DB3A-AB11-4C3A-8480-0A4A9F298D64}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OgrePlugin", "OgrePlugin\OgrePlugin.csproj", "{E9FD5768-32E1-42C7-8256-4D7B97C22A9B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OgreModelEditor", "OgreModelEditor\OgreModelEditor.csproj", "{49EEC126-950A-4775-8907-142F5A53EFE5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShapeLoader", "ShapeLoader\ShapeLoader.csproj", "{FECE54F4-6796-486F-9617-6D706DDFD0DF}"
 EndProject
@@ -39,16 +35,6 @@ Global
 		{57C253F1-157F-4A6A-9FED-345A776B97D5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{57C253F1-157F-4A6A-9FED-345A776B97D5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{57C253F1-157F-4A6A-9FED-345A776B97D5}.Release|Win32.ActiveCfg = Release|Any CPU
-		{DDD1DB3A-AB11-4C3A-8480-0A4A9F298D64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DDD1DB3A-AB11-4C3A-8480-0A4A9F298D64}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DDD1DB3A-AB11-4C3A-8480-0A4A9F298D64}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{DDD1DB3A-AB11-4C3A-8480-0A4A9F298D64}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{DDD1DB3A-AB11-4C3A-8480-0A4A9F298D64}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{DDD1DB3A-AB11-4C3A-8480-0A4A9F298D64}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DDD1DB3A-AB11-4C3A-8480-0A4A9F298D64}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DDD1DB3A-AB11-4C3A-8480-0A4A9F298D64}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{DDD1DB3A-AB11-4C3A-8480-0A4A9F298D64}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{DDD1DB3A-AB11-4C3A-8480-0A4A9F298D64}.Release|Win32.ActiveCfg = Release|Any CPU
 		{E9FD5768-32E1-42C7-8256-4D7B97C22A9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E9FD5768-32E1-42C7-8256-4D7B97C22A9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9FD5768-32E1-42C7-8256-4D7B97C22A9B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -59,16 +45,6 @@ Global
 		{E9FD5768-32E1-42C7-8256-4D7B97C22A9B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E9FD5768-32E1-42C7-8256-4D7B97C22A9B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E9FD5768-32E1-42C7-8256-4D7B97C22A9B}.Release|Win32.ActiveCfg = Release|Any CPU
-		{49EEC126-950A-4775-8907-142F5A53EFE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{49EEC126-950A-4775-8907-142F5A53EFE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{49EEC126-950A-4775-8907-142F5A53EFE5}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{49EEC126-950A-4775-8907-142F5A53EFE5}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{49EEC126-950A-4775-8907-142F5A53EFE5}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{49EEC126-950A-4775-8907-142F5A53EFE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{49EEC126-950A-4775-8907-142F5A53EFE5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{49EEC126-950A-4775-8907-142F5A53EFE5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{49EEC126-950A-4775-8907-142F5A53EFE5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{49EEC126-950A-4775-8907-142F5A53EFE5}.Release|Win32.ActiveCfg = Release|Any CPU
 		{FECE54F4-6796-486F-9617-6D706DDFD0DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FECE54F4-6796-486F-9617-6D706DDFD0DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FECE54F4-6796-486F-9617-6D706DDFD0DF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
