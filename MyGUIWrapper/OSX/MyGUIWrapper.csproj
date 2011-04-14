@@ -34,7 +34,7 @@
   <!-- Modify the OutputFiles as needed for each project. -->
   
   <ItemGroup>
-	<OutputFiles Include="build\Release\libBulletWrapper.dylib" />
+	<OutputFiles Include="build\Release\libMyGUIWrapper.dylib" />
   </ItemGroup>
   
   <Target Name="Build">
