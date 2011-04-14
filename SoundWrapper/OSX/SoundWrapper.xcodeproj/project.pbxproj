@@ -1,0 +1,383 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		016FF2B1135727DE0004C9AB /* AudioCodec.h in Headers */ = {isa = PBXBuildFile; fileRef = 016FF295135727DE0004C9AB /* AudioCodec.h */; };
+		016FF2B2135727DE0004C9AB /* Listener.h in Headers */ = {isa = PBXBuildFile; fileRef = 016FF296135727DE0004C9AB /* Listener.h */; };
+		016FF2B3135727DE0004C9AB /* MemorySound.h in Headers */ = {isa = PBXBuildFile; fileRef = 016FF297135727DE0004C9AB /* MemorySound.h */; };
+		016FF2B4135727DE0004C9AB /* NativeLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 016FF298135727DE0004C9AB /* NativeLog.h */; };
+		016FF2B5135727DE0004C9AB /* NativeStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 016FF299135727DE0004C9AB /* NativeStream.h */; };
+		016FF2B6135727DE0004C9AB /* OggCodec.h in Headers */ = {isa = PBXBuildFile; fileRef = 016FF29A135727DE0004C9AB /* OggCodec.h */; };
+		016FF2B7135727DE0004C9AB /* OpenALManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 016FF29B135727DE0004C9AB /* OpenALManager.h */; };
+		016FF2B8135727DE0004C9AB /* Sound.h in Headers */ = {isa = PBXBuildFile; fileRef = 016FF29C135727DE0004C9AB /* Sound.h */; };
+		016FF2B9135727DE0004C9AB /* Source.h in Headers */ = {isa = PBXBuildFile; fileRef = 016FF29D135727DE0004C9AB /* Source.h */; };
+		016FF2BA135727DE0004C9AB /* SourceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 016FF29E135727DE0004C9AB /* SourceManager.h */; };
+		016FF2BB135727DE0004C9AB /* Stream.h in Headers */ = {isa = PBXBuildFile; fileRef = 016FF29F135727DE0004C9AB /* Stream.h */; };
+		016FF2BC135727DE0004C9AB /* StreamingSound.h in Headers */ = {isa = PBXBuildFile; fileRef = 016FF2A0135727DE0004C9AB /* StreamingSound.h */; };
+		016FF2BD135727DE0004C9AB /* AudioCodec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 016FF2A2135727DE0004C9AB /* AudioCodec.cpp */; };
+		016FF2BE135727DE0004C9AB /* Listener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 016FF2A3135727DE0004C9AB /* Listener.cpp */; };
+		016FF2BF135727DE0004C9AB /* ManagedLogListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 016FF2A4135727DE0004C9AB /* ManagedLogListener.cpp */; };
+		016FF2C0135727DE0004C9AB /* ManagedStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 016FF2A5135727DE0004C9AB /* ManagedStream.cpp */; };
+		016FF2C1135727DE0004C9AB /* MemorySound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 016FF2A6135727DE0004C9AB /* MemorySound.cpp */; };
+		016FF2C2135727DE0004C9AB /* NativeLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 016FF2A7135727DE0004C9AB /* NativeLog.cpp */; };
+		016FF2C3135727DE0004C9AB /* NativeStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 016FF2A8135727DE0004C9AB /* NativeStream.cpp */; };
+		016FF2C4135727DE0004C9AB /* OggCodec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 016FF2A9135727DE0004C9AB /* OggCodec.cpp */; };
+		016FF2C5135727DE0004C9AB /* OpenALManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 016FF2AA135727DE0004C9AB /* OpenALManager.cpp */; };
+		016FF2C6135727DE0004C9AB /* Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 016FF2AB135727DE0004C9AB /* Sound.cpp */; };
+		016FF2C7135727DE0004C9AB /* Source.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 016FF2AC135727DE0004C9AB /* Source.cpp */; };
+		016FF2C8135727DE0004C9AB /* SourceManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 016FF2AD135727DE0004C9AB /* SourceManager.cpp */; };
+		016FF2C9135727DE0004C9AB /* StreamingSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 016FF2AE135727DE0004C9AB /* StreamingSound.cpp */; };
+		016FF2CA135727DE0004C9AB /* Stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 016FF2AF135727DE0004C9AB /* Stdafx.cpp */; };
+		016FF2CB135727DE0004C9AB /* Stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 016FF2B0135727DE0004C9AB /* Stdafx.h */; };
+		016FF2CD1357280F0004C9AB /* libogg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 016FF2CC1357280F0004C9AB /* libogg.a */; };
+		016FF2CF1357281E0004C9AB /* libvorbis.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 016FF2CE1357281E0004C9AB /* libvorbis.a */; };
+		016FF2D1135728830004C9AB /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 016FF2D0135728830004C9AB /* OpenAL.framework */; };
+		016FF2EA135728C50004C9AB /* libvorbisfile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 016FF2E9135728C50004C9AB /* libvorbisfile.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		016FF295135727DE0004C9AB /* AudioCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioCodec.h; sourceTree = "<group>"; };
+		016FF296135727DE0004C9AB /* Listener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Listener.h; sourceTree = "<group>"; };
+		016FF297135727DE0004C9AB /* MemorySound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemorySound.h; sourceTree = "<group>"; };
+		016FF298135727DE0004C9AB /* NativeLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeLog.h; sourceTree = "<group>"; };
+		016FF299135727DE0004C9AB /* NativeStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeStream.h; sourceTree = "<group>"; };
+		016FF29A135727DE0004C9AB /* OggCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OggCodec.h; sourceTree = "<group>"; };
+		016FF29B135727DE0004C9AB /* OpenALManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenALManager.h; sourceTree = "<group>"; };
+		016FF29C135727DE0004C9AB /* Sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sound.h; sourceTree = "<group>"; };
+		016FF29D135727DE0004C9AB /* Source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Source.h; sourceTree = "<group>"; };
+		016FF29E135727DE0004C9AB /* SourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SourceManager.h; sourceTree = "<group>"; };
+		016FF29F135727DE0004C9AB /* Stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stream.h; sourceTree = "<group>"; };
+		016FF2A0135727DE0004C9AB /* StreamingSound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamingSound.h; sourceTree = "<group>"; };
+		016FF2A2135727DE0004C9AB /* AudioCodec.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioCodec.cpp; sourceTree = "<group>"; };
+		016FF2A3135727DE0004C9AB /* Listener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Listener.cpp; sourceTree = "<group>"; };
+		016FF2A4135727DE0004C9AB /* ManagedLogListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManagedLogListener.cpp; sourceTree = "<group>"; };
+		016FF2A5135727DE0004C9AB /* ManagedStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManagedStream.cpp; sourceTree = "<group>"; };
+		016FF2A6135727DE0004C9AB /* MemorySound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MemorySound.cpp; sourceTree = "<group>"; };
+		016FF2A7135727DE0004C9AB /* NativeLog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NativeLog.cpp; sourceTree = "<group>"; };
+		016FF2A8135727DE0004C9AB /* NativeStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NativeStream.cpp; sourceTree = "<group>"; };
+		016FF2A9135727DE0004C9AB /* OggCodec.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OggCodec.cpp; sourceTree = "<group>"; };
+		016FF2AA135727DE0004C9AB /* OpenALManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenALManager.cpp; sourceTree = "<group>"; };
+		016FF2AB135727DE0004C9AB /* Sound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sound.cpp; sourceTree = "<group>"; };
+		016FF2AC135727DE0004C9AB /* Source.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Source.cpp; sourceTree = "<group>"; };
+		016FF2AD135727DE0004C9AB /* SourceManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SourceManager.cpp; sourceTree = "<group>"; };
+		016FF2AE135727DE0004C9AB /* StreamingSound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StreamingSound.cpp; sourceTree = "<group>"; };
+		016FF2AF135727DE0004C9AB /* Stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Stdafx.cpp; path = ../Stdafx.cpp; sourceTree = SOURCE_ROOT; };
+		016FF2B0135727DE0004C9AB /* Stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stdafx.h; path = ../Stdafx.h; sourceTree = SOURCE_ROOT; };
+		016FF2CC1357280F0004C9AB /* libogg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libogg.a; path = ../../../Dependencies/oggvorbis/libogg/macosx/build/Release/libogg.a; sourceTree = SOURCE_ROOT; };
+		016FF2CE1357281E0004C9AB /* libvorbis.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvorbis.a; path = ../../../Dependencies/oggvorbis/libvorbis/macosx/build/Release/libvorbis.a; sourceTree = SOURCE_ROOT; };
+		016FF2D0135728830004C9AB /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		016FF2E9135728C50004C9AB /* libvorbisfile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvorbisfile.a; path = ../../../Dependencies/oggvorbis/libvorbis/macosx/build/Release/libvorbisfile.a; sourceTree = SOURCE_ROOT; };
+		5073E0C609E734A800EC74B6 /* SoundWrapperProj.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = SoundWrapperProj.xcconfig; sourceTree = "<group>"; };
+		5073E0C709E734A800EC74B6 /* SoundWrapperTarget.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = SoundWrapperTarget.xcconfig; sourceTree = "<group>"; };
+		D2AAC09D05546B4700DB518D /* libSoundWrapper.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libSoundWrapper.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D2AAC09B05546B4700DB518D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				016FF2CD1357280F0004C9AB /* libogg.a in Frameworks */,
+				016FF2CF1357281E0004C9AB /* libvorbis.a in Frameworks */,
+				016FF2D1135728830004C9AB /* OpenAL.framework in Frameworks */,
+				016FF2EA135728C50004C9AB /* libvorbisfile.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		016FF293135727CA0004C9AB /* SoundWrapper */ = {
+			isa = PBXGroup;
+			children = (
+				016FF294135727DE0004C9AB /* include */,
+				016FF2A1135727DE0004C9AB /* src */,
+				016FF2AF135727DE0004C9AB /* Stdafx.cpp */,
+				016FF2B0135727DE0004C9AB /* Stdafx.h */,
+			);
+			name = SoundWrapper;
+			sourceTree = "<group>";
+		};
+		016FF294135727DE0004C9AB /* include */ = {
+			isa = PBXGroup;
+			children = (
+				016FF295135727DE0004C9AB /* AudioCodec.h */,
+				016FF296135727DE0004C9AB /* Listener.h */,
+				016FF297135727DE0004C9AB /* MemorySound.h */,
+				016FF298135727DE0004C9AB /* NativeLog.h */,
+				016FF299135727DE0004C9AB /* NativeStream.h */,
+				016FF29A135727DE0004C9AB /* OggCodec.h */,
+				016FF29B135727DE0004C9AB /* OpenALManager.h */,
+				016FF29C135727DE0004C9AB /* Sound.h */,
+				016FF29D135727DE0004C9AB /* Source.h */,
+				016FF29E135727DE0004C9AB /* SourceManager.h */,
+				016FF29F135727DE0004C9AB /* Stream.h */,
+				016FF2A0135727DE0004C9AB /* StreamingSound.h */,
+			);
+			name = include;
+			path = ../include;
+			sourceTree = SOURCE_ROOT;
+		};
+		016FF2A1135727DE0004C9AB /* src */ = {
+			isa = PBXGroup;
+			children = (
+				016FF2A2135727DE0004C9AB /* AudioCodec.cpp */,
+				016FF2A3135727DE0004C9AB /* Listener.cpp */,
+				016FF2A4135727DE0004C9AB /* ManagedLogListener.cpp */,
+				016FF2A5135727DE0004C9AB /* ManagedStream.cpp */,
+				016FF2A6135727DE0004C9AB /* MemorySound.cpp */,
+				016FF2A7135727DE0004C9AB /* NativeLog.cpp */,
+				016FF2A8135727DE0004C9AB /* NativeStream.cpp */,
+				016FF2A9135727DE0004C9AB /* OggCodec.cpp */,
+				016FF2AA135727DE0004C9AB /* OpenALManager.cpp */,
+				016FF2AB135727DE0004C9AB /* Sound.cpp */,
+				016FF2AC135727DE0004C9AB /* Source.cpp */,
+				016FF2AD135727DE0004C9AB /* SourceManager.cpp */,
+				016FF2AE135727DE0004C9AB /* StreamingSound.cpp */,
+			);
+			name = src;
+			path = ../src;
+			sourceTree = SOURCE_ROOT;
+		};
+		034768DDFF38A45A11DB9C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D2AAC09D05546B4700DB518D /* libSoundWrapper.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0867D691FE84028FC02AAC07 /* SoundWrapper */ = {
+			isa = PBXGroup;
+			children = (
+				016FF293135727CA0004C9AB /* SoundWrapper */,
+				5073E0CA09E734BC00EC74B6 /* Configuration Files */,
+				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				034768DDFF38A45A11DB9C8B /* Products */,
+				016FF2D0135728830004C9AB /* OpenAL.framework */,
+			);
+			name = SoundWrapper;
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				016FF2E9135728C50004C9AB /* libvorbisfile.a */,
+				016FF2CE1357281E0004C9AB /* libvorbis.a */,
+				016FF2CC1357280F0004C9AB /* libogg.a */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		5073E0CA09E734BC00EC74B6 /* Configuration Files */ = {
+			isa = PBXGroup;
+			children = (
+				5073E0C609E734A800EC74B6 /* SoundWrapperProj.xcconfig */,
+				5073E0C709E734A800EC74B6 /* SoundWrapperTarget.xcconfig */,
+			);
+			name = "Configuration Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		D2AAC09905546B4700DB518D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				016FF2B1135727DE0004C9AB /* AudioCodec.h in Headers */,
+				016FF2B2135727DE0004C9AB /* Listener.h in Headers */,
+				016FF2B3135727DE0004C9AB /* MemorySound.h in Headers */,
+				016FF2B4135727DE0004C9AB /* NativeLog.h in Headers */,
+				016FF2B5135727DE0004C9AB /* NativeStream.h in Headers */,
+				016FF2B6135727DE0004C9AB /* OggCodec.h in Headers */,
+				016FF2B7135727DE0004C9AB /* OpenALManager.h in Headers */,
+				016FF2B8135727DE0004C9AB /* Sound.h in Headers */,
+				016FF2B9135727DE0004C9AB /* Source.h in Headers */,
+				016FF2BA135727DE0004C9AB /* SourceManager.h in Headers */,
+				016FF2BB135727DE0004C9AB /* Stream.h in Headers */,
+				016FF2BC135727DE0004C9AB /* StreamingSound.h in Headers */,
+				016FF2CB135727DE0004C9AB /* Stdafx.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		D2AAC09C05546B4700DB518D /* SoundWrapper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB916008733D950010E9CD /* Build configuration list for PBXNativeTarget "SoundWrapper" */;
+			buildPhases = (
+				D2AAC09905546B4700DB518D /* Headers */,
+				D2AAC09B05546B4700DB518D /* Frameworks */,
+				D2AAC09A05546B4700DB518D /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SoundWrapper;
+			productName = libSoundWrapper;
+			productReference = D2AAC09D05546B4700DB518D /* libSoundWrapper.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0867D690FE84028FC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB916408733D950010E9CD /* Build configuration list for PBXProject "SoundWrapper" */;
+			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 0867D691FE84028FC02AAC07 /* SoundWrapper */;
+			productRefGroup = 034768DDFF38A45A11DB9C8B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D2AAC09C05546B4700DB518D /* SoundWrapper */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D2AAC09A05546B4700DB518D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				016FF2BD135727DE0004C9AB /* AudioCodec.cpp in Sources */,
+				016FF2BE135727DE0004C9AB /* Listener.cpp in Sources */,
+				016FF2BF135727DE0004C9AB /* ManagedLogListener.cpp in Sources */,
+				016FF2C0135727DE0004C9AB /* ManagedStream.cpp in Sources */,
+				016FF2C1135727DE0004C9AB /* MemorySound.cpp in Sources */,
+				016FF2C2135727DE0004C9AB /* NativeLog.cpp in Sources */,
+				016FF2C3135727DE0004C9AB /* NativeStream.cpp in Sources */,
+				016FF2C4135727DE0004C9AB /* OggCodec.cpp in Sources */,
+				016FF2C5135727DE0004C9AB /* OpenALManager.cpp in Sources */,
+				016FF2C6135727DE0004C9AB /* Sound.cpp in Sources */,
+				016FF2C7135727DE0004C9AB /* Source.cpp in Sources */,
+				016FF2C8135727DE0004C9AB /* SourceManager.cpp in Sources */,
+				016FF2C9135727DE0004C9AB /* StreamingSound.cpp in Sources */,
+				016FF2CA135727DE0004C9AB /* Stdafx.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB916108733D950010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5073E0C709E734A800EC74B6 /* SoundWrapperTarget.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../Stdafx.h;
+				HEADER_SEARCH_PATHS = (
+					/Users/andrewpiper/Development/Dependencies/oggvorbis/libogg/include,
+					/Users/andrewpiper/Development/Dependencies/oggvorbis/libvorbis/include,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../Dependencies/oggvorbis/libogg/macosx/build/Release\"",
+					"\"$(SRCROOT)/../../../Dependencies/oggvorbis/libvorbis/macosx/build/Release\"",
+				);
+			};
+			name = Debug;
+		};
+		1DEB916208733D950010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5073E0C709E734A800EC74B6 /* SoundWrapperTarget.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../Stdafx.h;
+				HEADER_SEARCH_PATHS = (
+					/Users/andrewpiper/Development/Dependencies/oggvorbis/libogg/include,
+					/Users/andrewpiper/Development/Dependencies/oggvorbis/libvorbis/include,
+					/Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/OpenAL.framework/Versions/A/Headers,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../Dependencies/oggvorbis/libogg/macosx/build/Release\"",
+					"\"$(SRCROOT)/../../../Dependencies/oggvorbis/libvorbis/macosx/build/Release\"",
+				);
+				STRIP_INSTALLED_PRODUCT = YES;
+				STRIP_STYLE = "non-global";
+			};
+			name = Release;
+		};
+		1DEB916508733D950010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5073E0C609E734A800EC74B6 /* SoundWrapperProj.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = MAC_OSX;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+				VALID_ARCHS = "i386 x86_64";
+			};
+			name = Debug;
+		};
+		1DEB916608733D950010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5073E0C609E734A800EC74B6 /* SoundWrapperProj.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = MAC_OSX;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+				VALID_ARCHS = "i386 x86_64";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB916008733D950010E9CD /* Build configuration list for PBXNativeTarget "SoundWrapper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB916108733D950010E9CD /* Debug */,
+				1DEB916208733D950010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB916408733D950010E9CD /* Build configuration list for PBXProject "SoundWrapper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB916508733D950010E9CD /* Debug */,
+				1DEB916608733D950010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+}

@@ -1,0 +1,584 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		01A698D7135636B4008B7F31 /* NativeFrameListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 01A69889135636B4008B7F31 /* NativeFrameListener.h */; };
+		01A698D8135636B4008B7F31 /* NativeSceneListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 01A6988A135636B4008B7F31 /* NativeSceneListener.h */; };
+		01A698D9135636B4008B7F31 /* NativeWindowListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 01A6988B135636B4008B7F31 /* NativeWindowListener.h */; };
+		01A698DA135636B4008B7F31 /* OgreLogListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 01A6988C135636B4008B7F31 /* OgreLogListener.h */; };
+		01A698DB135636B4008B7F31 /* OgreManagedArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 01A6988D135636B4008B7F31 /* OgreManagedArchive.h */; };
+		01A698DC135636B4008B7F31 /* OgreManagedArchiveFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 01A6988E135636B4008B7F31 /* OgreManagedArchiveFactory.h */; };
+		01A698DD135636B4008B7F31 /* OgreManagedStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 01A6988F135636B4008B7F31 /* OgreManagedStream.h */; };
+		01A698DE135636B4008B7F31 /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A69891135636B4008B7F31 /* Animation.cpp */; };
+		01A698DF135636B4008B7F31 /* AnimationState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A69892135636B4008B7F31 /* AnimationState.cpp */; };
+		01A698E0135636B4008B7F31 /* AnimationStateSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A69893135636B4008B7F31 /* AnimationStateSet.cpp */; };
+		01A698E1135636B4008B7F31 /* AnimationTrack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A69894135636B4008B7F31 /* AnimationTrack.cpp */; };
+		01A698E2135636B4008B7F31 /* Bone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A69895135636B4008B7F31 /* Bone.cpp */; };
+		01A698E3135636B4008B7F31 /* BorderPanelOverlayElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A69896135636B4008B7F31 /* BorderPanelOverlayElement.cpp */; };
+		01A698E4135636B4008B7F31 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A69897135636B4008B7F31 /* Camera.cpp */; };
+		01A698E5135636B4008B7F31 /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A69898135636B4008B7F31 /* Entity.cpp */; };
+		01A698E6135636B4008B7F31 /* HardwareBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A69899135636B4008B7F31 /* HardwareBuffer.cpp */; };
+		01A698E7135636B4008B7F31 /* HardwareBufferManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A6989A135636B4008B7F31 /* HardwareBufferManager.cpp */; };
+		01A698E8135636B4008B7F31 /* HardwareIndexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A6989B135636B4008B7F31 /* HardwareIndexBuffer.cpp */; };
+		01A698E9135636B4008B7F31 /* HardwarePixelBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A6989C135636B4008B7F31 /* HardwarePixelBuffer.cpp */; };
+		01A698EA135636B4008B7F31 /* HardwareVertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A6989D135636B4008B7F31 /* HardwareVertexBuffer.cpp */; };
+		01A698EB135636B4008B7F31 /* IndexData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A6989E135636B4008B7F31 /* IndexData.cpp */; };
+		01A698EC135636B4008B7F31 /* KeyFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A6989F135636B4008B7F31 /* KeyFrame.cpp */; };
+		01A698ED135636B4008B7F31 /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698A0135636B4008B7F31 /* Light.cpp */; };
+		01A698EE135636B4008B7F31 /* ManagedRenderQueueListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698A1135636B4008B7F31 /* ManagedRenderQueueListener.cpp */; };
+		01A698EF135636B4008B7F31 /* ManualObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698A2135636B4008B7F31 /* ManualObject.cpp */; };
+		01A698F0135636B4008B7F31 /* ManualObjectSection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698A3135636B4008B7F31 /* ManualObjectSection.cpp */; };
+		01A698F1135636B4008B7F31 /* Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698A4135636B4008B7F31 /* Material.cpp */; };
+		01A698F2135636B4008B7F31 /* MaterialManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698A5135636B4008B7F31 /* MaterialManager.cpp */; };
+		01A698F3135636B4008B7F31 /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698A6135636B4008B7F31 /* Mesh.cpp */; };
+		01A698F4135636B4008B7F31 /* MeshManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698A7135636B4008B7F31 /* MeshManager.cpp */; };
+		01A698F5135636B4008B7F31 /* MeshSerializer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698A8135636B4008B7F31 /* MeshSerializer.cpp */; };
+		01A698F6135636B4008B7F31 /* MovableObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698A9135636B4008B7F31 /* MovableObject.cpp */; };
+		01A698F7135636B4008B7F31 /* NativeFrameListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698AA135636B4008B7F31 /* NativeFrameListener.cpp */; };
+		01A698F8135636B4008B7F31 /* NativeSceneListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698AB135636B4008B7F31 /* NativeSceneListener.cpp */; };
+		01A698F9135636B4008B7F31 /* NativeWindowListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698AC135636B4008B7F31 /* NativeWindowListener.cpp */; };
+		01A698FA135636B4008B7F31 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698AD135636B4008B7F31 /* Node.cpp */; };
+		01A698FB135636B4008B7F31 /* NodeAnimationTrack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698AE135636B4008B7F31 /* NodeAnimationTrack.cpp */; };
+		01A698FC135636B4008B7F31 /* OgreLogListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698AF135636B4008B7F31 /* OgreLogListener.cpp */; };
+		01A698FD135636B4008B7F31 /* OgreManagedArchive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698B0135636B4008B7F31 /* OgreManagedArchive.cpp */; };
+		01A698FE135636B4008B7F31 /* OgreManagedArchiveFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698B1135636B4008B7F31 /* OgreManagedArchiveFactory.cpp */; };
+		01A698FF135636B4008B7F31 /* OgreManagedStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698B2135636B4008B7F31 /* OgreManagedStream.cpp */; };
+		01A69900135636B4008B7F31 /* OgreResourceGroupManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698B3135636B4008B7F31 /* OgreResourceGroupManager.cpp */; };
+		01A69901135636B4008B7F31 /* Overlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698B4135636B4008B7F31 /* Overlay.cpp */; };
+		01A69902135636B4008B7F31 /* OverlayContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698B5135636B4008B7F31 /* OverlayContainer.cpp */; };
+		01A69903135636B4008B7F31 /* OverlayElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698B6135636B4008B7F31 /* OverlayElement.cpp */; };
+		01A69904135636B4008B7F31 /* OverlayManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698B7135636B4008B7F31 /* OverlayManager.cpp */; };
+		01A69905135636B4008B7F31 /* PanelOverlayElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698B8135636B4008B7F31 /* PanelOverlayElement.cpp */; };
+		01A69906135636B4008B7F31 /* Pass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698B9135636B4008B7F31 /* Pass.cpp */; };
+		01A69907135636B4008B7F31 /* PixelBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698BA135636B4008B7F31 /* PixelBox.cpp */; };
+		01A69908135636B4008B7F31 /* Pose.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698BB135636B4008B7F31 /* Pose.cpp */; };
+		01A69909135636B4008B7F31 /* RenderQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698BC135636B4008B7F31 /* RenderQueue.cpp */; };
+		01A6990A135636B4008B7F31 /* RenderSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698BD135636B4008B7F31 /* RenderSystem.cpp */; };
+		01A6990B135636B4008B7F31 /* RenderTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698BE135636B4008B7F31 /* RenderTarget.cpp */; };
+		01A6990C135636B4008B7F31 /* RenderWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698BF135636B4008B7F31 /* RenderWindow.cpp */; };
+		01A6990D135636B4008B7F31 /* Resource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698C0135636B4008B7F31 /* Resource.cpp */; };
+		01A6990E135636B4008B7F31 /* Root.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698C1135636B4008B7F31 /* Root.cpp */; };
+		01A6990F135636B4008B7F31 /* SceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698C2135636B4008B7F31 /* SceneManager.cpp */; };
+		01A69910135636B4008B7F31 /* SceneNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698C3135636B4008B7F31 /* SceneNode.cpp */; };
+		01A69911135636B4008B7F31 /* Skeleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698C4135636B4008B7F31 /* Skeleton.cpp */; };
+		01A69912135636B4008B7F31 /* SubEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698C5135636B4008B7F31 /* SubEntity.cpp */; };
+		01A69913135636B4008B7F31 /* SubMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698C6135636B4008B7F31 /* SubMesh.cpp */; };
+		01A69914135636B4008B7F31 /* Technique.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698C7135636B4008B7F31 /* Technique.cpp */; };
+		01A69915135636B4008B7F31 /* TextAreaOverlayElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698C8135636B4008B7F31 /* TextAreaOverlayElement.cpp */; };
+		01A69916135636B4008B7F31 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698C9135636B4008B7F31 /* Texture.cpp */; };
+		01A69917135636B4008B7F31 /* TextureManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698CA135636B4008B7F31 /* TextureManager.cpp */; };
+		01A69918135636B4008B7F31 /* TextureUnitState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698CB135636B4008B7F31 /* TextureUnitState.cpp */; };
+		01A69919135636B4008B7F31 /* VertexAnimationTrack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698CC135636B4008B7F31 /* VertexAnimationTrack.cpp */; };
+		01A6991A135636B4008B7F31 /* VertexBufferBinding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698CD135636B4008B7F31 /* VertexBufferBinding.cpp */; };
+		01A6991B135636B4008B7F31 /* VertexData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698CE135636B4008B7F31 /* VertexData.cpp */; };
+		01A6991C135636B4008B7F31 /* VertexDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698CF135636B4008B7F31 /* VertexDeclaration.cpp */; };
+		01A6991D135636B4008B7F31 /* VertexElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698D0135636B4008B7F31 /* VertexElement.cpp */; };
+		01A6991E135636B4008B7F31 /* VertexPoseKeyFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698D1135636B4008B7F31 /* VertexPoseKeyFrame.cpp */; };
+		01A6991F135636B4008B7F31 /* Viewport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698D2135636B4008B7F31 /* Viewport.cpp */; };
+		01A69920135636B4008B7F31 /* WindowEventUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698D3135636B4008B7F31 /* WindowEventUtilities.cpp */; };
+		01A69921135636B4008B7F31 /* WrapperMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698D4135636B4008B7F31 /* WrapperMath.cpp */; };
+		01A69922135636B4008B7F31 /* Stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698D5135636B4008B7F31 /* Stdafx.cpp */; };
+		01A69923135636B4008B7F31 /* Stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 01A698D6135636B4008B7F31 /* Stdafx.h */; };
+		01A6992513563729008B7F31 /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01A6992413563729008B7F31 /* Ogre.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		01A6988313563672008B7F31 /* libOgreCWrapper.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libOgreCWrapper.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		01A69889135636B4008B7F31 /* NativeFrameListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeFrameListener.h; sourceTree = "<group>"; };
+		01A6988A135636B4008B7F31 /* NativeSceneListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeSceneListener.h; sourceTree = "<group>"; };
+		01A6988B135636B4008B7F31 /* NativeWindowListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeWindowListener.h; sourceTree = "<group>"; };
+		01A6988C135636B4008B7F31 /* OgreLogListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OgreLogListener.h; sourceTree = "<group>"; };
+		01A6988D135636B4008B7F31 /* OgreManagedArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OgreManagedArchive.h; sourceTree = "<group>"; };
+		01A6988E135636B4008B7F31 /* OgreManagedArchiveFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OgreManagedArchiveFactory.h; sourceTree = "<group>"; };
+		01A6988F135636B4008B7F31 /* OgreManagedStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OgreManagedStream.h; sourceTree = "<group>"; };
+		01A69891135636B4008B7F31 /* Animation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Animation.cpp; sourceTree = "<group>"; };
+		01A69892135636B4008B7F31 /* AnimationState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationState.cpp; sourceTree = "<group>"; };
+		01A69893135636B4008B7F31 /* AnimationStateSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationStateSet.cpp; sourceTree = "<group>"; };
+		01A69894135636B4008B7F31 /* AnimationTrack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationTrack.cpp; sourceTree = "<group>"; };
+		01A69895135636B4008B7F31 /* Bone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Bone.cpp; sourceTree = "<group>"; };
+		01A69896135636B4008B7F31 /* BorderPanelOverlayElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BorderPanelOverlayElement.cpp; sourceTree = "<group>"; };
+		01A69897135636B4008B7F31 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
+		01A69898135636B4008B7F31 /* Entity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cpp; sourceTree = "<group>"; };
+		01A69899135636B4008B7F31 /* HardwareBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HardwareBuffer.cpp; sourceTree = "<group>"; };
+		01A6989A135636B4008B7F31 /* HardwareBufferManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HardwareBufferManager.cpp; sourceTree = "<group>"; };
+		01A6989B135636B4008B7F31 /* HardwareIndexBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HardwareIndexBuffer.cpp; sourceTree = "<group>"; };
+		01A6989C135636B4008B7F31 /* HardwarePixelBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HardwarePixelBuffer.cpp; sourceTree = "<group>"; };
+		01A6989D135636B4008B7F31 /* HardwareVertexBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HardwareVertexBuffer.cpp; sourceTree = "<group>"; };
+		01A6989E135636B4008B7F31 /* IndexData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IndexData.cpp; sourceTree = "<group>"; };
+		01A6989F135636B4008B7F31 /* KeyFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KeyFrame.cpp; sourceTree = "<group>"; };
+		01A698A0135636B4008B7F31 /* Light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Light.cpp; sourceTree = "<group>"; };
+		01A698A1135636B4008B7F31 /* ManagedRenderQueueListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManagedRenderQueueListener.cpp; sourceTree = "<group>"; };
+		01A698A2135636B4008B7F31 /* ManualObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManualObject.cpp; sourceTree = "<group>"; };
+		01A698A3135636B4008B7F31 /* ManualObjectSection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManualObjectSection.cpp; sourceTree = "<group>"; };
+		01A698A4135636B4008B7F31 /* Material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Material.cpp; sourceTree = "<group>"; };
+		01A698A5135636B4008B7F31 /* MaterialManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MaterialManager.cpp; sourceTree = "<group>"; };
+		01A698A6135636B4008B7F31 /* Mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mesh.cpp; sourceTree = "<group>"; };
+		01A698A7135636B4008B7F31 /* MeshManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MeshManager.cpp; sourceTree = "<group>"; };
+		01A698A8135636B4008B7F31 /* MeshSerializer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MeshSerializer.cpp; sourceTree = "<group>"; };
+		01A698A9135636B4008B7F31 /* MovableObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MovableObject.cpp; sourceTree = "<group>"; };
+		01A698AA135636B4008B7F31 /* NativeFrameListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NativeFrameListener.cpp; sourceTree = "<group>"; };
+		01A698AB135636B4008B7F31 /* NativeSceneListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NativeSceneListener.cpp; sourceTree = "<group>"; };
+		01A698AC135636B4008B7F31 /* NativeWindowListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NativeWindowListener.cpp; sourceTree = "<group>"; };
+		01A698AD135636B4008B7F31 /* Node.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Node.cpp; sourceTree = "<group>"; };
+		01A698AE135636B4008B7F31 /* NodeAnimationTrack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NodeAnimationTrack.cpp; sourceTree = "<group>"; };
+		01A698AF135636B4008B7F31 /* OgreLogListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OgreLogListener.cpp; sourceTree = "<group>"; };
+		01A698B0135636B4008B7F31 /* OgreManagedArchive.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OgreManagedArchive.cpp; sourceTree = "<group>"; };
+		01A698B1135636B4008B7F31 /* OgreManagedArchiveFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OgreManagedArchiveFactory.cpp; sourceTree = "<group>"; };
+		01A698B2135636B4008B7F31 /* OgreManagedStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OgreManagedStream.cpp; sourceTree = "<group>"; };
+		01A698B3135636B4008B7F31 /* OgreResourceGroupManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OgreResourceGroupManager.cpp; sourceTree = "<group>"; };
+		01A698B4135636B4008B7F31 /* Overlay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Overlay.cpp; sourceTree = "<group>"; };
+		01A698B5135636B4008B7F31 /* OverlayContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OverlayContainer.cpp; sourceTree = "<group>"; };
+		01A698B6135636B4008B7F31 /* OverlayElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OverlayElement.cpp; sourceTree = "<group>"; };
+		01A698B7135636B4008B7F31 /* OverlayManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OverlayManager.cpp; sourceTree = "<group>"; };
+		01A698B8135636B4008B7F31 /* PanelOverlayElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PanelOverlayElement.cpp; sourceTree = "<group>"; };
+		01A698B9135636B4008B7F31 /* Pass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Pass.cpp; sourceTree = "<group>"; };
+		01A698BA135636B4008B7F31 /* PixelBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PixelBox.cpp; sourceTree = "<group>"; };
+		01A698BB135636B4008B7F31 /* Pose.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Pose.cpp; sourceTree = "<group>"; };
+		01A698BC135636B4008B7F31 /* RenderQueue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderQueue.cpp; sourceTree = "<group>"; };
+		01A698BD135636B4008B7F31 /* RenderSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderSystem.cpp; sourceTree = "<group>"; };
+		01A698BE135636B4008B7F31 /* RenderTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderTarget.cpp; sourceTree = "<group>"; };
+		01A698BF135636B4008B7F31 /* RenderWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderWindow.cpp; sourceTree = "<group>"; };
+		01A698C0135636B4008B7F31 /* Resource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Resource.cpp; sourceTree = "<group>"; };
+		01A698C1135636B4008B7F31 /* Root.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Root.cpp; sourceTree = "<group>"; };
+		01A698C2135636B4008B7F31 /* SceneManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneManager.cpp; sourceTree = "<group>"; };
+		01A698C3135636B4008B7F31 /* SceneNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneNode.cpp; sourceTree = "<group>"; };
+		01A698C4135636B4008B7F31 /* Skeleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Skeleton.cpp; sourceTree = "<group>"; };
+		01A698C5135636B4008B7F31 /* SubEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SubEntity.cpp; sourceTree = "<group>"; };
+		01A698C6135636B4008B7F31 /* SubMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SubMesh.cpp; sourceTree = "<group>"; };
+		01A698C7135636B4008B7F31 /* Technique.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Technique.cpp; sourceTree = "<group>"; };
+		01A698C8135636B4008B7F31 /* TextAreaOverlayElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextAreaOverlayElement.cpp; sourceTree = "<group>"; };
+		01A698C9135636B4008B7F31 /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Texture.cpp; sourceTree = "<group>"; };
+		01A698CA135636B4008B7F31 /* TextureManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureManager.cpp; sourceTree = "<group>"; };
+		01A698CB135636B4008B7F31 /* TextureUnitState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureUnitState.cpp; sourceTree = "<group>"; };
+		01A698CC135636B4008B7F31 /* VertexAnimationTrack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VertexAnimationTrack.cpp; sourceTree = "<group>"; };
+		01A698CD135636B4008B7F31 /* VertexBufferBinding.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VertexBufferBinding.cpp; sourceTree = "<group>"; };
+		01A698CE135636B4008B7F31 /* VertexData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VertexData.cpp; sourceTree = "<group>"; };
+		01A698CF135636B4008B7F31 /* VertexDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VertexDeclaration.cpp; sourceTree = "<group>"; };
+		01A698D0135636B4008B7F31 /* VertexElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VertexElement.cpp; sourceTree = "<group>"; };
+		01A698D1135636B4008B7F31 /* VertexPoseKeyFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VertexPoseKeyFrame.cpp; sourceTree = "<group>"; };
+		01A698D2135636B4008B7F31 /* Viewport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Viewport.cpp; sourceTree = "<group>"; };
+		01A698D3135636B4008B7F31 /* WindowEventUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WindowEventUtilities.cpp; sourceTree = "<group>"; };
+		01A698D4135636B4008B7F31 /* WrapperMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WrapperMath.cpp; sourceTree = "<group>"; };
+		01A698D5135636B4008B7F31 /* Stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Stdafx.cpp; path = ../Stdafx.cpp; sourceTree = SOURCE_ROOT; };
+		01A698D6135636B4008B7F31 /* Stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stdafx.h; path = ../Stdafx.h; sourceTree = SOURCE_ROOT; };
+		01A6992413563729008B7F31 /* Ogre.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ogre.framework; path = ../../../Dependencies/Ogre/OSXBuild/Build/lib/Release/Ogre.framework; sourceTree = SOURCE_ROOT; };
+		5073E0C609E734A800EC74B6 /* OgreCWrapperProj.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = OgreCWrapperProj.xcconfig; sourceTree = "<group>"; };
+		5073E0C709E734A800EC74B6 /* OgreCWrapperTarget.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = OgreCWrapperTarget.xcconfig; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		01A6988113563672008B7F31 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01A6992513563729008B7F31 /* Ogre.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		01A698861356368E008B7F31 /* OgreCWrapper */ = {
+			isa = PBXGroup;
+			children = (
+				01A69888135636B4008B7F31 /* Include */,
+				01A69890135636B4008B7F31 /* Src */,
+				01A698D5135636B4008B7F31 /* Stdafx.cpp */,
+				01A698D6135636B4008B7F31 /* Stdafx.h */,
+			);
+			name = OgreCWrapper;
+			sourceTree = "<group>";
+		};
+		01A69888135636B4008B7F31 /* Include */ = {
+			isa = PBXGroup;
+			children = (
+				01A69889135636B4008B7F31 /* NativeFrameListener.h */,
+				01A6988A135636B4008B7F31 /* NativeSceneListener.h */,
+				01A6988B135636B4008B7F31 /* NativeWindowListener.h */,
+				01A6988C135636B4008B7F31 /* OgreLogListener.h */,
+				01A6988D135636B4008B7F31 /* OgreManagedArchive.h */,
+				01A6988E135636B4008B7F31 /* OgreManagedArchiveFactory.h */,
+				01A6988F135636B4008B7F31 /* OgreManagedStream.h */,
+			);
+			name = Include;
+			path = ../Include;
+			sourceTree = SOURCE_ROOT;
+		};
+		01A69890135636B4008B7F31 /* Src */ = {
+			isa = PBXGroup;
+			children = (
+				01A69891135636B4008B7F31 /* Animation.cpp */,
+				01A69892135636B4008B7F31 /* AnimationState.cpp */,
+				01A69893135636B4008B7F31 /* AnimationStateSet.cpp */,
+				01A69894135636B4008B7F31 /* AnimationTrack.cpp */,
+				01A69895135636B4008B7F31 /* Bone.cpp */,
+				01A69896135636B4008B7F31 /* BorderPanelOverlayElement.cpp */,
+				01A69897135636B4008B7F31 /* Camera.cpp */,
+				01A69898135636B4008B7F31 /* Entity.cpp */,
+				01A69899135636B4008B7F31 /* HardwareBuffer.cpp */,
+				01A6989A135636B4008B7F31 /* HardwareBufferManager.cpp */,
+				01A6989B135636B4008B7F31 /* HardwareIndexBuffer.cpp */,
+				01A6989C135636B4008B7F31 /* HardwarePixelBuffer.cpp */,
+				01A6989D135636B4008B7F31 /* HardwareVertexBuffer.cpp */,
+				01A6989E135636B4008B7F31 /* IndexData.cpp */,
+				01A6989F135636B4008B7F31 /* KeyFrame.cpp */,
+				01A698A0135636B4008B7F31 /* Light.cpp */,
+				01A698A1135636B4008B7F31 /* ManagedRenderQueueListener.cpp */,
+				01A698A2135636B4008B7F31 /* ManualObject.cpp */,
+				01A698A3135636B4008B7F31 /* ManualObjectSection.cpp */,
+				01A698A4135636B4008B7F31 /* Material.cpp */,
+				01A698A5135636B4008B7F31 /* MaterialManager.cpp */,
+				01A698A6135636B4008B7F31 /* Mesh.cpp */,
+				01A698A7135636B4008B7F31 /* MeshManager.cpp */,
+				01A698A8135636B4008B7F31 /* MeshSerializer.cpp */,
+				01A698A9135636B4008B7F31 /* MovableObject.cpp */,
+				01A698AA135636B4008B7F31 /* NativeFrameListener.cpp */,
+				01A698AB135636B4008B7F31 /* NativeSceneListener.cpp */,
+				01A698AC135636B4008B7F31 /* NativeWindowListener.cpp */,
+				01A698AD135636B4008B7F31 /* Node.cpp */,
+				01A698AE135636B4008B7F31 /* NodeAnimationTrack.cpp */,
+				01A698AF135636B4008B7F31 /* OgreLogListener.cpp */,
+				01A698B0135636B4008B7F31 /* OgreManagedArchive.cpp */,
+				01A698B1135636B4008B7F31 /* OgreManagedArchiveFactory.cpp */,
+				01A698B2135636B4008B7F31 /* OgreManagedStream.cpp */,
+				01A698B3135636B4008B7F31 /* OgreResourceGroupManager.cpp */,
+				01A698B4135636B4008B7F31 /* Overlay.cpp */,
+				01A698B5135636B4008B7F31 /* OverlayContainer.cpp */,
+				01A698B6135636B4008B7F31 /* OverlayElement.cpp */,
+				01A698B7135636B4008B7F31 /* OverlayManager.cpp */,
+				01A698B8135636B4008B7F31 /* PanelOverlayElement.cpp */,
+				01A698B9135636B4008B7F31 /* Pass.cpp */,
+				01A698BA135636B4008B7F31 /* PixelBox.cpp */,
+				01A698BB135636B4008B7F31 /* Pose.cpp */,
+				01A698BC135636B4008B7F31 /* RenderQueue.cpp */,
+				01A698BD135636B4008B7F31 /* RenderSystem.cpp */,
+				01A698BE135636B4008B7F31 /* RenderTarget.cpp */,
+				01A698BF135636B4008B7F31 /* RenderWindow.cpp */,
+				01A698C0135636B4008B7F31 /* Resource.cpp */,
+				01A698C1135636B4008B7F31 /* Root.cpp */,
+				01A698C2135636B4008B7F31 /* SceneManager.cpp */,
+				01A698C3135636B4008B7F31 /* SceneNode.cpp */,
+				01A698C4135636B4008B7F31 /* Skeleton.cpp */,
+				01A698C5135636B4008B7F31 /* SubEntity.cpp */,
+				01A698C6135636B4008B7F31 /* SubMesh.cpp */,
+				01A698C7135636B4008B7F31 /* Technique.cpp */,
+				01A698C8135636B4008B7F31 /* TextAreaOverlayElement.cpp */,
+				01A698C9135636B4008B7F31 /* Texture.cpp */,
+				01A698CA135636B4008B7F31 /* TextureManager.cpp */,
+				01A698CB135636B4008B7F31 /* TextureUnitState.cpp */,
+				01A698CC135636B4008B7F31 /* VertexAnimationTrack.cpp */,
+				01A698CD135636B4008B7F31 /* VertexBufferBinding.cpp */,
+				01A698CE135636B4008B7F31 /* VertexData.cpp */,
+				01A698CF135636B4008B7F31 /* VertexDeclaration.cpp */,
+				01A698D0135636B4008B7F31 /* VertexElement.cpp */,
+				01A698D1135636B4008B7F31 /* VertexPoseKeyFrame.cpp */,
+				01A698D2135636B4008B7F31 /* Viewport.cpp */,
+				01A698D3135636B4008B7F31 /* WindowEventUtilities.cpp */,
+				01A698D4135636B4008B7F31 /* WrapperMath.cpp */,
+			);
+			name = Src;
+			path = ../Src;
+			sourceTree = SOURCE_ROOT;
+		};
+		034768DDFF38A45A11DB9C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				01A6988313563672008B7F31 /* libOgreCWrapper.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0867D691FE84028FC02AAC07 /* OgreCWrapper */ = {
+			isa = PBXGroup;
+			children = (
+				01A698861356368E008B7F31 /* OgreCWrapper */,
+				5073E0CA09E734BC00EC74B6 /* Configuration Files */,
+				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				034768DDFF38A45A11DB9C8B /* Products */,
+			);
+			name = OgreCWrapper;
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				01A6992413563729008B7F31 /* Ogre.framework */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		5073E0CA09E734BC00EC74B6 /* Configuration Files */ = {
+			isa = PBXGroup;
+			children = (
+				5073E0C609E734A800EC74B6 /* OgreCWrapperProj.xcconfig */,
+				5073E0C709E734A800EC74B6 /* OgreCWrapperTarget.xcconfig */,
+			);
+			name = "Configuration Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		01A6987F13563672008B7F31 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01A698D7135636B4008B7F31 /* NativeFrameListener.h in Headers */,
+				01A698D8135636B4008B7F31 /* NativeSceneListener.h in Headers */,
+				01A698D9135636B4008B7F31 /* NativeWindowListener.h in Headers */,
+				01A698DA135636B4008B7F31 /* OgreLogListener.h in Headers */,
+				01A698DB135636B4008B7F31 /* OgreManagedArchive.h in Headers */,
+				01A698DC135636B4008B7F31 /* OgreManagedArchiveFactory.h in Headers */,
+				01A698DD135636B4008B7F31 /* OgreManagedStream.h in Headers */,
+				01A69923135636B4008B7F31 /* Stdafx.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		01A6988213563672008B7F31 /* OgreCWrapper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 01A698871356368E008B7F31 /* Build configuration list for PBXNativeTarget "OgreCWrapper" */;
+			buildPhases = (
+				01A6987F13563672008B7F31 /* Headers */,
+				01A6988013563672008B7F31 /* Sources */,
+				01A6988113563672008B7F31 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OgreCWrapper;
+			productName = OgreCWrapper;
+			productReference = 01A6988313563672008B7F31 /* libOgreCWrapper.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0867D690FE84028FC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB916408733D950010E9CD /* Build configuration list for PBXProject "OgreCWrapper" */;
+			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 0867D691FE84028FC02AAC07 /* OgreCWrapper */;
+			productRefGroup = 034768DDFF38A45A11DB9C8B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				01A6988213563672008B7F31 /* OgreCWrapper */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		01A6988013563672008B7F31 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01A698DE135636B4008B7F31 /* Animation.cpp in Sources */,
+				01A698DF135636B4008B7F31 /* AnimationState.cpp in Sources */,
+				01A698E0135636B4008B7F31 /* AnimationStateSet.cpp in Sources */,
+				01A698E1135636B4008B7F31 /* AnimationTrack.cpp in Sources */,
+				01A698E2135636B4008B7F31 /* Bone.cpp in Sources */,
+				01A698E3135636B4008B7F31 /* BorderPanelOverlayElement.cpp in Sources */,
+				01A698E4135636B4008B7F31 /* Camera.cpp in Sources */,
+				01A698E5135636B4008B7F31 /* Entity.cpp in Sources */,
+				01A698E6135636B4008B7F31 /* HardwareBuffer.cpp in Sources */,
+				01A698E7135636B4008B7F31 /* HardwareBufferManager.cpp in Sources */,
+				01A698E8135636B4008B7F31 /* HardwareIndexBuffer.cpp in Sources */,
+				01A698E9135636B4008B7F31 /* HardwarePixelBuffer.cpp in Sources */,
+				01A698EA135636B4008B7F31 /* HardwareVertexBuffer.cpp in Sources */,
+				01A698EB135636B4008B7F31 /* IndexData.cpp in Sources */,
+				01A698EC135636B4008B7F31 /* KeyFrame.cpp in Sources */,
+				01A698ED135636B4008B7F31 /* Light.cpp in Sources */,
+				01A698EE135636B4008B7F31 /* ManagedRenderQueueListener.cpp in Sources */,
+				01A698EF135636B4008B7F31 /* ManualObject.cpp in Sources */,
+				01A698F0135636B4008B7F31 /* ManualObjectSection.cpp in Sources */,
+				01A698F1135636B4008B7F31 /* Material.cpp in Sources */,
+				01A698F2135636B4008B7F31 /* MaterialManager.cpp in Sources */,
+				01A698F3135636B4008B7F31 /* Mesh.cpp in Sources */,
+				01A698F4135636B4008B7F31 /* MeshManager.cpp in Sources */,
+				01A698F5135636B4008B7F31 /* MeshSerializer.cpp in Sources */,
+				01A698F6135636B4008B7F31 /* MovableObject.cpp in Sources */,
+				01A698F7135636B4008B7F31 /* NativeFrameListener.cpp in Sources */,
+				01A698F8135636B4008B7F31 /* NativeSceneListener.cpp in Sources */,
+				01A698F9135636B4008B7F31 /* NativeWindowListener.cpp in Sources */,
+				01A698FA135636B4008B7F31 /* Node.cpp in Sources */,
+				01A698FB135636B4008B7F31 /* NodeAnimationTrack.cpp in Sources */,
+				01A698FC135636B4008B7F31 /* OgreLogListener.cpp in Sources */,
+				01A698FD135636B4008B7F31 /* OgreManagedArchive.cpp in Sources */,
+				01A698FE135636B4008B7F31 /* OgreManagedArchiveFactory.cpp in Sources */,
+				01A698FF135636B4008B7F31 /* OgreManagedStream.cpp in Sources */,
+				01A69900135636B4008B7F31 /* OgreResourceGroupManager.cpp in Sources */,
+				01A69901135636B4008B7F31 /* Overlay.cpp in Sources */,
+				01A69902135636B4008B7F31 /* OverlayContainer.cpp in Sources */,
+				01A69903135636B4008B7F31 /* OverlayElement.cpp in Sources */,
+				01A69904135636B4008B7F31 /* OverlayManager.cpp in Sources */,
+				01A69905135636B4008B7F31 /* PanelOverlayElement.cpp in Sources */,
+				01A69906135636B4008B7F31 /* Pass.cpp in Sources */,
+				01A69907135636B4008B7F31 /* PixelBox.cpp in Sources */,
+				01A69908135636B4008B7F31 /* Pose.cpp in Sources */,
+				01A69909135636B4008B7F31 /* RenderQueue.cpp in Sources */,
+				01A6990A135636B4008B7F31 /* RenderSystem.cpp in Sources */,
+				01A6990B135636B4008B7F31 /* RenderTarget.cpp in Sources */,
+				01A6990C135636B4008B7F31 /* RenderWindow.cpp in Sources */,
+				01A6990D135636B4008B7F31 /* Resource.cpp in Sources */,
+				01A6990E135636B4008B7F31 /* Root.cpp in Sources */,
+				01A6990F135636B4008B7F31 /* SceneManager.cpp in Sources */,
+				01A69910135636B4008B7F31 /* SceneNode.cpp in Sources */,
+				01A69911135636B4008B7F31 /* Skeleton.cpp in Sources */,
+				01A69912135636B4008B7F31 /* SubEntity.cpp in Sources */,
+				01A69913135636B4008B7F31 /* SubMesh.cpp in Sources */,
+				01A69914135636B4008B7F31 /* Technique.cpp in Sources */,
+				01A69915135636B4008B7F31 /* TextAreaOverlayElement.cpp in Sources */,
+				01A69916135636B4008B7F31 /* Texture.cpp in Sources */,
+				01A69917135636B4008B7F31 /* TextureManager.cpp in Sources */,
+				01A69918135636B4008B7F31 /* TextureUnitState.cpp in Sources */,
+				01A69919135636B4008B7F31 /* VertexAnimationTrack.cpp in Sources */,
+				01A6991A135636B4008B7F31 /* VertexBufferBinding.cpp in Sources */,
+				01A6991B135636B4008B7F31 /* VertexData.cpp in Sources */,
+				01A6991C135636B4008B7F31 /* VertexDeclaration.cpp in Sources */,
+				01A6991D135636B4008B7F31 /* VertexElement.cpp in Sources */,
+				01A6991E135636B4008B7F31 /* VertexPoseKeyFrame.cpp in Sources */,
+				01A6991F135636B4008B7F31 /* Viewport.cpp in Sources */,
+				01A69920135636B4008B7F31 /* WindowEventUtilities.cpp in Sources */,
+				01A69921135636B4008B7F31 /* WrapperMath.cpp in Sources */,
+				01A69922135636B4008B7F31 /* Stdafx.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		01A6988413563672008B7F31 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/Build/lib/Release\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INSTALL_PATH = /usr/local/lib;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = OgreCWrapper;
+			};
+			name = Debug;
+		};
+		01A6988513563672008B7F31 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/Build/lib/Release\"",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../../OgreCWrapper/Stdafx.h;
+				GCC_PREPROCESSOR_DEFINITIONS = MAC_OSX;
+				HEADER_SEARCH_PATHS = (
+					/Users/andrewpiper/Development/Dependencies/Ogre/OSXBuild/Dependencies/include,
+					/Users/andrewpiper/Development/Dependencies/Ogre/OSXBuild/Build/include,
+					/Users/andrewpiper/Development/Dependencies/Ogre/src/OgreMain/include,
+				);
+				INSTALL_PATH = /usr/local/lib;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = libOgreCWrapper;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		1DEB916508733D950010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5073E0C609E734A800EC74B6 /* OgreCWrapperProj.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+			};
+			name = Debug;
+		};
+		1DEB916608733D950010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5073E0C609E734A800EC74B6 /* OgreCWrapperProj.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+				VALID_ARCHS = "i386 x86_64";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		01A698871356368E008B7F31 /* Build configuration list for PBXNativeTarget "OgreCWrapper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				01A6988413563672008B7F31 /* Debug */,
+				01A6988513563672008B7F31 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB916408733D950010E9CD /* Build configuration list for PBXProject "OgreCWrapper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB916508733D950010E9CD /* Debug */,
+				1DEB916608733D950010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+}

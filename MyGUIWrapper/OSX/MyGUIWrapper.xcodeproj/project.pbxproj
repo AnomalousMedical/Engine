@@ -1,0 +1,527 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0154F05413572A3700CA2301 /* MyGUIEventTranslator.h in Headers */ = {isa = PBXBuildFile; fileRef = 0154F01913572A3700CA2301 /* MyGUIEventTranslator.h */; };
+		0154F05513572A3700CA2301 /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F01B13572A3700CA2301 /* Button.cpp */; };
+		0154F05613572A3700CA2301 /* ClickEventTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F01C13572A3700CA2301 /* ClickEventTranslator.cpp */; };
+		0154F05713572A3700CA2301 /* ComboBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F01D13572A3700CA2301 /* ComboBox.cpp */; };
+		0154F05813572A3700CA2301 /* Edit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F01E13572A3700CA2301 /* Edit.cpp */; };
+		0154F05913572A3700CA2301 /* EventCanvasPositionChanged.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F01F13572A3700CA2301 /* EventCanvasPositionChanged.cpp */; };
+		0154F05A13572A3700CA2301 /* EventChangeMousePointerTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F02013572A3700CA2301 /* EventChangeMousePointerTranslator.cpp */; };
+		0154F05B13572A3700CA2301 /* EventComboAcceptTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F02113572A3700CA2301 /* EventComboAcceptTranslator.cpp */; };
+		0154F05C13572A3700CA2301 /* EventComboChangePositionTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F02213572A3700CA2301 /* EventComboChangePositionTranslator.cpp */; };
+		0154F05D13572A3700CA2301 /* EventEditSelectAcceptTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F02313572A3700CA2301 /* EventEditSelectAcceptTranslator.cpp */; };
+		0154F05E13572A3700CA2301 /* EventEditTextChangeTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F02413572A3700CA2301 /* EventEditTextChangeTranslator.cpp */; };
+		0154F05F13572A3700CA2301 /* EventKeyButtonPressedTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F02513572A3700CA2301 /* EventKeyButtonPressedTranslator.cpp */; };
+		0154F06013572A3700CA2301 /* EventKeyButtonReleasedTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F02613572A3700CA2301 /* EventKeyButtonReleasedTranslator.cpp */; };
+		0154F06113572A3700CA2301 /* EventKeyLostFocusTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F02713572A3700CA2301 /* EventKeyLostFocusTranslator.cpp */; };
+		0154F06213572A3700CA2301 /* EventKeySetFocusTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F02813572A3700CA2301 /* EventKeySetFocusTranslator.cpp */; };
+		0154F06313572A3700CA2301 /* EventListChangePositionTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F02913572A3700CA2301 /* EventListChangePositionTranslator.cpp */; };
+		0154F06413572A3700CA2301 /* EventListSelectAcceptTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F02A13572A3700CA2301 /* EventListSelectAcceptTranslator.cpp */; };
+		0154F06513572A3700CA2301 /* EventMessageBoxResultTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F02B13572A3700CA2301 /* EventMessageBoxResultTranslator.cpp */; };
+		0154F06613572A3700CA2301 /* EventMouseButtonDoubleClickTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F02C13572A3700CA2301 /* EventMouseButtonDoubleClickTranslator.cpp */; };
+		0154F06713572A3700CA2301 /* EventMouseButtonPressedTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F02D13572A3700CA2301 /* EventMouseButtonPressedTranslator.cpp */; };
+		0154F06813572A3700CA2301 /* EventMouseButtonReleasedTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F02E13572A3700CA2301 /* EventMouseButtonReleasedTranslator.cpp */; };
+		0154F06913572A3700CA2301 /* EventMouseDragTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F02F13572A3700CA2301 /* EventMouseDragTranslator.cpp */; };
+		0154F06A13572A3700CA2301 /* EventMouseLostFocusTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F03013572A3700CA2301 /* EventMouseLostFocusTranslator.cpp */; };
+		0154F06B13572A3700CA2301 /* EventMouseSetFocusTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F03113572A3700CA2301 /* EventMouseSetFocusTranslator.cpp */; };
+		0154F06C13572A3700CA2301 /* EventMouseWheelTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F03213572A3700CA2301 /* EventMouseWheelTranslator.cpp */; };
+		0154F06D13572A3700CA2301 /* EventRootKeyChangeFocusTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F03313572A3700CA2301 /* EventRootKeyChangeFocusTranslator.cpp */; };
+		0154F06E13572A3700CA2301 /* EventRootMouseChangeFocusTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F03413572A3700CA2301 /* EventRootMouseChangeFocusTranslator.cpp */; };
+		0154F06F13572A3700CA2301 /* EventToolTipTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F03513572A3700CA2301 /* EventToolTipTranslator.cpp */; };
+		0154F07013572A3700CA2301 /* EventWindowButtonPressedTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F03613572A3700CA2301 /* EventWindowButtonPressedTranslator.cpp */; };
+		0154F07113572A3700CA2301 /* EventWindowChangeCoordTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F03713572A3700CA2301 /* EventWindowChangeCoordTranslator.cpp */; };
+		0154F07213572A3700CA2301 /* FontManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F03813572A3700CA2301 /* FontManager.cpp */; };
+		0154F07313572A3700CA2301 /* Gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F03913572A3700CA2301 /* Gui.cpp */; };
+		0154F07413572A3700CA2301 /* ISubWidgetText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F03A13572A3700CA2301 /* ISubWidgetText.cpp */; };
+		0154F07513572A3700CA2301 /* InputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F03B13572A3700CA2301 /* InputManager.cpp */; };
+		0154F07613572A3700CA2301 /* LanguageManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F03C13572A3700CA2301 /* LanguageManager.cpp */; };
+		0154F07713572A3700CA2301 /* LayerManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F03D13572A3700CA2301 /* LayerManager.cpp */; };
+		0154F07813572A3700CA2301 /* Layout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F03E13572A3700CA2301 /* Layout.cpp */; };
+		0154F07913572A3700CA2301 /* LayoutManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F03F13572A3700CA2301 /* LayoutManager.cpp */; };
+		0154F07A13572A3700CA2301 /* MenuCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04013572A3700CA2301 /* MenuCtrl.cpp */; };
+		0154F07B13572A3700CA2301 /* MenuItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04113572A3700CA2301 /* MenuItem.cpp */; };
+		0154F07C13572A3700CA2301 /* Message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04213572A3700CA2301 /* Message.cpp */; };
+		0154F07D13572A3700CA2301 /* MultiList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04313572A3700CA2301 /* MultiList.cpp */; };
+		0154F07E13572A3700CA2301 /* MyGUIEventTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04413572A3700CA2301 /* MyGUIEventTranslator.cpp */; };
+		0154F07F13572A3700CA2301 /* OgrePlatform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04513572A3700CA2301 /* OgrePlatform.cpp */; };
+		0154F08013572A3700CA2301 /* OgreRenderManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04613572A3700CA2301 /* OgreRenderManager.cpp */; };
+		0154F08113572A3700CA2301 /* PointerManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04713572A3700CA2301 /* PointerManager.cpp */; };
+		0154F08213572A3700CA2301 /* Progress.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04813572A3700CA2301 /* Progress.cpp */; };
+		0154F08313572A3700CA2301 /* ResourceManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04913572A3700CA2301 /* ResourceManager.cpp */; };
+		0154F08413572A3700CA2301 /* ScrollChangePositionET.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04A13572A3700CA2301 /* ScrollChangePositionET.cpp */; };
+		0154F08513572A3700CA2301 /* ScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04B13572A3700CA2301 /* ScrollView.cpp */; };
+		0154F08613572A3700CA2301 /* StaticImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04C13572A3700CA2301 /* StaticImage.cpp */; };
+		0154F08713572A3700CA2301 /* StaticText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04D13572A3700CA2301 /* StaticText.cpp */; };
+		0154F08813572A3700CA2301 /* VScroll.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04E13572A3700CA2301 /* VScroll.cpp */; };
+		0154F08913572A3700CA2301 /* Widget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04F13572A3700CA2301 /* Widget.cpp */; };
+		0154F08A13572A3700CA2301 /* WidgetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F05013572A3700CA2301 /* WidgetManager.cpp */; };
+		0154F08B13572A3700CA2301 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F05113572A3700CA2301 /* Window.cpp */; };
+		0154F08C13572A3700CA2301 /* Stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F05213572A3700CA2301 /* Stdafx.cpp */; };
+		0154F08D13572A3700CA2301 /* Stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 0154F05313572A3700CA2301 /* Stdafx.h */; };
+		0154F0A213572B0D00CA2301 /* libMyGUI.OgrePlatform.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0154F0A113572B0D00CA2301 /* libMyGUI.OgrePlatform.a */; };
+		0154F0A413572B1000CA2301 /* libMyGUIEngineStatic.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0154F0A313572B1000CA2301 /* libMyGUIEngineStatic.a */; };
+		0154F0C113572C0500CA2301 /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0154F0C013572C0500CA2301 /* Ogre.framework */; };
+		0154F1F513572DEC00CA2301 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0154F1F413572DEC00CA2301 /* libfreetype.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0154F01913572A3700CA2301 /* MyGUIEventTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyGUIEventTranslator.h; sourceTree = "<group>"; };
+		0154F01B13572A3700CA2301 /* Button.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Button.cpp; sourceTree = "<group>"; };
+		0154F01C13572A3700CA2301 /* ClickEventTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClickEventTranslator.cpp; sourceTree = "<group>"; };
+		0154F01D13572A3700CA2301 /* ComboBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ComboBox.cpp; sourceTree = "<group>"; };
+		0154F01E13572A3700CA2301 /* Edit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Edit.cpp; sourceTree = "<group>"; };
+		0154F01F13572A3700CA2301 /* EventCanvasPositionChanged.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventCanvasPositionChanged.cpp; sourceTree = "<group>"; };
+		0154F02013572A3700CA2301 /* EventChangeMousePointerTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventChangeMousePointerTranslator.cpp; sourceTree = "<group>"; };
+		0154F02113572A3700CA2301 /* EventComboAcceptTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventComboAcceptTranslator.cpp; sourceTree = "<group>"; };
+		0154F02213572A3700CA2301 /* EventComboChangePositionTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventComboChangePositionTranslator.cpp; sourceTree = "<group>"; };
+		0154F02313572A3700CA2301 /* EventEditSelectAcceptTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventEditSelectAcceptTranslator.cpp; sourceTree = "<group>"; };
+		0154F02413572A3700CA2301 /* EventEditTextChangeTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventEditTextChangeTranslator.cpp; sourceTree = "<group>"; };
+		0154F02513572A3700CA2301 /* EventKeyButtonPressedTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventKeyButtonPressedTranslator.cpp; sourceTree = "<group>"; };
+		0154F02613572A3700CA2301 /* EventKeyButtonReleasedTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventKeyButtonReleasedTranslator.cpp; sourceTree = "<group>"; };
+		0154F02713572A3700CA2301 /* EventKeyLostFocusTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventKeyLostFocusTranslator.cpp; sourceTree = "<group>"; };
+		0154F02813572A3700CA2301 /* EventKeySetFocusTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventKeySetFocusTranslator.cpp; sourceTree = "<group>"; };
+		0154F02913572A3700CA2301 /* EventListChangePositionTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventListChangePositionTranslator.cpp; sourceTree = "<group>"; };
+		0154F02A13572A3700CA2301 /* EventListSelectAcceptTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventListSelectAcceptTranslator.cpp; sourceTree = "<group>"; };
+		0154F02B13572A3700CA2301 /* EventMessageBoxResultTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMessageBoxResultTranslator.cpp; sourceTree = "<group>"; };
+		0154F02C13572A3700CA2301 /* EventMouseButtonDoubleClickTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMouseButtonDoubleClickTranslator.cpp; sourceTree = "<group>"; };
+		0154F02D13572A3700CA2301 /* EventMouseButtonPressedTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMouseButtonPressedTranslator.cpp; sourceTree = "<group>"; };
+		0154F02E13572A3700CA2301 /* EventMouseButtonReleasedTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMouseButtonReleasedTranslator.cpp; sourceTree = "<group>"; };
+		0154F02F13572A3700CA2301 /* EventMouseDragTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMouseDragTranslator.cpp; sourceTree = "<group>"; };
+		0154F03013572A3700CA2301 /* EventMouseLostFocusTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMouseLostFocusTranslator.cpp; sourceTree = "<group>"; };
+		0154F03113572A3700CA2301 /* EventMouseSetFocusTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMouseSetFocusTranslator.cpp; sourceTree = "<group>"; };
+		0154F03213572A3700CA2301 /* EventMouseWheelTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMouseWheelTranslator.cpp; sourceTree = "<group>"; };
+		0154F03313572A3700CA2301 /* EventRootKeyChangeFocusTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventRootKeyChangeFocusTranslator.cpp; sourceTree = "<group>"; };
+		0154F03413572A3700CA2301 /* EventRootMouseChangeFocusTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventRootMouseChangeFocusTranslator.cpp; sourceTree = "<group>"; };
+		0154F03513572A3700CA2301 /* EventToolTipTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventToolTipTranslator.cpp; sourceTree = "<group>"; };
+		0154F03613572A3700CA2301 /* EventWindowButtonPressedTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventWindowButtonPressedTranslator.cpp; sourceTree = "<group>"; };
+		0154F03713572A3700CA2301 /* EventWindowChangeCoordTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventWindowChangeCoordTranslator.cpp; sourceTree = "<group>"; };
+		0154F03813572A3700CA2301 /* FontManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FontManager.cpp; sourceTree = "<group>"; };
+		0154F03913572A3700CA2301 /* Gui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Gui.cpp; sourceTree = "<group>"; };
+		0154F03A13572A3700CA2301 /* ISubWidgetText.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ISubWidgetText.cpp; sourceTree = "<group>"; };
+		0154F03B13572A3700CA2301 /* InputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputManager.cpp; sourceTree = "<group>"; };
+		0154F03C13572A3700CA2301 /* LanguageManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LanguageManager.cpp; sourceTree = "<group>"; };
+		0154F03D13572A3700CA2301 /* LayerManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LayerManager.cpp; sourceTree = "<group>"; };
+		0154F03E13572A3700CA2301 /* Layout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Layout.cpp; sourceTree = "<group>"; };
+		0154F03F13572A3700CA2301 /* LayoutManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LayoutManager.cpp; sourceTree = "<group>"; };
+		0154F04013572A3700CA2301 /* MenuCtrl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MenuCtrl.cpp; sourceTree = "<group>"; };
+		0154F04113572A3700CA2301 /* MenuItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MenuItem.cpp; sourceTree = "<group>"; };
+		0154F04213572A3700CA2301 /* Message.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Message.cpp; sourceTree = "<group>"; };
+		0154F04313572A3700CA2301 /* MultiList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MultiList.cpp; sourceTree = "<group>"; };
+		0154F04413572A3700CA2301 /* MyGUIEventTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MyGUIEventTranslator.cpp; sourceTree = "<group>"; };
+		0154F04513572A3700CA2301 /* OgrePlatform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OgrePlatform.cpp; sourceTree = "<group>"; };
+		0154F04613572A3700CA2301 /* OgreRenderManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OgreRenderManager.cpp; sourceTree = "<group>"; };
+		0154F04713572A3700CA2301 /* PointerManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PointerManager.cpp; sourceTree = "<group>"; };
+		0154F04813572A3700CA2301 /* Progress.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Progress.cpp; sourceTree = "<group>"; };
+		0154F04913572A3700CA2301 /* ResourceManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ResourceManager.cpp; sourceTree = "<group>"; };
+		0154F04A13572A3700CA2301 /* ScrollChangePositionET.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScrollChangePositionET.cpp; sourceTree = "<group>"; };
+		0154F04B13572A3700CA2301 /* ScrollView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScrollView.cpp; sourceTree = "<group>"; };
+		0154F04C13572A3700CA2301 /* StaticImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StaticImage.cpp; sourceTree = "<group>"; };
+		0154F04D13572A3700CA2301 /* StaticText.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StaticText.cpp; sourceTree = "<group>"; };
+		0154F04E13572A3700CA2301 /* VScroll.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VScroll.cpp; sourceTree = "<group>"; };
+		0154F04F13572A3700CA2301 /* Widget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Widget.cpp; sourceTree = "<group>"; };
+		0154F05013572A3700CA2301 /* WidgetManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WidgetManager.cpp; sourceTree = "<group>"; };
+		0154F05113572A3700CA2301 /* Window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
+		0154F05213572A3700CA2301 /* Stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Stdafx.cpp; path = ../Stdafx.cpp; sourceTree = SOURCE_ROOT; };
+		0154F05313572A3700CA2301 /* Stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stdafx.h; path = ../Stdafx.h; sourceTree = SOURCE_ROOT; };
+		0154F0A113572B0D00CA2301 /* libMyGUI.OgrePlatform.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMyGUI.OgrePlatform.a; path = ../../../Dependencies/MyGUI/OSXBuild/lib/Release/libMyGUI.OgrePlatform.a; sourceTree = SOURCE_ROOT; };
+		0154F0A313572B1000CA2301 /* libMyGUIEngineStatic.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMyGUIEngineStatic.a; path = ../../../Dependencies/MyGUI/OSXBuild/lib/Release/libMyGUIEngineStatic.a; sourceTree = SOURCE_ROOT; };
+		0154F0C013572C0500CA2301 /* Ogre.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ogre.framework; path = ../../../Dependencies/Ogre/OSXBuild/Build/lib/Release/Ogre.framework; sourceTree = SOURCE_ROOT; };
+		0154F1F413572DEC00CA2301 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetype.a; path = ../../../Dependencies/Ogre/OSXBuild/Dependencies/lib/Release/libfreetype.a; sourceTree = SOURCE_ROOT; };
+		5073E0C609E734A800EC74B6 /* MyGUIWrapperProj.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = MyGUIWrapperProj.xcconfig; sourceTree = "<group>"; };
+		5073E0C709E734A800EC74B6 /* MyGUIWrapperTarget.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = MyGUIWrapperTarget.xcconfig; sourceTree = "<group>"; };
+		D2AAC09D05546B4700DB518D /* libMyGUIWrapper.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libMyGUIWrapper.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D2AAC09B05546B4700DB518D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0154F0A213572B0D00CA2301 /* libMyGUI.OgrePlatform.a in Frameworks */,
+				0154F0A413572B1000CA2301 /* libMyGUIEngineStatic.a in Frameworks */,
+				0154F0C113572C0500CA2301 /* Ogre.framework in Frameworks */,
+				0154F1F513572DEC00CA2301 /* libfreetype.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0154F01713572A2700CA2301 /* MyGUIWrapper */ = {
+			isa = PBXGroup;
+			children = (
+				0154F01813572A3700CA2301 /* Include */,
+				0154F01A13572A3700CA2301 /* Src */,
+				0154F05213572A3700CA2301 /* Stdafx.cpp */,
+				0154F05313572A3700CA2301 /* Stdafx.h */,
+			);
+			name = MyGUIWrapper;
+			sourceTree = "<group>";
+		};
+		0154F01813572A3700CA2301 /* Include */ = {
+			isa = PBXGroup;
+			children = (
+				0154F01913572A3700CA2301 /* MyGUIEventTranslator.h */,
+			);
+			name = Include;
+			path = ../Include;
+			sourceTree = SOURCE_ROOT;
+		};
+		0154F01A13572A3700CA2301 /* Src */ = {
+			isa = PBXGroup;
+			children = (
+				0154F01B13572A3700CA2301 /* Button.cpp */,
+				0154F01C13572A3700CA2301 /* ClickEventTranslator.cpp */,
+				0154F01D13572A3700CA2301 /* ComboBox.cpp */,
+				0154F01E13572A3700CA2301 /* Edit.cpp */,
+				0154F01F13572A3700CA2301 /* EventCanvasPositionChanged.cpp */,
+				0154F02013572A3700CA2301 /* EventChangeMousePointerTranslator.cpp */,
+				0154F02113572A3700CA2301 /* EventComboAcceptTranslator.cpp */,
+				0154F02213572A3700CA2301 /* EventComboChangePositionTranslator.cpp */,
+				0154F02313572A3700CA2301 /* EventEditSelectAcceptTranslator.cpp */,
+				0154F02413572A3700CA2301 /* EventEditTextChangeTranslator.cpp */,
+				0154F02513572A3700CA2301 /* EventKeyButtonPressedTranslator.cpp */,
+				0154F02613572A3700CA2301 /* EventKeyButtonReleasedTranslator.cpp */,
+				0154F02713572A3700CA2301 /* EventKeyLostFocusTranslator.cpp */,
+				0154F02813572A3700CA2301 /* EventKeySetFocusTranslator.cpp */,
+				0154F02913572A3700CA2301 /* EventListChangePositionTranslator.cpp */,
+				0154F02A13572A3700CA2301 /* EventListSelectAcceptTranslator.cpp */,
+				0154F02B13572A3700CA2301 /* EventMessageBoxResultTranslator.cpp */,
+				0154F02C13572A3700CA2301 /* EventMouseButtonDoubleClickTranslator.cpp */,
+				0154F02D13572A3700CA2301 /* EventMouseButtonPressedTranslator.cpp */,
+				0154F02E13572A3700CA2301 /* EventMouseButtonReleasedTranslator.cpp */,
+				0154F02F13572A3700CA2301 /* EventMouseDragTranslator.cpp */,
+				0154F03013572A3700CA2301 /* EventMouseLostFocusTranslator.cpp */,
+				0154F03113572A3700CA2301 /* EventMouseSetFocusTranslator.cpp */,
+				0154F03213572A3700CA2301 /* EventMouseWheelTranslator.cpp */,
+				0154F03313572A3700CA2301 /* EventRootKeyChangeFocusTranslator.cpp */,
+				0154F03413572A3700CA2301 /* EventRootMouseChangeFocusTranslator.cpp */,
+				0154F03513572A3700CA2301 /* EventToolTipTranslator.cpp */,
+				0154F03613572A3700CA2301 /* EventWindowButtonPressedTranslator.cpp */,
+				0154F03713572A3700CA2301 /* EventWindowChangeCoordTranslator.cpp */,
+				0154F03813572A3700CA2301 /* FontManager.cpp */,
+				0154F03913572A3700CA2301 /* Gui.cpp */,
+				0154F03A13572A3700CA2301 /* ISubWidgetText.cpp */,
+				0154F03B13572A3700CA2301 /* InputManager.cpp */,
+				0154F03C13572A3700CA2301 /* LanguageManager.cpp */,
+				0154F03D13572A3700CA2301 /* LayerManager.cpp */,
+				0154F03E13572A3700CA2301 /* Layout.cpp */,
+				0154F03F13572A3700CA2301 /* LayoutManager.cpp */,
+				0154F04013572A3700CA2301 /* MenuCtrl.cpp */,
+				0154F04113572A3700CA2301 /* MenuItem.cpp */,
+				0154F04213572A3700CA2301 /* Message.cpp */,
+				0154F04313572A3700CA2301 /* MultiList.cpp */,
+				0154F04413572A3700CA2301 /* MyGUIEventTranslator.cpp */,
+				0154F04513572A3700CA2301 /* OgrePlatform.cpp */,
+				0154F04613572A3700CA2301 /* OgreRenderManager.cpp */,
+				0154F04713572A3700CA2301 /* PointerManager.cpp */,
+				0154F04813572A3700CA2301 /* Progress.cpp */,
+				0154F04913572A3700CA2301 /* ResourceManager.cpp */,
+				0154F04A13572A3700CA2301 /* ScrollChangePositionET.cpp */,
+				0154F04B13572A3700CA2301 /* ScrollView.cpp */,
+				0154F04C13572A3700CA2301 /* StaticImage.cpp */,
+				0154F04D13572A3700CA2301 /* StaticText.cpp */,
+				0154F04E13572A3700CA2301 /* VScroll.cpp */,
+				0154F04F13572A3700CA2301 /* Widget.cpp */,
+				0154F05013572A3700CA2301 /* WidgetManager.cpp */,
+				0154F05113572A3700CA2301 /* Window.cpp */,
+			);
+			name = Src;
+			path = ../Src;
+			sourceTree = SOURCE_ROOT;
+		};
+		034768DDFF38A45A11DB9C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D2AAC09D05546B4700DB518D /* libMyGUIWrapper.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0867D691FE84028FC02AAC07 /* MyGUIWrapper */ = {
+			isa = PBXGroup;
+			children = (
+				0154F01713572A2700CA2301 /* MyGUIWrapper */,
+				5073E0CA09E734BC00EC74B6 /* Configuration Files */,
+				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				034768DDFF38A45A11DB9C8B /* Products */,
+			);
+			name = MyGUIWrapper;
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				0154F1F413572DEC00CA2301 /* libfreetype.a */,
+				0154F0C013572C0500CA2301 /* Ogre.framework */,
+				0154F0A313572B1000CA2301 /* libMyGUIEngineStatic.a */,
+				0154F0A113572B0D00CA2301 /* libMyGUI.OgrePlatform.a */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		5073E0CA09E734BC00EC74B6 /* Configuration Files */ = {
+			isa = PBXGroup;
+			children = (
+				5073E0C609E734A800EC74B6 /* MyGUIWrapperProj.xcconfig */,
+				5073E0C709E734A800EC74B6 /* MyGUIWrapperTarget.xcconfig */,
+			);
+			name = "Configuration Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		D2AAC09905546B4700DB518D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0154F05413572A3700CA2301 /* MyGUIEventTranslator.h in Headers */,
+				0154F08D13572A3700CA2301 /* Stdafx.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		D2AAC09C05546B4700DB518D /* MyGUIWrapper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB916008733D950010E9CD /* Build configuration list for PBXNativeTarget "MyGUIWrapper" */;
+			buildPhases = (
+				D2AAC09905546B4700DB518D /* Headers */,
+				D2AAC09B05546B4700DB518D /* Frameworks */,
+				D2AAC09A05546B4700DB518D /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MyGUIWrapper;
+			productName = libMyGUIWrapper;
+			productReference = D2AAC09D05546B4700DB518D /* libMyGUIWrapper.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0867D690FE84028FC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB916408733D950010E9CD /* Build configuration list for PBXProject "MyGUIWrapper" */;
+			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 0867D691FE84028FC02AAC07 /* MyGUIWrapper */;
+			productRefGroup = 034768DDFF38A45A11DB9C8B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D2AAC09C05546B4700DB518D /* MyGUIWrapper */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D2AAC09A05546B4700DB518D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0154F05513572A3700CA2301 /* Button.cpp in Sources */,
+				0154F05613572A3700CA2301 /* ClickEventTranslator.cpp in Sources */,
+				0154F05713572A3700CA2301 /* ComboBox.cpp in Sources */,
+				0154F05813572A3700CA2301 /* Edit.cpp in Sources */,
+				0154F05913572A3700CA2301 /* EventCanvasPositionChanged.cpp in Sources */,
+				0154F05A13572A3700CA2301 /* EventChangeMousePointerTranslator.cpp in Sources */,
+				0154F05B13572A3700CA2301 /* EventComboAcceptTranslator.cpp in Sources */,
+				0154F05C13572A3700CA2301 /* EventComboChangePositionTranslator.cpp in Sources */,
+				0154F05D13572A3700CA2301 /* EventEditSelectAcceptTranslator.cpp in Sources */,
+				0154F05E13572A3700CA2301 /* EventEditTextChangeTranslator.cpp in Sources */,
+				0154F05F13572A3700CA2301 /* EventKeyButtonPressedTranslator.cpp in Sources */,
+				0154F06013572A3700CA2301 /* EventKeyButtonReleasedTranslator.cpp in Sources */,
+				0154F06113572A3700CA2301 /* EventKeyLostFocusTranslator.cpp in Sources */,
+				0154F06213572A3700CA2301 /* EventKeySetFocusTranslator.cpp in Sources */,
+				0154F06313572A3700CA2301 /* EventListChangePositionTranslator.cpp in Sources */,
+				0154F06413572A3700CA2301 /* EventListSelectAcceptTranslator.cpp in Sources */,
+				0154F06513572A3700CA2301 /* EventMessageBoxResultTranslator.cpp in Sources */,
+				0154F06613572A3700CA2301 /* EventMouseButtonDoubleClickTranslator.cpp in Sources */,
+				0154F06713572A3700CA2301 /* EventMouseButtonPressedTranslator.cpp in Sources */,
+				0154F06813572A3700CA2301 /* EventMouseButtonReleasedTranslator.cpp in Sources */,
+				0154F06913572A3700CA2301 /* EventMouseDragTranslator.cpp in Sources */,
+				0154F06A13572A3700CA2301 /* EventMouseLostFocusTranslator.cpp in Sources */,
+				0154F06B13572A3700CA2301 /* EventMouseSetFocusTranslator.cpp in Sources */,
+				0154F06C13572A3700CA2301 /* EventMouseWheelTranslator.cpp in Sources */,
+				0154F06D13572A3700CA2301 /* EventRootKeyChangeFocusTranslator.cpp in Sources */,
+				0154F06E13572A3700CA2301 /* EventRootMouseChangeFocusTranslator.cpp in Sources */,
+				0154F06F13572A3700CA2301 /* EventToolTipTranslator.cpp in Sources */,
+				0154F07013572A3700CA2301 /* EventWindowButtonPressedTranslator.cpp in Sources */,
+				0154F07113572A3700CA2301 /* EventWindowChangeCoordTranslator.cpp in Sources */,
+				0154F07213572A3700CA2301 /* FontManager.cpp in Sources */,
+				0154F07313572A3700CA2301 /* Gui.cpp in Sources */,
+				0154F07413572A3700CA2301 /* ISubWidgetText.cpp in Sources */,
+				0154F07513572A3700CA2301 /* InputManager.cpp in Sources */,
+				0154F07613572A3700CA2301 /* LanguageManager.cpp in Sources */,
+				0154F07713572A3700CA2301 /* LayerManager.cpp in Sources */,
+				0154F07813572A3700CA2301 /* Layout.cpp in Sources */,
+				0154F07913572A3700CA2301 /* LayoutManager.cpp in Sources */,
+				0154F07A13572A3700CA2301 /* MenuCtrl.cpp in Sources */,
+				0154F07B13572A3700CA2301 /* MenuItem.cpp in Sources */,
+				0154F07C13572A3700CA2301 /* Message.cpp in Sources */,
+				0154F07D13572A3700CA2301 /* MultiList.cpp in Sources */,
+				0154F07E13572A3700CA2301 /* MyGUIEventTranslator.cpp in Sources */,
+				0154F07F13572A3700CA2301 /* OgrePlatform.cpp in Sources */,
+				0154F08013572A3700CA2301 /* OgreRenderManager.cpp in Sources */,
+				0154F08113572A3700CA2301 /* PointerManager.cpp in Sources */,
+				0154F08213572A3700CA2301 /* Progress.cpp in Sources */,
+				0154F08313572A3700CA2301 /* ResourceManager.cpp in Sources */,
+				0154F08413572A3700CA2301 /* ScrollChangePositionET.cpp in Sources */,
+				0154F08513572A3700CA2301 /* ScrollView.cpp in Sources */,
+				0154F08613572A3700CA2301 /* StaticImage.cpp in Sources */,
+				0154F08713572A3700CA2301 /* StaticText.cpp in Sources */,
+				0154F08813572A3700CA2301 /* VScroll.cpp in Sources */,
+				0154F08913572A3700CA2301 /* Widget.cpp in Sources */,
+				0154F08A13572A3700CA2301 /* WidgetManager.cpp in Sources */,
+				0154F08B13572A3700CA2301 /* Window.cpp in Sources */,
+				0154F08C13572A3700CA2301 /* Stdafx.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB916108733D950010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5073E0C709E734A800EC74B6 /* MyGUIWrapperTarget.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/Build/lib/Release\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = MyGUIWrapper_Prefix.pch;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../Dependencies/MyGUI/OSXBuild/lib/Release\"",
+					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/Dependencies/lib/Release\"",
+				);
+			};
+			name = Debug;
+		};
+		1DEB916208733D950010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5073E0C709E734A800EC74B6 /* MyGUIWrapperTarget.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/Build/lib/Release\"",
+				);
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../Stdafx.h;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					MyGUIEngine_Exports,
+					MYGUI_BUILD,
+					MYGUI_USE_FREETYPE,
+					MYGUI_STATIC,
+					MAC_OSX,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../Dependencies/MyGUI/OSXBuild/lib/Release\"",
+					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/Dependencies/lib/Release\"",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				STRIP_INSTALLED_PRODUCT = YES;
+				STRIP_STYLE = "non-global";
+			};
+			name = Release;
+		};
+		1DEB916508733D950010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5073E0C609E734A800EC74B6 /* MyGUIWrapperProj.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = MAC_OSX;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+				VALID_ARCHS = "i386 x86_64";
+			};
+			name = Debug;
+		};
+		1DEB916608733D950010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5073E0C609E734A800EC74B6 /* MyGUIWrapperProj.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREFIX_HEADER = ../Stdafx.h;
+				GCC_PREPROCESSOR_DEFINITIONS = MAC_OSX;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/Users/andrewpiper/Development/Dependencies/MyGUI/Src/MyGUIEngine/include,
+					/Users/andrewpiper/Development/Dependencies/MyGUI/Src/Platforms/Ogre/OgrePlatform/include,
+					/Users/andrewpiper/Development/Dependencies/Ogre/src/OgreMain/include,
+					/Users/andrewpiper/Development/Dependencies/Ogre/OSXBuild/Dependencies/include,
+					/Users/andrewpiper/Development/Dependencies/Ogre/OSXBuild/Build/include,
+				);
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+				VALID_ARCHS = "i386 x86_64";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB916008733D950010E9CD /* Build configuration list for PBXNativeTarget "MyGUIWrapper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB916108733D950010E9CD /* Debug */,
+				1DEB916208733D950010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB916408733D950010E9CD /* Build configuration list for PBXProject "MyGUIWrapper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB916508733D950010E9CD /* Debug */,
+				1DEB916608733D950010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+}
