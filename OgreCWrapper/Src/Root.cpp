@@ -12,7 +12,7 @@ extern "C" _AnomalousExport Ogre::Plugin* RenderSystemPlugin_Create()
 #endif
 	
 #ifdef MAC_OSX
-	Ogre::Root::getSingleton().loadPlugin("../../../RenderSystem_GL");
+	Ogre::Root::getSingleton().loadPlugin("RenderSystem_GL");
 #endif
 
 	return NULL;
@@ -25,7 +25,7 @@ extern "C" _AnomalousExport Ogre::Plugin* CGPlugin_Create()
 #endif
 
 #ifdef MAC_OSX
-	Ogre::Root::getSingleton().loadPlugin("../../../Plugin_CgProgramManager");
+	Ogre::Root::getSingleton().loadPlugin("Plugin_CgProgramManager");
 #endif
 	return NULL;
 }
