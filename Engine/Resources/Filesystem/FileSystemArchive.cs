@@ -246,8 +246,34 @@ namespace Engine.Resources
             if (url.StartsWith("/"))
             {
                 url = url.Substring(1);
-            }
-            return baseDirectory + url;
+            }			
+			
+            String finalPath = baseDirectory + url;
+			
+			//Check to see if the file exists, case sensitivity fix
+			if(!File.Exists(finalPath))
+			{
+				String searchFolder = Path.GetDirectoryName(finalPath);
+				String searchFile = Path.GetFileName(finalPath).ToUpperInvariant();
+				String[] files = Directory.GetFiles(searchFolder);
+				String matchingFile = null;
+				foreach(String file in files)
+				{
+					String checkFile = Path.GetFileName(file);
+					if(checkFile.ToUpperInvariant() == searchFile)
+					{
+						matchingFile = file;
+						break;
+					}
+				}
+				//If we found a matching file, update the path, otherwise use what was found earlier.
+				if(matchingFile != null)
+				{
+					finalPath = matchingFile;	
+				}
+			}
+			
+			return finalPath;
         }
     }
 }
