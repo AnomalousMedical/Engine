@@ -210,11 +210,7 @@ namespace OgreWrapper
 
         public unsafe void setCaption(String displayString)
         {
-            byte[] utf8DisplayString = utf8Encoder.GetBytes(displayString);
-            fixed (byte* b = &utf8DisplayString[0])
-            {
-                OverlayElement_setCaption(overlayElement, b);
-            }
+            OverlayElement_setCaption(overlayElement, displayString);
         }
 
         public String getCaption()
@@ -391,7 +387,7 @@ namespace OgreWrapper
         private static extern IntPtr OverlayElement_getTypeName(IntPtr overlayElement);
 
         [DllImport("OgreCWrapper")]
-        private static extern unsafe void OverlayElement_setCaption(IntPtr overlayElement, byte* displayString);
+        private static extern unsafe void OverlayElement_setCaption(IntPtr overlayElement, [MarshalAs(UnmanagedType.LPWStr)] String displayString);
 
         [DllImport("OgreCWrapper")]
         private static extern IntPtr OverlayElement_getCaption(IntPtr overlayElement);
