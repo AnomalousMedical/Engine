@@ -70,6 +70,8 @@ namespace OgreWrapper
 	        throw new NotImplementedException();
         }
 
+        private static UTF8Encoding utf8Encoder = new UTF8Encoding();
+
         protected IntPtr overlayElement;
 
         protected OverlayElement(IntPtr overlayElement)
@@ -206,9 +208,13 @@ namespace OgreWrapper
             return Marshal.PtrToStringAnsi(OverlayElement_getTypeName(overlayElement));
         }
 
-        public void setCaption(String displayString)
+        public unsafe void setCaption(String displayString)
         {
-            OverlayElement_setCaption(overlayElement, displayString);
+            byte[] utf8DisplayString = utf8Encoder.GetBytes(displayString);
+            fixed (byte* b = &utf8DisplayString[0])
+            {
+                OverlayElement_setCaption(overlayElement, b);
+            }
         }
 
         public String getCaption()
@@ -385,7 +391,7 @@ namespace OgreWrapper
         private static extern IntPtr OverlayElement_getTypeName(IntPtr overlayElement);
 
         [DllImport("OgreCWrapper")]
-        private static extern void OverlayElement_setCaption(IntPtr overlayElement, String displayString);
+        private static extern unsafe void OverlayElement_setCaption(IntPtr overlayElement, byte* displayString);
 
         [DllImport("OgreCWrapper")]
         private static extern IntPtr OverlayElement_getCaption(IntPtr overlayElement);
