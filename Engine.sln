@@ -35,8 +35,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SoundWrapper", "SoundWrappe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundPlugin", "SoundPlugin\SoundPlugin.csproj", "{CCAEFE0A-AD1F-42E8-88DA-5A685CC7C73D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyGenerator", "KeyGenerator\KeyGenerator.csproj", "{5BB9CBCF-FDAD-45DE-B6A1-AE76EDDAAB31}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -217,16 +215,6 @@ Global
 		{CCAEFE0A-AD1F-42E8-88DA-5A685CC7C73D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{CCAEFE0A-AD1F-42E8-88DA-5A685CC7C73D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{CCAEFE0A-AD1F-42E8-88DA-5A685CC7C73D}.Release|Win32.ActiveCfg = Release|Any CPU
-		{5BB9CBCF-FDAD-45DE-B6A1-AE76EDDAAB31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5BB9CBCF-FDAD-45DE-B6A1-AE76EDDAAB31}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5BB9CBCF-FDAD-45DE-B6A1-AE76EDDAAB31}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{5BB9CBCF-FDAD-45DE-B6A1-AE76EDDAAB31}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{5BB9CBCF-FDAD-45DE-B6A1-AE76EDDAAB31}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{5BB9CBCF-FDAD-45DE-B6A1-AE76EDDAAB31}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5BB9CBCF-FDAD-45DE-B6A1-AE76EDDAAB31}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5BB9CBCF-FDAD-45DE-B6A1-AE76EDDAAB31}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{5BB9CBCF-FDAD-45DE-B6A1-AE76EDDAAB31}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{5BB9CBCF-FDAD-45DE-B6A1-AE76EDDAAB31}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
