@@ -117,7 +117,7 @@ extern "C" _AnomalousExport String OverlayElement_getTypeName(Ogre::OverlayEleme
 	return overlayElement->getTypeName().c_str();
 }
 
-extern "C" _AnomalousExport void OverlayElement_setCaption(Ogre::OverlayElement* overlayElement, Ogre::UTFString::code_point* displayString)
+extern "C" _AnomalousExport void OverlayElement_setCaption(Ogre::OverlayElement* overlayElement, String displayString)
 {
 	overlayElement->setCaption(displayString);
 }
