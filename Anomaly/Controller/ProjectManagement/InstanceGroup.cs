@@ -275,6 +275,7 @@ namespace Anomaly
                 editInterface = new EditInterface(name);
                 editInterface.addCommand(new EditInterfaceCommand("Create Group", createGroupCallback));
                 editInterface.addCommand(new EditInterfaceCommand("Create Sim Object", createSimObjectCallback));
+                editInterface.addCommand(new EditInterfaceCommand("Paste", pasteCallback));
                 editInterface.addCommand(new EditInterfaceCommand("Show All", showAllCallback));
                 editInterface.addCommand(new EditInterfaceCommand("Hide All", hideAllCallback));
                 editInterface.addCommand(new EditInterfaceCommand("Import Positions", importPositionsCallback));
@@ -299,6 +300,15 @@ namespace Anomaly
             EditInterface edit = group.getEditInterface();
             edit.addCommand(destroyGroup);
             groupManager.addSubInterface(group, edit);
+        }
+
+        private void pasteCallback(EditUICallback callback, EditInterfaceCommand command)
+        {
+            SimObjectDefinition copiedDefinition = AnomalyClipboard.copyStoredObject<SimObjectDefinition>();
+            if (copiedDefinition != null)
+            {
+                createInstance(copiedDefinition);
+            }
         }
 
         private void createGroupCallback(EditUICallback callback, EditInterfaceCommand command)

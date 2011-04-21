@@ -26,6 +26,7 @@ namespace Anomaly
         public InstanceFileInterface(String name, Object iconReferenceTag, String filename)
             :base(name, iconReferenceTag)
         {
+            editInterface.addCommand(new EditInterfaceCommand("Copy", copy));
             editInterface.addCommand(new EditInterfaceCommand("Toggle Display", toggleHidden));
             Deleted = false;
             this.filename = filename;
@@ -224,6 +225,11 @@ namespace Anomaly
         private void toggleHidden(EditUICallback callback, EditInterfaceCommand command)
         {
             setVisible(!showInstance);
+        }
+
+        private void copy(EditUICallback callback, EditInterfaceCommand command)
+        {
+            AnomalyClipboard.storeObject(instance.Definition);
         }
 
         private void determineIcon()

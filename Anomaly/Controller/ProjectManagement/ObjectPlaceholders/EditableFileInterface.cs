@@ -19,8 +19,8 @@ namespace Anomaly
         private static XmlSaver xmlSaver = new XmlSaver();
 
         private string filename;
-        private T fileObj;
-        private bool modified = false;
+        protected T fileObj;
+        protected bool modified = false;
 
         public EditableFileInterface(String name, Object iconReferenceTag, String filename)
             :base(name, iconReferenceTag)
