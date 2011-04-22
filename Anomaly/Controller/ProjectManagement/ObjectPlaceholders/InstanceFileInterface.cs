@@ -26,7 +26,9 @@ namespace Anomaly
         public InstanceFileInterface(String name, Object iconReferenceTag, String filename)
             :base(name, iconReferenceTag)
         {
-            editInterface.addCommand(new EditInterfaceCommand("Copy", copy));
+            GenericClipboardEntry clipboardEntry = new GenericClipboardEntry(typeof(SimObjectDefinition));
+            clipboardEntry.CopyFunction = copy;
+            editInterface.ClipboardEntry = clipboardEntry;
             editInterface.addCommand(new EditInterfaceCommand("Toggle Display", toggleHidden));
             Deleted = false;
             this.filename = filename;
@@ -227,9 +229,9 @@ namespace Anomaly
             setVisible(!showInstance);
         }
 
-        private void copy(EditUICallback callback, EditInterfaceCommand command)
+        private object copy()
         {
-            AnomalyClipboard.storeObject(instance.Definition);
+            return EngineClipboard.copyObject(instance.Definition);
         }
 
         private void determineIcon()

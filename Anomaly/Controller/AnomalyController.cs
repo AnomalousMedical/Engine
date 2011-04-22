@@ -394,6 +394,32 @@ namespace Anomaly
             toolManager.setEnabled(false);
         }
 
+        public void copy()
+        {
+            EngineClipboard.clear();
+            EditInterface selectedInterface = solutionController.SelectedEditInterface;
+            ClipboardEntry clipEntry = selectedInterface.ClipboardEntry;
+            if (selectedInterface.SupportsClipboard && clipEntry.SupportsCopy)
+            {
+                EngineClipboard.add(clipEntry);
+            }
+        }
+
+        public void cut()
+        {
+            //solutionController.cut();
+        }
+
+        public void paste()
+        {
+            EditInterface selectedInterface = solutionController.SelectedEditInterface;
+            ClipboardEntry clipEntry = selectedInterface.ClipboardEntry;
+            if (selectedInterface.SupportsClipboard && clipEntry.SupportsPaste)
+            {
+                EngineClipboard.copy(clipEntry);
+            }
+        }
+
         /// <summary>
         /// Restore function for restoring the window layout.
         /// </summary>

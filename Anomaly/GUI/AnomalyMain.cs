@@ -177,5 +177,20 @@ namespace Anomaly
         {
             controller.ResourceController.viewResources();
         }
+
+        private void cutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.cut();
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.copy();
+        }
+
+        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.paste();
+        }
     }
 }

@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using Editor;
+using Engine.Editing;
 
 namespace Anomaly
 {
@@ -22,7 +23,15 @@ namespace Anomaly
             editInterfaceView.setEditInterface(solution.getEditInterface());
         }
 
-        public event EditInterfaceEvent InterfaceChosen
+        public EditInterface SelectedEditInterface
+        {
+            get
+            {
+                return editInterfaceView.getSelectedEditInterface();
+            }
+        }
+
+        public event Editor.EditInterfaceEvent InterfaceChosen
         {
             add
             {

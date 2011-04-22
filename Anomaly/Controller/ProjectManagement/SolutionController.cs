@@ -32,6 +32,14 @@ namespace Anomaly
             controller.SelectionController.OnSelectionChanged += new ObjectSelected(SelectionController_OnSelectionChanged);
         }
 
+        public EditInterface SelectedEditInterface
+        {
+            get
+            {
+                return solutionPanel.SelectedEditInterface;
+            }
+        }
+
         void solutionPanel_InterfaceChosen(EditInterfaceViewEvent evt)
         {
             EditInterface editInterface = evt.EditInterface;

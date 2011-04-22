@@ -15,10 +15,10 @@ namespace Anomaly
         public SimSceneFileInterface(String name, Object iconReferenceTag, String filename)
             :base(name, iconReferenceTag, filename)
         {
-            EditInterfaceCommand copyCommand = new EditInterfaceCommand("Copy", copy);
-            editInterface.addCommand(copyCommand);
-            EditInterfaceCommand pasteCommand = new EditInterfaceCommand("Paste", paste);
-            editInterface.addCommand(pasteCommand);
+            GenericClipboardEntry clipboardInterface = new GenericClipboardEntry(typeof(SimSceneDefinition));
+            clipboardInterface.CopyFunction = copy;
+            clipboardInterface.PasteFunction = paste;
+            editInterface.ClipboardEntry = clipboardInterface;
         }
 
         public override EditInterface getObjectEditInterface(object obj)
@@ -34,19 +34,15 @@ namespace Anomaly
             }
         }
 
-        private void copy(EditUICallback callback, EditInterfaceCommand caller)
+        private object copy()
         {
-            AnomalyClipboard.storeObject(fileObj);
+            return EngineClipboard.copyObject(fileObj);
         }
 
-        private void paste(EditUICallback callback, EditInterfaceCommand caller)
+        private void paste(object pasted)
         {
-            SimSceneDefinition copiedDef = AnomalyClipboard.copyStoredObject<SimSceneDefinition>();
-            if (copiedDef != null)
-            {
-                fileObj = copiedDef;
-                modified = true;
-            }
+            fileObj = (SimSceneDefinition)pasted;
+            modified = true;
         }
     }
 }

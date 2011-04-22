@@ -363,6 +363,16 @@ namespace Engine.Editing
             }
         }
 
+        public ClipboardEntry ClipboardEntry { get; set; }
+
+        public bool SupportsClipboard
+        {
+            get
+            {
+                return ClipboardEntry != null;
+            }
+        }
+
         public EditInterfaceRenderer Renderer { get; set; }
     }
 }

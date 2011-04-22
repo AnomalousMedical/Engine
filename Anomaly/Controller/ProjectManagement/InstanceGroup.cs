@@ -100,6 +100,11 @@ namespace Anomaly
             onInstanceFileAdded(fileInterface);
         }
 
+        public bool hasInstance(String name)
+        {
+            return instanceFiles.ContainsKey(name);
+        }
+
         public void removeInstanceFile(String instanceName)
         {
             InstanceFileInterface fileInterface = instanceFiles[instanceName];
@@ -275,12 +280,15 @@ namespace Anomaly
                 editInterface = new EditInterface(name);
                 editInterface.addCommand(new EditInterfaceCommand("Create Group", createGroupCallback));
                 editInterface.addCommand(new EditInterfaceCommand("Create Sim Object", createSimObjectCallback));
-                editInterface.addCommand(new EditInterfaceCommand("Paste", pasteCallback));
                 editInterface.addCommand(new EditInterfaceCommand("Show All", showAllCallback));
                 editInterface.addCommand(new EditInterfaceCommand("Hide All", hideAllCallback));
                 editInterface.addCommand(new EditInterfaceCommand("Import Positions", importPositionsCallback));
                 editInterface.addCommand(new EditInterfaceCommand("Import legacy templates", importTemplates));
                 editInterface.IconReferenceTag = EditorIcons.Folder;
+                GenericClipboardEntry clipboardEntry = new GenericClipboardEntry(typeof(InstanceGroup));
+                clipboardEntry.PasteFunction = pasteCallback;
+                editInterface.ClipboardEntry = clipboardEntry;
+
                 groupManager = new EditInterfaceManager<InstanceGroup>(editInterface);
                 instanceFileManager = new EditInterfaceManager<InstanceFileInterface>(editInterface);
                 foreach (InstanceGroup group in groups.Values)
@@ -302,13 +310,20 @@ namespace Anomaly
             groupManager.addSubInterface(group, edit);
         }
 
-        private void pasteCallback(EditUICallback callback, EditInterfaceCommand command)
+        private void pasteCallback(object pasted)
         {
-            SimObjectDefinition copiedDefinition = AnomalyClipboard.copyStoredObject<SimObjectDefinition>();
-            if (copiedDefinition != null)
+            SimObjectDefinition simObject = (SimObjectDefinition)pasted;
+            if (hasInstance(simObject.Name))
             {
-                createInstance(copiedDefinition);
+                String namebase = simObject.Name + " - Copy";
+                simObject.Name = namebase;
+                int i = 1;
+                while (hasInstance(simObject.Name))
+                {
+                    simObject.Name = namebase + i++;
+                }
             }
+            createInstance(simObject);
         }
 
         private void createGroupCallback(EditUICallback callback, EditInterfaceCommand command)
