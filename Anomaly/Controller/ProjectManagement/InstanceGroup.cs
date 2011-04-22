@@ -13,7 +13,7 @@ using System.Xml;
 
 namespace Anomaly
 {
-    class InstanceGroup : IDisposable
+    public class InstanceGroup : IDisposable
     {
         private static CopySaver copySaver = new CopySaver();
 
@@ -80,7 +80,7 @@ namespace Anomaly
         /// <param name="simObject"></param>
         public void addInstanceFile(String instanceName)
         {
-            InstanceFileInterface fileInterface = new InstanceFileInterface(instanceName, AnomalyIcons.Instance, InstanceWriter.Instance.getInstanceFileName(this, instanceName));
+            InstanceFileInterface fileInterface = new InstanceFileInterface(instanceName, AnomalyIcons.Instance, InstanceWriter.Instance.getInstanceFileName(this, instanceName), this);
             if (instancesDisplayed)
             {
                 fileInterface.createInstance(simObjectController);
@@ -91,7 +91,7 @@ namespace Anomaly
 
         public void addInstance(Instance instance)
         {
-            InstanceFileInterface fileInterface = new InstanceFileInterface(instance.Name, AnomalyIcons.Instance, InstanceWriter.Instance.getInstanceFileName(this, instance.Name), instance);
+            InstanceFileInterface fileInterface = new InstanceFileInterface(instance.Name, AnomalyIcons.Instance, InstanceWriter.Instance.getInstanceFileName(this, instance.Name), this, instance);
             if (instancesDisplayed)
             {
                 fileInterface.createInstance(simObjectController);
@@ -310,7 +310,7 @@ namespace Anomaly
             groupManager.addSubInterface(group, edit);
         }
 
-        private void pasteCallback(object pasted)
+        public void pasteCallback(object pasted)
         {
             SimObjectDefinition simObject = (SimObjectDefinition)pasted;
             if (hasInstance(simObject.Name))

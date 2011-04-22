@@ -22,12 +22,15 @@ namespace Anomaly
         private Instance instance;
         private String filename;
         private bool modified = false;
+        private InstanceGroup parentGroup;
 
-        public InstanceFileInterface(String name, Object iconReferenceTag, String filename)
+        public InstanceFileInterface(String name, Object iconReferenceTag, String filename, InstanceGroup parentGroup)
             :base(name, iconReferenceTag)
         {
+            this.parentGroup = parentGroup;
             GenericClipboardEntry clipboardEntry = new GenericClipboardEntry(typeof(SimObjectDefinition));
             clipboardEntry.CopyFunction = copy;
+            clipboardEntry.PasteFunction = paste;
             editInterface.ClipboardEntry = clipboardEntry;
             editInterface.addCommand(new EditInterfaceCommand("Toggle Display", toggleHidden));
             Deleted = false;
@@ -49,8 +52,8 @@ namespace Anomaly
             }
         }
 
-        public InstanceFileInterface(String name, Object iconReferenceTag, String filename, Instance instance)
-            :this(name, iconReferenceTag, filename)
+        public InstanceFileInterface(String name, Object iconReferenceTag, String filename, InstanceGroup parentGroup, Instance instance)
+            :this(name, iconReferenceTag, filename, parentGroup)
         {
             this.instance = instance;
         }
@@ -232,6 +235,11 @@ namespace Anomaly
         private object copy()
         {
             return EngineClipboard.copyObject(instance.Definition);
+        }
+
+        private void paste(object pasted)
+        {
+            parentGroup.pasteCallback(pasted);
         }
 
         private void determineIcon()
