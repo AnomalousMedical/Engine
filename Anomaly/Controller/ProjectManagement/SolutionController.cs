@@ -21,6 +21,8 @@ namespace Anomaly
 
         private ObjectPlaceholderInterface currentPlaceholder;
 
+        private List<EditInterface> selectedEditInterfaces = new List<EditInterface>();
+
         public SolutionController(Solution solution, SolutionPanel solutionPanel, AnomalyController controller, IObjectEditorGUI objectEditor)
         {
             this.controller = controller;
@@ -32,11 +34,40 @@ namespace Anomaly
             controller.SelectionController.OnSelectionChanged += new ObjectSelected(SelectionController_OnSelectionChanged);
         }
 
-        public EditInterface SelectedEditInterface
+        /// <summary>
+        /// The interface that is currently active.
+        /// </summary>
+        public EditInterface CurrentEditInterface
         {
             get
             {
                 return solutionPanel.SelectedEditInterface;
+            }
+        }
+
+        /// <summary>
+        /// The list of all selected interfaces.
+        /// </summary>
+        public IEnumerable<EditInterface> SelectedEditInterfaces
+        {
+            get
+            {
+                //If there are multi selected edit interfaces, grab those.
+                if (selectedEditInterfaces.Count > 0)
+                {
+                    return selectedEditInterfaces;
+                }
+                //Otherwise only one thing is selected.
+                else
+                {
+                    List<EditInterface> selected = new List<EditInterface>();
+                    //Only actually add something to this list if it isnt null.
+                    if (CurrentEditInterface != null)
+                    {
+                        selected.Add(CurrentEditInterface);
+                    }
+                    return selected;
+                }
             }
         }
 
@@ -113,12 +144,14 @@ namespace Anomaly
                 EditInterface edit = selectable.getEditInterface();
                 edit.BackColor = Engine.Color.FromARGB(SystemColors.Highlight.ToArgb());
                 edit.ForeColor = Engine.Color.FromARGB(SystemColors.HighlightText.ToArgb());
+                selectedEditInterfaces.Add(edit);
             }
             foreach (InstanceFileInterface selectable in args.ObjectsRemoved)
             {
                 EditInterface edit = selectable.getEditInterface();
                 edit.BackColor = Engine.Color.FromARGB(SystemColors.Window.ToArgb());
                 edit.ForeColor = Engine.Color.FromARGB(SystemColors.WindowText.ToArgb());
+                selectedEditInterfaces.Remove(edit);
             }
         }
     }

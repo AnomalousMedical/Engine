@@ -397,11 +397,13 @@ namespace Anomaly
         public void copy()
         {
             EngineClipboard.clear();
-            EditInterface selectedInterface = solutionController.SelectedEditInterface;
-            ClipboardEntry clipEntry = selectedInterface.ClipboardEntry;
-            if (selectedInterface.SupportsClipboard && clipEntry.SupportsCopy)
+            foreach(EditInterface selectedInterface in solutionController.SelectedEditInterfaces)
             {
-                EngineClipboard.add(clipEntry);
+                ClipboardEntry clipEntry = selectedInterface.ClipboardEntry;
+                if (selectedInterface.SupportsClipboard && clipEntry.SupportsCopy)
+                {
+                    EngineClipboard.add(clipEntry);
+                }
             }
             EngineClipboard.Mode = EngineClipboardMode.Copy;
         }
@@ -409,18 +411,20 @@ namespace Anomaly
         public void cut()
         {
             EngineClipboard.clear();
-            EditInterface selectedInterface = solutionController.SelectedEditInterface;
-            ClipboardEntry clipEntry = selectedInterface.ClipboardEntry;
-            if (selectedInterface.SupportsClipboard && clipEntry.SupportsCut)
+            foreach (EditInterface selectedInterface in solutionController.SelectedEditInterfaces)
             {
-                EngineClipboard.add(clipEntry);
+                ClipboardEntry clipEntry = selectedInterface.ClipboardEntry;
+                if (selectedInterface.SupportsClipboard && clipEntry.SupportsCut)
+                {
+                    EngineClipboard.add(clipEntry);
+                }
             }
             EngineClipboard.Mode = EngineClipboardMode.Cut;
         }
 
         public void paste()
         {
-            EditInterface selectedInterface = solutionController.SelectedEditInterface;
+            EditInterface selectedInterface = solutionController.CurrentEditInterface;
             ClipboardEntry clipEntry = selectedInterface.ClipboardEntry;
             if (selectedInterface.SupportsClipboard && clipEntry.SupportsPaste)
             {
