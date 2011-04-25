@@ -288,6 +288,7 @@ namespace Anomaly
                 editInterface.IconReferenceTag = EditorIcons.Folder;
                 GenericClipboardEntry clipboardEntry = new GenericClipboardEntry(typeof(InstanceGroup));
                 clipboardEntry.PasteFunction = pasteCallback;
+                clipboardEntry.SupportsPastingTypeFunction = supportsPasteType;
                 editInterface.ClipboardEntry = clipboardEntry;
 
                 groupManager = new EditInterfaceManager<InstanceGroup>(editInterface);

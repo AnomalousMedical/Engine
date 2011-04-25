@@ -65,8 +65,6 @@ namespace Engine.Editing
             }
         }
 
-        public IEnumerable<Type> SupportedTypes { get; set; }
-
         public bool SupportsCopy
         {
             get { return CopyFunction != null; }
