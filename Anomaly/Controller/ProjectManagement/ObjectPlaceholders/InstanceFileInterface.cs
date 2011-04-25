@@ -66,9 +66,12 @@ namespace Anomaly
 
         public void save()
         {
-            if (Deleted && File.Exists(filename))
+            if (Deleted)
             {
-                File.Delete(filename);
+                if (File.Exists(filename))
+                {
+                    File.Delete(filename);
+                }
             }
             else if (Modified)
             {
