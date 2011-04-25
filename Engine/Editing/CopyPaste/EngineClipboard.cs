@@ -6,10 +6,21 @@ using Engine.Saving;
 
 namespace Engine.Editing
 {
+    public enum EngineClipboardMode
+    {
+        Cut,
+        Copy,
+    }
+
     public class EngineClipboard
     {
         private static List<ClipboardEntry> clipboard = new List<ClipboardEntry>();
         private static CopySaver copySaver = new CopySaver();
+
+        static EngineClipboard()
+        {
+            Mode = EngineClipboardMode.Copy;
+        }
 
         public static void add(ClipboardEntry copyPaste)
         {
@@ -26,7 +37,20 @@ namespace Engine.Editing
             clipboard.Clear();
         }
 
-        public static void copy(ClipboardEntry destination)
+        public static void paste(ClipboardEntry destination)
+        {
+            switch (Mode)
+            {
+                case EngineClipboardMode.Copy:
+                    copy(destination);
+                    break;
+                case EngineClipboardMode.Cut:
+                    cut(destination);
+                    break;
+            }
+        }
+
+        private static void copy(ClipboardEntry destination)
         {
             IEnumerable<Type> supportedTypes = destination.SupportedTypes;
             if (supportedTypes != null)
@@ -48,7 +72,7 @@ namespace Engine.Editing
             }
         }
 
-        public static void cut(ClipboardEntry destination)
+        private static void cut(ClipboardEntry destination)
         {
             IEnumerable<Type> supportedTypes = destination.SupportedTypes;
             if (supportedTypes != null)
@@ -70,6 +94,8 @@ namespace Engine.Editing
             }
             clear();
         }
+
+        public static EngineClipboardMode Mode { get; set; }
 
         public static object copyObject(Saveable source)
         {

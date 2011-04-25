@@ -403,11 +403,19 @@ namespace Anomaly
             {
                 EngineClipboard.add(clipEntry);
             }
+            EngineClipboard.Mode = EngineClipboardMode.Copy;
         }
 
         public void cut()
         {
-            //solutionController.cut();
+            EngineClipboard.clear();
+            EditInterface selectedInterface = solutionController.SelectedEditInterface;
+            ClipboardEntry clipEntry = selectedInterface.ClipboardEntry;
+            if (selectedInterface.SupportsClipboard && clipEntry.SupportsCut)
+            {
+                EngineClipboard.add(clipEntry);
+            }
+            EngineClipboard.Mode = EngineClipboardMode.Cut;
         }
 
         public void paste()
@@ -416,7 +424,7 @@ namespace Anomaly
             ClipboardEntry clipEntry = selectedInterface.ClipboardEntry;
             if (selectedInterface.SupportsClipboard && clipEntry.SupportsPaste)
             {
-                EngineClipboard.copy(clipEntry);
+                EngineClipboard.paste(clipEntry);
             }
         }
 

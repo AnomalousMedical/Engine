@@ -31,6 +31,7 @@ namespace Anomaly
             GenericClipboardEntry clipboardEntry = new GenericClipboardEntry(typeof(SimObjectDefinition));
             clipboardEntry.CopyFunction = copy;
             clipboardEntry.PasteFunction = paste;
+            clipboardEntry.CutFunction = cut;
             editInterface.ClipboardEntry = clipboardEntry;
             editInterface.addCommand(new EditInterfaceCommand("Toggle Display", toggleHidden));
             Deleted = false;
@@ -235,6 +236,13 @@ namespace Anomaly
         private object copy()
         {
             return EngineClipboard.copyObject(instance.Definition);
+        }
+
+        private object cut()
+        {
+            object copiedObject = copy();
+            parentGroup.removeInstanceFile(this.Name);
+            return copiedObject;
         }
 
         private void paste(object pasted)
