@@ -108,6 +108,7 @@ namespace Anomaly
         public void removeInstanceFile(String instanceName)
         {
             InstanceFileInterface fileInterface = instanceFiles[instanceName];
+            fileInterface.Deleted = true;
             fileInterface.Dispose();
             instanceFiles.Remove(instanceName);
             deletedInstances.Add(fileInterface);
@@ -268,7 +269,7 @@ namespace Anomaly
         private EditInterfaceManager<InstanceGroup> groupManager;
         private EditInterfaceManager<InstanceFileInterface> instanceFileManager;
         private EditInterface editInterface;
-        private EditInterfaceCommand duplicateSimObject;
+        private EditInterfaceCommand renameSimObject;
 
         public EditInterface getEditInterface()
         {
@@ -276,7 +277,7 @@ namespace Anomaly
             {
                 destroyGroup = new EditInterfaceCommand("Remove", destroyGroupCallback);
                 destroySimObject = new EditInterfaceCommand("Remove", destroySimObjectCallback);
-                duplicateSimObject = new EditInterfaceCommand("Duplicate", duplicateSimObjectCallback);
+                renameSimObject = new EditInterfaceCommand("Rename", renameSimObjectCallback);
                 editInterface = new EditInterface(name);
                 editInterface.addCommand(new EditInterfaceCommand("Create Group", createGroupCallback));
                 editInterface.addCommand(new EditInterfaceCommand("Create Sim Object", createSimObjectCallback));
@@ -364,7 +365,7 @@ namespace Anomaly
             {
                 EditInterface edit = fileInterface.getEditInterface();
                 edit.addCommand(destroySimObject);
-                edit.addCommand(duplicateSimObject);
+                edit.addCommand(renameSimObject);
                 instanceFileManager.addSubInterface(fileInterface, edit);
             }
         }
@@ -410,14 +411,12 @@ namespace Anomaly
             EditInterface editInterface = callback.getSelectedEditInterface();
             if (editInterface.hasEditableProperties())
             {
-                InstanceFileInterface file = editInterface.getEditableProperties().First() as InstanceFileInterface;
-                file.Deleted = true;
                 InstanceFileInterface instanceFile = instanceFileManager.resolveSourceObject(editInterface);
                 removeInstanceFile(instanceFile.Name);
             }
         }
 
-        private void duplicateSimObjectCallback(EditUICallback callback, EditInterfaceCommand command)
+        private void renameSimObjectCallback(EditUICallback callback, EditInterfaceCommand command)
         {
             String name;
             bool accept = callback.getInputString("Enter a name.", out name, validateDuplicateSimObject);
@@ -428,6 +427,7 @@ namespace Anomaly
                 SimObjectDefinition simObject = copySaver.copyObject(sourceObject) as SimObjectDefinition;
                 simObject.Name = name;
                 createInstance(simObject);
+                removeInstanceFile(instanceFile.Name);
             }
         }
 
