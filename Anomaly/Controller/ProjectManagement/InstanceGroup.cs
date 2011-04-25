@@ -327,6 +327,11 @@ namespace Anomaly
             createInstance(simObject);
         }
 
+        public bool supportsPasteType(Type type)
+        {
+            return typeof(SimObjectDefinition).IsAssignableFrom(type);
+        }
+
         private void createGroupCallback(EditUICallback callback, EditInterfaceCommand command)
         {
             String name;

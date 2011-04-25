@@ -26,16 +26,17 @@ namespace Engine.Editing
         void paste(Object pasted);
 
         /// <summary>
+        /// Determine if this ClipboardEntry can have objects of Type type pasted into it.
+        /// </summary>
+        /// <param name="type">The type to try and paste.</param>
+        /// <returns>True if that type can be pasted.</returns>
+        bool supportsPastingType(Type type);
+
+        /// <summary>
         /// Get the type of the object that will be copied through this interface.
         /// </summary>
         /// <returns></returns>
         Type ObjectType { get; }
-
-        /// <summary>
-        /// A listing of all types that this interface can have pasted into it.
-        /// This can be null to support all types.
-        /// </summary>
-        IEnumerable<Type> SupportedTypes { get; }
 
         /// <summary>
         /// Return true if this entry can copy.

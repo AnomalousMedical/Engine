@@ -5,10 +5,15 @@ using System.Text;
 
 namespace Engine.Editing
 {
-    public class GenericClipboardEntry : ClipboardEntry
+    public sealed class GenericClipboardEntry : ClipboardEntry
     {
         private Type objectType;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="objectType">The type of the object this interface represents.</param>
+        /// <param name="supportsPastingTypeFunction">The callback to determine if this interface can paste a source type. This can be null, but everything will be rejected.</param>
         public GenericClipboardEntry(Type objectType)
         {
             this.objectType = objectType;
@@ -26,6 +31,8 @@ namespace Engine.Editing
         /// <param name="pasted">The object to paste.</param>
         public delegate void PasteDelegate(Object pasted);
 
+        public delegate bool SupportsPastingTypeDelegate(Type type);
+
         public object copy()
         {
             return CopyFunction.Invoke();
@@ -39,6 +46,15 @@ namespace Engine.Editing
         public void paste(object pasted)
         {
             PasteFunction.Invoke(pasted);
+        }
+
+        public bool supportsPastingType(Type type)
+        {
+            if (SupportsPastingTypeFunction != null)
+            {
+                return SupportsPastingTypeFunction.Invoke(type);
+            }
+            return ObjectType.IsAssignableFrom(type);
         }
 
         public Type ObjectType
@@ -71,5 +87,12 @@ namespace Engine.Editing
         public GetObjectDelegate CutFunction { get; set; }
 
         public PasteDelegate PasteFunction { get; set; }
+
+        /// <summary>
+        /// This method must be implemented to accept pastes. It will be called
+        /// to see if the type passed is supported. If this is null it will
+        /// check the passed type against the type assigned to this entry.
+        /// </summary>
+        public SupportsPastingTypeDelegate SupportsPastingTypeFunction { get; set; }
     }
 }

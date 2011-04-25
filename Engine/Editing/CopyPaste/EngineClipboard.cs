@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Engine.Saving;
+using Logging;
 
 namespace Engine.Editing
 {
@@ -52,44 +53,44 @@ namespace Engine.Editing
 
         private static void copy(ClipboardEntry destination)
         {
-            IEnumerable<Type> supportedTypes = destination.SupportedTypes;
-            if (supportedTypes != null)
+            foreach(ClipboardEntry copyPaste in clipboard)
             {
-                foreach (ClipboardEntry copyPaste in clipboard)
+                if (copyPaste.SupportsCopy)
                 {
-                    if (supportedTypes.Contains<Type>(copyPaste.ObjectType))
+                    if (destination.supportsPastingType(copyPaste.ObjectType))
                     {
                         destination.paste(copyPaste.copy());
                     }
+                    else
+                    {
+                        Log.ImportantInfo("Type {0} cannot be pasted into {1}.", copyPaste.ObjectType.Name, destination.ObjectType.Name);
+                    }
                 }
-            }
-            else
-            {
-                foreach(ClipboardEntry copyPaste in clipboard)
+                else
                 {
-                    destination.paste(copyPaste.copy());
+                    Log.ImportantInfo("Type {0} does not support copy.", copyPaste.ObjectType.Name);
                 }
             }
         }
 
         private static void cut(ClipboardEntry destination)
         {
-            IEnumerable<Type> supportedTypes = destination.SupportedTypes;
-            if (supportedTypes != null)
+            foreach (ClipboardEntry copyPaste in clipboard)
             {
-                foreach (ClipboardEntry copyPaste in clipboard)
+                if (copyPaste.SupportsCut)
                 {
-                    if (supportedTypes.Contains<Type>(copyPaste.ObjectType))
+                    if (destination.supportsPastingType(copyPaste.ObjectType))
                     {
                         destination.paste(copyPaste.cut());
                     }
+                    else
+                    {
+                        Log.ImportantInfo("Type {0} cannot be pasted into {1}.", copyPaste.ObjectType.Name, destination.ObjectType.Name);
+                    }
                 }
-            }
-            else
-            {
-                foreach (ClipboardEntry copyPaste in clipboard)
+                else
                 {
-                    destination.paste(copyPaste.cut());
+                    Log.ImportantInfo("Type {0} does not support cut.", copyPaste.ObjectType.Name);
                 }
             }
             clear();
