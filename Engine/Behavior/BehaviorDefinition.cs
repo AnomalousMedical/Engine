@@ -72,8 +72,34 @@ namespace Engine
                 editInterface = ReflectedEditInterface.createEditInterface(behaviorTemplate, BehaviorEditMemberScanner.Scanner, Name + " - " + behaviorTemplate.GetType().Name, null);
                 behaviorTemplate.callCustomizeEditInterface(editInterface);
                 editInterface.IconReferenceTag = EngineIcons.Behavior;
+
+                GenericClipboardEntry clipboardEntry = new GenericClipboardEntry(behaviorTemplate.GetType());
+                clipboardEntry.CopyFunction = copy;
+                clipboardEntry.PasteFunction = paste;
+                editInterface.ClipboardEntry = clipboardEntry;
             }
             return editInterface;
+        }
+
+        private Object copy()
+        {
+            return MemberCopier.CreateCopy<Behavior>(behaviorTemplate);
+        }
+
+        private void paste(Object pasted)
+        {
+            behaviorTemplate = (Behavior)pasted;
+            if (editInterface != null)
+            {
+                EditInterface parentInterface = editInterface.ParentEditInterface;
+                EditInterface oldEditInterface = editInterface;
+                editInterface = null;
+                if (parentInterface != null)
+                {
+                    parentInterface.removeSubInterface(oldEditInterface);
+                    parentInterface.addSubInterface(getEditInterface());
+                }
+            }
         }
 
         internal Behavior createProduct(SimObjectBase instance, BehaviorManager behaviorManager)

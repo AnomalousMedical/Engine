@@ -108,6 +108,14 @@ namespace Editor
             }
         }
 
+        public EditInterface SelectedEditInterface
+        {
+            get
+            {
+                return editInterfaceView.getSelectedEditInterface();
+            }
+        }
+
         /// <summary>
         /// Callback for when the EditInterface changes.
         /// </summary>

@@ -186,6 +186,7 @@ namespace Engine.Editing
         public void addSubInterface(EditInterface editInterface)
         {
             subInterfaces.AddLast(editInterface);
+            editInterface.ParentEditInterface = this;
             if (OnSubInterfaceAdded != null)
             {
                 OnSubInterfaceAdded.Invoke(editInterface);
@@ -198,10 +199,13 @@ namespace Engine.Editing
         /// <param name="editInterface">The subinterface to remove.</param>
         public void removeSubInterface(EditInterface editInterface)
         {
-            subInterfaces.Remove(editInterface);
-            if (OnSubInterfaceRemoved != null)
+            if (subInterfaces.Remove(editInterface))
             {
-                OnSubInterfaceRemoved.Invoke(editInterface);
+                editInterface.ParentEditInterface = null;
+                if (OnSubInterfaceRemoved != null)
+                {
+                    OnSubInterfaceRemoved.Invoke(editInterface);
+                }
             }
         }
 
@@ -362,6 +366,8 @@ namespace Engine.Editing
                 }
             }
         }
+
+        public EditInterface ParentEditInterface { get; private set; }
 
         public ClipboardEntry ClipboardEntry { get; set; }
 
