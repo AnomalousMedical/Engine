@@ -23,7 +23,7 @@ namespace BulletPlugin
 	        instance.addElement(rigidBody);
         }
 
-        public override Engine.Editing.EditInterface getEditInterface()
+        protected override EditInterface createEditInterface()
         {
             if(editInterface == null)
 	        {

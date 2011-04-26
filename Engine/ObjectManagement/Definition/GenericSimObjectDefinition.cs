@@ -72,6 +72,11 @@ namespace Engine.ObjectManagement
             }
         }
 
+        public void pasteElement(SimElementDefinition definition)
+        {
+            addElement(definition);
+        }
+
         /// <summary>
         /// Remove a SimElementDefinition.
         /// </summary>
@@ -122,8 +127,17 @@ namespace Engine.ObjectManagement
                     createCommands.Add(createSimElement, command);
                     editInterface.addCommand(createSimElement);
                 }
+
+                GenericClipboardEntry clipboardEntry = new GenericClipboardEntry(typeof(SimElementDefinition));
+                clipboardEntry.PasteFunction = pasteObject;
+                editInterface.ClipboardEntry = clipboardEntry;
             }
             return editInterface;
+        }
+
+        private void pasteObject(Object pasted)
+        {
+            pasteElement((SimElementDefinition)pasted);
         }
 
         /// <summary>

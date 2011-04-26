@@ -218,7 +218,7 @@ namespace BulletPlugin
             throw new NotImplementedException();
         }
 
-        public override EditInterface getEditInterface()
+        protected override EditInterface createEditInterface()
         {
             if(editInterface == null)
 	        {

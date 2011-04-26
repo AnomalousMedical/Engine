@@ -80,7 +80,7 @@ namespace OgrePlugin
         /// Get the EditInterface for this SceneNode.
         /// </summary>
         /// <returns>The node's EditInterface.</returns>
-        public override EditInterface getEditInterface()
+        protected override EditInterface createEditInterface()
         {
             if (editInterface == null)
             {

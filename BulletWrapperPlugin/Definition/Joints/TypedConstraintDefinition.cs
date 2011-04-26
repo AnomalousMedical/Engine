@@ -88,7 +88,7 @@ namespace BulletPlugin
 
         private EditInterface editInterface;
 
-        public override EditInterface getEditInterface()
+        protected override EditInterface createEditInterface()
         {
             if(editInterface == null)
 	        {

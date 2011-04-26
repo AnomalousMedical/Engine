@@ -47,7 +47,19 @@ namespace Engine.ObjectManagement
         /// modified.
         /// </summary>
         /// <returns>The EditInterface for this SimElementDefinition.</returns>
-        public abstract EditInterface getEditInterface();
+        public EditInterface getEditInterface()
+        {
+            EditInterface editInterface = createEditInterface();
+
+            GenericClipboardEntry clipboardEntry = new GenericClipboardEntry(typeof(SimElementDefinition));
+            clipboardEntry.CopyFunction = copy;
+            clipboardEntry.PasteFunction = paste;
+            editInterface.ClipboardEntry = clipboardEntry;
+
+            return editInterface;
+        }
+
+        protected abstract EditInterface createEditInterface();
 
         /// <summary>
         /// Set the SimObjectDefinition for this element.
@@ -56,6 +68,19 @@ namespace Engine.ObjectManagement
         internal void setSimObjectDefinition(SimObjectDefinition simObjectDef)
         {
             this.simObjectDef = simObjectDef;
+        }
+
+        protected Object copy()
+        {
+            return EngineClipboard.copyObject(this);
+        }
+
+        protected void paste(Object pasted)
+        {
+            if (simObjectDef != null)
+            {
+                simObjectDef.pasteElement((SimElementDefinition)pasted);
+            }
         }
 
         #endregion Functions

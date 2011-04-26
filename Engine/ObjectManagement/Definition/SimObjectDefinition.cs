@@ -56,6 +56,12 @@ namespace Engine.ObjectManagement
         /// </summary>
         bool Enabled { get; set; }
 
+        /// <summary>
+        /// This function is used to paste a SimElementDefinition into this SimObjectDefinition.
+        /// </summary>
+        /// <param name="simElement"></param>
+        void pasteElement(SimElementDefinition simElement);
+
         #endregion Properties
     }
 }
