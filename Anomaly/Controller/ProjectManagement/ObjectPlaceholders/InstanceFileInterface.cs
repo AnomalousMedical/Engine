@@ -32,6 +32,7 @@ namespace Anomaly
             clipboardEntry.CopyFunction = copy;
             clipboardEntry.PasteFunction = paste;
             clipboardEntry.CutFunction = cut;
+            clipboardEntry.SupportsPastingTypeFunction = supportsPastingType;
             editInterface.ClipboardEntry = clipboardEntry;
             editInterface.addCommand(new EditInterfaceCommand("Toggle Display", toggleHidden));
             Deleted = false;
@@ -250,7 +251,19 @@ namespace Anomaly
 
         private void paste(object pasted)
         {
-            parentGroup.pasteCallback(pasted);
+            if (pasted is SimObjectDefinition)
+            {
+                parentGroup.pasteCallback(pasted);
+            }
+            else if (pasted is SimElementDefinition)
+            {
+                instance.Definition.pasteElement((SimElementDefinition)pasted);
+            }
+        }
+
+        private bool supportsPastingType(Type t)
+        {
+            return typeof(SimObjectDefinition).IsAssignableFrom(t) || typeof(SimElementDefinition).IsAssignableFrom(t);
         }
 
         private void determineIcon()

@@ -152,7 +152,18 @@ namespace Editor
         /// <returns>The EditInterface that is currently selected.</returns>
         public EditInterface getSelectedEditInterface()
         {
-            return ((EditInterfaceTreeNode)objectsTree.SelectedNode).EditInterface;
+            if (objectsTree.SelectedNode != null)
+            {
+                return ((EditInterfaceTreeNode)objectsTree.SelectedNode).EditInterface;
+            }
+            else if (objectsTree.Nodes.Count > 0)
+            {
+                return ((EditInterfaceTreeNode)objectsTree.Nodes[0]).EditInterface;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public bool showBrowser(Browser browser, out object result)

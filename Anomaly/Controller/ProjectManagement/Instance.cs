@@ -128,8 +128,26 @@ namespace Anomaly
                 editInterface = ReflectedEditInterface.createEditInterface(this, BehaviorEditMemberScanner.Scanner, name, null);
                 editInterface.IconReferenceTag = AnomalyIcons.Instance;
                 editInterface.addSubInterface(simObject.getEditInterface());
+
+                GenericClipboardEntry clipEntry = new GenericClipboardEntry(typeof(Instance));
+                clipEntry.PasteFunction = paste;
+                clipEntry.SupportsPastingTypeFunction = supportsPastingType;
+                editInterface.ClipboardEntry = clipEntry;
             }
             return editInterface;
+        }
+
+        private void paste(Object pasteObject)
+        {
+            if (pasteObject is SimElementDefinition)
+            {
+                simObject.pasteElement((SimElementDefinition)pasteObject);
+            }
+        }
+
+        private bool supportsPastingType(Type t)
+        {
+            return typeof(SimElementDefinition).IsAssignableFrom(t);
         }
     }
 }
