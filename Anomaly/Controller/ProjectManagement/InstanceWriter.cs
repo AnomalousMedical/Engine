@@ -53,15 +53,7 @@ namespace Anomaly
             {
                 String path = group.FullPath;
 
-                //Turn off read only on any files that have it.
-                String[] files = Directory.GetFiles(path, "*", SearchOption.AllDirectories);
-                foreach (String file in files)
-                {
-                    File.SetAttributes(file, FileAttributes.Normal);
-                    File.Delete(file);
-                }
-
-                Directory.Delete(path, true);
+                DirectoryUtility.ForceDirectoryDelete(path);
             }
             catch (Exception e)
             {

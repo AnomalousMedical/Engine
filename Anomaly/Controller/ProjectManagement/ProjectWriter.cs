@@ -20,5 +20,10 @@ namespace Anomaly
                 File.Create(projectFile);
             }
         }
+
+        public static void removeProject(Project project)
+        {
+            DirectoryUtility.ForceDirectoryDelete(project.WorkingDirectory);
+        }
     }
 }

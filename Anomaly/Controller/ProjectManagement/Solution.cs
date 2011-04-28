@@ -104,6 +104,7 @@ namespace Anomaly
         public void removeProject(Project project)
         {
             projects.Remove(project.Name);
+            ProjectWriter.removeProject(project);
             onProjectRemoved(project);
         }
 
