@@ -330,7 +330,14 @@ namespace Anomaly
             }
             else
             {
-                addFile(vfs.getFileInfo(url));                
+                try
+                {
+                    addFile(vfs.getFileInfo(url));
+                }
+                catch (FileNotFoundException)
+                {
+                    Log.Warning("Could not find file {0}", url);
+                }
             }
         }
 
