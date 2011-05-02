@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Engine.Platform
 {
-    public delegate void MessageEventCallback();
+    public delegate void MessageEventCallback(EventManager eventManager);
 
     /// <summary>
     /// This is an event.  It can tell the client if it is down or up and if this
@@ -120,7 +120,7 @@ namespace Engine.Platform
                     FirstFrameDown = true;
                     if (FirstFrameDownEvent != null)
                     {
-                        FirstFrameDownEvent.Invoke();
+                        FirstFrameDownEvent.Invoke(eventManager);
                     }
                 }
                 FirstFrameUp = false;
@@ -138,7 +138,7 @@ namespace Engine.Platform
                     FirstFrameUp = true;
                     if (FirstFrameUpEvent != null)
                     {
-                        FirstFrameUpEvent.Invoke();
+                        FirstFrameUpEvent.Invoke(eventManager);
                     }
                 }
                 FirstFrameDown = false;

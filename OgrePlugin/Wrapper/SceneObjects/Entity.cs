@@ -401,9 +401,9 @@ namespace OgreWrapper
 	    /// <param name="ray">The ray to test in world coords.</param>
 	    /// <param name="distanceOnRay">Output - The distance along the ray where the triangle was intersected.  Only valid if true is returned.</param>
 	    /// <returns>True if an intersection occurred, false if it did not.</returns>
-        public bool raycastPolygonLevel(Ray3 ray, float distanceOnRay)
+        public bool raycastPolygonLevel(Ray3 ray, ref float distanceOnRay)
         {
-            return Entity_raycastPolygonLevel(ogreObject, ray, distanceOnRay);
+            return Entity_raycastPolygonLevel(ogreObject, ray, ref distanceOnRay);
         }
 
         #region NativeWrapper
@@ -513,7 +513,7 @@ namespace OgreWrapper
 
         [DllImport("OgreCWrapper")]
         [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Entity_raycastPolygonLevel(IntPtr entity, Ray3 ray, float distanceOnRay);
+        private static extern bool Entity_raycastPolygonLevel(IntPtr entity, Ray3 ray, ref float distanceOnRay);
 
         #endregion
     }
