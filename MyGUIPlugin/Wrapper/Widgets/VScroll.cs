@@ -50,6 +50,18 @@ namespace MyGUIPlugin
             }
         }
 
+        public uint ScrollIncrement
+        {
+            get
+            {
+                return VScroll_getScrollIncrement(widget).ToUInt32();
+            }
+            set
+            {
+                VScroll_setScrollIncrement(widget, new UIntPtr(value));
+            }
+        }
+
         public uint setScrollViewPage
         {
             get
@@ -137,6 +149,12 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper")]
         private static extern UIntPtr VScroll_getScrollPage(IntPtr vscroll);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern void VScroll_setScrollIncrement(IntPtr vscroll, UIntPtr value);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern UIntPtr VScroll_getScrollIncrement(IntPtr vscroll);
 
         [DllImport("MyGUIWrapper")]
         private static extern void VScroll_setScrollViewPage(IntPtr vscroll, UIntPtr value);

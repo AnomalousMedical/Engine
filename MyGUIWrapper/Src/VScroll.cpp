@@ -40,6 +40,16 @@ extern "C" _AnomalousExport size_t VScroll_getScrollViewPage(MyGUI::VScroll* scr
 	return scroll->getScrollViewPage();
 }
 
+extern "C" _AnomalousExport void VScroll_setScrollIncrement(MyGUI::VScroll* scroll, size_t value)
+{
+	scroll->setScrollIncrement(value);
+}
+
+extern "C" _AnomalousExport size_t VScroll_getScrollIncrement(MyGUI::VScroll* scroll)
+{
+	return scroll->getScrollIncrement();
+}
+
 extern "C" _AnomalousExport int VScroll_getLineSize(MyGUI::VScroll* scroll)
 {
 	return scroll->getLineSize();
