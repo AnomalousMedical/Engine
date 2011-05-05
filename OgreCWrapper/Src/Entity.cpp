@@ -162,6 +162,11 @@ extern "C" _AnomalousExport bool Entity_getCastShadows(Ogre::Entity* entity)
 	return entity->getCastShadows();
 }
 
+extern "C" _AnomalousExport AxisAlignedBox Entity_getChildObjectsBoundingBox(Ogre::Entity* entity)
+{
+	return entity->getChildObjectsBoundingBox();
+}
+
 float computeRayIntersectTriDistance(Ogre::Ray ray, Ogre::Vector3 vert0, Ogre::Vector3 vert1, Ogre::Vector3 vert2);
 void getMeshInformation(Ogre::Entity* entity, size_t &vertexCount, Ogre::Vector3* &vertices,
 								size_t &indexCount, unsigned long* &indices,

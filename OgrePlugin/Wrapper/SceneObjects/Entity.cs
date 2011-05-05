@@ -406,6 +406,15 @@ namespace OgreWrapper
             return Entity_raycastPolygonLevel(ogreObject, ray, ref distanceOnRay);
         }
 
+        /// <summary>
+        /// Get the AABB for this movable object.
+        /// </summary>
+        /// <returns>The AABB for this object.</returns>
+        public AxisAlignedBox getChildObjectsBoundingBox()
+        {
+            return Entity_getChildObjectsBoundingBox(ogreObject);
+        }
+
         #region NativeWrapper
 
         [DllImport("OgreCWrapper")]
@@ -514,6 +523,9 @@ namespace OgreWrapper
         [DllImport("OgreCWrapper")]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Entity_raycastPolygonLevel(IntPtr entity, Ray3 ray, ref float distanceOnRay);
+
+        [DllImport("OgreCWrapper")]
+        private static extern AxisAlignedBox Entity_getChildObjectsBoundingBox(IntPtr entity);
 
         #endregion
     }

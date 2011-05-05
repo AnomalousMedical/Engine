@@ -96,7 +96,6 @@
     <Compile Include="Wrapper\Animation\Vertex\VertexAnimationTrack.cs" />
     <Compile Include="Wrapper\Animation\Vertex\VertexMorphKeyFrame.cs" />
     <Compile Include="Wrapper\Animation\Vertex\VertexPoseKeyFrame.cs" />
-    <Compile Include="Wrapper\BoundingVolumes\AxisAlignedBox.cs" />
     <Compile Include="Wrapper\BoundingVolumes\PlaneBoundedVolume.cs" />
     <Compile Include="Wrapper\CustomArchives\Embedded\EmbeddedResourceArchive.cs" />
     <Compile Include="Wrapper\CustomArchives\Embedded\EmbeddedResourceArchiveFactory.cs" />

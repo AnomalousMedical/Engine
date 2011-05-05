@@ -152,6 +152,25 @@ public:
 	}
 };
 
+class AxisAlignedBox
+{
+public:
+	Vector3 minimum;
+	Vector3 maximum;
+
+	AxisAlignedBox(const Ogre::AxisAlignedBox& ogreBox)
+		:minimum(ogreBox.getMinimum()),
+		maximum(ogreBox.getMaximum())
+	{
+
+	}
+
+	Ogre::AxisAlignedBox toOgre() const
+	{
+		return Ogre::AxisAlignedBox(minimum.toOgre(), maximum.toOgre());
+	}
+};
+
 /// <Summary>
 /// This method will return a copy of the passed string in a new buffer that can
 /// be freed by the clr safely. This is the default behavior if a String is

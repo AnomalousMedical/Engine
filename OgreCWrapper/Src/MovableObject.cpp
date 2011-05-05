@@ -129,10 +129,15 @@ extern "C" _AnomalousExport const char* MovableObject_getOgreMovableType(Ogre::M
 	return movableObject->getMovableType().c_str();
 }
 
-//extern "C" _AnomalousExport Ogre::AxisAlignedBox* MovableObject_getBoundingBox(Ogre::MovableObject* movableObject)
-//{
-//	return &movableObject->getBoundingBox();
-//}
+extern "C" _AnomalousExport AxisAlignedBox MovableObject_getBoundingBox(Ogre::MovableObject* movableObject)
+{
+	return movableObject->getBoundingBox();
+}
+
+extern "C" _AnomalousExport AxisAlignedBox MovableObject_getWorldBoundingBox(Ogre::MovableObject* movableObject)
+{
+	return movableObject->getWorldBoundingBox();
+}
 
 extern "C" _AnomalousExport void MovableObject_setDebugDisplayEnabled(Ogre::MovableObject* movableObject, bool enabled)
 {

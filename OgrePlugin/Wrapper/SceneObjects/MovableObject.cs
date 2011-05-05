@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 using Engine.Attributes;
+using Engine;
 
 namespace OgreWrapper
 {
@@ -210,6 +211,24 @@ namespace OgreWrapper
             return SceneNode.getManagedNode(MovableObject_getParentSceneNode(ogreObject));
         }
 
+        /// <summary>
+        /// Get the AABB for this movable object.
+        /// </summary>
+        /// <returns>The AABB for this object.</returns>
+        public AxisAlignedBox getBoundingBox()
+        {
+            return MovableObject_getBoundingBox(ogreObject);
+        }
+
+        /// <summary>
+        /// Get the AABB for this movable object.
+        /// </summary>
+        /// <returns>The AABB for this object.</returns>
+        public AxisAlignedBox getWorldBoundingBox()
+        {
+            return MovableObject_getWorldBoundingBox(ogreObject);
+        }
+
         #region CWrapper
 
         [DllImport("OgreCWrapper")]
@@ -253,6 +272,9 @@ namespace OgreWrapper
 
 	    [DllImport("OgreCWrapper")]
         private static extern AxisAlignedBox MovableObject_getBoundingBox(IntPtr movableObject);
+
+        [DllImport("OgreCWrapper")]
+        private static extern AxisAlignedBox MovableObject_getWorldBoundingBox(IntPtr movableObject);
 
 	    [DllImport("OgreCWrapper")]
         private static extern void MovableObject_setDebugDisplayEnabled(IntPtr movableObject, bool enabled);
