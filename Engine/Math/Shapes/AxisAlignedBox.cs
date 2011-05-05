@@ -18,12 +18,6 @@ namespace Engine
         [FieldOffset(12)]
         private Vector3 maximum;
 
-        //public AxisAlignedBox()
-        //{
-        //    minimum = Vector3.Zero;
-        //    maximum = Vector3.Zero;
-        //}
-
         public Vector3 Minimum
         {
             get
