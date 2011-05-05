@@ -385,7 +385,7 @@ namespace OgreWrapper
 	    /// <summary>
 	    /// Get the vertical fov.
 	    /// </summary>
-	    /// <returns>The vertical fov in radians.</returns>
+	    /// <returns>The vertical fov in degrees.</returns>
         public float getFOVy()
         {
             return Camera_getFOVy(ogreObject);

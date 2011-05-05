@@ -42,6 +42,14 @@ namespace Engine
             }
         }
 
+        public float DiagonalDistance
+        {
+            get
+            {
+                return (maximum - minimum).length();
+            }
+        }
+
         public override string ToString()
         {
             return String.Format("Min {0} : Max {1}", minimum, maximum);
