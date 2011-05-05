@@ -302,6 +302,28 @@ namespace Engine
 	    }
 
         /// <summary>
+        /// Set this vector's components to be the highest value of x, y and z between the two.
+        /// </summary>
+        /// <param name="cmp">The vector to compare.</param>
+        public void makeCeiling(Vector3 cmp)
+        {
+            if (cmp.x > x) x = cmp.x;
+            if (cmp.y > y) y = cmp.y;
+            if (cmp.z > z) z = cmp.z;
+        }
+
+        /// <summary>
+        /// Set this vector's components to be the lowest value of x, y and z between the two.
+        /// </summary>
+        /// <param name="cmp">The vector to compare.</param>
+        public void makeFloor(Vector3 cmp)
+        {
+            if (cmp.x < x) x = cmp.x;
+            if (cmp.y < y) y = cmp.y;
+            if (cmp.z < z) z = cmp.z;
+        }
+
+        /// <summary>
         /// Equals function.
         /// </summary>
         /// <param name="obj">The object to compare to.</param>
