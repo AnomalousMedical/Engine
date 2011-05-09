@@ -552,6 +552,14 @@ namespace MyGUIPlugin
         /// </summary>
         public Object UserObject { get; set; }
 
+        public Size2 CanvasSize
+        {
+            get
+            {
+                return scrollView.CanvasSize;
+            }
+        }
+
         /// <summary>
         /// The ScrollView for the grid.
         /// </summary>
