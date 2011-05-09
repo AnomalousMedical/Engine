@@ -74,6 +74,8 @@ namespace MyGUIPlugin
                 image.setItemResource(imageResource);
             }
         }
+
+        public Object UserObject { get; set; }
     }
 
     /// <summary>
