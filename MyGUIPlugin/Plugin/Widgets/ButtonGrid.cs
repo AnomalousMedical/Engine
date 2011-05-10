@@ -204,6 +204,18 @@ namespace MyGUIPlugin
         {
             return items[index];
         }
+
+        internal ButtonGridItem findItemByCaption(string caption)
+        {
+            foreach (ButtonGridItem item in items)
+            {
+                if (item.Caption == caption)
+                {
+                    return item;
+                }
+            }
+            return null;
+        }
     }
 
     /// <summary>
@@ -452,6 +464,19 @@ namespace MyGUIPlugin
                 }
             }
             throw new Exception("Should not get this exception.");
+        }
+
+        public ButtonGridItem findItemByCaption(String caption)
+        {
+            foreach (ButtonGridGroup group in groups)
+            {
+                ButtonGridItem item = group.findItemByCaption(caption);
+                if (item != null)
+                {
+                    return item;
+                }
+            }
+            return null;
         }
 
         /// <summary>
