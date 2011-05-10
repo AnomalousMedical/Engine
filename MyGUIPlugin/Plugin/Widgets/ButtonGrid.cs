@@ -152,7 +152,7 @@ namespace MyGUIPlugin
         /// </summary>
         /// <param name="startPosition">The start position</param>
         /// <returns>The position for the next group to start at.</returns>
-        public Vector2 layout(Vector2 startPosition)
+        public Vector2 layout(Vector2 startPosition, IComparer<ButtonGridItem> itemComparer)
         {
             Vector2 currentPosition = startPosition;
 
@@ -165,7 +165,14 @@ namespace MyGUIPlugin
                 currentPosition.y += captionText.Height + 5;
             }
 
-            foreach (ButtonGridItem item in items)
+            List<ButtonGridItem> sortedItems = items;
+            if (itemComparer != null)
+            {
+                sortedItems = new List<ButtonGridItem>(items);
+                sortedItems.Sort(itemComparer);
+            }
+
+            foreach (ButtonGridItem item in sortedItems)
             {
                 if (currentPosition.x + item.Width > grid.ScrollView.CanvasSize.Width)
                 {
@@ -241,6 +248,7 @@ namespace MyGUIPlugin
         private ButtonGridItem selectedItem;
         private List<ButtonGridGroup> groups = new List<ButtonGridGroup>();
         private int itemCount = 0;
+        private IComparer<ButtonGridItem> itemComparer;
 
         public event EventHandler SelectedValueChanged;
         public event EventHandler ItemActivated;
@@ -250,6 +258,12 @@ namespace MyGUIPlugin
         /// </summary>
         /// <param name="scrollView"></param>
         public ButtonGrid(ScrollView scrollView)
+            :this(scrollView, null)
+        {
+            
+        }
+
+        public ButtonGrid(ScrollView scrollView, IComparer<ButtonGridItem> itemComparer)
         {
             String read;
             bool boolValue;
@@ -257,6 +271,7 @@ namespace MyGUIPlugin
             SuppressLayout = false;
 
             this.scrollView = scrollView;
+            this.itemComparer = itemComparer;
 
             //Try to get properties from the widget itself.
             read = scrollView.getUserString("ItemHeight");
@@ -416,7 +431,7 @@ namespace MyGUIPlugin
                 Vector2 currentPosition = new Vector2(0.0f, 0.0f);
                 foreach (ButtonGridGroup group in groups)
                 {
-                    currentPosition = group.layout(currentPosition);
+                    currentPosition = group.layout(currentPosition, itemComparer);
                 }
                 scrollView.CanvasSize = new Size2(scrollView.CanvasSize.Width, currentPosition.y);
             }
@@ -429,7 +444,7 @@ namespace MyGUIPlugin
             Vector2 currentPosition = new Vector2(0.0f, 0.0f);
             foreach (ButtonGridGroup group in groups)
             {
-                currentPosition = group.layout(currentPosition);
+                currentPosition = group.layout(currentPosition, itemComparer);
             }
             finalSize.Height = currentPosition.y;
             scrollView.CanvasSize = finalSize;
