@@ -62,11 +62,51 @@ namespace MyGUIPlugin
             }
         }
 
-        internal int Width
+        public int Width
         {
             get
             {
                 return button.Width;
+            }
+        }
+
+        public int Height
+        {
+            get
+            {
+                return button.Height;
+            }
+        }
+
+        public int AbsoluteLeft
+        {
+            get
+            {
+                return button.AbsoluteLeft;
+            }
+        }
+
+        public int AbsoluteTop
+        {
+            get
+            {
+                return button.AbsoluteTop;
+            }
+        }
+
+        public int Left
+        {
+            get
+            {
+                return button.Left;
+            }
+        }
+
+        public int Top
+        {
+            get
+            {
+                return button.Top;
             }
         }
 
