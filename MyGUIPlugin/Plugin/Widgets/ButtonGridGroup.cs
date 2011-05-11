@@ -80,12 +80,12 @@ namespace MyGUIPlugin
 
             foreach (ButtonGridItem item in sortedItems)
             {
-                if (currentPosition.x + item.Width > grid.ScrollView.CanvasSize.Width)
+                if (currentPosition.x + grid.ItemWidth > grid.ScrollView.CanvasSize.Width)
                 {
                     currentPosition.x = 0;
                     currentPosition.y += grid.ItemHeight + grid.ItemPaddingY;
                 }
-                item.setPosition(currentPosition);
+                item.setPosition(currentPosition, grid.ItemWidth, grid.ItemHeight);
                 currentPosition.x += item.Width + grid.ItemPaddingX;
             }
 

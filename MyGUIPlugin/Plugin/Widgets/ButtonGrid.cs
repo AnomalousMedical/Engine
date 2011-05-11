@@ -31,6 +31,8 @@ namespace MyGUIPlugin
         private List<ButtonGridGroup> groups = new List<ButtonGridGroup>();
         private int itemCount = 0;
         private IComparer<ButtonGridItem> itemComparer;
+        private int itemWidth;
+        private int itemHeight;
 
         public event EventHandler SelectedValueChanged;
         public event EventHandler ItemActivated;
@@ -284,12 +286,40 @@ namespace MyGUIPlugin
         /// <summary>
         /// The width of each button in the grid.
         /// </summary>
-        public int ItemWidth { get; set; }
+        public int ItemWidth
+        {
+            get
+            {
+                return itemWidth;
+            }
+            set
+            {
+                if (value != itemWidth)
+                {
+                    itemWidth = value;
+                    layout();
+                }
+            }
+        }
 
         /// <summary>
         /// The height of each button in the grid.
         /// </summary>
-        public int ItemHeight { get; set; }
+        public int ItemHeight
+        {
+            get
+            {
+                return itemHeight;
+            }
+            set
+            {
+                if (value != itemHeight)
+                {
+                    itemHeight = value;
+                    layout();
+                }
+            }
+        }
 
         /// <summary>
         /// The padding in the x dimesion between items.
@@ -374,11 +404,30 @@ namespace MyGUIPlugin
         /// </summary>
         public Object UserObject { get; set; }
 
-        public Size2 CanvasSize
+        /// <summary>
+        /// The total height of all the items in the ButtonGrid.
+        /// </summary>
+        public int TotalHeight
         {
             get
             {
-                return scrollView.CanvasSize;
+                return (int)scrollView.CanvasSize.Height;
+            }
+        }
+
+        public int Width
+        {
+            get
+            {
+                return scrollView.Width;
+            }
+        }
+
+        public int Height
+        {
+            get
+            {
+                return scrollView.Height;
             }
         }
 
