@@ -17,6 +17,7 @@ namespace MyGUIPlugin
             this.grid = list;
             this.Group = group;
             button = list.ScrollView.createWidgetT("Button", list.ButtonSkin, 0, 0, list.ItemWidth, list.ItemHeight, Align.Top | Align.Left, "") as Button;
+            button.ForwardMouseWheelToParent = true;
             button.MouseButtonClick += new MyGUIEvent(button_MouseButtonClick);
             button.MouseButtonDoubleClick += new MyGUIEvent(button_MouseButtonDoubleClick);
         }

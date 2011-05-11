@@ -200,6 +200,16 @@ extern "C" _AnomalousExport void Widget_setNeedMouseFocus(MyGUI::Widget* widget,
 	widget->setNeedMouseFocus(value);
 }
 
+extern "C" _AnomalousExport bool Widget_getForwardMouseWheelToParent(MyGUI::Widget* widget)
+{
+	return widget->getForwardMouseWheelToParent();
+}
+
+extern "C" _AnomalousExport void Widget_setForwardMouseWheelToParent(MyGUI::Widget* widget, bool value)
+{
+	widget->setForwardMouseWheelToParent(value);
+}
+
 extern "C" _AnomalousExport bool Widget_isNeedMouseFocus(MyGUI::Widget* widget)
 {
 	return widget->isNeedMouseFocus();

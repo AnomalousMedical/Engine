@@ -421,6 +421,18 @@ namespace MyGUIPlugin
             }
         }
 
+        public bool ForwardMouseWheelToParent
+        {
+            get
+            {
+                return Widget_getForwardMouseWheelToParent(widget);
+            }
+            set
+            {
+                Widget_setForwardMouseWheelToParent(widget, value);
+            }
+        }
+
         public bool InheritsPick
         {
             get
@@ -847,6 +859,13 @@ namespace MyGUIPlugin
         [DllImport("MyGUIWrapper")]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Widget_isNeedMouseFocus(IntPtr widget);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern void Widget_setForwardMouseWheelToParent(IntPtr widget, bool value);
+
+        [DllImport("MyGUIWrapper")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool Widget_getForwardMouseWheelToParent(IntPtr widget);
 
         [DllImport("MyGUIWrapper")]
         private static extern void Widget_setInheritsPick(IntPtr widget, bool value);
