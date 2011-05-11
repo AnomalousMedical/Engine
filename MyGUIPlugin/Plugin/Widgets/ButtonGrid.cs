@@ -205,6 +205,7 @@ namespace MyGUIPlugin
             }
             selectedItem = null;
             groups.Clear();
+            itemCount = 0;
             layout();
         }
 
