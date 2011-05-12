@@ -31,7 +31,7 @@ namespace MyGUIPlugin
         private List<ButtonGridGroup> groups = new List<ButtonGridGroup>();
         private int itemCount = 0;
         private IComparer<ButtonGridItem> itemComparer;
-        private ButtonGridLayout layoutEngine = new ButtonGridGridLayout();
+        private ButtonGridLayout layoutEngine;
 
         public event EventHandler SelectedValueChanged;
         public event EventHandler ItemActivated;
@@ -47,6 +47,12 @@ namespace MyGUIPlugin
         }
 
         public ButtonGrid(ScrollView scrollView, IComparer<ButtonGridItem> itemComparer)
+            :this(scrollView, new ButtonGridGridLayout(), itemComparer)
+        {
+
+        }
+
+        public ButtonGrid(ScrollView scrollView, ButtonGridLayout layoutEngine, IComparer<ButtonGridItem> itemComparer)
         {
             String read;
             bool boolValue;
@@ -55,6 +61,7 @@ namespace MyGUIPlugin
 
             this.scrollView = scrollView;
             this.itemComparer = itemComparer;
+            this.layoutEngine = layoutEngine;
 
             //Try to get properties from the widget itself.
             read = scrollView.getUserString("ItemHeight");
