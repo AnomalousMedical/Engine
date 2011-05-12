@@ -52,8 +52,10 @@
     <Compile Include="Plugin\Tooltip\Tooltip.cs" />
     <Compile Include="Plugin\Tooltip\TooltipManager.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid.cs" />
+    <Compile Include="Plugin\Widgets\ButtonGridGridLayout.cs" />
     <Compile Include="Plugin\Widgets\ButtonGridGroup.cs" />
     <Compile Include="Plugin\Widgets\ButtonGridItem.cs" />
+    <Compile Include="Plugin\Widgets\ButtonGridLayout.cs" />
     <Compile Include="Plugin\Widgets\ButtonList.cs" />
     <Compile Include="Plugin\Widgets\CheckButton.cs" />
     <Compile Include="Plugin\Widgets\Component.cs" />

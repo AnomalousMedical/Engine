@@ -31,8 +31,7 @@ namespace MyGUIPlugin
         private List<ButtonGridGroup> groups = new List<ButtonGridGroup>();
         private int itemCount = 0;
         private IComparer<ButtonGridItem> itemComparer;
-        private int itemWidth;
-        private int itemHeight;
+        private ButtonGridLayout layoutEngine = new ButtonGridGridLayout();
 
         public event EventHandler SelectedValueChanged;
         public event EventHandler ItemActivated;
@@ -213,12 +212,12 @@ namespace MyGUIPlugin
         {
             if (!SuppressLayout)
             {
-                Vector2 currentPosition = new Vector2(0.0f, 0.0f);
+                layoutEngine.startLayout(scrollView.CanvasSize);
                 foreach (ButtonGridGroup group in groups)
                 {
-                    currentPosition = group.layout(currentPosition, itemComparer);
+                    group.layout(layoutEngine, itemComparer);
                 }
-                scrollView.CanvasSize = new Size2(scrollView.CanvasSize.Width, currentPosition.y);
+                scrollView.CanvasSize = new Size2(scrollView.CanvasSize.Width, layoutEngine.FinalHeight);
             }
         }
 
@@ -226,15 +225,15 @@ namespace MyGUIPlugin
         {
             Size2 finalSize = new Size2((ItemWidth + ItemPaddingX) * rowCount, 300);
             scrollView.CanvasSize = finalSize;
-            Vector2 currentPosition = new Vector2(0.0f, 0.0f);
+            layoutEngine.startLayout(scrollView.CanvasSize);
             foreach (ButtonGridGroup group in groups)
             {
-                currentPosition = group.layout(currentPosition, itemComparer);
+                group.layout(layoutEngine, itemComparer);
             }
-            finalSize.Height = currentPosition.y;
+            finalSize.Height = layoutEngine.FinalHeight;
             scrollView.CanvasSize = finalSize;
             //Set the final size with or without padding depending if the scroll bars are visible in that direction or not.
-            scrollView.setSize(scrollView.VisibleHScroll ? (int)finalSize.Width + 23 : (int)finalSize.Width, 
+            scrollView.setSize(scrollView.VisibleHScroll ? (int)finalSize.Width + 23 : (int)finalSize.Width,
                 scrollView.VisibleVScroll ? (int)finalSize.Height + 23 : (int)finalSize.Height + 5);
         }
 
@@ -291,15 +290,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return itemWidth;
+                return layoutEngine.ItemWidth;
             }
             set
             {
-                if (value != itemWidth)
-                {
-                    itemWidth = value;
-                    layout();
-                }
+                layoutEngine.ItemWidth = value;
             }
         }
 
@@ -310,27 +305,43 @@ namespace MyGUIPlugin
         {
             get
             {
-                return itemHeight;
+                return layoutEngine.ItemHeight;
             }
             set
             {
-                if (value != itemHeight)
-                {
-                    itemHeight = value;
-                    layout();
-                }
+                layoutEngine.ItemHeight = value;
             }
         }
 
         /// <summary>
         /// The padding in the x dimesion between items.
         /// </summary>
-        public int ItemPaddingX { get; set; }
+        public int ItemPaddingX
+        {
+            get
+            {
+                return layoutEngine.ItemPaddingX;
+            }
+            set
+            {
+                layoutEngine.ItemPaddingX = value;
+            }
+        }
 
         /// <summary>
         /// The padding in the y dimension between items.
         /// </summary>
-        public int ItemPaddingY { get; set; }
+        public int ItemPaddingY
+        {
+            get
+            {
+                return layoutEngine.ItemPaddingY;
+            }
+            set
+            {
+                layoutEngine.ItemPaddingY = value;
+            }
+        }
 
         /// <summary>
         /// The font for group captions.

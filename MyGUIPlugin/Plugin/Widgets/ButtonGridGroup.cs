@@ -58,17 +58,11 @@ namespace MyGUIPlugin
         /// </summary>
         /// <param name="startPosition">The start position</param>
         /// <returns>The position for the next group to start at.</returns>
-        public Vector2 layout(Vector2 startPosition, IComparer<ButtonGridItem> itemComparer)
+        public void layout(ButtonGridLayout layoutEngine, IComparer<ButtonGridItem> itemComparer)
         {
-            Vector2 currentPosition = startPosition;
-
             if (grid.ShowGroupCaptions)
             {
-                currentPosition.y += 5;
-                captionText.setPosition((int)currentPosition.x, (int)currentPosition.y);
-                separator.setPosition((int)(currentPosition.x + captionText.Width), (int)(currentPosition.y + captionText.Height / 2));
-                separator.setSize((int)(grid.ScrollView.CanvasSize.Width - captionText.Width) - 10, 1);
-                currentPosition.y += captionText.Height + 5;
+                layoutEngine.alignCaption(captionText, separator);
             }
 
             List<ButtonGridItem> sortedItems = items;
@@ -80,19 +74,10 @@ namespace MyGUIPlugin
 
             foreach (ButtonGridItem item in sortedItems)
             {
-                if (currentPosition.x + grid.ItemWidth > grid.ScrollView.CanvasSize.Width)
-                {
-                    currentPosition.x = 0;
-                    currentPosition.y += grid.ItemHeight + grid.ItemPaddingY;
-                }
-                item.setPosition(currentPosition, grid.ItemWidth, grid.ItemHeight);
-                currentPosition.x += item.Width + grid.ItemPaddingX;
+                layoutEngine.alignItem(item);
             }
 
-            currentPosition.x = 0;
-            currentPosition.y += grid.ItemHeight + grid.ItemPaddingY;
-
-            return currentPosition;
+            layoutEngine.finishGroupLayout();
         }
 
         public int Count
