@@ -203,6 +203,10 @@ namespace MyGUIPlugin
         /// <param name="item">The item to remove.</param>
         public void removeItem(ButtonGridItem item)
         {
+            if (SelectedItem == item)
+            {
+                SelectedItem = null;
+            }
             itemCount--;
             item.Group.removeItem(item);
             layout();
