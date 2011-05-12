@@ -472,6 +472,14 @@ namespace MyGUIPlugin
             }
         }
 
+        internal int CaptionHeight
+        {
+            get
+            {
+                return groups.Count > 0 ? groups[0].CaptionHeight : 0;
+            }
+        }
+
         internal void itemActivated(ButtonGridItem item)
         {
             if (ItemActivated != null)

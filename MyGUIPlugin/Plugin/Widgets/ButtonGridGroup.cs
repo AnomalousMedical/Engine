@@ -114,5 +114,13 @@ namespace MyGUIPlugin
             }
             return null;
         }
+
+        internal int CaptionHeight
+        {
+            get
+            {
+                return captionText != null ? captionText.FontHeight : 0;
+            }
+        }
     }
 }

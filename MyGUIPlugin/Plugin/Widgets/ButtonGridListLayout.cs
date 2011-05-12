@@ -17,7 +17,7 @@ namespace MyGUIPlugin
             int totalSize = buttonGrid.Count * (ItemHeight + ItemPaddingY);
             if (buttonGrid.ShowGroupCaptions)
             {
-
+                totalSize += buttonGrid.CaptionHeight * buttonGrid.GroupCount;
             }
 
             //Set the height of the canvas, this allows us to get the width of the client region adjusted for scrollbars
