@@ -6,17 +6,29 @@ using Engine;
 
 namespace MyGUIPlugin
 {
-    class ButtonGridGridLayout : ButtonGridLayout
+    public class ButtonGridListLayout : ButtonGridLayout
     {
         Vector2 currentPosition;
         Size2 canvasSize;
-        ButtonGrid buttonGrid;
 
         public void startLayout(ButtonGrid buttonGrid)
         {
-            this.buttonGrid = buttonGrid;
             currentPosition = new Vector2(0.0f, 0.0f);
-            this.canvasSize = buttonGrid.ScrollView.CanvasSize;
+            int totalSize = buttonGrid.Count * (ItemHeight + ItemPaddingY);
+            if (buttonGrid.ShowGroupCaptions)
+            {
+
+            }
+
+            //Set the height of the canvas, this allows us to get the width of the client region adjusted for scrollbars
+            canvasSize = buttonGrid.ScrollView.CanvasSize;
+            canvasSize.Height = totalSize;
+            buttonGrid.ScrollView.CanvasSize = canvasSize;
+            
+            //Get the item width from the clientcoord
+            ItemWidth = buttonGrid.ScrollView.ClientCoord.width;
+            
+            canvasSize.Width = ItemWidth;
         }
 
         public void alignCaption(Widget captionText, Widget separator)
@@ -24,19 +36,15 @@ namespace MyGUIPlugin
             currentPosition.y += 5;
             captionText.setPosition((int)currentPosition.x, (int)currentPosition.y);
             separator.setPosition((int)(currentPosition.x + captionText.Width), (int)(currentPosition.y + captionText.Height / 2));
-            separator.setSize((int)(canvasSize.Width - captionText.Width) - 10, 1);
+            separator.setSize((int)(ItemWidth - captionText.Width) - 10, 1);
             currentPosition.y += captionText.Height + 5;
         }
 
         public void alignItem(ButtonGridItem item)
         {
-            if (currentPosition.x + ItemWidth > canvasSize.Width)
-            {
-                currentPosition.x = 0;
-                currentPosition.y += ItemHeight + ItemPaddingY;
-            }
             item.setPosition(currentPosition, ItemWidth, ItemHeight);
-            currentPosition.x += item.Width + ItemPaddingX;
+            currentPosition.x = 0;
+            currentPosition.y += ItemHeight + ItemPaddingY;
         }
 
         public void finishGroupLayout()
@@ -49,7 +57,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return new Size2(buttonGrid.ScrollView.CanvasSize.Width, currentPosition.y);
+                return canvasSize;
             }
         }
 

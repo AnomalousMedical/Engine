@@ -56,6 +56,7 @@
     <Compile Include="Plugin\Widgets\ButtonGridGroup.cs" />
     <Compile Include="Plugin\Widgets\ButtonGridItem.cs" />
     <Compile Include="Plugin\Widgets\ButtonGridLayout.cs" />
+    <Compile Include="Plugin\Widgets\ButtonGridListLayout.cs" />
     <Compile Include="Plugin\Widgets\ButtonList.cs" />
     <Compile Include="Plugin\Widgets\CheckButton.cs" />
     <Compile Include="Plugin\Widgets\Component.cs" />

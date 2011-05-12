@@ -219,12 +219,12 @@ namespace MyGUIPlugin
         {
             if (!SuppressLayout)
             {
-                layoutEngine.startLayout(scrollView.CanvasSize);
+                layoutEngine.startLayout(this);
                 foreach (ButtonGridGroup group in groups)
                 {
                     group.layout(layoutEngine, itemComparer);
                 }
-                scrollView.CanvasSize = new Size2(scrollView.CanvasSize.Width, layoutEngine.FinalHeight);
+                scrollView.CanvasSize = layoutEngine.FinalCanvasSize;
             }
         }
 
@@ -232,12 +232,12 @@ namespace MyGUIPlugin
         {
             Size2 finalSize = new Size2((ItemWidth + ItemPaddingX) * rowCount, 300);
             scrollView.CanvasSize = finalSize;
-            layoutEngine.startLayout(scrollView.CanvasSize);
+            layoutEngine.startLayout(this);
             foreach (ButtonGridGroup group in groups)
             {
                 group.layout(layoutEngine, itemComparer);
             }
-            finalSize.Height = layoutEngine.FinalHeight;
+            finalSize.Height = layoutEngine.FinalCanvasSize.Height;
             scrollView.CanvasSize = finalSize;
             //Set the final size with or without padding depending if the scroll bars are visible in that direction or not.
             scrollView.setSize(scrollView.VisibleHScroll ? (int)finalSize.Width + 23 : (int)finalSize.Width,
@@ -415,6 +415,17 @@ namespace MyGUIPlugin
             get
             {
                 return itemCount;
+            }
+        }
+
+        /// <summary>
+        /// The number of groups
+        /// </summary>
+        public int GroupCount
+        {
+            get
+            {
+                return groups.Count;
             }
         }
 

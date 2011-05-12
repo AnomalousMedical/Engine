@@ -8,7 +8,7 @@ namespace MyGUIPlugin
 {
     public interface ButtonGridLayout
     {
-        void startLayout(Size2 canvasSize);
+        void startLayout(ButtonGrid buttonGrid);
 
         void alignCaption(Widget text, Widget separator);
 
@@ -16,7 +16,7 @@ namespace MyGUIPlugin
 
         void finishGroupLayout();
 
-        int FinalHeight { get; }
+        Size2 FinalCanvasSize { get; }
 
         int ItemWidth { get; set; }
 
