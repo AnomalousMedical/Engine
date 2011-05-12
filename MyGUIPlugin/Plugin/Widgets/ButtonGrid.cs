@@ -41,13 +41,21 @@ namespace MyGUIPlugin
         /// </summary>
         /// <param name="scrollView"></param>
         public ButtonGrid(ScrollView scrollView)
-            :this(scrollView, null)
+            :this(scrollView, new ButtonGridGridLayout(), null)
         {
             
         }
 
         public ButtonGrid(ScrollView scrollView, IComparer<ButtonGridItem> itemComparer)
             :this(scrollView, new ButtonGridGridLayout(), itemComparer)
+        {
+
+        }
+
+
+
+        public ButtonGrid(ScrollView scrollView, ButtonGridLayout layoutEngine)
+            : this(scrollView, layoutEngine, null)
         {
 
         }
