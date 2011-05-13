@@ -32,6 +32,7 @@ namespace MyGUIPlugin
         {
             layout = LayoutManager.Instance.loadLayout(layoutFile);
             initialize(layout.getWidget(0));
+            KeepOpen = false;
         }
 
         public PopupContainer(Widget widget)
@@ -78,31 +79,7 @@ namespace MyGUIPlugin
             if (!Visible)
             {
                 LayerManager.Instance.upLayerItem(widget);
-                int guiWidth = Gui.Instance.getViewWidth();
-                int guiHeight = Gui.Instance.getViewHeight();
-
-                int right = left + widget.Width;
-                int bottom = top + widget.Height;
-
-                if (right > guiWidth)
-                {
-                    left -= right - guiWidth;
-                    if (left < 0)
-                    {
-                        left = 0;
-                    }
-                }
-
-                if (bottom > guiHeight)
-                {
-                    top -= bottom - guiHeight;
-                    if (top < 0)
-                    {
-                        top = 0;
-                    }
-                }
-
-                widget.setPosition(left, top);
+                
                 Visible = true;
                 if (SmoothShow)
                 {
@@ -112,6 +89,31 @@ namespace MyGUIPlugin
                     runningShowTransition = true;
                 }
             }
+            int guiWidth = Gui.Instance.getViewWidth();
+            int guiHeight = Gui.Instance.getViewHeight();
+
+            int right = left + widget.Width;
+            int bottom = top + widget.Height;
+
+            if (right > guiWidth)
+            {
+                left -= right - guiWidth;
+                if (left < 0)
+                {
+                    left = 0;
+                }
+            }
+
+            if (bottom > guiHeight)
+            {
+                top -= bottom - guiHeight;
+                if (top < 0)
+                {
+                    top = 0;
+                }
+            }
+
+            widget.setPosition(left, top);
         }
 
         public void hide()
@@ -181,37 +183,42 @@ namespace MyGUIPlugin
 
         void MouseButtonPressed(int x, int y, MouseButtonCode button)
         {
-            int left = widget.AbsoluteLeft;
-            int top = widget.AbsoluteTop;
-            int right = left + widget.Width;
-            int bottom = top + widget.Height;
-            if (x < left || x > right || y < top || y > bottom)
+            if (!KeepOpen)
             {
-                if (childPopups != null)
+                int left = widget.AbsoluteLeft;
+                int top = widget.AbsoluteTop;
+                int right = left + widget.Width;
+                int bottom = top + widget.Height;
+                if (x < left || x > right || y < top || y > bottom)
                 {
-                    foreach (Widget childWidget in childPopups)
+                    if (childPopups != null)
                     {
-                        if (childWidget.Visible)
+                        foreach (Widget childWidget in childPopups)
                         {
-                            left = childWidget.AbsoluteLeft;
-                            top = childWidget.AbsoluteTop;
-                            right = left + childWidget.Width;
-                            bottom = top + childWidget.Height;
-                            if (x > left && x < right && y > top && y < bottom)
+                            if (childWidget.Visible)
                             {
-                                //inside of child. return.
-                                return;
+                                left = childWidget.AbsoluteLeft;
+                                top = childWidget.AbsoluteTop;
+                                right = left + childWidget.Width;
+                                bottom = top + childWidget.Height;
+                                if (x > left && x < right && y > top && y < bottom)
+                                {
+                                    //inside of child. return.
+                                    return;
+                                }
                             }
                         }
                     }
+                    hide();
                 }
-                hide();
             }
         }
 
         public Object UserObject { get; set; }
 
         public bool SmoothShow { get; set; }
+
+        public bool KeepOpen { get; set; }
 
         private bool subscribedToUpdate = false;
 

@@ -35,6 +35,14 @@ namespace MyGUIPlugin
             }
         }
 
+        public Button Button
+        {
+            get
+            {
+                return button;
+            }
+        }
+
         void button_MouseButtonClick(Widget source, EventArgs e)
         {
             int left = source.AbsoluteLeft;
