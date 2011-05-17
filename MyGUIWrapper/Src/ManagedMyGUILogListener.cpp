@@ -15,9 +15,7 @@ public:
 	:messageLoggedCallback(messageLoggedCallback)
 	{
 		MyGUI::LogManager::setThirdPartyLogListener(this);
-		/*Ogre::Log* log = Ogre::LogManager::getSingleton().getDefaultLog();
-		log->addListener(this);
-		log->setDebugOutputEnabled(false);*/
+		MyGUI::LogManager::setSTDOutputEnabled(false);
 	}
 
 	virtual ~ManagedMyGUILogListener(void)
