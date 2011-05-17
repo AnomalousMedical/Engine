@@ -21,6 +21,8 @@ namespace MyGUIPlugin
         private MessageLoggedDelegate messageLoggedDelegate;
         private IntPtr nativePtr;
 
+        private Logging.LogLevel[] levelMap = { Logging.LogLevel.Info, Logging.LogLevel.Warning, Logging.LogLevel.Error, Logging.LogLevel.ImportantInfo, Logging.LogLevel.Debug };
+
         public ManagedMyGUILogListener()
         {
             messageLoggedDelegate = new MessageLoggedDelegate(messageLogged);
@@ -34,7 +36,7 @@ namespace MyGUIPlugin
 
         private void messageLogged(String section, LogLevel lml, String message)
         {
-            Log.Info(message);
+            Log.Default.sendMessage(message, levelMap[(int)lml], "MyGUI_" + section);
         }
 
         #region PInvoke
