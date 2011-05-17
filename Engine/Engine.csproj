@@ -65,6 +65,7 @@
     <Compile Include="Behavior\BehaviorObject.cs" />
     <Compile Include="Behavior\BehaviorObjectBase.cs" />
     <Compile Include="Behavior\BehaviorEditMemberScanner.cs" />
+    <Compile Include="Behavior\BehaviorPluginEntryPoint.cs" />
     <Compile Include="Behavior\BehaviorSaveMemberScanner.cs" />
     <Compile Include="Behavior\Interface.cs" />
     <Compile Include="Command\AddSimElementCommand.cs" />
@@ -160,6 +161,7 @@
     <Compile Include="Plugin\DebugInterface.cs" />
     <Compile Include="Plugin\DynamicDLLPluginLoader.cs" />
     <Compile Include="Plugin\PlatformPlugin.cs" />
+    <Compile Include="Plugin\PluginEntryPoint.cs" />
     <Compile Include="Plugin\PluginInterface.cs" />
     <Compile Include="Plugin\PluginLoader.cs" />
     <Compile Include="Reflection\BooleanReflectedVariable.cs" />

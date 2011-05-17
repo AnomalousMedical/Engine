@@ -26,7 +26,6 @@ namespace Engine
     {
         #region Static
 
-        private static String INTERFACE_NAME = typeof(PluginInterface).Name;
         private static PluginManager instance;
         private static readonly char[] SPLIT = { ',' };
 
@@ -121,24 +120,17 @@ namespace Engine
         {
             foreach (Assembly assembly in pluginAssemblies)
             {
-                Type[] exportedTypes = assembly.GetExportedTypes();
-                Type elementPlugin = null;
-                foreach (Type type in exportedTypes)
+                PluginEntryPointAttribute[] attributes = (PluginEntryPointAttribute[])assembly.GetCustomAttributes(typeof(PluginEntryPointAttribute), true);
+                if (attributes.Length > 0)
                 {
-                    if (type.GetInterface(INTERFACE_NAME) != null)
+                    foreach (PluginEntryPointAttribute entryPointAttribute in attributes)
                     {
-                        elementPlugin = type;
-                        break;
+                        entryPointAttribute.createPluginInterfaces(this);
                     }
-                }
-                if (elementPlugin != null && !elementPlugin.IsInterface && !elementPlugin.IsAbstract)
-                {
-                    PluginInterface plugin = (PluginInterface)Activator.CreateInstance(elementPlugin);
-                    addPlugin(plugin);
                 }
                 else
                 {
-                    Log.Default.sendMessage("Cannot find PluginInterface in assembly {0}. Please implement the PluginInterface function in that assembly.", LogLevel.Error, "Plugin", assembly.FullName);
+                    throw new InvalidPluginException(String.Format("Cannot find PluginEntryPointAttribute in assembly {0}. Please add this property to the assembly.", assembly.FullName));
                 }
             }
             if (platformPlugin == null)
@@ -149,6 +141,19 @@ namespace Engine
             {
                 throw new InvalidPluginException("No renderer plugin defined. Please define a renderer plugin.");
             }
+        }
+
+        /// <summary>
+        /// Add a plugin instance to this manager. This should be called inside
+        /// PluginEntryPoint subclasses. Doing it this way allows a dll to load
+        /// multiple plugins.
+        /// </summary>
+        /// <param name="plugin">The plugin to add.</param>
+        public void addPlugin(PluginInterface plugin)
+        {
+            Log.Default.sendMessage("Plugin {0} added.", LogLevel.Info, "Engine", plugin.getName());
+            loadedPlugins.Add(plugin);
+            plugin.initialize(this);
         }
 
         /// <summary>
@@ -425,17 +430,6 @@ namespace Engine
                 }
             }
             return debugInterfaces;
-        }
-
-        /// <summary>
-        /// Helper function to add a plugin.
-        /// </summary>
-        /// <param name="plugin">The plugin to add.</param>
-        private void addPlugin(PluginInterface plugin)
-        {
-            Log.Default.sendMessage("Plugin {0} added.", LogLevel.Info, "Engine", plugin.getName());
-            loadedPlugins.Add(plugin);
-            plugin.initialize(this);
         }
 
         #endregion Functions

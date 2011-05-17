@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Plugin\SoundConfig.cs" />
     <Compile Include="Plugin\SoundManager.cs" />
+    <Compile Include="Plugin\SoundPluginEntryPoint.cs" />
     <Compile Include="Plugin\SoundPluginInterface.cs" />
     <Compile Include="Plugin\SoundUpdateListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

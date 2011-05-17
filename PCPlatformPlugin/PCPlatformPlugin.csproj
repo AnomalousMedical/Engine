@@ -50,6 +50,7 @@
     <Compile Include="Messaging\NullMessagePump.cs" />
     <Compile Include="Messaging\OSMessagePump.cs" />
     <Compile Include="Messaging\WindowsMessagePump.cs" />
+    <Compile Include="Plugin\PCPlatformEntryPoint.cs" />
     <Compile Include="Plugin\PCPlatformPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Timer\PCSystemTimer.cs" />

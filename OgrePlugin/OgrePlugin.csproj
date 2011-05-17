@@ -75,6 +75,7 @@
     <Compile Include="Plugin\OgreConfig.cs" />
     <Compile Include="Plugin\OgreDebugSurface.cs" />
     <Compile Include="Plugin\OgreInterface.cs" />
+    <Compile Include="Plugin\OgrePluginEntryPoint.cs" />
     <Compile Include="Plugin\OgreResourceManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wrapper\Animation\Animation.cs" />

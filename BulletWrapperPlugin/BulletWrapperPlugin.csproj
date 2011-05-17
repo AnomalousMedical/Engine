@@ -69,6 +69,7 @@
     <Compile Include="Instance\ReshapeableRigidBody.cs" />
     <Compile Include="Instance\RigidBodyManager.cs" />
     <Compile Include="Plugin\BulletInterface.cs" />
+    <Compile Include="Plugin\BulletPluginEntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Instance\RigidBody.cs" />
     <Compile Include="ShapeLoading\BulletShapeBuilder.cs" />
