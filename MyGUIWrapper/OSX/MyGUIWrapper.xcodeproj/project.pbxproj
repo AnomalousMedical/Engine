@@ -69,6 +69,7 @@
 		0154F0A413572B1000CA2301 /* libMyGUIEngineStatic.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0154F0A313572B1000CA2301 /* libMyGUIEngineStatic.a */; };
 		0154F0C113572C0500CA2301 /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0154F0C013572C0500CA2301 /* Ogre.framework */; };
 		0154F1F513572DEC00CA2301 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0154F1F413572DEC00CA2301 /* libfreetype.a */; };
+		01E229C2138316A1006D7D48 /* ManagedMyGUILogListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E229C1138316A1006D7D48 /* ManagedMyGUILogListener.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -134,6 +135,7 @@
 		0154F0A313572B1000CA2301 /* libMyGUIEngineStatic.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMyGUIEngineStatic.a; path = ../../../Dependencies/MyGUI/OSXBuild/lib/Release/libMyGUIEngineStatic.a; sourceTree = SOURCE_ROOT; };
 		0154F0C013572C0500CA2301 /* Ogre.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ogre.framework; path = ../../../Dependencies/Ogre/OSXBuild/Build/lib/Release/Ogre.framework; sourceTree = SOURCE_ROOT; };
 		0154F1F413572DEC00CA2301 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetype.a; path = ../../../Dependencies/Ogre/OSXBuild/Dependencies/lib/Release/libfreetype.a; sourceTree = SOURCE_ROOT; };
+		01E229C1138316A1006D7D48 /* ManagedMyGUILogListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManagedMyGUILogListener.cpp; sourceTree = "<group>"; };
 		5073E0C609E734A800EC74B6 /* MyGUIWrapperProj.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = MyGUIWrapperProj.xcconfig; sourceTree = "<group>"; };
 		5073E0C709E734A800EC74B6 /* MyGUIWrapperTarget.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = MyGUIWrapperTarget.xcconfig; sourceTree = "<group>"; };
 		D2AAC09D05546B4700DB518D /* libMyGUIWrapper.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libMyGUIWrapper.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -177,6 +179,7 @@
 		0154F01A13572A3700CA2301 /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				01E229C1138316A1006D7D48 /* ManagedMyGUILogListener.cpp */,
 				0154F01B13572A3700CA2301 /* Button.cpp */,
 				0154F01C13572A3700CA2301 /* ClickEventTranslator.cpp */,
 				0154F01D13572A3700CA2301 /* ComboBox.cpp */,
@@ -394,6 +397,7 @@
 				0154F08A13572A3700CA2301 /* WidgetManager.cpp in Sources */,
 				0154F08B13572A3700CA2301 /* Window.cpp in Sources */,
 				0154F08C13572A3700CA2301 /* Stdafx.cpp in Sources */,
+				01E229C2138316A1006D7D48 /* ManagedMyGUILogListener.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
