@@ -113,6 +113,7 @@
     <ClCompile Include="Src\LayerManager.cpp" />
     <ClCompile Include="Src\Layout.cpp" />
     <ClCompile Include="Src\LayoutManager.cpp" />
+    <ClCompile Include="Src\ManagedMyGUILogListener.cpp" />
     <ClCompile Include="Src\MenuCtrl.cpp" />
     <ClCompile Include="Src\MenuItem.cpp" />
     <ClCompile Include="Src\Message.cpp" />

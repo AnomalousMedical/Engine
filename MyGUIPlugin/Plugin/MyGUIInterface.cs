@@ -25,6 +25,7 @@ namespace MyGUIPlugin
         private UpdateTimer mainTimer;
         private MyGUIUpdate myGUIUpdate;
         private MyGUIRenderListener renderListener;
+        private ManagedMyGUILogListener managedLogListener = new ManagedMyGUILogListener();
 
         public MyGUIInterface()
         {
@@ -66,6 +67,10 @@ namespace MyGUIPlugin
             if(sceneManager != null)
             {
                 Root.getSingleton().destroySceneManager(sceneManager);
+            }
+            if (managedLogListener != null)
+            {
+                managedLogListener.Dispose();
             }
         }
 
