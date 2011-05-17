@@ -18,6 +18,7 @@ namespace MyGUIPlugin
         private float smoothShowPosition;
         private bool runningShowTransition; //True to be making the popup visible, false to be hiding.
         private List<Widget> childPopups = null;
+        private bool resourcesNotLoaded = true;
 
         /// <summary>
         /// This event is called after the popup has been hidden completely.
@@ -30,9 +31,24 @@ namespace MyGUIPlugin
         /// <param name="layoutFile"></param>
         public PopupContainer(String layoutFile)
         {
+            if (resourcesNotLoaded)
+            {
+                loadResources();
+                resourcesNotLoaded = false;
+            }
             layout = LayoutManager.Instance.loadLayout(layoutFile);
             initialize(layout.getWidget(0));
             KeepOpen = false;
+        }
+
+        /// <summary>
+        /// Give a subclass a chance to load resources before the popup loads
+        /// its layout file. Only called by the String constructor and only
+        /// called the first time that constructor is called.
+        /// </summary>
+        protected virtual void loadResources()
+        {
+
         }
 
         public PopupContainer(Widget widget)
