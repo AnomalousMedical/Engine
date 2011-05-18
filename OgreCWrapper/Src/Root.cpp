@@ -171,7 +171,7 @@ extern "C" _AnomalousExport Ogre::RenderWindow* Root_createRenderWindow(Ogre::Ro
 	return root->createRenderWindow(name, width, height, fullScreen);
 }
 
-extern "C" _AnomalousExport Ogre::RenderWindow* Root_createRenderWindowParams(Ogre::Root* root, const char* name, uint width, uint height, bool fullScreen, const char* vsync, const char* aaMode, const char* fsaaHint, const char* externalWindowHandle, const char* monitorIndex)
+extern "C" _AnomalousExport Ogre::RenderWindow* Root_createRenderWindowParams(Ogre::Root* root, const char* name, uint width, uint height, bool fullScreen, const char* vsync, const char* aaMode, const char* fsaaHint, const char* externalWindowHandle, const char* monitorIndex, const char* nvPerfHud)
 {
 	Ogre::NameValuePairList params;
 	params["vsync"] = vsync;
@@ -186,6 +186,10 @@ extern "C" _AnomalousExport Ogre::RenderWindow* Root_createRenderWindowParams(Og
 	if(externalWindowHandle != 0 && externalWindowHandle != Ogre::StringUtil::BLANK)
 	{
 		params["externalWindowHandle"] = externalWindowHandle;
+	}
+	if(nvPerfHud != 0 && nvPerfHud != Ogre::StringUtil::BLANK)
+	{
+		params["useNVPerfHUD"] = nvPerfHud;
 	}
 	params["monitorIndex"] = monitorIndex;
 	#ifdef MAC_OSX

@@ -58,5 +58,17 @@ namespace OgrePlugin
                 ogreSection.setValue("FSAA", value);
             }
         }
+
+        public static bool UseNvPerfHUD
+        {
+            get
+            {
+                return ogreSection.getValue("UseNvPerfHUD", false);
+            }
+            set
+            {
+                ogreSection.setValue("UseNvPerfHUD", value);
+            }
+        }
     }
 }

@@ -121,6 +121,7 @@ namespace OgrePlugin
                 miscParams.Add("FSAA", fsaa);
                 miscParams.Add("vsync", OgreConfig.VSync.ToString());
                 miscParams.Add("monitorIndex", defaultWindowInfo.MonitorIndex.ToString());
+                miscParams.Add("useNVPerfHUD", OgreConfig.UseNvPerfHUD.ToString());
                 if (defaultWindowInfo.AutoCreateWindow)
                 {
                     RenderWindow renderWindow = root.createRenderWindow(defaultWindowInfo.AutoWindowTitle, (uint)defaultWindowInfo.Width, (uint)defaultWindowInfo.Height, defaultWindowInfo.Fullscreen, miscParams);
@@ -219,6 +220,7 @@ namespace OgrePlugin
             miscParams.Add("FSAA", fsaa);
             miscParams.Add("vsync", OgreConfig.VSync.ToString());
             miscParams.Add("monitorIndex", defaultWindowInfo.MonitorIndex.ToString());
+            miscParams.Add("useNVPerfHUD", OgreConfig.UseNvPerfHUD.ToString());
             if (defaultWindowInfo.AutoCreateWindow)
             {
                 RenderWindow renderWindow = root.createRenderWindow(defaultWindowInfo.AutoWindowTitle, (uint)defaultWindowInfo.Width, (uint)defaultWindowInfo.Height, defaultWindowInfo.Fullscreen, miscParams);
@@ -263,6 +265,7 @@ namespace OgrePlugin
             miscParams.Add("FSAA", fsaa);
             miscParams.Add("vsync", OgreConfig.VSync.ToString());
             miscParams.Add("monitorIndex", windowInfo.MonitorIndex.ToString());
+            miscParams.Add("useNVPerfHUD", OgreConfig.UseNvPerfHUD.ToString());
             OSWindow embedWindow = windowInfo.EmbedWindow;
             if (embedWindow != null)
             {

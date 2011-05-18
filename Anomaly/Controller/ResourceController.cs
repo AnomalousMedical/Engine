@@ -30,14 +30,14 @@ namespace Anomaly
         {
             controller.showObjectEditor(secondaryResources.getEditInterface());
 
-            XmlTextWriter resourceWriter = new XmlTextWriter(AnomalyConfig.DocRoot + "/resources.xml", Encoding.Unicode);
-            resourceWriter.Formatting = Formatting.Indented;
-            XmlSaver resourceSaver = new XmlSaver();
-            resourceSaver.saveObject(secondaryResources, resourceWriter);
-            resourceWriter.Close();
+            //XmlTextWriter resourceWriter = new XmlTextWriter(AnomalyConfig.DocRoot + "/resources.xml", Encoding.Unicode);
+            //resourceWriter.Formatting = Formatting.Indented;
+            //XmlSaver resourceSaver = new XmlSaver();
+            //resourceSaver.saveObject(secondaryResources, resourceWriter);
+            //resourceWriter.Close();
 
-            controller.PluginManager.PrimaryResourceManager.changeResourcesToMatch(secondaryResources);
-            controller.PluginManager.PrimaryResourceManager.forceResourceRefresh();
+            //controller.PluginManager.PrimaryResourceManager.changeResourcesToMatch(secondaryResources);
+            //controller.PluginManager.PrimaryResourceManager.forceResourceRefresh();
         }
 
         public void clearResources()

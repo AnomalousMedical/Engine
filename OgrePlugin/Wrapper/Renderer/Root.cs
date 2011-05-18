@@ -213,15 +213,17 @@ namespace OgreWrapper
             String fsaaHint;
             String externalWindowHandle;
             String monitorIndex;
+            String nvPerfHud;
             miscParams.TryGetValue("vsync", out vsync);
             miscParams.TryGetValue("FSAA", out aaMode);
             miscParams.TryGetValue("FSAAHint", out fsaaHint);
             miscParams.TryGetValue("externalWindowHandle", out externalWindowHandle);
+            miscParams.TryGetValue("useNVPerfHUD", out nvPerfHud);
             if(!miscParams.TryGetValue("monitorIndex", out monitorIndex))
             {
                 monitorIndex = "0";
             }
-            return renderTargets.getObject(Root_createRenderWindowParams(ogreRoot, name, width, height, fullScreen, vsync.ToString(), aaMode, fsaaHint, externalWindowHandle, monitorIndex), RenderTargetType.RenderWindow) as RenderWindow;
+            return renderTargets.getObject(Root_createRenderWindowParams(ogreRoot, name, width, height, fullScreen, vsync.ToString(), aaMode, fsaaHint, externalWindowHandle, monitorIndex, nvPerfHud), RenderTargetType.RenderWindow) as RenderWindow;
         }
 
         public void detachRenderTarget(RenderTarget pWin)
@@ -436,7 +438,7 @@ namespace OgreWrapper
         private static extern IntPtr Root_createRenderWindow(IntPtr root, String name, uint width, uint height, bool fullScreen);
 
         [DllImport("OgreCWrapper")]
-        private static extern IntPtr Root_createRenderWindowParams(IntPtr root, String name, uint width, uint height, bool fullScreen, String vsync, String aaMode, String fsaaHint, String externalWindowHandle, String monitorIndex);
+        private static extern IntPtr Root_createRenderWindowParams(IntPtr root, String name, uint width, uint height, bool fullScreen, String vsync, String aaMode, String fsaaHint, String externalWindowHandle, String monitorIndex, String nvPerfHud);
 
         [DllImport("OgreCWrapper")]
         private static extern void Root_detachRenderTarget(IntPtr root, IntPtr pWin);
