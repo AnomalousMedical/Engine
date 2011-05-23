@@ -9,6 +9,7 @@ namespace Engine.Platform
     public class ManagedUpdateTimer : UpdateTimer
     {
         protected UpdateListener systemMessageListener;
+        private Int64 frameStartTime;
 
         public ManagedUpdateTimer(SystemTimer systemTimer, UpdateListener systemMessageListener)
             :base(systemTimer)
@@ -32,7 +33,6 @@ namespace Engine.Platform
 
             Int64 deltaTime;
             Int64 totalTime = 0;
-            Int64 frameStartTime;
             Int64 lastTime = systemTimer.getCurrentTime();
             Int64 totalFrameTime;
 
@@ -71,6 +71,14 @@ namespace Engine.Platform
                 }
             }
             return true;
+        }
+
+        /// <summary>
+        /// Reset the last time to be the current time. Call after a long delay to avoid frame skipping.
+        /// </summary>
+        public override void resetLastTime()
+        {
+            frameStartTime = systemTimer.getCurrentTime();
         }
 
         /// <summary>

@@ -101,6 +101,11 @@ namespace Engine.Platform
         }
 
         /// <summary>
+        /// Reset the last time to be the current time. Call after a long delay to avoid frame skipping.
+        /// </summary>
+        public abstract void resetLastTime();
+
+        /// <summary>
         /// Sets the frequency of the fixed updates in milliseconds. The default is
         /// 1/60 (60Hz).
         /// </summary>
