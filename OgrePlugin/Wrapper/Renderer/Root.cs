@@ -36,6 +36,8 @@ namespace OgreWrapper
         FrameEventCallback frameEnd;
         FrameEvent frameEvent = new FrameEvent();
 
+        OgreLogConnection ogreLog;
+
         public event FrameEventHandler FrameStarted;
         public event FrameEventHandler FrameRenderingQueued;
         public event FrameEventHandler FrameEnded;
@@ -55,6 +57,7 @@ namespace OgreWrapper
         public Root(String pluginFileName, String configFileName, String logFileName)
         {
             ogreRoot = Root_Create(pluginFileName, configFileName, logFileName);
+            ogreLog = new OgreLogConnection();
             cgPlugin = CGPlugin_Create();
             renderSystemPlugin = RenderSystemPlugin_Create();
             frameStart = new FrameEventCallback(frameStartedCallback);

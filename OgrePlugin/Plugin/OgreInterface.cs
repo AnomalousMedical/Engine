@@ -38,7 +38,6 @@ namespace OgrePlugin
         #region Fields
 
         private Root root;
-        OgreLogConnection ogreLog;
         private OgreUpdate ogreUpdate;
         private OgreWindow primaryWindow;
 
@@ -60,7 +59,6 @@ namespace OgrePlugin
             if (instance == null)
             {
                 root = new Root("", "", "");
-                ogreLog = new OgreLogConnection();
                 ogreUpdate = new OgreUpdate(root);
                 instance = this;
             }
