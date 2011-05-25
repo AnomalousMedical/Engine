@@ -167,7 +167,8 @@ namespace MyGUIPlugin
         {
             get
             {
-                return getItemNameAt(SelectedIndex);
+                uint selectedIndex = SelectedIndex;
+                return selectedIndex == uint.MaxValue ? null : getItemNameAt(selectedIndex);
             }
         }
 
@@ -175,7 +176,8 @@ namespace MyGUIPlugin
         {
             get
             {
-                return getItemDataAt(SelectedIndex);
+                uint selectedIndex = SelectedIndex;
+                return selectedIndex == uint.MaxValue ? null : getItemDataAt(selectedIndex);
             }
         }
 
