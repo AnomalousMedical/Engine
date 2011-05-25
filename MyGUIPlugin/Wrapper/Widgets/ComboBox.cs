@@ -163,6 +163,22 @@ namespace MyGUIPlugin
             }
         }
 
+        public String SelectedItemName
+        {
+            get
+            {
+                return getItemNameAt(SelectedIndex);
+            }
+        }
+
+        public Object SelectedItemData
+        {
+            get
+            {
+                return getItemDataAt(SelectedIndex);
+            }
+        }
+
         #region Events
 
         public event MyGUIEvent EventComboAccept
