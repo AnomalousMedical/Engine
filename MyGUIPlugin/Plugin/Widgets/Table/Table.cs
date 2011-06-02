@@ -6,7 +6,7 @@ using Engine;
 
 namespace MyGUIPlugin
 {
-    public class Table
+    public class Table : IDisposable
     {
         public event EventHandler CellValueChanged;
         public event EventHandler<TableCellValidationEventArgs> CellValidating;
@@ -25,6 +25,12 @@ namespace MyGUIPlugin
             Rows.Table = this;
             RowHeight = 20;
             HeaderHeight = 20;
+        }
+
+        public void Dispose()
+        {
+            Rows.Dispose();
+            Columns.Dispose();
         }
 
         public void layout()
