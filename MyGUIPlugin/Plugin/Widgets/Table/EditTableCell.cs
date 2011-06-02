@@ -33,22 +33,28 @@ namespace MyGUIPlugin
         public override void setStaticMode()
         {
             ensureStaticWidgetExists(Table.TableWidget);
-            staticWidget.Visible = true;
-            if (editWidget != null)
+            if (!staticWidget.Visible)
             {
-                editWidget.Visible = false;
+                staticWidget.Visible = true;
+                if (editWidget != null)
+                {
+                    editWidget.Visible = false;
+                }
             }
         }
 
         public override void setEditMode()
         {
             ensureEditWidgetExists(Table.TableWidget);
-            editWidget.Visible = true;
-            if (staticWidget != null)
+            if (!editWidget.Visible)
             {
-                staticWidget.Visible = false;
+                editWidget.Visible = true;
+                if (staticWidget != null)
+                {
+                    staticWidget.Visible = false;
+                }
+                InputManager.Instance.setKeyFocusWidget(editWidget);
             }
-            InputManager.Instance.setKeyFocusWidget(editWidget);
         }
 
         public override TableCell clone()
@@ -80,6 +86,26 @@ namespace MyGUIPlugin
             }
         }
 
+        protected override Object EditValueImpl
+        {
+            get
+            {
+                if (editWidget != null)
+                {
+                    return editWidget.Caption;
+                }
+                else
+                {
+                    return value;
+                }
+            }
+        }
+
+        protected override void commitEditValueToValueImpl()
+        {
+            Value = editWidget.Caption;
+        }
+
         public override object Value
         {
             get
@@ -100,7 +126,7 @@ namespace MyGUIPlugin
                     {
                         staticWidget.Caption = sentValueString;
                     }
-                    fireValueChanged();
+                    fireCellValueChanged();
                 }
             }
         }
@@ -112,6 +138,7 @@ namespace MyGUIPlugin
                 staticWidget = parentWidget.createWidgetT("Button", "Button", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "");
                 staticWidget.MouseButtonClick += new MyGUIEvent(staticWidget_MouseButtonClick);
                 staticWidget.Caption = value;
+                staticWidget.Visible = false;
             }
         }
 
@@ -122,12 +149,13 @@ namespace MyGUIPlugin
                 editWidget = parentWidget.createWidgetT("Edit", "Edit", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "") as Edit;
                 editWidget.KeyLostFocus += new MyGUIEvent(editWidget_KeyLostFocus);
                 editWidget.Caption = value;
+                editWidget.Visible = false;
             }
         }
 
         void editWidget_KeyLostFocus(Widget source, EventArgs e)
         {
-            Value = editWidget.Caption;
+            clearCellEdit();
         }
 
         void staticWidget_MouseButtonClick(Widget source, EventArgs e)

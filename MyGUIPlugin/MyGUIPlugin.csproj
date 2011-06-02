@@ -71,6 +71,7 @@
     <Compile Include="Plugin\Widgets\Table\Table.cs" />
     <Compile Include="Plugin\Widgets\Table\TableCell.cs" />
     <Compile Include="Plugin\Widgets\Table\TableCellCollection.cs" />
+    <Compile Include="Plugin\Widgets\Table\TableCellValidationEventArgs.cs" />
     <Compile Include="Plugin\Widgets\Table\TableColumn.cs" />
     <Compile Include="Plugin\Widgets\Table\TableColumnCollection.cs" />
     <Compile Include="Plugin\Widgets\Table\TableElement.cs" />

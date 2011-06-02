@@ -21,6 +21,23 @@ namespace MyGUIPlugin
 
         protected abstract void positionChanged();
 
+        internal Object EditValue
+        {
+            get
+            {
+                return EditValueImpl;
+            }
+        }
+
+        protected abstract Object EditValueImpl { get; }
+
+        internal void commitEditValueToValue()
+        {
+            commitEditValueToValueImpl();
+        }
+
+        protected abstract void commitEditValueToValueImpl();
+
         public abstract Object Value { get; set; }
 
         public IntSize2 Size
@@ -63,7 +80,7 @@ namespace MyGUIPlugin
             }
         }
 
-        protected void fireValueChanged()
+        protected void fireCellValueChanged()
         {
             Table.fireCellValueChanged(this);
         }

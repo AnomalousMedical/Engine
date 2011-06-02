@@ -9,6 +9,8 @@ namespace MyGUIPlugin
     public class Table
     {
         public event EventHandler CellValueChanged;
+        public event EventHandler<TableCellValidationEventArgs> CellValidating;
+        private TableCellValidationEventArgs validationEventArgs = new TableCellValidationEventArgs();
 
         private Widget tableWidget;
         private TableCell editingCell;
@@ -82,14 +84,34 @@ namespace MyGUIPlugin
         /// <param name="cell"></param>
         internal void requestCellEdit(TableCell cell)
         {
+            bool allowCellChange = true;
+
             if (editingCell != null)
             {
-                editingCell.setStaticMode();
+                validationEventArgs.reset();
+                validationEventArgs.EditValue = editingCell.EditValue;
+                if (CellValidating != null)
+                {
+                    CellValidating.Invoke(editingCell, validationEventArgs);
+                }
+                if (validationEventArgs.Cancel)
+                {
+                    allowCellChange = false;
+                }
+                else
+                {
+                    editingCell.commitEditValueToValue();
+                    editingCell.setStaticMode();
+                }
             }
-            editingCell = cell;
-            if (editingCell != null)
+
+            if (allowCellChange)
             {
-                editingCell.setEditMode();
+                editingCell = cell;
+                if (editingCell != null)
+                {
+                    editingCell.setEditMode();
+                }
             }
         }
 
