@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MyGUIPlugin
 {
-    class EditTableCell : TableCell
+    public class EditTableCell : TableCell
     {
         private Edit editWidget;
         private Widget staticWidget;
