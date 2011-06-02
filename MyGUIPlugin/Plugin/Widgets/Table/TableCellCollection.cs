@@ -26,7 +26,7 @@ namespace MyGUIPlugin
                     cell = columns[i].createCell();
                     add(cell);
                 }
-                cell.setStaticMode(Table.TableWidget);
+                cell.setStaticMode();
             }
         }
     }

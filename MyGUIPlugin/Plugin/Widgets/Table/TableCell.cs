@@ -11,9 +11,9 @@ namespace MyGUIPlugin
         private IntSize2 size;
         private IntVector2 position;
 
-        public abstract void setStaticMode(Widget table);
+        public abstract void setStaticMode();
 
-        public abstract void setDynamicMode(Widget table);
+        public abstract void setEditMode();
 
         public abstract TableCell clone();
 
@@ -53,6 +53,35 @@ namespace MyGUIPlugin
                     positionChanged();
                 }
             }
+        }
+
+        protected Widget TableWidget
+        {
+            get
+            {
+                return Table.TableWidget;
+            }
+        }
+
+        protected void fireValueChanged()
+        {
+            Table.fireCellValueChanged(this);
+        }
+
+        /// <summary>
+        /// Make this cell the cell currently being edited.
+        /// </summary>
+        protected void requestCellEdit()
+        {
+            Table.requestCellEdit(this);
+        }
+
+        /// <summary>
+        /// Make no cells editing.
+        /// </summary>
+        protected void clearCellEdit()
+        {
+            Table.requestCellEdit(null);
         }
     }
 }

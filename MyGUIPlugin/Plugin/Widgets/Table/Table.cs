@@ -8,7 +8,10 @@ namespace MyGUIPlugin
 {
     public class Table
     {
+        public event EventHandler CellValueChanged;
+
         private Widget tableWidget;
+        private TableCell editingCell;
 
         public Table(Widget tableWidget)
         {
@@ -61,11 +64,40 @@ namespace MyGUIPlugin
 
         public TableRowCollection Rows { get; set; }
 
-        public Widget TableWidget
+        /// <summary>
+        /// Internal function to get the widget for this table. Cells can get
+        /// this info through their protected TableWidget property.
+        /// </summary>
+        internal Widget TableWidget
         {
             get
             {
                 return tableWidget;
+            }
+        }
+
+        /// <summary>
+        /// Request that a given cell be put into edit mode.
+        /// </summary>
+        /// <param name="cell"></param>
+        internal void requestCellEdit(TableCell cell)
+        {
+            if (editingCell != null)
+            {
+                editingCell.setStaticMode();
+            }
+            editingCell = cell;
+            if (editingCell != null)
+            {
+                editingCell.setEditMode();
+            }
+        }
+
+        internal void fireCellValueChanged(TableCell cell)
+        {
+            if (CellValueChanged != null)
+            {
+                CellValueChanged.Invoke(cell, EventArgs.Empty);
             }
         }
     }
