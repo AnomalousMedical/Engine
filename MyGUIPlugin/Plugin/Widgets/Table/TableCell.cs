@@ -82,7 +82,10 @@ namespace MyGUIPlugin
 
         protected void fireCellValueChanged()
         {
-            Table.fireCellValueChanged(this);
+            if (Table != null)
+            {
+                Table.fireCellValueChanged(this);
+            }
         }
 
         /// <summary>
@@ -90,7 +93,10 @@ namespace MyGUIPlugin
         /// </summary>
         protected void requestCellEdit()
         {
-            Table.requestCellEdit(this);
+            if (Table != null)
+            {
+                Table.requestCellEdit(this);
+            }
         }
 
         /// <summary>
@@ -98,7 +104,10 @@ namespace MyGUIPlugin
         /// </summary>
         protected void clearCellEdit()
         {
-            Table.requestCellEdit(null);
+            if (Table != null)
+            {
+                Table.requestCellEdit(null);
+            }
         }
     }
 }

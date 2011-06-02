@@ -115,7 +115,7 @@ namespace MyGUIPlugin
             }
             set
             {
-                String sentValueString = value.ToString();
+                String sentValueString = value != null ? value.ToString() : null;
                 if (this.value != sentValueString)
                 {
                     this.value = sentValueString;

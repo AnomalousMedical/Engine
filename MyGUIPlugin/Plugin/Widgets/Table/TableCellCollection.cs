@@ -14,9 +14,10 @@ namespace MyGUIPlugin
             for (int i = 0; i < numColumns; ++i)
             {
                 TableCell cell = null;
-                if (i + 1 < Count)
+                if (i < Count)
                 {
-                    if (this[i] == null)
+                    cell = this[i];
+                    if (cell == null)
                     {
                         this[i] = cell = columns[i].createCell();
                     }
