@@ -58,7 +58,6 @@
     <Compile Include="Plugin\Widgets\ButtonGridItem.cs" />
     <Compile Include="Plugin\Widgets\ButtonGridLayout.cs" />
     <Compile Include="Plugin\Widgets\ButtonGridListLayout.cs" />
-    <Compile Include="Plugin\Widgets\ButtonList.cs" />
     <Compile Include="Plugin\Widgets\CheckButton.cs" />
     <Compile Include="Plugin\Widgets\Component.cs" />
     <Compile Include="Plugin\Widgets\Dialog.cs" />
@@ -68,6 +67,16 @@
     <Compile Include="Plugin\Widgets\NumericEdit.cs" />
     <Compile Include="Plugin\Widgets\PopupContainer.cs" />
     <Compile Include="Plugin\Widgets\ShowMenuButton.cs" />
+    <Compile Include="Plugin\Widgets\Table\EditTableCell.cs" />
+    <Compile Include="Plugin\Widgets\Table\Table.cs" />
+    <Compile Include="Plugin\Widgets\Table\TableCell.cs" />
+    <Compile Include="Plugin\Widgets\Table\TableCellCollection.cs" />
+    <Compile Include="Plugin\Widgets\Table\TableColumn.cs" />
+    <Compile Include="Plugin\Widgets\Table\TableColumnCollection.cs" />
+    <Compile Include="Plugin\Widgets\Table\TableElement.cs" />
+    <Compile Include="Plugin\Widgets\Table\TableElementCollection.cs" />
+    <Compile Include="Plugin\Widgets\Table\TableRow.cs" />
+    <Compile Include="Plugin\Widgets\Table\TableRowCollection.cs" />
     <Compile Include="Plugin\Widgets\Timeline\NumberLineNumber.cs" />
     <Compile Include="Plugin\Widgets\Timeline\TimelineDataPanel.cs" />
     <Compile Include="Plugin\Widgets\Timeline\TimelineDataProperties.cs" />

@@ -176,6 +176,16 @@ namespace Engine
             return new Vector2(v1.x / v2.x, v1.y / v2.y);
         }
 
+        public static bool operator ==(IntVector2 p1, IntVector2 p2)
+        {
+            return p1.x == p2.x && p1.y == p2.y;
+        }
+
+        public static bool operator !=(IntVector2 p1, IntVector2 p2)
+        {
+            return !(p1.x == p2.x && p1.y == p2.y);
+        }
+
         #region Saving
 
         private IntVector2(LoadInfo info)
