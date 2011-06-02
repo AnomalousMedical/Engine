@@ -54,6 +54,7 @@ namespace MyGUIPlugin
                     staticWidget.Visible = false;
                 }
                 InputManager.Instance.setKeyFocusWidget(editWidget);
+                editWidget.setTextSelection(0, (uint)editWidget.Caption.Length);
             }
         }
 
@@ -148,8 +149,18 @@ namespace MyGUIPlugin
             {
                 editWidget = parentWidget.createWidgetT("Edit", "Edit", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "") as Edit;
                 editWidget.KeyLostFocus += new MyGUIEvent(editWidget_KeyLostFocus);
+                editWidget.KeyButtonReleased += new MyGUIEvent(editWidget_KeyButtonReleased);
                 editWidget.Caption = value;
                 editWidget.Visible = false;
+            }
+        }
+
+        void editWidget_KeyButtonReleased(Widget source, EventArgs e)
+        {
+            KeyEventArgs ke = (KeyEventArgs)e;
+            if (ke.Key == Engine.Platform.KeyboardButtonCode.KC_RETURN)
+            {
+                clearCellEdit();
             }
         }
 
