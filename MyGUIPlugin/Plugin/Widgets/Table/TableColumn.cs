@@ -51,7 +51,7 @@ namespace MyGUIPlugin
         {
             if (columnWidget != null)
             {
-                columnWidget.Dispose();
+                Gui.Instance.destroyWidget(columnWidget);
                 columnWidget = null;
             }
         }

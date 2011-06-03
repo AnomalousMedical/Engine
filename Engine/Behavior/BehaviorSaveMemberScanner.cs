@@ -14,7 +14,7 @@ namespace Engine
     /// that are marked DoNotSave or are a field for a class marked DoNotSave.
     /// This filter does not process properties.
     /// </summary>
-    class BehaviorSaveMemberScanner : MemberScannerFilter
+    public class BehaviorSaveMemberScanner : MemberScannerFilter
     {
         private static MemberScanner scanner;
 
