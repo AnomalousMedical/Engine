@@ -12,7 +12,7 @@ namespace MyGUIPlugin
 
         public TableRow()
         {
-            cells = new TableCellCollection();
+            cells = new TableCellCollection(this);
             cells.Table = Table;
         }
 
@@ -26,6 +26,14 @@ namespace MyGUIPlugin
             get
             {
                 return cells;
+            }
+        }
+
+        public int RowIndex
+        {
+            get
+            {
+                return Table.Rows.getItemIndex(this);
             }
         }
 

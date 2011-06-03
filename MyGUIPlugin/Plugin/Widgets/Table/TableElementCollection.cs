@@ -57,6 +57,11 @@ namespace MyGUIPlugin
             items.Clear();
         }
 
+        public int getItemIndex(CollectionType item)
+        {
+            return items.IndexOf(item);
+        }
+
         public int Count
         {
             get

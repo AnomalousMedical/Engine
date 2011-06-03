@@ -62,6 +62,14 @@ namespace MyGUIPlugin
 
         public bool ReadOnly { get; set; }
 
+        public int ColumnIndex
+        {
+            get
+            {
+                return Table.Columns.getItemIndex(this);
+            }
+        }
+
         public IntSize2 Size
         {
             get

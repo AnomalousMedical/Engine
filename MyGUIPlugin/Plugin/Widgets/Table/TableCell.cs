@@ -72,6 +72,24 @@ namespace MyGUIPlugin
             }
         }
 
+        public TableRow Row { get; internal set; }
+
+        public int ColumnIndex
+        {
+            get
+            {
+                return Row.Cells.getItemIndex(this);
+            }
+        }
+
+        public int RowIndex
+        {
+            get
+            {
+                return Row.RowIndex;
+            }
+        }
+
         protected Widget TableWidget
         {
             get
