@@ -33,7 +33,7 @@ namespace MyGUIPlugin
             Columns.Dispose();
         }
 
-        public void layout()
+        public virtual void layout()
         {
             int xPosition = 0;
             int yPosition = 0;
@@ -71,6 +71,27 @@ namespace MyGUIPlugin
         public TableColumnCollection Columns { get; set; }
 
         public TableRowCollection Rows { get; set; }
+
+        public int Width
+        {
+            get
+            {
+                int width = 0;
+                foreach (TableColumn column in Columns)
+                {
+                    width += column.Width;
+                }
+                return width;
+            }
+        }
+
+        public int Height
+        {
+            get
+            {
+                return HeaderHeight + RowHeight * Rows.Count;
+            }
+        }
 
         /// <summary>
         /// Internal function to get the widget for this table. Cells can get

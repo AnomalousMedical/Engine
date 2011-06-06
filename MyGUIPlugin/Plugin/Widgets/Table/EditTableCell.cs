@@ -171,7 +171,10 @@ namespace MyGUIPlugin
 
         void staticWidget_MouseButtonClick(Widget source, EventArgs e)
         {
-            requestCellEdit();
+            if (!Table.Columns[ColumnIndex].ReadOnly)
+            {
+                requestCellEdit();
+            }
         }
     }
 }
