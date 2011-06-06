@@ -57,8 +57,22 @@ namespace Engine.Editing
         /// <returns>A new EditInterface from the scanned info.</returns>
         public static EditInterface createEditInterface(Object target, MemberScanner scanner, String name, Validate validateCallback)
         {
+            return createEditInterface(target, scanner, name, validateCallback, DefaultReflectedEditablePropertyProvider.Instance);
+        }
+
+        /// <summary>
+        /// Create a new EditInterface and add the properties discovered by
+        /// scanner. A new one is created every time this function is called.
+        /// </summary>
+        /// <param name="target">The target object to scan.</param>
+        /// <param name="scanner">The scanner to use.</param>
+        /// <param name="name">The name of the EditInterface.</param>
+        /// <param name="validateCallback">A callback to set for validating.</param>
+        /// <returns>A new EditInterface from the scanned info.</returns>
+        public static EditInterface createEditInterface(Object target, MemberScanner scanner, String name, Validate validateCallback, ReflectedEditablePropertyProvider customPropProvider)
+        {
             EditInterface edit = buildInterface(name, validateCallback);
-            addProperties(scanner, target, target.GetType(), edit);
+            addProperties(scanner, target, target.GetType(), edit, customPropProvider);
             return edit;
         }
 
@@ -74,8 +88,23 @@ namespace Engine.Editing
         /// <returns>A new EditInterface from the scanned info.</returns>
         public static EditInterface createEditInterface(Object target, Type startType, MemberScanner scanner, String name, Validate validateCallback)
         {
+            return createEditInterface(target, startType, scanner, name, validateCallback, DefaultReflectedEditablePropertyProvider.Instance);
+        }
+
+        /// <summary>
+        /// Create a new EditInterface and add the properties discovered by
+        /// scanner. A new one is created every time this function is called.
+        /// </summary>
+        /// <param name="target">The target object to scan.</param>
+        /// <param name="startType">The type to start the scan on. Can be used to specify something higher than the target's type up the hierarchy.</param>
+        /// <param name="scanner">The scanner to use.</param>
+        /// <param name="name">The name of the EditInterface.</param>
+        /// <param name="validateCallback">A callback to set for validating.</param>
+        /// <returns>A new EditInterface from the scanned info.</returns>
+        public static EditInterface createEditInterface(Object target, Type startType, MemberScanner scanner, String name, Validate validateCallback, ReflectedEditablePropertyProvider customPropProvider)
+        {
             EditInterface edit = buildInterface(name, validateCallback);
-            addProperties(scanner, target, startType, edit);
+            addProperties(scanner, target, startType, edit, customPropProvider);
             return edit;
         }
 
@@ -90,7 +119,21 @@ namespace Engine.Editing
         /// <param name="edit">The EditInterface that accepts name/value pair properties to add properties to.</param>
         public static void expandEditInterface(Object target, MemberScanner scanner, EditInterface edit)
         {
-            addProperties(scanner, target, target.GetType(), edit);
+            expandEditInterface(target, scanner, edit, DefaultReflectedEditablePropertyProvider.Instance);
+        }
+
+        /// <summary>
+        /// Add properties to an EditInterface using reflection to discover
+        /// them. It is assumed that the PropertyInfo will be appropriate for
+        /// name value pairs or else you might get errors when the editors
+        /// attempt to edit the object.
+        /// </summary>
+        /// <param name="target">The target object.</param>
+        /// <param name="scanner">The MemberScanner to use.</param>
+        /// <param name="edit">The EditInterface that accepts name/value pair properties to add properties to.</param>
+        public static void expandEditInterface(Object target, MemberScanner scanner, EditInterface edit, ReflectedEditablePropertyProvider customPropProvider)
+        {
+            addProperties(scanner, target, target.GetType(), edit, customPropProvider);
         }
 
         /// <summary>
@@ -103,7 +146,20 @@ namespace Engine.Editing
         /// <param name="edit">The EditInterface that accepts name/value pair properties to add properties to.</param>
         public static void expandEditInterface(Object target, Type startType, MemberScanner scanner, EditInterface edit)
         {
-            addProperties(scanner, target, startType, edit);
+            expandEditInterface(target, startType, scanner, edit, DefaultReflectedEditablePropertyProvider.Instance);
+        }
+
+        /// <summary>
+        /// Add values to an edit interface.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="target">The target object.</param>
+        /// <param name="startType">The type to start the scan on. Can be used to specify something higher than the target's type up the hierarchy.</param>
+        /// <param name="scanner">The MemberScanner to use.</param>
+        /// <param name="edit">The EditInterface that accepts name/value pair properties to add properties to.</param>
+        public static void expandEditInterface(Object target, Type startType, MemberScanner scanner, EditInterface edit, ReflectedEditablePropertyProvider customPropProvider)
+        {
+            addProperties(scanner, target, startType, edit, customPropProvider);
         }
 
         #endregion Functions
@@ -133,26 +189,29 @@ namespace Engine.Editing
         /// <param name="scanner"></param>
         /// <param name="target"></param>
         /// <param name="edit"></param>
-        private static void addProperties(MemberScanner scanner, Object target, Type startType, EditInterface edit)
+        private static void addProperties(MemberScanner scanner, Object target, Type startType, EditInterface edit, ReflectedEditablePropertyProvider customPropProvider)
         {
             LinkedList<MemberWrapper> members = scanner.getMatchingMembers(startType);
             foreach (MemberWrapper memberWrapper in members)
             {
-                if (ReflectedVariable.canCreateVariable(memberWrapper.getWrappedType()))
+                if (!customPropProvider.addProperties(memberWrapper, target, edit))
                 {
-                    edit.addEditableProperty(new ReflectedEditableProperty(memberWrapper.getWrappedName(), ReflectedVariable.createVariable(memberWrapper, target)));
-                }
-                else
-                {
-                    Object subObject = memberWrapper.getValue(target, null);
-                    if (subObject is EditInterfaceOverride)
+                    if (ReflectedVariable.canCreateVariable(memberWrapper.getWrappedType()))
                     {
-                        EditInterfaceOverride custom = (EditInterfaceOverride)subObject;
-                        edit.addSubInterface(custom.getEditInterface(memberWrapper.getWrappedName(), scanner));
+                        edit.addEditableProperty(new ReflectedEditableProperty(memberWrapper.getWrappedName(), ReflectedVariable.createVariable(memberWrapper, target)));
                     }
-                    else if(subObject != null)
+                    else
                     {
-                        edit.addSubInterface(createEditInterface(subObject, scanner, memberWrapper.getWrappedName() + " - " + memberWrapper.getWrappedType(), null));
+                        Object subObject = memberWrapper.getValue(target, null);
+                        if (subObject is EditInterfaceOverride)
+                        {
+                            EditInterfaceOverride custom = (EditInterfaceOverride)subObject;
+                            edit.addSubInterface(custom.getEditInterface(memberWrapper.getWrappedName(), scanner));
+                        }
+                        else if (subObject != null)
+                        {
+                            edit.addSubInterface(createEditInterface(subObject, scanner, memberWrapper.getWrappedName() + " - " + memberWrapper.getWrappedType(), null));
+                        }
                     }
                 }
             }

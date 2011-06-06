@@ -98,6 +98,7 @@
     <Compile Include="Editing\Refleciton\EditableAttributeFilter.cs" />
     <Compile Include="Editing\Refleciton\EditInterfaceOverride.cs" />
     <Compile Include="Editing\Refleciton\ReflectedCollectionEditInterface.cs" />
+    <Compile Include="Editing\Refleciton\ReflectedEditablePropertyProvider.cs" />
     <Compile Include="Editing\Refleciton\ReflectedObjectEditableProperty.cs" />
     <Compile Include="Log\Log.cs" />
     <Compile Include="Log\LogFileListener.cs" />
