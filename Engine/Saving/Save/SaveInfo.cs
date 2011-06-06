@@ -204,7 +204,7 @@ namespace Engine.Saving
             if (objectType.GetInterface(SAVEABLE_TYPE) != null)
             {
                 long objectID = writer.saveObject((Saveable)value);
-                entries.Add(name, new SaveEntry(name, value, value.GetType(), objectID));
+                entries.Add(name, new SaveEntry(name, value, objectType, objectID));
             }
             else
             {
