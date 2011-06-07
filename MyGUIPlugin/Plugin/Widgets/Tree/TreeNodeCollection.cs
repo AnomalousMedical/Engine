@@ -38,6 +38,10 @@ namespace MyGUIPlugin
             {
                 item.createWidget(Tree.Widget);
             }
+            if (items.Count == 1 && parent != null)
+            {
+                parent.alertHasChildrenChanged();
+            }
         }
 
         /// <summary>
@@ -52,6 +56,10 @@ namespace MyGUIPlugin
             if (parent == null || parent.Expanded)
             {
                 item.destroyWidget();
+            }
+            if (items.Count == 0 && parent != null)
+            {
+                parent.alertHasChildrenChanged();
             }
         }
 

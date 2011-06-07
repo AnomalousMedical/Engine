@@ -49,8 +49,11 @@ namespace MyGUIPlugin
 
         public override void updateExpandedStatus(bool expanded)
         {
-            plusMinusButton.StateCheck = !expanded;
-            plusMinusButton.Visible = treeNode.Children.Count > 0;
+            if (plusMinusButton != null)
+            {
+                plusMinusButton.StateCheck = !expanded;
+                plusMinusButton.Visible = treeNode.Children.Count > 0;
+            }
         }
 
         void plusMinusButton_MouseButtonClick(Widget source, EventArgs e)

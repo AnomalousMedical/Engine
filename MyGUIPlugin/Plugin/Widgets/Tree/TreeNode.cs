@@ -57,6 +57,14 @@ namespace MyGUIPlugin
             nodeWidget.setCoord(left, top, width, height);
         }
 
+        /// <summary>
+        /// This will be called by TreeNodeCollection when this node gains its first child or looses its last child.
+        /// </summary>
+        internal void alertHasChildrenChanged()
+        {
+            nodeWidget.updateExpandedStatus(expanded);
+        }
+
         public Tree Tree
         {
             get
