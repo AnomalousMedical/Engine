@@ -34,7 +34,8 @@ namespace MyGUIPlugin
 
         public void Dispose()
         {
-            destroyWidget();
+            nodeWidget.Dispose();
+            children.Dispose();
         }
 
         public void setSelected()

@@ -16,9 +16,14 @@ namespace MyGUIPlugin
 
         }
 
+        public override void Dispose()
+        {
+            destroyWidget();
+        }
+
         public override void createWidget(Widget parent, String caption, String imageResource)
         {
-            //Logging.Log.Debug("Creating widget node for {0}", caption);
+            Logging.Log.Debug("Creating widget node for {0}", caption);
 
             primaryWidget = parent.createWidgetT("Widget", "PanelEmpty", 0, 0, 26, 16, Align.Default, "") as Widget;
 
@@ -39,7 +44,7 @@ namespace MyGUIPlugin
         {
             if (primaryWidget != null)
             {
-                //Logging.Log.Debug("Destroying widget node for {0}", mainButton.Caption);
+                Logging.Log.Debug("Destroying widget node for {0}", mainButton.Caption);
 
                 Gui.Instance.destroyWidget(primaryWidget);
                 primaryWidget = null;

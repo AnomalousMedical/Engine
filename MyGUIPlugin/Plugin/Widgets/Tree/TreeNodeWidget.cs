@@ -5,9 +5,11 @@ using System.Text;
 
 namespace MyGUIPlugin
 {
-    public abstract class TreeNodeWidget
+    public abstract class TreeNodeWidget : IDisposable
     {
         protected TreeNode treeNode;
+
+        public abstract void Dispose();
 
         public abstract void createWidget(Widget parent, String caption, String imageResource);
 
