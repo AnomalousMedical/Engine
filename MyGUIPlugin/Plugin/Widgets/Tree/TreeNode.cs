@@ -32,7 +32,7 @@ namespace MyGUIPlugin
             nodeWidget.setTreeNode(this);
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             nodeWidget.Dispose();
             children.Dispose();
