@@ -31,6 +31,8 @@ namespace MyGUIPlugin
 
             mainButton = primaryWidget.createWidgetT("Button", "TreeIconButton", 17, 0, 10, 16, Align.Stretch, "") as Button;
             mainButton.Caption = caption;
+            mainButton.MouseButtonClick += new MyGUIEvent(mainButton_MouseButtonClick);
+            mainButton.StateCheck = treeNode.Selected;
             StaticImage image = mainButton.StaticImage;
             if (image != null)
             {
@@ -63,9 +65,22 @@ namespace MyGUIPlugin
             }
         }
 
+        public override void updateSelectionStatus(bool selected)
+        {
+            if (mainButton != null)
+            {
+                mainButton.StateCheck = selected;
+            }
+        }
+
         void plusMinusButton_MouseButtonClick(Widget source, EventArgs e)
         {
             fireExpandToggled();
+        }
+
+        void mainButton_MouseButtonClick(Widget source, EventArgs e)
+        {
+            fireNodeSelected();
         }
     }
 }

@@ -8,8 +8,15 @@ namespace MyGUIPlugin
 {
     public class Tree : IDisposable
     {
+        public event EventHandler<TreeCancelEventArgs> BeforeSelect;
+        public event EventHandler<TreeEventArgs> AfterSelect;
+        public event EventHandler<TreeEventArgs> NodeMouseClick;
+        public event EventHandler<TreeEventArgs> NodeMouseDoubleClick;
+
         private TreeNodeCollection rootNodes;
         private ScrollView scrollView;
+        private TreeNode selectedNode = null;
+        private TreeCancelEventArgs eventArgs = new TreeCancelEventArgs();
 
         public Tree(ScrollView scrollView)
         {
@@ -60,6 +67,40 @@ namespace MyGUIPlugin
             get
             {
                 return rootNodes;
+            }
+        }
+
+        public TreeNode SelectedNode
+        {
+            get
+            {
+                return selectedNode;
+            }
+            set
+            {
+                eventArgs.reset();
+                eventArgs.Node = selectedNode;
+                if (BeforeSelect != null)
+                {
+                    BeforeSelect.Invoke(this, eventArgs);
+                }
+                if (!eventArgs.Cancel)
+                {
+                    if (selectedNode != null)
+                    {
+                        selectedNode.alertSelection(false);
+                    }
+                    selectedNode = value;
+                    if (selectedNode != null)
+                    {
+                        selectedNode.alertSelection(true);
+                    }
+                    eventArgs.Node = selectedNode;
+                    if (AfterSelect != null)
+                    {
+                        AfterSelect.Invoke(this, eventArgs);
+                    }
+                }
             }
         }
 

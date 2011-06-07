@@ -19,6 +19,8 @@ namespace MyGUIPlugin
 
         public abstract void updateExpandedStatus(bool expanded);
 
+        public abstract void updateSelectionStatus(bool selected);
+
         internal void setTreeNode(TreeNode node)
         {
             this.treeNode = node;
@@ -37,7 +39,7 @@ namespace MyGUIPlugin
         {
             if (treeNode != null)
             {
-                treeNode.setSelected();
+                treeNode.Tree.SelectedNode = treeNode;
             }
         }
     }

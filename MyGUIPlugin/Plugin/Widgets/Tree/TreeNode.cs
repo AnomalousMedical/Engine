@@ -38,11 +38,6 @@ namespace MyGUIPlugin
             children.Dispose();
         }
 
-        public void setSelected()
-        {
-
-        }
-
         public bool Visible
         {
             get
@@ -52,6 +47,14 @@ namespace MyGUIPlugin
                     return Expanded;
                 }
                 return Parent.Expanded;
+            }
+        }
+
+        public bool Selected
+        {
+            get
+            {
+                return tree.SelectedNode == this;
             }
         }
 
@@ -86,11 +89,22 @@ namespace MyGUIPlugin
         }
 
         /// <summary>
-        /// This will be called by TreeNodeCollection when this node gains its first child or looses its last child.
+        /// This will be called by TreeNodeCollection when this node gains its
+        /// first child or looses its last child.
         /// </summary>
         internal void alertHasChildrenChanged()
         {
             nodeWidget.updateExpandedStatus(expanded);
+        }
+
+        /// <summary>
+        /// This will be called by the tree when it changes the selection status
+        /// of a node.
+        /// </summary>
+        /// <param name="selected">True to be selected.</param>
+        internal void alertSelection(bool selected)
+        {
+            nodeWidget.updateSelectionStatus(selected);
         }
 
         public Tree Tree
@@ -117,6 +131,11 @@ namespace MyGUIPlugin
         }
 
         public String Text { get; set; }
+
+        /// <summary>
+        /// User data for this object. Does not get used by the TreeNode.
+        /// </summary>
+        public Object UserData { get; set; }
 
         public bool Expanded
         {
