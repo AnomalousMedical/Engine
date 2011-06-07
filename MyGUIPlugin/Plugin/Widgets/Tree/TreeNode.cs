@@ -42,14 +42,41 @@ namespace MyGUIPlugin
 
         }
 
+        public bool Visible
+        {
+            get
+            {
+                if (Parent == null)
+                {
+                    return Expanded;
+                }
+                return Parent.Expanded;
+            }
+        }
+
         internal void createWidget(Widget parent)
         {
             nodeWidget.createWidget(parent, Text, null);
+            nodeWidget.updateExpandedStatus(expanded);
+            if (Expanded)
+            {
+                foreach (TreeNode child in children)
+                {
+                    child.createWidget(parent);
+                }
+            }
         }
 
         internal void destroyWidget()
         {
             nodeWidget.destroyWidget();
+            if (Expanded)
+            {
+                foreach (TreeNode child in children)
+                {
+                    child.destroyWidget();
+                }
+            }
         }
 
         internal void setWidgetCoord(int left, int top, int width, int height)
@@ -103,9 +130,12 @@ namespace MyGUIPlugin
                     expanded = value;
                     if (expanded)
                     {
-                        foreach (TreeNode node in children)
+                        if (Visible)
                         {
-                            node.createWidget(Tree.Widget);
+                            foreach (TreeNode node in children)
+                            {
+                                node.createWidget(Tree.Widget);
+                            }
                         }
                     }
                     else
