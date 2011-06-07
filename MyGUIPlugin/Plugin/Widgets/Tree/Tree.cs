@@ -12,11 +12,14 @@ namespace MyGUIPlugin
         public event EventHandler<TreeEventArgs> AfterSelect;
         public event EventHandler<TreeEventArgs> NodeMouseClick;
         public event EventHandler<TreeEventArgs> NodeMouseDoubleClick;
+        public event EventHandler<TreeMouseEventArgs> NodeMousePressed;
+        public event EventHandler<TreeMouseEventArgs> NodeMouseReleased;
 
         private TreeNodeCollection rootNodes;
         private ScrollView scrollView;
         private TreeNode selectedNode = null;
         private TreeCancelEventArgs eventArgs = new TreeCancelEventArgs();
+        private TreeMouseEventArgs mouseEventArgs = new TreeMouseEventArgs();
 
         public Tree(ScrollView scrollView)
         {
@@ -115,6 +118,46 @@ namespace MyGUIPlugin
             get
             {
                 return scrollView;
+            }
+        }
+
+        internal void fireNodeMouseClicked(TreeNode node)
+        {
+            if (NodeMouseClick != null)
+            {
+                eventArgs.reset();
+                eventArgs.Node = node;
+                NodeMouseClick.Invoke(this, eventArgs);
+            }
+        }
+
+        internal void fireNodeMouseDoubleClicked(TreeNode node)
+        {
+            if (NodeMouseDoubleClick != null)
+            {
+                eventArgs.reset();
+                eventArgs.Node = node;
+                NodeMouseDoubleClick.Invoke(this, eventArgs);
+            }
+        }
+
+        internal void fireNodeMousePressed(TreeNode node, MouseEventArgs me)
+        {
+            if (NodeMousePressed != null)
+            {
+                mouseEventArgs.setData(me);
+                mouseEventArgs.Node = node;
+                NodeMousePressed.Invoke(this, mouseEventArgs);
+            }
+        }
+
+        internal void fireNodeMouseReleased(TreeNode node, MouseEventArgs me)
+        {
+            if (NodeMouseReleased != null)
+            {
+                mouseEventArgs.setData(me);
+                mouseEventArgs.Node = node;
+                NodeMouseReleased.Invoke(this, mouseEventArgs);
             }
         }
     }

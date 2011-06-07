@@ -42,5 +42,37 @@ namespace MyGUIPlugin
                 treeNode.Tree.SelectedNode = treeNode;
             }
         }
+
+        protected void fireNodeMouseClicked()
+        {
+            if (treeNode != null)
+            {
+                treeNode.Tree.fireNodeMouseClicked(treeNode);
+            }
+        }
+
+        protected void fireNodeMouseDoubleClicked()
+        {
+            if (treeNode != null)
+            {
+                treeNode.Tree.fireNodeMouseDoubleClicked(treeNode);
+            }
+        }
+
+        internal void fireNodeMousePressed(MouseEventArgs me)
+        {
+            if (treeNode != null)
+            {
+                treeNode.Tree.fireNodeMousePressed(treeNode, me);
+            }
+        }
+
+        internal void fireNodeMouseReleased(MouseEventArgs me)
+        {
+            if (treeNode != null)
+            {
+                treeNode.Tree.fireNodeMouseReleased(treeNode, me);
+            }
+        }
     }
 }

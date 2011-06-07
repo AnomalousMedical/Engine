@@ -32,6 +32,9 @@ namespace MyGUIPlugin
             mainButton = primaryWidget.createWidgetT("Button", "TreeIconButton", 17, 0, 10, 16, Align.Stretch, "") as Button;
             mainButton.Caption = caption;
             mainButton.MouseButtonClick += new MyGUIEvent(mainButton_MouseButtonClick);
+            mainButton.MouseButtonDoubleClick += new MyGUIEvent(mainButton_MouseButtonDoubleClick);
+            mainButton.MouseButtonReleased += new MyGUIEvent(mainButton_MouseButtonReleased);
+            mainButton.MouseButtonPressed += new MyGUIEvent(mainButton_MouseButtonPressed);
             mainButton.StateCheck = treeNode.Selected;
             StaticImage image = mainButton.StaticImage;
             if (image != null)
@@ -81,6 +84,21 @@ namespace MyGUIPlugin
         void mainButton_MouseButtonClick(Widget source, EventArgs e)
         {
             fireNodeSelected();
+        }
+
+        void mainButton_MouseButtonPressed(Widget source, EventArgs e)
+        {
+            fireNodeMousePressed((MouseEventArgs)e);
+        }
+
+        void mainButton_MouseButtonReleased(Widget source, EventArgs e)
+        {
+            fireNodeMouseReleased((MouseEventArgs)e);
+        }
+
+        void mainButton_MouseButtonDoubleClick(Widget source, EventArgs e)
+        {
+            fireNodeMouseDoubleClicked();
         }
     }
 }

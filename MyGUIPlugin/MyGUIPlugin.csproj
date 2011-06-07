@@ -85,6 +85,7 @@
     <Compile Include="Plugin\Widgets\Tree\DefaultTreeNodeWidget.cs" />
     <Compile Include="Plugin\Widgets\Tree\TreeCancelEventArgs.cs" />
     <Compile Include="Plugin\Widgets\Tree\TreeEventArgs.cs" />
+    <Compile Include="Plugin\Widgets\Tree\TreeMouseEventArgs.cs" />
     <Compile Include="Plugin\Widgets\Tree\TreeNodeCollection.cs" />
     <Compile Include="Plugin\Widgets\Tree\Tree.cs" />
     <Compile Include="Plugin\Widgets\Tree\TreeNode.cs" />
