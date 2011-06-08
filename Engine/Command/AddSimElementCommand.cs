@@ -8,14 +8,12 @@ using Engine.ObjectManagement;
 namespace Engine.Command
 {
     /// <summary>
-    /// This delegate will create a SimElementDefinition. If for some reason
-    /// there is an error or the definition was not otherwise created these
-    /// functions can return null, which means no definition was created.
+    /// Callback to create and add a SimElement to a CompositeSimObject.
     /// </summary>
     /// <param name="name">The name of the SimElement.</param>
     /// <param name="callback">A callback for further user input.</param>
-    /// <returns>A new SimElementDefinition or null if the definition is not to be created.</returns>
-    public delegate SimElementDefinition CreateSimElement(String name, EditUICallback callback);
+    /// <param name="simObjectDefinition">The SimObjectDefinition to add the SimElement to.</param>
+    public delegate void CreateSimElement(String name, EditUICallback callback, CompositeSimObjectDefinition simObjectDefinition);
 
     public class AddSimElementCommand
     {
@@ -40,9 +38,9 @@ namespace Engine.Command
         /// returned.
         /// </summary>
         /// <param name="callback">A callback the functions can use to ask the user for additional input.</param>
-        public SimElementDefinition execute(String name, EditUICallback callback)
+        public void execute(String name, EditUICallback callback, CompositeSimObjectDefinition simObjectDefinition)
         {
-            return function.Invoke(name, callback);
+            function.Invoke(name, callback, simObjectDefinition);
         }
 
         /// <summary>

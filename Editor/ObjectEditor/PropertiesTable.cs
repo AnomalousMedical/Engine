@@ -466,11 +466,15 @@ namespace Editor
             addProperty(property);
         }
 
-        public bool showBrowser(Browser browser, out object result)
+        public void showBrowser(Browser browser, SendResult<Object> sendResult)
         {
+            browserWindow.setBrowser(browser);
             DialogResult accept = browserWindow.ShowDialog(this.FindForm());
-            result = browserWindow.SelectedValue;
-            return accept == DialogResult.OK;
+            if (accept == DialogResult.OK)
+            {
+                String error = null;
+                sendResult(browserWindow.SelectedValue, ref error);
+            }
         }
 
         #endregion

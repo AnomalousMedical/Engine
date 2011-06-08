@@ -44,9 +44,9 @@ namespace BulletPlugin
             base.getInfo(info);
         }
 
-        internal static ReshapeableRigidBodyDefinition CreateReshapeable(String name, EditUICallback uiCallback)
+        internal static void CreateReshapeable(String name, EditUICallback uiCallback, CompositeSimObjectDefinition simObjectDef)
         {
-            return new ReshapeableRigidBodyDefinition(name);
+            simObjectDef.addElement(new ReshapeableRigidBodyDefinition(name));
         }
     }
 }

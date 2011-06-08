@@ -128,6 +128,7 @@
     <Compile Include="MemberCopier\IDictionaryMemberCopier.cs" />
     <Compile Include="MemberCopier\MemberCopier.cs" />
     <Compile Include="MemberCopier\SimpleMemberCopier.cs" />
+    <Compile Include="ObjectManagement\Definition\CompositeSimObjectDefinition.cs" />
     <Compile Include="ObjectManagement\Definition\GenericSimObjectDefinition.cs" />
     <Compile Include="ObjectManagement\Definition\ScenePackage.cs" />
     <Compile Include="ObjectManagement\Definition\SimElementManagerDefinition.cs" />

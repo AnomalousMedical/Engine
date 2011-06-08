@@ -9,7 +9,7 @@ using Engine.Reflection;
 
 namespace Engine.ObjectManagement
 {
-    public class GenericSimObjectDefinition : SimObjectDefinition
+    public class GenericSimObjectDefinition : SimObjectDefinition, CompositeSimObjectDefinition
     {
         #region Static
 
@@ -163,11 +163,7 @@ namespace Engine.ObjectManagement
                     }
                 }
 
-                SimElementDefinition elementDefinition = createCommands[command].execute(result, callback);
-                if (elementDefinition != null)
-                {
-                    this.addElement(elementDefinition);
-                }
+                createCommands[command].execute(result, callback, this);
 
                 return true;
             });

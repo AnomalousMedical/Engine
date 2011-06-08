@@ -73,9 +73,9 @@ namespace BulletPlugin
             }
         }
 
-        internal static Generic6DofConstraintDefinition Create(String name, EditUICallback callback)
+        internal static void Create(String name, EditUICallback callback, CompositeSimObjectDefinition simObjectDef)
         {
-            return new Generic6DofConstraintDefinition(name);
+            simObjectDef.addElement(new Generic6DofConstraintDefinition(name));
         }
 
         protected Generic6DofConstraintDefinition(LoadInfo info)

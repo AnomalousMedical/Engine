@@ -69,9 +69,9 @@ namespace BulletPlugin
             
         }
 
-        internal static SimElementDefinition Create(String name, EditUICallback callback)
+        internal static void Create(String name, EditUICallback callback, CompositeSimObjectDefinition simElementDef)
         {
-            return new RigidBodyDefinition(name);
+            simElementDef.addElement(new RigidBodyDefinition(name));
         }
 
         #region Properties

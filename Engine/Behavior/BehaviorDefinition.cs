@@ -25,20 +25,22 @@ namespace Engine
         /// <param name="name">The name of the Definition to create.</param>
         /// <param name="callback">A UICallback.</param>
         /// <returns></returns>
-        internal static BehaviorDefinition Create(String name, EditUICallback callback)
+        internal static void Create(String name, EditUICallback callback, CompositeSimObjectDefinition simObjectDef)
         {
             if (behaviorBrowser == null)
             {
                 behaviorBrowser = new BehaviorBrowser();
             }
-            Object objResult;
-            bool result = callback.showBrowser(behaviorBrowser, out objResult);
-            Type behaviorType = objResult as Type;
-            if (result && behaviorType != null)
+            callback.showBrowser(behaviorBrowser, delegate(Object result, ref String errorMessage)
             {
-                return new BehaviorDefinition(name, (Behavior)Activator.CreateInstance(behaviorType));
-            }
-            return null;
+                Type behaviorType = result as Type;
+                if (behaviorType != null)
+                {
+                    simObjectDef.addElement(new BehaviorDefinition(name, (Behavior)Activator.CreateInstance(behaviorType)));
+                    return true;
+                }
+                return false;
+            });
         }
 
         #endregion Static
