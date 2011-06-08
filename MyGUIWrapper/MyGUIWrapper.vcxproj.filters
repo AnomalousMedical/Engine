@@ -189,6 +189,12 @@
     <ClCompile Include="Src\ManagedMyGUILogListener.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Src\EventMenuCtrlAcceptTranslator.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\EventMenuCtrlCloseTranslator.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">

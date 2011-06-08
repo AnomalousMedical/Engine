@@ -94,6 +94,9 @@
     <Compile Include="Wrapper\Delegates.cs" />
     <Compile Include="Wrapper\Events\Edit\EventEditSelectAcceptTranslator.cs" />
     <Compile Include="Wrapper\Events\Edit\EventEditTextChangeTranslator.cs" />
+    <Compile Include="Wrapper\Events\MenuCtrl\EventMenuCtrlAcceptTranslator.cs" />
+    <Compile Include="Wrapper\Events\MenuCtrl\EventMenuCtrlCloseTranslator.cs" />
+    <Compile Include="Wrapper\Events\MenuCtrl\MenuCtrlAcceptEventArgs.cs" />
     <Compile Include="Wrapper\Events\Message\EventMessageBoxResultTranslator.cs" />
     <Compile Include="Wrapper\Events\MultiList\EventListChangePositionTranslator.cs" />
     <Compile Include="Wrapper\Events\MultiList\EventListSelectAcceptTranslator.cs" />

@@ -105,6 +105,8 @@
     <ClCompile Include="Src\Button.cpp" />
     <ClCompile Include="Src\ComboBox.cpp" />
     <ClCompile Include="Src\Edit.cpp" />
+    <ClCompile Include="Src\EventMenuCtrlAcceptTranslator.cpp" />
+    <ClCompile Include="Src\EventMenuCtrlCloseTranslator.cpp" />
     <ClCompile Include="Src\FontManager.cpp" />
     <ClCompile Include="Src\Gui.cpp" />
     <ClCompile Include="Src\InputManager.cpp" />

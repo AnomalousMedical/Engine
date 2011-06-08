@@ -236,6 +236,30 @@ namespace MyGUIPlugin
             }
         }
 
+        public event MyGUIEvent ItemAccept
+        {
+            add
+            {
+                eventManager.addDelegate<EventMenuCtrlAcceptTranslator>(value);
+            }
+            remove
+            {
+                eventManager.removeDelegate<EventMenuCtrlAcceptTranslator>(value);
+            }
+        }
+
+        public event MyGUIEvent Closed
+        {
+            add
+            {
+                eventManager.addDelegate<EventMenuCtrlCloseTranslator>(value);
+            }
+            remove
+            {
+                eventManager.removeDelegate<EventMenuCtrlCloseTranslator>(value);
+            }
+        }
+
 #region PInvoke
 
         [DllImport("MyGUIWrapper")]
