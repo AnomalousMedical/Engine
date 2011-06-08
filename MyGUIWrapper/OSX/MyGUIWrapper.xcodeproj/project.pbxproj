@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		014A7C1B139FC977007EE3DC /* EventMenuCtrlAcceptTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 014A7C19139FC977007EE3DC /* EventMenuCtrlAcceptTranslator.cpp */; };
+		014A7C1C139FC977007EE3DC /* EventMenuCtrlCloseTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 014A7C1A139FC977007EE3DC /* EventMenuCtrlCloseTranslator.cpp */; };
 		0154F05413572A3700CA2301 /* MyGUIEventTranslator.h in Headers */ = {isa = PBXBuildFile; fileRef = 0154F01913572A3700CA2301 /* MyGUIEventTranslator.h */; };
 		0154F05513572A3700CA2301 /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F01B13572A3700CA2301 /* Button.cpp */; };
 		0154F05613572A3700CA2301 /* ClickEventTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F01C13572A3700CA2301 /* ClickEventTranslator.cpp */; };
@@ -73,6 +75,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		014A7C19139FC977007EE3DC /* EventMenuCtrlAcceptTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMenuCtrlAcceptTranslator.cpp; sourceTree = "<group>"; };
+		014A7C1A139FC977007EE3DC /* EventMenuCtrlCloseTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMenuCtrlCloseTranslator.cpp; sourceTree = "<group>"; };
 		0154F01913572A3700CA2301 /* MyGUIEventTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyGUIEventTranslator.h; sourceTree = "<group>"; };
 		0154F01B13572A3700CA2301 /* Button.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Button.cpp; sourceTree = "<group>"; };
 		0154F01C13572A3700CA2301 /* ClickEventTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClickEventTranslator.cpp; sourceTree = "<group>"; };
@@ -179,6 +183,8 @@
 		0154F01A13572A3700CA2301 /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				014A7C19139FC977007EE3DC /* EventMenuCtrlAcceptTranslator.cpp */,
+				014A7C1A139FC977007EE3DC /* EventMenuCtrlCloseTranslator.cpp */,
 				01E229C1138316A1006D7D48 /* ManagedMyGUILogListener.cpp */,
 				0154F01B13572A3700CA2301 /* Button.cpp */,
 				0154F01C13572A3700CA2301 /* ClickEventTranslator.cpp */,
@@ -398,6 +404,8 @@
 				0154F08B13572A3700CA2301 /* Window.cpp in Sources */,
 				0154F08C13572A3700CA2301 /* Stdafx.cpp in Sources */,
 				01E229C2138316A1006D7D48 /* ManagedMyGUILogListener.cpp in Sources */,
+				014A7C1B139FC977007EE3DC /* EventMenuCtrlAcceptTranslator.cpp in Sources */,
+				014A7C1C139FC977007EE3DC /* EventMenuCtrlCloseTranslator.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
