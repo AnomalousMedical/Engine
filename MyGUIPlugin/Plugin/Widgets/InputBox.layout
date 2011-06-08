@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<MyGUI type="Layout">
+    <Widget type="Window" skin="WindowCX" position="148 95 477 106" layer="Back">
+        <Widget type="Button" skin="Button" position="5 62 80 22" align="Left Bottom" name="Ok">
+            <Property key="Widget_Caption" value="Ok"/>
+        </Widget>
+        <Widget type="Button" skin="Button" position="87 62 80 22" align="Left Bottom" name="Cancel">
+            <Property key="Widget_Caption" value="Cancel"/>
+        </Widget>
+        <Widget type="StaticText" skin="StaticText" position="2 3 473 36" align="Stretch" name="Prompt"/>
+        <Widget type="Edit" skin="Edit" position="2 41 473 19" align="HStretch Bottom" name="Input"/>
+    </Widget>
+</MyGUI>
