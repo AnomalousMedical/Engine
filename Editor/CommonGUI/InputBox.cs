@@ -10,6 +10,8 @@ namespace Editor
 {
     public partial class InputBox : Form
     {
+        public delegate bool Validate(String input, out String newPrompt);
+
         public InputBox(String title, String message, String text)
         {
             InitializeComponent();
@@ -34,7 +36,7 @@ namespace Editor
 
         }
 
-        public static InputResult GetInput(String title, String message, IWin32Window parent, ValidateUIInput validate)
+        public static InputResult GetInput(String title, String message, IWin32Window parent, Validate validate)
         {
             InputResult result = GetInput(title, message, parent, "");
             if (validate != null)

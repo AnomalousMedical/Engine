@@ -5,7 +5,6 @@ using System.Text;
 
 namespace Engine.Editing
 {
-    public delegate bool ValidateUIInput(String input, out String newPrompt);
     public delegate bool SendResult<ResultType>(ResultType result, ref String errorPrompt);
 
     /// <summary>
