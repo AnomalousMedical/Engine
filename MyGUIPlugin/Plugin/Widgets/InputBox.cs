@@ -46,6 +46,17 @@ namespace MyGUIPlugin
             Accepted = false;
         }
 
+        protected override void onShown(EventArgs args)
+        {
+            base.onShown(args);
+            InputManager.Instance.setKeyFocusWidget(input);
+        }
+
+        public void selectAllText()
+        {
+            input.setTextSelection(0, uint.MaxValue);
+        }
+
         public String Text
         {
             get
@@ -114,6 +125,7 @@ namespace MyGUIPlugin
             if (inputBox.Accepted && !inputBox.SendResult(inputBox.Text, ref errorPrompt))
             {
                 inputBox.Message = errorPrompt;
+                inputBox.selectAllText();
                 e.Cancel = true;
             }
         }
