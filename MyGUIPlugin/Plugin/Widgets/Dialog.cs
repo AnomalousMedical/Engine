@@ -23,7 +23,7 @@ namespace MyGUIPlugin
         /// <summary>
         /// Called when the dialog is closing, but is still open.
         /// </summary>
-        public event EventHandler Closing;
+        public event EventHandler<DialogCancelEventArgs> Closing;
 
         /// <summary>
         /// Called when the dialog is closed.
@@ -108,7 +108,7 @@ namespace MyGUIPlugin
                     }
                     else
                     {
-                        CancelEventArgs cancelEvent = new CancelEventArgs();
+                        DialogCancelEventArgs cancelEvent = new DialogCancelEventArgs();
                         onClosing(cancelEvent);
                         if (!cancelEvent.Cancel)
                         {
@@ -293,11 +293,11 @@ namespace MyGUIPlugin
             }
         }
 
-        protected virtual void onClosing(CancelEventArgs args)
+        protected virtual void onClosing(DialogCancelEventArgs args)
         {
             if (Closing != null)
             {
-                Closing.Invoke(this, EventArgs.Empty);
+                Closing.Invoke(this, args);
             }
         }
 
@@ -305,7 +305,7 @@ namespace MyGUIPlugin
         {
             if (Closed != null)
             {
-                Closed.Invoke(this, EventArgs.Empty);
+                Closed.Invoke(this, args);
             }
         }
 

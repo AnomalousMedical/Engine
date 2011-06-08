@@ -14,6 +14,7 @@ namespace MyGUIPlugin
         private StaticText prompt;
         private SendResult<String> SendResult;
         private Size2 deltaSize;
+        private int minimumWidth;
 
         public InputBox(String title, String message, String text)
             :this(title, message, text, "MyGUIPlugin.Plugin.Widgets.InputBox.layout")
@@ -30,6 +31,7 @@ namespace MyGUIPlugin
 
             prompt = window.findWidget("Prompt") as StaticText;
             //Figure out the size difference of the prompt and window
+            minimumWidth = window.Width;
             deltaSize = new Size2(window.Width - prompt.Width, window.Height - prompt.Height);
             Message = message;
 
@@ -63,6 +65,10 @@ namespace MyGUIPlugin
                 prompt.Caption = value;
                 Size2 textSize = prompt.getTextSize();
                 textSize += deltaSize;
+                if(textSize.Width < minimumWidth)
+                {
+                    textSize.Width = minimumWidth;
+                }
                 window.setSize((int)textSize.Width, (int)textSize.Height);
             }
         }
@@ -96,22 +102,26 @@ namespace MyGUIPlugin
         {
             InputBox inputBox = new InputBox(title, message, "");
             inputBox.SendResult = sendResult;
+            inputBox.Closing += new EventHandler<DialogCancelEventArgs>(inputBox_Closing);
             inputBox.Closed += new EventHandler(inputBox_Closed);
+            inputBox.open(modal);
         }
 
-        private static void inputBox_Closed(object sender, EventArgs e)
+        static void inputBox_Closing(object sender, DialogCancelEventArgs e)
         {
             InputBox inputBox = (InputBox)sender;
             String errorPrompt = null;
             if (inputBox.Accepted && !inputBox.SendResult(inputBox.Text, ref errorPrompt))
             {
                 inputBox.Message = errorPrompt;
-                inputBox.open(inputBox.Modal);
+                e.Cancel = true;
             }
-            else
-            {
-                inputBox.Dispose();
-            }
+        }
+
+        private static void inputBox_Closed(object sender, EventArgs e)
+        {
+            InputBox inputBox = (InputBox)sender;
+            inputBox.Dispose();
         }
     }
 }
