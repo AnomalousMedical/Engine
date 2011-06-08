@@ -402,16 +402,14 @@ namespace Editor
         /// </summary>
         /// <param name="filename">The filename chosen by the file browser.</param>
         /// <returns>True if the user entered input, false if they canceled it.</returns>
-        public bool showOpenFileDialog(String filterString, out String filename)
+        public void showOpenFileDialog(String filterString, SendResult<String> resultCallback)
         {
             openDialog.Filter = filterString;
             if (openDialog.ShowDialog(this) == DialogResult.OK)
             {
-                filename = openDialog.FileName;
-                return true;
+                String errorMessage = null;
+                resultCallback(openDialog.FileName, ref errorMessage);
             }
-            filename = null;
-            return false;
         }
 
         /// <summary>
@@ -419,16 +417,14 @@ namespace Editor
         /// </summary>
         /// <param name="filename">The filename chosen by the file browser.</param>
         /// <returns>True if the user entered input, false if they canceled it.</returns>
-        public bool showSaveFileDialog(String filterString, out String filename)
+        public void showSaveFileDialog(String filterString, SendResult<String> resultCallback)
         {
             saveDialog.Filter = filterString;
             if (saveDialog.ShowDialog(this) == DialogResult.OK)
             {
-                filename = saveDialog.FileName;
-                return true;
+                String errorMessage = null;
+                resultCallback(saveDialog.FileName, ref errorMessage);
             }
-            filename = null;
-            return false;
         }
 
         /// <summary>
@@ -436,15 +432,13 @@ namespace Editor
         /// </summary>
         /// <param name="folderName">The folder chosen by the folder browser.</param>
         /// <returns>True if the user entered input, false if they canceled it.</returns>
-        public bool showFolderBrowserDialog(out String folderName)
+        public void showFolderBrowserDialog(SendResult<String> resultCallback)
         {
             if (folderBrowser.ShowDialog(this) == DialogResult.OK)
             {
-                folderName = folderBrowser.SelectedPath;
-                return true;
+                String errorMessage = null;
+                resultCallback(folderBrowser.SelectedPath, ref errorMessage);
             }
-            folderName = null;
-            return false;
         }
 
         /// <summary>

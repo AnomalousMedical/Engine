@@ -284,7 +284,6 @@ namespace Anomaly
                 editInterface.addCommand(new EditInterfaceCommand("Show All", showAllCallback));
                 editInterface.addCommand(new EditInterfaceCommand("Hide All", hideAllCallback));
                 editInterface.addCommand(new EditInterfaceCommand("Import Positions", importPositionsCallback));
-                editInterface.addCommand(new EditInterfaceCommand("Import legacy templates", importTemplates));
                 editInterface.IconReferenceTag = EditorIcons.Folder;
                 GenericClipboardEntry clipboardEntry = new GenericClipboardEntry(typeof(InstanceGroup));
                 clipboardEntry.PasteFunction = pasteCallback;
@@ -444,9 +443,7 @@ namespace Anomaly
 
         private void importPositionsCallback(EditUICallback callback, EditInterfaceCommand command)
         {
-            String file;
-            bool accept = callback.showOpenFileDialog("*.positions|*.positions", out file);
-            if (accept)
+            callback.showOpenFileDialog("*.positions|*.positions", delegate(String file, ref String errorPrompt)
             {
                 PositionCollection positions = new PositionCollection();
                 try
@@ -457,21 +454,12 @@ namespace Anomaly
                     }
                     this.updatePositions(positions);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     Log.Error("Could not load positions file {0} because:\n{1}", file, e.Message);
                 }
-            }
-        }
-
-        private void importTemplates(EditUICallback callback, EditInterfaceCommand command)
-        {
-            String folder;
-            bool accept = callback.showFolderBrowserDialog(out folder);
-            if (accept)
-            {
-                doImportTemplates(folder);
-            }
+                return true;
+            });
         }
 
         private void doImportTemplates(String directory)
