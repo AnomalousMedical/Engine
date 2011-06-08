@@ -361,28 +361,22 @@ namespace Engine.Resources
         /// <param name="caller"></param>
         private void addResourceGroup(EditUICallback callback, EditInterfaceCommand caller)
         {
-            String name;
-            bool accept = callback.getInputString("Enter a name for the group.", out name, validateSimSubSceneCreate);
-            if (accept)
+            bool accept = callback.getInputString("Enter a name for the group.", delegate(String input, ref String errorPrompt)
             {
-                this.addResourceGroup(name);
-            }
-        }
+                if (input == null || input == "")
+                {
+                    errorPrompt = "Please enter a non empty name.";
+                    return false;
+                }
+                if (resourceGroups.ContainsKey(input))
+                {
+                    errorPrompt = "That name is already in use. Please provide another.";
+                    return false;
+                }
 
-        private bool validateSimSubSceneCreate(String input, out String errorPrompt)
-        {
-            if (input == null || input == "")
-            {
-                errorPrompt = "Please enter a non empty name.";
-                return false;
-            }
-            if (resourceGroups.ContainsKey(input))
-            {
-                errorPrompt = "That name is already in use. Please provide another.";
-                return false;
-            }
-            errorPrompt = "";
-            return true;
+                this.addResourceGroup(input);
+                return true;
+            });
         }
 
         #endregion EditInterface

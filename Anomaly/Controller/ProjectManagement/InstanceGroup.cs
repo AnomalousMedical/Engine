@@ -335,29 +335,23 @@ namespace Anomaly
 
         private void createGroupCallback(EditUICallback callback, EditInterfaceCommand command)
         {
-            String name;
-            bool accept = callback.getInputString("Enter a name.", out name, validateGroupCreate);
-            if (accept)
+            bool accept = callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
             {
-                InstanceGroup group = new InstanceGroup(name, Path.Combine(path, name));
-                this.addGroup(group);
-            }
-        }
+                if (input == null || input == "")
+                {
+                    errorPrompt = "Please enter a non empty name.";
+                    return false;
+                }
+                if (this.groups.ContainsKey(input))
+                {
+                    errorPrompt = "That name is already in use. Please provide another.";
+                    return false;
+                }
 
-        private bool validateGroupCreate(String input, out String errorPrompt)
-        {
-            if (input == null || input == "")
-            {
-                errorPrompt = "Please enter a non empty name.";
-                return false;
-            }
-            if (this.groups.ContainsKey(input))
-            {
-                errorPrompt = "That name is already in use. Please provide another.";
-                return false;
-            }
-            errorPrompt = "";
-            return true;
+                InstanceGroup group = new InstanceGroup(input, Path.Combine(path, input));
+                this.addGroup(group);
+                return true;
+            });
         }
 
         private void destroyGroupCallback(EditUICallback callback, EditInterfaceCommand command)
@@ -386,30 +380,24 @@ namespace Anomaly
 
         private void createSimObjectCallback(EditUICallback callback, EditInterfaceCommand command)
         {
-            String name;
-            bool accept = callback.getInputString("Enter a name.", out name, validateSimObjectCreate);
-            if (accept)
+            callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
             {
-                SimObjectDefinition simObject = new GenericSimObjectDefinition(name);
-                createInstance(simObject);
-            }
-        }
+                if (input == null || input == "")
+                {
+                    errorPrompt = "Please enter a non empty name.";
+                    return false;
+                }
+                InstanceGroup groupWithInstance = findInstanceGroup(input);
+                if (groupWithInstance != null)
+                {
+                    errorPrompt = String.Format("The name {0} is already in use in group {1}. Please provide another.", input, groupWithInstance.Name);
+                    return false;
+                }
 
-        private bool validateSimObjectCreate(String input, out String errorPrompt)
-        {
-            if (input == null || input == "")
-            {
-                errorPrompt = "Please enter a non empty name.";
-                return false;
-            }
-            InstanceGroup groupWithInstance = findInstanceGroup(input);
-            if (groupWithInstance != null)
-            {
-                errorPrompt = String.Format("The name {0} is already in use in group {1}. Please provide another.", input, groupWithInstance.Name);
-                return false;
-            }
-            errorPrompt = "";
-            return true;
+                SimObjectDefinition simObject = new GenericSimObjectDefinition(input);
+                createInstance(simObject);
+                return true;
+            });
         }
 
         private void destroySimObjectCallback(EditUICallback callback, EditInterfaceCommand command)
@@ -424,33 +412,27 @@ namespace Anomaly
 
         private void renameSimObjectCallback(EditUICallback callback, EditInterfaceCommand command)
         {
-            String name;
-            bool accept = callback.getInputString("Enter a name.", out name, validateDuplicateSimObject);
-            if (accept)
+            callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
             {
+                if (input == null || input == "")
+                {
+                    errorPrompt = "Please enter a non empty name.";
+                    return false;
+                }
+                if (this.instanceFiles.ContainsKey(input))
+                {
+                    errorPrompt = "That name is already in use. Please provide another.";
+                    return false;
+                }
+                
                 InstanceFileInterface instanceFile = callback.getSelectedEditInterface().getEditableProperties().First() as InstanceFileInterface;
                 SimObjectDefinition sourceObject = instanceFile.Instance.Definition;
                 SimObjectDefinition simObject = copySaver.copyObject(sourceObject) as SimObjectDefinition;
-                simObject.Name = name;
+                simObject.Name = input;
                 createInstance(simObject);
                 removeInstanceFile(instanceFile.Name);
-            }
-        }
-
-        private bool validateDuplicateSimObject(String input, out String errorPrompt)
-        {
-            if (input == null || input == "")
-            {
-                errorPrompt = "Please enter a non empty name.";
-                return false;
-            }
-            if (this.instanceFiles.ContainsKey(input))
-            {
-                errorPrompt = "That name is already in use. Please provide another.";
-                return false;
-            }
-            errorPrompt = "";
-            return true;
+                return true;
+            });
         }
 
         private void createInstance(SimObjectDefinition simObject)

@@ -6,6 +6,7 @@ using System.Text;
 namespace Engine.Editing
 {
     public delegate bool ValidateUIInput(String input, out String newPrompt);
+    public delegate bool SendResult<ResultType>(ResultType result, ref String errorPrompt);
 
     /// <summary>
     /// This interface allows an EditInterface command to request information
@@ -24,7 +25,7 @@ namespace Engine.Editing
         /// <param name="prompt">The propmpt to show the user.</param>
         /// <param name="result">The result of the user input.</param>
         /// <returns>True if the user entered input, false if they canceled it.</returns>
-        bool getInputString(String prompt, out String result, ValidateUIInput validate);
+        bool getInputString(String prompt, SendResult<String> resultCallback);
 
         /// <summary>
         /// Call back to the UI to get a result from a displayed browser. This

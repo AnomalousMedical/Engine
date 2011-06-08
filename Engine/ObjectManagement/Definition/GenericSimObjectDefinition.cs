@@ -147,35 +147,30 @@ namespace Engine.ObjectManagement
         /// <param name="command"></param>
         private void createSimElementDefinition(EditUICallback callback, EditInterfaceCommand command)
         {
-            String name;
-            bool accept = callback.getInputString("Enter a name.", out name, validateSimElementDefinitionCreate);
-            if (accept)
+            bool accept = callback.getInputString("Enter a name.", delegate(String result, ref String errorPrompt)
             {
-                SimElementDefinition definition = createCommands[command].execute(name, callback);
-                if (definition != null)
+                if (result == null || result == "")
                 {
-                    this.addElement(definition);
-                }
-            }
-        }
-
-        private bool validateSimElementDefinitionCreate(String input, out String errorPrompt)
-        {
-            if (input == null || input == "")
-            {
-                errorPrompt = "Please enter a non empty name.";
-                return false;
-            }
-            foreach (SimElementDefinition definition in definitions)
-            {
-                if (definition.Name == input)
-                {
-                    errorPrompt = "That name is already in use. Please provide another.";
+                    errorPrompt = "Please enter a non empty name.";
                     return false;
                 }
-            }
-            errorPrompt = "";
-            return true;
+                foreach (SimElementDefinition definition in definitions)
+                {
+                    if (definition.Name == result)
+                    {
+                        errorPrompt = "That name is already in use. Please provide another.";
+                        return false;
+                    }
+                }
+
+                SimElementDefinition elementDefinition = createCommands[command].execute(result, callback);
+                if (elementDefinition != null)
+                {
+                    this.addElement(elementDefinition);
+                }
+
+                return true;
+            });
         }
 
         /// <summary>

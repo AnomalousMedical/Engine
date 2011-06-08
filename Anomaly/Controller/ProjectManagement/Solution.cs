@@ -264,29 +264,23 @@ namespace Anomaly
 
         private void createProjectCallback(EditUICallback callback, EditInterfaceCommand command)
         {
-            String name;
-            bool accept = callback.getInputString("Enter a name.", out name, validateProjectCreate);
-            if (accept)
+            bool accept = callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
             {
-                Project project = new Project(this, name, Path.Combine(workingDirectory, name));
-                addProject(project);
-            }
-        }
+                if (input == null || input == "")
+                {
+                    errorPrompt = "Please enter a non empty name.";
+                    return false;
+                }
+                if (this.projects.ContainsKey(input))
+                {
+                    errorPrompt = "That name is already in use. Please provide another.";
+                    return false;
+                }
 
-        private bool validateProjectCreate(String input, out String errorPrompt)
-        {
-            if (input == null || input == "")
-            {
-                errorPrompt = "Please enter a non empty name.";
-                return false;
-            }
-            if (this.projects.ContainsKey(input))
-            {
-                errorPrompt = "That name is already in use. Please provide another.";
-                return false;
-            }
-            errorPrompt = "";
-            return true;
+                Project project = new Project(this, input, Path.Combine(workingDirectory, input));
+                addProject(project);
+                return true;
+            });
         }
 
         private void destroyProjectCallback(EditUICallback callback, EditInterfaceCommand command)

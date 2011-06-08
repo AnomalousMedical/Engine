@@ -241,20 +241,7 @@ namespace OgrePlugin
             childNodeEdits.addSubInterface(child, edit);
         }
 
-        /// <summary>
-        /// Helper function to get a name for a Moveable object being added to a
-        /// scene node. This will return true if the user entered a valid name.
-        /// </summary>
-        /// <param name="callback">The callback to use.</param>
-        /// <param name="name">This will contain the name the user entered last.</param>
-        /// <returns>True if the user entered a valid name.</returns>
-        private bool getMovableName(EditUICallback callback, out String name)
-        {
-            bool accept = callback.getInputString("Enter a name.", out name, validateMovableCreate);
-            return accept;
-        }
-
-        private bool validateMovableCreate(String input, out String errorPrompt)
+        private bool validateMovableName(String input, ref String errorPrompt)
         {
             if (input == null || input == "")
             {
@@ -266,37 +253,6 @@ namespace OgrePlugin
                 errorPrompt = "That name is already in use. Please provide another.";
                 return false;
             }
-            errorPrompt = "";
-            return true;
-        }
-
-        /// <summary>
-        /// Helper function to get a name for a SceneNode child being added to a
-        /// scene node. This will return true if the user entered a valid name.
-        /// </summary>
-        /// <param name="callback">The callback to use.</param>
-        /// <param name="name">This will contain the name the user entered last.</param>
-        /// <returns>True if the user entered a valid name.</returns>
-        private bool getChildNodeName(EditUICallback callback, out String name)
-        {
-            bool accept = callback.getInputString("Enter a name.", out name, validateChildNodeCreate);
-            return accept;
-        }
-
-        private bool validateChildNodeCreate(String input, out String errorPrompt)
-        {
-            if (input == null || input == "")
-            {
-                errorPrompt = "Please enter a non empty name.";
-                return false;
-            }
-            SceneNodeDefinition topLevel = findTopLevelNode();
-            if (input == topLevel.Name || topLevel.isNodeNameTaken(input))
-            {
-                errorPrompt = "That name is already in use. Please provide another.";
-                return false;
-            }
-            errorPrompt = "";
             return true;
         }
 
@@ -378,12 +334,16 @@ namespace OgrePlugin
         /// <param name="callback"></param>
         /// <param name="command"></param>
         private void addEntity(EditUICallback callback, EditInterfaceCommand command)
-        {         
-            String name;
-            if (getMovableName(callback, out name))
+        {
+            bool accept = callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
             {
-                addMovableObjectDefinition(new EntityDefinition(name));
-            }
+                if (validateMovableName(input, ref errorPrompt))
+                {
+                    addMovableObjectDefinition(new EntityDefinition(input));
+                    return true;
+                }
+                return false;
+            });
         }
 
         /// <summary>
@@ -393,11 +353,15 @@ namespace OgrePlugin
         /// <param name="command"></param>
         private void addCamera(EditUICallback callback, EditInterfaceCommand command)
         {
-            String name;
-            if (getMovableName(callback, out name))
+            bool accept = callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
             {
-                addMovableObjectDefinition(new CameraDefinition(name));
-            }
+                if (validateMovableName(input, ref errorPrompt))
+                {
+                    addMovableObjectDefinition(new CameraDefinition(input));
+                    return true;
+                }
+                return false;
+            });
         }
 
         /// <summary>
@@ -407,11 +371,15 @@ namespace OgrePlugin
         /// <param name="command"></param>
         private void addManualObject(EditUICallback callback, EditInterfaceCommand command)
         {
-            String name;
-            if (getMovableName(callback, out name))
+            bool accept = callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
             {
-                addMovableObjectDefinition(new ManualObjectDefinition(name));
-            }
+                if (validateMovableName(input, ref errorPrompt))
+                {
+                    addMovableObjectDefinition(new ManualObjectDefinition(input));
+                    return true;
+                }
+                return false;
+            });
         }
 
         /// <summary>
@@ -421,11 +389,15 @@ namespace OgrePlugin
         /// <param name="command"></param>
         private void addLight(EditUICallback callback, EditInterfaceCommand command)
         {
-            String name;
-            if (getMovableName(callback, out name))
+            bool accept = callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
             {
-                addMovableObjectDefinition(new LightDefinition(name));
-            }
+                if (validateMovableName(input, ref errorPrompt))
+                {
+                    addMovableObjectDefinition(new LightDefinition(input));
+                    return true;
+                }
+                return false;
+            });
         }
 
         /// <summary>
@@ -445,11 +417,23 @@ namespace OgrePlugin
         /// <param name="command"></param>
         private void addChildNode(EditUICallback callback, EditInterfaceCommand command)
         {
-            String name;
-            if (getChildNodeName(callback, out name))
+            bool accept = callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
             {
-                addChildNode(new SceneNodeDefinition(name));
-            }
+                if (input == null || input == "")
+                {
+                    errorPrompt = "Please enter a non empty name.";
+                    return false;
+                }
+                SceneNodeDefinition topLevel = findTopLevelNode();
+                if (input == topLevel.Name || topLevel.isNodeNameTaken(input))
+                {
+                    errorPrompt = "That name is already in use. Please provide another.";
+                    return false;
+                }
+
+                addChildNode(new SceneNodeDefinition(input));
+                return true;
+            });
         }
 
         /// <summary>

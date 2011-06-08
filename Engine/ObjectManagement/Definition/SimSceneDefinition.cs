@@ -250,29 +250,24 @@ namespace Engine.ObjectManagement
         /// <param name="caller">The command that initiated this funciton call.</param>
         private void createSimElementManagerDefinition(EditUICallback callback, EditInterfaceCommand caller)
         {
-            String name;
-            bool accept = callback.getInputString("Enter a name.", out name, validateSimElementManagerCreate);
-            if (accept)
+            bool accept = callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
             {
-                SimElementManagerDefinition def = createSimElementManagerDefs[caller].execute(name, callback);
-                this.addSimElementManagerDefinition(def);
-            }
-        }
+                if (input == null || input == "")
+                {
+                    errorPrompt = "Please enter a non empty name.";
+                    return false;
+                }
+                if (this.hasSimElementManagerDefinition(input))
+                {
+                    errorPrompt = "That name is already in use. Please provide another.";
+                    return false;
+                }
 
-        private bool validateSimElementManagerCreate(String input, out String errorPrompt)
-        {
-            if (input == null || input == "")
-            {
-                errorPrompt = "Please enter a non empty name.";
-                return false;
-            }
-            if (this.hasSimElementManagerDefinition(input))
-            {
-                errorPrompt = "That name is already in use. Please provide another.";
-                return false;
-            }
-            errorPrompt = "";
-            return true;
+                SimElementManagerDefinition def = createSimElementManagerDefs[caller].execute(input, callback);
+                this.addSimElementManagerDefinition(def);
+
+                return true;
+            });
         }
 
         /// <summary>
@@ -293,29 +288,23 @@ namespace Engine.ObjectManagement
         /// <param name="caller">The command that initiated this funciton call.</param>
         private void createSimSubSceneDefinition(EditUICallback callback, EditInterfaceCommand caller)
         {
-            String name;
-            bool accept = callback.getInputString("Enter a name.", out name, validateSimSubSceneCreate);
-            if (accept)
+            bool accept = callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
             {
-                SimSubSceneDefinition def = new SimSubSceneDefinition(name);
-                this.addSimSubSceneDefinition(def);
-            }
-        }
+                if (input == null || input == "")
+                {
+                    errorPrompt = "Please enter a non empty name.";
+                    return false;
+                }
+                if (this.hasSimSubSceneDefinition(input))
+                {
+                    errorPrompt = "That name is already in use. Please provide another.";
+                    return false;
+                }
 
-        private bool validateSimSubSceneCreate(String input, out String errorPrompt)
-        {
-            if (input == null || input == "")
-            {
-                errorPrompt = "Please enter a non empty name.";
-                return false;
-            }
-            if (this.hasSimSubSceneDefinition(input))
-            {
-                errorPrompt = "That name is already in use. Please provide another.";
-                return false;
-            }
-            errorPrompt = "";
-            return true;
+                SimSubSceneDefinition def = new SimSubSceneDefinition(input);
+                this.addSimSubSceneDefinition(def);
+                return true;
+            });
         }
 
         /// <summary>
