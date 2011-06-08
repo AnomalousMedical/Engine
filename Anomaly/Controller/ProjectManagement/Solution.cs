@@ -264,7 +264,7 @@ namespace Anomaly
 
         private void createProjectCallback(EditUICallback callback, EditInterfaceCommand command)
         {
-            bool accept = callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
+            callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
             {
                 if (input == null || input == "")
                 {

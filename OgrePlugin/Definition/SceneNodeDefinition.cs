@@ -335,7 +335,7 @@ namespace OgrePlugin
         /// <param name="command"></param>
         private void addEntity(EditUICallback callback, EditInterfaceCommand command)
         {
-            bool accept = callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
+            callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
             {
                 if (validateMovableName(input, ref errorPrompt))
                 {
@@ -353,7 +353,7 @@ namespace OgrePlugin
         /// <param name="command"></param>
         private void addCamera(EditUICallback callback, EditInterfaceCommand command)
         {
-            bool accept = callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
+            callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
             {
                 if (validateMovableName(input, ref errorPrompt))
                 {
@@ -371,7 +371,7 @@ namespace OgrePlugin
         /// <param name="command"></param>
         private void addManualObject(EditUICallback callback, EditInterfaceCommand command)
         {
-            bool accept = callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
+            callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
             {
                 if (validateMovableName(input, ref errorPrompt))
                 {
@@ -389,7 +389,7 @@ namespace OgrePlugin
         /// <param name="command"></param>
         private void addLight(EditUICallback callback, EditInterfaceCommand command)
         {
-            bool accept = callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
+            callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
             {
                 if (validateMovableName(input, ref errorPrompt))
                 {
@@ -417,7 +417,7 @@ namespace OgrePlugin
         /// <param name="command"></param>
         private void addChildNode(EditUICallback callback, EditInterfaceCommand command)
         {
-            bool accept = callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
+            callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
             {
                 if (input == null || input == "")
                 {

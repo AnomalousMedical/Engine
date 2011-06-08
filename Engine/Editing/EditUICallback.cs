@@ -25,7 +25,7 @@ namespace Engine.Editing
         /// <param name="prompt">The propmpt to show the user.</param>
         /// <param name="result">The result of the user input.</param>
         /// <returns>True if the user entered input, false if they canceled it.</returns>
-        bool getInputString(String prompt, SendResult<String> resultCallback);
+        void getInputString(String prompt, SendResult<String> resultCallback);
 
         /// <summary>
         /// Call back to the UI to get a result from a displayed browser. This

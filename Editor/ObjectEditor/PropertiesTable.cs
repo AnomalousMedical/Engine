@@ -388,14 +388,13 @@ namespace Editor
         /// <param name="prompt">The propmpt to show the user.</param>
         /// <param name="result">The result of the user input.</param>
         /// <returns>True if the user entered input, false if they canceled it.</returns>
-        public bool getInputString(string prompt, SendResult<String> sendResult)
+        public void getInputString(string prompt, SendResult<String> sendResult)
         {
             InputResult inRes = InputBox.GetInput("Input value", prompt, propGridView.FindForm(), delegate(String input, out String newPrompt)
             {
                 newPrompt = "";
                 return sendResult.Invoke(input, ref newPrompt);
             });
-            return inRes.ok;
         }
 
         /// <summary>

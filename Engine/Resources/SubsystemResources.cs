@@ -361,7 +361,7 @@ namespace Engine.Resources
         /// <param name="caller"></param>
         private void addResourceGroup(EditUICallback callback, EditInterfaceCommand caller)
         {
-            bool accept = callback.getInputString("Enter a name for the group.", delegate(String input, ref String errorPrompt)
+            callback.getInputString("Enter a name for the group.", delegate(String input, ref String errorPrompt)
             {
                 if (input == null || input == "")
                 {

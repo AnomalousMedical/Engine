@@ -147,7 +147,7 @@ namespace Engine.ObjectManagement
         /// <param name="command"></param>
         private void createSimElementDefinition(EditUICallback callback, EditInterfaceCommand command)
         {
-            bool accept = callback.getInputString("Enter a name.", delegate(String result, ref String errorPrompt)
+            callback.getInputString("Enter a name.", delegate(String result, ref String errorPrompt)
             {
                 if (result == null || result == "")
                 {
