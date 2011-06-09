@@ -99,6 +99,11 @@ namespace Engine
             return !(p1.Width == p2.Width && p1.Height == p2.Height);
         }
 
+        public static implicit operator Size2(IntSize2 size)
+        {
+            return new Size2(size.Width, size.Height);
+        }
+
         #region Saving
 
         private Size2(LoadInfo info)

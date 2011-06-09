@@ -30,6 +30,11 @@ namespace MyGUIPlugin
         /// </summary>
         public event EventHandler Closed;
 
+        /// <summary>
+        /// Called when the dialog moves or is resized.
+        /// </summary>
+        public event EventHandler ChangedCoord;
+
         public Dialog(String layoutFile)
             :this(layoutFile, "")
         {
@@ -261,6 +266,19 @@ namespace MyGUIPlugin
             }
         }
 
+        public IntSize2 Size
+        {
+            get
+            {
+                return new IntSize2(window.Width, window.Height);
+            }
+            set
+            {
+                window.setSize(value.Width, value.Height);
+                updateDesiredLocation();
+            }
+        }
+
         public int Width
         {
             get
@@ -317,6 +335,10 @@ namespace MyGUIPlugin
         void window_WindowChangedCoord(Widget source, EventArgs e)
         {
             updateDesiredLocation();
+            if (ChangedCoord != null)
+            {
+                ChangedCoord.Invoke(this, e);
+            }
         }
 
         private void updateDesiredLocation()

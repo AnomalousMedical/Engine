@@ -84,6 +84,11 @@ namespace Engine
             return !(p1.Width == p2.Width && p1.Height == p2.Height);
         }
 
+        public static explicit operator IntSize2(Size2 size)
+        {
+            return new IntSize2((int)size.Width, (int)size.Height);
+        }
+
         #region Saving
 
         private IntSize2(LoadInfo info)
