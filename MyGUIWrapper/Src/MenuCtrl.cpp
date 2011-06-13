@@ -175,6 +175,16 @@ extern "C" _AnomalousExport MyGUI::MenuCtrl* MenuCtrl_createItemChild(MyGUI::Men
 	return menuCtrl->createItemChild(item);
 }
 
+extern "C" _AnomalousExport MyGUI::PopupMenu* MenuCtrl_createItemPopupMenuChildAt(MyGUI::MenuCtrl* menuCtrl, size_t index)
+{
+	return menuCtrl->createItemChildTAt<MyGUI::PopupMenu>(index);
+}
+
+extern "C" _AnomalousExport MyGUI::PopupMenu* MenuCtrl_createItemPopupMenuChild(MyGUI::MenuCtrl* menuCtrl, MyGUI::MenuItem* item)
+{
+	return menuCtrl->createItemChildT<MyGUI::PopupMenu>(item);
+}
+
 extern "C" _AnomalousExport void MenuCtrl_removeItemChildAt(MyGUI::MenuCtrl* menuCtrl, size_t index)
 {
 	menuCtrl->removeItemChildAt(index);

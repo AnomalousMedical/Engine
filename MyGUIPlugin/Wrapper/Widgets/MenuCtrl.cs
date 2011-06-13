@@ -189,6 +189,16 @@ namespace MyGUIPlugin
             return (MenuCtrl)WidgetManager.getWidget(MenuCtrl_createItemChild(widget, item.WidgetPtr));
         }
 
+        public PopupMenu createItemPopupMenuChild(MenuItem item)
+        {
+            return (PopupMenu)WidgetManager.getWidget(MenuCtrl_createItemPopupMenuChild(widget, item.WidgetPtr));
+        }
+
+        public PopupMenu createItemPopupMenuChild(uint index)
+        {
+            return (PopupMenu)WidgetManager.getWidget(MenuCtrl_createItemPopupMenuChildAt(widget, new UIntPtr(index)));
+        }
+
         public void removeItemChildAt(uint index)
         {
             MenuCtrl_removeItemChildAt(widget, new UIntPtr(index));
@@ -366,6 +376,12 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper")]
         private static extern IntPtr MenuCtrl_createItemChild(IntPtr menuCtrl, IntPtr item);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern IntPtr MenuCtrl_createItemPopupMenuChildAt(IntPtr menuCtrl, UIntPtr index);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern IntPtr MenuCtrl_createItemPopupMenuChild(IntPtr menuCtrl, IntPtr item);
 
         [DllImport("MyGUIWrapper")]
         private static extern void MenuCtrl_removeItemChildAt(IntPtr menuCtrl, UIntPtr index);
