@@ -442,6 +442,17 @@ namespace Editor
         }
 
         /// <summary>
+        /// This method allows the interface to run a custom query on the
+        /// UICallback. This can do anything and is not defined here.
+        /// </summary>
+        /// <param name="queryKey">The key for the query to run.</param>
+        /// <param name="resultCallback">The callback with the results.</param>
+        public void runCustomQuery(Object queryKey, SendResult<Object> resultCallback, params Object[] args)
+        {
+
+        }
+
+        /// <summary>
         /// Get the EditInterface that is currently selected on the UI.
         /// </summary>
         /// <returns>The EditInterface that is currently selected.</returns>
