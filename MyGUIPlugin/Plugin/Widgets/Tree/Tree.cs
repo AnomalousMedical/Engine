@@ -50,6 +50,17 @@ namespace MyGUIPlugin
             }
         }
 
+        public void expandAll()
+        {
+            this.SuppressLayout = true;
+            foreach (TreeNode node in rootNodes)
+            {
+                node.expandAll();
+            }
+            this.SuppressLayout = false;
+            this.layout();
+        }
+
         private void layoutNode(TreeNode node, int currentIndent, int currentWidth, ref int currentY)
         {
             node.setWidgetCoord(currentIndent, currentY, currentWidth, NodeHeight);

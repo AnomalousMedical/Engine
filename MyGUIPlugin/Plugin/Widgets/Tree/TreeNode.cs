@@ -170,5 +170,14 @@ namespace MyGUIPlugin
                 }
             }
         }
+
+        internal void expandAll()
+        {
+            Expanded = true;
+            foreach (TreeNode node in children)
+            {
+                node.expandAll();
+            }
+        }
     }
 }
