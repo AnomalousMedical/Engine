@@ -104,7 +104,7 @@ namespace MyGUIPlugin
 
         protected override void commitEditValueToValueImpl()
         {
-            Value = editWidget.Caption;
+            Value = editWidget.OnlyText;
         }
 
         public override object Value
