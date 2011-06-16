@@ -287,6 +287,41 @@ namespace MyGUIPlugin
         }
 
         /// <summary>
+        /// Have the window compute its position to ensure it is visible in the given screen area.
+        /// </summary>
+        public void ensureVisible()
+        {
+            //Adjust the position if needed
+            int left = AbsoluteLeft;
+            int top = AbsoluteTop;
+            int right = left + Width;
+            int bottom = top + Height;
+
+            int guiWidth = Gui.Instance.getViewWidth();
+            int guiHeight = Gui.Instance.getViewHeight();
+
+            if (right > guiWidth)
+            {
+                left -= right - guiWidth;
+                if (left < 0)
+                {
+                    left = 0;
+                }
+            }
+
+            if (bottom > guiHeight)
+            {
+                top -= bottom - guiHeight;
+                if (top < 0)
+                {
+                    top = 0;
+                }
+            }
+
+            setPosition(left, top);
+        }
+
+        /// <summary>
         /// Create a widget.
         /// </summary>
         /// <param name="type">Widget type.</param>
