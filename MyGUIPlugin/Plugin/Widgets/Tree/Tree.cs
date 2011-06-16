@@ -124,6 +124,18 @@ namespace MyGUIPlugin
 
         public bool SuppressLayout { get; set; }
 
+        public bool Enabled
+        {
+            get
+            {
+                return scrollView.Enabled;
+            }
+            set
+            {
+                scrollView.Enabled = value;
+            }
+        }
+
         internal ScrollView Widget
         {
             get

@@ -93,6 +93,18 @@ namespace MyGUIPlugin
             }
         }
 
+        public bool Enabled
+        {
+            get
+            {
+                return tableWidget.Enabled;
+            }
+            set
+            {
+                tableWidget.Enabled = value;
+            }
+        }
+
         /// <summary>
         /// Internal function to get the widget for this table. Cells can get
         /// this info through their protected TableWidget property.
