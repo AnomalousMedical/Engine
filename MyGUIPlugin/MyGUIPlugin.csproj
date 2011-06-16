@@ -69,6 +69,7 @@
     <Compile Include="Plugin\Widgets\NumericEdit.cs" />
     <Compile Include="Plugin\Widgets\PopupContainer.cs" />
     <Compile Include="Plugin\Widgets\ShowMenuButton.cs" />
+    <Compile Include="Plugin\Widgets\Table\CheckTableCell.cs" />
     <Compile Include="Plugin\Widgets\Table\EditTableCell.cs" />
     <Compile Include="Plugin\Widgets\Table\ResizingTable.cs" />
     <Compile Include="Plugin\Widgets\Table\Table.cs" />
