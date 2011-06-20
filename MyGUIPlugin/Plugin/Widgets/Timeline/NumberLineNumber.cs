@@ -17,7 +17,9 @@ namespace MyGUIPlugin
         {
             this.text = text;
             text.MouseButtonClick += new MyGUIEvent(text_MouseButtonClick);
+            text.NeedKeyFocus = false;
             this.hashMark = hashMark;
+            hashMark.NeedKeyFocus = false;
             this.numberLine = numberLine;
         }
 
