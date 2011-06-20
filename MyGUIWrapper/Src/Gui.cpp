@@ -65,6 +65,11 @@ extern "C" _AnomalousExport bool Gui_injectKeyRelease(MyGUI::Gui* gui, MyGUI::Ke
 	return gui->injectKeyRelease(key);
 }
 
+extern "C" _AnomalousExport void Gui_injectFrameEntered(MyGUI::Gui* gui, float time)
+{
+	return gui->_injectFrameEntered(time);
+}
+
 extern "C" _AnomalousExport void Gui_destroyWidget(MyGUI::Gui* gui, MyGUI::Widget* widget)
 {
 	gui->destroyWidget(widget);

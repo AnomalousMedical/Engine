@@ -34,6 +34,7 @@ namespace MyGUIPlugin
         {
             float time = clock.fSeconds;
             gui.fireUpdateEvent(time);
+            gui.injectFrameEntered(clock.fSeconds);
         }
 
         void mouse_Moved(Mouse mouse, MouseButtonCode buttonCode)

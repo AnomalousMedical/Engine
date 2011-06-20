@@ -139,6 +139,11 @@ namespace MyGUIPlugin
             return Gui_injectKeyRelease(gui, key);
         }
 
+        public void injectFrameEntered(float time)
+        {
+            Gui_injectFrameEntered(gui, time);
+        }
+
         public void destroyWidget(Widget widget)
         {
             Gui_destroyWidget(gui, WidgetManager.deleteWrapperAndChildren(widget));
@@ -228,6 +233,9 @@ namespace MyGUIPlugin
         [DllImport("MyGUIWrapper")]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Gui_injectKeyRelease(IntPtr gui, KeyboardButtonCode key);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern void Gui_injectFrameEntered(IntPtr gui, float time);
 
         [DllImport("MyGUIWrapper")]
         private static extern void Gui_destroyWidget(IntPtr gui, IntPtr widget);
