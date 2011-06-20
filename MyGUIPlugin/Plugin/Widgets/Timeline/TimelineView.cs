@@ -30,6 +30,8 @@ namespace MyGUIPlugin
         public event TimelineTrackEvent TrackRemoved;
         public event EventHandler PixelsPerSecondChanged;
         public event EventHandler DurationChanged;
+        public event EventHandler<KeyEventArgs> KeyPressed;
+        public event EventHandler<KeyEventArgs> KeyReleased;
         public event CanvasSizeChanged CanvasWidthChanged
         {
             add
@@ -370,6 +372,10 @@ namespace MyGUIPlugin
             {
                 timelineScrollView.AllowMouseScroll = true;
             }
+            if (KeyReleased != null)
+            {
+                KeyReleased.Invoke(this, ke);
+            }
         }
 
         void scrollView_KeyButtonPressed(Widget source, EventArgs e)
@@ -378,6 +384,10 @@ namespace MyGUIPlugin
             if (ke.Key == Engine.Platform.KeyboardButtonCode.KC_LCONTROL)
             {
                 timelineScrollView.AllowMouseScroll = false;
+            }
+            if (KeyPressed != null)
+            {
+                KeyPressed.Invoke(this, ke);
             }
         }
 
