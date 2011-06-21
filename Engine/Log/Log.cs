@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using System.Diagnostics;
 
 namespace Logging
 {
@@ -259,6 +260,24 @@ namespace Logging
         public static void ImportantInfo(String message, params object[] args)
         {
             defaultLog.sendMessage(String.Format(message, args), LogLevel.ImportantInfo, Assembly.GetCallingAssembly().GetName().Name);
+        }
+
+        /// <summary>
+        /// Print a stack trace out to debug.
+        /// </summary>
+        public static void PrintStackTrace()
+        {
+            StackTrace stackTrace = new StackTrace(1, true);
+            StringBuilder sb = new StringBuilder(512);
+            sb.AppendLine("Stack Trace");
+            sb.AppendLine("----------------------");
+            foreach (StackFrame frame in stackTrace.GetFrames())
+            {
+                MethodBase method = frame.GetMethod();
+                sb.AppendLine(String.Format("{0}::{1}", method.ReflectedType != null ? method.ReflectedType.Name : string.Empty, method.Name));
+            }
+            sb.Append("----------------------");
+            Log.Debug(sb.ToString());
         }
     }
 }
