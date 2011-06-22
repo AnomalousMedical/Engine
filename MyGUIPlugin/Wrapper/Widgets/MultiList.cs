@@ -222,6 +222,19 @@ namespace MyGUIPlugin
             return rowData[(int)index];
         }
 
+        public uint findItemWithData(Object data)
+        {
+            uint index = 0;
+            foreach (Object obj in rowData)
+            {
+                if (obj == data)
+                {
+                    return index;
+                }
+                ++index;
+            }
+            return uint.MaxValue;
+        }
 
         //------------------------------------------------------------------------------//
         // Methods for work with sub lines
