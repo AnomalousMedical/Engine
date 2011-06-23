@@ -24,6 +24,8 @@ namespace MyGUIPlugin
         private float duration = float.MaxValue;
         private bool enabled = true;
 
+        public event EventHandler<CancelEventArgs> ActiveDataChanging;
+        private CancelEventArgs cancelEventArgs = new CancelEventArgs();
         public event EventHandler ActiveDataChanged;
         public event TimelineTrackEvent TrackPositionChanged;
         public event TimelineTrackEvent TrackAdded;
@@ -476,20 +478,28 @@ namespace MyGUIPlugin
             }
             set
             {
-                if (currentButton != null)
+                cancelEventArgs.reset();
+                if (ActiveDataChanging != null)
                 {
-                    currentButton.StateCheck = false;
-                    currentButton.CoordChanged -= currentButton_CoordChanged;
+                    ActiveDataChanging.Invoke(this, cancelEventArgs);
                 }
-                currentButton = value;
-                if (currentButton != null)
+                if (!cancelEventArgs.Cancel)
                 {
-                    currentButton.StateCheck = true;
-                    currentButton.CoordChanged += currentButton_CoordChanged;
-                }
-                if (ActiveDataChanged != null)
-                {
-                    ActiveDataChanged.Invoke(this, EventArgs.Empty);
+                    if (currentButton != null)
+                    {
+                        currentButton.StateCheck = false;
+                        currentButton.CoordChanged -= currentButton_CoordChanged;
+                    }
+                    currentButton = value;
+                    if (currentButton != null)
+                    {
+                        currentButton.StateCheck = true;
+                        currentButton.CoordChanged += currentButton_CoordChanged;
+                    }
+                    if (ActiveDataChanged != null)
+                    {
+                        ActiveDataChanged.Invoke(this, EventArgs.Empty);
+                    }
                 }
             }
         }
