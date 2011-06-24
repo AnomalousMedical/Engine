@@ -54,6 +54,18 @@ namespace MyGUIPlugin
             }
         }
 
+        public Button findButtonWithUserData(Object userData)
+        {
+            foreach (Button button in buttons)
+            {
+                if (button.UserObject == userData)
+                {
+                    return button;
+                }
+            }
+            return null;
+        }
+
         public Button SelectedButton
         {
             get
