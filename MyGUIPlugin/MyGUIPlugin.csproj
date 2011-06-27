@@ -62,6 +62,7 @@
     <Compile Include="Plugin\Widgets\Component.cs" />
     <Compile Include="Plugin\Widgets\Dialog.cs" />
     <Compile Include="Plugin\Widgets\DialogCancelEventArgs.cs" />
+    <Compile Include="Plugin\Widgets\ValueButtonGroup.cs" />
     <Compile Include="Plugin\Widgets\FixedSizeDialog.cs" />
     <Compile Include="Plugin\Widgets\InputBox.cs" />
     <Compile Include="Plugin\Widgets\MessageBox.cs" />

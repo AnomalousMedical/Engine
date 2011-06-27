@@ -58,7 +58,7 @@ namespace MyGUIPlugin
         {
             foreach (Button button in buttons)
             {
-                if (button.UserObject == userData)
+                if (button.UserObject.Equals(userData))
                 {
                     return button;
                 }
