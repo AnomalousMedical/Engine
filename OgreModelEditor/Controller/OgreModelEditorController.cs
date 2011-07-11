@@ -433,5 +433,13 @@ namespace OgreModelEditor
                 return selectionController;
             }
         }
+
+        public UpdateTimer MainTimer
+        {
+            get
+            {
+                return mainTimer;
+            }
+        }
     }
 }

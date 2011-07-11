@@ -104,6 +104,7 @@ copy $(OGRE_HOME)\Windows\Dependencies\bin\Release\cg.dll $(OutDir)cg.dll
   <ItemGroup>
     <ClCompile Include="Src\Animation.cpp" />
     <ClCompile Include="Src\AnimationState.cpp" />
+    <ClCompile Include="src\AnimationStateIterator.cpp" />
     <ClCompile Include="Src\AnimationStateSet.cpp" />
     <ClCompile Include="Src\AnimationTrack.cpp" />
     <ClCompile Include="Src\Bone.cpp" />

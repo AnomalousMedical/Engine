@@ -73,6 +73,12 @@
     <Compile Include="Controller\ModelController.cs" />
     <Compile Include="Controller\OgreModelEditorController.cs" />
     <Compile Include="Controller\SelectableModel.cs" />
+    <Compile Include="GUI\AnimationWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\AnimationWindow.Designer.cs">
+      <DependentUpon>AnimationWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\CustomParameterControl.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,6 +99,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="GUI\AnimationWindow.resx">
+      <DependentUpon>AnimationWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomParameterControl.resx">
       <DependentUpon>CustomParameterControl.cs</DependentUpon>
       <SubType>Designer</SubType>

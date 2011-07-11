@@ -44,3 +44,16 @@ extern "C" _AnomalousExport void AnimationStateSet_notifyDirty(Ogre::AnimationSt
 {
 	animationStateSet->_notifyDirty();
 }
+
+extern "C" _AnomalousExport Ogre::AnimationStateIterator* AnimationStateSet_getAnimationStateIterator(Ogre::AnimationStateSet* animationStateSet)
+{
+	return new Ogre::AnimationStateIterator(animationStateSet->getAnimationStateIterator());
+}
+
+extern "C" _AnomalousExport void AnimationStateSet_iteratorDelete(Ogre::AnimationStateIterator* iter)
+{
+	//The lifecycle for these starts out by copying the iterator returned by ogre into a new pointer. 
+	//This is done in the class that returns the iterator.
+	//It is deleted here. This is called by the c# dispose method.
+	delete iter;
+}

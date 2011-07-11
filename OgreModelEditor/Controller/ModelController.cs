@@ -34,6 +34,7 @@ namespace OgreModelEditor.Controller
         //GUI
         private SkeletonWindow skeletonWindow = new SkeletonWindow();
         private new CustomParameterControl customParameters = new CustomParameterControl();
+        private AnimationWindow animationWindow = new AnimationWindow();
 
         /// <summary>
         /// Constructor.
@@ -49,6 +50,7 @@ namespace OgreModelEditor.Controller
             fixedFunctionTextured = MaterialManager.getInstance().getByName("FixedFunctionTextured");
             fixedTexture = fixedFunctionTextured.Value.getTechnique(0).getPass(0).getTextureUnitState(0);
             this.controller = controller;
+            controller.MainTimer.addFixedUpdateListener(animationWindow);
         }
 
         public DockContent getDockContent(String persistString)
@@ -61,6 +63,10 @@ namespace OgreModelEditor.Controller
             {
                 return customParameters;
             }
+            if (animationWindow.GetType().ToString() == persistString)
+            {
+                return animationWindow;
+            }
             return null;
         }
 
@@ -68,12 +74,14 @@ namespace OgreModelEditor.Controller
         {
             controller.showDockContent(skeletonWindow);
             controller.showDockContent(customParameters);
+            controller.showDockContent(animationWindow);
         }
 
         public void Dispose()
         {
             fixedFunctionTextured.Dispose();
             skeletonWindow.Dispose();
+            animationWindow.Dispose();
         }
 
         /// <summary>
@@ -277,6 +285,7 @@ namespace OgreModelEditor.Controller
             {
                 skeletonWindow.clearSkeleton();
             }
+            animationWindow.findAnimations(entity);
             Log.Default.debug("Model has {0} sub entities.", entity.getNumSubEntities());
         }
 

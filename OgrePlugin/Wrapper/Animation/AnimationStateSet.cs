@@ -9,7 +9,7 @@ using Engine;
 namespace OgreWrapper
 {
     [NativeSubsystemType]
-    public class AnimationStateSet
+    public class AnimationStateSet : IDisposable
     {
         private IntPtr animationStateSet;
         private WrapperCollection<AnimationState> states = new WrapperCollection<AnimationState>(AnimationState.createWrapper);
@@ -17,6 +17,12 @@ namespace OgreWrapper
         public AnimationStateSet(IntPtr animationStateSet)
         {
             this.animationStateSet = animationStateSet;
+        }
+
+        public void Dispose()
+        {
+            states.Dispose();
+            animationStateSet = IntPtr.Zero;
         }
 
         internal IntPtr OgreObject 
@@ -115,6 +121,29 @@ namespace OgreWrapper
             AnimationStateSet_notifyDirty(animationStateSet);
         }
 
+        public AnimationStateIterator AnimationStates
+        {
+            get
+            {
+                return new AnimationStateIterator(this, AnimationStateSet_getAnimationStateIterator(animationStateSet));
+            }
+        }
+
+        /// <summary>
+        /// Get an animation state from a given pointer. Used by iterators to get the states in this collection.
+        /// </summary>
+        /// <param name="animationStatePointer"></param>
+        /// <returns></returns>
+        internal AnimationState getStateFromPointer(IntPtr animationStatePointer)
+        {
+            return states.getObject(animationStatePointer, this);
+        }
+
+        internal void destroyIterator(IntPtr animationIteratorPointer)
+        {
+            AnimationStateSet_iteratorDelete(animationIteratorPointer);
+        }
+
 #region PInvoke
 
         [DllImport("OgreCWrapper")]
@@ -145,6 +174,12 @@ namespace OgreWrapper
 
         [DllImport("OgreCWrapper")]
         private static extern void AnimationStateSet_notifyDirty(IntPtr animationStateSet);
+
+        [DllImport("OgreCWrapper")]
+        private static extern IntPtr AnimationStateSet_getAnimationStateIterator(IntPtr animationStateSet);
+
+        [DllImport("OgreCWrapper")]
+        private static extern void AnimationStateSet_iteratorDelete(IntPtr iter);
 
 #endregion
     }
