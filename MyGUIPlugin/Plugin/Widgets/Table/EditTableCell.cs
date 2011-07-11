@@ -54,7 +54,7 @@ namespace MyGUIPlugin
                     staticWidget.Visible = false;
                 }
                 InputManager.Instance.setKeyFocusWidget(editWidget);
-                editWidget.setTextSelection(0, (uint)editWidget.Caption.Length);
+                editWidget.setTextSelection(0, (uint)editWidget.OnlyText.Length);
             }
         }
 
@@ -93,7 +93,7 @@ namespace MyGUIPlugin
             {
                 if (editWidget != null)
                 {
-                    return editWidget.Caption;
+                    return editWidget.OnlyText;
                 }
                 else
                 {
@@ -121,7 +121,7 @@ namespace MyGUIPlugin
                     this.value = sentValueString;
                     if (editWidget != null)
                     {
-                        editWidget.Caption = sentValueString;
+                        editWidget.OnlyText = sentValueString;
                     }
                     if (staticWidget != null)
                     {
@@ -150,7 +150,7 @@ namespace MyGUIPlugin
                 editWidget = parentWidget.createWidgetT("Edit", "Edit", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "") as Edit;
                 editWidget.KeyLostFocus += new MyGUIEvent(editWidget_KeyLostFocus);
                 editWidget.KeyButtonReleased += new MyGUIEvent(editWidget_KeyButtonReleased);
-                editWidget.Caption = value;
+                editWidget.OnlyText = value;
                 editWidget.Visible = false;
             }
         }
