@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using Engine;
 
 namespace MyGUIPlugin
 {
@@ -17,7 +18,15 @@ namespace MyGUIPlugin
             Type enumType = typeof(EnumType);
             foreach (FieldInfo fieldInfo in enumType.GetFields(BindingFlags.Public | BindingFlags.Static))
             {
-                comboBox.addItem(fieldInfo.Name);
+                PrettyNameAttribute[] prettyName = (PrettyNameAttribute[])fieldInfo.GetCustomAttributes(typeof(PrettyNameAttribute), true);
+                if (prettyName.Length > 0)
+                {
+                    comboBox.addItem(prettyName[0].Name);
+                }
+                else
+                {
+                    comboBox.addItem(fieldInfo.Name);
+                }
                 comboBox.setItemDataAt(index++, (int)fieldInfo.GetValue(enumType));
             }
         }
