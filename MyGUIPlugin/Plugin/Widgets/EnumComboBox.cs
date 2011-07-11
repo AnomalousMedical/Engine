@@ -10,6 +10,7 @@ namespace MyGUIPlugin
     public class EnumComboBox<EnumType>
     {
         private ComboBox comboBox;
+        private Dictionary<EnumType, uint> enumIndexes = new Dictionary<EnumType,uint>();
 
         public EnumComboBox(ComboBox comboBox)
         {
@@ -27,7 +28,9 @@ namespace MyGUIPlugin
                 {
                     comboBox.addItem(fieldInfo.Name);
                 }
-                comboBox.setItemDataAt(index++, (int)fieldInfo.GetValue(enumType));
+                EnumType value = (EnumType)fieldInfo.GetValue(enumType);
+                enumIndexes.Add(value, index);
+                comboBox.setItemDataAt(index++, value);
             }
         }
 
@@ -39,7 +42,7 @@ namespace MyGUIPlugin
             }
             set
             {
-                comboBox.SelectedIndex = comboBox.findItemIndexWith(value.ToString());
+                comboBox.SelectedIndex = enumIndexes[value];
             }
         }
     }
