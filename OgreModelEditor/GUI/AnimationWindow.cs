@@ -67,9 +67,12 @@ namespace OgreModelEditor
             this.currentEntity = entity;
             animationList.Items.Clear();
             AnimationStateSet animationStateSet = entity.getAllAnimationStates();
-            foreach (AnimationState state in animationStateSet.AnimationStates)
+            if (animationStateSet != null)
             {
-                animationList.Items.Add(new AnimationWindowListItem(state));
+                foreach (AnimationState state in animationStateSet.AnimationStates)
+                {
+                    animationList.Items.Add(new AnimationWindowListItem(state));
+                }
             }
         }
 

@@ -62,6 +62,8 @@ namespace MyGUIPlugin
 
         public ButtonGrid(ScrollView scrollView, ButtonGridLayout layoutEngine, IComparer<ButtonGridItem> itemComparer)
         {
+            HighlightSelectedButton = true;
+
             String read;
             bool boolValue;
             int intValue;
@@ -402,7 +404,7 @@ namespace MyGUIPlugin
                     selectedItem = value;
                     if (selectedItem != null)
                     {
-                        selectedItem.StateCheck = true;
+                        selectedItem.StateCheck = HighlightSelectedButton;
                     }
                     if (SelectedValueChanged != null)
                     {
@@ -472,6 +474,8 @@ namespace MyGUIPlugin
                 return scrollView.Height;
             }
         }
+
+        public bool HighlightSelectedButton { get; set; }
 
         /// <summary>
         /// The ScrollView for the grid.

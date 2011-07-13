@@ -96,11 +96,12 @@ namespace OgreWrapper
 	    /// <returns>The AnimationState specified or nullptr if it does not exist.</returns>
         public AnimationState getAnimationState(String name)
         {
-            if(animationStateSet == null)
+            getAnimationStateSetFromOgre();
+            if (animationStateSet != null)
             {
-                animationStateSet = new AnimationStateSet(Entity_getAllAnimationStates(ogreObject));
+                return animationStateSet.getAnimationState(name);
             }
-            return animationStateSet.getAnimationState(name);
+            return null;
         }
 
 	    /// <summary>
@@ -109,11 +110,20 @@ namespace OgreWrapper
 	    /// <returns>The AnimationStateSet for this Entity.</returns>
         public AnimationStateSet getAllAnimationStates()
         {
+            getAnimationStateSetFromOgre();
+            return animationStateSet;
+        }
+
+        private void getAnimationStateSetFromOgre()
+        {
             if (animationStateSet == null)
             {
-                animationStateSet = new AnimationStateSet(Entity_getAllAnimationStates(ogreObject));
+                IntPtr animationStatesFromOgre = Entity_getAllAnimationStates(ogreObject);
+                if (animationStatesFromOgre != IntPtr.Zero)
+                {
+                    animationStateSet = new AnimationStateSet(animationStatesFromOgre);
+                }
             }
-            return animationStateSet;
         }
 
 	    /// <summary>
