@@ -111,6 +111,14 @@ namespace MyGUIPlugin
             }
         }
 
+        public Size2 TextSize
+        {
+            get
+            {
+                return button.getTextSize();
+            }
+        }
+
         internal void setPosition(Vector2 position, int width, int height)
         {
             button.setCoord((int)position.x, (int)position.y, width, height);
