@@ -157,6 +157,11 @@ namespace MyGUIPlugin
             IgnorePositionChanges = false;
         }
 
+        public void bringToFront()
+        {
+            LayerManager.Instance.upLayerItem(window);
+        }
+
         public virtual void serialize(ConfigFile configFile)
         {
             ConfigSection section = configFile.createOrRetrieveConfigSection(persistName);
