@@ -114,6 +114,16 @@ namespace MyGUIPlugin
                 ItemPaddingY = 2;
             }
 
+            read = scrollView.getUserString("GroupPaddingY");
+            if (read != null && int.TryParse(read, out intValue))
+            {
+                GroupPaddingY = intValue;
+            }
+            else
+            {
+                GroupPaddingY = ItemPaddingY;
+            }
+
             ButtonSkin = scrollView.getUserString("ButtonSkin");
             if (ButtonSkin == null || ButtonSkin == String.Empty)
             {
@@ -379,6 +389,18 @@ namespace MyGUIPlugin
             set
             {
                 layoutEngine.ItemPaddingY = value;
+            }
+        }
+
+        public int GroupPaddingY
+        {
+            get
+            {
+                return layoutEngine.GroupPaddingY;
+            }
+            set
+            {
+                layoutEngine.GroupPaddingY = value;
             }
         }
 

@@ -50,7 +50,7 @@ namespace MyGUIPlugin
         public void finishGroupLayout()
         {
             currentPosition.x = 0;
-            currentPosition.y += ItemHeight + ItemPaddingY;
+            currentPosition.y += ItemHeight + GroupPaddingY;
         }
 
         public Size2 FinalCanvasSize
@@ -68,5 +68,7 @@ namespace MyGUIPlugin
         public int ItemPaddingX { get; set; }
 
         public int ItemPaddingY { get; set; }
+
+        public int GroupPaddingY { get; set; }
     }
 }
