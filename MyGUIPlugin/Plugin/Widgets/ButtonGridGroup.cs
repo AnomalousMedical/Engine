@@ -27,6 +27,8 @@ namespace MyGUIPlugin
 
                 separator = grid.ScrollView.createWidgetT("Widget", grid.GroupSeparatorSkin, 0, 0, 10, 1, Align.Left | Align.Top, "");
                 separator.setSize((int)(grid.ScrollView.CanvasSize.Width - captionText.Width) - 10, 1);
+
+                toggleCaptionVisibility();
             }
         }
 
@@ -35,6 +37,7 @@ namespace MyGUIPlugin
             ButtonGridItem item = new ButtonGridItem(this, grid);
             item.Caption = caption;
             items.Add(item);
+            toggleCaptionVisibility();
             return item;
         }
 
@@ -42,6 +45,7 @@ namespace MyGUIPlugin
         {
             items.Remove(item);
             item.Dispose();
+            toggleCaptionVisibility();
         }
 
         public void clear()
@@ -60,24 +64,27 @@ namespace MyGUIPlugin
         /// <returns>The position for the next group to start at.</returns>
         public void layout(ButtonGridLayout layoutEngine, IComparer<ButtonGridItem> itemComparer)
         {
-            if (grid.ShowGroupCaptions)
+            if (items.Count > 0)
             {
-                layoutEngine.alignCaption(captionText, separator);
-            }
+                if (grid.ShowGroupCaptions)
+                {
+                    layoutEngine.alignCaption(captionText, separator);
+                }
 
-            List<ButtonGridItem> sortedItems = items;
-            if (itemComparer != null)
-            {
-                sortedItems = new List<ButtonGridItem>(items);
-                sortedItems.Sort(itemComparer);
-            }
+                List<ButtonGridItem> sortedItems = items;
+                if (itemComparer != null)
+                {
+                    sortedItems = new List<ButtonGridItem>(items);
+                    sortedItems.Sort(itemComparer);
+                }
 
-            foreach (ButtonGridItem item in sortedItems)
-            {
-                layoutEngine.alignItem(item);
-            }
+                foreach (ButtonGridItem item in sortedItems)
+                {
+                    layoutEngine.alignItem(item);
+                }
 
-            layoutEngine.finishGroupLayout();
+                layoutEngine.finishGroupLayout();
+            }
         }
 
         public int Count
@@ -120,6 +127,14 @@ namespace MyGUIPlugin
             get
             {
                 return captionText != null ? captionText.FontHeight : 0;
+            }
+        }
+
+        private void toggleCaptionVisibility()
+        {
+            if (captionText != null)
+            {
+                captionText.Visible = separator.Visible = items.Count > 0;
             }
         }
     }

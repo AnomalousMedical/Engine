@@ -157,6 +157,24 @@ namespace MyGUIPlugin
             clear();
         }
 
+        public void defineGroup(String group)
+        {
+            ButtonGridGroup addGroup = null;
+            foreach (ButtonGridGroup groupIter in groups)
+            {
+                if (groupIter.Name == group)
+                {
+                    addGroup = groupIter;
+                    break;
+                }
+            }
+            if (addGroup == null)
+            {
+                addGroup = new ButtonGridGroup(group, this);
+                groups.Add(addGroup);
+            }
+        }
+
         /// <summary>
         /// Add an item.
         /// </summary>
