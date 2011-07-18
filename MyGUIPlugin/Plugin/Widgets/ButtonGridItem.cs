@@ -11,6 +11,9 @@ namespace MyGUIPlugin
         private Button button;
         private ButtonGrid grid;
         public event EventHandler ItemClicked;
+        public event EventDelegate<ButtonGridItem, MouseEventArgs> MouseButtonPressed;
+        public event EventDelegate<ButtonGridItem, MouseEventArgs> MouseButtonReleased;
+        public event EventDelegate<ButtonGridItem, MouseEventArgs> MouseDrag;
 
         internal ButtonGridItem(ButtonGridGroup group, ButtonGrid list)
         {
@@ -20,25 +23,23 @@ namespace MyGUIPlugin
             button.ForwardMouseWheelToParent = true;
             button.MouseButtonClick += new MyGUIEvent(button_MouseButtonClick);
             button.MouseButtonDoubleClick += new MyGUIEvent(button_MouseButtonDoubleClick);
-        }
-
-        void button_MouseButtonClick(Widget source, EventArgs e)
-        {
-            grid.SelectedItem = this;
-            if (ItemClicked != null)
-            {
-                ItemClicked.Invoke(this, EventArgs.Empty);
-            }
-        }
-
-        void button_MouseButtonDoubleClick(Widget source, EventArgs e)
-        {
-            grid.itemActivated(this);
+            button.MouseButtonPressed += new MyGUIEvent(button_MouseButtonPressed);
+            button.MouseButtonReleased += new MyGUIEvent(button_MouseButtonReleased);
+            button.MouseDrag += new MyGUIEvent(button_MouseDrag);
         }
 
         public void Dispose()
         {
             Gui.Instance.destroyWidget(button);
+        }
+
+        public void setImage(String imageResource)
+        {
+            StaticImage image = button.StaticImage;
+            if (image != null)
+            {
+                image.setItemResource(imageResource);
+            }
         }
 
         public String Caption
@@ -138,12 +139,41 @@ namespace MyGUIPlugin
             }
         }
 
-        public void setImage(String imageResource)
+        void button_MouseButtonClick(Widget source, EventArgs e)
         {
-            StaticImage image = button.StaticImage;
-            if (image != null)
+            grid.SelectedItem = this;
+            if (ItemClicked != null)
             {
-                image.setItemResource(imageResource);
+                ItemClicked.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        void button_MouseButtonDoubleClick(Widget source, EventArgs e)
+        {
+            grid.itemActivated(this);
+        }
+
+        void button_MouseDrag(Widget source, EventArgs e)
+        {
+            if (MouseDrag != null)
+            {
+                MouseDrag.Invoke(this, (MouseEventArgs)e);
+            }
+        }
+
+        void button_MouseButtonReleased(Widget source, EventArgs e)
+        {
+            if (MouseButtonReleased != null)
+            {
+                MouseButtonReleased.Invoke(this, (MouseEventArgs)e);
+            }
+        }
+
+        void button_MouseButtonPressed(Widget source, EventArgs e)
+        {
+            if (MouseButtonPressed != null)
+            {
+                MouseButtonPressed.Invoke(this, (MouseEventArgs)e);
             }
         }
     }
