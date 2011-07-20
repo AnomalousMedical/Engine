@@ -21,6 +21,21 @@ namespace MyGUIPlugin
         private bool resourcesNotLoaded = true;
 
         /// <summary>
+        /// This is called when the popup is showing.
+        /// </summary>
+        public event EventHandler Showing;
+
+        /// <summary>
+        /// This is called when the popup is shown.
+        /// </summary>
+        public event EventHandler Shown;
+
+        /// <summary>
+        /// This is called when the popup starts hiding.
+        /// </summary>
+        public event EventHandler Hiding;
+
+        /// <summary>
         /// This event is called after the popup has been hidden completely.
         /// </summary>
         public event EventHandler Hidden;
@@ -92,19 +107,6 @@ namespace MyGUIPlugin
 
         public void show(int left, int top)
         {
-            if (!Visible)
-            {
-                LayerManager.Instance.upLayerItem(widget);
-                
-                Visible = true;
-                if (SmoothShow)
-                {
-                    widget.Alpha = 0.0f;
-                    smoothShowPosition = 0.0f;
-                    subscribeToUpdate();
-                    runningShowTransition = true;
-                }
-            }
             int guiWidth = Gui.Instance.getViewWidth();
             int guiHeight = Gui.Instance.getViewHeight();
 
@@ -130,6 +132,26 @@ namespace MyGUIPlugin
             }
 
             widget.setPosition(left, top);
+
+            if (!Visible)
+            {
+                LayerManager.Instance.upLayerItem(widget);
+
+                Visible = true;
+                if (SmoothShow)
+                {
+                    widget.Alpha = 0.0f;
+                    smoothShowPosition = 0.0f;
+                    subscribeToUpdate();
+                    runningShowTransition = true;
+                    fireShowing();
+                }
+                else
+                {
+                    fireShowing();
+                    fireShown();
+                }
+            }
         }
 
         public void hide()
@@ -143,13 +165,12 @@ namespace MyGUIPlugin
                     subscribeToUpdate();
                     runningShowTransition = false;
                     widget.Visible = true;
+                    fireHiding();
                 }
                 else
                 {
-                    if (Hidden != null)
-                    {
-                        Hidden.Invoke(this, EventArgs.Empty);
-                    }
+                    fireHiding();
+                    fireHidden();
                 }
             }
         }
@@ -265,6 +286,7 @@ namespace MyGUIPlugin
                 {
                     smoothShowPosition = MyGUIInterface.SmoothShowDuration;
                     unsubscribeFromUpdate();
+                    fireShown();
                 }
                 widget.Alpha = smoothShowPosition / MyGUIInterface.SmoothShowDuration;
             }
@@ -276,15 +298,44 @@ namespace MyGUIPlugin
                     unsubscribeFromUpdate();
                     widget.Visible = false;
                     widget.Alpha = 0.0f;
-                    if (Hidden != null)
-                    {
-                        Hidden.Invoke(this, EventArgs.Empty);
-                    }
+                    fireHidden();
                 }
                 else
                 {
                     widget.Alpha = 1 - smoothShowPosition / MyGUIInterface.SmoothShowDuration;
                 }
+            }
+        }
+
+        private void fireShowing()
+        {
+            if (Showing != null)
+            {
+                Showing.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        private void fireShown()
+        {
+            if (Shown != null)
+            {
+                Shown.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        private void fireHiding()
+        {
+            if (Hiding != null)
+            {
+                Hiding.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        private void fireHidden()
+        {
+            if (Hidden != null)
+            {
+                Hidden.Invoke(this, EventArgs.Empty);
             }
         }
     }
