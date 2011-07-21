@@ -34,6 +34,12 @@ namespace MyGUIPlugin
             widget = IntPtr.Zero;
         }
 
+        //Custom
+        public bool contains(int x, int y)
+        {
+            return x >= AbsoluteLeft && x <= AbsoluteLeft + Width && y >= AbsoluteTop && y <= AbsoluteTop + Height;
+        }
+
         //UserData
         public void setUserString(String key, String value)
         {
