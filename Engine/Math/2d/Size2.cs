@@ -121,8 +121,8 @@ namespace Engine
             bool success = false;
             if (nums.Length == 2)
             {
-                success = float.TryParse(nums[0], out width);
-                success &= float.TryParse(nums[1], out height);
+                success = NumberParser.TryParse(nums[0], out width);
+                success &= NumberParser.TryParse(nums[1], out height);
             }
             else
             {

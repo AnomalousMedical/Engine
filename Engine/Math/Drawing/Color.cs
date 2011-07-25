@@ -142,10 +142,10 @@ namespace Engine
             bool success = false;
             if (nums.Length == 4)
             {
-                success = float.TryParse(nums[0], out r);
-                success &= float.TryParse(nums[1], out g);
-                success &= float.TryParse(nums[2], out b);
-                success &= float.TryParse(nums[3], out a);
+                success = NumberParser.TryParse(nums[0], out r);
+                success &= NumberParser.TryParse(nums[1], out g);
+                success &= NumberParser.TryParse(nums[2], out b);
+                success &= NumberParser.TryParse(nums[3], out a);
             }
             else
             {

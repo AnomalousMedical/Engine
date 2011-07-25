@@ -32,7 +32,7 @@ namespace Engine.Reflection
         public override bool canParseString(string value)
         {
             float test;
-            return float.TryParse(value, out test);
+            return NumberParser.TryParse(value, out test);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Engine.Reflection
         /// <param name="value">The string to set as the value.</param>
         public override void setValueString(string value)
         {
-            setValue(float.Parse(value));
+            setValue(NumberParser.ParseFloat(value));
         }
 
         #endregion Functions

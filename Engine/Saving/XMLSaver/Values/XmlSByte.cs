@@ -16,7 +16,7 @@ namespace Engine.Saving.XMLSaver
 
         public override sbyte parseValue(XmlReader xmlReader)
         {
-            return sbyte.Parse(xmlReader.ReadElementContentAsString());
+            return NumberParser.ParseSbyte(xmlReader.ReadElementContentAsString());
         }
     }
 }

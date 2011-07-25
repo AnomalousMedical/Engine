@@ -27,7 +27,7 @@ namespace Engine.Saving.XMLSaver
 
         public override void readValue(LoadControl loadControl, XmlReader xmlReader)
         {
-            loadControl.addObjectValue(xmlReader.GetAttribute(NAME_ENTRY), long.Parse(xmlReader.GetAttribute(OBJECT_ID)));
+            loadControl.addObjectValue(xmlReader.GetAttribute(NAME_ENTRY), NumberParser.ParseLong(xmlReader.GetAttribute(OBJECT_ID)));
         }
 
         public override Saveable parseValue(XmlReader xmlReader)

@@ -164,7 +164,7 @@ namespace Engine
 	        if (configValues.ContainsKey(name))
             {
 		        char result;
-		        bool success = char.TryParse(configValues[name], out result);
+		        bool success = NumberParser.TryParse(configValues[name], out result);
 		        if(success)
 		        {
 			        return result;
@@ -179,7 +179,7 @@ namespace Engine
 	        if (configValues.ContainsKey(name))
             {
 		        byte result;
-		        bool success = Byte.TryParse(configValues[name], out result);
+		        bool success = NumberParser.TryParse(configValues[name], out result);
 		        if(success)
 		        {
 			        return result;
@@ -194,7 +194,7 @@ namespace Engine
 	        if (configValues.ContainsKey(name))
             {
 		        short result;
-		        bool success = short.TryParse(configValues[name], out result);
+		        bool success = NumberParser.TryParse(configValues[name], out result);
 		        if(success)
 		        {
 			        return result;
@@ -224,7 +224,7 @@ namespace Engine
 	        if (configValues.ContainsKey(name))
             {
 		        int result;
-		        bool success = int.TryParse(configValues[name], out result);
+		        bool success = NumberParser.TryParse(configValues[name], out result);
 		        if(success)
 		        {
 			        return result;
@@ -254,7 +254,7 @@ namespace Engine
 	        if (configValues.ContainsKey(name))
             {
 		        long result;
-		        bool success = long.TryParse(configValues[name], out result);
+		        bool success = NumberParser.TryParse(configValues[name], out result);
 		        if(success)
 		        {
 			        return result;
@@ -284,7 +284,7 @@ namespace Engine
 	        if (configValues.ContainsKey(name))
             {
 		        float result;
-		        bool success = float.TryParse(configValues[name], out result);
+		        bool success = NumberParser.TryParse(configValues[name], out result);
 		        if(success)
 		        {
 			        return result;
@@ -299,7 +299,7 @@ namespace Engine
 	        if (configValues.ContainsKey(name))
             {
 		        double result;
-		        bool success = double.TryParse(configValues[name], out result);
+		        bool success = NumberParser.TryParse(configValues[name], out result);
 		        if(success)
 		        {
 			        return result;

@@ -89,10 +89,10 @@ namespace Engine
             String[] subStrs = str.Split(SEPS);
             if (subStrs.Length == 4)
             {
-                float.TryParse(subStrs[0], out left);
-                float.TryParse(subStrs[1], out top);
-                float.TryParse(subStrs[2], out width);
-                float.TryParse(subStrs[3], out height);
+                NumberParser.TryParse(subStrs[0], out left);
+                NumberParser.TryParse(subStrs[1], out top);
+                NumberParser.TryParse(subStrs[2], out width);
+                NumberParser.TryParse(subStrs[3], out height);
             }
         }
 

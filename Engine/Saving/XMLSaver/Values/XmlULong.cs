@@ -16,7 +16,7 @@ namespace Engine.Saving.XMLSaver
 
         public override ulong parseValue(XmlReader xmlReader)
         {
-            return ulong.Parse(xmlReader.ReadElementContentAsString());
+            return NumberParser.ParseUlong(xmlReader.ReadElementContentAsString());
         }
     }
 }

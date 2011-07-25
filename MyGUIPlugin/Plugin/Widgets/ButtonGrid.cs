@@ -75,7 +75,7 @@ namespace MyGUIPlugin
 
             //Try to get properties from the widget itself.
             read = scrollView.getUserString("ItemHeight");
-            if (read != null && int.TryParse(read, out intValue))
+            if (read != null && NumberParser.TryParse(read, out intValue))
             {
                 ItemHeight = intValue;
             }
@@ -85,7 +85,7 @@ namespace MyGUIPlugin
             }
 
             read = scrollView.getUserString("ItemWidth");
-            if (read != null && int.TryParse(read, out intValue))
+            if (read != null && NumberParser.TryParse(read, out intValue))
             {
                 ItemWidth = intValue;
             }
@@ -95,7 +95,7 @@ namespace MyGUIPlugin
             }
 
             read = scrollView.getUserString("ItemPaddingX");
-            if (read != null && int.TryParse(read, out intValue))
+            if (read != null && NumberParser.TryParse(read, out intValue))
             {
                 ItemPaddingX = intValue;
             }
@@ -105,7 +105,7 @@ namespace MyGUIPlugin
             }
 
             read = scrollView.getUserString("ItemPaddingY");
-            if (read != null && int.TryParse(read, out intValue))
+            if (read != null && NumberParser.TryParse(read, out intValue))
             {
                 ItemPaddingY = intValue;
             }
@@ -115,7 +115,7 @@ namespace MyGUIPlugin
             }
 
             read = scrollView.getUserString("GroupPaddingY");
-            if (read != null && int.TryParse(read, out intValue))
+            if (read != null && NumberParser.TryParse(read, out intValue))
             {
                 GroupPaddingY = intValue;
             }

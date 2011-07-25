@@ -131,7 +131,7 @@ namespace Engine
             //Euler angles
             if (rots.Length == 3)
             {
-                rotation.setEuler(float.Parse(rots[0]) * DEG_TO_RAD, float.Parse(rots[1]) * DEG_TO_RAD, float.Parse(rots[2]) * DEG_TO_RAD);
+                rotation.setEuler(NumberParser.ParseFloat(rots[0]) * DEG_TO_RAD, NumberParser.ParseFloat(rots[1]) * DEG_TO_RAD, NumberParser.ParseFloat(rots[2]) * DEG_TO_RAD);
             }
             else
             {
@@ -148,9 +148,9 @@ namespace Engine
             String[] locs = textReader.Value.Split(SEPS);
             if (locs.Length == 3)
             {
-                translation.x = float.Parse(locs[0]);
-                translation.y = float.Parse(locs[1]);
-                translation.z = float.Parse(locs[2]);
+                translation.x = NumberParser.ParseFloat(locs[0]);
+                translation.y = NumberParser.ParseFloat(locs[1]);
+                translation.z = NumberParser.ParseFloat(locs[2]);
             }
             else
             {
@@ -167,12 +167,12 @@ namespace Engine
 
         private float readRadius(XmlTextReader textReader)
         {
-            return float.Parse(textReader.GetAttribute(RADIUS));
+            return NumberParser.ParseFloat(textReader.GetAttribute(RADIUS));
         }
 
         private float readHeight(XmlTextReader textReader)
         {
-            return float.Parse(textReader.GetAttribute(HEIGHT));
+            return NumberParser.ParseFloat(textReader.GetAttribute(HEIGHT));
         }
 
         private Vector3 readExtents(XmlTextReader textReader)
@@ -181,9 +181,9 @@ namespace Engine
             String[] exts = textReader.GetAttribute(EXTENTS).Split(SEPS);
             if (exts.Length == 3)
             {
-                extents.x = float.Parse(exts[0]);
-                extents.y = float.Parse(exts[1]);
-                extents.z = float.Parse(exts[2]);
+                extents.x = NumberParser.ParseFloat(exts[0]);
+                extents.y = NumberParser.ParseFloat(exts[1]);
+                extents.z = NumberParser.ParseFloat(exts[2]);
             }
             else
             {
@@ -198,9 +198,9 @@ namespace Engine
             String[] n = textReader.GetAttribute(NORMAL).Split(SEPS);
             if (n.Length == 3)
             {
-                nml.x = float.Parse(n[0]);
-                nml.y = float.Parse(n[1]);
-                nml.z = float.Parse(n[2]);
+                nml.x = NumberParser.ParseFloat(n[0]);
+                nml.y = NumberParser.ParseFloat(n[1]);
+                nml.z = NumberParser.ParseFloat(n[2]);
             }
             else
             {
@@ -211,7 +211,7 @@ namespace Engine
 
         private float readPlaneDistance(XmlTextReader textReader)
         {
-            return float.Parse(textReader.GetAttribute(DISTANCE));
+            return NumberParser.ParseFloat(textReader.GetAttribute(DISTANCE));
         }
 
         float[] readVertices(XmlTextReader textReader)
@@ -220,7 +220,7 @@ namespace Engine
             String[] strVerts = textReader.Value.Split(SEPS);
             float[] vertices;
             float junk;
-            if (float.TryParse(strVerts[strVerts.Length - 1], out junk))
+            if (NumberParser.TryParse(strVerts[strVerts.Length - 1], out junk))
             {
                 vertices = new float[strVerts.Length];
             }
@@ -230,7 +230,7 @@ namespace Engine
             }
             for (uint i = 0; i < vertices.Length; ++i)
             {
-                vertices[i] = float.Parse(strVerts[i]);
+                vertices[i] = NumberParser.ParseFloat(strVerts[i]);
             }
             return vertices;
         }
@@ -241,7 +241,7 @@ namespace Engine
             String[] strVerts = textReader.Value.Split(SEPS);
             int[] faces;
             int junk;
-            if (int.TryParse(strVerts[strVerts.Length - 1], out junk))
+            if (NumberParser.TryParse(strVerts[strVerts.Length - 1], out junk))
             {
                 faces = new int[strVerts.Length];
             }
@@ -251,7 +251,7 @@ namespace Engine
             }
             for (uint i = 0; i < faces.Length; ++i)
             {
-                faces[i] = int.Parse(strVerts[i]);
+                faces[i] = NumberParser.ParseInt(strVerts[i]);
             }
             return faces;
         }
@@ -544,7 +544,7 @@ namespace Engine
             {
                 if (textReader.NodeType == XmlNodeType.Text)
                 {
-                    float.TryParse(textReader.Value, out result);
+                    NumberParser.TryParse(textReader.Value, out result);
                 }
             }
             return result;
@@ -557,7 +557,7 @@ namespace Engine
             {
                 if (textReader.NodeType == XmlNodeType.Text)
                 {
-                    float.TryParse(textReader.Value, out result);
+                    NumberParser.TryParse(textReader.Value, out result);
                 }
             }
             return result;
@@ -570,7 +570,7 @@ namespace Engine
             {
                 if (textReader.NodeType == XmlNodeType.Text)
                 {
-                    float.TryParse(textReader.Value, out result);
+                    NumberParser.TryParse(textReader.Value, out result);
                 }
             }
             return result;

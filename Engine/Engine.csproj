@@ -119,6 +119,7 @@
     <Compile Include="Math\Drawing\Color.cs" />
     <Compile Include="Math\Numerics\Degree.cs" />
     <Compile Include="Math\Numerics\Distance.cs" />
+    <Compile Include="Math\Numerics\NumberParser.cs" />
     <Compile Include="Math\Numerics\NumberFunctions.cs" />
     <Compile Include="Math\Numerics\Radian.cs" />
     <Compile Include="Math\Shapes\AxisAlignedBox.cs" />

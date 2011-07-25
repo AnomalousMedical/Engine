@@ -32,7 +32,7 @@ namespace Engine.Saving.XMLSaver
 
         public override byte[] parseValue(XmlReader xmlReader)
         {
-            int length = int.Parse(xmlReader.GetAttribute(BYTE_SIZE_ENTRY));
+            int length = NumberParser.ParseInt(xmlReader.GetAttribute(BYTE_SIZE_ENTRY));
             byte[] blobArray = new byte[length];
             xmlReader.ReadElementContentAsBinHex(blobArray, 0, blobArray.Length);
             return blobArray;

@@ -16,7 +16,7 @@ namespace Engine.Saving.XMLSaver
 
         public override char parseValue(XmlReader xmlReader)
         {
-            return char.Parse(xmlReader.ReadElementContentAsString());
+            return NumberParser.ParseChar(xmlReader.ReadElementContentAsString());
         }
     }
 }

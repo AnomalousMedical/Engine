@@ -32,7 +32,7 @@ namespace Engine.Reflection
         public override bool canParseString(string value)
         {
             byte outVal;
-            return byte.TryParse(value, out outVal);
+            return NumberParser.TryParse(value, out outVal);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Engine.Reflection
         /// <param name="value">The string to set as the value.</param>
         public override void setValueString(string value)
         {
-            this.setValue(byte.Parse(value));
+            this.setValue(NumberParser.ParseByte(value));
         }
 
         #endregion Functions

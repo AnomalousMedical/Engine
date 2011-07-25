@@ -41,10 +41,10 @@ namespace Engine.Reflection
             if (vals.Length == 4)
             {
                 float test;
-                return float.TryParse(vals[0], out test) &&
-                    float.TryParse(vals[1], out test) &&
-                    float.TryParse(vals[2], out test) &&
-                    float.TryParse(vals[3], out test);
+                return NumberParser.TryParse(vals[0], out test) &&
+                    NumberParser.TryParse(vals[1], out test) &&
+                    NumberParser.TryParse(vals[2], out test) &&
+                    NumberParser.TryParse(vals[3], out test);
             }
             else
             {

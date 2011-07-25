@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
 using Engine.Attributes;
+using Engine;
 
 namespace Editor
 {
@@ -42,7 +43,7 @@ namespace Editor
             int i = 0;
             foreach (FieldInfo fieldInfo in enumType.GetFields(BindingFlags.Public | BindingFlags.Static))
             {
-                ulong value = ulong.Parse(fieldInfo.GetRawConstantValue().ToString());
+                ulong value = NumberParser.ParseUlong(fieldInfo.GetRawConstantValue().ToString());
                 multiEnumListBox.Items.Add(new MultiEnumItem(fieldInfo.Name, value));
                 if (fieldInfo.GetCustomAttributes(typeof(InclusiveEnumFieldAttribute), true).Length > 0)
                 {
@@ -98,14 +99,14 @@ namespace Editor
                 {
                     ulong check;
                     //If we cannot parse the value correctly out of the value try to get it another way
-                    if (!ulong.TryParse(value.ToString(), out check))
+                    if (!NumberParser.TryParse(value.ToString(), out check))
                     {
                         Type valueType = value.GetType();
                         //If it is an enum then we got the string for the value but not the value.
                         if (valueType.IsEnum || valueType == typeof(String))
                         {
                             FieldInfo field = enumType.GetField(value.ToString());
-                            check = ulong.Parse(field.GetRawConstantValue().ToString());
+                            check = NumberParser.ParseUlong(field.GetRawConstantValue().ToString());
                         }
                         //If it isn't an enum or a string it is a signed number
                         else

@@ -98,7 +98,7 @@ namespace Anomaly
             //Euler angles
             if (rots.Length == 3)
             {
-                rotation.setEuler(float.Parse(rots[0]) * DEG_TO_RAD, float.Parse(rots[1]) * DEG_TO_RAD, float.Parse(rots[2]) * DEG_TO_RAD);
+                rotation.setEuler(NumberParser.ParseFloat(rots[0]) * DEG_TO_RAD, NumberParser.ParseFloat(rots[1]) * DEG_TO_RAD, NumberParser.ParseFloat(rots[2]) * DEG_TO_RAD);
             }
             else
             {
@@ -120,9 +120,9 @@ namespace Anomaly
             String[] locs = xmlReader.Value.Split(SEPS);
             if (locs.Length == 3)
             {
-                translation.x = float.Parse(locs[0]);
-                translation.y = float.Parse(locs[1]);
-                translation.z = float.Parse(locs[2]);
+                translation.x = NumberParser.ParseFloat(locs[0]);
+                translation.y = NumberParser.ParseFloat(locs[1]);
+                translation.z = NumberParser.ParseFloat(locs[2]);
             }
             else
             {
