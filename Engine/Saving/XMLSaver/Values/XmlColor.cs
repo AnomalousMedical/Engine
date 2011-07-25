@@ -14,6 +14,11 @@ namespace Engine.Saving.XMLSaver
 
         }
 
+        public override string valueToString(Color value)
+        {
+            return value.ToString();
+        }
+
         public override Color parseValue(XmlReader xmlReader)
         {
             return new Color(xmlReader.ReadElementContentAsString());

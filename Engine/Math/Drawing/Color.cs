@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Globalization;
 
 namespace Engine
 {
@@ -115,7 +116,7 @@ namespace Engine
         /// <returns>A string</returns>
         public override string ToString()
         {
-            return String.Format(FORMAT, r, g, b, a);
+            return String.Format(CultureInfo.InvariantCulture, FORMAT, r, g, b, a);
         }
 
         public bool FromString(String value)

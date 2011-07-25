@@ -14,6 +14,11 @@ namespace Engine.Saving.XMLSaver
 
         }
 
+        public override string valueToString(Vector3 value)
+        {
+            return value.ToString();
+        }
+
         public override Vector3 parseValue(XmlReader xmlReader)
         {
             return new Vector3(xmlReader.ReadElementContentAsString());

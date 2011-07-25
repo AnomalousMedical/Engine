@@ -14,6 +14,11 @@ namespace Engine.Saving.XMLSaver
 
         }
 
+        public override string valueToString(Quaternion value)
+        {
+            return value.ToString();
+        }
+
         public override Quaternion parseValue(XmlReader xmlReader)
         {
             return new Quaternion(xmlReader.ReadElementContentAsString());

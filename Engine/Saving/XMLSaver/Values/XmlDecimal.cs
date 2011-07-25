@@ -14,6 +14,11 @@ namespace Engine.Saving.XMLSaver
 
         }
 
+        public override string valueToString(decimal value)
+        {
+            return NumberParser.ToString(value);
+        }
+
         public override decimal parseValue(XmlReader xmlReader)
         {
             return xmlReader.ReadElementContentAsDecimal();

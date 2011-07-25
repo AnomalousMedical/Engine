@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
+using System.Globalization;
 
 namespace Engine
 {
@@ -388,7 +389,7 @@ namespace Engine
 
         public override string ToString()
         {
-            return String.Format(TO_STRING_FORMAT, x, y, z, w);
+            return String.Format(CultureInfo.InvariantCulture, TO_STRING_FORMAT, x, y, z, w);
         }
 
         #endregion Members

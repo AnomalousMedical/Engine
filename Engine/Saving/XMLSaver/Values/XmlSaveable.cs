@@ -25,6 +25,11 @@ namespace Engine.Saving.XMLSaver
             xmlWriter.WriteEndElement();
         }
 
+        public override string valueToString(Saveable value)
+        {
+            return value.ToString();
+        }
+
         public override void readValue(LoadControl loadControl, XmlReader xmlReader)
         {
             loadControl.addObjectValue(xmlReader.GetAttribute(NAME_ENTRY), NumberParser.ParseLong(xmlReader.GetAttribute(OBJECT_ID)));

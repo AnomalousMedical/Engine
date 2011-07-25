@@ -30,6 +30,11 @@ namespace Engine.Saving.XMLSaver
             xmlWriter.WriteEndElement();
         }
 
+        public override string valueToString(byte[] value)
+        {
+            return null;
+        }
+
         public override byte[] parseValue(XmlReader xmlReader)
         {
             int length = NumberParser.ParseInt(xmlReader.GetAttribute(BYTE_SIZE_ENTRY));

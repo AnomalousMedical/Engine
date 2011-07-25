@@ -14,6 +14,11 @@ namespace Engine.Saving.XMLSaver
 
         }
 
+        public override string valueToString(bool value)
+        {
+            return value.ToString();
+        }
+
         public override bool parseValue(XmlReader xmlReader)
         {
             return bool.Parse(xmlReader.ReadElementContentAsString());

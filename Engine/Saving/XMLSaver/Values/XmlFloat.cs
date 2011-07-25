@@ -14,6 +14,11 @@ namespace Engine.Saving.XMLSaver
 
         }
 
+        public override string valueToString(float value)
+        {
+            return NumberParser.ToString(value);
+        }
+
         public override float parseValue(XmlReader xmlReader)
         {
             return xmlReader.ReadElementContentAsFloat();

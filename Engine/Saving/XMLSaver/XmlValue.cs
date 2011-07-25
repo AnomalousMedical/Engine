@@ -26,10 +26,12 @@ namespace Engine.Saving.XMLSaver
             xmlWriter.WriteAttributeString(NAME_ENTRY, entry.Name);
             if (entry.Value != null)
             {
-                xmlWriter.WriteString(entry.Value.ToString());
+                xmlWriter.WriteString(valueToString((T)entry.Value));
             }
             xmlWriter.WriteEndElement();
         }
+
+        public abstract String valueToString(T value);
 
         public virtual void readValue(LoadControl loadControl, XmlReader xmlReader)
         {

@@ -14,6 +14,11 @@ namespace Engine.Saving.XMLSaver
 
         }
 
+        public override string valueToString(double value)
+        {
+            return NumberParser.ToString(value);
+        }
+
         public override double parseValue(XmlReader xmlReader)
         {
             return xmlReader.ReadElementContentAsDouble();

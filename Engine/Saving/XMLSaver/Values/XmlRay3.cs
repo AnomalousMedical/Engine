@@ -14,6 +14,11 @@ namespace Engine.Saving.XMLSaver
 
         }
 
+        public override string valueToString(Ray3 value)
+        {
+            return value.ToString();
+        }
+
         public override Ray3 parseValue(XmlReader xmlReader)
         {
             return new Ray3(xmlReader.ReadElementContentAsString());

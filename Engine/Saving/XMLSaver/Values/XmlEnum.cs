@@ -31,6 +31,11 @@ namespace Engine.Saving.XMLSaver
             xmlWriter.WriteEndElement();
         }
 
+        public override string valueToString(Enum value)
+        {
+            return value.ToString();
+        }
+
         public override void readValue(LoadControl loadControl, XmlReader xmlReader)
         {
             Type enumType = PluginManager.Instance.getType(xmlReader.GetAttribute(TYPE));

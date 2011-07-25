@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
+using System.Globalization;
 
 namespace Engine
 {
@@ -348,7 +349,7 @@ namespace Engine
         /// <returns>The Vector as a string. This string is in the correct format to be used with setValue.</returns>
         public override string ToString()
         {
-            return String.Format("{0}, {1}, {2}", x, y, z);
+            return String.Format(CultureInfo.InvariantCulture, "{0}, {1}, {2}", x, y, z);
         }
 
         /// <summary>

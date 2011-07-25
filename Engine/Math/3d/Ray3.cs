@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
+using System.Globalization;
 
 namespace Engine
 {
@@ -67,7 +68,7 @@ namespace Engine
         /// <returns>The ray as a string.</returns>
         public override String ToString()
         {
-            return String.Format("{0}|{1}", Origin.ToString(), Direction.ToString());
+            return String.Format(CultureInfo.InvariantCulture, "{0}|{1}", Origin.ToString(), Direction.ToString());
         }
     }
 }

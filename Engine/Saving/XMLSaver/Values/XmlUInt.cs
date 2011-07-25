@@ -14,6 +14,11 @@ namespace Engine.Saving.XMLSaver
 
         }
 
+        public override string valueToString(uint value)
+        {
+            return NumberParser.ToString(value);
+        }
+
         public override uint parseValue(XmlReader xmlReader)
         {
             return NumberParser.ParseUint(xmlReader.ReadElementContentAsString());

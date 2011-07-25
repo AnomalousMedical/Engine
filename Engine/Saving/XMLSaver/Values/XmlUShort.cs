@@ -14,6 +14,11 @@ namespace Engine.Saving.XMLSaver
 
         }
 
+        public override string valueToString(ushort value)
+        {
+            return NumberParser.ToString(value);
+        }
+
         public override ushort parseValue(XmlReader xmlReader)
         {
             return NumberParser.ParseUshort(xmlReader.ReadElementContentAsString());

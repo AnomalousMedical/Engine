@@ -14,6 +14,11 @@ namespace Engine.Saving.XMLSaver
 
         }
 
+        public override string valueToString(short value)
+        {
+            return NumberParser.ToString(value);
+        }
+
         public override short parseValue(XmlReader xmlReader)
         {
             return (short)xmlReader.ReadElementContentAsInt();
