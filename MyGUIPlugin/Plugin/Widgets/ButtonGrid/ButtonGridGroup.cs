@@ -122,6 +122,18 @@ namespace MyGUIPlugin
             return null;
         }
 
+        internal ButtonGridItem findItemByUserObject(Object userObject)
+        {
+            foreach (ButtonGridItem item in items)
+            {
+                if (item.UserObject == userObject)
+                {
+                    return item;
+                }
+            }
+            return null;
+        }
+
         internal int CaptionHeight
         {
             get

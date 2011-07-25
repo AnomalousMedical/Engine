@@ -327,6 +327,19 @@ namespace MyGUIPlugin
             return null;
         }
 
+        public ButtonGridItem findItemByUserObject(Object userObject)
+        {
+            foreach (ButtonGridGroup group in groups)
+            {
+                ButtonGridItem item = group.findItemByUserObject(userObject);
+                if (item != null)
+                {
+                    return item;
+                }
+            }
+            return null;
+        }
+
         /// <summary>
         /// The skin to use for buttons in the grid.
         /// </summary>
