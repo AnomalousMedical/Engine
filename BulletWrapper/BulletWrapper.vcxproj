@@ -65,7 +65,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(BULLET_HOME)\src;include;$(BULLET_HOME)\Extras\ConvexDecomposition;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BULLET_HOME)\src\src;include;$(BULLET_HOME)\src\Extras\ConvexDecomposition;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;USE_SOFTBODY_WORLD;WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -74,7 +74,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>bulletsoftbody.lib;bulletdynamics.lib;bulletcollision.lib;linearmath.lib;bulletmultithreaded.lib;convexdecomposition.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(BULLET_HOME)\msvc\2008\Extras\ConvexDecomposition\Release;$(BULLET_HOME)\msvc\2008\src\BulletSoftBody\Release;$(BULLET_HOME)\msvc\2008\src\BulletMultiThreaded\Release;$(BULLET_HOME)\msvc\2008\src\BulletDynamics\Release;$(BULLET_HOME)\msvc\2008\src\LinearMath\Release;$(BULLET_HOME)\msvc\2008\src\BulletCollision\Release;$(SolutionDir)\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(BULLET_HOME)\WindowsBuild\lib\Release;$(SolutionDir)\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
