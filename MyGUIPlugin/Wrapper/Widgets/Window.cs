@@ -25,6 +25,11 @@ namespace MyGUIPlugin
             Window_destroySmooth(widget);
         }
 
+        public void setActionWidgetsEnabled(bool value)
+        {
+            Window_setActionWidgetsEnabled(widget, value);
+        }
+
         public bool AutoAlpha
         {
             get
@@ -140,6 +145,9 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper")]
         private static extern void Window_setSnap(IntPtr window, bool value);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern void Window_setActionWidgetsEnabled(IntPtr window, bool value);
 #endregion
 
     }

@@ -58,4 +58,9 @@ extern "C" _AnomalousExport void Window_setSnap(MyGUI::Window* window, bool valu
 	window->setSnap(value);
 }
 
+extern "C" _AnomalousExport void Window_setActionWidgetsEnabled(MyGUI::Window* window, bool value)
+{
+	window->setActionWidgetsEnabled(value);
+}
+
 #pragma warning(pop)
