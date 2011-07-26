@@ -298,8 +298,8 @@
 				GCC_PREFIX_HEADER = ../../BulletWrapper/Stdafx.h;
 				GCC_PREPROCESSOR_DEFINITIONS = MAC_OSX;
 				HEADER_SEARCH_PATHS = (
-					/Users/andrewpiper/Development/Dependencies/Bullet/Extras/ConvexDecomposition,
-					/Users/andrewpiper/Development/Dependencies/Bullet/src,
+					/Users/andrewpiper/Development/Dependencies/Bullet/src/Extras/ConvexDecomposition,
+					/Users/andrewpiper/Development/Dependencies/Bullet/src/src,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
