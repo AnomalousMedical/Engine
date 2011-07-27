@@ -162,14 +162,12 @@ namespace MyGUIPlugin
             }
         }
 
-        private void viewButton_CoordChanged(object sender, EventArgs e)
+        private void viewButton_CoordChanged(TimelineViewButton sender, TimelineViewButtonEventArgs e)
         {
             if (processButtonChanges)
             {
-                TimelineViewButtonEventArgs avbe = e as TimelineViewButtonEventArgs;
-                TimelineViewButton movedButton = sender as TimelineViewButton;
-                computeButtonPosition(movedButton);
-                closeGaps(movedButton, avbe.OldLeft, avbe.OldRight);
+                computeButtonPosition(sender);
+                closeGaps(sender, e.OldLeft, e.OldRight);
                 findLowestButton();
             }
         }

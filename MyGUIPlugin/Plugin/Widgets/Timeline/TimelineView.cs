@@ -18,14 +18,13 @@ namespace MyGUIPlugin
         private int pixelsPerSecond = 100;
         private Dictionary<String, TimelineViewTrack> namedTracks = new Dictionary<string, TimelineViewTrack>();
         private List<TimelineViewTrack> tracks = new List<TimelineViewTrack>();
-        private TimelineViewButton currentButton;
         private TimelineMarker timelineMarker;
         private int trackY = TRACK_START_Y;
         private float duration = float.MaxValue;
         private bool enabled = true;
+        private TimelineSelectionCollection selectionCollection;
 
         public event EventHandler<CancelEventArgs> ActiveDataChanging;
-        private CancelEventArgs cancelEventArgs = new CancelEventArgs();
         public event EventHandler ActiveDataChanged;
         public event TimelineTrackEvent TrackPositionChanged;
         public event TimelineTrackEvent TrackAdded;
@@ -72,6 +71,7 @@ namespace MyGUIPlugin
 
         public TimelineView(ScrollView scrollView)
         {
+            selectionCollection = new TimelineSelectionCollection(this);
             timelineScrollView = new TimelineScrollView(scrollView);
             scrollView.MouseLostFocus += new MyGUIEvent(scrollView_MouseLostFocus);
             scrollView.MouseWheel += new MyGUIEvent(scrollView_MouseWheel);
@@ -107,9 +107,9 @@ namespace MyGUIPlugin
 
         public void removeTrack(String name)
         {
-            if (CurrentButton.Data.Track == name)
+            if (selectionCollection.CurrentButton.Data.Track == name)
             {
-                CurrentButton = null;
+                selectionCollection.CurrentButton = null;
             }
             TimelineViewTrack track = namedTracks[name];
             track.removeAllActions();
@@ -135,7 +135,7 @@ namespace MyGUIPlugin
 
         public void clearTracks()
         {
-            CurrentButton = null;
+            selectionCollection.CurrentButton = null;
             foreach (TimelineViewTrack track in tracks)
             {
                 if (TrackRemoved != null)
@@ -153,17 +153,17 @@ namespace MyGUIPlugin
         {
             Button button = timelineScrollView.createButton(pixelsPerSecond * data.StartTime, pixelsPerSecond * data.Duration);
             TimelineViewButton actionButton = namedTracks[data.Track].addButton(button, data);
-            actionButton.Clicked += new EventHandler(actionButton_Clicked);
+            actionButton.Clicked += actionButton_Clicked;
         }
 
         public void removeData(TimelineData data)
         {
             TimelineViewButton button = namedTracks[data.Track].removeButton(data);
-            if (button == CurrentButton)
+            if (button == selectionCollection.CurrentButton)
             {
                 //Null the internal property first as you do not want to toggle the state of the button that has already been disposed.
-                currentButton = null;
-                CurrentButton = null;
+                selectionCollection.nullCurrentButton();
+                selectionCollection.CurrentButton = null;
             }
         }
 
@@ -173,8 +173,8 @@ namespace MyGUIPlugin
             {
                 row.removeAllActions();
             }
-            currentButton = null;
-            CurrentButton = null;
+            selectionCollection.nullCurrentButton();
+            selectionCollection.CurrentButton = null;
             timelineScrollView.CanvasWidth = 2.0f;
             timelineScrollView.CanvasHeight = tracks.Count != 0 ? tracks[tracks.Count - 1].Bottom : 0.0f;
         }
@@ -253,18 +253,18 @@ namespace MyGUIPlugin
         {
             get
             {
-                return currentButton != null ? currentButton.Data : null;
+                return selectionCollection.CurrentButton != null ? selectionCollection.CurrentButton.Data : null;
             }
             set
             {
                 if (value != null)
                 {
                     TimelineViewButton button = namedTracks[value.Track].findButton(value);
-                    CurrentButton = button;
+                    selectionCollection.CurrentButton = button;
                 }
                 else
                 {
-                    CurrentButton = null;
+                    selectionCollection.CurrentButton = null;
                 }
             }
         }
@@ -315,12 +315,7 @@ namespace MyGUIPlugin
             respondToCoordChange(timelineMarker.Left, timelineMarker.Right, timelineMarker.Width);
         }
 
-        void currentButton_CoordChanged(object sender, EventArgs e)
-        {
-            respondToCoordChange(currentButton.Left, currentButton.Right, currentButton.Width);
-        }
-
-        private void respondToCoordChange(int left, int right, int width)
+        internal void respondToCoordChange(int left, int right, int width)
         {
             float canvasWidth = timelineScrollView.CanvasWidth;
             //Ensure the canvas is large enough.
@@ -362,9 +357,25 @@ namespace MyGUIPlugin
             }
         }
 
-        void actionButton_Clicked(object sender, EventArgs e)
+        internal void fireActiveDataChanging(CancelEventArgs cancelArgs)
         {
-            CurrentButton = sender as TimelineViewButton;
+            if (ActiveDataChanging != null)
+            {
+                ActiveDataChanging.Invoke(this, cancelArgs);
+            }
+        }
+
+        internal void fireActiveDataChanged()
+        {
+            if (ActiveDataChanged != null)
+            {
+                ActiveDataChanged.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        void actionButton_Clicked(TimelineViewButton sender, MouseEventArgs e)
+        {
+            selectionCollection.CurrentButton = sender;
         }
 
         void scrollView_KeyButtonReleased(Widget source, EventArgs e)
@@ -468,40 +479,6 @@ namespace MyGUIPlugin
                 lastBottom = row.Bottom;
             }
             timelineScrollView.CanvasHeight = lastBottom;
-        }
-
-        private TimelineViewButton CurrentButton
-        {
-            get
-            {
-                return currentButton;
-            }
-            set
-            {
-                cancelEventArgs.reset();
-                if (ActiveDataChanging != null)
-                {
-                    ActiveDataChanging.Invoke(this, cancelEventArgs);
-                }
-                if (!cancelEventArgs.Cancel)
-                {
-                    if (currentButton != null)
-                    {
-                        currentButton.StateCheck = false;
-                        currentButton.CoordChanged -= currentButton_CoordChanged;
-                    }
-                    currentButton = value;
-                    if (currentButton != null)
-                    {
-                        currentButton.StateCheck = true;
-                        currentButton.CoordChanged += currentButton_CoordChanged;
-                    }
-                    if (ActiveDataChanged != null)
-                    {
-                        ActiveDataChanged.Invoke(this, EventArgs.Empty);
-                    }
-                }
-            }
         }
     }
 }

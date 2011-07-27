@@ -38,8 +38,8 @@ namespace MyGUIPlugin
         private float timelineDuration;
         private TimelineData timelineData;
 
-        public event EventHandler Clicked;
-        public event EventHandler CoordChanged;
+        public event EventDelegate<TimelineViewButton, MouseEventArgs> Clicked;
+        public event EventDelegate<TimelineViewButton, TimelineViewButtonEventArgs> CoordChanged;
 
         private static TimelineViewButtonEventArgs sharedEventArgs = new TimelineViewButtonEventArgs();
 
@@ -85,7 +85,7 @@ namespace MyGUIPlugin
             {
                 if (Clicked != null)
                 {
-                    Clicked.Invoke(this, e);
+                    Clicked.Invoke(this, me);
                 }
 
                 dragStartPos = me.Position.x;
