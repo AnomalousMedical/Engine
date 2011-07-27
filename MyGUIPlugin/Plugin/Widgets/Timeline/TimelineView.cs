@@ -23,6 +23,7 @@ namespace MyGUIPlugin
         private float duration = float.MaxValue;
         private bool enabled = true;
         private TimelineSelectionCollection selectionCollection;
+        private TimelineSelectionBox timelineSelectionBox;
 
         public event EventHandler<CancelEventArgs> ActiveDataChanging;
         public event EventHandler ActiveDataChanged;
@@ -71,6 +72,8 @@ namespace MyGUIPlugin
 
         public TimelineView(ScrollView scrollView)
         {
+            timelineSelectionBox = new TimelineSelectionBox(scrollView);
+            timelineSelectionBox.SelectionAreaDefined += new EventDelegate<TimelineSelectionBox>(timelineSelectionBox_SelectionAreaDefined);
             selectionCollection = new TimelineSelectionCollection(this);
             timelineScrollView = new TimelineScrollView(scrollView);
             scrollView.MouseLostFocus += new MyGUIEvent(scrollView_MouseLostFocus);
@@ -485,6 +488,15 @@ namespace MyGUIPlugin
                 lastBottom = row.Bottom;
             }
             timelineScrollView.CanvasHeight = lastBottom;
+        }
+
+        void timelineSelectionBox_SelectionAreaDefined(TimelineSelectionBox source)
+        {
+            selectionCollection.clearSelection();
+            foreach (TimelineViewTrack track in tracks)
+            {
+                track.findSelection(selectionCollection, source);
+            }
         }
     }
 }

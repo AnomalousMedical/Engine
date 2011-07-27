@@ -39,6 +39,16 @@ namespace MyGUIPlugin
             }
         }
 
+        public String Name { get; private set; }
+
+        public Color Color
+        {
+            get
+            {
+                return color;
+            }
+        }
+
         internal TimelineViewButton addButton(Button button, TimelineData data)
         {
             TimelineViewButton viewButton = new TimelineViewButton(pixelsPerSecond, timelineDuration, button, data);
@@ -152,13 +162,14 @@ namespace MyGUIPlugin
             }
         }
 
-        public String Name { get; private set; }
-
-        public Color Color
+        internal void findSelection(TimelineSelectionCollection selectionCollection, TimelineSelectionBox timelineSelectionBox)
         {
-            get
+            foreach (TimelineViewButton button in buttons)
             {
-                return color;
+                if (timelineSelectionBox.intersects(button))
+                {
+                    selectionCollection.addButton(button);
+                }
             }
         }
 

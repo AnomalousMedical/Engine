@@ -247,11 +247,35 @@ namespace MyGUIPlugin
             }
         }
 
+        public int Height
+        {
+            get
+            {
+                return button.Height;
+            }
+        }
+
         public int Bottom
         {
             get
             {
                 return button.Bottom;
+            }
+        }
+
+        public int AbsoluteLeft
+        {
+            get
+            {
+                return button.AbsoluteLeft;
+            }
+        }
+
+        public int AbsoluteTop
+        {
+            get
+            {
+                return button.AbsoluteTop;
             }
         }
 
