@@ -28,7 +28,42 @@ namespace MyGUIPlugin
 
         public bool intersects(TimelineViewButton timelineButton)
         {
-            return timelineSelectionWidget.intersects(timelineButton.AbsoluteLeft, timelineButton.AbsoluteTop, timelineButton.Width, timelineButton.Height);
+            int thisLeft = timelineSelectionWidget.Left;
+            int thisRight = thisLeft + timelineSelectionWidget.Width;
+            int thisTop = timelineSelectionWidget.Top;
+            int thisBottom = thisTop + timelineSelectionWidget.Height;
+
+            int otherLeft = timelineButton.Left;
+            int otherRight = otherLeft + timelineButton.Width;
+            int otherTop = timelineButton.Top;
+            int otherBottom = otherRight + timelineButton.Height;
+
+            Logging.Log.Debug("Intersection test {0} {1} {2} {3} Other {4} {5} {6} {7}", thisLeft, thisRight, thisTop, thisBottom, otherLeft, otherRight, otherTop, otherBottom);
+
+            if (thisBottom < otherTop)
+            {
+                Logging.Log.Debug("thisBottom < otherTop");
+                return false;
+            }
+            if (thisTop > otherBottom)
+            {
+                Logging.Log.Debug("thisTop > otherBottom");
+                return false;
+            }
+
+            if (thisRight < otherLeft)
+            {
+                Logging.Log.Debug("thisRight < otherLeft");
+                return false;
+            }
+            if (thisLeft > otherRight)
+            {
+                Logging.Log.Debug("thisLeft > otherRight");
+                return false;
+            }
+
+            Logging.Log.Debug("Intersects");
+            return true;
         }
 
         void scrollView_MouseDrag(Widget source, EventArgs e)

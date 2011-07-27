@@ -40,44 +40,6 @@ namespace MyGUIPlugin
             return x >= AbsoluteLeft && x <= AbsoluteLeft + Width && y >= AbsoluteTop && y <= AbsoluteTop + Height;
         }
 
-        public bool intersects(Widget widget)
-        {
-            return intersects(widget.AbsoluteLeft, widget.AbsoluteTop, widget.Width, widget.Height);
-        }
-
-        public bool intersects(int otherAbsoluteLeft, int otherAbsoluteTop, int otherWidth, int otherHeight)
-        {
-            int thisLeft = AbsoluteLeft;
-            int thisRight = AbsoluteLeft + Width;
-            int thisTop = AbsoluteTop;
-            int thisBottom = AbsoluteTop + Height;
-
-            int otherLeft = otherAbsoluteLeft;
-            int otherRight = otherAbsoluteLeft + otherWidth;
-            int otherTop = otherAbsoluteTop;
-            int otherBottom = otherAbsoluteTop + otherHeight;
-
-            if (thisBottom < otherTop)
-            {
-                return false;
-            }
-            if (thisTop > otherBottom)
-            {
-                return false;
-            }
-
-            if (thisRight < otherLeft)
-            {
-                return false;
-            }
-            if (thisLeft > otherRight)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
         //UserData
         public void setUserString(String key, String value)
         {
