@@ -27,10 +27,9 @@ namespace MyGUIPlugin
 
         public void addButton(TimelineViewButton button)
         {
-            if (button != null)
+            if (button != null && !selectedButtons.Contains(button))
             {
-                button.StateCheck = true;
-                button.CoordChanged += button_CoordChanged;
+                setButtonSelected(button);
                 selectedButtons.Add(button);
             }
         }
@@ -39,10 +38,39 @@ namespace MyGUIPlugin
         {
             if (button != null)
             {
-                button.StateCheck = false;
-                button.CoordChanged -= button_CoordChanged;
-                selectedButtons.Add(button);
+                setButtonUnselected(button);
+                selectedButtons.Remove(button);
+                if (currentButton == button)
+                {
+                    setCurrentButton(null);
+                }
             }
+        }
+
+        public void clearSelection()
+        {
+            if (setCurrentButton(null))
+            {
+                foreach (TimelineViewButton button in selectedButtons)
+                {
+                    setButtonUnselected(button);
+                }
+                selectedButtons.Clear();
+            }
+        }
+
+        public bool setCurrentButton(TimelineViewButton button)
+        {
+            cancelEventArgs.reset();
+            timelineView.fireActiveDataChanging(cancelEventArgs);
+            if (!cancelEventArgs.Cancel)
+            {
+                addButton(button);
+                currentButton = button;
+                timelineView.fireActiveDataChanged();
+                return true;
+            }
+            return false;
         }
 
         public TimelineViewButton CurrentButton
@@ -51,23 +79,45 @@ namespace MyGUIPlugin
             {
                 return currentButton;
             }
-            set
+        }
+
+        public bool HasMultipleSelection
+        {
+            get
             {
-                cancelEventArgs.reset();
-                timelineView.fireActiveDataChanging(cancelEventArgs);
-                if (!cancelEventArgs.Cancel)
+                return selectedButtons.Count > 1;
+            }
+        }
+
+        void button_ButtonDragged(TimelineViewButton source, float arg)
+        {
+            float startDelta = source.StartTime - arg;
+            foreach (TimelineViewButton button in selectedButtons)
+            {
+                if (button != source)
                 {
-                    removeButton(currentButton);
-                    currentButton = value;
-                    addButton(currentButton);
-                    timelineView.fireActiveDataChanged();
+                    button.StartTime += startDelta;
                 }
             }
         }
 
         void button_CoordChanged(TimelineViewButton sender, TimelineViewButtonEventArgs e)
         {
-            timelineView.respondToCoordChange(currentButton.Left, currentButton.Right, currentButton.Width);
+            timelineView.respondToCoordChange(sender.Left, sender.Right, sender.Width);
+        }
+
+        private void setButtonSelected(TimelineViewButton button)
+        {
+            button.StateCheck = true;
+            button.CoordChanged += button_CoordChanged;
+            button.ButtonDragged += button_ButtonDragged;
+        }
+
+        private void setButtonUnselected(TimelineViewButton button)
+        {
+            button.StateCheck = false;
+            button.CoordChanged -= button_CoordChanged;
+            button.ButtonDragged -= button_ButtonDragged;
         }
     }
 }

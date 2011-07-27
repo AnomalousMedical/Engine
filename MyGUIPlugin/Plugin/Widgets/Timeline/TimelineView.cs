@@ -107,10 +107,7 @@ namespace MyGUIPlugin
 
         public void removeTrack(String name)
         {
-            if (selectionCollection.CurrentButton.Data.Track == name)
-            {
-                selectionCollection.CurrentButton = null;
-            }
+            selectionCollection.clearSelection();
             TimelineViewTrack track = namedTracks[name];
             track.removeAllActions();
             namedTracks.Remove(name);
@@ -135,7 +132,7 @@ namespace MyGUIPlugin
 
         public void clearTracks()
         {
-            selectionCollection.CurrentButton = null;
+            selectionCollection.clearSelection();
             foreach (TimelineViewTrack track in tracks)
             {
                 if (TrackRemoved != null)
@@ -158,23 +155,24 @@ namespace MyGUIPlugin
 
         public void removeData(TimelineData data)
         {
+            selectionCollection.removeButton(data._CurrentButton);
             TimelineViewButton button = namedTracks[data.Track].removeButton(data);
             if (button == selectionCollection.CurrentButton)
             {
                 //Null the internal property first as you do not want to toggle the state of the button that has already been disposed.
                 selectionCollection.nullCurrentButton();
-                selectionCollection.CurrentButton = null;
+                selectionCollection.setCurrentButton(null);
             }
         }
 
         public void removeAllData()
         {
+            selectionCollection.nullCurrentButton();
+            selectionCollection.clearSelection();
             foreach (TimelineViewTrack row in tracks)
             {
                 row.removeAllActions();
             }
-            selectionCollection.nullCurrentButton();
-            selectionCollection.CurrentButton = null;
             timelineScrollView.CanvasWidth = 2.0f;
             timelineScrollView.CanvasHeight = tracks.Count != 0 ? tracks[tracks.Count - 1].Bottom : 0.0f;
         }
@@ -260,11 +258,11 @@ namespace MyGUIPlugin
                 if (value != null)
                 {
                     TimelineViewButton button = namedTracks[value.Track].findButton(value);
-                    selectionCollection.CurrentButton = button;
+                    selectionCollection.setCurrentButton(button);
                 }
                 else
                 {
-                    selectionCollection.CurrentButton = null;
+                    selectionCollection.clearSelection();
                 }
             }
         }
@@ -375,7 +373,15 @@ namespace MyGUIPlugin
 
         void actionButton_Clicked(TimelineViewButton sender, MouseEventArgs e)
         {
-            selectionCollection.CurrentButton = sender;
+            if (InputManager.Instance.isShiftPressed())
+            {
+                selectionCollection.addButton(sender);
+            }
+            else if(!sender.StateCheck)
+            {
+                selectionCollection.clearSelection();
+            }
+            selectionCollection.setCurrentButton(sender);
         }
 
         void scrollView_KeyButtonReleased(Widget source, EventArgs e)

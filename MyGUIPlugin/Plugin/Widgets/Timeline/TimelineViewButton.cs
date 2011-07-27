@@ -40,6 +40,7 @@ namespace MyGUIPlugin
 
         public event EventDelegate<TimelineViewButton, MouseEventArgs> Clicked;
         public event EventDelegate<TimelineViewButton, TimelineViewButtonEventArgs> CoordChanged;
+        public event EventDelegate<TimelineViewButton, float> ButtonDragged;
 
         private static TimelineViewButtonEventArgs sharedEventArgs = new TimelineViewButtonEventArgs();
 
@@ -57,10 +58,12 @@ namespace MyGUIPlugin
             durationButton.MouseDrag += new MyGUIEvent(durationButton_MouseDrag);
             durationButton.MouseButtonPressed += new MyGUIEvent(durationButton_MouseButtonPressed);
             durationButton.Pointer = "size_horz";
+
             startTimeButton = button.createWidgetT("Button", "TimelineButton", 0, button.Top, 3, button.Height, Align.Top | Align.Left, "") as Button;
             startTimeButton.MouseDrag += new MyGUIEvent(startTimeButton_MouseDrag);
             startTimeButton.MouseButtonPressed += new MyGUIEvent(startTimeButton_MouseButtonPressed);
             startTimeButton.Pointer = "size_horz";
+            
             this.timelineData = timelineData;
             this.timelineDuration = timelineDuration;
             timelineData._CurrentButton = this;
@@ -105,7 +108,12 @@ namespace MyGUIPlugin
             {
                 newStartTime = timelineDuration - Duration;
             }
+            float oldStartTime = StartTime;
             StartTime = newStartTime;
+            if (ButtonDragged != null)
+            {
+                ButtonDragged.Invoke(this, oldStartTime);
+            }
         }
 
         void durationButton_MouseButtonPressed(Widget source, EventArgs e)
