@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using MyGUIPlugin;
 using Engine;
+using Engine.Platform;
 
 namespace MyGUIPlugin
 {
@@ -11,6 +12,26 @@ namespace MyGUIPlugin
 
     public class TimelineView : IDisposable
     {
+        enum TimelineEvents
+        {
+            AddSelection,
+            RemoveSelection
+        }
+
+        private static MessageEvent addSelection;
+        private static MessageEvent removeSelection;
+
+        static TimelineView()
+        {
+            addSelection = new MessageEvent(TimelineEvents.AddSelection);
+            addSelection.addButton(KeyboardButtonCode.KC_LCONTROL);
+            DefaultEvents.registerDefaultEvent(addSelection);
+
+            removeSelection = new MessageEvent(TimelineEvents.RemoveSelection);
+            removeSelection.addButton(KeyboardButtonCode.KC_LMENU);
+            DefaultEvents.registerDefaultEvent(removeSelection);
+        }
+
         private const int PREVIEW_PADDING = 10;
         private const int TRACK_START_Y = 3;
 
@@ -388,15 +409,22 @@ namespace MyGUIPlugin
 
         void actionButton_Clicked(TimelineViewButton sender, MouseEventArgs e)
         {
-            if (InputManager.Instance.isShiftPressed())
+            if (addSelection.Down)
             {
                 selectionCollection.addButton(sender);
             }
-            else if(!sender.StateCheck)
+            else if (removeSelection.Down)
             {
-                selectionCollection.clearSelection();
+                selectionCollection.removeButton(sender);
             }
-            selectionCollection.setCurrentButton(sender);
+            else
+            {
+                if (!sender.StateCheck)
+                {
+                    selectionCollection.clearSelection();
+                }
+                selectionCollection.setCurrentButton(sender);
+            }
         }
 
         void scrollView_KeyButtonReleased(Widget source, EventArgs e)

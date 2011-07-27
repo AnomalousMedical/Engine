@@ -36,7 +36,7 @@ namespace MyGUIPlugin
 
         public void removeButton(TimelineViewButton button)
         {
-            if (button != null)
+            if (button != null && button.StateCheck)
             {
                 setButtonUnselected(button);
                 selectedButtons.Remove(button);
