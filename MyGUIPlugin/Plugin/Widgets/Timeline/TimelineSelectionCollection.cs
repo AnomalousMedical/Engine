@@ -81,6 +81,14 @@ namespace MyGUIPlugin
             }
         }
 
+        public IEnumerable<TimelineViewButton> SelectedButtons
+        {
+            get
+            {
+                return selectedButtons;
+            }
+        }
+
         public bool HasMultipleSelection
         {
             get

@@ -269,6 +269,19 @@ namespace MyGUIPlugin
             }
         }
 
+        public IEnumerable<TimelineData> SelectedData
+        {
+            get
+            {
+                List<TimelineData> timelineDataList = new List<TimelineData>();
+                foreach (TimelineViewButton button in selectionCollection.SelectedButtons)
+                {
+                    timelineDataList.Add(button.Data);
+                }
+                return timelineDataList;
+            }
+        }
+
         public float Duration
         {
             get
