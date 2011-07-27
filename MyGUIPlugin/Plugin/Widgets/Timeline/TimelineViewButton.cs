@@ -263,22 +263,6 @@ namespace MyGUIPlugin
             }
         }
 
-        public int AbsoluteLeft
-        {
-            get
-            {
-                return button.AbsoluteLeft;
-            }
-        }
-
-        public int AbsoluteTop
-        {
-            get
-            {
-                return button.AbsoluteTop;
-            }
-        }
-
         public TimelineData Data
         {
             get
