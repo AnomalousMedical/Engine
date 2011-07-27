@@ -10,24 +10,25 @@ namespace MyGUIPlugin
 {
     public delegate void TimelineTrackEvent(TimelineViewTrack track);
 
+    enum SelectionMode
+    {
+        AddSelection,
+        RemoveSelection,
+        SetSelection
+    }
+
     public class TimelineView : IDisposable
     {
-        enum TimelineEvents
-        {
-            AddSelection,
-            RemoveSelection
-        }
-
         private static MessageEvent addSelection;
         private static MessageEvent removeSelection;
 
         static TimelineView()
         {
-            addSelection = new MessageEvent(TimelineEvents.AddSelection);
+            addSelection = new MessageEvent(SelectionMode.AddSelection);
             addSelection.addButton(KeyboardButtonCode.KC_LCONTROL);
             DefaultEvents.registerDefaultEvent(addSelection);
 
-            removeSelection = new MessageEvent(TimelineEvents.RemoveSelection);
+            removeSelection = new MessageEvent(SelectionMode.RemoveSelection);
             removeSelection.addButton(KeyboardButtonCode.KC_LMENU);
             DefaultEvents.registerDefaultEvent(removeSelection);
         }
@@ -527,10 +528,27 @@ namespace MyGUIPlugin
 
         void timelineSelectionBox_SelectionAreaDefined(TimelineSelectionBox source)
         {
-            selectionCollection.clearSelection();
-            foreach (TimelineViewTrack track in tracks)
+            if (addSelection.Down)
             {
-                track.findSelection(selectionCollection, source);
+                foreach (TimelineViewTrack track in tracks)
+                {
+                    track.addSelection(selectionCollection, source);
+                }
+            }
+            else if (removeSelection.Down)
+            {
+                foreach (TimelineViewTrack track in tracks)
+                {
+                    track.removeSelection(selectionCollection, source);
+                }
+            }
+            else
+            {
+                selectionCollection.clearSelection();
+                foreach (TimelineViewTrack track in tracks)
+                {
+                    track.addSelection(selectionCollection, source);
+                }
             }
         }
     }

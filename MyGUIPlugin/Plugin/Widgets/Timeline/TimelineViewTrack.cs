@@ -162,13 +162,24 @@ namespace MyGUIPlugin
             }
         }
 
-        internal void findSelection(TimelineSelectionCollection selectionCollection, TimelineSelectionBox timelineSelectionBox)
+        internal void addSelection(TimelineSelectionCollection selectionCollection, TimelineSelectionBox timelineSelectionBox)
         {
             foreach (TimelineViewButton button in buttons)
             {
                 if (timelineSelectionBox.intersects(button))
                 {
                     selectionCollection.addButton(button);
+                }
+            }
+        }
+
+        internal void removeSelection(TimelineSelectionCollection selectionCollection, TimelineSelectionBox timelineSelectionBox)
+        {
+            foreach (TimelineViewButton button in buttons)
+            {
+                if (timelineSelectionBox.intersects(button))
+                {
+                    selectionCollection.removeButton(button);
                 }
             }
         }
