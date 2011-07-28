@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Engine.Platform;
+using Engine;
 
 namespace MyGUIPlugin
 {
@@ -39,14 +40,14 @@ namespace MyGUIPlugin
 
             //MinValue
             userString = edit.getUserString("MinValue");
-            if (userString == null || !Single.TryParse(userString, out minValue))
+            if (userString == null || !NumberParser.TryParse(userString, out minValue))
             {
                 minValue = 0;
             }
             
             //MaxValue
             userString = edit.getUserString("MaxValue");
-            if (userString == null || !Single.TryParse(userString, out maxValue))
+            if (userString == null || !NumberParser.TryParse(userString, out maxValue))
             {
                 maxValue = 10;
             }
@@ -160,6 +161,24 @@ namespace MyGUIPlugin
             set
             {
                 if (value >= minValue && value <= maxValue)
+                {
+                    edit.Caption = value.ToString();
+                    lastCaption = edit.Caption;
+                }
+            }
+        }
+
+        public decimal DecimalValue
+        {
+            get
+            {
+                decimal value = 0;
+                decimal.TryParse(edit.Caption, out value);
+                return value;
+            }
+            set
+            {
+                if ((float)value >= minValue && (float)value <= maxValue)
                 {
                     edit.Caption = value.ToString();
                     lastCaption = edit.Caption;

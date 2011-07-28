@@ -37,6 +37,7 @@ namespace Engine.Reflection
             typeMapping.Add(typeof(uint), typeof(UIntReflectedVariable));
             typeMapping.Add(typeof(byte), typeof(ByteReflectedVariable));
             typeMapping.Add(typeof(Color), typeof(ColorReflectedVariable));
+            typeMapping.Add(typeof(Decimal), typeof(DecimalReflectedVariable));
         }
 
         /// <summary>
