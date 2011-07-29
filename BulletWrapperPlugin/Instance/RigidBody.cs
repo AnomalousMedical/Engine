@@ -140,6 +140,14 @@ namespace BulletPlugin
             }
         }
 
+        public bool IsNull
+        {
+            get
+            {
+                return rigidBody == IntPtr.Zero;
+            }
+        }
+
         internal IntPtr NativeRigidBody
         {
             get
