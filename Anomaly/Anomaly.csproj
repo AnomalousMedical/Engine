@@ -91,8 +91,6 @@
     <Compile Include="Controller\ProjectManagement\ObjectPlaceholders\ObjectPlaceholderInterface.cs" />
     <Compile Include="Controller\ProjectManagement\ObjectPlaceholders\ResourceManagerFileInterface.cs" />
     <Compile Include="Controller\ProjectManagement\ObjectPlaceholders\SimSceneFileInterface.cs" />
-    <Compile Include="Controller\ProjectManagement\PositionImport\Position.cs" />
-    <Compile Include="Controller\ProjectManagement\PositionImport\PositionCollection.cs" />
     <Compile Include="Controller\ProjectManagement\Project.cs" />
     <Compile Include="Controller\ProjectManagement\ProjectData.cs" />
     <Compile Include="Controller\ProjectManagement\ProjectReference.cs" />

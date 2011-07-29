@@ -6,7 +6,7 @@ using Engine;
 using Logging;
 using System.Xml;
 
-namespace Anomaly
+namespace Engine
 {
     public class PositionCollection
     {
@@ -47,7 +47,7 @@ namespace Anomaly
                         String name = xmlReader.GetAttribute(NAME_ATTRIBUTE);
                         if (!positionDictionary.ContainsKey(name))
                         {
-                            Position position = new Position();
+                            Position position = new Position(name);
                             while (!(xmlReader.Name == POSITION_ELEMENT && xmlReader.NodeType == XmlNodeType.EndElement) && xmlReader.Read())
                             {
                                 if (xmlReader.NodeType == XmlNodeType.Element)
@@ -83,6 +83,14 @@ namespace Anomaly
             Position pos = null;
             positionDictionary.TryGetValue(name, out pos);
             return pos;
+        }
+
+        public IEnumerable<Position> Positions
+        {
+            get
+            {
+                return positionDictionary.Values;
+            }
         }
 
         /// <summary>

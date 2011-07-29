@@ -147,6 +147,8 @@
     <Compile Include="ObjectManagement\Instance\SimObjectManager.cs" />
     <Compile Include="ObjectManagement\Instance\SimScene.cs" />
     <Compile Include="ObjectManagement\Instance\SimSubScene.cs" />
+    <Compile Include="ObjectManagement\PositionImport\Position.cs" />
+    <Compile Include="ObjectManagement\PositionImport\PositionCollection.cs" />
     <Compile Include="Platform\Clock.cs" />
     <Compile Include="Platform\FullSpeedOnlyUpdateTimer.cs" />
     <Compile Include="Platform\Input\DefaultEvents.cs" />
