@@ -61,11 +61,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return (int)scroll.ScrollPosition - min;
+                return (int)scroll.ScrollPosition + min;
             }
             set
             {
-                scroll.ScrollPosition = (uint)(value + min);
+                scroll.ScrollPosition = (uint)(value - min);
             }
         }
 
