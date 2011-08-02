@@ -45,5 +45,29 @@ namespace MyGUIPlugin
                 comboBox.SelectedIndex = enumIndexes[value];
             }
         }
+
+        public event MyGUIEvent EventComboAccept
+        {
+            add
+            {
+                comboBox.EventComboAccept += value;
+            }
+            remove
+            {
+                comboBox.EventComboAccept -= value;
+            }
+        }
+
+        public event MyGUIEvent EventComboChangePosition
+        {
+            add
+            {
+                comboBox.EventComboChangePosition += value;
+            }
+            remove
+            {
+                comboBox.EventComboChangePosition -= value;
+            }
+        }
     }
 }
