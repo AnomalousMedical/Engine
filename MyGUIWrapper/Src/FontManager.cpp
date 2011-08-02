@@ -19,3 +19,13 @@ extern "C" _AnomalousExport uint FontManager_measureStringWidth(MyGUI::FontManag
 	}
 	return length;
 }
+
+extern "C" _AnomalousExport void FontManager_setDefaultFont(MyGUI::FontManager* fontManager, String value)
+{
+	fontManager->setDefaultFont(value);
+}
+
+extern "C" _AnomalousExport String FontManager_getDefaultFont(MyGUI::FontManager* fontManager)
+{
+	return fontManager->getDefaultFont().c_str();
+}

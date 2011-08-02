@@ -550,6 +550,42 @@ namespace MyGUIPlugin
             }
         }
 
+        public String FontName
+        {
+            get
+            {
+                return Marshal.PtrToStringAnsi(Widget_getFontName(widget));
+            }
+            set
+            {
+                Widget_setFontName(widget, value);
+            }
+        }
+
+        public int FontHeight
+        {
+            get
+            {
+                return Widget_getFontHeight(widget);
+            }
+            set
+            {
+                Widget_setFontHeight(widget, value);
+            }
+        }
+
+        public Align TextAlign
+        {
+            get
+            {
+                return Widget_getTextAlign(widget);
+            }
+            set
+            {
+                Widget_setTextAlign(widget, value);
+            }
+        }
+
         public Object UserObject { get; set; }
         
 #region Internal Management
@@ -995,6 +1031,24 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper")]
         private static extern IntPtr Widget_getSubWidgetText(IntPtr widget);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern void Widget_setFontName(IntPtr widget, String value);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern IntPtr Widget_getFontName(IntPtr widget);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern void Widget_setFontHeight(IntPtr widget, int value);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern int Widget_getFontHeight(IntPtr widget);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern void Widget_setTextAlign(IntPtr widget, Align value);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern Align Widget_getTextAlign(IntPtr widget);
 
 #endregion
     }

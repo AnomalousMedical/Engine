@@ -378,4 +378,34 @@ extern "C" _AnomalousExport MyGUI::ISubWidgetText* Widget_getSubWidgetText(MyGUI
 	return widget->getSubWidgetText();
 }
 
+extern "C" _AnomalousExport void Widget_setFontName(MyGUI::Widget* widget, String value)
+{
+	return widget->_setFontName(value);
+}
+
+extern "C" _AnomalousExport String Widget_getFontName(MyGUI::Widget* widget)
+{
+	return widget->_getFontName().c_str();
+}
+
+extern "C" _AnomalousExport void Widget_setFontHeight(MyGUI::Widget* widget, int value)
+{
+	return widget->_setFontHeight(value);
+}
+
+extern "C" _AnomalousExport int Widget_getFontHeight(MyGUI::Widget* widget)
+{
+	return widget->_getFontHeight();
+}
+
+extern "C" _AnomalousExport void Widget_setTextAlign(MyGUI::Widget* widget, MyGUI::Align::Enum value)
+{
+	widget->_setTextAlign(value);
+}
+
+extern "C" _AnomalousExport MyGUI::Align::Enum Widget_getTextAlign(MyGUI::Widget* widget)
+{
+	return getAlignEnumVal(widget->_getTextAlign());
+}
+
 #pragma warning(pop)
