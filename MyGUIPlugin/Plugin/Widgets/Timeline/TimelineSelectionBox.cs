@@ -36,7 +36,7 @@ namespace MyGUIPlugin
             int otherLeft = timelineButton.Left;
             int otherRight = otherLeft + timelineButton.Width;
             int otherTop = timelineButton.Top;
-            int otherBottom = otherRight + timelineButton.Height;
+            int otherBottom = otherTop + timelineButton.Height;
 
             if (thisBottom < otherTop)
             {
