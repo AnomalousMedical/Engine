@@ -124,6 +124,11 @@ namespace Engine
             return setValue(value, out r, out g, out b, out a);
         }
 
+        public String ToHexString()
+        {
+            return String.Format("{0:X2}{1:X2}{2:X2}", (int)(r * 0xff), (int)(g * 0xff), (int)(b * 0xff));
+        }
+
         #region Static Helpers
 
         private static char[] SEPS = { ',' };
