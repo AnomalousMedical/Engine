@@ -177,6 +177,8 @@ namespace OgrePlugin
         ///     This value represents the VERTICAL field-of-view. The horizontal field of view is 
         ///     calculated from this depending on the dimensions of the viewport (they will only be 
         ///     the same if the viewport is square). 
+        ///     
+        ///     NOTE: This is stored in radians.
         /// </summary>
         [Editable]
         public float FOVy { get; set; }

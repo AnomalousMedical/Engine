@@ -14,7 +14,7 @@ namespace Engine
 
         public float Value;
 
-        private Degree(float value)
+        public Degree(float value)
         {
             this.Value = value;
         }

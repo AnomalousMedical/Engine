@@ -14,7 +14,7 @@ namespace Engine
 
         public float Value;
 
-        private Radian(float value)
+        public Radian(float value)
         {
             this.Value = value;
         }

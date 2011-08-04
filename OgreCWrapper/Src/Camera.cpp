@@ -165,12 +165,12 @@ extern "C" _AnomalousExport bool Camera_getUseRenderingDistance(Ogre::Camera* ca
 
 extern "C" _AnomalousExport void Camera_setFOVy(Ogre::Camera* camera, float fovy)
 {
-	camera->setFOVy(Ogre::Degree(fovy));
+	camera->setFOVy(Ogre::Radian(fovy));
 }
 
 extern "C" _AnomalousExport float Camera_getFOVy(Ogre::Camera* camera)
 {
-	return camera->getFOVy().valueDegrees();
+	return camera->getFOVy().valueRadians();
 }
 
 extern "C" _AnomalousExport void Camera_setNearClipDistance(Ogre::Camera* camera, float nearDistance)

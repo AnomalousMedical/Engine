@@ -377,7 +377,7 @@ namespace OgreWrapper
 	    /// the same if the viewport is square). 
 	    /// </summary>
 	    /// <param name="fovy">The fov to set, must be in degrees.</param>
-        public void setFOVy(float fovy)
+        public void setFOVy(Radian fovy)
         {
             Camera_setFOVy(ogreObject, fovy);
         }
@@ -386,7 +386,7 @@ namespace OgreWrapper
 	    /// Get the vertical fov.
 	    /// </summary>
 	    /// <returns>The vertical fov in degrees.</returns>
-        public float getFOVy()
+        public Radian getFOVy()
         {
             return Camera_getFOVy(ogreObject);
         }
