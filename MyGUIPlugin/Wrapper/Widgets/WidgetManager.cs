@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine;
 using System.Runtime.InteropServices;
+using Logging;
 
 namespace MyGUIPlugin
 {
@@ -76,7 +77,8 @@ namespace MyGUIPlugin
 
         private static Widget createWrapper(IntPtr widget, object[] args)
         {
-            switch(WidgetManager_getType(widget))
+            WidgetType widgetType = WidgetManager_getType(widget);
+            switch(widgetType)
             {
                 case WidgetType.Widget:
                     return new Widget(widget);
@@ -153,6 +155,7 @@ namespace MyGUIPlugin
                 case WidgetType.Message:
                     return new Message(widget);
             }
+            Log.Warning("Could not identify widget type for widget {0}. Type given was {1}. Will return a Widget in its place.", widget.ToString(), widgetType);
             return new Widget(widget);
         }
 
