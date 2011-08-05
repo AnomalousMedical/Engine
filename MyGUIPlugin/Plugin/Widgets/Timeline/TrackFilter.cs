@@ -43,10 +43,10 @@ namespace MyGUIPlugin
         {
             String actionName = row.Name;
             
-            Button button = scrollView.createWidgetT("Button", "ButtonMinusPlus", 0, row.Top, buttonWidth, buttonHeight, Align.Default, "") as Button;
+            Button button = (Button)scrollView.createWidgetT("Button", "ButtonMinusPlus", 0, row.Top, buttonWidth, buttonHeight, Align.Default, "");
             button.StateCheck = true;
             
-            StaticText staticText = scrollView.createWidgetT("StaticText", "StaticText", buttonWidth + 1, row.Top, textWidth, buttonHeight, Align.Default, "") as StaticText;
+            StaticText staticText = (StaticText)scrollView.createWidgetT("StaticText", "StaticText", buttonWidth + 1, row.Top, textWidth, buttonHeight, Align.Default, "");
             staticText.TextAlign = Align.Left | Align.VCenter;
             staticText.TextColor = row.Color;
             
