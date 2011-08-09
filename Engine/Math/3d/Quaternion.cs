@@ -108,9 +108,9 @@ namespace Engine
         /// <param name="axis">Rotation axis.</param>
         /// <param name="angle">Angle of rotation around that axis.</param>
         public void setRotation(ref Vector3 axis, float angle)
-	    {
+        {
             setRotation(ref axis, ref angle, out x, out y, out z, out w);
-	    }
+        }
 
         /// <summary>
         /// Set the value using euler angles.
@@ -219,15 +219,15 @@ namespace Engine
         /// <returns>The axis component of this quaternion.</returns>
         public Vector3 getAxis()
         {
-            float fSqrLength = w*w;
-            if ( fSqrLength > 0.0 )
+            float fSqrLength = w * w;
+            if (fSqrLength > 0.0)
             {
                 float fInvLength = (float)(1.0f / System.Math.Sqrt(1.0f - fSqrLength));
-                return new Vector3(x*fInvLength, y*fInvLength, z*fInvLength);
+                return new Vector3(x * fInvLength, y * fInvLength, z * fInvLength);
             }
             else
             {
-            return new Vector3(1.0f, 0.0f, 0.0f);
+                return new Vector3(1.0f, 0.0f, 0.0f);
             }
         }
 
@@ -235,16 +235,16 @@ namespace Engine
         /// Compute the angle component of this quaternion for axis-angle.
         /// </summary>
         /// <returns>The angle component of this quaternion.</returns>
-        public float getAngle() 
-	    {
-		    float fSqrLength = x*x+y*y+z*z;
-		    float s = 0.0f;
-		    if(fSqrLength > 0.0)
-		    {
-			    s = 2f * (float)System.Math.Acos(w);
-		    }
-		    return s;
-	    }
+        public float getAngle()
+        {
+            float fSqrLength = x * x + y * y + z * z;
+            float s = 0.0f;
+            if (fSqrLength > 0.0)
+            {
+                s = 2f * (float)System.Math.Acos(w);
+            }
+            return s;
+        }
 
         /// <summary>
         /// Compute the inverse of this quaternion (invert x, y, z, w).
@@ -278,27 +278,27 @@ namespace Engine
         /// <param name="t">The amount of time passed between 0 and 1.</param>
         /// <returns></returns>
         public Quaternion slerp(ref Quaternion q, float t)
-	    {
-		    float theta = angle(ref q);
-		    if (theta != 0.0f)
-		    {
-			    float d = 1.0f / (float)System.Math.Sin(theta);
-			    float s0 = (float)System.Math.Sin((1.0f - t) * theta);
-			    float sinYaw = (float)System.Math.Sin(t * theta);   
-			    return new Quaternion((x * s0 + q.x * sinYaw) * d,
-				    (y * s0 + q.y * sinYaw) * d,
-				    (z * s0 + q.z * sinYaw) * d,
-				    (w * s0 + q.w * sinYaw) * d);
-		    }
-		    else
-		    {
-			    return this;
-		    }
-	    }
+        {
+            float theta = angle(ref q);
+            if (theta != 0.0f)
+            {
+                float d = 1.0f / (float)System.Math.Sin(theta);
+                float s0 = (float)System.Math.Sin((1.0f - t) * theta);
+                float sinYaw = (float)System.Math.Sin(t * theta);
+                return new Quaternion((x * s0 + q.x * sinYaw) * d,
+                    (y * s0 + q.y * sinYaw) * d,
+                    (z * s0 + q.z * sinYaw) * d,
+                    (w * s0 + q.w * sinYaw) * d);
+            }
+            else
+            {
+                return this;
+            }
+        }
 
         public Matrix3x3 toRotationMatrix()
         {
-            float fTx  = x+x;
+            float fTx = x + x;
             float fTy = y + y;
             float fTz = z + z;
             float fTwx = fTx * w;
@@ -312,7 +312,7 @@ namespace Engine
             float fTzz = fTz * z;
 
             Matrix3x3 kRot;
-            kRot.m00 = 1.0f-(fTyy+fTzz);
+            kRot.m00 = 1.0f - (fTyy + fTzz);
             kRot.m01 = fTxy - fTwz;
             kRot.m02 = fTxz + fTwy;
             kRot.m10 = fTxy + fTwz;
@@ -326,7 +326,7 @@ namespace Engine
         }
 
         static int[] fromRotNext = { 1, 2, 0 };
-        public void fromRotationMatrix (Matrix3x3 kRot)
+        public void fromRotationMatrix(Matrix3x3 kRot)
         {
             // Algorithm in Ken Shoemake's article in 1987 SIGGRAPH course notes
             // article "Quaternion Calculus and Fast Animation".
@@ -334,20 +334,18 @@ namespace Engine
             float fTrace = kRot.m00 + kRot.m11 + kRot.m22;
             float fRoot;
 
-            if ( fTrace > 0.0 )
+            if (fTrace > 0.0)
             {
-                Logging.Log.Debug("In ftrace > 0.0");
                 // |w| > 1/2, may as well choose w > 1/2
                 fRoot = (float)Math.Sqrt(fTrace + 1.0f);  // 2w
-                w = 0.5f*fRoot;
-                fRoot = 0.5f/fRoot;  // 1/(4w)
+                w = 0.5f * fRoot;
+                fRoot = 0.5f / fRoot;  // 1/(4w)
                 x = (kRot.m21 - kRot.m12) * fRoot;
                 y = (kRot.m02 - kRot.m20) * fRoot;
                 z = (kRot.m10 - kRot.m01) * fRoot;
             }
             else
             {
-                Logging.Log.Debug("In else");
                 // |w| <= 1/2
                 int i = 0;
                 if (kRot.m11 > kRot.m00)
@@ -365,7 +363,7 @@ namespace Engine
                 Vector3 apkQuat = new Vector3();
                 apkQuat[i] = 0.5f * fRoot;
                 fRoot = 0.5f / fRoot;
-                w = (kRot[k, j] - kRot[j, k])*fRoot;
+                w = (kRot[k, j] - kRot[j, k]) * fRoot;
                 apkQuat[j] = (kRot[j, i] + kRot[i, j]) * fRoot;
                 apkQuat[k] = (kRot[k, i] + kRot[i, k]) * fRoot;
 
@@ -375,7 +373,7 @@ namespace Engine
             }
         }
 
-        public void toAxes (Vector3[] axis)
+        public void toAxes(Vector3[] axis)
         {
             Matrix3x3 kRot = toRotationMatrix();
 
@@ -466,16 +464,16 @@ namespace Engine
         /// <returns>The quaternion with the shortest arc.</returns>
         public static Quaternion shortestArcQuat(ref Vector3 v0, ref Vector3 v1)
         {
-	        Vector3 c = v0.cross(ref v1);
-	        float  d = v0.dot(ref v1);
+            Vector3 c = v0.cross(ref v1);
+            float d = v0.dot(ref v1);
 
-	        if (d < -1.0 + FLT_EPSILON)
-		        return new Quaternion(0.0f,1.0f,0.0f,0.0f); // just pick any vector
+            if (d < -1.0 + FLT_EPSILON)
+                return new Quaternion(0.0f, 1.0f, 0.0f, 0.0f); // just pick any vector
 
-	        float  s = (float)System.Math.Sqrt((1.0f + d) * 2.0f);
-	        float rs = 1.0f / s;
+            float s = (float)System.Math.Sqrt((1.0f + d) * 2.0f);
+            float rs = 1.0f / s;
 
-	        return new Quaternion(c.x*rs,c.y*rs,c.z*rs,s * 0.5f);
+            return new Quaternion(c.x * rs, c.y * rs, c.z * rs, s * 0.5f);
         }
 
         /// <summary>
@@ -518,7 +516,7 @@ namespace Engine
             }
         }
 
-        public static Quaternion operator * (Quaternion q1, Quaternion q2)
+        public static Quaternion operator *(Quaternion q1, Quaternion q2)
         {
             return new Quaternion(q1.w * q2.x + q1.x * q2.w + q1.y * q2.z - q1.z * q2.y,
                 q1.w * q2.y + q1.y * q2.w + q1.z * q2.x - q1.x * q2.z,
@@ -526,7 +524,7 @@ namespace Engine
                 q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z);
         }
 
-        public static Quaternion operator * (Quaternion q, Vector3 w)
+        public static Quaternion operator *(Quaternion q, Vector3 w)
         {
             return new Quaternion(q.w * w.x + q.y * w.z - q.z * w.y,
                 q.w * w.y + q.z * w.x - q.x * w.z,
@@ -534,7 +532,7 @@ namespace Engine
                 -q.x * w.x - q.y * w.y - q.z * w.z);
         }
 
-        public static Quaternion operator * (Vector3 w, Quaternion q)
+        public static Quaternion operator *(Vector3 w, Quaternion q)
         {
             return new Quaternion(w.x * q.w + w.y * q.z - w.z * q.y,
                 w.y * q.w + w.z * q.x - w.x * q.z,
@@ -542,15 +540,15 @@ namespace Engine
                 -w.x * q.x - w.y * q.y - w.z * q.z);
         }
 
-        public static Quaternion operator * (Quaternion q, float s)
+        public static Quaternion operator *(Quaternion q, float s)
         {
             return new Quaternion(q.x * s, q.y * s, q.z * s, q.w * s);
         }
 
         public static Quaternion operator /(Quaternion q, float s)
-	    {
-		    return q * (1.0f / s);
-	    }
+        {
+            return q * (1.0f / s);
+        }
 
         public static Quaternion operator +(Quaternion q1, Quaternion q2)
         {
