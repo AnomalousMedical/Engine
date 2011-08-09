@@ -564,6 +564,16 @@ namespace OgreWrapper
             Camera_setFrustumExtents(ogreObject, left, right, top, bottom);
         }
 
+        public Vector3 getPositionForViewUpdate()
+        {
+            return Camera_getPositionForViewUpdate(ogreObject);
+        }
+
+        public Quaternion getOrientationForViewUpdate()
+        {
+            return Camera_getOrientationForViewUpdate(ogreObject);
+        }
+
         #region NativeWrapper
 
         [DllImport("OgreCWrapper")]
@@ -721,6 +731,12 @@ namespace OgreWrapper
 
         [DllImport("OgreCWrapper")]
         private static extern void Camera_setFrustumExtents(IntPtr camera, float left, float right, float top, float bottom);
+
+        [DllImport("OgreCWrapper")]
+        private static extern Vector3 Camera_getPositionForViewUpdate(IntPtr camera);
+
+        [DllImport("OgreCWrapper")]
+        private static extern Quaternion Camera_getOrientationForViewUpdate(IntPtr camera);
 
         #endregion
     }

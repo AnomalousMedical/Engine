@@ -107,6 +107,7 @@
     <Compile Include="Math\2d\IntVector2.cs" />
     <Compile Include="Math\2d\Size2.cs" />
     <Compile Include="Math\2d\Vector2.cs" />
+    <Compile Include="Math\3d\Matrix3x3.cs" />
     <Compile Include="Math\3d\Matrix4x4.cs" />
     <Compile Include="Math\3d\Quaternion.cs" />
     <Compile Include="Math\3d\Ray3.cs" />

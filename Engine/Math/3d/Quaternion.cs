@@ -296,6 +296,110 @@ namespace Engine
 		    }
 	    }
 
+        public Matrix3x3 toRotationMatrix()
+        {
+            float fTx  = x+x;
+            float fTy = y + y;
+            float fTz = z + z;
+            float fTwx = fTx * w;
+            float fTwy = fTy * w;
+            float fTwz = fTz * w;
+            float fTxx = fTx * x;
+            float fTxy = fTy * x;
+            float fTxz = fTz * x;
+            float fTyy = fTy * y;
+            float fTyz = fTz * y;
+            float fTzz = fTz * z;
+
+            Matrix3x3 kRot;
+            kRot.m00 = 1.0f-(fTyy+fTzz);
+            kRot.m01 = fTxy - fTwz;
+            kRot.m02 = fTxz + fTwy;
+            kRot.m10 = fTxy + fTwz;
+            kRot.m11 = 1.0f - (fTxx + fTzz);
+            kRot.m12 = fTyz - fTwx;
+            kRot.m20 = fTxz - fTwy;
+            kRot.m21 = fTyz + fTwx;
+            kRot.m22 = 1.0f - (fTxx + fTyy);
+
+            return kRot;
+        }
+
+        static int[] fromRotNext = { 1, 2, 0 };
+        public void fromRotationMatrix (Matrix3x3 kRot)
+        {
+            // Algorithm in Ken Shoemake's article in 1987 SIGGRAPH course notes
+            // article "Quaternion Calculus and Fast Animation".
+
+            float fTrace = kRot.m00 + kRot.m11 + kRot.m22;
+            float fRoot;
+
+            if ( fTrace > 0.0 )
+            {
+                Logging.Log.Debug("In ftrace > 0.0");
+                // |w| > 1/2, may as well choose w > 1/2
+                fRoot = (float)Math.Sqrt(fTrace + 1.0f);  // 2w
+                w = 0.5f*fRoot;
+                fRoot = 0.5f/fRoot;  // 1/(4w)
+                x = (kRot.m21 - kRot.m12) * fRoot;
+                y = (kRot.m02 - kRot.m20) * fRoot;
+                z = (kRot.m10 - kRot.m01) * fRoot;
+            }
+            else
+            {
+                Logging.Log.Debug("In else");
+                // |w| <= 1/2
+                int i = 0;
+                if (kRot.m11 > kRot.m00)
+                {
+                    i = 1;
+                }
+                if (kRot.m22 > kRot[i, i])
+                {
+                    i = 2;
+                }
+                int j = fromRotNext[i];
+                int k = fromRotNext[j];
+
+                fRoot = (float)Math.Sqrt(kRot[i, i] - kRot[j, j] - kRot[k, k] + 1.0f);
+                Vector3 apkQuat = new Vector3();
+                apkQuat[i] = 0.5f * fRoot;
+                fRoot = 0.5f / fRoot;
+                w = (kRot[k, j] - kRot[j, k])*fRoot;
+                apkQuat[j] = (kRot[j, i] + kRot[i, j]) * fRoot;
+                apkQuat[k] = (kRot[k, i] + kRot[i, k]) * fRoot;
+
+                x = apkQuat.x;
+                y = apkQuat.y;
+                z = apkQuat.z;
+            }
+        }
+
+        public void toAxes (Vector3[] axis)
+        {
+            Matrix3x3 kRot = toRotationMatrix();
+
+            axis[0].x = kRot.m00;
+            axis[0].y = kRot.m10;
+            axis[0].z = kRot.m20;
+
+            axis[1].x = kRot.m01;
+            axis[1].y = kRot.m11;
+            axis[1].z = kRot.m21;
+
+            axis[2].x = kRot.m02;
+            axis[2].y = kRot.m12;
+            axis[2].z = kRot.m22;
+        }
+
+        public void fromAxes(Vector3 xaxis, Vector3 yaxis, Vector3 zaxis)
+        {
+            Matrix3x3 kRot = new Matrix3x3(xaxis.x, yaxis.x, zaxis.x,
+                                           xaxis.y, yaxis.y, zaxis.y,
+                                           xaxis.z, yaxis.z, zaxis.z);
+            fromRotationMatrix(kRot);
+        }
+
         /// <summary>
         /// Set the value directly all at once.
         /// </summary>

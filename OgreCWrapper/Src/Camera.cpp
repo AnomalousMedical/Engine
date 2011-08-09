@@ -258,4 +258,14 @@ extern "C" _AnomalousExport void Camera_setFrustumExtents(Ogre::Camera* camera, 
 	camera->setFrustumExtents(left, right, top, bottom);
 }
 
+extern "C" _AnomalousExport Vector3 Camera_getPositionForViewUpdate(Ogre::Camera* camera)
+{
+	return camera->getPositionForViewUpdate();
+}
+
+extern "C" _AnomalousExport Quaternion Camera_getOrientationForViewUpdate(Ogre::Camera* camera)
+{
+	return camera->getOrientationForViewUpdate();
+}
+
 #pragma warning(pop)

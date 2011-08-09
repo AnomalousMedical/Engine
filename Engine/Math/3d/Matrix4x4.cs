@@ -9,6 +9,11 @@ namespace Engine
     [StructLayout(LayoutKind.Explicit, Size = 64)]
     public unsafe struct Matrix4x4
     {
+        public static Matrix4x4 Identity = new Matrix4x4(1, 0, 0, 0,
+                                                         0, 1, 0, 0,
+                                                         0, 0, 1, 0,
+                                                         0, 0, 0, 1);
+
         [FieldOffset(0)]
         public float m00;
         [FieldOffset(4)]
@@ -144,7 +149,22 @@ namespace Engine
                 d30, d31, d32, d33);
         }
 
-        public static Vector3 operator * (Matrix4x4 mat, Vector3 v)
+        public void setRotation(Matrix3x3 rotMat)
+        {
+            m00 = rotMat.m00;
+            m01 = rotMat.m01;
+            m02 = rotMat.m02;
+
+            m10 = rotMat.m10;
+            m11 = rotMat.m11;
+            m12 = rotMat.m12;
+
+            m20 = rotMat.m20;
+            m21 = rotMat.m21;
+            m22 = rotMat.m22;
+        }
+
+        public static Vector3 operator *(Matrix4x4 mat, Vector3 v)
         {
             Vector4* m = (Vector4*)&mat.m00;
 
@@ -181,24 +201,13 @@ namespace Engine
                 m1.m30 * m2.m03 + m1.m31 * m2.m13 + m1.m32 * m2.m23 + m1.m33 * m2.m33
             );
         }
+
+        public String DisplayString
+        {
+            get
+            {
+                return String.Format("{0,10}, {1,10}, {2,10}, {3,10}\n{4,10}, {5,10}, {6,10}, {7,10}\n{8,10}, {9,10}, {10,10}, {11,10},\n{12,10}, {13,10}, {14,10}, {15,10}", m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33);
+            }
+        }
     }
 }
-
-/*
-float m00;
-float m01;
-float m02;
-float m03;
-float m10;
-float m11;
-float m12;
-float m13;
-float m20;
-float m21;
-float m22;
-float m23;
-float m30;
-float m31;
-float m32;
-float m33;
-*/

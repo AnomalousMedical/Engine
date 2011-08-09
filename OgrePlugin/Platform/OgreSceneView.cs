@@ -234,7 +234,7 @@ namespace OgrePlugin
             set
             {
                 lookAt = value;
-                node.lookAt(lookAt, Node.TransformSpace.TS_WORLD);
+                //node.lookAt(lookAt, Node.TransformSpace.TS_WORLD);
                 camera.lookAt(lookAt);
             }
         }
