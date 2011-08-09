@@ -209,5 +209,48 @@ namespace Engine
                 return String.Format("{0,10}, {1,10}, {2,10}, {3,10}\n{4,10}, {5,10}, {6,10}, {7,10}\n{8,10}, {9,10}, {10,10}, {11,10},\n{12,10}, {13,10}, {14,10}, {15,10}", m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33);
             }
         }
+
+        /// <summary>
+        /// Calculate a view matrix. It will match what ogre creates. This method is from their codebase.
+        /// </summary>
+        /// <param name="position">The position.</param>
+        /// <param name="orientation">The orientation.</param>
+        /// <returns>A Matrix4x4 that is the view matrix for a camera with the given position and orientation.</returns>
+        public static Matrix4x4 makeViewMatrix(Vector3 position, Quaternion orientation)
+        //,const Matrix4x4 reflectMatrix)
+        {
+            Matrix4x4 viewMatrix;
+
+            // View matrix is:
+            //
+            //  [ Lx  Uy  Dz  Tx  ]
+            //  [ Lx  Uy  Dz  Ty  ]
+            //  [ Lx  Uy  Dz  Tz  ]
+            //  [ 0   0   0   1   ]
+            //
+            // Where T = -(Transposed(Rot) * Pos)
+
+            // This is most efficiently done using 3x3 Matrices
+            Matrix3x3 rot = orientation.toRotationMatrix();
+
+            // Make the translation relative to new axes
+            Matrix3x3 rotT = rot.transpose();
+            Vector3 trans = -rotT * position;
+
+            // Make final matrix
+            viewMatrix = Matrix4x4.Identity;
+            viewMatrix.setRotation(rotT); // fills upper 3x3
+            viewMatrix.m03 = trans.x;
+            viewMatrix.m13 = trans.y;
+            viewMatrix.m23 = trans.z;
+
+            // Deal with reflections
+            //if (reflectMatrix)
+            //{
+            //    viewMatrix = viewMatrix * (reflectMatrix);
+            //}
+
+            return viewMatrix;
+        }
     }
 }

@@ -489,6 +489,36 @@ namespace Engine
             return shortestArcQuat(ref v0, ref v1);
         }
 
+        /// <summary>
+        /// Compute the shortest arc quaternion with a fixed yaw axis.
+        /// </summary>
+        /// <param name="direction">The direction to face. Must be normalized.</param>
+        /// <returns>The quaternion that will get to this orientation.</returns>
+        public static Quaternion shortestArcQuatFixedYaw(ref Vector3 direction)
+        {
+            return shortestArcQuatFixedYaw(ref direction, ref Vector3.Up);
+        }
+
+        /// <summary>
+        /// Compute the shortest arc quaternion with a fixed yaw axis.
+        /// </summary>
+        /// <param name="direction">The direction to face. Must be normalized.</param>
+        /// <param name="yawFixedAxis">The axis to fix as yaw.</param>
+        /// <returns>The quaternion that will get to this orientation.</returns>
+        public static Quaternion shortestArcQuatFixedYaw(ref Vector3 direction, ref Vector3 yawFixedAxis)
+        {
+            Vector3 xVec = yawFixedAxis.cross(ref direction);
+            xVec.normalize();
+
+            Vector3 yVec = direction.cross(ref xVec);
+            yVec.normalize();
+
+            Quaternion targetWorldOrientation = new Quaternion();
+            targetWorldOrientation.fromAxes(xVec, yVec, direction);
+
+            return targetWorldOrientation;
+        }
+
         public override string ToString()
         {
             return String.Format(CultureInfo.InvariantCulture, TO_STRING_FORMAT, x, y, z, w);
