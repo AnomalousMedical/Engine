@@ -49,6 +49,14 @@ namespace Engine
             clearObjects();
         }
 
+        public void printObjects(String formatString)
+        {
+            foreach (T obj in ptrDictionary.Values)
+            {
+                Logging.Log.ImportantInfo(formatString, obj.ToString());
+            }
+        }
+
         public void clearObjects()
         {
             foreach (T obj in ptrDictionary.Values)

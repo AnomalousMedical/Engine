@@ -16,15 +16,6 @@ namespace MyGUIPlugin
 
         }
 
-        public override void Dispose()
-        {
-            if (staticImage != null && !Gui.Instance.Disposing)
-            {
-                WidgetManager.deleteWrapperAndChildren(staticImage);
-            }
-            base.Dispose();
-        }
-
         public bool StateCheck
         {
             get

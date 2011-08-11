@@ -22,10 +22,19 @@ namespace MyGUIPlugin
         internal MyGUIWidgetEventManager eventManager; //Event manager, this is internal but it should be considered internal, protected, do not touch outside of Widget or subclass
         private ISubWidgetText text;
 
+#if TRACK_WIDGET_MEMORY_LEAKS
+        private String leakCachedName;
+        private String leakAllocStackTrace;
+#endif
+
         internal Widget(IntPtr widget)
         {
             this.widget = widget;
             eventManager = new MyGUIWidgetEventManager(this);
+#if TRACK_WIDGET_MEMORY_LEAKS
+            leakCachedName = Name;
+            leakAllocStackTrace = Environment.StackTrace;
+#endif
         }
 
         public virtual void Dispose()
@@ -587,6 +596,15 @@ namespace MyGUIPlugin
         }
 
         public Object UserObject { get; set; }
+
+        public override string ToString()
+        {
+#if TRACK_WIDGET_MEMORY_LEAKS
+            return String.Format("{0} Ptr {1} Name '{2}'\nAllocation Trace\n{3}\n", base.ToString(), widget.ToInt64(), leakCachedName, leakAllocStackTrace);
+#else
+            return String.Format("{0} Ptr {1}", base.ToString(), widget.ToInt64());
+#endif
+        }
         
 #region Internal Management
 
@@ -601,6 +619,11 @@ namespace MyGUIPlugin
             for (uint i = 0; i < numChildren; i++)
             {
                 recursiveEraseChildren(Widget_getChildAt(parentWidget, new UIntPtr(i)));
+            }
+            numChildren = Widget_getWidgetChildSkinCount(parentWidget).ToUInt32();
+            for (uint i = 0; i < numChildren; i++)
+            {
+                recursiveEraseChildren(Widget_getWidgetChildSkinAt(parentWidget, new UIntPtr(i)));
             }
             WidgetManager.deleteWrapper(parentWidget);
         }
@@ -1049,6 +1072,12 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper")]
         private static extern Align Widget_getTextAlign(IntPtr widget);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern UIntPtr Widget_getWidgetChildSkinCount(IntPtr widget);
+
+        [DllImport("MyGUIWrapper")]
+        private static extern IntPtr Widget_getWidgetChildSkinAt(IntPtr widget, UIntPtr _index);
 
 #endregion
     }

@@ -408,4 +408,14 @@ extern "C" _AnomalousExport MyGUI::Align::Enum Widget_getTextAlign(MyGUI::Widget
 	return getAlignEnumVal(widget->_getTextAlign());
 }
 
+extern "C" _AnomalousExport size_t Widget_getWidgetChildSkinCount(MyGUI::Widget* widget)
+{
+	return widget->getWidgetChildSkinCount();
+}
+
+extern "C" _AnomalousExport MyGUI::Widget* Widget_getWidgetChildSkinAt(MyGUI::Widget* widget, size_t _index)
+{
+	return widget->getWidgetChildSkinAt(_index);
+}
+
 #pragma warning(pop)

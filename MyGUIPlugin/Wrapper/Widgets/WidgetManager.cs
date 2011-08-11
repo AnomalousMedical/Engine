@@ -72,6 +72,9 @@ namespace MyGUIPlugin
 
         internal static void destroyAllWrappers()
         {
+#if TRACK_WIDGET_MEMORY_LEAKS
+            widgets.printObjects("Widget left before clear {0}");
+#endif
             widgets.clearObjects();
         }
 
