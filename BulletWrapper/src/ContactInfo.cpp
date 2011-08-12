@@ -110,6 +110,30 @@ void ContactInfo::process()
 	}
 }
 
+void ContactInfo::fireContactEndedOnBodyDelete(btRigidBody* deletingBody)
+{
+	//Only delete if we are matching the body.
+	if(rbA == deletingBody || rbB == deletingBody)
+	{
+		if(dispatchStartA)
+		{
+			bodyAMotion->fireContactStopped(this, rbA, rbB, true);
+			//pluginBodyA->fireContactEnded(this, pluginBodyB, true);
+		}
+		if(dispatchStartB)
+		{
+			bodyBMotion->fireContactStopped(this, rbB, rbA, false);
+			//pluginBodyB->fireContactEnded(this, pluginBodyA, false);
+		}
+		cache->queueRemoval(this);
+	}
+	//Check next for more stuff to delete
+	if(next != 0)
+	{
+		next->fireContactEndedOnBodyDelete(deletingBody);
+	}
+}
+
 void ContactInfo::destroy()
 {
 	//In middle

@@ -73,7 +73,6 @@ namespace BulletPlugin
         {
             if(rigidBody != IntPtr.Zero)
             {
-                RigidBodyManager.remove(rigidBody);
                 int numRefs = btRigidBody_getNumConstraintRefs(rigidBody);
                 List<TypedConstraintElement> constraints = new List<TypedConstraintElement>(numRefs);
                 //Gather up all constraints
@@ -92,15 +91,17 @@ namespace BulletPlugin
                     constraint.setInactive();
                 }
 
-                motionState.Dispose();
-
                 if (Owner.Enabled)
                 {
                     scene.removeRigidBody(this);
                 }
 
+                RigidBodyManager.remove(rigidBody);
+
                 btRigidBody_Delete(rigidBody);
                 rigidBody = IntPtr.Zero;
+
+                motionState.Dispose();
             }
         }
 

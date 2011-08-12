@@ -122,6 +122,7 @@ void BulletScene::addRigidBody(btRigidBody* rigidBody, short group, short mask)
 
 void BulletScene::removeRigidBody(btRigidBody* rigidBody)
 {
+	contactCache.removeRigidBodyContacts(rigidBody);
 	dynamicsWorld->removeRigidBody(rigidBody);
 }
 

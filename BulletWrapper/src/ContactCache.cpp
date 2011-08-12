@@ -66,6 +66,22 @@ void ContactCache::dispatchContacts()
 	finishedContacts.clear();
 }
 
+void ContactCache::removeRigidBodyContacts(btRigidBody* rigidBody)
+{
+	//Search for body
+	for(ContactMapIter mapIter = liveContacts.begin(); mapIter != liveContacts.end(); ++mapIter)
+	{
+			mapIter->second->fireContactEndedOnBodyDelete(rigidBody);
+	}
+
+	//destroy contacts.
+	for(ContactInfoVectorIter vecIter = finishedContacts.begin(); vecIter != finishedContacts.end(); ++vecIter)
+	{
+		(*vecIter)->destroy();
+	}
+	finishedContacts.clear();
+}
+
 void ContactCache::returnToPool(ContactInfo* info)
 {
 	info->reset();

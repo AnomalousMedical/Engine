@@ -34,6 +34,8 @@ public:
 
 	void process();
 
+	void fireContactEndedOnBodyDelete(btRigidBody* deletingBody);
+
 	void destroy();
 
 	ContactInfo* findMatch(btRigidBody* rbA, btRigidBody* rbB);

@@ -38,6 +38,8 @@ public:
 
 	void dispatchContacts();
 
+	void removeRigidBodyContacts(btRigidBody* rigidBody);
+
 	void returnToPool(ContactInfo* info);
 
 	ContactInfo* getPooledObject();
