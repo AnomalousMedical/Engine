@@ -55,6 +55,9 @@ namespace MyGUIPlugin
 
         internal static IntPtr deleteWrapper(IntPtr widget)
         {
+#if VERBOSE_WIDGET_WRAPPER_CREATION
+            Log.ImportantInfo("Deleting widget wrapper. Ptr {0} type {1}", widget.ToString(), WidgetManager_getType(widget));
+#endif
             return widgets.destroyObject(widget);
         }
 
@@ -81,7 +84,10 @@ namespace MyGUIPlugin
         private static Widget createWrapper(IntPtr widget, object[] args)
         {
             WidgetType widgetType = WidgetManager_getType(widget);
-            switch(widgetType)
+#if VERBOSE_WIDGET_WRAPPER_CREATION
+            Log.ImportantInfo("Creating widget wrapper. Ptr {0} type {1}", widget.ToString(), widgetType);
+#endif
+            switch (widgetType)
             {
                 case WidgetType.Widget:
                     return new Widget(widget);

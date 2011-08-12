@@ -9,10 +9,23 @@ namespace MyGUIPlugin
 {
     public class Window : Widget
     {
+        private Widget captionWidget = null;
+
         internal Window(IntPtr window)
             :base(window)
         {
 
+        }
+
+        public override void Dispose()
+        {
+            //Not sure why this has to be deleted separatly, but it does
+            if (captionWidget != null && !Gui.Instance.Disposing)
+            {
+                WidgetManager.deleteWrapper(captionWidget.WidgetPtr);
+                captionWidget = null;
+            }
+            base.Dispose();
         }
 
         public void setVisibleSmooth(bool value)
@@ -46,7 +59,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return WidgetManager.getWidget(Window_getCaptionWidget(widget));
+                if (captionWidget == null)
+                {
+                    captionWidget = WidgetManager.getWidget(Window_getCaptionWidget(widget));
+                }
+                return captionWidget;
             }
         }
 

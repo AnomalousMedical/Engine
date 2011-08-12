@@ -51,9 +51,16 @@ namespace Engine
 
         public void printObjects(String formatString)
         {
-            foreach (T obj in ptrDictionary.Values)
+            if (ptrDictionary.Count > 0)
             {
-                Logging.Log.ImportantInfo(formatString, obj.ToString());
+                foreach (T obj in ptrDictionary.Values)
+                {
+                    Logging.Log.ImportantInfo(formatString, obj.ToString());
+                }
+            }
+            else
+            {
+                Logging.Log.ImportantInfo(formatString, "Nothing in this collection");
             }
         }
 

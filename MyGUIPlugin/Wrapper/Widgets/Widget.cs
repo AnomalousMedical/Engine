@@ -21,6 +21,7 @@ namespace MyGUIPlugin
         protected IntPtr widget;
         internal MyGUIWidgetEventManager eventManager; //Event manager, this is internal but it should be considered internal, protected, do not touch outside of Widget or subclass
         private ISubWidgetText text;
+        private Widget clientWidget = null;
 
 #if TRACK_WIDGET_MEMORY_LEAKS
         private String leakCachedName;
@@ -39,6 +40,12 @@ namespace MyGUIPlugin
 
         public virtual void Dispose()
         {
+            //Not sure why this has to be deleted separatly, but it does
+            if (clientWidget != null && !Gui.Instance.Disposing)
+            {
+                WidgetManager.deleteWrapper(clientWidget.WidgetPtr);
+                clientWidget = null;
+            }
             eventManager.Dispose();
             widget = IntPtr.Zero;
         }
@@ -227,7 +234,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return WidgetManager.getWidget(Widget_getClientWidget(widget));
+                if (clientWidget == null)
+                {
+                    clientWidget = WidgetManager.getWidget(Widget_getClientWidget(widget));
+                }
+                return clientWidget;
             }
         }
 
