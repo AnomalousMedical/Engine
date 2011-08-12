@@ -473,7 +473,7 @@ namespace Engine
             float s = (float)System.Math.Sqrt((1.0f + d) * 2.0f);
             float rs = 1.0f / s;
 
-            return new Quaternion(c.x * rs, c.y * rs, c.z * rs, s * 0.5f);
+            return new Quaternion(c.x * rs, c.y * rs, c.z * rs, s * 0.5f).normalized();
         }
 
         /// <summary>
