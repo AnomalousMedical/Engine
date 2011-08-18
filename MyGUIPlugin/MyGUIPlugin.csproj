@@ -61,6 +61,7 @@
     <Compile Include="Plugin\Widgets\ButtonGrid\ButtonGridTextAdjustedGridLayout.cs" />
     <Compile Include="Plugin\Widgets\CheckButton.cs" />
     <Compile Include="Plugin\Widgets\Component.cs" />
+    <Compile Include="Plugin\Widgets\DateControl.cs" />
     <Compile Include="Plugin\Widgets\Dialog.cs" />
     <Compile Include="Plugin\Widgets\DialogCancelEventArgs.cs" />
     <Compile Include="Plugin\Widgets\EnumComboBox.cs" />
