@@ -205,7 +205,20 @@ namespace MyGUIPlugin
             {
                 return WidgetManager.getWidget(Widget_getParent(widget));
             }
-        }        
+        }
+
+        public Widget RootWidget
+        {
+            get
+            {
+                IntPtr currentWidget = widget;
+                while (!Widget_isRootWidget(currentWidget))
+                {
+                    currentWidget = Widget_getParent(currentWidget);
+                }
+                return WidgetManager.getWidget(currentWidget);
+            }
+        }
 
         public Widget findWidget(String name)
         {
