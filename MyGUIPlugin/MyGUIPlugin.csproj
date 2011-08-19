@@ -30,7 +30,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\Release\</OutputPath>
-    <DefineConstants>TRACE;TRACK_WIDGET_MEMORY_LEAKS_OFF VERBOSE_WIDGET_WRAPPER_CREATION_OFF</DefineConstants>
+    <DefineConstants>TRACE;TRACK_WIDGET_MEMORY_LEAKS VERBOSE_WIDGET_WRAPPER_CREATION_OFF</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

@@ -46,9 +46,21 @@ namespace MyGUIPlugin
 
         internal static Widget getWidget(IntPtr widget)
         {
-            if(widget != IntPtr.Zero)
+            if (widget != IntPtr.Zero)
             {
-                return widgets.getObject(widget);
+                Widget returnedWidget = widgets.getObject(widget);
+#if TRACK_WIDGET_MEMORY_LEAKS
+                if (!paranoidCheckWidget(returnedWidget, widget))
+                {
+                    Widget oldWidget = returnedWidget;
+                    widgets.destroyObject(returnedWidget.WidgetPtr);
+                    returnedWidget = widgets.getObject(widget);
+                    String messageBoxMessage = String.Format("Had to rewrap widget {0}. It must have leaked. It was a {1} now it is a {2}.\nPlease report this to Andrew.\nAllocation stack trace for old widget printed to log.", widget, oldWidget.GetType().FullName, returnedWidget.GetType().FullName);
+                    Logging.Log.ImportantInfo("Had to rewrap widget {0}. It must have leaked. It was a {1} now it is a {2}\nAllocationStack:\n{3}\n.", widget, oldWidget.GetType().FullName, returnedWidget.GetType().FullName, oldWidget);
+                    MessageBox.show(messageBoxMessage, "WidgetManager isn't paranoid if they really are out to get it.", MessageBoxStyle.Ok | MessageBoxStyle.IconWarning);
+                }
+#endif
+                return returnedWidget;
             }
             return null;
         }
@@ -168,12 +180,99 @@ namespace MyGUIPlugin
             return new Widget(widget);
         }
 
-#region PInvoke
+        private static bool paranoidCheckWidget(Widget wrapperReturnedWidget, IntPtr rawWidgetPointer)
+        {
+            WidgetType widgetType = WidgetManager_getType(rawWidgetPointer);
+#if VERBOSE_WIDGET_WRAPPER_CREATION
+            Log.ImportantInfo("Creating widget wrapper. Ptr {0} type {1}", widget.ToString(), widgetType);
+#endif
+            switch (widgetType)
+            {
+                case WidgetType.Widget:
+                    return wrapperReturnedWidget is Widget;
+
+                case WidgetType.Canvas:
+                    return wrapperReturnedWidget is Widget;
+
+                case WidgetType.DDContainer:
+                    return wrapperReturnedWidget is Widget;
+
+                case WidgetType.ItemBox:
+                    return wrapperReturnedWidget is Widget;
+
+                case WidgetType.ListCtrl:
+                    return wrapperReturnedWidget is Widget;
+
+                case WidgetType.ListBox:
+                    return wrapperReturnedWidget is Widget;
+
+                case WidgetType.List:
+                    return wrapperReturnedWidget is Widget;
+
+                case WidgetType.MenuCtrl:
+                    return wrapperReturnedWidget is MenuCtrl;
+
+                case WidgetType.MenuBar:
+                    return wrapperReturnedWidget is MenuBar;
+
+                case WidgetType.PopupMenu:
+                    return wrapperReturnedWidget is PopupMenu;
+
+                case WidgetType.MultiList:
+                    return wrapperReturnedWidget is MultiList;
+
+                case WidgetType.Progress:
+                    return wrapperReturnedWidget is Progress;
+
+                case WidgetType.ScrollView:
+                    return wrapperReturnedWidget is ScrollView;
+
+                case WidgetType.StaticImage:
+                    return wrapperReturnedWidget is StaticImage;
+
+                case WidgetType.StaticText:
+                    return wrapperReturnedWidget is StaticText;
+
+                case WidgetType.Button:
+                    return wrapperReturnedWidget is Button;
+
+                case WidgetType.MenuItem:
+                    return wrapperReturnedWidget is MenuItem;
+
+                case WidgetType.Edit:
+                    return wrapperReturnedWidget is Edit;
+
+                case WidgetType.ComboBox:
+                    return wrapperReturnedWidget is ComboBox;
+
+                case WidgetType.Tab:
+                    return wrapperReturnedWidget is Widget;
+
+                case WidgetType.TabItem:
+                    return wrapperReturnedWidget is Widget;
+
+                case WidgetType.VScroll:
+                    return wrapperReturnedWidget is VScroll;
+
+                case WidgetType.HScroll:
+                    return wrapperReturnedWidget is HScroll;
+
+                case WidgetType.Window:
+                    return wrapperReturnedWidget is Window;
+
+                case WidgetType.Message:
+                    return wrapperReturnedWidget is Message;
+            }
+            Log.Warning("Could not identify widget type for widget {0}. Type given was {1}. Will return a Widget in its place.", rawWidgetPointer.ToString(), widgetType);
+            return wrapperReturnedWidget is Widget;
+        }
+
+        #region PInvoke
 
         [DllImport("MyGUIWrapper")]
         private static extern WidgetType WidgetManager_getType(IntPtr widget);
 
-#endregion
+        #endregion
     }
 }
 
