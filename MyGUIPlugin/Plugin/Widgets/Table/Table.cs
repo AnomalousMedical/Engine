@@ -25,6 +25,7 @@ namespace MyGUIPlugin
             Rows.Table = this;
             RowHeight = 20;
             HeaderHeight = 20;
+            LastEditedRow = -1;
         }
 
         public void Dispose()
@@ -93,6 +94,8 @@ namespace MyGUIPlugin
             }
         }
 
+        public int LastEditedRow { get; private set; }
+
         public bool Enabled
         {
             get
@@ -142,6 +145,7 @@ namespace MyGUIPlugin
                     editingCell.commitEditValueToValue();
                     editingCell.setStaticMode();
                 }
+                LastEditedRow = editingCell.RowIndex;
             }
 
             if (allowCellChange)
@@ -159,6 +163,14 @@ namespace MyGUIPlugin
             if (CellValueChanged != null)
             {
                 CellValueChanged.Invoke(cell, EventArgs.Empty);
+            }
+        }
+
+        internal void checkLastEditedRow()
+        {
+            if (LastEditedRow >= Rows.Count)
+            {
+                LastEditedRow = Rows.Count - 1;
             }
         }
     }

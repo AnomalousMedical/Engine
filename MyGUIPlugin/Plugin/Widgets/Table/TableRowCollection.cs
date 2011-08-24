@@ -12,5 +12,11 @@ namespace MyGUIPlugin
             base.add(item);
             item.Cells.createMissingCells();
         }
+
+        public override void remove(TableRow item)
+        {
+            base.remove(item);
+            Table.checkLastEditedRow();
+        }
     }
 }
