@@ -17,6 +17,8 @@ namespace Engine
 
         private const string TO_STRING_FORMAT = "{0}, {1}, {2}, {3}";
 
+        const float epsilon = 1e-03f;
+
         #region Predefined Quaternions
 
         /// <summary>
@@ -296,6 +298,57 @@ namespace Engine
             }
         }
 
+        /// <summary>
+        /// Taken from ogre since it also adds the shortest path.
+        /// </summary>
+        /// <param name="q"></param>
+        /// <param name="t"></param>
+        /// <param name="shortestPath"></param>
+        /// <returns></returns>
+        public Quaternion slerp(ref Quaternion q, float fT, bool shortestPath)
+        {
+            Quaternion rkP = this;
+            Quaternion rkQ = q;
+
+            float fCos = rkP.dot(ref rkQ);
+            Quaternion rkT;
+
+            // Do we need to invert rotation?
+            if (fCos < 0.0f && shortestPath)
+            {
+                fCos = -fCos;
+                rkT = -rkQ;
+            }
+            else
+            {
+                rkT = rkQ;
+            }
+
+            if (Math.Abs(fCos) < 1 - epsilon)
+            {
+                // Standard case (slerp)
+                float fSin = (float)Math.Sqrt(1 - fCos * fCos);
+                Radian fAngle = (float)Math.Atan2(fSin, fCos);
+                float fInvSin = 1.0f / fSin;
+                float fCoeff0 = (float)Math.Sin((1.0f - fT) * fAngle) * fInvSin;
+                float fCoeff1 = (float)Math.Sin(fT * fAngle) * fInvSin;
+                return fCoeff0 * rkP + fCoeff1 * rkT;
+            }
+            else
+            {
+                // There are two situations:
+                // 1. "rkP" and "rkQ" are very close (fCos ~= +1), so we can do a linear
+                //    interpolation safely.
+                // 2. "rkP" and "rkQ" are almost inverse of each other (fCos ~= -1), there
+                //    are an infinite number of possibilities interpolation. but we haven't
+                //    have method to fix this case, so just use linear interpolation here.
+                Quaternion t = (1.0f - fT) * rkP + fT * rkT;
+                // taking the complement requires renormalisation
+                t.normalize();
+                return t;
+            }
+        }
+
         public Matrix3x3 toRotationMatrix()
         {
             float fTx = x + x;
@@ -571,6 +624,11 @@ namespace Engine
         }
 
         public static Quaternion operator *(Quaternion q, float s)
+        {
+            return new Quaternion(q.x * s, q.y * s, q.z * s, q.w * s);
+        }
+
+        public static Quaternion operator *(float s, Quaternion q)
         {
             return new Quaternion(q.x * s, q.y * s, q.z * s, q.w * s);
         }
