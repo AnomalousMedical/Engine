@@ -8,9 +8,20 @@ namespace MyGUIPlugin
 {
     public class ButtonGridTextAdjustedGridLayout : ButtonGridLayout
     {
-        Vector2 currentPosition;
-        Size2 canvasSize;
-        ButtonGrid buttonGrid;
+        private Vector2 currentPosition;
+        private Size2 canvasSize;
+        private ButtonGrid buttonGrid;
+        private int extraPadding = 0;
+
+        public ButtonGridTextAdjustedGridLayout()
+        {
+
+        }
+
+        public ButtonGridTextAdjustedGridLayout(int extraPadding)
+        {
+            this.extraPadding = extraPadding;
+        }
 
         public void startLayout(ButtonGrid buttonGrid)
         {
@@ -31,7 +42,7 @@ namespace MyGUIPlugin
         public void alignItem(ButtonGridItem item)
         {
             int finalWidth = ItemWidth;
-            int textSize = (int)item.TextSize.Width + 10;
+            int textSize = (int)item.TextSize.Width + 10 + extraPadding;
             if (textSize > finalWidth)
             {
                 finalWidth = textSize;
