@@ -273,21 +273,22 @@ namespace Engine.Editing
         }
 
         /// <summary>
-        /// Get the add property callback.
+        /// Fire the add property callback from the ui to the object.
         /// </summary>
-        /// <returns>The AddProperty callback.</returns>
-        public AddProperty getAddPropertyCallback()
+        public void fireAddPropertyCallback(EditUICallback uiCallback)
         {
-            return addPropertyCallback;
+            if (addPropertyCallback != null)
+            {
+                addPropertyCallback.Invoke(uiCallback);
+            }
         }
 
-        /// <summary>
-        /// Get the remove property callback.
-        /// </summary>
-        /// <returns>The RemoveProperty callback.</returns>
-        public RemoveProperty getRemovePropertyCallback()
+        public void fireRemovePropertyCallback(EditUICallback uiCallback, EditableProperty property)
         {
-            return removePropertyCallback;
+            if (removePropertyCallback != null)
+            {
+                removePropertyCallback.Invoke(uiCallback, property);
+            }
         }
 
         /// <summary>

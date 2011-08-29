@@ -338,7 +338,7 @@ namespace Editor
         {
             DataGridViewRow row = propGridView.Rows[rowIndex];
             EditableProperty var = (EditableProperty)row.Cells[editColumnIndex].Value;
-            currentEditInterface.getRemovePropertyCallback().Invoke(this, var);
+            currentEditInterface.fireRemovePropertyCallback(this, var);
         }
 
         /// <summary>
@@ -348,7 +348,7 @@ namespace Editor
         /// <param name="e"></param>
         private void addButton_Click(object sender, EventArgs e)
         {
-            currentEditInterface.getAddPropertyCallback().Invoke(this);
+            currentEditInterface.fireAddPropertyCallback(this);
         }
 
         /// <summary>
