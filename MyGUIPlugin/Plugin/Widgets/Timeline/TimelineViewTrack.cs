@@ -184,6 +184,14 @@ namespace MyGUIPlugin
             }
         }
 
+        internal void selectAll(TimelineSelectionCollection selectionCollection)
+        {
+            foreach (TimelineViewButton button in buttons)
+            {
+                selectionCollection.addButton(button);
+            }
+        }
+
         private void viewButton_CoordChanged(TimelineViewButton sender, TimelineViewButtonEventArgs e)
         {
             if (processButtonChanges)

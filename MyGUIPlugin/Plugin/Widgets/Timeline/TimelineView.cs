@@ -219,6 +219,15 @@ namespace MyGUIPlugin
             }
         }
 
+        public void selectAll()
+        {
+            selectionCollection.clearSelection();
+            foreach (TimelineViewTrack row in tracks)
+            {
+                row.selectAll(selectionCollection);
+            }
+        }
+
         public int PixelsPerSecond
         {
             get
