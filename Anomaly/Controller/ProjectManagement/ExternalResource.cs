@@ -39,6 +39,16 @@ namespace Anomaly
             return typeof(String);
         }
 
+        public bool hasBrowser(int column)
+        {
+            return false;
+        }
+
+        public Browser getBrowser(int column)
+        {
+            return null;
+        }
+
         #endregion
 
         #region Saveable Members

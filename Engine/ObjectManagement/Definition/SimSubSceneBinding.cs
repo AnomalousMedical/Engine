@@ -130,6 +130,16 @@ namespace Engine.ObjectManagement
             }
             return null;
         }
+
+        public Browser getBrowser(int column)
+        {
+            return null;
+        }
+
+        public bool hasBrowser(int column)
+        {
+            return false;
+        }
   
         #endregion
 

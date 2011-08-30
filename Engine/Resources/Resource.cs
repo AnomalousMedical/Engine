@@ -288,6 +288,16 @@ namespace Engine.Resources
             throw new EditException(String.Format("Attempted to get a column type from a Resource {0} that is not valid.", column));
         }
 
+        public Browser getBrowser(int column)
+        {
+            return null;
+        }
+
+        public bool hasBrowser(int column)
+        {
+            return false;
+        }
+
         #endregion
     }
 }

@@ -58,5 +58,15 @@ namespace Anomaly
         {
             return typeof(object);
         }
+
+        public bool hasBrowser(int column)
+        {
+            return false;
+        }
+
+        public Browser getBrowser(int column)
+        {
+            return null;
+        }
     }
 }

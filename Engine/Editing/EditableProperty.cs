@@ -38,5 +38,22 @@ namespace Engine.Editing
         /// </summary>
         /// <returns>The Type of the object this property will set.</returns>
         Type getPropertyType(int column);
+
+        /// <summary>
+        /// Get a browser for a column for display. Note that this may be
+        /// created when this function is called, so it could be slow and should
+        /// only be called when you actually need a browser. If you need to
+        /// check call hasbrowser.
+        /// </summary>
+        /// <param name="column">The column number to get the browser for.</param>
+        /// <returns>The browser object for this column.</returns>
+        Browser getBrowser(int column);
+
+        /// <summary>
+        /// Returns true if the specified column has a browser.
+        /// </summary>
+        /// <param name="column">The column to check.</param>
+        /// <returns>True if there is a browser in this column.</returns>
+        bool hasBrowser(int column);
     }
 }
