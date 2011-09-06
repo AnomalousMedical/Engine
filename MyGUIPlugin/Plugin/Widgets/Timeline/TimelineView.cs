@@ -92,6 +92,8 @@ namespace MyGUIPlugin
             }
         }
 
+        public event EventDelegate<TimelineView, float> MarkerMoved;
+
         public TimelineView(ScrollView scrollView)
         {
             timelineSelectionBox = new TimelineSelectionBox(scrollView);
@@ -357,6 +359,10 @@ namespace MyGUIPlugin
         void timelineMarker_CoordChanged(object sender, EventArgs e)
         {
             respondToCoordChange(timelineMarker.Left, timelineMarker.Right, timelineMarker.Width);
+            if (MarkerMoved != null)
+            {
+                MarkerMoved.Invoke(this, timelineMarker.Time);
+            }
         }
 
         internal void respondToCoordChange(int left, int right, int width)
