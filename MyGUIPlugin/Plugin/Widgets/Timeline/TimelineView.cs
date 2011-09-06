@@ -174,6 +174,7 @@ namespace MyGUIPlugin
 
         public void addData(TimelineData data)
         {
+            selectionCollection.clearSelection();
             Button button = timelineScrollView.createButton(pixelsPerSecond * data.StartTime, pixelsPerSecond * data.Duration);
             TimelineViewButton actionButton = namedTracks[data.Track].addButton(button, data);
             actionButton.Clicked += actionButton_Clicked;
