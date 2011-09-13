@@ -40,12 +40,6 @@ namespace MyGUIPlugin
 
         public virtual void Dispose()
         {
-            //Not sure why this has to be deleted separatly, but it does
-            if (clientWidget != null && !Gui.Instance.Disposing)
-            {
-                WidgetManager.deleteWrapper(clientWidget.WidgetPtr);
-                clientWidget = null;
-            }
             eventManager.Dispose();
             widget = IntPtr.Zero;
         }
@@ -80,6 +74,15 @@ namespace MyGUIPlugin
         public void clearUserStrings()
         {
             Widget_clearUserStrings(widget);
+        }
+
+        //Internal widget pointer
+        internal IntPtr WidgetPtr
+        {
+            get
+            {
+                return widget;
+            }
         }
 
         //Clipped Rectangle
@@ -629,38 +632,6 @@ namespace MyGUIPlugin
             return String.Format("{0} Ptr {1}", base.ToString(), widget.ToInt64());
 #endif
         }
-        
-#region Internal Management
-
-        internal void eraseAllChildren()
-        {
-            recursiveEraseChildren(widget);
-        }
-
-        internal static void recursiveEraseChildren(IntPtr parentWidget)
-        {
-            uint numChildren = Widget_getChildCount(parentWidget).ToUInt32();
-            for (uint i = 0; i < numChildren; i++)
-            {
-                recursiveEraseChildren(Widget_getChildAt(parentWidget, new UIntPtr(i)));
-            }
-            numChildren = Widget_getWidgetChildSkinCount(parentWidget).ToUInt32();
-            for (uint i = 0; i < numChildren; i++)
-            {
-                recursiveEraseChildren(Widget_getWidgetChildSkinAt(parentWidget, new UIntPtr(i)));
-            }
-            WidgetManager.deleteWrapper(parentWidget);
-        }
-
-        internal IntPtr WidgetPtr
-        {
-            get
-            {
-                return widget;
-            }
-        }
-
-#endregion
 
 #region Events
 

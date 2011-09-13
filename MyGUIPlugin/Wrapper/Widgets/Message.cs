@@ -219,7 +219,6 @@ namespace MyGUIPlugin
             {
                 MessageBoxResult.Invoke(source, args);
             }
-            WidgetManager.deleteWrapperAndChildren(this);
         }
 
 #region PInvoke

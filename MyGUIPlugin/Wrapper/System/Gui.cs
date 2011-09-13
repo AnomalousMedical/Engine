@@ -146,7 +146,7 @@ namespace MyGUIPlugin
 
         public void destroyWidget(Widget widget)
         {
-            Gui_destroyWidget(gui, WidgetManager.deleteWrapperAndChildren(widget));
+            Gui_destroyWidget(gui, widget.WidgetPtr);
         }
 
         public Widget findWidgetT(String name)

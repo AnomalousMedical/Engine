@@ -418,4 +418,9 @@ extern "C" _AnomalousExport MyGUI::Widget* Widget_getWidgetChildSkinAt(MyGUI::Wi
 	return widget->getWidgetChildSkinAt(_index);
 }
 
+extern "C" _AnomalousExport void Widget_setDestructorCallback(MyGUI::Widget* widget, MyGUI::WidgetDestructorCallback widgetDestructorCallback)
+{
+	widget->_setDestructorCallback(widgetDestructorCallback);
+}
+
 #pragma warning(pop)

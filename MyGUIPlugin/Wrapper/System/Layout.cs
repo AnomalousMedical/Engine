@@ -22,13 +22,6 @@ namespace MyGUIPlugin
 
         public void Dispose()
         {
-            //Destroy all widgets created by this layout
-            uint numWidgets = VectorWidgetPtr_getNumRootWidgets(vectorWidgetPtr).ToUInt32();
-            for (uint i = 0; i < numWidgets; i++)
-            {
-                IntPtr rootWidget = VectorWidgetPtr_getRootWidget(vectorWidgetPtr, new UIntPtr(i));
-                Widget.recursiveEraseChildren(rootWidget);
-            }
             vectorWidgetPtr = IntPtr.Zero;
         }
 

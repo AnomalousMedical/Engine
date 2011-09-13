@@ -42,6 +42,10 @@ namespace MyGUIPlugin
                     Message,
         }
 
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void WidgetDestructorCallback(IntPtr widget);
+        private static WidgetDestructorCallback widgetDestructorFunc = widgetDestructor;
+
         private static WrapperCollection<Widget> widgets = new WrapperCollection<Widget>(createWrapper);
 
         internal static Widget getWidget(IntPtr widget)
@@ -65,27 +69,19 @@ namespace MyGUIPlugin
             return null;
         }
 
-        internal static IntPtr deleteWrapper(IntPtr widget)
+        /// <summary>
+        /// This is called by the c++ destructor for the widget. It will erase the wrapper object.
+        /// </summary>
+        /// <param name="widget"></param>
+        static void widgetDestructor(IntPtr widget)
         {
 #if VERBOSE_WIDGET_WRAPPER_CREATION
             Log.ImportantInfo("Deleting widget wrapper. Ptr {0} type {1}", widget.ToString(), WidgetManager_getType(widget));
 #endif
-            return widgets.destroyObject(widget);
+            widgets.destroyObject(widget);
         }
 
-        /// <summary>
-        /// This function will erase a wrapper and all child wrappers to avoid memory leaks.
-        /// </summary>
-        /// <param name="window">The window to destroy.</param>
-        /// <returns>The pointer of the window that was destroyed.</returns>
-        internal static IntPtr deleteWrapperAndChildren(Widget widget)
-        {
-            IntPtr widgetPtr = widget.WidgetPtr;
-            widget.eraseAllChildren();
-            return widgetPtr;
-        }
-
-        internal static void destroyAllWrappers()
+        public static void destroyAllWrappers()
         {
 #if TRACK_WIDGET_MEMORY_LEAKS
             widgets.printObjects("Widget left before clear {0}");
@@ -96,6 +92,7 @@ namespace MyGUIPlugin
         private static Widget createWrapper(IntPtr widget, object[] args)
         {
             WidgetType widgetType = WidgetManager_getType(widget);
+            Widget_setDestructorCallback(widget, widgetDestructorFunc);
 #if VERBOSE_WIDGET_WRAPPER_CREATION
             Log.ImportantInfo("Creating widget wrapper. Ptr {0} type {1}", widget.ToString(), widgetType);
 #endif
@@ -184,7 +181,7 @@ namespace MyGUIPlugin
         {
             WidgetType widgetType = WidgetManager_getType(rawWidgetPointer);
 #if VERBOSE_WIDGET_WRAPPER_CREATION
-            Log.ImportantInfo("Creating widget wrapper. Ptr {0} type {1}", widget.ToString(), widgetType);
+            Log.ImportantInfo("Creating widget wrapper. Ptr {0} type {1}", rawWidgetPointer.ToString(), widgetType);
 #endif
             switch (widgetType)
             {
@@ -272,13 +269,9 @@ namespace MyGUIPlugin
         [DllImport("MyGUIWrapper")]
         private static extern WidgetType WidgetManager_getType(IntPtr widget);
 
+        [DllImport("MyGUIWrapper")]
+        private static extern void Widget_setDestructorCallback(IntPtr widget, WidgetDestructorCallback widgetDestructorCallback);
+
         #endregion
     }
 }
-
-/*
- case WidgetType.Button:
-                    return new Button(widget);
-                default:
-                    return new Widget(widget);
- */
