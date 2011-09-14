@@ -156,7 +156,7 @@ namespace MyGUIPlugin
 
         public void hide()
         {
-            if (Visible)
+            if (Visible && !fireHiding())
             {
                 Visible = false;
                 if (SmoothShow)
@@ -165,11 +165,9 @@ namespace MyGUIPlugin
                     subscribeToUpdate();
                     runningShowTransition = false;
                     widget.Visible = true;
-                    fireHiding();
                 }
                 else
                 {
-                    fireHiding();
                     fireHidden();
                 }
             }
@@ -323,12 +321,14 @@ namespace MyGUIPlugin
             }
         }
 
-        private void fireHiding()
+        private bool fireHiding()
         {
+            CancelEventArgs cancelEvent = new CancelEventArgs();
             if (Hiding != null)
             {
-                Hiding.Invoke(this, EventArgs.Empty);
+                Hiding.Invoke(this, cancelEvent);
             }
+            return cancelEvent.Cancel;
         }
 
         private void fireHidden()
