@@ -31,6 +31,7 @@ namespace MyGUIPlugin
         private List<ButtonGridGroup> groups = new List<ButtonGridGroup>();
         private int itemCount = 0;
         private IComparer<ButtonGridItem> itemComparer;
+        private ButtonGridGroupComparer groupComparer;
         private ButtonGridLayout layoutEngine;
 
         public event EventHandler SelectedValueChanged;
@@ -41,13 +42,13 @@ namespace MyGUIPlugin
         /// </summary>
         /// <param name="scrollView"></param>
         public ButtonGrid(ScrollView scrollView)
-            :this(scrollView, new ButtonGridGridLayout(), null)
+            :this(scrollView, new ButtonGridGridLayout(), null, null)
         {
             
         }
 
         public ButtonGrid(ScrollView scrollView, IComparer<ButtonGridItem> itemComparer)
-            :this(scrollView, new ButtonGridGridLayout(), itemComparer)
+            :this(scrollView, new ButtonGridGridLayout(), itemComparer, null)
         {
 
         }
@@ -55,12 +56,18 @@ namespace MyGUIPlugin
 
 
         public ButtonGrid(ScrollView scrollView, ButtonGridLayout layoutEngine)
-            : this(scrollView, layoutEngine, null)
+            : this(scrollView, layoutEngine, null, null)
         {
 
         }
 
         public ButtonGrid(ScrollView scrollView, ButtonGridLayout layoutEngine, IComparer<ButtonGridItem> itemComparer)
+            : this(scrollView, layoutEngine, itemComparer, null)
+        {
+
+        }
+
+        public ButtonGrid(ScrollView scrollView, ButtonGridLayout layoutEngine, IComparer<ButtonGridItem> itemComparer, CompareButtonGroupUserObjects groupComparer)
         {
             HighlightSelectedButton = true;
 
@@ -72,6 +79,10 @@ namespace MyGUIPlugin
             this.scrollView = scrollView;
             this.itemComparer = itemComparer;
             this.layoutEngine = layoutEngine;
+            if (groupComparer != null)
+            {
+                this.groupComparer = new ButtonGridGroupComparer(groupComparer);
+            }
 
             //Try to get properties from the widget itself.
             read = scrollView.getUserString("ItemHeight");
@@ -169,6 +180,11 @@ namespace MyGUIPlugin
 
         public void defineGroup(String group)
         {
+            defineGroup(group, null);
+        }
+
+        public void defineGroup(String group, Object userObject)
+        {
             ButtonGridGroup addGroup = null;
             foreach (ButtonGridGroup groupIter in groups)
             {
@@ -182,6 +198,19 @@ namespace MyGUIPlugin
             {
                 addGroup = new ButtonGridGroup(group, this);
                 groups.Add(addGroup);
+            }
+            addGroup.UserObject = userObject;
+        }
+
+        public void setGroupUserObject(String group, Object userObject)
+        {
+            foreach (ButtonGridGroup groupIter in groups)
+            {
+                if (groupIter.Name == group)
+                {
+                    groupIter.UserObject = userObject;
+                    break;
+                }
             }
         }
 
@@ -261,8 +290,15 @@ namespace MyGUIPlugin
         {
             if (!SuppressLayout)
             {
+                List<ButtonGridGroup> sortedGroups = groups;
+                if (groupComparer != null)
+                {
+                    sortedGroups = new List<ButtonGridGroup>(groups);
+                    sortedGroups.Sort(groupComparer);
+                }
+
                 layoutEngine.startLayout(this);
-                foreach (ButtonGridGroup group in groups)
+                foreach (ButtonGridGroup group in sortedGroups)
                 {
                     group.layout(layoutEngine, itemComparer);
                 }
