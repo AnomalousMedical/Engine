@@ -371,10 +371,11 @@ namespace Engine
             line = reader.ReadLine();
 	        while (line != null && !line.StartsWith(ConfigFile.SECTION_HEADER))
             {
-		        String[] values = line.Split(sep, System.StringSplitOptions.RemoveEmptyEntries);
-                if (values.Length > 0)
+		        //String[] values = line.Split(sep, System.StringSplitOptions.RemoveEmptyEntries);
+                int keySplitIndex = line.IndexOf("=");
+                if (keySplitIndex != -1)
                 {
-                    String key = values[0].Trim();
+                    String key = line.Substring(0, keySplitIndex).Trim();
                     //Look for array value and put this value in the first index found if it is an array value
                     if (key.EndsWith("[]"))
                     {
@@ -383,11 +384,12 @@ namespace Engine
                         for (i = 0; hasValue(key + i); ++i) { }
                         key += i;
                     }
-                    if (values.Length == 2)
+                    ++keySplitIndex;
+                    if (keySplitIndex < line.Length)
                     {
-                        setValue(key, values[1].Trim());
+                        setValue(key, line.Substring(keySplitIndex).Trim());
                     }
-                    else if (values.Length == 1) //length of 1 means a null value
+                    else //Null value
                     {
                         setValue(key, null);
                     }
