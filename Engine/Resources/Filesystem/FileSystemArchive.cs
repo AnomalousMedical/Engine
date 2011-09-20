@@ -28,7 +28,15 @@ namespace Engine.Resources
 
         public override bool containsRealAbsolutePath(String path)
         {
-            return FileSystem.fixPathFile(path).StartsWith(baseDirectory, StringComparison.OrdinalIgnoreCase);
+            if (File.Exists(path))
+            {
+                return FileSystem.fixPathFile(path).StartsWith(baseDirectory, StringComparison.OrdinalIgnoreCase);
+            }
+            else if (Directory.Exists(path))
+            {
+                return FileSystem.fixPathDir(path).StartsWith(baseDirectory, StringComparison.OrdinalIgnoreCase);
+            }
+            return false;
         }
 
         public override String[] listFiles(bool recursive)
