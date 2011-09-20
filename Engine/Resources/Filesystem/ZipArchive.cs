@@ -42,6 +42,11 @@ namespace Engine.Resources
             }
         }
 
+        public override bool containsRealAbsolutePath(String path)
+        {
+            return FileSystem.fixPathFile(path).StartsWith(fullZipPath, StringComparison.OrdinalIgnoreCase);
+        }
+
         public override string[] listFiles(bool recursive)
         {
             return getArray(zipFile.listFiles("", recursive));

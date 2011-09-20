@@ -80,11 +80,25 @@ namespace Engine
             instance = null;
         }
 
+        public bool containsRealAbsolutePath(String path)
+        {
+            foreach (Archive archive in archives)
+            {
+                if (archive.containsRealAbsolutePath(path))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public bool addArchive(String path)
         {
             Archive archive = FileSystem.OpenArchive(path);
             if (archive != null)
             {
+                archives.Add(archive);
+
                 Log.Info("Added resource archive {0}.", path);
                 directoryMap["/"].addArchive(archive);
 

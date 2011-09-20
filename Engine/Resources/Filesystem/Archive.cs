@@ -75,6 +75,8 @@ namespace Engine.Resources
     {
         public abstract void Dispose();
 
+        public abstract bool containsRealAbsolutePath(String path);
+
         public abstract String[] listFiles(bool recursive);
 
         public abstract String[] listFiles(String url, bool recursive);
