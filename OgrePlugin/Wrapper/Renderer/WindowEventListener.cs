@@ -85,10 +85,10 @@ namespace OgreWrapper
 
 #region PInvoke
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr NativeWindowListener_Create(WindowEventDelegate windowMovedCallback, WindowEventDelegate windowResizedCallback, WindowClosingDelegate windowClosingCallback, WindowEventDelegate windowClosedCallback, WindowEventDelegate windowFocusChangeCallback);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void NativeWindowListener_Delete(IntPtr windowListener);
 
 #endregion

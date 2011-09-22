@@ -66,27 +66,27 @@ namespace MyGUIPlugin
 
 #region PInvoke
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Button_setStateCheck(IntPtr button, bool value);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Button_getStateCheck(IntPtr button);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Button_setImageIndex(IntPtr button, UIntPtr value);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern UIntPtr Button_getImageIndex(IntPtr button);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Button_setModeImage(IntPtr button, bool value);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Button_getModeImage(IntPtr button);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Button_getStaticImage(IntPtr button);
 
 #endregion

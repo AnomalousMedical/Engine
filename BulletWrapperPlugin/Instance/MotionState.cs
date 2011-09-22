@@ -154,25 +154,25 @@ namespace BulletPlugin
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate void ContactCallback(IntPtr contact, IntPtr sourceBody, IntPtr otherBody, bool isBodyA);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MotionState_Create(SetXformCallback xformCallback, ContactCallback contactStartedCallback, ContactCallback contactEndedCallback, ContactCallback contactContinuesCallback, float maxContactDistance, ref Vector3 initialTrans, ref Quaternion initialRot);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MotionState_Delete(IntPtr instance);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MotionState_setHasContactStartedCallback(IntPtr instance, bool hasCallback);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MotionState_setHasContactEndedCallback(IntPtr instance, bool hasCallback);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MotionState_setHasContactContinuesCallback(IntPtr instance, bool hasCallback);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MotionState_setMaxContactDistance(IntPtr instance, float maxContactDistance);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern float MotionState_getMaxContactDistance(IntPtr instance);
     }
 }

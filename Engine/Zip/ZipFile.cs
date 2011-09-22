@@ -333,19 +333,19 @@ namespace ZipAccess
             }
         }
 
-        [DllImport("Zip")]
+        [DllImport("Zip", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr ZipFile_OpenDir(String file, ref ZZipError error);
 
-        [DllImport("Zip")]
+        [DllImport("Zip", CallingConvention=CallingConvention.Cdecl)]
         private static extern void ZipFile_Close(IntPtr zzipFile);
 
-        [DllImport("Zip")]
+        [DllImport("Zip", CallingConvention=CallingConvention.Cdecl)]
         private static unsafe extern bool ZipFile_Read(IntPtr zzipDir, ZZipStat* zstat);
 
-        [DllImport("Zip")]
+        [DllImport("Zip", CallingConvention=CallingConvention.Cdecl)]
         private static unsafe extern ZZipError ZipFile_DirStat(IntPtr zzipDir, String filename, ZZipStat* zstat, int mode);
 
-        [DllImport("Zip")]
+        [DllImport("Zip", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr ZipFile_OpenFile(IntPtr zzipDir, String filename, ZZipFlags mode);
     }
 }

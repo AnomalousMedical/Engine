@@ -111,55 +111,55 @@ namespace OgreWrapper
 
 #region PInvoke
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void BorderPanelOverlayElement_setBorderSize(IntPtr borderPanel, float size);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void BorderPanelOverlayElement_setBorderSizeSidesTB(IntPtr borderPanel, float sides, float topAndBottom);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void BorderPanelOverlayElement_setBorderSizeExact(IntPtr borderPanel, float left, float right, float top, float bottom);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern float BorderPanelOverlayElement_getLeftBorderSize(IntPtr borderPanel);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern float BorderPanelOverlayElement_getRightBorderSize(IntPtr borderPanel);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern float BorderPanelOverlayElement_getTopBorderSize(IntPtr borderPanel);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern float BorderPanelOverlayElement_getBottomBorderSize(IntPtr borderPanel);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void BorderPanelOverlayElement_setLeftBorderUV(IntPtr borderPanel, float u1, float v1, float u2, float v2);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void BorderPanelOverlayElement_setRightBorderUV(IntPtr borderPanel, float u1, float v1, float u2, float v2);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void BorderPanelOverlayElement_setTopBorderUV(IntPtr borderPanel, float u1, float v1, float u2, float v2);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void BorderPanelOverlayElement_setBottomBorderUV(IntPtr borderPanel, float u1, float v1, float u2, float v2);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void BorderPanelOverlayElement_setTopLeftBorderUV(IntPtr borderPanel, float u1, float v1, float u2, float v2);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void BorderPanelOverlayElement_setTopRightBorderUV(IntPtr borderPanel, float u1, float v1, float u2, float v2);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void BorderPanelOverlayElement_setBottomLeftBorderUV(IntPtr borderPanel, float u1, float v1, float u2, float v2);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void BorderPanelOverlayElement_setBottomRightBorderUV(IntPtr borderPanel, float u1, float v1, float u2, float v2);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void BorderPanelOverlayElement_setBorderMaterialName(IntPtr borderPanel, String name);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr BorderPanelOverlayElement_getBorderMaterialName(IntPtr borderPanel);
 
 #endregion

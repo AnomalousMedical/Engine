@@ -75,34 +75,34 @@ namespace MyGUIPlugin
 
 #region PInvoke
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntCoord StaticText_getTextRegion(IntPtr staticText);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern ThreeIntHack StaticText_getTextSize(IntPtr staticText);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void StaticText_setFontName(IntPtr staticText, String font);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr StaticText_getFontName(IntPtr staticText);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void StaticText_setFontHeight(IntPtr staticText, int height);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern int StaticText_getFontHeight(IntPtr staticText);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void StaticText_setTextAlign(IntPtr staticText, Align align);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern Align StaticText_getTextAlign(IntPtr staticText);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void StaticText_setTextColour(IntPtr staticText, Color colour);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern Color StaticText_getTextColour(IntPtr staticText);
 
 #endregion

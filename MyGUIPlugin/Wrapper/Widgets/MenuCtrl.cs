@@ -272,143 +272,143 @@ namespace MyGUIPlugin
 
 #region PInvoke
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MenuCtrl_setVisibleSmooth(IntPtr widget, bool value);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern UIntPtr MenuCtrl_getItemCount(IntPtr menuCtrl);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MenuCtrl_insertItemAt(IntPtr menuCtrl, UIntPtr index, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MenuCtrl_insertItemAt2(IntPtr menuCtrl, UIntPtr index, [MarshalAs(UnmanagedType.LPWStr)] String name, MenuItemType type);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MenuCtrl_insertItemAt3(IntPtr menuCtrl, UIntPtr index, [MarshalAs(UnmanagedType.LPWStr)] String name, MenuItemType type, String id);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MenuCtrl_insertItem(IntPtr menuCtrl, IntPtr to, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MenuCtrl_insertItem2(IntPtr menuCtrl, IntPtr to, [MarshalAs(UnmanagedType.LPWStr)] String name, MenuItemType type);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MenuCtrl_insertItem3(IntPtr menuCtrl, IntPtr to, [MarshalAs(UnmanagedType.LPWStr)] String name, MenuItemType type, String id);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MenuCtrl_addItem(IntPtr menuCtrl, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MenuCtrl_addItem2(IntPtr menuCtrl, [MarshalAs(UnmanagedType.LPWStr)] String name, MenuItemType type);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MenuCtrl_addItem3(IntPtr menuCtrl, [MarshalAs(UnmanagedType.LPWStr)] String name, MenuItemType type, String id);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MenuCtrl_removeItemAt(IntPtr menuCtrl, UIntPtr index);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MenuCtrl_removeItem(IntPtr menuCtrl, IntPtr item);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MenuCtrl_removeAllItems(IntPtr menuCtrl);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MenuCtrl_getItemAt(IntPtr menuCtrl, UIntPtr index);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern UIntPtr MenuCtrl_getItemIndex(IntPtr menuCtrl, IntPtr item);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern UIntPtr MenuCtrl_findItemIndex(IntPtr menuCtrl, IntPtr item);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MenuCtrl_findItemWith(IntPtr menuCtrl, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MenuCtrl_setItemIdAt(IntPtr menuCtrl, UIntPtr index, String id);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MenuCtrl_setItemId(IntPtr menuCtrl, IntPtr item, String id);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MenuCtrl_getItemIdAt(IntPtr menuCtrl, UIntPtr index);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MenuCtrl_getItemId(IntPtr menuCtrl, IntPtr item);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MenuCtrl_getItemById(IntPtr menuCtrl, String id);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern UIntPtr MenuCtrl_getItemIndexById(IntPtr menuCtrl, String id);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MenuCtrl_setItemNameAt(IntPtr menuCtrl, UIntPtr index, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MenuCtrl_setItemName(IntPtr menuCtrl, IntPtr item, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MenuCtrl_getItemNameAt(IntPtr menuCtrl, UIntPtr index);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MenuCtrl_getItemName(IntPtr menuCtrl, IntPtr item);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern UIntPtr MenuCtrl_findItemIndexWith(IntPtr menuCtrl, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MenuCtrl_setItemChildVisibleAt(IntPtr menuCtrl, UIntPtr index, bool visible);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MenuCtrl_setItemChildVisible(IntPtr menuCtrl, IntPtr item, bool visible);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MenuCtrl_getItemChildAt(IntPtr menuCtrl, UIntPtr index);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MenuCtrl_getItemChild(IntPtr menuCtrl, IntPtr item);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MenuCtrl_createItemChildAt(IntPtr menuCtrl, UIntPtr index);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MenuCtrl_createItemChild(IntPtr menuCtrl, IntPtr item);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MenuCtrl_createItemPopupMenuChildAt(IntPtr menuCtrl, UIntPtr index);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MenuCtrl_createItemPopupMenuChild(IntPtr menuCtrl, IntPtr item);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MenuCtrl_removeItemChildAt(IntPtr menuCtrl, UIntPtr index);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MenuCtrl_removeItemChild(IntPtr menuCtrl, IntPtr item);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern MenuItemType MenuCtrl_getItemTypeAt(IntPtr menuCtrl, UIntPtr index);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern MenuItemType MenuCtrl_getItemType(IntPtr menuCtrl, IntPtr item);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MenuCtrl_setItemTypeAt(IntPtr menuCtrl, UIntPtr index, MenuItemType type);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MenuCtrl_setItemType(IntPtr menuCtrl, IntPtr item, MenuItemType type);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MenuCtrl_setPopupAccept(IntPtr menuCtrl, bool value);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool MenuCtrl_getPopupAccept(IntPtr menuCtrl);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MenuCtrl_getMenuItemParent(IntPtr menuCtrl);
 
 #endregion

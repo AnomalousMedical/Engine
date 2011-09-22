@@ -43,13 +43,13 @@ namespace MyGUIPlugin
 
 #region PInvoke
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr FontManager_getInstancePtr();
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void FontManager_setDefaultFont(IntPtr fontManager, String value);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr FontManager_getDefaultFont(IntPtr fontManager);
 
 #endregion

@@ -211,69 +211,69 @@ namespace MyGUIPlugin
 
         #region PInvoke
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern UIntPtr ComboBox_getItemCount(IntPtr comboBox);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void ComboBox_insertItemAt(IntPtr comboBox, UIntPtr index, String name);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void ComboBox_addItem(IntPtr comboBox, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void ComboBox_removeItemAt(IntPtr comboBox, UIntPtr index);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void ComboBox_removeAllItems(IntPtr comboBox);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern UIntPtr ComboBox_findItemIndexWith(IntPtr comboBox, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern UIntPtr ComboBox_getIndexSelected(IntPtr comboBox);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void ComboBox_setIndexSelected(IntPtr comboBox, UIntPtr index);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void ComboBox_clearIndexSelected(IntPtr comboBox);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void ComboBox_setItemNameAt(IntPtr comboBox, UIntPtr index, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr ComboBox_getItemNameAt(IntPtr comboBox, UIntPtr index);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void ComboBox_beginToItemAt(IntPtr comboBox, UIntPtr index);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void ComboBox_beginToItemFirst(IntPtr comboBox);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void ComboBox_beginToItemLast(IntPtr comboBox);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void ComboBox_beginToItemSelected(IntPtr comboBox);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void ComboBox_setComboModeDrop(IntPtr comboBox, bool value);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool ComboBox_getComboModeDrop(IntPtr comboBox);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void ComboBox_setSmoothShow(IntPtr comboBox, bool value);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool ComboBox_getSmoothShow(IntPtr comboBox);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void ComboBox_setMaxListHeight(IntPtr comboBox, int value);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern int ComboBox_getMaxListHeight(IntPtr comboBox);
 
         #endregion

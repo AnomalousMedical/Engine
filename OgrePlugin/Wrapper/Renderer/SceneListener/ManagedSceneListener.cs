@@ -94,10 +94,10 @@ namespace OgreWrapper
 
 #region PInvoke
         
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr NativeSceneListener_Create(FindVisibleCallback preFind, FindVisibleCallback postFind);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void NativeSceneListener_Delete(IntPtr nativeSceneListener);
 
 #endregion

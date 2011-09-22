@@ -53,22 +53,22 @@ namespace MyGUIPlugin
 
 #region PInvoke
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void OgreRenderManager_setRenderWindow(IntPtr renderManager, IntPtr window);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void OgreRenderManager_setSceneManager(IntPtr renderManager, IntPtr scene);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern UIntPtr OgreRenderManager_getActiveViewport(IntPtr renderManager);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void OgreRenderManager_setActiveViewport(IntPtr renderManager, UIntPtr num);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void OgreRenderManager_windowMovedOrResized(IntPtr renderManager);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void OgreRenderManager_destroyTextureString(IntPtr renderManager, String name);
 
 #endregion

@@ -123,32 +123,32 @@ namespace OgreWrapper
 
 #region PInvoke
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void VertexBufferBinding_setBinding(IntPtr vertexBinding, ushort index, IntPtr buffer);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void VertexBufferBinding_unsetBinding(IntPtr vertexBinding, ushort index);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void VertexBufferBinding_unsetAllBindings(IntPtr vertexBinding);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr VertexBufferBinding_getBuffer(IntPtr vertexBinding, ushort index, ProcessWrapperObjectDelegate processCallback);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool VertexBufferBinding_isBufferBound(IntPtr vertexBinding, ushort index);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr VertexBufferBinding_getBufferCount(IntPtr vertexBinding);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern ushort VertexBufferBinding_getNextIndex(IntPtr vertexBinding);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern ushort VertexBufferBinding_getLastBoundIndex(IntPtr vertexBinding);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool VertexBufferBinding_hasGaps(IntPtr vertexBinding);
 

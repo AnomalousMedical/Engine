@@ -78,22 +78,22 @@ namespace OgreWrapper
 
 #region PInvoke
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void IndexData_optimizeVertexCacheTriList(IntPtr indexData);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr IndexData_getIndexBuffer(IntPtr indexData, ProcessWrapperObjectDelegate processIndexBuffer);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void IndexData_setIndexStart(IntPtr indexData, IntPtr indexStart);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr IndexData_getIndexStart(IntPtr indexData);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void IndexData_setIndexCount(IntPtr indexData, IntPtr indexCount);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr IndexData_getIndexCount(IntPtr indexData);
 
 #endregion

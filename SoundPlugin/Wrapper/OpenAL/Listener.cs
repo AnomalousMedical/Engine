@@ -88,28 +88,28 @@ namespace SoundPlugin
 
         #region PInvoke
 
-        [DllImport("SoundWrapper")]
+        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern float Listener_getGain(IntPtr listener);
 
-        [DllImport("SoundWrapper")]
+        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Listener_setGain(IntPtr listener, float value);
 
-        [DllImport("SoundWrapper")]
+        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern Vector3 Listener_getPosition(IntPtr listener);
 
-        [DllImport("SoundWrapper")]
+        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Listener_setPosition(IntPtr listener, Vector3 value);
 
-        [DllImport("SoundWrapper")]
+        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern Vector3 Listener_getVelocity(IntPtr listener);
 
-        [DllImport("SoundWrapper")]
+        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Listener_setVelocity(IntPtr listener, Vector3 value);
 
-        [DllImport("SoundWrapper")]
+        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Listener_getOrientation(IntPtr listener, out Vector3 at, out Vector3 up);
 
-        [DllImport("SoundWrapper")]
+        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Listener_setOrientation(IntPtr listener, Vector3 at, Vector3 up);
 
         #endregion

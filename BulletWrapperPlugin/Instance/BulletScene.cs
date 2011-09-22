@@ -128,31 +128,31 @@ namespace BulletPlugin
     //Dll Imports
     unsafe partial class BulletScene
     {
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr BulletScene_CreateBulletScene(BulletSceneInfo* sceneInfo);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void BulletScene_DestroyBulletScene(IntPtr instance);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void BulletScene_fillOutInfo(IntPtr instance, BulletSceneInfo* sceneInfo);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void BulletScene_update(IntPtr instance, float seconds);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void BulletScene_addRigidBody(IntPtr instance, IntPtr rigidBody, short group, short mask);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void BulletScene_removeRigidBody(IntPtr instance, IntPtr rigidBody);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void BulletScene_addConstraint(IntPtr instance, IntPtr constraint, bool disableCollisionsBetweenLinkedBodies);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void BulletScene_removeConstraint(IntPtr instance, IntPtr constraint);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void BulletScene_debugDrawWorld(IntPtr instance, IntPtr debugDrawer);
     }
 }

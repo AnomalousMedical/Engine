@@ -25,14 +25,14 @@ namespace PCPlatform
 
 #region PInvoke
 
-        [DllImport("PCPlatform")]
+        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         private static extern void AgnosticMessagePump_primeMessages();
 
-        [DllImport("PCPlatform")]
+        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool AgnosticMessagePump_processMessage();
 
-        [DllImport("PCPlatform")]
+        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         private static extern void AgnosticMessagePump_finishMessages();
 
 #endregion

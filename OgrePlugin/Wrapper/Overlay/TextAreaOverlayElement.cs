@@ -94,46 +94,46 @@ namespace OgreWrapper
 
 #region PInvoke
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void TextAreaOverlayElement_setCharHeight(IntPtr textArea, float height);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern float TextAreaOverlayElement_getCharHeight(IntPtr textArea);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void TextAreaOverlayElement_setSpaceWidth(IntPtr textArea, float width);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern float TextAreaOverlayElement_getSpaceWidth(IntPtr textArea);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void TextAreaOverlayElement_setFontName(IntPtr textArea, String font);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr TextAreaOverlayElement_getFontName(IntPtr textArea);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void TextAreaOverlayElement_setColor(IntPtr textArea, Color color);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern Color TextAreaOverlayElement_getColor(IntPtr textArea);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void TextAreaOverlayElement_setColorTop(IntPtr textArea, Color color);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern Color TextAreaOverlayElement_getColorTop(IntPtr textArea);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void TextAreaOverlayElement_setColorBottom(IntPtr textArea, Color color);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern Color TextAreaOverlayElement_getColorBottom(IntPtr textArea);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void TextAreaOverlayElement_setAlignment(IntPtr textArea, Alignment a);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern Alignment TextAreaOverlayElement_getAlignment(IntPtr textArea);
 
 #endregion

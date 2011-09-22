@@ -65,13 +65,13 @@ namespace OgreWrapper
 
 #region PInvoke
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IndexType HardwareIndexBuffer_getType(IntPtr hardwareBuffer);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr HardwareIndexBuffer_getNumIndexes(IntPtr hardwareBuffer);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr HardwareIndexBuffer_getIndexSize(IntPtr hardwareBuffer);
 
 #endregion

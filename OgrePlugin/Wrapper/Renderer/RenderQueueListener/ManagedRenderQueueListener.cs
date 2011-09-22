@@ -117,16 +117,16 @@ namespace OgreWrapper
 
 #region PInvoke
         
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr NativeRenderQueue_Create(EmptyRenderQueueEvent preRender, EmptyRenderQueueEvent postRender, ByteStringBoolRenderQueueEvent renderStarted, ByteStringBoolRenderQueueEvent renderEnded);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void NativeRenderQueue_Delete(IntPtr nativeRenderQueueListener);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void NativeRenderQueue_AddListener(IntPtr sceneManager, IntPtr nativeRenderQueueListener);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void NativeRenderQueue_RemoveListener(IntPtr sceneManager, IntPtr nativeRenderQueueListener);
 
 #endregion

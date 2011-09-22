@@ -153,74 +153,74 @@ namespace OgreWrapper
 
 #region PInvoke
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr OverlayManager_getSingletonPtr();
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr OverlayManager_create(IntPtr overlayManager, String name);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr OverlayManager_getByName(IntPtr overlayManager, String name);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void OverlayManager_destroyName(IntPtr overlayManager, String name);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void OverlayManager_destroy(IntPtr overlayManager, IntPtr overlay);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void OverlayManager_destroyAll(IntPtr overlayManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool OverlayManager_hasViewportChanged(IntPtr overlayManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern int OverlayManager_getViewportHeight(IntPtr overlayManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern int OverlayManager_getViewportWidth(IntPtr overlayManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern float OverlayManager_getViewportAspectRatio(IntPtr overlayManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr OverlayManager_createOverlayElementTypeInstance(IntPtr overlayManager, String typeName, String instanceName);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr OverlayManager_createOverlayElement(IntPtr overlayManager, String typeName, String instanceName, bool isTemplate);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr OverlayManager_getOverlayElementName(IntPtr overlayManager, String name);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr OverlayManager_getOverlayElement(IntPtr overlayManager, String name, bool isTemplate);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void OverlayManager_destroyOverlayElementName(IntPtr overlayManager, String name);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void OverlayManager_destroyOverlayElementNameTemplate(IntPtr overlayManager, String name, bool isTemplate);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void OverlayManager_destroyOverlayElement(IntPtr overlayManager, IntPtr element);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void OverlayManager_destroyOverlayElementTemplate(IntPtr overlayManager, IntPtr element, bool isTemplate);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void OverlayManager_destroyAllOverlayElements(IntPtr overlayManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void OverlayManager_destroyAllOverlayElementsTemplate(IntPtr overlayManager, bool isTemplate);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr OverlayManager_createOverlayElementFromTemplate1(IntPtr overlayManager, String templateName, String typeName, String instanceName);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr OverlayManager_createOverlayElementFromTemplate2(IntPtr overlayManager, String templateName, String typeName, String instanceName, bool isTemplate);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr OverlayManager_cloneOverlayElementFromTemplate(IntPtr overlayManager, String templateName, String instanceName);
 
 #endregion

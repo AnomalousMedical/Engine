@@ -55,17 +55,17 @@ namespace PCPlatform
             WindowsMessagePump_finishMessages(msgHandle);
         }
 
-        [DllImport("PCPlatform")]
+        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr WindowsMessagePump_primeMessages();
 
-        [DllImport("PCPlatform")]
+        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool WindowsMessagePump_peekMessage(IntPtr msgHandle, out WinMsg msg);
 
-        [DllImport("PCPlatform")]
+        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         private static extern void WindowsMessagePump_translateAndDispatchMessage(IntPtr msgHandle);
 
-        [DllImport("PCPlatform")]
+        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         private static extern void WindowsMessagePump_finishMessages(IntPtr msgHandle);
     }
 }

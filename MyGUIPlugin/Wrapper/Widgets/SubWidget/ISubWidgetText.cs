@@ -20,7 +20,7 @@ namespace MyGUIPlugin
             ISubWidgetText_setWordWrap(subWidgetText, value);
         }
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void ISubWidgetText_setWordWrap(IntPtr widget, bool value);
     }
 }

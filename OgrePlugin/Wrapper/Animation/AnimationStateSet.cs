@@ -146,39 +146,39 @@ namespace OgreWrapper
 
 #region PInvoke
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr AnimationStateSet_createAnimationState(IntPtr animationStateSet, String animName, float timePos, float length, float weight, bool enabled);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr AnimationStateSet_getAnimationState(IntPtr animationStateSet, String name);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool AnimationStateSet_hasAnimationState(IntPtr animationStateSet, String name);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void AnimationStateSet_removeAnimationState(IntPtr animationStateSet, String name);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void AnimationStateSet_removeAllAnimationStates(IntPtr animationStateSet);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void AnimationStateSet_copyMatchingState(IntPtr animationStateSet, IntPtr target);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern uint AnimationStateSet_getDirtyFrameNumber(IntPtr animationStateSet);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool AnimationStateSet_hasEnabledAnimationState(IntPtr animationStateSet);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void AnimationStateSet_notifyDirty(IntPtr animationStateSet);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr AnimationStateSet_getAnimationStateIterator(IntPtr animationStateSet);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void AnimationStateSet_iteratorDelete(IntPtr iter);
 
 #endregion

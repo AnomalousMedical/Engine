@@ -36,14 +36,14 @@ namespace SoundPlugin
 
         #region PInvoke
 
-        [DllImport("SoundWrapper")]
+        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Sound_setRepeat(IntPtr sound, bool value);
 
-        [DllImport("SoundWrapper")]
+        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Sound_getRepeat(IntPtr sound);
 
-        [DllImport("SoundWrapper")]
+        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern double Sound_getDuration(IntPtr sound);
 
         #endregion

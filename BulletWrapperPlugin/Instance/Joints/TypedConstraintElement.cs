@@ -121,7 +121,7 @@ namespace BulletPlugin
 
     partial class TypedConstraintElement
     {
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void btTypedConstraint_Delete(IntPtr instance);
     }
 }

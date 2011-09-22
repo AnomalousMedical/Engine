@@ -82,22 +82,22 @@ namespace MyGUIPlugin
 
 #region PInvoke
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr LayoutManager_getInstancePtr();
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr LayoutManager_loadLayout(IntPtr layoutManager, String file);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr LayoutManager_loadLayout2(IntPtr layoutManager, String file, String prefix);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr LayoutManager_loadLayout3(IntPtr layoutManager, String file, String prefix, Widget parent);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void LayoutManager_unloadLayout(IntPtr layoutManager, IntPtr vectorWidgetPtr);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void VectorWidgetPtr_Delete(IntPtr vectorWidgetPtr);
 
 #endregion

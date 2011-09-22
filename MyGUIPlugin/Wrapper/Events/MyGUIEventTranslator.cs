@@ -24,13 +24,13 @@ namespace MyGUIPlugin
 
         #region PInvoke
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MyGUIEventTranslator_delete(IntPtr nativeEventTranslator);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         protected static extern void MyGUIEventTranslator_bindEvent(IntPtr nativeEventTranslator);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         protected static extern void MyGUIEventTranslator_unbindEvent(IntPtr nativeEventTranslator);
 
         #endregion

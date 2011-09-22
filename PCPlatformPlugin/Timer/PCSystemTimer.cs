@@ -31,17 +31,17 @@ namespace PCPlatform
             return PerformanceCounter_getCurrentTime(performanceCounter);
         }
 
-        [DllImport("PCPlatform")]
+        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr PerformanceCounter_Create();
 
-        [DllImport("PCPlatform")]
+        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         private static extern void PerformanceCounter_Delete(IntPtr counter);
 
-        [DllImport("PCPlatform")]
+        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool PerformanceCounter_initialize(IntPtr counter);
 
-        [DllImport("PCPlatform")]
+        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         private static extern Int64 PerformanceCounter_getCurrentTime(IntPtr counter);
     }
 }

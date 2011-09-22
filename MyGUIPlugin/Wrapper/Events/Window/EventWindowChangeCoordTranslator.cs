@@ -38,7 +38,7 @@ namespace MyGUIPlugin
 
         #region PInvoke
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr EventWindowChangedCoordTranslator_Create(IntPtr widget, NativeEventDelegate nativeEventCallback);
 
         #endregion

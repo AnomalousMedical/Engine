@@ -169,37 +169,37 @@ namespace OgreWrapper
 
         #region PInvoke
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneNode_addChild(IntPtr sceneNode, IntPtr child);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneNode_removeChild(IntPtr sceneNode, IntPtr child);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneNode_attachObject(IntPtr sceneNode, IntPtr obj);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneNode_detachObject(IntPtr sceneNode, IntPtr obj);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneNode_setAutoTracking(IntPtr sceneNode, bool enabled, IntPtr target, Vector3 offset);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneNode_setVisible(IntPtr sceneNode, bool visible);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneNode_setVisibleCascade(IntPtr sceneNode, bool visible, bool cascade);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneNode_lookAt(IntPtr sceneNode, Vector3 targetPoint, TransformSpace relativeTo);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneNode_lookAtLocalDirection(IntPtr sceneNode, Vector3 targetPoint, TransformSpace relativeTo, Vector3 localDirectionVector);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneNode_setDebugDisplayEnabled(IntPtr sceneNode, bool enabled, bool cascade);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneNode_showBoundingBox(IntPtr sceneNode, bool show);
 
         #endregion

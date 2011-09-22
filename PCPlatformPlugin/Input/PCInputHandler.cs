@@ -171,28 +171,28 @@ namespace PCPlatform
             }
         }
 
-        [DllImport("PCPlatform")]
+        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr InputManager_Create(String windowHandle, bool foreground, bool exclusive, bool noWinKey);
 
-        [DllImport("PCPlatform")]
+        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         private static extern void InputManager_Delete(IntPtr inputManager);
 
-        [DllImport("PCPlatform")]
+        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         private static extern int InputManager_getNumberOfDevices(IntPtr inputManager, InputType inputType);
 
-        [DllImport("PCPlatform")]
+        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         private static extern uint InputManager_getVersionNumber(IntPtr inputManager);
 
-        [DllImport("PCPlatform")]
+        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr InputManager_getVersionName(IntPtr inputManager);
 
-        [DllImport("PCPlatform")]
+        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr InputManager_inputSystemName(IntPtr inputManager);
 
-        [DllImport("PCPlatform")]
+        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr InputManager_createInputObject(IntPtr inputManager, InputType inputType, bool buffered);
 
-        [DllImport("PCPlatform")]
+        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         private static extern void InputManager_destroyInputObject(IntPtr inputManager, IntPtr inputObject);
     }
 }

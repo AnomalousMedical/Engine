@@ -65,16 +65,16 @@ namespace OgreWrapper
 
         #region PInvoke
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr ManualObjectSection_getMaterialName(IntPtr ogreSection);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManualObjectSection_setMaterialName(IntPtr ogreSection, String name);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManualObjectSection_set32BitIndices(IntPtr ogreSection, bool n32);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool ManualObjectSection_get32BitIndices(IntPtr ogreSection);
 

@@ -33,13 +33,13 @@ namespace OgreWrapper
 
 #region PInvoke
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void OverlayContainer_addChild(IntPtr overlayContainer, IntPtr elem);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void OverlayContainer_removeChild(IntPtr overlayContainer, String name);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr OverlayContainer_getChild(IntPtr overlayContainer, String name);
 
 #endregion

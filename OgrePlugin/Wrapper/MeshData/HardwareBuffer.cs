@@ -250,43 +250,43 @@ namespace OgreWrapper
 
 #region PInvoke
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void* HardwareBuffer_lockBuf(IntPtr hardwareBuffer, IntPtr offset, IntPtr length, LockOptions options);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void* HardwareBuffer_lockBufAll(IntPtr hardwareBuffer, LockOptions options);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void HardwareBuffer_unlock(IntPtr hardwareBuffer);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void HardwareBuffer_readData(IntPtr hardwareBuffer, IntPtr offset, IntPtr length, void* dest);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void HardwareBuffer_writeData(IntPtr hardwareBuffer, IntPtr offset, IntPtr length, void* source);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void HardwareBuffer_writeDataDiscard(IntPtr hardwareBuffer, IntPtr offset, IntPtr length, void* source, bool discardWholeBuffer);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr HardwareBuffer_getSizeInBytes(IntPtr hardwareBuffer);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern Usage HardwareBuffer_getUsage(IntPtr hardwareBuffer);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool HardwareBuffer_isSystemMemory(IntPtr hardwareBuffer);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool HardwareBuffer_hasShadowBuffer(IntPtr hardwareBuffer);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool HardwareBuffer_isLocked(IntPtr hardwareBuffer);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void HardwareBuffer_suppressHardwareUpdate(IntPtr hardwareBuffer, bool suppress);
 
 #endregion

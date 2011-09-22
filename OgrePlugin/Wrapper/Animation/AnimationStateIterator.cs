@@ -70,13 +70,13 @@ namespace OgreWrapper
 
         #region PInvoke
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr AnimationStateIterator_peekNextValue(IntPtr iter);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void AnimationStateIterator_moveNext(IntPtr iter);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool AnimationStateIterator_hasMoreElements(IntPtr iter);
 

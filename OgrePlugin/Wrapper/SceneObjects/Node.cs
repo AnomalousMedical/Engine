@@ -331,78 +331,78 @@ namespace OgreWrapper
 
         #region PInvoke
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern Quaternion Node_getOrientation(IntPtr ogreNode);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Node_setOrientation(IntPtr ogreNode, Quaternion q);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Node_setOrientationRaw(IntPtr ogreNode, float x, float y, float z, float w);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Node_resetOrientation(IntPtr ogreNode);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Node_setPosition(IntPtr ogreNode, Vector3 pos);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern Vector3 Node_getPosition(IntPtr ogreNode);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Node_setScale(IntPtr ogreNode, Vector3 scale);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern Vector3 Node_getScale(IntPtr ogreNode);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Node_setInheritOrientation(IntPtr ogreNode, bool inherit);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Node_getInheritOrientation(IntPtr ogreNode);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Node_setInheritScale(IntPtr ogreNode, bool inherit);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Node_getInheritScale(IntPtr ogreNode);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Node_scale(IntPtr ogreNode, Vector3 scale);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Node_scaleRaw(IntPtr ogreNode, float x, float y, float z);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Node_translate(IntPtr ogreNode, Vector3 d, TransformSpace relativeTo);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Node_translateRaw(IntPtr ogreNode, float x, float y, float z, TransformSpace relativeTo);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Node_roll(IntPtr ogreNode, float angle, TransformSpace relativeTo);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Node_pitch(IntPtr ogreNode, float angle, TransformSpace relativeTo);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Node_yaw(IntPtr ogreNode, float angle, TransformSpace relativeTo);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Node_rotateAxis(IntPtr ogreNode, Vector3 axis, float angle, TransformSpace relativeTo);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Node_rotate(IntPtr ogreNode, Quaternion q, TransformSpace relativeTo);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern Vector3 Node_getDerivedPosition(IntPtr ogreNode);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern Vector3 Node_getDerivedScale(IntPtr ogreNode);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern Quaternion Node_getDerivedOrientation(IntPtr ogreNode);
 
         #endregion 

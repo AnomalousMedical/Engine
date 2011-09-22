@@ -106,16 +106,16 @@ namespace ZipAccess
             
         }
 
-        [DllImport("Zip")]
+        [DllImport("Zip", CallingConvention=CallingConvention.Cdecl)]
         private static extern void ZipStream_FileClose(IntPtr zzipFile);
 
-        [DllImport("Zip")]
+        [DllImport("Zip", CallingConvention=CallingConvention.Cdecl)]
         private static extern Int32 ZipStream_Seek(IntPtr zzipFile, Int32 offset, int whence);
 
-        [DllImport("Zip")]
+        [DllImport("Zip", CallingConvention=CallingConvention.Cdecl)]
         private static unsafe extern int ZipStream_FileRead(IntPtr zzipFile, void* buf, int count);
 
-        [DllImport("Zip")]
+        [DllImport("Zip", CallingConvention=CallingConvention.Cdecl)]
         private static extern Int32 ZipStream_Tell(IntPtr zzipFile);
     }
 }

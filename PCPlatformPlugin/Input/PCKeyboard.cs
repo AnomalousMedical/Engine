@@ -111,26 +111,26 @@ namespace PCPlatform
             }
         }
 
-        [DllImport("PCPlatform")]
+        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool oisKeyboard_isModifierDown(IntPtr keyboard, Modifier keyCode);
 
-        [DllImport("PCPlatform")]
+        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr oisKeyboard_getAsString(IntPtr keyboard, KeyboardButtonCode code);
 
-        [DllImport("PCPlatform")]
+        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         private static unsafe extern void oisKeyboard_capture(IntPtr keyboard, sbyte* keys);
 
-        [DllImport("PCPlatform")]
+        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr oisKeyboard_createListener(IntPtr keyboard, KeyCallback keyPressedCb, KeyCallback keyReleasedCb);
 
-        [DllImport("PCPlatform")]
+        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         private static extern void oisKeyboard_destroyListener(IntPtr keyboard, IntPtr listener);
 
-        [DllImport("PCPlatform")]
+        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         private static extern void oisKeyboard_setTextTranslationMode(IntPtr keyboard, TextTranslationMode mode);
 
-        [DllImport("PCPlatform")]
+        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         private static extern TextTranslationMode oisKeyboard_getTextTranslationMode(IntPtr keyboard);
     }
 }

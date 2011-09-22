@@ -231,65 +231,65 @@ namespace OgreWrapper
 
         #region CWrapper
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool MovableObject_isAttached(IntPtr movableObject);
 
-	    [DllImport("OgreCWrapper")]
+	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MovableObject_detachFromParent(IntPtr movableObject);
 
-	    [DllImport("OgreCWrapper")]
+	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool MovableObject_isInScene(IntPtr movableObject);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MovableObject_getName(IntPtr movableObject);
 
-	    [DllImport("OgreCWrapper")]
+	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MovableObject_setVisible(IntPtr movableObject, bool visible);
 
-	    [DllImport("OgreCWrapper")]
+	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool MovableObject_isVisible(IntPtr movableObject);
 
-	    [DllImport("OgreCWrapper")]
+	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MovableObject_setVisibilityFlags(IntPtr movableObject, uint flags);
 
-	    [DllImport("OgreCWrapper")]
+	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MovableObject_addVisiblityFlags(IntPtr movableObject, uint flags);
 
-	    [DllImport("OgreCWrapper")]
+	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MovableObject_removeVisibilityFlags(IntPtr movableObject, uint flags);
 
-	    [DllImport("OgreCWrapper")]
+	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern uint MovableObject_getVisibilityFlags(IntPtr movableObject);
 
-	    [DllImport("OgreCWrapper")]
+	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern MovableTypes MovableObject_getMovableType(IntPtr movableObject);
 
-	    [DllImport("OgreCWrapper")]
+	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MovableObject_getOgreMovableType(IntPtr movableObject);
 
-	    [DllImport("OgreCWrapper")]
+	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern AxisAlignedBox MovableObject_getBoundingBox(IntPtr movableObject);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern AxisAlignedBox MovableObject_getWorldBoundingBox(IntPtr movableObject);
 
-	    [DllImport("OgreCWrapper")]
+	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MovableObject_setDebugDisplayEnabled(IntPtr movableObject, bool enabled);
 
-	    [DllImport("OgreCWrapper")]
+	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool MovableObject_isDebugDisplayEnabled(IntPtr movableObject);
 
-	    [DllImport("OgreCWrapper")]
+	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MovableObject_setRenderQueueGroup(IntPtr movableObject, byte queueID);
 
-	    [DllImport("OgreCWrapper")]
+	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern byte MovableObject_getRenderQueueGroup(IntPtr movableObject);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MovableObject_getParentSceneNode(IntPtr movableObject);
 
         #endregion

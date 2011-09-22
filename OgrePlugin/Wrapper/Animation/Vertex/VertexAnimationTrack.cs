@@ -248,52 +248,52 @@ namespace OgreWrapper
 
         #region PInvoke
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern VertexAnimationType VertexAnimationTrack_getAnimationType(IntPtr animTrack);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr VertexAnimationTrack_createVertexMorphKeyFrame(IntPtr animTrack, float timePos);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr VertexAnimationTrack_createVertexPoseKeyFrame(IntPtr animTrack, float timePos);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void VertexAnimationTrack_apply1(IntPtr animTrack, float timePos, uint keyIndex);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void VertexAnimationTrack_apply2(IntPtr animTrack, float timePos, uint keyIndex, float weight);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void VertexAnimationTrack_apply3(IntPtr animTrack, float timePos, uint keyIndex, float weight, float scale);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr VertexAnimationTrack_getVertexMorphKeyFrame(IntPtr animTrack, ushort index);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr VertexAnimationTrack_getVertexPoseKeyFrame(IntPtr animTrack, ushort index);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void VertexAnimationTrack_setTargetMode(IntPtr animTrack, TargetMode m);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern TargetMode VertexAnimationTrack_getTargetMode(IntPtr animTrack);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr VertexAnimationTrack_getKeyFrame(IntPtr animTrack, ushort index);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern float VertexAnimationTrack_getKeyFramesAtTime1(IntPtr animTrack, float timePos, uint keyIndex, out IntPtr keyFrame1, out IntPtr keyFrame2);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern float VertexAnimationTrack_getKeyFramesAtTime2(IntPtr animTrack, float timePos, uint keyIndex, out IntPtr keyFrame1, out IntPtr keyFrame2, out ushort firstKeyIndex);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr VertexAnimationTrack_createKeyFrame(IntPtr animTrack, float timePos);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void VertexAnimationTrack_removeKeyFrame(IntPtr animTrack, ushort index);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void VertexAnimationTrack_removeAllKeyFrames(IntPtr animTrack);
 
         #endregion

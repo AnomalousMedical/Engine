@@ -76,34 +76,34 @@ namespace OgreWrapper
 
 #region PInvoke
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void PanelOverlayElement_setTiling(IntPtr panelOverlayElement, float x, float y);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void PanelOverlayElement_setTilingLayer(IntPtr panelOverlayElement, float x, float y, ushort layer);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern float PanelOverlayElement_getTileX(IntPtr panelOverlayElement);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern float PanelOverlayElement_getTileXLayer(IntPtr panelOverlayElement, ushort layer);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern float PanelOverlayElement_getTileY(IntPtr panelOverlayElement);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern float PanelOverlayElement_getTileYLayer(IntPtr panelOverlayElement, ushort layer);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void PanelOverlayElement_setUV(IntPtr panelOverlayElement, float u1, float v1, float u2, float v2);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void PanelOverlayElement_getUV(IntPtr panelOverlayElement, out float u1, out float v1, out float u2, out float v2);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void PanelOverlayElement_setTransparent(IntPtr panelOverlayElement, bool isTransparent);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool PanelOverlayElement_isTransparent(IntPtr panelOverlayElement);
 

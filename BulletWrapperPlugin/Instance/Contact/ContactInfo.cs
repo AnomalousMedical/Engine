@@ -42,17 +42,17 @@ namespace BulletPlugin
             return manifoldPoint;
         }
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern int ContactInfo_getNumContacts(IntPtr contactInfo);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void ContactInfo_startPointIterator(IntPtr contactInfo);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool ContactInfo_hasNextPoint(IntPtr contactInfo);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr ContactInfo_nextPoint(IntPtr contactInfo);
     }
 }

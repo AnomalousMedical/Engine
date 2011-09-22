@@ -56,22 +56,22 @@ namespace MyGUIPlugin
 
 #region PInvoke
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr LanguageManager_getInstancePtr();
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void LanguageManager_setCurrentLanguage(IntPtr languageManager, String name);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern String LanguageManager_getCurrentLanguage(IntPtr languageManager);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void LanguageManager_addUserTag(IntPtr languageManager, [MarshalAs(UnmanagedType.LPWStr)] String tag, [MarshalAs(UnmanagedType.LPWStr)] String replace);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void LanguageManager_clearUserTags(IntPtr languageManager);
 
-        [DllImport("MyGUIWrapper")]
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool LanguageManager_loadUserTags(IntPtr languageManager, String file);
 

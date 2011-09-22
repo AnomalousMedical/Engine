@@ -44,16 +44,16 @@ namespace OgreWrapper
 
 #region PInvoke
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MeshSerializer_Create();
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MeshSerializer_Delete(IntPtr meshSerializer);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MeshSerializer_exportMesh(IntPtr meshSerializer, IntPtr mesh, String filename);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void MeshSerializer_exportMeshEndian(IntPtr meshSerializer, IntPtr mesh, String filename, Endian endianMode);
 
 #endregion

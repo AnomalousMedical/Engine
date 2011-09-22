@@ -75,14 +75,14 @@ namespace PCPlatform
             }
         }
 
-        [DllImport("PCPlatform")]
+        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         private static extern void oisMouse_setWindowSize(IntPtr mouse, int width, int height);
 
-        [DllImport("PCPlatform")]
+        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool oisMouse_buttonDown(IntPtr mouse, MouseButtonCode button);
 
-        [DllImport("PCPlatform")]
+        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         private static extern void oisMouse_capture(IntPtr mouse, ref Vector3 absPos, ref Vector3 relPos);
     }
 }

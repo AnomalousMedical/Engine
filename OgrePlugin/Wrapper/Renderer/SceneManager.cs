@@ -719,261 +719,261 @@ namespace OgreWrapper
 
         #region PInvoke
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_getRenderQueue(IntPtr ogreSceneManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_getName(IntPtr ogreSceneManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_createCamera(IntPtr ogreSceneManager, String name);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_getCamera(IntPtr ogreSceneManager, String name);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_hasCamera(IntPtr ogreSceneManager, String name);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_destroyCamera(IntPtr ogreSceneManager, IntPtr camera);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_createLight(IntPtr ogreSceneManager, String name);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_getLight(IntPtr ogreSceneManager, String name);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_hasLight(IntPtr ogreSceneManager, String name);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_destroyLight(IntPtr ogreSceneManager, IntPtr light);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_createSceneNode(IntPtr ogreSceneManager, String name);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_getRootSceneNode(IntPtr ogreSceneManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_getSceneNode(IntPtr ogreSceneManager, String name);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_hasSceneNode(IntPtr ogreSceneManager, String name);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_destroySceneNode(IntPtr ogreSceneManager, IntPtr node);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_createEntity(IntPtr ogreSceneManager, String entityName, String meshName);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_getEntity(IntPtr ogreSceneManager, String name);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_hasEntity(IntPtr ogreSceneManager, String name);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_destroyEntity(IntPtr ogreSceneManager, IntPtr entity);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_createManualObject(IntPtr ogreSceneManager, String name);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_getManualObject(IntPtr ogreSceneManager, String name);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_hasManualObject(IntPtr ogreSceneManager, String name);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_destroyManualObject(IntPtr ogreSceneManager, IntPtr obj);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_setVisibilityMask(IntPtr ogreSceneManager, uint mask);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern uint SceneManager_getVisibilityMask(IntPtr ogreSceneManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_addSceneListener(IntPtr ogreSceneManager, IntPtr listener);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_removeSceneListener(IntPtr ogreSceneManager, IntPtr listener);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_createRaySceneQuery(IntPtr ogreSceneManager, Ray3 ray, uint mask);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_destroyRayQuery(IntPtr ogreSceneManager, IntPtr query);
 
-        //[DllImport("OgreCWrapper")]
+        //[DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         //private static extern IntPtr SceneManager_createPlaneBoundedVolumeQuery(IntPtr ogreSceneManager, LinkedList<PlaneBoundedVolume> volumes);
 
-        //[DllImport("OgreCWrapper")]
+        //[DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         //private static extern IntPtr SceneManager_createPlaneBoundedVolumeQuery(IntPtr ogreSceneManager, LinkedList<PlaneBoundedVolume> volumes, ulong mask);
 
-        //[DllImport("OgreCWrapper")]
+        //[DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         //private static extern void SceneManager_destroyPlaneBoundedVolumeListQuery(IntPtr ogreSceneManager, IntPtr query);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_setDisplaySceneNodes(IntPtr ogreSceneManager, bool display);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_getDisplaySceneNodes(IntPtr ogreSceneManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_showBoundingBoxes(IntPtr ogreSceneManager, bool bShow);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_getShowBoundingBoxes(IntPtr ogreSceneManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowTechnique(IntPtr ogreSceneManager, ShadowTechnique technique);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern ShadowTechnique SceneManager_getShadowTechnique(IntPtr ogreSceneManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_setShowDebugShadows(IntPtr ogreSceneManager, bool debug);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_getShowDebugShadows(IntPtr ogreSceneManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowColor(IntPtr ogreSceneManager, Color color);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern Color SceneManager_getShadowColor(IntPtr ogreSceneManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowDirectionalLightExtrusionDistance(IntPtr ogreSceneManager, float dist);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern float SceneManager_getShadowDirectionalLightExtrusionDistance(IntPtr ogreSceneManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowFarDistance(IntPtr ogreSceneManager, float distance);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern float SceneManager_getShadowFarDistance(IntPtr ogreSceneManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern float SceneManager_getShadowFarDistanceSquared(IntPtr ogreSceneManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowIndexBufferSize(IntPtr ogreSceneManager, int size);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern int SceneManager_getShadowIndexBufferSize(IntPtr ogreSceneManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowTextureSize(IntPtr ogreSceneManager, ushort size);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowTextureConfig(IntPtr ogreSceneManager, int shadowIndex, ushort width, ushort height, PixelFormat format);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowTexturePixelFormat(IntPtr ogreSceneManager, PixelFormat fmt);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowTextureCount(IntPtr ogreSceneManager, int count);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern int SceneManager_getShadowTextureCount(IntPtr ogreSceneManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowTextureCountPerLightType(IntPtr ogreSceneManager, Light.LightTypes type, int count);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern int SceneManager_getShadowTextureCountPerLightType(IntPtr ogreSceneManager, Light.LightTypes type);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowTextureSettings(IntPtr ogreSceneManager, ushort size, ushort count, PixelFormat fmt);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowDirLightTextureOffset(IntPtr ogreSceneManager, float offset);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern float SceneManager_getShadowDirLightTextureOffset(IntPtr ogreSceneManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowTextureFadeStart(IntPtr ogreSceneManager, float fadeStart);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowTextureFadeEnd(IntPtr ogreSceneManager, float fadeEnd);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowTextureSelfShadow(IntPtr ogreSceneManager, bool selfShadow);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_getShadowTextureSelfShadow(IntPtr ogreSceneManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowTextureCasterMaterial(IntPtr ogreSceneManager, String name);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowTextureReceiverMaterial(IntPtr ogreSceneManager, String name);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowCasterRenderBackFaces(IntPtr ogreSceneManager, bool bf);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_getShadowCasterRenderBackFaces(IntPtr ogreSceneManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowUseInfiniteFarPlane(IntPtr ogreSceneManager, bool enable);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_isShadowTechniqueStencilBased(IntPtr ogreSceneManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_isShadowTechniqueTextureBased(IntPtr ogreSceneManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_isShadowTechniqueModulative(IntPtr ogreSceneManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_isShadowTechniqueAdditive(IntPtr ogreSceneManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_isShadowTechniqueIntegrated(IntPtr ogreSceneManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_isShadowTechniqueInUse(IntPtr ogreSceneManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowUseLightClipPlanes(IntPtr ogreSceneManager, bool enabled);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_getShadowUseLightClipPlanes(IntPtr ogreSceneManager);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_setSkyPlane(IntPtr ogreSceneManager, bool enabled, float d, Vector3 normal, String matName, float scale, float tiling, bool drawFirst, float bow);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_setSkyBox(IntPtr ogreSceneManager, bool enabled, String matName, float distance, bool drawFirst);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_setSkyDome(IntPtr ogreSceneManager, bool enabled, String matName);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_getCurrentViewport(IntPtr ogreSceneManager);
 
         #endregion

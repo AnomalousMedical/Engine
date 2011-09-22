@@ -20,10 +20,10 @@ namespace OgreWrapper
 
 #region PInvoke
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void WindowEventUtilities_addWindowEventListener(IntPtr window, IntPtr listener);
 
-        [DllImport("OgreCWrapper")]
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void WindowEventUtilities_removeWindowEventListener(IntPtr window, IntPtr listener);
 
 #endregion

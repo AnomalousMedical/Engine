@@ -388,215 +388,215 @@ namespace OgreWrapper
 
 #region PInvoke
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern IntPtr Mesh_getSharedVertexData(IntPtr mesh);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern IntPtr Mesh_createSubMesh(IntPtr mesh);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern IntPtr Mesh_createSubMeshName(IntPtr mesh, String name);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_nameSubMesh(IntPtr mesh, String name, ushort index);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern ushort Mesh__getSubMeshIndex(IntPtr mesh, String name);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern ushort Mesh_getNumSubMeshes(IntPtr mesh);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern IntPtr Mesh_getSubMesh(IntPtr mesh, ushort index);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern IntPtr Mesh_getSubMeshName(IntPtr mesh, String name);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern IntPtr Mesh_clone(IntPtr mesh, String newName, ProcessWrapperObjectDelegate processWrapper);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern IntPtr Mesh_cloneChangeGroup(IntPtr mesh, String newName, String newGroup, ProcessWrapperObjectDelegate processWrapper);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern float Mesh_getBoundingSphereRadius(IntPtr mesh);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh__setBoundingSphereRadius(IntPtr mesh, float radius);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_setSkeletonName(IntPtr mesh, String skeletonName);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     [return: MarshalAs(UnmanagedType.I1)]
     private static extern bool Mesh_hasSkeleton(IntPtr mesh);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     [return: MarshalAs(UnmanagedType.I1)]
     private static extern bool Mesh_hasVertexAnimation(IntPtr mesh);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern IntPtr Mesh_getSkeleton(IntPtr mesh, ProcessWrapperObjectDelegate processWrapper);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern IntPtr Mesh_getSkeletonName(IntPtr mesh);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh__initAnimationState(IntPtr mesh, IntPtr animSet);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh__refreshAnimationState(IntPtr mesh, IntPtr animSet);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_clearBoneAssignments(IntPtr mesh);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern ushort Mesh_getNumLodLevels(IntPtr mesh);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_createManualLodLevel(IntPtr mesh, float fromDepth, String meshName);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_updateManualLodLevel(IntPtr mesh, ushort index, String meshName);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern ushort Mesh_getLodIndex(IntPtr mesh, float depth);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     [return: MarshalAs(UnmanagedType.I1)]
     private static extern bool Mesh_isLodManual(IntPtr mesh);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_removeLodLevels(IntPtr mesh);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_setVertexBufferPolicy(IntPtr mesh, HardwareBuffer.Usage usage);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_setVertexBufferPolicyShadow(IntPtr mesh, HardwareBuffer.Usage usage, bool shadowBuffer);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_setIndexBufferPolicy(IntPtr mesh, HardwareBuffer.Usage usage);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_setIndexBufferPolicyShadow(IntPtr mesh, HardwareBuffer.Usage usage, bool shadowBuffer);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern HardwareBuffer.Usage Mesh_getVertexBufferUsage(IntPtr mesh);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern HardwareBuffer.Usage Mesh_getIndexBufferUsage(IntPtr mesh);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     [return: MarshalAs(UnmanagedType.I1)]
     private static extern bool Mesh_isVertexBufferShadowed(IntPtr mesh);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     [return: MarshalAs(UnmanagedType.I1)]
     private static extern bool Mesh_isIndexBufferShadowed(IntPtr mesh);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_buildTangentVectors(IntPtr mesh);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_buildTangentVectors1(IntPtr mesh, VertexElementSemantic targetSemantic);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_buildTangentVectors2(IntPtr mesh, VertexElementSemantic targetSemantic, ushort sourceTexCoordSet);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_buildTangentVectors3(IntPtr mesh, VertexElementSemantic targetSemantic, ushort sourceTexCoordSet, ushort index);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_buildTangentVectors4(IntPtr mesh, VertexElementSemantic targetSemantic, ushort sourceTexCoordSet, ushort index, bool splitMirrored);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_buildTangentVectors5(IntPtr mesh, VertexElementSemantic targetSemantic, ushort sourceTexCoordSet, ushort index, bool splitMirrored, bool splitRotated);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_buildTangentVectors6(IntPtr mesh, VertexElementSemantic targetSemantic, ushort sourceTexCoordSet, ushort index, bool splitMirrored, bool splitRotated, bool storeParityInW);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     [return: MarshalAs(UnmanagedType.I1)]
     private static extern bool Mesh_suggestTangentVectorBuildParams(IntPtr mesh, VertexElementSemantic targetSemantic, out ushort outSourceCoordSet, out ushort outIndex);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_buildEdgeList(IntPtr mesh);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_freeEdgeList(IntPtr mesh);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_prepareForShadowVolume(IntPtr mesh);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     [return: MarshalAs(UnmanagedType.I1)]
     private static extern bool Mesh_isPreparedForShadowVolumes(IntPtr mesh);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     [return: MarshalAs(UnmanagedType.I1)]
     private static extern bool Mesh_isEdgeListBuilt(IntPtr mesh);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern uint Mesh_getSubMeshIndex(IntPtr mesh, String name);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_setAutoBuildEdgeLists(IntPtr mesh, bool autobuild);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     [return: MarshalAs(UnmanagedType.I1)]
     private static extern bool Mesh_getAutoBuildEdgeLists(IntPtr mesh);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern VertexAnimationType Mesh_getSharedVertexDataAnimationType(IntPtr mesh);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern IntPtr Mesh_createAnimation(IntPtr mesh, String name, float length);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern IntPtr Mesh_getAnimation(IntPtr mesh, String name);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     [return: MarshalAs(UnmanagedType.I1)]
     private static extern bool Mesh_hasAnimation(IntPtr mesh, String name);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_removeAnimation(IntPtr mesh, String name);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern ushort Mesh_getNumAnimations(IntPtr mesh);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern IntPtr Mesh_getAnimationIndex(IntPtr mesh, ushort index);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_removeAllAnimations(IntPtr mesh);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_updateMaterialForAllSubMeshes(IntPtr mesh);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern IntPtr Mesh_createPose(IntPtr mesh, ushort target);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern IntPtr Mesh_createPoseName(IntPtr mesh, ushort target, String name);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern int Mesh_getPoseCount(IntPtr mesh);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern IntPtr Mesh_getPose(IntPtr mesh, ushort index);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern IntPtr Mesh_getPoseName(IntPtr mesh, String name);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_removePose(IntPtr mesh, ushort index);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_removePoseName(IntPtr mesh, String name);
 
-    [DllImport("OgreCWrapper")]
+    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_removeAllPoses(IntPtr mesh);
 
 #endregion

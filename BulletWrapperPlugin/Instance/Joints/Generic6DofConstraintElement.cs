@@ -110,58 +110,58 @@ namespace BulletPlugin
 
     partial class Generic6DofConstraintElement
     {
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr btGeneric6DofConstraint_Create(IntPtr rbA, IntPtr rbB, Vector3 jointPos, Quaternion jointRot, TranslationalLimitMotorDefinition transMotor, RotationalLimitMotorDefinition xRotMotor, RotationalLimitMotorDefinition yRotMotor, RotationalLimitMotorDefinition zRotMotor);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void btGeneric6DofConstraint_setFrameOffsetOriginA(IntPtr instance, ref Vector3 origin);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void btGeneric6DofConstraint_setFrameOffsetBasisA(IntPtr instance, ref Quaternion basis);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void btGeneric6DofConstraint_setFrameOffsetOriginBasisA(IntPtr instance, ref Vector3 origin, ref Quaternion basis);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void btGeneric6DofConstraint_setFrameOffsetOriginB(IntPtr instance, ref Vector3 origin);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void btGeneric6DofConstraint_setFrameOffsetBasisB(IntPtr instance, ref Quaternion basis);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void btGeneric6DofConstraint_setFrameOffsetOriginBasisB(IntPtr instance, ref Vector3 origin, ref Quaternion basis);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern Vector3 btGeneric6DofConstraint_getFrameOffsetOriginA(IntPtr instance);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern Quaternion btGeneric6DofConstraint_getFrameOffsetBasisA(IntPtr instance);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern Vector3 btGeneric6DofConstraint_getFrameOffsetOriginB(IntPtr instance);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern Quaternion btGeneric6DofConstraint_getFrameOffsetBasisB(IntPtr instance);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void btGeneric6DofConstraint_setLimit(IntPtr instance, int axis, float lo, float hi);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void btGeneric6DofConstraint_setLinearLowerLimit(IntPtr instance, ref Vector3 linearLower);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void btGeneric6DofConstraint_setLinearUpperLimit(IntPtr instance, ref Vector3 linearUpper);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void btGeneric6DofConstraint_setAngularLowerLimit(IntPtr instance, ref Vector3 angularLower);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void btGeneric6DofConstraint_setAngularUpperLimit(IntPtr instance, ref Vector3 angularUpper);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void btGeneric6DofConstraint_setParam(IntPtr instance, int num, float value, int axis);
 
-        [DllImport("BulletWrapper")]
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void btGeneric6DofConstraint_copyMotors(IntPtr instance, [Out] TranslationalLimitMotorDefinition transMotor, [Out] RotationalLimitMotorDefinition xRotMotor, [Out] RotationalLimitMotorDefinition yRotMotor, [Out] RotationalLimitMotorDefinition zRotMotor);
     }
 }
