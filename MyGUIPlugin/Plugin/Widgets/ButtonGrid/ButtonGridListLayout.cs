@@ -33,11 +33,10 @@ namespace MyGUIPlugin
 
         public void alignCaption(Widget captionText, Widget separator)
         {
-            currentPosition.y += 5;
             captionText.setPosition((int)currentPosition.x, (int)currentPosition.y);
             separator.setPosition((int)(currentPosition.x + captionText.Width), (int)(currentPosition.y + captionText.Height / 2));
             separator.setSize((int)(ItemWidth - captionText.Width) - 10, 1);
-            currentPosition.y += captionText.Height + 5;
+            currentPosition.y += captionText.Height;
         }
 
         public void alignItem(ButtonGridItem item)
@@ -50,7 +49,6 @@ namespace MyGUIPlugin
         public void finishGroupLayout()
         {
             currentPosition.x = 0;
-            currentPosition.y += ItemHeight + GroupPaddingY;
         }
 
         public Size2 FinalCanvasSize
