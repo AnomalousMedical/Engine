@@ -6,7 +6,7 @@ using Engine;
 
 namespace MyGUIPlugin
 {
-    internal class ButtonGridGroup
+    internal class ButtonGridGroup : IDisposable
     {
         private ButtonGrid grid;
         private List<ButtonGridItem> items = new List<ButtonGridItem>();
@@ -29,6 +29,18 @@ namespace MyGUIPlugin
                 separator.setSize((int)(grid.ScrollView.CanvasSize.Width - captionText.Width) - 10, 1);
 
                 toggleCaptionVisibility();
+            }
+        }
+
+        public void Dispose()
+        {
+            clear();
+            if (captionText != null)
+            {
+                Gui.Instance.destroyWidget(separator);
+                Gui.Instance.destroyWidget(captionText);
+                captionText = null;
+                separator = null;
             }
         }
 

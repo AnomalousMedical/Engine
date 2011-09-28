@@ -278,7 +278,7 @@ namespace MyGUIPlugin
         {
             foreach (ButtonGridGroup group in groups)
             {
-                group.clear();
+                group.Dispose();
             }
             selectedItem = null;
             groups.Clear();
