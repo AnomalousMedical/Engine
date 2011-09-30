@@ -120,6 +120,14 @@ namespace MyGUIPlugin
             }
         }
 
+        public String GroupName
+        {
+            get
+            {
+                return Group.Name;
+            }
+        }
+
         internal void setPosition(Vector2 position, int width, int height)
         {
             button.setCoord((int)position.x, (int)position.y, width, height);
