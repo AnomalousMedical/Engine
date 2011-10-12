@@ -78,7 +78,6 @@ namespace MyGUIPlugin
         {
             Log.Info("Initializing MyGUI");
 
-            OgreResourceGroupManager.getInstance().addResourceLocation("GUI/MyGUI", "EngineArchive", "MyGUI", true);
             OgreResourceGroupManager.getInstance().addResourceLocation(GetType().AssemblyQualifiedName, "EmbeddedResource", "MyGUI", true);
             OgreResourceGroupManager.getInstance().initializeAllResourceGroups();
 
@@ -162,14 +161,14 @@ namespace MyGUIPlugin
         static MyGUIInterface()
         {
             LogFile = "MyGUI.log";
-            Theme = "core_theme.xml";
-            Language = "core_language.xml";
-            Font = "core_font.xml";
-            Resource = "core_resource.xml";
-            Skin = "core_skin.xml";
-            Pointer = "core_pointer.xml";
-            Layer = "core_layer.xml";
-            Settings = "core_settings.xml";
+            Theme = "MyGUIPlugin.Resources.core_theme.xml";
+            Language = "MyGUIPlugin.Resources.core_language.xml";
+            Font = "MyGUIPlugin.Resources.core_font.xml";
+            Resource = "MyGUIPlugin.Resources.core_resource.xml";
+            Skin = "MyGUIPlugin.Resources.core_skin.xml";
+            Pointer = "MyGUIPlugin.Resources.core_pointer.xml";
+            Layer = "MyGUIPlugin.Resources.core_layer.xml";
+            Settings = "MyGUIPlugin.Resources.core_settings.xml";
         }
 
         /// <summary>

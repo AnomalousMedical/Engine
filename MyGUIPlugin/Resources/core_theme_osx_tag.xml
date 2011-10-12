@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<MyGUI>
+  <Tag name="WindowCloseButtonPosition">5 4 11 10</Tag>
+  <Tag name="WindowCloseButtonAlignment">Left Top</Tag>
+  <Tag name="WindowTextAlignment">Center</Tag>
+ </MyGUI>

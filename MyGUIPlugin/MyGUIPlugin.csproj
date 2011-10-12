@@ -203,6 +203,34 @@
   <ItemGroup>
     <EmbeddedResource Include="Plugin\Widgets\InputBox.layout" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Editor\core_theme.xml" />
+    <None Include="Resources\Editor\core_theme_osx.xml" />
+    <None Include="Resources\Editor\core_font.xml" />
+    <None Include="Resources\Editor\core_language.xml" />
+    <EmbeddedResource Include="Resources\core.png" />
+    <EmbeddedResource Include="Resources\core_font.xml" />
+    <EmbeddedResource Include="Resources\core_language.xml" />
+    <EmbeddedResource Include="Resources\core_language_english_tag.xml" />
+    <EmbeddedResource Include="Resources\core_language_russian_tag.xml" />
+    <EmbeddedResource Include="Resources\core_layer.xml" />
+    <EmbeddedResource Include="Resources\core_pointer.png" />
+    <EmbeddedResource Include="Resources\core_pointer.xml" />
+    <EmbeddedResource Include="Resources\core_pointers_W32.xml" />
+    <EmbeddedResource Include="Resources\core_resource.xml" />
+    <EmbeddedResource Include="Resources\core_settings.xml" />
+    <EmbeddedResource Include="Resources\core_skin.xml" />
+    <EmbeddedResource Include="Resources\core_theme.xml" />
+    <EmbeddedResource Include="Resources\core_theme_osx.xml" />
+    <EmbeddedResource Include="Resources\core_theme_osx_tag.xml" />
+    <EmbeddedResource Include="Resources\core_theme_tag.xml" />
+    <None Include="Resources\Editor\core_theme_tag_filesystem.xml" />
+    <EmbeddedResource Include="Resources\core_theme_windows_tag.xml" />
+    <None Include="Resources\Editor\widgets.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\DejaVuSans.ttf" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
