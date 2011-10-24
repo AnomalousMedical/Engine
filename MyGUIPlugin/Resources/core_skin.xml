@@ -4152,7 +4152,7 @@ AppButton
   <Resource type="ResourceSkin" name = "AppButton" size = "29 26" texture = "#{MyGUI_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
-    <Child type="StaticImage" skin="ButtonStaticImage" offset = "1 1 32 20" align = "HCenter VCenter" name = "Image"/>
+    <Child type="StaticImage" skin="ButtonStaticImage" offset = "1 1 130 32" align = "HCenter VCenter" name = "Image"/>
     <!--TopLeft-->
     <BasisSkin type="SubSkin" offset = "0 0 3 3" align = "Left Top">
       <State name="disabled" offset = "810 145 3 3"/>
