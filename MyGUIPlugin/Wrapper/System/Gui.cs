@@ -174,6 +174,40 @@ namespace MyGUIPlugin
             return Gui_load(gui, file);
         }
 
+        public void keepWidgetOnscreen(Widget widget)
+        {
+            bool needsMoved = false;
+            IntVector2 location = new IntVector2(widget.Left, widget.Top);
+            IntSize2 size = new IntSize2(widget.Width, widget.Height);
+
+            int viewWidth = getViewWidth();
+            if (location.x + size.Width > viewWidth)
+            {
+                needsMoved = true;
+                location.x = viewWidth - size.Width;
+                if (location.x < 0)
+                {
+                    location.x = 0;
+                }
+            }
+
+            int viewHeight = getViewHeight();
+            if (location.y + size.Height > viewHeight)
+            {
+                needsMoved = true;
+                location.y = viewHeight - size.Height;
+                if (location.y < 0)
+                {
+                    location.y = 0;
+                }
+            }
+
+            if (needsMoved)
+            {
+                widget.setPosition(location.x, location.y);
+            }
+        }
+
         public bool HandledMouseButtons { get; internal set; }
 
         public bool HandledKeyboardButtons { get; internal set; }
