@@ -154,6 +154,11 @@ namespace MyGUIPlugin
             }
         }
 
+        public void setPosition(int left, int top)
+        {
+            widget.setPosition(left, top);
+        }
+
         public void hide()
         {
             if (Visible && !fireHiding())
@@ -197,6 +202,38 @@ namespace MyGUIPlugin
                         }
                     }
                 }
+            }
+        }
+
+        public int Left
+        {
+            get
+            {
+                return widget.Left;
+            }
+        }
+
+        public int Top
+        {
+            get
+            {
+                return widget.Top;
+            }
+        }
+
+        public int AbsoluteLeft
+        {
+            get
+            {
+                return widget.AbsoluteLeft;
+            }
+        }
+
+        public int AbsoluteTop
+        {
+            get
+            {
+                return widget.AbsoluteTop;
             }
         }
 
