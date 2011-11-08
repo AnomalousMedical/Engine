@@ -132,7 +132,7 @@ namespace MyGUIPlugin
                                 "<MyGUI type=\"Resource\" version=\"1.1\">\n" +
                                   "<Resource type=\"ResourceImageSet\" name=\"{0}\">\n" +
                                     "<Group name=\"Icons\" texture=\"{1}\" size=\"{2} {3}\">\n" +
-                                      "<Index name=\"Skin\">\n" +
+                                      "<Index name=\"Icon\">\n" +
                                         "<Frame point=\"0 0\"/>\n" +
                                       "</Index>\n" +
                                     "</Group>\n" +
