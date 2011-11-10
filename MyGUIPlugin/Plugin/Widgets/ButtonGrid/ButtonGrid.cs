@@ -70,6 +70,7 @@ namespace MyGUIPlugin
         public ButtonGrid(ScrollView scrollView, ButtonGridLayout layoutEngine, IComparer<ButtonGridItem> itemComparer, CompareButtonGroupUserObjects groupComparer)
         {
             HighlightSelectedButton = true;
+            NonEmptyGroupCount = 0;
 
             String read;
             bool boolValue;
@@ -531,6 +532,11 @@ namespace MyGUIPlugin
                 return groups.Count;
             }
         }
+
+        /// <summary>
+        /// The number of groups that have something in them. Do not set outside of ButtonGridGroup.
+        /// </summary>
+        public int NonEmptyGroupCount { get; internal set; }
 
         /// <summary>
         /// A UserObject. Not used directly by this class.

@@ -50,6 +50,10 @@ namespace MyGUIPlugin
             item.Caption = caption;
             items.Add(item);
             toggleCaptionVisibility();
+            if (items.Count == 1)
+            {
+                grid.NonEmptyGroupCount++;
+            }
             return item;
         }
 
@@ -58,6 +62,10 @@ namespace MyGUIPlugin
             items.Remove(item);
             item.Dispose();
             toggleCaptionVisibility();
+            if (items.Count == 0)
+            {
+                grid.NonEmptyGroupCount--;
+            }
         }
 
         public void clear()
