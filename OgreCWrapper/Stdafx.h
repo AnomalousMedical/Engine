@@ -22,7 +22,7 @@ typedef unsigned char byte;
 typedef unsigned short ushort;
 typedef const char* String;
 
-#include "../Include/OgreExceptionManager.h"
+#include "OgreExceptionManager.h"
 
 class Vector3
 {
