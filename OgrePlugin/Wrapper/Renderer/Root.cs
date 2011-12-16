@@ -49,6 +49,11 @@ namespace OgreWrapper
 
         static Root instance;
 
+        static Root()
+        {
+            OgreExceptionManager.initializeOgreExceptionManager();
+        }
+
         public static Root getSingleton()
         {
             return instance;

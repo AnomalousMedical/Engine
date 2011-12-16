@@ -26,7 +26,9 @@ namespace OgreWrapper
 
         public TexturePtr createManual(String name, String group, TextureType texType, uint width, uint height, uint depth, int num_mips, PixelFormat format, TextureUsage usage, bool hwGammaCorrection, uint fsaa)
         {
-            return getObject(TextureManager_createManual(name, group, texType, width, height, depth, num_mips, format, usage, hwGammaCorrection, fsaa, ProcessWrapperObjectCallback));
+            TexturePtr ptr = getObject(TextureManager_createManual(name, group, texType, width, height, depth, num_mips, format, usage, hwGammaCorrection, fsaa, ProcessWrapperObjectCallback));
+            OgreExceptionManager.fireAnyException();
+            return ptr;
         }
 
         public void remove(String name)

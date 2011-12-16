@@ -133,6 +133,7 @@ copy $(OGRE_HOME)\Windows\Dependencies\bin\Release\cg.dll $(OutDir)cg.dll
     <ClCompile Include="Src\NativeWindowListener.cpp" />
     <ClCompile Include="Src\Node.cpp" />
     <ClCompile Include="Src\NodeAnimationTrack.cpp" />
+    <ClCompile Include="src\OgreExceptionManager.cpp" />
     <ClCompile Include="Src\OgreLogListener.cpp" />
     <ClCompile Include="Src\OgreManagedArchive.cpp" />
     <ClCompile Include="Src\OgreManagedArchiveFactory.cpp" />
@@ -180,6 +181,7 @@ copy $(OGRE_HOME)\Windows\Dependencies\bin\Release\cg.dll $(OutDir)cg.dll
     <ClInclude Include="Include\NativeFrameListener.h" />
     <ClInclude Include="Include\NativeSceneListener.h" />
     <ClInclude Include="Include\NativeWindowListener.h" />
+    <ClInclude Include="include\OgreExceptionManager.h" />
     <ClInclude Include="Include\OgreLogListener.h" />
     <ClInclude Include="Include\OgreManagedArchive.h" />
     <ClInclude Include="Include\OgreManagedArchiveFactory.h" />

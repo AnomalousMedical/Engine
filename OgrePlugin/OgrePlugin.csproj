@@ -176,6 +176,8 @@
     <Compile Include="Wrapper\SceneObjects\Node.cs" />
     <Compile Include="Wrapper\SceneObjects\SceneNode.cs" />
     <Compile Include="Wrapper\SceneObjects\SubEntity.cs" />
+    <Compile Include="Wrapper\Utility\OgreException.cs" />
+    <Compile Include="Wrapper\Utility\OgreExceptionManager.cs" />
     <Compile Include="Wrapper\Utility\OgreLogConnection.cs" />
     <Compile Include="Wrapper\Utility\SharedPtr.cs" />
     <Compile Include="Wrapper\Utility\SharedPtrCollection.cs" />
