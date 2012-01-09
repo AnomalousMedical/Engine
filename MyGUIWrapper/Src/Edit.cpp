@@ -20,17 +20,17 @@ extern "C" _AnomalousExport void Edit_setTextSelectionColor(MyGUI::Edit* edit, C
 	edit->setTextSelectionColour(value.toMyGUI());
 }
 
-extern "C" _AnomalousExport void Edit_insertText1(MyGUI::Edit* edit, String text)
+extern "C" _AnomalousExport void Edit_insertText1(MyGUI::Edit* edit, UStringIn text)
 {
 	edit->insertText(text);
 }
 
-extern "C" _AnomalousExport void Edit_insertText2(MyGUI::Edit* edit, String text, size_t index)
+extern "C" _AnomalousExport void Edit_insertText2(MyGUI::Edit* edit, UStringIn text, size_t index)
 {
 	edit->insertText(text, index);
 }
 
-extern "C" _AnomalousExport void Edit_addText(MyGUI::Edit* edit, String text)
+extern "C" _AnomalousExport void Edit_addText(MyGUI::Edit* edit, UStringIn text)
 {
 	edit->addText(text);
 }
