@@ -5,7 +5,7 @@
   <Resource type="ResourceImageSet" name="pic_CoreMessageIcon">
     <Group name="Icons" texture="#{MyGUI_Theme_Texture}" size="50 50">
       <Index name="Info">
-        <Frame point="0 203"/>
+        <Frame point="150 203"/>
       </Index>
       <Index name="Quest">
         <Frame point="50 203"/>
@@ -14,7 +14,7 @@
         <Frame point="100 203"/>
       </Index>
       <Index name="Warning">
-        <Frame point="150 203"/>
+        <Frame point="0 203"/>
       </Index>
     </Group>
   </Resource>
