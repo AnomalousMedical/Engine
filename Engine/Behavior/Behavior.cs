@@ -157,7 +157,7 @@ namespace Engine
                 manager.deactivateBehavior(this);
             }
             valid = false;
-            Log.Default.sendMessage("Behavior {0}, type={1} blacklisted.  Reason: {2}", LogLevel.Error, "Behavior", Name, this.GetType().Name, reason);
+            Log.Default.sendMessage("Behavior {0}, type='{1}', SimObject='{3}' blacklisted.  Reason: {2}", LogLevel.Error, "Behavior", Name, this.GetType().Name, reason, Owner != null ? Owner.Name : "NullOwner");
             throw new BehaviorBlacklistException();
         }
 
