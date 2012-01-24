@@ -47,6 +47,8 @@ namespace OgreWrapper
 
         public virtual void Dispose()
         {
+            OgreManagedArchive_Delete(nativeArchive);
+
             loadCallback = null;
             unloadCallback = null;
             openCallback = null;
@@ -55,8 +57,6 @@ namespace OgreWrapper
             findCallback = null;
             findFileInfoCallback = null;
             existsCallback = null;
-
-            OgreManagedArchive_Delete(nativeArchive);
         }
 
         protected abstract void load();
