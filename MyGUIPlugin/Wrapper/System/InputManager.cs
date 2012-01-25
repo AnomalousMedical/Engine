@@ -151,6 +151,11 @@ namespace MyGUIPlugin
             InputManager_unlinkWidget(inputManager, widget.WidgetPtr);
         }
 
+        public bool injectScrollGesture(int absx, int absy, int deltax, int deltay)
+        {
+            return InputManager_injectScrollGesture(inputManager, absx, absy, deltax, deltay);
+        }
+
 #region PInvoke
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr InputManager_getInstancePtr();
@@ -237,6 +242,10 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void InputManager_unlinkWidget(IntPtr inputManager, IntPtr widget);
+
+        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool InputManager_injectScrollGesture(IntPtr inputManager, int absx, int absy, int deltax, int deltay);
 
 #endregion
     }

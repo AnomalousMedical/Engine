@@ -124,3 +124,8 @@ extern "C" _AnomalousExport void InputManager_unlinkWidget(MyGUI::InputManager* 
 {
 	inputManager->unlinkWidget(widget);
 }
+
+extern "C" _AnomalousExport bool InputManager_injectScrollGesture(MyGUI::InputManager* inputManager, int absx, int absy, int deltax, int deltay)
+{
+	return inputManager->injectScrollGesture(absx, absy, deltax, deltay);
+}
