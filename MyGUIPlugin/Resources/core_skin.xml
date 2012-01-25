@@ -1065,8 +1065,8 @@ WordWrapWhite
   <Resource type="ResourceSkin" name = "WordWrapWhite" size = "32 28" texture = "#{MyGUI_Theme_Texture}" >
     <Property key="WordWrap" value = "true" />
     <Child type="Widget" skin="CustomPanelWhtNoTranspo" offset = "0 0 32 28" align = "Stretch" name = "BG"/>
-    <Child type="Widget" skin="EditClientSimple" offset = "0 0 16 28" align = "Stretch" name = "Client"/>
-    <Child type="VScroll" skin="VScroll" offset = "17 1 15 27" align = "Right VStretch" name = "VScroll"/>
+    <Child type="Widget" skin="EditClient" offset = "5 4 10 24" align = "Stretch" name = "Client"/>
+    <Child type="VScroll" skin="VScroll" offset = "16 1 15 27" align = "Right VStretch" name = "VScroll"/>
   </Resource>
 <!--*************************
 EditClient
