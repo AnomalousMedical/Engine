@@ -1162,7 +1162,7 @@ EditStretch
 Edit    
 *****************************-->
 	<Resource type="ResourceSkin" name = "Edit" size = "29 26" texture = "#{MyGUI_Theme_Texture}" >
-		<Child type="Widget" skin="EditClient" offset = "4 2 29 26" align = "Stretch" name = "Client"/>
+		<Child type="Widget" skin="EditClient" offset = "4 2 23 26" align = "Stretch" name = "Client"/>
     <!--TopLeft-->
     <BasisSkin type="SubSkin" offset = "0 0 2 5" align = "Left Top">
       <State name="disabled" offset = "882 132 2 5"/>
