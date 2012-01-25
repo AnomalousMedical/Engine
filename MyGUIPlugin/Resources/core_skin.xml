@@ -998,65 +998,19 @@ ButtonImageBackgroundText
       <State name="pushed" colour="#{MyGUI_Theme_Button_ColorPushed}" shift = "true"/>
     </BasisSkin>
   </Resource>
-
-<!--*************************
-EditClientSimple
-*****************************-->
-	<Resource type="ResourceSkin" name = "EditClientSimple" size = "32 28" texture = "#{MyGUI_Theme_Texture}">
-		<Property key="FontName" value = "Default" />
-		<Property key="TextAlign" value = "Default" />
-		<Property key="TextColour" value = "#{MyGUI_Theme_Button_ColorNormal}"/>
-		<BasisSkin type="EditText" offset = "4 4 24 28" align = "Stretch"/>
-<!--TopLeft--><!--
-      <BasisSkin type="SubSkin" offset = "0 0 3 3" align = "Left Top"> 
-        <State name="normal" offset = "429 95 3 3"/>
-      </BasisSkin>-->
-<!--TopRight--><!--
-      <BasisSkin type="SubSkin" offset = "6 0 5 3" align = "Right Top">
-        <State name="normal" offset = "447 95 5 3"/>
-      </BasisSkin>-->
-<!--BottomLeft--><!--
-      <BasisSkin type="SubSkin" offset = "0 6 3 5" align = "Left Bottom">
-        <State name="normal" offset = "429 112 3 5"/>
-      </BasisSkin>-->
-<!--BottomRight--><!--
-      <BasisSkin type="SubSkin" offset = "6 6 5 5" align = "Right Bottom">
-        <State name="normal" offset = "447 112 5 5"/>
-      </BasisSkin>-->
-<!--Top--><!--
-      <BasisSkin type="SubSkin" offset = "3 0 3 3" align = "HStretch Top">
-        <State name="normal" offset = "435 95 3 3"/>
-      </BasisSkin>-->
-<!--Left--><!--
-      <BasisSkin type="SubSkin" offset = "0 3 3 3" align = "Left VStretch">
-        <State name="normal" offset = "429 100 3 3"/>
-      </BasisSkin>-->
-<!--Right--><!--
-      <BasisSkin type="SubSkin" offset = "6 3 5 3" align = "Right VStretch">
-        <State name="normal" offset = "447 100 5 3"/>
-      </BasisSkin>-->
-<!--Bottom--><!--
-      <BasisSkin type="SubSkin" offset = "3 6 3 5" align = "HStretch Bottom">
-        <State name="normal" offset = "435 112 3 5"/>
-      </BasisSkin>-->
-<!--Center--><!--
-      <BasisSkin type="SubSkin" offset = "3 3 3 3" align = "Stretch">
-        <State name="normal" offset = "432 5 65 57"/>
-      </BasisSkin>-->
-</Resource>
 <!--*************************
 WordWrapSimple
 *****************************-->
   <Resource type="ResourceSkin" name = "WordWrapSimple" size = "32 32" texture = "#{MyGUI_Theme_Texture}" >
     <Property key="WordWrap" value = "true" />
-    <Child type="Widget" skin="EditClientSimple" offset = "0 0 32 32" align = "Stretch" name = "Client"/>
+    <Child type="Widget" skin="EditClient" offset = "0 0 32 32" align = "Stretch" name = "Client"/>
   </Resource>
 <!--*************************
 WordWrap
 *****************************-->
   <Resource type="ResourceSkin" name = "WordWrap" size = "32 28" texture = "#{MyGUI_Theme_Texture}" >
     <Property key="WordWrap" value = "true" />
-    <Child type="Widget" skin="EditClientSimple" offset = "0 0 16 28" align = "Stretch" name = "Client"/>
+    <Child type="Widget" skin="EditClient" offset = "0 0 16 28" align = "Stretch" name = "Client"/>
     <Child type="VScroll" skin="VScroll" offset = "17 0 15 28" align = "Right VStretch" name = "VScroll"/>
   </Resource>
 <!--*************************
