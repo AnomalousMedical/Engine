@@ -41,6 +41,7 @@ namespace Editor
             editInterface.OnBackColorChanged += backColorChanged;
             editInterface.OnForeColorChanged += foreColorChanged;
             editInterface.OnIconReferenceChanged += iconReferenceChanged;
+            editInterface.OnNameChanged += nameChanged;
             BackColor = System.Drawing.Color.FromArgb(editInterface.BackColor.toARGB());
             ForeColor = System.Drawing.Color.FromArgb(editInterface.ForeColor.toARGB());
             ImageKey = EditInterfaceIconCollection.getImageKey(editInterface.IconReferenceTag);
@@ -69,6 +70,7 @@ namespace Editor
             editInterface.OnIconReferenceChanged -= iconReferenceChanged;
             editInterface.OnBackColorChanged -= backColorChanged;
             editInterface.OnForeColorChanged -= foreColorChanged;
+            editInterface.OnNameChanged -= nameChanged;
             foreach (EditInterfaceTreeNode node in Nodes)
             {
                 node.removeCallbacks();
@@ -125,6 +127,11 @@ namespace Editor
         {
             ImageKey = EditInterfaceIconCollection.getImageKey(editInterface.IconReferenceTag);
             SelectedImageKey = EditInterfaceIconCollection.getImageKey(editInterface.IconReferenceTag);
+        }
+
+        void nameChanged(EditInterface editInterface)
+        {
+            Text = editInterface.getName();
         }
 
         #endregion Functions

@@ -11,6 +11,7 @@ namespace MyGUIPlugin
         private Tree tree;
         private bool expanded = false;
         private TreeNodeWidget nodeWidget;
+        private String text;
 
         public TreeNode()
             : this("")
@@ -27,7 +28,7 @@ namespace MyGUIPlugin
         public TreeNode(String text, TreeNodeWidget nodeWidget)
         {
             children = new TreeNodeCollection(this);
-            Text = text;
+            this.text = text;
             this.nodeWidget = nodeWidget;
             nodeWidget.setTreeNode(this);
         }
@@ -130,7 +131,18 @@ namespace MyGUIPlugin
             }
         }
 
-        public String Text { get; set; }
+        public String Text
+        {
+            get
+            {
+                return text;
+            }
+            set
+            {
+                text = value;
+                nodeWidget.updateText();
+            }
+        }
 
         /// <summary>
         /// User data for this object. Does not get used by the TreeNode.

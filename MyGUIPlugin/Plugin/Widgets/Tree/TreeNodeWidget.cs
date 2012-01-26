@@ -26,6 +26,8 @@ namespace MyGUIPlugin
             this.treeNode = node;
         }
 
+        internal abstract void updateText();
+
         protected void fireExpandToggled()
         {
             if (treeNode != null)

@@ -76,6 +76,14 @@ namespace MyGUIPlugin
             }
         }
 
+        internal override void updateText()
+        {
+            if (mainButton != null)
+            {
+                mainButton.Caption = treeNode.Text;
+            }
+        }
+
         void plusMinusButton_MouseButtonClick(Widget source, EventArgs e)
         {
             fireExpandToggled();

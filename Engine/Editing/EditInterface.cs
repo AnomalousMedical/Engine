@@ -57,6 +57,7 @@ namespace Engine.Editing
         public event ColorsChanged OnBackColorChanged;
         public event ColorsChanged OnForeColorChanged;
         public event EditInterfaceEvent OnIconReferenceChanged;
+        public event EditInterfaceEvent OnNameChanged;
 
         /// <summary>
         /// Constructor.
@@ -113,6 +114,18 @@ namespace Engine.Editing
         public String getName()
         {
             return name;
+        }
+
+        public void setName(String name)
+        {
+            if (this.name != name)
+            {
+                this.name = name;
+                if (OnNameChanged != null)
+                {
+                    OnNameChanged.Invoke(this);
+                }
+            }
         }
 
         /// <summary>
