@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
 <MyGUI>
+  <Tag name="WindowCaptionPosition">5 0 31 18</Tag>
   <Tag name="WindowCloseButtonPosition">39 4 24 20</Tag>
   <Tag name="WindowCloseButtonAlignment">Right Top</Tag>
   <Tag name="WindowTextAlignment">Left</Tag>

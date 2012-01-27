@@ -1328,7 +1328,32 @@ WindowCaptionDisable
 <!--*************************
 WindowCaptionSmall
 *****************************-->
-	<Resource type="ResourceSkin" name = "WindowCaptionSmall" size = "68 21" texture = "#{MyGUI_Theme_Texture}">
+  <Resource type="ResourceSkin" name = "WindowCaptionSmall" size = "68 21" texture = "#{MyGUI_Theme_Texture}">
+    <Property key="FontName" value = "Default" />
+    <Property key="TextAlign" value = "#{WindowTextAlignment}" />
+    <Property key="TextColour" value = "#{MyGUI_Theme_Button_ColorNormal}"/>
+    <!--Left-->
+    <BasisSkin type="SubSkin" offset = "0 0 13 21" align = "Left VStretch">
+      <State name="normal" offset = "356 104 13 21"/>
+      <State name="highlighted" offset = "356 138 13 21"/>
+    </BasisSkin>
+    <!--Right-->
+    <BasisSkin type="SubSkin" offset = "54 0 14 21" align = "Right VStretch">
+      <State name="normal" offset = "410 104 14 21"/>
+      <State name="highlighted" offset = "410 138 14 21"/>
+    </BasisSkin>
+    <!--Middle-->
+    <BasisSkin type="SubSkin" offset = "13 0 41 21" align = "Stretch">
+      <State name="normal" offset = "369 104 3 21"/>
+      <State name="highlighted" offset = "369 138 3 21"/>
+    </BasisSkin>
+    <!--Text-->
+    <BasisSkin type="SimpleText" offset = "0 0 68 18" align = "Stretch"/>
+  </Resource>
+<!--*************************
+WindowCaptionSmallCloseButton
+*****************************-->
+	<Resource type="ResourceSkin" name = "WindowCaptionSmallCloseButton" size = "68 21" texture = "#{MyGUI_Theme_Texture}">
 		<Property key="FontName" value = "Default" />
 		<Property key="TextAlign" value = "#{WindowTextAlignment}" />
 		<Property key="TextColour" value = "#{MyGUI_Theme_Button_ColorNormal}"/>
@@ -1348,7 +1373,7 @@ WindowCaptionSmall
       <State name="highlighted" offset = "369 138 3 21"/>
     </BasisSkin>
 <!--Text-->    
-		<BasisSkin type="SimpleText" offset = "5 0 31 18" align = "Stretch"/>
+		<BasisSkin type="SimpleText" offset = "#{WindowCaptionPosition}" align = "Stretch"/>
 	</Resource>
 <!--*************************
 WindowResizeRightBottom
@@ -1527,7 +1552,7 @@ WindowCX
 *****************************-->
   <Resource type="ResourceSkin" name = "WindowCX" size = "68 49" texture = "#{MyGUI_Theme_Texture}" >
     <Property key="ToStick" value = "true" />
-    <Child type="Button" skin="WindowCaptionSmall" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
+    <Child type="Button" skin="WindowCaptionSmallCloseButton" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
     </Child>
     <Child type="Widget" skin="CustomPanelNoTranspo" offset = "0 27 68 22" align = "Stretch" name = "Background"/>
@@ -1541,7 +1566,7 @@ WindowCXNoBorder
 *****************************-->
   <Resource type="ResourceSkin" name = "WindowCXNoBorder" size = "68 49" texture = "#{MyGUI_Theme_Texture}" >
     <Property key="ToStick" value = "true" />
-    <Child type="Button" skin="WindowCaptionSmall" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
+    <Child type="Button" skin="WindowCaptionSmallCloseButton" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
     </Child>
     <Child type="Widget" skin="CustomPanelNoTranspo" offset = "0 27 68 22" align = "Stretch" name = "Client"/>
@@ -1554,7 +1579,7 @@ WindowCSX
 *****************************-->
   <Resource type="ResourceSkin" name = "WindowCSX" size = "68 49" texture = "#{MyGUI_Theme_Texture}" >
     <Property key="ToStick" value = "true" />
-    <Child type="Button" skin="WindowCaptionSmall" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
+    <Child type="Button" skin="WindowCaptionSmallCloseButton" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
     </Child>
     <Child type="Widget" skin="CustomPanelNoTranspo" offset = "0 27 68 22" align = "Stretch" name = "Background"/>
@@ -1592,7 +1617,7 @@ WindowCSMX
 *****************************-->
   <Resource type="ResourceSkin" name = "WindowCSMX" size = "68 49" texture = "#{MyGUI_Theme_Texture}" >
     <Property key="ToStick" value = "true" />
-    <Child type="Button" skin="WindowCaptionSmall" offset = "0 0 21 28" align = "HStretch Top" name = "Caption">
+    <Child type="Button" skin="WindowCaptionSmallCloseButton" offset = "0 0 21 28" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
     </Child>
     <Child type="Widget" skin="DefaultClient" offset = "4 31 58 12" align = "Stretch" name = "Client"/>
