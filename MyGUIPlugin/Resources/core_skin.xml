@@ -1348,7 +1348,7 @@ WindowCaptionSmall
       <State name="highlighted" offset = "369 138 3 21"/>
     </BasisSkin>
 <!--Text-->    
-		<BasisSkin type="SimpleText" offset = "5 0 44 18" align = "Stretch"/>
+		<BasisSkin type="SimpleText" offset = "5 0 31 18" align = "Stretch"/>
 	</Resource>
 <!--*************************
 WindowResizeRightBottom
@@ -1537,10 +1537,11 @@ WindowCSX
 *****************************-->
   <Resource type="ResourceSkin" name = "WindowCSX" size = "68 49" texture = "#{MyGUI_Theme_Texture}" >
     <Property key="ToStick" value = "true" />
-    <Child type="Button" skin="WindowCaptionSmall" offset = "0 0 68 21" align = "HStretch Top" name = "Caption">
+    <Child type="Button" skin="WindowCaptionSmall" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
     </Child>
-    <Child type="Widget" skin="CustomPanelNoTranspo" offset = "0 18 68 31" align = "Stretch" name = "Client"/>
+    <Child type="Widget" skin="CustomPanelNoTranspo" offset = "0 27 68 22" align = "Stretch" name = "Background"/>
+    <Child type="Widget" skin="PanelEmpty" offset = "6 27 56 16" align = "Stretch" name = "Client"/>
     <Child type="Button" skin="WindowResizeRightBottom" offset = "62 43 6 6" align = "Right Bottom" name = "Action">
       <Property key="Scale" value = "0 0 1 1"/>
     </Child>
@@ -1565,7 +1566,7 @@ WindowCSX
     <Child type="Button" skin="WindowResizeBottom" offset = "6 43 56 6" align = "HStretch Bottom" name = "Action">
       <Property key="Scale" value = "0 0 0 1"/>
     </Child>
-    <Child type="Button" skin="ButtonX" offset = "#{WindowCloseButtonPosition}" align = "#{WindowCloseButtonAlignment}" name = "Button">
+    <Child type="Button" skin="ButtonXBig" offset = "#{WindowCloseButtonPosition}" align = "#{WindowCloseButtonAlignment}" name = "Button">
       <Property key="Event" value = "close"/>
     </Child>
   </Resource>
