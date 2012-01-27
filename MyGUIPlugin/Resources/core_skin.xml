@@ -1435,10 +1435,11 @@ Window
 *****************************-->
   <Resource type="ResourceSkin" name = "Window" size = "68 49" texture = "#{MyGUI_Theme_Texture}" >
     <Property key="ToStick" value = "true" />
-    <Child type="Button" skin="WindowCaptionSmall" offset = "0 0 68 21" align = "HStretch Top" name = "Caption">
+    <Child type="Button" skin="WindowCaptionSmall" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
     </Child>
-    <Child type="Widget" skin="CustomPanelNoTranspo" offset = "0 18 68 31" align = "Stretch" name = "Client"/>
+    <Child type="Widget" skin="CustomPanelNoTranspo" offset = "0 27 68 22" align = "Stretch" name = "Background"/>
+    <Child type="Widget" skin="PanelEmpty" offset = "6 27 56 16" align = "Stretch" name = "Client"/>
   </Resource>
 <!--*************************
 WindowC
