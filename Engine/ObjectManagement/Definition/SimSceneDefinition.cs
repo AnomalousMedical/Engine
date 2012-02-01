@@ -16,7 +16,7 @@ namespace Engine.ObjectManagement
     {
         #region Fields
 
-        private Dictionary<String, SimElementManagerDefinition> elementManagers = new Dictionary<String,SimElementManagerDefinition>();
+        private List<SimElementManagerDefinition> elementManagers = new List<SimElementManagerDefinition>();
         private Dictionary<String, SimSubSceneDefinition> subSceneDefinitions = new Dictionary<string, SimSubSceneDefinition>();
         private EditInterfaceManager<SimElementManagerDefinition> elementManagerInterfaces;
         private EditInterfaceManager<SimSubSceneDefinition> subSceneInterfaces;
@@ -51,7 +51,7 @@ namespace Engine.ObjectManagement
         /// <param name="def">The definition to add.</param>
         public void addSimElementManagerDefinition(SimElementManagerDefinition def)
         {
-            elementManagers.Add(def.Name, def);
+            elementManagers.Add(def);
             if (editInterface != null)
             {
                 createEditInterface(def);
@@ -64,7 +64,7 @@ namespace Engine.ObjectManagement
         /// <param name="def">The definition to remove.</param>
         public void removeSimElementManagerDefinition(SimElementManagerDefinition def)
         {
-            elementManagers.Remove(def.Name);
+            elementManagers.Remove(def);
             if (editInterface != null)
             {
                 elementManagerInterfaces.removeSubInterface(def);
@@ -79,9 +79,12 @@ namespace Engine.ObjectManagement
         /// <returns>The matching defintion or null if it cannot be found.</returns>
         public SimElementManagerDefinition getSimElementManagerDefinition(String name)
         {
-            if (elementManagers.ContainsKey(name))
+            foreach (SimElementManagerDefinition def in elementManagers)
             {
-                return elementManagers[name];
+                if (def.Name == name)
+                {
+                    return def;
+                }
             }
             return null;
         }
@@ -94,7 +97,14 @@ namespace Engine.ObjectManagement
         /// <returns>True if the name is one of the definitons for this scene.</returns>
         public bool hasSimElementManagerDefinition(String name)
         {
-            return elementManagers.ContainsKey(name);
+            foreach (SimElementManagerDefinition def in elementManagers)
+            {
+                if (def.Name == name)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         /// <summary>
@@ -173,7 +183,7 @@ namespace Engine.ObjectManagement
                 editInterface.addSubInterface(subScenes);
                 destroySubScene = new EditInterfaceCommand("Destroy", destroySimSubSceneDefinition);
 
-                foreach (SimElementManagerDefinition elementDef in elementManagers.Values)
+                foreach (SimElementManagerDefinition elementDef in elementManagers)
                 {
                     createEditInterface(elementDef);
                 }
@@ -192,7 +202,7 @@ namespace Engine.ObjectManagement
         public SimScene createScene()
         {
             SimScene scene = new SimScene();
-            foreach (SimElementManagerDefinition elementManagerDef in elementManagers.Values)
+            foreach (SimElementManagerDefinition elementManagerDef in elementManagers)
             {
                 scene.addSimElementManager(elementManagerDef.createSimElementManager());
             }
@@ -385,7 +395,7 @@ namespace Engine.ObjectManagement
         {
             info.AddValue(DEFAULT_SUB_SCENE, DefaultSubScene);
             int i = 0;
-            foreach (SimElementManagerDefinition manager in elementManagers.Values)
+            foreach (SimElementManagerDefinition manager in elementManagers)
             {
                 info.AddValue(ELEMENT_MANAGERS_BASE + i++, manager);
             }

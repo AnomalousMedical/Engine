@@ -16,7 +16,7 @@ namespace Engine.ObjectManagement
     {
         #region Fields
 
-        private Dictionary<String, SimElementManager> simElementManagers = new Dictionary<string, SimElementManager>();
+        private List<SimElementManager> simElementManagers = new List<SimElementManager>();
         private Dictionary<String, SimSubScene> simSubScenes = new Dictionary<string, SimSubScene>();
         private SimSubScene defaultScene;
 
@@ -41,7 +41,7 @@ namespace Engine.ObjectManagement
         /// </summary>
         public void Dispose()
         {
-            foreach (SimElementManager elementManager in simElementManagers.Values)
+            foreach (SimElementManager elementManager in simElementManagers)
             {
                 elementManager.Dispose();
             }
@@ -53,7 +53,7 @@ namespace Engine.ObjectManagement
         /// <param name="manager">The manager to add.</param>
         public void addSimElementManager(SimElementManager manager)
         {
-            this.simElementManagers.Add(manager.getName(), manager);
+            this.simElementManagers.Add(manager);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Engine.ObjectManagement
         /// <param name="manager">The manager to remove.</param>
         public void removeSimElementManager(SimElementManager manager)
         {
-            this.simElementManagers.Remove(manager.getName());
+            this.simElementManagers.Remove(manager);
         }
 
         /// <summary>
@@ -72,9 +72,12 @@ namespace Engine.ObjectManagement
         /// <returns>The specified SimElementManager or null if it cannot be found.</returns>
         public SimElementManager getSimElementManager(String name)
         {
-            if (simElementManagers.ContainsKey(name))
+            foreach (SimElementManager manager in simElementManagers)
             {
-                return simElementManagers[name];
+                if (manager.getName() == name)
+                {
+                    return manager;
+                }
             }
             return null;
         }
@@ -143,15 +146,15 @@ namespace Engine.ObjectManagement
         /// </summary>
         public void buildScene()
         {
-            foreach (SimElementManager manager in simElementManagers.Values)
+            foreach (SimElementManager manager in simElementManagers)
             {
                 manager.getFactory().createProducts();
             }
-            foreach (SimElementManager manager in simElementManagers.Values)
+            foreach (SimElementManager manager in simElementManagers)
             {
                 manager.getFactory().linkProducts();
             }
-            foreach (SimElementManager manager in simElementManagers.Values)
+            foreach (SimElementManager manager in simElementManagers)
             {
                 manager.getFactory().clearDefinitions();
             }
@@ -162,15 +165,15 @@ namespace Engine.ObjectManagement
         /// </summary>
         public void buildStaticScene()
         {
-            foreach (SimElementManager manager in simElementManagers.Values)
+            foreach (SimElementManager manager in simElementManagers)
             {
                 manager.getFactory().createStaticProducts();
             }
-            foreach (SimElementManager manager in simElementManagers.Values)
+            foreach (SimElementManager manager in simElementManagers)
             {
                 manager.getFactory().linkProducts();
             }
-            foreach (SimElementManager manager in simElementManagers.Values)
+            foreach (SimElementManager manager in simElementManagers)
             {
                 manager.getFactory().clearDefinitions();
             }
@@ -184,7 +187,7 @@ namespace Engine.ObjectManagement
         {
             SimSceneDefinition definition = new SimSceneDefinition();
 
-            foreach (SimElementManager manager in simElementManagers.Values)
+            foreach (SimElementManager manager in simElementManagers)
             {
                 definition.addSimElementManagerDefinition(manager.createDefinition());
             }

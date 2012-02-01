@@ -89,7 +89,7 @@ namespace BulletPlugin
         {
             add
             {
-                if (m_contactStarted == null)
+                if (m_contactStarted == null && motionState != IntPtr.Zero)
                 {
                     MotionState_setHasContactStartedCallback(motionState, true);
                 }
@@ -98,7 +98,7 @@ namespace BulletPlugin
             remove
             {
                 m_contactStarted -= value;
-                if (m_contactStarted == null)
+                if (m_contactStarted == null && motionState != IntPtr.Zero)
                 {
                     MotionState_setHasContactStartedCallback(motionState, false);
                 }
@@ -110,7 +110,7 @@ namespace BulletPlugin
         {
             add
             {
-                if (m_contactContinues == null)
+                if (m_contactContinues == null && motionState != IntPtr.Zero)
                 {
                     MotionState_setHasContactContinuesCallback(motionState, true);
                 }
@@ -119,7 +119,7 @@ namespace BulletPlugin
             remove
             {
                 m_contactContinues -= value;
-                if (m_contactContinues == null)
+                if (m_contactContinues == null && motionState != IntPtr.Zero)
                 {
                     MotionState_setHasContactContinuesCallback(motionState, false);
                 }
@@ -131,7 +131,7 @@ namespace BulletPlugin
         {
             add
             {
-                if (m_contactEnded == null)
+                if (m_contactEnded == null && motionState != IntPtr.Zero)
                 {
                     MotionState_setHasContactEndedCallback(motionState, true);
                 }
@@ -140,7 +140,7 @@ namespace BulletPlugin
             remove
             {
                 m_contactEnded -= value;
-                if (m_contactEnded == null)
+                if (m_contactEnded == null && motionState != IntPtr.Zero)
                 {
                     MotionState_setHasContactEndedCallback(motionState, false);
                 }
