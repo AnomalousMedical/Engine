@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using OgreWrapper;
 using Engine;
+using System.Runtime.InteropServices;
 
 namespace OgreModelEditor
 {
@@ -38,10 +39,17 @@ namespace OgreModelEditor
 
         private void getValue_Click(object sender, EventArgs e)
         {
-            if (SubEntity != null)
+            try
             {
-                Quaternion value = SubEntity.getCustomParameter((int)indexUpDown.Value);
-                valueText.Text = value.ToString();
+                if (SubEntity != null)
+                {
+                    Quaternion value = SubEntity.getCustomParameter((int)indexUpDown.Value);
+                    valueText.Text = value.ToString();
+                }
+            }
+            catch (SEHException)
+            {
+                valueText.Text = "0, 0, 0, 0";
             }
         }
     }
