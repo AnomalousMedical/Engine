@@ -277,6 +277,14 @@ namespace Engine.Editing
         }
 
         /// <summary>
+        /// Clear the list of commands.
+        /// </summary>
+        public void clearCommands()
+        {
+            commands.Clear();
+        }
+
+        /// <summary>
         /// Determine if this EditInterface can add and remove properties.
         /// </summary>
         /// <returns>True if this interface can add and remove properties.</returns>
