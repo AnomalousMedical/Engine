@@ -11,3 +11,15 @@ fragment_program colorvertex\fs cg
 	entry_point main_fp
 	profiles ps_2_x arbfp1
 }
+
+fragment_program colorvertex\fsAlpha cg
+{
+	source OgrePlugin.Resources.ColorVertex.cg
+	entry_point main_fp_alpha
+	profiles ps_2_x arbfp1
+
+	default_params
+	{
+		param_named_auto alpha custom 0
+	}
+}

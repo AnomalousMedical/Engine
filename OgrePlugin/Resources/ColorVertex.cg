@@ -30,3 +30,10 @@ float4 main_fp(vertout input) : COLOR0
 	return input.oColor;
 }
 
+//Fragment program
+float4 main_fp_alpha(vertout input, uniform float4 alpha) : COLOR0	
+{
+	input.oColor.a = alpha.a;
+	return input.oColor;
+}
+
