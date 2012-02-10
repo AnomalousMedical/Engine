@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 using Engine.Attributes;
+using Engine;
 
 namespace OgreWrapper
 {
@@ -63,6 +64,16 @@ namespace OgreWrapper
             return ManualObjectSection_get32BitIndices(ogreSection);
         }
 
+        public void setCustomParameter(int index, Quaternion value)
+        {
+            ManualObject_setCustomParameter(ogreSection, new IntPtr(index), value);
+        }
+
+        public Quaternion getCustomParameter(int index)
+        {
+            return ManualObject_getCustomParameter(ogreSection, new IntPtr(index));
+        }
+
         #region PInvoke
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
@@ -77,6 +88,12 @@ namespace OgreWrapper
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool ManualObjectSection_get32BitIndices(IntPtr ogreSection);
+
+        [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void ManualObject_setCustomParameter(IntPtr subEntity, IntPtr index, Quaternion value);
+
+        [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern Quaternion ManualObject_getCustomParameter(IntPtr subEntity, IntPtr index);
 
         #endregion
     }
