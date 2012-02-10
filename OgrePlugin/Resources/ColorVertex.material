@@ -17,6 +17,27 @@ material colorvertex
 	}
 }
 
+material colorvertexAlpha
+{
+	technique
+	{
+		pass
+		{ 
+			vertex_program_ref colorvertex\vs
+			{
+				param_named_auto worldViewProj worldviewproj_matrix
+			}	
+
+			fragment_program_ref colorvertex\fsAlpha
+			{
+			
+			}
+
+			scene_blend alpha_blend
+		}
+	}
+}
+
 material colorVertexNoDepth
 {
 	technique
