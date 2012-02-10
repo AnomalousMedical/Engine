@@ -2,12 +2,12 @@ vertex_program colorvertex\vs cg
 {
   source OgrePlugin.Resources.ColorVertex.cg
   entry_point main_vp
-  profiles vs_2_x vp40
+  profiles vs_2_x arbvp1
 }
 
 fragment_program colorvertex\fs cg
 {
 	source OgrePlugin.Resources.ColorVertex.cg
 	entry_point main_fp
-	profiles ps_2_x fp40
+	profiles ps_2_x arbfp1
 }
