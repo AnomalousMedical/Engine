@@ -124,9 +124,9 @@ namespace OgreWrapper
 	    /// </para>
 	    /// </summary>
 	    /// <param name="count"></param>
-        public void allocateHardwareAnimationElements(ushort count)
+        public void allocateHardwareAnimationElements(ushort count, bool animateNormals)
         {
-            VertexData_allocateHardwareAnimationElements(vertexData, count);
+            VertexData_allocateHardwareAnimationElements(vertexData, count, animateNormals);
         }
 
 	    /// <summary>
@@ -201,7 +201,7 @@ namespace OgreWrapper
         private static extern void VertexData_convertPackedColor(IntPtr vertexData, VertexElementType srcType, VertexElementType destType);
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void VertexData_allocateHardwareAnimationElements(IntPtr vertexData, ushort count);
+        private static extern void VertexData_allocateHardwareAnimationElements(IntPtr vertexData, ushort count, bool animateNormals);
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr VertexData_getVertexBufferBinding(IntPtr vertexData);

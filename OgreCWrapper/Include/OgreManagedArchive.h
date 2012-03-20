@@ -32,7 +32,7 @@ public:
 
 	void unload();
 
-	Ogre::DataStreamPtr open(const Ogre::String& filename, bool readOnly) const;
+	Ogre::DataStreamPtr open(const Ogre::String& filename, bool readOnly = true) const;
 
 	Ogre::StringVectorPtr list(bool recursive = true, bool dirs = false);
 
@@ -40,7 +40,7 @@ public:
 
 	Ogre::StringVectorPtr find(const Ogre::String& pattern, bool recursive = true, bool dirs = false);
 
-	Ogre::FileInfoListPtr findFileInfo(const Ogre::String& pattern, bool recursive = true, bool dirs = false);
+	Ogre::FileInfoListPtr findFileInfo(const Ogre::String& pattern, bool recursive = true, bool dirs = false) const;
 
 	bool exists(const Ogre::String& filename);
 

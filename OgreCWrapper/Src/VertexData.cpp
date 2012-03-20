@@ -25,9 +25,9 @@ extern "C" _AnomalousExport void VertexData_convertPackedColor(Ogre::VertexData*
 	vertexData->convertPackedColour(srcType, destType);
 }
 
-extern "C" _AnomalousExport void VertexData_allocateHardwareAnimationElements(Ogre::VertexData* vertexData, ushort count)
+extern "C" _AnomalousExport void VertexData_allocateHardwareAnimationElements(Ogre::VertexData* vertexData, ushort count, bool animateNormals)
 {
-	vertexData->allocateHardwareAnimationElements(count);
+	vertexData->allocateHardwareAnimationElements(count, animateNormals);
 }
 
 extern "C" _AnomalousExport Ogre::VertexBufferBinding* VertexData_getVertexBufferBinding(Ogre::VertexData* vertexData)

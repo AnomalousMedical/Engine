@@ -49,7 +49,7 @@ Ogre::StringVectorPtr OgreManagedArchive::find(const Ogre::String& pattern, bool
 	return Ogre::StringVectorPtr(findCallback(pattern.c_str(), recursive, dirs), Ogre::SPFM_DELETE_T);
 }
 
-Ogre::FileInfoListPtr OgreManagedArchive::findFileInfo(const Ogre::String& pattern, bool recursive, bool dirs)
+Ogre::FileInfoListPtr OgreManagedArchive::findFileInfo(const Ogre::String& pattern, bool recursive, bool dirs) const
 {
 	return Ogre::FileInfoListPtr(findFileInfoCallback(pattern.c_str(), recursive, dirs), Ogre::SPFM_DELETE_T);
 }

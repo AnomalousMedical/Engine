@@ -15,7 +15,7 @@ OgreLogListener::~OgreLogListener(void)
 	log->removeListener(this);
 }
 
-void OgreLogListener::messageLogged( const Ogre::String& message, Ogre::LogMessageLevel lml, bool maskDebug, const Ogre::String &logName )
+void OgreLogListener::messageLogged(const Ogre::String& message, Ogre::LogMessageLevel lml, bool maskDebug, const Ogre::String &logName, bool &skipThisMessage)
 {
 	messageLoggedCallback(message.c_str(), lml);
 }

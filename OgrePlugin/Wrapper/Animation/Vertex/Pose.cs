@@ -66,11 +66,11 @@ namespace OgreWrapper
         }
 
 	    /// <summary>
-	    /// Clear all vertex offsets. 
+	    /// Clear all vertices. 
 	    /// </summary>
-        public void clearVertexOffsets()
+        public void clearVertices()
         {
-            Pose_clearVertexOffsets(pose);
+            Pose_clearVertices(pose);
         }
 
 	    /// <summary>
@@ -98,7 +98,7 @@ namespace OgreWrapper
         private static extern void Pose_removeVertex(IntPtr pose, IntPtr index);
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Pose_clearVertexOffsets(IntPtr pose);
+        private static extern void Pose_clearVertices(IntPtr pose);
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern Vector3 Pose_getOffset(IntPtr pose, IntPtr index);

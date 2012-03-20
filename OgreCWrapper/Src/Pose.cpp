@@ -23,9 +23,9 @@ extern "C" _AnomalousExport void Pose_removeVertex(Ogre::Pose* pose, size_t inde
 	pose->removeVertex(index);
 }
 
-extern "C" _AnomalousExport void Pose_clearVertexOffsets(Ogre::Pose* pose)
+extern "C" _AnomalousExport void Pose_clearVertices(Ogre::Pose* pose)
 {
-	pose->clearVertexOffsets();
+	pose->clearVertices();
 }
 
 extern "C" _AnomalousExport Vector3 Pose_getOffset(Ogre::Pose* pose, size_t index)
