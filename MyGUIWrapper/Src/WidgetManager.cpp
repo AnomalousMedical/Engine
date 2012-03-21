@@ -2,31 +2,28 @@
 
 enum WidgetType
 {
-    Widget,
-        Canvas,
-        DDContainer,
-            ItemBox,
-            ListCtrl,
-                ListBox,
-        List,
-        MenuCtrl,
-            MenuBar,
-            PopupMenu,
-        MultiList,
-        Progress,
-        ScrollView,
-        StaticImage,
-        StaticText,
-            Button,
-                MenuItem,
-            Edit,
-                ComboBox,
-        Tab,
-        TabItem,
-        VScroll,
-            HScroll,
-        Window,
-            Message,
+    Widget = 0,
+        Canvas = 1,
+        DDContainer = 2,
+            ItemBox = 3,
+        List = 4,
+        MenuCtrl = 5,
+            MenuBar = 6,
+            PopupMenu = 7,
+        MultiList = 8,
+        Progress = 9,
+        ScrollView = 10,
+        StaticImage = 11,
+        StaticText = 12,
+            Button = 13,
+                MenuItem = 14,
+            Edit = 15,
+                ComboBox = 16,
+        Tab = 17,
+        TabItem = 18,
+        VScroll = 19,
+        Window = 20,
+            Message = 21,
 };
 
 extern "C" _AnomalousExport WidgetType WidgetManager_getType(MyGUI::Widget* widget)
@@ -67,16 +64,6 @@ extern "C" _AnomalousExport WidgetType WidgetManager_getType(MyGUI::Widget* widg
 		if(widget->isType<MyGUI::ItemBox>())
 		{
 			return ItemBox;
-		}
-
-		if(widget->isType<MyGUI::ListCtrl>())
-		{
-			if(widget->isType<MyGUI::ListBox>())
-			{
-				return ListBox;
-			}
-
-			return ListCtrl;
 		}
 
 		return DDContainer;
@@ -134,11 +121,6 @@ extern "C" _AnomalousExport WidgetType WidgetManager_getType(MyGUI::Widget* widg
 
 	if(widget->isType<MyGUI::ScrollBar>())
 	{
-		if(widget->isType<MyGUI::HScroll>())
-		{
-			return HScroll;
-		}
-
 		return VScroll;
 	}
 

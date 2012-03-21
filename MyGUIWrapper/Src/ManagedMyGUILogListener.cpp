@@ -9,18 +9,23 @@ class ManagedMyGUILogListener : public MyGUI::ILogListener
 {
 private:
 	MessageLoggedDelegate messageLoggedCallback;
+	MyGUI::LogSource logSource;
 
 public:
 	ManagedMyGUILogListener(MessageLoggedDelegate messageLoggedCallback)
 	:messageLoggedCallback(messageLoggedCallback)
 	{
-		MyGUI::LogManager::setThirdPartyLogListener(this);
-		MyGUI::LogManager::setSTDOutputEnabled(false);
+		MyGUI::LogManager* logManager = MyGUI::LogManager::getInstancePtr();
+		logManager->setSTDOutputEnabled(false);
+		logManager->addLogSource(&logSource);
+		/*MyGUI::LogManager::setThirdPartyLogListener(this);
+		MyGUI::LogManager::getInstancePtr()->setSTDOutputEnabled(false);*/
 	}
 
 	virtual ~ManagedMyGUILogListener(void)
 	{
-		MyGUI::LogManager::setThirdPartyLogListener(0);
+		//This could be a problem, need way to remove log
+		//MyGUI::LogManager::setThirdPartyLogListener(0);
 	}
 
 	virtual void log(const std::string& _section, MyGUI::LogLevel _level, const struct tm* _time, const std::string& _message, const char* _file, int _line)
