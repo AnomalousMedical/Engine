@@ -107,12 +107,6 @@ namespace MyGUIPlugin
                 case WidgetType.ItemBox:
                     return new Widget(widget);
 
-                case WidgetType.ListCtrl:
-                    return new Widget(widget);
-
-                case WidgetType.ListBox:
-                    return new Widget(widget);
-
                 case WidgetType.List:
                     return new Widget(widget);
 
@@ -161,9 +155,6 @@ namespace MyGUIPlugin
                 case WidgetType.VScroll:
                     return new VScroll(widget);
 
-                case WidgetType.HScroll:
-                    return new HScroll(widget);
-
                 case WidgetType.Window:
                     return new Window(widget);
 
@@ -192,12 +183,6 @@ namespace MyGUIPlugin
                     return wrapperReturnedWidget is Widget;
 
                 case WidgetType.ItemBox:
-                    return wrapperReturnedWidget is Widget;
-
-                case WidgetType.ListCtrl:
-                    return wrapperReturnedWidget is Widget;
-
-                case WidgetType.ListBox:
                     return wrapperReturnedWidget is Widget;
 
                 case WidgetType.List:
@@ -247,9 +232,6 @@ namespace MyGUIPlugin
 
                 case WidgetType.VScroll:
                     return wrapperReturnedWidget is VScroll;
-
-                case WidgetType.HScroll:
-                    return wrapperReturnedWidget is HScroll;
 
                 case WidgetType.Window:
                     return wrapperReturnedWidget is Window;

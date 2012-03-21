@@ -24,6 +24,9 @@ namespace MyGUIPlugin
             }
         }
 
+        internal event MouseEvent MouseButtonPressed;
+        internal event MouseEvent MouseButtonReleased;
+
         private IntPtr inputManager;
 
         private InputManager()
@@ -38,12 +41,22 @@ namespace MyGUIPlugin
 
         public bool injectMousePress(int absx, int absy, MouseButtonCode id)
         {
-            return InputManager_injectMousePress(inputManager, absx, absy, id);
+            bool handled = InputManager_injectMousePress(inputManager, absx, absy, id);
+            if (MouseButtonPressed != null)
+            {
+                MouseButtonPressed.Invoke(absx, absy, id);
+            }
+            return handled;
         }
 
         public bool injectMouseRelease(int absx, int absy, MouseButtonCode id)
         {
-            return InputManager_injectMouseRelease(inputManager, absx, absy, id);
+            bool handled = InputManager_injectMouseRelease(inputManager, absx, absy, id);
+            if (MouseButtonReleased != null)
+            {
+                MouseButtonReleased.Invoke(absx, absy, id);
+            }
+            return handled;
         }
 
         public bool injectKeyPress(KeyboardButtonCode key, uint text)

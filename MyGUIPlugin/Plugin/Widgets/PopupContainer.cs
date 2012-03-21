@@ -191,11 +191,11 @@ namespace MyGUIPlugin
                     widget.Visible = value;
                     if (value)
                     {
-                        Gui.Instance.MouseButtonPressed += MouseButtonPressed;
+                        InputManager.Instance.MouseButtonPressed += MouseButtonPressed;
                     }
                     else
                     {
-                        Gui.Instance.MouseButtonPressed -= MouseButtonPressed;
+                        InputManager.Instance.MouseButtonPressed -= MouseButtonPressed;
                         if (!SmoothShow) //Unsubscribe if not smooth showing.
                         {
                             unsubscribeFromUpdate();

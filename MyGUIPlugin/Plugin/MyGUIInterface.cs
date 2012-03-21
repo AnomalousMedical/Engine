@@ -98,17 +98,18 @@ namespace MyGUIPlugin
             renderListener = new MyGUIRenderListener(vp, sceneManager);
 
             gui = new Gui();
-            gui.initialize("", LogFile);
+            gui.initialize("");
 
             //Load config files
-            gui.load(Theme);
-            gui.load(Language);
-            gui.load(Font);
-            gui.load(Resource);
-            gui.load(Skin);
-            gui.load(Pointer);
-            gui.load(Layer);
-            gui.load(Settings);
+            ResourceManager resourceManager = ResourceManager.Instance;
+            resourceManager.load(Theme);
+            resourceManager.load(Language);
+            resourceManager.load(Font);
+            resourceManager.load(Resource);
+            resourceManager.load(Skin);
+            resourceManager.load(Pointer);
+            resourceManager.load(Layer);
+            resourceManager.load(Settings);
 
             Log.Info("Finished initializing MyGUI");
         }

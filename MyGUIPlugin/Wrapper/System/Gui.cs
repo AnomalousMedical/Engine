@@ -23,8 +23,6 @@ namespace MyGUIPlugin
             }
         }
 
-        internal event MouseEvent MouseButtonPressed;
-        internal event MouseEvent MouseButtonReleased;
         public event UpdateEvent Update;
 
         IntPtr gui;
@@ -48,9 +46,9 @@ namespace MyGUIPlugin
             Gui_Delete(gui);
         }
 
-        public void initialize(String coreConfig, String logFile)
+        public void initialize(String coreConfig)
         {
-            Gui_initialize(gui, coreConfig, logFile);
+            Gui_initialize(gui, coreConfig);
         }
 
         public void shutdown()
@@ -104,46 +102,6 @@ namespace MyGUIPlugin
             return Gui_getViewHeight(gui);
         }
 
-        public bool injectMouseMove(int absx, int absy, int absz)
-        {
-            return Gui_injectMouseMove(gui, absx, absy, absz);
-        }
-
-        public bool injectMousePress(int absx, int absy, MouseButtonCode id)
-        {
-            bool handled = Gui_injectMousePress(gui, absx, absy, id);
-            if (MouseButtonPressed != null)
-            {
-                MouseButtonPressed.Invoke(absx, absy, id);
-            }
-            return handled;
-        }
-
-        public bool injectMouseRelease(int absx, int absy, MouseButtonCode id)
-        {
-            bool handled = Gui_injectMouseRelease(gui, absx, absy, id);
-            if (MouseButtonReleased != null)
-            {
-                MouseButtonReleased.Invoke(absx, absy, id);
-            }
-            return handled;
-        }
-
-        public bool injectKeyPress(KeyboardButtonCode key, uint text)
-        {
-            return Gui_injectKeyPress(gui, key, text);
-        }
-
-        public bool injectKeyRelease(KeyboardButtonCode key)
-        {
-            return Gui_injectKeyRelease(gui, key);
-        }
-
-        public void injectFrameEntered(float time)
-        {
-            Gui_injectFrameEntered(gui, time);
-        }
-
         public void destroyWidget(Widget widget)
         {
             Gui_destroyWidget(gui, widget.WidgetPtr);
@@ -157,21 +115,6 @@ namespace MyGUIPlugin
         public Widget findWidgetT(String name, String prefix)
         {
             return WidgetManager.getWidget(Gui_findWidgetT2(gui, name, prefix));
-        }
-
-        public void setVisiblePointer(bool visible)
-        {
-            Gui_setVisiblePointer(gui, visible);
-        }
-
-        public bool isVisiblePointer()
-        {
-            return Gui_isVisiblePointer(gui);
-        }
-
-        public bool load(String file)
-        {
-            return Gui_load(gui, file);
         }
 
         public void keepWidgetOnscreen(Widget widget)
@@ -231,7 +174,7 @@ namespace MyGUIPlugin
         private static extern void Gui_Delete(IntPtr gui);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Gui_initialize(IntPtr gui, String coreConfig, String logFile);
+        private static extern void Gui_initialize(IntPtr gui, String coreConfig);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Gui_shutdown(IntPtr gui);
@@ -249,29 +192,6 @@ namespace MyGUIPlugin
         private static extern int Gui_getViewHeight(IntPtr gui);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Gui_injectMouseMove(IntPtr gui, int absx, int absy, int absz);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Gui_injectMousePress(IntPtr gui, int absx, int absy, MouseButtonCode id);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Gui_injectMouseRelease(IntPtr gui, int absx, int absy, MouseButtonCode id);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Gui_injectKeyPress(IntPtr gui, KeyboardButtonCode key, uint text);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Gui_injectKeyRelease(IntPtr gui, KeyboardButtonCode key);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Gui_injectFrameEntered(IntPtr gui, float time);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Gui_destroyWidget(IntPtr gui, IntPtr widget);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
@@ -279,17 +199,6 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Gui_findWidgetT2(IntPtr gui, String name, String prefix);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Gui_setVisiblePointer(IntPtr gui, bool visible);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Gui_isVisiblePointer(IntPtr gui);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Gui_load(IntPtr gui, String file);
 
 #endregion
     }
