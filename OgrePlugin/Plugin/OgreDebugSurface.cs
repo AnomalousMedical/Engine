@@ -65,7 +65,7 @@ namespace OgrePlugin
             else
             {
                 currentManualObject = scene.createManualObject(sectionName + MANUAL_OBJECT_RESERVED_NAME);
-                currentManualObject.setRenderQueueGroup(byte.MaxValue);
+                currentManualObject.setRenderQueueGroup((byte)RenderQueueGroupID.RENDER_QUEUE_OVERLAY);
                 currentManualObject.setDynamic(true);
                 sceneNode.attachObject(currentManualObject);
                 currentManualObject.begin(currentMaterial, getOpType(drawingType));
