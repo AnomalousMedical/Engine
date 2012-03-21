@@ -95,6 +95,8 @@ MyGUI::MenuItemType::Enum getMenuItemTypeEnumVal(const MyGUI::MenuItemType& type
 
 MyGUI::Align::Enum getAlignEnumVal(const MyGUI::Align& align);
 
+MyGUI::FlowDirection::Enum getFlowDirectionEnumValue(const MyGUI::FlowDirection& flowDirection);
+
 /// <summary>
 /// This delegate should be used when MyGUI is returning a temporary string.
 /// Since a temporary string will likely be destroyed crossing the P/Invoke

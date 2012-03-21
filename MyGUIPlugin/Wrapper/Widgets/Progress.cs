@@ -6,6 +6,15 @@ using System.Runtime.InteropServices;
 
 namespace MyGUIPlugin
 {
+    public enum FlowDirection
+    {
+        LeftToRight,
+        RightToLeft,
+        TopToBottom,
+        BottomToTop,
+        MAX
+    };
+
     public class Progress : Widget
     {
         public Progress(IntPtr progress)
@@ -50,15 +59,15 @@ namespace MyGUIPlugin
             }
         }
 
-        public Align StartPoint
+        public FlowDirection FlowDirection
         {
             get
             {
-                return Progress_getProgressStartPoint(widget);
+                return Progress_getFlowDirection(widget);
             }
             set
             {
-                Progress_setProgressStartPoint(widget, value);
+                Progress_setFlowDirection(widget, value);
             }
         }
 
@@ -84,10 +93,10 @@ namespace MyGUIPlugin
         private static extern bool Progress_getProgressAutoTrack(IntPtr progress);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Progress_setProgressStartPoint(IntPtr progress, Align value);
+        private static extern void Progress_setFlowDirection(IntPtr progress, FlowDirection value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern Align Progress_getProgressStartPoint(IntPtr progress);
+        private static extern FlowDirection Progress_getFlowDirection(IntPtr progress);
 
         #endregion
     }

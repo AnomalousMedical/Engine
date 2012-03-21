@@ -95,3 +95,28 @@ MyGUI::Align::Enum getAlignEnumVal(const MyGUI::Align& align)
 
 	return MyGUI::Align::Default;
 }
+
+MyGUI::FlowDirection::Enum getFlowDirectionEnumValue(const MyGUI::FlowDirection& flowDirection)
+{
+	if(flowDirection == MyGUI::FlowDirection::LeftToRight)
+	{
+		return MyGUI::FlowDirection::LeftToRight;
+	}
+
+	if(flowDirection == MyGUI::FlowDirection::RightToLeft)
+	{
+		return MyGUI::FlowDirection::RightToLeft;
+	}
+
+	if(flowDirection == MyGUI::FlowDirection::TopToBottom)
+	{
+		return MyGUI::FlowDirection::TopToBottom;
+	}
+
+	if(flowDirection == MyGUI::FlowDirection::BottomToTop)
+	{
+		return MyGUI::FlowDirection::BottomToTop;
+	}
+
+	return MyGUI::FlowDirection::MAX;
+}

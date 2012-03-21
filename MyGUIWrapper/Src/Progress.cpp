@@ -30,12 +30,12 @@ extern "C" _AnomalousExport bool Progress_getProgressAutoTrack(MyGUI::ProgressBa
 	return progress->getProgressAutoTrack();
 }
 
-extern "C" _AnomalousExport void Progress_setProgressStartPoint(MyGUI::ProgressBar* progress, MyGUI::Align::Enum value)
+extern "C" _AnomalousExport void Progress_setFlowDirection(MyGUI::ProgressBar* progress, MyGUI::FlowDirection::Enum value)
 {
-	progress->setProgressStartPoint(value);
+	progress->setFlowDirection(value);
 }
 
-extern "C" _AnomalousExport MyGUI::Align::Enum Progress_getProgressStartPoint(MyGUI::ProgressBar* progress)
+extern "C" _AnomalousExport MyGUI::FlowDirection::Enum Progress_getFlowDirection(MyGUI::ProgressBar* progress)
 {
-	return getAlignEnumVal(progress->getProgressStartPoint());
+	return getFlowDirectionEnumValue(progress->getFlowDirection());
 }
