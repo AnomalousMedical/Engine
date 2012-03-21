@@ -35,8 +35,8 @@ namespace MyGUIPlugin
             mainButton.MouseButtonDoubleClick += new MyGUIEvent(mainButton_MouseButtonDoubleClick);
             mainButton.MouseButtonReleased += new MyGUIEvent(mainButton_MouseButtonReleased);
             mainButton.MouseButtonPressed += new MyGUIEvent(mainButton_MouseButtonPressed);
-            mainButton.StateCheck = treeNode.Selected;
-            StaticImage image = mainButton.StaticImage;
+            mainButton.Selected = treeNode.Selected;
+            StaticImage image = mainButton.ImageBox;
             if (image != null)
             {
                 image.setItemResource(imageResource);
@@ -63,7 +63,7 @@ namespace MyGUIPlugin
         {
             if (plusMinusButton != null)
             {
-                plusMinusButton.StateCheck = !expanded;
+                plusMinusButton.Selected = !expanded;
                 plusMinusButton.Visible = treeNode.Children.Count > 0;
             }
         }
@@ -72,7 +72,7 @@ namespace MyGUIPlugin
         {
             if (mainButton != null)
             {
-                mainButton.StateCheck = selected;
+                mainButton.Selected = selected;
             }
         }
 

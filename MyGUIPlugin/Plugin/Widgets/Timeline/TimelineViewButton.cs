@@ -179,11 +179,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return button.StateCheck;
+                return button.Selected;
             }
             set
             {
-                button.StateCheck = value;
+                button.Selected = value;
             }
         }
 

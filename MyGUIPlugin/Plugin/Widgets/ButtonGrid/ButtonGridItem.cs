@@ -35,7 +35,7 @@ namespace MyGUIPlugin
 
         public void setImage(String imageResource)
         {
-            StaticImage image = button.StaticImage;
+            StaticImage image = button.ImageBox;
             if (image != null)
             {
                 image.setItemResource(imageResource);
@@ -139,11 +139,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return button.StateCheck;
+                return button.Selected;
             }
             set
             {
-                button.StateCheck = value;
+                button.Selected = value;
             }
         }
 

@@ -16,27 +16,15 @@ namespace MyGUIPlugin
 
         }
 
-        public bool StateCheck
+        public bool Selected
         {
             get
             {
-                return Button_getStateCheck(widget);
+                return Button_getStateSelected(widget);
             }
             set
             {
-                Button_setStateCheck(widget, value);
-            }
-        }
-
-        public uint ImageIndex
-        {
-            get
-            {
-                return Button_getImageIndex(widget).ToUInt32();
-            }
-            set
-            {
-                Button_setImageIndex(widget, new UIntPtr(value));
+                Button_setStateSelected(widget, value);
             }
         }
 
@@ -52,13 +40,13 @@ namespace MyGUIPlugin
             }
         }
 
-        public StaticImage StaticImage
+        public StaticImage ImageBox
         {
             get
             {
                 if (staticImage == null)
                 {
-                    staticImage = WidgetManager.getWidget(Button_getStaticImage(widget)) as StaticImage;
+                    staticImage = WidgetManager.getWidget(Button__getImageBox(widget)) as StaticImage;
                 }
                 return staticImage;
             }
@@ -67,17 +55,11 @@ namespace MyGUIPlugin
 #region PInvoke
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Button_setStateCheck(IntPtr button, bool value);
+        private static extern void Button_setStateSelected(IntPtr button, bool value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Button_getStateCheck(IntPtr button);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Button_setImageIndex(IntPtr button, UIntPtr value);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern UIntPtr Button_getImageIndex(IntPtr button);
+        private static extern bool Button_getStateSelected(IntPtr button);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Button_setModeImage(IntPtr button, bool value);
@@ -87,7 +69,7 @@ namespace MyGUIPlugin
         private static extern bool Button_getModeImage(IntPtr button);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr Button_getStaticImage(IntPtr button);
+        private static extern IntPtr Button__getImageBox(IntPtr button);
 
 #endregion
     }

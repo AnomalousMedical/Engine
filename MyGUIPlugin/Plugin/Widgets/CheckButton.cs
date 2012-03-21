@@ -21,7 +21,7 @@ namespace MyGUIPlugin
 
         void button_MouseButtonClick(Widget source, EventArgs e)
         {
-            button.StateCheck = !button.StateCheck;
+            button.Selected = !button.Selected;
             if (CheckedChanged != null)
             {
                 CheckedChanged.Invoke(button, EventArgs.Empty);
@@ -32,13 +32,13 @@ namespace MyGUIPlugin
         {
             get
             {
-                return button.StateCheck;
+                return button.Selected;
             }
             set
             {
                 if (Checked != value)
                 {
-                    button.StateCheck = value;
+                    button.Selected = value;
                     if (CheckedChanged != null)
                     {
                         CheckedChanged.Invoke(button, EventArgs.Empty);

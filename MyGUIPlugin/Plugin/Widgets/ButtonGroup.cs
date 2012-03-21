@@ -77,7 +77,7 @@ namespace MyGUIPlugin
                 selectedButton = value;
                 foreach (Button button in buttons)
                 {
-                    button.StateCheck = button == value;
+                    button.Selected = button == value;
                 }
                 if (SelectedButtonChanged != null)
                 {
