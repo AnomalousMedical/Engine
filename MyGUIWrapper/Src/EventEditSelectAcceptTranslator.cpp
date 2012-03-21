@@ -4,14 +4,14 @@
 class EventEditSelectAcceptTranslator : public MyGUIEventTranslator
 {
 public:
-	typedef void (*NativeEventDelegate)(MyGUI::Edit* sender);
+	typedef void (*NativeEventDelegate)(MyGUI::EditBox* sender);
 
 private:
-	MyGUI::Edit* widget;
+	MyGUI::EditBox* widget;
 	NativeEventDelegate nativeEvent;
 
 public:
-	EventEditSelectAcceptTranslator(MyGUI::Edit* widget, EventEditSelectAcceptTranslator::NativeEventDelegate nativeEventCallback)
+	EventEditSelectAcceptTranslator(MyGUI::EditBox* widget, EventEditSelectAcceptTranslator::NativeEventDelegate nativeEventCallback)
 		:widget(widget),
 		nativeEvent(nativeEventCallback)
 	{
@@ -34,7 +34,7 @@ public:
 	}
 };
 
-extern "C" _AnomalousExport EventEditSelectAcceptTranslator* EventEditSelectAcceptTranslator_Create(MyGUI::Edit* widget, EventEditSelectAcceptTranslator::NativeEventDelegate nativeEventCallback)
+extern "C" _AnomalousExport EventEditSelectAcceptTranslator* EventEditSelectAcceptTranslator_Create(MyGUI::EditBox* widget, EventEditSelectAcceptTranslator::NativeEventDelegate nativeEventCallback)
 {
 	return new EventEditSelectAcceptTranslator(widget, nativeEventCallback);
 }

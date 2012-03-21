@@ -3,9 +3,9 @@
 
 #pragma once
 
-typedef void (*MessageLoggedDelegate)(String section, MyGUI::LogManager::LogLevel lml, String message);
+typedef void (*MessageLoggedDelegate)(String section, MyGUI::LogLevel lml, String message);
 
-class ManagedMyGUILogListener : public MyGUI::LogListener
+class ManagedMyGUILogListener : public MyGUI::ILogListener
 {
 private:
 	MessageLoggedDelegate messageLoggedCallback;
@@ -23,7 +23,7 @@ public:
 		MyGUI::LogManager::setThirdPartyLogListener(0);
 	}
 
-	virtual void log(const std::string& _section, MyGUI::LogManager::LogLevel _level, const std::string& _message)
+	virtual void log(const std::string& _section, MyGUI::LogLevel _level, const struct tm* _time, const std::string& _message, const char* _file, int _line)
 	{
 		messageLoggedCallback(_section.c_str(), _level, _message.c_str());
 	}

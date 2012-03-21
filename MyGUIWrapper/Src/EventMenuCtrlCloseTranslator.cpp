@@ -4,14 +4,14 @@
 class EventMenuCtrlCloseTranslator : public MyGUIEventTranslator
 {
 public:
-	typedef void (*NativeEventDelegate)(MyGUI::MenuCtrl* sender);
+	typedef void (*NativeEventDelegate)(MyGUI::MenuControl* sender);
 
 private:
-	MyGUI::MenuCtrl* widget;
+	MyGUI::MenuControl* widget;
 	NativeEventDelegate nativeEvent;
 
 public:
-	EventMenuCtrlCloseTranslator(MyGUI::MenuCtrl* widget, EventMenuCtrlCloseTranslator::NativeEventDelegate nativeEventCallback)
+	EventMenuCtrlCloseTranslator(MyGUI::MenuControl* widget, EventMenuCtrlCloseTranslator::NativeEventDelegate nativeEventCallback)
 		:widget(widget),
 		nativeEvent(nativeEventCallback)
 	{
@@ -34,7 +34,7 @@ public:
 	}
 };
 
-extern "C" _AnomalousExport EventMenuCtrlCloseTranslator* EventMenuCtrlCloseTranslator_Create(MyGUI::MenuCtrl* widget, EventMenuCtrlCloseTranslator::NativeEventDelegate nativeEventCallback)
+extern "C" _AnomalousExport EventMenuCtrlCloseTranslator* EventMenuCtrlCloseTranslator_Create(MyGUI::MenuControl* widget, EventMenuCtrlCloseTranslator::NativeEventDelegate nativeEventCallback)
 {
 	return new EventMenuCtrlCloseTranslator(widget, nativeEventCallback);
 }

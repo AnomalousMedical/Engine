@@ -4,14 +4,14 @@
 class EventEditTextChangeTranslator : public MyGUIEventTranslator
 {
 public:
-	typedef void (*NativeEventDelegate)(MyGUI::Edit* sender);
+	typedef void (*NativeEventDelegate)(MyGUI::EditBox* sender);
 
 private:
-	MyGUI::Edit* widget;
+	MyGUI::EditBox* widget;
 	NativeEventDelegate nativeEvent;
 
 public:
-	EventEditTextChangeTranslator(MyGUI::Edit* widget, EventEditTextChangeTranslator::NativeEventDelegate nativeEventCallback)
+	EventEditTextChangeTranslator(MyGUI::EditBox* widget, EventEditTextChangeTranslator::NativeEventDelegate nativeEventCallback)
 		:widget(widget),
 		nativeEvent(nativeEventCallback)
 	{
@@ -34,7 +34,7 @@ public:
 	}
 };
 
-extern "C" _AnomalousExport EventEditTextChangeTranslator* EventEditTextChangeTranslator_Create(MyGUI::Edit* widget, EventEditTextChangeTranslator::NativeEventDelegate nativeEventCallback)
+extern "C" _AnomalousExport EventEditTextChangeTranslator* EventEditTextChangeTranslator_Create(MyGUI::EditBox* widget, EventEditTextChangeTranslator::NativeEventDelegate nativeEventCallback)
 {
 	return new EventEditTextChangeTranslator(widget, nativeEventCallback);
 }

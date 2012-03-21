@@ -4,14 +4,14 @@
 class ScrollChangePositionET : public MyGUIEventTranslator
 {
 public:
-	typedef void (*NativeEventDelegate)(MyGUI::VScroll* sender, size_t position);
+	typedef void (*NativeEventDelegate)(MyGUI::ScrollBar* sender, size_t position);
 
 private:
-	MyGUI::VScroll* widget;
+	MyGUI::ScrollBar* widget;
 	NativeEventDelegate nativeEvent;
 
 public:
-	ScrollChangePositionET(MyGUI::VScroll* widget, ScrollChangePositionET::NativeEventDelegate nativeEventCallback)
+	ScrollChangePositionET(MyGUI::ScrollBar* widget, ScrollChangePositionET::NativeEventDelegate nativeEventCallback)
 		:widget(widget),
 		nativeEvent(nativeEventCallback)
 	{
@@ -34,7 +34,7 @@ public:
 	}
 };
 
-extern "C" _AnomalousExport ScrollChangePositionET* ScrollChangePositionET_Create(MyGUI::VScroll* widget, ScrollChangePositionET::NativeEventDelegate nativeEventCallback)
+extern "C" _AnomalousExport ScrollChangePositionET* ScrollChangePositionET_Create(MyGUI::ScrollBar* widget, ScrollChangePositionET::NativeEventDelegate nativeEventCallback)
 {
 	return new ScrollChangePositionET(widget, nativeEventCallback);
 }

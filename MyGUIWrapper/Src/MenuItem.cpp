@@ -30,7 +30,7 @@ extern "C" _AnomalousExport size_t MenuItem_getItemIndex(MyGUI::MenuItem* menuIt
 	return menuItem->getItemIndex();
 }
 
-extern "C" _AnomalousExport MyGUI::MenuCtrl* MenuItem_createItemChild(MyGUI::MenuItem* menuItem)
+extern "C" _AnomalousExport MyGUI::MenuControl* MenuItem_createItemChild(MyGUI::MenuItem* menuItem)
 {
 	return menuItem->createItemChild();
 }
@@ -50,12 +50,12 @@ extern "C" _AnomalousExport void MenuItem_setItemChildVisible(MyGUI::MenuItem* m
 	menuItem->setItemChildVisible(value);
 }
 
-extern "C" _AnomalousExport MyGUI::MenuCtrl* MenuItem_getMenuCtrlParent(MyGUI::MenuItem* menuItem)
+extern "C" _AnomalousExport MyGUI::MenuControl* MenuItem_getMenuCtrlParent(MyGUI::MenuItem* menuItem)
 {
 	return menuItem->getMenuCtrlParent();
 }
 
-extern "C" _AnomalousExport MyGUI::MenuCtrl* MenuItem_getItemChild(MyGUI::MenuItem* menuItem)
+extern "C" _AnomalousExport MyGUI::MenuControl* MenuItem_getItemChild(MyGUI::MenuItem* menuItem)
 {
 	return menuItem->getItemChild();
 }

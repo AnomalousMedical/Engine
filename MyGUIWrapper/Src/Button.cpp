@@ -30,7 +30,7 @@ extern "C" _AnomalousExport bool Button_getModeImage(MyGUI::Button* button)
 	return button->getModeImage();
 }
 
-extern "C" _AnomalousExport MyGUI::StaticImage* Button_getStaticImage(MyGUI::Button* button)
+extern "C" _AnomalousExport MyGUI::ImageBox* Button_getStaticImage(MyGUI::Button* button)
 {
 	return button->getStaticImage();
 }

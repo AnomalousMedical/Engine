@@ -32,7 +32,7 @@ enum WidgetType
 extern "C" _AnomalousExport WidgetType WidgetManager_getType(MyGUI::Widget* widget)
 {
 	//Check for buttons first since they are likely to be the most common control
-	if(widget->isType<MyGUI::StaticText>())
+	if(widget->isType<MyGUI::TextBox>())
 	{
 		if(widget->isType<MyGUI::Button>())
 		{
@@ -44,7 +44,7 @@ extern "C" _AnomalousExport WidgetType WidgetManager_getType(MyGUI::Widget* widg
 			return Button;
 		}
 
-		if(widget->isType<MyGUI::Edit>())
+		if(widget->isType<MyGUI::EditBox>())
 		{
 			if(widget->isType<MyGUI::ComboBox>())
 			{
@@ -82,12 +82,12 @@ extern "C" _AnomalousExport WidgetType WidgetManager_getType(MyGUI::Widget* widg
 		return DDContainer;
 	}
 
-	if(widget->isType<MyGUI::List>())
+	if(widget->isType<MyGUI::ListBox>())
 	{
 		return List;
 	}
 
-	if(widget->isType<MyGUI::MenuCtrl>())
+	if(widget->isType<MyGUI::MenuControl>())
 	{
 		if(widget->isType<MyGUI::MenuBar>())
 		{
@@ -102,12 +102,12 @@ extern "C" _AnomalousExport WidgetType WidgetManager_getType(MyGUI::Widget* widg
 		return MenuCtrl;
 	}
 
-	if(widget->isType<MyGUI::MultiList>())
+	if(widget->isType<MyGUI::MultiListBox>())
 	{
 		return MultiList;
 	}
 
-	if(widget->isType<MyGUI::Progress>())
+	if(widget->isType<MyGUI::ProgressBar>())
 	{
 		return Progress;
 	}
@@ -117,12 +117,12 @@ extern "C" _AnomalousExport WidgetType WidgetManager_getType(MyGUI::Widget* widg
 		return ScrollView;
 	}
 
-	if(widget->isType<MyGUI::StaticImage>())
+	if(widget->isType<MyGUI::ImageBox>())
 	{
 		return StaticImage;
 	}
 
-	if(widget->isType<MyGUI::Tab>())
+	if(widget->isType<MyGUI::TabControl>())
 	{
 		return Tab;
 	}
@@ -132,7 +132,7 @@ extern "C" _AnomalousExport WidgetType WidgetManager_getType(MyGUI::Widget* widg
 		return TabItem;
 	}
 
-	if(widget->isType<MyGUI::VScroll>())
+	if(widget->isType<MyGUI::ScrollBar>())
 	{
 		if(widget->isType<MyGUI::HScroll>())
 		{

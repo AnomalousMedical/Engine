@@ -4,14 +4,14 @@
 class EventMenuCtrlAcceptTranslator : public MyGUIEventTranslator
 {
 public:
-	typedef void (*NativeEventDelegate)(MyGUI::MenuCtrl* sender, MyGUI::MenuItem* item);
+	typedef void (*NativeEventDelegate)(MyGUI::MenuControl* sender, MyGUI::MenuItem* item);
 
 private:
-	MyGUI::MenuCtrl* widget;
+	MyGUI::MenuControl* widget;
 	NativeEventDelegate nativeEvent;
 
 public:
-	EventMenuCtrlAcceptTranslator(MyGUI::MenuCtrl* widget, EventMenuCtrlAcceptTranslator::NativeEventDelegate nativeEventCallback)
+	EventMenuCtrlAcceptTranslator(MyGUI::MenuControl* widget, EventMenuCtrlAcceptTranslator::NativeEventDelegate nativeEventCallback)
 		:widget(widget),
 		nativeEvent(nativeEventCallback)
 	{
@@ -34,7 +34,7 @@ public:
 	}
 };
 
-extern "C" _AnomalousExport EventMenuCtrlAcceptTranslator* EventMenuCtrlAcceptTranslator_Create(MyGUI::MenuCtrl* widget, EventMenuCtrlAcceptTranslator::NativeEventDelegate nativeEventCallback)
+extern "C" _AnomalousExport EventMenuCtrlAcceptTranslator* EventMenuCtrlAcceptTranslator_Create(MyGUI::MenuControl* widget, EventMenuCtrlAcceptTranslator::NativeEventDelegate nativeEventCallback)
 {
 	return new EventMenuCtrlAcceptTranslator(widget, nativeEventCallback);
 }

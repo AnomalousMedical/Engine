@@ -78,7 +78,7 @@ MyGUI::Align::Enum getAlignEnumVal(const MyGUI::Align& align)
 		return MyGUI::Align::Default;	
 	}
 
-	if(align == MyGUI::Align::HRelative)
+	/*if(align == MyGUI::Align::HRelative)
 	{
 		return MyGUI::Align::HRelative;	
 	}
@@ -91,7 +91,7 @@ MyGUI::Align::Enum getAlignEnumVal(const MyGUI::Align& align)
 	if(align == MyGUI::Align::Relative)
 	{
 		return MyGUI::Align::Relative;	
-	}
+	}*/
 
 	return MyGUI::Align::Default;
 }

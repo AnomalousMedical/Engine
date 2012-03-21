@@ -4,14 +4,14 @@
 class EventListSelectAcceptTranslator : public MyGUIEventTranslator
 {
 public:
-	typedef void (*NativeEventDelegate)(MyGUI::MultiList* sender, size_t index);
+	typedef void (*NativeEventDelegate)(MyGUI::MultiListBox* sender, size_t index);
 
 private:
-	MyGUI::MultiList* widget;
+	MyGUI::MultiListBox* widget;
 	NativeEventDelegate nativeEvent;
 
 public:
-	EventListSelectAcceptTranslator(MyGUI::MultiList* widget, EventListSelectAcceptTranslator::NativeEventDelegate nativeEventCallback)
+	EventListSelectAcceptTranslator(MyGUI::MultiListBox* widget, EventListSelectAcceptTranslator::NativeEventDelegate nativeEventCallback)
 		:widget(widget),
 		nativeEvent(nativeEventCallback)
 	{
@@ -34,7 +34,7 @@ public:
 	}
 };
 
-extern "C" _AnomalousExport EventListSelectAcceptTranslator* EventListSelectAcceptTranslator_Create(MyGUI::MultiList* widget, EventListSelectAcceptTranslator::NativeEventDelegate nativeEventCallback)
+extern "C" _AnomalousExport EventListSelectAcceptTranslator* EventListSelectAcceptTranslator_Create(MyGUI::MultiListBox* widget, EventListSelectAcceptTranslator::NativeEventDelegate nativeEventCallback)
 {
 	return new EventListSelectAcceptTranslator(widget, nativeEventCallback);
 }

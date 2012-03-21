@@ -4,14 +4,14 @@
 class EventListChangePositionTranslator : public MyGUIEventTranslator
 {
 public:
-	typedef void (*NativeEventDelegate)(MyGUI::MultiList* sender, size_t index);
+	typedef void (*NativeEventDelegate)(MyGUI::MultiListBox* sender, size_t index);
 
 private:
-	MyGUI::MultiList* widget;
+	MyGUI::MultiListBox* widget;
 	NativeEventDelegate nativeEvent;
 
 public:
-	EventListChangePositionTranslator(MyGUI::MultiList* widget, EventListChangePositionTranslator::NativeEventDelegate nativeEventCallback)
+	EventListChangePositionTranslator(MyGUI::MultiListBox* widget, EventListChangePositionTranslator::NativeEventDelegate nativeEventCallback)
 		:widget(widget),
 		nativeEvent(nativeEventCallback)
 	{
@@ -34,7 +34,7 @@ public:
 	}
 };
 
-extern "C" _AnomalousExport EventListChangePositionTranslator* EventListChangePositionTranslator_Create(MyGUI::MultiList* widget, EventListChangePositionTranslator::NativeEventDelegate nativeEventCallback)
+extern "C" _AnomalousExport EventListChangePositionTranslator* EventListChangePositionTranslator_Create(MyGUI::MultiListBox* widget, EventListChangePositionTranslator::NativeEventDelegate nativeEventCallback)
 {
 	return new EventListChangePositionTranslator(widget, nativeEventCallback);
 }
