@@ -130,16 +130,6 @@ extern "C" _AnomalousExport MyGUI::Align::Enum Widget_getAlign(MyGUI::Widget* wi
 	return getAlignEnumVal(widget->getAlign());
 }
 
-extern "C" _AnomalousExport void Widget_setCaption(MyGUI::Widget* widget, UStringIn value)
-{
-	widget->setCaption(value);
-}
-
-extern "C" _AnomalousExport const MyGUI::UString::code_point* Widget_getCaption(MyGUI::Widget* widget)
-{
-	return widget->getCaption().c_str();
-}
-
 extern "C" _AnomalousExport void Widget_setAlpha(MyGUI::Widget* widget, float value)
 {
 	widget->setAlpha(value);
@@ -353,11 +343,6 @@ extern "C" _AnomalousExport void Widget_setProperty(MyGUI::Widget* widget, Strin
 	widget->setProperty(key, value);
 }
 
-extern "C" _AnomalousExport void Widget_setCaptionWithNewLine(MyGUI::Widget* widget, String value)
-{
-	widget->setCaptionWithNewLine(value);
-}
-
 extern "C" _AnomalousExport MyGUI::Widget* Widget_createWidgetT(MyGUI::Widget* widget, String type, String skin, int left, int top, int width, int height, MyGUI::Align::Enum align, String name)
 {
 	return widget->createWidgetT(type, skin, left, top, width, height, align, name);
@@ -376,36 +361,6 @@ extern "C" _AnomalousExport String Widget_getName(MyGUI::Widget* widget)
 extern "C" _AnomalousExport MyGUI::ISubWidgetText* Widget_getSubWidgetText(MyGUI::Widget* widget)
 {
 	return widget->getSubWidgetText();
-}
-
-extern "C" _AnomalousExport void Widget_setFontName(MyGUI::Widget* widget, String value)
-{
-	return widget->_setFontName(value);
-}
-
-extern "C" _AnomalousExport String Widget_getFontName(MyGUI::Widget* widget)
-{
-	return widget->_getFontName().c_str();
-}
-
-extern "C" _AnomalousExport void Widget_setFontHeight(MyGUI::Widget* widget, int value)
-{
-	return widget->_setFontHeight(value);
-}
-
-extern "C" _AnomalousExport int Widget_getFontHeight(MyGUI::Widget* widget)
-{
-	return widget->_getFontHeight();
-}
-
-extern "C" _AnomalousExport void Widget_setTextAlign(MyGUI::Widget* widget, MyGUI::Align::Enum value)
-{
-	widget->_setTextAlign(value);
-}
-
-extern "C" _AnomalousExport MyGUI::Align::Enum Widget_getTextAlign(MyGUI::Widget* widget)
-{
-	return getAlignEnumVal(widget->_getTextAlign());
 }
 
 extern "C" _AnomalousExport size_t Widget_getWidgetChildSkinCount(MyGUI::Widget* widget)

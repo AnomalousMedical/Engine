@@ -308,11 +308,6 @@ namespace MyGUIPlugin
             Widget_setProperty(widget, key, value);
         }
 
-        public void setCaptionWithNewLine(String value)
-        {
-            Widget_setCaptionWithNewLine(widget, value);
-        }
-
         public String getLayerName()
         {
             return Marshal.PtrToStringAnsi(Widget_getLayerName(widget));
@@ -428,25 +423,6 @@ namespace MyGUIPlugin
             set
             {
                 Widget_setAlign(widget, value);
-            }
-        }
-
-        public String Caption
-        {
-            get
-            {
-                return Marshal.PtrToStringUni(Widget_getCaption(widget));
-            }
-            set
-            {
-                if (value != null)
-                {
-                    Widget_setCaption(widget, value);
-                }
-                else
-                {
-                    Widget_setCaption(widget, "");
-                }
             }
         }
 
@@ -583,42 +559,6 @@ namespace MyGUIPlugin
                     }
                 }
                 return text;
-            }
-        }
-
-        public String FontName
-        {
-            get
-            {
-                return Marshal.PtrToStringAnsi(Widget_getFontName(widget));
-            }
-            set
-            {
-                Widget_setFontName(widget, value);
-            }
-        }
-
-        public int FontHeight
-        {
-            get
-            {
-                return Widget_getFontHeight(widget);
-            }
-            set
-            {
-                Widget_setFontHeight(widget, value);
-            }
-        }
-
-        public Align TextAlign
-        {
-            get
-            {
-                return Widget_getTextAlign(widget);
-            }
-            set
-            {
-                Widget_setTextAlign(widget, value);
             }
         }
 
@@ -900,12 +840,6 @@ namespace MyGUIPlugin
         private static extern Align Widget_getAlign(IntPtr widget);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Widget_setCaption(IntPtr widget, [MarshalAs(UnmanagedType.LPWStr)] String value);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr Widget_getCaption(IntPtr widget);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Widget_setAlpha(IntPtr widget, float value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
@@ -1042,31 +976,10 @@ namespace MyGUIPlugin
         private static extern void Widget_setProperty(IntPtr widget, String key, String value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Widget_setCaptionWithNewLine(IntPtr widget, [MarshalAs(UnmanagedType.LPWStr)] String value);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Widget_getName(IntPtr widget);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Widget_getSubWidgetText(IntPtr widget);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Widget_setFontName(IntPtr widget, String value);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr Widget_getFontName(IntPtr widget);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Widget_setFontHeight(IntPtr widget, int value);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern int Widget_getFontHeight(IntPtr widget);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Widget_setTextAlign(IntPtr widget, Align value);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern Align Widget_getTextAlign(IntPtr widget);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern UIntPtr Widget_getWidgetChildSkinCount(IntPtr widget);

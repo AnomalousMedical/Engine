@@ -53,4 +53,29 @@ extern "C" _AnomalousExport Color StaticText_getTextColour(MyGUI::TextBox* stati
 	return staticText->getTextColour();
 }
 
+extern "C" _AnomalousExport void Widget_setCaption(MyGUI::TextBox* widget, UStringIn value)
+{
+	widget->setCaption(value);
+}
+
+extern "C" _AnomalousExport const MyGUI::UString::code_point* Widget_getCaption(MyGUI::TextBox* widget)
+{
+	return widget->getCaption().c_str();
+}
+
+extern "C" _AnomalousExport void Widget_setFontName(MyGUI::TextBox* widget, String value)
+{
+	return widget->setFontName(value);
+}
+
+extern "C" _AnomalousExport String Widget_getFontName(MyGUI::TextBox* widget)
+{
+	return widget->getFontName().c_str();
+}
+
+extern "C" _AnomalousExport void Widget_setCaptionWithReplacing(MyGUI::TextBox* widget, String value)
+{
+	widget->setCaptionWithReplacing(value);
+}
+
 #pragma warning(pop)

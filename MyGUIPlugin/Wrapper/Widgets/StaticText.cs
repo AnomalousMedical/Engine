@@ -25,6 +25,11 @@ namespace MyGUIPlugin
             return StaticText_getTextSize(widget).toSize();
         }
 
+        public void setCaptionWithReplacing(String value)
+        {
+            Widget_setCaptionWithReplacing(widget, value);
+        }
+
         public String Font
         {
             get
@@ -73,6 +78,37 @@ namespace MyGUIPlugin
             }
         }
 
+        public String Caption
+        {
+            get
+            {
+                return Marshal.PtrToStringUni(Widget_getCaption(widget));
+            }
+            set
+            {
+                if (value != null)
+                {
+                    Widget_setCaption(widget, value);
+                }
+                else
+                {
+                    Widget_setCaption(widget, "");
+                }
+            }
+        }
+
+        public String FontName
+        {
+            get
+            {
+                return Marshal.PtrToStringAnsi(Widget_getFontName(widget));
+            }
+            set
+            {
+                Widget_setFontName(widget, value);
+            }
+        }
+
 #region PInvoke
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
@@ -105,6 +141,20 @@ namespace MyGUIPlugin
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern Color StaticText_getTextColour(IntPtr staticText);
 
+        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Widget_setCaption(IntPtr widget, [MarshalAs(UnmanagedType.LPWStr)] String value);
+
+        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr Widget_getCaption(IntPtr widget);
+
+        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Widget_setFontName(IntPtr widget, String value);
+
+        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr Widget_getFontName(IntPtr widget);
+
+        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Widget_setCaptionWithReplacing(IntPtr widget, [MarshalAs(UnmanagedType.LPWStr)] String value);
 #endregion
     }
 }
