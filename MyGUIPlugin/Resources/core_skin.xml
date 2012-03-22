@@ -16,9 +16,9 @@ RawRect
 		</BasisSkin>
 	</Resource>
 <!--*************************
-StaticText
+TextBox
 *****************************-->
-	<Resource type="ResourceSkin" name = "StaticText" size = "16 16">
+	<Resource type="ResourceSkin" name = "TextBox" size = "16 16">
 		<Property key="FontName" value = "Default" />
 		<Property key="TextAlign" value = "Default" />
 		<Property key="TextColour" value = "#{MyGUI_Theme_Button_ColorNormal}" />
@@ -37,9 +37,9 @@ Spacer
 		<BasisSkin type="MainSkin" offset = "0 0 16 16"/>
 	</Resource>
 <!--*************************
-StaticImage
+ImageBox
 *****************************-->
-	<Resource type="ResourceSkin" name = "StaticImage" size = "16 16">
+	<Resource type="ResourceSkin" name = "ImageBox" size = "16 16">
 		<BasisSkin type="MainSkin" offset = "0 0 16 16"/>
 	</Resource>
 <!--*************************
@@ -377,58 +377,13 @@ StatisticRect
     <BasisSkin type="SimpleText" offset = "4 2 3 6"  align = "Stretch"/>
 	</Resource>
 <!--*************************
-ItemBoxV
+ItemBox
 *****************************-->
-	<Resource type="ResourceSkin" name = "ItemBoxV" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
-		<Property key="AlignVert" value = "true" />
-		<Property key="DragLayer" value = "DragAndDrop" />
-		<!--<Child type="VScroll" skin="VScroll" offset = "-9 3 15 3" align = "Right VStretch" name = "VScroll"/>-->
-		<!--<Child type="Widget" skin="DefaultClient" offset = "3 3 -12 3" align = "Stretch" name = "Client"/>-->
-<!--TopLeft-->
-    <BasisSkin type="SubSkin" offset = "0 0 3 3" align = "Left Top">
-      <State name="normal" offset = "910 79 3 3"/>
-    </BasisSkin>
-<!--TopRight-->
-    <BasisSkin type="SubSkin" offset = "6 0 4 3" align = "Right Top">
-      <State name="normal" offset = "924 79 4 3"/>
-    </BasisSkin>
-<!--BottomLeft-->
-    <BasisSkin type="SubSkin" offset = "0 6 3 4" align = "Left Bottom">
-      <State name="normal" offset = "910 93 3 4"/>
-    </BasisSkin>
-<!--BottomRight-->
-    <BasisSkin type="SubSkin" offset = "6 6 4 4" align = "Right Bottom">
-      <State name="normal" offset = "924 93 4 4"/>
-    </BasisSkin>
-<!--Top-->
-    <BasisSkin type="SubSkin" offset = "3 0 3 3" align = "HStretch Top">
-      <State name="normal" offset = "914 79 9 3"/>
-    </BasisSkin>
-<!--Left-->
-    <BasisSkin type="SubSkin" offset = "0 3 3 3" align = "Left VStretch">
-      <State name="normal" offset = "910 83 3 9"/>
-    </BasisSkin>
-<!--Right-->
-    <BasisSkin type="SubSkin" offset = "6 3 4 3" align = "Right VStretch">
-      <State name="normal" offset = "924 83 4 9"/>
-    </BasisSkin>
-<!--Bottom-->
-    <BasisSkin type="SubSkin" offset = "3 6 3 4" align = "HStretch Bottom">
-      <State name="normal" offset = "914 93 9 4"/>
-    </BasisSkin>
-<!--Middle-->
-    <BasisSkin type="SubSkin" offset = "2 2 5 5" align = "Stretch" name = "Client">
-      <State name="normal" offset = "915 84 7 7"/>
-    </BasisSkin>
-	</Resource>
-<!--*************************
-ItemBoxH
-*****************************-->
-	<Resource type="ResourceSkin" name = "ItemBoxH" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
+	<Resource type="ResourceSkin" name = "ItemBox" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
 		<Property key="AlignVert" value = "false" />
 		<Property key="DragLayer" value = "DragAndDrop" />
-		<!--<Child type="VScroll" skin="VScroll" offset = "-9 3 15 -12" align = "Right VStretch" name = "VScroll"/>
-		<Child type="HScroll" skin="HScroll" offset = "3 -9 -12 15" align = "HStretch Bottom" name = "HScroll"/>-->
+		<!--<Child type="ScrollBar" skin="ScrollBarV" offset = "-9 3 15 -12" align = "Right VStretch" name = "VScroll"/>
+		<Child type="ScrollBar" skin="ScrollBarH" offset = "3 -9 -12 15" align = "HStretch Bottom" name = "HScroll"/>-->
 		<!--<Child type="Widget" skin="DefaultClient" offset = "3 3 -12 -12" align = "Stretch" name = "Client"/>-->
 <!--TopLeft-->
     <BasisSkin type="SubSkin" offset = "0 0 3 3" align = "Left Top">
@@ -479,7 +434,7 @@ ButtonImage
 *****************************-->
 	<Resource type="ResourceSkin" name = "ButtonImage" size = "16 16" texture = "#{MyGUI_Theme_Texture}" >
 		<Property key="ModeImage" value="true"/>
-		<Child type="StaticImage" skin="ButtonStaticImage" offset = "0 0 16 16" align = "Stretch" name = "Image"/>
+		<Child type="ImageBox" skin="ButtonStaticImage" offset = "0 0 16 16" align = "Stretch" name = "Image"/>
 	</Resource>
 <!--*************************
 ButtonImageText
@@ -488,7 +443,7 @@ ButtonImageText
 		<Property key="FontName" value="Default"/>
 		<Property key="TextAlign" value="Center"/>
 		<Property key="ModeImage" value="true"/>
-		<Child type="StaticImage" skin="ButtonStaticImage" offset = "0 0 16 16" align = "Stretch" name = "Image"/>
+		<Child type="ImageBox" skin="ButtonStaticImage" offset = "0 0 16 16" align = "Stretch" name = "Image"/>
 		<BasisSkin type="SimpleText" offset = "0 0 16 16"  align = "Stretch">
 			<State name="disabled" colour="#{MyGUI_Theme_Button_ColorDisabled}"/>
 			<State name="normal" colour="#{MyGUI_Theme_Button_ColorNormal}"/>
@@ -835,7 +790,7 @@ ButtonImageBackground
   <Resource type="ResourceSkin" name = "ButtonImageBackground" size = "29 26" texture = "#{MyGUI_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
-    <Child type="StaticImage" skin="ButtonStaticImage" offset = "2 2 23 21" align = "Stretch" name = "Image"/>
+    <Child type="ImageBox" skin="ButtonStaticImage" offset = "2 2 23 21" align = "Stretch" name = "Image"/>
 <!--TopLeft-->
     <BasisSkin type="SubSkin" offset = "0 0 4 4" align = "Left Top">
       <State name="disabled" offset = "810 145 4 4"/>
@@ -916,7 +871,7 @@ ButtonImageBackgroundText
   <Resource type="ResourceSkin" name = "ButtonImageBackgroundText" size = "29 26" texture = "#{MyGUI_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
-    <Child type="StaticImage" skin="ButtonStaticImage" offset = "2 2 27 21" align = "Stretch" name = "Image"/>
+    <Child type="ImageBox" skin="ButtonStaticImage" offset = "2 2 27 21" align = "Stretch" name = "Image"/>
     <!--TopLeft-->
     <BasisSkin type="SubSkin" offset = "0 0 4 4" align = "Left Top">
       <State name="disabled" offset = "810 145 4 4"/>
@@ -1011,7 +966,7 @@ WordWrap
   <Resource type="ResourceSkin" name = "WordWrap" size = "32 28" texture = "#{MyGUI_Theme_Texture}" >
     <Property key="WordWrap" value = "true" />
     <Child type="Widget" skin="EditClient" offset = "0 0 16 28" align = "Stretch" name = "Client"/>
-    <Child type="VScroll" skin="VScroll" offset = "17 0 15 28" align = "Right VStretch" name = "VScroll"/>
+    <Child type="ScrollBar" skin="ScrollBarV" offset = "17 0 15 28" align = "Right VStretch" name = "VScroll"/>
   </Resource>
 <!--*************************
 WordWrapWhite
@@ -1020,7 +975,7 @@ WordWrapWhite
     <Property key="WordWrap" value = "true" />
     <Child type="Widget" skin="CustomPanelWhtNoTranspo" offset = "0 0 32 28" align = "Stretch" name = "BG"/>
     <Child type="Widget" skin="EditClient" offset = "5 4 10 24" align = "Stretch" name = "Client"/>
-    <Child type="VScroll" skin="VScroll" offset = "16 1 15 27" align = "Right VStretch" name = "VScroll"/>
+    <Child type="ScrollBar" skin="ScrollBarV" offset = "16 1 15 27" align = "Right VStretch" name = "VScroll"/>
   </Resource>
 <!--*************************
 EditClient
@@ -1037,8 +992,8 @@ EditStretch
 *****************************-->
   <Resource type="ResourceSkin" name = "EditStretch" size = "29 26" texture = "#{MyGUI_Theme_Texture}" >
     <Child type="Widget" skin="EditClient" offset = "4 -5 29 26" align = "Stretch" name = "Client"/>
-    <Child type="VScroll" skin="VScroll" offset = "10 2 15 5" align = "Right VStretch" name = "VScroll"/>
-    <Child type="HScroll" skin="HScroll" offset = "2 7 8 15" align = "HStretch Bottom" name = "HScroll"/>
+    <Child type="ScrollBar" skin="ScrollBarV" offset = "10 2 15 5" align = "Right VStretch" name = "VScroll"/>
+    <Child type="ScrollBar" skin="ScrollBarH" offset = "2 7 8 15" align = "HStretch Bottom" name = "HScroll"/>
 <!--TopLeft-->
     <BasisSkin type="SubSkin" offset = "0 0 2 5" align = "Left Top">
       <State name="disabled" offset = "882 132 2 5"/>
@@ -1204,7 +1159,7 @@ ComboBox
 		<Property key="ListSmoothShow" value = "true" />
 		<Child type="Widget" skin="EditClient" offset = "4 2 29 26" align = "Stretch" name = "Client"/>
 		<Child type="Button" skin="ButtonDown" offset = "9 4 14 12" align = "Right VCenter" name = "Button"/>
-		<Child type="List" style="Popup" skin="List" offset = "5 5 0 0" align = "Default" layer="Popup" name = "List"/>
+		<Child type="ListBox" style="Popup" skin="ListBox" offset = "5 5 0 0" align = "Default" layer="Popup" name = "List"/>
     <!--TopLeft-->
     <BasisSkin type="SubSkin" offset = "0 0 2 5" align = "Left Top">
       <State name="disabled" offset = "882 132 2 5"/>
@@ -1700,7 +1655,7 @@ Message
     <Property key="FadeSkin" value = "MarkerBlack" />
     <Property key="FadeLayer" value = "FadeMiddle" />
     <Child type="Widget" skin="MessageClient" offset = "10 40 32 -36" align = "Stretch" name = "Text"/>
-    <Child type="StaticImage" skin="MessageIcon" offset = "6 34 50 50" align = "Default" name = "Icon"/>
+    <Child type="ImageBox" skin="MessageIcon" offset = "6 34 50 50" align = "Default" name = "Icon"/>
     <Child type="Button" skin="WindowCaptionSmall" offset = "0 0 68 21" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
     </Child>
@@ -1828,8 +1783,8 @@ ScrollView
 *****************************-->
 	<Resource type="ResourceSkin" name = "ScrollView" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
 		<Property key="NeedKey" value = "true" />
-		<Child type="VScroll" skin="VScroll" offset = "-9 3 15 -12" align = "Right VStretch" name = "VScroll"/>
-		<Child type="HScroll" skin="HScroll" offset = "3 -9 -12 15" align = "HStretch Bottom" name = "HScroll"/>
+		<Child type="ScrollBar" skin="ScrollBarV" offset = "-9 3 15 -12" align = "Right VStretch" name = "VScroll"/>
+		<Child type="ScrollBar" skin="ScrollBarH" offset = "3 -9 -12 15" align = "HStretch Bottom" name = "HScroll"/>
 		<Child type="Widget" skin="Default" offset = "3 3 -12 -12" align = "Stretch" name = "Client"/>
     <!--TopLeft-->
     <BasisSkin type="SubSkin" offset = "0 0 4 4" align = "Left Top">
@@ -1873,8 +1828,8 @@ ScrollViewGray
 *****************************-->
   <Resource type="ResourceSkin" name = "ScrollViewGray" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
     <Property key="NeedKey" value = "true" />
-    <Child type="VScroll" skin="VScroll" offset = "-9 3 15 -12" align = "Right VStretch" name = "VScroll"/>
-    <Child type="HScroll" skin="HScroll" offset = "3 -9 -12 15" align = "HStretch Bottom" name = "HScroll"/>
+    <Child type="ScrollBar" skin="ScrollBarV" offset = "-9 3 15 -12" align = "Right VStretch" name = "VScroll"/>
+    <Child type="ScrollBar" skin="ScrollBarH" offset = "3 -9 -12 15" align = "HStretch Bottom" name = "HScroll"/>
     <Child type="Widget" skin="Default" offset = "3 3 -12 -12" align = "Stretch" name = "Client"/>
     <!--TopLeft-->
     <BasisSkin type="SubSkin" offset = "0 0 3 3" align = "Left Top">
@@ -1918,8 +1873,8 @@ ScrollViewEmpty
 *****************************-->
   <Resource type="ResourceSkin" name = "ScrollViewEmpty" size = "30 30" texture = "#{MyGUI_Theme_Texture}">
     <Property key="NeedKey" value = "true" />
-    <Child type="VScroll" skin="VScroll" offset = "15 0 15 15" align = "Right VStretch" name = "VScroll"/>
-    <Child type="HScroll" skin="HScroll" offset = "0 15 15 15" align = "HStretch Bottom" name = "HScroll"/>
+    <Child type="ScrollBar" skin="ScrollBarV" offset = "15 0 15 15" align = "Right VStretch" name = "VScroll"/>
+    <Child type="ScrollBar" skin="ScrollBarH" offset = "0 15 15 15" align = "HStretch Bottom" name = "HScroll"/>
     <Child type="Widget" skin="Default" offset = "0 0 15 15" align = "Stretch" name = "Client"/>
   </Resource>
 <!--*************************
@@ -2026,7 +1981,7 @@ PopupMenuLine
   <Resource type="ResourceSkin" name = "PopupMenuLine" size = "40 5" texture = "#{MyGUI_Theme_Texture}" >
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "Left VCenter" />
-    <Child type="StaticImage" skin="PopupMenuLineIcon" offset = "18 0 12 15" align = "Right VCenter" name = "Image"/>
+    <Child type="ImageBox" skin="PopupMenuLineIcon" offset = "18 0 12 15" align = "Right VCenter" name = "Image"/>
     <BasisSkin type="MainSkin" offset = "0 0 40 5">
       <State name="normal" offset = "975 246 1 1"/>
       <State name="highlighted" offset = "965 193 1 1"/> 
@@ -2175,7 +2130,7 @@ ListLine
   <Resource type="ResourceSkin" name = "ListLine" size = "5 5" texture = "#{MyGUI_Theme_Texture}" >
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "Left VCenter" />
-    <Child type="StaticImage" skin="PopupMenuLineIcon" offset = "0 0 15 15" align = "Right VCenter" name = "Image"/>
+    <Child type="ImageBox" skin="PopupMenuLineIcon" offset = "0 0 15 15" align = "Right VCenter" name = "Image"/>
     <BasisSkin type="MainSkin" offset = "0 0 2 5">
       <State name="normal" offset = "343 115 1 1"/>
       <State name="highlighted" offset = "306 115 1 1"/>
@@ -2192,22 +2147,16 @@ ListLine
     </BasisSkin>
   </Resource>
 <!--*************************
-List
+ListBox
 *****************************-->
-  <Resource type="ResourceSkin" name = "List" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
+  <Resource type="ResourceSkin" name = "ListBox" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
     <Property key="NeedKey" value = "true" />
     <Property key="SkinLine" value = "ListLine" />
     <Property key="HeightLine" value = "20" />
 
-    <Child type="VScroll" skin="VScroll" offset = "-4 0 15 11" align = "Right VStretch" name = "VScroll"/>
+    <Child type="ScrollBar" skin="ScrollBarV" offset = "-4 0 15 11" align = "Right VStretch" name = "VScroll"/>
     <Child type="Widget" skin="MultiListCustomPanel" offset = "0 0 -4 11" align = "Stretch" name = "Client"/>
 
-    <!--<Resource type="ResourceSkin" name = "List" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
-    <Property key="NeedKey" value = "true" />
-    <Property key="SkinLine" value = "ListLine" />
-    <Property key="HeightLine" value = "20" />
-    <Child type="VScroll" skin="VScroll" offset = "-5 2 15 9" align = "Right VStretch" name = "VScroll"/>
-    <Child type="Widget" skin="SolidBackground" offset = "2 2 -7 8" align = "Stretch" name = "Client"/>-->
     <!--TopLeft-->
     <BasisSkin type="SubSkin" offset = "0 0 3 3" align = "Left Top">
       <State name="normal" offset = "689 92 3 3"/>
@@ -2253,7 +2202,7 @@ List
     <Property key="SkinLine" value = "ListLine" />
     <Property key="HeightLine" value = "20" />
 
-       <Child type="VScroll" skin="VScroll" offset = "-3 0 15 11" align = "Right VStretch" name = "VScroll"/>
+       <Child type="ScrollBar" skin="ScrollBarV" offset = "-3 0 15 11" align = "Right VStretch" name = "VScroll"/>
     <Child type="Widget" skin="MultiListCustomPanel" offset = "0 0 0 11" align = "Stretch" name = "Client"/>
 
   </Resource>
@@ -2261,7 +2210,7 @@ List
     <Property key="NeedKey" value = "true" />
     <Property key="SkinLine" value = "ListLine"/>
     <Property key="HeightLine" value = "20" />
-    <Child type="VScroll" skin="VScroll" offset = "-7 0 16 9" align = "Right VStretch" name = "VScroll"/>
+    <Child type="ScrollBar" skin="ScrollBarV" offset = "-7 0 16 9" align = "Right VStretch" name = "VScroll"/>
     <Child type="Widget" skin="Default" offset = "0 0 -7 9" align = "Stretch" name = "Client"/>
   </Resource>-->
 <!--*************************
@@ -2279,7 +2228,7 @@ MultiListButton
 	<Resource type="ResourceSkin" name = "MultiListButton" size = "29 21" texture = "#{MyGUI_Theme_Texture}">
 		<Property key="FontName" value = "Default" />
 		<Property key="TextAlign" value = "HCenter VCenter" />
-		<Child type="StaticImage" skin="MultiListButtonIcon" offset = "9 0 14 10" align = "Right VCenter" name = "Image"/>
+		<Child type="ImageBox" skin="MultiListButtonIcon" offset = "9 0 14 10" align = "Right VCenter" name = "Image"/>
     <!--TopLeft-->
     <BasisSkin type="SubSkin" offset = "0 0 4 4" align = "Left Top">
       <State name="normal" offset = "689 92 4 4"/>
@@ -2345,86 +2294,15 @@ MultiListButton
     </BasisSkin>
 	</Resource>
 <!--*************************
-MultiList
+MultiListBox
 *****************************-->
-  <Resource type="ResourceSkin" name = "MultiList" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
+  <Resource type="ResourceSkin" name = "MultiListBox" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
     <Property key="NeedKey" value = "true" />
     <Property key="SkinButton" value = "MultiListButton" />
     <Property key="HeightButton" value = "21" />
     <Property key="SkinList" value = "MultiSubList" />
 
     <Child type="Widget" skin="MultiListCustomPanel" offset = "0 0 11 11" align = "Stretch" name = "Client"/>
-
-    <!--<BasisSkin type="SubSkin" offset = "0 0 3 3" align = "Left Top">
-      <State name="normal" offset = "689 92 3 3"/>
-    </BasisSkin>
-    <BasisSkin type="SubSkin" offset = "3 0 3 3" align = "HStretch Top">
-      <State name="normal" offset = "435 70 3 3"/>
-    </BasisSkin>
-    <BasisSkin type="SubSkin" offset = "6 0 5 3" align = "Right Top">
-      <State name="normal" offset = "447 70 5 3"/>
-    </BasisSkin>
-
-    <BasisSkin type="SubSkin" offset = "0 3 3 5" align = "Left VStretch">
-      <State name="normal" offset = "689 95 3 11"/>
-    </BasisSkin>
-    <BasisSkin type="SubSkin" offset = "6 3 5 3" align = "Right VStretch">
-      <State name="normal" offset = "447 76 5 3"/>
-    </BasisSkin>
-
-    <BasisSkin type="SubSkin" offset = "0 6 3 5" align = "Left Bottom">
-      <State name="normal" offset = "429 87 3 5"/>
-    </BasisSkin>
-    <BasisSkin type="SubSkin" offset = "3 6 3 5" align = "HStretch Bottom">
-      <State name="normal" offset = "435 87 3 5"/>
-    </BasisSkin>
-    <BasisSkin type="SubSkin" offset = "6 6 5 5" align = "Right Bottom">
-      <State name="normal" offset = "447 87 5 5"/>
-    </BasisSkin>-->
-
-
-  <!--<Resource type="ResourceSkin" name = "MultiList" size = "20 11" texture = "#{MyGUI_Theme_Texture}">
-    <Property key="NeedKey" value = "true" />
-    <Property key="SkinButton" value = "MultiListButton" />
-    <Property key="HeightButton" value = "21" />
-    <Property key="SkinList" value = "MultiSubList" />
-    <Child type="Widget" skin="MultiListCustomPanel" offset = "3 0 17 11" align = "Stretch" name = "Client"/>-->
-    <!--TopLeft-->    
-    <!--<BasisSkin type="SubSkin" offset = "0 0 3 3" align = "Left Top">
-      <State name="normal" offset = "689 92 3 3"/>
-    </BasisSkin>-->    
-    <!--TopRight--><!--    
-    <BasisSkin type="SubSkin" offset = "8 0 3 3" align = "Right Top">
-      <State name="normal" offset = "704 92 3 3"/>
-    </BasisSkin>    
-    --><!--BottomLeft--><!--    
-    <BasisSkin type="SubSkin" offset = "0 8 3 3" align = "Left Bottom">
-      <State name="normal" offset = "689 106 3 3"/>
-    </BasisSkin>    
-    --><!--BottomRight--><!--    
-    <BasisSkin type="SubSkin" offset = "8 17 3 3" align = "Right Bottom">
-      <State name="normal" offset = "704 106 3 3"/>
-    </BasisSkin>    
-    --><!--Top--><!--    
-    <BasisSkin type="SubSkin" offset = "3 0 5 3" align = "HStretch Top">
-      <State name="normal" offset = "692 92 12 3"/>
-    </BasisSkin>    
-    --><!--Left--><!--    
-    <BasisSkin type="SubSkin" offset = "0 3 3 5" align = "Left VStretch">
-      <State name="normal" offset = "689 95 3 11"/>
-    </BasisSkin>    
-    --><!--Right--><!--    
-    <BasisSkin type="SubSkin" offset = "8 3 3 5" align = "Right VStretch">
-      <State name="normal" offset = "704 95 3 11"/>
-    </BasisSkin>    
-    --><!--Bottom--><!--    
-    <BasisSkin type="SubSkin" offset = "3 8 5 3" align = "HStretch Bottom">
-      <State name="normal" offset = "692 106 12 3"/>
-    </BasisSkin>    
-    --><!--Body--><!--    
-    <BasisSkin type="MainSkin" offset = "3 3 5 5" align = "Stretch">
-      <State name="normal" offset = "695 100 1 1"/>
-    </BasisSkin>-->
   </Resource>
   <!--*************************
 MultiListCustomPanel
@@ -2538,10 +2416,10 @@ VScrollBottomPart
     </BasisSkin>
   </Resource>
 <!--*************************
-VScroll
+ScrollBarV
 *****************************
 Scrollbar background-->
-  <Resource type="ResourceSkin" name = "VScroll" size = "15 49" texture = "#{MyGUI_Theme_Texture}" >
+  <Resource type="ResourceSkin" name = "ScrollBarV" size = "15 49" texture = "#{MyGUI_Theme_Texture}" >
     <Property key="TrackRangeMargins" value = "14 12" />
     <Property key="MinTrackSize" value = "19" />
     <Child type="Button" skin="VScrollTopPart" offset = "0 15 15 6" align = "Stretch" name = "FirstPart"/>
@@ -2620,9 +2498,9 @@ HScrollRightPart
 		</BasisSkin>
 	</Resource>
 <!--*************************
-HScroll
+ScrollBarH
 *****************************-->
-  <Resource type="ResourceSkin" name = "HScroll" size = "49 15" texture = "#{MyGUI_Theme_Texture}" >
+  <Resource type="ResourceSkin" name = "ScrollBarH" size = "49 15" texture = "#{MyGUI_Theme_Texture}" >
     <Property key="TrackRangeMargins" value = "14 12" />
     <Property key="MinTrackSize" value = "19" />
     <Child type="Button" skin="HScrollLeftPart" offset = "15 0 6 15" align = "Stretch" name = "FirstPart"/>
@@ -2644,9 +2522,9 @@ HScroll
     </BasisSkin>
   </Resource>
 <!--*************************
-VSlider
+SliderV
 *****************************-->
-	<Resource type="ResourceSkin" name = "VSlider" size = "15 49" texture = "#{MyGUI_Theme_Texture}" >
+	<Resource type="ResourceSkin" name = "SliderV" size = "15 49" texture = "#{MyGUI_Theme_Texture}" >
 		<Property key="TrackRangeMargins" value = "2 1" />
 		<Property key="MinTrackSize" value = "7" />
 		<Property key="MoveToClick" value = "true"/>
@@ -2667,9 +2545,9 @@ VSlider
     </BasisSkin>
 	</Resource>
 <!--*************************
-HSlider
+SliderH
 *****************************-->
-  <Resource type="ResourceSkin" name = "HSlider" size = "49 15" texture = "#{MyGUI_Theme_Texture}" >
+  <Resource type="ResourceSkin" name = "SliderH" size = "49 15" texture = "#{MyGUI_Theme_Texture}" >
     <Property key="TrackRangeMargins" value = "2 1" />
     <Property key="MinTrackSize" value = "7" />
     <Property key="MoveToClick" value = "true"/>
@@ -2690,9 +2568,9 @@ HSlider
     </BasisSkin>
   </Resource>
 <!--*************************
-Progress
+ProgressBar
 *****************************-->
-  <Resource type="ResourceSkin" name = "Progress" size = "49 15" texture = "#{MyGUI_Theme_Texture}" >
+  <Resource type="ResourceSkin" name = "ProgressBar" size = "49 15" texture = "#{MyGUI_Theme_Texture}" >
     <Property key="TrackSkin" value = "HScrollTrackSlider" />
     <Property key="TrackWidth" value = "7" />
     <Property key="TrackFill" value = "false" />
@@ -2711,9 +2589,9 @@ Progress
     </BasisSkin>
   </Resource>
 <!--*************************
-ProgressFill
+ProgressBarFill
 *****************************-->
-  <Resource type="ResourceSkin" name = "ProgressFill" size = "49 25" texture = "#{MyGUI_Theme_Texture}" >
+  <Resource type="ResourceSkin" name = "ProgressBarFill" size = "49 25" texture = "#{MyGUI_Theme_Texture}" >
     <Property key="TrackSkin" value = "ProgressTrack" />
     <Property key="TrackMin" value = "15" />
     <Property key="TrackFill" value = "true" />
@@ -2778,8 +2656,8 @@ ListCtrl
 *****************************-->
   <Resource type="ResourceSkin" name = "ListCtrl" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
     <Property key="DragLayer" value = "DragAndDrop" />
-    <Child type="VScroll" skin="VScroll" offset = "-9 3 15 -12" align = "Right VStretch" name = "VScroll"/>
-    <Child type="HScroll" skin="HScroll" offset = "3 -9 -12 15" align = "HStretch Bottom" name = "HScroll"/>
+    <Child type="ScrollBar" skin="ScrollBarV" offset = "-9 3 15 -12" align = "Right VStretch" name = "VScroll"/>
+    <Child type="ScrollBar" skin="ScrollBarH" offset = "3 -9 -12 15" align = "HStretch Bottom" name = "HScroll"/>
     <Child type="Widget" skin="DefaultClient" offset = "3 3 -12 -12" align = "Stretch" name = "Client"/>
 <!--TopLeft-->
     <BasisSkin type="SubSkin" offset = "0 0 3 3" align = "Left Top">
@@ -2900,7 +2778,7 @@ List2
 		<Property key="NeedKey" value = "true" />
 		<Property key="SkinLine" value = "ListLine" />
 		<Property key="HeightLine" value = "20" />
-		<Child type="VScroll" skin="VScroll" offset = "-9 3 15 3" align = "Right VStretch" name = "VScroll"/>
+		<Child type="ScrollBar" skin="ScrollBarV" offset = "-9 3 15 3" align = "Right VStretch" name = "VScroll"/>
 		<Child type="Widget" skin="DefaultClient" offset = "3 3 -12 3" align = "Stretch" name = "Client"/>
 <!--TopLeft-->
 		<BasisSkin type="SubSkin" offset = "0 0 3 3" align = "Left Top">
@@ -3038,7 +2916,7 @@ Ribbon Button
   <Resource type="ResourceSkin" name = "RibbonButton" size = "72 64" texture = "#{MyGUI_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
-    <Child type="StaticImage" skin="ButtonStaticImage" offset = "1 4 32 32" align = "Top" name = "Image"/>
+    <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 4 32 32" align = "Top" name = "Image"/>
     <!--TopLeft-->
     <BasisSkin type="SubSkin" offset = "0 0 2 2" align = "Left Top">
       <State name="disabled" offset = "855 145 2 2"/>
@@ -3126,7 +3004,7 @@ Taskbar Button
   <Resource type="ResourceSkin" name = "TaskbarButton" size = "72 64" texture = "#{MyGUI_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
-    <Child type="StaticImage" skin="ButtonStaticImage" offset = "1 8 32 32" align = "Top" name = "Image"/>
+    <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 8 32 32" align = "Top" name = "Image"/>
     <!--TopLeft-->
     <BasisSkin type="SubSkin" offset = "0 0 2 2" align = "Left Top">
       <State name="disabled" offset = "855 145 2 2"/>
@@ -3293,7 +3171,7 @@ Ribbon Button Small
   <Resource type="ResourceSkin" name = "RibbonButtonSmall" size = "72 64" texture = "#{MyGUI_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "Left VCenter" />
-    <Child type="StaticImage" skin="ButtonStaticImage" offset = "2 3 16 16" align = "Left Top" name = "Image"/>
+    <Child type="ImageBox" skin="ButtonStaticImage" offset = "2 3 16 16" align = "Left Top" name = "Image"/>
     <!--TopLeft-->
     <BasisSkin type="SubSkin" offset = "0 0 2 2" align = "Left Top">
       <State name="disabled" offset = "855 145 2 2"/>
@@ -3541,7 +3419,7 @@ CustomButton
   <Resource type="ResourceSkin" name = "CustomButton" size = "72 64" texture = "#{MyGUI_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
-    <Child type="StaticImage" skin="ButtonStaticImage" offset = "1 4 32 32" align = "Top" name = "Image"/>
+    <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 4 32 32" align = "Top" name = "Image"/>
 <!--TopLeft-->
     <BasisSkin type="SubSkin" offset = "0 0 4 4" align = "Left Top">
       <State name="disabled" offset = "855 145 4 4"/>
@@ -3792,8 +3670,8 @@ CustomScrollView
 *****************************-->
   <Resource type="ResourceSkin" name = "CustomScrollView" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
     <Property key="NeedKey" value = "true" />
-    <Child type="VScroll" skin="VScroll" offset = "-5 3 15 -12" align = "Right VStretch" name = "VScroll"/>
-    <Child type="HScroll" skin="HScroll" offset = "3 -9 -12 15" align = "HStretch Bottom" name = "HScroll"/>
+    <Child type="ScrollBar" skin="ScrollBarV" offset = "-5 3 15 -12" align = "Right VStretch" name = "VScroll"/>
+    <Child type="ScrollBar" skin="ScrollBarH" offset = "3 -9 -12 15" align = "HStretch Bottom" name = "HScroll"/>
     <Child type="Widget" skin="Default" offset = "3 3 -12 -12" align = "Stretch" name = "Client"/>
 <!--TopLeft-->
     <BasisSkin type="SubSkin" offset = "0 0 3 3" align = "Left Top">
@@ -3838,7 +3716,7 @@ ButtonGridButton
   <Resource type="ResourceSkin" name = "ButtonGridButton" size = "122 122" texture = "#{MyGUI_Theme_Texture}">
     <Property key="FontName" value = "font_Tuffy.14" />
     <Property key="TextAlign" value = "HCenter VCenter" />
-    <Child type="StaticImage" skin="ButtonStaticImage" offset = "1 2 100 100" align = "HCenter Top" name = "Image"/>
+    <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 2 100 100" align = "HCenter Top" name = "Image"/>
     <BasisSkin type="SimpleText" offset = "1 102 121 20" align = "HStretch Bottom">
       <State name="disabled" colour="#{MyGUI_Theme_Button_ColorDisabled}" shift = "false"/>
       <State name="normal" colour="#{MyGUI_Theme_Button_ColorNormal}" shift = "false"/>
@@ -3925,7 +3803,7 @@ ButtonGridImageButton
   <Resource type="ResourceSkin" name = "ButtonGridImageButton" size = "102 102" texture = "#{MyGUI_Theme_Texture}">
     <Property key="FontName" value = "font_Tuffy.14" />
     <Property key="TextAlign" value = "HCenter VCenter" />
-    <Child type="StaticImage" skin="ButtonStaticImage" offset = "4 4 94 94" align = "HStretch VStretch" name = "Image"/>
+    <Child type="ImageBox" skin="ButtonStaticImage" offset = "4 4 94 94" align = "HStretch VStretch" name = "Image"/>
    <!--TopLeft-->
     <BasisSkin type="SubSkin" offset = "0 0 4 4" align = "Left Top">
       <State name="disabled" offset = "714 206 4 4"/>
@@ -4006,7 +3884,7 @@ ColorSwatchButton
   <Resource type="ResourceSkin" name = "ColorSwatchButton" size = "14 14" texture = "#{MyGUI_Theme_Texture}">
     <Property key="FontName" value = "font_Tuffy.14" />
     <Property key="TextAlign" value = "HCenter VCenter" />
-    <Child type="StaticImage" skin="ButtonStaticImage" offset = "1 1 12 12" align = "HStretch VStretch" name = "Image"/>
+    <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 1 12 12" align = "HStretch VStretch" name = "Image"/>
     <!--TopLeft-->
     <BasisSkin type="SubSkin" offset = "0 0 2 2" align = "Left Top">
       <State name="normal" offset = "653 184 2 2"/>
@@ -4059,7 +3937,7 @@ ButtonListIconButtonButton
   <Resource type="ResourceSkin" name = "ButtonListIconButton" size = "102 122" texture = "#{MyGUI_Theme_Texture}">
     <Property key="FontName" value = "font_Tuffy.14" />
     <Property key="TextAlign" value = "Left VCenter" />
-    <Child type="StaticImage" skin="ButtonStaticImage" offset = "1 1 100 100" align = "Top Left" name = "Image"/>
+    <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 1 100 100" align = "Top Left" name = "Image"/>
     <BasisSkin type="SimpleText" offset = "102 1 20 122" align = "HStretch VStretch">
       <State name="disabled" colour="#{MyGUI_Theme_Button_ColorDisabled}" shift = "false"/>
       <State name="normal" colour="#{MyGUI_Theme_Button_ColorNormal}" shift = "false"/>
@@ -4149,7 +4027,7 @@ AppButton
   <Resource type="ResourceSkin" name = "AppButton" size = "29 26" texture = "#{MyGUI_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
-    <Child type="StaticImage" skin="ButtonStaticImage" offset = "1 1 130 32" align = "HCenter VCenter" name = "Image"/>
+    <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 1 130 32" align = "HCenter VCenter" name = "Image"/>
     <!--TopLeft-->
     <BasisSkin type="SubSkin" offset = "0 0 3 3" align = "Left Top">
       <State name="disabled" offset = "810 145 3 3"/>
@@ -4317,7 +4195,7 @@ AppMenuIconButton
    <Resource type="ResourceSkin" name = "AppMenuIconButton" size = "102 122" texture = "#{MyGUI_Theme_Texture}">
     <Property key="FontName" value = "font_Tuffy.14" />
     <Property key="TextAlign" value = "Left VCenter" />
-    <Child type="StaticImage" skin="ButtonStaticImage" offset = "4 4 32 32" align = "Top Left" name = "Image"/>
+    <Child type="ImageBox" skin="ButtonStaticImage" offset = "4 4 32 32" align = "Top Left" name = "Image"/>
     <BasisSkin type="SimpleText" offset = "39 1 68 122" align = "HStretch VStretch">
       <State name="disabled" colour="#{MyGUI_Theme_Button_ColorDisabled}" shift = "false"/>
       <State name="normal" colour="#{MyGUI_Theme_Button_ColorNormal}" shift = "false"/>
@@ -4452,8 +4330,8 @@ CustomScrollView2
 *****************************-->
   <Resource type="ResourceSkin" name = "CustomScrollView2" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
     <Property key="NeedKey" value = "true" />
-    <Child type="VScroll" skin="VScroll" offset = "-5 1 15 -6" align = "Right VStretch" name = "VScroll"/>
-    <Child type="HScroll" skin="HScroll" offset = "2 -5 -7 15" align = "HStretch Bottom" name = "HScroll"/>
+    <Child type="ScrollBar" skin="ScrollBarV" offset = "-5 1 15 -6" align = "Right VStretch" name = "VScroll"/>
+    <Child type="ScrollBar" skin="ScrollBarH" offset = "2 -5 -7 15" align = "HStretch Bottom" name = "HScroll"/>
     <Child type="Widget" skin="Default" offset = "3 3 -12 -9" align = "Stretch" name = "Client"/>
 <!--TopLeft-->
     <BasisSkin type="SubSkin" offset = "0 0 3 3" align = "Left Top">
@@ -4763,7 +4641,7 @@ ImageButton
   <Resource type="ResourceSkin" name = "ImageButton" size = "23 23" texture = "#{MyGUI_Theme_Texture}">
     <Property key="FontName" value = "font_Tuffy.14" />
     <Property key="TextAlign" value = "Left VCenter" />
-    <Child type="StaticImage" skin="ButtonStaticImage" offset = "0 0 11 11" align = "Center" name = "Image"/>
+    <Child type="ImageBox" skin="ButtonStaticImage" offset = "0 0 11 11" align = "Center" name = "Image"/>
     <BasisSkin type="SimpleText" offset = "39 1 68 122" align = "HStretch VStretch">
       <State name="disabled" colour="#{MyGUI_Theme_Button_ColorDisabled}" shift = "false"/>
       <State name="normal" colour="#{MyGUI_Theme_Button_ColorNormal}" shift = "false"/>
@@ -4850,7 +4728,7 @@ StopButton, Not shure whether this button is necessary  or if it would be easier
   <Resource type="ResourceSkin" name = "StopButton" size = "23 23" texture = "#{MyGUI_Theme_Texture}">
     <Property key="FontName" value = "font_Tuffy.14" />
     <Property key="TextAlign" value = "Left VCenter" />
-    <Child type="StaticImage" skin="ButtonStaticImage" offset = "0 0 11 11" align = "Center" name = "Image"/>
+    <Child type="ImageBox" skin="ButtonStaticImage" offset = "0 0 11 11" align = "Center" name = "Image"/>
     <BasisSkin type="SimpleText" offset = "39 1 68 122" align = "HStretch VStretch">
       <State name="disabled" colour="#{MyGUI_Theme_Button_ColorDisabled}" shift = "false"/>
       <State name="normal" colour="#{MyGUI_Theme_Button_ColorNormal}" shift = "false"/>
@@ -5095,7 +4973,7 @@ BookmarkListIconButtonButton
   <Resource type="ResourceSkin" name = "BookmarkListIconButtonButton" size = "122 122" texture = "#{MyGUI_Theme_Texture}">
     <Property key="FontName" value = "font_Tuffy.14" />
     <Property key="TextAlign" value = "HCenter VCenter" />
-    <Child type="StaticImage" skin="ButtonStaticImage" offset = "1 2 100 100" align = "HCenter Top" name = "Image"/>
+    <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 2 100 100" align = "HCenter Top" name = "Image"/>
     <BasisSkin type="SimpleText" offset = "1 102 121 20" align = "HStretch Bottom">
       <State name="disabled" colour="#{MyGUI_Theme_TaskMenuButton_ColorDisabled}" shift = "false"/>
       <State name="normal" colour="#{MyGUI_Theme_TaskMenuButton_ColorNormal}" shift = "false"/>
@@ -5183,7 +5061,7 @@ AnatomyFinderIconButtonButton
   <Resource type="ResourceSkin" name = "AnatomyFinderIconButtonButton" size = "102 122" texture = "#{MyGUI_Theme_Texture}">
     <Property key="FontName" value = "font_Tuffy.14" />
     <Property key="TextAlign" value = "Left VCenter" />
-    <Child type="StaticImage" skin="ButtonStaticImage" offset = "1 1 50 50" align = "Top Left" name = "Image"/>
+    <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 1 50 50" align = "Top Left" name = "Image"/>
     <BasisSkin type="SimpleText" offset = "52 1 47 122" align = "HStretch VStretch">
       <State name="disabled" colour="#{MyGUI_Theme_Button_ColorDisabled}" shift = "false"/>
       <State name="normal" colour="#{MyGUI_Theme_Button_ColorNormal}" shift = "false"/>
@@ -5271,7 +5149,7 @@ TreeIconButton
   <Resource type="ResourceSkin" name = "TreeIconButton" size = "102 122" texture = "#{MyGUI_Theme_Texture}">
     <Property key="FontName" value = "font_Tuffy.14" />
     <Property key="TextAlign" value = "Left VCenter" />
-    <Child type="StaticImage" skin="ButtonStaticImage" offset = "1 1 16 16" align = "Top Left" name = "Image"/>
+    <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 1 16 16" align = "Top Left" name = "Image"/>
     <BasisSkin type="SimpleText" offset = "18 1 84 122" align = "HStretch VStretch">
       <State name="disabled" colour="#{MyGUI_Theme_Button_ColorDisabled}" shift = "false"/>
       <State name="normal" colour="#{MyGUI_Theme_Button_ColorNormal}" shift = "false"/>
@@ -5367,7 +5245,7 @@ TaskMenuButtonGridButton
   <Resource type="ResourceSkin" name = "TaskMenuButtonGridButton" size = "122 122" texture = "#{MyGUI_Theme_Texture}">
     <Property key="FontName" value = "font_Tuffy.14" />
     <Property key="TextAlign" value = "HCenter VCenter" />
-    <Child type="StaticImage" skin="ButtonStaticImage" offset = "1 2 32 32" align = "HCenter Top" name = "Image"/>
+    <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 2 32 32" align = "HCenter Top" name = "Image"/>
     <BasisSkin type="SimpleText" offset = "1 102 121 20" align = "HStretch Bottom">
       <State name="disabled" colour="#{MyGUI_Theme_TaskMenuButton_ColorDisabled}" shift = "false"/>
       <State name="normal" colour="#{MyGUI_Theme_TaskMenuButton_ColorNormal}" shift = "false"/>
