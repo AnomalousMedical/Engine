@@ -8,7 +8,7 @@ namespace MyGUIPlugin
     public class EditTableCell : TableCell
     {
         private Edit editWidget;
-        private Widget staticWidget;
+        private StaticText staticWidget;
         private String value = null;
 
         public EditTableCell()
@@ -136,7 +136,7 @@ namespace MyGUIPlugin
         {
             if (staticWidget == null)
             {
-                staticWidget = parentWidget.createWidgetT("Button", "Button", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "");
+                staticWidget = (StaticText)parentWidget.createWidgetT("Button", "Button", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "");
                 staticWidget.MouseButtonClick += new MyGUIEvent(staticWidget_MouseButtonClick);
                 staticWidget.Caption = value;
                 staticWidget.Visible = false;

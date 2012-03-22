@@ -9,7 +9,7 @@ namespace MyGUIPlugin
     public class TableColumn : TableElement
     {
         private TableCell cellPrototype;
-        protected Widget columnWidget; 
+        protected StaticText columnWidget; 
         private IntSize2 size;
         private IntVector2 position;
 
@@ -42,7 +42,7 @@ namespace MyGUIPlugin
         {
             if (columnWidget == null)
             {
-                columnWidget = Table.TableWidget.createWidgetT("StaticText", "StaticText", position.x, position.y, size.Width, size.Height, Align.Default, "");
+                columnWidget = (StaticText)Table.TableWidget.createWidgetT("StaticText", "StaticText", position.x, position.y, size.Width, size.Height, Align.Default, "");
                 columnWidget.Caption = Name;
             }
         }
