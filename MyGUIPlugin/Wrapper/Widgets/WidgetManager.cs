@@ -32,11 +32,11 @@ namespace MyGUIPlugin
                         MenuItem = 14,
                     Edit = 15,
                         ComboBox = 16,
-                Tab = 17,
-                TabItem = 18,
-                VScroll = 19,
-                Window = 20,
-                    Message = 21,
+			        Window = 17,
+				        Message = 18,
+			        TabItem = 19,
+                Tab = 20,
+                VScroll = 21,
         }
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -146,20 +146,20 @@ namespace MyGUIPlugin
                 case WidgetType.ComboBox:
                     return new ComboBox(widget);
 
-                case WidgetType.Tab:
-                    return new Widget(widget);
-
-                case WidgetType.TabItem:
-                    return new Widget(widget);
-
-                case WidgetType.VScroll:
-                    return new VScroll(widget);
-
                 case WidgetType.Window:
                     return new Window(widget);
 
                 case WidgetType.Message:
                     return new Message(widget);
+
+                case WidgetType.TabItem:
+                    return new Widget(widget);
+
+                case WidgetType.Tab:
+                    return new Widget(widget);
+
+                case WidgetType.VScroll:
+                    return new VScroll(widget);
             }
             Log.Warning("Could not identify widget type for widget {0}. Type given was {1}. Will return a Widget in its place.", widget.ToString(), widgetType);
             return new Widget(widget);
@@ -224,20 +224,20 @@ namespace MyGUIPlugin
                 case WidgetType.ComboBox:
                     return wrapperReturnedWidget is ComboBox;
 
-                case WidgetType.Tab:
-                    return wrapperReturnedWidget is Widget;
-
-                case WidgetType.TabItem:
-                    return wrapperReturnedWidget is Widget;
-
-                case WidgetType.VScroll:
-                    return wrapperReturnedWidget is VScroll;
-
                 case WidgetType.Window:
                     return wrapperReturnedWidget is Window;
 
                 case WidgetType.Message:
                     return wrapperReturnedWidget is Message;
+
+                case WidgetType.TabItem:
+                    return wrapperReturnedWidget is Widget;
+
+                case WidgetType.Tab:
+                    return wrapperReturnedWidget is Widget;
+
+                case WidgetType.VScroll:
+                    return wrapperReturnedWidget is VScroll;
             }
             Log.Warning("Could not identify widget type for widget {0}. Type given was {1}. Will return a Widget in its place.", rawWidgetPointer.ToString(), widgetType);
             return wrapperReturnedWidget is Widget;

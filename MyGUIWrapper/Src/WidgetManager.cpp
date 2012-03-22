@@ -19,11 +19,11 @@ enum WidgetType
                 MenuItem = 14,
             Edit = 15,
                 ComboBox = 16,
-        Tab = 17,
-        TabItem = 18,
-        VScroll = 19,
-        Window = 20,
-            Message = 21,
+			Window = 17,
+				Message = 18,
+			TabItem = 19,
+        Tab = 20,
+        VScroll = 21,
 };
 
 extern "C" _AnomalousExport WidgetType WidgetManager_getType(MyGUI::Widget* widget)
@@ -49,6 +49,21 @@ extern "C" _AnomalousExport WidgetType WidgetManager_getType(MyGUI::Widget* widg
 			}
 
 			return Edit;
+		}
+
+		if(widget->isType<MyGUI::Window>())
+		{
+			if(widget->isType<MyGUI::Message>())
+			{
+				return Message;
+			}
+
+			return Window;
+		}
+
+		if(widget->isType<MyGUI::TabItem>())
+		{
+			return TabItem;
 		}
 
 		return StaticText;
@@ -114,24 +129,9 @@ extern "C" _AnomalousExport WidgetType WidgetManager_getType(MyGUI::Widget* widg
 		return Tab;
 	}
 
-	if(widget->isType<MyGUI::TabItem>())
-	{
-		return TabItem;
-	}
-
 	if(widget->isType<MyGUI::ScrollBar>())
 	{
 		return VScroll;
-	}
-
-	if(widget->isType<MyGUI::Window>())
-	{
-		if(widget->isType<MyGUI::Message>())
-		{
-			return Message;
-		}
-
-		return Window;
 	}
 
 	return Widget;
