@@ -25,7 +25,7 @@ namespace MyGUIPlugin
         private UpdateTimer mainTimer;
         private MyGUIUpdate myGUIUpdate;
         private MyGUIRenderListener renderListener;
-        private ManagedMyGUILogListener managedLogListener = new ManagedMyGUILogListener();
+        private ManagedMyGUILogListener managedLogListener;
 
         public MyGUIInterface()
         {
@@ -94,6 +94,9 @@ namespace MyGUIPlugin
             //Create Ogre Platform
             ogrePlatform = new OgrePlatform();
             ogrePlatform.initialize(ogreWindow.OgreRenderWindow, sceneManager, "MyGUI", LogFile);
+
+            //Create log
+            managedLogListener = new ManagedMyGUILogListener();
 
             renderListener = new MyGUIRenderListener(vp, sceneManager);
 

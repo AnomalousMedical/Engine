@@ -166,7 +166,6 @@
     <Compile Include="Plugin\Widgets\ButtonGroup.cs" />
     <Compile Include="Wrapper\Widgets\ComboBox.cs" />
     <Compile Include="Wrapper\Widgets\Edit.cs" />
-    <Compile Include="Wrapper\Widgets\HScroll.cs" />
     <Compile Include="Wrapper\Widgets\MenuBar.cs" />
     <Compile Include="Wrapper\Widgets\MenuCtrl.cs" />
     <Compile Include="Wrapper\Widgets\MenuItem.cs" />
