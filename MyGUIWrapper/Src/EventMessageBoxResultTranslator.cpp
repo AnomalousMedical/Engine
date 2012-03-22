@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "../Include/MyGUIEventTranslator.h"
+#include "MessageBox/MessageBox.h"
 
 class EventMessageBoxResultTranslator : public MyGUIEventTranslator
 {

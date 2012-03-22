@@ -6,7 +6,6 @@
 
 
 #include "MyGUI.h"
-#include "MessageBox/MessageBox.h"
 
 #ifdef WINDOWS
 #define _AnomalousExport __declspec(dllexport)

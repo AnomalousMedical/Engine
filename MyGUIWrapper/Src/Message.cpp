@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "MessageBox/MessageBox.h"
 
 extern "C" _AnomalousExport void Message_setMessageText(MyGUI::Message* message, UStringIn value)
 {

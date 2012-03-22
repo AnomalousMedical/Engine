@@ -124,6 +124,7 @@
     <ClCompile Include="Src\OgreRenderManager.cpp" />
     <ClCompile Include="Src\PointerManager.cpp" />
     <ClCompile Include="Src\Progress.cpp" />
+    <ClCompile Include="src\RenderManager.cpp" />
     <ClCompile Include="Src\ResourceManager.cpp" />
     <ClCompile Include="Src\ScrollView.cpp" />
     <ClCompile Include="Src\StaticImage.cpp" />

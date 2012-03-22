@@ -14,12 +14,14 @@ namespace MyGUIPlugin
         EventManager eventManager;
         bool[] mouseButtonsDown = new bool[(int)MouseButtonCode.NUM_BUTTONS];
         InputManager inputManager;
+        RenderManager renderManager;
 
         public MyGUIUpdate(Gui system, EventManager eventManager)
         {
             this.gui = system;
             this.eventManager = eventManager;
             this.inputManager = InputManager.Instance;
+            this.renderManager = RenderManager.Instance;
             Keyboard keyboard = eventManager.Keyboard;
             keyboard.KeyPressed += new KeyEvent(keyboard_KeyPressed);
             keyboard.KeyReleased += new KeyEvent(keyboard_KeyReleased);
@@ -34,7 +36,7 @@ namespace MyGUIPlugin
         {
             float time = clock.fSeconds;
             gui.fireUpdateEvent(time);
-            gui.injectFrameEntered(clock.fSeconds);
+            renderManager.manualFrameEvent(clock.fSeconds);
         }
 
         void mouse_Moved(Mouse mouse, MouseButtonCode buttonCode)
