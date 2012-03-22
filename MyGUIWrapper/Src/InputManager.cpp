@@ -70,9 +70,9 @@ extern "C" _AnomalousExport MyGUI::Widget* InputManager_getKeyFocusWidget(MyGUI:
 	return inputManager->getKeyFocusWidget();
 }
 
-extern "C" _AnomalousExport ThreeIntHack InputManager_getLastLeftPressed(MyGUI::InputManager* inputManager)
+extern "C" _AnomalousExport ThreeIntHack InputManager_getLastPressedPosition(MyGUI::InputManager* inputManager, MyGUI::MouseButton _id)
 {
-	return inputManager->getLastLeftPressed();
+	return inputManager->getLastPressedPosition(_id);
 }
 
 extern "C" _AnomalousExport ThreeIntHack InputManager_getMousePosition(MyGUI::InputManager* inputManager)
@@ -87,7 +87,7 @@ extern "C" _AnomalousExport ThreeIntHack InputManager_getMousePositionByLayer(My
 
 extern "C" _AnomalousExport void InputManager_resetMouseFocusWidget(MyGUI::InputManager* inputManager)
 {
-	inputManager->resetMouseFocusWidget();
+	inputManager->_resetMouseFocusWidget();
 }
 
 extern "C" _AnomalousExport void InputManager_addWidgetModal(MyGUI::InputManager* inputManager, MyGUI::Widget* widget)

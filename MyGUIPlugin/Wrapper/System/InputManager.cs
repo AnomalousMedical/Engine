@@ -109,9 +109,9 @@ namespace MyGUIPlugin
             return WidgetManager.getWidget(InputManager_getKeyFocusWidget(inputManager));
         }
 
-        public Vector2 getLastLeftPressed()
+        public Vector2 getLastPressedPosition(MouseButtonCode id)
         {
-            return InputManager_getLastLeftPressed(inputManager).toVector2();
+            return InputManager_getLastPressedPosition(inputManager, id).toVector2();
         }
 
         public Vector2 getMousePosition()
@@ -220,8 +220,8 @@ namespace MyGUIPlugin
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr InputManager_getKeyFocusWidget(IntPtr inputManager);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern ThreeIntHack InputManager_getLastLeftPressed(IntPtr inputManager);
+        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern ThreeIntHack InputManager_getLastPressedPosition(IntPtr inputManager, MouseButtonCode _id);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern ThreeIntHack InputManager_getMousePosition(IntPtr inputManager);
