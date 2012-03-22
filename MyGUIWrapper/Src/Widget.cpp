@@ -150,9 +150,9 @@ extern "C" _AnomalousExport bool Widget_getInheritsAlpha(MyGUI::Widget* widget)
 	return widget->getInheritsAlpha();
 }
 
-extern "C" _AnomalousExport bool Widget_setState(MyGUI::Widget* widget, String value)
+extern "C" _AnomalousExport bool Widget__setWidgetState(MyGUI::Widget* widget, String value)
 {
-	return widget->setState(value);
+	return widget->_setWidgetState(value);
 }
 
 extern "C" _AnomalousExport void Widget_setColour(MyGUI::Widget* widget, Color value)
@@ -268,16 +268,6 @@ extern "C" _AnomalousExport void Widget_setNeedToolTip(MyGUI::Widget* widget, bo
 extern "C" _AnomalousExport bool Widget_getNeedToolTip(MyGUI::Widget* widget)
 {
 	return widget->getNeedToolTip();
-}
-
-extern "C" _AnomalousExport void Widget_setEnableToolTip(MyGUI::Widget* widget, bool value)
-{
-	widget->setEnableToolTip(value);
-}
-
-extern "C" _AnomalousExport bool Widget_getEnableToolTip(MyGUI::Widget* widget)
-{
-	return widget->getEnableToolTip();
 }
 
 extern "C" _AnomalousExport void Widget_detachFromWidget(MyGUI::Widget* widget)

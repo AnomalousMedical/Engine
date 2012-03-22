@@ -313,9 +313,9 @@ namespace MyGUIPlugin
             return Marshal.PtrToStringAnsi(Widget_getLayerName(widget));
         }
 
-        public bool setState(String value)
+        public bool _setWidgetState(String value)
         {
-            return Widget_setState(widget, value);
+            return Widget__setWidgetState(widget, value);
         }
 
         public void setColour(Color value)
@@ -531,18 +531,6 @@ namespace MyGUIPlugin
             set
             {
                 Widget_setNeedToolTip(widget, value);
-            }
-        }
-
-        public bool EnableToolTip
-        {
-            get
-            {
-                return Widget_getEnableToolTip(widget);
-            }
-            set
-            {
-                Widget_setEnableToolTip(widget, value);
             }
         }
 
@@ -854,7 +842,7 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Widget_setState(IntPtr widget, String value);
+        private static extern bool Widget__setWidgetState(IntPtr widget, String value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Widget_setColour(IntPtr widget, Color value);
@@ -937,13 +925,6 @@ namespace MyGUIPlugin
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Widget_getNeedToolTip(IntPtr widget);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Widget_setEnableToolTip(IntPtr widget, bool value);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Widget_getEnableToolTip(IntPtr widget);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Widget_detachFromWidget(IntPtr widget);
