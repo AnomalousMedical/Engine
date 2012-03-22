@@ -95,12 +95,12 @@ extern "C" _AnomalousExport bool ComboBox_getSmoothShow(MyGUI::ComboBox* comboBo
 	return comboBox->getSmoothShow();
 }
 
-extern "C" _AnomalousExport void ComboBox_setMaxListHeight(MyGUI::ComboBox* comboBox, int value)
+extern "C" _AnomalousExport void ComboBox_setMaxListLength(MyGUI::ComboBox* comboBox, int value)
 {
-	comboBox->setMaxListHeight(value);
+	comboBox->setMaxListLength(value);
 }
 
-extern "C" _AnomalousExport int ComboBox_getMaxListHeight(MyGUI::ComboBox* comboBox)
+extern "C" _AnomalousExport int ComboBox_getMaxListLength(MyGUI::ComboBox* comboBox)
 {
-	return comboBox->getMaxListHeight();
+	return comboBox->getMaxListLength();
 }

@@ -151,15 +151,15 @@ namespace MyGUIPlugin
             }
         }
 
-        public int MaxListHeight
+        public int MaxListLength
         {
             get
             {
-                return ComboBox_getMaxListHeight(widget);
+                return ComboBox_getMaxListLength(widget);
             }
             set
             {
-                ComboBox_setMaxListHeight(widget, value);
+                ComboBox_setMaxListLength(widget, value);
             }
         }
 
@@ -271,10 +271,10 @@ namespace MyGUIPlugin
         private static extern bool ComboBox_getSmoothShow(IntPtr comboBox);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void ComboBox_setMaxListHeight(IntPtr comboBox, int value);
+        private static extern void ComboBox_setMaxListLength(IntPtr comboBox, int value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern int ComboBox_getMaxListHeight(IntPtr comboBox);
+        private static extern int ComboBox_getMaxListLength(IntPtr comboBox);
 
         #endregion
     }
