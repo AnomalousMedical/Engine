@@ -17,6 +17,7 @@ public:
 	{
 		MyGUI::LogManager* logManager = MyGUI::LogManager::getInstancePtr();
 		logManager->setSTDOutputEnabled(false);
+		logSource.addLogListener(this);
 		logManager->addLogSource(&logSource);
 		/*MyGUI::LogManager::setThirdPartyLogListener(this);
 		MyGUI::LogManager::getInstancePtr()->setSTDOutputEnabled(false);*/

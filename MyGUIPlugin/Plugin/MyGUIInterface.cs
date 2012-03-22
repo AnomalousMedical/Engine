@@ -93,7 +93,7 @@ namespace MyGUIPlugin
 
             //Create Ogre Platform
             ogrePlatform = new OgrePlatform();
-            ogrePlatform.initialize(ogreWindow.OgreRenderWindow, sceneManager, "MyGUI", LogFile);
+            ogrePlatform.initialize(ogreWindow.OgreRenderWindow, sceneManager, "MyGUI", "");
 
             //Create log
             managedLogListener = new ManagedMyGUILogListener();
