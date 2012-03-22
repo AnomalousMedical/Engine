@@ -5,11 +5,6 @@ extern "C" _AnomalousExport MyGUI::PointerManager* PointerManager_getInstancePtr
 	return MyGUI::PointerManager::getInstancePtr();
 }
 
-extern "C" _AnomalousExport bool PointerManager_load(MyGUI::PointerManager* pointerManager, String file)
-{
-	return pointerManager->load(file);
-}
-
 extern "C" _AnomalousExport void PointerManager_setPointer(MyGUI::PointerManager* pointerManager, String name)
 {
 	return pointerManager->setPointer(name);
@@ -37,7 +32,7 @@ extern "C" _AnomalousExport String PointerManager_getDefaultPointer(MyGUI::Point
 
 extern "C" _AnomalousExport void PointerManager_setDefaultPointer(MyGUI::PointerManager* pointerManager, String value)
 {
-	return pointerManager->setDeafultPointer(value);
+	return pointerManager->setDefaultPointer(value);
 }
 
 extern "C" _AnomalousExport String PointerManager_getLayerName(MyGUI::PointerManager* pointerManager)

@@ -47,11 +47,6 @@ namespace MyGUIPlugin
             }
         }
 
-        public bool load(String file)
-        {
-            return PointerManager_load(pointerManager, file);
-        }
-
         public void setPointer(String name)
         {
             PointerManager_setPointer(pointerManager, name);
@@ -120,10 +115,6 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr PointerManager_getInstancePtr();
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool PointerManager_load(IntPtr pointerManager, String file);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void PointerManager_setPointer(IntPtr pointerManager, String name);
