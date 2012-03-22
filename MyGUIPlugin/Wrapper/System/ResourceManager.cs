@@ -34,9 +34,9 @@ namespace MyGUIPlugin
             return ResourceManager_load(resourceManager, file);
         }
 
-        public bool remove(String name)
+        public bool removeByName(String name)
         {
-            return ResourceManager_remove(resourceManager, name);
+            return ResourceManager_removeByName(resourceManager, name);
         }
 
         public void clear()
@@ -60,7 +60,7 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool ResourceManager_remove(IntPtr resourceManager, String name);
+        private static extern bool ResourceManager_removeByName(IntPtr resourceManager, String name);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void ResourceManager_clear(IntPtr resourceManager);
