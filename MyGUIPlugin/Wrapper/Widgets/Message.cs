@@ -46,15 +46,27 @@ namespace MyGUIPlugin
         Icon8 = 1 << (_IndexIcon1 + 7)
     };
 
-    public class Message : Window
+    public delegate void MyGUIMessageEvent(Message message, EventArgs args);
+    public class Message
     {
-        public event MyGUIEvent MessageBoxResult;
+        public event MyGUIMessageEvent MessageBoxResult;
+        private IntPtr widget;
+        private EventMessageBoxResultTranslator messageResultTranslator;
+
+        internal IntPtr WidgetPtr
+        {
+            get
+            {
+                return widget;
+            }
+        }
 
         public Message(IntPtr message)
-            : base(message)
         {
+            this.widget = message;
+            messageResultTranslator = new EventMessageBoxResultTranslator(this);
             //Events work a bit different for this class. See the messageBoxClosed function for more info.
-            eventManager.addDelegate<EventMessageBoxResultTranslator>(messageBoxClosed);
+            messageResultTranslator.BoundEvent += messageBoxClosed;
         }
 
         public void setMessageText(String value)
@@ -72,19 +84,9 @@ namespace MyGUIPlugin
             Message_setSmoothShow(widget, value);
         }
 
-        public String getDefaultLayer()
-        {
-            return Marshal.PtrToStringAnsi(Message_getDefaultLayer(widget));
-        }
-
         public void setMessageIcon(MessageBoxStyle value)
         {
             Message_setMessageIcon(widget, value);
-        }
-
-        public void setWindowFade(bool value)
-        {
-            Message_setWindowFade(widget, value);
         }
 
         public void endMessage(MessageBoxStyle result)
@@ -124,7 +126,7 @@ namespace MyGUIPlugin
          String button3,  //regular
          String button4) //regular
         {
-            return WidgetManager.getWidget(Message_createMessageBox(skin, caption, message, style, layer, modal, button1, button2, button3, button4)) as Message;
+            return new Message(Message_createMessageBox(skin, caption, message, style, layer, modal, button1, button2, button3, button4));
         }
 
         //Variations of createMessageBox
@@ -213,7 +215,7 @@ namespace MyGUIPlugin
         /// </summary>
         /// <param name="source">The source widget.</param>
         /// <param name="args">The event args.</param>
-        private void messageBoxClosed(Widget source, EventArgs args)
+        private void messageBoxClosed(Message source, EventArgs args)
         {
             if (MessageBoxResult != null)
             {
@@ -233,13 +235,7 @@ namespace MyGUIPlugin
         private static extern void Message_setSmoothShow(IntPtr message, bool value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr Message_getDefaultLayer(IntPtr message);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Message_setMessageIcon(IntPtr message, MessageBoxStyle value);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Message_setWindowFade(IntPtr message, bool value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Message_endMessage(IntPtr message, MessageBoxStyle result);

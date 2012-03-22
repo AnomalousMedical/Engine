@@ -33,10 +33,9 @@ namespace MyGUIPlugin
                     Edit = 15,
                         ComboBox = 16,
 			        Window = 17,
-				        Message = 18,
-			        TabItem = 19,
-                Tab = 20,
-                VScroll = 21,
+			        TabItem = 18,
+                Tab = 19,
+                VScroll = 20,
         }
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -149,9 +148,6 @@ namespace MyGUIPlugin
                 case WidgetType.Window:
                     return new Window(widget);
 
-                case WidgetType.Message:
-                    return new Message(widget);
-
                 case WidgetType.TabItem:
                     return new Widget(widget);
 
@@ -226,9 +222,6 @@ namespace MyGUIPlugin
 
                 case WidgetType.Window:
                     return wrapperReturnedWidget is Window;
-
-                case WidgetType.Message:
-                    return wrapperReturnedWidget is Message;
 
                 case WidgetType.TabItem:
                     return wrapperReturnedWidget is Widget;

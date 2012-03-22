@@ -20,10 +20,9 @@ enum WidgetType
             Edit = 15,
                 ComboBox = 16,
 			Window = 17,
-				Message = 18,
-			TabItem = 19,
-        Tab = 20,
-        VScroll = 21,
+			TabItem = 18,
+        Tab = 19,
+        VScroll = 20,
 };
 
 extern "C" _AnomalousExport WidgetType WidgetManager_getType(MyGUI::Widget* widget)
@@ -53,11 +52,6 @@ extern "C" _AnomalousExport WidgetType WidgetManager_getType(MyGUI::Widget* widg
 
 		if(widget->isType<MyGUI::Window>())
 		{
-			if(widget->isType<MyGUI::Message>())
-			{
-				return Message;
-			}
-
 			return Window;
 		}
 

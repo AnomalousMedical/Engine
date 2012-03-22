@@ -15,19 +15,9 @@ extern "C" _AnomalousExport void Message_setSmoothShow(MyGUI::Message* message, 
 	message->setSmoothShow(value);
 }
 
-extern "C" _AnomalousExport String Message_getDefaultLayer(MyGUI::Message* message)
-{
-	return message->getDefaultLayer().c_str();
-}
-
 extern "C" _AnomalousExport void Message_setMessageIcon(MyGUI::Message* message, MyGUI::MessageBoxStyle::Enum value)
 {
 	message->setMessageIcon(value);
-}
-
-extern "C" _AnomalousExport void Message_setWindowFade(MyGUI::Message* message, bool value)
-{
-	message->setWindowFade(value);
 }
 
 extern "C" _AnomalousExport void Message_endMessage(MyGUI::Message* message, MyGUI::MessageBoxStyle::Enum result)

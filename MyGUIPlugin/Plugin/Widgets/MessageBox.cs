@@ -44,15 +44,14 @@ namespace MyGUIPlugin
             delegates.Add(box, callback);
         }
 
-        static void box_MessageBoxResult(Widget source, EventArgs e)
+        static void box_MessageBoxResult(Message source, EventArgs e)
         {
-            Message srcMsg = (Message)source;
-            Delegate del = delegates[srcMsg];
+            Delegate del = delegates[source];
             if (del != null)
             {
                 del.DynamicInvoke(((MessageEventArgs)e).Result);
             }
-            delegates.Remove(srcMsg);
+            delegates.Remove(source);
         }
     }
 }
