@@ -44,11 +44,6 @@ namespace MyGUIPlugin
             LayerManager_upLayerItem(layerManager, item.WidgetPtr);
         }
 
-        public bool load(String file)
-        {
-            return LayerManager_load(layerManager, file);
-        }
-
         public bool isExist(String name)
         {
             return LayerManager_isExist(layerManager, name);
@@ -71,10 +66,6 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void LayerManager_upLayerItem(IntPtr layerManager, IntPtr item);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool LayerManager_load(IntPtr layerManager, String file);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]

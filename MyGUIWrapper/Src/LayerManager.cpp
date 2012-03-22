@@ -20,11 +20,6 @@ extern "C" _AnomalousExport void LayerManager_upLayerItem(MyGUI::LayerManager* l
 	layerManager->upLayerItem(item);
 }
 
-extern "C" _AnomalousExport bool LayerManager_load(MyGUI::LayerManager* layerManager, String file)
-{
-	return layerManager->load(file);
-}
-
 extern "C" _AnomalousExport bool LayerManager_isExist(MyGUI::LayerManager* layerManager, String name)
 {
 	return layerManager->isExist(name);
