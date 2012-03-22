@@ -115,9 +115,9 @@ extern "C" _AnomalousExport void Widget_setVisible(MyGUI::Widget* widget, bool v
 	widget->setVisible(value);
 }
 
-extern "C" _AnomalousExport bool Widget_isVisible(MyGUI::Widget* widget)
+extern "C" _AnomalousExport bool Widget_getVisible(MyGUI::Widget* widget)
 {
-	return widget->isVisible();
+	return widget->getVisible();
 }
 
 extern "C" _AnomalousExport void Widget_setAlign(MyGUI::Widget* widget, MyGUI::Align::Enum value)
@@ -155,9 +155,9 @@ extern "C" _AnomalousExport void Widget_setInheritsAlpha(MyGUI::Widget* widget, 
 	widget->setInheritsAlpha(value);
 }
 
-extern "C" _AnomalousExport bool Widget_isInheritsAlpha(MyGUI::Widget* widget)
+extern "C" _AnomalousExport bool Widget_getInheritsAlpha(MyGUI::Widget* widget)
 {
-	return widget->isInheritsAlpha();
+	return widget->getInheritsAlpha();
 }
 
 extern "C" _AnomalousExport bool Widget_setState(MyGUI::Widget* widget, String value)
@@ -190,9 +190,9 @@ extern "C" _AnomalousExport void Widget_setNeedKeyFocus(MyGUI::Widget* widget, b
 	widget->setNeedKeyFocus(value);
 }
 
-extern "C" _AnomalousExport bool Widget_isNeedKeyFocus(MyGUI::Widget* widget)
+extern "C" _AnomalousExport bool Widget_getNeedKeyFocus(MyGUI::Widget* widget)
 {
-	return widget->isNeedKeyFocus();
+	return widget->getNeedKeyFocus();
 }
 
 extern "C" _AnomalousExport void Widget_setNeedMouseFocus(MyGUI::Widget* widget, bool value)
@@ -210,9 +210,9 @@ extern "C" _AnomalousExport void Widget_setForwardMouseWheelToParent(MyGUI::Widg
 	widget->setForwardMouseWheelToParent(value);
 }
 
-extern "C" _AnomalousExport bool Widget_isNeedMouseFocus(MyGUI::Widget* widget)
+extern "C" _AnomalousExport bool Widget_getNeedMouseFocus(MyGUI::Widget* widget)
 {
-	return widget->isNeedMouseFocus();
+	return widget->getNeedMouseFocus();
 }
 
 extern "C" _AnomalousExport void Widget_setInheritsPick(MyGUI::Widget* widget, bool value)
@@ -220,9 +220,9 @@ extern "C" _AnomalousExport void Widget_setInheritsPick(MyGUI::Widget* widget, b
 	widget->setInheritsPick(value);
 }
 
-extern "C" _AnomalousExport bool Widget_isInheritsPick(MyGUI::Widget* widget)
+extern "C" _AnomalousExport bool Widget_getInheritsPick(MyGUI::Widget* widget)
 {
-	return widget->isInheritsPick();
+	return widget->getInheritsPick();
 }
 
 extern "C" _AnomalousExport void Widget_setMaskPick(MyGUI::Widget* widget, String filename)
@@ -240,9 +240,9 @@ extern "C" _AnomalousExport void Widget_setEnabledSilent(MyGUI::Widget* widget, 
 	widget->setEnabledSilent(value);
 }
 
-extern "C" _AnomalousExport bool Widget_isEnabled(MyGUI::Widget* widget)
+extern "C" _AnomalousExport bool Widget_getEnabled(MyGUI::Widget* widget)
 {
-	return widget->isEnabled();
+	return widget->getEnabled();
 }
 
 extern "C" _AnomalousExport void Widget_setPointer(MyGUI::Widget* widget, String value)

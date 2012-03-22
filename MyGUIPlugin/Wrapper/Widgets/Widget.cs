@@ -411,7 +411,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Widget_isVisible(widget);
+                return Widget_getVisible(widget);
             }
             set
             {
@@ -466,7 +466,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Widget_isInheritsAlpha(widget);
+                return Widget_getInheritsAlpha(widget);
             }
             set
             {
@@ -478,7 +478,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Widget_isNeedKeyFocus(widget);
+                return Widget_getNeedKeyFocus(widget);
             }
             set
             {
@@ -490,7 +490,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Widget_isNeedMouseFocus(widget);
+                return Widget_getNeedMouseFocus(widget);
             }
             set
             {
@@ -514,7 +514,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Widget_isInheritsPick(widget);
+                return Widget_getInheritsPick(widget);
             }
             set
             {
@@ -526,7 +526,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Widget_isEnabled(widget);
+                return Widget_getEnabled(widget);
             }
             set
             {
@@ -891,7 +891,7 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Widget_isVisible(IntPtr widget);
+        private static extern bool Widget_getVisible(IntPtr widget);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Widget_setAlign(IntPtr widget, Align value);
@@ -916,7 +916,7 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Widget_isInheritsAlpha(IntPtr widget);
+        private static extern bool Widget_getInheritsAlpha(IntPtr widget);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
@@ -946,14 +946,14 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Widget_isNeedKeyFocus(IntPtr widget);
+        private static extern bool Widget_getNeedKeyFocus(IntPtr widget);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Widget_setNeedMouseFocus(IntPtr widget, bool value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Widget_isNeedMouseFocus(IntPtr widget);
+        private static extern bool Widget_getNeedMouseFocus(IntPtr widget);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Widget_setForwardMouseWheelToParent(IntPtr widget, bool value);
@@ -967,7 +967,7 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Widget_isInheritsPick(IntPtr widget);
+        private static extern bool Widget_getInheritsPick(IntPtr widget);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Widget_setMaskPick(IntPtr widget, String filename);
@@ -980,7 +980,7 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Widget_isEnabled(IntPtr widget);
+        private static extern bool Widget_getEnabled(IntPtr widget);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Widget_setPointer(IntPtr widget, String value);
