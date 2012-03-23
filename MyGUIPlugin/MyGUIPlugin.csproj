@@ -219,17 +219,24 @@
     <EmbeddedResource Include="Resources\core_pointers_W32.xml" />
     <EmbeddedResource Include="Resources\core_resource.xml" />
     <EmbeddedResource Include="Resources\core_settings.xml" />
-    <EmbeddedResource Include="Resources\core_skin.xml" />
+    <EmbeddedResource Include="Resources\core_skin.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\core_theme.xml" />
     <EmbeddedResource Include="Resources\core_theme_osx.xml" />
     <EmbeddedResource Include="Resources\core_theme_osx_tag.xml" />
     <EmbeddedResource Include="Resources\core_theme_tag.xml" />
     <None Include="Resources\Editor\core_theme_tag_filesystem.xml" />
     <EmbeddedResource Include="Resources\core_theme_windows_tag.xml" />
-    <None Include="Resources\Editor\widgets.xml" />
+    <None Include="Resources\Editor\widgets.xml">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\DejaVuSans.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\custom_skin.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
