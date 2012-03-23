@@ -155,12 +155,9 @@ ButtonImage
 		<Child type="ImageBox" skin="ButtonStaticImage" offset = "0 0 16 16" align = "Stretch" name = "Image"/>
 	</Resource>
 <!--*************************
-CheckBox
+CheckBoxSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "CheckBox" size = "100 21" texture = "#{MyGUI_Theme_Texture}">
-    <Property key="FontName" value = "Default" />
-    <Property key="TextAlign" value = "Left VCenter" />
-    <Property key="TextColour" value = "#{MyGUI_Theme_Button_ColorNormal}"/>
+  <Resource type="ResourceSkin" name = "CheckBoxSkin" size = "100 21" texture = "#{MyGUI_Theme_Texture}">
     <BasisSkin type="SubSkin" offset = "0 0 12 12" align = "Left VCenter">
       <State name="disabled" offset = "613 134 12 12"/>
       <State name="normal" offset = "613 121 12 12"/>
@@ -175,12 +172,9 @@ CheckBox
     </BasisSkin>
   </Resource>
 <!--*************************
-RadioButton
+RadioButtonSkin
 *****************************-->
-	<Resource type="ResourceSkin" name = "RadioButton" size = "100 19" texture = "#{MyGUI_Theme_Texture}">
-		<Property key="FontName" value = "Default" />
-		<Property key="TextAlign" value = "Left VCenter" />
-		<Property key="TextColour" value = "#{MyGUI_Theme_Button_ColorNormal}"/>
+	<Resource type="ResourceSkin" name = "RadioButtonSkin" size = "100 19" texture = "#{MyGUI_Theme_Texture}">
 		<BasisSkin type="SubSkin" offset = "0 0 12 12" align = "Left VCenter">
 			<State name="disabled" offset = "613 163 12 12"/>
 			<State name="normal" offset = "613 150 12 12"/>
@@ -1639,16 +1633,9 @@ HScrollRightPart
 		</BasisSkin>
 	</Resource>
 <!--*************************
-ScrollBarH
+ScrollPanelHSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "ScrollBarH" size = "49 15" texture = "#{MyGUI_Theme_Texture}" >
-    <Property key="TrackRangeMargins" value = "14 12" />
-    <Property key="MinTrackSize" value = "19" />
-    <Child type="Button" skin="HScrollLeftPart" offset = "15 0 6 15" align = "Stretch" name = "FirstPart"/>
-    <Child type="Button" skin="HScrollRightPart" offset = "21 0 6 15" align = "Right VStretch" name = "SecondPart"/>
-    <Child type="Button" skin="ButtonLeftSkin" offset = "2 2 10 12" align = "Left VStretch" name = "Start"/>
-    <Child type="Button" skin="ButtonRightSkin" offset = "37 2 10 12" align = "Right VStretch" name = "End"/>
-    <Child type="Button" skin="HScrollTrack" offset = "18 2 15 12" align = "Left VStretch" name = "Track"/>
+  <Resource type="ResourceSkin" name = "ScrollPanelHSkin" size = "49 15" texture = "#{MyGUI_Theme_Texture}" >
 <!--Left-->
     <BasisSkin type="SubSkin" offset = "0 0 2 15" align = "Left VStretch">
       <State name="normal" offset = "931 77 2 15"/>
