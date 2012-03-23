@@ -21,7 +21,7 @@ namespace MyGUIPlugin
             int totalWidth = 0;
             if (Columns.Count > 0)
             {
-                int size = (int)(1.0f / Columns.Count * scrollView.ClientCoord.width);
+                int size = (int)(1.0f / Columns.Count * scrollView.ViewCoord.width);
                 foreach (TableColumn column in Columns)
                 {
                     column.Width = size;

@@ -40,7 +40,7 @@ namespace MyGUIPlugin
         {
             if (!SuppressLayout)
             {
-                int width = scrollView.ClientCoord.width;
+                int width = scrollView.ViewCoord.width;
                 int currentY = 0;
                 foreach (TreeNode rootNode in rootNodes)
                 {

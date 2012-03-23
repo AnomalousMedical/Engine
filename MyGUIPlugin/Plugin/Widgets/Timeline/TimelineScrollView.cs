@@ -85,7 +85,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return scrollView.ClientCoord;
+                return scrollView.ViewCoord;
             }
         }
 
