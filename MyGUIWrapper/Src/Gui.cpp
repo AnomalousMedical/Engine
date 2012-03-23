@@ -30,16 +30,6 @@ extern "C" _AnomalousExport MyGUI::Widget* Gui_createWidgetRealT(MyGUI::Gui* gui
 	return gui->createWidgetRealT(type, skin, left, top, width, height, align, layer, name);
 }
 
-extern "C" _AnomalousExport int Gui_getViewWidth(MyGUI::Gui* gui)
-{
-	return MyGUI::RenderManager::getInstance().getViewSize().width;
-}
-
-extern "C" _AnomalousExport int Gui_getViewHeight(MyGUI::Gui* gui)
-{
-	return MyGUI::RenderManager::getInstance().getViewSize().height;
-}
-
 extern "C" _AnomalousExport void Gui_destroyWidget(MyGUI::Gui* gui, MyGUI::Widget* widget)
 {
 	gui->destroyWidget(widget);

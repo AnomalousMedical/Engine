@@ -47,8 +47,8 @@ namespace MyGUIPlugin
         {
             int left = source.AbsoluteLeft;
             int top = source.AbsoluteTop + source.Height;
-            int guiWidth = Gui.Instance.getViewWidth();
-            int guiHeight = Gui.Instance.getViewHeight();
+            int guiWidth = RenderManager.Instance.ViewWidth;
+            int guiHeight = RenderManager.Instance.ViewHeight;
 
             int right = left + menu.Width;
             int bottom = top + menu.Height;

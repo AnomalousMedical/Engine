@@ -131,8 +131,8 @@ namespace MyGUIPlugin
             int right = (int)(left + desiredLocation.Width);
             int bottom = (int)(top + desiredLocation.Height);
 
-            int guiWidth = Gui.Instance.getViewWidth();
-            int guiHeight = Gui.Instance.getViewHeight();
+            int guiWidth = RenderManager.Instance.ViewWidth;
+            int guiHeight = RenderManager.Instance.ViewHeight;
 
             if (right > guiWidth)
             {
@@ -178,8 +178,8 @@ namespace MyGUIPlugin
 
         public void center()
         {
-            desiredLocation.Left = Gui.Instance.getViewWidth() / 2 - window.Width / 2;
-            desiredLocation.Top = Gui.Instance.getViewHeight() / 2 - window.Height / 2;
+            desiredLocation.Left = RenderManager.Instance.ViewWidth / 2 - window.Width / 2;
+            desiredLocation.Top = RenderManager.Instance.ViewHeight / 2 - window.Height / 2;
             window.setCoord((int)desiredLocation.Left, (int)desiredLocation.Top, (int)desiredLocation.Width, (int)desiredLocation.Height);
         }
 

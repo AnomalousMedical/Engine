@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace MyGUIPlugin
 {
-    class RenderManager
+    public class RenderManager
     {
         private static RenderManager instance = null;
 
@@ -22,16 +22,32 @@ namespace MyGUIPlugin
             }
         }
 
-        private IntPtr resourceManager;
+        private IntPtr renderManager;
 
         private RenderManager()
         {
-            resourceManager = RenderManager_getInstance();
+            renderManager = RenderManager_getInstance();
         }
 
         public void manualFrameEvent(float time)
         {
-            RenderManager_manualFrameEvent(resourceManager, time);
+            RenderManager_manualFrameEvent(renderManager, time);
+        }
+
+        public int ViewWidth
+        {
+            get
+            {
+                return RenderManager_getViewWidth(renderManager);
+            }
+        }
+
+        public int ViewHeight
+        {
+            get
+            {
+                return RenderManager_getViewHeight(renderManager);
+            }
         }
 
         #region PInvoke
@@ -41,6 +57,12 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void RenderManager_manualFrameEvent(IntPtr resourceManager, float time);
+
+        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern int RenderManager_getViewWidth(IntPtr gui);
+
+        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern int RenderManager_getViewHeight(IntPtr gui);
 
         #endregion
     }

@@ -334,8 +334,8 @@ namespace MyGUIPlugin
             int right = left + Width;
             int bottom = top + Height;
 
-            int guiWidth = Gui.Instance.getViewWidth();
-            int guiHeight = Gui.Instance.getViewHeight();
+            int guiWidth = RenderManager.Instance.ViewWidth;
+            int guiHeight = RenderManager.Instance.ViewHeight;
 
             if (right > guiWidth)
             {

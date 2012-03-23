@@ -107,8 +107,8 @@ namespace MyGUIPlugin
 
         public void show(int left, int top)
         {
-            int guiWidth = Gui.Instance.getViewWidth();
-            int guiHeight = Gui.Instance.getViewHeight();
+            int guiWidth = RenderManager.Instance.ViewWidth;
+            int guiHeight = RenderManager.Instance.ViewHeight;
 
             int right = left + widget.Width;
             int bottom = top + widget.Height;

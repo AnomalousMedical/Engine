@@ -9,3 +9,13 @@ extern "C" _AnomalousExport void RenderManager_manualFrameEvent(MyGUI::RenderMan
 {
 	return renderManager->manualFrameEvent(time);
 }
+
+extern "C" _AnomalousExport int RenderManager_getViewWidth(MyGUI::RenderManager* renderManager)
+{
+	return renderManager->getViewSize().width;
+}
+
+extern "C" _AnomalousExport int RenderManager_getViewHeight(MyGUI::RenderManager* renderManager)
+{
+	return renderManager->getViewSize().height;
+}

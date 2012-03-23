@@ -17,13 +17,13 @@ namespace MyGUIPlugin
             Size2 textSize = tooltipWidget.getTextSize();
             tooltipWidget.setSize((int)textSize.Width + 6, (int)textSize.Height + 4);
             tooltipWidget.Visible = false;
-            int viewHeight = Gui.Instance.getViewHeight();
+            int viewHeight = RenderManager.Instance.ViewHeight;
             if (tooltipWidget.Bottom > viewHeight)
             {
                 viewHeight -= tooltipWidget.Bottom;
                 tooltipWidget.setPosition(tooltipWidget.Left, tooltipWidget.Top + viewHeight);
             }
-            int viewWidth = Gui.Instance.getViewWidth();
+            int viewWidth = RenderManager.Instance.ViewWidth;
             if (tooltipWidget.Right > viewWidth)
             {
                 viewWidth -= tooltipWidget.Right;

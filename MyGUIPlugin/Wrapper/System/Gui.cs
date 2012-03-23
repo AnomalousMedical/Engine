@@ -92,16 +92,6 @@ namespace MyGUIPlugin
             return WidgetManager.getWidget(Gui_createWidgetRealT(gui, type, skin, left, top, width, height, align, layer, name));
         }
 
-        public int getViewWidth()
-        {
-            return Gui_getViewWidth(gui);
-        }
-
-        public int getViewHeight()
-        {
-            return Gui_getViewHeight(gui);
-        }
-
         public void destroyWidget(Widget widget)
         {
             Gui_destroyWidget(gui, widget.WidgetPtr);
@@ -123,7 +113,7 @@ namespace MyGUIPlugin
             IntVector2 location = new IntVector2(widget.Left, widget.Top);
             IntSize2 size = new IntSize2(widget.Width, widget.Height);
 
-            int viewWidth = getViewWidth();
+            int viewWidth = RenderManager.Instance.ViewWidth;
             if (location.x + size.Width > viewWidth)
             {
                 needsMoved = true;
@@ -134,7 +124,7 @@ namespace MyGUIPlugin
                 }
             }
 
-            int viewHeight = getViewHeight();
+            int viewHeight = RenderManager.Instance.ViewHeight;
             if (location.y + size.Height > viewHeight)
             {
                 needsMoved = true;
@@ -184,12 +174,6 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Gui_createWidgetRealT(IntPtr gui, String type, String skin, int left, int top, int width, int height, Align align, String layer, String name);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern int Gui_getViewWidth(IntPtr gui);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern int Gui_getViewHeight(IntPtr gui);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Gui_destroyWidget(IntPtr gui, IntPtr widget);
