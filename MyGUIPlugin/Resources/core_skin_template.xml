@@ -127,6 +127,18 @@ ButtonImage
   </Resource>
   
   <!--*************************
+TextBox
+*****************************-->
+  <Resource type="ResourceLayout" name="TextBox" version="3.2.0">
+    <Widget type="Widget" skin="TextBoxSkin" position="20 20 16 16" name="Root">
+      <Property key="FontName" value = "Default" />
+      <Property key="TextAlign" value = "Default" />
+      <Property key="TextColour" value = "#{MyGUI_Theme_Button_ColorNormal}" />
+      <UserString key="LE_TargetWidgetType" value="TextBox"/>
+    </Widget>
+  </Resource>
+  
+  <!--*************************
 EditBox
 *****************************-->
   <Resource type="ResourceLayout" name="EditBox" version="3.2.0">
@@ -141,4 +153,73 @@ EditBox
     </Widget>
   </Resource>
 
+  <!--*************************
+EditBoxStretch
+*****************************-->
+  <Resource type="ResourceLayout" name="EditBoxStretch" version="3.2.0">
+    <Widget type="Widget" skin="EditBoxSkin" position="25 10 55 55" name="Root">
+      <Property key="MultiLine" value="true"/>
+      <UserString key="LE_TargetWidgetType" value="EditBox"/>
+      <Widget type="TextBox" skin="EditClientSkin" position="2 3 33 32" align="Stretch" name="Client">
+        <Property key="TextAlign" value="Default"/>
+        <Property key="TextColour" value="0 0 0"/>
+        <Property key="FontName" value="Default"/>
+        <Property key="Pointer" value="beam"/>
+      </Widget>
+      <Widget type="ScrollBar" skin="ScrollBarH" position="2 36 34 15" align="HStretch Bottom" name="HScroll"/>
+      <Widget type="ScrollBar" skin="ScrollBarV" position="36 2 15 34" align="Right VStretch" name="VScroll"/>
+    </Widget>
+  </Resource>
+
+  <!--*************************
+EditBoxEmpty
+*****************************-->
+  <Resource type="ResourceLayout" name="EditBoxEmpty" version="3.2.0">
+    <Widget type="Widget" skin="PanelEmpty" position="65 10 16 16" name="Root">
+      <UserString key="LE_TargetWidgetType" value="EditBox"/>
+      <Widget type="TextBox" skin="EditClientSkin" position="0 0 16 16" align="Stretch" name="Client">
+        <Property key="TextAlign" value="Default"/>
+        <Property key="FontName" value="Default"/>
+        <Property key="TextColour" value="0 0 0"/>
+        <Property key="Pointer" value="beam"/>
+      </Widget>
+    </Widget>
+  </Resource>
+
+  <!--*************************
+WordWrapEmpty
+*****************************-->
+  <Resource type="ResourceLayout" name="WordWrapEmpty" version="3.2.0">
+    <Widget type="Widget" skin="PanelEmpty" position="65 10 32 28" name="Root">
+      <Property key="WordWrap" value="true"/>
+      <UserString key="LE_TargetWidgetType" value="EditBox"/>
+      <Widget type="TextBox" skin="EditClientSkin" position="0 0 16 28" align="Stretch" name="Client">
+        <Property key="TextAlign" value="Default"/>
+        <Property key="FontName" value="Default"/>
+        <Property key="TextColour" value="0 0 0"/>
+      </Widget>
+      <Widget type="ScrollBar" skin="ScrollBarV" position="17 0 15 28" align="Right VStretch" name="VScroll"/>
+    </Widget>
+  </Resource>
+  
+  <!--*************************
+ComboBox
+*****************************-->
+  <Resource type="ResourceLayout" name="ComboBox" version="3.2.0">
+    <Widget type="Widget" skin="ComboBoxSkin" position="65 10 100 26" name="Root">
+      <Property key="MaxListLength" value="200"/>
+      <Property key="SmoothShow" value="true"/>
+      <UserString key="LE_TargetWidgetType" value="ComboBox"/>
+      <Widget type="TextBox" skin="EditClientSkin" position="2 2 75 20" align="Stretch" name="Client">
+        <Property key="TextAlign" value="Left VCenter"/>
+        <Property key="TextColour" value="0 0 0"/>
+        <Property key="FontName" value="Default"/>
+        <Property key="Pointer" value="beam"/>
+      </Widget>
+      <Widget type="ListBox" skin="ListBox" position="65 38 100 200" style="Popup" layer="Popup" name="List">
+        <Property key="Visible" value="false"/>
+      </Widget>
+      <Widget type="Button" skin="ButtonDownSkin" position="79 7 14 11" align="Right VCenter" name="Button"/>
+    </Widget>
+  </Resource>
 </MyGUI>
