@@ -385,15 +385,92 @@ Button
       <State name="pushed" colour="#{MyGUI_Theme_Button_ColorPushed}" shift = "true"/>
     </BasisSkin>
   </Resource>
-<!--*************************
-WordWrapEmpty
+
+  <!--*************************
+EditClientSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "WordWrapEmpty" size = "32 28" texture = "#{MyGUI_Theme_Texture}" >
-    <Property key="WordWrap" value = "true" />
-    <Child type="Widget" skin="EditClient" offset = "0 0 16 28" align = "Stretch" name = "Client"/>
-    <Child type="ScrollBar" skin="ScrollBarV" offset = "17 0 15 28" align = "Right VStretch" name = "VScroll"/>
+  <Resource type="ResourceSkin" name="EditClientSkin" size="16 16">
+    <BasisSkin type="EditText" offset="0 0 16 16" align="Stretch"/>
   </Resource>
-<!--*************************
+
+  <!--*************************
+EditBoxSkin
+*****************************-->
+  <Resource type="ResourceSkin" name="EditBoxSkin" size="29 26" texture="#{MyGUI_Theme_Texture}">
+    <!--TopLeft-->
+    <BasisSkin type="SubSkin" offset = "0 0 2 5" align = "Left Top">
+      <State name="disabled" offset = "882 132 2 5"/>
+      <State name="normal" offset = "882 154 2 5"/>
+      <State name="highlighted" offset = "882 176 2 5"/>
+      <State name="normal_checked" offset = "882 198 2 5"/>
+      <State name="pushed" offset = "882 220 2 5"/>
+    </BasisSkin>
+    <!--TopRight-->
+    <BasisSkin type="SubSkin" offset = "27 0 2 5" align = "Right Top">
+      <State name="disabled" offset = "901 132 2 5"/>
+      <State name="normal" offset = "901 154 2 5"/>
+      <State name="highlighted" offset = "901 176 2 5"/>
+      <State name="normal_checked" offset = "901 198 2 5"/>
+      <State name="pushed" offset = "901 220 2 5"/>
+    </BasisSkin>
+    <!--BottomLeft-->
+    <BasisSkin type="SubSkin" offset = "0 21 2 5" align = "Left Bottom">
+      <State name="disabled" offset = "882 148 2 5"/>
+      <State name="normal" offset = "882 170 2 5"/>
+      <State name="highlighted" offset = "882 192 2 5"/>
+      <State name="normal_checked" offset = "882 214 2 5"/>
+      <State name="pushed" offset = "882 236 2 5"/>
+    </BasisSkin>
+    <!--BottomRight-->
+    <BasisSkin type="SubSkin" offset = "27 21 2 5" align = "Right Bottom">
+      <State name="disabled" offset = "901 148 2 5"/>
+      <State name="normal" offset = "901 170 2 5"/>
+      <State name="highlighted" offset = "901 192 2 5"/>
+      <State name="normal_checked" offset = "901 214 2 5"/>
+      <State name="pushed" offset = "901 236 2 5"/>
+    </BasisSkin>
+    <!--Top-->
+    <BasisSkin type="SubSkin" offset = "2 0 25 5" align = "HStretch Top">
+      <State name="disabled" offset = "884 132 17 5"/>
+      <State name="normal" offset = "884 154 17 5"/>
+      <State name="highlighted" offset = "884 176 17 5"/>
+      <State name="normal_checked" offset = "884 198 17 5"/>
+      <State name="pushed" offset = "884 220 17 5"/>
+    </BasisSkin>
+    <!--Left-->
+    <BasisSkin type="SubSkin" offset = "0 5 2 16" align = "Left VStretch">
+      <State name="disabled" offset = "882 137 2 11"/>
+      <State name="normal" offset = "882 159 2 11"/>
+      <State name="highlighted" offset = "882 181 2 11"/>
+      <State name="normal_checked" offset = "882 203 2 11"/>
+      <State name="pushed" offset = "882 225 2 11"/>
+    </BasisSkin>
+    <!--Right-->
+    <BasisSkin type="SubSkin" offset = "27 5 2 16" align = "Right VStretch">
+      <State name="disabled" offset = "901 137 2 11"/>
+      <State name="normal" offset = "901 159 2 11"/>
+      <State name="highlighted" offset = "901 181 2 11"/>
+      <State name="normal_checked" offset = "901 203 2 11"/>
+      <State name="pushed" offset = "901 225 2 11"/>
+    </BasisSkin>
+    <!--Bottom-->
+    <BasisSkin type="SubSkin" offset = "2 21 25 5" align = "HStretch Bottom">
+      <State name="disabled" offset = "884 148 17 5"/>
+      <State name="normal" offset = "884 170 17 5"/>
+      <State name="highlighted" offset = "884 192 17 5"/>
+      <State name="normal_checked" offset = "884 214 17 5"/>
+      <State name="pushed" offset = "884 236 17 5"/>
+    </BasisSkin>
+    <!--Middle-->
+    <BasisSkin type="SubSkin" offset = "2 5 25 16" align = "HStretch VStretch">
+      <State name="disabled" offset = "884 137 17 11"/>
+      <State name="normal" offset = "884 159 17 11"/>
+      <State name="highlighted" offset = "884 181 17 11"/>
+      <State name="normal_checked" offset = "884 203 17 11"/>
+      <State name="pushed" offset = "884 225 17 11"/>
+    </BasisSkin>
+  </Resource>
+  <!--*************************
 EditClient
 *****************************-->
   <Resource type="ResourceSkin" name = "EditClient" size = "10 10">
@@ -402,6 +479,14 @@ EditClient
     <Property key="TextColour" value = "#{MyGUI_Theme_Button_ColorNormal}" />
     <Property key="Pointer" value = "beam" />
     <BasisSkin type="EditText" offset = "0 0 10 10" align = "Stretch"/>
+  </Resource>
+<!--*************************
+WordWrapEmpty
+*****************************-->
+  <Resource type="ResourceSkin" name = "WordWrapEmpty" size = "32 28" texture = "#{MyGUI_Theme_Texture}" >
+    <Property key="WordWrap" value = "true" />
+    <Child type="Widget" skin="EditClient" offset = "0 0 16 28" align = "Stretch" name = "Client"/>
+    <Child type="ScrollBar" skin="ScrollBarV" offset = "17 0 15 28" align = "Right VStretch" name = "VScroll"/>
   </Resource>
 <!--*************************
 EditBoxStretch
@@ -483,84 +568,6 @@ EditBoxStretch
       <State name="pushed" offset = "884 225 17 11"/>
     </BasisSkin>
   </Resource>
-<!--*************************
-EditBox    
-*****************************-->
-	<Resource type="ResourceSkin" name = "EditBox" size = "29 26" texture = "#{MyGUI_Theme_Texture}" >
-		<Child type="Widget" skin="EditClient" offset = "4 2 23 26" align = "Stretch" name = "Client"/>
-    <!--TopLeft-->
-    <BasisSkin type="SubSkin" offset = "0 0 2 5" align = "Left Top">
-      <State name="disabled" offset = "882 132 2 5"/>
-      <State name="normal" offset = "882 154 2 5"/>
-      <State name="highlighted" offset = "882 176 2 5"/>
-      <State name="normal_checked" offset = "882 198 2 5"/>
-      <State name="pushed" offset = "882 220 2 5"/>
-    </BasisSkin>
-    <!--TopRight-->
-    <BasisSkin type="SubSkin" offset = "27 0 2 5" align = "Right Top">
-      <State name="disabled" offset = "901 132 2 5"/>
-      <State name="normal" offset = "901 154 2 5"/>
-      <State name="highlighted" offset = "901 176 2 5"/>
-      <State name="normal_checked" offset = "901 198 2 5"/>
-      <State name="pushed" offset = "901 220 2 5"/>
-    </BasisSkin>
-    <!--BottomLeft-->
-    <BasisSkin type="SubSkin" offset = "0 21 2 5" align = "Left Bottom">
-      <State name="disabled" offset = "882 148 2 5"/>
-      <State name="normal" offset = "882 170 2 5"/>
-      <State name="highlighted" offset = "882 192 2 5"/>
-      <State name="normal_checked" offset = "882 214 2 5"/>
-      <State name="pushed" offset = "882 236 2 5"/>
-    </BasisSkin>
-    <!--BottomRight-->
-    <BasisSkin type="SubSkin" offset = "27 21 2 5" align = "Right Bottom">
-      <State name="disabled" offset = "901 148 2 5"/>
-      <State name="normal" offset = "901 170 2 5"/>
-      <State name="highlighted" offset = "901 192 2 5"/>
-      <State name="normal_checked" offset = "901 214 2 5"/>
-      <State name="pushed" offset = "901 236 2 5"/>
-    </BasisSkin>
-    <!--Top-->
-    <BasisSkin type="SubSkin" offset = "2 0 25 5" align = "HStretch Top">
-      <State name="disabled" offset = "884 132 17 5"/>
-      <State name="normal" offset = "884 154 17 5"/>
-      <State name="highlighted" offset = "884 176 17 5"/>
-      <State name="normal_checked" offset = "884 198 17 5"/>
-      <State name="pushed" offset = "884 220 17 5"/>
-    </BasisSkin>
-    <!--Left-->
-    <BasisSkin type="SubSkin" offset = "0 5 2 16" align = "Left VStretch">
-      <State name="disabled" offset = "882 137 2 11"/>
-      <State name="normal" offset = "882 159 2 11"/>
-      <State name="highlighted" offset = "882 181 2 11"/>
-      <State name="normal_checked" offset = "882 203 2 11"/>
-      <State name="pushed" offset = "882 225 2 11"/>
-    </BasisSkin>
-    <!--Right-->
-    <BasisSkin type="SubSkin" offset = "27 5 2 16" align = "Right VStretch">
-      <State name="disabled" offset = "901 137 2 11"/>
-      <State name="normal" offset = "901 159 2 11"/>
-      <State name="highlighted" offset = "901 181 2 11"/>
-      <State name="normal_checked" offset = "901 203 2 11"/>
-      <State name="pushed" offset = "901 225 2 11"/>
-    </BasisSkin>
-    <!--Bottom-->
-    <BasisSkin type="SubSkin" offset = "2 21 25 5" align = "HStretch Bottom">
-      <State name="disabled" offset = "884 148 17 5"/>
-      <State name="normal" offset = "884 170 17 5"/>
-      <State name="highlighted" offset = "884 192 17 5"/>
-      <State name="normal_checked" offset = "884 214 17 5"/>
-      <State name="pushed" offset = "884 236 17 5"/>
-    </BasisSkin>
-    <!--Middle-->
-    <BasisSkin type="SubSkin" offset = "2 5 25 16" align = "HStretch VStretch">
-      <State name="disabled" offset = "884 137 17 11"/>
-      <State name="normal" offset = "884 159 17 11"/>
-      <State name="highlighted" offset = "884 181 17 11"/>
-      <State name="normal_checked" offset = "884 203 17 11"/>
-      <State name="pushed" offset = "884 225 17 11"/>
-    </BasisSkin>
-	</Resource>
 <!--*************************
 EditBoxEmpty
 *****************************-->

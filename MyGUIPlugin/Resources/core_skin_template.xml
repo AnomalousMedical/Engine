@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<MyGUI type="Resource">
+
+  <!--*************************
+EditBox
+*****************************-->
+  <Resource type="ResourceLayout" name="EditBox" version="3.2.0">
+    <Widget type="Widget" skin="EditBoxSkin" position="65 10 29 26" name="Root">
+      <UserString key="LE_TargetWidgetType" value="EditBox"/>
+      <Widget type="TextBox" skin="EditClientSkin" position="2 2 23 20" align="Stretch" name="Client">
+        <Property key="TextAlign" value="Left VCenter"/>
+        <Property key="FontName" value="Default"/>
+        <Property key="TextColour" value="0 0 0"/>
+        <Property key="Pointer" value="beam"/>
+      </Widget>
+    </Widget>
+  </Resource>
+
+</MyGUI>
