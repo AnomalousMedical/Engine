@@ -1551,17 +1551,9 @@ VScrollBottomPart
     </BasisSkin>
   </Resource>
 <!--*************************
-ScrollBarV
-*****************************
-Scrollbar background-->
-  <Resource type="ResourceSkin" name = "ScrollBarV" size = "15 49" texture = "#{MyGUI_Theme_Texture}" >
-    <Property key="TrackRangeMargins" value = "14 12" />
-    <Property key="MinTrackSize" value = "19" />
-    <Child type="Button" skin="VScrollTopPart" offset = "0 15 15 6" align = "Stretch" name = "FirstPart"/>
-    <Child type="Button" skin="VScrollBottomPart" offset = "0 21 15 6" align = "HStretch Bottom" name = "SecondPart"/>
-    <Child type="Button" skin="ButtonUpSkin" offset = "2 2 12 10" align = "HStretch Top" name = "Start"/>
-    <Child type="Button" skin="ButtonDownSkin" offset = "2 37 12 10" align = "HStretch Bottom" name = "End"/>
-    <Child type="Button" skin="VScrollTrack" offset = "2 18 12 15" align = "HStretch Top" name = "Track"/>
+ScrollPanelVSkin
+*****************************-->
+  <Resource type="ResourceSkin" name = "ScrollPanelVSkin" size = "15 49" texture = "#{MyGUI_Theme_Texture}" >
 <!--Top-->
     <BasisSkin type="SubSkin" offset = "0 0 15 2" align = "HStretch Top">
       <State name="normal" offset = "911 62 15 2"/>
@@ -1650,15 +1642,9 @@ ScrollPanelHSkin
     </BasisSkin>
   </Resource>
 <!--*************************
-SliderV
+SliderVSkin
 *****************************-->
-	<Resource type="ResourceSkin" name = "SliderV" size = "15 49" texture = "#{MyGUI_Theme_Texture}" >
-		<Property key="TrackRangeMargins" value = "2 1" />
-		<Property key="MinTrackSize" value = "7" />
-		<Property key="MoveToClick" value = "true"/>
-		<Child type="Button" skin="VScrollTopPart" offset = "0 0 15 49" align = "Stretch" name = "FirstPart"/>
-		<Child type="Button" skin="VScrollBottomPart" offset = "0 0 15 49" align = "HStretch Bottom" name = "SecondPart"/>
-		<Child type="Button" skin="VScrollTrackSlider" offset = "0 0 18 11" align = "Top" name = "Track"/>
+	<Resource type="ResourceSkin" name = "SliderVSkin" size = "15 49" texture = "#{MyGUI_Theme_Texture}" >
 <!--Left-->
 		<BasisSkin type="SubSkin" offset = "0 0 16 4" align = "Top Center">
 			<State name="normal" offset = "1005 167 16 4"/>
@@ -1673,15 +1659,9 @@ SliderV
     </BasisSkin>
 	</Resource>
 <!--*************************
-SliderH
+SliderHSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "SliderH" size = "49 15" texture = "#{MyGUI_Theme_Texture}" >
-    <Property key="TrackRangeMargins" value = "2 1" />
-    <Property key="MinTrackSize" value = "7" />
-    <Property key="MoveToClick" value = "true"/>
-    <Child type="Button" skin="HScrollRightPart"  offset = "0 0 49 15" align = "Right VStretch" name = "SecondPart"/>
-    <Child type="Button" skin="HScrollLeftPart" offset = "0 0 49 15" align = "Stretch" name = "FirstPart"/>
-    <Child type="Button" skin="HScrollTrackSlider" offset = "0 0 11 18" align = "Left" name = "Track"/>
+  <Resource type="ResourceSkin" name = "SliderHSkin" size = "49 15" texture = "#{MyGUI_Theme_Texture}" >
 <!--Left-->
     <BasisSkin type="SubSkin" offset = "0 0 4 16" align = "Left Center">
       <State name="normal" offset = "1003 92 4 16"/>
