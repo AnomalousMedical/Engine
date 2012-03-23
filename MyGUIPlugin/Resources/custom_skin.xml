@@ -2,6 +2,14 @@
 <MyGUI type="Resource" version="1.1">
 
   <!--*************************
+ButtonStaticImage
+*****************************-->
+  <Resource type="ResourceSkin" name = "ButtonStaticImage" size = "16 16">
+    <Property key="NeedMouse" value="false"/>
+    <BasisSkin type="MainSkin" offset = "0 0 16 16"/>
+  </Resource>
+  
+  <!--*************************
 TaskMenuBackground
 *****************************-->
   <Resource type="ResourceSkin" name = "TaskMenuBackground" size = "10 10" texture = "#{MyGUI_Theme_Texture}">

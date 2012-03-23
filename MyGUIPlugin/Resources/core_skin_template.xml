@@ -100,6 +100,31 @@ SliderV
       </Widget>
     </Widget>
   </Resource>
+
+  <!--*************************
+Button
+*****************************-->
+  <Resource type="ResourceLayout" name="Button" version="3.2.0">
+    <Widget type="Widget" skin="ButtonSkin" position="20 25 29 26" name="Root">
+      <Property key="FontName" value="Default"/>
+      <Property key="TextAlign" value="Center"/>
+      <UserString key="LE_TargetWidgetType" value="Button"/>
+    </Widget>
+  </Resource>
+
+  <!--*************************
+ButtonImage
+*****************************-->
+  <Resource type="ResourceLayout" name="ButtonImage" version="3.2.0">
+    <Widget type="Widget" skin="ButtonEmptySkin" position="20 20 16 16" name="Root">
+      <Property key="TextAlign" value="Center"/>
+      <Property key="FontName" value="Default"/>
+      <UserString key="LE_TargetWidgetType" value="Button"/>
+      <Widget type="ImageBox" skin="ImageBox" position="0 0 16 16" align="Stretch" name="Image">
+        <Property key="NeedMouse" value="false"/>
+      </Widget>
+    </Widget>
+  </Resource>
   
   <!--*************************
 EditBox
