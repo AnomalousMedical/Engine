@@ -25,8 +25,8 @@ namespace MyGUIPlugin
             canvasSize.Height = totalSize;
             buttonGrid.ScrollView.CanvasSize = canvasSize;
             
-            //Get the item width from the clientcoord
-            ItemWidth = buttonGrid.ScrollView.ClientCoord.width;
+            //Get the item width from the ViewCoord
+            ItemWidth = buttonGrid.ScrollView.ViewCoord.width;
             
             canvasSize.Width = ItemWidth;
         }

@@ -114,6 +114,14 @@ namespace MyGUIPlugin
             }
         }
 
+        public IntCoord ViewCoord
+        {
+            get
+            {
+                return ScrollView_getViewCoord(widget);
+            }
+        }
+
         public event MyGUIEvent CanvasPositionChanged
         {
             add
@@ -177,6 +185,9 @@ namespace MyGUIPlugin
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool ScrollView_getAllowMouseScroll(IntPtr scrollView);
+
+        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntCoord ScrollView_getViewCoord(IntPtr scrollView);
 
 #endregion
     }
