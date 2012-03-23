@@ -92,14 +92,9 @@ WhiteSkin
 		</BasisSkin>
 	</Resource>
 <!--*************************
-ItemBox
+ItemBoxSkin
 *****************************-->
-	<Resource type="ResourceSkin" name = "ItemBox" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
-		<Property key="AlignVert" value = "false" />
-		<Property key="DragLayer" value = "DragAndDrop" />
-		<!--<Child type="ScrollBar" skin="ScrollBarV" offset = "-9 3 15 -12" align = "Right VStretch" name = "VScroll"/>
-		<Child type="ScrollBar" skin="ScrollBarH" offset = "3 -9 -12 15" align = "HStretch Bottom" name = "HScroll"/>-->
-		<!--<Child type="Widget" skin="ClientDefaultSkin" offset = "3 3 -12 -12" align = "Stretch" name = "Client"/>-->
+	<Resource type="ResourceSkin" name = "ItemBoxSkin" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
 <!--TopLeft-->
     <BasisSkin type="SubSkin" offset = "0 0 3 3" align = "Left Top">
       <State name="normal" offset = "910 79 3 3"/>
@@ -852,13 +847,9 @@ PanelSkin
     </BasisSkin>
 	</Resource>
 <!--*************************
-ScrollView
+ScrollViewSkin
 *****************************-->
-	<Resource type="ResourceSkin" name = "ScrollView" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
-		<Property key="NeedKey" value = "true" />
-		<Child type="ScrollBar" skin="ScrollBarV" offset = "-9 3 15 -12" align = "Right VStretch" name = "VScroll"/>
-		<Child type="ScrollBar" skin="ScrollBarH" offset = "3 -9 -12 15" align = "HStretch Bottom" name = "HScroll"/>
-		<Child type="Widget" skin="Default" offset = "3 3 -12 -12" align = "Stretch" name = "Client"/>
+	<Resource type="ResourceSkin" name = "ScrollViewSkin" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
     <!--TopLeft-->
     <BasisSkin type="SubSkin" offset = "0 0 4 4" align = "Left Top">
       <State name="normal" offset = "718 64 4 4"/>
@@ -896,15 +887,6 @@ ScrollView
       <State name="normal" offset = "722 68 20 19"/>
     </BasisSkin>
 	</Resource>
-<!--*************************
-ScrollViewEmpty
-*****************************-->
-  <Resource type="ResourceSkin" name = "ScrollViewEmpty" size = "30 30" texture = "#{MyGUI_Theme_Texture}">
-    <Property key="NeedKey" value = "true" />
-    <Child type="ScrollBar" skin="ScrollBarV" offset = "15 0 15 15" align = "Right VStretch" name = "VScroll"/>
-    <Child type="ScrollBar" skin="ScrollBarH" offset = "0 15 15 15" align = "HStretch Bottom" name = "HScroll"/>
-    <Child type="Widget" skin="Default" offset = "0 0 15 15" align = "Stretch" name = "Client"/>
-  </Resource>
 <!--*************************
 TabButton
 *****************************-->
@@ -1153,11 +1135,9 @@ MenuBar
     </BasisSkin>
   </Resource>
 <!--*************************
-ListLine
+ListBoxItemSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "ListLine" size = "5 5" texture = "#{MyGUI_Theme_Texture}" >
-    <Property key="FontName" value = "Default" />
-    <Property key="TextAlign" value = "Left VCenter" />
+  <Resource type="ResourceSkin" name = "ListBoxItemSkin" size = "5 5" texture = "#{MyGUI_Theme_Texture}" >
     <Child type="ImageBox" skin="PopupMenuLineIcon" offset = "0 0 15 15" align = "Right VCenter" name = "Image"/>
     <BasisSkin type="MainSkin" offset = "0 0 2 5">
       <State name="normal" offset = "343 115 1 1"/>
@@ -1175,16 +1155,9 @@ ListLine
     </BasisSkin>
   </Resource>
 <!--*************************
-ListBox
+ListBoxSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "ListBox" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
-    <Property key="NeedKey" value = "true" />
-    <Property key="SkinLine" value = "ListLine" />
-    <Property key="HeightLine" value = "20" />
-
-    <Child type="ScrollBar" skin="ScrollBarV" offset = "-4 0 15 11" align = "Right VStretch" name = "VScroll"/>
-    <Child type="Widget" skin="MultiListCustomPanel" offset = "0 0 -4 11" align = "Stretch" name = "Client"/>
-
+  <Resource type="ResourceSkin" name = "ListBoxSkin" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
     <!--TopLeft-->
     <BasisSkin type="SubSkin" offset = "0 0 3 3" align = "Left Top">
       <State name="normal" offset = "689 92 3 3"/>
@@ -1223,33 +1196,9 @@ ListBox
     </BasisSkin>
   </Resource>
 <!--*************************
- MultiSubList
+MultiListButtonSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "MultiSubList" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
-    <Property key="NeedKey" value = "true" />
-    <Property key="SkinLine" value = "ListLine" />
-    <Property key="HeightLine" value = "20" />
-
-       <Child type="ScrollBar" skin="ScrollBarV" offset = "-3 0 15 11" align = "Right VStretch" name = "VScroll"/>
-    <Child type="Widget" skin="MultiListCustomPanel" offset = "0 0 0 11" align = "Stretch" name = "Client"/>
-
-  </Resource>
-<!--*************************
-MultiListButtonIcon
-*****************************-->
-  <Resource type="ResourceSkin" name = "MultiListButtonIcon" size = "14 10" texture = "#{MyGUI_Theme_Texture}">
-    <Property key="NeedMouse" value = "false" />
-    <Property key="ImageResource" value = "pic_CoreMultiListIcon" />
-    <Property key="ImageGroup" value = "Icons" />
-    <BasisSkin type="MainSkin" offset = "0 0 15 10" align = "Stretch"/>
-  </Resource>
-<!--*************************
-MultiListButton
-*****************************-->
-	<Resource type="ResourceSkin" name = "MultiListButton" size = "29 21" texture = "#{MyGUI_Theme_Texture}">
-		<Property key="FontName" value = "Default" />
-		<Property key="TextAlign" value = "HCenter VCenter" />
-		<Child type="ImageBox" skin="MultiListButtonIcon" offset = "9 0 14 10" align = "Right VCenter" name = "Image"/>
+	<Resource type="ResourceSkin" name = "MultiListButtonSkin" size = "29 21" texture = "#{MyGUI_Theme_Texture}">
     <!--TopLeft-->
     <BasisSkin type="SubSkin" offset = "0 0 4 4" align = "Left Top">
       <State name="normal" offset = "689 92 4 4"/>
@@ -1314,21 +1263,10 @@ MultiListButton
       <State name="pushed" offset = "731 96 10 9"/>
     </BasisSkin>
 	</Resource>
-<!--*************************
-MultiListBox
-*****************************-->
-  <Resource type="ResourceSkin" name = "MultiListBox" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
-    <Property key="NeedKey" value = "true" />
-    <Property key="SkinButton" value = "MultiListButton" />
-    <Property key="HeightButton" value = "21" />
-    <Property key="SkinList" value = "MultiSubList" />
-
-    <Child type="Widget" skin="MultiListCustomPanel" offset = "0 0 11 11" align = "Stretch" name = "Client"/>
-  </Resource>
   <!--*************************
-MultiListCustomPanel
+MultiListBoxSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "MultiListCustomPanel" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
+  <Resource type="ResourceSkin" name = "MultiListBoxSkin" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
     <!--TopLeft-->
     <BasisSkin type="SubSkin" offset = "0 0 3 3" align = "Left Top">
       <State name="normal" offset = "689 92 3 3"/>
