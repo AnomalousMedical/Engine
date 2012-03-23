@@ -202,6 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Plugin\Widgets\InputBox.layout" />
+    <EmbeddedResource Include="Resources\MessageBox\MessageBox.layout" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Editor\core_theme.xml" />
@@ -240,6 +241,14 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\core_skin_template.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\MessageBox\MessageBoxIcons.png" />
+    <EmbeddedResource Include="Resources\MessageBox\MessageBoxIcons.xml" />
+    <EmbeddedResource Include="Resources\MessageBox\MessageBoxLanguage.xml" />
+    <EmbeddedResource Include="Resources\MessageBox\MessageBoxLanguageEnglishTag.xml" />
+    <EmbeddedResource Include="Resources\MessageBox\MessageBoxLanguageRussianTag.xml" />
+    <EmbeddedResource Include="Resources\MessageBox\MessageBoxResources.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

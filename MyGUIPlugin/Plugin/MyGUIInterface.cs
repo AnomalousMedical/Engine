@@ -111,6 +111,7 @@ namespace MyGUIPlugin
             resourceManager.load(Resource);
             resourceManager.load(Skin);
             resourceManager.load("MyGUIPlugin.Resources.core_skin_template.xml");
+            resourceManager.load("MyGUIPlugin.Resources.MessageBox.MessageBoxResources.xml");
             resourceManager.load("MyGUIPlugin.Resources.custom_skin.xml");
             resourceManager.load(Pointer);
             resourceManager.load(Layer);

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MyGUI type="Language">
+	<Language default="English">
+		<Info name="English">
+			<Source>MyGUIPlugin.Resources.MessageBox.MessageBoxLanguageEnglishTag.xml</Source>
+		</Info>
+		<Info name="Russian">
+			<Source>MyGUIPlugin.Resources.MessageBox.MessageBoxLanguageRussianTag.xml</Source>
+		</Info>
+	</Language>
+</MyGUI>
