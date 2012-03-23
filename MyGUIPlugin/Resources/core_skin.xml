@@ -1562,13 +1562,9 @@ SliderHSkin
     </BasisSkin>
   </Resource>
 <!--*************************
-ProgressBar
+ProgressBarSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "ProgressBar" size = "49 15" texture = "#{MyGUI_Theme_Texture}" >
-    <Property key="TrackSkin" value = "HScrollTrackSlider" />
-    <Property key="TrackWidth" value = "7" />
-    <Property key="TrackFill" value = "false" />
-    <Child type="Widget" skin="Default" offset = "2 1 46 14" align = "Stretch" name = "Client"/>
+  <Resource type="ResourceSkin" name = "ProgressBarSkin" size = "49 15" texture = "#{MyGUI_Theme_Texture}" >
 <!--Left-->
     <BasisSkin type="SubSkin" offset = "0 0 6 15" align = "Left VStretch">
       <State name="normal" offset = "301 2 6 15"/>
@@ -1583,13 +1579,9 @@ ProgressBar
     </BasisSkin>
   </Resource>
 <!--*************************
-ProgressBarFill
+ProgressBarFillSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "ProgressBarFill" size = "49 25" texture = "#{MyGUI_Theme_Texture}" >
-    <Property key="TrackSkin" value = "ProgressTrack" />
-    <Property key="TrackMin" value = "15" />
-    <Property key="TrackFill" value = "true" />
-    <Child type="Widget" skin="Default" offset = "2 1 45 21" align = "Stretch" name = "Client"/>
+  <Resource type="ResourceSkin" name = "ProgressBarFillSkin" size = "49 25" texture = "#{MyGUI_Theme_Texture}" >
 <!--Left-->
     <BasisSkin type="SubSkin" offset = "0 0 4 25" align = "Left VStretch">
       <State name="normal" offset = "446 138 4 25"/>
