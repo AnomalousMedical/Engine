@@ -100,7 +100,7 @@ namespace MyGUIPlugin
             timelineSelectionBox.SelectionAreaDefined += new EventDelegate<TimelineSelectionBox>(timelineSelectionBox_SelectionAreaDefined);
             selectionCollection = new TimelineSelectionCollection(this);
             timelineScrollView = new TimelineScrollView(scrollView);
-            scrollView.MouseLostFocus += new MyGUIEvent(scrollView_MouseLostFocus);
+            scrollView.ClientWidget.MouseLostFocus += new MyGUIEvent(scrollView_MouseLostFocus);
             scrollView.MouseWheel += new MyGUIEvent(scrollView_MouseWheel);
             scrollView.KeyButtonPressed += new MyGUIEvent(scrollView_KeyButtonPressed);
             scrollView.KeyButtonReleased += new MyGUIEvent(scrollView_KeyButtonReleased);
