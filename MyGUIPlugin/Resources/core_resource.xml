@@ -88,7 +88,7 @@
 		</Group>
 	</Resource>
 
-	<Resource type="ResourceImageSet" name="pic_CoreMultiListIcon">
+	<Resource type="ResourceImageSet" name="MultiListButtonImage">
     <Group name="Icons" texture="#{MyGUI_Theme_Texture}" size="14 10">
       <Index name="None" >
         <Frame point="504 3"/>
