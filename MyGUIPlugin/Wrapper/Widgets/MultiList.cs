@@ -6,13 +6,13 @@ using System.Runtime.InteropServices;
 
 namespace MyGUIPlugin
 {
-    public class MultiList : Widget
+    public class MultiListBox : Widget
     {
         private List<Object> columnData = new List<Object>();
         private List<Object> rowData = new List<Object>();
         //private List<List<Object>> itemData = new List<List<Object>>();
 
-        internal MultiList(IntPtr multiList)
+        internal MultiListBox(IntPtr multiList)
             :base(multiList)
         {
 

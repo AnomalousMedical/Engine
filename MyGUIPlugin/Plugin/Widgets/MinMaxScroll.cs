@@ -12,11 +12,11 @@ namespace MyGUIPlugin
     /// </summary>
     public class MinMaxScroll
     {
-        private VScroll scroll;
+        private ScrollBar scroll;
         private int max;
         private int min;
 
-        public MinMaxScroll(VScroll scroll)
+        public MinMaxScroll(ScrollBar scroll)
         {
             this.scroll = scroll;
         }
@@ -84,7 +84,7 @@ namespace MyGUIPlugin
         /// <summary>
         /// Get the real scroll used by this class.
         /// </summary>
-        public VScroll Scroll
+        public ScrollBar Scroll
         {
             get
             {

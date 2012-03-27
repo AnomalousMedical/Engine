@@ -25,11 +25,11 @@ namespace MyGUIPlugin
             this.timelineView = timelineView;
             timelineView.ActiveDataChanged += new EventHandler(timelineView_ActiveDataChanged);
 
-            startTime = new NumericEdit(propScroll.findWidget("StartTime") as Edit);
+            startTime = new NumericEdit(propScroll.findWidget("StartTime") as EditBox);
             startTime.ValueChanged += new MyGUIEvent(startTime_ValueChanged);
             startTime.MaxValue = float.MaxValue;
 
-            Edit durationEdit = propScroll.findWidget("Duration") as Edit;
+            EditBox durationEdit = propScroll.findWidget("Duration") as EditBox;
             if (durationEdit != null)
             {
                 duration = new NumericEdit(durationEdit);

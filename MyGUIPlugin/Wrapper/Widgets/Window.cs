@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace MyGUIPlugin
 {
-    public class Window : StaticText
+    public class Window : TextBox
     {
         private Widget captionWidget = null;
 

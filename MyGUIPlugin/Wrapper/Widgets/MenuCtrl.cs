@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace MyGUIPlugin
 {
-    public class MenuCtrl : Widget
+    public class MenuControl : Widget
     {
-        public MenuCtrl(IntPtr menuCtrl)
+        public MenuControl(IntPtr menuCtrl)
             :base(menuCtrl)
         {
             
@@ -169,24 +169,24 @@ namespace MyGUIPlugin
             MenuCtrl_setItemChildVisible(widget, item.WidgetPtr, visible);
         }
 
-        public MenuCtrl getItemChildAt(uint index)
+        public MenuControl getItemChildAt(uint index)
         {
-            return (MenuCtrl)WidgetManager.getWidget(MenuCtrl_getItemChildAt(widget, new UIntPtr(index)));
+            return (MenuControl)WidgetManager.getWidget(MenuCtrl_getItemChildAt(widget, new UIntPtr(index)));
         }
 
-        public MenuCtrl getItemChild(MenuItem item)
+        public MenuControl getItemChild(MenuItem item)
         {
-            return (MenuCtrl)WidgetManager.getWidget(MenuCtrl_getItemChild(widget, item.WidgetPtr));
+            return (MenuControl)WidgetManager.getWidget(MenuCtrl_getItemChild(widget, item.WidgetPtr));
         }
 
-        public MenuCtrl createItemChildAt(uint index)
+        public MenuControl createItemChildAt(uint index)
         {
-            return (MenuCtrl)WidgetManager.getWidget(MenuCtrl_createItemChildAt(widget, new UIntPtr(index)));
+            return (MenuControl)WidgetManager.getWidget(MenuCtrl_createItemChildAt(widget, new UIntPtr(index)));
         }
 
-        public MenuCtrl createItemChild(MenuItem item)
+        public MenuControl createItemChild(MenuItem item)
         {
-            return (MenuCtrl)WidgetManager.getWidget(MenuCtrl_createItemChild(widget, item.WidgetPtr));
+            return (MenuControl)WidgetManager.getWidget(MenuCtrl_createItemChild(widget, item.WidgetPtr));
         }
 
         public PopupMenu createItemPopupMenuChild(MenuItem item)

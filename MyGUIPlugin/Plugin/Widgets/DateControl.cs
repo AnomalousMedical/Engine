@@ -12,7 +12,7 @@ namespace MyGUIPlugin
         private ComboBox day;
         private NumericEdit year;
 
-        public DateControl(ComboBox month, ComboBox day, Edit year)
+        public DateControl(ComboBox month, ComboBox day, EditBox year)
         {
             this.month = month;
             int i = 1;

@@ -7,8 +7,8 @@ namespace MyGUIPlugin
 {
     public class EditTableCell : TableCell
     {
-        private Edit editWidget;
-        private StaticText staticWidget;
+        private EditBox editWidget;
+        private TextBox staticWidget;
         private String value = null;
 
         public EditTableCell()
@@ -136,7 +136,7 @@ namespace MyGUIPlugin
         {
             if (staticWidget == null)
             {
-                staticWidget = (StaticText)parentWidget.createWidgetT("Button", "Button", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "");
+                staticWidget = (TextBox)parentWidget.createWidgetT("Button", "Button", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "");
                 staticWidget.MouseButtonClick += new MyGUIEvent(staticWidget_MouseButtonClick);
                 staticWidget.Caption = value;
                 staticWidget.Visible = false;
@@ -147,7 +147,7 @@ namespace MyGUIPlugin
         {
             if (editWidget == null)
             {
-                editWidget = parentWidget.createWidgetT("Edit", "Edit", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "") as Edit;
+                editWidget = parentWidget.createWidgetT("Edit", "Edit", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "") as EditBox;
                 editWidget.KeyLostFocus += new MyGUIEvent(editWidget_KeyLostFocus);
                 editWidget.KeyButtonReleased += new MyGUIEvent(editWidget_KeyButtonReleased);
                 editWidget.OnlyText = value;

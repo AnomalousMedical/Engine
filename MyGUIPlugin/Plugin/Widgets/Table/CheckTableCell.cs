@@ -8,7 +8,7 @@ namespace MyGUIPlugin
     public class CheckTableCell : TableCell
     {
         private CheckButton editWidget;
-        private StaticText staticWidget;
+        private TextBox staticWidget;
         private bool value = false;
 
         public CheckTableCell()
@@ -145,7 +145,7 @@ namespace MyGUIPlugin
         {
             if (staticWidget == null)
             {
-                staticWidget = (StaticText)parentWidget.createWidgetT("Button", "Button", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "");
+                staticWidget = (TextBox)parentWidget.createWidgetT("Button", "Button", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "");
                 staticWidget.MouseButtonClick += new MyGUIEvent(staticWidget_MouseButtonClick);
                 staticWidget.Caption = value.ToString();
                 staticWidget.Visible = false;

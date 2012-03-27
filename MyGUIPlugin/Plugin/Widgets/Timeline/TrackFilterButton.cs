@@ -9,11 +9,11 @@ namespace MyGUIPlugin
     class TrackFilterButton : IDisposable
     {
         private Button button;
-        private StaticText text;
+        private TextBox text;
 
         public event EventHandler CreateButtonClicked;
 
-        public TrackFilterButton(Button button, StaticText text, String actionType)
+        public TrackFilterButton(Button button, TextBox text, String actionType)
         {
             this.button = button;
             button.MouseButtonClick += new MyGUIEvent(button_MouseButtonClick);

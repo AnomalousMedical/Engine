@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MyGUIPlugin
 {
-    public class PopupMenu : MenuCtrl
+    public class PopupMenu : MenuControl
     {
         public PopupMenu(IntPtr popupMenu)
             :base(popupMenu)

@@ -11,14 +11,14 @@ namespace MyGUIPlugin
     {
         public event MyGUIEvent ValueChanged;
 
-        private Edit edit;
+        private EditBox edit;
         private String lastCaption;
         private bool allowFloat;
         private float minValue;
         private float maxValue;
         private float keyFocusValue = float.NaN;
 
-        public NumericEdit(Edit edit)
+        public NumericEdit(EditBox edit)
         {
             this.edit = edit;
             lastCaption = edit.Caption;
@@ -53,7 +53,7 @@ namespace MyGUIPlugin
             }
         }
 
-        public NumericEdit(Edit edit, Button upButton, Button downButton)
+        public NumericEdit(EditBox edit, Button upButton, Button downButton)
             :this(edit)
         {
             upButton.MouseButtonClick += new MyGUIEvent(upButton_MouseButtonClick);
@@ -212,7 +212,7 @@ namespace MyGUIPlugin
 
         public float Increment { get; set; }
 
-        public Edit Edit
+        public EditBox Edit
         {
             get
             {

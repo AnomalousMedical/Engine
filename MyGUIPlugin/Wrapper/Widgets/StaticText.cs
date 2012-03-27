@@ -7,9 +7,9 @@ using Engine;
 
 namespace MyGUIPlugin
 {
-    public class StaticText : Widget
+    public class TextBox : Widget
     {
-        public StaticText(IntPtr staticText)
+        public TextBox(IntPtr staticText)
             :base(staticText)
         {
 

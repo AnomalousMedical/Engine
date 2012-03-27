@@ -7,11 +7,11 @@ using System.Runtime.InteropServices;
 
 namespace MyGUIPlugin
 {
-    public class Edit : StaticText
+    public class EditBox : TextBox
     {
         TempStringCallback onlyTextDelegate;
 
-        public Edit(IntPtr edit)
+        public EditBox(IntPtr edit)
             :base(edit)
         {
             onlyTextDelegate = new TempStringCallback(onlyTextCallback);

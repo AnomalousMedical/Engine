@@ -110,7 +110,7 @@ namespace MyGUIPlugin
                     return new Widget(widget);
 
                 case WidgetType.MenuCtrl:
-                    return new MenuCtrl(widget);
+                    return new MenuControl(widget);
 
                 case WidgetType.MenuBar:
                     return new MenuBar(widget);
@@ -119,19 +119,19 @@ namespace MyGUIPlugin
                     return new PopupMenu(widget);
 
                 case WidgetType.MultiList:
-                    return new MultiList(widget);
+                    return new MultiListBox(widget);
 
                 case WidgetType.Progress:
-                    return new Progress(widget);
+                    return new ProgressBar(widget);
 
                 case WidgetType.ScrollView:
                     return new ScrollView(widget);
 
                 case WidgetType.StaticImage:
-                    return new StaticImage(widget);
+                    return new ImageBox(widget);
 
                 case WidgetType.StaticText:
-                    return new StaticText(widget);
+                    return new TextBox(widget);
 
                 case WidgetType.Button:
                     return new Button(widget);
@@ -140,7 +140,7 @@ namespace MyGUIPlugin
                     return new MenuItem(widget);
 
                 case WidgetType.Edit:
-                    return new Edit(widget);
+                    return new EditBox(widget);
 
                 case WidgetType.ComboBox:
                     return new ComboBox(widget);
@@ -155,7 +155,7 @@ namespace MyGUIPlugin
                     return new Widget(widget);
 
                 case WidgetType.VScroll:
-                    return new VScroll(widget);
+                    return new ScrollBar(widget);
             }
             Log.Warning("Could not identify widget type for widget {0}. Type given was {1}. Will return a Widget in its place.", widget.ToString(), widgetType);
             return new Widget(widget);
@@ -185,7 +185,7 @@ namespace MyGUIPlugin
                     return wrapperReturnedWidget is Widget;
 
                 case WidgetType.MenuCtrl:
-                    return wrapperReturnedWidget is MenuCtrl;
+                    return wrapperReturnedWidget is MenuControl;
 
                 case WidgetType.MenuBar:
                     return wrapperReturnedWidget is MenuBar;
@@ -194,19 +194,19 @@ namespace MyGUIPlugin
                     return wrapperReturnedWidget is PopupMenu;
 
                 case WidgetType.MultiList:
-                    return wrapperReturnedWidget is MultiList;
+                    return wrapperReturnedWidget is MultiListBox;
 
                 case WidgetType.Progress:
-                    return wrapperReturnedWidget is Progress;
+                    return wrapperReturnedWidget is ProgressBar;
 
                 case WidgetType.ScrollView:
                     return wrapperReturnedWidget is ScrollView;
 
                 case WidgetType.StaticImage:
-                    return wrapperReturnedWidget is StaticImage;
+                    return wrapperReturnedWidget is ImageBox;
 
                 case WidgetType.StaticText:
-                    return wrapperReturnedWidget is StaticText;
+                    return wrapperReturnedWidget is TextBox;
 
                 case WidgetType.Button:
                     return wrapperReturnedWidget is Button;
@@ -215,7 +215,7 @@ namespace MyGUIPlugin
                     return wrapperReturnedWidget is MenuItem;
 
                 case WidgetType.Edit:
-                    return wrapperReturnedWidget is Edit;
+                    return wrapperReturnedWidget is EditBox;
 
                 case WidgetType.ComboBox:
                     return wrapperReturnedWidget is ComboBox;
@@ -230,7 +230,7 @@ namespace MyGUIPlugin
                     return wrapperReturnedWidget is Widget;
 
                 case WidgetType.VScroll:
-                    return wrapperReturnedWidget is VScroll;
+                    return wrapperReturnedWidget is ScrollBar;
             }
             Log.Warning("Could not identify widget type for widget {0}. Type given was {1}. Will return a Widget in its place.", rawWidgetPointer.ToString(), widgetType);
             return wrapperReturnedWidget is Widget;

@@ -10,7 +10,7 @@ namespace MyGUIPlugin
     {
         private ButtonGrid grid;
         private List<ButtonGridItem> items = new List<ButtonGridItem>();
-        private StaticText captionText;
+        private TextBox captionText;
         private Widget separator;
 
         public ButtonGridGroup(String name, ButtonGrid grid)
@@ -20,7 +20,7 @@ namespace MyGUIPlugin
 
             if (grid.ShowGroupCaptions)
             {
-                captionText = grid.ScrollView.createWidgetT("StaticText", grid.GroupCaptionSkin, 0, 0, 10, 10, Align.Left | Align.Top, "") as StaticText;
+                captionText = grid.ScrollView.createWidgetT("StaticText", grid.GroupCaptionSkin, 0, 0, 10, 10, Align.Left | Align.Top, "") as TextBox;
                 captionText.Font = grid.GroupCaptionFont;
                 captionText.Caption = name;
                 captionText.setSize((int)captionText.getTextSize().Width + 5, (int)captionText.FontHeight);

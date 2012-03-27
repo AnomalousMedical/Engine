@@ -46,7 +46,7 @@ namespace MyGUIPlugin
             Button button = (Button)scrollView.createWidgetT("Button", "ButtonMinusPlus", 0, row.Top, buttonWidth, buttonHeight, Align.Default, "");
             button.Selected = true;
             
-            StaticText staticText = (StaticText)scrollView.createWidgetT("StaticText", "StaticText", buttonWidth + 1, row.Top, textWidth, buttonHeight, Align.Default, "");
+            TextBox staticText = (TextBox)scrollView.createWidgetT("StaticText", "StaticText", buttonWidth + 1, row.Top, textWidth, buttonHeight, Align.Default, "");
             staticText.TextAlign = Align.Left | Align.VCenter;
             staticText.TextColor = row.Color;
             

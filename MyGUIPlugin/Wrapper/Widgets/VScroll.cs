@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace MyGUIPlugin
 {
-    public class VScroll : Widget
+    public class ScrollBar : Widget
     {
-        internal VScroll(IntPtr vScroll)
+        internal ScrollBar(IntPtr vScroll)
             :base(vScroll)
         {
             

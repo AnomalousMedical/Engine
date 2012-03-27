@@ -35,7 +35,7 @@ namespace MyGUIPlugin
 
         public void setImage(String imageResource)
         {
-            StaticImage image = button.ImageBox;
+            ImageBox image = button.ImageBox;
             if (image != null)
             {
                 image.setItemResource(imageResource);

@@ -8,12 +8,12 @@ namespace MyGUIPlugin
 {
     class NumberLineNumber
     {
-        private StaticText text;
+        private TextBox text;
         private Widget hashMark;
         private float time;
         private NumberLine numberLine;
 
-        public NumberLineNumber(StaticText text, Widget hashMark, NumberLine numberLine)
+        public NumberLineNumber(TextBox text, Widget hashMark, NumberLine numberLine)
         {
             this.text = text;
             text.MouseButtonClick += new MyGUIEvent(text_MouseButtonClick);

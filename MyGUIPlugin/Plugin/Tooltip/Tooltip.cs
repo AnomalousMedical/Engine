@@ -8,11 +8,11 @@ namespace MyGUIPlugin
 {
     class Tooltip : IDisposable
     {
-        private StaticText tooltipWidget;
+        private TextBox tooltipWidget;
 
         public Tooltip(String text, int x, int y)
         {
-            tooltipWidget = Gui.Instance.createWidgetT("StaticText", "Tooltip", x, y, 1, 1, Align.Default, "Overlapped", "") as StaticText;
+            tooltipWidget = Gui.Instance.createWidgetT("StaticText", "Tooltip", x, y, 1, 1, Align.Default, "Overlapped", "") as TextBox;
             tooltipWidget.Caption = text;
             Size2 textSize = tooltipWidget.getTextSize();
             tooltipWidget.setSize((int)textSize.Width + 6, (int)textSize.Height + 4);

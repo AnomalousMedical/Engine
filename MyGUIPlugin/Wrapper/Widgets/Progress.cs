@@ -15,9 +15,9 @@ namespace MyGUIPlugin
         MAX
     };
 
-    public class Progress : Widget
+    public class ProgressBar : Widget
     {
-        public Progress(IntPtr progress)
+        public ProgressBar(IntPtr progress)
             :base(progress)
         {
 

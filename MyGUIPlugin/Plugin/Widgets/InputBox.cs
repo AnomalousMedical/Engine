@@ -10,8 +10,8 @@ namespace MyGUIPlugin
 {
     public class InputBox : Dialog
     {
-        private Edit input;
-        private StaticText prompt;
+        private EditBox input;
+        private TextBox prompt;
         private SendResult<String> SendResult;
         private Size2 deltaSize;
         private int minimumWidth;
@@ -25,11 +25,11 @@ namespace MyGUIPlugin
         public InputBox(String title, String message, String text, String customLayout)
             :base(customLayout)
         {
-            input = window.findWidget("Input") as Edit;
+            input = window.findWidget("Input") as EditBox;
             input.Caption = text;
             input.KeyButtonReleased += new MyGUIEvent(input_KeyButtonReleased);
 
-            prompt = window.findWidget("Prompt") as StaticText;
+            prompt = window.findWidget("Prompt") as TextBox;
             //Figure out the size difference of the prompt and window
             minimumWidth = window.Width;
             deltaSize = new Size2(window.Width - prompt.Width, window.Height - prompt.Height);

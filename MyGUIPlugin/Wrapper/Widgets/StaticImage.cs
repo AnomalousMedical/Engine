@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace MyGUIPlugin
 {
-    public class StaticImage: Widget
+    public class ImageBox: Widget
     {
-        internal StaticImage(IntPtr staticImage)
+        internal ImageBox(IntPtr staticImage)
             : base(staticImage)
         {
 

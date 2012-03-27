@@ -62,9 +62,9 @@ namespace MyGUIPlugin
             return MenuItem_getItemIndex(widget).ToUInt32();
         }
 
-        public MenuCtrl createItemChild()
+        public MenuControl createItemChild()
         {
-            return (MenuCtrl)WidgetManager.getWidget(MenuItem_createItemChild(widget));
+            return (MenuControl)WidgetManager.getWidget(MenuItem_createItemChild(widget));
         }
 
         public void setItemChildVisible(bool value)
@@ -72,14 +72,14 @@ namespace MyGUIPlugin
             MenuItem_setItemChildVisible(widget, value);
         }
 
-        public MenuCtrl getMenuCtrlParent()
+        public MenuControl getMenuCtrlParent()
         {
-            return (MenuCtrl)WidgetManager.getWidget(MenuItem_getMenuCtrlParent(widget));
+            return (MenuControl)WidgetManager.getWidget(MenuItem_getMenuCtrlParent(widget));
         }
 
-        public MenuCtrl getItemChild()
+        public MenuControl getItemChild()
         {
-            return (MenuCtrl)WidgetManager.getWidget(MenuItem_getItemChild(widget));
+            return (MenuControl)WidgetManager.getWidget(MenuItem_getItemChild(widget));
         }
 
 #region PInvoke

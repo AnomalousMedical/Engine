@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace MyGUIPlugin
 {
-    public class Button : StaticText
+    public class Button : TextBox
     {
-        private StaticImage staticImage = null;
+        private ImageBox staticImage = null;
 
         internal Button(IntPtr button)
             :base(button)
@@ -40,13 +40,13 @@ namespace MyGUIPlugin
             }
         }
 
-        public StaticImage ImageBox
+        public ImageBox ImageBox
         {
             get
             {
                 if (staticImage == null)
                 {
-                    staticImage = WidgetManager.getWidget(Button__getImageBox(widget)) as StaticImage;
+                    staticImage = WidgetManager.getWidget(Button__getImageBox(widget)) as ImageBox;
                 }
                 return staticImage;
             }

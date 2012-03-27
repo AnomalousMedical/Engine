@@ -36,7 +36,7 @@ namespace MyGUIPlugin
             mainButton.MouseButtonReleased += new MyGUIEvent(mainButton_MouseButtonReleased);
             mainButton.MouseButtonPressed += new MyGUIEvent(mainButton_MouseButtonPressed);
             mainButton.Selected = treeNode.Selected;
-            StaticImage image = mainButton.ImageBox;
+            ImageBox image = mainButton.ImageBox;
             if (image != null)
             {
                 image.setItemResource(imageResource);
