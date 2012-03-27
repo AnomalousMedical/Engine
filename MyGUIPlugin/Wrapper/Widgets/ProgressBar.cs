@@ -27,11 +27,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Progress_getProgressRange(widget).ToUInt32();
+                return ProgressBar_getProgressRange(widget).ToUInt32();
             }
             set
             {
-                Progress_setProgressRange(widget, new UIntPtr(value));
+                ProgressBar_setProgressRange(widget, new UIntPtr(value));
             }
         }
 
@@ -39,11 +39,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Progress_getProgressPosition(widget).ToUInt32();
+                return ProgressBar_getProgressPosition(widget).ToUInt32();
             }
             set
             {
-                Progress_setProgressPosition(widget, new UIntPtr(value));
+                ProgressBar_setProgressPosition(widget, new UIntPtr(value));
             }
         }
 
@@ -51,11 +51,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Progress_getProgressAutoTrack(widget);
+                return ProgressBar_getProgressAutoTrack(widget);
             }
             set
             {
-                Progress_setProgressAutoTrack(widget, value);
+                ProgressBar_setProgressAutoTrack(widget, value);
             }
         }
 
@@ -63,40 +63,40 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Progress_getFlowDirection(widget);
+                return ProgressBar_getFlowDirection(widget);
             }
             set
             {
-                Progress_setFlowDirection(widget, value);
+                ProgressBar_setFlowDirection(widget, value);
             }
         }
 
         #region PInvoke
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Progress_setProgressRange(IntPtr progress, UIntPtr value);
+        private static extern void ProgressBar_setProgressRange(IntPtr progress, UIntPtr value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern UIntPtr Progress_getProgressRange(IntPtr progress);
+        private static extern UIntPtr ProgressBar_getProgressRange(IntPtr progress);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Progress_setProgressPosition(IntPtr progress, UIntPtr value);
+        private static extern void ProgressBar_setProgressPosition(IntPtr progress, UIntPtr value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern UIntPtr Progress_getProgressPosition(IntPtr progress);
+        private static extern UIntPtr ProgressBar_getProgressPosition(IntPtr progress);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Progress_setProgressAutoTrack(IntPtr progress, bool value);
+        private static extern void ProgressBar_setProgressAutoTrack(IntPtr progress, bool value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Progress_getProgressAutoTrack(IntPtr progress);
+        private static extern bool ProgressBar_getProgressAutoTrack(IntPtr progress);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Progress_setFlowDirection(IntPtr progress, FlowDirection value);
+        private static extern void ProgressBar_setFlowDirection(IntPtr progress, FlowDirection value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern FlowDirection Progress_getFlowDirection(IntPtr progress);
+        private static extern FlowDirection ProgressBar_getFlowDirection(IntPtr progress);
 
         #endregion
     }

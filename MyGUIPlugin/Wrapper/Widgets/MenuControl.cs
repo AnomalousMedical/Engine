@@ -16,233 +16,233 @@ namespace MyGUIPlugin
 
         public void setVisibleSmooth(bool value)
         {
-            MenuCtrl_setVisibleSmooth(widget, value);
+            MenuControl_setVisibleSmooth(widget, value);
         }
 
         public uint getItemCount()
         {
-            return MenuCtrl_getItemCount(widget).ToUInt32();
+            return MenuControl_getItemCount(widget).ToUInt32();
         }
 
         public MenuItem insertItemAt(uint index, String name)
         {
-            return (MenuItem)WidgetManager.getWidget(MenuCtrl_insertItemAt(widget, new UIntPtr(index), name));
+            return (MenuItem)WidgetManager.getWidget(MenuControl_insertItemAt(widget, new UIntPtr(index), name));
         }
 
         public MenuItem insertItemAt(uint index, String name, MenuItemType type)
         {
-            return (MenuItem)WidgetManager.getWidget(MenuCtrl_insertItemAt2(widget, new UIntPtr(index), name, type));
+            return (MenuItem)WidgetManager.getWidget(MenuControl_insertItemAt2(widget, new UIntPtr(index), name, type));
         }
 
         public MenuItem insertItemAt(uint index, String name, MenuItemType type, String id)
         {
-            return (MenuItem)WidgetManager.getWidget(MenuCtrl_insertItemAt3(widget, new UIntPtr(index), name, type, id));
+            return (MenuItem)WidgetManager.getWidget(MenuControl_insertItemAt3(widget, new UIntPtr(index), name, type, id));
         }
 
         public MenuItem insertItem(MenuItem to, String name)
         {
-            return (MenuItem)WidgetManager.getWidget(MenuCtrl_insertItem(widget, to.WidgetPtr, name));
+            return (MenuItem)WidgetManager.getWidget(MenuControl_insertItem(widget, to.WidgetPtr, name));
         }
 
         public MenuItem insertItem(MenuItem to, String name, MenuItemType type)
         {
-            return (MenuItem)WidgetManager.getWidget(MenuCtrl_insertItem2(widget, to.WidgetPtr, name, type));
+            return (MenuItem)WidgetManager.getWidget(MenuControl_insertItem2(widget, to.WidgetPtr, name, type));
         }
 
         public MenuItem insertItem(MenuItem to, String name, MenuItemType type, String id)
         {
-            return (MenuItem)WidgetManager.getWidget(MenuCtrl_insertItem3(widget, to.WidgetPtr, name, type, id));
+            return (MenuItem)WidgetManager.getWidget(MenuControl_insertItem3(widget, to.WidgetPtr, name, type, id));
         }
 
         public MenuItem addItem(String name)
         {
-            return (MenuItem)WidgetManager.getWidget(MenuCtrl_addItem(widget, name));
+            return (MenuItem)WidgetManager.getWidget(MenuControl_addItem(widget, name));
         }
 
         public MenuItem addItem(String name, MenuItemType type)
         {
-            return (MenuItem)WidgetManager.getWidget(MenuCtrl_addItem2(widget, name, type));
+            return (MenuItem)WidgetManager.getWidget(MenuControl_addItem2(widget, name, type));
         }
 
         public MenuItem addItem(String name, MenuItemType type, String id)
         {
-            return (MenuItem)WidgetManager.getWidget(MenuCtrl_addItem3(widget, name, type, id));
+            return (MenuItem)WidgetManager.getWidget(MenuControl_addItem3(widget, name, type, id));
         }
 
         public void removeItemAt(uint index)
         {
-            MenuCtrl_removeItemAt(widget, new UIntPtr(index));
+            MenuControl_removeItemAt(widget, new UIntPtr(index));
         }
 
         public void removeItem(MenuItem item)
         {
-            MenuCtrl_removeItem(widget, item.WidgetPtr);
+            MenuControl_removeItem(widget, item.WidgetPtr);
         }
 
         public void removeAllItems()
         {
-            MenuCtrl_removeAllItems(widget);
+            MenuControl_removeAllItems(widget);
         }
 
         public MenuItem getItemAt(uint index)
         {
-            return (MenuItem)WidgetManager.getWidget(MenuCtrl_getItemAt(widget, new UIntPtr(index)));
+            return (MenuItem)WidgetManager.getWidget(MenuControl_getItemAt(widget, new UIntPtr(index)));
         }
 
         public uint getItemIndex(MenuItem item)
         {
-            return MenuCtrl_getItemIndex(widget, item.WidgetPtr).ToUInt32();
+            return MenuControl_getItemIndex(widget, item.WidgetPtr).ToUInt32();
         }
 
         public uint findItemIndex(MenuItem item)
         {
-            return MenuCtrl_findItemIndex(widget, item.WidgetPtr).ToUInt32();
+            return MenuControl_findItemIndex(widget, item.WidgetPtr).ToUInt32();
         }
 
         public MenuItem findItemWith(String name)
         {
-            return (MenuItem)WidgetManager.getWidget(MenuCtrl_findItemWith(widget, name));
+            return (MenuItem)WidgetManager.getWidget(MenuControl_findItemWith(widget, name));
         }
 
         public void setItemIdAt(uint index, String id)
         {
-            MenuCtrl_setItemIdAt(widget, new UIntPtr(index), id);
+            MenuControl_setItemIdAt(widget, new UIntPtr(index), id);
         }
 
         public void setItemId(MenuItem item, String id)
         {
-            MenuCtrl_setItemId(widget, item.WidgetPtr, id);
+            MenuControl_setItemId(widget, item.WidgetPtr, id);
         }
 
         public String getItemIdAt(uint index)
         {
-            return Marshal.PtrToStringAnsi(MenuCtrl_getItemIdAt(widget, new UIntPtr(index)));
+            return Marshal.PtrToStringAnsi(MenuControl_getItemIdAt(widget, new UIntPtr(index)));
         }
 
         public String getItemId(MenuItem item)
         {
-            return Marshal.PtrToStringAnsi(MenuCtrl_getItemId(widget, item.WidgetPtr));
+            return Marshal.PtrToStringAnsi(MenuControl_getItemId(widget, item.WidgetPtr));
         }
 
         public MenuItem getItemById(String id)
         {
-            return (MenuItem)WidgetManager.getWidget(MenuCtrl_getItemById(widget, id));
+            return (MenuItem)WidgetManager.getWidget(MenuControl_getItemById(widget, id));
         }
 
         public uint getItemIndexById(String id)
         {
-            return MenuCtrl_getItemIndexById(widget, id).ToUInt32();
+            return MenuControl_getItemIndexById(widget, id).ToUInt32();
         }
 
         public void setItemNameAt(uint index, String name)
         {
-            MenuCtrl_setItemNameAt(widget, new UIntPtr(index), name);
+            MenuControl_setItemNameAt(widget, new UIntPtr(index), name);
         }
 
         public void setItemName(MenuItem item, String name)
         {
-            MenuCtrl_setItemName(widget, item.WidgetPtr, name);
+            MenuControl_setItemName(widget, item.WidgetPtr, name);
         }
 
         public String getItemNameAt(uint index)
         {
-            return Marshal.PtrToStringUni(MenuCtrl_getItemNameAt(widget, new UIntPtr(index)));
+            return Marshal.PtrToStringUni(MenuControl_getItemNameAt(widget, new UIntPtr(index)));
         }
 
         public String getItemName(MenuItem item)
         {
-            return Marshal.PtrToStringUni(MenuCtrl_getItemName(widget, item.WidgetPtr));
+            return Marshal.PtrToStringUni(MenuControl_getItemName(widget, item.WidgetPtr));
         }
 
         public uint findItemIndexWith(String name)
         {
-            return MenuCtrl_findItemIndexWith(widget, name).ToUInt32();
+            return MenuControl_findItemIndexWith(widget, name).ToUInt32();
         }
 
         public void setItemChildVisibleAt(uint index, bool visible)
         {
-            MenuCtrl_setItemChildVisibleAt(widget, new UIntPtr(index), visible);
+            MenuControl_setItemChildVisibleAt(widget, new UIntPtr(index), visible);
         }
 
         public void setItemChildVisible(MenuItem item, bool visible)
         {
-            MenuCtrl_setItemChildVisible(widget, item.WidgetPtr, visible);
+            MenuControl_setItemChildVisible(widget, item.WidgetPtr, visible);
         }
 
         public MenuControl getItemChildAt(uint index)
         {
-            return (MenuControl)WidgetManager.getWidget(MenuCtrl_getItemChildAt(widget, new UIntPtr(index)));
+            return (MenuControl)WidgetManager.getWidget(MenuControl_getItemChildAt(widget, new UIntPtr(index)));
         }
 
         public MenuControl getItemChild(MenuItem item)
         {
-            return (MenuControl)WidgetManager.getWidget(MenuCtrl_getItemChild(widget, item.WidgetPtr));
+            return (MenuControl)WidgetManager.getWidget(MenuControl_getItemChild(widget, item.WidgetPtr));
         }
 
         public MenuControl createItemChildAt(uint index)
         {
-            return (MenuControl)WidgetManager.getWidget(MenuCtrl_createItemChildAt(widget, new UIntPtr(index)));
+            return (MenuControl)WidgetManager.getWidget(MenuControl_createItemChildAt(widget, new UIntPtr(index)));
         }
 
         public MenuControl createItemChild(MenuItem item)
         {
-            return (MenuControl)WidgetManager.getWidget(MenuCtrl_createItemChild(widget, item.WidgetPtr));
+            return (MenuControl)WidgetManager.getWidget(MenuControl_createItemChild(widget, item.WidgetPtr));
         }
 
         public PopupMenu createItemPopupMenuChild(MenuItem item)
         {
-            return (PopupMenu)WidgetManager.getWidget(MenuCtrl_createItemPopupMenuChild(widget, item.WidgetPtr));
+            return (PopupMenu)WidgetManager.getWidget(MenuControl_createItemPopupMenuChild(widget, item.WidgetPtr));
         }
 
         public PopupMenu createItemPopupMenuChild(uint index)
         {
-            return (PopupMenu)WidgetManager.getWidget(MenuCtrl_createItemPopupMenuChildAt(widget, new UIntPtr(index)));
+            return (PopupMenu)WidgetManager.getWidget(MenuControl_createItemPopupMenuChildAt(widget, new UIntPtr(index)));
         }
 
         public void removeItemChildAt(uint index)
         {
-            MenuCtrl_removeItemChildAt(widget, new UIntPtr(index));
+            MenuControl_removeItemChildAt(widget, new UIntPtr(index));
         }
 
         public void removeItemChild(MenuItem item)
         {
-            MenuCtrl_removeItemChild(widget, item.WidgetPtr);
+            MenuControl_removeItemChild(widget, item.WidgetPtr);
         }
 
         public MenuItemType getItemTypeAt(uint index)
         {
-            return MenuCtrl_getItemTypeAt(widget, new UIntPtr(index));
+            return MenuControl_getItemTypeAt(widget, new UIntPtr(index));
         }
 
         public MenuItemType getItemType(MenuItem item)
         {
-            return MenuCtrl_getItemType(widget, item.WidgetPtr);
+            return MenuControl_getItemType(widget, item.WidgetPtr);
         }
 
         public void setItemTypeAt(uint index, MenuItemType type)
         {
-            MenuCtrl_setItemTypeAt(widget, new UIntPtr(index), type);
+            MenuControl_setItemTypeAt(widget, new UIntPtr(index), type);
         }
 
         public void setItemType(MenuItem item, MenuItemType type)
         {
-            MenuCtrl_setItemType(widget, item.WidgetPtr, type);
+            MenuControl_setItemType(widget, item.WidgetPtr, type);
         }
 
         public MenuItem getMenuItemParent()
         {
-            return (MenuItem)WidgetManager.getWidget(MenuCtrl_getMenuItemParent(widget));
+            return (MenuItem)WidgetManager.getWidget(MenuControl_getMenuItemParent(widget));
         }
 
         public bool PopupAccept
         {
             get
             {
-                return MenuCtrl_getPopupAccept(widget);
+                return MenuControl_getPopupAccept(widget);
             }
             set
             {
-                MenuCtrl_setPopupAccept(widget, value);
+                MenuControl_setPopupAccept(widget, value);
             }
         }
 
@@ -273,143 +273,143 @@ namespace MyGUIPlugin
 #region PInvoke
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void MenuCtrl_setVisibleSmooth(IntPtr widget, bool value);
+        private static extern void MenuControl_setVisibleSmooth(IntPtr widget, bool value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern UIntPtr MenuCtrl_getItemCount(IntPtr menuCtrl);
+        private static extern UIntPtr MenuControl_getItemCount(IntPtr menuCtrl);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr MenuCtrl_insertItemAt(IntPtr menuCtrl, UIntPtr index, [MarshalAs(UnmanagedType.LPWStr)] String name);
+        private static extern IntPtr MenuControl_insertItemAt(IntPtr menuCtrl, UIntPtr index, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr MenuCtrl_insertItemAt2(IntPtr menuCtrl, UIntPtr index, [MarshalAs(UnmanagedType.LPWStr)] String name, MenuItemType type);
+        private static extern IntPtr MenuControl_insertItemAt2(IntPtr menuCtrl, UIntPtr index, [MarshalAs(UnmanagedType.LPWStr)] String name, MenuItemType type);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr MenuCtrl_insertItemAt3(IntPtr menuCtrl, UIntPtr index, [MarshalAs(UnmanagedType.LPWStr)] String name, MenuItemType type, String id);
+        private static extern IntPtr MenuControl_insertItemAt3(IntPtr menuCtrl, UIntPtr index, [MarshalAs(UnmanagedType.LPWStr)] String name, MenuItemType type, String id);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr MenuCtrl_insertItem(IntPtr menuCtrl, IntPtr to, [MarshalAs(UnmanagedType.LPWStr)] String name);
+        private static extern IntPtr MenuControl_insertItem(IntPtr menuCtrl, IntPtr to, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr MenuCtrl_insertItem2(IntPtr menuCtrl, IntPtr to, [MarshalAs(UnmanagedType.LPWStr)] String name, MenuItemType type);
+        private static extern IntPtr MenuControl_insertItem2(IntPtr menuCtrl, IntPtr to, [MarshalAs(UnmanagedType.LPWStr)] String name, MenuItemType type);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr MenuCtrl_insertItem3(IntPtr menuCtrl, IntPtr to, [MarshalAs(UnmanagedType.LPWStr)] String name, MenuItemType type, String id);
+        private static extern IntPtr MenuControl_insertItem3(IntPtr menuCtrl, IntPtr to, [MarshalAs(UnmanagedType.LPWStr)] String name, MenuItemType type, String id);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr MenuCtrl_addItem(IntPtr menuCtrl, [MarshalAs(UnmanagedType.LPWStr)] String name);
+        private static extern IntPtr MenuControl_addItem(IntPtr menuCtrl, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr MenuCtrl_addItem2(IntPtr menuCtrl, [MarshalAs(UnmanagedType.LPWStr)] String name, MenuItemType type);
+        private static extern IntPtr MenuControl_addItem2(IntPtr menuCtrl, [MarshalAs(UnmanagedType.LPWStr)] String name, MenuItemType type);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr MenuCtrl_addItem3(IntPtr menuCtrl, [MarshalAs(UnmanagedType.LPWStr)] String name, MenuItemType type, String id);
+        private static extern IntPtr MenuControl_addItem3(IntPtr menuCtrl, [MarshalAs(UnmanagedType.LPWStr)] String name, MenuItemType type, String id);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void MenuCtrl_removeItemAt(IntPtr menuCtrl, UIntPtr index);
+        private static extern void MenuControl_removeItemAt(IntPtr menuCtrl, UIntPtr index);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void MenuCtrl_removeItem(IntPtr menuCtrl, IntPtr item);
+        private static extern void MenuControl_removeItem(IntPtr menuCtrl, IntPtr item);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void MenuCtrl_removeAllItems(IntPtr menuCtrl);
+        private static extern void MenuControl_removeAllItems(IntPtr menuCtrl);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr MenuCtrl_getItemAt(IntPtr menuCtrl, UIntPtr index);
+        private static extern IntPtr MenuControl_getItemAt(IntPtr menuCtrl, UIntPtr index);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern UIntPtr MenuCtrl_getItemIndex(IntPtr menuCtrl, IntPtr item);
+        private static extern UIntPtr MenuControl_getItemIndex(IntPtr menuCtrl, IntPtr item);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern UIntPtr MenuCtrl_findItemIndex(IntPtr menuCtrl, IntPtr item);
+        private static extern UIntPtr MenuControl_findItemIndex(IntPtr menuCtrl, IntPtr item);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr MenuCtrl_findItemWith(IntPtr menuCtrl, [MarshalAs(UnmanagedType.LPWStr)] String name);
+        private static extern IntPtr MenuControl_findItemWith(IntPtr menuCtrl, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void MenuCtrl_setItemIdAt(IntPtr menuCtrl, UIntPtr index, String id);
+        private static extern void MenuControl_setItemIdAt(IntPtr menuCtrl, UIntPtr index, String id);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void MenuCtrl_setItemId(IntPtr menuCtrl, IntPtr item, String id);
+        private static extern void MenuControl_setItemId(IntPtr menuCtrl, IntPtr item, String id);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr MenuCtrl_getItemIdAt(IntPtr menuCtrl, UIntPtr index);
+        private static extern IntPtr MenuControl_getItemIdAt(IntPtr menuCtrl, UIntPtr index);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr MenuCtrl_getItemId(IntPtr menuCtrl, IntPtr item);
+        private static extern IntPtr MenuControl_getItemId(IntPtr menuCtrl, IntPtr item);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr MenuCtrl_getItemById(IntPtr menuCtrl, String id);
+        private static extern IntPtr MenuControl_getItemById(IntPtr menuCtrl, String id);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern UIntPtr MenuCtrl_getItemIndexById(IntPtr menuCtrl, String id);
+        private static extern UIntPtr MenuControl_getItemIndexById(IntPtr menuCtrl, String id);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void MenuCtrl_setItemNameAt(IntPtr menuCtrl, UIntPtr index, [MarshalAs(UnmanagedType.LPWStr)] String name);
+        private static extern void MenuControl_setItemNameAt(IntPtr menuCtrl, UIntPtr index, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void MenuCtrl_setItemName(IntPtr menuCtrl, IntPtr item, [MarshalAs(UnmanagedType.LPWStr)] String name);
+        private static extern void MenuControl_setItemName(IntPtr menuCtrl, IntPtr item, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr MenuCtrl_getItemNameAt(IntPtr menuCtrl, UIntPtr index);
+        private static extern IntPtr MenuControl_getItemNameAt(IntPtr menuCtrl, UIntPtr index);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr MenuCtrl_getItemName(IntPtr menuCtrl, IntPtr item);
+        private static extern IntPtr MenuControl_getItemName(IntPtr menuCtrl, IntPtr item);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern UIntPtr MenuCtrl_findItemIndexWith(IntPtr menuCtrl, [MarshalAs(UnmanagedType.LPWStr)] String name);
+        private static extern UIntPtr MenuControl_findItemIndexWith(IntPtr menuCtrl, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void MenuCtrl_setItemChildVisibleAt(IntPtr menuCtrl, UIntPtr index, bool visible);
+        private static extern void MenuControl_setItemChildVisibleAt(IntPtr menuCtrl, UIntPtr index, bool visible);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void MenuCtrl_setItemChildVisible(IntPtr menuCtrl, IntPtr item, bool visible);
+        private static extern void MenuControl_setItemChildVisible(IntPtr menuCtrl, IntPtr item, bool visible);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr MenuCtrl_getItemChildAt(IntPtr menuCtrl, UIntPtr index);
+        private static extern IntPtr MenuControl_getItemChildAt(IntPtr menuCtrl, UIntPtr index);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr MenuCtrl_getItemChild(IntPtr menuCtrl, IntPtr item);
+        private static extern IntPtr MenuControl_getItemChild(IntPtr menuCtrl, IntPtr item);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr MenuCtrl_createItemChildAt(IntPtr menuCtrl, UIntPtr index);
+        private static extern IntPtr MenuControl_createItemChildAt(IntPtr menuCtrl, UIntPtr index);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr MenuCtrl_createItemChild(IntPtr menuCtrl, IntPtr item);
+        private static extern IntPtr MenuControl_createItemChild(IntPtr menuCtrl, IntPtr item);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr MenuCtrl_createItemPopupMenuChildAt(IntPtr menuCtrl, UIntPtr index);
+        private static extern IntPtr MenuControl_createItemPopupMenuChildAt(IntPtr menuCtrl, UIntPtr index);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr MenuCtrl_createItemPopupMenuChild(IntPtr menuCtrl, IntPtr item);
+        private static extern IntPtr MenuControl_createItemPopupMenuChild(IntPtr menuCtrl, IntPtr item);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void MenuCtrl_removeItemChildAt(IntPtr menuCtrl, UIntPtr index);
+        private static extern void MenuControl_removeItemChildAt(IntPtr menuCtrl, UIntPtr index);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void MenuCtrl_removeItemChild(IntPtr menuCtrl, IntPtr item);
+        private static extern void MenuControl_removeItemChild(IntPtr menuCtrl, IntPtr item);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern MenuItemType MenuCtrl_getItemTypeAt(IntPtr menuCtrl, UIntPtr index);
+        private static extern MenuItemType MenuControl_getItemTypeAt(IntPtr menuCtrl, UIntPtr index);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern MenuItemType MenuCtrl_getItemType(IntPtr menuCtrl, IntPtr item);
+        private static extern MenuItemType MenuControl_getItemType(IntPtr menuCtrl, IntPtr item);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void MenuCtrl_setItemTypeAt(IntPtr menuCtrl, UIntPtr index, MenuItemType type);
+        private static extern void MenuControl_setItemTypeAt(IntPtr menuCtrl, UIntPtr index, MenuItemType type);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void MenuCtrl_setItemType(IntPtr menuCtrl, IntPtr item, MenuItemType type);
+        private static extern void MenuControl_setItemType(IntPtr menuCtrl, IntPtr item, MenuItemType type);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void MenuCtrl_setPopupAccept(IntPtr menuCtrl, bool value);
+        private static extern void MenuControl_setPopupAccept(IntPtr menuCtrl, bool value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool MenuCtrl_getPopupAccept(IntPtr menuCtrl);
+        private static extern bool MenuControl_getPopupAccept(IntPtr menuCtrl);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr MenuCtrl_getMenuItemParent(IntPtr menuCtrl);
+        private static extern IntPtr MenuControl_getMenuItemParent(IntPtr menuCtrl);
 
 #endregion
     }

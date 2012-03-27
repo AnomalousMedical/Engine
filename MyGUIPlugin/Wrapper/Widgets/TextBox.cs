@@ -17,28 +17,28 @@ namespace MyGUIPlugin
 
         public IntCoord getTextRegion()
         {
-            return StaticText_getTextRegion(widget);
+            return TextBox_getTextRegion(widget);
         }
 
         public Size2 getTextSize()
         {
-            return StaticText_getTextSize(widget).toSize();
+            return TextBox_getTextSize(widget).toSize();
         }
 
         public void setCaptionWithReplacing(String value)
         {
-            StaticText_setCaptionWithReplacing(widget, value);
+            TextBox_setCaptionWithReplacing(widget, value);
         }
 
         public String Font
         {
             get
             {
-                return Marshal.PtrToStringAnsi(StaticText_getFontName(widget));
+                return Marshal.PtrToStringAnsi(TextBox_getFontName(widget));
             }
             set
             {
-                StaticText_setFontName(widget, value);
+                TextBox_setFontName(widget, value);
             }
         }
 
@@ -46,11 +46,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return StaticText_getFontHeight(widget);
+                return TextBox_getFontHeight(widget);
             }
             set
             {
-                StaticText_setFontHeight(widget, value);
+                TextBox_setFontHeight(widget, value);
             }
         }
 
@@ -58,11 +58,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return StaticText_getTextAlign(widget);
+                return TextBox_getTextAlign(widget);
             }
             set
             {
-                StaticText_setTextAlign(widget, value);
+                TextBox_setTextAlign(widget, value);
             }
         }
 
@@ -70,11 +70,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return StaticText_getTextColour(widget);
+                return TextBox_getTextColour(widget);
             }
             set
             {
-                StaticText_setTextColour(widget, value);
+                TextBox_setTextColour(widget, value);
             }
         }
 
@@ -82,17 +82,17 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Marshal.PtrToStringUni(StaticText_getCaption(widget));
+                return Marshal.PtrToStringUni(TextBox_getCaption(widget));
             }
             set
             {
                 if (value != null)
                 {
-                    StaticText_setCaption(widget, value);
+                    TextBox_setCaption(widget, value);
                 }
                 else
                 {
-                    StaticText_setCaption(widget, "");
+                    TextBox_setCaption(widget, "");
                 }
             }
         }
@@ -100,43 +100,43 @@ namespace MyGUIPlugin
 #region PInvoke
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntCoord StaticText_getTextRegion(IntPtr staticText);
+        private static extern IntCoord TextBox_getTextRegion(IntPtr staticText);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern ThreeIntHack StaticText_getTextSize(IntPtr staticText);
+        private static extern ThreeIntHack TextBox_getTextSize(IntPtr staticText);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void StaticText_setFontName(IntPtr staticText, String font);
+        private static extern void TextBox_setFontName(IntPtr staticText, String font);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr StaticText_getFontName(IntPtr staticText);
+        private static extern IntPtr TextBox_getFontName(IntPtr staticText);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void StaticText_setFontHeight(IntPtr staticText, int height);
+        private static extern void TextBox_setFontHeight(IntPtr staticText, int height);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern int StaticText_getFontHeight(IntPtr staticText);
+        private static extern int TextBox_getFontHeight(IntPtr staticText);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void StaticText_setTextAlign(IntPtr staticText, Align align);
+        private static extern void TextBox_setTextAlign(IntPtr staticText, Align align);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern Align StaticText_getTextAlign(IntPtr staticText);
+        private static extern Align TextBox_getTextAlign(IntPtr staticText);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void StaticText_setTextColour(IntPtr staticText, Color colour);
+        private static extern void TextBox_setTextColour(IntPtr staticText, Color colour);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern Color StaticText_getTextColour(IntPtr staticText);
+        private static extern Color TextBox_getTextColour(IntPtr staticText);
 
         [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
-        private static extern void StaticText_setCaption(IntPtr staticText, [MarshalAs(UnmanagedType.LPWStr)] String value);
+        private static extern void TextBox_setCaption(IntPtr staticText, [MarshalAs(UnmanagedType.LPWStr)] String value);
 
         [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr StaticText_getCaption(IntPtr staticText);
+        private static extern IntPtr TextBox_getCaption(IntPtr staticText);
 
         [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
-        private static extern void StaticText_setCaptionWithReplacing(IntPtr staticText, [MarshalAs(UnmanagedType.LPWStr)] String value);
+        private static extern void TextBox_setCaptionWithReplacing(IntPtr staticText, [MarshalAs(UnmanagedType.LPWStr)] String value);
 #endregion
     }
 }

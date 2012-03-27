@@ -19,54 +19,54 @@ namespace MyGUIPlugin
 
         public void setTextIntervalColor(uint start, uint count, Color color)
         {
-            Edit_setTextIntervalColor(widget, new UIntPtr(start), new UIntPtr(count), color);
+            EditBox_setTextIntervalColor(widget, new UIntPtr(start), new UIntPtr(count), color);
         }
 
         public void setTextSelection(uint start, uint end)
         {
-            Edit_setTextSelection(widget, new UIntPtr(start), new UIntPtr(end));
+            EditBox_setTextSelection(widget, new UIntPtr(start), new UIntPtr(end));
         }
 
         public void deleteTextSelection()
         {
-            Edit_deleteTextSelection(widget);
+            EditBox_deleteTextSelection(widget);
         }
 
         public void setTextSelectionColor(Color value)
         {
-            Edit_setTextSelectionColor(widget, value);
+            EditBox_setTextSelectionColor(widget, value);
         }
 
         public void insertText(String text)
         {
-            Edit_insertText1(widget, text);
+            EditBox_insertText1(widget, text);
         }
 
         public void insertText(String text, uint index)
         {
-            Edit_insertText2(widget, text, new UIntPtr(index));
+            EditBox_insertText2(widget, text, new UIntPtr(index));
         }
 
         public void addText(String text)
         {
-            Edit_addText(widget, text);
+            EditBox_addText(widget, text);
         }
 
         public void eraseText(uint start)
         {
-            Edit_eraseText1(widget, new UIntPtr(start));
+            EditBox_eraseText1(widget, new UIntPtr(start));
         }
 
         public void eraseText(uint start, uint count)
         {
-            Edit_eraseText2(widget, new UIntPtr(start), new UIntPtr(count));
+            EditBox_eraseText2(widget, new UIntPtr(start), new UIntPtr(count));
         }
 
         public uint TextSelectionStart
         {
             get
             {
-                return Edit_getTextSelectionStart(widget).ToUInt32();
+                return EditBox_getTextSelectionStart(widget).ToUInt32();
             }
         }
 
@@ -74,7 +74,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Edit_getTextSelectionEnd(widget).ToUInt32();
+                return EditBox_getTextSelectionEnd(widget).ToUInt32();
             }
         }
 
@@ -82,7 +82,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Edit_getTextSelectionLength(widget).ToUInt32();
+                return EditBox_getTextSelectionLength(widget).ToUInt32();
             }
         }
 
@@ -90,7 +90,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Edit_isTextSelection(widget);
+                return EditBox_isTextSelection(widget);
             }
         }
 
@@ -98,11 +98,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Edit_getTextCursor(widget).ToUInt32();
+                return EditBox_getTextCursor(widget).ToUInt32();
             }
             set
             {
-                Edit_setTextCursor(widget, new UIntPtr(value));
+                EditBox_setTextCursor(widget, new UIntPtr(value));
             }
         }
 
@@ -110,7 +110,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Edit_getTextLength(widget).ToUInt32();
+                return EditBox_getTextLength(widget).ToUInt32();
             }
         }
 
@@ -118,11 +118,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Edit_getOverflowToTheLeft(widget);
+                return EditBox_getOverflowToTheLeft(widget);
             }
             set
             {
-                Edit_setOverflowToTheLeft(widget, value);
+                EditBox_setOverflowToTheLeft(widget, value);
             }
         }
 
@@ -130,11 +130,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Edit_getMaxTextLength(widget).ToUInt32();
+                return EditBox_getMaxTextLength(widget).ToUInt32();
             }
             set
             {
-                Edit_setMaxTextLength(widget, new UIntPtr(value));
+                EditBox_setMaxTextLength(widget, new UIntPtr(value));
             }
         }
 
@@ -142,11 +142,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Edit_getEditReadOnly(widget);
+                return EditBox_getEditReadOnly(widget);
             }
             set
             {
-                Edit_setEditReadOnly(widget, value);
+                EditBox_setEditReadOnly(widget, value);
             }
         }
 
@@ -154,11 +154,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Edit_getEditPassword(widget);
+                return EditBox_getEditPassword(widget);
             }
             set
             {
-                Edit_setEditPassword(widget, value);
+                EditBox_setEditPassword(widget, value);
             }
         }
 
@@ -166,11 +166,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Edit_getEditMultiLine(widget);
+                return EditBox_getEditMultiLine(widget);
             }
             set
             {
-                Edit_setEditMultiLine(widget, value);
+                EditBox_setEditMultiLine(widget, value);
             }
         }
 
@@ -178,11 +178,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Edit_getEditStatic(widget);
+                return EditBox_getEditStatic(widget);
             }
             set
             {
-                Edit_setEditStatic(widget, value);
+                EditBox_setEditStatic(widget, value);
             }
         }
 
@@ -190,11 +190,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Edit_getPasswordChar(widget);
+                return EditBox_getPasswordChar(widget);
             }
             set
             {
-                Edit_setPasswordChar(widget, value);
+                EditBox_setPasswordChar(widget, value);
             }
         }
 
@@ -202,11 +202,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Edit_getEditWordWrap(widget);
+                return EditBox_getEditWordWrap(widget);
             }
             set
             {
-                Edit_setEditWordWrap(widget, value);
+                EditBox_setEditWordWrap(widget, value);
             }
         }
 
@@ -214,11 +214,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Edit_getTabPrinting(widget);
+                return EditBox_getTabPrinting(widget);
             }
             set
             {
-                Edit_setTabPrinting(widget, value);
+                EditBox_setTabPrinting(widget, value);
             }
         }
 
@@ -226,11 +226,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Edit_getInvertSelected(widget);
+                return EditBox_getInvertSelected(widget);
             }
             set
             {
-                Edit_setInvertSelected(widget, value);
+                EditBox_setInvertSelected(widget, value);
             }
         }
 
@@ -238,11 +238,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Edit_isVisibleVScroll(widget);
+                return EditBox_isVisibleVScroll(widget);
             }
             set
             {
-                Edit_setVisibleVScroll(widget, value);
+                EditBox_setVisibleVScroll(widget, value);
             }
         }
 
@@ -250,7 +250,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Edit_getVScrollRange(widget).ToUInt32();
+                return EditBox_getVScrollRange(widget).ToUInt32();
             }
         }
 
@@ -258,11 +258,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Edit_getVScrollPosition(widget).ToUInt32();
+                return EditBox_getVScrollPosition(widget).ToUInt32();
             }
             set
             {
-                Edit_setVScrollPosition(widget, new UIntPtr(value));
+                EditBox_setVScrollPosition(widget, new UIntPtr(value));
             }
         }
 
@@ -270,11 +270,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Edit_isVisibleHScroll(widget);
+                return EditBox_isVisibleHScroll(widget);
             }
             set
             {
-                Edit_setVisibleHScroll(widget, value);
+                EditBox_setVisibleHScroll(widget, value);
             }
         }
 
@@ -282,7 +282,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Edit_getHScrollRange(widget).ToUInt32();
+                return EditBox_getHScrollRange(widget).ToUInt32();
             }
         }
 
@@ -290,11 +290,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Edit_getHScrollPosition(widget).ToUInt32();
+                return EditBox_getHScrollPosition(widget).ToUInt32();
             }
             set
             {
-                Edit_setHScrollPosition(widget, new UIntPtr(value));
+                EditBox_setHScrollPosition(widget, new UIntPtr(value));
             }
         }
 
@@ -302,11 +302,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Edit_getAllowMouseScroll(widget);
+                return EditBox_getAllowMouseScroll(widget);
             }
             set
             {
-                Edit_setAllowMouseScroll(widget, value);
+                EditBox_setAllowMouseScroll(widget, value);
             }
         }
 
@@ -316,18 +316,18 @@ namespace MyGUIPlugin
         {
             get
             {
-                Edit_getOnlyText(widget, onlyTextDelegate);
+                EditBox_getOnlyText(widget, onlyTextDelegate);
                 return onlyTextBuffer;
             }
             set
             {
                 if (value != null)
                 {
-                    Edit_setOnlyText(widget, value);
+                    EditBox_setOnlyText(widget, value);
                 }
                 else
                 {
-                    Edit_setOnlyText(widget, "");
+                    EditBox_setOnlyText(widget, "");
                 }
             }
         }
@@ -368,166 +368,166 @@ namespace MyGUIPlugin
 #region PInvoke
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Edit_setTextIntervalColor(IntPtr edit, UIntPtr start, UIntPtr count, Color colour);
+        private static extern void EditBox_setTextIntervalColor(IntPtr edit, UIntPtr start, UIntPtr count, Color colour);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Edit_setTextSelection(IntPtr edit, UIntPtr start, UIntPtr end);
+        private static extern void EditBox_setTextSelection(IntPtr edit, UIntPtr start, UIntPtr end);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Edit_deleteTextSelection(IntPtr edit);
+        private static extern void EditBox_deleteTextSelection(IntPtr edit);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Edit_setTextSelectionColor(IntPtr edit, Color value);
+        private static extern void EditBox_setTextSelectionColor(IntPtr edit, Color value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Edit_insertText1(IntPtr edit, [MarshalAs(UnmanagedType.LPWStr)] String text);
+        private static extern void EditBox_insertText1(IntPtr edit, [MarshalAs(UnmanagedType.LPWStr)] String text);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Edit_insertText2(IntPtr edit, [MarshalAs(UnmanagedType.LPWStr)] String text, UIntPtr index);
+        private static extern void EditBox_insertText2(IntPtr edit, [MarshalAs(UnmanagedType.LPWStr)] String text, UIntPtr index);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Edit_addText(IntPtr edit, [MarshalAs(UnmanagedType.LPWStr)] String text);
+        private static extern void EditBox_addText(IntPtr edit, [MarshalAs(UnmanagedType.LPWStr)] String text);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Edit_eraseText1(IntPtr edit, UIntPtr start);
+        private static extern void EditBox_eraseText1(IntPtr edit, UIntPtr start);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Edit_eraseText2(IntPtr edit, UIntPtr start, UIntPtr count);
+        private static extern void EditBox_eraseText2(IntPtr edit, UIntPtr start, UIntPtr count);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern UIntPtr Edit_getTextSelectionStart(IntPtr edit);
+        private static extern UIntPtr EditBox_getTextSelectionStart(IntPtr edit);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern UIntPtr Edit_getTextSelectionEnd(IntPtr edit);
+        private static extern UIntPtr EditBox_getTextSelectionEnd(IntPtr edit);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern UIntPtr Edit_getTextSelectionLength(IntPtr edit);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Edit_isTextSelection(IntPtr edit);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Edit_setTextCursor(IntPtr edit, UIntPtr index);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern UIntPtr Edit_getTextCursor(IntPtr edit);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern UIntPtr Edit_getTextLength(IntPtr edit);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Edit_setOverflowToTheLeft(IntPtr edit, bool value);
+        private static extern UIntPtr EditBox_getTextSelectionLength(IntPtr edit);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Edit_getOverflowToTheLeft(IntPtr edit);
+        private static extern bool EditBox_isTextSelection(IntPtr edit);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Edit_setMaxTextLength(IntPtr edit, UIntPtr value);
+        private static extern void EditBox_setTextCursor(IntPtr edit, UIntPtr index);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern UIntPtr Edit_getMaxTextLength(IntPtr edit);
+        private static extern UIntPtr EditBox_getTextCursor(IntPtr edit);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Edit_setEditReadOnly(IntPtr edit, bool value);
+        private static extern UIntPtr EditBox_getTextLength(IntPtr edit);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Edit_getEditReadOnly(IntPtr edit);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Edit_setEditPassword(IntPtr edit, bool value);
+        private static extern void EditBox_setOverflowToTheLeft(IntPtr edit, bool value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Edit_getEditPassword(IntPtr edit);
+        private static extern bool EditBox_getOverflowToTheLeft(IntPtr edit);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Edit_setEditMultiLine(IntPtr edit, bool value);
+        private static extern void EditBox_setMaxTextLength(IntPtr edit, UIntPtr value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Edit_getEditMultiLine(IntPtr edit);
+        private static extern UIntPtr EditBox_getMaxTextLength(IntPtr edit);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Edit_setEditStatic(IntPtr edit, bool value);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Edit_getEditStatic(IntPtr edit);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Edit_setPasswordChar(IntPtr edit, char value);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern char Edit_getPasswordChar(IntPtr edit);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Edit_setEditWordWrap(IntPtr edit, bool value);
+        private static extern void EditBox_setEditReadOnly(IntPtr edit, bool value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Edit_getEditWordWrap(IntPtr edit);
+        private static extern bool EditBox_getEditReadOnly(IntPtr edit);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Edit_setTabPrinting(IntPtr edit, bool value);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Edit_getTabPrinting(IntPtr edit);
+        private static extern void EditBox_setEditPassword(IntPtr edit, bool value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Edit_getInvertSelected(IntPtr edit);
+        private static extern bool EditBox_getEditPassword(IntPtr edit);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Edit_setInvertSelected(IntPtr edit, bool value);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Edit_setVisibleVScroll(IntPtr edit, bool value);
+        private static extern void EditBox_setEditMultiLine(IntPtr edit, bool value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Edit_isVisibleVScroll(IntPtr edit);
+        private static extern bool EditBox_getEditMultiLine(IntPtr edit);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern UIntPtr Edit_getVScrollRange(IntPtr edit);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern UIntPtr Edit_getVScrollPosition(IntPtr edit);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Edit_setVScrollPosition(IntPtr edit, UIntPtr index);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Edit_setVisibleHScroll(IntPtr edit, bool value);
+        private static extern void EditBox_setEditStatic(IntPtr edit, bool value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Edit_isVisibleHScroll(IntPtr edit);
+        private static extern bool EditBox_getEditStatic(IntPtr edit);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern UIntPtr Edit_getHScrollRange(IntPtr edit);
+        private static extern void EditBox_setPasswordChar(IntPtr edit, char value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern UIntPtr Edit_getHScrollPosition(IntPtr edit);
+        private static extern char EditBox_getPasswordChar(IntPtr edit);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Edit_setHScrollPosition(IntPtr edit, UIntPtr index);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Edit_setAllowMouseScroll(IntPtr edit, bool value);
+        private static extern void EditBox_setEditWordWrap(IntPtr edit, bool value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Edit_getAllowMouseScroll(IntPtr edit);
+        private static extern bool EditBox_getEditWordWrap(IntPtr edit);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Edit_setOnlyText(IntPtr edit, [MarshalAs(UnmanagedType.LPWStr)] String value);
+        private static extern void EditBox_setTabPrinting(IntPtr edit, bool value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Edit_getOnlyText(IntPtr edit, TempStringCallback onlyTextDelegate);
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool EditBox_getTabPrinting(IntPtr edit);
+
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool EditBox_getInvertSelected(IntPtr edit);
+
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        private static extern void EditBox_setInvertSelected(IntPtr edit, bool value);
+
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        private static extern void EditBox_setVisibleVScroll(IntPtr edit, bool value);
+
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool EditBox_isVisibleVScroll(IntPtr edit);
+
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        private static extern UIntPtr EditBox_getVScrollRange(IntPtr edit);
+
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        private static extern UIntPtr EditBox_getVScrollPosition(IntPtr edit);
+
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        private static extern void EditBox_setVScrollPosition(IntPtr edit, UIntPtr index);
+
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        private static extern void EditBox_setVisibleHScroll(IntPtr edit, bool value);
+
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool EditBox_isVisibleHScroll(IntPtr edit);
+
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        private static extern UIntPtr EditBox_getHScrollRange(IntPtr edit);
+
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        private static extern UIntPtr EditBox_getHScrollPosition(IntPtr edit);
+
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        private static extern void EditBox_setHScrollPosition(IntPtr edit, UIntPtr index);
+
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        private static extern void EditBox_setAllowMouseScroll(IntPtr edit, bool value);
+
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool EditBox_getAllowMouseScroll(IntPtr edit);
+
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        private static extern void EditBox_setOnlyText(IntPtr edit, [MarshalAs(UnmanagedType.LPWStr)] String value);
+
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        private static extern void EditBox_getOnlyText(IntPtr edit, TempStringCallback onlyTextDelegate);
 
 #endregion
     }

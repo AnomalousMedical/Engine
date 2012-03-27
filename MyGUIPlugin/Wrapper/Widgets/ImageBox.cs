@@ -20,29 +20,29 @@ namespace MyGUIPlugin
             {
                 value = "";
             }
-            StaticImage_setItemResource(widget, value);
+            ImageBox_setItemResource(widget, value);
         }
 
         public void setItemGroup(String value)
         {
-            StaticImage_setItemGroup(widget, value);
+            ImageBox_setItemGroup(widget, value);
         }
 
         public void setItemName(String value)
         {
-            StaticImage_setItemName(widget, value);
+            ImageBox_setItemName(widget, value);
         }
 
 #region PInvoke
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void StaticImage_setItemResource(IntPtr staticImage, String value);
+        private static extern void ImageBox_setItemResource(IntPtr staticImage, String value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void StaticImage_setItemGroup(IntPtr staticImage, String value);
+        private static extern void ImageBox_setItemGroup(IntPtr staticImage, String value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void StaticImage_setItemName(IntPtr staticImage, String value);
+        private static extern void ImageBox_setItemName(IntPtr staticImage, String value);
 
 #endregion
     }

@@ -18,11 +18,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return VScroll_getScrollRange(widget).ToUInt32();
+                return ScrollBar_getScrollRange(widget).ToUInt32();
             }
             set
             {
-                VScroll_setScrollRange(widget, new UIntPtr(value));
+                ScrollBar_setScrollRange(widget, new UIntPtr(value));
             }
         }
 
@@ -30,11 +30,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return VScroll_getScrollPosition(widget).ToUInt32();
+                return ScrollBar_getScrollPosition(widget).ToUInt32();
             }
             set
             {
-                VScroll_setScrollPosition(widget, new UIntPtr(value));
+                ScrollBar_setScrollPosition(widget, new UIntPtr(value));
             }
         }
 
@@ -42,11 +42,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return VScroll_getScrollPage(widget).ToUInt32();
+                return ScrollBar_getScrollPage(widget).ToUInt32();
             }
             set
             {
-                VScroll_setScrollPage(widget, new UIntPtr(value));
+                ScrollBar_setScrollPage(widget, new UIntPtr(value));
             }
         }
 
@@ -54,11 +54,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return VScroll_getScrollIncrement(widget).ToUInt32();
+                return ScrollBar_getScrollIncrement(widget).ToUInt32();
             }
             set
             {
-                VScroll_setScrollIncrement(widget, new UIntPtr(value));
+                ScrollBar_setScrollIncrement(widget, new UIntPtr(value));
             }
         }
 
@@ -66,11 +66,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return VScroll_getScrollViewPage(widget).ToUInt32();
+                return ScrollBar_getScrollViewPage(widget).ToUInt32();
             }
             set
             {
-                VScroll_setScrollViewPage(widget, new UIntPtr(value));
+                ScrollBar_setScrollViewPage(widget, new UIntPtr(value));
             }
         }
 
@@ -78,7 +78,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return VScroll_getLineSize(widget);
+                return ScrollBar_getLineSize(widget);
             }
         }
 
@@ -86,11 +86,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return VScroll_getTrackSize(widget);
+                return ScrollBar_getTrackSize(widget);
             }
             set
             {
-                VScroll_setTrackSize(widget, value);
+                ScrollBar_setTrackSize(widget, value);
             }
         }
 
@@ -98,11 +98,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return VScroll_getMinTrackSize(widget);
+                return ScrollBar_getMinTrackSize(widget);
             }
             set
             {
-                VScroll_setMinTrackSize(widget, value);
+                ScrollBar_setMinTrackSize(widget, value);
             }
         }
 
@@ -110,11 +110,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return VScroll_getMoveToClick(widget);
+                return ScrollBar_getMoveToClick(widget);
             }
             set
             {
-                VScroll_setMoveToClick(widget, value);
+                ScrollBar_setMoveToClick(widget, value);
             }
         }
 
@@ -133,56 +133,56 @@ namespace MyGUIPlugin
 #region PInvoke
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void VScroll_setScrollRange(IntPtr vscroll, UIntPtr value);
+        private static extern void ScrollBar_setScrollRange(IntPtr vscroll, UIntPtr value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern UIntPtr VScroll_getScrollRange(IntPtr vscroll);
+        private static extern UIntPtr ScrollBar_getScrollRange(IntPtr vscroll);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void VScroll_setScrollPosition(IntPtr vscroll, UIntPtr value);
+        private static extern void ScrollBar_setScrollPosition(IntPtr vscroll, UIntPtr value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern UIntPtr VScroll_getScrollPosition(IntPtr vscroll);
+        private static extern UIntPtr ScrollBar_getScrollPosition(IntPtr vscroll);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void VScroll_setScrollPage(IntPtr vscroll, UIntPtr value);
+        private static extern void ScrollBar_setScrollPage(IntPtr vscroll, UIntPtr value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern UIntPtr VScroll_getScrollPage(IntPtr vscroll);
+        private static extern UIntPtr ScrollBar_getScrollPage(IntPtr vscroll);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void VScroll_setScrollIncrement(IntPtr vscroll, UIntPtr value);
+        private static extern void ScrollBar_setScrollIncrement(IntPtr vscroll, UIntPtr value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern UIntPtr VScroll_getScrollIncrement(IntPtr vscroll);
+        private static extern UIntPtr ScrollBar_getScrollIncrement(IntPtr vscroll);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void VScroll_setScrollViewPage(IntPtr vscroll, UIntPtr value);
+        private static extern void ScrollBar_setScrollViewPage(IntPtr vscroll, UIntPtr value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern UIntPtr VScroll_getScrollViewPage(IntPtr vscroll);
+        private static extern UIntPtr ScrollBar_getScrollViewPage(IntPtr vscroll);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern int VScroll_getLineSize(IntPtr vscroll);
+        private static extern int ScrollBar_getLineSize(IntPtr vscroll);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void VScroll_setTrackSize(IntPtr vscroll, int value);
+        private static extern void ScrollBar_setTrackSize(IntPtr vscroll, int value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern int VScroll_getTrackSize(IntPtr vscroll);
+        private static extern int ScrollBar_getTrackSize(IntPtr vscroll);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void VScroll_setMinTrackSize(IntPtr vscroll, int value);
+        private static extern void ScrollBar_setMinTrackSize(IntPtr vscroll, int value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern int VScroll_getMinTrackSize(IntPtr vscroll);
+        private static extern int ScrollBar_getMinTrackSize(IntPtr vscroll);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void VScroll_setMoveToClick(IntPtr vscroll, bool value);
+        private static extern void ScrollBar_setMoveToClick(IntPtr vscroll, bool value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool VScroll_getMoveToClick(IntPtr vscroll);
+        private static extern bool ScrollBar_getMoveToClick(IntPtr vscroll);
 
 #endregion
     }
