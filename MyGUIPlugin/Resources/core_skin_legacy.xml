@@ -139,7 +139,7 @@ WindowResizeBottom
 Window
 *****************************-->
   <Resource type="ResourceSkin" name = "Window" size = "68 49" texture = "#{MyGUI_Theme_Texture}" >
-    <Property key="ToStick" value = "true" />
+    <Property key="Snap" value = "true" />
     <Child type="Button" skin="WindowCaptionSmall" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
     </Child>
@@ -150,7 +150,7 @@ Window
 WindowC
 *****************************-->
   <Resource type="ResourceSkin" name = "WindowC" size = "68 49" texture = "#{MyGUI_Theme_Texture}" >
-    <Property key="ToStick" value = "true" />
+    <Property key="Snap" value = "true" />
     <Child type="Button" skin="WindowCaptionSmall" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
     </Child>
@@ -164,7 +164,7 @@ WindowC
 WindowCS
 *****************************-->
   <Resource type="ResourceSkin" name = "WindowCS" size = "68 49" texture = "#{MyGUI_Theme_Texture}" >
-    <Property key="ToStick" value = "true" />
+    <Property key="Snap" value = "true" />
     <Child type="Button" skin="WindowCaptionSmall" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
     </Child>
@@ -231,7 +231,7 @@ WindowCS
 WindowCX
 *****************************-->
   <Resource type="ResourceSkin" name = "WindowCX" size = "68 49" texture = "#{MyGUI_Theme_Texture}" >
-    <Property key="ToStick" value = "true" />
+    <Property key="Snap" value = "true" />
     <Child type="Button" skin="WindowCaptionSmallCloseButton" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
     </Child>
@@ -245,7 +245,7 @@ WindowCX
 WindowCSX
 *****************************-->
   <Resource type="ResourceSkin" name = "WindowCSX" size = "68 49" texture = "#{MyGUI_Theme_Texture}" >
-    <Property key="ToStick" value = "true" />
+    <Property key="Snap" value = "true" />
     <Child type="Button" skin="WindowCaptionSmallCloseButton" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
     </Child>
