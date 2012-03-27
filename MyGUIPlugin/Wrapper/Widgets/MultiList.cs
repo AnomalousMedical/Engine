@@ -6,7 +6,6 @@ using System.Runtime.InteropServices;
 
 namespace MyGUIPlugin
 {
-
     public class MultiList : Widget
     {
         private List<Object> columnData = new List<Object>();
@@ -95,6 +94,11 @@ namespace MyGUIPlugin
         public void sortByColumn(uint column, bool backward)
         {
             MultiList_sortByColumn2(widget, new UIntPtr(column), backward);
+        }
+
+        public void setColumnResizingPolicyAt(uint index, ResizingPolicy value)
+        {
+            MultiList_setColumnResizingPolicyAt(widget, new UIntPtr(index), value);
         }
 
         //------------------------------------------------------------------------------//
@@ -400,6 +404,9 @@ namespace MyGUIPlugin
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool MultiList_getSortOnChanges(IntPtr multiList);
+
+        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void MultiList_setColumnResizingPolicyAt(IntPtr multiList, UIntPtr _index, ResizingPolicy _value);
 
 #endregion
     }

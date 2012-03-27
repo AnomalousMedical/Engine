@@ -78,7 +78,7 @@ MyGUI::Align::Enum getAlignEnumVal(const MyGUI::Align& align)
 		return MyGUI::Align::Default;	
 	}
 
-	/*if(align == MyGUI::Align::HRelative)
+	if(align == MyGUI::Align::HRelative)
 	{
 		return MyGUI::Align::HRelative;	
 	}
@@ -91,7 +91,7 @@ MyGUI::Align::Enum getAlignEnumVal(const MyGUI::Align& align)
 	if(align == MyGUI::Align::Relative)
 	{
 		return MyGUI::Align::Relative;	
-	}*/
+	}
 
 	return MyGUI::Align::Default;
 }
@@ -119,4 +119,24 @@ MyGUI::FlowDirection::Enum getFlowDirectionEnumValue(const MyGUI::FlowDirection&
 	}
 
 	return MyGUI::FlowDirection::MAX;
+}
+
+MyGUI::ResizingPolicy::Enum getResizingPolicyEnumValue(const MyGUI::ResizingPolicy& resizingPolicy)
+{
+	if(resizingPolicy == MyGUI::ResizingPolicy::Auto)
+	{
+		return MyGUI::ResizingPolicy::Auto;
+	}
+
+	if(resizingPolicy == MyGUI::ResizingPolicy::Fixed)
+	{
+		return MyGUI::ResizingPolicy::Fixed;
+	}
+
+	if(resizingPolicy == MyGUI::ResizingPolicy::Fill)
+	{
+		return MyGUI::ResizingPolicy::Fill;
+	}
+	
+	return MyGUI::ResizingPolicy::MAX;
 }

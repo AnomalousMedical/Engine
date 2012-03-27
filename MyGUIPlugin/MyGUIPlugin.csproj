@@ -144,6 +144,7 @@
     <Compile Include="Wrapper\Events\Widget\RootFocusEventArgs.cs" />
     <Compile Include="Plugin\ManagedMyGUILogListener.cs" />
     <Compile Include="Wrapper\System\RenderManager.cs" />
+    <Compile Include="Wrapper\System\ResizingPolicy.cs" />
     <Compile Include="Wrapper\Widgets\SubWidget\ISubWidgetText.cs" />
     <Compile Include="Wrapper\Events\Widget\ToolTipEventArgs.cs" />
     <Compile Include="Wrapper\Events\Window\EventWindowButtonPressedTranslator.cs" />
@@ -254,7 +255,9 @@
     <EmbeddedResource Include="Resources\custom_skin_template.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\core_skin_legacy.xml" />
+    <EmbeddedResource Include="Resources\core_skin_legacy.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

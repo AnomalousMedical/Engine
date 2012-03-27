@@ -134,3 +134,8 @@ extern "C" _AnomalousExport bool MultiList_getSortOnChanges(MyGUI::MultiListBox*
 {
 	return multiList->getSortOnChanges();
 }
+
+extern "C" _AnomalousExport void MultiList_setColumnResizingPolicyAt(MyGUI::MultiListBox* multiList, size_t _index, MyGUI::ResizingPolicy::Enum _value)
+{
+	multiList->setColumnResizingPolicyAt(_index, _value);
+}
