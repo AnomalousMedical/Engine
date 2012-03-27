@@ -104,7 +104,7 @@
   <ItemGroup>
     <ClCompile Include="Src\Button.cpp" />
     <ClCompile Include="Src\ComboBox.cpp" />
-    <ClCompile Include="Src\Edit.cpp" />
+    <ClCompile Include="Src\EditBox.cpp" />
     <ClCompile Include="Src\EventMenuCtrlAcceptTranslator.cpp" />
     <ClCompile Include="Src\EventMenuCtrlCloseTranslator.cpp" />
     <ClCompile Include="Src\FontManager.cpp" />
@@ -116,24 +116,24 @@
     <ClCompile Include="Src\Layout.cpp" />
     <ClCompile Include="Src\LayoutManager.cpp" />
     <ClCompile Include="Src\ManagedMyGUILogListener.cpp" />
-    <ClCompile Include="Src\MenuCtrl.cpp" />
+    <ClCompile Include="Src\MenuControl.cpp" />
     <ClCompile Include="Src\MenuItem.cpp" />
     <ClCompile Include="Src\Message.cpp" />
-    <ClCompile Include="Src\MultiList.cpp" />
+    <ClCompile Include="Src\MultiListBox.cpp" />
     <ClCompile Include="Src\OgrePlatform.cpp" />
     <ClCompile Include="Src\OgreRenderManager.cpp" />
     <ClCompile Include="Src\PointerManager.cpp" />
-    <ClCompile Include="Src\Progress.cpp" />
+    <ClCompile Include="Src\ProgressBar.cpp" />
     <ClCompile Include="src\RenderManager.cpp" />
     <ClCompile Include="Src\ResourceManager.cpp" />
     <ClCompile Include="Src\ScrollView.cpp" />
-    <ClCompile Include="Src\StaticImage.cpp" />
-    <ClCompile Include="Src\StaticText.cpp" />
+    <ClCompile Include="Src\ImageBox.cpp" />
+    <ClCompile Include="Src\TextBox.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Src\VScroll.cpp" />
+    <ClCompile Include="Src\ScrollBar.cpp" />
     <ClCompile Include="Src\Widget.cpp" />
     <ClCompile Include="Src\WidgetManager.cpp" />
     <ClCompile Include="Src\Window.cpp" />
