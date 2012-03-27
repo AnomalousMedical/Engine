@@ -39,7 +39,7 @@ namespace MyGUIPlugin
         /// <param name="callback">The callback to call when the box is closed.</param>
         public static void show(String message, String caption, MessageBoxStyle style, MessageClosedDelegate callback)
         {
-            Message box = Message.createMessageBox("Message", caption, message, style);
+            Message box = Message.createMessageBox("MyGUIPlugin.Resources.MessageBox.MessageBox.layout", caption, message, style);
             box.MessageBoxResult += box_MessageBoxResult;
             delegates.Add(box, callback);
         }

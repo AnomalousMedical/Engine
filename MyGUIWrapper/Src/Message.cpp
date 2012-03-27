@@ -58,5 +58,5 @@ extern "C" _AnomalousExport MyGUI::Message* Message_createMessageBox(
  String button3,
  String button4)
 {
-	return MyGUI::Message::createMessageBox(skin, caption, message, style, layer, modal, button1, button2, button3, button4);
+	return MyGUI::Message::createMessageBoxAltLayout(skin, caption, message, style, layer, modal, button1, button2, button3, button4);
 }
