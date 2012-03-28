@@ -228,7 +228,6 @@ ProgressBar
 *****************************-->
   <Resource type="ResourceLayout" name="ProgressBar" version="3.2.0">
     <Widget type="Widget" skin="ProgressBarSkin" position="25 50 125 15" name="Root">
-      <Property key="MoveToClick" value="true"/>
       <UserString key="LE_TargetWidgetType" value="ProgressBar"/>
       <UserString key="TrackWidth" value="7"/>
       <UserString key="TrackFill" value="false"/>
@@ -245,7 +244,6 @@ ProgressBarFill
 *****************************-->
   <Resource type="ResourceLayout" name="ProgressBarFill" version="3.2.0">
     <Widget type="Widget" skin="ProgressBarFillSkin" position="25 50 125 15" name="Root">
-      <Property key="MoveToClick" value="true"/>
       <UserString key="LE_TargetWidgetType" value="ProgressBar"/>
       <UserString key="TrackFill" value="true"/>
       <UserString key="TrackSkin" value="ProgressTrack"/>
