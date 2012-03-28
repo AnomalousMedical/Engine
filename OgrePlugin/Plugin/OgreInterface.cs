@@ -94,6 +94,9 @@ namespace OgrePlugin
                 //Initialize Ogre
                 //root.loadPlugin("RenderSystem_Direct3D9");
                 RenderSystem rs = root.getPlatformDefaultRenderSystem();
+                //This is a temp fix, this will make d3d9 work correctly on multiple monitors
+	            //The other option is "Use minimum system memory" (which is the default) and uses less memory.
+	            rs.setConfigOption("Multi device memory hint", "Auto hardware buffers management");
                 //String valid = rs.validateConfigOptions();
                 //if (valid.Length != 0)
                 //{
