@@ -9,7 +9,5 @@
   <List file="MyGUIPlugin_Template.xml"/>
   <List file="MyGUIPlugin_Skin_Custom.xml"/>
   <List file="MyGUIPlugin_Template_Custom.xml"/>
-  <List file="MyGUIPlugin_Pointer.xml"/>
-  <List file="MyGUIPlugin_Layer.xml"/>
   <List file="MyGUIPlugin_Settings.xml"/>
 </MyGUI>

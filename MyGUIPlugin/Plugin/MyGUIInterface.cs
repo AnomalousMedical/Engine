@@ -110,6 +110,8 @@ namespace MyGUIPlugin
                 resourceManager.load(OSTheme);
             }
             resourceManager.load(MainTheme);
+            resourceManager.load(PointerFile);
+            resourceManager.load(LayerFile);
             resourceManager.load(MessageBoxTheme);
 
             Log.Info("Finished initializing MyGUI");
@@ -166,6 +168,8 @@ namespace MyGUIPlugin
             OSTheme = DefaultWindowsTheme;
             MainTheme = DefaultMainTheme;
             MessageBoxTheme = DefaultMessageBoxTheme;
+            LayerFile = "MyGUIPlugin_Layer.xml";
+            PointerFile = "MyGUIPlugin_Pointer.xml";
         }
 
         public static readonly String DefaultWindowsTheme = "MyGUIPlugin_Windows.xml";
@@ -190,6 +194,10 @@ namespace MyGUIPlugin
         /// will contain common items to all themes.
         /// </summary>
         public static String MainTheme { get; set; }
+
+        public static String LayerFile { get; set; }
+
+        public static String PointerFile { get; set; }
 
         /// <summary>
         /// The message box theme file to load. This is loaded after the Main Theme.

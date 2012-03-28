@@ -206,9 +206,6 @@
     <EmbeddedResource Include="Resources\MessageBox\MessageBox.layout" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Editor\core_theme.xml" />
-    <None Include="Resources\Editor\core_font.xml" />
-    <None Include="Resources\Editor\core_language.xml" />
     <EmbeddedResource Include="Resources\MyGUIPlugin_Widget_Texture.png">
       <LogicalName>MyGUIPlugin_Widget_Texture.png</LogicalName>
     </EmbeddedResource>
@@ -252,7 +249,6 @@
     <EmbeddedResource Include="Resources\MyGUIPlugin_Theme_Tag.xml">
       <LogicalName>MyGUIPlugin_Theme_Tag.xml</LogicalName>
     </EmbeddedResource>
-    <None Include="Resources\Editor\core_theme_tag.xml" />
     <EmbeddedResource Include="Resources\MyGUIPlugin_Windows_Tag.xml">
       <LogicalName>MyGUIPlugin_Windows_Tag.xml</LogicalName>
     </EmbeddedResource>
