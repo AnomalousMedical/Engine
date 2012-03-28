@@ -105,8 +105,11 @@ namespace MyGUIPlugin
 
             //Load config files
             ResourceManager resourceManager = ResourceManager.Instance;
-            resourceManager.load(OSTheme);
-            resourceManager.load("MyGUIPlugin.Resources.MyGUIPlugin_Main.xml");
+            if (!String.IsNullOrEmpty(OSTheme))
+            {
+                resourceManager.load(OSTheme);
+            }
+            resourceManager.load(MainTheme);
 
             Log.Info("Finished initializing MyGUI");
         }
@@ -160,6 +163,7 @@ namespace MyGUIPlugin
         {
             LogFile = "MyGUI.log";
             OSTheme = "MyGUIPlugin.Resources.MyGUIPlugin_Windows.xml";
+            MainTheme = "MyGUIPlugin.Resources.MyGUIPlugin_Main.xml";
         }
 
         /// <summary>
@@ -173,6 +177,12 @@ namespace MyGUIPlugin
         /// and other things in the main theme.
         /// </summary>
         public static String OSTheme { get; set; }
+
+        /// <summary>
+        /// The main theme file to load. This is loaded after the OSTheme and
+        /// will contain common items to all themes.
+        /// </summary>
+        public static String MainTheme { get; set; }
 
         /// <summary>
         /// The amount of time Smooth Show transitions should take.
