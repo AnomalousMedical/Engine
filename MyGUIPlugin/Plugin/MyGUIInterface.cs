@@ -162,8 +162,8 @@ namespace MyGUIPlugin
         static MyGUIInterface()
         {
             LogFile = "MyGUI.log";
-            OSTheme = "MyGUIPlugin.Resources.MyGUIPlugin_Windows.xml";
-            MainTheme = "MyGUIPlugin.Resources.MyGUIPlugin_Main.xml";
+            OSTheme = "MyGUIPlugin_Windows.xml";
+            MainTheme = "MyGUIPlugin_Main.xml";
         }
 
         /// <summary>

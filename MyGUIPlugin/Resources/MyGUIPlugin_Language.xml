@@ -4,10 +4,10 @@
 
 	<Language default="English">
 		<Info name="English">
-			<Source>MyGUIPlugin.Resources.MyGUIPlugin_Language_English_Tag.xml</Source>
+			<Source>MyGUIPlugin_Language_English_Tag.xml</Source>
 		</Info>
 		<Info name="Russian">
-			<Source>MyGUIPlugin.Resources.MyGUIPlugin_Language_Russian_Tag.xml</Source>
+			<Source>MyGUIPlugin_Language_Russian_Tag.xml</Source>
 		</Info>
 	</Language>
 

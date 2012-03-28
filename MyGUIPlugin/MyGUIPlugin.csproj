@@ -209,36 +209,71 @@
     <None Include="Resources\Editor\core_theme.xml" />
     <None Include="Resources\Editor\core_font.xml" />
     <None Include="Resources\Editor\core_language.xml" />
-    <EmbeddedResource Include="Resources\MyGUIPlugin_Widget_Texture.png" />
-    <EmbeddedResource Include="Resources\MyGUIPlugin_Font.xml" />
-    <EmbeddedResource Include="Resources\MyGUIPlugin_Language.xml" />
-    <EmbeddedResource Include="Resources\MyGUIPlugin_Language_English_Tag.xml" />
-    <EmbeddedResource Include="Resources\MyGUIPlugin_Language_Russian_Tag.xml" />
-    <EmbeddedResource Include="Resources\MyGUIPlugin_Layer.xml" />
-    <EmbeddedResource Include="Resources\MyGUIPlugin_Pointer_Texture.png" />
-    <EmbeddedResource Include="Resources\MyGUIPlugin_Pointer.xml" />
-    <EmbeddedResource Include="Resources\MyGUIPlugin_Pointer_W32.xml" />
-    <EmbeddedResource Include="Resources\MyGUIPlugin_Resource.xml" />
-    <EmbeddedResource Include="Resources\MyGUIPlugin_Settings.xml" />
+    <EmbeddedResource Include="Resources\MyGUIPlugin_Widget_Texture.png">
+      <LogicalName>MyGUIPlugin_Widget_Texture.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MyGUIPlugin_Font.xml">
+      <LogicalName>MyGUIPlugin_Font.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MyGUIPlugin_Language.xml">
+      <LogicalName>MyGUIPlugin_Language.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MyGUIPlugin_Language_English_Tag.xml">
+      <LogicalName>MyGUIPlugin_Language_English_Tag.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MyGUIPlugin_Language_Russian_Tag.xml">
+      <LogicalName>MyGUIPlugin_Language_Russian_Tag.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MyGUIPlugin_Layer.xml">
+      <LogicalName>MyGUIPlugin_Layer.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MyGUIPlugin_Pointer_Texture.png">
+      <LogicalName>MyGUIPlugin_Pointer_Texture.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MyGUIPlugin_Pointer.xml">
+      <LogicalName>MyGUIPlugin_Pointer.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MyGUIPlugin_Pointer_W32.xml">
+      <LogicalName>MyGUIPlugin_Pointer_W32.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MyGUIPlugin_Resource.xml">
+      <LogicalName>MyGUIPlugin_Resource.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MyGUIPlugin_Settings.xml">
+      <LogicalName>MyGUIPlugin_Settings.xml</LogicalName>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\MyGUIPlugin_Skin.xml">
       <SubType>Designer</SubType>
+      <LogicalName>MyGUIPlugin_Skin.xml</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\MyGUIPlugin_OSX_Tag.xml" />
-    <EmbeddedResource Include="Resources\MyGUIPlugin_Theme_Tag.xml" />
+    <EmbeddedResource Include="Resources\MyGUIPlugin_OSX_Tag.xml">
+      <LogicalName>MyGUIPlugin_OSX_Tag.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MyGUIPlugin_Theme_Tag.xml">
+      <LogicalName>MyGUIPlugin_Theme_Tag.xml</LogicalName>
+    </EmbeddedResource>
     <None Include="Resources\Editor\core_theme_tag.xml" />
-    <EmbeddedResource Include="Resources\MyGUIPlugin_Windows_Tag.xml" />
+    <EmbeddedResource Include="Resources\MyGUIPlugin_Windows_Tag.xml">
+      <LogicalName>MyGUIPlugin_Windows_Tag.xml</LogicalName>
+    </EmbeddedResource>
     <None Include="Resources\Editor\custom_widgets.xml">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\MyGUIPlugin_DejaVuSans.ttf" />
+    <EmbeddedResource Include="Resources\MyGUIPlugin_DejaVuSans.ttf">
+      <LogicalName>MyGUIPlugin_DejaVuSans.ttf</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\MyGUIPlugin_Skin_Custom.xml" />
+    <EmbeddedResource Include="Resources\MyGUIPlugin_Skin_Custom.xml">
+      <LogicalName>MyGUIPlugin_Skin_Custom.xml</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\MyGUIPlugin_Template.xml" />
+    <EmbeddedResource Include="Resources\MyGUIPlugin_Template.xml">
+      <LogicalName>MyGUIPlugin_Template.xml</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\MessageBox\MessageBoxIcons.png" />
@@ -249,7 +284,9 @@
     <EmbeddedResource Include="Resources\MessageBox\MessageBoxResources.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\MyGUIPlugin_Template_Custom.xml" />
+    <EmbeddedResource Include="Resources\MyGUIPlugin_Template_Custom.xml">
+      <LogicalName>MyGUIPlugin_Template_Custom.xml</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\MyGUIPlugin_Skin_Legacy.xml">
@@ -258,14 +295,22 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\MyGUIPlugin_Main.xml" />
+    <EmbeddedResource Include="Resources\MyGUIPlugin_Main.xml">
+      <LogicalName>MyGUIPlugin_Main.xml</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\MyGUIPlugin_Theme.xml" />
+    <EmbeddedResource Include="Resources\MyGUIPlugin_Theme.xml">
+      <LogicalName>MyGUIPlugin_Theme.xml</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\MyGUIPlugin_OSX.xml" />
-    <EmbeddedResource Include="Resources\MyGUIPlugin_Windows.xml" />
+    <EmbeddedResource Include="Resources\MyGUIPlugin_OSX.xml">
+      <LogicalName>MyGUIPlugin_OSX.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MyGUIPlugin_Windows.xml">
+      <LogicalName>MyGUIPlugin_Windows.xml</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -2,7 +2,7 @@
 <MyGUI type="Language">
   <Language>
     <Info>
-      <Source>MyGUIPlugin.Resources.MyGUIPlugin_Windows_Tag.xml</Source>
+      <Source>MyGUIPlugin_Windows_Tag.xml</Source>
     </Info>
   </Language>
 </MyGUI>

@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <MyGUI type="List">
-  <List file="MyGUIPlugin.Resources.MyGUIPlugin_Theme.xml"/>
-  <List file="MyGUIPlugin.Resources.MyGUIPlugin_Language.xml"/>
-  <List file="MyGUIPlugin.Resources.MyGUIPlugin_Font.xml"/>
-  <List file="MyGUIPlugin.Resources.MyGUIPlugin_Resource.xml"/>
-  <List file="MyGUIPlugin.Resources.MyGUIPlugin_Skin.xml"/>
+  <List file="MyGUIPlugin_Theme.xml"/>
+  <List file="MyGUIPlugin_Language.xml"/>
+  <List file="MyGUIPlugin_Font.xml"/>
+  <List file="MyGUIPlugin_Resource.xml"/>
+  <List file="MyGUIPlugin_Skin.xml"/>
   <List file="MyGUIPlugin_Skin_Legacy.xml"/>
-  <List file="MyGUIPlugin.Resources.MyGUIPlugin_Template.xml"/>
+  <List file="MyGUIPlugin_Template.xml"/>
   <List file="MyGUIPlugin.Resources.MessageBox.MessageBoxResources.xml"/>
-  <List file="MyGUIPlugin.Resources.MyGUIPlugin_Skin_Custom.xml"/>
-  <List file="MyGUIPlugin.Resources.MyGUIPlugin_Template_Custom.xml"/>
-  <List file="MyGUIPlugin.Resources.MyGUIPlugin_Pointer.xml"/>
-  <List file="MyGUIPlugin.Resources.MyGUIPlugin_Layer.xml"/>
-  <List file="MyGUIPlugin.Resources.MyGUIPlugin_Settings.xml"/>
+  <List file="MyGUIPlugin_Skin_Custom.xml"/>
+  <List file="MyGUIPlugin_Template_Custom.xml"/>
+  <List file="MyGUIPlugin_Pointer.xml"/>
+  <List file="MyGUIPlugin_Layer.xml"/>
+  <List file="MyGUIPlugin_Settings.xml"/>
 </MyGUI>
