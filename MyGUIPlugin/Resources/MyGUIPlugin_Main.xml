@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MyGUI type="List">
+  <List file="MyGUIPlugin.Resources.MyGUIPlugin_Theme.xml"/>
+  <List file="MyGUIPlugin.Resources.core_language.xml"/>
+  <List file="MyGUIPlugin.Resources.core_font.xml"/>
+  <List file="MyGUIPlugin.Resources.core_resource.xml"/>
+  <List file="MyGUIPlugin.Resources.core_skin.xml"/>
+  <List file="core_skin_legacy.xml"/>
+  <List file="MyGUIPlugin.Resources.core_skin_template.xml"/>
+  <List file="MyGUIPlugin.Resources.MessageBox.MessageBoxResources.xml"/>
+  <List file="MyGUIPlugin.Resources.custom_skin.xml"/>
+  <List file="MyGUIPlugin.Resources.custom_skin_template.xml"/>
+  <List file="MyGUIPlugin.Resources.core_pointer.xml"/>
+  <List file="MyGUIPlugin.Resources.core_layer.xml"/>
+  <List file="MyGUIPlugin.Resources.core_settings.xml"/>
+</MyGUI>

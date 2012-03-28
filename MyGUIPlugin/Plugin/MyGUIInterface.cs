@@ -105,19 +105,8 @@ namespace MyGUIPlugin
 
             //Load config files
             ResourceManager resourceManager = ResourceManager.Instance;
-            resourceManager.load(Theme);
-            resourceManager.load(Language);
-            resourceManager.load(Font);
-            resourceManager.load(Resource);
-            resourceManager.load(Skin);
-            resourceManager.load("MyGUIPlugin.Resources.core_skin_legacy.xml");
-            resourceManager.load("MyGUIPlugin.Resources.core_skin_template.xml");
-            resourceManager.load("MyGUIPlugin.Resources.MessageBox.MessageBoxResources.xml");
-            resourceManager.load("MyGUIPlugin.Resources.custom_skin.xml");
-            resourceManager.load("MyGUIPlugin.Resources.custom_skin_template.xml");
-            resourceManager.load(Pointer);
-            resourceManager.load(Layer);
-            resourceManager.load(Settings);
+            resourceManager.load(OSTheme);
+            resourceManager.load("MyGUIPlugin.Resources.MyGUIPlugin_Main.xml");
 
             Log.Info("Finished initializing MyGUI");
         }
@@ -170,14 +159,7 @@ namespace MyGUIPlugin
         static MyGUIInterface()
         {
             LogFile = "MyGUI.log";
-            Theme = "MyGUIPlugin.Resources.core_theme.xml";
-            Language = "MyGUIPlugin.Resources.core_language.xml";
-            Font = "MyGUIPlugin.Resources.core_font.xml";
-            Resource = "MyGUIPlugin.Resources.core_resource.xml";
-            Skin = "MyGUIPlugin.Resources.core_skin.xml";
-            Pointer = "MyGUIPlugin.Resources.core_pointer.xml";
-            Layer = "MyGUIPlugin.Resources.core_layer.xml";
-            Settings = "MyGUIPlugin.Resources.core_settings.xml";
+            OSTheme = "MyGUIPlugin.Resources.MyGUIPlugin_Windows.xml";
         }
 
         /// <summary>
@@ -186,44 +168,11 @@ namespace MyGUIPlugin
         public static String LogFile { get; set; }
 
         /// <summary>
-        /// The file to load the theme tags for MyGUI. Set before initializing.
+        /// The OS Theme MyGUI. Set before initializing.
+        /// Changes stuff depending on the os like window close button alignment
+        /// and other things in the main theme.
         /// </summary>
-        public static String Theme { get; set; }
-
-        /// <summary>
-        /// The file to load the language for MyGUI. Set before initializing.
-        /// </summary>
-        public static String Language { get; set; }
-
-        /// <summary>
-        /// The file to load the fonts for MyGUI. Set before initializing.
-        /// </summary>
-        public static String Font { get; set; }
-
-        /// <summary>
-        /// The file to load the resources for MyGUI. Set before initializing.
-        /// </summary>
-        public static String Resource { get; set; }
-
-        /// <summary>
-        /// The file to load the skin settings for MyGUI. Set before initializing.
-        /// </summary>
-        public static String Skin { get; set; }
-
-        /// <summary>
-        /// The file to load pointer info for MyGUI. Set before initializing.
-        /// </summary>
-        public static String Pointer { get; set; }
-
-        /// <summary>
-        /// The file to load layer info for MyGUI. Set before initializing.
-        /// </summary>
-        public static String Layer { get; set; }
-
-        /// <summary>
-        /// The file to load settings for MyGUI. Set before initializing.
-        /// </summary>
-        public static String Settings { get; set; }
+        public static String OSTheme { get; set; }
 
         /// <summary>
         /// The amount of time Smooth Show transitions should take.

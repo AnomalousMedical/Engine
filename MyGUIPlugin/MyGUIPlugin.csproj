@@ -207,7 +207,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Editor\core_theme.xml" />
-    <None Include="Resources\Editor\core_theme_osx.xml" />
     <None Include="Resources\Editor\core_font.xml" />
     <None Include="Resources\Editor\core_language.xml" />
     <EmbeddedResource Include="Resources\core.png" />
@@ -224,13 +223,11 @@
     <EmbeddedResource Include="Resources\core_skin.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\core_theme.xml" />
-    <EmbeddedResource Include="Resources\core_theme_osx.xml" />
-    <EmbeddedResource Include="Resources\core_theme_osx_tag.xml" />
-    <EmbeddedResource Include="Resources\core_theme_tag.xml" />
-    <None Include="Resources\Editor\core_theme_tag_filesystem.xml" />
-    <EmbeddedResource Include="Resources\core_theme_windows_tag.xml" />
-    <None Include="Resources\Editor\widgets.xml">
+    <EmbeddedResource Include="Resources\MyGUIPlugin_OSX_Tag.xml" />
+    <EmbeddedResource Include="Resources\MyGUIPlugin_Theme_Tag.xml" />
+    <None Include="Resources\Editor\core_theme_tag.xml" />
+    <EmbeddedResource Include="Resources\MyGUIPlugin_Windows_Tag.xml" />
+    <None Include="Resources\Editor\custom_widgets.xml">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
@@ -257,7 +254,18 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\core_skin_legacy.xml">
       <SubType>Designer</SubType>
+      <LogicalName>core_skin_legacy.xml</LogicalName>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\MyGUIPlugin_Main.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\MyGUIPlugin_Theme.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\MyGUIPlugin_OSX.xml" />
+    <EmbeddedResource Include="Resources\MyGUIPlugin_Windows.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
