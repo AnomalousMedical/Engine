@@ -42,7 +42,7 @@ namespace MyGUIPlugin
         {
             if (columnWidget == null)
             {
-                columnWidget = (TextBox)Table.TableWidget.createWidgetT("StaticText", "StaticText", position.x, position.y, size.Width, size.Height, Align.Default, "");
+                columnWidget = (TextBox)Table.TableWidget.createWidgetT("TextBox", "TextBox", position.x, position.y, size.Width, size.Height, Align.Default, "");
                 columnWidget.Caption = Name;
             }
         }

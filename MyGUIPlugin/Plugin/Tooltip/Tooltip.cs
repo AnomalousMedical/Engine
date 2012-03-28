@@ -12,7 +12,7 @@ namespace MyGUIPlugin
 
         public Tooltip(String text, int x, int y)
         {
-            tooltipWidget = Gui.Instance.createWidgetT("StaticText", "Tooltip", x, y, 1, 1, Align.Default, "Overlapped", "") as TextBox;
+            tooltipWidget = Gui.Instance.createWidgetT("TextBox", "Tooltip", x, y, 1, 1, Align.Default, "Overlapped", "") as TextBox;
             tooltipWidget.Caption = text;
             Size2 textSize = tooltipWidget.getTextSize();
             tooltipWidget.setSize((int)textSize.Width + 6, (int)textSize.Height + 4);

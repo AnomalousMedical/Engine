@@ -20,7 +20,7 @@ namespace MyGUIPlugin
 
             if (grid.ShowGroupCaptions)
             {
-                captionText = grid.ScrollView.createWidgetT("StaticText", grid.GroupCaptionSkin, 0, 0, 10, 10, Align.Left | Align.Top, "") as TextBox;
+                captionText = grid.ScrollView.createWidgetT("TextBox", grid.GroupCaptionSkin, 0, 0, 10, 10, Align.Left | Align.Top, "") as TextBox;
                 captionText.Font = grid.GroupCaptionFont;
                 captionText.Caption = name;
                 captionText.setSize((int)captionText.getTextSize().Width + 5, (int)captionText.FontHeight);
