@@ -105,15 +105,6 @@ namespace MyGUIPlugin
             }
         }
 
-        //This has a warning, but if it does not exist you do not get the correct client coord.
-        public IntCoord ClientCoord
-        {
-            get
-            {
-                return ScrollView_getClientCoord(widget);
-            }
-        }
-
         public IntCoord ViewCoord
         {
             get
@@ -162,9 +153,6 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern ThreeIntHack ScrollView_getCanvasSize(IntPtr scrollView);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntCoord ScrollView_getClientCoord(IntPtr scrollView);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern ThreeIntHack ScrollView_getCanvasPosition(IntPtr scrollView);

@@ -44,11 +44,6 @@ extern "C" _AnomalousExport ThreeIntHack ScrollView_getCanvasSize(MyGUI::ScrollV
 	return scrollView->getCanvasSize();
 }
 
-extern "C" _AnomalousExport MyGUI::IntCoord ScrollView_getClientCoord(MyGUI::ScrollView* scrollView)
-{
-	return scrollView->getClientCoord();
-}
-
 extern "C" _AnomalousExport ThreeIntHack ScrollView_getCanvasPosition(MyGUI::ScrollView* scrollView)
 {
 	return scrollView->getCanvasPosition();
