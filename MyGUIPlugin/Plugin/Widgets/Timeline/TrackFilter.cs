@@ -43,7 +43,7 @@ namespace MyGUIPlugin
         {
             String actionName = row.Name;
             
-            Button button = (Button)scrollView.createWidgetT("Button", "ButtonMinusPlus", 0, row.Top, buttonWidth, buttonHeight, Align.Default, "");
+            Button button = (Button)scrollView.createWidgetT("Button", "ButtonExpandSkin", 0, row.Top, buttonWidth, buttonHeight, Align.Default, "");
             button.Selected = true;
             
             TextBox staticText = (TextBox)scrollView.createWidgetT("TextBox", "TextBox", buttonWidth + 1, row.Top, textWidth, buttonHeight, Align.Default, "");

@@ -25,7 +25,7 @@ namespace MyGUIPlugin
         {
             primaryWidget = parent.createWidgetT("Widget", "PanelEmpty", 0, 0, 26, 16, Align.Default, "") as Widget;
 
-            plusMinusButton = primaryWidget.createWidgetT("Button", "ButtonMinusPlus", 0, 0, 16, 16, Align.Left | Align.HCenter, "") as Button;
+            plusMinusButton = primaryWidget.createWidgetT("Button", "ButtonExpandSkin", 0, 0, 16, 16, Align.Left | Align.HCenter, "") as Button;
             plusMinusButton.MouseButtonClick += new MyGUIEvent(plusMinusButton_MouseButtonClick);
             plusMinusButton.Visible = treeNode.Children.Count > 0;
 

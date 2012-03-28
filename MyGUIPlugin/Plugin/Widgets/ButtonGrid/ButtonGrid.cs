@@ -161,13 +161,13 @@ namespace MyGUIPlugin
             GroupCaptionSkin = scrollView.getUserString("GroupCaptionSkin");
             if (GroupCaptionSkin == null || GroupCaptionSkin == String.Empty)
             {
-                GroupCaptionSkin = "StaticText";
+                GroupCaptionSkin = "TextBox";
             }
 
             GroupSeparatorSkin = scrollView.getUserString("GroupSeparatorSkin");
             if (GroupSeparatorSkin == null || GroupSeparatorSkin == String.Empty)
             {
-                GroupSeparatorSkin = "Separator1";
+                GroupSeparatorSkin = "SepUpVSkin";
             }
         }
 
