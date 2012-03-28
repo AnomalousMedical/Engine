@@ -1383,7 +1383,7 @@ LargeIconPopupMenu
     <Property key="HeightLine" value = "40" />
     <Property key="SeparatorSkin" value = "PopupMenuSeparator" />
     <Property key="SeparatorHeight" value = "10" />
-    <Property key="AlignVert" value = "true" />
+    <Property key="VerticalAlignment" value = "true" />
     <Child type="Widget" skin="NonTransparentDefaultClient" offset = "2 2 6 6" align = "Stretch" name = "Client"/>
     <!--TopLeft-->
     <BasisSkin type="SubSkin" offset = "0 0 4 4" align = "Left Top">
@@ -2182,7 +2182,7 @@ SceneViewBorder
 WindowCXNoBorder
 *****************************-->
   <Resource type="ResourceSkin" name = "WindowCXNoBorder" size = "68 49" texture = "#{MyGUI_Theme_Texture}" >
-    <Property key="ToStick" value = "true" />
+    <Property key="Snap" value = "true" />
     <Child type="Button" skin="WindowCaptionSmallCloseButton" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
     </Child>

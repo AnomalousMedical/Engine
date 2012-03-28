@@ -433,7 +433,7 @@ PopupMenu
     <Property key="HeightLine" value = "25" />
     <Property key="SeparatorSkin" value = "PopupMenuSeparator" />
     <Property key="SeparatorHeight" value = "10" />
-    <Property key="AlignVert" value = "true" />
+    <Property key="VerticalAlignment" value = "true" />
     <Child type="Widget" skin="NonTransparentDefaultClient" offset = "2 2 6 6" align = "Stretch" name = "Client"/>
     <!--TopLeft-->
     <BasisSkin type="SubSkin" offset = "0 0 4 4" align = "Left Top">
@@ -517,7 +517,7 @@ MenuBar
     <Property key="SubMenuSkin" value = "PopupMenu" />
     <Property key="SubMenuLayer" value = "Popup" />
     <Property key="HeightLine" value = "22" />
-    <Property key="AlignVert" value = "false" />
+    <Property key="VerticalAlignment" value = "false" />
     <Child type="Widget" skin="Default" offset = "6 1 15 22" align = "Stretch" name = "Client"/>
     <!--Left-->
     <BasisSkin type="SubSkin" offset = "0 0 4 26" align = "Left VStretch">
