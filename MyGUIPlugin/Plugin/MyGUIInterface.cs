@@ -162,9 +162,12 @@ namespace MyGUIPlugin
         static MyGUIInterface()
         {
             LogFile = "MyGUI.log";
-            OSTheme = "MyGUIPlugin_Windows.xml";
+            OSTheme = DefaultWindowsTheme;
             MainTheme = "MyGUIPlugin_Main.xml";
         }
+
+        public static readonly String DefaultWindowsTheme = "MyGUIPlugin_Windows.xml";
+        public static readonly String DefaultOSXTheme = "MyGUIPlugin_OSX.xml";
 
         /// <summary>
         /// The log file location for MyGUI. Set before initializing.
