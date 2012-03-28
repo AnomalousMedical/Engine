@@ -93,7 +93,7 @@ namespace MyGUIPlugin
 
             //Create Ogre Platform
             ogrePlatform = new OgrePlatform();
-            ogrePlatform.initialize(ogreWindow.OgreRenderWindow, sceneManager, "MyGUI", "");
+            ogrePlatform.initialize(ogreWindow.OgreRenderWindow, sceneManager, "MyGUI", LogFile);
 
             //Create log
             managedLogListener = new ManagedMyGUILogListener();
@@ -110,6 +110,7 @@ namespace MyGUIPlugin
                 resourceManager.load(OSTheme);
             }
             resourceManager.load(MainTheme);
+            resourceManager.load(MessageBoxTheme);
 
             Log.Info("Finished initializing MyGUI");
         }
@@ -161,13 +162,16 @@ namespace MyGUIPlugin
 
         static MyGUIInterface()
         {
-            LogFile = "MyGUI.log";
+            LogFile = "";
             OSTheme = DefaultWindowsTheme;
-            MainTheme = "MyGUIPlugin_Main.xml";
+            MainTheme = DefaultMainTheme;
+            MessageBoxTheme = DefaultMessageBoxTheme;
         }
 
         public static readonly String DefaultWindowsTheme = "MyGUIPlugin_Windows.xml";
         public static readonly String DefaultOSXTheme = "MyGUIPlugin_OSX.xml";
+        public static readonly String DefaultMainTheme = "MyGUIPlugin_Main.xml";
+        public static readonly String DefaultMessageBoxTheme = "MyGUIPlugin.Resources.MessageBox.MessageBoxResources.xml";
 
         /// <summary>
         /// The log file location for MyGUI. Set before initializing.
@@ -186,6 +190,11 @@ namespace MyGUIPlugin
         /// will contain common items to all themes.
         /// </summary>
         public static String MainTheme { get; set; }
+
+        /// <summary>
+        /// The message box theme file to load. This is loaded after the Main Theme.
+        /// </summary>
+        public static String MessageBoxTheme { get; set; }
 
         /// <summary>
         /// The amount of time Smooth Show transitions should take.
