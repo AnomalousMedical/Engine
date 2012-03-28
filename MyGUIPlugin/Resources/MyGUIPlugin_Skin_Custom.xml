@@ -22,7 +22,7 @@ TaskMenuBackground
 TaskMenuButtonGridButton
 *****************************-->
   <Resource type="ResourceSkin" name = "TaskMenuButtonGridButton" size = "122 122" texture = "#{MyGUI_Theme_Texture}">
-    <Property key="FontName" value = "font_Tuffy.14" />
+    <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 2 32 32" align = "HCenter Top" name = "Image"/>
     <BasisSkin type="SimpleText" offset = "1 102 121 20" align = "HStretch Bottom">
@@ -896,7 +896,7 @@ CustomPanelOnPanel2
 ButtonGridButton
 *****************************-->
   <Resource type="ResourceSkin" name = "ButtonGridButton" size = "122 122" texture = "#{MyGUI_Theme_Texture}">
-    <Property key="FontName" value = "font_Tuffy.14" />
+    <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 2 100 100" align = "HCenter Top" name = "Image"/>
     <BasisSkin type="SimpleText" offset = "1 102 121 20" align = "HStretch Bottom">
@@ -983,7 +983,7 @@ ButtonGridButton
 ButtonGridImageButton
 *****************************-->
   <Resource type="ResourceSkin" name = "ButtonGridImageButton" size = "102 102" texture = "#{MyGUI_Theme_Texture}">
-    <Property key="FontName" value = "font_Tuffy.14" />
+    <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "4 4 94 94" align = "HStretch VStretch" name = "Image"/>
     <!--TopLeft-->
@@ -1064,7 +1064,7 @@ ButtonGridImageButton
 ColorSwatchButton
 *****************************-->
   <Resource type="ResourceSkin" name = "ColorSwatchButton" size = "14 14" texture = "#{MyGUI_Theme_Texture}">
-    <Property key="FontName" value = "font_Tuffy.14" />
+    <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 1 12 12" align = "HStretch VStretch" name = "Image"/>
     <!--TopLeft-->
@@ -1118,7 +1118,7 @@ ColorSwatchButton
 ButtonListIconButtonButton
 *****************************-->
   <Resource type="ResourceSkin" name = "ButtonListIconButton" size = "102 122" texture = "#{MyGUI_Theme_Texture}">
-    <Property key="FontName" value = "font_Tuffy.14" />
+    <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "Left VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 1 100 100" align = "Top Left" name = "Image"/>
     <BasisSkin type="SimpleText" offset = "102 1 20 122" align = "HStretch VStretch">
@@ -1287,7 +1287,7 @@ AppButton
 AppMenuIconButton
 *****************************-->
   <Resource type="ResourceSkin" name = "AppMenuIconButton" size = "102 122" texture = "#{MyGUI_Theme_Texture}">
-    <Property key="FontName" value = "font_Tuffy.14" />
+    <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "Left VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "4 4 32 32" align = "Top Left" name = "Image"/>
     <BasisSkin type="SimpleText" offset = "39 1 68 122" align = "HStretch VStretch">
@@ -1739,7 +1739,7 @@ TimelineSelectionRegion
 ImageButton
 *****************************-->
   <Resource type="ResourceSkin" name = "ImageButton" size = "23 23" texture = "#{MyGUI_Theme_Texture}">
-    <Property key="FontName" value = "font_Tuffy.14" />
+    <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "Left VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "0 0 11 11" align = "Center" name = "Image"/>
     <BasisSkin type="SimpleText" offset = "39 1 68 122" align = "HStretch VStretch">
@@ -1909,7 +1909,7 @@ Tooltip
 BookmarkListIconButtonButton
 *****************************-->
   <Resource type="ResourceSkin" name = "BookmarkListIconButtonButton" size = "122 122" texture = "#{MyGUI_Theme_Texture}">
-    <Property key="FontName" value = "font_Tuffy.14" />
+    <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 2 100 100" align = "HCenter Top" name = "Image"/>
     <BasisSkin type="SimpleText" offset = "1 102 121 20" align = "HStretch Bottom">
@@ -1997,7 +1997,7 @@ BookmarkListIconButtonButton
 AnatomyFinderIconButtonButton
 *****************************-->
   <Resource type="ResourceSkin" name = "AnatomyFinderIconButtonButton" size = "102 122" texture = "#{MyGUI_Theme_Texture}">
-    <Property key="FontName" value = "font_Tuffy.14" />
+    <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "Left VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 1 50 50" align = "Top Left" name = "Image"/>
     <BasisSkin type="SimpleText" offset = "52 1 47 122" align = "HStretch VStretch">
@@ -2085,7 +2085,7 @@ AnatomyFinderIconButtonButton
 TreeIconButton
 *****************************-->
   <Resource type="ResourceSkin" name = "TreeIconButton" size = "102 122" texture = "#{MyGUI_Theme_Texture}">
-    <Property key="FontName" value = "font_Tuffy.14" />
+    <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "Left VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 1 16 16" align = "Top Left" name = "Image"/>
     <BasisSkin type="SimpleText" offset = "18 1 84 122" align = "HStretch VStretch">
