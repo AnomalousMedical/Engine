@@ -9,12 +9,12 @@ WordWrapWhite
     <Widget type="Widget" skin="CustomPanelWhtNoTranspo" position="65 10 32 28" name="Root">
       <Property key="WordWrap" value="true"/>
       <UserString key="LE_TargetWidgetType" value="EditBox"/>
-      <Widget type="TextBox" skin="EditClientSkin" position="0 0 16 28" align="Stretch" name="Client">
+      <Widget type="TextBox" skin="EditClientSkin" position="2 1 14 27" align="Stretch" name="Client">
         <Property key="TextAlign" value="Default"/>
         <Property key="FontName" value="Default"/>
         <Property key="TextColour" value="0 0 0"/>
       </Widget>
-      <Widget type="ScrollBar" skin="ScrollBarV" position="17 0 15 28" align="Right VStretch" name="VScroll"/>
+      <Widget type="ScrollBar" skin="ScrollBarV" position="16 1 15 27" align="Right VStretch" name="VScroll"/>
     </Widget>
   </Resource>
 </MyGUI>
