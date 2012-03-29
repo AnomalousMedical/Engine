@@ -13,7 +13,6 @@
 		0154F05513572A3700CA2301 /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F01B13572A3700CA2301 /* Button.cpp */; };
 		0154F05613572A3700CA2301 /* ClickEventTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F01C13572A3700CA2301 /* ClickEventTranslator.cpp */; };
 		0154F05713572A3700CA2301 /* ComboBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F01D13572A3700CA2301 /* ComboBox.cpp */; };
-		0154F05813572A3700CA2301 /* Edit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F01E13572A3700CA2301 /* Edit.cpp */; };
 		0154F05913572A3700CA2301 /* EventCanvasPositionChanged.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F01F13572A3700CA2301 /* EventCanvasPositionChanged.cpp */; };
 		0154F05A13572A3700CA2301 /* EventChangeMousePointerTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F02013572A3700CA2301 /* EventChangeMousePointerTranslator.cpp */; };
 		0154F05B13572A3700CA2301 /* EventComboAcceptTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F02113572A3700CA2301 /* EventComboAcceptTranslator.cpp */; };
@@ -47,21 +46,15 @@
 		0154F07713572A3700CA2301 /* LayerManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F03D13572A3700CA2301 /* LayerManager.cpp */; };
 		0154F07813572A3700CA2301 /* Layout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F03E13572A3700CA2301 /* Layout.cpp */; };
 		0154F07913572A3700CA2301 /* LayoutManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F03F13572A3700CA2301 /* LayoutManager.cpp */; };
-		0154F07A13572A3700CA2301 /* MenuCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04013572A3700CA2301 /* MenuCtrl.cpp */; };
 		0154F07B13572A3700CA2301 /* MenuItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04113572A3700CA2301 /* MenuItem.cpp */; };
 		0154F07C13572A3700CA2301 /* Message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04213572A3700CA2301 /* Message.cpp */; };
-		0154F07D13572A3700CA2301 /* MultiList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04313572A3700CA2301 /* MultiList.cpp */; };
 		0154F07E13572A3700CA2301 /* MyGUIEventTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04413572A3700CA2301 /* MyGUIEventTranslator.cpp */; };
 		0154F07F13572A3700CA2301 /* OgrePlatform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04513572A3700CA2301 /* OgrePlatform.cpp */; };
 		0154F08013572A3700CA2301 /* OgreRenderManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04613572A3700CA2301 /* OgreRenderManager.cpp */; };
 		0154F08113572A3700CA2301 /* PointerManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04713572A3700CA2301 /* PointerManager.cpp */; };
-		0154F08213572A3700CA2301 /* Progress.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04813572A3700CA2301 /* Progress.cpp */; };
 		0154F08313572A3700CA2301 /* ResourceManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04913572A3700CA2301 /* ResourceManager.cpp */; };
 		0154F08413572A3700CA2301 /* ScrollChangePositionET.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04A13572A3700CA2301 /* ScrollChangePositionET.cpp */; };
 		0154F08513572A3700CA2301 /* ScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04B13572A3700CA2301 /* ScrollView.cpp */; };
-		0154F08613572A3700CA2301 /* StaticImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04C13572A3700CA2301 /* StaticImage.cpp */; };
-		0154F08713572A3700CA2301 /* StaticText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04D13572A3700CA2301 /* StaticText.cpp */; };
-		0154F08813572A3700CA2301 /* VScroll.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04E13572A3700CA2301 /* VScroll.cpp */; };
 		0154F08913572A3700CA2301 /* Widget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F04F13572A3700CA2301 /* Widget.cpp */; };
 		0154F08A13572A3700CA2301 /* WidgetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F05013572A3700CA2301 /* WidgetManager.cpp */; };
 		0154F08B13572A3700CA2301 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F05113572A3700CA2301 /* Window.cpp */; };
@@ -72,6 +65,14 @@
 		0154F0C113572C0500CA2301 /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0154F0C013572C0500CA2301 /* Ogre.framework */; };
 		0154F1F513572DEC00CA2301 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0154F1F413572DEC00CA2301 /* libfreetype.a */; };
 		01E229C2138316A1006D7D48 /* ManagedMyGUILogListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E229C1138316A1006D7D48 /* ManagedMyGUILogListener.cpp */; };
+		01F6A8711524971600F45101 /* TextBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01F6A8691524971600F45101 /* TextBox.cpp */; };
+		01F6A8721524971600F45101 /* ImageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01F6A86A1524971600F45101 /* ImageBox.cpp */; };
+		01F6A8731524971600F45101 /* ScrollBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01F6A86B1524971600F45101 /* ScrollBar.cpp */; };
+		01F6A8741524971600F45101 /* RenderManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01F6A86C1524971600F45101 /* RenderManager.cpp */; };
+		01F6A8751524971600F45101 /* ProgressBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01F6A86D1524971600F45101 /* ProgressBar.cpp */; };
+		01F6A8761524971600F45101 /* MultiListBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01F6A86E1524971600F45101 /* MultiListBox.cpp */; };
+		01F6A8771524971600F45101 /* MenuControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01F6A86F1524971600F45101 /* MenuControl.cpp */; };
+		01F6A8781524971600F45101 /* EditBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01F6A8701524971600F45101 /* EditBox.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,7 +82,6 @@
 		0154F01B13572A3700CA2301 /* Button.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Button.cpp; sourceTree = "<group>"; };
 		0154F01C13572A3700CA2301 /* ClickEventTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClickEventTranslator.cpp; sourceTree = "<group>"; };
 		0154F01D13572A3700CA2301 /* ComboBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ComboBox.cpp; sourceTree = "<group>"; };
-		0154F01E13572A3700CA2301 /* Edit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Edit.cpp; sourceTree = "<group>"; };
 		0154F01F13572A3700CA2301 /* EventCanvasPositionChanged.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventCanvasPositionChanged.cpp; sourceTree = "<group>"; };
 		0154F02013572A3700CA2301 /* EventChangeMousePointerTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventChangeMousePointerTranslator.cpp; sourceTree = "<group>"; };
 		0154F02113572A3700CA2301 /* EventComboAcceptTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventComboAcceptTranslator.cpp; sourceTree = "<group>"; };
@@ -115,21 +115,15 @@
 		0154F03D13572A3700CA2301 /* LayerManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LayerManager.cpp; sourceTree = "<group>"; };
 		0154F03E13572A3700CA2301 /* Layout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Layout.cpp; sourceTree = "<group>"; };
 		0154F03F13572A3700CA2301 /* LayoutManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LayoutManager.cpp; sourceTree = "<group>"; };
-		0154F04013572A3700CA2301 /* MenuCtrl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MenuCtrl.cpp; sourceTree = "<group>"; };
 		0154F04113572A3700CA2301 /* MenuItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MenuItem.cpp; sourceTree = "<group>"; };
 		0154F04213572A3700CA2301 /* Message.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Message.cpp; sourceTree = "<group>"; };
-		0154F04313572A3700CA2301 /* MultiList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MultiList.cpp; sourceTree = "<group>"; };
 		0154F04413572A3700CA2301 /* MyGUIEventTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MyGUIEventTranslator.cpp; sourceTree = "<group>"; };
 		0154F04513572A3700CA2301 /* OgrePlatform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OgrePlatform.cpp; sourceTree = "<group>"; };
 		0154F04613572A3700CA2301 /* OgreRenderManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OgreRenderManager.cpp; sourceTree = "<group>"; };
 		0154F04713572A3700CA2301 /* PointerManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PointerManager.cpp; sourceTree = "<group>"; };
-		0154F04813572A3700CA2301 /* Progress.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Progress.cpp; sourceTree = "<group>"; };
 		0154F04913572A3700CA2301 /* ResourceManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ResourceManager.cpp; sourceTree = "<group>"; };
 		0154F04A13572A3700CA2301 /* ScrollChangePositionET.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScrollChangePositionET.cpp; sourceTree = "<group>"; };
 		0154F04B13572A3700CA2301 /* ScrollView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScrollView.cpp; sourceTree = "<group>"; };
-		0154F04C13572A3700CA2301 /* StaticImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StaticImage.cpp; sourceTree = "<group>"; };
-		0154F04D13572A3700CA2301 /* StaticText.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StaticText.cpp; sourceTree = "<group>"; };
-		0154F04E13572A3700CA2301 /* VScroll.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VScroll.cpp; sourceTree = "<group>"; };
 		0154F04F13572A3700CA2301 /* Widget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Widget.cpp; sourceTree = "<group>"; };
 		0154F05013572A3700CA2301 /* WidgetManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WidgetManager.cpp; sourceTree = "<group>"; };
 		0154F05113572A3700CA2301 /* Window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
@@ -140,6 +134,14 @@
 		0154F0C013572C0500CA2301 /* Ogre.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ogre.framework; path = ../../../Dependencies/Ogre/OSXBuild/Build/lib/Release/Ogre.framework; sourceTree = SOURCE_ROOT; };
 		0154F1F413572DEC00CA2301 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetype.a; path = ../../../Dependencies/Ogre/OSXBuild/Dependencies/lib/Release/libfreetype.a; sourceTree = SOURCE_ROOT; };
 		01E229C1138316A1006D7D48 /* ManagedMyGUILogListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManagedMyGUILogListener.cpp; sourceTree = "<group>"; };
+		01F6A8691524971600F45101 /* TextBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextBox.cpp; sourceTree = "<group>"; };
+		01F6A86A1524971600F45101 /* ImageBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageBox.cpp; sourceTree = "<group>"; };
+		01F6A86B1524971600F45101 /* ScrollBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScrollBar.cpp; sourceTree = "<group>"; };
+		01F6A86C1524971600F45101 /* RenderManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderManager.cpp; sourceTree = "<group>"; };
+		01F6A86D1524971600F45101 /* ProgressBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProgressBar.cpp; sourceTree = "<group>"; };
+		01F6A86E1524971600F45101 /* MultiListBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MultiListBox.cpp; sourceTree = "<group>"; };
+		01F6A86F1524971600F45101 /* MenuControl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MenuControl.cpp; sourceTree = "<group>"; };
+		01F6A8701524971600F45101 /* EditBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EditBox.cpp; sourceTree = "<group>"; };
 		5073E0C609E734A800EC74B6 /* MyGUIWrapperProj.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = MyGUIWrapperProj.xcconfig; sourceTree = "<group>"; };
 		5073E0C709E734A800EC74B6 /* MyGUIWrapperTarget.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = MyGUIWrapperTarget.xcconfig; sourceTree = "<group>"; };
 		D2AAC09D05546B4700DB518D /* libMyGUIWrapper.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libMyGUIWrapper.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -183,13 +185,20 @@
 		0154F01A13572A3700CA2301 /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				01F6A8691524971600F45101 /* TextBox.cpp */,
+				01F6A86A1524971600F45101 /* ImageBox.cpp */,
+				01F6A86B1524971600F45101 /* ScrollBar.cpp */,
+				01F6A86C1524971600F45101 /* RenderManager.cpp */,
+				01F6A86D1524971600F45101 /* ProgressBar.cpp */,
+				01F6A86E1524971600F45101 /* MultiListBox.cpp */,
+				01F6A86F1524971600F45101 /* MenuControl.cpp */,
+				01F6A8701524971600F45101 /* EditBox.cpp */,
 				014A7C19139FC977007EE3DC /* EventMenuCtrlAcceptTranslator.cpp */,
 				014A7C1A139FC977007EE3DC /* EventMenuCtrlCloseTranslator.cpp */,
 				01E229C1138316A1006D7D48 /* ManagedMyGUILogListener.cpp */,
 				0154F01B13572A3700CA2301 /* Button.cpp */,
 				0154F01C13572A3700CA2301 /* ClickEventTranslator.cpp */,
 				0154F01D13572A3700CA2301 /* ComboBox.cpp */,
-				0154F01E13572A3700CA2301 /* Edit.cpp */,
 				0154F01F13572A3700CA2301 /* EventCanvasPositionChanged.cpp */,
 				0154F02013572A3700CA2301 /* EventChangeMousePointerTranslator.cpp */,
 				0154F02113572A3700CA2301 /* EventComboAcceptTranslator.cpp */,
@@ -223,21 +232,15 @@
 				0154F03D13572A3700CA2301 /* LayerManager.cpp */,
 				0154F03E13572A3700CA2301 /* Layout.cpp */,
 				0154F03F13572A3700CA2301 /* LayoutManager.cpp */,
-				0154F04013572A3700CA2301 /* MenuCtrl.cpp */,
 				0154F04113572A3700CA2301 /* MenuItem.cpp */,
 				0154F04213572A3700CA2301 /* Message.cpp */,
-				0154F04313572A3700CA2301 /* MultiList.cpp */,
 				0154F04413572A3700CA2301 /* MyGUIEventTranslator.cpp */,
 				0154F04513572A3700CA2301 /* OgrePlatform.cpp */,
 				0154F04613572A3700CA2301 /* OgreRenderManager.cpp */,
 				0154F04713572A3700CA2301 /* PointerManager.cpp */,
-				0154F04813572A3700CA2301 /* Progress.cpp */,
 				0154F04913572A3700CA2301 /* ResourceManager.cpp */,
 				0154F04A13572A3700CA2301 /* ScrollChangePositionET.cpp */,
 				0154F04B13572A3700CA2301 /* ScrollView.cpp */,
-				0154F04C13572A3700CA2301 /* StaticImage.cpp */,
-				0154F04D13572A3700CA2301 /* StaticText.cpp */,
-				0154F04E13572A3700CA2301 /* VScroll.cpp */,
 				0154F04F13572A3700CA2301 /* Widget.cpp */,
 				0154F05013572A3700CA2301 /* WidgetManager.cpp */,
 				0154F05113572A3700CA2301 /* Window.cpp */,
@@ -350,7 +353,6 @@
 				0154F05513572A3700CA2301 /* Button.cpp in Sources */,
 				0154F05613572A3700CA2301 /* ClickEventTranslator.cpp in Sources */,
 				0154F05713572A3700CA2301 /* ComboBox.cpp in Sources */,
-				0154F05813572A3700CA2301 /* Edit.cpp in Sources */,
 				0154F05913572A3700CA2301 /* EventCanvasPositionChanged.cpp in Sources */,
 				0154F05A13572A3700CA2301 /* EventChangeMousePointerTranslator.cpp in Sources */,
 				0154F05B13572A3700CA2301 /* EventComboAcceptTranslator.cpp in Sources */,
@@ -384,21 +386,15 @@
 				0154F07713572A3700CA2301 /* LayerManager.cpp in Sources */,
 				0154F07813572A3700CA2301 /* Layout.cpp in Sources */,
 				0154F07913572A3700CA2301 /* LayoutManager.cpp in Sources */,
-				0154F07A13572A3700CA2301 /* MenuCtrl.cpp in Sources */,
 				0154F07B13572A3700CA2301 /* MenuItem.cpp in Sources */,
 				0154F07C13572A3700CA2301 /* Message.cpp in Sources */,
-				0154F07D13572A3700CA2301 /* MultiList.cpp in Sources */,
 				0154F07E13572A3700CA2301 /* MyGUIEventTranslator.cpp in Sources */,
 				0154F07F13572A3700CA2301 /* OgrePlatform.cpp in Sources */,
 				0154F08013572A3700CA2301 /* OgreRenderManager.cpp in Sources */,
 				0154F08113572A3700CA2301 /* PointerManager.cpp in Sources */,
-				0154F08213572A3700CA2301 /* Progress.cpp in Sources */,
 				0154F08313572A3700CA2301 /* ResourceManager.cpp in Sources */,
 				0154F08413572A3700CA2301 /* ScrollChangePositionET.cpp in Sources */,
 				0154F08513572A3700CA2301 /* ScrollView.cpp in Sources */,
-				0154F08613572A3700CA2301 /* StaticImage.cpp in Sources */,
-				0154F08713572A3700CA2301 /* StaticText.cpp in Sources */,
-				0154F08813572A3700CA2301 /* VScroll.cpp in Sources */,
 				0154F08913572A3700CA2301 /* Widget.cpp in Sources */,
 				0154F08A13572A3700CA2301 /* WidgetManager.cpp in Sources */,
 				0154F08B13572A3700CA2301 /* Window.cpp in Sources */,
@@ -406,6 +402,14 @@
 				01E229C2138316A1006D7D48 /* ManagedMyGUILogListener.cpp in Sources */,
 				014A7C1B139FC977007EE3DC /* EventMenuCtrlAcceptTranslator.cpp in Sources */,
 				014A7C1C139FC977007EE3DC /* EventMenuCtrlCloseTranslator.cpp in Sources */,
+				01F6A8711524971600F45101 /* TextBox.cpp in Sources */,
+				01F6A8721524971600F45101 /* ImageBox.cpp in Sources */,
+				01F6A8731524971600F45101 /* ScrollBar.cpp in Sources */,
+				01F6A8741524971600F45101 /* RenderManager.cpp in Sources */,
+				01F6A8751524971600F45101 /* ProgressBar.cpp in Sources */,
+				01F6A8761524971600F45101 /* MultiListBox.cpp in Sources */,
+				01F6A8771524971600F45101 /* MenuControl.cpp in Sources */,
+				01F6A8781524971600F45101 /* EditBox.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -459,6 +463,7 @@
 				HEADER_SEARCH_PATHS = (
 					/Users/andrewpiper/Development/Dependencies/MyGUI/Src/MyGUIEngine/include,
 					/Users/andrewpiper/Development/Dependencies/MyGUI/Src/Platforms/Ogre/OgrePlatform/include,
+					/Users/andrewpiper/Development/Dependencies/MyGUI/Src/Common,
 					/Users/andrewpiper/Development/Dependencies/Ogre/OSX/src/OgreMain/include,
 					/Users/andrewpiper/Development/Dependencies/Ogre/OSX/Dependencies/include,
 					/Users/andrewpiper/Development/Dependencies/Ogre/OSX/Build/include,
