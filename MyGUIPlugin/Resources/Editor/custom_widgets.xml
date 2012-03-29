@@ -27,58 +27,13 @@
     <Property key="Skin" value="WindowCXNoBorder" group="MyGUIPlugin"/>
   </Widget>
 
-  <!--
-
-	<Widget name="Widget">
-		<Property key="DefaultSkin" value=""/>
-
-    <Property key="Skin" value="Panel" group="Other"/>
-		<Property key="Skin" value="PanelSmall" group="Other"/>
-    <Property key="Skin" value="CustomPanelSmall" group="Ribbon"/>
-		<Property key="Skin" value="PanelEmpty" group="Other"/>
-		<Property key="Skin" value="TileClient" group="Other"/>
-		<Property key="Skin" value="DefaultClient" group="Other"/>
-		<Property key="Skin" value="Separator1" group="Other"/>
-		<Property key="Skin" value="Separator2" group="Other"/>
-		<Property key="Skin" value="Separator3" group="Other"/>
-		<Property key="Skin" value="Separator4" group="Other"/>
-    <Property key="Skin" value="2dBorderPanelSkin" group="Ribbon"/>
-    <Property key="Skin" value="3dBorderPanelSkin" group="Ribbon"/>
-    <Property key="Skin" value="CustomPanelOnPanel2" group="Ribbon"/>
-    <Property key="Skin" value="CustomPanelOnPanel" group="Ribbon"/>
-    <Property key="Skin" value="CustomRibbonPanel" group="Ribbon"/>
-    <Property key="Skin" value="SolidBackground" group="Ribbon"/>
-    <Property key="Skin" value="NonTransparentDefaultClient" group="Ribbon"/>
-    <Property key="Skin" value="NonTransparentDefaultClientDark" group="Ribbon"/>
-    <Property key="Skin" value="NonTransparentDefaultClientFill" group="Ribbon"/>
-    <Property key="Parent" value="true"/>
-		<Property key="Child" value="true"/>
-
-		<Parameter key="Widget_Caption" value="String"/>
-		<Parameter key="Widget_Visible" value="Bool"/>
-		<Parameter key="Widget_Alpha" value="alpha"/>
-		<Parameter key="Widget_InheritsAlpha" value="Bool"/>
-		<Parameter key="Widget_InheritsPick" value="Bool"/>
-		<Parameter key="Widget_MaskPick" value="FileName"/>
-		<Parameter key="Widget_State" value="String"/>
-		<Parameter key="Widget_Colour" value="Colour"/>
-		<Parameter key="Widget_NeedKey" value="Bool"/>
-		<Parameter key="Widget_NeedMouse" value="Bool"/>
-		<Parameter key="Widget_Enabled" value="Bool"/>
-		<Parameter key="Widget_NeedToolTip" value="Bool"/>
-
-		<_Parameter key="Widget_eventMouseLostFocus" value="String"/>
-		<_Parameter key="Widget_eventMouseSetFocus" value="String"/>
-		<_Parameter key="Widget_eventMouseDrag" value="String"/>
-		<_Parameter key="Widget_eventMouseMove" value="String"/>
-		<_Parameter key="Widget_eventMouseWheel" value="String"/>
-		<_Parameter key="Widget_eventMouseButtonPressed" value="String"/>
-		<_Parameter key="Widget_eventMouseButtonReleased" value="String"/>
-		<_Parameter key="Widget_eventMouseButtonClick" value="String"/>
-		<_Parameter key="Widget_eventMouseButtonDoubleClick" value="String"/>
-		<_Parameter key="Widget_eventToolTip" value="String"/>
-	</Widget>
-
--->
+  <Widget name="Widget">
+    <Property key="Skin" value="2dBorderPanelSkin" group="MyGUIPlugin"/>
+    <Property key="Skin" value="3dBorderPanelSkin" group="MyGUIPlugin"/>
+    <Property key="Skin" value="PanelSecondary" group="MyGUIPlugin"/>
+    <Property key="Skin" value="GradientPanel" group="MyGUIPlugin"/>
+    <Property key="Skin" value="SolidBackground" group="MyGUIPlugin"/>
+    <Property key="Skin" value="NonTransparentDefaultClient" group="MyGUIPlugin"/>
+  </Widget>
 
 </MyGUI>
