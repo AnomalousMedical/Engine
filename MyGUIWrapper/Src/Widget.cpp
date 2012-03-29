@@ -247,7 +247,7 @@ extern "C" _AnomalousExport String Widget_getPointer(MyGUI::Widget* widget)
 
 extern "C" _AnomalousExport String Widget_getLayerName(MyGUI::Widget* widget)
 {
-	return widget->getLayerName().c_str();
+	return widget->getLayer()->getName().c_str();
 }
 
 extern "C" _AnomalousExport MyGUI::IntCoord Widget_getClientCoord(MyGUI::Widget* widget)
