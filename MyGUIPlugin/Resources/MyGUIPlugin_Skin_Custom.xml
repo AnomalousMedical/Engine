@@ -1975,40 +1975,40 @@ PanelSecondary
 *****************************-->
   <Resource type="ResourceSkin" name = "PanelSecondary" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
     <!--TopLeft-->
-    <BasisSkin type="SubSkin" offset = "0 0 2 2" align = "Left Top">
-      <State name="normal" offset = "909 117 2 2"/>
+    <BasisSkin type="SubSkin" offset = "0 0 3 3" align = "Left Top">
+      <State name="normal" offset = "689 92 3 3"/>
     </BasisSkin>
     <!--TopRight-->
-    <BasisSkin type="SubSkin" offset = "7 0 4 4" align = "Right Top">
-      <State name="normal" offset = "922 117 4 4"/>
+    <BasisSkin type="SubSkin" offset = "6 0 3 3" align = "Right Top">
+      <State name="normal" offset = "704 92 3 3"/>
     </BasisSkin>
     <!--BottomLeft-->
-    <BasisSkin type="SubSkin" offset = "0 7 4 4" align = "Left Bottom">
-      <State name="normal" offset = "909 130 4 4"/>
+    <BasisSkin type="SubSkin" offset = "0 8 3 3" align = "Left Bottom">
+      <State name="normal" offset = "689 106 3 3"/>
     </BasisSkin>
     <!--BottomRight-->
-    <BasisSkin type="SubSkin" offset = "7 7 4 4" align = "Right Bottom">
-      <State name="normal" offset = "922 130 4 4"/>
+    <BasisSkin type="SubSkin" offset = "6 8 3 3" align = "Right Bottom">
+      <State name="normal" offset = "704 106 3 3"/>
     </BasisSkin>
     <!--Top-->
-    <BasisSkin type="SubSkin" offset = "2 0 5 1" align = "HStretch Top">
-      <State name="normal" offset = "913 117 8 1"/>
+    <BasisSkin type="SubSkin" offset = "3 0 5 3" align = "HStretch Top">
+      <State name="normal" offset = "692 92 12 3"/>
     </BasisSkin>
     <!--Left-->
-    <BasisSkin type="SubSkin" offset = "0 2 1 5" align = "Left VStretch">
-      <State name="normal" offset = "909 122 1 7"/>
+    <BasisSkin type="SubSkin" offset = "0 3 3 5" align = "Left VStretch">
+      <State name="normal" offset = "689 95 3 11"/>
     </BasisSkin>
     <!--Right-->
-    <BasisSkin type="SubSkin" offset = "8 3 3 4" align = "Right VStretch">
-      <State name="normal" offset = "923 122 3 7"/>
+    <BasisSkin type="SubSkin" offset = "6 3 3 5" align = "Right VStretch">
+      <State name="normal" offset = "704 95 3 11"/>
     </BasisSkin>
     <!--Bottom-->
-    <BasisSkin type="SubSkin" offset = "4 8 3 3" align = "HStretch Bottom">
-      <State name="normal" offset = "913 131 8 3"/>
+    <BasisSkin type="SubSkin" offset = "3 8 5 3" align = "HStretch Bottom">
+      <State name="normal" offset = "692 106 12 3"/>
     </BasisSkin>
-    <!--Center-->
-    <BasisSkin type="SubSkin" offset = "1 1 7 7" align = "Stretch">
-      <State name="normal" offset = "913 121 7 7"/>
+    <!--Body-->
+    <BasisSkin type="MainSkin" offset = "3 3 5 5" align = "Stretch">
+      <State name="normal" offset = "695 100 1 1"/>
     </BasisSkin>
   </Resource>
 
@@ -2109,9 +2109,9 @@ PanelSecondary
   </Resource>
 
   <!--*************************
-CustomPanelOnPanel2
+GradientPanel
 *****************************-->
-  <Resource type="ResourceSkin" name = "CustomPanelOnPanel2" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
+  <Resource type="ResourceSkin" name = "GradientPanel" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
     <!--TopLeft-->
     <BasisSkin type="SubSkin" offset = "0 0 3 3" align = "Left Top">
       <State name="normal" offset = "641 64 3 3"/>
