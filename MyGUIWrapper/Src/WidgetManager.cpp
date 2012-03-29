@@ -6,23 +6,23 @@ enum WidgetType
         Canvas = 1,
         DDContainer = 2,
             ItemBox = 3,
-        List = 4,
-        MenuCtrl = 5,
+        ListBox = 4,
+        MenuControl = 5,
             MenuBar = 6,
             PopupMenu = 7,
-        MultiList = 8,
-        Progress = 9,
+        MultiListBox = 8,
+        ProgressBar = 9,
         ScrollView = 10,
-        StaticImage = 11,
-        StaticText = 12,
+        ImageBox = 11,
+        TextBox = 12,
             Button = 13,
                 MenuItem = 14,
-            Edit = 15,
+            EditBox = 15,
                 ComboBox = 16,
 			Window = 17,
 			TabItem = 18,
-        Tab = 19,
-        VScroll = 20,
+        TabControl = 19,
+        ScrollBar = 20,
 };
 
 extern "C" _AnomalousExport WidgetType WidgetManager_getType(MyGUI::Widget* widget)
@@ -47,7 +47,7 @@ extern "C" _AnomalousExport WidgetType WidgetManager_getType(MyGUI::Widget* widg
 				return ComboBox;
 			}
 
-			return Edit;
+			return EditBox;
 		}
 
 		if(widget->isType<MyGUI::Window>())
@@ -60,7 +60,7 @@ extern "C" _AnomalousExport WidgetType WidgetManager_getType(MyGUI::Widget* widg
 			return TabItem;
 		}
 
-		return StaticText;
+		return TextBox;
 	}
 
 	if(widget->isType<MyGUI::Canvas>())
@@ -80,7 +80,7 @@ extern "C" _AnomalousExport WidgetType WidgetManager_getType(MyGUI::Widget* widg
 
 	if(widget->isType<MyGUI::ListBox>())
 	{
-		return List;
+		return ListBox;
 	}
 
 	if(widget->isType<MyGUI::MenuControl>())
@@ -95,17 +95,17 @@ extern "C" _AnomalousExport WidgetType WidgetManager_getType(MyGUI::Widget* widg
 			return PopupMenu;
 		}
 
-		return MenuCtrl;
+		return MenuControl;
 	}
 
 	if(widget->isType<MyGUI::MultiListBox>())
 	{
-		return MultiList;
+		return MultiListBox;
 	}
 
 	if(widget->isType<MyGUI::ProgressBar>())
 	{
-		return Progress;
+		return ProgressBar;
 	}
 
 	if(widget->isType<MyGUI::ScrollView>())
@@ -115,17 +115,17 @@ extern "C" _AnomalousExport WidgetType WidgetManager_getType(MyGUI::Widget* widg
 
 	if(widget->isType<MyGUI::ImageBox>())
 	{
-		return StaticImage;
+		return ImageBox;
 	}
 
 	if(widget->isType<MyGUI::TabControl>())
 	{
-		return Tab;
+		return TabControl;
 	}
 
 	if(widget->isType<MyGUI::ScrollBar>())
 	{
-		return VScroll;
+		return ScrollBar;
 	}
 
 	return Widget;

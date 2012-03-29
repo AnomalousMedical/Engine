@@ -19,24 +19,24 @@ namespace MyGUIPlugin
                 Canvas = 1,
                 DDContainer = 2,
                     ItemBox = 3,
-                List = 4,
-                MenuCtrl = 5,
+                ListBox = 4,
+                MenuControl = 5,
                     MenuBar = 6,
                     PopupMenu = 7,
-                MultiList = 8,
-                Progress = 9,
+                MultiListBox = 8,
+                ProgressBar = 9,
                 ScrollView = 10,
-                StaticImage = 11,
-                StaticText = 12,
+                ImageBox = 11,
+                TextBox = 12,
                     Button = 13,
                         MenuItem = 14,
-                    Edit = 15,
+                    EditBox = 15,
                         ComboBox = 16,
 			        Window = 17,
 			        TabItem = 18,
-                Tab = 19,
-                VScroll = 20,
-        }
+                TabControl = 19,
+                ScrollBar = 20,
+        };
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void WidgetDestructorCallback(IntPtr widget);
@@ -106,10 +106,10 @@ namespace MyGUIPlugin
                 case WidgetType.ItemBox:
                     return new Widget(widget);
 
-                case WidgetType.List:
+                case WidgetType.ListBox:
                     return new Widget(widget);
 
-                case WidgetType.MenuCtrl:
+                case WidgetType.MenuControl:
                     return new MenuControl(widget);
 
                 case WidgetType.MenuBar:
@@ -118,19 +118,19 @@ namespace MyGUIPlugin
                 case WidgetType.PopupMenu:
                     return new PopupMenu(widget);
 
-                case WidgetType.MultiList:
+                case WidgetType.MultiListBox:
                     return new MultiListBox(widget);
 
-                case WidgetType.Progress:
+                case WidgetType.ProgressBar:
                     return new ProgressBar(widget);
 
                 case WidgetType.ScrollView:
                     return new ScrollView(widget);
 
-                case WidgetType.StaticImage:
+                case WidgetType.ImageBox:
                     return new ImageBox(widget);
 
-                case WidgetType.StaticText:
+                case WidgetType.TextBox:
                     return new TextBox(widget);
 
                 case WidgetType.Button:
@@ -139,7 +139,7 @@ namespace MyGUIPlugin
                 case WidgetType.MenuItem:
                     return new MenuItem(widget);
 
-                case WidgetType.Edit:
+                case WidgetType.EditBox:
                     return new EditBox(widget);
 
                 case WidgetType.ComboBox:
@@ -151,10 +151,10 @@ namespace MyGUIPlugin
                 case WidgetType.TabItem:
                     return new Widget(widget);
 
-                case WidgetType.Tab:
+                case WidgetType.TabControl:
                     return new Widget(widget);
 
-                case WidgetType.VScroll:
+                case WidgetType.ScrollBar:
                     return new ScrollBar(widget);
             }
             Log.Warning("Could not identify widget type for widget {0}. Type given was {1}. Will return a Widget in its place.", widget.ToString(), widgetType);
@@ -181,10 +181,10 @@ namespace MyGUIPlugin
                 case WidgetType.ItemBox:
                     return wrapperReturnedWidget is Widget;
 
-                case WidgetType.List:
+                case WidgetType.ListBox:
                     return wrapperReturnedWidget is Widget;
 
-                case WidgetType.MenuCtrl:
+                case WidgetType.MenuControl:
                     return wrapperReturnedWidget is MenuControl;
 
                 case WidgetType.MenuBar:
@@ -193,19 +193,19 @@ namespace MyGUIPlugin
                 case WidgetType.PopupMenu:
                     return wrapperReturnedWidget is PopupMenu;
 
-                case WidgetType.MultiList:
+                case WidgetType.MultiListBox:
                     return wrapperReturnedWidget is MultiListBox;
 
-                case WidgetType.Progress:
+                case WidgetType.ProgressBar:
                     return wrapperReturnedWidget is ProgressBar;
 
                 case WidgetType.ScrollView:
                     return wrapperReturnedWidget is ScrollView;
 
-                case WidgetType.StaticImage:
+                case WidgetType.ImageBox:
                     return wrapperReturnedWidget is ImageBox;
 
-                case WidgetType.StaticText:
+                case WidgetType.TextBox:
                     return wrapperReturnedWidget is TextBox;
 
                 case WidgetType.Button:
@@ -214,7 +214,7 @@ namespace MyGUIPlugin
                 case WidgetType.MenuItem:
                     return wrapperReturnedWidget is MenuItem;
 
-                case WidgetType.Edit:
+                case WidgetType.EditBox:
                     return wrapperReturnedWidget is EditBox;
 
                 case WidgetType.ComboBox:
@@ -226,10 +226,10 @@ namespace MyGUIPlugin
                 case WidgetType.TabItem:
                     return wrapperReturnedWidget is Widget;
 
-                case WidgetType.Tab:
+                case WidgetType.TabControl:
                     return wrapperReturnedWidget is Widget;
 
-                case WidgetType.VScroll:
+                case WidgetType.ScrollBar:
                     return wrapperReturnedWidget is ScrollBar;
             }
             Log.Warning("Could not identify widget type for widget {0}. Type given was {1}. Will return a Widget in its place.", rawWidgetPointer.ToString(), widgetType);
