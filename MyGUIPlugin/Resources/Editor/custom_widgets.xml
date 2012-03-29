@@ -3,47 +3,24 @@
 <MyGUI type="Widgets">
 
 	<Widget name="Button">
-		<Property key="DefaultSkin" value="Button"/>
-		<Property key="Base" value="StaticText"/>
-
-		<Property key="Skin" value="Button"/>
-		<Property key="Skin" value="ButtonSmall"/>
-		<Property key="Skin" value="CheckBox"/>
-		<Property key="Skin" value="RadioBox"/>
-		<Property key="Skin" value="ButtonMinusPlus" group="Other"/>
-		<Property key="Skin" value="ButtonX" group="Other"/>
-    <Property key="Skin" value="ButtonXBig" group="Other"/>
-		<Property key="Skin" value="ButtonV" group="Other"/>
-		<Property key="Skin" value="ButtonDown" group="Other"/>
-		<Property key="Skin" value="ButtonUp" group="Other"/>
-		<Property key="Skin" value="ButtonLeft" group="Other"/>
-		<Property key="Skin" value="ButtonRight" group="Other"/>
-		<Property key="Skin" value="ButtonImage" group="Other"/>
-		<Property key="Skin" value="ButtonImageText" group="Other"/>
-    <Property key="Skin" value="RibbonButton" group="Ribbon"/>
-    <Property key="Skin" value="RibbonSplitButton" group="Ribbon"/>
-    <Property key="Skin" value="RibbonButtonSmall" group="Ribbon"/>
-    <Property key="Skin" value="ButtonImageBackground" group="Other"/>
-    <Property key="Skin" value="ButtonImageBackgroundText" group="Other"/>
-    <Property key="Skin" value="ButtonGridButton" group="Ribbon"/>
-    <Property key="Skin" value="ButtonGridImageButton" group="Ribbon"/>
-    <Property key="Skin" value="ButtonListIconButton" group="Other"/>
-    <Property key="Skin" value="AppMenuIconButton" group="Ribbon"/>
-    <Property key="Skin" value="AppButton" group="Ribbon"/>
-    <Property key="Skin" value="AppMenuItemButton" group="Ribbon"/>
+    <Property key="Skin" value="ButtonXBig" group="MyGUIPlugin"/>
+		<Property key="Skin" value="ImageButton" group="MyGUIPlugin"/>
+    <Property key="Skin" value="VerticalIconTextButton" group="MyGUIPlugin"/>
+    <Property key="Skin" value="HorizontalIconTextButton" group="MyGUIPlugin"/>
+    <Property key="Skin" value="ButtonImageBackground" group="MyGUIPlugin"/>
+    <Property key="Skin" value="ButtonImageBackgroundText" group="MyGUIPlugin"/>
+    <Property key="Skin" value="ButtonGridButton" group="MyGUIPlugin"/>
+    <Property key="Skin" value="ButtonGridImageButton" group="MyGUIPlugin"/>
+    <Property key="Skin" value="ButtonListIconButton" group="MyGUIPlugin"/>
+    <Property key="Skin" value="AppMenuIconButton" group="MyGUIPlugin"/>
+    <Property key="Skin" value="AppButton" group="MyGUIPlugin"/>
+    <Property key="Skin" value="AppMenuItemButton" group="MyGUIPlugin"/>
 
 
-    <Property key="Skin" value="CustomButton" group="Ribbon"/>
-
-    <Property key="Parent" value="true"/>
-		<Property key="Child" value="true"/>
-
-		<Parameter key="Button_Pressed" value="Bool"/>
-		<Parameter key="Button_ModeImage" value="Bool"/>
-		<Parameter key="Button_ImageResource" value="String"/>
+    <Property key="Skin" value="CustomButton" group="MyGUIPlugin"/>
 	</Widget>
 
-	<Widget name="Canvas">
+	<!--<Widget name="Canvas">
 		<Property key="DefaultSkin" value="Canvas"/>
 
 		<Property key="Skin" value="Canvas"/>
@@ -356,6 +333,6 @@
 
 		<Parameter key="MenuItem_Id" value="String"/>
 		<Parameter key="MenuItem_Type" value="MenuItemType"/>
-	</Widget>
+	</Widget>-->
 
 </MyGUI>

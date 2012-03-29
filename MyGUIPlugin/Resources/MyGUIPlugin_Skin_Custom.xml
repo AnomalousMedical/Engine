@@ -403,9 +403,9 @@ ScrollViewGray
   </Resource>
 
   <!--*************************
-RibbonButton
+VerticalIconTextButton
 *****************************-->
-  <Resource type="ResourceSkin" name = "RibbonButton" size = "72 64" texture = "#{MyGUI_Theme_Texture}">
+  <Resource type="ResourceSkin" name = "VerticalIconTextButton" size = "72 64" texture = "#{MyGUI_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 4 32 32" align = "Top" name = "Image"/>
@@ -573,9 +573,9 @@ TaskbarButton
   </Resource>
 
   <!--*************************
-RibbonButtonSmall
+HorizontalIconTextButton
 *****************************-->
-  <Resource type="ResourceSkin" name = "RibbonButtonSmall" size = "72 64" texture = "#{MyGUI_Theme_Texture}">
+  <Resource type="ResourceSkin" name = "HorizontalIconTextButton" size = "72 64" texture = "#{MyGUI_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "Left VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "2 3 16 16" align = "Left Top" name = "Image"/>
