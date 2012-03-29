@@ -357,48 +357,6 @@ CustomPanelWhtNoTranspo
   </Resource>
 
   <!--*************************
-PanelSecondary
-*****************************-->
-  <Resource type="ResourceSkin" name = "PanelSecondary" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
-    <!--TopLeft-->
-    <BasisSkin type="SubSkin" offset = "0 0 2 2" align = "Left Top">
-      <State name="normal" offset = "909 117 2 2"/>
-    </BasisSkin>
-    <!--TopRight-->
-    <BasisSkin type="SubSkin" offset = "7 0 4 4" align = "Right Top">
-      <State name="normal" offset = "922 117 4 4"/>
-    </BasisSkin>
-    <!--BottomLeft-->
-    <BasisSkin type="SubSkin" offset = "0 7 4 4" align = "Left Bottom">
-      <State name="normal" offset = "909 130 4 4"/>
-    </BasisSkin>
-    <!--BottomRight-->
-    <BasisSkin type="SubSkin" offset = "7 7 4 4" align = "Right Bottom">
-      <State name="normal" offset = "922 130 4 4"/>
-    </BasisSkin>
-    <!--Top-->
-    <BasisSkin type="SubSkin" offset = "2 0 5 1" align = "HStretch Top">
-      <State name="normal" offset = "913 117 8 1"/>
-    </BasisSkin>
-    <!--Left-->
-    <BasisSkin type="SubSkin" offset = "0 2 1 5" align = "Left VStretch">
-      <State name="normal" offset = "909 122 1 7"/>
-    </BasisSkin>
-    <!--Right-->
-    <BasisSkin type="SubSkin" offset = "8 3 3 4" align = "Right VStretch">
-      <State name="normal" offset = "923 122 3 7"/>
-    </BasisSkin>
-    <!--Bottom-->
-    <BasisSkin type="SubSkin" offset = "4 8 3 3" align = "HStretch Bottom">
-      <State name="normal" offset = "913 131 8 3"/>
-    </BasisSkin>
-    <!--Center-->
-    <BasisSkin type="SubSkin" offset = "1 1 7 7" align = "Stretch">
-      <State name="normal" offset = "913 121 7 7"/>
-    </BasisSkin>
-  </Resource>
-
-  <!--*************************
 ScrollViewGray
 *****************************-->
   <Resource type="ResourceSkin" name = "ScrollViewGray" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
@@ -709,186 +667,6 @@ SolidBackground
   <Resource type="ResourceSkin" name = "SolidBackground" size = "10 10" texture = "#{MyGUI_Theme_Texture}">
     <BasisSkin type="SubSkin" offset = "0 0 10 10" align = "Stretch">
       <State name="normal" offset = "990 83 10 10"/>
-    </BasisSkin>
-  </Resource>
-
-  <!--*************************
-CustomPanel
-*****************************-->
-  <Resource type="ResourceSkin" name = "CustomPanel" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
-    <!--TopLeft-->
-    <BasisSkin type="SubSkin" offset = "0 0 4 4" align = "Left Top">
-      <State name="normal" offset = "425 138 4 4"/>
-    </BasisSkin>
-    <!--TopRight-->
-    <BasisSkin type="SubSkin" offset = "7 0 4 4" align = "Right Top">
-      <State name="normal" offset = "437 138 4 4"/>
-    </BasisSkin>
-    <!--BottomLeft-->
-    <BasisSkin type="SubSkin" offset = "0 7 4 4" align = "Left Bottom">
-      <State name="normal" offset = "425 150 4 4"/>
-    </BasisSkin>
-    <!--BottomRight-->
-    <BasisSkin type="SubSkin" offset = "7 7 4 4" align = "Right Bottom">
-      <State name="normal" offset = "437 150 4 4"/>
-    </BasisSkin>
-    <!--Top-->
-    <BasisSkin type="SubSkin" offset = "4 0 3 4" align = "HStretch Top">
-      <State name="normal" offset = "430 138 4 4"/>
-    </BasisSkin>
-    <!--Left-->
-    <BasisSkin type="SubSkin" offset = "0 4 4 3" align = "Left VStretch">
-      <State name="normal" offset = "425 143 4 4"/>
-    </BasisSkin>
-    <!--Right-->
-    <BasisSkin type="SubSkin" offset = "7 4 4 3" align = "Right VStretch">
-      <State name="normal" offset = "437 143 4 4"/>
-    </BasisSkin>
-    <!--Bottom-->
-    <BasisSkin type="SubSkin" offset = "4 7 3 4" align = "HStretch Bottom">
-      <State name="normal" offset = "430 150 4 4"/>
-    </BasisSkin>
-    <!--Body-->
-    <BasisSkin type="MainSkin" offset = "4 5 3 2" align = "Stretch">
-      <State name="normal" offset = "437 175 11 11"/>
-    </BasisSkin>
-    <!--TopLeft Panel Border-->
-    <BasisSkin type="SubSkin" offset = "2 2 3 3" align = "Left Top">
-      <State name="normal" offset = "434 172 3 3"/>
-    </BasisSkin>
-    <!--Left Panel Border-->
-    <BasisSkin type="SubSkin" offset = "1 3 3 4" align = "Left VStretch">
-      <State name="normal" offset = "434 176 3 9"/>
-    </BasisSkin>
-    <!--Top Panel Border-->
-    <BasisSkin type="SubSkin" offset = "5 2 2 3" align = "HStretch Top">
-      <State name="normal" offset = "438 172 9 3"/>
-    </BasisSkin>
-  </Resource>
-
-  <!--*************************
-CustomPanel2
-*****************************-->
-  <Resource type="ResourceSkin" name = "CustomPanel2" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
-    <!--TopLeft-->
-    <BasisSkin type="SubSkin" offset = "0 0 3 3" align = "Left Top">
-      <State name="normal" offset = "968 61 3 3"/>
-    </BasisSkin>
-    <!--TopRight-->
-    <BasisSkin type="SubSkin" offset = "7 0 4 3" align = "Right Top">
-      <State name="normal" offset = "981 61 4 3"/>
-    </BasisSkin>
-    <!--BottomLeft-->
-    <BasisSkin type="SubSkin" offset = "0 7 3 4" align = "Left Bottom">
-      <State name="normal" offset = "968 74 3 4"/>
-    </BasisSkin>
-    <!--BottomRight-->
-    <BasisSkin type="SubSkin" offset = "7 7 4 4" align = "Right Bottom">
-      <State name="normal" offset = "981 74 4 4"/>
-    </BasisSkin>
-    <!--Top-->
-    <BasisSkin type="SubSkin" offset = "3 0 4 1" align = "HStretch Top">
-      <State name="normal" offset = "973 61 6 1"/>
-    </BasisSkin>
-    <!--Left-->
-    <BasisSkin type="SubSkin" offset = "0 3 1 4" align = "Left VStretch">
-      <State name="normal" offset = "968 66 1 6"/>
-    </BasisSkin>
-    <!--Right-->
-    <BasisSkin type="SubSkin" offset = "9 3 2 4" align = "Right VStretch">
-      <State name="normal" offset = "983 66 2 6"/>
-    </BasisSkin>
-    <!--Bottom-->
-    <BasisSkin type="SubSkin" offset = "3 9 4 2" align = "HStretch Bottom">
-      <State name="normal" offset = "973 76 6 2"/>
-    </BasisSkin>
-    <!--Center-->
-    <BasisSkin type="SubSkin" offset = "1 1 8 8" align = "Stretch">
-      <State name="normal" offset = "970 26 1 1"/>
-    </BasisSkin>
-  </Resource>
-
-  <!--*************************
-CustomRibbonPanel
-*****************************-->
-  <Resource type="ResourceSkin" name = "CustomRibbonPanel" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
-    <!--TopLeft-->
-    <BasisSkin type="SubSkin" offset = "0 0 3 3" align = "Left Top">
-      <State name="normal" offset = "524 64 3 3"/>
-    </BasisSkin>
-    <!--TopRight-->
-    <BasisSkin type="SubSkin" offset = "8 0 3 3" align = "Right Top">
-      <State name="normal" offset = "564 64 3 3"/>
-    </BasisSkin>
-    <!--BottomLeft-->
-    <BasisSkin type="SubSkin" offset = "0 8 3 3" align = "Left Bottom">
-      <State name="normal" offset = "524 100 3 3"/>
-    </BasisSkin>
-    <!--BottomRight-->
-    <BasisSkin type="SubSkin" offset = "8 8 3 3" align = "Right Bottom">
-      <State name="normal" offset = "564 100 3 3"/>
-    </BasisSkin>
-    <!--Top-->
-    <BasisSkin type="SubSkin" offset = "3 0 5 3" align = "HStretch Top">
-      <State name="normal" offset = "528 64 35 3"/>
-    </BasisSkin>
-    <!--Left-->
-    <BasisSkin type="SubSkin" offset = "0 3 3 5" align = "Left VStretch">
-      <State name="normal" offset = "524 68 3 31"/>
-    </BasisSkin>
-    <!--Right-->
-    <BasisSkin type="SubSkin" offset = "8 3 3 5" align = "Right VStretch">
-      <State name="normal" offset = "564 68 3 31"/>
-    </BasisSkin>
-    <!--Bottom-->
-    <BasisSkin type="SubSkin" offset = "3 8 5 3" align = "HStretch Bottom">
-      <State name="normal" offset = "528 100 35 3"/>
-    </BasisSkin>
-    <!--Center-->
-    <BasisSkin type="SubSkin" offset = "2 2 7 7" align = "Stretch">
-      <State name="normal" offset = "528 68 33 31"/>
-    </BasisSkin>
-  </Resource>
-
-  <!--*************************
-CustomPanelOnPanel2
-*****************************-->
-  <Resource type="ResourceSkin" name = "CustomPanelOnPanel2" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
-    <!--TopLeft-->
-    <BasisSkin type="SubSkin" offset = "0 0 3 3" align = "Left Top">
-      <State name="normal" offset = "641 64 3 3"/>
-    </BasisSkin>
-    <!--TopRight-->
-    <BasisSkin type="SubSkin" offset = "8 0 3 3" align = "Right Top">
-      <State name="normal" offset = "666 64 3 3"/>
-    </BasisSkin>
-    <!--BottomLeft-->
-    <BasisSkin type="SubSkin" offset = "0 8 3 3" align = "Left Bottom">
-      <State name="normal" offset = "641 88 3 3"/>
-    </BasisSkin>
-    <!--BottomRight-->
-    <BasisSkin type="SubSkin" offset = "8 8 3 3" align = "Right Bottom">
-      <State name="normal" offset = "666 88 3 3"/>
-    </BasisSkin>
-    <!--Top-->
-    <BasisSkin type="SubSkin" offset = "3 0 5 3" align = "HStretch Top">
-      <State name="normal" offset = "645 64 20 3"/>
-    </BasisSkin>
-    <!--Left-->
-    <BasisSkin type="SubSkin" offset = "0 3 3 5" align = "Left VStretch">
-      <State name="normal" offset = "641 68 3 19"/>
-    </BasisSkin>
-    <!--Right-->
-    <BasisSkin type="SubSkin" offset = "8 3 3 5" align = "Right VStretch">
-      <State name="normal" offset = "666 68 3 19"/>
-    </BasisSkin>
-    <!--Bottom-->
-    <BasisSkin type="SubSkin" offset = "3 8 5 3" align = "HStretch Bottom">
-      <State name="normal" offset = "645 88 20 3"/>
-    </BasisSkin>
-    <!--Center-->
-    <BasisSkin type="SubSkin" offset = "2 2 7 7" align = "Stretch">
-      <State name="normal" offset = "645 68 20 19"/>
     </BasisSkin>
   </Resource>
 
@@ -2190,6 +1968,228 @@ WindowCXNoBorder
     <Child type="Button" skin="ButtonXBig" offset = "#{WindowCloseButtonPosition}" align = "#{WindowCloseButtonAlignment}" name = "Button">
       <Property key="Event" value = "close"/>
     </Child>
+  </Resource>
+
+  <!--*************************
+PanelSecondary
+*****************************-->
+  <Resource type="ResourceSkin" name = "PanelSecondary" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
+    <!--TopLeft-->
+    <BasisSkin type="SubSkin" offset = "0 0 2 2" align = "Left Top">
+      <State name="normal" offset = "909 117 2 2"/>
+    </BasisSkin>
+    <!--TopRight-->
+    <BasisSkin type="SubSkin" offset = "7 0 4 4" align = "Right Top">
+      <State name="normal" offset = "922 117 4 4"/>
+    </BasisSkin>
+    <!--BottomLeft-->
+    <BasisSkin type="SubSkin" offset = "0 7 4 4" align = "Left Bottom">
+      <State name="normal" offset = "909 130 4 4"/>
+    </BasisSkin>
+    <!--BottomRight-->
+    <BasisSkin type="SubSkin" offset = "7 7 4 4" align = "Right Bottom">
+      <State name="normal" offset = "922 130 4 4"/>
+    </BasisSkin>
+    <!--Top-->
+    <BasisSkin type="SubSkin" offset = "2 0 5 1" align = "HStretch Top">
+      <State name="normal" offset = "913 117 8 1"/>
+    </BasisSkin>
+    <!--Left-->
+    <BasisSkin type="SubSkin" offset = "0 2 1 5" align = "Left VStretch">
+      <State name="normal" offset = "909 122 1 7"/>
+    </BasisSkin>
+    <!--Right-->
+    <BasisSkin type="SubSkin" offset = "8 3 3 4" align = "Right VStretch">
+      <State name="normal" offset = "923 122 3 7"/>
+    </BasisSkin>
+    <!--Bottom-->
+    <BasisSkin type="SubSkin" offset = "4 8 3 3" align = "HStretch Bottom">
+      <State name="normal" offset = "913 131 8 3"/>
+    </BasisSkin>
+    <!--Center-->
+    <BasisSkin type="SubSkin" offset = "1 1 7 7" align = "Stretch">
+      <State name="normal" offset = "913 121 7 7"/>
+    </BasisSkin>
+  </Resource>
+
+  <!--*************************
+2dBorderPanelSkin
+*****************************-->
+  <Resource type="ResourceSkin" name = "2dBorderPanelSkin" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
+    <!--TopLeft-->
+    <BasisSkin type="SubSkin" offset = "0 0 4 4" align = "Left Top">
+      <State name="normal" offset = "425 138 4 4"/>
+    </BasisSkin>
+    <!--TopRight-->
+    <BasisSkin type="SubSkin" offset = "7 0 4 4" align = "Right Top">
+      <State name="normal" offset = "437 138 4 4"/>
+    </BasisSkin>
+    <!--BottomLeft-->
+    <BasisSkin type="SubSkin" offset = "0 7 4 4" align = "Left Bottom">
+      <State name="normal" offset = "425 150 4 4"/>
+    </BasisSkin>
+    <!--BottomRight-->
+    <BasisSkin type="SubSkin" offset = "7 7 4 4" align = "Right Bottom">
+      <State name="normal" offset = "437 150 4 4"/>
+    </BasisSkin>
+    <!--Top-->
+    <BasisSkin type="SubSkin" offset = "4 0 3 4" align = "HStretch Top">
+      <State name="normal" offset = "430 138 4 4"/>
+    </BasisSkin>
+    <!--Left-->
+    <BasisSkin type="SubSkin" offset = "0 4 4 3" align = "Left VStretch">
+      <State name="normal" offset = "425 143 4 4"/>
+    </BasisSkin>
+    <!--Right-->
+    <BasisSkin type="SubSkin" offset = "7 4 4 3" align = "Right VStretch">
+      <State name="normal" offset = "437 143 4 4"/>
+    </BasisSkin>
+    <!--Bottom-->
+    <BasisSkin type="SubSkin" offset = "4 7 3 4" align = "HStretch Bottom">
+      <State name="normal" offset = "430 150 4 4"/>
+    </BasisSkin>
+    <!--Body-->
+    <BasisSkin type="MainSkin" offset = "4 5 3 2" align = "Stretch">
+      <State name="normal" offset = "437 175 11 11"/>
+    </BasisSkin>
+    <!--TopLeft Panel Border-->
+    <BasisSkin type="SubSkin" offset = "2 2 3 3" align = "Left Top">
+      <State name="normal" offset = "434 172 3 3"/>
+    </BasisSkin>
+    <!--Left Panel Border-->
+    <BasisSkin type="SubSkin" offset = "1 3 3 4" align = "Left VStretch">
+      <State name="normal" offset = "434 176 3 9"/>
+    </BasisSkin>
+    <!--Top Panel Border-->
+    <BasisSkin type="SubSkin" offset = "5 2 2 3" align = "HStretch Top">
+      <State name="normal" offset = "438 172 9 3"/>
+    </BasisSkin>
+  </Resource>
+
+  <!--*************************
+3dBorderPanelSkin
+*****************************-->
+  <Resource type="ResourceSkin" name = "3dBorderPanelSkin" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
+    <!--TopLeft-->
+    <BasisSkin type="SubSkin" offset = "0 0 3 3" align = "Left Top">
+      <State name="normal" offset = "968 61 3 3"/>
+    </BasisSkin>
+    <!--TopRight-->
+    <BasisSkin type="SubSkin" offset = "7 0 4 3" align = "Right Top">
+      <State name="normal" offset = "981 61 4 3"/>
+    </BasisSkin>
+    <!--BottomLeft-->
+    <BasisSkin type="SubSkin" offset = "0 7 3 4" align = "Left Bottom">
+      <State name="normal" offset = "968 74 3 4"/>
+    </BasisSkin>
+    <!--BottomRight-->
+    <BasisSkin type="SubSkin" offset = "7 7 4 4" align = "Right Bottom">
+      <State name="normal" offset = "981 74 4 4"/>
+    </BasisSkin>
+    <!--Top-->
+    <BasisSkin type="SubSkin" offset = "3 0 4 1" align = "HStretch Top">
+      <State name="normal" offset = "973 61 6 1"/>
+    </BasisSkin>
+    <!--Left-->
+    <BasisSkin type="SubSkin" offset = "0 3 1 4" align = "Left VStretch">
+      <State name="normal" offset = "968 66 1 6"/>
+    </BasisSkin>
+    <!--Right-->
+    <BasisSkin type="SubSkin" offset = "9 3 2 4" align = "Right VStretch">
+      <State name="normal" offset = "983 66 2 6"/>
+    </BasisSkin>
+    <!--Bottom-->
+    <BasisSkin type="SubSkin" offset = "3 9 4 2" align = "HStretch Bottom">
+      <State name="normal" offset = "973 76 6 2"/>
+    </BasisSkin>
+    <!--Center-->
+    <BasisSkin type="SubSkin" offset = "1 1 8 8" align = "Stretch">
+      <State name="normal" offset = "970 26 1 1"/>
+    </BasisSkin>
+  </Resource>
+
+  <!--*************************
+CustomPanelOnPanel2
+*****************************-->
+  <Resource type="ResourceSkin" name = "CustomPanelOnPanel2" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
+    <!--TopLeft-->
+    <BasisSkin type="SubSkin" offset = "0 0 3 3" align = "Left Top">
+      <State name="normal" offset = "641 64 3 3"/>
+    </BasisSkin>
+    <!--TopRight-->
+    <BasisSkin type="SubSkin" offset = "8 0 3 3" align = "Right Top">
+      <State name="normal" offset = "666 64 3 3"/>
+    </BasisSkin>
+    <!--BottomLeft-->
+    <BasisSkin type="SubSkin" offset = "0 8 3 3" align = "Left Bottom">
+      <State name="normal" offset = "641 88 3 3"/>
+    </BasisSkin>
+    <!--BottomRight-->
+    <BasisSkin type="SubSkin" offset = "8 8 3 3" align = "Right Bottom">
+      <State name="normal" offset = "666 88 3 3"/>
+    </BasisSkin>
+    <!--Top-->
+    <BasisSkin type="SubSkin" offset = "3 0 5 3" align = "HStretch Top">
+      <State name="normal" offset = "645 64 20 3"/>
+    </BasisSkin>
+    <!--Left-->
+    <BasisSkin type="SubSkin" offset = "0 3 3 5" align = "Left VStretch">
+      <State name="normal" offset = "641 68 3 19"/>
+    </BasisSkin>
+    <!--Right-->
+    <BasisSkin type="SubSkin" offset = "8 3 3 5" align = "Right VStretch">
+      <State name="normal" offset = "666 68 3 19"/>
+    </BasisSkin>
+    <!--Bottom-->
+    <BasisSkin type="SubSkin" offset = "3 8 5 3" align = "HStretch Bottom">
+      <State name="normal" offset = "645 88 20 3"/>
+    </BasisSkin>
+    <!--Center-->
+    <BasisSkin type="SubSkin" offset = "2 2 7 7" align = "Stretch">
+      <State name="normal" offset = "645 68 20 19"/>
+    </BasisSkin>
+  </Resource>
+
+  <!--*************************
+TimelineNavigationBarSkin
+*****************************-->
+  <Resource type="ResourceSkin" name = "TimelineNavigationBarSkin" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
+    <!--TopLeft-->
+    <BasisSkin type="SubSkin" offset = "0 0 3 3" align = "Left Top">
+      <State name="normal" offset = "524 64 3 3"/>
+    </BasisSkin>
+    <!--TopRight-->
+    <BasisSkin type="SubSkin" offset = "8 0 3 3" align = "Right Top">
+      <State name="normal" offset = "564 64 3 3"/>
+    </BasisSkin>
+    <!--BottomLeft-->
+    <BasisSkin type="SubSkin" offset = "0 8 3 3" align = "Left Bottom">
+      <State name="normal" offset = "524 100 3 3"/>
+    </BasisSkin>
+    <!--BottomRight-->
+    <BasisSkin type="SubSkin" offset = "8 8 3 3" align = "Right Bottom">
+      <State name="normal" offset = "564 100 3 3"/>
+    </BasisSkin>
+    <!--Top-->
+    <BasisSkin type="SubSkin" offset = "3 0 5 3" align = "HStretch Top">
+      <State name="normal" offset = "528 64 35 3"/>
+    </BasisSkin>
+    <!--Left-->
+    <BasisSkin type="SubSkin" offset = "0 3 3 5" align = "Left VStretch">
+      <State name="normal" offset = "524 68 3 31"/>
+    </BasisSkin>
+    <!--Right-->
+    <BasisSkin type="SubSkin" offset = "8 3 3 5" align = "Right VStretch">
+      <State name="normal" offset = "564 68 3 31"/>
+    </BasisSkin>
+    <!--Bottom-->
+    <BasisSkin type="SubSkin" offset = "3 8 5 3" align = "HStretch Bottom">
+      <State name="normal" offset = "528 100 35 3"/>
+    </BasisSkin>
+    <!--Center-->
+    <BasisSkin type="SubSkin" offset = "2 2 7 7" align = "Stretch">
+      <State name="normal" offset = "528 68 33 31"/>
+    </BasisSkin>
   </Resource>
 
 </MyGUI>

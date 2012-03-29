@@ -283,8 +283,8 @@
 		<Property key="Skin" value="Separator2" group="Other"/>
 		<Property key="Skin" value="Separator3" group="Other"/>
 		<Property key="Skin" value="Separator4" group="Other"/>
-    <Property key="Skin" value="CustomPanel" group="Ribbon"/>
-    <Property key="Skin" value="CustomPanel2" group="Ribbon"/>
+    <Property key="Skin" value="2dBorderPanelSkin" group="Ribbon"/>
+    <Property key="Skin" value="3dBorderPanelSkin" group="Ribbon"/>
     <Property key="Skin" value="CustomPanelOnPanel2" group="Ribbon"/>
     <Property key="Skin" value="CustomPanelOnPanel" group="Ribbon"/>
     <Property key="Skin" value="CustomRibbonPanel" group="Ribbon"/>
