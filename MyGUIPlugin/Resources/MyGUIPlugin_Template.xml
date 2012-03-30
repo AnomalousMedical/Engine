@@ -350,7 +350,7 @@ MultiListButton
   <Resource type="ResourceLayout" name="MultiListButton" version="3.2.0">
     <Widget type="Widget" skin="MultiListButtonSkin" position="20 25 45 21" name="Root">
       <Property key="FontName" value="Default"/>
-      <Property key="TextAlign" value="Center"/>
+      <Property key="TextAlign" value="Left VCenter"/>
       <UserString key="LE_TargetWidgetType" value="Button"/>
       <Widget type="ImageBox" skin="ImageBox" position="29 4 12 10" align="Right VCenter" name="Image">
         <Property key="ImageResource" value="MultiListButtonImage"/>

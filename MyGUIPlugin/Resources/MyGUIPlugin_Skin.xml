@@ -740,6 +740,14 @@ MultiListButtonSkin
       <State name="normal_checked" offset = "750 96 10 9"/>
       <State name="pushed" offset = "731 96 10 9"/>
     </BasisSkin>
+    <!--Text-->
+    <BasisSkin type="SimpleText" offset = "1 0 28 21" align = "Stretch">
+      <State name="disabled" colour="#{MyGUI_Theme_Button_ColorDisabled}" shift = "false"/>
+      <State name="normal" colour="#{MyGUI_Theme_Button_ColorNormal}" shift = "false"/>
+      <State name="highlighted" colour="#{MyGUI_Theme_Button_ColorHighlighted}" shift = "false"/>
+      <State name="normal_checked" colour="#{MyGUI_Theme_Button_ColorNormal_Checked}" shift = "true"/>
+      <State name="pushed" colour="#{MyGUI_Theme_Button_ColorPushed}" shift = "true"/>
+    </BasisSkin>
 	</Resource>
   <!--*************************
 MultiListBoxSkin
