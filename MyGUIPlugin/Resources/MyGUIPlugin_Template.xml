@@ -391,4 +391,15 @@ MenuBar
     </Widget>
   </Resource>
 
+  <!--*************************
+MenuBarButton
+*****************************-->
+  <Resource type="ResourceLayout" name="MenuBarButton" version="3.2.0">
+    <Widget type="Widget" skin="MenuBarButtonSkin" position="20 25 25 20" name="Root">
+      <Property key="FontName" value="Default"/>
+      <Property key="TextAlign" value="Center"/>
+      <UserString key="LE_TargetWidgetType" value="Button"/>
+    </Widget>
+  </Resource>
+
 </MyGUI>
