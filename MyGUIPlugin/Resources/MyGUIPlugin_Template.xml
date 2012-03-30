@@ -374,4 +374,21 @@ MultiSubListBox
     </Widget>
   </Resource>
 
+  <!--*************************
+MenuBar
+*****************************-->
+  <Resource type="ResourceLayout" name="MenuBar" version="3.2.0">
+    <Widget type="Widget" skin="MenuBarSkin" position="5 5 29 26" name="Root">
+      <Property key="VerticalAlignment" value="false"/>
+      <UserString key="LE_TargetWidgetType" value="MenuBar"/>
+      <UserString key="DistanceButton" value="6"/>
+      <UserString key="SubMenuLayer" value="Popup"/>
+      <UserString key="NormalSkin" value="MenuBarButton"/>
+      <UserString key="PopupSkin" value="MenuBarButton"/>
+      <UserString key="SeparatorSkin" value="MenuBarSeparator"/>
+      <UserString key="SubMenuSkin" value="PopupMenu"/>
+      <Widget type="Widget" skin="PanelEmpty" position="2 2 25 20" align="Stretch" name="Client"/>
+    </Widget>
+  </Resource>
+
 </MyGUI>

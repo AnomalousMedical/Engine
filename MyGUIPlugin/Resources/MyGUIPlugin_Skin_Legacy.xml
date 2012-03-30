@@ -508,17 +508,9 @@ MenuBarButton
     </BasisSkin>
   </Resource>
   <!--*************************
-MenuBar
+MenuBarSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "MenuBar" size = "27 26" texture = "#{MyGUI_Theme_Texture}">
-    <Property key="NeedKey" value = "true" />
-    <Property key="SkinLine" value = "MenuBarButton" />
-    <Property key="DistanceButton" value = "6" />
-    <Property key="SubMenuSkin" value = "PopupMenu" />
-    <Property key="SubMenuLayer" value = "Popup" />
-    <Property key="HeightLine" value = "22" />
-    <Property key="VerticalAlignment" value = "false" />
-    <Child type="Widget" skin="Default" offset = "6 1 15 22" align = "Stretch" name = "Client"/>
+  <Resource type="ResourceSkin" name = "MenuBarSkin" size = "27 26" texture = "#{MyGUI_Theme_Texture}">
     <!--Left-->
     <BasisSkin type="SubSkin" offset = "0 0 4 26" align = "Left VStretch">
       <State name="normal" offset = "974 136 4 26"/>
