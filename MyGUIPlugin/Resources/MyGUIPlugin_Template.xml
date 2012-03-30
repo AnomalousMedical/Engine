@@ -402,8 +402,6 @@ MenuBarButton
     </Widget>
   </Resource>
 
-
-  
   <!--*************************
 PopupMenuNormal
 *****************************-->
@@ -444,5 +442,21 @@ PopupMenuSeparator
       <Widget type="Widget" skin="PopupMenuSeparatorSkin" position="2 4 6 2" align="HStretch VCenter"/>
     </Widget>
   </Resource>
-  
+
+  <!--*************************
+PopupMenu
+*****************************-->
+  <Resource type="ResourceLayout" name="PopupMenu" version="3.2.0">
+    <Widget type="Widget" skin="PopupMenuSkin" position="5 5 29 26" name="Root">
+      <Property key="VerticalAlignment" value="true"/>
+      <UserString key="SubMenuLayer" value="Popup"/>
+      <UserString key="SubMenuSkin" value="PopupMenu"/>
+      <UserString key="LE_TargetWidgetType" value="PopupMenu"/>
+      <UserString key="SeparatorSkin" value="PopupMenuSeparator"/>
+      <UserString key="NormalSkin" value="PopupMenuNormal"/>
+      <UserString key="PopupSkin" value="PopupMenuPopup"/>
+      <Widget type="Widget" skin="PanelEmpty" position="3 4 21 16" align="Stretch" name="Client"/>
+    </Widget>
+  </Resource>
+
 </MyGUI>
