@@ -1166,11 +1166,19 @@ MenuItemNormalSkin
   <!--*************************
 MenuItemPopupButtonSkin
 *****************************-->
-  <Resource type="ResourceSkin" name="MenuItemPopupButtonSkin" size="10 12" texture="MyGUI_BlueWhiteSkins.png">
+  <Resource type="ResourceSkin" name="MenuItemPopupButtonSkin" size="10 12" texture="#{MyGUI_Theme_Texture}">
     <BasisSkin type="SubSkin" offset="0 0 10 12" align="Stretch">
       <State name="normal" offset = "928 214 12 13"/>
       <!--Other option 505 44 12 14 -->
     </BasisSkin>
   </Resource>
 
+  <!--*************************
+MenuItemCheckButtonSkin
+*****************************-->
+  <Resource type="ResourceSkin" name="MenuItemCheckButtonSkin" size="15 13" texture="#{MyGUI_Theme_Texture}">
+    <BasisSkin type="SubSkin" offset="0 0 15 13" align="Stretch">
+      <State name="normal" offset = "613 121 12 12"/>
+    </BasisSkin>
+  </Resource>
 </MyGUI>
