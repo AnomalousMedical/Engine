@@ -432,5 +432,17 @@ PopupMenuPopup
       </Widget>
     </Widget>
   </Resource>
+
+  <!--*************************
+PopupMenuSeparator
+*****************************-->
+  <Resource type="ResourceLayout" name="PopupMenuSeparator" version="3.2.0">
+    <Widget type="Widget" skin="PanelEmpty" position="20 20 10 10" name="Root">
+      <Property key="FontName" value="Default"/>
+      <Property key="TextAlign" value="Center"/>
+      <UserString key="MinSize" value="10 10"/>
+      <Widget type="Widget" skin="PopupMenuSeparatorSkin" position="2 4 6 2" align="HStretch VCenter"/>
+    </Widget>
+  </Resource>
   
 </MyGUI>

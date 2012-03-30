@@ -1142,8 +1142,6 @@ MenuBarButtonSkin
     </BasisSkin>
   </Resource>
 
-
-
   <!--*************************
 MenuItemNormalSkin
 *****************************-->
@@ -1179,6 +1177,15 @@ MenuItemCheckButtonSkin
   <Resource type="ResourceSkin" name="MenuItemCheckButtonSkin" size="15 13" texture="#{MyGUI_Theme_Texture}">
     <BasisSkin type="SubSkin" offset="0 0 15 13" align="Stretch">
       <State name="normal" offset = "613 121 12 12"/>
+    </BasisSkin>
+  </Resource>
+
+  <!--*************************
+PopupMenuSeparatorSkin
+*****************************-->
+  <Resource type="ResourceSkin" name = "PopupMenuSeparatorSkin" size = "4 4" texture = "#{MyGUI_Theme_Texture}" >
+    <BasisSkin type="SubSkin" offset = "2 1 0 2" align = "HStretch VCenter">
+      <State name="normal" offset = "304 124 2 2"/>
     </BasisSkin>
   </Resource>
 </MyGUI>
