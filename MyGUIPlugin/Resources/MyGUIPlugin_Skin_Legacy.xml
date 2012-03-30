@@ -384,27 +384,6 @@ TabControl
   
   <!-- Menus -->
   <!--*************************
-PopupMenuLine
-*****************************-->
-  <Resource type="ResourceSkin" name = "PopupMenuLine" size = "40 5" texture = "#{MyGUI_Theme_Texture}" >
-    <Property key="FontName" value = "Default" />
-    <Property key="TextAlign" value = "Left VCenter" />
-    <Child type="ImageBox" skin="PopupMenuLineIcon" offset = "18 0 12 15" align = "Right VCenter" name = "Image"/>
-    <BasisSkin type="MainSkin" offset = "0 0 40 5">
-      <State name="normal" offset = "975 246 1 1"/>
-      <State name="highlighted" offset = "965 193 1 1"/>
-      <State name="normal_checked" offset = "965 180 1 1"/>
-      <State name="pushed" offset = "965 169 1 1"/>
-    </BasisSkin>
-    <BasisSkin type="SimpleText" offset = "14 0 2 5"  align = "Stretch">
-      <State name="disabled" colour="#{MyGUI_Theme_Button_ColorDisabled}"/>
-      <State name="normal" colour="#{MyGUI_Theme_Button_ColorNormal}"/>
-      <State name="highlighted" colour="#{MyGUI_Theme_Button_ColorHighlighted}"/>
-      <State name="normal_checked" colour="#{MyGUI_Theme_Button_ColorNormal_Checked}"/>
-      <State name="pushed" colour="#{MyGUI_Theme_Button_ColorPushed}"/>
-    </BasisSkin>
-  </Resource>
-  <!--*************************
 PopupMenuSeparator
 *****************************-->
   <Resource type="ResourceSkin" name = "PopupMenuSeparator" size = "4 4" texture = "#{MyGUI_Theme_Texture}" >
@@ -429,7 +408,7 @@ PopupMenu
     <Property key="SubmenuImageSize" value = "12" />
     <Property key="SubMenuLayer" value = "Popup" />
     <Property key="SubMenuSkin" value = "PopupMenu" />
-    <Property key="SkinLine" value = "PopupMenuLine" />
+    <Property key="SkinLine" value = "PopupMenuNormal" />
     <Property key="HeightLine" value = "25" />
     <Property key="SeparatorSkin" value = "PopupMenuSeparator" />
     <Property key="SeparatorHeight" value = "10" />

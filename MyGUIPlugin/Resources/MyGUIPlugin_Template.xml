@@ -402,4 +402,21 @@ MenuBarButton
     </Widget>
   </Resource>
 
+
+  
+  <!--*************************
+PopupMenuNormal
+*****************************-->
+  <Resource type="ResourceLayout" name="PopupMenuNormal" version="3.2.0">
+    <Widget type="Widget" skin="MenuItemNormalSkin" position="20 25 43 14" name="Root">
+      <Property key="FontName" value="Default"/>
+      <Property key="TextAlign" value="Left VCenter"/>
+      <UserString key="LE_TargetWidgetType" value="Button"/>
+      <Widget type="Widget" skin="MenuItemCheckButtonSkin" position="1 0 15 13" align="Left VCenter" name="Check"/>
+      <Widget type="ImageBox" skin="ImageBox" position="29 0 14 14" align="Right VCenter" name="Image">
+        <Property key="NeedMouse" value="false"/>
+      </Widget>
+    </Widget>
+  </Resource>
+  
 </MyGUI>

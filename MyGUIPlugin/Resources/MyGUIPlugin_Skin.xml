@@ -1142,4 +1142,25 @@ MenuBarButtonSkin
     </BasisSkin>
   </Resource>
 
+
+
+  <!--*************************
+MenuItemNormalSkin
+*****************************-->
+  <Resource type="ResourceSkin" name = "MenuItemNormalSkin" size = "40 10" texture = "#{MyGUI_Theme_Texture}" >
+    <BasisSkin type="MainSkin" offset = "0 0 40 10">
+      <State name="normal" offset = "975 246 1 1"/>
+      <State name="highlighted" offset = "965 193 1 1"/>
+      <State name="normal_checked" offset = "965 180 1 1"/>
+      <State name="pushed" offset = "965 169 1 1"/>
+    </BasisSkin>
+    <BasisSkin type="SimpleText" offset = "14 4 2 2"  align = "Stretch">
+      <State name="disabled" colour="#{MyGUI_Theme_Button_ColorDisabled}"/>
+      <State name="normal" colour="#{MyGUI_Theme_Button_ColorNormal}"/>
+      <State name="highlighted" colour="#{MyGUI_Theme_Button_ColorHighlighted}"/>
+      <State name="normal_checked" colour="#{MyGUI_Theme_Button_ColorNormal_Checked}"/>
+      <State name="pushed" colour="#{MyGUI_Theme_Button_ColorPushed}"/>
+    </BasisSkin>
+  </Resource>
+
 </MyGUI>
