@@ -1163,4 +1163,14 @@ MenuItemNormalSkin
     </BasisSkin>
   </Resource>
 
+  <!--*************************
+MenuItemPopupButtonSkin
+*****************************-->
+  <Resource type="ResourceSkin" name="MenuItemPopupButtonSkin" size="10 12" texture="MyGUI_BlueWhiteSkins.png">
+    <BasisSkin type="SubSkin" offset="0 0 10 12" align="Stretch">
+      <State name="normal" offset = "928 214 12 13"/>
+      <!--Other option 505 44 12 14 -->
+    </BasisSkin>
+  </Resource>
+
 </MyGUI>

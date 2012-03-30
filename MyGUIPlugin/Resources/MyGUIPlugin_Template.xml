@@ -418,5 +418,19 @@ PopupMenuNormal
       </Widget>
     </Widget>
   </Resource>
+
+  <!--*************************
+PopupMenuPopup
+*****************************-->
+  <Resource type="ResourceLayout" name="PopupMenuPopup" version="3.2.0">
+    <Widget type="Widget" skin="MenuItemNormalSkin" position="20 25 43 14" name="Root">
+      <Property key="FontName" value="Default"/>
+      <Property key="TextAlign" value="Left VCenter"/>
+      <UserString key="LE_TargetWidgetType" value="Button"/>
+      <Widget type="Widget" skin="MenuItemPopupButtonSkin" position="31 1 10 12" align="Right VCenter">
+        <Property key="NeedMouse" value="false"/>
+      </Widget>
+    </Widget>
+  </Resource>
   
 </MyGUI>
