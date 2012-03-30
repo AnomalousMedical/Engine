@@ -411,7 +411,7 @@ PopupMenuNormal
       <Property key="TextAlign" value="Left VCenter"/>
       <UserString key="LE_TargetWidgetType" value="Button"/>
       <Widget type="Widget" skin="MenuItemCheckButtonSkin" position="1 0 15 13" align="Left VCenter" name="Check"/>
-      <Widget type="ImageBox" skin="ImageBox" position="29 0 14 14" align="Right VCenter" name="Image">
+      <Widget type="ImageBox" skin="ImageBox" position="28 0 15 15" align="Right VCenter" name="Image">
         <Property key="NeedMouse" value="false"/>
       </Widget>
     </Widget>
