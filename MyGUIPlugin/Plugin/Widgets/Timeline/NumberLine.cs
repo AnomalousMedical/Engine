@@ -107,7 +107,7 @@ namespace MyGUIPlugin
         void canvasModified()
         {
             float leftSide = numberlineScroller.CanvasPosition.x - pixelsPerSecond * numberSeparationDuration;
-            float rightSide = leftSide + numberlineScroller.ClientCoord.width + pixelsPerSecond * numberSeparationDuration;
+            float rightSide = leftSide + numberlineScroller.Width + pixelsPerSecond * numberSeparationDuration;
 
             //Remove inactive numbers
             for (int i = 0; i < activeNumbers.Count; ++i)
