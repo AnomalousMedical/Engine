@@ -23,6 +23,7 @@ namespace MyGUIPlugin
             Columns.Table = this;
             Rows = new TableRowCollection();
             Rows.Table = this;
+            Rows.Cleared += new Action(Rows_Cleared);
             RowHeight = 20;
             HeaderHeight = 20;
             LastEditedRow = -1;
@@ -172,6 +173,11 @@ namespace MyGUIPlugin
             {
                 LastEditedRow = Rows.Count - 1;
             }
+        }
+
+        void Rows_Cleared()
+        {
+            editingCell = null;
         }
     }
 }

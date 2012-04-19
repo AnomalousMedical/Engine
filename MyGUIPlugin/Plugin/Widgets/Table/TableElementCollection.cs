@@ -12,6 +12,8 @@ namespace MyGUIPlugin
         private List<CollectionType> items;
         private Table table;
 
+        public event Action Cleared;
+
         internal TableElementCollection()
         {
             items = new List<CollectionType>();
@@ -55,6 +57,10 @@ namespace MyGUIPlugin
                 item.Dispose();
             }
             items.Clear();
+            if (Cleared != null)
+            {
+                Cleared.Invoke();
+            }
         }
 
         public int getItemIndex(CollectionType item)
