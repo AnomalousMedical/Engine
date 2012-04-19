@@ -10,6 +10,7 @@ namespace MyGUIPlugin
         private CheckButton editWidget;
         private TextBox staticWidget;
         private bool value = false;
+        private bool firingLostFocus = false;
 
         public CheckTableCell()
         {
@@ -166,7 +167,13 @@ namespace MyGUIPlugin
 
         void Button_MouseLostFocus(Widget source, EventArgs e)
         {
-            clearCellEdit();
+            //This fires twice from mygui during this process so block it
+            if (!firingLostFocus)
+            {
+                firingLostFocus = true;
+                clearCellEdit();
+                firingLostFocus = false;
+            }
         }
 
         void editWidget_KeyButtonReleased(Widget source, EventArgs e)

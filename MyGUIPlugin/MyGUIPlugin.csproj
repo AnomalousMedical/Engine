@@ -273,7 +273,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\MessageBox\MessageBoxIcons.png" />
-    <EmbeddedResource Include="Resources\MessageBox\MessageBoxIcons.xml" />
+    <EmbeddedResource Include="Resources\MessageBox\MessageBoxIcons.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\MessageBox\MessageBoxLanguage.xml" />
     <EmbeddedResource Include="Resources\MessageBox\MessageBoxLanguageEnglishTag.xml" />
     <EmbeddedResource Include="Resources\MessageBox\MessageBoxLanguageRussianTag.xml" />
