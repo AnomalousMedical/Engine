@@ -5,11 +5,18 @@ using System.Text;
 using Engine;
 using Engine.Platform;
 using System.Runtime.InteropServices;
+using OgreWrapper;
+using OgrePlugin;
 
 namespace libRocketPlugin
 {
-    class RocketInterface : PluginInterface
+    public class RocketInterface : PluginInterface
     {
+        private SceneManager sceneManager;
+        private OgreWindow ogreWindow;
+        Camera camera;
+        Viewport vp;
+
         public RocketInterface()
         {
             
@@ -21,11 +28,54 @@ namespace libRocketPlugin
             {
                 libRocketTest_Delete(rocketTest);
             }
+
+            //if (mainTimer != null)
+            //{
+            //    mainTimer.removeFixedUpdateListener(myGUIUpdate);
+            //}
+            if (vp != null)
+            {
+                ogreWindow.OgreRenderWindow.destroyViewport(vp);
+            }
+            if (camera != null)
+            {
+                sceneManager.destroyCamera(camera);
+            }
+            //if (gui != null)
+            //{
+            //    gui.shutdown();
+            //    gui.Dispose();
+            //}
+            //if (ogrePlatform != null)
+            //{
+            //    ogrePlatform.shutdown();
+            //    ogrePlatform.Dispose();
+            //}
+            if (sceneManager != null)
+            {
+                Root.getSingleton().destroySceneManager(sceneManager);
+            }
+            //if (managedLogListener != null)
+            //{
+            //    managedLogListener.Dispose();
+            //}
         }
 
         public void initialize(PluginManager pluginManager)
         {
-            rocketTest = libRocketTest_Create(640, 480);
+            sceneManager = Root.getSingleton().createSceneManager(SceneType.ST_GENERIC, "libRocketScene");
+            ogreWindow = pluginManager.RendererPlugin.PrimaryWindow as OgreWindow;
+
+            //Create camera and viewport
+            camera = sceneManager.createCamera("libRocketCamera");
+            vp = ogreWindow.OgreRenderWindow.addViewport(camera, int.MaxValue - 1, 0.0f, 0.0f, 1.0f, 1.0f);
+            vp.setBackgroundColor(new Color(1.0f, 0.0f, 0.0f, 0.0f));
+            vp.setClearEveryFrame(false);
+            vp.clear();
+
+            rocketTest = libRocketTest_Create((int)ogreWindow.OgreRenderWindow.getWidth(), (int)ogreWindow.OgreRenderWindow.getHeight());
+
+            sceneManager.addRenderQueueListener(new RocketQueueListener(this));
         }
 
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
@@ -59,11 +109,36 @@ namespace libRocketPlugin
         private static extern void libRocketTest_Delete(IntPtr test);
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
-        private static extern void libRocketTest_Render(IntPtr test);
+        private static extern void libRocketTest_Render(IntPtr test, byte queueGroup);
 
-        internal void render()
+        private class RocketQueueListener : RenderQueueListener
         {
-            libRocketTest_Render(rocketTest);
+            private RocketInterface rocketInterface;
+
+            public RocketQueueListener(RocketInterface rocketInterface)
+            {
+                this.rocketInterface = rocketInterface;
+            }
+
+            public void preRenderQueues()
+            {
+                
+            }
+
+            public void postRenderQueues()
+            {
+                
+            }
+
+            public void renderQueueStarted(byte queueGroupId, string invocation, ref bool skipThisInvocation)
+            {
+                libRocketTest_Render(rocketInterface.rocketTest, queueGroupId);
+            }
+
+            public void renderQueueEnded(byte queueGroupId, string invocation, ref bool repeatThisInvocation)
+            {
+                
+            }
         }
 
         #endregion

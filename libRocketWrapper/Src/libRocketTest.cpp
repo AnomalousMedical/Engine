@@ -30,7 +30,7 @@ class libRocketTest
 		void createFrameListener();
 
 		/// Called from Ogre before a queue group is rendered.
-		virtual void renderQueueStarted();//uint8 queueGroupId, const Ogre::String& invocation, bool& skipThisInvocation);
+		virtual void renderQueueStarted(Ogre::uint8 queueGroupId);
 		/// Called from Ogre after a queue group is rendered.
         //virtual void renderQueueEnded(uint8 queueGroupId, const Ogre::String& invocation, bool& repeatThisInvocation);
 
@@ -75,22 +75,24 @@ libRocketTest::libRocketTest(int width, int height)
 
 	// Switch the working directory to Ogre's bin directory.
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-	char path[MAX_PATH];
-	rocket_path = getcwd(path, MAX_PATH);
-	rocket_path += "/../../";
+	//char path[MAX_PATH];
+	//rocket_path = getcwd(path, MAX_PATH);
+	//rocket_path += "/../../";
 
-	// Normalise the path. This path is used to specify the resource location (see line 56 below).
-	_fullpath(path, rocket_path.CString(), MAX_PATH);
-	rocket_path = Rocket::Core::String(path).Replace("\\", "/");
+	//// Normalise the path. This path is used to specify the resource location (see line 56 below).
+	//_fullpath(path, rocket_path.CString(), MAX_PATH);
+	//rocket_path = Rocket::Core::String(path).Replace("\\", "/");
 
-	// The sample path is the path to the Ogre3D sample directory. All resources are loaded
-	// relative to this path.
-	sample_path = getcwd(path, MAX_PATH);
-	sample_path += "/../Samples/basic/ogre3d/";
+	//// The sample path is the path to the Ogre3D sample directory. All resources are loaded
+	//// relative to this path.
+	//sample_path = getcwd(path, MAX_PATH);
+	//sample_path += "/../Samples/basic/ogre3d/";
+	rocket_path = "S:/Junk/librocket/";
+	sample_path = "S:/Junk/librocket/libRocket/Samples/";
 #if OGRE_DEBUG_MODE
 	chdir((Ogre::String(getenv("OGRE_HOME")) + "\\bin\\debug\\").c_str());
 #else
-	chdir((Ogre::String(getenv("OGRE_HOME")) + "\\bin\\release\\").c_str());
+	//chdir((Ogre::String(getenv("OGRE_HOME")) + "\\bin\\release\\").c_str());
 #endif
 #endif
 }
@@ -116,20 +118,20 @@ void libRocketTest::createScene()
 	Rocket::Controls::Initialise();
 
 	// Load the fonts from the path to the sample directory.
-	Rocket::Core::FontDatabase::LoadFontFace(sample_path + "../../assets/Delicious-Roman.otf");
-	Rocket::Core::FontDatabase::LoadFontFace(sample_path + "../../assets/Delicious-Bold.otf");
-	Rocket::Core::FontDatabase::LoadFontFace(sample_path + "../../assets/Delicious-Italic.otf");
-	Rocket::Core::FontDatabase::LoadFontFace(sample_path + "../../assets/Delicious-BoldItalic.otf");
+	Rocket::Core::FontDatabase::LoadFontFace(sample_path + "assets/Delicious-Roman.otf");
+	Rocket::Core::FontDatabase::LoadFontFace(sample_path + "assets/Delicious-Bold.otf");
+	Rocket::Core::FontDatabase::LoadFontFace(sample_path + "assets/Delicious-Italic.otf");
+	Rocket::Core::FontDatabase::LoadFontFace(sample_path + "assets/Delicious-BoldItalic.otf");
 
 	context = Rocket::Core::CreateContext("main", Rocket::Core::Vector2i(width, height));
 	Rocket::Debugger::Initialise(context);
 
 	// Load the mouse cursor and release the caller's reference.
-	Rocket::Core::ElementDocument* cursor = context->LoadMouseCursor(sample_path + "../../assets/cursor.rml");
+	Rocket::Core::ElementDocument* cursor = context->LoadMouseCursor(sample_path + "assets/cursor.rml");
 	if (cursor)
 		cursor->RemoveReference();
 
-	Rocket::Core::ElementDocument* document = context->LoadDocument(sample_path + "../../assets/demo.rml");
+	Rocket::Core::ElementDocument* document = context->LoadDocument(sample_path + "assets/demo.rml");
 	if (document)
 	{
 		document->Show();
@@ -137,6 +139,7 @@ void libRocketTest::createScene()
 	}
 
 	// Add the application as a listener to Ogre's render queue so we can render during the overlay.
+	//Ogre::Root::getSingletonPtr()->getSceneManagerIterator().begin()->second->addRenderQueueListener(this);
 	//mSceneMgr->addRenderQueueListener(this);
 }
 
@@ -164,15 +167,15 @@ void libRocketTest::createFrameListener()
 }
 
 // Called from Ogre before a queue group is rendered.
-void libRocketTest::renderQueueStarted()//uint8 queueGroupId, const Ogre::String& invocation, bool& ROCKET_UNUSED(skipThisInvocation))
+void libRocketTest::renderQueueStarted(Ogre::uint8 queueGroupId)
 {
-	/*if (queueGroupId == Ogre::RENDER_QUEUE_OVERLAY && Ogre::Root::getSingleton().getRenderSystem()->_getViewport()->getOverlaysEnabled())
-	{*/
+	if (queueGroupId == Ogre::RENDER_QUEUE_OVERLAY && Ogre::Root::getSingleton().getRenderSystem()->_getViewport()->getOverlaysEnabled())
+	{
 		context->Update();
 
 		ConfigureRenderSystem();
 		context->Render();
-	//}
+	}
 }
 
 // Called from Ogre after a queue group is rendered.
@@ -262,7 +265,7 @@ extern "C" _AnomalousExport void libRocketTest_Delete(libRocketTest* test)
 	delete test;
 }
 
-extern "C" _AnomalousExport void libRocketTest_Render(libRocketTest* test)
+extern "C" _AnomalousExport void libRocketTest_Render(libRocketTest* test, Ogre::uint8 queue)
 {
-	test->renderQueueStarted();
+	test->renderQueueStarted(queue);
 }
