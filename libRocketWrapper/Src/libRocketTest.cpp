@@ -21,11 +21,11 @@ class RenderInterfaceOgre3D;
 class libRocketTest
 {
 	public:
-		libRocketTest(int width, int height);
+		libRocketTest();
 		virtual ~libRocketTest();
 
 	public:
-		void createScene(Rocket::Core::SystemInterface* systemInterface);
+		void createScene(RenderInterfaceOgre3D* renderInterface, Rocket::Core::SystemInterface* systemInterface);
 		void destroyScene();
 
 		void createFrameListener();
@@ -47,11 +47,6 @@ class libRocketTest
 		Rocket::Core::String sample_path;
 
 		Rocket::Core::Context* context;
-
-		RenderInterfaceOgre3D* ogre_renderer;
-
-		int width;
-		int height;
 };
 
 
@@ -64,12 +59,9 @@ class libRocketTest
 
 
 
-libRocketTest::libRocketTest(int width, int height)
-	:width(width),
-	height(height)
+libRocketTest::libRocketTest()
 {
 	context = NULL;
-	ogre_renderer = NULL;
 
 	// Switch the working directory to Ogre's bin directory.
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
@@ -100,14 +92,13 @@ libRocketTest::~libRocketTest()
 	destroyScene();
 }
 
-void libRocketTest::createScene(Rocket::Core::SystemInterface* systemInterface)
+void libRocketTest::createScene(RenderInterfaceOgre3D* renderInterface, Rocket::Core::SystemInterface* systemInterface)
 {
 	Ogre::ResourceGroupManager::getSingleton().createResourceGroup("Rocket");
 	Ogre::ResourceGroupManager::getSingleton().addResourceLocation(rocket_path.Replace("\\", "/").CString(), "FileSystem", "Rocket");
 
 	// Rocket initialisation.
-	ogre_renderer = new RenderInterfaceOgre3D(width, height);
-	Rocket::Core::SetRenderInterface(ogre_renderer);
+	Rocket::Core::SetRenderInterface(renderInterface);
 
 	Rocket::Core::SetSystemInterface(systemInterface);
 
@@ -120,7 +111,7 @@ void libRocketTest::createScene(Rocket::Core::SystemInterface* systemInterface)
 	Rocket::Core::FontDatabase::LoadFontFace(sample_path + "assets/Delicious-Italic.otf");
 	Rocket::Core::FontDatabase::LoadFontFace(sample_path + "assets/Delicious-BoldItalic.otf");
 
-	context = Rocket::Core::CreateContext("main", Rocket::Core::Vector2i(width, height));
+	context = Rocket::Core::CreateContext("main", Rocket::Core::Vector2i(renderInterface->getScissorRight(), renderInterface->getScissorBottom()));
 	Rocket::Debugger::Initialise(context);
 
 	// Load the mouse cursor and release the caller's reference.
@@ -145,9 +136,6 @@ void libRocketTest::destroyScene()
 	// Shutdown Rocket.
 	context->RemoveReference();
 	Rocket::Core::Shutdown();
-
-	delete ogre_renderer;
-	ogre_renderer = NULL;
 }
 
 void libRocketTest::createFrameListener()
@@ -239,18 +227,18 @@ void libRocketTest::BuildProjectionMatrix(Ogre::Matrix4& projection_matrix)
 	projection_matrix = Ogre::Matrix4::ZERO;
 
 	// Set up matrices.
-	projection_matrix[0][0] = 2.0f / width;
+	projection_matrix[0][0] = 2.0f / 1920;//width; (the window width)
 	projection_matrix[0][3]= -1.0000000f;
-	projection_matrix[1][1]= -2.0f / height;
+	projection_matrix[1][1]= -2.0f / 1080;// height;(the window height)
 	projection_matrix[1][3]= 1.0000000f;
 	projection_matrix[2][2]= -2.0f / (z_far - z_near);
 	projection_matrix[3][3]= 1.0000000f;
 }
 
-extern "C" _AnomalousExport libRocketTest* libRocketTest_Create(int width, int height, Rocket::Core::SystemInterface* systemInterface)
+extern "C" _AnomalousExport libRocketTest* libRocketTest_Create(RenderInterfaceOgre3D* renderInterface, Rocket::Core::SystemInterface* systemInterface)
 {
-	libRocketTest* rocketTest = new libRocketTest(width, height);
-	rocketTest->createScene(systemInterface);
+	libRocketTest* rocketTest = new libRocketTest();
+	rocketTest->createScene(renderInterface, systemInterface);
 	return rocketTest;
 }
 

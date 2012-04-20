@@ -71,6 +71,16 @@ class RenderInterfaceOgre3D : public Rocket::Core::RenderInterface
 		/// Returns the native vertical texel offset for the renderer.
 		float GetVerticalTexelOffset();
 
+		int getScissorRight()
+		{
+			return scissor_right;
+		}
+
+		int getScissorBottom()
+		{
+			return scissor_bottom;
+		}
+
 	private:
 		Ogre::RenderSystem* render_system;
 

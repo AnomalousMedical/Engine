@@ -268,3 +268,13 @@ float RenderInterfaceOgre3D::GetVerticalTexelOffset()
 {
 	return -render_system->getVerticalTexelOffset();
 }
+
+extern "C" _AnomalousExport RenderInterfaceOgre3D* RenderInterfaceOgre3D_Create(int width, int height)
+{
+	return new RenderInterfaceOgre3D(width, height);
+}
+
+extern "C" _AnomalousExport void RenderInterfaceOgre3D_Delete(RenderInterfaceOgre3D* renderInterface)
+{
+	delete renderInterface;
+}
