@@ -25,6 +25,7 @@
  *
  */
 
+#include "StdAfx.h"
 #include "RenderInterfaceOgre3D.h"
 #include <Ogre.h>
 
