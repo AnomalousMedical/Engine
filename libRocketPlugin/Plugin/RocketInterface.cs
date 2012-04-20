@@ -14,8 +14,9 @@ namespace libRocketPlugin
     {
         private SceneManager sceneManager;
         private OgreWindow ogreWindow;
-        Camera camera;
-        Viewport vp;
+        private Camera camera;
+        private Viewport vp;
+        private ManagedSystemInterface systemInterface;
 
         public RocketInterface()
         {
@@ -74,13 +75,16 @@ namespace libRocketPlugin
             vp.setClearEveryFrame(false);
             vp.clear();
 
-            rocketTest = libRocketTest_Create((int)ogreWindow.OgreRenderWindow.getWidth(), (int)ogreWindow.OgreRenderWindow.getHeight());
+            systemInterface = new ManagedSystemInterface();
+
+            rocketTest = libRocketTest_Create((int)ogreWindow.OgreRenderWindow.getWidth(), (int)ogreWindow.OgreRenderWindow.getHeight(), systemInterface.SystemInterfacePtr);
 
             sceneManager.addRenderQueueListener(new RocketQueueListener(this));
         }
 
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
         {
+            systemInterface.Timer = mainTimer;
             //mainTimer.addFullSpeedUpdateListener(new RocketUpdate(this));
         }
 
@@ -111,7 +115,7 @@ namespace libRocketPlugin
         IntPtr rocketTest;
 
         [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr libRocketTest_Create(int width, int height);
+        private static extern IntPtr libRocketTest_Create(int width, int height, IntPtr systemInterface);
 
         [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void libRocketTest_Delete(IntPtr test);

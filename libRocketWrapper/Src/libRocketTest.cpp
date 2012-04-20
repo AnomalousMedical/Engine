@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include <Rocket/Core/String.h>
+#include <Rocket/Core/SystemInterface.h>
 #include <Ogre.h>
 
 namespace Rocket {
@@ -24,7 +25,7 @@ class libRocketTest
 		virtual ~libRocketTest();
 
 	public:
-		void createScene();
+		void createScene(Rocket::Core::SystemInterface* systemInterface);
 		void destroyScene();
 
 		void createFrameListener();
@@ -47,7 +48,6 @@ class libRocketTest
 
 		Rocket::Core::Context* context;
 
-		AnomalousSystemInterface* ogre_system;
 		RenderInterfaceOgre3D* ogre_renderer;
 
 		int width;
@@ -60,7 +60,6 @@ class libRocketTest
 #include <Rocket/Controls.h>
 #include <Rocket/Debugger.h>
 #include "RenderInterfaceOgre3D.h"
-#include "AnomalousSystemInterface.h"
 #include <direct.h>
 
 
@@ -70,7 +69,6 @@ libRocketTest::libRocketTest(int width, int height)
 	height(height)
 {
 	context = NULL;
-	ogre_system = NULL;
 	ogre_renderer = NULL;
 
 	// Switch the working directory to Ogre's bin directory.
@@ -102,7 +100,7 @@ libRocketTest::~libRocketTest()
 	destroyScene();
 }
 
-void libRocketTest::createScene()
+void libRocketTest::createScene(Rocket::Core::SystemInterface* systemInterface)
 {
 	Ogre::ResourceGroupManager::getSingleton().createResourceGroup("Rocket");
 	Ogre::ResourceGroupManager::getSingleton().addResourceLocation(rocket_path.Replace("\\", "/").CString(), "FileSystem", "Rocket");
@@ -111,8 +109,7 @@ void libRocketTest::createScene()
 	ogre_renderer = new RenderInterfaceOgre3D(width, height);
 	Rocket::Core::SetRenderInterface(ogre_renderer);
 
-	ogre_system = new AnomalousSystemInterface();
-	Rocket::Core::SetSystemInterface(ogre_system);
+	Rocket::Core::SetSystemInterface(systemInterface);
 
 	Rocket::Core::Initialise();
 	Rocket::Controls::Initialise();
@@ -148,9 +145,6 @@ void libRocketTest::destroyScene()
 	// Shutdown Rocket.
 	context->RemoveReference();
 	Rocket::Core::Shutdown();
-
-	delete ogre_system;
-	ogre_system = NULL;
 
 	delete ogre_renderer;
 	ogre_renderer = NULL;
@@ -253,10 +247,10 @@ void libRocketTest::BuildProjectionMatrix(Ogre::Matrix4& projection_matrix)
 	projection_matrix[3][3]= 1.0000000f;
 }
 
-extern "C" _AnomalousExport libRocketTest* libRocketTest_Create(int width, int height)
+extern "C" _AnomalousExport libRocketTest* libRocketTest_Create(int width, int height, Rocket::Core::SystemInterface* systemInterface)
 {
 	libRocketTest* rocketTest = new libRocketTest(width, height);
-	rocketTest->createScene();
+	rocketTest->createScene(systemInterface);
 	return rocketTest;
 }
 

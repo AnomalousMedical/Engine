@@ -179,6 +179,14 @@ namespace Engine.Platform
             }
         }
 
+        public Int64 ElapsedTime
+        {
+            get
+            {
+                return systemTimer.getCurrentTime();
+            }
+        }
+
         /// <summary>
         /// Fire a fixed update.
         /// </summary>

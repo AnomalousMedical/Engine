@@ -76,13 +76,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Include\AnomalousSystemInterface.h" />
+    <ClInclude Include="Include\ManagedSystemInterface.h" />
     <ClInclude Include="Include\RenderInterfaceOgre3D.h" />
     <ClInclude Include="StdAfx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Src\AnomalousSystemInterface.cpp" />
     <ClCompile Include="Src\libRocketTest.cpp" />
+    <ClCompile Include="Src\ManagedSystemInterface.cpp" />
     <ClCompile Include="Src\RenderInterfaceOgre3D.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
