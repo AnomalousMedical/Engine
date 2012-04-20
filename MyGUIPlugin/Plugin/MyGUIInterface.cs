@@ -86,7 +86,7 @@ namespace MyGUIPlugin
 
             //Create camera and viewport
             camera = sceneManager.createCamera("MyGUICamera");
-            vp = ogreWindow.OgreRenderWindow.addViewport(camera, int.MaxValue, 0.0f, 0.0f, 1.0f, 1.0f);
+            vp = ogreWindow.OgreRenderWindow.addViewport(camera, ViewportZIndex, 0.0f, 0.0f, 1.0f, 1.0f);
             vp.setBackgroundColor(new Color(1.0f, 0.0f, 0.0f, 0.0f));
             vp.setClearEveryFrame(false);
             vp.clear();
@@ -149,7 +149,7 @@ namespace MyGUIPlugin
         {
             ogreWindow = window as OgreWindow;
             ogrePlatform.getRenderManager().setRenderWindow(ogreWindow.OgreRenderWindow);
-            vp = ogreWindow.OgreRenderWindow.addViewport(camera, int.MaxValue, 0.0f, 0.0f, 1.0f, 1.0f);
+            vp = ogreWindow.OgreRenderWindow.addViewport(camera, ViewportZIndex, 0.0f, 0.0f, 1.0f, 1.0f);
             vp.setBackgroundColor(new Color(1.0f, 0.0f, 0.0f, 0.0f));
             vp.setClearEveryFrame(false);
         }
@@ -170,6 +170,7 @@ namespace MyGUIPlugin
             MessageBoxTheme = DefaultMessageBoxTheme;
             LayerFile = "MyGUIPlugin_Layer.xml";
             PointerFile = "MyGUIPlugin_Pointer.xml";
+            ViewportZIndex = 1000000;
         }
 
         public static readonly String DefaultWindowsTheme = "MyGUIPlugin_Windows.xml";
@@ -208,6 +209,8 @@ namespace MyGUIPlugin
         /// The amount of time Smooth Show transitions should take.
         /// </summary>
         public static float SmoothShowDuration { get; set; }
+
+        public static int ViewportZIndex { get; set; }
 
         /// <summary>
         /// This event is fired before MyGUI renders.

@@ -68,7 +68,7 @@ namespace libRocketPlugin
 
             //Create camera and viewport
             camera = sceneManager.createCamera("libRocketCamera");
-            vp = ogreWindow.OgreRenderWindow.addViewport(camera, int.MaxValue - 1, 0.0f, 0.0f, 1.0f, 1.0f);
+            vp = ogreWindow.OgreRenderWindow.addViewport(camera, ViewportZIndex, 0.0f, 0.0f, 1.0f, 1.0f);
             vp.setBackgroundColor(new Color(1.0f, 0.0f, 0.0f, 0.0f));
             vp.setClearEveryFrame(false);
             vp.clear();
@@ -97,6 +97,13 @@ namespace libRocketPlugin
         {
 
         }
+
+        static RocketInterface()
+        {
+            ViewportZIndex = 2000000;
+        }
+
+        public static int ViewportZIndex { get; set; }
 
         #region Temp
 
