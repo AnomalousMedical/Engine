@@ -8,11 +8,10 @@ using Engine.Platform;
 
 namespace libRocketPlugin
 {
-    public class ManagedSystemInterface : IDisposable
+    public class ManagedSystemInterface : SystemInterface
     {
         GetElapsedTimeDelegate etDelegate;
         LogMessageDelegate logDelegate;
-        private IntPtr systemInterfacePtr;
 
         public ManagedSystemInterface()
         {
@@ -22,7 +21,7 @@ namespace libRocketPlugin
             systemInterfacePtr = ManagedSystemInterface_Create(etDelegate, logDelegate);
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             ManagedSystemInterface_Delete(systemInterfacePtr);
         }
@@ -61,14 +60,6 @@ namespace libRocketPlugin
         }
 
         public UpdateTimer Timer { get; set; }
-
-        internal IntPtr SystemInterfacePtr
-        {
-            get
-            {
-                return systemInterfacePtr;
-            }
-        }
 
         #region PInvoke
 

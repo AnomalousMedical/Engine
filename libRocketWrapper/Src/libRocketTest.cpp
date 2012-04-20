@@ -32,8 +32,6 @@ class libRocketTest
 
 		/// Called from Ogre before a queue group is rendered.
 		virtual void renderQueueStarted(Ogre::uint8 queueGroupId);
-		/// Called from Ogre after a queue group is rendered.
-        //virtual void renderQueueEnded(uint8 queueGroupId, const Ogre::String& invocation, bool& repeatThisInvocation);
 
 	private:
 		// Configures Ogre's rendering system for rendering Rocket.
@@ -65,18 +63,6 @@ libRocketTest::libRocketTest()
 
 	// Switch the working directory to Ogre's bin directory.
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-	//char path[MAX_PATH];
-	//rocket_path = getcwd(path, MAX_PATH);
-	//rocket_path += "/../../";
-
-	//// Normalise the path. This path is used to specify the resource location (see line 56 below).
-	//_fullpath(path, rocket_path.CString(), MAX_PATH);
-	//rocket_path = Rocket::Core::String(path).Replace("\\", "/");
-
-	//// The sample path is the path to the Ogre3D sample directory. All resources are loaded
-	//// relative to this path.
-	//sample_path = getcwd(path, MAX_PATH);
-	//sample_path += "/../Samples/basic/ogre3d/";
 	rocket_path = "S:/Junk/librocket/";
 	sample_path = "S:/Junk/librocket/libRocket/Samples/";
 #if OGRE_DEBUG_MODE
@@ -140,12 +126,7 @@ void libRocketTest::destroyScene()
 
 void libRocketTest::createFrameListener()
 {
-	//// Create the RocketFrameListener.
-	//mFrameListener = new RocketFrameListener(mWindow, mCamera, context);
-	//mRoot->addFrameListener(mFrameListener);
-
-	//// Show the frame stats overlay.
-	//mFrameListener->showDebugOverlay(true);
+	
 }
 
 // Called from Ogre before a queue group is rendered.
@@ -159,11 +140,6 @@ void libRocketTest::renderQueueStarted(Ogre::uint8 queueGroupId)
 		context->Render();
 	}
 }
-
-// Called from Ogre after a queue group is rendered.
-//void libRocketTest::renderQueueEnded(uint8 ROCKET_UNUSED(queueGroupId), const Ogre::String& ROCKET_UNUSED(invocation), bool& ROCKET_UNUSED(repeatThisInvocation))
-//{
-//}
 
 // Configures Ogre's rendering system for rendering Rocket.
 void libRocketTest::ConfigureRenderSystem()

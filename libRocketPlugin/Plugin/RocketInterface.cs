@@ -72,7 +72,7 @@ namespace libRocketPlugin
             systemInterface = new ManagedSystemInterface();
             renderInterface = new RenderInterfaceOgre3D((int)ogreWindow.OgreRenderWindow.getWidth(), (int)ogreWindow.OgreRenderWindow.getHeight());
 
-            rocketTest = libRocketTest_Create(renderInterface.RenderInterface, systemInterface.SystemInterfacePtr);
+            rocketTest = libRocketTest_Create(renderInterface.Ptr, systemInterface.Ptr);
 
             sceneManager.addRenderQueueListener(new RocketQueueListener(this));
         }

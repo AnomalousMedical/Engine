@@ -44,9 +44,14 @@
     <Compile Include="Plugin\RocketPluginEntryPoint.cs" />
     <Compile Include="Plugin\RocketUpdate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Wrapper\LogType.cs" />
+    <Compile Include="Wrapper\Core\Core.cs" />
+    <Compile Include="Wrapper\Core\LogType.cs" />
     <Compile Include="Plugin\ManagedSystemInterface.cs" />
+    <Compile Include="Wrapper\Core\RenderInterface.cs" />
+    <Compile Include="Wrapper\Core\SystemInterface.cs" />
+    <Compile Include="Wrapper\Math\ThreeIntHack.cs" />
     <Compile Include="Wrapper\RenderInterfaceOgre3D.cs" />
+    <Compile Include="Wrapper\Math\Vector2i.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

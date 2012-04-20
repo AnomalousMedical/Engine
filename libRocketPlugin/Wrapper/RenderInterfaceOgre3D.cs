@@ -6,26 +6,16 @@ using System.Runtime.InteropServices;
 
 namespace libRocketPlugin
 {
-    class RenderInterfaceOgre3D : IDisposable
+    class RenderInterfaceOgre3D : RenderInterface
     {
-        private IntPtr renderInterface;
-
         public RenderInterfaceOgre3D(int width, int height)
         {
             renderInterface = RenderInterfaceOgre3D_Create(width, height);
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             RenderInterfaceOgre3D_Delete(renderInterface);
-        }
-
-        internal IntPtr RenderInterface
-        {
-            get
-            {
-                return renderInterface;
-            }
         }
 
         #region PInvoke
