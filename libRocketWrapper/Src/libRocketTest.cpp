@@ -169,7 +169,7 @@ void libRocketTest::createFrameListener()
 // Called from Ogre before a queue group is rendered.
 void libRocketTest::renderQueueStarted(Ogre::uint8 queueGroupId)
 {
-	if (queueGroupId == Ogre::RENDER_QUEUE_OVERLAY && Ogre::Root::getSingleton().getRenderSystem()->_getViewport()->getOverlaysEnabled())
+	if (queueGroupId == Ogre::RENDER_QUEUE_OVERLAY)// && Ogre::Root::getSingleton().getRenderSystem()->_getViewport()->getOverlaysEnabled())
 	{
 		context->Update();
 

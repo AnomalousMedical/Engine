@@ -70,6 +70,7 @@ namespace libRocketPlugin
             camera = sceneManager.createCamera("libRocketCamera");
             vp = ogreWindow.OgreRenderWindow.addViewport(camera, ViewportZIndex, 0.0f, 0.0f, 1.0f, 1.0f);
             vp.setBackgroundColor(new Color(1.0f, 0.0f, 0.0f, 0.0f));
+            vp.setOverlaysEnabled(false);
             vp.setClearEveryFrame(false);
             vp.clear();
 
