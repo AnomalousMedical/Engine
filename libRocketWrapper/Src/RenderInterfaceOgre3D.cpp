@@ -342,6 +342,12 @@ void RenderInterfaceOgre3D::BuildProjectionMatrix(Ogre::Matrix4& projection_matr
 	projection_matrix[3][3]= 1.0000000f;
 }
 
+void RenderInterfaceOgre3D::renderWindowResized(const unsigned int& window_width, const unsigned int& window_height)
+{
+	renderWidth = window_width;
+	renderHeight = window_height;
+}
+
 extern "C" _AnomalousExport RenderInterfaceOgre3D* RenderInterfaceOgre3D_Create(int width, int height)
 {
 	return new RenderInterfaceOgre3D(width, height);
@@ -355,4 +361,9 @@ extern "C" _AnomalousExport void RenderInterfaceOgre3D_Delete(RenderInterfaceOgr
 extern "C" _AnomalousExport void RenderInterfaceOgre3D_ConfigureRenderSystem(RenderInterfaceOgre3D* renderInterface)
 {
 	renderInterface->ConfigureRenderSystem();
+}
+
+extern "C" _AnomalousExport void RenderInterfaceOgre3D_renderWindowResized(RenderInterfaceOgre3D* renderInterface, uint window_width, uint window_height)
+{
+	renderInterface->renderWindowResized(window_width, window_height);
 }

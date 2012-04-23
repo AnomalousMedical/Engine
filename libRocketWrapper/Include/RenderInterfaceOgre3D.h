@@ -74,6 +74,9 @@ class RenderInterfaceOgre3D : public Rocket::Core::RenderInterface
 		// Configures Ogre's rendering system for rendering Rocket.
 		void ConfigureRenderSystem();
 
+		//Call when the render window resizes
+		void renderWindowResized(const unsigned int& window_width, const unsigned int& window_height);
+
 	private:
 		Ogre::RenderSystem* render_system;
 
