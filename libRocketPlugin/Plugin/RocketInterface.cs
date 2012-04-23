@@ -86,6 +86,7 @@ namespace libRocketPlugin
             Core.SetRenderInterface(renderInterface);
 
             Core.Initialise();
+            Controls.Initialise();
 
             String sample_path = "S:/Junk/librocket/libRocket/Samples/";
 
@@ -95,6 +96,7 @@ namespace libRocketPlugin
 	        FontDatabase.LoadFontFace(sample_path + "assets/Delicious-BoldItalic.otf");
 
             context = Core.CreateContext("main", new Vector2i((int)ogreWindow.OgreRenderWindow.getWidth(), (int)ogreWindow.OgreRenderWindow.getHeight()));
+            Debugger.Initialise(context);
 
             rocketTest = libRocketTest_Create(renderInterface.Ptr, systemInterface.Ptr, context.Ptr);
 

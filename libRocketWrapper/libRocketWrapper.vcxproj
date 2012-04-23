@@ -82,7 +82,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Context.cpp" />
+    <ClCompile Include="Src\Controls.cpp" />
     <ClCompile Include="Src\Core.cpp" />
+    <ClCompile Include="Src\Debugger.cpp" />
     <ClCompile Include="Src\ElementDocument.cpp" />
     <ClCompile Include="Src\FontDatabase.cpp" />
     <ClCompile Include="Src\libRocketTest.cpp" />

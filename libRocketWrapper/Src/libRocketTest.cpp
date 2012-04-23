@@ -89,7 +89,7 @@ void libRocketTest::createScene(RenderInterfaceOgre3D* renderInterface, Rocket::
 	//Rocket::Core::SetSystemInterface(systemInterface);
 
 	//Rocket::Core::Initialise();
-	Rocket::Controls::Initialise();
+	//Rocket::Controls::Initialise();
 
 	// Load the fonts from the path to the sample directory.
 	/*Rocket::Core::FontDatabase::LoadFontFace(sample_path + "assets/Delicious-Roman.otf");
@@ -99,7 +99,7 @@ void libRocketTest::createScene(RenderInterfaceOgre3D* renderInterface, Rocket::
 
 	/*context = Rocket::Core::CreateContext("main", Rocket::Core::Vector2i(renderInterface->getScissorRight(), renderInterface->getScissorBottom()));*/
 	context = con;
-	Rocket::Debugger::Initialise(context);
+	//Rocket::Debugger::Initialise(context);
 
 	// Load the mouse cursor and release the caller's reference.
 	Rocket::Core::ElementDocument* cursor = context->LoadMouseCursor(sample_path + "assets/cursor.rml");

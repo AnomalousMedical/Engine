@@ -45,7 +45,9 @@
     <Compile Include="Plugin\RocketUpdate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wrapper\Core\Context.cs" />
+    <Compile Include="Wrapper\Controls\Controls.cs" />
     <Compile Include="Wrapper\Core\Core.cs" />
+    <Compile Include="Wrapper\Debugger\Debugger.cs" />
     <Compile Include="Wrapper\Core\Element.cs" />
     <Compile Include="Wrapper\Core\ElementDocument.cs" />
     <Compile Include="Wrapper\Core\EventListener.cs" />
