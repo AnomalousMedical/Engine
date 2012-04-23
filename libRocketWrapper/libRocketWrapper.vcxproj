@@ -83,6 +83,7 @@
   <ItemGroup>
     <ClCompile Include="Src\Context.cpp" />
     <ClCompile Include="Src\Core.cpp" />
+    <ClCompile Include="Src\FontDatabase.cpp" />
     <ClCompile Include="Src\libRocketTest.cpp" />
     <ClCompile Include="Src\ManagedSystemInterface.cpp" />
     <ClCompile Include="Src\RenderInterfaceOgre3D.cpp" />

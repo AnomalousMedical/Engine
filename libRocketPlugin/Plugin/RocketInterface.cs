@@ -30,6 +30,7 @@ namespace libRocketPlugin
             {
                 libRocketTest_Delete(rocketTest);
             }
+            Core.Shutdown();
             //if (mainTimer != null)
             //{
             //    mainTimer.removeFixedUpdateListener(myGUIUpdate);
@@ -80,6 +81,13 @@ namespace libRocketPlugin
             Core.SetRenderInterface(renderInterface);
 
             Core.Initialise();
+
+            String sample_path = "S:/Junk/librocket/libRocket/Samples/";
+
+            FontDatabase.LoadFontFace(sample_path + "assets/Delicious-Roman.otf");
+	        FontDatabase.LoadFontFace(sample_path + "assets/Delicious-Bold.otf");
+	        FontDatabase.LoadFontFace(sample_path + "assets/Delicious-Italic.otf");
+	        FontDatabase.LoadFontFace(sample_path + "assets/Delicious-BoldItalic.otf");
 
             rocketTest = libRocketTest_Create(renderInterface.Ptr, systemInterface.Ptr);
 

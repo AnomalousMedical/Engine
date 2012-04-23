@@ -92,10 +92,10 @@ void libRocketTest::createScene(RenderInterfaceOgre3D* renderInterface, Rocket::
 	Rocket::Controls::Initialise();
 
 	// Load the fonts from the path to the sample directory.
-	Rocket::Core::FontDatabase::LoadFontFace(sample_path + "assets/Delicious-Roman.otf");
+	/*Rocket::Core::FontDatabase::LoadFontFace(sample_path + "assets/Delicious-Roman.otf");
 	Rocket::Core::FontDatabase::LoadFontFace(sample_path + "assets/Delicious-Bold.otf");
 	Rocket::Core::FontDatabase::LoadFontFace(sample_path + "assets/Delicious-Italic.otf");
-	Rocket::Core::FontDatabase::LoadFontFace(sample_path + "assets/Delicious-BoldItalic.otf");
+	Rocket::Core::FontDatabase::LoadFontFace(sample_path + "assets/Delicious-BoldItalic.otf");*/
 
 	context = Rocket::Core::CreateContext("main", Rocket::Core::Vector2i(renderInterface->getScissorRight(), renderInterface->getScissorBottom()));
 	Rocket::Debugger::Initialise(context);
@@ -121,7 +121,7 @@ void libRocketTest::destroyScene()
 {
 	// Shutdown Rocket.
 	context->RemoveReference();
-	Rocket::Core::Shutdown();
+	//Rocket::Core::Shutdown();
 }
 
 void libRocketTest::createFrameListener()

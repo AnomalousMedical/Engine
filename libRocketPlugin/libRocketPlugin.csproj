@@ -48,6 +48,8 @@
     <Compile Include="Wrapper\Core\ContextManager.cs" />
     <Compile Include="Wrapper\Core\Core.cs" />
     <Compile Include="Wrapper\Core\FileInterface.cs" />
+    <Compile Include="Wrapper\Core\Font.cs" />
+    <Compile Include="Wrapper\Core\FontDatabase.cs" />
     <Compile Include="Wrapper\Core\LogType.cs" />
     <Compile Include="Plugin\ManagedSystemInterface.cs" />
     <Compile Include="Wrapper\Core\RenderInterface.cs" />
