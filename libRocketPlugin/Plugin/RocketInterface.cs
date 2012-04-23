@@ -79,7 +79,6 @@ namespace libRocketPlugin
 
             //Not sure about this, i think it is just making the group
             OgreResourceGroupManager.getInstance().createResourceGroup("Rocket");
-            OgreResourceGroupManager.getInstance().addResourceLocation("S:/Junk/librocket/libRocket/Samples/", "FileSystem", "Rocket", false);
 
             systemInterface = new ManagedSystemInterface();
             renderInterface = new RenderInterfaceOgre3D((int)ogreWindow.OgreRenderWindow.getWidth(), (int)ogreWindow.OgreRenderWindow.getHeight());
@@ -91,7 +90,8 @@ namespace libRocketPlugin
             Controls.Initialise();
 
             //test
-            String sample_path = "S:/Junk/librocket/libRocket/Samples/";
+            String sample_path = "S:/dependencies/libRocket/src/Samples/";
+            OgreResourceGroupManager.getInstance().addResourceLocation(sample_path, "FileSystem", "Rocket", false);
 
             FontDatabase.LoadFontFace(sample_path + "assets/Delicious-Roman.otf");
 	        FontDatabase.LoadFontFace(sample_path + "assets/Delicious-Bold.otf");
