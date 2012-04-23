@@ -19,6 +19,7 @@ namespace libRocketPlugin
         private ManagedSystemInterface systemInterface;
         private RenderInterfaceOgre3D renderInterface;
         private Context context;
+        private ContextUpdater contextUpdater;
 
         public RocketInterface()
         {
@@ -27,6 +28,10 @@ namespace libRocketPlugin
 
         public void Dispose()
         {
+            if (contextUpdater != null)
+            {
+                contextUpdater.Dispose();
+            }
             if (context != null)
             {
                 context.Dispose();
@@ -117,7 +122,8 @@ namespace libRocketPlugin
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
         {
             systemInterface.Timer = mainTimer;
-            //mainTimer.addFullSpeedUpdateListener(new RocketUpdate(this));
+            contextUpdater = new ContextUpdater(context, eventManager);
+            mainTimer.addFixedUpdateListener(contextUpdater);
         }
 
         public string getName()
