@@ -213,24 +213,31 @@ void RenderInterfaceOgre3D::SetScissorRegion(int x, int y, int width, int height
 // Called by Rocket when a texture is required by the library.
 bool RenderInterfaceOgre3D::LoadTexture(Rocket::Core::TextureHandle& texture_handle, Rocket::Core::Vector2i& texture_dimensions, const Rocket::Core::String& source)
 {
-	Ogre::TextureManager* texture_manager = Ogre::TextureManager::getSingletonPtr();
-	Ogre::TexturePtr ogre_texture = texture_manager->getByName(Ogre::String(source.CString()));
-	if (ogre_texture.isNull())
+	try
 	{
-		ogre_texture = texture_manager->load(Ogre::String(source.CString()),
-											 "Rocket",
-											 Ogre::TEX_TYPE_2D,
-											 0);
+		Ogre::TextureManager* texture_manager = Ogre::TextureManager::getSingletonPtr();
+		Ogre::TexturePtr ogre_texture = texture_manager->getByName(Ogre::String(source.CString()));
+		if (ogre_texture.isNull())
+		{
+			ogre_texture = texture_manager->load(Ogre::String(source.CString()),
+												 "Rocket",
+												 Ogre::TEX_TYPE_2D,
+												 0);
+		}
+
+		if (ogre_texture.isNull())
+			return false;
+
+		texture_dimensions.x = ogre_texture->getWidth();
+		texture_dimensions.y = ogre_texture->getHeight();
+
+		texture_handle = reinterpret_cast<Rocket::Core::TextureHandle>(new RocketOgre3DTexture(ogre_texture));
+		return true;
 	}
-
-	if (ogre_texture.isNull())
+	catch(Ogre::Exception& ex)
+	{
 		return false;
-
-	texture_dimensions.x = ogre_texture->getWidth();
-	texture_dimensions.y = ogre_texture->getHeight();
-
-	texture_handle = reinterpret_cast<Rocket::Core::TextureHandle>(new RocketOgre3DTexture(ogre_texture));
-	return true;
+	}
 }
 
 // Called by Rocket when a texture is required to be built from an internally-generated sequence of pixels.

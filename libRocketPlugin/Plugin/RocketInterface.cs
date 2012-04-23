@@ -79,7 +79,7 @@ namespace libRocketPlugin
 
             //Not sure about this, i think it is just making the group
             OgreResourceGroupManager.getInstance().createResourceGroup("Rocket");
-            OgreResourceGroupManager.getInstance().addResourceLocation("S:/Junk/librocket/", "FileSystem", "Rocket", false);
+            OgreResourceGroupManager.getInstance().addResourceLocation("S:/Junk/librocket/libRocket/Samples/", "FileSystem", "Rocket", false);
 
             systemInterface = new ManagedSystemInterface();
             renderInterface = new RenderInterfaceOgre3D((int)ogreWindow.OgreRenderWindow.getWidth(), (int)ogreWindow.OgreRenderWindow.getHeight());
