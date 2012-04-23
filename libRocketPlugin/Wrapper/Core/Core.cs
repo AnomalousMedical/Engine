@@ -57,22 +57,22 @@ namespace libRocketPlugin
 
         public static Context CreateContext(String name, Vector2i dimensions)
         {
-            return ContextManager.getContext(Core_CreateContext(name, dimensions, IntPtr.Zero));
+            return new Context(Core_CreateContext(name, dimensions, IntPtr.Zero));
         }
 
         public static Context CreateContext(String name, Vector2i dimensions, IntPtr renderInterface)
         {
-            return ContextManager.getContext(Core_CreateContext(name, dimensions, renderInterface));
+            return new Context(Core_CreateContext(name, dimensions, renderInterface));
         }
 
         public static Context GetContext(String name)
         {
-            return ContextManager.getContext(Core_GetContext(name));
+            return new Context(Core_GetContext(name));
         }
 
         public static Context GetContext(int index)
         {
-            return ContextManager.getContext(Core_GetContext_Index(index));
+            return new Context(Core_GetContext_Index(index));
         }
 
         public static int GetNumContexts()

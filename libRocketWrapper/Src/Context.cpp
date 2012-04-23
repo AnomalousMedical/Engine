@@ -1,43 +1,43 @@
 #include "StdAfx.h"
 
-String Context_GetName()
-{
+//extern "C" _AnomalousExport String Context_GetName(Rocket::Core::Context* context)
+//{
+//	return context->GetName().CString();
+//}
 
+extern "C" _AnomalousExport void Context_SetDimensions(Rocket::Core::Context* context, Vector2i dimensions)
+{
+	context->SetDimensions(dimensions.toVector2i());
 }
 
-void Context_SetDimensions(const Vector2i& dimensions)
+extern "C" _AnomalousExport ThreeIntHack Context_GetDimensions(Rocket::Core::Context* context)
 {
-
+	return context->GetDimensions();
 }
 
-const Vector2i& Context_GetDimensions()
+extern "C" _AnomalousExport bool Context_Update(Rocket::Core::Context* context)
 {
-
+	return context->Update();
 }
 
-bool Context_Update()
+extern "C" _AnomalousExport bool Context_Render(Rocket::Core::Context* context)
 {
-
+	return context->Render();
 }
 
-bool Context_Render()
+extern "C" _AnomalousExport Rocket::Core::ElementDocument* Context_CreateDocument(Rocket::Core::Context* context)
 {
-
+	return context->CreateDocument();
 }
 
-Rocket::Core::ElementDocument* Context_CreateDocument()
+extern "C" _AnomalousExport Rocket::Core::ElementDocument* Context_CreateDocument_Tag(Rocket::Core::Context* context, String tag)
 {
-
+	return context->CreateDocument(tag);
 }
 
-Rocket::Core::ElementDocument* Context_CreateDocument_Tag(String tag)
+extern "C" _AnomalousExport Rocket::Core::ElementDocument* Context_LoadDocument(Rocket::Core::Context* context, String document_path)
 {
-
-}
-
-Rocket::Core::ElementDocument* Context_LoadDocument(String document_path)
-{
-
+	return context->LoadDocument(document_path);
 }
 
 //Rocket::Core::ElementDocument* Context_LoadDocument(Stream* document_stream)
@@ -45,142 +45,142 @@ Rocket::Core::ElementDocument* Context_LoadDocument(String document_path)
 //
 //}
 
-Rocket::Core::ElementDocument* Context_LoadDocumentFromMemory(const String& string)
+extern "C" _AnomalousExport Rocket::Core::ElementDocument* Context_LoadDocumentFromMemory(Rocket::Core::Context* context, String string)
 {
-
+	return context->LoadDocumentFromMemory(string);
 }
 
-void Context_UnloadDocument(Rocket::Core::ElementDocument* document)
+extern "C" _AnomalousExport void Context_UnloadDocument(Rocket::Core::Context* context, Rocket::Core::ElementDocument* document)
 {
-
+	return context->UnloadDocument(document);
 }
 
-void Context_UnloadAllDocuments()
+extern "C" _AnomalousExport void Context_UnloadAllDocuments(Rocket::Core::Context* context)
 {
-
+	return context->UnloadAllDocuments();
 }
 
-void Context_AddMouseCursor(Rocket::Core::ElementDocument* cursor_document)
+extern "C" _AnomalousExport void Context_AddMouseCursor(Rocket::Core::Context* context, Rocket::Core::ElementDocument* cursor_document)
 {
-
+	return context->AddMouseCursor(cursor_document);
 }
 
-Rocket::Core::ElementDocument* Context_LoadMouseCursor(const String& cursor_document_path)
+extern "C" _AnomalousExport Rocket::Core::ElementDocument* Context_LoadMouseCursor(Rocket::Core::Context* context, String cursor_document_path)
 {
-
+	return context->LoadMouseCursor(cursor_document_path);
 }
 
-void Context_UnloadMouseCursor(const String& cursor_name)
+extern "C" _AnomalousExport void Context_UnloadMouseCursor(Rocket::Core::Context* context, String cursor_name)
 {
-
+	return context->UnloadMouseCursor(cursor_name);
 }
 
-void Context_UnloadAllMouseCursors()
+extern "C" _AnomalousExport void Context_UnloadAllMouseCursors(Rocket::Core::Context* context)
 {
-
+	return context->UnloadAllMouseCursors();
 }
 
-bool Context_SetMouseCursor(const String& cursor_name)
+extern "C" _AnomalousExport bool Context_SetMouseCursor(Rocket::Core::Context* context, String cursor_name)
 {
-
+	return context->SetMouseCursor(cursor_name);
 }
 
-void Context_ShowMouseCursor(bool show)
+extern "C" _AnomalousExport void Context_ShowMouseCursor(Rocket::Core::Context* context, bool show)
 {
-
+	return context->ShowMouseCursor(show);
 }
 
-Rocket::Core::ElementDocument* Context_GetDocument(const String& id)
+extern "C" _AnomalousExport Rocket::Core::ElementDocument* Context_GetDocument(Rocket::Core::Context* context, String id)
 {
-
+	return context->GetDocument(id);
 }
 
-Rocket::Core::ElementDocument* Context_GetDocument(int index)
+extern "C" _AnomalousExport Rocket::Core::ElementDocument* Context_GetDocument_Index(Rocket::Core::Context* context, int index)
 {
-
+	return context->GetDocument(index);
 }
 
-int Context_GetNumDocuments()
+extern "C" _AnomalousExport int Context_GetNumDocuments(Rocket::Core::Context* context)
 {
-
+	return context->GetNumDocuments();
 }
 
-Rocket::Core::Element* Context_GetHoverElement()
+extern "C" _AnomalousExport Rocket::Core::Element* Context_GetHoverElement(Rocket::Core::Context* context)
 {
-
+	return context->GetHoverElement();
 }
 
-Rocket::Core::Element* Context_GetFocusElement()
+extern "C" _AnomalousExport Rocket::Core::Element* Context_GetFocusElement(Rocket::Core::Context* context)
 {
-
+	return context->GetFocusElement();
 }
 
-Rocket::Core::Element* Context_GetRootElement()
+extern "C" _AnomalousExport Rocket::Core::Element* Context_GetRootElement(Rocket::Core::Context* context)
 {
-
+	return context->GetRootElement();
 }
 
-void Context_PullDocumentToFront(Rocket::Core::ElementDocument* document)
+extern "C" _AnomalousExport void Context_PullDocumentToFront(Rocket::Core::Context* context, Rocket::Core::ElementDocument* document)
 {
-
+	return context->PullDocumentToFront(document);
 }
 
-void Context_PushDocumentToBack(Rocket::Core::ElementDocument* document)
+extern "C" _AnomalousExport void Context_PushDocumentToBack(Rocket::Core::Context* context, Rocket::Core::ElementDocument* document)
 {
-
+	return context->PushDocumentToBack(document);
 }
 
-void Context_AddEventListener(const String& event, Rocket::Core::EventListener* listener, bool in_capture_phase = false)
+extern "C" _AnomalousExport void Context_AddEventListener(Rocket::Core::Context* context, String event, Rocket::Core::EventListener* listener, bool in_capture_phase/* = false*/)
 {
-
+	return context->AddEventListener(event, listener, in_capture_phase);
 }
 
-void Context_RemoveEventListener(const String& event, Rocket::Core::EventListener* listener, bool in_capture_phase = false)
+extern "C" _AnomalousExport void Context_RemoveEventListener(Rocket::Core::Context* context, String event, Rocket::Core::EventListener* listener, bool in_capture_phase/* = false*/)
 {
-
+	return context->RemoveEventListener(event, listener, in_capture_phase);
 }
 
-bool Context_ProcessKeyDown(Rocket::Core::Input::KeyIdentifier key_identifier, int key_modifier_state)
+extern "C" _AnomalousExport bool Context_ProcessKeyDown(Rocket::Core::Context* context, Rocket::Core::Input::KeyIdentifier key_identifier, int key_modifier_state)
 {
-
+	return context->ProcessKeyDown(key_identifier, key_modifier_state);
 }
 
-bool Context_ProcessKeyUp(Rocket::Core::Input::KeyIdentifier key_identifier, int key_modifier_state)
+extern "C" _AnomalousExport bool Context_ProcessKeyUp(Rocket::Core::Context* context, Rocket::Core::Input::KeyIdentifier key_identifier, int key_modifier_state)
 {
-
+	return context->ProcessKeyUp(key_identifier, key_modifier_state);
 }
 
-bool Context_ProcessTextInput(Rocket::Core::word character)
+extern "C" _AnomalousExport bool Context_ProcessTextInput_Word(Rocket::Core::Context* context, Rocket::Core::word character)
 {
-
+	return context->ProcessTextInput(character);
 }
 
-bool Context_ProcessTextInput(const String& string)
+extern "C" _AnomalousExport bool Context_ProcessTextInput(Rocket::Core::Context* context, String string)
 {
-
+	return context->ProcessTextInput(string);
 }
 
-void Context_ProcessMouseMove(int x, int y, int key_modifier_state)
+extern "C" _AnomalousExport void Context_ProcessMouseMove(Rocket::Core::Context* context, int x, int y, int key_modifier_state)
 {
-
+	return context->ProcessMouseMove(x, y, key_modifier_state);
 }
 
-void Context_ProcessMouseButtonDown(int button_index, int key_modifier_state)
+extern "C" _AnomalousExport void Context_ProcessMouseButtonDown(Rocket::Core::Context* context, int button_index, int key_modifier_state)
 {
-
+	return context->ProcessMouseButtonDown(button_index, key_modifier_state);
 }
 
-void Context_ProcessMouseButtonUp(int button_index, int key_modifier_state)
+extern "C" _AnomalousExport void Context_ProcessMouseButtonUp(Rocket::Core::Context* context, int button_index, int key_modifier_state)
 {
-
+	return context->ProcessMouseButtonUp(button_index, key_modifier_state);
 }
 
-bool Context_ProcessMouseWheel(int wheel_delta, int key_modifier_state)
+extern "C" _AnomalousExport bool Context_ProcessMouseWheel(Rocket::Core::Context* context, int wheel_delta, int key_modifier_state)
 {
-
+	return context->ProcessMouseWheel(wheel_delta, key_modifier_state);
 }
 
-Rocket::Core::RenderInterface* Context_GetRenderInterface()
+extern "C" _AnomalousExport Rocket::Core::RenderInterface* Context_GetRenderInterface(Rocket::Core::Context* context)
 {
-
+	return context->GetRenderInterface();
 }

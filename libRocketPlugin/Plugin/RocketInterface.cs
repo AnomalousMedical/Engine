@@ -18,6 +18,7 @@ namespace libRocketPlugin
         private Viewport vp;
         private ManagedSystemInterface systemInterface;
         private RenderInterfaceOgre3D renderInterface;
+        private Context context;
 
         public RocketInterface()
         {
@@ -26,6 +27,10 @@ namespace libRocketPlugin
 
         public void Dispose()
         {
+            if (context != null)
+            {
+                context.Dispose();
+            }
             if (rocketTest != null)
             {
                 libRocketTest_Delete(rocketTest);
@@ -89,7 +94,9 @@ namespace libRocketPlugin
 	        FontDatabase.LoadFontFace(sample_path + "assets/Delicious-Italic.otf");
 	        FontDatabase.LoadFontFace(sample_path + "assets/Delicious-BoldItalic.otf");
 
-            rocketTest = libRocketTest_Create(renderInterface.Ptr, systemInterface.Ptr);
+            context = Core.CreateContext("main", new Vector2i((int)ogreWindow.OgreRenderWindow.getWidth(), (int)ogreWindow.OgreRenderWindow.getHeight()));
+
+            rocketTest = libRocketTest_Create(renderInterface.Ptr, systemInterface.Ptr, context.Ptr);
 
             sceneManager.addRenderQueueListener(new RocketQueueListener(this));
         }
@@ -127,7 +134,7 @@ namespace libRocketPlugin
         IntPtr rocketTest;
 
         [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr libRocketTest_Create(IntPtr renderInterface, IntPtr systemInterface);
+        private static extern IntPtr libRocketTest_Create(IntPtr renderInterface, IntPtr systemInterface, IntPtr con);
 
         [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void libRocketTest_Delete(IntPtr test);

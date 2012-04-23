@@ -25,7 +25,7 @@ class libRocketTest
 		virtual ~libRocketTest();
 
 	public:
-		void createScene(RenderInterfaceOgre3D* renderInterface, Rocket::Core::SystemInterface* systemInterface);
+		void createScene(RenderInterfaceOgre3D* renderInterface, Rocket::Core::SystemInterface* systemInterface, Rocket::Core::Context* con);
 		void destroyScene();
 
 		void createFrameListener();
@@ -78,7 +78,7 @@ libRocketTest::~libRocketTest()
 	destroyScene();
 }
 
-void libRocketTest::createScene(RenderInterfaceOgre3D* renderInterface, Rocket::Core::SystemInterface* systemInterface)
+void libRocketTest::createScene(RenderInterfaceOgre3D* renderInterface, Rocket::Core::SystemInterface* systemInterface, Rocket::Core::Context* con)
 {
 	//Ogre::ResourceGroupManager::getSingleton().createResourceGroup("Rocket");
 	//Ogre::ResourceGroupManager::getSingleton().addResourceLocation(rocket_path.Replace("\\", "/").CString(), "FileSystem", "Rocket");
@@ -97,7 +97,8 @@ void libRocketTest::createScene(RenderInterfaceOgre3D* renderInterface, Rocket::
 	Rocket::Core::FontDatabase::LoadFontFace(sample_path + "assets/Delicious-Italic.otf");
 	Rocket::Core::FontDatabase::LoadFontFace(sample_path + "assets/Delicious-BoldItalic.otf");*/
 
-	context = Rocket::Core::CreateContext("main", Rocket::Core::Vector2i(renderInterface->getScissorRight(), renderInterface->getScissorBottom()));
+	/*context = Rocket::Core::CreateContext("main", Rocket::Core::Vector2i(renderInterface->getScissorRight(), renderInterface->getScissorBottom()));*/
+	context = con;
 	Rocket::Debugger::Initialise(context);
 
 	// Load the mouse cursor and release the caller's reference.
@@ -120,7 +121,7 @@ void libRocketTest::createScene(RenderInterfaceOgre3D* renderInterface, Rocket::
 void libRocketTest::destroyScene()
 {
 	// Shutdown Rocket.
-	context->RemoveReference();
+	//context->RemoveReference();
 	//Rocket::Core::Shutdown();
 }
 
@@ -211,10 +212,10 @@ void libRocketTest::BuildProjectionMatrix(Ogre::Matrix4& projection_matrix)
 	projection_matrix[3][3]= 1.0000000f;
 }
 
-extern "C" _AnomalousExport libRocketTest* libRocketTest_Create(RenderInterfaceOgre3D* renderInterface, Rocket::Core::SystemInterface* systemInterface)
+extern "C" _AnomalousExport libRocketTest* libRocketTest_Create(RenderInterfaceOgre3D* renderInterface, Rocket::Core::SystemInterface* systemInterface, Rocket::Core::Context* con)
 {
 	libRocketTest* rocketTest = new libRocketTest();
-	rocketTest->createScene(renderInterface, systemInterface);
+	rocketTest->createScene(renderInterface, systemInterface, con);
 	return rocketTest;
 }
 
