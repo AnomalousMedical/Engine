@@ -8,66 +8,74 @@ namespace libRocketPlugin
 {
     public static class Core
     {
-        private static bool Initialise()
+        private static RenderInterface renderInterface;
+        private static SystemInterface systemInterface;
+        private static FileInterface fileInterface;
+
+        public static bool Initialise()
         {
             return Core_Initialise();
         }
 
-        private static void Shutdown()
+        public static void Shutdown()
         {
             Core_Shutdown();
         }
 
-        private static void SetSystemInterface(SystemInterface system_interface)
+        public static void SetSystemInterface(SystemInterface systemInterface)
         {
-            Core_SetSystemInterface(system_interface.Ptr);
+            Core.systemInterface = systemInterface;
+            Core_SetSystemInterface(systemInterface.Ptr);
         }
 
-        private static IntPtr GetSystemInterface()
+        public static SystemInterface GetSystemInterface()
         {
-            return Core_GetSystemInterface();
+            return systemInterface;
         }
 
-        private static void SetRenderInterface(RenderInterface render_interface)
+        public static void SetRenderInterface(RenderInterface renderInterface)
         {
-            Core_SetRenderInterface(render_interface.Ptr);
+            Core.renderInterface = renderInterface;
+            Core_SetRenderInterface(renderInterface.Ptr);
         }
 
-        private static IntPtr GetRenderInterface()
+        public static RenderInterface GetRenderInterface()
         {
-            return Core_GetRenderInterface();
+            return renderInterface;
         }
 
-        private static void SetFileInterface(IntPtr file_interface)
+        public static void SetFileInterface(FileInterface fileInterface)
         {
-            throw new NotImplementedException();
-            //Core_SetFileInterface();
+            Core.fileInterface = fileInterface;
+            Core_SetFileInterface(fileInterface.Ptr);
         }
 
-        private static IntPtr GetFileInterface()
+        public static FileInterface GetFileInterface()
         {
-            return Core_GetFileInterface();
+            return fileInterface;
         }
 
-        private static IntPtr CreateContext(String name, Vector2i dimensions, IntPtr render_interface)
+        public static Context CreateContext(String name, Vector2i dimensions)
         {
-            throw new NotImplementedException();
-            //return Core_CreateContext();
+            return ContextManager.getContext(Core_CreateContext(name, dimensions, IntPtr.Zero));
         }
 
-        private static IntPtr GetContext(String name)
+        public static Context CreateContext(String name, Vector2i dimensions, IntPtr renderInterface)
         {
-            throw new NotImplementedException();
-            //return Core_GetContext();
+            return ContextManager.getContext(Core_CreateContext(name, dimensions, renderInterface));
         }
 
-        private static IntPtr GetContext(int index)
+        public static Context GetContext(String name)
         {
-            throw new NotImplementedException();
-            //return Core_GetContext_Index();
+            return ContextManager.getContext(Core_GetContext(name));
         }
 
-        private static int GetNumContexts()
+        public static Context GetContext(int index)
+        {
+            return ContextManager.getContext(Core_GetContext_Index(index));
+        }
+
+        public static int GetNumContexts()
         {
             return Core_GetNumContexts();
         }
@@ -77,12 +85,12 @@ namespace libRocketPlugin
         //    Core_RegisterPlugin();
         //}
 
-        private static void ReleaseCompiledGeometries()
+        public static void ReleaseCompiledGeometries()
         {
             Core_ReleaseCompiledGeometries();
         }
 
-        private static void ReleaseTextures()
+        public static void ReleaseTextures()
         {
             Core_ReleaseTextures();
         }

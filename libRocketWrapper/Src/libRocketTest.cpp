@@ -80,15 +80,15 @@ libRocketTest::~libRocketTest()
 
 void libRocketTest::createScene(RenderInterfaceOgre3D* renderInterface, Rocket::Core::SystemInterface* systemInterface)
 {
-	Ogre::ResourceGroupManager::getSingleton().createResourceGroup("Rocket");
-	Ogre::ResourceGroupManager::getSingleton().addResourceLocation(rocket_path.Replace("\\", "/").CString(), "FileSystem", "Rocket");
+	//Ogre::ResourceGroupManager::getSingleton().createResourceGroup("Rocket");
+	//Ogre::ResourceGroupManager::getSingleton().addResourceLocation(rocket_path.Replace("\\", "/").CString(), "FileSystem", "Rocket");
 
 	// Rocket initialisation.
-	Rocket::Core::SetRenderInterface(renderInterface);
+	//Rocket::Core::SetRenderInterface(renderInterface);
 
-	Rocket::Core::SetSystemInterface(systemInterface);
+	//Rocket::Core::SetSystemInterface(systemInterface);
 
-	Rocket::Core::Initialise();
+	//Rocket::Core::Initialise();
 	Rocket::Controls::Initialise();
 
 	// Load the fonts from the path to the sample directory.

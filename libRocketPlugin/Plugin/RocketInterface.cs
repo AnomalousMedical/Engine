@@ -69,8 +69,17 @@ namespace libRocketPlugin
             vp.setClearEveryFrame(false);
             vp.clear();
 
+            //Not sure about this, i think it is just making the group
+            OgreResourceGroupManager.getInstance().createResourceGroup("Rocket");
+            OgreResourceGroupManager.getInstance().addResourceLocation("S:/Junk/librocket/", "FileSystem", "Rocket", false);
+
             systemInterface = new ManagedSystemInterface();
             renderInterface = new RenderInterfaceOgre3D((int)ogreWindow.OgreRenderWindow.getWidth(), (int)ogreWindow.OgreRenderWindow.getHeight());
+
+            Core.SetSystemInterface(systemInterface);
+            Core.SetRenderInterface(renderInterface);
+
+            Core.Initialise();
 
             rocketTest = libRocketTest_Create(renderInterface.Ptr, systemInterface.Ptr);
 
