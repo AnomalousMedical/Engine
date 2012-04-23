@@ -102,16 +102,16 @@ void libRocketTest::createScene(RenderInterfaceOgre3D* renderInterface, Rocket::
 	//Rocket::Debugger::Initialise(context);
 
 	// Load the mouse cursor and release the caller's reference.
-	Rocket::Core::ElementDocument* cursor = context->LoadMouseCursor(sample_path + "assets/cursor.rml");
-	if (cursor)
-		cursor->RemoveReference();
+	//Rocket::Core::ElementDocument* cursor = context->LoadMouseCursor(sample_path + "assets/cursor.rml");
+	//if (cursor)
+	//	cursor->RemoveReference();
 
-	Rocket::Core::ElementDocument* document = context->LoadDocument(sample_path + "assets/demo.rml");
-	if (document)
-	{
-		document->Show();
-		document->RemoveReference();
-	}
+	//Rocket::Core::ElementDocument* document = context->LoadDocument(sample_path + "assets/demo.rml");
+	//if (document)
+	//{
+	//	document->Show();
+	//	document->RemoveReference();
+	//}
 
 	// Add the application as a listener to Ogre's render queue so we can render during the overlay.
 	//Ogre::Root::getSingletonPtr()->getSceneManagerIterator().begin()->second->addRenderQueueListener(this);

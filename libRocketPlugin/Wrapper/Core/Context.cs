@@ -50,7 +50,7 @@ namespace libRocketPlugin
 
         public ElementDocument LoadDocument(String document_path)
         {
-            return new ElementDocument(Context_LoadDocument(ptr, document_path)); //need mem strategy
+            return ElementDocument.Wrap(Context_LoadDocument(ptr, document_path));
         }
 
         public ElementDocument LoadDocumentFromMemory(String mem)

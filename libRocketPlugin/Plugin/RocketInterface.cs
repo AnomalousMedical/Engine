@@ -36,6 +36,7 @@ namespace libRocketPlugin
                 libRocketTest_Delete(rocketTest);
             }
             Core.Shutdown();
+            ReferenceCountable.DumpLeakReport();
             //if (mainTimer != null)
             //{
             //    mainTimer.removeFixedUpdateListener(myGUIUpdate);
@@ -97,6 +98,19 @@ namespace libRocketPlugin
 
             context = Core.CreateContext("main", new Vector2i((int)ogreWindow.OgreRenderWindow.getWidth(), (int)ogreWindow.OgreRenderWindow.getHeight()));
             Debugger.Initialise(context);
+
+            //Rocket::Core::ElementDocument* cursor = context->LoadMouseCursor(sample_path + "assets/cursor.rml");
+            //if (cursor)
+            //    cursor->RemoveReference();
+
+            using (ElementDocument document = context.LoadDocument(sample_path + "assets/demo.rml"))
+            {
+                if (document != null)
+                {
+                    document.show();
+                    //document.removeReference();
+                }
+            }
 
             rocketTest = libRocketTest_Create(renderInterface.Ptr, systemInterface.Ptr, context.Ptr);
 

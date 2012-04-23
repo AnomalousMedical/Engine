@@ -19,6 +19,15 @@ namespace libRocketPlugin
             ElementDocument_Show(ptr);
         }
 
+        internal static ElementDocument Wrap(IntPtr elementDocument)
+        {
+            if (elementDocument != IntPtr.Zero)
+            {
+                return new ElementDocument(elementDocument);
+            }
+            return null;
+        }
+
         #region PInvoke
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
