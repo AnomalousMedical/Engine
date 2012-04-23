@@ -12,5 +12,14 @@ namespace libRocketPlugin
         {
 
         }
+
+        internal static Element Wrap(IntPtr element)
+        {
+            if (element != IntPtr.Zero)
+            {
+                return new Element(element);
+            }
+            return null;
+        }
     }
 }

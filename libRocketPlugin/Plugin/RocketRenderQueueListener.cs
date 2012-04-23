@@ -6,12 +6,12 @@ using OgreWrapper;
 
 namespace libRocketPlugin
 {
-    public class RocketQueueListener : RenderQueueListener
+    public class RocketRenderQueueListener : RenderQueueListener
     {
         private Context context;
         private RenderInterfaceOgre3D renderInterface;
 
-        public RocketQueueListener(Context context, RenderInterfaceOgre3D renderInterface)
+        public RocketRenderQueueListener(Context context, RenderInterfaceOgre3D renderInterface)
         {
             this.context = context;
             this.renderInterface = renderInterface;

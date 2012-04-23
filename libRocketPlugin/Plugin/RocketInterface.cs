@@ -85,6 +85,7 @@ namespace libRocketPlugin
             Core.Initialise();
             Controls.Initialise();
 
+            //test
             String sample_path = "S:/Junk/librocket/libRocket/Samples/";
 
             FontDatabase.LoadFontFace(sample_path + "assets/Delicious-Roman.otf");
@@ -95,9 +96,10 @@ namespace libRocketPlugin
             context = Core.CreateContext("main", new Vector2i((int)ogreWindow.OgreRenderWindow.getWidth(), (int)ogreWindow.OgreRenderWindow.getHeight()));
             Debugger.Initialise(context);
 
-            //Rocket::Core::ElementDocument* cursor = context->LoadMouseCursor(sample_path + "assets/cursor.rml");
-            //if (cursor)
-            //    cursor->RemoveReference();
+            using (ElementDocument cursor = context.LoadMouseCursor(sample_path + "assets/cursor.rml"))
+            {
+
+            }
 
             using (ElementDocument document = context.LoadDocument(sample_path + "assets/demo.rml"))
             {
@@ -108,7 +110,8 @@ namespace libRocketPlugin
                 }
             }
 
-            sceneManager.addRenderQueueListener(new RocketQueueListener(context, renderInterface));
+            sceneManager.addRenderQueueListener(new RocketRenderQueueListener(context, renderInterface));
+            //End test
         }
 
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)

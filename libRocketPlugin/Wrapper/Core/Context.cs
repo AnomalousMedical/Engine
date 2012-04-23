@@ -38,14 +38,12 @@ namespace libRocketPlugin
 
         public ElementDocument CreateDocument()
         {
-            throw new NotImplementedException();
-            //return Context_CreateDocument(ptr);
+            return ElementDocument.Wrap(Context_CreateDocument(ptr));
         }
 
         public ElementDocument CreateDocument_Tag(String tag)
         {
-            throw new NotImplementedException();
-            //return Context_CreateDocument_Tag(ptr);
+            return ElementDocument.Wrap(Context_CreateDocument_Tag(ptr, tag));
         }
 
         public ElementDocument LoadDocument(String document_path)
@@ -55,8 +53,7 @@ namespace libRocketPlugin
 
         public ElementDocument LoadDocumentFromMemory(String mem)
         {
-            throw new NotImplementedException();
-            //return Context_LoadDocumentFromMemory(ptr);
+            return ElementDocument.Wrap(Context_LoadDocumentFromMemory(ptr, mem));
         }
 
         public void UnloadDocument(ElementDocument document)
@@ -76,8 +73,7 @@ namespace libRocketPlugin
 
         public ElementDocument LoadMouseCursor(String cursor_document_path)
         {
-            throw new NotImplementedException();
-            //return Context_LoadMouseCursor(ptr);
+            return ElementDocument.Wrap(Context_LoadMouseCursor(ptr, cursor_document_path));
         }
 
         public void UnloadMouseCursor(String cursor_name)
@@ -102,14 +98,12 @@ namespace libRocketPlugin
 
         public ElementDocument GetDocument(String id)
         {
-            throw new NotImplementedException();
-            //return Context_GetDocument(ptr);
+            return ElementDocument.Wrap(Context_GetDocument(ptr, id));
         }
 
         public ElementDocument GetDocument_Index(int index)
         {
-            throw new NotImplementedException();
-            //return Context_GetDocument_Index(ptr);
+            return ElementDocument.Wrap(Context_GetDocument_Index(ptr, index));
         }
 
         public int GetNumDocuments()
@@ -119,20 +113,17 @@ namespace libRocketPlugin
 
         public Element GetHoverElement()
         {
-            throw new NotImplementedException();
-            //return Context_GetHoverElement(ptr);
+            return Element.Wrap(Context_GetHoverElement(ptr));
         }
 
         public Element GetFocusElement()
         {
-            throw new NotImplementedException();
-            //return Context_GetFocusElement(ptr);
+            return Element.Wrap(Context_GetFocusElement(ptr));
         }
 
         public Element GetRootElement()
         {
-            throw new NotImplementedException();
-            //return Context_GetRootElement(ptr);
+            return Element.Wrap(Context_GetRootElement(ptr));
         }
 
         public void PullDocumentToFront(ElementDocument document)

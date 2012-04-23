@@ -42,7 +42,7 @@
   <ItemGroup>
     <Compile Include="Plugin\RocketInterface.cs" />
     <Compile Include="Plugin\RocketPluginEntryPoint.cs" />
-    <Compile Include="Plugin\RocketQueueListener.cs" />
+    <Compile Include="Plugin\RocketRenderQueueListener.cs" />
     <Compile Include="Plugin\RocketUpdate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wrapper\Core\Context.cs" />
