@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace libRocketPlugin
 {
-    class RenderInterfaceOgre3D : RenderInterface
+    public class RenderInterfaceOgre3D : RenderInterface
     {
         public RenderInterfaceOgre3D(int width, int height)
         {
@@ -18,6 +18,11 @@ namespace libRocketPlugin
             RenderInterfaceOgre3D_Delete(renderInterface);
         }
 
+        public void ConfigureRenderSystem()
+        {
+            RenderInterfaceOgre3D_ConfigureRenderSystem(renderInterface);
+        }
+
         #region PInvoke
 
         [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
@@ -25,6 +30,9 @@ namespace libRocketPlugin
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern void RenderInterfaceOgre3D_Delete(IntPtr renderInterface);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void RenderInterfaceOgre3D_ConfigureRenderSystem(IntPtr renderInterface);
 
         #endregion
     }

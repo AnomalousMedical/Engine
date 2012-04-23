@@ -71,15 +71,8 @@ class RenderInterfaceOgre3D : public Rocket::Core::RenderInterface
 		/// Returns the native vertical texel offset for the renderer.
 		float GetVerticalTexelOffset();
 
-		int getScissorRight()
-		{
-			return scissor_right;
-		}
-
-		int getScissorBottom()
-		{
-			return scissor_bottom;
-		}
+		// Configures Ogre's rendering system for rendering Rocket.
+		void ConfigureRenderSystem();
 
 	private:
 		Ogre::RenderSystem* render_system;
@@ -92,6 +85,9 @@ class RenderInterfaceOgre3D : public Rocket::Core::RenderInterface
 		int scissor_top;
 		int scissor_right;
 		int scissor_bottom;
+
+		// Builds an OpenGL-style orthographic projection matrix.
+		void BuildProjectionMatrix(Ogre::Matrix4& projection_matrix);
 };
 
 #endif
