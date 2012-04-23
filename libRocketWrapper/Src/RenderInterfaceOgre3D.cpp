@@ -76,6 +76,9 @@ RenderInterfaceOgre3D::RenderInterfaceOgre3D(unsigned int window_width, unsigned
 	scissor_top = 0;
 	scissor_right = (int) window_width;
 	scissor_bottom = (int) window_height;
+
+	renderWidth = window_width;
+	renderHeight = window_height;
 }
 
 RenderInterfaceOgre3D::~RenderInterfaceOgre3D()
@@ -331,9 +334,9 @@ void RenderInterfaceOgre3D::BuildProjectionMatrix(Ogre::Matrix4& projection_matr
 	projection_matrix = Ogre::Matrix4::ZERO;
 
 	// Set up matrices.
-	projection_matrix[0][0] = 2.0f / 1920;//width; (the window width)
+	projection_matrix[0][0] = 2.0f / renderWidth;// (the window width)
 	projection_matrix[0][3]= -1.0000000f;
-	projection_matrix[1][1]= -2.0f / 1080;// height;(the window height)
+	projection_matrix[1][1]= -2.0f / renderHeight;//(the window height)
 	projection_matrix[1][3]= 1.0000000f;
 	projection_matrix[2][2]= -2.0f / (z_far - z_near);
 	projection_matrix[3][3]= 1.0000000f;

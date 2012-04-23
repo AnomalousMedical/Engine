@@ -86,6 +86,9 @@ class RenderInterfaceOgre3D : public Rocket::Core::RenderInterface
 		int scissor_right;
 		int scissor_bottom;
 
+		int renderWidth;
+		int renderHeight;
+
 		// Builds an OpenGL-style orthographic projection matrix.
 		void BuildProjectionMatrix(Ogre::Matrix4& projection_matrix);
 };

@@ -29,7 +29,7 @@ namespace libRocketPlugin
 
         public void renderQueueStarted(byte queueGroupId, string invocation, ref bool skipThisInvocation)
         {
-            if (queueGroupId == 100)// && Ogre::Root::getSingleton().getRenderSystem()->_getViewport()->getOverlaysEnabled())
+            if (queueGroupId == 100)
             {
                 context.Update();
 

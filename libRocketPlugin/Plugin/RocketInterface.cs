@@ -101,10 +101,10 @@ namespace libRocketPlugin
             context = Core.CreateContext("main", new Vector2i((int)ogreWindow.OgreRenderWindow.getWidth(), (int)ogreWindow.OgreRenderWindow.getHeight()));
             Debugger.Initialise(context);
 
-            using (ElementDocument cursor = context.LoadMouseCursor(sample_path + "assets/cursor.rml"))
-            {
+            //using (ElementDocument cursor = context.LoadMouseCursor(sample_path + "assets/cursor.rml"))
+            //{
 
-            }
+            //}
 
             using (ElementDocument document = context.LoadDocument(sample_path + "assets/demo.rml"))
             {
