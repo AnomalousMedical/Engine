@@ -11,6 +11,7 @@ namespace libRocketPlugin
     {
         private Context context;
         private EventManager eventManager;
+        private float lastMouseWheel = 0;
 
         public ContextUpdater(Context context, EventManager eventManager)
         {
@@ -47,7 +48,12 @@ namespace libRocketPlugin
         {
             Vector3 absMouse = mouse.getAbsMouse();
             context.ProcessMouseMove((int)absMouse.x, (int)absMouse.y, 0);
-            context.ProcessMouseWheel((int)absMouse.z, 0);
+            int wheel = (int)(lastMouseWheel - absMouse.z);
+            if (wheel != 0)
+            {
+                context.ProcessMouseWheel(wheel / 120, 0);
+            }
+            lastMouseWheel = absMouse.z;
         }
 
         void Mouse_ButtonUp(Mouse mouse, MouseButtonCode buttonCode)

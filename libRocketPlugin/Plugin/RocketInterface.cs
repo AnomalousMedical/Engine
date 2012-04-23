@@ -106,7 +106,7 @@ namespace libRocketPlugin
 
             //}
 
-            using (ElementDocument document = context.LoadDocument(sample_path + "assets/demo.rml"))
+            using (ElementDocument document = context.LoadDocument(sample_path + "invaders/data/help.rml"))
             {
                 if (document != null)
                 {
