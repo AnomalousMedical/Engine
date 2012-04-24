@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace libRocketPlugin
 {
-    public class EventListenerInstancer : ReferenceCountable
+    public abstract class EventListenerInstancer : ReferenceCountable
     {
         InstanceEventListenerCb instanceEventListenerCb;
         ReleaseCb releaseCb;
@@ -19,14 +19,22 @@ namespace libRocketPlugin
             setPtr(ManagedEventListenerInstancer_Create(instanceEventListenerCb, releaseCb));
         }
 
+        public abstract EventListener InstanceEventListener(String name);
+
+        public virtual void Release()
+        {
+
+        }
+
         private IntPtr InstanceEventListenerCbImpl(String name)
         {
-            throw new NotImplementedException();
+            return InstanceEventListener(name).Ptr;
         }
 
         private void ReleaseCbImpl()
         {
-            throw new NotImplementedException();
+            Release();
+            ManagedEventListenerInstancer_Delete(ptr);
         }
 
         #region PInvoke

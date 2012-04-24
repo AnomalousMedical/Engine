@@ -41,6 +41,10 @@ namespace libRocketPlugin
             {
                 context.Dispose();
             }
+            if (eventListenerInstancer != null)
+            {
+                eventListenerInstancer.Dispose();
+            }
             Core.Shutdown();
             if (renderInterface != null)
             {
@@ -93,7 +97,7 @@ namespace libRocketPlugin
             //test
             //eventInstancer = new EventInstancer();
             //Factory.RegisterEventInstancer(eventInstancer);
-            eventListenerInstancer = new EventListenerInstancer();
+            eventListenerInstancer = new TestEventListenerInstancer();
             Factory.RegisterEventListenerInstancer(eventListenerInstancer);
 
             String sample_path = "S:/Junk/librocket/playing/";//"S:/dependencies/libRocket/src/Samples/";

@@ -6,6 +6,11 @@ using System.Runtime.InteropServices;
 
 namespace libRocketPlugin
 {
+    /// <summary>
+    /// This class creates actual events.
+    /// 
+    /// Not currently implemented past the wrapper.
+    /// </summary>
     public class EventInstancer : ReferenceCountable
     {
         private InstanceEventCb instanceEventCb;
