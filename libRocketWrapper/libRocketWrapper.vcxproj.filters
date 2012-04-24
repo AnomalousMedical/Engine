@@ -65,5 +65,8 @@
     <ClCompile Include="Src\ManagedEventListenerInstancer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Src\ManagedEventListener.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

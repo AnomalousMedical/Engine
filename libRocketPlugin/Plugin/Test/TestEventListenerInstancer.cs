@@ -9,7 +9,7 @@ namespace libRocketPlugin
     {
         public override EventListener InstanceEventListener(string name)
         {
-            throw new NotImplementedException();
+            return new TestEventListener(name);
         }
     }
 }

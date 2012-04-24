@@ -5,7 +5,22 @@ using System.Text;
 
 namespace libRocketPlugin
 {
-    class Event
+    public class Event : RocketNativeObject
     {
+        public Event()
+        {
+
+        }
+
+        public Event(IntPtr evt)
+            :base(evt)
+        {
+
+        }
+
+        public void changePtr(IntPtr evt)
+        {
+            setPtr(evt);
+        }
     }
 }
