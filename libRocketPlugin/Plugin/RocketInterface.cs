@@ -18,8 +18,13 @@ namespace libRocketPlugin
         private Viewport vp;
         private ManagedSystemInterface systemInterface;
         private RenderInterfaceOgre3D renderInterface;
+
+        //test
         private Context context;
         private ContextUpdater contextUpdater;
+        private EventInstancer eventInstancer;
+        private EventListenerInstancer eventListenerInstancer;
+        //end test
 
         public RocketInterface()
         {
@@ -86,6 +91,11 @@ namespace libRocketPlugin
             Controls.Initialise();
 
             //test
+            //eventInstancer = new EventInstancer();
+            //Factory.RegisterEventInstancer(eventInstancer);
+            eventListenerInstancer = new EventListenerInstancer();
+            Factory.RegisterEventListenerInstancer(eventListenerInstancer);
+
             String sample_path = "S:/Junk/librocket/playing/";//"S:/dependencies/libRocket/src/Samples/";
             OgreResourceGroupManager.getInstance().addResourceLocation(sample_path, "FileSystem", "Rocket", false);
 

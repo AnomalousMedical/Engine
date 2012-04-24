@@ -48,10 +48,14 @@
     <Compile Include="Wrapper\Core\Context.cs" />
     <Compile Include="Wrapper\Controls\Controls.cs" />
     <Compile Include="Wrapper\Core\Core.cs" />
+    <Compile Include="Wrapper\Core\Factory.cs" />
+    <Compile Include="Wrapper\Events\Event.cs" />
+    <Compile Include="Wrapper\Events\EventInstancer.cs" />
+    <Compile Include="Wrapper\Events\EventListenerInstancer.cs" />
     <Compile Include="Wrapper\Debugger\Debugger.cs" />
     <Compile Include="Wrapper\Core\Element.cs" />
     <Compile Include="Wrapper\Core\ElementDocument.cs" />
-    <Compile Include="Wrapper\Core\EventListener.cs" />
+    <Compile Include="Wrapper\Events\EventListener.cs" />
     <Compile Include="Wrapper\Core\FileInterface.cs" />
     <Compile Include="Wrapper\Core\Font.cs" />
     <Compile Include="Wrapper\Core\FontDatabase.cs" />

@@ -8,6 +8,14 @@ namespace libRocketPlugin
 {
     public class ReferenceCountable : RocketNativeObject, IDisposable
     {
+        /// <summary>
+        /// Default constructor, if this is used call setPtr at some point in the base class constructor.
+        /// </summary>
+        public ReferenceCountable()
+        {
+
+        }
+
         public ReferenceCountable(IntPtr ptr)
             :base(ptr)
         {

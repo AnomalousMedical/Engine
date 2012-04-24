@@ -86,7 +86,10 @@
     <ClCompile Include="Src\Core.cpp" />
     <ClCompile Include="Src\Debugger.cpp" />
     <ClCompile Include="Src\ElementDocument.cpp" />
+    <ClCompile Include="Src\Factory.cpp" />
     <ClCompile Include="Src\FontDatabase.cpp" />
+    <ClCompile Include="Src\ManagedEventInstancer.cpp" />
+    <ClCompile Include="Src\ManagedEventListenerInstancer.cpp" />
     <ClCompile Include="Src\ManagedSystemInterface.cpp" />
     <ClCompile Include="Src\ReferenceCountable.cpp" />
     <ClCompile Include="Src\RenderInterfaceOgre3D.cpp" />
