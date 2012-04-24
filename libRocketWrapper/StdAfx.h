@@ -43,3 +43,5 @@ public:
         z = 0;
     }
 };
+
+typedef void (*StringRetrieverCallback)(String value);

@@ -71,6 +71,7 @@
     <Compile Include="Wrapper\Math\ThreeIntHack.cs" />
     <Compile Include="Wrapper\RenderInterfaceOgre3D.cs" />
     <Compile Include="Wrapper\Math\Vector2i.cs" />
+    <Compile Include="Wrapper\Utility\StringRetriever.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
