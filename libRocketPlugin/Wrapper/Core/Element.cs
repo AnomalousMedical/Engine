@@ -5,7 +5,7 @@ using System.Text;
 
 namespace libRocketPlugin
 {
-    public class Element : RocketNativeObject
+    public class Element : ReferenceCountable
     {
         public Element(IntPtr ptr)
             : base(ptr)
@@ -13,7 +13,7 @@ namespace libRocketPlugin
 
         }
 
-        internal static Element Wrap(IntPtr element)
+        internal static Element WrapElement(IntPtr element)
         {
             if (element != IntPtr.Zero)
             {

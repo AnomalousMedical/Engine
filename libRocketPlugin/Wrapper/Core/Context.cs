@@ -38,22 +38,22 @@ namespace libRocketPlugin
 
         public ElementDocument CreateDocument()
         {
-            return ElementDocument.Wrap(Context_CreateDocument(ptr));
+            return ElementDocument.WrapElementDocument(Context_CreateDocument(ptr));
         }
 
         public ElementDocument CreateDocument_Tag(String tag)
         {
-            return ElementDocument.Wrap(Context_CreateDocument_Tag(ptr, tag));
+            return ElementDocument.WrapElementDocument(Context_CreateDocument_Tag(ptr, tag));
         }
 
         public ElementDocument LoadDocument(String document_path)
         {
-            return ElementDocument.Wrap(Context_LoadDocument(ptr, document_path));
+            return ElementDocument.WrapElementDocument(Context_LoadDocument(ptr, document_path));
         }
 
         public ElementDocument LoadDocumentFromMemory(String mem)
         {
-            return ElementDocument.Wrap(Context_LoadDocumentFromMemory(ptr, mem));
+            return ElementDocument.WrapElementDocument(Context_LoadDocumentFromMemory(ptr, mem));
         }
 
         public void UnloadDocument(ElementDocument document)
@@ -73,7 +73,7 @@ namespace libRocketPlugin
 
         public ElementDocument LoadMouseCursor(String cursor_document_path)
         {
-            return ElementDocument.Wrap(Context_LoadMouseCursor(ptr, cursor_document_path));
+            return ElementDocument.WrapElementDocument(Context_LoadMouseCursor(ptr, cursor_document_path));
         }
 
         public void UnloadMouseCursor(String cursor_name)
@@ -98,12 +98,12 @@ namespace libRocketPlugin
 
         public ElementDocument GetDocument(String id)
         {
-            return ElementDocument.Wrap(Context_GetDocument(ptr, id));
+            return ElementDocument.WrapElementDocument(Context_GetDocument(ptr, id));
         }
 
         public ElementDocument GetDocument_Index(int index)
         {
-            return ElementDocument.Wrap(Context_GetDocument_Index(ptr, index));
+            return ElementDocument.WrapElementDocument(Context_GetDocument_Index(ptr, index));
         }
 
         public int GetNumDocuments()
@@ -113,17 +113,17 @@ namespace libRocketPlugin
 
         public Element GetHoverElement()
         {
-            return Element.Wrap(Context_GetHoverElement(ptr));
+            return Element.WrapElement(Context_GetHoverElement(ptr));
         }
 
         public Element GetFocusElement()
         {
-            return Element.Wrap(Context_GetFocusElement(ptr));
+            return Element.WrapElement(Context_GetFocusElement(ptr));
         }
 
         public Element GetRootElement()
         {
-            return Element.Wrap(Context_GetRootElement(ptr));
+            return Element.WrapElement(Context_GetRootElement(ptr));
         }
 
         public void PullDocumentToFront(ElementDocument document)

@@ -106,7 +106,7 @@ namespace libRocketPlugin
             {
                 if (document != null)
                 {
-                    document.show();
+                    document.Show();
                 }
             }
 
@@ -117,8 +117,10 @@ namespace libRocketPlugin
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
         {
             systemInterface.Timer = mainTimer;
+            //test
             contextUpdater = new ContextUpdater(context, eventManager);
             mainTimer.addFixedUpdateListener(contextUpdater);
+            //end test
         }
 
         public string getName()

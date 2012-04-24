@@ -6,20 +6,27 @@ using System.Runtime.InteropServices;
 
 namespace libRocketPlugin
 {
-    public class ElementDocument : ReferenceCountable
+    public class ElementDocument : Element
     {
+        public enum FocusFlags
+        {
+            NONE = 0,
+            FOCUS = (1 << 1),
+            MODAL = (1 << 2)
+        };
+
         public ElementDocument(IntPtr ptr)
             : base(ptr)
         {
 
         }
 
-        public void show()
+        public void Show()
         {
             ElementDocument_Show(ptr);
         }
 
-        internal static ElementDocument Wrap(IntPtr elementDocument)
+        internal static ElementDocument WrapElementDocument(IntPtr elementDocument)
         {
             if (elementDocument != IntPtr.Zero)
             {
