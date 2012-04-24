@@ -37,15 +37,11 @@ namespace libRocketPlugin
                 context.Dispose();
             }
             Core.Shutdown();
-            ReferenceCountable.DumpLeakReport();
-            //if (mainTimer != null)
-            //{
-            //    mainTimer.removeFixedUpdateListener(myGUIUpdate);
-            //}
             if (renderInterface != null)
             {
                 renderInterface.Dispose();
             }
+            ReferenceCountable.DumpLeakReport();
             if (systemInterface != null)
             {
                 systemInterface.Dispose();
@@ -77,7 +73,7 @@ namespace libRocketPlugin
             vp.setClearEveryFrame(false);
             vp.clear();
 
-            //Not sure about this, i think it is just making the group
+            //Create a rocket group in ogre
             OgreResourceGroupManager.getInstance().createResourceGroup("Rocket");
 
             systemInterface = new ManagedSystemInterface();
@@ -90,13 +86,13 @@ namespace libRocketPlugin
             Controls.Initialise();
 
             //test
-            String sample_path = "S:/dependencies/libRocket/src/Samples/";
+            String sample_path = "S:/Junk/librocket/playing/";//"S:/dependencies/libRocket/src/Samples/";
             OgreResourceGroupManager.getInstance().addResourceLocation(sample_path, "FileSystem", "Rocket", false);
 
             FontDatabase.LoadFontFace(sample_path + "assets/Delicious-Roman.otf");
-	        FontDatabase.LoadFontFace(sample_path + "assets/Delicious-Bold.otf");
-	        FontDatabase.LoadFontFace(sample_path + "assets/Delicious-Italic.otf");
-	        FontDatabase.LoadFontFace(sample_path + "assets/Delicious-BoldItalic.otf");
+            FontDatabase.LoadFontFace(sample_path + "assets/Delicious-Bold.otf");
+            FontDatabase.LoadFontFace(sample_path + "assets/Delicious-Italic.otf");
+            FontDatabase.LoadFontFace(sample_path + "assets/Delicious-BoldItalic.otf");
 
             context = Core.CreateContext("main", new Vector2i((int)ogreWindow.OgreRenderWindow.getWidth(), (int)ogreWindow.OgreRenderWindow.getHeight()));
             Debugger.Initialise(context);
@@ -106,12 +102,11 @@ namespace libRocketPlugin
 
             //}
 
-            using (ElementDocument document = context.LoadDocument(sample_path + "invaders/data/help.rml"))
+            using (ElementDocument document = context.LoadDocument(sample_path + "assets/demo.rml"))
             {
                 if (document != null)
                 {
                     document.show();
-                    //document.removeReference();
                 }
             }
 

@@ -16,7 +16,7 @@ namespace libRocketPlugin
         #region PInvoke
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void Controls_Initialise();
+        private static extern void Controls_Initialise();
 
         #endregion
     }
