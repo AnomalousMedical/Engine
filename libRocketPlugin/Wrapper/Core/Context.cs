@@ -136,16 +136,24 @@ namespace libRocketPlugin
             Context_PushDocumentToBack(ptr, document.Ptr);
         }
 
+        public void AddEventListener(String evt, EventListener listener)
+        {
+            Context_AddEventListener(ptr, evt, listener.Ptr, false);
+        }
+
         public void AddEventListener(String evt, EventListener listener, bool in_capture_phase/* = false*/)
         {
-            throw new NotImplementedException();
-            //Context_AddEventListener(ptr);
+            Context_AddEventListener(ptr, evt, listener.Ptr, in_capture_phase);
+        }
+
+        public void RemoveEventListener(String evt, EventListener listener)
+        {
+            Context_RemoveEventListener(ptr, evt, listener.Ptr, false);
         }
 
         public void RemoveEventListener(String evt, EventListener listener, bool in_capture_phase/* = false*/)
         {
-            throw new NotImplementedException();
-            //Context_RemoveEventListener(ptr);
+            Context_RemoveEventListener(ptr, evt, listener.Ptr, in_capture_phase);
         }
 
         public bool ProcessKeyDown(KeyIdentifier key_identifier, int key_modifier_state)
