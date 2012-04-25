@@ -9,18 +9,34 @@ namespace libRocketPlugin
     class StringRetriever
     {
         private Callback callback;
+        private String currentString;
+        private bool gotString = false;
 
         public StringRetriever()
         {
             callback = new Callback(setNativeString);
         }
 
-        private void setNativeString(String value)
+        public void reset()
         {
-            CurrentString = value;
+            gotString = false;
         }
 
-        public String CurrentString { get; private set; }
+        public String CurrentString
+        {
+            get
+            {
+                return currentString;
+            }
+        }
+
+        public bool GotString
+        {
+            get
+            {
+                return gotString;
+            }
+        }
 
         public Callback StringCallback
         {
@@ -28,6 +44,12 @@ namespace libRocketPlugin
             {
                 return callback;
             }
+        }
+
+        private void setNativeString(String value)
+        {
+            gotString = true;
+            currentString = value;
         }
 
         #region PInvoke

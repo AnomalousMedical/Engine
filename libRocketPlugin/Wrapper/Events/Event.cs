@@ -80,6 +80,45 @@ namespace libRocketPlugin
             Event_StopPropagation(ptr);
         }
 
+        public byte Event_GetParameter(String key, byte default_value)
+        {
+            return Event_GetParameter_Byte(ptr, key, default_value);
+        }
+
+        public char GetParameter(String key, char default_value)
+        {
+            return Event_GetParameter_Char(ptr, key, default_value);
+        }
+
+        public float GetParameter(String key, float default_value)
+        {
+            return Event_GetParameter_Float(ptr, key, default_value);
+        }
+
+        public int GetParameter(String key, int default_value)
+        {
+            return Event_GetParameter_Int(ptr, key, default_value);
+        }
+
+        public String GetParameter(String key, String default_value)
+        {
+            stringRetriever.reset();
+            Event_GetParameter_String(ptr, key, stringRetriever.StringCallback);
+            if (stringRetriever.GotString)
+            {
+                return stringRetriever.CurrentString;
+            }
+            else
+            {
+                return default_value;
+            }
+        }
+
+        public ushort GetParameter(String key, ushort default_value)
+        {
+            return Event_GetParameter_Word(ptr, key, default_value);
+        }
+
         internal void changePtr(IntPtr evt)
         {
             setPtr(evt);
@@ -111,6 +150,24 @@ namespace libRocketPlugin
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern void Event_StopPropagation(IntPtr evt);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern byte Event_GetParameter_Byte(IntPtr evt, String key, byte default_value);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern char Event_GetParameter_Char(IntPtr evt, String key, char default_value);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern float Event_GetParameter_Float(IntPtr evt, String key, float default_value);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern int Event_GetParameter_Int(IntPtr evt, String key, int default_value);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Event_GetParameter_String(IntPtr evt, String key, StringRetriever.Callback setString);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern ushort Event_GetParameter_Word(IntPtr evt, String key, ushort default_value);
 
         #endregion
     }

@@ -16,7 +16,7 @@ namespace libRocketPlugin
 
         public override void ProcessEvent(Event evt)
         {
-            Logging.Log.Debug("{0} phase {1} | type {2}", name, evt.Phase, evt.Type);
+            Logging.Log.Debug("{0} phase {1} | type {2} | retrieve {3}", name, evt.Phase, evt.Type, evt.GetParameter("NotExisting", "Woot"));
         }
     }
 }
