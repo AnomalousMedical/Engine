@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
+using Engine;
 
 namespace libRocketPlugin
 {
@@ -122,7 +123,7 @@ namespace libRocketPlugin
             get
             {
                 Variant_Get_String(ptr, stringRetriever.StringCallback);
-                return stringRetriever.CurrentString;
+                return stringRetriever.retrieveString();
             }
             set
             {

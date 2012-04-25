@@ -81,7 +81,7 @@ namespace libRocketPlugin
         {
             IntPtr variantPtr = IntPtr.Zero;
             bool retVal = Dictionary_Iterate(ptr, ref pos, stringRetriever.StringCallback, ref variantPtr);
-            key = stringRetriever.CurrentString;
+            key = stringRetriever.retrieveString();
             pooledVariant.changePointer(variantPtr);
             value = pooledVariant;
             return retVal;

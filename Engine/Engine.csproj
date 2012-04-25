@@ -278,6 +278,7 @@
     <Compile Include="Utility\Pair.cs" />
     <Compile Include="Utility\PooledObject.cs" />
     <Compile Include="Utility\PrettyNameAttribute.cs" />
+    <Compile Include="Utility\StringRetriever.cs" />
     <Compile Include="Utility\UniqueKeyGenerator.cs" />
     <Compile Include="Utility\WrapperCollection.cs" />
     <Compile Include="Zip\ZipFile.cs" />

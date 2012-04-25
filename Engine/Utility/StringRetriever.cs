@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace libRocketPlugin
+namespace Engine
 {
-    class StringRetriever
+    public class StringRetriever
     {
         private Callback callback;
         private String currentString;
@@ -17,12 +17,11 @@ namespace libRocketPlugin
             callback = new Callback(setNativeString);
         }
 
-        public String CurrentString
+        public String retrieveString()
         {
-            get
-            {
-                return currentString;
-            }
+            String str = currentString;
+            currentString = null;
+            return str;
         }
 
         public bool GotString

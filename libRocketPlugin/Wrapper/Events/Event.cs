@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
+using Engine;
 
 namespace libRocketPlugin
 {
@@ -64,7 +65,7 @@ namespace libRocketPlugin
             get
             {
                 Event_GetType(ptr, stringRetriever.StringCallback);
-                return stringRetriever.CurrentString;
+                return stringRetriever.retrieveString();
             }
         }
 
@@ -114,7 +115,7 @@ namespace libRocketPlugin
             Event_GetParameter_String(ptr, key, stringRetriever.StringCallback);
             if (stringRetriever.GotString)
             {
-                return stringRetriever.CurrentString;
+                return stringRetriever.retrieveString();
             }
             else
             {
