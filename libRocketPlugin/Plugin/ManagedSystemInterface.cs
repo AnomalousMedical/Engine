@@ -28,7 +28,7 @@ namespace libRocketPlugin
 
         public float GetElapsedTime()
         {
-            return Timer.ElapsedTime * 0.001f;
+            return Timer.ElapsedTime * 1e-6f;
         }
 
         public void LogMessage(LogType type, String message)
