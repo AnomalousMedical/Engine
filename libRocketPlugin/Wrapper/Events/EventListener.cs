@@ -12,7 +12,7 @@ namespace libRocketPlugin
         private ProcessEventCb processEventCb;
         private AttachDetatchCb onAttachCb;
         private AttachDetatchCb onDetatchCb;
-        private EventListenerInstancer listenerInstancer;
+        private GCHandle gcHandle;
 
         public EventListener()
         {
@@ -21,11 +21,14 @@ namespace libRocketPlugin
             onDetatchCb = new AttachDetatchCb(onDetatchCbImpl);
 
             setPtr(ManagedEventListener_Create(processEventCb, onAttachCb, onDetatchCb));
+
+            gcHandle = GCHandle.Alloc(this, GCHandleType.Normal);
         }
 
         public void Dispose()
         {
             ManagedEventListener_Delete(ptr);
+            gcHandle.Free();
         }
 
         public abstract void ProcessEvent(Event evt);
@@ -44,18 +47,7 @@ namespace libRocketPlugin
 
         private void onDetatchCbImpl(IntPtr element)
         {
-            //If the listenerInstancer is not null then this was created by a EventListenerInstancer.
-            //It must be alerted that this object is done so it can release its reference.
-            if (listenerInstancer != null)
-            {
-                listenerInstancer.EventListenerFinished(this);
-                Dispose();
-            }
-        }
-
-        internal void setListenerInstancer(EventListenerInstancer listenerInstancer)
-        {
-            this.listenerInstancer = listenerInstancer;
+            Dispose();
         }
 
         #region PInvoke

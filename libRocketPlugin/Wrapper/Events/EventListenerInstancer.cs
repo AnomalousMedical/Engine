@@ -10,7 +10,6 @@ namespace libRocketPlugin
     {
         InstanceEventListenerCb instanceEventListenerCb;
         ReleaseCb releaseCb;
-        private LinkedList<EventListener> allocatedListeners = new LinkedList<EventListener>();
 
         public EventListenerInstancer()
         {
@@ -27,17 +26,9 @@ namespace libRocketPlugin
 
         }
 
-        internal void EventListenerFinished(EventListener listener)
-        {
-            allocatedListeners.Remove(listener);
-        }
-
         private IntPtr InstanceEventListenerCbImpl(String name)
         {
-            EventListener listener = InstanceEventListener(name);
-            allocatedListeners.AddLast(listener);
-            listener.setListenerInstancer(this);
-            return listener.Ptr;
+            return InstanceEventListener(name).Ptr;
         }
 
         private void ReleaseCbImpl()
