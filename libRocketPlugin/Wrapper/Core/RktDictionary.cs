@@ -9,7 +9,7 @@ namespace libRocketPlugin
 {
     public class RktDictionary : RocketNativeObject, IEnumerable<RktEntry>
     {
-        private VariantWrapped variant = new VariantWrapped();
+        private VariantWrapped pooledVariant = new VariantWrapped();
         StringRetriever stringRetriever = new StringRetriever();
         private RktDictionaryIterator iterator;
 
@@ -47,8 +47,8 @@ namespace libRocketPlugin
         {
             get
             {
-                variant.changePointer(Dictionary_Get(ptr, key));
-                return variant;
+                pooledVariant.changePointer(Dictionary_Get(ptr, key));
+                return pooledVariant;
             }
             set
             {
@@ -82,8 +82,8 @@ namespace libRocketPlugin
             IntPtr variantPtr = IntPtr.Zero;
             bool retVal = Dictionary_Iterate(ptr, ref pos, stringRetriever.StringCallback, ref variantPtr);
             key = stringRetriever.CurrentString;
-            variant.changePointer(variantPtr);
-            value = variant;
+            pooledVariant.changePointer(variantPtr);
+            value = pooledVariant;
             return retVal;
         }
 
