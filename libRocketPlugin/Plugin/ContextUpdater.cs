@@ -9,9 +9,15 @@ namespace libRocketPlugin
 {
     public class ContextUpdater : UpdateListener, IDisposable
     {
+        private const float REPEAT_INTERVAL = 0.05f;
+        private const float REPEAT_INTERVAL_START = 0.4f;
+
         private Context context;
         private EventManager eventManager;
         private float lastMouseWheel = 0;
+        private KeyIdentifier holdKey = KeyIdentifier.KI_UNKNOWN;
+        private ushort holdChar;
+        private float repeatTimeout = REPEAT_INTERVAL;
 
         public ContextUpdater(Context context, EventManager eventManager)
         {
@@ -33,7 +39,20 @@ namespace libRocketPlugin
 
         public void sendUpdate(Clock clock)
         {
-            //context.Update();
+            if (holdKey != KeyIdentifier.KI_UNKNOWN)
+            {
+                repeatTimeout -= clock.fSeconds;
+                if (repeatTimeout < 0.0f)
+                {
+                    repeatTimeout = REPEAT_INTERVAL;
+                    context.ProcessKeyUp(holdKey, buildModifier());
+                    if (holdChar > 0)
+                    {
+                        context.ProcessTextInput(holdChar);
+                    }
+                    context.ProcessKeyDown(holdKey, buildModifier());
+                }
+            }
         }
 
         public void loopStarting()
@@ -70,19 +89,45 @@ namespace libRocketPlugin
 
         void Keyboard_KeyReleased(KeyboardButtonCode keyCode, uint keyChar)
         {
-            context.ProcessKeyUp(keyMap[keyCode], buildModifier());
+            KeyIdentifier key = keyMap[keyCode];
+            context.ProcessKeyUp(key, buildModifier());
+            if (holdKey == key)
+            {
+                holdKey = KeyIdentifier.KI_UNKNOWN;
+            }
         }
 
         void Keyboard_KeyPressed(KeyboardButtonCode keyCode, uint keyChar)
         {
-            context.ProcessKeyDown(keyMap[keyCode], buildModifier());
-            if (keyChar >= 32)
+            KeyIdentifier key = keyMap[keyCode];
+            repeatTimeout = REPEAT_INTERVAL_START;
+            context.ProcessKeyDown(key, buildModifier());
+            if (key == KeyIdentifier.KI_BACK || key == KeyIdentifier.KI_DELETE)
             {
-                context.ProcessTextInput((ushort)keyChar);
+                holdChar = 0;
+                holdKey = key;
             }
-            else if (keyCode == KeyboardButtonCode.KC_RETURN)
+            else if (keyChar >= 32)
             {
-                context.ProcessTextInput((ushort)'\n');
+                holdKey = key;
+                holdChar = (ushort)keyChar;
+                context.ProcessTextInput(holdChar);
+            }
+            else if (key == KeyIdentifier.KI_RETURN)
+            {
+                holdKey = key;
+                holdChar = (ushort)'\n';
+                context.ProcessTextInput(holdChar);
+            }
+            else if (key == KeyIdentifier.KI_LEFT || key == KeyIdentifier.KI_RIGHT || key == KeyIdentifier.KI_UP || key == KeyIdentifier.KI_DOWN)
+            {
+                holdKey = key;
+                holdChar = 0;
+            }
+            else
+            {
+                holdChar = 0;
+                holdKey = KeyIdentifier.KI_UNKNOWN;
             }
         }
 
@@ -90,7 +135,7 @@ namespace libRocketPlugin
         {
             Keyboard keyboard = eventManager.Keyboard;
             int value = 0;
-            if(keyboard.isModifierDown(Modifier.Alt))
+            if (keyboard.isModifierDown(Modifier.Alt))
             {
                 value += (int)KeyModifier.KM_ALT;
             }
