@@ -17,11 +17,6 @@ namespace libRocketPlugin
             callback = new Callback(setNativeString);
         }
 
-        public void reset()
-        {
-            gotString = false;
-        }
-
         public String CurrentString
         {
             get
@@ -42,6 +37,7 @@ namespace libRocketPlugin
         {
             get
             {
+                gotString = false;
                 return callback;
             }
         }

@@ -46,7 +46,10 @@ extern "C" _AnomalousExport void Event_StopPropagation(Rocket::Core::Event* evt)
 //	return parameters.Get(key, default_value);
 //}
 
-//const Dictionary* GetParameters() const;
+extern "C" _AnomalousExport const Rocket::Core::Dictionary* Event_GetParameters(Rocket::Core::Event* evt)
+{
+	return evt->GetParameters();
+}
 
 extern "C" _AnomalousExport byte Event_GetParameter_Byte(Rocket::Core::Event* evt, String key, byte default_value)
 {

@@ -9,6 +9,7 @@ namespace libRocketPlugin
     public class Event : RocketNativeObject
     {
         private StringRetriever stringRetriever = new StringRetriever();
+        private RktDictionary parameters = new RktDictionary();
 
         public enum EventPhase
         {
@@ -75,6 +76,14 @@ namespace libRocketPlugin
             }
         }
 
+        public RktDictionary Parameters
+        {
+            get
+            {
+                return parameters;
+            }
+        }
+
         public void StopPropagation()
         {
             Event_StopPropagation(ptr);
@@ -102,7 +111,6 @@ namespace libRocketPlugin
 
         public String GetParameter(String key, String default_value)
         {
-            stringRetriever.reset();
             Event_GetParameter_String(ptr, key, stringRetriever.StringCallback);
             if (stringRetriever.GotString)
             {
@@ -122,6 +130,7 @@ namespace libRocketPlugin
         internal void changePtr(IntPtr evt)
         {
             setPtr(evt);
+            parameters.changePointer(Event_GetParameters(evt));
         }
 
         #region PInvoke
@@ -150,6 +159,9 @@ namespace libRocketPlugin
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern void Event_StopPropagation(IntPtr evt);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr Event_GetParameters(IntPtr evt);
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern byte Event_GetParameter_Byte(IntPtr evt, String key, byte default_value);

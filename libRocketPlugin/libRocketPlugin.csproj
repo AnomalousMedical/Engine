@@ -48,7 +48,12 @@
     <Compile Include="Wrapper\Core\Context.cs" />
     <Compile Include="Wrapper\Controls\Controls.cs" />
     <Compile Include="Wrapper\Core\Core.cs" />
+    <Compile Include="Wrapper\Core\RktEntry.cs" />
     <Compile Include="Wrapper\Core\Factory.cs" />
+    <Compile Include="Wrapper\Core\RktDictionary.cs" />
+    <Compile Include="Wrapper\Core\RktDictionaryIterator.cs" />
+    <Compile Include="Wrapper\Core\Variant.cs" />
+    <Compile Include="Wrapper\Core\VariantWrapped.cs" />
     <Compile Include="Wrapper\Events\Event.cs" />
     <Compile Include="Wrapper\Events\EventInstancer.cs" />
     <Compile Include="Wrapper\Events\EventListenerInstancer.cs" />

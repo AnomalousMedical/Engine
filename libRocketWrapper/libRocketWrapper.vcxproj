@@ -85,6 +85,7 @@
     <ClCompile Include="Src\Controls.cpp" />
     <ClCompile Include="Src\Core.cpp" />
     <ClCompile Include="Src\Debugger.cpp" />
+    <ClCompile Include="Src\Dictionary.cpp" />
     <ClCompile Include="Src\ElementDocument.cpp" />
     <ClCompile Include="Src\Event.cpp" />
     <ClCompile Include="Src\Factory.cpp" />
@@ -95,6 +96,7 @@
     <ClCompile Include="Src\ManagedSystemInterface.cpp" />
     <ClCompile Include="Src\ReferenceCountable.cpp" />
     <ClCompile Include="Src\RenderInterfaceOgre3D.cpp" />
+    <ClCompile Include="Src\Variant.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
