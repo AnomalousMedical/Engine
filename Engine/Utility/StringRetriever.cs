@@ -6,6 +6,22 @@ using System.Runtime.InteropServices;
 
 namespace Engine
 {
+    /// <summary>
+    /// This class provides a callback mechanism for getting strings from native
+    /// classes that are freed when the native function returns. By using this
+    /// class you can set the value using a callback before the native string is
+    /// freed. Note that this could cause threading issues if multiple threads
+    /// try to access strings at once, but it is up to the user to determine how
+    /// this should be handed.
+    /// </summary>
+    /// <remarks>
+    /// Add the following to your native library to use this class correctly.
+    /// Then have the function in question take a StringRetrieverCallback as an
+    /// argument and call that with the string you need on the managed side.
+    /// <code>
+    /// typedef void (*StringRetrieverCallback)(String value);
+    /// </code>
+    /// </remarks>
     public class StringRetriever
     {
         private Callback callback;
