@@ -44,7 +44,7 @@ namespace libRocketPlugin
         #region PInvoke
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        delegate IntPtr InstanceEventCb(IntPtr elementTarget, String name, IntPtr parameters, bool interuptable);
+        delegate IntPtr InstanceEventCb(IntPtr elementTarget, String name, IntPtr parameters, [MarshalAs(UnmanagedType.I1)] bool interuptable);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate void ReleaseEventCb(IntPtr evt);
