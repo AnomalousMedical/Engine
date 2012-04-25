@@ -7,7 +7,7 @@ using Engine;
 
 namespace libRocketPlugin
 {
-    class ContextUpdater : UpdateListener, IDisposable
+    public class ContextUpdater : UpdateListener, IDisposable
     {
         private Context context;
         private EventManager eventManager;
