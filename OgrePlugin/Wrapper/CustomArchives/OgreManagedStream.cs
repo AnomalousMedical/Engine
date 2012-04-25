@@ -89,6 +89,11 @@ namespace OgreWrapper
             long i = 0;
             for (; i < lCount; i += amountRead)
 	        {
+                //Make sure we are not reading past the end of where we are suppost to.
+                if (lCount - i < readSize)
+                {
+                    readSize = (int)(lCount - i);
+                }
 		        amountRead = stream.Read(arr, 0, readSize);
 		        if(amountRead != 0)
 		        {
