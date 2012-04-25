@@ -14,6 +14,7 @@ namespace libRocketPlugin
     {
         private ManagedSystemInterface systemInterface;
         private RenderInterfaceOgre3D renderInterface;
+        private VirtualFileSystemFileInterface fileInterface;
 
         public RocketInterface()
         {
@@ -27,6 +28,10 @@ namespace libRocketPlugin
             {
                 renderInterface.Dispose();
             }
+            //if (fileInterface != null)
+            //{
+            //    fileInterface.Dispose();
+            //}
             ReferenceCountable.DumpLeakReport();
             if (systemInterface != null)
             {
@@ -40,9 +45,11 @@ namespace libRocketPlugin
 
             systemInterface = new ManagedSystemInterface();
             renderInterface = new RenderInterfaceOgre3D((int)ogreWindow.OgreRenderWindow.getWidth(), (int)ogreWindow.OgreRenderWindow.getHeight());
+            fileInterface = new VirtualFileSystemFileInterface();
 
             Core.SetSystemInterface(systemInterface);
             Core.SetRenderInterface(renderInterface);
+            Core.SetFileInterface(fileInterface);
 
             Core.Initialise();
             Controls.Initialise();

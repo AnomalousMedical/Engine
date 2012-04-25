@@ -5,18 +5,22 @@ using System.Text;
 
 namespace libRocketPlugin
 {
-    public abstract class FileInterface
+    public abstract class FileInterface : RocketNativeObject, IDisposable
     {
-        protected IntPtr ptr;
-
-        public abstract void Dispose();
-
-        internal IntPtr Ptr
+        protected FileInterface()
         {
-            get
-            {
-                return ptr;
-            }
+
+        }
+
+        protected FileInterface(IntPtr ptr)
+            :base(ptr)
+        {
+
+        }
+
+        public virtual void Dispose()
+        {
+
         }
     }
 }
