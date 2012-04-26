@@ -31,10 +31,12 @@
 		0124876F15498B5C001D41C3 /* libRocketControls.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0124876C15498B5C001D41C3 /* libRocketControls.a */; };
 		0124877015498B5C001D41C3 /* libRocketDebugger.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0124876D15498B5C001D41C3 /* libRocketDebugger.a */; };
 		0124877115498B5C001D41C3 /* libRocketCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0124876E15498B5C001D41C3 /* libRocketCore.a */; };
+		01B5B04A15498FC80061A96C /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01B5B04915498FC80061A96C /* libfreetype.a */; };
+		01B5B04C15498FEA0061A96C /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01B5B04B15498FEA0061A96C /* Ogre.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0124873B15498961001D41C3 /* libRocketWrapper.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libRocketWrapper.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		0124873B15498961001D41C3 /* liblibRocketWrapper.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = liblibRocketWrapper.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		0124874015498A1D001D41C3 /* StdAfx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StdAfx.h; path = ../../StdAfx.h; sourceTree = SOURCE_ROOT; };
 		0124874115498A1D001D41C3 /* StdAfx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StdAfx.cpp; path = ../../StdAfx.cpp; sourceTree = SOURCE_ROOT; };
 		0124874515498A42001D41C3 /* Context.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Context.cpp; sourceTree = "<group>"; };
@@ -59,6 +61,8 @@
 		0124876C15498B5C001D41C3 /* libRocketControls.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRocketControls.a; path = ../../../../Dependencies/libRocket/OSXBuild/Release/libRocketControls.a; sourceTree = SOURCE_ROOT; };
 		0124876D15498B5C001D41C3 /* libRocketDebugger.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRocketDebugger.a; path = ../../../../Dependencies/libRocket/OSXBuild/Release/libRocketDebugger.a; sourceTree = SOURCE_ROOT; };
 		0124876E15498B5C001D41C3 /* libRocketCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRocketCore.a; path = ../../../../Dependencies/libRocket/OSXBuild/Release/libRocketCore.a; sourceTree = SOURCE_ROOT; };
+		01B5B04915498FC80061A96C /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetype.a; path = ../../../../Dependencies/libRocket/support/lib/libfreetype.a; sourceTree = SOURCE_ROOT; };
+		01B5B04B15498FEA0061A96C /* Ogre.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ogre.framework; path = ../../../../Dependencies/Ogre/OSX/Build/lib/Release/Ogre.framework; sourceTree = SOURCE_ROOT; };
 		32BAE0B70371A74B00C91783 /* libRocketWrapper_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libRocketWrapper_Prefix.pch; sourceTree = "<group>"; };
 		50149BD909E781A5002DEE6A /* libRocketWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libRocketWrapper.h; sourceTree = "<group>"; };
 		5073E0C409E734A800EC74B6 /* libRocketWrapper.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = libRocketWrapper.cp; sourceTree = "<group>"; };
@@ -75,6 +79,8 @@
 				0124876F15498B5C001D41C3 /* libRocketControls.a in Frameworks */,
 				0124877015498B5C001D41C3 /* libRocketDebugger.a in Frameworks */,
 				0124877115498B5C001D41C3 /* libRocketCore.a in Frameworks */,
+				01B5B04A15498FC80061A96C /* libfreetype.a in Frameworks */,
+				01B5B04C15498FEA0061A96C /* Ogre.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,7 +136,7 @@
 		034768DDFF38A45A11DB9C8B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0124873B15498961001D41C3 /* libRocketWrapper.dylib */,
+				0124873B15498961001D41C3 /* liblibRocketWrapper.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -150,6 +156,8 @@
 		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				01B5B04B15498FEA0061A96C /* Ogre.framework */,
+				01B5B04915498FC80061A96C /* libfreetype.a */,
 				0124876C15498B5C001D41C3 /* libRocketControls.a */,
 				0124876D15498B5C001D41C3 /* libRocketDebugger.a */,
 				0124876E15498B5C001D41C3 /* libRocketCore.a */,
@@ -207,7 +215,7 @@
 			);
 			name = libRocketWrapper;
 			productName = libRocketWrapper;
-			productReference = 0124873B15498961001D41C3 /* libRocketWrapper.dylib */;
+			productReference = 0124873B15498961001D41C3 /* liblibRocketWrapper.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 /* End PBXNativeTarget section */
@@ -271,6 +279,10 @@
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../Dependencies/Ogre/OSX/Build/lib/Release\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -281,6 +293,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../Dependencies/libRocket/OSXBuild/Release\"",
+					"\"$(SRCROOT)/../../../../Dependencies/libRocket/support/lib\"",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -301,19 +314,28 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../Dependencies/Ogre/OSX/Build/lib/Release\"",
+				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = ../../libRocketWrapper/StdAfx.h;
+				GCC_PREFIX_HEADER = ../../StdAfx.h;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					STATIC_LIB,
+					MAC_OSX,
+				);
 				HEADER_SEARCH_PATHS = (
 					/Users/andrewpiper/Development/Dependencies/libRocket/src/Include,
-					/Users/andrewpiper/Development/Dependencies/Ogre/OSXBuild/include,
-					/Users/andrewpiper/Development/Dependencies/Ogre/src/OgreMain/include,
+					/Users/andrewpiper/Development/Dependencies/Ogre/OSX/Build/include,
+					/Users/andrewpiper/Development/Dependencies/Ogre/OSX/src/OgreMain/include,
 				);
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../Dependencies/libRocket/OSXBuild/Release\"",
+					"\"$(SRCROOT)/../../../../Dependencies/libRocket/support/lib\"",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -322,7 +344,7 @@
 					AppKit,
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = libRocketWrapper;
+				PRODUCT_NAME = liblibRocketWrapper;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -351,6 +373,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = MAC_OSX;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
 				PREBINDING = NO;
 				SDKROOT = macosx10.6;
 				VALID_ARCHS = "i386 x86_64";
