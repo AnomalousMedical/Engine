@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01041D3A1549C7AF006F49FD /* ElementManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01041D391549C7AF006F49FD /* ElementManager.cpp */; };
 		0124874215498A1D001D41C3 /* StdAfx.h in Headers */ = {isa = PBXBuildFile; fileRef = 0124874015498A1D001D41C3 /* StdAfx.h */; };
 		0124874315498A1D001D41C3 /* StdAfx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0124874115498A1D001D41C3 /* StdAfx.cpp */; };
 		0124875615498A42001D41C3 /* Context.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0124874515498A42001D41C3 /* Context.cpp */; };
@@ -35,6 +36,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		01041D391549C7AF006F49FD /* ElementManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ElementManager.cpp; sourceTree = "<group>"; };
 		0124873B15498961001D41C3 /* libRocketWrapper.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libRocketWrapper.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		0124874015498A1D001D41C3 /* StdAfx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StdAfx.h; path = ../../StdAfx.h; sourceTree = SOURCE_ROOT; };
 		0124874115498A1D001D41C3 /* StdAfx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StdAfx.cpp; path = ../../StdAfx.cpp; sourceTree = SOURCE_ROOT; };
@@ -98,6 +100,7 @@
 		0124874415498A42001D41C3 /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				01041D391549C7AF006F49FD /* ElementManager.cpp */,
 				0124874515498A42001D41C3 /* Context.cpp */,
 				0124874615498A42001D41C3 /* Controls.cpp */,
 				0124874715498A42001D41C3 /* Core.cpp */,
@@ -262,6 +265,7 @@
 				0124876415498A42001D41C3 /* ReferenceCountable.cpp in Sources */,
 				0124876515498A42001D41C3 /* RenderInterfaceOgre3D.cpp in Sources */,
 				0124876615498A42001D41C3 /* Variant.cpp in Sources */,
+				01041D3A1549C7AF006F49FD /* ElementManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
