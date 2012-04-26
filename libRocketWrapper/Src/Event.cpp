@@ -76,7 +76,7 @@ extern "C" _AnomalousExport void Event_GetParameter_String(Rocket::Core::Event* 
 	//This allows us to prevent marshaling of the default value.
 	static Rocket::Core::String reservedDefaultString = "_NULL!";
 
-	Rocket::Core::String& retrieved = evt->GetParameter<Rocket::Core::String>(key, reservedDefaultString);
+	const Rocket::Core::String& retrieved = evt->GetParameter<Rocket::Core::String>(key, reservedDefaultString);
 	if(retrieved != reservedDefaultString)
 	{
 		setString(retrieved.CString());
