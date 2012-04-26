@@ -107,6 +107,7 @@
     <ClCompile Include="Src\EditBox.cpp" />
     <ClCompile Include="Src\EventMenuCtrlAcceptTranslator.cpp" />
     <ClCompile Include="Src\EventMenuCtrlCloseTranslator.cpp" />
+    <ClCompile Include="Src\EventMouseMoveTranslator.cpp" />
     <ClCompile Include="Src\FontManager.cpp" />
     <ClCompile Include="Src\Gui.cpp" />
     <ClCompile Include="Src\InputManager.cpp" />

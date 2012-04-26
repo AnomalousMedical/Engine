@@ -4,7 +4,7 @@
 class EventMouseDragTranslator : public MyGUIEventTranslator
 {
 public:
-	typedef void (*NativeEventDelegate)(MyGUI::Widget* sender, int left, int top);
+	typedef void (*NativeEventDelegate)(MyGUI::Widget* sender, int left, int top, MyGUI::MouseButton _id);
 
 private:
 	MyGUI::Widget* widget;

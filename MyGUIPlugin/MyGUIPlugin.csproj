@@ -133,6 +133,7 @@
     <Compile Include="Wrapper\Events\Widget\EventMouseButtonReleasedTranslator.cs" />
     <Compile Include="Wrapper\Events\Widget\EventMouseDragTranslator.cs" />
     <Compile Include="Wrapper\Events\Widget\EventMouseLostFocusTranslator.cs" />
+    <Compile Include="Wrapper\Events\Widget\EventMouseMoveTranslator.cs" />
     <Compile Include="Wrapper\Events\Widget\EventMouseSetFocusTranslator.cs" />
     <Compile Include="Wrapper\Events\Widget\EventMouseWheelTranslator.cs" />
     <Compile Include="Wrapper\Events\Widget\EventRootKeyChangeFocusTranslator.cs" />

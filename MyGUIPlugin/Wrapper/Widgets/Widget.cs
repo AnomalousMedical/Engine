@@ -647,6 +647,18 @@ namespace MyGUIPlugin
             }
         }
 
+        public event MyGUIEvent MouseMove
+        {
+            add
+            {
+                eventManager.addDelegate<EventMouseMoveTranslator>(value);
+            }
+            remove
+            {
+                eventManager.removeDelegate<EventMouseMoveTranslator>(value);
+            }
+        }
+
         public event MyGUIEvent MouseWheel
         {
             add
