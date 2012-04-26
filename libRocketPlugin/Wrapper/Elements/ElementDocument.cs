@@ -15,7 +15,7 @@ namespace libRocketPlugin
             MODAL = (1 << 2)
         };
 
-        protected ElementDocument(IntPtr ptr)
+        internal ElementDocument(IntPtr ptr)
             : base(ptr)
         {
 
@@ -24,15 +24,6 @@ namespace libRocketPlugin
         public void Show()
         {
             ElementDocument_Show(ptr);
-        }
-
-        internal static ElementDocument WrapElementDocument(IntPtr elementDocument)
-        {
-            if (elementDocument != IntPtr.Zero)
-            {
-                return new ElementDocument(elementDocument);
-            }
-            return null;
         }
 
         #region PInvoke

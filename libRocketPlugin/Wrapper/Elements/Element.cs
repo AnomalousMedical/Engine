@@ -7,19 +7,10 @@ namespace libRocketPlugin
 {
     public class Element : ReferenceCountable
     {
-        protected Element(IntPtr ptr)
+        internal Element(IntPtr ptr)
             : base(ptr)
         {
 
-        }
-
-        internal static Element WrapElement(IntPtr element)
-        {
-            if (element != IntPtr.Zero)
-            {
-                return new Element(element);
-            }
-            return null;
         }
     }
 }
