@@ -35,7 +35,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0124873B15498961001D41C3 /* liblibRocketWrapper.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = liblibRocketWrapper.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		0124873B15498961001D41C3 /* libRocketWrapper.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libRocketWrapper.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		0124874015498A1D001D41C3 /* StdAfx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StdAfx.h; path = ../../StdAfx.h; sourceTree = SOURCE_ROOT; };
 		0124874115498A1D001D41C3 /* StdAfx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StdAfx.cpp; path = ../../StdAfx.cpp; sourceTree = SOURCE_ROOT; };
 		0124874515498A42001D41C3 /* Context.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Context.cpp; sourceTree = "<group>"; };
@@ -133,7 +133,7 @@
 		034768DDFF38A45A11DB9C8B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0124873B15498961001D41C3 /* liblibRocketWrapper.dylib */,
+				0124873B15498961001D41C3 /* libRocketWrapper.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -211,7 +211,7 @@
 			);
 			name = libRocketWrapper;
 			productName = libRocketWrapper;
-			productReference = 0124873B15498961001D41C3 /* liblibRocketWrapper.dylib */;
+			productReference = 0124873B15498961001D41C3 /* libRocketWrapper.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 /* End PBXNativeTarget section */
@@ -340,7 +340,7 @@
 					AppKit,
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = liblibRocketWrapper;
+				PRODUCT_NAME = libRocketWrapper;
 				ZERO_LINK = NO;
 			};
 			name = Release;
