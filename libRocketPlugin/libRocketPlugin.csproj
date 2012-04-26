@@ -61,8 +61,8 @@
     <Compile Include="Wrapper\Events\EventInstancer.cs" />
     <Compile Include="Wrapper\Events\EventListenerInstancer.cs" />
     <Compile Include="Wrapper\Debugger\Debugger.cs" />
-    <Compile Include="Wrapper\Core\Element.cs" />
-    <Compile Include="Wrapper\Core\ElementDocument.cs" />
+    <Compile Include="Wrapper\Elements\Element.cs" />
+    <Compile Include="Wrapper\Elements\ElementDocument.cs" />
     <Compile Include="Wrapper\Events\EventListener.cs" />
     <Compile Include="Wrapper\Core\FileInterface.cs" />
     <Compile Include="Wrapper\Core\Font.cs" />

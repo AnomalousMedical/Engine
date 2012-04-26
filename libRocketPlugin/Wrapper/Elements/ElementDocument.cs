@@ -15,7 +15,7 @@ namespace libRocketPlugin
             MODAL = (1 << 2)
         };
 
-        public ElementDocument(IntPtr ptr)
+        protected ElementDocument(IntPtr ptr)
             : base(ptr)
         {
 

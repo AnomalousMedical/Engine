@@ -7,7 +7,7 @@ namespace libRocketPlugin
 {
     public class Element : ReferenceCountable
     {
-        public Element(IntPtr ptr)
+        protected Element(IntPtr ptr)
             : base(ptr)
         {
 

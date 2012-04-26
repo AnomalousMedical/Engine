@@ -44,7 +44,7 @@ namespace libRocketPlugin
         {
             get
             {
-                return new Element(Event_GetCurrentElement(ptr));
+                return Element.WrapElement(Event_GetCurrentElement(ptr));
             }
             internal set
             {
@@ -56,7 +56,7 @@ namespace libRocketPlugin
         {
             get
             {
-                return new Element(Event_GetTargetElement(ptr));
+                return Element.WrapElement(Event_GetTargetElement(ptr));
             }
         }
 
