@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,7 +23,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{2FCF1010-CCD8-43D3-95F5-5E4DE83342AA}</ProjectGuid>
+    <ProjectGuid>{5FD95DFB-D565-46F1-B813-0E8C9C191B3A}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>BulletWrapper</RootNamespace>
     <AssemblyName>BulletWrapper</AssemblyName>
