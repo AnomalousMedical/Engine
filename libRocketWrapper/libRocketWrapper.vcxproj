@@ -86,6 +86,7 @@
     <ClCompile Include="Src\Core.cpp" />
     <ClCompile Include="Src\Debugger.cpp" />
     <ClCompile Include="Src\Dictionary.cpp" />
+    <ClCompile Include="src\Element.cpp" />
     <ClCompile Include="Src\ElementDocument.cpp" />
     <ClCompile Include="src\ElementManager.cpp" />
     <ClCompile Include="Src\Event.cpp" />

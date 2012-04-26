@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
+using Engine;
 
 namespace MyGUIPlugin
 {
@@ -33,6 +34,21 @@ namespace MyGUIPlugin
             ImageBox_setItemName(widget, value);
         }
 
+        public void setImageTexture(String value)
+        {
+            ImageBox_setImageTexture(WidgetPtr, value);
+        }
+
+        public void setImageCoord(IntCoord intCoord)
+        {
+            ImageBox_setImageCoord(WidgetPtr, ref intCoord);
+        }
+
+        public void setImageTile(IntSize2 value)
+        {
+            ImageBox_setImageTile(WidgetPtr, ref value);
+        }
+
 #region PInvoke
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
@@ -43,6 +59,15 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void ImageBox_setItemName(IntPtr staticImage, String value);
+
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        private static extern void ImageBox_setImageTexture(IntPtr staticImage, String value);
+
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        private static extern void ImageBox_setImageCoord(IntPtr staticImage, ref IntCoord coord);
+
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        private static extern void ImageBox_setImageTile(IntPtr staticImage, ref IntSize2 _value);
 
 #endregion
     }
