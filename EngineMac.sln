@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zip", "Zip\OSX\Zip.csproj",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libRocketWrapper", "libRocketWrapper\OSX\libRocketWrapper\libRocketWrapper.csproj", "{5FD95DFB-D565-46F1-B813-0E8C9C191B3A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libRocketPlugin", "libRocketPlugin\libRocketPlugin.csproj", "{A221C2F5-2089-495B-B51A-54710507344A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -196,6 +198,18 @@ Global
 		{5FD95DFB-D565-46F1-B813-0E8C9C191B3A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{5FD95DFB-D565-46F1-B813-0E8C9C191B3A}.Release|Win32.ActiveCfg = Release|Any CPU
 		{5FD95DFB-D565-46F1-B813-0E8C9C191B3A}.Release|x86.ActiveCfg = Release|Any CPU
+		{A221C2F5-2089-495B-B51A-54710507344A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A221C2F5-2089-495B-B51A-54710507344A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A221C2F5-2089-495B-B51A-54710507344A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A221C2F5-2089-495B-B51A-54710507344A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A221C2F5-2089-495B-B51A-54710507344A}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{A221C2F5-2089-495B-B51A-54710507344A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A221C2F5-2089-495B-B51A-54710507344A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A221C2F5-2089-495B-B51A-54710507344A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A221C2F5-2089-495B-B51A-54710507344A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A221C2F5-2089-495B-B51A-54710507344A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A221C2F5-2089-495B-B51A-54710507344A}.Release|Win32.ActiveCfg = Release|Any CPU
+		{A221C2F5-2089-495B-B51A-54710507344A}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
