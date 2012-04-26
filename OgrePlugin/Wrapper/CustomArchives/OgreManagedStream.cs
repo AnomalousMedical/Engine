@@ -18,7 +18,7 @@ namespace OgreWrapper
     /// </summary>
     unsafe class OgreManagedStream
     {
-        const int ARRAY_SIZE = 512;
+        const int ARRAY_SIZE = 4096;
 
         Stream stream;
 	    byte[] internalBuffer = new byte[ARRAY_SIZE];

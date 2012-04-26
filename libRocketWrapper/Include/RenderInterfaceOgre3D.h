@@ -72,10 +72,7 @@ class RenderInterfaceOgre3D : public Rocket::Core::RenderInterface
 		float GetVerticalTexelOffset();
 
 		// Configures Ogre's rendering system for rendering Rocket.
-		void ConfigureRenderSystem();
-
-		//Call when the render window resizes
-		void renderWindowResized(const unsigned int& window_width, const unsigned int& window_height);
+		void ConfigureRenderSystem(const int &renderWidth, const int &renderHeight);
 
 	private:
 		Ogre::RenderSystem* render_system;
@@ -89,11 +86,8 @@ class RenderInterfaceOgre3D : public Rocket::Core::RenderInterface
 		int scissor_right;
 		int scissor_bottom;
 
-		int renderWidth;
-		int renderHeight;
-
 		// Builds an OpenGL-style orthographic projection matrix.
-		void BuildProjectionMatrix(Ogre::Matrix4& projection_matrix);
+		void BuildProjectionMatrix(Ogre::Matrix4& projection_matrix, const int &renderWidth, const int &renderHeight);
 };
 
 #endif

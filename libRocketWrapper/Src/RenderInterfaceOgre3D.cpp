@@ -76,9 +76,6 @@ RenderInterfaceOgre3D::RenderInterfaceOgre3D(unsigned int window_width, unsigned
 	scissor_top = 0;
 	scissor_right = (int) window_width;
 	scissor_bottom = (int) window_height;
-
-	renderWidth = window_width;
-	renderHeight = window_height;
 }
 
 RenderInterfaceOgre3D::~RenderInterfaceOgre3D()
@@ -280,13 +277,13 @@ float RenderInterfaceOgre3D::GetVerticalTexelOffset()
 }
 
 // Configures Ogre's rendering system for rendering Rocket.
-void RenderInterfaceOgre3D::ConfigureRenderSystem()
+void RenderInterfaceOgre3D::ConfigureRenderSystem(const int &renderWidth, const int &renderHeight)
 {
 	Ogre::RenderSystem* render_system = Ogre::Root::getSingleton().getRenderSystem();
 
 	// Set up the projection and view matrices.
 	Ogre::Matrix4 projection_matrix;
-	BuildProjectionMatrix(projection_matrix);
+	BuildProjectionMatrix(projection_matrix, renderWidth, renderHeight);
 	render_system->_setProjectionMatrix(projection_matrix);
 	render_system->_setViewMatrix(Ogre::Matrix4::IDENTITY);
 
@@ -333,7 +330,7 @@ void RenderInterfaceOgre3D::ConfigureRenderSystem()
 }
 
 // Builds an OpenGL-style orthographic projection matrix.
-void RenderInterfaceOgre3D::BuildProjectionMatrix(Ogre::Matrix4& projection_matrix)
+void RenderInterfaceOgre3D::BuildProjectionMatrix(Ogre::Matrix4& projection_matrix, const int &renderWidth, const int &renderHeight)
 {
 	float z_near = -1;
 	float z_far = 1;
@@ -349,12 +346,6 @@ void RenderInterfaceOgre3D::BuildProjectionMatrix(Ogre::Matrix4& projection_matr
 	projection_matrix[3][3]= 1.0000000f;
 }
 
-void RenderInterfaceOgre3D::renderWindowResized(const unsigned int& window_width, const unsigned int& window_height)
-{
-	renderWidth = window_width;
-	renderHeight = window_height;
-}
-
 extern "C" _AnomalousExport RenderInterfaceOgre3D* RenderInterfaceOgre3D_Create(int width, int height)
 {
 	return new RenderInterfaceOgre3D(width, height);
@@ -365,12 +356,7 @@ extern "C" _AnomalousExport void RenderInterfaceOgre3D_Delete(RenderInterfaceOgr
 	delete renderInterface;
 }
 
-extern "C" _AnomalousExport void RenderInterfaceOgre3D_ConfigureRenderSystem(RenderInterfaceOgre3D* renderInterface)
+extern "C" _AnomalousExport void RenderInterfaceOgre3D_ConfigureRenderSystem(RenderInterfaceOgre3D* renderInterface, int &renderWidth, int &renderHeight)
 {
-	renderInterface->ConfigureRenderSystem();
-}
-
-extern "C" _AnomalousExport void RenderInterfaceOgre3D_renderWindowResized(RenderInterfaceOgre3D* renderInterface, uint window_width, uint window_height)
-{
-	renderInterface->renderWindowResized(window_width, window_height);
+	renderInterface->ConfigureRenderSystem(renderWidth, renderHeight);
 }

@@ -33,7 +33,8 @@ namespace libRocketPlugin
             {
                 context.Update();
 
-                renderInterface.ConfigureRenderSystem();
+                Vector2i dimensions = context.Dimensions;
+                renderInterface.ConfigureRenderSystem(dimensions.X, dimensions.Y);
                 context.Render();
             }
         }

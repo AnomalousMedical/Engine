@@ -18,14 +18,9 @@ namespace libRocketPlugin
             RenderInterfaceOgre3D_Delete(renderInterface);
         }
 
-        public void ConfigureRenderSystem()
+        public void ConfigureRenderSystem(int windowWidth, int windowHeight)
         {
-            RenderInterfaceOgre3D_ConfigureRenderSystem(renderInterface);
-        }
-
-        public void RenderWindowResized(uint windowWidth, uint windowHeight)
-        {
-            RenderInterfaceOgre3D_renderWindowResized(renderInterface, windowWidth, windowHeight);
+            RenderInterfaceOgre3D_ConfigureRenderSystem(renderInterface, out windowWidth, out windowHeight);
         }
 
         #region PInvoke
@@ -37,10 +32,7 @@ namespace libRocketPlugin
         private static extern void RenderInterfaceOgre3D_Delete(IntPtr renderInterface);
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
-        private static extern void RenderInterfaceOgre3D_ConfigureRenderSystem(IntPtr renderInterface);
-
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
-        private static extern void RenderInterfaceOgre3D_renderWindowResized(IntPtr renderInterface, uint window_width, uint window_height);
+        private static extern void RenderInterfaceOgre3D_ConfigureRenderSystem(IntPtr renderInterface, out int renderWidth, out int renderHeight);
 
         #endregion
     }

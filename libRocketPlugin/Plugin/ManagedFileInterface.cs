@@ -13,6 +13,10 @@ namespace libRocketPlugin
     /// </summary>
     public abstract unsafe class ManagedFileInterface : FileInterface
     {
+        //This is majorly assuming that the file access is only in 1 thread
+        const int ARRAY_SIZE = 4096;
+        byte[] internalBuffer = new byte[ARRAY_SIZE];
+
         private const int SEEK_CUR = 1;
         private const int SEEK_END = 2;
         private const int SEEK_SET = 0;
@@ -61,9 +65,6 @@ namespace libRocketPlugin
         private IntPtr ReadCbImpl(void* buffer, IntPtr size, IntPtr file)
         {
             Stream stream = getStream(file);
-
-            const int ARRAY_SIZE = 512;
-            byte[] internalBuffer = new byte[ARRAY_SIZE];
 
             //Read into the managed array and copy to the unmanaged one
             int readSize = ARRAY_SIZE;
