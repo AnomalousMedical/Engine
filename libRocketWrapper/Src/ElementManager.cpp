@@ -45,5 +45,14 @@ extern "C" _AnomalousExport ElementManager* ElementManager_create(ElementManager
 
 extern "C" _AnomalousExport ElementType ElementManager_getType(Rocket::Core::Element* element)
 {
-	return ElementDocument;
+	//typeid static variables
+	static const type_info &ELEMENT_DOCUMENT = typeid(Rocket::Core::ElementDocument);
+
+	//Test
+	const type_info &typeInfo = typeid(*element);
+	if(typeInfo == ELEMENT_DOCUMENT)
+	{
+		return ElementDocument;
+	}
+	return Element;
 }
