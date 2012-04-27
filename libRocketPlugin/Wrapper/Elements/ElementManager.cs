@@ -19,7 +19,7 @@ namespace libRocketPlugin
         private static IntPtr elementManager;
         private static ElementDestructorCallback elementDestructorFunc;
 
-        private static WrapperCollection<Element> elements = new WrapperCollection<Element>(createWrapper);
+        private static WrapperCollection<Element> elements = new WrapperCollection<Element>(createWrapper, elementDelete);
 
         static ElementManager()
         {
@@ -70,6 +70,11 @@ namespace libRocketPlugin
             }
             Log.Warning("Could not identify element type for element {0}. Type given was {1}. Will return a Element in its place.", element.ToString(), elementType);
             return new Element(element);
+        }
+
+        private static void elementDelete(Element wrapper)
+        {
+            //Since this just calls the reference decrement, do not do anything in the destructor callback.
         }
 
         #region PInvoke
