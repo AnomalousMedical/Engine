@@ -68,6 +68,18 @@ public:
 	}
 };
 
+class IntSize2
+{
+public:
+	int width;
+    int height;
+
+	MyGUI::IntSize toIntSize()
+	{
+		return MyGUI::IntSize(width, height);
+	}
+};
+
 class ThreeIntHack
 {
 public:

@@ -34,6 +34,11 @@ namespace MyGUIPlugin
             ImageBox_setItemName(widget, value);
         }
 
+        public void setImageInfo(String texture, IntCoord coord, IntSize2 tile)
+        {
+            ImageBox_setImageInfo(WidgetPtr, texture, ref coord, ref tile);
+        }
+
         public void setImageTexture(String value)
         {
             ImageBox_setImageTexture(WidgetPtr, value);
@@ -49,6 +54,11 @@ namespace MyGUIPlugin
             ImageBox_setImageTile(WidgetPtr, ref value);
         }
 
+        public void deleteAllItems()
+        {
+            ImageBox_deleteAllItems(WidgetPtr);
+        }
+
 #region PInvoke
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
@@ -60,6 +70,9 @@ namespace MyGUIPlugin
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void ImageBox_setItemName(IntPtr staticImage, String value);
 
+        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void ImageBox_setImageInfo(IntPtr staticImage, String _texture, ref IntCoord _coord, ref IntSize2 _tile);
+
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void ImageBox_setImageTexture(IntPtr staticImage, String value);
 
@@ -68,6 +81,9 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void ImageBox_setImageTile(IntPtr staticImage, ref IntSize2 _value);
+
+        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void ImageBox_deleteAllItems(IntPtr staticImage);
 
 #endregion
     }

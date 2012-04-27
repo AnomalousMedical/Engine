@@ -15,6 +15,11 @@ extern "C" _AnomalousExport void ImageBox_setItemName(MyGUI::ImageBox* staticIma
 	staticImage->setItemName(value);
 }
 
+extern "C" _AnomalousExport void ImageBox_setImageInfo(MyGUI::ImageBox* staticImage, String _texture, const MyGUI::IntCoord& _coord, IntSize2& _tile)
+{
+	staticImage->setImageInfo(_texture, _coord, _tile.toIntSize());
+}
+
 extern "C" _AnomalousExport void ImageBox_setImageTexture(MyGUI::ImageBox* staticImage, String value)
 {
 	staticImage->setImageTexture(value);
@@ -25,7 +30,12 @@ extern "C" _AnomalousExport void ImageBox_setImageCoord(MyGUI::ImageBox* staticI
 	staticImage->setImageCoord(intCoord);
 }
 
-extern "C" _AnomalousExport void ImageBox_setImageTile(MyGUI::ImageBox* staticImage, Size2& _value)
+extern "C" _AnomalousExport void ImageBox_setImageTile(MyGUI::ImageBox* staticImage, IntSize2& _value)
 {
 	staticImage->setImageTile(_value.toIntSize());
+}
+
+extern "C" _AnomalousExport void ImageBox_deleteAllItems(MyGUI::ImageBox* staticImage)
+{
+	staticImage->deleteAllItems();
 }
