@@ -68,7 +68,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>..\..\dependencies\libRocket\WindowsBuild\Release;..\..\dependencies\libRocket\support\lib;..\..\dependencies\Ogre\Windows\Build\lib\Release</AdditionalLibraryDirectories>

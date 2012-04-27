@@ -19,3 +19,12 @@ extern "C" _AnomalousExport int RenderManager_getViewHeight(MyGUI::RenderManager
 {
 	return renderManager->getViewSize().height;
 }
+
+extern "C" _AnomalousExport void RenderManager_destroyTextureByName(MyGUI::RenderManager* renderManager, String name)
+{
+	MyGUI::ITexture* texture = renderManager->getTexture(name);
+	if(texture != nullptr)
+	{
+		renderManager->destroyTexture(texture);
+	}
+}

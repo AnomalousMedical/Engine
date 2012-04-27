@@ -34,6 +34,11 @@ namespace MyGUIPlugin
             RenderManager_manualFrameEvent(renderManager, time);
         }
 
+        public void destroyTexture(String name)
+        {
+            RenderManager_destroyTextureByName(renderManager, name);
+        }
+
         public int ViewWidth
         {
             get
@@ -63,6 +68,9 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern int RenderManager_getViewHeight(IntPtr gui);
+
+        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void RenderManager_destroyTextureByName(IntPtr renderManager, String name);
 
         #endregion
     }
