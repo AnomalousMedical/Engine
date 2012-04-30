@@ -80,13 +80,36 @@ input.submit:focus
 button:hover,
 input.submit:hover
 {
-	background-image-t: 45px 90px;
+	background-decorator: tiled-box;
+	
+	background-top-left-image: /MyGUIPlugin_Widget_Texture.png 854px 72px 858px 76px;
+	background-top-right-image: /MyGUIPlugin_Widget_Texture.png 873px 72px 878px 76px;
+	background-bottom-left-image: /MyGUIPlugin_Widget_Texture.png 854px 91px 858px 96px;
+	background-bottom-right-image: /MyGUIPlugin_Widget_Texture.png 873px 91px 878px 96px;
+
+	background-top-image: /MyGUIPlugin_Widget_Texture.png stretch 860px 72px 868px 75px;
+	background-bottom-image: /MyGUIPlugin_Widget_Texture.png stretch 860px 92px 868px 96px;
+	background-left-image: /MyGUIPlugin_Widget_Texture.png stretch 854px 78px 857px 86px;
+	background-right-image: /MyGUIPlugin_Widget_Texture.png stretch 874px 78px 878px 86px;
+
+	background-center-image: /MyGUIPlugin_Widget_Texture.png stretch 835px 75px 852px 92px;
 }
 
 button:active,
 input.submit:active
 {
-	background-image-t: 90px 135px;
+	background-decorator: tiled-box;
+	background-top-left-image: /MyGUIPlugin_Widget_Texture.png 854px 47px 858px 51px;
+	background-top-right-image: /MyGUIPlugin_Widget_Texture.png 873px 47px 878px 51px;
+	background-bottom-left-image: /MyGUIPlugin_Widget_Texture.png 854px 66px 858px 71px;
+	background-bottom-right-image: /MyGUIPlugin_Widget_Texture.png 873px 66px 878px 71px;
+
+	background-top-image: /MyGUIPlugin_Widget_Texture.png stretch 860px 47px 868px 50px;
+	background-bottom-image: /MyGUIPlugin_Widget_Texture.png stretch 860px 67px 868px 71px;
+	background-left-image: /MyGUIPlugin_Widget_Texture.png stretch 854px 53px 857px 61px;
+	background-right-image: /MyGUIPlugin_Widget_Texture.png stretch 874px 53px 878px 61px;
+
+	background-center-image: /MyGUIPlugin_Widget_Texture.png stretch 835px 50px 852px 67px;
 }
 
 
