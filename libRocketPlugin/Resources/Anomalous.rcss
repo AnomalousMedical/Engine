@@ -149,9 +149,47 @@ input.text:hover
 	background-center-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 181px 901px 192px;
 }
 
+
+textarea
+{
+	padding: 7px 7px 0px;
+
+	background-decorator: tiled-box;
+	background-top-left-image: /MyGUIPlugin_Widget_Texture.png 882px 154px 884px 159px;
+	background-top-right-image: /MyGUIPlugin_Widget_Texture.png 901px 154px 903px 159px;
+	background-bottom-left-image: /MyGUIPlugin_Widget_Texture.png 882px 170px 884px 175px;
+	background-bottom-right-image: /MyGUIPlugin_Widget_Texture.png 901px 170px 903px 175px;
+
+	background-top-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 154px 901px 159px;
+	background-left-image: /MyGUIPlugin_Widget_Texture.png stretch 882px 159px 884px 170px;
+	background-right-image: /MyGUIPlugin_Widget_Texture.png stretch 901px 159px 903px 170px;
+	background-bottom-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 170px 901px 175px;
+
+	background-center-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 159px 901px 170px;
+}
+
+textarea:hover
+{
+	padding: 7px 7px 0px;
+
+	background-decorator: tiled-box;
+	background-top-left-image: /MyGUIPlugin_Widget_Texture.png 882px 176px 884px 181px;
+	background-top-right-image: /MyGUIPlugin_Widget_Texture.png 901px 176px 903px 181px;
+	background-bottom-left-image: /MyGUIPlugin_Widget_Texture.png 882px 192px 884px 197px;
+	background-bottom-right-image: /MyGUIPlugin_Widget_Texture.png 901px 192px 903px 197px;
+
+	background-top-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 176px 901px 181px;
+	background-left-image: /MyGUIPlugin_Widget_Texture.png stretch 882px 181px 884px 192px;
+	background-right-image: /MyGUIPlugin_Widget_Texture.png stretch 901px 181px 903px 192px;
+	background-bottom-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 192px 901px 197px;
+
+	background-center-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 181px 901px 192px;
+}
+
 input.text,
 select,
-dataselect
+dataselect,
+textarea
 {
 	color: black;
 	font-size: 13;
@@ -416,113 +454,101 @@ datagridexpand.collapsed
 }
 
 
-textarea
-{
-	padding: 7px 7px 0px;
-
-	background-decorator: tiled-box;
-	background-top-left-image: /MyGUIPlugin_Widget_Texture.png 882px 154px 884px 159px;
-	background-top-right-image: /MyGUIPlugin_Widget_Texture.png 901px 154px 903px 159px;
-	background-bottom-left-image: /MyGUIPlugin_Widget_Texture.png 882px 170px 884px 175px;
-	background-bottom-right-image: /MyGUIPlugin_Widget_Texture.png 901px 170px 903px 175px;
-
-	background-top-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 154px 901px 159px;
-	background-left-image: /MyGUIPlugin_Widget_Texture.png stretch 882px 159px 884px 170px;
-	background-right-image: /MyGUIPlugin_Widget_Texture.png stretch 901px 159px 903px 170px;
-	background-bottom-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 170px 901px 175px;
-
-	background-center-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 159px 901px 170px;
-}
-
-textarea:hover
-{
-	padding: 7px 7px 0px;
-
-	background-decorator: tiled-box;
-	background-top-left-image: /MyGUIPlugin_Widget_Texture.png 882px 176px 884px 181px;
-	background-top-right-image: /MyGUIPlugin_Widget_Texture.png 901px 176px 903px 181px;
-	background-bottom-left-image: /MyGUIPlugin_Widget_Texture.png 882px 192px 884px 197px;
-	background-bottom-right-image: /MyGUIPlugin_Widget_Texture.png 901px 192px 903px 197px;
-
-	background-top-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 176px 901px 181px;
-	background-left-image: /MyGUIPlugin_Widget_Texture.png stretch 882px 181px 884px 192px;
-	background-right-image: /MyGUIPlugin_Widget_Texture.png stretch 901px 181px 903px 192px;
-	background-bottom-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 192px 901px 197px;
-
-	background-center-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 181px 901px 192px;
-}
-
-
 scrollbarvertical
 {
 	margin-top: 0px;
 	margin-bottom: 0px;
 	margin-right: 0px;
-	width: 27px;
+	width: 19px;
 }
 
 scrollbarvertical slidertrack
 {
 	background-decorator: tiled-vertical;
-	background-top-image: invader.tga 70px 199px 97px 201px;
-	background-center-image: invader.tga stretch 70px 201px 97px 202px;
-	background-bottom-image: invader.tga 70px 203px 97px 204px;
+	background-top-image: /MyGUIPlugin_Widget_Texture.png 911px 62px 926px 63px;
+	background-center-image: /MyGUIPlugin_Widget_Texture.png 911px 66px 926px 71px;
+	background-bottom-image: /MyGUIPlugin_Widget_Texture.png 911px 76px 926px 77px;
 }
 
 scrollbarvertical sliderbar
 {
-	margin-left: 4px;
-	width: 23px;
+	width: 19px;
 	min-height: 46px;
 
 	background-decorator: tiled-vertical;
-	background-top-image: invader.tga 56px 152px 79px 175px;
-	background-center-image: invader.tga stretch 56px 175px 79px 175px;
-	background-bottom-image: invader.tga 56px 176px 79px 198px;
+	background-top-image: /MyGUIPlugin_Widget_Texture.png 898px 22px 912px 25px;
+	background-center-image: /MyGUIPlugin_Widget_Texture.png 898px 27px 912px 35px;
+	background-bottom-image: /MyGUIPlugin_Widget_Texture.png 898px 37px 912px 41px;
 }
 
 scrollbarvertical sliderbar:hover
 {
-	background-top-image-s: 80px 103px;
-	background-center-image-s: 80px 103px;
-	background-bottom-image-s: 80px 103px;
+	background-decorator: tiled-vertical;
+	background-top-image: /MyGUIPlugin_Widget_Texture.png 913px 2px 927px 4px;
+	background-center-image: /MyGUIPlugin_Widget_Texture.png 913px 7px 927px 15px;
+	background-bottom-image: /MyGUIPlugin_Widget_Texture.png 913px 17px 927px 21px;
 }
 
 scrollbarvertical sliderbar:active
 {
-	background-top-image-s: 104px 127px;
-	background-center-image-s: 104px 127px;
-	background-bottom-image-s: 104px 127px;
+	background-decorator: tiled-vertical;
+	background-top-image: /MyGUIPlugin_Widget_Texture.png 913px 42px 927px 45px;
+	background-center-image: /MyGUIPlugin_Widget_Texture.png 913px 47px 927px 55px;
+	background-bottom-image: /MyGUIPlugin_Widget_Texture.png 913px 57px 927px 61px;
 }
 
 scrollbarvertical sliderarrowdec
 {
-	width: 27px;
-	height: 24px;
+	width: 18px;
+	height: 18px;
 	
 	icon-decorator: image;
-	icon-image: invader.tga 0px 152px 27px 176px;
+	icon-image: /MyGUIPlugin_Widget_Texture.png 941px 207px 954px 221px;
+	icon-z-index: 1;
+
+	background-decorator: tiled-vertical;
+	background-top-image: /MyGUIPlugin_Widget_Texture.png 911px 62px 926px 63px;
+	background-center-image: /MyGUIPlugin_Widget_Texture.png 911px 66px 926px 71px;
+	background-bottom-image: /MyGUIPlugin_Widget_Texture.png 911px 76px 926px 77px;
 }
 
-scrollbarvertical sliderarrowdec:hover,
-scrollbarvertical sliderarrowinc:hover
+scrollbarvertical sliderarrowdec:hover
 {
-	icon-image-t: 177px 201px;
+	icon-decorator: image;
+	icon-image: /MyGUIPlugin_Widget_Texture.png 941px 193px 954px 208px;
 }
 
-scrollbarvertical sliderarrowdec:active,
-scrollbarvertical sliderarrowinc:active
+scrollbarvertical sliderarrowdec:active
 {
-	icon-image-t: 202px 226px;
+	icon-decorator: image;
+	icon-image: /MyGUIPlugin_Widget_Texture.png 941px 193px 954px 208px;
 }
 
 scrollbarvertical sliderarrowinc
 {
-	width: 27px;
-	height: 24px;
-	
+	width: 18px;
+	height: 18px;
+
 	icon-decorator: image;
-	icon-image: invader.tga 28px 152px 55px 176px;
+	icon-image: /MyGUIPlugin_Widget_Texture.png 941px 113px 954px 127px;
+	icon-z-index: 1;
+	
+	background-decorator: tiled-vertical;
+	background-top-image: /MyGUIPlugin_Widget_Texture.png 911px 62px 926px 63px;
+	background-center-image: /MyGUIPlugin_Widget_Texture.png 911px 66px 926px 71px;
+	background-bottom-image: /MyGUIPlugin_Widget_Texture.png 911px 76px 926px 77px;
+}
+
+scrollbarvertical sliderarrowinc:active
+{
+	icon-decorator: image;
+	icon-image: /MyGUIPlugin_Widget_Texture.png 941px 126px 954px 140px;
+}
+
+scrollbarvertical sliderarrowinc:hover
+{
+	icon-decorator: image;
+	icon-image: /MyGUIPlugin_Widget_Texture.png 941px 126px 954px 140px;
 }
 
 
