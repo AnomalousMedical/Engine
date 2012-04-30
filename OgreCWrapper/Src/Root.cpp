@@ -275,7 +275,14 @@ extern "C" _AnomalousExport float Root_getFrameSmoothingPeriod(Ogre::Root* root)
 
 extern "C" _AnomalousExport bool Root__updateAllRenderTargets(Ogre::Root* root)
 {
-	return root->_updateAllRenderTargets();
+	try
+	{
+		return root->_updateAllRenderTargets();
+	}
+	catch(Ogre::Exception& ex)
+	{
+		return false;
+	}
 }
 
 extern "C" _AnomalousExport void Root_addFrameListener(Ogre::Root* root, Ogre::FrameListener* nativeFrameListener)

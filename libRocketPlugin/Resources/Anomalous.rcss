@@ -3,9 +3,11 @@ body
 	font-family: DejaVuSans;
 	font-weight: normal;
 	font-style: normal;
-	font-size: 15;
+	font-size: 13;
 	color: black;
 	text-align: left;
+	background-color: white;
+	
 }
 
 a
@@ -53,7 +55,7 @@ input.submit
 	padding-top: 4px;
 	padding-bottom: 5px;
 
-	font-size: 14;
+	font-size: 13;
 	text-align: center;
 	tab-index: auto;
 

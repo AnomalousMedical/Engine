@@ -53,7 +53,6 @@
         <input name="Submit" type="submit" style="width: 100px;">Submit</input>
       </form>
       <br/>
-      <img src="present.tga"></img>
     </div>
   </body>
 </rml>
