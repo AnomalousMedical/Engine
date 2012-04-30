@@ -50,8 +50,12 @@ namespace libRocketPlugin
         private IntPtr OpenCbImpl(String path)
         {
             Stream stream = Open(path);
-            GCHandle handle = GCHandle.Alloc(stream, GCHandleType.Normal);
-            return GCHandle.ToIntPtr(handle);
+            if (stream != null)
+            {
+                GCHandle handle = GCHandle.Alloc(stream, GCHandleType.Normal);
+                return GCHandle.ToIntPtr(handle);
+            }
+            return IntPtr.Zero;
         }
 
         private void CloseCbImpl(IntPtr file)

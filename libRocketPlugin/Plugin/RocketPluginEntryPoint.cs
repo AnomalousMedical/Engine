@@ -12,7 +12,7 @@ namespace libRocketPlugin
     {
         public override void createPluginInterfaces(PluginManager pluginManager)
         {
-            pluginManager.addPlugin(new RocketInterface());
+            pluginManager.addPlugin(RocketInterface.Instance);
         }
     }
 }

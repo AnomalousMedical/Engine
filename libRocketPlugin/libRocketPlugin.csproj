@@ -44,6 +44,7 @@
     <Compile Include="Plugin\ContextUpdater.cs" />
     <Compile Include="Plugin\InputMap.cs" />
     <Compile Include="Plugin\ManagedFileInterface.cs" />
+    <Compile Include="Plugin\RocketFileSystemExtension.cs" />
     <Compile Include="Plugin\RocketInterface.cs" />
     <Compile Include="Plugin\RocketPluginEntryPoint.cs" />
     <Compile Include="Plugin\RocketRenderQueueListener.cs" />

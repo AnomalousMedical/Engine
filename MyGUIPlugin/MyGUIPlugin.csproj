@@ -256,6 +256,9 @@
     <None Include="Resources\Editor\custom_widgets.xml">
       <SubType>Designer</SubType>
     </None>
+    <EmbeddedResource Include="Resources\MyGUIPlugin_DejaVuSans-Bold.ttf" />
+    <EmbeddedResource Include="Resources\MyGUIPlugin_DejaVuSans-BoldOblique.ttf" />
+    <EmbeddedResource Include="Resources\MyGUIPlugin_DejaVuSans-Oblique.ttf" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\MyGUIPlugin_DejaVuSans.ttf">

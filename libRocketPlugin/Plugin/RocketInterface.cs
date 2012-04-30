@@ -16,7 +16,20 @@ namespace libRocketPlugin
         private RenderInterfaceOgre3D renderInterface;
         private VirtualFileSystemFileInterface fileInterface;
 
-        public RocketInterface()
+        private static RocketInterface instance;
+        public static RocketInterface Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new RocketInterface();
+                }
+                return instance;
+            }
+        }
+
+        private RocketInterface()
         {
             
         }
@@ -73,6 +86,14 @@ namespace libRocketPlugin
         public void createDebugCommands(List<CommandManager> commands)
         {
 
+        }
+
+        public VirtualFileSystemFileInterface FileInterface
+        {
+            get
+            {
+                return fileInterface;
+            }
         }
 
         static RocketInterface()

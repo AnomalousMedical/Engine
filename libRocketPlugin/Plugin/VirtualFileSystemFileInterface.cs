@@ -3,15 +3,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Engine;
+using System.IO;
 
 namespace libRocketPlugin
 {
     public class VirtualFileSystemFileInterface : ManagedFileInterface
     {
-        public override System.IO.Stream Open(string path)
+        private List<RocketFileSystemExtension> extensions = new List<RocketFileSystemExtension>();
+
+        public override Stream Open(string path)
         {
-            return VirtualFileSystem.Instance.openStream(path, Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read);
-            //return new System.IO.FileStream(path, System.IO.FileMode.Open, System.IO.FileAccess.Read);
+            if (VirtualFileSystem.Instance.exists(path))
+            {
+                return VirtualFileSystem.Instance.openStream(path, Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read);
+            }
+            else
+            {
+                foreach (RocketFileSystemExtension extension in extensions)
+                {
+                    if (extension.canOpenFile(path))
+                    {
+                        return extension.openFile(path);
+                    }
+                }
+            }
+            return null;
+        }
+
+        public void addExtension(RocketFileSystemExtension extension)
+        {
+            extensions.Add(extension);
+        }
+
+        public void removeExtension(RocketFileSystemExtension extension)
+        {
+            extensions.Remove(extension);
         }
     }
 }
