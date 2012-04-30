@@ -402,58 +402,6 @@ input.checkbox:checked:active
 }
 
 
-
-datagrid datagridheader
-{
-	width: auto;
-	height: 25px;
-	padding: 5px 10px 0px 10px;
-
-	background-decorator: tiled-horizontal;
-	background-left-image: invader.tga 127px 192px 143px 223px;
-	background-center-image: invader.tga stretch 143px 192px 145px 223px;
-	background-right-image: invader.tga 145px 192px 160px 223px;
-}
-
-datagrid datagridbody
-{
-	color: black;
-
-	margin-left: 4px;
-	margin-right: 3px;
-	padding: 0px 4px 4px 4px;
-}
-
-
-
-datagridexpand
-{
-	display: block;
-	
-	margin: 1px 0px 1px 5px;
-	height: 17px;
-	width: 17px;
-	
-	icon-decorator: image;
-	icon-image: invader.tga 3px 232px 20px 249px;
-}
-
-datagridexpand:hover
-{
-	icon-image-s: 21px 38px;
-}
-
-datagridexpand:active
-{
-	icon-image-s: 39px 56px;
-}
-
-datagridexpand.collapsed
-{
-	icon-image-t: 250px 267px;
-}
-
-
 scrollbarvertical
 {
 	margin-top: 0px;
@@ -557,5 +505,57 @@ scrollbarhorizontal
 {
 	width: 0px;
 	height: 0px;
+}
+
+
+
+datagrid datagridheader
+{
+	width: auto;
+	height: 25px;
+	padding: 5px 10px 0px 10px;
+
+	background-decorator: tiled-horizontal;
+	background-left-image: /MyGUIPlugin_Widget_Texture.png 127px 192px 143px 223px;
+	background-center-image: /MyGUIPlugin_Widget_Texture.png stretch 143px 192px 145px 223px;
+	background-right-image: /MyGUIPlugin_Widget_Texture.png 145px 192px 160px 223px;
+}
+
+datagrid datagridbody
+{
+	color: black;
+
+	margin-left: 4px;
+	margin-right: 3px;
+	padding: 0px 4px 4px 4px;
+}
+
+
+
+datagridexpand
+{
+	display: block;
+	
+	margin: 1px 0px 1px 5px;
+	height: 17px;
+	width: 17px;
+	
+	icon-decorator: image;
+	icon-image: /MyGUIPlugin_Widget_Texture.png 3px 232px 20px 249px;
+}
+
+datagridexpand:hover
+{
+	icon-image-s: 21px 38px;
+}
+
+datagridexpand:active
+{
+	icon-image-s: 39px 56px;
+}
+
+datagridexpand.collapsed
+{
+	icon-image-t: 250px 267px;
 }
 
