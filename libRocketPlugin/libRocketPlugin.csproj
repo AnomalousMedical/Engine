@@ -81,7 +81,13 @@
     <Compile Include="Wrapper\RenderInterfaceOgre3D.cs" />
     <Compile Include="Wrapper\Math\Vector2i.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\Anomalous.rcss" />
+    <None Include="Resources\demo.rml" />
+    <None Include="Resources\invader.tga" />
+    <None Include="Resources\present.tga" />
+    <None Include="Resources\rkt.rcss" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">
       <Project>{57C253F1-157F-4A6A-9FED-345A776B97D5}</Project>
