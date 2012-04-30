@@ -117,11 +117,36 @@ input.submit:active
 input.text
 {
 	height: 31px;
-	padding: 10px 10px 0px;
+	padding: 7px 7px 0px;
 
-	background-decorator: tiled-horizontal;
-	background-left-image: invader.tga 162px 192px 176px 223px;
-	background-center-image: invader.tga stretch 176px 192px 177px 223px;
+	background-decorator: tiled-box;
+	background-top-left-image: /MyGUIPlugin_Widget_Texture.png 882px 154px 884px 159px;
+	background-top-right-image: /MyGUIPlugin_Widget_Texture.png 901px 154px 903px 159px;
+	background-bottom-left-image: /MyGUIPlugin_Widget_Texture.png 882px 170px 884px 175px;
+	background-bottom-right-image: /MyGUIPlugin_Widget_Texture.png 901px 170px 903px 175px;
+
+	background-top-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 154px 901px 159px;
+	background-left-image: /MyGUIPlugin_Widget_Texture.png stretch 882px 159px 884px 170px;
+	background-right-image: /MyGUIPlugin_Widget_Texture.png stretch 901px 159px 903px 170px;
+	background-bottom-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 170px 901px 175px;
+
+	background-center-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 159px 901px 170px;
+}
+
+input.text:hover
+{
+	background-decorator: tiled-box;
+	background-top-left-image: /MyGUIPlugin_Widget_Texture.png 882px 176px 884px 181px;
+	background-top-right-image: /MyGUIPlugin_Widget_Texture.png 901px 176px 903px 181px;
+	background-bottom-left-image: /MyGUIPlugin_Widget_Texture.png 882px 192px 884px 197px;
+	background-bottom-right-image: /MyGUIPlugin_Widget_Texture.png 901px 192px 903px 197px;
+
+	background-top-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 176px 901px 181px;
+	background-left-image: /MyGUIPlugin_Widget_Texture.png stretch 882px 181px 884px 192px;
+	background-right-image: /MyGUIPlugin_Widget_Texture.png stretch 901px 181px 903px 192px;
+	background-bottom-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 192px 901px 197px;
+
+	background-center-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 181px 901px 192px;
 }
 
 input.text,
@@ -249,76 +274,73 @@ dataselect selectbox option:hover
 input.radio,
 input.checkbox
 {
-	width: 30px;
-	height: 30px;
+	width: 15px;
+	height: 15px;
 
-	vertical-align: -11px;
+	vertical-align: -2px;
+	margin-right: 3px;
 }
 
 input.radio
 {
 	icon-decorator: image;
-	icon-image: invader.tga 407px 0px 437px 30px;
+	icon-image: /MyGUIPlugin_Widget_Texture.png 613px 150px 625px 162px;
 }
 
 input.radio:hover
 {
-	icon-image-s: 437px 467px;
+	icon-image: /MyGUIPlugin_Widget_Texture.png 626px 150px 638px 162px;
 }
 
 input.radio:active
 {
-	icon-image-s: 467px 497px;
+	icon-image: /MyGUIPlugin_Widget_Texture.png 626px 163px 638px 175px;
 }
 
 input.radio:checked
 {
-	icon-image-t: 30px 60px;
+	icon-image: /MyGUIPlugin_Widget_Texture.png 639px 150px 651px 162px;
 }
 
 input.radio:checked:hover
 {
-	icon-image-s: 437px 467px;
-	icon-image-t: 30px 60px;
+	icon-image: /MyGUIPlugin_Widget_Texture.png 652px 150px 664px 162px;
 }
 
 input.radio:checked:active
 {
-	icon-image-s: 467px 497px;
-	icon-image-t: 30px 60px;
+	icon-image: /MyGUIPlugin_Widget_Texture.png 652px 163px 664px 175px;
 }
 
 input.checkbox
 {
 	icon-decorator: image;
-	icon-image: invader.tga 407px 60px 437px 90px;
+	icon-image: /MyGUIPlugin_Widget_Texture.png 613px 121px 625px 133px;
 }
 
 input.checkbox:hover
 {
-	icon-image-s: 437px 467px;
+	icon-image: /MyGUIPlugin_Widget_Texture.png 626px 121px 638px 133px;
 }
 
 input.checkbox:active
 {
-	icon-image-s: 467px 497px;
+	icon-image: /MyGUIPlugin_Widget_Texture.png 626px 134px 638px 146px;
 }
 
 input.checkbox:checked
 {
-	icon-image-t: 90px 120px;
+	icon-image: /MyGUIPlugin_Widget_Texture.png 639px 121px 651px 133px;
 }
 
 input.checkbox:checked:hover
 {
-	icon-image-s: 437px 467px;
-	icon-image-t: 90px 120px;
+	icon-image: /MyGUIPlugin_Widget_Texture.png 652px 121px 664px 133px;
 }
 
 input.checkbox:checked:active
 {
-	icon-image-s: 467px 497px;
-	icon-image-t: 90px 120px;
+	icon-image: /MyGUIPlugin_Widget_Texture.png 652px 134px 664px 146px;
 }
 
 
