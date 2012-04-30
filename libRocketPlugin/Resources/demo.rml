@@ -46,6 +46,8 @@
         <select name="Select">
           <option value="Woot">Woot</option>
           <option value="Woot2">Woot 2</option>
+          <option value="Woot2">Woot 3</option>
+          <option value="Woot2">Woot 4</option>
         </select>
         <br/>
         <input name="Submit" type="submit" style="width: 100px;">Submit</input>

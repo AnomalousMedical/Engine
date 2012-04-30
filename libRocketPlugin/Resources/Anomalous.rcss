@@ -179,42 +179,66 @@ select,
 dataselect
 {
 	width: 175px;
-	height: 37px;
+	height: 23px;
 }
 
 select selectvalue,
 dataselect selectvalue
 {
 	width: auto;
-	margin-right: 30px;
+	margin-right: 23px;
 	
-	height: 28px;
-	padding: 9px 10px 0px 10px;
+	height: 23px;
+	padding-left: 4px;
 
-	background-decorator: image;
-	background-image: invader.tga 162px 192px 307px 229px;
+	background-decorator: tiled-box;
+	background-top-left-image: /MyGUIPlugin_Widget_Texture.png 882px 154px 884px 159px;
+	background-top-right-image: /MyGUIPlugin_Widget_Texture.png 901px 154px 903px 159px;
+	background-bottom-left-image: /MyGUIPlugin_Widget_Texture.png 882px 170px 884px 175px;
+	background-bottom-right-image: /MyGUIPlugin_Widget_Texture.png 901px 170px 903px 175px;
+
+	background-top-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 154px 901px 159px;
+	background-left-image: /MyGUIPlugin_Widget_Texture.png stretch 882px 159px 884px 170px;
+	background-right-image: /MyGUIPlugin_Widget_Texture.png stretch 901px 159px 903px 170px;
+	background-bottom-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 170px 901px 175px;
+
+	background-center-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 159px 901px 170px;
 }
 
 select selectvalue:hover,
 dataselect selectvalue:hover
 {
-	background-image-t: 230px 267px;
+	background-decorator: tiled-box;
+	background-top-left-image: /MyGUIPlugin_Widget_Texture.png 882px 176px 884px 181px;
+	background-top-right-image: /MyGUIPlugin_Widget_Texture.png 901px 176px 903px 181px;
+	background-bottom-left-image: /MyGUIPlugin_Widget_Texture.png 882px 192px 884px 197px;
+	background-bottom-right-image: /MyGUIPlugin_Widget_Texture.png 901px 192px 903px 197px;
+
+	background-top-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 176px 901px 181px;
+	background-left-image: /MyGUIPlugin_Widget_Texture.png stretch 882px 181px 884px 192px;
+	background-right-image: /MyGUIPlugin_Widget_Texture.png stretch 901px 181px 903px 192px;
+	background-bottom-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 192px 901px 197px;
+
+	background-center-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 181px 901px 192px;
 }
 
 select selectarrow,
 dataselect selectarrow
 {
-	width: 30px;
-	height: 37px;
-	
+	width: 23px;
+	height: 23px;
+
 	icon-decorator: image;
-	icon-image: invader.tga 307px 192px 337px 229px;
+	icon-image: /MyGUIPlugin_Widget_Texture.png 941px 112px 954px 127px;
+	icon-z-index: 1;
 }
 
 select selectarrow:hover,
 dataselect selectarrow:hover
 {
-	icon-image-t: 230px 267px;
+	icon-decorator: image;
+	icon-image: /MyGUIPlugin_Widget_Texture.png 941px 125px 954px 140px;
+	icon-z-index: 1;
 }
 
 select selectarrow:active,
@@ -222,14 +246,14 @@ select selectarrow:checked,
 dataselect selectarrow:active,
 dataselect selectarrow:checked
 {
-	icon-image-t: 268px 305px;
+	icon-decorator: image;
+	icon-image: /MyGUIPlugin_Widget_Texture.png 941px 125px 954px 140px;
+	icon-z-index: 1;
 }
 
 select selectbox,
 dataselect selectbox
 {
-	margin-left: 1px;
-	margin-top: -7px;
 	width: 162px;
 	padding: 1px 4px 4px 4px;
 }
@@ -239,14 +263,17 @@ dataselect selectbox,
 datagrid datagridbody
 {
 	background-decorator: tiled-box;
-	background-top-left-image: invader.tga 281px 275px 292px 284px;
-	background-top-right-image: invader.tga 294px 275px 305px 284px;
-	background-top-image: invader.tga stretch 292px 275px 293px 284px;
-	background-bottom-left-image: invader.tga 281px 285px 292px 296px;
-	background-bottom-right-image: invader.tga 294px 285px 305px 296px;
-	background-bottom-image: invader.tga stretch 292px 285px 293px 296px;
-	background-left-image: invader.tga stretch 281px 283px 292px 284px;
-	background-center-image: invader.tga stretch 292px 283px 293px 284px;
+	background-top-left-image: /MyGUIPlugin_Widget_Texture.png 689px 92px 692px 95px;
+	background-top-right-image: /MyGUIPlugin_Widget_Texture.png 704px 92px 707px 95px;
+	background-bottom-left-image: /MyGUIPlugin_Widget_Texture.png 689px 106px 692px 109px;
+	background-bottom-right-image: /MyGUIPlugin_Widget_Texture.png 704px 106px 707px 109px;
+
+	background-top-image: /MyGUIPlugin_Widget_Texture.png stretch 692px 92px 704px 95px;
+	background-left-image: /MyGUIPlugin_Widget_Texture.png stretch 689px 95px 692px 106px;
+	background-right-image: /MyGUIPlugin_Widget_Texture.png stretch 704px 95px 707px 106px;
+	background-bottom-image: /MyGUIPlugin_Widget_Texture.png stretch 692px 106px 704px 109px;
+
+	background-center-image: /MyGUIPlugin_Widget_Texture.png stretch 695px 100px 696px 101px;
 }
 
 select selectbox option,
@@ -256,17 +283,10 @@ dataselect selectbox option
 	padding-left: 3px;
 }
 
-select selectbox option:nth-child(even),
-dataselect selectbox option:nth-child(even),
-datagrid datagridrow:nth-child(even)
-{
-	background: #FFFFFFA0;
-}
-
 select selectbox option:hover,
 dataselect selectbox option:hover
 {
-	background: #FF5D5D;
+	background: #CACACA;
 }
 
 
