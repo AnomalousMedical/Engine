@@ -398,7 +398,38 @@ datagridexpand.collapsed
 
 textarea
 {
-	background-color: white;
+	padding: 7px 7px 0px;
+
+	background-decorator: tiled-box;
+	background-top-left-image: /MyGUIPlugin_Widget_Texture.png 882px 154px 884px 159px;
+	background-top-right-image: /MyGUIPlugin_Widget_Texture.png 901px 154px 903px 159px;
+	background-bottom-left-image: /MyGUIPlugin_Widget_Texture.png 882px 170px 884px 175px;
+	background-bottom-right-image: /MyGUIPlugin_Widget_Texture.png 901px 170px 903px 175px;
+
+	background-top-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 154px 901px 159px;
+	background-left-image: /MyGUIPlugin_Widget_Texture.png stretch 882px 159px 884px 170px;
+	background-right-image: /MyGUIPlugin_Widget_Texture.png stretch 901px 159px 903px 170px;
+	background-bottom-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 170px 901px 175px;
+
+	background-center-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 159px 901px 170px;
+}
+
+textarea:hover
+{
+	padding: 7px 7px 0px;
+
+	background-decorator: tiled-box;
+	background-top-left-image: /MyGUIPlugin_Widget_Texture.png 882px 176px 884px 181px;
+	background-top-right-image: /MyGUIPlugin_Widget_Texture.png 901px 176px 903px 181px;
+	background-bottom-left-image: /MyGUIPlugin_Widget_Texture.png 882px 192px 884px 197px;
+	background-bottom-right-image: /MyGUIPlugin_Widget_Texture.png 901px 192px 903px 197px;
+
+	background-top-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 176px 901px 181px;
+	background-left-image: /MyGUIPlugin_Widget_Texture.png stretch 882px 181px 884px 192px;
+	background-right-image: /MyGUIPlugin_Widget_Texture.png stretch 901px 181px 903px 192px;
+	background-bottom-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 192px 901px 197px;
+
+	background-center-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 181px 901px 192px;
 }
 
 
