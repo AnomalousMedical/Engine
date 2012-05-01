@@ -32,6 +32,7 @@
 		0124876F15498B5C001D41C3 /* libRocketControls.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0124876C15498B5C001D41C3 /* libRocketControls.a */; };
 		0124877015498B5C001D41C3 /* libRocketDebugger.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0124876D15498B5C001D41C3 /* libRocketDebugger.a */; };
 		0124877115498B5C001D41C3 /* libRocketCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0124876E15498B5C001D41C3 /* libRocketCore.a */; };
+		01A4FA4E15501D610075EFD1 /* Element.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A4FA4D15501D610075EFD1 /* Element.cpp */; };
 		01B5B04C15498FEA0061A96C /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01B5B04B15498FEA0061A96C /* Ogre.framework */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +63,7 @@
 		0124876C15498B5C001D41C3 /* libRocketControls.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRocketControls.a; path = ../../../../Dependencies/libRocket/OSXBuild/Release/libRocketControls.a; sourceTree = SOURCE_ROOT; };
 		0124876D15498B5C001D41C3 /* libRocketDebugger.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRocketDebugger.a; path = ../../../../Dependencies/libRocket/OSXBuild/Release/libRocketDebugger.a; sourceTree = SOURCE_ROOT; };
 		0124876E15498B5C001D41C3 /* libRocketCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRocketCore.a; path = ../../../../Dependencies/libRocket/OSXBuild/Release/libRocketCore.a; sourceTree = SOURCE_ROOT; };
+		01A4FA4D15501D610075EFD1 /* Element.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Element.cpp; sourceTree = "<group>"; };
 		01B5B04B15498FEA0061A96C /* Ogre.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ogre.framework; path = ../../../../Dependencies/Ogre/OSX/Build/lib/Release/Ogre.framework; sourceTree = SOURCE_ROOT; };
 		32BAE0B70371A74B00C91783 /* libRocketWrapper_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libRocketWrapper_Prefix.pch; sourceTree = "<group>"; };
 		50149BD909E781A5002DEE6A /* libRocketWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libRocketWrapper.h; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 		0124874415498A42001D41C3 /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				01A4FA4D15501D610075EFD1 /* Element.cpp */,
 				01041D391549C7AF006F49FD /* ElementManager.cpp */,
 				0124874515498A42001D41C3 /* Context.cpp */,
 				0124874615498A42001D41C3 /* Controls.cpp */,
@@ -266,6 +269,7 @@
 				0124876515498A42001D41C3 /* RenderInterfaceOgre3D.cpp in Sources */,
 				0124876615498A42001D41C3 /* Variant.cpp in Sources */,
 				01041D3A1549C7AF006F49FD /* ElementManager.cpp in Sources */,
+				01A4FA4E15501D610075EFD1 /* Element.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -64,6 +64,7 @@
 		0154F0A413572B1000CA2301 /* libMyGUIEngineStatic.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0154F0A313572B1000CA2301 /* libMyGUIEngineStatic.a */; };
 		0154F0C113572C0500CA2301 /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0154F0C013572C0500CA2301 /* Ogre.framework */; };
 		0154F1F513572DEC00CA2301 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0154F1F413572DEC00CA2301 /* libfreetype.a */; };
+		01DFB49A15501EEA00BC01AC /* EventMouseMoveTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01DFB49915501EEA00BC01AC /* EventMouseMoveTranslator.cpp */; };
 		01E229C2138316A1006D7D48 /* ManagedMyGUILogListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E229C1138316A1006D7D48 /* ManagedMyGUILogListener.cpp */; };
 		01F6A8711524971600F45101 /* TextBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01F6A8691524971600F45101 /* TextBox.cpp */; };
 		01F6A8721524971600F45101 /* ImageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01F6A86A1524971600F45101 /* ImageBox.cpp */; };
@@ -133,6 +134,7 @@
 		0154F0A313572B1000CA2301 /* libMyGUIEngineStatic.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMyGUIEngineStatic.a; path = ../../../Dependencies/MyGUI/OSXBuild/lib/Release/libMyGUIEngineStatic.a; sourceTree = SOURCE_ROOT; };
 		0154F0C013572C0500CA2301 /* Ogre.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ogre.framework; path = ../../../Dependencies/Ogre/OSXBuild/Build/lib/Release/Ogre.framework; sourceTree = SOURCE_ROOT; };
 		0154F1F413572DEC00CA2301 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetype.a; path = ../../../Dependencies/Ogre/OSXBuild/Dependencies/lib/Release/libfreetype.a; sourceTree = SOURCE_ROOT; };
+		01DFB49915501EEA00BC01AC /* EventMouseMoveTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMouseMoveTranslator.cpp; sourceTree = "<group>"; };
 		01E229C1138316A1006D7D48 /* ManagedMyGUILogListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManagedMyGUILogListener.cpp; sourceTree = "<group>"; };
 		01F6A8691524971600F45101 /* TextBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextBox.cpp; sourceTree = "<group>"; };
 		01F6A86A1524971600F45101 /* ImageBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageBox.cpp; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 		0154F01A13572A3700CA2301 /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				01DFB49915501EEA00BC01AC /* EventMouseMoveTranslator.cpp */,
 				01F6A8691524971600F45101 /* TextBox.cpp */,
 				01F6A86A1524971600F45101 /* ImageBox.cpp */,
 				01F6A86B1524971600F45101 /* ScrollBar.cpp */,
@@ -410,6 +413,7 @@
 				01F6A8761524971600F45101 /* MultiListBox.cpp in Sources */,
 				01F6A8771524971600F45101 /* MenuControl.cpp in Sources */,
 				01F6A8781524971600F45101 /* EditBox.cpp in Sources */,
+				01DFB49A15501EEA00BC01AC /* EventMouseMoveTranslator.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
