@@ -58,6 +58,7 @@
     <Compile Include="Wrapper\Core\Factory.cs" />
     <Compile Include="Wrapper\Core\RktDictionary.cs" />
     <Compile Include="Wrapper\Core\RktDictionaryIterator.cs" />
+    <Compile Include="Wrapper\Core\TextureDatabase.cs" />
     <Compile Include="Wrapper\Core\Variant.cs" />
     <Compile Include="Wrapper\Core\VariantWrapped.cs" />
     <Compile Include="Wrapper\Elements\ElementManager.cs" />

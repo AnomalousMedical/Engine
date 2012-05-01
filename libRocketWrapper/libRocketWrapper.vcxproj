@@ -99,6 +99,7 @@
     <ClCompile Include="Src\ManagedSystemInterface.cpp" />
     <ClCompile Include="Src\ReferenceCountable.cpp" />
     <ClCompile Include="Src\RenderInterfaceOgre3D.cpp" />
+    <ClCompile Include="Src\TextureDatabase.cpp" />
     <ClCompile Include="Src\Variant.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
