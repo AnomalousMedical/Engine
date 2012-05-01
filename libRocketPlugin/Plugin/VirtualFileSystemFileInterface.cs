@@ -13,10 +13,12 @@ namespace libRocketPlugin
 
         public override Stream Open(string path)
         {
+            //Check the virtual file system
             if (VirtualFileSystem.Instance.exists(path))
             {
                 return VirtualFileSystem.Instance.openStream(path, Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read);
             }
+            //Check the extensions
             else
             {
                 foreach (RocketFileSystemExtension extension in extensions)
@@ -26,6 +28,11 @@ namespace libRocketPlugin
                         return extension.openFile(path);
                     }
                 }
+            }
+            //If all else fails check the file system
+            if (File.Exists(path))
+            {
+                return File.Open(path, FileMode.Open, FileAccess.Read);
             }
             return null;
         }

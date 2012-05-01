@@ -318,6 +318,11 @@ namespace OgreWrapper
             return Root_getDisplayMonitorCount(ogreRoot);
         }
 
+        public void addArchiveFactory(OgreManagedArchiveFactory factory)
+        {
+            ArchiveManager_addArchiveFactory(factory.NativeFactory);
+        }
+
         void frameStartedCallback(float timeSinceLastEvent, float timeSinceLastFrame)
         {
             if(FrameStarted != null)
