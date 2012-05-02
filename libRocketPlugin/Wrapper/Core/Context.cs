@@ -48,7 +48,7 @@ namespace libRocketPlugin
 
         public ElementDocument LoadDocument(String document_path)
         {
-            return ElementManager.getElement<ElementDocument>(Context_LoadDocument(ptr, document_path));
+            return ElementManager.getElement<ElementDocument>(Context_LoadDocument(ptr, Core.MakeSafePath(document_path)));
         }
 
         public ElementDocument LoadDocumentFromMemory(String mem)

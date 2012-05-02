@@ -29,16 +29,6 @@ namespace libRocketPlugin
             }
         }
 
-        /// <summary>
-        /// libRocket expects its paths to have only / in it so this will fix it up for you.
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        public static String MakeSafePath(String path)
-        {
-            return path.Replace('\\', '/');
-        }
-
         private RocketInterface()
         {
             
