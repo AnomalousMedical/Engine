@@ -198,7 +198,16 @@ namespace Engine.Editing
                 {
                     if (ReflectedVariable.canCreateVariable(memberWrapper.getWrappedType()))
                     {
-                        edit.addEditableProperty(new ReflectedEditableProperty(memberWrapper.getWrappedName(), ReflectedVariable.createVariable(memberWrapper, target)));
+                        Object[] editAttrs = memberWrapper.getCustomAttributes(typeof(EditableAttribute), true);
+                        if (editAttrs.Length > 0)
+                        {
+                            EditableAttribute editable = (EditableAttribute)editAttrs[0];
+                            edit.addEditableProperty(editable.createEditableProperty(memberWrapper, target));
+                        }
+                        else
+                        {
+                            edit.addEditableProperty(new ReflectedEditableProperty(memberWrapper.getWrappedName(), ReflectedVariable.createVariable(memberWrapper, target)));
+                        }
                     }
                     else
                     {

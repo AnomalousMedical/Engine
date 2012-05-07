@@ -103,7 +103,7 @@ namespace OgrePlugin
         /// <summary>
         /// The name of the mesh to use for this entity.
         /// </summary>
-        [Editable("The name of the mesh to use for this entity.", typeof(Mesh))]
+        [Editable("The name of the mesh to use for this entity.")]
         public String MeshName
         {
             get

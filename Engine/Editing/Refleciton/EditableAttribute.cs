@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Engine.Reflection;
 
 namespace Engine.Editing
 {
@@ -16,16 +17,7 @@ namespace Engine.Editing
         private String info;
 
         public EditableAttribute()
-            :this("", null)
-        {
-
-        }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public EditableAttribute(String info)
-            :this(info, null)
+            :this("")
         {
 
         }
@@ -34,16 +26,14 @@ namespace Engine.Editing
         /// Constructor.
         /// </summary>
         /// <param name="type">The type of field this variable wraps if it represents something else. Can be used to show more advanced editors.</param>
-        public EditableAttribute(String info, Type type)
+        public EditableAttribute(String info)
         {
-            FieldType = type;
             this.info = info;
         }
 
-        /// <summary>
-        /// The field type of this attribute. Will be null if it does not
-        /// represent a special field of any kind.
-        /// </summary>
-        public readonly Type FieldType;
+        public virtual EditableProperty createEditableProperty(MemberWrapper memberWrapper, Object target)
+        {
+            return new ReflectedEditableProperty(memberWrapper.getWrappedName(), ReflectedVariable.createVariable(memberWrapper, target));
+        }
     }
 }
