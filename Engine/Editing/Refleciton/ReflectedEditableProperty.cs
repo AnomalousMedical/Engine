@@ -9,7 +9,7 @@ namespace Engine.Editing
     /// <summary>
     /// This class uses reflection to get/set the value of a simple type.
     /// </summary>
-    class ReflectedEditableProperty : EditableProperty
+    public class ReflectedEditableProperty : EditableProperty
     {
         #region Static
 
