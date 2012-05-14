@@ -24,10 +24,12 @@ namespace MyGUIPlugin
         public override void createWidget(Widget parent, String caption, String imageResource)
         {
             primaryWidget = parent.createWidgetT("Widget", "PanelEmpty", 0, 0, 26, 16, Align.Default, "") as Widget;
+            primaryWidget.ForwardMouseWheelToParent = true;
 
             plusMinusButton = primaryWidget.createWidgetT("Button", "ButtonExpandSkin", 0, 0, 16, 16, Align.Left | Align.HCenter, "") as Button;
             plusMinusButton.MouseButtonClick += new MyGUIEvent(plusMinusButton_MouseButtonClick);
             plusMinusButton.Visible = treeNode.Children.Count > 0;
+            plusMinusButton.ForwardMouseWheelToParent = true;
 
             mainButton = primaryWidget.createWidgetT("Button", "TreeIconButton", 17, 0, 10, 16, Align.Stretch, "") as Button;
             mainButton.Caption = caption;
@@ -36,6 +38,7 @@ namespace MyGUIPlugin
             mainButton.MouseButtonReleased += new MyGUIEvent(mainButton_MouseButtonReleased);
             mainButton.MouseButtonPressed += new MyGUIEvent(mainButton_MouseButtonPressed);
             mainButton.Selected = treeNode.Selected;
+            mainButton.ForwardMouseWheelToParent = true;
             ImageBox image = mainButton.ImageBox;
             if (image != null)
             {
