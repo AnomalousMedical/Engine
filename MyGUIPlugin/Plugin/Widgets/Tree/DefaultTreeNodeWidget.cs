@@ -28,7 +28,7 @@ namespace MyGUIPlugin
 
             plusMinusButton = primaryWidget.createWidgetT("Button", "ButtonExpandSkin", 0, 0, 16, 16, Align.Left | Align.HCenter, "") as Button;
             plusMinusButton.MouseButtonClick += new MyGUIEvent(plusMinusButton_MouseButtonClick);
-            plusMinusButton.Visible = treeNode.Children.Count > 0;
+            plusMinusButton.Visible = treeNode.HasChildren;
             plusMinusButton.ForwardMouseWheelToParent = true;
 
             mainButton = primaryWidget.createWidgetT("Button", "TreeIconButton", 17, 0, 10, 16, Align.Stretch, "") as Button;
@@ -67,7 +67,7 @@ namespace MyGUIPlugin
             if (plusMinusButton != null)
             {
                 plusMinusButton.Selected = !expanded;
-                plusMinusButton.Visible = treeNode.Children.Count > 0;
+                plusMinusButton.Visible = treeNode.HasChildren;
             }
         }
 

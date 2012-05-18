@@ -160,6 +160,7 @@ namespace MyGUIPlugin
                 if (expanded != value)
                 {
                     expanded = value;
+                    expandedStatusChanged();
                     if (expanded)
                     {
                         if (Visible)
@@ -183,6 +184,14 @@ namespace MyGUIPlugin
             }
         }
 
+        public virtual bool HasChildren
+        {
+            get
+            {
+                return children.Count > 0;
+            }
+        }
+
         internal void expandAll()
         {
             Expanded = true;
@@ -190,6 +199,14 @@ namespace MyGUIPlugin
             {
                 node.expandAll();
             }
+        }
+
+        /// <summary>
+        /// This is called when the expanded status of a node changes.
+        /// </summary>
+        protected virtual void expandedStatusChanged()
+        {
+
         }
     }
 }
