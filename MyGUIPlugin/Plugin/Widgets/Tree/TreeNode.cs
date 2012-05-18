@@ -159,8 +159,8 @@ namespace MyGUIPlugin
             {
                 if (expanded != value)
                 {
+                    expandedStatusChanged(value);
                     expanded = value;
-                    expandedStatusChanged();
                     if (expanded)
                     {
                         if (Visible)
@@ -202,9 +202,9 @@ namespace MyGUIPlugin
         }
 
         /// <summary>
-        /// This is called when the expanded status of a node changes.
+        /// This is called when the expanded status of a node changes. expanding will be true if the node is expanded.
         /// </summary>
-        protected virtual void expandedStatusChanged()
+        protected virtual void expandedStatusChanged(bool expanding)
         {
 
         }
