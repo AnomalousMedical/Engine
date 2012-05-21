@@ -81,6 +81,18 @@ namespace MyGUIPlugin
             return items.IndexOf(item);
         }
 
+        public TreeNode findByText(String text)
+        {
+            foreach (TreeNode node in items)
+            {
+                if (node.Text == text)
+                {
+                    return node;
+                }
+            }
+            return null;
+        }
+
         public int Count
         {
             get
