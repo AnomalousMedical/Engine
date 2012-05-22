@@ -101,6 +101,16 @@ namespace MyGUIPlugin
             }
         }
 
+        public void sort(IComparer<TreeNode> comparer)
+        {
+            items.Sort(comparer);
+        }
+
+        public void sort(Comparison<TreeNode> comparison)
+        {
+            items.Sort(comparison);
+        }
+
         internal Tree Tree
         {
             get
