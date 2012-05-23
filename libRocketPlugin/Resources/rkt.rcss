@@ -33,7 +33,7 @@ h1
 {
 	display: block;
 	text-align: left;
-	font-size: 300%;
+	font-size: 200%;
 	font-weight: bold;
 }
 
@@ -41,7 +41,7 @@ h2
 {
 	display: block;
 	text-align: left;
-	font-size: 200%;
+	font-size: 160%;
 	font-weight: bold;
 }
 
@@ -49,7 +49,7 @@ h3
 {
 	display: block;
 	text-align: left;
-	font-size: 150%;
+	font-size: 130%;
 	font-weight: bold;
 }
 
