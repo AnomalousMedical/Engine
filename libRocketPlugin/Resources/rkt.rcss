@@ -10,11 +10,71 @@ div
 p
 {
 	display: block;
+	text-align: left;
+	margin-bottom: 1em;
+}
+
+a
+{
+	color: Blue;
+}
+
+a:hover
+{
+	text-decoration: underline;
+}
+
+li
+{
+	display: block;
 }
 
 h1
 {
 	display: block;
+	text-align: left;
+	font-size: 300%;
+	font-weight: bold;
+}
+
+h2
+{
+	display: block;
+	text-align: left;
+	font-size: 200%;
+	font-weight: bold;
+}
+
+h3
+{
+	display: block;
+	text-align: left;
+	font-size: 150%;
+	font-weight: bold;
+}
+
+h4
+{
+	display: block;
+	text-align: left;
+	font-size: 100%;
+	font-weight: bold;
+}
+
+h5
+{
+	display: block;
+	text-align: left;
+	font-size: 90%;
+	font-weight: bold;
+}
+
+h6
+{
+	display: block;
+	text-align: left;
+	font-size: 80%;
+	font-weight: bold;
 }
 
 em
@@ -25,6 +85,21 @@ em
 strong
 {
 	font-weight: bold;
+}
+
+b
+{
+	font-weight: bold;
+}
+
+i
+{
+	font-style: italic;
+}
+
+span
+{
+
 }
 
 datagrid

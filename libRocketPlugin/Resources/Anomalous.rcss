@@ -10,21 +10,6 @@ body
 	
 }
 
-a
-{
-	color: Blue;
-}
-
-a:hover
-{
-	text-decoration: underline;
-}
-
-li
-{
-	display: block;
-}
-
 div.ScrollArea
 {
 
@@ -32,19 +17,6 @@ div.ScrollArea
 	height: 100%;
 
 	overflow: hidden auto;
-}
-
-p
-{
-	text-align: left;
-	margin-bottom: 1em;
-}
-
-h1
-{
-	text-align: left;
-	font-size: 25;
-	font-weight: bold;
 }
 
 button,
