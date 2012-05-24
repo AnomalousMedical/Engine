@@ -61,7 +61,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return input.Caption;
+                return input.OnlyText;
             }
         }
 
