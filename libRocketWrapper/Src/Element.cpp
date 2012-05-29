@@ -160,10 +160,17 @@
 //
 //void SetInnerRML(const String& rml);
 //
-//bool Focus();
-//
-//void Blur();
-//
+
+extern "C" _AnomalousExport bool Element_Focus(Rocket::Core::Element* element)
+{
+	return element->Focus();
+}
+
+extern "C" _AnomalousExport void Element_Blur(Rocket::Core::Element* element)
+{
+	element->Blur();
+}
+
 //void Click();
 //
 //void AddEventListener(const String& event, EventListener* listener, bool in_capture_phase = false);
