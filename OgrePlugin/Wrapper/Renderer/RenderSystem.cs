@@ -81,6 +81,16 @@ namespace OgreWrapper
             RenderSystem__setViewport(renderSystem, vp.OgreViewport);
         }
 
+        public void addListener(RenderSystemListener listener)
+        {
+            RenderSystem_addListener(renderSystem, listener.Ptr);
+        }
+
+        public void removeListener(RenderSystemListener listener)
+        {
+            RenderSystem_removeListener(renderSystem, listener.Ptr);
+        }
+
         #region PInvoke
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
@@ -107,6 +117,12 @@ namespace OgreWrapper
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void RenderSystem_getConfigOptionInfo(IntPtr renderSystem, String option, SetConfigInfo setInfo, AddPossibleValue addValues);
+
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        private static extern void RenderSystem_addListener(IntPtr renderSystem, IntPtr listener);
+
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        private static extern void RenderSystem_removeListener(IntPtr renderSystem, IntPtr listener);
 
         #endregion 
     }

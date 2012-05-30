@@ -120,6 +120,7 @@ copy $(OGRE_HOME)\Windows\Dependencies\bin\Release\cg.dll $(OutDir)cg.dll
     <ClCompile Include="Src\KeyFrame.cpp" />
     <ClCompile Include="Src\Light.cpp" />
     <ClCompile Include="Src\ManagedRenderQueueListener.cpp" />
+    <ClCompile Include="Src\ManagedRenderSystemListener.cpp" />
     <ClCompile Include="Src\ManualObject.cpp" />
     <ClCompile Include="Src\ManualObjectSection.cpp" />
     <ClCompile Include="Src\Material.cpp" />

@@ -228,6 +228,9 @@
     <ClCompile Include="src\OgreExceptionManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Src\ManagedRenderSystemListener.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\NativeFrameListener.h">

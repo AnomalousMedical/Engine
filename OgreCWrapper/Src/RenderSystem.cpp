@@ -56,3 +56,13 @@ extern "C" _AnomalousExport void RenderSystem_getConfigOptionInfo(Ogre::RenderSy
 		addValues((*iter).c_str());
 	}
 }
+
+extern "C" _AnomalousExport void RenderSystem_addListener(Ogre::RenderSystem* renderSystem, Ogre::RenderSystem::Listener* listener)
+{
+	renderSystem->addListener(listener);
+}
+
+extern "C" _AnomalousExport void RenderSystem_removeListener(Ogre::RenderSystem* renderSystem, Ogre::RenderSystem::Listener* listener)
+{
+	renderSystem->removeListener(listener);
+}

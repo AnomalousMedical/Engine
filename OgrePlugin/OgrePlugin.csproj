@@ -140,6 +140,7 @@
     <Compile Include="Wrapper\Renderer\RenderQueueListener\ManagedRenderQueueListener.cs" />
     <Compile Include="Wrapper\Renderer\RenderQueueListener\RenderQueueListener.cs" />
     <Compile Include="Wrapper\Renderer\RenderSystem.cs" />
+    <Compile Include="Wrapper\Renderer\RenderSystemListener.cs" />
     <Compile Include="Wrapper\Renderer\RenderTarget.cs" />
     <Compile Include="Wrapper\Renderer\RenderTexture.cs" />
     <Compile Include="Wrapper\Renderer\RenderWindow.cs" />
