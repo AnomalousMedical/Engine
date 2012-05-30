@@ -201,6 +201,9 @@
     <ClCompile Include="Src\EventMouseMoveTranslator.cpp">
       <Filter>Events</Filter>
     </ClCompile>
+    <ClCompile Include="src\EventScrollGesture.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">

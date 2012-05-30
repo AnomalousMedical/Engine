@@ -755,6 +755,18 @@ namespace MyGUIPlugin
             }
         }
 
+        public event MyGUIEvent EventScrollGesture
+        {
+            add
+            {
+                eventManager.addDelegate<EventScrollGesture>(value);
+            }
+            remove
+            {
+                eventManager.removeDelegate<EventScrollGesture>(value);
+            }
+        }
+
 #endregion
 
 #region PInvoke

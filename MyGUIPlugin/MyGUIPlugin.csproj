@@ -138,12 +138,14 @@
     <Compile Include="Wrapper\Events\Widget\EventMouseWheelTranslator.cs" />
     <Compile Include="Wrapper\Events\Widget\EventRootKeyChangeFocusTranslator.cs" />
     <Compile Include="Wrapper\Events\Widget\EventRootMouseChangeFocusTranslator.cs" />
+    <Compile Include="Wrapper\Events\Widget\EventScrollGesture.cs" />
     <Compile Include="Wrapper\Events\Widget\EventToolTipTranslator.cs" />
     <Compile Include="Wrapper\Events\Widget\FocusEventArgs.cs" />
     <Compile Include="Wrapper\Events\Widget\KeyEventArgs.cs" />
     <Compile Include="Wrapper\Events\Widget\MouseEventArgs.cs" />
     <Compile Include="Wrapper\Events\Widget\RootFocusEventArgs.cs" />
     <Compile Include="Plugin\ManagedMyGUILogListener.cs" />
+    <Compile Include="Wrapper\Events\Widget\ScrollGestureEventArgs.cs" />
     <Compile Include="Wrapper\System\RenderManager.cs" />
     <Compile Include="Wrapper\System\ResizingPolicy.cs" />
     <Compile Include="Wrapper\Widgets\SubWidget\ISubWidgetText.cs" />
