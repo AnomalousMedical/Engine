@@ -104,39 +104,87 @@
 //
 //void SetId(const String& id);
 //
-//float GetAbsoluteLeft();
-//
-//float GetAbsoluteTop();
-//
-//float GetClientLeft();
-//
-//float GetClientTop();
-//
-//float GetClientWidth();
-//
-//float GetClientHeight();
+extern "C" _AnomalousExport float Element_GetAbsoluteLeft(Rocket::Core::Element* element)
+{
+	return element->GetAbsoluteLeft();
+}
+
+extern "C" _AnomalousExport float Element_GetAbsoluteTop(Rocket::Core::Element* element)
+{
+	return element->GetAbsoluteTop();
+}
+
+extern "C" _AnomalousExport float Element_GetClientLeft(Rocket::Core::Element* element)
+{
+	return element->GetClientLeft();
+}
+
+extern "C" _AnomalousExport float Element_GetClientTop(Rocket::Core::Element* element)
+{
+	return element->GetClientTop();
+}
+
+extern "C" _AnomalousExport float Element_GetClientWidth(Rocket::Core::Element* element)
+{
+	return element->GetClientWidth();
+}
+
+extern "C" _AnomalousExport float Element_GetClientHeight(Rocket::Core::Element* element)
+{
+	return element->GetClientHeight();
+}
 //
 //Element* GetOffsetParent();
 //
-//float GetOffsetLeft();
-//
-//float GetOffsetTop();
-//
-//float GetOffsetWidth();
-//
-//float GetOffsetHeight();
-//
-//float GetScrollLeft();
-//
-//void SetScrollLeft(float scroll_left);
-//
-//float GetScrollTop();
-//
-//void SetScrollTop(float scroll_top);
-//
-//float GetScrollWidth();
-//
-//float GetScrollHeight();
+extern "C" _AnomalousExport float Element_GetOffsetLeft(Rocket::Core::Element* element)
+{
+	return element->GetOffsetLeft();
+}
+
+extern "C" _AnomalousExport float Element_GetOffsetTop(Rocket::Core::Element* element)
+{
+	return element->GetOffsetTop();
+}
+
+extern "C" _AnomalousExport float Element_GetOffsetWidth(Rocket::Core::Element* element)
+{
+	return element->GetOffsetWidth();
+}
+
+extern "C" _AnomalousExport float Element_GetOffsetHeight(Rocket::Core::Element* element)
+{
+	return element->GetOffsetHeight();
+}
+
+extern "C" _AnomalousExport float Element_GetScrollLeft(Rocket::Core::Element* element)
+{
+	return element->GetScrollLeft();
+}
+
+extern "C" _AnomalousExport void Element_SetScrollLeft(Rocket::Core::Element* element, float scroll_left)
+{
+	element->SetScrollLeft(scroll_left);
+}
+
+extern "C" _AnomalousExport float Element_GetScrollTop(Rocket::Core::Element* element)
+{
+	return element->GetScrollTop();
+}
+
+extern "C" _AnomalousExport void Element_SetScrollTop(Rocket::Core::Element* element, float scroll_top)
+{
+	element->SetScrollTop(scroll_top);
+}
+
+extern "C" _AnomalousExport float Element_GetScrollWidth(Rocket::Core::Element* element)
+{
+	return element->GetScrollWidth();
+}
+
+extern "C" _AnomalousExport float Element_GetScrollHeight(Rocket::Core::Element* element)
+{
+	return element->GetScrollHeight();
+}
 //
 //ElementStyle* GetStyle();
 //
