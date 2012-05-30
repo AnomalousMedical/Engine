@@ -88,6 +88,7 @@
 		01A69922135636B4008B7F31 /* Stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698D5135636B4008B7F31 /* Stdafx.cpp */; };
 		01A69923135636B4008B7F31 /* Stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 01A698D6135636B4008B7F31 /* Stdafx.h */; };
 		01A6992513563729008B7F31 /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01A6992413563729008B7F31 /* Ogre.framework */; };
+		01C2B2731576A70500A28176 /* ManagedRenderSystemListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01C2B2721576A70500A28176 /* ManagedRenderSystemListener.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -173,6 +174,7 @@
 		01A698D5135636B4008B7F31 /* Stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Stdafx.cpp; path = ../Stdafx.cpp; sourceTree = SOURCE_ROOT; };
 		01A698D6135636B4008B7F31 /* Stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stdafx.h; path = ../Stdafx.h; sourceTree = SOURCE_ROOT; };
 		01A6992413563729008B7F31 /* Ogre.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ogre.framework; path = ../../../Dependencies/Ogre/OSXBuild/Build/lib/Release/Ogre.framework; sourceTree = SOURCE_ROOT; };
+		01C2B2721576A70500A28176 /* ManagedRenderSystemListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManagedRenderSystemListener.cpp; sourceTree = "<group>"; };
 		5073E0C609E734A800EC74B6 /* OgreCWrapperProj.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = OgreCWrapperProj.xcconfig; sourceTree = "<group>"; };
 		5073E0C709E734A800EC74B6 /* OgreCWrapperTarget.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = OgreCWrapperTarget.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -219,6 +221,7 @@
 		01A69890135636B4008B7F31 /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				01C2B2721576A70500A28176 /* ManagedRenderSystemListener.cpp */,
 				0144A7DC149B85B9004E19D6 /* AnimationStateIterator.cpp */,
 				0144A7DD149B85B9004E19D6 /* OgreExceptionManager.cpp */,
 				01A69891135636B4008B7F31 /* Animation.cpp */,
@@ -470,6 +473,7 @@
 				01A69922135636B4008B7F31 /* Stdafx.cpp in Sources */,
 				0144A7DE149B85B9004E19D6 /* AnimationStateIterator.cpp in Sources */,
 				0144A7DF149B85B9004E19D6 /* OgreExceptionManager.cpp in Sources */,
+				01C2B2731576A70500A28176 /* ManagedRenderSystemListener.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
