@@ -6,7 +6,7 @@ using Engine;
 
 namespace MyGUIPlugin
 {
-    class ScrollGestureEventArgs : EventArgs
+    public class ScrollGestureEventArgs : EventArgs
     {
         public int AbsX { get; internal set; }
         
