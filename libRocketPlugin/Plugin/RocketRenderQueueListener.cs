@@ -13,6 +13,8 @@ namespace libRocketPlugin
         private RenderInterfaceOgre3D renderInterface;
         private IntSize2 renderDimensions;
 
+        public event Action FrameCompleted;
+
         public RocketRenderQueueListener(Context context, RenderInterfaceOgre3D renderInterface)
         {
             this.context = context;
@@ -28,7 +30,10 @@ namespace libRocketPlugin
 
         public void postRenderQueues()
         {
-
+            if (FrameCompleted != null)
+            {
+                FrameCompleted.Invoke();
+            }
         }
 
         public void renderQueueStarted(byte queueGroupId, string invocation, ref bool skipThisInvocation)
