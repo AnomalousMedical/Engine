@@ -190,8 +190,11 @@ extern "C" _AnomalousExport float Element_GetScrollHeight(Rocket::Core::Element*
 //
 //virtual ElementDocument* GetOwnerDocument();
 //
-//Element* GetParentNode() const;
-//
+extern "C" _AnomalousExport Rocket::Core::Element* Element_GetParentNode(Rocket::Core::Element* element)
+{
+	return element->GetParentNode();
+}
+
 //Element* GetNextSibling() const;
 //
 //Element* GetPreviousSibling() const;

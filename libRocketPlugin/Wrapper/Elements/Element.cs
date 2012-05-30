@@ -144,6 +144,14 @@ namespace libRocketPlugin
             }
         }
 
+        public Element ParentNode
+        {
+            get
+            {
+                return ElementManager.getElement(Element_GetParentNode(ptr));
+            }
+        }
+
         #region PInvoke
 
         
@@ -194,6 +202,9 @@ namespace libRocketPlugin
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern float Element_GetScrollHeight(IntPtr element);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr Element_GetParentNode(IntPtr element);
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
