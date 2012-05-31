@@ -45,7 +45,7 @@ namespace OgrePlugin
             if (node != null)
             {
                 BitmapData bmpData = image.LockBits(new Rectangle(new Point(), image.Size), ImageLockMode.ReadOnly, image.PixelFormat);
-                using (PixelBox pixelBox = new PixelBox(0, 0, bmpData.Width, bmpData.Height, OgreWrapper.PixelFormat.PF_A8R8G8B8, bmpData.Scan0.ToPointer()))
+                using (PixelBox pixelBox = new PixelBox(0, 0, bmpData.Width, bmpData.Height, OgreDrawingUtility.getOgreFormat(image.PixelFormat), bmpData.Scan0.ToPointer()))
                 {
                     Rectangle locationRect = node.LocationRect;
                     bufferPtr.Value.blitFromMemory(pixelBox, locationRect.Left, locationRect.Top, locationRect.Right, locationRect.Bottom);
