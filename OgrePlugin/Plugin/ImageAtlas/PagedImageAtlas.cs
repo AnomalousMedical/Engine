@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace OgrePlugin
 {
-    public class PagedImageAtlas
+    public class PagedImageAtlas : IDisposable
     {
         private String name;
         private String groupName;
@@ -21,6 +21,14 @@ namespace OgrePlugin
             this.groupName = groupName;
             this.pageWidth = pageWidth;
             this.pageHeight = pageHeight;
+        }
+
+        public void Dispose()
+        {
+            foreach (ImageAtlasPage page in allPages)
+            {
+                page.Dispose();
+            }
         }
 
         public ImageAtlasPage addImage(String name, Bitmap image)
