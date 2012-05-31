@@ -39,10 +39,26 @@ namespace OgreWrapper
             return renderTexture;
         }
 
+        public void blitFromMemory(PixelBox src, int left, int top, int right, int bottom)
+        {
+            HardwarePixelBuffer_blitFromMemory(hardwarePixelBuffer, src.OgreBox, left, top, right, bottom);
+        }
+
+        public void blitFromMemory(PixelBox src)
+        {
+            HardwarePixelBuffer_blitFromMemoryFill(hardwarePixelBuffer, src.OgreBox);
+        }
+
 #region PInvoke
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr HardwarePixelBuffer_getRenderTarget(IntPtr hardwarePixelBuffer);
+
+        [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void HardwarePixelBuffer_blitFromMemory(IntPtr hardwarePixelBuffer, IntPtr src, int left, int top, int right, int bottom);
+        
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        private static extern void HardwarePixelBuffer_blitFromMemoryFill(IntPtr hardwarePixelBuffer, IntPtr src);
 
 #endregion
     }

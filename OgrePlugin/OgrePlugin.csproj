@@ -43,6 +43,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -73,11 +74,15 @@
     <Compile Include="Platform\OgreWindow.cs" />
     <Compile Include="Platform\OgreWindowListener.cs" />
     <Compile Include="Platform\StatsOverlay.cs" />
+    <Compile Include="Plugin\ImageAtlas\ImageAtlasException.cs" />
+    <Compile Include="Plugin\ImageAtlas\ImageAtlasPage.cs" />
+    <Compile Include="Plugin\ImageAtlas\ImagePackTreeNode.cs" />
     <Compile Include="Plugin\OgreConfig.cs" />
     <Compile Include="Plugin\OgreDebugSurface.cs" />
     <Compile Include="Plugin\OgreInterface.cs" />
     <Compile Include="Plugin\OgrePluginEntryPoint.cs" />
     <Compile Include="Plugin\OgreResourceManager.cs" />
+    <Compile Include="Plugin\ImageAtlas\PagedImageAtlas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wrapper\Animation\Animation.cs" />
     <Compile Include="Wrapper\Animation\AnimationState.cs" />

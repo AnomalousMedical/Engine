@@ -4,3 +4,13 @@ extern "C" _AnomalousExport Ogre::RenderTexture* HardwarePixelBuffer_getRenderTa
 {
 	return hardwarePixelBuffer->getRenderTarget();
 }
+
+extern "C" _AnomalousExport void HardwarePixelBuffer_blitFromMemory(Ogre::HardwarePixelBuffer* hardwarePixelBuffer, Ogre::PixelBox *src, int left, int top, int right, int bottom)
+{
+	hardwarePixelBuffer->blitFromMemory(*src, Ogre::Image::Box(left, top, right, bottom));
+}
+
+extern "C" _AnomalousExport void HardwarePixelBuffer_blitFromMemoryFill(Ogre::HardwarePixelBuffer* hardwarePixelBuffer, Ogre::PixelBox *src)
+{
+	hardwarePixelBuffer->blitFromMemory(*src);
+}
