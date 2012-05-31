@@ -51,6 +51,7 @@ namespace OgrePlugin
                     bufferPtr.Value.blitFromMemory(pixelBox, locationRect.Left, locationRect.Top, locationRect.Right, locationRect.Bottom);
                     imageInfo.Add(name, node);
                 }
+                image.UnlockBits(bmpData);
                 return true;
             }
             else
