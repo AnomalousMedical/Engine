@@ -54,6 +54,11 @@ namespace Engine
             return parseString(value, out Width, out Height);
         }
 
+        public override string ToString()
+        {
+            return String.Format("{0}, {1}", Width, Height);
+        }
+
         public static IntSize2 operator +(IntSize2 v1, IntSize2 v2)
         {
             return new IntSize2(v1.Width + v2.Width, v1.Height + v2.Height);
