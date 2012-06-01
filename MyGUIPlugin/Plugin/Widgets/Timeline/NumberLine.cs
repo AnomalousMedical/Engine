@@ -173,7 +173,7 @@ namespace MyGUIPlugin
                     activeNumbers.Add(number);
                 }
                 Vector2 scrollPos = numberlineScroller.CanvasPosition;
-                numberlineScroller.CanvasSize = new IntSize2(number.Right, numberlineScroller.Height);
+                numberlineScroller.CanvasSize = new IntSize2(number != null ? number.Right : 0, numberlineScroller.Height);
                 numberlineScroller.CanvasPosition = scrollPos; //Have to set the position back cause sometimes it changes.
             }
         }

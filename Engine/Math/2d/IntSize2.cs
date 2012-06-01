@@ -49,6 +49,11 @@ namespace Engine
         //    }
         //}
 
+        public bool fromString(String value)
+        {
+            return parseString(value, out Width, out Height);
+        }
+
         public static IntSize2 operator +(IntSize2 v1, IntSize2 v2)
         {
             return new IntSize2(v1.Width + v2.Width, v1.Height + v2.Height);
@@ -84,9 +89,37 @@ namespace Engine
             return !(p1.Width == p2.Width && p1.Height == p2.Height);
         }
 
+        public static Size2 operator *(IntSize2 v, float s)
+        {
+            return new Size2(v.Width + s, v.Height + s);
+        }
+
+        public static Size2 operator *(float s, IntSize2 v)
+        {
+            return v * s;
+        }
+
         public static explicit operator IntSize2(Size2 size)
         {
             return new IntSize2((int)size.Width, (int)size.Height);
+        }
+
+        private static char[] SEPS = { ',' };
+        static private bool parseString(String value, out int width, out int height)
+        {
+            String[] nums = value.Split(SEPS);
+            bool success = false;
+            if (nums.Length == 2)
+            {
+                success = NumberParser.TryParse(nums[0], out width);
+                success &= NumberParser.TryParse(nums[1], out height);
+            }
+            else
+            {
+                width = 0;
+                height = 0;
+            }
+            return success;
         }
 
         #region Saving
