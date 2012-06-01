@@ -28,7 +28,7 @@ extern "C" _AnomalousExport MyGUI::Widget* Window_getCaptionWidget(MyGUI::Window
 	return window->getCaptionWidget();
 }
 
-extern "C" _AnomalousExport void Window_setMinSize(MyGUI::Window* window, Size2 value)
+extern "C" _AnomalousExport void Window_setMinSize(MyGUI::Window* window, IntSize2 value)
 {
 	window->setMinSize(value.toIntSize());
 }
@@ -38,7 +38,7 @@ extern "C" _AnomalousExport ThreeIntHack Window_getMinSize(MyGUI::Window* window
 	return window->getMinSize();
 }
 
-extern "C" _AnomalousExport void Window_setMaxSize(MyGUI::Window* window, Size2 value)
+extern "C" _AnomalousExport void Window_setMaxSize(MyGUI::Window* window, IntSize2 value)
 {
 	window->setMaxSize(value.toIntSize());
 }

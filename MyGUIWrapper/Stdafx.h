@@ -44,30 +44,6 @@ public:
 	}
 };
 
-class Vector2
-{
-public:
-	float x;
-    float y;
-
-	MyGUI::IntPoint toIntPoint()
-	{
-		return MyGUI::IntPoint(x, y);
-	}
-};
-
-class Size2
-{
-public:
-	float width;
-    float height;
-
-	MyGUI::IntSize toIntSize()
-	{
-		return MyGUI::IntSize(width, height);
-	}
-};
-
 class IntSize2
 {
 public:

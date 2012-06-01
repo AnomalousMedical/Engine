@@ -21,11 +21,11 @@ namespace MyGUIPlugin
             ScrollView_setCanvasSize(widget, width, height);
         }
 
-        public Size2 CanvasSize
+        public IntSize2 CanvasSize
         {
             get
             {
-                return ScrollView_getCanvasSize(widget).toSize();
+                return ScrollView_getCanvasSize(widget).toIntSize2();
             }
             set
             {

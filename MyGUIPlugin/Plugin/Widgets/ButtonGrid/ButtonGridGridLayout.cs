@@ -8,14 +8,14 @@ namespace MyGUIPlugin
 {
     class ButtonGridGridLayout : ButtonGridLayout
     {
-        Vector2 currentPosition;
+        IntVector2 currentPosition;
         Size2 canvasSize;
         ButtonGrid buttonGrid;
 
         public void startLayout(ButtonGrid buttonGrid)
         {
             this.buttonGrid = buttonGrid;
-            currentPosition = new Vector2(0.0f, 0.0f);
+            currentPosition = new IntVector2(0, 0);
             this.canvasSize = buttonGrid.ScrollView.CanvasSize;
         }
 
@@ -45,11 +45,11 @@ namespace MyGUIPlugin
             currentPosition.y += ItemHeight + GroupPaddingY;
         }
 
-        public Size2 FinalCanvasSize
+        public IntSize2 FinalCanvasSize
         {
             get
             {
-                return new Size2(buttonGrid.ScrollView.CanvasSize.Width, currentPosition.y);
+                return new IntSize2(buttonGrid.ScrollView.CanvasSize.Width, currentPosition.y);
             }
         }
 

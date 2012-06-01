@@ -309,7 +309,7 @@ namespace MyGUIPlugin
 
         public void layoutAndResize(int rowCount)
         {
-            Size2 finalSize = new Size2((ItemWidth + ItemPaddingX) * rowCount, 300);
+            IntSize2 finalSize = new IntSize2((ItemWidth + ItemPaddingX) * rowCount, 300);
             scrollView.CanvasSize = finalSize;
             layoutEngine.startLayout(this);
             foreach (ButtonGridGroup group in groups)
@@ -325,7 +325,7 @@ namespace MyGUIPlugin
 
         public void resizeAndLayout(int newWidth)
         {
-            Size2 canvasSize = scrollView.CanvasSize;
+            IntSize2 canvasSize = scrollView.CanvasSize;
             canvasSize.Width = newWidth;
             scrollView.CanvasSize = canvasSize;
             layout();

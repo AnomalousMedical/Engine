@@ -128,9 +128,9 @@ namespace MyGUIPlugin
             }
         }
 
-        internal void setPosition(Vector2 position, int width, int height)
+        internal void setPosition(IntVector2 position, int width, int height)
         {
-            button.setCoord((int)position.x, (int)position.y, width, height);
+            button.setCoord(position.x, position.y, width, height);
         }
 
         internal ButtonGridGroup Group { get; private set; }

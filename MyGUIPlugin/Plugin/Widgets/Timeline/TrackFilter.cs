@@ -56,7 +56,7 @@ namespace MyGUIPlugin
             filterButton.Enabled = enabled;
 
             //Resize canvas
-            Size2 canvasSize = scrollView.CanvasSize;
+            IntSize2 canvasSize = scrollView.CanvasSize;
             canvasSize.Height = button.Bottom;
             scrollView.CanvasSize = canvasSize;
         }
@@ -98,9 +98,9 @@ namespace MyGUIPlugin
             button.moveButtonTop(row.Top);
         }
 
-        void actionView_CanvasHeightChanged(float newSize)
+        void actionView_CanvasHeightChanged(int newSize)
         {
-            Size2 canvasSize = scrollView.CanvasSize;
+            IntSize2 canvasSize = scrollView.CanvasSize;
             canvasSize.Height = newSize;
             scrollView.CanvasSize = canvasSize;
         }

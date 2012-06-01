@@ -8,12 +8,12 @@ namespace MyGUIPlugin
 {
     public class ButtonGridListLayout : ButtonGridLayout
     {
-        Vector2 currentPosition;
-        Size2 canvasSize;
+        IntVector2 currentPosition;
+        IntSize2 canvasSize;
 
         public void startLayout(ButtonGrid buttonGrid)
         {
-            currentPosition = new Vector2(0.0f, 0.0f);
+            currentPosition = new IntVector2(0, 0);
             int totalSize = buttonGrid.Count * (ItemHeight + ItemPaddingY);
             if (buttonGrid.ShowGroupCaptions)
             {
@@ -51,7 +51,7 @@ namespace MyGUIPlugin
             currentPosition.x = 0;
         }
 
-        public Size2 FinalCanvasSize
+        public IntSize2 FinalCanvasSize
         {
             get
             {

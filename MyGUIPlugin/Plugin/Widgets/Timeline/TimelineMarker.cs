@@ -118,9 +118,9 @@ namespace MyGUIPlugin
             Time = newTime;
         }
 
-        void timelineView_CanvasHeightChanged(float newSize)
+        void timelineView_CanvasHeightChanged(int newSize)
         {
-            widget.setSize(widget.Width, (int)newSize);
+            widget.setSize(widget.Width, newSize);
         }
 
         void timelineView_PixelsPerSecondChanged(object sender, EventArgs e)

@@ -7,7 +7,7 @@ using Engine;
 
 namespace MyGUIPlugin
 {
-    public delegate void CanvasSizeChanged(float newSize);
+    public delegate void CanvasSizeChanged(int newSize);
     public delegate void CanvasPositionChanged(CanvasEventArgs info);
 
     class TimelineScrollView
@@ -42,7 +42,7 @@ namespace MyGUIPlugin
             return button;
         }
 
-        public float CanvasWidth
+        public int CanvasWidth
         {
             get
             {
@@ -50,7 +50,7 @@ namespace MyGUIPlugin
             }
             set
             {
-                Size2 canvasSize = scrollView.CanvasSize;
+                IntSize2 canvasSize = scrollView.CanvasSize;
                 canvasSize.Width = value;
                 scrollView.CanvasSize = canvasSize;
                 if (CanvasWidthChanged != null)
@@ -60,7 +60,7 @@ namespace MyGUIPlugin
             }
         }
 
-        public float CanvasHeight
+        public int CanvasHeight
         {
             get
             {
@@ -68,7 +68,7 @@ namespace MyGUIPlugin
             }
             set
             {
-                Size2 canvasSize = scrollView.CanvasSize;
+                IntSize2 canvasSize = scrollView.CanvasSize;
                 if (canvasSize.Height != value)
                 {
                     canvasSize.Height = value;

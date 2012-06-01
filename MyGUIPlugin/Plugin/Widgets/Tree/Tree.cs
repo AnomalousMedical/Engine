@@ -46,7 +46,7 @@ namespace MyGUIPlugin
                 {
                     layoutNode(rootNode, 0, width, ref currentY);
                 }
-                scrollView.CanvasSize = new Size2(width, currentY);
+                scrollView.CanvasSize = new IntSize2(width, currentY);
             }
         }
 

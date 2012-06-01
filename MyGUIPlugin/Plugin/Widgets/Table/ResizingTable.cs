@@ -31,7 +31,7 @@ namespace MyGUIPlugin
 
             base.layout();
 
-            scrollView.CanvasSize = new Size2(totalWidth, Height);
+            scrollView.CanvasSize = new IntSize2(totalWidth, Height);
         }
     }
 }

@@ -20,9 +20,9 @@ namespace MyGUIPlugin
             return TextBox_getTextRegion(widget);
         }
 
-        public Size2 getTextSize()
+        public IntSize2 getTextSize()
         {
-            return TextBox_getTextSize(widget).toSize();
+            return TextBox_getTextSize(widget).toIntSize2();
         }
 
         public void setCaptionWithReplacing(String value)

@@ -200,8 +200,8 @@ namespace MyGUIPlugin
             {
                 row.removeAllActions();
             }
-            timelineScrollView.CanvasWidth = 2.0f;
-            timelineScrollView.CanvasHeight = tracks.Count != 0 ? tracks[tracks.Count - 1].Bottom : 0.0f;
+            timelineScrollView.CanvasWidth = 2;
+            timelineScrollView.CanvasHeight = tracks.Count != 0 ? tracks[tracks.Count - 1].Bottom : 0;
         }
 
         public void trimVisibleArea()
@@ -217,8 +217,8 @@ namespace MyGUIPlugin
             }
             else
             {
-                timelineScrollView.CanvasWidth = 2.0f;
-                timelineScrollView.CanvasHeight = tracks.Count != 0 ? tracks[tracks.Count - 1].Bottom : 0.0f;
+                timelineScrollView.CanvasWidth = 2;
+                timelineScrollView.CanvasHeight = tracks.Count != 0 ? tracks[tracks.Count - 1].Bottom : 0;
             }
         }
 

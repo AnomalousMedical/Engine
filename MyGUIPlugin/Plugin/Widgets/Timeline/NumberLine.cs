@@ -98,9 +98,9 @@ namespace MyGUIPlugin
             this.PixelsPerSecond = actionView.PixelsPerSecond;
         }
 
-        void actionView_CanvasWidthChanged(float newSize)
+        void actionView_CanvasWidthChanged(int newSize)
         {
-            numberlineScroller.CanvasSize = new Size2(newSize > numberlineScroller.Width ? newSize : numberlineScroller.Width, numberlineScroller.Height);
+            numberlineScroller.CanvasSize = new IntSize2(newSize > numberlineScroller.Width ? newSize : numberlineScroller.Width, numberlineScroller.Height);
             canvasModified();
         }
 
@@ -150,7 +150,7 @@ namespace MyGUIPlugin
                 }
                 if (number != null)
                 {
-                    Size2 canvasSize = numberlineScroller.CanvasSize;
+                    IntSize2 canvasSize = numberlineScroller.CanvasSize;
                     if (number.Right > canvasSize.Width)
                     {
                         canvasSize.Width = number.Right;
@@ -173,7 +173,7 @@ namespace MyGUIPlugin
                     activeNumbers.Add(number);
                 }
                 Vector2 scrollPos = numberlineScroller.CanvasPosition;
-                numberlineScroller.CanvasSize = new Size2(number.Right, numberlineScroller.Height);
+                numberlineScroller.CanvasSize = new IntSize2(number.Right, numberlineScroller.Height);
                 numberlineScroller.CanvasPosition = scrollPos; //Have to set the position back cause sometimes it changes.
             }
         }

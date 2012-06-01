@@ -16,7 +16,7 @@ namespace MyGUIPlugin
         private NumericEdit duration;
 
         private Dictionary<String, TimelineDataPanel> additionalProperties = new Dictionary<String, TimelineDataPanel>();
-        private Vector2 additionalPropertiesPosition;
+        private IntVector2 additionalPropertiesPosition;
         private TimelineDataPanel currentPanel;
 
         public TimelineDataProperties(ScrollView propScroll, TimelineView timelineView)
@@ -35,11 +35,11 @@ namespace MyGUIPlugin
                 duration = new NumericEdit(durationEdit);
                 duration.ValueChanged += new MyGUIEvent(duration_ValueChanged);
                 duration.MaxValue = float.MaxValue;
-                additionalPropertiesPosition = new Vector2(1, duration.Edit.Bottom + 2);
+                additionalPropertiesPosition = new IntVector2(1, duration.Edit.Bottom + 2);
             }
             else
             {
-                additionalPropertiesPosition = new Vector2(1, startTime.Edit.Bottom + 2);
+                additionalPropertiesPosition = new IntVector2(1, startTime.Edit.Bottom + 2);
             }
         }
 
@@ -68,7 +68,7 @@ namespace MyGUIPlugin
             set
             {
                 //Alert old data that we are done with it.
-                Size2 canvasSize = propScroll.CanvasSize;
+                IntSize2 canvasSize = propScroll.CanvasSize;
                 canvasSize.Height = additionalPropertiesPosition.y;
                 if (currentPanel != null)
                 {

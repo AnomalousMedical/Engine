@@ -56,11 +56,11 @@ namespace MyGUIPlugin
             }
         }
 
-        public Size2 MinSize
+        public IntSize2 MinSize
         {
             get
             {
-                return Window_getMinSize(widget).toSize();
+                return Window_getMinSize(widget).toIntSize2();
             }
             set
             {
@@ -68,11 +68,11 @@ namespace MyGUIPlugin
             }
         }
 
-        public Size2 MaxSize
+        public IntSize2 MaxSize
         {
             get
             {
-                return Window_getMaxSize(widget).toSize();
+                return Window_getMaxSize(widget).toIntSize2();
             }
             set
             {
@@ -134,13 +134,13 @@ namespace MyGUIPlugin
         private static extern IntPtr Window_getCaptionWidget(IntPtr window);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Window_setMinSize(IntPtr window, Size2 value);
+        private static extern void Window_setMinSize(IntPtr window, IntSize2 value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern ThreeIntHack Window_getMinSize(IntPtr window);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Window_setMaxSize(IntPtr window, Size2 value);
+        private static extern void Window_setMaxSize(IntPtr window, IntSize2 value);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern ThreeIntHack Window_getMaxSize(IntPtr window);

@@ -16,7 +16,7 @@ namespace MyGUIPlugin
 
         void finishGroupLayout();
 
-        Size2 FinalCanvasSize { get; }
+        IntSize2 FinalCanvasSize { get; }
 
         int ItemWidth { get; set; }
 
