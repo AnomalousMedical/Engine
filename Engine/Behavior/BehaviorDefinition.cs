@@ -31,9 +31,8 @@ namespace Engine
             {
                 behaviorBrowser = new BehaviorBrowser();
             }
-            callback.showBrowser(behaviorBrowser, delegate(Object result, ref String errorMessage)
+            callback.showBrowser<Type>(behaviorBrowser, delegate(Type behaviorType, ref String errorMessage)
             {
-                Type behaviorType = result as Type;
                 if (behaviorType != null)
                 {
                     simObjectDef.addElement(new BehaviorDefinition(name, (Behavior)Activator.CreateInstance(behaviorType)));

@@ -447,7 +447,48 @@ namespace Editor
         /// </summary>
         /// <param name="queryKey">The key for the query to run.</param>
         /// <param name="resultCallback">The callback with the results.</param>
-        public void runCustomQuery(Object queryKey, SendResult<Object> resultCallback, params Object[] args)
+        public void runCustomQuery<T>(Object queryKey, SendResult<T> resultCallback)
+        {
+
+        }
+
+        public void runCustomQuery<Ret, Arg1>(Object queryKey, SendResult<Ret> resultCallback, Arg1 arg1)
+        {
+
+        }
+
+        public void runCustomQuery<Ret, Arg1, Arg2>(Object queryKey, SendResult<Ret> resultCallback, Arg1 arg1, Arg2 arg2)
+        {
+
+        }
+
+        public void runCustomQuery<Ret, Arg1, Arg2, Arg3>(Object queryKey, SendResult<Ret> resultCallback, Arg1 arg1, Arg2 arg2, Arg3 arg3)
+        {
+
+        }
+
+        /// <summary>
+        /// This method allows the interface to run a custom query on the
+        /// UICallback. This can do anything and is not defined here. This is
+        /// for a callback that expects no result.
+        /// </summary>
+        /// <param name="queryKey">The key for the query to run.</param>
+        public void runOneWayCustomQuery(Object queryKey)
+        {
+
+        }
+
+        public void runOneWayCustomQuery<Arg1>(Object queryKey, Arg1 arg1)
+        {
+
+        }
+
+        public void runOneWayCustomQuery<Arg1, Arg2>(Object queryKey, Arg1 arg1, Arg2 arg2)
+        {
+
+        }
+
+        public void runOneWayCustomQuery<Arg1, Arg2, Arg3>(Object queryKey, Arg1 arg1, Arg2 arg2, Arg3 arg3)
         {
 
         }
@@ -471,15 +512,20 @@ namespace Editor
             addProperty(property);
         }
 
-        public void showBrowser(Browser browser, SendResult<Object> sendResult)
+        public void showBrowser<T>(Browser browser, SendResult<T> sendResult)
         {
             browserWindow.setBrowser(browser);
             DialogResult accept = browserWindow.ShowDialog(this.FindForm());
             if (accept == DialogResult.OK)
             {
                 String error = null;
-                sendResult(browserWindow.SelectedValue, ref error);
+                sendResult((T)browserWindow.SelectedValue, ref error);
             }
+        }
+
+        public void showInputBrowser<T>(String prompt, Browser browser, SendResult<T, String> resultCallback)
+        {
+            throw new NotImplementedException("This was added later and is not supported by the editor");
         }
 
         #endregion
