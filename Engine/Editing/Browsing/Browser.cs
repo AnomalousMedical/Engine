@@ -9,9 +9,10 @@ namespace Engine.Editing
     {
         protected BrowserNode rootNode;
 
-        public Browser(String rootNodeName)
+        public Browser(String rootNodeName, String prompt)
         {
             rootNode = new BrowserNode(rootNodeName, null);
+            this.Prompt = prompt;
         }
 
         /// <summary>
@@ -54,6 +55,16 @@ namespace Engine.Editing
             }
             folder.addChild(node);
         }
+
+        /// <summary>
+        /// Returns a node to select by default, can be null, which means select nothing.
+        /// </summary>
+        public BrowserNode DefaultSelection { get; set; }
+
+        /// <summary>
+        /// A string prompt for this browser.
+        /// </summary>
+        public String Prompt { get; set; }
 
         /// <summary>
         /// Recursive helper function to build the tree.

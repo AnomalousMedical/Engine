@@ -12,7 +12,7 @@ namespace Engine
         static String[] delimiter = { "." };
 
         public BehaviorBrowser()
-            :base("Behaviors")
+            : base("Behaviors", "Choose Behavior")
         {
             foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             {

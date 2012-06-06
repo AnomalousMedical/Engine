@@ -31,7 +31,7 @@ namespace Engine
             {
                 behaviorBrowser = new BehaviorBrowser();
             }
-            callback.showBrowser<Type>("Choose Behavior", behaviorBrowser, delegate(Type behaviorType, ref String errorMessage)
+            callback.showBrowser<Type>(behaviorBrowser, delegate(Type behaviorType, ref String errorMessage)
             {
                 if (behaviorType != null)
                 {
