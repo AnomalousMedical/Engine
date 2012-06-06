@@ -107,8 +107,6 @@ namespace MyGUIPlugin
             close();
         }
 
-        private delegate void InputGatheredCallback(String text, bool ok);
-
         public static void GetInput(String title, String message, bool modal, SendResult<String> sendResult)
         {
             InputBox inputBox = new InputBox(title, message, "");
