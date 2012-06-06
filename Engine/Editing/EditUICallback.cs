@@ -51,7 +51,7 @@ namespace Engine.Editing
         /// <param name="browser">The Browser to show to the user.</param>
         /// <param name="result">A reference to an object to store the result in.</param>
         /// <returns>True if the user entered input, false if they canceled it.</returns>
-        void showInputBrowser<T>(String prompt, String defaultInput, Browser browser, SendResult<T, String> resultCallback);
+        void showInputBrowser<T>(String prompt, Browser browser, SendResult<T, String> resultCallback);
 
         /// <summary>
         /// Call back to the UI to open a open file browser.
