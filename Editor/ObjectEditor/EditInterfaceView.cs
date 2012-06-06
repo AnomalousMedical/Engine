@@ -179,7 +179,7 @@ namespace Editor
             }
         }
 
-        public void showInputBrowser<T>(String prompt, Browser browser, SendResult<T, String> resultCallback)
+        public void showInputBrowser<T>(String prompt, String defaultInput, Browser browser, SendResult<T, String> resultCallback)
         {
             throw new NotImplementedException("This was added later and is not supported by the editor");
         }
