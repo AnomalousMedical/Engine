@@ -11,10 +11,11 @@ namespace Engine.Editing
         private Object value;
         private Dictionary<String, BrowserNode> children = new Dictionary<String, BrowserNode>();
 
-        public BrowserNode(String text, Object value)
+        public BrowserNode(String text, Object value, String defaultName = null)
         {
             this.text = text;
             this.value = value;
+            this.DefaultName = defaultName;
         }
 
         public void addChild(BrowserNode child)
@@ -57,5 +58,7 @@ namespace Engine.Editing
                 return value;
             }
         }
+
+        public String DefaultName { get; private set; }
     }
 }
