@@ -168,7 +168,7 @@ namespace Editor
             }
         }
 
-        public void showBrowser<T>(Browser browser, SendResult<T> sendResult)
+        public void showBrowser<T>(String prompt, Browser browser, SendResult<T> sendResult)
         {
             browserWindow.setBrowser(browser);
             DialogResult accept = browserWindow.ShowDialog(this.FindForm());
