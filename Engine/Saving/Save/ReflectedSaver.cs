@@ -49,5 +49,13 @@ namespace Engine.Saving
                 }
             }
         }
+
+        public static MemberScanner DefaultScanner
+        {
+            get
+            {
+                return BehaviorSaveMemberScanner.Scanner;
+            }
+        }
     }
 }
