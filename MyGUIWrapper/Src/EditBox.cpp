@@ -249,3 +249,18 @@ extern "C" _AnomalousExport void EditBox_getOnlyText(MyGUI::EditBox* edit, TempS
 {
 	onlyTextDelegate(edit->getOnlyText().c_str());
 }
+
+extern "C" _AnomalousExport void EditBox_cut(MyGUI::EditBox* edit)
+{
+	return edit->cut();
+}
+
+extern "C" _AnomalousExport void EditBox_copy(MyGUI::EditBox* edit)
+{
+	return edit->copy();
+}
+
+extern "C" _AnomalousExport void EditBox_paste(MyGUI::EditBox* edit)
+{
+	return edit->paste();
+}

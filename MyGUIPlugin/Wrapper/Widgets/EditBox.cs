@@ -62,6 +62,21 @@ namespace MyGUIPlugin
             EditBox_eraseText2(widget, new UIntPtr(start), new UIntPtr(count));
         }
 
+        public void cut()
+        {
+            EditBox_cut(widget);
+        }
+
+        public void copy()
+        {
+            EditBox_copy(widget);
+        }
+
+        public void paste()
+        {
+            EditBox_paste(widget);
+        }
+
         public uint TextSelectionStart
         {
             get
@@ -528,6 +543,15 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void EditBox_getOnlyText(IntPtr edit, TempStringCallback onlyTextDelegate);
+
+        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void EditBox_cut(IntPtr edit);
+
+        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void EditBox_copy(IntPtr edit);
+
+        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void EditBox_paste(IntPtr edit);
 
 #endregion
     }
