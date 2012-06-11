@@ -104,6 +104,7 @@
     <Compile Include="Log\Log.cs" />
     <Compile Include="Log\LogFileListener.cs" />
     <Compile Include="Log\LogListener.cs" />
+    <Compile Include="Math\2d\IntCoord.cs" />
     <Compile Include="Math\2d\IntSize2.cs" />
     <Compile Include="Math\2d\IntVector2.cs" />
     <Compile Include="Math\2d\Size2.cs" />
@@ -203,10 +204,12 @@
     <Compile Include="Reflection\QuaternionReflectedVariable.cs" />
     <Compile Include="Reflection\ReflectedVariable.cs" />
     <Compile Include="Reflection\ShortReflectedVariable.cs" />
+    <Compile Include="Reflection\Size2ReflectedVariable.cs" />
     <Compile Include="Reflection\StringReflectedVariable.cs" />
     <Compile Include="Reflection\UIntReflectedVariable.cs" />
     <Compile Include="Reflection\ULongReflectedVariable.cs" />
     <Compile Include="Reflection\UShortReflectedVariable.cs" />
+    <Compile Include="Reflection\Vector2ReflectedVariable.cs" />
     <Compile Include="Reflection\Vector3ReflectedVariable.cs" />
     <Compile Include="Renderer\SceneView.cs" />
     <Compile Include="Renderer\CameraMotionValidator.cs" />

@@ -32,6 +32,7 @@ namespace Engine.Reflection
             typeMapping.Add(typeof(double), typeof(DoubleReflectedVariable));
             typeMapping.Add(typeof(Quaternion), typeof(QuaternionReflectedVariable));
             typeMapping.Add(typeof(Vector3), typeof(Vector3ReflectedVariable));
+            typeMapping.Add(typeof(Vector2), typeof(Vector2ReflectedVariable));
             typeMapping.Add(typeof(bool), typeof(BooleanReflectedVariable));
             typeMapping.Add(typeof(short), typeof(ShortReflectedVariable));
             typeMapping.Add(typeof(ushort), typeof(UShortReflectedVariable));
@@ -39,6 +40,7 @@ namespace Engine.Reflection
             typeMapping.Add(typeof(byte), typeof(ByteReflectedVariable));
             typeMapping.Add(typeof(Color), typeof(ColorReflectedVariable));
             typeMapping.Add(typeof(Decimal), typeof(DecimalReflectedVariable));
+            typeMapping.Add(typeof(Size2), typeof(Size2ReflectedVariable));
         }
 
         /// <summary>

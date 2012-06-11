@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace MyGUIPlugin
+namespace Engine
 {
     [StructLayout(LayoutKind.Explicit, Size=16)]
     public struct IntCoord

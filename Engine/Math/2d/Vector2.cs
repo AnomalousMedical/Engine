@@ -23,6 +23,15 @@ namespace Engine
         }
 
         /// <summary>
+        /// String constructor. See setValue for details.
+        /// </summary>
+        /// <param name="value">A string in the format "x, y, z".</param>
+        public Vector2(String value)
+        {
+            parseString(value, out x, out y);
+        }
+
+        /// <summary>
         /// Compute the dot product of this vector and another.
         /// </summary>
         /// <param name="v">The other vector.</param>
@@ -144,6 +153,24 @@ namespace Engine
         public static Vector2 operator /(Vector2 v1, Vector2 v2)
         {
             return new Vector2(v1.x / v2.x, v1.y / v2.y);
+        }
+
+        private static char[] SEPS = { ',' };
+        static public bool parseString(String value, out float x, out float y)
+        {
+            String[] nums = value.Split(SEPS);
+            bool success = false;
+            if (nums.Length == 2)
+            {
+                success = NumberParser.TryParse(nums[0], out x);
+                success &= NumberParser.TryParse(nums[1], out y);
+            }
+            else
+            {
+                x = 0f;
+                y = 0f;
+            }
+            return success;
         }
 
         #region Saving

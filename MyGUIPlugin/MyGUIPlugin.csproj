@@ -152,7 +152,6 @@
     <Compile Include="Wrapper\Events\Widget\ToolTipEventArgs.cs" />
     <Compile Include="Wrapper\Events\Window\EventWindowButtonPressedTranslator.cs" />
     <Compile Include="Wrapper\Events\Window\EventWindowChangeCoordTranslator.cs" />
-    <Compile Include="Wrapper\Math\IntCoord.cs" />
     <Compile Include="Wrapper\Math\ThreeIntHack.cs" />
     <Compile Include="Wrapper\System\Align.cs" />
     <Compile Include="Wrapper\System\FontManager.cs" />
