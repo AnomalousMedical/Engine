@@ -33,6 +33,27 @@ namespace Engine.Platform
             FirstFrameUp = false;
         }
 
+        public MessageEvent(Object name, MessageEventCallback frameDown = null, MessageEventCallback frameUp = null, IEnumerable<KeyboardButtonCode> keys = null, IEnumerable<MouseButtonCode> mouseButtons = null)
+            :this(name)
+        {
+            FirstFrameDownEvent += frameDown;
+            FirstFrameUpEvent += frameUp;
+            if (keys != null)
+            {
+                foreach (KeyboardButtonCode key in keys)
+                {
+                    keyboardButtons.Add(key);
+                }
+            }
+            if (mouseButtons != null)
+            {
+                foreach (MouseButtonCode mouseButton in mouseButtons)
+                {
+                    this.mouseButtons.Add(mouseButton);
+                }
+            }
+        }
+
         /// <summary>
         /// The name of the event.
         /// </summary>
