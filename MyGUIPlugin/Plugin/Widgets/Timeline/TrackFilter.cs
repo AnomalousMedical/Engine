@@ -9,7 +9,7 @@ namespace MyGUIPlugin
 {
     public delegate void AddTrackItemCallback(String name);
 
-    public class TrackFilter : IDisposable
+    public class TrackFilter
     {
         public event AddTrackItemCallback AddTrackItem;
 
@@ -66,11 +66,6 @@ namespace MyGUIPlugin
             TrackFilterButton filterButton = filterButtons[track];
             filterButtons.Remove(track);
             filterButton.Dispose();
-        }
-
-        public void Dispose()
-        {
-
         }
 
         public bool Enabled
