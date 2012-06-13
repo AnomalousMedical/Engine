@@ -20,6 +20,16 @@ namespace Engine.Editing
         String getValue(int column);
 
         /// <summary>
+        /// Get the actual value for a given column
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="column"></param>
+        /// <returns></returns>
+        Object getRealValue(int column);
+
+        void setValue(int column, Object value);
+
+        /// <summary>
         /// Set the value of this property from a string.
         /// </summary>
         void setValueStr(int column, String value);

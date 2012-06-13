@@ -43,6 +43,16 @@ namespace Anomaly
             return "";
         }
 
+        public Object getRealValue(int column)
+        {
+            return "";
+        }
+
+        public void setValue(int column, Object value)
+        {
+            
+        }
+
         public void setValueStr(int column, string value)
         {
 

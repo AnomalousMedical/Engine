@@ -23,6 +23,16 @@ namespace Anomaly
             return ProjectName;
         }
 
+        public Object getRealValue(int column)
+        {
+            return ProjectName;
+        }
+
+        public void setValue(int column, Object value)
+        {
+            ProjectName = (String)value;
+        }
+
         public void setValueStr(int column, string value)
         {
             ProjectName = value;

@@ -23,6 +23,16 @@ namespace Anomaly
             return Path;
         }
 
+        public Object getRealValue(int column)
+        {
+            return Path;
+        }
+
+        public void setValue(int column, Object value)
+        {
+            Path = (String)value;
+        }
+
         public void setValueStr(int column, string value)
         {
             Path = value;

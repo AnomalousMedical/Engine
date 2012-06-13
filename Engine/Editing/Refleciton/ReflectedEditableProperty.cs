@@ -69,6 +69,26 @@ namespace Engine.Editing
             }
         }
 
+        public Object getRealValue(int column)
+        {
+            switch (column)
+            {
+                case NAME_COL:
+                    return name;
+                case VALUE_COL:
+                    Object value = variable.getValue();
+                    if (value != null)
+                    {
+                        return value;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                default:
+                    throw new NotImplementedException("Should not get here");
+            }
+        }
 
         /// <summary>
         /// Set the value of this property.

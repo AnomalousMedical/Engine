@@ -86,6 +86,16 @@ namespace Engine.Editing
             return variableList[column].getValue().ToString();
         }
 
+        public Object getRealValue(int column)
+        {
+            return variableList[column].getValue();
+        }
+
+        public void setValue(int column, Object value)
+        {
+            variableList[column].setValue(value);
+        }
+
         /// <summary>
         /// Set the value of this property from a string.
         /// </summary>

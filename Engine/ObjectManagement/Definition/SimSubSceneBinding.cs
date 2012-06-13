@@ -70,6 +70,29 @@ namespace Engine.ObjectManagement
             return null;
         }
 
+        public Object getRealValue(int column)
+        {
+            if (simElementManager != null)
+            {
+                switch (column)
+                {
+                    case NAME_COL:
+                        return simElementManager.Name;
+                    case TYPE_COL:
+                        return simElementManager.GetType().Name;
+                }
+            }
+            return null;
+        }
+
+        public void setValue(int column, Object value)
+        {
+            if (column == NAME_COL)
+            {
+                simElementManager = subScene.getSimElementManager((String)value);
+            }
+        }
+
         /// <summary>
         /// Set the value of this property from a string.
         /// </summary>

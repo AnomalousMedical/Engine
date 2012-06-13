@@ -203,6 +203,39 @@ namespace Engine.Resources
             throw new EditException(String.Format("Attempted to get a column from a Resource {0} that is not valid.", column));
         }
 
+        public Object getRealValue(int column)
+        {
+            switch (column)
+            {
+                case LOC_COLUMN:
+                    return locName;
+                case RECURSIVE_COLUMN:
+                    return recursive;
+            }
+            throw new EditException(String.Format("Attempted to get a column from a Resource {0} that is not valid.", column));
+        }
+
+        public void setValue(int column, Object value)
+        {
+            switch (column)
+            {
+                case LOC_COLUMN:
+                    //This exchange is complex, when the resource is 
+                    //removed the group will be reset so we must keep a 
+                    //local reference to it.
+                    ResourceGroup localGroup = group;
+                    group.removeResource(locName);
+                    locName = (String)value;
+                    localGroup.addResource(this);
+                    break;
+                case RECURSIVE_COLUMN:
+                    recursive = (bool)value;
+                    break;
+                default:
+                    throw new EditException(String.Format("Attempted to set a column from a Resource {0} that is not valid.", column));
+            }
+        }
+
         /// <summary>
         /// Set the value of this property from a string.
         /// </summary>
