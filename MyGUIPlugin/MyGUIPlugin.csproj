@@ -63,6 +63,17 @@
     <Compile Include="Plugin\Widgets\ButtonGrid\ButtonGridTextAdjustedGridLayout.cs" />
     <Compile Include="Plugin\Widgets\CheckButton.cs" />
     <Compile Include="Plugin\Widgets\Component.cs" />
+    <Compile Include="Plugin\Widgets\NumericEdits\ByteNumericEdit.cs" />
+    <Compile Include="Plugin\Widgets\NumericEdits\DecimalNumericEdit.cs" />
+    <Compile Include="Plugin\Widgets\NumericEdits\DoubleNumericEdit.cs" />
+    <Compile Include="Plugin\Widgets\NumericEdits\SingleNumericEdit.cs" />
+    <Compile Include="Plugin\Widgets\NumericEdits\UInt32NumericEdit.cs" />
+    <Compile Include="Plugin\Widgets\NumericEdits\UInt64NumericEdit.cs" />
+    <Compile Include="Plugin\Widgets\NumericEdits\UInt16NumericEdit.cs" />
+    <Compile Include="Plugin\Widgets\NumericEdits\SByteNumericEdit.cs" />
+    <Compile Include="Plugin\Widgets\NumericEdits\Int64NumericEdit.cs" />
+    <Compile Include="Plugin\Widgets\NumericEdits\Int16NumericEdit.cs" />
+    <Compile Include="Plugin\Widgets\NumericEdits\Int32NumericEdit.cs" />
     <Compile Include="Plugin\Widgets\DateControl.cs" />
     <Compile Include="Plugin\Widgets\Dialog.cs" />
     <Compile Include="Plugin\Widgets\DialogCancelEventArgs.cs" />
@@ -74,7 +85,7 @@
     <Compile Include="Plugin\Widgets\InputBox.cs" />
     <Compile Include="Plugin\Widgets\MessageBox.cs" />
     <Compile Include="Plugin\Widgets\MinMaxScroll.cs" />
-    <Compile Include="Plugin\Widgets\NumericEdit.cs" />
+    <Compile Include="Plugin\Widgets\NumericEdits\NumericEdit.cs" />
     <Compile Include="Plugin\Widgets\PopupContainer.cs" />
     <Compile Include="Plugin\Widgets\ShowMenuButton.cs" />
     <Compile Include="Plugin\Widgets\Table\CheckTableCell.cs" />
