@@ -17,6 +17,7 @@ namespace MyGUIPlugin
         private float minValue;
         private float maxValue;
         private float keyFocusValue = float.NaN;
+        private bool hasKeyFocus = false;
 
         public NumericEdit(EditBox edit)
         {
@@ -24,6 +25,7 @@ namespace MyGUIPlugin
             lastCaption = edit.Caption;
             edit.EventEditTextChange += new MyGUIEvent(edit_EventEditTextChange);
             edit.MouseWheel += new MyGUIEvent(edit_MouseWheel);
+            edit.ClientWidget.MouseWheel += new MyGUIEvent(edit_MouseWheel);
             edit.KeyLostFocus += new MyGUIEvent(edit_KeyLostFocus);
             edit.KeySetFocus += new MyGUIEvent(edit_KeySetFocus);
             edit.EventEditSelectAccept += new MyGUIEvent(edit_EventEditSelectAccept);
@@ -249,19 +251,22 @@ namespace MyGUIPlugin
 
         void edit_MouseWheel(Widget source, EventArgs e)
         {
-            MouseEventArgs me = (MouseEventArgs)e;
-            int wheelDelta = me.RelativeWheelPosition > 0 ? 1 : -1;
-            float newVal = FloatValue + Increment * wheelDelta;
-            if (newVal > maxValue)
+            if (hasKeyFocus)
             {
-                newVal = maxValue;
+                MouseEventArgs me = (MouseEventArgs)e;
+                int wheelDelta = me.RelativeWheelPosition > 0 ? 1 : -1;
+                float newVal = FloatValue + Increment * wheelDelta;
+                if (newVal > maxValue)
+                {
+                    newVal = maxValue;
+                }
+                else if (newVal < minValue)
+                {
+                    newVal = minValue;
+                }
+                FloatValue = newVal;
+                fireValueChanged();
             }
-            else if (newVal < minValue)
-            {
-                newVal = minValue;
-            }
-            FloatValue = newVal;
-            fireValueChanged();
         }
 
         private void fireValueChanged()
@@ -275,6 +280,7 @@ namespace MyGUIPlugin
         void edit_KeySetFocus(Widget source, EventArgs e)
         {
             keyFocusValue = FloatValue;
+            hasKeyFocus = true;
         }
 
         void edit_KeyLostFocus(Widget source, EventArgs e)
@@ -283,6 +289,7 @@ namespace MyGUIPlugin
             {
                 fireValueChanged();
             }
+            hasKeyFocus = false;
         }
 
         void edit_EventEditSelectAccept(Widget source, EventArgs e)
