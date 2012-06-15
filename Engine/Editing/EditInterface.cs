@@ -58,6 +58,7 @@ namespace Engine.Editing
         public event ColorsChanged OnForeColorChanged;
         public event EditInterfaceEvent OnIconReferenceChanged;
         public event EditInterfaceEvent OnNameChanged;
+        public event EditInterfaceEvent OnDataNeedsRefresh;
 
         /// <summary>
         /// Constructor.
@@ -330,6 +331,20 @@ namespace Engine.Editing
         }
 
         /// <summary>
+        /// This method will fire the OnDataNeedsRefresh, however it should be
+        /// called by the extension method with the same name but no leading _.
+        /// This has the benefit of checking the editInterface for null before
+        /// firing the event so client code does not have to.
+        /// </summary>
+        internal void _fireDataNeedsRefresh()
+        {
+            if (OnDataNeedsRefresh != null)
+            {
+                OnDataNeedsRefresh.Invoke(this);
+            }
+        }
+
+        /// <summary>
         /// Internal object for binding this EditInterface to its source object.
         /// Only used by EditInterfaceManager.
         /// </summary>
@@ -402,5 +417,22 @@ namespace Engine.Editing
         }
 
         public EditInterfaceRenderer Renderer { get; set; }
+    }
+
+    public static class EditInterfaceExtensions
+    {
+        /// <summary>
+        /// This extension method allows an easy way to fire the
+        /// DataNeedsRefresh function without having to check for null in the
+        /// client code.
+        /// </summary>
+        /// <param name="editInterface"></param>
+        public static void fireDataNeedsRefresh(this EditInterface editInterface)
+        {
+            if (editInterface != null)
+            {
+                editInterface._fireDataNeedsRefresh();
+            }
+        }
     }
 }
