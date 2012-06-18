@@ -95,6 +95,7 @@
     <Compile Include="Editing\EditInterfaceRenderer.cs" />
     <Compile Include="Editing\EditUICallback.cs" />
     <Compile Include="Editing\CopyPaste\EngineClipboard.cs" />
+    <Compile Include="Editing\GenericEditableProperty.cs" />
     <Compile Include="Editing\Refleciton\EditableMinMaxAttribute.cs" />
     <Compile Include="Editing\Refleciton\EditableAttribute.cs" />
     <Compile Include="Editing\Refleciton\EditableAttributeFilter.cs" />
