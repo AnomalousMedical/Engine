@@ -103,7 +103,7 @@ namespace OgreWrapper
 
         protected override bool exists(string filename)
         {
-            return assembly.GetManifestResourceInfo(filename) != null;
+            return !String.IsNullOrEmpty(filename) && assembly.GetManifestResourceInfo(filename) != null;
         }
 
         private String wildcardToRegex(String wildcard)

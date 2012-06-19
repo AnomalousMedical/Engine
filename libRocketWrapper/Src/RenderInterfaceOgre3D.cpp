@@ -212,14 +212,20 @@ bool RenderInterfaceOgre3D::LoadTexture(Rocket::Core::TextureHandle& texture_han
 {
 	try
 	{
+		Ogre::String ogreSource = source.CString();
+		if(source.Empty())
+		{
+			ogreSource = "libRocket_Empty_String_Error";
+		}
+
 		Ogre::TextureManager* texture_manager = Ogre::TextureManager::getSingletonPtr();
-		Ogre::TexturePtr ogre_texture = texture_manager->getByName(Ogre::String(source.CString()));
+		Ogre::TexturePtr ogre_texture = texture_manager->getByName(ogreSource);
 		if (ogre_texture.isNull())
 		{
-			ogre_texture = texture_manager->load(Ogre::String(source.CString()),
-												 "Rocket",
-												 Ogre::TEX_TYPE_2D,
-												 0);
+			ogre_texture = texture_manager->load(ogreSource,
+													"Rocket",
+													Ogre::TEX_TYPE_2D,
+													0);
 		}
 
 		if (ogre_texture.isNull())

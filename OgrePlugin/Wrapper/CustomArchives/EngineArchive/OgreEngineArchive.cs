@@ -131,7 +131,7 @@ namespace OgreWrapper
 
         protected override bool exists(string filename)
         {
-            return vfs.exists(baseName + "/" + filename);
+            return !String.IsNullOrEmpty(filename) && vfs.exists(baseName + "/" + filename);
         }
     }
 }
