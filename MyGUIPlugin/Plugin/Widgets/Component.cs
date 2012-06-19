@@ -16,20 +16,6 @@ namespace MyGUIPlugin
             widget = componentLayout.getWidget(0);
         }
 
-        protected Component(String layoutFile, Widget parent)
-            :this(layoutFile)
-        {
-            Widget topLevelParent = parent;
-            while (topLevelParent.Parent != null)
-            {
-                topLevelParent = topLevelParent.Parent;
-            }
-            bool topVisible = topLevelParent.Visible;
-            topLevelParent.Visible = true;
-            widget.attachToWidget(parent);
-            topLevelParent.Visible = topVisible;
-        }
-
         public virtual void Dispose()
         {
             LayoutManager.Instance.unloadLayout(componentLayout);
