@@ -83,6 +83,7 @@
     <Compile Include="Coroutine\YieldAction.cs" />
     <Compile Include="Editing\Browsing\Browser.cs" />
     <Compile Include="Editing\Browsing\BrowserNode.cs" />
+    <Compile Include="Editing\Browsing\GenericBrowserNode.cs" />
     <Compile Include="Editing\CopyPaste\ClipboardEntry.cs" />
     <Compile Include="Editing\CopyPaste\GenericClipboardEntry.cs" />
     <Compile Include="Editing\EditableProperty.cs" />
