@@ -6,25 +6,35 @@ using System.Text;
 namespace libRocketPlugin
 {
     /// <summary>
-    /// This is a variation of the variant that has been nativly allocated, so
-    /// the dispose does nothing.
+    /// This is a variation of the variant that has been nativly allocated. It
+    /// does not need to be disposed. It is also not publicly acessible.
     /// </summary>
     class VariantWrapped : Variant
     {
-        public VariantWrapped()
+        /// <summary>
+        /// Construct a variant or return null depending on what is needed.
+        /// </summary>
+        /// <param name="variant">The variant pointer to check.</param>
+        /// <returns>A VariantWrapped or null.</returns>
+        public static VariantWrapped Construct(IntPtr variant)
+        {
+            if (variant != IntPtr.Zero)
+            {
+                return new VariantWrapped(variant);
+            }
+            return null;
+        }
+
+        internal VariantWrapped()
+            :base(IntPtr.Zero)
         {
 
         }
 
-        public VariantWrapped(IntPtr ptr)
+        private VariantWrapped(IntPtr ptr)
             :base(ptr)
         {
 
-        }
-
-        public override void Dispose()
-        {
-            //Does nothing, don't want to delete the nativly allocated variants
         }
 
         internal void changePointer(IntPtr ptr)

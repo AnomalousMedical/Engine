@@ -9,12 +9,49 @@ namespace libRocketPlugin
 {
     public class Element : ReferenceCountable
     {
-        StringRetriever stringRetriever = new StringRetriever();
+        private static StringRetriever stringRetriever = new StringRetriever();
+        private static StringRetriever stringRetriever2 = new StringRetriever();
 
         internal Element(IntPtr ptr)
             : base(ptr)
         {
 
+        }
+
+        public void SetAttribute(String name, String value)
+        {
+            Element_SetAttribute(ptr, name, value);
+        }
+
+        public Variant GetAttribute(String name)
+        {
+            return VariantWrapped.Construct(Element_GetAttribute(ptr, name));
+        }
+
+        public bool HasAttribute(String name)
+        {
+            return Element_HasAttribute(ptr, name);
+        }
+
+        public void RemoveAttribute(String name)
+        {
+            Element_RemoveAttribute(ptr, name);
+        }
+
+        public bool IterateAttributes(ref int index, ref String name, ref String value)
+        {
+            bool retVal = Element_IterateAttributes(ptr, ref index, stringRetriever.StringCallback, stringRetriever2.StringCallback);
+            name = stringRetriever.retrieveString();
+            value = stringRetriever2.retrieveString();
+            return retVal;
+        }
+
+        public int NumAttributes
+        {
+            get
+            {
+                return Element_GetNumAttributes(ptr);
+            }
         }
 
         public bool Focus()
@@ -177,6 +214,27 @@ namespace libRocketPlugin
         }
 
         #region PInvoke
+
+        
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Element_SetAttribute(IntPtr element, String name, String value);
+        
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr Element_GetAttribute(IntPtr element, String name);
+        
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool Element_HasAttribute(IntPtr element, String name);
+        
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Element_RemoveAttribute(IntPtr element, String name);
+        
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool Element_IterateAttributes(IntPtr element, ref int index, StringRetriever.Callback keyRetrieve, StringRetriever.Callback valueRetrieve);
+        
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern int Element_GetNumAttributes(IntPtr element);
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Element_GetTagName(IntPtr element);

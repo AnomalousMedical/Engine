@@ -51,6 +51,7 @@
     <Compile Include="Plugin\RocketRenderQueueListener.cs" />
     <Compile Include="Plugin\VirtualFileSystemFileInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Wrapper\Core\VariantAllocated.cs" />
     <Compile Include="Wrapper\Core\Context.cs" />
     <Compile Include="Wrapper\Controls\Controls.cs" />
     <Compile Include="Wrapper\Core\Core.cs" />

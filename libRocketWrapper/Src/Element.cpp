@@ -73,24 +73,46 @@
 //
 //const PseudoClassList& GetActivePseudoClasses() const;
 //
-//template< typename T >
-//void SetAttribute(const String& name, const T& value);
-//
-//Variant* GetAttribute(const String& name) const;
-//
+
+extern "C" _AnomalousExport void Element_SetAttribute(Rocket::Core::Element* element, String name, String value)
+{
+	element->SetAttribute(name, value);
+}
+
+extern "C" _AnomalousExport Rocket::Core::Variant* Element_GetAttribute(Rocket::Core::Element* element, String name)
+{
+	return element->GetAttribute(name);
+}
+
 //template< typename T >
 //T GetAttribute(const String& name, const T& default_value) const;
-//
-//bool HasAttribute(const String& name);
-//
-//void RemoveAttribute(const String& name);
-//
+
+extern "C" _AnomalousExport bool Element_HasAttribute(Rocket::Core::Element* element, String name)
+{
+	return element->HasAttribute(name);
+}
+
+extern "C" _AnomalousExport void Element_RemoveAttribute(Rocket::Core::Element* element, String name)
+{
+	element->RemoveAttribute(name);
+}
+
 //void SetAttributes(const ElementAttributes* attributes);
-//
-//template< typename T >
-//bool IterateAttributes(int& index, String& name, T& value) const;
-//
-//int GetNumAttributes() const;
+
+extern "C" _AnomalousExport bool Element_IterateAttributes(Rocket::Core::Element* element, int& index, StringRetrieverCallback keyRetrieve, StringRetrieverCallback valueRetrieve)
+{
+	Rocket::Core::String rktKey;
+	Rocket::Core::String rktValue;
+	bool retVal = element->IterateAttributes(index, rktKey, rktValue);
+	keyRetrieve(rktKey.CString());
+	valueRetrieve(rktValue.CString());
+	return retVal;
+}
+
+extern "C" _AnomalousExport int Element_GetNumAttributes(Rocket::Core::Element* element)
+{
+	return element->GetNumAttributes();
+}
 //
 //bool IterateDecorators(int& index, PseudoClassList& pseudo_classes, String& name, Decorator*& decorator, DecoratorDataHandle& decorator_data);
 //

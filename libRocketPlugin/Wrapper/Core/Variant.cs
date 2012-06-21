@@ -7,9 +7,18 @@ using Engine;
 
 namespace libRocketPlugin
 {
-    public class Variant : RocketNativeObject, IDisposable
+    /// <summary>
+    /// This is a wrapper for the variant class. There are two concrete
+    /// versions. The first is VariantWrapped, which cannot be created outside
+    /// this library and will appear as just a Variant when returned. These do
+    /// not need to be disposed since they wrap native classes themselves. If
+    /// you need to pass data into a function that takes a Variant use
+    /// VariantAllocated, which will need to be disposed since you created an
+    /// object on the unmanaged heap when you allocated that object.
+    /// </summary>
+    public abstract class Variant : RocketNativeObject
     {
-        private StringRetriever stringRetriever = new StringRetriever();
+        private static StringRetriever stringRetriever = new StringRetriever();
 
         /// Type of data stored in the variant.
         public enum Type
@@ -28,21 +37,10 @@ namespace libRocketPlugin
             VOIDPTR = '*',
         }
 
-        public Variant()
-            :base(Variant_Create())
-        {
-
-        }
-
         protected Variant(IntPtr ptr)
             :base(ptr)
         {
 
-        }
-
-        public virtual void Dispose()
-        {
-            Variant_Delete(ptr);
         }
 
         public void Clear()
@@ -134,10 +132,10 @@ namespace libRocketPlugin
         #region PInvoke
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr Variant_Create();
+        protected static extern IntPtr Variant_Create();
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
-        private static extern void Variant_Delete(IntPtr variant);
+        protected static extern void Variant_Delete(IntPtr variant);
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern void Variant_Clear(IntPtr variant);
