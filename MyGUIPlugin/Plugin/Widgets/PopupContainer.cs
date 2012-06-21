@@ -255,7 +255,7 @@ namespace MyGUIPlugin
 
         void MouseButtonPressed(int x, int y, MouseButtonCode button)
         {
-            if (!KeepOpen)
+            if (!KeepOpen && !InputManager.Instance.isModalAny())
             {
                 int left = widget.AbsoluteLeft;
                 int top = widget.AbsoluteTop;
