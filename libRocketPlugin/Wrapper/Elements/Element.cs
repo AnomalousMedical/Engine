@@ -64,6 +64,11 @@ namespace libRocketPlugin
             Element_Blur(ptr);
         }
 
+        public Element GetElementById(String id)
+        {
+            return ElementManager.getElement(Element_GetElementById(ptr, id));
+        }
+
         public String TagName
         {
             get
@@ -302,6 +307,9 @@ namespace libRocketPlugin
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_Blur(IntPtr element);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr Element_GetElementById(IntPtr element, String id);
 
         #endregion
     }

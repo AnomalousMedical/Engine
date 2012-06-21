@@ -275,6 +275,9 @@ extern "C" _AnomalousExport void Element_Blur(Rocket::Core::Element* element)
 //
 //bool HasChildNodes() const;
 //
-//Element* GetElementById(const String& id);
-//
+extern "C" _AnomalousExport Rocket::Core::Element* Element_GetElementById(Rocket::Core::Element* element, String id)
+{
+	return element->GetElementById(id);
+}
+
 //void GetElementsByTagName(ElementList& elements, const String& tag);

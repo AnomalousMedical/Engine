@@ -89,7 +89,10 @@
     <ClCompile Include="Src\TextureDatabase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TemplateCache.cpp">
+    <ClCompile Include="Src\Template.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\TemplateCache.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
