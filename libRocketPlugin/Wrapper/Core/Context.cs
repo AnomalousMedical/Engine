@@ -41,7 +41,7 @@ namespace libRocketPlugin
             return ElementManager.getElement<ElementDocument>(Context_CreateDocument(ptr));
         }
 
-        public ElementDocument CreateDocument_Tag(String tag)
+        public ElementDocument CreateDocument(String tag)
         {
             return ElementManager.getElement<ElementDocument>(Context_CreateDocument_Tag(ptr, tag));
         }
@@ -101,7 +101,7 @@ namespace libRocketPlugin
             return ElementManager.getElement<ElementDocument>(Context_GetDocument(ptr, id));
         }
 
-        public ElementDocument GetDocument_Index(int index)
+        public ElementDocument GetDocument(int index)
         {
             return ElementManager.getElement<ElementDocument>(Context_GetDocument_Index(ptr, index));
         }
