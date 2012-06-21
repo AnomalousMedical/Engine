@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
+using Engine;
 
 namespace libRocketPlugin
 {
     public class Element : ReferenceCountable
     {
+        StringRetriever stringRetriever = new StringRetriever();
+
         internal Element(IntPtr ptr)
             : base(ptr)
         {
@@ -22,6 +25,14 @@ namespace libRocketPlugin
         public void Blur()
         {
             Element_Blur(ptr);
+        }
+
+        public String TagName
+        {
+            get
+            {
+                return Marshal.PtrToStringAnsi(Element_GetTagName(ptr));
+            }
         }
 
         public float AbsoluteLeft
@@ -152,8 +163,23 @@ namespace libRocketPlugin
             }
         }
 
+        public String InnerRml
+        {
+            get
+            {
+                Element_GetInnerRML(ptr, stringRetriever.StringCallback);
+                return stringRetriever.retrieveString();
+            }
+            set
+            {
+                Element_SetInnerRML(ptr, value);
+            }
+        }
+
         #region PInvoke
 
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr Element_GetTagName(IntPtr element);
         
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern float Element_GetAbsoluteLeft(IntPtr element);
@@ -205,6 +231,12 @@ namespace libRocketPlugin
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Element_GetParentNode(IntPtr element);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Element_GetInnerRML(IntPtr element, StringRetriever.Callback retrieve);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Element_SetInnerRML(IntPtr element, String rml);
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]

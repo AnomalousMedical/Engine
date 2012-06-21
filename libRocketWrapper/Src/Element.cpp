@@ -98,7 +98,10 @@
 //
 //Context* GetContext();
 //
-//const String& GetTagName() const;
+extern "C" _AnomalousExport String Element_GetTagName(Rocket::Core::Element* element)
+{
+	return element->GetTagName().CString();
+}
 //
 //const String& GetId() const;
 //
@@ -207,10 +210,18 @@ extern "C" _AnomalousExport Rocket::Core::Element* Element_GetParentNode(Rocket:
 //
 //int GetNumChildren(bool include_non_dom_elements = false) const;
 //
-//virtual void GetInnerRML(String& content) const;
-//
-//void SetInnerRML(const String& rml);
-//
+extern "C" _AnomalousExport void Element_GetInnerRML(Rocket::Core::Element* element, StringRetrieverCallback retrieve)
+{
+	Rocket::Core::String str;
+	element->GetInnerRML(str);
+	retrieve(str.CString());
+}
+
+extern "C" _AnomalousExport void Element_SetInnerRML(Rocket::Core::Element* element, String rml)
+{
+	element->SetInnerRML(rml);
+}
+
 
 extern "C" _AnomalousExport bool Element_Focus(Rocket::Core::Element* element)
 {
