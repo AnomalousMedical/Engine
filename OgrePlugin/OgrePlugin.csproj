@@ -169,6 +169,7 @@
     <Compile Include="Wrapper\Resources\Meshes\MeshPtr.cs" />
     <Compile Include="Wrapper\Resources\Meshes\MeshSerializer.cs" />
     <Compile Include="Wrapper\Resources\Meshes\SubMesh.cs" />
+    <Compile Include="Wrapper\Resources\OgreArchiveManager.cs" />
     <Compile Include="Wrapper\Resources\OgreResourceGroupManager.cs" />
     <Compile Include="Wrapper\Resources\Resource.cs" />
     <Compile Include="Wrapper\Resources\Textures\Texture.cs" />

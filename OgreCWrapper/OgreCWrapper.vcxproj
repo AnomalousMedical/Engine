@@ -107,6 +107,7 @@ copy $(OGRE_HOME)\Windows\Dependencies\bin\Release\cg.dll $(OutDir)cg.dll
     <ClCompile Include="src\AnimationStateIterator.cpp" />
     <ClCompile Include="Src\AnimationStateSet.cpp" />
     <ClCompile Include="Src\AnimationTrack.cpp" />
+    <ClCompile Include="Src\ArchiveManager.cpp" />
     <ClCompile Include="Src\Bone.cpp" />
     <ClCompile Include="Src\BorderPanelOverlayElement.cpp" />
     <ClCompile Include="Src\Camera.cpp" />
