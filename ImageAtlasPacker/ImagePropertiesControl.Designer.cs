@@ -41,15 +41,22 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.removeTextures = new System.Windows.Forms.Button();
             this.displayChangeButton = new System.Windows.Forms.Button();
+            this.resizeImages = new System.Windows.Forms.CheckBox();
+            this.resizeHeight = new System.Windows.Forms.NumericUpDown();
+            this.resizeWidth = new System.Windows.Forms.NumericUpDown();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.widthText)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.heightText)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.resizeHeight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.resizeWidth)).BeginInit();
             this.SuspendLayout();
             // 
             // inputTextureList
             // 
-            this.inputTextureList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.inputTextureList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.inputTextureList.LargeImageList = this.previewImageListLarge;
             this.inputTextureList.Location = new System.Drawing.Point(3, 3);
             this.inputTextureList.Name = "inputTextureList";
@@ -174,10 +181,82 @@
             this.displayChangeButton.UseVisualStyleBackColor = true;
             this.displayChangeButton.Click += new System.EventHandler(this.displayChangeButton_Click);
             // 
+            // resizeImages
+            // 
+            this.resizeImages.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.resizeImages.AutoSize = true;
+            this.resizeImages.Location = new System.Drawing.Point(147, 424);
+            this.resizeImages.Name = "resizeImages";
+            this.resizeImages.Size = new System.Drawing.Size(95, 17);
+            this.resizeImages.TabIndex = 9;
+            this.resizeImages.Text = "Resize Images";
+            this.resizeImages.UseVisualStyleBackColor = true;
+            // 
+            // resizeHeight
+            // 
+            this.resizeHeight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.resizeHeight.Location = new System.Drawing.Point(147, 503);
+            this.resizeHeight.Maximum = new decimal(new int[] {
+            99999999,
+            0,
+            0,
+            0});
+            this.resizeHeight.Name = "resizeHeight";
+            this.resizeHeight.Size = new System.Drawing.Size(90, 20);
+            this.resizeHeight.TabIndex = 13;
+            this.resizeHeight.Value = new decimal(new int[] {
+            32,
+            0,
+            0,
+            0});
+            // 
+            // resizeWidth
+            // 
+            this.resizeWidth.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.resizeWidth.Location = new System.Drawing.Point(147, 463);
+            this.resizeWidth.Maximum = new decimal(new int[] {
+            99999999,
+            0,
+            0,
+            0});
+            this.resizeWidth.Name = "resizeWidth";
+            this.resizeWidth.Size = new System.Drawing.Size(90, 20);
+            this.resizeWidth.TabIndex = 12;
+            this.resizeWidth.Value = new decimal(new int[] {
+            32,
+            0,
+            0,
+            0});
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(149, 486);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(74, 13);
+            this.label3.TabIndex = 11;
+            this.label3.Text = "TextureHeight";
+            // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(149, 446);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(74, 13);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "Texture Width";
+            // 
             // ImagePropertiesControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.resizeHeight);
+            this.Controls.Add(this.resizeWidth);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.resizeImages);
             this.Controls.Add(this.displayChangeButton);
             this.Controls.Add(this.removeTextures);
             this.Controls.Add(this.addTexturesButton);
@@ -191,6 +270,8 @@
             this.Size = new System.Drawing.Size(251, 533);
             ((System.ComponentModel.ISupportInitialize)(this.widthText)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.heightText)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.resizeHeight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.resizeWidth)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -210,5 +291,10 @@
         private System.Windows.Forms.ImageList previewImageListLarge;
         private System.Windows.Forms.Button removeTextures;
         private System.Windows.Forms.Button displayChangeButton;
+        private System.Windows.Forms.CheckBox resizeImages;
+        private System.Windows.Forms.NumericUpDown resizeHeight;
+        private System.Windows.Forms.NumericUpDown resizeWidth;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
     }
 }

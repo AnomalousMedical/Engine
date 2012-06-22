@@ -17,6 +17,21 @@ namespace ImageAtlasPacker
             this.ListItem = listItem;
         }
 
+        public BitmapEntry(BitmapEntry original, int width, int height)
+        {
+            this.ImageFile = original.ImageFile;
+            this.ListItem = null;
+            Bitmap = new Bitmap(width, height);
+
+            using (Graphics graphics = Graphics.FromImage(Bitmap))
+            {
+                graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+                graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                graphics.DrawImage(original.Bitmap, 0, 0, Bitmap.Width, Bitmap.Height);
+            }
+        }
+
         public void Dispose()
         {
             Bitmap.Dispose();
