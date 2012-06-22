@@ -67,14 +67,11 @@ namespace ImageAtlasPacker
 
         private void updateButton_Click(object sender, EventArgs e)
         {
-            List<BitmapEntry> finalImages = images;
-
             if (resizeImages.Checked)
             {
-                finalImages = new List<BitmapEntry>(images.Count);
                 foreach (BitmapEntry entry in images)
                 {
-                    finalImages.Add(new BitmapEntry(entry, (int)resizeWidth.Value, (int)resizeHeight.Value));
+                    entry.resizeImage((int)resizeWidth.Value, (int)resizeHeight.Value);
                 }
             }
 
@@ -82,7 +79,7 @@ namespace ImageAtlasPacker
             Bitmap atlas = new Bitmap((int)widthText.Value, (int)heightText.Value, PixelFormat.Format32bppArgb);
             using (Graphics g = Graphics.FromImage(atlas))
             {
-                foreach (BitmapEntry entry in finalImages)
+                foreach (BitmapEntry entry in images)
                 {
                     ImagePackTreeNode node = imageInfo.insert(entry.ImageFile, entry.Bitmap);
                     if (node != null)
@@ -103,16 +100,6 @@ namespace ImageAtlasPacker
             }
             PictureBox.Image = atlas;
             PictureBox.Size = atlas.Size;
-
-            if (resizeImages.Checked)
-            {
-                //Dispose new images
-                foreach (BitmapEntry entry in finalImages)
-                {
-                    entry.Dispose();
-                }
-                finalImages.Clear();
-            }
         }
 
         private void displayChangeButton_Click(object sender, EventArgs e)
