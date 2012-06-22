@@ -28,6 +28,8 @@ namespace MyGUIPlugin
 
         internal abstract void updateText();
 
+        internal abstract void updateImageResource();
+
         protected void fireExpandToggled()
         {
             if (treeNode != null)

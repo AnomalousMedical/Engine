@@ -12,6 +12,7 @@ namespace MyGUIPlugin
         private bool expanded = false;
         private TreeNodeWidget nodeWidget;
         private String text;
+        private String imageResource = null;
 
         public TreeNode()
             : this("")
@@ -61,7 +62,7 @@ namespace MyGUIPlugin
 
         internal void createWidget(Widget parent)
         {
-            nodeWidget.createWidget(parent, Text, null);
+            nodeWidget.createWidget(parent, Text, ImageResource);
             nodeWidget.updateExpandedStatus(expanded);
             if (Expanded)
             {
@@ -141,6 +142,19 @@ namespace MyGUIPlugin
             {
                 text = value;
                 nodeWidget.updateText();
+            }
+        }
+
+        public String ImageResource
+        {
+            get
+            {
+                return imageResource;
+            }
+            set
+            {
+                imageResource = value;
+                nodeWidget.updateImageResource();
             }
         }
 

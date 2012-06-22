@@ -87,6 +87,18 @@ namespace MyGUIPlugin
             }
         }
 
+        internal override void updateImageResource()
+        {
+            if (mainButton != null)
+            {
+                ImageBox image = mainButton.ImageBox;
+                if (image != null)
+                {
+                    image.setItemResource(treeNode.ImageResource);
+                }
+            }
+        }
+
         void plusMinusButton_MouseButtonClick(Widget source, EventArgs e)
         {
             fireExpandToggled();
