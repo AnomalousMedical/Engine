@@ -46,6 +46,36 @@ namespace libRocketPlugin
             return retVal;
         }
 
+        public void Click()
+        {
+            Element_Click(ptr);
+        }
+        
+        public void ScrollIntoView(bool align_with_top = true)
+        {
+            Element_ScrollIntoView(ptr, align_with_top);
+        }
+        
+        public void AppendChild(Element append, bool dom_element = true)
+        {
+            Element_AppendChild(ptr, append.Ptr, dom_element);
+        }
+
+        public void InsertBefore(Element insert, Element adjacent_element)
+        {
+            Element_InsertBefore(ptr, insert.Ptr, adjacent_element.Ptr);
+        }
+
+        public bool ReplaceChild(Element inserted_element, Element replaced_element)
+        {
+            return Element_ReplaceChild(ptr, inserted_element.Ptr, replaced_element.Ptr);
+        }
+
+        public bool RemoveChild(Element remove)
+        {
+            return Element_RemoveChild(ptr, remove.Ptr);
+        }
+
         public int NumAttributes
         {
             get
@@ -67,6 +97,11 @@ namespace libRocketPlugin
         public Element GetElementById(String id)
         {
             return ElementManager.getElement(Element_GetElementById(ptr, id));
+        }
+
+        public Element GetChild(int index)
+        {
+            return ElementManager.getElement(Element_GetChild(ptr, index));
         }
 
         public String TagName
@@ -122,6 +157,14 @@ namespace libRocketPlugin
             get
             {
                 return Element_GetClientHeight(ptr);
+            }
+        }
+
+        public Element OffsetParent
+        {
+            get
+            {
+                return ElementManager.getElement(Element_GetOffsetParent(ptr));
             }
         }
 
@@ -197,11 +240,67 @@ namespace libRocketPlugin
             }
         }
 
+        public ElementDocument OwnerDocument
+        {
+            get
+            {
+                return ElementManager.getElement<ElementDocument>(Element_GetOwnerDocument(ptr));
+            }
+        }
+
         public Element ParentNode
         {
             get
             {
                 return ElementManager.getElement(Element_GetParentNode(ptr));
+            }
+        }
+
+        public Element NextSibling
+        {
+            get
+            {
+                return ElementManager.getElement(Element_GetNextSibling(ptr));
+            }
+        }
+
+        public Element PreviousSibling
+        {
+            get
+            {
+                return ElementManager.getElement(Element_GetPreviousSibling(ptr));
+            }
+        }
+
+        public Element FirstChild
+        {
+            get
+            {
+                return ElementManager.getElement(Element_GetFirstChild(ptr));
+            }
+        }
+
+        public Element LastChild
+        {
+            get
+            {
+                return ElementManager.getElement(Element_GetLastChild(ptr));
+            }
+        }
+
+        public int NumChildren
+        {
+            get
+            {
+                return Element_GetNumChildren(ptr, false);
+            }
+        }
+
+        public int NumChildrenWithNonDom
+        {
+            get
+            {
+                return Element_GetNumChildren(ptr, true);
             }
         }
 
@@ -215,6 +314,14 @@ namespace libRocketPlugin
             set
             {
                 Element_SetInnerRML(ptr, value);
+            }
+        }
+
+        public bool HasChildNodes
+        {
+            get
+            {
+                return Element_HasChildNodes(ptr);
             }
         }
 
@@ -261,10 +368,13 @@ namespace libRocketPlugin
         
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern float Element_GetClientHeight(IntPtr element);
-        
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr Element_GetOffsetParent(IntPtr element);
+
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern float Element_GetOffsetLeft(IntPtr element);
-        
+
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern float Element_GetOffsetTop(IntPtr element);
         
@@ -293,7 +403,28 @@ namespace libRocketPlugin
         private static extern float Element_GetScrollHeight(IntPtr element);
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr Element_GetOwnerDocument(IntPtr element);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Element_GetParentNode(IntPtr element);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr Element_GetNextSibling(IntPtr element);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr Element_GetPreviousSibling(IntPtr element);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr Element_GetFirstChild(IntPtr element);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr Element_GetLastChild(IntPtr element);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr Element_GetChild(IntPtr element, int index);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern int Element_GetNumChildren(IntPtr element, bool include_non_dom_elements/* = false*/);
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_GetInnerRML(IntPtr element, StringRetriever.Callback retrieve);
@@ -307,6 +438,31 @@ namespace libRocketPlugin
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_Blur(IntPtr element);
+
+        
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Element_Click(IntPtr element);
+        
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Element_ScrollIntoView(IntPtr element, bool align_with_top/* = true*/);
+        
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Element_AppendChild(IntPtr element, IntPtr append, bool dom_element/* = true*/);
+        
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Element_InsertBefore(IntPtr element, IntPtr insert, IntPtr adjacent_element);
+        
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool Element_ReplaceChild(IntPtr element, IntPtr inserted_element, IntPtr replaced_element);
+        
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool Element_RemoveChild(IntPtr element, IntPtr remove);
+        
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool Element_HasChildNodes(IntPtr element);
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Element_GetElementById(IntPtr element, String id);

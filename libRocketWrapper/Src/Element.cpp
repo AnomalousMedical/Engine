@@ -158,9 +158,12 @@ extern "C" _AnomalousExport float Element_GetClientHeight(Rocket::Core::Element*
 {
 	return element->GetClientHeight();
 }
-//
-//Element* GetOffsetParent();
-//
+
+extern "C" _AnomalousExport Rocket::Core::Element* Element_GetOffsetParent(Rocket::Core::Element* element)
+{
+	return element->GetOffsetParent();
+}
+
 extern "C" _AnomalousExport float Element_GetOffsetLeft(Rocket::Core::Element* element)
 {
 	return element->GetOffsetLeft();
@@ -213,25 +216,46 @@ extern "C" _AnomalousExport float Element_GetScrollHeight(Rocket::Core::Element*
 //
 //ElementStyle* GetStyle();
 //
-//virtual ElementDocument* GetOwnerDocument();
-//
+extern "C" _AnomalousExport Rocket::Core::ElementDocument* Element_GetOwnerDocument(Rocket::Core::Element* element)
+{
+	return element->GetOwnerDocument();
+}
+
 extern "C" _AnomalousExport Rocket::Core::Element* Element_GetParentNode(Rocket::Core::Element* element)
 {
 	return element->GetParentNode();
 }
 
-//Element* GetNextSibling() const;
-//
-//Element* GetPreviousSibling() const;
-//
-//Element* GetFirstChild() const;
-//
-//Element* GetLastChild() const;
-//
-//Element* GetChild(int index) const;
-//
-//int GetNumChildren(bool include_non_dom_elements = false) const;
-//
+extern "C" _AnomalousExport Rocket::Core::Element* Element_GetNextSibling(Rocket::Core::Element* element)
+{
+	return element->GetNextSibling();
+}
+
+extern "C" _AnomalousExport Rocket::Core::Element* Element_GetPreviousSibling(Rocket::Core::Element* element)
+{
+	return element->GetPreviousSibling();
+}
+
+extern "C" _AnomalousExport Rocket::Core::Element* Element_GetFirstChild(Rocket::Core::Element* element)
+{
+	return element->GetFirstChild();
+}
+
+extern "C" _AnomalousExport Rocket::Core::Element* Element_GetLastChild(Rocket::Core::Element* element)
+{
+	return element->GetLastChild();
+}
+
+extern "C" _AnomalousExport Rocket::Core::Element* Element_GetChild(Rocket::Core::Element* element, int index)
+{
+	return element->GetChild(index);
+}
+
+extern "C" _AnomalousExport int Element_GetNumChildren(Rocket::Core::Element* element, bool include_non_dom_elements/* = false*/)
+{
+	return element->GetNumChildren(include_non_dom_elements);
+}
+
 extern "C" _AnomalousExport void Element_GetInnerRML(Rocket::Core::Element* element, StringRetrieverCallback retrieve)
 {
 	Rocket::Core::String str;
@@ -255,26 +279,47 @@ extern "C" _AnomalousExport void Element_Blur(Rocket::Core::Element* element)
 	element->Blur();
 }
 
-//void Click();
-//
+extern "C" _AnomalousExport void Element_Click(Rocket::Core::Element* element)
+{
+	element->Click();
+}
+
 //void AddEventListener(const String& event, EventListener* listener, bool in_capture_phase = false);
 //
 //void RemoveEventListener(const String& event, EventListener* listener, bool in_capture_phase = false);
 //
 //bool DispatchEvent(const String& event, const Dictionary& parameters, bool interruptible = false);
 //
-//void ScrollIntoView(bool align_with_top = true);
-//
-//void AppendChild(Element* element, bool dom_element = true);
-//
-//void InsertBefore(Element* element, Element* adjacent_element);
-//
-//bool ReplaceChild(Element* inserted_element, Element* replaced_element);
-//
-//bool RemoveChild(Element* element);
-//
-//bool HasChildNodes() const;
-//
+extern "C" _AnomalousExport void Element_ScrollIntoView(Rocket::Core::Element* element, bool align_with_top/* = true*/)
+{
+	return element->ScrollIntoView();
+}
+
+extern "C" _AnomalousExport void Element_AppendChild(Rocket::Core::Element* element, Rocket::Core::Element* append, bool dom_element/* = true*/)
+{
+	return element->AppendChild(append, dom_element);
+}
+
+extern "C" _AnomalousExport void Element_InsertBefore(Rocket::Core::Element* element, Rocket::Core::Element* insert, Rocket::Core::Element* adjacent_element)
+{
+	return element->InsertBefore(insert, adjacent_element);
+}
+
+extern "C" _AnomalousExport bool Element_ReplaceChild(Rocket::Core::Element* element, Rocket::Core::Element* inserted_element, Rocket::Core::Element* replaced_element)
+{
+	return element->ReplaceChild(inserted_element, replaced_element);
+}
+
+extern "C" _AnomalousExport bool Element_RemoveChild(Rocket::Core::Element* element, Rocket::Core::Element* remove)
+{
+	return element->RemoveChild(remove);
+}
+
+extern "C" _AnomalousExport bool Element_HasChildNodes(Rocket::Core::Element* element)
+{
+	return element->HasChildNodes();
+}
+
 extern "C" _AnomalousExport Rocket::Core::Element* Element_GetElementById(Rocket::Core::Element* element, String id)
 {
 	return element->GetElementById(id);
