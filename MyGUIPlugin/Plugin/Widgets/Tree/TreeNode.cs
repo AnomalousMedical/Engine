@@ -94,7 +94,7 @@ namespace MyGUIPlugin
         /// This will be called by TreeNodeCollection when this node gains its
         /// first child or looses its last child.
         /// </summary>
-        internal void alertHasChildrenChanged()
+        public void alertHasChildrenChanged()
         {
             nodeWidget.updateExpandedStatus(expanded);
         }
