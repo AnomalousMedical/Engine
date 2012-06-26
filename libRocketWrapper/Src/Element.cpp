@@ -326,3 +326,10 @@ extern "C" _AnomalousExport Rocket::Core::Element* Element_GetElementById(Rocket
 }
 
 //void GetElementsByTagName(ElementList& elements, const String& tag);
+
+extern "C" _AnomalousExport void Element_GetElementRML(Rocket::Core::Element* element, StringRetrieverCallback retrieve)
+{
+	Rocket::Core::String str;
+	element->GetElementRML(str);
+	retrieve(str.CString());
+}

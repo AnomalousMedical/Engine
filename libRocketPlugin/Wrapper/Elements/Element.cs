@@ -317,6 +317,15 @@ namespace libRocketPlugin
             }
         }
 
+        public String ElementRml
+        {
+            get
+            {
+                Element_GetElementRML(ptr, stringRetriever.StringCallback);
+                return stringRetriever.retrieveString();
+            }
+        }
+
         public bool HasChildNodes
         {
             get
@@ -466,6 +475,9 @@ namespace libRocketPlugin
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Element_GetElementById(IntPtr element, String id);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Element_GetElementRML(IntPtr element, StringRetriever.Callback retrieve);
 
         #endregion
     }
