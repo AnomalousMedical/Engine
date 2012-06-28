@@ -74,7 +74,7 @@ namespace Anomaly
             return false;
         }
 
-        public Browser getBrowser(int column)
+        public Browser getBrowser(int column, EditUICallback uiCallback)
         {
             return null;
         }

@@ -279,6 +279,32 @@ namespace Editor
         {
 
         }
+        
+        /// <summary>
+        /// This method allows the interface to run a custom query on the
+        /// UICallback. This can do anything and is not defined here.
+        /// </summary>
+        /// <param name="queryKey">The key for the query to run.</param>
+        /// <param name="resultCallback">The callback with the results.</param>
+        public Ret runSyncCustomQuery<Ret>(Object queryKey)
+        {
+            return default(Ret);
+        }
+
+        public Ret runSyncCustomQuery<Ret, Arg1>(Object queryKey, Arg1 arg1)
+        {
+            return default(Ret);
+        }
+
+        public Ret runSyncCustomQuery<Ret, Arg1, Arg2>(Object queryKey, Arg1 arg1, Arg2 arg2)
+        {
+            return default(Ret);
+        }
+
+        public Ret runSyncCustomQuery<Ret, Arg1, Arg2, Arg3>(Object queryKey, Arg1 arg1, Arg2 arg2, Arg3 arg3)
+        {
+            return default(Ret);
+        }
 
         /// <summary>
         /// Validate all EditInterfaces in this view. If one has an error it

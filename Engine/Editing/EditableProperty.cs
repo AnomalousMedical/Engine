@@ -57,7 +57,7 @@ namespace Engine.Editing
         /// </summary>
         /// <param name="column">The column number to get the browser for.</param>
         /// <returns>The browser object for this column.</returns>
-        Browser getBrowser(int column);
+        Browser getBrowser(int column, EditUICallback uiCallback);
 
         /// <summary>
         /// Returns true if the specified column has a browser.

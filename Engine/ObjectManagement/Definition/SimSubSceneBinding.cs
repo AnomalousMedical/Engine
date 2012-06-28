@@ -154,7 +154,7 @@ namespace Engine.ObjectManagement
             return null;
         }
 
-        public Browser getBrowser(int column)
+        public Browser getBrowser(int column, EditUICallback uiCallback)
         {
             return null;
         }

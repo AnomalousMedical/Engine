@@ -321,7 +321,7 @@ namespace Engine.Resources
             throw new EditException(String.Format("Attempted to get a column type from a Resource {0} that is not valid.", column));
         }
 
-        public Browser getBrowser(int column)
+        public Browser getBrowser(int column, EditUICallback uiCallback)
         {
             return null;
         }

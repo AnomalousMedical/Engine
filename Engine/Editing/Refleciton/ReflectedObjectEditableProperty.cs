@@ -138,7 +138,7 @@ namespace Engine.Editing
             return variableList[column].getVariableType();
         }
 
-        public Browser getBrowser(int column)
+        public Browser getBrowser(int column, EditUICallback uiCallback)
         {
             return null;
         }
