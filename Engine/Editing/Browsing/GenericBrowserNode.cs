@@ -7,7 +7,7 @@ namespace Engine.Editing
 {
     public class GenericBrowserNode<T> : BrowserNode
     {
-        public GenericBrowserNode(String text, T value, String defaultName = null)
+        public GenericBrowserNode(String text, T value, String defaultName = null, String iconName = null)
             : base(text, value, defaultName)
         {
 
