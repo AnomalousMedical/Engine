@@ -86,7 +86,7 @@ namespace Engine
 
         public static Size2 operator *(Size2 v, float s)
         {
-            return new Size2(v.Width + s, v.Height + s);
+            return new Size2(v.Width * s, v.Height * s);
         }
 
         public static Size2 operator *(float s, Size2 v)
