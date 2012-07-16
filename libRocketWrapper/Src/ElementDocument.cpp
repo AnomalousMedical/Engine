@@ -4,7 +4,8 @@
 
 extern "C" _AnomalousExport void ElementDocument_SetTitle(Rocket::Core::ElementDocument* elementDocument, String title)
 {
-	elementDocument->SetTitle(Rocket::Core::String(title));
+	Rocket::Core::String rktTitle = Rocket::Core::String(title);
+	elementDocument->SetTitle(rktTitle);
 }
 	
 extern "C" _AnomalousExport String ElementDocument_GetTitle(Rocket::Core::ElementDocument* elementDocument)
