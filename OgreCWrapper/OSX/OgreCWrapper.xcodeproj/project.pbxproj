@@ -10,6 +10,7 @@
 		0144A7DE149B85B9004E19D6 /* AnimationStateIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0144A7DC149B85B9004E19D6 /* AnimationStateIterator.cpp */; };
 		0144A7DF149B85B9004E19D6 /* OgreExceptionManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0144A7DD149B85B9004E19D6 /* OgreExceptionManager.cpp */; };
 		0144A7E1149B85C6004E19D6 /* OgreExceptionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0144A7E0149B85C6004E19D6 /* OgreExceptionManager.h */; };
+		015AA5D115B48478000B029F /* ArchiveManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015AA5D015B48478000B029F /* ArchiveManager.cpp */; };
 		01A698D7135636B4008B7F31 /* NativeFrameListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 01A69889135636B4008B7F31 /* NativeFrameListener.h */; };
 		01A698D8135636B4008B7F31 /* NativeSceneListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 01A6988A135636B4008B7F31 /* NativeSceneListener.h */; };
 		01A698D9135636B4008B7F31 /* NativeWindowListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 01A6988B135636B4008B7F31 /* NativeWindowListener.h */; };
@@ -95,6 +96,7 @@
 		0144A7DC149B85B9004E19D6 /* AnimationStateIterator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationStateIterator.cpp; sourceTree = "<group>"; };
 		0144A7DD149B85B9004E19D6 /* OgreExceptionManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OgreExceptionManager.cpp; sourceTree = "<group>"; };
 		0144A7E0149B85C6004E19D6 /* OgreExceptionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OgreExceptionManager.h; sourceTree = "<group>"; };
+		015AA5D015B48478000B029F /* ArchiveManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArchiveManager.cpp; sourceTree = "<group>"; };
 		01A6988313563672008B7F31 /* libOgreCWrapper.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libOgreCWrapper.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		01A69889135636B4008B7F31 /* NativeFrameListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeFrameListener.h; sourceTree = "<group>"; };
 		01A6988A135636B4008B7F31 /* NativeSceneListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeSceneListener.h; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 		01A69890135636B4008B7F31 /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				015AA5D015B48478000B029F /* ArchiveManager.cpp */,
 				01C2B2721576A70500A28176 /* ManagedRenderSystemListener.cpp */,
 				0144A7DC149B85B9004E19D6 /* AnimationStateIterator.cpp */,
 				0144A7DD149B85B9004E19D6 /* OgreExceptionManager.cpp */,
@@ -474,6 +477,7 @@
 				0144A7DE149B85B9004E19D6 /* AnimationStateIterator.cpp in Sources */,
 				0144A7DF149B85B9004E19D6 /* OgreExceptionManager.cpp in Sources */,
 				01C2B2731576A70500A28176 /* ManagedRenderSystemListener.cpp in Sources */,
+				015AA5D115B48478000B029F /* ArchiveManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
