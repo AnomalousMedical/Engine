@@ -17,4 +17,19 @@ WordWrapWhite
       <Widget type="ScrollBar" skin="ScrollBarV" position="16 1 15 27" align="Right VStretch" name="VScroll"/>
     </Widget>
   </Resource>
+
+<!--*************************
+ButtonListIconButton32
+*****************************-->
+<Resource type="ResourceLayout" name="ButtonListIconButton32" version="3.2.0">
+  <Widget type="Widget" skin="ButtonListItemSkin" position="20 20 32 64" name="Root">
+    <Property key="TextAlign" value="Left VCenter"/>
+    <Property key="FontName" value="Default"/>
+    <UserString key="LE_TargetWidgetType" value="Button"/>
+    <Widget type="ImageBox" skin="ImageBox" position="0 0 32 32" align="Left Top" name="Image">
+      <Property key="NeedMouse" value="false"/>
+    </Widget>
+  </Widget>
+</Resource>
+
 </MyGUI>
