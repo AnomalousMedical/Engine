@@ -2145,4 +2145,42 @@ TimelineNavigationBarSkin
     </BasisSkin>
   </Resource>
 
+  <!--*************************
+FileTabButton
+*****************************-->
+  <Resource type="ResourceSkin" name = "FileTabButton" size = "51 22" texture = "#{MyGUI_Theme_Texture}" >
+    <Property key="FontName" value = "Default" />
+    <Property key="TextAlign" value = "Left VCenter" />
+    <Property key="TextColour" value = "#{MyGUI_Theme_Button_ColorNormal}"/>
+    <!--Left-->
+    <BasisSkin type="SubSkin" offset = "0 0 11 22" align = "Left VStretch">
+      <State name="normal" offset = "597 2 11 22"/>
+      <State name="highlighted" offset = "597 33 11 22"/>
+      <State name="normal_checked" offset = "545 2 11 22"/>
+      <State name="pushed" offset = "545 33 11 22"/>
+    </BasisSkin>
+    <!--Right-->
+    <BasisSkin type="SubSkin" offset = "37 0 14 22" align = "Right VStretch">
+      <State name="normal" offset = "634 2 14 22"/>
+      <State name="highlighted" offset = "634 33 14 22"/>
+      <State name="normal_checked" offset = "582 2 14 22"/>
+      <State name="pushed" offset = "582 33 14 22"/>
+    </BasisSkin>
+    <!--Middle-->
+    <BasisSkin type="SubSkin" offset = "11 0 26 22" align = "Stretch">
+      <State name="normal" offset = "608 2 26 22"/>
+      <State name="highlighted" offset = "608 33 26 22"/>
+      <State name="normal_checked" offset = "556 2 26 22"/>
+      <State name="pushed" offset = "556 33 26 22"/>
+    </BasisSkin>
+    <!--Text-->
+    <BasisSkin type="SimpleText" offset = "10 0 28 21" align = "Stretch">
+      <State name="disabled" colour="#{MyGUI_Theme_Button_ColorDisabled}" shift = "false"/>
+      <State name="normal" colour="#{MyGUI_Theme_Button_ColorNormal}" shift = "false"/>
+      <State name="highlighted" colour="#{MyGUI_Theme_Button_ColorHighlighted}" shift = "false"/>
+      <State name="normal_checked" colour="#{MyGUI_Theme_Button_ColorNormal_Checked}" shift="true"/>
+      <State name="pushed" colour="#{MyGUI_Theme_Button_ColorPushed}" shift="true"/>
+    </BasisSkin>
+  </Resource>
+
 </MyGUI>
