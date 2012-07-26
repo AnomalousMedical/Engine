@@ -28,6 +28,9 @@ namespace MyGUIPlugin
         internal event MouseEvent MouseButtonReleased;
 
         private IntPtr inputManager;
+        private int mouseX;
+        private int mouseY;
+        private int mouseZ;
 
         private InputManager()
         {
@@ -36,11 +39,16 @@ namespace MyGUIPlugin
 
         public bool injectMouseMove(int absx, int absy, int absz)
         {
+            mouseX = absx;
+            mouseY = absy;
+            mouseZ = absz;
             return InputManager_injectMouseMove(inputManager, absx, absy, absz);
         }
 
         public bool injectMousePress(int absx, int absy, MouseButtonCode id)
         {
+            mouseX = absx;
+            mouseY = absy;
             bool handled = InputManager_injectMousePress(inputManager, absx, absy, id);
             if (MouseButtonPressed != null)
             {
@@ -51,12 +59,26 @@ namespace MyGUIPlugin
 
         public bool injectMouseRelease(int absx, int absy, MouseButtonCode id)
         {
+            mouseX = absx;
+            mouseY = absy;
             bool handled = InputManager_injectMouseRelease(inputManager, absx, absy, id);
             if (MouseButtonReleased != null)
             {
                 MouseButtonReleased.Invoke(absx, absy, id);
             }
             return handled;
+        }
+
+        /// <summary>
+        /// This function is a bit of a hack, but it will reset the mouse focus
+        /// widget and then attempt to find it again it should be used in the
+        /// event that something was animated and the mygui focus widget may no
+        /// longer be valid.
+        /// </summary>
+        public void refreshMouseWidget()
+        {
+            resetMouseFocusWidget();
+            InputManager_injectMouseMove(inputManager, mouseX, mouseY, mouseZ);
         }
 
         public bool injectKeyPress(KeyboardButtonCode key, uint text)
