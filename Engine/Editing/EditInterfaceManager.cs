@@ -51,9 +51,12 @@ namespace Engine.Editing
         /// <param name="source">The class that provided the interface to remove.</param>
         public void removeSubInterface(T source)
         {
-            EditInterface subInterface = interfaceDictionary[source];
-            editInterface.removeSubInterface(subInterface);
-            interfaceDictionary.Remove(source);
+            EditInterface subInterface;
+            if (interfaceDictionary.TryGetValue(source, out subInterface))
+            {
+                editInterface.removeSubInterface(subInterface);
+                interfaceDictionary.Remove(source);
+            }
         }
 
         /// <summary>
