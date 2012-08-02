@@ -130,6 +130,7 @@
     <ClCompile Include="Src\ResourceManager.cpp" />
     <ClCompile Include="Src\ScrollView.cpp" />
     <ClCompile Include="Src\ImageBox.cpp" />
+    <ClCompile Include="Src\TabControl.cpp" />
     <ClCompile Include="Src\TextBox.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

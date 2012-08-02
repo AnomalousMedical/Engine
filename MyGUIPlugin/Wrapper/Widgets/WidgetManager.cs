@@ -152,7 +152,7 @@ namespace MyGUIPlugin
                     return new Widget(widget);
 
                 case WidgetType.TabControl:
-                    return new Widget(widget);
+                    return new TabControl(widget);
 
                 case WidgetType.ScrollBar:
                     return new ScrollBar(widget);
