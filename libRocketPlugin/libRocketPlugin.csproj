@@ -85,6 +85,7 @@
     <Compile Include="Wrapper\Math\ThreeIntHack.cs" />
     <Compile Include="Wrapper\RenderInterfaceOgre3D.cs" />
     <Compile Include="Wrapper\Math\Vector2i.cs" />
+    <Compile Include="Wrapper\Utility\ElementListIter.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Anomalous.rcss" />

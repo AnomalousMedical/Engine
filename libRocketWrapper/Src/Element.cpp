@@ -1,4 +1,5 @@
 #include "StdAfx.h"
+#include "ElementListIter.h"
 
 //Element* Clone() const;
 //
@@ -124,11 +125,17 @@ extern "C" _AnomalousExport String Element_GetTagName(Rocket::Core::Element* ele
 {
 	return element->GetTagName().CString();
 }
-//
-//const String& GetId() const;
-//
-//void SetId(const String& id);
-//
+
+extern "C" _AnomalousExport String Element_GetId(Rocket::Core::Element* element)
+{
+	return element->GetId().CString();
+}
+
+extern "C" _AnomalousExport void Element_SetId(Rocket::Core::Element* element, String id)
+{
+	element->SetId(id);
+}
+
 extern "C" _AnomalousExport float Element_GetAbsoluteLeft(Rocket::Core::Element* element)
 {
 	return element->GetAbsoluteLeft();
@@ -325,7 +332,10 @@ extern "C" _AnomalousExport Rocket::Core::Element* Element_GetElementById(Rocket
 	return element->GetElementById(id);
 }
 
-//void GetElementsByTagName(ElementList& elements, const String& tag);
+extern "C" _AnomalousExport void GetElementsByTagName(Rocket::Core::Element* element, ElementListIter* elements, String tag)
+{
+	element->GetElementsByTagName(elements->elementList, tag);
+}
 
 extern "C" _AnomalousExport void Element_GetElementRML(Rocket::Core::Element* element, StringRetrieverCallback retrieve)
 {

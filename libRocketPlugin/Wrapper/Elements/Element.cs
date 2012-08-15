@@ -28,6 +28,16 @@ namespace libRocketPlugin
             return VariantWrapped.Construct(Element_GetAttribute(ptr, name));
         }
 
+        public String GetAttributeString(String name)
+        {
+            Variant variant = GetAttribute(name);
+            if (variant != null)
+            {
+                return variant.StringValue;
+            }
+            return null;
+        }
+
         public bool HasAttribute(String name)
         {
             return Element_HasAttribute(ptr, name);
@@ -104,11 +114,40 @@ namespace libRocketPlugin
             return ElementManager.getElement(Element_GetChild(ptr, index));
         }
 
+        public IEnumerable<Element> GetElementsByTagName(String tag)
+        {
+            ElementListIter iter = new ElementListIter();
+            GetElementsByTagName(ptr, iter.Ptr, tag);
+            iter.startIterator();
+            Element element;
+            do
+            {
+                element = iter.getNextElement();
+                if (element != null)
+                {
+                    yield return element;
+                }
+            } while (element != null);
+            iter.Dispose();
+        }
+
         public String TagName
         {
             get
             {
                 return Marshal.PtrToStringAnsi(Element_GetTagName(ptr));
+            }
+        }
+
+        public String Id
+        {
+            get
+            {
+                return Marshal.PtrToStringAnsi(Element_GetId(ptr));
+            }
+            set
+            {
+                Element_SetId(ptr, value);
             }
         }
 
@@ -359,6 +398,12 @@ namespace libRocketPlugin
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Element_GetTagName(IntPtr element);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr Element_GetId(IntPtr element);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Element_SetId(IntPtr element, String id);
         
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern float Element_GetAbsoluteLeft(IntPtr element);
@@ -447,7 +492,6 @@ namespace libRocketPlugin
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_Blur(IntPtr element);
-
         
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_Click(IntPtr element);
@@ -475,6 +519,9 @@ namespace libRocketPlugin
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Element_GetElementById(IntPtr element, String id);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void GetElementsByTagName(IntPtr element, IntPtr elements, String tag);
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_GetElementRML(IntPtr element, StringRetriever.Callback retrieve);

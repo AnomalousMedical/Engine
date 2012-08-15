@@ -43,6 +43,11 @@ namespace libRocketPlugin
             Dictionary_Merge(ptr, dict.Ptr);
         }
 
+        public bool HasValue(String key)
+        {
+            return Dictionary_Get(ptr, key) != IntPtr.Zero;
+        }
+
         public Variant this[String key]
         {
             get
