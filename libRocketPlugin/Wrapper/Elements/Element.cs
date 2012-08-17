@@ -117,7 +117,24 @@ namespace libRocketPlugin
         public IEnumerable<Element> GetElementsByTagName(String tag)
         {
             ElementListIter iter = new ElementListIter();
-            GetElementsByTagName(ptr, iter.Ptr, tag);
+            Element_GetElementsByTagName(ptr, iter.Ptr, tag);
+            iter.startIterator();
+            Element element;
+            do
+            {
+                element = iter.getNextElement();
+                if (element != null)
+                {
+                    yield return element;
+                }
+            } while (element != null);
+            iter.Dispose();
+        }
+
+        public IEnumerable<Element> GetElementsWithAttribute(String attribute)
+        {
+            ElementListIter iter = new ElementListIter();
+            Element_GetElementsWithAttribute(ptr, iter.Ptr, attribute);
             iter.startIterator();
             Element element;
             do
@@ -521,10 +538,13 @@ namespace libRocketPlugin
         private static extern IntPtr Element_GetElementById(IntPtr element, String id);
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
-        private static extern void GetElementsByTagName(IntPtr element, IntPtr elements, String tag);
+        private static extern void Element_GetElementsByTagName(IntPtr element, IntPtr elements, String tag);
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_GetElementRML(IntPtr element, StringRetriever.Callback retrieve);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Element_GetElementsWithAttribute(IntPtr root_element, IntPtr elementListIter, String attribute);
 
         #endregion
     }

@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "ElementListIter.h"
+#include <queue>
 
 //Element* Clone() const;
 //
@@ -332,7 +333,7 @@ extern "C" _AnomalousExport Rocket::Core::Element* Element_GetElementById(Rocket
 	return element->GetElementById(id);
 }
 
-extern "C" _AnomalousExport void GetElementsByTagName(Rocket::Core::Element* element, ElementListIter* elements, String tag)
+extern "C" _AnomalousExport void Element_GetElementsByTagName(Rocket::Core::Element* element, ElementListIter* elements, String tag)
 {
 	element->GetElementsByTagName(elements->elementList, tag);
 }
@@ -342,4 +343,27 @@ extern "C" _AnomalousExport void Element_GetElementRML(Rocket::Core::Element* el
 	Rocket::Core::String str;
 	element->GetElementRML(str);
 	retrieve(str.CString());
+}
+
+extern "C" _AnomalousExport void Element_GetElementsWithAttribute(Rocket::Core::Element* root_element, ElementListIter* elementListIter, String attribute)
+{
+	Rocket::Core::ElementList& elements = elementListIter->elementList;
+	// Breadth first search on elements for the corresponding id
+	typedef std::queue< Rocket::Core::Element* > SearchQueue;
+	SearchQueue search_queue;
+	for (int i = 0; i < root_element->GetNumChildren(); ++i)
+		search_queue.push(root_element->GetChild(i));
+
+	while (!search_queue.empty())
+	{
+		Rocket::Core::Element* element = search_queue.front();
+		search_queue.pop();
+
+		if (element->HasAttribute(attribute))
+			elements.push_back(element);
+
+		// Add all children to search.
+		for (int i = 0; i < element->GetNumChildren(); i++)
+			search_queue.push(element->GetChild(i));
+	}
 }
