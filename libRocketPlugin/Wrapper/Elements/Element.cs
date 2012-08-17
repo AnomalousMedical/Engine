@@ -9,8 +9,8 @@ namespace libRocketPlugin
 {
     public class Element : ReferenceCountable
     {
-        private static StringRetriever stringRetriever = new StringRetriever();
-        private static StringRetriever stringRetriever2 = new StringRetriever();
+        protected static StringRetriever stringRetriever = new StringRetriever();
+        protected static StringRetriever stringRetriever2 = new StringRetriever();
 
         internal Element(IntPtr ptr)
             : base(ptr)

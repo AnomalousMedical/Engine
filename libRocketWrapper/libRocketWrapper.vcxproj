@@ -89,6 +89,7 @@
     <ClCompile Include="Src\Dictionary.cpp" />
     <ClCompile Include="src\Element.cpp" />
     <ClCompile Include="Src\ElementDocument.cpp" />
+    <ClCompile Include="src\ElementFormControl.cpp" />
     <ClCompile Include="src\ElementListIter.cpp" />
     <ClCompile Include="src\ElementManager.cpp" />
     <ClCompile Include="Src\Event.cpp" />

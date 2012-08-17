@@ -14,6 +14,7 @@ namespace libRocketPlugin
         {
             Element = 0,
             ElementDocument = 1,
+            ElementFormControl = 2
         };
 
         private static IntPtr elementManager;
@@ -67,6 +68,9 @@ namespace libRocketPlugin
 
                 case ElementType.ElementDocument:
                     return new ElementDocument(element);
+
+                case ElementType.ElementFormControl:
+                    return new ElementFormControl(element);
             }
             Log.Warning("Could not identify element type for element {0}. Type given was {1}. Will return a Element in its place.", element.ToString(), elementType);
             return new Element(element);

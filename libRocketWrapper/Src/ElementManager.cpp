@@ -4,6 +4,7 @@ enum ElementType
 {
     Element = 0,
     ElementDocument = 1,
+	ElementFormControl = 2,
 };
 
 class ElementManager : public Rocket::Core::Plugin
@@ -48,6 +49,10 @@ extern "C" _AnomalousExport ElementType ElementManager_getType(Rocket::Core::Ele
 	if(typeid(*element) == typeid(Rocket::Core::ElementDocument))
 	{
 		return ElementDocument;
+	}
+	else if(typeid(*element) == typeid(Rocket::Controls::ElementFormControlSelect))
+	{
+		return ElementFormControl;
 	}
 	return Element;
 }
