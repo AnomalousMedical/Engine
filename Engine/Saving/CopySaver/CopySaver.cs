@@ -13,6 +13,8 @@ namespace Engine.Saving
     /// </summary>
     public class CopySaver : HeaderWriter, FooterWriter, ValueWriter
     {
+        public static readonly CopySaver Default = new CopySaver();
+
         private SaveControl saveControl;
         private LoadControl loadControl = new LoadControl();
         private Object lastLoadedObject = null;
