@@ -317,6 +317,11 @@ namespace OgreModelEditor
             modelController.saveModel(filename);
         }
 
+        internal void saveModelJSON(string filename)
+        {
+            modelController.saveModelJSON(filename);
+        }
+
         public void showStats(bool show)
         {
             drawingWindowController.showStats(show);

@@ -77,6 +77,7 @@
             this.selectButton = new System.Windows.Forms.ToolStripButton();
             this.moveButton = new System.Windows.Forms.ToolStripButton();
             this.rotateButton = new System.Windows.Forms.ToolStripButton();
+            this.exportToJSONToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -104,6 +105,7 @@
             this.saveModelToolStripMenuItem,
             this.saveModelAsToolStripMenuItem,
             this.batchUpgradeToolStripMenuItem,
+            this.exportToJSONToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -419,6 +421,13 @@
             this.rotateButton.Text = "Rotate";
             this.rotateButton.Click += new System.EventHandler(this.rotateButton_Click);
             // 
+            // exportToJSONToolStripMenuItem
+            // 
+            this.exportToJSONToolStripMenuItem.Name = "exportToJSONToolStripMenuItem";
+            this.exportToJSONToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.exportToJSONToolStripMenuItem.Text = "Export To JSON";
+            this.exportToJSONToolStripMenuItem.Click += new System.EventHandler(this.exportToJSONToolStripMenuItem_Click);
+            // 
             // OgreModelEditorMain
             // 
             this.AllowDrop = true;
@@ -432,6 +441,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.KeyPreview = true;
+            this.Location = new System.Drawing.Point(0, 0);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "OgreModelEditorMain";
             this.Text = "Ogre Model Editor";
@@ -484,6 +494,7 @@
         private System.Windows.Forms.ToolStripButton rotateButton;
         private System.Windows.Forms.ToolStripMenuItem showSkeletonToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem batchUpgradeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportToJSONToolStripMenuItem;
     }
 }
 

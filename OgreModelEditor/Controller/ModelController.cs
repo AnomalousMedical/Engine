@@ -9,6 +9,7 @@ using Engine;
 using WeifenLuo.WinFormsUI.Docking;
 using Logging;
 using System.Diagnostics;
+using System.IO;
 
 namespace OgreModelEditor.Controller
 {
@@ -248,6 +249,172 @@ namespace OgreModelEditor.Controller
                         meshSerializer.exportMesh(mesh.Value, filename);
                     }
                 }
+            }
+        }
+
+        internal unsafe void saveModelJSON(string filename)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            using (MeshPtr mesh = entity.getMesh())
+            {
+                SubMesh subMesh = mesh.Value.getSubMesh(0);
+                VertexData vertexData = subMesh.vertexData;
+                VertexDeclaration vertexDeclaration = vertexData.vertexDeclaration;
+                VertexBufferBinding vertexBinding = vertexData.vertexBufferBinding;
+                VertexElement normalElement = vertexDeclaration.findElementBySemantic(VertexElementSemantic.VES_NORMAL);
+                VertexElement tangentElement = vertexDeclaration.findElementBySemantic(VertexElementSemantic.VES_TANGENT);
+                VertexElement binormalElement = vertexDeclaration.findElementBySemantic(VertexElementSemantic.VES_BINORMAL);
+                VertexElement uvElement = vertexDeclaration.findElementBySemantic(VertexElementSemantic.VES_TEXTURE_COORDINATES);
+                VertexElement positionElement = vertexDeclaration.findElementBySemantic(VertexElementSemantic.VES_POSITION);
+
+                int numVertices = vertexData.vertexCount.ToInt32();
+                HardwareVertexBufferSharedPtr normalHardwareBuffer = vertexBinding.getBuffer(normalElement.getSource());
+                int normalVertexSize = normalHardwareBuffer.Value.getVertexSize().ToInt32();
+                byte* normalBuffer = (byte*)normalHardwareBuffer.Value.lockBuf(HardwareBuffer.LockOptions.HBL_READ_ONLY);
+
+                HardwareVertexBufferSharedPtr tangentHardwareBuffer = vertexBinding.getBuffer(tangentElement.getSource());
+                int tangetVertexSize = tangentHardwareBuffer.Value.getVertexSize().ToInt32();
+                byte* tangentBuffer = (byte*)tangentHardwareBuffer.Value.lockBuf(HardwareBuffer.LockOptions.HBL_READ_ONLY);
+
+                HardwareVertexBufferSharedPtr binormalHardwareBuffer = vertexBinding.getBuffer(binormalElement.getSource());
+                int binormalVertexSize = binormalHardwareBuffer.Value.getVertexSize().ToInt32();
+                byte* binormalBuffer = (byte*)binormalHardwareBuffer.Value.lockBuf(HardwareBuffer.LockOptions.HBL_NORMAL);
+
+                HardwareVertexBufferSharedPtr uvHardwareBuffer = vertexBinding.getBuffer(uvElement.getSource());
+                int uvVertexSize = uvHardwareBuffer.Value.getVertexSize().ToInt32();
+                byte* uvBuffer = (byte*)uvHardwareBuffer.Value.lockBuf(HardwareBuffer.LockOptions.HBL_NORMAL);
+
+                HardwareVertexBufferSharedPtr positionHardwareBuffer = vertexBinding.getBuffer(positionElement.getSource());
+                int positionVertexSize = positionHardwareBuffer.Value.getVertexSize().ToInt32();
+                byte* positionBuffer = (byte*)positionHardwareBuffer.Value.lockBuf(HardwareBuffer.LockOptions.HBL_NORMAL);
+
+                Vector3* normal;
+                Vector3* tangent;
+                Vector3* binormal;
+                Vector3* uv;
+                Vector3* position;
+
+                IndexData indexData = subMesh.indexData;
+
+                sb.AppendFormat(@"{{
+
+""metadata"":
+{{
+""sourceFile"": ""Skull.max"",
+""generatedBy"": ""3ds max ThreeJSExporter"",
+""formatVersion"": 3,
+""vertices"": {0},
+""normals"": {1},
+""colors"": 0,
+""uvs"": {2},
+""triangles"": {3},
+""materials"": 1
+}},
+
+""materials"": [
+{{
+""DbgIndex"" : 0,
+""DbgName"" : ""Material #327"",
+""colorDiffuse"" : [0.5880, 0.5880, 0.5880],
+""colorAmbient"" : [0.5880, 0.5880, 0.5880],
+""colorSpecular"" : [0.9000, 0.9000, 0.9000],
+""transparency"" : 1.0,
+""specularCoef"" : 10.0,
+""vertexColors"" : false
+}}
+
+],
+
+", numVertices, numVertices, numVertices, indexData.IndexBuffer.Value.getNumIndexes().ToInt32() / 3);
+
+                StringBuilder vertexStringBuilder = new StringBuilder("\n\n\"vertices\": [");
+                StringBuilder normalStringBuilder = new StringBuilder("\n\n\"normals\": [");
+                StringBuilder uvStringBuilder = new StringBuilder("\n\n\"uvs\": [[");
+
+                String appendString = "{0},{1},{2}";
+
+                for (int i = 0; i < numVertices; ++i)
+                {
+                    normalElement.baseVertexPointerToElement(normalBuffer, (float**)&normal);
+                    tangentElement.baseVertexPointerToElement(tangentBuffer, (float**)&tangent);
+                    binormalElement.baseVertexPointerToElement(binormalBuffer, (float**)&binormal);
+                    uvElement.baseVertexPointerToElement(uvBuffer, (float**)&uv);
+                    positionElement.baseVertexPointerToElement(positionBuffer, (float**)&position);
+
+                    //*binormal = normal->cross(ref *tangent) * -1.0f;
+                    vertexStringBuilder.AppendFormat(appendString, position->x, position->y, position->z);
+                    normalStringBuilder.AppendFormat(appendString, normal->x, normal->y, normal->z);
+                    uvStringBuilder.AppendFormat(appendString, uv->x, uv->y, uv->z);
+
+                    normalBuffer += normalVertexSize;
+                    tangentBuffer += tangetVertexSize;
+                    binormalBuffer += binormalVertexSize;
+                    uvBuffer += uvVertexSize;
+                    positionBuffer += positionVertexSize;
+
+                    appendString = ",{0},{1},{2}";
+                }
+
+                vertexStringBuilder.Append("],");
+                normalStringBuilder.Append("],");
+                uvStringBuilder.Append("]],");
+
+                normalHardwareBuffer.Value.unlock();
+                tangentHardwareBuffer.Value.unlock();
+                binormalHardwareBuffer.Value.unlock();
+                uvHardwareBuffer.Value.unlock();
+                positionHardwareBuffer.Value.unlock();
+
+                normalHardwareBuffer.Dispose();
+                tangentHardwareBuffer.Dispose();
+                binormalHardwareBuffer.Dispose();
+                uvHardwareBuffer.Dispose();
+                positionHardwareBuffer.Dispose();
+
+                sb.Append(vertexStringBuilder.ToString());
+                sb.Append(normalStringBuilder.ToString());
+                sb.Append(uvStringBuilder.ToString());
+                sb.Append("\n\n\"colors\": [],");
+
+                StringBuilder triangleStringBuilder = new StringBuilder("\n\n\"faces\": [");
+
+                int numFaces = indexData.IndexBuffer.Value.getNumIndexes().ToInt32();
+                int indexSize = indexData.IndexBuffer.Value.getIndexSize().ToInt32();
+                byte* indexBuffer = (byte*)indexData.IndexBuffer.Value.lockBuf(HardwareBuffer.LockOptions.HBL_READ_ONLY);
+
+                appendString = "{0}";
+
+                switch (indexData.IndexBuffer.Value.getType())
+                {
+                    case HardwareIndexBuffer.IndexType.IT_16BIT:
+                        for (int i = 0; i < numFaces; ++i)
+                        {
+                            triangleStringBuilder.AppendFormat(appendString, *(short*)indexBuffer);
+                            indexBuffer += indexSize;
+                            appendString = ",{0}";
+                        }
+                        break;
+                    case HardwareIndexBuffer.IndexType.IT_32BIT:
+                        for(int i = 0; i < numFaces; ++i)
+                        {
+                            triangleStringBuilder.AppendFormat(appendString, *(int*)indexBuffer);
+                            indexBuffer += indexSize;
+                            appendString = ",{0}";
+                        }
+                        break;
+                }
+
+                triangleStringBuilder.Append("]");
+
+                sb.Append(triangleStringBuilder.ToString());
+
+                sb.Append("\n\n}");
+            }
+
+            using (StreamWriter fileStream = new StreamWriter(File.Open(filename, FileMode.Create, FileAccess.Write)))
+            {
+                fileStream.Write(sb.ToString());
             }
         }
 

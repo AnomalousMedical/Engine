@@ -262,5 +262,16 @@ namespace OgreModelEditor
                 }
             }
         }
+
+        private void exportToJSONToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                if (saveFileDialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
+                {
+                    controller.saveModelJSON(saveFileDialog.FileName);
+                }
+            }
+        }
     }
 }
