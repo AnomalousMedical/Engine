@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		01041D3A1549C7AF006F49FD /* ElementManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01041D391549C7AF006F49FD /* ElementManager.cpp */; };
+		011DEAFD15E5711B00D1443B /* ElementListIter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 011DEAFB15E5711B00D1443B /* ElementListIter.cpp */; };
+		011DEAFE15E5711B00D1443B /* ElementFormControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 011DEAFC15E5711B00D1443B /* ElementFormControl.cpp */; };
+		011DEB0015E5712800D1443B /* ElementListIter.h in Headers */ = {isa = PBXBuildFile; fileRef = 011DEAFF15E5712800D1443B /* ElementListIter.h */; };
 		0124874215498A1D001D41C3 /* StdAfx.h in Headers */ = {isa = PBXBuildFile; fileRef = 0124874015498A1D001D41C3 /* StdAfx.h */; };
 		0124874315498A1D001D41C3 /* StdAfx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0124874115498A1D001D41C3 /* StdAfx.cpp */; };
 		0124875615498A42001D41C3 /* Context.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0124874515498A42001D41C3 /* Context.cpp */; };
@@ -41,6 +44,9 @@
 
 /* Begin PBXFileReference section */
 		01041D391549C7AF006F49FD /* ElementManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ElementManager.cpp; sourceTree = "<group>"; };
+		011DEAFB15E5711B00D1443B /* ElementListIter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ElementListIter.cpp; sourceTree = "<group>"; };
+		011DEAFC15E5711B00D1443B /* ElementFormControl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ElementFormControl.cpp; sourceTree = "<group>"; };
+		011DEAFF15E5712800D1443B /* ElementListIter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElementListIter.h; sourceTree = "<group>"; };
 		0124873B15498961001D41C3 /* libRocketWrapper.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libRocketWrapper.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		0124874015498A1D001D41C3 /* StdAfx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StdAfx.h; path = ../../StdAfx.h; sourceTree = SOURCE_ROOT; };
 		0124874115498A1D001D41C3 /* StdAfx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StdAfx.cpp; path = ../../StdAfx.cpp; sourceTree = SOURCE_ROOT; };
@@ -108,6 +114,8 @@
 		0124874415498A42001D41C3 /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				011DEAFB15E5711B00D1443B /* ElementListIter.cpp */,
+				011DEAFC15E5711B00D1443B /* ElementFormControl.cpp */,
 				0194792515B4826600FBD21C /* TemplateCache.cpp */,
 				0194792615B4826600FBD21C /* Template.cpp */,
 				0181126B15506D7700056F5F /* TextureDatabase.cpp */,
@@ -138,6 +146,7 @@
 		0124876715498A4E001D41C3 /* Include */ = {
 			isa = PBXGroup;
 			children = (
+				011DEAFF15E5712800D1443B /* ElementListIter.h */,
 				0124876815498A4E001D41C3 /* ManagedSystemInterface.h */,
 				0124876915498A4E001D41C3 /* RenderInterfaceOgre3D.h */,
 			);
@@ -206,6 +215,7 @@
 				0124874215498A1D001D41C3 /* StdAfx.h in Headers */,
 				0124876A15498A4E001D41C3 /* ManagedSystemInterface.h in Headers */,
 				0124876B15498A4E001D41C3 /* RenderInterfaceOgre3D.h in Headers */,
+				011DEB0015E5712800D1443B /* ElementListIter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,6 +292,8 @@
 				0181126C15506D7700056F5F /* TextureDatabase.cpp in Sources */,
 				0194792715B4826600FBD21C /* TemplateCache.cpp in Sources */,
 				0194792815B4826600FBD21C /* Template.cpp in Sources */,
+				011DEAFD15E5711B00D1443B /* ElementListIter.cpp in Sources */,
+				011DEAFE15E5711B00D1443B /* ElementFormControl.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
