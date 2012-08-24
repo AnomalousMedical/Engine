@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine.Platform;
 using OgreWrapper;
+using Engine;
 
 namespace OgrePlugin
 {
@@ -21,10 +22,12 @@ namespace OgrePlugin
 
         public void sendUpdate(Clock clock)
         {
+            PerformanceMonitor.start("OgreRender");
             float time = (float)clock.Seconds;
             ogreRoot._fireFrameStarted(time, time);
             ogreRoot._updateAllRenderTargets();
             ogreRoot._fireFrameEnded(time, time);
+            PerformanceMonitor.stop("OgreRender");
         }
 
         public void loopStarting()

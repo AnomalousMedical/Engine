@@ -6,6 +6,7 @@ using Engine.Platform;
 using System.Runtime.InteropServices;
 using Engine.ObjectManagement;
 using Engine.Renderer;
+using Engine;
 
 namespace BulletPlugin
 {
@@ -16,6 +17,7 @@ namespace BulletPlugin
         private BulletFactory factory;
         private IntPtr bulletScene;
         private BulletDebugDraw debugDraw;
+        private String performanceName;
 
         public unsafe BulletScene(BulletSceneDefinition definition, UpdateTimer timer)
         {
@@ -28,6 +30,7 @@ namespace BulletPlugin
             timer.addFixedUpdateListener(this);
             factory = new BulletFactory(this);
             debugDraw = new BulletDebugDraw();
+            performanceName = String.Format("BulletScene {0}", name);
         }
 
         public void Dispose()
@@ -95,7 +98,9 @@ namespace BulletPlugin
 
         public void sendUpdate(Clock clock)
         {
+            PerformanceMonitor.start(performanceName);
             BulletScene_update(bulletScene, (float)clock.Seconds);
+            PerformanceMonitor.stop(performanceName);
         }
 
         public void loopStarting()

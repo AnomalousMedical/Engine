@@ -146,7 +146,9 @@ namespace Engine
 
         public void sendUpdate(Clock clock)
         {
+            PerformanceMonitor.start("Behavior Update");
             updateBehaviors(clock);
+            PerformanceMonitor.stop("Behavior Update");
         }
 
         public void loopStarting()

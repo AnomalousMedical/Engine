@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Engine.Platform;
+using Engine;
 
 namespace SoundPlugin
 {
@@ -17,7 +18,9 @@ namespace SoundPlugin
 
         public void sendUpdate(Clock clock)
         {
+            PerformanceMonitor.start("Sound");
             openALManager.update();
+            PerformanceMonitor.stop("Sound");
         }
 
         public void loopStarting()

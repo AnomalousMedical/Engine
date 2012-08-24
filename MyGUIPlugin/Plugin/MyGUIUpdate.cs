@@ -34,9 +34,11 @@ namespace MyGUIPlugin
 
         public void sendUpdate(Clock clock)
         {
+            PerformanceMonitor.start("MyGUI");
             float time = clock.fSeconds;
             gui.fireUpdateEvent(time);
             renderManager.manualFrameEvent(clock.fSeconds);
+            PerformanceMonitor.stop("MyGUI");
         }
 
         void mouse_Moved(Mouse mouse, MouseButtonCode buttonCode)

@@ -155,6 +155,11 @@
     <Compile Include="ObjectManagement\Instance\SimSubScene.cs" />
     <Compile Include="ObjectManagement\PositionImport\Position.cs" />
     <Compile Include="ObjectManagement\PositionImport\PositionCollection.cs" />
+    <Compile Include="Performance\DisabledPerformanceMonitor.cs" />
+    <Compile Include="Performance\EnabledPerformanceMonitor.cs" />
+    <Compile Include="Performance\PerformanceMonitor.cs" />
+    <Compile Include="Performance\PerformanceMonitorState.cs" />
+    <Compile Include="Performance\Timelapse.cs" />
     <Compile Include="Platform\Clock.cs" />
     <Compile Include="Platform\FullSpeedOnlyUpdateTimer.cs" />
     <Compile Include="Platform\Input\DefaultEvents.cs" />
