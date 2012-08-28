@@ -2,7 +2,8 @@
 // or project specific include files that are used frequently,
 // but are changed infrequently
 
-#pragma once
+#ifndef STDAFX_H
+#define STDAFX_H
 
 
 #include "MyGUI.h"
@@ -93,3 +94,5 @@ MyGUI::ResizingPolicy::Enum getResizingPolicyEnumValue(const MyGUI::ResizingPoli
 /// </summary>
 /// <param name="str">The pointer to the temporary string.</param>
 typedef void (*TempStringCallback)(const MyGUI::UString::code_point* str);
+
+#endif
