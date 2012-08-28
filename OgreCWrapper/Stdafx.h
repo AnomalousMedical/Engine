@@ -2,7 +2,8 @@
 // or project specific include files that are used frequently,
 // but are changed infrequently
 
-#pragma once
+#ifndef STDAFX_H
+#define STDAFX_H
 
 #pragma warning(push)
 #pragma warning(disable : 4635)
@@ -191,3 +192,5 @@ inline String createClrFreeableString(const Ogre::String& ogreString)
 /// side so a managed wrapper can be created if needed.
 /// </Summary>
 typedef void (*ProcessWrapperObjectDelegate)(const void* nativeObject, const void* stackSharedPtr);
+
+#endif
