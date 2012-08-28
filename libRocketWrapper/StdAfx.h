@@ -1,4 +1,5 @@
-#pragma once
+#ifndef STDAFX_H
+#define STDAFX_H
 
 #include <Rocket/Core.h>
 #include <Rocket/Controls.h>
@@ -45,3 +46,5 @@ public:
 };
 
 typedef void (*StringRetrieverCallback)(String value);
+
+#endif
