@@ -2,7 +2,8 @@
 // or project specific include files that are used frequently,
 // but are changed infrequently
 
-#pragma once
+#ifndef STDAFX_H
+#define STDAFX_H
 
 #include "btBulletDynamicsCommon.h"
 #include "BulletSoftBody/btSoftRigidDynamicsWorld.h"
@@ -55,3 +56,5 @@ public:
 		return btQuaternion(x, y, z, w);
 	}
 };
+
+#endif
