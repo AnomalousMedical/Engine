@@ -2,10 +2,11 @@
 // or project specific include files that are used frequently,
 // but are changed infrequently
 
-#pragma once
+#ifndef STDAFX_H
+#define STDAFX_H
 
 #include "al.h" 
-#include "alc.h" 
+#include "alc.h"
 
 #define ENDIAN 0
 
@@ -49,3 +50,5 @@ extern NativeLog logger;
 void checkOpenAL(const char* hint = NULL);
 
 }
+
+#endif
