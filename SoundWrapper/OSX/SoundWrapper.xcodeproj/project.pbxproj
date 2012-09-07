@@ -34,10 +34,9 @@
 		016FF2C9135727DE0004C9AB /* StreamingSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 016FF2AE135727DE0004C9AB /* StreamingSound.cpp */; };
 		016FF2CA135727DE0004C9AB /* Stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 016FF2AF135727DE0004C9AB /* Stdafx.cpp */; };
 		016FF2CB135727DE0004C9AB /* Stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 016FF2B0135727DE0004C9AB /* Stdafx.h */; };
-		016FF2CD1357280F0004C9AB /* libogg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 016FF2CC1357280F0004C9AB /* libogg.a */; };
-		016FF2CF1357281E0004C9AB /* libvorbis.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 016FF2CE1357281E0004C9AB /* libvorbis.a */; };
-		016FF2D1135728830004C9AB /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 016FF2D0135728830004C9AB /* OpenAL.framework */; };
-		016FF2EA135728C50004C9AB /* libvorbisfile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 016FF2E9135728C50004C9AB /* libvorbisfile.a */; };
+		017FFDDE15EE49B200BE0135 /* libVorbis.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 017FFDDD15EE49B200BE0135 /* libVorbis.a */; };
+		017FFDE015EE49C000BE0135 /* libOgg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 017FFDDF15EE49C000BE0135 /* libOgg.a */; };
+		017FFDE215EE49F300BE0135 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 017FFDE115EE49F300BE0135 /* OpenAL.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,10 +67,9 @@
 		016FF2AE135727DE0004C9AB /* StreamingSound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StreamingSound.cpp; sourceTree = "<group>"; };
 		016FF2AF135727DE0004C9AB /* Stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Stdafx.cpp; path = ../Stdafx.cpp; sourceTree = SOURCE_ROOT; };
 		016FF2B0135727DE0004C9AB /* Stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stdafx.h; path = ../Stdafx.h; sourceTree = SOURCE_ROOT; };
-		016FF2CC1357280F0004C9AB /* libogg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libogg.a; path = ../../../Dependencies/oggvorbis/libogg/macosx/build/Release/libogg.a; sourceTree = SOURCE_ROOT; };
-		016FF2CE1357281E0004C9AB /* libvorbis.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvorbis.a; path = ../../../Dependencies/oggvorbis/libvorbis/macosx/build/Release/libvorbis.a; sourceTree = SOURCE_ROOT; };
-		016FF2D0135728830004C9AB /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
-		016FF2E9135728C50004C9AB /* libvorbisfile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvorbisfile.a; path = ../../../Dependencies/oggvorbis/libvorbis/macosx/build/Release/libvorbisfile.a; sourceTree = SOURCE_ROOT; };
+		017FFDDD15EE49B200BE0135 /* libVorbis.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libVorbis.a; path = ../../../Dependencies/oggvorbis/libvorbis/macosx/build/Release/libVorbis.a; sourceTree = "<group>"; };
+		017FFDDF15EE49C000BE0135 /* libOgg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOgg.a; path = ../../../Dependencies/oggvorbis/libogg/macosx/build/Release/libOgg.a; sourceTree = "<group>"; };
+		017FFDE115EE49F300BE0135 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = ../../../../../../System/Library/Frameworks/OpenAL.framework; sourceTree = "<group>"; };
 		5073E0C609E734A800EC74B6 /* SoundWrapperProj.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = SoundWrapperProj.xcconfig; sourceTree = "<group>"; };
 		5073E0C709E734A800EC74B6 /* SoundWrapperTarget.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = SoundWrapperTarget.xcconfig; sourceTree = "<group>"; };
 		D2AAC09D05546B4700DB518D /* libSoundWrapper.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libSoundWrapper.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -82,10 +80,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				016FF2CD1357280F0004C9AB /* libogg.a in Frameworks */,
-				016FF2CF1357281E0004C9AB /* libvorbis.a in Frameworks */,
-				016FF2D1135728830004C9AB /* OpenAL.framework in Frameworks */,
-				016FF2EA135728C50004C9AB /* libvorbisfile.a in Frameworks */,
+				017FFDDE15EE49B200BE0135 /* libVorbis.a in Frameworks */,
+				017FFDE015EE49C000BE0135 /* libOgg.a in Frameworks */,
+				017FFDE215EE49F300BE0135 /* OpenAL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -159,7 +156,6 @@
 				5073E0CA09E734BC00EC74B6 /* Configuration Files */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
 				034768DDFF38A45A11DB9C8B /* Products */,
-				016FF2D0135728830004C9AB /* OpenAL.framework */,
 			);
 			name = SoundWrapper;
 			sourceTree = "<group>";
@@ -167,9 +163,9 @@
 		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				016FF2E9135728C50004C9AB /* libvorbisfile.a */,
-				016FF2CE1357281E0004C9AB /* libvorbis.a */,
-				016FF2CC1357280F0004C9AB /* libogg.a */,
+				017FFDE115EE49F300BE0135 /* OpenAL.framework */,
+				017FFDDF15EE49C000BE0135 /* libOgg.a */,
+				017FFDDD15EE49B200BE0135 /* libVorbis.a */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -312,7 +308,7 @@
 				HEADER_SEARCH_PATHS = (
 					/Users/andrewpiper/Development/Dependencies/oggvorbis/libogg/include,
 					/Users/andrewpiper/Development/Dependencies/oggvorbis/libvorbis/include,
-					/Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/OpenAL.framework/Versions/A/Headers,
+					/System/Library/Frameworks/OpenAL.framework/Versions/A/Headers,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

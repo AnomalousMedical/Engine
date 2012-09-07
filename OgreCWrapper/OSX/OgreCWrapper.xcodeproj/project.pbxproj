@@ -97,7 +97,7 @@
 		0144A7DD149B85B9004E19D6 /* OgreExceptionManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OgreExceptionManager.cpp; sourceTree = "<group>"; };
 		0144A7E0149B85C6004E19D6 /* OgreExceptionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OgreExceptionManager.h; sourceTree = "<group>"; };
 		015AA5D015B48478000B029F /* ArchiveManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArchiveManager.cpp; sourceTree = "<group>"; };
-		01A6988313563672008B7F31 /* libOgreCWrapper.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libOgreCWrapper.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		01A6988313563672008B7F31 /* OgreCWrapper.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = OgreCWrapper.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		01A69889135636B4008B7F31 /* NativeFrameListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeFrameListener.h; sourceTree = "<group>"; };
 		01A6988A135636B4008B7F31 /* NativeSceneListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeSceneListener.h; sourceTree = "<group>"; };
 		01A6988B135636B4008B7F31 /* NativeWindowListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeWindowListener.h; sourceTree = "<group>"; };
@@ -303,7 +303,7 @@
 		034768DDFF38A45A11DB9C8B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				01A6988313563672008B7F31 /* libOgreCWrapper.dylib */,
+				01A6988313563672008B7F31 /* OgreCWrapper.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -372,7 +372,7 @@
 			);
 			name = OgreCWrapper;
 			productName = OgreCWrapper;
-			productReference = 01A6988313563672008B7F31 /* libOgreCWrapper.dylib */;
+			productReference = 01A6988313563672008B7F31 /* OgreCWrapper.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 /* End PBXNativeTarget section */
@@ -552,7 +552,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5073E0C609E734A800EC74B6 /* OgreCWrapperProj.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
