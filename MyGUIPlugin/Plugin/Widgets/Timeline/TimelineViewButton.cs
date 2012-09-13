@@ -100,13 +100,13 @@ namespace MyGUIPlugin
         {
             MouseEventArgs me = e as MouseEventArgs;
             float newStartTime = dragStartTime + (me.Position.x - dragStartPos) / pixelsPerSecond;
-            if(newStartTime < 0.0f)
-            {
-                newStartTime = 0.0f;
-            }
             if (newStartTime + Duration > timelineDuration)
             {
                 newStartTime = timelineDuration - Duration;
+            }
+            if (newStartTime < 0.0f)
+            {
+                newStartTime = 0.0f;
             }
             float oldStartTime = StartTime;
             StartTime = newStartTime;
