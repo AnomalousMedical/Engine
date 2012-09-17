@@ -57,7 +57,8 @@ namespace MyGUIPlugin
         void edit_EventEditTextChange(Widget source, EventArgs e)
         {
             String currentCaption = edit.Caption;
-            if (currentCaption != String.Empty)
+            Double value = 0;
+            if (currentCaption != String.Empty && currentCaption != ".")
             {
                 if (currentCaption == "-")
                 {
@@ -66,8 +67,7 @@ namespace MyGUIPlugin
                         edit.Caption = lastCaption;
                     }
                 }
-                Double value = 0;
-                if (NumberParser.TryParse(currentCaption, out value))
+                else if (NumberParser.TryParse(currentCaption, out value))
                 {
                     if (value >= minValue && value <= maxValue)
                     {
