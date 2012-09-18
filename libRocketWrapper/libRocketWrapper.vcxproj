@@ -71,8 +71,8 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>..\..\dependencies\libRocket\WindowsBuild\Release;..\..\dependencies\libRocket\support\lib;..\..\dependencies\Ogre\Windows\Build\lib\Release</AdditionalLibraryDirectories>
-      <AdditionalDependencies>RocketControls.lib;RocketCore.lib;RocketDebugger.lib;freetype243MT.lib;OgreMain.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\dependencies\libRocket\WindowsBuild\Release;..\..\dependencies\Ogre\Windows\Dependencies\lib\Release;..\..\dependencies\Ogre\Windows\Build\lib\Release</AdditionalLibraryDirectories>
+      <AdditionalDependencies>RocketControls.lib;RocketCore.lib;RocketDebugger.lib;freetype2311.lib;OgreMain.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
