@@ -172,9 +172,12 @@ namespace MyGUIPlugin
             tracks.Clear();
         }
 
-        public void addData(TimelineData data)
+        public void addData(TimelineData data, bool clearSelection = true)
         {
-            selectionCollection.clearSelection();
+            if (clearSelection)
+            {
+                selectionCollection.clearSelection();
+            }
             Button button = timelineScrollView.createButton(pixelsPerSecond * data.StartTime, pixelsPerSecond * data.Duration);
             TimelineViewButton actionButton = namedTracks[data.Track].addButton(button, data);
             actionButton.Clicked += actionButton_Clicked;
@@ -438,7 +441,7 @@ namespace MyGUIPlugin
             {
                 if (!sender.StateCheck)
                 {
-                    selectionCollection.clearSelection();
+                    selectionCollection.clearSelection(false);
                 }
                 selectionCollection.setCurrentButton(sender);
             }

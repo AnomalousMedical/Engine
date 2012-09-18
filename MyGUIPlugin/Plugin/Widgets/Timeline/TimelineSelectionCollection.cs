@@ -47,9 +47,9 @@ namespace MyGUIPlugin
             }
         }
 
-        public void clearSelection()
+        public void clearSelection(bool fireActiveDataChanged = true)
         {
-            if (setCurrentButton(null))
+            if (setCurrentButton(null, fireActiveDataChanged))
             {
                 foreach (TimelineViewButton button in selectedButtons)
                 {
@@ -59,7 +59,7 @@ namespace MyGUIPlugin
             }
         }
 
-        public bool setCurrentButton(TimelineViewButton button)
+        public bool setCurrentButton(TimelineViewButton button, bool fireActiveDataChanged = true)
         {
             cancelEventArgs.reset();
             timelineView.fireActiveDataChanging(cancelEventArgs);
@@ -67,7 +67,10 @@ namespace MyGUIPlugin
             {
                 addButton(button);
                 currentButton = button;
-                timelineView.fireActiveDataChanged();
+                if (fireActiveDataChanged)
+                {
+                    timelineView.fireActiveDataChanged();
+                }
                 return true;
             }
             return false;
