@@ -47,6 +47,16 @@ namespace OgreWrapper
             }
         }
 
+        public String getMaterialName()
+        {
+            return Marshal.PtrToStringAnsi(SubMesh_getMaterialName(subMesh));
+        }
+
+        public void setMaterialName(String name)
+        {
+            SubMesh_setMaterialName(subMesh, name);
+        }
+
         public bool UseSharedVertices
         {
             get
@@ -82,6 +92,12 @@ namespace OgreWrapper
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr SubMesh_IndexData(IntPtr subMesh);
+
+        [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr SubMesh_getMaterialName(IntPtr subMesh);
+
+        [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void SubMesh_setMaterialName(IntPtr subMesh, String name);
 
 #endregion
     }

@@ -443,7 +443,7 @@ namespace OgreModelEditor.Controller
                     }
                 }
             }
-            customParameters.SubEntity = entity.getSubEntity(0);
+            customParameters.Entity = entity;
             if (entity.hasSkeleton())
             {
                 skeletonWindow.setSkeleton(entity.getSkeleton());

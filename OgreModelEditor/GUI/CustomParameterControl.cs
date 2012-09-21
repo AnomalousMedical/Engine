@@ -14,12 +14,40 @@ namespace OgreModelEditor
 {
     public partial class CustomParameterControl : DockContent
     {
+        private Entity entity;
+
         public CustomParameterControl()
         {
             InitializeComponent();
         }
-        
-        public SubEntity SubEntity { get; set; }
+
+        public SubEntity SubEntity
+        {
+            get
+            {
+                if (entity != null)
+                {
+                    return entity.getSubEntity(0);
+                }
+                return null;
+            }
+        }
+
+        public Entity Entity
+        {
+            get
+            {
+                return entity;
+            }
+            set
+            {
+                entity = value;
+                using (MeshPtr mesh = entity.getMesh())
+                {
+                    materialText.Text = mesh.Value.getSubMesh(0).getMaterialName();
+                }
+            }
+        }
 
         private void setValue_Click(object sender, EventArgs e)
         {
@@ -50,6 +78,14 @@ namespace OgreModelEditor
             catch (SEHException)
             {
                 valueText.Text = "0, 0, 0, 0";
+            }
+        }
+
+        private void applyMaterialButton_Click(object sender, EventArgs e)
+        {
+            using (MeshPtr mesh = entity.getMesh())
+            {
+                mesh.Value.getSubMesh(0).setMaterialName(materialText.Text);
             }
         }
     }

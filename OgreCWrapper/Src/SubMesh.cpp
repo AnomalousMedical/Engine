@@ -14,3 +14,13 @@ extern "C" _AnomalousExport Ogre::IndexData* SubMesh_IndexData(Ogre::SubMesh* su
 {
 	return subMesh->indexData;
 }
+
+extern "C" _AnomalousExport const char* SubMesh_getMaterialName(Ogre::SubMesh* subMesh)
+{
+	return subMesh->getMaterialName().c_str();
+}
+
+extern "C" _AnomalousExport void SubMesh_setMaterialName(Ogre::SubMesh* subMesh, const char* name)
+{
+	subMesh->setMaterialName(name);
+}

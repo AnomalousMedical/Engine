@@ -34,12 +34,16 @@
             this.indexUpDown = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.valueText = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.materialText = new System.Windows.Forms.TextBox();
+            this.applyMaterialButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.indexUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // setValue
             // 
-            this.setValue.Location = new System.Drawing.Point(8, 51);
+            this.setValue.Location = new System.Drawing.Point(7, 65);
             this.setValue.Name = "setValue";
             this.setValue.Size = new System.Drawing.Size(74, 23);
             this.setValue.TabIndex = 0;
@@ -49,7 +53,7 @@
             // 
             // getValue
             // 
-            this.getValue.Location = new System.Drawing.Point(88, 51);
+            this.getValue.Location = new System.Drawing.Point(87, 65);
             this.getValue.Name = "getValue";
             this.getValue.Size = new System.Drawing.Size(74, 23);
             this.getValue.TabIndex = 1;
@@ -60,7 +64,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 6);
+            this.label1.Location = new System.Drawing.Point(3, 20);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(33, 13);
             this.label1.TabIndex = 2;
@@ -68,7 +72,7 @@
             // 
             // indexUpDown
             // 
-            this.indexUpDown.Location = new System.Drawing.Point(7, 23);
+            this.indexUpDown.Location = new System.Drawing.Point(6, 37);
             this.indexUpDown.Maximum = new decimal(new int[] {
             32000,
             0,
@@ -81,7 +85,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(72, 6);
+            this.label2.Location = new System.Drawing.Point(71, 20);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(34, 13);
             this.label2.TabIndex = 4;
@@ -89,16 +93,55 @@
             // 
             // valueText
             // 
-            this.valueText.Location = new System.Drawing.Point(76, 23);
+            this.valueText.Location = new System.Drawing.Point(75, 37);
             this.valueText.Name = "valueText";
             this.valueText.Size = new System.Drawing.Size(204, 20);
             this.valueText.TabIndex = 5;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 4);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(93, 13);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Custom Parameter";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(7, 94);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(44, 13);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "Material";
+            // 
+            // materialText
+            // 
+            this.materialText.Location = new System.Drawing.Point(8, 111);
+            this.materialText.Name = "materialText";
+            this.materialText.Size = new System.Drawing.Size(262, 20);
+            this.materialText.TabIndex = 8;
+            // 
+            // applyMaterialButton
+            // 
+            this.applyMaterialButton.Location = new System.Drawing.Point(8, 138);
+            this.applyMaterialButton.Name = "applyMaterialButton";
+            this.applyMaterialButton.Size = new System.Drawing.Size(95, 23);
+            this.applyMaterialButton.TabIndex = 9;
+            this.applyMaterialButton.Text = "Apply Material";
+            this.applyMaterialButton.UseVisualStyleBackColor = true;
+            this.applyMaterialButton.Click += new System.EventHandler(this.applyMaterialButton_Click);
             // 
             // CustomParameterControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 78);
+            this.ClientSize = new System.Drawing.Size(284, 169);
+            this.Controls.Add(this.applyMaterialButton);
+            this.Controls.Add(this.materialText);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.valueText);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.indexUpDown);
@@ -109,7 +152,7 @@
             this.HideOnClose = true;
             this.Name = "CustomParameterControl";
             this.ShowHint = WeifenLuo.WinFormsUI.Docking.DockState.DockRight;
-            this.Text = "Custom Parameters";
+            this.Text = "Parameters";
             ((System.ComponentModel.ISupportInitialize)(this.indexUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -124,5 +167,9 @@
         private System.Windows.Forms.NumericUpDown indexUpDown;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox valueText;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox materialText;
+        private System.Windows.Forms.Button applyMaterialButton;
     }
 }
