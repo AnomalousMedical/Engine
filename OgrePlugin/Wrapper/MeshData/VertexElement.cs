@@ -289,6 +289,16 @@ namespace OgreWrapper
 	    /// <returns>True if p1 == p2 according to Ogre.</returns>
 	    public static bool operator == (VertexElement p1,  VertexElement p2) 
 	    {
+            if (Object.ReferenceEquals(p1, p2))
+            {
+                return true;
+            }
+
+            if (((object)p1 == null) || ((object)p2 == null))
+            {
+                return false;
+            }
+
 		    return p1.vertexElement == p2.vertexElement;
 	    }
 
@@ -300,6 +310,16 @@ namespace OgreWrapper
         /// <returns>True if p1 == p2 according to Ogre.</returns>
         public static bool operator !=(VertexElement p1, VertexElement p2)
         {
+            if (Object.ReferenceEquals(p1, p2))
+            {
+                return false;
+            }
+
+            if (((object)p1 == null) || ((object)p2 == null))
+            {
+                return true;
+            }
+
             return p1.vertexElement != p2.vertexElement;
         }
 
@@ -310,6 +330,14 @@ namespace OgreWrapper
 
         public override bool Equals(object obj)
         {
+            if (Object.ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+            if (obj == null)
+            {
+                return false;
+            }
             return obj is VertexElement && ((VertexElement)obj).vertexElement == vertexElement;
         }
 

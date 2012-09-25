@@ -378,6 +378,11 @@ namespace OgreWrapper
             Mesh_removeAllPoses(resource);
         }
 
+        public void _updateCompiledBoneAssignments()
+        {
+            Mesh__updateCompiledBoneAssignments(resource);
+        }
+
         public VertexData SharedVertexData
 	    {
 		    get
@@ -599,6 +604,8 @@ namespace OgreWrapper
     [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_removeAllPoses(IntPtr mesh);
 
+    [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
+    private static extern void Mesh__updateCompiledBoneAssignments(IntPtr mesh);
 #endregion
     }
 }

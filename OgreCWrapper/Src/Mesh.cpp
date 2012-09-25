@@ -340,3 +340,8 @@ extern "C" _AnomalousExport void Mesh_removeAllPoses(Ogre::Mesh* mesh)
 {
 	mesh->removeAllPoses();
 }
+
+extern "C" _AnomalousExport void Mesh__updateCompiledBoneAssignments(Ogre::Mesh* mesh)
+{
+	mesh->_updateCompiledBoneAssignments();
+}

@@ -17,8 +17,9 @@ namespace OgreModelEditor
             InitializeComponent();
         }
 
-        public void setSkeleton(SkeletonInstance skeleton)
+        public void setSkeleton(Entity entity)
         {
+            SkeletonInstance skeleton = entity.getSkeleton();
             skeletonTree.Nodes.Clear();
             for (ushort i = 0; i < skeleton.getNumBones(); i++)
             {
@@ -29,6 +30,29 @@ namespace OgreModelEditor
                 TreeNode rotationNode = new TreeNode("Rotation" + bone.getOrientation());
                 skeletonNode.Nodes.Add(rotationNode);
                 skeletonTree.Nodes.Add(skeletonNode);
+            }
+            using (MeshPtr mesh = entity.getMesh())
+            {
+                mesh.Value._updateCompiledBoneAssignments();
+                if (mesh.Value.SharedVertexData != null)
+                {
+                    //Logging.Log.Debug("Shared Bone Assignments {0}", mesh.Value.SharedBoneAssignmentCount);
+                }
+                else
+                {
+                    ushort numSubMeshes = mesh.Value.getNumSubMeshes();
+                    for (ushort i = 0; i < numSubMeshes; ++i)
+                    {
+                        SubMesh subMesh = mesh.Value.getSubMesh(i);
+                        VertexData vertexData = subMesh.vertexData;
+                        VertexDeclaration vertexDeclaration = vertexData.vertexDeclaration;
+                        VertexElement elem = vertexDeclaration.findElementBySemantic(VertexElementSemantic.VES_BLEND_WEIGHTS);
+                        if (elem != null)
+                        {
+                            Logging.Log.Debug("Sub Mesh {0} Bone Assignments {1}", i, VertexElement.getTypeCount(elem.getType()));
+                        }
+                    }
+                }
             }
         }
 

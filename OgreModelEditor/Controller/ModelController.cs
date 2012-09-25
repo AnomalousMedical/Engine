@@ -446,7 +446,7 @@ namespace OgreModelEditor.Controller
             customParameters.Entity = entity;
             if (entity.hasSkeleton())
             {
-                skeletonWindow.setSkeleton(entity.getSkeleton());
+                skeletonWindow.setSkeleton(entity);
             }
             else
             {
