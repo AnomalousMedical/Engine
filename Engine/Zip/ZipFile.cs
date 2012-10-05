@@ -92,22 +92,22 @@ namespace ZipAccess
 	        }
         }
 
-	    public List<ZipFileInfo> listFiles(String path, bool recursive)
+	    public IEnumerable<ZipFileInfo> listFiles(String path, bool recursive)
         {
             return findMatches(files, path, "*", recursive);
         }
 
-	    public List<ZipFileInfo> listFiles(String path, String searchPattern, bool recursive)
+        public IEnumerable<ZipFileInfo> listFiles(String path, String searchPattern, bool recursive)
         {
             return findMatches(files, path, searchPattern, recursive);
         }
 
-	    public List<ZipFileInfo> listDirectories(String path, bool recursive)
+        public IEnumerable<ZipFileInfo> listDirectories(String path, bool recursive)
         {
             return findMatches(directories, path, "*", recursive);
         }
 
-	    public List<ZipFileInfo> listDirectories(String path, String searchPattern, bool recursive)
+        public IEnumerable<ZipFileInfo> listDirectories(String path, String searchPattern, bool recursive)
         {
             return findMatches(directories, path, searchPattern, recursive);
         }
@@ -141,7 +141,7 @@ namespace ZipAccess
 	        return null;
         }
 
-        private List<ZipFileInfo> findMatches(List<ZipFileInfo> sourceList, String path, String searchPattern, bool recursive)
+        private IEnumerable<ZipFileInfo> findMatches(List<ZipFileInfo> sourceList, String path, String searchPattern, bool recursive)
         {
             bool matchAll = searchPattern == "*";
 	        searchPattern = wildcardToRegex(searchPattern);

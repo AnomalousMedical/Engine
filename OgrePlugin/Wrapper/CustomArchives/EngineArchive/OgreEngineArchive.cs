@@ -39,7 +39,7 @@ namespace OgreWrapper
 
         protected override void doList(bool recursive, bool dirs, IntPtr ogreStringVector)
         {
-            String[] files;
+            IEnumerable<String> files;
 	        if(dirs)
 	        {
 		        files = vfs.listDirectories(baseName, recursive);
@@ -56,7 +56,7 @@ namespace OgreWrapper
 
         protected override void doListFileInfo(bool recursive, bool dirs, IntPtr ogreFileList, IntPtr archive)
         {
-            String[] files;
+            IEnumerable<String> files;
             if(dirs)
 	        {
                 files = vfs.listDirectories(baseName, recursive);
@@ -77,7 +77,7 @@ namespace OgreWrapper
 
         protected override void dofind(string pattern, bool recursive, bool dirs, IntPtr ogreStringVector)
         {
-            String[] files;
+            IEnumerable<String> files;
             if(dirs)
 	        {
 		        files = vfs.listDirectories(baseName, pattern, recursive);
@@ -94,7 +94,7 @@ namespace OgreWrapper
 
         protected override void dofindFileInfo(string pattern, bool recursive, bool dirs, IntPtr ogreFileList, IntPtr archive)
         {
-            String[] files;
+            IEnumerable<String> files;
             if (dirs)
             {
                 files = vfs.listDirectories(baseName, pattern, recursive);

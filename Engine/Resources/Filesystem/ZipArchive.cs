@@ -47,42 +47,42 @@ namespace Engine.Resources
             return FileSystem.fixPathFile(path).StartsWith(fullZipPath, StringComparison.OrdinalIgnoreCase);
         }
 
-        public override string[] listFiles(bool recursive)
+        public override IEnumerable<String> listFiles(bool recursive)
         {
-            return getArray(zipFile.listFiles("", recursive));
+            return enumerateNames(zipFile.listFiles("", recursive));
         }
 
-        public override string[] listFiles(string url, bool recursive)
+        public override IEnumerable<String> listFiles(string url, bool recursive)
         {
-            return getArray(zipFile.listFiles(parseURLInZip(url), recursive));
+            return enumerateNames(zipFile.listFiles(parseURLInZip(url), recursive));
         }
 
-        public override String[] listFiles(String url, String searchPattern, bool recursive)
+        public override IEnumerable<String> listFiles(String url, String searchPattern, bool recursive)
         {
-            return getArray(zipFile.listFiles(parseURLInZip(url), searchPattern, recursive));
+            return enumerateNames(zipFile.listFiles(parseURLInZip(url), searchPattern, recursive));
         }
 
-        public override string[] listDirectories(bool recursive)
+        public override IEnumerable<String> listDirectories(bool recursive)
         {
-            return getArray(zipFile.listDirectories("", recursive));
+            return enumerateNames(zipFile.listDirectories("", recursive));
         }
 
-        public override String[] listDirectories(String url, bool recursive)
+        public override IEnumerable<String> listDirectories(String url, bool recursive)
         {
-            return getArray(zipFile.listDirectories(parseURLInZip(url), recursive));
+            return enumerateNames(zipFile.listDirectories(parseURLInZip(url), recursive));
         }
 
-        public override string[] listDirectories(string url, bool recursive, bool includeHidden)
+        public override IEnumerable<String> listDirectories(string url, bool recursive, bool includeHidden)
         {
             return listDirectories(url, recursive);
         }
 
-        public override String[] listDirectories(String url, String searchPattern, bool recursive)
+        public override IEnumerable<String> listDirectories(String url, String searchPattern, bool recursive)
         {
-            return getArray(zipFile.listDirectories(parseURLInZip(url), searchPattern, recursive));
+            return enumerateNames(zipFile.listDirectories(parseURLInZip(url), searchPattern, recursive));
         }
 
-        public override string[] listDirectories(string url, string searchPattern, bool recursive, bool includeHidden)
+        public override IEnumerable<String> listDirectories(string url, string searchPattern, bool recursive, bool includeHidden)
         {
             return listDirectories(url, searchPattern, recursive);
         }
@@ -177,15 +177,12 @@ namespace Engine.Resources
             return searchDirectory;
         }
 
-        private String[] getArray(List<ZipFileInfo> zipFiles)
+        private IEnumerable<String> enumerateNames(IEnumerable<ZipFileInfo> zipFiles)
         {
-            String[] ret = new String[zipFiles.Count];
-            int i = 0;
             foreach (ZipFileInfo info in zipFiles)
             {
-                ret[i++] = info.FullName;
+                yield return info.FullName;
             }
-            return ret;
         }
 
         private String getFullPath(String filename)

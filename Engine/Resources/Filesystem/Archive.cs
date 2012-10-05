@@ -77,21 +77,21 @@ namespace Engine.Resources
 
         public abstract bool containsRealAbsolutePath(String path);
 
-        public abstract String[] listFiles(bool recursive);
+        public abstract IEnumerable<String> listFiles(bool recursive);
 
-        public abstract String[] listFiles(String url, bool recursive);
-
-        public abstract String[] listFiles(String url, String searchPattern, bool recursive);
-
-        public abstract String[] listDirectories(bool recursive);
-
-        public abstract String[] listDirectories(String url, bool recursive);
-
-        public abstract String[] listDirectories(String url, bool recursive, bool includeHidden);
-
-        public abstract String[] listDirectories(String url, String searchPattern, bool recursive);
-
-        public abstract String[] listDirectories(String url, String searchPattern, bool recursive, bool includeHidden);
+        public abstract IEnumerable<String> listFiles(String url, bool recursive);
+                        
+        public abstract IEnumerable<String> listFiles(String url, String searchPattern, bool recursive);
+                        
+        public abstract IEnumerable<String> listDirectories(bool recursive);
+                        
+        public abstract IEnumerable<String> listDirectories(String url, bool recursive);
+                        
+        public abstract IEnumerable<String> listDirectories(String url, bool recursive, bool includeHidden);
+                        
+        public abstract IEnumerable<String> listDirectories(String url, String searchPattern, bool recursive);
+                        
+        public abstract IEnumerable<String> listDirectories(String url, String searchPattern, bool recursive, bool includeHidden);
 
         public abstract Stream openStream(String url, FileMode mode);
 

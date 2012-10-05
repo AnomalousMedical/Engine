@@ -103,7 +103,7 @@ namespace Engine
                 directoryMap["/"].addArchive(archive);
 
                 //Add all directory entries.
-                String[] directories = archive.listDirectories(path, true, true);
+                IEnumerable<String> directories = archive.listDirectories(path, true, true);
                 DirectoryEntry currentEntry;
                 String directory;
                 foreach (String directoryIter in directories)
@@ -118,7 +118,7 @@ namespace Engine
                 }
 
                 //Add all file entries, replacing archives for duplicate files
-                String[] files = archive.listFiles(path, true);
+                IEnumerable<String> files = archive.listFiles(path, true);
                 String file;
                 foreach (String fileIter in files)
                 {
@@ -139,12 +139,12 @@ namespace Engine
             return false;
         }
 
-        public String[] listFiles(bool recursive)
+        public IEnumerable<String> listFiles(bool recursive)
         {
             return listFiles("", recursive);
         }
 
-        public String[] listFiles(String url, bool recursive)
+        public IEnumerable<String> listFiles(String url, bool recursive)
         {
             String asDir = FileSystem.fixPathDir(url);
             DirectoryEntry dirEntry;
@@ -155,7 +155,7 @@ namespace Engine
             throw new FileNotFoundException(String.Format("Could not find directory \"{0}\" in virtual file system.", url), url);
         }
 
-        public String[] listFiles(String url, String searchPattern, bool recursive)
+        public IEnumerable<String> listFiles(String url, String searchPattern, bool recursive)
         {
             String asDir = FileSystem.fixPathDir(url);
             DirectoryEntry dirEntry;
@@ -166,17 +166,17 @@ namespace Engine
             throw new FileNotFoundException(String.Format("Could not find directory \"{0}\" in virtual file system.", url), url);
         }
 
-        public String[] listDirectories(bool recursive)
+        public IEnumerable<String> listDirectories(bool recursive)
         {
             return listDirectories("", recursive, true);
         }
 
-        public String[] listDirectories(String url, bool recursive)
+        public IEnumerable<String> listDirectories(String url, bool recursive)
         {
             return listDirectories(url, recursive, true);
         }
 
-        public String[] listDirectories(String url, bool recursive, bool includeHidden)
+        public IEnumerable<String> listDirectories(String url, bool recursive, bool includeHidden)
         {
             String asDir = FileSystem.fixPathDir(url);
             DirectoryEntry dirEntry;
@@ -187,12 +187,12 @@ namespace Engine
             throw new FileNotFoundException(String.Format("Could not find directory \"{0}\" in virtual file system.", url), url);
         }
 
-        public String[] listDirectories(String url, String searchPattern, bool recursive)
+        public IEnumerable<String> listDirectories(String url, String searchPattern, bool recursive)
         {
             return listDirectories(url, searchPattern, recursive, true);
         }
 
-        public String[] listDirectories(String url, String searchPattern, bool recursive, bool includeHidden)
+        public IEnumerable<String> listDirectories(String url, String searchPattern, bool recursive, bool includeHidden)
         {
             String asDir = FileSystem.fixPathDir(url);
             DirectoryEntry dirEntry;
@@ -282,44 +282,44 @@ namespace Engine
                 return archives[archives.Count - 1].getFileInfo(filename);
             }
 
-            public String[] listFiles(String url, bool recursive)
+            public IEnumerable<String> listFiles(String url, bool recursive)
             {
                 List<String> files = new List<string>();
                 foreach (Archive archive in archives)
                 {
                     files.AddRange(archive.listFiles(url, recursive));
                 }
-                return files.Distinct().ToArray();
+                return files.Distinct();
             }
 
-            public String[] listFiles(String url, String searchPattern, bool recursive)
+            public IEnumerable<String> listFiles(String url, String searchPattern, bool recursive)
             {
                 List<String> files = new List<string>();
                 foreach (Archive archive in archives)
                 {
                     files.AddRange(archive.listFiles(url, searchPattern, recursive));
                 }
-                return files.Distinct().ToArray();
+                return files.Distinct();
             }
 
-            public String[] listDirectories(String url, bool recursive, bool includeHidden)
+            public IEnumerable<String> listDirectories(String url, bool recursive, bool includeHidden)
             {
                 List<String> directories = new List<string>();
                 foreach (Archive archive in archives)
                 {
                     directories.AddRange(archive.listDirectories(url, recursive, includeHidden));
                 }
-                return directories.Distinct().ToArray();
+                return directories.Distinct();
             }
 
-            public String[] listDirectories(String url, String searchPattern, bool recursive, bool includeHidden)
+            public IEnumerable<String> listDirectories(String url, String searchPattern, bool recursive, bool includeHidden)
             {
                 List<String> directories = new List<string>();
                 foreach (Archive archive in archives)
                 {
                     directories.AddRange(archive.listDirectories(url, searchPattern, recursive, includeHidden));
                 }
-                return directories.Distinct().ToArray();
+                return directories.Distinct();
             }
         }
     }

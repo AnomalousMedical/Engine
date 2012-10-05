@@ -153,7 +153,7 @@ namespace Engine
         /// <param name="builder"></param>
         private void scanDirectory(ShapeLocation location, ShapeLoader loader, ShapeBuilder builder, VirtualFileSystem vfs)
         {
-            String[] files = vfs.listFiles(location.LocName, location.Recursive);
+            IEnumerable<String> files = vfs.listFiles(location.LocName, location.Recursive);
             foreach (String path in files)
             {
                 if (loader.canLoadShape(path, vfs))

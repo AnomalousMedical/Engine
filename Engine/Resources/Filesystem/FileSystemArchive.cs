@@ -39,94 +39,74 @@ namespace Engine.Resources
             return false;
         }
 
-        public override String[] listFiles(bool recursive)
+        public override IEnumerable<String> listFiles(bool recursive)
         {
             return listFiles(baseDirectory, recursive);
         }
 
-        public override String[] listFiles(String url, bool recursive)
+        public override IEnumerable<String> listFiles(String url, bool recursive)
         {
-            String[] files = Directory.GetFiles(fixIncomingDirectoryURL(url), "*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
-            for (int i = 0; i < files.Length; ++i)
-            {
-                files[i] = fixOutgoingFileString(files[i]);
-            }
-            return files;
+            return listFiles(url, "*", recursive);
         }
 
-        public override String[] listFiles(String url, String searchPattern, bool recursive)
+        public override IEnumerable<String> listFiles(String url, String searchPattern, bool recursive)
         {
-            try
+            foreach (String file in Directory.GetFiles(fixIncomingDirectoryURL(url), searchPattern, recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly))
             {
-                String[] files = Directory.GetFiles(fixIncomingDirectoryURL(url), searchPattern, recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
-                for (int i = 0; i < files.Length; ++i)
-                {
-                    files[i] = fixOutgoingFileString(files[i]);
-                }
-                return files;
-            }
-            catch (DirectoryNotFoundException)
-            {
-                return new String[0];
+                yield return fixOutgoingFileString(file);
             }
         }
 
-        public override String[] listDirectories(bool recursive)
+        public override IEnumerable<String> listDirectories(bool recursive)
         {
             return listDirectories(baseDirectory, recursive);
         }
 
-        public override String[] listDirectories(String url, bool recursive)
+        public override IEnumerable<String> listDirectories(String url, bool recursive)
         {
-            String[] dirs = Directory.GetDirectories(fixIncomingDirectoryURL(url), "*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
-            for (int i = 0; i < dirs.Length; ++i)
+            foreach(String dir in Directory.GetDirectories(fixIncomingDirectoryURL(url), "*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly))
             {
-                dirs[i] = fixOutgoingDirectoryString(dirs[i]);
+                yield return fixOutgoingDirectoryString(dir);
             }
-            return dirs;
         }
 
-        public override String[] listDirectories(String url, bool recursive, bool includeHidden)
+        public override IEnumerable<String> listDirectories(String url, bool recursive, bool includeHidden)
         {
-            String[] dirs = listDirectories(fixIncomingDirectoryURL(url), "*", recursive, includeHidden);
-            for (int i = 0; i < dirs.Length; ++i)
+            foreach(String dir in listDirectories(fixIncomingDirectoryURL(url), "*", recursive, includeHidden))
             {
-                dirs[i] = fixOutgoingDirectoryString(dirs[i]);
+                yield return fixOutgoingDirectoryString(dir);
             }
-            return dirs;
         }
 
-        public override String[] listDirectories(String url, String searchPattern, bool recursive)
+        public override IEnumerable<String> listDirectories(String url, String searchPattern, bool recursive)
         {
-            String[] dirs = Directory.GetDirectories(fixIncomingDirectoryURL(url), searchPattern, recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
-            for (int i = 0; i < dirs.Length; ++i)
+            foreach(String dir in Directory.GetDirectories(fixIncomingDirectoryURL(url), searchPattern, recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly))
             {
-                dirs[i] = fixOutgoingDirectoryString(dirs[i]);
+                yield return fixOutgoingDirectoryString(dir);
             }
-            return dirs;
         }
 
-        public override String[] listDirectories(String url, String searchPattern, bool recursive, bool includeHidden)
+        public override IEnumerable<String> listDirectories(String url, String searchPattern, bool recursive, bool includeHidden)
         {
             String[] directories = Directory.GetDirectories(fixIncomingDirectoryURL(url), searchPattern, recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
             if (!includeHidden)
             {
-                List<String> ret = new List<string>();
                 foreach (String dir in directories)
                 {
                     FileAttributes attr = File.GetAttributes(dir);
                     if ((attr & FileAttributes.Hidden) != FileAttributes.Hidden)
                     {
-                        ret.Add(dir);
+                        yield return fixOutgoingDirectoryString(dir);
                     }
                 }
-                return ret.ToArray();
             }
-            for (int i = 0; i < directories.Length; ++i)
+            else
             {
-                directories[i] = fixOutgoingDirectoryString(directories[i]);
+                foreach (String dir in directories)
+                {
+                    yield return fixOutgoingDirectoryString(dir);
+                }
             }
-            return directories;
         }
 
         public override Stream openStream(String url, FileMode mode)
@@ -144,7 +124,6 @@ namespace Engine.Resources
             bool isDirectory;
             FileAttributes attr = File.GetAttributes(fixIncomingURL(url, out isDirectory));
             return isDirectory;
-            //return (attr & FileAttributes.Directory) == FileAttributes.Directory;
         }
 
         public override bool exists(String filename)
