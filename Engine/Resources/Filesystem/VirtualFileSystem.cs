@@ -97,46 +97,24 @@ namespace Engine
             Archive archive = FileSystem.OpenArchive(path);
             if (archive != null)
             {
-                archives.Add(archive);
-
                 Log.Info("Added resource archive {0}.", path);
                 directoryMap["/"].addArchive(archive);
-
-                //Add all directory entries.
-                IEnumerable<String> directories = archive.listDirectories(path, true, true);
-                DirectoryEntry currentEntry;
-                String directory;
-                foreach (String directoryIter in directories)
-                {
-                    directory = FileSystem.fixPathDir(directoryIter);
-                    if (!directoryMap.TryGetValue(directory, out currentEntry))
-                    {
-                        currentEntry = new DirectoryEntry();
-                        directoryMap.Add(directory, currentEntry);
-                    }
-                    currentEntry.addArchive(archive);
-                }
-
-                //Add all file entries, replacing archives for duplicate files
-                IEnumerable<String> files = archive.listFiles(path, true);
-                String file;
-                foreach (String fileIter in files)
-                {
-                    file = FileSystem.fixPathFile(fileIter);
-                    if (fileMap.ContainsKey(file))
-                    {
-                        fileMap[file] = archive;
-                    }
-                    else
-                    {
-                        fileMap.Add(file, archive);
-                    }
-                }
+                addAndScanArchive(path, archive);
                 return true;
             }
 
             Log.Warning("Could not find archive {0}. Archive not loaded into virtual file system", path);
             return false;
+        }
+
+        public void createVirtualFolderLink(String realRootPath, String overrideRootPath)
+        {
+            realRootPath = FileSystem.fixPathDir(realRootPath);
+            overrideRootPath = FileSystem.fixPathDir(overrideRootPath);
+            Log.Info("Created Virtual Folder Link from '{0}' to '{1}'", realRootPath, overrideRootPath);
+            Archive archive = new VirtualFolderLinkArchive(realRootPath, overrideRootPath);
+            directoryMap[overrideRootPath].addArchive(archive);
+            addAndScanArchive(overrideRootPath, archive);
         }
 
         public IEnumerable<String> listFiles(bool recursive)
@@ -257,6 +235,42 @@ namespace Engine
                 return dirEntry.getFileInfo(asDir);
             }
             throw new FileNotFoundException(String.Format("Could not find file \"{0}\" in virtual file system.", filename), filename);
+        }
+
+        private void addAndScanArchive(String path, Archive archive)
+        {
+            archives.Add(archive);
+
+            //Add all directory entries.
+            IEnumerable<String> directories = archive.listDirectories(path, true, true);
+            DirectoryEntry currentEntry;
+            String directory;
+            foreach (String directoryIter in directories)
+            {
+                directory = FileSystem.fixPathDir(directoryIter);
+                if (!directoryMap.TryGetValue(directory, out currentEntry))
+                {
+                    currentEntry = new DirectoryEntry();
+                    directoryMap.Add(directory, currentEntry);
+                }
+                currentEntry.addArchive(archive);
+            }
+
+            //Add all file entries, replacing archives for duplicate files
+            IEnumerable<String> files = archive.listFiles(path, true);
+            String file;
+            foreach (String fileIter in files)
+            {
+                file = FileSystem.fixPathFile(fileIter);
+                if (fileMap.ContainsKey(file))
+                {
+                    fileMap[file] = archive;
+                }
+                else
+                {
+                    fileMap.Add(file, archive);
+                }
+            }
         }
 
         /// <summary>
