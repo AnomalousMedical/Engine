@@ -152,7 +152,6 @@ namespace ZipAccess
 		        path = fixPathDir(path);
 	        }
 
-	        List<ZipFileInfo> files = new List<ZipFileInfo>();
 	        //recursive
 	        if(recursive)
 	        {
@@ -163,7 +162,7 @@ namespace ZipAccess
 			        {
 				        if(matchAll || r.Match(file.FullName).Success)
 				        {
-					        files.Add(file);
+					        yield return file;
 				        }
 			        }
 		        }
@@ -175,7 +174,7 @@ namespace ZipAccess
 				        Match match = r.Match(file.FullName);
 				        if(file.FullName.Contains(path) && (matchAll || match.Success))
 				        {
-					        files.Add(file);
+					        yield return file;
 				        }
 			        }
 		        }
@@ -190,7 +189,7 @@ namespace ZipAccess
 			        {
 				        if(!file.FullName.Contains("/") && (matchAll || r.Match(file.FullName).Success))
 				        {
-					        files.Add(file);
+					        yield return file;
 				        }
 			        }
 		        }
@@ -208,13 +207,12 @@ namespace ZipAccess
 					        }
 					        if(cut != String.Empty && !cut.Contains("/"))
 					        {
-						        files.Add(file);
+						        yield return file;
 					        }
 				        }
 			        }
 		        }
 	        }
-	        return files;
         }
 
         private String wildcardToRegex(String wildcard)
