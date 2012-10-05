@@ -113,7 +113,13 @@ namespace Engine
             overrideRootPath = FileSystem.fixPathDir(overrideRootPath);
             Log.Info("Created Virtual Folder Link from '{0}' to '{1}'", realRootPath, overrideRootPath);
             Archive archive = new VirtualFolderLinkArchive(realRootPath, overrideRootPath);
-            directoryMap[overrideRootPath].addArchive(archive);
+            DirectoryEntry currentEntry;
+            if (!directoryMap.TryGetValue(overrideRootPath, out currentEntry))
+            {
+                currentEntry = new DirectoryEntry();
+                directoryMap.Add(overrideRootPath, currentEntry);
+            }
+            currentEntry.addArchive(archive);
             addAndScanArchive(overrideRootPath, archive);
         }
 
