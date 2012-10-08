@@ -208,6 +208,11 @@
     <EmbeddedResource Include="Resources\ColorVertex.material" />
     <EmbeddedResource Include="Resources\ColorVertex.program" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\glsl\ColorVertexFP.glsl" />
+    <EmbeddedResource Include="Resources\glsl\ColorVertexVP.glsl" />
+    <EmbeddedResource Include="Resources\glsl\ColorVertexFPAlpha.glsl" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
