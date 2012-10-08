@@ -3,14 +3,24 @@
 //----------------------------------
 vertex_program colorvertex\vs_CG cg	
 {
-  source OgrePlugin.Resources.ColorVertex.cg
-  entry_point main_vp
-  profiles vs_2_x
+	source OgrePlugin.Resources.ColorVertex.cg
+	entry_point main_vp
+	profiles vs_2_x
+
+	default_params
+	{
+		param_named_auto worldViewProj worldviewproj_matrix
+	}
 }
 
 vertex_program colorvertex\vs_GLSL cg
 {
     source OgrePlugin.Resources.glsl.ColorVertexVP.glsl
+
+	default_params
+	{
+		param_named_auto worldViewProj worldviewproj_matrix
+	}
 }
 
 vertex_program colorvertex\vs unified

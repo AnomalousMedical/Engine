@@ -6,7 +6,7 @@ material colorvertex
 		{ 
 			vertex_program_ref colorvertex\vs
 			{
-				param_named_auto worldViewProj worldviewproj_matrix
+				
 			}	
 
 			fragment_program_ref colorvertex\fs
@@ -25,7 +25,7 @@ material colorvertexAlpha
 		{ 
 			vertex_program_ref colorvertex\vs
 			{
-				param_named_auto worldViewProj worldviewproj_matrix
+				
 			}	
 
 			fragment_program_ref colorvertex\fsAlpha
@@ -48,7 +48,7 @@ material colorVertexNoDepth
 			depth_write off
 			vertex_program_ref colorvertex\vs
 			{
-				param_named_auto worldViewProj worldviewproj_matrix
+				
 			}	
 
 			fragment_program_ref colorvertex\fs
