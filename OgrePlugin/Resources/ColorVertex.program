@@ -13,7 +13,7 @@ vertex_program colorvertex\vs_CG cg
 	}
 }
 
-vertex_program colorvertex\vs_GLSL cg
+vertex_program colorvertex\vs_GLSL glsl
 {
     source OgrePlugin.Resources.glsl.ColorVertexVP.glsl
 
@@ -39,7 +39,7 @@ fragment_program colorvertex\fs_CG cg
 	profiles ps_2_x
 }
 
-fragment_program colorvertex\fs_GLSL cg
+fragment_program colorvertex\fs_GLSL glsl
 {
     source OgrePlugin.Resources.glsl.ColorVertexFP.glsl
 }
@@ -65,7 +65,7 @@ fragment_program colorvertex\fsAlpha_CG cg
 	}
 }
 
-fragment_program colorvertex\fsAlpha_GLSL cg
+fragment_program colorvertex\fsAlpha_GLSL glsl
 {
     source OgrePlugin.Resources.glsl.ColorVertexFPAlpha.glsl
 
