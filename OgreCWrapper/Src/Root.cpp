@@ -211,7 +211,14 @@ extern "C" _AnomalousExport Ogre::RenderTarget* Root_getRenderTarget(Ogre::Root*
 
 extern "C" _AnomalousExport void Root_loadPlugin(Ogre::Root* root, const char* pluginName)
 {
-	root->loadPlugin(pluginName);
+	try
+	{
+		root->loadPlugin(pluginName);
+	}
+	catch(Ogre::Exception& ex)
+	{
+		sendExceptionToManagedCode(ex);
+	}
 }
 
 extern "C" _AnomalousExport void Root_unloadPlugin(Ogre::Root* root, const char* pluginName)

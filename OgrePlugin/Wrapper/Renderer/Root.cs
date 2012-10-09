@@ -256,6 +256,7 @@ namespace OgreWrapper
         public void loadPlugin(String pluginName)
         {
             Root_loadPlugin(ogreRoot, pluginName);
+            OgreExceptionManager.fireAnyException();
         }
 
         public void unloadPlugin(String pluginName)
