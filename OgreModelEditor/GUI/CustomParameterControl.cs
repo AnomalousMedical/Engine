@@ -9,6 +9,7 @@ using WeifenLuo.WinFormsUI.Docking;
 using OgreWrapper;
 using Engine;
 using System.Runtime.InteropServices;
+using Logging;
 
 namespace OgreModelEditor
 {
@@ -45,6 +46,8 @@ namespace OgreModelEditor
                 using (MeshPtr mesh = entity.getMesh())
                 {
                     materialText.Text = mesh.Value.getSubMesh(0).getMaterialName();
+                    Log.Debug("Model vertex buffer usage is {0}", mesh.Value.getVertexBufferUsage());
+                    Log.Debug("Model index buffer usage is {0}", mesh.Value.getIndexBufferUsage());
                 }
             }
         }
