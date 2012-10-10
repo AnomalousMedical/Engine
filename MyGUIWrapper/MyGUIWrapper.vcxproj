@@ -65,7 +65,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(MYGUI_HOME)\Src\MyGUIEngine\include;$(MYGUI_HOME)\Src\Platforms\Ogre\OgrePlatform\include;$(MYGUI_HOME)\Src\Common;$(OGRE_HOME)\Windows\src\OgreMain\include;$(OGRE_HOME)\Windows\Build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MYGUI_HOME)\Src\MyGUIEngine\include;$(MYGUI_HOME)\Src\Platforms\Ogre\OgrePlatform\include;$(MYGUI_HOME)\Src\Common;$(OGRE_HOME)\src\OgreMain\include;$(OGRE_HOME)\Windows\Build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WINDOWS;WIN32;NDEBUG;MYGUI_STATIC;_WINDOWS;MYGUI_USE_FREETYPE;MYGUI_BUILD;NOMINMAX;CMAKE_INTDIR="Release";MyGUIEngine_EXPORTS;MYGUI_DONT_USE_OBSOLETE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
