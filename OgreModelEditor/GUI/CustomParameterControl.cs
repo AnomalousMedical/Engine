@@ -48,6 +48,7 @@ namespace OgreModelEditor
                     materialText.Text = mesh.Value.getSubMesh(0).getMaterialName();
                     Log.Debug("Model vertex buffer usage is {0}", mesh.Value.getVertexBufferUsage());
                     Log.Debug("Model index buffer usage is {0}", mesh.Value.getIndexBufferUsage());
+                    Log.Debug("Entity isHardwareAnimationEnabled {0}", entity.isHardwareAnimationEnabled());
                 }
             }
         }

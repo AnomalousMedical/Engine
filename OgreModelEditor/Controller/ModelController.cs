@@ -234,6 +234,27 @@ namespace OgreModelEditor.Controller
             }
         }
 
+        public void removeBinormals()
+        {
+            //This code makes the editor crash and is currently not being called. Being left for reference.
+            using (MeshPtr mesh = entity.getMesh())
+            {
+                SubMesh subMesh = mesh.Value.getSubMesh(0);
+                VertexData vertexData = subMesh.vertexData;
+                VertexDeclaration vertexDeclaration = vertexData.vertexDeclaration;
+                //VertexBufferBinding vertexBinding = vertexData.vertexBufferBinding;
+                //VertexElement normalElement = vertexDeclaration.findElementBySemantic(VertexElementSemantic.VES_NORMAL);
+                //VertexElement tangentElement = vertexDeclaration.findElementBySemantic(VertexElementSemantic.VES_TANGENT);
+                VertexElement binormalElement = vertexDeclaration.findElementBySemantic(VertexElementSemantic.VES_BINORMAL);
+                if (binormalElement != null)
+                {
+                    vertexDeclaration.removeElement(VertexElementSemantic.VES_BINORMAL);
+                    vertexData.reorganizeBuffers(vertexDeclaration);
+                }
+            }
+            Log.Info("Binormals Removed");
+        }
+
         /// <summary>
         /// Save the model in binary format.
         /// </summary>
