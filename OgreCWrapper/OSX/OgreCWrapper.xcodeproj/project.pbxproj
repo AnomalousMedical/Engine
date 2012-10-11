@@ -533,7 +533,7 @@
 				HEADER_SEARCH_PATHS = (
 					/Users/andrewpiper/Development/Dependencies/Ogre/OSX/Dependencies/include,
 					/Users/andrewpiper/Development/Dependencies/Ogre/OSX/Build/include,
-					/Users/andrewpiper/Development/Dependencies/Ogre/OSX/src/OgreMain/include,
+					/Users/andrewpiper/Development/Dependencies/Ogre/src/OgreMain/include,
 				);
 				INSTALL_PATH = /usr/local/lib;
 				OTHER_LDFLAGS = (

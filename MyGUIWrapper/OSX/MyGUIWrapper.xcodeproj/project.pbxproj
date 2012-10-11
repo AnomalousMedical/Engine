@@ -476,7 +476,7 @@
 					/Users/andrewpiper/Development/Dependencies/MyGUI/Src/MyGUIEngine/include,
 					/Users/andrewpiper/Development/Dependencies/MyGUI/Src/Platforms/Ogre/OgrePlatform/include,
 					/Users/andrewpiper/Development/Dependencies/MyGUI/Src/Common,
-					/Users/andrewpiper/Development/Dependencies/Ogre/OSX/src/OgreMain/include,
+					/Users/andrewpiper/Development/Dependencies/Ogre/src/OgreMain/include,
 					/Users/andrewpiper/Development/Dependencies/Ogre/OSX/Dependencies/include,
 					/Users/andrewpiper/Development/Dependencies/Ogre/OSX/Build/include,
 				);
