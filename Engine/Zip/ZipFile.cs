@@ -172,7 +172,7 @@ namespace ZipAccess
 			        foreach(ZipFileInfo file in sourceList)
 			        {
 				        Match match = r.Match(file.FullName);
-				        if(file.FullName.Contains(path) && (matchAll || match.Success))
+				        if(file.DirectoryName.StartsWith(path) && (matchAll || match.Success))
 				        {
 					        yield return file;
 				        }
@@ -187,7 +187,7 @@ namespace ZipAccess
 		        {
 			        foreach(ZipFileInfo file in sourceList)
 			        {
-				        if(!file.FullName.Contains("/") && (matchAll || r.Match(file.FullName).Success))
+				        if(String.IsNullOrEmpty(file.DirectoryName) && (matchAll || r.Match(file.FullName).Success))
 				        {
 					        yield return file;
 				        }
@@ -198,7 +198,7 @@ namespace ZipAccess
 		        {
 			        foreach(ZipFileInfo file in sourceList)
 			        {
-				        if(file.FullName.Contains(path) && (matchAll || r.Match(file.FullName).Success))
+                        if (file.DirectoryName.StartsWith(path) && file.FullName.Length - file.Name.Length == path.Length && (matchAll || r.Match(file.FullName).Success))
 				        {
 					        String cut = file.FullName.Replace(path, "");
 					        if(cut.EndsWith("/"))
