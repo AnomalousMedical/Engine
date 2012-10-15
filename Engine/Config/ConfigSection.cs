@@ -144,6 +144,22 @@ namespace Engine
             return defaultVal;
         }
 
+        public bool getValue(String name, Func<bool> defaultValFunc)
+        {
+            if (configValues.ContainsKey(name))
+            {
+                bool result;
+                bool success = bool.TryParse(configValues[name], out result);
+                if (success)
+                {
+                    return result;
+                }
+            }
+            bool defaultVal = defaultValFunc();
+            setValue(name, defaultVal);
+            return defaultVal;
+        }
+
         public bool getValue(String name, bool defaultVal)
         {
 	        if (configValues.ContainsKey(name))
