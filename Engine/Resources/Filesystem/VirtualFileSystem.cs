@@ -304,42 +304,67 @@ namespace Engine
 
             public IEnumerable<String> listFiles(String url, bool recursive)
             {
-                List<String> files = new List<string>();
+                return listFilesImpl(url, recursive).Distinct();
+            }
+
+            private IEnumerable<String> listFilesImpl(String url, bool recursive)
+            {
                 foreach (Archive archive in archives)
                 {
-                    files.AddRange(archive.listFiles(url, recursive));
+                    foreach (String file in archive.listFiles(url, recursive))
+                    {
+                        yield return file;
+                    }
                 }
-                return files.Distinct();
             }
 
             public IEnumerable<String> listFiles(String url, String searchPattern, bool recursive)
             {
-                List<String> files = new List<string>();
+                return listFilesImpl(url, searchPattern, recursive).Distinct();
+            }
+
+            private IEnumerable<String> listFilesImpl(String url, String searchPattern, bool recursive)
+            {
                 foreach (Archive archive in archives)
                 {
-                    files.AddRange(archive.listFiles(url, searchPattern, recursive));
+                    foreach(String file in archive.listFiles(url, searchPattern, recursive))
+                    {
+                        yield return file;
+                    }
                 }
-                return files.Distinct();
             }
 
             public IEnumerable<String> listDirectories(String url, bool recursive, bool includeHidden)
             {
-                List<String> directories = new List<string>();
-                foreach (Archive archive in archives)
-                {
-                    directories.AddRange(archive.listDirectories(url, recursive, includeHidden));
-                }
-                return directories.Distinct();
+                return listDirectoriesImpl(url, recursive, includeHidden).Distinct();
             }
 
-            public IEnumerable<String> listDirectories(String url, String searchPattern, bool recursive, bool includeHidden)
+            private IEnumerable<String> listDirectoriesImpl(String url, bool recursive, bool includeHidden)
             {
                 List<String> directories = new List<string>();
                 foreach (Archive archive in archives)
                 {
-                    directories.AddRange(archive.listDirectories(url, searchPattern, recursive, includeHidden));
+                    foreach (String file in archive.listDirectories(url, recursive, includeHidden))
+                    {
+                        yield return file;
+                    }
                 }
-                return directories.Distinct();
+            }
+
+            public IEnumerable<String> listDirectories(String url, String searchPattern, bool recursive, bool includeHidden)
+            {
+                return listDirectoriesImpl(url, searchPattern, recursive, includeHidden).Distinct();
+            }
+
+            public IEnumerable<String> listDirectoriesImpl(String url, String searchPattern, bool recursive, bool includeHidden)
+            {
+                foreach (Archive archive in archives)
+                {
+                    foreach(String file in archive.listDirectories(url, searchPattern, recursive, includeHidden))
+                    {
+                        yield return file;
+                    }
+                }
             }
         }
     }
