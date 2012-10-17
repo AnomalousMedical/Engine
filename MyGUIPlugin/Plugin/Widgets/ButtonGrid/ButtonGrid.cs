@@ -179,27 +179,9 @@ namespace MyGUIPlugin
             clear();
         }
 
-        public void defineGroup(String group)
+        public void defineGroup(String group, Object userObject = null)
         {
-            defineGroup(group, null);
-        }
-
-        public void defineGroup(String group, Object userObject)
-        {
-            ButtonGridGroup addGroup = null;
-            foreach (ButtonGridGroup groupIter in groups)
-            {
-                if (groupIter.Name == group)
-                {
-                    addGroup = groupIter;
-                    break;
-                }
-            }
-            if (addGroup == null)
-            {
-                addGroup = new ButtonGridGroup(group, this);
-                groups.Add(addGroup);
-            }
+            ButtonGridGroup addGroup = findGroup(group);
             addGroup.UserObject = userObject;
         }
 
@@ -220,40 +202,33 @@ namespace MyGUIPlugin
         /// </summary>
         /// <param name="group">The group to add the item to.</param>
         /// <param name="caption">The caption for the item.</param>
+        /// <param name="imageResource">The image resource for the item</param>
         /// <returns></returns>
-        public ButtonGridItem addItem(String group, String caption)
+        public ButtonGridItem addItem(String group, String caption, String imageResource = null)
         {
-            ButtonGridGroup addGroup = null;
-            foreach (ButtonGridGroup groupIter in groups)
-            {
-                if (groupIter.Name == group)
-                {
-                    addGroup = groupIter;
-                    break;
-                }
-            }
-            if (addGroup == null)
-            {
-                addGroup = new ButtonGridGroup(group, this);
-                groups.Add(addGroup);
-            }
+            ButtonGridGroup addGroup = findGroup(group);
             ButtonGridItem item = addGroup.addItem(caption);
+            item.setImage(imageResource);
             itemCount++;
             layout();
             return item;
         }
 
         /// <summary>
-        /// Add an item.
+        /// Insert an item into a ButtonGridGroup.
         /// </summary>
-        /// <param name="group">The group to add the item to.</param>
-        /// <param name="caption">The caption for the item.</param>
-        /// <param name="imageResource">The ImageResource name for the item's image.</param>
-        /// <returns>The newly created ButtonGridItem.</returns>
-        public ButtonGridItem addItem(String group, String caption, String imageResource)
+        /// <param name="index">The index in the group to put the item</param>
+        /// <param name="group">The group to add the item to</param>
+        /// <param name="caption">The caption for the item</param>
+        /// <param name="imageResource">The image resource for the item</param>
+        /// <returns></returns>
+        public ButtonGridItem insertItem(int index, String group, String caption, String imageResource = null)
         {
-            ButtonGridItem item = addItem(group, caption);
+            ButtonGridGroup addGroup = findGroup(group);
+            ButtonGridItem item = addGroup.insertItem(index, caption);
             item.setImage(imageResource);
+            itemCount++;
+            layout();
             return item;
         }
 
@@ -597,6 +572,25 @@ namespace MyGUIPlugin
             {
                 ItemActivated.Invoke(item, EventArgs.Empty);
             }
+        }
+
+        private ButtonGridGroup findGroup(String group)
+        {
+            ButtonGridGroup addGroup = null;
+            foreach (ButtonGridGroup groupIter in groups)
+            {
+                if (groupIter.Name == group)
+                {
+                    addGroup = groupIter;
+                    break;
+                }
+            }
+            if (addGroup == null)
+            {
+                addGroup = new ButtonGridGroup(group, this);
+                groups.Add(addGroup);
+            }
+            return addGroup;
         }
     }
 }

@@ -57,6 +57,19 @@ namespace MyGUIPlugin
             return item;
         }
 
+        public ButtonGridItem insertItem(int index, String caption)
+        {
+            ButtonGridItem item = new ButtonGridItem(this, grid);
+            item.Caption = caption;
+            items.Insert(index, item);
+            toggleCaptionVisibility();
+            if (items.Count == 1)
+            {
+                grid.NonEmptyGroupCount++;
+            }
+            return item;
+        }
+
         public void removeItem(ButtonGridItem item)
         {
             items.Remove(item);
