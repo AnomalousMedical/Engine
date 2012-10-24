@@ -31,6 +31,7 @@ namespace BulletPlugin
             factory = new BulletFactory(this);
             debugDraw = new BulletDebugDraw();
             performanceName = String.Format("BulletScene {0}", name);
+            Active = true;
         }
 
         public void Dispose()
@@ -59,6 +60,8 @@ namespace BulletPlugin
         {
             BulletScene_removeConstraint(bulletScene, constraint.constraint);
         }
+
+        public bool Active { get; set; }
 
         #region SimElementManager Members
 
@@ -99,7 +102,10 @@ namespace BulletPlugin
         public void sendUpdate(Clock clock)
         {
             PerformanceMonitor.start(performanceName);
-            BulletScene_update(bulletScene, (float)clock.Seconds);
+            if (Active)
+            {
+                BulletScene_update(bulletScene, (float)clock.Seconds);
+            }
             PerformanceMonitor.stop(performanceName);
         }
 
