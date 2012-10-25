@@ -126,7 +126,7 @@ namespace Engine
 
         public String ToHexString()
         {
-            return String.Format("{0:X2}{1:X2}{2:X2}", (int)(r * 0xff), (int)(g * 0xff), (int)(b * 0xff));
+            return String.Format("#{0:X2}{1:X2}{2:X2}", (int)(r * 0xff), (int)(g * 0xff), (int)(b * 0xff));
         }
 
         #region Static Helpers
@@ -135,16 +135,38 @@ namespace Engine
 
         public static Color FromHexString(String hex)
         {
-            if (hex.Length == 6)
+            if (hex.Length == 7)
             {
-                return new Color(int.Parse(hex.Substring(0, 2), NumberStyles.HexNumber) / maxValue,
-                                 int.Parse(hex.Substring(2, 2), NumberStyles.HexNumber) / maxValue,
-                                 int.Parse(hex.Substring(4, 2), NumberStyles.HexNumber) / maxValue);
+                return new Color(int.Parse(hex.Substring(1, 2), NumberStyles.HexNumber) / maxValue,
+                                 int.Parse(hex.Substring(3, 2), NumberStyles.HexNumber) / maxValue,
+                                 int.Parse(hex.Substring(5, 2), NumberStyles.HexNumber) / maxValue);
             }
             else
             {
-                throw new FormatException(String.Format("String {0} is not valid. Input must be RGB specified as hex values, for example 00FF00 for Green"));
+                throw new FormatException(String.Format("String {0} is not valid. Input must be #RGB specified as hex values, for example #00FF00 for Green"));
             }
+        }
+
+        public static bool TryFromHexString(String hex, out Color color)
+        {
+            return TryFromHexString(hex, out color, Color.White);
+        }
+
+        public static bool TryFromHexString(String hex, out Color color, Color errorColor)
+        {
+            if (hex.Length == 7)
+            {
+                int r, g, b;
+                if (int.TryParse(hex.Substring(1, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture.NumberFormat, out r) &&
+                    int.TryParse(hex.Substring(3, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture.NumberFormat, out g) &&
+                    int.TryParse(hex.Substring(5, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture.NumberFormat, out b))
+                {
+                    color = new Color(r / maxValue, g / maxValue, b / maxValue);
+                    return true;
+                }
+            }
+            color = errorColor;
+            return false;
         }
 
         private static char[] SEPS = { ',' };
