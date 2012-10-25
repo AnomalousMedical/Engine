@@ -131,6 +131,22 @@ namespace Engine
 
         #region Static Helpers
 
+        const float maxValue = (float)0xff;
+
+        public static Color FromHexString(String hex)
+        {
+            if (hex.Length == 6)
+            {
+                return new Color(int.Parse(hex.Substring(0, 2), NumberStyles.HexNumber) / maxValue,
+                                 int.Parse(hex.Substring(2, 2), NumberStyles.HexNumber) / maxValue,
+                                 int.Parse(hex.Substring(4, 2), NumberStyles.HexNumber) / maxValue);
+            }
+            else
+            {
+                throw new FormatException(String.Format("String {0} is not valid. Input must be RGB specified as hex values, for example 00FF00 for Green"));
+            }
+        }
+
         private static char[] SEPS = { ',' };
 
         /// <summary>
