@@ -87,7 +87,8 @@ input.submit:active
 
 
 
-input.text
+input.text,
+input.password
 {
 	height: 31px;
 	padding: 7px 7px 0px;
@@ -103,7 +104,8 @@ input.text
 	background-center-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 159px 901px 170px;
 }
 
-input.text:hover
+input.text:hover,
+input.password:hover
 {
 	background-decorator: tiled-box;
 	background-top-left-image: /MyGUIPlugin_Widget_Texture.png 882px 176px 884px 181px;
@@ -149,6 +151,7 @@ textarea:hover
 }
 
 input.text,
+input.password,
 select,
 dataselect,
 textarea
