@@ -8,6 +8,11 @@ namespace libRocketPlugin
 {
     public class RmlPreprocessStream : ManagedFileInterface
     {
+        static RmlPreprocessStream()
+        {
+            ScaleFactor = 1.0f;
+        }
+
         private VirtualFileSystemFileInterface virtualFileInterface;
 
         public RmlPreprocessStream()
@@ -24,6 +29,12 @@ namespace libRocketPlugin
                 case ".rcss":
                     returnStream = getAdjustedStream(realStream);
                     break;
+                case ".rml":
+                    returnStream = getAdjustedStream(realStream);
+                    break;
+                case ".trml":
+                    returnStream = getAdjustedStream(realStream);
+                    break;
                 default:
                     returnStream = realStream;
                     break;
@@ -31,20 +42,28 @@ namespace libRocketPlugin
             return returnStream;
         }
 
-        private const char COLIN = ':';
-        private const String PX = "px;";
+        private const char Colin = ':';
+        private const String Pf = "pf;";
+        private const String PfReplace = ":{0}px;";
 
-        private Stream getAdjustedStream(Stream realStream)
+        private static Stream getAdjustedStream(Stream realStream)
         {
             String realDocument;
-            using(StreamReader streamReader = new StreamReader(realStream))
+            using (StreamReader streamReader = new StreamReader(realStream))
             {
                 realDocument = streamReader.ReadToEnd();
             }
+            StringBuilder sb = getAdjustedString(realDocument);
+            MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(sb.ToString()));
+            return ms;
+        }
+
+        public static StringBuilder getAdjustedString(String realDocument)
+        {
             StringBuilder sb = new StringBuilder(realDocument.Length);
             int i = 0;
             int colin;
-            colin = realDocument.IndexOf(COLIN, i);
+            colin = realDocument.IndexOf(Colin, i);
             if (colin == -1)
             {
                 //Give up
@@ -54,7 +73,7 @@ namespace libRocketPlugin
             {
                 for (; i < realDocument.Length; )
                 {
-                    colin = realDocument.IndexOf(COLIN, i);
+                    colin = realDocument.IndexOf(Colin, i);
                     if (colin == -1)
                     {
                         //Give up
@@ -73,9 +92,9 @@ namespace libRocketPlugin
                                 break;
                             case CloserType.Px:
                                 int num;
-                                if (int.TryParse(realDocument.Substring(colin + 1, i - colin - PX.Length), out num))
+                                if (int.TryParse(realDocument.Substring(colin + 1, i - colin - Pf.Length), out num))
                                 {
-                                    sb.AppendFormat(":{0}px;", num * 2);
+                                    sb.AppendFormat(PfReplace, num * ScaleFactor);
                                 }
                                 break;
                             case CloserType.Colin:
@@ -85,12 +104,7 @@ namespace libRocketPlugin
                     }
                 }
             }
-            MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(sb.ToString()));
-            //MemoryStream copy = new MemoryStream((int)ms.Length);
-            //ms.CopyTo(copy);
-            //copy.Position = 0;
-            //return copy;
-            return ms;
+            return sb;
         }
 
         enum CloserType
@@ -105,14 +119,14 @@ namespace libRocketPlugin
             int pxMatch = 0;
             for (; i < realString.Length; ++i)
             {
-                if (realString[i] == COLIN)
+                if (realString[i] == Colin)
                 {
                     return CloserType.Colin;
                 }
-                if (realString[i] == PX[pxMatch])
+                if (realString[i] == Pf[pxMatch])
                 {
                     ++pxMatch;
-                    if(pxMatch == PX.Length)
+                    if(pxMatch == Pf.Length)
                     {
                         return CloserType.Px;
                     }
@@ -134,5 +148,7 @@ namespace libRocketPlugin
         {
             virtualFileInterface.removeExtension(extension);
         }
+
+        public static float ScaleFactor { get; set; }
     }
 }
