@@ -7,6 +7,8 @@ namespace libRocketPlugin
 {
     public abstract class FileInterface : RocketNativeObject, IDisposable
     {
+        private List<RocketFileSystemExtension> extensions = new List<RocketFileSystemExtension>();
+
         protected FileInterface()
         {
 
@@ -22,5 +24,9 @@ namespace libRocketPlugin
         {
 
         }
+
+        public abstract void addExtension(RocketFileSystemExtension extension);
+
+        public abstract void removeExtension(RocketFileSystemExtension extension);
     }
 }

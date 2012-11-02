@@ -37,12 +37,12 @@ namespace libRocketPlugin
             return null;
         }
 
-        public void addExtension(RocketFileSystemExtension extension)
+        public override void addExtension(RocketFileSystemExtension extension)
         {
             extensions.Add(extension);
         }
 
-        public void removeExtension(RocketFileSystemExtension extension)
+        public override void removeExtension(RocketFileSystemExtension extension)
         {
             extensions.Remove(extension);
         }
