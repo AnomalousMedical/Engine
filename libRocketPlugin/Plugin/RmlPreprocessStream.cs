@@ -96,6 +96,11 @@ namespace libRocketPlugin
                                 {
                                     sb.AppendFormat(PfReplace, num * ScaleFactor);
                                 }
+                                else
+                                {
+                                    sb.Append(realDocument.Substring(colin, i - colin));
+                                }
+                                ++i;
                                 break;
                             case CloserType.Colin:
                                 sb.Append(realDocument.Substring(colin, i - colin));
