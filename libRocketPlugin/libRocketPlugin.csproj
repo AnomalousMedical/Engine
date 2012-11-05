@@ -53,6 +53,7 @@
     <Compile Include="Plugin\VirtualFileSystemFileInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wrapper\Controls\ElementFormControl.cs" />
+    <Compile Include="Wrapper\Core\PixelFactorManager.cs" />
     <Compile Include="Wrapper\Core\Template.cs" />
     <Compile Include="Wrapper\Core\TemplateCache.cs" />
     <Compile Include="Wrapper\Core\VariantAllocated.cs" />
