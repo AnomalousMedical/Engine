@@ -31,6 +31,11 @@ namespace libRocketPlugin
             return instancer;
         }
 
+        public static bool InstanceElementString(Element parent, String rml)
+        {
+            return Factory_InstanceElementString(parent.Ptr, rml);
+        }
+
         #region PInvoke
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
@@ -41,6 +46,10 @@ namespace libRocketPlugin
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Factory_RegisterEventListenerInstancer(IntPtr instancer);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool Factory_InstanceElementString(IntPtr element, String rml);
 
         #endregion
     }
