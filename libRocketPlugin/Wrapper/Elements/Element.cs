@@ -390,6 +390,18 @@ namespace libRocketPlugin
             }
         }
 
+        public IEnumerable<Element> Children
+        {
+            get
+            {
+                int numChildren = NumChildren;
+                for (int i = 0; i < numChildren; ++i)
+                {
+                    yield return GetChild(i);
+                }
+            }
+        }
+
         #region PInvoke
 
         
