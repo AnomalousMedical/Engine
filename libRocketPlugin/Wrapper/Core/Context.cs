@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
+using Engine;
 
 namespace libRocketPlugin
 {
@@ -202,6 +203,11 @@ namespace libRocketPlugin
             //return Context_GetRenderInterface(ptr);
         }
 
+        public Element FindElementAtPoint(Vector2 point, Element ignoreElement = null)
+        {
+            return ElementManager.getElement(Context_FindElementAtPoint(ptr, point, ignoreElement.PtrOrNull()));
+        }
+
         #region PInvoke
 
         //extern "C" _AnomalousExport String Context_GetName(IntPtr context)
@@ -321,6 +327,9 @@ namespace libRocketPlugin
 
         [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Context_GetRenderInterface(IntPtr context);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr Context_FindElementAtPoint(IntPtr context, Vector2 point, IntPtr ignore_element);
 
         #endregion
     }

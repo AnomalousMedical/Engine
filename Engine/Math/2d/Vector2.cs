@@ -173,6 +173,11 @@ namespace Engine
             return success;
         }
 
+        public static implicit operator Vector2(IntVector2 i)
+        {
+            return new Vector2(i.x, i.y);
+        }
+
         #region Saving
 
         private Vector2(LoadInfo info)

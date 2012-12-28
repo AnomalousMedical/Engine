@@ -66,7 +66,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WINDOWS;STATIC_LIB;WIN32;NDEBUG;_WINDOWS;_USRDLL;LIBROCKETWRAPPER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\dependencies\libRocket\src\Include;..\..\dependencies\Ogre\src\OgreMain\include;..\..\dependencies\Ogre\Windows\Build\include;include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\dependencies\libRocket\src\Include;..\..\dependencies\Ogre\src\OgreMain\include;..\..\dependencies\Ogre\Windows\Build\include;include;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

@@ -30,6 +30,18 @@ public:
 	}
 };
 
+class Vector2f
+{
+public:
+	float x;
+    float y;
+
+	Rocket::Core::Vector2f toVector2f()
+	{
+		return Rocket::Core::Vector2f(x, y);
+	}
+};
+
 class ThreeIntHack
 {
 public:

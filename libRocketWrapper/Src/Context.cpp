@@ -184,3 +184,8 @@ extern "C" _AnomalousExport Rocket::Core::RenderInterface* Context_GetRenderInte
 {
 	return context->GetRenderInterface();
 }
+
+extern "C" _AnomalousExport Rocket::Core::Element* Context_FindElementAtPoint(Rocket::Core::Context* context, Vector2f point, const Rocket::Core::Element* ignoreElement)
+{
+	return context->FindElementAtPoint(point.toVector2f(), ignoreElement);
+}

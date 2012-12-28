@@ -35,4 +35,12 @@ namespace libRocketPlugin
             }
         }
     }
+
+    public static class RocketNativeObjectExt
+    {
+        internal static IntPtr PtrOrNull(this RocketNativeObject native)
+        {
+            return native == null ? IntPtr.Zero : native.Ptr;
+        }
+    }
 }
