@@ -35,7 +35,6 @@
 		0124876F15498B5C001D41C3 /* libRocketControls.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0124876C15498B5C001D41C3 /* libRocketControls.a */; };
 		0124877015498B5C001D41C3 /* libRocketDebugger.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0124876D15498B5C001D41C3 /* libRocketDebugger.a */; };
 		0124877115498B5C001D41C3 /* libRocketCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0124876E15498B5C001D41C3 /* libRocketCore.a */; };
-		0179B25A165155070062A3B5 /* PixelFactorManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0179B259165155070062A3B5 /* PixelFactorManager.cpp */; };
 		0181126C15506D7700056F5F /* TextureDatabase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0181126B15506D7700056F5F /* TextureDatabase.cpp */; };
 		0194792715B4826600FBD21C /* TemplateCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0194792515B4826600FBD21C /* TemplateCache.cpp */; };
 		0194792815B4826600FBD21C /* Template.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0194792615B4826600FBD21C /* Template.cpp */; };
@@ -73,7 +72,6 @@
 		0124876C15498B5C001D41C3 /* libRocketControls.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRocketControls.a; path = ../../../../Dependencies/libRocket/OSXBuild/Release/libRocketControls.a; sourceTree = SOURCE_ROOT; };
 		0124876D15498B5C001D41C3 /* libRocketDebugger.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRocketDebugger.a; path = ../../../../Dependencies/libRocket/OSXBuild/Release/libRocketDebugger.a; sourceTree = SOURCE_ROOT; };
 		0124876E15498B5C001D41C3 /* libRocketCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRocketCore.a; path = ../../../../Dependencies/libRocket/OSXBuild/Release/libRocketCore.a; sourceTree = SOURCE_ROOT; };
-		0179B259165155070062A3B5 /* PixelFactorManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PixelFactorManager.cpp; sourceTree = "<group>"; };
 		0181126B15506D7700056F5F /* TextureDatabase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureDatabase.cpp; sourceTree = "<group>"; };
 		0194792515B4826600FBD21C /* TemplateCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TemplateCache.cpp; sourceTree = "<group>"; };
 		0194792615B4826600FBD21C /* Template.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Template.cpp; sourceTree = "<group>"; };
@@ -116,7 +114,6 @@
 		0124874415498A42001D41C3 /* Src */ = {
 			isa = PBXGroup;
 			children = (
-				0179B259165155070062A3B5 /* PixelFactorManager.cpp */,
 				011DEAFB15E5711B00D1443B /* ElementListIter.cpp */,
 				011DEAFC15E5711B00D1443B /* ElementFormControl.cpp */,
 				0194792515B4826600FBD21C /* TemplateCache.cpp */,
@@ -297,7 +294,6 @@
 				0194792815B4826600FBD21C /* Template.cpp in Sources */,
 				011DEAFD15E5711B00D1443B /* ElementListIter.cpp in Sources */,
 				011DEAFE15E5711B00D1443B /* ElementFormControl.cpp in Sources */,
-				0179B25A165155070062A3B5 /* PixelFactorManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
