@@ -12,9 +12,12 @@ namespace libRocketPlugin
 {
     public class RocketInterface : PluginInterface
     {
+        public const float DefaultPixelsPerInch = 100;
+
         private ManagedSystemInterface systemInterface;
         private RenderInterfaceOgre3D renderInterface;
         private FileInterface fileInterface;
+        private float pixelsPerInch = DefaultPixelsPerInch;
 
         private static RocketInterface instance;
         public static RocketInterface Instance
@@ -58,6 +61,7 @@ namespace libRocketPlugin
 
             systemInterface = new ManagedSystemInterface();
             renderInterface = new RenderInterfaceOgre3D((int)ogreWindow.OgreRenderWindow.getWidth(), (int)ogreWindow.OgreRenderWindow.getHeight());
+            renderInterface.PixelsPerInch = pixelsPerInch;
 
             Core.SetSystemInterface(systemInterface);
             Core.SetRenderInterface(renderInterface);
@@ -111,5 +115,25 @@ namespace libRocketPlugin
         }
 
         public static int ViewportZIndex { get; set; }
+
+        public float PixelsPerInch
+        {
+            get
+            {
+                if (renderInterface != null)
+                {
+                    return renderInterface.PixelsPerInch;
+                }
+                return pixelsPerInch;
+            }
+            set
+            {
+                if (renderInterface != null)
+                {
+                    renderInterface.PixelsPerInch = value;
+                }
+                pixelsPerInch = value;
+            }
+        }
     }
 }

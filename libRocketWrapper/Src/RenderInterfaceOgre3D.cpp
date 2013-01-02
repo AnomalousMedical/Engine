@@ -55,6 +55,7 @@ struct RocketOgre3DCompiledGeometry
 };
 
 RenderInterfaceOgre3D::RenderInterfaceOgre3D(unsigned int window_width, unsigned int window_height)
+	:pixelsPerInch(100)
 {
 	render_system = Ogre::Root::getSingleton().getRenderSystem();
 
@@ -354,6 +355,19 @@ void RenderInterfaceOgre3D::BuildProjectionMatrix(Ogre::Matrix4& projection_matr
 	projection_matrix[3][3]= 1.0000000f;
 }
 
+/// Returns the number of pixels per inch.
+/// @returns The number of pixels per inch. The default implementation returns 100.
+float RenderInterfaceOgre3D::GetPixelsPerInch()
+{
+	return pixelsPerInch;
+}
+
+/// Sets the number of pixels per inch.
+void RenderInterfaceOgre3D::SetPixelsPerInch(float ppi)
+{
+	pixelsPerInch = ppi;
+}
+
 extern "C" _AnomalousExport RenderInterfaceOgre3D* RenderInterfaceOgre3D_Create(int width, int height)
 {
 	return new RenderInterfaceOgre3D(width, height);
@@ -367,4 +381,15 @@ extern "C" _AnomalousExport void RenderInterfaceOgre3D_Delete(RenderInterfaceOgr
 extern "C" _AnomalousExport void RenderInterfaceOgre3D_ConfigureRenderSystem(RenderInterfaceOgre3D* renderInterface, int &renderWidth, int &renderHeight)
 {
 	renderInterface->ConfigureRenderSystem(renderWidth, renderHeight);
+}
+
+extern "C" _AnomalousExport float RenderInterfaceOgre3D_GetPixelsPerInch(RenderInterfaceOgre3D* renderInterface)
+{
+	return renderInterface->GetPixelsPerInch();
+}
+
+/// Sets the number of pixels per inch.
+extern "C" _AnomalousExport void RenderInterfaceOgre3D_SetPixelsPerInch(RenderInterfaceOgre3D* renderInterface, float ppi)
+{
+	renderInterface->SetPixelsPerInch(ppi);
 }
