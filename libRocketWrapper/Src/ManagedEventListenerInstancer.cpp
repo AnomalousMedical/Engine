@@ -3,7 +3,7 @@
 class ManagedEventListenerInstancer : public Rocket::Core::EventListenerInstancer
 {
 public:
-	typedef Rocket::Core::EventListener* (*InstanceEventListenerCb)(String name);
+	typedef Rocket::Core::EventListener* (*InstanceEventListenerCb)(String name, Rocket::Core::Element* element);
 	typedef void (*ReleaseCb)();
 
 	ManagedEventListenerInstancer(InstanceEventListenerCb instanceEventListener, ReleaseCb release)
@@ -17,9 +17,9 @@ public:
 
 	/// Instance and event listener object
 	/// @param value Value of the event	
-	virtual Rocket::Core::EventListener* InstanceEventListener(const Rocket::Core::String& value)
+	virtual Rocket::Core::EventListener* InstanceEventListener(const Rocket::Core::String& value, Rocket::Core::Element* element)
 	{
-		return instanceEventListener(value.CString());
+		return instanceEventListener(value.CString(), element);
 	}
 
 	/// Releases this event listener instancer

@@ -36,6 +36,7 @@ namespace libRocketPlugin
 
         public void Dispose()
         {
+            ReferenceCountable.DumpLeakReport();
             Core.Shutdown();
             if (renderInterface != null)
             {
@@ -45,7 +46,6 @@ namespace libRocketPlugin
             //{
             //    fileInterface.Dispose();
             //}
-            ReferenceCountable.DumpLeakReport();
             if (systemInterface != null)
             {
                 systemInterface.Dispose();

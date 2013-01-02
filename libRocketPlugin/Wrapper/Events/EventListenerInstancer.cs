@@ -19,16 +19,16 @@ namespace libRocketPlugin
             setPtr(ManagedEventListenerInstancer_Create(instanceEventListenerCb, releaseCb));
         }
 
-        public abstract EventListener InstanceEventListener(String name);
+        public abstract EventListener InstanceEventListener(String name, Element element);
 
         public virtual void Release()
         {
 
         }
 
-        private IntPtr InstanceEventListenerCbImpl(String name)
+        private IntPtr InstanceEventListenerCbImpl(String name, IntPtr element)
         {
-            return InstanceEventListener(name).Ptr;
+            return InstanceEventListener(name, ElementManager.getElement(element)).Ptr;
         }
 
         private void ReleaseCbImpl()
@@ -40,7 +40,7 @@ namespace libRocketPlugin
         #region PInvoke
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        delegate IntPtr InstanceEventListenerCb(String name);
+        delegate IntPtr InstanceEventListenerCb(String name, IntPtr element);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 	    delegate void ReleaseCb();

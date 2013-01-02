@@ -102,7 +102,6 @@
     <ClCompile Include="Src\ManagedEventListenerInstancer.cpp" />
     <ClCompile Include="Src\ManagedFileInterface.cpp" />
     <ClCompile Include="Src\ManagedSystemInterface.cpp" />
-    <ClCompile Include="Src\PixelFactorManager.cpp" />
     <ClCompile Include="Src\ReferenceCountable.cpp" />
     <ClCompile Include="Src\RenderInterfaceOgre3D.cpp" />
     <ClCompile Include="Src\Template.cpp" />
