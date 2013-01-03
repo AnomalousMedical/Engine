@@ -89,6 +89,18 @@ namespace libRocketPlugin
             }
         }
 
+        public void Insert(Element insert, Element adjacent_element, bool insertBefore)
+        {
+            if (insertBefore)
+            {
+                this.InsertBefore(insert, adjacent_element);
+            }
+            else
+            {
+                this.InsertAfter(insert, adjacent_element);
+            }
+        }
+
         public bool ReplaceChild(Element inserted_element, Element replaced_element)
         {
             return Element_ReplaceChild(ptr, inserted_element.Ptr, replaced_element.Ptr);
