@@ -49,6 +49,7 @@
     <Compile Include="Plugin\ImageAtlas\ImageAtlas.cs" />
     <Compile Include="Plugin\MyGUIPluginEntryPoint.cs" />
     <Compile Include="Plugin\MyGUIRenderListener.cs" />
+    <Compile Include="Plugin\MyGUIResourceNames.cs" />
     <Compile Include="Plugin\MyGUIUpdate.cs" />
     <Compile Include="Plugin\MyGUIInterface.cs" />
     <Compile Include="Plugin\Tooltip\Tooltip.cs" />

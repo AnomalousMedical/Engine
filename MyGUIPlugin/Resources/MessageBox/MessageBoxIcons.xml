@@ -16,4 +16,36 @@
       </Index>
     </Group>
 	</Resource>
+
+  <Resource type="ResourceImageSet" name="MyGUIIcons/Info">
+    <Group name="Icons" texture="#{MyGUI_Theme_Texture}" size="50 50">
+      <Index name="Icon">
+        <Frame point="150 203"/>
+      </Index>
+    </Group>
+  </Resource>
+
+  <Resource type="ResourceImageSet" name="MyGUIIcons/Quest">
+    <Group name="Icons" texture="#{MyGUI_Theme_Texture}" size="50 50">
+      <Index name="Icon">
+        <Frame point="50 203"/>
+      </Index>
+    </Group>
+  </Resource>
+
+  <Resource type="ResourceImageSet" name="MyGUIIcons/Error">
+    <Group name="Icons" texture="#{MyGUI_Theme_Texture}" size="50 50">
+      <Index name="Icon">
+        <Frame point="100 203"/>
+      </Index>
+    </Group>
+  </Resource>
+  
+  <Resource type="ResourceImageSet" name="MyGUIIcons/Warning">
+    <Group name="Icons" texture="#{MyGUI_Theme_Texture}" size="50 50">
+      <Index name="Icon">
+        <Frame point="0 203"/>
+      </Index>
+    </Group>
+  </Resource>
 </MyGUI>
