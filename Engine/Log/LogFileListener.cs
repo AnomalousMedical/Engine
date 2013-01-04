@@ -66,6 +66,7 @@ namespace Logging
         {
             if (!closed)
             {
+                Log.Info("Closed log {0}", logFileName);
                 closed = true;
                 fileWriter.Close();
             }
