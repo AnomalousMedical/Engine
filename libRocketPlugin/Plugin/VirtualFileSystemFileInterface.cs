@@ -37,6 +37,26 @@ namespace libRocketPlugin
             return null;
         }
 
+        public override bool Exists(string path)
+        {
+            if (VirtualFileSystem.Instance.exists(path))
+            {
+                return true;
+            }
+            else
+            {
+                foreach (RocketFileSystemExtension extension in extensions)
+                {
+                    if (extension.canOpenFile(path))
+                    {
+                        return true;
+                    }
+                }
+            }
+            //If all else fails check the file system
+            return File.Exists(path);
+        }
+
         public override void addExtension(RocketFileSystemExtension extension)
         {
             extensions.Add(extension);

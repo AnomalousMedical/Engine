@@ -45,8 +45,6 @@ namespace libRocketPlugin
             ManagedFileInterface_Delete(ptr);
         }
 
-        public abstract Stream Open(String path);
-
         private IntPtr OpenCbImpl(String path)
         {
             Stream stream = Open(path);

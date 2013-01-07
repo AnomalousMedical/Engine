@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -24,6 +25,10 @@ namespace libRocketPlugin
         {
 
         }
+
+        public abstract Stream Open(String path);
+
+        public abstract bool Exists(String path);
 
         public abstract void addExtension(RocketFileSystemExtension extension);
 
