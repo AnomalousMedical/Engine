@@ -30,6 +30,8 @@ namespace libRocketPlugin
 
         public abstract bool Exists(String path);
 
+        public abstract bool Exists(String source, String sourcePath);
+
         public abstract void addExtension(RocketFileSystemExtension extension);
 
         public abstract void removeExtension(RocketFileSystemExtension extension);

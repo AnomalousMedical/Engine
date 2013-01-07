@@ -57,6 +57,11 @@ namespace libRocketPlugin
             return File.Exists(path);
         }
 
+        public override bool Exists(String source, String sourcePath)
+        {
+            return Exists(Core.GetSystemInterface().JoinPath(sourcePath, source));
+        }
+
         public override void addExtension(RocketFileSystemExtension extension)
         {
             extensions.Add(extension);

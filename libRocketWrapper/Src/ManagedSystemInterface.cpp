@@ -31,3 +31,10 @@ extern "C" _AnomalousExport void ManagedSystemInterface_Delete(ManagedSystemInte
 {
 	delete systemInterface;
 }
+
+extern "C" _AnomalousExport void SystemInterface_JoinPath(Rocket::Core::SystemInterface* systemInterface, String documentPath, String path, StringRetrieverCallback stringCallback)
+{
+	Rocket::Core::String result;
+	systemInterface->JoinPath(result, documentPath, path);
+	stringCallback(result.CString());
+}

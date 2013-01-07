@@ -5,6 +5,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using Logging;
 using Engine.Platform;
+using Engine;
 
 namespace libRocketPlugin
 {
