@@ -3,19 +3,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
+using OgreWrapper;
+using OgrePlugin;
 
 namespace libRocketPlugin
 {
     public class RenderInterfaceOgre3D : RenderInterface
     {
+        //These consts are also defined in RenderInterfaceOgre3D.cpp.
+        public const String SHARED_RESOURCE_GROUP = "Rocket.Common";
+        public const String MAIN_RESOURCE_GROUP = "Rocket";
+
+        private CommonResourcesArchiveFactory commonResourcesArchiveFactory = null;
+
         public RenderInterfaceOgre3D(int width, int height)
         {
+            commonResourcesArchiveFactory = new CommonResourcesArchiveFactory();
+            Root.getSingleton().addArchiveFactory(commonResourcesArchiveFactory);
+            OgreInterface.Instance.Disposed += Ogre_Disposed;
+
             renderInterface = RenderInterfaceOgre3D_Create(width, height);
+
+            OgreResourceGroupManager.getInstance().addResourceLocation("__LibRocketCommonResourcesFilesystem__", CommonResourcesArchiveFactory.Name, SHARED_RESOURCE_GROUP, false);
         }
 
         public override void Dispose()
         {
             RenderInterfaceOgre3D_Delete(renderInterface);
+            //Note that some stuff is disposed in the Ogre_Disposed function below
+        }
+
+        void Ogre_Disposed(OgreInterface obj)
+        {
+            //Have to do this after ogre is disposed
+            if (commonResourcesArchiveFactory != null)
+            {
+                commonResourcesArchiveFactory.Dispose();
+                commonResourcesArchiveFactory = null;
+            }
         }
 
         public void ConfigureRenderSystem(int windowWidth, int windowHeight)

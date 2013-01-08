@@ -5,7 +5,6 @@ using System.Text;
 using Engine;
 using Engine.Platform;
 using System.Runtime.InteropServices;
-using OgreWrapper;
 using OgrePlugin;
 
 namespace libRocketPlugin
@@ -45,10 +44,6 @@ namespace libRocketPlugin
             {
                 renderInterface.Dispose();
             }
-            //if (fileInterface != null)
-            //{
-            //    fileInterface.Dispose();
-            //}
             if (systemInterface != null)
             {
                 systemInterface.Dispose();

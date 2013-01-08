@@ -52,6 +52,11 @@ namespace OgrePlugin
 
         #endregion Delegates
 
+        /// <summary>
+        /// Fired when the OgreInterface is disposed, which means that ogre has been shutdown (Ogre::Root deleted).
+        /// </summary>
+        public event Action<OgreInterface> Disposed;
+
         #region Constructors
 
         public OgreInterface()
@@ -81,6 +86,10 @@ namespace OgrePlugin
             TextureManager.getInstance().Dispose();
             destroyRendererWindow(primaryWindow);
             root.Dispose();
+            if (Disposed != null)
+            {
+                Disposed.Invoke(this);
+            }
         }
 
         public void initialize(PluginManager pluginManager)

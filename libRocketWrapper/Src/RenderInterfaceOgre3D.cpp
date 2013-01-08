@@ -24,10 +24,13 @@
  * THE SOFTWARE.
  *
  */
-
 #include "StdAfx.h"
 #include "RenderInterfaceOgre3D.h"
 #include <Ogre.h>
+#include "CommonResources.h"
+
+#define MAIN_RESOURCE_GROUP "Rocket"
+#define SHARED_RESOURCE_GROUP "Rocket.Common"
 
 struct RocketOgre3DVertex
 {
@@ -163,7 +166,11 @@ void RenderInterfaceOgre3D::RenderCompiledGeometry(Rocket::Core::CompiledGeometr
 
 	if (ogre3d_geometry->texture != NULL)
 	{
-		render_system->_setTexture(0, true, ogre3d_geometry->texture->texture);
+		Rocket::Core::Log::Message(Rocket::Core::Log::LT_DEBUG, "Texture fetch");
+		Ogre::TexturePtr ogreTexture = ogre3d_geometry->texture->texture;
+		Rocket::Core::Log::Message(Rocket::Core::Log::LT_DEBUG, ogreTexture->getName().c_str());
+		render_system->_setTexture(0, true, ogreTexture);
+		Rocket::Core::Log::Message(Rocket::Core::Log::LT_DEBUG, "Texture set success");
 
 		// Ogre can change the blending modes when textures are disabled - so in case the last render had no texture,
 		// we need to re-specify them.
@@ -216,21 +223,34 @@ bool RenderInterfaceOgre3D::LoadTexture(Rocket::Core::TextureHandle& texture_han
 		Ogre::String ogreSource = source.CString();
 		if(source.Empty())
 		{
-			ogreSource = "libRocket_Empty_String_Error";
+			return false;
 		}
 
 		Ogre::TextureManager* texture_manager = Ogre::TextureManager::getSingletonPtr();
 		Ogre::TexturePtr ogre_texture = texture_manager->getByName(ogreSource);
 		if (ogre_texture.isNull())
 		{
-			ogre_texture = texture_manager->load(ogreSource,
-													"Rocket",
-													Ogre::TEX_TYPE_2D,
-													0);
+			try
+			{
+				ogre_texture = texture_manager->load(ogreSource, MAIN_RESOURCE_GROUP, Ogre::TEX_TYPE_2D, 0);
+				Rocket::Core::Log::Message(Rocket::Core::Log::LT_DEBUG, "Loaded texture %s", ogre_texture->getName());
+			}
+			catch(Ogre::Exception& ex)
+			{
+				texture_manager->remove(ogreSource);
+				ogre_texture = texture_manager->load(IMAGE_NOT_FOUND, SHARED_RESOURCE_GROUP, Ogre::TEX_TYPE_2D, 0);
+				Rocket::Core::Log::Message(Rocket::Core::Log::LT_DEBUG, "Loaded backup texture %s", ogre_texture->getName());
+			}
+		}
+		else
+		{
+			Rocket::Core::Log::Message(Rocket::Core::Log::LT_DEBUG, "Found a texture did not have to load %s", source);
 		}
 
 		if (ogre_texture.isNull())
 			return false;
+
+		//Rocket::Core::Log::Message(Rocket::Core::Log::LT_DEBUG, "Found and used texture %s", ogre_texture->getName());
 
 		texture_dimensions.x = ogre_texture->getWidth();
 		texture_dimensions.y = ogre_texture->getHeight();

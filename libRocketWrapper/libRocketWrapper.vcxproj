@@ -78,6 +78,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Include\CommonResources.h" />
     <ClInclude Include="include\ElementListIter.h" />
     <ClInclude Include="Include\ManagedSystemInterface.h" />
     <ClInclude Include="Include\RenderInterfaceOgre3D.h" />

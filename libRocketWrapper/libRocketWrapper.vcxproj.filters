@@ -27,6 +27,9 @@
     <ClInclude Include="include\ElementListIter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\CommonResources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\RenderInterfaceOgre3D.cpp">

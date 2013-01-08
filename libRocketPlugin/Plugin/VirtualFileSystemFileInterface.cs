@@ -34,7 +34,7 @@ namespace libRocketPlugin
             {
                 return File.Open(path, FileMode.Open, FileAccess.Read);
             }
-            return null;
+            return CommonResources.Open(path);
         }
 
         public override bool Exists(string path)
@@ -54,7 +54,11 @@ namespace libRocketPlugin
                 }
             }
             //If all else fails check the file system
-            return File.Exists(path);
+            if (File.Exists(path))
+            {
+                return true;
+            }
+            return CommonResources.Exists(path);
         }
 
         public override bool Exists(String source, String sourcePath)
