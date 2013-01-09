@@ -14,10 +14,20 @@ namespace MyGUIPlugin
 
         }
 
+        public TabItem addItem(String name)
+        {
+            return (TabItem)WidgetManager.getWidget(TabControl_addItem(widget, name));
+        }
+
+        public TabItem insertItemAt(uint index, String name)
+        {
+            return (TabItem)WidgetManager.getWidget(TabControl_insertItemAt(widget, new UIntPtr(index), name));
+        }
+
         public void removeItemAt(uint index)
         {
             TabControl_removeItemAt(widget, new UIntPtr(index));
-        }
+        }        
 
         public uint IndexSelected
         {
@@ -41,6 +51,12 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern UIntPtr TabControl_getIndexSelected(IntPtr tabControl);
+
+        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr TabControl_insertItemAt(IntPtr tabControl, UIntPtr _index, [MarshalAs(UnmanagedType.LPWStr)] String _name);
+
+        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr TabControl_addItem(IntPtr tabControl, [MarshalAs(UnmanagedType.LPWStr)] String _name);
 
         #endregion
     }

@@ -149,7 +149,7 @@ namespace MyGUIPlugin
                     return new Window(widget);
 
                 case WidgetType.TabItem:
-                    return new Widget(widget);
+                    return new TabItem(widget);
 
                 case WidgetType.TabControl:
                     return new TabControl(widget);
@@ -224,7 +224,7 @@ namespace MyGUIPlugin
                     return wrapperReturnedWidget is Window;
 
                 case WidgetType.TabItem:
-                    return wrapperReturnedWidget is Widget;
+                    return wrapperReturnedWidget is TabItem;
 
                 case WidgetType.TabControl:
                     return wrapperReturnedWidget is Widget;

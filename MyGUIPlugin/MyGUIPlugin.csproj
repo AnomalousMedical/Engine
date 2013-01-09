@@ -191,6 +191,7 @@
     <Compile Include="Wrapper\Widgets\ScrollView.cs" />
     <Compile Include="Wrapper\Widgets\ImageBox.cs" />
     <Compile Include="Wrapper\Widgets\TabControl.cs" />
+    <Compile Include="Wrapper\Widgets\TabItem.cs" />
     <Compile Include="Wrapper\Widgets\TextBox.cs" />
     <Compile Include="Plugin\Widgets\Timeline\NumberLine.cs" />
     <Compile Include="Plugin\Widgets\Timeline\TimelineData.cs" />

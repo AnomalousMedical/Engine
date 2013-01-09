@@ -17,3 +17,13 @@ extern "C" _AnomalousExport size_t TabControl_getIndexSelected(MyGUI::TabControl
 {
 	return tabControl->getIndexSelected();
 }
+
+extern "C" _AnomalousExport MyGUI::TabItem* TabControl_insertItemAt(MyGUI::TabControl* tabControl, size_t _index, UStringIn _name)
+{
+	return tabControl->insertItemAt(_index, _name);
+}
+
+extern "C" _AnomalousExport MyGUI::TabItem* TabControl_addItem(MyGUI::TabControl* tabControl, UStringIn _name)
+{
+	return tabControl->addItem(_name);
+}
