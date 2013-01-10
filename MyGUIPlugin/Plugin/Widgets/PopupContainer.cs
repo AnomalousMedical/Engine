@@ -33,7 +33,7 @@ namespace MyGUIPlugin
         /// <summary>
         /// This is called when the popup starts hiding.
         /// </summary>
-        public event EventHandler Hiding;
+        public event EventHandler<CancelEventArgs> Hiding;
 
         /// <summary>
         /// This event is called after the popup has been hidden completely.
