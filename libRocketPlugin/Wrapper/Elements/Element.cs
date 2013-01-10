@@ -48,7 +48,7 @@ namespace libRocketPlugin
             Element_RemoveAttribute(ptr, name);
         }
 
-        public bool IterateAttributes(ref int index, ref String name, ref String value)
+        public bool IterateAttributes(ref int index, out String name, out String value)
         {
             bool retVal = Element_IterateAttributes(ptr, ref index, stringRetriever.StringCallback, stringRetriever2.StringCallback);
             name = stringRetriever.retrieveString();
