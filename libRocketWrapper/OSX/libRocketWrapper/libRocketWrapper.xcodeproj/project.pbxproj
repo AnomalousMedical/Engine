@@ -38,6 +38,7 @@
 		0181126C15506D7700056F5F /* TextureDatabase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0181126B15506D7700056F5F /* TextureDatabase.cpp */; };
 		0194792715B4826600FBD21C /* TemplateCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0194792515B4826600FBD21C /* TemplateCache.cpp */; };
 		0194792815B4826600FBD21C /* Template.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0194792615B4826600FBD21C /* Template.cpp */; };
+		0195A86716A0A1C300FD0022 /* CommonResources.h in Headers */ = {isa = PBXBuildFile; fileRef = 0195A86616A0A1C300FD0022 /* CommonResources.h */; };
 		01A4FA4E15501D610075EFD1 /* Element.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A4FA4D15501D610075EFD1 /* Element.cpp */; };
 		01B5B04C15498FEA0061A96C /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01B5B04B15498FEA0061A96C /* Ogre.framework */; };
 /* End PBXBuildFile section */
@@ -75,6 +76,7 @@
 		0181126B15506D7700056F5F /* TextureDatabase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureDatabase.cpp; sourceTree = "<group>"; };
 		0194792515B4826600FBD21C /* TemplateCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TemplateCache.cpp; sourceTree = "<group>"; };
 		0194792615B4826600FBD21C /* Template.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Template.cpp; sourceTree = "<group>"; };
+		0195A86616A0A1C300FD0022 /* CommonResources.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonResources.h; sourceTree = "<group>"; };
 		01A4FA4D15501D610075EFD1 /* Element.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Element.cpp; sourceTree = "<group>"; };
 		01B5B04B15498FEA0061A96C /* Ogre.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ogre.framework; path = ../../../../Dependencies/Ogre/OSX/Build/lib/Release/Ogre.framework; sourceTree = SOURCE_ROOT; };
 		32BAE0B70371A74B00C91783 /* libRocketWrapper_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libRocketWrapper_Prefix.pch; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 		0124876715498A4E001D41C3 /* Include */ = {
 			isa = PBXGroup;
 			children = (
+				0195A86616A0A1C300FD0022 /* CommonResources.h */,
 				011DEAFF15E5712800D1443B /* ElementListIter.h */,
 				0124876815498A4E001D41C3 /* ManagedSystemInterface.h */,
 				0124876915498A4E001D41C3 /* RenderInterfaceOgre3D.h */,
@@ -216,6 +219,7 @@
 				0124876A15498A4E001D41C3 /* ManagedSystemInterface.h in Headers */,
 				0124876B15498A4E001D41C3 /* RenderInterfaceOgre3D.h in Headers */,
 				011DEB0015E5712800D1443B /* ElementListIter.h in Headers */,
+				0195A86716A0A1C300FD0022 /* CommonResources.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
