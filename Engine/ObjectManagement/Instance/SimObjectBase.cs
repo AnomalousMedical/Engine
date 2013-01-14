@@ -77,13 +77,6 @@ namespace Engine.ObjectManagement
         /// <param name="trigger">The object that triggered the update. Can be null.</param>
         public abstract void updateScale(ref Vector3 scale, SimElement trigger);
 
-        /// <summary>
-        /// Save this SimObject to a SimObjectDefinition.
-        /// </summary>
-        /// <param name="definitionName">The name to give the SimObjectDefinition.</param>
-        /// <returns>A new SimObjectDefinition for this SimObject.</returns>
-        public abstract SimObjectDefinition saveToDefinition(String definitionName);
-
         #endregion Functions
     }
 }

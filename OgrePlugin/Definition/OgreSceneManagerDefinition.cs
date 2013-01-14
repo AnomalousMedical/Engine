@@ -54,6 +54,7 @@ namespace OgrePlugin
         {
             this.name = name;
             SceneTypeMask = SceneType.ST_GENERIC;
+            ShadowTechnique = OgreWrapper.ShadowTechnique.SHADOWTYPE_NONE;
             this.ogreRoot = Root.getSingleton();
         }
 
@@ -83,6 +84,7 @@ namespace OgrePlugin
         {
             SceneManager scene = ogreRoot.createSceneManager(SceneTypeMask, name);
             OgreSceneManager ogreScene = new OgreSceneManager(name, scene);
+            ogreScene.SceneManager.setShadowTechnique(ShadowTechnique);
             return ogreScene;
         }
 
@@ -130,12 +132,16 @@ namespace OgrePlugin
         [Editable("A series of values that describe the type of scene.")]
         public SceneType SceneTypeMask { get; set; }
 
+        [Editable]
+        public ShadowTechnique ShadowTechnique { get; set; }
+
         #endregion Properties
 
         #region Saveable Members
 
         private const String NAME = "Name";
         private const String SCENE_TYPE = "SceneTypeMask";
+        private const String SHADOW_TECHNIQUE = "ShadowTechnique";
 
         /// <summary>
         /// Load constructor.
@@ -145,6 +151,7 @@ namespace OgrePlugin
         {
             name = info.GetString(NAME);
             SceneTypeMask = info.GetValue<SceneType>(SCENE_TYPE);
+            ShadowTechnique = info.GetValue<ShadowTechnique>(SHADOW_TECHNIQUE, OgreWrapper.ShadowTechnique.SHADOWTYPE_NONE);
             ogreRoot = Root.getSingleton();
         }
 
@@ -156,6 +163,7 @@ namespace OgrePlugin
         {
             info.AddValue(NAME, name);
             info.AddValue(SCENE_TYPE, SceneTypeMask);
+            info.AddValue(SHADOW_TECHNIQUE, ShadowTechnique);
         }
 
         #endregion

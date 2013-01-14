@@ -78,6 +78,10 @@ namespace OgrePlugin
         public SimElementManagerDefinition createDefinition()
         {
             OgreSceneManagerDefinition definition = new OgreSceneManagerDefinition(name);
+            if (scene != null)
+            {
+                definition.ShadowTechnique = scene.getShadowTechnique();
+            }
             return definition;
         }
 
