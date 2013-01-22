@@ -347,6 +347,24 @@ namespace Engine.Saving
             return defaultValue;
         }
 
+        /// <summary>
+        /// This function allows the caller to defer creating a default value unless it is really needed. You can also do anything in your callback, the system does not further process
+        /// the data if the callback is used.
+        /// </summary>
+        /// <typeparam name="T">The type of the object to retrieve.</typeparam>
+        /// <param name="name">The name of the object to retrieve.</param>
+        /// <param name="defaultValueRetriver">A function to call to provide the default value.</param>
+        /// <returns></returns>
+        public T GetValueCb<T>(String name, Func<T> defaultValueRetriver)
+        {
+            SaveEntry retVal;
+            if (entries.TryGetValue(name, out retVal))
+            {
+                return (T)retVal.Value;
+            }
+            return defaultValueRetriver();
+        }
+
         public void RebuildDictionary<KeyType, ValueType>(String baseName, Dictionary<KeyType, ValueType> dictionary)
         {
             String keyBase = baseName + "Key";
