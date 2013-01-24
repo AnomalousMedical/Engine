@@ -547,6 +547,20 @@ namespace MyGUIPlugin
 
         public bool HighlightSelectedButton { get; set; }
 
+        public IEnumerable<ButtonGridItem> Items
+        {
+            get
+            {
+                foreach (ButtonGridGroup group in groups)
+                {
+                    foreach (ButtonGridItem item in group.Items)
+                    {
+                        yield return item;
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// The ScrollView for the grid.
         /// </summary>

@@ -177,6 +177,14 @@ namespace MyGUIPlugin
             }
         }
 
+        internal IEnumerable<ButtonGridItem> Items
+        {
+            get
+            {
+                return items;
+            }
+        }
+
         private void toggleCaptionVisibility()
         {
             if (captionText != null)
