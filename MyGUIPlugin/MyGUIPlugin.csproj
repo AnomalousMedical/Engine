@@ -63,6 +63,8 @@
     <Compile Include="Plugin\Widgets\ButtonGrid\ButtonGridListLayout.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\ButtonGridSelectionStrategy.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\ButtonGridTextAdjustedGridLayout.cs" />
+    <Compile Include="Plugin\Widgets\ButtonGrid\MultiSelectButtonGrid.cs" />
+    <Compile Include="Plugin\Widgets\ButtonGrid\MultiSelectionStrategy.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\NoSelectionStrategy.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\SingleSelectionStrategy.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\NoSelectButtonGrid.cs" />
