@@ -68,6 +68,7 @@ namespace MyGUIPlugin
 
         public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy, ButtonGridLayout layoutEngine, IComparer<ButtonGridItem> itemComparer, CompareButtonGroupUserObjects groupComparer)
         {
+            this.selectionStrategy = selectionStrategy;
             NonEmptyGroupCount = 0;
 
             String read;
