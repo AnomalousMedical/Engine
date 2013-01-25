@@ -32,19 +32,7 @@ namespace MyGUIPlugin
         private IComparer<ButtonGridItem> itemComparer;
         private ButtonGridGroupComparer groupComparer;
         private ButtonGridLayout layoutEngine;
-        private ButtonGridSelectionStrategy selectionStrategy = new ButtonGridSelectionStrategy();
-
-        public event EventHandler SelectedValueChanged
-        {
-            add
-            {
-                selectionStrategy.SelectedValueChanged += value;
-            }
-            remove
-            {
-                selectionStrategy.SelectedValueChanged -= value;
-            }
-        }
+        private ButtonGridSelectionStrategy selectionStrategy;
 
         public event EventHandler ItemActivated;
 
@@ -52,35 +40,34 @@ namespace MyGUIPlugin
         /// Constructor
         /// </summary>
         /// <param name="scrollView"></param>
-        public ButtonGrid(ScrollView scrollView)
-            :this(scrollView, new ButtonGridGridLayout(), null, null)
+        public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy)
+            :this(scrollView, selectionStrategy, new ButtonGridGridLayout(), null, null)
         {
             
         }
 
-        public ButtonGrid(ScrollView scrollView, IComparer<ButtonGridItem> itemComparer)
-            :this(scrollView, new ButtonGridGridLayout(), itemComparer, null)
+        public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy, IComparer<ButtonGridItem> itemComparer)
+            : this(scrollView, selectionStrategy, new ButtonGridGridLayout(), itemComparer, null)
         {
 
         }
 
 
 
-        public ButtonGrid(ScrollView scrollView, ButtonGridLayout layoutEngine)
-            : this(scrollView, layoutEngine, null, null)
+        public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy, ButtonGridLayout layoutEngine)
+            : this(scrollView, selectionStrategy, layoutEngine, null, null)
         {
 
         }
 
-        public ButtonGrid(ScrollView scrollView, ButtonGridLayout layoutEngine, IComparer<ButtonGridItem> itemComparer)
-            : this(scrollView, layoutEngine, itemComparer, null)
+        public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy, ButtonGridLayout layoutEngine, IComparer<ButtonGridItem> itemComparer)
+            : this(scrollView, selectionStrategy, layoutEngine, itemComparer, null)
         {
 
         }
 
-        public ButtonGrid(ScrollView scrollView, ButtonGridLayout layoutEngine, IComparer<ButtonGridItem> itemComparer, CompareButtonGroupUserObjects groupComparer)
+        public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy, ButtonGridLayout layoutEngine, IComparer<ButtonGridItem> itemComparer, CompareButtonGroupUserObjects groupComparer)
         {
-            HighlightSelectedButton = true;
             NonEmptyGroupCount = 0;
 
             String read;
@@ -264,7 +251,7 @@ namespace MyGUIPlugin
             {
                 group.Dispose();
             }
-            selectionStrategy.cleared();
+            selectionStrategy.itemsCleared();
             groups.Clear();
             itemCount = 0;
             layout();
@@ -458,21 +445,6 @@ namespace MyGUIPlugin
         public String GroupSeparatorSkin { get; set; }
 
         /// <summary>
-        /// The currently selected item.
-        /// </summary>
-        public ButtonGridItem SelectedItem
-        {
-            get
-            {
-                return selectionStrategy.SelectedItem;
-            }
-            set
-            {
-                selectionStrategy.SelectedItem = value;
-            }
-        }
-
-        /// <summary>
         /// Set this to true to prevent the control from updating its layout as
         /// items are added/removed. You can then call layout to lay out the
         /// items (make sure you set SuppressLayout back to true).
@@ -535,18 +507,6 @@ namespace MyGUIPlugin
             get
             {
                 return scrollView.Height;
-            }
-        }
-
-        public bool HighlightSelectedButton
-        {
-            get
-            {
-                return selectionStrategy.HighlightSelectedButton;
-            }
-            set
-            {
-                selectionStrategy.HighlightSelectedButton = value;
             }
         }
 
@@ -613,6 +573,18 @@ namespace MyGUIPlugin
                 groups.Add(addGroup);
             }
             return addGroup;
+        }
+
+        /// <summary>
+        /// This function only exists to allow the subclasses of ButtonGrid for common strategies to actually be able to set
+        /// their strategy. This should not (and can't) be called from other classes. If you do need to use ButtonGrid raw 
+        /// externally to this library just favor object composition to get your grid setup correctly. If you do make a new subclass
+        /// of ButtonGrid, pass null for the strategy in the base call and then call this method as soon as possible.
+        /// </summary>
+        /// <param name="selectionStrategy"></param>
+        protected internal void _workaroundSetSelectionStrategy(ButtonGridSelectionStrategy selectionStrategy)
+        {
+            this.selectionStrategy = selectionStrategy;
         }
     }
 }
