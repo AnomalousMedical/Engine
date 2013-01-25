@@ -15,15 +15,13 @@ namespace MyGUIPlugin
     {
         private String name;
         private Size2 imageSize;
-        private Size2 atlasPageSize;
         private MemoryArchive memoryArchive;
         private Dictionary<Object, String> guidDictionary = new Dictionary<Object, String>();
 
-        public ImageAtlas(String name, Size2 imageSize, Size2 atlasPageSize)
+        public ImageAtlas(String name, Size2 imageSize)
         {
             this.name = name;
             this.imageSize = imageSize;
-            this.atlasPageSize = atlasPageSize;
             OgreResourceGroupManager.getInstance().addResourceLocation(name, "Memory", "MyGUI", true);
             memoryArchive = MemoryArchiveFactory.Instance.getArchive(name);
         }
