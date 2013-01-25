@@ -61,6 +61,7 @@
     <Compile Include="Plugin\Widgets\ButtonGrid\ButtonGridItem.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\ButtonGridLayout.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\ButtonGridListLayout.cs" />
+    <Compile Include="Plugin\Widgets\ButtonGrid\ButtonGridSelectionStrategy.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\ButtonGridTextAdjustedGridLayout.cs" />
     <Compile Include="Plugin\Widgets\CheckButton.cs" />
     <Compile Include="Plugin\Widgets\Component.cs" />

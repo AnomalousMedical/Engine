@@ -27,14 +27,25 @@ namespace MyGUIPlugin
     public class ButtonGrid : IDisposable
     {
         private ScrollView scrollView;
-        private ButtonGridItem selectedItem;
         private List<ButtonGridGroup> groups = new List<ButtonGridGroup>();
         private int itemCount = 0;
         private IComparer<ButtonGridItem> itemComparer;
         private ButtonGridGroupComparer groupComparer;
         private ButtonGridLayout layoutEngine;
+        private ButtonGridSelectionStrategy selectionStrategy = new ButtonGridSelectionStrategy();
 
-        public event EventHandler SelectedValueChanged;
+        public event EventHandler SelectedValueChanged
+        {
+            add
+            {
+                selectionStrategy.SelectedValueChanged += value;
+            }
+            remove
+            {
+                selectionStrategy.SelectedValueChanged -= value;
+            }
+        }
+
         public event EventHandler ItemActivated;
 
         /// <summary>
@@ -238,10 +249,7 @@ namespace MyGUIPlugin
         /// <param name="item">The item to remove.</param>
         public void removeItem(ButtonGridItem item)
         {
-            if (SelectedItem == item)
-            {
-                SelectedItem = null;
-            }
+            selectionStrategy.itemRemoved(item);
             itemCount--;
             item.Group.removeItem(item);
             layout();
@@ -256,7 +264,7 @@ namespace MyGUIPlugin
             {
                 group.Dispose();
             }
-            selectedItem = null;
+            selectionStrategy.cleared();
             groups.Clear();
             itemCount = 0;
             layout();
@@ -456,26 +464,11 @@ namespace MyGUIPlugin
         {
             get
             {
-                return selectedItem;
+                return selectionStrategy.SelectedItem;
             }
             set
             {
-                if (selectedItem != value)
-                {
-                    if (selectedItem != null)
-                    {
-                        selectedItem.StateCheck = false;
-                    }
-                    selectedItem = value;
-                    if (selectedItem != null)
-                    {
-                        selectedItem.StateCheck = HighlightSelectedButton;
-                    }
-                    if (SelectedValueChanged != null)
-                    {
-                        SelectedValueChanged.Invoke(this, EventArgs.Empty);
-                    }
-                }
+                selectionStrategy.SelectedItem = value;
             }
         }
 
@@ -545,7 +538,17 @@ namespace MyGUIPlugin
             }
         }
 
-        public bool HighlightSelectedButton { get; set; }
+        public bool HighlightSelectedButton
+        {
+            get
+            {
+                return selectionStrategy.HighlightSelectedButton;
+            }
+            set
+            {
+                selectionStrategy.HighlightSelectedButton = value;
+            }
+        }
 
         public IEnumerable<ButtonGridItem> Items
         {
@@ -586,6 +589,11 @@ namespace MyGUIPlugin
             {
                 ItemActivated.Invoke(item, EventArgs.Empty);
             }
+        }
+
+        internal void itemChosen(ButtonGridItem item)
+        {
+            selectionStrategy.itemChosen(item);
         }
 
         private ButtonGridGroup findGroup(String group)

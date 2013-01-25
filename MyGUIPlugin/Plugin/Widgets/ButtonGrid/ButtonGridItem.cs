@@ -149,7 +149,7 @@ namespace MyGUIPlugin
 
         void button_MouseButtonClick(Widget source, EventArgs e)
         {
-            grid.SelectedItem = this;
+            grid.itemChosen(this);
             if (ItemClicked != null)
             {
                 ItemClicked.Invoke(this, EventArgs.Empty);
