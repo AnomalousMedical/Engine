@@ -135,13 +135,13 @@ namespace MyGUIPlugin
 
         internal ButtonGridGroup Group { get; private set; }
 
-        internal bool StateCheck
+        public bool StateCheck
         {
             get
             {
                 return button.Selected;
             }
-            set
+            internal set
             {
                 button.Selected = value;
             }

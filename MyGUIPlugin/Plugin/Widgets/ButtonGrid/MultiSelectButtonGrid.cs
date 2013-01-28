@@ -60,6 +60,11 @@ namespace MyGUIPlugin
             _workaroundSetSelectionStrategy(multiSelection);
         }
 
+        public void setSelection(ButtonGridItem primary, IEnumerable<ButtonGridItem> secondary)
+        {
+            multiSelection.setSelection(primary, secondary);
+        }
+
         /// <summary>
         /// The currently selected item.
         /// </summary>

@@ -73,6 +73,18 @@ namespace MyGUIPlugin
             selectedItems.Clear();
         }
 
+        public void setSelection(ButtonGridItem primary, IEnumerable<ButtonGridItem> secondary)
+        {
+            uncheckSelectedAndClear();
+            selectedItems.Add(primary);
+            selectedItems.AddRange(secondary);
+            foreach (ButtonGridItem item in selectedItems)
+            {
+                item.StateCheck = true;
+            }
+            setSelected(primary);
+        }
+
         public ButtonGridItem SelectedItem
         {
             get
