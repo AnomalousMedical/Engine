@@ -76,7 +76,10 @@ namespace MyGUIPlugin
         public void setSelection(ButtonGridItem primary, IEnumerable<ButtonGridItem> secondary)
         {
             uncheckSelectedAndClear();
-            selectedItems.Add(primary);
+            if (primary != null)
+            {
+                selectedItems.Add(primary);
+            }
             selectedItems.AddRange(secondary);
             foreach (ButtonGridItem item in selectedItems)
             {
