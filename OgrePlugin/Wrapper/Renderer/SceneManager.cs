@@ -54,6 +54,7 @@ namespace OgreWrapper
             lights.Dispose();
             entities.Dispose();
             manualObjects.Dispose();
+            SceneNode.destroyManagedNode(rootNode);
             renderQueue.Dispose();
             ogreSceneManager = IntPtr.Zero;
         }
