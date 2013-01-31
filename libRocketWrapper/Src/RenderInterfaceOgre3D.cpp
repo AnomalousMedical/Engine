@@ -278,6 +278,7 @@ bool RenderInterfaceOgre3D::GenerateTexture(Rocket::Core::TextureHandle& texture
 // Called by Rocket when a loaded texture is no longer required.
 void RenderInterfaceOgre3D::ReleaseTexture(Rocket::Core::TextureHandle texture)
 {
+	Ogre::TextureManager::getSingleton().remove(((RocketOgre3DTexture*) texture)->texture->getName());
 	delete ((RocketOgre3DTexture*) texture);
 }
 
