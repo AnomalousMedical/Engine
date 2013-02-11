@@ -57,6 +57,11 @@ namespace libRocketPlugin
             return ElementManager.getElement<ElementDocument>(Context_LoadDocumentFromMemory(ptr, mem));
         }
 
+        public ElementDocument LoadDocumentFromMemory(String mem, String fakePath)
+        {
+            return ElementManager.getElement<ElementDocument>(Context_LoadDocumentFromMemoryPath(ptr, mem, fakePath));
+        }
+
         public void UnloadDocument(ElementDocument document)
         {
             Context_UnloadDocument(ptr, document.Ptr);
@@ -240,6 +245,9 @@ namespace libRocketPlugin
 
         [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Context_LoadDocumentFromMemory(IntPtr context, String str);
+
+        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        private static extern IntPtr Context_LoadDocumentFromMemoryPath(IntPtr context, String str, String fakePath);
 
         [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Context_UnloadDocument(IntPtr context, IntPtr document);

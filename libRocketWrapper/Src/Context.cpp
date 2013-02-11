@@ -50,6 +50,15 @@ extern "C" _AnomalousExport Rocket::Core::ElementDocument* Context_LoadDocumentF
 	return context->LoadDocumentFromMemory(string);
 }
 
+extern "C" _AnomalousExport Rocket::Core::ElementDocument* Context_LoadDocumentFromMemoryPath(Rocket::Core::Context* context, String string, String fakePath)
+{
+	if(fakePath == NULL)
+	{
+		return context->LoadDocumentFromMemory(string, "[document from memory]");
+	}
+	return context->LoadDocumentFromMemory(string, fakePath);
+}
+
 extern "C" _AnomalousExport void Context_UnloadDocument(Rocket::Core::Context* context, Rocket::Core::ElementDocument* document)
 {
 	return context->UnloadDocument(document);
