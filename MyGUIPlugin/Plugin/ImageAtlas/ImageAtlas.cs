@@ -14,11 +14,11 @@ namespace MyGUIPlugin
     public class ImageAtlas : IDisposable
     {
         private String name;
-        private Size2 imageSize;
+        private IntSize2 imageSize;
         private MemoryArchive memoryArchive;
         private Dictionary<Object, String> guidDictionary = new Dictionary<Object, String>();
 
-        public ImageAtlas(String name, Size2 imageSize)
+        public ImageAtlas(String name, IntSize2 imageSize)
         {
             this.name = name;
             this.imageSize = imageSize;
@@ -82,11 +82,15 @@ namespace MyGUIPlugin
             guidDictionary.Clear();
         }
 
-        public Size2 ImageSize
+        public IntSize2 ImageSize
         {
             get
             {
                 return imageSize;
+            }
+            set
+            {
+                imageSize = value;
             }
         }
 
@@ -105,7 +109,7 @@ namespace MyGUIPlugin
             Size addImageSize = image.Size;
             if (addImageSize.Width != imageSize.Width || imageSize.Height != addImageSize.Height)
             {
-                image = new Bitmap(image, new Size((int)imageSize.Width, (int)imageSize.Height));
+                image = new Bitmap(image, new Size(imageSize.Width, imageSize.Height));
                 resizedImage = true;
             }
 
