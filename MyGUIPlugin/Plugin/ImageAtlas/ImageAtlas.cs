@@ -42,10 +42,15 @@ namespace MyGUIPlugin
 
         public String addImage(Object resourceKey, Image image)
         {
+            IntSize2 size;
+            return addImage(resourceKey, image, out size);
+        }
+
+        public String addImage(Object resourceKey, Image image, out IntSize2 imageSize)
+        {
             String guidStr = UniqueKeyGenerator.generateStringKey();
             guidDictionary.Add(resourceKey, guidStr);
-
-            createImage(guidStr, image);
+            createImage(guidStr, image, out imageSize);
             return guidStr;
         }
 
@@ -61,11 +66,21 @@ namespace MyGUIPlugin
 
         public void replaceImage(Object resourceKey, Image newImage)
         {
+            IntSize2 imageSize;
+            replaceImage(resourceKey, newImage, out imageSize);
+        }
+
+        public void replaceImage(Object resourceKey, Image newImage, out IntSize2 imageSize)
+        {
             String guid = null;
             if (guidDictionary.TryGetValue(resourceKey, out guid))
             {
                 deleteImage(guid);
-                createImage(guid, newImage);
+                createImage(guid, newImage, out imageSize);
+            }
+            else
+            {
+                imageSize = new IntSize2();
             }
         }
 
@@ -112,7 +127,7 @@ namespace MyGUIPlugin
             MyGUIInterface.Instance.OgrePlatform.getRenderManager().destroyTexture(name + guid + ".png");
         }
 
-        private void createImage(String guidStr, Image image)
+        private void createImage(String guidStr, Image image, out IntSize2 finalSize)
         {
             //resize the image if it does not match
             bool resizedImage = false;
@@ -166,6 +181,8 @@ namespace MyGUIPlugin
                     imageStream.Dispose();
                 }
             }
+
+            finalSize = new IntSize2(image.Width, image.Height);
 
             //Dispose the image if it was resized
             if (resizedImage)

@@ -42,6 +42,16 @@ namespace MyGUIPlugin
             }
         }
 
+        public void setImageSize(int width, int height)
+        {
+            ImageBox image = button.ImageBox;
+            if (image != null)
+            {
+                image.setSize(width, height);
+                image.setImageCoord(new IntCoord(0, 0, width, height));
+            }
+        }
+
         public String Caption
         {
             get
