@@ -11,6 +11,13 @@ using Logging;
 
 namespace MyGUIPlugin
 {
+    public enum ImageResizeMode
+    {
+        Both,
+        KeepAspect,
+        Off
+    }
+
     public class ImageAtlas : IDisposable
     {
         private String name;
@@ -24,6 +31,7 @@ namespace MyGUIPlugin
             this.imageSize = imageSize;
             OgreResourceGroupManager.getInstance().addResourceLocation(name, "Memory", "MyGUI", true);
             memoryArchive = MemoryArchiveFactory.Instance.getArchive(name);
+            ResizeMode = ImageResizeMode.Both;
         }
 
         public void Dispose()
@@ -37,7 +45,7 @@ namespace MyGUIPlugin
             String guidStr = UniqueKeyGenerator.generateStringKey();
             guidDictionary.Add(resourceKey, guidStr);
 
-            image = createImage(guidStr, image);
+            createImage(guidStr, image);
             return guidStr;
         }
 
@@ -94,6 +102,8 @@ namespace MyGUIPlugin
             }
         }
 
+        public ImageResizeMode ResizeMode { get; set; }
+
         private void deleteImage(String guid)
         {
             ResourceManager.Instance.removeByName(guid);
@@ -102,32 +112,66 @@ namespace MyGUIPlugin
             MyGUIInterface.Instance.OgrePlatform.getRenderManager().destroyTexture(name + guid + ".png");
         }
 
-        private Image createImage(String guidStr, Image image)
+        private void createImage(String guidStr, Image image)
         {
             //resize the image if it does not match
             bool resizedImage = false;
             Size addImageSize = image.Size;
             if (addImageSize.Width != imageSize.Width || imageSize.Height != addImageSize.Height)
             {
-                image = new Bitmap(image, new Size(imageSize.Width, imageSize.Height));
-                resizedImage = true;
+                switch (ResizeMode)
+                {
+                    case ImageResizeMode.Both:
+
+                        image = new Bitmap(image, new Size(imageSize.Width, imageSize.Height));
+                        resizedImage = true;
+                        break;
+                    case ImageResizeMode.KeepAspect:
+                        int width = 8;
+                        float aspect = (float)addImageSize.Height / addImageSize.Width;
+                        int height = (int)((float)imageSize.Width * aspect);
+                        if (height < imageSize.Height)
+                        {
+                            width = imageSize.Width;
+                        }
+                        else
+                        {
+                            aspect = (float)image.Width / image.Height;
+                            height = imageSize.Height;
+                            width = (int)((float)imageSize.Height * aspect);
+                        }
+                        image = new Bitmap(image, new Size(width, height));
+                        resizedImage = true;
+                        break;
+                }
             }
 
-            MemoryStream imageStream = new MemoryStream();
-            image.Save(imageStream, ImageFormat.Png);
-            memoryArchive.addMemoryStreamResource(guidStr + ".png", imageStream);
+            MemoryStream imageStream = null;
+            try
+            {
+                imageStream = new MemoryStream();
+                image.Save(imageStream, ImageFormat.Png);
+                memoryArchive.addMemoryStreamResource(guidStr + ".png", imageStream);
 
-            String xmlString = String.Format(resourceXML, guidStr, name + guidStr + ".png", imageSize.Width, imageSize.Height);
-            memoryArchive.addMemoryStreamResource(guidStr + ".xml", new MemoryStream(ASCIIEncoding.UTF8.GetBytes(xmlString)));
+                String xmlString = String.Format(resourceXML, guidStr, name + guidStr + ".png", imageSize.Width, imageSize.Height);
+                memoryArchive.addMemoryStreamResource(guidStr + ".xml", new MemoryStream(ASCIIEncoding.UTF8.GetBytes(xmlString)));
 
-            ResourceManager.Instance.load(name + guidStr + ".xml");
+                ResourceManager.Instance.load(name + guidStr + ".xml");
+            }
+            catch (Exception ex)
+            {
+                Logging.Log.Error("Exception saving image to atlas {0}", ex.Message);
+                if (imageStream != null)
+                {
+                    imageStream.Dispose();
+                }
+            }
 
             //Dispose the image if it was resized
             if (resizedImage)
             {
                 image.Dispose();
             }
-            return image;
         }
 
         private string resourceXML = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
