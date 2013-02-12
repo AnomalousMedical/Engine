@@ -7,6 +7,12 @@ namespace Engine.Editing
 {
     public class Browser
     {
+        public enum DisplayHint
+        {
+            Tree = 0,
+            Images = 1,
+        }
+
         protected BrowserNode rootNode;
 
         public Browser(String rootNodeName, String prompt)
@@ -65,6 +71,11 @@ namespace Engine.Editing
         /// A string prompt for this browser.
         /// </summary>
         public String Prompt { get; set; }
+
+        /// <summary>
+        /// This is a hint to the ui of the contents of the browser.
+        /// </summary>
+        public DisplayHint Hint { get; set; }
 
         /// <summary>
         /// Recursive helper function to build the tree.
