@@ -25,6 +25,9 @@
     <Filter Include="Dll">
       <UniqueIdentifier>{f1a5d199-1e40-428b-a3ea-4d5167396c70}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SoundLibrary\Record">
+      <UniqueIdentifier>{047b17e3-98b5-4941-b22b-3fca3bf80945}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ManagedStream.cpp">
@@ -69,6 +72,12 @@
     <ClCompile Include="Stdafx.cpp">
       <Filter>Dll</Filter>
     </ClCompile>
+    <ClCompile Include="src\CaptureDevice.cpp">
+      <Filter>SoundLibrary\Record</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RawCodec.cpp">
+      <Filter>SoundLibrary\Codec</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\NativeStream.h">
@@ -112,6 +121,12 @@
     </ClInclude>
     <ClInclude Include="Stdafx.h">
       <Filter>Dll</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CaptureDevice.h">
+      <Filter>SoundLibrary\Record</Filter>
+    </ClInclude>
+    <ClInclude Include="include\RawCodec.h">
+      <Filter>SoundLibrary\Codec</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

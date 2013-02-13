@@ -49,6 +49,14 @@ extern NativeLog logger;
 
 void checkOpenAL(const char* hint = NULL);
 
+enum BufferFormat
+{
+	Mono8 = 0,
+	Mono16 = 1,
+	Stereo8 = 2,
+	Stereo16 = 3,
+};
+
 }
 
 #endif

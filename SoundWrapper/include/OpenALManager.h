@@ -1,8 +1,11 @@
 #pragma once
 
+#include <list>
+
 namespace SoundWrapper
 {
 
+class CaptureDevice;
 class SourceManager;
 class Sound;
 class Stream;
@@ -12,13 +15,6 @@ class Listener;
 
 class OpenALManager
 {
-private:
-	ALCcontext* context;
-	ALCdevice* device;
-	bool ready;
-	SourceManager* sourceManager;
-	Listener* listener;
-
 public:
 	OpenALManager(void);
 
@@ -28,6 +24,10 @@ public:
 	{
 		return ready;
 	}
+
+	CaptureDevice* createCaptureDevice(BufferFormat format = Stereo16, int bufferSeconds = 5, int rate = 44100);
+
+	void destroyCaptureDevice(CaptureDevice* captureDevice);
 
 	AudioCodec* createAudioCodec(Stream* stream);
 
@@ -56,9 +56,25 @@ public:
 		return listener;
 	}
 
+	void addCaptureDeviceUpdate(CaptureDevice* captureDevice)
+	{
+		activeDevices.push_back(captureDevice);
+	}
+
+	void removeCaptureDeviceUpdate(CaptureDevice* captureDevice)
+	{
+		activeDevices.remove(captureDevice);
+	}
+
 private:
 	AudioCodec* getCodecForStream(Stream* stream);
 
+	ALCcontext* context;
+	ALCdevice* device;
+	bool ready;
+	SourceManager* sourceManager;
+	Listener* listener;
+	std::list<CaptureDevice*> activeDevices;
 };
 
 }

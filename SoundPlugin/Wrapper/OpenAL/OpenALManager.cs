@@ -7,12 +7,21 @@ using System.IO;
 
 namespace SoundPlugin
 {
-    public class OpenALManager : SoundPluginObject, IDisposable
+    enum BufferFormat
+    {
+        Mono8 = 0,
+        Mono16 = 1,
+        Stereo8 = 2,
+        Stereo16 = 3,
+    }
+
+    class OpenALManager : SoundPluginObject, IDisposable
     {
         private SourceManager sourceManager = new SourceManager();
         private ManagedLogListener managedLogListener = new ManagedLogListener();
         private Listener listener;
         private AudioCodecManager codecManager = new AudioCodecManager();
+        private CaptureDeviceManager captureDeviceManager = new CaptureDeviceManager();
 
         public OpenALManager()
             :base(OpenALManager_create())
@@ -37,6 +46,18 @@ namespace SoundPlugin
         public Listener getListener()
         {
             return listener;
+        }
+
+        public CaptureDevice createCaptureDevice(BufferFormat format = BufferFormat.Stereo16, int bufferSeconds = 5, int rate = 44100)
+        {
+            return captureDeviceManager.get(OpenALManager_createCaptureDevice(Pointer, format, bufferSeconds, rate), this);
+        }
+
+        public void destroyCaptureDevice(CaptureDevice captureDevice)
+        {
+            IntPtr ptr = captureDevice.Pointer;
+            captureDeviceManager.deleteWrapper(ptr);
+            OpenALManager_destroyCaptureDevice(Pointer, ptr);
         }
 
         public AudioCodec createAudioCodec(Stream stream)
@@ -108,6 +129,12 @@ namespace SoundPlugin
 
         [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void OpenALManager_destroy(IntPtr openALManager);
+
+        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        private static extern IntPtr OpenALManager_createCaptureDevice(IntPtr openALManager, BufferFormat format, int bufferSeconds, int rate);
+
+        [DllImport("SoundWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void OpenALManager_destroyCaptureDevice(IntPtr openALManager, IntPtr captureDevice);
 
         [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr OpenALManager_createAudioCodec(IntPtr openALManager, IntPtr stream);

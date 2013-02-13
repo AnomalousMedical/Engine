@@ -4,6 +4,7 @@
 #include "MemorySound.h"
 #include "StreamingSound.h"
 #include "Listener.h"
+#include "CaptureDevice.h"
 
 //Codecs
 #include "OggCodec.h"
@@ -71,6 +72,16 @@ OpenALManager::~OpenALManager(void)
 	delete listener;
 }
 
+CaptureDevice* OpenALManager::createCaptureDevice(BufferFormat format, int bufferSeconds, int rate)
+{
+	return new CaptureDevice(this, format, bufferSeconds, rate);
+}
+
+void OpenALManager::destroyCaptureDevice(CaptureDevice* captureDevice)
+{
+	delete captureDevice;
+}
+
 AudioCodec* OpenALManager::createAudioCodec(Stream* stream)
 {
 	return getCodecForStream(stream);
@@ -129,6 +140,10 @@ Source* OpenALManager::getSource()
 void OpenALManager::update()
 {
 	sourceManager->_update();
+	for(std::list<CaptureDevice*>::iterator capDevice = activeDevices.begin(); capDevice != activeDevices.end(); ++capDevice)
+	{
+		(*capDevice)->update();
+	}
 }
 
 }
@@ -146,6 +161,16 @@ extern "C" _AnomalousExport OpenALManager* OpenALManager_create()
 extern "C" _AnomalousExport void OpenALManager_destroy(OpenALManager* openALManager)
 {
 	delete openALManager;
+}
+
+extern "C" _AnomalousExport CaptureDevice* OpenALManager_createCaptureDevice(OpenALManager* openALManager, BufferFormat format, int bufferSeconds, int rate)
+{
+	return openALManager->createCaptureDevice(format, bufferSeconds, rate);
+}
+
+extern "C" _AnomalousExport void OpenALManager_destroyCaptureDevice(OpenALManager* openALManager, CaptureDevice* captureDevice)
+{
+	openALManager->destroyCaptureDevice(captureDevice);
 }
 
 extern "C" _AnomalousExport AudioCodec* OpenALManager_createAudioCodec(OpenALManager* openALManager, Stream* stream)

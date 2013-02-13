@@ -12,6 +12,7 @@ public:
 
 	virtual size_t read(void* buffer, int size, int count) = 0;
 
+	//0 = begin, 1 = current, 2 = end
 	virtual int seek(long offset, int origin) = 0;
 
 	virtual void close() = 0;

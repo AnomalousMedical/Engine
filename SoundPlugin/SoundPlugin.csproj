@@ -54,6 +54,8 @@
     <Compile Include="Wrapper\Log\ManagedLogListener.cs" />
     <Compile Include="Wrapper\OpenAL\Listener.cs" />
     <Compile Include="Wrapper\OpenAL\OpenALManager.cs" />
+    <Compile Include="Wrapper\Record\CaptureDeviceManager.cs" />
+    <Compile Include="Wrapper\Record\CaptureDevice.cs" />
     <Compile Include="Wrapper\SoundPluginObject.cs" />
     <Compile Include="Wrapper\Sound\AudioCodec.cs" />
     <Compile Include="Wrapper\Sound\AudioCodecManager.cs" />

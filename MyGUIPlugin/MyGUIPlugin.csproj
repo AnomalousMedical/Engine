@@ -290,6 +290,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\MyGUIPlugin_Skin_Custom.xml">
       <LogicalName>MyGUIPlugin_Skin_Custom.xml</LogicalName>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

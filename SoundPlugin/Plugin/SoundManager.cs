@@ -12,7 +12,7 @@ namespace SoundPlugin
         private Dictionary<Source, Sound> oneTimeSounds = new Dictionary<Source, Sound>();
         private OpenALManager openALManager;
 
-        public SoundManager(OpenALManager openALManager)
+        internal SoundManager(OpenALManager openALManager)
         {
             this.openALManager = openALManager;
         }
@@ -41,6 +41,15 @@ namespace SoundPlugin
             double duration = codec.Duration;
             openALManager.destroyAudioCodec(codec);
             return duration;
+        }
+
+        /// <summary>
+        /// Open a capture device, you must dispose it when you are done.
+        /// </summary>
+        /// <returns>A new open capture device.</returns>
+        public CaptureDevice openCaptureDevice()
+        {
+            return openALManager.createCaptureDevice();
         }
 
         void source_PlaybackFinished(Source source)
