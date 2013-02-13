@@ -102,7 +102,6 @@
     <ClCompile Include="src\OpenALManager.cpp" />
     <ClCompile Include="src\MemorySound.cpp" />
     <ClCompile Include="src\CaptureDevice.cpp" />
-    <ClCompile Include="src\RawCodec.cpp" />
     <ClCompile Include="src\Sound.cpp" />
     <ClCompile Include="src\StreamingSound.cpp" />
     <ClCompile Include="src\Source.cpp" />
@@ -119,7 +118,6 @@
   <ItemGroup>
     <ClInclude Include="include\NativeStream.h" />
     <ClInclude Include="include\CaptureDevice.h" />
-    <ClInclude Include="include\RawCodec.h" />
     <ClInclude Include="include\Stream.h" />
     <ClInclude Include="include\Listener.h" />
     <ClInclude Include="include\OpenALManager.h" />

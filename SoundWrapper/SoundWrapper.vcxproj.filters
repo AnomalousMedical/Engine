@@ -75,9 +75,6 @@
     <ClCompile Include="src\CaptureDevice.cpp">
       <Filter>SoundLibrary\Record</Filter>
     </ClCompile>
-    <ClCompile Include="src\RawCodec.cpp">
-      <Filter>SoundLibrary\Codec</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\NativeStream.h">
@@ -124,9 +121,6 @@
     </ClInclude>
     <ClInclude Include="include\CaptureDevice.h">
       <Filter>SoundLibrary\Record</Filter>
-    </ClInclude>
-    <ClInclude Include="include\RawCodec.h">
-      <Filter>SoundLibrary\Codec</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
