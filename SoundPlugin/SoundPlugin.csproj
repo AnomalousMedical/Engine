@@ -52,7 +52,7 @@
     <Compile Include="Plugin\SoundUpdateListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wrapper\Log\ManagedLogListener.cs" />
-    <Compile Include="Wrapper\OggEncoder.cs" />
+    <Compile Include="Wrapper\Codec\OggEncoder.cs" />
     <Compile Include="Wrapper\OpenAL\Listener.cs" />
     <Compile Include="Wrapper\OpenAL\OpenALManager.cs" />
     <Compile Include="Wrapper\Record\CaptureDeviceManager.cs" />

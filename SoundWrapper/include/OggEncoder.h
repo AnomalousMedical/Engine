@@ -13,6 +13,11 @@ public:
 	virtual ~OggEncoder(void);
 
 	bool encodeToStream(Stream* source, Stream* destination);
+
+private:
+	long channels;
+	long rate;
+	float baseQuality;
 };
 
 }

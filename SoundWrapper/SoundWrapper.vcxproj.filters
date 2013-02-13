@@ -125,7 +125,9 @@
     <ClInclude Include="include\CaptureDevice.h">
       <Filter>SoundLibrary\Record</Filter>
     </ClInclude>
-    <ClInclude Include="include\OggEncoder.h" />
+    <ClInclude Include="include\OggEncoder.h">
+      <Filter>SoundLibrary\Codec</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.ico">

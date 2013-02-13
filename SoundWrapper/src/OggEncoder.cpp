@@ -8,6 +8,9 @@ namespace SoundWrapper
 {
 
 	OggEncoder::OggEncoder(void)
+		:channels(2),
+		rate(44100),
+		baseQuality(0.1)
 	{
 	}
 
@@ -41,17 +44,6 @@ namespace SoundWrapper
 		example, after all. */
 
 		readbuffer[0] = '\0';
-		/*for (i=0, founddata=0; i<30 && ! feof(stdin) && ! ferror(stdin); i++)
-		{
-			source->read(readbuffer,1,2,stdin);
-
-			if ( ! strncmp((char*)readbuffer, "da", 2) ){
-				founddata = 1;
-				source->read(readbuffer,1,6,stdin);
-				break;
-			}
-		}*/
-		//Above block probably not needed, it is the skip
 
 		/********** Encode setup ************/
 
@@ -86,7 +78,7 @@ namespace SoundWrapper
 
 		*********************************************************************/
 
-		ret=vorbis_encode_init_vbr(&vi,2,44100,0.1);
+		ret=vorbis_encode_init_vbr(&vi, channels, rate, baseQuality);
 
 		/* do not continue if setup failed; this can happen if we ask for a
 		mode that libVorbis does not support (eg, too low a bitrate, etc,
@@ -211,7 +203,6 @@ namespace SoundWrapper
 		/* ogg_page and ogg_packet structs always point to storage in
 		libvorbis.  They're never freed or manipulated directly */
 
-		//fprintf(stderr,"Done.\n");
 		return true;
 	}
 
