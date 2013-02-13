@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "..\include\OggEncoder.h"
+#include "OggEncoder.h"
 #include "Stream.h"
 #include <vorbis/vorbisenc.h>
 #include <time.h>

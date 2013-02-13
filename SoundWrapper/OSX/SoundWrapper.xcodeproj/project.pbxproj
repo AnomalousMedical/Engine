@@ -37,6 +37,10 @@
 		017FFDDE15EE49B200BE0135 /* libVorbis.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 017FFDDD15EE49B200BE0135 /* libVorbis.a */; };
 		017FFDE015EE49C000BE0135 /* libOgg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 017FFDDF15EE49C000BE0135 /* libOgg.a */; };
 		017FFDE215EE49F300BE0135 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 017FFDE115EE49F300BE0135 /* OpenAL.framework */; };
+		01FE9E2616CC2448002CDB21 /* CaptureDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 01FE9E2416CC2448002CDB21 /* CaptureDevice.h */; };
+		01FE9E2716CC2448002CDB21 /* OggEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 01FE9E2516CC2448002CDB21 /* OggEncoder.h */; };
+		01FE9E2B16CC2454002CDB21 /* CaptureDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01FE9E2916CC2454002CDB21 /* CaptureDevice.cpp */; };
+		01FE9E2C16CC2454002CDB21 /* OggEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01FE9E2A16CC2454002CDB21 /* OggEncoder.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +74,10 @@
 		017FFDDD15EE49B200BE0135 /* libVorbis.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libVorbis.a; path = ../../../Dependencies/oggvorbis/libvorbis/macosx/build/Release/libVorbis.a; sourceTree = "<group>"; };
 		017FFDDF15EE49C000BE0135 /* libOgg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOgg.a; path = ../../../Dependencies/oggvorbis/libogg/macosx/build/Release/libOgg.a; sourceTree = "<group>"; };
 		017FFDE115EE49F300BE0135 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = ../../../../../../System/Library/Frameworks/OpenAL.framework; sourceTree = "<group>"; };
+		01FE9E2416CC2448002CDB21 /* CaptureDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureDevice.h; sourceTree = "<group>"; };
+		01FE9E2516CC2448002CDB21 /* OggEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OggEncoder.h; sourceTree = "<group>"; };
+		01FE9E2916CC2454002CDB21 /* CaptureDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CaptureDevice.cpp; sourceTree = "<group>"; };
+		01FE9E2A16CC2454002CDB21 /* OggEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OggEncoder.cpp; sourceTree = "<group>"; };
 		5073E0C609E734A800EC74B6 /* SoundWrapperProj.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = SoundWrapperProj.xcconfig; sourceTree = "<group>"; };
 		5073E0C709E734A800EC74B6 /* SoundWrapperTarget.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = SoundWrapperTarget.xcconfig; sourceTree = "<group>"; };
 		D2AAC09D05546B4700DB518D /* libSoundWrapper.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libSoundWrapper.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -103,6 +111,8 @@
 		016FF294135727DE0004C9AB /* include */ = {
 			isa = PBXGroup;
 			children = (
+				01FE9E2416CC2448002CDB21 /* CaptureDevice.h */,
+				01FE9E2516CC2448002CDB21 /* OggEncoder.h */,
 				016FF295135727DE0004C9AB /* AudioCodec.h */,
 				016FF296135727DE0004C9AB /* Listener.h */,
 				016FF297135727DE0004C9AB /* MemorySound.h */,
@@ -123,6 +133,8 @@
 		016FF2A1135727DE0004C9AB /* src */ = {
 			isa = PBXGroup;
 			children = (
+				01FE9E2916CC2454002CDB21 /* CaptureDevice.cpp */,
+				01FE9E2A16CC2454002CDB21 /* OggEncoder.cpp */,
 				016FF2A2135727DE0004C9AB /* AudioCodec.cpp */,
 				016FF2A3135727DE0004C9AB /* Listener.cpp */,
 				016FF2A4135727DE0004C9AB /* ManagedLogListener.cpp */,
@@ -199,6 +211,8 @@
 				016FF2BB135727DE0004C9AB /* Stream.h in Headers */,
 				016FF2BC135727DE0004C9AB /* StreamingSound.h in Headers */,
 				016FF2CB135727DE0004C9AB /* Stdafx.h in Headers */,
+				01FE9E2616CC2448002CDB21 /* CaptureDevice.h in Headers */,
+				01FE9E2716CC2448002CDB21 /* OggEncoder.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,6 +280,8 @@
 				016FF2C8135727DE0004C9AB /* SourceManager.cpp in Sources */,
 				016FF2C9135727DE0004C9AB /* StreamingSound.cpp in Sources */,
 				016FF2CA135727DE0004C9AB /* Stdafx.cpp in Sources */,
+				01FE9E2B16CC2454002CDB21 /* CaptureDevice.cpp in Sources */,
+				01FE9E2C16CC2454002CDB21 /* OggEncoder.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

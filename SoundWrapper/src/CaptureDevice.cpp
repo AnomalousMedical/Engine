@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "..\include\CaptureDevice.h"
+#include "CaptureDevice.h"
 #include "OpenALManager.h"
 
 namespace SoundWrapper
