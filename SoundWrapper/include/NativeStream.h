@@ -20,6 +20,8 @@ public:
 
 	virtual size_t read(void* buffer, int size, int count);
 
+	virtual size_t write(void* buffer, int size, int count);
+
 	virtual int seek(long offset, int origin);
 
 	virtual void close();

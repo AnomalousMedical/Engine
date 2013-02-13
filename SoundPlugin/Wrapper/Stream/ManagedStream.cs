@@ -17,6 +17,7 @@ namespace SoundPlugin
         private GCHandle handle;
 
         private ReadDelegate readCB;
+        private ReadDelegate writeCB;
         private SeekDelegate seekCB;
         private CloseDelegate closeCB;
         private TellDelegate tellCB;
@@ -36,13 +37,14 @@ namespace SoundPlugin
             this.stream = stream;
 
             readCB = new ReadDelegate(read);
+            writeCB = new ReadDelegate(write);
             seekCB = new SeekDelegate(seek);
             closeCB = new CloseDelegate(close);
             tellCB = new TellDelegate(tell);
             eofCB = new EofDelegate(eof);
             deleteCB = new DeleteDelegate(deleted);
 
-            managedStream = ManagedStream_create(readCB, seekCB, closeCB, tellCB, eofCB, deleteCB);
+            managedStream = ManagedStream_create(readCB, writeCB, seekCB, closeCB, tellCB, eofCB, deleteCB);
 
             handle = GCHandle.Alloc(this, GCHandleType.Normal);
         }
@@ -52,6 +54,7 @@ namespace SoundPlugin
             close();
 
             readCB = null;
+            writeCB = null;
             seekCB = null;
             closeCB = null;
             tellCB = null;
@@ -91,6 +94,16 @@ namespace SoundPlugin
             return new UIntPtr(i);
         }
 
+        private UIntPtr write(void* buffer, int size, int count)
+        {
+            byte* nativeBuf = (byte*)buffer;
+            int length = size * count;
+            byte[] bytes = new byte[length];
+            Marshal.Copy(new IntPtr(&nativeBuf[0]), bytes, 0, length);
+            stream.Write(bytes, 0, length);
+            return new UIntPtr((uint)count);
+        }
+
         private int seek(IntPtr offset, int origin)
         {
             SeekOrigin seekOrigin = (SeekOrigin)origin; //This maps directly to the seek given 0 = begin, 1 = current, 2 = end.
@@ -128,7 +141,7 @@ namespace SoundPlugin
         private delegate void DeleteDelegate();
 
         [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr ManagedStream_create(ReadDelegate readCB, SeekDelegate seekCB, CloseDelegate closeCB, TellDelegate tellCB, EofDelegate eofCB, DeleteDelegate deleteCB);
+        private static extern IntPtr ManagedStream_create(ReadDelegate readCB, ReadDelegate writeCB, SeekDelegate seekCB, CloseDelegate closeCB, TellDelegate tellCB, EofDelegate eofCB, DeleteDelegate deleteCB);
 
         [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManagedStream_destroy(IntPtr managedStream);

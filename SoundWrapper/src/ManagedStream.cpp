@@ -15,6 +15,7 @@ class ManagedStream : public Stream
 {
 private:
 	ReadDelegate readCB;
+	ReadDelegate writeCB;
 	SeekDelegate seekCB;
 	CloseDelegate closeCB;
 	TellDelegate tellCB;
@@ -22,8 +23,8 @@ private:
 	DeleteDelegate deleteCB;
 
 public:
-	ManagedStream(ReadDelegate readCB, SeekDelegate seekCB, CloseDelegate closeCB, TellDelegate tellCB, EofDelegate eofCB, DeleteDelegate deleteCB)
-		:readCB(readCB), seekCB(seekCB), closeCB(closeCB), tellCB(tellCB), eofCB(eofCB), deleteCB(deleteCB)
+	ManagedStream(ReadDelegate readCB, ReadDelegate writeCB, SeekDelegate seekCB, CloseDelegate closeCB, TellDelegate tellCB, EofDelegate eofCB, DeleteDelegate deleteCB)
+		:readCB(readCB), writeCB(writeCB), seekCB(seekCB), closeCB(closeCB), tellCB(tellCB), eofCB(eofCB), deleteCB(deleteCB)
 	{
 	}
 
@@ -36,6 +37,11 @@ public:
 	virtual size_t read(void* buffer, int size, int count)
 	{
 		return readCB(buffer, size, count);
+	}
+
+	virtual size_t write(void* buffer, int size, int count)
+	{
+		return writeCB(buffer, size, count);
 	}
 
 	virtual int seek(long offset, int origin)
@@ -65,9 +71,9 @@ public:
 
 using namespace SoundWrapper;
 
-extern "C" _AnomalousExport ManagedStream* ManagedStream_create(ReadDelegate readCB, SeekDelegate seekCB, CloseDelegate closeCB, TellDelegate tellCB, EofDelegate eofCB, DeleteDelegate deleteCB)
+extern "C" _AnomalousExport ManagedStream* ManagedStream_create(ReadDelegate readCB, ReadDelegate writeCB, SeekDelegate seekCB, CloseDelegate closeCB, TellDelegate tellCB, EofDelegate eofCB, DeleteDelegate deleteCB)
 {
-	return new ManagedStream(readCB, seekCB, closeCB, tellCB, eofCB, deleteCB);
+	return new ManagedStream(readCB, writeCB, seekCB, closeCB, tellCB, eofCB, deleteCB);
 }
 
 extern "C" _AnomalousExport void ManagedStream_destroy(ManagedStream* managedStream)

@@ -75,6 +75,9 @@
     <ClCompile Include="src\CaptureDevice.cpp">
       <Filter>SoundLibrary\Record</Filter>
     </ClCompile>
+    <ClCompile Include="src\OggEncoder.cpp">
+      <Filter>SoundLibrary\Codec</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\NativeStream.h">
@@ -122,6 +125,7 @@
     <ClInclude Include="include\CaptureDevice.h">
       <Filter>SoundLibrary\Record</Filter>
     </ClInclude>
+    <ClInclude Include="include\OggEncoder.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.ico">

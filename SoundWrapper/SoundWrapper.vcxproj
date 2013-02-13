@@ -99,6 +99,7 @@
     <ClCompile Include="src\ManagedStream.cpp" />
     <ClCompile Include="src\NativeStream.cpp" />
     <ClCompile Include="src\Listener.cpp" />
+    <ClCompile Include="src\OggEncoder.cpp" />
     <ClCompile Include="src\OpenALManager.cpp" />
     <ClCompile Include="src\MemorySound.cpp" />
     <ClCompile Include="src\CaptureDevice.cpp" />
@@ -118,6 +119,7 @@
   <ItemGroup>
     <ClInclude Include="include\NativeStream.h" />
     <ClInclude Include="include\CaptureDevice.h" />
+    <ClInclude Include="include\OggEncoder.h" />
     <ClInclude Include="include\Stream.h" />
     <ClInclude Include="include\Listener.h" />
     <ClInclude Include="include\OpenALManager.h" />
