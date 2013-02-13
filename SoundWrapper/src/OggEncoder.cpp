@@ -210,8 +210,47 @@ namespace SoundWrapper
 
 using namespace SoundWrapper;
 
-extern "C" _AnomalousExport bool OggEncoder_encodeToStream(Stream* source, Stream* destination)
+extern "C" _AnomalousExport OggEncoder* OggEncoder_create()
 {
-	OggEncoder encoder;
-	return encoder.encodeToStream(source, destination);
+	return new OggEncoder();
+}
+
+extern "C" _AnomalousExport void OggEncoder_delete(OggEncoder* encoder)
+{
+	delete encoder;
+}
+
+extern "C" _AnomalousExport bool OggEncoder_encodeToStream(OggEncoder* encoder, Stream* source, Stream* destination)
+{
+	return encoder->encodeToStream(source, destination);
+}
+
+extern "C" _AnomalousExport long OggEncoder_getChannels(OggEncoder* encoder)
+{
+	return encoder->getChannels();
+}
+
+extern "C" _AnomalousExport void OggEncoder_setChannels(OggEncoder* encoder, long value)
+{
+	encoder->setChannels(value);
+}
+
+extern "C" _AnomalousExport long OggEncoder_getRate(OggEncoder* encoder)
+{
+	return encoder->getRate();
+}
+
+extern "C" _AnomalousExport void OggEncoder_setRate(OggEncoder* encoder, long value)
+{
+	encoder->setRate(value);
+}
+
+extern "C" _AnomalousExport float OggEncoder_getBaseQuality(OggEncoder* encoder)
+{
+	return encoder->getBaseQuality();
+}
+
+extern "C" _AnomalousExport void OggEncoder_setBaseQuality(OggEncoder* encoder, float value)
+{
+	encoder->setBaseQuality(value);
 }
