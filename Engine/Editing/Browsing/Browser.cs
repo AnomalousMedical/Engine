@@ -44,7 +44,7 @@ namespace Engine.Editing
         public void addNode(String path, String[] delimeter, BrowserNode node)
         {
             BrowserNode folder;
-            if (path != null)
+            if (path != null && delimeter != null)
             {
                 String[] expandedPath = path.Split(delimeter, StringSplitOptions.RemoveEmptyEntries);
                 if (expandedPath.Length > 0)
