@@ -179,6 +179,9 @@ namespace Engine.Platform
             }
         }
 
+        /// <summary>
+        /// Get the elapsed time in microseconds
+        /// </summary>
         public Int64 ElapsedTime
         {
             get
