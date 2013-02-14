@@ -11,6 +11,7 @@ namespace Engine.Editing
         {
             Tree = 0,
             Images = 1,
+            Sounds = 2,
         }
 
         protected BrowserNode rootNode;
