@@ -125,3 +125,8 @@ extern "C" _AnomalousExport void CaptureDevice_Stop(CaptureDevice* captureDevice
 {
 	captureDevice->stop();
 }
+
+extern "C" _AnomalousExport bool CaptureDevice_IsValid(CaptureDevice* captureDevice)
+{
+	return captureDevice->isValid();
+}

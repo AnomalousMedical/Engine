@@ -38,6 +38,14 @@ namespace SoundPlugin
             heldBuffer = null;
         }
 
+        public bool Valid
+        {
+            get
+            {
+                return CaptureDevice_IsValid(Pointer);
+            }
+        }
+
         #region PInvoke
 
         [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
@@ -45,6 +53,10 @@ namespace SoundPlugin
 
         [DllImport("SoundWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern void CaptureDevice_Stop(IntPtr captureDevice);
+
+        [DllImport("SoundWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool CaptureDevice_IsValid(IntPtr captureDevice);
 
         #endregion
     }
