@@ -286,6 +286,7 @@
     <Compile Include="Utility\EventDelegate.cs" />
     <Compile Include="Utility\FastIteratorMap.cs" />
     <Compile Include="Utility\FileUtility.cs" />
+    <Compile Include="Utility\FloatExtensions.cs" />
     <Compile Include="Utility\GenericObjectPool.cs" />
     <Compile Include="Utility\ObjectPool.cs" />
     <Compile Include="Utility\Pair.cs" />
