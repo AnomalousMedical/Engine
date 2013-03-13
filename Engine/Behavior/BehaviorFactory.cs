@@ -58,13 +58,14 @@ namespace Engine
                 {
                     entry.constructed();
                 }
-                catch (BehaviorBlacklistException)
+                catch (BehaviorBlacklistException bbe)
                 {
-
+                    BehaviorInterface.Instance.fireBehaviorBlacklisted(new BehaviorBlacklistEventArgs(bbe.Message, bbe.Behavior, manager));
                 }
                 catch (Exception e)
                 {
                     entry._unanticipatedBlacklistError(e);
+                    BehaviorInterface.Instance.fireBehaviorBlacklisted(new BehaviorBlacklistEventArgs(e.Message, entry.CreatedBehavior, manager));
                 }
             }
             foreach (BehaviorFactoryEntry entry in currentBehaviors)
@@ -73,13 +74,14 @@ namespace Engine
                 {
                     entry.linkupProducts();
                 }
-                catch (BehaviorBlacklistException)
+                catch (BehaviorBlacklistException bbe)
                 {
-
+                    BehaviorInterface.Instance.fireBehaviorBlacklisted(new BehaviorBlacklistEventArgs(bbe.Message, bbe.Behavior, manager));
                 }
                 catch (Exception e)
                 {
                     entry._unanticipatedBlacklistError(e);
+                    BehaviorInterface.Instance.fireBehaviorBlacklisted(new BehaviorBlacklistEventArgs(e.Message, entry.CreatedBehavior, manager));
                 }
             }
         }

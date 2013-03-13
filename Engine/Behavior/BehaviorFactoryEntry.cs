@@ -12,15 +12,9 @@ namespace Engine
     /// </summary>
     class BehaviorFactoryEntry
     {
-        #region Fields
-
         private SimObjectBase instance;
         private BehaviorDefinition definition;
         private Behavior createdBehavior;
-
-        #endregion Fields
-
-        #region Constructors
 
         /// <summary>
         /// Constructor.
@@ -33,10 +27,6 @@ namespace Engine
             this.definition = definition;
             this.createdBehavior = null;
         }
-
-        #endregion Constructors
-
-        #region Functions
 
         /// <summary>
         /// Build the product normally.
@@ -77,6 +67,12 @@ namespace Engine
             }
         }
 
-        #endregion Functions
+        public Behavior CreatedBehavior
+        {
+            get
+            {
+                return createdBehavior;
+            }
+        }
     }
 }

@@ -23,6 +23,8 @@ namespace Engine
         private EventManager eventManager;
         private BehaviorDebugInterface debugInterface;
 
+        public event Action<BehaviorBlacklistEventArgs> BehaviorBlacklisted;
+
         public BehaviorInterface()
         {
             if (instance == null)
@@ -89,6 +91,14 @@ namespace Engine
             get
             {
                 return eventManager;
+            }
+        }
+
+        internal void fireBehaviorBlacklisted(BehaviorBlacklistEventArgs blacklistEventArgs)
+        {
+            if (BehaviorBlacklisted != null)
+            {
+                BehaviorBlacklisted(blacklistEventArgs);
             }
         }
     }

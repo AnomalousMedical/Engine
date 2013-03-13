@@ -11,5 +11,12 @@ namespace Engine
     /// </summary>
     class BehaviorBlacklistException : Exception
     {
+        public BehaviorBlacklistException(String message, Behavior behavior)
+            :base(message)
+        {
+            this.Behavior = behavior;
+        }
+
+        public Behavior Behavior { get; private set; }
     }
 }

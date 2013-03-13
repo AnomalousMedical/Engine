@@ -52,6 +52,7 @@
     <Compile Include="Attributes\NativeSubsystemTypeAttribute.cs" />
     <Compile Include="Attributes\SingleEnumAttribute.cs" />
     <Compile Include="Behavior\Behavior.cs" />
+    <Compile Include="Behavior\BehaviorBlacklistEventArgs.cs" />
     <Compile Include="Behavior\BehaviorBlacklistException.cs" />
     <Compile Include="Behavior\BehaviorBrowser.cs" />
     <Compile Include="Behavior\BehaviorDebugInterface.cs" />
