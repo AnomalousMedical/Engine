@@ -40,10 +40,15 @@ namespace Engine.Editing
         /// <param name="name">The name of the interface.</param>
         /// <param name="validateCallback">A validation callback.</param>
         /// <returns>A new EditInterface.</returns>
-        public static EditInterface createEditInterface(String name, Validate validateCallback)
+        public static EditInterface createUnscannedEditInterface(String name, Validate validateCallback)
         {
             EditInterface edit = buildInterface(name, validateCallback);
             return edit;
+        }
+
+        public static EditInterface createEditInterface(Object target, String name, Validate validateCallback = null)
+        {
+            return createEditInterface(target, DefaultScanner, name, validateCallback);
         }
 
         /// <summary>

@@ -20,6 +20,16 @@ namespace Engine.Saving
         }
 
         /// <summary>
+        /// Save an object to a SaveInfo using the default scanner.
+        /// </summary>
+        /// <param name="source">The source object to save.</param>
+        /// <param name="info">The info to save the object to.</param>
+        public static void SaveObject(Object source, SaveInfo info)
+        {
+            SaveObject(source, info, DefaultScanner);
+        }
+
+        /// <summary>
         /// Save an object to a SaveInfo.
         /// </summary>
         /// <param name="source">The source object to save.</param>
@@ -31,6 +41,16 @@ namespace Engine.Saving
             {
                 info.AddReflectedValue(wrapper.getWrappedName(), wrapper.getValue(source, null), wrapper.getWrappedType());
             }
+        }
+
+        /// <summary>
+        /// Restore an object from a LoadInfo using the default scanner.
+        /// </summary>
+        /// <param name="source">The object to restore values to.</param>
+        /// <param name="info">The LoadInfo with the values to restore.</param>
+        public static void RestoreObject(Object source, LoadInfo info)
+        {
+            RestoreObject(source, info, DefaultScanner);
         }
 
         /// <summary>
