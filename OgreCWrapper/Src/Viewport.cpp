@@ -65,9 +65,9 @@ extern "C" _AnomalousExport void Viewport_setDimensions(Ogre::Viewport* viewport
 	viewport->setDimensions(left, top, width, height);
 }
 
-extern "C" _AnomalousExport void Viewport_setClearEveryFrame(Ogre::Viewport* viewport, bool clear)
+extern "C" _AnomalousExport void Viewport_setClearEveryFrame(Ogre::Viewport* viewport, bool clear, uint buffers)
 {
-	viewport->setClearEveryFrame(clear);
+	viewport->setClearEveryFrame(clear, buffers);
 }
 
 extern "C" _AnomalousExport bool Viewport_getClearEveryFrame(Ogre::Viewport* viewport)

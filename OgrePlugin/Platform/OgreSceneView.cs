@@ -251,6 +251,18 @@ namespace OgrePlugin
             }
         }
 
+        public bool ClearEveryFrame
+        {
+            get
+            {
+                return viewport.getClearEveryFrame();
+            }
+            set
+            {
+                viewport.setClearEveryFrame(value);
+            }
+        }
+
         public Viewport Viewport
         {
             get

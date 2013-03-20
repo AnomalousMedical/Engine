@@ -101,6 +101,11 @@ namespace Engine
         Color BackgroundColor { get; set; }
 
         /// <summary>
+        /// Set to true to clear the view every frame.
+        /// </summary>
+        bool ClearEveryFrame { get; set; }
+
+        /// <summary>
         /// Get a ray that goes from the camera into the 3d space.
         /// </summary>
         /// <param name="x">The x value on the camera's 2d surface.</param>

@@ -118,9 +118,9 @@ namespace OgreWrapper
             Viewport_setDimensions(viewport, left, top, width, height);
         }
 
-        public void setClearEveryFrame(bool clear)
+        public void setClearEveryFrame(bool clear, FrameBufferType buffers = FrameBufferType.FBT_COLOUR | FrameBufferType.FBT_DEPTH)
         {
-            Viewport_setClearEveryFrame(viewport, clear);
+            Viewport_setClearEveryFrame(viewport, clear, (uint)buffers);
         }
 
         public bool getClearEveryFrame()
@@ -250,7 +250,7 @@ namespace OgreWrapper
         private static extern void Viewport_setDimensions(IntPtr viewport, float left, float top, float width, float height);
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Viewport_setClearEveryFrame(IntPtr viewport, bool clear);
+        private static extern void Viewport_setClearEveryFrame(IntPtr viewport, bool clear, uint buffers);
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
