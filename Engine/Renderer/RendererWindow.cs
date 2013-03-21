@@ -28,6 +28,17 @@ namespace Engine.Renderer
         SceneView createSceneView(SimSubScene subScene, String name, Vector3 positon, Vector3 lookAt);
 
         /// <summary>
+        /// Create a scene view with a camera that looks at a given SimSubScene.
+        /// </summary>
+        /// <param name="subScene">The subscene to look at with the camera.</param>
+        /// <param name="name">The name of the camera. Must be unique.</param>
+        /// <param name="positon">The position of the camera.</param>
+        /// <param name="lookAt">The look at point of the camera.</param>
+        /// <param name="zIndex">The z index to use for the scene view.</param>
+        /// <returns>A new SceneView object that can be used to manipulate the camera.</returns>
+        SceneView createSceneView(SimSubScene subScene, String name, Vector3 positon, Vector3 lookAt, int zIndex);
+
+        /// <summary>
         /// Destroy a given camera.
         /// </summary>
         /// <param name="view">The view to destroy.</param>

@@ -41,7 +41,7 @@ namespace OgrePlugin
         /// <param name="name">The name of the camera control.</param>
         /// <param name="sceneManager">The scene manager to build the camera into.</param>
         /// <param name="renderWindow">The renderwindow to create a viewport on.</param>
-        public OgreSceneView(String name, OgreSceneManager sceneManager, RenderWindow renderWindow)
+        public OgreSceneView(String name, OgreSceneManager sceneManager, RenderWindow renderWindow, int zIndex)
         {
             this.name = name;
             this.sceneManager = sceneManager;
@@ -52,7 +52,7 @@ namespace OgrePlugin
             camera.setFOVy(new Degree(10.0f));
             node = sceneManager.SceneManager.createSceneNode(name + CAMERA_NODE_RESERVED_NAME);
             node.attachObject(camera);
-            viewport = renderWindow.addViewport(camera, renderWindow.getNumViewports(), 0, 0, 1, 1);
+            viewport = renderWindow.addViewport(camera, zIndex, 0, 0, 1, 1);
             sceneManager.SceneManager.getRootSceneNode().addChild(node);
 
             statsOverlay = new StatsOverlay(name);

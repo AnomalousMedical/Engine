@@ -31,12 +31,17 @@ namespace OgrePlugin
             }
         }
 
-        public SceneView createSceneView(SimSubScene subScene, String name, Vector3 positon, Vector3 lookAt)
+        public SceneView createSceneView(SimSubScene subScene, String name, Vector3 position, Vector3 lookAt)
+        {
+            return createSceneView(subScene, name, position, lookAt, OgreRenderWindow.getNumViewports());
+        }
+
+        public SceneView createSceneView(SimSubScene subScene, String name, Vector3 positon, Vector3 lookAt, int zIndex)
         {
             if (subScene.hasSimElementManagerType(typeof(OgreSceneManager)))
             {
                 OgreSceneManager sceneManager = subScene.getSimElementManager<OgreSceneManager>();
-                OgreSceneView camControl = new OgreSceneView(name, sceneManager, OgreRenderWindow);
+                OgreSceneView camControl = new OgreSceneView(name, sceneManager, OgreRenderWindow, zIndex);
                 camControl.Translation = positon;
                 camControl.LookAt = lookAt;
                 return camControl;
