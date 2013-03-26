@@ -48,8 +48,6 @@ namespace Engine.ObjectManagement
             this.simElementManager = simElementManager;
         }
 
-        #region EditableProperty Members
-
         /// <summary>
         /// Get the value for a given column.
         /// </summary>
@@ -163,8 +161,11 @@ namespace Engine.ObjectManagement
         {
             return false;
         }
-  
-        #endregion
+
+        /// <summary>
+        /// Set this to true to indicate to the ui that this property is advanced.
+        /// </summary>
+        public bool Advanced { get; set; }
 
         /// <summary>
         /// The SimElementManagerDefinition for this binding.

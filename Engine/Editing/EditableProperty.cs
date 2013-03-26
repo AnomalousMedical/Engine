@@ -65,5 +65,10 @@ namespace Engine.Editing
         /// <param name="column">The column to check.</param>
         /// <returns>True if there is a browser in this column.</returns>
         bool hasBrowser(int column);
+
+        /// <summary>
+        /// Set this to true to indicate to the ui that this property is advanced.
+        /// </summary>
+        bool Advanced { get; }
     }
 }

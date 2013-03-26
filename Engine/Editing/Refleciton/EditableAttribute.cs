@@ -33,7 +33,12 @@ namespace Engine.Editing
 
         public virtual EditableProperty createEditableProperty(MemberWrapper memberWrapper, Object target)
         {
-            return new ReflectedEditableProperty(memberWrapper.getWrappedName(), ReflectedVariable.createVariable(memberWrapper, target));
+            return new ReflectedEditableProperty(memberWrapper.getWrappedName(), ReflectedVariable.createVariable(memberWrapper, target))
+            {
+                Advanced = Advanced
+            };
         }
+
+        public bool Advanced { get; set; }
     }
 }
