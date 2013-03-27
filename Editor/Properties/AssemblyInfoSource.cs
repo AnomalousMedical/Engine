@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Anomalous Medical")]
 [assembly: AssemblyProduct("Editor")]
-[assembly: AssemblyCopyright("Copyright © Anomalous Medical 2009")]
+[assembly: AssemblyCopyright("Copyright © Anomalous Software 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

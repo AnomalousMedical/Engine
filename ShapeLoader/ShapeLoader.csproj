@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Properties\AssemblyInfoSource.cs" />
     <Compile Include="ShapeLoading\ShapeBuilder.cs" />
     <Compile Include="ShapeLoading\ShapeFileManager.cs" />
     <Compile Include="ShapeLoading\ShapeGroup.cs" />

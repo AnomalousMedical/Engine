@@ -84,6 +84,7 @@
     <Compile Include="Plugin\OgreResourceManager.cs" />
     <Compile Include="Plugin\ImageAtlas\PagedImageAtlas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Properties\AssemblyInfoSource.cs" />
     <Compile Include="Utility\OgreDrawingUtility.cs" />
     <Compile Include="Wrapper\Animation\Animation.cs" />
     <Compile Include="Wrapper\Animation\AnimationState.cs" />

@@ -145,6 +145,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Properties\AssemblyInfoSource.cs" />
     <Compile Include="Utility\DirectoryUtility.cs" />
     <EmbeddedResource Include="GUI\AnomalyMain.resx">
       <DependentUpon>AnomalyMain.cs</DependentUpon>
