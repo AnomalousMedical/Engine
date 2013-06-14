@@ -68,7 +68,7 @@ namespace Anomaly
             if (!File.Exists(resourcesFile))
             {
                 ResourceManager resources = PluginManager.Instance.createEmptyResourceManager();
-                using (XmlTextWriter textWriter = new XmlTextWriter(resourcesFile, Encoding.Default))
+                using (XmlTextWriter textWriter = new XmlTextWriter(resourcesFile, Encoding.Unicode))
                 {
                     textWriter.Formatting = Formatting.Indented;
                     xmlSaver.saveObject(resources, textWriter);
@@ -79,7 +79,7 @@ namespace Anomaly
             if (!File.Exists(sceneDefinitionFile))
             {
                 SimSceneDefinition sceneDefinition = new SimSceneDefinition();
-                using (XmlTextWriter textWriter = new XmlTextWriter(sceneDefinitionFile, Encoding.Default))
+                using (XmlTextWriter textWriter = new XmlTextWriter(sceneDefinitionFile, Encoding.Unicode))
                 {
                     textWriter.Formatting = Formatting.Indented;
                     xmlSaver.saveObject(sceneDefinition, textWriter);
@@ -175,7 +175,7 @@ namespace Anomaly
                 String sceneFileName = Path.GetFullPath(Path.Combine(workingDirectory, projectData.SceneFileName));
                 try
                 {
-                    using (XmlTextWriter textWriter = new XmlTextWriter(sceneFileName, Encoding.Default))
+                    using (XmlTextWriter textWriter = new XmlTextWriter(sceneFileName, Encoding.Unicode))
                     {
                         textWriter.Formatting = Formatting.Indented;
                         xmlSaver.saveObject(scenePackage, textWriter);
@@ -216,7 +216,7 @@ namespace Anomaly
 
         public void save()
         {
-            using (XmlTextWriter textWriter = new XmlTextWriter(projectFile, Encoding.Default))
+            using (XmlTextWriter textWriter = new XmlTextWriter(projectFile, Encoding.Unicode))
             {
                 textWriter.Formatting = Formatting.Indented;
                 xmlSaver.saveObject(projectData, textWriter);

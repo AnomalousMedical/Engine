@@ -37,7 +37,7 @@ namespace Anomaly
         {
             if (modified)
             {
-                using (XmlTextWriter textWriter = new XmlTextWriter(filename, Encoding.Default))
+                using (XmlTextWriter textWriter = new XmlTextWriter(filename, Encoding.Unicode))
                 {
                     textWriter.Formatting = Formatting.Indented;
                     xmlSaver.saveObject(fileObj, textWriter);

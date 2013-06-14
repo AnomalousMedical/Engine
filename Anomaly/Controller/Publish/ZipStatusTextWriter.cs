@@ -9,8 +9,6 @@ namespace Anomaly
 {
     class ZipStatusTextWriter : TextWriter
     {
-        private StringBuilder stringBuilder = new StringBuilder();
-
         public override void WriteLine(string value)
         {
             Log.Info(value);
@@ -38,7 +36,7 @@ namespace Anomaly
 
         public override Encoding Encoding
         {
-            get { return Encoding.Default; }
+            get { return Encoding.Unicode; }
         }
     }
 }

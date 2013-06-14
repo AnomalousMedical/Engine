@@ -74,7 +74,7 @@ namespace Anomaly
             if (!File.Exists(globalResourcesFile))
             {
                 ResourceManager globalResources = controller.PluginManager.createEmptyResourceManager();
-                using (XmlTextWriter textWriter = new XmlTextWriter(globalResourcesFile, Encoding.Default))
+                using (XmlTextWriter textWriter = new XmlTextWriter(globalResourcesFile, Encoding.Unicode))
                 {
                     textWriter.Formatting = Formatting.Indented;
                     xmlSaver.saveObject(globalResources, textWriter);
@@ -144,7 +144,7 @@ namespace Anomaly
 
         public void save()
         {
-            using (XmlTextWriter xmlWriter = new XmlTextWriter(solutionFile, Encoding.Default))
+            using (XmlTextWriter xmlWriter = new XmlTextWriter(solutionFile, Encoding.Unicode))
             {
                 xmlWriter.Formatting = Formatting.Indented;
                 xmlSaver.saveObject(solutionData, xmlWriter);

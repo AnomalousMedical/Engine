@@ -332,7 +332,7 @@ namespace Anomaly
             scenePackage.SceneDefinition = sceneController.getSceneDefinition();
             scenePackage.ResourceManager = resourceController.getResourceManager();
             scenePackage.SimObjectManagerDefinition = simObjectController.getSimObjectManagerDefinition();
-            XmlTextWriter fileWriter = new XmlTextWriter(filename, Encoding.Default);
+            XmlTextWriter fileWriter = new XmlTextWriter(filename, Encoding.Unicode);
             fileWriter.Formatting = Formatting.Indented;
             xmlSaver.saveObject(scenePackage, fileWriter);
             fileWriter.Close();
