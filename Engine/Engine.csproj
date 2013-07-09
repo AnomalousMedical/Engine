@@ -106,6 +106,7 @@
     <Compile Include="Editing\Refleciton\ReflectedMinMaxEditableProperty.cs" />
     <Compile Include="Editing\Refleciton\ReflectedObjectEditableProperty.cs" />
     <Compile Include="Log\Log.cs" />
+    <Compile Include="Log\LogConsoleListener.cs" />
     <Compile Include="Log\LogFileListener.cs" />
     <Compile Include="Log\LogListener.cs" />
     <Compile Include="Math\2d\IntCoord.cs" />
