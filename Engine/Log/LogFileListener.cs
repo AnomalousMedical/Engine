@@ -14,6 +14,7 @@ namespace Logging
         private StreamWriter fileWriter;
         private bool closed;
         private String logFileName;
+        private Object streamLock = new object();
 
         public LogFileListener()
         {
@@ -33,10 +34,13 @@ namespace Logging
         /// <param name="subsystem">The subsystem the message originated from.</param>
         public void sendMessage(string message, LogLevel logLevel, string subsystem)
         {
-            if (!closed)
+            lock (streamLock)
             {
-                fileWriter.WriteLine(Log.formatMessage(message, subsystem));
-                fileWriter.Flush();
+                if (!closed)
+                {
+                    fileWriter.WriteLine(Log.formatMessage(message, subsystem));
+                    fileWriter.Flush();
+                }
             }
         }
 
@@ -47,15 +51,18 @@ namespace Logging
         /// <param name="fileName"></param>
         public void openLogFile(String fileName)
         {
-            try
+            lock (streamLock)
             {
-                logFileName = fileName;
-                fileWriter = new StreamWriter(new FileStream(fileName, FileMode.Create, FileAccess.Write));
-                closed = false;
-            }
-            catch
-            {
-                closed = true;
+                try
+                {
+                    logFileName = fileName;
+                    fileWriter = new StreamWriter(new FileStream(fileName, FileMode.Create, FileAccess.Write));
+                    closed = false;
+                }
+                catch
+                {
+                    closed = true;
+                }
             }
         }
 
@@ -64,31 +71,37 @@ namespace Logging
         /// </summary>
         public void closeLogFile()
         {
-            if (!closed)
+            lock (streamLock)
             {
-                Log.Info("Closed log {0}", logFileName);
-                closed = true;
-                fileWriter.Close();
+                if (!closed)
+                {
+                    Log.Info("Closed log {0}", logFileName);
+                    closed = true;
+                    fileWriter.Close();
+                }
             }
         }
 
         public void saveCrashLog(String crashFile)
         {
-            try
+            lock (streamLock)
             {
-                String crashDir = Path.GetDirectoryName(crashFile);
-                if (!Directory.Exists(crashDir))
+                try
                 {
-                    Directory.CreateDirectory(crashDir);
+                    String crashDir = Path.GetDirectoryName(crashFile);
+                    if (!Directory.Exists(crashDir))
+                    {
+                        Directory.CreateDirectory(crashDir);
+                    }
+
+                    fileWriter.Flush();
+                    DateTime now = DateTime.Now;
+                    File.Copy(logFileName, crashFile, true);
                 }
+                catch (Exception e)
+                {
 
-                fileWriter.Flush();
-                DateTime now = DateTime.Now;
-                File.Copy(logFileName, crashFile, true);
-            }
-            catch (Exception e)
-            {
-
+                }
             }
         }
     }
