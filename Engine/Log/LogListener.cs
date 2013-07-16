@@ -7,7 +7,8 @@ namespace Logging
 {
     /// <summary>
     /// Interface for LogListeners. The subclasses can handle log messages and
-    /// output them to a file or write them to the console or the screen.
+    /// output them to a file or write them to the console or the screen. All LogListener
+    /// subclasses should log in a way that is thread safe.
     /// </summary>
     public interface LogListener
     {

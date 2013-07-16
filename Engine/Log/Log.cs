@@ -23,7 +23,9 @@ namespace Logging
     /// <summary>
     /// Provides logging functionality.  This log does not write directly to a file
     /// or any other location.  In order to write somewhere you must extend the 
-    /// LogListener interface and do your work there.
+    /// LogListener interface and do your work there. The log is thread safe as long
+    /// as its listeners are all thread safe, so you should make sure any custom listeners
+    /// created are thread safe.
     /// </summary>
     /// <remarks>
     /// Messages can be split up based on 4 levels of importance: 
