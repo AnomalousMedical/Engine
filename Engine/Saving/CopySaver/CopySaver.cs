@@ -16,12 +16,19 @@ namespace Engine.Saving
         public static readonly CopySaver Default = new CopySaver();
 
         private SaveControl saveControl;
-        private LoadControl loadControl = new LoadControl();
+        private LoadControl loadControl;
         private Object lastLoadedObject = null;
 
         public CopySaver()
+            :this(new DefaultTypeFinder())
+        {
+            
+        }
+
+        public CopySaver(TypeFinder typeFinder)
         {
             saveControl = new SaveControl(this, this, this);
+            loadControl = new LoadControl(typeFinder);
         }
 
         public T copy<T>(T source)

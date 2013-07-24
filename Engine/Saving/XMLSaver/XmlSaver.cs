@@ -19,11 +19,20 @@ namespace Engine.Saving.XMLSaver
         private XmlSaveable saveableValue;
         private XmlEnum enumValue;
         private XmlWriter xmlWriter;
-        private LoadControl loadControl = new LoadControl();
+        private LoadControl loadControl;
         private Dictionary<String, XmlValueReader> valueReaders = new Dictionary<string,XmlValueReader>();
+        private TypeFinder typeFinder;
 
         public XmlSaver()
+            :this(new DefaultTypeFinder())
         {
+            
+        }
+
+        public XmlSaver(TypeFinder typeFinder)
+        {
+            this.typeFinder = typeFinder;
+            loadControl = new LoadControl(typeFinder);
             saveableValue = new XmlSaveable(this);
             valueReaders.Add(saveableValue.ElementName, saveableValue);
             enumValue = new XmlEnum(this);
@@ -84,7 +93,7 @@ namespace Engine.Saving.XMLSaver
                     {
                         if (xmlReader.Name.Equals(SAVEABLE_ELEMENT))
                         {
-                            ObjectIdentifier objectId = new ObjectIdentifier(NumberParser.ParseLong(xmlReader.GetAttribute(ID_ATTIBUTE)), null, PluginManager.Instance.getType(xmlReader.GetAttribute(TYPE_ATTRIBUTE)));
+                            ObjectIdentifier objectId = new ObjectIdentifier(NumberParser.ParseLong(xmlReader.GetAttribute(ID_ATTIBUTE)), null, typeFinder.findType(xmlReader.GetAttribute(TYPE_ATTRIBUTE)));
                             loadControl.startDefiningObject(objectId);
                             //If the element is empty do not bother to loop looking for elements.
                             if (!xmlReader.IsEmptyElement)

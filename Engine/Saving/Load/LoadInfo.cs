@@ -13,13 +13,14 @@ namespace Engine.Saving
     public class LoadInfo
     {
         private Dictionary<String, SaveEntry> entries = new Dictionary<String, SaveEntry>();
+        private TypeFinder typeFinder;
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public LoadInfo()
+        public LoadInfo(TypeFinder typeFinder)
         {
-
+            this.typeFinder = typeFinder;
         }
 
         /// <summary>
@@ -388,6 +389,14 @@ namespace Engine.Saving
             for (int i = 0; entries.ContainsKey(baseName + i); ++i)
             {
                 values.AddLast((ValueType)entries[baseName + i].Value);
+            }
+        }
+
+        public TypeFinder TypeFinder
+        {
+            get
+            {
+                return typeFinder;
             }
         }
 

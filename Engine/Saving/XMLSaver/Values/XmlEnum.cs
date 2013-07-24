@@ -38,7 +38,7 @@ namespace Engine.Saving.XMLSaver
 
         public override void readValue(LoadControl loadControl, XmlReader xmlReader)
         {
-            Type enumType = PluginManager.Instance.getType(xmlReader.GetAttribute(TYPE));
+            Type enumType = loadControl.TypeFinder.findType(xmlReader.GetAttribute(TYPE));
             if (enumType != null)
             {
                 String name = xmlReader.GetAttribute(NAME_ENTRY);

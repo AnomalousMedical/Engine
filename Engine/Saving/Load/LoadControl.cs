@@ -17,11 +17,13 @@ namespace Engine.Saving
         private Stack<LoadInfo> pooledInfos = new Stack<LoadInfo>();
         private Dictionary<long, ObjectIdentifier> identiferMap = new Dictionary<long, ObjectIdentifier>();
         private ObjectIdentifier currentIdentifier;
-        private LoadInfo loadInfo = new LoadInfo();
+        private LoadInfo loadInfo;
+        private TypeFinder typeFinder;
 
-        public LoadControl()
+        public LoadControl(TypeFinder typeFinder)
         {
-
+            this.typeFinder = typeFinder;
+            loadInfo = new LoadInfo(typeFinder);
         }
 
         /// <summary>
@@ -89,6 +91,14 @@ namespace Engine.Saving
             else
             {
                 loadInfo.addValue(name, null, typeof(Object));
+            }
+        }
+
+        public TypeFinder TypeFinder
+        {
+            get
+            {
+                return typeFinder;
             }
         }
     }

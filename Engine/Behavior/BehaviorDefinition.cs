@@ -94,7 +94,7 @@ namespace Engine
             :base(info)
         {
             String behaviorType = info.GetString(BEHAVIOR_TYPE);
-            Type type = PluginManager.Instance.getType(behaviorType);
+            Type type = info.TypeFinder.findType(behaviorType);
             if (type != null)
             {
                 behaviorTemplate = (Behavior)Activator.CreateInstance(type);

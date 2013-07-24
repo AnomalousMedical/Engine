@@ -169,7 +169,7 @@ namespace Engine
         /// </remarks>
         /// <param name="assemblyQualifiedName">The AssemblyQualifiedName to search for.</param>
         /// <returns>The matching type or null if the type cannot be found.</returns>
-        public Type getType(String assemblyQualifiedName)
+        internal Type findType(String assemblyQualifiedName)
         {
             Type type = Type.GetType(assemblyQualifiedName, false);
             //If that fails do the slow search.
