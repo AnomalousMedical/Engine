@@ -84,8 +84,10 @@ input.submit:active
 	background-center-image: /MyGUIPlugin_Widget_Texture.png stretch 835px 50px 852px 67px;
 }
 
-
-
+input.hidden
+{
+	display:none;
+}
 
 input.text,
 input.password
