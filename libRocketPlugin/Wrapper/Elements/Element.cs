@@ -18,6 +18,32 @@ namespace libRocketPlugin
 
         }
 
+        public void SetClass(String className, bool activate)
+        {
+            Element_SetClass(ptr, className, activate);
+        }
+
+        public bool IsClassSet(String className)
+        {
+            return Element_IsClassSet(ptr, className);
+        }
+
+        public bool SetProperty(String name, String value)
+        {
+            return Element_SetProperty(ptr, name, value);
+        }
+
+        public void RemoveProperty(String name)
+        {
+            Element_RemoveProperty(ptr, name);
+        }
+
+        public String GetPropertyString(String name)
+        {
+            Element_GetPropertyString(ptr, name, stringRetriever.StringCallback);
+            return stringRetriever.retrieveString();
+        }
+
         public void SetAttribute(String name, String value)
         {
             Element_SetAttribute(ptr, name, value);
@@ -429,6 +455,22 @@ namespace libRocketPlugin
 
         #region PInvoke
 
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Element_SetClass(IntPtr element, String class_name, bool activate);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool Element_IsClassSet(IntPtr element, String class_name);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool Element_SetProperty(IntPtr element, String name, String value);
+        
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Element_RemoveProperty(IntPtr element, String name);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Element_GetPropertyString(IntPtr element, String name, StringRetriever.Callback strRetriever);
         
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_SetAttribute(IntPtr element, String name, String value);

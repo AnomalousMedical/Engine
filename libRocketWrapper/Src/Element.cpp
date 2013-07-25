@@ -4,10 +4,16 @@
 
 //Element* Clone() const;
 //
-//void SetClass(const String& class_name, bool activate);
-//
-//bool IsClassSet(const String& class_name) const;
-//
+extern "C" _AnomalousExport void Element_SetClass(Rocket::Core::Element* element, String class_name, bool activate)
+{
+	element->SetClass(class_name, activate);
+}
+
+extern "C" _AnomalousExport bool Element_IsClassSet(Rocket::Core::Element* element, String class_name)
+{
+	return element->IsClassSet(class_name);
+}
+
 //void SetClassNames(const String& class_names);
 //
 //String GetClassNames() const;
@@ -50,12 +56,32 @@
 //
 //FontFaceHandle* GetFontFaceHandle() const;
 //
-//bool SetProperty(const String& name, const String& value);
-//
+extern "C" _AnomalousExport bool Element_SetProperty(Rocket::Core::Element* element, String name, String value)
+{
+	return element->SetProperty(name, value);
+}
+
 //bool SetProperty(const String& name, const Property& property);
 //
-//void RemoveProperty(const String& name);
-//
+extern "C" _AnomalousExport void Element_RemoveProperty(Rocket::Core::Element* element, String name)
+{
+	element->RemoveProperty(name);
+}
+
+extern "C" _AnomalousExport void Element_GetPropertyString(Rocket::Core::Element* element, String name, StringRetrieverCallback strRetriever)
+{
+	const Rocket::Core::Property* prop = element->GetProperty(name);
+	if(prop != NULL)
+	{
+		Rocket::Core::String propString = prop->ToString();
+		strRetriever(propString.CString());
+	}
+	else
+	{
+		strRetriever(NULL);
+	}
+}
+
 //const Property* GetProperty(const String& name);		
 //
 //template < typename T >
