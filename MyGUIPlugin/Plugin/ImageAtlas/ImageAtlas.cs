@@ -191,7 +191,7 @@ namespace MyGUIPlugin
             }
         }
 
-        private string resourceXML = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+        private const string resourceXML = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
                                 "<MyGUI type=\"Resource\" version=\"1.1\">\n" +
                                   "<Resource type=\"ResourceImageSet\" name=\"{0}\">\n" +
                                     "<Group name=\"Icons\" texture=\"{1}\" size=\"{2} {3}\">\n" +
