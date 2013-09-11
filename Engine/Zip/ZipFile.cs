@@ -310,6 +310,8 @@ namespace ZipAccess
 		        throw new ZipIOException("Could not open zip file {0} because of {1}", file, errorMessage);
 	        }
 
+            HashSet<String> foundDirectories = new HashSet<string>();
+
             //Read the directories and files out of the zip file
             ZZipStat zzipEntry = new ZZipStat();
             while (ZipFile_Read(zzipDir, &zzipEntry))
@@ -321,14 +323,45 @@ namespace ZipAccess
                     //Make sure we don't end with a /
                     if (fileInfo.IsDirectory)
                     {
-                        directories.Add(fileInfo);
+                        addDirectoryEntry(foundDirectories, fileInfo);
                     }
                     else
                     {
                         files.Add(fileInfo);
                     }
+                    addParentDirectories(foundDirectories, fileInfo);
                 }
             }
+        }
+
+        private void addParentDirectories(HashSet<String> foundDirectories, ZipFileInfo fileInfo)
+        {
+            ZipFileInfo currentInfo = fileInfo;
+            while (currentInfo.DirectoryName != String.Empty)
+            {
+                currentInfo = new ZipFileInfo(currentInfo.DirectoryName, 0, 0);
+                if (addDirectoryEntry(foundDirectories, currentInfo))
+                {
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Add a directory entry that hasn't already been found. Returns true if the directory was already found.
+        /// </summary>
+        /// <param name="foundDirectories"></param>
+        /// <param name="fileInfo"></param>
+        /// <returns>Trus if the directory was already found and skipped, false if it was not found and added.</returns>
+        private bool addDirectoryEntry(HashSet<String> foundDirectories, ZipFileInfo fileInfo)
+        {
+            if (!foundDirectories.Contains(fileInfo.Name) && fileInfo.Name.Length != 0)
+            {
+                directories.Add(fileInfo);
+                foundDirectories.Add(fileInfo.Name);
+                return false;
+            }
+            return true;
         }
 
         [DllImport("Zip", CallingConvention=CallingConvention.Cdecl)]
