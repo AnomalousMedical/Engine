@@ -323,7 +323,11 @@ namespace ZipAccess
                     //Make sure we don't end with a /
                     if (fileInfo.IsDirectory)
                     {
-                        addDirectoryEntry(foundDirectories, fileInfo);
+                        if (!foundDirectories.Contains(fileInfo.FullName))
+                        {
+                            directories.Add(fileInfo);
+                            foundDirectories.Add(fileInfo.FullName);
+                        }
                     }
                     else
                     {
@@ -337,31 +341,22 @@ namespace ZipAccess
         private void addParentDirectories(HashSet<String> foundDirectories, ZipFileInfo fileInfo)
         {
             ZipFileInfo currentInfo = fileInfo;
-            while (currentInfo.DirectoryName != String.Empty)
+            String currentDirectory = currentInfo.DirectoryName;
+            int lastIndex = currentDirectory.LastIndexOf('/', currentDirectory.Length - 1);
+            while (lastIndex != -1)
             {
-                currentInfo = new ZipFileInfo(currentInfo.DirectoryName, 0, 0);
-                if (addDirectoryEntry(foundDirectories, currentInfo))
+                currentDirectory = currentDirectory.Substring(0, lastIndex + 1);
+                if (!foundDirectories.Contains(currentDirectory))
                 {
-                    break;
+                    directories.Add(new ZipFileInfo(currentDirectory, 0, 0));
+                    foundDirectories.Add(currentDirectory);
+                    lastIndex = currentDirectory.LastIndexOf('/', currentDirectory.Length - 2);
+                }
+                else
+                {
+                    lastIndex = -1;
                 }
             }
-        }
-
-        /// <summary>
-        /// Add a directory entry that hasn't already been found. Returns true if the directory was already found.
-        /// </summary>
-        /// <param name="foundDirectories"></param>
-        /// <param name="fileInfo"></param>
-        /// <returns>Trus if the directory was already found and skipped, false if it was not found and added.</returns>
-        private bool addDirectoryEntry(HashSet<String> foundDirectories, ZipFileInfo fileInfo)
-        {
-            if (!foundDirectories.Contains(fileInfo.FullName) && fileInfo.FullName.Length != 0)
-            {
-                directories.Add(fileInfo);
-                foundDirectories.Add(fileInfo.FullName);
-                return false;
-            }
-            return true;
         }
 
         [DllImport("Zip", CallingConvention=CallingConvention.Cdecl)]
