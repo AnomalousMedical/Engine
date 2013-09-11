@@ -355,10 +355,10 @@ namespace ZipAccess
         /// <returns>Trus if the directory was already found and skipped, false if it was not found and added.</returns>
         private bool addDirectoryEntry(HashSet<String> foundDirectories, ZipFileInfo fileInfo)
         {
-            if (!foundDirectories.Contains(fileInfo.Name) && fileInfo.Name.Length != 0)
+            if (!foundDirectories.Contains(fileInfo.FullName) && fileInfo.FullName.Length != 0)
             {
                 directories.Add(fileInfo);
-                foundDirectories.Add(fileInfo.Name);
+                foundDirectories.Add(fileInfo.FullName);
                 return false;
             }
             return true;
