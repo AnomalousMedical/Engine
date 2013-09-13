@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,7 +29,7 @@
     <AssemblyName>BulletWrapper</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
   </PropertyGroup>
-  <UsingTask TaskName="BuildXCode" AssemblyFile="$(MSBUILD_EXT_HOME)\Anomalous\bin\Release\AnomalousMSBuild.dll" />
+  <UsingTask TaskName="BuildXCode" AssemblyFile="..\..\..\Dependencies\MSBuild\Anomalous\bin\Release\AnomalousMSBuild.dll" />
   <!-- Modify the OutputFiles as needed for each project. -->
   <ItemGroup>
     <OutputFiles Include="build\Release\libOgreCWrapper.dylib" />
@@ -39,7 +39,7 @@
     <Copy SourceFiles="@(OutputFiles)" DestinationFolder="../../$(Configuration)" />
   </Target>
   
-  <UsingTask TaskName="CleanXCode" AssemblyFile="$(MSBUILD_EXT_HOME)\Anomalous\bin\Release\AnomalousMSBuild.dll" />
+  <UsingTask TaskName="CleanXCode" AssemblyFile="..\..\..\Dependencies\MSBuild\Anomalous\bin\Release\AnomalousMSBuild.dll" />
   <Target Name="Clean">
 	<CleanXCode />
   </Target>
