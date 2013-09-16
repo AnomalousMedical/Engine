@@ -88,51 +88,51 @@ namespace MyGUIPlugin
             read = scrollView.getUserString("ItemHeight");
             if (read != null && NumberParser.TryParse(read, out intValue))
             {
-                ItemHeight = intValue;
+                ItemHeight = ScaleHelper.Scaled(intValue);
             }
             else
             {
-                ItemHeight = 122;
+                ItemHeight = ScaleHelper.Scaled(122);
             }
 
             read = scrollView.getUserString("ItemWidth");
             if (read != null && NumberParser.TryParse(read, out intValue))
             {
-                ItemWidth = intValue;
+                ItemWidth = ScaleHelper.Scaled(intValue);
             }
             else
             {
-                ItemWidth = 122;
+                ItemWidth = ScaleHelper.Scaled(122);
             }
 
             read = scrollView.getUserString("ItemPaddingX");
             if (read != null && NumberParser.TryParse(read, out intValue))
             {
-                ItemPaddingX = intValue;
+                ItemPaddingX = ScaleHelper.Scaled(intValue);
             }
             else
             {
-                ItemPaddingX = 10;
+                ItemPaddingX = ScaleHelper.Scaled(10);
             }
 
             read = scrollView.getUserString("ItemPaddingY");
             if (read != null && NumberParser.TryParse(read, out intValue))
             {
-                ItemPaddingY = intValue;
+                ItemPaddingY = ScaleHelper.Scaled(intValue);
             }
             else
             {
-                ItemPaddingY = 2;
+                ItemPaddingY = ScaleHelper.Scaled(2);
             }
 
             read = scrollView.getUserString("GroupPaddingY");
             if (read != null && NumberParser.TryParse(read, out intValue))
             {
-                GroupPaddingY = intValue;
+                GroupPaddingY = ScaleHelper.Scaled(intValue);
             }
             else
             {
-                GroupPaddingY = ItemPaddingY;
+                GroupPaddingY = ScaleHelper.Scaled(ItemPaddingY);
             }
 
             ButtonSkin = scrollView.getUserString("ButtonSkin");

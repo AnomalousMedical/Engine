@@ -145,6 +145,23 @@ namespace MyGUIPlugin
 
         public bool HandledKeyboardButtons { get; internal set; }
 
+        /// <summary>
+        /// Note that this round trips to unmanaged code. It is better to use the ScaleHelper.CahcedScaleFactor value as it should be the same
+        /// and will not go to unmanaged code. Note that if the scale factor was set through unmanaged code that value will not be synchronized.
+        /// </summary>
+        internal float ScaleFactor
+        {
+            get
+            {
+                return Gui_getScaleFactor(gui);
+            }
+            set
+            {
+                Gui_setScaleFactor(gui, value);
+                ScaleHelper.CachedScaleFactor = value;
+            }
+        }
+
         internal void fireUpdateEvent(float updateTime)
         {
             if (Update != null)
@@ -183,6 +200,12 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Gui_findWidgetT2(IntPtr gui, String name, String prefix);
+
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        private static extern void Gui_setScaleFactor(IntPtr gui, float scaleFactor);
+
+        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern float Gui_getScaleFactor(IntPtr gui);
 
 #endregion
     }

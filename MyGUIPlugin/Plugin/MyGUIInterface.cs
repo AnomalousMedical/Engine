@@ -101,6 +101,7 @@ namespace MyGUIPlugin
             renderListener = new MyGUIRenderListener(vp, sceneManager);
 
             gui = new Gui();
+            gui.ScaleFactor = ScaleFactor;
             gui.initialize("");
 
             //Load config files
@@ -156,6 +157,7 @@ namespace MyGUIPlugin
             LayerFile = "MyGUIPlugin_Layer.xml";
             PointerFile = "MyGUIPlugin_Pointer.xml";
             ViewportZIndex = 1000000;
+            ScaleFactor = 1.0f;
         }
 
         public static readonly String DefaultWindowsTheme = "MyGUIPlugin_Windows.xml";
@@ -196,6 +198,11 @@ namespace MyGUIPlugin
         public static float SmoothShowDuration { get; set; }
 
         public static int ViewportZIndex { get; set; }
+
+        /// <summary>
+        /// The scale factor for scaled elements on the UI.
+        /// </summary>
+        public static float ScaleFactor { get; set; }
 
         /// <summary>
         /// This event is fired before MyGUI renders.

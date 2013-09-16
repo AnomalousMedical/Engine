@@ -44,3 +44,13 @@ extern "C" _AnomalousExport MyGUI::Widget* Gui_findWidgetT2(MyGUI::Gui* gui, Str
 {
 	return gui->findWidgetT(name, prefix, false);
 }
+
+extern "C" _AnomalousExport void Gui_setScaleFactor(MyGUI::Gui* gui, float scaleFactor)
+{
+	return gui->setScaleFactor(scaleFactor);
+}
+
+extern "C" _AnomalousExport float Gui_getScaleFactor(MyGUI::Gui* gui)
+{
+	return gui->getScaleFactor();
+}

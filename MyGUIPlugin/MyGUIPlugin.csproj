@@ -168,6 +168,7 @@
     <Compile Include="Wrapper\Events\Widget\ScrollGestureEventArgs.cs" />
     <Compile Include="Wrapper\System\RenderManager.cs" />
     <Compile Include="Wrapper\System\ResizingPolicy.cs" />
+    <Compile Include="Wrapper\System\ScaleHelper.cs" />
     <Compile Include="Wrapper\Widgets\SubWidget\ISubWidgetText.cs" />
     <Compile Include="Wrapper\Events\Widget\ToolTipEventArgs.cs" />
     <Compile Include="Wrapper\Events\Window\EventWindowButtonPressedTranslator.cs" />
