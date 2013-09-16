@@ -58,7 +58,8 @@ struct RocketOgre3DCompiledGeometry
 };
 
 RenderInterfaceOgre3D::RenderInterfaceOgre3D(unsigned int window_width, unsigned int window_height)
-	:pixelsPerInch(100)
+	:pixelsPerInch(100),
+	pixelScale(1.0f)
 {
 	render_system = Ogre::Root::getSingleton().getRenderSystem();
 
@@ -377,6 +378,19 @@ void RenderInterfaceOgre3D::SetPixelsPerInch(float ppi)
 	pixelsPerInch = ppi;
 }
 
+/// Returns the amount to scale spx by.
+/// @returns The amount to scale spx by. The default implementation returns 1.0.
+float RenderInterfaceOgre3D::GetPixelScale()
+{
+	return pixelScale;
+}
+
+/// Set the pixel scale
+void RenderInterfaceOgre3D::SetPixelScale(float scale)
+{
+	pixelScale = scale;
+}
+
 extern "C" _AnomalousExport RenderInterfaceOgre3D* RenderInterfaceOgre3D_Create(int width, int height)
 {
 	return new RenderInterfaceOgre3D(width, height);
@@ -401,4 +415,15 @@ extern "C" _AnomalousExport float RenderInterfaceOgre3D_GetPixelsPerInch(RenderI
 extern "C" _AnomalousExport void RenderInterfaceOgre3D_SetPixelsPerInch(RenderInterfaceOgre3D* renderInterface, float ppi)
 {
 	renderInterface->SetPixelsPerInch(ppi);
+}
+
+extern "C" _AnomalousExport float RenderInterfaceOgre3D_GetPixelScale(RenderInterfaceOgre3D* renderInterface)
+{
+	return renderInterface->GetPixelScale();
+}
+
+/// Sets the pixel scale.
+extern "C" _AnomalousExport void RenderInterfaceOgre3D_SetPixelScale(RenderInterfaceOgre3D* renderInterface, float scale)
+{
+	renderInterface->SetPixelScale(scale);
 }

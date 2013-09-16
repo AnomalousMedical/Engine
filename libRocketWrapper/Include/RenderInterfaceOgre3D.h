@@ -81,6 +81,13 @@ class RenderInterfaceOgre3D : public Rocket::Core::RenderInterface
 		/// Sets the number of pixels per inch.
 		void SetPixelsPerInch(float ppi);
 
+		/// Returns the amount to scale spx by.
+		/// @returns The amount to scale spx by. The default implementation returns 1.0.
+		virtual float GetPixelScale();
+
+		/// Set the pixel scale
+		void SetPixelScale(float scale);
+
 	private:
 		Ogre::RenderSystem* render_system;
 
@@ -93,6 +100,7 @@ class RenderInterfaceOgre3D : public Rocket::Core::RenderInterface
 		int scissor_right;
 		int scissor_bottom;
 		float pixelsPerInch;
+		float pixelScale;
 
 		// Builds an OpenGL-style orthographic projection matrix.
 		void BuildProjectionMatrix(Ogre::Matrix4& projection_matrix, const int &renderWidth, const int &renderHeight);

@@ -60,6 +60,18 @@ namespace libRocketPlugin
             }
         }
 
+        public float PixelScale
+        {
+            get
+            {
+                return RenderInterfaceOgre3D_GetPixelScale(renderInterface);
+            }
+            set
+            {
+                RenderInterfaceOgre3D_SetPixelScale(renderInterface, value);
+            }
+        }
+
         #region PInvoke
 
         [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
@@ -76,6 +88,12 @@ namespace libRocketPlugin
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern void RenderInterfaceOgre3D_SetPixelsPerInch(IntPtr renderInterface, float ppi);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern float RenderInterfaceOgre3D_GetPixelScale(IntPtr renderInterface);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void RenderInterfaceOgre3D_SetPixelScale(IntPtr renderInterface, float scale);
 
         #endregion
     }
