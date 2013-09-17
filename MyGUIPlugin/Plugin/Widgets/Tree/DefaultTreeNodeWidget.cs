@@ -7,6 +7,13 @@ namespace MyGUIPlugin
 {
     class DefaultTreeNodeWidget : TreeNodeWidget
     {
+        private static int PrimaryWidgetWidth = ScaleHelper.Scaled(26);
+        private static int PrimaryWidgetHeight = ScaleHelper.Scaled(16);
+        private static int PlusMinusButtonSize = ScaleHelper.Scaled(16);
+        private static int MainButtonX = ScaleHelper.Scaled(17);
+        private static int MainButtonWidth = ScaleHelper.Scaled(10);
+        private static int MainButtonHeight = ScaleHelper.Scaled(16);
+
         private Widget primaryWidget;
         private Button plusMinusButton;
         private Button mainButton;
@@ -23,15 +30,15 @@ namespace MyGUIPlugin
 
         public override void createWidget(Widget parent, String caption, String imageResource)
         {
-            primaryWidget = parent.createWidgetT("Widget", "PanelEmpty", 0, 0, 26, 16, Align.Default, "") as Widget;
+            primaryWidget = parent.createWidgetT("Widget", "PanelEmpty", 0, 0, PrimaryWidgetWidth, PrimaryWidgetHeight, Align.Default, "") as Widget;
             primaryWidget.ForwardMouseWheelToParent = true;
 
-            plusMinusButton = primaryWidget.createWidgetT("Button", "ButtonExpandSkin", 0, 0, 16, 16, Align.Left | Align.HCenter, "") as Button;
+            plusMinusButton = primaryWidget.createWidgetT("Button", "ButtonExpandSkin", 0, 0, PlusMinusButtonSize, PlusMinusButtonSize, Align.Left | Align.HCenter, "") as Button;
             plusMinusButton.MouseButtonClick += new MyGUIEvent(plusMinusButton_MouseButtonClick);
             plusMinusButton.Visible = treeNode.HasChildren;
             plusMinusButton.ForwardMouseWheelToParent = true;
 
-            mainButton = primaryWidget.createWidgetT("Button", "TreeIconButton", 17, 0, 10, 16, Align.Stretch, "") as Button;
+            mainButton = primaryWidget.createWidgetT("Button", "TreeIconButton", MainButtonX, 0, MainButtonWidth, MainButtonHeight, Align.Stretch, "") as Button;
             mainButton.Caption = caption;
             mainButton.MouseButtonClick += new MyGUIEvent(mainButton_MouseButtonClick);
             mainButton.MouseButtonDoubleClick += new MyGUIEvent(mainButton_MouseButtonDoubleClick);

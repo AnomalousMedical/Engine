@@ -26,8 +26,8 @@ namespace MyGUIPlugin
             this.scrollView = scrollView;
             rootNodes = new TreeNodeCollection(null);
             rootNodes.Tree = this;
-            ItemIndentation = 10;
-            NodeHeight = 20;
+            ItemIndentation = ScaleHelper.Scaled(10);
+            NodeHeight = ScaleHelper.Scaled(20);
             SuppressLayout = false;
         }
 
