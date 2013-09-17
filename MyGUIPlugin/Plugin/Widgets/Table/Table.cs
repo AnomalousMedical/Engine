@@ -24,8 +24,8 @@ namespace MyGUIPlugin
             Rows = new TableRowCollection();
             Rows.Table = this;
             Rows.Cleared += new Action(Rows_Cleared);
-            RowHeight = 20;
-            HeaderHeight = 20;
+            RowHeight = ScaleHelper.Scaled(20);
+            HeaderHeight = ScaleHelper.Scaled(20);
             LastEditedRow = -1;
         }
 
