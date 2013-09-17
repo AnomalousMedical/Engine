@@ -26,7 +26,8 @@ namespace MyGUIPlugin
 
     class TimelineViewButton
     {
-        private const int MIN_BUTTON_SIZE = 17;
+        private static readonly int MinButtonSize = ScaleHelper.Scaled(17);
+        private static readonly int DurationButtonWidth = ScaleHelper.Scaled(3);
 
         private Button button;
         private Button durationButton;
@@ -49,17 +50,17 @@ namespace MyGUIPlugin
             this.pixelsPerSecond = pixelsPerSecond;
             this.button = button;
 
-            if (button.Width < MIN_BUTTON_SIZE)
+            if (button.Width < MinButtonSize)
             {
-                button.setSize(MIN_BUTTON_SIZE, button.Height);
+                button.setSize(MinButtonSize, button.Height);
             }
 
-            durationButton = button.createWidgetT("Button", "TimelineButton", button.Width - 3, button.Top, 3, button.Height, Align.Top | Align.Right, "") as Button;
+            durationButton = button.createWidgetT("Button", "TimelineButton", button.Width - DurationButtonWidth, button.Top, DurationButtonWidth, button.Height, Align.Top | Align.Right, "") as Button;
             durationButton.MouseDrag += new MyGUIEvent(durationButton_MouseDrag);
             durationButton.MouseButtonPressed += new MyGUIEvent(durationButton_MouseButtonPressed);
             durationButton.Pointer = "size_horz";
 
-            startTimeButton = button.createWidgetT("Button", "TimelineButton", 0, button.Top, 3, button.Height, Align.Top | Align.Left, "") as Button;
+            startTimeButton = button.createWidgetT("Button", "TimelineButton", 0, button.Top, DurationButtonWidth, button.Height, Align.Top | Align.Left, "") as Button;
             startTimeButton.MouseDrag += new MyGUIEvent(startTimeButton_MouseDrag);
             startTimeButton.MouseButtonPressed += new MyGUIEvent(startTimeButton_MouseButtonPressed);
             startTimeButton.Pointer = "size_horz";
@@ -316,9 +317,9 @@ namespace MyGUIPlugin
         {
             sharedEventArgs._setValues(button);
             int buttonWidth = (int)(timelineData.Duration * pixelsPerSecond);
-            if (buttonWidth < MIN_BUTTON_SIZE)
+            if (buttonWidth < MinButtonSize)
             {
-                buttonWidth = MIN_BUTTON_SIZE;
+                buttonWidth = MinButtonSize;
             }
             button.setSize(buttonWidth, button.Height);
             if (CoordChanged != null)

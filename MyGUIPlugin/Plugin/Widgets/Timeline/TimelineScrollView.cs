@@ -12,6 +12,8 @@ namespace MyGUIPlugin
 
     class TimelineScrollView
     {
+        private static readonly int ButtonSize = ScaleHelper.Scaled(10);
+
         private ScrollView scrollView;
         public event CanvasSizeChanged CanvasWidthChanged;
         public event CanvasSizeChanged CanvasHeightChanged;
@@ -34,7 +36,7 @@ namespace MyGUIPlugin
 
         public Button createButton(float left, float width)
         {
-            Button button = (Button)scrollView.createWidgetT("Button", "TimelineButton", (int)left, 0, width > 10 ? (int)width : 10, 10, Align.Left | Align.Top, "");
+            Button button = (Button)scrollView.createWidgetT("Button", "TimelineButton", (int)left, 0, width > ButtonSize ? (int)width : ButtonSize, ButtonSize, Align.Left | Align.Top, "");
             if (button.Right > scrollView.CanvasSize.Width)
             {
                 CanvasWidth = button.Right;

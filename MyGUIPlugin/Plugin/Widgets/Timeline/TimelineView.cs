@@ -33,11 +33,15 @@ namespace MyGUIPlugin
             DefaultEvents.registerDefaultEvent(removeSelection);
         }
 
-        private const int PREVIEW_PADDING = 10;
-        private const int TRACK_START_Y = 3;
+        private static readonly int PREVIEW_PADDING = ScaleHelper.Scaled(10);
+        private static readonly int TRACK_START_Y = ScaleHelper.Scaled(3);
+
+        private static readonly int MaxPixelsPerSecond = ScaleHelper.Scaled(150);
+        private static readonly int MinPixelsPerSecond = ScaleHelper.Scaled(1);
+        private static readonly int StartingPixelsPerSecond = ScaleHelper.Scaled(100);
 
         private TimelineScrollView timelineScrollView;
-        private int pixelsPerSecond = 100;
+        private int pixelsPerSecond = StartingPixelsPerSecond;
         private Dictionary<String, TimelineViewTrack> namedTracks = new Dictionary<string, TimelineViewTrack>();
         private List<TimelineViewTrack> tracks = new List<TimelineViewTrack>();
         private TimelineMarker timelineMarker;
@@ -245,13 +249,13 @@ namespace MyGUIPlugin
                 if (pixelsPerSecond != value)
                 {
                     pixelsPerSecond = value;
-                    if (pixelsPerSecond < 1)
+                    if (pixelsPerSecond < MinPixelsPerSecond)
                     {
-                        pixelsPerSecond = 1;
+                        pixelsPerSecond = MinPixelsPerSecond;
                     }
-                    else if (pixelsPerSecond > 150)
+                    else if (pixelsPerSecond > MaxPixelsPerSecond)
                     {
-                        pixelsPerSecond = 150;
+                        pixelsPerSecond = MaxPixelsPerSecond;
                     }
                     foreach (TimelineViewTrack row in tracks)
                     {

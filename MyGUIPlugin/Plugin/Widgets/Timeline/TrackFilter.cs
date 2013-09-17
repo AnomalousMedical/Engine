@@ -16,16 +16,16 @@ namespace MyGUIPlugin
         private ScrollView scrollView;
         private Dictionary<TimelineViewTrack, TrackFilterButton> filterButtons = new Dictionary<TimelineViewTrack, TrackFilterButton>();
 
-        private int buttonWidth = 19;
+        private static readonly int ButtonWidth = ScaleHelper.Scaled(19);
+        private static readonly int ButtonHeight = ScaleHelper.Scaled(19);
         private int textWidth;
-        private int buttonHeight = 19;
 
         private bool enabled = true;
 
         public TrackFilter(ScrollView scrollView, TimelineView actionView)
         {
             this.scrollView = scrollView;
-            textWidth = (int)scrollView.CanvasSize.Width - buttonWidth - 1;
+            textWidth = (int)scrollView.CanvasSize.Width - ButtonWidth - 1;
 
             actionView.TrackPositionChanged += new TimelineTrackEvent(actionView_TrackPositionChanged);
             actionView.CanvasHeightChanged += new CanvasSizeChanged(actionView_CanvasHeightChanged);
@@ -43,10 +43,10 @@ namespace MyGUIPlugin
         {
             String actionName = row.Name;
             
-            Button button = (Button)scrollView.createWidgetT("Button", "ButtonExpandSkin", 0, row.Top, buttonWidth, buttonHeight, Align.Default, "");
+            Button button = (Button)scrollView.createWidgetT("Button", "ButtonExpandSkin", 0, row.Top, ButtonWidth, ButtonHeight, Align.Default, "");
             button.Selected = true;
             
-            TextBox staticText = (TextBox)scrollView.createWidgetT("TextBox", "TextBox", buttonWidth + 1, row.Top, textWidth, buttonHeight, Align.Default, "");
+            TextBox staticText = (TextBox)scrollView.createWidgetT("TextBox", "TextBox", ButtonWidth + 1, row.Top, textWidth, ButtonHeight, Align.Default, "");
             staticText.TextAlign = Align.Left | Align.VCenter;
             staticText.TextColor = row.Color;
             

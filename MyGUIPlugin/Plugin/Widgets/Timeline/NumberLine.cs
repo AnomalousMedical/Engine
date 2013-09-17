@@ -9,6 +9,13 @@ namespace MyGUIPlugin
 {
     public class NumberLine
     {
+        private static readonly int Sep40pps = ScaleHelper.Scaled(1);
+        private static readonly int Sep20pps = ScaleHelper.Scaled(3);
+        private static readonly int Sep10pps = ScaleHelper.Scaled(7);
+        private static readonly int Sep5pps = ScaleHelper.Scaled(10);
+        private static readonly int Sep3pps = ScaleHelper.Scaled(20);
+        private static readonly int Sep2pps = ScaleHelper.Scaled(40);
+
         private ScrollView numberlineScroller;
         private int pixelsPerSecond;
         private float numberSeparationDuration = 1.0f;
@@ -38,27 +45,27 @@ namespace MyGUIPlugin
             set
             {
                 pixelsPerSecond = value;
-                if (pixelsPerSecond == 1)
+                if (pixelsPerSecond <= Sep40pps)
                 {
                     numberSeparationDuration = 40.0f;
                 }
-                else if (pixelsPerSecond <= 3)
+                else if (pixelsPerSecond <= Sep20pps)
                 {
                     numberSeparationDuration = 20.0f;
                 }
-                else if (pixelsPerSecond <= 7)
+                else if (pixelsPerSecond <= Sep10pps)
                 {
                     numberSeparationDuration = 10.0f;
                 }
-                else if (pixelsPerSecond <= 10)
+                else if (pixelsPerSecond <= Sep5pps)
                 {
                     numberSeparationDuration = 5.0f;
                 }
-                else if (pixelsPerSecond <= 20)
+                else if (pixelsPerSecond <= Sep3pps)
                 {
                     numberSeparationDuration = 3.0f;
                 }
-                else if (pixelsPerSecond <= 40)
+                else if (pixelsPerSecond <= Sep2pps)
                 {
                     numberSeparationDuration = 2.0f;
                 }

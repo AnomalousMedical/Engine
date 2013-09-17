@@ -16,8 +16,8 @@ namespace MyGUIPlugin
         private int pixelsPerSecond;
         private float timelineDuration;
         private Color color;
-        private int ROW_HEIGHT = 19;
-        private int STACKED_BUTTON_SPACE = 3;
+        private static readonly int ROW_HEIGHT = ScaleHelper.Scaled(19);
+        private static readonly int STACKED_BUTTON_SPACE = ScaleHelper.Scaled(3);
         private int bottom;
         private bool processButtonChanges = true;
 
