@@ -5,6 +5,16 @@ extern "C" _AnomalousExport void ImageBox_setItemResource(MyGUI::ImageBox* stati
 	staticImage->setItemResource(value);
 }
 
+extern "C" _AnomalousExport ThreeIntHack ImageBox_getImageSize(MyGUI::ImageBox* staticImage)
+{
+	return staticImage->getImageSize();
+}
+
+extern "C" _AnomalousExport ThreeIntHack ImageBox_getItemGroupSize(MyGUI::ImageBox* staticImage)
+{
+	return staticImage->getItemGroupSize();
+}
+
 extern "C" _AnomalousExport void ImageBox_setItemGroup(MyGUI::ImageBox* staticImage, String value)
 {
 	staticImage->setItemGroup(value);

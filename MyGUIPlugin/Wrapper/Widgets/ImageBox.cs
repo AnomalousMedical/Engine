@@ -59,10 +59,39 @@ namespace MyGUIPlugin
             ImageBox_deleteAllItems(WidgetPtr);
         }
 
+        /// <summary>
+        /// Get the size of the entire texture used for this image box. If you want the size of just the
+        /// current resource use ItemGroupSize.
+        /// </summary>
+        public IntSize2 ImageSize
+        {
+            get
+            {
+                return ImageBox_getImageSize(WidgetPtr).toIntSize2();
+            }
+        }
+
+        /// <summary>
+        /// Return the size of the single item set to this ImageBox.
+        /// </summary>
+        public IntSize2 ItemGroupSize
+        {
+            get
+            {
+                return ImageBox_getItemGroupSize(WidgetPtr).toIntSize2();
+            }
+        }
+
 #region PInvoke
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void ImageBox_setItemResource(IntPtr staticImage, String value);
+
+        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern ThreeIntHack ImageBox_getImageSize(IntPtr staticImage);
+
+        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern ThreeIntHack ImageBox_getItemGroupSize(IntPtr staticImage);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void ImageBox_setItemGroup(IntPtr staticImage, String value);
