@@ -131,6 +131,18 @@ namespace Engine
             return configValues.ContainsKey(name);
         }
 
+        public String getValue(String name, Func<String> defaultValFunc)
+        {
+            if (configValues.ContainsKey(name))
+            {
+                return configValues[name];
+            }
+
+            String defaultVal = defaultValFunc();
+            setValue(name, defaultVal);
+            return defaultVal;
+        }
+
         public String getValue(String name, String defaultVal)
         {
             if (configValues.ContainsKey(name))

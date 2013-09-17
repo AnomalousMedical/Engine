@@ -171,7 +171,7 @@ namespace MyGUIPlugin
         public virtual void deserialize(ConfigFile configFile)
         {
             ConfigSection section = configFile.createOrRetrieveConfigSection(persistName);
-            String location = section.getValue("Location", desiredLocation.ToString());
+            String location = section.getValue("Location", () => desiredLocation.ToString());
             desiredLocation.fromString(location);
             window.setCoord((int)desiredLocation.Left, (int)desiredLocation.Top, (int)desiredLocation.Width, (int)desiredLocation.Height);
         }
