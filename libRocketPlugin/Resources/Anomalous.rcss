@@ -3,7 +3,7 @@ body
 	font-family: DejaVuSans;
 	font-weight: normal;
 	font-style: normal;
-	font-size: 13;
+	font-size: 13sp;
 	color: black;
 	text-align: left;
 	background-color: white;	
@@ -21,11 +21,11 @@ button,
 input.submit
 {
 	display: inline;	
-	padding-left: 5px;
-	padding-right: 5px;
-	padding-top: 4px;
-	padding-bottom: 5px;
-	font-size: 13;
+	padding-left: 5sp;
+	padding-right: 5sp;
+	padding-top: 4sp;
+	padding-bottom: 5sp;
+	font-size: 13sp;
 	text-align: center;
 	tab-index: auto;
 
@@ -92,8 +92,8 @@ input.hidden
 input.text,
 input.password
 {
-	height: 31px;
-	padding: 7px 7px 0px;
+	height: 31sp;
+	padding: 7sp 7sp 0sp;
 	background-decorator: tiled-box;
 	background-top-left-image: /MyGUIPlugin_Widget_Texture.png 882px 154px 884px 159px;
 	background-top-right-image: /MyGUIPlugin_Widget_Texture.png 901px 154px 903px 159px;
@@ -124,7 +124,7 @@ input.password:hover
 
 textarea
 {
-	padding: 7px 7px 0px;
+	padding: 7sp 7sp 0sp;
 	background-decorator: tiled-box;
 	background-top-left-image: /MyGUIPlugin_Widget_Texture.png 882px 154px 884px 159px;
 	background-top-right-image: /MyGUIPlugin_Widget_Texture.png 901px 154px 903px 159px;
@@ -139,7 +139,7 @@ textarea
 
 textarea:hover
 {
-	padding: 7px 7px 0px;
+	padding: 7sp 7sp 0sp;
 	background-decorator: tiled-box;
 	background-top-left-image: /MyGUIPlugin_Widget_Texture.png 882px 176px 884px 181px;
 	background-top-right-image: /MyGUIPlugin_Widget_Texture.png 901px 176px 903px 181px;
@@ -159,17 +159,17 @@ dataselect,
 textarea
 {
 	color: black;
-	font-size: 13;
+	font-size: 13sp;
 }
 
 datagrid input.text
 {
 	width: 100%;
 	height: auto;
-	margin: 0px;
-	padding: 0px 2px 0px;
+	margin: 0sp;
+	padding: 0sp 2sp 0sp;
 
-	border-width: 1px;
+	border-width: 1sp;
 	border-color: black;
 	background-color: white;
 
@@ -183,18 +183,18 @@ datagrid input.text
 select,
 dataselect
 {
-	width: 175px;
-	height: 23px;
+	width: 175sp;
+	height: 23sp;
 }
 
 select selectvalue,
 dataselect selectvalue
 {
 	width: auto;
-	margin-right: 23px;
+	margin-right: 23sp;
 	
-	height: 23px;
-	padding-left: 4px;
+	height: 23sp;
+	padding-left: 4sp;
 
 	background-decorator: tiled-box;
 	background-top-left-image: /MyGUIPlugin_Widget_Texture.png 882px 154px 884px 159px;
@@ -230,8 +230,8 @@ dataselect selectvalue:hover
 select selectarrow,
 dataselect selectarrow
 {
-	width: 23px;
-	height: 23px;
+	width: 23sp;
+	height: 23sp;
 
 	icon-decorator: image;
 	icon-image: /MyGUIPlugin_Widget_Texture.png 941px 112px 954px 127px;
@@ -259,8 +259,8 @@ dataselect selectarrow:checked
 select selectbox,
 dataselect selectbox
 {
-	width: 162px;
-	padding: 1px 4px 4px 4px;
+	width: 162sp;
+	padding: 1sp 4sp 4sp 4sp;
 }
 
 select selectbox,
@@ -285,7 +285,7 @@ select selectbox option,
 dataselect selectbox option
 {
 	width: auto;
-	padding-left: 3px;
+	padding-left: 3sp;
 }
 
 select selectbox option:hover,
@@ -299,11 +299,11 @@ dataselect selectbox option:hover
 input.radio,
 input.checkbox
 {
-	width: 15px;
-	height: 15px;
+	width: 15sp;
+	height: 15sp;
 
-	vertical-align: -2px;
-	margin-right: 3px;
+	vertical-align: -2sp;
+	margin-right: 3sp;
 }
 
 input.radio
@@ -371,10 +371,10 @@ input.checkbox:checked:active
 
 scrollbarvertical
 {
-	margin-top: 0px;
-	margin-bottom: 0px;
-	margin-right: 0px;
-	width: 19px;
+	margin-top: 0sp;
+	margin-bottom: 0sp;
+	margin-right: 0sp;
+	width: 19sp;
 }
 
 scrollbarvertical slidertrack
@@ -387,8 +387,8 @@ scrollbarvertical slidertrack
 
 scrollbarvertical sliderbar
 {
-	width: 19px;
-	min-height: 46px;
+	width: 19sp;
+	min-height: 46sp;
 
 	background-decorator: tiled-vertical;
 	background-top-image: /MyGUIPlugin_Widget_Texture.png 898px 22px 912px 25px;
@@ -414,8 +414,8 @@ scrollbarvertical sliderbar:active
 
 scrollbarvertical sliderarrowdec
 {
-	width: 18px;
-	height: 18px;
+	width: 18sp;
+	height: 18sp;
 	
 	icon-decorator: image;
 	icon-image: /MyGUIPlugin_Widget_Texture.png 941px 207px 954px 221px;
@@ -441,8 +441,8 @@ scrollbarvertical sliderarrowdec:active
 
 scrollbarvertical sliderarrowinc
 {
-	width: 18px;
-	height: 18px;
+	width: 18sp;
+	height: 18sp;
 
 	icon-decorator: image;
 	icon-image: /MyGUIPlugin_Widget_Texture.png 941px 113px 954px 127px;
@@ -470,8 +470,8 @@ scrollbarvertical sliderarrowinc:hover
 
 scrollbarhorizontal
 {
-	width: 0px;
-	height: 0px;
+	width: 0sp;
+	height: 0sp;
 }
 
 
@@ -479,8 +479,8 @@ scrollbarhorizontal
 datagrid datagridheader
 {
 	width: auto;
-	height: 25px;
-	padding: 5px 10px 0px 10px;
+	height: 25sp;
+	padding: 5sp 10sp 0sp 10sp;
 
 	background-decorator: tiled-horizontal;
 	background-left-image: /MyGUIPlugin_Widget_Texture.png 127px 192px 143px 223px;
@@ -492,9 +492,9 @@ datagrid datagridbody
 {
 	color: black;
 
-	margin-left: 4px;
-	margin-right: 3px;
-	padding: 0px 4px 4px 4px;
+	margin-left: 4sp;
+	margin-right: 3sp;
+	padding: 0sp 4sp 4sp 4sp;
 }
 
 
@@ -502,9 +502,9 @@ datagridexpand
 {
 	display: block;
 	
-	margin: 1px 0px 1px 5px;
-	height: 17px;
-	width: 17px;
+	margin: 1sp 0sp 1sp 5sp;
+	height: 17sp;
+	width: 17sp;
 	
 	icon-decorator: image;
 	icon-image: /MyGUIPlugin_Widget_Texture.png 3px 232px 20px 249px;
@@ -512,15 +512,15 @@ datagridexpand
 
 datagridexpand:hover
 {
-	icon-image-s: 21px 38px;
+	icon-image-s: 21sp 38sp;
 }
 
 datagridexpand:active
 {
-	icon-image-s: 39px 56px;
+	icon-image-s: 39sp 56sp;
 }
 
 datagridexpand.collapsed
 {
-	icon-image-t: 250px 267px;
+	icon-image-t: 250sp 267sp;
 }
