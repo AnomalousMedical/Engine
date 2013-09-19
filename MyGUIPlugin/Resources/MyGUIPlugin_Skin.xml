@@ -790,10 +790,13 @@ MenuItemNormalSkin
   <!--*************************
 MenuItemPopupButtonSkin
 *****************************-->
-  <Resource type="ResourceSkin" name="MenuItemPopupButtonSkin" size="10 12" texture="#{MyGUI_Theme_Texture}">
-    <BasisSkin type="SubSkin" offset="0 0 10 12" align="Stretch">
-      <State name="normal" offset = "928 214 12 13"/>
-      <!--Other option 505 44 12 14 -->
+  <Resource type="ResourceSkin" name = "MenuItemPopupButtonSkin" size = "11 14" texture = "#{ShapesTexture}">
+    <BasisSkin type="MainSkin" offset = "3 3 5 9" align = "Stretch">
+      <State name="disabled" offset = "28 53 5 9" colour="#434343"/>
+      <State name="normal" offset = "28 53 5 9" colour="#434343"/>
+      <State name="highlighted" offset = "28 53 5 9" colour="#5588bb"/>
+      <State name="normal_checked" offset = "28 53 5 9" colour="#4477aa"/>
+      <State name="pushed" offset = "28 53 5 9" colour="#6699cc"/>
     </BasisSkin>
   </Resource>
 

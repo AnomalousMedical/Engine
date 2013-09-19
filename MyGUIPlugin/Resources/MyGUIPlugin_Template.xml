@@ -401,7 +401,7 @@ PopupMenuPopup
       <Property key="FontName" value="Default"/>
       <Property key="TextAlign" value="Left VCenter"/>
       <UserString key="LE_TargetWidgetType" value="Button"/>
-      <Widget type="Widget" skin="MenuItemPopupButtonSkin" position="31 1 10 12" align="Right VCenter">
+      <Widget type="Widget" skin="MenuItemPopupButtonSkin" position="30 0 11 14" align="Right VCenter">
         <Property key="NeedMouse" value="false"/>
       </Widget>
     </Widget>
