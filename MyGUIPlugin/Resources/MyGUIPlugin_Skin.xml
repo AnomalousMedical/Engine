@@ -625,11 +625,11 @@ VScrollTrackSlider
   <Resource type="ResourceSkin" name = "VScrollTrackSlider" size = "11 11" texture = "#{ShapesTexture}">
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 11 11" align = "HStretch VStretch">
-      <State name="disabled" offset = "3 3 18 18" colour="#4477aa"/>
+      <State name="disabled" offset = "3 3 18 18" colour="#d8d8da"/>
       <State name="normal" offset = "3 3 18 18" colour="#4477aa"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#4477aa"/>
+      <State name="highlighted" offset = "3 3 18 18" colour="#6699cc"/>
       <State name="normal_checked" offset = "3 3 18 18" colour="#4477aa"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#4477aa"/>
+      <State name="pushed" offset = "3 3 18 18" colour="#5588bb"/>
     </BasisSkin>
   </Resource>
 <!--*************************
@@ -647,11 +647,11 @@ HScrollTrackSlider
   <Resource type="ResourceSkin" name = "HScrollTrackSlider" size = "11 11" texture = "#{ShapesTexture}">
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 11 11" align = "HStretch VStretch">
-      <State name="disabled" offset = "3 3 18 18" colour="#4477aa"/>
+      <State name="disabled" offset = "3 3 18 18" colour="#d8d8da"/>
       <State name="normal" offset = "3 3 18 18" colour="#4477aa"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#4477aa"/>
+      <State name="highlighted" offset = "3 3 18 18" colour="#6699cc"/>
       <State name="normal_checked" offset = "3 3 18 18" colour="#4477aa"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#4477aa"/>
+      <State name="pushed" offset = "3 3 18 18" colour="#5588bb"/>
     </BasisSkin>
   </Resource>
 <!--*************************
