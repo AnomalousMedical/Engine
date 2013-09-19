@@ -32,19 +32,11 @@ PanelEmpty
     <BasisSkin type="MainSkin" offset = "0 0 16 16"/>
   </Resource>
 <!--*************************
-SepUpHSkin
+SeparatorSkin
 *****************************-->
-	<Resource type="ResourceSkin" name = "SepUpHSkin" size = "2 2" texture = "#{MyGUI_Theme_Texture}">
+	<Resource type="ResourceSkin" name = "SeparatorSkin" size = "2 2" texture = "#{ShapesTexture}">
 		<BasisSkin type="MainSkin" offset = "0 0 2 2" align = "Stretch">
-			<State name="normal" offset = "304 128 2 2"/>
-		</BasisSkin>
-	</Resource>
-<!--*************************
-SepUpVSkin
-*****************************-->
-	<Resource type="ResourceSkin" name = "SepUpVSkin" size = "2 2" texture = "#{MyGUI_Theme_Texture}">
-		<BasisSkin type="MainSkin" offset = "0 0 2 2" align = "Stretch">
-			<State name="normal" offset = "302 124 8 2"/>
+			<State name="normal" offset = "3 3 18 18" colour="#757575"/>
 		</BasisSkin>
 	</Resource>
 <!--*************************

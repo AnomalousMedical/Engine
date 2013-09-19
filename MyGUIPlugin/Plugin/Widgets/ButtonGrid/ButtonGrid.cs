@@ -166,7 +166,7 @@ namespace MyGUIPlugin
             GroupSeparatorSkin = scrollView.getUserString("GroupSeparatorSkin");
             if (GroupSeparatorSkin == null || GroupSeparatorSkin == String.Empty)
             {
-                GroupSeparatorSkin = "SepUpVSkin";
+                GroupSeparatorSkin = "SeparatorSkin";
             }
         }
 

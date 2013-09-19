@@ -197,7 +197,7 @@ namespace MyGUIPlugin
             else
             {
                 number = new NumberLineNumber(numberlineScroller.createWidgetT("TextBox", "TextBox", 0, 0, 10, 15, Align.Left | Align.Top, "") as TextBox,
-                    numberlineScroller.createWidgetT("Widget", "SepUpVSkin", 0, 16, 1, numberlineScroller.Height - 16, Align.Left | Align.Top, ""), this);
+                    numberlineScroller.createWidgetT("Widget", "SeparatorSkin", 0, 16, 1, numberlineScroller.Height - 16, Align.Left | Align.Top, ""), this);
             }
             return number;
         }
