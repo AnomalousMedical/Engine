@@ -8,8 +8,8 @@ namespace MyGUIPlugin
     class DefaultTreeNodeWidget : TreeNodeWidget
     {
         private static int PrimaryWidgetWidth = ScaleHelper.Scaled(26);
-        private static int PrimaryWidgetHeight = ScaleHelper.Scaled(16);
-        private static int PlusMinusButtonSize = ScaleHelper.Scaled(16);
+        private static int PrimaryWidgetHeight = ScaleHelper.Scaled(14);
+        private static int PlusMinusButtonSize = ScaleHelper.Scaled(14);
         private static int MainButtonX = ScaleHelper.Scaled(17);
         private static int MainButtonWidth = ScaleHelper.Scaled(10);
         private static int MainButtonHeight = ScaleHelper.Scaled(16);

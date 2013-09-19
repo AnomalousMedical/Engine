@@ -138,16 +138,16 @@ RadioButtonSkin
 <!--*************************
 ButtonExpandSkin
 *****************************-->
-	<Resource type="ResourceSkin" name = "ButtonExpandSkin" size = "25 25" texture = "#{MyGUI_Theme_Texture}">
-		<BasisSkin type="MainSkin" offset = "0 0 18 18" align = "Stretch">
-			<State name="disabled" offset = "49 2 18 18"/>
-			<State name="normal" offset = "49 23 18 18"/>
-			<State name="highlighted" offset = "49 44 18 18"/>
-			<State name="pushed" offset = "49 65 18 18"/>
-			<State name="disabled_checked" offset = "49 84 18 18"/>
-			<State name="normal_checked" offset = "49 107 18 18"/>
-			<State name="highlighted_checked" offset = "49 128 18 18"/>
-			<State name="pushed_checked" offset = "49 149 18 18"/>
+	<Resource type="ResourceSkin" name = "ButtonExpandSkin" size = "20 20" texture = "#{ShapesTexture}">
+		<BasisSkin type="MainSkin" offset = "0 0 20 20" align = "Stretch">
+			<State name="disabled" offset = "2 68 20 20" colour="#d1d1d1"/>
+			<State name="normal" offset = "2 68 20 20" colour="#3b3b3b"/>
+			<State name="highlighted" offset = "2 68 20 20" colour="#5588bb"/>
+			<State name="pushed" offset = "2 68 20 20" colour="#6699cc"/>
+			<State name="disabled_checked" offset = "2 46 20 20" colour="#d1d1d1"/>
+			<State name="normal_checked" offset = "2 46 20 20" colour="#3b3b3b"/>
+			<State name="highlighted_checked" offset = "2 46 20 20" colour="#5588bb"/>
+			<State name="pushed_checked" offset = "2 46 20 20" colour="#6699cc"/>
 		</BasisSkin>
 	</Resource>
 <!--*************************

@@ -16,8 +16,8 @@ namespace MyGUIPlugin
         private ScrollView scrollView;
         private Dictionary<TimelineViewTrack, TrackFilterButton> filterButtons = new Dictionary<TimelineViewTrack, TrackFilterButton>();
 
-        private static readonly int ButtonWidth = ScaleHelper.Scaled(19);
-        private static readonly int ButtonHeight = ScaleHelper.Scaled(19);
+        private static readonly int ButtonWidth = ScaleHelper.Scaled(15);
+        private static readonly int ButtonHeight = ScaleHelper.Scaled(15);
         private int textWidth;
 
         private bool enabled = true;
