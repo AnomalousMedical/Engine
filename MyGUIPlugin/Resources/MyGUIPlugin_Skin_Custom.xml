@@ -21,7 +21,7 @@ TaskMenuBackground
   <!--*************************
 TaskMenuButtonGridButton
 *****************************-->
-  <Resource type="ResourceSkin" name = "TaskMenuButtonGridButton" size = "122 122" texture = "#{MyGUI_Theme_Texture}">
+  <Resource type="ResourceSkin" name = "TaskMenuButtonGridButton" size = "122 122" texture = "#{ShapesTexture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 2 32 32" align = "HCenter Top" name = "Image"/>
@@ -32,77 +32,13 @@ TaskMenuButtonGridButton
       <State name="normal_checked" colour="#{MyGUI_Theme_TaskMenuButton_ColorNormal_Checked}" shift = "true"/>
       <State name="pushed" colour="#{MyGUI_Theme_TaskMenuButton_ColorPushed}" shift = "true"/>
     </BasisSkin>
-    <!--TopLeft-->
-    <BasisSkin type="SubSkin" offset = "0 0 4 4" align = "Left Top">
-      <State name="disabled" offset = "714 206 4 4"/>
-      <State name="normal" offset = "713 155 1 1"/>
-      <State name="highlighted" offset = "714 156 4 4"/>
-      <State name="normal_checked" offset = "714 231 4 4"/>
-      <State name="pushed" offset = "714 181 4 4"/>
-    </BasisSkin>
-    <!--TopRight-->
-    <BasisSkin type="SubSkin" offset = "118 0 4 4" align = "Right Top">
-      <State name="disabled" offset = "733 206 4 4"/>
-      <State name="normal" offset = "713 155 1 1"/>
-      <State name="highlighted" offset = "733 156 4 4"/>
-      <State name="normal_checked" offset = "733 231 4 4"/>
-      <State name="pushed" offset = "733 181 4 4"/>
-    </BasisSkin>
-    <!--BottomLeft-->
-    <BasisSkin type="SubSkin" offset = "0 118 4 4" align = "Left Bottom">
-      <State name="disabled" offset = "714 225 4 4"/>
-      <State name="normal" offset = "713 155 1 1"/>
-      <State name="highlighted" offset = "714 175 4 4"/>
-      <State name="normal_checked" offset = "714 250 4 4"/>
-      <State name="pushed" offset = "714 200 4 4"/>
-    </BasisSkin>
-    <!--BottomRight-->
-    <BasisSkin type="SubSkin" offset = "118 118 4 4" align = "Right Bottom">
-      <State name="disabled" offset = "733 225 4 4"/>
-      <State name="normal" offset = "713 155 1 1"/>
-      <State name="highlighted" offset = "733 175 4 4"/>
-      <State name="normal_checked" offset = "733 250 4 4"/>
-      <State name="pushed" offset = "733 200 4 4"/>
-    </BasisSkin>
-    <!--Top-->
-    <BasisSkin type="SubSkin" offset = "4 0 114 4" align = "HStretch Top">
-      <State name="disabled" offset = "718 206 15 4"/>
-      <State name="normal" offset = "713 155 1 1"/>
-      <State name="highlighted" offset = "718 156 15 4"/>
-      <State name="normal_checked" offset = "718 231 15 4"/>
-      <State name="pushed" offset = "718 181 15 4"/>
-    </BasisSkin>
-    <!--Left-->
-    <BasisSkin type="SubSkin" offset = "0 4 4 114" align = "VStretch Left">
-      <State name="disabled" offset = "714 210 4 15"/>
-      <State name="normal" offset = "713 155 1 1"/>
-      <State name="highlighted" offset = "714 160 4 15"/>
-      <State name="normal_checked" offset = "714 235 4 15"/>
-      <State name="pushed" offset = "714 185 4 15"/>
-    </BasisSkin>
-    <!--Right-->
-    <BasisSkin type="SubSkin" offset = "118 4 4 114" align = "VStretch Right">
-      <State name="disabled" offset = "733 210 4 15"/>
-      <State name="normal" offset = "713 155 1 1"/>
-      <State name="highlighted" offset = "733 160 4 15"/>
-      <State name="normal_checked" offset = "733 235 4 15"/>
-      <State name="pushed" offset = "733 185 4 15"/>
-    </BasisSkin>
-    <!--Bottom-->
-    <BasisSkin type="SubSkin" offset = "4 118 114 4" align = "HStretch Bottom">
-      <State name="disabled" offset = "718 225 15 4"/>
-      <State name="normal" offset = "713 155 1 1"/>
-      <State name="highlighted" offset = "718 175 15 4"/>
-      <State name="normal_checked" offset = "718 250 15 4"/>
-      <State name="pushed" offset = "718 200 15 4"/>
-    </BasisSkin>
-    <!--Center-->
-    <BasisSkin type="SubSkin" offset = "4 4 114 114" align = "HStretch VStretch">
-      <State name="disabled" offset = "718 210 15 15"/>
-      <State name="normal" offset = "713 155 1 1"/>
-      <State name="highlighted" offset = "718 160 15 15"/>
-      <State name="normal_checked" offset = "718 235 15 15"/>
-      <State name="pushed" offset = "718 185 15 15"/>
+    <!--Middle-->
+    <BasisSkin type="SubSkin" offset = "0 0 122 122" align = "Stretch">
+      <State name="disabled" offset = "3 25 18 18"/>
+      <State name="normal" offset = "3 25 18 18"/>
+      <State name="highlighted" offset = "3 3 18 18" colour="#4477aa"/>
+      <State name="normal_checked" offset = "3 3 18 18" colour="#336699"/>
+      <State name="pushed" offset = "3 3 18 18" colour="#6699cc"/>
     </BasisSkin>
   </Resource>
 
@@ -207,80 +143,16 @@ TaskMenuCategoryText
   <!--*************************
 TaskMenuTopLevelCategoryButton
 *****************************-->
-  <Resource type="ResourceSkin" name = "TaskMenuTopLevelCategoryButton" size = "29 26" texture = "#{MyGUI_Theme_Texture}">
+  <Resource type="ResourceSkin" name = "TaskMenuTopLevelCategoryButton" size = "29 26" texture = "#{ShapesTexture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
-    <!--TopLeft-->
-    <BasisSkin type="SubSkin" offset = "0 0 4 4" align = "Left Top">
-      <State name="disabled" offset = "810 145 4 4"/>
-      <State name="normal" offset = "713 155 1 1"/>
-      <State name="highlighted" offset = "854 72 4 4"/>
-      <State name="normal_checked" offset = "808 120 4 4"/>
-      <State name="pushed" offset = "854 47 4 4"/>
-    </BasisSkin>
-    <!--TopRight-->
-    <BasisSkin type="SubSkin" offset = "24 0 5 4" align = "Right Top">
-      <State name="disabled" offset = "826 145 5 4"/>
-      <State name="normal" offset = "713 155 1 1"/>
-      <State name="highlighted" offset = "873 72 5 4"/>
-      <State name="normal_checked" offset = "827 120 5 4"/>
-      <State name="pushed" offset = "873 47 5 4"/>
-    </BasisSkin>
-    <!--BottomLeft-->
-    <BasisSkin type="SubSkin" offset = "0 22 4 5" align = "Left Bottom">
-      <State name="disabled" offset = "810 161 4 5"/>
-      <State name="normal" offset = "713 155 1 1"/>
-      <State name="highlighted" offset = "854 91 4 5"/>
-      <State name="normal_checked" offset = "808 139 4 5"/>
-      <State name="pushed" offset = "854 66 4 5"/>
-    </BasisSkin>
-    <!--BottomRight-->
-    <BasisSkin type="SubSkin" offset = "24 22 5 5" align = "Right Bottom">
-      <State name="disabled" offset = "826 161 5 5"/>
-      <State name="normal" offset = "713 155 1 1"/>
-      <State name="highlighted" offset = "873 91 5 5"/>
-      <State name="normal_checked" offset = "827 139 5 5"/>
-      <State name="pushed" offset = "873 66 5 5"/>
-    </BasisSkin>
-    <!--Top-->
-    <BasisSkin type="SubSkin" offset = "4 0 20 4" align = "HStretch Top">
-      <State name="disabled" offset = "816 145 8 4"/>
-      <State name="normal" offset = "713 155 1 1"/>
-      <State name="highlighted" offset = "860 72 8 4"/>
-      <State name="normal_checked" offset = "814 120 8 4"/>
-      <State name="pushed" offset = "860 47 8 4"/>
-    </BasisSkin>
-    <!--Left-->
-    <BasisSkin type="SubSkin" offset = "0 4 4 18" align = "Left VStretch">
-      <State name="disabled" offset = "810 151 4 8"/>
-      <State name="normal" offset = "713 155 1 1"/>
-      <State name="highlighted" offset = "854 78 4 8"/>
-      <State name="normal_checked" offset = "808 126 4 8"/>
-      <State name="pushed" offset = "854 53 4 8"/>
-    </BasisSkin>
-    <!--Right-->
-    <BasisSkin type="SubSkin" offset = "24 4 5 18" align = "Right VStretch">
-      <State name="disabled" offset = "826 151 5 8"/>
-      <State name="normal" offset = "713 155 1 1"/>
-      <State name="highlighted" offset = "873 78 5 8"/>
-      <State name="normal_checked" offset = "827 126 5 8"/>
-      <State name="pushed" offset = "873 53 5 8"/>
-    </BasisSkin>
-    <!--Bottom-->
-    <BasisSkin type="SubSkin" offset = "4 22 20 5" align = "HStretch Bottom">
-      <State name="disabled" offset = "816 161 8 5"/>
-      <State name="normal" offset = "713 155 1 1"/>
-      <State name="highlighted" offset = "860 91 8 5"/>
-      <State name="normal_checked" offset = "814 139 8 5"/>
-      <State name="pushed" offset = "860 66 8 5"/>
-    </BasisSkin>
     <!--Middle-->
-    <BasisSkin type="SubSkin" offset = "3 3 22 20" align = "Stretch">
-      <State name="disabled" offset = "789 146 19 19"/>
-      <State name="normal" offset = "713 155 1 1"/>
-      <State name="highlighted" offset = "835 75 17 17"/>
-      <State name="normal_checked" offset = "789 123 17 17"/>
-      <State name="pushed" offset = "835 50 17 17"/>
+    <BasisSkin type="SubSkin" offset = "0 0 29 26" align = "Stretch">
+      <State name="disabled" offset = "3 25 18 18"/>
+      <State name="normal" offset = "3 25 18 18"/>
+      <State name="highlighted" offset = "3 3 18 18" colour="#4477aa"/>
+      <State name="normal_checked" offset = "3 3 18 18" colour="#336699"/>
+      <State name="pushed" offset = "3 3 18 18" colour="#6699cc"/>
     </BasisSkin>
     <!--Text-->
     <BasisSkin type="SimpleText" offset = "0 0 29 26" align = "Stretch">
@@ -580,84 +452,30 @@ VerticalIconTextButton
     </BasisSkin>
   </Resource>
 
+<!--*************************
+TaskbarSkin
+*****************************-->
+  <Resource type="ResourceSkin" name = "TaskbarSkin" size = "11 11" texture = "#{ShapesTexture}">
+    <!--Center-->
+    <BasisSkin type="SubSkin" offset = "0 0 11 11" align = "Stretch">
+      <State name="normal" offset = "3 3 18 18" colour="#afafaf"/>
+    </BasisSkin>
+  </Resource>
+  
   <!--*************************
 TaskbarButton
 *****************************-->
-  <Resource type="ResourceSkin" name = "TaskbarButton" size = "72 64" texture = "#{MyGUI_Theme_Texture}">
+  <Resource type="ResourceSkin" name = "TaskbarButton" size = "72 64" texture = "#{ShapesTexture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 8 32 32" align = "Top" name = "Image"/>
-    <!--TopLeft-->
-    <BasisSkin type="SubSkin" offset = "0 0 2 2" align = "Left Top">
-      <State name="disabled" offset = "855 145 2 2"/>
-      <State name="normal" offset = "855 233 2 2"/>
-      <State name="highlighted" offset = "855 211 2 2"/>
-      <State name="normal_checked" offset = "855 189 2 2"/>
-      <State name="pushed" offset = "855 167 2 2"/>
-    </BasisSkin>
-    <!--TopRight-->
-    <BasisSkin type="SubSkin" offset = "70 0 2 2" align = "Right Top">
-      <State name="disabled" offset = "873 145 2 2"/>
-      <State name="normal" offset = "874 233 2 2"/>
-      <State name="highlighted" offset = "874 211 2 2"/>
-      <State name="normal_checked" offset = "874 189 2 2"/>
-      <State name="pushed" offset = "874 167 2 2"/>
-    </BasisSkin>
-    <!--BottomLeft-->
-    <BasisSkin type="SubSkin" offset = "0 62 2 2" align = "Left Bottom">
-      <State name="disabled" offset = "855 163 2 2"/>
-      <State name="normal" offset = "855 252 2 2"/>
-      <State name="highlighted" offset = "855 230 2 2"/>
-      <State name="normal_checked" offset = "855 208 2 2"/>
-      <State name="pushed" offset = "855 186 2 2"/>
-    </BasisSkin>
-    <!--BottomRight-->
-    <BasisSkin type="SubSkin" offset = "70 62 2 2" align = "Right Bottom">
-      <State name="disabled" offset = "873 163 2 2"/>
-      <State name="normal" offset = "874 252 2 2"/>
-      <State name="highlighted" offset = "874 230 2 2"/>
-      <State name="normal_checked" offset = "874 208 2 2"/>
-      <State name="pushed" offset = "874 186 2 2"/>
-    </BasisSkin>
-    <!--Top-->
-    <BasisSkin type="SubSkin" offset = "2 0 68 2" align = "HStretch Top">
-      <State name="disabled" offset = "857 145 17 2"/>
-      <State name="normal" offset = "857 233 17 2"/>
-      <State name="highlighted" offset = "857 211 17 2"/>
-      <State name="normal_checked" offset = "857 189 17 2"/>
-      <State name="pushed" offset = "857 167 17 2"/>
-    </BasisSkin>
-    <!--Left-->
-    <BasisSkin type="SubSkin" offset = "0 2 2 60" align = "VStretch Left">
-      <State name="disabled" offset = "855 147 2 17"/>
-      <State name="normal" offset = "855 235 2 17"/>
-      <State name="highlighted" offset = "855 213 2 17"/>
-      <State name="normal_checked" offset = "855 191 2 17"/>
-      <State name="pushed" offset = "855 169 2 17"/>
-    </BasisSkin>
-    <!--Right-->
-    <BasisSkin type="SubSkin" offset = "70 2 2 60" align = "VStretch Right">
-      <State name="disabled" offset = "873 147 2 17"/>
-      <State name="normal" offset = "874 235 2 17"/>
-      <State name="highlighted" offset = "874 213 2 17"/>
-      <State name="normal_checked" offset = "874 191 2 17"/>
-      <State name="pushed" offset = "874 169 2 17"/>
-    </BasisSkin>
-    <!--Bottom-->
-    <BasisSkin type="SubSkin" offset = "2 62 68 2" align = "HStretch Bottom">
-      <State name="disabled" offset = "857 163 17 2"/>
-      <State name="normal" offset = "857 252 17 2"/>
-      <State name="highlighted" offset = "857 230 17 2"/>
-      <State name="normal_checked" offset = "857 208 17 2"/>
-      <State name="pushed" offset = "857 186 17 2"/>
-    </BasisSkin>
-    <!--Center-->
-    <BasisSkin type="SubSkin" offset = "2 2 68 60" align = "HStretch VStretch">
-      <State name="disabled" offset = "834 146 19 19"/>
-      <State name="normal" offset = "834 234 19 19"/>
-      <State name="highlighted" offset = "834 212 19 19"/>
-      <State name="normal_checked" offset = "834 190 19 19"/>
-      <State name="pushed" offset = "834 168 19 19"/>
+    <!--Middle-->
+    <BasisSkin type="SubSkin" offset = "0 0 122 122" align = "Stretch">
+      <State name="disabled" offset = "3 25 18 18"/>
+      <State name="normal" offset = "3 25 18 18"/>
+      <State name="highlighted" offset = "3 3 18 18" colour="#5588bb"/>
+      <State name="normal_checked" offset = "3 3 18 18" colour="#336699"/>
+      <State name="pushed" offset = "3 3 18 18" colour="#6699cc"/>
     </BasisSkin>
   </Resource>
 
@@ -1161,81 +979,16 @@ ButtonListItemSkin
   <!--*************************
 AppButton
 *****************************-->
-  <Resource type="ResourceSkin" name = "AppButton" size = "29 26" texture = "#{MyGUI_Theme_Texture}">
+  <Resource type="ResourceSkin" name = "AppButton" size = "29 26" texture = "#{ShapesTexture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 1 130 32" align = "HCenter VCenter" name = "Image"/>
-    <!--TopLeft-->
-    <BasisSkin type="SubSkin" offset = "0 0 3 3" align = "Left Top">
-      <State name="disabled" offset = "810 145 3 3"/>
-      <State name="normal" offset = "583 202 3 3"/>
-      <State name="highlighted" offset = "608 202 3 3"/>
-      <State name="normal_checked" offset = "633 202 3 3"/>
-      <State name="pushed" offset = "658 202 3 3"/>
-    </BasisSkin>
-    <!--TopRight-->
-    <BasisSkin type="SubSkin" offset = "26 0 3 3" align = "Right Top">
-      <State name="disabled" offset = "826 145 3 3"/>
-      <State name="normal" offset = "603 202 3 3"/>
-      <State name="highlighted" offset = "628 202 3 3"/>
-      <State name="normal_checked" offset = "653 202 3 3"/>
-      <State name="pushed" offset = "678 202 3 3"/>
-    </BasisSkin>
-    <!--BottomLeft-->
-    <BasisSkin type="SubSkin" offset = "0 23 3 3" align = "Left Bottom">
-      <State name="disabled" offset = "810 222 3 3"/>
-      <State name="normal" offset = "583 222 3 3"/>
-      <State name="highlighted" offset = "608 222 3 3"/>
-      <State name="normal_checked" offset = "633 222 3 3"/>
-      <State name="pushed" offset = "658 222 3 3"/>
-    </BasisSkin>
-    <!--BottomRight-->
-    <BasisSkin type="SubSkin" offset = "26 23 3 3" align = "Right Bottom">
-      <State name="disabled" offset = "826 222 3 3"/>
-      <State name="normal" offset = "603 222 3 3"/>
-      <State name="highlighted" offset = "628 222 3 3"/>
-      <State name="normal_checked" offset = "653 222 3 3"/>
-      <State name="pushed" offset = "678 222 3 3"/>
-    </BasisSkin>
-    <!--Top-->
-    <BasisSkin type="SubSkin" offset = "3 0 23 3" align = "HStretch Top">
-      <State name="disabled" offset = "816 145 8 4"/>
-      <State name="normal" offset = "586 202 17 3"/>
-      <State name="highlighted" offset = "611 202 17 3"/>
-      <State name="normal_checked" offset = "636 202 17 3"/>
-      <State name="pushed" offset = "661 202 17 3"/>
-    </BasisSkin>
-    <!--Left-->
-    <BasisSkin type="SubSkin" offset = "0 3 3 20" align = "Left VStretch">
-      <State name="disabled" offset = "810 151 3 17"/>
-      <State name="normal" offset = "583 205 3 17"/>
-      <State name="highlighted" offset = "608 205 3 17"/>
-      <State name="normal_checked" offset = "633 205 3 17"/>
-      <State name="pushed" offset = "658 205 3 17"/>
-    </BasisSkin>
-    <!--Right-->
-    <BasisSkin type="SubSkin" offset = "26 3 3 20" align = "Right VStretch">
-      <State name="disabled" offset = "826 151 3 17"/>
-      <State name="normal" offset = "603 205 3 17"/>
-      <State name="highlighted" offset = "628 205 3 17"/>
-      <State name="normal_checked" offset = "653 205 3 17"/>
-      <State name="pushed" offset = "678 205 3 17"/>
-    </BasisSkin>
-    <!--Bottom-->
-    <BasisSkin type="SubSkin" offset = "3 23 23 3" align = "HStretch Bottom">
-      <State name="disabled" offset = "816 161 17 3"/>
-      <State name="normal" offset = "586 222 17 3"/>
-      <State name="highlighted" offset = "611 222 17 3"/>
-      <State name="normal_checked" offset = "636 222 17 3"/>
-      <State name="pushed" offset = "661 222 17 3"/>
-    </BasisSkin>
-    <!--Middle-->
-    <BasisSkin type="SubSkin" offset = "3 3 23 20" align = "Stretch">
-      <State name="disabled" offset = "789 146 19 19"/>
-      <State name="normal" offset = "586 205 17 17"/>
-      <State name="highlighted" offset = "611 205 17 17"/>
-      <State name="normal_checked" offset = "636 205 17 17"/>
-      <State name="pushed" offset = "661 205 17 17"/>
+    <BasisSkin type="SubSkin" offset = "0 0 29 26" align = "Stretch">
+      <State name="disabled" offset = "3 3 18 18" colour="#6a6a6a"/>
+      <State name="normal" offset = "3 3 18 18" colour="#4477aa"/>
+      <State name="highlighted" offset = "3 3 18 18" colour="#5588bb"/>
+      <State name="normal_checked" offset = "3 3 18 18" colour="#5588bb"/>
+      <State name="pushed" offset = "3 3 18 18" colour="#6699cc"/>
     </BasisSkin>
   </Resource>
 
@@ -1376,9 +1129,10 @@ CameraButton
   <!--*************************
 MDISeparator
 *****************************-->
-  <Resource type="ResourceSkin" name = "MDISeparator" size = "2 2" texture = "#{MyGUI_Theme_Texture}">
-    <BasisSkin type="MainSkin" offset = "0 0 2 2" align = "Stretch">
-      <State name="normal" offset = "915 123 2 2"/>
+  <Resource type="ResourceSkin" name = "MDISeparator" size = "2 2" texture = "#{ShapesTexture}">
+    <!--Center-->
+    <BasisSkin type="SubSkin" offset = "0 0 2 2" align = "Stretch">
+      <State name="normal" offset = "3 3 18 18" colour="#afafaf"/>
     </BasisSkin>
   </Resource>
 

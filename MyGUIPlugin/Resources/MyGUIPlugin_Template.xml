@@ -35,11 +35,9 @@ ScrollBarH
       <Widget type="Widget" skin="PanelEmpty" position="14 0 98 15" align="Stretch" name="TrackPlace">
         <Property key="NeedKey" value="false"/>
         <Property key="InheritsPick" value="true"/>
-        <Widget type="Button" skin="HScrollTrack" position="35 1 19 14" align="Left VStretch" name="Track">
+        <Widget type="Button" skin="HScrollTrack" position="35 0 19 15" align="Left VStretch" name="Track">
           <UserString key="MinTrackSize" value="10"/>
         </Widget>
-        <Widget type="Widget" skin="HScrollLeftPart" position="0 0 35 15" align="Left VStretch" name="FirstPart"/>
-        <Widget type="Widget" skin="HScrollRightPart" position="54 0 44 15" align="Left VStretch" name="SecondPart"/>
       </Widget>
       <Widget type="Button" skin="ButtonLeftSkin" position="2 1 12 14" align="Left VCenter" name="Start"/>
       <Widget type="Button" skin="ButtonRightSkin" position="112 1 12 14" align="Right VCenter" name="End"/>
@@ -56,11 +54,9 @@ ScrollBarV
       <Widget type="Widget" skin="PanelEmpty" position="0 14 15 99" align="Stretch" name="TrackPlace">
         <Property key="NeedKey" value="false"/>
         <Property key="InheritsPick" value="true"/>
-        <Widget type="Button" skin="VScrollTrack" position="1 25 14 19" align="HStretch Top" name="Track">
+        <Widget type="Button" skin="VScrollTrack" position="0 25 15 19" align="HStretch Top" name="Track">
           <UserString key="MinTrackSize" value="10"/>
         </Widget>
-        <Widget type="Widget" skin="VScrollTopPart" position="0 0 15 25" align="HStretch Top" name="FirstPart"/>
-        <Widget type="Widget" skin="VScrollBottomPart" position="0 44 15 55" align="HStretch Top" name="SecondPart"/>
       </Widget>
       <Widget type="Button" skin="ButtonUpSkin" position="1 2 14 11" align="HCenter Top" name="Start"/>
       <Widget type="Button" skin="ButtonDownSkin" position="1 113 14 11" align="HCenter Bottom" name="End"/>
@@ -75,12 +71,10 @@ SliderH
       <Property key="MoveToClick" value="true"/>
       <Property key="VerticalAlignment" value="false"/>
       <UserString key="LE_TargetWidgetType" value="ScrollBar"/>
-      <Widget type="Widget" skin="PanelEmpty" position="2 0 122 15" align="Stretch" name="TrackPlace">
+      <Widget type="Widget" skin="PanelEmpty" position="0 0 125 15" align="Stretch" name="TrackPlace">
         <Property key="NeedKey" value="false"/>
         <Property key="InheritsPick" value="true"/>
-        <Widget type="Button" skin="HScrollTrackSlider" position="35 1 11 15" align="Left VStretch" name="Track"/>
-        <Widget type="Widget" skin="HScrollRightPart" position="0 0 35 15" align="Left VStretch" name="FirstPart"/>
-        <Widget type="Widget" skin="HScrollLeftPart" position="42 0 80 15" align="Left VStretch" name="SecondPart"/>
+        <Widget type="Button" skin="HScrollTrackSlider" position="0 0 14 15" align="Left VStretch" name="Track"/>
       </Widget>
     </Widget>
   </Resource>
@@ -93,10 +87,8 @@ SliderV
       <Property key="MoveToClick" value="true"/>
       <Property key="VerticalAlignment" value="true"/>
       <UserString key="LE_TargetWidgetType" value="ScrollBar"/>
-      <Widget type="Widget" skin="PanelEmpty" position="0 2 15 122" align="Stretch">
-        <Widget type="Button" skin="VScrollTrackSlider" position="1 25 15 11" align="HStretch Top" name="Track"/>
-        <Widget type="Widget" skin="VScrollTopPart" position="0 0 15 25" align="HStretch Top" name="FirstPart"/>
-        <Widget type="Widget" skin="VScrollBottomPart" position="0 32 15 90" align="HStretch Top" name="SecondPart"/>
+      <Widget type="Widget" skin="PanelEmpty" position="0 0 15 125" align="Stretch">
+        <Widget type="Button" skin="VScrollTrackSlider" position="0 0 15 14" align="HStretch Top" name="Track"/>
       </Widget>
     </Widget>
   </Resource>
@@ -229,26 +221,10 @@ ProgressBar
   <Resource type="ResourceLayout" name="ProgressBar" version="3.2.0">
     <Widget type="Widget" skin="ProgressBarSkin" position="25 50 125 15" name="Root">
       <UserString key="LE_TargetWidgetType" value="ProgressBar"/>
-      <UserString key="TrackWidth" value="7"/>
-      <UserString key="TrackFill" value="false"/>
-      <UserString key="TrackSkin" value="HScrollTrackSlider"/>
-      <Widget type="Widget" skin="PanelEmpty" position="2 1 122 14" align="Stretch" name="TrackPlace">
-        <Property key="NeedKey" value="false"/>
-        <Property key="InheritsPick" value="true"/>
-      </Widget>
-    </Widget>
-  </Resource>
-
-  <!--*************************
-ProgressBarFill
-*****************************-->
-  <Resource type="ResourceLayout" name="ProgressBarFill" version="3.2.0">
-    <Widget type="Widget" skin="ProgressBarFillSkin" position="25 50 125 15" name="Root">
-      <UserString key="LE_TargetWidgetType" value="ProgressBar"/>
       <UserString key="TrackFill" value="true"/>
       <UserString key="TrackSkin" value="ProgressTrack"/>
       <UserString key="TrackWidth" value="6"/>
-      <Widget type="Widget" skin="PanelEmpty" position="2 1 122 11" align="Stretch" name="TrackPlace">
+      <Widget type="Widget" skin="PanelEmpty" position="1 1 123 13" align="Stretch" name="TrackPlace">
         <Property key="NeedKey" value="false"/>
         <Property key="InheritsPick" value="true"/>
       </Widget>

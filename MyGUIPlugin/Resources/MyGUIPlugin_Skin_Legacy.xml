@@ -8,49 +8,29 @@
   <!--*************************
 WindowCaptionSmall
 *****************************-->
-  <Resource type="ResourceSkin" name = "WindowCaptionSmall" size = "68 21" texture = "#{MyGUI_Theme_Texture}">
+  <Resource type="ResourceSkin" name = "WindowCaptionSmall" size = "68 21" texture = "#{ShapesTexture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "#{WindowTextAlignment}" />
-    <Property key="TextColour" value = "#{MyGUI_Theme_Button_ColorNormal}"/>
-    <!--Left-->
-    <BasisSkin type="SubSkin" offset = "0 0 13 21" align = "Left VStretch">
-      <State name="normal" offset = "356 104 13 21"/>
-      <State name="highlighted" offset = "356 138 13 21"/>
-    </BasisSkin>
-    <!--Right-->
-    <BasisSkin type="SubSkin" offset = "54 0 14 21" align = "Right VStretch">
-      <State name="normal" offset = "410 104 14 21"/>
-      <State name="highlighted" offset = "410 138 14 21"/>
-    </BasisSkin>
+    <Property key="TextColour" value = "#{MyGUI_Theme_TaskMenuButton_ColorNormal}"/>
     <!--Middle-->
-    <BasisSkin type="SubSkin" offset = "13 0 41 21" align = "Stretch">
-      <State name="normal" offset = "369 104 3 21"/>
-      <State name="highlighted" offset = "369 138 3 21"/>
+    <BasisSkin type="SubSkin" offset = "0 0 68 21" align = "Stretch">
+      <State name="normal" offset = "3 3 18 18" colour="#4477aa"/>
+      <State name="highlighted" offset = "3 3 18 18" colour="#5588bb"/>
     </BasisSkin>
     <!--Text-->
-    <BasisSkin type="SimpleText" offset = "0 0 68 18" align = "Stretch"/>
+    <BasisSkin type="SimpleText" offset = "5 0 58 18" align = "Stretch"/>
   </Resource>
   <!--*************************
 WindowCaptionSmallCloseButton
 *****************************-->
-  <Resource type="ResourceSkin" name = "WindowCaptionSmallCloseButton" size = "68 21" texture = "#{MyGUI_Theme_Texture}">
+  <Resource type="ResourceSkin" name = "WindowCaptionSmallCloseButton" size = "68 21" texture = "#{ShapesTexture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "#{WindowTextAlignment}" />
-    <Property key="TextColour" value = "#{MyGUI_Theme_Button_ColorNormal}"/>
-    <!--Left-->
-    <BasisSkin type="SubSkin" offset = "0 0 13 21" align = "Left VStretch">
-      <State name="normal" offset = "356 104 13 21"/>
-      <State name="highlighted" offset = "356 138 13 21"/>
-    </BasisSkin>
-    <!--Right-->
-    <BasisSkin type="SubSkin" offset = "54 0 14 21" align = "Right VStretch">
-      <State name="normal" offset = "410 104 14 21"/>
-      <State name="highlighted" offset = "410 138 14 21"/>
-    </BasisSkin>
+    <Property key="TextColour" value = "#{MyGUI_Theme_TaskMenuButton_ColorNormal}"/>
     <!--Middle-->
-    <BasisSkin type="SubSkin" offset = "13 0 41 21" align = "Stretch">
-      <State name="normal" offset = "369 104 3 21"/>
-      <State name="highlighted" offset = "369 138 3 21"/>
+    <BasisSkin type="SubSkin" offset = "0 0 68 21" align = "Stretch">
+      <State name="normal" offset = "3 3 18 18" colour="#4477aa"/>
+      <State name="highlighted" offset = "3 3 18 18" colour="#5588bb"/>
     </BasisSkin>
     <!--Text-->
     <BasisSkin type="SimpleText" offset = "#{WindowCaptionPosition}" align = "Stretch"/>
@@ -58,87 +38,71 @@ WindowCaptionSmallCloseButton
   <!--*************************
 WindowResizeRightBottom
 *****************************-->
-  <Resource type="ResourceSkin" name = "WindowResizeRightBottom" size = "6 6" texture = "#{MyGUI_Theme_Texture}" >
+  <Resource type="ResourceSkin" name = "WindowResizeRightBottom" size = "6 6">
     <Property key="Pointer" value = "size_left" />
     <BasisSkin type="MainSkin" offset = "0 0 6 6" align = "Stretch">
-      <State name="normal" offset = "368 198 6 6"/>
-      <State name="highlighted" offset = "368 205 6 6"/>
     </BasisSkin>
   </Resource>
   <!--*************************
 WindowResizeLeftBottom
 *****************************-->
-  <Resource type="ResourceSkin" name = "WindowResizeLeftBottom" size = "6 6" texture = "#{MyGUI_Theme_Texture}" >
+  <Resource type="ResourceSkin" name = "WindowResizeLeftBottom" size = "6 6">
     <Property key="Pointer" value = "size_right" />
     <BasisSkin type="MainSkin" offset = "0 0 6 6" align = "Stretch">
-      <State name="normal" offset = "360 198 6 6"/>
-      <State name="highlighted" offset = "360 205 6 6"/>
     </BasisSkin>
   </Resource>
   <!--*************************
 WindowResizeRightTop
 *****************************-->
-  <Resource type="ResourceSkin" name = "WindowResizeRightTop" size = "6 6" texture = "#{MyGUI_Theme_Texture}" >
+  <Resource type="ResourceSkin" name = "WindowResizeRightTop" size = "6 6">
     <Property key="Pointer" value = "size_right" />
     <BasisSkin type="MainSkin" offset = "0 0 6 6" align = "Stretch">
-      <State name="normal" offset = "376 198 6 6"/>
-      <State name="highlighted" offset = "376 205 6 6"/>
     </BasisSkin>
   </Resource>
   <!--*************************
 WindowResizeLeftTop
 *****************************-->
-  <Resource type="ResourceSkin" name = "WindowResizeLeftTop" size = "6 6" texture = "#{MyGUI_Theme_Texture}" >
+  <Resource type="ResourceSkin" name = "WindowResizeLeftTop" size = "6 6">
     <Property key="Pointer" value = "size_left" />
     <BasisSkin type="MainSkin" offset = "0 0 6 6" align = "Stretch">
-      <State name="normal" offset = "376 198 6 6"/>
-      <State name="highlighted" offset = "376 205 6 6"/>
     </BasisSkin>
   </Resource>
   <!--*************************
 WindowResizeLeft
 *****************************-->
-  <Resource type="ResourceSkin" name = "WindowResizeLeft" size = "6 6" texture = "#{MyGUI_Theme_Texture}" >
+  <Resource type="ResourceSkin" name = "WindowResizeLeft" size = "6 6">
     <Property key="Pointer" value = "size_horz" />
     <BasisSkin type="MainSkin" offset = "0 0 6 6" align = "Stretch">
-      <State name="normal" offset = "376 198 6 6"/>
-      <State name="highlighted" offset = "376 205 6 6"/>
     </BasisSkin>
   </Resource>
   <!--*************************
 WindowResizeRight
 *****************************-->
-  <Resource type="ResourceSkin" name = "WindowResizeRight" size = "6 6" texture = "#{MyGUI_Theme_Texture}" >
+  <Resource type="ResourceSkin" name = "WindowResizeRight" size = "6 6">
     <Property key="Pointer" value = "size_horz" />
     <BasisSkin type="MainSkin" offset = "0 0 6 6" align = "Stretch">
-      <State name="normal" offset = "376 198 6 6"/>
-      <State name="highlighted" offset = "376 205 6 6"/>
     </BasisSkin>
   </Resource>
   <!--*************************
 WindowResizeTop
 *****************************-->
-  <Resource type="ResourceSkin" name = "WindowResizeTop" size = "6 6" texture = "#{MyGUI_Theme_Texture}" >
+  <Resource type="ResourceSkin" name = "WindowResizeTop" size = "6 6">
     <Property key="Pointer" value = "size_vert" />
     <BasisSkin type="MainSkin" offset = "0 0 6 6" align = "Stretch">
-      <State name="normal" offset = "376 198 6 6"/>
-      <State name="highlighted" offset = "376 205 6 6"/>
     </BasisSkin>
   </Resource>
   <!--*************************
 WindowResizeBottom
 *****************************-->
-  <Resource type="ResourceSkin" name = "WindowResizeBottom" size = "6 6" texture = "#{MyGUI_Theme_Texture}" >
+  <Resource type="ResourceSkin" name = "WindowResizeBottom" size = "6 6">
     <Property key="Pointer" value = "size_vert" />
     <BasisSkin type="MainSkin" offset = "0 0 6 6" align = "Stretch">
-      <State name="normal" offset = "376 198 6 6"/>
-      <State name="highlighted" offset = "376 205 6 6"/>
     </BasisSkin>
   </Resource>
   <!--*************************
 Window
 *****************************-->
-  <Resource type="ResourceSkin" name = "Window" size = "68 49" texture = "#{MyGUI_Theme_Texture}" >
+  <Resource type="ResourceSkin" name = "Window" size = "68 49">
     <Property key="Snap" value = "true" />
     <Child type="Button" skin="WindowCaptionSmall" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
@@ -149,21 +113,21 @@ Window
   <!--*************************
 WindowC
 *****************************-->
-  <Resource type="ResourceSkin" name = "WindowC" size = "68 49" texture = "#{MyGUI_Theme_Texture}" >
+  <Resource type="ResourceSkin" name = "WindowC" size = "68 49">
     <Property key="Snap" value = "true" />
     <Child type="Button" skin="WindowCaptionSmall" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
     </Child>
     <Child type="Widget" skin="CustomPanelNoTranspo" offset = "0 27 68 22" align = "Stretch" name = "Background"/>
     <Child type="Widget" skin="PanelEmpty" offset = "6 27 56 16" align = "Stretch" name = "Client"/>
-    <Child type="Button" skin="ButtonXBig" offset = "52 4 11 10" align = "Right Top" name = "Button">
+    <Child type="Button" skin="ButtonXBig" offset = "#{WindowCloseButtonPosition}" align = "#{WindowCloseButtonAlignment}" name = "Button">
       <Property key="Event" value = "close"/>
     </Child>
   </Resource>
   <!--*************************
 WindowCS
 *****************************-->
-  <Resource type="ResourceSkin" name = "WindowCS" size = "68 49" texture = "#{MyGUI_Theme_Texture}" >
+  <Resource type="ResourceSkin" name = "WindowCS" size = "68 49">
     <Property key="Snap" value = "true" />
     <Child type="Button" skin="WindowCaptionSmall" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
@@ -194,43 +158,11 @@ WindowCS
     <Child type="Button" skin="WindowResizeBottom" offset = "6 43 56 6" align = "HStretch Bottom" name = "Action">
       <Property key="Scale" value = "0 0 0 1"/>
     </Child>
-    <!--TopLeft-->
-    <BasisSkin type="SubSkin" offset = "0 28 4 3" align = "Left Top">
-      <State name="normal" offset = "384 173 4 3"/>
-    </BasisSkin>
-    <!--TopRight-->
-    <BasisSkin type="SubSkin" offset = "62 28 6 3" align = "Right Top">
-      <State name="normal" offset = "401 173 6 3"/>
-    </BasisSkin>
-    <!--BottomLeft-->
-    <BasisSkin type="SubSkin" offset = "0 43 4 6" align = "Left Bottom">
-      <State name="normal" offset = "384 188 4 6"/>
-    </BasisSkin>
-    <!--BottomRight-->
-    <BasisSkin type="SubSkin" offset = "62 43 6 6" align = "Right Bottom">
-      <State name="normal" offset = "401 188 6 6"/>
-    </BasisSkin>
-    <!--Top-->
-    <BasisSkin type="SubSkin" offset = "4 28 58 3" align = "HStretch Top">
-      <State name="normal" offset = "390 173 3 3"/>
-    </BasisSkin>
-    <!--Left-->
-    <BasisSkin type="SubSkin" offset = "0 31 4 12" align = "Left VStretch">
-      <State name="normal" offset = "384 176 4 12"/>
-    </BasisSkin>
-    <!--Right-->
-    <BasisSkin type="SubSkin" offset = "62 31 6 12" align = "Right VStretch">
-      <State name="normal" offset = "401 176 6 12"/>
-    </BasisSkin>
-    <!--Bottom-->
-    <BasisSkin type="SubSkin" offset = "4 43 58 6" align = "HStretch Bottom">
-      <State name="normal" offset = "390 188 3 6"/>
-    </BasisSkin>
   </Resource>
   <!--*************************
 WindowCX
 *****************************-->
-  <Resource type="ResourceSkin" name = "WindowCX" size = "68 49" texture = "#{MyGUI_Theme_Texture}" >
+  <Resource type="ResourceSkin" name = "WindowCX" size = "68 49">
     <Property key="Snap" value = "true" />
     <Child type="Button" skin="WindowCaptionSmallCloseButton" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
@@ -244,7 +176,7 @@ WindowCX
   <!--*************************
 WindowCSX
 *****************************-->
-  <Resource type="ResourceSkin" name = "WindowCSX" size = "68 49" texture = "#{MyGUI_Theme_Texture}" >
+  <Resource type="ResourceSkin" name = "WindowCSX" size = "68 49">
     <Property key="Snap" value = "true" />
     <Child type="Button" skin="WindowCaptionSmallCloseButton" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
