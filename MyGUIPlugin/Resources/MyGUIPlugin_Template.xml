@@ -443,7 +443,7 @@ TabControl
     <Widget type="Widget" skin="PanelEmpty" position="5 5 100 100" name="Root">
       <UserString key="LE_TargetWidgetType" value="TabControl"/>
       <UserString key="ButtonSkin" value="TabButtonSkin"/>
-      <Widget type="Widget" skin="CustomPanelNoTranspo" position="0 20 100 80" align="Stretch">
+      <Widget type="Widget" skin="PanelSkin" position="0 20 100 80" align="Stretch">
         <Widget type="Widget" skin="PanelEmpty" position="2 2 96 76" align="Stretch" name="TabItem"/>
       </Widget>
       <Widget type="Widget" skin="PanelEmpty" position="0 0 100 20" align="HStretch Top" name="HeaderPlace">

@@ -6,9 +6,9 @@
 
   <!-- Windows -->
   <!--*************************
-WindowCaptionSmall
+WindowCaptionSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "WindowCaptionSmall" size = "68 21" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "WindowCaptionSkin" size = "68 21" texture = "#{ShapesTexture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "#{WindowTextAlignment}" />
     <Property key="TextColour" value = "#{MyGUI_Theme_TaskMenuButton_ColorNormal}"/>
@@ -21,9 +21,9 @@ WindowCaptionSmall
     <BasisSkin type="SimpleText" offset = "5 0 58 18" align = "Stretch"/>
   </Resource>
   <!--*************************
-WindowCaptionSmallCloseButton
+WindowCaptionCloseButtonSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "WindowCaptionSmallCloseButton" size = "68 21" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "WindowCaptionCloseButtonSkin" size = "68 21" texture = "#{ShapesTexture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "#{WindowTextAlignment}" />
     <Property key="TextColour" value = "#{MyGUI_Theme_TaskMenuButton_ColorNormal}"/>
@@ -104,35 +104,21 @@ Window
 *****************************-->
   <Resource type="ResourceSkin" name = "Window" size = "68 49">
     <Property key="Snap" value = "true" />
-    <Child type="Button" skin="WindowCaptionSmall" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
+    <Child type="Button" skin="WindowCaptionSkin" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
     </Child>
-    <Child type="Widget" skin="CustomPanelNoTranspo" offset = "0 27 68 22" align = "Stretch" name = "Background"/>
+    <Child type="Widget" skin="PanelSkin" offset = "0 27 68 22" align = "Stretch" name = "Background"/>
     <Child type="Widget" skin="PanelEmpty" offset = "6 27 56 16" align = "Stretch" name = "Client"/>
-  </Resource>
-  <!--*************************
-WindowC
-*****************************-->
-  <Resource type="ResourceSkin" name = "WindowC" size = "68 49">
-    <Property key="Snap" value = "true" />
-    <Child type="Button" skin="WindowCaptionSmall" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
-      <Property key="Scale" value = "1 1 0 0"/>
-    </Child>
-    <Child type="Widget" skin="CustomPanelNoTranspo" offset = "0 27 68 22" align = "Stretch" name = "Background"/>
-    <Child type="Widget" skin="PanelEmpty" offset = "6 27 56 16" align = "Stretch" name = "Client"/>
-    <Child type="Button" skin="ButtonXBig" offset = "#{WindowCloseButtonPosition}" align = "#{WindowCloseButtonAlignment}" name = "Button">
-      <Property key="Event" value = "close"/>
-    </Child>
   </Resource>
   <!--*************************
 WindowCS
 *****************************-->
   <Resource type="ResourceSkin" name = "WindowCS" size = "68 49">
     <Property key="Snap" value = "true" />
-    <Child type="Button" skin="WindowCaptionSmall" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
+    <Child type="Button" skin="WindowCaptionSkin" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
     </Child>
-    <Child type="Widget" skin="CustomPanelNoTranspo" offset = "0 27 68 22" align = "Stretch" name = "Background"/>
+    <Child type="Widget" skin="PanelSkin" offset = "0 27 68 22" align = "Stretch" name = "Background"/>
     <Child type="Widget" skin="PanelEmpty" offset = "6 27 56 16" align = "Stretch" name = "Client"/>
     <Child type="Button" skin="WindowResizeRightBottom" offset = "62 43 6 6" align = "Right Bottom" name = "Action">
       <Property key="Scale" value = "0 0 1 1"/>
@@ -164,10 +150,10 @@ WindowCX
 *****************************-->
   <Resource type="ResourceSkin" name = "WindowCX" size = "68 49">
     <Property key="Snap" value = "true" />
-    <Child type="Button" skin="WindowCaptionSmallCloseButton" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
+    <Child type="Button" skin="WindowCaptionCloseButtonSkin" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
     </Child>
-    <Child type="Widget" skin="CustomPanelNoTranspo" offset = "0 27 68 22" align = "Stretch" name = "Background"/>
+    <Child type="Widget" skin="PanelSkin" offset = "0 27 68 22" align = "Stretch" name = "Background"/>
     <Child type="Widget" skin="PanelEmpty" offset = "6 27 56 16" align = "Stretch" name = "Client"/>
     <Child type="Button" skin="ButtonXBig" offset = "#{WindowCloseButtonPosition}" align = "#{WindowCloseButtonAlignment}" name = "Button">
       <Property key="Event" value = "close"/>
@@ -178,10 +164,10 @@ WindowCSX
 *****************************-->
   <Resource type="ResourceSkin" name = "WindowCSX" size = "68 49">
     <Property key="Snap" value = "true" />
-    <Child type="Button" skin="WindowCaptionSmallCloseButton" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
+    <Child type="Button" skin="WindowCaptionCloseButtonSkin" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
     </Child>
-    <Child type="Widget" skin="CustomPanelNoTranspo" offset = "0 27 68 22" align = "Stretch" name = "Background"/>
+    <Child type="Widget" skin="PanelSkin" offset = "0 27 68 22" align = "Stretch" name = "Background"/>
     <Child type="Widget" skin="PanelEmpty" offset = "6 27 56 16" align = "Stretch" name = "Client"/>
     <Child type="Button" skin="WindowResizeRightBottom" offset = "62 43 6 6" align = "Right Bottom" name = "Action">
       <Property key="Scale" value = "0 0 1 1"/>
@@ -210,5 +196,18 @@ WindowCSX
     <Child type="Button" skin="ButtonXBig" offset = "#{WindowCloseButtonPosition}" align = "#{WindowCloseButtonAlignment}" name = "Button">
       <Property key="Event" value = "close"/>
     </Child>
-  </Resource>  
+  </Resource>
+  <!--*************************
+WindowCXNoBorder
+*****************************-->
+  <Resource type="ResourceSkin" name = "WindowCXNoBorder" size = "68 49" texture = "#{MyGUI_Theme_Texture}" >
+    <Property key="Snap" value = "true" />
+    <Child type="Button" skin="WindowCaptionCloseButtonSkin" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
+      <Property key="Scale" value = "1 1 0 0"/>
+    </Child>
+    <Child type="Widget" skin="PanelSkin" offset = "0 27 68 22" align = "Stretch" name = "Client"/>
+    <Child type="Button" skin="ButtonXBig" offset = "#{WindowCloseButtonPosition}" align = "#{WindowCloseButtonAlignment}" name = "Button">
+      <Property key="Event" value = "close"/>
+    </Child>
+  </Resource>
 </MyGUI>

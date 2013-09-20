@@ -564,15 +564,6 @@ ProgressBarSkin
     </BasisSkin>
   </Resource>
 <!--*************************
-CustomPanelNoTranspo
-*****************************-->
-  <Resource type="ResourceSkin" name = "CustomPanelNoTranspo" size = "11 11" texture = "#{ShapesTexture}">
-    <!--Center-->
-    <BasisSkin type="MainSkin" offset = "0 0 11 11" align = "Stretch">
-      <State name="normal" offset = "3 3 18 18" colour="#ececec"/>
-    </BasisSkin>
-  </Resource>
-<!--*************************
 ProgressTrack
 *****************************-->
   <Resource type="ResourceSkin" name = "ProgressTrack" size = "11 11" texture = "#{ShapesTexture}">

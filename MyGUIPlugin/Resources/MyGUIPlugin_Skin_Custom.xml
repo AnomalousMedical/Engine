@@ -1751,20 +1751,6 @@ SceneViewBorder
       <State name="normal" offset = "678 54 1 1"/>
     </BasisSkin>
   </Resource>
-  
-  <!--*************************
-WindowCXNoBorder
-*****************************-->
-  <Resource type="ResourceSkin" name = "WindowCXNoBorder" size = "68 49" texture = "#{MyGUI_Theme_Texture}" >
-    <Property key="Snap" value = "true" />
-    <Child type="Button" skin="WindowCaptionSmallCloseButton" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
-      <Property key="Scale" value = "1 1 0 0"/>
-    </Child>
-    <Child type="Widget" skin="CustomPanelNoTranspo" offset = "0 27 68 22" align = "Stretch" name = "Client"/>
-    <Child type="Button" skin="ButtonXBig" offset = "#{WindowCloseButtonPosition}" align = "#{WindowCloseButtonAlignment}" name = "Button">
-      <Property key="Event" value = "close"/>
-    </Child>
-  </Resource>
 
   <!--*************************
 PanelSecondary
