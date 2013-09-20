@@ -512,7 +512,7 @@ SliderVSkin
 *****************************-->
   <Resource type="ResourceSkin" name = "SliderVSkin" size = "11 11" texture = "#{ShapesTexture}">
     <!--Middle-->
-    <BasisSkin type="SubSkin" offset = "0 0 11 11" align = "HStretch VStretch">
+    <BasisSkin type="SubSkin" offset = "0 0 6 11" align = "HCenter VStretch">
       <State name="normal" offset = "3 3 18 18" colour="#cacaca"/>
     </BasisSkin>
   </Resource>
@@ -534,7 +534,7 @@ SliderHSkin
 *****************************-->
   <Resource type="ResourceSkin" name = "SliderHSkin" size = "11 11" texture = "#{ShapesTexture}">
     <!--Middle-->
-    <BasisSkin type="SubSkin" offset = "0 0 11 11" align = "HStretch VStretch">
+    <BasisSkin type="SubSkin" offset = "0 0 11 6" align = "HStretch VCenter">
       <State name="normal" offset = "3 3 18 18" colour="#cacaca"/>
     </BasisSkin>
   </Resource>

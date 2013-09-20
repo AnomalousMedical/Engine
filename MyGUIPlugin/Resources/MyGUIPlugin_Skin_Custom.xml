@@ -458,7 +458,7 @@ TaskbarSkin
   <Resource type="ResourceSkin" name = "TaskbarSkin" size = "11 11" texture = "#{ShapesTexture}">
     <!--Center-->
     <BasisSkin type="SubSkin" offset = "0 0 11 11" align = "Stretch">
-      <State name="normal" offset = "3 3 18 18" colour="#afafaf"/>
+      <State name="normal" offset = "3 3 18 18" colour="#ececec"/>
     </BasisSkin>
   </Resource>
   
@@ -985,10 +985,10 @@ AppButton
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 1 130 32" align = "HCenter VCenter" name = "Image"/>
     <BasisSkin type="SubSkin" offset = "0 0 29 26" align = "Stretch">
       <State name="disabled" offset = "3 3 18 18" colour="#6a6a6a"/>
-      <State name="normal" offset = "3 3 18 18" colour="#4477aa"/>
+      <State name="normal" offset = "3 3 18 18" colour="#6699cc"/>
       <State name="highlighted" offset = "3 3 18 18" colour="#5588bb"/>
       <State name="normal_checked" offset = "3 3 18 18" colour="#5588bb"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#6699cc"/>
+      <State name="pushed" offset = "3 3 18 18" colour="#4477aa"/>
     </BasisSkin>
   </Resource>
 
