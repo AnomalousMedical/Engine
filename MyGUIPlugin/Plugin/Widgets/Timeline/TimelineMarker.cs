@@ -19,7 +19,7 @@ namespace MyGUIPlugin
 
         public TimelineMarker(TimelineView timelineView, ScrollView scrollView)
         {
-            this.widget = scrollView.createWidgetT("Widget", "TimelineSeparator", 1, 0, 2, (int)scrollView.CanvasSize.Height, Align.Left | Align.Top, "");
+            this.widget = scrollView.createWidgetT("Widget", "TimelineMarker", 1, 0, 2, (int)scrollView.CanvasSize.Height, Align.Left | Align.Top, "");
             widget.Pointer = "size_horz";
             widget.MouseDrag += new MyGUIEvent(widget_MouseDrag);
             widget.MouseButtonPressed += new MyGUIEvent(widget_MouseButtonPressed);
