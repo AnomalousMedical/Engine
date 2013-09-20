@@ -200,7 +200,7 @@ WindowCSX
   <!--*************************
 WindowCXNoBorder
 *****************************-->
-  <Resource type="ResourceSkin" name = "WindowCXNoBorder" size = "68 49" texture = "#{MyGUI_Theme_Texture}" >
+  <Resource type="ResourceSkin" name = "WindowCXNoBorder" size = "68 49">
     <Property key="Snap" value = "true" />
     <Child type="Button" skin="WindowCaptionCloseButtonSkin" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
