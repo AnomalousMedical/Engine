@@ -20,6 +20,30 @@
   <Tag name="MyGUI_Theme_PromptAnswerText_ColorNormal_Checked">#000000</Tag>
   <Tag name="MyGUI_Theme_PromptAnswerText_ColorPushed">#2AA7FF</Tag>
 
+  <!-- List Item Colors -->
+  <Tag name="Anomalous_ListItem_Border_Highlighted">#225588</Tag>
+  <Tag name="Anomalous_ListItem_Border_Pushed">#114477</Tag>
+  <Tag name="Anomalous_ListItem_Border_DisabledChecked">#114477</Tag>
+  <Tag name="Anomalous_ListItem_Border_NormalChecked">#114477</Tag>
+  <Tag name="Anomalous_ListItem_Border_HighlightedChecked">#225588</Tag>
+  <Tag name="Anomalous_ListItem_Border_PushedChecked">#114477</Tag>
+
+  <Tag name="Anomalous_ListItem_Center_Highlighted">#6699cc</Tag>
+  <Tag name="Anomalous_ListItem_Center_Pushed">#77aadd</Tag>
+  <Tag name="Anomalous_ListItem_Center_DisabledChecked">#5588bb</Tag>
+  <Tag name="Anomalous_ListItem_Center_NormalChecked">#5588bb</Tag>
+  <Tag name="Anomalous_ListItem_Center_HighlightedChecked">#6699cc</Tag>
+  <Tag name="Anomalous_ListItem_Center_PushedChecked">#77aadd</Tag>
+
+  <Tag name="Anomalous_ListItem_Text_Disabled">#b1b1b1</Tag>
+  <Tag name="Anomalous_ListItem_Text_Normal">#000000</Tag>
+  <Tag name="Anomalous_ListItem_Text_Highlighted">#ffffff</Tag>
+  <Tag name="Anomalous_ListItem_Text_Pushed">#ffffff</Tag>
+  <Tag name="Anomalous_ListItem_Text_DisabledChecked">#ffffff</Tag>
+  <Tag name="Anomalous_ListItem_Text_NormalChecked">#ffffff</Tag>
+  <Tag name="Anomalous_ListItem_Text_HighlightedChecked">#ffffff</Tag>
+  <Tag name="Anomalous_ListItem_Text_PushedChecked">#ffffff</Tag>
+
   <Tag name="MyGUI_Theme_Pointer">MyGUIPlugin_Pointer_Texture.png</Tag>
  </MyGUI>
 
