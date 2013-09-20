@@ -328,11 +328,12 @@ MultiListButton
       <Property key="FontName" value="Default"/>
       <Property key="TextAlign" value="Left VCenter"/>
       <UserString key="LE_TargetWidgetType" value="Button"/>
-      <Widget type="ImageBox" skin="ImageBox" position="29 4 12 10" align="Right VCenter" name="Image">
+      <Widget type="ImageBox" skin="ImageBox" position="31 6 9 7" align="Right VCenter" name="Image">
         <Property key="ImageResource" value="MultiListButtonImage"/>
         <Property key="ImageGroup" value="Icons"/>
         <Property key="ImageName" value="Down"/>
         <Property key="NeedMouse" value="false"/>
+        <Property key="Colour" value="0.0 0.0 0.0"/>
       </Widget>
     </Widget>
   </Resource>

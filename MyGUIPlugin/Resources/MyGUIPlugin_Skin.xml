@@ -182,11 +182,11 @@ ButtonLeftSkin
 *****************************-->
 	<Resource type="ResourceSkin" name = "ButtonLeftSkin" size = "11 14" texture = "#{ShapesTexture}">
     <BasisSkin type="MainSkin" offset = "3 3 5 9" align = "Stretch">
-      <State name="disabled" offset = "38 53 5 9" colour="#434343"/>
-      <State name="normal" offset = "38 53 5 9" colour="#434343"/>
-      <State name="highlighted" offset = "38 53 5 9" colour="#5588bb"/>
-      <State name="normal_checked" offset = "38 53 5 9" colour="#4477aa"/>
-      <State name="pushed" offset = "38 53 5 9" colour="#6699cc"/>
+      <State name="disabled" offset = "36 53 5 9" colour="#434343"/>
+      <State name="normal" offset = "36 53 5 9" colour="#434343"/>
+      <State name="highlighted" offset = "36 53 5 9" colour="#5588bb"/>
+      <State name="normal_checked" offset = "36 53 5 9" colour="#4477aa"/>
+      <State name="pushed" offset = "36 53 5 9" colour="#6699cc"/>
     </BasisSkin>
 	</Resource>
 <!--*************************
@@ -420,131 +420,36 @@ ListBoxSkin
 <!--*************************
 MultiListButtonSkin
 *****************************-->
-	<Resource type="ResourceSkin" name = "MultiListButtonSkin" size = "29 21" texture = "#{MyGUI_Theme_Texture}">
-    <!--TopLeft-->
-    <BasisSkin type="SubSkin" offset = "0 0 4 4" align = "Left Top">
-      <State name="normal" offset = "689 92 4 4"/>
-      <State name="highlighted" offset = "708 92 4 4"/>
-      <State name="normal_checked" offset = "746 92 4 4"/>
-      <State name="pushed" offset = "727 92 4 4"/>
-    </BasisSkin>
-    <!--TopRight-->
-    <BasisSkin type="SubSkin" offset = "25 0 4 4" align = "Right Top">
-      <State name="normal" offset = "703 92 4 4"/>
-      <State name="highlighted" offset = "722 92 4 4"/>
-      <State name="normal_checked" offset = "760 92 4 4"/>
-      <State name="pushed" offset = "741 92 4 4"/>
-    </BasisSkin>
-    <!--BottomLeft-->
-    <BasisSkin type="SubSkin" offset = "0 17 4 4" align = "Left Bottom">
-      <State name="normal" offset = "689 105 4 4"/>
-      <State name="highlighted" offset = "708 105 4 4"/>
-      <State name="normal_checked" offset = "746 105 4 4"/>
-      <State name="pushed" offset = "727 105 4 4"/>
-    </BasisSkin>
-    <!--BottomRight-->
-    <BasisSkin type="SubSkin" offset = "25 17 4 4" align = "Right Bottom">
-      <State name="normal" offset = "703 105 4 4"/>
-      <State name="highlighted" offset = "722 105 4 4"/>
-      <State name="normal_checked" offset = "760 105 4 4"/>
-      <State name="pushed" offset = "741 105 4 4"/>
-    </BasisSkin>
+  <Resource type="ResourceSkin" name = "MultiListButtonSkin" size = "11 11" texture = "#{ShapesTexture}">
     <!--Top-->
-    <BasisSkin type="SubSkin" offset = "4 0 21 4" align = "HStretch Top">
-      <State name="normal" offset = "693 92 10 4"/>
-      <State name="highlighted" offset = "712 92 10 4"/>
-      <State name="normal_checked" offset = "750 92 10 4"/>
-      <State name="pushed" offset = "731 92 10 4"/>
+    <BasisSkin type="SubSkin" offset = "0 0 11 1" align = "HStretch Top">
+      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
     </BasisSkin>
     <!--Left-->
-    <BasisSkin type="SubSkin" offset = "0 4 4 13" align = "Left VStretch">
-      <State name="normal" offset = "689 96 4 9"/>
-      <State name="highlighted" offset = "708 96 4 9"/>
-      <State name="normal_checked" offset = "746 96 4 9"/>
-      <State name="pushed" offset = "727 96 4 9"/>
+    <BasisSkin type="SubSkin" offset = "0 1 1 9" align = "Left VStretch">
+      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
     </BasisSkin>
     <!--Right-->
-    <BasisSkin type="SubSkin" offset = "25 4 4 13" align = "Right VStretch">
-      <State name="normal" offset = "703 96 4 9"/>
-      <State name="highlighted" offset = "722 96 4 9"/>
-      <State name="normal_checked" offset = "760 96 4 9"/>
-      <State name="pushed" offset = "741 96 4 9"/>
+    <BasisSkin type="SubSkin" offset = "10 1 1 9" align = "Right VStretch">
+      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
     </BasisSkin>
     <!--Bottom-->
-    <BasisSkin type="SubSkin" offset = "4 17 21 4" align = "HStretch Bottom">
-      <State name="normal" offset = "693 105 10 4"/>
-      <State name="highlighted" offset = "712 105 10 4"/>
-      <State name="normal_checked" offset = "750 105 10 4"/>
-      <State name="pushed" offset = "731 105 10 4"/>
+    <BasisSkin type="SubSkin" offset = "0 10 11 1" align = "HStretch Bottom">
+      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
     </BasisSkin>
-    <!--Body-->
-    <BasisSkin type="MainSkin" offset = "4 4 21 13" align = "Stretch">
-      <State name="normal" offset = "693 96 10 9"/>
-      <State name="highlighted" offset = "712 96 10 9"/>
-      <State name="normal_checked" offset = "750 96 10 9"/>
-      <State name="pushed" offset = "731 96 10 9"/>
+    <!--Middle-->
+    <BasisSkin type="SubSkin" offset = "1 1 9 9" align = "HStretch VStretch">
+      <State name="normal" offset = "3 3 18 18" colour="#ffffff"/>
+      <State name="disabled" offset = "3 3 18 18" colour="#e0e0e0"/>
     </BasisSkin>
     <!--Text-->
-    <BasisSkin type="SimpleText" offset = "1 0 28 21" align = "Stretch">
+    <BasisSkin type="SimpleText" offset = "1 0 9 11" align = "Stretch">
       <State name="disabled" colour="#{MyGUI_Theme_Button_ColorDisabled}" shift = "false"/>
       <State name="normal" colour="#{MyGUI_Theme_Button_ColorNormal}" shift = "false"/>
       <State name="highlighted" colour="#{MyGUI_Theme_Button_ColorHighlighted}" shift = "false"/>
       <State name="normal_checked" colour="#{MyGUI_Theme_Button_ColorNormal_Checked}" shift = "true"/>
       <State name="pushed" colour="#{MyGUI_Theme_Button_ColorPushed}" shift = "true"/>
     </BasisSkin>
-	</Resource>
-  <!--*************************
-MultiListBoxSkin
-*****************************-->
-  <Resource type="ResourceSkin" name = "MultiListBoxSkin" size = "11 11" texture = "#{MyGUI_Theme_Texture}">
-    <!--TopLeft-->
-    <BasisSkin type="SubSkin" offset = "0 0 3 3" align = "Left Top">
-      <State name="normal" offset = "689 92 3 3"/>
-    </BasisSkin>
-    <!--TopRight-->
-    <BasisSkin type="SubSkin" offset = "6 0 3 3" align = "Right Top">
-      <State name="normal" offset = "704 92 3 3"/>
-    </BasisSkin>
-    <!--BottomLeft-->
-    <BasisSkin type="SubSkin" offset = "0 8 3 3" align = "Left Bottom">
-      <State name="normal" offset = "689 106 3 3"/>
-    </BasisSkin>
-    <!--BottomRight-->
-    <BasisSkin type="SubSkin" offset = "6 8 3 3" align = "Right Bottom">
-      <State name="normal" offset = "704 106 3 3"/>
-    </BasisSkin>
-    <!--Top-->
-    <BasisSkin type="SubSkin" offset = "3 0 5 3" align = "HStretch Top">
-      <State name="normal" offset = "692 92 12 3"/>
-    </BasisSkin>
-    <!--Left-->
-    <BasisSkin type="SubSkin" offset = "0 3 3 5" align = "Left VStretch">
-      <State name="normal" offset = "689 95 3 11"/>
-    </BasisSkin>
-    <!--Right-->
-    <BasisSkin type="SubSkin" offset = "6 3 3 5" align = "Right VStretch">
-      <State name="normal" offset = "704 95 3 11"/>
-    </BasisSkin>
-    <!--Bottom-->
-    <BasisSkin type="SubSkin" offset = "3 8 5 3" align = "HStretch Bottom">
-      <State name="normal" offset = "692 106 12 3"/>
-    </BasisSkin>
-    <!--Body-->
-    <BasisSkin type="MainSkin" offset = "3 3 5 5" align = "Stretch">
-      <State name="normal" offset = "695 100 1 1"/>
-    </BasisSkin>
-    <!--TopLeft Panel Border-->
-    <!--<BasisSkin type="SubSkin" offset = "2 2 3 3" align = "Left Top">
-      <State name="normal" offset = "434 172 3 3"/>
-    </BasisSkin>-->
-    <!--Left Panel Border-->
-    <!--<BasisSkin type="SubSkin" offset = "1 3 3 4" align = "Left VStretch">
-      <State name="normal" offset = "434 176 3 9"/>
-    </BasisSkin>-->
-    <!--Top Panel Border-->
-    <!--<BasisSkin type="SubSkin" offset = "5 2 2 3" align = "HStretch Top">
-      <State name="normal" offset = "438 172 9 3"/>
-    </BasisSkin>-->
   </Resource>
 <!--*************************
 VScrollTrack - Moving Part of Scrollbar.
