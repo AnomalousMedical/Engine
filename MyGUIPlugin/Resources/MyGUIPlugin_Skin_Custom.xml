@@ -151,23 +151,6 @@ TaskMenuTopLevelCategoryButton
   </Resource>
 
   <!--*************************
-ButtonImageAndText
-*****************************-->
-  <Resource type="ResourceSkin" name = "ButtonImageAndText" size = "16 16" texture = "#{MyGUI_Theme_Texture}" >
-    <Property key="FontName" value="Default"/>
-    <Property key="TextAlign" value="Center"/>
-    <Property key="ModeImage" value="true"/>
-    <Child type="ImageBox" skin="ButtonStaticImage" offset = "0 0 16 16" align = "Stretch" name = "Image"/>
-    <BasisSkin type="SimpleText" offset = "0 0 16 16"  align = "Stretch">
-      <State name="disabled" colour="#{MyGUI_Theme_Button_ColorDisabled}"/>
-      <State name="normal" colour="#{MyGUI_Theme_Button_ColorNormal}"/>
-      <State name="highlighted" colour="#{MyGUI_Theme_Button_ColorHighlighted}"/>
-      <State name="normal_checked" colour="#{MyGUI_Theme_Button_ColorNormal_Checked}"/>
-      <State name="pushed" colour="#{MyGUI_Theme_Button_ColorPushed}"/>
-    </BasisSkin>
-  </Resource>
-
-  <!--*************************
 ButtonSound
 *****************************-->
   <Resource type="ResourceSkin" name = "ButtonSound" size = "24 20" texture = "#{MyGUI_Theme_Texture}">
@@ -183,81 +166,20 @@ ButtonSound
   <!--*************************
 ButtonImageBackground
 *****************************-->
-  <Resource type="ResourceSkin" name = "ButtonImageBackground" size = "29 26" texture = "#{MyGUI_Theme_Texture}">
+  <Resource type="ResourceSkin" name = "ButtonImageBackground" size = "29 26" texture = "#{ShapesTexture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "2 2 23 21" align = "Stretch" name = "Image"/>
-    <!--TopLeft-->
-    <BasisSkin type="SubSkin" offset = "0 0 4 4" align = "Left Top">
-      <State name="disabled" offset = "810 145 4 4"/>
-      <State name="normal" offset = "810 233 4 4"/>
-      <State name="highlighted" offset = "854 72 4 4"/>
-      <State name="normal_checked" offset = "808 120 4 4"/>
-      <State name="pushed" offset = "854 47 4 4"/>
-    </BasisSkin>
-    <!--TopRight-->
-    <BasisSkin type="SubSkin" offset = "24 0 5 4" align = "Right Top">
-      <State name="disabled" offset = "826 145 5 4"/>
-      <State name="normal" offset = "826 233 5 4"/>
-      <State name="highlighted" offset = "873 72 5 4"/>
-      <State name="normal_checked" offset = "827 120 5 4"/>
-      <State name="pushed" offset = "873 47 5 4"/>
-    </BasisSkin>
-    <!--BottomLeft-->
-    <BasisSkin type="SubSkin" offset = "0 22 4 5" align = "Left Bottom">
-      <State name="disabled" offset = "810 161 4 5"/>
-      <State name="normal" offset = "810 249 4 5"/>
-      <State name="highlighted" offset = "854 91 4 5"/>
-      <State name="normal_checked" offset = "808 139 4 5"/>
-      <State name="pushed" offset = "854 66 4 5"/>
-    </BasisSkin>
-    <!--BottomRight-->
-    <BasisSkin type="SubSkin" offset = "24 22 5 5" align = "Right Bottom">
-      <State name="disabled" offset = "826 161 5 5"/>
-      <State name="normal" offset = "826 249 5 5"/>
-      <State name="highlighted" offset = "873 91 5 5"/>
-      <State name="normal_checked" offset = "827 139 5 5"/>
-      <State name="pushed" offset = "873 66 5 5"/>
-    </BasisSkin>
-    <!--Top-->
-    <BasisSkin type="SubSkin" offset = "4 0 20 4" align = "HStretch Top">
-      <State name="disabled" offset = "816 145 8 4"/>
-      <State name="normal" offset = "816 233 8 4"/>
-      <State name="highlighted" offset = "860 72 8 4"/>
-      <State name="normal_checked" offset = "814 120 8 4"/>
-      <State name="pushed" offset = "860 47 8 4"/>
-    </BasisSkin>
-    <!--Left-->
-    <BasisSkin type="SubSkin" offset = "0 4 4 18" align = "Left VStretch">
-      <State name="disabled" offset = "810 151 4 8"/>
-      <State name="normal" offset = "810 239 4 8"/>
-      <State name="highlighted" offset = "854 78 4 8"/>
-      <State name="normal_checked" offset = "808 126 4 8"/>
-      <State name="pushed" offset = "854 53 4 8"/>
-    </BasisSkin>
-    <!--Right-->
-    <BasisSkin type="SubSkin" offset = "24 4 5 18" align = "Right VStretch">
-      <State name="disabled" offset = "826 151 5 8"/>
-      <State name="normal" offset = "826 239 5 8"/>
-      <State name="highlighted" offset = "873 78 5 8"/>
-      <State name="normal_checked" offset = "827 126 5 8"/>
-      <State name="pushed" offset = "873 53 5 8"/>
-    </BasisSkin>
-    <!--Bottom-->
-    <BasisSkin type="SubSkin" offset = "4 22 20 5" align = "HStretch Bottom">
-      <State name="disabled" offset = "816 161 8 5"/>
-      <State name="normal" offset = "816 249 8 5"/>
-      <State name="highlighted" offset = "860 91 8 5"/>
-      <State name="normal_checked" offset = "814 139 8 5"/>
-      <State name="pushed" offset = "860 66 8 5"/>
-    </BasisSkin>
-    <!--Middle-->
-    <BasisSkin type="SubSkin" offset = "3 3 22 20" align = "Stretch">
-      <State name="disabled" offset = "789 146 19 19"/>
-      <State name="normal" offset = "789 234 19 19"/>
-      <State name="highlighted" offset = "835 75 17 17"/>
-      <State name="normal_checked" offset = "789 123 17 17"/>
-      <State name="pushed" offset = "835 50 17 17"/>
+    <!-- Center -->
+    <BasisSkin type="SubSkin" offset = "0 0 29 26" align = "Stretch">
+      <State name="disabled" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_Disabled}"/>
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_Normal}"/>
+      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_Highlighted}"/>
+      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_Pushed}"/>
+      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_DisabledChecked}"/>
+      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_PushedChecked}"/>
     </BasisSkin>
   </Resource>
 

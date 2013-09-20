@@ -19,6 +19,25 @@
   <Tag name="MyGUI_Theme_PromptAnswerText_ColorHighlighted">#2AA7FF</Tag>
   <Tag name="MyGUI_Theme_PromptAnswerText_ColorNormal_Checked">#000000</Tag>
   <Tag name="MyGUI_Theme_PromptAnswerText_ColorPushed">#2AA7FF</Tag>
+  
+  <!-- Button Colors -->
+  <Tag name="Anomalous_Button_Text_Disabled">#b1b1b1</Tag>
+  <Tag name="Anomalous_Button_Text_Normal">#000000</Tag>
+  <Tag name="Anomalous_Button_Text_Highlighted">#000000</Tag>
+  <Tag name="Anomalous_Button_Text_Pushed">#000000</Tag>
+  <Tag name="Anomalous_Button_Text_DisabledChecked">#b1b1b1</Tag>
+  <Tag name="Anomalous_Button_Text_NormalChecked">#ffffff</Tag>
+  <Tag name="Anomalous_Button_Text_HighlightedChecked">#ffffff</Tag>
+  <Tag name="Anomalous_Button_Text_PushedChecked">#ffffff</Tag>
+
+  <Tag name="Anomalous_Button_Center_Disabled">#d1d1d1</Tag>
+  <Tag name="Anomalous_Button_Center_Normal">#cacaca</Tag>
+  <Tag name="Anomalous_Button_Center_Highlighted">#d3d3d3</Tag>
+  <Tag name="Anomalous_Button_Center_Pushed">#dbdbdb</Tag>
+  <Tag name="Anomalous_Button_Center_DisabledChecked">#4477aa</Tag>
+  <Tag name="Anomalous_Button_Center_NormalChecked">#4477aa</Tag>
+  <Tag name="Anomalous_Button_Center_HighlightedChecked">#5588bb</Tag>
+  <Tag name="Anomalous_Button_Center_PushedChecked">#6699cc</Tag>
 
   <!-- List Item Colors -->
   <Tag name="Anomalous_ListItem_Border_Highlighted">#225588</Tag>
