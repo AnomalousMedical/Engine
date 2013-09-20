@@ -63,6 +63,8 @@
   <Tag name="Anomalous_ListItem_Text_HighlightedChecked">#ffffff</Tag>
   <Tag name="Anomalous_ListItem_Text_PushedChecked">#ffffff</Tag>
 
+  <Tag name="Anomalous_ListItem_Text_Normal_Invert">#ffffff</Tag>
+
   <Tag name="MyGUI_Theme_Pointer">MyGUIPlugin_Pointer_Texture.png</Tag>
  </MyGUI>
 
