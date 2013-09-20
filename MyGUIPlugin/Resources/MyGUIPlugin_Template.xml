@@ -436,4 +436,23 @@ PopupMenu
     </Widget>
   </Resource>
 
+  <!--*************************
+TabControl
+*****************************-->
+  <Resource type="ResourceLayout" name="TabControl" version="3.2.0">
+    <Widget type="Widget" skin="PanelEmpty" position="5 5 100 100" name="Root">
+      <UserString key="LE_TargetWidgetType" value="TabControl"/>
+      <UserString key="ButtonSkin" value="TabButtonSkin"/>
+      <Widget type="Widget" skin="CustomPanelNoTranspo" position="0 20 100 80" align="Stretch">
+        <Widget type="Widget" skin="PanelEmpty" position="2 2 96 76" align="Stretch" name="TabItem"/>
+      </Widget>
+      <Widget type="Widget" skin="PanelEmpty" position="0 0 100 20" align="HStretch Top" name="HeaderPlace">
+        <Widget type="Widget" skin="PanelEmpty" position="74 0 26 20" name="Controls">
+          <Widget type="Button" skin="ButtonLeftSkin" position="16 5 6 10" name="Right"/>
+          <Widget type="Button" skin="ButtonRightSkin" position="4 5 6 10" name="Left"/>
+        </Widget>
+      </Widget>
+    </Widget>
+  </Resource>
+
 </MyGUI>

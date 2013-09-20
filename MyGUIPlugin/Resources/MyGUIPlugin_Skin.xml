@@ -718,4 +718,32 @@ PopupMenuSkin
       <State name="normal" offset = "3 3 18 18" colour="#ececec"/>
     </BasisSkin>
   </Resource>
+
+  <!--*************************
+TabButtonSkin
+*****************************-->
+  <Resource type="ResourceSkin" name = "TabButtonSkin" size = "51 26" texture = "#{ShapesTexture}" >
+    <Property key="FontName" value = "Default" />
+    <Property key="TextAlign" value = "Center" />
+    <!--Center-->
+    <BasisSkin type="SubSkin" offset = "0 0 51 26" align = "Stretch">
+      <State name="disabled" offset = "3 25 18 18"/>
+      <State name="normal" offset = "3 25 18 18"/>
+      <State name="highlighted" offset = "3 3 18 18" colour="#5588bb"/>
+      <State name="pushed" offset = "3 3 18 18" colour="#4477aa"/>
+      <State name="normal_checked" offset = "3 3 18 18" colour="#6699cc"/>
+      <State name="highlighted_checked" offset = "3 3 18 18" colour="#5588bb"/>
+      <State name="pushed_checked" offset = "3 3 18 18" colour="#4477aa"/>
+    </BasisSkin>
+    <!--Text-->
+    <BasisSkin type="SimpleText" offset = "10 2 28 21" align = "Stretch">
+      <State name="disabled" colour="#b1b1b1" shift = "false"/>
+      <State name="normal" colour="#000000" shift = "false"/>
+      <State name="highlighted" colour="#ffffff" shift = "false"/>
+      <State name="pushed" colour="#ffffff" shift="false"/>
+      <State name="normal_checked" colour="#ffffff" shift="false"/>
+      <State name="highlighted_checked" colour="#ffffff" shift="false"/>
+      <State name="pushed_checked" colour="#ffffff" shift="false"/>
+    </BasisSkin>
+  </Resource>
 </MyGUI>
