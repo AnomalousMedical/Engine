@@ -298,6 +298,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\MyGUIPlugin_Template.xml">
       <LogicalName>MyGUIPlugin_Template.xml</LogicalName>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -313,6 +314,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\MyGUIPlugin_Template_Custom.xml">
       <LogicalName>MyGUIPlugin_Template_Custom.xml</LogicalName>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

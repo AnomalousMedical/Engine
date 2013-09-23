@@ -18,6 +18,16 @@ WordWrapWhite
     </Widget>
   </Resource>
 
+  <!--*************************
+TimelineButton
+*****************************-->
+  <Resource type="ResourceLayout" name="TimelineButton" version="3.2.0">
+    <Widget type="Widget" skin="TimelineButtonSkin" position="0 0 10 10" name="Root">
+      <UserString key="LE_TargetWidgetType" value="Button"/>
+      <!--<Widget type="Button" skin="TimelineButtonCenterSkin" position="1 1 8 8" name="ColorArea" align="Stretch" />-->
+    </Widget>
+  </Resource>
+
 <!--*************************
 ButtonListIconButton32
 *****************************-->

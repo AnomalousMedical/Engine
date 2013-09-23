@@ -29,6 +29,7 @@ namespace MyGUIPlugin
         private static readonly int MinButtonSize = ScaleHelper.Scaled(17);
         private static readonly int DurationButtonWidth = ScaleHelper.Scaled(3);
 
+        private Widget colorArea;
         private Button button;
         private Button durationButton;
         private Button startTimeButton;
@@ -47,6 +48,8 @@ namespace MyGUIPlugin
 
         public TimelineViewButton(int pixelsPerSecond, float timelineDuration, Button button, TimelineData timelineData)
         {
+            colorArea = button.createWidgetT("Button", "TimelineButtonCenterSkin", 1, 1, button.Width - 2, button.Height - 2, Align.Stretch, "ColorArea");
+
             this.pixelsPerSecond = pixelsPerSecond;
             this.button = button;
 
@@ -274,7 +277,7 @@ namespace MyGUIPlugin
 
         public void setColor(Color color)
         {
-            button.setColour(color);
+            colorArea.setColour(color);
         }
 
         internal void changePixelsPerSecond(int pixelsPerSecond)

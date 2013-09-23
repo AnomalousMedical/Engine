@@ -54,7 +54,7 @@ namespace MyGUIPlugin
             TimelineViewButton viewButton = new TimelineViewButton(pixelsPerSecond, timelineDuration, button, data);
             buttons.Add(viewButton);
             button.setPosition(button.Left, yPosition);
-            button.setColour(color);
+            viewButton.setColor(color);
             viewButton.CoordChanged += viewButton_CoordChanged;
             computeButtonPosition(viewButton);
             findLowestButton();
