@@ -72,7 +72,7 @@
 	</Resource>
 
 	<Resource type="ResourceImageSet" name="MultiListButtonImage">
-    <Group name="Icons" texture="#{ShapesTexture}" size="9 7">
+    <Group name="Icons" texture="#{Anomalous_Theme_Texture}" size="9 7">
       <Index name="None" >
         <Frame point="43 54"/>
       </Index>

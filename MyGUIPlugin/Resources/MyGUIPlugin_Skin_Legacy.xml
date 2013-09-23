@@ -8,7 +8,7 @@
   <!--*************************
 WindowCaptionSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "WindowCaptionSkin" size = "68 21" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "WindowCaptionSkin" size = "68 21" texture = "#{Anomalous_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "#{WindowTextAlignment}" />
     <Property key="TextColour" value = "#{MyGUI_Theme_TaskMenuButton_ColorNormal}"/>
@@ -23,7 +23,7 @@ WindowCaptionSkin
   <!--*************************
 WindowCaptionCloseButtonSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "WindowCaptionCloseButtonSkin" size = "68 21" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "WindowCaptionCloseButtonSkin" size = "68 21" texture = "#{Anomalous_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "#{WindowTextAlignment}" />
     <Property key="TextColour" value = "#{MyGUI_Theme_TaskMenuButton_ColorNormal}"/>

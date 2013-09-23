@@ -12,7 +12,7 @@ ButtonStaticImage
   <!--*************************
 TaskMenuBackground
 *****************************-->
-  <Resource type="ResourceSkin" name = "TaskMenuBackground" size = "10 10" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "TaskMenuBackground" size = "10 10" texture = "#{Anomalous_Theme_Texture}">
     <BasisSkin type="SubSkin" offset = "0 0 10 10" align = "Stretch">
       <State name="normal" offset = "7 98 1 1"/>
     </BasisSkin>
@@ -21,7 +21,7 @@ TaskMenuBackground
   <!--*************************
 TaskMenuButtonGridButton
 *****************************-->
-  <Resource type="ResourceSkin" name = "TaskMenuButtonGridButton" size = "122 122" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "TaskMenuButtonGridButton" size = "122 122" texture = "#{Anomalous_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 2 32 32" align = "HCenter Top" name = "Image"/>
@@ -45,7 +45,7 @@ TaskMenuButtonGridButton
   <!--*************************
 ImageAndTextButton32
 *****************************-->
-  <Resource type="ResourceSkin" name = "ImageAndTextButton32" size = "122 122" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "ImageAndTextButton32" size = "122 122" texture = "#{Anomalous_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 2 32 32" align = "HCenter Top" name = "Image"/>
@@ -129,7 +129,7 @@ TaskMenuCategoryText
   <!--*************************
 TaskMenuTopLevelCategoryButton
 *****************************-->
-  <Resource type="ResourceSkin" name = "TaskMenuTopLevelCategoryButton" size = "29 26" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "TaskMenuTopLevelCategoryButton" size = "29 26" texture = "#{Anomalous_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
     <!--Middle-->
@@ -153,7 +153,7 @@ TaskMenuTopLevelCategoryButton
   <!--*************************
 ButtonSound
 *****************************-->
-  <Resource type="ResourceSkin" name = "ButtonSound" size = "24 20" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "ButtonSound" size = "24 20" texture = "#{Anomalous_Theme_Texture}">
     <BasisSkin type="MainSkin" offset = "0 0 24 20" align = "Stretch">
       <State name="disabled" offset = "1 107 24 20" colour="#d1d1d1"/>
       <State name="normal" offset = "1 107 24 20" colour="#ffffff"/>
@@ -169,7 +169,7 @@ ButtonSound
   <!--*************************
 ButtonImageBackground
 *****************************-->
-  <Resource type="ResourceSkin" name = "ButtonImageBackground" size = "29 26" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "ButtonImageBackground" size = "29 26" texture = "#{Anomalous_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "2 2 23 21" align = "Stretch" name = "Image"/>
@@ -189,7 +189,7 @@ ButtonImageBackground
   <!--*************************
 VerticalIconTextButton
 *****************************-->
-  <Resource type="ResourceSkin" name = "VerticalIconTextButton" size = "72 64" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "VerticalIconTextButton" size = "72 64" texture = "#{Anomalous_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 4 32 32" align = "Top" name = "Image"/>
@@ -220,7 +220,7 @@ VerticalIconTextButton
 <!--*************************
 TaskbarSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "TaskbarSkin" size = "11 11" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "TaskbarSkin" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
     <!--Center-->
     <BasisSkin type="SubSkin" offset = "0 0 11 11" align = "Stretch">
       <State name="normal" offset = "3 3 18 18" colour="#ececec"/>
@@ -230,7 +230,7 @@ TaskbarSkin
   <!--*************************
 TaskbarButton
 *****************************-->
-  <Resource type="ResourceSkin" name = "TaskbarButton" size = "72 64" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "TaskbarButton" size = "72 64" texture = "#{Anomalous_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 8 32 32" align = "Top" name = "Image"/>
@@ -247,7 +247,7 @@ TaskbarButton
   <!--*************************
 HorizontalIconTextButton
 *****************************-->
-  <Resource type="ResourceSkin" name = "HorizontalIconTextButton" size = "72 64" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "HorizontalIconTextButton" size = "72 64" texture = "#{Anomalous_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "Left VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "2 3 16 16" align = "Left Top" name = "Image"/>
@@ -278,7 +278,7 @@ HorizontalIconTextButton
   <!--*************************
 SolidBackground
 *****************************-->
-  <Resource type="ResourceSkin" name = "SolidBackground" size = "10 10" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "SolidBackground" size = "10 10" texture = "#{Anomalous_Theme_Texture}">
     <!--Center-->
     <BasisSkin type="MainSkin" offset = "0 0 10 10" align = "Stretch">
       <State name="normal" offset = "3 3 18 18" colour="#ececec"/>
@@ -288,7 +288,7 @@ SolidBackground
   <!--*************************
 ButtonGridButton
 *****************************-->
-  <Resource type="ResourceSkin" name = "ButtonGridButton" size = "122 122" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "ButtonGridButton" size = "122 122" texture = "#{Anomalous_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 2 100 100" align = "HCenter Top" name = "Image"/>
@@ -361,7 +361,7 @@ ButtonGridButton
   <!--*************************
 ButtonGridImageButton
 *****************************-->
-  <Resource type="ResourceSkin" name = "ButtonGridImageButton" size = "102 102" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "ButtonGridImageButton" size = "102 102" texture = "#{Anomalous_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "4 4 94 94" align = "HStretch VStretch" name = "Image"/>
@@ -425,7 +425,7 @@ ButtonGridImageButton
   <!--*************************
 ColorSwatchButton
 *****************************-->
-  <Resource type="ResourceSkin" name = "ColorSwatchButton" size = "14 14" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "ColorSwatchButton" size = "14 14" texture = "#{Anomalous_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 1 12 12" align = "HStretch VStretch" name = "Image"/>
@@ -474,7 +474,7 @@ ColorSwatchButton
   <!--*************************
 ButtonListIconButton
 *****************************-->
-  <Resource type="ResourceSkin" name = "ButtonListIconButton" size = "102 122" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "ButtonListIconButton" size = "102 122" texture = "#{Anomalous_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "Left VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 1 100 100" align = "Top Left" name = "Image"/>
@@ -548,7 +548,7 @@ ButtonListIconButton
   <!--*************************
 ButtonListItemSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "ButtonListItemSkin" size = "102 122" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "ButtonListItemSkin" size = "102 122" texture = "#{Anomalous_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "Left VCenter" />
 
@@ -623,7 +623,7 @@ ButtonListItemSkin
   <!--*************************
 AppButton
 *****************************-->
-  <Resource type="ResourceSkin" name = "AppButton" size = "29 26" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "AppButton" size = "29 26" texture = "#{Anomalous_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 1 130 32" align = "HCenter VCenter" name = "Image"/>
@@ -639,7 +639,7 @@ AppButton
   <!--******************************
 CameraButton
 ***************************-->
-  <Resource type="ResourceSkin" name = "CameraButton" size = "29 26" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "CameraButton" size = "29 26" texture = "#{Anomalous_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
     <!--Center-->
@@ -669,7 +669,7 @@ CameraButton
   <!--*************************
 MDISeparator
 *****************************-->
-  <Resource type="ResourceSkin" name = "MDISeparator" size = "2 2" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "MDISeparator" size = "2 2" texture = "#{Anomalous_Theme_Texture}">
     <!--Center-->
     <BasisSkin type="SubSkin" offset = "0 0 2 2" align = "Stretch">
       <State name="normal" offset = "3 3 18 18" colour="#afafaf"/>
@@ -679,7 +679,7 @@ MDISeparator
   <!--*************************
 MDILocationPreview
 *****************************-->
-  <Resource type="ResourceSkin" name = "MDILocationPreview" size = "11 11" texture = "#{ShapesTexture}" >
+  <Resource type="ResourceSkin" name = "MDILocationPreview" size = "11 11" texture = "#{Anomalous_Theme_Texture}" >
     <!--Center-->
     <BasisSkin type="SubSkin" offset = "0 0 11 11" align = "Stretch">
       <State name="normal" offset = "21 98 1 1" colour="#336699"/>
@@ -690,7 +690,7 @@ MDILocationPreview
 TimelineButtonCenterSkin
 *****************************-->
   <Resource type="ResourceImageSet" name="TimelineButtonImage">
-    <Group name="Icons" texture="#{ShapesTexture}" size="8 10">
+    <Group name="Icons" texture="#{Anomalous_Theme_Texture}" size="8 10">
       <Index name="disabled" >
         <Frame point="42 103"/>
       </Index>
@@ -718,7 +718,7 @@ TimelineButtonCenterSkin
     </Group>
   </Resource>
 
-  <Resource type="ResourceSkin" name = "TimelineButtonCenterSkin" size = "10 10" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "TimelineButtonCenterSkin" size = "10 10" texture = "#{Anomalous_Theme_Texture}">
     <Property key="NeedMouse" value="false"/>
     <!--Middle-->
     <BasisSkin type="MainSkin" offset = "0 0 10 10" align = "HStretch VStretch">
@@ -736,7 +736,7 @@ TimelineButtonCenterSkin
   <!--*************************
 TimelineButtonSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "TimelineButtonSkin" size = "10 10" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "TimelineButtonSkin" size = "10 10" texture = "#{Anomalous_Theme_Texture}">
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 10 10" align = "HStretch VStretch">
       <State name="normal" offset = "3 3 18 18" colour="#474747"/>
@@ -751,7 +751,7 @@ TimelineButtonSkin
   <!--*************************
 TimelineButtonTimeAdjusterSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "TimelineButtonTimeAdjusterSkin" size = "10 10" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "TimelineButtonTimeAdjusterSkin" size = "10 10" texture = "#{Anomalous_Theme_Texture}">
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 10 10" align = "HStretch VStretch">
       <State name="normal" offset = "3 3 18 18" colour="#ffffff"/>
@@ -786,7 +786,7 @@ TimelineButtonTimeAdjusterSkin
   <!--*************************
 TimelineMarker
 *****************************-->
-  <Resource type="ResourceSkin" name = "TimelineMarker" size = "2 2" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "TimelineMarker" size = "2 2" texture = "#{Anomalous_Theme_Texture}">
     <BasisSkin type="MainSkin" offset = "0 0 2 2" align = "Stretch">
       <State name="normal" offset = "3 3 18 18" colour="#333333"/>
     </BasisSkin>
@@ -795,7 +795,7 @@ TimelineMarker
   <!--*************************
 TimelineSelectionRegion
 *****************************-->
-  <Resource type="ResourceSkin" name = "TimelineSelectionRegion" size = "11 11" texture = "#{ShapesTexture}" >
+  <Resource type="ResourceSkin" name = "TimelineSelectionRegion" size = "11 11" texture = "#{Anomalous_Theme_Texture}" >
     <!--Center-->
     <BasisSkin type="SubSkin" offset = "0 0 11 11" align = "Stretch">
       <State name="normal" offset = "21 98 1 1" colour="#6699cc"/>
@@ -805,7 +805,7 @@ TimelineSelectionRegion
   <!--*************************
 ImageButton
 *****************************-->
-  <Resource type="ResourceSkin" name = "ImageButton" size = "23 23" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "ImageButton" size = "23 23" texture = "#{Anomalous_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "Left VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "0 0 11 11" align = "Center" name = "Image"/>
@@ -835,7 +835,7 @@ ImageButton
   <!--*************************
 Tooltip
 *****************************-->
-  <Resource type="ResourceSkin" name = "Tooltip" size = "10 10" texture = "#{ShapesTexture}" >
+  <Resource type="ResourceSkin" name = "Tooltip" size = "10 10" texture = "#{Anomalous_Theme_Texture}" >
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "Center" />
     <!--Top-->
@@ -867,7 +867,7 @@ Tooltip
   <!--*************************
 BookmarkListIconButtonButton
 *****************************-->
-  <Resource type="ResourceSkin" name = "BookmarkListIconButtonButton" size = "122 122" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "BookmarkListIconButtonButton" size = "122 122" texture = "#{Anomalous_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 2 100 100" align = "HCenter Top" name = "Image"/>
@@ -943,7 +943,7 @@ BookmarkListIconButtonButton
   <!--*************************
 AnatomyFinderListItem
 *****************************-->
-  <Resource type="ResourceSkin" name = "AnatomyFinderListItem" size = "102 122" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "AnatomyFinderListItem" size = "102 122" texture = "#{Anomalous_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "Left VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 1 50 50" align = "Top Left" name = "Image"/>
@@ -1017,7 +1017,7 @@ AnatomyFinderListItem
   <!--*************************
 TreeIconButton
 *****************************-->
-  <Resource type="ResourceSkin" name = "TreeIconButton" size = "102 122" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "TreeIconButton" size = "102 122" texture = "#{Anomalous_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "Left VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 1 16 16" align = "Top Left" name = "Image"/>
@@ -1047,7 +1047,7 @@ TreeIconButton
   <!--*************************
 SceneViewBorder
 *****************************-->
-  <Resource type="ResourceSkin" name = "SceneViewBorder" size = "1 1" texture = "#{ShapesTexture}" >
+  <Resource type="ResourceSkin" name = "SceneViewBorder" size = "1 1" texture = "#{Anomalous_Theme_Texture}" >
     <BasisSkin type="MainSkin" offset = "0 0 1 1" align = "Stretch">
       <State name="normal" offset = "3 3 18 18" colour="#000000"/>
     </BasisSkin>
@@ -1056,7 +1056,7 @@ SceneViewBorder
   <!--*************************
 BorderedPanel
 *****************************-->
-  <Resource type="ResourceSkin" name = "BorderedPanel" size = "11 11" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "BorderedPanel" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
     <!--Top-->
     <BasisSkin type="SubSkin" offset = "0 0 11 1" align = "HStretch Top">
       <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
@@ -1082,7 +1082,7 @@ BorderedPanel
   <!--*************************
 SlideDropPreview
 *****************************-->
-  <Resource type="ResourceSkin" name = "SlideDropPreview" size = "11 11" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "SlideDropPreview" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 11 11" align = "HStretch VStretch">
       <State name="normal" offset = "3 3 18 18" colour="#6699cc"/>
@@ -1092,7 +1092,7 @@ SlideDropPreview
   <!--*************************
 FileTabButton
 *****************************-->
-  <Resource type="ResourceSkin" name = "FileTabButton" size = "51 21" texture = "#{ShapesTexture}" >
+  <Resource type="ResourceSkin" name = "FileTabButton" size = "51 21" texture = "#{Anomalous_Theme_Texture}" >
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "Left VCenter" />
     <!--Center-->
@@ -1122,7 +1122,7 @@ FileTabButton
   <!--*************************
 SlidePreviewListItem
 *****************************-->
-  <Resource type="ResourceSkin" name = "SlidePreviewListItem" size = "189 132" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "SlidePreviewListItem" size = "189 132" texture = "#{Anomalous_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "Left Top" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "3 3 183 101" align = "Left Top" name = "Image"/>
@@ -1196,7 +1196,7 @@ SlidePreviewListItem
   <!--*************************
 WordWrapWhiteSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "WordWrapWhiteSkin" size = "11 11" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "WordWrapWhiteSkin" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
     <!--Top-->
     <BasisSkin type="SubSkin" offset = "0 0 11 1" align = "HStretch Top">
       <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>

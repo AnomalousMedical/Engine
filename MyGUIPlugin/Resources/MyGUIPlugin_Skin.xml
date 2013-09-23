@@ -34,7 +34,7 @@ PanelEmpty
 <!--*************************
 SeparatorSkin
 *****************************-->
-	<Resource type="ResourceSkin" name = "SeparatorSkin" size = "2 2" texture = "#{ShapesTexture}">
+	<Resource type="ResourceSkin" name = "SeparatorSkin" size = "2 2" texture = "#{Anomalous_Theme_Texture}">
 		<BasisSkin type="MainSkin" offset = "0 0 2 2" align = "Stretch">
 			<State name="normal" offset = "3 3 18 18" colour="#757575"/>
 		</BasisSkin>
@@ -42,7 +42,7 @@ SeparatorSkin
 <!--*************************
 WhiteSkin
 *****************************-->
-	<Resource type="ResourceSkin" name = "WhiteSkin" size = "1 1" texture = "#{ShapesTexture}" >
+	<Resource type="ResourceSkin" name = "WhiteSkin" size = "1 1" texture = "#{Anomalous_Theme_Texture}" >
 		<BasisSkin type="MainSkin" offset = "0 0 1 1" align = "Stretch">
 			<State name="normal" offset = "3 3 18 18"/>
 		</BasisSkin>
@@ -50,7 +50,7 @@ WhiteSkin
 <!--*************************
 ItemBoxSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "ItemBoxSkin" size = "11 11" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "ItemBoxSkin" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
     <!--Top-->
     <BasisSkin type="SubSkin" offset = "0 0 11 1" align = "HStretch Top">
       <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
@@ -76,7 +76,7 @@ ItemBoxSkin
 <!--*************************
 CheckBoxSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "CheckBoxSkin" size = "100 21" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "CheckBoxSkin" size = "100 21" texture = "#{Anomalous_Theme_Texture}">
     <BasisSkin type="SubSkin" offset = "0 0 12 12" align = "Left VCenter">
       <State name="disabled" offset = "26 65 12 12" colour="#d1d1d1"/>
       <State name="normal" offset = "26 65 12 12" colour="#ffffff"/>
@@ -93,7 +93,7 @@ CheckBoxSkin
 <!--*************************
 RadioButtonSkin
 *****************************-->
-	<Resource type="ResourceSkin" name = "RadioButtonSkin" size = "100 19" texture = "#{ShapesTexture}">
+	<Resource type="ResourceSkin" name = "RadioButtonSkin" size = "100 19" texture = "#{Anomalous_Theme_Texture}">
 		<BasisSkin type="SubSkin" offset = "0 0 12 12" align = "Left VCenter">
 			<State name="disabled" offset = "26 79 12 12" colour="#d1d1d1"/>
 			<State name="normal" offset = "26 79 12 12" colour="#ffffff"/>
@@ -115,7 +115,7 @@ RadioButtonSkin
 <!--*************************
 ButtonExpandSkin
 *****************************-->
-	<Resource type="ResourceSkin" name = "ButtonExpandSkin" size = "20 20" texture = "#{ShapesTexture}">
+	<Resource type="ResourceSkin" name = "ButtonExpandSkin" size = "20 20" texture = "#{Anomalous_Theme_Texture}">
 		<BasisSkin type="MainSkin" offset = "0 0 20 20" align = "Stretch">
 			<State name="disabled" offset = "2 68 20 20" colour="#d1d1d1"/>
 			<State name="normal" offset = "2 68 20 20" colour="#3b3b3b"/>
@@ -130,7 +130,7 @@ ButtonExpandSkin
 <!--*************************
 ButtonXBig
 *****************************-->
-  <Resource type="ResourceSkin" name = "ButtonXBig" size = "24 20" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "ButtonXBig" size = "24 20" texture = "#{Anomalous_Theme_Texture}">
     <BasisSkin type="MainSkin" offset = "0 0 24 20" align = "Stretch">
       <State name="disabled" offset = "24 2 24 20" colour="#6f6f6f"/>
       <State name="normal" offset = "24 2 24 20"/>
@@ -142,7 +142,7 @@ ButtonXBig
 <!--*************************
 ButtonAcceptSkin
 *****************************-->
-	<Resource type="ResourceSkin" name = "ButtonAcceptSkin" size = "17 15" texture = "#{ShapesTexture}">
+	<Resource type="ResourceSkin" name = "ButtonAcceptSkin" size = "17 15" texture = "#{Anomalous_Theme_Texture}">
 		<BasisSkin type="MainSkin" offset = "0 0 17 15" align = "Stretch">
 			<State name="disabled" offset = "28 28 17 15" colour="#7c7c7c"/>
 			<State name="normal" offset = "28 28 17 15" colour="#434343"/>
@@ -156,7 +156,7 @@ ButtonAcceptSkin
 <!--*************************
 ButtonDownSkin
 *****************************-->
-	<Resource type="ResourceSkin" name = "ButtonDownSkin" size = "14 11" texture = "#{ShapesTexture}">
+	<Resource type="ResourceSkin" name = "ButtonDownSkin" size = "14 11" texture = "#{Anomalous_Theme_Texture}">
 		<BasisSkin type="MainSkin" offset = "3 3 9 5" align = "Stretch">
 			<State name="disabled" offset = "26 46 9 5" colour="#434343"/>
 			<State name="normal" offset = "26 46 9 5" colour="#434343"/>
@@ -168,7 +168,7 @@ ButtonDownSkin
 <!--*************************
 ButtonUpSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "ButtonUpSkin" size = "14 11" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "ButtonUpSkin" size = "14 11" texture = "#{Anomalous_Theme_Texture}">
     <BasisSkin type="MainSkin" offset = "3 3 9 5" align = "Stretch">
       <State name="disabled" offset = "37 46 9 5" colour="#434343"/>
       <State name="normal" offset = "37 46 9 5" colour="#434343"/>
@@ -180,7 +180,7 @@ ButtonUpSkin
 <!--*************************
 ButtonLeftSkin
 *****************************-->
-	<Resource type="ResourceSkin" name = "ButtonLeftSkin" size = "11 14" texture = "#{ShapesTexture}">
+	<Resource type="ResourceSkin" name = "ButtonLeftSkin" size = "11 14" texture = "#{Anomalous_Theme_Texture}">
     <BasisSkin type="MainSkin" offset = "3 3 5 9" align = "Stretch">
       <State name="disabled" offset = "36 53 5 9" colour="#434343"/>
       <State name="normal" offset = "36 53 5 9" colour="#434343"/>
@@ -192,7 +192,7 @@ ButtonLeftSkin
 <!--*************************
 ButtonRightSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "ButtonRightSkin" size = "11 14" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "ButtonRightSkin" size = "11 14" texture = "#{Anomalous_Theme_Texture}">
     <BasisSkin type="MainSkin" offset = "3 3 5 9" align = "Stretch">
       <State name="disabled" offset = "28 53 5 9" colour="#434343"/>
       <State name="normal" offset = "28 53 5 9" colour="#434343"/>
@@ -204,7 +204,7 @@ ButtonRightSkin
 <!--*************************
 ButtonSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "ButtonSkin" size = "29 26" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "ButtonSkin" size = "29 26" texture = "#{Anomalous_Theme_Texture}">
     <!--Center-->
     <BasisSkin type="SubSkin" offset = "0 0 29 26" align = "Stretch">
       <State name="disabled" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_Disabled}"/>
@@ -253,7 +253,7 @@ EditClientSkin
   <!--*************************
 EditBoxSkin
 *****************************-->
-  <Resource type="ResourceSkin" name="EditBoxSkin" size="29 26" texture="#{ShapesTexture}">
+  <Resource type="ResourceSkin" name="EditBoxSkin" size="29 26" texture="#{Anomalous_Theme_Texture}">
     <!--Top-->
     <BasisSkin type="SubSkin" offset = "0 0 29 1" align = "HStretch Top">
       <State name="disabled" offset = "3 3 18 18" colour="#e2e2e2"/>
@@ -298,7 +298,7 @@ EditBoxSkin
 <!--*************************
 ComboBoxSkin
 *****************************-->
-	<Resource type="ResourceSkin" name = "ComboBoxSkin" size = "29 26" texture = "#{ShapesTexture}" >
+	<Resource type="ResourceSkin" name = "ComboBoxSkin" size = "29 26" texture = "#{Anomalous_Theme_Texture}" >
     <!--Top-->
     <BasisSkin type="SubSkin" offset = "0 0 29 1" align = "HStretch Top">
       <State name="disabled" offset = "3 3 18 18" colour="#e2e2e2"/>
@@ -343,7 +343,7 @@ ComboBoxSkin
 <!--*************************
 PanelSkin
 *****************************-->
-	<Resource type="ResourceSkin" name = "PanelSkin" size = "11 11" texture = "#{ShapesTexture}">
+	<Resource type="ResourceSkin" name = "PanelSkin" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
     <!--Center-->
     <BasisSkin type="MainSkin" offset = "0 0 11 11" align = "Stretch">
       <State name="normal" offset = "3 3 18 18" colour="#ececec"/>
@@ -352,7 +352,7 @@ PanelSkin
 <!--*************************
 ScrollViewSkin
 *****************************-->
-	<Resource type="ResourceSkin" name = "ScrollViewSkin" size = "11 11" texture = "#{ShapesTexture}">
+	<Resource type="ResourceSkin" name = "ScrollViewSkin" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
     <!--Top-->
     <BasisSkin type="SubSkin" offset = "0 0 11 1" align = "HStretch Top">
       <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
@@ -377,7 +377,7 @@ ScrollViewSkin
 <!--*************************
 ListBoxItemSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "ListBoxItemSkin" size = "5 5" texture = "#{ShapesTexture}" >
+  <Resource type="ResourceSkin" name = "ListBoxItemSkin" size = "5 5" texture = "#{Anomalous_Theme_Texture}" >
     <BasisSkin type="MainSkin" offset = "1 0 4 5">
       <State name="normal" offset = "3 25 18 18"/>
       <State name="highlighted" offset = "3 3 18 18" colour="#6699cc"/>
@@ -396,7 +396,7 @@ ListBoxItemSkin
 <!--*************************
 ListBoxSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "ListBoxSkin" size = "11 11" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "ListBoxSkin" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
     <!--Top-->
     <BasisSkin type="SubSkin" offset = "0 0 11 1" align = "HStretch Top">
       <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
@@ -422,7 +422,7 @@ ListBoxSkin
 <!--*************************
 MultiListButtonSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "MultiListButtonSkin" size = "11 11" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "MultiListButtonSkin" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
     <!--Top-->
     <BasisSkin type="SubSkin" offset = "0 0 11 1" align = "HStretch Top">
       <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
@@ -457,7 +457,7 @@ MultiListButtonSkin
 VScrollTrack - Moving Part of Scrollbar.
 *****************************
 -->
-  <Resource type="ResourceSkin" name = "VScrollTrack" size = "14 19" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "VScrollTrack" size = "14 19" texture = "#{Anomalous_Theme_Texture}">
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 14 19" align = "HStretch VStretch">
       <State name="disabled" offset = "3 3 18 18" colour="#cdcdcd"/>
@@ -469,7 +469,7 @@ VScrollTrack - Moving Part of Scrollbar.
 <!--*************************
 ScrollPanelVSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "ScrollPanelVSkin" size = "15 49" texture = "#{ShapesTexture}" >
+  <Resource type="ResourceSkin" name = "ScrollPanelVSkin" size = "15 49" texture = "#{Anomalous_Theme_Texture}" >
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 15 49" align = "HStretch VStretch">
       <State name="normal" offset = "3 3 18 18" colour="#f1f1f3"/>
@@ -478,7 +478,7 @@ ScrollPanelVSkin
 <!--*************************
 HScrollTrack
 *****************************-->
-  <Resource type="ResourceSkin" name = "HScrollTrack" size = "19 14" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "HScrollTrack" size = "19 14" texture = "#{Anomalous_Theme_Texture}">
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 19 14" align = "HStretch VStretch">
       <State name="disabled" offset = "3 3 18 18" colour="#cdcdcd"/>
@@ -490,7 +490,7 @@ HScrollTrack
 <!--*************************
 ScrollPanelHSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "ScrollPanelHSkin" size = "49 15" texture = "#{ShapesTexture}" >
+  <Resource type="ResourceSkin" name = "ScrollPanelHSkin" size = "49 15" texture = "#{Anomalous_Theme_Texture}" >
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 49 15" align = "HStretch VStretch">
       <State name="normal" offset = "3 3 18 18" colour="#f1f1f3"/>
@@ -499,7 +499,7 @@ ScrollPanelHSkin
   <!--*************************
 VScrollTrackSlider
 *****************************-->
-  <Resource type="ResourceSkin" name = "VScrollTrackSlider" size = "11 11" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "VScrollTrackSlider" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 11 11" align = "HStretch VStretch">
       <State name="disabled" offset = "3 3 18 18" colour="#d8d8da"/>
@@ -512,7 +512,7 @@ VScrollTrackSlider
 <!--*************************
 SliderVSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "SliderVSkin" size = "11 11" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "SliderVSkin" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 6 11" align = "HCenter VStretch">
       <State name="normal" offset = "3 3 18 18" colour="#cacaca"/>
@@ -521,7 +521,7 @@ SliderVSkin
 <!--*************************
 HScrollTrackSlider
 *****************************-->
-  <Resource type="ResourceSkin" name = "HScrollTrackSlider" size = "11 11" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "HScrollTrackSlider" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 11 11" align = "HStretch VStretch">
       <State name="disabled" offset = "3 3 18 18" colour="#d8d8da"/>
@@ -534,7 +534,7 @@ HScrollTrackSlider
 <!--*************************
 SliderHSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "SliderHSkin" size = "11 11" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "SliderHSkin" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 11 6" align = "HStretch VCenter">
       <State name="normal" offset = "3 3 18 18" colour="#cacaca"/>
@@ -543,7 +543,7 @@ SliderHSkin
 <!--*************************
 ProgressBarSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "ProgressBarSkin" size = "11 11" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "ProgressBarSkin" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
     <!--Top-->
     <BasisSkin type="SubSkin" offset = "0 0 11 1" align = "HStretch Top">
       <State name="normal" offset = "3 3 18 18" colour="#585858"/>
@@ -568,7 +568,7 @@ ProgressBarSkin
 <!--*************************
 ProgressTrack
 *****************************-->
-  <Resource type="ResourceSkin" name = "ProgressTrack" size = "11 11" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "ProgressTrack" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 11 11" align = "HStretch VStretch">
       <State name="normal" offset = "3 3 18 18" colour="#4477aa"/>
@@ -585,7 +585,7 @@ MenuBarSkin
   <!--*************************
 MenuBarButtonSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "MenuBarButtonSkin" size = "27 22" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "MenuBarButtonSkin" size = "27 22" texture = "#{Anomalous_Theme_Texture}">
     <!--Top-->
     <BasisSkin type="SubSkin" offset = "0 0 27 1" align = "HStretch Top">
       <State name="disabled" offset = "3 25 18 18"/>
@@ -639,7 +639,7 @@ MenuBarButtonSkin
   <!--*************************
 MenuItemNormalSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "MenuItemNormalSkin" size = "40 12" texture = "#{ShapesTexture}" >
+  <Resource type="ResourceSkin" name = "MenuItemNormalSkin" size = "40 12" texture = "#{Anomalous_Theme_Texture}" >
     <BasisSkin type="MainSkin" offset = "0 0 40 12">
       <State name="normal" offset = "3 25 18 18"/>
       <State name="highlighted" offset = "3 3 18 18" colour="#6699cc"/>
@@ -658,7 +658,7 @@ MenuItemNormalSkin
   <!--*************************
 MenuItemPopupButtonSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "MenuItemPopupButtonSkin" size = "11 14" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "MenuItemPopupButtonSkin" size = "11 14" texture = "#{Anomalous_Theme_Texture}">
     <BasisSkin type="MainSkin" offset = "3 3 5 9" align = "Stretch">
       <State name="disabled" offset = "28 53 5 9" colour="#434343"/>
       <State name="normal" offset = "28 53 5 9" colour="#434343"/>
@@ -671,7 +671,7 @@ MenuItemPopupButtonSkin
   <!--*************************
 MenuItemCheckButtonSkin
 *****************************-->
-  <Resource type="ResourceSkin" name="MenuItemCheckButtonSkin" size="15 13" texture="#{ShapesTexture}">
+  <Resource type="ResourceSkin" name="MenuItemCheckButtonSkin" size="15 13" texture="#{Anomalous_Theme_Texture}">
     <BasisSkin type="SubSkin" offset="0 0 15 13" align="Stretch">
       <State name="normal" offset = "26 65 12 12" colour="#ffffff"/>
     </BasisSkin>
@@ -680,7 +680,7 @@ MenuItemCheckButtonSkin
   <!--*************************
 PopupMenuSeparatorSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "PopupMenuSeparatorSkin" size = "4 4" texture = "#{ShapesTexture}" >
+  <Resource type="ResourceSkin" name = "PopupMenuSeparatorSkin" size = "4 4" texture = "#{Anomalous_Theme_Texture}" >
     <BasisSkin type="SubSkin" offset = "2 1 0 1" align = "HStretch VCenter">
       <State name="normal" offset = "3 3 18 18" colour="#4477aa"/>
     </BasisSkin>
@@ -689,7 +689,7 @@ PopupMenuSeparatorSkin
   <!--*************************
 PopupMenuSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "PopupMenuSkin" size = "11 11" texture = "#{ShapesTexture}">
+  <Resource type="ResourceSkin" name = "PopupMenuSkin" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
     <!--Top-->
     <BasisSkin type="SubSkin" offset = "0 0 11 1" align = "HStretch Top">
       <State name="normal" offset = "3 3 18 18" colour="#4477aa"/>
@@ -715,7 +715,7 @@ PopupMenuSkin
   <!--*************************
 TabButtonSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "TabButtonSkin" size = "51 26" texture = "#{ShapesTexture}" >
+  <Resource type="ResourceSkin" name = "TabButtonSkin" size = "51 26" texture = "#{Anomalous_Theme_Texture}" >
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "Center" />
     <!--Center-->

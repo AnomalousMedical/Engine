@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <MyGUI type="Resource" version="1.1">
 	<Resource type="ResourceImageSet" name="MessageBoxIcon">
-    <Group name="Icons" texture="#{ShapesTexture}" size="50 50">
+    <Group name="Icons" texture="#{Anomalous_Theme_Texture}" size="50 50">
       <Index name="Info">
         <Frame point="210 0"/>
       </Index>
@@ -18,7 +18,7 @@
 	</Resource>
 
   <Resource type="ResourceImageSet" name="MyGUIIcons/Info">
-    <Group name="Icons" texture="#{ShapesTexture}" size="50 50">
+    <Group name="Icons" texture="#{Anomalous_Theme_Texture}" size="50 50">
       <Index name="Icon">
         <Frame point="210 0"/>
       </Index>
@@ -26,7 +26,7 @@
   </Resource>
 
   <Resource type="ResourceImageSet" name="MyGUIIcons/Quest">
-    <Group name="Icons" texture="#{ShapesTexture}" size="50 50">
+    <Group name="Icons" texture="#{Anomalous_Theme_Texture}" size="50 50">
       <Index name="Icon">
         <Frame point="110 0"/>
       </Index>
@@ -34,7 +34,7 @@
   </Resource>
 
   <Resource type="ResourceImageSet" name="MyGUIIcons/Error">
-    <Group name="Icons" texture="#{ShapesTexture}" size="50 50">
+    <Group name="Icons" texture="#{Anomalous_Theme_Texture}" size="50 50">
       <Index name="Icon">
         <Frame point="160 0"/>
       </Index>
@@ -42,7 +42,7 @@
   </Resource>
   
   <Resource type="ResourceImageSet" name="MyGUIIcons/Warning">
-    <Group name="Icons" texture="#{ShapesTexture}" size="50 50">
+    <Group name="Icons" texture="#{Anomalous_Theme_Texture}" size="50 50">
       <Index name="Icon">
         <Frame point="60 0"/>
       </Index>

@@ -231,9 +231,6 @@
     <EmbeddedResource Include="Resources\MessageBox\MessageBox.layout" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\MyGUIPlugin_Widget_Texture.png">
-      <LogicalName>MyGUIPlugin_Widget_Texture.png</LogicalName>
-    </EmbeddedResource>
     <EmbeddedResource Include="Resources\MyGUIPlugin_Font.xml">
       <LogicalName>MyGUIPlugin_Font.xml</LogicalName>
     </EmbeddedResource>
@@ -342,8 +339,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\ShapesTexture.png">
-      <LogicalName>ShapesTexture.png</LogicalName>
+    <EmbeddedResource Include="Resources\AnomalousThemeTexture.png">
+      <LogicalName>AnomalousThemeTexture.png</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
