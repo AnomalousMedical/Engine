@@ -27,7 +27,7 @@ namespace MyGUIPlugin
     class TimelineViewButton
     {
         private static readonly int MinButtonSize = ScaleHelper.Scaled(17);
-        private static readonly int DurationButtonWidth = ScaleHelper.Scaled(5);
+        private static readonly int DurationButtonWidth = ScaleHelper.Scaled(6);
 
         private Widget colorArea;
         private Button button;
@@ -195,6 +195,8 @@ namespace MyGUIPlugin
             set
             {
                 button.Selected = value;
+                startTimeButton.Selected = value;
+                durationButton.Selected = value;
                 if (value)
                 {
                     colorArea.setColour(selectedColor);
