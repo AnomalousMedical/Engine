@@ -15,17 +15,17 @@ namespace MyGUIPlugin
         private int yPosition;
         private int pixelsPerSecond;
         private float timelineDuration;
-        private Color color;
         private static readonly int ROW_HEIGHT = ScaleHelper.Scaled(19);
         private static readonly int STACKED_BUTTON_SPACE = ScaleHelper.Scaled(3);
         private int bottom;
         private bool processButtonChanges = true;
 
-        public TimelineViewTrack(String name, int yPosition, int pixelsPerSecond, float timelineDuration, Color color)
+        public TimelineViewTrack(String name, int yPosition, int pixelsPerSecond, float timelineDuration, Color normalColor, Color selectedColor)
         {
             this.Name = name;
             this.yPosition = yPosition;
-            this.color = color;
+            this.NormalColor = normalColor;
+            this.SelectedColor = selectedColor;
             this.pixelsPerSecond = pixelsPerSecond;
             this.timelineDuration = timelineDuration;
             bottom = yPosition + ROW_HEIGHT;
@@ -41,20 +41,15 @@ namespace MyGUIPlugin
 
         public String Name { get; private set; }
 
-        public Color Color
-        {
-            get
-            {
-                return color;
-            }
-        }
+        public Color NormalColor { get; private set; }
+
+        public Color SelectedColor { get; private set; }
 
         internal TimelineViewButton addButton(Button button, TimelineData data)
         {
-            TimelineViewButton viewButton = new TimelineViewButton(pixelsPerSecond, timelineDuration, button, data);
+            TimelineViewButton viewButton = new TimelineViewButton(pixelsPerSecond, timelineDuration, button, data, NormalColor, SelectedColor);
             buttons.Add(viewButton);
             button.setPosition(button.Left, yPosition);
-            viewButton.setColor(color);
             viewButton.CoordChanged += viewButton_CoordChanged;
             computeButtonPosition(viewButton);
             findLowestButton();

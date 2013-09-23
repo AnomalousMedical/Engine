@@ -690,30 +690,30 @@ MDILocationPreview
 TimelineButtonCenterSkin
 *****************************-->
   <Resource type="ResourceImageSet" name="TimelineButtonImage">
-    <Group name="Icons" texture="#{ShapesTexture}" size="2 2">
+    <Group name="Icons" texture="#{ShapesTexture}" size="8 10">
       <Index name="disabled" >
-        <Frame point="45 107"/>
+        <Frame point="42 103"/>
       </Index>
       <Index name="normal" >
-        <Frame point="3 3"/>
+        <Frame point="4 3"/>
       </Index>
       <Index name="highlighted" >
-        <Frame point="35 107"/>
+        <Frame point="32 103"/>
       </Index>
       <Index name="pushed" >
-        <Frame point="45 97"/>
+        <Frame point="42 93"/>
       </Index>
       <Index name="disabled_checked" >
-        <Frame point="45 107"/>
+        <Frame point="42 103"/>
       </Index>
       <Index name="normal_checked" >
-        <Frame point="35 97"/>
+        <Frame point="32 93"/>
       </Index>
       <Index name="highlighted_checked" >
-        <Frame point="35 107"/>
+        <Frame point="32 103"/>
       </Index>
       <Index name="pushed_checked" >
-        <Frame point="45 97"/>
+        <Frame point="42 93"/>
       </Index>
     </Group>
   </Resource>
@@ -742,7 +742,7 @@ TimelineButtonSkin
       <State name="normal" offset = "3 3 18 18" colour="#000000"/>
       <State name="highlighted" offset = "3 3 18 18" colour="#77aadd"/>
       <State name="pushed" offset = "3 3 18 18" colour="#5588bb"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#77aadd"/>
+      <State name="normal_checked" offset = "3 3 18 18" colour="#000000"/>
       <State name="highlighted_checked" offset = "3 3 18 18" colour="#225588"/>
       <State name="pushed_checked" offset = "3 3 18 18" colour="#5588bb"/>
     </BasisSkin>

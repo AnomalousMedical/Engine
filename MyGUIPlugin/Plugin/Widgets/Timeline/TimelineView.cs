@@ -121,9 +121,9 @@ namespace MyGUIPlugin
             timelineMarker.Dispose();
         }
 
-        public void addTrack(String name, Color color)
+        public void addTrack(String name, Color normalColor, Color selectedColor)
         {
-            TimelineViewTrack track = new TimelineViewTrack(name, trackY, pixelsPerSecond, duration, color);
+            TimelineViewTrack track = new TimelineViewTrack(name, trackY, pixelsPerSecond, duration, normalColor, selectedColor);
             track.BottomChanged += new EventHandler(actionViewRow_BottomChanged);
             tracks.Add(track);
             namedTracks.Add(name, track);

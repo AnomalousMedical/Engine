@@ -48,7 +48,7 @@ namespace MyGUIPlugin
             
             TextBox staticText = (TextBox)scrollView.createWidgetT("TextBox", "TextBox", ButtonWidth + 1, row.Top, textWidth, ButtonHeight, Align.Default, "");
             staticText.TextAlign = Align.Left | Align.VCenter;
-            staticText.TextColor = row.Color;
+            staticText.TextColor = row.NormalColor;
             
             TrackFilterButton filterButton = new TrackFilterButton(button, staticText, actionName);
             filterButtons.Add(row, filterButton);

@@ -40,16 +40,22 @@ namespace MyGUIPlugin
         private float timelineDuration;
         private TimelineData timelineData;
 
+        Color normalColor;
+        Color selectedColor;
+
         public event EventDelegate<TimelineViewButton, MouseEventArgs> Clicked;
         public event EventDelegate<TimelineViewButton, TimelineViewButtonEventArgs> CoordChanged;
         public event EventDelegate<TimelineViewButton, float> ButtonDragged;
 
         private static TimelineViewButtonEventArgs sharedEventArgs = new TimelineViewButtonEventArgs();
 
-        public TimelineViewButton(int pixelsPerSecond, float timelineDuration, Button button, TimelineData timelineData)
+        public TimelineViewButton(int pixelsPerSecond, float timelineDuration, Button button, TimelineData timelineData, Color normalColor, Color selectedColor)
         {
+            this.normalColor = normalColor;
+            this.selectedColor = selectedColor;
             colorArea = button.ImageBox;
             colorArea.setCoord(DurationButtonWidth, colorArea.Top, button.Width - DurationButtonWidth * 2, colorArea.Height);
+            colorArea.setColour(normalColor);
 
             this.pixelsPerSecond = pixelsPerSecond;
             this.button = button;
@@ -189,6 +195,14 @@ namespace MyGUIPlugin
             set
             {
                 button.Selected = value;
+                if (value)
+                {
+                    colorArea.setColour(selectedColor);
+                }
+                else
+                {
+                    colorArea.setColour(normalColor);
+                }
             }
         }
 
@@ -274,11 +288,6 @@ namespace MyGUIPlugin
             {
                 return timelineData;
             }
-        }
-
-        public void setColor(Color color)
-        {
-            colorArea.setColour(color);
         }
 
         internal void changePixelsPerSecond(int pixelsPerSecond)
