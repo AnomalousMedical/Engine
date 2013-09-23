@@ -27,7 +27,7 @@ namespace MyGUIPlugin
     class TimelineViewButton
     {
         private static readonly int MinButtonSize = ScaleHelper.Scaled(17);
-        private static readonly int DurationButtonWidth = ScaleHelper.Scaled(3);
+        private static readonly int DurationButtonWidth = ScaleHelper.Scaled(5);
 
         private Widget colorArea;
         private Button button;
@@ -48,7 +48,8 @@ namespace MyGUIPlugin
 
         public TimelineViewButton(int pixelsPerSecond, float timelineDuration, Button button, TimelineData timelineData)
         {
-            colorArea = button.createWidgetT("Button", "TimelineButtonCenterSkin", 1, 1, button.Width - 2, button.Height - 2, Align.Stretch, "ColorArea");
+            colorArea = button.ImageBox;
+            colorArea.setCoord(DurationButtonWidth, colorArea.Top, button.Width - DurationButtonWidth * 2, colorArea.Height);
 
             this.pixelsPerSecond = pixelsPerSecond;
             this.button = button;
@@ -58,12 +59,12 @@ namespace MyGUIPlugin
                 button.setSize(MinButtonSize, button.Height);
             }
 
-            durationButton = button.createWidgetT("Button", "TimelineButton", button.Width - DurationButtonWidth, button.Top, DurationButtonWidth, button.Height, Align.Top | Align.Right, "") as Button;
+            durationButton = button.createWidgetT("Button", "TimelineButtonTimeAdjusterSkin", button.Width - DurationButtonWidth, button.Top, DurationButtonWidth, button.Height, Align.Top | Align.Right, "") as Button;
             durationButton.MouseDrag += new MyGUIEvent(durationButton_MouseDrag);
             durationButton.MouseButtonPressed += new MyGUIEvent(durationButton_MouseButtonPressed);
             durationButton.Pointer = "size_horz";
 
-            startTimeButton = button.createWidgetT("Button", "TimelineButton", 0, button.Top, DurationButtonWidth, button.Height, Align.Top | Align.Left, "") as Button;
+            startTimeButton = button.createWidgetT("Button", "TimelineButtonTimeAdjusterSkin", 0, button.Top, DurationButtonWidth, button.Height, Align.Top | Align.Left, "") as Button;
             startTimeButton.MouseDrag += new MyGUIEvent(startTimeButton_MouseDrag);
             startTimeButton.MouseButtonPressed += new MyGUIEvent(startTimeButton_MouseButtonPressed);
             startTimeButton.Pointer = "size_horz";

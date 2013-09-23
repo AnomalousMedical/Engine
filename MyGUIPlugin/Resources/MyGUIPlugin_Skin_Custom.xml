@@ -689,11 +689,47 @@ MDILocationPreview
   <!--*************************
 TimelineButtonCenterSkin
 *****************************-->
+  <Resource type="ResourceImageSet" name="TimelineButtonImage">
+    <Group name="Icons" texture="#{ShapesTexture}" size="2 2">
+      <Index name="disabled" >
+        <Frame point="45 107"/>
+      </Index>
+      <Index name="normal" >
+        <Frame point="3 3"/>
+      </Index>
+      <Index name="highlighted" >
+        <Frame point="35 107"/>
+      </Index>
+      <Index name="pushed" >
+        <Frame point="45 97"/>
+      </Index>
+      <Index name="disabled_checked" >
+        <Frame point="45 107"/>
+      </Index>
+      <Index name="normal_checked" >
+        <Frame point="35 97"/>
+      </Index>
+      <Index name="highlighted_checked" >
+        <Frame point="35 107"/>
+      </Index>
+      <Index name="pushed_checked" >
+        <Frame point="45 97"/>
+      </Index>
+    </Group>
+  </Resource>
+
   <Resource type="ResourceSkin" name = "TimelineButtonCenterSkin" size = "10 10" texture = "#{ShapesTexture}">
     <Property key="NeedMouse" value="false"/>
     <!--Middle-->
     <BasisSkin type="MainSkin" offset = "0 0 10 10" align = "HStretch VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#000000"/>
+      <State name="disabled" offset = "45 107 2 2"/>
+      <State name="normal" offset = "3 3 18 18"/>
+      <State name="highlighted" offset = "35 107 2 2"/>
+      <State name="pushed" offset = "45 97 2 2"/>
+      <State name="disabled_checked" offset = "45 107 2 2"/>
+      <State name="normal_checked" offset = "35 97 2 2"/>
+      <State name="highlighted_checked" offset = "35 107 2 2"/>
+      <State name="pushed_checked" offset = "45 97 2 2"/>
     </BasisSkin>
   </Resource>  
   
@@ -701,50 +737,48 @@ TimelineButtonCenterSkin
 TimelineButtonSkin
 *****************************-->
   <Resource type="ResourceSkin" name = "TimelineButtonSkin" size = "10 10" texture = "#{ShapesTexture}">
-    <Property key="FontName" value = "Default" />
-    <Property key="TextAlign" value = "HCenter VCenter" />
-    <!--Top-->
-    <BasisSkin type="SubSkin" offset = "0 0 10 1" align = "HStretch Top">
+    <!--Middle-->
+    <BasisSkin type="SubSkin" offset = "0 0 10 10" align = "HStretch VStretch">
       <State name="normal" offset = "3 3 18 18" colour="#000000"/>
       <State name="highlighted" offset = "3 3 18 18" colour="#77aadd"/>
       <State name="pushed" offset = "3 3 18 18" colour="#5588bb"/>
       <State name="normal_checked" offset = "3 3 18 18" colour="#77aadd"/>
       <State name="highlighted_checked" offset = "3 3 18 18" colour="#225588"/>
       <State name="pushed_checked" offset = "3 3 18 18" colour="#5588bb"/>
+    </BasisSkin>
+  </Resource>
+
+  <!--*************************
+TimelineButtonTimeAdjusterSkin
+*****************************-->
+  <Resource type="ResourceSkin" name = "TimelineButtonTimeAdjusterSkin" size = "10 10" texture = "#{ShapesTexture}">
+    <!--Middle-->
+    <BasisSkin type="SubSkin" offset = "0 0 10 10" align = "HStretch VStretch">
+      <State name="normal" offset = "3 3 18 18" colour="#ffffff"/>
+      <State name="highlighted" offset = "3 3 18 18" colour="#77aadd"/>
+      <State name="pushed" offset = "3 3 18 18" colour="#5588bb"/>
+      <State name="normal_checked" offset = "3 3 18 18" colour="#77aadd"/>
+      <State name="highlighted_checked" offset = "3 3 18 18" colour="#225588"/>
+      <State name="pushed_checked" offset = "3 3 18 18" colour="#5588bb"/>
+    </BasisSkin>
+    <!--Top-->
+    <BasisSkin type="SubSkin" offset = "0 0 10 1" align = "HStretch Top">
+      <State name="normal" offset = "3 3 18 18" colour="#000000"/>
     </BasisSkin>
     <!--Left-->
     <BasisSkin type="SubSkin" offset = "0 1 1 8" align = "Left VStretch">
       <State name="normal" offset = "3 3 18 18" colour="#000000"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#77aadd"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#5588bb"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#77aadd"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#225588"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#5588bb"/>
     </BasisSkin>
     <!--Right-->
     <BasisSkin type="SubSkin" offset = "9 1 1 8" align = "Right VStretch">
       <State name="normal" offset = "3 3 18 18" colour="#000000"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#77aadd"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#5588bb"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#77aadd"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#225588"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#5588bb"/>
     </BasisSkin>
     <!--Bottom-->
     <BasisSkin type="SubSkin" offset = "0 9 10 1" align = "HStretch Bottom">
       <State name="normal" offset = "3 3 18 18" colour="#000000"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#77aadd"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#5588bb"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#77aadd"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#225588"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#5588bb"/>
-    </BasisSkin>
-    <!--Middle-->
-    <BasisSkin type="SubSkin" offset = "1 1 8 8" align = "HStretch VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#ffffff"/>
     </BasisSkin>
   </Resource>
-
+  
   <!--*************************
 TimelineMarker
 *****************************-->

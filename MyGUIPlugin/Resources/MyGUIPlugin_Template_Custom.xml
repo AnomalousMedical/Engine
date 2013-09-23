@@ -23,8 +23,15 @@ TimelineButton
 *****************************-->
   <Resource type="ResourceLayout" name="TimelineButton" version="3.2.0">
     <Widget type="Widget" skin="TimelineButtonSkin" position="0 0 10 10" name="Root">
+      <Property key="ModeImage" value="True"/>
       <UserString key="LE_TargetWidgetType" value="Button"/>
-      <!--<Widget type="Button" skin="TimelineButtonCenterSkin" position="1 1 8 8" name="ColorArea" align="Stretch" />-->
+      <Widget type="ImageBox" skin="TimelineButtonCenterSkin" position="1 1 8 8" align="Stretch" name="Image">
+        <Property key="ImageResource" value="TimelineButtonImage"/>
+        <Property key="ImageGroup" value="Icons"/>
+        <Property key="ImageName" value="normal"/>
+        <Property key="NeedMouse" value="false"/>
+        <Property key="Colour" value="0.0 0.0 0.0"/>
+      </Widget>
     </Widget>
   </Resource>
 
