@@ -19,6 +19,9 @@ namespace MyGUIPlugin
 
     public class TimelineView : IDisposable
     {
+        private static readonly Color[] DefaultTrackColors = { Color.FromRGB(0xb366ff), Color.FromRGB(0x66d598), Color.FromRGB(0xf5b362), Color.FromRGB(0x60b5f0), Color.FromRGB(0xff6666) };
+        private static readonly Color[] DefaultTrackSelectedColors = { Color.FromRGB(0x8000ff), Color.FromRGB(0x00b050), Color.FromRGB(0xf58700), Color.FromRGB(0x008ef0), Color.FromRGB(0xff0000) };
+
         private static MessageEvent addSelection;
         private static MessageEvent removeSelection;
 
@@ -121,9 +124,10 @@ namespace MyGUIPlugin
             timelineMarker.Dispose();
         }
 
-        public void addTrack(String name, Color normalColor, Color selectedColor)
+        public void addTrack(String name)
         {
-            TimelineViewTrack track = new TimelineViewTrack(name, trackY, pixelsPerSecond, duration, normalColor, selectedColor);
+            int colorIndex = tracks.Count % DefaultTrackColors.Length;
+            TimelineViewTrack track = new TimelineViewTrack(name, trackY, pixelsPerSecond, duration, DefaultTrackColors[colorIndex], DefaultTrackSelectedColors[colorIndex]);
             track.BottomChanged += new EventHandler(actionViewRow_BottomChanged);
             tracks.Add(track);
             namedTracks.Add(name, track);
