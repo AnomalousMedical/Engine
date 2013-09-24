@@ -155,6 +155,65 @@
   <Tag name="Anomalous_SliderTrack_Control_Pushed">#5588bb</Tag>
 
   <Tag name="Anomalous_SliderPanel_Control_Normal">#cacaca</Tag>
+  
+  <!-- Progress Bar Colors -->
+  <Tag name="Anomalous_ProgressBar_Center_Normal">#969696</Tag>
+  <Tag name="Anomalous_ProgressBar_Border_Normal">#585858</Tag>
+  <Tag name="Anomalous_ProgressBar_Track_Normal">#4477aa</Tag>
+  
+  <!-- Menu Bar Colors -->                       
+  <Tag name="Anomalous_MenuBarButton_Center_Highlighted">#6699cc</Tag>
+  <Tag name="Anomalous_MenuBarButton_Center_Pushed">#77aadd</Tag>
+  <Tag name="Anomalous_MenuBarButton_Center_DisabledChecked">#5588bb</Tag>
+  <Tag name="Anomalous_MenuBarButton_Center_NormalChecked">#5588bb</Tag>
+  <Tag name="Anomalous_MenuBarButton_Center_HighlightedChecked">#6699cc</Tag>
+  <Tag name="Anomalous_MenuBarButton_Center_PushedChecked">#77aadd</Tag>
+
+  <Tag name="Anomalous_MenuBarButton_Border_Highlighted">#225588</Tag>
+  <Tag name="Anomalous_MenuBarButton_Border_Pushed">#114477</Tag>
+  <Tag name="Anomalous_MenuBarButton_Border_DisabledChecked">#114477</Tag>
+  <Tag name="Anomalous_MenuBarButton_Border_NormalChecked">#114477</Tag>
+  <Tag name="Anomalous_MenuBarButton_Border_HighlightedChecked">#225588</Tag>
+  <Tag name="Anomalous_MenuBarButton_Border_PushedChecked">#114477</Tag>
+
+  <Tag name="Anomalous_MenuBarButton_Text_Disabled">#b1b1b1</Tag>
+  <Tag name="Anomalous_MenuBarButton_Text_Normal">#000000</Tag>
+  <Tag name="Anomalous_MenuBarButton_Text_Highlighted">#ffffff</Tag>
+  <Tag name="Anomalous_MenuBarButton_Text_Pushed">#ffffff</Tag>
+  <Tag name="Anomalous_MenuBarButton_Text_DisabledChecked">#ffffff</Tag>
+  <Tag name="Anomalous_MenuBarButton_Text_NormalChecked">#ffffff</Tag>
+  <Tag name="Anomalous_MenuBarButton_Text_HighlightedChecked">#ffffff</Tag>
+  <Tag name="Anomalous_MenuBarButton_Text_PushedChecked">#ffffff</Tag>
+
+  <Tag name="Anomalous_MenuItemPopupButton_Control_Disabled">#767676</Tag>
+  <Tag name="Anomalous_MenuItemPopupButton_Control_Normal">#434343</Tag>
+  <Tag name="Anomalous_MenuItemPopupButton_Control_Highlighted">#5588bb</Tag>
+  <Tag name="Anomalous_MenuItemPopupButton_Control_Pushed">#6699cc</Tag>
+  <Tag name="Anomalous_MenuItemPopupButton_Control_NormalChecked">#4477aa</Tag>
+
+  <Tag name="Anomalous_MenuItemCheckButton_Control_Normal">#ffffff</Tag>
+
+  <Tag name="Anomalous_MenuSeparator_Control_Normal">#4477aa</Tag>
+
+  <Tag name="Anomalous_PopupMenu_Center_Normal">#ececec</Tag>
+  <Tag name="Anomalous_PopupMenu_Border_Normal">#4477aa</Tag>
+  
+  <!-- Tab Button Colors -->
+  <Tag name="Anomalous_TabButton_Center_Highlighted">#5588bb</Tag>
+  <Tag name="Anomalous_TabButton_Center_Pushed">#4477aa</Tag>
+  <Tag name="Anomalous_TabButton_Center_DisabledChecked">#5588bb</Tag>
+  <Tag name="Anomalous_TabButton_Center_NormalChecked">#6699cc</Tag>
+  <Tag name="Anomalous_TabButton_Center_HighlightedChecked">#5588bb</Tag>
+  <Tag name="Anomalous_TabButton_Center_PushedChecked">#4477aa</Tag>
+
+  <Tag name="Anomalous_TabButton_Text_Disabled">#b1b1b1</Tag>
+  <Tag name="Anomalous_TabButton_Text_Normal">#000000</Tag>
+  <Tag name="Anomalous_TabButton_Text_Highlighted">#ffffff</Tag>
+  <Tag name="Anomalous_TabButton_Text_Pushed">#ffffff</Tag>
+  <Tag name="Anomalous_TabButton_Text_DisabledChecked">#b1b1b1</Tag>
+  <Tag name="Anomalous_TabButton_Text_NormalChecked">#ffffff</Tag>
+  <Tag name="Anomalous_TabButton_Text_HighlightedChecked">#ffffff</Tag>
+  <Tag name="Anomalous_TabButton_Text_PushedChecked">#ffffff</Tag>
 
 </MyGUI>
 

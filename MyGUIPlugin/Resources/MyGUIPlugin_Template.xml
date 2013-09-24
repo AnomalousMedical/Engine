@@ -219,12 +219,12 @@ ComboBox
 ProgressBar
 *****************************-->
   <Resource type="ResourceLayout" name="ProgressBar" version="3.2.0">
-    <Widget type="Widget" skin="ProgressBarSkin" position="25 50 125 15" name="Root">
+    <Widget type="Widget" skin="ProgressBarSkin" position="25 50 10 10" name="Root">
       <UserString key="LE_TargetWidgetType" value="ProgressBar"/>
       <UserString key="TrackFill" value="true"/>
       <UserString key="TrackSkin" value="ProgressTrack"/>
       <UserString key="TrackWidth" value="6"/>
-      <Widget type="Widget" skin="PanelEmpty" position="1 1 123 13" align="Stretch" name="TrackPlace">
+      <Widget type="Widget" skin="PanelEmpty" position="1 1 8 8" align="Stretch" name="TrackPlace">
         <Property key="NeedKey" value="false"/>
         <Property key="InheritsPick" value="true"/>
       </Widget>
@@ -387,7 +387,7 @@ PopupMenuNormal
       <Property key="FontName" value="Default"/>
       <Property key="TextAlign" value="Left VCenter"/>
       <UserString key="LE_TargetWidgetType" value="Button"/>
-      <Widget type="Widget" skin="MenuItemCheckButtonSkin" position="1 0 15 13" align="Left VCenter" name="Check"/>
+      <Widget type="Widget" skin="MenuItemCheckButtonSkin" position="1 0 12 12" align="Left VCenter" name="Check"/>
       <Widget type="ImageBox" skin="ImageBox" position="28 0 15 15" align="Right VCenter" name="Image">
         <Property key="NeedMouse" value="false"/>
       </Widget>
