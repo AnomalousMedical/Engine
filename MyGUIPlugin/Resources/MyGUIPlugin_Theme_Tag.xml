@@ -85,6 +85,8 @@
   <Tag name="Anomalous_CheckRadio_Control_HighlightedChecked">#77aadd</Tag>
   <Tag name="Anomalous_CheckRadio_Control_PushedChecked">#6699cc</Tag>
 
+  <Tag name="Anomalous_CheckRadio_Text">#000000</Tag>
+
   <!-- Button Expand Colors (Normal is -, Checked is +) -->
   <Tag name="Anomalous_ButtonExpand_Control_Disabled">#d1d1d1</Tag>
   <Tag name="Anomalous_ButtonExpand_Control_Normal">#3b3b3b</Tag>
@@ -104,8 +106,27 @@
   <Tag name="Anomalous_ButtonX_Control_NormalChecked">#4477aa</Tag>
   <Tag name="Anomalous_ButtonX_Control_HighlightedChecked">#6699cc</Tag>
   <Tag name="Anomalous_ButtonX_Control_PushedChecked">#4477aa</Tag>
+
+  <!-- Button Accept Colors -->
+  <Tag name="Anomalous_ButtonAccept_Control_Disabled">#7c7c7c</Tag>
+  <Tag name="Anomalous_ButtonAccept_Control_Normal">#434343</Tag>
+  <Tag name="Anomalous_ButtonAccept_Control_Highlighted">#5588bb</Tag>
+  <Tag name="Anomalous_ButtonAccept_Control_Pushed">#6699cc</Tag>
+  <Tag name="Anomalous_ButtonAccept_Control_DisabledChecked">#95b0cb</Tag>
+  <Tag name="Anomalous_ButtonAccept_Control_NormalChecked">#4477aa</Tag>
+  <Tag name="Anomalous_ButtonAccept_Control_HighlightedChecked">#5588bb</Tag>
+  <Tag name="Anomalous_ButtonAccept_Control_PushedChecked">#6699cc</Tag>
+
+  <!-- Direction Button Colors -->
+  <Tag name="Anomalous_DirectionButton_Control_Disabled">#434343</Tag>
+  <Tag name="Anomalous_DirectionButton_Control_Normal">#434343</Tag>
+  <Tag name="Anomalous_DirectionButton_Control_Highlighted">#5588bb</Tag>
+  <Tag name="Anomalous_DirectionButton_Control_Pushed">#6699cc</Tag>
+  <Tag name="Anomalous_DirectionButton_Control_DisabledChecked">#4477aa</Tag>
+  <Tag name="Anomalous_DirectionButton_Control_NormalChecked">#4477aa</Tag>
+  <Tag name="Anomalous_DirectionButton_Control_HighlightedChecked">#5588bb</Tag>
+  <Tag name="Anomalous_DirectionButton_Control_PushedChecked">#6699cc</Tag>
   
-  <Tag name="Anomalous_CheckRadio_Text">#000000</Tag>
   
  </MyGUI>
 
