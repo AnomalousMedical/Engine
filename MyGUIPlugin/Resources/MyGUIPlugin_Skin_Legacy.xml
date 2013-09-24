@@ -11,11 +11,11 @@ WindowCaptionSkin
   <Resource type="ResourceSkin" name = "WindowCaptionSkin" size = "68 21" texture = "#{Anomalous_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "#{WindowTextAlignment}" />
-    <Property key="TextColour" value = "#{MyGUI_Theme_TaskMenuButton_ColorNormal}"/>
+    <Property key="TextColour" value = "#{Anomalous_WindowCaption_Text_Normal}"/>
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 68 21" align = "Stretch">
-      <State name="normal" offset = "3 3 18 18" colour="#4477aa"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#5588bb"/>
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_WindowCaption_Center_Normal}"/>
+      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_WindowCaption_Center_Highlighted}"/>
     </BasisSkin>
     <!--Text-->
     <BasisSkin type="SimpleText" offset = "5 0 58 18" align = "Stretch"/>
@@ -26,11 +26,11 @@ WindowCaptionCloseButtonSkin
   <Resource type="ResourceSkin" name = "WindowCaptionCloseButtonSkin" size = "68 21" texture = "#{Anomalous_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "#{WindowTextAlignment}" />
-    <Property key="TextColour" value = "#{MyGUI_Theme_TaskMenuButton_ColorNormal}"/>
+    <Property key="TextColour" value = "#{Anomalous_WindowCaption_Text_Normal}"/>
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 68 21" align = "Stretch">
-      <State name="normal" offset = "3 3 18 18" colour="#4477aa"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#5588bb"/>
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_WindowCaption_Center_Normal}"/>
+      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_WindowCaption_Center_Highlighted}"/>
     </BasisSkin>
     <!--Text-->
     <BasisSkin type="SimpleText" offset = "#{WindowCaptionPosition}" align = "Stretch"/>
