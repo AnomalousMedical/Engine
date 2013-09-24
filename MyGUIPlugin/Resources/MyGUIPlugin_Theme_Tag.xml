@@ -72,7 +72,7 @@
   <!-- Panel Colors -->
   <Tag name="Anomalous_Panel_Normal">#ececec</Tag>
   
-  <!-- Edit Colors -->
+  <!-- Edit Area Colors -->
   <Tag name="Anomalous_EditArea_Middle_Disabled">#d2d2d2</Tag>
   <Tag name="Anomalous_EditArea_Middle_Normal">#ffffff</Tag>
   <Tag name="Anomalous_EditArea_Middle_Highlighted">#ffffff</Tag>
@@ -84,6 +84,9 @@
   <Tag name="Anomalous_EditArea_Border_Highlighted">#4477aa</Tag>
   <Tag name="Anomalous_EditArea_Border_Pushed">#6699cc</Tag>
   <Tag name="Anomalous_EditArea_Border_NormalChecked">#77aadd</Tag>
+
+  <Tag name="Anomalous_EditArea_Text_Disabled">#b1b1b1</Tag>
+  <Tag name="Anomalous_EditArea_Text_Normal">#000000</Tag>
   
   <!-- Check/Radio Button Colors -->
   <Tag name="Anomalous_CheckRadio_Control_Disabled">#d1d1d1</Tag>
@@ -137,8 +140,23 @@
   <Tag name="Anomalous_DirectionButton_Control_HighlightedChecked">#5588bb</Tag>
   <Tag name="Anomalous_DirectionButton_Control_PushedChecked">#6699cc</Tag>
   
+  <!-- Scroll Bar Colors -->
+  <Tag name="Anomalous_ScrollTrack_Control_Disabled">#cdcdcd</Tag>
+  <Tag name="Anomalous_ScrollTrack_Control_Normal">#cdcdcd</Tag>
+  <Tag name="Anomalous_ScrollTrack_Control_Highlighted">#bdbdbd</Tag>
+  <Tag name="Anomalous_ScrollTrack_Control_Pushed">#adadad</Tag>
   
- </MyGUI>
+  <Tag name="Anomalous_ScrollPanel_Control_Normal">#f1f1f3</Tag>
+  
+  <!-- Slider Colors -->
+  <Tag name="Anomalous_SliderTrack_Control_Disabled">#d8d8da</Tag>
+  <Tag name="Anomalous_SliderTrack_Control_Normal">#4477aa</Tag>
+  <Tag name="Anomalous_SliderTrack_Control_Highlighted">#6699cc</Tag>
+  <Tag name="Anomalous_SliderTrack_Control_Pushed">#5588bb</Tag>
+
+  <Tag name="Anomalous_SliderPanel_Control_Normal">#cacaca</Tag>
+
+</MyGUI>
 
 
 

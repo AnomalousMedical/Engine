@@ -74,7 +74,7 @@ SliderH
       <Widget type="Widget" skin="PanelEmpty" position="0 0 125 15" align="Stretch" name="TrackPlace">
         <Property key="NeedKey" value="false"/>
         <Property key="InheritsPick" value="true"/>
-        <Widget type="Button" skin="HScrollTrackSlider" position="0 0 14 15" align="Left VStretch" name="Track"/>
+        <Widget type="Button" skin="SliderHTrackSkin" position="0 0 14 15" align="Left VStretch" name="Track"/>
       </Widget>
     </Widget>
   </Resource>
@@ -88,7 +88,7 @@ SliderV
       <Property key="VerticalAlignment" value="true"/>
       <UserString key="LE_TargetWidgetType" value="ScrollBar"/>
       <Widget type="Widget" skin="PanelEmpty" position="0 0 15 125" align="Stretch">
-        <Widget type="Button" skin="VScrollTrackSlider" position="0 0 15 14" align="HStretch Top" name="Track"/>
+        <Widget type="Button" skin="SliderVTrackSkin" position="0 0 15 14" align="HStretch Top" name="Track"/>
       </Widget>
     </Widget>
   </Resource>

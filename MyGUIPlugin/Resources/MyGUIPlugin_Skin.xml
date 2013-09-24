@@ -337,60 +337,38 @@ ListBoxItemSkin
 ListBoxSkin
 *****************************-->
   <Resource type="ResourceSkin" name = "ListBoxSkin" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
-    <!--Top-->
-    <BasisSkin type="SubSkin" offset = "0 0 11 1" align = "HStretch Top">
-      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
-    </BasisSkin>
-    <!--Left-->
-    <BasisSkin type="SubSkin" offset = "0 1 1 9" align = "Left VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
-    </BasisSkin>
-    <!--Right-->
-    <BasisSkin type="SubSkin" offset = "10 1 1 9" align = "Right VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
-    </BasisSkin>
-    <!--Bottom-->
-    <BasisSkin type="SubSkin" offset = "0 10 11 1" align = "HStretch Bottom">
-      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
-    </BasisSkin>
     <!--Middle-->
-    <BasisSkin type="SubSkin" offset = "1 1 9 9" align = "HStretch VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#ffffff"/>
-      <State name="disabled" offset = "3 3 18 18" colour="#e0e0e0"/>
+    <BasisSkin type="SubSkin" offset = "0 0 11 11" align = "HStretch VStretch">
+      <State name="disabled" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Middle_Disabled}"/>
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Middle_Normal}"/>
     </BasisSkin>
+    <!--Border-->
+    <Border width="1">
+      <State name="disabled" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Border_Disabled}"/>
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Border_Normal}"/>
+    </Border>
   </Resource>
 <!--*************************
 MultiListButtonSkin
 *****************************-->
   <Resource type="ResourceSkin" name = "MultiListButtonSkin" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
-    <!--Top-->
-    <BasisSkin type="SubSkin" offset = "0 0 11 1" align = "HStretch Top">
-      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
-    </BasisSkin>
-    <!--Left-->
-    <BasisSkin type="SubSkin" offset = "0 1 1 9" align = "Left VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
-    </BasisSkin>
-    <!--Right-->
-    <BasisSkin type="SubSkin" offset = "10 1 1 9" align = "Right VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
-    </BasisSkin>
-    <!--Bottom-->
-    <BasisSkin type="SubSkin" offset = "0 10 11 1" align = "HStretch Bottom">
-      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
-    </BasisSkin>
     <!--Middle-->
-    <BasisSkin type="SubSkin" offset = "1 1 9 9" align = "HStretch VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#ffffff"/>
-      <State name="disabled" offset = "3 3 18 18" colour="#e0e0e0"/>
+    <BasisSkin type="SubSkin" offset = "0 0 11 11" align = "HStretch VStretch">
+      <State name="disabled" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Middle_Disabled}"/>
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Middle_Normal}"/>
     </BasisSkin>
+    <!--Border-->
+    <Border width="1">
+      <State name="disabled" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Border_Disabled}"/>
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Border_Normal}"/>
+    </Border>
     <!--Text-->
     <BasisSkin type="SimpleText" offset = "1 0 9 11" align = "Stretch">
-      <State name="disabled" colour="#{MyGUI_Theme_Button_ColorDisabled}" shift = "false"/>
-      <State name="normal" colour="#{MyGUI_Theme_Button_ColorNormal}" shift = "false"/>
-      <State name="highlighted" colour="#{MyGUI_Theme_Button_ColorHighlighted}" shift = "false"/>
-      <State name="normal_checked" colour="#{MyGUI_Theme_Button_ColorNormal_Checked}" shift = "true"/>
-      <State name="pushed" colour="#{MyGUI_Theme_Button_ColorPushed}" shift = "true"/>
+      <State name="disabled" colour="#{Anomalous_EditArea_Text_Disabled}" shift = "false"/>
+      <State name="normal" colour="#{Anomalous_EditArea_Text_Normal}" shift = "false"/>
+      <State name="highlighted" colour="#{Anomalous_EditArea_Text_Normal}" shift = "false"/>
+      <State name="normal_checked" colour="#{Anomalous_EditArea_Text_Normal}" shift = "true"/>
+      <State name="pushed" colour="#{Anomalous_EditArea_Text_Normal}" shift = "true"/>
     </BasisSkin>
   </Resource>
 <!--*************************
@@ -400,10 +378,10 @@ VScrollTrack - Moving Part of Scrollbar.
   <Resource type="ResourceSkin" name = "VScrollTrack" size = "14 19" texture = "#{Anomalous_Theme_Texture}">
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 14 19" align = "HStretch VStretch">
-      <State name="disabled" offset = "3 3 18 18" colour="#cdcdcd"/>
-      <State name="normal" offset = "3 3 18 18" colour="#cdcdcd"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#bdbdbd"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#adadad"/>
+      <State name="disabled" offset = "3 3 18 18" colour="#{Anomalous_ScrollTrack_Control_Disabled}"/>
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_ScrollTrack_Control_Normal}"/>
+      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_ScrollTrack_Control_Highlighted}"/>
+      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_ScrollTrack_Control_Pushed}"/>
     </BasisSkin>
   </Resource>
 <!--*************************
@@ -412,7 +390,7 @@ ScrollPanelVSkin
   <Resource type="ResourceSkin" name = "ScrollPanelVSkin" size = "15 49" texture = "#{Anomalous_Theme_Texture}" >
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 15 49" align = "HStretch VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#f1f1f3"/>
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_ScrollPanel_Control_Normal}"/>
     </BasisSkin>
   </Resource>
 <!--*************************
@@ -421,10 +399,10 @@ HScrollTrack
   <Resource type="ResourceSkin" name = "HScrollTrack" size = "19 14" texture = "#{Anomalous_Theme_Texture}">
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 19 14" align = "HStretch VStretch">
-      <State name="disabled" offset = "3 3 18 18" colour="#cdcdcd"/>
-      <State name="normal" offset = "3 3 18 18" colour="#cdcdcd"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#bdbdbd"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#adadad"/>
+      <State name="disabled" offset = "3 3 18 18" colour="#{Anomalous_ScrollTrack_Control_Disabled}"/>
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_ScrollTrack_Control_Normal}"/>
+      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_ScrollTrack_Control_Highlighted}"/>
+      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_ScrollTrack_Control_Pushed}"/>
     </BasisSkin>
   </Resource>
 <!--*************************
@@ -433,20 +411,19 @@ ScrollPanelHSkin
   <Resource type="ResourceSkin" name = "ScrollPanelHSkin" size = "49 15" texture = "#{Anomalous_Theme_Texture}" >
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 49 15" align = "HStretch VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#f1f1f3"/>
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_ScrollPanel_Control_Normal}"/>
     </BasisSkin>
   </Resource>
   <!--*************************
-VScrollTrackSlider
+SliderVTrackSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "VScrollTrackSlider" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
+  <Resource type="ResourceSkin" name = "SliderVTrackSkin" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 11 11" align = "HStretch VStretch">
-      <State name="disabled" offset = "3 3 18 18" colour="#d8d8da"/>
-      <State name="normal" offset = "3 3 18 18" colour="#4477aa"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#6699cc"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#4477aa"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#5588bb"/>
+      <State name="disabled" offset = "3 3 18 18" colour="#{Anomalous_SliderTrack_Control_Disabled}"/>
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_SliderTrack_Control_Normal}"/>
+      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_SliderTrack_Control_Highlighted}"/>
+      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_SliderTrack_Control_Pushed}"/>
     </BasisSkin>
   </Resource>
 <!--*************************
@@ -455,20 +432,19 @@ SliderVSkin
   <Resource type="ResourceSkin" name = "SliderVSkin" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 6 11" align = "HCenter VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#cacaca"/>
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_SliderPanel_Control_Normal}"/>
     </BasisSkin>
   </Resource>
 <!--*************************
-HScrollTrackSlider
+SliderHTrackSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "HScrollTrackSlider" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
+  <Resource type="ResourceSkin" name = "SliderHTrackSkin" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 11 11" align = "HStretch VStretch">
-      <State name="disabled" offset = "3 3 18 18" colour="#d8d8da"/>
-      <State name="normal" offset = "3 3 18 18" colour="#4477aa"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#6699cc"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#4477aa"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#5588bb"/>
+      <State name="disabled" offset = "3 3 18 18" colour="#{Anomalous_SliderTrack_Control_Disabled}"/>
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_SliderTrack_Control_Normal}"/>
+      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_SliderTrack_Control_Highlighted}"/>
+      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_SliderTrack_Control_Pushed}"/>
     </BasisSkin>
   </Resource>
 <!--*************************
@@ -477,7 +453,7 @@ SliderHSkin
   <Resource type="ResourceSkin" name = "SliderHSkin" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 11 6" align = "HStretch VCenter">
-      <State name="normal" offset = "3 3 18 18" colour="#cacaca"/>
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_SliderPanel_Control_Normal}"/>
     </BasisSkin>
   </Resource>
 <!--*************************
