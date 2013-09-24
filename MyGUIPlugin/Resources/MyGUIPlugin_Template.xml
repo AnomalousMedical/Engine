@@ -224,7 +224,7 @@ ProgressBar
       <UserString key="TrackFill" value="true"/>
       <UserString key="TrackSkin" value="ProgressTrack"/>
       <UserString key="TrackWidth" value="6"/>
-      <Widget type="Widget" skin="PanelEmpty" position="1 1 8 8" align="Stretch" name="TrackPlace">
+      <Widget type="Widget" skin="PanelEmpty" position_derived="1 1 -1 -1" align="Stretch" name="TrackPlace">
         <Property key="NeedKey" value="false"/>
         <Property key="InheritsPick" value="true"/>
       </Widget>

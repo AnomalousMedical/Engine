@@ -114,23 +114,23 @@ WindowResizeBottom
     </BasisSkin>
   </Resource>
   <!--*************************
-Window, Warning! needs to be defined as a skin for coord to work
+Window
 *****************************-->
   <Resource type="ResourceSkin" name = "Window" size = "68 49">
     <Property key="Snap" value = "true" />
     <Child type="Widget" skin="WindowBackground" offset = "0 0 68 49" align = "Stretch" name = "Background"/>
-    <Child type="Button" skin="WindowCaptionSkin" coord = "1 1 -1 27" align = "HStretch Top" name = "Caption">
+    <Child type="Button" skin="WindowCaptionSkin" offset_derived = "1 1 -1 26" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
     </Child>
     <Child type="Widget" skin="PanelEmpty" offset = "6 27 56 16" align = "Stretch" name = "Client"/>
   </Resource>
   <!--*************************
-WindowCS, Warning! needs to be defined as a skin for coord to work
+WindowCS
 *****************************-->
   <Resource type="ResourceSkin" name = "WindowCS" size = "68 49">
     <Property key="Snap" value = "true" />
     <Child type="Widget" skin="WindowBackground" offset = "0 0 68 49" align = "Stretch" name = "Background"/>
-    <Child type="Button" skin="WindowCaptionSkin" coord = "1 1 -1 27" align = "HStretch Top" name = "Caption">
+    <Child type="Button" skin="WindowCaptionSkin" offset_derived = "1 1 -1 26" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
     </Child>
     <Child type="Widget" skin="PanelEmpty" offset = "6 27 56 16" align = "Stretch" name = "Client"/>
@@ -160,12 +160,12 @@ WindowCS, Warning! needs to be defined as a skin for coord to work
     </Child>
   </Resource>
   <!--*************************
-WindowCX, Warning! needs to be defined as a skin for coord to work
+WindowCX
 *****************************-->
   <Resource type="ResourceSkin" name = "WindowCX" size = "68 49">
     <Property key="Snap" value = "true" />
     <Child type="Widget" skin="WindowBackground" offset = "0 0 68 49" align = "Stretch" name = "Background"/>
-    <Child type="Button" skin="WindowCaptionCloseButtonSkin" coord = "1 1 -1 27" align = "HStretch Top" name = "Caption">
+    <Child type="Button" skin="WindowCaptionCloseButtonSkin" offset_derived = "1 1 -1 26" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
     </Child>
     <Child type="Widget" skin="PanelEmpty" offset = "6 27 56 16" align = "Stretch" name = "Client"/>
@@ -174,12 +174,12 @@ WindowCX, Warning! needs to be defined as a skin for coord to work
     </Child>
   </Resource>
   <!--*************************
-WindowCSX, Warning! needs to be defined as a skin for coord to work
+WindowCSX
 *****************************-->
   <Resource type="ResourceSkin" name = "WindowCSX" size = "68 49">
     <Property key="Snap" value = "true" />
     <Child type="Widget" skin="WindowBackground" offset = "0 0 68 49" align = "Stretch" name = "Background"/>
-    <Child type="Button" skin="WindowCaptionCloseButtonSkin" coord = "1 1 -1 27" align = "HStretch Top" name = "Caption">
+    <Child type="Button" skin="WindowCaptionCloseButtonSkin" offset_derived = "1 1 -1 26" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
     </Child>
     <Child type="Widget" skin="PanelEmpty" offset = "6 27 56 16" align = "Stretch" name = "Client"/>
@@ -212,12 +212,12 @@ WindowCSX, Warning! needs to be defined as a skin for coord to work
     </Child>
   </Resource>
   <!--*************************
-WindowCXNoBorder, Warning! needs to be defined as a skin for coord to work
+WindowCXNoBorder
 *****************************-->
   <Resource type="ResourceSkin" name = "WindowCXNoBorder" size = "68 49">
     <Property key="Snap" value = "true" />
     <Child type="Widget" skin="WindowBackground" offset = "0 0 68 49" align = "Stretch"/>
-    <Child type="Button" skin="WindowCaptionCloseButtonSkin" coord = "1 1 -1 27" align = "HStretch Top" name = "Caption">
+    <Child type="Button" skin="WindowCaptionCloseButtonSkin" offset_derived = "1 1 -1 26" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
     </Child>
     <Child type="Button" skin="ButtonXBig" offset = "#{WindowCloseButtonPosition}" align = "#{WindowCloseButtonAlignment}" name = "Button">
