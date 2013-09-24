@@ -12,7 +12,7 @@ WordWrapSolid
       <Widget type="TextBox" skin="EditClientSkin" position="2 1 14 27" align="Stretch" name="Client">
         <Property key="TextAlign" value="Default"/>
         <Property key="FontName" value="Default"/>
-        <Property key="TextColour" value="0 0 0"/>
+        <Property key="TextColour" value="#{Anomalous_EditArea_Text_Normal}"/>
       </Widget>
       <Widget type="ScrollBar" skin="ScrollBarV" position="16 1 15 27" align="Right VStretch" name="VScroll"/>
     </Widget>
@@ -30,7 +30,6 @@ TimelineButton
         <Property key="ImageGroup" value="Icons"/>
         <Property key="ImageName" value="normal"/>
         <Property key="NeedMouse" value="false"/>
-        <Property key="Colour" value="0.0 0.0 0.0"/>
       </Widget>
     </Widget>
   </Resource>

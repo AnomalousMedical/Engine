@@ -125,7 +125,7 @@ TextBox
     <Widget type="Widget" skin="TextBoxSkin" position="20 20 16 16" name="Root">
       <Property key="FontName" value = "Default" />
       <Property key="TextAlign" value = "Default" />
-      <Property key="TextColour" value = "#{MyGUI_Theme_Button_ColorNormal}" />
+      <Property key="TextColour" value = "#{Anomalous_EditArea_Text_Normal}" />
       <UserString key="LE_TargetWidgetType" value="TextBox"/>
     </Widget>
   </Resource>
@@ -139,7 +139,7 @@ EditBox
       <Widget type="TextBox" skin="EditClientSkin" position="2 2 23 20" align="Stretch" name="Client">
         <Property key="TextAlign" value="Left VCenter"/>
         <Property key="FontName" value="Default"/>
-        <Property key="TextColour" value="0 0 0"/>
+        <Property key="TextColour" value="#{Anomalous_EditArea_Text_Normal}"/>
         <Property key="Pointer" value="beam"/>
       </Widget>
     </Widget>
@@ -154,7 +154,7 @@ EditBoxStretch
       <UserString key="LE_TargetWidgetType" value="EditBox"/>
       <Widget type="TextBox" skin="EditClientSkin" position="2 3 33 32" align="Stretch" name="Client">
         <Property key="TextAlign" value="Default"/>
-        <Property key="TextColour" value="0 0 0"/>
+        <Property key="TextColour" value="#{Anomalous_EditArea_Text_Normal}"/>
         <Property key="FontName" value="Default"/>
         <Property key="Pointer" value="beam"/>
       </Widget>
@@ -172,7 +172,7 @@ EditBoxEmpty
       <Widget type="TextBox" skin="EditClientSkin" position="0 0 16 16" align="Stretch" name="Client">
         <Property key="TextAlign" value="Default"/>
         <Property key="FontName" value="Default"/>
-        <Property key="TextColour" value="0 0 0"/>
+        <Property key="TextColour" value="#{Anomalous_EditArea_Text_Normal}"/>
         <Property key="Pointer" value="beam"/>
       </Widget>
     </Widget>
@@ -188,7 +188,7 @@ WordWrapEmpty
       <Widget type="TextBox" skin="EditClientSkin" position="0 0 16 28" align="Stretch" name="Client">
         <Property key="TextAlign" value="Default"/>
         <Property key="FontName" value="Default"/>
-        <Property key="TextColour" value="0 0 0"/>
+        <Property key="TextColour" value="#{Anomalous_EditArea_Text_Normal}"/>
       </Widget>
       <Widget type="ScrollBar" skin="ScrollBarV" position="17 0 15 28" align="Right VStretch" name="VScroll"/>
     </Widget>
@@ -204,7 +204,7 @@ ComboBox
       <UserString key="LE_TargetWidgetType" value="ComboBox"/>
       <Widget type="TextBox" skin="EditClientSkin" position="2 2 75 20" align="Stretch" name="Client">
         <Property key="TextAlign" value="Left VCenter"/>
-        <Property key="TextColour" value="0 0 0"/>
+        <Property key="TextColour" value="#{Anomalous_EditArea_Text_Normal}"/>
         <Property key="FontName" value="Default"/>
         <Property key="Pointer" value="beam"/>
       </Widget>
