@@ -63,6 +63,13 @@
   <Tag name="Anomalous_ListItem_Text_PushedChecked">#ffffff</Tag>
 
   <Tag name="Anomalous_ListItem_Text_Normal_Invert">#ffffff</Tag>
+  
+  <!-- Separator Colors -->
+  
+  <!-- Edit Colors -->
+  <Tag name="Anomalous_EditArea_Border_Normal">#d8d8d8</Tag>
+
+  <Tag name="Anomalous_EditArea_Middle_Normal">#ffffff</Tag>
 
   <Tag name="MyGUI_Theme_Pointer">MyGUIPlugin_Pointer_Texture.png</Tag>
  </MyGUI>

@@ -927,28 +927,25 @@ SlidePreviewListItem
   </Resource>
 
   <!--*************************
-WordWrapWhiteSkin
+WordWrapSolidSkin
 *****************************-->
-  <Resource type="ResourceSkin" name = "WordWrapWhiteSkin" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
-    <!--Top-->
-    <BasisSkin type="SubSkin" offset = "0 0 11 1" align = "HStretch Top">
-      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
-    </BasisSkin>
-    <!--Left-->
-    <BasisSkin type="SubSkin" offset = "0 1 1 9" align = "Left VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
-    </BasisSkin>
-    <!--Right-->
-    <BasisSkin type="SubSkin" offset = "10 1 1 9" align = "Right VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
-    </BasisSkin>
-    <!--Bottom-->
-    <BasisSkin type="SubSkin" offset = "0 10 11 1" align = "HStretch Bottom">
-      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
-    </BasisSkin>
+  <Resource type="ResourceSkin" name = "WordWrapSolidSkin" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
     <!--Middle-->
-    <BasisSkin type="SubSkin" offset = "1 1 9 9" align = "HStretch VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#ffffff"/>
+    <BasisSkin type="SubSkin" offset = "0 0 11 11" align = "HStretch VStretch">
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Middle_Normal}"/>
+    </BasisSkin>
+    <!--Border-->
+    <Border width="1">
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Border_Normal}"/>
+    </Border>
+  </Resource>
+
+  <!--*************************
+TextEditorComponentBackground
+*****************************-->
+  <Resource type="ResourceSkin" name = "TextEditorComponentBackground" size = "1 1" texture = "#{Anomalous_Theme_Texture}" >
+    <BasisSkin type="MainSkin" offset = "0 0 1 1" align = "Stretch">
+      <State name="normal" offset = "3 3 18 18"/>
     </BasisSkin>
   </Resource>
 

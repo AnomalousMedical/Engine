@@ -40,14 +40,6 @@ SeparatorSkin
 		</BasisSkin>
 	</Resource>
 <!--*************************
-WhiteSkin
-*****************************-->
-	<Resource type="ResourceSkin" name = "WhiteSkin" size = "1 1" texture = "#{Anomalous_Theme_Texture}" >
-		<BasisSkin type="MainSkin" offset = "0 0 1 1" align = "Stretch">
-			<State name="normal" offset = "3 3 18 18"/>
-		</BasisSkin>
-	</Resource>
-<!--*************************
 ItemBoxSkin
 *****************************-->
   <Resource type="ResourceSkin" name = "ItemBoxSkin" size = "11 11" texture = "#{Anomalous_Theme_Texture}">

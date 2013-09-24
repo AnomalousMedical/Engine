@@ -15,7 +15,7 @@
 	</Widget>
 
   <Widget name="EditBox">
-    <Property key="Skin" value="WordWrapWhite" group="MyGUIPlugin"/>
+    <Property key="Skin" value="WordWrapSolid" group="MyGUIPlugin"/>
   </Widget>
 
   <Widget name="ScrollView">

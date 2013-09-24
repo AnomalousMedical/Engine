@@ -3,10 +3,10 @@
 <MyGUI type="Resource">
 
   <!--*************************
-WordWrapWhite
+WordWrapSolid
 *****************************-->
-  <Resource type="ResourceLayout" name="WordWrapWhite" version="3.2.0">
-    <Widget type="Widget" skin="WordWrapWhiteSkin" position="65 10 32 28" name="Root">
+  <Resource type="ResourceLayout" name="WordWrapSolid" version="3.2.0">
+    <Widget type="Widget" skin="WordWrapSolidSkin" position="65 10 32 28" name="Root">
       <Property key="WordWrap" value="true"/>
       <UserString key="LE_TargetWidgetType" value="EditBox"/>
       <Widget type="TextBox" skin="EditClientSkin" position="2 1 14 27" align="Stretch" name="Client">
