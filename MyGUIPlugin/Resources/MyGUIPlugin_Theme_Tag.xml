@@ -210,6 +210,8 @@
 
   <Tag name="Anomalous_WindowCaption_Text_Normal">#ffffff</Tag>
 
+  <Tag name="Anomalous_Window_Border_Normal">#000000</Tag>
+
 </MyGUI>
 
 

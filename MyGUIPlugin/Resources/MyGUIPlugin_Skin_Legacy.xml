@@ -6,6 +6,20 @@
 
   <!-- Windows -->
   <!--*************************
+WindowBackground
+*****************************-->
+  <Resource type="ResourceSkin" name = "WindowBackground" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
+    <!--Center-->
+    <BasisSkin type="MainSkin" offset = "0 0 11 11" align = "Stretch">
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_Panel_Normal}"/>
+    </BasisSkin>
+    <!--Border-->
+    <Border width="1">
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_Window_Border_Normal}"/>
+    </Border>
+  </Resource>
+
+  <!--*************************
 WindowCaptionSkin
 *****************************-->
   <Resource type="ResourceSkin" name = "WindowCaptionSkin" size = "68 21" texture = "#{Anomalous_Theme_Texture}">
@@ -100,25 +114,25 @@ WindowResizeBottom
     </BasisSkin>
   </Resource>
   <!--*************************
-Window
+Window, Warning! needs to be defined as a skin for coord to work
 *****************************-->
   <Resource type="ResourceSkin" name = "Window" size = "68 49">
     <Property key="Snap" value = "true" />
-    <Child type="Button" skin="WindowCaptionSkin" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
+    <Child type="Widget" skin="WindowBackground" offset = "0 0 68 49" align = "Stretch" name = "Background"/>
+    <Child type="Button" skin="WindowCaptionSkin" coord = "1 1 -1 27" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
     </Child>
-    <Child type="Widget" skin="PanelSkin" offset = "0 27 68 22" align = "Stretch" name = "Background"/>
     <Child type="Widget" skin="PanelEmpty" offset = "6 27 56 16" align = "Stretch" name = "Client"/>
   </Resource>
   <!--*************************
-WindowCS
+WindowCS, Warning! needs to be defined as a skin for coord to work
 *****************************-->
   <Resource type="ResourceSkin" name = "WindowCS" size = "68 49">
     <Property key="Snap" value = "true" />
-    <Child type="Button" skin="WindowCaptionSkin" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
+    <Child type="Widget" skin="WindowBackground" offset = "0 0 68 49" align = "Stretch" name = "Background"/>
+    <Child type="Button" skin="WindowCaptionSkin" coord = "1 1 -1 27" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
     </Child>
-    <Child type="Widget" skin="PanelSkin" offset = "0 27 68 22" align = "Stretch" name = "Background"/>
     <Child type="Widget" skin="PanelEmpty" offset = "6 27 56 16" align = "Stretch" name = "Client"/>
     <Child type="Button" skin="WindowResizeRightBottom" offset = "62 43 6 6" align = "Right Bottom" name = "Action">
       <Property key="Scale" value = "0 0 1 1"/>
@@ -146,28 +160,28 @@ WindowCS
     </Child>
   </Resource>
   <!--*************************
-WindowCX
+WindowCX, Warning! needs to be defined as a skin for coord to work
 *****************************-->
   <Resource type="ResourceSkin" name = "WindowCX" size = "68 49">
     <Property key="Snap" value = "true" />
-    <Child type="Button" skin="WindowCaptionCloseButtonSkin" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
+    <Child type="Widget" skin="WindowBackground" offset = "0 0 68 49" align = "Stretch" name = "Background"/>
+    <Child type="Button" skin="WindowCaptionCloseButtonSkin" coord = "1 1 -1 27" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
     </Child>
-    <Child type="Widget" skin="PanelSkin" offset = "0 27 68 22" align = "Stretch" name = "Background"/>
     <Child type="Widget" skin="PanelEmpty" offset = "6 27 56 16" align = "Stretch" name = "Client"/>
     <Child type="Button" skin="ButtonXBig" offset = "#{WindowCloseButtonPosition}" align = "#{WindowCloseButtonAlignment}" name = "Button">
       <Property key="Event" value = "close"/>
     </Child>
   </Resource>
   <!--*************************
-WindowCSX
+WindowCSX, Warning! needs to be defined as a skin for coord to work
 *****************************-->
   <Resource type="ResourceSkin" name = "WindowCSX" size = "68 49">
     <Property key="Snap" value = "true" />
-    <Child type="Button" skin="WindowCaptionCloseButtonSkin" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
+    <Child type="Widget" skin="WindowBackground" offset = "0 0 68 49" align = "Stretch" name = "Background"/>
+    <Child type="Button" skin="WindowCaptionCloseButtonSkin" coord = "1 1 -1 27" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
     </Child>
-    <Child type="Widget" skin="PanelSkin" offset = "0 27 68 22" align = "Stretch" name = "Background"/>
     <Child type="Widget" skin="PanelEmpty" offset = "6 27 56 16" align = "Stretch" name = "Client"/>
     <Child type="Button" skin="WindowResizeRightBottom" offset = "62 43 6 6" align = "Right Bottom" name = "Action">
       <Property key="Scale" value = "0 0 1 1"/>
@@ -198,16 +212,17 @@ WindowCSX
     </Child>
   </Resource>
   <!--*************************
-WindowCXNoBorder
+WindowCXNoBorder, Warning! needs to be defined as a skin for coord to work
 *****************************-->
   <Resource type="ResourceSkin" name = "WindowCXNoBorder" size = "68 49">
     <Property key="Snap" value = "true" />
-    <Child type="Button" skin="WindowCaptionCloseButtonSkin" offset = "0 0 68 30" align = "HStretch Top" name = "Caption">
+    <Child type="Widget" skin="WindowBackground" offset = "0 0 68 49" align = "Stretch"/>
+    <Child type="Button" skin="WindowCaptionCloseButtonSkin" coord = "1 1 -1 27" align = "HStretch Top" name = "Caption">
       <Property key="Scale" value = "1 1 0 0"/>
     </Child>
-    <Child type="Widget" skin="PanelSkin" offset = "0 27 68 22" align = "Stretch" name = "Client"/>
     <Child type="Button" skin="ButtonXBig" offset = "#{WindowCloseButtonPosition}" align = "#{WindowCloseButtonAlignment}" name = "Button">
       <Property key="Event" value = "close"/>
     </Child>
+    <Child type="Widget" skin="PanelEmpty" offset = "1 27 66 21" align = "Stretch" name = "Client"/>
   </Resource>
 </MyGUI>
