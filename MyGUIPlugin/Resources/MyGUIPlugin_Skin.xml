@@ -36,48 +36,36 @@ SeparatorSkin
 *****************************-->
 	<Resource type="ResourceSkin" name = "SeparatorSkin" size = "2 2" texture = "#{Anomalous_Theme_Texture}">
 		<BasisSkin type="MainSkin" offset = "0 0 2 2" align = "Stretch">
-			<State name="normal" offset = "3 3 18 18" colour="#757575"/>
+			<State name="normal" offset = "3 3 18 18" colour="#{Anomalous_Separator_Normal}"/>
 		</BasisSkin>
 	</Resource>
 <!--*************************
 ItemBoxSkin
 *****************************-->
   <Resource type="ResourceSkin" name = "ItemBoxSkin" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
-    <!--Top-->
-    <BasisSkin type="SubSkin" offset = "0 0 11 1" align = "HStretch Top">
-      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
-    </BasisSkin>
-    <!--Left-->
-    <BasisSkin type="SubSkin" offset = "0 1 1 9" align = "Left VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
-    </BasisSkin>
-    <!--Right-->
-    <BasisSkin type="SubSkin" offset = "10 1 1 9" align = "Right VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
-    </BasisSkin>
-    <!--Bottom-->
-    <BasisSkin type="SubSkin" offset = "0 10 11 1" align = "HStretch Bottom">
-      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
-    </BasisSkin>
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "1 1 9 9" align = "HStretch VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#ffffff"/>
-      <State name="disabled" offset = "3 3 18 18" colour="#e0e0e0"/>
+      <State name="disabled" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Middle_Disabled}"/>
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Middle_Normal}"/>
     </BasisSkin>
+    <!--Border-->
+    <Border width="1">
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Border_Normal}"/>
+    </Border>
   </Resource>
 <!--*************************
 CheckBoxSkin
 *****************************-->
   <Resource type="ResourceSkin" name = "CheckBoxSkin" size = "100 21" texture = "#{Anomalous_Theme_Texture}">
     <BasisSkin type="SubSkin" offset = "0 0 12 12" align = "Left VCenter">
-      <State name="disabled" offset = "26 65 12 12" colour="#d1d1d1"/>
-      <State name="normal" offset = "26 65 12 12" colour="#ffffff"/>
-      <State name="highlighted" offset = "26 65 12 12" colour="#77aadd"/>
-      <State name="pushed" offset = "26 65 12 12" colour="#6699cc"/>
-      <State name="disabled_checked" offset = "40 65 12 12" colour="#d1d1d1"/>
-      <State name="normal_checked" offset = "40 65 12 12" colour="#ffffff"/>
-      <State name="highlighted_checked" offset = "40 65 12 12" colour="#77aadd"/>
-      <State name="pushed_checked" offset = "40 65 12 12 " colour="#6699cc"/>
+      <State name="disabled" offset = "26 65 12 12" colour="#{Anomalous_CheckRadio_Control_Disabled}"/>
+      <State name="normal" offset = "26 65 12 12" colour="#{Anomalous_CheckRadio_Control_Normal}"/>
+      <State name="highlighted" offset = "26 65 12 12" colour="#{Anomalous_CheckRadio_Control_Highlighted}"/>
+      <State name="pushed" offset = "26 65 12 12" colour="#{Anomalous_CheckRadio_Control_Pushed}"/>
+      <State name="disabled_checked" offset = "40 65 12 12" colour="#{Anomalous_CheckRadio_Control_DisabledChecked}"/>
+      <State name="normal_checked" offset = "40 65 12 12" colour="#{Anomalous_CheckRadio_Control_NormalChecked}"/>
+      <State name="highlighted_checked" offset = "40 65 12 12" colour="#{Anomalous_CheckRadio_Control_HighlightedChecked}"/>
+      <State name="pushed_checked" offset = "40 65 12 12 " colour="#{Anomalous_CheckRadio_Control_PushedChecked}"/>
     </BasisSkin>
     <BasisSkin type="SimpleText" offset = "24 0 76 21" align = "Stretch">
     </BasisSkin>
@@ -87,21 +75,16 @@ RadioButtonSkin
 *****************************-->
 	<Resource type="ResourceSkin" name = "RadioButtonSkin" size = "100 19" texture = "#{Anomalous_Theme_Texture}">
 		<BasisSkin type="SubSkin" offset = "0 0 12 12" align = "Left VCenter">
-			<State name="disabled" offset = "26 79 12 12" colour="#d1d1d1"/>
-			<State name="normal" offset = "26 79 12 12" colour="#ffffff"/>
-			<State name="highlighted" offset = "26 79 12 12" colour="#77aadd"/>
-			<State name="pushed" offset = "26 79 12 12" colour="#6699cc"/>
-			<State name="disabled_checked" offset = "40 79 12 12" colour="#d1d1d1"/>
-			<State name="normal_checked" offset = "40 79 12 12" colour="#ffffff"/>
-			<State name="highlighted_checked" offset = "40 79 12 12" colour="#77aadd"/>
-			<State name="pushed_checked" offset = "40 79 12 12" colour="#6699cc"/>
+			<State name="disabled" offset = "26 79 12 12" colour="#{Anomalous_CheckRadio_Control_Disabled}"/>
+			<State name="normal" offset = "26 79 12 12" colour="#{Anomalous_CheckRadio_Control_Normal}"/>
+			<State name="highlighted" offset = "26 79 12 12" colour="#{Anomalous_CheckRadio_Control_Highlighted}"/>
+			<State name="pushed" offset = "26 79 12 12" colour="#{Anomalous_CheckRadio_Control_Pushed}"/>
+			<State name="disabled_checked" offset = "40 79 12 12" colour="#{Anomalous_CheckRadio_Control_DisabledChecked}"/>
+			<State name="normal_checked" offset = "40 79 12 12" colour="#{Anomalous_CheckRadio_Control_NormalChecked}"/>
+			<State name="highlighted_checked" offset = "40 79 12 12" colour="#{Anomalous_CheckRadio_Control_HighlightedChecked}"/>
+			<State name="pushed_checked" offset = "40 79 12 12" colour="#{Anomalous_CheckRadio_Control_PushedChecked}"/>
 		</BasisSkin>
 		<BasisSkin type="SimpleText" offset = "24 0 76 19" align = "Stretch">
-      <State name="disabled" colour="#{MyGUI_Theme_Button_ColorDisabled}" shift = "false"/>
-      <State name="normal" colour="#{MyGUI_Theme_Button_ColorNormal}" shift = "false"/>
-      <State name="highlighted" colour="#{MyGUI_Theme_Button_ColorHighlighted}" shift = "false"/>
-      <State name="normal_checked" colour="#{MyGUI_Theme_Button_ColorNormal_Checked}" shift = "False"/>
-      <State name="pushed" colour="#{MyGUI_Theme_Button_ColorPushed}" shift = "True"/>
 		</BasisSkin>
 	</Resource>
 <!--*************************
@@ -109,14 +92,14 @@ ButtonExpandSkin
 *****************************-->
 	<Resource type="ResourceSkin" name = "ButtonExpandSkin" size = "20 20" texture = "#{Anomalous_Theme_Texture}">
 		<BasisSkin type="MainSkin" offset = "0 0 20 20" align = "Stretch">
-			<State name="disabled" offset = "2 68 20 20" colour="#d1d1d1"/>
-			<State name="normal" offset = "2 68 20 20" colour="#3b3b3b"/>
-			<State name="highlighted" offset = "2 68 20 20" colour="#5588bb"/>
-			<State name="pushed" offset = "2 68 20 20" colour="#6699cc"/>
-			<State name="disabled_checked" offset = "2 46 20 20" colour="#d1d1d1"/>
-			<State name="normal_checked" offset = "2 46 20 20" colour="#3b3b3b"/>
-			<State name="highlighted_checked" offset = "2 46 20 20" colour="#5588bb"/>
-			<State name="pushed_checked" offset = "2 46 20 20" colour="#6699cc"/>
+			<State name="disabled" offset = "2 68 20 20" colour="#{Anomalous_ButtonExpand_Control_Disabled}"/>
+			<State name="normal" offset = "2 68 20 20" colour="#{Anomalous_ButtonExpand_Control_Normal}"/>
+			<State name="highlighted" offset = "2 68 20 20" colour="#{Anomalous_ButtonExpand_Control_Highlighted}"/>
+			<State name="pushed" offset = "2 68 20 20" colour="#{Anomalous_ButtonExpand_Control_Pushed}"/>
+			<State name="disabled_checked" offset = "2 46 20 20" colour="#{Anomalous_ButtonExpand_Control_DisabledChecked}"/>
+			<State name="normal_checked" offset = "2 46 20 20" colour="#{Anomalous_ButtonExpand_Control_NormalChecked}"/>
+			<State name="highlighted_checked" offset = "2 46 20 20" colour="#{Anomalous_ButtonExpand_Control_HighlightedChecked}"/>
+			<State name="pushed_checked" offset = "2 46 20 20" colour="#{Anomalous_ButtonExpand_Control_PushedChecked}"/>
 		</BasisSkin>
 	</Resource>
 <!--*************************
@@ -124,11 +107,14 @@ ButtonXBig
 *****************************-->
   <Resource type="ResourceSkin" name = "ButtonXBig" size = "24 20" texture = "#{Anomalous_Theme_Texture}">
     <BasisSkin type="MainSkin" offset = "0 0 24 20" align = "Stretch">
-      <State name="disabled" offset = "24 2 24 20" colour="#6f6f6f"/>
-      <State name="normal" offset = "24 2 24 20"/>
-      <State name="highlighted" offset = "24 2 24 20" colour="#6699cc"/>
-      <State name="normal_checked" offset = "24 2 24 20" colour="#6699cc"/>
-      <State name="pushed" offset = "24 2 24 20" colour="#4477aa"/>
+      <State name="disabled" offset = "24 2 24 20" colour="#{Anomalous_ButtonX_Control_Disabled}"/>
+      <State name="normal" offset = "24 2 24 20" colour="#{Anomalous_ButtonX_Control_Normal}"/>
+      <State name="highlighted" offset = "24 2 24 20" colour="#{Anomalous_ButtonX_Control_Highlighted}"/>
+      <State name="pushed" offset = "24 2 24 20" colour="#{Anomalous_ButtonX_Control_Pushed}"/>
+      <State name="disabled_checked" offset = "24 2 24 20" colour="#{Anomalous_ButtonX_Control_DisabledChecked}"/>
+      <State name="normal_checked" offset = "24 2 24 20" colour="#{Anomalous_ButtonX_Control_NormalChecked}"/>
+      <State name="highlighted_checked" offset = "24 2 24 20" colour="#{Anomalous_ButtonX_Control_HighlightedChecked}"/>
+      <State name="pushed_checked" offset = "24 2 24 20" colour="#{Anomalous_ButtonX_Control_PushedChecked}"/>
     </BasisSkin>
   </Resource>
 <!--*************************

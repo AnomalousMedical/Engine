@@ -8,7 +8,7 @@ CheckBox
     <Widget type="Widget" skin="CheckBoxSkin" position="20 20 23 21" name="Root">
       <Property key="FontName" value = "Default" />
       <Property key="TextAlign" value = "Left VCenter" />
-      <Property key="TextColour" value = "#{MyGUI_Theme_Button_ColorNormal}"/>
+      <Property key="TextColour" value = "#{Anomalous_CheckRadio_Text}"/>
       <UserString key="LE_TargetWidgetType" value="Button"/>
     </Widget>
   </Resource>
@@ -20,7 +20,7 @@ RadioButton
     <Widget type="Widget" skin="RadioButtonSkin" position="20 20 21 20" name="Root">
       <Property key="FontName" value = "Default" />
       <Property key="TextAlign" value = "Left VCenter" />
-      <Property key="TextColour" value = "#{MyGUI_Theme_Button_ColorNormal}"/>
+      <Property key="TextColour" value = "#{Anomalous_CheckRadio_Text}"/>
       <UserString key="LE_TargetWidgetType" value="Button"/>
     </Widget>
   </Resource>

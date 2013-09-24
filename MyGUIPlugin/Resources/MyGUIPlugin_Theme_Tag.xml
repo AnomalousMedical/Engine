@@ -18,6 +18,8 @@
   <Tag name="MyGUI_Theme_PromptAnswerText_ColorHighlighted">#2AA7FF</Tag>
   <Tag name="MyGUI_Theme_PromptAnswerText_ColorNormal_Checked">#000000</Tag>
   <Tag name="MyGUI_Theme_PromptAnswerText_ColorPushed">#2AA7FF</Tag>
+
+  <Tag name="MyGUI_Theme_Pointer">MyGUIPlugin_Pointer_Texture.png</Tag>
   
   <!-- Button Colors -->
   <Tag name="Anomalous_Button_Text_Disabled">#b1b1b1</Tag>
@@ -65,13 +67,46 @@
   <Tag name="Anomalous_ListItem_Text_Normal_Invert">#ffffff</Tag>
   
   <!-- Separator Colors -->
-  
+  <Tag name="Anomalous_Separator_Normal">#757575</Tag>
+
   <!-- Edit Colors -->
   <Tag name="Anomalous_EditArea_Border_Normal">#d8d8d8</Tag>
 
+  <Tag name="Anomalous_EditArea_Middle_Disabled">#e0e0e0</Tag>
   <Tag name="Anomalous_EditArea_Middle_Normal">#ffffff</Tag>
+  
+  <!-- Check/Radio Button Colors -->
+  <Tag name="Anomalous_CheckRadio_Control_Disabled">#d1d1d1</Tag>
+  <Tag name="Anomalous_CheckRadio_Control_Normal">#ffffff</Tag>
+  <Tag name="Anomalous_CheckRadio_Control_Highlighted">#77aadd</Tag>
+  <Tag name="Anomalous_CheckRadio_Control_Pushed">#6699cc</Tag>
+  <Tag name="Anomalous_CheckRadio_Control_DisabledChecked">#d1d1d1</Tag>
+  <Tag name="Anomalous_CheckRadio_Control_NormalChecked">#ffffff</Tag>
+  <Tag name="Anomalous_CheckRadio_Control_HighlightedChecked">#77aadd</Tag>
+  <Tag name="Anomalous_CheckRadio_Control_PushedChecked">#6699cc</Tag>
 
-  <Tag name="MyGUI_Theme_Pointer">MyGUIPlugin_Pointer_Texture.png</Tag>
+  <!-- Button Expand Colors (Normal is -, Checked is +) -->
+  <Tag name="Anomalous_ButtonExpand_Control_Disabled">#d1d1d1</Tag>
+  <Tag name="Anomalous_ButtonExpand_Control_Normal">#3b3b3b</Tag>
+  <Tag name="Anomalous_ButtonExpand_Control_Highlighted">#5588bb</Tag>
+  <Tag name="Anomalous_ButtonExpand_Control_Pushed">#6699cc</Tag>
+  <Tag name="Anomalous_ButtonExpand_Control_DisabledChecked">#d1d1d1</Tag>
+  <Tag name="Anomalous_ButtonExpand_Control_NormalChecked">#3b3b3b</Tag>
+  <Tag name="Anomalous_ButtonExpand_Control_HighlightedChecked">#5588bb</Tag>
+  <Tag name="Anomalous_ButtonExpand_Control_PushedChecked">#6699cc</Tag>
+  
+  <!-- ButtonX Colors -->
+  <Tag name="Anomalous_ButtonX_Control_Disabled">#6f6f6f</Tag>
+  <Tag name="Anomalous_ButtonX_Control_Normal">#ffffff</Tag>
+  <Tag name="Anomalous_ButtonX_Control_Highlighted">#6699cc</Tag>
+  <Tag name="Anomalous_ButtonX_Control_Pushed">#4477aa</Tag>
+  <Tag name="Anomalous_ButtonX_Control_DisabledChecked">#6699cc</Tag>
+  <Tag name="Anomalous_ButtonX_Control_NormalChecked">#4477aa</Tag>
+  <Tag name="Anomalous_ButtonX_Control_HighlightedChecked">#6699cc</Tag>
+  <Tag name="Anomalous_ButtonX_Control_PushedChecked">#4477aa</Tag>
+  
+  <Tag name="Anomalous_CheckRadio_Text">#000000</Tag>
+  
  </MyGUI>
 
 

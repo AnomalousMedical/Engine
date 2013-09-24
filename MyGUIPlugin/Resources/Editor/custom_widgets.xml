@@ -33,6 +33,7 @@
     <Property key="Skin" value="PanelSecondary" group="MyGUIPlugin"/>
     <Property key="Skin" value="GradientPanel" group="MyGUIPlugin"/>
     <Property key="Skin" value="SolidBackground" group="MyGUIPlugin"/>
+    <Property key="Skin" value="SeparatorSkin" group="MyGUIPlugin"/>
   </Widget>
 
 </MyGUI>
