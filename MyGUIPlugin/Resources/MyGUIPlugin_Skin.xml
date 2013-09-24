@@ -213,9 +213,9 @@ ButtonSkin
       <State name="normal" colour="#{Anomalous_Button_Text_Normal}" shift = "false"/>
       <State name="highlighted" colour="#{Anomalous_Button_Text_Highlighted}" shift = "false"/>
       <State name="pushed" colour="#{Anomalous_Button_Text_Pushed}" shift = "true"/>
-      <State name="disabled_checked" colour="#{Anomalous_Button_Text_DisabledChecked}" shift = "true"/>
-      <State name="normal_checked" colour="#{Anomalous_Button_Text_NormalChecked}" shift = "true"/>
-      <State name="highlighted_checked" colour="#{Anomalous_Button_Text_HighlightedChecked}" shift = "true"/>
+      <State name="disabled_checked" colour="#{Anomalous_Button_Text_DisabledChecked}" shift = "false"/>
+      <State name="normal_checked" colour="#{Anomalous_Button_Text_NormalChecked}" shift = "false"/>
+      <State name="highlighted_checked" colour="#{Anomalous_Button_Text_HighlightedChecked}" shift = "false"/>
       <State name="pushed_checked" colour="#{Anomalous_Button_Text_PushedChecked}" shift = "true"/>
     </BasisSkin>
   </Resource>
@@ -226,11 +226,14 @@ ButtonEmptySkin
   <Resource type="ResourceSkin" name = "ButtonEmptySkin" size = "29 26">
     <!--Text-->
     <BasisSkin type="SimpleText" offset = "0 0 29 26" align = "Stretch">
-      <State name="disabled" colour="#{MyGUI_Theme_Button_ColorDisabled}" shift = "false"/>
-      <State name="normal" colour="#{MyGUI_Theme_Button_ColorNormal}" shift = "false"/>
-      <State name="highlighted" colour="#{MyGUI_Theme_Button_ColorHighlighted}" shift = "false"/>
-      <State name="normal_checked" colour="#{MyGUI_Theme_Button_ColorNormal_Checked}" shift = "true"/>
-      <State name="pushed" colour="#{MyGUI_Theme_Button_ColorPushed}" shift = "true"/>
+      <State name="disabled" colour="#{Anomalous_Button_Text_Disabled}" shift = "false"/>
+      <State name="normal" colour="#{Anomalous_Button_Text_Normal}" shift = "false"/>
+      <State name="highlighted" colour="#{Anomalous_Button_Text_Highlighted}" shift = "false"/>
+      <State name="pushed" colour="#{Anomalous_Button_Text_Pushed}" shift = "true"/>
+      <State name="disabled_checked" colour="#{Anomalous_Button_Text_DisabledChecked}" shift = "false"/>
+      <State name="normal_checked" colour="#{Anomalous_Button_Text_NormalChecked}" shift = "false"/>
+      <State name="highlighted_checked" colour="#{Anomalous_Button_Text_HighlightedChecked}" shift = "false"/>
+      <State name="pushed_checked" colour="#{Anomalous_Button_Text_PushedChecked}" shift = "true"/>
     </BasisSkin>
   </Resource>
 
@@ -245,91 +248,43 @@ EditClientSkin
 EditBoxSkin
 *****************************-->
   <Resource type="ResourceSkin" name="EditBoxSkin" size="29 26" texture="#{Anomalous_Theme_Texture}">
-    <!--Top-->
-    <BasisSkin type="SubSkin" offset = "0 0 29 1" align = "HStretch Top">
-      <State name="disabled" offset = "3 3 18 18" colour="#e2e2e2"/>
-      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#4477aa"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#6699cc"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#6699cc"/>
-    </BasisSkin>
-    <!--Left-->
-    <BasisSkin type="SubSkin" offset = "0 1 1 24" align = "Left VStretch">
-      <State name="disabled" offset = "3 3 18 18" colour="#e2e2e2"/>
-      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#4477aa"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#6699cc"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#6699cc"/>
-    </BasisSkin>
-    <!--Right-->
-    <BasisSkin type="SubSkin" offset = "28 1 1 24" align = "Right VStretch">
-      <State name="disabled" offset = "3 3 18 18" colour="#e2e2e2"/>
-      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#4477aa"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#6699cc"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#6699cc"/>
-    </BasisSkin>
-    <!--Bottom-->
-    <BasisSkin type="SubSkin" offset = "0 25 29 1" align = "HStretch Bottom">
-      <State name="disabled" offset = "3 3 18 18" colour="#e2e2e2"/>
-      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#4477aa"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#6699cc"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#6699cc"/>
-    </BasisSkin>
     <!--Middle-->
-    <BasisSkin type="SubSkin" offset = "1 1 27 24" align = "HStretch VStretch">
-      <State name="disabled" offset = "3 3 18 18" colour="#d2d2d2"/>
-      <State name="normal" offset = "3 3 18 18" colour="#ffffff"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#ffffff"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#ffffff"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#ffffff"/>
+    <BasisSkin type="SubSkin" offset = "0 0 29 26" align = "HStretch VStretch">
+      <State name="disabled" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Middle_Disabled}"/>
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Middle_Normal}"/>
+      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Middle_Highlighted}"/>
+      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Middle_Pushed}"/>
+      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Middle_NormalChecked}"/>
     </BasisSkin>
+    <!--Border-->
+    <Border width="1">
+      <State name="disabled" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Border_Disabled}"/>
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Border_Normal}"/>
+      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Border_Highlighted}"/>
+      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Border_Pushed}"/>
+      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Border_NormalChecked}"/>
+    </Border>
   </Resource>
 <!--*************************
 ComboBoxSkin
 *****************************-->
 	<Resource type="ResourceSkin" name = "ComboBoxSkin" size = "29 26" texture = "#{Anomalous_Theme_Texture}" >
-    <!--Top-->
-    <BasisSkin type="SubSkin" offset = "0 0 29 1" align = "HStretch Top">
-      <State name="disabled" offset = "3 3 18 18" colour="#e2e2e2"/>
-      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#4477aa"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#6699cc"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#6699cc"/>
-    </BasisSkin>
-    <!--Left-->
-    <BasisSkin type="SubSkin" offset = "0 1 1 24" align = "Left VStretch">
-      <State name="disabled" offset = "3 3 18 18" colour="#e2e2e2"/>
-      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#4477aa"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#6699cc"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#6699cc"/>
-    </BasisSkin>
-    <!--Right-->
-    <BasisSkin type="SubSkin" offset = "28 1 1 24" align = "Right VStretch">
-      <State name="disabled" offset = "3 3 18 18" colour="#e2e2e2"/>
-      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#4477aa"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#6699cc"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#6699cc"/>
-    </BasisSkin>
-    <!--Bottom-->
-    <BasisSkin type="SubSkin" offset = "0 25 29 1" align = "HStretch Bottom">
-      <State name="disabled" offset = "3 3 18 18" colour="#e2e2e2"/>
-      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#4477aa"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#6699cc"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#6699cc"/>
-    </BasisSkin>
     <!--Middle-->
-    <BasisSkin type="SubSkin" offset = "1 1 27 24" align = "HStretch VStretch">
-      <State name="disabled" offset = "3 3 18 18" colour="#d2d2d2"/>
-      <State name="normal" offset = "3 3 18 18" colour="#ffffff"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#ffffff"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#ffffff"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#ffffff"/>
+    <BasisSkin type="SubSkin" offset = "0 0 29 26" align = "HStretch VStretch">
+      <State name="disabled" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Middle_Disabled}"/>
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Middle_Normal}"/>
+      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Middle_Highlighted}"/>
+      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Middle_Pushed}"/>
+      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Middle_NormalChecked}"/>
     </BasisSkin>
+    <!--Border-->
+    <Border width="1">
+      <State name="disabled" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Border_Disabled}"/>
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Border_Normal}"/>
+      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Border_Highlighted}"/>
+      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Border_Pushed}"/>
+      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Border_NormalChecked}"/>
+    </Border>
 	</Resource>
 <!--*************************
 PanelSkin
@@ -337,51 +292,45 @@ PanelSkin
 	<Resource type="ResourceSkin" name = "PanelSkin" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
     <!--Center-->
     <BasisSkin type="MainSkin" offset = "0 0 11 11" align = "Stretch">
-      <State name="normal" offset = "3 3 18 18" colour="#ececec"/>
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_Panel_Normal}"/>
     </BasisSkin>
 	</Resource>
 <!--*************************
 ScrollViewSkin
 *****************************-->
 	<Resource type="ResourceSkin" name = "ScrollViewSkin" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
-    <!--Top-->
-    <BasisSkin type="SubSkin" offset = "0 0 11 1" align = "HStretch Top">
-      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
-    </BasisSkin>
-    <!--Left-->
-    <BasisSkin type="SubSkin" offset = "0 1 1 9" align = "Left VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
-    </BasisSkin>
-    <!--Right-->
-    <BasisSkin type="SubSkin" offset = "10 1 1 9" align = "Right VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
-    </BasisSkin>
-    <!--Bottom-->
-    <BasisSkin type="SubSkin" offset = "0 10 11 1" align = "HStretch Bottom">
-      <State name="normal" offset = "3 3 18 18" colour="#d8d8d8"/>
-    </BasisSkin>
     <!--Middle-->
-    <BasisSkin type="SubSkin" offset = "1 1 9 9" align = "HStretch VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#ffffff"/>
+    <BasisSkin type="SubSkin" offset = "0 0 11 11" align = "HStretch VStretch">
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Middle_Normal}"/>
     </BasisSkin>
+    <!--Border-->
+    <Border width="1">
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Border_Normal}"/>
+    </Border>
 	</Resource>
 <!--*************************
 ListBoxItemSkin
 *****************************-->
   <Resource type="ResourceSkin" name = "ListBoxItemSkin" size = "5 5" texture = "#{Anomalous_Theme_Texture}" >
-    <BasisSkin type="MainSkin" offset = "1 0 4 5">
+    <BasisSkin type="MainSkin" offset = "0 0 5 5">
       <State name="normal" offset = "3 25 18 18"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#6699cc"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#6699cc"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#5588bb"/>
+      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_Highlighted}"/>
+      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_Pushed}"/>
+      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_DisabledChecked}"/>
+      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_PushedChecked}"/>
     </BasisSkin>
     <!--Text-->
     <BasisSkin type="SimpleText" offset = "2 0 1 5"  align = "Stretch">
-      <State name="disabled" colour="#b1b1b1"/>
-      <State name="normal" colour="#000000"/>
-      <State name="highlighted" colour="#ffffff"/>
-      <State name="pushed" colour="#ffffff"/>
-      <State name="normal_checked" colour="#ffffff"/>
+      <State name="disabled" colour="#{Anomalous_ListItem_Text_Disabled}"/>
+      <State name="normal" colour="#{Anomalous_ListItem_Text_Normal}"/>
+      <State name="highlighted" colour="#{Anomalous_ListItem_Text_Highlighted}"/>
+      <State name="pushed" colour="#{Anomalous_ListItem_Text_Pushed}"/>
+      <State name="disabled_checked" colour="#{Anomalous_ListItem_Text_DisabledChecked}"/>
+      <State name="normal_checked" colour="#{Anomalous_ListItem_Text_NormalChecked}"/>
+      <State name="highlighted_checked" colour="#{Anomalous_ListItem_Text_HighlightedChecked}"/>
+      <State name="pushed_checked" colour="#{Anomalous_ListItem_Text_PushedChecked}"/>
     </BasisSkin>
   </Resource>
 <!--*************************

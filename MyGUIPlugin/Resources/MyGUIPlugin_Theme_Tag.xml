@@ -69,11 +69,21 @@
   <!-- Separator Colors -->
   <Tag name="Anomalous_Separator_Normal">#757575</Tag>
 
+  <!-- Panel Colors -->
+  <Tag name="Anomalous_Panel_Normal">#ececec</Tag>
+  
   <!-- Edit Colors -->
-  <Tag name="Anomalous_EditArea_Border_Normal">#d8d8d8</Tag>
-
-  <Tag name="Anomalous_EditArea_Middle_Disabled">#e0e0e0</Tag>
+  <Tag name="Anomalous_EditArea_Middle_Disabled">#d2d2d2</Tag>
   <Tag name="Anomalous_EditArea_Middle_Normal">#ffffff</Tag>
+  <Tag name="Anomalous_EditArea_Middle_Highlighted">#ffffff</Tag>
+  <Tag name="Anomalous_EditArea_Middle_Pushed">#ffffff</Tag>
+  <Tag name="Anomalous_EditArea_Middle_NormalChecked">#ffffff</Tag>
+
+  <Tag name="Anomalous_EditArea_Border_Disabled">#e2e2e2</Tag>
+  <Tag name="Anomalous_EditArea_Border_Normal">#d8d8d8</Tag>
+  <Tag name="Anomalous_EditArea_Border_Highlighted">#4477aa</Tag>
+  <Tag name="Anomalous_EditArea_Border_Pushed">#6699cc</Tag>
+  <Tag name="Anomalous_EditArea_Border_NormalChecked">#77aadd</Tag>
   
   <!-- Check/Radio Button Colors -->
   <Tag name="Anomalous_CheckRadio_Control_Disabled">#d1d1d1</Tag>
