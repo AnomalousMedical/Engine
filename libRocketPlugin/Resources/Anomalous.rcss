@@ -20,7 +20,7 @@ div.ScrollArea
 button,
 input.submit
 {
-	display: inline;	
+	display: inline;
 	padding-left: 5sp;
 	padding-right: 5sp;
 	padding-top: 4sp;
@@ -62,6 +62,7 @@ textarea
 	padding: 7sp 7sp 0sp;
 	border-width: 1sp;
 	border-color: #d8d8d8;
+	background-color: #ffffff;
 }
 
 input.text:hover,
