@@ -204,7 +204,7 @@
 
   <Tag name="Anomalous_Window_Border_Normal">#000000</Tag>
   
-  <!-- Task Menu Buttons -->
+  <!-- Task Menu Button Colors -->
   <Tag name="Anomalous_TaskMenuButton_Center_Highlighted">#6699cc</Tag>
   <Tag name="Anomalous_TaskMenuButton_Center_Pushed">#77aadd</Tag>
   <Tag name="Anomalous_TaskMenuButton_Center_DisabledChecked">#5588bb</Tag>
@@ -227,7 +227,33 @@
   <Tag name="Anomalous_TaskMenuButton_Text_NormalChecked">#ffffff</Tag>
   <Tag name="Anomalous_TaskMenuButton_Text_HighlightedChecked">#ffffff</Tag>
   <Tag name="Anomalous_TaskMenuButton_Text_PushedChecked">#ffffff</Tag>
+  
+  <!-- Button Sound Colors -->
+  <Tag name="Anomalous_ButtonSound_Control_Disabled">#d1d1d1</Tag>
+  <Tag name="Anomalous_ButtonSound_Control_Normal">#ffffff</Tag>
+  <Tag name="Anomalous_ButtonSound_Control_Highlighted">#5588bb</Tag>
+  <Tag name="Anomalous_ButtonSound_Control_Pushed">#6699cc</Tag>
+  <Tag name="Anomalous_ButtonSound_Control_DisabledChecked">#e1e1e1</Tag>
+  <Tag name="Anomalous_ButtonSound_Control_NormalChecked">#e00000</Tag>
+  <Tag name="Anomalous_ButtonSound_Control_HighlightedChecked">#f00000</Tag>
+  <Tag name="Anomalous_ButtonSound_Control_PushedChecked">#ff0000</Tag>
+  
+  <!-- Taskbar Colors -->
+  <Tag name="Anomalous_TaskBar_Center_Normal">#ececec</Tag>
 
+  <Tag name="Anomalous_TaskBarButton_Center_Disabled">#6a6a6a</Tag>
+  <Tag name="Anomalous_TaskBarButton_Center_Normal">#6699cc</Tag>
+  <Tag name="Anomalous_TaskBarButton_Center_Highlighted">#5588bb</Tag>
+  <Tag name="Anomalous_TaskBarButton_Center_Pushed">#4477aa</Tag>
+  <Tag name="Anomalous_TaskBarButton_Center_DisabledChecked">#5a5a5a</Tag>
+  <Tag name="Anomalous_TaskBarButton_Center_NormalChecked">#6699cc</Tag>
+  <Tag name="Anomalous_TaskBarButton_Center_HighlightedChecked">#5588bb</Tag>
+  <Tag name="Anomalous_TaskBarButton_Center_PushedChecked">#4477aa</Tag>
+  
+  <!-- Popup Panel -->
+  <Tag name="Anomalous_PopupPanel_Center_Normal">#ececec</Tag>
+  <Tag name="Anomalous_PopupPanel_Border_Normal">#000000</Tag>
+  
 </MyGUI>
 
 

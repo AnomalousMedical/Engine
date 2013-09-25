@@ -120,17 +120,23 @@ TaskMenuTopLevelCategoryButton
     <BasisSkin type="SubSkin" offset = "0 0 29 26" align = "Stretch">
       <State name="disabled" offset = "3 25 18 18"/>
       <State name="normal" offset = "3 25 18 18"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#4477aa"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#336699"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#6699cc"/>
+      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Center_Highlighted}"/>
+      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Center_Pushed}"/>
+      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Center_DisabledChecked}"/>
+      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Center_PushedChecked}"/>
     </BasisSkin>
     <!--Text-->
     <BasisSkin type="SimpleText" offset = "0 0 29 26" align = "Stretch">
       <State name="disabled" colour="#{Anomalous_TaskMenuButton_Text_Disabled}" shift = "false"/>
       <State name="normal" colour="#{Anomalous_TaskMenuButton_Text_Normal}" shift = "false"/>
       <State name="highlighted" colour="#{Anomalous_TaskMenuButton_Text_Highlighted}" shift = "false"/>
-      <State name="normal_checked" colour="#{Anomalous_TaskMenuButton_Text_NormalChecked}" shift = "true"/>
-      <State name="pushed" colour="#{Anomalous_TaskMenuButton_Text_Pushed}" shift = "true"/>
+      <State name="pushed" colour="#{Anomalous_TaskMenuButton_Text_Pushed}" shift = "false"/>
+      <State name="disabled_checked" colour="#{Anomalous_TaskMenuButton_Text_DisabledChecked}" shift = "false"/>
+      <State name="normal_checked" colour="#{Anomalous_TaskMenuButton_Text_NormalChecked}" shift = "false"/>
+      <State name="highlighted_checked" colour="#{Anomalous_TaskMenuButton_Text_HighlightedChecked}" shift = "false"/>
+      <State name="pushed_checked" colour="#{Anomalous_TaskMenuButton_Text_PushedChecked}" shift = "false"/>
     </BasisSkin>
   </Resource>
 
@@ -139,14 +145,14 @@ ButtonSound
 *****************************-->
   <Resource type="ResourceSkin" name = "ButtonSound" size = "24 20" texture = "#{Anomalous_Theme_Texture}">
     <BasisSkin type="MainSkin" offset = "0 0 24 20" align = "Stretch">
-      <State name="disabled" offset = "1 107 24 20" colour="#d1d1d1"/>
-      <State name="normal" offset = "1 107 24 20" colour="#ffffff"/>
-      <State name="highlighted" offset = "1 107 24 20" colour="#5588bb"/>
-      <State name="pushed" offset = "1 107 24 20" colour="#6699cc"/>
-      <State name="disabled_checked" offset = "1 107 24 20" colour="#e1e1e1"/>
-      <State name="normal_checked" offset = "1 107 24 20" colour="#4477aa"/>
-      <State name="highlighted_checked" offset = "1 107 24 20" colour="#5588bb"/>
-      <State name="pushed_checked" offset = "1 107 24 20" colour="#6699cc"/>
+      <State name="disabled" offset = "1 107 24 20" colour="#{Anomalous_ButtonSound_Control_Disabled}"/>
+      <State name="normal" offset = "1 107 24 20" colour="#{Anomalous_ButtonSound_Control_Normal}"/>
+      <State name="highlighted" offset = "1 107 24 20" colour="#{Anomalous_ButtonSound_Control_Highlighted}"/>
+      <State name="pushed" offset = "1 107 24 20" colour="#{Anomalous_ButtonSound_Control_Pushed}"/>
+      <State name="disabled_checked" offset = "55 47 24 20" colour="#{Anomalous_ButtonSound_Control_DisabledChecked}"/>
+      <State name="normal_checked" offset = "55 47 24 20" colour="#{Anomalous_ButtonSound_Control_NormalChecked}"/>
+      <State name="highlighted_checked" offset = "55 47 24 20" colour="#{Anomalous_ButtonSound_Control_HighlightedChecked}"/>
+      <State name="pushed_checked" offset = "55 47 24 20" colour="#{Anomalous_ButtonSound_Control_PushedChecked}"/>
     </BasisSkin>
   </Resource>
 
@@ -207,7 +213,7 @@ TaskbarSkin
   <Resource type="ResourceSkin" name = "TaskbarSkin" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
     <!--Center-->
     <BasisSkin type="SubSkin" offset = "0 0 11 11" align = "Stretch">
-      <State name="normal" offset = "3 3 18 18" colour="#ececec"/>
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_TaskBar_Center_Normal}"/>
     </BasisSkin>
   </Resource>
   
@@ -222,9 +228,31 @@ TaskbarButton
     <BasisSkin type="SubSkin" offset = "0 0 122 122" align = "Stretch">
       <State name="disabled" offset = "3 25 18 18"/>
       <State name="normal" offset = "3 25 18 18"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#5588bb"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#336699"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#6699cc"/>
+      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_Highlighted}"/>
+      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_Pushed}"/>
+      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_DisabledChecked}"/>
+      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_PushedChecked}"/>
+    </BasisSkin>
+  </Resource>
+
+  <!--*************************
+AppButton
+*****************************-->
+  <Resource type="ResourceSkin" name = "AppButton" size = "29 26" texture = "#{Anomalous_Theme_Texture}">
+    <Property key="FontName" value = "Default" />
+    <Property key="TextAlign" value = "HCenter VCenter" />
+    <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 1 130 32" align = "HCenter VCenter" name = "Image"/>
+    <BasisSkin type="SubSkin" offset = "0 0 29 26" align = "Stretch">
+      <State name="disabled" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_Disabled}"/>
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_Normal}"/>
+      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_Highlighted}"/>
+      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_Pushed}"/>
+      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_DisabledChecked}"/>
+      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_PushedChecked}"/>
     </BasisSkin>
   </Resource>
 
@@ -260,13 +288,17 @@ HorizontalIconTextButton
   </Resource>
 
   <!--*************************
-SolidBackground
+PopupPanel
 *****************************-->
-  <Resource type="ResourceSkin" name = "SolidBackground" size = "10 10" texture = "#{Anomalous_Theme_Texture}">
+  <Resource type="ResourceSkin" name = "PopupPanel" size = "10 10" texture = "#{Anomalous_Theme_Texture}">
     <!--Center-->
     <BasisSkin type="MainSkin" offset = "0 0 10 10" align = "Stretch">
-      <State name="normal" offset = "3 3 18 18" colour="#ececec"/>
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_PopupPanel_Center_Normal}"/>
     </BasisSkin>
+    <!-- Border -->
+    <Border width="1">
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_PopupPanel_Border_Normal}"/>
+    </Border>
   </Resource>
 
   <!--*************************
@@ -468,22 +500,6 @@ ButtonListItemSkin
       <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_HighlightedChecked}"/>
       <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_PushedChecked}"/>
     </Border>
-  </Resource>
-
-  <!--*************************
-AppButton
-*****************************-->
-  <Resource type="ResourceSkin" name = "AppButton" size = "29 26" texture = "#{Anomalous_Theme_Texture}">
-    <Property key="FontName" value = "Default" />
-    <Property key="TextAlign" value = "HCenter VCenter" />
-    <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 1 130 32" align = "HCenter VCenter" name = "Image"/>
-    <BasisSkin type="SubSkin" offset = "0 0 29 26" align = "Stretch">
-      <State name="disabled" offset = "3 3 18 18" colour="#6a6a6a"/>
-      <State name="normal" offset = "3 3 18 18" colour="#6699cc"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#5588bb"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#5588bb"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#4477aa"/>
-    </BasisSkin>
   </Resource>
 
   <!--******************************
