@@ -2,12 +2,6 @@
 <MyGUI>
   <Tag name="Anomalous_Theme_Texture">AnomalousThemeTexture.png</Tag>
 
-  <Tag name="MyGUI_Theme_TaskMenuButton_ColorDisabled">#b1b1b1</Tag>
-  <Tag name="MyGUI_Theme_TaskMenuButton_ColorNormal">#FFFFFF</Tag>
-  <Tag name="MyGUI_Theme_TaskMenuButton_ColorHighlighted">#000000</Tag>
-  <Tag name="MyGUI_Theme_TaskMenuButton_ColorNormal_Checked">#FFFFFF</Tag>
-  <Tag name="MyGUI_Theme_TaskMenuButton_ColorPushed">#FFFFFF</Tag>
-
   <Tag name="MyGUI_Theme_Pointer">MyGUIPlugin_Pointer_Texture.png</Tag>
   
   <!-- Button Colors -->
@@ -52,8 +46,6 @@
   <Tag name="Anomalous_ListItem_Text_NormalChecked">#ffffff</Tag>
   <Tag name="Anomalous_ListItem_Text_HighlightedChecked">#ffffff</Tag>
   <Tag name="Anomalous_ListItem_Text_PushedChecked">#ffffff</Tag>
-
-  <Tag name="Anomalous_ListItem_Text_Normal_Invert">#ffffff</Tag>
   
   <!-- Separator Colors -->
   <Tag name="Anomalous_Separator_Normal">#757575</Tag>
@@ -211,6 +203,30 @@
   <Tag name="Anomalous_WindowCaption_Text_Normal">#ffffff</Tag>
 
   <Tag name="Anomalous_Window_Border_Normal">#000000</Tag>
+  
+  <!-- Task Menu Buttons -->
+  <Tag name="Anomalous_TaskMenuButton_Center_Highlighted">#6699cc</Tag>
+  <Tag name="Anomalous_TaskMenuButton_Center_Pushed">#77aadd</Tag>
+  <Tag name="Anomalous_TaskMenuButton_Center_DisabledChecked">#5588bb</Tag>
+  <Tag name="Anomalous_TaskMenuButton_Center_NormalChecked">#5588bb</Tag>
+  <Tag name="Anomalous_TaskMenuButton_Center_HighlightedChecked">#6699cc</Tag>
+  <Tag name="Anomalous_TaskMenuButton_Center_PushedChecked">#77aadd</Tag>
+                       
+  <Tag name="Anomalous_TaskMenuButton_Border_Highlighted">#225588</Tag>
+  <Tag name="Anomalous_TaskMenuButton_Border_Pushed">#114477</Tag>
+  <Tag name="Anomalous_TaskMenuButton_Border_DisabledChecked">#114477</Tag>
+  <Tag name="Anomalous_TaskMenuButton_Border_NormalChecked">#114477</Tag>
+  <Tag name="Anomalous_TaskMenuButton_Border_HighlightedChecked">#225588</Tag>
+  <Tag name="Anomalous_TaskMenuButton_Border_PushedChecked">#114477</Tag>
+
+  <Tag name="Anomalous_TaskMenuButton_Text_Disabled">#b1b1b1</Tag>
+  <Tag name="Anomalous_TaskMenuButton_Text_Normal">#FFFFFF</Tag>
+  <Tag name="Anomalous_TaskMenuButton_Text_Highlighted">#ffffff</Tag>
+  <Tag name="Anomalous_TaskMenuButton_Text_Pushed">#ffffff</Tag>
+  <Tag name="Anomalous_TaskMenuButton_Text_DisabledChecked">#b1b1b1</Tag>
+  <Tag name="Anomalous_TaskMenuButton_Text_NormalChecked">#ffffff</Tag>
+  <Tag name="Anomalous_TaskMenuButton_Text_HighlightedChecked">#ffffff</Tag>
+  <Tag name="Anomalous_TaskMenuButton_Text_PushedChecked">#ffffff</Tag>
 
 </MyGUI>
 

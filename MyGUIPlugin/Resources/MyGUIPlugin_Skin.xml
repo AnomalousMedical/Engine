@@ -491,15 +491,15 @@ MenuBarButtonSkin
 *****************************-->
   <Resource type="ResourceSkin" name = "MenuBarButtonSkin" size = "27 22" texture = "#{Anomalous_Theme_Texture}">
     <!--Middle-->
-    <BasisSkin type="SubSkin" offset = "1 1 25 20" align = "HStretch VStretch">
+    <BasisSkin type="SubSkin" offset = "0 0 27 22" align = "HStretch VStretch">
       <State name="disabled" offset = "3 25 18 18"/>
       <State name="normal" offset = "3 25 18 18"/>
       <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_MenuBarButton_Center_Highlighted}"/>
       <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_MenuBarButton_Center_Pushed}"/>
-      <State name="disabled_checked" colour="#{Anomalous_MenuBarButton_Center_DisabledChecked}"/>
-      <State name="normal_checked" colour="#{Anomalous_MenuBarButton_Center_NormalChecked}"/>
-      <State name="highlighted_checked" colour="#{Anomalous_MenuBarButton_Center_HighlightedChecked}"/>
-      <State name="pushed_checked" colour="#{Anomalous_MenuBarButton_Center_PushedChecked}"/>
+      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_MenuBarButton_Center_DisabledChecked}"/>
+      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_MenuBarButton_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_MenuBarButton_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_MenuBarButton_Center_PushedChecked}"/>
     </BasisSkin>
     <!--Border-->
     <Border width="1">
@@ -507,10 +507,10 @@ MenuBarButtonSkin
       <State name="normal" offset = "3 25 18 18"/>
       <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_MenuBarButton_Border_Highlighted}"/>
       <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_MenuBarButton_Border_Pushed}"/>
-      <State name="disabled_checked" colour="#{Anomalous_MenuBarButton_Border_DisabledChecked}"/>
-      <State name="normal_checked" colour="#{Anomalous_MenuBarButton_Border_NormalChecked}"/>
-      <State name="highlighted_checked" colour="#{Anomalous_MenuBarButton_Border_HighlightedChecked}"/>
-      <State name="pushed_checked" colour="#{Anomalous_MenuBarButton_Border_PushedChecked}"/>
+      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_MenuBarButton_Border_DisabledChecked}"/>
+      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_MenuBarButton_Border_NormalChecked}"/>
+      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_MenuBarButton_Border_HighlightedChecked}"/>
+      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_MenuBarButton_Border_PushedChecked}"/>
     </Border>
     <!--Text-->
     <BasisSkin type="SimpleText" offset = "6 2 15 16" align = "Stretch">
