@@ -117,8 +117,7 @@ select selectvalue,
 dataselect selectvalue
 {
 	width: auto;
-	margin-right: 23sp;
-	
+
 	height: 23sp;
 	padding-left: 4sp;
 
@@ -141,21 +140,22 @@ dataselect selectvalue:active
 select selectarrow,
 dataselect selectarrow
 {
-	width: 18sp;
-	height: 10sp;
+	width: 9sp;
+	height: 5sp;
+
+	margin-right:7sp;
+	margin-top: 8sp;
 
 	icon-decorator: image;
 	icon-image: /AnomalousThemeTexture.png 26px 46px 35px 51px;
-	icon-image-color:#ff0000;
+	icon-image-color:#434343;
 	icon-z-index: 1;
 }
 
 select selectarrow:hover,
 dataselect selectarrow:hover
 {
-	icon-decorator: image;
-	icon-image: /MyGUIPlugin_Widget_Texture.png 941px 125px 954px 140px;
-	icon-z-index: 1;
+	icon-image-color:#5588bb;
 }
 
 select selectarrow:active,
@@ -163,9 +163,7 @@ select selectarrow:checked,
 dataselect selectarrow:active,
 dataselect selectarrow:checked
 {
-	icon-decorator: image;
-	icon-image: /MyGUIPlugin_Widget_Texture.png 941px 125px 954px 140px;
-	icon-z-index: 1;
+	icon-image-color:#6699cc;
 }
 
 select selectbox,
@@ -208,8 +206,8 @@ dataselect selectbox option:active
 input.radio,
 input.checkbox
 {
-	width: 15sp;
-	height: 15sp;
+	width: 12sp;
+	height: 12sp;
 
 	vertical-align: -2sp;
 	margin-right: 3sp;
@@ -218,63 +216,68 @@ input.checkbox
 input.radio
 {
 	icon-decorator: image;
-	icon-image: /MyGUIPlugin_Widget_Texture.png 613px 150px 625px 162px;
+	icon-image: /AnomalousThemeTexture.png 26px 79px 38px 91px;
 }
 
 input.radio:hover
 {
-	icon-image: /MyGUIPlugin_Widget_Texture.png 626px 150px 638px 162px;
+	icon-image-color:#77aadd;
 }
 
 input.radio:active
 {
-	icon-image: /MyGUIPlugin_Widget_Texture.png 626px 163px 638px 175px;
+	icon-image-color:#6699cc;
 }
 
 input.radio:checked
 {
-	icon-image: /MyGUIPlugin_Widget_Texture.png 639px 150px 651px 162px;
+	icon-image: /AnomalousThemeTexture.png 40px 79px 52px 91px;
 }
 
 input.radio:checked:hover
 {
-	icon-image: /MyGUIPlugin_Widget_Texture.png 652px 150px 664px 162px;
+	icon-image: /AnomalousThemeTexture.png 40px 79px 52px 91px;
+	icon-image-color:#77aadd;
 }
 
 input.radio:checked:active
 {
-	icon-image: /MyGUIPlugin_Widget_Texture.png 652px 163px 664px 175px;
+	icon-image: /AnomalousThemeTexture.png 40px 79px 52px 91px;
+	icon-image-color:#6699cc;
 }
 
 input.checkbox
 {
 	icon-decorator: image;
-	icon-image: /MyGUIPlugin_Widget_Texture.png 613px 121px 625px 133px;
+	icon-image: /AnomalousThemeTexture.png 26px 65px 38px 77px;
 }
 
 input.checkbox:hover
 {
-	icon-image: /MyGUIPlugin_Widget_Texture.png 626px 121px 638px 133px;
+	icon-image-color:#77aadd;
 }
 
 input.checkbox:active
 {
-	icon-image: /MyGUIPlugin_Widget_Texture.png 626px 134px 638px 146px;
+	icon-image-color:#6699cc;
 }
 
 input.checkbox:checked
 {
-	icon-image: /MyGUIPlugin_Widget_Texture.png 639px 121px 651px 133px;
+	icon-image: /AnomalousThemeTexture.png 40px 65px 52px 77px;
+	icon-image-color:#ffffff;
 }
 
 input.checkbox:checked:hover
 {
-	icon-image: /MyGUIPlugin_Widget_Texture.png 652px 121px 664px 133px;
+	icon-image: /AnomalousThemeTexture.png 40px 65px 52px 77px;
+	icon-image-color:#77aadd;
 }
 
 input.checkbox:checked:active
 {
-	icon-image: /MyGUIPlugin_Widget_Texture.png 652px 134px 664px 146px;
+	icon-image: /AnomalousThemeTexture.png 40px 65px 52px 77px;
+	icon-image-color:#6699cc;
 }
 
 
