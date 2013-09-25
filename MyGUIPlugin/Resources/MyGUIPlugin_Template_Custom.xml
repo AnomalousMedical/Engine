@@ -25,7 +25,7 @@ TimelineButton
     <Widget type="Widget" skin="TimelineButtonSkin" position="0 0 10 10" name="Root">
       <Property key="ModeImage" value="True"/>
       <UserString key="LE_TargetWidgetType" value="Button"/>
-      <Widget type="ImageBox" skin="TimelineButtonCenterSkin" position_derived="1 1 -1 -1" align="Stretch" name="Image">
+      <Widget type="ImageBox" skin="ImageBox" position_derived="1 1 -1 -1" align="Stretch" name="Image">
         <Property key="ImageResource" value="TimelineButtonImage"/>
         <Property key="ImageGroup" value="Icons"/>
         <Property key="ImageName" value="normal"/>

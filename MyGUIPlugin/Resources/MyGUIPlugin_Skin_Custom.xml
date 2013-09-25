@@ -524,7 +524,7 @@ MDILocationPreview
   </Resource>
 
   <!--*************************
-TimelineButtonCenterSkin
+TimelineButtonImage, Actually an imageset, goes onto a static image on the TimelineButton widget.
 *****************************-->
   <Resource type="ResourceImageSet" name="TimelineButtonImage">
     <Group name="Icons" texture="#{Anomalous_Theme_Texture}" size="8 10">
@@ -554,21 +554,6 @@ TimelineButtonCenterSkin
       </Index>
     </Group>
   </Resource>
-
-  <Resource type="ResourceSkin" name = "TimelineButtonCenterSkin" size = "10 10" texture = "#{Anomalous_Theme_Texture}">
-    <Property key="NeedMouse" value="false"/>
-    <!--Middle-->
-    <BasisSkin type="MainSkin" offset = "0 0 10 10" align = "HStretch VStretch">
-      <State name="disabled" offset = "45 107 2 2"/>
-      <State name="normal" offset = "3 3 18 18"/>
-      <State name="highlighted" offset = "35 107 2 2"/>
-      <State name="pushed" offset = "45 97 2 2"/>
-      <State name="disabled_checked" offset = "45 107 2 2"/>
-      <State name="normal_checked" offset = "35 97 2 2"/>
-      <State name="highlighted_checked" offset = "35 107 2 2"/>
-      <State name="pushed_checked" offset = "45 97 2 2"/>
-    </BasisSkin>
-  </Resource>  
   
   <!--*************************
 TimelineButtonSkin
