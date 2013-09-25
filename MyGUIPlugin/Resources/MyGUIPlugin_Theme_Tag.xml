@@ -52,6 +52,7 @@
 
   <!-- Panel Colors -->
   <Tag name="Anomalous_Panel_Normal">#ececec</Tag>
+  <Tag name="Anomalous_Panel_Border_Normal">#d8d8d8</Tag>
   
   <!-- Edit Area Colors -->
   <Tag name="Anomalous_EditArea_Middle_Disabled">#d2d2d2</Tag>
@@ -270,7 +271,15 @@
   <!-- MDI Colors -->
   <Tag name="Anomalous_MDISeparator_Center_Normal">#afafaf</Tag>
   <Tag name="Anomalous_MDILocationPreview_Center_Normal">#336699</Tag>
-
+  
+  <!-- Tooltip Colors -->
+  <Tag name="Anomalous_ToolTip_Center_Normal">#6699cc</Tag>
+  <Tag name="Anomalous_ToolTip_Border_Normal">#4477aa</Tag>
+  <Tag name="Anomalous_ToolTip_Text_Normal">#ffffff</Tag>
+  
+  <!-- Slide Drop Preview -->
+  <Tag name="Anomalous_SlideDropPreview_Center_Normal">#6699cc</Tag>
+  
 </MyGUI>
 
 
