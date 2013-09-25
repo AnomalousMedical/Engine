@@ -127,14 +127,14 @@ dataselect selectvalue
 	padding-left: 4sp;
 }
 
-select selectvalue:hover,
-dataselect selectvalue:hover
+select:hover,
+dataselect:hover
 {
 	border-color:#4477aa;
 }
 
-select selectvalue:active,
-dataselect selectvalue:active
+select:active,
+dataselect:active
 {
 	border-color:#6699cc;
 }
@@ -285,20 +285,18 @@ input.checkbox:checked:active
 
 scrollbarvertical
 {
-	margin-top: 0sp;
-	margin-bottom: 0sp;
-	margin-right: 0sp;
 	width: 15sp;
+	background-color: #f1f1f3;
 }
 
 scrollbarvertical slidertrack
 {
-	background-color: #f1f1f3;
+
 }
 
 scrollbarvertical sliderbar
 {
-	width: 15sp;
+	margin-left:1px;
 	min-height: 46sp;
 	background-color: #cdcdcd;
 }
@@ -318,8 +316,7 @@ scrollbarvertical sliderarrowdec
 	width: 9sp;
 	height: 5sp;
 
-	border-width: 4sp 3sp;
-	border-color: #f1f1f3;
+	margin: 4sp 3sp;
 
 	icon-decorator: image;
 	icon-image: /AnomalousThemeTexture.png 37px 46px 46px 51px;
@@ -344,8 +341,7 @@ scrollbarvertical sliderarrowinc
 	width: 9sp;
 	height: 5sp;
 
-	border-width: 4sp 3sp;
-	border-color: #f1f1f3;
+	margin: 4sp 3sp;
 
 	icon-decorator: image;
 	icon-image: /AnomalousThemeTexture.png 26px 46px 35px 51px;
