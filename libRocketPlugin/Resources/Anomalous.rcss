@@ -112,6 +112,10 @@ dataselect
 {
 	width: 175sp;
 	height: 23sp;
+	background-color: #ffffff;
+
+	border-width:1sp;
+	border-color:#d8d8d8;
 }
 
 select selectvalue,
@@ -121,9 +125,6 @@ dataselect selectvalue
 
 	height: 23sp;
 	padding-left: 4sp;
-
-	border-width:1sp;
-	border-color:#d8d8d8;
 }
 
 select selectvalue:hover,
