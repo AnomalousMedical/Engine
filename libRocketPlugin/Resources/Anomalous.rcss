@@ -28,19 +28,7 @@ input.submit
 	font-size: 13sp;
 	text-align: center;
 	tab-index: auto;
-
-	background-decorator: tiled-box;
-	background-top-left-image: /MyGUIPlugin_Widget_Texture.png 810px 233px 814px 237px;
-	background-top-right-image: /MyGUIPlugin_Widget_Texture.png 826px 233px 831px 237px;
-	background-bottom-left-image: /MyGUIPlugin_Widget_Texture.png 810px 249px 814px 254px;
-	background-bottom-right-image: /MyGUIPlugin_Widget_Texture.png 826px 249px 831px 254px;
-
-	background-top-image: /MyGUIPlugin_Widget_Texture.png stretch 816px 233px 822px 236px;
-	background-bottom-image: /MyGUIPlugin_Widget_Texture.png stretch 816px 250px 822px 254px;
-	background-left-image: /MyGUIPlugin_Widget_Texture.png stretch 810px 239px 813px 247px;
-	background-right-image: /MyGUIPlugin_Widget_Texture.png stretch 827px 239px 831px 247px;
-
-	background-center-image: /MyGUIPlugin_Widget_Texture.png stretch 789px 234px 808px 253px;
+	background-color: #cacaca;
 }
 
 button:focus,
@@ -52,36 +40,13 @@ input.submit:focus
 button:hover,
 input.submit:hover
 {
-	background-decorator: tiled-box;
-	
-	background-top-left-image: /MyGUIPlugin_Widget_Texture.png 854px 72px 858px 76px;
-	background-top-right-image: /MyGUIPlugin_Widget_Texture.png 873px 72px 878px 76px;
-	background-bottom-left-image: /MyGUIPlugin_Widget_Texture.png 854px 91px 858px 96px;
-	background-bottom-right-image: /MyGUIPlugin_Widget_Texture.png 873px 91px 878px 96px;
-
-	background-top-image: /MyGUIPlugin_Widget_Texture.png stretch 860px 72px 868px 75px;
-	background-bottom-image: /MyGUIPlugin_Widget_Texture.png stretch 860px 92px 868px 96px;
-	background-left-image: /MyGUIPlugin_Widget_Texture.png stretch 854px 78px 857px 86px;
-	background-right-image: /MyGUIPlugin_Widget_Texture.png stretch 874px 78px 878px 86px;
-
-	background-center-image: /MyGUIPlugin_Widget_Texture.png stretch 835px 75px 852px 92px;
+	background-color: #d3d3d3;
 }
 
 button:active,
 input.submit:active
 {
-	background-decorator: tiled-box;
-	background-top-left-image: /MyGUIPlugin_Widget_Texture.png 854px 47px 858px 51px;
-	background-top-right-image: /MyGUIPlugin_Widget_Texture.png 873px 47px 878px 51px;
-	background-bottom-left-image: /MyGUIPlugin_Widget_Texture.png 854px 66px 858px 71px;
-	background-bottom-right-image: /MyGUIPlugin_Widget_Texture.png 873px 66px 878px 71px;
-
-	background-top-image: /MyGUIPlugin_Widget_Texture.png stretch 860px 47px 868px 50px;
-	background-bottom-image: /MyGUIPlugin_Widget_Texture.png stretch 860px 67px 868px 71px;
-	background-left-image: /MyGUIPlugin_Widget_Texture.png stretch 854px 53px 857px 61px;
-	background-right-image: /MyGUIPlugin_Widget_Texture.png stretch 874px 53px 878px 61px;
-
-	background-center-image: /MyGUIPlugin_Widget_Texture.png stretch 835px 50px 852px 67px;
+	background-color: #dbdbdb;	
 }
 
 input.hidden
@@ -90,66 +55,27 @@ input.hidden
 }
 
 input.text,
-input.password
+input.password,
+textarea
 {
 	height: 31sp;
 	padding: 7sp 7sp 0sp;
-	background-decorator: tiled-box;
-	background-top-left-image: /MyGUIPlugin_Widget_Texture.png 882px 154px 884px 159px;
-	background-top-right-image: /MyGUIPlugin_Widget_Texture.png 901px 154px 903px 159px;
-	background-bottom-left-image: /MyGUIPlugin_Widget_Texture.png 882px 170px 884px 175px;
-	background-bottom-right-image: /MyGUIPlugin_Widget_Texture.png 901px 170px 903px 175px;
-	background-top-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 154px 901px 159px;
-	background-left-image: /MyGUIPlugin_Widget_Texture.png stretch 882px 159px 884px 170px;
-	background-right-image: /MyGUIPlugin_Widget_Texture.png stretch 901px 159px 903px 170px;
-	background-bottom-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 170px 901px 175px;
-	background-center-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 159px 901px 170px;
+	border-width: 1sp;
+	border-color: #d8d8d8;
 }
 
 input.text:hover,
-input.password:hover
-{
-	background-decorator: tiled-box;
-	background-top-left-image: /MyGUIPlugin_Widget_Texture.png 882px 176px 884px 181px;
-	background-top-right-image: /MyGUIPlugin_Widget_Texture.png 901px 176px 903px 181px;
-	background-bottom-left-image: /MyGUIPlugin_Widget_Texture.png 882px 192px 884px 197px;
-	background-bottom-right-image: /MyGUIPlugin_Widget_Texture.png 901px 192px 903px 197px;
-	background-top-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 176px 901px 181px;
-	background-left-image: /MyGUIPlugin_Widget_Texture.png stretch 882px 181px 884px 192px;
-	background-right-image: /MyGUIPlugin_Widget_Texture.png stretch 901px 181px 903px 192px;
-	background-bottom-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 192px 901px 197px;
-	background-center-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 181px 901px 192px;
-}
-
-
-textarea
-{
-	padding: 7sp 7sp 0sp;
-	background-decorator: tiled-box;
-	background-top-left-image: /MyGUIPlugin_Widget_Texture.png 882px 154px 884px 159px;
-	background-top-right-image: /MyGUIPlugin_Widget_Texture.png 901px 154px 903px 159px;
-	background-bottom-left-image: /MyGUIPlugin_Widget_Texture.png 882px 170px 884px 175px;
-	background-bottom-right-image: /MyGUIPlugin_Widget_Texture.png 901px 170px 903px 175px;
-	background-top-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 154px 901px 159px;
-	background-left-image: /MyGUIPlugin_Widget_Texture.png stretch 882px 159px 884px 170px;
-	background-right-image: /MyGUIPlugin_Widget_Texture.png stretch 901px 159px 903px 170px;
-	background-bottom-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 170px 901px 175px;
-	background-center-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 159px 901px 170px;
-}
-
+input.password:hover,
 textarea:hover
 {
-	padding: 7sp 7sp 0sp;
-	background-decorator: tiled-box;
-	background-top-left-image: /MyGUIPlugin_Widget_Texture.png 882px 176px 884px 181px;
-	background-top-right-image: /MyGUIPlugin_Widget_Texture.png 901px 176px 903px 181px;
-	background-bottom-left-image: /MyGUIPlugin_Widget_Texture.png 882px 192px 884px 197px;
-	background-bottom-right-image: /MyGUIPlugin_Widget_Texture.png 901px 192px 903px 197px;
-	background-top-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 176px 901px 181px;
-	background-left-image: /MyGUIPlugin_Widget_Texture.png stretch 882px 181px 884px 192px;
-	background-right-image: /MyGUIPlugin_Widget_Texture.png stretch 901px 181px 903px 192px;
-	background-bottom-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 192px 901px 197px;
-	background-center-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 181px 901px 192px;
+	border-color: #4477aa;
+}
+
+input.text:active,
+input.password:active,
+textarea:active
+{
+	border-color: #6699cc;
 }
 
 input.text,
@@ -196,45 +122,31 @@ dataselect selectvalue
 	height: 23sp;
 	padding-left: 4sp;
 
-	background-decorator: tiled-box;
-	background-top-left-image: /MyGUIPlugin_Widget_Texture.png 882px 154px 884px 159px;
-	background-top-right-image: /MyGUIPlugin_Widget_Texture.png 901px 154px 903px 159px;
-	background-bottom-left-image: /MyGUIPlugin_Widget_Texture.png 882px 170px 884px 175px;
-	background-bottom-right-image: /MyGUIPlugin_Widget_Texture.png 901px 170px 903px 175px;
-
-	background-top-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 154px 901px 159px;
-	background-left-image: /MyGUIPlugin_Widget_Texture.png stretch 882px 159px 884px 170px;
-	background-right-image: /MyGUIPlugin_Widget_Texture.png stretch 901px 159px 903px 170px;
-	background-bottom-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 170px 901px 175px;
-
-	background-center-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 159px 901px 170px;
+	border-width:1sp;
+	border-color:#d8d8d8;
 }
 
 select selectvalue:hover,
 dataselect selectvalue:hover
 {
-	background-decorator: tiled-box;
-	background-top-left-image: /MyGUIPlugin_Widget_Texture.png 882px 176px 884px 181px;
-	background-top-right-image: /MyGUIPlugin_Widget_Texture.png 901px 176px 903px 181px;
-	background-bottom-left-image: /MyGUIPlugin_Widget_Texture.png 882px 192px 884px 197px;
-	background-bottom-right-image: /MyGUIPlugin_Widget_Texture.png 901px 192px 903px 197px;
+	border-color:#4477aa;
+}
 
-	background-top-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 176px 901px 181px;
-	background-left-image: /MyGUIPlugin_Widget_Texture.png stretch 882px 181px 884px 192px;
-	background-right-image: /MyGUIPlugin_Widget_Texture.png stretch 901px 181px 903px 192px;
-	background-bottom-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 192px 901px 197px;
-
-	background-center-image: /MyGUIPlugin_Widget_Texture.png stretch 884px 181px 901px 192px;
+select selectvalue:active,
+dataselect selectvalue:active
+{
+	border-color:#6699cc;
 }
 
 select selectarrow,
 dataselect selectarrow
 {
-	width: 23sp;
-	height: 23sp;
+	width: 18sp;
+	height: 10sp;
 
 	icon-decorator: image;
-	icon-image: /MyGUIPlugin_Widget_Texture.png 941px 112px 954px 127px;
+	icon-image: /AnomalousThemeTexture.png 26px 46px 35px 51px;
+	icon-image-color:#ff0000;
 	icon-z-index: 1;
 }
 
@@ -267,18 +179,9 @@ select selectbox,
 dataselect selectbox,
 datagrid datagridbody
 {
-	background-decorator: tiled-box;
-	background-top-left-image: /MyGUIPlugin_Widget_Texture.png 689px 92px 692px 95px;
-	background-top-right-image: /MyGUIPlugin_Widget_Texture.png 704px 92px 707px 95px;
-	background-bottom-left-image: /MyGUIPlugin_Widget_Texture.png 689px 106px 692px 109px;
-	background-bottom-right-image: /MyGUIPlugin_Widget_Texture.png 704px 106px 707px 109px;
-
-	background-top-image: /MyGUIPlugin_Widget_Texture.png stretch 692px 92px 704px 95px;
-	background-left-image: /MyGUIPlugin_Widget_Texture.png stretch 689px 95px 692px 106px;
-	background-right-image: /MyGUIPlugin_Widget_Texture.png stretch 704px 95px 707px 106px;
-	background-bottom-image: /MyGUIPlugin_Widget_Texture.png stretch 692px 106px 704px 109px;
-
-	background-center-image: /MyGUIPlugin_Widget_Texture.png stretch 695px 100px 696px 101px;
+	border-width: 1sp;
+	border-color: #d8d8d8;
+	background-color: #ffffff;
 }
 
 select selectbox option,
@@ -291,10 +194,16 @@ dataselect selectbox option
 select selectbox option:hover,
 dataselect selectbox option:hover
 {
-	background: #CACACA;
+	background: #6699cc;
+	color:#ffffff;
 }
 
-
+select selectbox option:active,
+dataselect selectbox option:active
+{
+	background: #77aadd;
+	color:#ffffff;
+}
 
 input.radio,
 input.checkbox
@@ -374,96 +283,81 @@ scrollbarvertical
 	margin-top: 0sp;
 	margin-bottom: 0sp;
 	margin-right: 0sp;
-	width: 19sp;
+	width: 15sp;
 }
 
 scrollbarvertical slidertrack
 {
-	background-decorator: tiled-vertical;
-	background-top-image: /MyGUIPlugin_Widget_Texture.png 911px 62px 926px 63px;
-	background-center-image: /MyGUIPlugin_Widget_Texture.png 911px 66px 926px 71px;
-	background-bottom-image: /MyGUIPlugin_Widget_Texture.png 911px 76px 926px 77px;
+	background-color: #f1f1f3;
 }
 
 scrollbarvertical sliderbar
 {
-	width: 19sp;
+	width: 15sp;
 	min-height: 46sp;
-
-	background-decorator: tiled-vertical;
-	background-top-image: /MyGUIPlugin_Widget_Texture.png 898px 22px 912px 25px;
-	background-center-image: /MyGUIPlugin_Widget_Texture.png 898px 27px 912px 35px;
-	background-bottom-image: /MyGUIPlugin_Widget_Texture.png 898px 37px 912px 41px;
+	background-color: #cdcdcd;
 }
 
 scrollbarvertical sliderbar:hover
 {
-	background-decorator: tiled-vertical;
-	background-top-image: /MyGUIPlugin_Widget_Texture.png 913px 2px 927px 4px;
-	background-center-image: /MyGUIPlugin_Widget_Texture.png 913px 7px 927px 15px;
-	background-bottom-image: /MyGUIPlugin_Widget_Texture.png 913px 17px 927px 21px;
+	background-color: #bdbdbd;
 }
 
 scrollbarvertical sliderbar:active
 {
-	background-decorator: tiled-vertical;
-	background-top-image: /MyGUIPlugin_Widget_Texture.png 913px 42px 927px 45px;
-	background-center-image: /MyGUIPlugin_Widget_Texture.png 913px 47px 927px 55px;
-	background-bottom-image: /MyGUIPlugin_Widget_Texture.png 913px 57px 927px 61px;
+	background-color: #adadad;
 }
 
 scrollbarvertical sliderarrowdec
 {
-	width: 18sp;
-	height: 18sp;
-	
-	icon-decorator: image;
-	icon-image: /MyGUIPlugin_Widget_Texture.png 941px 207px 954px 221px;
-	icon-z-index: 1;
+	width: 9sp;
+	height: 5sp;
 
-	background-decorator: tiled-vertical;
-	background-top-image: /MyGUIPlugin_Widget_Texture.png 911px 62px 926px 63px;
-	background-center-image: /MyGUIPlugin_Widget_Texture.png 911px 66px 926px 71px;
-	background-bottom-image: /MyGUIPlugin_Widget_Texture.png 911px 76px 926px 77px;
+	border-width: 4sp 3sp;
+	border-color: #f1f1f3;
+
+	icon-decorator: image;
+	icon-image: /AnomalousThemeTexture.png 37px 46px 46px 51px;
+	icon-image-color:#434343;
+	icon-z-index: 1;
+	
+	background-color: #f1f1f3;
 }
 
 scrollbarvertical sliderarrowdec:hover
 {
-	icon-decorator: image;
-	icon-image: /MyGUIPlugin_Widget_Texture.png 941px 193px 954px 208px;
+	icon-image-color:#5588bb;
 }
 
 scrollbarvertical sliderarrowdec:active
 {
-	icon-decorator: image;
-	icon-image: /MyGUIPlugin_Widget_Texture.png 941px 193px 954px 208px;
+	icon-image-color:#6699cc;
 }
 
 scrollbarvertical sliderarrowinc
 {
-	width: 18sp;
-	height: 18sp;
+	width: 9sp;
+	height: 5sp;
+
+	border-width: 4sp 3sp;
+	border-color: #f1f1f3;
 
 	icon-decorator: image;
-	icon-image: /MyGUIPlugin_Widget_Texture.png 941px 113px 954px 127px;
+	icon-image: /AnomalousThemeTexture.png 26px 46px 35px 51px;
+	icon-image-color:#434343;
 	icon-z-index: 1;
 	
-	background-decorator: tiled-vertical;
-	background-top-image: /MyGUIPlugin_Widget_Texture.png 911px 62px 926px 63px;
-	background-center-image: /MyGUIPlugin_Widget_Texture.png 911px 66px 926px 71px;
-	background-bottom-image: /MyGUIPlugin_Widget_Texture.png 911px 76px 926px 77px;
-}
-
-scrollbarvertical sliderarrowinc:active
-{
-	icon-decorator: image;
-	icon-image: /MyGUIPlugin_Widget_Texture.png 941px 126px 954px 140px;
+	background-color: #f1f1f3;
 }
 
 scrollbarvertical sliderarrowinc:hover
 {
-	icon-decorator: image;
-	icon-image: /MyGUIPlugin_Widget_Texture.png 941px 126px 954px 140px;
+	icon-image-color:#5588bb;
+}
+
+scrollbarvertical sliderarrowinc:active
+{
+	icon-image-color:#6699cc;
 }
 
 
@@ -473,8 +367,6 @@ scrollbarhorizontal
 	width: 0sp;
 	height: 0sp;
 }
-
-
 
 datagrid datagridheader
 {
