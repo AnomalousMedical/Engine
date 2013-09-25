@@ -378,9 +378,9 @@ datagrid datagridheader
 	padding: 5sp 10sp 0sp 10sp;
 
 	background-decorator: tiled-horizontal;
-	background-left-image: /MyGUIPlugin_Widget_Texture.png 127px 192px 143px 223px;
-	background-center-image: /MyGUIPlugin_Widget_Texture.png stretch 143px 192px 145px 223px;
-	background-right-image: /MyGUIPlugin_Widget_Texture.png 145px 192px 160px 223px;
+	background-left-image: /AnomalousThemeTexture.png 0px 0px 5px 5px;
+	background-center-image: /AnomalousThemeTexture.png stretch 0px 0px 5px 5px;
+	background-right-image: /AnomalousThemeTexture.png 0px 0px 5px 5px;
 }
 
 datagrid datagridbody
@@ -402,7 +402,7 @@ datagridexpand
 	width: 17sp;
 	
 	icon-decorator: image;
-	icon-image: /MyGUIPlugin_Widget_Texture.png 3px 232px 20px 249px;
+	icon-image: /AnomalousThemeTexture.png 0px 0px 5px 5px;
 }
 
 datagridexpand:hover
