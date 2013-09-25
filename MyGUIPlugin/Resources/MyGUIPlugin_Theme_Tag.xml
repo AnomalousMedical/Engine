@@ -254,6 +254,23 @@
   <Tag name="Anomalous_PopupPanel_Center_Normal">#ececec</Tag>
   <Tag name="Anomalous_PopupPanel_Border_Normal">#000000</Tag>
   
+  <!-- Color Swatch Colors -->
+  <Tag name="Anomalous_ColorSwatchButton_Center_Disabled">#d1d1d1</Tag>
+  <Tag name="Anomalous_ColorSwatchButton_Center_Normal">#000000</Tag>
+  <Tag name="Anomalous_ColorSwatchButton_Center_Highlighted">#77aadd</Tag>
+  <Tag name="Anomalous_ColorSwatchButton_Center_Pushed">#5588bb</Tag>
+  <Tag name="Anomalous_ColorSwatchButton_Center_DisabledChecked">#d1d1d1</Tag>
+  <Tag name="Anomalous_ColorSwatchButton_Center_NormalChecked">#77aadd</Tag>
+  <Tag name="Anomalous_ColorSwatchButton_Center_HighlightedChecked">#225588</Tag>
+  <Tag name="Anomalous_ColorSwatchButton_Center_PushedChecked">#5588bb</Tag>
+  
+  <!-- Camera Button, Uses Button for other colors -->
+  <Tag name="Anomalous_CameraButton_Text_Normal">#ffffff</Tag>
+  
+  <!-- MDI Colors -->
+  <Tag name="Anomalous_MDISeparator_Center_Normal">#afafaf</Tag>
+  <Tag name="Anomalous_MDILocationPreview_Center_Normal">#336699</Tag>
+
 </MyGUI>
 
 

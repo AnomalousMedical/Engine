@@ -378,46 +378,17 @@ ColorSwatchButton
   <Resource type="ResourceSkin" name = "ColorSwatchButton" size = "14 14" texture = "#{Anomalous_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
-    <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 1 12 12" align = "HStretch VStretch" name = "Image"/>
-    <!--Top-->
-    <BasisSkin type="SubSkin" offset = "0 0 14 1" align = "HStretch Top">
-      <State name="normal" offset = "3 3 18 18" colour="#000000"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#77aadd"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#5588bb"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#77aadd"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#225588"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#5588bb"/>
-    </BasisSkin>
-    <!--Left-->
-    <BasisSkin type="SubSkin" offset = "0 1 1 12" align = "Left VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#000000"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#77aadd"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#5588bb"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#77aadd"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#225588"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#5588bb"/>
-    </BasisSkin>
-    <!--Right-->
-    <BasisSkin type="SubSkin" offset = "13 1 1 12" align = "Right VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#000000"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#77aadd"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#5588bb"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#77aadd"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#225588"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#5588bb"/>
-    </BasisSkin>
-    <!--Bottom-->
-    <BasisSkin type="SubSkin" offset = "0 13 14 1" align = "HStretch Bottom">
-      <State name="normal" offset = "3 3 18 18" colour="#000000"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#77aadd"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#5588bb"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#77aadd"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#225588"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#5588bb"/>
-    </BasisSkin>
+    <Child type="ImageBox" skin="ButtonStaticImage" offset_derived = "1 1 -1 -1" align = "HStretch VStretch" name = "Image"/>
     <!--Middle-->
-    <BasisSkin type="SubSkin" offset = "1 1 12 12" align = "HStretch VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#ffffff"/>
+    <BasisSkin type="SubSkin" offset = "0 0 14 14" align = "HStretch Bottom">
+      <State name="disabled" offset = "3 3 18 18" colour="#{Anomalous_ColorSwatchButton_Center_Disabled}"/>
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_ColorSwatchButton_Center_Normal}"/>
+      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_ColorSwatchButton_Center_Highlighted}"/>
+      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_ColorSwatchButton_Center_Pushed}"/>
+      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_ColorSwatchButton_Center_DisabledChecked}"/>
+      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_ColorSwatchButton_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_ColorSwatchButton_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_ColorSwatchButton_Center_PushedChecked}"/>
     </BasisSkin>
   </Resource>
 
@@ -522,7 +493,7 @@ CameraButton
     <!--Text-->
     <BasisSkin type="SimpleText" offset = "0 0 29 26" align = "Stretch">
       <State name="disabled" colour="#{Anomalous_Button_Text_Disabled}" shift = "false"/>
-      <State name="normal" colour="#ffffff" shift = "false"/>
+      <State name="normal" colour="#{Anomalous_CameraButton_Text_Normal}" shift = "false"/>
       <State name="highlighted" colour="#{Anomalous_Button_Text_Highlighted}" shift = "false"/>
       <State name="pushed" colour="#{Anomalous_Button_Text_Pushed}" shift = "true"/>
       <State name="disabled_checked" colour="#{Anomalous_Button_Text_DisabledChecked}" shift = "true"/>
@@ -538,7 +509,7 @@ MDISeparator
   <Resource type="ResourceSkin" name = "MDISeparator" size = "2 2" texture = "#{Anomalous_Theme_Texture}">
     <!--Center-->
     <BasisSkin type="SubSkin" offset = "0 0 2 2" align = "Stretch">
-      <State name="normal" offset = "3 3 18 18" colour="#afafaf"/>
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_MDISeparator_Center_Normal}"/>
     </BasisSkin>
   </Resource>
 
@@ -548,7 +519,7 @@ MDILocationPreview
   <Resource type="ResourceSkin" name = "MDILocationPreview" size = "11 11" texture = "#{Anomalous_Theme_Texture}" >
     <!--Center-->
     <BasisSkin type="SubSkin" offset = "0 0 11 11" align = "Stretch">
-      <State name="normal" offset = "21 98 1 1" colour="#336699"/>
+      <State name="normal" offset = "21 98 1 1" colour="#{Anomalous_MDILocationPreview_Center_Normal}"/>
     </BasisSkin>
   </Resource>
 
