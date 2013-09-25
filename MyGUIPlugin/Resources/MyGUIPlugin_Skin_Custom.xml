@@ -19,6 +19,22 @@ TaskMenuBackground
   </Resource>
 
   <!--*************************
+ButtonPinSkin
+*****************************-->
+  <Resource type="ResourceSkin" name = "ButtonPinSkin" size = "7 12" texture = "#{Anomalous_Theme_Texture}">
+    <BasisSkin type="MainSkin" offset = "0 0 7 12" align = "Stretch">
+      <State name="disabled" offset = "55 69 11 18" colour="#{Anomalous_ButtonAccept_Control_Disabled}"/>
+      <State name="normal" offset = "55 69 11 18" colour="#{Anomalous_ButtonAccept_Control_Normal}"/>
+      <State name="highlighted" offset = "55 69 11 18" colour="#{Anomalous_ButtonAccept_Control_Highlighted}"/>
+      <State name="pushed" offset = "55 69 11 18" colour="#{Anomalous_ButtonAccept_Control_Pushed}"/>
+      <State name="disabled_checked" offset = "68 69 11 18" colour="#{Anomalous_ButtonAccept_Control_DisabledChecked}"/>
+      <State name="normal_checked" offset = "68 69 11 18" colour="#{Anomalous_ButtonAccept_Control_NormalChecked}"/>
+      <State name="highlighted_checked" offset = "68 69 11 18" colour="#{Anomalous_ButtonAccept_Control_HighlightedChecked}"/>
+      <State name="pushed_checked" offset = "68 69 11 18" colour="#{Anomalous_ButtonAccept_Control_PushedChecked}"/>
+    </BasisSkin>
+  </Resource>
+
+  <!--*************************
 TaskMenuButtonGridButton
 *****************************-->
   <Resource type="ResourceSkin" name = "TaskMenuButtonGridButton" size = "122 122" texture = "#{Anomalous_Theme_Texture}">
