@@ -280,6 +280,25 @@
   <!-- Slide Drop Preview -->
   <Tag name="Anomalous_SlideDropPreview_Center_Normal">#6699cc</Tag>
   
+  <!-- Timeline Colors -->
+  <Tag name="Anomalous_TimelineButton_Center_Normal">#474747</Tag>
+  <Tag name="Anomalous_TimelineButton_Center_Highlighted">#77aadd</Tag>
+  <Tag name="Anomalous_TimelineButton_Center_Pushed">#5588bb</Tag>
+  <Tag name="Anomalous_TimelineButton_Center_NormalChecked">#000000</Tag>
+  <Tag name="Anomalous_TimelineButton_Center_HighlightedChecked">#225588</Tag>
+  <Tag name="Anomalous_TimelineButton_Center_PushedChecked">#5588bb</Tag>
+
+  <Tag name="Anomalous_TimeAdjuster_Center_Normal">#ffffff</Tag>
+  <Tag name="Anomalous_TimeAdjuster_Center_Highlighted">#77aadd</Tag>
+  <Tag name="Anomalous_TimeAdjuster_Center_Pushed">#5588bb</Tag>
+  <Tag name="Anomalous_TimeAdjuster_Center_NormalChecked">#000000</Tag>
+  <Tag name="Anomalous_TimeAdjuster_Center_HighlightedChecked">#225588</Tag>
+  <Tag name="Anomalous_TimeAdjuster_Center_PushedChecked">#5588bb</Tag>
+
+  <Tag name="Anomalous_TimelineMarker_Center_Normal">#333333</Tag>
+
+  <Tag name="Anomalous_TimelineSelectionRegion_Center_Normal">#6699cc</Tag>
+
 </MyGUI>
 
 

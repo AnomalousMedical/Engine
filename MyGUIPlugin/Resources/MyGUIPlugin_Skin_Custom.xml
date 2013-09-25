@@ -576,12 +576,12 @@ TimelineButtonSkin
   <Resource type="ResourceSkin" name = "TimelineButtonSkin" size = "10 10" texture = "#{Anomalous_Theme_Texture}">
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 10 10" align = "HStretch VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#474747"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#77aadd"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#5588bb"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#000000"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#225588"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#5588bb"/>
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_TimelineButton_Center_Normal}"/>
+      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_TimelineButton_Center_Highlighted}"/>
+      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_TimelineButton_Center_Pushed}"/>
+      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_TimelineButton_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_TimelineButton_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_TimelineButton_Center_PushedChecked}"/>
     </BasisSkin>
   </Resource>
 
@@ -591,33 +591,18 @@ TimelineButtonTimeAdjusterSkin
   <Resource type="ResourceSkin" name = "TimelineButtonTimeAdjusterSkin" size = "10 10" texture = "#{Anomalous_Theme_Texture}">
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 10 10" align = "HStretch VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#ffffff"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#77aadd"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#5588bb"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#000000"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#225588"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#5588bb"/>
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_TimeAdjuster_Center_Normal}"/>
+      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_TimeAdjuster_Center_Highlighted}"/>
+      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_TimeAdjuster_Center_Pushed}"/>
+      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_TimeAdjuster_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_TimeAdjuster_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_TimeAdjuster_Center_PushedChecked}"/>
     </BasisSkin>
-    <!--Top-->
-    <BasisSkin type="SubSkin" offset = "0 0 10 1" align = "HStretch Top">
-      <State name="normal" offset = "3 3 18 18" colour="#474747"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#000000"/>
-    </BasisSkin>
-    <!--Left-->
-    <BasisSkin type="SubSkin" offset = "0 1 1 8" align = "Left VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#474747"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#000000"/>
-    </BasisSkin>
-    <!--Right-->
-    <BasisSkin type="SubSkin" offset = "9 1 1 8" align = "Right VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#474747"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#000000"/>
-    </BasisSkin>
-    <!--Bottom-->
-    <BasisSkin type="SubSkin" offset = "0 9 10 1" align = "HStretch Bottom">
-      <State name="normal" offset = "3 3 18 18" colour="#474747"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#000000"/>
-    </BasisSkin>
+    <!--Border-->
+    <Border width="1">
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_TimelineButton_Center_Normal}"/>
+      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_TimelineButton_Center_NormalChecked}"/>
+    </Border>
   </Resource>
   
   <!--*************************
@@ -625,7 +610,7 @@ TimelineMarker
 *****************************-->
   <Resource type="ResourceSkin" name = "TimelineMarker" size = "2 2" texture = "#{Anomalous_Theme_Texture}">
     <BasisSkin type="MainSkin" offset = "0 0 2 2" align = "Stretch">
-      <State name="normal" offset = "3 3 18 18" colour="#333333"/>
+      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_TimelineMarker_Center_Normal}"/>
     </BasisSkin>
   </Resource>
 
@@ -635,7 +620,7 @@ TimelineSelectionRegion
   <Resource type="ResourceSkin" name = "TimelineSelectionRegion" size = "11 11" texture = "#{Anomalous_Theme_Texture}" >
     <!--Center-->
     <BasisSkin type="SubSkin" offset = "0 0 11 11" align = "Stretch">
-      <State name="normal" offset = "21 98 1 1" colour="#6699cc"/>
+      <State name="normal" offset = "21 98 1 1" colour="#{Anomalous_TimelineSelectionRegion_Center_Normal}"/>
     </BasisSkin>
   </Resource>
 
