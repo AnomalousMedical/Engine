@@ -103,7 +103,14 @@ namespace Engine
                 return true;
             }
 
-            Log.Warning("Could not find archive {0}. Archive not loaded into virtual file system", path);
+            try
+            {
+                Log.Warning("Could not find archive '{0}'. Archive not loaded into virtual file system", Path.GetFullPath(path));
+            }
+            catch (Exception)
+            {
+                Log.Warning("Could not find archive '{0}'. Archive not loaded into virtual file system", path);
+            }
             return false;
         }
 
