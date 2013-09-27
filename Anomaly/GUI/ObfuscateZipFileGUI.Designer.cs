@@ -37,6 +37,7 @@
             this.browseSourceFileButton = new System.Windows.Forms.Button();
             this.browseDestFileButton = new System.Windows.Forms.Button();
             this.obfuscateButton = new System.Windows.Forms.Button();
+            this.deobfuscateButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -63,8 +64,8 @@
             // 
             // sourceTextBox
             // 
-            this.sourceTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.sourceTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.sourceTextBox.Location = new System.Drawing.Point(8, 23);
             this.sourceTextBox.Name = "sourceTextBox";
             this.sourceTextBox.Size = new System.Drawing.Size(322, 20);
@@ -72,8 +73,8 @@
             // 
             // destTextBox
             // 
-            this.destTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.destTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.destTextBox.Location = new System.Drawing.Point(8, 64);
             this.destTextBox.Name = "destTextBox";
             this.destTextBox.Size = new System.Drawing.Size(322, 20);
@@ -111,11 +112,22 @@
             this.obfuscateButton.UseVisualStyleBackColor = true;
             this.obfuscateButton.Click += new System.EventHandler(this.obfuscateButton_Click);
             // 
+            // deobfuscateButton
+            // 
+            this.deobfuscateButton.Location = new System.Drawing.Point(89, 91);
+            this.deobfuscateButton.Name = "deobfuscateButton";
+            this.deobfuscateButton.Size = new System.Drawing.Size(83, 23);
+            this.deobfuscateButton.TabIndex = 7;
+            this.deobfuscateButton.Text = "Deobfuscate";
+            this.deobfuscateButton.UseVisualStyleBackColor = true;
+            this.deobfuscateButton.Click += new System.EventHandler(this.deobfuscateButton_Click);
+            // 
             // ObfuscateZipFileGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 120);
+            this.Controls.Add(this.deobfuscateButton);
             this.Controls.Add(this.obfuscateButton);
             this.Controls.Add(this.browseDestFileButton);
             this.Controls.Add(this.browseSourceFileButton);
@@ -141,5 +153,6 @@
         private System.Windows.Forms.Button browseSourceFileButton;
         private System.Windows.Forms.Button browseDestFileButton;
         private System.Windows.Forms.Button obfuscateButton;
+        private System.Windows.Forms.Button deobfuscateButton;
     }
 }

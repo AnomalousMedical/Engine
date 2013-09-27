@@ -42,5 +42,16 @@ namespace Anomaly
                 }
             }
         }
+
+        private void deobfuscateButton_Click(object sender, EventArgs e)
+        {
+            if (sourceTextBox.Text != null)
+            {
+                if (destTextBox.Text != null)
+                {
+                    PublishController.obfuscateZipFile(sourceTextBox.Text, destTextBox.Text);
+                }
+            }
+        }
     }
 }

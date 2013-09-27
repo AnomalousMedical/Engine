@@ -198,6 +198,33 @@ namespace Anomaly
             Log.Info("Finished obfuscation to {0}", obfuscateFileName);
         }
 
+        public static void deobfuscateZipFile(String obfuscatedFileName, String deobfuscatedFileName)
+        {
+            Log.Info("Starting deobfuscation to {0}", deobfuscatedFileName);
+            if (File.Exists(deobfuscatedFileName))
+            {
+                File.Delete(deobfuscatedFileName);
+            }
+
+            byte[] buffer = new byte[4096];
+            using (Stream source = File.Open(obfuscatedFileName, System.IO.FileMode.Open, System.IO.FileAccess.Read))
+            {
+                using (Stream dest = File.Open(deobfuscatedFileName, System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write))
+                {
+                    int numRead;
+                    while ((numRead = source.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        for (int i = 0; i < numRead; ++i)
+                        {
+                            buffer[i] ^= 73;
+                        }
+                        dest.Write(buffer, 0, numRead);
+                    }
+                }
+            }
+            Log.Info("Finished deobfuscation to {0}", deobfuscatedFileName);
+        }
+
         /// <summary>
         /// Get the list of files as pretty names, aka not mangled to all lower
         /// case for comparison. This is suitable for display.
