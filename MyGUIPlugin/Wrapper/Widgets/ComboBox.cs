@@ -57,6 +57,16 @@ namespace MyGUIPlugin
             return ComboBox_findItemIndexWith(widget, name).ToUInt32();
         }
 
+        public uint findItemIndexWithData(Object data)
+        {
+            int dataIndex = objectsList.IndexOf(data);
+            if (dataIndex == -1)
+            {
+                return Invalid;
+            }
+            return (uint)dataIndex;
+        }
+
         public void clearIndexSelected()
         {
             ComboBox_clearIndexSelected(widget);
