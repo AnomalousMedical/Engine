@@ -534,20 +534,12 @@ MenuItemNormalSkin
       <State name="normal" offset = "3 25 18 18"/>
       <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_MenuBarButton_Center_Highlighted}"/>
       <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_MenuBarButton_Center_Pushed}"/>
-      <State name="disabled_checked" colour="#{Anomalous_MenuBarButton_Center_DisabledChecked}"/>
-      <State name="normal_checked" colour="#{Anomalous_MenuBarButton_Center_NormalChecked}"/>
-      <State name="highlighted_checked" colour="#{Anomalous_MenuBarButton_Center_HighlightedChecked}"/>
-      <State name="pushed_checked" colour="#{Anomalous_MenuBarButton_Center_PushedChecked}"/>
     </BasisSkin>
     <BasisSkin type="SimpleText" offset = "14 5 2 2"  align = "Stretch">
       <State name="disabled" colour="#{Anomalous_MenuBarButton_Text_Disabled}"/>
       <State name="normal" colour="#{Anomalous_MenuBarButton_Text_Normal}"/>
       <State name="highlighted" colour="#{Anomalous_MenuBarButton_Text_Highlighted}"/>
       <State name="pushed" colour="#{Anomalous_MenuBarButton_Text_Pushed}"/>
-      <State name="disabled_checked" colour="#{Anomalous_MenuBarButton_Text_DisabledChecked}"/>
-      <State name="normal_checked" colour="#{Anomalous_MenuBarButton_Text_NormalChecked}"/>
-      <State name="highlighted_checked" colour="#{Anomalous_MenuBarButton_Text_HighlightedChecked}"/>
-      <State name="pushed_checked" colour="#{Anomalous_MenuBarButton_Text_PushedChecked}"/>
     </BasisSkin>
   </Resource>
 
@@ -558,9 +550,6 @@ MenuItemPopupButtonSkin
     <BasisSkin type="MainSkin" offset = "3 3 5 9" align = "Stretch">
       <State name="disabled" offset = "28 53 5 9" colour="#{Anomalous_MenuItemPopupButton_Control_Disabled}"/>
       <State name="normal" offset = "28 53 5 9" colour="#{Anomalous_MenuItemPopupButton_Control_Normal}"/>
-      <State name="highlighted" offset = "28 53 5 9" colour="#{Anomalous_MenuItemPopupButton_Control_Highlighted}"/>
-      <State name="pushed" offset = "28 53 5 9" colour="#{Anomalous_MenuItemPopupButton_Control_Pushed}"/>
-      <State name="normal_checked" offset = "28 53 5 9" colour="#{Anomalous_MenuItemPopupButton_Control_NormalChecked}"/>
     </BasisSkin>
   </Resource>
 
