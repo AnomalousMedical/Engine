@@ -20,6 +20,7 @@ namespace MyGUIPlugin
             text.NeedKeyFocus = false;
             this.hashMark = hashMark;
             hashMark.NeedKeyFocus = false;
+            hashMark.NeedMouseFocus = false;
             this.numberLine = numberLine;
         }
 
