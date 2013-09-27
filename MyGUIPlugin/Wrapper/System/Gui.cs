@@ -158,7 +158,6 @@ namespace MyGUIPlugin
             set
             {
                 Gui_setScaleFactor(gui, value);
-                ScaleHelper.CachedScaleFactor = value;
             }
         }
 
