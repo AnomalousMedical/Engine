@@ -259,7 +259,7 @@ AppButton
   <Resource type="ResourceSkin" name = "AppButton" size = "29 26" texture = "#{Anomalous_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
-    <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 1 130 32" align = "HCenter VCenter" name = "Image"/>
+    <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 1 114 32" align = "HCenter VCenter" name = "Image"/>
     <BasisSkin type="SubSkin" offset = "0 0 29 26" align = "Stretch">
       <State name="disabled" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_Disabled}"/>
       <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_Normal}"/>
