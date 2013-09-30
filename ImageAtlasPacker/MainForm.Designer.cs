@@ -38,12 +38,12 @@
             this.saveImageDialog = new System.Windows.Forms.SaveFileDialog();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.imagePropertiesControl1 = new ImageAtlasPacker.ImagePropertiesControl();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.picturePanel = new System.Windows.Forms.Panel();
+            this.imageIndexControl1 = new ImageAtlasPacker.ImageIndexControl();
             this.openTemplateDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveTemplateDialog = new System.Windows.Forms.SaveFileDialog();
-            this.imagePropertiesControl1 = new ImageAtlasPacker.ImagePropertiesControl();
-            this.imageIndexControl1 = new ImageAtlasPacker.ImageIndexControl();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -145,6 +145,16 @@
             this.splitContainer2.SplitterDistance = 257;
             this.splitContainer2.TabIndex = 1;
             // 
+            // imagePropertiesControl1
+            // 
+            this.imagePropertiesControl1.AllowDrop = true;
+            this.imagePropertiesControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imagePropertiesControl1.Location = new System.Drawing.Point(0, 0);
+            this.imagePropertiesControl1.Name = "imagePropertiesControl1";
+            this.imagePropertiesControl1.PictureBox = this.pictureBox1;
+            this.imagePropertiesControl1.Size = new System.Drawing.Size(257, 565);
+            this.imagePropertiesControl1.TabIndex = 0;
+            // 
             // pictureBox1
             // 
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -164,24 +174,6 @@
             this.picturePanel.Size = new System.Drawing.Size(416, 565);
             this.picturePanel.TabIndex = 0;
             // 
-            // openTemplateDialog
-            // 
-            this.openTemplateDialog.Filter = "Text Files(*.txt)|*.txt;";
-            // 
-            // saveTemplateDialog
-            // 
-            this.saveTemplateDialog.Filter = "Text Files(*.txt)|*.txt;";
-            // 
-            // imagePropertiesControl1
-            // 
-            this.imagePropertiesControl1.AllowDrop = true;
-            this.imagePropertiesControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imagePropertiesControl1.Location = new System.Drawing.Point(0, 0);
-            this.imagePropertiesControl1.Name = "imagePropertiesControl1";
-            this.imagePropertiesControl1.PictureBox = this.pictureBox1;
-            this.imagePropertiesControl1.Size = new System.Drawing.Size(257, 565);
-            this.imagePropertiesControl1.TabIndex = 0;
-            // 
             // imageIndexControl1
             // 
             this.imageIndexControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -192,6 +184,14 @@
             this.imageIndexControl1.Name = "imageIndexControl1";
             this.imageIndexControl1.Size = new System.Drawing.Size(258, 565);
             this.imageIndexControl1.TabIndex = 0;
+            // 
+            // openTemplateDialog
+            // 
+            this.openTemplateDialog.Filter = "Text Files(*.txt)|*.txt;";
+            // 
+            // saveTemplateDialog
+            // 
+            this.saveTemplateDialog.Filter = "Text Files(*.txt)|*.txt;";
             // 
             // MainForm
             // 
