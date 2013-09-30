@@ -121,12 +121,12 @@ namespace OgreWrapper
             }
         }
 
-        protected override void load()
+        protected internal override void load()
         {
             factory.archiveLoaded(this);
         }
 
-        protected override void unload()
+        protected internal override void unload()
         {
             foreach (MemoryStreamInfo info in fileList.Values)
             {
@@ -136,13 +136,13 @@ namespace OgreWrapper
             factory.archiveUnloaded(this);
         }
 
-        protected override Stream doOpen(string filename)
+        protected internal override Stream doOpen(string filename)
         {
             filename = filename.Substring(name.Length);
             return fileList[filename].openStream();
         }
 
-        protected override void doList(bool recursive, bool dirs, IntPtr ogreStringVector)
+        protected internal override void doList(bool recursive, bool dirs, IntPtr ogreStringVector)
         {
             foreach (MemoryStreamInfo i in fileList.Values)
             {
@@ -150,7 +150,7 @@ namespace OgreWrapper
             }
         }
 
-        protected override void doListFileInfo(bool recursive, bool dirs, IntPtr ogreFileList, IntPtr archive)
+        protected internal override void doListFileInfo(bool recursive, bool dirs, IntPtr ogreFileList, IntPtr archive)
         {
             foreach (MemoryStreamInfo i in fileList.Values)
             {
@@ -158,7 +158,7 @@ namespace OgreWrapper
             }
         }
 
-        protected override void dofind(String pattern, bool recursive, bool dirs, IntPtr ogreStringVector)
+        protected internal override void dofind(String pattern, bool recursive, bool dirs, IntPtr ogreStringVector)
         {
             Regex r = new Regex(wildcardToRegex(pattern));
             bool fullMatch = pattern.Contains('/') || pattern.Contains('\\');
@@ -171,7 +171,7 @@ namespace OgreWrapper
             }
         }
 
-        protected override void dofindFileInfo(String pattern, bool recursive, bool dirs, IntPtr ogreFileList, IntPtr archive)
+        protected internal override void dofindFileInfo(String pattern, bool recursive, bool dirs, IntPtr ogreFileList, IntPtr archive)
         {
             if (pattern.StartsWith(name))
             {
@@ -188,7 +188,7 @@ namespace OgreWrapper
             }
         }
 
-        protected override bool exists(string filename)
+        protected internal override bool exists(string filename)
         {
             if (filename.StartsWith(name))
             {

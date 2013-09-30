@@ -18,17 +18,17 @@ namespace OgreWrapper
             baseName = name;
         }
 
-        protected override void load()
+        protected internal override void load()
         {
             vfs = VirtualFileSystem.Instance;
         }
 
-        protected override void unload()
+        protected internal override void unload()
         {
             vfs = null;
         }
 
-        protected override Stream doOpen(string filename)
+        protected internal override Stream doOpen(string filename)
         {
             if (!vfs.exists(filename))
             {
@@ -37,7 +37,7 @@ namespace OgreWrapper
             return vfs.openStream(filename, Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read);
         }
 
-        protected override void doList(bool recursive, bool dirs, IntPtr ogreStringVector)
+        protected internal override void doList(bool recursive, bool dirs, IntPtr ogreStringVector)
         {
             IEnumerable<String> files;
 	        if(dirs)
@@ -54,7 +54,7 @@ namespace OgreWrapper
 	        }
         }
 
-        protected override void doListFileInfo(bool recursive, bool dirs, IntPtr ogreFileList, IntPtr archive)
+        protected internal override void doListFileInfo(bool recursive, bool dirs, IntPtr ogreFileList, IntPtr archive)
         {
             IEnumerable<String> files;
             if(dirs)
@@ -75,7 +75,7 @@ namespace OgreWrapper
 	        }
         }
 
-        protected override void dofind(string pattern, bool recursive, bool dirs, IntPtr ogreStringVector)
+        protected internal override void dofind(string pattern, bool recursive, bool dirs, IntPtr ogreStringVector)
         {
             IEnumerable<String> files;
             if(dirs)
@@ -92,7 +92,7 @@ namespace OgreWrapper
 	        }
         }
 
-        protected override void dofindFileInfo(string pattern, bool recursive, bool dirs, IntPtr ogreFileList, IntPtr archive)
+        protected internal override void dofindFileInfo(string pattern, bool recursive, bool dirs, IntPtr ogreFileList, IntPtr archive)
         {
             IEnumerable<String> files;
             if (dirs)
@@ -113,7 +113,7 @@ namespace OgreWrapper
             }
         }
 
-        protected void pushFixedFileInfo(String file, IntPtr ogreFileList, IntPtr archive)
+        protected internal void pushFixedFileInfo(String file, IntPtr ogreFileList, IntPtr archive)
         {
             VirtualFileInfo archiveInfo = vfs.getFileInfo(file);
             String fixedFilename = archiveInfo.FullName.Replace(baseName, "");
@@ -129,7 +129,7 @@ namespace OgreWrapper
             OgreFileInfoList_push_back(ogreFileList, archive, new IntPtr(archiveInfo.CompressedSize), new IntPtr(archiveInfo.UncompressedSize), archiveInfo.Name, fixedFilename, fixedPath);
         }
 
-        protected override bool exists(string filename)
+        protected internal override bool exists(string filename)
         {
             return !String.IsNullOrEmpty(filename) && vfs.exists(baseName + "/" + filename);
         }

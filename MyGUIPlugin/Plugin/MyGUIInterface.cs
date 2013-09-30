@@ -78,7 +78,7 @@ namespace MyGUIPlugin
         {
             Log.Info("Initializing MyGUI");
 
-            OgreResourceGroupManager.getInstance().addResourceLocation(GetType().AssemblyQualifiedName, "EmbeddedResource", "MyGUI", true);
+            OgreResourceGroupManager.getInstance().addResourceLocation(GetType().AssemblyQualifiedName, "EmbeddedScalableResource", "MyGUI", true);
             OgreResourceGroupManager.getInstance().initializeAllResourceGroups();
 
             sceneManager = Root.getSingleton().createSceneManager(SceneType.ST_GENERIC, "MyGUIScene");

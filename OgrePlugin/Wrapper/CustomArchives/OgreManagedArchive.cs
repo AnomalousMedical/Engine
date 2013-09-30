@@ -59,9 +59,9 @@ namespace OgreWrapper
             existsCallback = null;
         }
 
-        protected abstract void load();
+        protected internal abstract void load();
 
-        protected abstract void unload();
+        protected internal abstract void unload();
 
         IntPtr open(String filename, bool readOnly)
         {
@@ -69,7 +69,7 @@ namespace OgreWrapper
             return managedStream.NativeStream;
         }
 
-        protected abstract Stream doOpen(String filename);
+        protected internal abstract Stream doOpen(String filename);
 
         //List
 
@@ -80,7 +80,7 @@ namespace OgreWrapper
             return ogreStringVector;
         }
 
-        protected abstract void doList(bool recursive, bool dirs, IntPtr ogreStringVector);
+        protected internal abstract void doList(bool recursive, bool dirs, IntPtr ogreStringVector);
 
         //List File Info
 
@@ -91,7 +91,7 @@ namespace OgreWrapper
             return ogreFileList;
         }
 
-        protected abstract void doListFileInfo(bool recursive, bool dirs, IntPtr ogreFileList, IntPtr archive);
+        protected internal abstract void doListFileInfo(bool recursive, bool dirs, IntPtr ogreFileList, IntPtr archive);
 
         //Find
 
@@ -102,7 +102,7 @@ namespace OgreWrapper
             return ogreStringVector;
         }
 
-        protected abstract void dofind(String pattern, bool recursive, bool dirs, IntPtr ogreStringVector);
+        protected internal abstract void dofind(String pattern, bool recursive, bool dirs, IntPtr ogreStringVector);
 
         //Find File Info
 
@@ -113,9 +113,9 @@ namespace OgreWrapper
             return ogreFileList;
         }
 
-        protected abstract void dofindFileInfo(String pattern, bool recursive, bool dirs, IntPtr ogreFileList, IntPtr archive);
+        protected internal abstract void dofindFileInfo(String pattern, bool recursive, bool dirs, IntPtr ogreFileList, IntPtr archive);
 
-        protected abstract bool exists(String filename);
+        protected internal abstract bool exists(String filename);
 
 #region PInvoke
 
