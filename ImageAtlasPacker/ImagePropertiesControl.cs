@@ -12,12 +12,17 @@ namespace ImageAtlasPacker
 {
     public partial class ImagePropertiesControl : UserControl
     {
+        public event Action<String> DroppedTemplateFile;
+
         private List<BitmapEntry> images = new List<BitmapEntry>();
 
         public ImagePropertiesControl()
         {
             InitializeComponent();
             this.Disposed += new EventHandler(ImagePropertiesControl_Disposed);
+
+            inputTextureList.DragEnter += dragEnter;
+            inputTextureList.DragDrop += dragDrop;
         }
 
         void ImagePropertiesControl_Disposed(object sender, EventArgs e)
@@ -42,15 +47,7 @@ namespace ImageAtlasPacker
         {
             if (openFileDialog.ShowDialog(this) == DialogResult.OK)
             {
-                foreach (String imageFile in openFileDialog.FileNames)
-                {
-                    Bitmap bmp = new Bitmap(imageFile);
-                    previewImageListLarge.Images.Add(imageFile, bmp);
-                    previewImageListSmall.Images.Add(imageFile, bmp);
-                    ListViewItem listItem = inputTextureList.Items.Add(imageFile, Path.GetFileName(imageFile), imageFile);
-                    listItem.Tag = new BitmapEntry(imageFile, bmp, listItem);
-                    images.Add((BitmapEntry)listItem.Tag);
-                }
+                openFiles(openFileDialog.FileNames);
             }
         }
 
@@ -111,6 +108,46 @@ namespace ImageAtlasPacker
             else
             {
                 inputTextureList.View = View.LargeIcon;
+            }
+        }
+
+        void dragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+        }
+
+        void dragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            openFiles(files);
+        }
+
+        private void openFiles(IEnumerable<String> filenames)
+        {
+            foreach (String imageFile in filenames)
+            {
+                try
+                {
+                    Bitmap bmp = new Bitmap(imageFile);
+                    previewImageListLarge.Images.Add(imageFile, bmp);
+                    previewImageListSmall.Images.Add(imageFile, bmp);
+                    ListViewItem listItem = inputTextureList.Items.Add(imageFile, Path.GetFileName(imageFile), imageFile);
+                    listItem.Tag = new BitmapEntry(imageFile, bmp, listItem);
+                    images.Add((BitmapEntry)listItem.Tag);
+                }
+                catch (ArgumentException)
+                {
+                    if (imageFile.EndsWith(".txt", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        if (DroppedTemplateFile != null)
+                        {
+                            DroppedTemplateFile.Invoke(imageFile);
+                        }
+                    }
+                }
             }
         }
     }

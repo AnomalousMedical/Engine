@@ -31,22 +31,24 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAtlasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveIndexTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadIndexTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveImageDialog = new System.Windows.Forms.SaveFileDialog();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.picturePanel = new System.Windows.Forms.Panel();
-            this.saveIndexTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadIndexTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openTemplateDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveTemplateDialog = new System.Windows.Forms.SaveFileDialog();
             this.imagePropertiesControl1 = new ImageAtlasPacker.ImagePropertiesControl();
             this.imageIndexControl1 = new ImageAtlasPacker.ImageIndexControl();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
@@ -81,6 +83,27 @@
             this.saveAtlasToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.saveAtlasToolStripMenuItem.Text = "Save Atlas";
             this.saveAtlasToolStripMenuItem.Click += new System.EventHandler(this.saveAtlasToolStripMenuItem_Click);
+            // 
+            // saveIndexTemplateToolStripMenuItem
+            // 
+            this.saveIndexTemplateToolStripMenuItem.Name = "saveIndexTemplateToolStripMenuItem";
+            this.saveIndexTemplateToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.saveIndexTemplateToolStripMenuItem.Text = "Save Index Template";
+            this.saveIndexTemplateToolStripMenuItem.Click += new System.EventHandler(this.saveIndexTemplateToolStripMenuItem_Click);
+            // 
+            // loadIndexTemplateToolStripMenuItem
+            // 
+            this.loadIndexTemplateToolStripMenuItem.Name = "loadIndexTemplateToolStripMenuItem";
+            this.loadIndexTemplateToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.loadIndexTemplateToolStripMenuItem.Text = "Load Index Template";
+            this.loadIndexTemplateToolStripMenuItem.Click += new System.EventHandler(this.loadIndexTemplateToolStripMenuItem_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // saveImageDialog
             // 
@@ -140,27 +163,6 @@
             this.picturePanel.Size = new System.Drawing.Size(416, 565);
             this.picturePanel.TabIndex = 0;
             // 
-            // saveIndexTemplateToolStripMenuItem
-            // 
-            this.saveIndexTemplateToolStripMenuItem.Name = "saveIndexTemplateToolStripMenuItem";
-            this.saveIndexTemplateToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-            this.saveIndexTemplateToolStripMenuItem.Text = "Save Index Template";
-            this.saveIndexTemplateToolStripMenuItem.Click += new System.EventHandler(this.saveIndexTemplateToolStripMenuItem_Click);
-            // 
-            // loadIndexTemplateToolStripMenuItem
-            // 
-            this.loadIndexTemplateToolStripMenuItem.Name = "loadIndexTemplateToolStripMenuItem";
-            this.loadIndexTemplateToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-            this.loadIndexTemplateToolStripMenuItem.Text = "Load Index Template";
-            this.loadIndexTemplateToolStripMenuItem.Click += new System.EventHandler(this.loadIndexTemplateToolStripMenuItem_Click);
-            // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
-            // 
             // openTemplateDialog
             // 
             this.openTemplateDialog.Filter = "Text Files(*.txt)|*.txt;";
@@ -171,6 +173,7 @@
             // 
             // imagePropertiesControl1
             // 
+            this.imagePropertiesControl1.AllowDrop = true;
             this.imagePropertiesControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.imagePropertiesControl1.Location = new System.Drawing.Point(0, 0);
             this.imagePropertiesControl1.Name = "imagePropertiesControl1";
@@ -203,9 +206,11 @@
             this.menuStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.picturePanel.ResumeLayout(false);

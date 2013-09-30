@@ -15,6 +15,7 @@ namespace ImageAtlasPacker
         public MainForm()
         {
             InitializeComponent();
+            imagePropertiesControl1.DroppedTemplateFile += imagePropertiesControl1_DroppedTemplateFile;
         }
 
         private void saveAtlasToolStripMenuItem_Click(object sender, EventArgs e)
@@ -93,44 +94,54 @@ namespace ImageAtlasPacker
             Footer,
         }
 
+        void imagePropertiesControl1_DroppedTemplateFile(string obj)
+        {
+            openTemplate(obj);
+        }
+
         private void loadIndexTemplateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (openTemplateDialog.ShowDialog(this) == DialogResult.OK)
             {
-                using (StreamReader sr = new StreamReader(File.Open(openTemplateDialog.FileName, FileMode.Open, FileAccess.Read)))
+                openTemplate(openTemplateDialog.FileName);
+            }
+        }
+
+        private void openTemplate(String filename)
+        {
+            using (StreamReader sr = new StreamReader(File.Open(filename, FileMode.Open, FileAccess.Read)))
+            {
+                StringBuilder section = new StringBuilder();
+                LoadTemplateMode mode = LoadTemplateMode.Header;
+                String line;
+                while (!sr.EndOfStream)
                 {
-                    StringBuilder section = new StringBuilder();
-                    LoadTemplateMode mode = LoadTemplateMode.Header;
-                    String line;
-                    while (!sr.EndOfStream)
+                    line = sr.ReadLine();
+                    if (line == HEADER)
                     {
-                        line = sr.ReadLine();
-                        if (line == HEADER)
-                        {
-                            loadSection(section, mode);
-                            mode = LoadTemplateMode.Header;
-                            section = new StringBuilder();
-                        }
-                        else if (line == INDEX)
-                        {
-                            loadSection(section, mode);
-                            mode = LoadTemplateMode.Index;
-                            section = new StringBuilder();
-                        }
-                        else if (line == FOOTER)
-                        {
-                            loadSection(section, mode);
-                            mode = LoadTemplateMode.Footer;
-                            section = new StringBuilder();
-                        }
-                        else
-                        {
-                            section.Append(line);
-                            section.Append(Environment.NewLine);
-                        }
+                        loadSection(section, mode);
+                        mode = LoadTemplateMode.Header;
+                        section = new StringBuilder();
                     }
-                    loadSection(section, mode);
+                    else if (line == INDEX)
+                    {
+                        loadSection(section, mode);
+                        mode = LoadTemplateMode.Index;
+                        section = new StringBuilder();
+                    }
+                    else if (line == FOOTER)
+                    {
+                        loadSection(section, mode);
+                        mode = LoadTemplateMode.Footer;
+                        section = new StringBuilder();
+                    }
+                    else
+                    {
+                        section.Append(line);
+                        section.Append(Environment.NewLine);
+                    }
                 }
+                loadSection(section, mode);
             }
         }
 
