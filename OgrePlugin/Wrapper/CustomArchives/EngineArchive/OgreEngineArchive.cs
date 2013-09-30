@@ -32,6 +32,7 @@ namespace OgreWrapper
         {
             if (!vfs.exists(filename))
             {
+                //This is technically wrong, ogre is suppost to supply filenames fully qualified, but our setup doesn't always so we have this crutch
                 filename = baseName + "/" + filename;
             }
             return vfs.openStream(filename, Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read);
@@ -131,7 +132,8 @@ namespace OgreWrapper
 
         protected internal override bool exists(string filename)
         {
-            return !String.IsNullOrEmpty(filename) && vfs.exists(baseName + "/" + filename);
+            //The baseName + "/" + filename check is technically invalid, however, this archive supports filenames that are not "full" so we include both checks.
+            return !String.IsNullOrEmpty(filename) && (vfs.exists(filename) || vfs.exists(baseName + "/" + filename));
         }
     }
 }

@@ -109,6 +109,7 @@
     <Compile Include="Wrapper\BoundingVolumes\PlaneBoundedVolume.cs" />
     <Compile Include="Wrapper\CustomArchives\Embedded\EmbeddedResourceArchive.cs" />
     <Compile Include="Wrapper\CustomArchives\Embedded\EmbeddedResourceArchiveFactory.cs" />
+    <Compile Include="Wrapper\CustomArchives\EngineArchive\OgreScalableEngineArchiveFactory.cs" />
     <Compile Include="Wrapper\CustomArchives\ScalableResourceArchive.cs" />
     <Compile Include="Wrapper\CustomArchives\Embedded\EmbeddedScalableResourceArchiveFactory.cs" />
     <Compile Include="Wrapper\CustomArchives\EngineArchive\OgreEngineArchive.cs" />

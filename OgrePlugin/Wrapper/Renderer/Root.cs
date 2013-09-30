@@ -47,6 +47,7 @@ namespace OgreWrapper
         OgreEngineArchiveFactory engineArchives = new OgreEngineArchiveFactory();
         MemoryArchiveFactory memoryArchives = new MemoryArchiveFactory();
         EmbeddedScalableResourceArchiveFactory embeddedScalableResources = new EmbeddedScalableResourceArchiveFactory();
+        OgreScalableEngineArchiveFactory scalableEngineArchives = new OgreScalableEngineArchiveFactory();
 
         static Root instance;
 
@@ -75,6 +76,7 @@ namespace OgreWrapper
             ArchiveManager_addArchiveFactory(engineArchives.NativeFactory);
             ArchiveManager_addArchiveFactory(memoryArchives.NativeFactory);
             ArchiveManager_addArchiveFactory(embeddedScalableResources.NativeFactory);
+            ArchiveManager_addArchiveFactory(scalableEngineArchives.NativeFactory);
             instance = this;
         }
 
@@ -90,6 +92,7 @@ namespace OgreWrapper
             engineArchives.Dispose();
             memoryArchives.Dispose();
             embeddedScalableResources.Dispose();
+            scalableEngineArchives.Dispose();
             RenderSystemPlugin_Delete(renderSystemPlugin);
             CGPlugin_Delete(cgPlugin);
         }
