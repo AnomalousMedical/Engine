@@ -8,6 +8,7 @@
   <List file="MyGUIPlugin_Skin.xml"/>
   <List file="MyGUIPlugin_Skin_Legacy.xml"/>
   <List file="MyGUIPlugin_Template.xml"/>
+  <List file="MyGUIPlugin_Skin_Custom_Imagesets.xml"/>
   <List file="MyGUIPlugin_Skin_Custom.xml"/>
   <List file="MyGUIPlugin_Template_Custom.xml"/>
   <List file="MyGUIPlugin_Settings.xml"/>

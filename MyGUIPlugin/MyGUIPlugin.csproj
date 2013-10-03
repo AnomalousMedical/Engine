@@ -356,6 +356,11 @@
       <LogicalName>AnomalousThemeTexture.xml</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\MyGUIPlugin_Skin_Custom_Imagesets.xml">
+      <LogicalName>MyGUIPlugin_Skin_Custom_Imagesets.xml</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
