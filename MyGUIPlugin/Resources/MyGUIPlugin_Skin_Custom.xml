@@ -14,7 +14,7 @@ TaskMenuBackground
 *****************************-->
   <Resource type="ResourceSkin" name = "TaskMenuBackground" size = "10 10" texture = "#{Anomalous_Theme_Texture}">
     <BasisSkin type="SubSkin" offset = "0 0 10 10" align = "Stretch">
-      <State name="normal" offset = "7 98 1 1"/>
+      <State name="normal" offsetNamed="Anomalous_TaskMenuBackground_Coord"/>
     </BasisSkin>
   </Resource>
 
@@ -23,14 +23,14 @@ ButtonPinSkin
 *****************************-->
   <Resource type="ResourceSkin" name = "ButtonPinSkin" size = "7 12" texture = "#{Anomalous_Theme_Texture}">
     <BasisSkin type="MainSkin" offset = "0 0 7 12" align = "Stretch">
-      <State name="disabled" offset = "55 69 11 18" colour="#{Anomalous_ButtonAccept_Control_Disabled}"/>
-      <State name="normal" offset = "55 69 11 18" colour="#{Anomalous_ButtonAccept_Control_Normal}"/>
-      <State name="highlighted" offset = "55 69 11 18" colour="#{Anomalous_ButtonAccept_Control_Highlighted}"/>
-      <State name="pushed" offset = "55 69 11 18" colour="#{Anomalous_ButtonAccept_Control_Pushed}"/>
-      <State name="disabled_checked" offset = "68 69 11 18" colour="#{Anomalous_ButtonAccept_Control_DisabledChecked}"/>
-      <State name="normal_checked" offset = "68 69 11 18" colour="#{Anomalous_ButtonAccept_Control_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "68 69 11 18" colour="#{Anomalous_ButtonAccept_Control_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "68 69 11 18" colour="#{Anomalous_ButtonAccept_Control_PushedChecked}"/>
+      <State name="disabled" offsetNamed="Anomalous_ButtonPin_Unpinned_Coord" colour="#{Anomalous_ButtonAccept_Control_Disabled}"/>
+      <State name="normal" offsetNamed="Anomalous_ButtonPin_Unpinned_Coord" colour="#{Anomalous_ButtonAccept_Control_Normal}"/>
+      <State name="highlighted" offsetNamed="Anomalous_ButtonPin_Unpinned_Coord" colour="#{Anomalous_ButtonAccept_Control_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_ButtonPin_Unpinned_Coord" colour="#{Anomalous_ButtonAccept_Control_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_ButtonPin_Pinned_Coord" colour="#{Anomalous_ButtonAccept_Control_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_ButtonPin_Pinned_Coord" colour="#{Anomalous_ButtonAccept_Control_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_ButtonPin_Pinned_Coord" colour="#{Anomalous_ButtonAccept_Control_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_ButtonPin_Pinned_Coord" colour="#{Anomalous_ButtonAccept_Control_PushedChecked}"/>
     </BasisSkin>
   </Resource>
 
@@ -161,14 +161,14 @@ ButtonSound
 *****************************-->
   <Resource type="ResourceSkin" name = "ButtonSound" size = "24 20" texture = "#{Anomalous_Theme_Texture}">
     <BasisSkin type="MainSkin" offset = "0 0 24 20" align = "Stretch">
-      <State name="disabled" offset = "1 107 24 20" colour="#{Anomalous_ButtonSound_Control_Disabled}"/>
-      <State name="normal" offset = "1 107 24 20" colour="#{Anomalous_ButtonSound_Control_Normal}"/>
-      <State name="highlighted" offset = "1 107 24 20" colour="#{Anomalous_ButtonSound_Control_Highlighted}"/>
-      <State name="pushed" offset = "1 107 24 20" colour="#{Anomalous_ButtonSound_Control_Pushed}"/>
-      <State name="disabled_checked" offset = "55 47 24 20" colour="#{Anomalous_ButtonSound_Control_DisabledChecked}"/>
-      <State name="normal_checked" offset = "55 47 24 20" colour="#{Anomalous_ButtonSound_Control_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "55 47 24 20" colour="#{Anomalous_ButtonSound_Control_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "55 47 24 20" colour="#{Anomalous_ButtonSound_Control_PushedChecked}"/>
+      <State name="disabled" offsetNamed="Anomalous_ButtonSound_Volume_Coord" colour="#{Anomalous_ButtonSound_Control_Disabled}"/>
+      <State name="normal" offsetNamed="Anomalous_ButtonSound_Volume_Coord" colour="#{Anomalous_ButtonSound_Control_Normal}"/>
+      <State name="highlighted" offsetNamed="Anomalous_ButtonSound_Volume_Coord" colour="#{Anomalous_ButtonSound_Control_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_ButtonSound_Volume_Coord" colour="#{Anomalous_ButtonSound_Control_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_ButtonSound_Mute_Coord" colour="#{Anomalous_ButtonSound_Control_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_ButtonSound_Mute_Coord" colour="#{Anomalous_ButtonSound_Control_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_ButtonSound_Mute_Coord" colour="#{Anomalous_ButtonSound_Control_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_ButtonSound_Mute_Coord" colour="#{Anomalous_ButtonSound_Control_PushedChecked}"/>
     </BasisSkin>
   </Resource>
 
@@ -535,7 +535,7 @@ MDILocationPreview
   <Resource type="ResourceSkin" name = "MDILocationPreview" size = "11 11" texture = "#{Anomalous_Theme_Texture}" >
     <!--Center-->
     <BasisSkin type="SubSkin" offset = "0 0 11 11" align = "Stretch">
-      <State name="normal" offset = "21 98 1 1" colour="#{Anomalous_MDILocationPreview_Center_Normal}"/>
+      <State name="normal" offsetNamed="Anomalous_Transparent_Coord" colour="#{Anomalous_MDILocationPreview_Center_Normal}"/>
     </BasisSkin>
   </Resource>
 
@@ -621,7 +621,7 @@ TimelineSelectionRegion
   <Resource type="ResourceSkin" name = "TimelineSelectionRegion" size = "11 11" texture = "#{Anomalous_Theme_Texture}" >
     <!--Center-->
     <BasisSkin type="SubSkin" offset = "0 0 11 11" align = "Stretch">
-      <State name="normal" offset = "21 98 1 1" colour="#{Anomalous_TimelineSelectionRegion_Center_Normal}"/>
+      <State name="normal" offsetNamed="Anomalous_Transparent_Coord" colour="#{Anomalous_TimelineSelectionRegion_Center_Normal}"/>
     </BasisSkin>
   </Resource>
 

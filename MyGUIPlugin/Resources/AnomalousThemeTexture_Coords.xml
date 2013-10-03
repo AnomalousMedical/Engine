@@ -26,4 +26,14 @@
   <Tag name="Anomalous_ButtonLeft_Coord">36 53 5 9</Tag>
   <Tag name="Anomalous_ButtonRight_Coord">28 53 5 9</Tag>
 
+  <Tag name="Anomalous_ButtonPin_Unpinned_Coord">55 69 11 18</Tag>
+  <Tag name="Anomalous_ButtonPin_Pinned_Coord">68 69 11 18</Tag>
+
+  <Tag name="Anomalous_ButtonSound_Volume_Coord">1 107 24 20</Tag>
+  <Tag name="Anomalous_ButtonSound_Mute_Coord">55 47 24 20</Tag>
+
+  <Tag name="Anomalous_TaskMenuBackground_Coord">7 98 1 1</Tag>
+
+  <Tag name="Anomalous_Transparent_Coord">21 98 1 1</Tag>
+
 </MyGUI>
