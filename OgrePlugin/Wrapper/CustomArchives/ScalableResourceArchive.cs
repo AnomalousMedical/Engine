@@ -10,7 +10,8 @@ namespace OgreWrapper
 {
     class ScalableResourceArchive : OgreManagedArchive
     {
-        private static readonly Regex scaledFileRegex = new Regex("@\\d+%\\."); //Matches things like @200%. (including the .)
+        private static readonly Regex scaledFileRegex = new Regex("@\\d+x\\."); //Matches things like @2x. (including the .) only non decimal sizes (2x 3x 4x).
+        //private static readonly Regex scaledFileRegex = new Regex("@\\d+_*\\d*x\\."); //Matches things like @2x. or @1_5x. (including the .)
 
         OgreManagedArchive wrappedArchive;
 
@@ -62,18 +63,18 @@ namespace OgreWrapper
             String extension = filename.Substring(extIndex);
             String openFileName;
 
-            //Check for 150% file
-            if (ScaleHelper.ScaleFactor < 1.55f)
-            {
-                openFileName = String.Format("{0}@150%{1}", baseName, extension);
-                if (wrappedArchive.exists(openFileName))
-                {
-                    return wrappedArchive.doOpen(openFileName);
-                }
-            }
+            //Check for 1.5x file
+            //if (ScaleHelper.ScaleFactor < 1.55f)
+            //{
+            //    openFileName = String.Format("{0}@1_5x{1}", baseName, extension);
+            //    if (wrappedArchive.exists(openFileName))
+            //    {
+            //        return wrappedArchive.doOpen(openFileName);
+            //    }
+            //}
 
-            //150% does not exist try 200%
-            openFileName = String.Format("{0}@200%{1}", baseName, extension);
+            //1.5x does not exist try 2x
+            openFileName = String.Format("{0}@2x{1}", baseName, extension);
             if (wrappedArchive.exists(openFileName))
             {
                 return wrappedArchive.doOpen(openFileName);
