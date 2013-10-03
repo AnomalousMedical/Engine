@@ -346,6 +346,16 @@
     <EmbeddedResource Include="Resources\MessageBox\MessageBoxIcons%40200%25.png" />
     <EmbeddedResource Include="Resources\MessageBox\MessageBoxIcons%40200%25.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\AnomalousThemeTexture_Coords.xml">
+      <LogicalName>AnomalousThemeTexture_Coords.xml</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\AnomalousThemeTexture.xml">
+      <LogicalName>AnomalousThemeTexture.xml</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -11,11 +11,11 @@ WindowBackground
   <Resource type="ResourceSkin" name = "WindowBackground" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
     <!--Center-->
     <BasisSkin type="MainSkin" offset = "0 0 11 11" align = "Stretch">
-      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_Panel_Normal}"/>
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Panel_Normal}"/>
     </BasisSkin>
     <!--Border-->
     <Border width="1">
-      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_Window_Border_Normal}"/>
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Window_Border_Normal}"/>
     </Border>
   </Resource>
 
@@ -28,8 +28,8 @@ WindowCaptionSkin
     <Property key="TextColour" value = "#{Anomalous_WindowCaption_Text_Normal}"/>
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 68 21" align = "Stretch">
-      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_WindowCaption_Center_Normal}"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_WindowCaption_Center_Highlighted}"/>
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_WindowCaption_Center_Normal}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_WindowCaption_Center_Highlighted}"/>
     </BasisSkin>
     <!--Text-->
     <BasisSkin type="SimpleText" offset = "5 0 58 18" align = "Stretch"/>
@@ -43,8 +43,8 @@ WindowCaptionCloseButtonSkin
     <Property key="TextColour" value = "#{Anomalous_WindowCaption_Text_Normal}"/>
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 68 21" align = "Stretch">
-      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_WindowCaption_Center_Normal}"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_WindowCaption_Center_Highlighted}"/>
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_WindowCaption_Center_Normal}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_WindowCaption_Center_Highlighted}"/>
     </BasisSkin>
     <!--Text-->
     <BasisSkin type="SimpleText" offset = "#{WindowCaptionPosition}" align = "Stretch"/>

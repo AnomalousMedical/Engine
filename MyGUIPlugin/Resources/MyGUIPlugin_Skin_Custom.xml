@@ -55,23 +55,23 @@ TaskMenuButtonGridButton
     <BasisSkin type="SubSkin" offset = "0 0 122 122" align = "Stretch">
       <State name="disabled" offset = "3 25 18 18"/>
       <State name="normal" offset = "3 25 18 18"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Center_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Center_Pushed}"/>
-      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Center_DisabledChecked}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Center_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Center_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Center_PushedChecked}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Center_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Center_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Center_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Center_PushedChecked}"/>
     </BasisSkin>
     <!-- Border -->
     <Border width="1">
       <State name="disabled" offset = "3 25 18 18"/>
       <State name="normal" offset = "3 25 18 18"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Border_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Border_Pushed}"/>
-      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Border_DisabledChecked}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Border_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Border_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Border_PushedChecked}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Border_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Border_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Border_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Border_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Border_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Border_PushedChecked}"/>
     </Border>
   </Resource>
 
@@ -96,23 +96,23 @@ DragAndDropComponentSkin
     <BasisSkin type="SubSkin" offset = "0 0 122 122" align = "HStretch VStretch">
       <State name="disabled" offset = "3 25 18 18"/>
       <State name="normal" offset = "3 25 18 18"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_Pushed}"/>
-      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_DisabledChecked}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_PushedChecked}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_PushedChecked}"/>
     </BasisSkin>
     <!-- Border -->
     <Border width="1">
       <State name="disabled" offset = "3 25 18 18"/>
       <State name="normal" offset = "3 25 18 18"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_Pushed}"/>
-      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_DisabledChecked}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_PushedChecked}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_PushedChecked}"/>
     </Border>
   </Resource>
 
@@ -136,12 +136,12 @@ TaskMenuTopLevelCategoryButton
     <BasisSkin type="SubSkin" offset = "0 0 29 26" align = "Stretch">
       <State name="disabled" offset = "3 25 18 18"/>
       <State name="normal" offset = "3 25 18 18"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Center_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Center_Pushed}"/>
-      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Center_DisabledChecked}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Center_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Center_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Center_PushedChecked}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Center_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Center_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Center_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Center_PushedChecked}"/>
     </BasisSkin>
     <!--Text-->
     <BasisSkin type="SimpleText" offset = "0 0 29 26" align = "Stretch">
@@ -181,14 +181,14 @@ ButtonImageBackground
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "2 2 23 21" align = "Stretch" name = "Image"/>
     <!-- Center -->
     <BasisSkin type="SubSkin" offset = "0 0 29 26" align = "Stretch">
-      <State name="disabled" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_Disabled}"/>
-      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_Normal}"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_Pushed}"/>
-      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_DisabledChecked}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_PushedChecked}"/>
+      <State name="disabled" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_Disabled}"/>
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_Normal}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_PushedChecked}"/>
     </BasisSkin>
   </Resource>
 
@@ -203,12 +203,12 @@ VerticalIconTextButton
     <BasisSkin type="SubSkin" offset = "0 0 72 64" align = "Stretch">
       <State name="disabled" offset = "3 25 18 18"/>
       <State name="normal" offset = "3 25 18 18"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_Pushed}"/>
-      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_DisabledChecked}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_PushedChecked}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_PushedChecked}"/>
     </BasisSkin>
     <!--Text-->
     <BasisSkin type="SimpleText" offset = "0 32 72 32" align = "Stretch">
@@ -229,7 +229,7 @@ TaskbarSkin
   <Resource type="ResourceSkin" name = "TaskbarSkin" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
     <!--Center-->
     <BasisSkin type="SubSkin" offset = "0 0 11 11" align = "Stretch">
-      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_TaskBar_Center_Normal}"/>
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskBar_Center_Normal}"/>
     </BasisSkin>
   </Resource>
   
@@ -244,12 +244,12 @@ TaskbarButton
     <BasisSkin type="SubSkin" offset = "0 0 122 122" align = "Stretch">
       <State name="disabled" offset = "3 25 18 18"/>
       <State name="normal" offset = "3 25 18 18"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_Pushed}"/>
-      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_DisabledChecked}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_PushedChecked}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskBarButton_Center_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskBarButton_Center_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskBarButton_Center_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskBarButton_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskBarButton_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskBarButton_Center_PushedChecked}"/>
     </BasisSkin>
   </Resource>
 
@@ -261,14 +261,14 @@ AppButton
     <Property key="TextAlign" value = "HCenter VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 1 114 32" align = "HCenter VCenter" name = "Image"/>
     <BasisSkin type="SubSkin" offset = "0 0 29 26" align = "Stretch">
-      <State name="disabled" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_Disabled}"/>
-      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_Normal}"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_Pushed}"/>
-      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_DisabledChecked}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskBarButton_Center_PushedChecked}"/>
+      <State name="disabled" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskBarButton_Center_Disabled}"/>
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskBarButton_Center_Normal}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskBarButton_Center_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskBarButton_Center_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskBarButton_Center_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskBarButton_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskBarButton_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskBarButton_Center_PushedChecked}"/>
     </BasisSkin>
   </Resource>
 
@@ -283,12 +283,12 @@ HorizontalIconTextButton
     <BasisSkin type="SubSkin" offset = "0 0 72 64" align = "Stretch">
       <State name="disabled" offset = "3 25 18 18"/>
       <State name="normal" offset = "3 25 18 18"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_Pushed}"/>
-      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_DisabledChecked}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_PushedChecked}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_PushedChecked}"/>
     </BasisSkin>
     <!--Text-->
     <BasisSkin type="SimpleText" offset = "20 0 52 64" align = "Stretch">
@@ -309,11 +309,11 @@ PopupPanel
   <Resource type="ResourceSkin" name = "PopupPanel" size = "10 10" texture = "#{Anomalous_Theme_Texture}">
     <!--Center-->
     <BasisSkin type="MainSkin" offset = "0 0 10 10" align = "Stretch">
-      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_PopupPanel_Center_Normal}"/>
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_PopupPanel_Center_Normal}"/>
     </BasisSkin>
     <!-- Border -->
     <Border width="1">
-      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_PopupPanel_Border_Normal}"/>
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_PopupPanel_Border_Normal}"/>
     </Border>
   </Resource>
 
@@ -338,23 +338,23 @@ ButtonGridButton
     <BasisSkin type="SubSkin" offset = "0 0 122 122" align = "HStretch VStretch">
       <State name="disabled" offset = "3 25 18 18"/>
       <State name="normal" offset = "3 25 18 18"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_Pushed}"/>
-      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_DisabledChecked}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_PushedChecked}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_PushedChecked}"/>
     </BasisSkin>
     <!-- Border -->
     <Border width="1">
       <State name="disabled" offset = "3 25 18 18"/>
       <State name="normal" offset = "3 25 18 18"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_Pushed}"/>
-      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_DisabledChecked}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_PushedChecked}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_PushedChecked}"/>
     </Border>
   </Resource>
   <!--*************************
@@ -368,23 +368,23 @@ ButtonGridImageButton
     <BasisSkin type="SubSkin" offset = "0 0 102 102" align = "HStretch VStretch">
       <State name="disabled" offset = "3 25 18 18"/>
       <State name="normal" offset = "3 25 18 18"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_Pushed}"/>
-      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_DisabledChecked}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_PushedChecked}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_PushedChecked}"/>
     </BasisSkin>
     <!-- Border -->
     <Border width="1">
       <State name="disabled" offset = "3 25 18 18"/>
       <State name="normal" offset = "3 25 18 18"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_Pushed}"/>
-      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_DisabledChecked}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_PushedChecked}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_PushedChecked}"/>
     </Border>
   </Resource>
 
@@ -397,14 +397,14 @@ ColorSwatchButton
     <Child type="ImageBox" skin="ButtonStaticImage" offset_derived = "1 1 -1 -1" align = "HStretch VStretch" name = "Image"/>
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 14 14" align = "HStretch Bottom">
-      <State name="disabled" offset = "3 3 18 18" colour="#{Anomalous_ColorSwatchButton_Center_Disabled}"/>
-      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_ColorSwatchButton_Center_Normal}"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_ColorSwatchButton_Center_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_ColorSwatchButton_Center_Pushed}"/>
-      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_ColorSwatchButton_Center_DisabledChecked}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_ColorSwatchButton_Center_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_ColorSwatchButton_Center_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_ColorSwatchButton_Center_PushedChecked}"/>
+      <State name="disabled" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ColorSwatchButton_Center_Disabled}"/>
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ColorSwatchButton_Center_Normal}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ColorSwatchButton_Center_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ColorSwatchButton_Center_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ColorSwatchButton_Center_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ColorSwatchButton_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ColorSwatchButton_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ColorSwatchButton_Center_PushedChecked}"/>
     </BasisSkin>
   </Resource>
 
@@ -429,23 +429,23 @@ ButtonListIconButton
     <BasisSkin type="SubSkin" offset = "0 0 102 122" align = "HStretch VStretch">
       <State name="disabled" offset = "3 25 18 18"/>
       <State name="normal" offset = "3 25 18 18"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_Pushed}"/>
-      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_DisabledChecked}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_PushedChecked}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_PushedChecked}"/>
     </BasisSkin>
     <!-- Border -->
     <Border width="1">
       <State name="disabled" offset = "3 25 18 18"/>
       <State name="normal" offset = "3 25 18 18"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_Pushed}"/>
-      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_DisabledChecked}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_PushedChecked}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_PushedChecked}"/>
     </Border>
   </Resource>
 
@@ -469,23 +469,23 @@ ButtonListItemSkin
     <BasisSkin type="SubSkin" offset = "0 0 102 122" align = "HStretch VStretch">
       <State name="disabled" offset = "3 25 18 18"/>
       <State name="normal" offset = "3 25 18 18"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_Pushed}"/>
-      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_DisabledChecked}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_PushedChecked}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_PushedChecked}"/>
     </BasisSkin>
     <!-- Border -->
     <Border width="1">
       <State name="disabled" offset = "3 25 18 18"/>
       <State name="normal" offset = "3 25 18 18"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_Pushed}"/>
-      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_DisabledChecked}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_PushedChecked}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_PushedChecked}"/>
     </Border>
   </Resource>
 
@@ -497,14 +497,14 @@ CameraButton
     <Property key="TextAlign" value = "HCenter VCenter" />
     <!--Center-->
     <BasisSkin type="SubSkin" offset = "0 0 29 26" align = "Stretch">
-      <State name="disabled" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_Disabled}"/>
+      <State name="disabled" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_Disabled}"/>
       <State name="normal" offset = "3 25 18 18"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_Pushed}"/>
-      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_DisabledChecked}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_PushedChecked}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_PushedChecked}"/>
     </BasisSkin>
     <!--Text-->
     <BasisSkin type="SimpleText" offset = "0 0 29 26" align = "Stretch">
@@ -525,7 +525,7 @@ MDISeparator
   <Resource type="ResourceSkin" name = "MDISeparator" size = "2 2" texture = "#{Anomalous_Theme_Texture}">
     <!--Center-->
     <BasisSkin type="SubSkin" offset = "0 0 2 2" align = "Stretch">
-      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_MDISeparator_Center_Normal}"/>
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_MDISeparator_Center_Normal}"/>
     </BasisSkin>
   </Resource>
 
@@ -577,12 +577,12 @@ TimelineButtonSkin
   <Resource type="ResourceSkin" name = "TimelineButtonSkin" size = "10 10" texture = "#{Anomalous_Theme_Texture}">
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 10 10" align = "HStretch VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_TimelineButton_Center_Normal}"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_TimelineButton_Center_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_TimelineButton_Center_Pushed}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_TimelineButton_Center_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_TimelineButton_Center_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_TimelineButton_Center_PushedChecked}"/>
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TimelineButton_Center_Normal}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TimelineButton_Center_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TimelineButton_Center_Pushed}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TimelineButton_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TimelineButton_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TimelineButton_Center_PushedChecked}"/>
     </BasisSkin>
   </Resource>
 
@@ -592,17 +592,17 @@ TimelineButtonTimeAdjusterSkin
   <Resource type="ResourceSkin" name = "TimelineButtonTimeAdjusterSkin" size = "10 10" texture = "#{Anomalous_Theme_Texture}">
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 10 10" align = "HStretch VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_TimeAdjuster_Center_Normal}"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_TimeAdjuster_Center_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_TimeAdjuster_Center_Pushed}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_TimeAdjuster_Center_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_TimeAdjuster_Center_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_TimeAdjuster_Center_PushedChecked}"/>
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TimeAdjuster_Center_Normal}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TimeAdjuster_Center_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TimeAdjuster_Center_Pushed}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TimeAdjuster_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TimeAdjuster_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TimeAdjuster_Center_PushedChecked}"/>
     </BasisSkin>
     <!--Border-->
     <Border width="1">
-      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_TimelineButton_Center_Normal}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_TimelineButton_Center_NormalChecked}"/>
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TimelineButton_Center_Normal}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TimelineButton_Center_NormalChecked}"/>
     </Border>
   </Resource>
   
@@ -611,7 +611,7 @@ TimelineMarker
 *****************************-->
   <Resource type="ResourceSkin" name = "TimelineMarker" size = "2 2" texture = "#{Anomalous_Theme_Texture}">
     <BasisSkin type="MainSkin" offset = "0 0 2 2" align = "Stretch">
-      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_TimelineMarker_Center_Normal}"/>
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TimelineMarker_Center_Normal}"/>
     </BasisSkin>
   </Resource>
 
@@ -644,14 +644,14 @@ ImageButton
     </BasisSkin>
     <!--Center-->
     <BasisSkin type="SubSkin" offset = "0 0 23 23" align = "Stretch">
-      <State name="disabled" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_Disabled}"/>
-      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_Normal}"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_Pushed}"/>
-      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_DisabledChecked}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_PushedChecked}"/>
+      <State name="disabled" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_Disabled}"/>
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_Normal}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_PushedChecked}"/>
     </BasisSkin>
   </Resource>
 
@@ -663,11 +663,11 @@ Tooltip
     <Property key="TextAlign" value = "Center" />
     <!--Center-->
     <BasisSkin type="SubSkin" offset = "0 0 10 10" align = "HStretch VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_ToolTip_Center_Normal}"/>
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ToolTip_Center_Normal}"/>
     </BasisSkin>
     <!--Border-->
     <Border width="1">
-      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_ToolTip_Border_Normal}"/>
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ToolTip_Border_Normal}"/>
     </Border>
     <!-- Text -->
     <BasisSkin type="SimpleText" offset = "0 0 10 10"  align = "Stretch">
@@ -697,23 +697,23 @@ BookmarkListIconButtonButton
     <BasisSkin type="SubSkin" offset = "0 0 122 122" align = "HStretch VStretch">
       <State name="disabled" offset = "3 25 18 18"/>
       <State name="normal" offset = "3 25 18 18"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Center_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Center_Pushed}"/>
-      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Center_DisabledChecked}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Center_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Center_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Center_PushedChecked}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Center_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Center_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Center_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Center_PushedChecked}"/>
     </BasisSkin>
     <!-- Border -->
     <Border width="1">
       <State name="disabled" offset = "3 25 18 18"/>
       <State name="normal" offset = "3 25 18 18"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Border_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Border_Pushed}"/>
-      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Border_DisabledChecked}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Border_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Border_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_TaskMenuButton_Border_PushedChecked}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Border_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Border_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Border_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Border_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Border_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Border_PushedChecked}"/>
     </Border>
   </Resource>
 
@@ -738,23 +738,23 @@ AnatomyFinderListItem
     <BasisSkin type="SubSkin" offset = "0 0 75 52" align = "HStretch VStretch">
       <State name="disabled" offset = "3 25 18 18"/>
       <State name="normal" offset = "3 25 18 18"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_Pushed}"/>
-      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_DisabledChecked}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_PushedChecked}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_PushedChecked}"/>
     </BasisSkin>
     <!-- Border -->
     <Border width="1">
       <State name="disabled" offset = "3 25 18 18"/>
       <State name="normal" offset = "3 25 18 18"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_Pushed}"/>
-      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_DisabledChecked}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_PushedChecked}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_PushedChecked}"/>
     </Border>
   </Resource>
 
@@ -779,12 +779,12 @@ TreeIconButton
     <BasisSkin type="SubSkin" offset = "0 0 102 122" align = "HStretch VStretch">
       <State name="disabled" offset = "3 25 18 18"/>
       <State name="normal" offset = "3 25 18 18"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_Pushed}"/>
-      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_DisabledChecked}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_PushedChecked}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_PushedChecked}"/>
     </BasisSkin>
   </Resource>
 
@@ -793,7 +793,7 @@ SceneViewBorder
 *****************************-->
   <Resource type="ResourceSkin" name = "SceneViewBorder" size = "1 1" texture = "#{Anomalous_Theme_Texture}" >
     <BasisSkin type="MainSkin" offset = "0 0 1 1" align = "Stretch">
-      <State name="normal" offset = "3 3 18 18" colour="#000000"/>
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#000000"/>
     </BasisSkin>
   </Resource>
 
@@ -803,11 +803,11 @@ BorderedPanel
   <Resource type="ResourceSkin" name = "BorderedPanel" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 11 11" align = "HStretch VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_Panel_Normal}"/>
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Panel_Normal}"/>
     </BasisSkin>
     <!--Border-->
     <Border width="1">
-      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_Panel_Border_Normal}"/>
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Panel_Border_Normal}"/>
     </Border>
   </Resource>
 
@@ -817,7 +817,7 @@ SlideDropPreview
   <Resource type="ResourceSkin" name = "SlideDropPreview" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 11 11" align = "HStretch VStretch">
-      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_SlideDropPreview_Center_Normal}"/>
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_SlideDropPreview_Center_Normal}"/>
     </BasisSkin>
   </Resource>
 
@@ -829,14 +829,14 @@ FileTabButton
     <Property key="TextAlign" value = "Left VCenter" />
     <!--Center-->
     <BasisSkin type="SubSkin" offset = "0 0 51 21" align = "Stretch">
-      <State name="disabled" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_Disabled}"/>
-      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_Normal}"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_Pushed}"/>
-      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_DisabledChecked}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_Button_Center_PushedChecked}"/>
+      <State name="disabled" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_Disabled}"/>
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_Normal}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_PushedChecked}"/>
     </BasisSkin>
     <!--Text-->
     <BasisSkin type="SimpleText" offset = "10 0 28 21" align = "Stretch">
@@ -872,23 +872,23 @@ SlidePreviewListItem
     <BasisSkin type="SubSkin" offset = "0 0 189 132" align = "HStretch VStretch">
       <State name="disabled" offset = "3 25 18 18"/>
       <State name="normal" offset = "3 25 18 18"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_Pushed}"/>
-      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_DisabledChecked}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Center_PushedChecked}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_PushedChecked}"/>
     </BasisSkin>
     <!-- Border -->
     <Border width="1">
       <State name="disabled" offset = "3 25 18 18"/>
       <State name="normal" offset = "3 25 18 18"/>
-      <State name="highlighted" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_Highlighted}"/>
-      <State name="pushed" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_Pushed}"/>
-      <State name="disabled_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_DisabledChecked}"/>
-      <State name="normal_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_NormalChecked}"/>
-      <State name="highlighted_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_HighlightedChecked}"/>
-      <State name="pushed_checked" offset = "3 3 18 18" colour="#{Anomalous_ListItem_Border_PushedChecked}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_PushedChecked}"/>
     </Border>
   </Resource>
 
@@ -898,12 +898,12 @@ WordWrapSolidSkin
   <Resource type="ResourceSkin" name = "WordWrapSolidSkin" size = "11 11" texture = "#{Anomalous_Theme_Texture}">
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 11 11" align = "HStretch VStretch">
-      <State name="disabled" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Middle_Disabled}"/>
-      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Middle_Normal}"/>
+      <State name="disabled" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_EditArea_Middle_Disabled}"/>
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_EditArea_Middle_Normal}"/>
     </BasisSkin>
     <!--Border-->
     <Border width="1">
-      <State name="normal" offset = "3 3 18 18" colour="#{Anomalous_EditArea_Border_Normal}"/>
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_EditArea_Border_Normal}"/>
     </Border>
   </Resource>
 
@@ -912,7 +912,7 @@ TextEditorComponentBackground
 *****************************-->
   <Resource type="ResourceSkin" name = "TextEditorComponentBackground" size = "1 1" texture = "#{Anomalous_Theme_Texture}" >
     <BasisSkin type="MainSkin" offset = "0 0 1 1" align = "Stretch">
-      <State name="normal" offset = "3 3 18 18"/>
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord"/>
     </BasisSkin>
   </Resource>
 

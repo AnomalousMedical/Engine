@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <MyGUI type="List">
+  <List file="AnomalousThemeTexture.xml"/>
   <List file="MyGUIPlugin_Theme.xml"/>
   <List file="MyGUIPlugin_Language.xml"/>
   <List file="MyGUIPlugin_Font.xml"/>

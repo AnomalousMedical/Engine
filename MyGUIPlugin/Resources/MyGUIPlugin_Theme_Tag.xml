@@ -1,7 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <MyGUI>
-  <Tag name="Anomalous_Theme_Texture">AnomalousThemeTexture.png</Tag>
-
   <Tag name="MyGUI_Theme_Pointer">MyGUIPlugin_Pointer_Texture.png</Tag>
   
   <!-- Button Colors -->
