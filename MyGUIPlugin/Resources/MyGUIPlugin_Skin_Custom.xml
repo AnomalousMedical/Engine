@@ -53,8 +53,8 @@ TaskMenuButtonGridButton
     </BasisSkin>
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 122 122" align = "Stretch">
-      <State name="disabled" offset = "3 25 18 18"/>
-      <State name="normal" offset = "3 25 18 18"/>
+      <State name="disabled" offsetNamed="Anomalous_Invisible_Coord"/>
+      <State name="normal" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Center_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Center_Pushed}"/>
       <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Center_DisabledChecked}"/>
@@ -64,8 +64,8 @@ TaskMenuButtonGridButton
     </BasisSkin>
     <!-- Border -->
     <Border width="1">
-      <State name="disabled" offset = "3 25 18 18"/>
-      <State name="normal" offset = "3 25 18 18"/>
+      <State name="disabled" offsetNamed="Anomalous_Invisible_Coord"/>
+      <State name="normal" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Border_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Border_Pushed}"/>
       <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Border_DisabledChecked}"/>
@@ -94,8 +94,8 @@ DragAndDropComponentSkin
     </BasisSkin>
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 122 122" align = "HStretch VStretch">
-      <State name="disabled" offset = "3 25 18 18"/>
-      <State name="normal" offset = "3 25 18 18"/>
+      <State name="disabled" offsetNamed="Anomalous_Invisible_Coord"/>
+      <State name="normal" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Pushed}"/>
       <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_DisabledChecked}"/>
@@ -105,8 +105,8 @@ DragAndDropComponentSkin
     </BasisSkin>
     <!-- Border -->
     <Border width="1">
-      <State name="disabled" offset = "3 25 18 18"/>
-      <State name="normal" offset = "3 25 18 18"/>
+      <State name="disabled" offsetNamed="Anomalous_Invisible_Coord"/>
+      <State name="normal" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_Pushed}"/>
       <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_DisabledChecked}"/>
@@ -134,8 +134,8 @@ TaskMenuTopLevelCategoryButton
     <Property key="TextAlign" value = "HCenter VCenter" />
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 29 26" align = "Stretch">
-      <State name="disabled" offset = "3 25 18 18"/>
-      <State name="normal" offset = "3 25 18 18"/>
+      <State name="disabled" offsetNamed="Anomalous_Invisible_Coord"/>
+      <State name="normal" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Center_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Center_Pushed}"/>
       <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Center_DisabledChecked}"/>
@@ -201,8 +201,8 @@ VerticalIconTextButton
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 4 32 32" align = "Top" name = "Image"/>
     <!--Center-->
     <BasisSkin type="SubSkin" offset = "0 0 72 64" align = "Stretch">
-      <State name="disabled" offset = "3 25 18 18"/>
-      <State name="normal" offset = "3 25 18 18"/>
+      <State name="disabled" offsetNamed="Anomalous_Invisible_Coord"/>
+      <State name="normal" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_Pushed}"/>
       <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_DisabledChecked}"/>
@@ -242,8 +242,8 @@ TaskbarButton
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 8 32 32" align = "Top" name = "Image"/>
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 122 122" align = "Stretch">
-      <State name="disabled" offset = "3 25 18 18"/>
-      <State name="normal" offset = "3 25 18 18"/>
+      <State name="disabled" offsetNamed="Anomalous_Invisible_Coord"/>
+      <State name="normal" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskBarButton_Center_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskBarButton_Center_Pushed}"/>
       <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskBarButton_Center_DisabledChecked}"/>
@@ -281,8 +281,8 @@ HorizontalIconTextButton
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "2 3 16 16" align = "Left Top" name = "Image"/>
     <!--Center-->
     <BasisSkin type="SubSkin" offset = "0 0 72 64" align = "Stretch">
-      <State name="disabled" offset = "3 25 18 18"/>
-      <State name="normal" offset = "3 25 18 18"/>
+      <State name="disabled" offsetNamed="Anomalous_Invisible_Coord"/>
+      <State name="normal" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_Pushed}"/>
       <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_DisabledChecked}"/>
@@ -336,8 +336,8 @@ ButtonGridButton
     </BasisSkin>
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 122 122" align = "HStretch VStretch">
-      <State name="disabled" offset = "3 25 18 18"/>
-      <State name="normal" offset = "3 25 18 18"/>
+      <State name="disabled" offsetNamed="Anomalous_Invisible_Coord"/>
+      <State name="normal" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Pushed}"/>
       <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_DisabledChecked}"/>
@@ -347,8 +347,8 @@ ButtonGridButton
     </BasisSkin>
     <!-- Border -->
     <Border width="1">
-      <State name="disabled" offset = "3 25 18 18"/>
-      <State name="normal" offset = "3 25 18 18"/>
+      <State name="disabled" offsetNamed="Anomalous_Invisible_Coord"/>
+      <State name="normal" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_Pushed}"/>
       <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_DisabledChecked}"/>
@@ -366,8 +366,8 @@ ButtonGridImageButton
     <Child type="ImageBox" skin="ButtonStaticImage" offset = "4 4 94 94" align = "HStretch VStretch" name = "Image"/>
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 102 102" align = "HStretch VStretch">
-      <State name="disabled" offset = "3 25 18 18"/>
-      <State name="normal" offset = "3 25 18 18"/>
+      <State name="disabled" offsetNamed="Anomalous_Invisible_Coord"/>
+      <State name="normal" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Pushed}"/>
       <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_DisabledChecked}"/>
@@ -377,8 +377,8 @@ ButtonGridImageButton
     </BasisSkin>
     <!-- Border -->
     <Border width="1">
-      <State name="disabled" offset = "3 25 18 18"/>
-      <State name="normal" offset = "3 25 18 18"/>
+      <State name="disabled" offsetNamed="Anomalous_Invisible_Coord"/>
+      <State name="normal" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_Pushed}"/>
       <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_DisabledChecked}"/>
@@ -427,8 +427,8 @@ ButtonListIconButton
     </BasisSkin>
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 102 122" align = "HStretch VStretch">
-      <State name="disabled" offset = "3 25 18 18"/>
-      <State name="normal" offset = "3 25 18 18"/>
+      <State name="disabled" offsetNamed="Anomalous_Invisible_Coord"/>
+      <State name="normal" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Pushed}"/>
       <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_DisabledChecked}"/>
@@ -438,8 +438,8 @@ ButtonListIconButton
     </BasisSkin>
     <!-- Border -->
     <Border width="1">
-      <State name="disabled" offset = "3 25 18 18"/>
-      <State name="normal" offset = "3 25 18 18"/>
+      <State name="disabled" offsetNamed="Anomalous_Invisible_Coord"/>
+      <State name="normal" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_Pushed}"/>
       <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_DisabledChecked}"/>
@@ -467,8 +467,8 @@ ButtonListItemSkin
     </BasisSkin>
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 102 122" align = "HStretch VStretch">
-      <State name="disabled" offset = "3 25 18 18"/>
-      <State name="normal" offset = "3 25 18 18"/>
+      <State name="disabled" offsetNamed="Anomalous_Invisible_Coord"/>
+      <State name="normal" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Pushed}"/>
       <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_DisabledChecked}"/>
@@ -478,8 +478,8 @@ ButtonListItemSkin
     </BasisSkin>
     <!-- Border -->
     <Border width="1">
-      <State name="disabled" offset = "3 25 18 18"/>
-      <State name="normal" offset = "3 25 18 18"/>
+      <State name="disabled" offsetNamed="Anomalous_Invisible_Coord"/>
+      <State name="normal" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_Pushed}"/>
       <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_DisabledChecked}"/>
@@ -498,7 +498,7 @@ CameraButton
     <!--Center-->
     <BasisSkin type="SubSkin" offset = "0 0 29 26" align = "Stretch">
       <State name="disabled" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_Disabled}"/>
-      <State name="normal" offset = "3 25 18 18"/>
+      <State name="normal" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_Pushed}"/>
       <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_DisabledChecked}"/>
@@ -695,8 +695,8 @@ BookmarkListIconButtonButton
     </BasisSkin>
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 122 122" align = "HStretch VStretch">
-      <State name="disabled" offset = "3 25 18 18"/>
-      <State name="normal" offset = "3 25 18 18"/>
+      <State name="disabled" offsetNamed="Anomalous_Invisible_Coord"/>
+      <State name="normal" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Center_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Center_Pushed}"/>
       <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Center_DisabledChecked}"/>
@@ -706,8 +706,8 @@ BookmarkListIconButtonButton
     </BasisSkin>
     <!-- Border -->
     <Border width="1">
-      <State name="disabled" offset = "3 25 18 18"/>
-      <State name="normal" offset = "3 25 18 18"/>
+      <State name="disabled" offsetNamed="Anomalous_Invisible_Coord"/>
+      <State name="normal" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Border_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Border_Pushed}"/>
       <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TaskMenuButton_Border_DisabledChecked}"/>
@@ -736,8 +736,8 @@ AnatomyFinderListItem
     </BasisSkin>
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 75 52" align = "HStretch VStretch">
-      <State name="disabled" offset = "3 25 18 18"/>
-      <State name="normal" offset = "3 25 18 18"/>
+      <State name="disabled" offsetNamed="Anomalous_Invisible_Coord"/>
+      <State name="normal" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Pushed}"/>
       <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_DisabledChecked}"/>
@@ -747,8 +747,8 @@ AnatomyFinderListItem
     </BasisSkin>
     <!-- Border -->
     <Border width="1">
-      <State name="disabled" offset = "3 25 18 18"/>
-      <State name="normal" offset = "3 25 18 18"/>
+      <State name="disabled" offsetNamed="Anomalous_Invisible_Coord"/>
+      <State name="normal" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_Pushed}"/>
       <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_DisabledChecked}"/>
@@ -777,8 +777,8 @@ TreeIconButton
     </BasisSkin>
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 102 122" align = "HStretch VStretch">
-      <State name="disabled" offset = "3 25 18 18"/>
-      <State name="normal" offset = "3 25 18 18"/>
+      <State name="disabled" offsetNamed="Anomalous_Invisible_Coord"/>
+      <State name="normal" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Pushed}"/>
       <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_DisabledChecked}"/>
@@ -870,8 +870,8 @@ SlidePreviewListItem
     </BasisSkin>
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 189 132" align = "HStretch VStretch">
-      <State name="disabled" offset = "3 25 18 18"/>
-      <State name="normal" offset = "3 25 18 18"/>
+      <State name="disabled" offsetNamed="Anomalous_Invisible_Coord"/>
+      <State name="normal" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Pushed}"/>
       <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_DisabledChecked}"/>
@@ -881,8 +881,8 @@ SlidePreviewListItem
     </BasisSkin>
     <!-- Border -->
     <Border width="1">
-      <State name="disabled" offset = "3 25 18 18"/>
-      <State name="normal" offset = "3 25 18 18"/>
+      <State name="disabled" offsetNamed="Anomalous_Invisible_Coord"/>
+      <State name="normal" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_Pushed}"/>
       <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Border_DisabledChecked}"/>

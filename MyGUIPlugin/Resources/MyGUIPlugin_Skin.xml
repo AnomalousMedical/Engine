@@ -313,7 +313,7 @@ ListBoxItemSkin
 *****************************-->
   <Resource type="ResourceSkin" name = "ListBoxItemSkin" size = "5 5" texture = "#{Anomalous_Theme_Texture}" >
     <BasisSkin type="MainSkin" offset = "0 0 5 5">
-      <State name="normal" offset = "3 25 18 18"/>
+      <State name="normal" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_Pushed}"/>
       <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_DisabledChecked}"/>
@@ -492,8 +492,8 @@ MenuBarButtonSkin
   <Resource type="ResourceSkin" name = "MenuBarButtonSkin" size = "27 22" texture = "#{Anomalous_Theme_Texture}">
     <!--Middle-->
     <BasisSkin type="SubSkin" offset = "0 0 27 22" align = "HStretch VStretch">
-      <State name="disabled" offset = "3 25 18 18"/>
-      <State name="normal" offset = "3 25 18 18"/>
+      <State name="disabled" offsetNamed="Anomalous_Invisible_Coord"/>
+      <State name="normal" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_MenuBarButton_Center_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_MenuBarButton_Center_Pushed}"/>
       <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_MenuBarButton_Center_DisabledChecked}"/>
@@ -503,8 +503,8 @@ MenuBarButtonSkin
     </BasisSkin>
     <!--Border-->
     <Border width="1">
-      <State name="disabled" offset = "3 25 18 18"/>
-      <State name="normal" offset = "3 25 18 18"/>
+      <State name="disabled" offsetNamed="Anomalous_Invisible_Coord"/>
+      <State name="normal" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_MenuBarButton_Border_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_MenuBarButton_Border_Pushed}"/>
       <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_MenuBarButton_Border_DisabledChecked}"/>
@@ -530,8 +530,8 @@ MenuItemNormalSkin
 *****************************-->
   <Resource type="ResourceSkin" name = "MenuItemNormalSkin" size = "40 12" texture = "#{Anomalous_Theme_Texture}" >
     <BasisSkin type="MainSkin" offset = "0 0 40 12">
-      <State name="disabled" offset = "3 25 18 18"/>
-      <State name="normal" offset = "3 25 18 18"/>
+      <State name="disabled" offsetNamed="Anomalous_Invisible_Coord"/>
+      <State name="normal" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_MenuBarButton_Center_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_MenuBarButton_Center_Pushed}"/>
     </BasisSkin>
@@ -593,8 +593,8 @@ TabButtonSkin
     <Property key="TextAlign" value = "Center" />
     <!--Center-->
     <BasisSkin type="SubSkin" offset = "0 0 51 26" align = "Stretch">
-      <State name="disabled" offset = "3 25 18 18"/>
-      <State name="normal" offset = "3 25 18 18"/>
+      <State name="disabled" offsetNamed="Anomalous_Invisible_Coord"/>
+      <State name="normal" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TabButton_Center_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TabButton_Center_Pushed}"/>
       <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_TabButton_Center_DisabledChecked}"/>

@@ -3,6 +3,7 @@
   <Tag name="Anomalous_Theme_Texture">AnomalousThemeTexture.png</Tag>
 
   <Tag name="Anomalous_Solid_Coord">3 3 18 18</Tag>
+  <Tag name="Anomalous_Invisible_Coord">3 25 18 18</Tag>
 
   <Tag name="Anomalous_Checkbox_Unchecked_Coord">26 65 12 12</Tag>
   <Tag name="Anomalous_Checkbox_Checked_Coord">40 65 12 12</Tag>
