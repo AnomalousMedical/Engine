@@ -36,7 +36,7 @@ namespace BulletPlugin
         {
             if (subscene.hasSimElementManagerType(typeof(BulletScene)))
             {
-                BulletScene sceneManager = subscene.getSimElementManager<BulletScene>();
+                BulletSceneInternal sceneManager = (BulletSceneInternal)subscene.getSimElementManager<BulletScene>();
                 sceneManager.getBulletFactory().addRigidBody(this, instance);
             }
             else
@@ -45,7 +45,7 @@ namespace BulletPlugin
             }
         }
 
-        internal override void createProduct(SimObjectBase instance, BulletScene scene)
+        internal override void createProduct(SimObjectBase instance, BulletSceneInternal scene)
         {
             BulletShapeRepository repository = BulletInterface.Instance.ShapeRepository;
 	        if(repository.containsValidCollection(ShapeName))
@@ -55,7 +55,7 @@ namespace BulletPlugin
 		        {
                     CollisionShapeInterface.CollisionShape_CalculateLocalInertia(shape, constructionInfo.m_mass, ref constructionInfo.m_localInertia);
 		        }
-		        RigidBody rigidBody = new RigidBody(this, scene, shape, instance.Translation, instance.Rotation);
+		        MTRigidBody rigidBody = new MTRigidBody(this, scene, shape, instance.Translation, instance.Rotation);
 		        instance.addElement(rigidBody);
 	        }
 	        else
@@ -64,7 +64,7 @@ namespace BulletPlugin
 	        }
         }
 
-        internal override void createStaticProduct(SimObjectBase instance, BulletScene scene)
+        internal override void createStaticProduct(SimObjectBase instance, BulletSceneInternal scene)
         {
             
         }

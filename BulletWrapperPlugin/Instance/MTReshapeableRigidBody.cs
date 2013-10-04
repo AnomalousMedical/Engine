@@ -7,11 +7,11 @@ using System.Runtime.InteropServices;
 
 namespace BulletPlugin
 {
-    public class ReshapeableRigidBody : RigidBody
+    class MTReshapeableRigidBody : MTRigidBody, ReshapeableRigidBody
     {
         private IntPtr nativeReshapeable;
 
-        public ReshapeableRigidBody(ReshapeableRigidBodyDefinition description, BulletScene scene, IntPtr collisionShape, Vector3 initialTrans, Quaternion initialRot)
+        public MTReshapeableRigidBody(ReshapeableRigidBodyDefinition description, BulletSceneInternal scene, IntPtr collisionShape, Vector3 initialTrans, Quaternion initialRot)
             :base(description, scene, collisionShape, initialTrans, initialRot)
         {
             nativeReshapeable = ReshapeableRigidBody_Create(NativeRigidBody, collisionShape);

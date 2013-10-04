@@ -7,7 +7,7 @@ using Engine;
 
 namespace BulletPlugin
 {
-    class MotionState : IDisposable
+    class MTMotionState : IDisposable
     {
         private SetXformCallback xformCallback;
         private ContactCallback contactStartedCallback;
@@ -15,9 +15,9 @@ namespace BulletPlugin
         private ContactCallback contactContinuesCallback;
         internal IntPtr motionState;
         private ContactInfo contactInfo = new ContactInfo();
-        private RigidBody rigidBody;
+        private MTRigidBody rigidBody;
 
-        public MotionState(RigidBody rigidBody, float maxContactDistance, ref Vector3 initialTrans, ref Quaternion initialRot)
+        public MTMotionState(MTRigidBody rigidBody, float maxContactDistance, ref Vector3 initialTrans, ref Quaternion initialRot)
         {
             this.rigidBody = rigidBody;
             xformCallback = new SetXformCallback(motionStateCallback);

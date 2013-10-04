@@ -10,14 +10,14 @@ namespace BulletPlugin
     /// </summary>
     class TypedConstraintManager
     {
-        static Dictionary<IntPtr, TypedConstraintElement> constraintMap = new Dictionary<IntPtr, TypedConstraintElement>();
+        static Dictionary<IntPtr, MTTypedConstraintElement> constraintMap = new Dictionary<IntPtr, MTTypedConstraintElement>();
 
         private TypedConstraintManager()
         {
 
         }
 
-        public static void addConstraint(IntPtr ptr, TypedConstraintElement element)
+        public static void addConstraint(IntPtr ptr, MTTypedConstraintElement element)
         {
             constraintMap.Add(ptr, element);
         }
@@ -27,9 +27,9 @@ namespace BulletPlugin
             constraintMap.Remove(ptr);
         }
 
-        public static TypedConstraintElement getElement(IntPtr ptr)
+        public static MTTypedConstraintElement getElement(IntPtr ptr)
         {
-            TypedConstraintElement element;
+            MTTypedConstraintElement element;
             constraintMap.TryGetValue(ptr, out element);
             return element;
         }

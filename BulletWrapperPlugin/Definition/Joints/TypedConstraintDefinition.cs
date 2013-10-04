@@ -17,31 +17,31 @@ namespace BulletPlugin
 
         }
 
-        internal override void createProduct(Engine.ObjectManagement.SimObjectBase instance, BulletScene scene)
+        internal override void createProduct(Engine.ObjectManagement.SimObjectBase instance, BulletSceneInternal scene)
         {
- 	        RigidBody rbA = null;
-	        RigidBody rbB = null;
+ 	        MTRigidBody rbA = null;
+	        MTRigidBody rbB = null;
 
 	        SimObject other = instance.getOtherSimObject(RigidBodyASimObject);
 	        if(other != null)
 	        {
-		         rbA = other.getElement(RigidBodyAElement) as RigidBody;
+		         rbA = other.getElement(RigidBodyAElement) as MTRigidBody;
 	        }
         	
 	        other = instance.getOtherSimObject(RigidBodyBSimObject);
 	        if(other != null)
 	        {
-		        rbB = other.getElement(RigidBodyBElement) as RigidBody;
+		        rbB = other.getElement(RigidBodyBElement) as MTRigidBody;
 	        }
         	
-	        TypedConstraintElement element = createConstraint(rbA, rbB, instance, scene);
+	        MTTypedConstraintElement element = createConstraint(rbA, rbB, instance, scene);
 	        if(element != null)
 	        {
 		        instance.addElement(element);
 	        }
         }
 
-        internal override void createStaticProduct(Engine.ObjectManagement.SimObjectBase instance, BulletScene scene)
+        internal override void createStaticProduct(Engine.ObjectManagement.SimObjectBase instance, BulletSceneInternal scene)
         {
 
         }
@@ -50,7 +50,7 @@ namespace BulletPlugin
         {
  	        if (subscene.hasSimElementManagerType(typeof(BulletScene)))
             {
-                BulletScene sceneManager = subscene.getSimElementManager<BulletScene>();
+                BulletSceneInternal sceneManager = (BulletSceneInternal)subscene.getSimElementManager<BulletScene>();
                 sceneManager.getBulletFactory().addTypedConstraint(this, instance);
             }
             else
@@ -59,7 +59,7 @@ namespace BulletPlugin
             }
         }
 
-        protected abstract TypedConstraintElement createConstraint(RigidBody rbA, RigidBody rbB, SimObjectBase instance, BulletScene scene);
+        internal abstract MTTypedConstraintElement createConstraint(MTRigidBody rbA, MTRigidBody rbB, SimObjectBase instance, BulletSceneInternal scene);
 
         public abstract String JointType { get; }
 
@@ -74,11 +74,7 @@ namespace BulletPlugin
 
         [Editable]
         public String RigidBodyBElement { get; set; }
-}
 
-    //Edit Interface
-    partial class TypedConstraintDefinition
-    {
         static MemberScanner memberScanner = new MemberScanner();
 
         static TypedConstraintDefinition()
@@ -97,11 +93,7 @@ namespace BulletPlugin
 	        }
 	        return editInterface;
         }
-    }
 
-    //Saving
-    partial class TypedConstraintDefinition
-    {
         protected TypedConstraintDefinition(LoadInfo info)
             :base(info)
         {

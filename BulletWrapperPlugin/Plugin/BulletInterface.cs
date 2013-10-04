@@ -97,7 +97,7 @@ namespace BulletPlugin
 
         internal BulletScene createScene(BulletSceneDefinition definition)
         {
-            return new BulletScene(definition, timer);
+            return new MTBulletScene(definition, timer);
         }
 
         internal BulletShapeRepository ShapeRepository

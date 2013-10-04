@@ -16,10 +16,10 @@ namespace BulletPlugin
 
         }
 
-        internal override void createProduct(SimObjectBase instance, BulletScene scene)
+        internal override void createProduct(SimObjectBase instance, BulletSceneInternal scene)
         {
             IntPtr shape = CollisionShapeInterface.CompoundShape_Create(0.0f);
-	        ReshapeableRigidBody rigidBody = new ReshapeableRigidBody(this, scene, shape, instance.Translation, instance.Rotation);
+	        MTReshapeableRigidBody rigidBody = new MTReshapeableRigidBody(this, scene, shape, instance.Translation, instance.Rotation);
 	        instance.addElement(rigidBody);
         }
 

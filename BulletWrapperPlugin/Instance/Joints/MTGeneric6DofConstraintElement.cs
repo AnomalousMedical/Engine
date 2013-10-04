@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 
 namespace BulletPlugin
 {
-    public partial class Generic6DofConstraintElement : TypedConstraintElement
+    class MTGeneric6DofConstraintElement : MTTypedConstraintElement, Generic6DofConstraintElement
     {
-        public Generic6DofConstraintElement(Generic6DofConstraintDefinition definition, SimObjectBase instance, RigidBody rbA, RigidBody rbB, BulletScene scene)
+        public MTGeneric6DofConstraintElement(Generic6DofConstraintDefinition definition, SimObjectBase instance, MTRigidBody rbA, MTRigidBody rbB, BulletSceneInternal scene)
             :base(definition.Name, definition.Subscription, scene, rbA, rbB)
         {
             setConstraint(btGeneric6DofConstraint_Create(rbA.NativeRigidBody, rbB.NativeRigidBody, instance.Translation, instance.Rotation, definition.translationMotor, definition.xRotMotor, definition.yRotMotor, definition.zRotMotor));
@@ -102,14 +102,11 @@ namespace BulletPlugin
             btGeneric6DofConstraint_setAngularUpperLimit(constraint, ref angularUpper);
         }
 
-        public void setParam(Param num, float value, int axis)
+        public void setParam(ConstraintParam num, float value, int axis)
         {
             btGeneric6DofConstraint_setParam(constraint, (int)num, value, axis);
         }
-    }
 
-    partial class Generic6DofConstraintElement
-    {
         [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr btGeneric6DofConstraint_Create(IntPtr rbA, IntPtr rbB, Vector3 jointPos, Quaternion jointRot, TranslationalLimitMotorDefinition transMotor, RotationalLimitMotorDefinition xRotMotor, RotationalLimitMotorDefinition yRotMotor, RotationalLimitMotorDefinition zRotMotor);
 
