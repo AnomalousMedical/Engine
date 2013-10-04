@@ -150,7 +150,6 @@
     <Compile Include="ObjectManagement\Definition\SimSubSceneBinding.cs" />
     <Compile Include="ObjectManagement\Definition\SimSubSceneDefinition.cs" />
     <Compile Include="ObjectManagement\Instance\GenericSimObject.cs" />
-    <Compile Include="ObjectManagement\Instance\ISimElement.cs" />
     <Compile Include="ObjectManagement\Instance\SimObjectBase.cs" />
     <Compile Include="ObjectManagement\Instance\SimObjectException.cs" />
     <Compile Include="ObjectManagement\Instance\SimObjectManager.cs" />

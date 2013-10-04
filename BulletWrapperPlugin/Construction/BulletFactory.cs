@@ -6,16 +6,16 @@ using Engine.ObjectManagement;
 
 namespace BulletPlugin
 {
-    class BulletFactory : SimElementFactory
+    public class BulletFactory : SimElementFactory
     {
-        BulletSceneInternal scene;
+        BulletScene scene;
 	    List<BulletFactoryEntry> rigidBodies = new List<BulletFactoryEntry>();
         //List<BulletFactoryEntry> softBodies;
         List<BulletFactoryEntry> typedConstraints = new List<BulletFactoryEntry>();
         //List<SoftBodyProviderEntry> softBodyProviders;
         //List<BulletFactoryEntry> softBodyAnchors;
 
-        public BulletFactory(BulletSceneInternal scene)
+        public BulletFactory(BulletScene scene)
         {
             this.scene = scene;
         }

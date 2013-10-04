@@ -8,6 +8,30 @@ using Engine.Attributes;
 namespace Engine.ObjectManagement
 {
     /// <summary>
+    /// This enum sets what updates a element will listen to.
+    /// All element must support the enable and disable events, however.
+    /// </summary>
+    public enum Subscription
+    {
+        /// <summary>
+        /// Recieve no updates.
+        /// </summary>
+        None = 0,
+        /// <summary>
+        /// Subscribe to position updates.
+        /// </summary>
+        PositionUpdate = 1 << 0,
+        /// <summary>
+        /// Subscribe to scale updates.
+        /// </summary>
+        ScaleUpdate = 1 << 1,
+        /// <summary>
+        /// Recieve all updates.
+        /// </summary>
+        All = PositionUpdate | ScaleUpdate,
+    };
+
+    /// <summary>
     /// This is a subsystem specific part of a SimObject. The SimObject will
     /// handle updating the common state between all of these objects, but the
     /// exact behavior they implement is unknown at this level. These objects
@@ -19,7 +43,7 @@ namespace Engine.ObjectManagement
     /// </summary>
     [DoNotCopy]
     [DoNotSave]
-    public abstract class SimElement : ISimElement
+    public abstract class SimElement
     {
         #region Fields
 

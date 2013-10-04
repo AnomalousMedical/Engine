@@ -24,11 +24,11 @@ namespace BulletPlugin
             zRotMotor = new RotationalLimitMotorDefinition();
         }
 
-        internal override MTTypedConstraintElement createConstraint(MTRigidBody rbA, MTRigidBody rbB, SimObjectBase instance, BulletSceneInternal scene)
+        protected override TypedConstraintElement createConstraint(RigidBody rbA, RigidBody rbB, SimObjectBase instance, BulletScene scene)
         {
             if(rbA != null && rbB != null)
 	        {
-		        return new MTGeneric6DofConstraintElement(this, instance, rbA, rbB, scene);
+		        return new Generic6DofConstraintElement(this, instance, rbA, rbB, scene);
 	        }
 	        return null;
         }

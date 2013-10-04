@@ -42,7 +42,7 @@ namespace BulletPlugin
         {
 	        if(enabled)
 	        {
-                BulletSceneInternal sceneManager = (BulletSceneInternal)subScene.getSimElementManager<BulletScene>();
+		        BulletScene sceneManager = subScene.getSimElementManager<BulletScene>();
 		        if(sceneManager != null)
 		        {
 			        sceneManager.drawDebug(drawingSurface);
@@ -50,7 +50,7 @@ namespace BulletPlugin
 	        }
 	        else if(firstFrameDisabled)
 	        {
-		        BulletSceneInternal sceneManager = (BulletSceneInternal)subScene.getSimElementManager<BulletScene>();
+		        BulletScene sceneManager = subScene.getSimElementManager<BulletScene>();
 		        if(sceneManager != null)
 		        {
 			        sceneManager.clearDebug(drawingSurface);

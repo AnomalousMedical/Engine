@@ -10,7 +10,7 @@ using Engine;
 
 namespace BulletPlugin
 {
-    unsafe class MTBulletScene : SimElementManager, UpdateListener, BulletSceneInternal
+    public partial class BulletScene : SimElementManager, UpdateListener
     {
         private String name;
         private UpdateTimer timer;
@@ -19,7 +19,7 @@ namespace BulletPlugin
         private BulletDebugDraw debugDraw;
         private String performanceName;
 
-        public unsafe MTBulletScene(BulletSceneDefinition definition, UpdateTimer timer)
+        public unsafe BulletScene(BulletSceneDefinition definition, UpdateTimer timer)
         {
             fixed (BulletSceneInfo* info = &definition.sceneInfo)
             {
@@ -41,22 +41,22 @@ namespace BulletPlugin
             debugDraw.Dispose();
         }
 
-        public void addRigidBody(MTRigidBody rigidBody, short collisionFilterGroup, short collisionFilterMask)
+        public void addRigidBody(RigidBody rigidBody, short collisionFilterGroup, short collisionFilterMask)
         {
             BulletScene_addRigidBody(bulletScene, rigidBody.NativeRigidBody, collisionFilterGroup, collisionFilterMask);
         }
 
-        public void removeRigidBody(MTRigidBody rigidBody)
+        public void removeRigidBody(RigidBody rigidBody)
         {
             BulletScene_removeRigidBody(bulletScene, rigidBody.NativeRigidBody);
         }
 
-        public void addConstraint(MTTypedConstraintElement constraint, bool disableCollisionsBetweenLinkedBodies)
+        internal void addConstraint(TypedConstraintElement constraint, bool disableCollisionsBetweenLinkedBodies)
         {
             BulletScene_addConstraint(bulletScene, constraint.constraint, disableCollisionsBetweenLinkedBodies);
         }
 
-        public void removeConstraint(MTTypedConstraintElement constraint)
+        internal void removeConstraint(TypedConstraintElement constraint)
         {
             BulletScene_removeConstraint(bulletScene, constraint.constraint);
         }
@@ -70,7 +70,7 @@ namespace BulletPlugin
             return factory;
         }
 
-        public BulletFactory getBulletFactory()
+        internal BulletFactory getBulletFactory()
         {
             return factory;
         }
@@ -121,7 +121,7 @@ namespace BulletPlugin
 
         #endregion
 
-        public void drawDebug(DebugDrawingSurface drawingSurface)
+        internal void drawDebug(DebugDrawingSurface drawingSurface)
         {
             drawingSurface.begin(name + "BulletDebug", DrawingType.LineList);
             debugDraw.setDrawingSurface(drawingSurface);
@@ -129,12 +129,16 @@ namespace BulletPlugin
             drawingSurface.end();
         }
 
-        public void clearDebug(DebugDrawingSurface drawingSurface)
+        internal void clearDebug(DebugDrawingSurface drawingSurface)
         {
             drawingSurface.begin(name + "BulletDebug", DrawingType.LineList);
             drawingSurface.end();
         }
+    }
 
+    //Dll Imports
+    unsafe partial class BulletScene
+    {
         [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr BulletScene_CreateBulletScene(BulletSceneInfo* sceneInfo);
 

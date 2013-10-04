@@ -6,7 +6,7 @@ using Engine.ObjectManagement;
 
 namespace BulletPlugin
 {
-    class BulletFactoryEntry
+    public class BulletFactoryEntry
     {
         SimObjectBase instance;
         BulletElementDefinition element;
@@ -17,12 +17,12 @@ namespace BulletPlugin
             this.element = element;
         }
 
-        public void createProduct(BulletSceneInternal scene)
+        public void createProduct(BulletScene scene)
         {
             element.createProduct(instance, scene);
         }
 
-        public void createStaticProduct(BulletSceneInternal scene)
+        public void createStaticProduct(BulletScene scene)
         {
             element.createStaticProduct(instance, scene);
         }

@@ -15,9 +15,9 @@ namespace BulletPlugin
 
         }
 
-        internal abstract void createProduct(SimObjectBase instance, BulletSceneInternal scene);
+        internal abstract void createProduct(SimObjectBase instance, BulletScene scene);
 
-        internal abstract void createStaticProduct(SimObjectBase instance, BulletSceneInternal scene);
+        internal abstract void createStaticProduct(SimObjectBase instance, BulletScene scene);
 
         //Saving
 

@@ -7,16 +7,24 @@ using System.Runtime.InteropServices;
 
 namespace BulletPlugin
 {
-    abstract class MTTypedConstraintElement : SimElement, TypedConstraintElement
+    public abstract partial class TypedConstraintElement : SimElement
     {
+        public enum Param : int
+        {
+            CONSTRAINT_ERP = 1,
+            CONSTRAINT_STOP_ERP,
+            CONSTRAINT_STOP_CFM,
+            CONSTRAINT_CFM,
+        };
+
         internal IntPtr constraint;
-	    BulletSceneInternal scene;
-	    MTRigidBody rbA;
-	    MTRigidBody rbB;
+	    BulletScene scene;
+	    RigidBody rbA;
+	    RigidBody rbB;
 	    bool active; //true while both rigid bodies exist. If one is deleted setInactive will be called removing the joint and setting this to false.
 	    bool enabled;
 
-        public MTTypedConstraintElement(String name, Subscription subscription, BulletSceneInternal scene, MTRigidBody rbA, MTRigidBody rbB)
+        public TypedConstraintElement(String name, Subscription subscription, BulletScene scene, RigidBody rbA, RigidBody rbB)
             :base(name, subscription)
         {
             constraint = IntPtr.Zero;
@@ -109,7 +117,10 @@ namespace BulletPlugin
                 return rbB;
             }
         }
+    }
 
+    partial class TypedConstraintElement
+    {
         [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void btTypedConstraint_Delete(IntPtr instance);
     }

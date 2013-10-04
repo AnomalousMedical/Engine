@@ -8,23 +8,53 @@ using Engine.ObjectManagement;
 
 namespace BulletPlugin
 {
-    class MTRigidBody : SimElement, RigidBody
+    /// <summary>
+    /// This is the callback for a collision event. The contact info has information
+    /// about the contact, sourceBody is the body that fired the event, otherBody is
+    /// the other rigid body in the collision and isBodyA indicates if the RigidBody
+    /// that fired the event is rigidBodyA in the contact info.
+    /// </summary>
+    public delegate void CollisionCallback(ContactInfo contact, RigidBody sourceBody, RigidBody otherBody, bool isBodyA);
+
+    [Engine.Attributes.SingleEnum]
+    public enum ActivationState : int
+    {
+        ActiveTag = 1,
+	    IslandSleeping = 2,
+	    WantsDeactivation = 3,
+	    DisableDeactivation = 4,
+	    DisableSimulation = 5,
+    }
+
+    [Engine.Attributes.MultiEnum]
+    public enum CollisionFlags : int
+    {
+	    StaticObject = 1,
+	    KinematicObject = 2,
+	    NoContactResponse = 4,
+	    CustomMaterialCallback = 8,
+	    CharacterCallback = 16,
+        DisableVisualizeObject = 32,
+        DisableSPUCollisionProcessing = 64,
+    };
+
+    public partial class RigidBody : SimElement
     {
         private IntPtr rigidBody;
-        private BulletSceneInternal scene;
+        private BulletScene scene;
         String shapeName;
         short collisionFilterMask;
         short collisionFilterGroup;
-        private MTMotionState motionState;
+        private MotionState motionState;
 
-        public unsafe MTRigidBody(RigidBodyDefinition description, BulletSceneInternal scene, IntPtr collisionShape, Vector3 initialTrans, Quaternion initialRot)
+        public unsafe RigidBody(RigidBodyDefinition description, BulletScene scene, IntPtr collisionShape, Vector3 initialTrans, Quaternion initialRot)
             :base(description.Name, description.Subscription)
         {
             this.scene = scene;
             shapeName = description.ShapeName;
             collisionFilterMask = description.CollisionFilterMask;
             collisionFilterGroup = description.CollisionFilterGroup;
-            motionState = new MTMotionState(this, description.MaxContactDistance, ref initialTrans, ref initialRot);
+            motionState = new MotionState(this, description.MaxContactDistance, ref initialTrans, ref initialRot);
 	
             rigidBody = btRigidBody_Create(ref description.constructionInfo, motionState.motionState, collisionShape);
 
@@ -44,19 +74,19 @@ namespace BulletPlugin
             if(rigidBody != IntPtr.Zero)
             {
                 int numRefs = btRigidBody_getNumConstraintRefs(rigidBody);
-                List<MTTypedConstraintElement> constraints = new List<MTTypedConstraintElement>(numRefs);
+                List<TypedConstraintElement> constraints = new List<TypedConstraintElement>(numRefs);
                 //Gather up all constraints
                 for(int i = 0; i < numRefs; ++i)
                 {
                     IntPtr typedConstraint = btRigidBody_getConstraintRef(rigidBody, i);
-                    MTTypedConstraintElement element = TypedConstraintManager.getElement(typedConstraint);
+                    TypedConstraintElement element = TypedConstraintManager.getElement(typedConstraint);
                     if(element != null)
                     {
                         constraints.Add(element);
                     }
                 }
                 //Set all constraints to inactive
-                foreach(MTTypedConstraintElement constraint in constraints)
+                foreach(TypedConstraintElement constraint in constraints)
                 {
                     constraint.setInactive();
                 }
@@ -494,6 +524,12 @@ namespace BulletPlugin
                 motionState.MaxContactDistance = value;
             }
         }
+    }
+
+    //Dll Imports
+    unsafe partial class RigidBody
+    {
+        //btRigidBody
 
         [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr btRigidBody_Create(ref RigidBodyConstructionInfo constructionInfo, IntPtr motionState, IntPtr collisionShape);
