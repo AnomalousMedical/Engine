@@ -103,16 +103,7 @@ void BulletScene::fillOutInfo(BulletSceneInfo* sceneInfo)
 
 void BulletScene::update(float seconds)
 {
-	int subSteps = 2;
-	if(seconds > internalTimestep)
-	{
-		subSteps = seconds / internalTimestep + 1;
-		if(subSteps > 7)
-		{
-			subSteps = 7;
-		}
-	}
-	dynamicsWorld->stepSimulation(seconds, subSteps, internalTimestep);
+	dynamicsWorld->stepSimulation(seconds, 7, internalTimestep);
 }
 
 void BulletScene::addRigidBody(btRigidBody* rigidBody, short group, short mask)

@@ -179,7 +179,7 @@ namespace OgrePlugin
 
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
         {
-            mainTimer.addFullSpeedUpdateListener(ogreUpdate);
+            mainTimer.addFullSpeedUpdateListenerWithBackgrounding("Rendering", ogreUpdate);
         }
 
         public string getName()

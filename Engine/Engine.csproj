@@ -162,6 +162,7 @@
     <Compile Include="Performance\PerformanceMonitor.cs" />
     <Compile Include="Performance\PerformanceMonitorState.cs" />
     <Compile Include="Performance\Timelapse.cs" />
+    <Compile Include="Platform\BackgroundUpdateListener.cs" />
     <Compile Include="Platform\Clock.cs" />
     <Compile Include="Platform\FullSpeedOnlyUpdateTimer.cs" />
     <Compile Include="Platform\Input\DefaultEvents.cs" />
@@ -174,6 +175,8 @@
     <Compile Include="Platform\Input\MessageEvent.cs" />
     <Compile Include="Platform\Input\Mouse.cs" />
     <Compile Include="Platform\ManagedUpdateTimer.cs" />
+    <Compile Include="Platform\BackgroundUpdateListenerWorker.cs" />
+    <Compile Include="Platform\UpdateListenerWithBackgrounding.cs" />
     <Compile Include="Platform\OSWindow.cs" />
     <Compile Include="Platform\OSWindowListener.cs" />
     <Compile Include="Platform\SystemTimer.cs" />

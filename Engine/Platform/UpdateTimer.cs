@@ -14,6 +14,7 @@ namespace Engine.Platform
     {
         protected List<UpdateListener> fixedListeners = new List<UpdateListener>();
         protected List<UpdateListener> fullSpeedListeners = new List<UpdateListener>();
+        private Dictionary<String, UpdateListenerWithBackgrounding> multiThreadedWorkerListeners = new Dictionary<string, UpdateListenerWithBackgrounding>();
 
         protected Clock clock = new Clock();
         protected SystemTimer systemTimer;
@@ -84,6 +85,65 @@ namespace Engine.Platform
         public void removeFullSpeedUpdateListener(UpdateListener listener)
         {
             fullSpeedListeners.Remove(listener);
+        }
+
+        /// <summary>
+        /// Add a listener that will be updated as fast a possible by the loop.
+        /// </summary>
+        /// <param name="listener">The listener to add.</param>
+        public void addBackgroundUpdateListener(String name, BackgroundUpdateListener listener)
+        {
+            try
+            {
+                UpdateListenerWithBackgrounding bgListenerWorker = multiThreadedWorkerListeners[name];
+                bgListenerWorker.addBackgroundListener(listener);
+            }
+            catch (KeyNotFoundException)
+            {
+                Log.Warning("Could not find background worker supporting update named '{0}'. Be sure to add the update listeners that support background tasks before the background tasks. Listener will not update.", name);
+            }
+        }
+
+        /// <summary>
+        /// Remove a listener from the full speed loop.
+        /// </summary>
+        /// <param name="listener">The listener to remove</param>
+        public void removeBackgroundUpdateListener(String name, BackgroundUpdateListener listener)
+        {
+            try
+            {
+                UpdateListenerWithBackgrounding bgListenerWorker = multiThreadedWorkerListeners[name];
+                bgListenerWorker.removeBackgroundListener(listener);
+            }
+            catch (KeyNotFoundException)
+            {
+                //This is ok, the foreground task may have been removed first
+            }
+        }
+
+        /// <summary>
+        /// Add a listener that will be updated as fast a possible by the loop. Also will enable background tasks to run at the same time
+        /// as this listener. Those can be added using addBackgroundUpdateListener and giving the same name given here.
+        /// You must add the main thread update listener before adding the updates that will run in the background.
+        /// </summary>
+        /// <param name="listener">The listener to add.</param>
+        public void addFullSpeedUpdateListenerWithBackgrounding(String name, UpdateListener listener)
+        {
+            UpdateListenerWithBackgrounding bgListenerWorker = new UpdateListenerWithBackgrounding(listener);
+            multiThreadedWorkerListeners.Add(name, bgListenerWorker);
+            addFullSpeedUpdateListener(bgListenerWorker);
+        }
+
+        /// <summary>
+        /// Remove a listener from the full speed loop.
+        /// </summary>
+        /// <param name="listener">The listener to remove</param>
+        public void removeFullSpeedUpdateListenerWithBackgrounding(String name, UpdateListener listener)
+        {
+            UpdateListenerWithBackgrounding bgListenerWorker = multiThreadedWorkerListeners[name];
+            removeFullSpeedUpdateListener(bgListenerWorker);
+            bgListenerWorker.Dispose();
+            multiThreadedWorkerListeners.Remove(name);
         }
 
         /// <summary>

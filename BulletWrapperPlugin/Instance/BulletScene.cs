@@ -10,7 +10,7 @@ using Engine;
 
 namespace BulletPlugin
 {
-    public partial class BulletScene : SimElementManager, UpdateListener
+    public partial class BulletScene : SimElementManager, BackgroundUpdateListener
     {
         private String name;
         private UpdateTimer timer;
@@ -18,6 +18,8 @@ namespace BulletPlugin
         private IntPtr bulletScene;
         private BulletDebugDraw debugDraw;
         private String performanceName;
+
+        private List<RigidBody> rigidBodies = new List<RigidBody>();
 
         public unsafe BulletScene(BulletSceneDefinition definition, UpdateTimer timer)
         {
@@ -27,7 +29,7 @@ namespace BulletPlugin
             }
             this.timer = timer;
             this.name = definition.Name;
-            timer.addFixedUpdateListener(this);
+            timer.addBackgroundUpdateListener("Rendering", this);
             factory = new BulletFactory(this);
             debugDraw = new BulletDebugDraw();
             performanceName = String.Format("BulletScene {0}", name);
@@ -36,19 +38,22 @@ namespace BulletPlugin
 
         public void Dispose()
         {
-            timer.removeFixedUpdateListener(this);
+            timer.removeBackgroundUpdateListener("Rendering", this);
             BulletScene_DestroyBulletScene(bulletScene);
             debugDraw.Dispose();
+            Active = false;
         }
 
-        public void addRigidBody(RigidBody rigidBody, short collisionFilterGroup, short collisionFilterMask)
+        internal void addRigidBody(RigidBody rigidBody, short collisionFilterGroup, short collisionFilterMask)
         {
+            rigidBodies.Add(rigidBody);
             BulletScene_addRigidBody(bulletScene, rigidBody.NativeRigidBody, collisionFilterGroup, collisionFilterMask);
         }
 
-        public void removeRigidBody(RigidBody rigidBody)
+        internal void removeRigidBody(RigidBody rigidBody)
         {
             BulletScene_removeRigidBody(bulletScene, rigidBody.NativeRigidBody);
+            rigidBodies.Remove(rigidBody);
         }
 
         internal void addConstraint(TypedConstraintElement constraint, bool disableCollisionsBetweenLinkedBodies)
@@ -99,14 +104,22 @@ namespace BulletPlugin
 
         #region UpdateListener Members
 
-        public void sendUpdate(Clock clock)
+        public void doBackgroundWork(Clock clock)
         {
-            PerformanceMonitor.start(performanceName);
+            PerformanceMonitor.start(performanceName + " Background"); //This is terrible, but it will help us know if this is working.
             if (Active)
             {
-                BulletScene_update(bulletScene, (float)clock.Seconds);
+                BulletScene_update(bulletScene, clock.fSeconds);
             }
-            PerformanceMonitor.stop(performanceName);
+            PerformanceMonitor.stop(performanceName + " Background"); //This is terrible, but it will help us know if this is working.
+        }
+
+        public void synchronizeResults()
+        {
+            foreach (RigidBody rigidBody in rigidBodies)
+            {
+                rigidBody.syncObjectPosition();
+            }
         }
 
         public void loopStarting()
