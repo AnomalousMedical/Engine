@@ -12,6 +12,19 @@ namespace BulletPlugin
 {
     public partial class BulletScene : SimElementManager, BackgroundUpdateListener
     {
+        public delegate void TickCallback(float timeSpan);
+
+        /// <summary>
+        /// Called when the physics scene ticks. You should use this to apply forces and other operations, if these are not
+        /// done when the physics scene ticks you could get weird jitter or other strange behavior.
+        /// 
+        /// Note that this event will come on whatever thread the physics is running on, which may not be the main thread
+        /// and may be during another operation such as rendering. You should only update physics related classes or store the
+        /// state until a behavior's update function to ensure that you do not update resources being used by another thread.
+        /// </summary>
+        public event TickCallback Tick;
+
+        ManagedTickCallback managedTickCallback;
         private String name;
         private UpdateTimer timer;
         private BulletFactory factory;
@@ -23,9 +36,10 @@ namespace BulletPlugin
 
         public unsafe BulletScene(BulletSceneDefinition definition, UpdateTimer timer)
         {
+            managedTickCallback = new ManagedTickCallback(managedTickCallbackFunc);
             fixed (BulletSceneInfo* info = &definition.sceneInfo)
             {
-                bulletScene = BulletScene_CreateBulletScene(info);
+                bulletScene = BulletScene_CreateBulletScene(info, managedTickCallback);
             }
             this.timer = timer;
             this.name = definition.Name;
@@ -42,6 +56,7 @@ namespace BulletPlugin
             BulletScene_DestroyBulletScene(bulletScene);
             debugDraw.Dispose();
             Active = false;
+            managedTickCallback = null;
         }
 
         internal void addRigidBody(RigidBody rigidBody, short collisionFilterGroup, short collisionFilterMask)
@@ -64,6 +79,14 @@ namespace BulletPlugin
         internal void removeConstraint(TypedConstraintElement constraint)
         {
             BulletScene_removeConstraint(bulletScene, constraint.constraint);
+        }
+
+        private void managedTickCallbackFunc(float timeSpan)
+        {
+            if (Tick != null)
+            {
+                Tick.Invoke(timeSpan);
+            }
         }
 
         public bool Active { get; set; }
@@ -152,8 +175,11 @@ namespace BulletPlugin
     //Dll Imports
     unsafe partial class BulletScene
     {
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        delegate void ManagedTickCallback(float timeStep);
+
         [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr BulletScene_CreateBulletScene(BulletSceneInfo* sceneInfo);
+        private static extern IntPtr BulletScene_CreateBulletScene(BulletSceneInfo* sceneInfo, ManagedTickCallback managedTickCallback);
 
         [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void BulletScene_DestroyBulletScene(IntPtr instance);

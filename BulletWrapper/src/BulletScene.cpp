@@ -8,10 +8,11 @@ static void tickCallback(btDynamicsWorld *world, btScalar timeStep)
 	scene->tickCallback(timeStep);
 }
 
-BulletScene::BulletScene(BulletSceneInfo* sceneInfo)
+BulletScene::BulletScene(BulletSceneInfo* sceneInfo, ManagedTickCallback managedTickCallback)
 :maxProxies(sceneInfo->maxProxies),
 //debugDraw(new BulletDebugDraw()),
-internalTimestep(1.0f / 60.0f)
+internalTimestep(1.0f / 60.0f),
+managedTickCallback(managedTickCallback)
 #if USE_SOFTBODY_WORLD
 ,
 softBodyWorldInfo(new btSoftBodyWorldInfo())
@@ -129,6 +130,7 @@ void BulletScene::removeConstraint(btTypedConstraint* constraint)
 
 void BulletScene::tickCallback(btScalar timeStep)
 {
+	managedTickCallback(timeStep);
 	int numManifolds = dispatcher->getNumManifolds();
 	for(int i = 0; i < numManifolds; ++i)
 	{
@@ -148,9 +150,9 @@ void BulletScene::debugDrawWorld(BulletDebugDraw* debugDrawer)
 //--------------------------------------------------
 //Wrapper functions
 //--------------------------------------------------
-extern "C" _AnomalousExport BulletScene* BulletScene_CreateBulletScene(BulletSceneInfo* sceneInfo)
+extern "C" _AnomalousExport BulletScene* BulletScene_CreateBulletScene(BulletSceneInfo* sceneInfo, ManagedTickCallback managedTickCallback)
 {
-	return new BulletScene(sceneInfo);
+	return new BulletScene(sceneInfo, managedTickCallback);
 }
 
 extern "C" _AnomalousExport void BulletScene_DestroyBulletScene(BulletScene* instance)

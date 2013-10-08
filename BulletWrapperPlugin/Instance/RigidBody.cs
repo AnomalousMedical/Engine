@@ -109,6 +109,13 @@ namespace BulletPlugin
             }
         }
 
+        /// <summary>
+        /// Get an alert that contact started on this rigid body.
+        /// 
+        /// Note that this event will come on whatever thread the physics is running on, which may not be the main thread
+        /// and may be during another operation such as rendering. You should only update physics related classes or store the
+        /// state until a behavior's update function to ensure that you do not update resources being used by another thread.
+        /// </summary>
         public event CollisionCallback ContactStarted
         {
             add
@@ -121,6 +128,13 @@ namespace BulletPlugin
             }
         }
 
+        /// <summary>
+        /// Get an alert that contact ended on this rigid body.
+        /// 
+        /// Note that this event will come on whatever thread the physics is running on, which may not be the main thread
+        /// and may be during another operation such as rendering. You should only update physics related classes or store the
+        /// state until a behavior's update function to ensure that you do not update resources being used by another thread.
+        /// </summary>
         public event CollisionCallback ContactEnded
         {
             add
@@ -133,6 +147,13 @@ namespace BulletPlugin
             }
         }
 
+        /// <summary>
+        /// Get an alert that contact is occuring and continues on this rigid body.
+        /// 
+        /// Note that this event will come on whatever thread the physics is running on, which may not be the main thread
+        /// and may be during another operation such as rendering. You should only update physics related classes or store the
+        /// state until a behavior's update function to ensure that you do not update resources being used by another thread.
+        /// </summary>
         public event CollisionCallback ContactContinues
         {
             add
@@ -537,6 +558,14 @@ namespace BulletPlugin
             set
             {
                 motionState.MaxContactDistance = value;
+            }
+        }
+
+        public BulletScene Scene
+        {
+            get
+            {
+                return scene;
             }
         }
     }

@@ -31,6 +31,14 @@ namespace Engine.Platform
             }
         }
 
+        public Int64 TimeMicro
+        {
+            get
+            {
+                return timeMicro;
+            }
+        }
+
         /// <summary>
         /// Set the time on this clock in microseconds.
         /// </summary>

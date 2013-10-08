@@ -4,6 +4,8 @@
 
 class BulletDebugDraw;
 
+typedef void (*ManagedTickCallback)(float timeStep);
+
 /// <summary>
 /// Info for the bullet scene.
 /// </summary>
@@ -31,6 +33,8 @@ private:
 	btAxisSweep3* overlappingPairCache;
 	btSequentialImpulseConstraintSolver* solver;
 
+	ManagedTickCallback managedTickCallback;
+
 #ifdef USE_SOFTBODY_WORLD
 	btSoftRigidDynamicsWorld* dynamicsWorld;
 	btSoftBodyWorldInfo* softBodyWorldInfo;
@@ -46,7 +50,7 @@ private:
 #endif
 
 public:
-	BulletScene(BulletSceneInfo* sceneInfo);
+	BulletScene(BulletSceneInfo* sceneInfo, ManagedTickCallback managedTickCallback);
 
 	~BulletScene(void);
 
