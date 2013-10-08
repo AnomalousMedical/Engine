@@ -19,11 +19,19 @@ namespace Engine
             currentState = disabledState = new DisabledPerformanceMonitor();
         }
 
+        /// <summary>
+        /// Set the start time for a counter, this is thread safe.
+        /// </summary>
+        /// <param name="name">The name of the counter to set the start time for.</param>
         public static void start(String name)
         {
             currentState.start(name);
         }
 
+        /// <summary>
+        /// Set the stop time for a counter, this is thread safe.
+        /// </summary>
+        /// <param name="name">The name of the counter to set the stop time for.</param>
         public static void stop(String name)
         {
             currentState.stop(name);

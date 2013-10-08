@@ -46,7 +46,7 @@ namespace BulletPlugin
             timer.addBackgroundUpdateListener("Rendering", this);
             factory = new BulletFactory(this);
             debugDraw = new BulletDebugDraw();
-            performanceName = String.Format("BulletScene {0}", name);
+            performanceName = String.Format("BulletScene {0} Background", name);
             Active = true;
         }
 
@@ -129,12 +129,12 @@ namespace BulletPlugin
 
         public void doBackgroundWork(Clock clock)
         {
-            PerformanceMonitor.start(performanceName + " Background"); //This is terrible, but it will help us know if this is working.
+            PerformanceMonitor.start(performanceName);
             if (Active)
             {
                 BulletScene_update(bulletScene, clock.fSeconds);
             }
-            PerformanceMonitor.stop(performanceName + " Background"); //This is terrible, but it will help us know if this is working.
+            PerformanceMonitor.stop(performanceName);
         }
 
         public void synchronizeResults()

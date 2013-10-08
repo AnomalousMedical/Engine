@@ -8,6 +8,7 @@ namespace Engine.Performance
 {
     class EnabledPerformanceMonitor : PerformanceMonitorState
     {
+        private object lockObj = new object();
         private SystemTimer timer;
         private Dictionary<String, Timelapse> timelapses = new Dictionary<string, Timelapse>();
 
@@ -19,14 +20,20 @@ namespace Engine.Performance
 
         public void start(string name)
         {
-            Timelapse timelapse = getTimelapse(name);
-            timelapse.StartTime = timer.getCurrentTime() / 1000;
+            lock (lockObj)
+            {
+                Timelapse timelapse = getTimelapse(name);
+                timelapse.StartTime = timer.getCurrentTime() / 1000;
+            }
         }
 
         public void stop(string name)
         {
-            Timelapse timelapse = getTimelapse(name);
-            timelapse.EndTime = timer.getCurrentTime() / 1000;
+            lock (lockObj)
+            {
+                Timelapse timelapse = getTimelapse(name);
+                timelapse.EndTime = timer.getCurrentTime() / 1000;
+            }
         }
 
         public Timelapse this[String name]
