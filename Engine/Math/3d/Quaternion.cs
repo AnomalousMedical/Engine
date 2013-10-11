@@ -108,7 +108,7 @@ namespace Engine
         /// Set the value using axis angle.
         /// </summary>
         /// <param name="axis">Rotation axis.</param>
-        /// <param name="angle">Angle of rotation around that axis.</param>
+        /// <param name="angle">Angle of rotation around that axis. In Radians.</param>
         public void setRotation(ref Vector3 axis, float angle)
         {
             setRotation(ref axis, ref angle, out x, out y, out z, out w);
@@ -697,6 +697,15 @@ namespace Engine
             z = (float)(cosYaw * sinPitch * cosRoll - sinYaw * cosPitch * sinRoll);
         }
 
+        /// <summary>
+        /// Set the rotation from angle axis, angle is in radians
+        /// </summary>
+        /// <param name="axis"></param>
+        /// <param name="angle"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        /// <param name="w"></param>
         private static void setRotation(ref Vector3 axis, ref float angle, out float x, out float y, out float z, out float w)
         {
             float d = axis.length();

@@ -85,6 +85,23 @@ namespace Engine
             //}
         }
 
+        public Vector3 getColumn(int index)
+        {
+            fixed (float* first = &m00)
+            {
+                return new Vector3(first[index], first[index + 3], first[index + 6]);
+            }
+        }
+
+        public Vector3 getRow(int index)
+        {
+            fixed (float* first = &m00)
+            {
+                index *= 3;
+                return new Vector3(first[index], first[index + 1], first[index + 2]);
+            }
+        }
+
         public static Vector3 operator *(Matrix3x3 mat, Vector3 v)
         {
             return new Vector3
