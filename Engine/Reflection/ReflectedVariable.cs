@@ -41,6 +41,7 @@ namespace Engine.Reflection
             typeMapping.Add(typeof(Color), typeof(ColorReflectedVariable));
             typeMapping.Add(typeof(Decimal), typeof(DecimalReflectedVariable));
             typeMapping.Add(typeof(Size2), typeof(Size2ReflectedVariable));
+            typeMapping.Add(typeof(IntSize2), typeof(IntSize2ReflectedVariable));
         }
 
         /// <summary>

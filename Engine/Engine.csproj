@@ -198,6 +198,7 @@
     <Compile Include="Reflection\FieldMemberWrapper.cs" />
     <Compile Include="Reflection\FloatReflectedVariable.cs" />
     <Compile Include="Reflection\IntReflectedVariable.cs" />
+    <Compile Include="Reflection\IntSize2ReflectedVariable.cs" />
     <Compile Include="Reflection\LongReflectedVariable.cs" />
     <Compile Include="Reflection\MemberScannerFilter.cs" />
     <Compile Include="Reflection\MemberWrapper.cs" />

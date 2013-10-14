@@ -25,6 +25,11 @@ namespace Engine
             this.Height = height;
         }
 
+        public IntSize2(String value)
+        {
+            parseString(value, out Width, out Height);
+        }
+
         //public int Width
         //{
         //    get
@@ -110,7 +115,7 @@ namespace Engine
         }
 
         private static char[] SEPS = { ',' };
-        static private bool parseString(String value, out int width, out int height)
+        static public bool parseString(String value, out int width, out int height)
         {
             String[] nums = value.Split(SEPS);
             bool success = false;
