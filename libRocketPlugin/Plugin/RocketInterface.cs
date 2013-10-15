@@ -12,6 +12,9 @@ namespace libRocketPlugin
     public class RocketInterface : PluginInterface
     {
         public const float DefaultPixelsPerInch = 100;
+        public const String DefaultProtocol = "file:///";
+        private const String UrlFormat = "file:///{0}";
+        private const String CombinePathUrlFormat = "file:///{0}/{1}";
 
         private ManagedSystemInterface systemInterface;
         private RenderInterfaceOgre3D renderInterface;
@@ -90,6 +93,28 @@ namespace libRocketPlugin
         public void createDebugCommands(List<CommandManager> commands)
         {
 
+        }
+
+        /// <summary>
+        /// Create a url for librocket from a path. Makes sure everything is formatted correctly.
+        /// </summary>
+        /// <param name="path">The original path.</param>
+        /// <returns>The path formatted valid for libRocket to parse.</returns>
+        public static String createValidFileUrl(String path)
+        {
+            return String.Format(UrlFormat, path.Replace('\\', '/'));
+        }
+
+        /// <summary>
+        /// Create a url for librocket from two paths. These will be blindly combined together with no intelligence
+        /// separated by a /
+        /// </summary>
+        /// <param name="path1">The first path</param>
+        /// <param name="path2">The second path</param>
+        /// <returns>The paths combined and formatted for libRocket to parse correctly.</returns>
+        public static String createValidFileUrlFromPaths(String path1, String path2)
+        {
+            return String.Format(CombinePathUrlFormat, path1, path2).Replace('\\', '/');
         }
 
         public FileInterface FileInterface
