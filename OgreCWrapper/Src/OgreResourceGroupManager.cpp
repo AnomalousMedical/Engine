@@ -49,7 +49,7 @@ extern "C" _AnomalousExport void ResourceGroupManager_addResourceLocation(String
 
 extern "C" _AnomalousExport void ResourceGroupManager_removeResourceLocation(String name, String resGroup)
 {
-	Ogre::ResourceGroupManager::getSingleton().removeResourceLocation(name);
+	Ogre::ResourceGroupManager::getSingleton().removeResourceLocation(name, resGroup);
 }
 
 extern "C" _AnomalousExport String ResourceGroupManager_findGroupContainingResource(String resourceName)
