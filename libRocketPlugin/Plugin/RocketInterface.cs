@@ -154,6 +154,14 @@ namespace libRocketPlugin
             }
         }
 
+        public ManagedSystemInterface SystemInterface
+        {
+            get
+            {
+                return systemInterface;
+            }
+        }
+
         static RocketInterface()
         {
             ViewportZIndex = 2000000;

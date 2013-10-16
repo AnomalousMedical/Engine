@@ -22,6 +22,43 @@ bool ManagedSystemInterface::LogMessage(Rocket::Core::Log::Type type, const Rock
 	return false;
 }
 
+void ManagedSystemInterface::JoinPath(Rocket::Core::String& translated_path, const Rocket::Core::String& document_path, const Rocket::Core::String& path)
+{
+	if(path.Substring(0, 2) == "~/")
+	{
+		for (std::list<Rocket::Core::String>::iterator it = rootedPaths.begin(); it != rootedPaths.end(); ++it)
+		{
+			Rocket::Core::String& currentRootPath = *it;
+			if(document_path.Length() > currentRootPath.Length())
+			{
+				if(strncasecmp(document_path.CString(), currentRootPath.CString(), currentRootPath.Length()) == 0)
+				{
+					//Use the current root path as the translated path
+					translated_path = currentRootPath;
+
+					// Append the paths and send through URL to removing any '..'.
+					Rocket::Core::URL url(translated_path.Replace(":", "|") + path.Substring(1, path.Length() -1).Replace("\\", "/"));
+					translated_path = url.GetPathedFileName().Replace("|", ":");
+
+					return;
+				}
+			}
+		}
+	}
+
+	SystemInterface::JoinPath(translated_path, document_path, path);
+}
+
+void ManagedSystemInterface::AddRootPath(const Rocket::Core::String& rootPath)
+{
+	rootedPaths.push_back(rootPath);
+}
+
+void ManagedSystemInterface::RemoveRootPath(const Rocket::Core::String& rootPath)
+{
+	rootedPaths.remove(rootPath);
+}
+
 extern "C" _AnomalousExport ManagedSystemInterface* ManagedSystemInterface_Create(GetElapsedTimeDelegate etDelegate, LogMessageDelegate logDelegate)
 {
 	return new ManagedSystemInterface(etDelegate, logDelegate);
@@ -37,4 +74,14 @@ extern "C" _AnomalousExport void SystemInterface_JoinPath(Rocket::Core::SystemIn
 	Rocket::Core::String result;
 	systemInterface->JoinPath(result, documentPath, path);
 	stringCallback(result.CString());
+}
+
+extern "C" _AnomalousExport void ManagedSystemInterface_AddRootPath(ManagedSystemInterface* systemInterface, String rootPath)
+{
+	systemInterface->AddRootPath(rootPath);
+}
+
+extern "C" _AnomalousExport void ManagedSystemInterface_RemoveRootPath(ManagedSystemInterface* systemInterface, String rootPath)
+{
+	systemInterface->RemoveRootPath(rootPath);
 }

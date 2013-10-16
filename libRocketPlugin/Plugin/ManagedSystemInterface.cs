@@ -60,6 +60,16 @@ namespace libRocketPlugin
             }
         }
 
+        public void AddRootPath(String rootPath)
+        {
+            ManagedSystemInterface_AddRootPath(systemInterfacePtr, RocketInterface.createValidFileUrl(rootPath));
+        }
+
+        public void RemoveRootPath(String rootPath)
+        {
+            ManagedSystemInterface_RemoveRootPath(systemInterfacePtr, RocketInterface.createValidFileUrl(rootPath));
+        }
+
         public UpdateTimer Timer { get; set; }
 
         #region PInvoke
@@ -75,6 +85,12 @@ namespace libRocketPlugin
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern void ManagedSystemInterface_Delete(IntPtr systemInterface);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void ManagedSystemInterface_AddRootPath(IntPtr systemInterface, String rootPath);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void ManagedSystemInterface_RemoveRootPath(IntPtr systemInterface, String rootPath);
 
         #endregion
     }
