@@ -31,11 +31,7 @@ namespace libRocketPlugin
                     }
                 }
             }
-            //If all else fails check the file system
-            if (File.Exists(path))
-            {
-                return File.Open(path, FileMode.Open, FileAccess.Read);
-            }
+            //Try to load a common resource, if this fails null will be returned.
             return CommonResources.Open(path);
         }
 
@@ -57,11 +53,7 @@ namespace libRocketPlugin
                     }
                 }
             }
-            //If all else fails check the file system
-            if (File.Exists(path))
-            {
-                return true;
-            }
+            //Try to load a common resource, if this fails false will be returned.
             return CommonResources.Exists(path);
         }
 
