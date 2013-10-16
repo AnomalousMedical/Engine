@@ -51,6 +51,8 @@
     <Compile Include="Plugin\RocketFileSystemExtension.cs" />
     <Compile Include="Plugin\RocketInterface.cs" />
     <Compile Include="Plugin\RocketPluginEntryPoint.cs" />
+    <Compile Include="Plugin\RocketFilesystemArchive.cs" />
+    <Compile Include="Plugin\RocketFilesystemArchiveFactory.cs" />
     <Compile Include="Plugin\RocketRenderQueueListener.cs" />
     <Compile Include="Plugin\VirtualFileSystemFileInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -41,6 +41,7 @@ namespace OgreWrapper
         public event FrameEventHandler FrameStarted;
         public event FrameEventHandler FrameRenderingQueued;
         public event FrameEventHandler FrameEnded;
+        public event Action Disposed;
 
         //Pointers to archive factories (engine archive and embedded)
         EmbeddedResourceArchiveFactory embeddedResources = new EmbeddedResourceArchiveFactory();
@@ -95,6 +96,10 @@ namespace OgreWrapper
             scalableEngineArchives.Dispose();
             RenderSystemPlugin_Delete(renderSystemPlugin);
             CGPlugin_Delete(cgPlugin);
+            if (Disposed != null)
+            {
+                Disposed.Invoke();
+            }
         }
 
         public void saveConfig()

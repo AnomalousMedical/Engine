@@ -6,6 +6,7 @@ using Engine;
 using Engine.Platform;
 using System.Runtime.InteropServices;
 using OgrePlugin;
+using OgreWrapper;
 
 namespace libRocketPlugin
 {
@@ -20,6 +21,8 @@ namespace libRocketPlugin
         private RenderInterfaceOgre3D renderInterface;
         private FileInterface fileInterface;
         private float pixelsPerInch = DefaultPixelsPerInch;
+
+        private RocketFilesystemArchiveFactory rocketFilesystemArchiveFactory = new RocketFilesystemArchiveFactory();
 
         private static RocketInterface instance;
         public static RocketInterface Instance
@@ -41,6 +44,10 @@ namespace libRocketPlugin
 
         public void Dispose()
         {
+            TextureDatabase.ReleaseTextures();
+            OgreResourceGroupManager.getInstance().removeResourceLocation("__RmlViewerFilesystem__", "Rocket");
+            //OgreResourceGroupManager.getInstance().destroyResourceGroup("Rocket");
+
             ReferenceCountable.DumpLeakReport();
             Core.Shutdown();
             if (renderInterface != null)
@@ -53,8 +60,25 @@ namespace libRocketPlugin
             }
         }
 
+        void OgreRoot_Disposed()
+        {
+            //Have to delete ogre resource archives after ogre is deleted
+            if (rocketFilesystemArchiveFactory != null)
+            {
+                rocketFilesystemArchiveFactory.Dispose();
+                rocketFilesystemArchiveFactory = null;
+            }
+        }
+
         public void initialize(PluginManager pluginManager)
         {
+            Root.getSingleton().addArchiveFactory(rocketFilesystemArchiveFactory);
+
+            OgreResourceGroupManager.getInstance().createResourceGroup("Rocket");
+            OgreResourceGroupManager.getInstance().addResourceLocation("__RmlViewerFilesystem__", RocketFilesystemArchive.ArchiveName, "Rocket", false);
+
+            Root.getSingleton().Disposed += OgreRoot_Disposed;
+
             OgreWindow ogreWindow = pluginManager.RendererPlugin.PrimaryWindow as OgreWindow;
 
             systemInterface = new ManagedSystemInterface();
