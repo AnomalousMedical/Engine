@@ -149,7 +149,7 @@ dataselect selectarrow
 	margin-top: 8sp;
 
 	icon-decorator: image;
-	icon-image: /AnomalousThemeTexture.png 26px 46px 35px 51px;
+	icon-image: ~/AnomalousThemeTexture.png 26px 46px 35px 51px;
 	icon-image-color:#434343;
 	icon-z-index: 1;
 }
@@ -218,7 +218,7 @@ input.checkbox
 input.radio
 {
 	icon-decorator: image;
-	icon-image: /AnomalousThemeTexture.png 26px 79px 38px 91px;
+	icon-image: ~/AnomalousThemeTexture.png 26px 79px 38px 91px;
 }
 
 input.radio:hover
@@ -233,25 +233,25 @@ input.radio:active
 
 input.radio:checked
 {
-	icon-image: /AnomalousThemeTexture.png 40px 79px 52px 91px;
+	icon-image: ~/AnomalousThemeTexture.png 40px 79px 52px 91px;
 }
 
 input.radio:checked:hover
 {
-	icon-image: /AnomalousThemeTexture.png 40px 79px 52px 91px;
+	icon-image: ~/AnomalousThemeTexture.png 40px 79px 52px 91px;
 	icon-image-color:#77aadd;
 }
 
 input.radio:checked:active
 {
-	icon-image: /AnomalousThemeTexture.png 40px 79px 52px 91px;
+	icon-image: ~/AnomalousThemeTexture.png 40px 79px 52px 91px;
 	icon-image-color:#6699cc;
 }
 
 input.checkbox
 {
 	icon-decorator: image;
-	icon-image: /AnomalousThemeTexture.png 26px 65px 38px 77px;
+	icon-image: ~/AnomalousThemeTexture.png 26px 65px 38px 77px;
 }
 
 input.checkbox:hover
@@ -266,19 +266,19 @@ input.checkbox:active
 
 input.checkbox:checked
 {
-	icon-image: /AnomalousThemeTexture.png 40px 65px 52px 77px;
+	icon-image: ~/AnomalousThemeTexture.png 40px 65px 52px 77px;
 	icon-image-color:#ffffff;
 }
 
 input.checkbox:checked:hover
 {
-	icon-image: /AnomalousThemeTexture.png 40px 65px 52px 77px;
+	icon-image: ~/AnomalousThemeTexture.png 40px 65px 52px 77px;
 	icon-image-color:#77aadd;
 }
 
 input.checkbox:checked:active
 {
-	icon-image: /AnomalousThemeTexture.png 40px 65px 52px 77px;
+	icon-image: ~/AnomalousThemeTexture.png 40px 65px 52px 77px;
 	icon-image-color:#6699cc;
 }
 
@@ -319,7 +319,7 @@ scrollbarvertical sliderarrowdec
 	margin: 4sp 3sp;
 
 	icon-decorator: image;
-	icon-image: /AnomalousThemeTexture.png 37px 46px 46px 51px;
+	icon-image: ~/AnomalousThemeTexture.png 37px 46px 46px 51px;
 	icon-image-color:#434343;
 	icon-z-index: 1;
 	
@@ -344,7 +344,7 @@ scrollbarvertical sliderarrowinc
 	margin: 4sp 3sp;
 
 	icon-decorator: image;
-	icon-image: /AnomalousThemeTexture.png 26px 46px 35px 51px;
+	icon-image: ~/AnomalousThemeTexture.png 26px 46px 35px 51px;
 	icon-image-color:#434343;
 	icon-z-index: 1;
 	
@@ -376,9 +376,9 @@ datagrid datagridheader
 	padding: 5sp 10sp 0sp 10sp;
 
 	background-decorator: tiled-horizontal;
-	background-left-image: /AnomalousThemeTexture.png 0px 0px 5px 5px;
-	background-center-image: /AnomalousThemeTexture.png stretch 0px 0px 5px 5px;
-	background-right-image: /AnomalousThemeTexture.png 0px 0px 5px 5px;
+	background-left-image: ~/AnomalousThemeTexture.png 0px 0px 5px 5px;
+	background-center-image: ~/AnomalousThemeTexture.png stretch 0px 0px 5px 5px;
+	background-right-image: ~/AnomalousThemeTexture.png 0px 0px 5px 5px;
 }
 
 datagrid datagridbody
@@ -400,7 +400,7 @@ datagridexpand
 	width: 17sp;
 	
 	icon-decorator: image;
-	icon-image: /AnomalousThemeTexture.png 0px 0px 5px 5px;
+	icon-image: ~/AnomalousThemeTexture.png 0px 0px 5px 5px;
 }
 
 datagridexpand:hover
