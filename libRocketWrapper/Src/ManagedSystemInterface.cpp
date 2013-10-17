@@ -24,11 +24,12 @@ bool ManagedSystemInterface::LogMessage(Rocket::Core::Log::Type type, const Rock
 
 void ManagedSystemInterface::JoinPath(Rocket::Core::String& translated_path, const Rocket::Core::String& document_path, const Rocket::Core::String& path)
 {
-	if(path.Substring(0, 2) == "~/")
+	//A leading / means the path is a rooted path, so try to find its matching root path based off the document name.
+	if(path.Substring(0, 1) == "/")
 	{
 		for (std::list<Rocket::Core::String>::iterator it = rootedPaths.begin(); it != rootedPaths.end(); ++it)
 		{
-			Rocket::Core::String& currentRootPath = *it;
+			Rocket::Core::String currentRootPath = *it;
 			if(document_path.Length() > currentRootPath.Length())
 			{
 				if(strncasecmp(document_path.CString(), currentRootPath.CString(), currentRootPath.Length()) == 0)
@@ -37,7 +38,23 @@ void ManagedSystemInterface::JoinPath(Rocket::Core::String& translated_path, con
 					translated_path = currentRootPath;
 
 					// Append the paths and send through URL to removing any '..'.
-					Rocket::Core::URL url(translated_path.Replace(":", "|") + path.Substring(1, path.Length() -1).Replace("\\", "/"));
+					Rocket::Core::URL url(translated_path.Replace(":", "|") + path.Replace("\\", "/"));
+					translated_path = url.GetPathedFileName().Replace("|", ":");
+
+					return;
+				}
+			}
+			//Try to match the root path without the protocol. Right now this is basically hardcoded for file:/// (8 chars)
+			size_t noProtocolLength = currentRootPath.Length() - 8;
+			if(document_path.Length() > noProtocolLength)
+			{
+				if(strncasecmp(document_path.CString(), currentRootPath.CString() + 8, noProtocolLength) == 0)
+				{
+					//Use the current root path as the translated path
+					translated_path = currentRootPath.Substring(8);
+
+					// Append the paths and send through URL to removing any '..'.
+					Rocket::Core::URL url(translated_path.Replace(":", "|") + path.Replace("\\", "/"));
 					translated_path = url.GetPathedFileName().Replace("|", ":");
 
 					return;
@@ -46,7 +63,35 @@ void ManagedSystemInterface::JoinPath(Rocket::Core::String& translated_path, con
 		}
 	}
 
-	SystemInterface::JoinPath(translated_path, document_path, path);
+	// If the path is absolute, strip the leading ~/ and return it.
+	if (path.Substring(0, 2) == "~/")
+	{
+		translated_path = path.Substring(2);
+		return;
+	}
+
+	// If the path is a Windows-style absolute path, return it directly.
+	size_t drive_pos = path.Find(":");
+	size_t slash_pos = Rocket::Core::Math::Min(path.Find("/"), path.Find("\\"));
+	if (drive_pos != Rocket::Core::String::npos &&
+		drive_pos < slash_pos)
+	{
+		translated_path = path;
+		return;
+	}
+
+	// Strip off the referencing document name.
+	translated_path = document_path;
+	translated_path = translated_path.Replace("\\", "/");
+	size_t file_start = translated_path.RFind("/");
+	if (file_start != Rocket::Core::String::npos)
+		translated_path.Resize(file_start + 1);
+	else
+		translated_path.Clear();
+
+	// Append the paths and send through URL to removing any '..'.
+	Rocket::Core::URL url(translated_path.Replace(":", "|") + path.Replace("\\", "/"));
+	translated_path = url.GetPathedFileName().Replace("|", ":");
 }
 
 void ManagedSystemInterface::AddRootPath(const Rocket::Core::String& rootPath)
