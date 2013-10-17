@@ -13,7 +13,7 @@ namespace libRocketPlugin
 
         public override Stream Open(string path)
         {
-            path = stripProtocol(path);
+            path = fixFileName(path);
 
             //Check the virtual file system
             if (VirtualFileSystem.Instance.exists(path))
@@ -37,7 +37,7 @@ namespace libRocketPlugin
 
         public override bool Exists(string path)
         {
-            path = stripProtocol(path);
+            path = fixFileName(path);
 
             if (VirtualFileSystem.Instance.exists(path))
             {
@@ -72,12 +72,13 @@ namespace libRocketPlugin
             extensions.Remove(extension);
         }
 
-        private static string stripProtocol(string path)
+        private static string fixFileName(string path)
         {
             if (path.StartsWith(RocketInterface.DefaultProtocol))
             {
                 path = path.Substring(RocketInterface.DefaultProtocol.Length);
             }
+            path = path.Replace('\\', '/');
             return path;
         }
     }
