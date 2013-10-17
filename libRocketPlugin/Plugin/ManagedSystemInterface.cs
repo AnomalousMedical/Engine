@@ -62,12 +62,22 @@ namespace libRocketPlugin
 
         public void AddRootPath(String rootPath)
         {
-            ManagedSystemInterface_AddRootPath(systemInterfacePtr, RocketInterface.createValidFileUrl(rootPath));
+            ManagedSystemInterface_AddRootPath(systemInterfacePtr, fixRootPath(rootPath));
         }
 
         public void RemoveRootPath(String rootPath)
         {
-            ManagedSystemInterface_RemoveRootPath(systemInterfacePtr, RocketInterface.createValidFileUrl(rootPath));
+            ManagedSystemInterface_RemoveRootPath(systemInterfacePtr, fixRootPath(rootPath));
+        }
+
+        private String fixRootPath(String rootPath)
+        {
+            rootPath = RocketInterface.createValidFileUrl(rootPath);
+            if (rootPath.EndsWith("/"))
+            {
+                rootPath = rootPath.Substring(0, rootPath.Length - 1);
+            }
+            return rootPath;
         }
 
         public UpdateTimer Timer { get; set; }
