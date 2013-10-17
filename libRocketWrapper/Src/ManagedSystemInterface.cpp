@@ -44,7 +44,7 @@ void ManagedSystemInterface::JoinPath(Rocket::Core::String& translated_path, con
 					return;
 				}
 			}
-			//Try to match the root path without the protocol. Right now this is basically hardcoded for file:/// (8 chars)
+			//Try to match the root path without the protocol. Right now this is basically hardcoded for anom:/// (8 chars)
 			size_t noProtocolLength = currentRootPath.Length() - 8;
 			if(document_path.Length() > noProtocolLength)
 			{
@@ -70,15 +70,7 @@ void ManagedSystemInterface::JoinPath(Rocket::Core::String& translated_path, con
 		return;
 	}
 
-	// If the path is a Windows-style absolute path, return it directly.
-	size_t drive_pos = path.Find(":");
-	size_t slash_pos = Rocket::Core::Math::Min(path.Find("/"), path.Find("\\"));
-	if (drive_pos != Rocket::Core::String::npos &&
-		drive_pos < slash_pos)
-	{
-		translated_path = path;
-		return;
-	}
+	//The path is a plain file reference, use the current document's location
 
 	// Strip off the referencing document name.
 	translated_path = document_path;

@@ -13,9 +13,9 @@ namespace libRocketPlugin
     public class RocketInterface : PluginInterface
     {
         public const float DefaultPixelsPerInch = 100;
-        public const String DefaultProtocol = "file:///";
-        private const String UrlFormat = "file:///{0}";
-        private const String CombinePathUrlFormat = "file:///{0}/{1}";
+        public const String DefaultProtocol = "anom:///";
+        private const String UrlFormat = "anom:///{0}";
+        private const String CombinePathUrlFormat = "anom:///{0}/{1}";
 
         private ManagedSystemInterface systemInterface;
         private RenderInterfaceOgre3D renderInterface;
