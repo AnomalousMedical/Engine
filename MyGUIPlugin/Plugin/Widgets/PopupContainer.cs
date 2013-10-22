@@ -80,6 +80,10 @@ namespace MyGUIPlugin
 
         public virtual void Dispose()
         {
+            if (subscribedToUpdate)
+            {
+                unsubscribeFromUpdate();
+            }
             if (layout != null)
             {
                 LayoutManager.Instance.unloadLayout(layout);
