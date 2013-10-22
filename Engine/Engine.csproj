@@ -133,6 +133,7 @@
     <Compile Include="Math\Shapes\AxisAlignedBox.cs" />
     <Compile Include="Math\Shapes\Box3.cs" />
     <Compile Include="Math\Shapes\Ellipse.cs" />
+    <Compile Include="Math\Shapes\IntRect.cs" />
     <Compile Include="Math\Shapes\Rect.cs" />
     <Compile Include="MemberCopier\CopyFilter.cs" />
     <Compile Include="MemberCopier\CopyMemberScanner.cs" />
