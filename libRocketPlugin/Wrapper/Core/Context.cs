@@ -213,6 +213,18 @@ namespace libRocketPlugin
             return ElementManager.getElement(Context_FindElementAtPoint(ptr, point, ignoreElement.PtrOrNull()));
         }
 
+        public float PixelScale
+        {
+            get
+            {
+                return Context_GetPixelScale(ptr);
+            }
+            set
+            {
+                Context_SetPixelScale(ptr, value);
+            }
+        }
+
         #region PInvoke
 
         //extern "C" _AnomalousExport String Context_GetName(IntPtr context)
@@ -338,6 +350,12 @@ namespace libRocketPlugin
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Context_FindElementAtPoint(IntPtr context, Vector2 point, IntPtr ignore_element);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern float Context_GetPixelScale(IntPtr context);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Context_SetPixelScale(IntPtr context, float value);
 
         #endregion
     }

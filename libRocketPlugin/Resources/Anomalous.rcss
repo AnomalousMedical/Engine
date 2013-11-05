@@ -100,7 +100,7 @@ datagrid input.text
 	border-color: black;
 	background-color: white;
 
-	font-size: 15;
+	font-size: 15sp;
 	
 	background-decorator: none;
 }

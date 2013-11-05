@@ -175,5 +175,28 @@ namespace libRocketPlugin
                 pixelsPerInch = value;
             }
         }
+
+        public float PixelScale
+        {
+            get
+            {
+                if (renderInterface != null)
+                {
+                    return renderInterface.PixelScale;
+                }
+                throw new Exception("You must instantiate the render interface before getting the pixel scale");
+            }
+            set
+            {
+                if (renderInterface != null)
+                {
+                    renderInterface.PixelScale = value;
+                }
+                else
+                {
+                    throw new Exception("You must instantiate the render interface before setting the pixel scale");
+                }
+            }
+        }
     }
 }

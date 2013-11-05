@@ -198,3 +198,13 @@ extern "C" _AnomalousExport Rocket::Core::Element* Context_FindElementAtPoint(Ro
 {
 	return context->FindElementAtPoint(point.toVector2f(), ignoreElement);
 }
+
+extern "C" _AnomalousExport float Context_GetPixelScale(Rocket::Core::Context* context)
+{
+	return context->GetPixelScale();
+}
+
+extern "C" _AnomalousExport void Context_SetPixelScale(Rocket::Core::Context* context, float value)
+{
+	context->SetPixelScale(value);
+}
