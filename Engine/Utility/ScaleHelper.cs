@@ -8,18 +8,34 @@ namespace Engine
 {
     public static class ScaleHelper
     {
+        private static float scaleFactor;
+        private static float inverseScaleFactor;
+
         static ScaleHelper()
         {
-            ScaleFactor = 1.0f;
+            scaleFactor = 1.0f;
+            inverseScaleFactor = 1.0f;
         }
 
         //[MethodImpl(MethodImplOptions.AggressiveInlining)] //When .net 4.5
         public static int Scaled(int originalValue)
         {
-            return (int)(originalValue * ScaleFactor);
+            return (int)(originalValue * scaleFactor);
         }
 
-        public static float ScaleFactor { get; private set; }
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)] //When .net 4.5
+        public static int Unscaled(int originalValue)
+        {
+            return (int)(originalValue * inverseScaleFactor);
+        }
+
+        public static float ScaleFactor
+        {
+            get
+            {
+                return scaleFactor;
+            }
+        }
 
         /// <summary>
         /// Call this to set the scale factor, note that this should only be called while the engine is being setup at the beginning and
@@ -28,7 +44,8 @@ namespace Engine
         /// <param name="scale"></param>
         public static void _setScaleFactor(float scale)
         {
-            ScaleFactor = scale;
+            scaleFactor = scale;
+            inverseScaleFactor = 1f / scale;
         }
     }
 }
