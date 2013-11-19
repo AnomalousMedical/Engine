@@ -270,6 +270,10 @@
   <Tag name="Anomalous_MDISeparator_Center_Normal">#afafaf</Tag>
   <Tag name="Anomalous_MDILocationPreview_Center_Normal">#336699</Tag>
   
+  <!-- Resize Colors -->
+  <Tag name="Anomalous_ResizeHandle_Center_Normal">#08e551</Tag>
+  <Tag name="Anomalous_ResizeHandle_Border_Normal">#000000</Tag>
+  
   <!-- Tooltip Colors -->
   <Tag name="Anomalous_ToolTip_Center_Normal">#6699cc</Tag>
   <Tag name="Anomalous_ToolTip_Border_Normal">#4477aa</Tag>

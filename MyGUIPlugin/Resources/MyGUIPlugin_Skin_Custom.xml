@@ -538,6 +538,20 @@ MDILocationPreview
       <State name="normal" offsetNamed="Anomalous_Transparent_Coord" colour="#{Anomalous_MDILocationPreview_Center_Normal}"/>
     </BasisSkin>
   </Resource>
+
+  <!--*************************
+ResizeHandle
+*****************************-->
+  <Resource type="ResourceSkin" name = "ResizeHandle" size = "11 11" texture = "#{Anomalous_Theme_Texture}" >
+    <!--Center-->
+    <BasisSkin type="SubSkin" offset = "0 0 11 11" align = "Stretch">
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ResizeHandle_Center_Normal}"/>
+    </BasisSkin>
+    <!--Border-->
+    <Border width="1">
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ResizeHandle_Border_Normal}"/>
+    </Border>
+  </Resource>
   
   <!--*************************
 TimelineButtonSkin
