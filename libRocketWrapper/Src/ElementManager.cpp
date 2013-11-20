@@ -11,9 +11,11 @@ class ElementManager : public Rocket::Core::Plugin
 {
 public:
 	typedef void (*ElementDestructorCallback)(Rocket::Core::Element* element);
+	typedef void (*ContextDestructorCallback)(Rocket::Core::Context* context);
 
-	ElementManager(ElementDestructorCallback elementDestroyed)
-		:elementDestroyed(elementDestroyed)
+	ElementManager(ElementDestructorCallback elementDestroyed, ContextDestructorCallback contextDestroyed)
+		:elementDestroyed(elementDestroyed),
+		contextDestroyed(contextDestroyed)
 	{
 
 	}
@@ -33,13 +35,19 @@ public:
 		elementDestroyed(element);
 	}
 
+	virtual void OnContextDestroy (Rocket::Core::Context *context)
+	{
+		contextDestroyed(context);
+	}
+
 private:
 	ElementDestructorCallback elementDestroyed;
+	ContextDestructorCallback contextDestroyed;
 };
 
-extern "C" _AnomalousExport ElementManager* ElementManager_create(ElementManager::ElementDestructorCallback elementDestroyed)
+extern "C" _AnomalousExport ElementManager* ElementManager_create(ElementManager::ElementDestructorCallback elementDestroyed, ElementManager::ContextDestructorCallback contextDestroyed)
 {
-	ElementManager* elementManager = new ElementManager(elementDestroyed);
+	ElementManager* elementManager = new ElementManager(elementDestroyed, contextDestroyed);
 	Rocket::Core::RegisterPlugin(elementManager);
 	return elementManager;
 }

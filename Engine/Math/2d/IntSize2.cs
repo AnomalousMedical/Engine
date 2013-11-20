@@ -104,6 +104,11 @@ namespace Engine
             return new Size2(v.Width * s, v.Height * s);
         }
 
+        public static Size2 operator /(IntSize2 v, float s)
+        {
+            return new Size2(v.Width / s, v.Height / s);
+        }
+
         public static Size2 operator *(float s, IntSize2 v)
         {
             return v * s;

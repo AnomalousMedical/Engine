@@ -453,6 +453,14 @@ namespace libRocketPlugin
             }
         }
 
+        public Context Context
+        {
+            get
+            {
+                return ElementManager.getContext(Element_GetContext(ptr));
+            }
+        }
+
         #region PInvoke
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
@@ -491,6 +499,9 @@ namespace libRocketPlugin
         
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern int Element_GetNumAttributes(IntPtr element);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr Element_GetContext(IntPtr element);
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Element_GetTagName(IntPtr element);

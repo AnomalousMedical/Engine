@@ -146,8 +146,11 @@ extern "C" _AnomalousExport int Element_GetNumAttributes(Rocket::Core::Element* 
 //
 //Element* GetFocusLeafNode();
 //
-//Context* GetContext();
-//
+extern "C" _AnomalousExport Rocket::Core::Context* Element_GetContext(Rocket::Core::Element* element)
+{
+	return element->GetContext();
+}
+
 extern "C" _AnomalousExport String Element_GetTagName(Rocket::Core::Element* element)
 {
 	return element->GetTagName().CString();
