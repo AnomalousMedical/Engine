@@ -113,6 +113,7 @@ copy ..\..\Dependencies\Ogre\Windows\Dependencies\bin\Release\cg.dll $(OutDir)cg
     <ClCompile Include="Src\Bone.cpp" />
     <ClCompile Include="Src\BorderPanelOverlayElement.cpp" />
     <ClCompile Include="Src\Camera.cpp" />
+    <ClCompile Include="src\CompositorManager.cpp" />
     <ClCompile Include="Src\Entity.cpp" />
     <ClCompile Include="Src\HardwareBuffer.cpp" />
     <ClCompile Include="Src\HardwareBufferManager.cpp" />
