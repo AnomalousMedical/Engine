@@ -111,6 +111,30 @@ namespace MyGUIPlugin
 
         public void show(int left, int top)
         {
+            setPosition(left, top, true);
+            if (!Visible)
+            {
+                LayerManager.Instance.upLayerItem(widget);
+
+                Visible = true;
+                if (SmoothShow)
+                {
+                    widget.Alpha = 0.0f;
+                    smoothShowPosition = 0.0f;
+                    subscribeToUpdate();
+                    runningShowTransition = true;
+                    fireShowing();
+                }
+                else
+                {
+                    fireShowing();
+                    fireShown();
+                }
+            }
+        }
+
+        public void setPosition(int left, int top, bool keepOnscreen = false)
+        {
             int guiWidth = RenderManager.Instance.ViewWidth;
             int guiHeight = RenderManager.Instance.ViewHeight;
 
@@ -135,31 +159,6 @@ namespace MyGUIPlugin
                 }
             }
 
-            widget.setPosition(left, top);
-
-            if (!Visible)
-            {
-                LayerManager.Instance.upLayerItem(widget);
-
-                Visible = true;
-                if (SmoothShow)
-                {
-                    widget.Alpha = 0.0f;
-                    smoothShowPosition = 0.0f;
-                    subscribeToUpdate();
-                    runningShowTransition = true;
-                    fireShowing();
-                }
-                else
-                {
-                    fireShowing();
-                    fireShown();
-                }
-            }
-        }
-
-        public void setPosition(int left, int top)
-        {
             widget.setPosition(left, top);
         }
 
