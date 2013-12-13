@@ -46,9 +46,9 @@ namespace Engine.Saving
             return lastLoadedObject;
         }
 
-        public void writeHeader(ObjectIdentifier objectId)
+        public void writeHeader(ObjectIdentifier objectId, int version)
         {
-            loadControl.startDefiningObject(objectId);
+            loadControl.startDefiningObject(objectId, version);
         }
 
         public void writeFooter(ObjectIdentifier objectId)

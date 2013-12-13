@@ -12,6 +12,7 @@ namespace Engine.Saving.XMLSaver
         private const string SAVEABLE_ELEMENT = "Saveable";
         private const string TYPE_ATTRIBUTE = "type";
         private const string ID_ATTIBUTE = "id";
+        private const string VERSION_ATTIBUTE = "version";
         private const string DOCUMENT = "Save";
 
         private ValueWriterCollection valueWriters;
@@ -75,11 +76,15 @@ namespace Engine.Saving.XMLSaver
             saveControl.reset();
         }
 
-        public void writeHeader(ObjectIdentifier objectId)
+        public void writeHeader(ObjectIdentifier objectId, int version)
         {
             xmlWriter.WriteStartElement(SAVEABLE_ELEMENT);
             xmlWriter.WriteAttributeString(TYPE_ATTRIBUTE, String.Format("{0}, {1}", objectId.ObjectType.FullName, createShortTypeString(objectId.ObjectType)));
             xmlWriter.WriteAttributeString(ID_ATTIBUTE, objectId.ObjectID.ToString());
+            if (version > 0)
+            {
+                xmlWriter.WriteAttributeString(VERSION_ATTIBUTE, version.ToString());
+            }
         }
 
         public object restoreObject(XmlReader xmlReader)
@@ -93,8 +98,14 @@ namespace Engine.Saving.XMLSaver
                     {
                         if (xmlReader.Name.Equals(SAVEABLE_ELEMENT))
                         {
+                            int version = 0;
+                            String versionStr = xmlReader.GetAttribute(VERSION_ATTIBUTE);
+                            if (versionStr != null)
+                            {
+                                version = NumberParser.ParseInt(versionStr);
+                            }
                             ObjectIdentifier objectId = new ObjectIdentifier(NumberParser.ParseLong(xmlReader.GetAttribute(ID_ATTIBUTE)), null, typeFinder.findType(xmlReader.GetAttribute(TYPE_ATTRIBUTE)));
-                            loadControl.startDefiningObject(objectId);
+                            loadControl.startDefiningObject(objectId, version);
                             //If the element is empty do not bother to loop looking for elements.
                             if (!xmlReader.IsEmptyElement)
                             {

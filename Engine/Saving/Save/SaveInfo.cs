@@ -191,6 +191,12 @@ namespace Engine.Saving
         }
 
         /// <summary>
+        /// The version of the object's LoadInfo. This has no effect within the save system, but you can set
+        /// it in your save function and then check it in your save constructor.
+        /// </summary>
+        public int Version { get; set; }
+
+        /// <summary>
         /// Internal function to be used by the ReflectedSaver to add a type.
         /// This is not public because the interface is designed to only accept
         /// valid classes.
@@ -222,11 +228,12 @@ namespace Engine.Saving
         }
 
         /// <summary>
-        /// Clear the entries in this SaveInfo. Used so these can be recycled.
+        /// Reset this SaveInfo. Used so these can be recycled.
         /// </summary>
-        internal void clear()
+        internal void reset()
         {
             entries.Clear();
+            Version = 0;
         }
 
         /// <summary>

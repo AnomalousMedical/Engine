@@ -79,7 +79,7 @@ namespace Engine.Saving
         /// <param name="info">The info for the object to write.</param>
         protected void writeObject(ObjectIdentifier identifier, SaveInfo info)
         {
-            headerWriter.writeHeader(identifier);
+            headerWriter.writeHeader(identifier, info.Version);
             foreach (SaveEntry entry in info.saveEntryIterator())
             {
                 valueWriters.writeValue(entry);
@@ -109,7 +109,7 @@ namespace Engine.Saving
         /// <param name="info">The info to check in.</param>
         private void checkInSaveInfo(SaveInfo info)
         {
-            info.clear();
+            info.reset();
             pooledInfos.Push(info);
         }
     }

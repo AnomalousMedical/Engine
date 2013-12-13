@@ -14,6 +14,6 @@ namespace Engine.Saving
         /// Write the leading section of an object to a stream.
         /// </summary>
         /// <param name="objectId">The ObjectIdentifier of the object to write.</param>
-        void writeHeader(ObjectIdentifier objectId);
+        void writeHeader(ObjectIdentifier objectId, int version);
     }
 }

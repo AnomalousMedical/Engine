@@ -39,9 +39,10 @@ namespace Engine.Saving
         /// object is identified in the stream.
         /// </summary>
         /// <param name="identifier">The ObjectIdentifier of the newly found object.</param>
-        public void startDefiningObject(ObjectIdentifier identifier)
+        public void startDefiningObject(ObjectIdentifier identifier, int version)
         {
             loadInfo.reset();
+            loadInfo.Version = version;
             currentIdentifier = identifier;
         }
 

@@ -401,6 +401,12 @@ namespace Engine.Saving
         }
 
         /// <summary>
+        /// The version of the object's LoadInfo. This has no effect within the save system, but you can check
+        /// it in your own constructor to take action on old versions.
+        /// </summary>
+        public int Version { get; set; }
+
+        /// <summary>
         /// Internal function to just get the value directly as an object. Used
         /// by the ReflectedSaver.
         /// </summary>
@@ -417,6 +423,7 @@ namespace Engine.Saving
         internal void reset()
         {
             entries.Clear();
+            Version = 0;
         }
 
         /// <summary>
