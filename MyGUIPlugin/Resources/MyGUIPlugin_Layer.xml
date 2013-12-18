@@ -8,6 +8,9 @@
 	<Layer type="SharedLayer" name="Back">
 		<Property key="Pick" value="true"/>
 	</Layer>
+  <Layer type="OverlappedLayer" name="BackOverlapped">
+    <Property key="Pick" value="true"/>
+  </Layer>
 	<Layer type="OverlappedLayer" name="Overlapped">
 		<Property key="Pick" value="true"/>
 	</Layer>
