@@ -92,7 +92,6 @@ namespace libRocketPlugin
             {
                 FileInterface = new VirtualFileSystemFileInterface();
             }
-            //Core.SetFileInterface(fileInterface);
 
             Core.Initialise();
             Controls.Initialise();
