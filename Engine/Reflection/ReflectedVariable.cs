@@ -7,6 +7,8 @@ using Engine.Editing;
 
 namespace Engine.Reflection
 {
+    public delegate ReflectedVariable ReflectedTypeCreatorDelegate(MemberWrapper memberInfo, Object instance);
+
     /// <summary>
     /// This abstract class is a supertype for types that can be set or
     /// retrieved directly.
@@ -18,30 +20,30 @@ namespace Engine.Reflection
         /// <summary>
         /// This holds a mapping of basic types to the matching instance variable.
         /// </summary>
-        private static Dictionary<Type, Type> typeMapping = new Dictionary<Type, Type>();
+        private static Dictionary<Type, ReflectedTypeCreatorDelegate> typeMapping = new Dictionary<Type, ReflectedTypeCreatorDelegate>();
 
         /// <summary>
         /// Static constructor.
         /// </summary>
         static ReflectedVariable()
         {
-            typeMapping.Add(typeof(String), typeof(StringReflectedVariable));
-            typeMapping.Add(typeof(int), typeof(IntReflectedVariable));
-            typeMapping.Add(typeof(long), typeof(LongReflectedVariable));
-            typeMapping.Add(typeof(float), typeof(FloatReflectedVariable));
-            typeMapping.Add(typeof(double), typeof(DoubleReflectedVariable));
-            typeMapping.Add(typeof(Quaternion), typeof(QuaternionReflectedVariable));
-            typeMapping.Add(typeof(Vector3), typeof(Vector3ReflectedVariable));
-            typeMapping.Add(typeof(Vector2), typeof(Vector2ReflectedVariable));
-            typeMapping.Add(typeof(bool), typeof(BooleanReflectedVariable));
-            typeMapping.Add(typeof(short), typeof(ShortReflectedVariable));
-            typeMapping.Add(typeof(ushort), typeof(UShortReflectedVariable));
-            typeMapping.Add(typeof(uint), typeof(UIntReflectedVariable));
-            typeMapping.Add(typeof(byte), typeof(ByteReflectedVariable));
-            typeMapping.Add(typeof(Color), typeof(ColorReflectedVariable));
-            typeMapping.Add(typeof(Decimal), typeof(DecimalReflectedVariable));
-            typeMapping.Add(typeof(Size2), typeof(Size2ReflectedVariable));
-            typeMapping.Add(typeof(IntSize2), typeof(IntSize2ReflectedVariable));
+            typeMapping.Add(typeof(String), (memberInfo, instance) => new StringReflectedVariable(memberInfo, instance));
+            typeMapping.Add(typeof(int), (memberInfo, instance) => new IntReflectedVariable(memberInfo, instance));
+            typeMapping.Add(typeof(long), (memberInfo, instance) => new LongReflectedVariable(memberInfo, instance));
+            typeMapping.Add(typeof(float), (memberInfo, instance) => new FloatReflectedVariable(memberInfo, instance));
+            typeMapping.Add(typeof(double), (memberInfo, instance) => new DoubleReflectedVariable(memberInfo, instance));
+            typeMapping.Add(typeof(Quaternion), (memberInfo, instance) => new QuaternionReflectedVariable(memberInfo, instance));
+            typeMapping.Add(typeof(Vector3), (memberInfo, instance) => new Vector3ReflectedVariable(memberInfo, instance));
+            typeMapping.Add(typeof(Vector2), (memberInfo, instance) => new Vector2ReflectedVariable(memberInfo, instance));
+            typeMapping.Add(typeof(bool), (memberInfo, instance) => new BooleanReflectedVariable(memberInfo, instance));
+            typeMapping.Add(typeof(short), (memberInfo, instance) => new ShortReflectedVariable(memberInfo, instance));
+            typeMapping.Add(typeof(ushort), (memberInfo, instance) => new UShortReflectedVariable(memberInfo, instance));
+            typeMapping.Add(typeof(uint), (memberInfo, instance) => new UIntReflectedVariable(memberInfo, instance));
+            typeMapping.Add(typeof(byte), (memberInfo, instance) => new ByteReflectedVariable(memberInfo, instance));
+            typeMapping.Add(typeof(Color), (memberInfo, instance) => new ColorReflectedVariable(memberInfo, instance));
+            typeMapping.Add(typeof(Decimal), (memberInfo, instance) => new DecimalReflectedVariable(memberInfo, instance));
+            typeMapping.Add(typeof(Size2), (memberInfo, instance) => new Size2ReflectedVariable(memberInfo, instance));
+            typeMapping.Add(typeof(IntSize2), (memberInfo, instance) => new IntSize2ReflectedVariable(memberInfo, instance));
         }
 
         /// <summary>
@@ -66,11 +68,11 @@ namespace Engine.Reflection
             Type inType = memberInfo.getWrappedType();
             if (typeMapping.ContainsKey(inType))
             {
-                return (ReflectedVariable)Activator.CreateInstance(typeMapping[inType], memberInfo, instance);
+                return typeMapping[inType](memberInfo, instance);
             }
             else if (inType.IsEnum)
             {
-                return (ReflectedVariable)Activator.CreateInstance(typeof(EnumReflectedVariable), memberInfo, instance);
+                return new EnumReflectedVariable(memberInfo, instance);
             }
             else
             {
