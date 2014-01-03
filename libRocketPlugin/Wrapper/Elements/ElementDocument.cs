@@ -61,6 +61,11 @@ namespace libRocketPlugin
             ElementDocument_UpdatePosition(ptr);
         }
 
+        public void UpdateLayout()
+        {
+            ElementDocument_UpdateLayout(ptr);
+        }
+
         //properties
         public String Title
         {
@@ -128,6 +133,9 @@ namespace libRocketPlugin
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern void ElementDocument_UpdatePosition(IntPtr elementDocument);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void ElementDocument_UpdateLayout(IntPtr elementDocument);
 
         #endregion
     }

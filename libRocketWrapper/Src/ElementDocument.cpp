@@ -64,3 +64,8 @@ extern "C" _AnomalousExport void ElementDocument_UpdatePosition(Rocket::Core::El
 {
 	elementDocument->UpdatePosition();
 }
+
+extern "C" _AnomalousExport void ElementDocument_UpdateLayout(Rocket::Core::ElementDocument* elementDocument)
+{
+	elementDocument->UpdateLayout();
+}

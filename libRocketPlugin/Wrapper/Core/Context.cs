@@ -225,6 +225,18 @@ namespace libRocketPlugin
             }
         }
 
+        public IEnumerable<ElementDocument> Documents
+        {
+            get
+            {
+                int num = GetNumDocuments();
+                for (int i = 0; i < num; ++i)
+                {
+                    yield return GetDocument(i);
+                }
+            }
+        }
+
         #region PInvoke
 
         //extern "C" _AnomalousExport String Context_GetName(IntPtr context)
