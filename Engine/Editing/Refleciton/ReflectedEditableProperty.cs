@@ -172,6 +172,10 @@ namespace Engine.Editing
             return null;
         }
 
+        public bool readOnly(int column)
+        {
+            return column != NAME_COL;
+        }
         /// <summary>
         /// Set this to true to indicate to the ui that this property is advanced.
         /// </summary>

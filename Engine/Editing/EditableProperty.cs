@@ -67,6 +67,13 @@ namespace Engine.Editing
         bool hasBrowser(int column);
 
         /// <summary>
+        /// Returns true if the column is read only.
+        /// </summary>
+        /// <param name="column">The column to check.</param>
+        /// <returns>True if this column is read only.</returns>
+        bool readOnly(int column);
+
+        /// <summary>
         /// Set this to true to indicate to the ui that this property is advanced.
         /// </summary>
         bool Advanced { get; }

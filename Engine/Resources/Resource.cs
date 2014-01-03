@@ -331,6 +331,11 @@ namespace Engine.Resources
             return false;
         }
 
+        public bool readOnly(int column)
+        {
+            return column != LOC_COLUMN;
+        }
+
         /// <summary>
         /// Set this to true to indicate to the ui that this property is advanced.
         /// </summary>

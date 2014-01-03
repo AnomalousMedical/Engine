@@ -40,5 +40,7 @@ namespace Engine.Editing
         }
 
         public bool Advanced { get; set; }
+
+        public bool ForceAsProperty { get; set; }
     }
 }

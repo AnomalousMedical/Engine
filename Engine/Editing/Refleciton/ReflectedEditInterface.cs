@@ -201,18 +201,11 @@ namespace Engine.Editing
             {
                 if (!customPropProvider.addProperties(memberWrapper, target, edit))
                 {
-                    if (ReflectedVariable.canCreateVariable(memberWrapper.getWrappedType()))
+                    EditableAttribute editable = findEditableAttribute(memberWrapper);
+                    bool addAsProperty = (editable != null && editable.ForceAsProperty) || ReflectedVariable.canCreateVariable(memberWrapper.getWrappedType());
+                    if (addAsProperty)
                     {
-                        Object[] editAttrs = memberWrapper.getCustomAttributes(typeof(EditableAttribute), true);
-                        if (editAttrs.Length > 0)
-                        {
-                            EditableAttribute editable = (EditableAttribute)editAttrs[0];
-                            edit.addEditableProperty(editable.createEditableProperty(memberWrapper, target));
-                        }
-                        else
-                        {
-                            edit.addEditableProperty(new ReflectedEditableProperty(memberWrapper.getWrappedName(), ReflectedVariable.createVariable(memberWrapper, target)));
-                        }
+                        edit.addEditableProperty(editable.createEditableProperty(memberWrapper, target));
                     }
                     else
                     {
@@ -229,6 +222,18 @@ namespace Engine.Editing
                     }
                 }
             }
+        }
+
+        private static EditableAttribute defaultEditableAttribute = new EditableAttribute();
+        private static EditableAttribute findEditableAttribute(MemberWrapper memberWrapper)
+        {
+            Object[] editAttrs = memberWrapper.getCustomAttributes(typeof(EditableAttribute), true);
+            if (editAttrs.Length > 0)
+            {
+                EditableAttribute editable = (EditableAttribute)editAttrs[0];
+                return editable;
+            }
+            return defaultEditableAttribute;
         }
 
         #endregion Helper Functions

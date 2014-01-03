@@ -21,15 +21,9 @@ namespace Engine.Editing
             sharedScanner = new MemberScanner(new EditableAttributeFilter());
         }
 
-        #region Fields
-
         private List<ReflectedVariable> variableList;
         private Object target;
         private MemberScanner memberScanner;
-
-        #endregion Fields
-
-        #region Constructors
 
         /// <summary>
         /// Constructor.
@@ -61,10 +55,6 @@ namespace Engine.Editing
             }
         }
 
-        #endregion Constructors
-
-        #region Functions
-
         /// <summary>
         /// Get the object that this property is providing an interface for.
         /// </summary>
@@ -73,8 +63,6 @@ namespace Engine.Editing
         {
             return target;
         }
-
-        #region EditableProperty Members
 
         /// <summary>
         /// Get the value for a given column.
@@ -148,13 +136,14 @@ namespace Engine.Editing
             return false;
         }
 
+        public bool readOnly(int column)
+        {
+            return false;
+        }
+
         /// <summary>
         /// Set this to true to indicate to the ui that this property is advanced.
         /// </summary>
         public bool Advanced { get; set; }
-
-        #endregion
-
-        #endregion Functions
     }
 }

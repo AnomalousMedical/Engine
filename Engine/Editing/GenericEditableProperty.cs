@@ -72,6 +72,10 @@ namespace Engine.Editing
             return false;
         }
 
+        public bool readOnly(int column)
+        {
+            return column != 0;
+        }
         public void setValue(int column, object value)
         {
             switch (column)
