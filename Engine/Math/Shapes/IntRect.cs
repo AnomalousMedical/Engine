@@ -82,6 +82,26 @@ namespace Engine
             }
         }
 
+        public static IntRect operator *(IntRect v, int s)
+        {
+            return new IntRect(v.Left * s, v.Top * s, v.Width * s, v.Height * s);
+        }
+
+        public static IntRect operator *(int s, IntRect v)
+        {
+            return v * s;
+        }
+
+        public static IntRect operator /(IntRect v, int s)
+        {
+            return new IntRect(v.Left / s, v.Top / s, v.Width / s, v.Height / s);
+        }
+
+        public static explicit operator IntRect(Rect s)
+        {
+            return new IntRect((int)s.Left, (int)s.Top, (int)s.Width, (int)s.Height);
+        }
+
         private static readonly char[] SEPS = { ',' };
 
         public void fromString(String str)

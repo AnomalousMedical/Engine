@@ -82,6 +82,26 @@ namespace Engine
             }
         }
 
+        public static Rect operator *(Rect v, float s)
+        {
+            return new Rect(v.Left * s, v.Top * s, v.Width * s, v.Height * s);
+        }
+
+        public static Rect operator *(float s, Rect v)
+        {
+            return v * s;
+        }
+
+        public static Rect operator /(Rect v, float s)
+        {
+            return v * (1.0f / s);
+        }
+
+        public static implicit operator Rect(IntRect s)
+        {
+            return new Rect(s.Left, s.Top, s.Width, s.Height);
+        }
+
         private static readonly char[] SEPS = { ',' };
 
         public void fromString(String str)
