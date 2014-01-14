@@ -82,6 +82,19 @@ extern "C" _AnomalousExport void Element_GetPropertyString(Rocket::Core::Element
 	}
 }
 
+extern "C" _AnomalousExport const Rocket::Core::Variant* Element_GetPropertyVariant(Rocket::Core::Element* element, String name)
+{
+	const Rocket::Core::Property* prop = element->GetProperty(name);
+	if(prop != NULL)
+	{
+		return &prop->value;
+	}
+	else
+	{
+		return NULL;
+	}
+}
+
 //const Property* GetProperty(const String& name);		
 //
 //template < typename T >

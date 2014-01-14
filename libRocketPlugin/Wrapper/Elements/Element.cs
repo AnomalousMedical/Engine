@@ -44,6 +44,11 @@ namespace libRocketPlugin
             return stringRetriever.retrieveString();
         }
 
+        public Variant GetPropertyVariant(String name)
+        {
+            return VariantWrapped.Construct(Element_GetPropertyVariant(ptr, name));
+        }
+
         public void SetAttribute(String name, String value)
         {
             Element_SetAttribute(ptr, name, value);
@@ -479,6 +484,9 @@ namespace libRocketPlugin
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_GetPropertyString(IntPtr element, String name, StringRetriever.Callback strRetriever);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr Element_GetPropertyVariant(IntPtr element, String name);
         
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_SetAttribute(IntPtr element, String name, String value);
