@@ -82,7 +82,11 @@ extern "C" _AnomalousExport void Variant_Get_String(Rocket::Core::Variant* varia
 
 extern "C" _AnomalousExport Color Variant_Get_Color(Rocket::Core::Variant* variant)
 {
-	return variant->Get<Rocket::Core::Colourf>();
+	if(variant->GetType() == Rocket::Core::Variant::COLOURF)
+	{
+		return variant->Get<Rocket::Core::Colourf>();
+	}
+	return variant->Get<Rocket::Core::Colourb>();
 }
 
 extern "C" _AnomalousExport void Variant_Set_Color(Rocket::Core::Variant* variant, Color value)
