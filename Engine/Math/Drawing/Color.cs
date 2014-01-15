@@ -54,7 +54,23 @@ namespace Engine
                             (byte)((color >> 8) & 0xFF));
         }
 
+        public static Color FromRGBA(uint color)
+        {
+            return FromARGB((byte)(color & 0xFF),
+                            (byte)((color >> 24) & 0xFF),
+                            (byte)((color >> 16) & 0xFF),
+                            (byte)((color >> 8) & 0xFF));
+        }
+
         public static Color FromRGB(uint color)
+        {
+            return FromARGB((byte)(0xFF),
+                            (byte)((color >> 16) & 0xFF),
+                            (byte)((color >> 8) & 0xFF),
+                            (byte)(color & 0xFF));
+        }
+
+        public static Color FromRGB(int color)
         {
             return FromARGB((byte)(0xFF),
                             (byte)((color >> 16) & 0xFF),
