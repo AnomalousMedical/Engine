@@ -57,6 +57,35 @@ public:
     }
 };
 
+class Color
+{
+public:
+	float r, g, b, a;
+
+	Color(const Rocket::Core::Colourf myColor)
+		:r(myColor.red),
+		g(myColor.green),
+		b(myColor.blue),
+		a(myColor.alpha)
+	{
+
+	}
+
+	Color(const Rocket::Core::Colourb myColor)
+		:r(myColor.red / 255.0f),
+		g(myColor.green / 255.0f),
+		b(myColor.blue / 255.0f),
+		a(myColor.alpha / 255.0f)
+	{
+
+	}
+
+	Rocket::Core::Colourf toLibRocket() const
+	{
+		return Rocket::Core::Colourf(r, g, b, a);
+	}
+};
+
 typedef void (*StringRetrieverCallback)(String value);
 
 #endif

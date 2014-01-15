@@ -46,6 +46,14 @@ namespace Engine
                             (byte)(color & 0xFF));
         }
 
+        public static Color FromRGBA(int color)
+        {
+            return FromARGB((byte)(color & 0xFF),
+                            (byte)((color >> 24) & 0xFF),
+                            (byte)((color >> 16) & 0xFF),
+                            (byte)((color >> 8) & 0xFF));
+        }
+
         public static Color FromRGB(uint color)
         {
             return FromARGB((byte)(0xFF),
@@ -133,7 +141,16 @@ namespace Engine
 
         const float maxValue = (float)0xff;
 
-        public static Color FromHexString(String hex)
+        /// <summary>
+        /// Compute the color value from a #RGBA string, the A part can be ommitted.
+        /// So valid values would be:
+        /// #FF0000 - Red, opaque
+        /// #FF0000FF - Red, opaque specified by alpha
+        /// #FF000066 - Red, transparent specified by alpha
+        /// </summary>
+        /// <param name="hex"></param>
+        /// <returns></returns>
+        public static Color FromRGBAString(String hex)
         {
             if (hex.Length == 7)
             {
@@ -141,18 +158,25 @@ namespace Engine
                                  int.Parse(hex.Substring(3, 2), NumberStyles.HexNumber) / maxValue,
                                  int.Parse(hex.Substring(5, 2), NumberStyles.HexNumber) / maxValue);
             }
+            else if (hex.Length == 9)
+            {
+                return new Color(int.Parse(hex.Substring(1, 2), NumberStyles.HexNumber) / maxValue,
+                                 int.Parse(hex.Substring(3, 2), NumberStyles.HexNumber) / maxValue,
+                                 int.Parse(hex.Substring(5, 2), NumberStyles.HexNumber) / maxValue,
+                                 int.Parse(hex.Substring(7, 2), NumberStyles.HexNumber) / maxValue);
+            }
             else
             {
-                throw new FormatException(String.Format("String {0} is not valid. Input must be #RGB specified as hex values, for example #00FF00 for Green"));
+                throw new FormatException(String.Format("String {0} is not valid. Input must be #RGB or #RGBA specified as hex values, for example #00FF00 for Green"));
             }
         }
 
-        public static bool TryFromHexString(String hex, out Color color)
+        public static bool TryFromRGBAString(String hex, out Color color)
         {
-            return TryFromHexString(hex, out color, Color.White);
+            return TryFromRGBAString(hex, out color, Color.White);
         }
 
-        public static bool TryFromHexString(String hex, out Color color, Color errorColor)
+        public static bool TryFromRGBAString(String hex, out Color color, Color errorColor)
         {
             if (hex.Length == 7)
             {
@@ -162,6 +186,18 @@ namespace Engine
                     int.TryParse(hex.Substring(5, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture.NumberFormat, out b))
                 {
                     color = new Color(r / maxValue, g / maxValue, b / maxValue);
+                    return true;
+                }
+            }
+            else if (hex.Length == 9)
+            {
+                int r, g, b, a;
+                if (int.TryParse(hex.Substring(1, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture.NumberFormat, out r) &&
+                    int.TryParse(hex.Substring(3, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture.NumberFormat, out g) &&
+                    int.TryParse(hex.Substring(5, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture.NumberFormat, out b) &&
+                    int.TryParse(hex.Substring(7, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture.NumberFormat, out a))
+                {
+                    color = new Color(r / maxValue, g / maxValue, b / maxValue, a / maxValue);
                     return true;
                 }
             }
@@ -219,6 +255,26 @@ namespace Engine
             argb += comp;
 
             return argb;
+        }
+
+        public int toRGBA()
+        {
+            int rgba = 0;
+            byte comp;
+
+            comp = (byte)(r * 255.0f);
+            rgba = comp << 24;
+
+            comp = (byte)(g * 255.0f);
+            rgba += comp << 16;
+
+            comp = (byte)(b * 255.0f);
+            rgba += comp << 8;
+
+            comp = (byte)(a * 255.0f);
+            rgba += comp;
+
+            return rgba;
         }
 
         #endregion

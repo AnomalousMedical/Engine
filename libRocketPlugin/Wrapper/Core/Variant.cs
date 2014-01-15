@@ -116,6 +116,18 @@ namespace libRocketPlugin
             }
         }
 
+        public Color ColorValue
+        {
+            get
+            {
+                return Variant_Get_Color(ptr);
+            }
+            set
+            {
+                Variant_Set_Color(ptr, value);
+            }
+        }
+
         public String StringValue
         {
             get
@@ -178,6 +190,12 @@ namespace libRocketPlugin
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern void Variant_Get_String(IntPtr variant, StringRetriever.Callback stringCb);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern Color Variant_Get_Color(IntPtr variant);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Variant_Set_Color(IntPtr variant, Color value);
 
         #endregion
     }
