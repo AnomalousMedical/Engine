@@ -95,6 +95,33 @@ extern "C" _AnomalousExport const Rocket::Core::Variant* Element_GetPropertyVari
 	}
 }
 
+extern "C" _AnomalousExport void Element_GetLocalPropertyString(Rocket::Core::Element* element, String name, StringRetrieverCallback strRetriever)
+{
+	const Rocket::Core::Property* prop = element->GetLocalProperty(name);
+	if(prop != NULL)
+	{
+		Rocket::Core::String propString = prop->ToString();
+		strRetriever(propString.CString());
+	}
+	else
+	{
+		strRetriever(NULL);
+	}
+}
+
+extern "C" _AnomalousExport const Rocket::Core::Variant* Element_GetLocalPropertyVariant(Rocket::Core::Element* element, String name)
+{
+	const Rocket::Core::Property* prop = element->GetLocalProperty(name);
+	if(prop != NULL)
+	{
+		return &prop->value;
+	}
+	else
+	{
+		return NULL;
+	}
+}
+
 //const Property* GetProperty(const String& name);		
 //
 //template < typename T >
