@@ -293,6 +293,23 @@ namespace Engine
             return rgba;
         }
 
+        public int toRGB()
+        {
+            int rgb = 0;
+            byte comp;
+
+            comp = (byte)(r * 255.0f);
+            rgb += comp << 16;
+
+            comp = (byte)(g * 255.0f);
+            rgb += comp << 8;
+
+            comp = (byte)(b * 255.0f);
+            rgb += comp;
+
+            return rgb;
+        }
+
         #endregion
     }
 }

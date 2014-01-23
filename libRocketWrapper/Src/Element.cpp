@@ -436,3 +436,8 @@ extern "C" _AnomalousExport void Element_GetElementsWithAttribute(Rocket::Core::
 			search_queue.push(element->GetChild(i));
 	}
 }
+
+extern "C" _AnomalousExport void Element_ClearLocalStyles(Rocket::Core::Element* element)
+{
+	element->ClearLocalProperties();
+}

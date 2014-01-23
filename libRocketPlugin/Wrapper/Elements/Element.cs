@@ -215,6 +215,11 @@ namespace libRocketPlugin
             iter.Dispose();
         }
 
+        public void ClearLocalStyles()
+        {
+            Element_ClearLocalStyles(ptr);
+        }
+
         public String TagName
         {
             get
@@ -660,6 +665,9 @@ namespace libRocketPlugin
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_GetElementsWithAttribute(IntPtr root_element, IntPtr elementListIter, String attribute);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Element_ClearLocalStyles(IntPtr element);
 
         #endregion
     }
