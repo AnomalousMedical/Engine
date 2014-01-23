@@ -939,4 +939,13 @@ TextEditorComponentBackground
     </BasisSkin>
   </Resource>
 
+  <!--*************************
+ColorablePanel
+*****************************-->
+  <Resource type="ResourceSkin" name = "ColorablePanel" size = "2 2" texture = "#{Anomalous_Theme_Texture}">
+    <BasisSkin type="MainSkin" offset = "0 0 2 2" align = "Stretch">
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord"/>
+    </BasisSkin>
+  </Resource>
+
 </MyGUI>
