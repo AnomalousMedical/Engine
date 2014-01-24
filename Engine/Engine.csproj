@@ -196,6 +196,7 @@
     <Compile Include="Reflection\ByteReflectedVariable.cs" />
     <Compile Include="Reflection\ColorReflectedVariable.cs" />
     <Compile Include="Reflection\ColorNullableReflectedVariable.cs" />
+    <Compile Include="Reflection\IntNullableReflectedVariable.cs" />
     <Compile Include="Reflection\DecimalReflectedVariable.cs" />
     <Compile Include="Reflection\DoubleReflectedVariable.cs" />
     <Compile Include="Reflection\EnumReflectedVariable.cs" />

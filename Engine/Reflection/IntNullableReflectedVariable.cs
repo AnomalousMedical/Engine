@@ -5,14 +5,14 @@ using System.Text;
 
 namespace Engine.Reflection
 {
-    class ColorNullableReflectedVariable : ColorReflectedVariable
+    class IntNullableReflectedVariable : IntReflectedVariable
     {
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="propInfo">The MemberWrapper to use.</param>
         /// <param name="instance">The object this variable belongs to.</param>
-        public ColorNullableReflectedVariable(MemberWrapper propInfo, Object instance)
+        public IntNullableReflectedVariable(MemberWrapper propInfo, Object instance)
             : base(propInfo, instance)
         {
 
@@ -25,7 +25,7 @@ namespace Engine.Reflection
         /// <returns>True if the String can be parsed correctly.</returns>
         public override bool canParseString(string value)
         {
-            return String.IsNullOrEmpty(value) || base.canParseString(value); //Accept nulls or what the base says is ok
+            return String.IsNullOrEmpty(value) || base.canParseString(value);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Engine.Reflection
             }
             else
             {
-                setValue(new Color?(new Color(value)));
+                setValue(new int?(NumberParser.ParseInt(value)));
             }
         }
     }
