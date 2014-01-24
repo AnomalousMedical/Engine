@@ -3,7 +3,7 @@ body
 	font-family: DejaVuSans;
 	font-weight: normal;
 	font-style: normal;
-	font-size: 13sp;
+	font-size: 13px;
 	color: black;
 	text-align: left;
 	background-color: white;	
@@ -21,11 +21,11 @@ button,
 input.submit
 {
 	display: inline;
-	padding-left: 5sp;
-	padding-right: 5sp;
-	padding-top: 4sp;
-	padding-bottom: 5sp;
-	font-size: 13sp;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 4px;
+	padding-bottom: 5px;
+	font-size: 13px;
 	text-align: center;
 	tab-index: auto;
 	background-color: #cacaca;
@@ -58,9 +58,9 @@ input.text,
 input.password,
 textarea
 {
-	height: 31sp;
-	padding: 7sp 7sp 0sp;
-	border-width: 1sp;
+	height: 31px;
+	padding: 7px 7px 0px;
+	border-width: 1px;
 	border-color: #d8d8d8;
 	background-color: #ffffff;
 }
@@ -86,21 +86,21 @@ dataselect,
 textarea
 {
 	color: black;
-	font-size: 13sp;
+	font-size: 13px;
 }
 
 datagrid input.text
 {
 	width: 100%;
 	height: auto;
-	margin: 0sp;
-	padding: 0sp 2sp 0sp;
+	margin: 0px;
+	padding: 0px 2px 0px;
 
-	border-width: 1sp;
+	border-width: 1px;
 	border-color: black;
 	background-color: white;
 
-	font-size: 15sp;
+	font-size: 15px;
 	
 	background-decorator: none;
 }
@@ -110,11 +110,11 @@ datagrid input.text
 select,
 dataselect
 {
-	width: 175sp;
-	height: 23sp;
+	width: 175px;
+	height: 23px;
 	background-color: #ffffff;
 
-	border-width:1sp;
+	border-width:1px;
 	border-color:#d8d8d8;
 }
 
@@ -123,8 +123,8 @@ dataselect selectvalue
 {
 	width: auto;
 
-	height: 23sp;
-	padding-left: 4sp;
+	height: 23px;
+	padding-left: 4px;
 }
 
 select:hover,
@@ -142,11 +142,11 @@ dataselect:active
 select selectarrow,
 dataselect selectarrow
 {
-	width: 9sp;
-	height: 5sp;
+	width: 9px;
+	height: 5px;
 
-	margin-right:7sp;
-	margin-top: 8sp;
+	margin-right:7px;
+	margin-top: 8px;
 
 	icon-decorator: image;
 	icon-image: ~/AnomalousThemeTexture.png 26px 46px 35px 51px;
@@ -171,15 +171,15 @@ dataselect selectarrow:checked
 select selectbox,
 dataselect selectbox
 {
-	width: 162sp;
-	padding: 1sp 4sp 4sp 4sp;
+	width: 162px;
+	padding: 1px 4px 4px 4px;
 }
 
 select selectbox,
 dataselect selectbox,
 datagrid datagridbody
 {
-	border-width: 1sp;
+	border-width: 1px;
 	border-color: #d8d8d8;
 	background-color: #ffffff;
 }
@@ -188,7 +188,7 @@ select selectbox option,
 dataselect selectbox option
 {
 	width: auto;
-	padding-left: 3sp;
+	padding-left: 3px;
 }
 
 select selectbox option:hover,
@@ -208,11 +208,11 @@ dataselect selectbox option:active
 input.radio,
 input.checkbox
 {
-	width: 12sp;
-	height: 12sp;
+	width: 12px;
+	height: 12px;
 
-	vertical-align: -2sp;
-	margin-right: 3sp;
+	vertical-align: -2px;
+	margin-right: 3px;
 }
 
 input.radio
@@ -285,7 +285,7 @@ input.checkbox:checked:active
 
 scrollbarvertical
 {
-	width: 15sp;
+	width: 15px;
 	background-color: #f1f1f3;
 }
 
@@ -297,7 +297,7 @@ scrollbarvertical slidertrack
 scrollbarvertical sliderbar
 {
 	margin-left:1px;
-	min-height: 46sp;
+	min-height: 46px;
 	background-color: #cdcdcd;
 }
 
@@ -313,10 +313,10 @@ scrollbarvertical sliderbar:active
 
 scrollbarvertical sliderarrowdec
 {
-	width: 9sp;
-	height: 5sp;
+	width: 9px;
+	height: 5px;
 
-	margin: 4sp 3sp;
+	margin: 4px 3px;
 
 	icon-decorator: image;
 	icon-image: ~/AnomalousThemeTexture.png 37px 46px 46px 51px;
@@ -338,10 +338,10 @@ scrollbarvertical sliderarrowdec:active
 
 scrollbarvertical sliderarrowinc
 {
-	width: 9sp;
-	height: 5sp;
+	width: 9px;
+	height: 5px;
 
-	margin: 4sp 3sp;
+	margin: 4px 3px;
 
 	icon-decorator: image;
 	icon-image: ~/AnomalousThemeTexture.png 26px 46px 35px 51px;
@@ -365,15 +365,15 @@ scrollbarvertical sliderarrowinc:active
 
 scrollbarhorizontal
 {
-	width: 0sp;
-	height: 0sp;
+	width: 0px;
+	height: 0px;
 }
 
 datagrid datagridheader
 {
 	width: auto;
-	height: 25sp;
-	padding: 5sp 10sp 0sp 10sp;
+	height: 25px;
+	padding: 5px 10px 0px 10px;
 
 	background-decorator: tiled-horizontal;
 	background-left-image: ~/AnomalousThemeTexture.png 0px 0px 5px 5px;
@@ -385,9 +385,9 @@ datagrid datagridbody
 {
 	color: black;
 
-	margin-left: 4sp;
-	margin-right: 3sp;
-	padding: 0sp 4sp 4sp 4sp;
+	margin-left: 4px;
+	margin-right: 3px;
+	padding: 0px 4px 4px 4px;
 }
 
 
@@ -395,9 +395,9 @@ datagridexpand
 {
 	display: block;
 	
-	margin: 1sp 0sp 1sp 5sp;
-	height: 17sp;
-	width: 17sp;
+	margin: 1px 0px 1px 5px;
+	height: 17px;
+	width: 17px;
 	
 	icon-decorator: image;
 	icon-image: ~/AnomalousThemeTexture.png 0px 0px 5px 5px;
@@ -405,15 +405,15 @@ datagridexpand
 
 datagridexpand:hover
 {
-	icon-image-s: 21sp 38sp;
+	icon-image-s: 21px 38px;
 }
 
 datagridexpand:active
 {
-	icon-image-s: 39sp 56sp;
+	icon-image-s: 39px 56px;
 }
 
 datagridexpand.collapsed
 {
-	icon-image-t: 250sp 267sp;
+	icon-image-t: 250px 267px;
 }
