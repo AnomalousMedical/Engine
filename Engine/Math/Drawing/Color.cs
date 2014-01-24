@@ -310,6 +310,35 @@ namespace Engine
             return rgb;
         }
 
+        /// <summary>
+        /// Equals function.
+        /// </summary>
+        /// <param name="obj">The object to compare to.</param>
+        /// <returns>True if the objects are equal.</returns>
+        public override bool Equals(object obj)
+        {
+            return obj.GetType() == typeof(Color) && this == (Color)obj;
+        }
+
+        /// <summary>
+        /// Hash code function.
+        /// </summary>
+        /// <returns>A hash code for this Vector3.</returns>
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public static bool operator ==(Color p1, Color p2)
+        {
+            return p1.r == p2.r && p1.g == p2.g && p1.b == p2.b && p1.a == p2.a;
+        }
+
+        public static bool operator !=(Color p1, Color p2)
+        {
+            return !(p1.r == p2.r && p1.g == p2.g && p1.b == p2.b && p1.a == p2.a);
+        }
+
         #endregion
     }
 }

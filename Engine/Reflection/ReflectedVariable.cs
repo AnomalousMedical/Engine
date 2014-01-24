@@ -41,6 +41,7 @@ namespace Engine.Reflection
             typeMapping.Add(typeof(uint), (memberInfo, instance) => new UIntReflectedVariable(memberInfo, instance));
             typeMapping.Add(typeof(byte), (memberInfo, instance) => new ByteReflectedVariable(memberInfo, instance));
             typeMapping.Add(typeof(Color), (memberInfo, instance) => new ColorReflectedVariable(memberInfo, instance));
+            typeMapping.Add(typeof(Color?), (memberInfo, instance) => new ColorNullableReflectedVariable(memberInfo, instance));
             typeMapping.Add(typeof(Decimal), (memberInfo, instance) => new DecimalReflectedVariable(memberInfo, instance));
             typeMapping.Add(typeof(Size2), (memberInfo, instance) => new Size2ReflectedVariable(memberInfo, instance));
             typeMapping.Add(typeof(IntSize2), (memberInfo, instance) => new IntSize2ReflectedVariable(memberInfo, instance));
