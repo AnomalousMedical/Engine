@@ -220,6 +220,11 @@ namespace libRocketPlugin
             Element_ClearLocalStyles(ptr);
         }
 
+        public bool IsPointWithinElement(Vector2 point)
+        {
+            return Element_IsPointWithinElement(ptr, point);
+        }
+
         public String TagName
         {
             get
@@ -626,6 +631,10 @@ namespace libRocketPlugin
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Element_Focus(IntPtr element);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool Element_IsPointWithinElement(IntPtr element, Vector2 point);
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_Blur(IntPtr element);

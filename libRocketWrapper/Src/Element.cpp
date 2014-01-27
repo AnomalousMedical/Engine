@@ -48,7 +48,10 @@ extern "C" _AnomalousExport bool Element_IsClassSet(Rocket::Core::Element* eleme
 //
 //virtual bool GetIntrinsicDimensions(Vector2f& dimensions);
 //
-//virtual bool IsPointWithinElement(const Vector2f& point);
+extern "C" _AnomalousExport bool Element_IsPointWithinElement(Rocket::Core::Element* element, Vector2f point)
+{
+	return element->IsPointWithinElement(point.toVector2f());
+}
 //
 //bool IsVisible() const;
 //
