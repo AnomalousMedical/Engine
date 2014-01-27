@@ -25,7 +25,6 @@ namespace Engine.Editing
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="type">The type of field this variable wraps if it represents something else. Can be used to show more advanced editors.</param>
         public EditableAttribute(String info)
         {
             this.info = info;
