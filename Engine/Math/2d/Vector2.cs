@@ -115,6 +115,25 @@ namespace Engine
             return String.Format("{0}, {1}", x, y);
         }
 
+        /// <summary>
+        /// Equals function.
+        /// </summary>
+        /// <param name="obj">The object to compare to.</param>
+        /// <returns>True if the objects are equal.</returns>
+        public override bool Equals(object obj)
+        {
+            return obj.GetType() == typeof(Vector2) && this == (Vector2)obj;
+        }
+
+        /// <summary>
+        /// Hash code function.
+        /// </summary>
+        /// <returns>A hash code for this Vector3.</returns>
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         public static Vector2 operator +(Vector2 v1, Vector2 v2)
         {
             return new Vector2(v1.x + v2.x, v1.y + v2.y);
@@ -153,6 +172,16 @@ namespace Engine
         public static Vector2 operator /(Vector2 v1, Vector2 v2)
         {
             return new Vector2(v1.x / v2.x, v1.y / v2.y);
+        }
+
+        public static bool operator ==(Vector2 p1, Vector2 p2)
+        {
+            return p1.x == p2.x && p1.y == p2.y;
+        }
+
+        public static bool operator !=(Vector2 p1, Vector2 p2)
+        {
+            return !(p1.x == p2.x && p1.y == p2.y);
         }
 
         private static char[] SEPS = { ',' };
