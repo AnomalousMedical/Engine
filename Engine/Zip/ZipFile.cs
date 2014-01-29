@@ -112,12 +112,22 @@ namespace ZipAccess
             return findMatches(directories, path, searchPattern, recursive);
         }
 
-	    public unsafe bool exists(String filename)
+	    public unsafe bool fileExists(String filename)
         {
             String cFile = fixPathFile(filename);
 	        ZZipStat zstat = new ZZipStat();
             ZZipError res = ZipFile_DirStat(zzipDir, cFile, &zstat, ZZIP_CASEINSENSITIVE);
             return (res == ZZipError.ZZIP_NO_ERROR);
+        }
+
+        public bool directoryExists(String path)
+        {
+            if (path == "" || path == "/")
+            {
+                return true;
+            }
+            path = fixPathDir(path);
+            return directories.FirstOrDefault(d => path.Equals(d.FullName, StringComparison.InvariantCultureIgnoreCase)) != null;
         }
 
         public ZipFileInfo getFileInfo(String filename)

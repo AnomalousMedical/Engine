@@ -126,12 +126,6 @@ namespace Engine.Resources
             return isDirectory;
         }
 
-        public override bool exists(String filename)
-        {
-            bool isDirectory;
-            return File.Exists(fixIncomingURL(filename, out isDirectory));
-        }
-
         public override VirtualFileInfo getFileInfo(String filename)
         {
             bool isDirectory;

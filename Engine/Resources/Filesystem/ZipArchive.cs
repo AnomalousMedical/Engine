@@ -103,11 +103,6 @@ namespace Engine.Resources
             return info != null && info.IsDirectory;
         }
 
-        public override bool exists(String filename)
-        {
-            return zipFile.exists(parseURLInZip(filename));
-        }
-
         public override VirtualFileInfo getFileInfo(String filename)
         {
             ZipFileInfo info = zipFile.getFileInfo(parseURLInZip(filename));

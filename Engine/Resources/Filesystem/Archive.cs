@@ -99,8 +99,6 @@ namespace Engine.Resources
 
         public abstract bool isDirectory(String url);
 
-        public abstract bool exists(String filename);
-
         public abstract VirtualFileInfo getFileInfo(String filename);
     }
 }

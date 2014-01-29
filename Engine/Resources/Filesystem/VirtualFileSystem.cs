@@ -222,15 +222,30 @@ namespace Engine
             return directoryMap.ContainsKey(url);
         }
 
-        public bool exists(String filename)
+        /// <summary>
+        /// Determine if a filename points to an exising file.
+        /// </summary>
+        public bool fileExists(String filename)
         {
             String asFile = FileSystem.fixPathFile(filename);
-            if (fileMap.ContainsKey(asFile))
-            {
-                return true;
-            }
-            String asDir = FileSystem.fixPathDir(filename);
+            return fileMap.ContainsKey(asFile);
+        }
+
+        /// <summary>
+        /// Determine if a path points to a directory.
+        /// </summary>
+        public bool directoryExists(String path)
+        {
+            String asDir = FileSystem.fixPathDir(path);
             return directoryMap.ContainsKey(asDir);
+        }
+
+        /// <summary>
+        /// Determine if a path points to a directory or a file.
+        /// </summary>
+        public bool exists(String path)
+        {
+            return fileExists(path) || directoryExists(path);
         }
 
         public VirtualFileInfo getFileInfo(String filename)

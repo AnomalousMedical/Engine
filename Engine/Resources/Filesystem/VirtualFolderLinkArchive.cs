@@ -114,11 +114,6 @@ namespace Engine.Resources
             return VirtualFileSystem.Instance.isDirectory(fixIncomingURL(url));
         }
 
-        public override bool exists(string filename)
-        {
-            return VirtualFileSystem.Instance.exists(fixIncomingURL(filename));
-        }
-
         public override VirtualFileInfo getFileInfo(string filename)
         {
             VirtualFileInfo originalInfo = VirtualFileSystem.Instance.getFileInfo(fixIncomingURL(filename));
