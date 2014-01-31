@@ -80,6 +80,7 @@ namespace MyGUIPlugin
 
         public virtual void Dispose()
         {
+            InputManager.Instance.MouseButtonPressed -= MouseButtonPressed; //Be sure we unsubscribe from the mouse clicks
             if (subscribedToUpdate)
             {
                 unsubscribeFromUpdate();
