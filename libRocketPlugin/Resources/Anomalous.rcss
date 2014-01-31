@@ -285,7 +285,7 @@ input.checkbox:checked:active
 
 scrollbarvertical
 {
-	width: 15px;
+	width: 15gsp;
 	background-color: #f1f1f3;
 }
 
@@ -296,8 +296,8 @@ scrollbarvertical slidertrack
 
 scrollbarvertical sliderbar
 {
-	margin-left:1px;
-	min-height: 46px;
+	margin-left:1gsp;
+	min-height: 46gsp;
 	background-color: #cdcdcd;
 }
 
@@ -313,10 +313,10 @@ scrollbarvertical sliderbar:active
 
 scrollbarvertical sliderarrowdec
 {
-	width: 9px;
-	height: 5px;
+	width: 9gsp;
+	height: 5gsp;
 
-	margin: 4px 3px;
+	margin: 4gsp 3gsp;
 
 	icon-decorator: image;
 	icon-image: ~/AnomalousThemeTexture.png 37px 46px 46px 51px;
@@ -338,10 +338,10 @@ scrollbarvertical sliderarrowdec:active
 
 scrollbarvertical sliderarrowinc
 {
-	width: 9px;
-	height: 5px;
+	width: 9gsp;
+	height: 5gsp;
 
-	margin: 4px 3px;
+	margin: 4gsp 3gsp;
 
 	icon-decorator: image;
 	icon-image: ~/AnomalousThemeTexture.png 26px 46px 35px 51px;
