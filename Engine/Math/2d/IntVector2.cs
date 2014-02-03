@@ -186,6 +186,11 @@ namespace Engine
             return !(p1.x == p2.x && p1.y == p2.y);
         }
 
+        public static explicit operator IntVector2(Vector2 vec2)
+        {
+            return new IntVector2((int)vec2.x, (int)vec2.y);
+        }
+
         #region Saving
 
         private IntVector2(LoadInfo info)
