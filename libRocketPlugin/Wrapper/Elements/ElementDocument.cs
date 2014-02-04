@@ -56,6 +56,15 @@ namespace libRocketPlugin
             return ElementManager.getElement(ElementDocument_CreateTextNode(ptr, text));
         }
 
+        /// <summary>
+        /// Dirties any element properties that need to be dirtied to respond correctly to a scale change
+        /// on the context.
+        /// </summary>
+        public void MakeDirtyForScaleChange()
+        {
+            ElementDocument_MakeDirtyForScaleChange(ptr);
+        }
+
         public void UpdatePosition()
         {
             ElementDocument_UpdatePosition(ptr);
@@ -136,6 +145,9 @@ namespace libRocketPlugin
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern void ElementDocument_UpdateLayout(IntPtr elementDocument);
+
+        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void ElementDocument_MakeDirtyForScaleChange(IntPtr elementDocument);
 
         #endregion
     }

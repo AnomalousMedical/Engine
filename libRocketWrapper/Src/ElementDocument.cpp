@@ -1,4 +1,5 @@
 #include "StdAfx.h"
+#include <../Source/Core/ElementStyle.h>
 
 //void ProcessHeader(const DocumentHeader* header);
 
@@ -68,4 +69,12 @@ extern "C" _AnomalousExport void ElementDocument_UpdatePosition(Rocket::Core::El
 extern "C" _AnomalousExport void ElementDocument_UpdateLayout(Rocket::Core::ElementDocument* elementDocument)
 {
 	elementDocument->UpdateLayout();
+}
+
+extern "C" _AnomalousExport void ElementDocument_MakeDirtyForScaleChange(Rocket::Core::ElementDocument* elementDocument)
+{
+	elementDocument->GetStyle()->DirtyDefinition();
+	elementDocument->GetStyle()->DirtyProperties();
+	elementDocument->GetStyle()->DirtyEmProperties();
+	elementDocument->GetStyle()->DirtyInheritedEmProperties();
 }
