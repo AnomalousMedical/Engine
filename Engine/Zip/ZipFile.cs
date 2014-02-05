@@ -265,6 +265,11 @@ namespace ZipAccess
 
         private String fixPathFile(String path)
         {
+            if (String.IsNullOrEmpty(path))
+            {
+                return path;
+            }
+
             //Fix up any ../ sections to point to the upper directory.
 	        String[] splitPath = path.Split(SEPS, StringSplitOptions.RemoveEmptyEntries);
 	        int lenMinusOne = splitPath.Length - 1;
