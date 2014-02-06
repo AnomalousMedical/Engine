@@ -82,6 +82,22 @@ namespace Engine
             }
         }
 
+        public float Right
+        {
+            get
+            {
+                return left + width;
+            }
+        }
+
+        public float Bottom
+        {
+            get
+            {
+                return top + height;
+            }
+        }
+
         public static Rect operator *(Rect v, float s)
         {
             return new Rect(v.Left * s, v.Top * s, v.Width * s, v.Height * s);

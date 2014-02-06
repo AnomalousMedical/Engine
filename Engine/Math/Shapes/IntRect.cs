@@ -82,6 +82,22 @@ namespace Engine
             }
         }
 
+        public int Right
+        {
+            get
+            {
+                return left + width;
+            }
+        }
+
+        public int Bottom
+        {
+            get
+            {
+                return top + height;
+            }
+        }
+
         public static IntRect operator *(IntRect v, int s)
         {
             return new IntRect(v.Left * s, v.Top * s, v.Width * s, v.Height * s);
