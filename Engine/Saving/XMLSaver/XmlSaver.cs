@@ -104,7 +104,7 @@ namespace Engine.Saving.XMLSaver
                             {
                                 version = NumberParser.ParseInt(versionStr);
                             }
-                            ObjectIdentifier objectId = new ObjectIdentifier(NumberParser.ParseLong(xmlReader.GetAttribute(ID_ATTIBUTE)), null, typeFinder.findType(xmlReader.GetAttribute(TYPE_ATTRIBUTE)));
+                            ObjectIdentifier objectId = ObjectIdentifierFactory.CreateObjectIdentifier(NumberParser.ParseLong(xmlReader.GetAttribute(ID_ATTIBUTE)), xmlReader.GetAttribute(TYPE_ATTRIBUTE), typeFinder);
                             loadControl.startDefiningObject(objectId, version);
                             //If the element is empty do not bother to loop looking for elements.
                             if (!xmlReader.IsEmptyElement)

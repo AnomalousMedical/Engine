@@ -257,6 +257,7 @@
     <Compile Include="Saving\CopySaver\CopySaver.cs" />
     <Compile Include="Saving\DefaultTypeFinder.cs" />
     <Compile Include="Saving\Load\LoadControl.cs" />
+    <Compile Include="Saving\ObjectIdentifierFactory.cs" />
     <Compile Include="Saving\Save\FooterWriter.cs" />
     <Compile Include="Saving\Save\HeaderWriter.cs" />
     <Compile Include="Saving\Load\LoadInfo.cs" />
