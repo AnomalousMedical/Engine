@@ -6,7 +6,9 @@ using System.Text;
 namespace Engine.Saving
 {
     /// <summary>
-    /// Used by the TypeFinder to load custom ObjectIdentifiers if needed
+    /// Used by the TypeFinder to load custom ObjectIdentifiers if needed. This currently applies only to the XmlSaver because
+    /// it loads files that may contain old classes. Any other savers that could deal with legacy classes should use this factory
+    /// to create ObjectIdentifiers when loading.
     /// </summary>
     public static class ObjectIdentifierFactory
     {

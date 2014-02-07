@@ -31,6 +31,12 @@ namespace Engine.Saving
             this.objectType = objectType;
         }
 
+        public ObjectIdentifier(ObjectIdentifier toClone)
+            :this(toClone.objectID, toClone.value, toClone.objectType)
+        {
+
+        }
+
         /// <summary>
         /// Create a new instance of the object specified by this identifier, you can override this in subclasses
         /// and there is no need to call the base method, it just returns a new instance in a generic default way.

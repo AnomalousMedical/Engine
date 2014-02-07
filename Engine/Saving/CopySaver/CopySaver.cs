@@ -11,6 +11,12 @@ namespace Engine.Saving
     /// using the same interface for serializing them, which reduces the amount
     /// of user code that has to be written.
     /// </summary>
+    /// <remarks>
+    /// One note about this class in relation to the ObjectIdentifierFactory, here
+    /// that class will not be used. This should not matter the intention of customizing
+    /// the ObjectIdentifierFactory is to be able to load objects that may no longer exist,
+    /// this saver deals only with objects that are currently in memory.
+    /// </remarks>
     public class CopySaver : HeaderWriter, FooterWriter, ValueWriter
     {
         public static readonly CopySaver Default = new CopySaver();
@@ -48,7 +54,9 @@ namespace Engine.Saving
 
         public void writeHeader(ObjectIdentifier objectId, int version)
         {
-            loadControl.startDefiningObject(objectId, version);
+            //Important to make a copy here, we do not want to modify the original
+            //This is what would happen when the object was saved to disk and reloaded anyway.
+            loadControl.startDefiningObject(new ObjectIdentifier(objectId), version);
         }
 
         public void writeFooter(ObjectIdentifier objectId)
