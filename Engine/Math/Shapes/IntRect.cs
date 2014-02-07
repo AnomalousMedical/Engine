@@ -108,9 +108,24 @@ namespace Engine
             return v * s;
         }
 
+        public static Rect operator *(IntRect v, float s)
+        {
+            return new Rect(v.Left * s, v.Top * s, v.Width * s, v.Height * s);
+        }
+
+        public static Rect operator *(float s, IntRect v)
+        {
+            return v * s;
+        }
+
         public static IntRect operator /(IntRect v, int s)
         {
             return new IntRect(v.Left / s, v.Top / s, v.Width / s, v.Height / s);
+        }
+
+        public static Rect operator /(IntRect v, float s)
+        {
+            return new Rect(v.Left / s, v.Top / s, v.Width / s, v.Height / s);
         }
 
         public static explicit operator IntRect(Rect s)
