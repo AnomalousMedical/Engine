@@ -215,6 +215,23 @@ namespace libRocketPlugin
             iter.Dispose();
         }
 
+        /// <summary>
+        /// Determine if the given element is an ancestor of this element.
+        /// </summary>
+        /// <param name="element">The element to check for as a parent / ancestor to this element</param>
+        /// <returns>True if it is an ancestor or this == element, false if it is not.</returns>
+        public bool isDescendentOf(Element element)
+        {
+            bool isNotAncestor = true;
+            Element parentWalker = this;
+            while (parentWalker != null && isNotAncestor)
+            {
+                isNotAncestor = parentWalker != element;
+                parentWalker = parentWalker.ParentNode;
+            }
+            return !isNotAncestor;
+        }
+
         public void ClearLocalStyles()
         {
             Element_ClearLocalStyles(ptr);
