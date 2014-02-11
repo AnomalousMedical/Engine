@@ -222,14 +222,14 @@ namespace libRocketPlugin
         /// <returns>True if it is an ancestor or this == element, false if it is not.</returns>
         public bool isDescendentOf(Element element)
         {
-            bool isNotAncestor = true;
+            bool isNotDescendent = true;
             Element parentWalker = this;
-            while (parentWalker != null && isNotAncestor)
+            while (parentWalker != null && isNotDescendent)
             {
-                isNotAncestor = parentWalker != element;
+                isNotDescendent = parentWalker != element;
                 parentWalker = parentWalker.ParentNode;
             }
-            return !isNotAncestor;
+            return !isNotDescendent;
         }
 
         public void ClearLocalStyles()
