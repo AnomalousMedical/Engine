@@ -23,7 +23,7 @@ namespace Engine.Editing
         /// Constructor.
         /// </summary>
         /// <param name="type">The type of field this variable wraps if it represents something else. Can be used to show more advanced editors.</param>
-        public EditableMinMaxAttribute(float minValue, float maxValue, float increment, String info = "")
+        public EditableMinMaxAttribute(double minValue, double maxValue, double increment, String info = "")
             :base(info)
         {
             this.MinValue = minValue;
@@ -39,10 +39,10 @@ namespace Engine.Editing
             };
         }
 
-        public float MinValue { get; set; }
+        public double MinValue { get; set; }
 
-        public float MaxValue { get; set; }
+        public double MaxValue { get; set; }
 
-        public float Increment { get; set; }
+        public double Increment { get; set; }
     }
 }
