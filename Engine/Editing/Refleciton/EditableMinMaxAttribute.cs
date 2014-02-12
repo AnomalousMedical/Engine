@@ -33,7 +33,7 @@ namespace Engine.Editing
 
         public override EditableProperty createEditableProperty(MemberWrapper memberWrapper, Object target)
         {
-            return new ReflectedMinMaxEditableProperty(memberWrapper.getWrappedName(), ReflectedVariable.createVariable(memberWrapper, target), MinValue, MaxValue, Increment)
+            return new ReflectedMinMaxEditableProperty(PrettyName != null ? PrettyName : memberWrapper.getWrappedName(), ReflectedVariable.createVariable(memberWrapper, target), MinValue, MaxValue, Increment)
             {
                 Advanced = Advanced,
             };
