@@ -197,6 +197,9 @@
     <Compile Include="Wrapper\Utility\SharedPtrCollection.cs" />
     <Compile Include="Wrapper\Utility\SharedPtrEntry.cs" />
     <Compile Include="Wrapper\Utility\WrapperMath.cs" />
+    <EmbeddedResource Include="Resources\Basic\cg\BasicTexturedNoLightPS.cg" />
+    <EmbeddedResource Include="Resources\Basic\cg\BasicWorldTexturedNoLightVP.cg" />
+    <EmbeddedResource Include="Resources\Basic\Basic.program" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">

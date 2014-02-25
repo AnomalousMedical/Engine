@@ -81,6 +81,11 @@ RenderInterfaceOgre3D::RenderInterfaceOgre3D(unsigned int window_width, unsigned
 	scissor_top = 0;
 	scissor_right = (int) window_width;
 	scissor_bottom = (int) window_height;
+
+	vertProg = Ogre::HighLevelGpuProgramManager::getSingletonPtr()->getByName("libRocketTextureVS");
+	vertProg->load();
+	fragProg = Ogre::HighLevelGpuProgramManager::getSingletonPtr()->getByName("libRocketTexturePS");
+	fragProg->load();
 }
 
 RenderInterfaceOgre3D::~RenderInterfaceOgre3D()
@@ -317,8 +322,10 @@ void RenderInterfaceOgre3D::ConfigureRenderSystem(const int &renderWidth, const 
 	// Enable writing to all four channels.
 	render_system->_setColourBufferWriteEnabled(true, true, true, true);
 	// Unbind any vertex or fragment programs bound previously by the application.
-	render_system->unbindGpuProgram(Ogre::GPT_FRAGMENT_PROGRAM);
-	render_system->unbindGpuProgram(Ogre::GPT_VERTEX_PROGRAM);
+	//render_system->unbindGpuProgram(Ogre::GPT_FRAGMENT_PROGRAM);
+	//render_system->unbindGpuProgram(Ogre::GPT_VERTEX_PROGRAM);
+	render_system->bindGpuProgram(vertProg->_getBindingDelegate());
+	render_system->bindGpuProgram(fragProg->_getBindingDelegate());
 
 	// Set texture settings to clamp along both axes.
 	Ogre::TextureUnitState::UVWAddressingMode addressing_mode;

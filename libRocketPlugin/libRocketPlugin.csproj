@@ -111,6 +111,15 @@
     <EmbeddedResource Include="Resources\NoImage.png" />
     <EmbeddedResource Include="Resources\NoImageFound.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Shader\Gui\cg\TexturePS.cg" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Shader\Gui\cg\TextureVS.cg" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Shader\libRocket.program" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

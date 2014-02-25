@@ -158,6 +158,19 @@ namespace OgrePlugin
                 //Setup the core resources
                 OgreResourceGroupManager.getInstance().addResourceLocation(typeof(OgreInterface).AssemblyQualifiedName, "EmbeddedResource", "Bootstrap", true);
                 OgreResourceGroupManager.getInstance().initializeAllResourceGroups();
+
+                //Add Shaders to built in resources
+                using (MaterialPtr baseWhite = MaterialManager.getInstance().getByName("BaseWhite"))
+                {
+                    baseWhite.Value.getTechnique(0).getPass(0).setVertexProgram("colorvertex\\vs");
+                    baseWhite.Value.getTechnique(0).getPass(0).setFragmentProgram("colorvertex\\fs");
+                }
+
+                using (MaterialPtr baseWhiteNoLighting = MaterialManager.getInstance().getByName("BaseWhiteNoLighting"))
+                {
+                    baseWhiteNoLighting.Value.getTechnique(0).getPass(0).setVertexProgram("colorvertex\\vs");
+                    baseWhiteNoLighting.Value.getTechnique(0).getPass(0).setFragmentProgram("colorvertex\\fs");
+                }
             }
             catch (Exception e)
             {

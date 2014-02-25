@@ -75,6 +75,8 @@ namespace libRocketPlugin
 
             OgreResourceGroupManager.getInstance().createResourceGroup("Rocket");
             OgreResourceGroupManager.getInstance().addResourceLocation("__RmlViewerFilesystem__", RocketFilesystemArchive.ArchiveName, "Rocket", false);
+            OgreResourceGroupManager.getInstance().addResourceLocation(this.GetType().AssemblyQualifiedName, "EmbeddedResource", "Rocket.Shaders", false);
+            OgreResourceGroupManager.getInstance().initializeResourceGroup("Rocket.Shaders");
 
             Root.getSingleton().Disposed += OgreRoot_Disposed;
 
