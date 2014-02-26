@@ -210,20 +210,6 @@ namespace OgreWrapper
         }
 
         /// <summary>
-        /// Swaps the frame buffers to display the next frame.
-        /// 
-        /// For targets that are double-buffered so that no 'in-progress' versions
-        /// of the scene are displayed during rendering. Once rendering has
-        /// completed (to an off-screen version of the window) the buffers are
-        /// swapped to display the new frame.
-        /// </summary>
-        /// <param name="waitForVsync">If true, the system waits for the next vertical blank period (when the CRT beam turns off as it travels from bottom-right to top-left at the end of the pass) before flipping. If false, flipping occurs no matter what the beam position. Waiting for a vertical blank can be slower (and limits the framerate to the monitor refresh rate) but results in a steadier image with no 'tearing' (a flicker resulting from flipping buffers when the beam is in the progress of drawing the last frame).</param>
-        public void swapBuffers(bool waitForVsync)
-        {
-            RenderTarget_swapBuffersVsync(renderTarget, waitForVsync);
-        }
-
-        /// <summary>
         /// Get the number of viewports attached to this target. 
         /// </summary>
         /// <returns>The number of viewports.</returns>
@@ -541,9 +527,6 @@ namespace OgreWrapper
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void RenderTarget_swapBuffers(IntPtr renderTarget);
-
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void RenderTarget_swapBuffersVsync(IntPtr renderTarget, bool waitForVsync);
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern ushort RenderTarget_getNumViewports(IntPtr renderTarget);

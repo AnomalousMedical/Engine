@@ -82,10 +82,15 @@ RenderInterfaceOgre3D::RenderInterfaceOgre3D(unsigned int window_width, unsigned
 	scissor_right = (int) window_width;
 	scissor_bottom = (int) window_height;
 
-	vertProg = Ogre::HighLevelGpuProgramManager::getSingletonPtr()->getByName("libRocketTextureVS");
-	vertProg->load();
-	fragProg = Ogre::HighLevelGpuProgramManager::getSingletonPtr()->getByName("libRocketTexturePS");
-	fragProg->load();
+	textureVertProg = Ogre::HighLevelGpuProgramManager::getSingletonPtr()->getByName("libRocketTextureVS");
+	textureVertProg->load();
+	textureFragProg = Ogre::HighLevelGpuProgramManager::getSingletonPtr()->getByName("libRocketTexturePS");
+	textureFragProg->load();
+
+	noTextureVertProg = Ogre::HighLevelGpuProgramManager::getSingletonPtr()->getByName("libRocketNoTextureVS");
+	noTextureVertProg->load();
+	noTextureFragProg = Ogre::HighLevelGpuProgramManager::getSingletonPtr()->getByName("libRocketNoTexturePS");
+	noTextureFragProg->load();
 }
 
 RenderInterfaceOgre3D::~RenderInterfaceOgre3D()
@@ -170,6 +175,9 @@ void RenderInterfaceOgre3D::RenderCompiledGeometry(Rocket::Core::CompiledGeometr
 	render_system = Ogre::Root::getSingleton().getRenderSystem();
 	RocketOgre3DCompiledGeometry* ogre3d_geometry = (RocketOgre3DCompiledGeometry*) geometry;
 
+	Ogre::HighLevelGpuProgramPtr vertProg;
+	Ogre::HighLevelGpuProgramPtr fragProg;
+
 	if (ogre3d_geometry->texture != NULL)
 	{
 		render_system->_setTexture(0, true, ogre3d_geometry->texture->texture);
@@ -178,9 +186,24 @@ void RenderInterfaceOgre3D::RenderCompiledGeometry(Rocket::Core::CompiledGeometr
 		// we need to re-specify them.
 		render_system->_setTextureBlendMode(0, colour_blend_mode);
 		render_system->_setTextureBlendMode(0, alpha_blend_mode);
+
+		vertProg = textureVertProg;
+		fragProg = textureFragProg;
 	}
 	else
+	{
 		render_system->_disableTextureUnit(0);
+
+		vertProg = noTextureVertProg;
+		fragProg = noTextureFragProg;
+	}
+
+	render_system->bindGpuProgram(vertProg->_getBindingDelegate());
+	render_system->bindGpuProgram(fragProg->_getBindingDelegate());
+
+	Ogre::GpuProgramParametersSharedPtr params = vertProg->createParameters();
+	params->setNamedConstant("elementWorldViewProj", lastProjectionMatrix * transform);
+	render_system->bindGpuProgramParameters(Ogre::GPT_VERTEX_PROGRAM, params, 0);
 
 	render_system->_render(ogre3d_geometry->render_operation);
 }
@@ -306,9 +329,8 @@ void RenderInterfaceOgre3D::ConfigureRenderSystem(const int &renderWidth, const 
 	Ogre::RenderSystem* render_system = Ogre::Root::getSingleton().getRenderSystem();
 
 	// Set up the projection and view matrices.
-	Ogre::Matrix4 projection_matrix;
-	BuildProjectionMatrix(projection_matrix, renderWidth, renderHeight);
-	render_system->_setProjectionMatrix(projection_matrix);
+	BuildProjectionMatrix(lastProjectionMatrix, renderWidth, renderHeight);
+	render_system->_setProjectionMatrix(lastProjectionMatrix);
 	render_system->_setViewMatrix(Ogre::Matrix4::IDENTITY);
 
 	// Disable lighting, as all of Rocket's geometry is unlit.
@@ -324,8 +346,6 @@ void RenderInterfaceOgre3D::ConfigureRenderSystem(const int &renderWidth, const 
 	// Unbind any vertex or fragment programs bound previously by the application.
 	//render_system->unbindGpuProgram(Ogre::GPT_FRAGMENT_PROGRAM);
 	//render_system->unbindGpuProgram(Ogre::GPT_VERTEX_PROGRAM);
-	render_system->bindGpuProgram(vertProg->_getBindingDelegate());
-	render_system->bindGpuProgram(fragProg->_getBindingDelegate());
 
 	// Set texture settings to clamp along both axes.
 	Ogre::TextureUnitState::UVWAddressingMode addressing_mode;

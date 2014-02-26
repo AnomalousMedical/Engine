@@ -17,10 +17,10 @@ namespace OgreWrapper
 	    TU_DYNAMIC_WRITE_ONLY = HardwareBuffer.Usage.HBU_DYNAMIC_WRITE_ONLY,
         TU_DYNAMIC_WRITE_ONLY_DISCARDABLE = HardwareBuffer.Usage.HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE,
 	    /// mipmaps will be automatically generated for this texture
-	    TU_AUTOMIPMAP = 0x100,
+	    TU_AUTOMIPMAP = 16,
 	    /// this texture will be a render target, i.e. used as a target for render to texture
 	    /// setting this flag will ignore all other texture usages except TU_AUTOMIPMAP
-	    TU_RENDERTARGET = 0x200,
+	    TU_RENDERTARGET = 32,
 	    /// default to automatic mipmap generation static textures
 	    TU_DEFAULT = TU_AUTOMIPMAP | TU_STATIC_WRITE_ONLY
         

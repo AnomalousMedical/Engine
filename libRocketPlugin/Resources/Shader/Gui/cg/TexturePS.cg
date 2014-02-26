@@ -6,6 +6,5 @@ void main( uniform sampler2D sampleTexture,
 			
 			out float4 outColor : COLOR ) 
 {
-	//outColor = tex2D(sampleTexture, inTexcoord.xy).rgba * inColor;
-	outColor = float4(0, 1, 0, 1);
+	outColor = tex2D(sampleTexture, inTexcoord.xy).rgba * inColor;
 }

@@ -1,4 +1,5 @@
 #include "Stdafx.h"
+#include "OgreOverlayManager.h"
 
 extern "C" _AnomalousExport Ogre::OverlayManager* OverlayManager_getSingletonPtr()
 {

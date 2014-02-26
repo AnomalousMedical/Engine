@@ -1,4 +1,5 @@
 #include "Stdafx.h"
+#include "OgreOverlayElement.h"
 
 extern "C" _AnomalousExport void OverlayElement_initialize(Ogre::OverlayElement* overlayElement)
 {
@@ -197,7 +198,7 @@ extern "C" _AnomalousExport void OverlayElement_setCloneable(Ogre::OverlayElemen
 	overlayElement->setCloneable(c);
 }
 
-extern "C" _AnomalousExport Ogre::OverlayElement* OverlayElement_getParent(Ogre::OverlayElement* overlayElement)
+extern "C" _AnomalousExport Ogre::OverlayContainer* OverlayElement_getParent(Ogre::OverlayElement* overlayElement)
 {
 	return overlayElement->getParent();
 }

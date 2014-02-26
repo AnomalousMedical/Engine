@@ -73,6 +73,11 @@ namespace libRocketPlugin
         {
             Root.getSingleton().addArchiveFactory(rocketFilesystemArchiveFactory);
 
+            if (FileInterface == null)
+            {
+                FileInterface = new VirtualFileSystemFileInterface();
+            }
+
             OgreResourceGroupManager.getInstance().createResourceGroup("Rocket");
             OgreResourceGroupManager.getInstance().addResourceLocation("__RmlViewerFilesystem__", RocketFilesystemArchive.ArchiveName, "Rocket", false);
             OgreResourceGroupManager.getInstance().addResourceLocation(this.GetType().AssemblyQualifiedName, "EmbeddedResource", "Rocket.Shaders", false);
@@ -89,11 +94,6 @@ namespace libRocketPlugin
 
             Core.SetSystemInterface(systemInterface);
             Core.SetRenderInterface(renderInterface);
-
-            if (FileInterface == null)
-            {
-                FileInterface = new VirtualFileSystemFileInterface();
-            }
 
             Core.Initialise();
             Controls.Initialise();

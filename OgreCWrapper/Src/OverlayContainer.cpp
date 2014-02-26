@@ -1,4 +1,5 @@
 #include "Stdafx.h"
+#include "OgreOverlayContainer.h"
 
 extern "C" _AnomalousExport void OverlayContainer_addChild(Ogre::OverlayContainer* overlayContainer, Ogre::OverlayElement* elem)
 {

@@ -8,7 +8,8 @@ extern "C" _AnomalousExport Ogre::Root* Root_Create(const char* pluginFileName, 
 extern "C" _AnomalousExport Ogre::Plugin* RenderSystemPlugin_Create()
 {
 #ifdef WINDOWS
-	Ogre::Root::getSingleton().loadPlugin("RenderSystem_Direct3D9");
+	//Ogre::Root::getSingleton().loadPlugin("RenderSystem_Direct3D9");
+	Ogre::Root::getSingleton().loadPlugin("RenderSystem_Direct3D11");
 #endif
 	
 #ifdef MAC_OSX
@@ -73,7 +74,12 @@ extern "C" _AnomalousExport Ogre::RenderSystem* Root_getRenderSystemByName(Ogre:
 extern "C" _AnomalousExport Ogre::RenderSystem* Root_getPlatformDefaultRenderSystem(Ogre::Root* root)
 {
 #ifdef WINDOWS
-	return root->getRenderSystemByName("Direct3D9 Rendering Subsystem");
+	//Ogre::RenderSystem* rs = root->getRenderSystemByName("Direct3D9 Rendering Subsystem");
+	//rs->setConfigOption("Multi device memory hint", "Auto hardware buffers management");
+	//rs->setConfigOption("Fixed Pipeline Enabled", "Yes");
+
+	Ogre::RenderSystem* rs = root->getRenderSystemByName("Direct3D11 Rendering Subsystem");
+	return rs;
 #endif
 
 #ifdef MAC_OSX

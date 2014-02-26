@@ -22,7 +22,7 @@ public:
 		return archType;
 	}
 
-	Ogre::Archive* createInstance(const Ogre::String& name)
+	Ogre::Archive* createInstance(const Ogre::String& name, bool readOnly)
 	{
 		return createInstanceCallback(name.c_str());
 	}

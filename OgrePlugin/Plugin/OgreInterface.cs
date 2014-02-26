@@ -38,6 +38,7 @@ namespace OgrePlugin
         #region Fields
 
         private Root root;
+        private OverlaySystem overlaySystem;
         private OgreUpdate ogreUpdate;
         private OgreWindow primaryWindow;
 
@@ -64,6 +65,7 @@ namespace OgrePlugin
             if (instance == null)
             {
                 root = new Root("", "", "");
+                overlaySystem = new OverlaySystem();
                 ogreUpdate = new OgreUpdate(root);
                 instance = this;
             }
@@ -85,6 +87,7 @@ namespace OgrePlugin
             HardwareBufferManager.getInstance().Dispose();
             TextureManager.getInstance().Dispose();
             destroyRendererWindow(primaryWindow);
+            overlaySystem.Dispose();
             root.Dispose();
             if (Disposed != null)
             {
@@ -101,20 +104,9 @@ namespace OgrePlugin
             try
             {
                 //Initialize Ogre
-                //root.loadPlugin("RenderSystem_Direct3D9");
                 RenderSystem rs = root.getPlatformDefaultRenderSystem();
-                //This is a temp fix, this will make d3d9 work correctly on multiple monitors
-	            //The other option is "Use minimum system memory" (which is the default) and uses less memory.
-	            rs.setConfigOption("Multi device memory hint", "Auto hardware buffers management");
-                //String valid = rs.validateConfigOptions();
-                //if (valid.Length != 0)
-                //{
-                //    throw new InvalidPluginException(String.Format("Invalid Ogre configuration {0}", valid));
-                //}
                 root.setRenderSystem(rs);
                 root.initialize(false);
-
-                //root.loadPlugin("Plugin_CgProgramManager");
 
                 //Create the default window.
                 Dictionary<String, String> miscParams = new Dictionary<string, string>();

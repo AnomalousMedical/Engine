@@ -137,6 +137,7 @@
     <Compile Include="Wrapper\Overlay\OverlayContainer.cs" />
     <Compile Include="Wrapper\Overlay\OverlayElement.cs" />
     <Compile Include="Wrapper\Overlay\OverlayManager.cs" />
+    <Compile Include="Wrapper\Overlay\OverlaySystem.cs" />
     <Compile Include="Wrapper\Overlay\PanelOverlayElement.cs" />
     <Compile Include="Wrapper\Overlay\TextAreaOverlayElement.cs" />
     <Compile Include="Wrapper\Queries\PlaneBoundedVolumeListSceneQuery.cs" />
@@ -200,6 +201,8 @@
     <EmbeddedResource Include="Resources\Basic\cg\BasicTexturedNoLightPS.cg" />
     <EmbeddedResource Include="Resources\Basic\cg\BasicWorldTexturedNoLightVP.cg" />
     <EmbeddedResource Include="Resources\Basic\Basic.program" />
+    <EmbeddedResource Include="Resources\Basic\hlsl\BasicTexturedNoLightPS.hlsl" />
+    <EmbeddedResource Include="Resources\Basic\hlsl\BasicWorldTexturedNoLightVP.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">

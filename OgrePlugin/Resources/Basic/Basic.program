@@ -13,6 +13,18 @@ vertex_program BasicWorldTexturedNoLightVP_CG cg
 	}
 }
 
+vertex_program BasicWorldTexturedNoLightVP_HLSL hlsl
+{
+	source OgrePlugin.Resources.Basic.hlsl.BasicWorldTexturedNoLightVP.hlsl
+	entry_point main
+	target vs_4_0
+
+	default_params
+	{
+		param_named_auto worldViewProj worldviewproj_matrix
+	}
+}
+
 //vertex_program UnifiedVP_GLSL glsl
 //{
 //	source Unified/glsl/MainVP.glsl
@@ -31,6 +43,7 @@ vertex_program BasicWorldTexturedNoLightVP_CG cg
 vertex_program BasicWorldTexturedNoLightVP unified
 {
 	delegate BasicWorldTexturedNoLightVP_CG
+	delegate BasicWorldTexturedNoLightVP_HLSL
     //delegate BasicWorldTexturedNoLightVP_GLSL
 }
 
@@ -48,6 +61,13 @@ fragment_program BasicTexturedNoLightPS_CG cg
 	source OgrePlugin.Resources.Basic.cg.BasicTexturedNoLightPS.cg
 	entry_point main
 	profiles ps_3_0
+}
+
+fragment_program BasicTexturedNoLightPS_HLSL hlsl
+{
+	source OgrePlugin.Resources.Basic.hlsl.BasicTexturedNoLightPS.hlsl
+	entry_point main
+	target ps_4_0
 }
 
 //fragment_program NormalMapSpecularFP_GLSL glsl
@@ -71,5 +91,6 @@ fragment_program BasicTexturedNoLightPS_CG cg
 fragment_program BasicTexturedNoLightPS unified
 {
     delegate BasicTexturedNoLightPS_CG
+	delegate BasicTexturedNoLightPS_HLSL
     //delegate NormalMapSpecularFP_GLSL
 }

@@ -105,8 +105,12 @@ class RenderInterfaceOgre3D : public Rocket::Core::RenderInterface
 		// Builds an OpenGL-style orthographic projection matrix.
 		void BuildProjectionMatrix(Ogre::Matrix4& projection_matrix, const int &renderWidth, const int &renderHeight);
 
-		Ogre::HighLevelGpuProgramPtr vertProg;
-		Ogre::HighLevelGpuProgramPtr fragProg;
+		//Shader render stuff
+		Ogre::HighLevelGpuProgramPtr textureVertProg;
+		Ogre::HighLevelGpuProgramPtr textureFragProg;
+		Ogre::HighLevelGpuProgramPtr noTextureVertProg;
+		Ogre::HighLevelGpuProgramPtr noTextureFragProg;
+		Ogre::Matrix4 lastProjectionMatrix;
 };
 
 #endif

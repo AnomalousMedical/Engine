@@ -8,6 +8,13 @@ vertex_program MyGUITextureVS_CG cg
 	profiles vs_3_0
 }
 
+vertex_program MyGUITextureVS_HLSL hlsl
+{
+	source MyGUIPlugin.Resources.Shader.Gui.hlsl.TextureVS.hlsl
+	entry_point main
+	target vs_4_0
+}
+
 //vertex_program UnifiedVP_GLSL glsl
 //{
 //	source Unified/glsl/MainVP.glsl
@@ -26,6 +33,7 @@ vertex_program MyGUITextureVS_CG cg
 vertex_program MyGUITextureVS unified
 {
 	delegate MyGUITextureVS_CG
+	delegate MyGUITextureVS_HLSL
     //delegate UnifiedVP_GLSL
 }
 
@@ -43,6 +51,13 @@ fragment_program MyGUITexturePS_CG cg
 	source MyGUIPlugin.Resources.Shader.Gui.cg.TexturePS.cg
 	entry_point main
 	profiles ps_3_0
+}
+
+fragment_program MyGUITexturePS_HLSL hlsl
+{
+	source MyGUIPlugin.Resources.Shader.Gui.hlsl.TexturePS.hlsl
+	entry_point main
+	target ps_4_0
 }
 
 //fragment_program NormalMapSpecularFP_GLSL glsl
@@ -66,5 +81,6 @@ fragment_program MyGUITexturePS_CG cg
 fragment_program MyGUITexturePS unified
 {
     delegate MyGUITexturePS_CG
+	delegate MyGUITexturePS_HLSL
     //delegate NormalMapSpecularFP_GLSL
 }

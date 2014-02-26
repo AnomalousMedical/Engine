@@ -50,11 +50,6 @@ extern "C" _AnomalousExport void RenderTarget_swapBuffers(Ogre::RenderTarget* re
 	renderTarget->swapBuffers();
 }
 
-extern "C" _AnomalousExport void RenderTarget_swapBuffersVsync(Ogre::RenderTarget* renderTarget, bool waitForVsync)
-{
-	renderTarget->swapBuffers(waitForVsync);
-}
-
 extern "C" _AnomalousExport ushort RenderTarget_getNumViewports(Ogre::RenderTarget* renderTarget)
 {
 	return renderTarget->getNumViewports();

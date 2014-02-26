@@ -75,7 +75,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;freetype2311.lib;MyGUI.OgrePlatform.lib;MyGUIEngineStatic.lib;OgreMain.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;freetype.lib;MyGUI.OgrePlatform.lib;MyGUIEngineStatic.lib;OgreMain.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\Dependencies\MyGUI\WindowsBuild\lib\Release;..\..\Dependencies\Ogre\Windows\Dependencies\lib\Release;..\..\Dependencies\Ogre\Windows\Build\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <TargetMachine>MachineX86</TargetMachine>

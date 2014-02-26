@@ -1,47 +1,29 @@
 //-------------------------------------
-//Vertex Program
+//Textured Vertex Shader
 //-------------------------------------
 vertex_program libRocketTextureVS_CG cg
 {
 	source libRocketPlugin.Resources.Shader.Gui.cg.TextureVS.cg
 	entry_point main
 	profiles vs_3_0
-
-	default_params
-	{
-		param_named_auto worldViewProj worldviewproj_matrix
-	}
 }
 
-//vertex_program UnifiedVP_GLSL glsl
-//{
-//	source Unified/glsl/MainVP.glsl
-//    attach Pack_VP_GLSL
-//	profiles glsl
-//	
-//	default_params
-//	{
-//		param_named_auto worldViewProj worldviewproj_matrix
-//		param_named_auto eyePosition camera_position_object_space
-//		param_named_auto lightAttenuation light_attenuation 0
-//		param_named_auto lightPosition light_position_object_space 0
-//	}
-//}
+vertex_program libRocketTextureVS_HLSL hlsl
+{
+	source libRocketPlugin.Resources.Shader.Gui.hlsl.TextureVS.hlsl
+	entry_point main
+	target vs_4_0
+}
 
 vertex_program libRocketTextureVS unified
 {
 	delegate libRocketTextureVS_CG
+	delegate libRocketTextureVS_HLSL
     //delegate UnifiedVP_GLSL
 }
 
-//----------------------------------------------------------
-//----------------------------------------------------------
-//Fragment Programs
-//----------------------------------------------------------
-//----------------------------------------------------------
-
 //-------------------------------------
-//NormalMapSpecular
+//Textured Fragment Program
 //-------------------------------------
 fragment_program libRocketTexturePS_CG cg
 {
@@ -50,26 +32,50 @@ fragment_program libRocketTexturePS_CG cg
 	profiles ps_3_0
 }
 
-//fragment_program NormalMapSpecularFP_GLSL glsl
-//{
-//	source Unified/glsl/NormalMapSpecularFP.glsl
-//    attach Lighting_FP_GLSL Unpack_FP_GLSL
-//	profiles glsl
-//	
-//	default_params
-//	{
-//		param_named_auto lightDiffuseColor light_diffuse_colour 0
-//		param_named_auto specularColor surface_specular_colour
-//		param_named_auto glossyness surface_shininess
-//		param_named_auto emissiveColor surface_emissive_colour 
-//        
-//        param_named normalTexture int 0
-//        param_named colorTexture int 1
-//	}
-//}
+fragment_program libRocketTexturePS_HLSL hlsl
+{
+	source libRocketPlugin.Resources.Shader.Gui.hlsl.TexturePS.hlsl
+	entry_point main
+	target ps_4_0
+}
 
 fragment_program libRocketTexturePS unified
 {
-    delegate libRocketTexturePS_CG
+	delegate libRocketTexturePS_CG
+    delegate libRocketTexturePS_HLSL
     //delegate NormalMapSpecularFP_GLSL
+}
+
+//-------------------------------------
+//Untextured Vertex Shader
+//-------------------------------------
+vertex_program libRocketNoTextureVS_HLSL hlsl
+{
+	source libRocketPlugin.Resources.Shader.Gui.hlsl.NoTextureVS.hlsl
+	entry_point main
+	target vs_4_0
+}
+
+vertex_program libRocketNoTextureVS unified
+{
+	//delegate libRocketNoTextureVS_CG
+	delegate libRocketNoTextureVS_HLSL
+    //delegate libRocketNoTextureVS_GLSL
+}
+
+//-------------------------------------
+//Textured Fragment Program
+//-------------------------------------
+fragment_program libRocketNoTexturePS_HLSL hlsl
+{
+	source libRocketPlugin.Resources.Shader.Gui.hlsl.NoTexturePS.hlsl
+	entry_point main
+	target ps_4_0
+}
+
+fragment_program libRocketNoTexturePS unified
+{
+	//delegate libRocketNoTexturePS_CG
+    delegate libRocketNoTexturePS_HLSL
+    //delegate libRocketNoTexturePS_GLSL
 }

@@ -67,7 +67,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>include;..\..\Dependencies\Ogre\Windows\Build\include;..\..\Dependencies\Ogre\src\OgreMain\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;..\..\Dependencies\Ogre\Windows\Build\include;..\..\Dependencies\Ogre\src\OgreMain\include;..\..\Dependencies\Ogre\src\Components\Overlay\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;WINDOWS;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -76,15 +76,17 @@
       <AdditionalOptions>/Zm250 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>OgreMain.lib</AdditionalDependencies>
+      <AdditionalDependencies>OgreMain.lib;OgreOverlay.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\Dependencies\Ogre\Windows\Build\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
       <Command>copy ..\..\Dependencies\Ogre\Windows\Build\bin\Release\OgreMain.dll $(OutDir)OgreMain.dll
+copy ..\..\Dependencies\Ogre\Windows\Build\bin\Release\OgreOverlay.dll $(OutDir)OgreOverlay.dll
 copy ..\..\Dependencies\Ogre\Windows\Build\bin\Release\Plugin_CgProgramManager.dll $(OutDir)Plugin_CgProgramManager.dll
 copy ..\..\Dependencies\Ogre\Windows\Build\bin\Release\RenderSystem_Direct3D9.dll $(OutDir)RenderSystem_Direct3D9.dll
+copy ..\..\Dependencies\Ogre\Windows\Build\bin\Release\RenderSystem_Direct3D11.dll $(OutDir)RenderSystem_Direct3D11.dll
 copy ..\..\Dependencies\Ogre\Windows\Dependencies\bin\Release\cg.dll $(OutDir)cg.dll
 </Command>
     </PostBuildEvent>
@@ -104,6 +106,7 @@ copy ..\..\Dependencies\Ogre\Windows\Dependencies\bin\Release\cg.dll $(OutDir)cg
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="OverlaySystem.cpp" />
     <ClCompile Include="Src\Animation.cpp" />
     <ClCompile Include="Src\AnimationState.cpp" />
     <ClCompile Include="src\AnimationStateIterator.cpp" />
