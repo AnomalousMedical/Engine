@@ -2,7 +2,6 @@
 
 #ifdef WINDOWS
 //#define D3D9
-#define D3D11
 #endif
 
 extern "C" _AnomalousExport Ogre::Root* Root_Create(const char* pluginFileName, const char* configFileName, const char* logFileName)
@@ -15,8 +14,7 @@ extern "C" _AnomalousExport Ogre::Plugin* RenderSystemPlugin_Create()
 #ifdef WINDOWS
 #ifdef D3D9
 	Ogre::Root::getSingleton().loadPlugin("RenderSystem_Direct3D9");
-#endif
-#ifdef D3D11
+#else
 	Ogre::Root::getSingleton().loadPlugin("RenderSystem_Direct3D11");
 #endif
 #endif
@@ -88,9 +86,9 @@ extern "C" _AnomalousExport Ogre::RenderSystem* Root_getPlatformDefaultRenderSys
 	rs->setConfigOption("Multi device memory hint", "Auto hardware buffers management");
 	//rs->setConfigOption("Fixed Pipeline Enabled", "Yes");
 	return rs;
-#endif
 
-#ifdef D3D11
+#else
+
 	return root->getRenderSystemByName("Direct3D11 Rendering Subsystem");
 #endif
 #endif
