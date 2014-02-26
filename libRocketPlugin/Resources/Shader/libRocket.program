@@ -1,11 +1,11 @@
 //-------------------------------------
 //Textured Vertex Shader
 //-------------------------------------
-vertex_program libRocketTextureVS_CG cg
+vertex_program libRocketTextureVS_CG hlsl
 {
-	source libRocketPlugin.Resources.Shader.Gui.cg.TextureVS.cg
+	source libRocketPlugin.Resources.Shader.Gui.cg.TextureVS.hlsl
 	entry_point main
-	profiles vs_3_0
+	target vs_3_0
 }
 
 vertex_program libRocketTextureVS_HLSL hlsl
@@ -25,11 +25,11 @@ vertex_program libRocketTextureVS unified
 //-------------------------------------
 //Textured Fragment Program
 //-------------------------------------
-fragment_program libRocketTexturePS_CG cg
+fragment_program libRocketTexturePS_CG hlsl
 {
-	source libRocketPlugin.Resources.Shader.Gui.cg.TexturePS.cg
+	source libRocketPlugin.Resources.Shader.Gui.cg.TexturePS.hlsl
 	entry_point main
-	profiles ps_3_0
+	target ps_3_0
 }
 
 fragment_program libRocketTexturePS_HLSL hlsl
@@ -49,6 +49,13 @@ fragment_program libRocketTexturePS unified
 //-------------------------------------
 //Untextured Vertex Shader
 //-------------------------------------
+vertex_program libRocketNoTextureVS_CG hlsl
+{
+	source libRocketPlugin.Resources.Shader.Gui.cg.NoTextureVS.hlsl
+	entry_point main
+	target vs_3_0
+}
+
 vertex_program libRocketNoTextureVS_HLSL hlsl
 {
 	source libRocketPlugin.Resources.Shader.Gui.hlsl.NoTextureVS.hlsl
@@ -58,7 +65,7 @@ vertex_program libRocketNoTextureVS_HLSL hlsl
 
 vertex_program libRocketNoTextureVS unified
 {
-	//delegate libRocketNoTextureVS_CG
+	delegate libRocketNoTextureVS_CG
 	delegate libRocketNoTextureVS_HLSL
     //delegate libRocketNoTextureVS_GLSL
 }
@@ -66,6 +73,13 @@ vertex_program libRocketNoTextureVS unified
 //-------------------------------------
 //Textured Fragment Program
 //-------------------------------------
+fragment_program libRocketNoTexturePS_CG hlsl
+{
+	source libRocketPlugin.Resources.Shader.Gui.cg.NoTexturePS.hlsl
+	entry_point main
+	target ps_3_0
+}
+
 fragment_program libRocketNoTexturePS_HLSL hlsl
 {
 	source libRocketPlugin.Resources.Shader.Gui.hlsl.NoTexturePS.hlsl
@@ -75,7 +89,7 @@ fragment_program libRocketNoTexturePS_HLSL hlsl
 
 fragment_program libRocketNoTexturePS unified
 {
-	//delegate libRocketNoTexturePS_CG
+	delegate libRocketNoTexturePS_CG
     delegate libRocketNoTexturePS_HLSL
     //delegate libRocketNoTexturePS_GLSL
 }

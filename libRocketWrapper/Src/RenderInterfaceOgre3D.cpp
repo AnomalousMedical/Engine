@@ -203,7 +203,7 @@ void RenderInterfaceOgre3D::RenderCompiledGeometry(Rocket::Core::CompiledGeometr
 
 	Ogre::GpuProgramParametersSharedPtr params = vertProg->createParameters();
 	params->setNamedConstant("elementWorldViewProj", lastProjectionMatrix * transform);
-	render_system->bindGpuProgramParameters(Ogre::GPT_VERTEX_PROGRAM, params, 0);
+	render_system->bindGpuProgramParameters(Ogre::GPT_VERTEX_PROGRAM, params, Ogre::GPV_ALL);
 
 	render_system->_render(ogre3d_geometry->render_operation);
 }

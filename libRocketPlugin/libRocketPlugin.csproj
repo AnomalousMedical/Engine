@@ -112,10 +112,10 @@
     <EmbeddedResource Include="Resources\NoImageFound.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Shader\Gui\cg\TexturePS.cg" />
+    <EmbeddedResource Include="Resources\Shader\Gui\cg\TexturePS.hlsl" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Shader\Gui\cg\TextureVS.cg" />
+    <EmbeddedResource Include="Resources\Shader\Gui\cg\TextureVS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Shader\libRocket.program" />
@@ -131,6 +131,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Shader\Gui\hlsl\NoTextureVS.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Shader\Gui\cg\NoTexturePS.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Shader\Gui\cg\NoTextureVS.hlsl" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
