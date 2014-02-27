@@ -1,11 +1,11 @@
 //----------------------------------
 //ColorVertex Vertex Program
 //----------------------------------
-vertex_program colorvertex\vs_CG cg	
+vertex_program colorvertex\vs_D3D9 hlsl
 {
-	source OgrePlugin.Resources.ColorVertex.cg
+	source OgrePlugin.Resources.ColorVertex.D3D9.ColorVertex.hlsl
 	entry_point main_vp
-	profiles vs_2_x
+	target vs_3_0
 
 	default_params
 	{
@@ -15,7 +15,7 @@ vertex_program colorvertex\vs_CG cg
 
 vertex_program colorvertex\vs_GLSL glsl
 {
-    source OgrePlugin.Resources.glsl.ColorVertexVP.glsl
+    source OgrePlugin.Resources.ColorVertex.glsl.ColorVertexVP.glsl
 
 	default_params
 	{
@@ -25,39 +25,39 @@ vertex_program colorvertex\vs_GLSL glsl
 
 vertex_program colorvertex\vs unified
 {
-    delegate colorvertex\vs_CG
+    delegate colorvertex\vs_D3D9
     delegate colorvertex\vs_GLSL
 }
 
 //----------------------------------
 //ColorVertex Fragment Program
 //----------------------------------
-fragment_program colorvertex\fs_CG cg
+fragment_program colorvertex\fs_D3D9 hlsl
 {
-	source OgrePlugin.Resources.ColorVertex.cg
+	source OgrePlugin.Resources.ColorVertex.D3D9.ColorVertex.hlsl
 	entry_point main_fp
-	profiles ps_2_x
+	target ps_3_0
 }
 
 fragment_program colorvertex\fs_GLSL glsl
 {
-    source OgrePlugin.Resources.glsl.ColorVertexFP.glsl
+    source OgrePlugin.Resources.ColorVertex.glsl.ColorVertexFP.glsl
 }
 
 fragment_program colorvertex\fs unified
 {
-    delegate colorvertex\fs_CG
+    delegate colorvertex\fs_D3D9
     delegate colorvertex\fs_GLSL
 }
 
 //----------------------------------
-//ColorVertex Vertex Program Alpha
+//ColorVertex Program Alpha
 //----------------------------------
-fragment_program colorvertex\fsAlpha_CG cg
+fragment_program colorvertex\fsAlpha_D3D9 hlsl
 {
-	source OgrePlugin.Resources.ColorVertex.cg
+	source OgrePlugin.Resources.ColorVertex.D3D9.ColorVertex.hlsl
 	entry_point main_fp_alpha
-	profiles ps_2_x
+	target ps_3_0
 
 	default_params
 	{
@@ -67,7 +67,7 @@ fragment_program colorvertex\fsAlpha_CG cg
 
 fragment_program colorvertex\fsAlpha_GLSL glsl
 {
-    source OgrePlugin.Resources.glsl.ColorVertexFPAlpha.glsl
+    source OgrePlugin.Resources.ColorVertex.glsl.ColorVertexFPAlpha.glsl
 
 	default_params
 	{
@@ -77,6 +77,6 @@ fragment_program colorvertex\fsAlpha_GLSL glsl
 
 fragment_program colorvertex\fsAlpha unified
 {
-    delegate colorvertex\fsAlpha_CG
+    delegate colorvertex\fsAlpha_D3D9
     delegate colorvertex\fsAlpha_GLSL
 }

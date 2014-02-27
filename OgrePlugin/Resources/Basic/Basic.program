@@ -1,11 +1,11 @@
 //-------------------------------------
 //Vertex Program
 //-------------------------------------
-vertex_program BasicWorldTexturedNoLightVP_CG cg
+vertex_program BasicWorldTexturedNoLightVP_D3D9 hlsl
 {
-	source OgrePlugin.Resources.Basic.cg.BasicWorldTexturedNoLightVP.cg
+	source OgrePlugin.Resources.Basic.D3D9.BasicWorldTexturedNoLightVP.hlsl
 	entry_point main
-	profiles vs_3_0
+	target vs_3_0
 
 	default_params
 	{
@@ -13,9 +13,9 @@ vertex_program BasicWorldTexturedNoLightVP_CG cg
 	}
 }
 
-vertex_program BasicWorldTexturedNoLightVP_HLSL hlsl
+vertex_program BasicWorldTexturedNoLightVP_D3D11 hlsl
 {
-	source OgrePlugin.Resources.Basic.hlsl.BasicWorldTexturedNoLightVP.hlsl
+	source OgrePlugin.Resources.Basic.D3D11.BasicWorldTexturedNoLightVP.hlsl
 	entry_point main
 	target vs_4_0
 
@@ -25,26 +25,10 @@ vertex_program BasicWorldTexturedNoLightVP_HLSL hlsl
 	}
 }
 
-//vertex_program UnifiedVP_GLSL glsl
-//{
-//	source Unified/glsl/MainVP.glsl
-//    attach Pack_VP_GLSL
-//	profiles glsl
-//	
-//	default_params
-//	{
-//		param_named_auto worldViewProj worldviewproj_matrix
-//		param_named_auto eyePosition camera_position_object_space
-//		param_named_auto lightAttenuation light_attenuation 0
-//		param_named_auto lightPosition light_position_object_space 0
-//	}
-//}
-
 vertex_program BasicWorldTexturedNoLightVP unified
 {
-	delegate BasicWorldTexturedNoLightVP_CG
-	delegate BasicWorldTexturedNoLightVP_HLSL
-    //delegate BasicWorldTexturedNoLightVP_GLSL
+	delegate BasicWorldTexturedNoLightVP_D3D9
+	delegate BasicWorldTexturedNoLightVP_D3D11
 }
 
 //----------------------------------------------------------
@@ -56,41 +40,22 @@ vertex_program BasicWorldTexturedNoLightVP unified
 //-------------------------------------
 //NormalMapSpecular
 //-------------------------------------
-fragment_program BasicTexturedNoLightPS_CG cg
+fragment_program BasicTexturedNoLightPS_D3D9 hlsl
 {
-	source OgrePlugin.Resources.Basic.cg.BasicTexturedNoLightPS.cg
+	source OgrePlugin.Resources.Basic.D3D9.BasicTexturedNoLightPS.hlsl
 	entry_point main
-	profiles ps_3_0
+	target ps_3_0
 }
 
-fragment_program BasicTexturedNoLightPS_HLSL hlsl
+fragment_program BasicTexturedNoLightPS_D3D11 hlsl
 {
-	source OgrePlugin.Resources.Basic.hlsl.BasicTexturedNoLightPS.hlsl
+	source OgrePlugin.Resources.Basic.D3D11.BasicTexturedNoLightPS.hlsl
 	entry_point main
 	target ps_4_0
 }
 
-//fragment_program NormalMapSpecularFP_GLSL glsl
-//{
-//	source Unified/glsl/NormalMapSpecularFP.glsl
-//    attach Lighting_FP_GLSL Unpack_FP_GLSL
-//	profiles glsl
-//	
-//	default_params
-//	{
-//		param_named_auto lightDiffuseColor light_diffuse_colour 0
-//		param_named_auto specularColor surface_specular_colour
-//		param_named_auto glossyness surface_shininess
-//		param_named_auto emissiveColor surface_emissive_colour 
-//        
-//        param_named normalTexture int 0
-//        param_named colorTexture int 1
-//	}
-//}
-
 fragment_program BasicTexturedNoLightPS unified
 {
-    delegate BasicTexturedNoLightPS_CG
-	delegate BasicTexturedNoLightPS_HLSL
-    //delegate NormalMapSpecularFP_GLSL
+    delegate BasicTexturedNoLightPS_D3D9
+	delegate BasicTexturedNoLightPS_D3D11
 }

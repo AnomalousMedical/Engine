@@ -7,4 +7,3 @@ StatsFont
 	vertex_program_ref BasicWorldTexturedNoLightVP
 	fragment_program_ref BasicTexturedNoLightPS
 }
-

@@ -198,11 +198,12 @@
     <Compile Include="Wrapper\Utility\SharedPtrCollection.cs" />
     <Compile Include="Wrapper\Utility\SharedPtrEntry.cs" />
     <Compile Include="Wrapper\Utility\WrapperMath.cs" />
-    <EmbeddedResource Include="Resources\Basic\cg\BasicTexturedNoLightPS.cg" />
-    <EmbeddedResource Include="Resources\Basic\cg\BasicWorldTexturedNoLightVP.cg" />
+    <EmbeddedResource Include="Resources\Basic\D3D9\BasicTexturedNoLightPS.hlsl" />
+    <EmbeddedResource Include="Resources\Basic\D3D9\BasicWorldTexturedNoLightVP.hlsl" />
     <EmbeddedResource Include="Resources\Basic\Basic.program" />
-    <EmbeddedResource Include="Resources\Basic\hlsl\BasicTexturedNoLightPS.hlsl" />
-    <EmbeddedResource Include="Resources\Basic\hlsl\BasicWorldTexturedNoLightVP.hlsl" />
+    <EmbeddedResource Include="Resources\Basic\D3D11\BasicTexturedNoLightPS.hlsl" />
+    <EmbeddedResource Include="Resources\Basic\D3D11\BasicWorldTexturedNoLightVP.hlsl" />
+    <EmbeddedResource Include="Resources\ColorVertex\D3D9\ColorVertex.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">
@@ -215,14 +216,14 @@
     <EmbeddedResource Include="Resources\StatsFont.fontdef" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\ColorVertex.cg" />
-    <EmbeddedResource Include="Resources\ColorVertex.material" />
-    <EmbeddedResource Include="Resources\ColorVertex.program" />
+    <EmbeddedResource Include="Resources\ColorVertex\D3D11\ColorVertex.hlsl" />
+    <EmbeddedResource Include="Resources\ColorVertex\ColorVertex.material" />
+    <EmbeddedResource Include="Resources\ColorVertex\ColorVertex.program" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\glsl\ColorVertexFP.glsl" />
-    <EmbeddedResource Include="Resources\glsl\ColorVertexVP.glsl" />
-    <EmbeddedResource Include="Resources\glsl\ColorVertexFPAlpha.glsl" />
+    <EmbeddedResource Include="Resources\ColorVertex\glsl\ColorVertexFP.glsl" />
+    <EmbeddedResource Include="Resources\ColorVertex\glsl\ColorVertexVP.glsl" />
+    <EmbeddedResource Include="Resources\ColorVertex\glsl\ColorVertexFPAlpha.glsl" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -112,31 +112,31 @@
     <EmbeddedResource Include="Resources\NoImageFound.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Shader\Gui\cg\TexturePS.hlsl" />
+    <EmbeddedResource Include="Resources\Shader\Gui\D3D9\TexturePS.hlsl" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Shader\Gui\cg\TextureVS.hlsl" />
+    <EmbeddedResource Include="Resources\Shader\Gui\D3D9\TextureVS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Shader\libRocket.program" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Shader\Gui\hlsl\TexturePS.hlsl" />
+    <EmbeddedResource Include="Resources\Shader\Gui\D3D11\TexturePS.hlsl" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Shader\Gui\hlsl\TextureVS.hlsl" />
+    <EmbeddedResource Include="Resources\Shader\Gui\D3D11\TextureVS.hlsl" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Shader\Gui\hlsl\NoTexturePS.hlsl" />
+    <EmbeddedResource Include="Resources\Shader\Gui\D3D11\NoTexturePS.hlsl" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Shader\Gui\hlsl\NoTextureVS.hlsl" />
+    <EmbeddedResource Include="Resources\Shader\Gui\D3D11\NoTextureVS.hlsl" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Shader\Gui\cg\NoTexturePS.hlsl" />
+    <EmbeddedResource Include="Resources\Shader\Gui\D3D9\NoTexturePS.hlsl" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Shader\Gui\cg\NoTextureVS.hlsl" />
+    <EmbeddedResource Include="Resources\Shader\Gui\D3D9\NoTextureVS.hlsl" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
