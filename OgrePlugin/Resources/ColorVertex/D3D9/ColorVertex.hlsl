@@ -36,3 +36,9 @@ float4 main_fp_alpha(vertout input, uniform float4 alpha) : COLOR0
 	return input.oColor;
 }
 
+//Fragment program
+float4 white_fp() : SV_TARGET	
+{
+	return float4(1, 1, 1, 1);
+}
+

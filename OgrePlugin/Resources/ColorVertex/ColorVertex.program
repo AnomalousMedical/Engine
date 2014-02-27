@@ -114,3 +114,32 @@ fragment_program colorvertex\fsAlpha unified
 	delegate colorvertex\fsAlpha_D3D11
     delegate colorvertex\fsAlpha_GLSL
 }
+
+//----------------------------------
+//ColorVertex White Fragment Program
+//----------------------------------
+fragment_program colorvertexwhite\fs_D3D9 hlsl
+{
+	source OgrePlugin.Resources.ColorVertex.D3D9.ColorVertex.hlsl
+	entry_point white_fp
+	target ps_3_0
+}
+
+fragment_program colorvertexwhite\fs_D3D11 hlsl
+{
+	source OgrePlugin.Resources.ColorVertex.D3D11.ColorVertex.hlsl
+	entry_point white_fp
+	target ps_4_0
+}
+
+fragment_program colorvertexwhite\fs_GLSL glsl
+{
+    source OgrePlugin.Resources.ColorVertex.glsl.ColorVertexWhiteFP.glsl
+}
+
+fragment_program colorvertexwhite\fs unified
+{
+    delegate colorvertexwhite\fs_D3D9
+	delegate colorvertexwhite\fs_D3D11
+    delegate colorvertexwhite\fs_GLSL
+}

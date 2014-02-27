@@ -155,13 +155,13 @@ namespace OgrePlugin
                 using (MaterialPtr baseWhite = MaterialManager.getInstance().getByName("BaseWhite"))
                 {
                     baseWhite.Value.getTechnique(0).getPass(0).setVertexProgram("colorvertex\\vs");
-                    baseWhite.Value.getTechnique(0).getPass(0).setFragmentProgram("colorvertex\\fs");
+                    baseWhite.Value.getTechnique(0).getPass(0).setFragmentProgram("colorvertexwhite\\fs");
                 }
 
                 using (MaterialPtr baseWhiteNoLighting = MaterialManager.getInstance().getByName("BaseWhiteNoLighting"))
                 {
                     baseWhiteNoLighting.Value.getTechnique(0).getPass(0).setVertexProgram("colorvertex\\vs");
-                    baseWhiteNoLighting.Value.getTechnique(0).getPass(0).setFragmentProgram("colorvertex\\fs");
+                    baseWhiteNoLighting.Value.getTechnique(0).getPass(0).setFragmentProgram("colorvertexwhite\\fs");
                 }
             }
             catch (Exception e)

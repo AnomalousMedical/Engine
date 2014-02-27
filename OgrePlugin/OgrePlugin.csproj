@@ -204,6 +204,7 @@
     <EmbeddedResource Include="Resources\Basic\D3D11\BasicTexturedNoLightPS.hlsl" />
     <EmbeddedResource Include="Resources\Basic\D3D11\BasicWorldTexturedNoLightVP.hlsl" />
     <EmbeddedResource Include="Resources\ColorVertex\D3D9\ColorVertex.hlsl" />
+    <EmbeddedResource Include="Resources\ColorVertex\glsl\ColorVertexWhiteFP.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">
