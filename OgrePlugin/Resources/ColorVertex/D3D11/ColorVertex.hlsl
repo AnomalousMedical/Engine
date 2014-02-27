@@ -6,7 +6,7 @@ struct vertin
 
 struct vertout
 {
-	float4   oPosition : POSITION;
+	float4   oPosition : SV_POSITION;
 	float4   oColor    : COLOR0;
 };
 
@@ -24,13 +24,13 @@ vertout main_vp(vertin input,
 }
 
 //Fragment program
-float4 main_fp(vertout input) : COLOR0	
+float4 main_fp(vertout input) : SV_TARGET	
 {
 	return input.oColor;
 }
 
 //Fragment program
-float4 main_fp_alpha(vertout input, uniform float4 alpha) : COLOR0	
+float4 main_fp_alpha(vertout input, uniform float4 alpha) : SV_TARGET	
 {
 	input.oColor.a = alpha.a;
 	return input.oColor;

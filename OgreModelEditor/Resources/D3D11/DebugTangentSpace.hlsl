@@ -46,7 +46,7 @@ float4 mainVP
 		out v2f output,		
 
 		const uniform float4x4 worldViewProj	//The world view projection matrix
-) : POSITION
+) : SV_POSITION
 {
 	output.tangent = pack(normalize(input.tangent));
 	output.binormal = pack(normalize(input.binormal));
@@ -60,29 +60,32 @@ float4 mainVP
 float4 showBinormalsFP
 (
 	    in v2f input
-) : COLOR0
+) : SV_TARGET
 {
 	float4 color;
 	color.rgb = input.binormal.rgb;
+	color.a = 1;
 	return color;
 }
 
 float4 showTangentsFP
 (
 	    in v2f input
-) : COLOR0
+) : SV_TARGET
 {
 	float4 color;
 	color.rgb = input.tangent.rgb;
+	color.a = 1;
 	return color;
 }
 
 float4 showNormalsFP
 (
 	    in v2f input
-) : COLOR0
+) : SV_TARGET
 {
 	float4 color;
 	color.rgb = input.normal.rgb;
+	color.a = 1;
 	return color;
 }

@@ -131,7 +131,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <EmbeddedResource Include="Resources\DebugTangentSpace.cg" />
+    <EmbeddedResource Include="Resources\D3D9\DebugTangentSpace.hlsl" />
     <EmbeddedResource Include="Resources\DebugTangentSpace.material" />
     <EmbeddedResource Include="Resources\DebugTangentSpace.program" />
     <EmbeddedResource Include="Resources\FixedFunctionTextured.material" />
@@ -183,7 +183,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ogre.ico" />
+    <EmbeddedResource Include="Resources\D3D11\DebugTangentSpace.hlsl" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
