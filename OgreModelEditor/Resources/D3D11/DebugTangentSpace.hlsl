@@ -17,6 +17,9 @@ struct a2v
 //Vertex program to fragment program struct
 struct v2f
 {
+	//Input position
+	float4 position : SV_POSITION;
+
 	//Input tangent
 	float3 tangent : TEXCOORD0;
 
@@ -40,20 +43,20 @@ float3 unpack(float3 input)
 }
 
 //Vertex program
-float4 mainVP
+void mainVP
 (
 		in a2v input,
 		out v2f output,		
 
 		const uniform float4x4 worldViewProj	//The world view projection matrix
-) : SV_POSITION
+)
 {
 	output.tangent = pack(normalize(input.tangent));
 	output.binormal = pack(normalize(input.binormal));
 	output.normal = pack(normalize(input.normal));
 
 	// Transform the current vertex from object space to clip space
-	return mul(worldViewProj, input.position);
+	output.position = mul(worldViewProj, input.position);
 }
 
 //Fragment program
