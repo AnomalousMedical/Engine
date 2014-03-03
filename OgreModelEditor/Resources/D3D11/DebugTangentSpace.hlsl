@@ -4,6 +4,9 @@ struct a2v
 	//Input position
 	float4 position : POSITION;
 
+	//Input texture coords
+	float2 texCoords : TEXCOORD0;
+
 	//Input tangent
 	float3 tangent : TANGENT0;
 
@@ -20,14 +23,17 @@ struct v2f
 	//Input position
 	float4 position : SV_POSITION;
 
+	//Output texture coords
+	float2 texCoords : TEXCOORD0;
+
 	//Input tangent
-	float3 tangent : TEXCOORD0;
+	float3 tangent : TEXCOORD1;
 
 	//Input binormal
-	float3 binormal : TEXCOORD1;
+	float3 binormal : TEXCOORD2;
 
 	//Input normal
-	float3 normal : TEXCOORD2;
+	float3 normal : TEXCOORD3;
 };
 
 //Pack function packs values from -1 to 1 to 0 and 1
@@ -51,6 +57,7 @@ void mainVP
 		const uniform float4x4 worldViewProj	//The world view projection matrix
 )
 {
+	output.texCoords = output.texCoords;
 	output.tangent = pack(normalize(input.tangent));
 	output.binormal = pack(normalize(input.binormal));
 	output.normal = pack(normalize(input.normal));
@@ -89,6 +96,20 @@ float4 showNormalsFP
 {
 	float4 color;
 	color.rgb = input.normal.rgb;
+	color.a = 1;
+	return color;
+}
+
+float4 showTextureFP
+(
+	    in v2f input,
+
+		uniform Texture2D daTexture : register(t0),	//The normal map
+		uniform SamplerState daTextureSampler : register(s0)	//The normal map
+) : SV_TARGET
+{
+	float4 color;
+	color.rgb = daTexture.Sample(daTextureSampler, input.texCoords.xy);
 	color.a = 1;
 	return color;
 }

@@ -60,3 +60,27 @@ material NormalDebug
 		}
 	}
 }
+
+material FixedFunctionTextured
+{
+	technique
+	{
+		pass
+		{
+			vertex_program_ref DebugTangentSpace\VP
+			{
+				
+			}
+
+			fragment_program_ref DebugTangentSpace\TextureFP
+			{
+				
+			}
+
+			texture_unit
+			{
+				texture None.tga
+			}
+		}
+	}
+}

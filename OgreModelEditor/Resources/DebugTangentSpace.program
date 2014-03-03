@@ -99,3 +99,26 @@ fragment_program DebugTangentSpace\NormalsFP unified
 	delegate DebugTangentSpace\NormalsFP_D3D9
 	delegate DebugTangentSpace\NormalsFP_D3D11
 }
+
+//----------------------------
+//Show Texture Shader
+//----------------------------
+fragment_program DebugTangentSpace\TextureFP_D3D9 hlsl
+{
+	source OgreModelEditor.Resources.D3D9.DebugTangentSpace.hlsl
+	entry_point showTextureFP
+	target ps_3_0
+}
+
+fragment_program DebugTangentSpace\TextureFP_D3D11 hlsl
+{
+	source OgreModelEditor.Resources.D3D11.DebugTangentSpace.hlsl
+	entry_point showTextureFP
+	target ps_4_0
+}
+
+fragment_program DebugTangentSpace\TextureFP unified
+{
+	delegate DebugTangentSpace\TextureFP_D3D9
+	delegate DebugTangentSpace\TextureFP_D3D11
+}

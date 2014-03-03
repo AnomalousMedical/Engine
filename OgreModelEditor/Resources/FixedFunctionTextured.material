@@ -1,14 +1,1 @@
-material FixedFunctionTextured
-{
-	technique
-	{
-		pass
-		{
 
-			texture_unit
-			{
-				texture None.tga
-			}
-		}
-	}
-}
