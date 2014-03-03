@@ -15,11 +15,17 @@ vertex_program libRocketTextureVS_D3D11 hlsl
 	target vs_4_0
 }
 
+fragment_program libRocketTextureVS_GLSL glsl
+{
+	source libRocketPlugin.Resources.Shader.Gui.glsl.TextureVS.glsl
+	profiles glsl
+}
+
 vertex_program libRocketTextureVS unified
 {
 	delegate libRocketTextureVS_D3D9
 	delegate libRocketTextureVS_D3D11
-    //delegate UnifiedVP_GLSL
+    delegate libRocketTextureVS_GLSL
 }
 
 //-------------------------------------
@@ -39,11 +45,22 @@ fragment_program libRocketTexturePS_D3D11 hlsl
 	target ps_4_0
 }
 
+fragment_program libRocketTexturePS_GLSL glsl
+{
+	source libRocketPlugin.Resources.Shader.Gui.glsl.TexturePS.glsl
+	profiles glsl
+	
+	default_params
+	{        
+        param_named colorTexture int 0
+	}
+}
+
 fragment_program libRocketTexturePS unified
 {
 	delegate libRocketTexturePS_D3D9
     delegate libRocketTexturePS_D3D11
-    //delegate NormalMapSpecularFP_GLSL
+    delegate libRocketTexturePS_GLSL
 }
 
 //-------------------------------------
@@ -63,11 +80,17 @@ vertex_program libRocketNoTextureVS_D3D11 hlsl
 	target vs_4_0
 }
 
+fragment_program libRocketNoTextureVS_GLSL glsl
+{
+	source libRocketPlugin.Resources.Shader.Gui.glsl.NoTextureVS.glsl
+	profiles glsl
+}
+
 vertex_program libRocketNoTextureVS unified
 {
 	delegate libRocketNoTextureVS_D3D9
 	delegate libRocketNoTextureVS_D3D11
-    //delegate libRocketNoTextureVS_GLSL
+    delegate libRocketNoTextureVS_GLSL
 }
 
 //-------------------------------------
@@ -87,9 +110,15 @@ fragment_program libRocketNoTexturePS_D3D11 hlsl
 	target ps_4_0
 }
 
+fragment_program libRocketNoTexturePS_GLSL glsl
+{
+	source libRocketPlugin.Resources.Shader.Gui.glsl.NoTexturePS.glsl
+	profiles glsl
+}
+
 fragment_program libRocketNoTexturePS unified
 {
 	delegate libRocketNoTexturePS_D3D9
     delegate libRocketNoTexturePS_D3D11
-    //delegate libRocketNoTexturePS_GLSL
+    delegate libRocketNoTexturePS_GLSL
 }

@@ -1,4 +1,6 @@
 //Input
+uniform mat4 elementWorldViewProj;	//The world view projection matrix
+
 attribute vec4 vertex; //Vertex
 attribute vec2 uv0; //Uv Coord
 attribute vec4 colour; //Color
@@ -14,5 +16,5 @@ void main(void)
 {
 	texCoords = uv0;
 	passColor = colour;
-	gl_Position = vertex;
+	gl_Position = elementWorldViewProj * vertex;
 }
