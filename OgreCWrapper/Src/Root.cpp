@@ -36,11 +36,6 @@ extern "C" _AnomalousExport void RenderSystemPlugin_Delete(Ogre::Plugin* renderS
 	
 }
 
-extern "C" _AnomalousExport void CGPlugin_Delete(Ogre::Plugin* cgPlugin)
-{
-	
-}
-
 extern "C" _AnomalousExport void Root_saveConfig(Ogre::Root* root)
 {
 	root->saveConfig();

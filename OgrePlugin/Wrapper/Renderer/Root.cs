@@ -372,16 +372,10 @@ namespace OgreWrapper
         private static extern IntPtr RenderSystemPlugin_Create();
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr CGPlugin_Create();
-
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Root_Delete(IntPtr ogreRoot);
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void RenderSystemPlugin_Delete(IntPtr renderSystemPlugin);
-
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void CGPlugin_Delete(IntPtr cgPlugin);
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Root_saveConfig(IntPtr root);
