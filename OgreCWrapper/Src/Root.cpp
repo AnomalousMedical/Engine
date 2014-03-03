@@ -1,5 +1,9 @@
 #include "Stdafx.h"
 
+//for opengl uncomment the following 2 lines
+#define MAC_OSX
+#undef WINDOWS
+
 #ifdef WINDOWS
 //#define D3D9
 #endif

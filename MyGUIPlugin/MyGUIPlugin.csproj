@@ -286,6 +286,8 @@
     <EmbeddedResource Include="Resources\Shader\Gui.program" />
     <EmbeddedResource Include="Resources\Shader\Gui\D3D11\TexturePS.hlsl" />
     <EmbeddedResource Include="Resources\Shader\Gui\D3D11\TextureVS.hlsl" />
+    <EmbeddedResource Include="Resources\Shader\Gui\glsl\TexturePS.glsl" />
+    <EmbeddedResource Include="Resources\Shader\Gui\glsl\TextureVS.glsl" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\MyGUIPlugin_DejaVuSans.ttf">

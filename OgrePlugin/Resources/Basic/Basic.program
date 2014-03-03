@@ -25,10 +25,22 @@ vertex_program BasicWorldTexturedNoLightVP_D3D11 hlsl
 	}
 }
 
+fragment_program BasicWorldTexturedNoLightVP_GLSL glsl
+{
+	source OgrePlugin.Resources.Basic.glsl.BasicWorldTexturedNoLightVP.glsl
+	profiles glsl
+	
+	default_params
+	{        
+        param_named_auto worldViewProj worldviewproj_matrix
+	}
+}
+
 vertex_program BasicWorldTexturedNoLightVP unified
 {
 	delegate BasicWorldTexturedNoLightVP_D3D9
 	delegate BasicWorldTexturedNoLightVP_D3D11
+	delegate BasicWorldTexturedNoLightVP_GLSL
 }
 
 //----------------------------------------------------------
@@ -54,8 +66,20 @@ fragment_program BasicTexturedNoLightPS_D3D11 hlsl
 	target ps_4_0
 }
 
+fragment_program BasicTexturedNoLightPS_GLSL glsl
+{
+	source OgrePlugin.Resources.Basic.glsl.BasicTexturedNoLightPS.glsl
+	profiles glsl
+	
+	default_params
+	{        
+        param_named colorTexture int 0
+	}
+}
+
 fragment_program BasicTexturedNoLightPS unified
 {
     delegate BasicTexturedNoLightPS_D3D9
 	delegate BasicTexturedNoLightPS_D3D11
+	delegate BasicTexturedNoLightPS_GLSL
 }

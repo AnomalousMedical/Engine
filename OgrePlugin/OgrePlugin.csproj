@@ -205,6 +205,8 @@
     <EmbeddedResource Include="Resources\Basic\D3D11\BasicWorldTexturedNoLightVP.hlsl" />
     <EmbeddedResource Include="Resources\ColorVertex\D3D9\ColorVertex.hlsl" />
     <EmbeddedResource Include="Resources\ColorVertex\glsl\ColorVertexWhiteFP.glsl" />
+    <EmbeddedResource Include="Resources\Basic\glsl\BasicWorldTexturedNoLightVP.glsl" />
+    <EmbeddedResource Include="Resources\Basic\glsl\BasicTexturedNoLightPS.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">
@@ -226,6 +228,7 @@
     <EmbeddedResource Include="Resources\ColorVertex\glsl\ColorVertexVP.glsl" />
     <EmbeddedResource Include="Resources\ColorVertex\glsl\ColorVertexFPAlpha.glsl" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
