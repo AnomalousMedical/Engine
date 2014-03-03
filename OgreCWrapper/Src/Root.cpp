@@ -26,18 +26,6 @@ extern "C" _AnomalousExport Ogre::Plugin* RenderSystemPlugin_Create()
 	return NULL;
 }
 
-extern "C" _AnomalousExport Ogre::Plugin* CGPlugin_Create()
-{
-#ifdef WINDOWS
-	Ogre::Root::getSingleton().loadPlugin("Plugin_CgProgramManager");
-#endif
-
-#ifdef MAC_OSX
-	Ogre::Root::getSingleton().loadPlugin("Plugin_CgProgramManager");
-#endif
-	return NULL;
-}
-
 extern "C" _AnomalousExport void Root_Delete(Ogre::Root* ogreRoot)
 {
 	delete ogreRoot;

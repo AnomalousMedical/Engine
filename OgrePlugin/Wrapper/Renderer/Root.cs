@@ -28,7 +28,6 @@ namespace OgreWrapper
 
         IntPtr ogreRoot;
         IntPtr renderSystemPlugin;
-        IntPtr cgPlugin;
 
         IntPtr nativeFrameListener;
         FrameEventCallback frameStart;
@@ -66,7 +65,6 @@ namespace OgreWrapper
         {
             ogreRoot = Root_Create(pluginFileName, configFileName, logFileName);
             ogreLog = new OgreLogConnection();
-            cgPlugin = CGPlugin_Create();
             renderSystemPlugin = RenderSystemPlugin_Create();
             frameStart = new FrameEventCallback(frameStartedCallback);
             frameQueue = new FrameEventCallback(frameQueuedCallback);
@@ -95,7 +93,6 @@ namespace OgreWrapper
             embeddedScalableResources.Dispose();
             scalableEngineArchives.Dispose();
             RenderSystemPlugin_Delete(renderSystemPlugin);
-            CGPlugin_Delete(cgPlugin);
             if (Disposed != null)
             {
                 Disposed.Invoke();

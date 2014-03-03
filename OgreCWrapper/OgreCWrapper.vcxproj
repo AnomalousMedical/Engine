@@ -84,10 +84,8 @@
     <PostBuildEvent>
       <Command>copy ..\..\Dependencies\Ogre\Windows\Build\bin\Release\OgreMain.dll $(OutDir)OgreMain.dll
 copy ..\..\Dependencies\Ogre\Windows\Build\bin\Release\OgreOverlay.dll $(OutDir)OgreOverlay.dll
-copy ..\..\Dependencies\Ogre\Windows\Build\bin\Release\Plugin_CgProgramManager.dll $(OutDir)Plugin_CgProgramManager.dll
 copy ..\..\Dependencies\Ogre\Windows\Build\bin\Release\RenderSystem_Direct3D9.dll $(OutDir)RenderSystem_Direct3D9.dll
 copy ..\..\Dependencies\Ogre\Windows\Build\bin\Release\RenderSystem_Direct3D11.dll $(OutDir)RenderSystem_Direct3D11.dll
-copy ..\..\Dependencies\Ogre\Windows\Dependencies\bin\Release\cg.dll $(OutDir)cg.dll
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
