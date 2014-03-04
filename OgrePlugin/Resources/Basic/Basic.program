@@ -25,7 +25,7 @@ vertex_program BasicWorldTexturedNoLightVP_D3D11 hlsl
 	}
 }
 
-fragment_program BasicWorldTexturedNoLightVP_GLSL glsl
+vertex_program BasicWorldTexturedNoLightVP_GLSL glsl
 {
 	source OgrePlugin.Resources.Basic.glsl.BasicWorldTexturedNoLightVP.glsl
 	profiles glsl
