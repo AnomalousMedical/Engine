@@ -12,15 +12,17 @@ namespace libRocketPlugin
         private Context context;
         private RenderInterfaceOgre3D renderInterface;
         private IntSize2 renderDimensions;
+        private bool requiresTextureFlipping;
 
         public event Action FrameCompleted;
 
-        public RocketRenderQueueListener(Context context, RenderInterfaceOgre3D renderInterface)
+        public RocketRenderQueueListener(Context context, RenderInterfaceOgre3D renderInterface, bool requiresTextureFlipping)
         {
             this.context = context;
             this.renderInterface = renderInterface;
             Vector2i dimensions = context.Dimensions;
             renderDimensions = new IntSize2(dimensions.X, dimensions.Y);
+            this.requiresTextureFlipping = requiresTextureFlipping;
         }
 
         public void preRenderQueues()
@@ -41,7 +43,7 @@ namespace libRocketPlugin
             if (queueGroupId == 100)
             {
                 context.Update();
-                renderInterface.ConfigureRenderSystem(renderDimensions.Width, renderDimensions.Height);
+                renderInterface.ConfigureRenderSystem(renderDimensions.Width, renderDimensions.Height, requiresTextureFlipping);
                 context.Render();
             }
         }

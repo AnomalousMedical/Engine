@@ -324,12 +324,12 @@ float RenderInterfaceOgre3D::GetVerticalTexelOffset()
 }
 
 // Configures Ogre's rendering system for rendering Rocket.
-void RenderInterfaceOgre3D::ConfigureRenderSystem(const int &renderWidth, const int &renderHeight)
+void RenderInterfaceOgre3D::ConfigureRenderSystem(const int &renderWidth, const int &renderHeight, const bool &requiresTextureFlipping)
 {
 	Ogre::RenderSystem* render_system = Ogre::Root::getSingleton().getRenderSystem();
 
 	// Set up the projection and view matrices.
-	BuildProjectionMatrix(lastProjectionMatrix, renderWidth, renderHeight);
+	BuildProjectionMatrix(lastProjectionMatrix, renderWidth, renderHeight, requiresTextureFlipping);
 	render_system->_setProjectionMatrix(lastProjectionMatrix);
 	render_system->_setViewMatrix(Ogre::Matrix4::IDENTITY);
 
@@ -376,7 +376,7 @@ void RenderInterfaceOgre3D::ConfigureRenderSystem(const int &renderWidth, const 
 }
 
 // Builds an OpenGL-style orthographic projection matrix.
-void RenderInterfaceOgre3D::BuildProjectionMatrix(Ogre::Matrix4& projection_matrix, const int &renderWidth, const int &renderHeight)
+void RenderInterfaceOgre3D::BuildProjectionMatrix(Ogre::Matrix4& projection_matrix, const int &renderWidth, const int &renderHeight, const bool &requiresTextureFlipping)
 {
 	float z_near = -1;
 	float z_far = 1;
@@ -390,6 +390,12 @@ void RenderInterfaceOgre3D::BuildProjectionMatrix(Ogre::Matrix4& projection_matr
 	projection_matrix[1][3]= 1.0000000f;
 	projection_matrix[2][2]= -2.0f / (z_far - z_near);
 	projection_matrix[3][3]= 1.0000000f;
+
+	if(requiresTextureFlipping)
+	{
+		projection_matrix[1][1] = -projection_matrix[1][1];
+		projection_matrix[1][3] = -projection_matrix[1][3];
+	}
 }
 
 /// Returns the number of pixels per inch.
@@ -428,9 +434,9 @@ extern "C" _AnomalousExport void RenderInterfaceOgre3D_Delete(RenderInterfaceOgr
 	delete renderInterface;
 }
 
-extern "C" _AnomalousExport void RenderInterfaceOgre3D_ConfigureRenderSystem(RenderInterfaceOgre3D* renderInterface, int &renderWidth, int &renderHeight)
+extern "C" _AnomalousExport void RenderInterfaceOgre3D_ConfigureRenderSystem(RenderInterfaceOgre3D* renderInterface, int &renderWidth, int &renderHeight, bool &requiresTextureFlipping)
 {
-	renderInterface->ConfigureRenderSystem(renderWidth, renderHeight);
+	renderInterface->ConfigureRenderSystem(renderWidth, renderHeight, requiresTextureFlipping);
 }
 
 extern "C" _AnomalousExport float RenderInterfaceOgre3D_GetPixelsPerInch(RenderInterfaceOgre3D* renderInterface)

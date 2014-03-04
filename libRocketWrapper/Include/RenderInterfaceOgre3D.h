@@ -72,7 +72,7 @@ class RenderInterfaceOgre3D : public Rocket::Core::RenderInterface
 		float GetVerticalTexelOffset();
 
 		// Configures Ogre's rendering system for rendering Rocket.
-		void ConfigureRenderSystem(const int &renderWidth, const int &renderHeight);
+		void ConfigureRenderSystem(const int &renderWidth, const int &renderHeight, const bool &requiresTextureFlipping);
 
 		/// Returns the number of pixels per inch.
 		/// @returns The number of pixels per inch. The default implementation returns 100.
@@ -103,7 +103,7 @@ class RenderInterfaceOgre3D : public Rocket::Core::RenderInterface
 		float pixelScale;
 
 		// Builds an OpenGL-style orthographic projection matrix.
-		void BuildProjectionMatrix(Ogre::Matrix4& projection_matrix, const int &renderWidth, const int &renderHeight);
+		void BuildProjectionMatrix(Ogre::Matrix4& projection_matrix, const int &renderWidth, const int &renderHeight, const bool &requiresTextureFlipping);
 
 		//Shader render stuff
 		Ogre::HighLevelGpuProgramPtr textureVertProg;

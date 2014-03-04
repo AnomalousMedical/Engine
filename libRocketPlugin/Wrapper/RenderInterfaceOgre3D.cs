@@ -43,9 +43,9 @@ namespace libRocketPlugin
             }
         }
 
-        public void ConfigureRenderSystem(int windowWidth, int windowHeight)
+        public void ConfigureRenderSystem(int windowWidth, int windowHeight, bool requiresTextureFlipping)
         {
-            RenderInterfaceOgre3D_ConfigureRenderSystem(renderInterface, ref windowWidth, ref windowHeight);
+            RenderInterfaceOgre3D_ConfigureRenderSystem(renderInterface, ref windowWidth, ref windowHeight, ref requiresTextureFlipping);
         }
 
         public float PixelsPerInch
@@ -81,7 +81,7 @@ namespace libRocketPlugin
         private static extern void RenderInterfaceOgre3D_Delete(IntPtr renderInterface);
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
-        private static extern void RenderInterfaceOgre3D_ConfigureRenderSystem(IntPtr renderInterface, ref int renderWidth, ref int renderHeight);
+        private static extern void RenderInterfaceOgre3D_ConfigureRenderSystem(IntPtr renderInterface, ref int renderWidth, ref int renderHeight, ref bool requiresTextureFlipping);
 
         [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern float RenderInterfaceOgre3D_GetPixelsPerInch(IntPtr renderInterface);
