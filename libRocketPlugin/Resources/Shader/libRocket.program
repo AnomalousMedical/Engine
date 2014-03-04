@@ -15,7 +15,7 @@ vertex_program libRocketTextureVS_D3D11 hlsl
 	target vs_4_0
 }
 
-fragment_program libRocketTextureVS_GLSL glsl
+vertex_program libRocketTextureVS_GLSL glsl
 {
 	source libRocketPlugin.Resources.Shader.Gui.glsl.TextureVS.glsl
 	profiles glsl
@@ -80,7 +80,7 @@ vertex_program libRocketNoTextureVS_D3D11 hlsl
 	target vs_4_0
 }
 
-fragment_program libRocketNoTextureVS_GLSL glsl
+vertex_program libRocketNoTextureVS_GLSL glsl
 {
 	source libRocketPlugin.Resources.Shader.Gui.glsl.NoTextureVS.glsl
 	profiles glsl
