@@ -143,11 +143,6 @@ namespace OgreWrapper
             return Mesh_getNumLodLevels(resource);
         }
 
-        public void createManualLodLevel(float fromDepth, String meshName)
-        {
-            Mesh_createManualLodLevel(resource, fromDepth, meshName);
-        }
-
         public void updateManualLodLevel(ushort index, String meshName)
         {
             Mesh_updateManualLodLevel(resource, index, meshName);
@@ -156,11 +151,6 @@ namespace OgreWrapper
         public ushort getLodIndex(float depth)
         {
             return Mesh_getLodIndex(resource, depth);
-        }
-
-        public bool isLodManual()
-        {
-            return Mesh_isLodManual(resource);
         }
 
         public void removeLodLevels()
@@ -459,17 +449,10 @@ namespace OgreWrapper
     private static extern ushort Mesh_getNumLodLevels(IntPtr mesh);
 
     [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
-    private static extern void Mesh_createManualLodLevel(IntPtr mesh, float fromDepth, String meshName);
-
-    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_updateManualLodLevel(IntPtr mesh, ushort index, String meshName);
 
     [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern ushort Mesh_getLodIndex(IntPtr mesh, float depth);
-
-    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.I1)]
-    private static extern bool Mesh_isLodManual(IntPtr mesh);
 
     [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
     private static extern void Mesh_removeLodLevels(IntPtr mesh);

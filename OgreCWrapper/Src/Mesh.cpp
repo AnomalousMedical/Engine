@@ -111,11 +111,6 @@ extern "C" _AnomalousExport ushort Mesh_getNumLodLevels(Ogre::Mesh* mesh)
 	return mesh->getNumLodLevels();
 }
 
-extern "C" _AnomalousExport void Mesh_createManualLodLevel(Ogre::Mesh* mesh, float fromDepth, String meshName)
-{
-	mesh->createManualLodLevel(fromDepth, meshName);
-}
-
 extern "C" _AnomalousExport void Mesh_updateManualLodLevel(Ogre::Mesh* mesh, ushort index, String meshName)
 {
 	mesh->updateManualLodLevel(index, meshName);
@@ -124,11 +119,6 @@ extern "C" _AnomalousExport void Mesh_updateManualLodLevel(Ogre::Mesh* mesh, ush
 extern "C" _AnomalousExport ushort Mesh_getLodIndex(Ogre::Mesh* mesh, float depth)
 {
 	return mesh->getLodIndex(depth);
-}
-
-extern "C" _AnomalousExport bool Mesh_isLodManual(Ogre::Mesh* mesh)
-{
-	return mesh->isLodManual();
 }
 
 extern "C" _AnomalousExport void Mesh_removeLodLevels(Ogre::Mesh* mesh)

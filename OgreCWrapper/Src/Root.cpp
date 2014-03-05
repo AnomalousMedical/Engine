@@ -1,8 +1,8 @@
 #include "Stdafx.h"
 
 //for opengl uncomment the following 2 lines
-#define MAC_OSX
-#undef WINDOWS
+//#define MAC_OSX
+//#undef WINDOWS
 
 #ifdef WINDOWS
 //#define D3D9
@@ -179,19 +179,19 @@ extern "C" _AnomalousExport Ogre::RenderWindow* Root_createRenderWindowParams(Og
 {
 	Ogre::NameValuePairList params;
 	params["vsync"] = vsync;
-	if(fsaaHint != 0 && fsaaHint != Ogre::StringUtil::BLANK)
+	if(fsaaHint != 0)
 	{
 		params["FSAAHint"] = fsaaHint;
 	}
-	if(aaMode != 0 && aaMode != Ogre::StringUtil::BLANK)
+	if(aaMode != 0)
 	{
 		params["FSAA"] = aaMode;
 	}
-	if(externalWindowHandle != 0 && externalWindowHandle != Ogre::StringUtil::BLANK)
+	if(externalWindowHandle != 0)
 	{
 		params["externalWindowHandle"] = externalWindowHandle;
 	}
-	if(nvPerfHud != 0 && nvPerfHud != Ogre::StringUtil::BLANK)
+	if(nvPerfHud != 0)
 	{
 		params["useNVPerfHUD"] = nvPerfHud;
 	}
