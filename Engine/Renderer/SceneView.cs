@@ -114,18 +114,6 @@ namespace Engine
         Ray3 getCameraToViewportRay(float x, float y);
 
         /// <summary>
-        /// Show the scene stats in the window drawn by this camera.
-        /// </summary>
-        /// <param name="showStats">True to show the scene stats.</param>
-        void showSceneStats(bool showStats);
-
-        /// <summary>
-        /// Move the scene stats to a different position.
-        /// </summary>
-        /// <param name="position">The new position of the scene stats.</param>
-        void moveSceneStats(Vector2 position);
-
-        /// <summary>
         /// Change the RenderingMode of the camera.
         /// </summary>
         /// <param name="mode">The RenderingMode to set.</param>

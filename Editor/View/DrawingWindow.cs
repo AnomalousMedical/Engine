@@ -91,7 +91,6 @@ namespace Editor
                 mainTimer.addFixedUpdateListener(orbitCamera);
                 orbitCamera.setCamera(camera);
                 CameraResolver.addMotionValidator(this);
-                camera.showSceneStats(showSceneStats);
             }
             else
             {
@@ -121,10 +120,6 @@ namespace Editor
 
         public void showStats(bool show)
         {
-            if (camera != null)
-            {
-                camera.showSceneStats(show);
-            }
             showSceneStats = show;
         }
 

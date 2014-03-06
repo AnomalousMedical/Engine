@@ -105,7 +105,6 @@ copy ..\..\Dependencies\Ogre\Windows\Build\bin\Release\RenderSystem_GL.dll $(Out
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="OverlaySystem.cpp" />
     <ClCompile Include="Src\Animation.cpp" />
     <ClCompile Include="Src\AnimationState.cpp" />
     <ClCompile Include="src\AnimationStateIterator.cpp" />
@@ -113,7 +112,6 @@ copy ..\..\Dependencies\Ogre\Windows\Build\bin\Release\RenderSystem_GL.dll $(Out
     <ClCompile Include="Src\AnimationTrack.cpp" />
     <ClCompile Include="Src\ArchiveManager.cpp" />
     <ClCompile Include="Src\Bone.cpp" />
-    <ClCompile Include="Src\BorderPanelOverlayElement.cpp" />
     <ClCompile Include="Src\Camera.cpp" />
     <ClCompile Include="src\CompositorManager.cpp" />
     <ClCompile Include="Src\Entity.cpp" />
@@ -146,11 +144,6 @@ copy ..\..\Dependencies\Ogre\Windows\Build\bin\Release\RenderSystem_GL.dll $(Out
     <ClCompile Include="Src\OgreManagedArchiveFactory.cpp" />
     <ClCompile Include="Src\OgreManagedStream.cpp" />
     <ClCompile Include="Src\OgreResourceGroupManager.cpp" />
-    <ClCompile Include="Src\Overlay.cpp" />
-    <ClCompile Include="Src\OverlayContainer.cpp" />
-    <ClCompile Include="Src\OverlayElement.cpp" />
-    <ClCompile Include="Src\OverlayManager.cpp" />
-    <ClCompile Include="Src\PanelOverlayElement.cpp" />
     <ClCompile Include="Src\Pass.cpp" />
     <ClCompile Include="Src\PixelBox.cpp" />
     <ClCompile Include="Src\Pose.cpp" />
@@ -170,7 +163,6 @@ copy ..\..\Dependencies\Ogre\Windows\Build\bin\Release\RenderSystem_GL.dll $(Out
     <ClCompile Include="Src\SubEntity.cpp" />
     <ClCompile Include="Src\SubMesh.cpp" />
     <ClCompile Include="Src\Technique.cpp" />
-    <ClCompile Include="Src\TextAreaOverlayElement.cpp" />
     <ClCompile Include="Src\Texture.cpp" />
     <ClCompile Include="Src\TextureManager.cpp" />
     <ClCompile Include="Src\TextureUnitState.cpp" />

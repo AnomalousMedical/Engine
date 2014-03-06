@@ -38,7 +38,6 @@ namespace OgrePlugin
         #region Fields
 
         private Root root;
-        private OverlaySystem overlaySystem;
         private OgreUpdate ogreUpdate;
         private OgreWindow primaryWindow;
 
@@ -65,7 +64,6 @@ namespace OgrePlugin
             if (instance == null)
             {
                 root = new Root("", "", "");
-                overlaySystem = new OverlaySystem();
                 ogreUpdate = new OgreUpdate(root);
                 instance = this;
             }
@@ -87,7 +85,6 @@ namespace OgrePlugin
             HardwareBufferManager.getInstance().Dispose();
             TextureManager.getInstance().Dispose();
             destroyRendererWindow(primaryWindow);
-            overlaySystem.Dispose();
             root.Dispose();
             if (Disposed != null)
             {

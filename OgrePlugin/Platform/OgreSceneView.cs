@@ -31,8 +31,6 @@ namespace OgrePlugin
         private Light light = null;
         private String name;
         private RenderWindow renderWindow;
-        private StatsOverlay statsOverlay;
-        private bool showStats = false;
         private Vector3 reallyFarAway = new Vector3(10000.0f, 10000.0f, 10000.0f);
 
         /// <summary>
@@ -54,24 +52,14 @@ namespace OgrePlugin
             node.attachObject(camera);
             viewport = renderWindow.addViewport(camera, zIndex, 0, 0, 1, 1);
             sceneManager.SceneManager.getRootSceneNode().addChild(node);
-
-            statsOverlay = new StatsOverlay(name);
-            statsOverlay.createOverlays();
             sceneManager.SceneManager.addSceneListener(this);
             sceneManager.SceneManager.addRenderQueueListener(this);
-
-            Root.getSingleton().FrameRenderingQueued += OgreCameraControl_FrameRenderingQueued;
         }
 
         public void Dispose()
         {
-            Root.getSingleton().FrameRenderingQueued -= OgreCameraControl_FrameRenderingQueued;
             sceneManager.SceneManager.removeSceneListener(this);
             sceneManager.SceneManager.removeRenderQueueListener(this);
-            if (statsOverlay != null)
-            {
-                statsOverlay.destroyOverlays();
-            }
             sceneManager.SceneManager.getRootSceneNode().removeChild(node);
             removeLight();
             renderWindow.destroyViewport(viewport);
@@ -144,24 +132,6 @@ namespace OgrePlugin
         public Ray3 getCameraToViewportRay(float x, float y)
         {
             return camera.getCameraToViewportRay(x, y);
-        }
-
-        /// <summary>
-        /// Show the scene stats in the window drawn by this camera.
-        /// </summary>
-        /// <param name="showStats">True to show the scene stats.</param>
-        public void showSceneStats(bool showStats)
-        {
-            if (showStats != this.showStats && statsOverlay != null)
-            {
-                statsOverlay.setVisible(showStats);
-            }
-            this.showStats = showStats;
-        }
-
-        public void moveSceneStats(Vector2 position)
-        {
-            statsOverlay.StatsPosition = position;
         }
 
         /// <summary>
@@ -312,17 +282,8 @@ namespace OgrePlugin
             viewport.setDimensions(left, top, width, height);
         }
 
-        void OgreCameraControl_FrameRenderingQueued(FrameEvent frameEvent)
-        {
-            statsOverlay.setStats(renderWindow);
-        }
-
         private void fireRenderingStarted()
         {
-            if (showStats && statsOverlay != null)
-            {
-                statsOverlay.setVisible(true);
-            }
             if (RenderingStarted != null)
             {
                 RenderingStarted.Invoke(this);
@@ -331,10 +292,6 @@ namespace OgrePlugin
 
         private void fireRenderingEnded()
         {
-            if (showStats && statsOverlay != null)
-            {
-                statsOverlay.setVisible(false);
-            }
             if (RenderingEnded != null)
             {
                 RenderingEnded.Invoke(this);

@@ -73,7 +73,6 @@
     <Compile Include="Platform\OgreUpdate.cs" />
     <Compile Include="Platform\OgreWindow.cs" />
     <Compile Include="Platform\OgreWindowListener.cs" />
-    <Compile Include="Platform\StatsOverlay.cs" />
     <Compile Include="Plugin\ImageAtlas\ImageAtlasException.cs" />
     <Compile Include="Plugin\ImageAtlas\ImageAtlasPage.cs" />
     <Compile Include="Plugin\ImageAtlas\ImagePackTreeNode.cs" />
@@ -132,14 +131,6 @@
     <Compile Include="Wrapper\MeshData\VertexData.cs" />
     <Compile Include="Wrapper\MeshData\VertexDeclaration.cs" />
     <Compile Include="Wrapper\MeshData\VertexElement.cs" />
-    <Compile Include="Wrapper\Overlay\BorderPanelOverlayElement.cs" />
-    <Compile Include="Wrapper\Overlay\Overlay.cs" />
-    <Compile Include="Wrapper\Overlay\OverlayContainer.cs" />
-    <Compile Include="Wrapper\Overlay\OverlayElement.cs" />
-    <Compile Include="Wrapper\Overlay\OverlayManager.cs" />
-    <Compile Include="Wrapper\Overlay\OverlaySystem.cs" />
-    <Compile Include="Wrapper\Overlay\PanelOverlayElement.cs" />
-    <Compile Include="Wrapper\Overlay\TextAreaOverlayElement.cs" />
     <Compile Include="Wrapper\Queries\PlaneBoundedVolumeListSceneQuery.cs" />
     <Compile Include="Wrapper\Queries\RaySceneQuery.cs" />
     <Compile Include="Wrapper\Queries\RaySceneQueryResultEntry.cs" />
