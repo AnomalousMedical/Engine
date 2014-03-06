@@ -1,3 +1,5 @@
+#version 120
+
 //Input
 uniform mat4 elementWorldViewProj;	//The world view projection matrix
 

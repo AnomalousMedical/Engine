@@ -1,3 +1,5 @@
+#version 120
+
 //Input
 attribute vec4 vertex; //Vertex
 attribute vec2 uv0; //Uv Coord

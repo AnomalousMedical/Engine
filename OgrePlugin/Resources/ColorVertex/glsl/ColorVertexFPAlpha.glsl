@@ -1,3 +1,5 @@
+#version 120
+
 uniform vec4 alpha;
 
 varying vec4 passColor;

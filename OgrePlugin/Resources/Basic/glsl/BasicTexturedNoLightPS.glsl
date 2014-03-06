@@ -1,3 +1,5 @@
+#version 120
+
 uniform sampler2D colorTexture;  //The color map
 
 varying vec2 texCoords;
