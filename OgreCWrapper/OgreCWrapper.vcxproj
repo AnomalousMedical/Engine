@@ -138,6 +138,7 @@ copy ..\..\Dependencies\Ogre\Windows\Build\bin\Release\RenderSystem_GL.dll $(Out
     <ClCompile Include="Src\Node.cpp" />
     <ClCompile Include="Src\NodeAnimationTrack.cpp" />
     <ClCompile Include="src\OgreExceptionManager.cpp" />
+    <ClCompile Include="Src\OgreInterface.cpp" />
     <ClCompile Include="Src\OgreLogListener.cpp" />
     <ClCompile Include="Src\OgreManagedArchive.cpp" />
     <ClCompile Include="Src\OgreManagedArchiveFactory.cpp" />

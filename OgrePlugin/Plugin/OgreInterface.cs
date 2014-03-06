@@ -12,9 +12,18 @@ using Engine.Resources;
 using System.IO;
 using Engine.ObjectManagement;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace OgrePlugin
 {
+    public enum RendersystemType
+    {
+        DEFAULT = 0,
+        D3D9 = 1,
+        D3D11 = 2,
+        OPEN_GL = 3
+    };
+
     /// <summary>
     /// The main interface class for the OgrePlugin.
     /// </summary>
@@ -40,6 +49,8 @@ namespace OgrePlugin
         private Root root;
         private OgreUpdate ogreUpdate;
         private OgreWindow primaryWindow;
+        private RendersystemType rendersystemType = RendersystemType.D3D11;
+        private IntPtr renderSystemPlugin;
 
         #endregion Fields
 
@@ -64,6 +75,7 @@ namespace OgrePlugin
             if (instance == null)
             {
                 root = new Root("", "", "");
+                renderSystemPlugin = OgreInterface_LoadRenderSystem(rendersystemType);
                 ogreUpdate = new OgreUpdate(root);
                 instance = this;
             }
@@ -86,6 +98,7 @@ namespace OgrePlugin
             TextureManager.getInstance().Dispose();
             destroyRendererWindow(primaryWindow);
             root.Dispose();
+            OgreInterface_UnloadRenderSystem(renderSystemPlugin);
             if (Disposed != null)
             {
                 Disposed.Invoke(this);
@@ -101,7 +114,7 @@ namespace OgrePlugin
             try
             {
                 //Initialize Ogre
-                RenderSystem rs = root.getPlatformDefaultRenderSystem();
+                RenderSystem rs = root._getRenderSystemWrapper(OgreInterface_GetRenderSystem(rendersystemType));
                 root.setRenderSystem(rs);
                 root.initialize(false);
 
@@ -359,5 +372,18 @@ namespace OgrePlugin
         }
 
         #endregion Functions
+
+        #region PInvoke
+
+        [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr OgreInterface_LoadRenderSystem(RendersystemType rendersystemType);
+
+        [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void OgreInterface_UnloadRenderSystem(IntPtr renderSystemPlugin);
+
+        [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr OgreInterface_GetRenderSystem(RendersystemType rendersystemType);
+
+        #endregion
     }
 }

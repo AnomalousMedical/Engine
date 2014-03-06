@@ -8,14 +8,6 @@ using Engine;
 
 namespace OgreWrapper
 {
-    public enum RendersystemType
-    {
-        DEFAULT = 0,
-        D3D9 = 1,
-        D3D11 = 2,
-        OPEN_GL = 3
-    };
-
     [MultiEnum]
     public enum SceneType : ushort
     {
@@ -30,14 +22,11 @@ namespace OgreWrapper
 
     public class Root : IDisposable
     {
-        private RendersystemType rendersystemType = RendersystemType.D3D11;
-
         WrapperCollection<RenderSystem> renderSystems = new WrapperCollection<RenderSystem>(RenderSystem.createWrapper);
         WrapperCollection<SceneManager> scenes = new WrapperCollection<SceneManager>(SceneManager.createWrapper);
         WrapperCollection<RenderTarget> renderTargets = new WrapperCollection<RenderTarget>(RenderTarget.createWrapper);
 
         IntPtr ogreRoot;
-        IntPtr renderSystemPlugin;
 
         IntPtr nativeFrameListener;
         FrameEventCallback frameStart;
@@ -86,8 +75,6 @@ namespace OgreWrapper
             ArchiveManager_addArchiveFactory(embeddedScalableResources.NativeFactory);
             ArchiveManager_addArchiveFactory(scalableEngineArchives.NativeFactory);
             instance = this;
-
-            renderSystemPlugin = RenderSystemPlugin_Create(rendersystemType);
         }
 
         public void Dispose()
@@ -103,7 +90,6 @@ namespace OgreWrapper
             memoryArchives.Dispose();
             embeddedScalableResources.Dispose();
             scalableEngineArchives.Dispose();
-            RenderSystemPlugin_Delete(renderSystemPlugin);
             if (Disposed != null)
             {
                 Disposed.Invoke();
@@ -133,11 +119,6 @@ namespace OgreWrapper
         public RenderSystem getRenderSystemByName(String name)
         {
             return renderSystems.getObject(Root_getRenderSystemByName(ogreRoot, name));
-        }
-
-        public RenderSystem getPlatformDefaultRenderSystem()
-        {
-            return renderSystems.getObject(Root_getPlatformDefaultRenderSystem(ogreRoot, rendersystemType));
         }
 
         public void setRenderSystem(RenderSystem system)
@@ -343,6 +324,18 @@ namespace OgreWrapper
             ArchiveManager_addArchiveFactory(factory.NativeFactory);
         }
 
+        /// <summary>
+        /// This function will wrap up a pointer with a RenderSystem object.
+        /// It is intended only to be called from OgreInterface and is not a
+        /// normal ogre function.
+        /// </summary>
+        /// <param name="renderSystem"></param>
+        /// <returns></returns>
+        internal RenderSystem _getRenderSystemWrapper(IntPtr renderSystem)
+        {
+            return renderSystems.getObject(renderSystem);
+        }
+
         void frameStartedCallback(float timeSinceLastEvent, float timeSinceLastFrame)
         {
             if(FrameStarted != null)
@@ -380,13 +373,7 @@ namespace OgreWrapper
         private static extern IntPtr Root_Create(String pluginFileName, String configFileName, String logFileName);
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr RenderSystemPlugin_Create(RendersystemType rendersystemType);
-
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Root_Delete(IntPtr ogreRoot);
-
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void RenderSystemPlugin_Delete(IntPtr renderSystemPlugin);
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Root_saveConfig(IntPtr root);
@@ -404,9 +391,6 @@ namespace OgreWrapper
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Root_getRenderSystemByName(IntPtr root, String name);
-
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr Root_getPlatformDefaultRenderSystem(IntPtr ogreRoot, RendersystemType rendersystemType);
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Root_setRenderSystem(IntPtr root, IntPtr system);
