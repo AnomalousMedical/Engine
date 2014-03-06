@@ -1,31 +1,53 @@
 #include "Stdafx.h"
 
-//for opengl uncomment the following 2 lines
-//#define MAC_OSX
-//#undef WINDOWS
-
-#ifdef WINDOWS
-//#define D3D9
-#endif
+enum RendersystemType
+{
+	DEFAULT = 0,
+	D3D9 = 1,
+	D3D11 = 2,
+	OPEN_GL = 3
+};
 
 extern "C" _AnomalousExport Ogre::Root* Root_Create(const char* pluginFileName, const char* configFileName, const char* logFileName)
 {
 	return new Ogre::Root(pluginFileName, configFileName, logFileName);
 }
 
-extern "C" _AnomalousExport Ogre::Plugin* RenderSystemPlugin_Create()
+extern "C" _AnomalousExport Ogre::Plugin* RenderSystemPlugin_Create(RendersystemType rendersystemType)
 {
 #ifdef WINDOWS
-#ifdef D3D9
-	Ogre::Root::getSingleton().loadPlugin("RenderSystem_Direct3D9");
-#else
-	Ogre::Root::getSingleton().loadPlugin("RenderSystem_Direct3D11");
+	String defaultRenderSystem = "RenderSystem_Direct3D9";
 #endif
-#endif
-	
+
 #ifdef MAC_OSX
-	Ogre::Root::getSingleton().loadPlugin("RenderSystem_GL");
+	String defaultRenderSystem = "RenderSystem_GL";
 #endif
+
+	Ogre::String name;
+	switch(rendersystemType)
+	{
+		case DEFAULT:
+			name = defaultRenderSystem;
+			break;
+		case D3D9:
+			name = "RenderSystem_Direct3D9";
+			break;
+		case D3D11:
+			name = "RenderSystem_Direct3D11";
+			break;
+		case OPEN_GL:
+			name = "RenderSystem_GL";
+			break;
+	}
+
+	try
+	{
+		Ogre::Root::getSingleton().loadPlugin(name);
+	}
+	catch(Ogre::Exception& ex)
+	{
+		Ogre::Root::getSingleton().loadPlugin(defaultRenderSystem);
+	}
 
 	return NULL;
 }
@@ -65,24 +87,55 @@ extern "C" _AnomalousExport Ogre::RenderSystem* Root_getRenderSystemByName(Ogre:
 	return root->getRenderSystemByName(name);
 }
 
-extern "C" _AnomalousExport Ogre::RenderSystem* Root_getPlatformDefaultRenderSystem(Ogre::Root* root)
+extern "C" _AnomalousExport Ogre::RenderSystem* Root_getPlatformDefaultRenderSystem(Ogre::Root* root, RendersystemType rendersystemType)
 {
 #ifdef WINDOWS
-#ifdef D3D9
-	Ogre::RenderSystem* rs = root->getRenderSystemByName("Direct3D9 Rendering Subsystem");
-	rs->setConfigOption("Multi device memory hint", "Auto hardware buffers management");
-	//rs->setConfigOption("Fixed Pipeline Enabled", "Yes");
-	return rs;
-
-#else
-
-	return root->getRenderSystemByName("Direct3D11 Rendering Subsystem");
-#endif
+	String defaultRenderSystem = "Direct3D9 Rendering Subsystem";
+	RendersystemType defaultRendersystemType = D3D9;
 #endif
 
 #ifdef MAC_OSX
-	return root->getRenderSystemByName("OpenGL Rendering Subsystem");
+	String defaultRenderSystem = "RenderSystem_GL";
+	RendersystemType defaultRendersystemType = OPEN_GL;
 #endif
+
+	Ogre::String name;
+	switch(rendersystemType)
+	{
+		case DEFAULT:
+			name = defaultRenderSystem;
+			rendersystemType = defaultRendersystemType;
+			break;
+		case D3D9:
+			name = "Direct3D9 Rendering Subsystem";
+			break;
+		case D3D11:
+			name = "Direct3D11 Rendering Subsystem";
+			break;
+		case OPEN_GL:
+			name = "OpenGL Rendering Subsystem";
+			break;
+	}
+
+	Ogre::RenderSystem* rs = root->getRenderSystemByName(name);
+	if(rs == NULL)
+	{
+		Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "Could not find Render System '" << name << "' using default of '" << defaultRenderSystem << "' instead.";
+		rs = root->getRenderSystemByName(defaultRenderSystem);
+		rendersystemType = defaultRendersystemType;
+	}
+
+	//Determine any custom settings needed all the time, rendersystemType here
+	//will be an actual rendersystem and not the default as we will have determined
+	//what it is by this point.
+	switch(rendersystemType)
+	{
+		case D3D9:
+			rs->setConfigOption("Multi device memory hint", "Auto hardware buffers management");
+			break;
+	}
+
+	return rs;
 }
 
 extern "C" _AnomalousExport void Root_setRenderSystem(Ogre::Root* root, Ogre::RenderSystem* system)

@@ -8,6 +8,14 @@ using Engine;
 
 namespace OgreWrapper
 {
+    public enum RendersystemType
+    {
+        DEFAULT = 0,
+        D3D9 = 1,
+        D3D11 = 2,
+        OPEN_GL = 3
+    };
+
     [MultiEnum]
     public enum SceneType : ushort
     {
@@ -22,6 +30,8 @@ namespace OgreWrapper
 
     public class Root : IDisposable
     {
+        private RendersystemType rendersystemType = RendersystemType.D3D11;
+
         WrapperCollection<RenderSystem> renderSystems = new WrapperCollection<RenderSystem>(RenderSystem.createWrapper);
         WrapperCollection<SceneManager> scenes = new WrapperCollection<SceneManager>(SceneManager.createWrapper);
         WrapperCollection<RenderTarget> renderTargets = new WrapperCollection<RenderTarget>(RenderTarget.createWrapper);
@@ -65,7 +75,6 @@ namespace OgreWrapper
         {
             ogreRoot = Root_Create(pluginFileName, configFileName, logFileName);
             ogreLog = new OgreLogConnection();
-            renderSystemPlugin = RenderSystemPlugin_Create();
             frameStart = new FrameEventCallback(frameStartedCallback);
             frameQueue = new FrameEventCallback(frameQueuedCallback);
             frameEnd = new FrameEventCallback(frameEndedCallback);
@@ -77,6 +86,8 @@ namespace OgreWrapper
             ArchiveManager_addArchiveFactory(embeddedScalableResources.NativeFactory);
             ArchiveManager_addArchiveFactory(scalableEngineArchives.NativeFactory);
             instance = this;
+
+            renderSystemPlugin = RenderSystemPlugin_Create(rendersystemType);
         }
 
         public void Dispose()
@@ -126,7 +137,7 @@ namespace OgreWrapper
 
         public RenderSystem getPlatformDefaultRenderSystem()
         {
-            return renderSystems.getObject(Root_getPlatformDefaultRenderSystem(ogreRoot));
+            return renderSystems.getObject(Root_getPlatformDefaultRenderSystem(ogreRoot, rendersystemType));
         }
 
         public void setRenderSystem(RenderSystem system)
@@ -369,7 +380,7 @@ namespace OgreWrapper
         private static extern IntPtr Root_Create(String pluginFileName, String configFileName, String logFileName);
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr RenderSystemPlugin_Create();
+        private static extern IntPtr RenderSystemPlugin_Create(RendersystemType rendersystemType);
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Root_Delete(IntPtr ogreRoot);
@@ -395,7 +406,7 @@ namespace OgreWrapper
         private static extern IntPtr Root_getRenderSystemByName(IntPtr root, String name);
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr Root_getPlatformDefaultRenderSystem(IntPtr ogreRoot);
+        private static extern IntPtr Root_getPlatformDefaultRenderSystem(IntPtr ogreRoot, RendersystemType rendersystemType);
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Root_setRenderSystem(IntPtr root, IntPtr system);
