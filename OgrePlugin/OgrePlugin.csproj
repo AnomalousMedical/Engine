@@ -206,10 +206,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Tuffy.ttf" />
-    <EmbeddedResource Include="Resources\StatsFont.fontdef" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Resources\ColorVertex\D3D11\ColorVertex.hlsl" />
     <EmbeddedResource Include="Resources\ColorVertex\ColorVertex.material" />
     <EmbeddedResource Include="Resources\ColorVertex\ColorVertex.program" />
