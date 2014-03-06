@@ -16,12 +16,12 @@ using System.Runtime.InteropServices;
 
 namespace OgrePlugin
 {
-    public enum RendersystemType
+    public enum RenderSystemType
     {
-        DEFAULT = 0,
+        Default = 0,
         D3D9 = 1,
         D3D11 = 2,
-        OPEN_GL = 3
+        OpenGL = 3
     };
 
     /// <summary>
@@ -49,7 +49,6 @@ namespace OgrePlugin
         private Root root;
         private OgreUpdate ogreUpdate;
         private OgreWindow primaryWindow;
-        private RendersystemType rendersystemType = RendersystemType.D3D11;
         private IntPtr renderSystemPlugin;
 
         #endregion Fields
@@ -72,14 +71,7 @@ namespace OgrePlugin
 
         public OgreInterface()
         {
-            if (instance == null)
-            {
-                root = new Root("", "", "");
-                renderSystemPlugin = OgreInterface_LoadRenderSystem(rendersystemType);
-                ogreUpdate = new OgreUpdate(root);
-                instance = this;
-            }
-            else
+            if (instance != null)
             {
                 throw new InvalidPluginException("The OgrePlugin plugin can only be initialized one time.");
             }
@@ -107,14 +99,23 @@ namespace OgrePlugin
 
         public void initialize(PluginManager pluginManager)
         {
+            //Load config
+            new OgreConfig(pluginManager.ConfigFile);
+            RenderSystemType renderSystemType = OgreConfig.RenderSystemType;
+
+            //Setup ogre root
+            root = new Root("", "", "");
+            renderSystemPlugin = OgreInterface_LoadRenderSystem(renderSystemType);
+            ogreUpdate = new OgreUpdate(root);
+            instance = this;
+
             WindowInfo defaultWindowInfo;
             pluginManager.setRendererPlugin(this, out defaultWindowInfo);
-            new OgreConfig(pluginManager.ConfigFile);
 
             try
             {
                 //Initialize Ogre
-                RenderSystem rs = root._getRenderSystemWrapper(OgreInterface_GetRenderSystem(rendersystemType));
+                RenderSystem rs = root._getRenderSystemWrapper(OgreInterface_GetRenderSystem(renderSystemType));
                 root.setRenderSystem(rs);
                 root.initialize(false);
 
@@ -376,13 +377,13 @@ namespace OgrePlugin
         #region PInvoke
 
         [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr OgreInterface_LoadRenderSystem(RendersystemType rendersystemType);
+        private static extern IntPtr OgreInterface_LoadRenderSystem(RenderSystemType rendersystemType);
 
         [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern void OgreInterface_UnloadRenderSystem(IntPtr renderSystemPlugin);
 
         [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr OgreInterface_GetRenderSystem(RendersystemType rendersystemType);
+        private static extern IntPtr OgreInterface_GetRenderSystem(RenderSystemType rendersystemType);
 
         #endregion
     }

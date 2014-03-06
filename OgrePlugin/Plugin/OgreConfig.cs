@@ -70,5 +70,19 @@ namespace OgrePlugin
                 ogreSection.setValue("UseNvPerfHUD", value);
             }
         }
+
+        public static RenderSystemType RenderSystemType
+        {
+            get
+            {
+                RenderSystemType type = OgrePlugin.RenderSystemType.Default;
+                Enum.TryParse<RenderSystemType>(ogreSection.getValue("RenderSystemType", () => RenderSystemType.Default.ToString()), out type);
+                return type;
+            }
+            set
+            {
+                ogreSection.setValue("RenderSystemType", value.ToString());
+            }
+        }
     }
 }
