@@ -18,6 +18,12 @@ namespace OgreWrapper
     /// </summary>
     unsafe class OgreManagedStream
     {
+        enum AccessMode
+        {
+            READ = 1,
+            WRITE = 2
+        };
+
         const int ARRAY_SIZE = 4096;
 
         Stream stream;
@@ -57,7 +63,17 @@ namespace OgreWrapper
             closeCallback = new CloseDelegate(close);
             deletedCallback = new DeletedDelegate(deleted);
 
-            nativeStream = OgreManagedStream_Create(name, new IntPtr(stream.Length), readCallback, writeCallback, skipCallback, seekCallback, tellCallback, eofCallback, closeCallback, deletedCallback);
+            AccessMode accessMode = 0;
+            if (stream.CanRead)
+            {
+                accessMode |= AccessMode.READ;
+            }
+            if (stream.CanWrite)
+            {
+                accessMode |= AccessMode.WRITE;
+            }
+
+            nativeStream = OgreManagedStream_Create(name, new IntPtr(stream.Length), accessMode, readCallback, writeCallback, skipCallback, seekCallback, tellCallback, eofCallback, closeCallback, deletedCallback);
 
             handle = GCHandle.Alloc(this, GCHandleType.Normal);
         }
@@ -187,7 +203,7 @@ namespace OgreWrapper
         private delegate void DeletedDelegate();
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr OgreManagedStream_Create(String name, IntPtr size, ReadDelegate read, WriteDelegate write, SkipDelegate skip, SeekDelegate seek, TellDelegate tell, EofDelegate eof, CloseDelegate close, DeletedDelegate deleted);
+        private static extern IntPtr OgreManagedStream_Create(String name, IntPtr size, AccessMode accessMode, ReadDelegate read, WriteDelegate write, SkipDelegate skip, SeekDelegate seek, TellDelegate tell, EofDelegate eof, CloseDelegate close, DeletedDelegate deleted);
 
 #endregion
     }

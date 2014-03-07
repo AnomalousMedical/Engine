@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
 namespace OgreWrapper
 {
-    class GpuProgramManager
+    public class GpuProgramManager
     {
         public static GpuProgramManager Instance { get; private set; }
 
@@ -27,14 +28,28 @@ namespace OgreWrapper
             }
         }
 
-        public void saveMicrocodeCache(OgreManagedStream stream)
+        /// <summary>
+        /// Save the microcode cache to the given stream. The stream will be controlled
+        /// by ogre which will close it when it is done, however, you should still be able
+        /// to follow normal using patterns on the stream you pass in.
+        /// </summary>
+        /// <param name="stream">The stream to save to, must be writable.</param>
+        public void saveMicrocodeCache(Stream stream)
         {
-            GpuProgramManager_saveMicrocodeCache(stream.NativeStream);
+            OgreManagedStream managedStream = new OgreManagedStream("MicrocodeSaveStream", stream);
+            GpuProgramManager_saveMicrocodeCache(managedStream.NativeStream);
         }
 
-        public void loadMicrocodeCache(OgreManagedStream stream)
+        /// <summary>
+        /// Load the microcode cache from the given stream. The stream will be controlled
+        /// by ogre which will close it when it is done, however, you should still be able
+        /// to follow normal using patterns on the stream you pass in.
+        /// </summary>
+        /// <param name="stream">The stream to load from, must be readable.</param>
+        public void loadMicrocodeCache(Stream stream)
         {
-            GpuProgramManager_loadMicrocodeCache(stream.NativeStream);
+            OgreManagedStream managedStream = new OgreManagedStream("MicrocodeLoadStream", stream);
+            GpuProgramManager_loadMicrocodeCache(managedStream.NativeStream);
         }
 
 #region PInvoke
