@@ -24,6 +24,7 @@ namespace OgreWrapper
 	    byte[] internalBuffer = new byte[ARRAY_SIZE];
 
         ReadDelegate readCallback;
+        WriteDelegate writeCallback;
         SkipDelegate skipCallback;
         SeekDelegate seekCallback;
         TellDelegate tellCallback;
@@ -48,6 +49,7 @@ namespace OgreWrapper
             this.stream = stream;
 
             readCallback = new ReadDelegate(read);
+            writeCallback = new WriteDelegate(write);
             skipCallback = new SkipDelegate(skip);
             seekCallback = new SeekDelegate(seek);
             tellCallback = new TellDelegate(tell);
@@ -55,7 +57,7 @@ namespace OgreWrapper
             closeCallback = new CloseDelegate(close);
             deletedCallback = new DeletedDelegate(deleted);
 
-            nativeStream = OgreManagedStream_Create(name, new IntPtr(stream.Length), readCallback, skipCallback, seekCallback, tellCallback, eofCallback, closeCallback, deletedCallback);
+            nativeStream = OgreManagedStream_Create(name, new IntPtr(stream.Length), readCallback, writeCallback, skipCallback, seekCallback, tellCallback, eofCallback, closeCallback, deletedCallback);
 
             handle = GCHandle.Alloc(this, GCHandleType.Normal);
         }
@@ -79,7 +81,7 @@ namespace OgreWrapper
             //Read into the managed array and copy to the unmanaged one
 	        int readSize = ARRAY_SIZE;
             long lCount = count.ToInt64();
-	        if(count.ToInt32() < ARRAY_SIZE)
+	        if(lCount < ARRAY_SIZE)
 	        {
                 readSize = count.ToInt32();
 	        }
@@ -97,7 +99,6 @@ namespace OgreWrapper
 		        amountRead = stream.Read(arr, 0, readSize);
 		        if(amountRead != 0)
 		        {
-                    //memcpy(&ogreBuf[i], mBuf, amountRead);
                     Marshal.Copy(arr, 0, new IntPtr(&ogreBuf[i]), amountRead);
 		        }
 		        else
@@ -107,6 +108,39 @@ namespace OgreWrapper
 	        }
 
 	        return new IntPtr(i);
+        }
+
+        IntPtr write(void* buf, IntPtr count)
+        {
+            //Read into the managed array and copy to the unmanaged one
+            int writeSize = ARRAY_SIZE;
+            long lCount = count.ToInt64();
+            if (lCount < ARRAY_SIZE)
+            {
+                writeSize = count.ToInt32();
+            }
+            byte[] arr = internalBuffer;
+            byte* ogreBuf = (byte*)buf;
+            long i = 0;
+            for (; i < lCount; i += writeSize)
+            {
+                //Make sure we are not writing past the end of where we are suppost to.
+                if (lCount - i < writeSize)
+                {
+                    writeSize = (int)(lCount - i);
+                }
+                if (writeSize != 0)
+                {
+                    Marshal.Copy(new IntPtr(&ogreBuf[i]), arr, 0, writeSize);
+                    stream.Write(arr, 0, writeSize);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return new IntPtr(i);
         }
 
         private void skip(IntPtr count)
@@ -138,6 +172,8 @@ namespace OgreWrapper
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate IntPtr ReadDelegate(void* buf, IntPtr count);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate IntPtr WriteDelegate(void* buf, IntPtr count);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void SkipDelegate(IntPtr count);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void SeekDelegate(IntPtr pos);
@@ -151,7 +187,7 @@ namespace OgreWrapper
         private delegate void DeletedDelegate();
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr OgreManagedStream_Create(String name, IntPtr size, ReadDelegate read, SkipDelegate skip, SeekDelegate seek, TellDelegate tell, EofDelegate eof, CloseDelegate close, DeletedDelegate deleted);
+        private static extern IntPtr OgreManagedStream_Create(String name, IntPtr size, ReadDelegate read, WriteDelegate write, SkipDelegate skip, SeekDelegate seek, TellDelegate tell, EofDelegate eof, CloseDelegate close, DeletedDelegate deleted);
 
 #endregion
     }

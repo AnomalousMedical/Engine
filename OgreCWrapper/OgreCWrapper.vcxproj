@@ -114,6 +114,7 @@ copy ..\..\Dependencies\Ogre\Windows\Build\bin\Release\RenderSystem_GL.dll $(Out
     <ClCompile Include="Src\Camera.cpp" />
     <ClCompile Include="src\CompositorManager.cpp" />
     <ClCompile Include="Src\Entity.cpp" />
+    <ClCompile Include="Src\GpuProgramManager.cpp" />
     <ClCompile Include="Src\HardwareBuffer.cpp" />
     <ClCompile Include="Src\HardwareBufferManager.cpp" />
     <ClCompile Include="Src\HardwareIndexBuffer.cpp" />
