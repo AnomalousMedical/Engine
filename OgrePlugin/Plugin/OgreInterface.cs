@@ -29,7 +29,7 @@ namespace OgrePlugin
     /// </summary>
     public class OgreInterface : RendererPlugin
     {
-        #region Static
+        public delegate bool LoadMicrocodeCacheDelegate(RenderSystem renderSystem, GpuProgramManager gpuProgramManager);
 
         public const String PluginName = "OgrePlugin";
         private static OgreInterface instance;
@@ -42,32 +42,20 @@ namespace OgrePlugin
             }
         }
 
-        #endregion Static
-
-        #region Fields
-
         private Root root;
         private OgreUpdate ogreUpdate;
         private OgreWindow primaryWindow;
         private IntPtr renderSystemPlugin;
-
-        #endregion Fields
-
-        #region Delegates
 
         private delegate OgreSceneManagerDefinition CreateSceneManagerDefinition(String name);
         private delegate SceneNodeDefinition CreateSceneNodeDefinition(String name);
         private delegate void AddResourceLocation(String name, String locType, String group, bool recursive);
         private delegate void InitializeResourceGroups();
 
-        #endregion Delegates
-
         /// <summary>
         /// Fired when the OgreInterface is disposed, which means that ogre has been shutdown (Ogre::Root deleted).
         /// </summary>
         public event Action<OgreInterface> Disposed;
-
-        #region Constructors
 
         public OgreInterface()
         {
@@ -76,10 +64,6 @@ namespace OgrePlugin
                 throw new InvalidPluginException("The OgrePlugin plugin can only be initialized one time.");
             }
         }
-
-        #endregion Constructors
-
-        #region Functions
 
         public void Dispose()
         {
@@ -152,6 +136,12 @@ namespace OgrePlugin
                 //Setup commands
                 pluginManager.addCreateSimElementManagerCommand(new AddSimElementManagerCommand("Create Ogre Scene Manager", OgreSceneManagerDefinition.Create));
                 pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create Ogre Scene Node", SceneNodeDefinition.Create));
+
+                //Setup shader cache
+                if (LoadMicrocodeCacheCallback != null)
+                {
+                    GpuProgramManager.Instance.SaveMicrocodesToCache = LoadMicrocodeCacheCallback(rs, GpuProgramManager.Instance); ;
+                }
 
                 //Setup Resources
                 SubsystemResources ogreResourcs = new SubsystemResources("Ogre");
@@ -372,7 +362,15 @@ namespace OgrePlugin
             ((OgreDebugSurface)surface).destroy();
         }
 
-        #endregion Functions
+        /// <summary>
+        /// If this is set to a function before initialize is called this will instruct
+        /// ogre to use the shader microcode cache. This function will be called at the appropriate
+        /// time in the startup sequence to load the microcode cahce (your code must call the 
+        /// GpuProgramManager.loadMicrocodeCahce function itself, that will be passed in the callback.
+        /// 
+        /// Return true from the callback to use the microcode cache, and false to not use it.
+        /// </summary>
+        public LoadMicrocodeCacheDelegate LoadMicrocodeCacheCallback { get; set; }
 
         #region PInvoke
 
