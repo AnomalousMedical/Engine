@@ -370,7 +370,7 @@ namespace OgrePlugin
         /// 
         /// Return true from the callback to use the microcode cache, and false to not use it.
         /// </summary>
-        public LoadMicrocodeCacheDelegate LoadMicrocodeCacheCallback { get; set; }
+        public static LoadMicrocodeCacheDelegate LoadMicrocodeCacheCallback { get; set; }
 
         #region PInvoke
 

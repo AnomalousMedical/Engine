@@ -66,3 +66,8 @@ extern "C" _AnomalousExport void RenderSystem_removeListener(Ogre::RenderSystem*
 {
 	renderSystem->removeListener(listener);
 }
+
+extern "C" _AnomalousExport const char* RenderSystem_getName(Ogre::RenderSystem* renderSystem)
+{
+	return renderSystem->getName().c_str();
+}

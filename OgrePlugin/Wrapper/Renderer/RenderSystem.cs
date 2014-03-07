@@ -91,6 +91,14 @@ namespace OgreWrapper
             RenderSystem_removeListener(renderSystem, listener.Ptr);
         }
 
+        public String Name
+        {
+            get
+            {
+                return Marshal.PtrToStringAnsi(RenderSystem_getName(renderSystem));
+            }
+        }
+
         #region PInvoke
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
@@ -123,6 +131,9 @@ namespace OgreWrapper
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void RenderSystem_removeListener(IntPtr renderSystem, IntPtr listener);
+
+        [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr RenderSystem_getName(IntPtr renderSystem);
 
         #endregion 
     }
