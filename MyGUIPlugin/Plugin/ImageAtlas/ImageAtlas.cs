@@ -129,65 +129,74 @@ namespace MyGUIPlugin
 
         private void createImage(String guidStr, Image image, out IntSize2 finalSize)
         {
-            //resize the image if it does not match
-            bool resizedImage = false;
-            Size addImageSize = image.Size;
-            if (addImageSize.Width != imageSize.Width || imageSize.Height != addImageSize.Height)
-            {
-                switch (ResizeMode)
-                {
-                    case ImageResizeMode.Both:
-
-                        image = new Bitmap(image, new Size(imageSize.Width, imageSize.Height));
-                        resizedImage = true;
-                        break;
-                    case ImageResizeMode.KeepAspect:
-                        int width = 8;
-                        float aspect = (float)addImageSize.Height / addImageSize.Width;
-                        int height = (int)((float)imageSize.Width * aspect);
-                        if (height < imageSize.Height)
-                        {
-                            width = imageSize.Width;
-                        }
-                        else
-                        {
-                            aspect = (float)image.Width / image.Height;
-                            height = imageSize.Height;
-                            width = (int)((float)imageSize.Height * aspect);
-                        }
-                        image = new Bitmap(image, new Size(width, height));
-                        resizedImage = true;
-                        break;
-                }
-            }
-
-            MemoryStream imageStream = null;
+            Image resizedImage = null;
             try
             {
-                imageStream = new MemoryStream();
-                image.Save(imageStream, ImageFormat.Png);
-                memoryArchive.addMemoryStreamResource(guidStr + ".png", imageStream);
-
-                String xmlString = String.Format(resourceXML, guidStr, name + guidStr + ".png", imageSize.Width, imageSize.Height);
-                memoryArchive.addMemoryStreamResource(guidStr + ".xml", new MemoryStream(ASCIIEncoding.UTF8.GetBytes(xmlString)));
-
-                ResourceManager.Instance.load(name + guidStr + ".xml");
-            }
-            catch (Exception ex)
-            {
-                Logging.Log.Error("Exception saving image to atlas {0}", ex.Message);
-                if (imageStream != null)
+                //resize the image if it does not match
+                Size addImageSize = image.Size;
+                if (addImageSize.Width != imageSize.Width || addImageSize.Height != imageSize.Height)
                 {
-                    imageStream.Dispose();
+                    Rectangle destRect;
+                    switch (ResizeMode)
+                    {
+                        case ImageResizeMode.KeepAspect:
+                            int width = 8;
+                            float aspect = (float)addImageSize.Height / addImageSize.Width;
+                            int height = (int)((float)imageSize.Width * aspect);
+                            if (height < imageSize.Height)
+                            {
+                                width = imageSize.Width;
+                            }
+                            else
+                            {
+                                aspect = (float)image.Width / image.Height;
+                                height = imageSize.Height;
+                                width = (int)((float)imageSize.Height * aspect);
+                            }
+                            destRect = new Rectangle(0, 0, width, height);
+                            break;
+                        default:
+                            destRect = new Rectangle(0, 0, imageSize.Width, imageSize.Height);
+                            break;
+                    }
+                    resizedImage = new Bitmap(destRect.Width, destRect.Height);
+                    using (Graphics g = Graphics.FromImage(resizedImage))
+                    {
+                        g.DrawImage(image, destRect);
+                    }
+                    image = resizedImage;
                 }
+
+                MemoryStream imageStream = null;
+                try
+                {
+                    imageStream = new MemoryStream();
+                    image.Save(imageStream, ImageFormat.Png);
+                    memoryArchive.addMemoryStreamResource(guidStr + ".png", imageStream);
+
+                    String xmlString = String.Format(resourceXML, guidStr, name + guidStr + ".png", imageSize.Width, imageSize.Height);
+                    memoryArchive.addMemoryStreamResource(guidStr + ".xml", new MemoryStream(ASCIIEncoding.UTF8.GetBytes(xmlString)));
+
+                    ResourceManager.Instance.load(name + guidStr + ".xml");
+                }
+                catch (Exception ex)
+                {
+                    Logging.Log.Error("Exception saving image to atlas {0}", ex.Message);
+                    if (imageStream != null)
+                    {
+                        imageStream.Dispose();
+                    }
+                }
+
+                finalSize = new IntSize2(image.Width, image.Height);
             }
-
-            finalSize = new IntSize2(image.Width, image.Height);
-
-            //Dispose the image if it was resized
-            if (resizedImage)
+            finally
             {
-                image.Dispose();
+                //Dispose the image if it was resized
+                if (resizedImage != null)
+                {
+                    resizedImage.Dispose();
+                }
             }
         }
 
