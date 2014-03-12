@@ -63,8 +63,8 @@ extern "C" _AnomalousExport Ogre::RenderSystem* OgreInterface_GetRenderSystem(Re
 #endif
 
 #ifdef MAC_OSX
-	String defaultRenderSystem = "RenderSystem_GL";
-	RenderSystemType defaultRendersystemType = OPEN_GL;
+	String defaultRenderSystem = "OpenGL Rendering Subsystem";
+	RenderSystemType defaultRendersystemType = OpenGL;
 #endif
 
 	Ogre::Root* root = Ogre::Root::getSingletonPtr();
