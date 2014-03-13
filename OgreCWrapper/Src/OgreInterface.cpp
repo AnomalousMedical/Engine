@@ -18,7 +18,7 @@ extern "C" _AnomalousExport Ogre::Plugin* OgreInterface_LoadRenderSystem(RenderS
 #endif
 
 #ifdef MAC_OSX
-	String defaultRenderSystem = "RenderSystem_GL";
+	String defaultRenderSystem = "/@macBundlePath/../../RenderSystem_GL.framework";
 #endif
 
 	Ogre::String name;
