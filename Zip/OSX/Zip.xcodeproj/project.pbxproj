@@ -11,8 +11,8 @@
 		01550A67135642D000EBA6B6 /* ZipStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01550A63135642D000EBA6B6 /* ZipStream.cpp */; };
 		01550A68135642D000EBA6B6 /* Stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01550A64135642D000EBA6B6 /* Stdafx.cpp */; };
 		01550A69135642D000EBA6B6 /* Stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 01550A65135642D000EBA6B6 /* Stdafx.h */; };
-		01550A70135642EA00EBA6B6 /* libzzip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01550A6F135642EA00EBA6B6 /* libzzip.a */; };
-		01550A72135642F500EBA6B6 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 01550A71135642F500EBA6B6 /* libz.dylib */; };
+		017DBA2918D0B72400F6F3FF /* libzlib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 017DBA2718D0B72400F6F3FF /* libzlib.a */; };
+		017DBA2A18D0B72400F6F3FF /* libzziplib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 017DBA2818D0B72400F6F3FF /* libzziplib.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,8 +20,8 @@
 		01550A63135642D000EBA6B6 /* ZipStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZipStream.cpp; sourceTree = "<group>"; };
 		01550A64135642D000EBA6B6 /* Stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Stdafx.cpp; path = ../Stdafx.cpp; sourceTree = SOURCE_ROOT; };
 		01550A65135642D000EBA6B6 /* Stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stdafx.h; path = ../Stdafx.h; sourceTree = SOURCE_ROOT; };
-		01550A6F135642EA00EBA6B6 /* libzzip.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzzip.a; path = ../../../Dependencies/zziplib/lib/libzzip.a; sourceTree = SOURCE_ROOT; };
-		01550A71135642F500EBA6B6 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		017DBA2718D0B72400F6F3FF /* libzlib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzlib.a; path = ../../../Dependencies/Ogre/OSX/Dependencies/lib/libzlib.a; sourceTree = "<group>"; };
+		017DBA2818D0B72400F6F3FF /* libzziplib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzziplib.a; path = ../../../Dependencies/Ogre/OSX/Dependencies/lib/libzziplib.a; sourceTree = "<group>"; };
 		5073E0C609E734A800EC74B6 /* ZipProj.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = ZipProj.xcconfig; sourceTree = "<group>"; };
 		5073E0C709E734A800EC74B6 /* ZipTarget.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = ZipTarget.xcconfig; sourceTree = "<group>"; };
 		D2AAC09D05546B4700DB518D /* libZip.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libZip.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -32,8 +32,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				01550A70135642EA00EBA6B6 /* libzzip.a in Frameworks */,
-				01550A72135642F500EBA6B6 /* libz.dylib in Frameworks */,
+				017DBA2A18D0B72400F6F3FF /* libzziplib.a in Frameworks */,
+				017DBA2918D0B72400F6F3FF /* libzlib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,8 +91,8 @@
 		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				01550A6F135642EA00EBA6B6 /* libzzip.a */,
-				01550A71135642F500EBA6B6 /* libz.dylib */,
+				017DBA2718D0B72400F6F3FF /* libzlib.a */,
+				017DBA2818D0B72400F6F3FF /* libzziplib.a */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -142,6 +142,8 @@
 /* Begin PBXProject section */
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+			};
 			buildConfigurationList = 1DEB916408733D950010E9CD /* Build configuration list for PBXProject "Zip" */;
 			compatibilityVersion = "Xcode 3.1";
 			developmentRegion = English;
@@ -189,9 +191,11 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Zip_Prefix.pch;
+				HEADER_SEARCH_PATHS = /Users/andrewpiper/Development/Dependencies/Ogre/OSX/Dependencies/include;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Dependencies/zziplib/lib\"",
+					/Users/andrewpiper/Development/Dependencies/Ogre/OSX/Dependencies/lib,
 				);
 			};
 			name = Debug;
@@ -205,10 +209,11 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../Stdafx.h;
-				HEADER_SEARCH_PATHS = /Users/andrewpiper/Development/Dependencies/zziplib;
+				HEADER_SEARCH_PATHS = /Users/andrewpiper/Development/Dependencies/Ogre/OSX/Dependencies/include;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Dependencies/zziplib/lib\"",
+					/Users/andrewpiper/Development/Dependencies/Ogre/OSX/Dependencies/lib,
 				);
 				STRIP_INSTALLED_PRODUCT = YES;
 				STRIP_STYLE = "non-global";
