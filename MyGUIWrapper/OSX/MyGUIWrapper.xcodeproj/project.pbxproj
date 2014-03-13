@@ -61,11 +61,11 @@
 		0154F08B13572A3700CA2301 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F05113572A3700CA2301 /* Window.cpp */; };
 		0154F08C13572A3700CA2301 /* Stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F05213572A3700CA2301 /* Stdafx.cpp */; };
 		0154F08D13572A3700CA2301 /* Stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 0154F05313572A3700CA2301 /* Stdafx.h */; };
-		0154F0A213572B0D00CA2301 /* libMyGUI.OgrePlatform.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0154F0A113572B0D00CA2301 /* libMyGUI.OgrePlatform.a */; };
-		0154F0A413572B1000CA2301 /* libMyGUIEngineStatic.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0154F0A313572B1000CA2301 /* libMyGUIEngineStatic.a */; };
-		0154F0C113572C0500CA2301 /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0154F0C013572C0500CA2301 /* Ogre.framework */; };
-		0154F1F513572DEC00CA2301 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0154F1F413572DEC00CA2301 /* libfreetype.a */; };
 		01C30DAD15CABBE00035B518 /* TabControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01C30DAC15CABBE00035B518 /* TabControl.cpp */; };
+		01DD65ED18D0B1FA0078CC79 /* libMyGUI.OgrePlatform.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01DD65EB18D0B1FA0078CC79 /* libMyGUI.OgrePlatform.a */; };
+		01DD65EE18D0B1FA0078CC79 /* libMyGUIEngineStatic.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01DD65EC18D0B1FA0078CC79 /* libMyGUIEngineStatic.a */; };
+		01DD65F018D0B2110078CC79 /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01DD65EF18D0B2110078CC79 /* Ogre.framework */; };
+		01DD65F218D0B2250078CC79 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01DD65F118D0B2250078CC79 /* libfreetype.a */; };
 		01DFB49A15501EEA00BC01AC /* EventMouseMoveTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01DFB49915501EEA00BC01AC /* EventMouseMoveTranslator.cpp */; };
 		01E229C2138316A1006D7D48 /* ManagedMyGUILogListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E229C1138316A1006D7D48 /* ManagedMyGUILogListener.cpp */; };
 		01F6A8711524971600F45101 /* TextBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01F6A8691524971600F45101 /* TextBox.cpp */; };
@@ -133,11 +133,11 @@
 		0154F05113572A3700CA2301 /* Window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
 		0154F05213572A3700CA2301 /* Stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Stdafx.cpp; path = ../Stdafx.cpp; sourceTree = SOURCE_ROOT; };
 		0154F05313572A3700CA2301 /* Stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stdafx.h; path = ../Stdafx.h; sourceTree = SOURCE_ROOT; };
-		0154F0A113572B0D00CA2301 /* libMyGUI.OgrePlatform.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMyGUI.OgrePlatform.a; path = ../../../Dependencies/MyGUI/OSXBuild/lib/Release/libMyGUI.OgrePlatform.a; sourceTree = SOURCE_ROOT; };
-		0154F0A313572B1000CA2301 /* libMyGUIEngineStatic.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMyGUIEngineStatic.a; path = ../../../Dependencies/MyGUI/OSXBuild/lib/Release/libMyGUIEngineStatic.a; sourceTree = SOURCE_ROOT; };
-		0154F0C013572C0500CA2301 /* Ogre.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ogre.framework; path = ../../../Dependencies/Ogre/OSXBuild/Build/lib/Release/Ogre.framework; sourceTree = SOURCE_ROOT; };
-		0154F1F413572DEC00CA2301 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetype.a; path = ../../../Dependencies/Ogre/OSXBuild/Dependencies/lib/Release/libfreetype.a; sourceTree = SOURCE_ROOT; };
 		01C30DAC15CABBE00035B518 /* TabControl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TabControl.cpp; sourceTree = "<group>"; };
+		01DD65EB18D0B1FA0078CC79 /* libMyGUI.OgrePlatform.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMyGUI.OgrePlatform.a; path = ../../../Dependencies/MyGUI/OSXBuild/lib/Release/libMyGUI.OgrePlatform.a; sourceTree = "<group>"; };
+		01DD65EC18D0B1FA0078CC79 /* libMyGUIEngineStatic.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMyGUIEngineStatic.a; path = ../../../Dependencies/MyGUI/OSXBuild/lib/Release/libMyGUIEngineStatic.a; sourceTree = "<group>"; };
+		01DD65EF18D0B2110078CC79 /* Ogre.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ogre.framework; path = ../../../Dependencies/Ogre/OSX/Build/lib/macosx/Release/Ogre.framework; sourceTree = "<group>"; };
+		01DD65F118D0B2250078CC79 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetype.a; path = ../../../Dependencies/Ogre/OSX/Dependencies/lib/libfreetype.a; sourceTree = "<group>"; };
 		01DFB49915501EEA00BC01AC /* EventMouseMoveTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMouseMoveTranslator.cpp; sourceTree = "<group>"; };
 		01E229C1138316A1006D7D48 /* ManagedMyGUILogListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManagedMyGUILogListener.cpp; sourceTree = "<group>"; };
 		01F6A8691524971600F45101 /* TextBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextBox.cpp; sourceTree = "<group>"; };
@@ -158,10 +158,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0154F0A213572B0D00CA2301 /* libMyGUI.OgrePlatform.a in Frameworks */,
-				0154F0A413572B1000CA2301 /* libMyGUIEngineStatic.a in Frameworks */,
-				0154F0C113572C0500CA2301 /* Ogre.framework in Frameworks */,
-				0154F1F513572DEC00CA2301 /* libfreetype.a in Frameworks */,
+				01DD65ED18D0B1FA0078CC79 /* libMyGUI.OgrePlatform.a in Frameworks */,
+				01DD65F018D0B2110078CC79 /* Ogre.framework in Frameworks */,
+				01DD65EE18D0B1FA0078CC79 /* libMyGUIEngineStatic.a in Frameworks */,
+				01DD65F218D0B2250078CC79 /* libfreetype.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,10 +280,10 @@
 		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				0154F1F413572DEC00CA2301 /* libfreetype.a */,
-				0154F0C013572C0500CA2301 /* Ogre.framework */,
-				0154F0A313572B1000CA2301 /* libMyGUIEngineStatic.a */,
-				0154F0A113572B0D00CA2301 /* libMyGUI.OgrePlatform.a */,
+				01DD65EF18D0B2110078CC79 /* Ogre.framework */,
+				01DD65EB18D0B1FA0078CC79 /* libMyGUI.OgrePlatform.a */,
+				01DD65EC18D0B1FA0078CC79 /* libMyGUIEngineStatic.a */,
+				01DD65F118D0B2250078CC79 /* libfreetype.a */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -334,6 +334,8 @@
 /* Begin PBXProject section */
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+			};
 			buildConfigurationList = 1DEB916408733D950010E9CD /* Build configuration list for PBXProject "MyGUIWrapper" */;
 			compatibilityVersion = "Xcode 3.1";
 			developmentRegion = English;
@@ -437,6 +439,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/Build/lib/Release\"",
+					/Users/andrewpiper/Development/Dependencies/Ogre/OSX/Build/lib/macosx/Release,
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -448,6 +451,8 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Dependencies/MyGUI/OSXBuild/lib/Release\"",
 					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/Dependencies/lib/Release\"",
+					/Users/andrewpiper/Development/Dependencies/Ogre/OSX/Dependencies/lib,
+					/Users/andrewpiper/Development/Dependencies/MyGUI/OSXBuild/lib/Release,
 				);
 			};
 			name = Debug;
@@ -461,6 +466,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSX/Build/lib/Release\"",
+					/Users/andrewpiper/Development/Dependencies/Ogre/OSX/Build/lib/macosx/Release,
 				);
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -484,6 +490,8 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Dependencies/MyGUI/OSXBuild/lib/Release\"",
 					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSX/Dependencies/lib/Release\"",
+					/Users/andrewpiper/Development/Dependencies/Ogre/OSX/Dependencies/lib,
+					/Users/andrewpiper/Development/Dependencies/MyGUI/OSXBuild/lib/Release,
 				);
 				OTHER_LDFLAGS = (
 					"-framework",
