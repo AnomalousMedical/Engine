@@ -10,6 +10,10 @@
 		0144A7DE149B85B9004E19D6 /* AnimationStateIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0144A7DC149B85B9004E19D6 /* AnimationStateIterator.cpp */; };
 		0144A7DF149B85B9004E19D6 /* OgreExceptionManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0144A7DD149B85B9004E19D6 /* OgreExceptionManager.cpp */; };
 		0144A7E1149B85C6004E19D6 /* OgreExceptionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0144A7E0149B85C6004E19D6 /* OgreExceptionManager.h */; };
+		015207EC18D0B8830040D1F9 /* CompositorManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015207E918D0B8830040D1F9 /* CompositorManager.cpp */; };
+		015207ED18D0B8830040D1F9 /* GpuProgramManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015207EA18D0B8830040D1F9 /* GpuProgramManager.cpp */; };
+		015207EE18D0B8830040D1F9 /* OgreInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015207EB18D0B8830040D1F9 /* OgreInterface.cpp */; };
+		015207F018D0B8BF0040D1F9 /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 015207EF18D0B8BF0040D1F9 /* Ogre.framework */; };
 		015AA5D115B48478000B029F /* ArchiveManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015AA5D015B48478000B029F /* ArchiveManager.cpp */; };
 		01A698D7135636B4008B7F31 /* NativeFrameListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 01A69889135636B4008B7F31 /* NativeFrameListener.h */; };
 		01A698D8135636B4008B7F31 /* NativeSceneListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 01A6988A135636B4008B7F31 /* NativeSceneListener.h */; };
@@ -23,7 +27,6 @@
 		01A698E0135636B4008B7F31 /* AnimationStateSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A69893135636B4008B7F31 /* AnimationStateSet.cpp */; };
 		01A698E1135636B4008B7F31 /* AnimationTrack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A69894135636B4008B7F31 /* AnimationTrack.cpp */; };
 		01A698E2135636B4008B7F31 /* Bone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A69895135636B4008B7F31 /* Bone.cpp */; };
-		01A698E3135636B4008B7F31 /* BorderPanelOverlayElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A69896135636B4008B7F31 /* BorderPanelOverlayElement.cpp */; };
 		01A698E4135636B4008B7F31 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A69897135636B4008B7F31 /* Camera.cpp */; };
 		01A698E5135636B4008B7F31 /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A69898135636B4008B7F31 /* Entity.cpp */; };
 		01A698E6135636B4008B7F31 /* HardwareBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A69899135636B4008B7F31 /* HardwareBuffer.cpp */; };
@@ -53,11 +56,6 @@
 		01A698FE135636B4008B7F31 /* OgreManagedArchiveFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698B1135636B4008B7F31 /* OgreManagedArchiveFactory.cpp */; };
 		01A698FF135636B4008B7F31 /* OgreManagedStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698B2135636B4008B7F31 /* OgreManagedStream.cpp */; };
 		01A69900135636B4008B7F31 /* OgreResourceGroupManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698B3135636B4008B7F31 /* OgreResourceGroupManager.cpp */; };
-		01A69901135636B4008B7F31 /* Overlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698B4135636B4008B7F31 /* Overlay.cpp */; };
-		01A69902135636B4008B7F31 /* OverlayContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698B5135636B4008B7F31 /* OverlayContainer.cpp */; };
-		01A69903135636B4008B7F31 /* OverlayElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698B6135636B4008B7F31 /* OverlayElement.cpp */; };
-		01A69904135636B4008B7F31 /* OverlayManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698B7135636B4008B7F31 /* OverlayManager.cpp */; };
-		01A69905135636B4008B7F31 /* PanelOverlayElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698B8135636B4008B7F31 /* PanelOverlayElement.cpp */; };
 		01A69906135636B4008B7F31 /* Pass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698B9135636B4008B7F31 /* Pass.cpp */; };
 		01A69907135636B4008B7F31 /* PixelBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698BA135636B4008B7F31 /* PixelBox.cpp */; };
 		01A69908135636B4008B7F31 /* Pose.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698BB135636B4008B7F31 /* Pose.cpp */; };
@@ -73,7 +71,6 @@
 		01A69912135636B4008B7F31 /* SubEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698C5135636B4008B7F31 /* SubEntity.cpp */; };
 		01A69913135636B4008B7F31 /* SubMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698C6135636B4008B7F31 /* SubMesh.cpp */; };
 		01A69914135636B4008B7F31 /* Technique.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698C7135636B4008B7F31 /* Technique.cpp */; };
-		01A69915135636B4008B7F31 /* TextAreaOverlayElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698C8135636B4008B7F31 /* TextAreaOverlayElement.cpp */; };
 		01A69916135636B4008B7F31 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698C9135636B4008B7F31 /* Texture.cpp */; };
 		01A69917135636B4008B7F31 /* TextureManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698CA135636B4008B7F31 /* TextureManager.cpp */; };
 		01A69918135636B4008B7F31 /* TextureUnitState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698CB135636B4008B7F31 /* TextureUnitState.cpp */; };
@@ -88,7 +85,6 @@
 		01A69921135636B4008B7F31 /* WrapperMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698D4135636B4008B7F31 /* WrapperMath.cpp */; };
 		01A69922135636B4008B7F31 /* Stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698D5135636B4008B7F31 /* Stdafx.cpp */; };
 		01A69923135636B4008B7F31 /* Stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 01A698D6135636B4008B7F31 /* Stdafx.h */; };
-		01A6992513563729008B7F31 /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01A6992413563729008B7F31 /* Ogre.framework */; };
 		01C2B2731576A70500A28176 /* ManagedRenderSystemListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01C2B2721576A70500A28176 /* ManagedRenderSystemListener.cpp */; };
 /* End PBXBuildFile section */
 
@@ -96,6 +92,10 @@
 		0144A7DC149B85B9004E19D6 /* AnimationStateIterator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationStateIterator.cpp; sourceTree = "<group>"; };
 		0144A7DD149B85B9004E19D6 /* OgreExceptionManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OgreExceptionManager.cpp; sourceTree = "<group>"; };
 		0144A7E0149B85C6004E19D6 /* OgreExceptionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OgreExceptionManager.h; sourceTree = "<group>"; };
+		015207E918D0B8830040D1F9 /* CompositorManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CompositorManager.cpp; sourceTree = "<group>"; };
+		015207EA18D0B8830040D1F9 /* GpuProgramManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GpuProgramManager.cpp; sourceTree = "<group>"; };
+		015207EB18D0B8830040D1F9 /* OgreInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OgreInterface.cpp; sourceTree = "<group>"; };
+		015207EF18D0B8BF0040D1F9 /* Ogre.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ogre.framework; path = ../../../Dependencies/Ogre/OSX/Build/lib/macosx/Release/Ogre.framework; sourceTree = "<group>"; };
 		015AA5D015B48478000B029F /* ArchiveManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArchiveManager.cpp; sourceTree = "<group>"; };
 		01A6988313563672008B7F31 /* OgreCWrapper.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = OgreCWrapper.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		01A69889135636B4008B7F31 /* NativeFrameListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeFrameListener.h; sourceTree = "<group>"; };
@@ -110,7 +110,6 @@
 		01A69893135636B4008B7F31 /* AnimationStateSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationStateSet.cpp; sourceTree = "<group>"; };
 		01A69894135636B4008B7F31 /* AnimationTrack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationTrack.cpp; sourceTree = "<group>"; };
 		01A69895135636B4008B7F31 /* Bone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Bone.cpp; sourceTree = "<group>"; };
-		01A69896135636B4008B7F31 /* BorderPanelOverlayElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BorderPanelOverlayElement.cpp; sourceTree = "<group>"; };
 		01A69897135636B4008B7F31 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
 		01A69898135636B4008B7F31 /* Entity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cpp; sourceTree = "<group>"; };
 		01A69899135636B4008B7F31 /* HardwareBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HardwareBuffer.cpp; sourceTree = "<group>"; };
@@ -140,11 +139,6 @@
 		01A698B1135636B4008B7F31 /* OgreManagedArchiveFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OgreManagedArchiveFactory.cpp; sourceTree = "<group>"; };
 		01A698B2135636B4008B7F31 /* OgreManagedStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OgreManagedStream.cpp; sourceTree = "<group>"; };
 		01A698B3135636B4008B7F31 /* OgreResourceGroupManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OgreResourceGroupManager.cpp; sourceTree = "<group>"; };
-		01A698B4135636B4008B7F31 /* Overlay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Overlay.cpp; sourceTree = "<group>"; };
-		01A698B5135636B4008B7F31 /* OverlayContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OverlayContainer.cpp; sourceTree = "<group>"; };
-		01A698B6135636B4008B7F31 /* OverlayElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OverlayElement.cpp; sourceTree = "<group>"; };
-		01A698B7135636B4008B7F31 /* OverlayManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OverlayManager.cpp; sourceTree = "<group>"; };
-		01A698B8135636B4008B7F31 /* PanelOverlayElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PanelOverlayElement.cpp; sourceTree = "<group>"; };
 		01A698B9135636B4008B7F31 /* Pass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Pass.cpp; sourceTree = "<group>"; };
 		01A698BA135636B4008B7F31 /* PixelBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PixelBox.cpp; sourceTree = "<group>"; };
 		01A698BB135636B4008B7F31 /* Pose.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Pose.cpp; sourceTree = "<group>"; };
@@ -160,7 +154,6 @@
 		01A698C5135636B4008B7F31 /* SubEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SubEntity.cpp; sourceTree = "<group>"; };
 		01A698C6135636B4008B7F31 /* SubMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SubMesh.cpp; sourceTree = "<group>"; };
 		01A698C7135636B4008B7F31 /* Technique.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Technique.cpp; sourceTree = "<group>"; };
-		01A698C8135636B4008B7F31 /* TextAreaOverlayElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextAreaOverlayElement.cpp; sourceTree = "<group>"; };
 		01A698C9135636B4008B7F31 /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Texture.cpp; sourceTree = "<group>"; };
 		01A698CA135636B4008B7F31 /* TextureManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureManager.cpp; sourceTree = "<group>"; };
 		01A698CB135636B4008B7F31 /* TextureUnitState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureUnitState.cpp; sourceTree = "<group>"; };
@@ -175,7 +168,6 @@
 		01A698D4135636B4008B7F31 /* WrapperMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WrapperMath.cpp; sourceTree = "<group>"; };
 		01A698D5135636B4008B7F31 /* Stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Stdafx.cpp; path = ../Stdafx.cpp; sourceTree = SOURCE_ROOT; };
 		01A698D6135636B4008B7F31 /* Stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stdafx.h; path = ../Stdafx.h; sourceTree = SOURCE_ROOT; };
-		01A6992413563729008B7F31 /* Ogre.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ogre.framework; path = ../../../Dependencies/Ogre/OSXBuild/Build/lib/Release/Ogre.framework; sourceTree = SOURCE_ROOT; };
 		01C2B2721576A70500A28176 /* ManagedRenderSystemListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManagedRenderSystemListener.cpp; sourceTree = "<group>"; };
 		5073E0C609E734A800EC74B6 /* OgreCWrapperProj.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = OgreCWrapperProj.xcconfig; sourceTree = "<group>"; };
 		5073E0C709E734A800EC74B6 /* OgreCWrapperTarget.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = OgreCWrapperTarget.xcconfig; sourceTree = "<group>"; };
@@ -186,7 +178,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				01A6992513563729008B7F31 /* Ogre.framework in Frameworks */,
+				015207F018D0B8BF0040D1F9 /* Ogre.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,6 +215,9 @@
 		01A69890135636B4008B7F31 /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				015207E918D0B8830040D1F9 /* CompositorManager.cpp */,
+				015207EA18D0B8830040D1F9 /* GpuProgramManager.cpp */,
+				015207EB18D0B8830040D1F9 /* OgreInterface.cpp */,
 				015AA5D015B48478000B029F /* ArchiveManager.cpp */,
 				01C2B2721576A70500A28176 /* ManagedRenderSystemListener.cpp */,
 				0144A7DC149B85B9004E19D6 /* AnimationStateIterator.cpp */,
@@ -232,7 +227,6 @@
 				01A69893135636B4008B7F31 /* AnimationStateSet.cpp */,
 				01A69894135636B4008B7F31 /* AnimationTrack.cpp */,
 				01A69895135636B4008B7F31 /* Bone.cpp */,
-				01A69896135636B4008B7F31 /* BorderPanelOverlayElement.cpp */,
 				01A69897135636B4008B7F31 /* Camera.cpp */,
 				01A69898135636B4008B7F31 /* Entity.cpp */,
 				01A69899135636B4008B7F31 /* HardwareBuffer.cpp */,
@@ -262,11 +256,6 @@
 				01A698B1135636B4008B7F31 /* OgreManagedArchiveFactory.cpp */,
 				01A698B2135636B4008B7F31 /* OgreManagedStream.cpp */,
 				01A698B3135636B4008B7F31 /* OgreResourceGroupManager.cpp */,
-				01A698B4135636B4008B7F31 /* Overlay.cpp */,
-				01A698B5135636B4008B7F31 /* OverlayContainer.cpp */,
-				01A698B6135636B4008B7F31 /* OverlayElement.cpp */,
-				01A698B7135636B4008B7F31 /* OverlayManager.cpp */,
-				01A698B8135636B4008B7F31 /* PanelOverlayElement.cpp */,
 				01A698B9135636B4008B7F31 /* Pass.cpp */,
 				01A698BA135636B4008B7F31 /* PixelBox.cpp */,
 				01A698BB135636B4008B7F31 /* Pose.cpp */,
@@ -282,7 +271,6 @@
 				01A698C5135636B4008B7F31 /* SubEntity.cpp */,
 				01A698C6135636B4008B7F31 /* SubMesh.cpp */,
 				01A698C7135636B4008B7F31 /* Technique.cpp */,
-				01A698C8135636B4008B7F31 /* TextAreaOverlayElement.cpp */,
 				01A698C9135636B4008B7F31 /* Texture.cpp */,
 				01A698CA135636B4008B7F31 /* TextureManager.cpp */,
 				01A698CB135636B4008B7F31 /* TextureUnitState.cpp */,
@@ -322,7 +310,7 @@
 		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				01A6992413563729008B7F31 /* Ogre.framework */,
+				015207EF18D0B8BF0040D1F9 /* Ogre.framework */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -380,6 +368,8 @@
 /* Begin PBXProject section */
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+			};
 			buildConfigurationList = 1DEB916408733D950010E9CD /* Build configuration list for PBXProject "OgreCWrapper" */;
 			compatibilityVersion = "Xcode 3.1";
 			developmentRegion = English;
@@ -410,7 +400,6 @@
 				01A698E0135636B4008B7F31 /* AnimationStateSet.cpp in Sources */,
 				01A698E1135636B4008B7F31 /* AnimationTrack.cpp in Sources */,
 				01A698E2135636B4008B7F31 /* Bone.cpp in Sources */,
-				01A698E3135636B4008B7F31 /* BorderPanelOverlayElement.cpp in Sources */,
 				01A698E4135636B4008B7F31 /* Camera.cpp in Sources */,
 				01A698E5135636B4008B7F31 /* Entity.cpp in Sources */,
 				01A698E6135636B4008B7F31 /* HardwareBuffer.cpp in Sources */,
@@ -427,6 +416,7 @@
 				01A698F1135636B4008B7F31 /* Material.cpp in Sources */,
 				01A698F2135636B4008B7F31 /* MaterialManager.cpp in Sources */,
 				01A698F3135636B4008B7F31 /* Mesh.cpp in Sources */,
+				015207ED18D0B8830040D1F9 /* GpuProgramManager.cpp in Sources */,
 				01A698F4135636B4008B7F31 /* MeshManager.cpp in Sources */,
 				01A698F5135636B4008B7F31 /* MeshSerializer.cpp in Sources */,
 				01A698F6135636B4008B7F31 /* MovableObject.cpp in Sources */,
@@ -440,11 +430,6 @@
 				01A698FE135636B4008B7F31 /* OgreManagedArchiveFactory.cpp in Sources */,
 				01A698FF135636B4008B7F31 /* OgreManagedStream.cpp in Sources */,
 				01A69900135636B4008B7F31 /* OgreResourceGroupManager.cpp in Sources */,
-				01A69901135636B4008B7F31 /* Overlay.cpp in Sources */,
-				01A69902135636B4008B7F31 /* OverlayContainer.cpp in Sources */,
-				01A69903135636B4008B7F31 /* OverlayElement.cpp in Sources */,
-				01A69904135636B4008B7F31 /* OverlayManager.cpp in Sources */,
-				01A69905135636B4008B7F31 /* PanelOverlayElement.cpp in Sources */,
 				01A69906135636B4008B7F31 /* Pass.cpp in Sources */,
 				01A69907135636B4008B7F31 /* PixelBox.cpp in Sources */,
 				01A69908135636B4008B7F31 /* Pose.cpp in Sources */,
@@ -460,7 +445,6 @@
 				01A69912135636B4008B7F31 /* SubEntity.cpp in Sources */,
 				01A69913135636B4008B7F31 /* SubMesh.cpp in Sources */,
 				01A69914135636B4008B7F31 /* Technique.cpp in Sources */,
-				01A69915135636B4008B7F31 /* TextAreaOverlayElement.cpp in Sources */,
 				01A69916135636B4008B7F31 /* Texture.cpp in Sources */,
 				01A69917135636B4008B7F31 /* TextureManager.cpp in Sources */,
 				01A69918135636B4008B7F31 /* TextureUnitState.cpp in Sources */,
@@ -474,7 +458,9 @@
 				01A69920135636B4008B7F31 /* WindowEventUtilities.cpp in Sources */,
 				01A69921135636B4008B7F31 /* WrapperMath.cpp in Sources */,
 				01A69922135636B4008B7F31 /* Stdafx.cpp in Sources */,
+				015207EC18D0B8830040D1F9 /* CompositorManager.cpp in Sources */,
 				0144A7DE149B85B9004E19D6 /* AnimationStateIterator.cpp in Sources */,
+				015207EE18D0B8830040D1F9 /* OgreInterface.cpp in Sources */,
 				0144A7DF149B85B9004E19D6 /* OgreExceptionManager.cpp in Sources */,
 				01C2B2731576A70500A28176 /* ManagedRenderSystemListener.cpp in Sources */,
 				015AA5D115B48478000B029F /* ArchiveManager.cpp in Sources */,
@@ -494,6 +480,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/Build/lib/Release\"",
+					/Users/andrewpiper/Development/Dependencies/Ogre/OSX/Build/lib/macosx/Release,
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -524,6 +511,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSX/Build/lib/Release\"",
+					/Users/andrewpiper/Development/Dependencies/Ogre/OSX/Build/lib/macosx/Release,
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
