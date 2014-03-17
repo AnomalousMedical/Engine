@@ -71,3 +71,8 @@ extern "C" _AnomalousExport const char* RenderSystem_getName(Ogre::RenderSystem*
 {
 	return renderSystem->getName().c_str();
 }
+
+extern "C" _AnomalousExport void RenderSystem_clearFrameBuffer(Ogre::RenderSystem* renderSystem, unsigned int buffers, Color color, float depth, unsigned short stencil)
+{
+	renderSystem->clearFrameBuffer(buffers, color.toOgre(), depth, stencil);
+}

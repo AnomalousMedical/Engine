@@ -91,6 +91,11 @@ namespace OgreWrapper
             RenderSystem_removeListener(renderSystem, listener.Ptr);
         }
 
+        public void clearFrameBuffer(FrameBufferType buffers, Color color, float depth = 1.0f, ushort stencil = 0)
+        {
+            RenderSystem_clearFrameBuffer(renderSystem, (uint)buffers, color, depth, stencil);
+        }
+
         public String Name
         {
             get
@@ -134,6 +139,9 @@ namespace OgreWrapper
 
         [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr RenderSystem_getName(IntPtr renderSystem);
+
+        [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void RenderSystem_clearFrameBuffer(IntPtr renderSystem, uint buffers, Color color, float depth, ushort stencil);
 
         #endregion 
     }
