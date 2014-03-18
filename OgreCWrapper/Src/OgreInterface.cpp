@@ -14,7 +14,7 @@ enum RenderSystemType
 extern "C" _AnomalousExport Ogre::Plugin* OgreInterface_LoadRenderSystem(RenderSystemType rendersystemType)
 {
 #ifdef WINDOWS
-	String defaultRenderSystem = "RenderSystem_Direct3D9";
+	String defaultRenderSystem = "RenderSystem_Direct3D11";
 #endif
 
 #ifdef MAC_OSX
@@ -58,8 +58,8 @@ extern "C" _AnomalousExport void OgreInterface_UnloadRenderSystem(Ogre::Plugin* 
 extern "C" _AnomalousExport Ogre::RenderSystem* OgreInterface_GetRenderSystem(RenderSystemType rendersystemType)
 {
 #ifdef WINDOWS
-	String defaultRenderSystem = "Direct3D9 Rendering Subsystem";
-	RenderSystemType defaultRendersystemType = D3D9;
+	String defaultRenderSystem = "Direct3D11 Rendering Subsystem";
+	RenderSystemType defaultRendersystemType = D3D11;
 #endif
 
 #ifdef MAC_OSX
