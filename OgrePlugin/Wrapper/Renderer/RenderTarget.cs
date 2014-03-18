@@ -43,6 +43,7 @@ namespace OgreWrapper
 
         protected IntPtr renderTarget;
         private List<Viewport> viewports = new List<Viewport>();
+        private RenderTargetListener renderTargetListener;
 
         public RenderTarget(IntPtr renderTarget)
         {
@@ -51,6 +52,7 @@ namespace OgreWrapper
 
         public void Dispose()
         {
+            checkDestroyListener(true);
             foreach (Viewport vp in viewports)
             {
                 ViewportManager.destroyViewport(vp);
@@ -496,6 +498,109 @@ namespace OgreWrapper
             return RenderTarget_getFSAA(renderTarget);
         }
 
+        public event RenderTargetEventDelegate PreRenderTargetUpdate
+        {
+            add
+            {
+                checkListenerCreated();
+                renderTargetListener.PreRenderTargetUpdate += value;
+            }
+            remove
+            {
+                renderTargetListener.PreRenderTargetUpdate -= value;
+                checkDestroyListener();
+            }
+        }
+
+        public event RenderTargetEventDelegate PostRenderTargetUpdate
+        {
+            add
+            {
+                checkListenerCreated();
+                renderTargetListener.PostRenderTargetUpdate += value;
+            }
+            remove
+            {
+                renderTargetListener.PostRenderTargetUpdate -= value;
+                checkDestroyListener();
+            }
+        }
+
+        public event RenderTargetViewportEventDelegate PreViewportUpdate
+        {
+            add
+            {
+                checkListenerCreated();
+                renderTargetListener.PreViewportUpdate += value;
+            }
+            remove
+            {
+                renderTargetListener.PreViewportUpdate -= value;
+                checkDestroyListener();
+            }
+        }
+
+        public event RenderTargetViewportEventDelegate PostViewportUpdate
+        {
+            add
+            {
+                checkListenerCreated();
+                renderTargetListener.PostViewportUpdate += value;
+            }
+            remove
+            {
+                renderTargetListener.PostViewportUpdate -= value;
+                checkDestroyListener();
+            }
+        }
+
+        public event RenderTargetViewportEventDelegate ViewportAdded
+        {
+            add
+            {
+                checkListenerCreated();
+                renderTargetListener.ViewportAdded += value;
+            }
+            remove
+            {
+                renderTargetListener.ViewportAdded -= value;
+                checkDestroyListener();
+            }
+        }
+
+        public event RenderTargetViewportEventDelegate ViewportRemoved
+        {
+            add
+            {
+                checkListenerCreated();
+                renderTargetListener.ViewportRemoved += value;
+            }
+            remove
+            {
+                renderTargetListener.ViewportRemoved -= value;
+                checkDestroyListener();
+            }
+        }
+
+        private void checkListenerCreated()
+        {
+            if (renderTargetListener == null)
+            {
+                renderTargetListener = new RenderTargetListener();
+                RenderTarget_addListener(renderTarget, renderTargetListener.Ptr);
+            }
+        }
+
+        private void checkDestroyListener(bool forceDelete = false)
+        {
+            if (renderTargetListener != null && (forceDelete || !renderTargetListener.HasSubscribers))
+            {
+                RenderTarget_removeListener(renderTarget, renderTargetListener.Ptr);
+                renderTargetListener.Dispose();
+                renderTargetListener = null;
+            }
+        }
+
         #region PInvoke
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
@@ -613,6 +718,12 @@ namespace OgreWrapper
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern uint RenderTarget_getFSAA(IntPtr renderTarget);
+
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        private static extern void RenderTarget_addListener(IntPtr renderTarget, IntPtr listener);
+
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        private static extern void RenderTarget_removeListener(IntPtr renderTarget, IntPtr listener);
 
         #endregion 
     }

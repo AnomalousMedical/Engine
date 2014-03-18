@@ -125,6 +125,7 @@ copy ..\..\Dependencies\Ogre\Windows\Build\bin\Release\RenderSystem_GL.dll $(Out
     <ClCompile Include="Src\Light.cpp" />
     <ClCompile Include="Src\ManagedRenderQueueListener.cpp" />
     <ClCompile Include="Src\ManagedRenderSystemListener.cpp" />
+    <ClCompile Include="Src\ManagedRenderTargetListener.cpp" />
     <ClCompile Include="Src\ManualObject.cpp" />
     <ClCompile Include="Src\ManualObjectSection.cpp" />
     <ClCompile Include="Src\Material.cpp" />

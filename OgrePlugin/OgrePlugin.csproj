@@ -147,6 +147,7 @@
     <Compile Include="Wrapper\Renderer\RenderSystem.cs" />
     <Compile Include="Wrapper\Renderer\RenderSystemListener.cs" />
     <Compile Include="Wrapper\Renderer\RenderTarget.cs" />
+    <Compile Include="Wrapper\Renderer\RenderTargetListener.cs" />
     <Compile Include="Wrapper\Renderer\RenderTexture.cs" />
     <Compile Include="Wrapper\Renderer\RenderWindow.cs" />
     <Compile Include="Wrapper\Renderer\Root.cs" />

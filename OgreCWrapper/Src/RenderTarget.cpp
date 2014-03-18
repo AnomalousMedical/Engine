@@ -184,3 +184,13 @@ extern "C" _AnomalousExport uint RenderTarget_getFSAA(Ogre::RenderTarget* render
 {
 	return renderTarget->getFSAA();
 }
+
+extern "C" _AnomalousExport void RenderTarget_addListener(Ogre::RenderTarget* renderTarget, Ogre::RenderTargetListener* listener)
+{
+	return renderTarget->addListener(listener);
+}
+
+extern "C" _AnomalousExport void RenderTarget_removeListener(Ogre::RenderTarget* renderTarget, Ogre::RenderTargetListener* listener)
+{
+	return renderTarget->removeListener(listener);
+}
