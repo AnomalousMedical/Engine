@@ -154,3 +154,13 @@ extern "C" _AnomalousExport void Viewport_clear5(Ogre::Viewport* viewport, Ogre:
 {
 	viewport->clear(buffers, color.toOgre(), depth, stencil);
 }
+
+extern "C" _AnomalousExport bool Viewport_isAutoUpdated(Ogre::Viewport* viewport)
+{
+	return viewport->isAutoUpdated();
+}
+
+extern "C" _AnomalousExport void Viewport_setAutoUpdated(Ogre::Viewport* viewport, bool autoUpdate)
+{
+	viewport->setAutoUpdated(autoUpdate);
+}

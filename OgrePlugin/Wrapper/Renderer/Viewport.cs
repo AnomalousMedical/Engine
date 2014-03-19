@@ -208,6 +208,18 @@ namespace OgreWrapper
             Viewport_clear5(viewport, buffers, color, depth, stencil);
         }
 
+        public bool AutoUpdated
+        {
+            get
+            {
+                return Viewport_isAutoUpdated(viewport);
+            }
+            set
+            {
+                Viewport_setAutoUpdated(viewport, value);
+            }
+        }
+
 #region PInvoke
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
@@ -306,6 +318,13 @@ namespace OgreWrapper
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void Viewport_clear5(IntPtr viewport, FrameBufferType buffers, Color color, float depth, ushort stencil);
+
+        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool Viewport_isAutoUpdated(IntPtr viewport);
+
+        [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Viewport_setAutoUpdated(IntPtr viewport, bool autoUpdate);
 
 #endregion
     }
