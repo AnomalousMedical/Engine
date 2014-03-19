@@ -507,8 +507,11 @@ namespace OgreWrapper
             }
             remove
             {
-                renderTargetListener.PreRenderTargetUpdate -= value;
-                checkDestroyListener();
+                if (renderTargetListener != null)
+                {
+                    renderTargetListener.PreRenderTargetUpdate -= value;
+                    checkDestroyListener();
+                }
             }
         }
 
@@ -521,8 +524,11 @@ namespace OgreWrapper
             }
             remove
             {
-                renderTargetListener.PostRenderTargetUpdate -= value;
-                checkDestroyListener();
+                if (renderTargetListener != null)
+                {
+                    renderTargetListener.PostRenderTargetUpdate -= value;
+                    checkDestroyListener();
+                }
             }
         }
 
@@ -535,8 +541,11 @@ namespace OgreWrapper
             }
             remove
             {
-                renderTargetListener.PreViewportUpdate -= value;
-                checkDestroyListener();
+                if (renderTargetListener != null)
+                {
+                    renderTargetListener.PreViewportUpdate -= value;
+                    checkDestroyListener();
+                }
             }
         }
 
@@ -549,8 +558,11 @@ namespace OgreWrapper
             }
             remove
             {
-                renderTargetListener.PostViewportUpdate -= value;
-                checkDestroyListener();
+                if (renderTargetListener != null)
+                {
+                    renderTargetListener.PostViewportUpdate -= value;
+                    checkDestroyListener();
+                }
             }
         }
 
@@ -563,8 +575,11 @@ namespace OgreWrapper
             }
             remove
             {
-                renderTargetListener.ViewportAdded -= value;
-                checkDestroyListener();
+                if (renderTargetListener != null)
+                {
+                    renderTargetListener.ViewportAdded -= value;
+                    checkDestroyListener();
+                }
             }
         }
 
@@ -577,8 +592,11 @@ namespace OgreWrapper
             }
             remove
             {
-                renderTargetListener.ViewportRemoved -= value;
-                checkDestroyListener();
+                if (renderTargetListener != null)
+                {
+                    renderTargetListener.ViewportRemoved -= value;
+                    checkDestroyListener();
+                }
             }
         }
 
