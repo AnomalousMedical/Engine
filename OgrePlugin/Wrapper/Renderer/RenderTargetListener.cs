@@ -98,11 +98,11 @@ namespace OgreWrapper
         {
             get
             {
-                return PreRenderTargetUpdate != null &&
-                       PostRenderTargetUpdate != null &&
-                       PreViewportUpdate != null &&
-                       PostViewportUpdate != null &&
-                       ViewportAdded != null &&
+                return PreRenderTargetUpdate != null ||
+                       PostRenderTargetUpdate != null ||
+                       PreViewportUpdate != null ||
+                       PostViewportUpdate != null ||
+                       ViewportAdded != null ||
                        ViewportRemoved != null;
             }
         }
