@@ -284,7 +284,7 @@ namespace Engine
         /// <param name="rotation">The rotation to set.</param>
         protected override sealed void updatePositionImpl(ref Vector3 translation, ref Quaternion rotation)
         {
-            
+            positionUpdated();
         }
 
         /// <summary>
@@ -293,7 +293,7 @@ namespace Engine
         /// <param name="translation">The translation to set.</param>
         protected override sealed void updateTranslationImpl(ref Vector3 translation)
         {
-            
+            positionUpdated();
         }
 
         /// <summary>
@@ -302,7 +302,7 @@ namespace Engine
         /// <param name="rotation">The rotation to set.</param>
         protected override sealed void updateRotationImpl(ref Quaternion rotation)
         {
-            
+            positionUpdated();
         }
 
         /// <summary>
@@ -311,7 +311,12 @@ namespace Engine
         /// <param name="scale">The scale to set.</param>
         protected override sealed void updateScaleImpl(ref Vector3 scale)
         {
-            
+            positionUpdated();
+        }
+
+        protected virtual void positionUpdated()
+        {
+
         }
 
         /// <summary>
