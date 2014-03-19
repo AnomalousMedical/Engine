@@ -76,3 +76,8 @@ extern "C" _AnomalousExport void RenderSystem_clearFrameBuffer(Ogre::RenderSyste
 {
 	renderSystem->clearFrameBuffer(buffers, color.toOgre(), depth, stencil);
 }
+
+extern "C" _AnomalousExport void RenderSystem__setRenderTarget(Ogre::RenderSystem* renderSystem, Ogre::RenderTarget* target)
+{
+	renderSystem->_setRenderTarget(target);
+}
