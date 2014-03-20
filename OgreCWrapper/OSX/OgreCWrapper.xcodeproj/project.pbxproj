@@ -10,6 +10,7 @@
 		0144A7DE149B85B9004E19D6 /* AnimationStateIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0144A7DC149B85B9004E19D6 /* AnimationStateIterator.cpp */; };
 		0144A7DF149B85B9004E19D6 /* OgreExceptionManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0144A7DD149B85B9004E19D6 /* OgreExceptionManager.cpp */; };
 		0144A7E1149B85C6004E19D6 /* OgreExceptionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0144A7E0149B85C6004E19D6 /* OgreExceptionManager.h */; };
+		015149F518D8D7700022F163 /* ManagedRenderTargetListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015149F418D8D7700022F163 /* ManagedRenderTargetListener.cpp */; };
 		015207EC18D0B8830040D1F9 /* CompositorManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015207E918D0B8830040D1F9 /* CompositorManager.cpp */; };
 		015207ED18D0B8830040D1F9 /* GpuProgramManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015207EA18D0B8830040D1F9 /* GpuProgramManager.cpp */; };
 		015207EE18D0B8830040D1F9 /* OgreInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015207EB18D0B8830040D1F9 /* OgreInterface.cpp */; };
@@ -92,6 +93,7 @@
 		0144A7DC149B85B9004E19D6 /* AnimationStateIterator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationStateIterator.cpp; sourceTree = "<group>"; };
 		0144A7DD149B85B9004E19D6 /* OgreExceptionManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OgreExceptionManager.cpp; sourceTree = "<group>"; };
 		0144A7E0149B85C6004E19D6 /* OgreExceptionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OgreExceptionManager.h; sourceTree = "<group>"; };
+		015149F418D8D7700022F163 /* ManagedRenderTargetListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManagedRenderTargetListener.cpp; sourceTree = "<group>"; };
 		015207E918D0B8830040D1F9 /* CompositorManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CompositorManager.cpp; sourceTree = "<group>"; };
 		015207EA18D0B8830040D1F9 /* GpuProgramManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GpuProgramManager.cpp; sourceTree = "<group>"; };
 		015207EB18D0B8830040D1F9 /* OgreInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OgreInterface.cpp; sourceTree = "<group>"; };
@@ -215,6 +217,7 @@
 		01A69890135636B4008B7F31 /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				015149F418D8D7700022F163 /* ManagedRenderTargetListener.cpp */,
 				015207E918D0B8830040D1F9 /* CompositorManager.cpp */,
 				015207EA18D0B8830040D1F9 /* GpuProgramManager.cpp */,
 				015207EB18D0B8830040D1F9 /* OgreInterface.cpp */,
@@ -459,6 +462,7 @@
 				01A69921135636B4008B7F31 /* WrapperMath.cpp in Sources */,
 				01A69922135636B4008B7F31 /* Stdafx.cpp in Sources */,
 				015207EC18D0B8830040D1F9 /* CompositorManager.cpp in Sources */,
+				015149F518D8D7700022F163 /* ManagedRenderTargetListener.cpp in Sources */,
 				0144A7DE149B85B9004E19D6 /* AnimationStateIterator.cpp in Sources */,
 				015207EE18D0B8830040D1F9 /* OgreInterface.cpp in Sources */,
 				0144A7DF149B85B9004E19D6 /* OgreExceptionManager.cpp in Sources */,
