@@ -6,9 +6,8 @@
 enum RenderSystemType
 {
 	Default = 0,
-	D3D9 = 1,
-	D3D11 = 2,
-	OpenGL = 3
+	D3D11 = 1,
+	OpenGL = 2
 };
 
 extern "C" _AnomalousExport Ogre::Plugin* OgreInterface_LoadRenderSystem(RenderSystemType rendersystemType)
@@ -26,9 +25,6 @@ extern "C" _AnomalousExport Ogre::Plugin* OgreInterface_LoadRenderSystem(RenderS
 	{
 		case Default:
 			name = defaultRenderSystem;
-			break;
-		case D3D9:
-			name = "RenderSystem_Direct3D9";
 			break;
 		case D3D11:
 			name = "RenderSystem_Direct3D11";
@@ -75,9 +71,6 @@ extern "C" _AnomalousExport Ogre::RenderSystem* OgreInterface_GetRenderSystem(Re
 			name = defaultRenderSystem;
 			rendersystemType = defaultRendersystemType;
 			break;
-		case D3D9:
-			name = "Direct3D9 Rendering Subsystem";
-			break;
 		case D3D11:
 			name = "Direct3D11 Rendering Subsystem";
 			break;
@@ -97,12 +90,11 @@ extern "C" _AnomalousExport Ogre::RenderSystem* OgreInterface_GetRenderSystem(Re
 	//Determine any custom settings needed all the time, rendersystemType here
 	//will be an actual rendersystem and not the default as we will have determined
 	//what it is by this point.
-	switch(rendersystemType)
+	//Disabled for now, but this is where you do it.
+	/*switch(rendersystemType)
 	{
-		case D3D9:
-			rs->setConfigOption("Multi device memory hint", "Auto hardware buffers management");
-			break;
-	}
+		
+	}*/
 
 	return rs;
 }

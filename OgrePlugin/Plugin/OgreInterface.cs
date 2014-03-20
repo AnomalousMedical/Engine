@@ -19,9 +19,8 @@ namespace OgrePlugin
     public enum RenderSystemType
     {
         Default = 0,
-        D3D9 = 1,
-        D3D11 = 2,
-        OpenGL = 3
+        D3D11 = 1,
+        OpenGL = 2
     };
 
     /// <summary>
