@@ -115,12 +115,6 @@
     <EmbeddedResource Include="Resources\NoImageFound.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Shader\Gui\D3D9\TexturePS.hlsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Shader\Gui\D3D9\TextureVS.hlsl" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Resources\Shader\libRocket.program" />
   </ItemGroup>
   <ItemGroup>
@@ -134,12 +128,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Shader\Gui\D3D11\NoTextureVS.hlsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Shader\Gui\D3D9\NoTexturePS.hlsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Shader\Gui\D3D9\NoTextureVS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Shader\Gui\glsl\TexturePS.glsl" />

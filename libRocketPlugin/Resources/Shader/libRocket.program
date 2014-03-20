@@ -1,13 +1,6 @@
 //-------------------------------------
 //Textured Vertex Shader
 //-------------------------------------
-vertex_program libRocketTextureVS_D3D9 hlsl
-{
-	source libRocketPlugin.Resources.Shader.Gui.D3D9.TextureVS.hlsl
-	entry_point main
-	target vs_3_0
-}
-
 vertex_program libRocketTextureVS_D3D11 hlsl
 {
 	source libRocketPlugin.Resources.Shader.Gui.D3D11.TextureVS.hlsl
@@ -23,7 +16,6 @@ vertex_program libRocketTextureVS_GLSL glsl
 
 vertex_program libRocketTextureVS unified
 {
-	delegate libRocketTextureVS_D3D9
 	delegate libRocketTextureVS_D3D11
     delegate libRocketTextureVS_GLSL
 }
@@ -31,13 +23,6 @@ vertex_program libRocketTextureVS unified
 //-------------------------------------
 //Textured Fragment Program
 //-------------------------------------
-fragment_program libRocketTexturePS_D3D9 hlsl
-{
-	source libRocketPlugin.Resources.Shader.Gui.D3D9.TexturePS.hlsl
-	entry_point main
-	target ps_3_0
-}
-
 fragment_program libRocketTexturePS_D3D11 hlsl
 {
 	source libRocketPlugin.Resources.Shader.Gui.D3D11.TexturePS.hlsl
@@ -58,7 +43,6 @@ fragment_program libRocketTexturePS_GLSL glsl
 
 fragment_program libRocketTexturePS unified
 {
-	delegate libRocketTexturePS_D3D9
     delegate libRocketTexturePS_D3D11
     delegate libRocketTexturePS_GLSL
 }
@@ -66,13 +50,6 @@ fragment_program libRocketTexturePS unified
 //-------------------------------------
 //Untextured Vertex Shader
 //-------------------------------------
-vertex_program libRocketNoTextureVS_D3D9 hlsl
-{
-	source libRocketPlugin.Resources.Shader.Gui.D3D9.NoTextureVS.hlsl
-	entry_point main
-	target vs_3_0
-}
-
 vertex_program libRocketNoTextureVS_D3D11 hlsl
 {
 	source libRocketPlugin.Resources.Shader.Gui.D3D11.NoTextureVS.hlsl
@@ -88,7 +65,6 @@ vertex_program libRocketNoTextureVS_GLSL glsl
 
 vertex_program libRocketNoTextureVS unified
 {
-	delegate libRocketNoTextureVS_D3D9
 	delegate libRocketNoTextureVS_D3D11
     delegate libRocketNoTextureVS_GLSL
 }
@@ -96,13 +72,6 @@ vertex_program libRocketNoTextureVS unified
 //-------------------------------------
 //Textured Fragment Program
 //-------------------------------------
-fragment_program libRocketNoTexturePS_D3D9 hlsl
-{
-	source libRocketPlugin.Resources.Shader.Gui.D3D9.NoTexturePS.hlsl
-	entry_point main
-	target ps_3_0
-}
-
 fragment_program libRocketNoTexturePS_D3D11 hlsl
 {
 	source libRocketPlugin.Resources.Shader.Gui.D3D11.NoTexturePS.hlsl
@@ -118,7 +87,6 @@ fragment_program libRocketNoTexturePS_GLSL glsl
 
 fragment_program libRocketNoTexturePS unified
 {
-	delegate libRocketNoTexturePS_D3D9
     delegate libRocketNoTexturePS_D3D11
     delegate libRocketNoTexturePS_GLSL
 }

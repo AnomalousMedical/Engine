@@ -284,8 +284,6 @@
     <EmbeddedResource Include="Resources\MyGUIPlugin_DejaVuSans-Bold.ttf" />
     <EmbeddedResource Include="Resources\MyGUIPlugin_DejaVuSans-BoldOblique.ttf" />
     <EmbeddedResource Include="Resources\MyGUIPlugin_DejaVuSans-Oblique.ttf" />
-    <EmbeddedResource Include="Resources\Shader\Gui\D3D9\TexturePS.hlsl" />
-    <EmbeddedResource Include="Resources\Shader\Gui\D3D9\TextureVS.hlsl" />
     <EmbeddedResource Include="Resources\Shader\Gui.program" />
     <EmbeddedResource Include="Resources\Shader\Gui\D3D11\TexturePS.hlsl" />
     <EmbeddedResource Include="Resources\Shader\Gui\D3D11\TextureVS.hlsl" />
