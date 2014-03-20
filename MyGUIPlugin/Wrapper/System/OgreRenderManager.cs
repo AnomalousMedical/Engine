@@ -21,29 +21,9 @@ namespace MyGUIPlugin
             renderManager = IntPtr.Zero;
         }
 
-        public void setRenderWindow(RenderWindow window)
+        public void windowResized(int windowWidth, int windowHeight)
         {
-            OgreRenderManager_setRenderWindow(renderManager, window.OgreRenderTarget);
-        }
-
-        public void setSceneManager(SceneManager scene)
-        {
-            OgreRenderManager_setSceneManager(renderManager, scene != null ? scene.OgreSceneManager : IntPtr.Zero);
-        }
-
-        public uint getActiveViewport()
-        {
-            return OgreRenderManager_getActiveViewport(renderManager).ToUInt32();
-        }
-
-        public void setActiveViewport(uint num)
-        {
-            OgreRenderManager_setActiveViewport(renderManager, new UIntPtr(num));
-        }
-
-        public void windowMovedOrResized()
-        {
-            OgreRenderManager_windowMovedOrResized(renderManager);
+            OgreRenderManager_windowResized(renderManager, windowWidth, windowHeight);
         }
 
         public void destroyTexture(String name)
@@ -51,25 +31,21 @@ namespace MyGUIPlugin
             OgreRenderManager_destroyTextureString(renderManager, name);
         }
 
+        internal void update()
+        {
+            OgreRenderManager_update(renderManager);
+        }
+
 #region PInvoke
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void OgreRenderManager_setRenderWindow(IntPtr renderManager, IntPtr window);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void OgreRenderManager_setSceneManager(IntPtr renderManager, IntPtr scene);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern UIntPtr OgreRenderManager_getActiveViewport(IntPtr renderManager);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void OgreRenderManager_setActiveViewport(IntPtr renderManager, UIntPtr num);
-
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void OgreRenderManager_windowMovedOrResized(IntPtr renderManager);
+        private static extern void OgreRenderManager_windowResized(IntPtr renderManager, int windowWidth, int windowHeight);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void OgreRenderManager_destroyTextureString(IntPtr renderManager, String name);
+
+        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void OgreRenderManager_update(IntPtr renderManager);
 
 #endregion
     }

@@ -93,12 +93,12 @@ namespace MyGUIPlugin
 
             //Create Ogre Platform
             ogrePlatform = new OgrePlatform();
-            ogrePlatform.initialize(ogreWindow.OgreRenderWindow, sceneManager, "MyGUI", LogFile);
+            ogrePlatform.initialize(vp.getActualWidth(), vp.getActualHeight(), "MyGUI", LogFile);
 
             //Create log
             managedLogListener = new ManagedMyGUILogListener();
 
-            renderListener = new MyGUIRenderListener(vp, sceneManager);
+            renderListener = new MyGUIRenderListener(vp, sceneManager, ogrePlatform.getRenderManager());
 
             gui = new Gui();
             gui.ScaleFactor = ScaleHelper.ScaleFactor;

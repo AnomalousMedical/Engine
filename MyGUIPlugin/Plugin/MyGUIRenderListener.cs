@@ -13,11 +13,16 @@ namespace MyGUIPlugin
 
         private Viewport viewport;
         private SceneManager sceneManager;
+        private OgreRenderManager renderManager;
 
-        public MyGUIRenderListener(Viewport viewport, SceneManager sceneManager)
+        private int lastWidth;
+        private int lastHeight;
+
+        public MyGUIRenderListener(Viewport viewport, SceneManager sceneManager, OgreRenderManager renderManager)
         {
             this.viewport = viewport;
             this.sceneManager = sceneManager;
+            this.renderManager = renderManager;
             sceneManager.addRenderQueueListener(this);
             sceneManager.addSceneListener(this);
         }
@@ -30,6 +35,17 @@ namespace MyGUIPlugin
                 {
                     RenderStarted.Invoke(this, EventArgs.Empty);
                 }
+
+                int width = viewport.getActualWidth();
+                int height = viewport.getActualHeight();
+                if(width != lastWidth || height != lastHeight)
+                {
+                    renderManager.windowResized(width, height);
+                    lastWidth = width;
+                    lastHeight = height;
+                }
+
+                renderManager.update();
             }
         }
 
