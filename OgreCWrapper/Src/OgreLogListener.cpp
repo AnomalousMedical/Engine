@@ -4,7 +4,7 @@
 OgreLogListener::OgreLogListener(MessageLoggedDelegate messageLoggedCallback)
 :messageLoggedCallback(messageLoggedCallback)
 {
-
+	Ogre::LogManager::getSingleton().getDefaultLog()->setDebugOutputEnabled(false);
 }
 
 OgreLogListener::~OgreLogListener(void)
@@ -30,9 +30,4 @@ extern "C" _AnomalousExport void OgreLogListener_Delete(OgreLogListener* logList
 extern "C" _AnomalousExport void OgreLogListener_subscribe(OgreLogListener* logListener)
 {
 	Ogre::LogManager::getSingleton().getDefaultLog()->addListener(logListener);
-}
-
-extern "C" _AnomalousExport void OgreLogListener_setDebugOutputEnabled(OgreLogListener* logListener, bool enabled)
-{
-	Ogre::LogManager::getSingleton().getDefaultLog()->setDebugOutputEnabled(enabled);
 }

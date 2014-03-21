@@ -37,11 +37,6 @@ namespace OgreWrapper
             OgreLogListener_subscribe(nativeLogListener);
         }
 
-        public void setDeubgOutputEnabled(bool enabled)
-        {
-            OgreLogListener_setDebugOutputEnabled(nativeLogListener, enabled);
-        }
-
         private void messageLogged(String message, LogMessageLevel lml)
         {
             LogLevel level = LogLevel.Info;
@@ -73,9 +68,6 @@ namespace OgreWrapper
 
         [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
         private static extern void OgreLogListener_subscribe(IntPtr logListener);
-
-        [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
-        private static extern void OgreLogListener_setDebugOutputEnabled(IntPtr logListener, bool enabled);
 
         #endregion
     }
