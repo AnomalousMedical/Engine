@@ -10,7 +10,7 @@ namespace OgrePlugin
     /// <summary>
     /// A class for RenderWindows from Ogre that have been embedded.
     /// </summary>
-    class EmbeddedWindow : OgreWindow, OSWindowListener
+    class EmbeddedWindow : OgreWindow
     {
         private OSWindow osWindow;
         private RenderWindow renderWindow;
@@ -25,7 +25,9 @@ namespace OgrePlugin
         {
             this.osWindow = osWindow;
             this.renderWindow = renderWindow;
-            osWindow.addListener(this);
+            osWindow.Moved += osWindow_Moved;
+            osWindow.Resized += osWindow_Resized;
+            osWindow.Closing += osWindow_Closing;
         }
 
         /// <summary>
@@ -33,20 +35,22 @@ namespace OgrePlugin
         /// </summary>
         public override void Dispose()
         {
-            osWindow.removeListener(this);
+            osWindow.Moved -= osWindow_Moved;
+            osWindow.Resized -= osWindow_Resized;
+            osWindow.Closing -= osWindow_Closing;
         }
 
-        public void moved(OSWindow window)
+        void osWindow_Moved(OSWindow window)
         {
             renderWindow.windowMovedOrResized();
         }
 
-        public void resized(OSWindow window)
+        void osWindow_Resized(OSWindow window)
         {
             renderWindow.windowMovedOrResized();
         }
 
-        public void closing(OSWindow window)
+        void osWindow_Closing(OSWindow window)
         {
             renderWindow.setActive(false);
         }
@@ -60,16 +64,6 @@ namespace OgrePlugin
             {
                 return renderWindow;
             }
-        }
-
-        public void closed(OSWindow window)
-        {
-            
-        }
-
-        public void focusChanged(OSWindow window)
-        {
-            
         }
     }
 }

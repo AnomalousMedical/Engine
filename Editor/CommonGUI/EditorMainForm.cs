@@ -13,7 +13,6 @@ namespace Editor
 {
     public partial class EditorMainForm : Form, OSWindow
     {
-        private List<OSWindowListener> listeners = new List<OSWindowListener>();
         private String windowDefaultText;
         private const String TITLE_FORMAT = "{0} - {1}";
         private DockPanel dockPanel;
@@ -84,15 +83,15 @@ namespace Editor
             }
         }
 
-        public void addListener(OSWindowListener listener)
-        {
-            listeners.Add(listener);
-        }
+        public event OSWindowEvent Moved;
 
-        public void removeListener(OSWindowListener listener)
-        {
-            listeners.Remove(listener);
-        }
+        public event OSWindowEvent Resized;
+
+        public event OSWindowEvent Closing;
+
+        public event OSWindowEvent Closed;
+
+        public event OSWindowEvent FocusChanged;
 
         #endregion
 
@@ -115,27 +114,31 @@ namespace Editor
 
         protected override void OnResize(EventArgs e)
         {
-            foreach (OSWindowListener listener in listeners)
+            if(Resized != null)
             {
-                listener.resized(this);
+                Resized.Invoke(this);
             }
             base.OnResize(e);
         }
 
         protected override void OnMove(EventArgs e)
         {
-            foreach (OSWindowListener listener in listeners)
+            if(Moved != null)
             {
-                listener.moved(this);
+                Moved.Invoke(this);
             }
             base.OnMove(e);
         }
 
         protected override void OnHandleDestroyed(EventArgs e)
         {
-            foreach (OSWindowListener listener in listeners)
+            if(Closing != null)
             {
-                listener.closing(this);
+                Closing.Invoke(this);
+            }
+            if (Closed != null)
+            {
+                Closed.Invoke(this);
             }
             base.OnHandleDestroyed(e);
         }

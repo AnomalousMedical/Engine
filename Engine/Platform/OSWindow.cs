@@ -5,6 +5,8 @@ using System.Text;
 
 namespace Engine.Platform
 {
+    public delegate void OSWindowEvent(OSWindow window);
+
     public interface OSWindow
     {
         /// <summary>
@@ -28,15 +30,34 @@ namespace Engine.Platform
         bool Focused { get; }
 
         /// <summary>
-        /// Add a listener.
+        /// Called when the window is moved.
         /// </summary>
-        /// <param name="listener">The listener to add.</param>
-        void addListener(OSWindowListener listener);
+        /// <param name="window">The window.</param>
+        event OSWindowEvent Moved;
 
         /// <summary>
-        /// Remove a listener.
+        /// Called when the window is resized.
         /// </summary>
-        /// <param name="listener">The listener to remove.</param>
-        void removeListener(OSWindowListener listener);
+        /// <param name="window">The window.</param>
+        event OSWindowEvent Resized;
+
+        /// <summary>
+        /// Called when the window is closing. This happens before the window is
+        /// gone and its handle is no longer valid.
+        /// </summary>
+        /// <param name="window">The window.</param>
+        event OSWindowEvent Closing;
+
+        /// <summary>
+        /// Called whenthe window has closed.
+        /// </summary>
+        /// <param name="window">The window that closed.</param>
+        event OSWindowEvent Closed;
+
+        /// <summary>
+        /// Called when the focus has changed on the window.
+        /// </summary>
+        /// <param name="window"></param>
+        event OSWindowEvent FocusChanged;
     }
 }

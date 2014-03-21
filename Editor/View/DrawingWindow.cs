@@ -16,7 +16,6 @@ namespace Editor
 {
     public partial class DrawingWindow : UserControl, OSWindow, CameraMotionValidator
     {
-        private List<OSWindowListener> listeners = new List<OSWindowListener>();
         private RendererWindow window;
         private String name;
         private SceneView camera;
@@ -42,16 +41,6 @@ namespace Editor
 
         #region OSWindow Members
 
-        public void addListener(OSWindowListener listener)
-        {
-            listeners.Add(listener);
-        }
-
-        public void removeListener(OSWindowListener listener)
-        {
-            listeners.Remove(listener);
-        }
-
         public String WindowHandle
         {
             get
@@ -75,6 +64,16 @@ namespace Editor
                 return this.Height;
             }
         }
+
+        public event OSWindowEvent Moved;
+
+        public event OSWindowEvent Resized;
+
+        public event OSWindowEvent Closing;
+
+        public event OSWindowEvent Closed;
+
+        public event OSWindowEvent FocusChanged;
 
         #endregion
 
@@ -158,11 +157,11 @@ namespace Editor
 
         protected override void OnResize(EventArgs e)
         {
-            foreach (OSWindowListener listener in listeners)
+            if (this.Size.Width > 0 && this.Size.Height > 0)
             {
-                if (this.Size.Width > 0 && this.Size.Height > 0)
+                if (Resized != null)
                 {
-                    listener.resized(this);
+                    Resized.Invoke(this);
                 }
             }
             base.OnResize(e);
@@ -170,9 +169,9 @@ namespace Editor
 
         protected override void OnMove(EventArgs e)
         {
-            foreach (OSWindowListener listener in listeners)
+            if(Moved != null)
             {
-                listener.moved(this);
+                Moved.Invoke(this);
             }
             base.OnMove(e);
         }
@@ -188,9 +187,13 @@ namespace Editor
 
         protected override void OnHandleDestroyed(EventArgs e)
         {
-            foreach (OSWindowListener listener in listeners)
+            if(Closing != null)
             {
-                listener.closing(this);
+                Closing.Invoke(this);
+            }
+            if (Closed != null)
+            {
+                Closed.Invoke(this);
             }
             if (window != null)
             {

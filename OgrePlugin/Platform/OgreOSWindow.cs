@@ -16,7 +16,6 @@ namespace OgrePlugin
     {
         private RenderWindow window;
         private String handle;
-        private List<OSWindowListener> windowListeners = new List<OSWindowListener>();
         private OgreWindowListener ogreWindowListener;
 
         public OgreOSWindow(RenderWindow window)
@@ -61,16 +60,6 @@ namespace OgrePlugin
 
         public bool Focused { get; private set; }
 
-        public void addListener(OSWindowListener listener)
-        {
-            windowListeners.Add(listener);
-        }
-
-        public void removeListener(OSWindowListener listener)
-        {
-            windowListeners.Remove(listener);
-        }
-
         public RenderWindow RenderWindow
         {
             get
@@ -79,44 +68,54 @@ namespace OgrePlugin
             }
         }
 
+        public event OSWindowEvent Moved;
+
+        public event OSWindowEvent Resized;
+
+        public event OSWindowEvent Closing;
+
+        public event OSWindowEvent Closed;
+
+        public event OSWindowEvent FocusChanged;
+
         internal void _fireWindowMoved()
         {
-            foreach (OSWindowListener listener in windowListeners)
+            if(Moved != null)
             {
-                listener.moved(this);
+                Moved.Invoke(this);
             }
         }
 
         internal void _fireWindowResized()
         {
-            foreach (OSWindowListener listener in windowListeners)
+            if(Resized != null)
             {
-                listener.resized(this);
+                Resized.Invoke(this);
             }
         }
 
         internal void _fireWindowClosing()
         {
-            foreach (OSWindowListener listener in windowListeners)
+            if(Closing != null)
             {
-                listener.closing(this);
+                Closing.Invoke(this);
             }
         }
 
         internal void _fireWindowClosed()
         {
-            foreach (OSWindowListener listener in windowListeners)
+            if(Closed != null)
             {
-                listener.closed(this);
+                Closed.Invoke(this);
             }
         }
 
         internal void _fireFocusChanged()
         {
             Focused = !Focused;
-            foreach (OSWindowListener listener in windowListeners)
+            if(FocusChanged != null)
             {
-                listener.focusChanged(this);
+                FocusChanged.Invoke(this);
             }
         }
     }

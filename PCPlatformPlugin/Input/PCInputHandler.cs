@@ -8,7 +8,7 @@ using Logging;
 
 namespace PCPlatform
 {
-    class PCInputHandler : InputHandler, OSWindowListener, IDisposable
+    class PCInputHandler : InputHandler, IDisposable
     {
         enum InputType : int
         {
@@ -100,7 +100,7 @@ namespace PCPlatform
 	        {
 		        Log.Info("Creating mouse.");
 		        createdMouse = new PCMouse(InputManager_createInputObject(nInputManager, InputType.OISMouse, buffered), window.WindowWidth, window.WindowHeight);
-		        window.addListener(this);
+                window.Resized += window_Resized;
 	        }
 	        return createdMouse;
         }
@@ -109,7 +109,7 @@ namespace PCPlatform
         {
             if( createdMouse == mouse )
 	        {
-		        window.removeListener(this);
+                window.Resized -= window_Resized;
 		        Log.Info("Destroying mouse.");
 		        InputManager_destroyInputObject(nInputManager, ((PCMouse)mouse).MouseHandle);
 		        createdMouse = null;
@@ -127,32 +127,12 @@ namespace PCPlatform
 	        }
         }
 
-        public void moved(OSWindow window)
+        void window_Resized(OSWindow window)
         {
-            
-        }
-
-        public void resized(OSWindow window)
-        {
-            if(createdMouse != null)
+            if (createdMouse != null)
             {
                 createdMouse.windowResized(window);
             }
-        }
-
-        public void closing(OSWindow window)
-        {
-            
-        }
-
-        public void closed(OSWindow window)
-        {
-
-        }
-
-        public void focusChanged(OSWindow window)
-        {
-
         }
 
         public String VersionName

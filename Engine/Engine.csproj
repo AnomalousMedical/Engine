@@ -186,7 +186,6 @@
     <Compile Include="Platform\BackgroundUpdateListenerWorker.cs" />
     <Compile Include="Platform\UpdateListenerWithBackgrounding.cs" />
     <Compile Include="Platform\OSWindow.cs" />
-    <Compile Include="Platform\OSWindowListener.cs" />
     <Compile Include="Platform\SystemTimer.cs" />
     <Compile Include="Platform\UpdateListener.cs" />
     <Compile Include="Platform\UpdateTimer.cs" />
