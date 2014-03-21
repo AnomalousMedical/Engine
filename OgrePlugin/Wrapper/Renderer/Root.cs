@@ -236,16 +236,16 @@ namespace OgreWrapper
             return renderTargets.getObject(Root_createRenderWindowParams(ogreRoot, name, width, height, fullScreen, vsync.ToString(), aaMode, fsaaHint, externalWindowHandle, monitorIndex, nvPerfHud), RenderTargetType.RenderWindow) as RenderWindow;
         }
 
-        public void detachRenderTarget(RenderTarget pWin)
+        public void destroyRenderTarget(RenderTarget pWin)
         {
             IntPtr ogreWindow = pWin.OgreRenderTarget;
             renderTargets.destroyObject(ogreWindow);
-            Root_detachRenderTarget(ogreRoot, ogreWindow);
+            Root_destroyRenderTarget(ogreRoot, ogreWindow);
         }
 
-        public void detachRenderTarget(String name)
+        public void destroyRenderTarget(String name)
         {
-            detachRenderTarget(getRenderTarget(name));
+            destroyRenderTarget(getRenderTarget(name));
         }
 
         public RenderTarget getRenderTarget(String name)
@@ -454,7 +454,7 @@ namespace OgreWrapper
         private static extern IntPtr Root_createRenderWindowParams(IntPtr root, String name, uint width, uint height, bool fullScreen, String vsync, String aaMode, String fsaaHint, String externalWindowHandle, String monitorIndex, String nvPerfHud);
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Root_detachRenderTarget(IntPtr root, IntPtr pWin);
+        private static extern void Root_destroyRenderTarget(IntPtr root, IntPtr pWin);
 
         [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Root_getRenderTarget(IntPtr root, String name);

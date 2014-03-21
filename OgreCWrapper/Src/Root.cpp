@@ -153,9 +153,9 @@ extern "C" _AnomalousExport Ogre::RenderWindow* Root_createRenderWindowParams(Og
 	return root->createRenderWindow(name, width, height, fullScreen, &params);
 }
 
-extern "C" _AnomalousExport void Root_detachRenderTarget(Ogre::Root* root, Ogre::RenderTarget* pWin)
+extern "C" _AnomalousExport void Root_destroyRenderTarget(Ogre::Root* root, Ogre::RenderTarget* pWin)
 {
-	root->detachRenderTarget(pWin);
+	root->destroyRenderTarget(pWin);
 }
 
 extern "C" _AnomalousExport Ogre::RenderTarget* Root_getRenderTarget(Ogre::Root* root, const char* name)
