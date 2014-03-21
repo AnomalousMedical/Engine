@@ -64,6 +64,7 @@ namespace OgreWrapper
         {
             ogreRoot = Root_Create(pluginFileName, configFileName, logFileName);
             ogreLog = new OgreLogConnection();
+            ogreLog.subscribe();
             frameStart = new FrameEventCallback(frameStartedCallback);
             frameQueue = new FrameEventCallback(frameQueuedCallback);
             frameEnd = new FrameEventCallback(frameEndedCallback);
@@ -90,6 +91,7 @@ namespace OgreWrapper
             memoryArchives.Dispose();
             embeddedScalableResources.Dispose();
             scalableEngineArchives.Dispose();
+            ogreLog.Dispose();
             if (Disposed != null)
             {
                 Disposed.Invoke();

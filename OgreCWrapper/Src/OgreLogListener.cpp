@@ -4,15 +4,12 @@
 OgreLogListener::OgreLogListener(MessageLoggedDelegate messageLoggedCallback)
 :messageLoggedCallback(messageLoggedCallback)
 {
-	Ogre::Log* log = Ogre::LogManager::getSingleton().getDefaultLog();
-	log->addListener(this);
-	log->setDebugOutputEnabled(false);
+
 }
 
 OgreLogListener::~OgreLogListener(void)
 {
-	Ogre::Log* log = Ogre::LogManager::getSingleton().getDefaultLog();
-	log->removeListener(this);
+	
 }
 
 void OgreLogListener::messageLogged(const Ogre::String& message, Ogre::LogMessageLevel lml, bool maskDebug, const Ogre::String &logName, bool &skipThisMessage)
@@ -28,4 +25,14 @@ extern "C" _AnomalousExport OgreLogListener* OgreLogListener_Create(MessageLogge
 extern "C" _AnomalousExport void OgreLogListener_Delete(OgreLogListener* logListener)
 {
 	delete logListener;
+}
+
+extern "C" _AnomalousExport void OgreLogListener_subscribe(OgreLogListener* logListener)
+{
+	Ogre::LogManager::getSingleton().getDefaultLog()->addListener(logListener);
+}
+
+extern "C" _AnomalousExport void OgreLogListener_setDebugOutputEnabled(OgreLogListener* logListener, bool enabled)
+{
+	Ogre::LogManager::getSingleton().getDefaultLog()->setDebugOutputEnabled(enabled);
 }
