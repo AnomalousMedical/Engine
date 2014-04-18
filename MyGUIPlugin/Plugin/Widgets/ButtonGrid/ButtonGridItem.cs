@@ -148,6 +148,14 @@ namespace MyGUIPlugin
             }
         }
 
+        public ImageBox ImageBox
+        {
+            get
+            {
+                return button.ImageBox;
+            }
+        }
+
         internal void setPosition(IntVector2 position, int width, int height)
         {
             button.setCoord(position.x, position.y, width, height);
