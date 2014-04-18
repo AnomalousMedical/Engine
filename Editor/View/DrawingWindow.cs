@@ -85,7 +85,6 @@ namespace Editor
                 this.mainTimer = mainTimer;
                 camera = window.createSceneView(defaultScene, name, orbitCamera.Translation, orbitCamera.LookAt);
                 camera.BackgroundColor = Engine.Color.FromARGB(BackColor.ToArgb());
-                camera.addLight();
                 camera.setRenderingMode(renderingMode);
                 mainTimer.addFixedUpdateListener(orbitCamera);
                 orbitCamera.setCamera(camera);

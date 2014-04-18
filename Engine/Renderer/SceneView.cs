@@ -37,12 +37,6 @@ namespace Engine
         event SceneViewEvent RenderingEnded;
 
         /// <summary>
-        /// Add a light that follows the camera around. This will only create
-        /// one light.
-        /// </summary>
-        void addLight();
-
-        /// <summary>
         /// Set the near clip distance of the camera.
         /// </summary>
         /// <param name="distance">The distance to set.</param>
@@ -53,18 +47,6 @@ namespace Engine
         /// </summary>
         /// <param name="distance">The distance to set.</param>
         void setFarClipDistance(float distance);
-
-        /// <summary>
-        /// Remove the light from the camera.
-        /// </summary>
-        void removeLight();
-
-        /// <summary>
-        /// Turn the light on and off. Only does something if a light has been
-        /// added.
-        /// </summary>
-        /// <param name="enabled">True to enable the light.</param>
-        void setLightEnabled(bool enabled);
 
         /// <summary>
         /// The current translation of the camera.

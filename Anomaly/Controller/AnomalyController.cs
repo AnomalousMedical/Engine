@@ -42,6 +42,7 @@ namespace Anomaly
         private Dictionary<String, DebugVisualizer> debugVisualizers = new Dictionary<string, DebugVisualizer>();
         private ConsoleWindow consoleWindow = new ConsoleWindow();
         private VerticalObjectEditor verticalObjectEditor = new VerticalObjectEditor();
+        private SceneViewLightManager lightManager;
 
         //Platform
         private UpdateTimer mainTimer;
@@ -120,6 +121,8 @@ namespace Anomaly
             pluginLoader.loadPlugins(pluginManager);
             pluginManager.initializePlugins();
             pluginManager.RendererPlugin.PrimaryWindow.setEnabled(false);
+
+            lightManager = pluginManager.RendererPlugin.createSceneViewLightManager();
 
             //Load the config file and set the resource root up.
             VirtualFileSystem.Instance.addArchive(solution.ResourceRoot);
@@ -238,6 +241,10 @@ namespace Anomaly
             if(systemTimer != null)
             {
                 pluginManager.PlatformPlugin.destroyTimer(systemTimer);
+            }
+            if(lightManager != null)
+            {
+                pluginManager.RendererPlugin.destroySceneViewLightManager(lightManager);
             }
             if (pluginManager != null)
             {
@@ -543,6 +550,7 @@ namespace Anomaly
         private void sceneController_OnSceneLoaded(SceneController controller, SimScene scene)
         {
             drawingWindowController.createCameras(mainTimer, scene);
+            lightManager.sceneLoaded(scene);
             toolManager.createSceneElements(scene.getDefaultSubScene(), pluginManager);
         }
 
@@ -554,6 +562,7 @@ namespace Anomaly
         private void sceneController_OnSceneUnloading(SceneController controller, SimScene scene)
         {
             drawingWindowController.destroyCameras();
+            lightManager.sceneUnloading(scene);
             toolManager.destroySceneElements(scene.getDefaultSubScene(), pluginManager);
         }
 

@@ -46,6 +46,7 @@ namespace OgreModelEditor
         //Controller
         private DrawingWindowController drawingWindowController = new DrawingWindowController();
         private ModelController modelController;
+        private SceneViewLightManager lightManager;
 
         //Scene
         private SimScene scene;
@@ -85,6 +86,10 @@ namespace OgreModelEditor
             {
                 pluginManager.PlatformPlugin.destroyTimer(systemTimer);
             }
+            if(lightManager != null)
+            {
+                pluginManager.RendererPlugin.destroySceneViewLightManager(lightManager);
+            }
             if (pluginManager != null)
             {
                 pluginManager.Dispose();
@@ -114,6 +119,8 @@ namespace OgreModelEditor
             pluginManager.addPluginAssembly(typeof(PCPlatformPlugin).Assembly);
             pluginManager.initializePlugins();
             pluginManager.RendererPlugin.PrimaryWindow.setEnabled(false);
+
+            lightManager = pluginManager.RendererPlugin.createSceneViewLightManager();
 
             VirtualFileSystem.Instance.addArchive(OgreModelEditorConfig.VFSRoot);
 
@@ -201,6 +208,7 @@ namespace OgreModelEditor
             scene = sceneDefiniton.createScene();
             drawingWindowController.createCameras(mainTimer, scene);
             toolManager.createSceneElements(scene.getDefaultSubScene(), PluginManager.Instance);
+            lightManager.sceneLoaded(scene);
         }
 
         void win32Timer_MessageReceived(ref WinMsg message)
@@ -220,6 +228,7 @@ namespace OgreModelEditor
             mainTimer.stopLoop();
             toolManager.destroySceneElements(scene.getDefaultSubScene(), PluginManager.Instance);
             drawingWindowController.destroyCameras();
+            lightManager.sceneUnloading(scene);
             modelController.destroyModel();
             scene.Dispose();
         }

@@ -27,7 +27,6 @@ namespace OgrePlugin
         private OgreSceneManager sceneManager;
         private Vector3 lookAt;
         private Viewport viewport;
-        private Light light = null;
         private String name;
         private RenderTarget renderTarget;
         private Vector3 reallyFarAway = new Vector3(10000.0f, 10000.0f, 10000.0f);
@@ -60,25 +59,10 @@ namespace OgrePlugin
             sceneManager.SceneManager.removeSceneListener(this);
             sceneManager.SceneManager.removeRenderQueueListener(this);
             sceneManager.SceneManager.getRootSceneNode().removeChild(node);
-            removeLight();
             renderTarget.destroyViewport(viewport);
             node.detachObject(camera);
             sceneManager.SceneManager.destroyCamera(camera);
             sceneManager.SceneManager.destroySceneNode(node);
-        }
-
-        /// <summary>
-        /// Add a light that follows the camera around. This will only create
-        /// one light.
-        /// </summary>
-        public void addLight()
-        {
-            if (light == null)
-            {
-                light = sceneManager.SceneManager.createLight(name + LIGHT_RESERVED_NAME);
-                light.setRenderQueueGroup(byte.MaxValue);
-                light.setPosition(reallyFarAway);
-            }
         }
 
         /// <summary>
@@ -97,29 +81,6 @@ namespace OgrePlugin
         public void setFarClipDistance(float distance)
         {
             camera.setFarClipDistance(distance);
-        }
-
-        /// <summary>
-        /// Remove the light from the camera.
-        /// </summary>
-        public void removeLight()
-        {
-            if (light != null)
-            {
-                node.detachObject(light);
-                sceneManager.SceneManager.destroyLight(light);
-                light = null;
-            }
-        }
-
-        /// <summary>
-        /// Turn the light on and off. Only does something if a light has been
-        /// added.
-        /// </summary>
-        /// <param name="enabled">True to enable the light.</param>
-        public void setLightEnabled(bool enabled)
-        {
-            light.setVisible(enabled);
         }
 
         /// <summary>
@@ -297,21 +258,6 @@ namespace OgrePlugin
             }
         }
 
-        private void handleLight()
-        {
-            if (light != null)
-            {
-                if (CurrentlyRendering)
-                {
-                    light.setPosition(node.getDerivedPosition());
-                }
-                else
-                {
-                    light.setPosition(reallyFarAway);
-                }
-            }
-        }
-
         #region SceneListener and RenderQueueListener
 
         public void postFindVisibleObjects(SceneManager sceneManager, SceneManager.IlluminationRenderStage irs, Viewport viewport)
@@ -326,8 +272,6 @@ namespace OgrePlugin
             {
                 fireRenderingStarted();
             }
-
-            handleLight();
         }
 
         public void preRenderQueues()
