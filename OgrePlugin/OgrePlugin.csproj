@@ -71,12 +71,12 @@
     <Compile Include="Instance\SceneNodeElement.cs" />
     <Compile Include="Platform\AutomaticWindow.cs" />
     <Compile Include="Platform\EmbeddedWindow.cs" />
+    <Compile Include="Platform\ManualWindow.cs" />
     <Compile Include="Platform\OgreSceneView.cs" />
     <Compile Include="Platform\OgreOSWindow.cs" />
     <Compile Include="Platform\OgreUpdate.cs" />
     <Compile Include="Platform\OgreWindow.cs" />
     <Compile Include="Platform\OgreWindowListener.cs" />
-    <Compile Include="Platform\TextureWindow.cs" />
     <Compile Include="Plugin\ImageAtlas\ImageAtlasException.cs" />
     <Compile Include="Plugin\ImageAtlas\ImageAtlasPage.cs" />
     <Compile Include="Plugin\ImageAtlas\ImagePackTreeNode.cs" />
