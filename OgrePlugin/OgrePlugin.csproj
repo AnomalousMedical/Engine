@@ -74,6 +74,7 @@
     <Compile Include="Platform\ManualWindow.cs" />
     <Compile Include="Platform\OgreSceneView.cs" />
     <Compile Include="Platform\OgreOSWindow.cs" />
+    <Compile Include="Platform\OgreSceneViewLightManager.cs" />
     <Compile Include="Platform\OgreUpdate.cs" />
     <Compile Include="Platform\OgreWindow.cs" />
     <Compile Include="Platform\OgreWindowListener.cs" />

@@ -51,5 +51,18 @@ namespace Engine.Renderer
         /// </summary>
         /// <param name="surface">The DebugDrawingSurface to destroy.</param>
         void destroyDebugDrawingSurface(DebugDrawingSurface surface);
+
+        /// <summary>
+        /// Create a light manager that will create a light in the scene and move it around
+        /// as cameras render.
+        /// </summary>
+        /// <returns>A new instance of SceneViewLightManager appropriate for the scene.</returns>
+        SceneViewLightManager createSceneViewLightManager();
+
+        /// <summary>
+        /// Destroy a light manager.
+        /// </summary>
+        /// <param name="lightManager">The light manager to destroy. Can be null, which causes nothing to happen.</param>
+        void destroySceneViewLightManager(SceneViewLightManager lightManager);
     }
 }

@@ -37,14 +37,6 @@ namespace Engine
         event SceneViewEvent RenderingEnded;
 
         /// <summary>
-        /// This is called when any SceneView is finding its visible objects.
-        /// You can check the CurrentlyRendering property if you need to change
-        /// an object's visibility based on whether or not this SceneView is the
-        /// current one rendering.
-        /// </summary>
-        event SceneViewEvent FindVisibleObjects;
-
-        /// <summary>
         /// Add a light that follows the camera around. This will only create
         /// one light.
         /// </summary>

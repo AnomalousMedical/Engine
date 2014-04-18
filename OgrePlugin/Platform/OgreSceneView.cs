@@ -16,7 +16,6 @@ namespace OgrePlugin
     {
         public event SceneViewEvent RenderingStarted;
         public event SceneViewEvent RenderingEnded;
-        public event SceneViewEvent FindVisibleObjects;
 
         private const String CAMERA_RESERVED_NAME = "__AutoCreatedCamera";
         private const String CAMERA_NODE_RESERVED_NAME = "__AutoCreatedCameraNode";
@@ -298,7 +297,7 @@ namespace OgrePlugin
             }
         }
 
-        private void fireFindVisibleObjects()
+        private void handleLight()
         {
             if (light != null)
             {
@@ -310,10 +309,6 @@ namespace OgrePlugin
                 {
                     light.setPosition(reallyFarAway);
                 }
-            }
-            if (FindVisibleObjects != null)
-            {
-                FindVisibleObjects.Invoke(this);
             }
         }
 
@@ -331,7 +326,8 @@ namespace OgrePlugin
             {
                 fireRenderingStarted();
             }
-            fireFindVisibleObjects();
+
+            handleLight();
         }
 
         public void preRenderQueues()
@@ -341,20 +337,21 @@ namespace OgrePlugin
 
         public void postRenderQueues()
         {
-            if (sceneManager.SceneManager.getCurrentViewport() == viewport)
+            if (CurrentlyRendering)
             {
                 fireRenderingEnded();
+                CurrentlyRendering = false;
             }
         }
 
         public void renderQueueStarted(byte queueGroupId, string invocation, ref bool skipThisInvocation)
         {
-
+            
         }
 
         public void renderQueueEnded(byte queueGroupId, string invocation, ref bool repeatThisInvocation)
         {
-
+            
         }
 
         #endregion

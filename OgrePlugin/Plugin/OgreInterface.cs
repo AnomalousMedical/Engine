@@ -365,6 +365,19 @@ namespace OgrePlugin
             ((OgreDebugSurface)surface).destroy();
         }
 
+        public SceneViewLightManager createSceneViewLightManager()
+        {
+            return new OgreSceneViewLightManager();
+        }
+
+        public void destroySceneViewLightManager(SceneViewLightManager lightManager)
+        {
+            if (lightManager != null)
+            {
+                lightManager.Dispose();
+            }
+        }
+
         /// <summary>
         /// If this is set to a function before initialize is called this will instruct
         /// ogre to use the shader microcode cache. This function will be called at the appropriate
