@@ -21,7 +21,6 @@ namespace OgrePlugin
         /// <param name="osWindow">The OSWindow.</param>
         /// <param name="renderWindow">The RenderWindow.</param>
         public EmbeddedWindow(OSWindow osWindow, RenderWindow renderWindow)
-            : base(osWindow)
         {
             this.osWindow = osWindow;
             this.renderWindow = renderWindow;
@@ -58,7 +57,7 @@ namespace OgrePlugin
         /// <summary>
         /// Get the OgreRenderWindow for this window.
         /// </summary>
-        public override RenderWindow OgreRenderWindow
+        public override RenderTarget OgreRenderTarget
         {
             get
             {

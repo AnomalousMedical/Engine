@@ -13,11 +13,6 @@ namespace Engine.Renderer
     public interface RendererWindow
     {
         /// <summary>
-        /// The OSWindow that is the rendering target.
-        /// </summary>
-        OSWindow Handle { get; }
-
-        /// <summary>
         /// Create a SceneView with a camera that looks at a given SimSubScene.
         /// </summary>
         /// <param name="subScene">The subscene to look at with the camera.</param>

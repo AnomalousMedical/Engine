@@ -88,7 +88,7 @@ namespace libRocketPlugin
             OgreWindow ogreWindow = pluginManager.RendererPlugin.PrimaryWindow as OgreWindow;
 
             systemInterface = new ManagedSystemInterface();
-            renderInterface = new RenderInterfaceOgre3D((int)ogreWindow.OgreRenderWindow.getWidth(), (int)ogreWindow.OgreRenderWindow.getHeight());
+            renderInterface = new RenderInterfaceOgre3D((int)ogreWindow.OgreRenderTarget.getWidth(), (int)ogreWindow.OgreRenderTarget.getHeight());
             renderInterface.PixelsPerInch = pixelsPerInch;
             renderInterface.PixelScale = ScaleHelper.ScaleFactor;
 

@@ -76,6 +76,7 @@
     <Compile Include="Platform\OgreUpdate.cs" />
     <Compile Include="Platform\OgreWindow.cs" />
     <Compile Include="Platform\OgreWindowListener.cs" />
+    <Compile Include="Platform\TextureWindow.cs" />
     <Compile Include="Plugin\ImageAtlas\ImageAtlasException.cs" />
     <Compile Include="Plugin\ImageAtlas\ImageAtlasPage.cs" />
     <Compile Include="Plugin\ImageAtlas\ImagePackTreeNode.cs" />

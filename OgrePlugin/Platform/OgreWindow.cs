@@ -16,24 +16,14 @@ namespace OgrePlugin
     /// </summary>
     public abstract class OgreWindow : RendererWindow, IDisposable
     {
-        private OSWindow handle;
-
-        public OgreWindow(OSWindow handle)
+        public OgreWindow()
         {
-            this.handle = handle;
-        }
 
-        public OSWindow Handle
-        {
-            get
-            {
-                return handle;
-            }
         }
 
         public SceneView createSceneView(SimSubScene subScene, String name, Vector3 position, Vector3 lookAt)
         {
-            return createSceneView(subScene, name, position, lookAt, OgreRenderWindow.getNumViewports());
+            return createSceneView(subScene, name, position, lookAt, OgreRenderTarget.getNumViewports());
         }
 
         public SceneView createSceneView(SimSubScene subScene, String name, Vector3 positon, Vector3 lookAt, int zIndex)
@@ -41,7 +31,7 @@ namespace OgrePlugin
             if (subScene.hasSimElementManagerType(typeof(OgreSceneManager)))
             {
                 OgreSceneManager sceneManager = subScene.getSimElementManager<OgreSceneManager>();
-                OgreSceneView camControl = new OgreSceneView(name, sceneManager, OgreRenderWindow, zIndex);
+                OgreSceneView camControl = new OgreSceneView(name, sceneManager, OgreRenderTarget, zIndex);
                 camControl.Translation = positon;
                 camControl.LookAt = lookAt;
                 return camControl;
@@ -67,17 +57,17 @@ namespace OgrePlugin
         /// <param name="enabled">True to enable the RenderWindow, false to disable.</param>
         public void setEnabled(bool enabled)
         {
-            OgreRenderWindow.setActive(enabled);
+            OgreRenderTarget.setActive(enabled);
         }
 
         public void copyContentsToMemory(PixelBox pixelBox, RenderTarget.FrameBuffer buffer)
         {
-            OgreRenderWindow.copyContentsToMemory(pixelBox, buffer);
+            OgreRenderTarget.copyContentsToMemory(pixelBox, buffer);
         }
 
         public abstract void Dispose();
 
-        public abstract RenderWindow OgreRenderWindow
+        public abstract RenderTarget OgreRenderTarget
         {
              get;
         }

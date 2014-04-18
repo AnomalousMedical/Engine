@@ -18,7 +18,6 @@ namespace OgrePlugin
         /// </summary>
         /// <param name="ogreWindow">The OgreOSWindow that Ogre created.</param>
         public AutomaticWindow(OgreOSWindow ogreWindow)
-            : base(ogreWindow)
         {
             this.ogreWindow = ogreWindow;
         }
@@ -34,7 +33,7 @@ namespace OgrePlugin
         /// <summary>
         /// Get the RenderWindow for this window.
         /// </summary>
-        public override RenderWindow OgreRenderWindow
+        public override RenderTarget OgreRenderTarget
         {
             get
             {

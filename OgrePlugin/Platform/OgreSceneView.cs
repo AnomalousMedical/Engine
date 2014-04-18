@@ -30,7 +30,7 @@ namespace OgrePlugin
         private Viewport viewport;
         private Light light = null;
         private String name;
-        private RenderWindow renderWindow;
+        private RenderTarget renderTarget;
         private Vector3 reallyFarAway = new Vector3(10000.0f, 10000.0f, 10000.0f);
 
         /// <summary>
@@ -38,19 +38,19 @@ namespace OgrePlugin
         /// </summary>
         /// <param name="name">The name of the camera control.</param>
         /// <param name="sceneManager">The scene manager to build the camera into.</param>
-        /// <param name="renderWindow">The renderwindow to create a viewport on.</param>
-        public OgreSceneView(String name, OgreSceneManager sceneManager, RenderWindow renderWindow, int zIndex)
+        /// <param name="renderTarget">The renderwindow to create a viewport on.</param>
+        public OgreSceneView(String name, OgreSceneManager sceneManager, RenderTarget renderTarget, int zIndex)
         {
             this.name = name;
             this.sceneManager = sceneManager;
-            this.renderWindow = renderWindow;
+            this.renderTarget = renderTarget;
             camera = sceneManager.SceneManager.createCamera(name + CAMERA_RESERVED_NAME);
             camera.setNearClipDistance(1.0f);
             camera.setAutoAspectRatio(true);
             camera.setFOVy(new Degree(10.0f));
             node = sceneManager.SceneManager.createSceneNode(name + CAMERA_NODE_RESERVED_NAME);
             node.attachObject(camera);
-            viewport = renderWindow.addViewport(camera, zIndex, 0, 0, 1, 1);
+            viewport = renderTarget.addViewport(camera, zIndex, 0, 0, 1, 1);
             sceneManager.SceneManager.getRootSceneNode().addChild(node);
             sceneManager.SceneManager.addSceneListener(this);
             sceneManager.SceneManager.addRenderQueueListener(this);
@@ -62,7 +62,7 @@ namespace OgrePlugin
             sceneManager.SceneManager.removeRenderQueueListener(this);
             sceneManager.SceneManager.getRootSceneNode().removeChild(node);
             removeLight();
-            renderWindow.destroyViewport(viewport);
+            renderTarget.destroyViewport(viewport);
             node.detachObject(camera);
             sceneManager.SceneManager.destroyCamera(camera);
             sceneManager.SceneManager.destroySceneNode(node);
@@ -159,12 +159,12 @@ namespace OgrePlugin
         /// </summary>
         public void update(bool swapBuffers)
         {
-            renderWindow.update(swapBuffers);
+            renderTarget.update(swapBuffers);
         }
 
         public PixelFormat suggestPixelFormat()
         {
-            return renderWindow.suggestPixelFormat();
+            return renderTarget.suggestPixelFormat();
         }
 
         public Vector3 Translation

@@ -48,7 +48,7 @@ namespace MyGUIPlugin
             }
             if (vp != null)
             {
-                ogreWindow.OgreRenderWindow.destroyViewport(vp);
+                ogreWindow.OgreRenderTarget.destroyViewport(vp);
             }
             if (camera != null)
             {
@@ -86,7 +86,7 @@ namespace MyGUIPlugin
 
             //Create camera and viewport
             camera = sceneManager.createCamera("MyGUICamera");
-            vp = ogreWindow.OgreRenderWindow.addViewport(camera, ViewportZIndex, 0.0f, 0.0f, 1.0f, 1.0f);
+            vp = ogreWindow.OgreRenderTarget.addViewport(camera, ViewportZIndex, 0.0f, 0.0f, 1.0f, 1.0f);
             vp.setBackgroundColor(new Color(1.0f, 0.0f, 1.0f, 0.0f));
             vp.setClearEveryFrame(false);
             vp.clear();
