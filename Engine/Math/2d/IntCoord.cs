@@ -28,5 +28,42 @@ namespace Engine
             this.width = width;
             this.height = height;
         }
+
+        public bool contains(IntCoord inner)
+        {
+            return inner.top > this.top && 
+                   inner.Bottom < this.Bottom && 
+                   inner.left > this.left && 
+                   inner.Right < this.Right;
+        }
+
+        public bool overlaps(IntCoord other)
+        {
+            return this.left <= other.Right &&
+                    this.Right >= other.left &&
+                    this.top <= other.Bottom &&
+                    this.Bottom >= other.top;
+        }
+
+        public int Bottom
+        {
+            get
+            {
+                return top + height;
+            }
+        }
+
+        public int Right
+        {
+            get
+            {
+                return left + width;
+            }
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{{{0}, {1}, {2}, {3}}}", left, top, width, height);
+        }
     }
 }

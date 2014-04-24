@@ -156,6 +156,14 @@ namespace MyGUIPlugin
             }
         }
 
+        public IntCoord Coord
+        {
+            get
+            {
+                return new IntCoord(button.Left, button.Top, button.Width, button.Height);
+            }
+        }
+
         internal void setPosition(IntVector2 position, int width, int height)
         {
             button.setCoord(position.x, position.y, width, height);
