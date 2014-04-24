@@ -307,6 +307,7 @@
     <Compile Include="Utility\FileUtility.cs" />
     <Compile Include="Utility\FloatExtensions.cs" />
     <Compile Include="Utility\GenericObjectPool.cs" />
+    <Compile Include="Utility\LifecycleObjectPool.cs" />
     <Compile Include="Utility\ObjectPool.cs" />
     <Compile Include="Utility\Pair.cs" />
     <Compile Include="Utility\PooledObject.cs" />
