@@ -124,5 +124,13 @@ namespace Engine.ObjectManagement
             }
             return definition;
         }
+
+        public IEnumerable<SimObjectBase> SimObjects
+        {
+            get
+            {
+                return simObjects.Values;
+            }
+        }
     }
 }

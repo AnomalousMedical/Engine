@@ -33,5 +33,10 @@ namespace Engine
         {
             return new Radian(value * CONVERSION);
         }
+
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
     }
 }
