@@ -206,6 +206,17 @@ namespace OgrePlugin
             return saveToSceneNodeDefinition();
         }
 
+        public IEnumerable<MovableObject> MovableObjects
+        {
+            get
+            {
+                foreach(var movable in nodeObjects.Values)
+                {
+                    yield return movable.MovableObject;
+                }
+            }
+        }
+
         internal SceneNode SceneNode
         {
             get
