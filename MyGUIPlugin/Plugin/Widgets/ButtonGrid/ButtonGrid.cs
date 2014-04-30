@@ -35,6 +35,8 @@ namespace MyGUIPlugin
         private ButtonGridSelectionStrategy selectionStrategy;
 
         public event EventHandler ItemActivated;
+        public event Action<ButtonGrid, ButtonGridItem> ItemAdded;
+        public event Action<ButtonGrid, ButtonGridItem> ItemRemoved;
 
         /// <summary>
         /// Constructor
@@ -203,13 +205,18 @@ namespace MyGUIPlugin
         /// <param name="caption">The caption for the item.</param>
         /// <param name="imageResource">The image resource for the item</param>
         /// <returns></returns>
-        public ButtonGridItem addItem(String group, String caption, String imageResource = null)
+        public ButtonGridItem addItem(String group, String caption, String imageResource = null, Object userObject = null)
         {
             ButtonGridGroup addGroup = findGroup(group);
             ButtonGridItem item = addGroup.addItem(caption);
             item.setImage(imageResource);
+            item.UserObject = userObject;
             itemCount++;
             layout();
+            if(ItemAdded != null)
+            {
+                ItemAdded.Invoke(this, item);
+            }
             return item;
         }
 
@@ -228,6 +235,10 @@ namespace MyGUIPlugin
             item.setImage(imageResource);
             itemCount++;
             layout();
+            if (ItemAdded != null)
+            {
+                ItemAdded.Invoke(this, item);
+            }
             return item;
         }
 
@@ -237,6 +248,10 @@ namespace MyGUIPlugin
         /// <param name="item">The item to remove.</param>
         public void removeItem(ButtonGridItem item)
         {
+            if (ItemRemoved != null)
+            {
+                ItemRemoved.Invoke(this, item);
+            }
             selectionStrategy.itemRemoved(item);
             itemCount--;
             item.Group.removeItem(item);
@@ -250,6 +265,14 @@ namespace MyGUIPlugin
         {
             foreach (ButtonGridGroup group in groups)
             {
+                //Alert that the items are removed
+                if (ItemRemoved != null)
+                {
+                    foreach (ButtonGridItem item in group.Items)
+                    {
+                        ItemRemoved.Invoke(this, item);
+                    }
+                }
                 group.Dispose();
             }
             selectionStrategy.itemsCleared();
