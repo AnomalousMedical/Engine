@@ -47,13 +47,26 @@ namespace Engine
         }
 
         /// <summary>
+        /// Set the max pool size. If objects are returned to the pool and it already has MaxPoolSize objects
+        /// in it the additional objects will be cleaned up instead of pooled.
+        /// </summary>
+        public int? MaxPoolSize { get; set; }
+
+        /// <summary>
         /// Internal function to return objects to the pool.
         /// </summary>
         /// <param name="finished">The object to be returned.</param>
         internal override void returnObject(PooledObject finished)
         {
-            finished.callReset();
-            pool.Push((PooledType)finished);
+            if (!MaxPoolSize.HasValue || pool.Count < MaxPoolSize)
+            {
+                finished.callReset();
+                pool.Push((PooledType)finished); 
+            }
+            else //Too many objects for pool, cleanup object instead.
+            {
+                DestroyPooledObject((PooledType)finished);
+            }
         }
     }
 }
