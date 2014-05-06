@@ -52,6 +52,11 @@ namespace MyGUIPlugin
             }
         }
 
+        public Widget createWidgetT(string type, string skin, int left, int top, int width, int height, Align align, string name)
+        {
+            return button.createWidgetT(type, skin, left, top, width, height, align, name);
+        }
+
         public IntSize2 getImageSize()
         {
             ImageBox image = button.ImageBox;
