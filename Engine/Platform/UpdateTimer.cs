@@ -60,12 +60,15 @@ namespace Engine.Platform
         public void removeFixedUpdateListener(UpdateListener listener)
         {
             int index = fixedListeners.IndexOf(listener);
-            fixedListeners.RemoveAt(index);
-            //Adjust the iteration index backwards if the element being removed is before or on the index.
-            //This way nothing gets skipped.
-            if (index != -1 && index <= fixedUpdateIndex)
+            if (index != -1)
             {
-                --fixedUpdateIndex;
+                fixedListeners.RemoveAt(index);
+                //Adjust the iteration index backwards if the element being removed is before or on the index.
+                //This way nothing gets skipped.
+                if (index <= fixedUpdateIndex)
+                {
+                    --fixedUpdateIndex;
+                }
             }
         }
 
