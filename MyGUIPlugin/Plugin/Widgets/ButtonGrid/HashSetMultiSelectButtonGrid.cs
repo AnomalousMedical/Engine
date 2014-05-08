@@ -24,6 +24,18 @@ namespace MyGUIPlugin
             }
         }
 
+        public event Action<ButtonGridItem> ItemChosen
+        {
+            add
+            {
+                multiSelection.ItemChosen += value;
+            }
+            remove
+            {
+                multiSelection.ItemChosen -= value;
+            }
+        }
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -60,11 +72,6 @@ namespace MyGUIPlugin
             _workaroundSetSelectionStrategy(multiSelection);
         }
 
-        public void setSelection(ButtonGridItem primary, IEnumerable<ButtonGridItem> secondary)
-        {
-            multiSelection.setSelection(primary, secondary);
-        }
-
         public void setSelection(IEnumerable<ButtonGridItem> items)
         {
             multiSelection.setSelection(items);
@@ -78,21 +85,6 @@ namespace MyGUIPlugin
         public void removeSelected(ButtonGridItem item)
         {
             multiSelection.removeSelected(item);
-        }
-
-        /// <summary>
-        /// The currently selected item.
-        /// </summary>
-        public ButtonGridItem SelectedItem
-        {
-            get
-            {
-                return multiSelection.SelectedItem;
-            }
-            set
-            {
-                multiSelection.SelectedItem = value;
-            }
         }
 
         public IEnumerable<ButtonGridItem> SelectedItems

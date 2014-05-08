@@ -8,8 +8,8 @@ namespace MyGUIPlugin
     public class HashSetMultiSelectionStrategy : ButtonGridSelectionStrategy
     {
         public event EventHandler SelectedValueChanged;
+        public event Action<ButtonGridItem> ItemChosen;
 
-        private ButtonGridItem selectedItem;
         private HashSet<ButtonGridItem> selectedItems = new HashSet<ButtonGridItem>();
 
         public HashSetMultiSelectionStrategy()
@@ -19,39 +19,39 @@ namespace MyGUIPlugin
 
         public void itemChosen(ButtonGridItem item)
         {
-            if (InputManager.Instance.isControlPressed())
+            if(ItemChosen != null)
             {
-                if (selectedItems.Contains(item))
-                {
-                    removeSelected(item);
-                }
-                else
-                {
-                    addSelected(item);
-                }
+                ItemChosen.Invoke(item);
             }
-            else
-            {
-                uncheckSelectedAndClear();
-                item.StateCheck = true;
-                selectedItems.Add(item);
-                setSelected(item);
-            }
+            //if (InputManager.Instance.isControlPressed())
+            //{
+            //    if (selectedItems.Contains(item))
+            //    {
+            //        removeSelected(item);
+            //    }
+            //    else
+            //    {
+            //        addSelected(item);
+            //    }
+            //}
+            //else
+            //{
+            //    uncheckSelectedAndClear();
+            //    item.StateCheck = true;
+            //    selectedItems.Add(item);
+            //    setSelected(item);
+            //}
         }
 
         public void itemRemoved(ButtonGridItem item)
         {
-            if (item == SelectedItem)
-            {
-                setSelected(null);
-            }
             selectedItems.Remove(item);
         }
 
         public void itemsCleared()
         {
-            setSelected(null);
             selectedItems.Clear();
+            setSelected();
         }
 
         public void setSelection(IEnumerable<ButtonGridItem> items)
@@ -62,22 +62,7 @@ namespace MyGUIPlugin
                 selectedItems.Add(item);
                 item.StateCheck = true;
             }
-            setSelected(selectedItems.FirstOrDefault());
-        }
-
-        public void setSelection(ButtonGridItem primary, IEnumerable<ButtonGridItem> secondary)
-        {
-            uncheckSelectedAndClear();
-            if (primary != null)
-            {
-                selectedItems.Add(primary);
-            }
-            foreach (ButtonGridItem item in secondary)
-            {
-                selectedItems.Add(item);
-                item.StateCheck = true;
-            }
-            setSelected(primary);
+            setSelected();
         }
 
         public void addSelected(ButtonGridItem item)
@@ -86,7 +71,7 @@ namespace MyGUIPlugin
             {
                 selectedItems.Add(item);
                 item.StateCheck = true;
-                setSelected(item);
+                setSelected();
             }
         }
 
@@ -96,24 +81,7 @@ namespace MyGUIPlugin
             {
                 selectedItems.Remove(item);
                 item.StateCheck = false;
-                if (selectedItem == item)
-                {
-                    setSelected(selectedItems.FirstOrDefault());
-                }
-            }
-        }
-
-        public ButtonGridItem SelectedItem
-        {
-            get
-            {
-                return selectedItem;
-            }
-            set
-            {
-                uncheckSelectedAndClear();
-                selectedItems.Add(value);
-                setSelected(value);
+                setSelected();
             }
         }
 
@@ -125,19 +93,11 @@ namespace MyGUIPlugin
             }
         }
 
-        private void setSelected(ButtonGridItem value)
+        private void setSelected()
         {
-            if (selectedItem != value)
+            if (SelectedValueChanged != null)
             {
-                selectedItem = value;
-                if (selectedItem != null)
-                {
-                    selectedItem.StateCheck = true;
-                }
-                if (SelectedValueChanged != null)
-                {
-                    SelectedValueChanged.Invoke(this, EventArgs.Empty);
-                }
+                SelectedValueChanged.Invoke(this, EventArgs.Empty);
             }
         }
 

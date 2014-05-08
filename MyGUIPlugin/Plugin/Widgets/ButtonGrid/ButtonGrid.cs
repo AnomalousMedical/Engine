@@ -34,7 +34,7 @@ namespace MyGUIPlugin
         private ButtonGridLayout layoutEngine;
         private ButtonGridSelectionStrategy selectionStrategy;
 
-        public event EventHandler ItemActivated;
+        public event Action<ButtonGridItem> ItemActivated;
         public event Action<ButtonGrid, ButtonGridItem> ItemAdded;
         public event Action<ButtonGrid, ButtonGridItem> ItemRemoved;
 
@@ -571,7 +571,7 @@ namespace MyGUIPlugin
         {
             if (ItemActivated != null)
             {
-                ItemActivated.Invoke(item, EventArgs.Empty);
+                ItemActivated.Invoke(item);
             }
         }
 
