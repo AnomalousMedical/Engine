@@ -23,7 +23,7 @@ namespace Engine
         /// </summary>
         static BehaviorEditMemberScanner()
         {
-            scanner = new MemberScanner(new BehaviorEditMemberScanner());
+            scanner = new FilteredMemberScanner(new BehaviorEditMemberScanner());
         }
 
         /// <summary>

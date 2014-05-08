@@ -59,7 +59,7 @@ namespace Engine
                 info.setValue(destination, deepCopyDestination, null);
             }
             //Scan and copy all properties.
-            LinkedList<MemberWrapper> members = CopyMemberScanner.Scanner.getMatchingMembers(type);
+            IEnumerable<MemberWrapper> members = CopyMemberScanner.Scanner.getMatchingMembers(type);
             foreach (MemberWrapper member in members)
             {
                 if (filter == null || filter.allowCopy(member))

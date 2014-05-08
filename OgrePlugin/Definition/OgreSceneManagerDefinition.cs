@@ -22,14 +22,14 @@ namespace OgrePlugin
             return new OgreSceneManagerDefinition(name);
         }
 
-        private static MemberScanner memberScanner;
+        private static FilteredMemberScanner memberScanner;
 
         /// <summary>
         /// Static constructor.
         /// </summary>
         static OgreSceneManagerDefinition()
         {
-            memberScanner = new MemberScanner();
+            memberScanner = new FilteredMemberScanner();
             memberScanner.ProcessFields = false;
             memberScanner.Filter = new EditableAttributeFilter();
         }

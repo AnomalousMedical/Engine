@@ -79,7 +79,7 @@ namespace BulletPlugin
     //Edit Interface
     partial class TypedConstraintDefinition
     {
-        static MemberScanner memberScanner = new MemberScanner();
+        static FilteredMemberScanner memberScanner = new FilteredMemberScanner();
 
         static TypedConstraintDefinition()
         {

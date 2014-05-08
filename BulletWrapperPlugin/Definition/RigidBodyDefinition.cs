@@ -205,7 +205,7 @@ namespace BulletPlugin
 
     partial class RigidBodyDefinition
     {
-        protected static MemberScanner memberScanner = new MemberScanner();
+        protected static FilteredMemberScanner memberScanner = new FilteredMemberScanner();
 
         static RigidBodyDefinition()
         {

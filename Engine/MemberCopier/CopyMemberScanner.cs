@@ -16,7 +16,7 @@ namespace Engine
         /// </summary>
         static CopyMemberScanner()
         {
-            scanner = new MemberScanner(new CopyMemberScanner());
+            scanner = new FilteredMemberScanner(new CopyMemberScanner());
         }
 
         /// <summary>

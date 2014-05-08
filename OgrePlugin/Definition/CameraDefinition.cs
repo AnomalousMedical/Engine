@@ -14,14 +14,14 @@ namespace OgrePlugin
     {
         #region Static
 
-        private static MemberScanner memberScanner;
+        private static FilteredMemberScanner memberScanner;
 
         /// <summary>
         /// Static constructor.
         /// </summary>
         static CameraDefinition()
         {
-            memberScanner = new MemberScanner();
+            memberScanner = new FilteredMemberScanner();
             memberScanner.ProcessFields = false;
             EditableAttributeFilter filter = new EditableAttributeFilter();
             filter.TerminatingType = typeof(MovableObjectDefinition);

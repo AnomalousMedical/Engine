@@ -18,7 +18,7 @@ namespace Engine.Editing
 
         static ReflectedObjectEditableProperty()
         {
-            sharedScanner = new MemberScanner(new EditableAttributeFilter());
+            sharedScanner = new FilteredMemberScanner(new EditableAttributeFilter());
         }
 
         private List<ReflectedVariable> variableList;
@@ -44,8 +44,8 @@ namespace Engine.Editing
         {
             this.target = target;
             this.memberScanner = scanner;
-            LinkedList<MemberWrapper> matches = memberScanner.getMatchingMembers(target.GetType());
-            variableList = new List<ReflectedVariable>(matches.Count);
+            IEnumerable<MemberWrapper> matches = memberScanner.getMatchingMembers(target.GetType());
+            variableList = new List<ReflectedVariable>();
             foreach (MemberWrapper wrapper in matches)
             {
                 if (ReflectedVariable.canCreateVariable(wrapper.getWrappedType()))

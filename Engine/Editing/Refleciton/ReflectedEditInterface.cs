@@ -15,7 +15,7 @@ namespace Engine.Editing
     {
         #region Static
 
-        private static MemberScanner defaultScanner = new MemberScanner(new EditableAttributeFilter());
+        private static MemberScanner defaultScanner = new FilteredMemberScanner(new EditableAttributeFilter());
 
         public static MemberScanner DefaultScanner
         {
@@ -196,7 +196,7 @@ namespace Engine.Editing
         /// <param name="edit"></param>
         private static void addProperties(MemberScanner scanner, Object target, Type startType, EditInterface edit, ReflectedEditablePropertyProvider customPropProvider)
         {
-            LinkedList<MemberWrapper> members = scanner.getMatchingMembers(startType);
+            IEnumerable<MemberWrapper> members = scanner.getMatchingMembers(startType);
             foreach (MemberWrapper memberWrapper in members)
             {
                 if (!customPropProvider.addProperties(memberWrapper, target, edit))

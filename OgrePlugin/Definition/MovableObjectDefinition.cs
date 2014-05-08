@@ -19,14 +19,14 @@ namespace OgrePlugin
     {
         #region Static
 
-        private static MemberScanner memberScanner;
+        private static FilteredMemberScanner memberScanner;
 
         /// <summary>
         /// Static constructor.
         /// </summary>
         static MovableObjectDefinition()
         {
-            memberScanner = new MemberScanner();
+            memberScanner = new FilteredMemberScanner();
             memberScanner.ProcessFields = false;
             memberScanner.Filter = new EditableAttributeFilter();
         }

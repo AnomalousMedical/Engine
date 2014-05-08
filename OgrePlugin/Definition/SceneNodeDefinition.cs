@@ -24,14 +24,14 @@ namespace OgrePlugin
             simObjectDef.addElement(new SceneNodeDefinition(name));
         }
 
-        private static MemberScanner memberScanner;
+        private static FilteredMemberScanner memberScanner;
 
         /// <summary>
         /// Static constructor.
         /// </summary>
         static SceneNodeDefinition()
         {
-            memberScanner = new MemberScanner();
+            memberScanner = new FilteredMemberScanner();
             memberScanner.ProcessFields = false;
             EditableAttributeFilter filter = new EditableAttributeFilter();
             memberScanner.Filter = filter;

@@ -12,7 +12,7 @@ namespace BulletPlugin
 {
     public class BulletSceneDefinition : SimElementManagerDefinition
     {
-        static MemberScanner memberScanner = new MemberScanner();
+        static FilteredMemberScanner memberScanner = new FilteredMemberScanner();
 
         static BulletSceneDefinition()
         {

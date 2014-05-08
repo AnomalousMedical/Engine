@@ -16,7 +16,7 @@ namespace Engine.Editing
     /// <typeparam name="T">The type in the collection this interface wraps. Not the type of the collection itself.</typeparam>
     class ReflectedCollectionEditInterface<T>
     {
-        private static MemberScanner sharedScanner = new MemberScanner(new EditableAttributeFilter());
+        private static MemberScanner sharedScanner = new FilteredMemberScanner(new EditableAttributeFilter());
 
         #region Delegates
 
@@ -61,7 +61,7 @@ namespace Engine.Editing
         {
             this.memberScanner = scanner;
             this.name = name;
-            LinkedList<MemberWrapper> matches = memberScanner.getMatchingMembers(typeof(T));
+            IEnumerable<MemberWrapper> matches = memberScanner.getMatchingMembers(typeof(T));
             foreach (MemberWrapper wrapper in matches)
             {
                 if (ReflectedVariable.canCreateVariable(wrapper.getWrappedType()))

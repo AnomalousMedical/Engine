@@ -23,24 +23,6 @@ namespace MyGUIPlugin
             {
                 ItemChosen.Invoke(item);
             }
-            //if (InputManager.Instance.isControlPressed())
-            //{
-            //    if (selectedItems.Contains(item))
-            //    {
-            //        removeSelected(item);
-            //    }
-            //    else
-            //    {
-            //        addSelected(item);
-            //    }
-            //}
-            //else
-            //{
-            //    uncheckSelectedAndClear();
-            //    item.StateCheck = true;
-            //    selectedItems.Add(item);
-            //    setSelected(item);
-            //}
         }
 
         public void itemRemoved(ButtonGridItem item)

@@ -13,14 +13,14 @@ namespace Engine.ObjectManagement
     {
         #region Static
 
-        private static MemberScanner genericSimObjectScanner;
+        private static FilteredMemberScanner genericSimObjectScanner;
 
         /// <summary>
         /// Static constructor.
         /// </summary>
         static GenericSimObjectDefinition()
         {
-            genericSimObjectScanner = new MemberScanner();
+            genericSimObjectScanner = new FilteredMemberScanner();
             genericSimObjectScanner.ProcessFields = false;
             genericSimObjectScanner.Filter = new EditableAttributeFilter();
         }

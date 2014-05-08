@@ -16,11 +16,11 @@ namespace Engine
     /// </summary>
     public class BehaviorSaveMemberScanner : MemberScannerFilter
     {
-        private static MemberScanner scanner;
+        private static FilteredMemberScanner scanner;
 
         static BehaviorSaveMemberScanner()
         {
-            scanner = new MemberScanner(new BehaviorSaveMemberScanner());
+            scanner = new FilteredMemberScanner(new BehaviorSaveMemberScanner());
             scanner.ProcessProperties = false;
         }
 
