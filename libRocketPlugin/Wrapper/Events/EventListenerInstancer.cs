@@ -28,7 +28,12 @@ namespace libRocketPlugin
 
         private IntPtr InstanceEventListenerCbImpl(String name, IntPtr element)
         {
-            return InstanceEventListener(name, ElementManager.getElement(element)).Ptr;
+            EventListener evtListener = InstanceEventListener(name, ElementManager.getElement(element));
+            if(evtListener != null)
+            {
+                return evtListener.Ptr;
+            }
+            return IntPtr.Zero;
         }
 
         private void ReleaseCbImpl()
