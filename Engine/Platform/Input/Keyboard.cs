@@ -50,5 +50,35 @@ namespace Engine.Platform
 	    /// Reads the state of the keyboard.
 	    /// </summary>
         public abstract void capture();
+
+        /// <summary>
+        /// Get the nice name of a key
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public static String PrettyKeyName(KeyboardButtonCode code)
+        {
+            switch (code)
+            {
+                case KeyboardButtonCode.KC_RMENU:
+                case KeyboardButtonCode.KC_LMENU:
+                    return "Alt";
+                case KeyboardButtonCode.KC_RSHIFT:
+                case KeyboardButtonCode.KC_LSHIFT:
+                    return "Shift";
+                case KeyboardButtonCode.KC_RCONTROL:
+                case KeyboardButtonCode.KC_LCONTROL:
+                    return "Ctrl";
+                default:
+                    try
+                    {
+                        return code.ToString().Substring(3);
+                    }
+                    catch (Exception)
+                    {
+                        return code.ToString();
+                    }
+            }
+        }
     }
 }

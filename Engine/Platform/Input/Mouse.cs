@@ -92,5 +92,30 @@ namespace Engine.Platform
                 Moved.Invoke(this, button);
             }
         }
+
+        internal static string PrettyButtonName(MouseButtonCode button)
+        {
+            switch(button)
+            {
+                case MouseButtonCode.MB_BUTTON0:
+                    return "Left Click";
+                case MouseButtonCode.MB_BUTTON1:
+                    return "Right Click";
+                case MouseButtonCode.MB_BUTTON2:
+                    return "Mouse Button 2";
+                case MouseButtonCode.MB_BUTTON3:
+                    return "Mouse Button 3";
+                case MouseButtonCode.MB_BUTTON4:
+                    return "Mouse Button 4";
+                case MouseButtonCode.MB_BUTTON5:
+                    return "Mouse Button 5";
+                case MouseButtonCode.MB_BUTTON6:
+                    return "Mouse Button 6";
+                case MouseButtonCode.MB_BUTTON7:
+                    return "Mouse Button 7";
+                default:
+                    return "Unknown Mouse Button";
+            }
+        }
     }
 }

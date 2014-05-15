@@ -64,6 +64,14 @@ namespace MyGUIPlugin
             }
         }
 
+        public T this[Button button]
+        {
+            get
+            {
+                return (T)button.UserObject;
+            }
+        }
+
         public Button SelectedButton
         {
             get

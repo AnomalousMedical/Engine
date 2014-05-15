@@ -124,6 +124,26 @@ namespace Engine.Platform
             mouseButtons.Clear();
         }
 
+        public String KeyDescription
+        {
+            get
+            {
+                String keyFormat = "{0}";
+                StringBuilder sb = new StringBuilder(25);
+                foreach(var button in keyboardButtons)
+                {
+                    sb.AppendFormat(keyFormat, Keyboard.PrettyKeyName(button));
+                    keyFormat = "+ {0}";
+                }
+                foreach (var button in mouseButtons)
+                {
+                    sb.AppendFormat(keyFormat, Mouse.PrettyButtonName(button));
+                    keyFormat = "+ {0}";
+                }
+                return sb.ToString();
+            }
+        }
+
         /// <summary>
         /// Called internally to manage status of the event.
         /// </summary>
