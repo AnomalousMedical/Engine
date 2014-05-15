@@ -102,7 +102,7 @@
 
   <!-- ClearButton Colors -->
   <Tag name="Anomalous_ClearButton_Control_Disabled">#6f6f6f</Tag>
-  <Tag name="Anomalous_ClearButton_Control_Normal">#c3c3c3</Tag>
+  <Tag name="Anomalous_ClearButton_Control_Normal">#d3d3d3</Tag>
   <Tag name="Anomalous_ClearButton_Control_Highlighted">#88bbee</Tag>
   <Tag name="Anomalous_ClearButton_Control_Pushed">#6699cc</Tag>
   <Tag name="Anomalous_ClearButton_Control_DisabledChecked">#225588</Tag>
