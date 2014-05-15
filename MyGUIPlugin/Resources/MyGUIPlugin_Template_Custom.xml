@@ -48,4 +48,21 @@ ButtonListIconButton32
   </Widget>
 </Resource>
 
+  <!--*************************
+EditBoxClear
+*****************************-->
+  <Resource type="ResourceLayout" name="EditBoxClear" version="3.2.0">
+    <Widget type="Widget" skin="EditBoxSkin" position="65 10 38 26" name="Root">
+      <UserString key="LE_TargetWidgetType" value="EditBox"/>
+      <Widget type="TextBox" skin="EditClientSkin" position="2 2 14 22" align="Stretch" name="Client">
+        <Property key="TextAlign" value="Left VCenter"/>
+        <Property key="FontName" value="Default"/>
+        <Property key="TextColour" value="#{Anomalous_EditArea_Text_Normal}"/>
+        <Property key="Pointer" value="beam"/>
+      </Widget>
+      <Widget type="Button" skin="ClearButton" position="15 3 21 21" align="Right" name="Clear">
+      </Widget>
+    </Widget>
+  </Resource>
+
 </MyGUI>

@@ -76,6 +76,7 @@
     <Compile Include="Plugin\Widgets\ButtonGrid\SingleSelectButtonGrid.cs" />
     <Compile Include="Plugin\Widgets\CheckButton.cs" />
     <Compile Include="Plugin\Widgets\Component.cs" />
+    <Compile Include="Plugin\Widgets\GenericButtonGroup.cs" />
     <Compile Include="Plugin\Widgets\NumericEdits\ByteNumericEdit.cs" />
     <Compile Include="Plugin\Widgets\NumericEdits\Int32NullableNumericEdit.cs" />
     <Compile Include="Plugin\Widgets\NumericEdits\DecimalNumericEdit.cs" />

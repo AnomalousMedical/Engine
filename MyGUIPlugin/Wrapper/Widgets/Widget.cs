@@ -394,6 +394,11 @@ namespace MyGUIPlugin
             return WidgetManager.getWidget(Widget_createWidgetRealT(widget, type, skin, left, top, width, height, align, name));
         }
 
+        public Widget findWidgetChildSkin(String name)
+        {
+            return WidgetManager.getWidget(Widget_findWidgetChildSkin(widget, name));
+        }
+
         public String Name
         {
             get
@@ -876,6 +881,9 @@ namespace MyGUIPlugin
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Widget_createWidgetRealT(IntPtr widget, String type, String skin, int left, int top, int width, int height, Align align, String name);
+
+        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        private static extern IntPtr Widget_findWidgetChildSkin(IntPtr widget, String name);
 
         [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]

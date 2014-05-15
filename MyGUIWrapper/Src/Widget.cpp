@@ -343,6 +343,11 @@ extern "C" _AnomalousExport MyGUI::Widget* Widget_createWidgetRealT(MyGUI::Widge
 	return widget->createWidgetRealT(type, skin, left, top, width, height, align, name);
 }
 
+extern "C" _AnomalousExport MyGUI::Widget* Widget_findWidgetChildSkin(MyGUI::Widget* widget, String name)
+{
+	return widget->findWidgetChildSkin(name);
+}
+
 extern "C" _AnomalousExport String Widget_getName(MyGUI::Widget* widget)
 {
 	return widget->getName().c_str();

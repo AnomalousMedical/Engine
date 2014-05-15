@@ -100,6 +100,16 @@
   <Tag name="Anomalous_ButtonX_Control_HighlightedChecked">#88bbee</Tag>
   <Tag name="Anomalous_ButtonX_Control_PushedChecked">#6699cc</Tag>
 
+  <!-- ClearButton Colors -->
+  <Tag name="Anomalous_ClearButton_Control_Disabled">#6f6f6f</Tag>
+  <Tag name="Anomalous_ClearButton_Control_Normal">#c3c3c3</Tag>
+  <Tag name="Anomalous_ClearButton_Control_Highlighted">#88bbee</Tag>
+  <Tag name="Anomalous_ClearButton_Control_Pushed">#6699cc</Tag>
+  <Tag name="Anomalous_ClearButton_Control_DisabledChecked">#225588</Tag>
+  <Tag name="Anomalous_ClearButton_Control_NormalChecked">#4477aa</Tag>
+  <Tag name="Anomalous_ClearButton_Control_HighlightedChecked">#88bbee</Tag>
+  <Tag name="Anomalous_ClearButton_Control_PushedChecked">#6699cc</Tag>
+
   <!-- Button Accept Colors -->
   <Tag name="Anomalous_ButtonAccept_Control_Disabled">#7c7c7c</Tag>
   <Tag name="Anomalous_ButtonAccept_Control_Normal">#434343</Tag>
