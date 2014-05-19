@@ -85,9 +85,9 @@ namespace Engine.Reflection
         /// <param name="type">The type of attributes to get.</param>
         /// <param name="inherit">True to search inheritance chain for attributes.</param>
         /// <returns>An array of matching attributes.</returns>
-        public object[] getCustomAttributes(Type type, bool inherit)
+        public IEnumerable<Attribute> getCustomAttributes(Type type, bool inherit)
         {
-            return propInfo.GetCustomAttributes(type, inherit);
+            return (IEnumerable<Attribute>)propInfo.GetCustomAttributes(type, inherit);
         }
 
         /// <summary>
@@ -95,9 +95,9 @@ namespace Engine.Reflection
         /// </summary>
         /// <param name="inherit">True to search inheritance chain for attributes.</param>
         /// <returns>An array of matching attributes.</returns>
-        public object[] getCustomAttributes(bool inherit)
+        public IEnumerable<Attribute> getCustomAttributes(bool inherit)
         {
-            return propInfo.GetCustomAttributes(inherit);
+            return (IEnumerable<Attribute>)propInfo.GetCustomAttributes(inherit);
         }
 
         /// <summary>

@@ -56,7 +56,7 @@ namespace Engine.Reflection
         /// <returns>True if a ReflectedVariable can be created for this type.</returns>
         public static bool canCreateVariable(Type inType)
         {
-            return typeMapping.ContainsKey(inType) || inType.IsEnum;
+            return typeMapping.ContainsKey(inType) || inType.IsEnum();
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Engine.Reflection
             {
                 return typeMapping[inType](memberInfo, instance);
             }
-            else if (inType.IsEnum)
+            else if (inType.IsEnum())
             {
                 return new EnumReflectedVariable(memberInfo, instance);
             }

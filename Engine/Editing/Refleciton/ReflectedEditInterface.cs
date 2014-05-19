@@ -227,10 +227,9 @@ namespace Engine.Editing
         private static EditableAttribute defaultEditableAttribute = new EditableAttribute();
         private static EditableAttribute findEditableAttribute(MemberWrapper memberWrapper)
         {
-            Object[] editAttrs = memberWrapper.getCustomAttributes(typeof(EditableAttribute), true);
-            if (editAttrs.Length > 0)
+            EditableAttribute editable = memberWrapper.getCustomAttributes(typeof(EditableAttribute), true).Select(s => (EditableAttribute)s).FirstOrDefault();
+            if (editable != null)
             {
-                EditableAttribute editable = (EditableAttribute)editAttrs[0];
                 return editable;
             }
             return defaultEditableAttribute;

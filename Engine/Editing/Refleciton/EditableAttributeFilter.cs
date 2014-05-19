@@ -28,7 +28,7 @@ namespace Engine.Editing
         /// <returns>True if the member should be included in the results. False to omit it.</returns>
         public bool allowMember(MemberWrapper wrapper)
         {
-            return wrapper.getCustomAttributes(typeof(EditableAttribute), true).Length > 0;
+            return wrapper.getCustomAttributes(typeof(EditableAttribute), true).Any();
         }
 
         /// <summary>

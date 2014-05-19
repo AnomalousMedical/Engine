@@ -53,7 +53,7 @@ namespace Engine
         /// <returns>True if the member should be included in the results. False to omit it.</returns>
         public bool allowMember(MemberWrapper wrapper)
         {
-            if (wrapper.getCustomAttributes(typeof(EditableAttribute), true).Length > 0)
+            if (wrapper.getCustomAttributes(typeof(EditableAttribute), true).Any())
             {
                 Type wrappedType = wrapper.getWrappedType();
                 return ReflectedVariable.canCreateVariable(wrappedType) || wrappedType.GetInterface(BEHAVIOR_OBJECT_INTERFACE) != null;
