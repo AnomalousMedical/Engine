@@ -23,10 +23,10 @@ namespace ZipAccess
             this.uncompressedSize = uncompressedSize;
         }
 
-        public override void Close()
+        protected override void Dispose(bool disposing)
         {
-            base.Close();
-            if(zzipFile != IntPtr.Zero)
+            base.Dispose(disposing);
+            if (disposing && zzipFile != IntPtr.Zero)
             {
                 ZipStream_FileClose(zzipFile);
                 zzipFile = IntPtr.Zero;

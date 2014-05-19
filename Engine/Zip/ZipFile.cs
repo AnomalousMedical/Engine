@@ -127,7 +127,7 @@ namespace ZipAccess
                 return true;
             }
             path = fixPathDir(path);
-            return directories.FirstOrDefault(d => path.Equals(d.FullName, StringComparison.InvariantCultureIgnoreCase)) != null;
+            return directories.FirstOrDefault(d => path.Equals(d.FullName, StringComparison.OrdinalIgnoreCase)) != null;
         }
 
         public ZipFileInfo getFileInfo(String filename)
