@@ -28,5 +28,13 @@ namespace System.Reflection
             return Assembly.LoadFile(path);
 #endif
         }
+
+#if ENABLE_LEGACY_SHIMS
+        public static IEnumerable<Type> GetTypes(this Assembly assembly)
+        {
+            return assembly.DefinedTypes.Select(t => t.DeclaringType);
+        }
+
+#endif
     }
 }

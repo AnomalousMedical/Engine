@@ -25,7 +25,7 @@ namespace Engine
         private static Type QueueType = typeof(Queue<Object>).GetGenericTypeDefinition();
         private static Type SortedDictionaryType = typeof(SortedDictionary<Object, Object>).GetGenericTypeDefinition();
         private static Type SortedListType = typeof(SortedList<Object, Object>).GetGenericTypeDefinition();
-        private static Type StackType = typeof(SortedList<Object, Object>).GetGenericTypeDefinition();
+        private static Type StackType = typeof(Stack<Object>).GetGenericTypeDefinition();
         private static Type IDictionaryMemberCopierType = typeof(IDictionaryMemberCopier<Object, Object>).GetGenericTypeDefinition();
         private static Type ICollectionMemberCopierType = typeof(ICollectionCopier<Object>).GetGenericTypeDefinition();
 
@@ -69,11 +69,11 @@ namespace Engine
             {
                 return memberCopiers[t];
             }
-            else if (t.GetCustomAttributes(typeof(NativeSubsystemTypeAttribute), true).Length > 0)
+            else if (t.GetCustomAttributes(typeof(NativeSubsystemTypeAttribute), true).Any())
             {
                 return simpleCopier;
             }
-            else if (t.IsGenericType)
+            else if (t.IsGenericType())
             {
                 Type generic = t.GetGenericTypeDefinition();
                 Type[] types = t.GetGenericArguments();
@@ -98,7 +98,7 @@ namespace Engine
                 }
                 return (MemberCopier)System.Activator.CreateInstance(specificType);
             }
-            else if (t.IsEnum)
+            else if (t.IsEnum())
             {
                 return simpleCopier;
             }

@@ -120,7 +120,7 @@ namespace Engine
         {
             foreach (Assembly assembly in pluginAssemblies)
             {
-                PluginEntryPointAttribute[] attributes = (PluginEntryPointAttribute[])assembly.GetCustomAttributes(typeof(PluginEntryPointAttribute), true);
+                PluginEntryPointAttribute[] attributes = (PluginEntryPointAttribute[])assembly.GetCustomAttributes(typeof(PluginEntryPointAttribute));
                 if (attributes.Length > 0)
                 {
                     foreach (PluginEntryPointAttribute entryPointAttribute in attributes)
@@ -188,21 +188,15 @@ namespace Engine
                             break;
                         }
                     }
-                    //If that fails search the main assembly
+                    //If that fails search all loaded assemblies.
                     if (type == null)
                     {
-                        Assembly mainAssembly = Assembly.GetEntryAssembly();
-                        type = mainAssembly.GetType(typeName);
-                        //If that fails search all loaded assemblies.
-                        if (type == null)
+                        foreach (Assembly assembly in AppDomainShim.GetCurrentDomainAssemblies())
                         {
-                            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+                            type = assembly.GetType(typeName);
+                            if (type != null)
                             {
-                                type = assembly.GetType(typeName);
-                                if (type != null)
-                                {
-                                    break;
-                                }
+                                break;
                             }
                         }
                     }
@@ -490,7 +484,7 @@ namespace Engine
             {
                 if (pluginDirectory == null)
                 {
-                    String[] args = Environment.GetCommandLineArgs();
+                    String[] args = EnvironmentShim.GetCommandLineArgs();
                     if (args.Length > 0)
                     {
                         pluginDirectory = Path.GetDirectoryName(args[0]);

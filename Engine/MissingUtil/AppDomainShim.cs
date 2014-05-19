@@ -1,22 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace System.IO
+namespace System.Reflection
 {
-    public static class PathShim
+    public static class AppDomainShim
     {
-        public const char DirectorySeparatorChar = '/';
-
-        public static String GetFullPath(String path)
+        public static IEnumerable<Assembly> GetCurrentDomainAssemblies()
         {
 #if ENABLE_LEGACY_SHIMS
             throw new NotImplementedException();
 #else
-            return Path.GetFullPath(path);
+            return AppDomain.CurrentDomain.GetAssemblies();
 #endif
         }
     }

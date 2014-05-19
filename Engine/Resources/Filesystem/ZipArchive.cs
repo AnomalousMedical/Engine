@@ -21,7 +21,7 @@ namespace Engine.Resources
         public ZipArchive(String filename)
         {
             String zipName = parseZipName(filename);
-            fullZipPath = Path.GetFullPath(zipName);
+            fullZipPath = PathShim.GetFullPath(zipName);
             String subDir = parseURLInZip(filename);
             if (subDir == "")
             {

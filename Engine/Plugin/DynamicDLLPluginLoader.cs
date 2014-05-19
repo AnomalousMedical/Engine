@@ -47,9 +47,9 @@ namespace Engine
                     //If the path cannot be found search the current working directories.
                     if (!File.Exists(loadPath))
                     {
-                        loadPath = pluginManager.PluginDirectory + Path.DirectorySeparatorChar + path;
+                        loadPath = pluginManager.PluginDirectory + PathShim.DirectorySeparatorChar + path;
                     }
-                    Assembly assembly = AssemblyShim.LoadFile(Path.GetFullPath(loadPath));
+                    Assembly assembly = AssemblyShim.LoadFile(PathShim.GetFullPath(loadPath));
                     pluginManager.addPluginAssembly(assembly);
                 }
                 catch (Exception e)

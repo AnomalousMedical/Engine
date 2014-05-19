@@ -14,12 +14,11 @@ namespace Engine
         public BehaviorBrowser()
             : base("Behaviors", "Choose Behavior")
         {
-            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+            foreach (Assembly assembly in AppDomainShim.GetCurrentDomainAssemblies())
             {
-                Type[] types = assembly.GetTypes();
-                foreach (Type type in types)
+                foreach (Type type in assembly.GetTypes())
                 {
-                    if (type.IsSubclassOf(typeof(Behavior)) && !type.IsAbstract)
+                    if (type.IsSubclassOf(typeof(Behavior)) && !type.IsAbstract())
                     {
                         this.addNode(type.Namespace, delimiter, new BrowserNode(type.Name, type));
                     }

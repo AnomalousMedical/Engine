@@ -98,6 +98,11 @@ namespace System.IO
         {
             fileImpl.Copy(sourceFileName, destFileName, overwrite);
         }
+
+        public static bool Exists(string path)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public interface FileImpl

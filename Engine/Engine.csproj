@@ -149,10 +149,13 @@
     <Compile Include="MemberCopier\IDictionaryMemberCopier.cs" />
     <Compile Include="MemberCopier\MemberCopier.cs" />
     <Compile Include="MemberCopier\SimpleMemberCopier.cs" />
+    <Compile Include="MissingUtil\AppDomainShim.cs" />
     <Compile Include="MissingUtil\AssemblyShim.cs" />
+    <Compile Include="MissingUtil\EnvironmentShim.cs" />
+    <Compile Include="MissingUtil\PathShim.cs" />
     <Compile Include="MissingUtil\ThreadPoolShim.cs" />
     <Compile Include="MissingUtil\ThreadShim.cs" />
-    <Compile Include="MissingUtil\TypeExtensions.cs" />
+    <Compile Include="MissingUtil\TypeShim.cs" />
     <Compile Include="ObjectManagement\Definition\CompositeSimObjectDefinition.cs" />
     <Compile Include="ObjectManagement\Definition\GenericSimObjectDefinition.cs" />
     <Compile Include="ObjectManagement\Definition\ScenePackage.cs" />

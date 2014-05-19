@@ -11,7 +11,7 @@ using Engine.MissingUtil;
 
 namespace System
 {
-    public static class TypeExtensions
+    public static class TypeShim
     {
         public static bool IsEnum(this Type type)
         {
@@ -31,6 +31,16 @@ namespace System
         public static bool IsSubclassOf(this Type type, Type parent)
         {
             return type.GetTypeInfo().IsSubclassOf(parent);
+        }
+
+        public static bool IsAbstract(this Type type)
+        {
+            return type.GetTypeInfo().IsAbstract;
+        }
+
+        public static bool IsGenericType(this Type type)
+        {
+            return type.GetTypeInfo().IsGenericType;
         }
 
 #if ENABLE_LEGACY_SHIMS
@@ -78,9 +88,19 @@ namespace System
             //}
         }
 
+        public static IEnumerable<Attribute> GetCustomAttributes(this Type type, Type attributeType, bool inherit)
+        {
+            return type.GetTypeInfo().GetCustomAttributes(attributeType, inherit);
+        }
+
         public static IEnumerable<PropertyInfo> GetProperties(this Type type, BindingFlags bindingFlags)
         {
             throw new NotImplementedException();
+        }
+
+        public static Type[] GetGenericArguments(this Type type)
+        {
+            return type.GetGenericArguments();
         }
 
         public static bool IsAssignableFrom(this Type type, Type from)

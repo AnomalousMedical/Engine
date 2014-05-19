@@ -117,7 +117,7 @@ namespace Engine
 
         private static String createShortTypeString(Type type)
         {
-            String shortAssemblyName = type.Assembly.FullName;
+            String shortAssemblyName = type.Assembly().FullName;
             return String.Format(NAME_FORMAT, type.FullName, shortAssemblyName.Remove(shortAssemblyName.IndexOf(',')));
         }
 
