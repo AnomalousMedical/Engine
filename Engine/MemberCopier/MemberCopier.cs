@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 using Engine.Attributes;
 using Engine.Reflection;
 
@@ -16,16 +17,10 @@ namespace Engine
         private static Dictionary<Type, MemberCopier> memberCopiers = new Dictionary<Type,MemberCopier>();
         private static DeepMemberCopier deepCopier = new DeepMemberCopier();
         private static SimpleMemberCopier simpleCopier = new SimpleMemberCopier();
+
         private static Type IDictionaryType = typeof(IDictionary<Object, Object>).GetGenericTypeDefinition();
         private static Type ICollectionType= typeof(ICollection<Object>).GetGenericTypeDefinition();
-        private static Type LinkedListType = typeof(LinkedList<Object>).GetGenericTypeDefinition();
-        private static Type DictionaryType = typeof(Dictionary<Object, Object>).GetGenericTypeDefinition();
-        private static Type HashSetType = typeof(HashSet<Object>).GetGenericTypeDefinition();
-        private static Type ListType = typeof(List<Object>).GetGenericTypeDefinition();
-        private static Type QueueType = typeof(Queue<Object>).GetGenericTypeDefinition();
-        private static Type SortedDictionaryType = typeof(SortedDictionary<Object, Object>).GetGenericTypeDefinition();
-        private static Type SortedListType = typeof(SortedList<Object, Object>).GetGenericTypeDefinition();
-        private static Type StackType = typeof(Stack<Object>).GetGenericTypeDefinition();
+        
         private static Type IDictionaryMemberCopierType = typeof(IDictionaryMemberCopier<Object, Object>).GetGenericTypeDefinition();
         private static Type ICollectionMemberCopierType = typeof(ICollectionCopier<Object>).GetGenericTypeDefinition();
 
@@ -75,28 +70,22 @@ namespace Engine
             }
             else if (t.IsGenericType())
             {
-                Type generic = t.GetGenericTypeDefinition();
                 Type[] types = t.GetGenericArguments();
-                Type specificType = null;
-                if (generic == DictionaryType ||
-                    generic == SortedDictionaryType ||
-                    generic == SortedListType)
+                Type copierType = null;
+                if (t.ImplementsInterface(ICollectionType))
                 {
-                    specificType = IDictionaryMemberCopierType.MakeGenericType(types);
+                    copierType = ICollectionMemberCopierType.MakeGenericType(types);
                 }
-                else if (generic == LinkedListType ||
-                         generic == HashSetType || 
-                         generic == ListType ||
-                         generic == StackType)
+                else if (t.ImplementsInterface(IDictionaryType))
                 {
-                    specificType = ICollectionMemberCopierType.MakeGenericType(types);
+                    copierType = IDictionaryMemberCopierType.MakeGenericType(types);
                 }
                 else
                 {
                     //Return the deep copier if no custom generic copier is found
                     return deepCopier;
                 }
-                return (MemberCopier)System.Activator.CreateInstance(specificType);
+                return (MemberCopier)System.Activator.CreateInstance(copierType);
             }
             else if (t.IsEnum())
             {

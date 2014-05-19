@@ -43,6 +43,23 @@ namespace System
             return type.GetTypeInfo().IsGenericType;
         }
 
+        public static bool ImplementsInterface(this Type type, Type interfaceType)
+        {
+            if (interfaceType.IsGenericType())
+            {
+                interfaceType = interfaceType.GetGenericTypeDefinition();
+            }
+            return type.GetTypeInfo().ImplementedInterfaces.Any(i => 
+            {
+                Type checkType = i;
+                if (i.IsGenericType())
+                {
+                    checkType = i.GetGenericTypeDefinition();
+                }
+                return interfaceType == checkType;
+            });
+        }
+
 #if ENABLE_LEGACY_SHIMS
         public static ConstructorInfo GetConstructor(this Type type, BindingFlags bindingAttr, UnusedParameter binder, Type[] types, UnusedParameter modifiers)
         {
