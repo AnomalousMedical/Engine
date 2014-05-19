@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+#if !FIXLATER_DISABLED
 using Engine.Reflection;
 
 namespace Engine.Saving
@@ -79,3 +80,4 @@ namespace Engine.Saving
         }
     }
 }
+#endif

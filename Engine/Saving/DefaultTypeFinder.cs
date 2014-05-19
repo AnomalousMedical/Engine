@@ -9,7 +9,11 @@ namespace Engine.Saving
     {
         public Type findType(string assemblyQualifiedName)
         {
+#if !FIXLATER_DISABLED
             return PluginManager.Instance.findType(assemblyQualifiedName);
+#else
+            throw new NotImplementedException();
+#endif
         }
     }
 }

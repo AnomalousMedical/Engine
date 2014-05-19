@@ -66,7 +66,7 @@ namespace Engine.Platform
                 totalFrameTime = systemTimer.getCurrentTime() - frameStartTime;
                 while (totalFrameTime < framerateCap)
                 {
-                    Thread.Sleep((int)((framerateCap - totalFrameTime) / 1000));
+                    ThreadShim.Sleep((int)((framerateCap - totalFrameTime) / 1000));
                     totalFrameTime = systemTimer.getCurrentTime() - frameStartTime;
                 }
             }

@@ -57,7 +57,7 @@ namespace Engine.Saving
             {
                 valueWriters[objType].writeValue(entry);
             }
-            else if (objType.IsEnum)
+            else if (objType.IsEnum())
             {
                 enumWriter.writeValue(entry);
             }

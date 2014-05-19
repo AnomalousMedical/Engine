@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using Engine.ObjectManagement;
 
 namespace Engine.Saving.XMLSaver
 {
@@ -144,7 +143,7 @@ namespace Engine.Saving.XMLSaver
 
         internal static String createShortTypeString(Type type)
         {
-            String shortAssemblyName = type.Assembly.FullName;
+            String shortAssemblyName = type.Assembly().FullName;
             return shortAssemblyName.Remove(shortAssemblyName.IndexOf(','));
         }
     }

@@ -33,7 +33,7 @@ namespace Engine.Platform
         public void startBackgroundWork(Clock clock)
         {
             //currentClock = clock;
-            ThreadPool.QueueUserWorkItem((state) =>
+            ThreadPoolShim.QueueUserWorkItem((state) =>
             {
                 updateListener.doBackgroundWork((Clock)state);
                 mainThreadWait.Set();

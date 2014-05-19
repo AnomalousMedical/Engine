@@ -144,7 +144,15 @@ namespace Engine
         //char
         public static char ParseChar(String s)
         {
-            return char.Parse(s);
+            if(s == null)
+            {
+                throw new ArgumentNullException("Input String cannot be null.");
+            }
+            if(s.Length != 1)
+            {
+                throw new FormatException("Input String must have length of 1.");
+            }
+            return s[0];
         }
 
         public static bool TryParse(String s, out char value)
@@ -154,7 +162,7 @@ namespace Engine
 
         public static String ToString(char value)
         {
-            return value.ToString(CultureInfo.InvariantCulture);
+            return value.ToString();
         }
 
         //Float

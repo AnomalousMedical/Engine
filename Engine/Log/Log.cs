@@ -170,7 +170,7 @@ namespace Logging
         /// <param name="message">The message to send.</param>
         public static void Debug(String message)
         {
-            defaultLog.sendMessage(message, LogLevel.Debug, Assembly.GetCallingAssembly().GetName().Name);
+            defaultLog.sendMessage(message, LogLevel.Debug, AssemblyShim.CurrentAssemblyName);
         }
 
         /// <summary>
@@ -181,7 +181,7 @@ namespace Logging
         /// <param name="args">Additional objects to go into the formatted message string.</param>
         public static void Debug(String message, params object[] args)
         {
-            defaultLog.sendMessage(String.Format(message, args), LogLevel.Debug, Assembly.GetCallingAssembly().GetName().Name);
+            defaultLog.sendMessage(String.Format(message, args), LogLevel.Debug, AssemblyShim.CurrentAssemblyName);
         }
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace Logging
         /// <param name="message">The message to send.</param>
         public static void Error(String message)
         {
-            defaultLog.sendMessage(message, LogLevel.Error, Assembly.GetCallingAssembly().GetName().Name);
+            defaultLog.sendMessage(message, LogLevel.Error, AssemblyShim.CurrentAssemblyName);
         }
 
         /// <summary>
@@ -201,7 +201,7 @@ namespace Logging
         /// <param name="args">Additional objects to go into the formatted message string.</param>
         public static void Error(String message, params object[] args)
         {
-            defaultLog.sendMessage(String.Format(message, args), LogLevel.Error, Assembly.GetCallingAssembly().GetName().Name);
+            defaultLog.sendMessage(String.Format(message, args), LogLevel.Error, AssemblyShim.CurrentAssemblyName);
         }
 
         /// <summary>
@@ -210,7 +210,7 @@ namespace Logging
         /// <param name="message">The message to send.</param>
         public static void Warning(String message)
         {
-            defaultLog.sendMessage(message, LogLevel.Warning, Assembly.GetCallingAssembly().GetName().Name);
+            defaultLog.sendMessage(message, LogLevel.Warning, AssemblyShim.CurrentAssemblyName);
         }
 
         /// <summary>
@@ -221,7 +221,7 @@ namespace Logging
         /// <param name="args">Additional objects to go into the formatted message string.</param>
         public static void Warning(String message, params object[] args)
         {
-            defaultLog.sendMessage(String.Format(message, args), LogLevel.Warning, Assembly.GetCallingAssembly().GetName().Name);
+            defaultLog.sendMessage(String.Format(message, args), LogLevel.Warning, AssemblyShim.CurrentAssemblyName);
         }
 
         /// <summary>
@@ -230,7 +230,7 @@ namespace Logging
         /// <param name="message">The message to send.</param>
         public static void Info(String message)
         {
-            defaultLog.sendMessage(message, LogLevel.Info, Assembly.GetCallingAssembly().GetName().Name);
+            defaultLog.sendMessage(message, LogLevel.Info, AssemblyShim.CurrentAssemblyName);
         }
 
         /// <summary>
@@ -241,7 +241,7 @@ namespace Logging
         /// <param name="args">Additional objects to go into the formatted message string.</param>
         public static void Info(String message, params object[] args)
         {
-            defaultLog.sendMessage(String.Format(message, args), LogLevel.Info, Assembly.GetCallingAssembly().GetName().Name);
+            defaultLog.sendMessage(String.Format(message, args), LogLevel.Info, AssemblyShim.CurrentAssemblyName);
         }
 
         /// <summary>
@@ -250,7 +250,7 @@ namespace Logging
         /// <param name="message">The message to send.</param>
         public static void ImportantInfo(String message)
         {
-            defaultLog.sendMessage(message, LogLevel.ImportantInfo, Assembly.GetCallingAssembly().GetName().Name);
+            defaultLog.sendMessage(message, LogLevel.ImportantInfo, AssemblyShim.CurrentAssemblyName);
         }
 
         /// <summary>
@@ -261,7 +261,7 @@ namespace Logging
         /// <param name="args">Additional objects to go into the formatted message string.</param>
         public static void ImportantInfo(String message, params object[] args)
         {
-            defaultLog.sendMessage(String.Format(message, args), LogLevel.ImportantInfo, Assembly.GetCallingAssembly().GetName().Name);
+            defaultLog.sendMessage(String.Format(message, args), LogLevel.ImportantInfo, AssemblyShim.CurrentAssemblyName);
         }
 
         /// <summary>
@@ -269,6 +269,7 @@ namespace Logging
         /// </summary>
         public static void PrintStackTrace()
         {
+#if !ENABLE_LEGACY_SHIMS
             StackTrace stackTrace = new StackTrace(1, true);
             StringBuilder sb = new StringBuilder(512);
             sb.AppendLine("Stack Trace");
@@ -280,6 +281,7 @@ namespace Logging
             }
             sb.Append("----------------------");
             Log.Debug(sb.ToString());
+#endif
         }
     }
 }

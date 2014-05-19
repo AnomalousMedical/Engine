@@ -56,7 +56,7 @@ namespace Logging
                 try
                 {
                     logFileName = fileName;
-                    fileWriter = new StreamWriter(new FileStream(fileName, FileMode.Create, FileAccess.Write));
+                    fileWriter = new StreamWriter(File.Open(fileName, FileMode.Create, FileAccess.Write));
                     closed = false;
                 }
                 catch
@@ -77,7 +77,7 @@ namespace Logging
                 {
                     Log.Info("Closed log {0}", logFileName);
                     closed = true;
-                    fileWriter.Close();
+                    fileWriter.Dispose();
                 }
             }
         }
@@ -93,7 +93,7 @@ namespace Logging
                     {
                         Directory.CreateDirectory(crashDir);
                     }
-
+                    
                     fileWriter.Flush();
                     DateTime now = DateTime.Now;
                     File.Copy(logFileName, crashFile, true);
