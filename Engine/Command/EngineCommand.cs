@@ -59,7 +59,7 @@ namespace Engine
             Delegate chosen = null;
             foreach (Delegate fp in executeDelegates)
             {
-                ParameterInfo[] paramInfo = fp.Method.GetParameters();
+                ParameterInfo[] paramInfo = fp.GetMethodInfo().GetParameters();
                 if (paramInfo.Length == args.Length)
                 {
                     bool matches = true;

@@ -23,19 +23,31 @@ namespace System
             return type.GetTypeInfo().Assembly;
         }
 
+        public static Type BaseType(this Type type)
+        {
+            return type.GetTypeInfo().BaseType;
+        }
+
+        public static bool IsSubclassOf(this Type type, Type parent)
+        {
+            return type.GetTypeInfo().IsSubclassOf(parent);
+        }
+
 #if ENABLE_LEGACY_SHIMS
         public static ConstructorInfo GetConstructor(this Type type, BindingFlags bindingAttr, UnusedParameter binder, Type[] types, UnusedParameter modifiers)
         {
-            foreach(var constructor in type.GetTypeInfo().DeclaredConstructors)
-            {
-                if(matchesVisibility(constructor.IsPublic, bindingAttr) 
-                    && matchesStatic(constructor.IsStatic, bindingAttr) 
-                    && matchesParameters(constructor.GetParameters(), types))
-                {
-                    return constructor;
-                }
-            }
-            return null;
+            throw new NotImplementedException();
+            //foreach(var constructor in type.GetTypeInfo().DeclaredConstructors)
+            //{
+            //    if (matches(constructor.IsPublic, bindingAttr, BindingFlags.Public)
+            //        && matches(constructor.IsPrivate, bindingAttr, BindingFlags.NonPublic) 
+            //        && matches(constructor.IsStatic, bindingAttr, BindingFlags.Static)
+            //        && matchesParameters(constructor.GetParameters(), types))
+            //    {
+            //        return constructor;
+            //    }
+            //}
+            //return null;
         }
 
         public static Type GetInterface(this Type type, String name)
@@ -50,16 +62,51 @@ namespace System
             return null;
         }
 
-        private static bool matchesVisibility(bool isPublic, BindingFlags bindingAttr)
+        public static IEnumerable<FieldInfo> GetFields(this Type type, BindingFlags bindingAttr)
         {
-            return (isPublic && (bindingAttr & BindingFlags.Public) != 0)
-            || (!isPublic && (bindingAttr & BindingFlags.NonPublic) != 0);
+            throw new NotImplementedException();
+
+            //foreach(var field in type.GetTypeInfo().DeclaredFields)
+            //{
+            //    if (matches(field.IsPublic, bindingAttr, BindingFlags.Public)
+            //        && matches(field.IsPrivate, bindingAttr, BindingFlags.NonPublic)
+            //        && matches(field., bindingAttr, BindingFlags.Instance)
+            //        && matches(field.IsStatic, bindingAttr, BindingFlags.Static))
+            //    {
+            //        yield return field;
+            //    }
+            //}
         }
 
-        private static bool matchesStatic(bool isStatic, BindingFlags bindingAttr)
+        public static IEnumerable<PropertyInfo> GetProperties(this Type type, BindingFlags bindingFlags)
         {
-            return (isStatic && (bindingAttr & BindingFlags.Static) != 0)
-            || (!isStatic && (bindingAttr & BindingFlags.Instance) != 0);
+            throw new NotImplementedException();
+        }
+
+        public static bool IsAssignableFrom(this Type type, Type from)
+        {
+            return type.GetTypeInfo().IsAssignableFrom(from.GetTypeInfo());
+        }
+
+        private static bool inverseMatch(bool sourceCondition, BindingFlags searchFlags, BindingFlags matchFlag)
+        {
+            if((searchFlags & matchFlag) != 0)
+            {
+                return sourceCondition;
+            }
+            else
+            {
+                return !sourceCondition;
+            }
+        }
+
+        private static bool forwardMatch(bool sourceCondition, BindingFlags searchFlags, BindingFlags matchFlag)
+        {
+            if ((searchFlags & matchFlag) != 0)
+            {
+                return sourceCondition;
+            }
+            return false;
         }
 
         private static bool matchesParameters(ParameterInfo[] parameters, Type[] searchTypes)

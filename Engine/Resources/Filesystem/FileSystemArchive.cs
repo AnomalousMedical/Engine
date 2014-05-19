@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using Logging;
 
+#if !FIXLATER_DISABLED
 namespace Engine.Resources
 {
     class FileSystemArchive : Archive
@@ -111,7 +112,7 @@ namespace Engine.Resources
 
         public override Stream openStream(String url, FileMode mode)
         {
-            return File.Open(fixIncomingFileURL(url), (System.IO.FileMode)mode);
+            return File.Open(fixIncomingFileURL(url), (System.IO.FileMode)mode, System.IO.FileAccess.ReadWrite);
         }
 
         public override Stream openStream(String url, FileMode mode, FileAccess access)
@@ -122,7 +123,7 @@ namespace Engine.Resources
         public override bool isDirectory(String url)
         {
             bool isDirectory;
-            FileAttributes attr = File.GetAttributes(fixIncomingURL(url, out isDirectory));
+            fixIncomingURL(url, out isDirectory);
             return isDirectory;
         }
 
@@ -263,3 +264,4 @@ namespace Engine.Resources
         }
     }
 }
+#endif

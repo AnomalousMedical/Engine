@@ -12,6 +12,7 @@ namespace Engine.Resources
 
         internal static Archive OpenArchive(String url)
         {
+#if !FIXLATER_DISABLED
             if (ZipArchive.CanOpenURL(url))
             {
                 if (File.Exists(ZipArchive.parseZipName(url)))
@@ -25,6 +26,9 @@ namespace Engine.Resources
                 return new FileSystemArchive(url);
             }
             return null;
+#else
+            throw new NotImplementedException();
+#endif
         }
 
         internal static String fixPathFile(String path)

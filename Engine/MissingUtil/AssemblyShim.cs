@@ -19,5 +19,14 @@ namespace System.Reflection
 #endif
             }
         }
+
+        public static Assembly LoadFile(String path)
+        {
+#if ENABLE_LEGACY_SHIMS
+            throw new NotImplementedException();
+#else
+            return Assembly.LoadFile(path);
+#endif
+        }
     }
 }

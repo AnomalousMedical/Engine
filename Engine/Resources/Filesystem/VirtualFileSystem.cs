@@ -50,14 +50,14 @@ namespace Engine
         /// <summary>
         /// A map of files to the archives that contain them
         /// </summary>
-        Dictionary<String, Archive> fileMap = new Dictionary<string, Archive>(1, StringComparer.InvariantCultureIgnoreCase);
+        Dictionary<String, Archive> fileMap = new Dictionary<string, Archive>(1, StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
         /// A map of directories to the archives that have them. A single
         /// directory can be in multiple archives and there is no definition as
         /// to which is defined here. It is considered to not matter.
         /// </summary>
-        Dictionary<String, DirectoryEntry> directoryMap = new Dictionary<String, DirectoryEntry>(1, StringComparer.InvariantCultureIgnoreCase);
+        Dictionary<String, DirectoryEntry> directoryMap = new Dictionary<String, DirectoryEntry>(1, StringComparer.OrdinalIgnoreCase);
 
         List<Archive> archives = new List<Archive>();
 
@@ -103,14 +103,7 @@ namespace Engine
                 return true;
             }
 
-            try
-            {
-                Log.Warning("Could not find archive '{0}'. Archive not loaded into virtual file system", Path.GetFullPath(path));
-            }
-            catch (Exception)
-            {
-                Log.Warning("Could not find archive '{0}'. Archive not loaded into virtual file system", path);
-            }
+            Log.Warning("Could not find archive '{0}'. Archive not loaded into virtual file system", path);
             return false;
         }
 

@@ -56,10 +56,9 @@ namespace Engine.Reflection
                     searchFlags |= BindingFlags.Public;
                 }
                 Type searchType = type;
-                while ((Filter == null || Filter.allowType(searchType)) && searchType.BaseType != null)
+                while ((Filter == null || Filter.allowType(searchType)) && searchType.BaseType() != null)
                 {
-                    FieldInfo[] levelFields = searchType.GetFields(searchFlags);
-                    foreach (FieldInfo levelField in levelFields)
+                    foreach (FieldInfo levelField in searchType.GetFields(searchFlags))
                     {
                         MemberWrapper fieldWrapper = new FieldMemberWrapper(levelField);
                         if (Filter == null || Filter.allowMember(fieldWrapper))
@@ -67,7 +66,7 @@ namespace Engine.Reflection
                             yield return fieldWrapper;
                         }
                     }
-                    searchType = searchType.BaseType;
+                    searchType = searchType.BaseType();
                 }
             }
             if (ProcessProperties)
@@ -82,10 +81,9 @@ namespace Engine.Reflection
                     searchFlags |= BindingFlags.Public;
                 }
                 Type searchType = type;
-                while ((Filter == null || Filter.allowType(searchType)) && searchType.BaseType != null)
+                while ((Filter == null || Filter.allowType(searchType)) && searchType.BaseType() != null)
                 {
-                    PropertyInfo[] levelProperties = searchType.GetProperties(searchFlags);
-                    foreach (PropertyInfo levelProp in levelProperties)
+                    foreach (PropertyInfo levelProp in searchType.GetProperties(searchFlags))
                     {
                         MemberWrapper propWrapper = new PropertyMemberWrapper(levelProp);
                         if (Filter == null || Filter.allowMember(propWrapper))
@@ -93,7 +91,7 @@ namespace Engine.Reflection
                             yield return propWrapper;
                         }
                     }
-                    searchType = searchType.BaseType;
+                    searchType = searchType.BaseType();
                 }
             }
         }

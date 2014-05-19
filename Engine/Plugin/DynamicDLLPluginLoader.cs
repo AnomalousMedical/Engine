@@ -49,7 +49,7 @@ namespace Engine
                     {
                         loadPath = pluginManager.PluginDirectory + Path.DirectorySeparatorChar + path;
                     }
-                    Assembly assembly = Assembly.LoadFile(Path.GetFullPath(loadPath));
+                    Assembly assembly = AssemblyShim.LoadFile(Path.GetFullPath(loadPath));
                     pluginManager.addPluginAssembly(assembly);
                 }
                 catch (Exception e)
