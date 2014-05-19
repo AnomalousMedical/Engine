@@ -47,25 +47,19 @@ namespace Engine
 
         public void writeConfigFile()
         {
-            StreamWriter writer = null;
             try
             {
-                writer = new StreamWriter(new BufferedStream(File.Open(BackingFile, System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite)));
-                foreach (ConfigSection section in sections.Values)
+                using (StreamWriter writer = new StreamWriter(File.Open(BackingFile, System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite)))
                 {
-                    section.writeSection(writer);
+                    foreach (ConfigSection section in sections.Values)
+                    {
+                        section.writeSection(writer);
+                    }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-		        Log.Default.sendMessage("Error saving config file {0}.\n{1}.", LogLevel.Error, "Config", backingFile, ex.Message);
-            }
-            finally
-            {
-                if (writer != null)
-                {
-                    writer.Close();
-                }
+                Log.Default.sendMessage("Error saving config file {0}.\n{1}.", LogLevel.Error, "Config", backingFile, ex.Message);
             }
         }
 
@@ -73,38 +67,32 @@ namespace Engine
         {
             if (File.Exists(backingFile))
             {
-                StreamReader reader = null;
                 try
                 {
-                    reader = new StreamReader(new BufferedStream(File.Open(backingFile, System.IO.FileMode.Open, System.IO.FileAccess.Read)));
-                    String line = reader.ReadLine();
-                    while (line != null && !line.StartsWith(SECTION_HEADER))
+                    using (StreamReader reader = new StreamReader(File.Open(backingFile, System.IO.FileMode.Open, System.IO.FileAccess.Read)))
                     {
-                        line = reader.ReadLine();
-                    }
-                    if (line != null)
-                    {
-                        line = line.Replace("[", String.Empty).Replace("]", String.Empty);
-                        ConfigSection section = createOrRetrieveConfigSection(line);
-                        line = section.readSection(reader);
-                        while (line != null)
+                        String line = reader.ReadLine();
+                        while (line != null && !line.StartsWith(SECTION_HEADER))
+                        {
+                            line = reader.ReadLine();
+                        }
+                        if (line != null)
                         {
                             line = line.Replace("[", String.Empty).Replace("]", String.Empty);
-                            section = createOrRetrieveConfigSection(line);
+                            ConfigSection section = createOrRetrieveConfigSection(line);
                             line = section.readSection(reader);
+                            while (line != null)
+                            {
+                                line = line.Replace("[", String.Empty).Replace("]", String.Empty);
+                                section = createOrRetrieveConfigSection(line);
+                                line = section.readSection(reader);
+                            }
                         }
                     }
                 }
                 catch (Exception ex)
                 {
                     Log.Default.sendMessage("Error loading config file {0}.\n{1}.", LogLevel.Error, "Config", backingFile, ex.Message);
-                }
-                finally
-                {
-                    if (reader != null)
-                    {
-                        reader.Close();
-                    }
                 }
             }
         }
