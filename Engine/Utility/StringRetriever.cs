@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 
-#if !FIXLATER_DISABLED
-
 namespace Engine
 {
     /// <summary>
@@ -73,4 +71,3 @@ namespace Engine
         #endregion
     }
 }
-#endif
