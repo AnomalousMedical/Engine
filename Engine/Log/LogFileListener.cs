@@ -56,7 +56,7 @@ namespace Logging
                 try
                 {
                     logFileName = fileName;
-                    fileWriter = new StreamWriter(File.Open(fileName, FileMode.Create, FileAccess.Write));
+                    fileWriter = new StreamWriter(File.Open(fileName, FileMode.Create, FileAccess.Write, FileShare.Read));
                     closed = false;
                 }
                 catch
