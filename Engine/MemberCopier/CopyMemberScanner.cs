@@ -46,16 +46,14 @@ namespace Engine
         /// <returns></returns>
         public bool allowMember(MemberWrapper wrapper)
         {
-            if (!(wrapper.getCustomAttributes(typeof(DoNotCopyAttribute), true).Any()
-             || wrapper.getWrappedType().GetCustomAttributes(typeof(DoNotCopyAttribute), true).Any()
-             || wrapper.getWrappedType().GetCustomAttributes(typeof(NativeSubsystemTypeAttribute), true).Any()))
-            {
-                return wrapper.canWrite() && wrapper.canRead();
-            }
-            else
-            {
-                return false;
-            }
+            Type wrappedType = wrapper.getWrappedType();
+
+            bool reject = wrapper.getCustomAttributes(typeof(DoNotCopyAttribute), true).Any()
+             || wrappedType.GetCustomAttributes(typeof(DoNotCopyAttribute), true).Any()
+             || wrappedType.GetCustomAttributes(typeof(NativeSubsystemTypeAttribute), true).Any()
+             || wrappedType.IsSubclassOf(typeof(Delegate));
+
+            return !reject && wrapper.canWrite() && wrapper.canRead();
         }
 
         /// <summary>
