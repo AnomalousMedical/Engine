@@ -16,12 +16,7 @@ namespace OgreWrapper
         public RenderWindow(IntPtr renderWindow)
             :base(renderWindow)
         {
-            if (renderWindow != IntPtr.Zero)
-            {
-                GiveWindowStringCallback = new GiveWindowStringDelegate(getWindowString);
-                RenderWindow_getWindowHandleStr(renderWindow, GiveWindowStringCallback);
-                GiveWindowStringCallback = null;
-            }
+            
         }
 
         public void destroy()
@@ -39,6 +34,14 @@ namespace OgreWrapper
 
         public String getWindowHandleStr()
         {
+            if (windowHandleString == null && OgreRenderTarget != IntPtr.Zero)
+            {
+                GiveWindowStringCallback = new GiveWindowStringDelegate(getWindowString);
+                //This is pretty tricky, the pointer is technically from the RenderTarget class, 
+                //but we know its a RenderWindow so its safe to pass here
+                RenderWindow_getWindowHandleStr(OgreRenderTarget, GiveWindowStringCallback);
+                GiveWindowStringCallback = null;
+            }
             return windowHandleString;
         }
 

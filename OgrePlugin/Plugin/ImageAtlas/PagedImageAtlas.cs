@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !FIXLATER_DISABLED
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -108,3 +109,4 @@ namespace OgrePlugin
         }
     }
 }
+#endif

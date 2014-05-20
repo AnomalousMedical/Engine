@@ -12,9 +12,12 @@ namespace OgreWrapper
     {
         private T value;
         private SharedPtrCollection<T> owner;
-        private StackTrace st;
         private IntPtr nativeObject;
         private IntPtr heapSharedPtr;
+
+#if !FIXLATER_DISABLED
+        private StackTrace st;
+#endif
 
         internal SharedPtr(T value, IntPtr nativeObject, IntPtr heapSharedPtr, SharedPtrCollection<T> owner)
         {
@@ -22,7 +25,9 @@ namespace OgreWrapper
             this.nativeObject = nativeObject;
             this.owner = owner;
             this.heapSharedPtr = heapSharedPtr;
+#if !FIXLATER_DISABLED
             st = new StackTrace(true);
+#endif
         }
 
         public void Dispose()
@@ -54,6 +59,7 @@ namespace OgreWrapper
             }
         }
 
+#if !FIXLATER_DISABLED
         internal StackTrace ST
         {
             get
@@ -61,5 +67,6 @@ namespace OgreWrapper
                 return st;
             }
         }
+#endif
     }
 }

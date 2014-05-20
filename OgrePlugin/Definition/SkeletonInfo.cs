@@ -11,7 +11,6 @@ namespace OgrePlugin
     /// <summary>
     /// This class saves the state of a SkeletonInstance for saving to a definition.
     /// </summary>
-    [Serializable]
     class SkeletonInfo : Saveable
     {
         private List<BoneInfo> bones = new List<BoneInfo>();

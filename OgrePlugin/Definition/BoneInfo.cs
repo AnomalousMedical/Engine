@@ -11,7 +11,6 @@ namespace OgrePlugin
     /// <summary>
     /// This class saves information about an individual bone.
     /// </summary>
-    [Serializable]
     class BoneInfo : Saveable
     {
         private Quaternion orientation;

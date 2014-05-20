@@ -181,7 +181,7 @@ namespace OgreWrapper
 
         private void close()
         {
-            stream.Close();
+            stream.Dispose();
         }
 
 #region PInvoke

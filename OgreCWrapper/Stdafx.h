@@ -10,7 +10,7 @@
 #include "Ogre.h"
 #pragma warning(pop)
 
-#ifdef WINDOWS
+#if defined(WINDOWS) || defined(WINRT)
 #define _AnomalousExport __declspec(dllexport)
 #endif
 

@@ -159,10 +159,13 @@ namespace OgreWrapper
         /// </summary>
         public void clearObjects()
         {
+#if !FIXLATER_DISABLED
             StackTrace st = new StackTrace(true);
             String filename = st.GetFrame(0).GetFileName();
+#endif
 	        foreach(SharedPtrEntry<T> entry in ptrDictionary.Values)
 	        {
+#if !FIXLATER_DISABLED
 		        Log.Error("Memory leak detected in {0}.  There were {1} instances of the pointer outstanding.  Double check to make sure all SharedPtrs of this type are being disposed.", filename, entry.NumReferences);
 		        foreach(SharedPtr<T> ptr in entry.Pointers)
 		        {
@@ -175,7 +178,8 @@ namespace OgreWrapper
 				        }
 			        }
 		        }
-		        entry.Dispose();
+#endif
+                entry.Dispose();
 	        }
 	        ptrDictionary.Clear();
         }

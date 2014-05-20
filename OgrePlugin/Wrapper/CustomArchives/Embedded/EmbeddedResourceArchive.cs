@@ -33,18 +33,19 @@ namespace OgreWrapper
 
         protected internal override void load()
         {
-            assembly = Assembly.GetAssembly(Type.GetType(name));
+            assembly = Type.GetType(name).Assembly();
 	        String[] fileList = assembly.GetManifestResourceNames();
 	        foreach(String file in fileList)
 	        {
-                Stream stream = assembly.GetManifestResourceStream(file);
-                EmbeddedFileInfo fileInfo = new EmbeddedFileInfo();
-                fileInfo.Size = stream.Length;
-                fileInfo.BaseName = Path.GetFileName(file);
-                fileInfo.FileName = file;
-                fileInfo.Path = Path.GetDirectoryName(file);
-		        this.fileList.Add(fileInfo);
-                stream.Close();
+                using (Stream stream = assembly.GetManifestResourceStream(file))
+                {
+                    EmbeddedFileInfo fileInfo = new EmbeddedFileInfo();
+                    fileInfo.Size = stream.Length;
+                    fileInfo.BaseName = Path.GetFileName(file);
+                    fileInfo.FileName = file;
+                    fileInfo.Path = Path.GetDirectoryName(file);
+                    this.fileList.Add(fileInfo);
+                }
 	        }
         }
 
@@ -78,7 +79,7 @@ namespace OgreWrapper
         protected internal override void dofind(String pattern, bool recursive, bool dirs, IntPtr ogreStringVector)
         {
             Regex r = new Regex(wildcardToRegex(pattern));
-            bool fullMatch = pattern.Contains('/') || pattern.Contains('\\');
+            bool fullMatch = pattern.Contains("/") || pattern.Contains("\\");
             foreach(EmbeddedFileInfo i in fileList)
             {
                 if(r.Match(fullMatch ? i.FileName : i.BaseName).Success)
@@ -91,7 +92,7 @@ namespace OgreWrapper
         protected internal override void dofindFileInfo(String pattern, bool recursive, bool dirs, IntPtr ogreFileList, IntPtr archive)
         {
             Regex r = new Regex(wildcardToRegex(pattern));
-            bool fullMatch = pattern.Contains('/') || pattern.Contains('\\');
+            bool fullMatch = pattern.Contains("/") || pattern.Contains("\\");
             foreach (EmbeddedFileInfo i in fileList)
             {
                 if (r.Match(fullMatch ? i.FileName : i.BaseName).Success)

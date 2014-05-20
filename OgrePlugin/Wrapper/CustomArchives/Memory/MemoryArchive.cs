@@ -161,7 +161,7 @@ namespace OgreWrapper
         protected internal override void dofind(String pattern, bool recursive, bool dirs, IntPtr ogreStringVector)
         {
             Regex r = new Regex(wildcardToRegex(pattern));
-            bool fullMatch = pattern.Contains('/') || pattern.Contains('\\');
+            bool fullMatch = pattern.Contains("/") || pattern.Contains("\\");
             foreach (MemoryStreamInfo i in fileList.Values)
             {
                 if(r.Match(fullMatch ? i.FileName : i.BaseName).Success)
@@ -178,7 +178,7 @@ namespace OgreWrapper
                 pattern = pattern.Substring(name.Length);
             }
             Regex r = new Regex(wildcardToRegex(pattern));
-            bool fullMatch = pattern.Contains('/') || pattern.Contains('\\');
+            bool fullMatch = pattern.Contains("/") || pattern.Contains("\\");
             foreach (MemoryStreamInfo i in fileList.Values)
             {
                 if (r.Match(fullMatch ? i.FileName : i.BaseName).Success)
