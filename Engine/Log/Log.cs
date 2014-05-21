@@ -269,7 +269,7 @@ namespace Logging
         /// </summary>
         public static void PrintStackTrace()
         {
-#if !ENABLE_LEGACY_SHIMS
+#if !FIXLATER_DISABLED
             StackTrace stackTrace = new StackTrace(1, true);
             StringBuilder sb = new StringBuilder(512);
             sb.AppendLine("Stack Trace");
