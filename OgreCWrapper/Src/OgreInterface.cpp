@@ -12,7 +12,7 @@ enum RenderSystemType
 
 extern "C" _AnomalousExport Ogre::Plugin* OgreInterface_LoadRenderSystem(RenderSystemType rendersystemType)
 {
-#ifdef WINDOWS
+#if defined(WINDOWS) || defined(WINRT)
 	String defaultRenderSystem = "RenderSystem_Direct3D11";
 #endif
 
@@ -53,7 +53,7 @@ extern "C" _AnomalousExport void OgreInterface_UnloadRenderSystem(Ogre::Plugin* 
 
 extern "C" _AnomalousExport Ogre::RenderSystem* OgreInterface_GetRenderSystem(RenderSystemType rendersystemType)
 {
-#ifdef WINDOWS
+#if defined(WINDOWS) || defined(WINRT)
 	String defaultRenderSystem = "Direct3D11 Rendering Subsystem";
 	RenderSystemType defaultRendersystemType = D3D11;
 #endif
@@ -91,10 +91,13 @@ extern "C" _AnomalousExport Ogre::RenderSystem* OgreInterface_GetRenderSystem(Re
 	//will be an actual rendersystem and not the default as we will have determined
 	//what it is by this point.
 	//Disabled for now, but this is where you do it.
-	/*switch(rendersystemType)
-	{
-		
-	}*/
+	//switch(rendersystemType)
+	//{
+		//case D3D11:
+			//rs->setConfigOption("Min Requested Feature Levels", "10.0");
+			//rs->setConfigOption("Max Requested Feature Levels", "11.1");
+			//break;
+	//}
 
 	return rs;
 }
