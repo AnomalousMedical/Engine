@@ -53,17 +53,17 @@ namespace OgreWrapper
         }
 
 #region PInvoke
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void GpuProgramManager_setSaveMicrocodesToCache(bool val);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool GpuProgramManager_getSaveMicrocodesToCache();
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void GpuProgramManager_saveMicrocodeCache(IntPtr dataStream);
 
-        [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void GpuProgramManager_loadMicrocodeCache(IntPtr dataStream);
 #endregion
     }

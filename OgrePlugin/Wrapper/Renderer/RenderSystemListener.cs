@@ -53,13 +53,13 @@ namespace OgreWrapper
 
         #region PInvoke
 
-        [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr ManagedRenderSystemListener_Create(EventOccuredCallback eventOccuredCb);
 
-        [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ManagedRenderSystemListener_Delete(IntPtr listener);
 
-        [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern KnownRenderSystemEvents ManagedRenderSystemListener_getEventType(IntPtr listener);
 
         #endregion

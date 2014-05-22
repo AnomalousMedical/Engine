@@ -83,20 +83,20 @@ namespace OgreWrapper
 
 #region PInvoke
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SubMesh_UseSharedVertices(IntPtr subMesh);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr SubMesh_VertexData(IntPtr subMesh);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr SubMesh_IndexData(IntPtr subMesh);
 
-        [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr SubMesh_getMaterialName(IntPtr subMesh);
 
-        [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SubMesh_setMaterialName(IntPtr subMesh, String name);
 
 #endregion

@@ -222,108 +222,108 @@ namespace OgreWrapper
 
 #region PInvoke
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Viewport_setVisibilityMask(IntPtr viewport, uint mask);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern uint Viewport_getVisibilityMask(IntPtr viewport);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Viewport_setBackgroundColor(IntPtr viewport, Color color);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern Color Viewport_getBackgroundColor(IntPtr viewport);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern float Viewport_getLeft(IntPtr viewport);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern float Viewport_getTop(IntPtr viewport);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern float Viewport_getWidth(IntPtr viewport);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern float Viewport_getHeight(IntPtr viewport);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern int Viewport_getActualLeft(IntPtr viewport);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern int Viewport_getActualTop(IntPtr viewport);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern int Viewport_getActualWidth(IntPtr viewport);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern int Viewport_getActualHeight(IntPtr viewport);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Viewport_setDimensions(IntPtr viewport, float left, float top, float width, float height);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Viewport_setClearEveryFrame(IntPtr viewport, bool clear, uint buffers);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Viewport_getClearEveryFrame(IntPtr viewport);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Viewport_setMaterialScheme(IntPtr viewport, String schemeName);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Viewport_getMaterialScheme(IntPtr viewport);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Viewport_setOverlaysEnabled(IntPtr viewport, bool enabled);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Viewport_getOverlaysEnabled(IntPtr viewport);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Viewport_setSkiesEnabled(IntPtr viewport, bool enabled);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Viewport_getSkiesEnabled(IntPtr viewport);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Viewport_setShadowsEnabled(IntPtr viewport, bool enabled);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Viewport_getShadowsEnabled(IntPtr viewport);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Viewport_setRenderQueueInvocationSequenceName(IntPtr viewport, String sequenceName);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Viewport_getRenderQueueInvocationSequenceName(IntPtr viewport);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Viewport_getCamera(IntPtr viewport);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Viewport_clear1(IntPtr viewport);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Viewport_clear2(IntPtr viewport, FrameBufferType buffers);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Viewport_clear3(IntPtr viewport, FrameBufferType buffers, Color color);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Viewport_clear4(IntPtr viewport, FrameBufferType buffers, Color color, float depth);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Viewport_clear5(IntPtr viewport, FrameBufferType buffers, Color color, float depth, ushort stencil);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Viewport_isAutoUpdated(IntPtr viewport);
 
-        [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Viewport_setAutoUpdated(IntPtr viewport, bool autoUpdate);
 
 #endregion

@@ -60,13 +60,13 @@ namespace OgreWrapper
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void MessageLoggedDelegate(String message, LogMessageLevel lml);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr OgreLogListener_Create(MessageLoggedDelegate messageLoggedCallback);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void OgreLogListener_Delete(IntPtr logListener);
 
-        [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void OgreLogListener_subscribe(IntPtr logListener);
 
         #endregion

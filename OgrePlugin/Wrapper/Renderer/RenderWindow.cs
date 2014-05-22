@@ -81,33 +81,33 @@ namespace OgreWrapper
 
         #region PInvoke
         
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void RenderWindow_destroy(IntPtr renderWindow);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void RenderWindow_windowMovedOrResized(IntPtr renderWindow);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void GiveWindowStringDelegate(String handleStr);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void RenderWindow_getWindowHandleStr(IntPtr renderWindow, GiveWindowStringDelegate giveWindowString);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void RenderWindow_setFullscreen(IntPtr renderWindow, bool fullscreen, uint width, uint height);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool RenderWindow_isDeactivatedOnFocusChange(IntPtr renderWindow);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void RenderWindow_setDeactivatedOnFocusChange(IntPtr renderWindow, bool deactivate);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool RenderWindow_isVisible(IntPtr renderWindow);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void RenderWindow_setVisible(IntPtr renderWindow, bool visible);
         
         #endregion

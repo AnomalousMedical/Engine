@@ -34,13 +34,13 @@ namespace OgreWrapper
 
         #region PInvoke
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr CompositorManager_addCompositor(IntPtr vp, String compositor, int addPosition);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void CompositorManager_removeCompositor(IntPtr vp, String compositor);
 
-        [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void CompositorManager_setCompositorEnabled(IntPtr vp, String compositor, bool value);
 
         #endregion

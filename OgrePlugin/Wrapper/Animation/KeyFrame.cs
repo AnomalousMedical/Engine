@@ -31,7 +31,7 @@ namespace OgreWrapper
 
 #region PInvoke
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern float KeyFrame_getTime(IntPtr keyFrame);
 
 #endregion

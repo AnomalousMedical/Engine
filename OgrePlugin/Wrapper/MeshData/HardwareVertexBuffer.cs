@@ -41,10 +41,10 @@ namespace OgreWrapper
 
 #region PInvoke
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr HardwareVertexBuffer_getVertexSize(IntPtr hardVertexBuffer);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr HardwareVertexBuffer_getNumVertices(IntPtr hardVertexBuffer);
 
 #endregion

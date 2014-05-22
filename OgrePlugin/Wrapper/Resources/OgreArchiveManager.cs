@@ -29,7 +29,7 @@ namespace OgreWrapper
             ArchiveManager_unload(filename);
         }
 
-        [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ArchiveManager_unload(String filename);
     }
 }

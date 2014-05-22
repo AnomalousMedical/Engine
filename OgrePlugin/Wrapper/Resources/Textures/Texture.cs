@@ -69,7 +69,7 @@ namespace OgreWrapper
 
 #region PInvoke
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Texture_getBuffer(IntPtr texture, ProcessWrapperObjectDelegate processWrapper);
 
 #endregion

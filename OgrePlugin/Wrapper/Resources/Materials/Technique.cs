@@ -269,148 +269,148 @@ namespace OgreWrapper
 
 #region PInvoke
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Technique_createPass(IntPtr technique);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Technique_getPass(IntPtr technique, ushort index);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Technique_getPassName(IntPtr technique, String name);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern ushort Technique_getNumPasses(IntPtr technique);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_removePass(IntPtr technique, ushort index);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_removeAllPasses(IntPtr technique);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Technique_movePass(IntPtr technique, ushort sourceIndex, ushort destinationIndex);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Technique_getResourceGroup(IntPtr technique);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Technique_isTransparent(IntPtr technique);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Technique_isTransparentSortingEnabled(IntPtr technique);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setPointSize(IntPtr technique, float ps);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setAmbientRGB(IntPtr technique, float red, float green, float blue);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setAmbient(IntPtr technique, Color color);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setDiffuseRGBA(IntPtr technique, float red, float green, float blue, float alpha);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setDiffuse(IntPtr technique, Color color);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setSpecularRGBA(IntPtr technique, float red, float green, float blue, float alpha);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setSpecular(IntPtr technique, Color color);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setShininess(IntPtr technique, float value);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setSelfIlluminationRGB(IntPtr technique, float red, float green, float blue);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setSelfIllumination(IntPtr technique, Color color);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setDepthCheckEnabled(IntPtr technique, bool enabled);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setDepthWriteEnabled(IntPtr technique, bool enabled);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setDepthFunction(IntPtr technique, CompareFunction func);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setColorWriteEnabled(IntPtr technique, bool enabled);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setCullingMode(IntPtr technique, CullingMode mode);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setManualCullingMode(IntPtr technique, ManualCullingMode mode);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setLightingEnabled(IntPtr technique, bool enabled);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setShadingMode(IntPtr technique, ShadeOptions mode);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setFog(IntPtr technique, bool overrideScene, FogMode mode, Color color);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setFog2(IntPtr technique, bool overrideScene, FogMode mode, Color color, float expDensity, float linearStart, float linearEnd);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setDepthBias(IntPtr technique, float constantBias, float slopeScaleBias);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setTextureFiltering(IntPtr technique, TextureFilterOptions filterType);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setTextureAnisotropy(IntPtr technique, int maxAniso);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setSceneBlending(IntPtr technique, SceneBlendType sbt);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setSeparateSceneBlending(IntPtr technique, SceneBlendType sbt, SceneBlendType sbta);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setSceneBlending2(IntPtr technique, SceneBlendFactor sourceFactor, SceneBlendFactor destFactor);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setSeparateSceneBlending2(IntPtr technique, SceneBlendFactor sourceFactor, SceneBlendFactor destFactor, SceneBlendFactor sourceFactorAlpha, SceneBlendFactor destFactorAlpha);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setLodIndex(IntPtr technique, ushort index);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern ushort Technique_getLodIndex(IntPtr technique);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setSchemeName(IntPtr technique, String schemeName);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Technique_getSchemeName(IntPtr technique);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Technique_isDepthWriteEnabled(IntPtr technique);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Technique_isDepthCheckEnabled(IntPtr technique);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Technique_hasColorWriteDisabled(IntPtr technique);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Technique_setName(IntPtr technique, String name);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Technique_getName(IntPtr technique);
 
 #endregion

@@ -275,58 +275,58 @@ namespace OgreWrapper
 
 #region PInvoke
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr VertexDeclaration_getElementCount(IntPtr vertexDeclaration);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr VertexDeclaration_getElement(IntPtr vertexDeclaration, ushort index);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void VertexDeclaration_sort(IntPtr vertexDeclaration);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void VertexDeclaration_closeGapsInSource(IntPtr vertexDeclaration);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern ushort VertexDeclaration_getMaxSource(IntPtr vertexDeclaration);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr VertexDeclaration_addElement(IntPtr vertexDeclaration, ushort source, IntPtr offset, VertexElementType theType, VertexElementSemantic semantic);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr VertexDeclaration_addElement2(IntPtr vertexDeclaration, ushort source, IntPtr offset, VertexElementType theType, VertexElementSemantic semantic, ushort index);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr VertexDeclaration_insertElement(IntPtr vertexDeclaration, ushort atPosition, ushort source, IntPtr offset, VertexElementType theType, VertexElementSemantic semantic);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr VertexDeclaration_insertElement2(IntPtr vertexDeclaration, ushort atPosition, ushort source, IntPtr offset, VertexElementType theType, VertexElementSemantic semantic, ushort index);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void VertexDeclaration_removeElement(IntPtr vertexDeclaration, ushort elemIndex);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void VertexDeclaration_removeElement2(IntPtr vertexDeclaration, VertexElementSemantic semantic);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void VertexDeclaration_removeElement3(IntPtr vertexDeclaration, VertexElementSemantic semantic, ushort index);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void VertexDeclaration_removeAllElements(IntPtr vertexDeclaration);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void VertexDeclaration_modifyElement(IntPtr vertexDeclaration, ushort elemIndex, ushort source, IntPtr offset, VertexElementType theType, VertexElementSemantic semantic);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void VertexDeclaration_modifyElement2(IntPtr vertexDeclaration, ushort elemIndex, ushort source, IntPtr offset, VertexElementType theType, VertexElementSemantic semantic, ushort index);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr VertexDeclaration_findElementBySemantic(IntPtr vertexDeclaration, VertexElementSemantic sem);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr VertexDeclaration_findElementBySemantic2(IntPtr vertexDeclaration, VertexElementSemantic sem, ushort index);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr VertexDeclaration_getVertexSize(IntPtr vertexDeclaration, ushort source);
 
 #endregion

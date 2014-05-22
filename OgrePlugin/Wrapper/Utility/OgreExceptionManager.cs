@@ -61,7 +61,7 @@ namespace OgreWrapper
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void ExceptionFoundCallback(IntPtr fullMessage);
 
-        [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void OgreExceptionManager_setCallback(ExceptionFoundCallback exCb);
 
         #endregion

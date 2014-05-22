@@ -72,22 +72,22 @@ namespace OgreWrapper
 
 #region PInvoke
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr NodeAnimationTrack_getKeyFrame(IntPtr animTrack, ushort index);
         
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern float NodeAnimationTrack_getKeyFramesAtTime1(IntPtr animTrack, float timePos, uint keyIndex, out IntPtr keyFrame1, out IntPtr keyFrame2);
         
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern float NodeAnimationTrack_getKeyFramesAtTime2(IntPtr animTrack, float timePos, uint keyIndex, out IntPtr keyFrame1, out IntPtr keyFrame2, out ushort firstKeyIndex);
         
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr NodeAnimationTrack_createKeyFrame(IntPtr animTrack, float timePos);
         
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void NodeAnimationTrack_removeKeyFrame(IntPtr animTrack, ushort index);
         
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void NodeAnimationTrack_removeAllKeyFrames(IntPtr animTrack);
 
 #endregion

@@ -386,107 +386,107 @@ namespace OgreWrapper
 
         #region PInvoke
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManualObject_clear(IntPtr manualObject);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManualObject_estimateVertexCount(IntPtr manualObject, uint count);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManualObject_estimateIndexCount(IntPtr manualObject, uint count);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManualObject_begin(IntPtr manualObject, String materialName, OperationType opType);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManualObject_setDynamic(IntPtr manualObject, bool dyn);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool ManualObject_getDynamic(IntPtr manualObject);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManualObject_beginUpdate(IntPtr manualObject, uint sectionIndex);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManualObject_positionRef(IntPtr manualObject, ref Vector3 pos);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManualObject_position(IntPtr manualObject, Vector3 pos);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManualObject_positionRaw(IntPtr manualObject, float x, float y, float z);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManualObject_normalRef(IntPtr manualObject, ref Vector3 normal);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManualObject_normal(IntPtr manualObject, Vector3 normal);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManualObject_normalRaw(IntPtr manualObject, float x, float y, float z);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManualObject_textureCoordU(IntPtr manualObject, float u);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManualObject_textureCoordUV(IntPtr manualObject, float u, float v);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManualObject_textureCoordUVW(IntPtr manualObject, float u, float v, float w);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManualObject_textureCoordRaw(IntPtr manualObject, float x, float y, float z, float w);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManualObject_textureCoord(IntPtr manualObject, ref Vector3 uvw);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManualObject_color(IntPtr manualObject, float r, float g, float b, float a);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManualObject_index(IntPtr manualObject, uint idx);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManualObject_triangle(IntPtr manualObject, uint i1, uint i2, uint i3);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManualObject_quad(IntPtr manualObject, uint i1, uint i2, uint i3, uint i4);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr ManualObject_end(IntPtr manualObject);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManualObject_setMaterialName(IntPtr manualObject, uint subindex, String name);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManualObject_setUseIdentityProjection(IntPtr manualObject, bool useIdentityProjection);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool ManualObject_getUseIdentityProjection(IntPtr manualObject);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManualObject_setUseIdentityView(IntPtr manualObject, bool useIdentityView);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool ManualObject_getUseIdentityView(IntPtr manualObject);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr ManualObject_getSection(IntPtr manualObject, uint index);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern uint ManualObject_getNumSections(IntPtr manualObject);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManualObject_setKeepDeclarationOrder(IntPtr manualObject, bool keepOrder);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool ManualObject_getKeepDeclarationOrder(IntPtr manualObject);
 
-	    [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern float ManualObject_getBoundingRadius(IntPtr manualObject);
 
         #endregion 

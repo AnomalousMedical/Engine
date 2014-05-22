@@ -70,24 +70,24 @@ namespace OgreWrapper
 #region PInvoke
 
         //HardwareIndexBufferPtr
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr HardwareIndexBufferPtr_createHeapPtr(IntPtr stackSharedPtr);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void HardwareIndexBufferPtr_Delete(IntPtr heapSharedPtr);
 
         //HardwareVertexBufferPtr
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr HardwareVertexBufferPtr_createHeapPtr(IntPtr stackSharedPtr);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void HardwareVertexBufferPtr_Delete(IntPtr heapSharedPtr);
 
         //HardwarePixelBufferPtr
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr HardwarePixelBufferPtr_createHeapPtr(IntPtr stackSharedPtr);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void HardwarePixelBufferPtr_Delete(IntPtr heapSharedPtr);
 
 #endregion

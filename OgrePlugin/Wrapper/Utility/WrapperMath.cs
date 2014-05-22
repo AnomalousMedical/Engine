@@ -18,7 +18,7 @@ namespace OgreWrapper
 
 #region PInvoke
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern bool Math_intersectsRayPoly(Ray3 ray, Vector3 a, Vector3 b, Vector3 c, bool positiveSide, bool negativeSide, out float dist);
 
 #endregion

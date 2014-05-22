@@ -117,10 +117,10 @@ namespace OgreWrapper
 
         #region PInvoke
 
-        [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr ManagedRenderTargetListener_Create(RenderTargetEventDelegate preRenderTargetUpdateCb, RenderTargetEventDelegate postRenderTargetUpdateCb, RenderTargetViewportEventDelegate preViewportUpdateCb, RenderTargetViewportEventDelegate postViewportUpdateCb, RenderTargetViewportEventDelegate viewportAddedCb, RenderTargetViewportEventDelegate viewportRemovedCb);
 
-        [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ManagedRenderTargetListener_Delete(IntPtr listener);
 
         #endregion

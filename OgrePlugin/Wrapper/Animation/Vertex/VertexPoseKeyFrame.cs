@@ -60,16 +60,16 @@ namespace OgreWrapper
 
 #region PInvoke
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void VertexPoseKeyFrame_addPoseReference(IntPtr vpKeyFrame, ushort poseIndex, float influence);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void VertexPoseKeyFrame_updatePoseReference(IntPtr vpKeyFrame, ushort poseIndex, float influence);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void VertexPoseKeyFrame_removePoseReference(IntPtr vpKeyFrame, ushort poseIndex);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void VertexPoseKeyFrame_removeAllPoseReferences(IntPtr vpKeyFrame);
 
 #endregion

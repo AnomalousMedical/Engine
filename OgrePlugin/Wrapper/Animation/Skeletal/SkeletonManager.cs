@@ -40,10 +40,10 @@ namespace OgreWrapper
         #region PInvoke
 
         //MeshPtr
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr SkeletonPtr_createHeapPtr(IntPtr stackSharedPtr);
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void SkeletonPtr_Delete(IntPtr heapSharedPtr);
 
         #endregion

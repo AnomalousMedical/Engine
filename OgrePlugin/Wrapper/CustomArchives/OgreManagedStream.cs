@@ -202,7 +202,7 @@ namespace OgreWrapper
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void DeletedDelegate();
 
-        [DllImport("OgreCWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr OgreManagedStream_Create(String name, IntPtr size, AccessMode accessMode, ReadDelegate read, WriteDelegate write, SkipDelegate skip, SeekDelegate seek, TellDelegate tell, EofDelegate eof, CloseDelegate close, DeletedDelegate deleted);
 
 #endregion

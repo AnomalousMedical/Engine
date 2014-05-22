@@ -390,13 +390,13 @@ namespace OgrePlugin
 
         #region PInvoke
 
-        [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr OgreInterface_LoadRenderSystem(RenderSystemType rendersystemType);
 
-        [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void OgreInterface_UnloadRenderSystem(IntPtr renderSystemPlugin);
 
-        [DllImport("OgreCWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr OgreInterface_GetRenderSystem(RenderSystemType rendersystemType);
 
         #endregion
