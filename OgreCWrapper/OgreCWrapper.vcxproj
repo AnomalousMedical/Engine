@@ -76,7 +76,7 @@
       <AdditionalOptions>/Zm250 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>OgreMain.lib</AdditionalDependencies>
+      <AdditionalDependencies>OgreMain.lib;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86\d3d11.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\Dependencies\Ogre\Windows\Build\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <TargetMachine>MachineX86</TargetMachine>
@@ -112,6 +112,7 @@ copy ..\..\Dependencies\Ogre\Windows\Build\bin\Release\RenderSystem_GL.dll $(Out
     <ClCompile Include="Src\Bone.cpp" />
     <ClCompile Include="Src\Camera.cpp" />
     <ClCompile Include="src\CompositorManager.cpp" />
+    <ClCompile Include="Src\Dx11NoOp.cpp" />
     <ClCompile Include="Src\Entity.cpp" />
     <ClCompile Include="Src\GpuProgramManager.cpp" />
     <ClCompile Include="Src\HardwareBuffer.cpp" />
