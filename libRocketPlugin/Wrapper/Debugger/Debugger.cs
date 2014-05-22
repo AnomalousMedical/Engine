@@ -30,17 +30,17 @@ namespace libRocketPlugin
 
         #region PInvoke
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Debugger_Initialise(IntPtr context);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Debugger_SetContext(IntPtr context);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Debugger_SetVisible(bool visibility);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Debugger_IsVisible();
 

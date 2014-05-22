@@ -82,22 +82,22 @@ namespace MyGUIPlugin
 
 #region PInvoke
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr LayoutManager_getInstancePtr();
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr LayoutManager_loadLayout(IntPtr layoutManager, String file);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr LayoutManager_loadLayout2(IntPtr layoutManager, String file, String prefix);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr LayoutManager_loadLayout3(IntPtr layoutManager, String file, String prefix, Widget parent);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void LayoutManager_unloadLayout(IntPtr layoutManager, IntPtr vectorWidgetPtr);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void VectorWidgetPtr_Delete(IntPtr vectorWidgetPtr);
 
 #endregion

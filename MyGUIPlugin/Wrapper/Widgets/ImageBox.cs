@@ -84,34 +84,34 @@ namespace MyGUIPlugin
 
 #region PInvoke
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ImageBox_setItemResource(IntPtr staticImage, String value);
 
-        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern ThreeIntHack ImageBox_getImageSize(IntPtr staticImage);
 
-        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern ThreeIntHack ImageBox_getItemGroupSize(IntPtr staticImage);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ImageBox_setItemGroup(IntPtr staticImage, String value);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ImageBox_setItemName(IntPtr staticImage, String value);
 
-        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ImageBox_setImageInfo(IntPtr staticImage, String _texture, ref IntCoord _coord, ref IntSize2 _tile);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ImageBox_setImageTexture(IntPtr staticImage, String value);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ImageBox_setImageCoord(IntPtr staticImage, ref IntCoord coord);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ImageBox_setImageTile(IntPtr staticImage, ref IntSize2 _value);
 
-        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ImageBox_deleteAllItems(IntPtr staticImage);
 
 #endregion

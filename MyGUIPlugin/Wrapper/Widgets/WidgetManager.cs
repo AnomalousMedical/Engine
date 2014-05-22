@@ -238,10 +238,10 @@ namespace MyGUIPlugin
 
         #region PInvoke
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern WidgetType WidgetManager_getType(IntPtr widget);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Widget_setDestructorCallback(IntPtr widget, WidgetDestructorCallback widgetDestructorCallback);
 
         #endregion

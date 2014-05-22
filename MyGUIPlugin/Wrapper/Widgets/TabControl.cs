@@ -43,19 +43,19 @@ namespace MyGUIPlugin
 
         #region PInvoke
 
-        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void TabControl_removeItemAt(IntPtr tabControl, UIntPtr index);
 
-        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void TabControl_setIndexSelected(IntPtr tabControl, UIntPtr index);
 
-        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern UIntPtr TabControl_getIndexSelected(IntPtr tabControl);
 
-        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr TabControl_insertItemAt(IntPtr tabControl, UIntPtr _index, [MarshalAs(UnmanagedType.LPWStr)] String _name);
 
-        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr TabControl_addItem(IntPtr tabControl, [MarshalAs(UnmanagedType.LPWStr)] String _name);
 
         #endregion

@@ -38,13 +38,13 @@ namespace MyGUIPlugin
 
 #region PInvoke
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void OgreRenderManager_windowResized(IntPtr renderManager, int windowWidth, int windowHeight);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void OgreRenderManager_destroyTextureString(IntPtr renderManager, String name);
 
-        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void OgreRenderManager_update(IntPtr renderManager);
 
 #endregion

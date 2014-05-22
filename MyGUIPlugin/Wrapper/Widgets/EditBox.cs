@@ -382,175 +382,175 @@ namespace MyGUIPlugin
 
 #region PInvoke
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void EditBox_setTextIntervalColor(IntPtr edit, UIntPtr start, UIntPtr count, Color colour);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void EditBox_setTextSelection(IntPtr edit, UIntPtr start, UIntPtr end);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void EditBox_deleteTextSelection(IntPtr edit);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void EditBox_setTextSelectionColor(IntPtr edit, Color value);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void EditBox_insertText1(IntPtr edit, [MarshalAs(UnmanagedType.LPWStr)] String text);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void EditBox_insertText2(IntPtr edit, [MarshalAs(UnmanagedType.LPWStr)] String text, UIntPtr index);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void EditBox_addText(IntPtr edit, [MarshalAs(UnmanagedType.LPWStr)] String text);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void EditBox_eraseText1(IntPtr edit, UIntPtr start);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void EditBox_eraseText2(IntPtr edit, UIntPtr start, UIntPtr count);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern UIntPtr EditBox_getTextSelectionStart(IntPtr edit);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern UIntPtr EditBox_getTextSelectionEnd(IntPtr edit);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern UIntPtr EditBox_getTextSelectionLength(IntPtr edit);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool EditBox_isTextSelection(IntPtr edit);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void EditBox_setTextCursor(IntPtr edit, UIntPtr index);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern UIntPtr EditBox_getTextCursor(IntPtr edit);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern UIntPtr EditBox_getTextLength(IntPtr edit);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void EditBox_setOverflowToTheLeft(IntPtr edit, bool value);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool EditBox_getOverflowToTheLeft(IntPtr edit);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void EditBox_setMaxTextLength(IntPtr edit, UIntPtr value);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern UIntPtr EditBox_getMaxTextLength(IntPtr edit);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void EditBox_setEditReadOnly(IntPtr edit, bool value);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool EditBox_getEditReadOnly(IntPtr edit);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void EditBox_setEditPassword(IntPtr edit, bool value);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool EditBox_getEditPassword(IntPtr edit);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void EditBox_setEditMultiLine(IntPtr edit, bool value);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool EditBox_getEditMultiLine(IntPtr edit);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void EditBox_setEditStatic(IntPtr edit, bool value);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool EditBox_getEditStatic(IntPtr edit);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void EditBox_setPasswordChar(IntPtr edit, char value);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern char EditBox_getPasswordChar(IntPtr edit);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void EditBox_setEditWordWrap(IntPtr edit, bool value);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool EditBox_getEditWordWrap(IntPtr edit);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void EditBox_setTabPrinting(IntPtr edit, bool value);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool EditBox_getTabPrinting(IntPtr edit);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool EditBox_getInvertSelected(IntPtr edit);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void EditBox_setInvertSelected(IntPtr edit, bool value);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void EditBox_setVisibleVScroll(IntPtr edit, bool value);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool EditBox_isVisibleVScroll(IntPtr edit);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern UIntPtr EditBox_getVScrollRange(IntPtr edit);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern UIntPtr EditBox_getVScrollPosition(IntPtr edit);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void EditBox_setVScrollPosition(IntPtr edit, UIntPtr index);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void EditBox_setVisibleHScroll(IntPtr edit, bool value);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool EditBox_isVisibleHScroll(IntPtr edit);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern UIntPtr EditBox_getHScrollRange(IntPtr edit);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern UIntPtr EditBox_getHScrollPosition(IntPtr edit);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void EditBox_setHScrollPosition(IntPtr edit, UIntPtr index);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void EditBox_setAllowMouseScroll(IntPtr edit, bool value);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool EditBox_getAllowMouseScroll(IntPtr edit);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void EditBox_setOnlyText(IntPtr edit, [MarshalAs(UnmanagedType.LPWStr)] String value);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void EditBox_getOnlyText(IntPtr edit, TempStringCallback onlyTextDelegate);
 
-        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void EditBox_cut(IntPtr edit);
 
-        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void EditBox_copy(IntPtr edit);
 
-        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void EditBox_paste(IntPtr edit);
 
 #endregion

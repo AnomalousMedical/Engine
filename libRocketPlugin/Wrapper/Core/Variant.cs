@@ -143,58 +143,58 @@ namespace libRocketPlugin
 
         #region PInvoke
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         protected static extern IntPtr Variant_Create();
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         protected static extern void Variant_Delete(IntPtr variant);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Variant_Clear(IntPtr variant);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern Type Variant_GetType(IntPtr variant);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Variant_Set_Byte(IntPtr variant, byte value);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Variant_Set_Char(IntPtr variant, char value);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Variant_Set_Float(IntPtr variant, float value);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Variant_Set_Int(IntPtr variant, int value);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Variant_Set_Word(IntPtr variant, ushort value);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Variant_Set_String(IntPtr variant, String value);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern byte Variant_Get_Byte(IntPtr variant);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern char Variant_Get_Char(IntPtr variant);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern float Variant_Get_Float(IntPtr variant);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern int Variant_Get_Int(IntPtr variant);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern ushort Variant_Get_Word(IntPtr variant);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Variant_Get_String(IntPtr variant, StringRetriever.Callback stringCb);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern Color Variant_Get_Color(IntPtr variant);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Variant_Set_Color(IntPtr variant, Color value);
 
         #endregion

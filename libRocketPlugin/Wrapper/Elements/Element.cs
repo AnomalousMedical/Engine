@@ -506,193 +506,193 @@ namespace libRocketPlugin
 
         #region PInvoke
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_SetClass(IntPtr element, String class_name, bool activate);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Element_IsClassSet(IntPtr element, String class_name);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Element_SetProperty(IntPtr element, String name, String value);
         
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_RemoveProperty(IntPtr element, String name);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_GetPropertyString(IntPtr element, String name, StringRetriever.Callback strRetriever);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Element_GetPropertyVariant(IntPtr element, String name);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_GetLocalPropertyString(IntPtr element, String name, StringRetriever.Callback strRetriever);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Element_GetLocalPropertyVariant(IntPtr element, String name);
         
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_SetAttribute(IntPtr element, String name, String value);
         
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Element_GetAttribute(IntPtr element, String name);
         
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Element_HasAttribute(IntPtr element, String name);
         
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_RemoveAttribute(IntPtr element, String name);
         
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Element_IterateAttributes(IntPtr element, ref int index, StringRetriever.Callback keyRetrieve, StringRetriever.Callback valueRetrieve);
         
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern int Element_GetNumAttributes(IntPtr element);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Element_GetContext(IntPtr element);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Element_GetTagName(IntPtr element);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Element_GetId(IntPtr element);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_SetId(IntPtr element, String id);
         
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern float Element_GetAbsoluteLeft(IntPtr element);
         
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern float Element_GetAbsoluteTop(IntPtr element);
         
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern float Element_GetClientLeft(IntPtr element);
         
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern float Element_GetClientTop(IntPtr element);
         
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern float Element_GetClientWidth(IntPtr element);
         
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern float Element_GetClientHeight(IntPtr element);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Element_GetOffsetParent(IntPtr element);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern float Element_GetOffsetLeft(IntPtr element);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern float Element_GetOffsetTop(IntPtr element);
         
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern float Element_GetOffsetWidth(IntPtr element);
         
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern float Element_GetOffsetHeight(IntPtr element);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern float Element_GetScrollLeft(IntPtr element);
         
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_SetScrollLeft(IntPtr element, float scroll_left);
         
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern float Element_GetScrollTop(IntPtr element);
         
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_SetScrollTop(IntPtr element, float scroll_top);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern float Element_GetScrollWidth(IntPtr element);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern float Element_GetScrollHeight(IntPtr element);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Element_GetOwnerDocument(IntPtr element);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Element_GetParentNode(IntPtr element);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Element_GetNextSibling(IntPtr element);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Element_GetPreviousSibling(IntPtr element);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Element_GetFirstChild(IntPtr element);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Element_GetLastChild(IntPtr element);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Element_GetChild(IntPtr element, int index);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern int Element_GetNumChildren(IntPtr element, bool include_non_dom_elements/* = false*/);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_GetInnerRML(IntPtr element, StringRetriever.Callback retrieve);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_SetInnerRML(IntPtr element, String rml);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Element_Focus(IntPtr element);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Element_IsPointWithinElement(IntPtr element, Vector2 point);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_Blur(IntPtr element);
         
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_Click(IntPtr element);
         
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_ScrollIntoView(IntPtr element, bool align_with_top/* = true*/);
         
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_AppendChild(IntPtr element, IntPtr append, bool dom_element/* = true*/);
         
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_InsertBefore(IntPtr element, IntPtr insert, IntPtr adjacent_element);
         
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Element_ReplaceChild(IntPtr element, IntPtr inserted_element, IntPtr replaced_element);
         
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Element_RemoveChild(IntPtr element, IntPtr remove);
         
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Element_HasChildNodes(IntPtr element);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Element_GetElementById(IntPtr element, String id);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_GetElementsByTagName(IntPtr element, IntPtr elements, String tag);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_GetElementRML(IntPtr element, StringRetriever.Callback retrieve);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_GetElementsWithAttribute(IntPtr root_element, IntPtr elementListIter, String attribute);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_ClearLocalStyles(IntPtr element);
 
         #endregion

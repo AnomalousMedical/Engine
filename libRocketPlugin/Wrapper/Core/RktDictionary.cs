@@ -105,35 +105,35 @@ namespace libRocketPlugin
 
         #region PInvoke
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Dictionary_Set(IntPtr dictionary, String key, IntPtr value);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Dictionary_Get(IntPtr dictionary, String key);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Dictionary_Remove(IntPtr dictionary, String key);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Dictionary_Iterate(IntPtr dictionary, ref int pos, StringRetriever.Callback keyCb, ref IntPtr value);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Dictionary_Reserve(IntPtr dictionary, ref int size);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Dictionary_Clear(IntPtr dictionary);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Dictionary_IsEmpty(IntPtr dictionary);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern int Dictionary_Size(IntPtr dictionary);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Dictionary_Merge(IntPtr dictionary, IntPtr dict);
 
         #endregion

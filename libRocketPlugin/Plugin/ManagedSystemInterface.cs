@@ -90,16 +90,16 @@ namespace libRocketPlugin
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate void LogMessageDelegate(LogType type, String message);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr ManagedSystemInterface_Create(GetElapsedTimeDelegate etDelegate, LogMessageDelegate logDelegate);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ManagedSystemInterface_Delete(IntPtr systemInterface);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ManagedSystemInterface_AddRootPath(IntPtr systemInterface, String rootPath);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ManagedSystemInterface_RemoveRootPath(IntPtr systemInterface, String rootPath);
 
         #endregion

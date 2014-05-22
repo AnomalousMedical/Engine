@@ -30,7 +30,7 @@ namespace libRocketPlugin
 
         #region PInvoke
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SystemInterface_JoinPath(IntPtr systemInterface, String documentPath, String path, StringRetriever.Callback stringCallback);
 
         #endregion

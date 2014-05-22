@@ -168,10 +168,10 @@ namespace libRocketPlugin
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 	    delegate void ReleaseCb();
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr ManagedFileInterface_Create(OpenCb open, CloseCb close, ReadCb read, SeekCb seek, TellCb tell, ReleaseCb release);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ManagedFileInterface_Delete(IntPtr fileInterface);
 
         #endregion

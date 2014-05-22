@@ -323,89 +323,89 @@ namespace MyGUIPlugin
 
         #region PInvoke
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern UIntPtr MultiListBox_getColumnCount(IntPtr multiList);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void MultiListBox_insertColumnAt(IntPtr multiList, UIntPtr column, [MarshalAs(UnmanagedType.LPWStr)] String name, int width);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void MultiListBox_addColumn(IntPtr multiList, [MarshalAs(UnmanagedType.LPWStr)]  String name, int width);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void MultiListBox_removeColumnAt(IntPtr multiList, UIntPtr column);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void MultiListBox_removeAllColumns(IntPtr multiList);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void MultiListBox_setColumnNameAt(IntPtr multiList, UIntPtr column, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void MultiListBox_setColumnWidthAt(IntPtr multiList, UIntPtr column, int width);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MultiListBox_getColumnNameAt(IntPtr multiList, UIntPtr column);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern int MultiListBox_getColumnWidthAt(IntPtr multiList, UIntPtr column);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void MultiListBox_sortByColumn(IntPtr multiList, UIntPtr column);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void MultiListBox_sortByColumn2(IntPtr multiList, UIntPtr column, bool backward);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern UIntPtr MultiListBox_getItemCount(IntPtr multiList);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void MultiListBox_insertItemAt(IntPtr multiList, UIntPtr index, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void MultiListBox_addItem(IntPtr multiList, [MarshalAs(UnmanagedType.LPWStr)]  String name);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void MultiListBox_removeItemAt(IntPtr multiList, UIntPtr index);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void MultiListBox_removeAllItems(IntPtr multiList);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void MultiListBox_swapItemsAt(IntPtr multiList, UIntPtr index1, UIntPtr index2);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void MultiListBox_setItemNameAt(IntPtr multiList, UIntPtr index, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MultiListBox_getItemNameAt(IntPtr multiList, UIntPtr index);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern UIntPtr MultiListBox_getIndexSelected(IntPtr multiList);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void MultiListBox_setIndexSelected(IntPtr multiList, UIntPtr index);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void MultiListBox_clearIndexSelected(IntPtr multiList);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void MultiListBox_setSubItemNameAt(IntPtr multiList, UIntPtr column, UIntPtr index, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr MultiListBox_getSubItemNameAt(IntPtr multiList, UIntPtr column, UIntPtr index);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern UIntPtr MultiListBox_findSubItemWith(IntPtr multiList, UIntPtr column, [MarshalAs(UnmanagedType.LPWStr)] String name);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void MultiListBox_setSortOnChanges(IntPtr multiList, bool value);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool MultiListBox_getSortOnChanges(IntPtr multiList);
 
-        [DllImport("MyGUIWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void MultiListBox_setColumnResizingPolicyAt(IntPtr multiList, UIntPtr _index, ResizingPolicy _value);
 
 #endregion

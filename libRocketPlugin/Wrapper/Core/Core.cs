@@ -107,53 +107,53 @@ namespace libRocketPlugin
 
         #region PInvoke
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Core_Initialise();
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Core_Shutdown();
 
-        //[DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        //[DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         //private static extern String Core_GetVersion();
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Core_SetSystemInterface(IntPtr system_interface);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Core_GetSystemInterface();
         
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Core_SetRenderInterface(IntPtr render_interface);
         
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Core_GetRenderInterface();
         
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Core_SetFileInterface(IntPtr file_interface);
         
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Core_GetFileInterface();
         
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Core_CreateContext(String name, Vector2i dimensions, IntPtr render_interface);
         
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Core_GetContext(String name);
         
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Core_GetContext_Index(int index);
         
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern int Core_GetNumContexts();
         
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Core_RegisterPlugin(IntPtr plugin);
         
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Core_ReleaseCompiledGeometries();
         
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Core_ReleaseTextures();
 
         #endregion

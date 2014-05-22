@@ -45,7 +45,7 @@ namespace MyGUIPlugin
 
         #region PInvoke
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr ScrollChangePositionET_Create(IntPtr widget, NativeEventDelegate nativeEventCallback);
 
         #endregion

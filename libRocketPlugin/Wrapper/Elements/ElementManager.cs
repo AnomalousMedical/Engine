@@ -121,10 +121,10 @@ namespace libRocketPlugin
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void ContextDestructorCallback(IntPtr element);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr ElementManager_create(ElementDestructorCallback elementDestroyed, ContextDestructorCallback contextDestroyed);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern ElementType ElementManager_getType(IntPtr element);
 
         #endregion

@@ -13,6 +13,7 @@ namespace MyGUIPlugin
 {
     public class MyGUIInterface : PluginInterface
     {
+        internal const String LibraryName = "MyGUIWrapper";
         public static MyGUIInterface Instance { get; private set; }
 
         private OgrePlatform ogrePlatform;

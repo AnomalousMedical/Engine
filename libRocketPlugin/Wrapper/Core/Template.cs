@@ -39,10 +39,10 @@ namespace libRocketPlugin
             }
         }
         
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Template_GetName(IntPtr rktTemplate);
         
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Template_GetContent(IntPtr rktTemplate);
     }
 }

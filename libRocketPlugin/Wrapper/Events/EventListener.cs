@@ -58,10 +58,10 @@ namespace libRocketPlugin
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate void AttachDetatchCb(IntPtr element);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr ManagedEventListener_Create(ProcessEventCb processEvent, AttachDetatchCb onAttach, AttachDetatchCb onDetatch);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ManagedEventListener_Delete(IntPtr managedEventListener);
 
         #endregion

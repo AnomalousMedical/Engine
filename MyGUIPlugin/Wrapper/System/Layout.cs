@@ -45,10 +45,10 @@ namespace MyGUIPlugin
 
 #region PInvoke
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern UIntPtr VectorWidgetPtr_getNumRootWidgets(IntPtr vectorWidgetPtr);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr VectorWidgetPtr_getRootWidget(IntPtr vectorWidgetPtr, UIntPtr index);
 
 #endregion

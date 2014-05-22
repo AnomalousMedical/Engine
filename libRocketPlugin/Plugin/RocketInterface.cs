@@ -12,6 +12,7 @@ namespace libRocketPlugin
 {
     public class RocketInterface : PluginInterface
     {
+        internal const String LibraryName = "libRocketWrapper";
         public const float DefaultPixelsPerInch = 100;
         public const String DefaultProtocol = "anom:///";
         private const String UrlFormat = "anom:///{0}";

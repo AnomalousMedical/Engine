@@ -44,10 +44,10 @@ namespace MyGUIPlugin
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate void MessageLoggedDelegate(String section, LogLevel lml, String message);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr ManagedMyGUILogListener_Create(MessageLoggedDelegate messageLoggedCallback);
 
-        [DllImport("MyGUIWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManagedMyGUILogListener_Delete(IntPtr logListener);
 
         #endregion

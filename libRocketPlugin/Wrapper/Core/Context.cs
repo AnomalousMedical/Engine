@@ -244,129 +244,129 @@ namespace libRocketPlugin
         //	return context->GetName().CString();
         //}
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Context_SetDimensions(IntPtr context, Vector2i dimensions);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern ThreeIntHack Context_GetDimensions(IntPtr context);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Context_Update(IntPtr context);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Context_Render(IntPtr context);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Context_CreateDocument(IntPtr context);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Context_CreateDocument_Tag(IntPtr context, String tag);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Context_LoadDocument(IntPtr context, String document_path);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Context_LoadDocumentFromMemory(IntPtr context, String str);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Context_LoadDocumentFromMemoryPath(IntPtr context, String str, String fakePath);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Context_UnloadDocument(IntPtr context, IntPtr document);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Context_UnloadAllDocuments(IntPtr context);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Context_AddMouseCursor(IntPtr context, IntPtr cursor_document);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Context_LoadMouseCursor(IntPtr context, String cursor_document_path);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Context_UnloadMouseCursor(IntPtr context, String cursor_name);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Context_UnloadAllMouseCursors(IntPtr context);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Context_SetMouseCursor(IntPtr context, String cursor_name);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Context_ShowMouseCursor(IntPtr context, bool show);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Context_GetDocument(IntPtr context, String id);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Context_GetDocument_Index(IntPtr context, int index);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern int Context_GetNumDocuments(IntPtr context);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Context_GetHoverElement(IntPtr context);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Context_GetFocusElement(IntPtr context);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Context_GetRootElement(IntPtr context);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Context_PullDocumentToFront(IntPtr context, IntPtr document);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Context_PushDocumentToBack(IntPtr context, IntPtr document);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Context_AddEventListener(IntPtr context, String evt, IntPtr listener, bool in_capture_phase/* = false*/);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Context_RemoveEventListener(IntPtr context, String evt, IntPtr listener, bool in_capture_phase/* = false*/);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Context_ProcessKeyDown(IntPtr context, KeyIdentifier key_identifier, int key_modifier_state);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Context_ProcessKeyUp(IntPtr context, KeyIdentifier key_identifier, int key_modifier_state);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Context_ProcessTextInput_Word(IntPtr context, ushort character);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Context_ProcessTextInput(IntPtr context, String str);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Context_ProcessMouseMove(IntPtr context, int x, int y, int key_modifier_state);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Context_ProcessMouseButtonDown(IntPtr context, int button_index, int key_modifier_state);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Context_ProcessMouseButtonUp(IntPtr context, int button_index, int key_modifier_state);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Context_ProcessMouseWheel(IntPtr context, int wheel_delta, int key_modifier_state);
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Context_GetRenderInterface(IntPtr context);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Context_FindElementAtPoint(IntPtr context, Vector2 point, IntPtr ignore_element);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern float Context_GetZoomLevel(IntPtr context);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Context_SetZoomLevel(IntPtr context, float value);
 
         #endregion

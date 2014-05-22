@@ -52,10 +52,10 @@ namespace libRocketPlugin
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate void ReleaseCb();
 
-        [DllImport("libRocketWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr ManagedEventInstancer_Create(InstanceEventCb instanceEvent, ReleaseEventCb releaseEvent, ReleaseCb release);
 
-        [DllImport("libRocketWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ManagedEventInstancer_Delete(IntPtr eventInstancer);
 
         #endregion
