@@ -36,6 +36,8 @@ namespace Engine.Platform
             Int64 lastTime = systemTimer.getCurrentTime();
             Int64 totalFrameTime;
 
+            systemTimer.Accurate = framerateCap > 0;
+
             while (started)
             {
                 frameStartTime = systemTimer.getCurrentTime();

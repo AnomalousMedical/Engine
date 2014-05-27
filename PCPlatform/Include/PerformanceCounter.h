@@ -28,6 +28,7 @@ private:
 	LARGE_INTEGER frequency;
 
 	DWORD timerMask;
+	bool accurate;
 #endif
 
 #ifdef MAC_OSX
@@ -57,4 +58,8 @@ public:
 	/// </summary>
 	/// <returns>The current time in microseconds.</returns>
 	Int64 getCurrentTime();
+
+	void setAccurate(bool accurate);
+
+	bool isAccurate();
 };

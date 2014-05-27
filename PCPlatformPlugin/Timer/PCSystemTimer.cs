@@ -31,6 +31,18 @@ namespace PCPlatform
             return PerformanceCounter_getCurrentTime(performanceCounter);
         }
 
+        public bool Accurate
+        {
+            get
+            {
+                return PerformanceCounter_isAccurate(performanceCounter);
+            }
+            set
+            {
+                PerformanceCounter_setAccurate(performanceCounter, value);
+            }
+        }
+
         [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr PerformanceCounter_Create();
 
@@ -43,5 +55,12 @@ namespace PCPlatform
 
         [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         private static extern Int64 PerformanceCounter_getCurrentTime(IntPtr counter);
+
+        [DllImport("PCPlatform", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void PerformanceCounter_setAccurate(IntPtr counter, bool accurate);
+
+        [DllImport("PCPlatform", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool PerformanceCounter_isAccurate(IntPtr counter);
     }
 }
