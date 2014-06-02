@@ -150,6 +150,10 @@ extern "C" _AnomalousExport Ogre::RenderWindow* Root_createRenderWindowParams(Og
 		params["macAPI"] = "cocoa";
 		params["macAPICocoaUseNSView"] = "true";
 		params["contentScalingFactor"] = contentScalingFactor;
+
+		float scaleFactor = StringConverter::parseReal(contentScalingFactor);
+		width /= scaleFactor;
+		height /= scaleFactor;
 	#endif
 	return root->createRenderWindow(name, width, height, fullScreen, &params);
 }
