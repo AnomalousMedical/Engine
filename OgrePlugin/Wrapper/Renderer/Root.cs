@@ -224,16 +224,18 @@ namespace OgreWrapper
             String externalWindowHandle;
             String monitorIndex;
             String nvPerfHud;
+            String contentScalingFactor;
             miscParams.TryGetValue("vsync", out vsync);
             miscParams.TryGetValue("FSAA", out aaMode);
             miscParams.TryGetValue("FSAAHint", out fsaaHint);
             miscParams.TryGetValue("externalWindowHandle", out externalWindowHandle);
             miscParams.TryGetValue("useNVPerfHUD", out nvPerfHud);
+            miscParams.TryGetValue("contentScalingFactor", out contentScalingFactor);
             if(!miscParams.TryGetValue("monitorIndex", out monitorIndex))
             {
                 monitorIndex = "0";
             }
-            return renderTargets.getObject(Root_createRenderWindowParams(ogreRoot, name, width, height, fullScreen, vsync.ToString(), aaMode, fsaaHint, externalWindowHandle, monitorIndex, nvPerfHud), RenderTargetType.RenderWindow) as RenderWindow;
+            return renderTargets.getObject(Root_createRenderWindowParams(ogreRoot, name, width, height, fullScreen, vsync.ToString(), aaMode, fsaaHint, externalWindowHandle, monitorIndex, nvPerfHud, contentScalingFactor), RenderTargetType.RenderWindow) as RenderWindow;
         }
 
         public void destroyRenderTarget(RenderTarget pWin)
@@ -451,7 +453,7 @@ namespace OgreWrapper
         private static extern IntPtr Root_createRenderWindow(IntPtr root, String name, uint width, uint height, bool fullScreen);
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr Root_createRenderWindowParams(IntPtr root, String name, uint width, uint height, bool fullScreen, String vsync, String aaMode, String fsaaHint, String externalWindowHandle, String monitorIndex, String nvPerfHud);
+        private static extern IntPtr Root_createRenderWindowParams(IntPtr root, String name, uint width, uint height, bool fullScreen, String vsync, String aaMode, String fsaaHint, String externalWindowHandle, String monitorIndex, String nvPerfHud, String contentScalingFactor);
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Root_destroyRenderTarget(IntPtr root, IntPtr pWin);

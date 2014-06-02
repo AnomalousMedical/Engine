@@ -118,6 +118,7 @@ namespace OgrePlugin
                 miscParams.Add("vsync", OgreConfig.VSync.ToString());
                 miscParams.Add("monitorIndex", defaultWindowInfo.MonitorIndex.ToString());
                 miscParams.Add("useNVPerfHUD", OgreConfig.UseNvPerfHUD.ToString());
+                miscParams.Add("contentScalingFactor", defaultWindowInfo.ContentScalingFactor.ToString());
                 if (defaultWindowInfo.AutoCreateWindow)
                 {
                     RenderWindow renderWindow = root.createRenderWindow(defaultWindowInfo.AutoWindowTitle, (uint)defaultWindowInfo.Width, (uint)defaultWindowInfo.Height, defaultWindowInfo.Fullscreen, miscParams);
@@ -236,6 +237,7 @@ namespace OgrePlugin
             miscParams.Add("vsync", OgreConfig.VSync.ToString());
             miscParams.Add("monitorIndex", defaultWindowInfo.MonitorIndex.ToString());
             miscParams.Add("useNVPerfHUD", OgreConfig.UseNvPerfHUD.ToString());
+            miscParams.Add("contentScalingFactor", defaultWindowInfo.ContentScalingFactor.ToString());
             if (defaultWindowInfo.AutoCreateWindow)
             {
                 RenderWindow renderWindow = root.createRenderWindow(defaultWindowInfo.AutoWindowTitle, (uint)defaultWindowInfo.Width, (uint)defaultWindowInfo.Height, defaultWindowInfo.Fullscreen, miscParams);
@@ -281,6 +283,7 @@ namespace OgrePlugin
             miscParams.Add("vsync", OgreConfig.VSync.ToString());
             miscParams.Add("monitorIndex", windowInfo.MonitorIndex.ToString());
             miscParams.Add("useNVPerfHUD", OgreConfig.UseNvPerfHUD.ToString());
+            miscParams.Add("contentScalingFactor", windowInfo.ContentScalingFactor.ToString());
             OSWindow embedWindow = windowInfo.EmbedWindow;
             if (embedWindow != null)
             {

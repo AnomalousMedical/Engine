@@ -125,7 +125,7 @@ extern "C" _AnomalousExport Ogre::RenderWindow* Root_createRenderWindow(Ogre::Ro
 	return root->createRenderWindow(name, width, height, fullScreen);
 }
 
-extern "C" _AnomalousExport Ogre::RenderWindow* Root_createRenderWindowParams(Ogre::Root* root, const char* name, uint width, uint height, bool fullScreen, const char* vsync, const char* aaMode, const char* fsaaHint, const char* externalWindowHandle, const char* monitorIndex, const char* nvPerfHud)
+extern "C" _AnomalousExport Ogre::RenderWindow* Root_createRenderWindowParams(Ogre::Root* root, const char* name, uint width, uint height, bool fullScreen, const char* vsync, const char* aaMode, const char* fsaaHint, const char* externalWindowHandle, const char* monitorIndex, const char* nvPerfHud, const char* contentScalingFactor)
 {
 	Ogre::NameValuePairList params;
 	params["vsync"] = vsync;
@@ -149,6 +149,7 @@ extern "C" _AnomalousExport Ogre::RenderWindow* Root_createRenderWindowParams(Og
 	#ifdef MAC_OSX
 		params["macAPI"] = "cocoa";
 		params["macAPICocoaUseNSView"] = "true";
+		params["contentScalingFactor"] = contentScalingFactor;
 	#endif
 	return root->createRenderWindow(name, width, height, fullScreen, &params);
 }
