@@ -151,7 +151,7 @@ extern "C" _AnomalousExport Ogre::RenderWindow* Root_createRenderWindowParams(Og
 		params["macAPICocoaUseNSView"] = "true";
 		params["contentScalingFactor"] = contentScalingFactor;
 
-		float scaleFactor = StringConverter::parseReal(contentScalingFactor);
+        float scaleFactor = Ogre::StringConverter::parseReal(contentScalingFactor);
 		width /= scaleFactor;
 		height /= scaleFactor;
 	#endif
