@@ -38,7 +38,6 @@ namespace Engine.Renderer
             this.width = width;
             this.height = height;
             MonitorIndex = 0;
-            ContentScalingFactor = 1.0f;
         }
 
         /// <summary>
@@ -51,7 +50,6 @@ namespace Engine.Renderer
             AutoWindowTitle = name;
             EmbedWindow = embedWindow;
             MonitorIndex = 0;
-            ContentScalingFactor = 1.0f;
         }
 
         /// <summary>
@@ -90,10 +88,19 @@ namespace Engine.Renderer
         /// <summary>
         /// The content scaling factor for a window, this should be set to what the os reports the scaling factor as
         /// and not the adjusted scaling size that might be applied on top of this. This only does something on osx right
-        /// now, and should basically be 1.0 or 2.0 (for retina displays). Use a function from the os to get this value,
-        /// do not set it manually.
+        /// now, and should basically be 1.0 or 2.0 (for retina displays).
         /// </summary>
-        public float ContentScalingFactor { get; set; }
+        public float ContentScalingFactor
+        {
+            get
+            {
+                if(EmbedWindow != null)
+                {
+                    return EmbedWindow.WindowScaling;
+                }
+                return 1.0f;
+            }
+        }
 
         /// <summary>
         /// Get/Set the width of the window. If an EmbedWindow is provided this

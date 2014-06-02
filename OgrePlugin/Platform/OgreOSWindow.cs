@@ -58,6 +58,14 @@ namespace OgrePlugin
             }
         }
 
+        public float WindowScaling
+        {
+            get
+            {
+                return 1.0f;
+            }
+        }
+
         public bool Focused { get; private set; }
 
         public RenderWindow RenderWindow

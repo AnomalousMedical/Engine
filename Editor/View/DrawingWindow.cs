@@ -65,6 +65,14 @@ namespace Editor
             }
         }
 
+        public float WindowScaling
+        {
+            get
+            {
+                return 1.0f;
+            }
+        }
+
         public event OSWindowEvent Moved;
 
         public event OSWindowEvent Resized;

@@ -25,6 +25,11 @@ namespace Engine.Platform
         int WindowHeight { get; }
 
         /// <summary>
+        /// The OS scaling factor of the window.
+        /// </summary>
+        float WindowScaling { get; }
+
+        /// <summary>
         /// True if the window has focus.
         /// </summary>
         bool Focused { get; }
