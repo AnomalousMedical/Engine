@@ -44,6 +44,27 @@ namespace BEPUikPlugin
             return editInterface;
         }
 
+        internal override void createProduct(SimObjectBase instance, BEPUikScene scene)
+        {
+            var otherObject = instance.getOtherSimObject(this.BoneSimObjectName);
+            if(otherObject != null)
+            {
+                var bone = otherObject.getElement(this.BoneName) as BEPUikBone;
+                if (bone != null)
+                {
+                    instance.addElement(new BEPUikDragControl(bone, scene, Name, Subscription));
+                }
+                else
+                {
+                    Log.Default.sendMessage("Cannot add BEPUikDragControl {0} to SimObject {1} because the Sim Object does not contain a bone named {2}.", LogLevel.Warning, BEPUikInterface.PluginName, Name, BoneSimObjectName, BoneName);
+                }
+            }
+            else
+            {
+                Log.Default.sendMessage("Cannot add BEPUikDragControl {0} to SimObject {1} because the Sim Object does not exist.", LogLevel.Warning, BEPUikInterface.PluginName, Name, BoneSimObjectName);
+            }
+        }
+
         public BEPUikDragControlDefinition(LoadInfo info)
             :base(info)
         {

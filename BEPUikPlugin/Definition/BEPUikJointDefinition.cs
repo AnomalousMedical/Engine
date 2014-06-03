@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BEPUikPlugin
 {
-    public abstract class BEPUikJointDefinition : SimElementDefinition
+    public abstract class BEPUikJointDefinition : BEPUikElementDefinition
     {
         public BEPUikJointDefinition(String name)
             :base(name)
@@ -19,6 +19,39 @@ namespace BEPUikPlugin
             ConnectionABoneName = "IKBone";
             ConnectionBBoneName = "IKBone";
         }
+
+        internal override void createProduct(SimObjectBase instance, BEPUikScene scene)
+        {
+            BEPUikBone connectionA = null;
+            BEPUikBone connectionB = null;
+
+            SimObject other = instance.getOtherSimObject(ConnectionASimObjectName);
+            if (other != null)
+            {
+                connectionA = other.getElement(ConnectionABoneName) as BEPUikBone;
+            }
+
+            other = instance.getOtherSimObject(ConnectionBSimObjectName);
+            if (other != null)
+            {
+                connectionB = other.getElement(ConnectionBBoneName) as BEPUikBone;
+            }
+
+            if (connectionA != null && connectionB != null)
+            {
+                SimElement element = createConstraint(connectionA, connectionB, instance, scene);
+                if (element != null)
+                {
+                    instance.addElement(element);
+                }
+            }
+            else
+            {
+                Log.Default.sendMessage("Cannot add BEPU IK Joint {0} to SimObject {1} because connectionA {2} and connectionB {3}.", LogLevel.Warning, BEPUikInterface.PluginName, Name, instance.Name, connectionA != null ? "was found" : "was not found", connectionB != null ? "was found" : "was not found");
+            }
+        }
+
+        protected abstract SimElement createConstraint(BEPUikBone connectionA, BEPUikBone connectionB, SimObjectBase instance, BEPUikScene scene);
 
         [Editable]
         public String ConnectionASimObjectName { get; set; }

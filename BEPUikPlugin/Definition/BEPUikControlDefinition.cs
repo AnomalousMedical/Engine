@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BEPUikPlugin
 {
-    public abstract class BEPUikControlDefinition : SimElementDefinition
+    public abstract class BEPUikControlDefinition : BEPUikElementDefinition
     {
         [Editable]
         public String BoneSimObjectName { get; set; }

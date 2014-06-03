@@ -52,10 +52,12 @@
     <Compile Include="Behaviors\BEPUTestJoint.cs" />
     <Compile Include="Behaviors\TargetMover.cs" />
     <Compile Include="Construction\BEPUIkFactory.cs" />
+    <Compile Include="Construction\BEPUikFactoryEntry.cs" />
     <Compile Include="Definition\BEPUikControlDefinition.cs" />
     <Compile Include="Definition\BEPUikDragControlDefinition.cs" />
     <Compile Include="Definition\BEPUikBallSocketJointDefinition.cs" />
     <Compile Include="Definition\BEPUikBoneDefinition.cs" />
+    <Compile Include="Definition\BEPUikElementDefinition.cs" />
     <Compile Include="Definition\BEPUikJointDefinition.cs" />
     <Compile Include="Definition\BEPUIkSceneDefinition.cs" />
     <Compile Include="Instance\BEPUikDragControl.cs" />

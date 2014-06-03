@@ -14,8 +14,8 @@ namespace BEPUikPlugin
         private BEPUikScene scene;
         private Bone bone;
 
-        public BEPUikBone(BEPUikBoneDefinition definition, BEPUikScene scene, String name, Subscription subscription)
-            :base(name, subscription)
+        public BEPUikBone(BEPUikBoneDefinition definition, BEPUikScene scene)
+            :base(definition.Name, definition.Subscription)
         {
             this.scene = scene;
             bone = new Bone(Owner.Translation.toBepuVec3(), Owner.Rotation.toBepuQuat(), definition.Radius, definition.Height);

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BEPUikPlugin
 {
-    public class BEPUikBoneDefinition : SimElementDefinition
+    public class BEPUikBoneDefinition : BEPUikElementDefinition
     {
         [DoNotSave]
         private EditInterface editInterface;
@@ -52,6 +52,12 @@ namespace BEPUikPlugin
                 editInterface = ReflectedEditInterface.createEditInterface(this, String.Format("{0} - IK Bone", Name));
             }
             return editInterface;
+        }
+
+        internal override void createProduct(SimObjectBase instance, BEPUikScene scene)
+        {
+            BEPUikBone bone = new BEPUikBone(this, scene);
+            instance.addElement(bone);
         }
 
         public BEPUikBoneDefinition(LoadInfo info)

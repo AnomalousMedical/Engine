@@ -44,6 +44,11 @@ namespace BEPUikPlugin
             return editInterface;
         }
 
+        protected override SimElement createConstraint(BEPUikBone connectionA, BEPUikBone connectionB, SimObjectBase instance, BEPUikScene scene)
+        {
+            return new BEPUikBallSocketJoint(connectionA, connectionB, instance.Translation, scene, Name, Subscription);
+        }
+
         public BEPUikBallSocketJointDefinition(LoadInfo info)
             :base(info)
         {
