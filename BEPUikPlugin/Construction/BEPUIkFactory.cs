@@ -9,9 +9,9 @@ namespace BEPUikPlugin
 {
     class BEPUIkFactory : SimElementFactory
     {
-        private BEPUIkScene scene;
+        private BEPUikScene scene;
 
-        public BEPUIkFactory(BEPUIkScene scene)
+        public BEPUIkFactory(BEPUikScene scene)
         {
             this.scene = scene;
         }
@@ -32,6 +32,21 @@ namespace BEPUikPlugin
         }
 
         public void clearDefinitions()
+        {
+            
+        }
+
+        internal void addBone(BEPUikBoneDefinition bone, SimObjectBase instance)
+        {
+            
+        }
+
+        internal void addJoint(BEPUikJointDefinition joint, SimObjectBase instance)
+        {
+            
+        }
+
+        internal void addControl(BEPUikControlDefinition control, SimObjectBase instance)
         {
             
         }

@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace BEPUikPlugin
 {
-    public class BEPUIkSceneDefinition : SimElementManagerDefinition
+    public class BEPUikSceneDefinition : SimElementManagerDefinition
     {
         internal static SimElementManagerDefinition Create(string name, EditUICallback callback)
         {
-            return new BEPUIkSceneDefinition(name);
+            return new BEPUikSceneDefinition(name);
         }
 
         private String name;
@@ -22,7 +22,7 @@ namespace BEPUikPlugin
         [DoNotSave]
         private EditInterface editInterface;
 
-        public BEPUIkSceneDefinition(String name)
+        public BEPUikSceneDefinition(String name)
         {
             this.name = name;
         }
@@ -38,7 +38,7 @@ namespace BEPUikPlugin
 
         public SimElementManager createSimElementManager()
         {
-            return new BEPUIkScene(name);
+            return new BEPUikScene(name);
         }
 
         public string Name
@@ -51,7 +51,7 @@ namespace BEPUikPlugin
 
         public Type getSimElementManagerType()
         {
-            return typeof(BEPUIkSceneDefinition);
+            return typeof(BEPUikSceneDefinition);
         }
 
         public void Dispose()
@@ -59,7 +59,7 @@ namespace BEPUikPlugin
             
         }
 
-        protected BEPUIkSceneDefinition(LoadInfo info)
+        protected BEPUikSceneDefinition(LoadInfo info)
         {
             ReflectedSaver.RestoreObject(this, info); 
         }

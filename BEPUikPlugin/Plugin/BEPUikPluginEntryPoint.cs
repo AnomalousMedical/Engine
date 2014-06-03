@@ -12,7 +12,7 @@ namespace BEPUikPlugin
     {
         public override void createPluginInterfaces(PluginManager pluginManager)
         {
-            pluginManager.addPlugin(new BEPUIkInterface());
+            pluginManager.addPlugin(new BEPUikInterface());
         }
     }
 }

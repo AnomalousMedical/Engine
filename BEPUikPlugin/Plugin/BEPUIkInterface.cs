@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace BEPUikPlugin
 {
-    class BEPUIkInterface : PluginInterface
+    class BEPUikInterface : PluginInterface
     {
         public const String PluginName = "BEPUikPlugin";
 
-        public BEPUIkInterface()
+        public BEPUikInterface()
         {
 
         }
@@ -25,7 +25,7 @@ namespace BEPUikPlugin
 
         public void initialize(PluginManager pluginManager)
         {
-            pluginManager.addCreateSimElementManagerCommand(new AddSimElementManagerCommand("Create BEPU Ik Scene Definition", new CreateSimElementManager(BEPUIkSceneDefinition.Create)));
+            pluginManager.addCreateSimElementManagerCommand(new AddSimElementManagerCommand("Create BEPU Ik Scene Definition", new CreateSimElementManager(BEPUikSceneDefinition.Create)));
         }
 
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)

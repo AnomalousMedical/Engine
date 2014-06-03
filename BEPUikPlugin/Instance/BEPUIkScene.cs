@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace BEPUikPlugin
 {
-    class BEPUIkScene : SimElementManager
+    class BEPUikScene : SimElementManager
     {
         private String name;
         private BEPUIkFactory factory;
 
-        public BEPUIkScene(String name)
+        public BEPUikScene(String name)
         {
             this.name = name;
             factory = new BEPUIkFactory(this);
@@ -28,9 +28,17 @@ namespace BEPUikPlugin
             return factory;
         }
 
+        public BEPUIkFactory IkFactory
+        {
+            get
+            {
+                return factory;
+            }
+        }
+
         public Type getSimElementManagerType()
         {
-            return typeof(BEPUIkScene);
+            return typeof(BEPUikScene);
         }
 
         public string getName()
@@ -40,7 +48,7 @@ namespace BEPUikPlugin
 
         public SimElementManagerDefinition createDefinition()
         {
-            return new BEPUIkSceneDefinition(name);
+            return new BEPUikSceneDefinition(name);
         }
     }
 }
