@@ -56,6 +56,9 @@
     <Compile Include="Definition\BEPUikJointDefinition.cs" />
     <Compile Include="Definition\BEPUikBoneDefinition.cs" />
     <Compile Include="Definition\BEPUIkSceneDefinition.cs" />
+    <Compile Include="Instance\BEPUikControl.cs" />
+    <Compile Include="Instance\BEPUikJoint.cs" />
+    <Compile Include="Instance\BEPUikBone.cs" />
     <Compile Include="Instance\BEPUIkScene.cs" />
     <Compile Include="Plugin\BEPUIkInterface.cs" />
     <Compile Include="Plugin\BEPUikPluginEntryPoint.cs" />

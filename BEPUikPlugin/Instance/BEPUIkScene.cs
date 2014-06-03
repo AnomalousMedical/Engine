@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BEPUikPlugin
 {
-    class BEPUikScene : SimElementManager
+    public class BEPUikScene : SimElementManager
     {
         private String name;
         private BEPUIkFactory factory;
@@ -28,7 +28,7 @@ namespace BEPUikPlugin
             return factory;
         }
 
-        public BEPUIkFactory IkFactory
+        internal BEPUIkFactory IkFactory
         {
             get
             {
