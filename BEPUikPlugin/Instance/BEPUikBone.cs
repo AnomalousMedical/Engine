@@ -52,11 +52,11 @@ namespace BEPUikPlugin
         {
             if(enabled)
             {
-                scene.addBone(bone);
+                scene.addBone(this);
             }
             else
             {
-                scene.removeBone(bone);
+                scene.removeBone(this);
             }
         }
 

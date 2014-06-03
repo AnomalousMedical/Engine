@@ -12,8 +12,10 @@ namespace BEPUikPlugin
     {
         private String name;
         private BEPUIkFactory factory;
-        private List<Bone> bones = new List<Bone>();
-        private List<Control> controls = new List<Control>();
+        private List<BEPUikBone> bones = new List<BEPUikBone>();
+        private List<BEPUikControl> controls = new List<BEPUikControl>();
+        private List<Control> solveControls = new List<Control>(); //Prevents garbage, this list has the same contents as controls, but holds direct references to the bepuik control class that is passed to the solver
+        private IKSolver ikSolver = new IKSolver();
 
         public BEPUikScene(String name)
         {
@@ -23,7 +25,7 @@ namespace BEPUikPlugin
 
         public void Dispose()
         {
-
+            ikSolver.Dispose();
         }
 
         public SimElementFactory getFactory()
@@ -54,24 +56,41 @@ namespace BEPUikPlugin
             return new BEPUikSceneDefinition(name);
         }
 
-        internal void addBone(Bone bone)
+        internal void addBone(BEPUikBone bone)
         {
             bones.Add(bone);
         }
 
-        internal void removeBone(Bone bone)
+        internal void removeBone(BEPUikBone bone)
         {
             bones.Remove(bone);
         }
 
-        internal void addControl(Control control)
+        internal void addControl(BEPUikControl control)
         {
             controls.Add(control);
+            solveControls.Add(control.IKControl);
         }
 
-        internal void removeControl(Control control)
+        internal void removeControl(BEPUikControl control)
         {
-            controls.Add(control);
+            controls.Remove(control);
+            solveControls.Remove(control.IKControl);
+        }
+
+        public void update()
+        {
+            foreach (var control in controls)
+            {
+                control.syncPosition();
+            }
+
+            ikSolver.Solve(solveControls);
+
+            foreach (var bone in bones)
+            {
+                bone.syncSimObject();
+            }
         }
     }
 }

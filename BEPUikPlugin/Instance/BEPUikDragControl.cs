@@ -9,56 +9,17 @@ using System.Threading.Tasks;
 
 namespace BEPUikPlugin
 {
-    public class BEPUikDragControl : SimElement
+    public class BEPUikDragControl : BEPUikControl
     {
-        private BEPUikScene scene;
         private DragControl dragControl;
         private BEPUikBone bone;
 
         public BEPUikDragControl(BEPUikBone bone, BEPUikScene scene, String name, Subscription subscription)
-            :base(name, subscription)
+            :base(scene, name, subscription)
         {
-            this.scene = scene;
             this.bone = bone;
             dragControl = new DragControl();
             dragControl.TargetBone = bone.IkBone;
-        }
-
-        protected override void Dispose()
-        {
-            
-        }
-
-        protected override void updatePositionImpl(ref Vector3 translation, ref Quaternion rotation)
-        {
-            
-        }
-
-        protected override void updateTranslationImpl(ref Vector3 translation)
-        {
-            
-        }
-
-        protected override void updateRotationImpl(ref Quaternion rotation)
-        {
-            
-        }
-
-        protected override void updateScaleImpl(ref Vector3 scale)
-        {
-            
-        }
-
-        protected override void setEnabled(bool enabled)
-        {
-            if(enabled)
-            {
-                scene.addControl(dragControl);
-            }
-            else
-            {
-                scene.removeControl(dragControl);
-            }
         }
 
         public override SimElementDefinition saveToDefinition()
@@ -69,6 +30,19 @@ namespace BEPUikPlugin
                 BoneName = bone.Name,
                 Subscription = this.Subscription
             };
+        }
+
+        internal override void syncPosition()
+        {
+            dragControl.LinearMotor.TargetPosition = Owner.Translation.toBepuVec3();
+        }
+
+        public override Control IKControl
+        {
+            get
+            {
+                return dragControl;
+            }
         }
     }
 }

@@ -60,6 +60,7 @@
     <Compile Include="Definition\BEPUikElementDefinition.cs" />
     <Compile Include="Definition\BEPUikJointDefinition.cs" />
     <Compile Include="Definition\BEPUIkSceneDefinition.cs" />
+    <Compile Include="Instance\BEPUikControl.cs" />
     <Compile Include="Instance\BEPUikDragControl.cs" />
     <Compile Include="Instance\BEPUikBallSocketJoint.cs" />
     <Compile Include="Instance\BEPUikBone.cs" />
