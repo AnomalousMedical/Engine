@@ -11,37 +11,27 @@ using System.Threading.Tasks;
 
 namespace BEPUikPlugin
 {
-    public class BEPUikBoneDefinition : SimElementDefinition
+    public class BEPUikDragControlDefinition : BEPUikControlDefinition
     {
         [DoNotSave]
         private EditInterface editInterface;
 
-        public BEPUikBoneDefinition(String name)
+        public BEPUikDragControlDefinition(String name)
             :base(name)
         {
-            Radius = 1;
-            Height = 3;
+            
         }
-
-        [Editable]
-        public bool Pinned { get; set; }
-
-        [Editable]
-        public float Radius { get; set; }
-
-        [Editable]
-        public float Height { get; set; }
 
         public override void registerScene(SimSubScene subscene, SimObjectBase instance)
         {
             if (subscene.hasSimElementManagerType(typeof(BEPUikScene)))
             {
                 BEPUikScene sceneManager = subscene.getSimElementManager<BEPUikScene>();
-                sceneManager.IkFactory.addBone(this, instance);
+                sceneManager.IkFactory.addControl(this, instance);
             }
             else
             {
-                Log.Default.sendMessage("Cannot add BEPUikBone {0} to SimSubScene {1} because it does not contain a BEPUikScene.", LogLevel.Warning, BEPUikInterface.PluginName, Name, subscene.Name);
+                Log.Default.sendMessage("Cannot add BEPUikDragControl {0} to SimSubScene {1} because it does not contain a BEPUikScene.", LogLevel.Warning, BEPUikInterface.PluginName, Name, subscene.Name);
             }
         }
 
@@ -49,25 +39,20 @@ namespace BEPUikPlugin
         {
             if (editInterface == null)
             {
-                editInterface = ReflectedEditInterface.createEditInterface(this, String.Format("{0} - IK Bone", Name));
+                editInterface = ReflectedEditInterface.createEditInterface(this, String.Format("{0} - IK Drag Control", Name));
             }
             return editInterface;
         }
 
-        public BEPUikBoneDefinition(LoadInfo info)
+        public BEPUikDragControlDefinition(LoadInfo info)
             :base(info)
         {
-            Pinned = info.GetBoolean("Pinned");
-            Radius = info.GetFloat("Radius");
-            Height = info.GetFloat("Height");
+            
         }
 
         public override void getInfo(SaveInfo info)
         {
             base.getInfo(info);
-            info.AddValue("Pinned", Pinned);
-            info.AddValue("Radius", Radius);
-            info.AddValue("Height", Height);
         }
     }
 }

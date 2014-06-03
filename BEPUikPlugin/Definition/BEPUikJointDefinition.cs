@@ -11,48 +11,43 @@ using System.Threading.Tasks;
 
 namespace BEPUikPlugin
 {
-    public class BEPUikJointDefinition : SimElementDefinition
+    public abstract class BEPUikJointDefinition : SimElementDefinition
     {
-        [DoNotSave]
-        private EditInterface editInterface;
-
         public BEPUikJointDefinition(String name)
             :base(name)
         {
-            
+            ConnectionABoneName = "IKBone";
+            ConnectionBBoneName = "IKBone";
         }
 
-        public override void registerScene(SimSubScene subscene, SimObjectBase instance)
-        {
-            if (subscene.hasSimElementManagerType(typeof(BEPUikScene)))
-            {
-                BEPUikScene sceneManager = subscene.getSimElementManager<BEPUikScene>();
-                sceneManager.IkFactory.addJoint(this, instance);
-            }
-            else
-            {
-                Log.Default.sendMessage("Cannot add BEPUikJoint {0} to SimSubScene {1} because it does not contain a BEPUikScene.", LogLevel.Warning, BEPUikInterface.PluginName, Name, subscene.Name);
-            }
-        }
+        [Editable]
+        public String ConnectionASimObjectName { get; set; }
 
-        protected override EditInterface createEditInterface()
-        {
-            if (editInterface == null)
-            {
-                editInterface = ReflectedEditInterface.createEditInterface(this, String.Format("{0} - BEPU IK Joint", Name));
-            }
-            return editInterface;
-        }
+        [Editable]
+        public String ConnectionABoneName { get; set; }
+
+        [Editable]
+        public String ConnectionBSimObjectName { get; set; }
+
+        [Editable]
+        public String ConnectionBBoneName { get; set; }
 
         public BEPUikJointDefinition(LoadInfo info)
             :base(info)
         {
-            
+            ConnectionASimObjectName = info.GetString("ConnectionASimObjectName");
+            ConnectionABoneName = info.GetString("ConnectionABoneName");
+            ConnectionBSimObjectName = info.GetString("ConnectionBSimObjectName");
+            ConnectionBBoneName = info.GetString("ConnectionBBoneName");
         }
 
         public override void getInfo(SaveInfo info)
         {
             base.getInfo(info);
+            info.AddValue("ConnectionASimObjectName", ConnectionASimObjectName);
+            info.AddValue("ConnectionABoneName", ConnectionABoneName);
+            info.AddValue("ConnectionBSimObjectName", ConnectionBSimObjectName);
+            info.AddValue("ConnectionBBoneName", ConnectionBBoneName);
         }
     }
 }

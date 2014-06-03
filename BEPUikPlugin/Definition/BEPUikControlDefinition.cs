@@ -11,48 +11,33 @@ using System.Threading.Tasks;
 
 namespace BEPUikPlugin
 {
-    public class BEPUikControlDefinition : SimElementDefinition
+    public abstract class BEPUikControlDefinition : SimElementDefinition
     {
-        [DoNotSave]
-        private EditInterface editInterface;
+        [Editable]
+        public String BoneSimObjectName { get; set; }
+
+        [Editable]
+        public String BoneName { get; set; }
 
         public BEPUikControlDefinition(String name)
             :base(name)
         {
-            
-        }
-
-        public override void registerScene(SimSubScene subscene, SimObjectBase instance)
-        {
-            if (subscene.hasSimElementManagerType(typeof(BEPUikScene)))
-            {
-                BEPUikScene sceneManager = subscene.getSimElementManager<BEPUikScene>();
-                sceneManager.IkFactory.addControl(this, instance);
-            }
-            else
-            {
-                Log.Default.sendMessage("Cannot add BEPUikControl {0} to SimSubScene {1} because it does not contain a BEPUikScene.", LogLevel.Warning, BEPUikInterface.PluginName, Name, subscene.Name);
-            }
-        }
-
-        protected override EditInterface createEditInterface()
-        {
-            if (editInterface == null)
-            {
-                editInterface = ReflectedEditInterface.createEditInterface(this, String.Format("{0} - BEPU IK Joint", Name));
-            }
-            return editInterface;
+            BoneSimObjectName = "this";
+            BoneName = "IKBone";
         }
 
         public BEPUikControlDefinition(LoadInfo info)
             :base(info)
         {
-            
+            BoneSimObjectName = info.GetString("BoneSimObjectName");
+            BoneName = info.GetString("BoneName");
         }
 
         public override void getInfo(SaveInfo info)
         {
             base.getInfo(info);
+            info.AddValue("BoneSimObjectName", BoneSimObjectName);
+            info.AddValue("BoneName", BoneName);
         }
     }
 }

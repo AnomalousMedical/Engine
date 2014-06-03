@@ -41,12 +41,12 @@ namespace BEPUikPlugin
             
         }
 
-        internal void addJoint(BEPUikJointDefinition joint, SimObjectBase instance)
+        internal void addJoint(BEPUikBallSocketJointDefinition joint, SimObjectBase instance)
         {
             
         }
 
-        internal void addControl(BEPUikControlDefinition control, SimObjectBase instance)
+        internal void addControl(BEPUikDragControlDefinition control, SimObjectBase instance)
         {
             
         }

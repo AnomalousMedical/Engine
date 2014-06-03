@@ -53,11 +53,13 @@
     <Compile Include="Behaviors\TargetMover.cs" />
     <Compile Include="Construction\BEPUIkFactory.cs" />
     <Compile Include="Definition\BEPUikControlDefinition.cs" />
-    <Compile Include="Definition\BEPUikJointDefinition.cs" />
+    <Compile Include="Definition\BEPUikDragControlDefinition.cs" />
+    <Compile Include="Definition\BEPUikBallSocketJointDefinition.cs" />
     <Compile Include="Definition\BEPUikBoneDefinition.cs" />
+    <Compile Include="Definition\BEPUikJointDefinition.cs" />
     <Compile Include="Definition\BEPUIkSceneDefinition.cs" />
-    <Compile Include="Instance\BEPUikControl.cs" />
-    <Compile Include="Instance\BEPUikJoint.cs" />
+    <Compile Include="Instance\BEPUikDragControl.cs" />
+    <Compile Include="Instance\BEPUikBallSocketJoint.cs" />
     <Compile Include="Instance\BEPUikBone.cs" />
     <Compile Include="Instance\BEPUIkScene.cs" />
     <Compile Include="Plugin\BEPUIkInterface.cs" />

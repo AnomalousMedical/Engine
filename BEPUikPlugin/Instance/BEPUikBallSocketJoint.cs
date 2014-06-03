@@ -1,4 +1,5 @@
-﻿using Engine;
+﻿using BEPUik;
+using Engine;
 using Engine.ObjectManagement;
 using System;
 using System.Collections.Generic;
@@ -8,14 +9,20 @@ using System.Threading.Tasks;
 
 namespace BEPUikPlugin
 {
-    public class BEPUikControl : SimElement
+    public class BEPUikBallSocketJoint : SimElement
     {
         private BEPUikScene scene;
+        private IKBallSocketJoint joint;
+        private BEPUikBone connectionA;
+        private BEPUikBone connectionB;
 
-        public BEPUikControl(BEPUikScene scene, String name, Subscription subscription)
+        public BEPUikBallSocketJoint(BEPUikBone connectionA, BEPUikBone connectionB, Vector3 anchor, BEPUikScene scene, String name, Subscription subscription)
             :base(name, subscription)
         {
             this.scene = scene;
+            this.connectionA = connectionA;
+            this.connectionB = connectionB;
+            joint = new IKBallSocketJoint(connectionA.IkBone, connectionB.IkBone, anchor.toBepuVec3());
         }
 
         protected override void Dispose()
@@ -50,7 +57,14 @@ namespace BEPUikPlugin
 
         public override SimElementDefinition saveToDefinition()
         {
-            return new BEPUikControlDefinition(Name);
+            return new BEPUikBallSocketJointDefinition(Name)
+            {
+                ConnectionABoneName = connectionA.Name,
+                ConnectionASimObjectName = connectionA.Owner == Owner ? "this" : connectionA.Owner.Name,
+                ConnectionBBoneName = connectionB.Name,
+                ConnectionBSimObjectName = connectionB.Owner == Owner ? "this" : connectionB.Owner.Name,
+                Subscription = this.Subscription
+            };
         }
     }
 }

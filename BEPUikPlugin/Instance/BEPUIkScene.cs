@@ -1,4 +1,5 @@
-﻿using Engine.ObjectManagement;
+﻿using BEPUik;
+using Engine.ObjectManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace BEPUikPlugin
     {
         private String name;
         private BEPUIkFactory factory;
+        private List<Bone> bones = new List<Bone>();
+        private List<Control> controls = new List<Control>();
 
         public BEPUikScene(String name)
         {
@@ -49,6 +52,26 @@ namespace BEPUikPlugin
         public SimElementManagerDefinition createDefinition()
         {
             return new BEPUikSceneDefinition(name);
+        }
+
+        internal void addBone(Bone bone)
+        {
+            bones.Add(bone);
+        }
+
+        internal void removeBone(Bone bone)
+        {
+            bones.Remove(bone);
+        }
+
+        internal void addControl(Control control)
+        {
+            controls.Add(control);
+        }
+
+        internal void removeControl(Control control)
+        {
+            controls.Add(control);
         }
     }
 }
