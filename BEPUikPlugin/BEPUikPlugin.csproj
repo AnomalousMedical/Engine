@@ -52,6 +52,10 @@
     <Compile Include="Behaviors\BEPUTestControl.cs" />
     <Compile Include="Behaviors\BEPUTestJoint.cs" />
     <Compile Include="Behaviors\TargetMover.cs" />
+    <Compile Include="Construction\BEPUIkFactory.cs" />
+    <Compile Include="Definition\BEPUIkSceneDefinition.cs" />
+    <Compile Include="Instance\BEPUIkScene.cs" />
+    <Compile Include="Plugin\BEPUIkInterface.cs" />
     <Compile Include="Plugin\BEPUikPluginEntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -61,6 +65,7 @@
       <Name>Engine</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
