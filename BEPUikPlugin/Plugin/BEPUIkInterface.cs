@@ -33,12 +33,15 @@ namespace BEPUikPlugin
 
             pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create BEPU Ik Bone", new CreateSimElement(BEPUikBoneDefinition.Create)));
             pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create BEPU Ik Drag Controller", new CreateSimElement(BEPUikDragControlDefinition.Create)));
+
             pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create BEPU Ik Angular Joint", new CreateSimElement(BEPUikAngularJointDefinition.Create)));
             pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create BEPU Ik Ball Socket Joint", new CreateSimElement(BEPUikBallSocketJointDefinition.Create)));
             pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create BEPU Ik Distance Joint", new CreateSimElement(BEPUikDistanceJointDefinition.Create)));
             pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create BEPU Ik Revolute Joint", new CreateSimElement(BEPUikRevoluteJointDefinition.Create)));
             pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create BEPU Ik Swivel Hinge Joint", new CreateSimElement(BEPUikSwivelHingeJointDefinition.Create)));
             pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create BEPU Ik Twist Joint", new CreateSimElement(BEPUikTwistJointDefinition.Create)));
+
+            pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create BEPU Ik Distance Limit", new CreateSimElement(BEPUikDistanceLimitDefinition.Create)));
         }
 
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)

@@ -58,6 +58,8 @@
     <Compile Include="Behaviors\TargetMover.cs" />
     <Compile Include="Construction\BEPUIkFactory.cs" />
     <Compile Include="Construction\BEPUikFactoryEntry.cs" />
+    <Compile Include="Definition\BEPUikDistanceLimitDefinition.cs" />
+    <Compile Include="Definition\BEPUikLimitDefinition.cs" />
     <Compile Include="Definition\BEPUikTwistJointDefinition.cs" />
     <Compile Include="Definition\BEPUikSwivelHingeJointDefinition.cs" />
     <Compile Include="Definition\BEPUikRevoluteJointDefinition.cs" />
@@ -71,6 +73,8 @@
     <Compile Include="Definition\BEPUikElementDefinition.cs" />
     <Compile Include="Definition\BEPUikJointDefinition.cs" />
     <Compile Include="Definition\BEPUIkSceneDefinition.cs" />
+    <Compile Include="Instance\BEPUikDistanceLimit.cs" />
+    <Compile Include="Instance\BEPUikLimit.cs" />
     <Compile Include="Instance\BEPUikTwistJoint.cs" />
     <Compile Include="Instance\BEPUikSwivelHingeJoint.cs" />
     <Compile Include="Instance\BEPUikRevoluteJoint.cs" />

@@ -41,7 +41,7 @@ namespace BEPUikPlugin
             setupConstraintDefinition(definition);
         }
 
-        public override IKConstraint IKConstraint
+        public override sealed IKConstraint IKConstraint
         {
             get
             {
