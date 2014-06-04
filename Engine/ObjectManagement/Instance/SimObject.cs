@@ -63,9 +63,11 @@ namespace Engine.ObjectManagement
             }
             else
             {
-                if (simObjectManager != null && simObjectManager.hasSimObject(name))
+                if (simObjectManager != null)
                 {
-                    return simObjectManager.getSimObject(name);
+                    SimObjectBase simObj;
+                    simObjectManager.tryGetSimObject(name, out simObj);
+                    return simObj;
                 }
                 return null;
             }

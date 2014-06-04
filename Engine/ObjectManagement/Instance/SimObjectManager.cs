@@ -77,6 +77,17 @@ namespace Engine.ObjectManagement
         }
 
         /// <summary>
+        /// Get the SimObject specified by name, will return false if the sim object is not found.
+        /// </summary>
+        /// <param name="name">The name of the SimObject</param>
+        /// <param name="simObject">The out variable to put the result into.</param>
+        /// <returns>True if the object is found, false if it is not.</returns>
+        public bool tryGetSimObject(String name, out SimObjectBase simObject)
+        {
+            return simObjects.TryGetValue(name, out simObject);
+        }
+
+        /// <summary>
         /// Create and add a SimObject to this manager. This is used to create
         /// objects after the build process has run during scene execution.
         /// </summary>
