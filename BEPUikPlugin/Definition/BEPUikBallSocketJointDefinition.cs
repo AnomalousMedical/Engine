@@ -13,8 +13,10 @@ namespace BEPUikPlugin
 {
     public class BEPUikBallSocketJointDefinition : BEPUikJointDefinition
     {
-        [DoNotSave]
-        private EditInterface editInterface;
+        internal static void Create(string name, EditUICallback callback, CompositeSimObjectDefinition simObjectDefinition)
+        {
+            simObjectDefinition.addElement(new BEPUikBallSocketJointDefinition(name));
+        }
 
         public BEPUikBallSocketJointDefinition(String name)
             :base(name)
@@ -22,18 +24,17 @@ namespace BEPUikPlugin
             
         }
 
-        protected override EditInterface createEditInterface()
-        {
-            if (editInterface == null)
-            {
-                editInterface = ReflectedEditInterface.createEditInterface(this, String.Format("{0} - IK Ball Socket Joint", Name));
-            }
-            return editInterface;
-        }
-
         protected override SimElement createConstraint(BEPUikBone connectionA, BEPUikBone connectionB, SimObjectBase instance, BEPUikScene scene)
         {
             return new BEPUikBallSocketJoint(connectionA, connectionB, instance.Translation, this, scene, Name, Subscription);
+        }
+
+        protected override string EditInterfaceName
+        {
+            get
+            {
+                return "IK Ball Socket Joint";
+            }
         }
 
         protected BEPUikBallSocketJointDefinition(LoadInfo info)
@@ -45,11 +46,6 @@ namespace BEPUikPlugin
         public override void getInfo(SaveInfo info)
         {
             base.getInfo(info);
-        }
-
-        internal static void Create(string name, EditUICallback callback, CompositeSimObjectDefinition simObjectDefinition)
-        {
-            simObjectDefinition.addElement(new BEPUikBallSocketJointDefinition(name));
         }
     }
 }

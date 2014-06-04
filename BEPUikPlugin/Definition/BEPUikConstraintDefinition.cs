@@ -10,6 +10,8 @@ namespace BEPUikPlugin
 {
     public abstract class BEPUikConstraintDefinition : BEPUikElementDefinition
     {
+        private EditInterface editInterface;
+
         public BEPUikConstraintDefinition(String name)
             :base(name)
         {
@@ -17,11 +19,22 @@ namespace BEPUikPlugin
             MaximumForce = float.MaxValue;
         }
 
+        protected override EditInterface createEditInterface()
+        {
+            if (editInterface == null)
+            {
+                editInterface = ReflectedEditInterface.createEditInterface(this, String.Format("{0} - {1}", Name, EditInterfaceName));
+            }
+            return editInterface;
+        }
+
         [Editable]
         public float Rigidity { get; set; }
 
         [Editable]
         public float MaximumForce { get; set; }
+
+        protected abstract String EditInterfaceName { get; }
 
         protected BEPUikConstraintDefinition(LoadInfo info)
             :base(info)
