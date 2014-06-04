@@ -49,7 +49,7 @@ namespace BEPUikPlugin
             return new BEPUikBallSocketJoint(connectionA, connectionB, instance.Translation, scene, Name, Subscription);
         }
 
-        public BEPUikBallSocketJointDefinition(LoadInfo info)
+        protected BEPUikBallSocketJointDefinition(LoadInfo info)
             :base(info)
         {
             
@@ -58,6 +58,11 @@ namespace BEPUikPlugin
         public override void getInfo(SaveInfo info)
         {
             base.getInfo(info);
+        }
+
+        internal static void Create(string name, EditUICallback callback, CompositeSimObjectDefinition simObjectDefinition)
+        {
+            simObjectDefinition.addElement(new BEPUikBallSocketJointDefinition(name));
         }
     }
 }

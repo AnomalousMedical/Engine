@@ -26,7 +26,7 @@ namespace BEPUikPlugin
             BoneName = "IKBone";
         }
 
-        public BEPUikControlDefinition(LoadInfo info)
+        protected BEPUikControlDefinition(LoadInfo info)
             :base(info)
         {
             BoneSimObjectName = info.GetString("BoneSimObjectName");

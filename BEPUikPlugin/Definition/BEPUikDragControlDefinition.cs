@@ -65,7 +65,7 @@ namespace BEPUikPlugin
             }
         }
 
-        public BEPUikDragControlDefinition(LoadInfo info)
+        protected BEPUikDragControlDefinition(LoadInfo info)
             :base(info)
         {
             
@@ -74,6 +74,11 @@ namespace BEPUikPlugin
         public override void getInfo(SaveInfo info)
         {
             base.getInfo(info);
+        }
+
+        internal static void Create(string name, EditUICallback callback, CompositeSimObjectDefinition simObjectDefinition)
+        {
+            simObjectDefinition.addElement(new BEPUikDragControlDefinition(name));
         }
     }
 }

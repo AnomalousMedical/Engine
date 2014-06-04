@@ -1,5 +1,7 @@
 ﻿using BEPUik;
+using Engine;
 using Engine.ObjectManagement;
+using Engine.Platform;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,15 +18,21 @@ namespace BEPUikPlugin
         private List<BEPUikControl> controls = new List<BEPUikControl>();
         private List<Control> solveControls = new List<Control>(); //Prevents garbage, this list has the same contents as controls, but holds direct references to the bepuik control class that is passed to the solver
         private IKSolver ikSolver = new IKSolver();
+        private UpdateTimer timer;
+        private BEPUikSceneUpdater updater;
 
-        public BEPUikScene(String name)
+        public BEPUikScene(BEPUikSceneDefinition definition, UpdateTimer timer)
         {
-            this.name = name;
+            this.timer = timer;
+            this.name = definition.Name;
             factory = new BEPUIkFactory(this);
+            updater = new BEPUikSceneUpdater(this);
+            timer.addFullSpeedUpdateListener(updater);
         }
 
         public void Dispose()
         {
+            timer.removeFullSpeedUpdateListener(updater);
             ikSolver.Dispose();
         }
 
@@ -80,6 +88,7 @@ namespace BEPUikPlugin
 
         public void update()
         {
+            PerformanceMonitor.start("BEPU IK");
             foreach (var control in controls)
             {
                 control.syncPosition();
@@ -91,6 +100,7 @@ namespace BEPUikPlugin
             {
                 bone.syncSimObject();
             }
+            PerformanceMonitor.stop("BEPU IK");
         }
     }
 }

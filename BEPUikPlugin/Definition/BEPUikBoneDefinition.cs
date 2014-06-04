@@ -56,11 +56,11 @@ namespace BEPUikPlugin
 
         internal override void createProduct(SimObjectBase instance, BEPUikScene scene)
         {
-            BEPUikBone bone = new BEPUikBone(this, scene);
+            BEPUikBone bone = new BEPUikBone(this, instance, scene);
             instance.addElement(bone);
         }
 
-        public BEPUikBoneDefinition(LoadInfo info)
+        protected BEPUikBoneDefinition(LoadInfo info)
             :base(info)
         {
             Pinned = info.GetBoolean("Pinned");
@@ -74,6 +74,11 @@ namespace BEPUikPlugin
             info.AddValue("Pinned", Pinned);
             info.AddValue("Radius", Radius);
             info.AddValue("Height", Height);
+        }
+
+        internal static void Create(string name, EditUICallback callback, CompositeSimObjectDefinition simObjectDefinition)
+        {
+            simObjectDefinition.addElement(new BEPUikBoneDefinition(name));
         }
     }
 }

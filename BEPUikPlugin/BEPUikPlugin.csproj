@@ -67,6 +67,7 @@
     <Compile Include="Instance\BEPUIkScene.cs" />
     <Compile Include="Plugin\BEPUIkInterface.cs" />
     <Compile Include="Plugin\BEPUikPluginEntryPoint.cs" />
+    <Compile Include="Plugin\BEPUikSceneUpdater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\BEPUMathExtensions.cs" />
   </ItemGroup>

@@ -38,7 +38,7 @@ namespace BEPUikPlugin
 
         public SimElementManager createSimElementManager()
         {
-            return new BEPUikScene(name);
+            return BEPUikInterface.Instance.createScene(this);
         }
 
         public string Name

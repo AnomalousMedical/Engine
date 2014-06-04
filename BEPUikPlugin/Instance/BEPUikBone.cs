@@ -14,11 +14,11 @@ namespace BEPUikPlugin
         private BEPUikScene scene;
         private Bone bone;
 
-        public BEPUikBone(BEPUikBoneDefinition definition, BEPUikScene scene)
+        public BEPUikBone(BEPUikBoneDefinition definition, SimObjectBase instance, BEPUikScene scene)
             :base(definition.Name, definition.Subscription)
         {
             this.scene = scene;
-            bone = new Bone(Owner.Translation.toBepuVec3(), Owner.Rotation.toBepuQuat(), definition.Radius, definition.Height);
+            bone = new Bone(instance.Translation.toBepuVec3(), instance.Rotation.toBepuQuat(), definition.Radius, definition.Height);
             bone.Pinned = definition.Pinned;
         }
 

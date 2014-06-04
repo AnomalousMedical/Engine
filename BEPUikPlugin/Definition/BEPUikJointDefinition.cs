@@ -65,7 +65,7 @@ namespace BEPUikPlugin
         [Editable]
         public String ConnectionBBoneName { get; set; }
 
-        public BEPUikJointDefinition(LoadInfo info)
+        protected BEPUikJointDefinition(LoadInfo info)
             :base(info)
         {
             ConnectionASimObjectName = info.GetString("ConnectionASimObjectName");
