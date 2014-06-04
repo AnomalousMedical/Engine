@@ -27,7 +27,7 @@ namespace BEPUikPlugin
 
         protected override SimElement createConstraint(BEPUikBone connectionA, BEPUikBone connectionB, SimObjectBase instance)
         {
-            return new BEPUikDistanceLimit(connectionA, connectionB, this, Name, Subscription);
+            return new BEPUikDistanceLimit(connectionA, connectionB, instance.Translation, this, Name, Subscription);
         }
 
         protected override string EditInterfaceName
@@ -44,19 +44,11 @@ namespace BEPUikPlugin
         [Editable]
         public float MaximumDistance { get; set; }
 
-        [Editable]
-        public Vector3 LocalAnchorOffsetA { get; set; }
-
-        [Editable]
-        public Vector3 LocalAnchorOffsetB { get; set; }
-
         protected BEPUikDistanceLimitDefinition(LoadInfo info)
             :base(info)
         {
             MinimumDistance = info.GetFloat("MinimumDistance");
             MaximumDistance = info.GetFloat("MaximumDistance");
-            LocalAnchorOffsetA = info.GetVector3("LocalAnchorOffsetA");
-            LocalAnchorOffsetB = info.GetVector3("LocalAnchorOffsetB");
         }
 
         public override void getInfo(SaveInfo info)
@@ -64,8 +56,6 @@ namespace BEPUikPlugin
             base.getInfo(info);
             info.AddValue("MinimumDistance", MinimumDistance);
             info.AddValue("MaximumDistance", MaximumDistance);
-            info.AddValue("LocalAnchorOffsetA", LocalAnchorOffsetA);
-            info.AddValue("LocalAnchorOffsetB", LocalAnchorOffsetB);
         }
     }
 }

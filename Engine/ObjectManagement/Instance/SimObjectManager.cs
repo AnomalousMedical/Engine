@@ -84,6 +84,11 @@ namespace Engine.ObjectManagement
         /// <returns>True if the object is found, false if it is not.</returns>
         public bool tryGetSimObject(String name, out SimObjectBase simObject)
         {
+            if(name == null)
+            {
+                simObject = null;
+                return false;
+            }
             return simObjects.TryGetValue(name, out simObject);
         }
 
