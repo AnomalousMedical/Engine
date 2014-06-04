@@ -21,7 +21,7 @@ namespace BEPUikPlugin
 
         protected override void Dispose()
         {
-
+            scene.removeControl(this);
         }
 
         protected override void updatePositionImpl(ref Vector3 translation, ref Quaternion rotation)

@@ -27,7 +27,7 @@ namespace BEPUikPlugin
 
         protected override void Dispose()
         {
-            
+            joint.Enabled = false;
         }
 
         protected override void updatePositionImpl(ref Vector3 translation, ref Quaternion rotation)
@@ -52,7 +52,7 @@ namespace BEPUikPlugin
 
         protected override void setEnabled(bool enabled)
         {
-            
+            joint.Enabled = enabled;
         }
 
         public override SimElementDefinition saveToDefinition()
