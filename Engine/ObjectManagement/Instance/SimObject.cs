@@ -174,6 +174,14 @@ namespace Engine.ObjectManagement
             get;
         }
 
+        public SimSubScene SubScene
+        {
+            get
+            {
+                return simObjectManager != null ? simObjectManager.SubScene : null;
+            }
+        }
+
         #endregion Properites
     }
 }

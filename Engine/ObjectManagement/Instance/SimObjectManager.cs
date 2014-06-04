@@ -143,5 +143,13 @@ namespace Engine.ObjectManagement
                 return simObjects.Values;
             }
         }
+
+        public SimSubScene SubScene
+        {
+            get
+            {
+                return subScene;
+            }
+        }
     }
 }
