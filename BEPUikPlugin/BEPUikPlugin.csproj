@@ -58,6 +58,7 @@
     <Compile Include="Behaviors\TargetMover.cs" />
     <Compile Include="Construction\BEPUIkFactory.cs" />
     <Compile Include="Construction\BEPUikFactoryEntry.cs" />
+    <Compile Include="Definition\BEPUikConstraintDefinition.cs" />
     <Compile Include="Definition\BEPUikControlDefinition.cs" />
     <Compile Include="Definition\BEPUikDragControlDefinition.cs" />
     <Compile Include="Definition\BEPUikBallSocketJointDefinition.cs" />
@@ -65,10 +66,12 @@
     <Compile Include="Definition\BEPUikElementDefinition.cs" />
     <Compile Include="Definition\BEPUikJointDefinition.cs" />
     <Compile Include="Definition\BEPUIkSceneDefinition.cs" />
+    <Compile Include="Instance\BEPUikConstraint.cs" />
     <Compile Include="Instance\BEPUikControl.cs" />
     <Compile Include="Instance\BEPUikDragControl.cs" />
     <Compile Include="Instance\BEPUikBallSocketJoint.cs" />
     <Compile Include="Instance\BEPUikBone.cs" />
+    <Compile Include="Instance\BEPUikJoint.cs" />
     <Compile Include="Instance\BEPUIkScene.cs" />
     <Compile Include="Plugin\BEPUIkInterface.cs" />
     <Compile Include="Plugin\BEPUikPluginEntryPoint.cs" />

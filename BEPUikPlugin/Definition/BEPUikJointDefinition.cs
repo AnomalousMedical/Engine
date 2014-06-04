@@ -11,13 +11,26 @@ using System.Threading.Tasks;
 
 namespace BEPUikPlugin
 {
-    public abstract class BEPUikJointDefinition : BEPUikElementDefinition
+    public abstract class BEPUikJointDefinition : BEPUikConstraintDefinition
     {
         public BEPUikJointDefinition(String name)
             :base(name)
         {
             ConnectionABoneName = "IKBone";
             ConnectionBBoneName = "IKBone";
+        }
+
+        public override void registerScene(SimSubScene subscene, SimObjectBase instance)
+        {
+            if (subscene.hasSimElementManagerType(typeof(BEPUikScene)))
+            {
+                BEPUikScene sceneManager = subscene.getSimElementManager<BEPUikScene>();
+                sceneManager.IkFactory.addJoint(this, instance);
+            }
+            else
+            {
+                Log.Default.sendMessage("Cannot add {0} {1} to SimSubScene {2} because it does not contain a BEPUikScene.", LogLevel.Warning, this.GetType().Name, BEPUikInterface.PluginName, Name, subscene.Name);
+            }
         }
 
         internal override void createProduct(SimObjectBase instance, BEPUikScene scene)

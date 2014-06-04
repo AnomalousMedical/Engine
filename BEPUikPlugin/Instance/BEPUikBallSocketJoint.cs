@@ -9,20 +9,21 @@ using System.Threading.Tasks;
 
 namespace BEPUikPlugin
 {
-    public class BEPUikBallSocketJoint : SimElement
+    public class BEPUikBallSocketJoint : BEPUikJoint
     {
         private BEPUikScene scene;
         private IKBallSocketJoint joint;
         private BEPUikBone connectionA;
         private BEPUikBone connectionB;
 
-        public BEPUikBallSocketJoint(BEPUikBone connectionA, BEPUikBone connectionB, Vector3 anchor, BEPUikScene scene, String name, Subscription subscription)
+        public BEPUikBallSocketJoint(BEPUikBone connectionA, BEPUikBone connectionB, Vector3 anchor, BEPUikBallSocketJointDefinition definition, BEPUikScene scene, String name, Subscription subscription)
             :base(name, subscription)
         {
             this.scene = scene;
             this.connectionA = connectionA;
             this.connectionB = connectionB;
             joint = new IKBallSocketJoint(connectionA.IkBone, connectionB.IkBone, anchor.toBepuVec3());
+            setupJoint(definition);
         }
 
         protected override void Dispose()
@@ -57,7 +58,7 @@ namespace BEPUikPlugin
 
         public override SimElementDefinition saveToDefinition()
         {
-            return new BEPUikBallSocketJointDefinition(Name)
+            var definition = new BEPUikBallSocketJointDefinition(Name)
             {
                 ConnectionABoneName = connectionA.Name,
                 ConnectionASimObjectName = connectionA.Owner == Owner ? "this" : connectionA.Owner.Name,
@@ -65,6 +66,18 @@ namespace BEPUikPlugin
                 ConnectionBSimObjectName = connectionB.Owner == Owner ? "this" : connectionB.Owner.Name,
                 Subscription = this.Subscription
             };
+
+            setupJointDefinition(definition);
+
+            return definition;
+        }
+
+        public override IKJoint IKJoint
+        {
+            get
+            {
+                return joint;
+            }
         }
     }
 }

@@ -22,19 +22,6 @@ namespace BEPUikPlugin
             
         }
 
-        public override void registerScene(SimSubScene subscene, SimObjectBase instance)
-        {
-            if (subscene.hasSimElementManagerType(typeof(BEPUikScene)))
-            {
-                BEPUikScene sceneManager = subscene.getSimElementManager<BEPUikScene>();
-                sceneManager.IkFactory.addJoint(this, instance);
-            }
-            else
-            {
-                Log.Default.sendMessage("Cannot add BEPUikBallSocketJoint {0} to SimSubScene {1} because it does not contain a BEPUikScene.", LogLevel.Warning, BEPUikInterface.PluginName, Name, subscene.Name);
-            }
-        }
-
         protected override EditInterface createEditInterface()
         {
             if (editInterface == null)
@@ -46,7 +33,7 @@ namespace BEPUikPlugin
 
         protected override SimElement createConstraint(BEPUikBone connectionA, BEPUikBone connectionB, SimObjectBase instance, BEPUikScene scene)
         {
-            return new BEPUikBallSocketJoint(connectionA, connectionB, instance.Translation, scene, Name, Subscription);
+            return new BEPUikBallSocketJoint(connectionA, connectionB, instance.Translation, this, scene, Name, Subscription);
         }
 
         protected BEPUikBallSocketJointDefinition(LoadInfo info)
