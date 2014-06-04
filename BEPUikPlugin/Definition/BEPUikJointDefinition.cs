@@ -52,7 +52,7 @@ namespace BEPUikPlugin
 
             if (connectionA != null && connectionB != null)
             {
-                SimElement element = createConstraint(connectionA, connectionB, instance, scene);
+                SimElement element = createConstraint(connectionA, connectionB, instance);
                 if (element != null)
                 {
                     instance.addElement(element);
@@ -64,7 +64,7 @@ namespace BEPUikPlugin
             }
         }
 
-        protected abstract SimElement createConstraint(BEPUikBone connectionA, BEPUikBone connectionB, SimObjectBase instance, BEPUikScene scene);
+        protected abstract SimElement createConstraint(BEPUikBone connectionA, BEPUikBone connectionB, SimObjectBase instance);
 
         [Editable]
         public String ConnectionASimObjectName { get; set; }

@@ -58,6 +58,11 @@
     <Compile Include="Behaviors\TargetMover.cs" />
     <Compile Include="Construction\BEPUIkFactory.cs" />
     <Compile Include="Construction\BEPUikFactoryEntry.cs" />
+    <Compile Include="Definition\BEPUikTwistJointDefinition.cs" />
+    <Compile Include="Definition\BEPUikSwivelHingeJointDefinition.cs" />
+    <Compile Include="Definition\BEPUikRevoluteJointDefinition.cs" />
+    <Compile Include="Definition\BEPUikDistanceJointDefinition.cs" />
+    <Compile Include="Definition\BEPUikAngularJointDefinition.cs" />
     <Compile Include="Definition\BEPUikConstraintDefinition.cs" />
     <Compile Include="Definition\BEPUikControlDefinition.cs" />
     <Compile Include="Definition\BEPUikDragControlDefinition.cs" />
@@ -66,6 +71,11 @@
     <Compile Include="Definition\BEPUikElementDefinition.cs" />
     <Compile Include="Definition\BEPUikJointDefinition.cs" />
     <Compile Include="Definition\BEPUIkSceneDefinition.cs" />
+    <Compile Include="Instance\BEPUikTwistJoint.cs" />
+    <Compile Include="Instance\BEPUikSwivelHingeJoint.cs" />
+    <Compile Include="Instance\BEPUikRevoluteJoint.cs" />
+    <Compile Include="Instance\BEPUikDistanceJoint.cs" />
+    <Compile Include="Instance\BEPUikAngularJoint.cs" />
     <Compile Include="Instance\BEPUikConstraint.cs" />
     <Compile Include="Instance\BEPUikControl.cs" />
     <Compile Include="Instance\BEPUikDragControl.cs" />

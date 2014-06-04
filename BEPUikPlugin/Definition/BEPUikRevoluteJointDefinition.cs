@@ -1,4 +1,5 @@
-﻿using Engine.Attributes;
+﻿using Engine;
+using Engine.Attributes;
 using Engine.Editing;
 using Engine.ObjectManagement;
 using Engine.Saving;
@@ -11,41 +12,45 @@ using System.Threading.Tasks;
 
 namespace BEPUikPlugin
 {
-    public class BEPUikBallSocketJointDefinition : BEPUikJointDefinition
+    public class BEPUikRevoluteJointDefinition : BEPUikJointDefinition
     {
         internal static void Create(string name, EditUICallback callback, CompositeSimObjectDefinition simObjectDefinition)
         {
-            simObjectDefinition.addElement(new BEPUikBallSocketJointDefinition(name));
+            simObjectDefinition.addElement(new BEPUikRevoluteJointDefinition(name));
         }
 
-        public BEPUikBallSocketJointDefinition(String name)
+        public BEPUikRevoluteJointDefinition(String name)
             :base(name)
         {
-            
+            WorldFreeAxis = Vector3.UnitX;
         }
+
+        [Editable]
+        public Vector3 WorldFreeAxis { get; set; }
 
         protected override SimElement createConstraint(BEPUikBone connectionA, BEPUikBone connectionB, SimObjectBase instance)
         {
-            return new BEPUikBallSocketJoint(connectionA, connectionB, instance.Translation, this, Name, Subscription);
+            return new BEPUikRevoluteJoint(connectionA, connectionB, this, Name, Subscription);
         }
 
         protected override string EditInterfaceName
         {
             get
             {
-                return "IK Ball Socket Joint";
+                return "IK Revolute Joint";
             }
         }
 
-        protected BEPUikBallSocketJointDefinition(LoadInfo info)
+        protected BEPUikRevoluteJointDefinition(LoadInfo info)
             :base(info)
         {
-            
+            WorldFreeAxis = info.GetVector3("WorldFreeAxis");
         }
 
         public override void getInfo(SaveInfo info)
         {
             base.getInfo(info);
+            info.AddValue("WorldFreeAxis", WorldFreeAxis);
         }
     }
 }

@@ -9,20 +9,20 @@ using System.Threading.Tasks;
 
 namespace BEPUikPlugin
 {
-    public class BEPUikBallSocketJoint : BEPUikJoint
+    public class BEPUikAngularJoint : BEPUikJoint
     {
-        private IKBallSocketJoint joint;
+        private IKAngularJoint joint;
 
-        public BEPUikBallSocketJoint(BEPUikBone connectionA, BEPUikBone connectionB, Vector3 anchor, BEPUikBallSocketJointDefinition definition, String name, Subscription subscription)
+        public BEPUikAngularJoint(BEPUikBone connectionA, BEPUikBone connectionB, BEPUikAngularJointDefinition definition, String name, Subscription subscription)
             :base(connectionA, connectionB, name, subscription)
         {
-            joint = new IKBallSocketJoint(connectionA.IkBone, connectionB.IkBone, anchor.toBepuVec3());
+            joint = new IKAngularJoint(connectionA.IkBone, connectionB.IkBone);
             setupJoint(definition);
         }
 
         public override SimElementDefinition saveToDefinition()
         {
-            var definition = new BEPUikBallSocketJointDefinition(Name);
+            var definition = new BEPUikAngularJointDefinition(Name);
             setupJointDefinition(definition);
             return definition;
         }

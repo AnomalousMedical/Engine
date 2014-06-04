@@ -11,14 +11,14 @@ using System.Threading.Tasks;
 
 namespace BEPUikPlugin
 {
-    public class BEPUikBallSocketJointDefinition : BEPUikJointDefinition
+    public class BEPUikAngularJointDefinition : BEPUikJointDefinition
     {
         internal static void Create(string name, EditUICallback callback, CompositeSimObjectDefinition simObjectDefinition)
         {
-            simObjectDefinition.addElement(new BEPUikBallSocketJointDefinition(name));
+            simObjectDefinition.addElement(new BEPUikAngularJointDefinition(name));
         }
 
-        public BEPUikBallSocketJointDefinition(String name)
+        public BEPUikAngularJointDefinition(String name)
             :base(name)
         {
             
@@ -26,18 +26,18 @@ namespace BEPUikPlugin
 
         protected override SimElement createConstraint(BEPUikBone connectionA, BEPUikBone connectionB, SimObjectBase instance)
         {
-            return new BEPUikBallSocketJoint(connectionA, connectionB, instance.Translation, this, Name, Subscription);
+            return new BEPUikAngularJoint(connectionA, connectionB, this, Name, Subscription);
         }
 
         protected override string EditInterfaceName
         {
             get
             {
-                return "IK Ball Socket Joint";
+                return "IK Angular Joint";
             }
         }
 
-        protected BEPUikBallSocketJointDefinition(LoadInfo info)
+        protected BEPUikAngularJointDefinition(LoadInfo info)
             :base(info)
         {
             
