@@ -26,6 +26,7 @@ namespace BEPUikPlugin
         {
             definition.MaximumForce = IKConstraint.MaximumForce;
             definition.Rigidity = IKConstraint.Rigidity;
+            definition.Subscription = this.Subscription;
         }
 
         public abstract IKConstraint IKConstraint { get; }

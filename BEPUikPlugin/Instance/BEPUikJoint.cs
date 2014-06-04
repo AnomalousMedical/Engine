@@ -1,4 +1,5 @@
 ﻿using BEPUik;
+using Engine;
 using Engine.ObjectManagement;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,19 @@ namespace BEPUikPlugin
 {
     public abstract class BEPUikJoint : BEPUikConstraint
     {
-        public BEPUikJoint(String name, Subscription subscription)
+        private BEPUikBone connectionA;
+        private BEPUikBone connectionB;
+
+        public BEPUikJoint(BEPUikBone connectionA, BEPUikBone connectionB, String name, Subscription subscription)
             :base(name, subscription)
         {
-            
+            this.connectionA = connectionA;
+            this.connectionB = connectionB;   
+        }
+
+        protected override void Dispose()
+        {
+            IKJoint.Enabled = false;
         }
 
         protected void setupJoint(BEPUikJointDefinition definition)
@@ -23,6 +33,11 @@ namespace BEPUikPlugin
 
         protected void setupJointDefinition(BEPUikJointDefinition definition)
         {
+            definition.ConnectionABoneName = connectionA.Name;
+            definition.ConnectionASimObjectName = connectionA.Owner == Owner ? "this" : connectionA.Owner.Name;
+            definition.ConnectionBBoneName = connectionB.Name;
+            definition.ConnectionBSimObjectName = connectionB.Owner == Owner ? "this" : connectionB.Owner.Name;
+
             setupConstraintDefinition(definition);
         }
 
@@ -32,6 +47,31 @@ namespace BEPUikPlugin
             {
                 return IKJoint;
             }
+        }
+
+        protected override void updatePositionImpl(ref Vector3 translation, ref Quaternion rotation)
+        {
+
+        }
+
+        protected override void updateTranslationImpl(ref Vector3 translation)
+        {
+
+        }
+
+        protected override void updateRotationImpl(ref Quaternion rotation)
+        {
+
+        }
+
+        protected override void updateScaleImpl(ref Vector3 scale)
+        {
+
+        }
+
+        protected override void setEnabled(bool enabled)
+        {
+            IKJoint.Enabled = enabled;
         }
 
         public abstract IKJoint IKJoint { get; }
