@@ -46,10 +46,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviors\BaseMover.cs" />
-    <Compile Include="Behaviors\BEPUikManager.cs" />
-    <Compile Include="Behaviors\BEPUTestBone.cs" />
-    <Compile Include="Behaviors\BEPUTestControl.cs" />
-    <Compile Include="Behaviors\BEPUTestJoint.cs" />
     <Compile Include="Behaviors\TargetMover.cs" />
     <Compile Include="Construction\BEPUIkFactory.cs" />
     <Compile Include="Construction\BEPUikFactoryEntry.cs" />
