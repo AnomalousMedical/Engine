@@ -16,12 +16,10 @@ namespace BEPUikPlugin
         public BEPUikTwistLimit(BEPUikBone connectionA, BEPUikBone connectionB, BEPUikTwistLimitDefinition definition, String name, Subscription subscription)
             :base(connectionA, connectionB, name, subscription)
         {
-            limit = new IKTwistLimit(connectionA.IkBone, connectionB.IkBone, definition.MaximumAngle)
+            limit = new IKTwistLimit(connectionA.IkBone, connectionB.IkBone, definition.AxisA.toBepuVec3(), definition.AxisB.toBepuVec3(), definition.MaximumAngle)
             {
-                LocalAxisA = definition.LocalAxisA.toBepuVec3(),
-                LocalAxisB = definition.LocalAxisB.toBepuVec3(),
-                LocalMeasurementAxisA = definition.LocalMeasurementAxisA.toBepuVec3(),
-                LocalMeasurementAxisB = definition.LocalMeasurementAxisB.toBepuVec3()
+                MeasurementAxisA = definition.MeasurementAxisA.toBepuVec3(),
+                MeasurementAxisB = definition.MeasurementAxisB.toBepuVec3()
             };
             setupLimit(definition);
         }
@@ -31,10 +29,10 @@ namespace BEPUikPlugin
             var definition = new BEPUikTwistLimitDefinition(Name)
                 {
                     MaximumAngle = limit.MaximumAngle,
-                    LocalAxisA = limit.LocalAxisA.toEngineVec3(),
-                    LocalAxisB = limit.LocalAxisB.toEngineVec3(),
-                    LocalMeasurementAxisA = limit.LocalMeasurementAxisA.toEngineVec3(),
-                    LocalMeasurementAxisB = limit.LocalMeasurementAxisB.toEngineVec3()
+                    AxisA = limit.AxisA.toEngineVec3(),
+                    AxisB = limit.AxisB.toEngineVec3(),
+                    MeasurementAxisA = limit.LocalMeasurementAxisA.toEngineVec3(),
+                    MeasurementAxisB = limit.LocalMeasurementAxisB.toEngineVec3()
                 };
             setupLimitDefinition(definition);
             return definition;

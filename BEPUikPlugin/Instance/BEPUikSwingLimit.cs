@@ -16,11 +16,7 @@ namespace BEPUikPlugin
         public BEPUikSwingLimit(BEPUikBone connectionA, BEPUikBone connectionB, BEPUikSwingLimitDefinition definition, String name, Subscription subscription)
             :base(connectionA, connectionB, name, subscription)
         {
-            limit = new IKSwingLimit(connectionA.IkBone, connectionB.IkBone, definition.MaximumAngle)
-            {
-                LocalAxisA = definition.LocalAxisA.toBepuVec3(),
-                LocalAxisB = definition.LocalAxisB.toBepuVec3()
-            };
+            limit = new IKSwingLimit(connectionA.IkBone, connectionB.IkBone, definition.AxisA.toBepuVec3(), definition.AxisB.toBepuVec3(), definition.MaximumAngle);
             setupLimit(definition);
         }
 
@@ -29,8 +25,8 @@ namespace BEPUikPlugin
             var definition = new BEPUikSwingLimitDefinition(Name)
                 {
                     MaximumAngle = limit.MaximumAngle,
-                    LocalAxisA = limit.LocalAxisA.toEngineVec3(),
-                    LocalAxisB = limit.LocalAxisB.toEngineVec3()
+                    AxisA = limit.AxisA.toEngineVec3(),
+                    AxisB = limit.AxisB.toEngineVec3()
                 };
             setupLimitDefinition(definition);
             return definition;

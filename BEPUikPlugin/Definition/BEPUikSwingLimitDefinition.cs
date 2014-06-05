@@ -22,8 +22,8 @@ namespace BEPUikPlugin
         public BEPUikSwingLimitDefinition(String name)
             :base(name)
         {
-            LocalAxisA = Vector3.UnitY;
-            LocalAxisB = Vector3.UnitY;
+            AxisA = Vector3.UnitY;
+            AxisB = Vector3.UnitY;
         }
 
         protected override SimElement createConstraint(BEPUikBone connectionA, BEPUikBone connectionB, SimObjectBase instance)
@@ -43,25 +43,25 @@ namespace BEPUikPlugin
         public float MaximumAngle { get; set; }
 
         [Editable]
-        public Vector3 LocalAxisA { get; set; }
+        public Vector3 AxisA { get; set; }
 
         [Editable]
-        public Vector3 LocalAxisB { get; set; }
+        public Vector3 AxisB { get; set; }
 
         protected BEPUikSwingLimitDefinition(LoadInfo info)
             :base(info)
         {
             MaximumAngle = info.GetFloat("MaximumAngle");
-            LocalAxisA = info.GetVector3("LocalAxisA");
-            LocalAxisB = info.GetVector3("LocalAxisB");
+            AxisA = info.GetVector3("AxisA");
+            AxisB = info.GetVector3("AxisB");
         }
 
         public override void getInfo(SaveInfo info)
         {
             base.getInfo(info);
             info.AddValue("MaximumAngle", MaximumAngle);
-            info.AddValue("LocalAxisA", LocalAxisA);
-            info.AddValue("LocalAxisB", LocalAxisB);
+            info.AddValue("AxisA", AxisA);
+            info.AddValue("AxisB", AxisB);
         }
     }
 }
