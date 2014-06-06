@@ -52,7 +52,7 @@ namespace BEPUikPlugin
                 var bone = otherObject.getElement(this.BoneName) as BEPUikBone;
                 if (bone != null)
                 {
-                    instance.addElement(new BEPUikDragControl(bone, scene, Name, Subscription));
+                    instance.addElement(new BEPUikDragControl(bone, scene, Name, instance, Subscription));
                 }
                 else
                 {

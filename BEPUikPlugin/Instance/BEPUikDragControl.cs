@@ -14,12 +14,13 @@ namespace BEPUikPlugin
         private DragControl dragControl;
         private BEPUikBone bone;
 
-        public BEPUikDragControl(BEPUikBone bone, BEPUikScene scene, String name, Subscription subscription)
+        public BEPUikDragControl(BEPUikBone bone, BEPUikScene scene, String name, SimObjectBase instance, Subscription subscription)
             :base(scene, name, subscription)
         {
             this.bone = bone;
             dragControl = new DragControl();
             dragControl.TargetBone = bone.IkBone;
+            dragControl.LinearMotor.Offset = (instance.Translation - bone.Owner.Translation).toBepuVec3();
         }
 
         public override SimElementDefinition saveToDefinition()

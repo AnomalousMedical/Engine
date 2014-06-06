@@ -19,8 +19,9 @@ namespace BEPUikPlugin
         public BEPUikBoneDefinition(String name)
             :base(name)
         {
-            Radius = 1;
-            Height = 3;
+            Radius = 1.0f;
+            Height = 3.0f;
+            Mass = 1.0f;
         }
 
         [Editable]
@@ -31,6 +32,9 @@ namespace BEPUikPlugin
 
         [Editable]
         public float Height { get; set; }
+
+        [EditableMinMax(0.0000001, float.MaxValue, 1.0f)]
+        public float Mass { get; set; }
 
         public override void registerScene(SimSubScene subscene, SimObjectBase instance)
         {
@@ -50,6 +54,7 @@ namespace BEPUikPlugin
             if (editInterface == null)
             {
                 editInterface = ReflectedEditInterface.createEditInterface(this, String.Format("{0} - IK Bone", Name));
+                editInterface.Renderer = new BoneRenderer(this);
             }
             return editInterface;
         }
@@ -66,6 +71,7 @@ namespace BEPUikPlugin
             Pinned = info.GetBoolean("Pinned");
             Radius = info.GetFloat("Radius");
             Height = info.GetFloat("Height");
+            Mass = info.GetFloat("Mass", 1.0f);
         }
 
         public override void getInfo(SaveInfo info)
@@ -74,6 +80,7 @@ namespace BEPUikPlugin
             info.AddValue("Pinned", Pinned);
             info.AddValue("Radius", Radius);
             info.AddValue("Height", Height);
+            info.AddValue("Mass", Mass);
         }
 
         internal static void Create(string name, EditUICallback callback, CompositeSimObjectDefinition simObjectDefinition)

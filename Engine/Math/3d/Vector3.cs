@@ -212,6 +212,16 @@ namespace Engine
 			    x * v.y - y * v.x);
 	    }
 
+        /// <summary>
+        /// Compute the cross product of two vectors. Passing by value.
+        /// </summary>
+        /// <param name="v">The other vector.</param>
+        /// <returns>The cross product of the two vectors.</returns>
+        public Vector3 crossV(Vector3 v)
+        {
+            return cross(ref v);
+        }
+
 	    /// <summary>
 	    /// Compute the triple product with this vector as the dot product.
 	    /// </summary>

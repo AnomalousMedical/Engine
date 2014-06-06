@@ -1,4 +1,5 @@
 ﻿using Engine;
+using Engine.Editing;
 using Engine.ObjectManagement;
 using Engine.Platform;
 using Engine.Renderer;
@@ -42,6 +43,7 @@ namespace BEPUikPlugin.Behaviors
         private MovableObjectTools currentTools = null;
         private bool showMoveTools = false;
         private bool showRotateTools = false;
+        [Editable]
         private float toolSize = 1.0f;
 
         public Grabber()

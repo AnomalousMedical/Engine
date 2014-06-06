@@ -75,7 +75,11 @@
     <Compile Include="Definition\BEPUikElementDefinition.cs" />
     <Compile Include="Definition\BEPUikJointDefinition.cs" />
     <Compile Include="Definition\BEPUIkSceneDefinition.cs" />
-    <Compile Include="Definition\SwingLimitRenderer.cs" />
+    <Compile Include="Definition\EditingVisuals\BoneRenderer.cs" />
+    <Compile Include="Definition\EditingVisuals\RevoluteJointRenderer.cs" />
+    <Compile Include="Definition\EditingVisuals\TwistLimitRenderer.cs" />
+    <Compile Include="Definition\EditingVisuals\SwivelHingeJointRenderer.cs" />
+    <Compile Include="Definition\EditingVisuals\SwingLimitRenderer.cs" />
     <Compile Include="Instance\BEPUikTwistLimit.cs" />
     <Compile Include="Instance\BEPUikSwingLimit.cs" />
     <Compile Include="Instance\BEPUikDistanceLimit.cs" />

@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace BEPUikPlugin
 {
-    class SwingLimitRenderer : EditInterfaceRenderer
+    class BoneRenderer : EditInterfaceRenderer
     {
-        private BEPUikSwingLimitDefinition definition;
+        private BEPUikBoneDefinition definition;
 
-        public SwingLimitRenderer(BEPUikSwingLimitDefinition definition)
+        public BoneRenderer(BEPUikBoneDefinition definition)
         {
             this.definition = definition;
         }
@@ -40,13 +40,14 @@ namespace BEPUikPlugin
 
         public void draw(DebugDrawingSurface drawingSurface)
         {
-            drawingSurface.begin(String.Format("SwingLimit{0}", definition.Name), Engine.Renderer.DrawingType.LineList);
-
+            drawingSurface.begin(String.Format("BoneRenderer_{0}", definition.Name), Engine.Renderer.DrawingType.LineList);
+            drawingSurface.setDepthTesting(false);
             //Origin
             drawingSurface.setColor(Color.Red);
-            drawingSurface.drawLine(Vector3.Zero, definition.AxisA.normalized() * 10.0f);
-            drawingSurface.setColor(Color.Blue);
-            drawingSurface.drawLine(Vector3.Zero, definition.AxisB.normalized() * 10.0f);
+            drawingSurface.drawCircle(Vector3.Zero, Vector3.UnitX, Vector3.UnitZ, definition.Radius);
+            float halfHeight = definition.Height;
+            drawingSurface.drawCircle(Vector3.Up * halfHeight, Vector3.UnitX, Vector3.UnitZ, definition.Radius);
+            drawingSurface.drawCircle(Vector3.Down * halfHeight, Vector3.UnitX, Vector3.UnitZ, definition.Radius);
             drawingSurface.end();
         }
     }

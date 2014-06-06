@@ -37,6 +37,12 @@ namespace BEPUikPlugin
             return new BEPUikSwivelHingeJoint(connectionA, connectionB, this, Name, Subscription);
         }
 
+        protected override void customizeEditInterface(EditInterface editInterface)
+        {
+            base.customizeEditInterface(editInterface);
+            editInterface.Renderer = new SwivelHingeJointRenderer(this);
+        }
+
         protected override string EditInterfaceName
         {
             get

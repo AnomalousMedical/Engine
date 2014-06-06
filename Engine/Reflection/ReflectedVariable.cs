@@ -35,6 +35,7 @@ namespace Engine.Reflection
             typeMapping.Add(typeof(double), (memberInfo, instance) => new DoubleReflectedVariable(memberInfo, instance));
             typeMapping.Add(typeof(Quaternion), (memberInfo, instance) => new QuaternionReflectedVariable(memberInfo, instance));
             typeMapping.Add(typeof(Vector3), (memberInfo, instance) => new Vector3ReflectedVariable(memberInfo, instance));
+            typeMapping.Add(typeof(Vector3?), (memberInfo, instance) => new Vector3NullableReflectedVariable(memberInfo, instance));
             typeMapping.Add(typeof(Vector2), (memberInfo, instance) => new Vector2ReflectedVariable(memberInfo, instance));
             typeMapping.Add(typeof(bool), (memberInfo, instance) => new BooleanReflectedVariable(memberInfo, instance));
             typeMapping.Add(typeof(short), (memberInfo, instance) => new ShortReflectedVariable(memberInfo, instance));

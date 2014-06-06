@@ -18,7 +18,7 @@ namespace BEPUikPlugin
             :base(definition.Name, definition.Subscription)
         {
             this.scene = scene;
-            bone = new Bone(instance.Translation.toBepuVec3(), instance.Rotation.toBepuQuat(), definition.Radius, definition.Height);
+            bone = new Bone(instance.Translation.toBepuVec3(), instance.Rotation.toBepuQuat(), definition.Radius, definition.Height, definition.Mass);
             bone.Pinned = definition.Pinned;
         }
 

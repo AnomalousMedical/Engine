@@ -33,6 +33,12 @@ namespace BEPUikPlugin
             return new BEPUikRevoluteJoint(connectionA, connectionB, this, Name, Subscription);
         }
 
+        protected override void customizeEditInterface(EditInterface editInterface)
+        {
+            base.customizeEditInterface(editInterface);
+            editInterface.Renderer = new RevoluteJointRenderer(this);
+        }
+
         protected override string EditInterfaceName
         {
             get

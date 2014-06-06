@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Engine.Reflection
 {
-    class Vector3ReflectedVariable : ReflectedVariable
+    class Vector3NullableReflectedVariable : ReflectedVariable
     {
         private static char[] SEPS = { ',' };
 
@@ -14,7 +14,7 @@ namespace Engine.Reflection
         /// </summary>
         /// <param name="propInfo">The MemberWrapper to use.</param>
         /// <param name="instance">The object this variable belongs to.</param>
-        public Vector3ReflectedVariable(MemberWrapper propInfo, Object instance)
+        public Vector3NullableReflectedVariable(MemberWrapper propInfo, Object instance)
             : base(propInfo, instance)
         {
 
@@ -27,6 +27,10 @@ namespace Engine.Reflection
         /// <returns>True if the String can be parsed correctly.</returns>
         public override bool canParseString(string value)
         {
+            if (String.IsNullOrEmpty(value))
+            {
+                return true;
+            }
             String[] vals = value.Split(SEPS);
             if (vals.Length == 3)
             {
@@ -47,7 +51,14 @@ namespace Engine.Reflection
         /// <param name="value">The string to set as the value.</param>
         public override void setValueString(string value)
         {
-            setValue(new Vector3(value));
+            if (String.IsNullOrEmpty(value))
+            {
+                setValue(null);
+            }
+            else
+            {
+                setValue(new Vector3(value));
+            }
         }
     }
 }

@@ -16,11 +16,15 @@ namespace BEPUikPlugin
         public BEPUikTwistLimit(BEPUikBone connectionA, BEPUikBone connectionB, BEPUikTwistLimitDefinition definition, String name, Subscription subscription)
             :base(connectionA, connectionB, name, subscription)
         {
-            limit = new IKTwistLimit(connectionA.IkBone, connectionB.IkBone, definition.AxisA.toBepuVec3(), definition.AxisB.toBepuVec3(), definition.MaximumAngle)
+            limit = new IKTwistLimit(connectionA.IkBone, connectionB.IkBone, definition.AxisA.toBepuVec3(), definition.AxisB.toBepuVec3(), definition.MaximumAngle);
+            if(definition.MeasurementAxisA.HasValue)
             {
-                MeasurementAxisA = definition.MeasurementAxisA.toBepuVec3(),
-                MeasurementAxisB = definition.MeasurementAxisB.toBepuVec3()
-            };
+                limit.MeasurementAxisA = definition.MeasurementAxisA.Value.toBepuVec3();
+            }
+            if (definition.MeasurementAxisB.HasValue)
+            {
+                limit.MeasurementAxisB = definition.MeasurementAxisB.Value.toBepuVec3();
+            }
             setupLimit(definition);
         }
 
