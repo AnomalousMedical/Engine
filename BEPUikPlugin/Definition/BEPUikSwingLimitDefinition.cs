@@ -31,6 +31,12 @@ namespace BEPUikPlugin
             return new BEPUikSwingLimit(connectionA, connectionB, this, Name, Subscription);
         }
 
+        protected override void customizeEditInterface(EditInterface editInterface)
+        {
+            base.customizeEditInterface(editInterface);
+            editInterface.Renderer = new SwingLimitRenderer(this);
+        }
+
         protected override string EditInterfaceName
         {
             get

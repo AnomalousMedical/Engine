@@ -19,13 +19,19 @@ namespace BEPUikPlugin
             MaximumForce = float.MaxValue;
         }
 
-        protected override EditInterface createEditInterface()
+        protected override sealed EditInterface createEditInterface()
         {
             if (editInterface == null)
             {
                 editInterface = ReflectedEditInterface.createEditInterface(this, String.Format("{0} - {1}", Name, EditInterfaceName));
+                customizeEditInterface(editInterface);
             }
             return editInterface;
+        }
+
+        protected virtual void customizeEditInterface(EditInterface editInterface)
+        {
+
         }
 
         [Editable]

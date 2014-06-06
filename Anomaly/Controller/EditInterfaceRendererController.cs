@@ -20,6 +20,7 @@ namespace Anomaly
         private IObjectEditorGUI mainEditor;
         private Vector3 currentOrigin;
         private Quaternion currentRotation;
+        private Instance instance;
 
         public EditInterfaceRendererController(RendererPlugin renderer, UpdateTimer timer, SceneController sceneController, IObjectEditorGUI mainEditor)
         {
@@ -38,22 +39,8 @@ namespace Anomaly
         void mainEditor_MainInterfaceChanged(EditInterface editInterface, object editingObject)
         {
             //Check for an instance object, if it is found set the debug surface position to that instance.
-            Instance instance = editingObject as Instance;
-            if (instance != null)
-            {
-                currentOrigin = instance.Translation;
-                currentRotation = instance.Definition.Rotation;
-            }
-            else
-            {
-                currentOrigin = Vector3.Zero;
-                currentRotation = Quaternion.Identity;
-            }
-            if(debugSurface != null)
-            {
-                debugSurface.moveOrigin(currentOrigin);
-                debugSurface.setOrientation(currentRotation);
-            }
+            instance = editingObject as Instance;
+            updatePosition();
         }
 
         void mainEditor_FieldChanged(EditInterface editInterface, object editingObject)
@@ -99,12 +86,32 @@ namespace Anomaly
             }
         }
 
+        private void updatePosition()
+        {
+            if (instance != null)
+            {
+                currentOrigin = instance.Translation;
+                currentRotation = instance.Definition.Rotation;
+            }
+            else
+            {
+                currentOrigin = Vector3.Zero;
+                currentRotation = Quaternion.Identity;
+            }
+            if (debugSurface != null)
+            {
+                debugSurface.moveOrigin(currentOrigin);
+                debugSurface.setOrientation(currentRotation);
+            }
+        }
+
         #region UpdateListener Members
 
         public void sendUpdate(Clock clock)
         {
             if (currentRenderer != null)
             {
+                updatePosition();
                 currentRenderer.frameUpdate(debugSurface);
             }
         }
