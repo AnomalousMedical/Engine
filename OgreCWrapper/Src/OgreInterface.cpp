@@ -91,13 +91,13 @@ extern "C" _AnomalousExport Ogre::RenderSystem* OgreInterface_GetRenderSystem(Re
 	//will be an actual rendersystem and not the default as we will have determined
 	//what it is by this point.
 	//Disabled for now, but this is where you do it.
-	//switch(rendersystemType)
-	//{
-		//case D3D11:
-			//rs->setConfigOption("Min Requested Feature Levels", "10.0");
+	switch(rendersystemType)
+	{
+		case D3D11:
+			rs->setConfigOption("Min Requested Feature Levels", "10.0");
 			//rs->setConfigOption("Max Requested Feature Levels", "11.1");
-			//break;
-	//}
+			break;
+	}
 
 	return rs;
 }

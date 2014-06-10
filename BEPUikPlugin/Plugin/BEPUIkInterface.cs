@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BEPUikPlugin
 {
-    class BEPUikInterface : PluginInterface
+    public class BEPUikInterface : PluginInterface
     {
         public const String PluginName = "BEPUikPlugin";
 

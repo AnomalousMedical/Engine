@@ -258,18 +258,21 @@ namespace Editor
         /// <param name="property">The property to add.</param>
         private void addProperty(EditableProperty property)
         {
-            DataGridViewRow newRow = new DataGridViewRow();
-
-            for (int i = 0; i < currentPropInfo.getNumColumns(); i++)
+            if (currentPropInfo != null)
             {
-                DataGridViewCell newCell = createCell(property.getPropertyType(i));
-                newCell.Value = property.getValue(i);
-                newRow.Cells.Add(newCell);
+                DataGridViewRow newRow = new DataGridViewRow();
+
+                for (int i = 0; i < currentPropInfo.getNumColumns(); i++)
+                {
+                    DataGridViewCell newCell = createCell(property.getPropertyType(i));
+                    newCell.Value = property.getValue(i);
+                    newRow.Cells.Add(newCell);
+                }
+                DataGridViewTextBoxCell editCell = new DataGridViewTextBoxCell();
+                editCell.Value = property;
+                newRow.Cells.Add(editCell);
+                propGridView.Rows.Add(newRow);
             }
-            DataGridViewTextBoxCell editCell = new DataGridViewTextBoxCell();
-            editCell.Value = property;
-            newRow.Cells.Add(editCell);
-            propGridView.Rows.Add(newRow);
         }
 
         private void updateData()
