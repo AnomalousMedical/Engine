@@ -28,6 +28,14 @@ namespace BEPUikPlugin
             factory = new BEPUIkFactory(this);
             updater = new BEPUikSceneUpdater(this);
             timer.addFullSpeedUpdateListener(updater);
+
+            ikSolver.ActiveSet.UseAutomass = definition.ActiveSetUseAutomass;
+            ikSolver.AutoscaleControlImpulses = definition.AutoscaleControlImpulses;
+            ikSolver.AutoscaleControlMaximumForce = definition.AutoscaleControlMaximumForce;
+            ikSolver.TimeStepDuration = definition.TimeStepDuration;
+            ikSolver.ControlIterationCount = definition.ControlIterationCount;
+            ikSolver.FixerIterationCount = definition.FixerIterationCount;
+            ikSolver.VelocitySubiterationCount = definition.VelocitySubiterationCount;
         }
 
         public void Dispose()
@@ -61,7 +69,16 @@ namespace BEPUikPlugin
 
         public SimElementManagerDefinition createDefinition()
         {
-            return new BEPUikSceneDefinition(name);
+            return new BEPUikSceneDefinition(name)
+                {
+                    ActiveSetUseAutomass = ikSolver.ActiveSet.UseAutomass,
+                    AutoscaleControlImpulses = ikSolver.AutoscaleControlImpulses,
+                    AutoscaleControlMaximumForce = ikSolver.AutoscaleControlMaximumForce,
+                    TimeStepDuration = ikSolver.TimeStepDuration,
+                    ControlIterationCount = ikSolver.ControlIterationCount,
+                    FixerIterationCount = ikSolver.FixerIterationCount,
+                    VelocitySubiterationCount = ikSolver.VelocitySubiterationCount
+                };
         }
 
         internal void addBone(BEPUikBone bone)
