@@ -16,6 +16,7 @@ namespace Engine.Platform
     {
         public event MessageEventCallback FirstFrameDownEvent;
         public event MessageEventCallback FirstFrameUpEvent;
+        public event MessageEventCallback DownContinues; //Called the frame after the FirstFrameDownEvent is fired and continues until FirstFrameUpEvent is called.
 
         private HashSet<KeyboardButtonCode> keyboardButtons = new HashSet<KeyboardButtonCode>();
         private HashSet<MouseButtonCode> mouseButtons = new HashSet<MouseButtonCode>();
@@ -156,7 +157,15 @@ namespace Engine.Platform
                     Down = true;
                     FirstFrameDown = false;
                 }
-                else if (!Down)
+                
+                if(Down)
+                {
+                    if (DownContinues != null)
+                    {
+                        DownContinues.Invoke(eventManager);
+                    }
+                }
+                else
                 {
                     FirstFrameDown = true;
                     if (FirstFrameDownEvent != null)

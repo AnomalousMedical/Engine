@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BEPUikPlugin
 {
-    static class BEPUMathExtensions
+    public static class BEPUMathExtensions
     {
         public static BEPUutilities.Vector3 toBepuVec3(this Vector3 conv)
         {

@@ -103,6 +103,16 @@ namespace BEPUikPlugin
             solveControls.Remove(control.IKControl);
         }
 
+        public void addExternalControl(Control control)
+        {
+            solveControls.Add(control);
+        }
+
+        public void removeExternalControl(Control control)
+        {
+            solveControls.Remove(control);
+        }
+
         public void update()
         {
             PerformanceMonitor.start("BEPU IK");
