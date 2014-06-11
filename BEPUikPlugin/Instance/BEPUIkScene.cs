@@ -116,16 +116,19 @@ namespace BEPUikPlugin
         public void update()
         {
             PerformanceMonitor.start("BEPU IK");
-            foreach (var control in controls)
+            if (solveControls.Count > 0)
             {
-                control.syncPosition();
-            }
+                foreach (var control in controls)
+                {
+                    control.syncPosition();
+                }
 
-            ikSolver.Solve(solveControls);
+                ikSolver.Solve(solveControls);
 
-            foreach (var bone in bones)
-            {
-                bone.syncSimObject();
+                foreach (var bone in bones)
+                {
+                    bone.syncSimObject();
+                }
             }
             PerformanceMonitor.stop("BEPU IK");
         }
