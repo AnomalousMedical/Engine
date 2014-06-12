@@ -75,6 +75,7 @@ namespace Editor
             axisSurface = pluginManager.RendererPlugin.createDebugDrawingSurface(name, subScene);
             if (axisSurface != null)
             {
+                axisSurface.setDepthTesting(false);
                 axisSurface.setVisible(enabled);
                 axisSurface.moveOrigin(savedOrigin);
             }

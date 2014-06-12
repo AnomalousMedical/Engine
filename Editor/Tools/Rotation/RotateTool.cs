@@ -221,6 +221,7 @@ namespace Editor
             circleSurface = pluginManager.RendererPlugin.createDebugDrawingSurface(name, subScene);
             if (circleSurface != null)
             {
+                circleSurface.setDepthTesting(false);
                 circleSurface.setVisible(enabled);
                 circleSurface.moveOrigin(savedOrigin);
             }
