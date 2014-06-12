@@ -31,7 +31,7 @@ namespace Engine
         /// Enable or disable the rendering for this entire interface.
         /// </summary>
         /// <param name="enabled">True to enable drawing, false to disable.</param>
-        void setEnabled(bool enabled);
+        bool Enabled { get; set; }
 
         /// <summary>
         /// Create a debug interface.
@@ -49,15 +49,9 @@ namespace Engine
 
         /// <summary>
         /// Tell the debug interface to draw itself with depth testing enabled or disabled.
+        /// True to enable depth checking.
         /// </summary>
-        /// <param name="depthCheckEnabled">True to enable depth checking.</param>
-        void setDepthTesting(bool depthCheckEnabled);
-
-        /// <summary>
-        /// Check to see if depth testing is enabled.
-        /// </summary>
-        /// <returns>True if depth testing is enabled.</returns>
-        bool isDepthTestingEnabled();
+        bool DepthTesting { get; set; }
 
         /// <summary>
         /// The name of this visualizer.

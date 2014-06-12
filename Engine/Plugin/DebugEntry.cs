@@ -14,7 +14,7 @@ namespace Engine
         /// Set this entry as enabled or disabled.
         /// </summary>
         /// <param name="enabled">True to enable, false to disable.</param>
-        void setEnabled(bool enabled);
+        bool Enabled { get; set; }
 
         /// <summary>
         /// Get the textual name for this entry.

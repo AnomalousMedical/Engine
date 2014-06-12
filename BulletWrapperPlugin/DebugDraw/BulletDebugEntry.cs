@@ -31,6 +31,7 @@ namespace BulletPlugin
     {
         String text;
 	    DebugDrawModes mode;
+        bool enabled = false;
 
         public BulletDebugEntry(String text, DebugDrawModes mode)
         {
@@ -38,16 +39,27 @@ namespace BulletPlugin
             this.mode = mode;
         }
 
-        public void setEnabled(bool enabled)
+        public bool Enabled
         {
-            if(enabled)
-	        {
-		        BulletDebugDraw.enableGlobalDebugMode(mode);
-	        }
-	        else
-	        {
-		        BulletDebugDraw.disableGlobalDebugMode(mode);
-	        }
+            get
+            {
+                return enabled;
+            }
+            set
+            {
+                if (enabled != value)
+                {
+                    enabled = value;
+                    if (enabled)
+                    {
+                        BulletDebugDraw.enableGlobalDebugMode(mode);
+                    }
+                    else
+                    {
+                        BulletDebugDraw.disableGlobalDebugMode(mode);
+                    }
+                }
+            }
         }
 
 	    public override String ToString()

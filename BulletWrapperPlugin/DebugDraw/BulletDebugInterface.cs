@@ -77,27 +77,36 @@ namespace BulletPlugin
             }
         }
 
-        public void setDepthTesting(bool depthCheckEnabled)
+        public bool Enabled
         {
-            depthTesting = depthCheckEnabled;
-	        if(drawingSurface != null)
-	        {
-		        drawingSurface.setDepthTesting(depthTesting);
-	        }
+            get
+            {
+                return enabled;
+            }
+            set
+            {
+                if (this.enabled && !value)
+                {
+                    firstFrameDisabled = true;
+                }
+                this.enabled = value;
+            }
         }
 
-        public bool isDepthTestingEnabled()
+        public bool DepthTesting
         {
-            return depthTesting;
-        }
-
-        public void setEnabled(bool enabled)
-        {
-	        if(this.enabled && !enabled)
-	        {
-		        firstFrameDisabled = true;
-	        }
-	        this.enabled = enabled;
+            get
+            {
+                return depthTesting;
+            }
+            set
+            {
+                depthTesting = value;
+                if (drawingSurface != null)
+                {
+                    drawingSurface.setDepthTesting(depthTesting);
+                }
+            }
         }
 
         public String Name

@@ -55,26 +55,38 @@ namespace Engine
             }
         }
 
-        public void setDepthTesting(bool depthCheckEnabled)
+        public bool DepthTesting
         {
-            depthTesting = depthCheckEnabled;
-            if (drawingSurface != null)
+            get
             {
-                drawingSurface.setDepthTesting(depthTesting);
+                return depthTesting;
+            }
+            set
+            {
+                depthTesting = value;
+                if (drawingSurface != null)
+                {
+                    drawingSurface.setDepthTesting(depthTesting);
+                }
             }
         }
 
-        public bool isDepthTestingEnabled()
+        public bool Enabled
         {
-            return depthTesting;
-        }
-
-        public void setEnabled(bool enabled)
-        {
-            this.enabled = enabled;
-            if (!enabled)
+            get
             {
-                clearSurface = true;
+                return enabled;
+            }
+            set
+            {
+                if(enabled != value)
+                {
+                    this.enabled = value;
+                    if (!enabled)
+                    {
+                        clearSurface = true;
+                    }
+                }
             }
         }
 
