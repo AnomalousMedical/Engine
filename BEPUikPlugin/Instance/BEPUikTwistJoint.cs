@@ -16,7 +16,15 @@ namespace BEPUikPlugin
         public BEPUikTwistJoint(BEPUikBone connectionA, BEPUikBone connectionB, BEPUikTwistJointDefinition definition, String name, Subscription subscription)
             :base(connectionA, connectionB, name, subscription)
         {
-            joint = new IKTwistJoint(connectionA.IkBone, connectionB.IkBone, definition.WorldAxisA.toBepuVec3(), definition.WorldAxisB.toBepuVec3());
+            joint = new IKTwistJoint(connectionA.IkBone, connectionB.IkBone, definition.AxisA.toBepuVec3(), definition.AxisB.toBepuVec3());
+            if (definition.MeasurementAxisA.HasValue)
+            {
+                joint.MeasurementAxisA = definition.MeasurementAxisA.Value.toBepuVec3();
+            }
+            if (definition.MeasurementAxisB.HasValue)
+            {
+                joint.MeasurementAxisB = definition.MeasurementAxisB.Value.toBepuVec3();
+            }
             setupJoint(definition);
         }
 
@@ -24,8 +32,10 @@ namespace BEPUikPlugin
         {
             var definition = new BEPUikTwistJointDefinition(Name)
             {
-                WorldAxisA = joint.AxisA.toEngineVec3(),
-                WorldAxisB = joint.AxisB.toEngineVec3()
+                AxisA = joint.AxisA.toEngineVec3(),
+                AxisB = joint.AxisB.toEngineVec3(),
+                MeasurementAxisA = joint.MeasurementAxisA.toEngineVec3(),
+                MeasurementAxisB = joint.MeasurementAxisB.toEngineVec3()
             };
             setupJointDefinition(definition);
             return definition;

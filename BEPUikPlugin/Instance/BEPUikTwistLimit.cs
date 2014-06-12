@@ -35,8 +35,8 @@ namespace BEPUikPlugin
                     MaximumAngle = limit.MaximumAngle,
                     AxisA = limit.AxisA.toEngineVec3(),
                     AxisB = limit.AxisB.toEngineVec3(),
-                    MeasurementAxisA = limit.LocalMeasurementAxisA.toEngineVec3(),
-                    MeasurementAxisB = limit.LocalMeasurementAxisB.toEngineVec3()
+                    MeasurementAxisA = limit.MeasurementAxisA.toEngineVec3(),
+                    MeasurementAxisB = limit.MeasurementAxisB.toEngineVec3()
                 };
             setupLimitDefinition(definition);
             return definition;

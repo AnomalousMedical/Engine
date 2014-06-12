@@ -22,15 +22,21 @@ namespace BEPUikPlugin
         public BEPUikTwistJointDefinition(String name)
             :base(name)
         {
-            WorldAxisA = Vector3.UnitX;
-            WorldAxisB = Vector3.UnitZ;
+            AxisA = Vector3.UnitY;
+            AxisB = Vector3.UnitY;
         }
 
         [Editable]
-        public Vector3 WorldAxisA { get; set; }
+        public Vector3 AxisA { get; set; }
 
         [Editable]
-        public Vector3 WorldAxisB { get; set; }
+        public Vector3 AxisB { get; set; }
+
+        [Editable]
+        public Vector3? MeasurementAxisA { get; set; }
+
+        [Editable]
+        public Vector3? MeasurementAxisB { get; set; }
 
         protected override SimElement createConstraint(BEPUikBone connectionA, BEPUikBone connectionB, SimObjectBase instance)
         {
@@ -48,15 +54,31 @@ namespace BEPUikPlugin
         protected BEPUikTwistJointDefinition(LoadInfo info)
             :base(info)
         {
-            WorldAxisA = info.GetVector3("WorldAxisA");
-            WorldAxisB = info.GetVector3("WorldAxisB");
+            AxisA = info.GetVector3("AxisA");
+            AxisB = info.GetVector3("AxisB");
+            if (info.hasValue("MeasurementAxisA"))
+            {
+                MeasurementAxisA = info.GetVector3("MeasurementAxisA");
+            }
+            if (info.hasValue("MeasurementAxisB"))
+            {
+                MeasurementAxisB = info.GetVector3("MeasurementAxisB");
+            }
         }
 
         public override void getInfo(SaveInfo info)
         {
             base.getInfo(info);
-            info.AddValue("WorldAxisA", WorldAxisA);
-            info.AddValue("WorldAxisB", WorldAxisB);
+            info.AddValue("AxisA", AxisA);
+            info.AddValue("AxisB", AxisB);
+            if (MeasurementAxisA.HasValue)
+            {
+                info.AddValue("MeasurementAxisA", MeasurementAxisA.Value);
+            }
+            if (MeasurementAxisB.HasValue)
+            {
+                info.AddValue("MeasurementAxisB", MeasurementAxisB.Value);
+            }
         }
     }
 }
