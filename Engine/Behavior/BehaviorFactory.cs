@@ -60,12 +60,12 @@ namespace Engine
                 }
                 catch (BehaviorBlacklistException bbe)
                 {
-                    BehaviorInterface.Instance.fireBehaviorBlacklisted(new BehaviorBlacklistEventArgs(bbe.Message, bbe.Behavior, manager));
+                    SimObjectErrorManager.AddError(createError(bbe));
                 }
                 catch (Exception e)
                 {
                     entry._unanticipatedBlacklistError(e);
-                    BehaviorInterface.Instance.fireBehaviorBlacklisted(new BehaviorBlacklistEventArgs(e.Message, entry.CreatedBehavior, manager));
+                    SimObjectErrorManager.AddError(createError(entry, e));
                 }
             }
             foreach (BehaviorFactoryEntry entry in currentBehaviors)
@@ -76,12 +76,12 @@ namespace Engine
                 }
                 catch (BehaviorBlacklistException bbe)
                 {
-                    BehaviorInterface.Instance.fireBehaviorBlacklisted(new BehaviorBlacklistEventArgs(bbe.Message, bbe.Behavior, manager));
+                    SimObjectErrorManager.AddError(createError(bbe));
                 }
                 catch (Exception e)
                 {
                     entry._unanticipatedBlacklistError(e);
-                    BehaviorInterface.Instance.fireBehaviorBlacklisted(new BehaviorBlacklistEventArgs(e.Message, entry.CreatedBehavior, manager));
+                    SimObjectErrorManager.AddError(createError(entry, e));
                 }
             }
         }
@@ -104,6 +104,42 @@ namespace Engine
         internal void addBehaviorDefinition(SimObjectBase instance, BehaviorDefinition behaviorDefinition)
         {
             currentBehaviors.Add(new BehaviorFactoryEntry(instance, behaviorDefinition));
+        }
+
+        private static SimObjectError createError(BehaviorBlacklistException bbe)
+        {
+            return new SimObjectError()
+            {
+                Subsystem = "Behavior",
+                SimObject = bbe.Behavior.Owner != null ? bbe.Behavior.Owner.Name : "NullSimObject",
+                Type = bbe.Behavior.GetType().Name,
+                ElementName = bbe.Behavior.Name,
+                Message = bbe.Message
+            };
+        }
+
+        private static SimObjectError createError(BehaviorFactoryEntry entry, Exception e)
+        {
+            var error = new SimObjectError()
+            {
+                Subsystem = "Behavior",
+                Message = e.Message
+            };
+
+            if(entry.CreatedBehavior != null)
+            {
+                error.ElementName = entry.CreatedBehavior.Name;
+                error.SimObject = entry.CreatedBehavior.Owner != null ? entry.CreatedBehavior.Owner.Name : "NullSimObject";
+                error.Type = entry.CreatedBehavior.GetType().Name;
+            }
+            else
+            {
+                error.ElementName = "UnknownName";
+                error.SimObject = "UnknownSimObject";
+                error.Type = "UnknownType";
+            }
+
+            return error;
         }
     }
 }

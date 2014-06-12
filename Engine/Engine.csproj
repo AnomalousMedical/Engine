@@ -55,7 +55,6 @@
     <Compile Include="Attributes\NativeSubsystemTypeAttribute.cs" />
     <Compile Include="Attributes\SingleEnumAttribute.cs" />
     <Compile Include="Behavior\Behavior.cs" />
-    <Compile Include="Behavior\BehaviorBlacklistEventArgs.cs" />
     <Compile Include="Behavior\BehaviorBlacklistException.cs" />
     <Compile Include="Behavior\BehaviorBrowser.cs" />
     <Compile Include="Behavior\BehaviorDebugInterface.cs" />
@@ -109,6 +108,8 @@
     <Compile Include="Editing\Refleciton\ReflectedEditablePropertyProvider.cs" />
     <Compile Include="Editing\Refleciton\ReflectedMinMaxEditableProperty.cs" />
     <Compile Include="Editing\Refleciton\ReflectedObjectEditableProperty.cs" />
+    <Compile Include="Errors\SimObjectError.cs" />
+    <Compile Include="Errors\SimObjectErrorManager.cs" />
     <Compile Include="Log\Log.cs" />
     <Compile Include="Log\LogConsoleListener.cs" />
     <Compile Include="Log\LogFileListener.cs" />
