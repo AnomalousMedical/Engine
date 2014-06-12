@@ -56,6 +56,7 @@
     <Compile Include="Behaviors\Grabber\Rotation\RotateTool.cs" />
     <Compile Include="Behaviors\Grabber\Rotation\RotationAxis.cs" />
     <Compile Include="Behaviors\TargetMover.cs" />
+    <Compile Include="Construction\BEPUikBlacklistException.cs" />
     <Compile Include="Construction\BEPUIkFactory.cs" />
     <Compile Include="Construction\BEPUikFactoryEntry.cs" />
     <Compile Include="Definition\BEPUikTwistLimitDefinition.cs" />

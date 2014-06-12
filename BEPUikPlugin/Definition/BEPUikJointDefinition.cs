@@ -1,4 +1,5 @@
-﻿using Engine.Attributes;
+﻿using Engine;
+using Engine.Attributes;
 using Engine.Editing;
 using Engine.ObjectManagement;
 using Engine.Saving;
@@ -39,28 +40,33 @@ namespace BEPUikPlugin
             BEPUikBone connectionB = null;
 
             SimObject other = instance.getOtherSimObject(ConnectionASimObjectName);
-            if (other != null)
+            if(other == null)
             {
-                connectionA = other.getElement(ConnectionABoneName) as BEPUikBone;
+                throw new BEPUikBlacklistException("Cannot find ConnectionA SimObject named '{0}'", ConnectionASimObjectName);
+            }
+            
+            connectionA = other.getElement(ConnectionABoneName) as BEPUikBone;
+            if(connectionA == null)
+            {
+                throw new BEPUikBlacklistException("Cannot find ConnectionA bone named '{0}' in '{1}'", ConnectionABoneName, ConnectionASimObjectName);
             }
 
             other = instance.getOtherSimObject(ConnectionBSimObjectName);
-            if (other != null)
+            if (other == null)
             {
-                connectionB = other.getElement(ConnectionBBoneName) as BEPUikBone;
+                throw new BEPUikBlacklistException("Cannot find ConnectionB SimObject named '{0}'", ConnectionBSimObjectName);
             }
 
-            if (connectionA != null && connectionB != null)
+            connectionB = other.getElement(ConnectionBBoneName) as BEPUikBone;
+            if (connectionB == null)
             {
-                SimElement element = createConstraint(connectionA, connectionB, instance);
-                if (element != null)
-                {
-                    instance.addElement(element);
-                }
+                throw new BEPUikBlacklistException("Cannot find ConnectionB bone named '{0}' in '{1}'", ConnectionBBoneName, ConnectionBSimObjectName);
             }
-            else
+
+            SimElement element = createConstraint(connectionA, connectionB, instance);
+            if (element != null)
             {
-                Log.Default.sendMessage("Cannot add BEPU IK Joint {0} to SimObject {1} because connectionA {2} and connectionB {3}.", LogLevel.Warning, BEPUikInterface.PluginName, Name, instance.Name, connectionA != null ? "was found" : "was not found", connectionB != null ? "was found" : "was not found");
+                instance.addElement(element);
             }
         }
 

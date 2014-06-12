@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,6 +34,12 @@ namespace Engine
         public static void AddError(SimObjectError error)
         {
             errors.AddLast(error);
+        }
+
+        public static void AddAndLogError(SimObjectError error, LogLevel logLevel = LogLevel.Warning)
+        {
+            AddError(error);
+            Log.Default.sendMessage("Error creating {0} named '{1}' in SimObject '{2}'. Reason: {3}", logLevel, error.Subsystem, error.Type, error.ElementName, error.SimObject, error.Message);
         }
 
         /// <summary>
