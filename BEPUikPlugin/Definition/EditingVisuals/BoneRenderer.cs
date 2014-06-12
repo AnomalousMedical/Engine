@@ -44,10 +44,22 @@ namespace BEPUikPlugin
             drawingSurface.setDepthTesting(false);
             //Origin
             drawingSurface.setColor(Color.Red);
-            drawingSurface.drawCircle(Vector3.Zero, Vector3.UnitX, Vector3.UnitZ, definition.Radius);
+
+            Vector3 localUnitX = Vector3.UnitX;
+            Vector3 localUnitY = Vector3.UnitY;
+            Vector3 localUnitZ = Vector3.UnitZ;
+
+            if(definition.LocalRotQuat.HasValue)
+            {
+                localUnitX = Quaternion.quatRotate(definition.LocalRotQuat.Value, localUnitX);
+                localUnitY = Quaternion.quatRotate(definition.LocalRotQuat.Value, localUnitY);
+                localUnitZ = Quaternion.quatRotate(definition.LocalRotQuat.Value, localUnitZ);
+            }
+
+            drawingSurface.drawCircle(Vector3.Zero, localUnitX, localUnitZ, definition.Radius);
             float halfHeight = definition.Height;
-            drawingSurface.drawCircle(Vector3.Up * halfHeight, Vector3.UnitX, Vector3.UnitZ, definition.Radius);
-            drawingSurface.drawCircle(Vector3.Down * halfHeight, Vector3.UnitX, Vector3.UnitZ, definition.Radius);
+            drawingSurface.drawCircle(localUnitY * halfHeight, localUnitX, localUnitZ, definition.Radius);
+            drawingSurface.drawCircle(localUnitY * -halfHeight, localUnitX, localUnitZ, definition.Radius);
             drawingSurface.end();
         }
     }

@@ -100,6 +100,11 @@ namespace Engine
             setEuler(ref yaw, ref pitch, ref roll, out x, out y, out z, out w);
         }
 
+        public Quaternion(Vector3 eulerVec)
+        {
+            setEuler(ref eulerVec.x, ref eulerVec.y, ref eulerVec.z, out x, out y, out z, out w);
+        }
+
         #endregion Constructors
 
         #region Members
@@ -123,6 +128,11 @@ namespace Engine
         public void setEuler(float yaw, float pitch, float roll)
         {
             setEuler(ref yaw, ref pitch, ref roll, out x, out y, out z, out w);
+        }
+
+        public void setEuler(Vector3 eulerVec)
+        {
+            setEuler(ref eulerVec.x, ref eulerVec.y, ref eulerVec.z, out x, out y, out z, out w);
         }
 
         /// <summary>

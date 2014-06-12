@@ -1,4 +1,5 @@
-﻿using Engine.Attributes;
+﻿using Engine;
+using Engine.Attributes;
 using Engine.Editing;
 using Engine.ObjectManagement;
 using Engine.Saving;
@@ -36,6 +37,32 @@ namespace BEPUikPlugin
         [EditableMinMax(0.0000001, float.MaxValue, 1.0f)]
         public float Mass { get; set; }
 
+        [Editable]
+        public Vector3? LocalRot
+        {
+            get
+            {
+                if (LocalRotQuat.HasValue)
+                {
+                    return LocalRotQuat.Value.getEuler() * Degree.FromRadian;
+                }
+                return null;
+            }
+            set
+            {
+                if (value.HasValue)
+                {
+                    LocalRotQuat = new Quaternion(value.Value * Radian.FromDegrees);
+                }
+                else
+                {
+                    LocalRotQuat = null;
+                }
+            }
+        }
+
+        public Quaternion? LocalRotQuat { get; set; }
+
         public override void registerScene(SimSubScene subscene, SimObjectBase instance)
         {
             if (subscene.hasSimElementManagerType(typeof(BEPUikScene)))
@@ -61,7 +88,15 @@ namespace BEPUikPlugin
 
         internal override void createProduct(SimObjectBase instance, BEPUikScene scene)
         {
-            BEPUikBone bone = new BEPUikBone(this, instance, scene);
+            BEPUikBone bone;
+            if (LocalRotQuat.HasValue)
+            {
+                bone = new BEPUikBoneLocalRot(this, instance, scene);
+            }
+            else
+            {
+                bone = new BEPUikBone(this, instance, scene);
+            }
             instance.addElement(bone);
         }
 
@@ -72,6 +107,10 @@ namespace BEPUikPlugin
             Radius = info.GetFloat("Radius");
             Height = info.GetFloat("Height");
             Mass = info.GetFloat("Mass", 1.0f);
+            if(info.hasValue("LocalRotQuat"))
+            {
+                LocalRotQuat = info.GetQuaternion("LocalRotQuat");
+            }
         }
 
         public override void getInfo(SaveInfo info)
@@ -81,6 +120,10 @@ namespace BEPUikPlugin
             info.AddValue("Radius", Radius);
             info.AddValue("Height", Height);
             info.AddValue("Mass", Mass);
+            if(LocalRotQuat.HasValue)
+            {
+                info.AddValue("LocalRotQuat", LocalRotQuat.Value);
+            }
         }
 
         internal static void Create(string name, EditUICallback callback, CompositeSimObjectDefinition simObjectDefinition)

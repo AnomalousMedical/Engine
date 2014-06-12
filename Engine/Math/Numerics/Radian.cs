@@ -10,7 +10,10 @@ namespace Engine
     /// </summary>
     public struct Radian
     {
-        private const float CONVERSION = (float)Math.PI / 180.0f;
+        /// <summary>
+        /// Conversion factor from degrees to radians.
+        /// </summary>
+        public const float FromDegrees = (float)Math.PI / 180.0f;
 
         public float Value;
 
@@ -31,7 +34,7 @@ namespace Engine
 
         public static implicit operator Radian(Degree value)
         {
-            return new Radian(value * CONVERSION);
+            return new Radian(value * FromDegrees);
         }
 
         public override string ToString()

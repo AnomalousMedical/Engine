@@ -62,16 +62,25 @@ namespace BEPUikPlugin
 
         public override SimElementDefinition saveToDefinition()
         {
-            return new BEPUikBoneDefinition(Name)
+            var definition = new BEPUikBoneDefinition(Name)
             {
                 Pinned = bone.Pinned,
                 Radius = bone.Radius,
                 Height = bone.Height,
                 Subscription = this.Subscription
             };
+
+            customizeDefinition(definition);
+
+            return definition;
         }
 
-        public void syncSimObject()
+        protected virtual void customizeDefinition(BEPUikBoneDefinition definition)
+        {
+
+        }
+
+        public virtual void syncSimObject()
         {
             Vector3 trans = bone.Position.toEngineVec3();
             Quaternion rot = bone.Orientation.toEngineQuat();
