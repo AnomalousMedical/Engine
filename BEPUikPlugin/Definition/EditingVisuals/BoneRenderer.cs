@@ -38,7 +38,7 @@ namespace BEPUikPlugin
             
         }
 
-        public void draw(DebugDrawingSurface drawingSurface)
+        private void draw(DebugDrawingSurface drawingSurface)
         {
             drawingSurface.begin(String.Format("BoneRenderer_{0}", definition.Name), Engine.Renderer.DrawingType.LineList);
             drawingSurface.setDepthTesting(false);

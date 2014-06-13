@@ -13,9 +13,10 @@ namespace BEPUikPlugin
     {
         public const String PluginName = "BEPUikPlugin";
 
-        private UpdateTimer timer;
-
         public static BEPUikInterface Instance { get; private set; }
+
+        private UpdateTimer timer;
+        private BEPUikDebugInterface debugInterface;
 
         public BEPUikInterface()
         {
@@ -58,7 +59,11 @@ namespace BEPUikPlugin
 
         public DebugInterface getDebugInterface()
         {
-            return null;
+            if (debugInterface == null)
+            {
+                debugInterface = new BEPUikDebugInterface();
+            }
+            return debugInterface;
         }
 
         public void createDebugCommands(List<CommandManager> commands)

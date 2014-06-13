@@ -2,6 +2,7 @@
 using Engine;
 using Engine.ObjectManagement;
 using Engine.Platform;
+using Engine.Renderer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -131,6 +132,33 @@ namespace BEPUikPlugin
                 }
             }
             PerformanceMonitor.stop("BEPU IK");
+        }
+
+        internal void drawDebug(DebugDrawingSurface drawingSurface)
+        {
+            foreach(var bone in bones)
+            {
+                draw(drawingSurface, bone);
+            }
+        }
+
+        private void draw(DebugDrawingSurface drawingSurface, BEPUikBone bone)
+        {
+            Bone ikBone = bone.IkBone;
+            drawingSurface.begin(String.Format("BoneRenderer_{0}_{1}", bone.Owner.Name, bone.Name), Engine.Renderer.DrawingType.LineList);
+            drawingSurface.setColor(Color.Red);
+
+            Quaternion orientation = ikBone.Orientation.toEngineQuat();
+            Vector3 translation = ikBone.Position.toEngineVec3();
+            Vector3 localUnitX = Quaternion.quatRotate(orientation, Vector3.UnitX);
+            Vector3 localUnitY = Quaternion.quatRotate(orientation, Vector3.UnitY);
+            Vector3 localUnitZ = Quaternion.quatRotate(orientation, Vector3.UnitZ);
+
+            drawingSurface.drawCircle(translation, localUnitX, localUnitZ, ikBone.Radius);
+            float halfHeight = ikBone.Height;
+            drawingSurface.drawCircle(translation + (localUnitY * halfHeight), localUnitX, localUnitZ, ikBone.Radius);
+            drawingSurface.drawCircle(translation + (localUnitY * -halfHeight), localUnitX, localUnitZ, ikBone.Radius);
+            drawingSurface.end();
         }
     }
 }
