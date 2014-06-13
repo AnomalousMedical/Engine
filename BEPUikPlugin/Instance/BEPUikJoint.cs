@@ -49,6 +49,22 @@ namespace BEPUikPlugin
             }
         }
 
+        public BEPUikBone ConnectionA
+        {
+            get
+            {
+                return connectionA;
+            }
+        }
+
+        public BEPUikBone ConnectionB
+        {
+            get
+            {
+                return connectionB;
+            }
+        }
+
         protected override void updatePositionImpl(ref Vector3 translation, ref Quaternion rotation)
         {
 
