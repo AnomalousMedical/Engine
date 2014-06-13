@@ -140,6 +140,10 @@ namespace BEPUikPlugin
             foreach(var bone in bones)
             {
                 draw(drawingSurface, bone);
+                foreach(var joint in bone.IkBone.Joints)
+                {
+                    draw(drawingSurface, (BEPUikConstraint)joint.UserObject);
+                }
             }
             drawingSurface.end();
         }
@@ -164,6 +168,15 @@ namespace BEPUikPlugin
             }
 
             drawingSurface.drawAxes(translation, localUnitX, localUnitY, localUnitZ, sizeLimit);
+        }
+
+        private void draw(DebugDrawingSurface drawingSurface, BEPUikConstraint constraint)
+        {
+            Vector3 translation = constraint.Owner.Translation;
+            Vector3 localUnitX = Vector3.UnitX;
+            Vector3 localUnitY = Vector3.UnitY;
+            Vector3 localUnitZ = Vector3.UnitZ;
+            drawingSurface.drawAxes(translation, localUnitX, localUnitY, localUnitZ, 3, Color.Orange, Color.LightBlue, Color.HotPink);
         }
     }
 }

@@ -78,13 +78,13 @@ namespace Engine.Renderer
         {
             Color oldColor = drawingSurface.Color;
 
-            drawingSurface.Color = Color.Red;
+            drawingSurface.Color = xAxisColor;
             drawingSurface.drawLine(origin, origin + xAxis * size);
 
-            drawingSurface.Color = Color.Blue;
+            drawingSurface.Color = yAxisColor;
             drawingSurface.drawLine(origin, origin + yAxis * size);
 
-            drawingSurface.Color = Color.Green;
+            drawingSurface.Color = zAxisColor;
             drawingSurface.drawLine(origin, origin + zAxis * size);
 
             drawingSurface.Color = oldColor;

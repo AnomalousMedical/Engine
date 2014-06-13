@@ -20,6 +20,7 @@ namespace BEPUikPlugin
         {
             IKConstraint.MaximumForce = definition.MaximumForce;
             IKConstraint.Rigidity = definition.Rigidity;
+            IKConstraint.UserObject = this;
         }
 
         protected void setupConstraintDefinition(BEPUikConstraintDefinition definition)
