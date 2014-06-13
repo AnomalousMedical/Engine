@@ -98,12 +98,12 @@ namespace BEPUikPlugin.Behaviors
                 float drawLength = length;
                 if (selected)
                 {
-                    drawSurface.setColor(HIGHLIGHT);
+                    drawSurface.Color = HIGHLIGHT;
                     drawLength += length * .25f;
                 }
                 else
                 {
-                    drawSurface.setColor(color);
+                    drawSurface.Color = color;
                 }
                 drawSurface.drawLine(origin, origin + direction * drawLength);
             }
@@ -116,12 +116,12 @@ namespace BEPUikPlugin.Behaviors
                 float drawLength = length;
                 if (selected)
                 {
-                    drawSurface.setColor(HIGHLIGHT);
+                    drawSurface.Color = HIGHLIGHT;
                     drawLength += length * .25f;
                 }
                 else
                 {
-                    drawSurface.setColor(color);
+                    drawSurface.Color = color;
                 }
                 Vector3 outPoint = origin + direction * drawLength;
                 Vector3 sourcePoint = origin;

@@ -49,11 +49,11 @@ namespace Editor
         {
             if (selected)
             {
-                circleHelper.setColor(HIGHLIGHT);
+                circleHelper.Color = HIGHLIGHT;
             }
             else
             {
-                circleHelper.setColor(color);
+                circleHelper.Color = color;
             }
             circleHelper.drawCircle(origin, xAxis, yAxis, radius);
         }

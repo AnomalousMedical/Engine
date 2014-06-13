@@ -147,7 +147,7 @@ namespace BEPUikPlugin
         private void draw(DebugDrawingSurface drawingSurface, BEPUikBone bone)
         {
             Bone ikBone = bone.IkBone;
-            drawingSurface.setColor(Color.Purple);
+            drawingSurface.Color = Color.Purple;
 
             Quaternion orientation = ikBone.Orientation.toEngineQuat();
             Vector3 translation = ikBone.Position.toEngineVec3();
@@ -157,20 +157,13 @@ namespace BEPUikPlugin
 
             drawingSurface.drawCylinder(translation, localUnitX, localUnitY, localUnitZ, ikBone.Radius, ikBone.Height);
 
-            float sizeLimit = ikBone.Height;
-            if(ikBone.Radius < ikBone.Height)
+            float sizeLimit = ikBone.Height / 2;
+            if(ikBone.Radius < sizeLimit)
             {
                 sizeLimit = ikBone.Radius;
             }
 
-            drawingSurface.setColor(Color.Red);
-            drawingSurface.drawLine(translation, translation + localUnitX * sizeLimit);
-
-            drawingSurface.setColor(Color.Blue);
-            drawingSurface.drawLine(translation, translation + localUnitY * sizeLimit);
-
-            drawingSurface.setColor(Color.Green);
-            drawingSurface.drawLine(translation, translation + localUnitZ * sizeLimit);
+            drawingSurface.drawAxes(translation, localUnitX, localUnitY, localUnitZ, sizeLimit);
         }
     }
 }

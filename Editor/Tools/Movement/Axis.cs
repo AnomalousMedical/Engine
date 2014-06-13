@@ -91,11 +91,11 @@ namespace Editor
         {
             if (selected)
             {
-                drawSurface.setColor(HIGHLIGHT);
+                drawSurface.Color = HIGHLIGHT;
             }
             else
             {
-                drawSurface.setColor(color);
+                drawSurface.Color = color;
             }
             drawSurface.drawLine(Vector3.Zero, direction * length);
         }
@@ -104,11 +104,11 @@ namespace Editor
         {
             if (selected)
             {
-                drawSurface.setColor(HIGHLIGHT);
+                drawSurface.Color = HIGHLIGHT;
             }
             else
             {
-                drawSurface.setColor(color);
+                drawSurface.Color = color;
             }
             Vector3 outPoint = direction * length;
             Vector3 sourcePoint;

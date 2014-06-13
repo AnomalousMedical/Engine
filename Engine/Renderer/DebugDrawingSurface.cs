@@ -109,8 +109,7 @@ namespace Engine.Renderer
         /// <summary>
         /// Set the current color that will be used when drawing.
         /// </summary>
-        /// <param name="color">The color to use for drawing.</param>
-        void setColor(Color color);
+        Color Color { get; set; }
 
         /// <summary>
         /// Draw a single point. For simplest results use PointList.

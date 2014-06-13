@@ -162,9 +162,16 @@ namespace OgrePlugin
             }
         }
 
-        public void setColor(Color color)
+        public Color Color
         {
-            this.color = color;
+            get
+            {
+                return color;
+            }
+            set
+            {
+                color = value;
+            }
         }
 
         public void drawPoint(Vector3 p)

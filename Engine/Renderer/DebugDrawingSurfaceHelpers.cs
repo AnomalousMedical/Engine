@@ -45,5 +45,49 @@ namespace Engine.Renderer
             drawingSurface.drawCircle(end, radiusAxis, otherAxis, radius);
             drawingSurface.drawLine(start, end);
         }
+
+        /// <summary>
+        /// Draw an axis using the default colors (Red - x, Blue - y, Green - z). 
+        /// Will maintain the color set on this surface when done.
+        /// </summary>
+        /// <param name="drawingSurface">The DebugDrawingSurface to draw on.</param>
+        /// <param name="origin">The origin of the axes.</param>
+        /// <param name="xAxis">The x axis.</param>
+        /// <param name="yAxis">The y axis.</param>
+        /// <param name="zAxis">The z axis.</param>
+        /// <param name="size">The length of each axis.</param>
+        public static void drawAxes(this DebugDrawingSurface drawingSurface, Vector3 origin, Vector3 xAxis, Vector3 yAxis, Vector3 zAxis, float size)
+        {
+            drawAxes(drawingSurface, origin, xAxis, yAxis, zAxis, size, Color.Red, Color.Blue, Color.Green);
+        }
+
+
+        /// <summary>
+        /// Draw an axis using the colors specified. Will maintain the color set on the surface when done.
+        /// </summary>
+        /// <param name="drawingSurface">The DebugDrawingSurface to draw on.</param>
+        /// <param name="origin">The origin of the axes.</param>
+        /// <param name="xAxis">The x axis.</param>
+        /// <param name="yAxis">The y axis.</param>
+        /// <param name="zAxis">The z axis.</param>
+        /// <param name="size">The length of each axis.</param>
+        /// <param name="xAxisColor">The color of the x axis.</param>
+        /// <param name="yAxisColor">The color of the y axis.</param>
+        /// <param name="zAxisColor">The color of the z axis.</param>
+        public static void drawAxes(this DebugDrawingSurface drawingSurface, Vector3 origin, Vector3 xAxis, Vector3 yAxis, Vector3 zAxis, float size, Color xAxisColor, Color yAxisColor, Color zAxisColor)
+        {
+            Color oldColor = drawingSurface.Color;
+
+            drawingSurface.Color = Color.Red;
+            drawingSurface.drawLine(origin, origin + xAxis * size);
+
+            drawingSurface.Color = Color.Blue;
+            drawingSurface.drawLine(origin, origin + yAxis * size);
+
+            drawingSurface.Color = Color.Green;
+            drawingSurface.drawLine(origin, origin + zAxis * size);
+
+            drawingSurface.Color = oldColor;
+        }
     }
 }

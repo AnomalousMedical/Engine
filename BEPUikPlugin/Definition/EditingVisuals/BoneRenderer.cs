@@ -43,7 +43,7 @@ namespace BEPUikPlugin
             drawingSurface.begin(String.Format("BoneRenderer_{0}", definition.Name), Engine.Renderer.DrawingType.LineList);
             drawingSurface.setDepthTesting(false);
             //Origin
-            drawingSurface.setColor(Color.Purple);
+            drawingSurface.Color = Color.Purple;
 
             Vector3 radiusAxis = Vector3.UnitX;
             Vector3 heightAxis = Vector3.UnitY;

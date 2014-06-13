@@ -62,7 +62,7 @@ namespace BulletPlugin
 
         private void drawLine(ref Vector3 color, ref Vector3 from, ref Vector3 to)
         {
-            drawingSurface.setColor(new Color(color.x, color.y, color.z));
+            drawingSurface.Color = new Color(color.x, color.y, color.z);
             drawingSurface.drawLine(from, to);
         }
 
