@@ -32,8 +32,7 @@ namespace BEPUikPlugin
         {
             if ((drawMode & DebugDrawMode.BallSocketJoints) != 0)
             {
-                Vector3 origin = ConnectionA.Owner.Translation + connectionAPositionOffset;
-                drawingSurface.drawAxes(origin, Vector3.UnitX, Vector3.UnitY, Vector3.UnitZ, 5.0f);
+                drawingSurface.drawAxes(VisualizationOrigin, Vector3.UnitX, Vector3.UnitY, Vector3.UnitZ, 5.0f);
             }
         }
 

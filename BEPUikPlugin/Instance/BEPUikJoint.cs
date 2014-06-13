@@ -13,7 +13,7 @@ namespace BEPUikPlugin
     {
         private BEPUikBone connectionA;
         private BEPUikBone connectionB;
-        protected Vector3 connectionAPositionOffset;
+        private Vector3 connectionAPositionOffset;
 
         public BEPUikJoint(BEPUikBone connectionA, BEPUikBone connectionB, String name, Subscription subscription, SimObject instance)
             :base(name, subscription)
@@ -64,6 +64,14 @@ namespace BEPUikPlugin
             get
             {
                 return connectionB;
+            }
+        }
+
+        protected Vector3 VisualizationOrigin
+        {
+            get
+            {
+                return ConnectionA.Owner.Translation + Quaternion.quatRotate(ConnectionA.Owner.Rotation, connectionAPositionOffset);
             }
         }
 

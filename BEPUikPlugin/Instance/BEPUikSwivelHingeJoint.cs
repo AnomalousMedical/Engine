@@ -35,7 +35,7 @@ namespace BEPUikPlugin
         {
             if((drawMode & DebugDrawMode.SwivelHingeJoints) != 0)
             {
-                Vector3 origin = ConnectionA.Owner.Translation + connectionAPositionOffset;
+                Vector3 origin = VisualizationOrigin;
                 drawingSurface.Color = Color.Red;
                 drawingSurface.drawLine(origin, origin + joint.WorldHingeAxis.toEngineVec3() * 10.0f);
                 drawingSurface.Color = Color.Blue;

@@ -37,7 +37,7 @@ namespace BEPUikPlugin
         {
             if ((drawMode & DebugDrawMode.SwingLimits) != 0)
             {
-                Vector3 origin = ConnectionA.Owner.Translation + connectionAPositionOffset;
+                Vector3 origin = VisualizationOrigin;
                 drawingSurface.Color = Color.Red;
                 drawingSurface.drawLine(origin, origin + limit.AxisA.toEngineVec3() * 5.0f);
                 drawingSurface.Color = Color.Blue;

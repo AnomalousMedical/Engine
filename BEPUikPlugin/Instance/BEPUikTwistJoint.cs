@@ -46,7 +46,7 @@ namespace BEPUikPlugin
         {
             if ((drawMode & DebugDrawMode.TwistLimits) != 0)
             {
-                Vector3 origin = ConnectionA.Owner.Translation + connectionAPositionOffset;
+                Vector3 origin = VisualizationOrigin;
                 drawingSurface.Color = Color.Red;
                 drawingSurface.drawLine(origin, origin + joint.AxisA.toEngineVec3() * 5.0f);
                 drawingSurface.Color = Color.Orange;
