@@ -13,8 +13,8 @@ namespace BEPUikPlugin
     {
         private IKRevoluteJoint joint;
 
-        public BEPUikRevoluteJoint(BEPUikBone connectionA, BEPUikBone connectionB, BEPUikRevoluteJointDefinition definition, String name, Subscription subscription)
-            :base(connectionA, connectionB, name, subscription)
+        public BEPUikRevoluteJoint(BEPUikBone connectionA, BEPUikBone connectionB, BEPUikRevoluteJointDefinition definition, String name, Subscription subscription, SimObject instance)
+            :base(connectionA, connectionB, name, subscription, instance)
         {
             joint = new IKRevoluteJoint(connectionA.IkBone, connectionB.IkBone, definition.WorldFreeAxis.toBepuVec3());
             setupJoint(definition);

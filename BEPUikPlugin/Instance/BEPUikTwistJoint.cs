@@ -1,6 +1,7 @@
 ﻿using BEPUik;
 using Engine;
 using Engine.ObjectManagement;
+using Engine.Renderer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,8 @@ namespace BEPUikPlugin
     {
         private IKTwistJoint joint;
 
-        public BEPUikTwistJoint(BEPUikBone connectionA, BEPUikBone connectionB, BEPUikTwistJointDefinition definition, String name, Subscription subscription)
-            :base(connectionA, connectionB, name, subscription)
+        public BEPUikTwistJoint(BEPUikBone connectionA, BEPUikBone connectionB, BEPUikTwistJointDefinition definition, String name, Subscription subscription, SimObject instance)
+            :base(connectionA, connectionB, name, subscription, instance)
         {
             joint = new IKTwistJoint(connectionA.IkBone, connectionB.IkBone, definition.AxisA.toBepuVec3(), definition.AxisB.toBepuVec3());
             if (definition.MeasurementAxisA.HasValue)
@@ -41,9 +42,20 @@ namespace BEPUikPlugin
             return definition;
         }
 
-        internal override void draw(Engine.Renderer.DebugDrawingSurface drawingSurface, DebugDrawMode drawMode)
+        internal override void draw(DebugDrawingSurface drawingSurface, DebugDrawMode drawMode)
         {
-            //TODO: Implement Constraint Drawing
+            if ((drawMode & DebugDrawMode.TwistLimits) != 0)
+            {
+                Vector3 origin = ConnectionA.Owner.Translation + connectionAPositionOffset;
+                drawingSurface.Color = Color.Red;
+                drawingSurface.drawLine(origin, origin + joint.AxisA.toEngineVec3() * 5.0f);
+                drawingSurface.Color = Color.Orange;
+                drawingSurface.drawLine(origin, origin + joint.MeasurementAxisA.toEngineVec3() * 5.0f);
+                drawingSurface.Color = Color.Blue;
+                drawingSurface.drawLine(origin, origin + joint.AxisB.toEngineVec3() * 5.0f);
+                drawingSurface.Color = Color.LightBlue;
+                drawingSurface.drawLine(origin, origin + joint.MeasurementAxisB.toEngineVec3() * 5.0f);
+            }
         }
 
         public override IKJoint IKJoint

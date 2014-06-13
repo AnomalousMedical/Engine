@@ -13,12 +13,14 @@ namespace BEPUikPlugin
     {
         private BEPUikBone connectionA;
         private BEPUikBone connectionB;
+        protected Vector3 connectionAPositionOffset;
 
-        public BEPUikJoint(BEPUikBone connectionA, BEPUikBone connectionB, String name, Subscription subscription)
+        public BEPUikJoint(BEPUikBone connectionA, BEPUikBone connectionB, String name, Subscription subscription, SimObject instance)
             :base(name, subscription)
         {
             this.connectionA = connectionA;
-            this.connectionB = connectionB;   
+            this.connectionB = connectionB;
+            connectionAPositionOffset = instance.Translation - connectionA.Owner.Translation;
         }
 
         protected override void Dispose()

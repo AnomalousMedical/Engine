@@ -14,8 +14,8 @@ namespace BEPUikPlugin
     {
         private IKAngularJoint joint;
 
-        public BEPUikAngularJoint(BEPUikBone connectionA, BEPUikBone connectionB, BEPUikAngularJointDefinition definition, String name, Subscription subscription)
-            :base(connectionA, connectionB, name, subscription)
+        public BEPUikAngularJoint(BEPUikBone connectionA, BEPUikBone connectionB, BEPUikAngularJointDefinition definition, String name, Subscription subscription, SimObject instance)
+            :base(connectionA, connectionB, name, subscription, instance)
         {
             joint = new IKAngularJoint(connectionA.IkBone, connectionB.IkBone);
             setupJoint(definition);

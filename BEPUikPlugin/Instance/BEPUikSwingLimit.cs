@@ -13,14 +13,12 @@ namespace BEPUikPlugin
     public class BEPUikSwingLimit : BEPUikLimit
     {
         private IKSwingLimit limit;
-        private Vector3 connectionAPositionOffset;
 
         public BEPUikSwingLimit(BEPUikBone connectionA, BEPUikBone connectionB, BEPUikSwingLimitDefinition definition, String name, Subscription subscription, SimObject instance)
-            :base(connectionA, connectionB, name, subscription)
+            :base(connectionA, connectionB, name, subscription, instance)
         {
             limit = new IKSwingLimit(connectionA.IkBone, connectionB.IkBone, definition.AxisA.toBepuVec3(), definition.AxisB.toBepuVec3(), definition.MaximumAngle);
             setupLimit(definition);
-            connectionAPositionOffset = instance.Translation - connectionA.Owner.Translation;
         }
 
         public override SimElementDefinition saveToDefinition()

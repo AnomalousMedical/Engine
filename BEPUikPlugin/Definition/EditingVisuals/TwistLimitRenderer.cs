@@ -43,7 +43,6 @@ namespace BEPUikPlugin
             drawingSurface.begin(String.Format("TwistLimitRenderer_{0}", definition.Name), Engine.Renderer.DrawingType.LineList);
             drawingSurface.setDepthTesting(false);
 
-            //Origin
             drawingSurface.Color = Color.Red;
             drawingSurface.drawLine(Vector3.Zero, definition.AxisA.normalized() * 10.0f);
             drawingSurface.Color = Color.Blue;

@@ -37,7 +37,11 @@ namespace BEPUikPlugin
         public BEPUikDebugInterface()
         {
             entries.AddLast(new BEPUikDebugEntry("Draw Bones", DebugDrawMode.Bones, this));
+            entries.AddLast(new BEPUikDebugEntry("Draw Ball Socket Joints", DebugDrawMode.BallSocketJoints, this));
+            entries.AddLast(new BEPUikDebugEntry("Draw Swivel Hinge Joints", DebugDrawMode.SwivelHingeJoints, this));
+            entries.AddLast(new BEPUikDebugEntry("Draw Twist Joints", DebugDrawMode.TwistJoints, this));
             entries.AddLast(new BEPUikDebugEntry("Draw Swing Limits", DebugDrawMode.SwingLimits, this));
+            entries.AddLast(new BEPUikDebugEntry("Draw Twist Limits", DebugDrawMode.TwistLimits, this));
         }
 
         public IEnumerable<DebugEntry> Entries

@@ -40,7 +40,7 @@ namespace BEPUikPlugin
 
         protected override SimElement createConstraint(BEPUikBone connectionA, BEPUikBone connectionB, SimObjectBase instance)
         {
-            return new BEPUikTwistJoint(connectionA, connectionB, this, Name, Subscription);
+            return new BEPUikTwistJoint(connectionA, connectionB, this, Name, Subscription, instance);
         }
 
         protected override string EditInterfaceName

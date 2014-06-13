@@ -1,6 +1,7 @@
 ﻿using BEPUik;
 using Engine;
 using Engine.ObjectManagement;
+using Engine.Renderer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,8 @@ namespace BEPUikPlugin
     {
         private IKBallSocketJoint joint;
 
-        public BEPUikBallSocketJoint(BEPUikBone connectionA, BEPUikBone connectionB, Vector3 anchor, BEPUikBallSocketJointDefinition definition, String name, Subscription subscription)
-            :base(connectionA, connectionB, name, subscription)
+        public BEPUikBallSocketJoint(BEPUikBone connectionA, BEPUikBone connectionB, Vector3 anchor, BEPUikBallSocketJointDefinition definition, String name, Subscription subscription, SimObject instance)
+            :base(connectionA, connectionB, name, subscription, instance)
         {
             joint = new IKBallSocketJoint(connectionA.IkBone, connectionB.IkBone, anchor.toBepuVec3());
             setupJoint(definition);
@@ -27,9 +28,13 @@ namespace BEPUikPlugin
             return definition;
         }
 
-        internal override void draw(Engine.Renderer.DebugDrawingSurface drawingSurface, DebugDrawMode drawMode)
+        internal override void draw(DebugDrawingSurface drawingSurface, DebugDrawMode drawMode)
         {
-            //TODO: Implement Constraint Drawing
+            if ((drawMode & DebugDrawMode.BallSocketJoints) != 0)
+            {
+                Vector3 origin = ConnectionA.Owner.Translation + connectionAPositionOffset;
+                drawingSurface.drawAxes(origin, Vector3.UnitX, Vector3.UnitY, Vector3.UnitZ, 5.0f);
+            }
         }
 
         public override IKJoint IKJoint

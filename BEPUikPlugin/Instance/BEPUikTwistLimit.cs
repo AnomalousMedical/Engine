@@ -13,8 +13,8 @@ namespace BEPUikPlugin
     {
         private IKTwistLimit limit;
 
-        public BEPUikTwistLimit(BEPUikBone connectionA, BEPUikBone connectionB, BEPUikTwistLimitDefinition definition, String name, Subscription subscription)
-            :base(connectionA, connectionB, name, subscription)
+        public BEPUikTwistLimit(BEPUikBone connectionA, BEPUikBone connectionB, BEPUikTwistLimitDefinition definition, String name, Subscription subscription, SimObject instance)
+            :base(connectionA, connectionB, name, subscription, instance)
         {
             limit = new IKTwistLimit(connectionA.IkBone, connectionB.IkBone, definition.AxisA.toBepuVec3(), definition.AxisB.toBepuVec3(), definition.MaximumAngle);
             if(definition.MeasurementAxisA.HasValue)
@@ -44,7 +44,18 @@ namespace BEPUikPlugin
 
         internal override void draw(Engine.Renderer.DebugDrawingSurface drawingSurface, DebugDrawMode drawMode)
         {
-            //TODO: Implement Constraint Drawing
+            if ((drawMode & DebugDrawMode.TwistLimits) != 0)
+            {
+                Vector3 origin = ConnectionA.Owner.Translation + connectionAPositionOffset;
+                drawingSurface.Color = Color.Red;
+                drawingSurface.drawLine(origin, origin + limit.AxisA.toEngineVec3() * 5.0f);
+                drawingSurface.Color = Color.Orange;
+                drawingSurface.drawLine(origin, origin + limit.MeasurementAxisA.toEngineVec3() * 5.0f);
+                drawingSurface.Color = Color.Blue;
+                drawingSurface.drawLine(origin, origin + limit.AxisB.toEngineVec3() * 5.0f);
+                drawingSurface.Color = Color.LightBlue;
+                drawingSurface.drawLine(origin, origin + limit.MeasurementAxisB.toEngineVec3() * 5.0f);
+            }
         }
 
         public override IKLimit IKLimit

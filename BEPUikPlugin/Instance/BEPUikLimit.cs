@@ -11,8 +11,8 @@ namespace BEPUikPlugin
 {
     public abstract class BEPUikLimit : BEPUikJoint
     {
-        public BEPUikLimit(BEPUikBone connectionA, BEPUikBone connectionB, String name, Subscription subscription)
-            :base(connectionA, connectionB, name, subscription)
+        public BEPUikLimit(BEPUikBone connectionA, BEPUikBone connectionB, String name, Subscription subscription, SimObject instance)
+            :base(connectionA, connectionB, name, subscription, instance)
         {
                
         }

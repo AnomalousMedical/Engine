@@ -13,8 +13,8 @@ namespace BEPUikPlugin
     {
         private IKSwivelHingeJoint joint;
 
-        public BEPUikSwivelHingeJoint(BEPUikBone connectionA, BEPUikBone connectionB, BEPUikSwivelHingeJointDefinition definition, String name, Subscription subscription)
-            :base(connectionA, connectionB, name, subscription)
+        public BEPUikSwivelHingeJoint(BEPUikBone connectionA, BEPUikBone connectionB, BEPUikSwivelHingeJointDefinition definition, String name, Subscription subscription, SimObject instance)
+            :base(connectionA, connectionB, name, subscription, instance)
         {
             joint = new IKSwivelHingeJoint(connectionA.IkBone, connectionB.IkBone, definition.WorldHingeAxis.toBepuVec3(), definition.WorldTwistAxis.toBepuVec3());
             setupJoint(definition);
@@ -33,7 +33,14 @@ namespace BEPUikPlugin
 
         internal override void draw(Engine.Renderer.DebugDrawingSurface drawingSurface, DebugDrawMode drawMode)
         {
-            //TODO: Implement Constraint Drawing
+            if((drawMode & DebugDrawMode.SwivelHingeJoints) != 0)
+            {
+                Vector3 origin = ConnectionA.Owner.Translation + connectionAPositionOffset;
+                drawingSurface.Color = Color.Red;
+                drawingSurface.drawLine(origin, origin + joint.WorldHingeAxis.toEngineVec3() * 10.0f);
+                drawingSurface.Color = Color.Blue;
+                drawingSurface.drawLine(origin, origin + joint.WorldTwistAxis.toEngineVec3() * 10.0f);
+            }
         }
 
         public override IKJoint IKJoint

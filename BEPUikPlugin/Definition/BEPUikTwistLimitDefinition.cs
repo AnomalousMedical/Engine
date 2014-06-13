@@ -30,7 +30,7 @@ namespace BEPUikPlugin
 
         protected override SimElement createConstraint(BEPUikBone connectionA, BEPUikBone connectionB, SimObjectBase instance)
         {
-            return new BEPUikTwistLimit(connectionA, connectionB, this, Name, Subscription);
+            return new BEPUikTwistLimit(connectionA, connectionB, this, Name, Subscription, instance);
         }
 
         protected override void customizeEditInterface(EditInterface editInterface)
