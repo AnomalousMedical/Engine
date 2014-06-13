@@ -13,7 +13,7 @@ namespace BEPUikPlugin
     {
         NoDebug = 0,
         Bones = 1,
-        AngularJoints = 2,
+        //AngularJoints = 2, //Not sure how to visualize this one
         BallSocketJoints = 4,
         DistanceJoints = 8,
         DistanceLimits = 16,
@@ -38,6 +38,7 @@ namespace BEPUikPlugin
         {
             entries.AddLast(new BEPUikDebugEntry("Draw Bones", DebugDrawMode.Bones, this));
             entries.AddLast(new BEPUikDebugEntry("Draw Ball Socket Joints", DebugDrawMode.BallSocketJoints, this));
+            entries.AddLast(new BEPUikDebugEntry("Draw Revolute Joints", DebugDrawMode.RevoluteJoints, this));
             entries.AddLast(new BEPUikDebugEntry("Draw Swivel Hinge Joints", DebugDrawMode.SwivelHingeJoints, this));
             entries.AddLast(new BEPUikDebugEntry("Draw Twist Joints", DebugDrawMode.TwistJoints, this));
             entries.AddLast(new BEPUikDebugEntry("Draw Swing Limits", DebugDrawMode.SwingLimits, this));
