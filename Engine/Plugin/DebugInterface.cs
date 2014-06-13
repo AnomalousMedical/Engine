@@ -17,7 +17,7 @@ namespace Engine
         /// Get the list of DebugEntries for the plugin.
         /// </summary>
         /// <returns>An enumeration over all DebugEntries.</returns>
-        IEnumerable<DebugEntry> getEntries();
+        IEnumerable<DebugEntry> Entries { get; }
 
         /// <summary>
         /// This will pass a DebugDrawingSurface that can be rendered onto to

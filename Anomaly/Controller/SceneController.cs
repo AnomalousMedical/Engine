@@ -91,7 +91,7 @@ namespace Anomaly
             {
                 OnSceneLoaded.Invoke(this, scene);
             }
-            foreach (DebugInterface debugInterface in controller.PluginManager.getDebugInterfaces())
+            foreach (DebugInterface debugInterface in controller.PluginManager.DebugInterfaces)
             {
                 debugInterface.createDebugInterface(controller.PluginManager.RendererPlugin, scene.getDefaultSubScene());
             }
@@ -114,7 +114,7 @@ namespace Anomaly
             if (scene != null)
             {
 
-                foreach (DebugInterface debugInterface in controller.PluginManager.getDebugInterfaces())
+                foreach (DebugInterface debugInterface in controller.PluginManager.DebugInterfaces)
                 {
                     debugInterface.destroyDebugInterface(controller.PluginManager.RendererPlugin, scene.getDefaultSubScene());
                 }
@@ -149,7 +149,7 @@ namespace Anomaly
         {
             if (scene != null && scene.getDefaultSubScene() != null)
             {
-                foreach (DebugInterface debugInterface in controller.PluginManager.getDebugInterfaces())
+                foreach (DebugInterface debugInterface in controller.PluginManager.DebugInterfaces)
                 {
                     debugInterface.renderDebug(scene.getDefaultSubScene());
                 }

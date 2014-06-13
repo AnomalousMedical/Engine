@@ -409,21 +409,24 @@ namespace Engine
             return new ResourceManager(emptyResourceManager);
         }
 
-        public IEnumerable<DebugInterface> getDebugInterfaces()
+        public IEnumerable<DebugInterface> DebugInterfaces
         {
-            if (debugInterfaces == null)
+            get
             {
-                debugInterfaces = new List<DebugInterface>();
-                foreach (PluginInterface plugin in loadedPlugins)
+                if (debugInterfaces == null)
                 {
-                    DebugInterface debug = plugin.getDebugInterface();
-                    if (debug != null)
+                    debugInterfaces = new List<DebugInterface>();
+                    foreach (PluginInterface plugin in loadedPlugins)
                     {
-                        debugInterfaces.Add(debug);
+                        DebugInterface debug = plugin.getDebugInterface();
+                        if (debug != null)
+                        {
+                            debugInterfaces.Add(debug);
+                        }
                     }
                 }
+                return debugInterfaces;
             }
-            return debugInterfaces;
         }
 
         #endregion Functions

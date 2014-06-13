@@ -182,7 +182,7 @@ namespace Anomaly
             verticalObjectEditor.AutoExpand = true;
 
             //Initialize debug visualizers
-            foreach (DebugInterface debugInterface in pluginManager.getDebugInterfaces())
+            foreach (DebugInterface debugInterface in pluginManager.DebugInterfaces)
             {
                 DebugVisualizer visualizer = new DebugVisualizer();
                 visualizer.initialize(debugInterface);

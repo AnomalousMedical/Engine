@@ -59,6 +59,7 @@
     <Compile Include="Construction\BEPUikBlacklistException.cs" />
     <Compile Include="Construction\BEPUIkFactory.cs" />
     <Compile Include="Construction\BEPUikFactoryEntry.cs" />
+    <Compile Include="DebugDraw\BEPUikDebugInterface.cs" />
     <Compile Include="Definition\BEPUikTwistLimitDefinition.cs" />
     <Compile Include="Definition\BEPUikSwingLimitDefinition.cs" />
     <Compile Include="Definition\BEPUikDistanceLimitDefinition.cs" />

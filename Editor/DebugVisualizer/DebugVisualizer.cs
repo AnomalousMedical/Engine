@@ -49,7 +49,7 @@ namespace Editor
             this.Text = debugInterface.Name;
             this.debugInterface = debugInterface;
             depthCheckCheck.Checked = debugInterface.DepthTesting;
-            foreach (DebugEntry entry in debugInterface.getEntries())
+            foreach (DebugEntry entry in debugInterface.Entries)
             {
                 visualListBox.Items.Add(entry, false);
             }

@@ -33,9 +33,12 @@ namespace BulletPlugin
 	        debugEntries.Add(new BulletDebugEntry("Draw Constraint Limits", DebugDrawModes.DBG_DrawConstraintLimits));
         }
 
-        public IEnumerable<DebugEntry> getEntries()
+        public IEnumerable<DebugEntry> Entries
         {
-	        return debugEntries;
+            get
+            {
+                return debugEntries;
+            }
         }
 
         public void renderDebug(SimSubScene subScene)

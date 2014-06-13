@@ -15,9 +15,12 @@ namespace Engine
         private DebugDrawingSurface drawingSurface;
         private bool depthTesting = false;
 
-        public IEnumerable<DebugEntry> getEntries()
+        public IEnumerable<DebugEntry> Entries
         {
-            return entries;
+            get
+            {
+                return entries;
+            }
         }
 
         public void renderDebug(SimSubScene subScene)
