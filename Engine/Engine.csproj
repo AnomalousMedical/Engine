@@ -152,6 +152,7 @@
     <Compile Include="MemberCopier\MemberCopier.cs" />
     <Compile Include="MemberCopier\SimpleMemberCopier.cs" />
     <Compile Include="Reflection\Vector3NullableReflectedVariable.cs" />
+    <Compile Include="Renderer\DebugDrawingSurfaceHelpers.cs" />
     <Compile Include="Shim\AppDomainShim.cs" />
     <Compile Include="Shim\AssemblyShim.cs" />
     <Compile Include="Shim\EnvironmentShim.cs" />

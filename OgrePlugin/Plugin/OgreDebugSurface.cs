@@ -217,16 +217,6 @@ namespace OgrePlugin
 
         public void drawCircle(Vector3 origin, Vector3 xAxis, Vector3 yAxis, float radius)
         {
-            drawCircle(ref origin, ref xAxis, ref yAxis, radius);
-        }
-
-        public void drawCircle(ref Vector3 origin, Vector3 xAxis, Vector3 yAxis, float radius)
-        {
-            drawCircle(ref origin, ref xAxis, ref yAxis, radius);
-        }
-
-        public unsafe void drawCircle(ref Vector3 origin, ref Vector3 xAxis, ref Vector3 yAxis, float radius)
-        {
             //x means x in the first 45 degree octant
             //y means y in the first 45 degree octant
             //first octant is 0 to 45 degrees the remaining octants are defined counterclockwise

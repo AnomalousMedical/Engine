@@ -136,17 +136,18 @@ namespace BEPUikPlugin
 
         internal void drawDebug(DebugDrawingSurface drawingSurface)
         {
+            drawingSurface.begin("BepuIkScene", Engine.Renderer.DrawingType.LineList);
             foreach(var bone in bones)
             {
                 draw(drawingSurface, bone);
             }
+            drawingSurface.end();
         }
 
         private void draw(DebugDrawingSurface drawingSurface, BEPUikBone bone)
         {
             Bone ikBone = bone.IkBone;
-            drawingSurface.begin(String.Format("BoneRenderer_{0}_{1}", bone.Owner.Name, bone.Name), Engine.Renderer.DrawingType.LineList);
-            drawingSurface.setColor(Color.Red);
+            drawingSurface.setColor(Color.Purple);
 
             Quaternion orientation = ikBone.Orientation.toEngineQuat();
             Vector3 translation = ikBone.Position.toEngineVec3();
@@ -154,11 +155,22 @@ namespace BEPUikPlugin
             Vector3 localUnitY = Quaternion.quatRotate(orientation, Vector3.UnitY);
             Vector3 localUnitZ = Quaternion.quatRotate(orientation, Vector3.UnitZ);
 
-            drawingSurface.drawCircle(translation, localUnitX, localUnitZ, ikBone.Radius);
-            float halfHeight = ikBone.Height;
-            drawingSurface.drawCircle(translation + (localUnitY * halfHeight), localUnitX, localUnitZ, ikBone.Radius);
-            drawingSurface.drawCircle(translation + (localUnitY * -halfHeight), localUnitX, localUnitZ, ikBone.Radius);
-            drawingSurface.end();
+            drawingSurface.drawCylinder(translation, localUnitX, localUnitY, localUnitZ, ikBone.Radius, ikBone.Height);
+
+            float sizeLimit = ikBone.Height;
+            if(ikBone.Radius < ikBone.Height)
+            {
+                sizeLimit = ikBone.Radius;
+            }
+
+            drawingSurface.setColor(Color.Red);
+            drawingSurface.drawLine(translation, translation + localUnitX * sizeLimit);
+
+            drawingSurface.setColor(Color.Blue);
+            drawingSurface.drawLine(translation, translation + localUnitY * sizeLimit);
+
+            drawingSurface.setColor(Color.Green);
+            drawingSurface.drawLine(translation, translation + localUnitZ * sizeLimit);
         }
     }
 }

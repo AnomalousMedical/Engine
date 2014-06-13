@@ -43,23 +43,18 @@ namespace BEPUikPlugin
             drawingSurface.begin(String.Format("BoneRenderer_{0}", definition.Name), Engine.Renderer.DrawingType.LineList);
             drawingSurface.setDepthTesting(false);
             //Origin
-            drawingSurface.setColor(Color.Red);
+            drawingSurface.setColor(Color.Purple);
 
-            Vector3 localUnitX = Vector3.UnitX;
-            Vector3 localUnitY = Vector3.UnitY;
-            Vector3 localUnitZ = Vector3.UnitZ;
+            Vector3 radiusAxis = Vector3.UnitX;
+            Vector3 heightAxis = Vector3.UnitY;
 
             if(definition.LocalRotQuat.HasValue)
             {
-                localUnitX = Quaternion.quatRotate(definition.LocalRotQuat.Value, localUnitX);
-                localUnitY = Quaternion.quatRotate(definition.LocalRotQuat.Value, localUnitY);
-                localUnitZ = Quaternion.quatRotate(definition.LocalRotQuat.Value, localUnitZ);
+                radiusAxis = Quaternion.quatRotate(definition.LocalRotQuat.Value, radiusAxis);
+                heightAxis = Quaternion.quatRotate(definition.LocalRotQuat.Value, heightAxis);
             }
 
-            drawingSurface.drawCircle(Vector3.Zero, localUnitX, localUnitZ, definition.Radius);
-            float halfHeight = definition.Height;
-            drawingSurface.drawCircle(localUnitY * halfHeight, localUnitX, localUnitZ, definition.Radius);
-            drawingSurface.drawCircle(localUnitY * -halfHeight, localUnitX, localUnitZ, definition.Radius);
+            drawingSurface.drawCylinder(Vector3.Zero, radiusAxis, heightAxis, definition.Radius, definition.Height);
             drawingSurface.end();
         }
     }
