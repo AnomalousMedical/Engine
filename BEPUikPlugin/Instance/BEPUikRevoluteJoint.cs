@@ -1,6 +1,7 @@
 ﻿using BEPUik;
 using Engine;
 using Engine.ObjectManagement;
+using Engine.Renderer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,9 +31,16 @@ namespace BEPUikPlugin
             return definition;
         }
 
-        internal override void draw(Engine.Renderer.DebugDrawingSurface drawingSurface, DebugDrawMode drawMode)
+        internal override void draw(DebugDrawingSurface drawingSurface, DebugDrawMode drawMode)
         {
-            //TODO: Implement Constraint Drawing
+            if ((drawMode & DebugDrawMode.RevoluteJoints) != 0)
+            {
+                Vector3 origin = VisualizationOrigin;
+                drawingSurface.Color = Color.Red;
+                drawingSurface.drawLine(origin, origin + joint.WorldFreeAxisA.toEngineVec3() * 5.0f);
+                drawingSurface.Color = Color.Blue;
+                drawingSurface.drawLine(origin, origin + joint.WorldFreeAxisB.toEngineVec3() * 5.0f);
+            }
         }
 
         public override IKJoint IKJoint

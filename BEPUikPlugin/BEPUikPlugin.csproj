@@ -80,6 +80,7 @@
     <Compile Include="Definition\BEPUIkSceneDefinition.cs" />
     <Compile Include="Definition\EditingVisuals\BoneRenderer.cs" />
     <Compile Include="Definition\EditingVisuals\RevoluteJointRenderer.cs" />
+    <Compile Include="Definition\EditingVisuals\TwistJointRenderer.cs" />
     <Compile Include="Definition\EditingVisuals\TwistLimitRenderer.cs" />
     <Compile Include="Definition\EditingVisuals\SwivelHingeJointRenderer.cs" />
     <Compile Include="Definition\EditingVisuals\SwingLimitRenderer.cs" />

@@ -30,7 +30,7 @@ namespace BEPUikPlugin
 
         internal override void draw(DebugDrawingSurface drawingSurface, DebugDrawMode drawMode)
         {
-            //TODO: Implement Constraint Drawing
+            //Not really sure how to visualize this one
         }
 
         public override IKJoint IKJoint

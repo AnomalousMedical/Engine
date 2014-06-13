@@ -43,6 +43,12 @@ namespace BEPUikPlugin
             return new BEPUikTwistJoint(connectionA, connectionB, this, Name, Subscription, instance);
         }
 
+        protected override void customizeEditInterface(EditInterface editInterface)
+        {
+            base.customizeEditInterface(editInterface);
+            editInterface.Renderer = new TwistJointRenderer(this);
+        }
+
         protected override string EditInterfaceName
         {
             get
