@@ -9,6 +9,22 @@ using System.Threading.Tasks;
 
 namespace BEPUikPlugin
 {
+    public enum DebugDrawMode : int
+    {
+        NoDebug = 0,
+        Bones = 1,
+        AngularJoints = 2,
+        BallSocketJoints = 4,
+        DistanceJoints = 8,
+        DistanceLimits = 16,
+        RevoluteJoints = 32,
+        SwingLimits = 64,
+        SwivelHingeJoints = 128,
+        TwistJoints = 256,
+        TwistLimits = 512,
+        MAX_DEBUG_DRAW_MODE
+    }
+
     class BEPUikDebugInterface : DebugInterface
     {
         private LinkedList<DebugEntry> entries = new LinkedList<DebugEntry>();
@@ -16,10 +32,12 @@ namespace BEPUikPlugin
         private bool depthTesting = false;
         private DebugDrawingSurface drawingSurface = null;
         bool clearDebugSurface = false;
+        private DebugDrawMode drawMode = DebugDrawMode.NoDebug;
 
         public BEPUikDebugInterface()
         {
-
+            entries.AddLast(new BEPUikDebugEntry("Draw Bones", DebugDrawMode.Bones, this));
+            entries.AddLast(new BEPUikDebugEntry("Draw Swing Limits", DebugDrawMode.SwingLimits, this));
         }
 
         public IEnumerable<DebugEntry> Entries
@@ -37,7 +55,7 @@ namespace BEPUikPlugin
                 BEPUikScene sceneManager = subScene.getSimElementManager<BEPUikScene>();
                 if (sceneManager != null)
                 {
-                    sceneManager.drawDebug(drawingSurface);
+                    sceneManager.drawDebug(drawingSurface, drawMode);
                 }
             }
             else if (clearDebugSurface)
@@ -109,6 +127,16 @@ namespace BEPUikPlugin
             {
                 return "BEPUik Debug";
             }
+        }
+
+        internal void enableGlobalDebugMode(DebugDrawMode mode)
+        {
+            drawMode |= mode;
+        }
+
+        internal void disableGlobalDebugMode(DebugDrawMode mode)
+        {
+            drawMode &= (~mode);
         }
     }
 }

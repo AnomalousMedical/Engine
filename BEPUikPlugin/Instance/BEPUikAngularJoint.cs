@@ -28,7 +28,7 @@ namespace BEPUikPlugin
             return definition;
         }
 
-        internal override void draw(DebugDrawingSurface drawingSurface)
+        internal override void draw(DebugDrawingSurface drawingSurface, DebugDrawMode drawMode)
         {
             //TODO: Implement Constraint Drawing
         }

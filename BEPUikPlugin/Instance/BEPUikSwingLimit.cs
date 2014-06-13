@@ -35,13 +35,16 @@ namespace BEPUikPlugin
             return definition;
         }
 
-        internal override void draw(DebugDrawingSurface drawingSurface)
+        internal override void draw(DebugDrawingSurface drawingSurface, DebugDrawMode drawMode)
         {
-            Vector3 origin = ConnectionA.Owner.Translation + connectionAPositionOffset;
-            drawingSurface.Color = Color.Red;
-            drawingSurface.drawLine(origin, origin + limit.AxisA.toEngineVec3() * 5.0f);
-            drawingSurface.Color = Color.Blue;
-            drawingSurface.drawLine(origin, origin + limit.AxisB.toEngineVec3() * 5.0f);
+            if ((drawMode & DebugDrawMode.SwingLimits) != 0)
+            {
+                Vector3 origin = ConnectionA.Owner.Translation + connectionAPositionOffset;
+                drawingSurface.Color = Color.Red;
+                drawingSurface.drawLine(origin, origin + limit.AxisA.toEngineVec3() * 5.0f);
+                drawingSurface.Color = Color.Blue;
+                drawingSurface.drawLine(origin, origin + limit.AxisB.toEngineVec3() * 5.0f);
+            }
         }
 
         public override IKLimit IKLimit

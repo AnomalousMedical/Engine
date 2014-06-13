@@ -33,6 +33,6 @@ namespace BEPUikPlugin
 
         public abstract IKConstraint IKConstraint { get; }
 
-        internal abstract void draw(DebugDrawingSurface drawingSurface);
+        internal abstract void draw(DebugDrawingSurface drawingSurface, DebugDrawMode drawMode);
     }
 }

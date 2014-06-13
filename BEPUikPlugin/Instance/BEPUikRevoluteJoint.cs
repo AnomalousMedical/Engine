@@ -30,7 +30,7 @@ namespace BEPUikPlugin
             return definition;
         }
 
-        internal override void draw(Engine.Renderer.DebugDrawingSurface drawingSurface)
+        internal override void draw(Engine.Renderer.DebugDrawingSurface drawingSurface, DebugDrawMode drawMode)
         {
             //TODO: Implement Constraint Drawing
         }

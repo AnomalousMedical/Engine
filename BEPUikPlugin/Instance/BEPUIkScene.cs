@@ -134,15 +134,18 @@ namespace BEPUikPlugin
             PerformanceMonitor.stop("BEPU IK");
         }
 
-        internal void drawDebug(DebugDrawingSurface drawingSurface)
+        internal void drawDebug(DebugDrawingSurface drawingSurface, DebugDrawMode drawMode)
         {
             drawingSurface.begin("BepuIkScene", Engine.Renderer.DrawingType.LineList);
             foreach(var bone in bones)
             {
-                draw(drawingSurface, bone);
+                if ((drawMode & DebugDrawMode.Bones) != 0)
+                {
+                    draw(drawingSurface, bone);
+                }
                 foreach(var joint in bone.IkBone.Joints)
                 {
-                    ((BEPUikConstraint)joint.UserObject).draw(drawingSurface);
+                    ((BEPUikConstraint)joint.UserObject).draw(drawingSurface, drawMode);
                 }
             }
             drawingSurface.end();
