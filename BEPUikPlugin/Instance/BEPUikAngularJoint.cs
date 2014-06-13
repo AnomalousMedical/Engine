@@ -1,6 +1,7 @@
 ﻿using BEPUik;
 using Engine;
 using Engine.ObjectManagement;
+using Engine.Renderer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,11 @@ namespace BEPUikPlugin
             var definition = new BEPUikAngularJointDefinition(Name);
             setupJointDefinition(definition);
             return definition;
+        }
+
+        internal override void draw(DebugDrawingSurface drawingSurface)
+        {
+            //TODO: Implement Constraint Drawing
         }
 
         public override IKJoint IKJoint

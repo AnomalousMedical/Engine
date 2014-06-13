@@ -32,6 +32,11 @@ namespace BEPUikPlugin
             return definition;
         }
 
+        internal override void draw(Engine.Renderer.DebugDrawingSurface drawingSurface)
+        {
+            //TODO: Implement Constraint Drawing
+        }
+
         public override IKLimit IKLimit
         {
             get
