@@ -47,6 +47,19 @@ namespace BEPUikPlugin
             drawingSurface.drawLine(Vector3.Zero, definition.AxisA.normalized() * 10.0f);
             drawingSurface.Color = Color.Blue;
             drawingSurface.drawLine(Vector3.Zero, definition.AxisB.normalized() * 10.0f);
+
+            if(definition.MeasurementAxisA.HasValue)
+            {
+                drawingSurface.Color = Color.Orange;
+                drawingSurface.drawLine(Vector3.Zero, definition.MeasurementAxisA.Value.normalized() * 10.0f);
+            }
+
+            if (definition.MeasurementAxisB.HasValue)
+            {
+                drawingSurface.Color = Color.LightBlue;
+                drawingSurface.drawLine(Vector3.Zero, definition.MeasurementAxisB.Value.normalized() * 10.0f);
+            }
+
             drawingSurface.end();
         }
     }
