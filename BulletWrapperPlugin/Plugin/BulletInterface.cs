@@ -47,6 +47,7 @@ namespace BulletPlugin
         public void initialize(PluginManager pluginManager)
         {
             pluginManager.addCreateSimElementManagerCommand(new AddSimElementManagerCommand("Create Bullet Scene Definition", new CreateSimElementManager(BulletSceneDefinition.Create)));
+            pluginManager.addCreateSimElementManagerCommand(new AddSimElementManagerCommand("Create Transformed Bullet Scene Definition", new CreateSimElementManager(TransformedBulletSceneDefinition.CreateTransformed)));
 
             pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create Bullet Rigid Body", new CreateSimElement(RigidBodyDefinition.Create)));
             pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create Bullet Reshapeable Rigid Body", new CreateSimElement(ReshapeableRigidBodyDefinition.CreateReshapeable)));
@@ -95,9 +96,12 @@ namespace BulletPlugin
             }
         }
 
-        internal BulletScene createScene(BulletSceneDefinition definition)
+        internal UpdateTimer UpdateTimer
         {
-            return new BulletScene(definition, timer);
+            get
+            {
+                return timer;
+            }
         }
 
         internal BulletShapeRepository ShapeRepository

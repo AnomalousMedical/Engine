@@ -27,12 +27,12 @@ namespace BulletPlugin
         ManagedTickCallback managedTickCallback;
         private String name;
         private UpdateTimer timer;
-        private BulletFactory factory;
+        protected BulletFactory factory;
         private IntPtr bulletScene;
         private BulletDebugDraw debugDraw;
         private String performanceName;
 
-        private List<RigidBody> rigidBodies = new List<RigidBody>();
+        protected List<RigidBody> rigidBodies = new List<RigidBody>();
 
         public unsafe BulletScene(BulletSceneDefinition definition, UpdateTimer timer)
         {
@@ -79,6 +79,11 @@ namespace BulletPlugin
         internal void removeConstraint(TypedConstraintElement constraint)
         {
             BulletScene_removeConstraint(bulletScene, constraint.constraint);
+        }
+
+        internal virtual MotionState createMotionState(RigidBody rigidBody, float maxContactDistance, ref Vector3 initialTrans, ref Quaternion initialRot)
+        {
+            return new MotionState(rigidBody, maxContactDistance, ref initialTrans, ref initialRot);
         }
 
         private void managedTickCallbackFunc(float timeSpan)

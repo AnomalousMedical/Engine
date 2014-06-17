@@ -47,9 +47,9 @@ namespace BulletPlugin
 	        return editInterface;
         }
 
-        public SimElementManager createSimElementManager()
+        public virtual SimElementManager createSimElementManager()
         {
-            return BulletInterface.Instance.createScene(this);
+            return new BulletScene(this, BulletInterface.Instance.UpdateTimer);
         }
 
         public string Name
@@ -135,7 +135,7 @@ namespace BulletPlugin
             Gravity = info.GetVector3("Gravity");
         }
 
-        public void getInfo(SaveInfo info)
+        public virtual void getInfo(SaveInfo info)
         {
             info.AddValue("Name", name);
             info.AddValue("WorldAABBMin", WorldAabbMin);

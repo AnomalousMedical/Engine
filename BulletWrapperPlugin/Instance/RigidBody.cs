@@ -58,7 +58,7 @@ namespace BulletPlugin
             shapeName = description.ShapeName;
             collisionFilterMask = description.CollisionFilterMask;
             collisionFilterGroup = description.CollisionFilterGroup;
-            motionState = new MotionState(this, description.MaxContactDistance, ref initialTrans, ref initialRot);
+            motionState = scene.createMotionState(this, description.MaxContactDistance, ref initialTrans, ref initialRot);
 	
             rigidBody = btRigidBody_Create(ref description.constructionInfo, motionState.motionState, collisionShape);
 

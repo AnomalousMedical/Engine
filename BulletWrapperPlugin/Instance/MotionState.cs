@@ -15,7 +15,7 @@ namespace BulletPlugin
         private ContactCallback contactContinuesCallback;
         internal IntPtr motionState;
         private ContactInfo contactInfo = new ContactInfo();
-        private RigidBody rigidBody;
+        protected RigidBody rigidBody;
 
         public MotionState(RigidBody rigidBody, float maxContactDistance, ref Vector3 initialTrans, ref Quaternion initialRot)
         {
@@ -52,7 +52,7 @@ namespace BulletPlugin
             }
         }
 
-        private void motionStateCallback(ref Vector3 trans, ref Quaternion rot)
+        protected virtual void motionStateCallback(ref Vector3 trans, ref Quaternion rot)
         {
             rigidBody.updateObjectPosition(ref trans, ref rot);
         }

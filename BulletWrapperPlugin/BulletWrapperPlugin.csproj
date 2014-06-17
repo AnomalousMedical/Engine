@@ -62,7 +62,9 @@
     <Compile Include="Definition\ReshapeableRigidBodyDefinition.cs" />
     <Compile Include="Definition\RigidBodyDefinition.cs" />
     <Compile Include="Definition\RigidBodyConstructionInfo.cs" />
+    <Compile Include="Definition\TransformedBulletSceneDefinition.cs" />
     <Compile Include="Instance\BulletScene.cs" />
+    <Compile Include="Instance\TransformedBulletScene.cs" />
     <Compile Include="Instance\Contact\ContactInfo.cs" />
     <Compile Include="Instance\Contact\ManifoldPoint.cs" />
     <Compile Include="Instance\ConvexDecompositionDesc.cs" />
@@ -72,6 +74,7 @@
     <Compile Include="Instance\MotionState.cs" />
     <Compile Include="Instance\ReshapeableRigidBody.cs" />
     <Compile Include="Instance\RigidBodyManager.cs" />
+    <Compile Include="Instance\TransformedMotionState.cs" />
     <Compile Include="Plugin\BulletInterface.cs" />
     <Compile Include="Plugin\BulletPluginEntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

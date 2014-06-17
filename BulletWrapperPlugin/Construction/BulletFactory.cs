@@ -15,6 +15,11 @@ namespace BulletPlugin
         //List<SoftBodyProviderEntry> softBodyProviders;
         //List<BulletFactoryEntry> softBodyAnchors;
 
+        /// <summary>
+        /// Called when the link phase is called on this factory.
+        /// </summary>
+        public event Action<BulletFactory> OnLinkPhase;
+
         public BulletFactory(BulletScene scene)
         {
             this.scene = scene;
@@ -86,7 +91,10 @@ namespace BulletPlugin
 
         public void linkProducts()
         {
-            
+            if (OnLinkPhase != null)
+            {
+                OnLinkPhase.Invoke(this);
+            }
         }
 
         public void clearDefinitions()
