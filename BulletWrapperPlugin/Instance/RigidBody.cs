@@ -58,6 +58,7 @@ namespace BulletPlugin
             shapeName = description.ShapeName;
             collisionFilterMask = description.CollisionFilterMask;
             collisionFilterGroup = description.CollisionFilterGroup;
+            StayLocalTransform = description.StayLocalTransform;
             motionState = scene.createMotionState(this, description.MaxContactDistance, ref initialTrans, ref initialRot);
 	
             rigidBody = btRigidBody_Create(ref description.constructionInfo, motionState.motionState, collisionShape);
@@ -265,6 +266,7 @@ namespace BulletPlugin
             definition.MaxContactDistance = motionState.MaxContactDistance;
             definition.CollisionFilterGroup = collisionFilterGroup;
             definition.CollisionFilterMask = collisionFilterMask;
+            definition.StayLocalTransform = StayLocalTransform;
         }
 
         public void setDamping(float linearDamping, float angularDamping)
@@ -568,6 +570,8 @@ namespace BulletPlugin
                 return scene;
             }
         }
+
+        public bool StayLocalTransform { get; private set; }
     }
 
     //Dll Imports

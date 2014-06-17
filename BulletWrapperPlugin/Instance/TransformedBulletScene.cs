@@ -54,7 +54,14 @@ namespace BulletPlugin
 
         internal override MotionState createMotionState(RigidBody rigidBody, float maxContactDistance, ref Vector3 initialTrans, ref Quaternion initialRot)
         {
-            return new TransformedMotionState(this, rigidBody, maxContactDistance, ref initialTrans, ref initialRot);
+            if (rigidBody.StayLocalTransform)
+            {
+                return new MotionState(rigidBody, maxContactDistance, ref initialTrans, ref initialRot);
+            }
+            else
+            {
+                return new TransformedMotionState(this, rigidBody, maxContactDistance, ref initialTrans, ref initialRot);
+            }
         }
 
         public SimObject TransformSimObject { get; private set; }

@@ -30,6 +30,7 @@ namespace BulletPlugin
             MaxContactDistance = 0.0f;
             CollisionFilterMask = -1;
             CollisionFilterGroup = 1;
+            StayLocalTransform = false;
         }
 
         public override void registerScene(SimSubScene subscene, SimObjectBase instance)
@@ -200,6 +201,14 @@ namespace BulletPlugin
 		    }
 	    }
 
+        /// <summary>
+        /// Determines if the transform of this rigid body should have the TransformBulletScene tracking sim object transform added to it
+        /// when synchronizing.
+        /// Only applies if a TransformedBulletScene is used. False to use the scene's transform, true to stay in the local bullet scene coordinates.
+        /// </summary>
+        [Editable]
+        public bool StayLocalTransform { get; set; }
+
         #endregion
     }
 
@@ -252,6 +261,7 @@ namespace BulletPlugin
             MaxContactDistance = info.GetFloat("MaxContactDistance", 0.0f);
             CollisionFilterMask = info.GetInt16("CollisionFilterMask", -1);
             CollisionFilterGroup = info.GetInt16("CollisionFilterGroup", 1);
+            StayLocalTransform = info.GetBoolean("StayLocalTransform", false);
         }
 
         public override void getInfo(SaveInfo info)
@@ -275,6 +285,7 @@ namespace BulletPlugin
             info.AddValue("MaxContactDistance", MaxContactDistance);
             info.AddValue("CollisionFilterMask", CollisionFilterMask);
             info.AddValue("CollisionFilterGroup", CollisionFilterGroup);
+            info.AddValue("StayLocalTransform", StayLocalTransform);
         }
     }
 }
