@@ -28,7 +28,7 @@ namespace BEPUikPlugin
             this.name = definition.Name;
             factory = new BEPUIkFactory(this);
             updater = new BEPUikSceneUpdater(this);
-            timer.addFullSpeedUpdateListener(updater);
+            timer.addBackgroundUpdateListener("Rendering", updater);
 
             ikSolver.ActiveSet.UseAutomass = definition.ActiveSetUseAutomass;
             ikSolver.AutoscaleControlImpulses = definition.AutoscaleControlImpulses;
@@ -41,7 +41,7 @@ namespace BEPUikPlugin
 
         public void Dispose()
         {
-            timer.removeFullSpeedUpdateListener(updater);
+            timer.removeBackgroundUpdateListener("Rendering", updater);
             ikSolver.Dispose();
         }
 
@@ -114,9 +114,9 @@ namespace BEPUikPlugin
             solveControls.Remove(control);
         }
 
-        public void update()
+        internal void backgroundUpdate()
         {
-            PerformanceMonitor.start("BEPU IK");
+            PerformanceMonitor.start("BEPU IK Background");
             if (solveControls.Count > 0)
             {
                 foreach (var control in controls)
@@ -125,13 +125,19 @@ namespace BEPUikPlugin
                 }
 
                 ikSolver.Solve(solveControls);
+            }
+            PerformanceMonitor.stop("BEPU IK Background");
+        }
 
+        internal void sync()
+        {
+            if (solveControls.Count > 0)
+            {
                 foreach (var bone in bones)
                 {
                     bone.syncSimObject();
                 }
             }
-            PerformanceMonitor.stop("BEPU IK");
         }
 
         internal void drawDebug(DebugDrawingSurface drawingSurface, DebugDrawMode drawMode)

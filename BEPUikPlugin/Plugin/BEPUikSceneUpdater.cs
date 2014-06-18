@@ -7,18 +7,13 @@ using System.Threading.Tasks;
 
 namespace BEPUikPlugin
 {
-    class BEPUikSceneUpdater : UpdateListener
+    class BEPUikSceneUpdater : BackgroundUpdateListener
     {
         BEPUikScene scene;
 
         public BEPUikSceneUpdater(BEPUikScene scene)
         {
             this.scene = scene;
-        }
-
-        public void sendUpdate(Clock clock)
-        {
-            scene.update();
         }
 
         public void loopStarting()
@@ -29,6 +24,16 @@ namespace BEPUikPlugin
         public void exceededMaxDelta()
         {
             
+        }
+
+        public void doBackgroundWork(Clock clock)
+        {
+            scene.backgroundUpdate();
+        }
+
+        public void synchronizeResults()
+        {
+            scene.sync();
         }
     }
 }
