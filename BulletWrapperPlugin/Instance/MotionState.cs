@@ -17,6 +17,10 @@ namespace BulletPlugin
         private ContactInfo contactInfo = new ContactInfo();
         protected RigidBody rigidBody;
 
+        private bool positionUpdated = false;
+        protected Vector3 updatedTranslation;
+        protected Quaternion updatedRotation;
+
         public MotionState(RigidBody rigidBody, float maxContactDistance, ref Vector3 initialTrans, ref Quaternion initialRot)
         {
             this.rigidBody = rigidBody;
@@ -52,9 +56,46 @@ namespace BulletPlugin
             }
         }
 
-        protected virtual void motionStateCallback(ref Vector3 trans, ref Quaternion rot)
+        /// <summary>
+        /// True if the position changed.
+        /// </summary>
+        public bool PositionUpdated
         {
-            rigidBody.updateObjectPosition(ref trans, ref rot);
+            get
+            {
+                return positionUpdated;
+            }
+        }
+
+        public virtual Vector3 UpdatedTranslation
+        {
+            get
+            {
+                return updatedTranslation;
+            }
+        }
+
+        public virtual Quaternion UpdatedRotation
+        {
+            get
+            {
+                return updatedRotation;
+            }
+        }
+
+        /// <summary>
+        /// Call this after synching the updated translation and rotation.
+        /// </summary>
+        internal void positionSynched()
+        {
+            positionUpdated = false;
+        }
+
+        private void motionStateCallback(ref Vector3 trans, ref Quaternion rot)
+        {
+            updatedTranslation = trans;
+            updatedRotation = rot;
+            positionUpdated = true;
         }
 
         private void contactStartedCallbackFunc(IntPtr contact, IntPtr sourceBody, IntPtr otherBody, bool isBodyA)

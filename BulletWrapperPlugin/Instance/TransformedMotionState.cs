@@ -17,15 +17,23 @@ namespace BulletPlugin
             this.scene = scene;
         }
 
-        protected override void motionStateCallback(ref Vector3 trans, ref Quaternion rot)
+        public override Vector3 UpdatedTranslation
         {
-            Vector3 extraTrans = scene.TransformSimObject.Translation;
-            Quaternion extraRot = scene.TransformSimObject.Rotation;
+            get
+            {
+                Vector3 extraTrans = scene.TransformSimObject.Translation;
+                Quaternion extraRot = scene.TransformSimObject.Rotation;
+                extraTrans += Quaternion.quatRotate(ref extraRot, ref updatedTranslation);
+                return extraTrans;
+            }
+        }
 
-            extraTrans += Quaternion.quatRotate(ref extraRot, ref trans);
-            extraRot = extraRot * rot;
-
-            rigidBody.updateObjectPosition(ref extraTrans, ref extraRot);
+        public override Quaternion UpdatedRotation
+        {
+            get
+            {
+                return scene.TransformSimObject.Rotation * updatedRotation;
+            }
         }
     }
 }

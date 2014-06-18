@@ -47,10 +47,6 @@ namespace BulletPlugin
         short collisionFilterGroup;
         private MotionState motionState;
 
-        private bool positionUpdated = false;
-        private Vector3 updatedTranslation;
-        private Quaternion updatedRotation;
-
         public unsafe RigidBody(RigidBodyDefinition description, BulletScene scene, IntPtr collisionShape, Vector3 initialTrans, Quaternion initialRot)
             :base(description.Name, description.Subscription)
         {
@@ -183,19 +179,14 @@ namespace BulletPlugin
             }
         }
 
-        internal void updateObjectPosition(ref Vector3 translation, ref Quaternion rotation)
-        {
-            updatedTranslation = translation;
-            updatedRotation = rotation;
-            positionUpdated = true;
-        }
-
         internal void syncObjectPosition()
         {
-            if (positionUpdated)
+            if (motionState.PositionUpdated)
             {
+                Vector3 updatedTranslation = motionState.UpdatedTranslation;
+                Quaternion updatedRotation = motionState.UpdatedRotation;
                 updatePosition(ref updatedTranslation, ref updatedRotation);
-                positionUpdated = false;
+                motionState.positionSynched();
             }
         }
 
