@@ -34,7 +34,7 @@ namespace OgreModelEditor.Controller
 
         //GUI
         private SkeletonWindow skeletonWindow = new SkeletonWindow();
-        private new CustomParameterControl customParameters = new CustomParameterControl();
+        private CustomParameterControl customParameters = new CustomParameterControl();
         private AnimationWindow animationWindow = new AnimationWindow();
 
         /// <summary>

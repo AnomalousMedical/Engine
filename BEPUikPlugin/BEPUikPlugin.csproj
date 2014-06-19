@@ -25,17 +25,11 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;LITE_EMBEDDED_LIB</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BEPUik">
-      <HintPath>..\..\Dependencies\BEPUPhysics\BEPUik\bin\x86\Release\BEPUik.dll</HintPath>
-    </Reference>
-    <Reference Include="BEPUutilities">
-      <HintPath>..\..\Dependencies\BEPUPhysics\BEPUik\bin\x86\Release\BEPUutilities.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,6 +39,138 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\ActiveSet.cs">
+      <Link>BEPUik\ActiveSet.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\Bone.cs">
+      <Link>BEPUik\Bone.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\Control.cs">
+      <Link>BEPUik\Control.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\DragControl.cs">
+      <Link>BEPUik\DragControl.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\IKAngularJoint.cs">
+      <Link>BEPUik\IKAngularJoint.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\IKBallSocketJoint.cs">
+      <Link>BEPUik\IKBallSocketJoint.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\IKConstraint.cs">
+      <Link>BEPUik\IKConstraint.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\IKDistanceJoint.cs">
+      <Link>BEPUik\IKDistanceJoint.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\IKDistanceLimit.cs">
+      <Link>BEPUik\IKDistanceLimit.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\IKJoint.cs">
+      <Link>BEPUik\IKJoint.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\IKLimit.cs">
+      <Link>BEPUik\IKLimit.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\IKLinearAxisLimit.cs">
+      <Link>BEPUik\IKLinearAxisLimit.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\IKPointOnLineJoint.cs">
+      <Link>BEPUik\IKPointOnLineJoint.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\IKPointOnPlaneJoint.cs">
+      <Link>BEPUik\IKPointOnPlaneJoint.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\IKRevoluteJoint.cs">
+      <Link>BEPUik\IKRevoluteJoint.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\IKSolver.cs">
+      <Link>BEPUik\IKSolver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\IKSwingLimit.cs">
+      <Link>BEPUik\IKSwingLimit.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\IKSwivelHingeJoint.cs">
+      <Link>BEPUik\IKSwivelHingeJoint.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\IKTwistJoint.cs">
+      <Link>BEPUik\IKTwistJoint.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\IKTwistLimit.cs">
+      <Link>BEPUik\IKTwistLimit.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\SingleBoneAngularMotor.cs">
+      <Link>BEPUik\SingleBoneAngularMotor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\SingleBoneConstraint.cs">
+      <Link>BEPUik\SingleBoneConstraint.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\SingleBoneLinearMotor.cs">
+      <Link>BEPUik\SingleBoneLinearMotor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\StateControl.cs">
+      <Link>BEPUik\StateControl.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUutilities\BoundingBox.cs">
+      <Link>BEPUutilities\BoundingBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUutilities\BoundingSphere.cs">
+      <Link>BEPUutilities\BoundingSphere.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUutilities\ContainmentType.cs">
+      <Link>BEPUutilities\ContainmentType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUutilities\DataStructures\RawList.cs">
+      <Link>BEPUutilities\DataStructures\RawList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUutilities\DataStructures\ReadOnlyList.cs">
+      <Link>BEPUutilities\DataStructures\ReadOnlyList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUutilities\MathHelper.cs">
+      <Link>BEPUutilities\MathHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUutilities\Matrix.cs">
+      <Link>BEPUutilities\Matrix.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUutilities\Matrix3x3.cs">
+      <Link>BEPUutilities\Matrix3x3.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUutilities\PermutationMapper.cs">
+      <Link>BEPUutilities\PermutationMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUutilities\Plane.cs">
+      <Link>BEPUutilities\Plane.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUutilities\Quaternion.cs">
+      <Link>BEPUutilities\Quaternion.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUutilities\Ray.cs">
+      <Link>BEPUutilities\Ray.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUutilities\RayHit.cs">
+      <Link>BEPUutilities\RayHit.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUutilities\RigidTransform.cs">
+      <Link>BEPUutilities\RigidTransform.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUutilities\Toolbox.cs">
+      <Link>BEPUutilities\Toolbox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUutilities\TriangleSidedness.cs">
+      <Link>BEPUutilities\TriangleSidedness.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUutilities\Vector2.cs">
+      <Link>BEPUutilities\Vector2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUutilities\Vector3.cs">
+      <Link>BEPUutilities\Vector3.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUutilities\Vector4.cs">
+      <Link>BEPUutilities\Vector4.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUutilities\VoronoiRegion.cs">
+      <Link>BEPUutilities\VoronoiRegion.cs</Link>
+    </Compile>
     <Compile Include="Behaviors\BaseMover.cs" />
     <Compile Include="Behaviors\Grabber\Grabber.cs">
       <SubType>Code</SubType>
