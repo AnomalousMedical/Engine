@@ -449,7 +449,7 @@ namespace Anomaly
                 PositionCollection positions = new PositionCollection();
                 try
                 {
-                    using (XmlTextReader textReader = new XmlTextReader(file))
+                    using (XmlTextReader textReader = new XmlTextReader(File.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read)))
                     {
                         positions.loadPositions(textReader);
                     }

@@ -20,20 +20,14 @@ namespace Engine.Performance
 
         public void start(string name)
         {
-            lock (lockObj)
-            {
-                Timelapse timelapse = getTimelapse(name);
-                timelapse.StartTime = timer.getCurrentTime() / 1000;
-            }
+            Timelapse timelapse = getTimelapse(name);
+            timelapse.StartTime = timer.getCurrentTime() / 1000;
         }
 
         public void stop(string name)
         {
-            lock (lockObj)
-            {
-                Timelapse timelapse = getTimelapse(name);
-                timelapse.EndTime = timer.getCurrentTime() / 1000;
-            }
+            Timelapse timelapse = getTimelapse(name);
+            timelapse.EndTime = timer.getCurrentTime() / 1000;
         }
 
         public Timelapse this[String name]
@@ -59,8 +53,11 @@ namespace Engine.Performance
             Timelapse timelapse;
             if (!timelapses.TryGetValue(name, out timelapse))
             {
-                timelapse = new Timelapse(name);
-                timelapses.Add(name, timelapse);
+                lock (lockObj)
+                {
+                    timelapse = new Timelapse(name);
+                    timelapses.Add(name, timelapse);
+                }
             }
             return timelapse;
         }

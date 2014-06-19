@@ -20,7 +20,7 @@ namespace Engine
         }
 
         /// <summary>
-        /// Set the start time for a counter, this is thread safe.
+        /// Set the start time for a counter, this is sort of thread safe, however, start and stop should be called on the same thread.
         /// </summary>
         /// <param name="name">The name of the counter to set the start time for.</param>
         public static void start(String name)
@@ -29,7 +29,7 @@ namespace Engine
         }
 
         /// <summary>
-        /// Set the stop time for a counter, this is thread safe.
+        /// Set the stop time for a counter, this is sort of thread safe, however, start and stop should be called on the same thread.
         /// </summary>
         /// <param name="name">The name of the counter to set the stop time for.</param>
         public static void stop(String name)
@@ -37,6 +37,9 @@ namespace Engine
             currentState.stop(name);
         }
 
+        /// <summary>
+        /// Get an enum over the timelapses. Do not call this any time a background thread could be calling start or stop.
+        /// </summary>
         public static IEnumerable<Timelapse> Timelapses
         {
             get
