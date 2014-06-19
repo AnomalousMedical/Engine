@@ -64,6 +64,14 @@ namespace BulletPlugin
             }
         }
 
+        protected override BulletSceneDefinition createDefinition(String name)
+        {
+            return new TransformedBulletSceneDefinition(name)
+            {
+                TransformSimObjectName = transformSimObjectName
+            };
+        }
+
         public SimObject TransformSimObject { get; private set; }
     }
 }

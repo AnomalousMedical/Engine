@@ -48,6 +48,8 @@ namespace BulletPlugin
             debugDraw = new BulletDebugDraw();
             performanceName = String.Format("BulletScene {0} Background", name);
             Active = true;
+            InternalTimestep = definition.InternalTimestep;
+            SolverIterations = definition.SolverIterations;
         }
 
         public void Dispose()
@@ -96,6 +98,37 @@ namespace BulletPlugin
 
         public bool Active { get; set; }
 
+        /// <summary>
+        /// The internal timestep for the scene, by default this is 1/60th of a second (60fps).
+        /// </summary>
+        public float InternalTimestep
+        {
+            get
+            {
+                return BulletScene_getInternalTimestep(bulletScene);
+            }
+            set
+            {
+                BulletScene_setInternalTimestep(bulletScene, value);
+            }
+        }
+
+        /// <summary>
+        /// The number of internal solver iterations for the scene. The default is 10. The reccomended range is 4-20, 
+        /// but you can go higher if more accuracy is needed at the cost of speed.
+        /// </summary>
+        public int SolverIterations
+        {
+            get
+            {
+                return BulletScene_getSolverIterations(bulletScene);
+            }
+            set
+            {
+                BulletScene_setSolverIterations(bulletScene, value);
+            }
+        }
+
         #region SimElementManager Members
 
         public SimElementFactory getFactory()
@@ -120,12 +153,19 @@ namespace BulletPlugin
 
         public unsafe SimElementManagerDefinition createDefinition()
         {
-            BulletSceneDefinition definition = new BulletSceneDefinition(name);
+            BulletSceneDefinition definition = createDefinition(name);
             fixed (BulletSceneInfo* info = &definition.sceneInfo)
             {
                 BulletScene_fillOutInfo(bulletScene, info);
             }
+            definition.InternalTimestep = InternalTimestep;
+            definition.SolverIterations = SolverIterations;
             return definition;
+        }
+
+        protected virtual BulletSceneDefinition createDefinition(String name)
+        {
+            return new BulletSceneDefinition(name);
         }
 
         #endregion
@@ -209,5 +249,17 @@ namespace BulletPlugin
 
         [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void BulletScene_debugDrawWorld(IntPtr instance, IntPtr debugDrawer);
+
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        private static extern void BulletScene_setInternalTimestep(IntPtr instance, float internalTimestep);
+
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        private static extern float BulletScene_getInternalTimestep(IntPtr instance);
+
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        private static extern void BulletScene_setSolverIterations(IntPtr instance, int iterations);
+
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        private static extern int BulletScene_getSolverIterations(IntPtr instance);
     }
 }

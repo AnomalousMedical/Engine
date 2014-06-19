@@ -147,6 +147,28 @@ void BulletScene::debugDrawWorld(BulletDebugDraw* debugDrawer)
 	dynamicsWorld->setDebugDrawer(0);
 }
 
+void BulletScene::setInternalTimestep(float internalTimestep)
+{
+	this->internalTimestep = internalTimestep;
+}
+
+float BulletScene::getInternalTimestep()
+{
+	return internalTimestep;
+}
+
+void BulletScene::setSolverIterations(int iterations)
+{
+	btContactSolverInfo& info = dynamicsWorld->getSolverInfo();
+	info.m_numIterations = iterations;
+}
+
+int BulletScene::getSolverIterations()
+{
+	btContactSolverInfo& info = dynamicsWorld->getSolverInfo();
+	return info.m_numIterations;
+}
+
 //--------------------------------------------------
 //Wrapper functions
 //--------------------------------------------------
@@ -193,4 +215,24 @@ extern "C" _AnomalousExport void BulletScene_removeConstraint(BulletScene* insta
 extern "C" _AnomalousExport void BulletScene_debugDrawWorld(BulletScene* instance, BulletDebugDraw* debugDrawer)
 {
 	instance->debugDrawWorld(debugDrawer);
+}
+
+extern "C" _AnomalousExport void BulletScene_setInternalTimestep(BulletScene* instance, float internalTimestep)
+{
+	instance->setInternalTimestep(internalTimestep);
+}
+
+extern "C" _AnomalousExport float BulletScene_getInternalTimestep(BulletScene* instance)
+{
+	return instance->getInternalTimestep();
+}
+
+extern "C" _AnomalousExport void BulletScene_setSolverIterations(BulletScene* instance, int iterations)
+{
+	instance->setSolverIterations(iterations);
+}
+
+extern "C" _AnomalousExport int BulletScene_getSolverIterations(BulletScene* instance)
+{
+	return instance->getSolverIterations();
 }

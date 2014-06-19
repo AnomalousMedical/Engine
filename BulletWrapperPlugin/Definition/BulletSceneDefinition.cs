@@ -31,6 +31,8 @@ namespace BulletPlugin
             sceneInfo.gravity = new Vector3(0f, -9.8f, 0f);
             sceneInfo.worldAabbMax = new Vector3(10000f, 10000f, 10000f);
             sceneInfo.worldAabbMin = new Vector3(-10000f, -10000f, -10000f);
+            InternalTimestep = 1f / 60f;
+            SolverIterations = 10;
         }
 
         public void Dispose()
@@ -114,6 +116,12 @@ namespace BulletPlugin
 		    }
 	    }
 
+        [Editable]
+        public float InternalTimestep { get; set; }
+
+        [Editable]
+        public int SolverIterations { get; set; }
+
          /// <summary>
         /// Create function for commands.
         /// </summary>
@@ -133,6 +141,8 @@ namespace BulletPlugin
             WorldAabbMax = info.GetVector3("WorldAABBMax");
             MaxProxies = info.GetInt32("MaxProxies");
             Gravity = info.GetVector3("Gravity");
+            InternalTimestep = info.GetFloat("InternalTimestep", 1f / 60f);
+            SolverIterations = info.GetInt32("SolverIterations", 10);
         }
 
         public virtual void getInfo(SaveInfo info)
@@ -142,6 +152,8 @@ namespace BulletPlugin
             info.AddValue("WorldAABBMax", WorldAabbMax);
             info.AddValue("MaxProxies", MaxProxies);
             info.AddValue("Gravity", Gravity);
+            info.AddValue("InternalTimestep", InternalTimestep);
+            info.AddValue("SolverIterations", SolverIterations);
         }
 
         #endregion

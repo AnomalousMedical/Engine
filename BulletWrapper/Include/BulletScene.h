@@ -69,4 +69,12 @@ public:
 	void tickCallback(btScalar timeStep);
 
 	void debugDrawWorld(BulletDebugDraw* debugDrawer);
+
+	void setInternalTimestep(float internalTimestep);
+
+	float getInternalTimestep();
+
+	void setSolverIterations(int iterations);
+
+	int getSolverIterations();
 };
