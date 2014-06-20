@@ -117,11 +117,29 @@ namespace BulletPlugin
                 return rbB;
             }
         }
+
+        public int OverrideNumIterations
+        {
+            get
+            {
+                return btTypedConstraint_getOverrideNumSolverIterations(constraint);
+            }
+            set
+            {
+                btTypedConstraint_setOverrideNumSolverIterations(constraint, value);
+            }
+        }
     }
 
     partial class TypedConstraintElement
     {
         [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
         private static extern void btTypedConstraint_Delete(IntPtr instance);
+
+        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        private static extern void btTypedConstraint_setOverrideNumSolverIterations(IntPtr instance, int overrideNumIterations);
+
+        [DllImport("BulletWrapper", CallingConvention = CallingConvention.Cdecl)]
+        private static extern int btTypedConstraint_getOverrideNumSolverIterations(IntPtr instance);
     }
 }

@@ -26,8 +26,8 @@ void ContactCache::destroyHead(ContactInfo* head)
 
 void ContactCache::addManifold(btPersistentManifold* contactManifold)
 {
-	btRigidBody* btRbA = static_cast<btRigidBody*>(contactManifold->getBody0());
-	btRigidBody* btRbB = static_cast<btRigidBody*>(contactManifold->getBody1());
+	btRigidBody* btRbA = static_cast<btRigidBody*>(const_cast<btCollisionObject*>(contactManifold->getBody0()));
+	btRigidBody* btRbB = static_cast<btRigidBody*>(const_cast<btCollisionObject*>(contactManifold->getBody1()));
 	unsigned long sumPtr = (unsigned long)btRbA + (unsigned long)btRbB;
 	ContactInfo* info = 0;
 	ContactMapIter head = liveContacts.find(sumPtr);
