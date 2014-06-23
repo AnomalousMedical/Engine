@@ -157,7 +157,6 @@
     <Compile Include="Shim\AssemblyShim.cs" />
     <Compile Include="Shim\EnvironmentShim.cs" />
     <Compile Include="Shim\PathShim.cs" />
-    <Compile Include="Shim\ThreadPoolShim.cs" />
     <Compile Include="Shim\ThreadShim.cs" />
     <Compile Include="Shim\TypeShim.cs" />
     <Compile Include="ObjectManagement\Definition\CompositeSimObjectDefinition.cs" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Engine.Platform
 {
@@ -11,7 +12,6 @@ namespace Engine.Platform
         private ManualResetEventSlim mainThreadWait = new ManualResetEventSlim(false);
 
         private BackgroundUpdateListener updateListener;
-        //private Clock currentClock;
 
         public BackgroundUpdateListenerWorker(BackgroundUpdateListener updateListener)
         {
@@ -27,17 +27,15 @@ namespace Engine.Platform
         {
             mainThreadWait.Wait();
             mainThreadWait.Reset();
-            //currentClock = null;
         }
 
         public void startBackgroundWork(Clock clock)
         {
-            //currentClock = clock;
-            ThreadPoolShim.QueueUserWorkItem((state) =>
+            Task.Run(() =>
             {
-                updateListener.doBackgroundWork((Clock)state);
+                updateListener.doBackgroundWork(clock);
                 mainThreadWait.Set();
-            }, clock);
+            });
         }
 
         public void synchronizeResults()
