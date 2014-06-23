@@ -96,6 +96,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\btFixedConstraintWrapper.cpp" />
     <ClCompile Include="src\btGeneric6DofConstraintWrapper.cpp" />
     <ClCompile Include="src\btManifoldPoint.cpp" />
     <ClCompile Include="src\btRigidBodyWrapper.cpp" />

@@ -55,6 +55,7 @@
     <Compile Include="Definition\BulletElementDefinition.cs" />
     <Compile Include="Definition\BulletSceneDefinition.cs" />
     <Compile Include="Definition\BulletSceneInfo.cs" />
+    <Compile Include="Definition\Joints\FixedConstraintDefinition.cs" />
     <Compile Include="Definition\Joints\Generic6DofConstraintDefinition.cs" />
     <Compile Include="Definition\Joints\RotationalLimitMotorDefinition.cs" />
     <Compile Include="Definition\Joints\TranslationalLimitMotorDefinition.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Definition\RigidBodyConstructionInfo.cs" />
     <Compile Include="Definition\TransformedBulletSceneDefinition.cs" />
     <Compile Include="Instance\BulletScene.cs" />
+    <Compile Include="Instance\Joints\FixedConstraintElement.cs" />
     <Compile Include="Instance\TransformedBulletScene.cs" />
     <Compile Include="Instance\Contact\ContactInfo.cs" />
     <Compile Include="Instance\Contact\ManifoldPoint.cs" />
