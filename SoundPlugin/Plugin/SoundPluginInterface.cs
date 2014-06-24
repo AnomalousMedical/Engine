@@ -66,6 +66,11 @@ namespace SoundPlugin
             
         }
 
+        public void setupRenamedSaveableTypes(RenamedTypeMap renamedTypeMap)
+        {
+
+        }
+
         public SoundManager SoundManager
         {
             get

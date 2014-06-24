@@ -75,6 +75,11 @@ namespace Engine
 
         }
 
+        public void setupRenamedSaveableTypes(RenamedTypeMap renamedTypeMap)
+        {
+
+        }
+
         public UpdateTimer Timer
         {
             get

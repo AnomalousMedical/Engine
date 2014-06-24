@@ -85,6 +85,11 @@ namespace BulletPlugin
             
         }
 
+        public void setupRenamedSaveableTypes(RenamedTypeMap renamedTypeMap)
+        {
+
+        }
+
         public float ShapeMargin
         {
             get

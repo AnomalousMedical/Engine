@@ -71,6 +71,11 @@ namespace BEPUikPlugin
             
         }
 
+        public void setupRenamedSaveableTypes(RenamedTypeMap renamedTypeMap)
+        {
+
+        }
+
         internal BEPUikScene createScene(BEPUikSceneDefinition definition)
         {
             return new BEPUikScene(definition, timer);

@@ -141,6 +141,11 @@ namespace MyGUIPlugin
             
         }
 
+        public void setupRenamedSaveableTypes(RenamedTypeMap renamedTypeMap)
+        {
+
+        }
+
         public OgrePlatform OgrePlatform
         {
             get

@@ -183,6 +183,11 @@ namespace OgrePlugin
             commands.Add(ogreDebugCommands);
         }
 
+        public void setupRenamedSaveableTypes(RenamedTypeMap renamedTypeMap)
+        {
+
+        }
+
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
         {
             mainTimer.addFullSpeedUpdateListenerWithBackgrounding("Rendering", ogreUpdate);

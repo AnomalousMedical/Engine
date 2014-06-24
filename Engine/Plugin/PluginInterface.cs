@@ -55,5 +55,12 @@ namespace Engine
         /// </summary>
         /// <param name="commands">A list of CommandManagers to add debug commands to.</param>
         void createDebugCommands(List<CommandManager> commands);
+
+        /// <summary>
+        /// This funciton will be called if a type name is missed on loading if the findType function is used on the PluginManager. 
+        /// Plugins can use it to add any types that have been renamed to the RenamedTypeMap.
+        /// </summary>
+        /// <param name="renamedTypeMap">The map to add renamed types to.</param>
+        void setupRenamedSaveableTypes(RenamedTypeMap renamedTypeMap);
     }
 }

@@ -120,6 +120,11 @@ namespace libRocketPlugin
 
         }
 
+        public void setupRenamedSaveableTypes(RenamedTypeMap renamedTypeMap)
+        {
+
+        }
+
         /// <summary>
         /// Create a url for librocket from a path. Makes sure everything is formatted correctly.
         /// </summary>

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Medical
+namespace Engine.Behaviors.Animation
 {
     public class PositionBroadcaster : Interface
     {

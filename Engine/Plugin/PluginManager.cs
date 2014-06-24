@@ -58,6 +58,7 @@ namespace Engine
         private String pluginDirectory = null;
         private VirtualFileSystem virtualFileSystem;
         private Dictionary<String, Type> slowSearchTypeCache = new Dictionary<string, Type>();//After a slow search is done for a type it will be stored here for faster lookup if it is needed again.
+        private RenamedTypeMap renamedTypeMap = null;
 
         #endregion Fields
 
@@ -154,6 +155,10 @@ namespace Engine
             Log.Default.sendMessage("Plugin {0} added.", LogLevel.Info, "Engine", plugin.getName());
             loadedPlugins.Add(plugin);
             plugin.initialize(this);
+            if(renamedTypeMap != null)
+            {
+                plugin.setupRenamedSaveableTypes(renamedTypeMap);
+            }
         }
 
         /// <summary>
@@ -180,18 +185,21 @@ namespace Engine
                 {
                     Log.Warning("Had to do slow search looking for type \'{0}\'. You should fix the source file searching for this type", assemblyQualifiedName);
                     String typeName = assemblyQualifiedName.Split(SPLIT)[0];
-                    foreach (Assembly assembly in pluginAssemblies)
+
+                    //If there is not yet a renamed type map, create it.
+                    if(renamedTypeMap == null)
                     {
-                        type = assembly.GetType(typeName);
-                        if (type != null)
+                        renamedTypeMap = new RenamedTypeMap();
+                        foreach(var plugin in loadedPlugins)
                         {
-                            break;
+                            plugin.setupRenamedSaveableTypes(renamedTypeMap);
                         }
                     }
-                    //If that fails search all loaded assemblies.
-                    if (type == null)
+
+                    //Check the rename cache
+                    if (!renamedTypeMap.tryGetType(typeName, out type))
                     {
-                        foreach (Assembly assembly in AppDomainShim.GetCurrentDomainAssemblies())
+                        foreach (Assembly assembly in pluginAssemblies)
                         {
                             type = assembly.GetType(typeName);
                             if (type != null)
@@ -199,7 +207,21 @@ namespace Engine
                                 break;
                             }
                         }
+                        //If that fails search all loaded assemblies.
+                        if (type == null)
+                        {
+                            foreach (Assembly assembly in AppDomainShim.GetCurrentDomainAssemblies())
+                            {
+                                type = assembly.GetType(typeName);
+                                if (type != null)
+                                {
+                                    break;
+                                }
+                            }
+                        }
                     }
+
+                    //If we found something put it in the slow search cache so it can be found quicker later
                     if (type != null)
                     {
                         Log.Warning("Slow search match found for type \'{0}\'. Replacement type is \'{1}\'", assemblyQualifiedName, type.AssemblyQualifiedName);

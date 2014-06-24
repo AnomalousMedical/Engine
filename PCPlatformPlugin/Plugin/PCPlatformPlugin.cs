@@ -89,5 +89,10 @@ namespace PCPlatform
         {
             
         }
+
+        public void setupRenamedSaveableTypes(RenamedTypeMap renamedTypeMap)
+        {
+
+        }
     }
 }
