@@ -54,6 +54,7 @@
     <Compile Include="Attributes\MultiEnumAttribute.cs" />
     <Compile Include="Attributes\NativeSubsystemTypeAttribute.cs" />
     <Compile Include="Attributes\SingleEnumAttribute.cs" />
+    <Compile Include="Behavior\Animation\PositionBroadcaster.cs" />
     <Compile Include="Behavior\Behavior.cs" />
     <Compile Include="Behavior\BehaviorBlacklistException.cs" />
     <Compile Include="Behavior\BehaviorBrowser.cs" />

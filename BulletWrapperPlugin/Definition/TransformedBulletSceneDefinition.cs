@@ -19,7 +19,7 @@ namespace BulletPlugin
         public TransformedBulletSceneDefinition(String name)
             :base(name)
         {
-            
+            PositionBroadcasterName = "PositionBroadcaster";
         }
 
         public override SimElementManager createSimElementManager()
@@ -30,16 +30,21 @@ namespace BulletPlugin
         [Editable]
         public String TransformSimObjectName { get; set; }
 
+        [Editable]
+        public String PositionBroadcasterName { get; set; }
+
         protected TransformedBulletSceneDefinition(LoadInfo info)
             :base(info)
         {
             TransformSimObjectName = info.GetString("TransformSimObjectName");
+            PositionBroadcasterName = info.GetString("PositionBroadcasterName", "PositionBroadcaster");
         }
 
         public override void getInfo(SaveInfo info)
         {
             base.getInfo(info);
             info.AddValue("TransformSimObjectName", TransformSimObjectName);
+            info.AddValue("PositionBroadcasterName", PositionBroadcasterName);
         }
     }
 }

@@ -52,7 +52,7 @@ namespace BulletPlugin
             SolverIterations = definition.SolverIterations;
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             timer.removeBackgroundUpdateListener("Rendering", this);
             BulletScene_DestroyBulletScene(bulletScene);
@@ -129,6 +129,12 @@ namespace BulletPlugin
             }
         }
 
+        /// <summary>
+        /// Set this to true to force all rigid bodies to update their positions the next time they are synchronized.
+        /// It will get set back to false automatically after synchronizeResults is called.
+        /// </summary>
+        public bool ForceNextSynchronize { get; set; }
+
         #region SimElementManager Members
 
         public SimElementFactory getFactory()
@@ -186,8 +192,9 @@ namespace BulletPlugin
         {
             foreach (RigidBody rigidBody in rigidBodies)
             {
-                rigidBody.syncObjectPosition();
+                rigidBody.syncObjectPosition(ForceNextSynchronize);
             }
+            ForceNextSynchronize = false;
         }
 
         public void loopStarting()

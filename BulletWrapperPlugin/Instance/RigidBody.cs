@@ -179,9 +179,9 @@ namespace BulletPlugin
             }
         }
 
-        internal void syncObjectPosition()
+        internal void syncObjectPosition(bool forceUpdate)
         {
-            if (motionState.PositionUpdated)
+            if (motionState.PositionUpdated || forceUpdate)
             {
                 Vector3 updatedTranslation = motionState.UpdatedTranslation;
                 Quaternion updatedRotation = motionState.UpdatedRotation;
