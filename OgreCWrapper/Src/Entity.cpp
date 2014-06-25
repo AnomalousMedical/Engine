@@ -173,6 +173,7 @@ void getMeshInformation(Ogre::Entity* entity, size_t &vertexCount, Ogre::Vector3
 								const Ogre::Vector3 &position, const Ogre::Quaternion &orient,
 								const Ogre::Vector3 &scale);
 
+//Thanks to http://www.ogre3d.org/tikiwiki/tiki-index.php?page=Raycasting+to+the+polygon+level for this.
 extern "C" _AnomalousExport bool Entity_raycastPolygonLevel(Ogre::Entity* entity, Ray3 ray, float& distanceOnRay)
 {
 	Ogre::Real closestDistance = -1.0f;
