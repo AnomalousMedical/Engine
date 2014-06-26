@@ -45,13 +45,7 @@ namespace Engine.ObjectManagement
     [DoNotSave]
     public abstract class SimElement
     {
-        #region Fields
-
         private SimObjectBase simObject;
-
-        #endregion Fields
-
-        #region Constructors
 
         /// <summary>
         /// Constructor.
@@ -74,10 +68,6 @@ namespace Engine.ObjectManagement
             this.Name = name;
             this.Subscription = subscription;
         }
-
-        #endregion
-
-        #region Functions
 
         /// <summary>
         /// Cleans up any objects that cannot be garbage collected.
@@ -271,10 +261,6 @@ namespace Engine.ObjectManagement
             this.setEnabled(simObject != null && simObject.Enabled);
         }
 
-        #endregion
-
-        #region Properties
-
         /// <summary>
         /// Get the name of this SimElement.
         /// </summary>
@@ -295,7 +281,5 @@ namespace Engine.ObjectManagement
                 return simObject;
             }
         }
-
-        #endregion
     }
 }

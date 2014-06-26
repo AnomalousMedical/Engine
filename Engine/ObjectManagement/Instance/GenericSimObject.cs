@@ -7,18 +7,12 @@ namespace Engine.ObjectManagement
 {
     public class GenericSimObject : SimObjectBase
     {
-        #region Fields
-
         private String name;
         private bool enabled = false;
         private Vector3 translation = Vector3.Zero;
         private Quaternion rotation = Quaternion.Identity;
         private Vector3 scale = Vector3.ScaleIdentity;
         private List<SimElement> elements = new List<SimElement>();
-
-        #endregion Fields
-
-        #region Constructors
 
         /// <summary>
         /// Constructor.
@@ -32,10 +26,6 @@ namespace Engine.ObjectManagement
             this.scale = scale;
             this.enabled = enabled;
         }
-
-        #endregion Constructors
-
-        #region Functions
 
         /// <summary>
         /// Dispose function.
@@ -164,22 +154,6 @@ namespace Engine.ObjectManagement
         }
 
         /// <summary>
-        /// Set the SimObject as enabled or disabled. The subsystems will
-        /// determine the exact status that that their objects will go into when
-        /// this is activated. However, this mode can be changed as quickly as
-        /// possible.
-        /// </summary>
-        /// <param name="enabled">True to enable the SimObject, false to disable it.</param>
-        public override void setEnabled(bool enabled)
-        {
-            this.enabled = enabled;
-            foreach (SimElement element in elements)
-            {
-                element.fireSetEnabled(enabled);
-            }
-        }
-
-        /// <summary>
         /// Save this SimObject to a SimObjectDefinition.
         /// </summary>
         /// <param name="definitionName">The name to give the SimObjectDefinition.</param>
@@ -227,10 +201,6 @@ namespace Engine.ObjectManagement
             return elements;
         }
 
-        #endregion Functions
-
-        #region Properties
-
         /// <summary>
         /// Get the name of this SimObject.
         /// </summary>
@@ -250,6 +220,14 @@ namespace Engine.ObjectManagement
             get
             {
                 return enabled;
+            }
+            set
+            {
+                this.enabled = value;
+                foreach (SimElement element in elements)
+                {
+                    element.fireSetEnabled(enabled);
+                }
             }
         }
 
@@ -285,7 +263,5 @@ namespace Engine.ObjectManagement
                 return scale;
             }
         }
-
-        #endregion Properites
     }
 }

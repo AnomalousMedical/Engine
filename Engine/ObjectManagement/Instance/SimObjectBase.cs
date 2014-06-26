@@ -11,7 +11,7 @@ namespace Engine.ObjectManagement
     /// </summary>
     public abstract class SimObjectBase : SimObject, IDisposable
     {
-        #region Functions
+        private SimObjectManager simObjectManager;
 
         /// <summary>
         /// Dispose function. Destroys subsystem objects, which may or may not
@@ -77,6 +77,130 @@ namespace Engine.ObjectManagement
         /// <param name="trigger">The object that triggered the update. Can be null.</param>
         public abstract void updateScale(ref Vector3 scale, SimElement trigger);
 
-        #endregion Functions
+        /// <summary>
+        /// Get a particular SimElement from the SimObject. This will return
+        /// null if the element cannot be found. This method could potentially
+        /// be fairly slow so it is best to cache the values returned from this
+        /// function somehow.
+        /// </summary>
+        /// <param name="name">The name of the SimElement to retrieve.</param>
+        /// <returns>The SimElement specified by name or null if it cannot be found.</returns>
+        public abstract SimElement getElement(String name);
+
+        /// <summary>
+        /// Get an iterator over all sim elements.
+        /// </summary>
+        /// <returns>An IEnumerable over all sim elements.</returns>
+        public abstract IEnumerable<SimElement> getElementIter();
+
+        public SimObject getOtherSimObject(String name)
+        {
+            if (name == "this")
+            {
+                return this;
+            }
+            else
+            {
+                if (simObjectManager != null)
+                {
+                    SimObjectBase simObj;
+                    simObjectManager.tryGetSimObject(name, out simObj);
+                    return simObj;
+                }
+                return null;
+            }
+        }
+
+        public SimObject createOtherSimObject(SimObjectDefinition definition)
+        {
+            if (simObjectManager != null)
+            {
+                return simObjectManager.createLiveSimObject(definition);
+            }
+            else
+            {
+                throw new SimObjectException(String.Format("Could not create another SimObject using {0} because it is not registered.", Name));
+            }
+        }
+
+        public void destroy()
+        {
+            simObjectManager.destroySimObject(Name);
+        }
+
+        /// <summary>
+        /// Save this SimObject to a SimObjectDefinition.
+        /// </summary>
+        /// <param name="definitionName">The name to give the SimObjectDefinition.</param>
+        /// <returns>A new SimObjectDefinition for this SimObject.</returns>
+        public abstract SimObjectDefinition saveToDefinition(String definitionName);
+
+        /// <summary>
+        /// This function will set the SimObjectManager used to lookup other SimObjects. 
+        /// It should only be called by the SimObjectManager.
+        /// </summary>
+        /// <param name="manager">The SimObjectManager this SimObject now belongs to.</param>
+        internal void _setSimObjectManager(SimObjectManager manager)
+        {
+            simObjectManager = manager;
+        }
+
+        /// <summary>
+        /// This function will unset the SimObjectManager used to lookup other SimObjects.
+        /// It should only be called by the SimObjectManager.
+        /// </summary>
+        internal void _unsetSimObjectManager()
+        {
+            simObjectManager = null;
+        }
+
+        /// <summary>
+        /// Get the name of this SimObject.
+        /// </summary>
+        public abstract String Name
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Get the enabled status of this SimObject.
+        /// </summary>
+        public abstract bool Enabled
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Get the translation of this SimObject.
+        /// </summary>
+        public abstract Vector3 Translation
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Get the rotation of the SimObject.
+        /// </summary>
+        public abstract Quaternion Rotation
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Get the scale of the SimObject.
+        /// </summary>
+        public abstract Vector3 Scale
+        {
+            get;
+        }
+
+        public SimSubScene SubScene
+        {
+            get
+            {
+                return simObjectManager != null ? simObjectManager.SubScene : null;
+            }
+        }
     }
 }

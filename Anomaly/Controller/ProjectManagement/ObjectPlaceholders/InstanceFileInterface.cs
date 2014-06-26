@@ -118,7 +118,7 @@ namespace Anomaly
                 SimObject simObj = simObjectController.createSimObject(instance.Definition);
                 if (simObj != null && !showInstance)
                 {
-                    simObj.setEnabled(showInstance);
+                    simObj.Enabled = showInstance;
                 }
             }
         }
@@ -225,7 +225,7 @@ namespace Anomaly
                     SimObject obj = simObjectController.getSimObject(Name);
                     if (obj.Enabled != showInstance)
                     {
-                        obj.setEnabled(showInstance);
+                        obj.Enabled = showInstance;
                     }
                 }
                 determineIcon();
