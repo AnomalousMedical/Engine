@@ -151,7 +151,7 @@ namespace Engine.ObjectManagement
                     element.alertUpdateScale(ref scale);
                 }
             }
-        }
+        }        
 
         /// <summary>
         /// Save this SimObject to a SimObjectDefinition.
@@ -213,7 +213,10 @@ namespace Engine.ObjectManagement
         }
 
         /// <summary>
-        /// Get the enabled status of this SimObject.
+        /// Set the SimObject as enabled or disabled. The subsystems will
+        /// determine the exact status that that their objects will go into when
+        /// this is activated. However, this mode can be changed as quickly as
+        /// possible.
         /// </summary>
         public override bool Enabled
         {
