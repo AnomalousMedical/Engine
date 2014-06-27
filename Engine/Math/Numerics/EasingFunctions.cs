@@ -179,7 +179,7 @@ namespace Engine
             time /= duration / 2;
             if (time < 1)
             {
-                return change * time * time * time + start;
+                return change / 2 * time * time * time + start;
             }
             time -= 2;
             return change / 2 * (time * time * time + 2) + start;
