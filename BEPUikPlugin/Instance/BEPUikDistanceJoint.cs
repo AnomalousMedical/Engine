@@ -32,7 +32,7 @@ namespace BEPUikPlugin
             //TODO: Implement Constraint Drawing
         }
 
-        public override IKJoint IKJoint
+        internal override IKJoint IKJoint
         {
             get
             {

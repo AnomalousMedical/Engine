@@ -36,7 +36,7 @@ namespace BEPUikPlugin
             //TODO: Implement Constraint Drawing
         }
 
-        public override IKLimit IKLimit
+        internal override IKLimit IKLimit
         {
             get
             {

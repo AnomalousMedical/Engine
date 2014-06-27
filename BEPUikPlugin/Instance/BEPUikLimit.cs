@@ -27,7 +27,7 @@ namespace BEPUikPlugin
             setupJointDefinition(definition);
         }
 
-        public override sealed IKJoint IKJoint
+        internal override sealed IKJoint IKJoint
         {
             get
             {
@@ -35,6 +35,6 @@ namespace BEPUikPlugin
             }
         }
 
-        public abstract IKLimit IKLimit { get; }
+        internal abstract IKLimit IKLimit { get; }
     }
 }

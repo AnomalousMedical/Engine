@@ -58,7 +58,7 @@ namespace BEPUikPlugin
             }
         }
 
-        public override IKLimit IKLimit
+        internal override IKLimit IKLimit
         {
             get
             {

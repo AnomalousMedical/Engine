@@ -33,7 +33,7 @@ namespace BEPUikPlugin
             //Not really sure how to visualize this one
         }
 
-        public override IKJoint IKJoint
+        internal override IKJoint IKJoint
         {
             get
             {

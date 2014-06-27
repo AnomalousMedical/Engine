@@ -43,7 +43,7 @@ namespace BEPUikPlugin
             setupConstraintDefinition(definition);
         }
 
-        public override sealed IKConstraint IKConstraint
+        internal override sealed IKConstraint IKConstraint
         {
             get
             {
@@ -100,6 +100,6 @@ namespace BEPUikPlugin
             IKJoint.Enabled = enabled;
         }
 
-        public abstract IKJoint IKJoint { get; }
+        internal abstract IKJoint IKJoint { get; }
     }
 }

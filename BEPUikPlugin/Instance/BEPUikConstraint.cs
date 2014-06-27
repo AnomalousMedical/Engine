@@ -32,7 +32,7 @@ namespace BEPUikPlugin
             definition.Subscription = this.Subscription;
         }
 
-        public abstract IKConstraint IKConstraint { get; }
+        internal abstract IKConstraint IKConstraint { get; }
 
         internal abstract void draw(DebugDrawingSurface drawingSurface, DebugDrawMode drawMode);
     }
