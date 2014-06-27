@@ -25,6 +25,7 @@ namespace Engine
     /// </summary>
     /// <remarks>
     /// Based on http://www.gizma.com/easing/
+    /// Nice cheat sheet on some of the functions at http://easings.net/
     /// </remarks>
     public static class EasingFunctions
     {
@@ -83,7 +84,7 @@ namespace Engine
         }
 
         /// <summary>
-        /// Quadratic easing, accelerate from rest.
+        /// Quadratic easing
         /// </summary>
         public static float EaseInQuadratic(float start, float change, float time, float duration)
         {
@@ -92,7 +93,7 @@ namespace Engine
         }
 
         /// <summary>
-        /// Quadratic easing, decelerate from max speed.
+        /// Quadratic easing
         /// </summary>
         public static float EaseOutQuadratic(float start, float change, float time, float duration)
         {
@@ -101,7 +102,7 @@ namespace Engine
         }
 
         /// <summary>
-        /// Quadratic easing, accelerate to max and then decelerate to 0.
+        /// Quadratic easing
         /// </summary>
         public static float EaseInOutQuadratic(float start, float change, float time, float duration)
         {
@@ -115,7 +116,7 @@ namespace Engine
         }
 
         /// <summary>
-        /// Cubic easing, accelerate from rest.
+        /// Cubic easing
         /// </summary>
         public static float EaseInCubic(float start, float change, float time, float duration)
         {
@@ -124,7 +125,7 @@ namespace Engine
         }
 
         /// <summary>
-        /// Cubic easing, decelerate from max speed.
+        /// Cubic easing
         /// </summary>
         public static float EaseOutCubic(float start, float change, float time, float duration)
         {
@@ -134,7 +135,7 @@ namespace Engine
         }
 
         /// <summary>
-        /// Cubic easing, accelerate to max and then decelerate to 0.
+        /// Cubic easing
         /// </summary>
         public static float EaseInOutCubic(float start, float change, float time, float duration)
         {
@@ -146,5 +147,36 @@ namespace Engine
             time -= 2;
             return change / 2 * (time * time * time + 2) + start;
         }
+
+        /// <summary>
+        /// Exponential easing
+        /// </summary>
+        public static float EaseInExpo(float start, float change, float time, float duration) 
+        {
+	        return change * (float)Math.Pow(2, 10 * ( time / duration - 1)) + start;
+        }
+
+        /// <summary>
+        /// Exponential easing
+        /// </summary>
+        public static float EaseOutExpo(float start, float change, float time, float duration)
+        {
+            return change * (-(float)Math.Pow(2, -10 * time / duration) + 1) + start;
+        }
+
+        /// <summary>
+        /// Exponential easing
+        /// </summary>
+        public static float EaseInOutExpo(float start, float change, float time, float duration) 
+        {
+	        time /= duration / 2;
+            if (time < 1)
+            {
+                return change / 2 * (float)Math.Pow(2, 10 * (time - 1)) + start;
+            }
+	        time--;
+            return change / 2 * (-(float)Math.Pow(2, -10 * time) + 2) + start;
+        }
+
     }
 }
