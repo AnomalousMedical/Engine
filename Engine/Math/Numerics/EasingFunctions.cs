@@ -74,23 +74,35 @@ namespace Engine
             }
         }
 
+        /// <summary>
+        /// Linear easing.
+        /// </summary>
         public static float None(float start, float change, float time, float duration)
         {
             return change * (time / duration) + start;
         }
 
+        /// <summary>
+        /// Quadratic easing, accelerate from rest.
+        /// </summary>
         public static float EaseInQuadratic(float start, float change, float time, float duration)
         {
             time /= duration;
             return change * time * time + start;
         }
 
+        /// <summary>
+        /// Quadratic easing, decelerate from max speed.
+        /// </summary>
         public static float EaseOutQuadratic(float start, float change, float time, float duration)
         {
             time /= duration;
             return -change * time * (time - 2) + start;
         }
 
+        /// <summary>
+        /// Quadratic easing, accelerate to max and then decelerate to 0.
+        /// </summary>
         public static float EaseInOutQuadratic(float start, float change, float time, float duration)
         {
             time /= duration / 2;
@@ -102,12 +114,18 @@ namespace Engine
             return -change / 2 * (time*(time - 2) - 1) + start;
         }
 
+        /// <summary>
+        /// Cubic easing, accelerate from rest.
+        /// </summary>
         public static float EaseInCubic(float start, float change, float time, float duration)
         {
             time /= duration;
             return change * time * time * time + start;
         }
 
+        /// <summary>
+        /// Cubic easing, decelerate from max speed.
+        /// </summary>
         public static float EaseOutCubic(float start, float change, float time, float duration)
         {
             time /= duration;
@@ -115,6 +133,9 @@ namespace Engine
             return change * (time * time * time + 1) + start;
         }
 
+        /// <summary>
+        /// Cubic easing, accelerate to max and then decelerate to 0.
+        /// </summary>
         public static float EaseInOutCubic(float start, float change, float time, float duration)
         {
             time /= duration / 2;
