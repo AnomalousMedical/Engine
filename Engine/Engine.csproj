@@ -312,6 +312,7 @@
     <Compile Include="Saving\XMLSaver\XmlValueCollection.cs" />
     <Compile Include="Saving\XMLSaver\XmlValueReader.cs" />
     <Compile Include="Utility\CancelEventArgs.cs" />
+    <Compile Include="Utility\EnumUtil.cs" />
     <Compile Include="Utility\EventDelegate.cs" />
     <Compile Include="Utility\FastIteratorMap.cs" />
     <Compile Include="Utility\FileUtility.cs" />

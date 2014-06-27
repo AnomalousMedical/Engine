@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
+using Engine;
 
 namespace Editor
 {
@@ -11,9 +12,9 @@ namespace Editor
     {
         public void populateCombo(Type theEnum)
         {
-            foreach (FieldInfo fieldInfo in theEnum.GetFields(BindingFlags.Public | BindingFlags.Static))
+            foreach(var name in EnumUtil.Elements(theEnum))
             {
-                this.Items.Add(fieldInfo.Name);
+                this.Items.Add(name);
             }
         }        
     }
