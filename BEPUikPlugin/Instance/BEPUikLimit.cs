@@ -17,6 +17,8 @@ namespace BEPUikPlugin
                
         }
 
+        public abstract bool Locked { get; set; }
+
         protected void setupLimit(BEPUikJointDefinition definition)
         {
             setupJoint(definition);
