@@ -210,6 +210,7 @@
     <Compile Include="Definition\EditingVisuals\TwistLimitRenderer.cs" />
     <Compile Include="Definition\EditingVisuals\SwivelHingeJointRenderer.cs" />
     <Compile Include="Definition\EditingVisuals\SwingLimitRenderer.cs" />
+    <Compile Include="External\ExternalControl.cs" />
     <Compile Include="Instance\BEPUikBoneLocalRot.cs" />
     <Compile Include="Instance\BEPUikTwistLimit.cs" />
     <Compile Include="Instance\BEPUikSwingLimit.cs" />
@@ -227,6 +228,7 @@
     <Compile Include="Instance\BEPUikBone.cs" />
     <Compile Include="Instance\BEPUikJoint.cs" />
     <Compile Include="Instance\BEPUIkScene.cs" />
+    <Compile Include="External\ExternalDragControl.cs" />
     <Compile Include="Plugin\BEPUIkInterface.cs" />
     <Compile Include="Plugin\BEPUikPluginEntryPoint.cs" />
     <Compile Include="Plugin\BEPUikSceneUpdater.cs" />

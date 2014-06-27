@@ -58,6 +58,6 @@ namespace BEPUikPlugin
 
         internal abstract void syncPosition();
 
-        public abstract Control IKControl { get; }
+        internal abstract Control IKControl { get; }
     }
 }

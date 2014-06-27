@@ -104,14 +104,14 @@ namespace BEPUikPlugin
             solveControls.Remove(control.IKControl);
         }
 
-        public void addExternalControl(Control control)
+        public void addExternalControl(ExternalControl control)
         {
-            solveControls.Add(control);
+            solveControls.Add(control.IKControl);
         }
 
-        public void removeExternalControl(Control control)
+        public void removeExternalControl(ExternalControl control)
         {
-            solveControls.Remove(control);
+            solveControls.Remove(control.IKControl);
         }
 
         internal void backgroundUpdate()

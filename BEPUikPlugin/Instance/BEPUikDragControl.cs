@@ -38,7 +38,7 @@ namespace BEPUikPlugin
             dragControl.LinearMotor.TargetPosition = Owner.Translation.toBepuVec3();
         }
 
-        public override Control IKControl
+        internal override Control IKControl
         {
             get
             {

@@ -38,7 +38,7 @@ namespace BEPUikPlugin
             definition.LocalRotQuat = localRot;
         }
 
-        public override void syncSimObject()
+        internal override void syncSimObject()
         {
             Vector3 trans = IkBone.Position.toEngineVec3();
             Quaternion rot = IkBone.Orientation.toEngineQuat() * localRotInverse;

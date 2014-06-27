@@ -80,7 +80,19 @@ namespace BEPUikPlugin
 
         }
 
-        public virtual void syncSimObject()
+        public bool Pinned
+        {
+            get
+            {
+                return bone.Pinned;
+            }
+            set
+            {
+                bone.Pinned = value;
+            }
+        }
+
+        internal virtual void syncSimObject()
         {
             Vector3 trans = bone.Position.toEngineVec3();
             Quaternion rot = bone.Orientation.toEngineQuat();
@@ -88,7 +100,7 @@ namespace BEPUikPlugin
             updatePosition(ref trans, ref rot);
         }
 
-        public Bone IkBone
+        internal Bone IkBone
         {
             get
             {
