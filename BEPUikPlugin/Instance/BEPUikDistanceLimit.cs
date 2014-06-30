@@ -56,6 +56,7 @@ namespace BEPUikPlugin
                         limit.LocalAnchorA = unlockedLocalAnchorA;
                         limit.LocalAnchorB = unlockedLocalAnchorB;
                     }
+                    fireLockedChanged();
                 }
             }
         }

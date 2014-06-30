@@ -11,6 +11,11 @@ namespace BEPUikPlugin
 {
     public abstract class BEPUikLimit : BEPUikJoint
     {
+        /// <summary>
+        /// This event is fired when the locked status of a limit is changed.
+        /// </summary>
+        public event Action<BEPUikLimit> LockedChanged;
+
         public BEPUikLimit(BEPUikBone connectionA, BEPUikBone connectionB, String name, Subscription subscription, SimObject instance)
             :base(connectionA, connectionB, name, subscription, instance)
         {
@@ -27,6 +32,14 @@ namespace BEPUikPlugin
         protected void setupLimitDefinition(BEPUikJointDefinition definition)
         {
             setupJointDefinition(definition);
+        }
+
+        protected void fireLockedChanged()
+        {
+            if(LockedChanged != null)
+            {
+                LockedChanged.Invoke(this);
+            }
         }
 
         internal override sealed IKJoint IKJoint

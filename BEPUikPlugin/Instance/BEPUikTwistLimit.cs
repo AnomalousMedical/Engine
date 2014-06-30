@@ -73,6 +73,7 @@ namespace BEPUikPlugin
                         limit.LocalMeasurementAxisB = unlockedLocalMeasurementAxisB;
                         limit.MaximumAngle = unlockedMaxAngle;
                     }
+                    fireLockedChanged();
                 }
             }
         }
