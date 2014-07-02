@@ -218,7 +218,7 @@ namespace BulletPlugin
 
         /// <summary>
         /// Add a task that will be called before the next synchronizeResults call. This task will only fire one time and will then
-        /// be removed.
+        /// be removed. These actions will be called on the thread that executes synchronizeResults and will be safe to update objects.
         /// </summary>
         /// <param name="task"></param>
         public void addPreSynchronizeTask(Action task)
