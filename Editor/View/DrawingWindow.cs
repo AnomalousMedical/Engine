@@ -94,7 +94,7 @@ namespace Editor
                 camera = window.createSceneView(defaultScene, name, orbitCamera.Translation, orbitCamera.LookAt);
                 camera.BackgroundColor = Engine.Color.FromARGB(BackColor.ToArgb());
                 camera.setRenderingMode(renderingMode);
-                mainTimer.addFixedUpdateListener(orbitCamera);
+                mainTimer.addUpdateListener(orbitCamera);
                 orbitCamera.setCamera(camera);
                 CameraResolver.addMotionValidator(this);
             }
@@ -110,7 +110,7 @@ namespace Editor
             {
                 orbitCamera.setCamera(null);
                 window.destroySceneView(camera);
-                mainTimer.removeFixedUpdateListener(orbitCamera);
+                mainTimer.removeUpdateListener(orbitCamera);
                 camera = null;
                 CameraResolver.removeMotionValidator(this);
             }

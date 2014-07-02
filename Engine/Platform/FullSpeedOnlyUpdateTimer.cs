@@ -25,7 +25,6 @@ namespace Engine.Platform
             fireLoopStarted();
 
             Int64 deltaTime;
-            //Int64 totalTime = 0;
             Int64 frameStartTime;
             Int64 lastTime = systemTimer.getCurrentTime();
             //Int64 totalFrameTime;
@@ -40,19 +39,8 @@ namespace Engine.Platform
                     deltaTime = maxDelta;
                     fireExceededMaxDelta();
                 }
-                //totalTime += deltaTime;
-                //if (totalTime > fixedFrequency * maxFrameSkip)
-                //{
-                //    totalTime = fixedFrequency * maxFrameSkip;
-                //}
 
-                //while (totalTime >= fixedFrequency)
-                //{
-                    fireFixedUpdate(frameStartTime, deltaTime);
-                    //totalTime -= fixedFrequency;
-                //}
-
-                fireFullSpeedUpdate(frameStartTime, deltaTime);
+                fireUpdate(frameStartTime, deltaTime);
 
                 lastTime = frameStartTime;
 

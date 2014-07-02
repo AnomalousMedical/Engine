@@ -32,7 +32,6 @@ namespace Engine.Platform
             fireLoopStarted();
 
             Int64 deltaTime;
-            Int64 totalTime = 0;
             Int64 lastTime = systemTimer.getCurrentTime();
             Int64 totalFrameTime;
 
@@ -48,21 +47,8 @@ namespace Engine.Platform
                     deltaTime = maxDelta;
                     fireExceededMaxDelta();
                 }
-                totalTime += deltaTime;
-                if (totalTime > fixedFrequency * maxFrameSkip)
-                {
-                    totalTime = fixedFrequency * maxFrameSkip;
-                }
 
-                Int64 fixedStartTime = frameStartTime - totalTime + fixedFrequency;
-                while (totalTime >= fixedFrequency)
-                {
-                    fireFixedUpdate(fixedStartTime, fixedFrequency);
-                    fixedStartTime += fixedFrequency;
-                    totalTime -= fixedFrequency;
-                }
-
-                fireFullSpeedUpdate(frameStartTime, deltaTime);
+                fireUpdate(frameStartTime, deltaTime);
 
                 lastTime = frameStartTime;
 
@@ -86,21 +72,11 @@ namespace Engine.Platform
         }
 
         /// <summary>
-        /// Fire a fixed update.
+        /// Fire an update.
         /// </summary>
-        protected override void fireFixedUpdate(Int64 currentTimeMicro, Int64 deltaTimeMicro)
+        protected override void fireUpdate(Int64 currentTimeMicro, Int64 deltaTimeMicro)
         {
-            base.fireFixedUpdate(currentTimeMicro, deltaTimeMicro);
-            systemMessageListener.sendUpdate(clock);
-        }
-
-        /// <summary>
-        /// Fire a full speed update.
-        /// </summary>
-        /// <param name="deltaTime">The amount of time since the last full speed update in seconds.</param>
-        protected override void fireFullSpeedUpdate(Int64 currentTimeMicro, Int64 deltaTimeMicro)
-        {
-            base.fireFullSpeedUpdate(currentTimeMicro, deltaTimeMicro);
+            base.fireUpdate(currentTimeMicro, deltaTimeMicro);
             systemMessageListener.sendUpdate(clock);
         }
 

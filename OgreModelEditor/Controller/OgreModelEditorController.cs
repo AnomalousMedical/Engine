@@ -161,7 +161,7 @@ namespace OgreModelEditor
             inputHandler = pluginManager.PlatformPlugin.createInputHandler(mainForm, false, false, false);
             eventManager = new EventManager(inputHandler);
             eventUpdate = new EventUpdateListener(eventManager);
-            mainTimer.addFixedUpdateListener(eventUpdate);
+            mainTimer.addUpdateListener(eventUpdate);
             pluginManager.setPlatformInfo(mainTimer, eventManager);
 
             //Initialize controllers
@@ -173,7 +173,7 @@ namespace OgreModelEditor
             toolInterop.setRotateController(rotateController);
 
             toolManager = new ToolManager(eventManager);
-            mainTimer.addFixedUpdateListener(toolManager);
+            mainTimer.addUpdateListener(toolManager);
             toolInterop.setToolManager(toolManager);
             movementTool = new MovementTool("MovementTool", moveController);
             toolManager.addTool(movementTool);

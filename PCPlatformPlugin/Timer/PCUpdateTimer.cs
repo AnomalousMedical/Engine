@@ -29,7 +29,6 @@ namespace PCPlatform
             fireLoopStarted();
 
 	        Int64 deltaTime;
-            Int64 totalTime = 0;
             Int64 lastTime = systemTimer.getCurrentTime();
             Int64 totalFrameTime;
 
@@ -47,22 +46,8 @@ namespace PCPlatform
 				        deltaTime = maxDelta;
 				        fireExceededMaxDelta();
 			        }
-			        totalTime += deltaTime;
-			        if (totalTime > fixedFrequency * maxFrameSkip)
-			        {
-				        totalTime = fixedFrequency * maxFrameSkip;
-			        }
 
-			        //Frame skipping
-                    Int64 fixedStartTime = frameStartTime - totalTime + fixedFrequency;
-			        while (totalTime >= fixedFrequency)
-			        {
-				        fireFixedUpdate(fixedStartTime, fixedFrequency);
-                        fixedStartTime += fixedFrequency;
-				        totalTime -= fixedFrequency;
-			        }
-
-			        fireFullSpeedUpdate(frameStartTime, deltaTime);
+			        fireUpdate(frameStartTime, deltaTime);
 
 			        lastTime = frameStartTime;
 

@@ -45,7 +45,7 @@ namespace MyGUIPlugin
         {
             if(mainTimer != null)
             {
-                mainTimer.removeFixedUpdateListener(myGUIUpdate);
+                mainTimer.removeUpdateListener(myGUIUpdate);
             }
             if (vp != null)
             {
@@ -123,7 +123,7 @@ namespace MyGUIPlugin
         {
             this.mainTimer = mainTimer;
             myGUIUpdate = new MyGUIUpdate(gui, eventManager);
-            mainTimer.addFixedUpdateListener(myGUIUpdate);
+            mainTimer.addUpdateListener(myGUIUpdate);
         }
 
         public string getName()

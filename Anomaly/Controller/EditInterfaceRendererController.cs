@@ -29,7 +29,7 @@ namespace Anomaly
             this.mainEditor = mainEditor;
             sceneController.OnSceneLoaded += new SceneControllerEvent(sceneController_OnSceneLoaded);
             sceneController.OnSceneUnloading += new SceneControllerEvent(sceneController_OnSceneUnloading);
-            timer.addFixedUpdateListener(this);
+            timer.addUpdateListener(this);
 
             mainEditor.ActiveInterfaceChanged += new ObjectEditorGUIEvent(mainEditor_ActiveInterfaceChanged);
             mainEditor.FieldChanged += new ObjectEditorGUIEvent(mainEditor_FieldChanged);

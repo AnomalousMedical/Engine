@@ -12,16 +12,13 @@ namespace Engine.Platform
     /// </summary>
     public abstract class UpdateTimer
     {
-        protected List<UpdateListener> fixedListeners = new List<UpdateListener>();
-        protected List<UpdateListener> fullSpeedListeners = new List<UpdateListener>();
+        protected List<UpdateListener> updateListeners = new List<UpdateListener>();
         private Dictionary<String, UpdateListenerWithBackgrounding> multiThreadedWorkerListeners = new Dictionary<string, UpdateListenerWithBackgrounding>();
 
         protected Clock clock = new Clock();
         protected SystemTimer systemTimer;
 
-        protected Int64 fixedFrequency;
         protected Int64 maxDelta;
-        protected int maxFrameSkip;
         protected Int64 framerateCap = 0; //The amount of time between frames for the framerate cap.
 
         protected bool started = false;
@@ -39,30 +36,28 @@ namespace Engine.Platform
         public UpdateTimer(SystemTimer systemTimer)
         {
             this.systemTimer = systemTimer;
-            fixedFrequency = 1000000 / 60;
             maxDelta = 100000;
-            maxFrameSkip = 7;
         }
 
         /// <summary>
         /// Add an update listener to get updates from the fixed updater part of the timer.
         /// </summary>
         /// <param name="listener">The listener to add</param>
-        public void addFixedUpdateListener(UpdateListener listener)
+        public void addUpdateListener(UpdateListener listener)
         {
-            fixedListeners.Add(listener);
+            updateListeners.Add(listener);
         }
 
         /// <summary>
         /// Remove an update listener from the fixed updater part of the timer.
         /// </summary>
         /// <param name="listener">The listener to remove.</param>
-        public void removeFixedUpdateListener(UpdateListener listener)
+        public void removeUpdateListener(UpdateListener listener)
         {
-            int index = fixedListeners.IndexOf(listener);
+            int index = updateListeners.IndexOf(listener);
             if (index != -1)
             {
-                fixedListeners.RemoveAt(index);
+                updateListeners.RemoveAt(index);
                 //Adjust the iteration index backwards if the element being removed is before or on the index.
                 //This way nothing gets skipped.
                 if (index <= fixedUpdateIndex)
@@ -70,24 +65,6 @@ namespace Engine.Platform
                     --fixedUpdateIndex;
                 }
             }
-        }
-
-        /// <summary>
-        /// Add a listener that will be updated as fast a possible by the loop.
-        /// </summary>
-        /// <param name="listener">The listener to add.</param>
-        public void addFullSpeedUpdateListener(UpdateListener listener)
-        {
-            fullSpeedListeners.Add(listener);
-        }
-
-        /// <summary>
-        /// Remove a listener from the full speed loop.
-        /// </summary>
-        /// <param name="listener">The listener to remove</param>
-        public void removeFullSpeedUpdateListener(UpdateListener listener)
-        {
-            fullSpeedListeners.Remove(listener);
         }
 
         /// <summary>
@@ -130,21 +107,21 @@ namespace Engine.Platform
         /// You must add the main thread update listener before adding the updates that will run in the background.
         /// </summary>
         /// <param name="listener">The listener to add.</param>
-        public void addFullSpeedUpdateListenerWithBackgrounding(String name, UpdateListener listener)
+        public void addUpdateListenerWithBackgrounding(String name, UpdateListener listener)
         {
             UpdateListenerWithBackgrounding bgListenerWorker = new UpdateListenerWithBackgrounding(listener);
             multiThreadedWorkerListeners.Add(name, bgListenerWorker);
-            addFullSpeedUpdateListener(bgListenerWorker);
+            addUpdateListener(bgListenerWorker);
         }
 
         /// <summary>
         /// Remove a listener from the full speed loop.
         /// </summary>
         /// <param name="listener">The listener to remove</param>
-        public void removeFullSpeedUpdateListenerWithBackgrounding(String name, UpdateListener listener)
+        public void removeUpdateListenerWithBackgrounding(String name, UpdateListener listener)
         {
             UpdateListenerWithBackgrounding bgListenerWorker = multiThreadedWorkerListeners[name];
-            removeFullSpeedUpdateListener(bgListenerWorker);
+            removeUpdateListener(bgListenerWorker);
             bgListenerWorker.Dispose();
             multiThreadedWorkerListeners.Remove(name);
         }
@@ -164,25 +141,9 @@ namespace Engine.Platform
         }
 
         /// <summary>
-        /// Reset the last time to be the current time. Call after a long delay to avoid frame skipping.
+        /// Reset the last time to be the current time. Call after a long delay to avoid falling way behind.
         /// </summary>
         public abstract void resetLastTime();
-
-        /// <summary>
-        /// Sets the frequency of the fixed updates in milliseconds. The default is
-        /// 1/60 (60Hz).
-        /// </summary>
-        public Int64 FixedFrequency
-        {
-            get
-            {
-                return fixedFrequency;
-            }
-            set
-            {
-                fixedFrequency = value;
-            }
-        }
 
         /// <summary>
         /// Set the maximum delta that the timer can report. If the true delta
@@ -199,23 +160,6 @@ namespace Engine.Platform
             set
             {
                 maxDelta = value;
-            }
-        }
-
-        /// <summary>
-        /// Sets the maximum number of frames that can be skipped in the full
-        /// speed updater if the fixed updater is running slow. The default is
-        /// 7.
-        /// </summary>
-        public int MaxFrameSkip
-        {
-            get
-            {
-                return maxFrameSkip;
-            }
-            set
-            {
-                maxFrameSkip = value;
             }
         }
 
@@ -254,32 +198,19 @@ namespace Engine.Platform
         }
 
         /// <summary>
-        /// Fire a fixed update.
+        /// Fire an update.
         /// </summary>
-        protected virtual void fireFixedUpdate(Int64 currentTimeMicro, Int64 deltaTimeMicro)
+        protected virtual void fireUpdate(Int64 currentTimeMicro, Int64 deltaTimeMicro)
         {
             clock.setTimeMicroseconds(currentTimeMicro, deltaTimeMicro);
 
             //Iterate manually, this way fixedListeners can be added/removed during the iteration of this loop.
             //If a listener is removed the fixedUpdateIndex will be adjusted if needed.
-            for (fixedUpdateIndex = 0; fixedUpdateIndex < fixedListeners.Count; fixedUpdateIndex++)
+            for (fixedUpdateIndex = 0; fixedUpdateIndex < updateListeners.Count; fixedUpdateIndex++)
             {
-                fixedListeners[fixedUpdateIndex].sendUpdate(clock);
+                updateListeners[fixedUpdateIndex].sendUpdate(clock);
             }
             fixedUpdateIndex = -1;
-        }
-
-        /// <summary>
-        /// Fire a full speed update.
-        /// </summary>
-        /// <param name="deltaTime">The amount of time since the last full speed update in seconds.</param>
-        protected virtual void fireFullSpeedUpdate(Int64 currentTimeMicro, Int64 deltaTimeMicro)
-        {
-            clock.setTimeMicroseconds(currentTimeMicro, deltaTimeMicro);
-            foreach (UpdateListener fullSpeedListener in fullSpeedListeners)
-            {
-                fullSpeedListener.sendUpdate(clock);
-            }
         }
 
         /// <summary>
@@ -287,13 +218,9 @@ namespace Engine.Platform
         /// </summary>
         protected virtual void fireLoopStarted()
         {
-            foreach (UpdateListener fixedListener in fixedListeners)
+            foreach (UpdateListener listener in updateListeners)
             {
-                fixedListener.loopStarting();
-            }
-            foreach (UpdateListener fullSpeedListener in fullSpeedListeners)
-            {
-                fullSpeedListener.loopStarting();
+                listener.loopStarting();
             }
         }
 
@@ -302,13 +229,9 @@ namespace Engine.Platform
         /// </summary>
         protected virtual void fireExceededMaxDelta()
         {
-            foreach (UpdateListener fixedListener in fixedListeners)
+            foreach (UpdateListener listener in updateListeners)
             {
-                fixedListener.exceededMaxDelta();
-            }
-            foreach (UpdateListener fullSpeedListener in fullSpeedListeners)
-            {
-                fullSpeedListener.exceededMaxDelta();
+                listener.exceededMaxDelta();
             }
         }
     }

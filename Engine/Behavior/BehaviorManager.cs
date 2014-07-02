@@ -28,7 +28,7 @@ namespace Engine
         {
             this.eventManager = eventManager;
             this.timer = timer;
-            timer.addFixedUpdateListener(this);
+            timer.addUpdateListener(this);
             this.name = name;
             behaviorFactory = new BehaviorFactory(this);
         }
@@ -137,7 +137,7 @@ namespace Engine
 
         public void Dispose()
         {
-            timer.removeFixedUpdateListener(this);
+            timer.removeUpdateListener(this);
         }
 
         #endregion

@@ -32,7 +32,7 @@ namespace SoundPlugin
         {
             if (openALManager != null)
             {
-                mainTimer.removeFixedUpdateListener(soundUpdate);
+                mainTimer.removeUpdateListener(soundUpdate);
                 openALManager.Dispose();
                 openALManager = null;
             }
@@ -48,7 +48,7 @@ namespace SoundPlugin
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
         {
             this.mainTimer = mainTimer;
-            mainTimer.addFixedUpdateListener(soundUpdate);
+            mainTimer.addUpdateListener(soundUpdate);
         }
 
         public string getName()

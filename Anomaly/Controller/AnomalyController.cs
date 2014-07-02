@@ -146,7 +146,7 @@ namespace Anomaly
             inputHandler = pluginManager.PlatformPlugin.createInputHandler(mainForm, false, false, false);
             eventManager = new EventManager(inputHandler);
             eventUpdate = new EventUpdateListener(eventManager);
-            mainTimer.addFixedUpdateListener(eventUpdate);
+            mainTimer.addUpdateListener(eventUpdate);
             pluginManager.setPlatformInfo(mainTimer, eventManager);
 
             //Initialize controllers
@@ -161,9 +161,9 @@ namespace Anomaly
             simObjectController = new SimObjectController(this);
 
             toolManager = new ToolManager(eventManager);
-            mainTimer.addFixedUpdateListener(toolManager);
+            mainTimer.addUpdateListener(toolManager);
             fixedUpdate = new FullSpeedUpdateListener(sceneController);
-            mainTimer.addFullSpeedUpdateListener(fixedUpdate);
+            mainTimer.addUpdateListener(fixedUpdate);
             toolInterop.setToolManager(toolManager);
             movementTool = new MovementTool("MovementTool", moveController);
             toolManager.addTool(movementTool);

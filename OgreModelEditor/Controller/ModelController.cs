@@ -51,7 +51,7 @@ namespace OgreModelEditor.Controller
             fixedFunctionTextured = MaterialManager.getInstance().getByName("FixedFunctionTextured");
             fixedTexture = fixedFunctionTextured.Value.getTechnique(0).getPass(0).getTextureUnitState(0);
             this.controller = controller;
-            controller.MainTimer.addFixedUpdateListener(animationWindow);
+            controller.MainTimer.addUpdateListener(animationWindow);
         }
 
         public DockContent getDockContent(String persistString)
