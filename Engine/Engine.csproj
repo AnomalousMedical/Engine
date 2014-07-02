@@ -110,6 +110,7 @@
     <Compile Include="Editing\Refleciton\ReflectedEditablePropertyProvider.cs" />
     <Compile Include="Editing\Refleciton\ReflectedMinMaxEditableProperty.cs" />
     <Compile Include="Editing\Refleciton\ReflectedObjectEditableProperty.cs" />
+    <Compile Include="Editing\Renderers\AxisRenderer.cs" />
     <Compile Include="Errors\SimObjectError.cs" />
     <Compile Include="Errors\SimObjectErrorManager.cs" />
     <Compile Include="Log\Log.cs" />
