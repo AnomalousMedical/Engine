@@ -283,9 +283,43 @@ namespace Engine
         }
 
         /// <summary>
+        /// Liner interpolation between this quaternion and q over t.
+        /// </summary>
+        /// <param name="q">Destination quaternion</param>
+        /// <param name="t">Time factor 0-1</param>
+        /// <returns></returns>
+        public Quaternion lerp(ref Quaternion q, ref float t)
+        {
+            return new Quaternion(x + (q.x - x) * t,
+                y + (q.y - y) * t,
+                z + (q.z - z) * t,
+                w + (q.w - w) * t);
+        }
+
+        /// <summary>
+        /// Normalized Liner interpolation between this quaternion and q over t.
+        /// </summary>
+        /// <remarks>
+        /// Can use this instead of Slerp. It will not have constant velocity (although it doesn't
+        /// seem noticable in practice), but is commutative and torque-mimimal. nlerp is faster for 
+        /// pretty much the same results.
+        /// </remarks>
+        /// <param name="q">Destination quaternion</param>
+        /// <param name="t">Time factor 0-1</param>
+        /// <returns></returns>
+        public Quaternion nlerp(ref Quaternion q, ref float t)
+        {
+            return lerp(ref q, ref t).normalized();
+        }
+
+        /// <summary>
         /// Compute a spherical linear interpolation for this quaternion to rotate
         /// to q over t.
         /// </summary>
+        /// <remarks>
+        /// This will do a slerp, which is constant velocity and torque-minimal, but 
+        /// is not commutative, be careful what order you put in the arguments.
+        /// </remarks>
         /// <param name="q">The goal quaternion.</param>
         /// <param name="t">The amount of time passed between 0 and 1.</param>
         /// <returns></returns>
