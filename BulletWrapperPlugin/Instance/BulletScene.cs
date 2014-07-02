@@ -24,6 +24,8 @@ namespace BulletPlugin
         /// </summary>
         public event TickCallback Tick;
 
+        private List<Action> beforeSynchronizeTasks = new List<Action>();
+
         ManagedTickCallback managedTickCallback;
         private String name;
         private UpdateTimer timer;
@@ -190,6 +192,11 @@ namespace BulletPlugin
 
         public void synchronizeResults()
         {
+            foreach(var task in beforeSynchronizeTasks)
+            {
+                task.Invoke();
+            }
+            beforeSynchronizeTasks.Clear();
             foreach (RigidBody rigidBody in rigidBodies)
             {
                 rigidBody.syncObjectPosition(ForceNextSynchronize);
@@ -208,6 +215,16 @@ namespace BulletPlugin
         }
 
         #endregion
+
+        /// <summary>
+        /// Add a task that will be called before the next synchronizeResults call. This task will only fire one time and will then
+        /// be removed.
+        /// </summary>
+        /// <param name="task"></param>
+        public void addPreSynchronizeTask(Action task)
+        {
+            beforeSynchronizeTasks.Add(task);
+        }
 
         internal void drawDebug(DebugDrawingSurface drawingSurface)
         {
