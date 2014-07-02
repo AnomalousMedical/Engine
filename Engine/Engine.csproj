@@ -185,7 +185,6 @@
     <Compile Include="Performance\Timelapse.cs" />
     <Compile Include="Platform\BackgroundUpdateListener.cs" />
     <Compile Include="Platform\Clock.cs" />
-    <Compile Include="Platform\FullSpeedOnlyUpdateTimer.cs" />
     <Compile Include="Platform\Input\DefaultEvents.cs" />
     <Compile Include="Platform\Input\EventManager.cs" />
     <Compile Include="Platform\Input\EventUpdateListener.cs" />
