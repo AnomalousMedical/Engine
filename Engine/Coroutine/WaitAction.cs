@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Engine.Platform;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,17 +12,17 @@ namespace Engine
     /// </summary>
     class WaitAction : YieldAction
     {
-        private double delay;
-        private double elapsed;
+        private Int64 delay;
+        private Int64 elapsed;
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="delay">The amount of time to wait.</param>
-        public WaitAction(double delay)
+        /// <param name="delay">The amount of time to wait in milliseconds.</param>
+        public WaitAction(Int64 delayMs)
         {
-            this.delay = delay;
-            this.elapsed = 0.0;
+            this.delay = delayMs * 1000; //Clock uses microseconds, so convert.
+            this.elapsed = 0;
         }
 
         /// <summary>
@@ -30,9 +31,9 @@ namespace Engine
         /// </summary>
         /// <param name="seconds">The amount of seconds since the last update.</param>
         /// <returns>True if the wait is completed, false if it has more time to go.</returns>
-        public bool tick(double seconds)
+        public bool tick(Clock clock)
         {
-            elapsed += seconds;
+            elapsed += clock.DeltaTimeMicro;
             if (elapsed > delay)
             {
                 execute();

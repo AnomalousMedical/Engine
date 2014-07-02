@@ -35,7 +35,7 @@ namespace Engine.Platform
         /// <param name="clock">The clock.</param>
         public void sendUpdate(Clock clock)
         {
-            eventManager.updateEvents(clock.Seconds);
+            eventManager.updateEvents(clock);
         }
 
         /// <summary>

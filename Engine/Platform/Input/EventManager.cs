@@ -136,8 +136,8 @@ namespace Engine.Platform
         /// <summary>
         /// Called to capture input and manage events.
         /// </summary>
-        /// <param name="time">The time since the last call to this function.</param>
-        public void updateEvents(double time)
+        /// <param name="time">The clock with info about this frame.</param>
+        public void updateEvents(Clock clock)
         {
             if (mouse != null)
             {

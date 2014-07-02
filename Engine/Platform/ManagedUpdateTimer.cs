@@ -54,13 +54,15 @@ namespace Engine.Platform
                     totalTime = fixedFrequency * maxFrameSkip;
                 }
 
+                Int64 fixedStartTime = frameStartTime - totalTime + fixedFrequency;
                 while (totalTime >= fixedFrequency)
                 {
-                    fireFixedUpdate(fixedFrequency);
+                    fireFixedUpdate(fixedStartTime, fixedFrequency);
+                    fixedStartTime += fixedFrequency;
                     totalTime -= fixedFrequency;
                 }
 
-                fireFullSpeedUpdate(deltaTime);
+                fireFullSpeedUpdate(frameStartTime, deltaTime);
 
                 lastTime = frameStartTime;
 
@@ -86,9 +88,9 @@ namespace Engine.Platform
         /// <summary>
         /// Fire a fixed update.
         /// </summary>
-        protected override void fireFixedUpdate(long time)
+        protected override void fireFixedUpdate(Int64 currentTimeMicro, Int64 deltaTimeMicro)
         {
-            base.fireFixedUpdate(time);
+            base.fireFixedUpdate(currentTimeMicro, deltaTimeMicro);
             systemMessageListener.sendUpdate(clock);
         }
 
@@ -96,9 +98,9 @@ namespace Engine.Platform
         /// Fire a full speed update.
         /// </summary>
         /// <param name="deltaTime">The amount of time since the last full speed update in seconds.</param>
-        protected override void fireFullSpeedUpdate(Int64 deltaTime)
+        protected override void fireFullSpeedUpdate(Int64 currentTimeMicro, Int64 deltaTimeMicro)
         {
-            base.fireFullSpeedUpdate(deltaTime);
+            base.fireFullSpeedUpdate(currentTimeMicro, deltaTimeMicro);
             systemMessageListener.sendUpdate(clock);
         }
 

@@ -23,7 +23,7 @@ namespace OgrePlugin
         public void sendUpdate(Clock clock)
         {
             PerformanceMonitor.start("OgreRender");
-            float time = (float)clock.Seconds;
+            float time = clock.DeltaSeconds;
             ogreRoot._fireFrameStarted(time, time);
             ogreRoot._updateAllRenderTargets();
             ogreRoot._fireFrameEnded(time, time);

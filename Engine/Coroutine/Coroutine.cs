@@ -52,9 +52,9 @@ namespace Engine
         /// </summary>
         /// <param name="seconds">The number of seconds to wait.</param>
         /// <returns>A YieldAction that will wait for the specified number of seconds before continuing execution of the coroutine.</returns>
-        public static YieldAction Wait(double seconds)
+        public static YieldAction WaitSeconds(double seconds)
         {
-            WaitAction wait = new WaitAction(seconds);
+            WaitAction wait = new WaitAction((Int64)(seconds * 1000));
             waitActions.Add(wait);
             return wait;
         }
@@ -94,11 +94,11 @@ namespace Engine
         /// alloted time.
         /// </summary>
         /// <param name="time">The amount of time since the last update in seconds.</param>
-        internal static void Update(double time)
+        internal static void Update(Clock clock)
         {
             for (int i = 0; i < waitActions.Count;)
             {
-                if (waitActions[i].tick(time))
+                if (waitActions[i].tick(clock))
                 {
                     waitActions.RemoveAt(i);
                 }

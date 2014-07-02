@@ -9,15 +9,15 @@ namespace libRocketPlugin
 {
     public class ContextUpdater : UpdateListener, IDisposable
     {
-        private const float REPEAT_INTERVAL = 0.05f;
-        private const float REPEAT_INTERVAL_START = 0.4f;
+        private const Int64 REPEAT_INTERVAL = 50000; //in microseconds
+        private const Int64 REPEAT_INTERVAL_START = 400000; //in microseconds
 
         private Context context;
         private EventManager eventManager;
         private float lastMouseWheel = 0;
         private KeyIdentifier holdKey = KeyIdentifier.KI_UNKNOWN;
         private ushort holdChar;
-        private float repeatTimeout = REPEAT_INTERVAL;
+        private Int64 repeatTimeout = REPEAT_INTERVAL;
 
         public ContextUpdater(Context context, EventManager eventManager)
         {
@@ -41,7 +41,7 @@ namespace libRocketPlugin
         {
             if (holdKey != KeyIdentifier.KI_UNKNOWN)
             {
-                repeatTimeout -= clock.fSeconds;
+                repeatTimeout -= clock.DeltaTimeMicro;
                 if (repeatTimeout < 0.0f)
                 {
                     repeatTimeout = REPEAT_INTERVAL;

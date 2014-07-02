@@ -54,13 +54,15 @@ namespace PCPlatform
 			        }
 
 			        //Frame skipping
+                    Int64 fixedStartTime = frameStartTime - totalTime + fixedFrequency;
 			        while (totalTime >= fixedFrequency)
 			        {
-				        fireFixedUpdate(fixedFrequency);
+				        fireFixedUpdate(fixedStartTime, fixedFrequency);
+                        fixedStartTime += fixedFrequency;
 				        totalTime -= fixedFrequency;
 			        }
 
-			        fireFullSpeedUpdate(deltaTime);
+			        fireFullSpeedUpdate(frameStartTime, deltaTime);
 
 			        lastTime = frameStartTime;
 

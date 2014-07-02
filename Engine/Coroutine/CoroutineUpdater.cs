@@ -17,7 +17,7 @@ namespace Engine
         /// <param name="clock">The Clock containing the time since the last update.</param>
         public void sendUpdate(Clock clock)
         {
-            Coroutine.Update(clock.Seconds);
+            Coroutine.Update(clock);
         }
 
         /// <summary>

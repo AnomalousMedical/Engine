@@ -48,11 +48,11 @@ namespace Engine.Platform
 
                 //while (totalTime >= fixedFrequency)
                 //{
-                    fireFixedUpdate(deltaTime);
+                    fireFixedUpdate(frameStartTime, deltaTime);
                     //totalTime -= fixedFrequency;
                 //}
 
-                fireFullSpeedUpdate(deltaTime);
+                fireFullSpeedUpdate(frameStartTime, deltaTime);
 
                 lastTime = frameStartTime;
 

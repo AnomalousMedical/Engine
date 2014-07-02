@@ -256,9 +256,9 @@ namespace Engine.Platform
         /// <summary>
         /// Fire a fixed update.
         /// </summary>
-        protected virtual void fireFixedUpdate(long time)
+        protected virtual void fireFixedUpdate(Int64 currentTimeMicro, Int64 deltaTimeMicro)
         {
-            clock.setTimeMicroseconds(time);
+            clock.setTimeMicroseconds(currentTimeMicro, deltaTimeMicro);
 
             //Iterate manually, this way fixedListeners can be added/removed during the iteration of this loop.
             //If a listener is removed the fixedUpdateIndex will be adjusted if needed.
@@ -273,9 +273,9 @@ namespace Engine.Platform
         /// Fire a full speed update.
         /// </summary>
         /// <param name="deltaTime">The amount of time since the last full speed update in seconds.</param>
-        protected virtual void fireFullSpeedUpdate(Int64 deltaTime)
+        protected virtual void fireFullSpeedUpdate(Int64 currentTimeMicro, Int64 deltaTimeMicro)
         {
-            clock.setTimeMicroseconds(deltaTime);
+            clock.setTimeMicroseconds(currentTimeMicro, deltaTimeMicro);
             foreach (UpdateListener fullSpeedListener in fullSpeedListeners)
             {
                 fullSpeedListener.sendUpdate(clock);

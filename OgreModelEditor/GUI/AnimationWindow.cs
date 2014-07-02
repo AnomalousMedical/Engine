@@ -107,7 +107,7 @@ namespace OgreModelEditor
         {
             if (playingAnimationState != null)
             {
-                playingAnimationState.addTime(clock.fSeconds);
+                playingAnimationState.addTime(clock.DeltaSeconds);
             }
         }
 

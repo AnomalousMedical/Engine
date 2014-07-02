@@ -35,9 +35,9 @@ namespace MyGUIPlugin
         public void sendUpdate(Clock clock)
         {
             PerformanceMonitor.start("MyGUI");
-            float time = clock.fSeconds;
+            float time = clock.DeltaSeconds;
             gui.fireUpdateEvent(time);
-            renderManager.manualFrameEvent(clock.fSeconds);
+            renderManager.manualFrameEvent(time);
             PerformanceMonitor.stop("MyGUI");
         }
 

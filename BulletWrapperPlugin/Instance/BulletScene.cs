@@ -183,7 +183,7 @@ namespace BulletPlugin
             PerformanceMonitor.start(performanceName);
             if (Active)
             {
-                BulletScene_update(bulletScene, clock.fSeconds);
+                BulletScene_update(bulletScene, clock.DeltaSeconds);
             }
             PerformanceMonitor.stop(performanceName);
         }
