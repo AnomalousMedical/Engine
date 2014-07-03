@@ -166,14 +166,22 @@ namespace Engine
 
         public static Vector3 operator *(Matrix4x4 mat, Vector3 v)
         {
-            Vector4* m = (Vector4*)&mat.m00;
-
-            float invW = 1.0f / (m[3][0] * v.x + m[3][1] * v.y + m[3][2] * v.z + m[3][3]);
+            float invW = 1.0f / (mat.m30 * v.x + mat.m31 * v.y + mat.m32 * v.z + mat.m33);
 
             return new Vector3(
-            (m[0][0] * v.x + m[0][1] * v.y + m[0][2] * v.z + m[0][3]) * invW,
-            (m[1][0] * v.x + m[1][1] * v.y + m[1][2] * v.z + m[1][3]) * invW,
-            (m[2][0] * v.x + m[2][1] * v.y + m[2][2] * v.z + m[2][3]) * invW);
+            (mat.m00 * v.x + mat.m01 * v.y + mat.m02 * v.z + mat.m03) * invW,
+            (mat.m10 * v.x + mat.m11 * v.y + mat.m12 * v.z + mat.m13) * invW,
+            (mat.m20 * v.x + mat.m21 * v.y + mat.m22 * v.z + mat.m23) * invW);
+        }
+
+        public static Vector4 operator * (Matrix4x4 mat, Vector4 v)
+        {
+            return new Vector4(
+                mat.m00 * v.x + mat.m01 * v.y + mat.m02 * v.z + mat.m03 * v.w, 
+                mat.m10 * v.x + mat.m11 * v.y + mat.m12 * v.z + mat.m13 * v.w,
+                mat.m20 * v.x + mat.m21 * v.y + mat.m22 * v.z + mat.m23 * v.w,
+                mat.m30 * v.x + mat.m31 * v.y + mat.m32 * v.z + mat.m33 * v.w
+                );
         }
 
         public static Matrix4x4 operator *(Matrix4x4 m1, Matrix4x4 m2)
