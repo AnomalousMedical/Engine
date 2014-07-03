@@ -8,19 +8,18 @@ namespace Engine
     /// <summary>
     /// This is a set of cubic NaturalSplines that connect a series of control points.
     /// </summary>
-    public class NaturalSplineSet3d
+    public class NaturalSplineSet2d
     {
-        List<Vector3> controlPoints = new List<Vector3>();
+        List<Vector2> controlPoints = new List<Vector2>();
         List<CubicSpline> xSpline = new List<CubicSpline>();
         List<CubicSpline> ySpline = new List<CubicSpline>();
-        List<CubicSpline> zSpline = new List<CubicSpline>();
 
         /// <summary>
         /// Add a control point to the set. You must call computeSplines to
         /// update the changes.
         /// </summary>
         /// <param name="controlPoint">The control point to add.</param>
-        public void addControlPoint(Vector3 controlPoint)
+        public void addControlPoint(Vector2 controlPoint)
         {
             controlPoints.Add(controlPoint);
         }
@@ -41,7 +40,7 @@ namespace Engine
         /// </summary>
         /// <param name="index">The index of the control point to update.</param>
         /// <param name="value">The value to set at index.</param>
-        public void updateControlPoint(int index, Vector3 value)
+        public void updateControlPoint(int index, Vector2 value)
         {
             controlPoints[index] = value;
         }
@@ -60,7 +59,7 @@ namespace Engine
         /// </summary>
         /// <param name="index">The index of the control point to retrieve.</param>
         /// <returns>The index of the control point.</returns>
-        public Vector3 getControlPoint(int index)
+        public Vector2 getControlPoint(int index)
         {
             return controlPoints[index];
         }
@@ -68,7 +67,7 @@ namespace Engine
         /// <summary>
         /// An enumerator over all the control points.
         /// </summary>
-        public IEnumerable<Vector3> ControlPoints
+        public IEnumerable<Vector2> ControlPoints
         {
             get
             {
@@ -81,7 +80,7 @@ namespace Engine
         /// </summary>
         /// <param name="percent">A value between 0 and 1 for the position on the spline.</param>
         /// <returns>A Vector3 with the location of the spline.</returns>
-        public Vector3 interpolate(float percent)
+        public Vector2 interpolate(float percent)
         {
             int i;
             if (percent < xSpline.Last().xt)
@@ -96,22 +95,7 @@ namespace Engine
             {
                 i = xSpline.Count - 1;
             }
-            return new Vector3(xSpline[i].interpolate(percent), ySpline[i].interpolate(percent), zSpline[i].interpolate(percent));
-        }
-
-        public Quaternion interpolateRotation(float percent, float offset, Vector3 startingDirection)
-        {
-            //Fix the numbers
-            if (percent == 1.0f)
-            {
-                percent = 1.0f - offset;
-            }
-            else if (percent + offset > 1.0f)
-            {
-                offset = 1.0f - percent;
-            }
-            Vector3 curvePosition = interpolate(percent + offset) - interpolate(percent);
-            return Quaternion.shortestArcQuatNormalize2(ref startingDirection, ref curvePosition);
+            return new Vector2(xSpline[i].interpolate(percent), ySpline[i].interpolate(percent));
         }
 
         /// <summary>
@@ -122,7 +106,6 @@ namespace Engine
         {
             xSpline.Clear();
             ySpline.Clear();
-            zSpline.Clear();
             if (controlPoints.Count > 0)
             {
                 int n = controlPoints.Count - 1; //n is the number of splines.
@@ -223,43 +206,6 @@ namespace Engine
                 for (int i = 0; i < n; ++i)
                 {
                     ySpline.Add(new CubicSpline(a[i], b[i], c[i], d[i], s[i]));
-                }
-
-                //------------------------------------------------
-                //Z dimension
-                for (int i = 0; i <= n; ++i)
-                {
-                    a[i] = controlPoints[i].z;
-                }
-                //common
-                for (int i = 0; i < n; ++i)
-                {
-                    h[i] = s[i + 1] - s[i];
-                }
-                for (int i = 1; i < n; ++i)
-                {
-                    alpha[i] = 3 / h[i] * (a[i + 1] - a[i]) - 3 / h[i - 1] * (a[i] - a[i - 1]);
-                }
-                l[0] = 1;
-                u[0] = z[0] = 0;
-                for (int i = 1; i < n; ++i)
-                {
-                    l[i] = 2 * (s[i + 1] - s[i - 1]) - h[i - 1] * u[i - 1];
-                    u[i] = h[i] / l[i];
-                    z[i] = (alpha[i] - h[i - 1] * z[i - 1]) / l[i];
-                }
-                l[n] = 1;
-                z[n] = c[n] = 0;
-                for (int j = n - 1; j >= 0; --j)
-                {
-                    c[j] = z[j] - u[j] * c[j + 1];
-                    b[j] = (a[j + 1] - a[j]) / h[j] - (h[j] * (c[j + 1] + 2 * c[j])) / 3;
-                    d[j] = (c[j + 1] - c[j]) / (3 * h[j]);
-                }
-                //endcommon
-                for (int i = 0; i < n; ++i)
-                {
-                    zSpline.Add(new CubicSpline(a[i], b[i], c[i], d[i], s[i]));
                 }
             }
         }

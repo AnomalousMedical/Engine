@@ -131,9 +131,10 @@
     <Compile Include="Math\3d\Vector3.cs" />
     <Compile Include="Math\3d\Vector4.cs" />
     <Compile Include="Math\Curves\MultiQuadraticBezierCurve.cs" />
+    <Compile Include="Math\Curves\NaturalSplineSet2d.cs" />
     <Compile Include="Math\Curves\NaturalSplineSet3d.cs" />
     <Compile Include="Math\Curves\QuadraticBezierCurve3.cs" />
-    <Compile Include="Math\Curves\Spline.cs" />
+    <Compile Include="Math\Curves\CubicSpline.cs" />
     <Compile Include="Math\Drawing\Color.cs" />
     <Compile Include="Math\Numerics\Degree.cs" />
     <Compile Include="Math\Numerics\Distance.cs" />

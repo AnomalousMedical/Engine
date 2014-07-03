@@ -9,16 +9,16 @@ namespace Engine
     /// <summary>
     /// This is a spline representation.
     /// </summary>
-    class Spline
+    class CubicSpline
     {
         public float a, b, c, d, xt;
 
-        public Spline()
+        public CubicSpline()
         {
 
         }
 
-        public Spline(float a, float b, float c, float d, float xt)
+        public CubicSpline(float a, float b, float c, float d, float xt)
         {
             this.a = a;
             this.b = b;
