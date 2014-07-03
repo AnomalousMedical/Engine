@@ -8,36 +8,8 @@ namespace Engine
     /// <summary>
     /// This is a set of cubic NaturalSplines that connect a series of control points.
     /// </summary>
-    public class NaturalSplineSet
+    public class NaturalSplineSet3d
     {
-        /// <summary>
-        /// This is a spline representation.
-        /// </summary>
-        class Spline
-        {
-            public float a, b, c, d, xt;
-
-            public Spline()
-            {
-
-            }
-
-            public Spline(float a, float b, float c, float d, float xt)
-            {
-                this.a = a;
-                this.b = b;
-                this.c = c;
-                this.d = d;
-                this.xt = xt;
-            }
-
-            public float interpolate(float value)
-            {
-                float xminusxt = value - xt;
-                return a + b * xminusxt + c * xminusxt * xminusxt + d * xminusxt * xminusxt * xminusxt;
-            }
-        }
-
         List<Vector3> controlPoints = new List<Vector3>();
         List<Spline> xSpline = new List<Spline>();
         List<Spline> ySpline = new List<Spline>();
