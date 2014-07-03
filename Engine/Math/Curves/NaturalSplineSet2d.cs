@@ -83,7 +83,7 @@ namespace Engine
         public Vector2 interpolate(float percent)
         {
             int i;
-            if (percent < xSpline.Last().xt)
+            if (percent < xSpline[xSpline.Count - 1].xt)
             {
                 for (i = 0; percent >= xSpline[i].xt; ++i)
                 {
