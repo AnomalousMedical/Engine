@@ -85,8 +85,8 @@ namespace Engine
         public Vector3 interpolate(float t)
         {
             // Currently assumes points are evenly spaced, will cause velocity
-            // change where this is not the case
-            // TODO: base on arclength?
+            // change where this is not the case, you can use GetEqualDistanceSpline to
+            // make a new spline that has evenly spaced points
 
 
             // Work out which segment this is in
@@ -154,6 +154,27 @@ namespace Engine
             return new Vector3(ret.x, ret.y, ret.z);
         }
 
+        /// <summary>
+        /// Figure out the rotation at a given point on the curve.
+        /// </summary>
+        /// <param name="percent"></param>
+        /// <param name="offset"></param>
+        /// <param name="startingDirection"></param>
+        /// <returns></returns>
+        public Quaternion interpolateRotation(float percent, float offset, Vector3 startingDirection)
+        {
+            //Fix the numbers
+            if (percent == 1.0f)
+            {
+                percent = 1.0f - offset;
+            }
+            else if (percent + offset > 1.0f)
+            {
+                offset = 1.0f - percent;
+            }
+            Vector3 curvePosition = interpolate(percent + offset) - interpolate(percent);
+            return Quaternion.shortestArcQuatNormalize2(ref startingDirection, ref curvePosition);
+        }
 
         /// <summary>
         /// Tells the spline whether it should automatically calculate tangents on demand
