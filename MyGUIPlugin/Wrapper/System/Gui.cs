@@ -161,12 +161,13 @@ namespace MyGUIPlugin
             }
         }
 
-        internal void fireUpdateEvent(float updateTime)
+        internal void frameEvent(float time)
         {
             if (Update != null)
             {
-                Update.Invoke(updateTime);
+                Update.Invoke(time);
             }
+            Gui_frameEvent(gui, time);
         }
 
         internal bool Disposing { get; private set; }
@@ -205,6 +206,9 @@ namespace MyGUIPlugin
 
         [DllImport(MyGUIInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern float Gui_getScaleFactor(IntPtr gui);
+
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Gui_frameEvent(IntPtr gui, float time);
 
 #endregion
     }

@@ -29,11 +29,6 @@ namespace MyGUIPlugin
             renderManager = RenderManager_getInstance();
         }
 
-        public void manualFrameEvent(float time)
-        {
-            RenderManager_manualFrameEvent(renderManager, time);
-        }
-
         public void destroyTexture(String name)
         {
             RenderManager_destroyTextureByName(renderManager, name);
@@ -59,9 +54,6 @@ namespace MyGUIPlugin
 
         [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr RenderManager_getInstance();
-
-        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
-        private static extern void RenderManager_manualFrameEvent(IntPtr resourceManager, float time);
 
         [DllImport(MyGUIInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern int RenderManager_getViewWidth(IntPtr gui);

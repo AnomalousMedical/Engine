@@ -54,3 +54,8 @@ extern "C" _AnomalousExport float Gui_getScaleFactor(MyGUI::Gui* gui)
 {
 	return gui->getScaleFactor();
 }
+
+extern "C" _AnomalousExport void Gui_frameEvent(MyGUI::Gui* gui, float time)
+{
+	gui->frameEvent(time);
+}
