@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0191EBB4196B11DC00C23BE4 /* btFixedConstraintWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0191EBB3196B11DC00C23BE4 /* btFixedConstraintWrapper.cpp */; };
 		01B6210113563BA800E20314 /* BulletDebugDraw.h in Headers */ = {isa = PBXBuildFile; fileRef = 01B620E913563BA800E20314 /* BulletDebugDraw.h */; };
 		01B6210213563BA800E20314 /* BulletScene.h in Headers */ = {isa = PBXBuildFile; fileRef = 01B620EA13563BA800E20314 /* BulletScene.h */; };
 		01B6210313563BA800E20314 /* ContactCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 01B620EB13563BA800E20314 /* ContactCache.h */; };
@@ -38,6 +39,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0191EBB3196B11DC00C23BE4 /* btFixedConstraintWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = btFixedConstraintWrapper.cpp; sourceTree = "<group>"; };
 		01B620E913563BA800E20314 /* BulletDebugDraw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BulletDebugDraw.h; sourceTree = "<group>"; };
 		01B620EA13563BA800E20314 /* BulletScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BulletScene.h; sourceTree = "<group>"; };
 		01B620EB13563BA800E20314 /* ContactCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactCache.h; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 		01B620F113563BA800E20314 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				0191EBB3196B11DC00C23BE4 /* btFixedConstraintWrapper.cpp */,
 				01B620F213563BA800E20314 /* BulletDebugDraw.cpp */,
 				01B620F313563BA800E20314 /* BulletScene.cpp */,
 				01B620F413563BA800E20314 /* CollisionShapeInterface.cpp */,
@@ -252,6 +255,7 @@
 				01B6210B13563BA800E20314 /* CollisionShapeInterface.cpp in Sources */,
 				01B6210C13563BA800E20314 /* ContactCache.cpp in Sources */,
 				01B6210D13563BA800E20314 /* ContactInfo.cpp in Sources */,
+				0191EBB4196B11DC00C23BE4 /* btFixedConstraintWrapper.cpp in Sources */,
 				01B6210F13563BA800E20314 /* MotionState.cpp in Sources */,
 				01B6211013563BA800E20314 /* ReshapeableRigidBody.cpp in Sources */,
 				01B6211113563BA800E20314 /* ReshapeableRigidBodySection.cpp in Sources */,
