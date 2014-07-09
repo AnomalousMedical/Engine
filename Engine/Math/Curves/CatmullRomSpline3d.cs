@@ -12,13 +12,13 @@ namespace Engine
     /// <remarks>
     /// Note that this version has not automatic calculation.
     /// </remarks>
-    public class CatmullRomSpline : Spline3d
+    public class CatmullRomSpline3d : Spline3d
     {
         List<Vector3> mPoints = new List<Vector3>();
         List<Vector3> mTangents = new List<Vector3>();
         Matrix4x4 mCoeffs; // Matrix of coefficients 
 
-        public CatmullRomSpline()
+        public CatmullRomSpline3d()
         {
             // Set up matrix
             // Hermite polynomial
@@ -291,7 +291,7 @@ namespace Engine
         /// <param name="splineSrc">The source spline.</param>
         /// <param name="splineDest">The spline to save the results into.</param>
         /// <param name="wantedDistance">The desired distance between two nodes.</param>
-        public static void GetEqualDistanceSpline(CatmullRomSpline splineSrc, CatmullRomSpline splineDest, float wantedDistance)
+        public static void GetEqualDistanceSpline(CatmullRomSpline3d splineSrc, CatmullRomSpline3d splineDest, float wantedDistance)
         {
             float lastInterpPoint = 0.0f;
             float length;
