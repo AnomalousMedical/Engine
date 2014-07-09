@@ -9,7 +9,7 @@ namespace Engine
     /// <summary>
     /// Interface for 3d vector spline classes, allows them to be more interchangeable.
     /// </summary>
-    interface Spline3d
+    public interface Spline3d
     {
         /// <summary>
         /// Add a control point to the set. You must call computeSplines to
@@ -71,6 +71,6 @@ namespace Engine
         /// Recompute the splines in the set. This must be called every time the
         /// control points are changed.
         /// </summary>
-        void computeSplines();
+        void recompute();
     }
 }

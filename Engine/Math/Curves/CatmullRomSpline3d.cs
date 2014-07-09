@@ -213,7 +213,7 @@ namespace Engine
         /// If you tell the spline not to update on demand by calling setAutoCalculate(false)
         /// then you must call this after completing your updates to the spline points.
         /// </remarks>
-        public void computeSplines()
+        public void recompute()
         {
             // Catmull-Rom approach
             // 
@@ -359,7 +359,7 @@ namespace Engine
                     break;
                 }
             }
-            splineDest.computeSplines();
+            splineDest.recompute();
         }
     }
 }

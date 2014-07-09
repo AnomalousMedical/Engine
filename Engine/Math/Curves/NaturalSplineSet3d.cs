@@ -120,7 +120,7 @@ namespace Engine
         /// Recompute the splines in the set. This must be called every time the
         /// control points are changed.
         /// </summary>
-        public void computeSplines()
+        public void recompute()
         {
             xSpline.Clear();
             ySpline.Clear();
