@@ -41,19 +41,19 @@ namespace MyGUIPlugin
         void mouse_Moved(Mouse mouse, MouseButtonCode buttonCode)
         {
             Vector3 mousePos = mouse.getAbsMouse();
-            gui.HandledMouse = inputManager.injectMouseMove((int)mousePos.x, (int)mousePos.y, (int)mousePos.z);
+            gui.HandledMouseMove = inputManager.injectMouseMove((int)mousePos.x, (int)mousePos.y, (int)mousePos.z);
         }
 
         void mouse_ButtonUp(Mouse mouse, MouseButtonCode buttonCode)
         {
             Vector3 mousePos = mouse.getAbsMouse();
-            gui.HandledMouse = inputManager.injectMouseRelease((int)mousePos.x, (int)mousePos.y, buttonCode);
+            gui.HandledMouseButtons = inputManager.injectMouseRelease((int)mousePos.x, (int)mousePos.y, buttonCode);
         }
 
         void mouse_ButtonDown(Mouse mouse, MouseButtonCode buttonCode)
         {
             Vector3 mousePos = mouse.getAbsMouse();
-            gui.HandledMouse = inputManager.injectMousePress((int)mousePos.x, (int)mousePos.y, buttonCode);
+            gui.HandledMouseButtons = inputManager.injectMousePress((int)mousePos.x, (int)mousePos.y, buttonCode);
         }
 
         void keyboard_KeyReleased(KeyboardButtonCode keyCode, uint keyChar)
