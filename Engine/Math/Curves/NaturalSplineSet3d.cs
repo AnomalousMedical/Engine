@@ -8,7 +8,7 @@ namespace Engine
     /// <summary>
     /// This is a set of cubic NaturalSplines that connect a series of control points.
     /// </summary>
-    public class NaturalSplineSet3d
+    public class NaturalSplineSet3d : Spline3d
     {
         List<Vector3> controlPoints = new List<Vector3>();
         List<CubicSpline> xSpline = new List<CubicSpline>();
@@ -47,12 +47,14 @@ namespace Engine
         }
 
         /// <summary>
-        /// Get the number of control points in the spline set.
+        /// Gets the number of control points in the spline.
         /// </summary>
-        /// <returns>The number of control points.</returns>
-        public int getNumControlPoints()
+        public int NumControlPoints
         {
-            return controlPoints.Count;
+            get
+            {
+                return controlPoints.Count;
+            }
         }
 
         /// <summary>

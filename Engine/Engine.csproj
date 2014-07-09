@@ -136,6 +136,7 @@
     <Compile Include="Math\Curves\QuadraticBezierCurve3.cs" />
     <Compile Include="Math\Curves\CubicSpline.cs" />
     <Compile Include="Math\Curves\SimpleSpline.cs" />
+    <Compile Include="Math\Curves\Spline3d.cs" />
     <Compile Include="Math\Drawing\Color.cs" />
     <Compile Include="Math\Numerics\Degree.cs" />
     <Compile Include="Math\Numerics\Distance.cs" />

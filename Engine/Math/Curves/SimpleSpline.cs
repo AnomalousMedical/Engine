@@ -7,14 +7,18 @@ using System.Threading.Tasks;
 namespace Engine
 {
     /// <summary>
-    /// The Ogre SimpleSpline class.
+    /// The Ogre SimpleSpline class, but we have renamed it to CatmullRomSpline since that is what it is.
     /// </summary>
     /// <remarks>
-    /// Note that we are setting autocalc to false by default, this is different from ogre.
+    /// Note that this version has not automatic calculation.
     /// </remarks>
-    public class SimpleSpline
+    public class CatmullRomSpline : Spline3d
     {
-        public SimpleSpline()
+        List<Vector3> mPoints = new List<Vector3>();
+        List<Vector3> mTangents = new List<Vector3>();
+        Matrix4x4 mCoeffs; // Matrix of coefficients 
+
+        public CatmullRomSpline()
         {
             // Set up matrix
             // Hermite polynomial
@@ -24,21 +28,25 @@ namespace Engine
                     0, 0, 1, 0,
                     1, 0, 0, 0
                 );
-
-            mAutoCalc = false;
         }
 
         /// <summary>
         /// Adds a control point to the end of the spline.
         /// </summary>
         /// <param name="p"></param>
-        public void addPoint(Vector3 p)
+        public void addControlPoint(Vector3 p)
         {
             mPoints.Add(p);
-            if (mAutoCalc)
-            {
-                recalcTangents();
-            }
+        }
+
+        /// <summary>
+        /// Remove a control point from the set. You must call computeSplines to
+        /// update the changes.
+        /// </summary>
+        /// <param name="index">The index of the control point to remove.</param>
+        public void removeControlPoint(int index)
+        {
+            mPoints.RemoveAt(index);
         }
 
         /// <summary>
@@ -46,7 +54,7 @@ namespace Engine
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public Vector3 getPoint(int index)
+        public Vector3 getControlPoint(int index)
         {
             return mPoints[index];
         }
@@ -68,7 +76,7 @@ namespace Engine
         /// </remarks>
         /// <param name="index"></param>
         /// <param name="value"></param>
-        public void updatePoint(int index, Vector3 value)
+        public void updateControlPoint(int index, Vector3 value)
         {
             mPoints[index] = value;
         }
@@ -177,30 +185,8 @@ namespace Engine
         }
 
         /// <summary>
-        /// Tells the spline whether it should automatically calculate tangents on demand
-        /// If true, tangents are calculated for you whenever a point changes. If false, 
-        /// you must call reclacTangents to recalculate them when it best suits.
+        /// An enumeration over the control points.
         /// </summary>
-        /// <remarks>
-        /// The spline calculates tangents at each point automatically based on the input points.
-        /// Normally it does this every time a point changes. However, if you have a lot of points
-        /// to add in one go, you probably don't want to incur this overhead and would prefer to 
-        /// defer the calculation until you are finished setting all the points. You can do this
-        /// by calling this method with a parameter of 'false'. Just remember to manually call 
-        /// the recalcTangents method when you are done.
-        /// </remarks>
-        public bool AutoCalculate
-        {
-            get
-            {
-                return mAutoCalc;
-            }
-            set
-            {
-                mAutoCalc = value;
-            }
-        }
-
         public IEnumerable<Vector3> ControlPoints
         {
             get
@@ -212,7 +198,7 @@ namespace Engine
         /// <summary>
         /// Gets the number of control points in the spline.
         /// </summary>
-        public int NumPoints
+        public int NumControlPoints
         {
             get
             {
@@ -227,7 +213,7 @@ namespace Engine
         /// If you tell the spline not to update on demand by calling setAutoCalculate(false)
         /// then you must call this after completing your updates to the spline points.
         /// </remarks>
-        public void recalcTangents()
+        public void computeSplines()
         {
             // Catmull-Rom approach
             // 
@@ -305,26 +291,25 @@ namespace Engine
         /// <param name="splineSrc">The source spline.</param>
         /// <param name="splineDest">The spline to save the results into.</param>
         /// <param name="wantedDistance">The desired distance between two nodes.</param>
-        public static void GetEqualDistanceSpline(SimpleSpline splineSrc, SimpleSpline splineDest, float wantedDistance)
+        public static void GetEqualDistanceSpline(CatmullRomSpline splineSrc, CatmullRomSpline splineDest, float wantedDistance)
         {
             float lastInterpPoint = 0.0f;
             float length;
-            Vector3 start = splineSrc.getPoint(0);
+            Vector3 start = splineSrc.getControlPoint(0);
             Vector3 end;
             float wantedDistanceSquared = wantedDistance * wantedDistance;
 
-            splineDest.AutoCalculate = false;
-            splineDest.addPoint(start);
+            splineDest.addControlPoint(start);
 
-            for (int j = 1; j < splineSrc.NumPoints; )
+            for (int j = 1; j < splineSrc.NumControlPoints; )
             {
                 // first find the points where the length exceed wanted length..
-                end = splineSrc.getPoint(j);
+                end = splineSrc.getControlPoint(j);
                 length = (end - start).length2();
 
-                while (length < wantedDistanceSquared && j < splineSrc.NumPoints - 1)
+                while (length < wantedDistanceSquared && j < splineSrc.NumControlPoints - 1)
                 {
-                    end = splineSrc.getPoint(++j);
+                    end = splineSrc.getControlPoint(++j);
                     length = (end - start).length2();
                     // if enter the loops then we have to reset lastInterPoint..
                     lastInterpPoint = 0.0f;
@@ -363,23 +348,18 @@ namespace Engine
                 // and remember the last interpolation point
                 lastInterpPoint = partMid;
 
-                splineDest.addPoint(start);
+                splineDest.addControlPoint(start);
 
                 //
                 // Moved from above; this was exiting too soon and 
                 // not including nodes for the last leg of a spline.
                 //
-                if ((length < wantedDistanceSquared) && (j == splineSrc.NumPoints - 1))
+                if ((length < wantedDistanceSquared) && (j == splineSrc.NumControlPoints - 1))
                 {
                     break;
                 }
             }
-            splineDest.recalcTangents();
+            splineDest.computeSplines();
         }
-
-        bool mAutoCalc;
-        List<Vector3> mPoints = new List<Vector3>();
-        List<Vector3> mTangents = new List<Vector3>();
-        Matrix4x4 mCoeffs; // Matrix of coefficients 
     }
 }
