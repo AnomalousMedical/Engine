@@ -141,8 +141,14 @@ namespace MyGUIPlugin
             }
         }
 
-        public bool HandledMouseButtons { get; internal set; }
+        /// <summary>
+        /// This will be true if the gui handled the mouse this frame.
+        /// </summary>
+        public bool HandledMouse { get; internal set; }
 
+        /// <summary>
+        /// This will be true if the gui handled the keyboard this frame.
+        /// </summary>
         public bool HandledKeyboardButtons { get; internal set; }
 
         /// <summary>
