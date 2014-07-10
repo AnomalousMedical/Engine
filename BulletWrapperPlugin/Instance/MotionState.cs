@@ -18,8 +18,8 @@ namespace BulletPlugin
         protected RigidBody rigidBody;
 
         private bool positionUpdated = false;
-        protected Vector3 updatedTranslation;
-        protected Quaternion updatedRotation;
+        protected Vector3 localTranslation;
+        protected Quaternion localRotation;
 
         public MotionState(RigidBody rigidBody, float maxContactDistance, ref Vector3 initialTrans, ref Quaternion initialRot)
         {
@@ -29,6 +29,8 @@ namespace BulletPlugin
             contactEndedCallback = new ContactCallback(contactEndedCallbackFunc);
             contactContinuesCallback = new ContactCallback(contactContinuesCallbackFunc);
             motionState = MotionState_Create(xformCallback, contactStartedCallback, contactEndedCallback, contactContinuesCallback, maxContactDistance, ref initialTrans, ref initialRot);
+            localTranslation = initialTrans;
+            localRotation = initialRot;
         }
 
         public void Dispose()
@@ -67,19 +69,49 @@ namespace BulletPlugin
             }
         }
 
-        public virtual Vector3 UpdatedTranslation
+        /// <summary>
+        /// The translation of the object in the physics scene's coords.
+        /// </summary>
+        public Vector3 LocalTranslation
         {
             get
             {
-                return updatedTranslation;
+                return localTranslation;
             }
         }
 
-        public virtual Quaternion UpdatedRotation
+        /// <summary>
+        /// The rotation of the object in the physics scene's coords.
+        /// </summary>
+        public Quaternion LocalRotation
         {
             get
             {
-                return updatedRotation;
+                return localRotation;
+            }
+        }
+
+        /// <summary>
+        /// The translation on this motion state in world coords. This will include 
+        /// any parent object offset if this is a transformed motion state.
+        /// </summary>
+        public virtual Vector3 WorldTranslation
+        {
+            get
+            {
+                return localTranslation;
+            }
+        }
+
+        /// <summary>
+        /// The rotation on this motion state in world coords. This will include 
+        /// any parent object offset if this is a transformed motion state.
+        /// </summary>
+        public virtual Quaternion WorldRotation
+        {
+            get
+            {
+                return localRotation;
             }
         }
 
@@ -93,8 +125,8 @@ namespace BulletPlugin
 
         private void motionStateCallback(ref Vector3 trans, ref Quaternion rot)
         {
-            updatedTranslation = trans;
-            updatedRotation = rot;
+            localTranslation = trans;
+            localRotation = rot;
             positionUpdated = true;
         }
 

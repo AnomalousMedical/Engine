@@ -17,22 +17,22 @@ namespace BulletPlugin
             this.scene = scene;
         }
 
-        public override Vector3 UpdatedTranslation
+        public override Vector3 WorldTranslation
         {
             get
             {
                 Vector3 extraTrans = scene.TransformSimObject.Translation;
                 Quaternion extraRot = scene.TransformSimObject.Rotation;
-                extraTrans += Quaternion.quatRotate(ref extraRot, ref updatedTranslation);
+                extraTrans += Quaternion.quatRotate(ref extraRot, ref localTranslation);
                 return extraTrans;
             }
         }
 
-        public override Quaternion UpdatedRotation
+        public override Quaternion WorldRotation
         {
             get
             {
-                return scene.TransformSimObject.Rotation * updatedRotation;
+                return scene.TransformSimObject.Rotation * localRotation;
             }
         }
     }

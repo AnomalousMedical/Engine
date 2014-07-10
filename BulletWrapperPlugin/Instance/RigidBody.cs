@@ -183,8 +183,8 @@ namespace BulletPlugin
         {
             if (motionState.PositionUpdated || forceUpdate)
             {
-                Vector3 updatedTranslation = motionState.UpdatedTranslation;
-                Quaternion updatedRotation = motionState.UpdatedRotation;
+                Vector3 updatedTranslation = motionState.WorldTranslation;
+                Quaternion updatedRotation = motionState.WorldRotation;
                 updatePosition(ref updatedTranslation, ref updatedRotation);
                 motionState.positionSynched();
             }
@@ -563,6 +563,28 @@ namespace BulletPlugin
         }
 
         public bool StayLocalTransform { get; private set; }
+
+        /// <summary>
+        /// The translation of this rigid body in the physics scene's coords.
+        /// </summary>
+        public Vector3 PhysicsTranslation
+        {
+            get
+            {
+                return motionState.LocalTranslation;
+            }
+        }
+
+        /// <summary>
+        /// The rotation of this rigid body in the physics scene's coords.
+        /// </summary>
+        public Quaternion PhysicsRotation
+        {
+            get
+            {
+                return motionState.LocalRotation;
+            }
+        }
     }
 
     //Dll Imports
