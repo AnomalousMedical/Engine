@@ -10,6 +10,26 @@ namespace Engine.Platform
     /// </summary>
     public sealed class Clock
     {
+        /// <summary>
+        /// Convert floating point seconds to Int64 microseconds.
+        /// </summary>
+        /// <param name="seconds">The number of seconds as a float.</param>
+        /// <returns>An Int64 version of the time in microseconds.</returns>
+        public static Int64 SecondsToMicroseconds(float seconds)
+        {
+            return (Int64)(seconds * 1000000.0f);
+        }
+
+        /// <summary>
+        /// Convert Int64 microseconds to float seconds.
+        /// </summary>
+        /// <param name="microseconds">The microseconds.</param>
+        /// <returns>Floating point seconds.</returns>
+        public static float MicrosecondsToSeconds(Int64 microseconds)
+        {
+            return microseconds / 1000000.0f;
+        }
+
         private Int64 deltaMicro;
         private Int64 currentTimeMicro;
         private float deltaSeconds;
