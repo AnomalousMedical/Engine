@@ -38,8 +38,6 @@ namespace BEPUikPlugin
                 Vector3 origin = VisualizationOrigin;
                 drawingSurface.Color = Color.Red;
                 drawingSurface.drawLine(origin, origin + joint.WorldFreeAxisA.toEngineVec3() * 5.0f);
-                drawingSurface.Color = Color.Blue;
-                drawingSurface.drawLine(origin, origin + joint.WorldFreeAxisB.toEngineVec3() * 5.0f);
             }
         }
 

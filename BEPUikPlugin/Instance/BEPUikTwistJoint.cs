@@ -44,7 +44,7 @@ namespace BEPUikPlugin
 
         internal override void draw(DebugDrawingSurface drawingSurface, DebugDrawMode drawMode)
         {
-            if ((drawMode & DebugDrawMode.TwistLimits) != 0)
+            if ((drawMode & DebugDrawMode.TwistJoints) != 0)
             {
                 Vector3 origin = VisualizationOrigin;
                 drawingSurface.Color = Color.Red;
