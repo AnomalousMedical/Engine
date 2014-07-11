@@ -118,6 +118,26 @@ extern "C" _AnomalousExport void SceneManager_destroyManualObject(Ogre::SceneMan
 	sceneManager->destroyManualObject(obj);
 }
 
+extern "C" _AnomalousExport Ogre::StaticGeometry* SceneManager_createStaticGeometry(Ogre::SceneManager* sceneManager, String name)
+{
+	return sceneManager->createStaticGeometry(name);
+}
+
+extern "C" _AnomalousExport Ogre::StaticGeometry* SceneManager_getStaticGeometry(Ogre::SceneManager* sceneManager, String name)
+{
+	return sceneManager->getStaticGeometry(name);
+}
+
+extern "C" _AnomalousExport bool SceneManager_hasStaticGeometry(Ogre::SceneManager* sceneManager, String name)
+{
+	return sceneManager->hasStaticGeometry(name);
+}
+
+extern "C" _AnomalousExport void SceneManager_destroyStaticGeometry(Ogre::SceneManager* sceneManager, Ogre::StaticGeometry* obj)
+{
+	sceneManager->destroyStaticGeometry(obj);
+}
+
 extern "C" _AnomalousExport void SceneManager_setVisibilityMask(Ogre::SceneManager* sceneManager, uint mask)
 {
 	sceneManager->setVisibilityMask(mask);

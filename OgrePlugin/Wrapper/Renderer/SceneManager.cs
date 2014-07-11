@@ -30,6 +30,7 @@ namespace OgreWrapper
         WrapperCollection<Light> lights = new WrapperCollection<Light>(Light.createWrapper);
         WrapperCollection<Entity> entities = new WrapperCollection<Entity>(Entity.createWrapper);
         WrapperCollection<ManualObject> manualObjects = new WrapperCollection<ManualObject>(ManualObject.createWrapper);
+        WrapperCollection<StaticGeometry> staticGeometries = new WrapperCollection<StaticGeometry>(StaticGeometry.createWrapper);
         RenderQueue renderQueue;
         ManagedSceneListener sceneListener;
         SceneNode rootNode;
@@ -54,6 +55,7 @@ namespace OgreWrapper
             lights.Dispose();
             entities.Dispose();
             manualObjects.Dispose();
+            staticGeometries.Dispose();
             SceneNode.destroyManagedNode(rootNode);
             renderQueue.Dispose();
             ogreSceneManager = IntPtr.Zero;
@@ -298,6 +300,28 @@ namespace OgreWrapper
             IntPtr ogreManual = obj.OgreObject;
             manualObjects.destroyObject(ogreManual);
             SceneManager_destroyManualObject(ogreSceneManager, ogreManual);
+        }
+
+        public StaticGeometry createStaticGeometry(String name)
+        {
+            return staticGeometries.getObject(SceneManager_createStaticGeometry(ogreSceneManager, name));
+        }
+
+        public StaticGeometry getStaticGeometry(String name)
+        {
+            return staticGeometries.getObject(SceneManager_getStaticGeometry(ogreSceneManager, name));
+        }
+
+        public bool hasStaticGeometry(String name)
+        {
+            return SceneManager_hasStaticGeometry(ogreSceneManager, name);
+        }
+
+        public void destroyStaticGeometry(StaticGeometry obj)
+        {
+            IntPtr ptr = obj.Ptr;
+            staticGeometries.destroyObject(ptr);
+            SceneManager_destroyStaticGeometry(ogreSceneManager, ptr);
         }
 
 	    /// <summary>
@@ -793,6 +817,19 @@ namespace OgreWrapper
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_destroyManualObject(IntPtr ogreSceneManager, IntPtr obj);
+
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        private static extern IntPtr SceneManager_createStaticGeometry(IntPtr sceneManager, String name);
+
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        private static extern IntPtr SceneManager_getStaticGeometry(IntPtr sceneManager, String name);
+
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool SceneManager_hasStaticGeometry(IntPtr sceneManager, String name);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void SceneManager_destroyStaticGeometry(IntPtr sceneManager, IntPtr obj);
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_setVisibilityMask(IntPtr ogreSceneManager, uint mask);

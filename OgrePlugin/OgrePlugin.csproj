@@ -187,6 +187,7 @@
     <Compile Include="Wrapper\SceneObjects\MovableObject.cs" />
     <Compile Include="Wrapper\SceneObjects\Node.cs" />
     <Compile Include="Wrapper\SceneObjects\SceneNode.cs" />
+    <Compile Include="Wrapper\SceneObjects\StaticGeometry.cs" />
     <Compile Include="Wrapper\SceneObjects\SubEntity.cs" />
     <Compile Include="Wrapper\Utility\LibraryInfo.cs" />
     <Compile Include="Wrapper\Utility\OgreException.cs" />
