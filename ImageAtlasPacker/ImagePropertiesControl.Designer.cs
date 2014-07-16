@@ -46,6 +46,7 @@
             this.resizeWidth = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.halveButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.widthText)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.heightText)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.resizeHeight)).BeginInit();
@@ -94,9 +95,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(4, 462);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(74, 13);
+            this.label2.Size = new System.Drawing.Size(77, 13);
             this.label2.TabIndex = 2;
-            this.label2.Text = "TextureHeight";
+            this.label2.Text = "Texture Height";
             // 
             // widthText
             // 
@@ -111,7 +112,7 @@
             this.widthText.Size = new System.Drawing.Size(120, 20);
             this.widthText.TabIndex = 3;
             this.widthText.Value = new decimal(new int[] {
-            512,
+            256,
             0,
             0,
             0});
@@ -129,7 +130,7 @@
             this.heightText.Size = new System.Drawing.Size(120, 20);
             this.heightText.TabIndex = 4;
             this.heightText.Value = new decimal(new int[] {
-            512,
+            256,
             0,
             0,
             0});
@@ -186,6 +187,8 @@
             // 
             this.resizeImages.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.resizeImages.AutoSize = true;
+            this.resizeImages.Checked = true;
+            this.resizeImages.CheckState = System.Windows.Forms.CheckState.Checked;
             this.resizeImages.Location = new System.Drawing.Point(147, 424);
             this.resizeImages.Name = "resizeImages";
             this.resizeImages.Size = new System.Drawing.Size(95, 17);
@@ -206,7 +209,7 @@
             this.resizeHeight.Size = new System.Drawing.Size(90, 20);
             this.resizeHeight.TabIndex = 13;
             this.resizeHeight.Value = new decimal(new int[] {
-            32,
+            64,
             0,
             0,
             0});
@@ -224,7 +227,7 @@
             this.resizeWidth.Size = new System.Drawing.Size(90, 20);
             this.resizeWidth.TabIndex = 12;
             this.resizeWidth.Value = new decimal(new int[] {
-            32,
+            64,
             0,
             0,
             0});
@@ -235,9 +238,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(149, 486);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(74, 13);
+            this.label3.Size = new System.Drawing.Size(73, 13);
             this.label3.TabIndex = 11;
-            this.label3.Text = "TextureHeight";
+            this.label3.Text = "Resize Height";
             // 
             // label4
             // 
@@ -245,14 +248,26 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(149, 446);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(74, 13);
+            this.label4.Size = new System.Drawing.Size(70, 13);
             this.label4.TabIndex = 10;
-            this.label4.Text = "Texture Width";
+            this.label4.Text = "Resize Width";
+            // 
+            // halveButton
+            // 
+            this.halveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.halveButton.Location = new System.Drawing.Point(81, 505);
+            this.halveButton.Name = "halveButton";
+            this.halveButton.Size = new System.Drawing.Size(49, 23);
+            this.halveButton.TabIndex = 14;
+            this.halveButton.Text = "Halve";
+            this.halveButton.UseVisualStyleBackColor = true;
+            this.halveButton.Click += new System.EventHandler(this.halveButton_Click);
             // 
             // ImagePropertiesControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.halveButton);
             this.Controls.Add(this.resizeHeight);
             this.Controls.Add(this.resizeWidth);
             this.Controls.Add(this.label3);
@@ -297,5 +312,6 @@
         private System.Windows.Forms.NumericUpDown resizeWidth;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button halveButton;
     }
 }

@@ -149,6 +149,34 @@ namespace ImageAtlasPacker
                     }
                 }
             }
+
+            if (resizeImages.Checked)
+            {
+                int width = (int)widthText.Value;
+                int resizedW = (int)resizeWidth.Value;
+                int resizedH = (int)resizeHeight.Value;
+                int imagesPerRow = width / resizedW;
+                if (images.Count < imagesPerRow)
+                {
+                    widthText.Value = images.Count * resizedW;
+                    heightText.Value = resizedH;
+                }
+                else
+                {
+                    heightText.Value = images.Count % imagesPerRow * resizedH;
+                }
+            }
+        }
+
+        private void halveButton_Click(object sender, EventArgs e)
+        {
+            widthText.Value = (int)widthText.Value / 2;
+            heightText.Value = (int)heightText.Value / 2;
+
+            resizeHeight.Value = (int)resizeHeight.Value / 2;
+            resizeWidth.Value = (int)resizeWidth.Value / 2;
+
+            updateButton_Click(sender, e);
         }
     }
 }
