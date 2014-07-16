@@ -30,6 +30,26 @@ namespace Engine.Platform
             return microseconds / 1000000.0f;
         }
 
+        /// <summary>
+        /// Convert milliseconds to microseconds.
+        /// </summary>
+        /// <param name="milliseconds"></param>
+        /// <returns></returns>
+        public static Int64 MillisecondsToMicroseconds(Int64 milliseconds)
+        {
+            return milliseconds * 1000;
+        }
+
+        /// <summary>
+        /// Convert microseconds to milliseconds. Stays as an int.
+        /// </summary>
+        /// <param name="milliseconds"></param>
+        /// <returns></returns>
+        public static Int64 MicrosecondsToMilliseconds(Int64 microseconds)
+        {
+            return microseconds / 1000;
+        }
+
         private Int64 deltaMicro;
         private Int64 currentTimeMicro;
         private float deltaSeconds;
