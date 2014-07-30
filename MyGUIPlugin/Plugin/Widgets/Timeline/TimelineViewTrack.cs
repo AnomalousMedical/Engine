@@ -45,6 +45,8 @@ namespace MyGUIPlugin
 
         public Color SelectedColor { get; private set; }
 
+        public Object UserObject { get; internal set; }
+
         internal TimelineViewButton addButton(Button button, TimelineData data)
         {
             TimelineViewButton viewButton = new TimelineViewButton(pixelsPerSecond, timelineDuration, button, data, NormalColor, SelectedColor);

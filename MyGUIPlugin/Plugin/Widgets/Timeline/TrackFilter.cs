@@ -7,7 +7,7 @@ using Engine;
 
 namespace MyGUIPlugin
 {
-    public delegate void AddTrackItemCallback(String name);
+    public delegate void AddTrackItemCallback(String name, Object trackUserObject);
 
     public class TrackFilter
     {
@@ -39,20 +39,18 @@ namespace MyGUIPlugin
             }
         }
 
-        void actionView_RowAdded(TimelineViewTrack row)
-        {
-            String actionName = row.Name;
-            
-            Button button = (Button)scrollView.createWidgetT("Button", "ButtonExpandSkin", 0, row.Top, ButtonWidth, ButtonHeight, Align.Default, "");
+        void actionView_RowAdded(TimelineViewTrack track)
+        {            
+            Button button = (Button)scrollView.createWidgetT("Button", "ButtonExpandSkin", 0, track.Top, ButtonWidth, ButtonHeight, Align.Default, "");
             button.Selected = true;
             
-            TextBox staticText = (TextBox)scrollView.createWidgetT("TextBox", "TextBox", ButtonWidth + 1, row.Top, textWidth, ButtonHeight, Align.Default, "");
+            TextBox staticText = (TextBox)scrollView.createWidgetT("TextBox", "TextBox", ButtonWidth + 1, track.Top, textWidth, ButtonHeight, Align.Default, "");
             staticText.TextAlign = Align.Left | Align.VCenter;
-            staticText.TextColor = row.SelectedColor;
+            staticText.TextColor = track.SelectedColor;
             
-            TrackFilterButton filterButton = new TrackFilterButton(button, staticText, actionName);
-            filterButtons.Add(row, filterButton);
-            filterButton.CreateButtonClicked += new EventHandler(filterButton_CreateButtonClicked);
+            TrackFilterButton filterButton = new TrackFilterButton(button, staticText, track);
+            filterButtons.Add(track, filterButton);
+            filterButton.CreateButtonClicked += filterButton_CreateButtonClicked;
             filterButton.Enabled = enabled;
 
             //Resize canvas
@@ -107,11 +105,11 @@ namespace MyGUIPlugin
             scrollView.CanvasPosition = currentPos;
         }
 
-        void filterButton_CreateButtonClicked(object sender, EventArgs e)
+        void filterButton_CreateButtonClicked(TrackFilterButton sender)
         {
             if (AddTrackItem != null)
             {
-                AddTrackItem.Invoke(((TrackFilterButton)sender).Caption);
+                AddTrackItem.Invoke(sender.Caption, sender.Track.UserObject);
             }
         }
     }

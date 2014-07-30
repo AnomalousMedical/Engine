@@ -10,15 +10,17 @@ namespace MyGUIPlugin
     {
         private Button button;
         private TextBox text;
+        private TimelineViewTrack track;
 
-        public event EventHandler CreateButtonClicked;
+        public event Action<TrackFilterButton> CreateButtonClicked;
 
-        public TrackFilterButton(Button button, TextBox text, String actionType)
+        public TrackFilterButton(Button button, TextBox text, TimelineViewTrack track)
         {
             this.button = button;
             button.MouseButtonClick += new MyGUIEvent(button_MouseButtonClick);
             this.text = text;
-            text.Caption = actionType;
+            text.Caption = track.Name;
+            this.track = track;
         }
 
         public void Dispose()
@@ -53,11 +55,19 @@ namespace MyGUIPlugin
             }
         }
 
+        public TimelineViewTrack Track
+        {
+            get
+            {
+                return track;
+            }
+        }
+
         void button_MouseButtonClick(Widget source, EventArgs e)
         {
             if (CreateButtonClicked != null)
             {
-                CreateButtonClicked.Invoke(this, e);
+                CreateButtonClicked.Invoke(this);
             }
         }
     }

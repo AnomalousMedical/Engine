@@ -124,11 +124,12 @@ namespace MyGUIPlugin
             timelineMarker.Dispose();
         }
 
-        public void addTrack(String name)
+        public void addTrack(String name, Object userObject = null)
         {
             int colorIndex = tracks.Count % DefaultTrackColors.Length;
             TimelineViewTrack track = new TimelineViewTrack(name, trackY, pixelsPerSecond, duration, DefaultTrackColors[colorIndex], DefaultTrackSelectedColors[colorIndex]);
             track.BottomChanged += new EventHandler(actionViewRow_BottomChanged);
+            track.UserObject = userObject;
             tracks.Add(track);
             namedTracks.Add(name, track);
             trackY = track.Bottom;
