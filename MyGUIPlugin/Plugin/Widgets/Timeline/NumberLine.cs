@@ -27,6 +27,7 @@ namespace MyGUIPlugin
         public NumberLine(ScrollView numberlineScroller, TimelineView timelineView)
         {
             this.numberlineScroller = numberlineScroller;
+            numberlineScroller.EventChangeCoord += numberlineScroller_EventChangeCoord;
             this.timelineView = timelineView;
             pixelsPerSecond = timelineView.PixelsPerSecond;
             timelineView.CanvasPositionChanged += new CanvasPositionChanged(actionView_CanvasPositionChanged);
@@ -108,6 +109,11 @@ namespace MyGUIPlugin
         void actionView_CanvasWidthChanged(int newSize)
         {
             numberlineScroller.CanvasSize = new IntSize2(newSize > numberlineScroller.Width ? newSize : numberlineScroller.Width, numberlineScroller.Height);
+            canvasModified();
+        }
+
+        void numberlineScroller_EventChangeCoord(Widget source, EventArgs e)
+        {
             canvasModified();
         }
 

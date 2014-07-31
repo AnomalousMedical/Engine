@@ -151,6 +151,7 @@
     <Compile Include="Wrapper\Events\MyGUIWidgetEventTranslator.cs" />
     <Compile Include="Wrapper\Events\VScroll\ScrollChangePositionET.cs" />
     <Compile Include="Wrapper\Events\Template.cs" />
+    <Compile Include="Wrapper\Events\Widget\EventChangeCoord.cs" />
     <Compile Include="Wrapper\Events\Widget\EventKeyButtonPressedTranslator.cs" />
     <Compile Include="Wrapper\Events\Widget\EventKeyButtonReleasedTranslator.cs" />
     <Compile Include="Wrapper\Events\Widget\EventKeyLostFocusTranslator.cs" />

@@ -772,6 +772,18 @@ namespace MyGUIPlugin
             }
         }
 
+        public event MyGUIEvent EventChangeCoord
+        {
+            add
+            {
+                eventManager.addDelegate<EventChangeCoord>(value);
+            }
+            remove
+            {
+                eventManager.removeDelegate<EventChangeCoord>(value);
+            }
+        }
+
 #endregion
 
 #region PInvoke
