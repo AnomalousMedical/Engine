@@ -61,6 +61,7 @@
 		0154F08B13572A3700CA2301 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F05113572A3700CA2301 /* Window.cpp */; };
 		0154F08C13572A3700CA2301 /* Stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0154F05213572A3700CA2301 /* Stdafx.cpp */; };
 		0154F08D13572A3700CA2301 /* Stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 0154F05313572A3700CA2301 /* Stdafx.h */; };
+		01ADE500198A9A0200DF5416 /* EventChangeCoord.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01ADE4FF198A9A0200DF5416 /* EventChangeCoord.cpp */; };
 		01C30DAD15CABBE00035B518 /* TabControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01C30DAC15CABBE00035B518 /* TabControl.cpp */; };
 		01DD65ED18D0B1FA0078CC79 /* libMyGUI.OgrePlatform.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01DD65EB18D0B1FA0078CC79 /* libMyGUI.OgrePlatform.a */; };
 		01DD65EE18D0B1FA0078CC79 /* libMyGUIEngineStatic.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01DD65EC18D0B1FA0078CC79 /* libMyGUIEngineStatic.a */; };
@@ -133,6 +134,7 @@
 		0154F05113572A3700CA2301 /* Window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
 		0154F05213572A3700CA2301 /* Stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Stdafx.cpp; path = ../Stdafx.cpp; sourceTree = SOURCE_ROOT; };
 		0154F05313572A3700CA2301 /* Stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stdafx.h; path = ../Stdafx.h; sourceTree = SOURCE_ROOT; };
+		01ADE4FF198A9A0200DF5416 /* EventChangeCoord.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventChangeCoord.cpp; sourceTree = "<group>"; };
 		01C30DAC15CABBE00035B518 /* TabControl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TabControl.cpp; sourceTree = "<group>"; };
 		01DD65EB18D0B1FA0078CC79 /* libMyGUI.OgrePlatform.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMyGUI.OgrePlatform.a; path = ../../../Dependencies/MyGUI/OSXBuild/lib/Release/libMyGUI.OgrePlatform.a; sourceTree = "<group>"; };
 		01DD65EC18D0B1FA0078CC79 /* libMyGUIEngineStatic.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMyGUIEngineStatic.a; path = ../../../Dependencies/MyGUI/OSXBuild/lib/Release/libMyGUIEngineStatic.a; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 		0154F01A13572A3700CA2301 /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				01ADE4FF198A9A0200DF5416 /* EventChangeCoord.cpp */,
 				01C30DAC15CABBE00035B518 /* TabControl.cpp */,
 				011AF79D1576718200A887F7 /* EventScrollGesture.cpp */,
 				01DFB49915501EEA00BC01AC /* EventMouseMoveTranslator.cpp */,
@@ -365,6 +368,7 @@
 				0154F05613572A3700CA2301 /* ClickEventTranslator.cpp in Sources */,
 				0154F05713572A3700CA2301 /* ComboBox.cpp in Sources */,
 				0154F05913572A3700CA2301 /* EventCanvasPositionChanged.cpp in Sources */,
+				01ADE500198A9A0200DF5416 /* EventChangeCoord.cpp in Sources */,
 				0154F05A13572A3700CA2301 /* EventChangeMousePointerTranslator.cpp in Sources */,
 				0154F05B13572A3700CA2301 /* EventComboAcceptTranslator.cpp in Sources */,
 				0154F05C13572A3700CA2301 /* EventComboChangePositionTranslator.cpp in Sources */,
