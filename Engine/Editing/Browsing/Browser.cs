@@ -7,6 +7,8 @@ namespace Engine.Editing
 {
     public class Browser
     {
+        private static readonly String[] DefaultDelimiters = { "/", "\\" };
+
         public enum DisplayHint
         {
             Tree = 0,
@@ -29,6 +31,17 @@ namespace Engine.Editing
         public BrowserNode getTopNode()
         {
             return rootNode;
+        }
+
+        /// <summary>
+        /// Add a node to the tree with the default path delimiters. These are \ and /.
+        /// See the overloaded version for more information about the paths.
+        /// </summary>
+        /// <param name="path">The path to the node.</param>
+        /// <param name="node">The node.</param>
+        public void addNode(String path, BrowserNode node)
+        {
+            addNode(path, DefaultDelimiters, node);
         }
 
         /// <summary>
