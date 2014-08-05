@@ -119,7 +119,7 @@ namespace Engine.Resources
             LinkedList<String> unloadedResources = new LinkedList<String>();
             foreach (ResourceGroup group in resourceGroups.Values)
             {
-                if (!toMatch.resourceGroups.ContainsKey(group.Name))
+                if (group.UnloadOnSynchronize && !toMatch.resourceGroups.ContainsKey(group.Name))
                 {
                     unloadedResources.AddLast(group.Name);
                 }
@@ -137,6 +137,7 @@ namespace Engine.Resources
                 if (!resourceGroups.ContainsKey(group.Name))
                 {
                     ResourceGroup resourceGroup = new ResourceGroup(group.Name);
+                    resourceGroup.UnloadOnSynchronize = group.UnloadOnSynchronize;
                     this.addResourceGroup(resourceGroup);
                 }
                 resourceGroups[group.Name].changeResourcesToMatch(group);
@@ -155,6 +156,7 @@ namespace Engine.Resources
                 if (!resourceGroups.ContainsKey(group.Name))
                 {
                     ResourceGroup resourceGroup = new ResourceGroup(group.Name);
+                    resourceGroup.UnloadOnSynchronize = group.UnloadOnSynchronize;
                     this.addResourceGroup(resourceGroup);
                 }
                 resourceGroups[group.Name].addResources(group);

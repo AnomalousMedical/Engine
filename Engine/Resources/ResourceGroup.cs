@@ -39,6 +39,7 @@ namespace Engine.Resources
         internal ResourceGroup(String name)
         {
             this.name = name;
+            UnloadOnSynchronize = true;
         }
 
         /// <summary>
@@ -49,6 +50,7 @@ namespace Engine.Resources
         {
             this.name = toDuplicate.name;
             this.parent = parent;
+            this.UnloadOnSynchronize = toDuplicate.UnloadOnSynchronize;
             foreach (Resource resource in toDuplicate.resources.Values)
             {
                 this.addResource(new Resource(resource.getLocName(), resource.Recursive));
@@ -177,15 +179,18 @@ namespace Engine.Resources
         {
             //Unload any resources that are not shared
             LinkedList<String> unloadedResources = new LinkedList<String>();
-            foreach (String resource in resources.Keys)
+            foreach (var resource in resources)
             {
-                if (!toMatch.resources.ContainsKey(resource))
+                if (resource.Value.UnloadOnSynchronize)
                 {
-                    unloadedResources.AddLast(resource);
-                }
-                else if (!resources[resource].allPropertiesMatch(toMatch.resources[resource]))
-                {
-                    unloadedResources.AddLast(resource);
+                    if (!toMatch.resources.ContainsKey(resource.Key))
+                    {
+                        unloadedResources.AddLast(resource.Key);
+                    }
+                    else if (!resource.Value.allPropertiesMatch(toMatch.resources[resource.Key]))
+                    {
+                        unloadedResources.AddLast(resource.Key);
+                    }
                 }
             }
 
@@ -250,6 +255,12 @@ namespace Engine.Resources
                 return name;
             }
         }
+
+        /// <summary>
+        /// This will be true (default) if the resource should be unloaded when changeResourcesToMatch is called and
+        /// this resource is not present in the destination resource manager.
+        /// </summary>
+        public bool UnloadOnSynchronize { get; set; }
 
         #endregion Properties
 
@@ -333,6 +344,7 @@ namespace Engine.Resources
         private ResourceGroup(LoadInfo info)
         {
             name = info.GetString(NAME);
+            UnloadOnSynchronize = info.GetBoolean("UnloadOnSynchronize", true);
             for (int i = 0; info.hasValue(RESOURCE_BASE + i); ++i)
             {
                 Resource resource = info.GetValue<Resource>(RESOURCE_BASE + i);
@@ -348,6 +360,7 @@ namespace Engine.Resources
         public void getInfo(SaveInfo info)
         {
             info.AddValue(NAME, name);
+            info.AddValue("UnloadOnSynchronize", UnloadOnSynchronize);
             int i = 0;
             foreach (Resource resource in resources.Values)
             {
