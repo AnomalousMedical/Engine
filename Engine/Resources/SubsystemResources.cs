@@ -17,7 +17,7 @@ namespace Engine.Resources
 
         private ResourceGroupCollection resourceGroups = new ResourceGroupCollection();
         private String name;
-        private List<ResourceListener> listeners = new List<ResourceListener>();
+        private ResourceListener listener;
 
         #endregion Fields
 
@@ -27,13 +27,24 @@ namespace Engine.Resources
         /// Constructor.
         /// </summary>
         /// <param name="name">The name of the subsystem this provides resources for.</param>
-        public SubsystemResources(String name)
+        internal SubsystemResources(String name)
         {
             this.name = name;
         }
 
         /// <summary>
-        /// Constructor.  Takes the SubsystemResource to duplicate.
+        /// Constructor.
+        /// </summary>
+        /// <param name="name">The name of the subsystem this provides resources for.</param>
+        /// <param name="listener">The ResourceListener attached to this subsystem. This can be null and will never be copied if the copy constructor is used.</param>
+        internal SubsystemResources(String name, ResourceListener listener)
+        {
+            this.name = name;
+            this.listener = listener;
+        }
+
+        /// <summary>
+        /// Constructor. Takes the SubsystemResource to duplicate. This does not copy the listener.
         /// </summary>
         /// <param name="toDuplicate">Enter the contents of this SubystemResource into the new one.</param>
         internal SubsystemResources(SubsystemResources toDuplicate)
@@ -119,7 +130,7 @@ namespace Engine.Resources
             LinkedList<String> unloadedResources = new LinkedList<String>();
             foreach (ResourceGroup group in resourceGroups.Values)
             {
-                if (group.UnloadOnSynchronize && !toMatch.resourceGroups.ContainsKey(group.Name))
+                if (!toMatch.resourceGroups.ContainsKey(group.Name))
                 {
                     unloadedResources.AddLast(group.Name);
                 }
@@ -137,7 +148,6 @@ namespace Engine.Resources
                 if (!resourceGroups.ContainsKey(group.Name))
                 {
                     ResourceGroup resourceGroup = new ResourceGroup(group.Name);
-                    resourceGroup.UnloadOnSynchronize = group.UnloadOnSynchronize;
                     this.addResourceGroup(resourceGroup);
                 }
                 resourceGroups[group.Name].changeResourcesToMatch(group);
@@ -156,7 +166,6 @@ namespace Engine.Resources
                 if (!resourceGroups.ContainsKey(group.Name))
                 {
                     ResourceGroup resourceGroup = new ResourceGroup(group.Name);
-                    resourceGroup.UnloadOnSynchronize = group.UnloadOnSynchronize;
                     this.addResourceGroup(resourceGroup);
                 }
                 resourceGroups[group.Name].addResources(group);
@@ -180,24 +189,6 @@ namespace Engine.Resources
         public void forceResourceRefresh()
         {
             fireForceRefresh();
-        }
-
-        /// <summary>
-        /// Add a resource listener.
-        /// </summary>
-        /// <param name="listener">The resource listener to add.</param>
-        public void addResourceListener(ResourceListener listener)
-        {
-            listeners.Add(listener);
-        }
-
-        /// <summary>
-        /// Remove a resource listener.
-        /// </summary>
-        /// <param name="listener">The resource listener to remove.</param>
-        public void removeResourceListener(ResourceListener listener)
-        {
-            listeners.Remove(listener);
         }
 
         /// <summary>
@@ -238,7 +229,7 @@ namespace Engine.Resources
         /// <param name="resource">The resource that was added.</param>
         internal void fireResourceAdded(ResourceGroup group, Resource resource)
         {
-            foreach (ResourceListener listener in listeners)
+            if(listener != null)
             {
                 listener.resourceAdded(group, resource);
             }
@@ -251,7 +242,7 @@ namespace Engine.Resources
         /// <param name="resource">The resource that was removed.</param>
         internal void fireResourceRemoved(ResourceGroup group, Resource resource)
         {
-            foreach (ResourceListener listener in listeners)
+            if (listener != null)
             {
                 listener.resourceRemoved(group, resource);
             }
@@ -263,7 +254,7 @@ namespace Engine.Resources
         /// <param name="group">The group added.</param>
         private void fireResourceGroupAdded(ResourceGroup group)
         {
-            foreach (ResourceListener listener in listeners)
+            if (listener != null)
             {
                 listener.resourceGroupAdded(group);
             }
@@ -275,7 +266,7 @@ namespace Engine.Resources
         /// <param name="group">The group removed.</param>
         private void fireResourceGroupRemoved(ResourceGroup group)
         {
-            foreach (ResourceListener listener in listeners)
+            if (listener != null)
             {
                 listener.resourceGroupRemoved(group);
             }
@@ -286,7 +277,7 @@ namespace Engine.Resources
         /// </summary>
         private void fireForceRefresh()
         {
-            foreach (ResourceListener listener in listeners)
+            if (listener != null)
             {
                 listener.forceResourceRefresh();
             }

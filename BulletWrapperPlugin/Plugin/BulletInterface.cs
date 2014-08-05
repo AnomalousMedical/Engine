@@ -14,7 +14,6 @@ namespace BulletPlugin
         private static BulletInterface instance;
         UpdateTimer timer;
         BulletShapeFileManager fileManager = new BulletShapeFileManager(new BulletShapeRepository(), new BulletShapeBuilder());
-        SubsystemResources resources = new SubsystemResources("Bullet");
         BulletDebugInterface debugInterface = null;
 
         public const String PluginName = "BulletPlugin";
@@ -57,8 +56,7 @@ namespace BulletPlugin
             //pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create Bullet Elipsoid Soft Body Provider", new CreateSimElement(EllipsoidSoftBodyProviderDefinition::Create)));
             //pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create Bullet Soft Body Anchor", new CreateSimElement(SoftBodyAnchorDefinition::Create)));
 
-	        resources.addResourceListener(fileManager);
-	        pluginManager.addSubsystemResources(resources);
+	        pluginManager.addSubsystemResources("Bullet", fileManager);
         }
 
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)

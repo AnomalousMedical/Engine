@@ -144,9 +144,7 @@ namespace OgrePlugin
                 }
 
                 //Setup Resources
-                SubsystemResources ogreResourcs = new SubsystemResources("Ogre");
-                ogreResourcs.addResourceListener(OgreResourceManager.Instance);
-                pluginManager.addSubsystemResources(ogreResourcs);
+                pluginManager.addSubsystemResources("Ogre", OgreResourceManager.Instance);
 
                 //Setup the core resources
                 OgreResourceGroupManager.getInstance().addResourceLocation(typeof(OgreInterface).AssemblyQualifiedName, "EmbeddedResource", "Bootstrap", true);

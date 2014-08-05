@@ -88,16 +88,6 @@ namespace Engine
         }
 
         /// <summary>
-        /// Call to bind this ShapeFileManager to the give SubsystemResources.  This will
-        /// subscribe to the callbacks on that resources.
-        /// </summary>
-        /// <param name="resources"></param>
-        public void setSubsystemResources(SubsystemResources resources)
-        {
-            resources.addResourceListener(this);
-        }
-
-        /// <summary>
         /// Destroy all resources and unload any shared data.
         /// </summary>
         public void Dispose()

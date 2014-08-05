@@ -32,7 +32,6 @@ namespace Engine.Resources
         {
             locName = "";
             recursive = false;
-            UnloadOnSynchronize = true;
         }
 
         /// <summary>
@@ -45,7 +44,6 @@ namespace Engine.Resources
         {
             this.locName = locName;
             this.recursive = recursive;
-            UnloadOnSynchronize = true;
         }
 
         /// <summary>
@@ -56,7 +54,6 @@ namespace Engine.Resources
         {
         	this.locName = toCopy.locName;
             this.recursive = toCopy.recursive;
-            this.UnloadOnSynchronize = toCopy.UnloadOnSynchronize;
         }
 
         #endregion Constructors
@@ -147,12 +144,6 @@ namespace Engine.Resources
             }
         }
 
-        /// <summary>
-        /// This will be true (default) if the resource should be unloaded when changeResourcesToMatch is called and
-        /// this resource is not present in the destination resource manager.
-        /// </summary>
-        public bool UnloadOnSynchronize { get; set; }
-
         #endregion Properties
 
         #region Saveable Members
@@ -168,7 +159,6 @@ namespace Engine.Resources
         {
             locName = info.GetString(LOC_NAME);
             recursive = info.GetBoolean(RECURSIVE);
-            UnloadOnSynchronize = info.GetBoolean("UnloadOnSynchronize", true);
         }
 
         /// <summary>
@@ -179,7 +169,6 @@ namespace Engine.Resources
         {
             info.AddValue(LOC_NAME, locName);
             info.AddValue(RECURSIVE, recursive);
-            info.AddValue("UnloadOnSynchronize", UnloadOnSynchronize);
         }
 
         #endregion

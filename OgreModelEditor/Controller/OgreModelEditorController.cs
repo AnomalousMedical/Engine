@@ -138,8 +138,8 @@ namespace OgreModelEditor
                 {
                     resourceManager = pluginManager.createEmptyResourceManager();
                 }
-                pluginManager.PrimaryResourceManager.changeResourcesToMatch(resourceManager);
-                pluginManager.PrimaryResourceManager.forceResourceRefresh();
+                pluginManager.SceneResourceManager.changeResourcesToMatch(resourceManager);
+                pluginManager.SceneResourceManager.forceResourceRefresh();
                 textReader.Close();
             }
 
@@ -257,8 +257,8 @@ namespace OgreModelEditor
         public void editExternalResources()
         {
             objectEditor.setEditInterface(resourceManager.getEditInterface(), null, null, null);
-            pluginManager.PrimaryResourceManager.changeResourcesToMatch(resourceManager);
-            pluginManager.PrimaryResourceManager.forceResourceRefresh();
+            pluginManager.SceneResourceManager.changeResourcesToMatch(resourceManager);
+            pluginManager.SceneResourceManager.forceResourceRefresh();
             XmlTextWriter textWriter = new XmlTextWriter(OgreModelEditorConfig.DocRoot + "/resources.xml", Encoding.Default);
             textWriter.Formatting = Formatting.Indented;
             xmlSaver.saveObject(resourceManager, textWriter);
@@ -271,13 +271,13 @@ namespace OgreModelEditor
             {
                 modelController.destroyModel();
                 String dir = Path.GetDirectoryName(lastFileName);
-                pluginManager.PrimaryResourceManager.changeResourcesToMatch(emptyResourceManager);
-                pluginManager.PrimaryResourceManager.forceResourceRefresh();
+                pluginManager.SceneResourceManager.changeResourcesToMatch(emptyResourceManager);
+                pluginManager.SceneResourceManager.forceResourceRefresh();
                 OgreResourceGroupManager groupManager = OgreResourceGroupManager.getInstance();
                 groupManager.destroyResourceGroup(dir);
                 groupManager.initializeAllResourceGroups();
-                pluginManager.PrimaryResourceManager.changeResourcesToMatch(resourceManager);
-                pluginManager.PrimaryResourceManager.forceResourceRefresh();
+                pluginManager.SceneResourceManager.changeResourcesToMatch(resourceManager);
+                pluginManager.SceneResourceManager.forceResourceRefresh();
                 groupManager.addResourceLocation(dir, "FileSystem", dir, true);
                 groupManager.initializeAllResourceGroups();
                 String meshName = Path.GetFileName(lastFileName);

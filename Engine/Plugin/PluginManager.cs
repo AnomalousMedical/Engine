@@ -51,7 +51,8 @@ namespace Engine
         private PlatformPlugin platformPlugin = null;
         private RendererPlugin rendererPlugin = null;
         private List<Assembly> pluginAssemblies = new List<Assembly>();
-        private ResourceManager primaryResourceManager = new ResourceManager();
+        private ResourceManager sceneResourceManager = new ResourceManager();
+        private ResourceManager persistantResourceManager = new ResourceManager();
         private ResourceManager emptyResourceManager = new ResourceManager();
         private List<DebugInterface> debugInterfaces;
         private ConfigFile configFile;
@@ -335,10 +336,11 @@ namespace Engine
         /// the appropriate callbacks.
         /// </summary>
         /// <param name="subsystem">A callback configured SubsystemResources instance.</param>
-        public void addSubsystemResources(SubsystemResources subsystem)
+        public void addSubsystemResources(String name, ResourceListener subsystemListener)
         {
-            primaryResourceManager.addSubsystemResource(subsystem);
-            emptyResourceManager.addSubsystemResource(new SubsystemResources(subsystem));
+            sceneResourceManager.addSubsystemResource(new SubsystemResources(name, subsystemListener));
+            persistantResourceManager.addSubsystemResource(new SubsystemResources(name, subsystemListener));
+            emptyResourceManager.addSubsystemResource(new SubsystemResources(name));
         }
 
         /// <summary>
@@ -409,16 +411,16 @@ namespace Engine
         }
 
         /// <summary>
-        /// Create a copy of the PrimaryResourceManager. This will contain all
-        /// of the same resource definitions as the PrimaryResourceManager,
+        /// Create a copy of the SceneResourceManager. This will contain all
+        /// of the same resource definitions as the SceneResourceManager,
         /// however, it will not update the subsystems as it is changed. This
         /// can then be applied to the primary manager to make it update the
         /// subsystems to match the new definitions.
         /// </summary>
-        /// <returns>A new ResourceManager that is a copy of the PrimaryResourceManager.</returns>
-        public ResourceManager createSecondaryResourceManager()
+        /// <returns>A new ResourceManager that is a copy of the SceneResourceManager.</returns>
+        public ResourceManager cloneSceneResourceManager()
         {
-            return new ResourceManager(primaryResourceManager);
+            return new ResourceManager(sceneResourceManager);
         }
 
         /// <summary>
@@ -478,17 +480,29 @@ namespace Engine
         }
 
         /// <summary>
-        /// This is the ResourceManager that is hooked up to the plugins. By
-        /// modifying this resource manager the plugins will get updates about
-        /// the resource changes. If you need to change resources without
-        /// modifying the actual loaded resources call
-        /// createSecondaryResourceManager().
+        /// This ResourceManager is used to load resources for the current scene. It is hooked
+        /// up to the subsystems and making changes here will cause the subsystems to attempt
+        /// to load / unload resources.
         /// </summary>
-        public ResourceManager PrimaryResourceManager
+        public ResourceManager SceneResourceManager
         {
             get
             {
-                return primaryResourceManager;
+                return sceneResourceManager;
+            }
+        }
+
+        /// <summary>
+        /// This ResourceManager is used to load resources that are external to the scene. It is hooked
+        /// up to the subsystems and making changes here will cause the subsystems to attempt
+        /// to load / unload resources. This resource manager is intended to track resources that are
+        /// independent of the currently loaded scene.
+        /// </summary>
+        public ResourceManager PersistantResourceManager
+        {
+            get
+            {
+                return persistantResourceManager;
             }
         }
 

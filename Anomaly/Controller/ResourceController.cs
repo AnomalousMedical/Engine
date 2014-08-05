@@ -52,8 +52,8 @@ namespace Anomaly
 
         public void applyToScene()
         {
-            controller.PluginManager.PrimaryResourceManager.changeResourcesToMatch(secondaryResources);
-            controller.PluginManager.PrimaryResourceManager.forceResourceRefresh();
+            controller.PluginManager.SceneResourceManager.changeResourcesToMatch(secondaryResources);
+            controller.PluginManager.SceneResourceManager.forceResourceRefresh();
         }
 
         public ResourceManager getResourceManager()
