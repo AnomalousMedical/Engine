@@ -52,7 +52,7 @@ namespace Engine
         private RendererPlugin rendererPlugin = null;
         private List<Assembly> pluginAssemblies = new List<Assembly>();
         private ResourceManager sceneResourceManager = new ResourceManager();
-        private ResourceManager persistantResourceManager = new ResourceManager();
+        private ResourceManager persistentResourceManager = new ResourceManager();
         private ResourceManager emptyResourceManager = new ResourceManager();
         private List<DebugInterface> debugInterfaces;
         private ConfigFile configFile;
@@ -339,7 +339,7 @@ namespace Engine
         public void addSubsystemResources(String name, ResourceListener subsystemListener)
         {
             sceneResourceManager.addSubsystemResource(new SubsystemResources(name, subsystemListener));
-            persistantResourceManager.addSubsystemResource(new SubsystemResources(name, subsystemListener));
+            persistentResourceManager.addSubsystemResource(new SubsystemResources(name, subsystemListener));
             emptyResourceManager.addSubsystemResource(new SubsystemResources(name));
         }
 
@@ -498,11 +498,11 @@ namespace Engine
         /// to load / unload resources. This resource manager is intended to track resources that are
         /// independent of the currently loaded scene.
         /// </summary>
-        public ResourceManager PersistantResourceManager
+        public ResourceManager PersistentResourceManager
         {
             get
             {
-                return persistantResourceManager;
+                return persistentResourceManager;
             }
         }
 
