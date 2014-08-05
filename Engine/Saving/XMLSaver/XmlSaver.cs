@@ -78,7 +78,7 @@ namespace Engine.Saving.XMLSaver
         public void writeHeader(ObjectIdentifier objectId, int version)
         {
             xmlWriter.WriteStartElement(SAVEABLE_ELEMENT);
-            xmlWriter.WriteAttributeString(TYPE_ATTRIBUTE, String.Format("{0}, {1}", objectId.ObjectType.FullName, createShortTypeString(objectId.ObjectType)));
+            xmlWriter.WriteAttributeString(TYPE_ATTRIBUTE, String.Format("{0}, {1}", objectId.ObjectType.FullName, DefaultTypeFinder.CreateShortTypeString(objectId.ObjectType)));
             xmlWriter.WriteAttributeString(ID_ATTIBUTE, objectId.ObjectID.ToString());
             if (version > 0)
             {
@@ -139,12 +139,6 @@ namespace Engine.Saving.XMLSaver
             {
                 return xmlWriter;
             }
-        }
-
-        internal static String createShortTypeString(Type type)
-        {
-            String shortAssemblyName = type.Assembly().FullName;
-            return shortAssemblyName.Remove(shortAssemblyName.IndexOf(','));
         }
     }
 }
