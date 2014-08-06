@@ -17,7 +17,7 @@ namespace Engine
     {
         #region Static
 
-        private static BehaviorBrowser behaviorBrowser = null;
+        private static TypeBrowser behaviorBrowser = null;
 
         /// <summary>
         /// Static create function.
@@ -29,7 +29,7 @@ namespace Engine
         {
             if (behaviorBrowser == null)
             {
-                behaviorBrowser = new BehaviorBrowser();
+                behaviorBrowser = new TypeBrowser("Behaviors", "Choose Behavior", typeof(Behavior));
             }
             callback.showBrowser<Type>(behaviorBrowser, delegate(Type behaviorType, ref String errorMessage)
             {

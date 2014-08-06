@@ -57,7 +57,6 @@
     <Compile Include="Behavior\Animation\PositionBroadcaster.cs" />
     <Compile Include="Behavior\Behavior.cs" />
     <Compile Include="Behavior\BehaviorBlacklistException.cs" />
-    <Compile Include="Behavior\BehaviorBrowser.cs" />
     <Compile Include="Behavior\BehaviorDebugInterface.cs" />
     <Compile Include="Behavior\BehaviorDefinition.cs" />
     <Compile Include="Behavior\BehaviorException.cs" />
@@ -87,6 +86,7 @@
     <Compile Include="Editing\Browsing\Browser.cs" />
     <Compile Include="Editing\Browsing\BrowserNode.cs" />
     <Compile Include="Editing\Browsing\GenericBrowserNode.cs" />
+    <Compile Include="Editing\Browsing\TypeBrowser.cs" />
     <Compile Include="Editing\CallbackEditableProperty.cs" />
     <Compile Include="Editing\ChoiceObject.cs" />
     <Compile Include="Editing\CopyPaste\ClipboardEntry.cs" />
