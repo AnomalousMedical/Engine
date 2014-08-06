@@ -120,6 +120,10 @@ namespace MyGUIPlugin
             {
                 return Widget_getRight(widget);
             }
+            set
+            {
+                Widget_setRight(widget, value);
+            }
         }
 
         public int Top
@@ -139,6 +143,10 @@ namespace MyGUIPlugin
             get
             {
                 return Widget_getBottom(widget);
+            }
+            set
+            {
+                Widget_setBottom(widget, value);
             }
         }
 
@@ -838,6 +846,9 @@ namespace MyGUIPlugin
         [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern int Widget_getRight(IntPtr widget);
 
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Widget_setRight(IntPtr widget, int right);
+
         [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern int Widget_getTop(IntPtr widget);
 
@@ -846,6 +857,9 @@ namespace MyGUIPlugin
 
         [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern int Widget_getBottom(IntPtr widget);
+
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Widget_setBottom(IntPtr widget, int bottom);
 
         [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern int Widget_getWidth(IntPtr widget);
