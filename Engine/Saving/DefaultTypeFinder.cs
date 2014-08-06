@@ -35,7 +35,7 @@ namespace Engine.Saving
         public static String CreateShortTypeString(Type type)
         {
             String shortAssemblyName = type.Assembly().FullName;
-            return shortAssemblyName.Remove(shortAssemblyName.IndexOf(','));
+            return String.Format("{0}, {1}", type.FullName, shortAssemblyName.Remove(shortAssemblyName.IndexOf(',')));
         }
     }
 }

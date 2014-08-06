@@ -87,7 +87,6 @@ namespace Engine
 
         #region Saveable
 
-        private const String NAME_FORMAT = "{0}, {1}";
         private String BEHAVIOR_TYPE = "BehaviorDataType";
 
         private BehaviorDefinition(LoadInfo info)
@@ -110,15 +109,9 @@ namespace Engine
         public override void getInfo(SaveInfo info)
         {
             base.getInfo(info);
-            info.AddValue(BEHAVIOR_TYPE, createShortTypeString(behaviorTemplate.GetType()));
+            info.AddValue(BEHAVIOR_TYPE, DefaultTypeFinder.CreateShortTypeString(behaviorTemplate.GetType()));
             ReflectedSaver.SaveObject(behaviorTemplate, info, BehaviorSaveMemberScanner.Scanner);
             behaviorTemplate.callCustomSave(info);
-        }
-
-        private static String createShortTypeString(Type type)
-        {
-            String shortAssemblyName = type.Assembly().FullName;
-            return String.Format(NAME_FORMAT, type.FullName, shortAssemblyName.Remove(shortAssemblyName.IndexOf(',')));
         }
 
         #endregion Saveable
