@@ -45,6 +45,11 @@ extern "C" _AnomalousExport int Widget_getLeft(MyGUI::Widget* widget)
 	return widget->getLeft();
 }
 
+extern "C" _AnomalousExport void Widget_setLeft(MyGUI::Widget* widget, int left)
+{
+	widget->setPosition(left, widget->getTop());
+}
+
 extern "C" _AnomalousExport int Widget_getRight(MyGUI::Widget* widget)
 {
 	return widget->getRight();
@@ -53,6 +58,11 @@ extern "C" _AnomalousExport int Widget_getRight(MyGUI::Widget* widget)
 extern "C" _AnomalousExport int Widget_getTop(MyGUI::Widget* widget)
 {
 	return widget->getTop();
+}
+
+extern "C" _AnomalousExport void Widget_setTop(MyGUI::Widget* widget, int top)
+{
+	widget->setPosition(widget->getLeft(), top);
 }
 
 extern "C" _AnomalousExport int Widget_getBottom(MyGUI::Widget* widget)
@@ -65,9 +75,19 @@ extern "C" _AnomalousExport int Widget_getWidth(MyGUI::Widget* widget)
 	return widget->getWidth();
 }
 
+extern "C" _AnomalousExport void Widget_setWidth(MyGUI::Widget* widget, int width)
+{
+	widget->setSize(width, widget->getHeight());
+}
+
 extern "C" _AnomalousExport int Widget_getHeight(MyGUI::Widget* widget)
 {
 	return widget->getHeight();
+}
+
+extern "C" _AnomalousExport void Widget_setHeight(MyGUI::Widget* widget, int height)
+{
+	widget->setSize(widget->getWidth(), height);
 }
 
 extern "C" _AnomalousExport void Widget_setPosition(MyGUI::Widget* widget, int left, int top)

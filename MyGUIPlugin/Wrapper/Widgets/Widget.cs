@@ -108,6 +108,10 @@ namespace MyGUIPlugin
             {
                 return Widget_getLeft(widget);
             }
+            set
+            {
+                Widget_setLeft(widget, value);
+            }
         }
 
         public int Right
@@ -123,6 +127,10 @@ namespace MyGUIPlugin
             get
             {
                 return Widget_getTop(widget);
+            }
+            set
+            {
+                Widget_setTop(widget, value);
             }
         }
 
@@ -140,6 +148,10 @@ namespace MyGUIPlugin
             {
                 return Widget_getWidth(widget);
             }
+            set
+            {
+                Widget_setWidth(widget, value);
+            }
         }
 
         public int Height
@@ -147,6 +159,10 @@ namespace MyGUIPlugin
             get
             {
                 return Widget_getHeight(widget);
+            }
+            set
+            {
+                Widget_setHeight(widget, value);
             }
         }
 
@@ -816,11 +832,17 @@ namespace MyGUIPlugin
         [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern int Widget_getLeft(IntPtr widget);
 
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Widget_setLeft(IntPtr widget, int left);
+
         [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern int Widget_getRight(IntPtr widget);
 
         [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern int Widget_getTop(IntPtr widget);
+
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Widget_setTop(IntPtr widget, int top);
 
         [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern int Widget_getBottom(IntPtr widget);
@@ -828,8 +850,14 @@ namespace MyGUIPlugin
         [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern int Widget_getWidth(IntPtr widget);
 
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Widget_setWidth(IntPtr widget, int width);
+
         [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern int Widget_getHeight(IntPtr widget);
+
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Widget_setHeight(IntPtr widget, int height);
 
         [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Widget_setPosition(IntPtr widget, int left, int top);
