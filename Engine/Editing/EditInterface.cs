@@ -51,6 +51,7 @@ namespace Engine.Editing
         private Object iconReferenceTag = null;
 
         private EditablePropertyManager editablePropertyManager; //Handles keyed EditableProperties
+        private Dictionary<Type, Object> editInterfaceManagers; //Handles EditInterfaceManagers, the values are Objects since we have to typecast to this generic class anyway.
 
         public event PropertyAdded OnPropertyAdded;
         public event PropertyRemoved OnPropertyRemoved;
@@ -283,6 +284,72 @@ namespace Engine.Editing
         public IEnumerable<EditInterface> getSubEditInterfaces()
         {
             return subInterfaces;
+        }
+
+        /// <summary>
+        /// Add an EditInterfaceManager that handles T objects.
+        /// </summary>
+        /// <typeparam name="T">The type the EditInterfaceManager handles.</typeparam>
+        /// <param name="editInterfaceManager">The EditInterfaceManager configured to handle T objects.</param>
+        public void addEditInterfaceManager<T>(EditInterfaceManager<T> editInterfaceManager)
+            where T : class
+        {
+            if(editInterfaceManagers == null)
+            {
+                editInterfaceManagers = new Dictionary<Type, object>();
+            }
+            editInterfaceManagers.Add(typeof(T), editInterfaceManager);
+        }
+
+        /// <summary>
+        /// Add a keyed sub edit interface. You must define a EditInterfaceManager for type T before calling this function
+        /// or it will throw an exception.
+        /// </summary>
+        /// <typeparam name="T">The type of the key.</typeparam>
+        /// <param name="key">The key value.</param>
+        /// <param name="subInterface">The subInterface to add.</param>
+        public void addSubInterface<T>(T key, EditInterface subInterface)
+            where T : class
+        {
+            getEditInterfaceManager<T>().addSubInterface(key, subInterface);
+        }
+
+        /// <summary>
+        /// Remove a keyed sub edit interface. You must define a EditInterfaceManager for type T before calling this function
+        /// or it will throw an exception.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="subInterface"></param>
+        public void removeSubInterface<T>(T key)
+            where T : class
+        {
+            getEditInterfaceManager<T>().removeSubInterface(key);
+        }
+
+        /// <summary>
+        /// Find the key object for the given sub edit interface. You must define a EditInterfaceManager for type T before calling this function
+        /// or it will throw an exception.
+        /// </summary>
+        /// <typeparam name="T">The type of the key object. Must match the type defined for the EditInterfaceManager.</typeparam>
+        /// <param name="subInterface">The EditInterface to lookup.</param>
+        /// <returns></returns>
+        public T resolveSourceObject<T>(EditInterface subInterface)
+            where T : class
+        {
+            return getEditInterfaceManager<T>().resolveSourceObject(subInterface);
+        }
+
+        /// <summary>
+        /// Find the EditInterfaceManager for T. You must define a EditInterfaceManager for type T before calling this function
+        /// or it will throw an exception.
+        /// </summary>
+        /// <typeparam name="T">The key type for the EditInterfaceManager.</typeparam>
+        /// <returns>The EditInterfaceManager for T types.</returns>
+        public EditInterfaceManager<T> getEditInterfaceManager<T>()
+            where T : class
+        {
+            return ((EditInterfaceManager<T>)editInterfaceManagers[typeof(T)]);
         }
 
         /// <summary>

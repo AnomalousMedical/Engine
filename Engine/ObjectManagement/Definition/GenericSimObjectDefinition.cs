@@ -34,7 +34,6 @@ namespace Engine.ObjectManagement
         private EditInterface editInterface = null;
         private Dictionary<EditInterfaceCommand, AddSimElementCommand> createCommands = new Dictionary<EditInterfaceCommand, AddSimElementCommand>();
         private EditInterfaceCommand destroySimElement;
-        private EditInterfaceManager<SimElementDefinition> elementEditInterfaces;
 
         #endregion Fields
 
@@ -87,7 +86,7 @@ namespace Engine.ObjectManagement
             definitions.Remove(definition);
             if (editInterface != null)
             {
-                elementEditInterfaces.removeSubInterface(definition);
+                editInterface.removeSubInterface(definition);
             }
         }
 
@@ -115,7 +114,8 @@ namespace Engine.ObjectManagement
             {
                 editInterface = ReflectedEditInterface.createEditInterface(this, genericSimObjectScanner, name, null);//new EditInterface(name);
                 editInterface.IconReferenceTag = EngineIcons.SimObject;
-                elementEditInterfaces = new EditInterfaceManager<SimElementDefinition>(editInterface);
+                EditInterfaceManager<SimElementDefinition> elementEditInterfaces = new EditInterfaceManager<SimElementDefinition>(editInterface);
+                editInterface.addEditInterfaceManager(elementEditInterfaces);
                 destroySimElement = new EditInterfaceCommand("Remove", removeSimElementDefinition);
                 foreach (SimElementDefinition definition in definitions)
                 {
@@ -176,7 +176,7 @@ namespace Engine.ObjectManagement
         /// <param name="command"></param>
         private void removeSimElementDefinition(EditUICallback callback, EditInterfaceCommand command)
         {
-            removeElement(elementEditInterfaces.resolveSourceObject(callback.getSelectedEditInterface()));
+            removeElement(editInterface.resolveSourceObject<SimElementDefinition>(callback.getSelectedEditInterface()));
         }
 
         /// <summary>
@@ -187,7 +187,7 @@ namespace Engine.ObjectManagement
         {
             EditInterface edit = definition.getEditInterface();
             edit.addCommand(destroySimElement);
-            elementEditInterfaces.addSubInterface(definition, edit);
+            editInterface.addSubInterface(definition, edit);
         }
 
         #endregion Functions
