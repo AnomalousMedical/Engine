@@ -50,6 +50,8 @@ namespace Engine.Editing
         private Color foreColor = Color.Black;
         private Object iconReferenceTag = null;
 
+        private EditablePropertyManager editablePropertyManager; //Handles keyed EditableProperties
+
         public event PropertyAdded OnPropertyAdded;
         public event PropertyRemoved OnPropertyRemoved;
         public event SubInterfaceAdded OnSubInterfaceAdded;
@@ -130,7 +132,7 @@ namespace Engine.Editing
         }
 
         /// <summary>
-        /// Add a property.
+        /// Add a property. This version has no key, you should not mix the key with non key versions.
         /// </summary>
         /// <param name="property">The property to add.</param>
         public void addEditableProperty(EditableProperty property)
@@ -143,7 +145,21 @@ namespace Engine.Editing
         }
 
         /// <summary>
-        /// Remove a property.
+        /// Add a property with an object key. You can use this key object to remove the property later if needed.
+        /// </summary>
+        /// <param name="key">The key of the property.</param>
+        /// <param name="property">The EditableProperty for that key.</param>
+        public void addEditableProperty(Object key, EditableProperty property)
+        {
+            if(editablePropertyManager == null)
+            {
+                editablePropertyManager = new EditablePropertyManager(this);
+            }
+            editablePropertyManager.addProperty(key, property);
+        }
+
+        /// <summary>
+        /// Remove a property. This version has no key, you should not mix the key with non key versions.
         /// </summary>
         /// <param name="property">The property to remove.</param>
         public void removeEditableProperty(EditableProperty property)
@@ -153,6 +169,32 @@ namespace Engine.Editing
             {
                 OnPropertyRemoved.Invoke(property);
             }
+        }
+
+        /// <summary>
+        /// Remove an EditableProperty based on a key.
+        /// </summary>
+        /// <param name="key"></param>
+        public void removeEditableProperty(Object key)
+        {
+            if(editablePropertyManager != null)
+            {
+                editablePropertyManager.removeProperty(key);
+            }
+        }
+
+        /// <summary>
+        /// Reverse lookup of the original key object from the EditableProperty.
+        /// </summary>
+        /// <param name="property">The property associated with the key.</param>
+        /// <returns>The key object that was used to set the property.</returns>
+        public Object getKeyObjectForProperty(EditableProperty property)
+        {
+            if(editablePropertyManager != null)
+            {
+                return editablePropertyManager[property];
+            }
+            return null;
         }
 
         /// <summary>

@@ -20,7 +20,6 @@ namespace Engine.Resources
         private String name;
         private SubsystemResources parent;
         private EditInterface editInterface;
-        private Dictionary<Resource, ResourceEditableProperty> resourceProperties;
 
         /// <summary>
         /// Resource group constructor.  Internal because these should only be made by
@@ -249,7 +248,6 @@ namespace Engine.Resources
         {
             if (editInterface == null)
             {
-                resourceProperties = new Dictionary<Resource, ResourceEditableProperty>();
                 editInterface = new EditInterface(name, addResource, removeResource, validate);
                 editInterface.setPropertyInfo(ResourceEditableProperty.Info);
                 foreach (Resource resource in resources.Values)
@@ -276,7 +274,7 @@ namespace Engine.Resources
         /// <param name="property"></param>
         private void removeResource(EditUICallback callback, EditableProperty property)
         {
-            removeResource(((Resource)property).LocName);
+            removeResource(((Resource)editInterface.getKeyObjectForProperty(property)).LocName);
         }
 
         /// <summary>
@@ -310,9 +308,7 @@ namespace Engine.Resources
         {
             if (editInterface != null)
             {
-                var property = new ResourceEditableProperty(resource);
-                resourceProperties.Add(resource, property);
-                editInterface.addEditableProperty(property);
+                editInterface.addEditableProperty(resource, new ResourceEditableProperty(resource));
             }
         }
 
@@ -320,9 +316,7 @@ namespace Engine.Resources
         {
             if (editInterface != null)
             {
-                var property = resourceProperties[resource];
-                resourceProperties.Remove(resource);
-                editInterface.removeEditableProperty(property);
+                editInterface.removeEditableProperty(resource);
             }
         }
 
