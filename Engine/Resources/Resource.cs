@@ -15,15 +15,9 @@ namespace Engine.Resources
     /// </summary>
     public class Resource : Saveable, EditableProperty
     {
-        #region Fields
-
         private String locName;
         private bool recursive;
         private ResourceGroup group;
-
-        #endregion Fields
-
-        #region Constructors
 
         /// <summary>
 	    /// Constructor, should be used by the UI only.
@@ -56,10 +50,6 @@ namespace Engine.Resources
             this.recursive = toCopy.recursive;
         }
 
-        #endregion Constructors
-
-        #region Functions
-
         /// <summary>
         /// Determine if this Resource points to a valid location. Returns true
         /// if it does.
@@ -67,7 +57,7 @@ namespace Engine.Resources
         /// <returns>True if this resource points to a valid location.</returns>
         public bool isValid()
         {
-            return VirtualFileSystem.Instance.exists(FullPath);
+            return VirtualFileSystem.Instance.exists(LocName);
         }
 
         /// <summary>
@@ -82,15 +72,6 @@ namespace Engine.Resources
         }
 
         /// <summary>
-        /// Get the locName of this resource.
-        /// </summary>
-        /// <returns></returns>
-        internal String getLocName()
-        {
-	        return locName;
-        }
-
-        /// <summary>
         /// Set the ResourceGroup that owns this resource.
         /// </summary>
         /// <param name="group">The ResourceGroup that owns this resource.</param>
@@ -99,14 +80,10 @@ namespace Engine.Resources
             this.group = group;
         }
 
-        #endregion Functions
-
-        #region Properties
-
         /// <summary>
-	    /// This is the location on the file system of the resource relative to the root.
+	    /// The location of the resource.
 	    /// </summary>
-	    public String RelativePath 
+	    public String LocName 
 	    {
 		    get
             {
@@ -115,17 +92,6 @@ namespace Engine.Resources
 		    set
             {
                 locName = value;
-            }
-	    }
-
-	    /// <summary>
-	    /// This is the absolute location of the resource on the file system.
-	    /// </summary>
-        public String FullPath 
-	    {
-		    get
-            {
-                return locName;
             }
 	    }
 
@@ -143,10 +109,6 @@ namespace Engine.Resources
                 recursive = value;
             }
         }
-
-        #endregion Properties
-
-        #region Saveable Members
 
         private const String LOC_NAME = "LocName";
         private const String RECURSIVE = "Recursive";
@@ -170,8 +132,6 @@ namespace Engine.Resources
             info.AddValue(LOC_NAME, locName);
             info.AddValue(RECURSIVE, recursive);
         }
-
-        #endregion
 
         #region EditableProperty Members
 

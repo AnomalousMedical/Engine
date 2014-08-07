@@ -30,7 +30,7 @@ namespace OgrePlugin
 
         public void resourceAdded(ResourceGroup group, Engine.Resources.Resource resource)
         {
-            ogreResourceManager.addResourceLocation(resource.FullPath, "EngineArchive", group.FullName, resource.Recursive);
+            ogreResourceManager.addResourceLocation(resource.LocName, "EngineArchive", group.FullName, resource.Recursive);
         }
 
         public void resourceGroupAdded(ResourceGroup group)
@@ -45,7 +45,7 @@ namespace OgrePlugin
 
         public void resourceRemoved(ResourceGroup group, Engine.Resources.Resource resource)
         {
-            ogreResourceManager.removeResourceLocation(resource.FullPath, group.FullName);
+            ogreResourceManager.removeResourceLocation(resource.LocName, group.FullName);
         }
     }
 }

@@ -104,7 +104,7 @@ namespace Engine
         public void resourceAdded(ResourceGroup group, Resource resource)
         {
             ShapeGroup localGroup = declareGroup(group.FullName);
-            localGroup.addShapeLocation(new ShapeLocation(resource.FullPath, resource.Recursive, localGroup), loader, builder);
+            localGroup.addShapeLocation(new ShapeLocation(resource.LocName, resource.Recursive, localGroup), loader, builder);
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace Engine
         public void resourceRemoved(ResourceGroup group, Resource resource)
         {
             ShapeGroup localGroup = declareGroup(group.FullName);
-            localGroup.destroyShapeLocation(resource.FullPath, shapeRepository);
+            localGroup.destroyShapeLocation(resource.LocName, shapeRepository);
         }
 
         /// <summary>

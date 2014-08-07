@@ -41,7 +41,7 @@ namespace Engine.Resources
             this.parent = parent;
             foreach (Resource resource in toDuplicate.resources.Values)
             {
-                this.addResource(new Resource(resource.getLocName(), resource.Recursive));
+                this.addResource(new Resource(resource.LocName, resource.Recursive));
             }
         }
 
@@ -70,9 +70,9 @@ namespace Engine.Resources
         /// <param name="resource">The resource to add.</param>
         public void addResource(Resource resource)
         {
-            if (resource.getLocName() != null && !resources.ContainsKey(resource.getLocName()))
+            if (resource.LocName != null && !resources.ContainsKey(resource.LocName))
             {
-                resources.Add(resource.getLocName(), resource);
+                resources.Add(resource.LocName, resource);
                 resource.setResourceGroup(this);
                 if (editInterface != null)
                 {
@@ -82,7 +82,7 @@ namespace Engine.Resources
             }
             else
             {
-                Log.Default.sendMessage("ResourceGroup {0} already contains the resource {1}.  Duplicate ignored.", LogLevel.Warning, "ResourceManagement", name, resource.getLocName());
+                Log.Default.sendMessage("ResourceGroup {0} already contains the resource {1}.  Duplicate ignored.", LogLevel.Warning, "ResourceManagement", name, resource.LocName);
             }
         }
 
@@ -183,7 +183,7 @@ namespace Engine.Resources
             //Add any new resources that are not already added
             foreach (Resource resource in toMatch.resources.Values)
             {
-                if (!resources.ContainsKey(resource.getLocName()))
+                if (!resources.ContainsKey(resource.LocName))
                 {
                     Resource res = new Resource(resource);
                     this.addResource(res);
@@ -200,7 +200,7 @@ namespace Engine.Resources
             //Add any new resources that are not already added
             foreach (Resource resource in toAdd.resources.Values)
             {
-                if (!resources.ContainsKey(resource.getLocName()))
+                if (!resources.ContainsKey(resource.LocName))
                 {
                     Resource res = new Resource(resource);
                     this.addResource(res);
@@ -282,7 +282,7 @@ namespace Engine.Resources
         /// <param name="property"></param>
         private void removeResource(EditUICallback callback, EditableProperty property)
         {
-            removeResource(((Resource)property).getLocName());
+            removeResource(((Resource)property).LocName);
         }
 
         /// <summary>
@@ -296,14 +296,14 @@ namespace Engine.Resources
             {
                 if (!resource.isValid())
                 {
-                    String locName = resource.getLocName();
+                    String locName = resource.LocName;
                     if (locName == null || locName == String.Empty)
                     {
                         message = "Cannot accept empty locations. Please remove any blank entries.";
                     }
                     else
                     {
-                        message = String.Format("Could not find the path \"{0}\". Please modify or remove that entry", resource.FullPath);
+                        message = String.Format("Could not find the path \"{0}\". Please modify or remove that entry", resource.LocName);
                     }
                     return false;
                 }
@@ -330,7 +330,7 @@ namespace Engine.Resources
             {
                 Resource resource = info.GetValue<Resource>(RESOURCE_BASE + i);
                 resource.setResourceGroup(this);
-                resources.Add(resource.getLocName(), resource);
+                resources.Add(resource.LocName, resource);
             }
         }
 

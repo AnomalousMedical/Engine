@@ -43,7 +43,7 @@ namespace Anomaly
                 {
                     foreach (Resource resource in group.getResourceEnumerator())
                     {
-                        processFile(resource.FullPath, resource.Recursive);
+                        processFile(resource.LocName, resource.Recursive);
                     }
                 }
             }
