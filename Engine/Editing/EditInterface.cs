@@ -185,16 +185,18 @@ namespace Engine.Editing
 
         /// <summary>
         /// Reverse lookup of the original key object from the EditableProperty.
+        /// Will throw an exception if the key cannot be typecast, the property cannot be found
+        /// or no keyed properties have been added.
         /// </summary>
         /// <param name="property">The property associated with the key.</param>
         /// <returns>The key object that was used to set the property.</returns>
-        public Object getKeyObjectForProperty(EditableProperty property)
+        public T getKeyObjectForProperty<T>(EditableProperty property)
         {
             if(editablePropertyManager != null)
             {
-                return editablePropertyManager[property];
+                return (T)editablePropertyManager[property];
             }
-            return null;
+            throw new EditException("No properties added with keys.");
         }
 
         /// <summary>

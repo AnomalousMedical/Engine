@@ -274,7 +274,7 @@ namespace Engine.Resources
         /// <param name="property"></param>
         private void removeResource(EditUICallback callback, EditableProperty property)
         {
-            removeResource(((Resource)editInterface.getKeyObjectForProperty(property)).LocName);
+            removeResource(editInterface.getKeyObjectForProperty<Resource>(property).LocName);
         }
 
         /// <summary>
