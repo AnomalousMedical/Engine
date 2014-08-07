@@ -16,10 +16,11 @@ namespace Engine.Resources
     {
         private static readonly ResourceGroup BLANK = new ResourceGroup("");
 
-        Dictionary<String, Resource> resources = new Dictionary<string, Resource>();
-        String name;
-        SubsystemResources parent;
-        EditInterface editInterface;
+        private Dictionary<String, Resource> resources = new Dictionary<string, Resource>();
+        private String name;
+        private SubsystemResources parent;
+        private EditInterface editInterface;
+        private Dictionary<Resource, ResourceEditableProperty> resourceProperties;
 
         /// <summary>
         /// Resource group constructor.  Internal because these should only be made by
@@ -74,10 +75,7 @@ namespace Engine.Resources
             {
                 resources.Add(resource.LocName, resource);
                 resource.setResourceGroup(this);
-                if (editInterface != null)
-                {
-                    editInterface.addEditableProperty(resource);
-                }
+                onResourceAdded(resource);
                 parent.fireResourceAdded(this, resource);
             }
             else
@@ -125,10 +123,7 @@ namespace Engine.Resources
                 Resource resource = resources[locName];
                 resource.setResourceGroup(null);
                 parent.fireResourceRemoved(this, resource);
-                if (editInterface != null)
-                {
-                    editInterface.removeEditableProperty(resource);
-                }
+                onResourceRemoved(resource);
                 resources.Remove(locName);
             }
             else
@@ -246,8 +241,6 @@ namespace Engine.Resources
             }
         }
 
-        #region EditInterface
-
         /// <summary>
         /// Get the EditInterface.
         /// </summary>
@@ -256,11 +249,12 @@ namespace Engine.Resources
         {
             if (editInterface == null)
             {
+                resourceProperties = new Dictionary<Resource, ResourceEditableProperty>();
                 editInterface = new EditInterface(name, addResource, removeResource, validate);
-                editInterface.setPropertyInfo(Resource.Info);
+                editInterface.setPropertyInfo(ResourceEditableProperty.Info);
                 foreach (Resource resource in resources.Values)
                 {
-                    editInterface.addEditableProperty(resource);
+                    onResourceAdded(resource);
                 }
             }
             return editInterface;
@@ -312,9 +306,25 @@ namespace Engine.Resources
             return true;
         }
 
-        #endregion EditInterface
+        private void onResourceAdded(Resource resource)
+        {
+            if (editInterface != null)
+            {
+                var property = new ResourceEditableProperty(resource);
+                resourceProperties.Add(resource, property);
+                editInterface.addEditableProperty(property);
+            }
+        }
 
-        #region Saveable Members
+        private void onResourceRemoved(Resource resource)
+        {
+            if (editInterface != null)
+            {
+                var property = resourceProperties[resource];
+                resourceProperties.Remove(resource);
+                editInterface.removeEditableProperty(property);
+            }
+        }
 
         private const String RESOURCE_BASE = "Resource";
         private const String NAME = "Name";
@@ -347,7 +357,5 @@ namespace Engine.Resources
                 info.AddValue(RESOURCE_BASE + i++, resource);
             }
         }
-
-        #endregion
     }
 }
