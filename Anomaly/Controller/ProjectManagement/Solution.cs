@@ -83,7 +83,7 @@ namespace Anomaly
 
             resourceFileInterface = new ResourceManagerFileInterface("Global Resources", EngineIcons.Resources, globalResourcesFile);
             PluginManager.Instance.PersistentResourceManager.addResources(resourceFileInterface.getFileObject());
-            PluginManager.Instance.PersistentResourceManager.forceResourceRefresh();
+            PluginManager.Instance.PersistentResourceManager.initializeResources();
 
             foreach (String projectFile in Directory.GetFiles(workingDirectory, "*.prj", SearchOption.AllDirectories))
             {
@@ -105,7 +105,7 @@ namespace Anomaly
                 anomalyController.ResourceController.applyToScene();
             }
             PluginManager.Instance.PersistentResourceManager.changeResourcesToMatch(resourceFileInterface.getFileObject());
-            PluginManager.Instance.PersistentResourceManager.forceResourceRefresh();
+            PluginManager.Instance.PersistentResourceManager.initializeResources();
             createCurrentProject();
         }
 

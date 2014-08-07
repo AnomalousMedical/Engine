@@ -53,7 +53,7 @@ namespace Anomaly
         public void applyToScene()
         {
             controller.PluginManager.SceneResourceManager.changeResourcesToMatch(secondaryResources);
-            controller.PluginManager.SceneResourceManager.forceResourceRefresh();
+            controller.PluginManager.SceneResourceManager.initializeResources();
         }
 
         public ResourceManager getResourceManager()

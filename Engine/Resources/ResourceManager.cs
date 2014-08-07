@@ -175,14 +175,16 @@ namespace Engine.Resources
         }
 
         /// <summary>
-        /// This will force all subsystems to validate any resources they have not yet validated.
-        /// This may not actually load the resources into memory at this time.
+        /// This will cause all subsystems to initialize any resources they have not yet initialized.
+        /// This may or may not actually load the resources into memory at this time. It should be called
+        /// when changes are made to this resource manager to make sure subsystems properly initialize
+        /// their resources.
         /// </summary>
-        public void forceResourceRefresh()
+        public void initializeResources()
         {
             foreach (SubsystemResources resource in subsystemResources.Values)
             {
-                resource.forceResourceRefresh();
+                resource.initializeResources();
             }
         }
 

@@ -13,15 +13,9 @@ namespace Engine.Resources
     /// </summary>
     public class SubsystemResources : Saveable
     {
-        #region Fields
-
         private ResourceGroupCollection resourceGroups = new ResourceGroupCollection();
         private String name;
         private ResourceListener listener;
-
-        #endregion Fields
-
-        #region Constructors
 
         /// <summary>
         /// Constructor.
@@ -55,10 +49,6 @@ namespace Engine.Resources
                 this.addResourceGroup(new ResourceGroup(group, this));
             }
         }
-
-        #endregion Constructors
-
-        #region Functions
 
         /// <summary>
         /// Create and add a new ResourceGroup named name.
@@ -184,11 +174,11 @@ namespace Engine.Resources
         }
 
         /// <summary>
-        /// Fire a ForceResourceRefresh event to all listeners.  See ResourceManager.
+        /// Fire a InitializeResources event to all listeners.  See ResourceManager.
         /// </summary>
-        public void forceResourceRefresh()
+        public void initializeResources()
         {
-            fireForceRefresh();
+            fireInitializeResources();
         }
 
         /// <summary>
@@ -275,17 +265,13 @@ namespace Engine.Resources
         /// <summary>
         /// Call to fire a resource refresh event.
         /// </summary>
-        private void fireForceRefresh()
+        private void fireInitializeResources()
         {
             if (listener != null)
             {
-                listener.forceResourceRefresh();
+                listener.initializeResources(this);
             }
         }
-
-        #endregion Functions
-
-        #region Properties
 
         /// <summary>
         /// The name of the subsystem.
@@ -298,7 +284,13 @@ namespace Engine.Resources
             }
         }
 
-        #endregion Properties
+        public IEnumerable<ResourceGroup> Groups
+        {
+            get
+            {
+                return resourceGroups.Values;
+            }
+        }
 
         #region EditInterface
 

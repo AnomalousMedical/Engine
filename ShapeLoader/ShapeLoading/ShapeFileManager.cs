@@ -64,13 +64,13 @@ namespace Engine
         /// <summary>
         /// Load all resources that are not currently loaded.
         /// </summary>
-        public void loadUnloadedResources()
+        public void loadUnloadedResources(IEnumerable<String> groups)
         {
             Log.Info("Started loading shape resources.");
             loadStarted();
-            foreach (ShapeGroup group in shapeGroups.Values)
+            foreach(String group in groups)
             {
-                group.loadShapes(loader, builder);
+                shapeGroups[group].loadShapes(loader, builder);
             }
             loadEnded();
             Log.Info("Finished loading shape resources.");
@@ -136,9 +136,9 @@ namespace Engine
             removeGroup(group.Name);
         }
 
-        public void forceResourceRefresh()
+        public void initializeResources(SubsystemResources resources)
         {
-            loadUnloadedResources();
+            loadUnloadedResources(resources.Groups.Select(g => g.Name));
         }
 
         /// <summary>
