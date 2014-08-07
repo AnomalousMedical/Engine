@@ -19,14 +19,8 @@ namespace Engine.Resources
     /// </summary>
     public class ResourceManager : Saveable
     {
-        #region Fields
-
-        Dictionary<String, SubsystemResources> subsystemResources = new Dictionary<string, SubsystemResources>();
+        private Dictionary<String, SubsystemResources> subsystemResources = new Dictionary<string, SubsystemResources>();
         private EditInterface editInterface;
-
-        #endregion Fields
-
-        #region Constructors
 
         /// <summary>
         /// Constructor.
@@ -45,15 +39,12 @@ namespace Engine.Resources
         /// it is reccomended that there not actually be any resources in the ResourceManager.</param>
         internal ResourceManager(ResourceManager toDuplicate, bool live)
         {
+            this.Namespace = toDuplicate.Namespace;
             foreach (SubsystemResources resource in toDuplicate.subsystemResources.Values)
             {
                 this.addSubsystemResource(new SubsystemResources(resource, live));
             }
         }
-
-        #endregion Constructors
-
-        #region Functions
 
         /// <summary>
         /// Add a subsystem resource to this resource manager.
@@ -64,6 +55,7 @@ namespace Engine.Resources
             if (!subsystemResources.ContainsKey(resources.Name))
             {
                 subsystemResources.Add(resources.Name, resources);
+                resources.ParentResourceManager = this;
             }
             else
             {
@@ -79,6 +71,7 @@ namespace Engine.Resources
         {
             if (subsystemResources.ContainsKey(resources.Name))
             {
+                resources.ParentResourceManager = null;
                 subsystemResources.Remove(resources.Name);
             }
             else
@@ -217,14 +210,17 @@ namespace Engine.Resources
             return subsystemResources.Values;
         }
 
-        #endregion Functions
-
-        #region Saveable Members
+        /// <summary>
+        /// The namespace of this resource manager, mostly only applicable to live resource managers since 
+        /// the ResourceGroup FullName includes this value.
+        /// </summary>
+        public String Namespace { get; internal set; }
 
         private const String SUBSYSTEM_BASE = "Subsystem";
 
         private ResourceManager(LoadInfo info)
         {
+            Namespace = info.GetString("Namespace", null);
             for (int i = 0; info.hasValue(SUBSYSTEM_BASE + i); ++i)
             {
                 SubsystemResources subsystem = info.GetValue<SubsystemResources>(SUBSYSTEM_BASE + i);
@@ -234,13 +230,12 @@ namespace Engine.Resources
 
         public void getInfo(SaveInfo info)
         {
+            info.AddValue("Namespace", Namespace);
             int i = 0;
             foreach (SubsystemResources subsystem in subsystemResources.Values)
             {
                 info.AddValue(SUBSYSTEM_BASE + i++, subsystem);
             }
         }
-
-        #endregion
     }
 }

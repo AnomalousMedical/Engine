@@ -127,7 +127,7 @@ namespace OgreModelEditor
 
             OgreResourceGroupManager.getInstance().addResourceLocation(typeof(OgreModelEditorController).AssemblyQualifiedName, "EmbeddedResource", "DebugShaders", true);
             emptyResourceManager = pluginManager.createScratchResourceManager();
-            liveResourceManager = pluginManager.createLiveResourceManager();
+            liveResourceManager = pluginManager.createLiveResourceManager("Scene");
             if (!File.Exists(OgreModelEditorConfig.DocRoot + "/resources.xml"))
             {
                 resourceManager = pluginManager.createScratchResourceManager();

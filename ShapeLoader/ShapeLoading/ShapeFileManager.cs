@@ -103,7 +103,7 @@ namespace Engine
         /// <param name="resource">The resource that was added.</param>
         public void resourceAdded(ResourceGroup group, Resource resource)
         {
-            ShapeGroup localGroup = declareGroup(group.Name);
+            ShapeGroup localGroup = declareGroup(group.FullName);
             localGroup.addShapeLocation(new ShapeLocation(resource.FullPath, resource.Recursive, localGroup), loader, builder);
         }
 
@@ -114,7 +114,7 @@ namespace Engine
         /// <param name="resource">The resource that was added.</param>
         public void resourceRemoved(ResourceGroup group, Resource resource)
         {
-            ShapeGroup localGroup = declareGroup(group.Name);
+            ShapeGroup localGroup = declareGroup(group.FullName);
             localGroup.destroyShapeLocation(resource.FullPath, shapeRepository);
         }
 
@@ -124,7 +124,7 @@ namespace Engine
         /// <param name="group">The group the resource was added to.</param>
         public void resourceGroupAdded(ResourceGroup group)
         {
-            declareGroup(group.Name);
+            declareGroup(group.FullName);
         }
 
         /// <summary>
@@ -133,12 +133,12 @@ namespace Engine
         /// <param name="group">The resource group that was remove.</param>
         public void resourceGroupRemoved(ResourceGroup group)
         {
-            removeGroup(group.Name);
+            removeGroup(group.FullName);
         }
 
         public void initializeResources(SubsystemResources resources)
         {
-            loadUnloadedResources(resources.Groups.Select(g => g.Name));
+            loadUnloadedResources(resources.Groups.Select(g => g.FullName));
         }
 
         /// <summary>

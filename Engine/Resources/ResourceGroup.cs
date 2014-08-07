@@ -14,22 +14,12 @@ namespace Engine.Resources
     /// </summary>
     public class ResourceGroup : Saveable
     {
-        #region Static
-
         private static readonly ResourceGroup BLANK = new ResourceGroup("");
-
-        #endregion Static
-
-        #region Fields
 
         Dictionary<String, Resource> resources = new Dictionary<string, Resource>();
         String name;
         SubsystemResources parent;
         EditInterface editInterface;
-
-        #endregion Fields
-
-        #region Constructors
 
         /// <summary>
         /// Resource group constructor.  Internal because these should only be made by
@@ -54,10 +44,6 @@ namespace Engine.Resources
                 this.addResource(new Resource(resource.getLocName(), resource.Recursive));
             }
         }
-
-        #endregion Constructors
-
-        #region Functions
 
         /// <summary>
         /// Add a resource to this resource group.  This is the ideal way to construct resources.
@@ -236,12 +222,9 @@ namespace Engine.Resources
             this.parent = parent;
         }
 
-        #endregion Functions
-
-        #region Properties
-
         /// <summary>
-        /// The name of the ResourceGroup.
+        /// The name of the ResourceGroup. Don't use this to create subsystem groups, instead use the
+        /// FullName to help avoid group name collisions.
         /// </summary>
         public String Name
         {
@@ -251,7 +234,17 @@ namespace Engine.Resources
             }
         }
 
-        #endregion Properties
+        /// <summary>
+        /// The full name of the resource group. Includes the namespace of the ResourceManager.
+        /// This is what should be used by the subsystem resource managers to help avoid collisions.
+        /// </summary>
+        public String FullName
+        {
+            get
+            {
+                return String.Format("{0}.{1}", parent.ParentResourceManager.Namespace, Name);
+            }
+        }
 
         #region EditInterface
 

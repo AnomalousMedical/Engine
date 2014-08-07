@@ -299,6 +299,8 @@ namespace Engine.Resources
             }
         }
 
+        internal ResourceManager ParentResourceManager { get; set; }
+
         #region EditInterface
 
         private EditInterface editInterface;

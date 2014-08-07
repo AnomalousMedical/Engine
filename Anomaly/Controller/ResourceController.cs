@@ -21,8 +21,8 @@ namespace Anomaly
         {
             this.controller = controller;
             secondaryResources = controller.PluginManager.createScratchResourceManager();
-            sceneResources = controller.PluginManager.createLiveResourceManager();
-            globalResources = controller.PluginManager.createLiveResourceManager();
+            sceneResources = controller.PluginManager.createLiveResourceManager("Scene");
+            globalResources = controller.PluginManager.createLiveResourceManager("Global");
         }
 
         public void viewResources()

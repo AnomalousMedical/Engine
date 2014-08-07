@@ -413,12 +413,17 @@ namespace Engine
         /// though you may create multiple of them they likely map back to a singleton in the subsystems they are hooked up to. Also be careful
         /// of name collisions between the ResourceManagers you create. The most likely usage is to create one of these for scene resources and
         /// one for persistant resources, being careful not to have collisions between them.
+        /// You provide a namespace for this ResourceManager that helps to avoid these collisions. You should take care that each live ResourceManager
+        /// you create has a unique name.
         /// This is the official way to create ResourceManagers because it is unknown until the engine is configured what subsystems need resources.
         /// </summary>
         /// <returns>A new empty ResourceManager that is hooked up to the subsystems.</returns>
-        public ResourceManager createLiveResourceManager()
+        public ResourceManager createLiveResourceManager(String resourceNamespace)
         {
-            return new ResourceManager(prototypeResourceManager, true);
+            return new ResourceManager(prototypeResourceManager, true)
+                {
+                    Namespace = resourceNamespace
+                };
         }
 
         /// <summary>

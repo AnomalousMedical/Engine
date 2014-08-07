@@ -24,28 +24,28 @@ namespace OgrePlugin
         {
             foreach (var group in resources.Groups)
             {
-                ogreResourceManager.initializeResourceGroup(group.Name);
+                ogreResourceManager.initializeResourceGroup(group.FullName);
             }
         }
 
         public void resourceAdded(ResourceGroup group, Engine.Resources.Resource resource)
         {
-            ogreResourceManager.addResourceLocation(resource.FullPath, "EngineArchive", group.Name, resource.Recursive);
+            ogreResourceManager.addResourceLocation(resource.FullPath, "EngineArchive", group.FullName, resource.Recursive);
         }
 
         public void resourceGroupAdded(ResourceGroup group)
         {
-            ogreResourceManager.createResourceGroup(group.Name);
+            ogreResourceManager.createResourceGroup(group.FullName);
         }
 
         public void resourceGroupRemoved(ResourceGroup group)
         {
-            ogreResourceManager.destroyResourceGroup(group.Name);
+            ogreResourceManager.destroyResourceGroup(group.FullName);
         }
 
         public void resourceRemoved(ResourceGroup group, Engine.Resources.Resource resource)
         {
-            ogreResourceManager.removeResourceLocation(resource.FullPath, group.Name);
+            ogreResourceManager.removeResourceLocation(resource.FullPath, group.FullName);
         }
     }
 }
