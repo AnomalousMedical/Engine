@@ -167,7 +167,6 @@ namespace Anomaly
                 Log.ImportantInfo("Building project {0}", name);
                 ScenePackage scenePackage = new ScenePackage();
                 scenePackage.ResourceManager = PluginManager.Instance.createEmptyResourceManager();
-                scenePackage.ResourceManager.addResources(solution.GlobalResources);
                 scenePackage.SceneDefinition = sceneFileInterface.getFileObject();
                 scenePackage.SimObjectManagerDefinition = new SimObjectManagerDefinition();
                 commonBuild(scenePackage);

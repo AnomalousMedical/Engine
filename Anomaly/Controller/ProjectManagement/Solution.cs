@@ -82,6 +82,8 @@ namespace Anomaly
             }
 
             resourceFileInterface = new ResourceManagerFileInterface("Global Resources", EngineIcons.Resources, globalResourcesFile);
+            PluginManager.Instance.PersistentResourceManager.addResources(resourceFileInterface.getFileObject());
+            PluginManager.Instance.PersistentResourceManager.forceResourceRefresh();
 
             foreach (String projectFile in Directory.GetFiles(workingDirectory, "*.prj", SearchOption.AllDirectories))
             {
@@ -92,6 +94,19 @@ namespace Anomaly
                     currentProject = project;
                 }
             }
+        }
+
+        public void refreshGlobalResources()
+        {
+            if (currentProject != null)
+            {
+                currentProject.unloadScene(anomalyController);
+                anomalyController.ResourceController.clearResources();
+                anomalyController.ResourceController.applyToScene();
+            }
+            PluginManager.Instance.PersistentResourceManager.changeResourcesToMatch(resourceFileInterface.getFileObject());
+            PluginManager.Instance.PersistentResourceManager.forceResourceRefresh();
+            createCurrentProject();
         }
 
         public void addProject(Project project)
@@ -118,7 +133,6 @@ namespace Anomaly
         public void createCurrentProject()
         {
             anomalyController.ResourceController.clearResources();
-            anomalyController.ResourceController.addResources(resourceFileInterface.getFileObject());
             if (currentProject != null)
             {
                 currentProject.showScene(anomalyController);
@@ -290,11 +304,14 @@ namespace Anomaly
 
         private void setActiveProjectCallback(EditUICallback callback, EditInterfaceCommand command)
         {
-            currentProject.getEditInterface().ForeColor = Engine.Color.FromARGB(SystemColors.WindowText.ToArgb());
-            currentProject.unloadScene(anomalyController);
+            if (currentProject != null)
+            {
+                currentProject.getEditInterface().ForeColor = Engine.Color.FromARGB(SystemColors.WindowText.ToArgb());
+                currentProject.unloadScene(anomalyController);
+            }
             currentProject = projectInterfaceManager.resolveSourceObject(callback.getSelectedEditInterface());
             callback.getSelectedEditInterface().ForeColor = ACTIVE_PROJECT_COLOR;
-            anomalyController.createNewScene();
+            anomalyController.buildScene();
         }
 
         private void buildProjectCallback(EditUICallback callback, EditInterfaceCommand command)

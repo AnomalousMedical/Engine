@@ -84,7 +84,7 @@ namespace Anomaly
                     try
                     {
                         anomalyController.initialize(new Solution(projectFileName));
-                        anomalyController.createNewScene();
+                        anomalyController.buildScene();
                         splash.Close();
                         splash.Dispose();
                         anomalyController.start();

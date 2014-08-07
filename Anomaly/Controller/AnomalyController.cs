@@ -299,37 +299,6 @@ namespace Anomaly
         }
 
         /// <summary>
-        /// Create a new empty scene.
-        /// </summary>
-        public void createNewScene()
-        {
-            buildScene();
-        }
-
-        /// <summary>
-        /// Load an exisiting scene.
-        /// </summary>
-        /// <param name="filename">The filename to load.</param>
-        public void loadScene(String filename)
-        {
-            //stopwatch.Start();
-            //XmlTextReader textReader = new XmlTextReader(filename);
-            //ScenePackage scenePackage = xmlSaver.restoreObject(textReader) as ScenePackage;
-            //if (scenePackage != null)
-            //{
-            //    changeScene(scenePackage);
-            //}
-            //else
-            //{
-            //    MessageBox.Show(mainForm, String.Format("Could not load scene from {0}.", filename), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
-            //textReader.Close();
-            //stopwatch.Stop();
-            //Log.Info("Scene loaded in {0} seconds.", stopwatch.Elapsed.TotalSeconds);
-            //stopwatch.Reset();
-        }
-
-        /// <summary>
         /// Save the scene to the given filename.
         /// </summary>
         /// <param name="filename">The filename to save to.</param>
@@ -344,6 +313,27 @@ namespace Anomaly
             xmlSaver.saveObject(scenePackage, fileWriter);
             fileWriter.Close();
             Log.ImportantInfo("Scene saved to {0}.", filename);
+        }
+
+        /// <summary>
+        /// Helper funciton to change to a new scene from a ScenePackage.
+        /// </summary>
+        public void buildScene()
+        {
+            stopwatch.Start();
+            sceneController.destroyScene();
+            solution.createCurrentProject();
+            sceneController.createScene();
+            stopwatch.Stop();
+            Log.Info("Scene loaded in {0} seconds.", stopwatch.Elapsed.TotalSeconds);
+            stopwatch.Reset();
+        }
+
+        public void refreshGlobalResources()
+        {
+            sceneController.destroyScene();
+            solution.refreshGlobalResources();
+            sceneController.createScene();
         }
 
         public void saveSolution()
@@ -564,21 +554,6 @@ namespace Anomaly
             drawingWindowController.destroyCameras();
             lightManager.sceneUnloading(scene);
             toolManager.destroySceneElements(scene.getDefaultSubScene(), pluginManager);
-        }
-
-        /// <summary>
-        /// Helper funciton to change to a new scene from a ScenePackage.
-        /// </summary>
-        /// <param name="scenePackage">The ScenePackage to load.</param>
-        private void buildScene()
-        {
-            stopwatch.Start();
-            sceneController.destroyScene();
-            solution.createCurrentProject();
-            sceneController.createScene();
-            stopwatch.Stop();
-            Log.Info("Scene loaded in {0} seconds.", stopwatch.Elapsed.TotalSeconds);
-            stopwatch.Reset();
         }
 
         #endregion Functions

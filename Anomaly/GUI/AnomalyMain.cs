@@ -192,5 +192,10 @@ namespace Anomaly
         {
             controller.paste();
         }
+
+        private void refreshGlobalResourcesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.refreshGlobalResources();
+        }
     }
 }
