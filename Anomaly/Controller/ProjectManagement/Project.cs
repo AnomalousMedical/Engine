@@ -67,7 +67,7 @@ namespace Anomaly
             String resourcesFile = Path.Combine(workingDirectory, "Resources.xml");
             if (!File.Exists(resourcesFile))
             {
-                ResourceManager resources = PluginManager.Instance.createEmptyResourceManager();
+                ResourceManager resources = PluginManager.Instance.createScratchResourceManager();
                 using (XmlTextWriter textWriter = new XmlTextWriter(resourcesFile, Encoding.Unicode))
                 {
                     textWriter.Formatting = Formatting.Indented;
@@ -166,7 +166,7 @@ namespace Anomaly
             {
                 Log.ImportantInfo("Building project {0}", name);
                 ScenePackage scenePackage = new ScenePackage();
-                scenePackage.ResourceManager = PluginManager.Instance.createEmptyResourceManager();
+                scenePackage.ResourceManager = PluginManager.Instance.createScratchResourceManager();
                 scenePackage.SceneDefinition = sceneFileInterface.getFileObject();
                 scenePackage.SimObjectManagerDefinition = new SimObjectManagerDefinition();
                 commonBuild(scenePackage);

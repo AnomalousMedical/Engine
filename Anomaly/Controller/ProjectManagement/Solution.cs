@@ -73,7 +73,7 @@ namespace Anomaly
             String globalResourcesFile = Path.Combine(workingDirectory, "Resources.xml");
             if (!File.Exists(globalResourcesFile))
             {
-                ResourceManager globalResources = controller.PluginManager.createEmptyResourceManager();
+                ResourceManager globalResources = controller.PluginManager.createScratchResourceManager();
                 using (XmlTextWriter textWriter = new XmlTextWriter(globalResourcesFile, Encoding.Unicode))
                 {
                     textWriter.Formatting = Formatting.Indented;
@@ -82,8 +82,8 @@ namespace Anomaly
             }
 
             resourceFileInterface = new ResourceManagerFileInterface("Global Resources", EngineIcons.Resources, globalResourcesFile);
-            PluginManager.Instance.PersistentResourceManager.addResources(resourceFileInterface.getFileObject());
-            PluginManager.Instance.PersistentResourceManager.initializeResources();
+            anomalyController.ResourceController.GlobalResources.addResources(resourceFileInterface.getFileObject());
+            anomalyController.ResourceController.GlobalResources.initializeResources();
 
             foreach (String projectFile in Directory.GetFiles(workingDirectory, "*.prj", SearchOption.AllDirectories))
             {
@@ -104,8 +104,8 @@ namespace Anomaly
                 anomalyController.ResourceController.clearResources();
                 anomalyController.ResourceController.applyToScene();
             }
-            PluginManager.Instance.PersistentResourceManager.changeResourcesToMatch(resourceFileInterface.getFileObject());
-            PluginManager.Instance.PersistentResourceManager.initializeResources();
+            anomalyController.ResourceController.GlobalResources.changeResourcesToMatch(resourceFileInterface.getFileObject());
+            anomalyController.ResourceController.GlobalResources.initializeResources();
             createCurrentProject();
         }
 
@@ -176,7 +176,7 @@ namespace Anomaly
         /// <returns></returns>
         public ResourceManager getAllResources()
         {
-            ResourceManager resourceManager = PluginManager.Instance.createEmptyResourceManager();
+            ResourceManager resourceManager = PluginManager.Instance.createScratchResourceManager();
             resourceManager.addResources(GlobalResources);
             foreach (Project project in projects.Values)
             {

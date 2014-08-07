@@ -54,7 +54,7 @@ namespace Anomaly
 
         //Scene
         private SceneController sceneController = new SceneController();
-        private ResourceController resourceController = new ResourceController();
+        private ResourceController resourceController;
         private SimObjectController simObjectController;
         private InstanceBuilder instanceBuilder;
         private EditInterfaceRendererController interfaceRenderer;
@@ -127,6 +127,8 @@ namespace Anomaly
             //Load the config file and set the resource root up.
             VirtualFileSystem.Instance.addArchive(solution.ResourceRoot);
 
+            resourceController = new ResourceController(this);
+
             solution.loadExternalFiles(this);
 
             //Create the main form
@@ -154,7 +156,6 @@ namespace Anomaly
             sceneController.initialize(this);
             sceneController.OnSceneLoaded += sceneController_OnSceneLoaded;
             sceneController.OnSceneUnloading += sceneController_OnSceneUnloading;
-            resourceController.initialize(this);
             toolInterop.setMoveController(moveController);
             toolInterop.setSelectionController(selectionController);
             toolInterop.setRotateController(rotateController);

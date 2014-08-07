@@ -56,6 +56,7 @@ namespace OgreModelEditor
         private ResourceManager resourceManager;
         private XmlSaver xmlSaver = new XmlSaver();
         private ResourceManager emptyResourceManager;
+        private ResourceManager liveResourceManager;
 
         //Tools
         private ToolInteropController toolInterop = new ToolInteropController();
@@ -125,10 +126,11 @@ namespace OgreModelEditor
             VirtualFileSystem.Instance.addArchive(OgreModelEditorConfig.VFSRoot);
 
             OgreResourceGroupManager.getInstance().addResourceLocation(typeof(OgreModelEditorController).AssemblyQualifiedName, "EmbeddedResource", "DebugShaders", true);
-            emptyResourceManager = pluginManager.createEmptyResourceManager();
+            emptyResourceManager = pluginManager.createScratchResourceManager();
+            liveResourceManager = pluginManager.createLiveResourceManager();
             if (!File.Exists(OgreModelEditorConfig.DocRoot + "/resources.xml"))
             {
-                resourceManager = pluginManager.createEmptyResourceManager();
+                resourceManager = pluginManager.createScratchResourceManager();
             }
             else
             {
@@ -136,10 +138,10 @@ namespace OgreModelEditor
                 resourceManager = xmlSaver.restoreObject(textReader) as ResourceManager;
                 if (resourceManager == null)
                 {
-                    resourceManager = pluginManager.createEmptyResourceManager();
+                    resourceManager = pluginManager.createScratchResourceManager();
                 }
-                pluginManager.SceneResourceManager.changeResourcesToMatch(resourceManager);
-                pluginManager.SceneResourceManager.initializeResources();
+                liveResourceManager.changeResourcesToMatch(resourceManager);
+                liveResourceManager.initializeResources();
                 textReader.Close();
             }
 
@@ -257,8 +259,8 @@ namespace OgreModelEditor
         public void editExternalResources()
         {
             objectEditor.setEditInterface(resourceManager.getEditInterface(), null, null, null);
-            pluginManager.SceneResourceManager.changeResourcesToMatch(resourceManager);
-            pluginManager.SceneResourceManager.initializeResources();
+            liveResourceManager.changeResourcesToMatch(resourceManager);
+            liveResourceManager.initializeResources();
             XmlTextWriter textWriter = new XmlTextWriter(OgreModelEditorConfig.DocRoot + "/resources.xml", Encoding.Default);
             textWriter.Formatting = Formatting.Indented;
             xmlSaver.saveObject(resourceManager, textWriter);
@@ -271,13 +273,13 @@ namespace OgreModelEditor
             {
                 modelController.destroyModel();
                 String dir = Path.GetDirectoryName(lastFileName);
-                pluginManager.SceneResourceManager.changeResourcesToMatch(emptyResourceManager);
-                pluginManager.SceneResourceManager.initializeResources();
+                liveResourceManager.changeResourcesToMatch(emptyResourceManager);
+                liveResourceManager.initializeResources();
                 OgreResourceGroupManager groupManager = OgreResourceGroupManager.getInstance();
                 groupManager.destroyResourceGroup(dir);
                 groupManager.initializeAllResourceGroups();
-                pluginManager.SceneResourceManager.changeResourcesToMatch(resourceManager);
-                pluginManager.SceneResourceManager.initializeResources();
+                liveResourceManager.changeResourcesToMatch(resourceManager);
+                liveResourceManager.initializeResources();
                 groupManager.addResourceLocation(dir, "FileSystem", dir, true);
                 groupManager.initializeAllResourceGroups();
                 String meshName = Path.GetFileName(lastFileName);

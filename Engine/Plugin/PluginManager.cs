@@ -51,9 +51,7 @@ namespace Engine
         private PlatformPlugin platformPlugin = null;
         private RendererPlugin rendererPlugin = null;
         private List<Assembly> pluginAssemblies = new List<Assembly>();
-        private ResourceManager sceneResourceManager = new ResourceManager();
-        private ResourceManager persistentResourceManager = new ResourceManager();
-        private ResourceManager emptyResourceManager = new ResourceManager();
+        private ResourceManager prototypeResourceManager = new ResourceManager();
         private List<DebugInterface> debugInterfaces;
         private ConfigFile configFile;
         private String pluginDirectory = null;
@@ -338,9 +336,7 @@ namespace Engine
         /// <param name="subsystem">A callback configured SubsystemResources instance.</param>
         public void addSubsystemResources(String name, ResourceListener subsystemListener)
         {
-            sceneResourceManager.addSubsystemResource(new SubsystemResources(name, subsystemListener));
-            persistentResourceManager.addSubsystemResource(new SubsystemResources(name, subsystemListener));
-            emptyResourceManager.addSubsystemResource(new SubsystemResources(name));
+            prototypeResourceManager.addSubsystemResource(new SubsystemResources(name, subsystemListener));
         }
 
         /// <summary>
@@ -411,26 +407,30 @@ namespace Engine
         }
 
         /// <summary>
-        /// Create a copy of the SceneResourceManager. This will contain all
-        /// of the same resource definitions as the SceneResourceManager,
-        /// however, it will not update the subsystems as it is changed. This
-        /// can then be applied to the primary manager to make it update the
-        /// subsystems to match the new definitions.
+        /// Create a live ResourceManager that contains the SubsystemResources for each plugin, but not any groups or locations. 
+        /// Live means that changes to this resource manager will be applied to subsystems. If you add resources to this resource manager
+        /// the subsystems will attempt to load them. It is not very likely that you will create a lot of live resource managers, because even
+        /// though you may create multiple of them they likely map back to a singleton in the subsystems they are hooked up to. Also be careful
+        /// of name collisions between the ResourceManagers you create. The most likely usage is to create one of these for scene resources and
+        /// one for persistant resources, being careful not to have collisions between them.
+        /// This is the official way to create ResourceManagers because it is unknown until the engine is configured what subsystems need resources.
         /// </summary>
-        /// <returns>A new ResourceManager that is a copy of the SceneResourceManager.</returns>
-        public ResourceManager cloneSceneResourceManager()
+        /// <returns>A new empty ResourceManager that is hooked up to the subsystems.</returns>
+        public ResourceManager createLiveResourceManager()
         {
-            return new ResourceManager(sceneResourceManager);
+            return new ResourceManager(prototypeResourceManager, true);
         }
 
         /// <summary>
-        /// Create a ResourceManager that contains the SubsystemResources for
-        /// each plugin, but not any groups or locations.
+        /// Create a scratch ResourceManager that contains the SubsystemResources for each plugin, but not any groups or locations. 
+        /// Scratch means that resources added to this resource manager will not alert the subsystems of changes. You could then apply this resource manager
+        /// to a live resource manager or save it or do something else. These will not alter loaded resources.
+        /// This is the official way to create ResourceManagers because it is unknown until the engine is configured what subsystems need resources.
         /// </summary>
-        /// <returns>A new empty ResourceManager.</returns>
-        public ResourceManager createEmptyResourceManager()
+        /// <returns>A new empty ResourceManager that is not hooked up to the subsystems.</returns>
+        public ResourceManager createScratchResourceManager()
         {
-            return new ResourceManager(emptyResourceManager);
+            return new ResourceManager(prototypeResourceManager, false);
         }
 
         public IEnumerable<DebugInterface> DebugInterfaces
@@ -476,33 +476,6 @@ namespace Engine
             get
             {
                 return rendererPlugin;
-            }
-        }
-
-        /// <summary>
-        /// This ResourceManager is used to load resources for the current scene. It is hooked
-        /// up to the subsystems and making changes here will cause the subsystems to attempt
-        /// to load / unload resources.
-        /// </summary>
-        public ResourceManager SceneResourceManager
-        {
-            get
-            {
-                return sceneResourceManager;
-            }
-        }
-
-        /// <summary>
-        /// This ResourceManager is used to load resources that are external to the scene. It is hooked
-        /// up to the subsystems and making changes here will cause the subsystems to attempt
-        /// to load / unload resources. This resource manager is intended to track resources that are
-        /// independent of the currently loaded scene.
-        /// </summary>
-        public ResourceManager PersistentResourceManager
-        {
-            get
-            {
-                return persistentResourceManager;
             }
         }
 

@@ -13,36 +13,26 @@ namespace Anomaly
     public class ResourceController
     {
         private AnomalyController controller;
-        ResourceManager secondaryResources;
+        private ResourceManager secondaryResources;
+        private ResourceManager sceneResources;
+        private ResourceManager globalResources;
 
-        public ResourceController()
-        {
-            
-        }
-
-        public void initialize(AnomalyController controller)
+        public ResourceController(AnomalyController controller)
         {
             this.controller = controller;
-            secondaryResources = controller.PluginManager.createEmptyResourceManager();
+            secondaryResources = controller.PluginManager.createScratchResourceManager();
+            sceneResources = controller.PluginManager.createLiveResourceManager();
+            globalResources = controller.PluginManager.createLiveResourceManager();
         }
 
         public void viewResources()
         {
             controller.showObjectEditor(secondaryResources.getEditInterface());
-
-            //XmlTextWriter resourceWriter = new XmlTextWriter(AnomalyConfig.DocRoot + "/resources.xml", Encoding.Unicode);
-            //resourceWriter.Formatting = Formatting.Indented;
-            //XmlSaver resourceSaver = new XmlSaver();
-            //resourceSaver.saveObject(secondaryResources, resourceWriter);
-            //resourceWriter.Close();
-
-            //controller.PluginManager.PrimaryResourceManager.changeResourcesToMatch(secondaryResources);
-            //controller.PluginManager.PrimaryResourceManager.forceResourceRefresh();
         }
 
         public void clearResources()
         {
-            secondaryResources = controller.PluginManager.createEmptyResourceManager();
+            secondaryResources = controller.PluginManager.createScratchResourceManager();
         }
 
         public void addResources(ResourceManager toAdd)
@@ -52,13 +42,21 @@ namespace Anomaly
 
         public void applyToScene()
         {
-            controller.PluginManager.SceneResourceManager.changeResourcesToMatch(secondaryResources);
-            controller.PluginManager.SceneResourceManager.initializeResources();
+            sceneResources.changeResourcesToMatch(secondaryResources);
+            sceneResources.initializeResources();
         }
 
         public ResourceManager getResourceManager()
         {
             return secondaryResources;
+        }
+
+        public ResourceManager GlobalResources
+        {
+            get
+            {
+                return globalResources;
+            }
         }
     }
 }

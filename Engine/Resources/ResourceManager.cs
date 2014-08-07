@@ -41,11 +41,13 @@ namespace Engine.Resources
         /// its contents into the new ResourceManager.
         /// </summary>
         /// <param name="toDuplicate">The resource manager to duplicate.</param>
-        internal ResourceManager(ResourceManager toDuplicate)
+        /// <param name="live">True to also hook up the source subsystem resources listener. If you are setting this to true
+        /// it is reccomended that there not actually be any resources in the ResourceManager.</param>
+        internal ResourceManager(ResourceManager toDuplicate, bool live)
         {
             foreach (SubsystemResources resource in toDuplicate.subsystemResources.Values)
             {
-                this.addSubsystemResource(new SubsystemResources(resource));
+                this.addSubsystemResource(new SubsystemResources(resource, live));
             }
         }
 

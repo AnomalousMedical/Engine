@@ -41,12 +41,19 @@ namespace Engine.Resources
         /// Constructor. Takes the SubsystemResource to duplicate. This does not copy the listener.
         /// </summary>
         /// <param name="toDuplicate">Enter the contents of this SubystemResource into the new one.</param>
-        internal SubsystemResources(SubsystemResources toDuplicate)
+        /// <param name="live">True to also hook up the source subsystem resources listener. If you are setting this to true
+        /// it is reccomended that there not actually be any resources in the ResourceManager.</param>
+        internal SubsystemResources(SubsystemResources toDuplicate, bool live)
         {
             this.name = toDuplicate.name;
             foreach (ResourceGroup group in toDuplicate.resourceGroups.Values)
             {
                 this.addResourceGroup(new ResourceGroup(group, this));
+            }
+            //We do the live hookup last since this is a clone and if there are resources, the subsystems already know about them.
+            if(live)
+            {
+                this.listener = toDuplicate.listener;
             }
         }
 
