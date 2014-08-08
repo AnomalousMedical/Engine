@@ -36,6 +36,7 @@ namespace Engine.Editing
     /// This interface provides a view of an object that can be edited.
     /// </summary>
     [DoNotCopy]
+    [DoNotSave]
     public sealed class EditInterface
     {
         private String name;

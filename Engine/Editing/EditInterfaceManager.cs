@@ -24,7 +24,7 @@ namespace Engine.Editing
         /// Constructor.
         /// </summary>
         /// <param name="editInterface">The EditInterface to manage subinterfaces for.</param>
-        public EditInterfaceManager(EditInterface editInterface)
+        internal EditInterfaceManager(EditInterface editInterface)
         {
             this.editInterface = editInterface;
         }
