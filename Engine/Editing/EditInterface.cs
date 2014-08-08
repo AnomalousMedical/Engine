@@ -287,18 +287,20 @@ namespace Engine.Editing
         }
 
         /// <summary>
-        /// Add an EditInterfaceManager that handles T objects.
+        /// Create an EditInterfaceManager that handles T objects.
         /// </summary>
         /// <typeparam name="T">The type the EditInterfaceManager handles.</typeparam>
         /// <param name="editInterfaceManager">The EditInterfaceManager configured to handle T objects.</param>
-        public void addEditInterfaceManager<T>(EditInterfaceManager<T> editInterfaceManager)
+        public EditInterfaceManager<T> createEditInterfaceManager<T>()
             where T : class
         {
             if(editInterfaceManagers == null)
             {
                 editInterfaceManagers = new Dictionary<Type, object>();
             }
+            var editInterfaceManager = new EditInterfaceManager<T>(this);
             editInterfaceManagers.Add(typeof(T), editInterfaceManager);
+            return editInterfaceManager;
         }
 
         /// <summary>

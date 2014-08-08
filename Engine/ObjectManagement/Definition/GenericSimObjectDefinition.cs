@@ -114,8 +114,7 @@ namespace Engine.ObjectManagement
             {
                 editInterface = ReflectedEditInterface.createEditInterface(this, genericSimObjectScanner, name, null);//new EditInterface(name);
                 editInterface.IconReferenceTag = EngineIcons.SimObject;
-                EditInterfaceManager<SimElementDefinition> elementEditInterfaces = new EditInterfaceManager<SimElementDefinition>(editInterface);
-                editInterface.addEditInterfaceManager(elementEditInterfaces);
+                var elementEditInterfaces = editInterface.createEditInterfaceManager<SimElementDefinition>();
                 destroySimElement = new EditInterfaceCommand("Remove", removeSimElementDefinition);
                 foreach (SimElementDefinition definition in definitions)
                 {

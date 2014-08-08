@@ -162,9 +162,8 @@ namespace Engine.ObjectManagement
                 editInterface.IconReferenceTag = EngineIcons.Scene;
         
                 simElementEditor = new EditInterface("Sim Element Managers");
-                var elementManagerInterfaces = new EditInterfaceManager<SimElementManagerDefinition>(simElementEditor);
+                var elementManagerInterfaces = simElementEditor.createEditInterfaceManager<SimElementManagerDefinition>();
                 elementManagerInterfaces.addCommand(new EditInterfaceCommand("Destroy", destroySimElementManagerDefinition));
-                simElementEditor.addEditInterfaceManager(elementManagerInterfaces);
                 foreach (AddSimElementManagerCommand command in PluginManager.Instance.getCreateSimElementManagerCommands())
                 {
                     EditInterfaceCommand interfaceCommand = new EditInterfaceCommand(command.Name, new EditInterfaceFunction(createSimElementManagerDefinition));
@@ -174,9 +173,8 @@ namespace Engine.ObjectManagement
                 editInterface.addSubInterface(simElementEditor);
 
                 subScenes = new EditInterface("Subscenes");
-                var subSceneInterfaces = new EditInterfaceManager<SimSubSceneDefinition>(subScenes);
+                var subSceneInterfaces = subScenes.createEditInterfaceManager<SimSubSceneDefinition>();
                 subSceneInterfaces.addCommand(new EditInterfaceCommand("Destroy", destroySimSubSceneDefinition));
-                subScenes.addEditInterfaceManager(subSceneInterfaces);
                 EditInterfaceCommand createSubSceneCommand = new EditInterfaceCommand("Create Subscene", new EditInterfaceFunction(createSimSubSceneDefinition));
                 subScenes.addCommand(createSubSceneCommand);
                 editInterface.addSubInterface(subScenes);
