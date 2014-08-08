@@ -106,7 +106,7 @@ namespace Engine.Resources
                 fireResourceGroupRemoved(group);
                 if (editInterface != null)
                 {
-                    groupEdits.removeSubInterface(group);
+                    editInterface.removeSubInterface(group);
                 }
                 resourceGroups.Remove(group);
             }
@@ -304,8 +304,6 @@ namespace Engine.Resources
         #region EditInterface
 
         private EditInterface editInterface;
-        private EditInterfaceManager<ResourceGroup> groupEdits;
-        private EditInterfaceCommand destroyGroup;
 
         /// <summary>
         /// Get the EditInterface.
@@ -317,8 +315,8 @@ namespace Engine.Resources
             {
                 editInterface = new EditInterface(name);
                 editInterface.addCommand(new EditInterfaceCommand("Add Group", addResourceGroup));
-                groupEdits = new EditInterfaceManager<ResourceGroup>(editInterface);
-                destroyGroup = new EditInterfaceCommand("Remove", destroyResourceGroup);
+                var groupEdits = editInterface.createEditInterfaceManager<ResourceGroup>();
+                groupEdits.addCommand(new EditInterfaceCommand("Remove", destroyResourceGroup));
                 foreach (ResourceGroup group in resourceGroups.Values)
                 {
                     addResourceGroupEditInterface(group);
@@ -333,9 +331,7 @@ namespace Engine.Resources
         /// <param name="group">The ResourceGroup to add the interface for.</param>
         private void addResourceGroupEditInterface(ResourceGroup group)
         {
-            EditInterface edit = group.getEditInterface();
-            edit.addCommand(destroyGroup);
-            groupEdits.addSubInterface(group, edit);
+            editInterface.addSubInterface(group, group.getEditInterface());
         }
 
         /// <summary>
@@ -345,7 +341,7 @@ namespace Engine.Resources
         /// <param name="caller"></param>
         private void destroyResourceGroup(EditUICallback callback, EditInterfaceCommand caller)
         {
-            removeResourceGroup(groupEdits.resolveSourceObject(callback.getSelectedEditInterface()).Name);
+            removeResourceGroup(editInterface.resolveSourceObject<ResourceGroup>(callback.getSelectedEditInterface()).Name);
         }
 
         /// <summary>

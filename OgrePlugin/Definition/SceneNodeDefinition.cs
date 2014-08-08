@@ -42,10 +42,6 @@ namespace OgrePlugin
         private EditInterface editInterface;
         private Dictionary<String, MovableObjectDefinition> movableObjects = new Dictionary<String, MovableObjectDefinition>();
         private Dictionary<String, SceneNodeDefinition> childNodes = new Dictionary<string, SceneNodeDefinition>();
-        private EditInterfaceManager<MovableObjectDefinition> movableObjectEdits;
-        private EditInterfaceManager<SceneNodeDefinition> childNodeEdits;
-        private EditInterfaceCommand destroyMovableObject;
-        private EditInterfaceCommand destroyChildNode;
         private SceneNodeDefinition parentNode = null;
 
         /// <summary>
@@ -85,16 +81,16 @@ namespace OgrePlugin
             if (editInterface == null)
             {
                 editInterface = ReflectedEditInterface.createEditInterface(this, memberScanner, Name + " Scene Node", null);
-                movableObjectEdits = new EditInterfaceManager<MovableObjectDefinition>(editInterface);
-                childNodeEdits = new EditInterfaceManager<SceneNodeDefinition>(editInterface);
+                var movableObjectEdits = editInterface.createEditInterfaceManager<MovableObjectDefinition>();
+                var childNodeEdits = editInterface.createEditInterfaceManager<SceneNodeDefinition>();
                 editInterface.addCommand(new EditInterfaceCommand("Add Entity", addEntity));
                 editInterface.addCommand(new EditInterfaceCommand("Add Light", addLight));
                 editInterface.addCommand(new EditInterfaceCommand("Add Camera", addCamera));
                 editInterface.addCommand(new EditInterfaceCommand("Add Manual Object", addManualObject));
                 editInterface.addCommand(new EditInterfaceCommand("Add Child Node", addChildNode));
                 editInterface.IconReferenceTag = EngineIcons.Node;
-                destroyMovableObject = new EditInterfaceCommand("Remove", removeMovableObject);
-                destroyChildNode = new EditInterfaceCommand("Remove", removeChildNode);
+                movableObjectEdits.addCommand(new EditInterfaceCommand("Remove", removeMovableObject));
+                childNodeEdits.addCommand(new EditInterfaceCommand("Remove", removeChildNode));
                 foreach (MovableObjectDefinition movable in movableObjects.Values)
                 {
                     addMovableObjectEdit(movable);
@@ -129,7 +125,7 @@ namespace OgrePlugin
             movableObjects.Remove(definition.Name);
             if (editInterface != null)
             {
-                movableObjectEdits.removeSubInterface(definition);
+                editInterface.removeSubInterface(definition);
             }
         }
 
@@ -157,7 +153,7 @@ namespace OgrePlugin
             child.setParentNode(null);
             if (editInterface != null)
             {
-                childNodeEdits.removeSubInterface(child);
+                editInterface.removeSubInterface(child);
             }
         }
 
@@ -229,16 +225,12 @@ namespace OgrePlugin
         /// <param name="definition"></param>
         private void addMovableObjectEdit(MovableObjectDefinition definition)
         {
-            EditInterface edit = definition.getEditInterface();
-            edit.addCommand(destroyMovableObject);
-            movableObjectEdits.addSubInterface(definition, edit);
+            editInterface.addSubInterface(definition, definition.getEditInterface());
         }
 
         private void addChildNodeEdit(SceneNodeDefinition child)
         {
-            EditInterface edit = child.getEditInterface();
-            edit.addCommand(destroyChildNode);
-            childNodeEdits.addSubInterface(child, edit);
+            editInterface.addSubInterface(child, child.getEditInterface());
         }
 
         private bool validateMovableName(String input, ref String errorPrompt)
@@ -407,7 +399,7 @@ namespace OgrePlugin
         /// <param name="command"></param>
         private void removeMovableObject(EditUICallback callback, EditInterfaceCommand command)
         {
-            removeMovableObjectDefinition(movableObjectEdits.resolveSourceObject(callback.getSelectedEditInterface()));
+            removeMovableObjectDefinition(editInterface.resolveSourceObject<MovableObjectDefinition>(callback.getSelectedEditInterface()));
         }
 
         /// <summary>
@@ -443,7 +435,7 @@ namespace OgrePlugin
         /// <param name="command"></param>
         private void removeChildNode(EditUICallback callback, EditInterfaceCommand command)
         {
-            removeChildNode(childNodeEdits.resolveSourceObject(callback.getSelectedEditInterface()));
+            removeChildNode(editInterface.resolveSourceObject<SceneNodeDefinition>(callback.getSelectedEditInterface()));
         }
 
         #region Saveable Members
