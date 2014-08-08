@@ -33,7 +33,6 @@ namespace Engine.ObjectManagement
         private String name;
         private EditInterface editInterface = null;
         private Dictionary<EditInterfaceCommand, AddSimElementCommand> createCommands = new Dictionary<EditInterfaceCommand, AddSimElementCommand>();
-        private EditInterfaceCommand destroySimElement;
 
         #endregion Fields
 
@@ -115,7 +114,7 @@ namespace Engine.ObjectManagement
                 editInterface = ReflectedEditInterface.createEditInterface(this, genericSimObjectScanner, name, null);//new EditInterface(name);
                 editInterface.IconReferenceTag = EngineIcons.SimObject;
                 var elementEditInterfaces = editInterface.createEditInterfaceManager<SimElementDefinition>();
-                destroySimElement = new EditInterfaceCommand("Remove", removeSimElementDefinition);
+                elementEditInterfaces.addCommand(new EditInterfaceCommand("Remove", removeSimElementDefinition));
                 foreach (SimElementDefinition definition in definitions)
                 {
                     createElementInterface(definition);
@@ -184,9 +183,7 @@ namespace Engine.ObjectManagement
         /// <param name="definition"></param>
         private void createElementInterface(SimElementDefinition definition)
         {
-            EditInterface edit = definition.getEditInterface();
-            edit.addCommand(destroySimElement);
-            editInterface.addSubInterface(definition, edit);
+            editInterface.addSubInterface(definition, definition.getEditInterface());
         }
 
         #endregion Functions
