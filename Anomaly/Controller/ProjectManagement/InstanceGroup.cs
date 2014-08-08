@@ -71,7 +71,7 @@ namespace Anomaly
             deletedGroups.Add(group);
             if (editInterface != null)
             {
-                groupManager.removeSubInterface(group);
+                editInterface.removeSubInterface(group);
             }
         }
 
@@ -265,20 +265,12 @@ namespace Anomaly
 
         #region EditInterface
 
-        private EditInterfaceCommand destroyGroup;
-        private EditInterfaceCommand destroySimObject;
-        private EditInterfaceManager<InstanceGroup> groupManager;
-        private EditInterfaceManager<InstanceFileInterface> instanceFileManager;
         private EditInterface editInterface;
-        private EditInterfaceCommand renameSimObject;
 
         public EditInterface getEditInterface()
         {
             if (editInterface == null)
             {
-                destroyGroup = new EditInterfaceCommand("Remove", destroyGroupCallback);
-                destroySimObject = new EditInterfaceCommand("Remove", destroySimObjectCallback);
-                renameSimObject = new EditInterfaceCommand("Rename", renameSimObjectCallback);
                 editInterface = new EditInterface(name);
                 editInterface.addCommand(new EditInterfaceCommand("Create Group", createGroupCallback));
                 editInterface.addCommand(new EditInterfaceCommand("Create Sim Object", createSimObjectCallback));
@@ -291,8 +283,11 @@ namespace Anomaly
                 clipboardEntry.SupportsPastingTypeFunction = supportsPasteType;
                 editInterface.ClipboardEntry = clipboardEntry;
 
-                groupManager = new EditInterfaceManager<InstanceGroup>(editInterface);
-                instanceFileManager = new EditInterfaceManager<InstanceFileInterface>(editInterface);
+                var groupManager = editInterface.createEditInterfaceManager<InstanceGroup>();
+                groupManager.addCommand(new EditInterfaceCommand("Remove", destroyGroupCallback));
+                var instanceFileManager = editInterface.createEditInterfaceManager<InstanceFileInterface>();
+                instanceFileManager.addCommand(new EditInterfaceCommand("Remove", destroySimObjectCallback));
+                instanceFileManager.addCommand(new EditInterfaceCommand("Rename", renameSimObjectCallback));
                 foreach (InstanceGroup group in groups.Values)
                 {
                     addGroupSubInterface(group);
@@ -307,9 +302,7 @@ namespace Anomaly
 
         private void addGroupSubInterface(InstanceGroup group)
         {
-            EditInterface edit = group.getEditInterface();
-            edit.addCommand(destroyGroup);
-            groupManager.addSubInterface(group, edit);
+            editInterface.addSubInterface(group, group.getEditInterface());
         }
 
         public void pasteCallback(object pasted)
@@ -356,17 +349,14 @@ namespace Anomaly
 
         private void destroyGroupCallback(EditUICallback callback, EditInterfaceCommand command)
         {
-            removeGroup(groupManager.resolveSourceObject(callback.getSelectedEditInterface()));
+            removeGroup(editInterface.resolveSourceObject<InstanceGroup>(callback.getSelectedEditInterface()));
         }
 
         private void onInstanceFileAdded(InstanceFileInterface fileInterface)
         {
             if (editInterface != null)
             {
-                EditInterface edit = fileInterface.getEditInterface();
-                edit.addCommand(destroySimObject);
-                edit.addCommand(renameSimObject);
-                instanceFileManager.addSubInterface(fileInterface, edit);
+                editInterface.addSubInterface(fileInterface, fileInterface.getEditInterface());
             }
         }
 
@@ -374,7 +364,7 @@ namespace Anomaly
         {
             if (editInterface != null)
             {
-                instanceFileManager.removeSubInterface(fileInterface);
+                editInterface.removeSubInterface(fileInterface);
             }
         }
 
@@ -402,10 +392,10 @@ namespace Anomaly
 
         private void destroySimObjectCallback(EditUICallback callback, EditInterfaceCommand command)
         {
-            EditInterface editInterface = callback.getSelectedEditInterface();
-            if (editInterface.hasEditableProperties())
+            EditInterface selected = callback.getSelectedEditInterface();
+            if (selected.hasEditableProperties())
             {
-                InstanceFileInterface instanceFile = instanceFileManager.resolveSourceObject(editInterface);
+                InstanceFileInterface instanceFile = this.editInterface.resolveSourceObject<InstanceFileInterface>(selected);
                 removeInstanceFile(instanceFile.Name);
             }
         }

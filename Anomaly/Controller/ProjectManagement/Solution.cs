@@ -238,11 +238,6 @@ namespace Anomaly
     {
         private EditInterface editInterface;
 
-        private EditInterfaceCommand destroyProject;
-        private EditInterfaceCommand setActiveProject;
-        private EditInterfaceCommand buildProject;
-        private EditInterfaceManager<Project> projectInterfaceManager;
-
         public EditInterface getEditInterface()
         {
             if (editInterface == null)
@@ -256,10 +251,10 @@ namespace Anomaly
                 editInterface.addCommand(new EditInterfaceCommand("Build Solution", buildSolutionCallback));
                 editInterface.addCommand(new EditInterfaceCommand("Create Project", createProjectCallback));
 
-                projectInterfaceManager = new EditInterfaceManager<Project>(editInterface);
-                destroyProject = new EditInterfaceCommand("Remove", destroyProjectCallback);
-                setActiveProject = new EditInterfaceCommand("Set Active", setActiveProjectCallback);
-                buildProject = new EditInterfaceCommand("Build Project", buildProjectCallback);
+                var projectInterfaceManager = editInterface.createEditInterfaceManager<Project>();
+                projectInterfaceManager.addCommand(new EditInterfaceCommand("Remove", destroyProjectCallback));
+                projectInterfaceManager.addCommand(new EditInterfaceCommand("Set Active", setActiveProjectCallback));
+                projectInterfaceManager.addCommand(new EditInterfaceCommand("Build Project", buildProjectCallback));
                 foreach (Project project in projects.Values)
                 {
                     onProjectAdded(project);
@@ -299,7 +294,7 @@ namespace Anomaly
 
         private void destroyProjectCallback(EditUICallback callback, EditInterfaceCommand command)
         {
-            removeProject(projectInterfaceManager.resolveSourceObject(callback.getSelectedEditInterface()));
+            removeProject(editInterface.resolveSourceObject<Project>(callback.getSelectedEditInterface()));
         }
 
         private void setActiveProjectCallback(EditUICallback callback, EditInterfaceCommand command)
@@ -309,14 +304,14 @@ namespace Anomaly
                 currentProject.getEditInterface().ForeColor = Engine.Color.FromARGB(SystemColors.WindowText.ToArgb());
                 currentProject.unloadScene(anomalyController);
             }
-            currentProject = projectInterfaceManager.resolveSourceObject(callback.getSelectedEditInterface());
+            currentProject = editInterface.resolveSourceObject<Project>(callback.getSelectedEditInterface());
             callback.getSelectedEditInterface().ForeColor = ACTIVE_PROJECT_COLOR;
             anomalyController.buildScene();
         }
 
         private void buildProjectCallback(EditUICallback callback, EditInterfaceCommand command)
         {
-            Project project = projectInterfaceManager.resolveSourceObject(callback.getSelectedEditInterface());
+            Project project = editInterface.resolveSourceObject<Project>(callback.getSelectedEditInterface());
             project.build();
         }
 
@@ -324,11 +319,7 @@ namespace Anomaly
         {
             if (editInterface != null)
             {
-                EditInterface edit = project.getEditInterface();
-                edit.addCommand(setActiveProject);
-                edit.addCommand(buildProject);
-                edit.addCommand(destroyProject);
-                projectInterfaceManager.addSubInterface(project, edit);
+                editInterface.addSubInterface(project, project.getEditInterface());
             }
         }
 
@@ -336,7 +327,7 @@ namespace Anomaly
         {
             if (editInterface != null)
             {
-                projectInterfaceManager.removeSubInterface(project);
+                editInterface.removeSubInterface(project);
             }
         }
 
