@@ -18,14 +18,10 @@ namespace Engine.ObjectManagement
 
         private List<SimElementManagerDefinition> elementManagers = new List<SimElementManagerDefinition>();
         private Dictionary<String, SimSubSceneDefinition> subSceneDefinitions = new Dictionary<string, SimSubSceneDefinition>();
-        private EditInterfaceManager<SimElementManagerDefinition> elementManagerInterfaces;
-        private EditInterfaceManager<SimSubSceneDefinition> subSceneInterfaces;
         private Dictionary<EditInterfaceCommand, AddSimElementManagerCommand> createSimElementManagerDefs = new Dictionary<EditInterfaceCommand, AddSimElementManagerCommand>();
         private EditInterface editInterface;
         private EditInterface simElementEditor;
         private EditInterface subScenes;
-        private EditInterfaceCommand destroySimElementManagerDef;
-        private EditInterfaceCommand destroySubScene;
 
         private String defaultScene;
         
@@ -67,7 +63,7 @@ namespace Engine.ObjectManagement
             elementManagers.Remove(def);
             if (editInterface != null)
             {
-                elementManagerInterfaces.removeSubInterface(def);
+                simElementEditor.removeSubInterface(def);
             }
         }
 
@@ -131,7 +127,7 @@ namespace Engine.ObjectManagement
             def.setScene(null);
             if (editInterface != null)
             {
-                subSceneInterfaces.removeSubInterface(def);
+                subScenes.removeSubInterface(def);
             }
         }
 
@@ -166,22 +162,24 @@ namespace Engine.ObjectManagement
                 editInterface.IconReferenceTag = EngineIcons.Scene;
         
                 simElementEditor = new EditInterface("Sim Element Managers");
-                elementManagerInterfaces = new EditInterfaceManager<SimElementManagerDefinition>(simElementEditor);
+                var elementManagerInterfaces = new EditInterfaceManager<SimElementManagerDefinition>(simElementEditor);
+                elementManagerInterfaces.addCommand(new EditInterfaceCommand("Destroy", destroySimElementManagerDefinition));
+                simElementEditor.addEditInterfaceManager(elementManagerInterfaces);
                 foreach (AddSimElementManagerCommand command in PluginManager.Instance.getCreateSimElementManagerCommands())
                 {
                     EditInterfaceCommand interfaceCommand = new EditInterfaceCommand(command.Name, new EditInterfaceFunction(createSimElementManagerDefinition));
                     createSimElementManagerDefs.Add(interfaceCommand, command);
                     simElementEditor.addCommand(interfaceCommand);
                 }
-                destroySimElementManagerDef = new EditInterfaceCommand("Destroy", destroySimElementManagerDefinition);
                 editInterface.addSubInterface(simElementEditor);
 
                 subScenes = new EditInterface("Subscenes");
-                subSceneInterfaces = new EditInterfaceManager<SimSubSceneDefinition>(subScenes);
+                var subSceneInterfaces = new EditInterfaceManager<SimSubSceneDefinition>(subScenes);
+                subSceneInterfaces.addCommand(new EditInterfaceCommand("Destroy", destroySimSubSceneDefinition));
+                subScenes.addEditInterfaceManager(subSceneInterfaces);
                 EditInterfaceCommand createSubSceneCommand = new EditInterfaceCommand("Create Subscene", new EditInterfaceFunction(createSimSubSceneDefinition));
                 subScenes.addCommand(createSubSceneCommand);
                 editInterface.addSubInterface(subScenes);
-                destroySubScene = new EditInterfaceCommand("Destroy", destroySimSubSceneDefinition);
 
                 foreach (SimElementManagerDefinition elementDef in elementManagers)
                 {
@@ -288,7 +286,7 @@ namespace Engine.ObjectManagement
         private void destroySimElementManagerDefinition(EditUICallback callback, EditInterfaceCommand caller)
         {
             EditInterface currentInterface = callback.getSelectedEditInterface();
-            removeSimElementManagerDefinition(elementManagerInterfaces.resolveSourceObject(currentInterface));
+            removeSimElementManagerDefinition(simElementEditor.resolveSourceObject<SimElementManagerDefinition>(currentInterface));
         }
 
         /// <summary>
@@ -325,7 +323,7 @@ namespace Engine.ObjectManagement
         private void destroySimSubSceneDefinition(EditUICallback callback, EditInterfaceCommand caller)
         {
             EditInterface currentInterface = callback.getSelectedEditInterface();
-            removeSimSubSceneDefinition(subSceneInterfaces.resolveSourceObject(currentInterface));
+            removeSimSubSceneDefinition(subScenes.resolveSourceObject<SimSubSceneDefinition>(currentInterface));
         }
 
         /// <summary>
@@ -334,9 +332,7 @@ namespace Engine.ObjectManagement
         /// <param name="def"></param>
         private void createEditInterface(SimElementManagerDefinition def)
         {
-            EditInterface defInterface = def.getEditInterface();
-            defInterface.addCommand(destroySimElementManagerDef);
-            elementManagerInterfaces.addSubInterface(def, defInterface);
+            simElementEditor.addSubInterface(def, def.getEditInterface());
         }
 
         /// <summary>
@@ -345,9 +341,7 @@ namespace Engine.ObjectManagement
         /// <param name="def"></param>
         private void createEditInterface(SimSubSceneDefinition def)
         {
-            EditInterface edit = def.getEditInterface();
-            edit.addCommand(destroySubScene);
-            subSceneInterfaces.addSubInterface(def, edit);
+            subScenes.addSubInterface(def, def.getEditInterface());
         }
 
         private bool validate(out String message)
