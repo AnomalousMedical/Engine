@@ -146,6 +146,7 @@ extern "C" _AnomalousExport Ogre::RenderWindow* Root_createRenderWindowParams(Og
 		params["useNVPerfHUD"] = nvPerfHud;
 	}
 	params["monitorIndex"] = monitorIndex;
+	params["noAltEnter"] = "true";
 	#ifdef MAC_OSX
 		params["macAPI"] = "cocoa";
 		params["macAPICocoaUseNSView"] = "true";
