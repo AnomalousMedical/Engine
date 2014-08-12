@@ -29,8 +29,9 @@
 #include <Ogre.h>
 #include "CommonResources.h"
 
-#define MAIN_RESOURCE_GROUP "Rocket"
-#define SHARED_RESOURCE_GROUP "Rocket.Common"
+//These are defined in the RocketInterface class
+#define MAIN_RESOURCE_GROUP "Rocket.Common"
+#define SHARED_RESOURCE_GROUP "Rocket.Shared"
 
 struct RocketOgre3DVertex
 {
@@ -289,7 +290,7 @@ bool RenderInterfaceOgre3D::GenerateTexture(Rocket::Core::TextureHandle& texture
 	Ogre::DataStreamPtr data_stream(new Ogre::MemoryDataStream((void*) source, source_dimensions.x * source_dimensions.y * sizeof(unsigned int)));
 	
 	Ogre::TexturePtr ogre_texture = Ogre::TextureManager::getSingleton().loadRawData(Rocket::Core::String(16, "%d", texture_id++).CString(),
-																					 "Rocket",
+																					 MAIN_RESOURCE_GROUP,
 																					 data_stream,
 																					 source_dimensions.x,
 																					 source_dimensions.y,

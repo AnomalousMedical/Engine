@@ -7,6 +7,7 @@ using Engine.Platform;
 using System.Runtime.InteropServices;
 using OgrePlugin;
 using OgreWrapper;
+using Engine.Resources;
 
 namespace libRocketPlugin
 {
@@ -21,6 +22,7 @@ namespace libRocketPlugin
         private RenderInterfaceOgre3D renderInterface;
         private FileInterface fileInterface;
         private float pixelsPerInch = DefaultPixelsPerInch;
+        private ResourceManager resources;
 
         private RocketFilesystemArchiveFactory rocketFilesystemArchiveFactory = new RocketFilesystemArchiveFactory();
 
@@ -45,8 +47,7 @@ namespace libRocketPlugin
         public void Dispose()
         {
             TextureDatabase.ReleaseTextures();
-            OgreResourceGroupManager.getInstance().removeResourceLocation("__RmlViewerFilesystem__", "Rocket");
-            //OgreResourceGroupManager.getInstance().destroyResourceGroup("Rocket");
+            CommonResourceGroup.removeResource("__RmlViewerFilesystem__");
 
             ReferenceCountable.DumpLeakReport();
             Core.Shutdown();
@@ -72,6 +73,11 @@ namespace libRocketPlugin
 
         public void initialize(PluginManager pluginManager)
         {
+
+        }
+
+        public void link(PluginManager pluginManager)
+        {
             Root.getSingleton().addArchiveFactory(rocketFilesystemArchiveFactory);
 
             if (FileInterface == null)
@@ -79,10 +85,16 @@ namespace libRocketPlugin
                 FileInterface = new VirtualFileSystemFileInterface();
             }
 
-            OgreResourceGroupManager.getInstance().createResourceGroup("Rocket");
-            OgreResourceGroupManager.getInstance().addResourceLocation("__RmlViewerFilesystem__", RocketFilesystemArchive.ArchiveName, "Rocket", false);
-            OgreResourceGroupManager.getInstance().addResourceLocation(this.GetType().AssemblyQualifiedName, "EmbeddedResource", "Rocket.Shaders", false);
-            OgreResourceGroupManager.getInstance().initializeResourceGroup("Rocket.Shaders");
+            resources = pluginManager.createLiveResourceManager("Rocket");
+            var rendererResources = resources.getSubsystemResource("Ogre");
+            CommonResourceGroup = rendererResources.addResourceGroup("Common");
+            CommonResourceGroup.addResource("__RmlViewerFilesystem__", RocketFilesystemArchive.ArchiveName, false);
+            CommonResourceGroup.addResource(GetType().AssemblyQualifiedName, "EmbeddedScalableResource", true);
+            var shaders = rendererResources.addResourceGroup("Shaders");
+            shaders.addResource(this.GetType().AssemblyQualifiedName, "EmbeddedResource", false);
+            var shared = rendererResources.addResourceGroup("Shared");
+            shared.addResource("__LibRocketCommonResourcesFilesystem__", CommonResourcesArchiveFactory.Name, false);
+            resources.initializeResources();
 
             Root.getSingleton().Disposed += OgreRoot_Disposed;
 
@@ -98,11 +110,6 @@ namespace libRocketPlugin
 
             Core.Initialise();
             Controls.Initialise();
-        }
-
-        public void link(PluginManager pluginManager)
-        {
-
         }
 
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
@@ -160,6 +167,11 @@ namespace libRocketPlugin
                 return systemInterface;
             }
         }
+
+        /// <summary>
+        /// The ResourceGroup for common resources for libRocket.
+        /// </summary>
+        public ResourceGroup CommonResourceGroup { get; private set; }
 
         static RocketInterface()
         {
