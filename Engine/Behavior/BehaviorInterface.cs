@@ -41,6 +41,11 @@ namespace Engine
             pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create Behavior Definition", BehaviorDefinition.Create));
         }
 
+        public void link(PluginManager pluginManager)
+        {
+
+        }
+
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
         {
             this.timer = mainTimer;

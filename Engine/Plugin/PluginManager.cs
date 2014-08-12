@@ -141,6 +141,10 @@ namespace Engine
             {
                 throw new InvalidPluginException("No renderer plugin defined. Please define a renderer plugin.");
             }
+            foreach(var plugin in loadedPlugins)
+            {
+                plugin.link(this);
+            }
         }
 
         /// <summary>

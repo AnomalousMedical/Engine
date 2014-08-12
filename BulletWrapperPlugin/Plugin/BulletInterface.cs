@@ -59,6 +59,11 @@ namespace BulletPlugin
 	        pluginManager.addSubsystemResources("Bullet", fileManager);
         }
 
+        public void link(PluginManager pluginManager)
+        {
+
+        }
+
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
         {
             this.timer = mainTimer;

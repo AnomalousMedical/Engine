@@ -47,6 +47,11 @@ namespace BEPUikPlugin
             pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create BEPU Ik Twist Limit", new CreateSimElement(BEPUikTwistLimitDefinition.Create)));
         }
 
+        public void link(PluginManager pluginManager)
+        {
+
+        }
+
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
         {
             timer = mainTimer;

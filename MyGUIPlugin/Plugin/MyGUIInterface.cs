@@ -27,6 +27,7 @@ namespace MyGUIPlugin
         private MyGUIUpdate myGUIUpdate;
         private MyGUIRenderListener renderListener;
         private ManagedMyGUILogListener managedLogListener;
+        private Engine.Resources.ResourceManager resources;
 
         public MyGUIInterface()
         {
@@ -77,10 +78,18 @@ namespace MyGUIPlugin
 
         public void initialize(PluginManager pluginManager)
         {
+            
+        }
+
+        public void link(PluginManager pluginManager)
+        {
             Log.Info("Initializing MyGUI");
 
-            OgreResourceGroupManager.getInstance().addResourceLocation(GetType().AssemblyQualifiedName, "EmbeddedScalableResource", "MyGUI", true);
-            OgreResourceGroupManager.getInstance().initializeAllResourceGroups();
+            resources = pluginManager.createLiveResourceManager("MyGUI");
+            var rendererResources = resources.getSubsystemResource("Ogre");
+            CommonResourceGroup = rendererResources.addResourceGroup("Common");
+            CommonResourceGroup.addResource(GetType().AssemblyQualifiedName, "EmbeddedScalableResource", true);
+            resources.initializeResources();
 
             sceneManager = Root.getSingleton().createSceneManager(SceneType.ST_GENERIC, "MyGUIScene");
             ogreWindow = pluginManager.RendererPlugin.PrimaryWindow as OgreWindow;
@@ -94,7 +103,7 @@ namespace MyGUIPlugin
 
             //Create Ogre Platform
             ogrePlatform = new OgrePlatform();
-            ogrePlatform.initialize(vp.getActualWidth(), vp.getActualHeight(), "MyGUI", LogFile);
+            ogrePlatform.initialize(vp.getActualWidth(), vp.getActualHeight(), CommonResourceGroup.FullName, LogFile);
 
             //Create log
             managedLogListener = new ManagedMyGUILogListener();
@@ -153,6 +162,12 @@ namespace MyGUIPlugin
                 return ogrePlatform;
             }
         }
+
+        /// <summary>
+        /// The ResourceGroup for common resources for MyGUI. It is reccomended to add all MyGUI related resources here, since the subystem
+        /// will search this group first.
+        /// </summary>
+        public Engine.Resources.ResourceGroup CommonResourceGroup { get; private set; }
 
         static MyGUIInterface()
         {

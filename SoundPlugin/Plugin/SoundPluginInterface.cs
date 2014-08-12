@@ -45,6 +45,11 @@ namespace SoundPlugin
             soundManager = new SoundManager(openALManager);
         }
 
+        public void link(PluginManager pluginManager)
+        {
+
+        }
+
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
         {
             this.mainTimer = mainTimer;

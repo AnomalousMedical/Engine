@@ -70,6 +70,11 @@ namespace PCPlatform
             pluginManager.setPlatformPlugin(this);
         }
 
+        public void link(PluginManager pluginManager)
+        {
+
+        }
+
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
         {
             

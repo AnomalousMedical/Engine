@@ -100,6 +100,11 @@ namespace libRocketPlugin
             Controls.Initialise();
         }
 
+        public void link(PluginManager pluginManager)
+        {
+
+        }
+
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
         {
             systemInterface.Timer = mainTimer;

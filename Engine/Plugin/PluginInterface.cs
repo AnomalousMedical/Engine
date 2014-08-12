@@ -25,6 +25,13 @@ namespace Engine
         void initialize(PluginManager pluginManager);
 
         /// <summary>
+        /// Called after all plugins have been loaded in the PluginManager initializePlugins function.
+        /// This function is called after initialize is called for each plugin. So any resources set
+        /// up during that phase will be available here.
+        /// </summary>
+        void link(PluginManager pluginManager);
+
+        /// <summary>
         /// Set the classes from the platform that a plugin may be interested
         /// in. The timer can be subscribed to for updates and the EventManager
         /// will be updated with events every frame.

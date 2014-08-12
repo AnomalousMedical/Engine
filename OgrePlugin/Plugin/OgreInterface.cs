@@ -169,6 +169,11 @@ namespace OgrePlugin
             }
         }
 
+        public void link(PluginManager pluginManager)
+        {
+
+        }
+
         /// <summary>
         /// This function will create any debug commands for the plugin and add them to the commands list.
         /// </summary>
