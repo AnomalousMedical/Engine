@@ -41,7 +41,7 @@ namespace Engine.Resources
             this.parent = parent;
             foreach (Resource resource in toDuplicate.resources.Values)
             {
-                this.addResource(new Resource(resource.LocName, resource.Recursive));
+                this.addResource(new Resource(resource.LocName, resource.ArchiveType, resource.Recursive));
             }
         }
 
@@ -50,11 +50,11 @@ namespace Engine.Resources
         /// </summary>
         /// <param name="locName">The location of the resource group.</param>
         /// <param name="recursive">When true if the resource is a directory, subdirectories will be scanned.  False means this directory only.</param>
-        public Resource addResource(String locName, bool recursive)
+        public Resource addResource(String locName, String archiveType, bool recursive)
         {
             if (!resources.ContainsKey(locName))
             {
-                Resource resource = new Resource(locName, recursive);
+                Resource resource = new Resource(locName, archiveType, recursive);
                 addResource(resource);
             }
             else

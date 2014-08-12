@@ -17,6 +17,7 @@ namespace Engine.Resources
     {
         private String locName;
         private bool recursive;
+        private String archiveType;
         private ResourceGroup group;
 
         /// <summary>
@@ -26,6 +27,7 @@ namespace Engine.Resources
         {
             locName = "";
             recursive = false;
+            archiveType = "EngineArchive";
         }
 
         /// <summary>
@@ -34,9 +36,10 @@ namespace Engine.Resources
 	    /// <param name="locName">The location of the resource.</param>
 	    /// <param name="type">The type of the resource.</param>
 	    /// <param name="recursive">True to recurse subdirectories.</param>
-        internal Resource(String locName, bool recursive)
+        internal Resource(String locName, String archiveType, bool recursive)
         {
             this.locName = locName;
+            this.archiveType = archiveType;
             this.recursive = recursive;
         }
 
@@ -48,6 +51,7 @@ namespace Engine.Resources
         {
         	this.locName = toCopy.locName;
             this.recursive = toCopy.recursive;
+            this.archiveType = toCopy.archiveType;
         }
 
         /// <summary>
@@ -68,7 +72,8 @@ namespace Engine.Resources
         internal bool allPropertiesMatch(Resource checkAgainst)
         {
 	        return locName == checkAgainst.locName && 
-		        recursive == checkAgainst.recursive;
+		        recursive == checkAgainst.recursive &&
+                archiveType == checkAgainst.archiveType;
         }
 
         /// <summary>
@@ -110,6 +115,18 @@ namespace Engine.Resources
             }
         }
 
+        public String ArchiveType
+        {
+            get
+            {
+                return archiveType;
+            }
+            set
+            {
+                archiveType = value;
+            }
+        }
+
         public ResourceGroup Group
         {
             get
@@ -120,6 +137,7 @@ namespace Engine.Resources
 
         private const String LOC_NAME = "LocName";
         private const String RECURSIVE = "Recursive";
+        private const String ARCHIVE_TYPE = "ArchiveType";
 
         /// <summary>
         /// Load constructor.
@@ -129,6 +147,7 @@ namespace Engine.Resources
         {
             locName = info.GetString(LOC_NAME);
             recursive = info.GetBoolean(RECURSIVE);
+            archiveType = info.GetString(ARCHIVE_TYPE, "EngineArchive");
         }
 
         /// <summary>
@@ -139,6 +158,7 @@ namespace Engine.Resources
         {
             info.AddValue(LOC_NAME, locName);
             info.AddValue(RECURSIVE, recursive);
+            info.AddValue(ARCHIVE_TYPE, archiveType);
         }
     }
 }

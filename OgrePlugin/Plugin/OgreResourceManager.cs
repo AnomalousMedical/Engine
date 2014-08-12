@@ -30,7 +30,7 @@ namespace OgrePlugin
 
         public void resourceAdded(ResourceGroup group, Engine.Resources.Resource resource)
         {
-            ogreResourceManager.addResourceLocation(resource.LocName, "EngineArchive", group.FullName, resource.Recursive);
+            ogreResourceManager.addResourceLocation(resource.LocName, resource.ArchiveType, group.FullName, resource.Recursive);
         }
 
         public void resourceGroupAdded(ResourceGroup group)
