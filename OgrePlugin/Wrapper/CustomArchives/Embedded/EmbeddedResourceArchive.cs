@@ -20,8 +20,15 @@ namespace OgreWrapper
         public String Path { get; set; }
     }
 
+    /// <summary>
+    /// This class provides an archive for resources embedded into an assembly. You specify the name of a type in the assembly
+    /// and this class will find it. You can optionally add a double pipe (||) after the assembly name with the prefix of
+    /// the name of the resource to use as a filter.
+    /// </summary>
     class EmbeddedResourceArchive : OgreManagedArchive
     {
+        private static String[] Seps = { "||" };
+
         Assembly assembly;
         List<EmbeddedFileInfo> fileList = new List<EmbeddedFileInfo>();
 
@@ -33,8 +40,13 @@ namespace OgreWrapper
 
         protected internal override void load()
         {
-            assembly = Type.GetType(name).Assembly();
-	        String[] fileList = assembly.GetManifestResourceNames();
+            String[] nameElements = name.Split(Seps, StringSplitOptions.None);
+            assembly = Type.GetType(nameElements[0]).Assembly();
+            IEnumerable<String> fileList = assembly.GetManifestResourceNames();
+            if(nameElements.Length > 1)
+            {
+                fileList = fileList.Where((f) => f.StartsWith(nameElements[1]));
+            }
 	        foreach(String file in fileList)
 	        {
                 using (Stream stream = assembly.GetManifestResourceStream(file))
