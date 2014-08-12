@@ -10,13 +10,15 @@ namespace Engine.Resources
     class ResourceEditableProperty : EditableProperty
     {
         private const int LOC_COLUMN = 0;
-        private const int RECURSIVE_COLUMN = 1;
+        private const int ARCHIVE_TYPE_COLUMN = 1;
+        private const int RECURSIVE_COLUMN = 2;
 
         internal static readonly EditablePropertyInfo Info = new EditablePropertyInfo();
 
         static ResourceEditableProperty()
         {
             Info.addColumn(new EditablePropertyColumn("Location", false));
+            Info.addColumn(new EditablePropertyColumn("Archive Type", false));
             Info.addColumn(new EditablePropertyColumn("Recursive", false));
         }
 
@@ -37,6 +39,8 @@ namespace Engine.Resources
             {
                 case LOC_COLUMN:
                     return resource.LocName;
+                case ARCHIVE_TYPE_COLUMN:
+                    return resource.ArchiveType;
                 case RECURSIVE_COLUMN:
                     return resource.Recursive.ToString();
             }
@@ -49,6 +53,8 @@ namespace Engine.Resources
             {
                 case LOC_COLUMN:
                     return resource.LocName;
+                case ARCHIVE_TYPE_COLUMN:
+                    return resource.ArchiveType;
                 case RECURSIVE_COLUMN:
                     return resource.Recursive;
             }
@@ -68,6 +74,9 @@ namespace Engine.Resources
                     resource.LocName = (String)value;
                     localGroup.addResource(resource);
                     break;
+                case ARCHIVE_TYPE_COLUMN:
+                    resource.ArchiveType = (String)value;
+                    break;
                 case RECURSIVE_COLUMN:
                     resource.Recursive = (bool)value;
                     break;
@@ -86,6 +95,7 @@ namespace Engine.Resources
             switch (column)
             {
                 case LOC_COLUMN:
+                case ARCHIVE_TYPE_COLUMN:
                     setValue(column, value);
                     break;
                 case RECURSIVE_COLUMN:
@@ -130,6 +140,9 @@ namespace Engine.Resources
                         errorMessage = String.Format("Could not find resource path \"{0}\".", fullPath);
                         return false;
                     }
+                case ARCHIVE_TYPE_COLUMN:
+                    errorMessage = null;
+                    return true;
                 case RECURSIVE_COLUMN:
                     errorMessage = "Cannot evaluate recursive value as a bool";
                     bool result;
@@ -148,6 +161,7 @@ namespace Engine.Resources
             switch (column)
             {
                 case LOC_COLUMN:
+                case ARCHIVE_TYPE_COLUMN:
                     return typeof(String);
                 case RECURSIVE_COLUMN:
                     return typeof(bool);
