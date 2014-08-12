@@ -185,7 +185,7 @@ namespace Engine.Resources
         /// </summary>
         public void initializeResources()
         {
-            fireInitializeResources();
+            fireInitializeResources(Groups);
         }
 
         /// <summary>
@@ -272,11 +272,11 @@ namespace Engine.Resources
         /// <summary>
         /// Call to fire a resource refresh event.
         /// </summary>
-        private void fireInitializeResources()
+        internal void fireInitializeResources(IEnumerable<ResourceGroup> groups)
         {
             if (listener != null)
             {
-                listener.initializeResources(this);
+                listener.initializeResources(groups);
             }
         }
 

@@ -20,9 +20,9 @@ namespace OgrePlugin
             ogreResourceManager = OgreResourceGroupManager.getInstance();
         }
 
-        public void initializeResources(SubsystemResources resources)
+        public void initializeResources(IEnumerable<ResourceGroup> groups)
         {
-            foreach (var group in resources.Groups)
+            foreach (var group in groups)
             {
                 ogreResourceManager.initializeResourceGroup(group.FullName);
             }

@@ -148,6 +148,16 @@ namespace Engine.Resources
             changeResourcesToMatch(BLANK);
         }
 
+        public void initialize()
+        {
+            parent.fireInitializeResources(GetThisEnumerator());
+        }
+
+        private IEnumerable<ResourceGroup> GetThisEnumerator()
+        {
+            yield return this;
+        }
+
         /// <summary>
         /// Change the resources in this group to match toMatch.  This will fire events
         /// as needed, see ResourceManager.

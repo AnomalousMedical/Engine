@@ -34,9 +34,9 @@ namespace Engine.Resources
 	    void resourceGroupRemoved(ResourceGroup group);
 
         /// <summary>
-        /// Initialize all resources in the specified subsystem resources.
+        /// Initialize the given resource groups.
         /// </summary>
-        /// <param name="resources"></param>
-	    void initializeResources(SubsystemResources resources);
+        /// <param name="resources">An enumerator over the resource groups to initialize.</param>
+	    void initializeResources(IEnumerable<ResourceGroup> groups);
     }
 }

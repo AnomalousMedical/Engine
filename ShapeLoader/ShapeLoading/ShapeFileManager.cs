@@ -136,9 +136,9 @@ namespace Engine
             removeGroup(group.FullName);
         }
 
-        public void initializeResources(SubsystemResources resources)
+        public void initializeResources(IEnumerable<ResourceGroup> groups)
         {
-            loadUnloadedResources(resources.Groups.Select(g => g.FullName));
+            loadUnloadedResources(groups.Select(g => g.FullName));
         }
 
         /// <summary>
