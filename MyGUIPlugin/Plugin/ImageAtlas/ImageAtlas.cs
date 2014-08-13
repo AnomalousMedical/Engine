@@ -8,6 +8,7 @@ using System.Drawing;
 using System.IO;
 using System.Drawing.Imaging;
 using Logging;
+using FreeImageAPI;
 
 namespace MyGUIPlugin
 {
@@ -48,6 +49,20 @@ namespace MyGUIPlugin
 
         public String addImage(Object resourceKey, Image image, out IntSize2 imageSize)
         {
+            using (FreeImageBitmap freeImage = new FreeImageBitmap(image))
+            {
+                return addImage(resourceKey, freeImage, out imageSize);
+            }
+        }
+
+        public String addImage(Object resourceKey, FreeImageBitmap image)
+        {
+            IntSize2 size;
+            return addImage(resourceKey, image, out size);
+        }
+
+        public String addImage(Object resourceKey, FreeImageBitmap image, out IntSize2 imageSize)
+        {
             String guidStr = UniqueKeyGenerator.generateStringKey();
             guidDictionary.Add(resourceKey, guidStr);
             createImage(guidStr, image, out imageSize);
@@ -71,6 +86,20 @@ namespace MyGUIPlugin
         }
 
         public void replaceImage(Object resourceKey, Image newImage, out IntSize2 imageSize)
+        {
+            using (FreeImageBitmap freeImage = new FreeImageBitmap(newImage))
+            {
+                replaceImage(resourceKey, freeImage, out imageSize);
+            }
+        }
+
+        public void replaceImage(Object resourceKey, FreeImageBitmap newImage)
+        {
+            IntSize2 imageSize;
+            replaceImage(resourceKey, newImage, out imageSize);
+        }
+
+        public void replaceImage(Object resourceKey, FreeImageBitmap newImage, out IntSize2 imageSize)
         {
             String guid = null;
             if (guidDictionary.TryGetValue(resourceKey, out guid))
@@ -127,9 +156,9 @@ namespace MyGUIPlugin
             MyGUIInterface.Instance.OgrePlatform.getRenderManager().destroyTexture(name + guid + ".png");
         }
 
-        private void createImage(String guidStr, Image image, out IntSize2 finalSize)
+        private void createImage(String guidStr, FreeImageBitmap image, out IntSize2 finalSize)
         {
-            Image resizedImage = null;
+            FreeImageBitmap resizedImage = null;
             try
             {
                 //resize the image if it does not match
@@ -159,11 +188,8 @@ namespace MyGUIPlugin
                             destRect = new Rectangle(0, 0, imageSize.Width, imageSize.Height);
                             break;
                     }
-                    resizedImage = new Bitmap(destRect.Width, destRect.Height);
-                    using (Graphics g = Graphics.FromImage(resizedImage))
-                    {
-                        g.DrawImage(image, destRect);
-                    }
+                    resizedImage = new FreeImageBitmap(image);
+                    resizedImage.Rescale(destRect.Width, destRect.Height, FREE_IMAGE_FILTER.FILTER_BILINEAR);
                     image = resizedImage;
                 }
 
@@ -171,7 +197,7 @@ namespace MyGUIPlugin
                 try
                 {
                     imageStream = new MemoryStream();
-                    image.Save(imageStream, ImageFormat.Png);
+                    image.Save(imageStream, FREE_IMAGE_FORMAT.FIF_PNG);
                     memoryArchive.addMemoryStreamResource(guidStr + ".png", imageStream);
 
                     String xmlString = String.Format(resourceXML, guidStr, name + guidStr + ".png", imageSize.Width, imageSize.Height);
