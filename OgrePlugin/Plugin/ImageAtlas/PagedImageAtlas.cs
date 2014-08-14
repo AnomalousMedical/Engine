@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using FreeImageAPI;
 
 namespace OgrePlugin
 {
@@ -41,7 +42,7 @@ namespace OgrePlugin
         /// <param name="name">The name of the image</param>
         /// <param name="image">The image</param>
         /// <returns>The page the image was added to.</returns>
-        public ImageAtlasPage addImage(String name, Bitmap image)
+        public ImageAtlasPage addImage(String name, FreeImageBitmap image)
         {
             checkImageDimensions(image);
             foreach (ImageAtlasPage page in allPages)
@@ -67,7 +68,7 @@ namespace OgrePlugin
         /// <param name="name">The name of the image.</param>
         /// <param name="image">A bitmap of the image.</param>
         /// <returns>The page the image was added to.</returns>
-        public ImageAtlasPage addImageToEnd(String name, Bitmap image)
+        public ImageAtlasPage addImageToEnd(String name, FreeImageBitmap image)
         {
             checkImageDimensions(image);
             if (lastPage == null)
@@ -100,7 +101,7 @@ namespace OgrePlugin
             return null;
         }
 
-        private void checkImageDimensions(Bitmap image)
+        private void checkImageDimensions(FreeImageBitmap image)
         {
             if (image.Width > pageWidth || image.Height > pageHeight)
             {

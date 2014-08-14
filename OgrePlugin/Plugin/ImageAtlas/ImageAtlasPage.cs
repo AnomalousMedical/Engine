@@ -6,6 +6,7 @@ using System.Text;
 using System.Drawing;
 using OgreWrapper;
 using System.Drawing.Imaging;
+using FreeImageAPI;
 
 namespace OgrePlugin
 {
@@ -40,19 +41,17 @@ namespace OgrePlugin
         /// <param name="name"></param>
         /// <param name="image"></param>
         /// <returns></returns>
-        internal unsafe bool addImage(String name, Bitmap image)
+        internal unsafe bool addImage(String name, FreeImageBitmap image)
         {
             ImagePackTreeNode node = rootNode.insert(name, image);
             if (node != null)
             {
-                BitmapData bmpData = image.LockBits(new Rectangle(new Point(), image.Size), ImageLockMode.ReadOnly, image.PixelFormat);
-                using (PixelBox pixelBox = new PixelBox(0, 0, bmpData.Width, bmpData.Height, OgreDrawingUtility.getOgreFormat(image.PixelFormat), bmpData.Scan0.ToPointer()))
+                using (PixelBox pixelBox = new PixelBox(0, 0, image.Width, image.Height, OgreDrawingUtility.getOgreFormat(image.PixelFormat), image.GetScanlinePointer(0).ToPointer()))
                 {
                     Rectangle locationRect = node.LocationRect;
                     bufferPtr.Value.blitFromMemory(pixelBox, locationRect.Left, locationRect.Top, locationRect.Right, locationRect.Bottom);
                     imageInfo.Add(name, node);
                 }
-                image.UnlockBits(bmpData);
                 return true;
             }
             else

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using FreeImageAPI;
 
 namespace OgrePlugin
 {
@@ -50,7 +51,7 @@ namespace OgrePlugin
             }
         }
 
-        public ImagePackTreeNode insert(String imageID, Bitmap img)
+        public ImagePackTreeNode insert(String imageID, FreeImageBitmap img)
         {
             //If not a leaf and both children are full
             if (!IsLeaf)
