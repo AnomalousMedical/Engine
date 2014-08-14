@@ -41,20 +41,6 @@ namespace MyGUIPlugin
             MyGUIInterface.Instance.CommonResourceGroup.removeResource(name);
         }
 
-        public String addImage(Object resourceKey, Image image)
-        {
-            IntSize2 size;
-            return addImage(resourceKey, image, out size);
-        }
-
-        public String addImage(Object resourceKey, Image image, out IntSize2 imageSize)
-        {
-            using (FreeImageBitmap freeImage = new FreeImageBitmap(image))
-            {
-                return addImage(resourceKey, freeImage, out imageSize);
-            }
-        }
-
         public String addImage(Object resourceKey, FreeImageBitmap image)
         {
             IntSize2 size;
@@ -76,20 +62,6 @@ namespace MyGUIPlugin
             {
                 deleteImage(guid);
                 guidDictionary.Remove(resourceKey);
-            }
-        }
-
-        public void replaceImage(Object resourceKey, Image newImage)
-        {
-            IntSize2 imageSize;
-            replaceImage(resourceKey, newImage, out imageSize);
-        }
-
-        public void replaceImage(Object resourceKey, Image newImage, out IntSize2 imageSize)
-        {
-            using (FreeImageBitmap freeImage = new FreeImageBitmap(newImage))
-            {
-                replaceImage(resourceKey, freeImage, out imageSize);
             }
         }
 
