@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using OgreWrapper;
-using System.Drawing.Imaging;
 using FreeImageAPI;
 
 namespace OgrePlugin

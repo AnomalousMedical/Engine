@@ -6,7 +6,6 @@ using Engine;
 using OgreWrapper;
 using System.Drawing;
 using System.IO;
-using System.Drawing.Imaging;
 using Logging;
 using FreeImageAPI;
 

@@ -8,7 +8,7 @@ namespace OgrePlugin
 {
     public static class OgreDrawingUtility
     {
-        public static OgreWrapper.PixelFormat getOgreFormat(System.Drawing.Imaging.PixelFormat pixelFormat)
+        public static OgreWrapper.PixelFormat getOgreFormat(FreeImageAPI.PixelFormat pixelFormat)
         {
             switch (pixelFormat)
             {
@@ -17,32 +17,32 @@ namespace OgrePlugin
                 //     Specifies that the format is 16 bits per pixel; 5 bits are used for the red
                 //     component, 6 bits are used for the green component, and 5 bits are used for
                 //     the blue component.
-                case System.Drawing.Imaging.PixelFormat.Format16bppRgb565:
+                case FreeImageAPI.PixelFormat.Format16bppRgb565:
                     return OgreWrapper.PixelFormat.PF_R5G6B5;
                 //
                 // Summary:
                 //     Specifies that the format is 24 bits per pixel; 8 bits each are used for
                 //     the red, green, and blue components.
-                case System.Drawing.Imaging.PixelFormat.Format24bppRgb:
+                case FreeImageAPI.PixelFormat.Format24bppRgb:
                     return OgreWrapper.PixelFormat.PF_R8G8B8;
                 //
                 // Summary:
                 //     Specifies that the format is 32 bits per pixel; 8 bits each are used for
                 //     the red, green, and blue components. The remaining 8 bits are not used.
-                case System.Drawing.Imaging.PixelFormat.Format32bppRgb:
+                case FreeImageAPI.PixelFormat.Format32bppRgb:
                     return OgreWrapper.PixelFormat.PF_R8G8B8;
                 //
                 // Summary:
                 //     The pixel format is 16 bits per pixel. The color information specifies 32,768
                 //     shades of color, of which 5 bits are red, 5 bits are green, 5 bits are blue,
                 //     and 1 bit is alpha.
-                case System.Drawing.Imaging.PixelFormat.Format16bppArgb1555:
+                case FreeImageAPI.PixelFormat.Format16bppArgb1555:
                     return OgreWrapper.PixelFormat.PF_A1R5G5B5;
                 //
                 // Summary:
                 //     Specifies that the format is 32 bits per pixel; 8 bits each are used for
                 //     the alpha, red, green, and blue components.
-                case System.Drawing.Imaging.PixelFormat.Format32bppArgb:
+                case FreeImageAPI.PixelFormat.Format32bppArgb:
                     return OgreWrapper.PixelFormat.PF_A8R8G8B8;
                     
                 default:
