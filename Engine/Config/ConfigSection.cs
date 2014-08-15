@@ -138,9 +138,10 @@ namespace Engine
 
         public String getValue(String name, Func<String> defaultValFunc)
         {
-            if (configValues.ContainsKey(name))
+            String strVal;
+            if (configValues.TryGetValue(name, out strVal))
             {
-                return configValues[name];
+                return strVal;
             }
 
             String defaultVal = defaultValFunc();
@@ -150,9 +151,10 @@ namespace Engine
 
         public String getValue(String name, String defaultVal)
         {
-            if (configValues.ContainsKey(name))
+            String strVal;
+            if (configValues.TryGetValue(name, out strVal))
             {
-                return configValues[name];
+                return strVal;
             }
             else
             {
@@ -163,10 +165,11 @@ namespace Engine
 
         public bool getValue(String name, Func<bool> defaultValFunc)
         {
-            if (configValues.ContainsKey(name))
+            String strVal;
+            if (configValues.TryGetValue(name, out strVal))
             {
                 bool result;
-                bool success = bool.TryParse(configValues[name], out result);
+                bool success = bool.TryParse(strVal, out result);
                 if (success)
                 {
                     return result;
@@ -179,10 +182,11 @@ namespace Engine
 
         public bool getValue(String name, bool defaultVal)
         {
-	        if (configValues.ContainsKey(name))
+            String strVal;
+            if (configValues.TryGetValue(name, out strVal))
             {
 		        bool result;
-		        bool success = bool.TryParse(configValues[name], out result);
+		        bool success = bool.TryParse(strVal, out result);
 		        if(success)
 		        {
 			        return result;
@@ -194,10 +198,11 @@ namespace Engine
 
         public char getValue(String name, char defaultVal)
         {
-	        if (configValues.ContainsKey(name))
+            String strVal;
+            if (configValues.TryGetValue(name, out strVal))
             {
 		        char result;
-		        bool success = NumberParser.TryParse(configValues[name], out result);
+		        bool success = NumberParser.TryParse(strVal, out result);
 		        if(success)
 		        {
 			        return result;
@@ -209,10 +214,11 @@ namespace Engine
 
         public byte getValue(String name, byte defaultVal)
         {
-	        if (configValues.ContainsKey(name))
+            String strVal;
+            if (configValues.TryGetValue(name, out strVal))
             {
 		        byte result;
-		        bool success = NumberParser.TryParse(configValues[name], out result);
+		        bool success = NumberParser.TryParse(strVal, out result);
 		        if(success)
 		        {
 			        return result;
@@ -224,10 +230,11 @@ namespace Engine
 
         public short getValue(String name, short defaultVal)
         {
-	        if (configValues.ContainsKey(name))
+            String strVal;
+            if (configValues.TryGetValue(name, out strVal))
             {
 		        short result;
-		        bool success = NumberParser.TryParse(configValues[name], out result);
+		        bool success = NumberParser.TryParse(strVal, out result);
 		        if(success)
 		        {
 			        return result;
@@ -239,10 +246,11 @@ namespace Engine
 
         public ushort getValue(String name, ushort defaultVal)
         {
-	        if (configValues.ContainsKey(name))
+            String strVal;
+            if (configValues.TryGetValue(name, out strVal))
             {
 		        ushort result;
-		        bool success = UInt16.TryParse(configValues[name], out result);
+		        bool success = UInt16.TryParse(strVal, out result);
 		        if(success)
 		        {
 			        return result;
@@ -254,10 +262,11 @@ namespace Engine
 
         public int getValue(String name, int defaultVal)
         {
-	        if (configValues.ContainsKey(name))
+            String strVal;
+            if (configValues.TryGetValue(name, out strVal))
             {
 		        int result;
-		        bool success = NumberParser.TryParse(configValues[name], out result);
+		        bool success = NumberParser.TryParse(strVal, out result);
 		        if(success)
 		        {
 			        return result;
@@ -269,10 +278,11 @@ namespace Engine
 
         public uint getValue(String name, uint defaultVal)
         {
-	        if (configValues.ContainsKey(name))
+            String strVal;
+            if (configValues.TryGetValue(name, out strVal))
             {
 		        uint result;
-		        bool success = UInt32.TryParse(configValues[name], out result);
+		        bool success = UInt32.TryParse(strVal, out result);
 		        if(success)
 		        {
 			        return result;
@@ -284,10 +294,11 @@ namespace Engine
 
         public long getValue(String name, long defaultVal)
         {
-	        if (configValues.ContainsKey(name))
+            String strVal;
+            if (configValues.TryGetValue(name, out strVal))
             {
 		        long result;
-		        bool success = NumberParser.TryParse(configValues[name], out result);
+		        bool success = NumberParser.TryParse(strVal, out result);
 		        if(success)
 		        {
 			        return result;
@@ -299,10 +310,11 @@ namespace Engine
 
         public ulong getValue(String name, ulong defaultVal)
         {
-	        if (configValues.ContainsKey(name))
+            String strVal;
+            if (configValues.TryGetValue(name, out strVal))
             {
 		        UInt32 result;
-		        bool success = UInt32.TryParse(configValues[name], out result);
+		        bool success = UInt32.TryParse(strVal, out result);
 		        if(success)
 		        {
 			        return result;
@@ -314,10 +326,11 @@ namespace Engine
 
         public float getValue(String name, float defaultVal)
         {
-	        if (configValues.ContainsKey(name))
+            String strVal;
+            if (configValues.TryGetValue(name, out strVal))
             {
 		        float result;
-		        bool success = NumberParser.TryParse(configValues[name], out result);
+		        bool success = NumberParser.TryParse(strVal, out result);
 		        if(success)
 		        {
 			        return result;
@@ -329,10 +342,11 @@ namespace Engine
 
         public double getValue(String name, double defaultVal)
         {
-	        if (configValues.ContainsKey(name))
+            String strVal;
+            if (configValues.TryGetValue(name, out strVal))
             {
 		        double result;
-		        bool success = NumberParser.TryParse(configValues[name], out result);
+		        bool success = NumberParser.TryParse(strVal, out result);
 		        if(success)
 		        {
 			        return result;
@@ -344,10 +358,11 @@ namespace Engine
 
         public Vector3 getValue(String name, Vector3 defaultVal)
         {
-	        if (configValues.ContainsKey(name))
+            String strVal;
+            if (configValues.TryGetValue(name, out strVal))
             {
                 Vector3 result = new Vector3(); ;
-		        bool success = result.setValue(configValues[name]);
+		        bool success = result.setValue(strVal);
 		        if(success)
 		        {
 			        return result;
@@ -359,14 +374,15 @@ namespace Engine
 
         public Quaternion getValue(String name, Quaternion defaultVal)
         {
-	        if (configValues.ContainsKey(name))
+            String strVal;
+            if (configValues.TryGetValue(name, out strVal))
             {
-		        Quaternion result = new Quaternion();
-		        bool success = result.setValue(configValues[name]);
-		        if(success)
-		        {
-			        return result;
-		        }
+                Quaternion result = new Quaternion();
+                bool success = result.setValue(strVal);
+                if (success)
+                {
+                    return result;
+                }
             }
 	        setValue(name, defaultVal);
 	        return defaultVal;
