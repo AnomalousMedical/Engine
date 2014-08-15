@@ -41,7 +41,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FreeImageNET">
-      <HintPath>..\..\Dependencies\FreeImage.NET\Release\FreeImageNET.dll</HintPath>
+      <HintPath>..\..\Dependencies\FreeImage.NET\Library\bin\Release\FreeImageNET.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
