@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Engine;
 using OgreWrapper;
-using System.Drawing;
 using System.IO;
 using Logging;
 using FreeImageAPI;
