@@ -212,5 +212,22 @@ namespace Engine
         {
             return value.ToString(CultureInfo.InvariantCulture);
         }
+
+        //DateTime (not a number but close enough), uses round trip format
+        public static DateTime ParseDateTime(String s)
+        {
+            return DateTime.Parse(s, null, DateTimeStyles.RoundtripKind);
+        }
+
+        public static bool TryParse(String s, out DateTime value)
+        {
+            return DateTime.TryParse(s, null, DateTimeStyles.RoundtripKind, out value);
+        }
+
+        public static String ToString(DateTime value)
+        {
+            return value.ToString("o");
+        }
+
     }
 }

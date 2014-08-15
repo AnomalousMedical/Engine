@@ -118,6 +118,11 @@ namespace Engine
 	        setValue(name, value.ToString());
         }
 
+        public void setValue(string name, DateTime value)
+        {
+            setValue(name, NumberParser.ToString(value));
+        }
+
         public void removeValue(String name)
         {
             if (configValues.ContainsKey(name))
@@ -365,6 +370,18 @@ namespace Engine
             }
 	        setValue(name, defaultVal);
 	        return defaultVal;
+        }
+
+        public DateTime getValue(String name, DateTime defaultVal)
+        {
+            DateTime retVal;
+            String strVal;
+            if(!configValues.TryGetValue(name, out strVal) || !NumberParser.TryParse(strVal, out retVal))
+            {
+                retVal = defaultVal;
+                setValue(name, defaultVal);
+            }
+            return retVal;
         }
 
         public void clearValues()
