@@ -96,7 +96,7 @@ namespace OgreModelEditor.Controller
             currentSimObject = simObjectDefinition.register(scene.getDefaultSubScene());
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            scene.buildScene();
+            scene.buildScene(SceneBuildOptions.None);
             sw.Stop();
             Log.Info("Scene loaded in {0} ms.", sw.ElapsedMilliseconds);
             entity = ((SceneNodeElement)currentSimObject.getElement("EntityNode")).getNodeObject("Entity") as Entity;

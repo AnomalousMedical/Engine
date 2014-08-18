@@ -111,9 +111,9 @@ namespace Engine.ObjectManagement
         /// Force the parent scene to run its build routines again. This will
         /// create any sim objects that are pending since the last build.
         /// </summary>
-        public void buildScene()
+        public void buildScene(SceneBuildOptions options)
         {
-            scene.buildScene();
+            scene.buildScene(options);
         }
 
         #endregion Functions

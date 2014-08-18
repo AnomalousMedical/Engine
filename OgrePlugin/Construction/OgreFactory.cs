@@ -36,7 +36,7 @@ namespace OgrePlugin
         /// <summary>
         /// Build all products currently registered.
         /// </summary>
-        public IEnumerable<SceneBuildStatus> createProducts()
+        public IEnumerable<SceneBuildStatus> createProducts(SceneBuildOptions options)
         {
             SceneBuildStatus status = new SceneBuildStatus()
             {

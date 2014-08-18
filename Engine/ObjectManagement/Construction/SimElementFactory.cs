@@ -18,7 +18,7 @@ namespace Engine.ObjectManagement
         /// function call) that will allow something loading the scene to follow
         /// the status of the load.
         /// </summary>
-        IEnumerable<SceneBuildStatus> createProducts();
+        IEnumerable<SceneBuildStatus> createProducts(SceneBuildOptions options);
 
         /// <summary>
         /// Create all products for static mode operation currently registered

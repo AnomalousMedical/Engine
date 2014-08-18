@@ -32,9 +32,9 @@ namespace Engine
         /// Build the product normally.
         /// </summary>
         /// <param name="scene">The scene to add the product to.</param>
-        public void createProduct(BehaviorManager scene)
+        public void createProduct(BehaviorManager scene, bool copyBehavior)
         {
-            createdBehavior = definition.createProduct(instance, scene);
+            createdBehavior = definition.createProduct(instance, scene, copyBehavior);
         }
 
         /// <summary>

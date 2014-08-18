@@ -6,6 +6,22 @@ using Logging;
 
 namespace Engine.ObjectManagement
 {
+    [Flags]
+    public enum SceneBuildOptions
+    {
+        /// <summary>
+        /// No options
+        /// </summary>
+        None = 0,
+
+        /// <summary>
+        /// This flag indicates that the SimSceneDefinitions loaded into the scene will only be used one time,
+        /// this will allow for the subsystems to optimize construction if needed. It is important that you do
+        /// actually throw the definitions away and not use them again if you set this flag.
+        /// </summary>
+        SingleUseDefinitions = 1,
+    }
+
     /// <summary>
     /// A SimScene is a container that holds all SimElementManagers that are
     /// created to represent a given scene. The actual usage of these elements
@@ -144,9 +160,9 @@ namespace Engine.ObjectManagement
         /// <summary>
         /// Build all objects registered with the scene.
         /// </summary>
-        public void buildScene()
+        public void buildScene(SceneBuildOptions options = SceneBuildOptions.None)
         {
-            foreach (var status in buildSceneStatus()) { }
+            foreach (var status in buildSceneStatus(options)) { }
         }
 
         /// <summary>
@@ -154,11 +170,11 @@ namespace Engine.ObjectManagement
         /// along the way. You must walk the enumerator to fully load the scene.
         /// </summary>
         /// <returns>SceneBuildStatus objects with the status of the scene load.</returns>
-        public IEnumerable<SceneBuildStatus> buildSceneStatus()
+        public IEnumerable<SceneBuildStatus> buildSceneStatus(SceneBuildOptions options = SceneBuildOptions.None)
         {
             foreach (SimElementManager manager in simElementManagers)
             {
-                foreach(var createStatus in manager.getFactory().createProducts())
+                foreach(var createStatus in manager.getFactory().createProducts(options))
                 {
                     yield return createStatus;
                 }

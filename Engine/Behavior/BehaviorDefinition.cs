@@ -77,9 +77,17 @@ namespace Engine
             return editInterface;
         }
 
-        internal Behavior createProduct(SimObjectBase instance, BehaviorManager behaviorManager)
+        internal Behavior createProduct(SimObjectBase instance, BehaviorManager behaviorManager, bool copyBehavior)
         {
-            Behavior behavior = MemberCopier.CreateCopy<Behavior>(behaviorTemplate);
+            Behavior behavior;
+            if (copyBehavior)
+            {
+                behavior = MemberCopier.CreateCopy<Behavior>(behaviorTemplate);
+            }
+            else
+            {
+                behavior = behaviorTemplate;
+            }
             behavior.setAttributes(Name, subscription, behaviorManager);
             instance.addElement(behavior);
             return behavior;

@@ -97,13 +97,13 @@ namespace Engine.ObjectManagement
         /// objects after the build process has run during scene execution.
         /// </summary>
         /// <param name="definition">The definition of the object to create.</param>
-        public SimObjectBase createLiveSimObject(SimObjectDefinition definition)
+        public SimObjectBase createLiveSimObject(SimObjectDefinition definition, SceneBuildOptions options = SceneBuildOptions.None)
         {
             if (!simObjects.ContainsKey(definition.Name))
             {
                 SimObjectBase simObj = definition.register(subScene);
                 addSimObject(simObj);
-                subScene.buildScene();
+                subScene.buildScene(options);
                 return simObj;
             }
             else

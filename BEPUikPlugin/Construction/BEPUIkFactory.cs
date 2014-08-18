@@ -22,7 +22,7 @@ namespace BEPUikPlugin
             this.scene = scene;
         }
 
-        public IEnumerable<SceneBuildStatus> createProducts()
+        public IEnumerable<SceneBuildStatus> createProducts(SceneBuildOptions options)
         {
             SceneBuildStatus status = new SceneBuildStatus()
             {

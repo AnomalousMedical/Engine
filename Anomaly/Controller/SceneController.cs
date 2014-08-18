@@ -101,7 +101,7 @@ namespace Anomaly
         {
             if (dynamicMode)
             {
-                scene.buildScene();
+                scene.buildScene(SceneBuildOptions.None);
             }
             else
             {

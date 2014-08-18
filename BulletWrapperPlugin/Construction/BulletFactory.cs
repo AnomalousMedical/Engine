@@ -41,7 +41,7 @@ namespace BulletPlugin
 
         //internal void addSoftBodyAnchorOrJointDefinition(BulletElementDefinition definition, SimObjectBase instance);
 
-        public IEnumerable<SceneBuildStatus> createProducts()
+        public IEnumerable<SceneBuildStatus> createProducts(SceneBuildOptions options)
         {
             SceneBuildStatus status = new SceneBuildStatus()
             {
