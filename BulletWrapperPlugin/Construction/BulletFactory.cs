@@ -41,8 +41,13 @@ namespace BulletPlugin
 
         //internal void addSoftBodyAnchorOrJointDefinition(BulletElementDefinition definition, SimObjectBase instance);
 
-        public void createProducts()
+        public IEnumerable<SceneBuildStatus> createProducts()
         {
+            SceneBuildStatus status = new SceneBuildStatus()
+            {
+                Subsystem = BulletInterface.Instance.getName()
+            };
+            yield return status;
             foreach(BulletFactoryEntry entry in rigidBodies)
 	        {
 		        entry.createProduct(scene);

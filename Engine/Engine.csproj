@@ -158,6 +158,7 @@
     <Compile Include="MemberCopier\IDictionaryMemberCopier.cs" />
     <Compile Include="MemberCopier\MemberCopier.cs" />
     <Compile Include="MemberCopier\SimpleMemberCopier.cs" />
+    <Compile Include="ObjectManagement\Instance\SceneBuildStatus.cs" />
     <Compile Include="Reflection\Vector3NullableReflectedVariable.cs" />
     <Compile Include="Renderer\DebugDrawingSurfaceHelpers.cs" />
     <Compile Include="Resources\ResourceEditableProperty.cs" />

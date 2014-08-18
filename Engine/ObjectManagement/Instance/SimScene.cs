@@ -146,9 +146,22 @@ namespace Engine.ObjectManagement
         /// </summary>
         public void buildScene()
         {
+            foreach (var status in buildSceneStatus()) { }
+        }
+
+        /// <summary>
+        /// Build all objects in the scene getting an enumeration over the status
+        /// along the way. You must walk the enumerator to fully load the scene.
+        /// </summary>
+        /// <returns>SceneBuildStatus objects with the status of the scene load.</returns>
+        public IEnumerable<SceneBuildStatus> buildSceneStatus()
+        {
             foreach (SimElementManager manager in simElementManagers)
             {
-                manager.getFactory().createProducts();
+                foreach(var createStatus in manager.getFactory().createProducts())
+                {
+                    yield return createStatus;
+                }
             }
             foreach (SimElementManager manager in simElementManagers)
             {

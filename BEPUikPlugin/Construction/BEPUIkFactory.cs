@@ -22,8 +22,14 @@ namespace BEPUikPlugin
             this.scene = scene;
         }
 
-        public void createProducts()
+        public IEnumerable<SceneBuildStatus> createProducts()
         {
+            SceneBuildStatus status = new SceneBuildStatus()
+            {
+                Subsystem = BEPUikInterface.Instance.getName()
+            };
+            yield return status;
+
             foreach(var entry in independentPhaseEntries)
             {
                 entry.createProduct(scene);

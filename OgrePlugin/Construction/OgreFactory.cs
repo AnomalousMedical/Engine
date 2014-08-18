@@ -36,11 +36,19 @@ namespace OgrePlugin
         /// <summary>
         /// Build all products currently registered.
         /// </summary>
-        public void createProducts()
+        public IEnumerable<SceneBuildStatus> createProducts()
         {
+            SceneBuildStatus status = new SceneBuildStatus()
+            {
+                Subsystem = OgreInterface.Instance.getName(),
+                NumItems = sceneNodes.Count
+            };
+            yield return status;
             foreach (OgreFactoryEntry entry in sceneNodes)
             {
                 entry.createProduct(targetScene);
+                status.CurrentItem++;
+                yield return status;
             }
         }
 

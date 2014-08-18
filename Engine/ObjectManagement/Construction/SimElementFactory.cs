@@ -13,9 +13,12 @@ namespace Engine.ObjectManagement
     {
         /// <summary>
         /// Create all products for normal operation currently registered for
-        /// construction in this factory.
+        /// construction in this factory. This function can be an enumerator that
+        /// returns SceneBuildStatus objects (pooling this is desired, make one per
+        /// function call) that will allow something loading the scene to follow
+        /// the status of the load.
         /// </summary>
-        void createProducts();
+        IEnumerable<SceneBuildStatus> createProducts();
 
         /// <summary>
         /// Create all products for static mode operation currently registered

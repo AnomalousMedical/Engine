@@ -28,8 +28,13 @@ namespace Engine
         /// Create all products for normal operation currently registered for
         /// construction in this factory.
         /// </summary>
-        public void createProducts()
+        public IEnumerable<SceneBuildStatus> createProducts()
         {
+            SceneBuildStatus status = new SceneBuildStatus()
+            {
+                Subsystem = BehaviorInterface.Instance.getName()
+            };
+            yield return status;
             foreach (BehaviorFactoryEntry entry in currentBehaviors)
             {
                 entry.createProduct(manager);

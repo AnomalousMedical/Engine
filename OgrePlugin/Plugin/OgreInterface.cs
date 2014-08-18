@@ -198,7 +198,7 @@ namespace OgrePlugin
 
         public string getName()
         {
-            return "OgrePlugin";
+            return PluginName;
         }
 
         public DebugInterface getDebugInterface()
