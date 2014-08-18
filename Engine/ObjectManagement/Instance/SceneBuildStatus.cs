@@ -14,6 +14,18 @@ namespace Engine.ObjectManagement
 
         public int CurrentItem { get; set; }
 
+        public float CurrentPercent
+        {
+            get
+            {
+                if (NumItems != 0)
+                {
+                    return CurrentItem / (float)NumItems;
+                }
+                return 0.0f;
+            }
+        }
+
         public String Message { get; set; }
     }
 }
