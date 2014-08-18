@@ -14,6 +14,8 @@ namespace Engine.Saving
     {
         protected static readonly Type[] constructorArgs = { typeof(LoadInfo) };
 
+        private static Dictionary<Type, ConstructorInfo> ConstructorCache = new Dictionary<Type, ConstructorInfo>();
+
         long objectID;
         Object value;
         Type objectType;
@@ -45,7 +47,12 @@ namespace Engine.Saving
         /// <returns></returns>
         public virtual Object restoreObject(LoadInfo loadInfo)
         {
-            ConstructorInfo constructor = ObjectType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, constructorArgs, null);
+            ConstructorInfo constructor;
+            if (!ConstructorCache.TryGetValue(ObjectType, out constructor))
+            {
+                constructor = ObjectType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, constructorArgs, null);
+                ConstructorCache.Add(ObjectType, constructor);
+            }
             if (constructor != null)
             {
                 Value = constructor.Invoke(new Object[] { loadInfo });

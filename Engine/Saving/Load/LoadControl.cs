@@ -13,7 +13,6 @@ namespace Engine.Saving
         /// </summary>
         public const long NullObject = -1;
         
-
         private Stack<LoadInfo> pooledInfos = new Stack<LoadInfo>();
         private Dictionary<long, ObjectIdentifier> identiferMap = new Dictionary<long, ObjectIdentifier>();
         private ObjectIdentifier currentIdentifier;

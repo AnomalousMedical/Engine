@@ -56,7 +56,7 @@ namespace Engine
         private ConfigFile configFile;
         private String pluginDirectory = null;
         private VirtualFileSystem virtualFileSystem;
-        private Dictionary<String, Type> slowSearchTypeCache = new Dictionary<string, Type>();//After a slow search is done for a type it will be stored here for faster lookup if it is needed again.
+        private Dictionary<String, Type> typeCache = new Dictionary<string, Type>();//After a type is found for an AssemblyQualifiedName it will be stored here.
         private RenamedTypeMap renamedTypeMap = null;
 
         #endregion Fields
@@ -179,21 +179,21 @@ namespace Engine
         /// <returns>The matching type or null if the type cannot be found.</returns>
         internal Type findType(String assemblyQualifiedName)
         {
-            Type type = Type.GetType(assemblyQualifiedName, false);
-            //If that fails do the slow search.
-            if (type == null)
+            Type type;
+            if (!typeCache.TryGetValue(assemblyQualifiedName, out type))
             {
-                slowSearchTypeCache.TryGetValue(assemblyQualifiedName, out type);
+                type = Type.GetType(assemblyQualifiedName, false);
+                //If that fails do the slow search.
                 if (type == null)
                 {
                     Log.Warning("Had to do slow search looking for type \'{0}\'. You should fix the source file searching for this type", assemblyQualifiedName);
                     String typeName = assemblyQualifiedName.Split(SPLIT)[0];
 
                     //If there is not yet a renamed type map, create it.
-                    if(renamedTypeMap == null)
+                    if (renamedTypeMap == null)
                     {
                         renamedTypeMap = new RenamedTypeMap();
-                        foreach(var plugin in loadedPlugins)
+                        foreach (var plugin in loadedPlugins)
                         {
                             plugin.setupRenamedSaveableTypes(renamedTypeMap);
                         }
@@ -228,9 +228,9 @@ namespace Engine
                     if (type != null)
                     {
                         Log.Warning("Slow search match found for type \'{0}\'. Replacement type is \'{1}\'", assemblyQualifiedName, type.AssemblyQualifiedName);
-                        slowSearchTypeCache.Add(assemblyQualifiedName, type);
                     }
                 }
+                typeCache.Add(assemblyQualifiedName, type);
             }
             return type;
         }
