@@ -45,7 +45,7 @@ namespace BulletPlugin
         {
             SceneBuildStatus status = new SceneBuildStatus()
             {
-                Subsystem = BulletInterface.Instance.getName()
+                Subsystem = BulletInterface.Instance.Name
             };
             yield return status;
             foreach(BulletFactoryEntry entry in rigidBodies)

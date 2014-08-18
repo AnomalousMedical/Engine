@@ -26,7 +26,7 @@ namespace BEPUikPlugin
         {
             SceneBuildStatus status = new SceneBuildStatus()
             {
-                Subsystem = BEPUikInterface.Instance.getName()
+                Subsystem = BEPUikInterface.Instance.Name
             };
             yield return status;
 

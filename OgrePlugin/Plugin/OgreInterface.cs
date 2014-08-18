@@ -196,9 +196,12 @@ namespace OgrePlugin
             mainTimer.addUpdateListenerWithBackgrounding("Rendering", ogreUpdate);
         }
 
-        public string getName()
+        public string Name
         {
-            return PluginName;
+            get
+            {
+                return PluginName;
+            }
         }
 
         public DebugInterface getDebugInterface()

@@ -56,9 +56,12 @@ namespace SoundPlugin
             mainTimer.addUpdateListener(soundUpdate);
         }
 
-        public string getName()
+        public string Name
         {
-            return "SoundPlugin";
+            get
+            {
+                return "SoundPlugin";
+            }
         }
 
         public DebugInterface getDebugInterface()

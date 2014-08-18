@@ -135,9 +135,12 @@ namespace MyGUIPlugin
             mainTimer.addUpdateListener(myGUIUpdate);
         }
 
-        public string getName()
+        public string Name
         {
-            return "MyGUIPlugin";
+            get
+            {
+                return "MyGUIPlugin";
+            }
         }
 
         public DebugInterface getDebugInterface()

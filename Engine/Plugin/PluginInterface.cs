@@ -45,8 +45,7 @@ namespace Engine
         /// value is unique. The best way would be to name it after the plugin
         /// dll.
         /// </summary>
-        /// <returns>The name of the plugin.</returns>
-        String getName();
+        String Name { get; }
 
         /// <summary>
         /// Get the DebugInterface for this plugin. This function might return

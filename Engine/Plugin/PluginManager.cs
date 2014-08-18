@@ -155,7 +155,7 @@ namespace Engine
         /// <param name="plugin">The plugin to add.</param>
         public void addPlugin(PluginInterface plugin)
         {
-            Log.Default.sendMessage("Plugin {0} added.", LogLevel.Info, "Engine", plugin.getName());
+            Log.Default.sendMessage("Plugin {0} added.", LogLevel.Info, "Engine", plugin.Name);
             loadedPlugins.Add(plugin);
             plugin.initialize(this);
             if(renamedTypeMap != null)
@@ -253,7 +253,7 @@ namespace Engine
         {
             foreach(PluginInterface plugin in loadedPlugins)
             {
-                if(plugin.getName() == name)
+                if(plugin.Name == name)
                 {
                     return plugin;
                 }
@@ -272,7 +272,7 @@ namespace Engine
             if (platformPlugin == null)
             {
                 platformPlugin = plugin;
-                Log.Default.sendMessage("Platform plugin set to {0}.", LogLevel.Info, "Engine", plugin.getName());
+                Log.Default.sendMessage("Platform plugin set to {0}.", LogLevel.Info, "Engine", plugin.Name);
             }
             else
             {
@@ -294,7 +294,7 @@ namespace Engine
             if (rendererPlugin == null)
             {
                 rendererPlugin = plugin;
-                Log.Default.sendMessage("Renderer plugin set to {0}.", LogLevel.Info, "Engine", plugin.getName());
+                Log.Default.sendMessage("Renderer plugin set to {0}.", LogLevel.Info, "Engine", plugin.Name);
                 if (OnConfigureDefaultWindow != null)
                 {
                     OnConfigureDefaultWindow.Invoke(out defaultWindow);

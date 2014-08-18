@@ -52,9 +52,12 @@ namespace Engine
             this.eventManager = eventManager;
         }
 
-        public string getName()
+        public string Name
         {
-            return "Behavior";
+            get
+            {
+                return "Behavior";
+            }
         }
 
         public DebugInterface getDebugInterface()

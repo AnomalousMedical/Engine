@@ -40,7 +40,7 @@ namespace OgrePlugin
         {
             SceneBuildStatus status = new SceneBuildStatus()
             {
-                Subsystem = OgreInterface.Instance.getName(),
+                Subsystem = OgreInterface.Instance.Name,
                 NumItems = sceneNodes.Count
             };
             yield return status;

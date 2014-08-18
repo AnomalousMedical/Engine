@@ -117,9 +117,12 @@ namespace libRocketPlugin
             systemInterface.Timer = mainTimer;
         }
 
-        public string getName()
+        public string Name
         {
-            return "libRocketPlugin";
+            get
+            {
+                return "libRocketPlugin";
+            }
         }
 
         public DebugInterface getDebugInterface()

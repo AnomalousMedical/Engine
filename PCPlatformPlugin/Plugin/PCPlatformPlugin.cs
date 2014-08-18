@@ -80,9 +80,12 @@ namespace PCPlatform
             
         }
 
-        public string getName()
+        public string Name
         {
-            return "PCPlatform";
+            get
+            {
+                return "PCPlatform";
+            }
         }
 
         public DebugInterface getDebugInterface()

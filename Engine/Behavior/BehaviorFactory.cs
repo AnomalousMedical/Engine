@@ -32,7 +32,7 @@ namespace Engine
         {
             SceneBuildStatus status = new SceneBuildStatus()
             {
-                Subsystem = BehaviorInterface.Instance.getName()
+                Subsystem = BehaviorInterface.Instance.Name
             };
             yield return status;
             foreach (BehaviorFactoryEntry entry in currentBehaviors)
