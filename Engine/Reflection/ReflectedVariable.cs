@@ -47,6 +47,7 @@ namespace Engine.Reflection
             typeMapping.Add(typeof(Decimal), (memberInfo, instance) => new DecimalReflectedVariable(memberInfo, instance));
             typeMapping.Add(typeof(Size2), (memberInfo, instance) => new Size2ReflectedVariable(memberInfo, instance));
             typeMapping.Add(typeof(IntSize2), (memberInfo, instance) => new IntSize2ReflectedVariable(memberInfo, instance));
+            typeMapping.Add(typeof(Guid), (memberInfo, instance) => new GuidReflectedVariable(memberInfo, instance));
         }
 
         /// <summary>
