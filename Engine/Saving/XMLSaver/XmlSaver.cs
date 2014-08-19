@@ -57,6 +57,7 @@ namespace Engine.Saving.XMLSaver
             addXmlValue<Vector3>(new XmlVector3(this));
             addXmlValue<Color>(new XmlColor(this));
             addXmlValue<byte[]>(new XmlBlob(this));
+            addXmlValue<Guid>(new XmlGuid(this));
             saveControl = new SaveControl(this, valueWriters, this);
         }
 

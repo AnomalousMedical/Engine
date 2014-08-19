@@ -155,6 +155,12 @@ namespace Engine.Saving
             entries.Add(name, new SaveEntry(name, value, typeof(byte[])));
         }
 
+        public void AddValue(String name, Guid value)
+        {
+            validate(name, value);
+            entries.Add(name, new SaveEntry(name, value, typeof(Guid)));
+        }
+
         public void ExtractDictionary<KeyType, ValueType>(String baseName, Dictionary<KeyType, ValueType> dictionary)
         {
             String keyBase = baseName + "Key";

@@ -317,6 +317,21 @@ namespace Engine.Saving
             return defaultValue;
         }
 
+        public Guid GetGuid(string name)
+        {
+            return (Guid)entries[name].Value;
+        }
+
+        public Guid GetGuid(string name, Guid defaultValue)
+        {
+            SaveEntry retVal;
+            if (entries.TryGetValue(name, out retVal))
+            {
+                return (Guid)retVal.Value;
+            }
+            return defaultValue;
+        }
+
         public Saveable GetValue(string name, Type type)
         {
             return (Saveable)entries[name].Value;

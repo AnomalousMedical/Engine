@@ -163,6 +163,7 @@
     <Compile Include="Renderer\DebugDrawingSurfaceHelpers.cs" />
     <Compile Include="Resources\ResourceEditableProperty.cs" />
     <Compile Include="Saving\RenamedTypeMap.cs" />
+    <Compile Include="Saving\XMLSaver\Values\XmlGuid.cs" />
     <Compile Include="Shim\AppDomainShim.cs" />
     <Compile Include="Shim\AssemblyShim.cs" />
     <Compile Include="Shim\EnvironmentShim.cs" />
