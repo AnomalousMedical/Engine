@@ -31,6 +31,7 @@ namespace Engine.Reflection
             typeMapping.Add(typeof(int), (memberInfo, instance) => new IntReflectedVariable(memberInfo, instance));
             typeMapping.Add(typeof(int?), (memberInfo, instance) => new IntNullableReflectedVariable(memberInfo, instance));
             typeMapping.Add(typeof(long), (memberInfo, instance) => new LongReflectedVariable(memberInfo, instance));
+            typeMapping.Add(typeof(long?), (memberInfo, instance) => new LongNullableReflectedVariable(memberInfo, instance));
             typeMapping.Add(typeof(float), (memberInfo, instance) => new FloatReflectedVariable(memberInfo, instance));
             typeMapping.Add(typeof(double), (memberInfo, instance) => new DoubleReflectedVariable(memberInfo, instance));
             typeMapping.Add(typeof(Quaternion), (memberInfo, instance) => new QuaternionReflectedVariable(memberInfo, instance));

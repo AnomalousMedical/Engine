@@ -160,6 +160,7 @@
     <Compile Include="MemberCopier\SimpleMemberCopier.cs" />
     <Compile Include="ObjectManagement\Instance\SceneBuildStatus.cs" />
     <Compile Include="Reflection\GuidReflectedVariable.cs" />
+    <Compile Include="Reflection\LongNullableReflectedVariable.cs" />
     <Compile Include="Reflection\Vector3NullableReflectedVariable.cs" />
     <Compile Include="Renderer\DebugDrawingSurfaceHelpers.cs" />
     <Compile Include="Resources\ResourceEditableProperty.cs" />
