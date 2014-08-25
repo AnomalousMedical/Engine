@@ -163,7 +163,7 @@ namespace ImageAtlasPacker
                 }
                 else
                 {
-                    heightText.Value = images.Count % imagesPerRow * resizedH;
+                    heightText.Value = images.Count / imagesPerRow * resizedH;
                 }
             }
         }
