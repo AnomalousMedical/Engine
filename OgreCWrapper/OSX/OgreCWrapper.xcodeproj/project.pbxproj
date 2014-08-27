@@ -87,6 +87,7 @@
 		01A69922135636B4008B7F31 /* Stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698D5135636B4008B7F31 /* Stdafx.cpp */; };
 		01A69923135636B4008B7F31 /* Stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 01A698D6135636B4008B7F31 /* Stdafx.h */; };
 		01C2B2731576A70500A28176 /* ManagedRenderSystemListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01C2B2721576A70500A28176 /* ManagedRenderSystemListener.cpp */; };
+		01DA8F5F19AE6BD300F71B59 /* StaticGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01DA8F5E19AE6BD300F71B59 /* StaticGeometry.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -171,6 +172,7 @@
 		01A698D5135636B4008B7F31 /* Stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Stdafx.cpp; path = ../Stdafx.cpp; sourceTree = SOURCE_ROOT; };
 		01A698D6135636B4008B7F31 /* Stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stdafx.h; path = ../Stdafx.h; sourceTree = SOURCE_ROOT; };
 		01C2B2721576A70500A28176 /* ManagedRenderSystemListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManagedRenderSystemListener.cpp; sourceTree = "<group>"; };
+		01DA8F5E19AE6BD300F71B59 /* StaticGeometry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StaticGeometry.cpp; sourceTree = "<group>"; };
 		5073E0C609E734A800EC74B6 /* OgreCWrapperProj.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = OgreCWrapperProj.xcconfig; sourceTree = "<group>"; };
 		5073E0C709E734A800EC74B6 /* OgreCWrapperTarget.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = OgreCWrapperTarget.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -217,6 +219,7 @@
 		01A69890135636B4008B7F31 /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				01DA8F5E19AE6BD300F71B59 /* StaticGeometry.cpp */,
 				015149F418D8D7700022F163 /* ManagedRenderTargetListener.cpp */,
 				015207E918D0B8830040D1F9 /* CompositorManager.cpp */,
 				015207EA18D0B8830040D1F9 /* GpuProgramManager.cpp */,
@@ -448,6 +451,7 @@
 				01A69912135636B4008B7F31 /* SubEntity.cpp in Sources */,
 				01A69913135636B4008B7F31 /* SubMesh.cpp in Sources */,
 				01A69914135636B4008B7F31 /* Technique.cpp in Sources */,
+				01DA8F5F19AE6BD300F71B59 /* StaticGeometry.cpp in Sources */,
 				01A69916135636B4008B7F31 /* Texture.cpp in Sources */,
 				01A69917135636B4008B7F31 /* TextureManager.cpp in Sources */,
 				01A69918135636B4008B7F31 /* TextureUnitState.cpp in Sources */,
