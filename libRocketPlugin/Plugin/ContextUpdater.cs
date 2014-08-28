@@ -72,7 +72,7 @@ namespace libRocketPlugin
 
         void Mouse_Moved(Mouse mouse, MouseButtonCode buttonCode)
         {
-            Vector3 absMouse = mouse.getAbsMouse();
+            Vector3 absMouse = mouse.AbsolutePosition;
             context.ProcessMouseMove((int)absMouse.x, (int)absMouse.y, 0);
             int wheel = (int)(lastMouseWheel - absMouse.z);
             if (wheel != 0)

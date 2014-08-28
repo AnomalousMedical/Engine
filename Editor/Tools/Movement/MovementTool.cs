@@ -97,7 +97,7 @@ namespace Editor
             {
                 //Process the mouse
                 Mouse mouse = events.Mouse;
-                Vector3 mouseLoc = mouse.getAbsMouse();
+                Vector3 mouseLoc = mouse.AbsolutePosition;
                 CameraMotionValidator validator = CameraResolver.getValidatorForLocation((int)mouseLoc.x, (int)mouseLoc.y);
                 if (validator != null)
                 {

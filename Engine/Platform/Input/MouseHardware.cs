@@ -18,19 +18,6 @@ namespace Engine.Platform
         }
 
 	    /// <summary>
-	    /// Returns the absolute mouse position on the screen bounded by the mouse area
-	    /// and 0, 0.
-	    /// </summary>
-	    /// <returns>The position of the mouse.</returns>
-        public abstract Vector3 getAbsMouse();
-
-	    /// <summary>
-	    /// Returns the relative mouse position from the last time capture was called.
-	    /// </summary>
-	    /// <returns>The relative mouse position.</returns>
-        public abstract Vector3 getRelMouse();
-
-	    /// <summary>
 	    /// Determines if the specified button is pressed.
 	    /// </summary>
 	    /// <returns>True if the button is pressed.  False if it is not.</returns>
@@ -47,17 +34,30 @@ namespace Engine.Platform
 	    /// <param name="sensitivity">The sensitivity to set.</param>
         public abstract void setSensitivity(float sensitivity);
 
+        /// <summary>
+        /// Returns the absolute mouse position on the screen bounded by the mouse area
+        /// and 0, 0.
+        /// </summary>
+        /// <returns>The position of the mouse.</returns>
+        public abstract Vector3 AbsolutePosition { get; }
+
+        /// <summary>
+        /// Returns the relative mouse position from the last time capture was called.
+        /// </summary>
+        /// <returns>The relative mouse position.</returns>
+        public abstract Vector3 RelativePosition { get; }
+
 	    /// <summary>
 	    /// Get the width that the mouse produces input for.
 	    /// </summary>
 	    /// <returns>The width of the mouse area.</returns>
-        public abstract float getMouseAreaWidth();
+        public abstract float AreaWidth { get; }
 
 	    /// <summary>
 	    /// Get the height that the mouse produces input for.
 	    /// </summary>
 	    /// <returns>The height of the mouse area.</returns>
-        public abstract float getMouseAreaHeight();
+        public abstract float AreaHeight { get; }
 
         protected void fireButtonDown(MouseButtonCode button)
         {

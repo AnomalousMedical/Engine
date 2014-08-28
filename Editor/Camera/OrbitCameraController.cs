@@ -79,7 +79,7 @@ namespace Editor
         {
             if (camera != null)
             {
-                Vector3 mouseCoords = events.Mouse.getAbsMouse();
+                Vector3 mouseCoords = events.Mouse.AbsolutePosition;
                 bool activeWindow = motionValidator == null || (motionValidator.allowMotion((int)mouseCoords.x, (int)mouseCoords.y) && motionValidator.isActiveWindow());
                 if (events[CameraEvents.RotateCamera].FirstFrameDown)
                 {
@@ -92,13 +92,13 @@ namespace Editor
                 {
                     currentlyInMotion = false;
                 }
-                mouseCoords = events.Mouse.getRelMouse();
+                mouseCoords = events.Mouse.RelativePosition;
                 if (currentlyInMotion)
                 {
                     if (events[CameraEvents.PanCamera].Down)
                     {
-                        lookAt += rotatedLeft * (mouseCoords.x / (events.Mouse.getMouseAreaWidth() * SCROLL_SCALE) * orbitDistance);
-                        lookAt += rotatedUp * (mouseCoords.y / (events.Mouse.getMouseAreaHeight() * SCROLL_SCALE) * orbitDistance);
+                        lookAt += rotatedLeft * (mouseCoords.x / (events.Mouse.AreaWidth * SCROLL_SCALE) * orbitDistance);
+                        lookAt += rotatedUp * (mouseCoords.y / (events.Mouse.AreaHeight * SCROLL_SCALE) * orbitDistance);
                         updateTranslation(lookAt + normalDirection * orbitDistance);
                     }
                     else if (events[CameraEvents.ZoomCamera].Down)

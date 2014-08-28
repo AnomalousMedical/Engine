@@ -33,16 +33,6 @@ namespace PCPlatform
             oisMouse_setWindowSize(mouse, windowWidth, windowHeight);
         }
 
-        public override Vector3 getAbsMouse()
-        {
-            return abs;
-        }
-
-        public override Vector3 getRelMouse()
-        {
-            return rel;
-        }
-
         public override bool buttonDown(MouseButtonCode button)
         {
             return oisMouse_buttonDown(mouse, button);
@@ -58,14 +48,36 @@ namespace PCPlatform
             this.sensitivity = sensitivity;
         }
 
-        public override float getMouseAreaWidth()
+        public override Vector3 AbsolutePosition
         {
-            return windowWidth;
+            get
+            {
+                return abs;
+            }
         }
 
-        public override float getMouseAreaHeight()
+        public override Vector3 RelativePosition
         {
-            return windowHeight;
+            get
+            {
+                return rel;
+            }
+        }
+
+        public override float AreaWidth
+        {
+            get
+            {
+                return windowWidth;
+            }
+        }
+
+        public override float AreaHeight
+        {
+            get
+            {
+                return windowHeight;
+            }
         }
 
         internal IntPtr MouseHandle

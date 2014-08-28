@@ -33,25 +33,6 @@ namespace Engine.Platform
         public event MouseCallback Moved;
 
         /// <summary>
-        /// Returns the absolute mouse position on the screen bounded by the mouse area
-        /// and 0, 0.
-        /// </summary>
-        /// <returns>The position of the mouse.</returns>
-        public Vector3 getAbsMouse()
-        {
-            return mouseHardware.getAbsMouse();
-        }
-
-        /// <summary>
-        /// Returns the relative mouse position from the last time capture was called.
-        /// </summary>
-        /// <returns>The relative mouse position.</returns>
-        public Vector3 getRelMouse()
-        {
-            return mouseHardware.getRelMouse();
-        }
-
-        /// <summary>
         /// Determines if the specified button is pressed.
         /// </summary>
         /// <returns>True if the button is pressed.  False if it is not.</returns>
@@ -61,21 +42,50 @@ namespace Engine.Platform
         }
 
         /// <summary>
+        /// Returns the absolute mouse position on the screen bounded by the mouse area
+        /// and 0, 0.
+        /// </summary>
+        /// <returns>The position of the mouse.</returns>
+        public Vector3 AbsolutePosition
+        {
+            get
+            {
+                return mouseHardware.AbsolutePosition;
+            }
+        }
+
+        /// <summary>
+        /// Returns the relative mouse position from the last time capture was called.
+        /// </summary>
+        /// <returns>The relative mouse position.</returns>
+        public Vector3 RelativePosition
+        {
+            get
+            {
+                return mouseHardware.RelativePosition;
+            }
+        }
+
+        /// <summary>
         /// Get the width that the mouse produces input for.
         /// </summary>
-        /// <returns>The width of the mouse area.</returns>
-        public float getMouseAreaWidth()
+        public float AreaWidth
         {
-            return mouseHardware.getMouseAreaWidth();
+            get
+            {
+                return mouseHardware.AreaWidth;
+            }
         }
 
         /// <summary>
         /// Get the height that the mouse produces input for.
         /// </summary>
-        /// <returns>The height of the mouse area.</returns>
-        public float getMouseAreaHeight()
+        public float AreaHeight
         {
-            return mouseHardware.getMouseAreaHeight();
+            get
+            {
+                return mouseHardware.AreaHeight;
+            }
         }
 
         internal void fireButtonDown(MouseButtonCode button)

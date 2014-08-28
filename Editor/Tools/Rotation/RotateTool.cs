@@ -46,7 +46,7 @@ namespace Editor
         {
             //Process the mouse
             Mouse mouse = events.Mouse;
-            Vector3 mouseLoc = mouse.getAbsMouse();
+            Vector3 mouseLoc = mouse.AbsolutePosition;
             CameraMotionValidator validator = activeValidator;
             if (validator == null)
             {
@@ -96,7 +96,7 @@ namespace Editor
             }
             else if (events[ToolEvents.Pick].Down && (xAxis.isSelected() || yAxis.isSelected() || zAxis.isSelected()))
             {
-                Vector3 relMouse = mouse.getRelMouse();
+                Vector3 relMouse = mouse.RelativePosition;
                 float amount = relMouse.x + relMouse.y;
                 amount /= 100;
                 xAxis.computeRotation(ref currentEulerRotation, amount);
