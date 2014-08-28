@@ -28,12 +28,6 @@ namespace Engine.Platform
 	    /// </summary>
         public abstract void capture();
 
-	    /// <summary>
-	    /// Set the sensitivity of the mouse.
-	    /// </summary>
-	    /// <param name="sensitivity">The sensitivity to set.</param>
-        public abstract void setSensitivity(float sensitivity);
-
         /// <summary>
         /// Returns the absolute mouse position on the screen bounded by the mouse area
         /// and 0, 0.

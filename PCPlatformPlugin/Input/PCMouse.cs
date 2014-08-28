@@ -11,7 +11,6 @@ namespace PCPlatform
     class PCMouse : MouseHardware
     {
         IntPtr mouse;
-        float sensitivity = 1.0f;
         int windowWidth;
         int windowHeight;
         private Vector3 abs = new Vector3();
@@ -41,11 +40,6 @@ namespace PCPlatform
         public override void capture()
         {
             oisMouse_capture(mouse, ref abs, ref rel);
-        }
-
-        public override void setSensitivity(float sensitivity)
-        {
-            this.sensitivity = sensitivity;
         }
 
         public override Vector3 AbsolutePosition
