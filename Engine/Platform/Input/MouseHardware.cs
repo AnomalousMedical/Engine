@@ -63,9 +63,9 @@ namespace Engine.Platform
             eventManager.fireButtonUp(button);
         }
 
-        protected void fireMoved(MouseButtonCode button)
+        protected void fireMoved()
         {
-            eventManager.fireMoved(button);
+            eventManager.fireMoved();
         }
     }
 }

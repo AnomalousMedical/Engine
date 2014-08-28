@@ -25,9 +25,9 @@ namespace MyGUIPlugin
             keyboard.KeyReleased += new KeyEvent(keyboard_KeyReleased);
 
             Mouse mouse = eventLayer.Mouse;
-            mouse.ButtonDown += new MouseCallback(mouse_ButtonDown);
-            mouse.ButtonUp += new MouseCallback(mouse_ButtonUp);
-            mouse.Moved += new MouseCallback(mouse_Moved);
+            mouse.ButtonDown += mouse_ButtonDown;
+            mouse.ButtonUp += mouse_ButtonUp;
+            mouse.Moved += mouse_Moved;
         }
 
         public void sendUpdate(Clock clock)
@@ -38,7 +38,7 @@ namespace MyGUIPlugin
             PerformanceMonitor.stop("MyGUI");
         }
 
-        void mouse_Moved(Mouse mouse, MouseButtonCode buttonCode)
+        void mouse_Moved(Mouse mouse)
         {
             Vector3 mousePos = mouse.AbsolutePosition;
             gui.HandledMouseMove = inputManager.injectMouseMove((int)mousePos.x, (int)mousePos.y, (int)mousePos.z);

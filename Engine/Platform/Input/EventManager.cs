@@ -201,13 +201,13 @@ namespace Engine.Platform
             }
         }
 
-        internal void fireMoved(MouseButtonCode button)
+        internal void fireMoved()
         {
             //Need a way to handle allowEventProcessing between direct keyboard input and event input
             foreach (var layer in eventLayers)
             {
                 layer.HandledEvents = false;
-                layer.Mouse.fireMoved(button);
+                layer.Mouse.fireMoved();
                 if (layer.HandledEvents)
                 {
                     break;

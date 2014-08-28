@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Engine.Platform
 {
-    public delegate void MouseCallback(Mouse mouse, MouseButtonCode buttonCode);
+    public delegate void MouseButtonCallback(Mouse mouse, MouseButtonCode buttonCode);
+    public delegate void MouseCallback(Mouse mouse);
 
     public class Mouse
     {
@@ -20,15 +21,15 @@ namespace Engine.Platform
         /// <summary>
         /// Called when a mouse button is pressed.
         /// </summary>
-        public event MouseCallback ButtonDown;
+        public event MouseButtonCallback ButtonDown;
 
         /// <summary>
         /// Called when a mouse button is released.
         /// </summary>
-        public event MouseCallback ButtonUp;
+        public event MouseButtonCallback ButtonUp;
 
         /// <summary>
-        /// Called when the mouse moves. The scroll wheel moving counts as a movement.
+        /// Called when the mouse moves in x or y direction. Or when the wheel is scrolled in the z direction.
         /// </summary>
         public event MouseCallback Moved;
 
@@ -104,11 +105,11 @@ namespace Engine.Platform
             }
         }
 
-        internal void fireMoved(MouseButtonCode button)
+        internal void fireMoved()
         {
             if (Moved != null)
             {
-                Moved.Invoke(this, button);
+                Moved.Invoke(this);
             }
         }
 
