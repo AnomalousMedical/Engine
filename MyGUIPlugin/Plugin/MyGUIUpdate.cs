@@ -11,20 +11,20 @@ namespace MyGUIPlugin
     class MyGUIUpdate : UpdateListener
     {
         Gui gui;
-        EventManager eventManager;
         bool[] mouseButtonsDown = new bool[(int)MouseButtonCode.NUM_BUTTONS];
         InputManager inputManager;
+        EventLayer eventLayer;
 
-        public MyGUIUpdate(Gui system, EventManager eventManager)
+        public MyGUIUpdate(Gui system, EventLayer eventLayer)
         {
             this.gui = system;
-            this.eventManager = eventManager;
             this.inputManager = InputManager.Instance;
-            Keyboard keyboard = eventManager.Keyboard;
+            this.eventLayer = eventLayer;
+            Keyboard keyboard = eventLayer.Keyboard;
             keyboard.KeyPressed += new KeyEvent(keyboard_KeyPressed);
             keyboard.KeyReleased += new KeyEvent(keyboard_KeyReleased);
 
-            Mouse mouse = eventManager.Mouse;
+            Mouse mouse = eventLayer.Mouse;
             mouse.ButtonDown += new MouseCallback(mouse_ButtonDown);
             mouse.ButtonUp += new MouseCallback(mouse_ButtonUp);
             mouse.Moved += new MouseCallback(mouse_Moved);

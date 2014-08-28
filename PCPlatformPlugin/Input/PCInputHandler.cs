@@ -60,18 +60,18 @@ namespace PCPlatform
 	        nInputManager = IntPtr.Zero;
         }
 
-        public override Keyboard createKeyboard(bool buffered)
+        public override KeyboardHardware createKeyboard(bool buffered, EventManager eventManager)
         {
             if( createdKeyboard == null )
 	        {
 		        Log.Info("Creating keyboard.");
-		        createdKeyboard = new PCKeyboard(InputManager_createInputObject(nInputManager, InputType.OISKeyboard, buffered));
+		        createdKeyboard = new PCKeyboard(InputManager_createInputObject(nInputManager, InputType.OISKeyboard, buffered), eventManager);
                 createdKeyboard.TranslationMode = PCKeyboard.TextTranslationMode.Unicode;
 	        }
 	        return createdKeyboard;
         }
 
-        public override void destroyKeyboard(Keyboard keyboard)
+        public override void destroyKeyboard(KeyboardHardware keyboard)
         {
             if( createdKeyboard == keyboard )
 	        {
@@ -94,18 +94,18 @@ namespace PCPlatform
 	        }
         }
 
-        public override Mouse createMouse(bool buffered)
+        public override MouseHardware createMouse(bool buffered, EventManager eventManager)
         {
             if( createdMouse == null )
 	        {
 		        Log.Info("Creating mouse.");
-		        createdMouse = new PCMouse(InputManager_createInputObject(nInputManager, InputType.OISMouse, buffered), window.WindowWidth, window.WindowHeight);
+		        createdMouse = new PCMouse(InputManager_createInputObject(nInputManager, InputType.OISMouse, buffered), window.WindowWidth, window.WindowHeight, eventManager);
                 window.Resized += window_Resized;
 	        }
 	        return createdMouse;
         }
 
-        public override void destroyMouse(Mouse mouse)
+        public override void destroyMouse(MouseHardware mouse)
         {
             if( createdMouse == mouse )
 	        {

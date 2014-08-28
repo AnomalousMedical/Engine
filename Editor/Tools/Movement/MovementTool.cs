@@ -91,7 +91,7 @@ namespace Editor
             }
         }
 
-        public void update(EventManager events)
+        public void update(EventLayer events)
         {
             if (axisSurface != null)
             {
@@ -149,7 +149,7 @@ namespace Editor
             yzAxisBox.setLength(currentLength / DOUBLE_AXIS_SCALE);
         }
 
-        private void processSelection(EventManager events, CameraMotionValidator validator, ref Vector3 mouseLoc)
+        private void processSelection(EventLayer events, CameraMotionValidator validator, ref Vector3 mouseLoc)
         {
             Vector3 trans = moveController.Translation;
             SceneView camera = validator.getCamera();

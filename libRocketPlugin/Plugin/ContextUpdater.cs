@@ -13,28 +13,33 @@ namespace libRocketPlugin
         private const Int64 REPEAT_INTERVAL_START = 400000; //in microseconds
 
         private Context context;
-        private EventManager eventManager;
+        private EventLayer  eventLayer;
         private float lastMouseWheel = 0;
         private KeyIdentifier holdKey = KeyIdentifier.KI_UNKNOWN;
         private ushort holdChar;
         private Int64 repeatTimeout = REPEAT_INTERVAL;
 
-        public ContextUpdater(Context context, EventManager eventManager)
+        public ContextUpdater(Context context, EventLayer eventLayer)
         {
             this.context = context;
-            this.eventManager = eventManager;
-            eventManager.Mouse.ButtonDown += Mouse_ButtonDown;
-            eventManager.Mouse.ButtonUp += Mouse_ButtonUp;
-            eventManager.Mouse.Moved += Mouse_Moved;
-            eventManager.Keyboard.KeyPressed += new KeyEvent(Keyboard_KeyPressed);
-            eventManager.Keyboard.KeyReleased += new KeyEvent(Keyboard_KeyReleased);
+            this.eventLayer = eventLayer;
+
+            eventLayer.Mouse.ButtonDown += Mouse_ButtonDown;
+            eventLayer.Mouse.ButtonUp += Mouse_ButtonUp;
+            eventLayer.Mouse.Moved += Mouse_Moved;
+
+            eventLayer.Keyboard.KeyPressed += Keyboard_KeyPressed;
+            eventLayer.Keyboard.KeyReleased += Keyboard_KeyReleased;
         }
 
         public void Dispose()
         {
-            eventManager.Mouse.ButtonDown -= Mouse_ButtonDown;
-            eventManager.Mouse.ButtonUp -= Mouse_ButtonUp;
-            eventManager.Mouse.Moved -= Mouse_Moved;
+            eventLayer.Keyboard.KeyPressed -= Keyboard_KeyPressed;
+            eventLayer.Keyboard.KeyReleased -= Keyboard_KeyReleased;
+
+            eventLayer.Mouse.ButtonDown -= Mouse_ButtonDown;
+            eventLayer.Mouse.ButtonUp -= Mouse_ButtonUp;
+            eventLayer.Mouse.Moved -= Mouse_Moved;
         }
 
         public void sendUpdate(Clock clock)
@@ -133,7 +138,7 @@ namespace libRocketPlugin
 
         int buildModifier()
         {
-            Keyboard keyboard = eventManager.Keyboard;
+            var keyboard = eventLayer.Keyboard;
             int value = 0;
             if (keyboard.isModifierDown(Modifier.Alt))
             {

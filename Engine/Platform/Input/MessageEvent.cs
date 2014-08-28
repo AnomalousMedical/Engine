@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Engine.Platform
 {
-    public delegate void MessageEventCallback(EventManager eventManager);
+    public delegate void MessageEventCallback(EventLayer eventLayer);
 
     /// <summary>
     /// This is an event.  It can tell the client if it is down or up and if this
@@ -148,9 +148,9 @@ namespace Engine.Platform
         /// <summary>
         /// Called internally to manage status of the event.
         /// </summary>
-        internal void update(EventManager eventManager)
+        internal void update(EventLayer eventLayer, bool allowProcessing)
         {
-            if (scanButtons(eventManager))
+            if (allowProcessing && scanButtons(eventLayer))
             {
                 if (FirstFrameDown)
                 {
@@ -162,7 +162,7 @@ namespace Engine.Platform
                 {
                     if (DownContinues != null)
                     {
-                        DownContinues.Invoke(eventManager);
+                        DownContinues.Invoke(eventLayer);
                     }
                 }
                 else
@@ -170,7 +170,7 @@ namespace Engine.Platform
                     FirstFrameDown = true;
                     if (FirstFrameDownEvent != null)
                     {
-                        FirstFrameDownEvent.Invoke(eventManager);
+                        FirstFrameDownEvent.Invoke(eventLayer);
                     }
                 }
                 FirstFrameUp = false;
@@ -188,7 +188,7 @@ namespace Engine.Platform
                     FirstFrameUp = true;
                     if (FirstFrameUpEvent != null)
                     {
-                        FirstFrameUpEvent.Invoke(eventManager);
+                        FirstFrameUpEvent.Invoke(eventLayer);
                     }
                 }
                 FirstFrameDown = false;
@@ -201,10 +201,10 @@ namespace Engine.Platform
         /// </summary>
         /// <param name="eventManager">The event manager with the keyboard and mouse being used.</param>
         /// <returns>True if all the required buttons are pressed.</returns>
-        private bool scanButtons(EventManager eventManager)
+        private bool scanButtons(EventLayer eventLayer)
         {
-            Mouse mouse = eventManager.Mouse;
-            Keyboard keyboard = eventManager.Keyboard;
+            Mouse mouse = eventLayer.Mouse;
+            Keyboard keyboard = eventLayer.Keyboard;
             bool active = keyboardButtons.Count + mouseButtons.Count > 0;
             if (active)
             {

@@ -174,7 +174,7 @@ namespace OgreModelEditor
             toolInterop.setSelectionController(selectionController);
             toolInterop.setRotateController(rotateController);
 
-            toolManager = new ToolManager(eventManager);
+            toolManager = new ToolManager(eventManager.DefaultEventLayer);
             mainTimer.addUpdateListener(toolManager);
             toolInterop.setToolManager(toolManager);
             movementTool = new MovementTool("MovementTool", moveController);

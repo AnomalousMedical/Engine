@@ -8,7 +8,7 @@ using Logging;
 
 namespace PCPlatform
 {
-    class PCKeyboard : Keyboard, IDisposable
+    class PCKeyboard : KeyboardHardware, IDisposable
     {
         public enum TextTranslationMode
         {
@@ -20,18 +20,6 @@ namespace PCPlatform
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void KeyCallback(KeyboardButtonCode key, uint text);
 
-        /// <summary>
-        /// This event is fired when a key is pressed. Will only be fired if the
-        /// keyboard is created with buffered=true.
-        /// </summary>
-        public override event KeyEvent KeyPressed;
-
-        /// <summary>
-        /// This event is fired when a key is released. Will only be fired if the
-        /// keyboard is created with buffered=true.
-        /// </summary>
-        public override event KeyEvent KeyReleased;
-
         private IntPtr keyboard;
         private IntPtr keyListener;
         private sbyte[] keys = new sbyte[256];
@@ -39,11 +27,12 @@ namespace PCPlatform
         private KeyCallback keyPressedCbPtr;
         private KeyCallback keyReleasedCbPtr;
 
-        public PCKeyboard(IntPtr keyboard)
+        public PCKeyboard(IntPtr keyboard, EventManager eventManager)
+            :base(eventManager)
         {
             this.keyboard = keyboard;
-            keyPressedCbPtr = new KeyCallback(keyPressedCb);
-            keyReleasedCbPtr = new KeyCallback(keyReleasedCb);
+            keyPressedCbPtr = new KeyCallback(fireKeyPressed);
+            keyReleasedCbPtr = new KeyCallback(fireKeyReleased);
             keyListener = oisKeyboard_createListener(keyboard, keyPressedCbPtr, keyReleasedCbPtr);
         }
 
@@ -92,22 +81,6 @@ namespace PCPlatform
             get
             {
                 return keyboard;
-            }
-        }
-
-        private void keyPressedCb(KeyboardButtonCode key, uint text)
-        {
-            if (KeyPressed != null)
-            {
-                KeyPressed.Invoke(key, text);
-            }
-        }
-
-        private void keyReleasedCb(KeyboardButtonCode key, uint text)
-        {
-            if (KeyReleased != null)
-            {
-                KeyReleased.Invoke(key, text);
             }
         }
 

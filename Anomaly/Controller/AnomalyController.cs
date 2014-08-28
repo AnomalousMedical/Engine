@@ -161,7 +161,7 @@ namespace Anomaly
             toolInterop.setRotateController(rotateController);
             simObjectController = new SimObjectController(this);
 
-            toolManager = new ToolManager(eventManager);
+            toolManager = new ToolManager(eventManager.DefaultEventLayer);
             mainTimer.addUpdateListener(toolManager);
             fixedUpdate = new FullSpeedUpdateListener(sceneController);
             mainTimer.addUpdateListener(fixedUpdate);

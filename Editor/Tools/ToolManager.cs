@@ -12,12 +12,12 @@ namespace Editor
     {
         private Tool currentTool;
         private List<Tool> tools = new List<Tool>();
-        private EventManager eventManager;
+        private EventLayer events;
         private bool enabled = true;
 
-        public ToolManager(EventManager eventManager)
+        public ToolManager(EventLayer events)
         {
-            this.eventManager = eventManager;
+            this.events = events;
         }
 
         public void addTool(Tool tool)
@@ -82,7 +82,7 @@ namespace Editor
         {
             if (enabled && currentTool != null)
             {
-                currentTool.update(eventManager);
+                currentTool.update(events);
             }
         }
 

@@ -8,7 +8,7 @@ using Engine;
 
 namespace PCPlatform
 {
-    class PCMouse : Mouse
+    class PCMouse : MouseHardware
     {
         IntPtr mouse;
         float sensitivity = 1.0f;
@@ -17,7 +17,8 @@ namespace PCPlatform
         private Vector3 abs = new Vector3();
         private Vector3 rel = new Vector3();
 
-        public PCMouse(IntPtr mouse, int windowWidth, int windowHeight)
+        public PCMouse(IntPtr mouse, int windowWidth, int windowHeight, EventManager eventManager)
+            :base(eventManager)
         {
             this.mouse = mouse;
             oisMouse_setWindowSize(mouse, windowWidth, windowHeight);

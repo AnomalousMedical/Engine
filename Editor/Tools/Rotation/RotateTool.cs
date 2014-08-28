@@ -42,7 +42,7 @@ namespace Editor
             rotateController.OnRotationChanged += new RotationChanged(rotateController_OnRotationChanged);
         }
 
-        public void update(EventManager events)
+        public void update(EventLayer events)
         {
             //Process the mouse
             Mouse mouse = events.Mouse;
@@ -83,7 +83,7 @@ namespace Editor
 
         public bool AllowPicking { get; set; }
 
-        private void processSelection(EventManager events, CameraMotionValidator validator, Mouse mouse, ref Vector3 mouseLoc)
+        private void processSelection(EventLayer events, CameraMotionValidator validator, Mouse mouse, ref Vector3 mouseLoc)
         {
             Vector3 trans = translation;
             SceneView camera = validator.getCamera();

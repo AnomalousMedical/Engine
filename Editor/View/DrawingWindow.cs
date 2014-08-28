@@ -34,7 +34,7 @@ namespace Editor
         {
             this.name = name;
             this.renderer = renderer;
-            orbitCamera = new OrbitCameraController(translation, lookAt, eventManager);
+            orbitCamera = new OrbitCameraController(translation, lookAt, eventManager.DefaultEventLayer);
             orbitCamera.MotionValidator = this;
             window = renderer.createRendererWindow(this, name);
         }

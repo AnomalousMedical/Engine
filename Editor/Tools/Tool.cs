@@ -12,7 +12,7 @@ namespace Editor
     {
         void setEnabled(bool enabled);
 
-        void update(EventManager eventManager);
+        void update(EventLayer events);
 
         void createSceneElement(SimSubScene subScene, PluginManager pluginManager);
 

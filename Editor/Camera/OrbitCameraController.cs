@@ -42,7 +42,7 @@ namespace Editor
         #endregion Static
 
         private SceneView camera;
-        private EventManager events;
+        private EventLayer events;
 
         //These three vectors form the axis relative to the current rotation.
         private Vector3 normalDirection; //z
@@ -57,19 +57,19 @@ namespace Editor
         private Vector3 translation;
         private CameraMotionValidator motionValidator = null;
 
-        public OrbitCameraController(SceneView camera, EventManager eventManager)
+        public OrbitCameraController(SceneView camera, EventLayer events)
         {
             this.camera = camera;
-            this.events = eventManager;
+            this.events = events;
             translation = camera.Translation;
             lookAt = camera.LookAt;
             computeStartingValues(translation - lookAt);
         }
 
-        public OrbitCameraController(Vector3 translation, Vector3 lookAt, EventManager eventManager)
+        public OrbitCameraController(Vector3 translation, Vector3 lookAt, EventLayer events)
         {
             this.camera = null;
-            this.events = eventManager;
+            this.events = events;
             this.translation = translation;
             this.lookAt = lookAt;
             computeStartingValues(translation - lookAt);

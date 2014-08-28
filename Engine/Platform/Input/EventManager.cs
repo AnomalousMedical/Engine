@@ -15,12 +15,12 @@ namespace Engine.Platform
     public class EventManager : IDisposable
     {
         private InputHandler inputHandler;
-        private Keyboard keyboard = null;
-        private Mouse mouse = null;
-        //Events stored in a dictionary for fast lookup.
-        private Dictionary<object, MessageEvent> events = new Dictionary<object, MessageEvent>();
-        //Events stored in a list for fast iteration.
-        private List<MessageEvent> eventList = new List<MessageEvent>();
+        private KeyboardHardware keyboard = null;
+        private MouseHardware mouse = null;
+        
+        private List<EventLayer> eventLayers = new List<EventLayer>();
+        //Temporary
+        EventLayer defaultLayer;
 
         internal NewEventDetected EventDetected { get; private set; }
 
@@ -32,9 +32,13 @@ namespace Engine.Platform
         {
             EventDetected = new NewEventDetected(addEvent);
             this.inputHandler = inputHandler;
-            keyboard = inputHandler.createKeyboard(true);
-            mouse = inputHandler.createMouse(false);
+            keyboard = inputHandler.createKeyboard(true, this);
+            mouse = inputHandler.createMouse(false, this);
             DefaultEvents.registerEventManager(this);
+
+            //Temp
+            defaultLayer = new EventLayer(this, keyboard, mouse);
+            eventLayers.Add(defaultLayer);
         }
 
         /// <summary>
@@ -61,8 +65,27 @@ namespace Engine.Platform
         public void changeInputHandler(InputHandler newHandler)
         {
             this.inputHandler = newHandler;
-            keyboard = inputHandler.createKeyboard(true);
-            mouse = inputHandler.createMouse(false);
+            keyboard = inputHandler.createKeyboard(true, this);
+            mouse = inputHandler.createMouse(false, this);
+        }
+
+        public EventLayer addEventLayer(int index = int.MaxValue)
+        {
+            EventLayer eventLayer = new EventLayer(this, keyboard, mouse);
+            if(index < eventLayers.Count)
+            {
+                eventLayers.Insert(index, eventLayer);
+            }
+            else
+            {
+                eventLayers.Add(eventLayer);
+            }
+            return eventLayer;
+        }
+
+        public void removeEventLayer(EventLayer eventLayer)
+        {
+            eventLayers.Remove(eventLayer);
         }
 
         /// <summary>
@@ -71,15 +94,7 @@ namespace Engine.Platform
         /// <param name="evt">The event to add.</param>
         public void addEvent(MessageEvent evt)
         {
-            if (!events.ContainsKey(evt.Name))
-            {
-                events.Add(evt.Name, evt);
-                eventList.Add(evt);
-            }
-            else
-            {
-                Log.Default.sendMessage("Attempted to add a duplicate event {0}.  Duplicate ignored.", LogLevel.Warning, "Input", evt.Name.ToString());
-            }
+            defaultLayer.addEvent(evt);
         }
 
         /// <summary>
@@ -88,15 +103,7 @@ namespace Engine.Platform
         /// <param name="evt">The event to remove.</param>
         public void removeEvent(MessageEvent evt)
         {
-            if (events.ContainsKey(evt.Name))
-            {
-                events.Remove(evt.Name);
-                eventList.Remove(evt);
-            }
-            else
-            {
-                Log.Default.sendMessage("Attempted to remove an event {0} that does not exist.  No changes made.", LogLevel.Warning, "Input", evt.Name.ToString());
-            }
+            defaultLayer.removeEvent(evt);
         }
 
         /// <summary>
@@ -106,31 +113,7 @@ namespace Engine.Platform
         /// <returns>True if the container contains the event.  False if it does not.</returns>
         public bool containsEvent(object evt)
         {
-            return events.ContainsKey(evt);
-        }
-
-        /// <summary>
-        /// Returns the number of events in this container.
-        /// </summary>
-        public int Count
-        {
-            get
-            {
-                return events.Count;
-            }
-        }
-
-        /// <summary>
-        /// Index for easy access to events.
-        /// </summary>
-        /// <param name="index">The event to index.</param>
-        /// <returns>The event identified by index.</returns>
-        public MessageEvent this[object index]
-        {
-            get
-            {
-                return events[index];
-            }
+            return defaultLayer.containsEvent(evt);
         }
 
         /// <summary>
@@ -147,26 +130,122 @@ namespace Engine.Platform
             {
                 keyboard.capture();
             }
-            foreach (MessageEvent evt in eventList)
+            bool allowEventProcessing = true;
+            foreach (var layer in eventLayers)
             {
-                evt.update(this);
+                layer.HandledEvents = false;
+                layer.update(allowEventProcessing);
+                allowEventProcessing = allowEventProcessing || !layer.HandledEvents;
             }
         }
 
         /// <summary>
-        /// The keyboard being used for input.
+        /// Fire a key pressed event.
         /// </summary>
-        public Keyboard Keyboard
+        internal void fireKeyPressed(KeyboardButtonCode keyCode, uint keyChar)
         {
-            get { return keyboard; }
+            //Need a way to handle allowEventProcessing between direct keyboard input and event input
+            foreach (var layer in eventLayers)
+            {
+                layer.HandledEvents = false;
+                layer.Keyboard.fireKeyPressed(keyCode, keyChar);
+                if(layer.HandledEvents)
+                {
+                    break;
+                }
+            }
         }
 
         /// <summary>
-        /// The mouse being used for input.
+        /// Fire a key released event.
         /// </summary>
-        public Mouse Mouse
+        internal void fireKeyReleased(KeyboardButtonCode keyCode, uint keyChar)
         {
-            get { return mouse; }
+            //Need a way to handle allowEventProcessing between direct keyboard input and event input
+            foreach (var layer in eventLayers)
+            {
+                layer.HandledEvents = false;
+                layer.Keyboard.fireKeyReleased(keyCode, keyChar);
+                if (layer.HandledEvents)
+                {
+                    break;
+                }
+            }
+        }
+
+        internal void fireButtonDown(MouseButtonCode button)
+        {
+            //Need a way to handle allowEventProcessing between direct keyboard input and event input
+            foreach (var layer in eventLayers)
+            {
+                layer.HandledEvents = false;
+                layer.Mouse.fireButtonDown(button);
+                if (layer.HandledEvents)
+                {
+                    break;
+                }
+            }
+        }
+
+        internal void fireButtonUp(MouseButtonCode button)
+        {
+            //Need a way to handle allowEventProcessing between direct keyboard input and event input
+            foreach (var layer in eventLayers)
+            {
+                layer.HandledEvents = false;
+                layer.Mouse.fireButtonUp(button);
+                if (layer.HandledEvents)
+                {
+                    break;
+                }
+            }
+        }
+
+        internal void fireMoved(MouseButtonCode button)
+        {
+            //Need a way to handle allowEventProcessing between direct keyboard input and event input
+            foreach (var layer in eventLayers)
+            {
+                layer.HandledEvents = false;
+                layer.Mouse.fireMoved(button);
+                if (layer.HandledEvents)
+                {
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns the number of events in this container.
+        /// </summary>
+        public int Count
+        {
+            get
+            {
+                return defaultLayer.Count;
+            }
+        }
+
+        /// <summary>
+        /// Index for easy access to events.
+        /// </summary>
+        /// <param name="index">The event to index.</param>
+        /// <returns>The event identified by index.</returns>
+        public MessageEvent this[object index]
+        {
+            get
+            {
+                return defaultLayer[index];
+            }
+        }
+
+        //TEMPORARY
+        public EventLayer DefaultEventLayer
+        {
+            get
+            {
+                return defaultLayer;
+            }
         }
     }
 }
