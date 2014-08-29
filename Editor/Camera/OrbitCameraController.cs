@@ -95,13 +95,13 @@ namespace Editor
                 mouseCoords = events.Mouse.RelativePosition;
                 if (currentlyInMotion)
                 {
-                    if (events[CameraEvents.PanCamera].Down)
+                    if (events[CameraEvents.PanCamera].HeldDown)
                     {
                         lookAt += rotatedLeft * (mouseCoords.x / (events.Mouse.AreaWidth * SCROLL_SCALE) * orbitDistance);
                         lookAt += rotatedUp * (mouseCoords.y / (events.Mouse.AreaHeight * SCROLL_SCALE) * orbitDistance);
                         updateTranslation(lookAt + normalDirection * orbitDistance);
                     }
-                    else if (events[CameraEvents.ZoomCamera].Down)
+                    else if (events[CameraEvents.ZoomCamera].HeldDown)
                     {
                         orbitDistance += mouseCoords.y;
                         if (orbitDistance < 0.0f)
@@ -111,7 +111,7 @@ namespace Editor
                         //camera.setOrthoWindowHeight(orbitDistance);
                         updateTranslation(normalDirection * orbitDistance + lookAt);
                     }
-                    else if (events[CameraEvents.RotateCamera].Down)
+                    else if (events[CameraEvents.RotateCamera].HeldDown)
                     {
                         yaw += mouseCoords.x / -100.0f;
                         pitch += mouseCoords.y / 100.0f;

@@ -438,11 +438,11 @@ namespace MyGUIPlugin
 
         void actionButton_Clicked(TimelineViewButton sender, MouseEventArgs e)
         {
-            if (addSelection.Down)
+            if (addSelection.HeldDown)
             {
                 selectionCollection.addButton(sender);
             }
-            else if (removeSelection.Down)
+            else if (removeSelection.HeldDown)
             {
                 selectionCollection.removeButton(sender);
             }
@@ -556,14 +556,14 @@ namespace MyGUIPlugin
 
         void timelineSelectionBox_SelectionAreaDefined(TimelineSelectionBox source)
         {
-            if (addSelection.Down)
+            if (addSelection.HeldDown)
             {
                 foreach (TimelineViewTrack track in tracks)
                 {
                     track.addSelection(selectionCollection, source);
                 }
             }
-            else if (removeSelection.Down)
+            else if (removeSelection.HeldDown)
             {
                 foreach (TimelineViewTrack track in tracks)
                 {

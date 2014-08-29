@@ -160,7 +160,7 @@ namespace Editor
             {
                 mouseOffset = -(spacePoint - moveController.Translation);
             }
-            else if (events[ToolEvents.Pick].Down)
+            else if (events[ToolEvents.Pick].HeldDown)
             {
                 spacePoint += -moveController.Translation + mouseOffset;
 

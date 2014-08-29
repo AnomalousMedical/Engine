@@ -16,7 +16,7 @@ namespace Engine.Platform
     {
         public event MessageEventCallback FirstFrameDownEvent;
         public event MessageEventCallback FirstFrameUpEvent;
-        public event MessageEventCallback DownContinues; //Called the frame after the FirstFrameDownEvent is fired and continues until FirstFrameUpEvent is called.
+        public event MessageEventCallback OnHeldDown; //Called the frame after the FirstFrameDownEvent is fired and continues until FirstFrameUpEvent is called.
 
         private HashSet<KeyboardButtonCode> keyboardButtons = new HashSet<KeyboardButtonCode>();
         private HashSet<MouseButtonCode> mouseButtons = new HashSet<MouseButtonCode>();
@@ -28,8 +28,8 @@ namespace Engine.Platform
         public MessageEvent(object name)
         {
             Name = name;
-            Down = false;
-            Up = true;
+            HeldDown = false;
+            ReleasedUp = true;
             FirstFrameDown = false;
             FirstFrameUp = false;
         }
@@ -73,12 +73,12 @@ namespace Engine.Platform
         /// <summary>
         /// Returns true if the event has been held down more than 1 frame.
         /// </summary>
-        public bool Down { get; private set; }
+        public bool HeldDown { get; private set; }
 
         /// <summary>
         /// Returns true if the event has been released more thean 1 frame.
         /// </summary>
-        public bool Up { get; private set; }
+        public bool ReleasedUp { get; private set; }
 
         /// <summary>
         /// Returns true if the event is down, first frame or held.
@@ -87,7 +87,7 @@ namespace Engine.Platform
         {
             get
             {
-                return Down || FirstFrameDown;
+                return HeldDown || FirstFrameDown;
             }
         }
 
@@ -98,7 +98,7 @@ namespace Engine.Platform
         {
             get
             {
-                return Up || FirstFrameUp;
+                return ReleasedUp || FirstFrameUp;
             }
         }
 
@@ -179,15 +179,15 @@ namespace Engine.Platform
             {
                 if (FirstFrameDown)
                 {
-                    Down = true;
+                    HeldDown = true;
                     FirstFrameDown = false;
                 }
                 
-                if(Down)
+                if(HeldDown)
                 {
-                    if (DownContinues != null)
+                    if (OnHeldDown != null)
                     {
-                        DownContinues.Invoke(eventLayer);
+                        OnHeldDown.Invoke(eventLayer);
                     }
                 }
                 else
@@ -199,16 +199,16 @@ namespace Engine.Platform
                     }
                 }
                 FirstFrameUp = false;
-                Up = false;
+                ReleasedUp = false;
             }
             else
             {
                 if (FirstFrameUp)
                 {
-                    Up = true;
+                    ReleasedUp = true;
                     FirstFrameUp = false;
                 }
-                else if (!Up)
+                else if (!ReleasedUp)
                 {
                     FirstFrameUp = true;
                     if (FirstFrameUpEvent != null)
@@ -217,7 +217,7 @@ namespace Engine.Platform
                     }
                 }
                 FirstFrameDown = false;
-                Down = false;
+                HeldDown = false;
             }
         }
 

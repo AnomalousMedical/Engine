@@ -130,11 +130,11 @@ namespace Anomaly
                 InstanceFileInterface instanceFile = editInterface.getEditableProperties().First() as InstanceFileInterface;
                 if (instanceFile != null)
                 {
-                    if (controller.EventManager[Events.AddSelectableObject].Down)
+                    if (controller.EventManager[Events.AddSelectableObject].HeldDown)
                     {
                         controller.SelectionController.addSelectedObject(instanceFile);
                     }
-                    else if (controller.EventManager[Events.RemoveSelectableObject].Down)
+                    else if (controller.EventManager[Events.RemoveSelectableObject].HeldDown)
                     {
                         controller.SelectionController.removeSelectedObject(instanceFile);
                     }
