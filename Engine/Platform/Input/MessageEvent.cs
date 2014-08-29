@@ -83,7 +83,7 @@ namespace Engine.Platform
         /// <summary>
         /// Returns true if the event is down, first frame or held.
         /// </summary>
-        public bool AnyDown
+        public bool Down
         {
             get
             {
@@ -94,7 +94,7 @@ namespace Engine.Platform
         /// <summary>
         /// Returns true if the event is up, first frame or released.
         /// </summary>
-        public bool AnyUp
+        public bool Up
         {
             get
             {
