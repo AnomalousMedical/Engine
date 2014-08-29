@@ -81,6 +81,28 @@ namespace Engine.Platform
         public bool Up { get; private set; }
 
         /// <summary>
+        /// Returns true if the event is down, first frame or held.
+        /// </summary>
+        public bool AnyDown
+        {
+            get
+            {
+                return Down || FirstFrameDown;
+            }
+        }
+
+        /// <summary>
+        /// Returns true if the event is up, first frame or released.
+        /// </summary>
+        public bool AnyUp
+        {
+            get
+            {
+                return Up || FirstFrameUp;
+            }
+        }
+
+        /// <summary>
         /// Add a keyboard button binding to the event.
         /// </summary>
         /// <param name="button">The button to add.</param>
@@ -123,7 +145,10 @@ namespace Engine.Platform
         {
             keyboardButtons.Clear();
             mouseButtons.Clear();
+            MouseWheelDirection = MouseWheelDirection.None;
         }
+
+        public MouseWheelDirection MouseWheelDirection { get; set; }
 
         public String KeyDescription
         {
@@ -205,7 +230,7 @@ namespace Engine.Platform
         {
             Mouse mouse = eventLayer.Mouse;
             Keyboard keyboard = eventLayer.Keyboard;
-            bool active = keyboardButtons.Count + mouseButtons.Count > 0;
+            bool active = keyboardButtons.Count + mouseButtons.Count > 0 || MouseWheelDirection > 0;
             if (active)
             {
                 foreach (KeyboardButtonCode keyCode in keyboardButtons)
@@ -225,6 +250,18 @@ namespace Engine.Platform
                         {
                             break;
                         }
+                    }
+                }
+                if(active)
+                {
+                    switch(MouseWheelDirection)
+                    {
+                        case MouseWheelDirection.Up:
+                            active &= mouse.RelativePosition.z > 0;
+                            break;
+                        case MouseWheelDirection.Down:
+                            active &= mouse.RelativePosition.z < 0;
+                            break;
                     }
                 }
             }

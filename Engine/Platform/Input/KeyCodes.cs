@@ -22,6 +22,17 @@ namespace Engine.Platform
     };
 
     /// <summary>
+    /// Provides the direction for the mouse wheel. None is 0 so you can check for
+    /// presence with > 0.
+    /// </summary>
+    public enum MouseWheelDirection : int
+    {
+        None = 0,
+        Up = 1,
+        Down = 2
+    };
+
+    /// <summary>
     /// Masks for the modifier keys on the keyboard.
     /// </summary>
     public enum Modifier : int
