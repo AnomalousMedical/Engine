@@ -42,28 +42,48 @@ namespace MyGUIPlugin
         {
             Vector3 mousePos = mouse.AbsolutePosition;
             gui.HandledMouseMove = inputManager.injectMouseMove((int)mousePos.x, (int)mousePos.y, (int)mousePos.z);
+            if(gui.HandledMouseMove || inputManager.isModalAny())
+            {
+                eventLayer.alertEventsHandled();
+            }
         }
 
         void mouse_ButtonUp(Mouse mouse, MouseButtonCode buttonCode)
         {
             Vector3 mousePos = mouse.AbsolutePosition;
             gui.HandledMouseButtons = inputManager.injectMouseRelease((int)mousePos.x, (int)mousePos.y, buttonCode);
+            if (gui.HandledMouseButtons || inputManager.isModalAny())
+            {
+                eventLayer.alertEventsHandled();
+            }
         }
 
         void mouse_ButtonDown(Mouse mouse, MouseButtonCode buttonCode)
         {
             Vector3 mousePos = mouse.AbsolutePosition;
             gui.HandledMouseButtons = inputManager.injectMousePress((int)mousePos.x, (int)mousePos.y, buttonCode);
+            if (gui.HandledMouseButtons || inputManager.isModalAny())
+            {
+                eventLayer.alertEventsHandled();
+            }
         }
 
         void keyboard_KeyReleased(KeyboardButtonCode keyCode, uint keyChar)
         {
             gui.HandledKeyboardButtons = inputManager.injectKeyRelease(keyCode);
+            if (gui.HandledKeyboardButtons || inputManager.isModalAny())
+            {
+                eventLayer.alertEventsHandled();
+            }
         }
 
         void keyboard_KeyPressed(KeyboardButtonCode keyCode, uint keyChar)
         {
             gui.HandledKeyboardButtons = inputManager.injectKeyPress(keyCode, keyChar);
+            if (gui.HandledKeyboardButtons || inputManager.isModalAny())
+            {
+                eventLayer.alertEventsHandled();
+            }
         }
 
         public void loopStarting()

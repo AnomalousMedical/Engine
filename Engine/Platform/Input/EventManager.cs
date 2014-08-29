@@ -130,12 +130,19 @@ namespace Engine.Platform
             {
                 keyboard.capture();
             }
-            bool allowEventProcessing = true;
+            bool allowEventProcessing = true; //The first layer always gets all events
             foreach (var layer in eventLayers)
             {
-                layer.HandledEvents = false;
+                //First try to update the layer with the current allowEventProcessing
                 layer.update(allowEventProcessing);
-                allowEventProcessing = allowEventProcessing || !layer.HandledEvents;
+
+                //Modify allowEventProcessing as needed, if we have already set allowEventProcessing to false it should stay false
+                allowEventProcessing = allowEventProcessing && !layer.HandledEvents;
+
+                //Reset the layer's HandledEvents for this frame, this is done last to reset without iterating again.
+                //Doing this last also ensures that if we stopped early on one of the fire events below that that layer
+                //keeps its HandledEvents property set where it should be.
+                layer.HandledEvents = false;
             }
         }
 
@@ -144,10 +151,9 @@ namespace Engine.Platform
         /// </summary>
         internal void fireKeyPressed(KeyboardButtonCode keyCode, uint keyChar)
         {
-            //Need a way to handle allowEventProcessing between direct keyboard input and event input
+            //See UpdateEvents for how HandledEvents is processed
             foreach (var layer in eventLayers)
             {
-                layer.HandledEvents = false;
                 layer.Keyboard.fireKeyPressed(keyCode, keyChar);
                 if(layer.HandledEvents)
                 {
@@ -161,10 +167,9 @@ namespace Engine.Platform
         /// </summary>
         internal void fireKeyReleased(KeyboardButtonCode keyCode, uint keyChar)
         {
-            //Need a way to handle allowEventProcessing between direct keyboard input and event input
+            //See UpdateEvents for how HandledEvents is processed
             foreach (var layer in eventLayers)
             {
-                layer.HandledEvents = false;
                 layer.Keyboard.fireKeyReleased(keyCode, keyChar);
                 if (layer.HandledEvents)
                 {
@@ -175,10 +180,9 @@ namespace Engine.Platform
 
         internal void fireButtonDown(MouseButtonCode button)
         {
-            //Need a way to handle allowEventProcessing between direct keyboard input and event input
+            //See UpdateEvents for how HandledEvents is processed
             foreach (var layer in eventLayers)
             {
-                layer.HandledEvents = false;
                 layer.Mouse.fireButtonDown(button);
                 if (layer.HandledEvents)
                 {
@@ -189,10 +193,9 @@ namespace Engine.Platform
 
         internal void fireButtonUp(MouseButtonCode button)
         {
-            //Need a way to handle allowEventProcessing between direct keyboard input and event input
+            //See UpdateEvents for how HandledEvents is processed
             foreach (var layer in eventLayers)
             {
-                layer.HandledEvents = false;
                 layer.Mouse.fireButtonUp(button);
                 if (layer.HandledEvents)
                 {
@@ -203,10 +206,9 @@ namespace Engine.Platform
 
         internal void fireMoved()
         {
-            //Need a way to handle allowEventProcessing between direct keyboard input and event input
+            //See UpdateEvents for how HandledEvents is processed
             foreach (var layer in eventLayers)
             {
-                layer.HandledEvents = false;
                 layer.Mouse.fireMoved();
                 if (layer.HandledEvents)
                 {

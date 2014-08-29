@@ -7,6 +7,11 @@ using Engine;
 
 namespace libRocketPlugin
 {
+    /// <summary>
+    /// A ContextUpdated for librocket, note that it does not alert its event layer if input is handled
+    /// because librocket does not provide that information. This class isn't really used anyway, but something
+    /// to be aware of.
+    /// </summary>
     public class ContextUpdater : UpdateListener, IDisposable
     {
         private const Int64 REPEAT_INTERVAL = 50000; //in microseconds

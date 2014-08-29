@@ -19,6 +19,7 @@ namespace Engine.Platform
             this.EventManager = eventManager;
             Keyboard = new Keyboard(keyboardHardware);
             Mouse = new Mouse(mouseHardware);
+            HandledEvents = false;
         }
 
         /// <summary>
@@ -74,6 +75,10 @@ namespace Engine.Platform
             HandledEvents = true;
         }
 
+        /// <summary>
+        /// Update this layer, allowProcessing determines if the 
+        /// </summary>
+        /// <param name="allowProcessing"></param>
         internal void update(bool allowProcessing)
         {
             foreach (MessageEvent evt in eventList)
@@ -106,12 +111,37 @@ namespace Engine.Platform
             }
         }
 
-        public bool HandledEvents { get; internal set; }
-
+        /// <summary>
+        /// The EventManager this layer is a part of.
+        /// </summary>
         public EventManager EventManager { get; private set; }
 
+        /// <summary>
+        /// Access to the Mouse for this layer, the events on that object will respect the event layer stack so if a higher
+        /// layer says that it has already used the mouse subscribers to this layer's mouse will not get any events.
+        /// 
+        /// This is provided more for convenience, events subscribed here are not guarenteed to get the full down / pressed / up
+        /// lifecycle that MessageEvents get, this is more to hook up to a subsystem that might need direct mouse events, like a gui.
+        /// 
+        /// Ideally only one EventLayer would subscribe to these events and it would be the topmost one (e.g. a gui library)
+        /// </summary>
         public Mouse Mouse { get; private set; }
 
+        /// <summary>
+        /// Access to Keyboard Mouse for this layer, the events on that object will respect the event layer stack so if a higher
+        /// layer says that it has already used the keyboard subscribers to this layer's keyboard will not get any events.
+        /// 
+        /// This is provided more for convenience, events subscribed here are not guarenteed to get the full down / pressed / up
+        /// lifecycle that MessageEvents get, this is more to hook up to a subsystem that might need direct mouse events, like a gui.
+        /// 
+        /// Ideally only one EventLayer would subscribe to these events and it would be the topmost one (e.g. a gui library)
+        /// </summary>
         public Keyboard Keyboard { get; private set; }
+
+        /// <summary>
+        /// An internal property to track if this layer has handled its events. Do not make this public it has no real meaning
+        /// beyond the EventManager's processing loop.
+        /// </summary>
+        internal bool HandledEvents { get; set; }
     }
 }
