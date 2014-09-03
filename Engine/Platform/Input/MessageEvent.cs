@@ -16,7 +16,16 @@ namespace Engine.Platform
     {
         public event MessageEventCallback FirstFrameDownEvent;
         public event MessageEventCallback FirstFrameUpEvent;
-        public event MessageEventCallback OnHeldDown; //Called the frame after the FirstFrameDownEvent is fired and continues until FirstFrameUpEvent is called.
+
+        /// <summary>
+        /// Called the frame after the FirstFrameDownEvent is fired and continues until FirstFrameUpEvent is called.
+        /// </summary>
+        public event MessageEventCallback OnHeldDown;
+
+        /// <summary>
+        /// Called whenever Down is true, which is during FirstFrameDown and Held down, FirstFrameDown will always be called before OnDown on that frame.
+        /// </summary>
+        public event MessageEventCallback OnDown;
 
         private HashSet<KeyboardButtonCode> keyboardButtons = new HashSet<KeyboardButtonCode>();
         private HashSet<MouseButtonCode> mouseButtons = new HashSet<MouseButtonCode>();
@@ -189,6 +198,10 @@ namespace Engine.Platform
                     {
                         OnHeldDown.Invoke(eventLayer);
                     }
+                    if (OnDown != null)
+                    {
+                        OnDown.Invoke(eventLayer);
+                    }
                 }
                 else
                 {
@@ -196,6 +209,10 @@ namespace Engine.Platform
                     if (FirstFrameDownEvent != null)
                     {
                         FirstFrameDownEvent.Invoke(eventLayer);
+                    }
+                    if(OnDown != null)
+                    {
+                        OnDown.Invoke(eventLayer);
                     }
                 }
                 FirstFrameUp = false;

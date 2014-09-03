@@ -69,7 +69,7 @@ namespace Engine
         /// <summary>
         /// Get the backing list. This is not a copy so the contents should not be modified.
         /// </summary>
-        public List<Value> List
+        public IReadOnlyList<Value> List
         {
             get
             {
