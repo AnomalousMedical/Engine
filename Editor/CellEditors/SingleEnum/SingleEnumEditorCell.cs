@@ -12,10 +12,7 @@ namespace Editor
     {
         public void populateCombo(Type theEnum)
         {
-            foreach(var name in EnumUtil.Elements(theEnum))
-            {
-                this.Items.Add(name);
-            }
-        }        
+            this.Items.AddRange(Enum.GetNames(theEnum));
+        }
     }
 }

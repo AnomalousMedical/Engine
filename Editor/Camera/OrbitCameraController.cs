@@ -21,16 +21,16 @@ namespace Editor
 
         static OrbitCameraController()
         {
-            MessageEvent rotateCamera = new MessageEvent(CameraEvents.RotateCamera);
+            MessageEvent rotateCamera = new MessageEvent(CameraEvents.RotateCamera, EventLayers.Main);
             rotateCamera.addButton(MouseButtonCode.MB_BUTTON1);
             DefaultEvents.registerDefaultEvent(rotateCamera);
 
-            MessageEvent panCamera = new MessageEvent(CameraEvents.PanCamera);
+            MessageEvent panCamera = new MessageEvent(CameraEvents.PanCamera, EventLayers.Main);
             panCamera.addButton(MouseButtonCode.MB_BUTTON1);
             panCamera.addButton(KeyboardButtonCode.KC_LCONTROL);
             DefaultEvents.registerDefaultEvent(panCamera);
 
-            MessageEvent zoomCamera = new MessageEvent(CameraEvents.ZoomCamera);
+            MessageEvent zoomCamera = new MessageEvent(CameraEvents.ZoomCamera, EventLayers.Main);
             zoomCamera.addButton(MouseButtonCode.MB_BUTTON1);
             zoomCamera.addButton(KeyboardButtonCode.KC_LMENU);
             DefaultEvents.registerDefaultEvent(zoomCamera);
@@ -66,10 +66,10 @@ namespace Editor
             computeStartingValues(translation - lookAt);
         }
 
-        public OrbitCameraController(Vector3 translation, Vector3 lookAt, EventLayer events)
+        public OrbitCameraController(Vector3 translation, Vector3 lookAt, EventManager eventManager)
         {
             this.camera = null;
-            this.events = events;
+            this.events = eventManager[EventLayers.Main];
             this.translation = translation;
             this.lookAt = lookAt;
             computeStartingValues(translation - lookAt);

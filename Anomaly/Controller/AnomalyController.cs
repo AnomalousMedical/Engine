@@ -26,7 +26,6 @@ namespace Anomaly
     /// </summary>
     public class AnomalyController : IDisposable, IDockProvider
     {
-
         #region Fields
         //Engine
         private PluginManager pluginManager;
@@ -143,10 +142,9 @@ namespace Anomaly
             windowsPump.MessageReceived += new PumpMessageEvent(win32Timer_MessageReceived);
             win32Timer.MessagePump = windowsPump;
             mainTimer = win32Timer;
-
             mainTimer.FramerateCap = AnomalyConfig.EngineConfig.MaxFPS;
             inputHandler = pluginManager.PlatformPlugin.createInputHandler(mainForm, false, false, false);
-            eventManager = new EventManager(inputHandler);
+            eventManager = new EventManager(inputHandler, Enum.GetValues(typeof(EventLayers)));
             eventUpdate = new EventUpdateListener(eventManager);
             mainTimer.addUpdateListener(eventUpdate);
             pluginManager.setPlatformInfo(mainTimer, eventManager);
@@ -161,7 +159,7 @@ namespace Anomaly
             toolInterop.setRotateController(rotateController);
             simObjectController = new SimObjectController(this);
 
-            toolManager = new ToolManager(eventManager.DefaultEventLayer);
+            toolManager = new ToolManager(eventManager);
             mainTimer.addUpdateListener(toolManager);
             fixedUpdate = new FullSpeedUpdateListener(sceneController);
             mainTimer.addUpdateListener(fixedUpdate);

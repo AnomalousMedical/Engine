@@ -15,9 +15,9 @@ namespace Editor
         private EventLayer events;
         private bool enabled = true;
 
-        public ToolManager(EventLayer events)
+        public ToolManager(EventManager eventManager)
         {
-            this.events = events;
+            this.events = eventManager[EventLayers.Main];
         }
 
         public void addTool(Tool tool)

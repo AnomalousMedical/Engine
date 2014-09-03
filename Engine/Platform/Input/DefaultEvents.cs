@@ -6,13 +6,6 @@ using System.Text;
 namespace Engine.Platform
 {
     /// <summary>
-    /// This delegate is used to fire new event detected events.  This is called whenever
-    /// a new event is registered in the DefaultEvents class.
-    /// </summary>
-    /// <param name="evt"></param>
-    delegate void NewEventDetected(MessageEvent evt);
-
-    /// <summary>
     /// This class handles the default events for the system.  All classes that create events
     /// can register them with this DefaultEvents class.  Since static variables in some classes
     /// may not be registered until the event managers have been created this class includes
@@ -25,6 +18,13 @@ namespace Engine.Platform
     /// </summary>
     public class DefaultEvents
     {
+        /// <summary>
+        /// This delegate is used to fire new event detected events.  This is called whenever
+        /// a new event is registered in the DefaultEvents class.
+        /// </summary>
+        /// <param name="evt"></param>
+        public delegate void NewEventDetected(MessageEvent evt);
+
         /// <summary>
         /// This is fired when new events have been detected.
         /// </summary>
@@ -60,7 +60,7 @@ namespace Engine.Platform
                 eventManager.addEvent(evt);
             }
 
-            DefaultEvents.OnNewEventDetected += eventManager.EventDetected;
+            DefaultEvents.OnNewEventDetected += eventManager.addEvent;
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Engine.Platform
         /// <param name="eventManager">The event manager to unregister.</param>
         public static void unregisterEventManager(EventManager eventManager)
         {
-            DefaultEvents.OnNewEventDetected -= eventManager.EventDetected;
+            DefaultEvents.OnNewEventDetected -= eventManager.addEvent;
         }
     }
 }

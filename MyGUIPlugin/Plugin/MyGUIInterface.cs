@@ -78,7 +78,10 @@ namespace MyGUIPlugin
 
         public void initialize(PluginManager pluginManager)
         {
-            
+            if(EventLayerKey == null)
+            {
+                throw new ArgumentNullException("EventLayerKey", "EventLayerKey property must be set before initializing MyGUIPlugin.");
+            }
         }
 
         public void link(PluginManager pluginManager)
@@ -131,12 +134,7 @@ namespace MyGUIPlugin
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
         {
             this.mainTimer = mainTimer;
-            EventLayer eventLayer = CustomEventLayer;
-            if (eventLayer == null)
-            {
-                eventLayer = eventManager.addEventLayer(0);
-            }
-            myGUIUpdate = new MyGUIUpdate(gui, eventLayer);
+            myGUIUpdate = new MyGUIUpdate(gui, eventManager[EventLayerKey]);
             mainTimer.addUpdateListener(myGUIUpdate);
         }
 
@@ -231,10 +229,9 @@ namespace MyGUIPlugin
         public static int ViewportZIndex { get; set; }
 
         /// <summary>
-        /// Set this to an EventLayer instance before setting the platform info to use a custom defined EventLayer instead of an
-        /// auto generated one.
+        /// Set this to an EventLayerKey object (likely an enum, this is application defined) before initializing this plugin.
         /// </summary>
-        public static EventLayer CustomEventLayer { get; set; }
+        public static Object EventLayerKey { get; set; }
 
         /// <summary>
         /// This event is fired before MyGUI renders.

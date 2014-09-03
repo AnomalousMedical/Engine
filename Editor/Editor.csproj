@@ -115,6 +115,7 @@
     <Compile Include="DebugVisualizer\DebugVisualizer.Designer.cs">
       <DependentUpon>DebugVisualizer.cs</DependentUpon>
     </Compile>
+    <Compile Include="EventLayers.cs" />
     <Compile Include="IDockProvider.cs" />
     <Compile Include="ObjectEditor\EditInterfaceIconCollection.cs" />
     <Compile Include="ObjectEditor\EditInterfaceViewEvent.cs" />

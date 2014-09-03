@@ -27,11 +27,11 @@ namespace MyGUIPlugin
 
         static TimelineView()
         {
-            addSelection = new MessageEvent(SelectionMode.AddSelection);
+            addSelection = new MessageEvent(SelectionMode.AddSelection, MyGUIInterface.EventLayerKey);
             addSelection.addButton(KeyboardButtonCode.KC_LCONTROL);
             DefaultEvents.registerDefaultEvent(addSelection);
 
-            removeSelection = new MessageEvent(SelectionMode.RemoveSelection);
+            removeSelection = new MessageEvent(SelectionMode.RemoveSelection, MyGUIInterface.EventLayerKey);
             removeSelection.addButton(KeyboardButtonCode.KC_LMENU);
             DefaultEvents.registerDefaultEvent(removeSelection);
         }

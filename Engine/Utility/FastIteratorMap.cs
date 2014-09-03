@@ -35,6 +35,12 @@ namespace Engine
             }
         }
 
+        internal void Insert(int index, Key key, Value value)
+        {
+            dictionary.Add(key, value);
+            list.Insert(index, value);
+        }
+
         public bool TryGetValue(Key key, out Value value)
         {
             return dictionary.TryGetValue(key, out value);

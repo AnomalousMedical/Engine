@@ -161,7 +161,7 @@ namespace OgreModelEditor
 
             mainTimer.FramerateCap = OgreModelEditorConfig.EngineConfig.MaxFPS;
             inputHandler = pluginManager.PlatformPlugin.createInputHandler(mainForm, false, false, false);
-            eventManager = new EventManager(inputHandler);
+            eventManager = new EventManager(inputHandler, Enum.GetValues(typeof(EventLayers)));
             eventUpdate = new EventUpdateListener(eventManager);
             mainTimer.addUpdateListener(eventUpdate);
             pluginManager.setPlatformInfo(mainTimer, eventManager);
@@ -174,7 +174,7 @@ namespace OgreModelEditor
             toolInterop.setSelectionController(selectionController);
             toolInterop.setRotateController(rotateController);
 
-            toolManager = new ToolManager(eventManager.DefaultEventLayer);
+            toolManager = new ToolManager(eventManager);
             mainTimer.addUpdateListener(toolManager);
             toolInterop.setToolManager(toolManager);
             movementTool = new MovementTool("MovementTool", moveController);

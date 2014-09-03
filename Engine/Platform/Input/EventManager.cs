@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Logging;
+using System.Collections;
 
 namespace Engine.Platform
 {
@@ -17,28 +18,25 @@ namespace Engine.Platform
         private InputHandler inputHandler;
         private KeyboardHardware keyboard = null;
         private MouseHardware mouse = null;
-        
-        private List<EventLayer> eventLayers = new List<EventLayer>();
-        //Temporary
-        EventLayer defaultLayer;
 
-        internal NewEventDetected EventDetected { get; private set; }
+        private FastIteratorMap<Object, EventLayer> eventLayers = new FastIteratorMap<object, EventLayer>();
 
         /// <summary>
-        /// Constructor takes the input handler to use.
+        /// Constructor takes the input handler to use and an enumearble over the layer keys in order that they should be processed
         /// </summary>
         /// <param name="inputHandler">The input handler to use.</param>
-        public EventManager(InputHandler inputHandler)
+        public EventManager(InputHandler inputHandler, IEnumerable layerKeys)
         {
-            EventDetected = new NewEventDetected(addEvent);
             this.inputHandler = inputHandler;
             keyboard = inputHandler.createKeyboard(true, this);
             mouse = inputHandler.createMouse(false, this);
-            DefaultEvents.registerEventManager(this);
 
-            //Temp
-            defaultLayer = new EventLayer(this, keyboard, mouse);
-            eventLayers.Add(defaultLayer);
+            foreach (object key in layerKeys)
+            {
+                eventLayers.Add(key, new EventLayer(this, keyboard, mouse));
+            }
+
+            DefaultEvents.registerEventManager(this);
         }
 
         /// <summary>
@@ -46,74 +44,9 @@ namespace Engine.Platform
         /// </summary>
         public void Dispose()
         {
-            destroyInputObjects();
+            inputHandler.destroyKeyboard(keyboard);
+            inputHandler.destroyMouse(mouse);
             DefaultEvents.unregisterEventManager(this);
-        }
-
-        public void destroyInputObjects()
-        {
-            if (keyboard != null)
-            {
-                inputHandler.destroyKeyboard(keyboard);
-            }
-            if (mouse != null)
-            {
-                inputHandler.destroyMouse(mouse);
-            }
-        }
-
-        public void changeInputHandler(InputHandler newHandler)
-        {
-            this.inputHandler = newHandler;
-            keyboard = inputHandler.createKeyboard(true, this);
-            mouse = inputHandler.createMouse(false, this);
-        }
-
-        public EventLayer addEventLayer(int index = int.MaxValue)
-        {
-            EventLayer eventLayer = new EventLayer(this, keyboard, mouse);
-            if(index < eventLayers.Count)
-            {
-                eventLayers.Insert(index, eventLayer);
-            }
-            else
-            {
-                eventLayers.Add(eventLayer);
-            }
-            return eventLayer;
-        }
-
-        public void removeEventLayer(EventLayer eventLayer)
-        {
-            eventLayers.Remove(eventLayer);
-        }
-
-        /// <summary>
-        /// Add an event to this event manager.
-        /// </summary>
-        /// <param name="evt">The event to add.</param>
-        public void addEvent(MessageEvent evt)
-        {
-            defaultLayer.addEvent(evt);
-        }
-
-        /// <summary>
-        /// Remove an event from this event manager.
-        /// </summary>
-        /// <param name="evt">The event to remove.</param>
-        public void removeEvent(MessageEvent evt)
-        {
-            defaultLayer.removeEvent(evt);
-        }
-
-        /// <summary>
-        /// Determine if the container already identifies the given event.
-        /// </summary>
-        /// <param name="evt">The event to check for.</param>
-        /// <returns>True if the container contains the event.  False if it does not.</returns>
-        public bool containsEvent(object evt)
-        {
-            return defaultLayer.containsEvent(evt);
         }
 
         /// <summary>
@@ -144,6 +77,28 @@ namespace Engine.Platform
                 //keeps its HandledEvents property set where it should be.
                 layer.HandledEvents = false;
             }
+        }
+
+        public EventLayer this[Object key]
+        {
+            get
+            {
+                return eventLayers[key];
+            }
+        }
+
+        /// <summary>
+        /// Add an event to this EventManager.
+        /// </summary>
+        /// <param name="messageEvent"></param>
+        public void addEvent(MessageEvent messageEvent)
+        {
+            eventLayers[messageEvent.EventLayerKey].addEvent(messageEvent);
+        }
+
+        public void removeEvent(MessageEvent messageEvent)
+        {
+            eventLayers[messageEvent.EventLayerKey].removeEvent(messageEvent);
         }
 
         /// <summary>
@@ -214,39 +169,6 @@ namespace Engine.Platform
                 {
                     break;
                 }
-            }
-        }
-
-        /// <summary>
-        /// Returns the number of events in this container.
-        /// </summary>
-        public int Count
-        {
-            get
-            {
-                return defaultLayer.Count;
-            }
-        }
-
-        /// <summary>
-        /// Index for easy access to events.
-        /// </summary>
-        /// <param name="index">The event to index.</param>
-        /// <returns>The event identified by index.</returns>
-        public MessageEvent this[object index]
-        {
-            get
-            {
-                return defaultLayer[index];
-            }
-        }
-
-        //TEMPORARY
-        public EventLayer DefaultEventLayer
-        {
-            get
-            {
-                return defaultLayer;
             }
         }
     }

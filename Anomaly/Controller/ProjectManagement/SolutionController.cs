@@ -22,11 +22,11 @@ namespace Anomaly
 
         static SolutionController()
         {
-            MessageEvent addSelectable = new MessageEvent(Events.AddSelectableObject);
+            MessageEvent addSelectable = new MessageEvent(Events.AddSelectableObject, EventLayers.Main);
             addSelectable.addButton(KeyboardButtonCode.KC_LCONTROL);
             DefaultEvents.registerDefaultEvent(addSelectable);
 
-            MessageEvent removeSelectable = new MessageEvent(Events.RemoveSelectableObject);
+            MessageEvent removeSelectable = new MessageEvent(Events.RemoveSelectableObject, EventLayers.Main);
             removeSelectable.addButton(KeyboardButtonCode.KC_LMENU);
             DefaultEvents.registerDefaultEvent(removeSelectable);
         }
@@ -130,11 +130,11 @@ namespace Anomaly
                 InstanceFileInterface instanceFile = editInterface.getEditableProperties().First() as InstanceFileInterface;
                 if (instanceFile != null)
                 {
-                    if (controller.EventManager[Events.AddSelectableObject].HeldDown)
+                    if (controller.EventManager[EventLayers.Main][Events.AddSelectableObject].HeldDown)
                     {
                         controller.SelectionController.addSelectedObject(instanceFile);
                     }
-                    else if (controller.EventManager[Events.RemoveSelectableObject].HeldDown)
+                    else if (controller.EventManager[EventLayers.Main][Events.RemoveSelectableObject].HeldDown)
                     {
                         controller.SelectionController.removeSelectedObject(instanceFile);
                     }

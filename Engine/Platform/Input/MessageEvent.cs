@@ -34,17 +34,18 @@ namespace Engine.Platform
         /// Constructor.
         /// </summary>
         /// <param name="name">The int representing the name of the event.</param>
-        public MessageEvent(object name)
+        public MessageEvent(object name, object eventLayerKey)
         {
             Name = name;
+            EventLayerKey = eventLayerKey;
             HeldDown = false;
             ReleasedUp = true;
             FirstFrameDown = false;
             FirstFrameUp = false;
         }
 
-        public MessageEvent(Object name, MessageEventCallback frameDown = null, MessageEventCallback frameUp = null, IEnumerable<KeyboardButtonCode> keys = null, IEnumerable<MouseButtonCode> mouseButtons = null)
-            :this(name)
+        public MessageEvent(Object name, object eventLayerKey, MessageEventCallback frameDown = null, MessageEventCallback frameUp = null, IEnumerable<KeyboardButtonCode> keys = null, IEnumerable<MouseButtonCode> mouseButtons = null)
+            :this(name, eventLayerKey)
         {
             FirstFrameDownEvent += frameDown;
             FirstFrameUpEvent += frameUp;
@@ -157,7 +158,16 @@ namespace Engine.Platform
             MouseWheelDirection = MouseWheelDirection.None;
         }
 
+        /// <summary>
+        /// Determine the direction the mouse wheel should be moving on the frame this event fires. By default it is None,
+        /// which means the mouse wheel is not involved in this event.
+        /// </summary>
         public MouseWheelDirection MouseWheelDirection { get; set; }
+
+        /// <summary>
+        /// The key for the event layer this event should register on.
+        /// </summary>
+        public Object EventLayerKey { get; private set; }
 
         public String KeyDescription
         {
