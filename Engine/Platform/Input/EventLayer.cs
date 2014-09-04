@@ -20,6 +20,7 @@ namespace Engine.Platform
             Keyboard = new Keyboard(keyboardHardware);
             Mouse = new Mouse(mouseHardware);
             HandledEvents = false;
+            Locked = false;
         }
 
         /// <summary>
@@ -139,9 +140,28 @@ namespace Engine.Platform
         public Keyboard Keyboard { get; private set; }
 
         /// <summary>
+        /// Set this to true to lock input to not go past this layer. Set this to false to allow input past this layer again.
+        /// This is likely not to be used commonly since the stack will take care of these issues mostly, however, for layers
+        /// that deal directly with mouse and keyboard input (like a gui) this will be useful since HandledEvents is reset every
+        /// frame, but a Mouse clicked or moved event may not fire each frame.
+        /// </summary>
+        public bool Locked { get; set; }
+
+        /// <summary>
         /// An internal property to track if this layer has handled its events. Do not make this public it has no real meaning
         /// beyond the EventManager's processing loop.
         /// </summary>
         internal bool HandledEvents { get; set; }
+
+        /// <summary>
+        /// This property determines if the next event layer should be processed. It will be true if Locked or HandledEvents are true.
+        /// </summary>
+        internal bool SkipNextLayer
+        {
+            get
+            {
+                return HandledEvents || Locked;
+            }
+        }
     }
 }

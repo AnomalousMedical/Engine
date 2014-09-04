@@ -56,6 +56,7 @@ namespace MyGUIPlugin
             {
                 eventLayer.alertEventsHandled();
             }
+            eventLayer.Locked = mouse.AnyButtonsDown;
         }
 
         void mouse_ButtonDown(Mouse mouse, MouseButtonCode buttonCode)
@@ -65,6 +66,7 @@ namespace MyGUIPlugin
             if (gui.HandledMouseButtons || inputManager.isModalAny())
             {
                 eventLayer.alertEventsHandled();
+                eventLayer.Locked = true;
             }
         }
 

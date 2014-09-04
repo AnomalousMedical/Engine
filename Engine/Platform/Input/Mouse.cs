@@ -89,6 +89,14 @@ namespace Engine.Platform
             }
         }
 
+        public bool AnyButtonsDown
+        {
+            get
+            {
+                return mouseHardware.AnyButtonsDown;
+            }
+        }
+
         internal void fireButtonDown(MouseButtonCode button)
         {
             if (ButtonDown != null)

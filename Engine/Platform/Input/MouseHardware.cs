@@ -53,6 +53,24 @@ namespace Engine.Platform
 	    /// <returns>The height of the mouse area.</returns>
         public abstract float AreaHeight { get; }
 
+        /// <summary>
+        /// This will be true if any mouse buttons are down.
+        /// </summary>
+        public bool AnyButtonsDown
+        {
+            get
+            {
+                return buttonDown(MouseButtonCode.MB_BUTTON0)
+                    || buttonDown(MouseButtonCode.MB_BUTTON1)
+                    || buttonDown(MouseButtonCode.MB_BUTTON2)
+                    || buttonDown(MouseButtonCode.MB_BUTTON3)
+                    || buttonDown(MouseButtonCode.MB_BUTTON4)
+                    || buttonDown(MouseButtonCode.MB_BUTTON5)
+                    || buttonDown(MouseButtonCode.MB_BUTTON6)
+                    || buttonDown(MouseButtonCode.MB_BUTTON7);
+            }
+        }
+
         protected void fireButtonDown(MouseButtonCode button)
         {
             eventManager.fireButtonDown(button);

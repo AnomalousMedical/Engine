@@ -70,7 +70,7 @@ namespace Engine.Platform
                 layer.update(allowEventProcessing);
 
                 //Modify allowEventProcessing as needed, if we have already set allowEventProcessing to false it should stay false
-                allowEventProcessing = allowEventProcessing && !layer.HandledEvents;
+                allowEventProcessing = allowEventProcessing && !layer.SkipNextLayer;
 
                 //Reset the layer's HandledEvents for this frame, this is done last to reset without iterating again.
                 //Doing this last also ensures that if we stopped early on one of the fire events below that that layer
@@ -110,7 +110,7 @@ namespace Engine.Platform
             foreach (var layer in eventLayers)
             {
                 layer.Keyboard.fireKeyPressed(keyCode, keyChar);
-                if(layer.HandledEvents)
+                if (layer.SkipNextLayer)
                 {
                     break;
                 }
@@ -126,7 +126,7 @@ namespace Engine.Platform
             foreach (var layer in eventLayers)
             {
                 layer.Keyboard.fireKeyReleased(keyCode, keyChar);
-                if (layer.HandledEvents)
+                if (layer.SkipNextLayer)
                 {
                     break;
                 }
@@ -139,7 +139,7 @@ namespace Engine.Platform
             foreach (var layer in eventLayers)
             {
                 layer.Mouse.fireButtonDown(button);
-                if (layer.HandledEvents)
+                if (layer.SkipNextLayer)
                 {
                     break;
                 }
@@ -152,7 +152,7 @@ namespace Engine.Platform
             foreach (var layer in eventLayers)
             {
                 layer.Mouse.fireButtonUp(button);
-                if (layer.HandledEvents)
+                if (layer.SkipNextLayer)
                 {
                     break;
                 }
@@ -165,7 +165,7 @@ namespace Engine.Platform
             foreach (var layer in eventLayers)
             {
                 layer.Mouse.fireMoved();
-                if (layer.HandledEvents)
+                if (layer.SkipNextLayer)
                 {
                     break;
                 }
