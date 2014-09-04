@@ -40,8 +40,8 @@ namespace MyGUIPlugin
 
         void mouse_Moved(Mouse mouse)
         {
-            Vector3 mousePos = mouse.AbsolutePosition;
-            gui.HandledMouseMove = inputManager.injectMouseMove((int)mousePos.x, (int)mousePos.y, (int)mousePos.z);
+            IntVector3 mousePos = mouse.AbsolutePosition;
+            gui.HandledMouseMove = inputManager.injectMouseMove(mousePos.x, mousePos.y, mousePos.z);
             if(gui.HandledMouseMove || inputManager.isModalAny())
             {
                 eventLayer.alertEventsHandled();
@@ -50,8 +50,8 @@ namespace MyGUIPlugin
 
         void mouse_ButtonUp(Mouse mouse, MouseButtonCode buttonCode)
         {
-            Vector3 mousePos = mouse.AbsolutePosition;
-            gui.HandledMouseButtons = inputManager.injectMouseRelease((int)mousePos.x, (int)mousePos.y, buttonCode);
+            IntVector3 mousePos = mouse.AbsolutePosition;
+            gui.HandledMouseButtons = inputManager.injectMouseRelease(mousePos.x, mousePos.y, buttonCode);
             if (gui.HandledMouseButtons || inputManager.isModalAny())
             {
                 eventLayer.alertEventsHandled();
@@ -61,8 +61,8 @@ namespace MyGUIPlugin
 
         void mouse_ButtonDown(Mouse mouse, MouseButtonCode buttonCode)
         {
-            Vector3 mousePos = mouse.AbsolutePosition;
-            gui.HandledMouseButtons = inputManager.injectMousePress((int)mousePos.x, (int)mousePos.y, buttonCode);
+            IntVector3 mousePos = mouse.AbsolutePosition;
+            gui.HandledMouseButtons = inputManager.injectMousePress(mousePos.x, mousePos.y, buttonCode);
             if (gui.HandledMouseButtons || inputManager.isModalAny())
             {
                 eventLayer.alertEventsHandled();

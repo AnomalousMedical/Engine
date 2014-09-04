@@ -129,6 +129,7 @@
     <Compile Include="Math\3d\Quaternion.cs" />
     <Compile Include="Math\3d\Ray3.cs" />
     <Compile Include="Math\3d\Segment3.cs" />
+    <Compile Include="Math\3d\IntVector3.cs" />
     <Compile Include="Math\3d\Vector3.cs" />
     <Compile Include="Math\3d\Vector4.cs" />
     <Compile Include="Math\Curves\MultiQuadraticBezierCurve.cs" />

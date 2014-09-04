@@ -50,7 +50,7 @@ namespace BEPUikPlugin
             set
             {
                 targetBone = value;
-                dragControl.TargetBone = targetBone.IkBone;
+                dragControl.TargetBone = targetBone != null ? targetBone.IkBone : null;
             }
         }
 

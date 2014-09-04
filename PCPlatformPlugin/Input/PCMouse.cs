@@ -13,8 +13,8 @@ namespace PCPlatform
         IntPtr mouse;
         int windowWidth;
         int windowHeight;
-        private Vector3 abs = new Vector3();
-        private Vector3 rel = new Vector3();
+        private IntVector3 abs = new IntVector3();
+        private IntVector3 rel = new IntVector3();
 
         public PCMouse(IntPtr mouse, int windowWidth, int windowHeight, EventManager eventManager)
             :base(eventManager)
@@ -42,7 +42,7 @@ namespace PCPlatform
             oisMouse_capture(mouse, ref abs, ref rel);
         }
 
-        public override Vector3 AbsolutePosition
+        public override IntVector3 AbsolutePosition
         {
             get
             {
@@ -50,7 +50,7 @@ namespace PCPlatform
             }
         }
 
-        public override Vector3 RelativePosition
+        public override IntVector3 RelativePosition
         {
             get
             {
@@ -90,6 +90,6 @@ namespace PCPlatform
         private static extern bool oisMouse_buttonDown(IntPtr mouse, MouseButtonCode button);
 
         [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void oisMouse_capture(IntPtr mouse, ref Vector3 absPos, ref Vector3 relPos);
+        private static extern void oisMouse_capture(IntPtr mouse, ref IntVector3 absPos, ref IntVector3 relPos);
     }
 }

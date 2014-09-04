@@ -29,7 +29,7 @@ namespace Engine
         /// </summary>
         /// <param name="x">X location.</param>
         /// <param name="y">Y location.</param>
-        void getLocalCoords(ref float x, ref float y);
+        void getLocalCoords(ref int x, ref int y);
 
         /// <summary>
         /// Get the width of the mouse area for this validator.

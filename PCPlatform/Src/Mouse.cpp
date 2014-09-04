@@ -1,12 +1,12 @@
 #include "Stdafx.h"
 #include "OIS.h"
 
-class Vector3
+class IntVector3
 {
 public:
-	float x, y, z;
+	int x, y, z;
 
-	Vector3(float x, float y, float z)
+	IntVector3(int x, int y, int z)
 		:x(x),
 		y(y),
 		z(z)
@@ -27,16 +27,16 @@ extern "C" _AnomalousExport bool oisMouse_buttonDown(OIS::Mouse* mouse, OIS::Mou
 	return mouse->getMouseState().buttonDown(button);
 }
 
-extern "C" _AnomalousExport void oisMouse_capture(OIS::Mouse* mouse, Vector3* absPos, Vector3* relPos)
+extern "C" _AnomalousExport void oisMouse_capture(OIS::Mouse* mouse, IntVector3* absPos, IntVector3* relPos)
 {
 	mouse->capture();
 
 	const OIS::MouseState& state = mouse->getMouseState();
-	absPos->x = (float)state.X.abs;
-	absPos->y = (float)state.Y.abs;
-	absPos->z = (float)state.Z.abs;
+	absPos->x = state.X.abs;
+	absPos->y = state.Y.abs;
+	absPos->z = state.Z.abs;
 
-	relPos->x = (float)state.X.rel;
-	relPos->y = (float)state.Y.rel;
-	relPos->z = (float)state.Z.rel;
+	relPos->x = state.X.rel;
+	relPos->y = state.Y.rel;
+	relPos->z = state.Z.rel;
 }

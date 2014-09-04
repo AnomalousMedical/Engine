@@ -46,7 +46,7 @@ namespace Editor
         {
             //Process the mouse
             Mouse mouse = events.Mouse;
-            Vector3 mouseLoc = mouse.AbsolutePosition;
+            IntVector3 mouseLoc = mouse.AbsolutePosition;
             CameraMotionValidator validator = activeValidator;
             if (validator == null)
             {
@@ -55,7 +55,7 @@ namespace Editor
             if (validator != null)
             {
                 validator.getLocalCoords(ref mouseLoc.x, ref mouseLoc.y);
-                processSelection(events, validator, mouse, ref mouseLoc);
+                processSelection(events, validator, mouse, mouseLoc);
             }
 
             //Check for resize
@@ -83,7 +83,7 @@ namespace Editor
 
         public bool AllowPicking { get; set; }
 
-        private void processSelection(EventLayer events, CameraMotionValidator validator, Mouse mouse, ref Vector3 mouseLoc)
+        private void processSelection(EventLayer events, CameraMotionValidator validator, Mouse mouse, IntVector3 mouseLoc)
         {
             Vector3 trans = translation;
             SceneView camera = validator.getCamera();
@@ -96,7 +96,7 @@ namespace Editor
             }
             else if (events[ToolEvents.Pick].HeldDown && (xAxis.isSelected() || yAxis.isSelected() || zAxis.isSelected()))
             {
-                Vector3 relMouse = mouse.RelativePosition;
+                IntVector3 relMouse = mouse.RelativePosition;
                 float amount = relMouse.x + relMouse.y;
                 amount /= 100;
                 xAxis.computeRotation(ref currentEulerRotation, amount);

@@ -79,7 +79,7 @@ namespace Editor
         {
             if (camera != null)
             {
-                Vector3 mouseCoords = events.Mouse.AbsolutePosition;
+                IntVector3 mouseCoords = events.Mouse.AbsolutePosition;
                 bool activeWindow = motionValidator == null || (motionValidator.allowMotion((int)mouseCoords.x, (int)mouseCoords.y) && motionValidator.isActiveWindow());
                 if (events[CameraEvents.RotateCamera].FirstFrameDown)
                 {

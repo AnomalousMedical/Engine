@@ -97,12 +97,12 @@ namespace Editor
             {
                 //Process the mouse
                 Mouse mouse = events.Mouse;
-                Vector3 mouseLoc = mouse.AbsolutePosition;
+                IntVector3 mouseLoc = mouse.AbsolutePosition;
                 CameraMotionValidator validator = CameraResolver.getValidatorForLocation((int)mouseLoc.x, (int)mouseLoc.y);
                 if (validator != null)
                 {
                     validator.getLocalCoords(ref mouseLoc.x, ref mouseLoc.y);
-                    processSelection(events, validator, ref mouseLoc);
+                    processSelection(events, validator, mouseLoc);
                 }
 
                 //Check for resize
@@ -149,7 +149,7 @@ namespace Editor
             yzAxisBox.setLength(currentLength / DOUBLE_AXIS_SCALE);
         }
 
-        private void processSelection(EventLayer events, CameraMotionValidator validator, ref Vector3 mouseLoc)
+        private void processSelection(EventLayer events, CameraMotionValidator validator, IntVector3 mouseLoc)
         {
             Vector3 trans = moveController.Translation;
             SceneView camera = validator.getCamera();

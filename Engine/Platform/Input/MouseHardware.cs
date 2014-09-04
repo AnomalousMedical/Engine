@@ -33,13 +33,13 @@ namespace Engine.Platform
         /// and 0, 0.
         /// </summary>
         /// <returns>The position of the mouse.</returns>
-        public abstract Vector3 AbsolutePosition { get; }
+        public abstract IntVector3 AbsolutePosition { get; }
 
         /// <summary>
         /// Returns the relative mouse position from the last time capture was called.
         /// </summary>
         /// <returns>The relative mouse position.</returns>
-        public abstract Vector3 RelativePosition { get; }
+        public abstract IntVector3 RelativePosition { get; }
 
 	    /// <summary>
 	    /// Get the width that the mouse produces input for.

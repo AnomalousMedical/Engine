@@ -47,7 +47,7 @@ namespace Engine.Platform
         /// and 0, 0.
         /// </summary>
         /// <returns>The position of the mouse.</returns>
-        public Vector3 AbsolutePosition
+        public IntVector3 AbsolutePosition
         {
             get
             {
@@ -59,7 +59,7 @@ namespace Engine.Platform
         /// Returns the relative mouse position from the last time capture was called.
         /// </summary>
         /// <returns>The relative mouse position.</returns>
-        public Vector3 RelativePosition
+        public IntVector3 RelativePosition
         {
             get
             {

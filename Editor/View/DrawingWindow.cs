@@ -243,7 +243,7 @@ namespace Editor
         /// </summary>
         /// <param name="x">X location.</param>
         /// <param name="y">Y location.</param>
-        public void getLocalCoords(ref float x, ref float y)
+        public void getLocalCoords(ref int x, ref int y)
         {
             doGetLocalCoords(ref x, ref y, this);
         }
@@ -255,7 +255,7 @@ namespace Editor
         /// <param name="x">The x location.</param>
         /// <param name="y">The y location.</param>
         /// <param name="ctrl">The current control to scan.</param>
-        private void doGetLocalCoords(ref float x, ref float y, Control ctrl)
+        private void doGetLocalCoords(ref int x, ref int y, Control ctrl)
         {
             if (ctrl.Parent != null)
             {
