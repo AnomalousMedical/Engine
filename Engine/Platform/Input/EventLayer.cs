@@ -14,6 +14,14 @@ namespace Engine.Platform
         //Events stored in a list for fast iteration.
         private List<MessageEvent> eventList = new List<MessageEvent>();
 
+        public delegate void EventLayerUpdate(EventLayer eventLayer, bool allowEventProcessing);
+
+        /// <summary>
+        /// This event is fired when the EventLayer is updated. This will happen every frame
+        /// that the eventManager is processed.
+        /// </summary>
+        public event EventLayerUpdate OnUpdate;
+
         internal EventLayer(EventManager eventManager, KeyboardHardware keyboardHardware, MouseHardware mouseHardware)
         {
             this.EventManager = eventManager;
@@ -71,6 +79,12 @@ namespace Engine.Platform
         /// Call this function to alert the Layer that one of its events has been handled. This will prevent
         /// lower layers from having events with down status and will force them to up.
         /// </summary>
+        /// <remarks>
+        /// This will only cause the event layers to skip the remaining elements in the stack if it is called during a MessageEvent handler
+        /// like FirstFrameDownEvent, FirstFrameUpEvent, OnHeldDown or OnDown or during the OnUpdate call from
+        /// this layer, otherwise it is likely that the event stack will be processed completely before you are able
+        /// to call this function.
+        /// </remarks>
         public void alertEventsHandled()
         {
             HandledEvents = true;
@@ -85,6 +99,10 @@ namespace Engine.Platform
             foreach (MessageEvent evt in eventList)
             {
                 evt.update(this, allowProcessing);
+            }
+            if(OnUpdate != null)
+            {
+                OnUpdate.Invoke(this, allowProcessing);
             }
         }
 
@@ -145,6 +163,12 @@ namespace Engine.Platform
         /// that deal directly with mouse and keyboard input (like a gui) this will be useful since HandledEvents is reset every
         /// frame, but a Mouse clicked or moved event may not fire each frame.
         /// </summary>
+        /// <remarks>
+        /// This will only cause the event layers to skip the remaining elements in the stack if it is set during a MessageEvent handler
+        /// like FirstFrameDownEvent, FirstFrameUpEvent, OnHeldDown or OnDown or during the OnUpdate call from
+        /// this layer, otherwise it is likely that the event stack will be processed completely before you are able
+        /// to call this function.
+        /// </remarks>
         public bool Locked { get; set; }
 
         /// <summary>
