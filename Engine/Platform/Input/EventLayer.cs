@@ -14,13 +14,11 @@ namespace Engine.Platform
         //Events stored in a list for fast iteration.
         private List<MessageEvent> eventList = new List<MessageEvent>();
 
-        public delegate void EventLayerUpdate(EventLayer eventLayer, bool allowEventProcessing);
-
         /// <summary>
         /// This event is fired when the EventLayer is updated. This will happen every frame
         /// that the eventManager is processed.
         /// </summary>
-        public event EventLayerUpdate OnUpdate;
+        public event MessageEventCallback OnUpdate;
 
         internal EventLayer(EventManager eventManager, KeyboardHardware keyboardHardware, MouseHardware mouseHardware)
         {
@@ -91,18 +89,36 @@ namespace Engine.Platform
         }
 
         /// <summary>
+        /// Make this event layer the "focus" layer. This means that it will be processed before any other
+        /// event layers in the stack.
+        /// </summary>
+        public void focus()
+        {
+            EventManager.setFocusedEventLayer(this);
+        }
+
+        /// <summary>
+        /// Unfocus this event layer, this will only have an effect if this layer is the current focused layer.
+        /// </summary>
+        public void unfocus()
+        {
+            EventManager.clearFocusedEventLayer(this);
+        }
+
+        /// <summary>
         /// Update this layer, allowProcessing determines if the 
         /// </summary>
         /// <param name="allowProcessing"></param>
         internal void update(bool allowProcessing)
         {
+            EventProcessingAllowed = allowProcessing;
             foreach (MessageEvent evt in eventList)
             {
                 evt.update(this, allowProcessing);
             }
             if(OnUpdate != null)
             {
-                OnUpdate.Invoke(this, allowProcessing);
+                OnUpdate.Invoke(this);
             }
         }
 
@@ -134,6 +150,12 @@ namespace Engine.Platform
         /// The EventManager this layer is a part of.
         /// </summary>
         public EventManager EventManager { get; private set; }
+
+        /// <summary>
+        /// This will be true if the events for this layer were actually processed the last time update was called
+        /// and false if they were not.
+        /// </summary>
+        public bool EventProcessingAllowed { get; set; }
 
         /// <summary>
         /// Access to the Mouse for this layer, the events on that object will respect the event layer stack so if a higher

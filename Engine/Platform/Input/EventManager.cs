@@ -18,6 +18,7 @@ namespace Engine.Platform
         private InputHandler inputHandler;
         private KeyboardHardware keyboard = null;
         private MouseHardware mouse = null;
+        private EventLayer focusedEventLayer = null;
 
         private FastIteratorMap<Object, EventLayer> eventLayers = new FastIteratorMap<object, EventLayer>();
 
@@ -64,7 +65,7 @@ namespace Engine.Platform
                 keyboard.capture();
             }
             bool allowEventProcessing = true; //The first layer always gets all events
-            foreach (var layer in eventLayers)
+            foreach (var layer in eventLayerOrder())
             {
                 //First try to update the layer with the current allowEventProcessing
                 layer.update(allowEventProcessing);
@@ -79,6 +80,11 @@ namespace Engine.Platform
             }
         }
 
+        /// <summary>
+        /// Get the EventLayer specified by key.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public EventLayer this[Object key]
         {
             get
@@ -96,9 +102,36 @@ namespace Engine.Platform
             eventLayers[messageEvent.EventLayerKey].addEvent(messageEvent);
         }
 
+        /// <summary>
+        /// Remove a MessageEvent from this event manager.
+        /// </summary>
+        /// <param name="messageEvent"></param>
         public void removeEvent(MessageEvent messageEvent)
         {
             eventLayers[messageEvent.EventLayerKey].removeEvent(messageEvent);
+        }
+
+        /// <summary>
+        /// Set the current focused event layer. This event layer will always be processed first no
+        /// matter where it is in the EventLayer stack. It will be skipped in its normal position.
+        /// </summary>
+        /// <param name="layer">The layer to focus.</param>
+        internal void setFocusedEventLayer(EventLayer layer)
+        {
+            focusedEventLayer = layer;
+        }
+
+        /// <summary>
+        /// Clear the focused event layer if it is equal to layer. This way only the layer that requested
+        /// itself to be focused can clear that focus.
+        /// </summary>
+        /// <param name="layer">The layer that is currently focused.</param>
+        internal void clearFocusedEventLayer(EventLayer layer)
+        {
+            if(focusedEventLayer == layer)
+            {
+                focusedEventLayer = null;
+            }
         }
 
         /// <summary>
@@ -107,7 +140,7 @@ namespace Engine.Platform
         internal void fireKeyPressed(KeyboardButtonCode keyCode, uint keyChar)
         {
             //See UpdateEvents for how HandledEvents is processed
-            foreach (var layer in eventLayers)
+            foreach (var layer in eventLayerOrder())
             {
                 layer.Keyboard.fireKeyPressed(keyCode, keyChar);
                 if (layer.SkipNextLayer)
@@ -123,7 +156,7 @@ namespace Engine.Platform
         internal void fireKeyReleased(KeyboardButtonCode keyCode, uint keyChar)
         {
             //See UpdateEvents for how HandledEvents is processed
-            foreach (var layer in eventLayers)
+            foreach (var layer in eventLayerOrder())
             {
                 layer.Keyboard.fireKeyReleased(keyCode, keyChar);
                 if (layer.SkipNextLayer)
@@ -136,7 +169,7 @@ namespace Engine.Platform
         internal void fireButtonDown(MouseButtonCode button)
         {
             //See UpdateEvents for how HandledEvents is processed
-            foreach (var layer in eventLayers)
+            foreach (var layer in eventLayerOrder())
             {
                 layer.Mouse.fireButtonDown(button);
                 if (layer.SkipNextLayer)
@@ -149,7 +182,7 @@ namespace Engine.Platform
         internal void fireButtonUp(MouseButtonCode button)
         {
             //See UpdateEvents for how HandledEvents is processed
-            foreach (var layer in eventLayers)
+            foreach (var layer in eventLayerOrder())
             {
                 layer.Mouse.fireButtonUp(button);
                 if (layer.SkipNextLayer)
@@ -162,12 +195,31 @@ namespace Engine.Platform
         internal void fireMoved()
         {
             //See UpdateEvents for how HandledEvents is processed
-            foreach (var layer in eventLayers)
+            foreach (var layer in eventLayerOrder())
             {
                 layer.Mouse.fireMoved();
                 if (layer.SkipNextLayer)
                 {
                     break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Enumerates over the event layers in the correct processing order.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerable<EventLayer> eventLayerOrder()
+        {
+            if (focusedEventLayer != null)
+            {
+                yield return focusedEventLayer;
+            }
+            foreach (var layer in eventLayers)
+            {
+                if (layer != focusedEventLayer)
+                {
+                    yield return layer;
                 }
             }
         }
