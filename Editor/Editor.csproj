@@ -185,6 +185,8 @@
     <Compile Include="Tools\ToolEvents.cs" />
     <Compile Include="Tools\ToolInteropController.cs" />
     <Compile Include="Tools\ToolManager.cs" />
+    <Compile Include="View\CameraMotionValidator.cs" />
+    <Compile Include="View\CameraResolver.cs" />
     <Compile Include="View\CameraSection.cs" />
     <Compile Include="View\DrawingWindow.cs">
       <SubType>UserControl</SubType>
