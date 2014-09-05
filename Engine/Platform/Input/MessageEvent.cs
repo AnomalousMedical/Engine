@@ -194,7 +194,7 @@ namespace Engine.Platform
         /// </summary>
         internal void update(EventLayer eventLayer, bool allowProcessing)
         {
-            if (allowProcessing && scanButtons(eventLayer))
+            if (scanButtons(eventLayer))
             {
                 if (FirstFrameDown)
                 {

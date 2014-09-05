@@ -106,7 +106,7 @@ namespace Engine.Platform
         }
 
         /// <summary>
-        /// Update this layer, allowProcessing determines if the 
+        /// Update this layer, allowProcessing will be true if events should process.
         /// </summary>
         /// <param name="allowProcessing"></param>
         internal void update(bool allowProcessing)
@@ -152,8 +152,10 @@ namespace Engine.Platform
         public EventManager EventManager { get; private set; }
 
         /// <summary>
-        /// This will be true if the events for this layer were actually processed the last time update was called
-        /// and false if they were not.
+        /// This will be true if the events fired by this layer have not already had their input handled by a higher layer. This is
+        /// really important to check if you want the stack to actually work since all layers will process events and fire them no matter
+        /// if event processing is allowed or not (this makes tracking down up etc consistant otherwise there are lots of problems).
+        /// To determine if you should actually do something with the event you are getting make sure this is true.
         /// </summary>
         public bool EventProcessingAllowed { get; set; }
 
