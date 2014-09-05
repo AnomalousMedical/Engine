@@ -89,23 +89,6 @@ namespace Engine.Platform
         }
 
         /// <summary>
-        /// Make this event layer the "focus" layer. This means that it will be processed before any other
-        /// event layers in the stack.
-        /// </summary>
-        public void focus()
-        {
-            EventManager.setFocusedEventLayer(this);
-        }
-
-        /// <summary>
-        /// Unfocus this event layer, this will only have an effect if this layer is the current focused layer.
-        /// </summary>
-        public void unfocus()
-        {
-            EventManager.clearFocusedEventLayer(this);
-        }
-
-        /// <summary>
         /// Update this layer, allowProcessing will be true if events should process.
         /// </summary>
         /// <param name="allowProcessing"></param>
