@@ -58,7 +58,7 @@ namespace PCPlatform
             }
         }
 
-        public override float AreaWidth
+        public override int AreaWidth
         {
             get
             {
@@ -66,7 +66,7 @@ namespace PCPlatform
             }
         }
 
-        public override float AreaHeight
+        public override int AreaHeight
         {
             get
             {

@@ -45,13 +45,13 @@ namespace Engine.Platform
 	    /// Get the width that the mouse produces input for.
 	    /// </summary>
 	    /// <returns>The width of the mouse area.</returns>
-        public abstract float AreaWidth { get; }
+        public abstract int AreaWidth { get; }
 
 	    /// <summary>
 	    /// Get the height that the mouse produces input for.
 	    /// </summary>
 	    /// <returns>The height of the mouse area.</returns>
-        public abstract float AreaHeight { get; }
+        public abstract int AreaHeight { get; }
 
         /// <summary>
         /// This will be true if any mouse buttons are down.

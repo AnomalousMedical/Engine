@@ -70,7 +70,7 @@ namespace Engine.Platform
         /// <summary>
         /// Get the width that the mouse produces input for.
         /// </summary>
-        public float AreaWidth
+        public int AreaWidth
         {
             get
             {
@@ -81,7 +81,7 @@ namespace Engine.Platform
         /// <summary>
         /// Get the height that the mouse produces input for.
         /// </summary>
-        public float AreaHeight
+        public int AreaHeight
         {
             get
             {
