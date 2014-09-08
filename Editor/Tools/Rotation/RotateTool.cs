@@ -59,12 +59,12 @@ namespace Editor
             }
 
             //Check for resize
-            if (events[ToolEvents.IncreaseToolSize].FirstFrameUp)
+            if (MovementTool.IncreaseToolSize.FirstFrameUp)
             {
                 currentRadius += RADIUS_DELTA;
                 resizeAxes();
             }
-            else if (events[ToolEvents.DecreaseToolSize].FirstFrameUp)
+            else if (MovementTool.DecreaseToolSize.FirstFrameUp)
             {
                 if (currentRadius - RADIUS_DELTA > 0)
                 {
@@ -88,13 +88,13 @@ namespace Editor
             Vector3 trans = translation;
             SceneView camera = validator.getCamera();
             Ray3 spaceRay = camera.getCameraToViewportRay(mouseLoc.x / validator.getMouseAreaWidth(), mouseLoc.y / validator.getMouseAreaHeight());
-            if (events[ToolEvents.Pick].FirstFrameDown && (xAxis.isSelected() || yAxis.isSelected() || zAxis.isSelected()))
+            if (MovementTool.PickEvent.FirstFrameDown && (xAxis.isSelected() || yAxis.isSelected() || zAxis.isSelected()))
             {
                 startingRotation.setEuler(currentEulerRotation.x, currentEulerRotation.y, currentEulerRotation.z);
                 currentEulerRotation = Vector3.Zero;
                 activeValidator = validator;
             }
-            else if (events[ToolEvents.Pick].HeldDown && (xAxis.isSelected() || yAxis.isSelected() || zAxis.isSelected()))
+            else if (MovementTool.PickEvent.HeldDown && (xAxis.isSelected() || yAxis.isSelected() || zAxis.isSelected()))
             {
                 IntVector3 relMouse = mouse.RelativePosition;
                 float amount = relMouse.x + relMouse.y;
@@ -108,7 +108,7 @@ namespace Editor
                 rotateController.setRotation(ref newRot, this);
                 allowMotionUpdates = true;
             }
-            else if (events[ToolEvents.Pick].FirstFrameUp && (xAxis.isSelected() || yAxis.isSelected() || zAxis.isSelected()))
+            else if (MovementTool.PickEvent.FirstFrameUp && (xAxis.isSelected() || yAxis.isSelected() || zAxis.isSelected()))
             {
                 newRot.setEuler(currentEulerRotation.x, currentEulerRotation.y, currentEulerRotation.z);
                 newRot *= startingRotation;

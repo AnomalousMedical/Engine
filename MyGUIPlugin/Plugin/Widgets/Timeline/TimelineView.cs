@@ -22,18 +22,18 @@ namespace MyGUIPlugin
         private static readonly Color[] DefaultTrackColors = { Color.FromRGB(0xb366ff), Color.FromRGB(0x66d598), Color.FromRGB(0xf5b362), Color.FromRGB(0x60b5f0), Color.FromRGB(0xff6666) };
         private static readonly Color[] DefaultTrackSelectedColors = { Color.FromRGB(0x8000ff), Color.FromRGB(0x00b050), Color.FromRGB(0xf58700), Color.FromRGB(0x008ef0), Color.FromRGB(0xff0000) };
 
-        private static MessageEvent addSelection;
-        private static MessageEvent removeSelection;
+        private static ButtonEvent AddSelection;
+        private static ButtonEvent RemoveSelection;
 
         static TimelineView()
         {
-            addSelection = new MessageEvent(SelectionMode.AddSelection, MyGUIInterface.EventLayerKey);
-            addSelection.addButton(KeyboardButtonCode.KC_LCONTROL);
-            DefaultEvents.registerDefaultEvent(addSelection);
+            AddSelection = new ButtonEvent(SelectionMode.AddSelection, MyGUIInterface.EventLayerKey);
+            AddSelection.addButton(KeyboardButtonCode.KC_LCONTROL);
+            DefaultEvents.registerDefaultEvent(AddSelection);
 
-            removeSelection = new MessageEvent(SelectionMode.RemoveSelection, MyGUIInterface.EventLayerKey);
-            removeSelection.addButton(KeyboardButtonCode.KC_LMENU);
-            DefaultEvents.registerDefaultEvent(removeSelection);
+            RemoveSelection = new ButtonEvent(SelectionMode.RemoveSelection, MyGUIInterface.EventLayerKey);
+            RemoveSelection.addButton(KeyboardButtonCode.KC_LMENU);
+            DefaultEvents.registerDefaultEvent(RemoveSelection);
         }
 
         private static readonly int PREVIEW_PADDING = ScaleHelper.Scaled(10);
@@ -438,11 +438,11 @@ namespace MyGUIPlugin
 
         void actionButton_Clicked(TimelineViewButton sender, MouseEventArgs e)
         {
-            if (addSelection.HeldDown)
+            if (AddSelection.HeldDown)
             {
                 selectionCollection.addButton(sender);
             }
-            else if (removeSelection.HeldDown)
+            else if (RemoveSelection.HeldDown)
             {
                 selectionCollection.removeButton(sender);
             }
@@ -556,14 +556,14 @@ namespace MyGUIPlugin
 
         void timelineSelectionBox_SelectionAreaDefined(TimelineSelectionBox source)
         {
-            if (addSelection.HeldDown)
+            if (AddSelection.HeldDown)
             {
                 foreach (TimelineViewTrack track in tracks)
                 {
                     track.addSelection(selectionCollection, source);
                 }
             }
-            else if (removeSelection.HeldDown)
+            else if (RemoveSelection.HeldDown)
             {
                 foreach (TimelineViewTrack track in tracks)
                 {

@@ -160,6 +160,7 @@
     <Compile Include="MemberCopier\MemberCopier.cs" />
     <Compile Include="MemberCopier\SimpleMemberCopier.cs" />
     <Compile Include="ObjectManagement\Instance\SceneBuildStatus.cs" />
+    <Compile Include="Platform\Input\ButtonEvent.cs" />
     <Compile Include="Platform\Input\EventLayer.cs" />
     <Compile Include="Platform\Input\Keyboard.cs" />
     <Compile Include="Platform\Input\Mouse.cs" />

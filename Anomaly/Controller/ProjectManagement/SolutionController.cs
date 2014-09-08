@@ -20,15 +20,18 @@ namespace Anomaly
             RemoveSelectableObject
         }
 
+        private static readonly ButtonEvent AddSelectable;
+        private static readonly ButtonEvent RemoveSelectable;
+
         static SolutionController()
         {
-            MessageEvent addSelectable = new MessageEvent(Events.AddSelectableObject, EventLayers.Main);
-            addSelectable.addButton(KeyboardButtonCode.KC_LCONTROL);
-            DefaultEvents.registerDefaultEvent(addSelectable);
+            AddSelectable = new ButtonEvent(Events.AddSelectableObject, EventLayers.Main);
+            AddSelectable.addButton(KeyboardButtonCode.KC_LCONTROL);
+            DefaultEvents.registerDefaultEvent(AddSelectable);
 
-            MessageEvent removeSelectable = new MessageEvent(Events.RemoveSelectableObject, EventLayers.Main);
-            removeSelectable.addButton(KeyboardButtonCode.KC_LMENU);
-            DefaultEvents.registerDefaultEvent(removeSelectable);
+            RemoveSelectable = new ButtonEvent(Events.RemoveSelectableObject, EventLayers.Main);
+            RemoveSelectable.addButton(KeyboardButtonCode.KC_LMENU);
+            DefaultEvents.registerDefaultEvent(RemoveSelectable);
         }
 
         private Solution solution;
@@ -130,11 +133,11 @@ namespace Anomaly
                 InstanceFileInterface instanceFile = editInterface.getEditableProperties().First() as InstanceFileInterface;
                 if (instanceFile != null)
                 {
-                    if (controller.EventManager[EventLayers.Main][Events.AddSelectableObject].HeldDown)
+                    if (AddSelectable.HeldDown)
                     {
                         controller.SelectionController.addSelectedObject(instanceFile);
                     }
-                    else if (controller.EventManager[EventLayers.Main][Events.RemoveSelectableObject].HeldDown)
+                    else if (RemoveSelectable.HeldDown)
                     {
                         controller.SelectionController.removeSelectedObject(instanceFile);
                     }

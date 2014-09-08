@@ -19,21 +19,25 @@ namespace Editor
     {
         #region Static
 
+        private static readonly ButtonEvent RotateCamera;
+        private static readonly ButtonEvent PanCamera;
+        private static readonly ButtonEvent ZoomCamera;
+
         static OrbitCameraController()
         {
-            MessageEvent rotateCamera = new MessageEvent(CameraEvents.RotateCamera, EventLayers.Main);
-            rotateCamera.addButton(MouseButtonCode.MB_BUTTON1);
-            DefaultEvents.registerDefaultEvent(rotateCamera);
+            RotateCamera = new ButtonEvent(CameraEvents.RotateCamera, EventLayers.Main);
+            RotateCamera.addButton(MouseButtonCode.MB_BUTTON1);
+            DefaultEvents.registerDefaultEvent(RotateCamera);
 
-            MessageEvent panCamera = new MessageEvent(CameraEvents.PanCamera, EventLayers.Main);
-            panCamera.addButton(MouseButtonCode.MB_BUTTON1);
-            panCamera.addButton(KeyboardButtonCode.KC_LCONTROL);
-            DefaultEvents.registerDefaultEvent(panCamera);
+            PanCamera = new ButtonEvent(CameraEvents.PanCamera, EventLayers.Main);
+            PanCamera.addButton(MouseButtonCode.MB_BUTTON1);
+            PanCamera.addButton(KeyboardButtonCode.KC_LCONTROL);
+            DefaultEvents.registerDefaultEvent(PanCamera);
 
-            MessageEvent zoomCamera = new MessageEvent(CameraEvents.ZoomCamera, EventLayers.Main);
-            zoomCamera.addButton(MouseButtonCode.MB_BUTTON1);
-            zoomCamera.addButton(KeyboardButtonCode.KC_LMENU);
-            DefaultEvents.registerDefaultEvent(zoomCamera);
+            ZoomCamera = new ButtonEvent(CameraEvents.ZoomCamera, EventLayers.Main);
+            ZoomCamera.addButton(MouseButtonCode.MB_BUTTON1);
+            ZoomCamera.addButton(KeyboardButtonCode.KC_LMENU);
+            DefaultEvents.registerDefaultEvent(ZoomCamera);
         }
 
         private const float HALF_PI = (float)Math.PI / 2.0f - 0.001f;
@@ -81,27 +85,27 @@ namespace Editor
             {
                 IntVector3 mouseCoords = events.Mouse.AbsolutePosition;
                 bool activeWindow = motionValidator == null || (motionValidator.allowMotion((int)mouseCoords.x, (int)mouseCoords.y) && motionValidator.isActiveWindow());
-                if (events[CameraEvents.RotateCamera].FirstFrameDown)
+                if (RotateCamera.FirstFrameDown)
                 {
                     if (activeWindow)
                     {
                         currentlyInMotion = true;
                     }
                 }
-                else if (events[CameraEvents.RotateCamera].FirstFrameUp)
+                else if (RotateCamera.FirstFrameUp)
                 {
                     currentlyInMotion = false;
                 }
                 mouseCoords = events.Mouse.RelativePosition;
                 if (currentlyInMotion)
                 {
-                    if (events[CameraEvents.PanCamera].HeldDown)
+                    if (PanCamera.HeldDown)
                     {
                         lookAt += rotatedLeft * (mouseCoords.x / (events.Mouse.AreaWidth * SCROLL_SCALE) * orbitDistance);
                         lookAt += rotatedUp * (mouseCoords.y / (events.Mouse.AreaHeight * SCROLL_SCALE) * orbitDistance);
                         updateTranslation(lookAt + normalDirection * orbitDistance);
                     }
-                    else if (events[CameraEvents.ZoomCamera].HeldDown)
+                    else if (ZoomCamera.HeldDown)
                     {
                         orbitDistance += mouseCoords.y;
                         if (orbitDistance < 0.0f)
@@ -111,7 +115,7 @@ namespace Editor
                         //camera.setOrthoWindowHeight(orbitDistance);
                         updateTranslation(normalDirection * orbitDistance + lookAt);
                     }
-                    else if (events[CameraEvents.RotateCamera].HeldDown)
+                    else if (RotateCamera.HeldDown)
                     {
                         yaw += mouseCoords.x / -100.0f;
                         pitch += mouseCoords.y / 100.0f;

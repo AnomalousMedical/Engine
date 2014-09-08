@@ -14,19 +14,23 @@ namespace Editor
     {
         #region Static
 
+        public static readonly ButtonEvent PickEvent;
+        public static readonly ButtonEvent IncreaseToolSize;
+        public static readonly ButtonEvent DecreaseToolSize;
+
         static MovementTool()
         {
-            MessageEvent pickEvent = new MessageEvent(ToolEvents.Pick, EventLayers.Main);
-            pickEvent.addButton(MouseButtonCode.MB_BUTTON0);
-            DefaultEvents.registerDefaultEvent(pickEvent);
+            PickEvent = new ButtonEvent(ToolEvents.Pick, EventLayers.Main);
+            PickEvent.addButton(MouseButtonCode.MB_BUTTON0);
+            DefaultEvents.registerDefaultEvent(PickEvent);
 
-            MessageEvent increaseToolSize = new MessageEvent(ToolEvents.IncreaseToolSize, EventLayers.Main);
-            increaseToolSize.addButton(KeyboardButtonCode.KC_EQUALS);
-            DefaultEvents.registerDefaultEvent(increaseToolSize);
+            IncreaseToolSize = new ButtonEvent(ToolEvents.IncreaseToolSize, EventLayers.Main);
+            IncreaseToolSize.addButton(KeyboardButtonCode.KC_EQUALS);
+            DefaultEvents.registerDefaultEvent(IncreaseToolSize);
 
-            MessageEvent decreaseToolSize = new MessageEvent(ToolEvents.DecreaseToolSize, EventLayers.Main);
-            decreaseToolSize.addButton(KeyboardButtonCode.KC_MINUS);
-            DefaultEvents.registerDefaultEvent(decreaseToolSize);
+            DecreaseToolSize = new ButtonEvent(ToolEvents.DecreaseToolSize, EventLayers.Main);
+            DecreaseToolSize.addButton(KeyboardButtonCode.KC_MINUS);
+            DefaultEvents.registerDefaultEvent(DecreaseToolSize);
         }
 
         const float LENGTH_DELTA = 1.0f;
@@ -106,12 +110,12 @@ namespace Editor
                 }
 
                 //Check for resize
-                if (events[ToolEvents.IncreaseToolSize].FirstFrameUp)
+                if (IncreaseToolSize.FirstFrameUp)
                 {
                     currentLength += LENGTH_DELTA;
                     resizeAxes();
                 }
-                else if (events[ToolEvents.DecreaseToolSize].FirstFrameUp)
+                else if (DecreaseToolSize.FirstFrameUp)
                 {
                     if (currentLength - LENGTH_DELTA > 0)
                     {
@@ -156,11 +160,11 @@ namespace Editor
             Ray3 spaceRay = camera.getCameraToViewportRay(mouseLoc.x / validator.getMouseAreaWidth(), mouseLoc.y / validator.getMouseAreaHeight());
             float distance = (camera.Translation - moveController.Translation).length();
             Vector3 spacePoint = spaceRay.Direction * distance + spaceRay.Origin;
-            if (events[ToolEvents.Pick].FirstFrameDown)
+            if (PickEvent.FirstFrameDown)
             {
                 mouseOffset = -(spacePoint - moveController.Translation);
             }
-            else if (events[ToolEvents.Pick].HeldDown)
+            else if (PickEvent.HeldDown)
             {
                 spacePoint += -moveController.Translation + mouseOffset;
 
