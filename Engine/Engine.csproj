@@ -163,7 +163,15 @@
     <Compile Include="Platform\Input\ButtonEvent.cs" />
     <Compile Include="Platform\Input\EventLayer.cs" />
     <Compile Include="Platform\Input\Keyboard.cs" />
+    <Compile Include="Platform\Input\MessageEvent.cs" />
     <Compile Include="Platform\Input\Mouse.cs" />
+    <Compile Include="Platform\Input\Touch\Finger.cs" />
+    <Compile Include="Platform\Input\Touch\Gesture.cs" />
+    <Compile Include="Platform\Input\Touch\MultiFingerScrollGesture.cs" />
+    <Compile Include="Platform\Input\Touch\Touches.cs" />
+    <Compile Include="Platform\Input\Touch\TouchHardware.cs" />
+    <Compile Include="Platform\Input\Touch\TouchInfo.cs" />
+    <Compile Include="Platform\Input\Touch\TwoFingerZoom.cs" />
     <Compile Include="Reflection\GuidReflectedVariable.cs" />
     <Compile Include="Reflection\LongNullableReflectedVariable.cs" />
     <Compile Include="Reflection\Vector3NullableReflectedVariable.cs" />
@@ -207,7 +215,6 @@
     <Compile Include="Platform\Input\InputHandler.cs" />
     <Compile Include="Platform\Input\KeyboardHardware.cs" />
     <Compile Include="Platform\Input\KeyCodes.cs" />
-    <Compile Include="Platform\Input\MessageEvent.cs" />
     <Compile Include="Platform\Input\MouseHardware.cs" />
     <Compile Include="Platform\ManagedUpdateTimer.cs" />
     <Compile Include="Platform\BackgroundUpdateListenerWorker.cs" />

@@ -18,6 +18,8 @@ namespace Engine.Platform
         private InputHandler inputHandler;
         private KeyboardHardware keyboard = null;
         private MouseHardware mouse = null;
+        private Touches touches;
+        private TouchHardware touchHardware;
 
         private FastIteratorMap<Object, EventLayer> eventLayers = new FastIteratorMap<object, EventLayer>();
 
@@ -30,6 +32,8 @@ namespace Engine.Platform
             this.inputHandler = inputHandler;
             keyboard = inputHandler.createKeyboard(true, this);
             mouse = inputHandler.createMouse(false, this);
+            touches = new Touches();
+            touchHardware = inputHandler.createTouchHardware(touches);
 
             foreach (object key in layerKeys)
             {
@@ -44,6 +48,7 @@ namespace Engine.Platform
         /// </summary>
         public void Dispose()
         {
+            inputHandler.destroyTouchHardware(touchHardware);
             inputHandler.destroyKeyboard(keyboard);
             inputHandler.destroyMouse(mouse);
             DefaultEvents.unregisterEventManager(this);
@@ -68,7 +73,7 @@ namespace Engine.Platform
             foreach (var layer in eventLayers)
             {
                 //First try to update the layer with the current allowEventProcessing
-                layer.update(allowEventProcessing);
+                layer.update(allowEventProcessing, clock);
 
                 //Modify allowEventProcessing as needed, if we have already set allowEventProcessing to false it should stay false
                 allowEventProcessing = allowEventProcessing && !layer.SkipNextLayer;
@@ -78,6 +83,7 @@ namespace Engine.Platform
                 //keeps its HandledEvents property set where it should be.
                 layer.HandledEvents = false;
             }
+            touches.tick();
         }
 
         /// <summary>
@@ -190,6 +196,14 @@ namespace Engine.Platform
                 {
                     break;
                 }
+            }
+        }
+
+        public Touches Touches
+        {
+            get
+            {
+                return touches;
             }
         }
     }

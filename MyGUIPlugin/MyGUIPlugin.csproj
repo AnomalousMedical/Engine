@@ -57,6 +57,7 @@
     <Compile Include="Plugin\MyGUIResourceNames.cs" />
     <Compile Include="Plugin\MyGUIUpdate.cs" />
     <Compile Include="Plugin\MyGUIInterface.cs" />
+    <Compile Include="Plugin\GuiGestures.cs" />
     <Compile Include="Plugin\Tooltip\Tooltip.cs" />
     <Compile Include="Plugin\Tooltip\TooltipManager.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\ButtonGrid.cs" />

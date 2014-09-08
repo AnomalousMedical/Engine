@@ -143,7 +143,7 @@ namespace Anomaly
             win32Timer.MessagePump = windowsPump;
             mainTimer = win32Timer;
             mainTimer.FramerateCap = AnomalyConfig.EngineConfig.MaxFPS;
-            inputHandler = pluginManager.PlatformPlugin.createInputHandler(mainForm, false, false, false);
+            inputHandler = pluginManager.PlatformPlugin.createInputHandler(mainForm, false, false, false, false);
             eventManager = new EventManager(inputHandler, Enum.GetValues(typeof(EventLayers)));
             eventUpdate = new EventUpdateListener(eventManager);
             mainTimer.addUpdateListener(eventUpdate);

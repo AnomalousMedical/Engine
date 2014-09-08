@@ -33,7 +33,7 @@ namespace Engine
         /// <param name="exclusive">True if the mouse should be in exclusive mode.</param>
         /// <param name="noWinKey">True to disable the windows key.</param>
         /// <returns>A new InputHandler for the platform.</returns>
-        InputHandler createInputHandler(OSWindow window, bool foreground, bool exclusive, bool noWinKey);
+        InputHandler createInputHandler(OSWindow window, bool foreground, bool exclusive, bool noWinKey, bool enableMultitouch);
 
         /// <summary>
         /// Destroy the given input handler.

@@ -36,5 +36,18 @@ namespace Engine.Platform
 	    /// </summary>
 	    /// <param name="mouse">The mouse to destroy.</param>
         public abstract void destroyMouse(MouseHardware mouse);
+
+        /// <summary>
+        /// Create touch hardware for the EventManager, if touch hardware cannot be supported, return null.
+        /// </summary>
+        /// <param name="touches"></param>
+        /// <returns></returns>
+        public abstract TouchHardware createTouchHardware(Touches touches);
+
+        /// <summary>
+        /// Destroy touch hardware, if you returned null from the create function this will be null.
+        /// </summary>
+        /// <param name="touches"></param>
+        public abstract void destroyTouchHardware(TouchHardware touchHardware);
     }
 }

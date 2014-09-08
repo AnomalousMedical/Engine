@@ -29,8 +29,8 @@ namespace Engine.Platform
         /// </summary>
         /// <param name="name">The int representing the name of the event.</param>
         public ButtonEvent(object eventLayerKey)
+            :base(eventLayerKey)
         {
-            EventLayerKey = eventLayerKey;
             HeldDown = false;
             ReleasedUp = true;
             FirstFrameDown = false;
@@ -175,7 +175,7 @@ namespace Engine.Platform
         /// <summary>
         /// Called internally to manage status of the event.
         /// </summary>
-        protected internal override void update(EventLayer eventLayer, bool allowProcessing)
+        protected internal override void update(EventLayer eventLayer, bool allowProcessing, Clock clock)
         {
             if (scanButtons(eventLayer))
             {

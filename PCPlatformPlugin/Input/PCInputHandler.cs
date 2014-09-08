@@ -127,6 +127,16 @@ namespace PCPlatform
 	        }
         }
 
+        public override TouchHardware createTouchHardware(Touches touches)
+        {
+            return null;
+        }
+
+        public override void destroyTouchHardware(TouchHardware touchHardware)
+        {
+            
+        }
+
         void window_Resized(OSWindow window)
         {
             if (createdMouse != null)

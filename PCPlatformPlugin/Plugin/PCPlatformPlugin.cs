@@ -47,7 +47,7 @@ namespace PCPlatform
             }
         }
 
-        public InputHandler createInputHandler(OSWindow window, bool foreground, bool exclusive, bool noWinKey)
+        public InputHandler createInputHandler(OSWindow window, bool foreground, bool exclusive, bool noWinKey, bool enableMultitouch)
         {
             return new PCInputHandler(window, foreground, exclusive, noWinKey);
         }

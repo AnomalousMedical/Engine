@@ -160,7 +160,7 @@ namespace OgreModelEditor
             mainTimer = win32Timer;
 
             mainTimer.FramerateCap = OgreModelEditorConfig.EngineConfig.MaxFPS;
-            inputHandler = pluginManager.PlatformPlugin.createInputHandler(mainForm, false, false, false);
+            inputHandler = pluginManager.PlatformPlugin.createInputHandler(mainForm, false, false, false, false);
             eventManager = new EventManager(inputHandler, Enum.GetValues(typeof(EventLayers)));
             eventUpdate = new EventUpdateListener(eventManager);
             mainTimer.addUpdateListener(eventUpdate);

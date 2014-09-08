@@ -14,16 +14,21 @@ namespace Engine.Platform
     /// </summary>
     public abstract class MessageEvent
     {
+        public MessageEvent(Object eventLayerKey)
+        {
+            this.EventLayerKey = eventLayerKey;
+        }
+
         /// <summary>
         /// The key for the event layer this event should register on.
         /// </summary>
-        public Object EventLayerKey { get; protected set; }
+        public Object EventLayerKey { get; private set; }
 
         /// <summary>
         /// The update function, do not call this outside EventManager.
         /// </summary>
         /// <param name="eventLayer"></param>
         /// <param name="allowProcessing"></param>
-        protected internal abstract void update(EventLayer eventLayer, bool allowProcessing);
+        protected internal abstract void update(EventLayer eventLayer, bool allowProcessing, Clock clock);
     }
 }

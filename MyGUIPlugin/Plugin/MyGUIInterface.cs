@@ -35,6 +35,7 @@ namespace MyGUIPlugin
             {
                 Instance = this;
                 SmoothShowDuration = 0.25f;
+                CreateGuiGestures = false;
             }
             else
             {
@@ -136,6 +137,10 @@ namespace MyGUIPlugin
             this.mainTimer = mainTimer;
             myGUIUpdate = new MyGUIUpdate(gui, eventManager[EventLayerKey]);
             mainTimer.addUpdateListener(myGUIUpdate);
+            if (CreateGuiGestures)
+            {
+                eventManager.addEvent(new GuiGestures(EventLayerKey));
+            }
         }
 
         public string Name
@@ -232,6 +237,11 @@ namespace MyGUIPlugin
         /// Set this to an EventLayerKey object (likely an enum, this is application defined) before initializing this plugin.
         /// </summary>
         public static Object EventLayerKey { get; set; }
+
+        /// <summary>
+        /// Set this to true to create multitouch gestures for the gui.
+        /// </summary>
+        public static bool CreateGuiGestures { get; set; }
 
         /// <summary>
         /// This event is fired before MyGUI renders.

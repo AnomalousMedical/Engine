@@ -63,12 +63,12 @@ namespace Engine.Platform
         /// Update this layer, allowProcessing will be true if events should process.
         /// </summary>
         /// <param name="allowProcessing"></param>
-        internal void update(bool allowProcessing)
+        internal void update(bool allowProcessing, Clock clock)
         {
             EventProcessingAllowed = allowProcessing;
             foreach (MessageEvent evt in eventList)
             {
-                evt.update(this, allowProcessing);
+                evt.update(this, allowProcessing, clock);
             }
             if(OnUpdate != null)
             {
