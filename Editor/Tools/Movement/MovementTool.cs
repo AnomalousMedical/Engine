@@ -20,15 +20,15 @@ namespace Editor
 
         static MovementTool()
         {
-            PickEvent = new ButtonEvent(ToolEvents.Pick, EventLayers.Main);
+            PickEvent = new ButtonEvent(EventLayers.Main);
             PickEvent.addButton(MouseButtonCode.MB_BUTTON0);
             DefaultEvents.registerDefaultEvent(PickEvent);
 
-            IncreaseToolSize = new ButtonEvent(ToolEvents.IncreaseToolSize, EventLayers.Main);
+            IncreaseToolSize = new ButtonEvent(EventLayers.Main);
             IncreaseToolSize.addButton(KeyboardButtonCode.KC_EQUALS);
             DefaultEvents.registerDefaultEvent(IncreaseToolSize);
 
-            DecreaseToolSize = new ButtonEvent(ToolEvents.DecreaseToolSize, EventLayers.Main);
+            DecreaseToolSize = new ButtonEvent(EventLayers.Main);
             DecreaseToolSize.addButton(KeyboardButtonCode.KC_MINUS);
             DefaultEvents.registerDefaultEvent(DecreaseToolSize);
         }

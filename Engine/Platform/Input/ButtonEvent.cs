@@ -28,9 +28,8 @@ namespace Engine.Platform
         /// Constructor.
         /// </summary>
         /// <param name="name">The int representing the name of the event.</param>
-        public ButtonEvent(object name, object eventLayerKey)
+        public ButtonEvent(object eventLayerKey)
         {
-            Name = name;
             EventLayerKey = eventLayerKey;
             HeldDown = false;
             ReleasedUp = true;
@@ -38,8 +37,8 @@ namespace Engine.Platform
             FirstFrameUp = false;
         }
 
-        public ButtonEvent(Object name, object eventLayerKey, MessageEventCallback frameDown = null, MessageEventCallback frameUp = null, IEnumerable<KeyboardButtonCode> keys = null, IEnumerable<MouseButtonCode> mouseButtons = null)
-            :this(name, eventLayerKey)
+        public ButtonEvent(object eventLayerKey, MessageEventCallback frameDown = null, MessageEventCallback frameUp = null, IEnumerable<KeyboardButtonCode> keys = null, IEnumerable<MouseButtonCode> mouseButtons = null)
+            :this(eventLayerKey)
         {
             FirstFrameDownEvent += frameDown;
             FirstFrameUpEvent += frameUp;
@@ -58,11 +57,6 @@ namespace Engine.Platform
                 }
             }
         }
-
-        /// <summary>
-        /// The name of the event.
-        /// </summary>
-        public object Name { get; private set; }
 
         /// <summary>
         /// Returns true if this is the first frame the event has been active.
@@ -158,11 +152,6 @@ namespace Engine.Platform
         /// </summary>
         public MouseWheelDirection MouseWheelDirection { get; set; }
 
-        /// <summary>
-        /// The key for the event layer this event should register on.
-        /// </summary>
-        public Object EventLayerKey { get; private set; }
-
         public String KeyDescription
         {
             get
@@ -186,7 +175,7 @@ namespace Engine.Platform
         /// <summary>
         /// Called internally to manage status of the event.
         /// </summary>
-        public void update(EventLayer eventLayer, bool allowProcessing)
+        protected internal override void update(EventLayer eventLayer, bool allowProcessing)
         {
             if (scanButtons(eventLayer))
             {

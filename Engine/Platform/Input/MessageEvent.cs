@@ -12,23 +12,18 @@ namespace Engine.Platform
     /// was the first frame the event was down or up.  Events can be thought of as
     /// buttons.
     /// </summary>
-    public interface MessageEvent
+    public abstract class MessageEvent
     {
-        /// <summary>
-        /// The name of the event.
-        /// </summary>
-        object Name { get; }
-
         /// <summary>
         /// The key for the event layer this event should register on.
         /// </summary>
-        Object EventLayerKey { get; }
+        public Object EventLayerKey { get; protected set; }
 
         /// <summary>
         /// The update function, do not call this outside EventManager.
         /// </summary>
         /// <param name="eventLayer"></param>
         /// <param name="allowProcessing"></param>
-        void update(EventLayer eventLayer, bool allowProcessing);
+        protected internal abstract void update(EventLayer eventLayer, bool allowProcessing);
     }
 }

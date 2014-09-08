@@ -10,13 +10,6 @@ namespace MyGUIPlugin
 {
     public delegate void TimelineTrackEvent(TimelineViewTrack track);
 
-    enum SelectionMode
-    {
-        AddSelection,
-        RemoveSelection,
-        SetSelection
-    }
-
     public class TimelineView : IDisposable
     {
         private static readonly Color[] DefaultTrackColors = { Color.FromRGB(0xb366ff), Color.FromRGB(0x66d598), Color.FromRGB(0xf5b362), Color.FromRGB(0x60b5f0), Color.FromRGB(0xff6666) };
@@ -27,11 +20,11 @@ namespace MyGUIPlugin
 
         static TimelineView()
         {
-            AddSelection = new ButtonEvent(SelectionMode.AddSelection, MyGUIInterface.EventLayerKey);
+            AddSelection = new ButtonEvent(MyGUIInterface.EventLayerKey);
             AddSelection.addButton(KeyboardButtonCode.KC_LCONTROL);
             DefaultEvents.registerDefaultEvent(AddSelection);
 
-            RemoveSelection = new ButtonEvent(SelectionMode.RemoveSelection, MyGUIInterface.EventLayerKey);
+            RemoveSelection = new ButtonEvent(MyGUIInterface.EventLayerKey);
             RemoveSelection.addButton(KeyboardButtonCode.KC_LMENU);
             DefaultEvents.registerDefaultEvent(RemoveSelection);
         }

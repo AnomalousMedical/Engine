@@ -14,22 +14,16 @@ namespace Anomaly
 {
     class SolutionController
     {
-        public enum Events
-        {
-            AddSelectableObject,
-            RemoveSelectableObject
-        }
-
         private static readonly ButtonEvent AddSelectable;
         private static readonly ButtonEvent RemoveSelectable;
 
         static SolutionController()
         {
-            AddSelectable = new ButtonEvent(Events.AddSelectableObject, EventLayers.Main);
+            AddSelectable = new ButtonEvent(EventLayers.Main);
             AddSelectable.addButton(KeyboardButtonCode.KC_LCONTROL);
             DefaultEvents.registerDefaultEvent(AddSelectable);
 
-            RemoveSelectable = new ButtonEvent(Events.RemoveSelectableObject, EventLayers.Main);
+            RemoveSelectable = new ButtonEvent(EventLayers.Main);
             RemoveSelectable.addButton(KeyboardButtonCode.KC_LMENU);
             DefaultEvents.registerDefaultEvent(RemoveSelectable);
         }

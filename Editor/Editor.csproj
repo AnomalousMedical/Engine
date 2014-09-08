@@ -182,7 +182,6 @@
     <Compile Include="Tools\Selection\SelectionController.cs" />
     <Compile Include="Tools\Selection\SelectionChangedArgs.cs" />
     <Compile Include="Tools\Tool.cs" />
-    <Compile Include="Tools\ToolEvents.cs" />
     <Compile Include="Tools\ToolInteropController.cs" />
     <Compile Include="Tools\ToolManager.cs" />
     <Compile Include="View\CameraMotionValidator.cs" />

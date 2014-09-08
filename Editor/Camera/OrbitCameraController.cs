@@ -8,13 +8,6 @@ using Logging;
 
 namespace Editor
 {
-    enum CameraEvents
-    {
-        RotateCamera,
-        PanCamera,
-        ZoomCamera,
-    }
-
     public class OrbitCameraController : UpdateListener
     {
         #region Static
@@ -25,16 +18,16 @@ namespace Editor
 
         static OrbitCameraController()
         {
-            RotateCamera = new ButtonEvent(CameraEvents.RotateCamera, EventLayers.Main);
+            RotateCamera = new ButtonEvent(EventLayers.Main);
             RotateCamera.addButton(MouseButtonCode.MB_BUTTON1);
             DefaultEvents.registerDefaultEvent(RotateCamera);
 
-            PanCamera = new ButtonEvent(CameraEvents.PanCamera, EventLayers.Main);
+            PanCamera = new ButtonEvent(EventLayers.Main);
             PanCamera.addButton(MouseButtonCode.MB_BUTTON1);
             PanCamera.addButton(KeyboardButtonCode.KC_LCONTROL);
             DefaultEvents.registerDefaultEvent(PanCamera);
 
-            ZoomCamera = new ButtonEvent(CameraEvents.ZoomCamera, EventLayers.Main);
+            ZoomCamera = new ButtonEvent(EventLayers.Main);
             ZoomCamera.addButton(MouseButtonCode.MB_BUTTON1);
             ZoomCamera.addButton(KeyboardButtonCode.KC_LMENU);
             DefaultEvents.registerDefaultEvent(ZoomCamera);
