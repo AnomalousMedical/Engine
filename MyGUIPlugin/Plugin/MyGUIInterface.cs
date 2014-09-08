@@ -35,7 +35,6 @@ namespace MyGUIPlugin
             {
                 Instance = this;
                 SmoothShowDuration = 0.25f;
-                CreateGuiGestures = false;
             }
             else
             {
