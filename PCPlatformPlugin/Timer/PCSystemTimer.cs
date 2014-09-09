@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace PCPlatform
 {
-    class PCSystemTimer : SystemTimer, IDisposable
+    public class PCSystemTimer : SystemTimer, IDisposable
     {
         IntPtr performanceCounter;
 

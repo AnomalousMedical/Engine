@@ -17,7 +17,8 @@ namespace Engine.Platform
     {
         private InputHandler inputHandler;
         private KeyboardHardware keyboard = null;
-        private MouseHardware mouse = null;
+        private MouseHardware mouseHardware = null;
+        private Mouse mouse;
         private Touches touches;
         private TouchHardware touchHardware;
 
@@ -31,13 +32,14 @@ namespace Engine.Platform
         {
             this.inputHandler = inputHandler;
             keyboard = inputHandler.createKeyboard(true, this);
-            mouse = inputHandler.createMouse(false, this);
+            mouse = new Mouse();
+            mouseHardware = inputHandler.createMouse(false, mouse);
             touches = new Touches();
             touchHardware = inputHandler.createTouchHardware(touches);
 
             foreach (object key in layerKeys)
             {
-                eventLayers.Add(key, new EventLayer(this, keyboard, mouse));
+                eventLayers.Add(key, new EventLayer(this, keyboard, mouseHardware));
             }
 
             DefaultEvents.registerEventManager(this);
@@ -50,7 +52,7 @@ namespace Engine.Platform
         {
             inputHandler.destroyTouchHardware(touchHardware);
             inputHandler.destroyKeyboard(keyboard);
-            inputHandler.destroyMouse(mouse);
+            inputHandler.destroyMouse(mouseHardware);
             DefaultEvents.unregisterEventManager(this);
         }
 
@@ -61,10 +63,7 @@ namespace Engine.Platform
         /// <param name="time">The clock with info about this frame.</param>
         public void updateEvents(Clock clock)
         {
-            if (mouse != null)
-            {
-                mouse.capture();
-            }
+            mouse.capture();
             if (keyboard != null)
             {
                 keyboard.capture();
@@ -149,61 +148,19 @@ namespace Engine.Platform
             }
         }
 
-        /// <summary>
-        /// Fire a mouse button down event. This will stop firing once the first layer has claimed the event.
-        /// </summary>
-        /// <param name="button"></param>
-        internal void fireButtonDown(MouseButtonCode button)
-        {
-            //See UpdateEvents for how HandledEvents is processed
-            foreach (var layer in eventLayers)
-            {
-                layer.Mouse.fireButtonDown(button);
-                if (layer.SkipNextLayer)
-                {
-                    break;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Fire a mouse button up event. This will stop firing once the first layer has claimed the event.
-        /// </summary>
-        /// <param name="button"></param>
-        internal void fireButtonUp(MouseButtonCode button)
-        {
-            //See UpdateEvents for how HandledEvents is processed
-            foreach (var layer in eventLayers)
-            {
-                layer.Mouse.fireButtonUp(button);
-                if (layer.SkipNextLayer)
-                {
-                    break;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Fire a mouse moved event. This will stop firing once the first layer has claimed the event.
-        /// </summary>
-        internal void fireMoved()
-        {
-            //See UpdateEvents for how HandledEvents is processed
-            foreach (var layer in eventLayers)
-            {
-                layer.Mouse.fireMoved();
-                if (layer.SkipNextLayer)
-                {
-                    break;
-                }
-            }
-        }
-
         public Touches Touches
         {
             get
             {
                 return touches;
+            }
+        }
+
+        public Mouse Mouse
+        {
+            get
+            {
+                return mouse;
             }
         }
     }

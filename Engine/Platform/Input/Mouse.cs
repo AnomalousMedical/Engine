@@ -11,11 +11,15 @@ namespace Engine.Platform
 
     public class Mouse
     {
-        private MouseHardware mouseHardware;
+        private IntVector3 absMouse = new IntVector3(0, 0, 0);
+        private IntVector3 relMouse = new IntVector3(0, 0, 0);
+        private IntVector3 lastMouse = new IntVector3(0, 0, 0);
+        private bool[] buttonDownStatus = new bool[(int)MouseButtonCode.NUM_BUTTONS];
+        //private bool[] buttonDownProcessedStatus = new bool[(int)MouseButtonCode.NUM_BUTTONS];
 
-        public Mouse(MouseHardware mouseHardware)
+        public Mouse()
         {
-            this.mouseHardware = mouseHardware;
+            
         }
 
         /// <summary>
@@ -39,7 +43,16 @@ namespace Engine.Platform
         /// <returns>True if the button is pressed.  False if it is not.</returns>
         public bool buttonDown(MouseButtonCode button)
         {
-            return mouseHardware.buttonDown(button);
+            return buttonDownStatus[(int)button];
+        }
+
+        internal void capture()
+        {
+            relMouse.x = absMouse.x - lastMouse.x;
+            relMouse.y = absMouse.y - lastMouse.y;
+            relMouse.z = absMouse.z - lastMouse.z;
+
+            lastMouse = absMouse;
         }
 
         /// <summary>
@@ -51,7 +64,7 @@ namespace Engine.Platform
         {
             get
             {
-                return mouseHardware.AbsolutePosition;
+                return absMouse;
             }
         }
 
@@ -63,42 +76,40 @@ namespace Engine.Platform
         {
             get
             {
-                return mouseHardware.RelativePosition;
+                return relMouse;
             }
         }
 
         /// <summary>
         /// Get the width that the mouse produces input for.
         /// </summary>
-        public int AreaWidth
-        {
-            get
-            {
-                return mouseHardware.AreaWidth;
-            }
-        }
+        public int AreaWidth { get; internal set; }
 
         /// <summary>
         /// Get the height that the mouse produces input for.
         /// </summary>
-        public int AreaHeight
-        {
-            get
-            {
-                return mouseHardware.AreaHeight;
-            }
-        }
+        public int AreaHeight { get; internal set; }
 
         public bool AnyButtonsDown
         {
             get
             {
-                return mouseHardware.AnyButtonsDown;
+                return buttonDown(MouseButtonCode.MB_BUTTON0)
+                    || buttonDown(MouseButtonCode.MB_BUTTON1)
+                    || buttonDown(MouseButtonCode.MB_BUTTON2)
+                    || buttonDown(MouseButtonCode.MB_BUTTON3)
+                    || buttonDown(MouseButtonCode.MB_BUTTON4)
+                    || buttonDown(MouseButtonCode.MB_BUTTON5)
+                    || buttonDown(MouseButtonCode.MB_BUTTON6)
+                    || buttonDown(MouseButtonCode.MB_BUTTON7);
             }
         }
 
         internal void fireButtonDown(MouseButtonCode button)
         {
+            buttonDownStatus[(int)button] = true;
+            //buttonDownProcessedStatus[(int)button] = false;
+
             if (ButtonDown != null)
             {
                 ButtonDown.Invoke(this, button);
@@ -107,14 +118,37 @@ namespace Engine.Platform
 
         internal void fireButtonUp(MouseButtonCode button)
         {
-            if (ButtonUp != null)
+            //Make sure the button is down
+            if (buttonDownStatus[(int)button])
             {
-                ButtonUp.Invoke(this, button);
+                //Before setting the button back to up make sure it has been processed at least once
+                //if (buttonDownProcessedStatus[(int)button])
+                //{
+                buttonDownStatus[(int)button] = false;
+                //}
+                //Always fire the raw input
+                if (ButtonUp != null)
+                {
+                    ButtonUp.Invoke(this, button);
+                }
             }
         }
 
-        internal void fireMoved()
+        internal void fireMoved(int x, int y)
         {
+            absMouse.x = x;
+            absMouse.y = y;
+
+            if (Moved != null)
+            {
+                Moved.Invoke(this);
+            }
+        }
+
+        internal void fireWheel(int z)
+        {
+            absMouse.z += z;
+
             if (Moved != null)
             {
                 Moved.Invoke(this);

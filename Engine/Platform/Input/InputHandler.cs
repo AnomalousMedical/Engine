@@ -28,7 +28,7 @@ namespace Engine.Platform
 	    /// </summary>
 	    /// <param name="buffered">True if the mouse should be buffered, which allows the mouse events to fire.</param>
 	    /// <returns>The new mouse.</returns>
-        public abstract MouseHardware createMouse(bool buffered, EventManager eventManager);
+        public abstract MouseHardware createMouse(bool buffered, Mouse mouse);
 
 	    /// <summary>
 	    /// Destroys the given mouse.  The mouse will be disposed after this function

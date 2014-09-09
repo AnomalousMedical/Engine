@@ -16,11 +16,11 @@ namespace PCPlatform
         private IntVector3 abs = new IntVector3();
         private IntVector3 rel = new IntVector3();
 
-        public PCMouse(IntPtr mouse, int windowWidth, int windowHeight, EventManager eventManager)
-            :base(eventManager)
+        public PCMouse(IntPtr mousePtr, int windowWidth, int windowHeight, Mouse mouse)
+            :base(mouse)
         {
-            this.mouse = mouse;
-            oisMouse_setWindowSize(mouse, windowWidth, windowHeight);
+            this.mouse = mousePtr;
+            oisMouse_setWindowSize(this.mouse, windowWidth, windowHeight);
             this.windowWidth = windowWidth;
             this.windowHeight = windowHeight;
         }
@@ -32,47 +32,47 @@ namespace PCPlatform
             oisMouse_setWindowSize(mouse, windowWidth, windowHeight);
         }
 
-        public override bool buttonDown(MouseButtonCode button)
-        {
-            return oisMouse_buttonDown(mouse, button);
-        }
+        //public override bool buttonDown(MouseButtonCode button)
+        //{
+        //    return oisMouse_buttonDown(mouse, button);
+        //}
 
-        public override void capture()
-        {
-            oisMouse_capture(mouse, ref abs, ref rel);
-        }
+        //public override void capture()
+        //{
+        //    oisMouse_capture(mouse, ref abs, ref rel);
+        //}
 
-        public override IntVector3 AbsolutePosition
-        {
-            get
-            {
-                return abs;
-            }
-        }
+        //public override IntVector3 AbsolutePosition
+        //{
+        //    get
+        //    {
+        //        return abs;
+        //    }
+        //}
 
-        public override IntVector3 RelativePosition
-        {
-            get
-            {
-                return rel;
-            }
-        }
+        //public override IntVector3 RelativePosition
+        //{
+        //    get
+        //    {
+        //        return rel;
+        //    }
+        //}
 
-        public override int AreaWidth
-        {
-            get
-            {
-                return windowWidth;
-            }
-        }
+        //public override int AreaWidth
+        //{
+        //    get
+        //    {
+        //        return windowWidth;
+        //    }
+        //}
 
-        public override int AreaHeight
-        {
-            get
-            {
-                return windowHeight;
-            }
-        }
+        //public override int AreaHeight
+        //{
+        //    get
+        //    {
+        //        return windowHeight;
+        //    }
+        //}
 
         internal IntPtr MouseHandle
         {

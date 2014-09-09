@@ -32,9 +32,9 @@ namespace OgreModelEditor
 
         //Platform
         private UpdateTimer mainTimer;
-        private SystemTimer systemTimer;
+        private PCSystemTimer systemTimer;
         private EventManager eventManager;
-        private InputHandler inputHandler;
+        private PCInputHandler inputHandler;
         private EventUpdateListener eventUpdate;
 
         //GUI
@@ -81,11 +81,11 @@ namespace OgreModelEditor
             }
             if (inputHandler != null)
             {
-                pluginManager.PlatformPlugin.destroyInputHandler(inputHandler);
+                inputHandler.Dispose();
             }
             if (systemTimer != null)
             {
-                pluginManager.PlatformPlugin.destroyTimer(systemTimer);
+                systemTimer.Dispose();
             }
             if(lightManager != null)
             {
@@ -151,7 +151,7 @@ namespace OgreModelEditor
             mainForm = new OgreModelEditorMain();
 
             //Intialize the platform
-            systemTimer = pluginManager.PlatformPlugin.createTimer();
+            systemTimer = new PCSystemTimer();
 
             PCUpdateTimer win32Timer = new PCUpdateTimer(systemTimer);
             WindowsMessagePump windowsPump = new WindowsMessagePump();
@@ -160,7 +160,7 @@ namespace OgreModelEditor
             mainTimer = win32Timer;
 
             mainTimer.FramerateCap = OgreModelEditorConfig.EngineConfig.MaxFPS;
-            inputHandler = pluginManager.PlatformPlugin.createInputHandler(mainForm, false, false, false, false);
+            inputHandler = new PCInputHandler(mainForm, false, false, false);
             eventManager = new EventManager(inputHandler, Enum.GetValues(typeof(EventLayers)));
             eventUpdate = new EventUpdateListener(eventManager);
             mainTimer.addUpdateListener(eventUpdate);

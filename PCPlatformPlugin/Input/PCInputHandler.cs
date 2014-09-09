@@ -8,7 +8,7 @@ using Logging;
 
 namespace PCPlatform
 {
-    class PCInputHandler : InputHandler, IDisposable
+    public class PCInputHandler : InputHandler, IDisposable
     {
         enum InputType : int
         {
@@ -94,12 +94,12 @@ namespace PCPlatform
 	        }
         }
 
-        public override MouseHardware createMouse(bool buffered, EventManager eventManager)
+        public override MouseHardware createMouse(bool buffered, Mouse mouse)
         {
             if( createdMouse == null )
 	        {
 		        Log.Info("Creating mouse.");
-		        createdMouse = new PCMouse(InputManager_createInputObject(nInputManager, InputType.OISMouse, buffered), window.WindowWidth, window.WindowHeight, eventManager);
+		        createdMouse = new PCMouse(InputManager_createInputObject(nInputManager, InputType.OISMouse, buffered), window.WindowWidth, window.WindowHeight, mouse);
                 window.Resized += window_Resized;
 	        }
 	        return createdMouse;

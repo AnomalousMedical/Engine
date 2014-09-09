@@ -48,7 +48,6 @@ namespace Engine
         private List<PluginInterface> loadedPlugins = new List<PluginInterface>();
         private List<AddSimElementCommand> addSimElementCommands = new List<AddSimElementCommand>();
         private List<AddSimElementManagerCommand> addElementManagerCommands = new List<AddSimElementManagerCommand>();
-        private PlatformPlugin platformPlugin = null;
         private RendererPlugin rendererPlugin = null;
         private List<Assembly> pluginAssemblies = new List<Assembly>();
         private ResourceManager prototypeResourceManager = new ResourceManager();
@@ -132,10 +131,6 @@ namespace Engine
                 {
                     throw new InvalidPluginException(String.Format("Cannot find PluginEntryPointAttribute in assembly {0}. Please add this property to the assembly.", assembly.FullName));
                 }
-            }
-            if (platformPlugin == null)
-            {
-                throw new InvalidPluginException("No platform plugin defined. Please define a platform plugin.");
             }
             if(rendererPlugin == null)
             {
@@ -259,25 +254,6 @@ namespace Engine
                 }
             }
             return null;
-        }
-
-        /// <summary>
-        /// Set the PlatformPlugin for this run of the engine. It is only valid
-        /// to set this one time. Any attempts to set this after the first time
-        /// will throw an InvalidPluginException.
-        /// </summary>
-        /// <param name="plugin">The PlatformPlugin to use.</param>
-        public void setPlatformPlugin(PlatformPlugin plugin)
-        {
-            if (platformPlugin == null)
-            {
-                platformPlugin = plugin;
-                Log.Default.sendMessage("Platform plugin set to {0}.", LogLevel.Info, "Engine", plugin.Name);
-            }
-            else
-            {
-                throw new InvalidPluginException("A second platform plugin was added. It is only valid to specify one platform plugin please correct this issue.");
-            }
         }
 
         /// <summary>
@@ -465,17 +441,6 @@ namespace Engine
         #endregion Functions
 
         #region Properties
-
-        /// <summary>
-        /// The PlatformPlugin that has been loaded.
-        /// </summary>
-        public PlatformPlugin PlatformPlugin
-        {
-            get
-            {
-                return platformPlugin;
-            }
-        }
 
         /// <summary>
         /// The RendererPlugin that has been loaded.

@@ -226,7 +226,6 @@
     <Compile Include="Plugin\DebugEntry.cs" />
     <Compile Include="Plugin\DebugInterface.cs" />
     <Compile Include="Plugin\DynamicDLLPluginLoader.cs" />
-    <Compile Include="Plugin\PlatformPlugin.cs" />
     <Compile Include="Plugin\PluginEntryPoint.cs" />
     <Compile Include="Plugin\PluginInterface.cs" />
     <Compile Include="Plugin\PluginLoader.cs" />

@@ -21,7 +21,6 @@ namespace Engine.Platform
         {
             this.EventManager = eventManager;
             Keyboard = new Keyboard(keyboardHardware);
-            Mouse = new Mouse(mouseHardware);
             HandledEvents = false;
             Locked = false;
         }
@@ -101,15 +100,17 @@ namespace Engine.Platform
         public bool EventProcessingAllowed { get; set; }
 
         /// <summary>
-        /// Access to the Mouse for this layer, the events on that object will respect the event layer stack so if a higher
-        /// layer says that it has already used the mouse subscribers to this layer's mouse will not get any events.
-        /// 
-        /// This is provided more for convenience, events subscribed here are not guarenteed to get the full down / pressed / up
-        /// lifecycle that MessageEvents get, this is more to hook up to a subsystem that might need direct mouse events, like a gui.
-        /// 
-        /// Ideally only one EventLayer would subscribe to these events and it would be the topmost one (e.g. a gui library)
+        /// Access the Mouse. The events fired by the mouse class are not layered so anything subscribed will get them, however,
+        /// you can call the alertEventsProcessed function when handling the mouse, which will cause that layer to block lower layers
+        /// during the next update.
         /// </summary>
-        public Mouse Mouse { get; private set; }
+        public Mouse Mouse
+        {
+            get
+            {
+                return EventManager.Mouse;
+            }
+        }
 
         /// <summary>
         /// Access to Keyboard Mouse for this layer, the events on that object will respect the event layer stack so if a higher

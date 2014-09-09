@@ -45,9 +45,9 @@ namespace Anomaly
 
         //Platform
         private UpdateTimer mainTimer;
-        private SystemTimer systemTimer;
+        private PCSystemTimer systemTimer;
         private EventManager eventManager;
-        private InputHandler inputHandler;
+        private PCInputHandler inputHandler;
         private EventUpdateListener eventUpdate;
         private FullSpeedUpdateListener fixedUpdate;
 
@@ -135,7 +135,7 @@ namespace Anomaly
             mainForm = new AnomalyMain();
 
             //Intialize the platform
-            systemTimer = pluginManager.PlatformPlugin.createTimer();
+            systemTimer = new PCSystemTimer();
 
             PCUpdateTimer win32Timer = new PCUpdateTimer(systemTimer);
             WindowsMessagePump windowsPump = new WindowsMessagePump();
@@ -143,7 +143,7 @@ namespace Anomaly
             win32Timer.MessagePump = windowsPump;
             mainTimer = win32Timer;
             mainTimer.FramerateCap = AnomalyConfig.EngineConfig.MaxFPS;
-            inputHandler = pluginManager.PlatformPlugin.createInputHandler(mainForm, false, false, false, false);
+            inputHandler = new PCInputHandler(mainForm, false, false, false);
             eventManager = new EventManager(inputHandler, Enum.GetValues(typeof(EventLayers)));
             eventUpdate = new EventUpdateListener(eventManager);
             mainTimer.addUpdateListener(eventUpdate);
@@ -235,11 +235,11 @@ namespace Anomaly
             }
             if (inputHandler != null)
             {
-                pluginManager.PlatformPlugin.destroyInputHandler(inputHandler);
+                inputHandler.Dispose();
             }
             if(systemTimer != null)
             {
-                pluginManager.PlatformPlugin.destroyTimer(systemTimer);
+                systemTimer.Dispose();
             }
             if(lightManager != null)
             {
