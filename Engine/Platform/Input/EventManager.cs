@@ -80,6 +80,7 @@ namespace Engine.Platform
                 //keeps its HandledEvents property set where it should be.
                 layer.HandledEvents = false;
             }
+            mouse.postUpdate();
             touches.tick();
         }
 
