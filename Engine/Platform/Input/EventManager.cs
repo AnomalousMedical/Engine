@@ -16,7 +16,8 @@ namespace Engine.Platform
     public class EventManager : IDisposable
     {
         private InputHandler inputHandler;
-        private KeyboardHardware keyboard = null;
+        private KeyboardHardware keyboardHardware = null;
+        private Keyboard keyboard;
         private MouseHardware mouseHardware = null;
         private Mouse mouse;
         private Touches touches;
@@ -31,7 +32,8 @@ namespace Engine.Platform
         public EventManager(InputHandler inputHandler, IEnumerable layerKeys)
         {
             this.inputHandler = inputHandler;
-            keyboard = inputHandler.createKeyboard(true, this);
+            keyboard = new Keyboard();
+            keyboardHardware = inputHandler.createKeyboard(true, keyboard);
             mouse = new Mouse();
             mouseHardware = inputHandler.createMouse(false, mouse);
             touches = new Touches();
@@ -39,7 +41,7 @@ namespace Engine.Platform
 
             foreach (object key in layerKeys)
             {
-                eventLayers.Add(key, new EventLayer(this, keyboard, mouseHardware));
+                eventLayers.Add(key, new EventLayer(this));
             }
 
             DefaultEvents.registerEventManager(this);
@@ -51,7 +53,7 @@ namespace Engine.Platform
         public void Dispose()
         {
             inputHandler.destroyTouchHardware(touchHardware);
-            inputHandler.destroyKeyboard(keyboard);
+            inputHandler.destroyKeyboard(keyboardHardware);
             inputHandler.destroyMouse(mouseHardware);
             DefaultEvents.unregisterEventManager(this);
         }
@@ -64,10 +66,6 @@ namespace Engine.Platform
         public void updateEvents(Clock clock)
         {
             mouse.capture();
-            if (keyboard != null)
-            {
-                keyboard.capture();
-            }
             bool allowEventProcessing = true; //The first layer always gets all events
             foreach (var layer in eventLayers)
             {
@@ -117,37 +115,8 @@ namespace Engine.Platform
         }
 
         /// <summary>
-        /// Fire a key pressed event. This will stop firing once the first layer has claimed the event.
+        /// The touches tracked by the system.
         /// </summary>
-        internal void fireKeyPressed(KeyboardButtonCode keyCode, uint keyChar)
-        {
-            //See UpdateEvents for how HandledEvents is processed
-            foreach (var layer in eventLayers)
-            {
-                layer.Keyboard.fireKeyPressed(keyCode, keyChar);
-                if (layer.SkipNextLayer)
-                {
-                    break;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Fire a key released event. This will stop firing once the first layer has claimed the event.
-        /// </summary>
-        internal void fireKeyReleased(KeyboardButtonCode keyCode, uint keyChar)
-        {
-            //See UpdateEvents for how HandledEvents is processed
-            foreach (var layer in eventLayers)
-            {
-                layer.Keyboard.fireKeyReleased(keyCode, keyChar);
-                if (layer.SkipNextLayer)
-                {
-                    break;
-                }
-            }
-        }
-
         public Touches Touches
         {
             get
@@ -156,11 +125,25 @@ namespace Engine.Platform
             }
         }
 
+        /// <summary>
+        /// The mouse.
+        /// </summary>
         public Mouse Mouse
         {
             get
             {
                 return mouse;
+            }
+        }
+
+        /// <summary>
+        /// The keyboard.
+        /// </summary>
+        public Keyboard Keyboard
+        {
+            get
+            {
+                return keyboard;
             }
         }
     }

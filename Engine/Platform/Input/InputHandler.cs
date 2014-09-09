@@ -13,7 +13,7 @@ namespace Engine.Platform
 	    /// </summary>
 	    /// <param name="buffered">True if the keyboard should be buffered, which allows the keyboard events to fire.</param>
 	    /// <returns>The new keyboard.</returns>
-        public abstract KeyboardHardware createKeyboard(bool buffered, EventManager eventManager);
+        public abstract KeyboardHardware createKeyboard(bool buffered, Keyboard keyboard);
 
 	    /// <summary>
 	    /// Destroys the given keyboard.  The keyboard will be disposed after this function

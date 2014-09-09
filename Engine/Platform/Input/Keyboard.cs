@@ -6,28 +6,32 @@ using System.Threading.Tasks;
 
 namespace Engine.Platform
 {
-    public delegate void KeyEvent(KeyboardButtonCode keyCode, uint keyChar);
+    public delegate void KeyDownEvent(KeyboardButtonCode keyCode, uint keyChar);
+    public delegate void KeyUpEvent(KeyboardButtonCode keyCode);
 
     public class Keyboard
     {
-        private KeyboardHardware keyboardHardware;
+        private bool[] keysDown = new bool[256];
+        bool altDown = false;
+        bool ctrlDown = false;
+        bool shiftDown = false;
 
-        public Keyboard(KeyboardHardware keyboardHardware)
+        public Keyboard()
         {
-            this.keyboardHardware = keyboardHardware;
+            
         }
 
         /// <summary>
         /// This event is fired when a key is pressed. Will only be fired if the
         /// keyboard is created with buffered=true.
         /// </summary>
-        public event KeyEvent KeyPressed;
+        public event KeyDownEvent KeyPressed;
 
         /// <summary>
         /// This event is fired when a key is released. Will only be fired if the
         /// keyboard is created with buffered=true.
         /// </summary>
-        public event KeyEvent KeyReleased;
+        public event KeyUpEvent KeyReleased;
         
         /// <summary>
         /// Checks to see if the given key is pressed.
@@ -36,7 +40,7 @@ namespace Engine.Platform
         /// <returns>True if the key is pressed.  False if it is not.</returns>
         public bool isKeyDown(KeyboardButtonCode keyCode)
         {
-            return keyboardHardware.isKeyDown(keyCode);
+            return keysDown[(int)keyCode];
         }
 
         /// <summary>
@@ -46,18 +50,17 @@ namespace Engine.Platform
         /// <returns>True if the modifier is pressed down.  False if it is not.</returns>
         public bool isModifierDown(Modifier keyCode)
         {
-            return keyboardHardware.isModifierDown(keyCode);
-        }
-
-        /// <summary>
-        /// Returns the keyboard button as a string for the given code.  If shift is pressed
-        /// the appropriate alt character will be returned.
-        /// </summary>
-        /// <param name="code">The code of the button to check for.</param>
-        /// <returns>The button as a string.</returns>
-        public String getAsString(KeyboardButtonCode code)
-        {
-            return keyboardHardware.getAsString(code);
+            switch (keyCode)
+            {
+                case Modifier.Shift:
+                    return shiftDown;
+                case Modifier.Alt:
+                    return altDown;
+                case Modifier.Ctrl:
+                    return ctrlDown;
+                default:
+                    return false;
+            }
         }
 
         /// <summary>
@@ -65,20 +68,69 @@ namespace Engine.Platform
         /// </summary>
         internal void fireKeyPressed(KeyboardButtonCode keyCode, uint keyChar)
         {
-            if (KeyPressed != null)
+            if (!keysDown[(int)keyCode])
             {
-                KeyPressed.Invoke(keyCode, keyChar);
+                keysDown[(int)keyCode] = true;
+                switch (keyCode)
+                {
+                    case KeyboardButtonCode.KC_LSHIFT:
+                        shiftDown = true;
+                        break;
+
+                    case KeyboardButtonCode.KC_LMENU:
+                        altDown = true;
+                        break;
+
+                    case KeyboardButtonCode.KC_LCONTROL:
+                        ctrlDown = true;
+                        break;
+                }
+
+                if (KeyPressed != null)
+                {
+                    KeyPressed.Invoke(keyCode, keyChar);
+                }
             }
         }
 
         /// <summary>
         /// Fire a key released event.
         /// </summary>
-        internal void fireKeyReleased(KeyboardButtonCode keyCode, uint keyChar)
+        internal void fireKeyReleased(KeyboardButtonCode keyCode)
         {
-            if (KeyReleased != null)
+            if (keysDown[(int)keyCode])
             {
-                KeyReleased.Invoke(keyCode, keyChar);
+                keysDown[(int)keyCode] = false;
+                switch (keyCode)
+                {
+                    case KeyboardButtonCode.KC_LSHIFT:
+                        shiftDown = false;
+                        break;
+
+                    case KeyboardButtonCode.KC_LMENU:
+                        altDown = false;
+                        break;
+
+                    case KeyboardButtonCode.KC_LCONTROL:
+                        ctrlDown = false;
+                        break;
+                }
+
+                if (KeyReleased != null)
+                {
+                    KeyReleased.Invoke(keyCode);
+                }
+            }            
+        }
+
+        /// <summary>
+        /// Release all keys
+        /// </summary>
+        internal void releaseAllKeys()
+        {
+            for (int i = 0; i < keysDown.Length; ++i)
+            {
+                fireKeyReleased((KeyboardButtonCode)i);
             }
         }
 

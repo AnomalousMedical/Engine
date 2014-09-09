@@ -17,16 +17,17 @@ extern "C" _AnomalousExport void oisKeyboard_capture(OIS::Keyboard* keyboard, ch
 	keyboard->copyKeyStates(keys);
 }
 
-typedef void (*KeyCallback) (OIS::KeyCode key, unsigned int text);
+typedef void (*KeyDownCallback) (OIS::KeyCode key, unsigned int text);
+typedef void (*KeyUpCallback) (OIS::KeyCode key);
 
 class BufferedKeyListener : public OIS::KeyListener
 {
 private:
-	KeyCallback keyPressedCb;
-	KeyCallback keyReleasedCb;
+	KeyDownCallback keyPressedCb;
+	KeyUpCallback keyReleasedCb;
 
 public:
-	BufferedKeyListener(KeyCallback keyPressedCb, KeyCallback keyReleasedCb)
+	BufferedKeyListener(KeyDownCallback keyPressedCb, KeyUpCallback keyReleasedCb)
 		:keyPressedCb(keyPressedCb),
 		keyReleasedCb(keyReleasedCb)
 	{
@@ -46,12 +47,12 @@ public:
 	
 	virtual bool keyReleased( const OIS::KeyEvent &arg )
 	{
-		keyReleasedCb(arg.key, arg.text);
+		keyReleasedCb(arg.key);
 		return true;
 	}
 };
 
-extern "C" _AnomalousExport BufferedKeyListener* oisKeyboard_createListener(OIS::Keyboard* keyboard, KeyCallback keyPressedCb, KeyCallback keyReleasedCb)
+extern "C" _AnomalousExport BufferedKeyListener* oisKeyboard_createListener(OIS::Keyboard* keyboard, KeyDownCallback keyPressedCb, KeyUpCallback keyReleasedCb)
 {
 	BufferedKeyListener* keyListener = new BufferedKeyListener(keyPressedCb, keyReleasedCb);
 	keyboard->setEventCallback(keyListener);

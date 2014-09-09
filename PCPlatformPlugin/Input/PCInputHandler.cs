@@ -60,12 +60,12 @@ namespace PCPlatform
 	        nInputManager = IntPtr.Zero;
         }
 
-        public override KeyboardHardware createKeyboard(bool buffered, EventManager eventManager)
+        public override KeyboardHardware createKeyboard(bool buffered, Keyboard keyboard)
         {
             if( createdKeyboard == null )
 	        {
 		        Log.Info("Creating keyboard.");
-		        createdKeyboard = new PCKeyboard(InputManager_createInputObject(nInputManager, InputType.OISKeyboard, buffered), eventManager);
+                createdKeyboard = new PCKeyboard(InputManager_createInputObject(nInputManager, InputType.OISKeyboard, buffered), keyboard);
                 createdKeyboard.TranslationMode = PCKeyboard.TextTranslationMode.Unicode;
 	        }
 	        return createdKeyboard;

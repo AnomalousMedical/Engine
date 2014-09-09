@@ -18,50 +18,29 @@ namespace PCPlatform
         };
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void KeyCallback(KeyboardButtonCode key, uint text);
+        private delegate void KeyDownCallback(KeyboardButtonCode key, uint text);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void KeyUpCallback(KeyboardButtonCode key);
 
         private IntPtr keyboard;
         private IntPtr keyListener;
-        private sbyte[] keys = new sbyte[256];
 
-        private KeyCallback keyPressedCbPtr;
-        private KeyCallback keyReleasedCbPtr;
+        private KeyDownCallback keyPressedCbPtr;
+        private KeyUpCallback keyReleasedCbPtr;
 
-        public PCKeyboard(IntPtr keyboard, EventManager eventManager)
-            :base(eventManager)
+        public PCKeyboard(IntPtr keyboardPtr, Keyboard keyboard)
+            : base(keyboard)
         {
-            this.keyboard = keyboard;
-            keyPressedCbPtr = new KeyCallback(fireKeyPressed);
-            keyReleasedCbPtr = new KeyCallback(fireKeyReleased);
-            keyListener = oisKeyboard_createListener(keyboard, keyPressedCbPtr, keyReleasedCbPtr);
+            this.keyboard = keyboardPtr;
+            keyPressedCbPtr = new KeyDownCallback(fireKeyPressed);
+            keyReleasedCbPtr = new KeyUpCallback(fireKeyReleased);
+            keyListener = oisKeyboard_createListener(this.keyboard, keyPressedCbPtr, keyReleasedCbPtr);
         }
 
         public void Dispose()
         {
             oisKeyboard_destroyListener(keyboard, keyListener);
-        }
-
-        public override bool isKeyDown(KeyboardButtonCode keyCode)
-        {
-            return keys[(int)keyCode] != 0;
-        }
-
-        public override bool isModifierDown(Modifier keyCode)
-        {
-            return oisKeyboard_isModifierDown(keyboard, keyCode);
-        }
-
-        public override string getAsString(KeyboardButtonCode code)
-        {
-            return Marshal.PtrToStringAnsi(oisKeyboard_getAsString(keyboard, code));
-        }
-
-        public unsafe override void capture()
-        {
-            fixed (sbyte* keyBuf = &keys[0])
-            {
-                oisKeyboard_capture(keyboard, keyBuf);
-            }
         }
 
         public TextTranslationMode TranslationMode
@@ -95,7 +74,7 @@ namespace PCPlatform
         private static unsafe extern void oisKeyboard_capture(IntPtr keyboard, sbyte* keys);
 
         [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr oisKeyboard_createListener(IntPtr keyboard, KeyCallback keyPressedCb, KeyCallback keyReleasedCb);
+        private static extern IntPtr oisKeyboard_createListener(IntPtr keyboard, KeyDownCallback keyPressedCb, KeyUpCallback keyReleasedCb);
 
         [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         private static extern void oisKeyboard_destroyListener(IntPtr keyboard, IntPtr listener);

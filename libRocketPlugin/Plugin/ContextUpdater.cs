@@ -97,7 +97,7 @@ namespace libRocketPlugin
             context.ProcessMouseButtonDown((int)buttonCode, 0);
         }
 
-        void Keyboard_KeyReleased(KeyboardButtonCode keyCode, uint keyChar)
+        void Keyboard_KeyReleased(KeyboardButtonCode keyCode)
         {
             KeyIdentifier key = InputMap.GetKey(keyCode);
             context.ProcessKeyUp(key, buildModifier());

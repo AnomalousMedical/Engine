@@ -21,8 +21,8 @@ namespace MyGUIPlugin
             this.inputManager = InputManager.Instance;
             this.eventLayer = eventLayer;
             Keyboard keyboard = eventLayer.Keyboard;
-            keyboard.KeyPressed += new KeyEvent(keyboard_KeyPressed);
-            keyboard.KeyReleased += new KeyEvent(keyboard_KeyReleased);
+            keyboard.KeyPressed += keyboard_KeyPressed;
+            keyboard.KeyReleased += keyboard_KeyReleased;
 
             Mouse mouse = eventLayer.Mouse;
             mouse.ButtonDown += mouse_ButtonDown;
@@ -70,7 +70,7 @@ namespace MyGUIPlugin
             }
         }
 
-        void keyboard_KeyReleased(KeyboardButtonCode keyCode, uint keyChar)
+        void keyboard_KeyReleased(KeyboardButtonCode keyCode)
         {
             gui.HandledKeyboardButtons = inputManager.injectKeyRelease(keyCode);
             if (gui.HandledKeyboardButtons || inputManager.isModalAny())

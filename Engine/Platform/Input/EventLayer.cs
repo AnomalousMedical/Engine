@@ -17,10 +17,9 @@ namespace Engine.Platform
         /// </summary>
         public event MessageEventCallback OnUpdate;
 
-        internal EventLayer(EventManager eventManager, KeyboardHardware keyboardHardware, MouseHardware mouseHardware)
+        internal EventLayer(EventManager eventManager)
         {
             this.EventManager = eventManager;
-            Keyboard = new Keyboard(keyboardHardware);
             HandledEvents = false;
             Locked = false;
         }
@@ -113,15 +112,17 @@ namespace Engine.Platform
         }
 
         /// <summary>
-        /// Access to Keyboard Mouse for this layer, the events on that object will respect the event layer stack so if a higher
-        /// layer says that it has already used the keyboard subscribers to this layer's keyboard will not get any events.
-        /// 
-        /// This is provided more for convenience, events subscribed here are not guarenteed to get the full down / pressed / up
-        /// lifecycle that MessageEvents get, this is more to hook up to a subsystem that might need direct mouse events, like a gui.
-        /// 
-        /// Ideally only one EventLayer would subscribe to these events and it would be the topmost one (e.g. a gui library)
+        /// Access the Keyboard. The events fired by the keyboard class are not layered so anything subscribed will get them, however,
+        /// you can call the alertEventsProcessed function when handling the keyboard, which will cause that layer to block lower layers
+        /// during the next update.
         /// </summary>
-        public Keyboard Keyboard { get; private set; }
+        public Keyboard Keyboard
+        {
+            get
+            {
+                return EventManager.Keyboard;
+            }
+        }
 
         /// <summary>
         /// Set this to true to lock input to not go past this layer. Set this to false to allow input past this layer again.
