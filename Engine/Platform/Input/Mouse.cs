@@ -24,7 +24,10 @@ namespace Engine.Platform
 
         public Mouse()
         {
-            
+            for(int i = 0; i < buttonUpActualStatus.Length; ++i)
+            {
+                buttonUpActualStatus[i] = true;
+            }
         }
 
         /// <summary>
@@ -76,7 +79,7 @@ namespace Engine.Platform
         private void checkButtonUp(MouseButtonCode code)
         {
             int index = (int)code;
-            if(buttonDownStatus[index] && buttonDownProcessedStatus[index] && buttonUpActualStatus[index])
+            if(buttonDownStatus[index] && buttonUpActualStatus[index])
             {
                 buttonDownStatus[index] = false;
             }
@@ -122,14 +125,14 @@ namespace Engine.Platform
         {
             get
             {
-                return buttonDown(MouseButtonCode.MB_BUTTON0)
-                    || buttonDown(MouseButtonCode.MB_BUTTON1)
-                    || buttonDown(MouseButtonCode.MB_BUTTON2)
-                    || buttonDown(MouseButtonCode.MB_BUTTON3)
-                    || buttonDown(MouseButtonCode.MB_BUTTON4)
-                    || buttonDown(MouseButtonCode.MB_BUTTON5)
-                    || buttonDown(MouseButtonCode.MB_BUTTON6)
-                    || buttonDown(MouseButtonCode.MB_BUTTON7);
+              return !(buttonUpActualStatus[(int)MouseButtonCode.MB_BUTTON0]
+                    && buttonUpActualStatus[(int)MouseButtonCode.MB_BUTTON1]
+                    && buttonUpActualStatus[(int)MouseButtonCode.MB_BUTTON2]
+                    && buttonUpActualStatus[(int)MouseButtonCode.MB_BUTTON3]
+                    && buttonUpActualStatus[(int)MouseButtonCode.MB_BUTTON4]
+                    && buttonUpActualStatus[(int)MouseButtonCode.MB_BUTTON5]
+                    && buttonUpActualStatus[(int)MouseButtonCode.MB_BUTTON6]
+                    && buttonUpActualStatus[(int)MouseButtonCode.MB_BUTTON7]);
             }
         }
 
@@ -150,6 +153,7 @@ namespace Engine.Platform
         internal void fireButtonUp(MouseButtonCode button)
         {
             int index = (int)button;
+            buttonUpActualStatus[index] = true;
 
             //Make sure the button is down
             if (buttonDownStatus[index])
@@ -165,7 +169,6 @@ namespace Engine.Platform
                 {
                     ButtonUp.Invoke(this, button);
                 }
-                buttonUpActualStatus[index] = true;
             }
         }
 
