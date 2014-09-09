@@ -8,71 +8,67 @@ using Engine;
 
 namespace PCPlatform
 {
-    class PCMouse : MouseHardware
+    class PCMouse : MouseHardware, IDisposable
     {
         IntPtr mouse;
-        int windowWidth;
-        int windowHeight;
         private IntVector3 abs = new IntVector3();
         private IntVector3 rel = new IntVector3();
 
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        delegate void ButtonCallback(MouseButtonCode id);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        delegate void MovedCallback(int x, int y, int z);
+
+        ButtonCallback buttonPressedCb;
+        ButtonCallback buttonReleasedCb;
+        MovedCallback movedCallback;
+
+        private IntPtr mouseListener;
+
         public PCMouse(IntPtr mousePtr, int windowWidth, int windowHeight, Mouse mouse)
-            :base(mouse)
+            : base(mouse)
         {
             this.mouse = mousePtr;
             oisMouse_setWindowSize(this.mouse, windowWidth, windowHeight);
-            this.windowWidth = windowWidth;
-            this.windowHeight = windowHeight;
+            fireSizeChanged(windowWidth, windowHeight);
+
+            buttonPressedCb = new ButtonCallback(fireButtonDown);
+            buttonReleasedCb = new ButtonCallback(fireButtonUp);
+            movedCallback = new MovedCallback(moved);
+
+            mouseListener = oisMouse_createListener(mousePtr, buttonPressedCb, buttonReleasedCb, movedCallback);
+        }
+
+        public void Dispose()
+        {
+            oisMouse_destroyListener(mouse, mouseListener);
+        }
+
+        public void capture()
+        {
+            oisMouse_capture(mouse, ref abs, ref rel);
+        }
+
+        private void moved(int x, int y, int z)
+        {
+            if (x != 0 || y != 0)
+            {
+                fireMoved(x, y);
+            }
+            if (z != 0)
+            {
+                fireWheel(z);
+            }
         }
 
         internal void windowResized(OSWindow window)
         {
-            this.windowWidth = window.WindowWidth;
-            this.windowHeight = window.WindowHeight;
+            int windowWidth = window.WindowWidth;
+            int windowHeight = window.WindowHeight;
             oisMouse_setWindowSize(mouse, windowWidth, windowHeight);
+            fireSizeChanged(windowWidth, windowHeight);
         }
-
-        //public override bool buttonDown(MouseButtonCode button)
-        //{
-        //    return oisMouse_buttonDown(mouse, button);
-        //}
-
-        //public override void capture()
-        //{
-        //    oisMouse_capture(mouse, ref abs, ref rel);
-        //}
-
-        //public override IntVector3 AbsolutePosition
-        //{
-        //    get
-        //    {
-        //        return abs;
-        //    }
-        //}
-
-        //public override IntVector3 RelativePosition
-        //{
-        //    get
-        //    {
-        //        return rel;
-        //    }
-        //}
-
-        //public override int AreaWidth
-        //{
-        //    get
-        //    {
-        //        return windowWidth;
-        //    }
-        //}
-
-        //public override int AreaHeight
-        //{
-        //    get
-        //    {
-        //        return windowHeight;
-        //    }
-        //}
 
         internal IntPtr MouseHandle
         {
@@ -82,14 +78,20 @@ namespace PCPlatform
             }
         }
 
-        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport("PCPlatform", CallingConvention = CallingConvention.Cdecl)]
         private static extern void oisMouse_setWindowSize(IntPtr mouse, int width, int height);
 
-        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport("PCPlatform", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool oisMouse_buttonDown(IntPtr mouse, MouseButtonCode button);
 
-        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport("PCPlatform", CallingConvention = CallingConvention.Cdecl)]
         private static extern void oisMouse_capture(IntPtr mouse, ref IntVector3 absPos, ref IntVector3 relPos);
+
+        [DllImport("PCPlatform", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr oisMouse_createListener(IntPtr mouse, ButtonCallback buttonPressedCb, ButtonCallback buttonReleasedCb, MovedCallback movedCallback);
+
+        [DllImport("PCPlatform", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void oisMouse_destroyListener(IntPtr mouse, IntPtr listener);
     }
 }

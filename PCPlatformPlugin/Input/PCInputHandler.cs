@@ -8,7 +8,7 @@ using Logging;
 
 namespace PCPlatform
 {
-    public class PCInputHandler : InputHandler, IDisposable
+    public class PCInputHandler : InputHandler, IDisposable, UpdateListener
     {
         enum InputType : int
         {
@@ -26,10 +26,13 @@ namespace PCPlatform
 	    PCKeyboard createdKeyboard;
 	    PCMouse createdMouse;
 	    OSWindow window;
+        UpdateTimer updateTimer;
 
-        public PCInputHandler(OSWindow windowHandle, bool foreground, bool exclusive, bool noWinKey)
+        public PCInputHandler(OSWindow windowHandle, bool foreground, bool exclusive, bool noWinKey, UpdateTimer updateTimer)
         {
             this.window = windowHandle;
+            this.updateTimer = updateTimer;
+            updateTimer.addUpdateListener(this);
 
             nInputManager = InputManager_Create(windowHandle.WindowHandle.ToString(), foreground, exclusive, noWinKey);
 
@@ -48,6 +51,7 @@ namespace PCPlatform
 
         public void Dispose()
         {
+            updateTimer.removeUpdateListener(this);
             if( createdMouse != null )
 	        {
 		        destroyMouse(createdMouse);
@@ -99,7 +103,7 @@ namespace PCPlatform
             if( createdMouse == null )
 	        {
 		        Log.Info("Creating mouse.");
-		        createdMouse = new PCMouse(InputManager_createInputObject(nInputManager, InputType.OISMouse, false), window.WindowWidth, window.WindowHeight, mouse);
+		        createdMouse = new PCMouse(InputManager_createInputObject(nInputManager, InputType.OISMouse, true), window.WindowWidth, window.WindowHeight, mouse);
                 window.Resized += window_Resized;
 	        }
 	        return createdMouse;
@@ -109,9 +113,11 @@ namespace PCPlatform
         {
             if( createdMouse == mouse )
 	        {
+                var pcMouse = (PCMouse)mouse;
+                pcMouse.Dispose();
                 window.Resized -= window_Resized;
 		        Log.Info("Destroying mouse.");
-		        InputManager_destroyInputObject(nInputManager, ((PCMouse)mouse).MouseHandle);
+                InputManager_destroyInputObject(nInputManager, pcMouse.MouseHandle);
 		        createdMouse = null;
 	        }
 	        else
@@ -159,6 +165,28 @@ namespace PCPlatform
             {
                 return Marshal.PtrToStringAnsi(InputManager_inputSystemName(nInputManager));
             }
+        }
+
+        public void sendUpdate(Clock clock)
+        {
+            if (createdKeyboard != null)
+            {
+                createdKeyboard.capture();
+            }
+            if (createdMouse != null)
+            {
+                createdMouse.capture();
+            }
+        }
+
+        public void loopStarting()
+        {
+
+        }
+
+        public void exceededMaxDelta()
+        {
+
         }
 
         [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]

@@ -40,3 +40,59 @@ extern "C" _AnomalousExport void oisMouse_capture(OIS::Mouse* mouse, IntVector3*
 	relPos->y = state.Y.rel;
 	relPos->z = state.Z.rel;
 }
+
+typedef void(*ButtonCallback) (OIS::MouseButtonID id);
+typedef void(*MovedCallback) (int x, int y, int z);
+
+class BufferedMouseListener : public OIS::MouseListener
+{
+private:
+	ButtonCallback buttonPressedCb;
+	ButtonCallback buttonReleasedCb;
+	MovedCallback movedCallback;
+
+public:
+	BufferedMouseListener(ButtonCallback buttonPressedCb, ButtonCallback buttonReleasedCb, MovedCallback movedCallback)
+		:buttonPressedCb(buttonPressedCb),
+		buttonReleasedCb(buttonReleasedCb),
+		movedCallback(movedCallback)
+	{
+
+	}
+
+	virtual ~BufferedMouseListener()
+	{
+
+	}
+
+	virtual bool mouseMoved(const OIS::MouseEvent &arg)
+	{
+		movedCallback(arg.state.X.abs, arg.state.Y.abs, arg.state.Z.rel);
+		return true;
+	}
+
+	virtual bool mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
+	{
+		buttonPressedCb(id);
+		return true;
+	}
+
+	virtual bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
+	{
+		buttonReleasedCb(id);
+		return true;
+	}
+};
+
+extern "C" _AnomalousExport BufferedMouseListener* oisMouse_createListener(OIS::Mouse* mouse, ButtonCallback buttonPressedCb, ButtonCallback buttonReleasedCb, MovedCallback movedCallback)
+{
+	BufferedMouseListener* listener = new BufferedMouseListener(buttonPressedCb, buttonReleasedCb, movedCallback);
+	mouse->setEventCallback(listener);
+	return listener;
+}
+
+extern "C" _AnomalousExport void oisMouse_destroyListener(OIS::Mouse* mouse, BufferedMouseListener* listener)
+{
+	mouse->setEventCallback(0);
+	delete listener;
+}

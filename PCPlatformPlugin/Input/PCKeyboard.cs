@@ -29,6 +29,8 @@ namespace PCPlatform
         private KeyDownCallback keyPressedCbPtr;
         private KeyUpCallback keyReleasedCbPtr;
 
+        private sbyte[] keys = new sbyte[256];
+
         public PCKeyboard(IntPtr keyboardPtr, Keyboard keyboard)
             : base(keyboard)
         {
@@ -41,6 +43,14 @@ namespace PCPlatform
         public void Dispose()
         {
             oisKeyboard_destroyListener(keyboard, keyListener);
+        }
+
+        public unsafe void capture()
+        {
+            fixed (sbyte* keyBuf = &keys[0])
+            {
+                oisKeyboard_capture(keyboard, keyBuf);
+            }
         }
 
         public TextTranslationMode TranslationMode
