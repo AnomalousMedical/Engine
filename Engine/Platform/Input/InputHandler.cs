@@ -11,9 +11,8 @@ namespace Engine.Platform
 	    /// Creates a Keyboard object linked to the system keyboard.  This keyboard is valid
 	    /// until the InputHandler is destroyed.
 	    /// </summary>
-	    /// <param name="buffered">True if the keyboard should be buffered, which allows the keyboard events to fire.</param>
 	    /// <returns>The new keyboard.</returns>
-        public abstract KeyboardHardware createKeyboard(bool buffered, Keyboard keyboard);
+        public abstract KeyboardHardware createKeyboard(Keyboard keyboard);
 
 	    /// <summary>
 	    /// Destroys the given keyboard.  The keyboard will be disposed after this function
@@ -26,9 +25,8 @@ namespace Engine.Platform
 	    /// Creates a Mouse object linked to the system mouse.  This mouse is valid
 	    /// until the InputHandler is destroyed.
 	    /// </summary>
-	    /// <param name="buffered">True if the mouse should be buffered, which allows the mouse events to fire.</param>
 	    /// <returns>The new mouse.</returns>
-        public abstract MouseHardware createMouse(bool buffered, Mouse mouse);
+        public abstract MouseHardware createMouse(Mouse mouse);
 
 	    /// <summary>
 	    /// Destroys the given mouse.  The mouse will be disposed after this function

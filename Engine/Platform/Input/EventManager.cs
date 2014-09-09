@@ -33,9 +33,9 @@ namespace Engine.Platform
         {
             this.inputHandler = inputHandler;
             keyboard = new Keyboard();
-            keyboardHardware = inputHandler.createKeyboard(true, keyboard);
+            keyboardHardware = inputHandler.createKeyboard(keyboard);
             mouse = new Mouse();
-            mouseHardware = inputHandler.createMouse(false, mouse);
+            mouseHardware = inputHandler.createMouse(mouse);
             touches = new Touches();
             touchHardware = inputHandler.createTouchHardware(touches);
 
