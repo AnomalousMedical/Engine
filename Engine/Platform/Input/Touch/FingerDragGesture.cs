@@ -9,7 +9,7 @@ namespace Engine.Platform
     /// <summary>
     /// A Gesture for one or more fingers traveling in the same direction.
     /// </summary>
-    public class FingerDragGesture : Gesture
+    public class FingerDragGesture : MessageEvent
     {
         public delegate void Delegate(EventLayer eventLayer, FingerDragGesture gesture);
 
@@ -90,8 +90,9 @@ namespace Engine.Platform
             momentum = new Vector2(0, 0);
         }
 
-        protected override bool processFingers(EventLayer eventLayer, Touches touches)
+        protected internal override void update(EventLayer eventLayer, bool allowProcessing, Clock clock)
         {
+            var touches = eventLayer.EventManager.Touches;
             var fingers = touches.Fingers;
             if (fingers.Count == fingerCount)
             {
@@ -157,11 +158,6 @@ namespace Engine.Platform
                 }
             }
 
-            return didGesture;
-        }
-
-        protected override void additionalProcessing(EventLayer eventLayer, Clock clock)
-        {
             if (!didGesture)
             {
                 if (gestureStarted)

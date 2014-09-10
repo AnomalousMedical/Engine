@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MyGUIPlugin
 {
-    class GuiGestures : Gesture
+    class GuiGestures : MessageEvent
     {
         private bool didGesture;
         private bool gestureStarted = false;
@@ -29,8 +29,9 @@ namespace MyGUIPlugin
             averageSpeed = new Vector2[averageSpeedFrames];
         }
 
-        protected override bool processFingers(EventLayer eventLayer, Touches touches)
+        protected override void update(EventLayer eventLayer, bool allowProcessing, Clock clock)
         {
+            var touches = eventLayer.EventManager.Touches;
             var fingers = touches.Fingers;
             if (fingers.Count == 1)
             {
@@ -62,11 +63,7 @@ namespace MyGUIPlugin
                     }
                 }
             }
-            return didGesture;
-        }
 
-        protected override void additionalProcessing(EventLayer eventLayer, Clock clock)
-        {
             if(!didGesture)
             {
                 if(gestureStarted)

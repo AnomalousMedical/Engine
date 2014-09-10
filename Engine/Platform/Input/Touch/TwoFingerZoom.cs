@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Engine.Platform
 {
-    public class TwoFingerZoom : Gesture
+    public class TwoFingerZoom : MessageEvent
     {
         public delegate void ZoomDelegate(EventLayer eventLayer, float zoomDelta);
 
@@ -26,8 +26,9 @@ namespace Engine.Platform
             this.minimumMomentum = minimumMomentum;
         }
 
-        protected override bool processFingers(EventLayer eventLayer, Touches touches)
+        protected internal override void update(EventLayer eventLayer, bool allowProcessing, Clock clock)
         {
+            var touches = eventLayer.EventManager.Touches;
             var fingers = touches.Fingers;
             if (fingers.Count == 2)
             {
@@ -55,11 +56,7 @@ namespace Engine.Platform
                 }
             }
 
-            return didGesture;
-        }
-
-        protected override void additionalProcessing(EventLayer eventLayer, Clock clock)
-        {
+            //Momentum
             if (!didGesture)
             {
                 if (momentum > 0.0f)
