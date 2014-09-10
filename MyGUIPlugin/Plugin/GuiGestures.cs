@@ -53,6 +53,14 @@ namespace MyGUIPlugin
                     averageSpeedCursor %= averageSpeed.Length;
                     eventLayer.alertEventsHandled();
                 }
+                else //Check to see if something will need the mouse clicked on it, if so block events
+                {
+                    Widget widget = LayerManager.Instance.getWidgetFromPoint(fingers[0].PixelX, fingers[0].PixelY);
+                    if(widget != null && widget.NeedMouseFocus)
+                    {
+                        eventLayer.alertEventsHandled();
+                    }
+                }
             }
             return didGesture;
         }
