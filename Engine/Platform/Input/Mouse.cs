@@ -17,6 +17,7 @@ namespace Engine.Platform
         private IntVector3 lastMouse = new IntVector3(0, 0, 0);
         private bool[] buttonDownStatus = new bool[(int)MouseButtonCode.NUM_BUTTONS];
         private bool[] pressedThisFrame = new bool[(int)MouseButtonCode.NUM_BUTTONS];
+        private bool[] downAndUpThisFrame = new bool[(int)MouseButtonCode.NUM_BUTTONS];
 
         public Mouse()
         {
@@ -54,9 +55,9 @@ namespace Engine.Platform
         /// </summary>
         /// <param name="button"></param>
         /// <returns></returns>
-        public bool buttonDownThisFrame(MouseButtonCode button)
+        public bool buttonDownAndUpThisFrame(MouseButtonCode button)
         {
-            return pressedThisFrame[(int)button];
+            return downAndUpThisFrame[(int)button];
         }
 
         internal void capture()
@@ -78,6 +79,15 @@ namespace Engine.Platform
             pressedThisFrame[(int)MouseButtonCode.MB_BUTTON5] = false;
             pressedThisFrame[(int)MouseButtonCode.MB_BUTTON6] = false;
             pressedThisFrame[(int)MouseButtonCode.MB_BUTTON7] = false;
+
+            downAndUpThisFrame[(int)MouseButtonCode.MB_BUTTON0] = false;
+            downAndUpThisFrame[(int)MouseButtonCode.MB_BUTTON1] = false;
+            downAndUpThisFrame[(int)MouseButtonCode.MB_BUTTON2] = false;
+            downAndUpThisFrame[(int)MouseButtonCode.MB_BUTTON3] = false;
+            downAndUpThisFrame[(int)MouseButtonCode.MB_BUTTON4] = false;
+            downAndUpThisFrame[(int)MouseButtonCode.MB_BUTTON5] = false;
+            downAndUpThisFrame[(int)MouseButtonCode.MB_BUTTON6] = false;
+            downAndUpThisFrame[(int)MouseButtonCode.MB_BUTTON7] = false;
         }
 
         /// <summary>
@@ -151,6 +161,10 @@ namespace Engine.Platform
             if (buttonDownStatus[index])
             {
                 buttonDownStatus[index] = false;
+                if(pressedThisFrame[index])
+                {
+                    downAndUpThisFrame[index] = true;
+                }
 
                 if (ButtonUp != null)
                 {

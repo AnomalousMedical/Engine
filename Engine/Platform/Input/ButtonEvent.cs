@@ -35,6 +35,7 @@ namespace Engine.Platform
             ReleasedUp = true;
             FirstFrameDown = false;
             FirstFrameUp = false;
+            DownAndUpThisFrame = false;
         }
 
         public ButtonEvent(object eventLayerKey, MessageEventCallback frameDown = null, MessageEventCallback frameUp = null, IEnumerable<KeyboardButtonCode> keys = null, IEnumerable<MouseButtonCode> mouseButtons = null)
@@ -99,6 +100,11 @@ namespace Engine.Platform
                 return ReleasedUp || FirstFrameUp;
             }
         }
+
+        /// <summary>
+        /// This will be true if the down and up events being fired both happened on this same frame.
+        /// </summary>
+        public bool DownAndUpThisFrame { get; set; }
 
         /// <summary>
         /// Add a keyboard button binding to the event.
@@ -232,6 +238,7 @@ namespace Engine.Platform
                     break;
 
                 case ButtonScanResult.DownAndUpThisFrame:
+                    DownAndUpThisFrame = true;
                     FirstFrameDown = true;
                     if(FirstFrameDownEvent != null)
                     {
@@ -245,6 +252,7 @@ namespace Engine.Platform
                     }
                     ReleasedUp = false;
                     HeldDown = false;
+                    DownAndUpThisFrame = false;
                     break;
             }
         }
@@ -282,7 +290,7 @@ namespace Engine.Platform
                 {
                     foreach (MouseButtonCode mouseCode in mouseButtons)
                     {
-                        currentDownUpThisFrame = mouse.buttonDownThisFrame(mouseCode);
+                        currentDownUpThisFrame = mouse.buttonDownAndUpThisFrame(mouseCode);
                         allActivated &= (mouse.buttonDown(mouseCode) || currentDownUpThisFrame);
                         if (!allActivated)
                         {
