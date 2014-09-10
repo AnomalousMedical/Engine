@@ -75,7 +75,7 @@ namespace Engine.Platform
             var fingers = touches.Fingers;
             if (fingers.Count == fingerCount)
             {
-                Vector2 primaryFingerVec = new Vector2(fingers[0].NrmlDeltaX, fingers[0].NrmlDeltaY);
+                Vector2 primaryFingerVec = new Vector2(fingers[0].PixelDeltaX, fingers[0].PixelDeltaY);
                 float primaryFingerLen = primaryFingerVec.length();
                 Vector2 longestLengthVec = primaryFingerVec;
                 float longestLength = primaryFingerLen;
@@ -84,7 +84,7 @@ namespace Engine.Platform
                     bool allVectorsSameDirection = true;
                     for (int i = 1; i < fingerCount && allVectorsSameDirection; ++i)
                     {
-                        Vector2 testFingerVec = new Vector2(fingers[i].NrmlDeltaX, fingers[i].NrmlDeltaY);
+                        Vector2 testFingerVec = new Vector2(fingers[i].PixelDeltaX, fingers[i].PixelDeltaY);
                         float testFingerLen = testFingerVec.length();
                         if (testFingerLen > 0)
                         {
