@@ -32,11 +32,13 @@ namespace MyGUIPlugin
         protected override bool processFingers(EventLayer eventLayer, Touches touches)
         {
             var fingers = touches.Fingers;
-            if (Gui.Instance.HandledMouseButtons)
+            if (fingers.Count == 1)
             {
-                if (fingers.Count == 1)
+                Vector2 delta = new Vector2(fingers[0].PixelDeltaX, fingers[0].PixelDeltaY);
+                lastAbsolutePosition = new IntVector2(fingers[0].PixelX, fingers[0].PixelY);
+                if(InputManager.Instance.injectScrollGesture(lastAbsolutePosition.x, lastAbsolutePosition.y, fingers[0].PixelDeltaX, fingers[0].PixelDeltaY))
                 {
-                    if(!gestureStarted)
+                    if (!gestureStarted)
                     {
                         for (int i = 0; i < averageSpeed.Length; ++i)
                         {
@@ -46,12 +48,10 @@ namespace MyGUIPlugin
 
                     didGesture = true;
                     gestureStarted = true;
-                    Vector2 delta = new Vector2(fingers[0].PixelDeltaX, fingers[0].PixelDeltaY);
                     averageSpeed[averageSpeedCursor] = delta;
                     averageSpeedCursor++;
                     averageSpeedCursor %= averageSpeed.Length;
-                    lastAbsolutePosition = new IntVector2(fingers[0].PixelX, fingers[0].PixelY);
-                    InputManager.Instance.injectScrollGesture(lastAbsolutePosition.x, lastAbsolutePosition.y, fingers[0].PixelDeltaX, fingers[0].PixelDeltaY);
+                    eventLayer.alertEventsHandled();
                 }
             }
             return didGesture;
