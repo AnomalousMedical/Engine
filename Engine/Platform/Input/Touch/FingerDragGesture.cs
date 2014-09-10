@@ -37,15 +37,18 @@ namespace Engine.Platform
         private Vector2 momentum = new Vector2();
         private Vector2 momentumDirection = new Vector2();
         private Vector2 deceleration = new Vector2();
+        private Vector2[] averageSpeed;
+        private int averageSpeedCursor = 0;
         private float decelerationTime;
         private float minimumMomentum;
 
-        public FingerDragGesture(Object eventLayerKey, int fingerCount, float decelerationTime, float minimumMomentum)
+        public FingerDragGesture(Object eventLayerKey, int fingerCount, float decelerationTime, float minimumMomentum, int averageSpeedFrames)
             :base(eventLayerKey)
         {
             this.fingerCount = fingerCount;
             this.decelerationTime = decelerationTime;
             this.minimumMomentum = minimumMomentum;
+            averageSpeed = new Vector2[averageSpeedFrames];
         }
 
         /// <summary>
@@ -109,28 +112,11 @@ namespace Engine.Platform
                         didGesture = true;
                         DeltaX = longestLengthVec.x;
                         DeltaY = longestLengthVec.y;
+                        averageSpeed[averageSpeedCursor] = longestLengthVec;
+                        averageSpeedCursor++;
+                        averageSpeedCursor %= averageSpeed.Length;
                         Dragged.Invoke(eventLayer, this);
-                        momentum = longestLengthVec;
-                        momentumDirection = new Vector2(1.0f, 1.0f);
-                        if (momentum.x < 0.0f)
-                        {
-                            momentum.x = -momentum.x;
-                            momentumDirection.x = -1.0f;
-                        }
-                        if (momentum.y < 0.0f)
-                        {
-                            momentum.y = -momentum.y;
-                            momentumDirection.y = -1.0f;
-                        }
-                        if (momentum.x < minimumMomentum)
-                        {
-                            momentum.x = 0.0f;
-                        }
-                        if (momentum.y < minimumMomentum)
-                        {
-                            momentum.y = 0.0f;
-                        }
-                        deceleration = momentum / decelerationTime;
+                        
                     }
                 }
                 else if (gestureStarted)
@@ -150,6 +136,34 @@ namespace Engine.Platform
                 if (gestureStarted)
                 {
                     momentumStarted = true;
+                    momentum = new IntVector2(0, 0);
+                    for (int i = 0; i < averageSpeed.Length; ++i)
+                    {
+                        momentum += averageSpeed[i];
+                    }
+                    momentum /= averageSpeed.Length;
+
+                    momentumDirection = new Vector2(1.0f, 1.0f);
+                    if (momentum.x < 0.0f)
+                    {
+                        momentum.x = -momentum.x;
+                        momentumDirection.x = -1.0f;
+                    }
+                    if (momentum.y < 0.0f)
+                    {
+                        momentum.y = -momentum.y;
+                        momentumDirection.y = -1.0f;
+                    }
+                    if (momentum.x < minimumMomentum)
+                    {
+                        momentum.x = 0.0f;
+                    }
+                    if (momentum.y < minimumMomentum)
+                    {
+                        momentum.y = 0.0f;
+                    }
+                    deceleration = momentum / decelerationTime;
+
                     if (MomentumStarted != null)
                     {
                         MomentumStarted(eventLayer, this);
