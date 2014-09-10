@@ -19,13 +19,21 @@ namespace Engine.Platform
         public event Delegate Dragged;
 
         /// <summary>
-        /// This event is fired when momentum starts for this gesture.
+        /// This event is fired when momentum starts for this gesture. This will always fire the first frame momentum
+        /// would start, even if this instance has been configured not to use momentum.
         /// </summary>
         public event Delegate MomentumStarted;
+
+        /// <summary>
+        /// This event is fired when momentum ends. This will always fire the first frame momentum
+        /// would end, even if this instance has been configured not to use momentum.
+        /// </summary>
+        public event Delegate MomentumEnded;
         
         private int fingerCount;
         private bool didGesture;
         private bool gestureStarted = false;
+        private bool momentumStarted = false;
         private Vector2 momentum = new Vector2();
         private Vector2 momentumDirection = new Vector2();
         private Vector2 deceleration = new Vector2();
@@ -139,9 +147,13 @@ namespace Engine.Platform
         {
             if (!didGesture)
             {
-                if (gestureStarted && MomentumStarted != null)
+                if (gestureStarted)
                 {
-                    MomentumStarted(eventLayer, this);
+                    momentumStarted = true;
+                    if (MomentumStarted != null)
+                    {
+                        MomentumStarted(eventLayer, this);
+                    }
                 }
                 gestureStarted = false;
 
@@ -162,6 +174,14 @@ namespace Engine.Platform
                         DeltaX = finalMomentum.x;
                         DeltaY = finalMomentum.y;
                         Dragged.Invoke(eventLayer, this);
+                    }
+                }
+                else if(momentumStarted)
+                {
+                    momentumStarted = false;
+                    if(MomentumEnded != null)
+                    {
+                        MomentumEnded.Invoke(eventLayer, this);
                     }
                 }
             }

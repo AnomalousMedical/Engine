@@ -13,8 +13,6 @@ namespace Engine.Platform
         GenericObjectPool<Finger> fingerPool = new GenericObjectPool<Finger>();
         private FastIteratorMap<int, Finger> fingers = new FastIteratorMap<int, Finger>();
 
-        public event Action<Touches> AllFingersReleased;
-
         public Touches()
         {
             
@@ -64,10 +62,6 @@ namespace Engine.Platform
                 fingers.Remove(info.id);
                 finger.finished();
             }
-            if (AllFingersReleased != null && fingers.Count == 0)
-            {
-                AllFingersReleased.Invoke(this);
-            }
             //Log.Debug("GestureEngine Touch ended {0} {1} {2}", info.id, info.normalizedX, info.normalizedY);
         }
 
@@ -86,10 +80,6 @@ namespace Engine.Platform
         internal void fireAllTouchesCanceled()
         {
             fingers.Clear();
-            if(AllFingersReleased != null)
-            {
-                AllFingersReleased.Invoke(this);
-            }
             //Log.Debug("All touches canceled");
         }
     }
