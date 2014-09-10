@@ -15,19 +15,12 @@ namespace Engine.Platform
         private IntVector3 absMouse = new IntVector3(0, 0, 0);
         private IntVector3 relMouse = new IntVector3(0, 0, 0);
         private IntVector3 lastMouse = new IntVector3(0, 0, 0);
-        private bool[] buttonDownStatus = new bool[(int)MouseButtonCode.NUM_BUTTONS]; //What we are currently reporting as down status
-        private bool[] buttonDownProcessedStatus = new bool[(int)MouseButtonCode.NUM_BUTTONS]; //If the down status has been processed at least one frame
-
-        //The actual live status of the button depending on what has been reported, this reports up so it does not have to be negated in the checkButtonUp
-        //function
-        private bool[] buttonUpActualStatus = new bool[(int)MouseButtonCode.NUM_BUTTONS];
+        private bool[] buttonDownStatus = new bool[(int)MouseButtonCode.NUM_BUTTONS];
+        private bool[] pressedThisFrame = new bool[(int)MouseButtonCode.NUM_BUTTONS];
 
         public Mouse()
         {
-            for(int i = 0; i < buttonUpActualStatus.Length; ++i)
-            {
-                buttonUpActualStatus[i] = true;
-            }
+            
         }
 
         /// <summary>
@@ -51,7 +44,7 @@ namespace Engine.Platform
         /// <returns>True if the button is pressed.  False if it is not.</returns>
         public bool buttonDown(MouseButtonCode button)
         {
-            return buttonDownStatus[(int)button];
+            return buttonDownStatus[(int)button] || pressedThisFrame[(int)button];
         }
 
         internal void capture()
@@ -65,25 +58,14 @@ namespace Engine.Platform
 
         internal void postUpdate()
         {
-            checkButtonUp(MouseButtonCode.MB_BUTTON0);
-            checkButtonUp(MouseButtonCode.MB_BUTTON1);
-            checkButtonUp(MouseButtonCode.MB_BUTTON2);
-            checkButtonUp(MouseButtonCode.MB_BUTTON3);
-            checkButtonUp(MouseButtonCode.MB_BUTTON4);
-            checkButtonUp(MouseButtonCode.MB_BUTTON5);
-            checkButtonUp(MouseButtonCode.MB_BUTTON6);
-            checkButtonUp(MouseButtonCode.MB_BUTTON7);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void checkButtonUp(MouseButtonCode code)
-        {
-            int index = (int)code;
-            if(buttonDownStatus[index] && buttonUpActualStatus[index])
-            {
-                buttonDownStatus[index] = false;
-            }
-            buttonDownProcessedStatus[index] = true;
+            pressedThisFrame[(int)MouseButtonCode.MB_BUTTON0] = false;
+            pressedThisFrame[(int)MouseButtonCode.MB_BUTTON1] = false;
+            pressedThisFrame[(int)MouseButtonCode.MB_BUTTON2] = false;
+            pressedThisFrame[(int)MouseButtonCode.MB_BUTTON3] = false;
+            pressedThisFrame[(int)MouseButtonCode.MB_BUTTON4] = false;
+            pressedThisFrame[(int)MouseButtonCode.MB_BUTTON5] = false;
+            pressedThisFrame[(int)MouseButtonCode.MB_BUTTON6] = false;
+            pressedThisFrame[(int)MouseButtonCode.MB_BUTTON7] = false;
         }
 
         /// <summary>
@@ -125,14 +107,14 @@ namespace Engine.Platform
         {
             get
             {
-              return !(buttonUpActualStatus[(int)MouseButtonCode.MB_BUTTON0]
-                    && buttonUpActualStatus[(int)MouseButtonCode.MB_BUTTON1]
-                    && buttonUpActualStatus[(int)MouseButtonCode.MB_BUTTON2]
-                    && buttonUpActualStatus[(int)MouseButtonCode.MB_BUTTON3]
-                    && buttonUpActualStatus[(int)MouseButtonCode.MB_BUTTON4]
-                    && buttonUpActualStatus[(int)MouseButtonCode.MB_BUTTON5]
-                    && buttonUpActualStatus[(int)MouseButtonCode.MB_BUTTON6]
-                    && buttonUpActualStatus[(int)MouseButtonCode.MB_BUTTON7]);
+                return   buttonDownStatus[(int)MouseButtonCode.MB_BUTTON0]
+                      || buttonDownStatus[(int)MouseButtonCode.MB_BUTTON1]
+                      || buttonDownStatus[(int)MouseButtonCode.MB_BUTTON2]
+                      || buttonDownStatus[(int)MouseButtonCode.MB_BUTTON3]
+                      || buttonDownStatus[(int)MouseButtonCode.MB_BUTTON4]
+                      || buttonDownStatus[(int)MouseButtonCode.MB_BUTTON5]
+                      || buttonDownStatus[(int)MouseButtonCode.MB_BUTTON6]
+                      || buttonDownStatus[(int)MouseButtonCode.MB_BUTTON7];
             }
         }
 
@@ -141,8 +123,7 @@ namespace Engine.Platform
             int index = (int)button;
 
             buttonDownStatus[index] = true;
-            buttonDownProcessedStatus[index] = false;
-            buttonUpActualStatus[index] = false;
+            pressedThisFrame[index] = true;
 
             if (ButtonDown != null)
             {
@@ -153,18 +134,12 @@ namespace Engine.Platform
         internal void fireButtonUp(MouseButtonCode button)
         {
             int index = (int)button;
-            buttonUpActualStatus[index] = true;
 
             //Make sure the button is down
             if (buttonDownStatus[index])
             {
-                //Before setting the button back to up make sure it has been processed at least once
-                if (buttonDownProcessedStatus[index])
-                {
-                    buttonDownStatus[index] = false;
-                }
+                buttonDownStatus[index] = false;
 
-                //Always fire the raw input
                 if (ButtonUp != null)
                 {
                     ButtonUp.Invoke(this, button);
