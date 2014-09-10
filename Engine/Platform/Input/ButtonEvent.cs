@@ -177,58 +177,83 @@ namespace Engine.Platform
         /// </summary>
         protected internal override void update(EventLayer eventLayer, bool allowProcessing, Clock clock)
         {
-            if (scanButtons(eventLayer))
+            switch (scanButtons(eventLayer))
             {
-                if (FirstFrameDown)
-                {
-                    HeldDown = true;
-                    FirstFrameDown = false;
-                }
+                case ButtonScanResult.Down:
+                    if (FirstFrameDown)
+                    {
+                        HeldDown = true;
+                        FirstFrameDown = false;
+                    }
                 
-                if(HeldDown)
-                {
-                    if (OnHeldDown != null)
+                    if(HeldDown)
                     {
-                        OnHeldDown.Invoke(eventLayer);
+                        if (OnHeldDown != null)
+                        {
+                            OnHeldDown.Invoke(eventLayer);
+                        }
+                        if (OnDown != null)
+                        {
+                            OnDown.Invoke(eventLayer);
+                        }
                     }
-                    if (OnDown != null)
+                    else
                     {
-                        OnDown.Invoke(eventLayer);
+                        FirstFrameDown = true;
+                        if (FirstFrameDownEvent != null)
+                        {
+                            FirstFrameDownEvent.Invoke(eventLayer);
+                        }
+                        if(OnDown != null)
+                        {
+                            OnDown.Invoke(eventLayer);
+                        }
                     }
-                }
-                else
-                {
+                    FirstFrameUp = false;
+                    ReleasedUp = false;
+                    break;
+
+                case ButtonScanResult.Up:
+                    if (FirstFrameUp)
+                    {
+                        ReleasedUp = true;
+                        FirstFrameUp = false;
+                    }
+                    else if (!ReleasedUp)
+                    {
+                        FirstFrameUp = true;
+                        if (FirstFrameUpEvent != null)
+                        {
+                            FirstFrameUpEvent.Invoke(eventLayer);
+                        }
+                    }
+                    FirstFrameDown = false;
+                    HeldDown = false;
+                    break;
+
+                case ButtonScanResult.DownAndUpThisFrame:
                     FirstFrameDown = true;
-                    if (FirstFrameDownEvent != null)
+                    if(FirstFrameDownEvent != null)
                     {
                         FirstFrameDownEvent.Invoke(eventLayer);
                     }
-                    if(OnDown != null)
-                    {
-                        OnDown.Invoke(eventLayer);
-                    }
-                }
-                FirstFrameUp = false;
-                ReleasedUp = false;
-            }
-            else
-            {
-                if (FirstFrameUp)
-                {
-                    ReleasedUp = true;
-                    FirstFrameUp = false;
-                }
-                else if (!ReleasedUp)
-                {
                     FirstFrameUp = true;
-                    if (FirstFrameUpEvent != null)
+                    FirstFrameDown = false;
+                    if(FirstFrameUpEvent != null)
                     {
                         FirstFrameUpEvent.Invoke(eventLayer);
                     }
-                }
-                FirstFrameDown = false;
-                HeldDown = false;
+                    ReleasedUp = false;
+                    HeldDown = false;
+                    break;
             }
+        }
+
+        enum ButtonScanResult
+        {
+            Up = 0,
+            Down = 1,
+            DownAndUpThisFrame = 2,
         }
 
         /// <summary>
@@ -236,46 +261,61 @@ namespace Engine.Platform
         /// </summary>
         /// <param name="eventManager">The event manager with the keyboard and mouse being used.</param>
         /// <returns>True if all the required buttons are pressed.</returns>
-        private bool scanButtons(EventLayer eventLayer)
+        private ButtonScanResult scanButtons(EventLayer eventLayer)
         {
             Mouse mouse = eventLayer.Mouse;
             Keyboard keyboard = eventLayer.Keyboard;
-            bool active = keyboardButtons.Count + mouseButtons.Count > 0 || MouseWheelDirection > 0;
-            if (active)
+            bool allActivated = keyboardButtons.Count + mouseButtons.Count > 0 || MouseWheelDirection > 0;
+            bool anyDownUpThisFrame = false;
+            bool currentDownUpThisFrame;
+            if (allActivated)
             {
                 foreach (KeyboardButtonCode keyCode in keyboardButtons)
                 {
-                    active &= keyboard.isKeyDown(keyCode);
-                    if (!active)
+                    allActivated &= keyboard.isKeyDown(keyCode);
+                    if (!allActivated)
                     {
                         break;
                     }
                 }
-                if (active)
+                if (allActivated)
                 {
                     foreach (MouseButtonCode mouseCode in mouseButtons)
                     {
-                        active &= mouse.buttonDown(mouseCode);
-                        if (!active)
+                        currentDownUpThisFrame = mouse.buttonDownThisFrame(mouseCode);
+                        allActivated &= (mouse.buttonDown(mouseCode) || currentDownUpThisFrame);
+                        if (!allActivated)
                         {
                             break;
                         }
+                        anyDownUpThisFrame |= currentDownUpThisFrame;
                     }
                 }
-                if(active)
+                if (allActivated)
                 {
                     switch(MouseWheelDirection)
                     {
                         case MouseWheelDirection.Up:
-                            active &= mouse.RelativePosition.z > 0;
+                            allActivated &= mouse.RelativePosition.z > 0;
                             break;
                         case MouseWheelDirection.Down:
-                            active &= mouse.RelativePosition.z < 0;
+                            allActivated &= mouse.RelativePosition.z < 0;
                             break;
                     }
                 }
             }
-            return active;
+            if(allActivated)
+            {
+                if(anyDownUpThisFrame)
+                {
+                    return ButtonScanResult.DownAndUpThisFrame;
+                }
+                return ButtonScanResult.Down;
+            }
+            else
+            {
+                return ButtonScanResult.Up;
+            }
         }
     }
 }

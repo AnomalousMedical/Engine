@@ -44,7 +44,19 @@ namespace Engine.Platform
         /// <returns>True if the button is pressed.  False if it is not.</returns>
         public bool buttonDown(MouseButtonCode button)
         {
-            return buttonDownStatus[(int)button] || pressedThisFrame[(int)button];
+            return buttonDownStatus[(int)button];
+        }
+        
+        /// <summary>
+        /// Determins if the button was pressed on this frame, will be true the first frame the
+        /// button is down and false every frame after that until it is released. This is intended
+        /// to catch down / up events that happen before an update can be called.
+        /// </summary>
+        /// <param name="button"></param>
+        /// <returns></returns>
+        public bool buttonDownThisFrame(MouseButtonCode button)
+        {
+            return pressedThisFrame[(int)button];
         }
 
         internal void capture()
