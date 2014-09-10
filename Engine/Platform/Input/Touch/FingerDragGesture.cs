@@ -19,6 +19,11 @@ namespace Engine.Platform
         public event Delegate Dragged;
 
         /// <summary>
+        /// This event is fired when the gesture starts running.
+        /// </summary>
+        public event Delegate GestureStarted;
+
+        /// <summary>
         /// This event is fired when momentum starts for this gesture. This will always fire the first frame momentum
         /// would start, even if this instance has been configured not to use momentum.
         /// </summary>
@@ -114,9 +119,14 @@ namespace Engine.Platform
                             {
                                 averageSpeed[i] = new Vector2(0, 0);
                             }
+
+                            gestureStarted = true;
+                            if(GestureStarted != null)
+                            {
+                                GestureStarted.Invoke(eventLayer, this);
+                            }
                         }
 
-                        gestureStarted = true;
                         didGesture = true;
                         DeltaX = longestLengthVec.x;
                         DeltaY = longestLengthVec.y;
