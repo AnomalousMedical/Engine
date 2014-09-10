@@ -167,7 +167,7 @@
     <Compile Include="Platform\Input\Mouse.cs" />
     <Compile Include="Platform\Input\Touch\Finger.cs" />
     <Compile Include="Platform\Input\Touch\Gesture.cs" />
-    <Compile Include="Platform\Input\Touch\MultiFingerScrollGesture.cs" />
+    <Compile Include="Platform\Input\Touch\FingerDragGesture.cs" />
     <Compile Include="Platform\Input\Touch\Touches.cs" />
     <Compile Include="Platform\Input\Touch\TouchHardware.cs" />
     <Compile Include="Platform\Input\Touch\TouchInfo.cs" />

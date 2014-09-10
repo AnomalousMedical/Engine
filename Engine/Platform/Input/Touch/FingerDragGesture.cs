@@ -6,11 +6,23 @@ using System.Threading.Tasks;
 
 namespace Engine.Platform
 {
-    public class MultiFingerScrollGesture : Gesture
+    /// <summary>
+    /// A Gesture for one or more fingers traveling in the same direction.
+    /// </summary>
+    public class FingerDragGesture : Gesture
     {
-        public delegate void ScrollDelegate(EventLayer eventLayer, MultiFingerScrollGesture gesture);
-        public event ScrollDelegate Scroll;
-        public event ScrollDelegate MomentumStarted;
+        public delegate void Delegate(EventLayer eventLayer, FingerDragGesture gesture);
+
+        /// <summary>
+        /// This event is fired when the gesture is dragged, this will fire for both fingers down and momentum.
+        /// </summary>
+        public event Delegate Dragged;
+
+        /// <summary>
+        /// This event is fired when momentum starts for this gesture.
+        /// </summary>
+        public event Delegate MomentumStarted;
+        
         private int fingerCount;
         private bool didGesture;
         private bool gestureStarted = false;
@@ -20,7 +32,7 @@ namespace Engine.Platform
         private float decelerationTime;
         private float minimumMomentum;
 
-        public MultiFingerScrollGesture(Object eventLayerKey, int fingerCount, float decelerationTime, float minimumMomentum)
+        public FingerDragGesture(Object eventLayerKey, int fingerCount, float decelerationTime, float minimumMomentum)
             :base(eventLayerKey)
         {
             this.fingerCount = fingerCount;
@@ -83,13 +95,13 @@ namespace Engine.Platform
                             }
                         }
                     }
-                    if (allVectorsSameDirection && Scroll != null)
+                    if (allVectorsSameDirection && Dragged != null)
                     {
                         gestureStarted = true;
                         didGesture = true;
                         DeltaX = longestLengthVec.x;
                         DeltaY = longestLengthVec.y;
-                        Scroll.Invoke(eventLayer, this);
+                        Dragged.Invoke(eventLayer, this);
                         momentum = longestLengthVec;
                         momentumDirection = new Vector2(1.0f, 1.0f);
                         if (momentum.x < 0.0f)
@@ -144,12 +156,12 @@ namespace Engine.Platform
                     {
                         momentum.y = 0.0f;
                     }
-                    if (Scroll != null)
+                    if (Dragged != null)
                     {
                         Vector2 finalMomentum = momentum * momentumDirection;
                         DeltaX = finalMomentum.x;
                         DeltaY = finalMomentum.y;
-                        Scroll.Invoke(eventLayer, this);
+                        Dragged.Invoke(eventLayer, this);
                     }
                 }
             }
