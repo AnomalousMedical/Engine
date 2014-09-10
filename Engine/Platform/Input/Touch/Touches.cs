@@ -36,14 +36,8 @@ namespace Engine.Platform
 
         internal void fireTouchMoved(TouchInfo info)
         {
-            Finger finger;
-            if (!fingers.TryGetValue(info.id, out finger))
-            {
-                fireTouchStarted(info);
-                finger = fingers[info.id];
-            }
+            Finger finger = findFinger(info);
             finger.setCurrentPosition(info.normalizedX, info.normalizedY, info.pixelX, info.pixelY);
-            //Log.Debug("GestureEngine Touch moved {0} {1} {2}", info.id, info.normalizedX, info.normalizedY);
         }
 
         internal void fireTouchEnded(TouchInfo info)
@@ -54,25 +48,28 @@ namespace Engine.Platform
                 fingers.Remove(info.id);
                 finger.finished();
             }
-            //Log.Debug("GestureEngine Touch ended {0} {1} {2}", info.id, info.normalizedX, info.normalizedY);
         }
 
         internal void fireTouchStarted(TouchInfo info)
+        {
+            findFinger(info);
+        }
+
+        internal void fireAllTouchesCanceled()
+        {
+            fingers.Clear();
+        }
+
+        private Finger findFinger(TouchInfo info)
         {
             Finger finger;
             if (!fingers.TryGetValue(info.id, out finger))
             {
                 finger = fingerPool.getPooledObject();
                 fingers.Add(info.id, finger);
+                finger.setInfoOutOfPool(info.id, info.normalizedX, info.normalizedY, info.pixelX, info.pixelY);
             }
-            finger.setInfoOutOfPool(info.id, info.normalizedX, info.normalizedY, info.pixelX, info.pixelY);
-            //Log.Debug("GestureEngine Touch started {0} {1} {2}", info.id, info.normalizedX, info.normalizedY);
-        }
-
-        internal void fireAllTouchesCanceled()
-        {
-            fingers.Clear();
-            //Log.Debug("All touches canceled");
+            return finger;
         }
     }
 }

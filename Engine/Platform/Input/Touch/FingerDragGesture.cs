@@ -67,6 +67,16 @@ namespace Engine.Platform
         public float DeltaY { get; set; }
 
         /// <summary>
+        /// The absolute position of the primary finger X.
+        /// </summary>
+        public int AbsoluteX { get; set; }
+
+        /// <summary>
+        /// The absolute position of the primary finger Y.
+        /// </summary>
+        public int AbsoluteY { get; set; }
+
+        /// <summary>
         /// This will be true if the gesture is firing because of fingers being down
         /// and false if it is firing because of momentum.
         /// </summary>
@@ -126,6 +136,11 @@ namespace Engine.Platform
                     }
                     if (allVectorsSameDirection)
                     {
+                        DeltaX = longestLengthVec.x;
+                        DeltaY = longestLengthVec.y;
+                        AbsoluteX = fingers[0].PixelX;
+                        AbsoluteY = fingers[0].PixelY;
+
                         if (!gestureStarted)
                         {
                             cancelMomentum();
@@ -138,8 +153,6 @@ namespace Engine.Platform
                         }
 
                         didGesture = true;
-                        DeltaX = longestLengthVec.x;
-                        DeltaY = longestLengthVec.y;
                         averageSpeed[averageSpeedCursor] = longestLengthVec;
                         averageSpeedCursor++;
                         averageSpeedCursor %= averageSpeed.Length;

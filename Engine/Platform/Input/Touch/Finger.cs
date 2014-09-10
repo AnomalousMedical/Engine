@@ -123,11 +123,15 @@ namespace Engine.Platform
         internal void setInfoOutOfPool(int id, float xPos, float yPos, int xPixelPos, int yPixelPos)
         {
             this.id = id;
-            this.xNrmlPos = lastNrmlXPos = xPos;
-            this.yNrmlPos = lastNrmlYPos = yPos;
+            this.xNrmlPos = xPos;
+            this.lastNrmlXPos = xPos;
+            this.yNrmlPos = yPos;
+            this.lastNrmlYPos = yPos;
 
-            this.PixelX = PixelLastX = xPixelPos;
-            this.PixelY = PixelLastY = yPixelPos;
+            this.PixelX = xPixelPos;
+            this.PixelLastX = xPixelPos;
+            this.PixelY = yPixelPos;
+            this.PixelLastY = yPixelPos;
         }
 
         protected override void reset()
