@@ -78,6 +78,18 @@ namespace Engine.Platform
             }
         }
 
+        /// <summary>
+        /// Clear the momentum for this gesture.
+        /// </summary>
+        public void cancelMomentum()
+        {
+            for (int i = 0; i < averageSpeed.Length; ++i)
+            {
+                averageSpeed[i] = new Vector2(0, 0);
+            }
+            momentum = new Vector2(0, 0);
+        }
+
         protected override bool processFingers(EventLayer eventLayer, Touches touches)
         {
             var fingers = touches.Fingers;
@@ -115,10 +127,7 @@ namespace Engine.Platform
                     {
                         if (!gestureStarted)
                         {
-                            for (int i = 0; i < averageSpeed.Length; ++i)
-                            {
-                                averageSpeed[i] = new Vector2(0, 0);
-                            }
+                            cancelMomentum();
 
                             gestureStarted = true;
                             if(GestureStarted != null)
@@ -133,8 +142,9 @@ namespace Engine.Platform
                         averageSpeed[averageSpeedCursor] = longestLengthVec;
                         averageSpeedCursor++;
                         averageSpeedCursor %= averageSpeed.Length;
+
+                        //Make sure to fire event last so momentum can be canceled if needed
                         Dragged.Invoke(eventLayer, this);
-                        
                     }
                 }
                 else if (gestureStarted)
@@ -182,6 +192,7 @@ namespace Engine.Platform
                     }
                     deceleration = momentum / decelerationTime;
 
+                    //Important to fire event last so momentum can be canceled if needed
                     if (MomentumStarted != null)
                     {
                         MomentumStarted(eventLayer, this);
