@@ -8,10 +8,12 @@ namespace Engine.Platform
 {
     public class MultiFingerScrollGesture : Gesture
     {
-        public delegate void ScrollDelegate(EventLayer eventLayer, float deltaX, float deltaY);
+        public delegate void ScrollDelegate(EventLayer eventLayer, MultiFingerScrollGesture gesture);
         public event ScrollDelegate Scroll;
+        public event ScrollDelegate MomentumStarted;
         private int fingerCount;
         private bool didGesture;
+        private bool gestureStarted = false;
         private Vector2 momentum = new Vector2();
         private Vector2 momentumDirection = new Vector2();
         private Vector2 deceleration = new Vector2();
@@ -24,6 +26,28 @@ namespace Engine.Platform
             this.fingerCount = fingerCount;
             this.decelerationTime = decelerationTime;
             this.minimumMomentum = minimumMomentum;
+        }
+
+        /// <summary>
+        /// The change in X.
+        /// </summary>
+        public float DeltaX { get; set; }
+
+        /// <summary>
+        /// The change in Y.
+        /// </summary>
+        public float DeltaY { get; set; }
+
+        /// <summary>
+        /// This will be true if the gesture is firing because of fingers being down
+        /// and false if it is firing because of momentum.
+        /// </summary>
+        public bool ActivlyGesturing
+        {
+            get
+            {
+                return didGesture;
+            }
         }
 
         protected override bool processFingers(EventLayer eventLayer, Touches touches)
@@ -61,7 +85,11 @@ namespace Engine.Platform
                     }
                     if (allVectorsSameDirection && Scroll != null)
                     {
-                        Scroll.Invoke(eventLayer, longestLengthVec.x, longestLengthVec.y);
+                        gestureStarted = true;
+                        didGesture = true;
+                        DeltaX = longestLengthVec.x;
+                        DeltaY = longestLengthVec.y;
+                        Scroll.Invoke(eventLayer, this);
                         momentum = longestLengthVec;
                         momentumDirection = new Vector2(1.0f, 1.0f);
                         if (momentum.x < 0.0f)
@@ -85,6 +113,11 @@ namespace Engine.Platform
                         deceleration = momentum / decelerationTime;
                     }
                 }
+                else if (gestureStarted)
+                {
+                    //If we have done the gesture once and the correct number of fingers are down, keep reporting that we did the gesture
+                    didGesture = true;
+                }
             }
 
             return didGesture;
@@ -94,6 +127,12 @@ namespace Engine.Platform
         {
             if (!didGesture)
             {
+                if (gestureStarted && MomentumStarted != null)
+                {
+                    MomentumStarted(eventLayer, this);
+                }
+                gestureStarted = false;
+
                 if (momentum.length2() != 0.0f)
                 {
                     momentum -= deceleration * clock.DeltaSeconds;
@@ -108,7 +147,9 @@ namespace Engine.Platform
                     if (Scroll != null)
                     {
                         Vector2 finalMomentum = momentum * momentumDirection;
-                        Scroll.Invoke(eventLayer, finalMomentum.x, finalMomentum.y);
+                        DeltaX = finalMomentum.x;
+                        DeltaY = finalMomentum.y;
+                        Scroll.Invoke(eventLayer, this);
                     }
                 }
             }
