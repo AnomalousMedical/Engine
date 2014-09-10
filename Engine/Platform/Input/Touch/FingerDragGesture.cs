@@ -108,6 +108,14 @@ namespace Engine.Platform
                     }
                     if (allVectorsSameDirection && Dragged != null)
                     {
+                        if (!gestureStarted)
+                        {
+                            for (int i = 0; i < averageSpeed.Length; ++i)
+                            {
+                                averageSpeed[i] = new Vector2(0, 0);
+                            }
+                        }
+
                         gestureStarted = true;
                         didGesture = true;
                         DeltaX = longestLengthVec.x;

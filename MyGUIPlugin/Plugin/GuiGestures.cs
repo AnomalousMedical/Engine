@@ -36,6 +36,14 @@ namespace MyGUIPlugin
             {
                 if (fingers.Count == 1)
                 {
+                    if(!gestureStarted)
+                    {
+                        for (int i = 0; i < averageSpeed.Length; ++i)
+                        {
+                            averageSpeed[i] = new Vector2(0, 0);
+                        }
+                    }
+
                     didGesture = true;
                     gestureStarted = true;
                     Vector2 delta = new Vector2(fingers[0].PixelDeltaX, fingers[0].PixelDeltaY);
