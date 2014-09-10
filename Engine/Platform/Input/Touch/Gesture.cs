@@ -17,13 +17,7 @@ namespace Engine.Platform
         protected internal override void update(EventLayer eventLayer, bool allowProcessing, Clock clock)
         {
             var touches = eventLayer.EventManager.Touches;
-            if (!touches.GestureProcessed)
-            {
-                if(processFingers(eventLayer, touches))
-                {
-                    touches.alertGestureProcessed();
-                }
-            }
+            processFingers(eventLayer, touches);
             additionalProcessing(eventLayer, clock);
         }
 

@@ -24,15 +24,7 @@ namespace Engine.Platform
             {
                 finger.captureCurrentPositionAsLast();
             }
-            GestureProcessed = false;
         }
-
-        public void alertGestureProcessed()
-        {
-            GestureProcessed = true;
-        }
-
-        internal bool GestureProcessed { get; private set; }
 
         public IReadOnlyList<Finger> Fingers
         {

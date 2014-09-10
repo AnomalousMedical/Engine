@@ -123,7 +123,7 @@ namespace Engine.Platform
                             }
                         }
                     }
-                    if (allVectorsSameDirection && Dragged != null)
+                    if (allVectorsSameDirection)
                     {
                         if (!gestureStarted)
                         {
@@ -144,7 +144,10 @@ namespace Engine.Platform
                         averageSpeedCursor %= averageSpeed.Length;
 
                         //Make sure to fire event last so momentum can be canceled if needed
-                        Dragged.Invoke(eventLayer, this);
+                        if (Dragged != null)
+                        {
+                            Dragged.Invoke(eventLayer, this);
+                        }
                     }
                 }
                 else if (gestureStarted)
@@ -211,11 +214,13 @@ namespace Engine.Platform
                     {
                         momentum.y = 0.0f;
                     }
+
+                    Vector2 finalMomentum = momentum * momentumDirection;
+                    DeltaX = finalMomentum.x;
+                    DeltaY = finalMomentum.y;
+
                     if (Dragged != null)
                     {
-                        Vector2 finalMomentum = momentum * momentumDirection;
-                        DeltaX = finalMomentum.x;
-                        DeltaY = finalMomentum.y;
                         Dragged.Invoke(eventLayer, this);
                     }
                 }
