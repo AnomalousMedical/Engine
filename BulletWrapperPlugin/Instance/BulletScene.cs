@@ -24,6 +24,18 @@ namespace BulletPlugin
         /// </summary>
         public event TickCallback Tick;
 
+        public delegate void RigidBodyDelegate(BulletScene bulletScene, RigidBody rigidBody);
+
+        /// <summary>
+        /// This event is fired when a rigid body is added to the scene.
+        /// </summary>
+        public event RigidBodyDelegate OnRigidBodyAdded;
+
+        /// <summary>
+        /// This event is fired when a rigid body is removed from the scene.
+        /// </summary>
+        public event RigidBodyDelegate OnRigidBodyRemoved;
+
         private List<Action> beforeSynchronizeTasks = new List<Action>();
 
         ManagedTickCallback managedTickCallback;
@@ -67,10 +79,18 @@ namespace BulletPlugin
         {
             rigidBodies.Add(rigidBody);
             BulletScene_addRigidBody(bulletScene, rigidBody.NativeRigidBody, collisionFilterGroup, collisionFilterMask);
+            if(OnRigidBodyAdded != null)
+            {
+                OnRigidBodyAdded.Invoke(this, rigidBody);
+            }
         }
 
         internal void removeRigidBody(RigidBody rigidBody)
         {
+            if (OnRigidBodyRemoved != null)
+            {
+                OnRigidBodyRemoved.Invoke(this, rigidBody);
+            }
             BulletScene_removeRigidBody(bulletScene, rigidBody.NativeRigidBody);
             rigidBodies.Remove(rigidBody);
         }
