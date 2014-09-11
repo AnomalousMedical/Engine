@@ -95,7 +95,10 @@ namespace Engine.ObjectManagement
         /// </summary>
         public void destroy()
         {
-            simObjectManager.destroySimObject(Name);
+            if (simObjectManager != null)
+            {
+                simObjectManager.destroySimObject(Name);
+            }
         }
 
         /// <summary>
