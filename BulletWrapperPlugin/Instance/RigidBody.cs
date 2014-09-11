@@ -193,21 +193,25 @@ namespace BulletPlugin
         protected override void updatePositionImpl(ref Vector3 translation, ref Quaternion rotation)
         {
             btRigidBody_setWorldTransform(rigidBody, ref translation, ref rotation);
+            activate(false);
         }
 
         protected override void updateTranslationImpl(ref Vector3 translation)
         {
             btRigidBody_setWorldTranslation(rigidBody, ref translation);
+            activate(false);
         }
 
         protected override void updateRotationImpl(ref Quaternion rotation)
         {
             btRigidBody_setWorldRotation(rigidBody, ref rotation);
+            activate(false);
         }
 
         protected override void updateScaleImpl(ref Vector3 scale)
         {
             btRigidBody_setLocalScaling(rigidBody, ref scale);
+            activate(false);
         }
 
         protected override void setEnabled(bool enabled)
