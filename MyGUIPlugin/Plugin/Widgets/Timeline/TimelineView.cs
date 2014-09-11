@@ -236,6 +236,11 @@ namespace MyGUIPlugin
             }
         }
 
+        public void clearSelection()
+        {
+            selectionCollection.clearSelection();
+        }
+
         public int PixelsPerSecond
         {
             get
