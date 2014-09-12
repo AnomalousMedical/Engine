@@ -94,8 +94,8 @@ namespace Editor
                 {
                     if (PanCamera.HeldDown)
                     {
-                        lookAt += rotatedLeft * (mouseCoords.x / (events.Mouse.AreaWidth * SCROLL_SCALE) * orbitDistance);
-                        lookAt += rotatedUp * (mouseCoords.y / (events.Mouse.AreaHeight * SCROLL_SCALE) * orbitDistance);
+                        lookAt += rotatedLeft * ((float)mouseCoords.x / (events.Mouse.AreaWidth * SCROLL_SCALE) * orbitDistance);
+                        lookAt += rotatedUp * ((float)mouseCoords.y / (events.Mouse.AreaHeight * SCROLL_SCALE) * orbitDistance);
                         updateTranslation(lookAt + normalDirection * orbitDistance);
                     }
                     else if (ZoomCamera.HeldDown)
