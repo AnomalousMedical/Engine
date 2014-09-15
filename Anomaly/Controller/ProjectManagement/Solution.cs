@@ -252,9 +252,9 @@ namespace Anomaly
                 editInterface.addCommand(new EditInterfaceCommand("Create Project", createProjectCallback));
 
                 var projectInterfaceManager = editInterface.createEditInterfaceManager<Project>();
-                projectInterfaceManager.addCommand(new EditInterfaceCommand("Remove", destroyProjectCallback));
                 projectInterfaceManager.addCommand(new EditInterfaceCommand("Set Active", setActiveProjectCallback));
                 projectInterfaceManager.addCommand(new EditInterfaceCommand("Build Project", buildProjectCallback));
+                projectInterfaceManager.addCommand(new EditInterfaceCommand("Remove", destroyProjectCallback));
                 foreach (Project project in projects.Values)
                 {
                     onProjectAdded(project);
