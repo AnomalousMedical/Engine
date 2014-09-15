@@ -19,6 +19,7 @@ namespace BEPUikPlugin
         {
             ConnectionABoneName = "IKBone";
             ConnectionBBoneName = "IKBone";
+            AxisRenderLength = 10.0f;
         }
 
         public override void registerScene(SimSubScene subscene, SimObjectBase instance)
@@ -84,6 +85,12 @@ namespace BEPUikPlugin
         [Editable]
         public String ConnectionBBoneName { get; set; }
 
+        /// <summary>
+        /// The Length to render the axis when debugging.
+        /// </summary>
+        [Editable]
+        public float AxisRenderLength { get; set; }
+
         protected BEPUikJointDefinition(LoadInfo info)
             :base(info)
         {
@@ -91,6 +98,7 @@ namespace BEPUikPlugin
             ConnectionABoneName = info.GetString("ConnectionABoneName");
             ConnectionBSimObjectName = info.GetString("ConnectionBSimObjectName");
             ConnectionBBoneName = info.GetString("ConnectionBBoneName");
+            AxisRenderLength = info.GetFloat("AxisRenderLength", 10.0f);
         }
 
         public override void getInfo(SaveInfo info)
@@ -100,6 +108,7 @@ namespace BEPUikPlugin
             info.AddValue("ConnectionABoneName", ConnectionABoneName);
             info.AddValue("ConnectionBSimObjectName", ConnectionBSimObjectName);
             info.AddValue("ConnectionBBoneName", ConnectionBBoneName);
+            info.AddValue("AxisRenderLength", AxisRenderLength);
         }
     }
 }

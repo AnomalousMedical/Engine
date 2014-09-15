@@ -45,9 +45,9 @@ namespace BEPUikPlugin
 
             //Origin
             drawingSurface.Color = Color.Red;
-            drawingSurface.drawLine(Vector3.Zero, definition.WorldHingeAxis.normalized() * 10.0f);
+            drawingSurface.drawLine(Vector3.Zero, definition.WorldHingeAxis.normalized() * definition.AxisRenderLength);
             drawingSurface.Color = Color.Blue;
-            drawingSurface.drawLine(Vector3.Zero, definition.WorldTwistAxis.normalized() * 10.0f);
+            drawingSurface.drawLine(Vector3.Zero, definition.WorldTwistAxis.normalized() * definition.AxisRenderLength);
             drawingSurface.end();
         }
     }

@@ -44,20 +44,20 @@ namespace BEPUikPlugin
             drawingSurface.setDepthTesting(false);
 
             drawingSurface.Color = Color.Red;
-            drawingSurface.drawLine(Vector3.Zero, definition.AxisA.normalized() * 10.0f);
+            drawingSurface.drawLine(Vector3.Zero, definition.AxisA.normalized() * definition.AxisRenderLength);
             drawingSurface.Color = Color.Blue;
-            drawingSurface.drawLine(Vector3.Zero, definition.AxisB.normalized() * 10.0f);
+            drawingSurface.drawLine(Vector3.Zero, definition.AxisB.normalized() * definition.AxisRenderLength);
 
             if(definition.MeasurementAxisA.HasValue)
             {
                 drawingSurface.Color = Color.Orange;
-                drawingSurface.drawLine(Vector3.Zero, definition.MeasurementAxisA.Value.normalized() * 10.0f);
+                drawingSurface.drawLine(Vector3.Zero, definition.MeasurementAxisA.Value.normalized() * definition.AxisRenderLength);
             }
 
             if (definition.MeasurementAxisB.HasValue)
             {
                 drawingSurface.Color = Color.LightBlue;
-                drawingSurface.drawLine(Vector3.Zero, definition.MeasurementAxisB.Value.normalized() * 10.0f);
+                drawingSurface.drawLine(Vector3.Zero, definition.MeasurementAxisB.Value.normalized() * definition.AxisRenderLength);
             }
 
             drawingSurface.end();

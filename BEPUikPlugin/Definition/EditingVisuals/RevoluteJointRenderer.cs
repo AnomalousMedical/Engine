@@ -45,7 +45,7 @@ namespace BEPUikPlugin
 
             //Origin
             drawingSurface.Color = Color.Red;
-            drawingSurface.drawLine(Vector3.Zero, definition.WorldFreeAxis.normalized() * 10.0f);
+            drawingSurface.drawLine(Vector3.Zero, definition.WorldFreeAxis.normalized() * definition.AxisRenderLength);
             drawingSurface.end();
         }
     }
