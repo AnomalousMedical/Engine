@@ -37,5 +37,28 @@ namespace Engine.Saving
             String shortAssemblyName = type.Assembly().FullName;
             return String.Format("{0}, {1}", type.FullName, shortAssemblyName.Remove(shortAssemblyName.IndexOf(',')));
         }
+
+        public static String GetTypeNameWithoutAssembly(String typeName)
+        {
+            int findIndex = typeName.LastIndexOf("]]");
+            String shortName;
+            if (findIndex == -1)
+            {
+                findIndex = typeName.IndexOf(',');
+                if (findIndex != -1)
+                {
+                    shortName = typeName.Substring(0, findIndex);
+                }
+                else
+                {
+                    shortName = typeName;
+                }
+            }
+            else
+            {
+                shortName = typeName.Substring(0, findIndex + 2);
+            }
+            return shortName;
+        }
     }
 }

@@ -10,6 +10,7 @@ using Engine.Platform;
 using Engine.Renderer;
 using Engine.Command;
 using Engine.Resources;
+using Engine.Saving;
 
 namespace Engine
 {
@@ -27,7 +28,6 @@ namespace Engine
         #region Static
 
         private static PluginManager instance;
-        private static readonly char[] SPLIT = { ',' };
 
         /// <summary>
         /// Get the singleton for the PluginManager. It must first be created in
@@ -182,7 +182,7 @@ namespace Engine
                 if (type == null)
                 {
                     Log.Warning("Had to do slow search looking for type \'{0}\'. You should fix the source file searching for this type", assemblyQualifiedName);
-                    String typeName = assemblyQualifiedName.Split(SPLIT)[0];
+                    String typeName = DefaultTypeFinder.GetTypeNameWithoutAssembly(assemblyQualifiedName);
 
                     //If there is not yet a renamed type map, create it.
                     if (renamedTypeMap == null)
