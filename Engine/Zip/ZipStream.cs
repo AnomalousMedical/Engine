@@ -14,13 +14,44 @@ namespace ZipAccess
         private const int SEEK_END = 2;
         private const int  SEEK_SET = 0;
 
+        IntPtr zzipDir;
         IntPtr zzipFile;
         long uncompressedSize;
 
-        internal ZipStream(IntPtr zzipFile, long uncompressedSize)
+        /// <summary>
+        /// Open an new ZipStream. Each ZipStream gets its own zzipDir to allow correct multithreaded reading of files.
+        /// </summary>
+        /// <remarks>
+        /// This is based on:
+        /// https://bitbucket.org/sinbad/ogre/pull-request/63/made-each-zip-file-stream-have-its-own-zip/diff
+        /// http://zziplib.sourceforge.net/changes.html under 2005-12-11, the zip file is opened and read with only one filehandle for
+        /// multiple threads that share the same "dir" handle. Look for ->currentfp. To get around this we will just open a new zzipDir
+        /// for each file. This uses the extern functions in ZipFile to do this, they are internal.
+        /// </remarks>
+        /// <param name="zipFile">The name of the zip file to load.</param>
+        /// <param name="fileName">The name of the file to load.</param>
+        internal unsafe ZipStream(String zipFile, String fileName)
         {
-            this.zzipFile = zzipFile;
-            this.uncompressedSize = uncompressedSize;
+            ZZipError zzipError = ZZipError.ZZIP_NO_ERROR;
+            zzipDir = ZipFile.ZipFile_OpenDir(zipFile, ref zzipError);
+            if (zzipError != ZZipError.ZZIP_NO_ERROR)
+            {
+                throw new ZipIOException("Cannot open zip dir");
+            }
+
+            //Get uncompressed size
+            ZZipStat zstat = new ZZipStat();
+            ZipFile.ZipFile_DirStat(zzipDir, fileName, &zstat, ZipFile.ZZIP_CASEINSENSITIVE);
+            uncompressedSize = zstat.UncompressedSize;
+
+            //Open file
+            zzipFile = ZipFile.ZipFile_OpenFile(zzipDir, fileName, ZZipFlags.ZZIP_ONLYZIP | ZZipFlags.ZZIP_CASELESS);
+            if (zzipFile == IntPtr.Zero)
+            {
+                //Be sure to close the zip directory handle
+                ZipFile.ZipFile_Close(zzipDir);
+                throw new ZipIOException("Cannot open file");
+            }
         }
 
         protected override void Dispose(bool disposing)
@@ -30,6 +61,11 @@ namespace ZipAccess
             {
                 ZipStream_FileClose(zzipFile);
                 zzipFile = IntPtr.Zero;
+            }
+            if (zzipDir != IntPtr.Zero)
+            {
+                ZipFile.ZipFile_Close(zzipDir);
+                zzipDir = IntPtr.Zero;
             }
         }
 

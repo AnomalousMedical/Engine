@@ -7,40 +7,40 @@ using System.Text.RegularExpressions;
 
 namespace ZipAccess
 {
+    enum ZZipError
+    {
+        ZZIP_NO_ERROR = 0,	                /* no error, may be used if user sets it. */
+        ZZIP_OUTOFMEM = ZipFile.ZZIP_ERROR - 20, /* out of memory */
+        ZZIP_DIR_OPEN = ZipFile.ZZIP_ERROR - 21, /* failed to open zipfile, see errno for details */
+        ZZIP_DIR_STAT = ZipFile.ZZIP_ERROR - 22, /* failed to fstat zipfile, see errno for details */
+        ZZIP_DIR_SEEK = ZipFile.ZZIP_ERROR - 23, /* failed to lseek zipfile, see errno for details */
+        ZZIP_DIR_READ = ZipFile.ZZIP_ERROR - 24, /* failed to read zipfile, see errno for details */
+        ZZIP_DIR_TOO_SHORT = ZipFile.ZZIP_ERROR - 25,
+        ZZIP_DIR_EDH_MISSING = ZipFile.ZZIP_ERROR - 26,
+        ZZIP_DIRSIZE = ZipFile.ZZIP_ERROR - 27,
+        ZZIP_ENOENT = ZipFile.ZZIP_ERROR - 28,
+        ZZIP_UNSUPP_COMPR = ZipFile.ZZIP_ERROR - 29,
+        ZZIP_CORRUPTED = ZipFile.ZZIP_ERROR - 31,
+        ZZIP_UNDEF = ZipFile.ZZIP_ERROR - 32,
+        ZZIP_DIR_LARGEFILE = ZipFile.ZZIP_ERROR - 33
+    }
+
+    enum ZZipFlags : int
+    {
+        ZZIP_CASELESS = (1 << 12), /* ignore filename case inside zips */
+        ZZIP_NOPATHS = (1 << 13), /* ignore subdir paths, just filename*/
+        ZZIP_PREFERZIP = (1 << 14), /* try first zipped file, then real*/
+        ZZIP_ONLYZIP = (1 << 16), /* try _only_ zipped file, skip real*/
+        ZZIP_FACTORY = (1 << 17), /* old file handle is not closed */
+        ZZIP_ALLOWREAL = (1 << 18), /* real files use default_io (magic) */
+        ZZIP_THREADED = (1 << 19), /* try to be safe for multithreading */
+    }
+
     public class ZipFile : IDisposable
     {
-        const int ZZIP_ERROR = -4096;
+        internal const int ZZIP_ERROR = -4096;
 
-        enum ZZipError
-        {
-            ZZIP_NO_ERROR = 0,	                /* no error, may be used if user sets it. */
-            ZZIP_OUTOFMEM =      ZZIP_ERROR-20, /* out of memory */
-            ZZIP_DIR_OPEN =      ZZIP_ERROR-21, /* failed to open zipfile, see errno for details */
-            ZZIP_DIR_STAT =      ZZIP_ERROR-22, /* failed to fstat zipfile, see errno for details */
-            ZZIP_DIR_SEEK =      ZZIP_ERROR-23, /* failed to lseek zipfile, see errno for details */
-            ZZIP_DIR_READ =      ZZIP_ERROR-24, /* failed to read zipfile, see errno for details */
-            ZZIP_DIR_TOO_SHORT = ZZIP_ERROR-25,
-            ZZIP_DIR_EDH_MISSING = ZZIP_ERROR-26,
-            ZZIP_DIRSIZE =       ZZIP_ERROR-27,
-            ZZIP_ENOENT =        ZZIP_ERROR-28,
-            ZZIP_UNSUPP_COMPR =  ZZIP_ERROR-29,
-            ZZIP_CORRUPTED =     ZZIP_ERROR-31,
-            ZZIP_UNDEF =         ZZIP_ERROR-32,
-            ZZIP_DIR_LARGEFILE = ZZIP_ERROR-33
-        }
-
-        enum ZZipFlags : int
-        {
-            ZZIP_CASELESS =   (1<<12), /* ignore filename case inside zips */
-            ZZIP_NOPATHS =    (1<<13), /* ignore subdir paths, just filename*/
-            ZZIP_PREFERZIP =  (1<<14), /* try first zipped file, then real*/
-            ZZIP_ONLYZIP =    (1<<16), /* try _only_ zipped file, skip real*/
-            ZZIP_FACTORY =    (1<<17), /* old file handle is not closed */
-            ZZIP_ALLOWREAL =  (1<<18), /* real files use default_io (magic) */
-            ZZIP_THREADED = (1 << 19), /* try to be safe for multithreading */
-        }
-
-        const int ZZIP_CASEINSENSITIVE = 0x0008;
+        internal const int ZZIP_CASEINSENSITIVE = 0x0008;
 
         static char[] SEPS = { '/', '\\' };
 
@@ -75,21 +75,14 @@ namespace ZipAccess
 
         public unsafe ZipStream openFile(String filename)
         {
-            String cFile = fixPathFile(filename);
-	        //Get uncompressed size
-	        ZZipStat zstat = new ZZipStat();
-	        ZipFile_DirStat(zzipDir, cFile, &zstat, ZZIP_CASEINSENSITIVE);
-
-	        //Open file
-            IntPtr zzipFile = ZipFile_OpenFile(zzipDir, cFile, ZZipFlags.ZZIP_ONLYZIP | ZZipFlags.ZZIP_CASELESS);
-	        if(zzipFile != IntPtr.Zero)
-	        {
-		        return new ZipStream(zzipFile, zstat.UncompressedSize);
-	        }
-	        else
-	        {
-		        return null;
-	        }
+            try
+            {
+                return new ZipStream(file, fixPathFile(filename));
+            }
+            catch(ZipIOException)
+            {
+                return null;
+            }
         }
 
 	    public IEnumerable<ZipFileInfo> listFiles(String path, bool recursive)
@@ -115,9 +108,7 @@ namespace ZipAccess
 	    public unsafe bool fileExists(String filename)
         {
             String cFile = fixPathFile(filename);
-	        ZZipStat zstat = new ZZipStat();
-            ZZipError res = ZipFile_DirStat(zzipDir, cFile, &zstat, ZZIP_CASEINSENSITIVE);
-            return (res == ZZipError.ZZIP_NO_ERROR);
+            return files.FirstOrDefault(d => cFile.Equals(d.FullName, StringComparison.OrdinalIgnoreCase)) != null;
         }
 
         public bool directoryExists(String path)
@@ -296,7 +287,6 @@ namespace ZipAccess
         private unsafe void commonLoad()
         {
             ZZipError zzipError = ZZipError.ZZIP_NO_ERROR;
-            //zzipDir = zzip_dir_open(mName.c_str(), &zzipError);
             zzipDir = ZipFile_OpenDir(file, ref zzipError);
             if (zzipError != ZZipError.ZZIP_NO_ERROR)
 	        {
@@ -375,18 +365,18 @@ namespace ZipAccess
         }
 
         [DllImport("Zip", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr ZipFile_OpenDir(String file, ref ZZipError error);
+        internal static extern IntPtr ZipFile_OpenDir(String file, ref ZZipError error);
 
         [DllImport("Zip", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void ZipFile_Close(IntPtr zzipFile);
+        internal static extern void ZipFile_Close(IntPtr zzipFile);
 
         [DllImport("Zip", CallingConvention=CallingConvention.Cdecl)]
         private static unsafe extern bool ZipFile_Read(IntPtr zzipDir, ZZipStat* zstat);
 
         [DllImport("Zip", CallingConvention=CallingConvention.Cdecl)]
-        private static unsafe extern ZZipError ZipFile_DirStat(IntPtr zzipDir, String filename, ZZipStat* zstat, int mode);
+        internal static unsafe extern ZZipError ZipFile_DirStat(IntPtr zzipDir, String filename, ZZipStat* zstat, int mode);
 
         [DllImport("Zip", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr ZipFile_OpenFile(IntPtr zzipDir, String filename, ZZipFlags mode);
+        internal static extern IntPtr ZipFile_OpenFile(IntPtr zzipDir, String filename, ZZipFlags mode);
     }
 }
