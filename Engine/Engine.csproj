@@ -345,6 +345,7 @@
     <Compile Include="Utility\StringRetriever.cs" />
     <Compile Include="Utility\UniqueKeyGenerator.cs" />
     <Compile Include="Utility\WrapperCollection.cs" />
+    <Compile Include="Zip\PooledZzipDir.cs" />
     <Compile Include="Zip\ZipFile.cs" />
     <Compile Include="Zip\ZipFileInfo.cs" />
     <Compile Include="Zip\ZipIOException.cs" />

@@ -40,9 +40,9 @@ extern "C" _AnomalousExport ZZIP_DIR* ZipFile_OpenDir(const char* cName, zzip_er
 	}
 }
 
-extern "C" _AnomalousExport void ZipFile_Close(ZZIP_DIR* zzipFile)
+extern "C" _AnomalousExport void ZipFile_CloseDir(ZZIP_DIR* zzipDir)
 {
-	zzip_dir_close(zzipFile);
+	zzip_dir_close(zzipDir);
 }
 
 extern "C" _AnomalousExport bool ZipFile_Read(ZZIP_DIR* zzipDir, ZZIP_DIRENT* zstat)

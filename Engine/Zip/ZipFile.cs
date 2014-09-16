@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using Engine;
 
 namespace ZipAccess
 {
@@ -44,11 +45,11 @@ namespace ZipAccess
 
         static char[] SEPS = { '/', '\\' };
 
-        IntPtr zzipDir = IntPtr.Zero;
 	    String file;
 	    String fileFilter;
 	    List<ZipFileInfo> files = new List<ZipFileInfo>();
 	    List<ZipFileInfo> directories = new List<ZipFileInfo>();
+        LifecycleObjectPool<PooledZzipDir> pooledZzipDirHandles;
 
         public ZipFile(String filename)
         {
@@ -66,18 +67,14 @@ namespace ZipAccess
 
 	    public void Dispose()
         {
-            if(zzipDir != IntPtr.Zero)
-            {
-                ZipFile_Close(zzipDir);
-                zzipDir = IntPtr.Zero;
-            }
+            pooledZzipDirHandles.Dispose();
         }
 
         public unsafe ZipStream openFile(String filename)
         {
             try
             {
-                return new ZipStream(file, fixPathFile(filename));
+                return new ZipStream(pooledZzipDirHandles.getPooledObject(), fixPathFile(filename));
             }
             catch(ZipIOException)
             {
@@ -140,6 +137,21 @@ namespace ZipAccess
 		        }
 	        }
 	        return null;
+        }
+
+        /// <summary>
+        /// The maximum number of dir handles to keep open in the pool. The default is 3.
+        /// </summary>
+        public int MaxDirHandlePoolSize
+        {
+            get
+            {
+                return pooledZzipDirHandles.MaxPoolSize.Value;
+            }
+            set
+            {
+                pooledZzipDirHandles.MaxPoolSize = value;
+            }
         }
 
         private IEnumerable<ZipFileInfo> findMatches(List<ZipFileInfo> sourceList, String path, String searchPattern, bool recursive)
@@ -286,40 +298,15 @@ namespace ZipAccess
 
         private unsafe void commonLoad()
         {
-            ZZipError zzipError = ZZipError.ZZIP_NO_ERROR;
-            zzipDir = ZipFile_OpenDir(file, ref zzipError);
-            if (zzipError != ZZipError.ZZIP_NO_ERROR)
-	        {
-		        String errorMessage;
-		        switch (zzipError)
-		        {
-			        case ZZipError.ZZIP_OUTOFMEM:
-				        errorMessage = "Out of memory";
-				        break;            
-			        case ZZipError.ZZIP_DIR_OPEN:
-			        case ZZipError.ZZIP_DIR_STAT: 
-			        case ZZipError.ZZIP_DIR_SEEK:
-			        case ZZipError.ZZIP_DIR_READ:
-				        errorMessage = "Unable to read zip file";
-				        break;           
-			        case ZZipError.ZZIP_UNSUPP_COMPR:
-				        errorMessage = "Unsupported compression format";
-				        break;            
-			        case ZZipError.ZZIP_CORRUPTED:
-				        errorMessage = "Archive corrupted";
-				        break;            
-			        default:
-				        errorMessage = "Unknown ZZIP error number";
-				        break;            
-		        };
-		        throw new ZipIOException("Could not open zip file {0} because of {1}", file, errorMessage);
-	        }
+            pooledZzipDirHandles = new LifecycleObjectPool<PooledZzipDir>(() => new PooledZzipDir(file), dir => dir.Dispose());
+            pooledZzipDirHandles.MaxPoolSize = 3;
+            PooledZzipDir zzipDir = pooledZzipDirHandles.getPooledObject();
 
             HashSet<String> foundDirectories = new HashSet<string>();
 
             //Read the directories and files out of the zip file
             ZZipStat zzipEntry = new ZZipStat();
-            while (ZipFile_Read(zzipDir, &zzipEntry))
+            while (ZipFile_Read(zzipDir.Ptr, &zzipEntry))
             {
                 String entryName = zzipEntry.Name;
                 if (fileFilter == null || entryName.StartsWith(fileFilter))
@@ -341,6 +328,8 @@ namespace ZipAccess
                     addParentDirectories(foundDirectories, fileInfo);
                 }
             }
+
+            zzipDir.finished();
         }
 
         private void addParentDirectories(HashSet<String> foundDirectories, ZipFileInfo fileInfo)
@@ -368,7 +357,7 @@ namespace ZipAccess
         internal static extern IntPtr ZipFile_OpenDir(String file, ref ZZipError error);
 
         [DllImport("Zip", CallingConvention=CallingConvention.Cdecl)]
-        internal static extern void ZipFile_Close(IntPtr zzipFile);
+        internal static extern void ZipFile_CloseDir(IntPtr zzipFile);
 
         [DllImport("Zip", CallingConvention=CallingConvention.Cdecl)]
         private static unsafe extern bool ZipFile_Read(IntPtr zzipDir, ZZipStat* zstat);

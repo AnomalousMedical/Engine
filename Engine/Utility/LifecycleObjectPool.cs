@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,13 +7,20 @@ using System.Threading.Tasks;
 
 namespace Engine
 {
+    /// <summary>
+    /// An object pool where the pooled objects need lifecycle functions called. This class is thread safe to take
+    /// objects out of and return to on multiple threads. It is not predictable what thread the destroyPooledObject callbac
+    /// will happen on.
+    /// </summary>
+    /// <typeparam name="PooledType"></typeparam>
     public class LifecycleObjectPool<PooledType> : ObjectPool, IDisposable
         where PooledType : PooledObject
     {
-        Stack<PooledType> pool = new Stack<PooledType>();
+        ConcurrentStack<PooledType> pool = new ConcurrentStack<PooledType>();
 
         Func<PooledType> CreatePooledObject;
         Action<PooledType> DestroyPooledObject { get; set; }
+        private bool stillAlive = true;
 
         /// <summary>
         /// Constructor.
@@ -25,6 +33,7 @@ namespace Engine
 
         public void Dispose()
         {
+            stillAlive = false;
             foreach(PooledType item in pool)
             {
                 DestroyPooledObject(item);
@@ -37,13 +46,13 @@ namespace Engine
         /// <returns>A pooled object.</returns>
         public PooledType getPooledObject()
         {
-            if (pool.Count == 0)
+            PooledType ret;
+            if(!pool.TryPop(out ret))
             {
-                PooledType ret = CreatePooledObject();
+                ret = CreatePooledObject();
                 ret.Pool = this;
-                return ret;
             }
-            return pool.Pop();
+            return ret;
         }
 
         /// <summary>
@@ -58,12 +67,12 @@ namespace Engine
         /// <param name="finished">The object to be returned.</param>
         internal override void returnObject(PooledObject finished)
         {
-            if (!MaxPoolSize.HasValue || pool.Count < MaxPoolSize)
+            if (stillAlive && (!MaxPoolSize.HasValue || pool.Count < MaxPoolSize))
             {
                 finished.callReset();
                 pool.Push((PooledType)finished); 
             }
-            else //Too many objects for pool, cleanup object instead.
+            else //Too many objects for pool or pool is disposed, cleanup object instead.
             {
                 DestroyPooledObject((PooledType)finished);
             }

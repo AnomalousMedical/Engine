@@ -14,12 +14,13 @@ namespace ZipAccess
         private const int SEEK_END = 2;
         private const int  SEEK_SET = 0;
 
-        IntPtr zzipDir;
+        PooledZzipDir zzipDir;
         IntPtr zzipFile;
         long uncompressedSize;
 
         /// <summary>
         /// Open an new ZipStream. Each ZipStream gets its own zzipDir to allow correct multithreaded reading of files.
+        /// These handles come out of a pool managed by zipFile so tons of extras are not created.
         /// </summary>
         /// <remarks>
         /// This is based on:
@@ -30,26 +31,21 @@ namespace ZipAccess
         /// </remarks>
         /// <param name="zipFile">The name of the zip file to load.</param>
         /// <param name="fileName">The name of the file to load.</param>
-        internal unsafe ZipStream(String zipFile, String fileName)
+        internal unsafe ZipStream(PooledZzipDir zzipDir, String fileName)
         {
-            ZZipError zzipError = ZZipError.ZZIP_NO_ERROR;
-            zzipDir = ZipFile.ZipFile_OpenDir(zipFile, ref zzipError);
-            if (zzipError != ZZipError.ZZIP_NO_ERROR)
-            {
-                throw new ZipIOException("Cannot open zip dir");
-            }
+            this.zzipDir = zzipDir;
 
             //Get uncompressed size
             ZZipStat zstat = new ZZipStat();
-            ZipFile.ZipFile_DirStat(zzipDir, fileName, &zstat, ZipFile.ZZIP_CASEINSENSITIVE);
+            ZipFile.ZipFile_DirStat(zzipDir.Ptr, fileName, &zstat, ZipFile.ZZIP_CASEINSENSITIVE);
             uncompressedSize = zstat.UncompressedSize;
 
             //Open file
-            zzipFile = ZipFile.ZipFile_OpenFile(zzipDir, fileName, ZZipFlags.ZZIP_ONLYZIP | ZZipFlags.ZZIP_CASELESS);
+            zzipFile = ZipFile.ZipFile_OpenFile(zzipDir.Ptr, fileName, ZZipFlags.ZZIP_ONLYZIP | ZZipFlags.ZZIP_CASELESS);
             if (zzipFile == IntPtr.Zero)
             {
-                //Be sure to close the zip directory handle
-                ZipFile.ZipFile_Close(zzipDir);
+                //Be sure to return the directory handle
+                zzipDir.finished();
                 throw new ZipIOException("Cannot open file");
             }
         }
@@ -62,10 +58,10 @@ namespace ZipAccess
                 ZipStream_FileClose(zzipFile);
                 zzipFile = IntPtr.Zero;
             }
-            if (zzipDir != IntPtr.Zero)
+            if (zzipDir != null)
             {
-                ZipFile.ZipFile_Close(zzipDir);
-                zzipDir = IntPtr.Zero;
+                zzipDir.finished();
+                zzipDir = null;
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,13 +7,13 @@ using System.Text;
 namespace Engine
 {
     /// <summary>
-    /// A pool of objects.
+    /// A pool of objects. This class is thread safe, so you can take objects out of it on multiple threads.
     /// </summary>
     /// <typeparam name="PooledType"></typeparam>
     public class GenericObjectPool<PooledType> : ObjectPool
         where PooledType : PooledObject, new()
     {
-        Stack<PooledType> pool = new Stack<PooledType>();
+        ConcurrentStack<PooledType> pool = new ConcurrentStack<PooledType>();
 
         /// <summary>
         /// Constructor.
@@ -28,13 +29,13 @@ namespace Engine
         /// <returns>A pooled object.</returns>
         public PooledType getPooledObject()
         {
-            if (pool.Count == 0)
+            PooledType ret;
+            if (!pool.TryPop(out ret))
             {
-                PooledType ret = new PooledType();
+                ret = new PooledType();
                 ret.Pool = this;
-                return ret;
             }
-            return pool.Pop();
+            return ret;
         }
 
         /// <summary>
