@@ -22,6 +22,7 @@ namespace BEPUikPlugin
         SwivelHingeJoints = 128,
         TwistJoints = 256,
         TwistLimits = 512,
+        PointOnLineJoints = 1024,
         MAX_DEBUG_DRAW_MODE
     }
 
@@ -40,6 +41,7 @@ namespace BEPUikPlugin
             entries.AddLast(new BEPUikDebugEntry("Draw Ball Socket Joints", DebugDrawMode.BallSocketJoints, this));
             entries.AddLast(new BEPUikDebugEntry("Draw Revolute Joints", DebugDrawMode.RevoluteJoints, this));
             entries.AddLast(new BEPUikDebugEntry("Draw Swivel Hinge Joints", DebugDrawMode.SwivelHingeJoints, this));
+            entries.AddLast(new BEPUikDebugEntry("Draw Point on Line Joints", DebugDrawMode.PointOnLineJoints, this));
             entries.AddLast(new BEPUikDebugEntry("Draw Twist Joints", DebugDrawMode.TwistJoints, this));
             entries.AddLast(new BEPUikDebugEntry("Draw Swing Limits", DebugDrawMode.SwingLimits, this));
             entries.AddLast(new BEPUikDebugEntry("Draw Twist Limits", DebugDrawMode.TwistLimits, this));

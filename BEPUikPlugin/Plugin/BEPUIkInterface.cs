@@ -41,6 +41,7 @@ namespace BEPUikPlugin
             pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create BEPU Ik Revolute Joint", new CreateSimElement(BEPUikRevoluteJointDefinition.Create)));
             pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create BEPU Ik Swivel Hinge Joint", new CreateSimElement(BEPUikSwivelHingeJointDefinition.Create)));
             pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create BEPU Ik Twist Joint", new CreateSimElement(BEPUikTwistJointDefinition.Create)));
+            pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create BEPU Ik Point on Line Joint", new CreateSimElement(BEPUikPointOnLineJointDefinition.Create)));
 
             pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create BEPU Ik Distance Limit", new CreateSimElement(BEPUikDistanceLimitDefinition.Create)));
             pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create BEPU Ik Swing Limit", new CreateSimElement(BEPUikSwingLimitDefinition.Create)));

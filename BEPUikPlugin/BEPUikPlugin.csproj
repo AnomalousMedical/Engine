@@ -176,6 +176,7 @@
     <Compile Include="Construction\BEPUikFactoryEntry.cs" />
     <Compile Include="DebugDraw\BEPUikDebugEntry.cs" />
     <Compile Include="DebugDraw\BEPUikDebugInterface.cs" />
+    <Compile Include="Definition\BEPUikPointOnLineJointDefinition.cs" />
     <Compile Include="Definition\BEPUikTwistLimitDefinition.cs" />
     <Compile Include="Definition\BEPUikSwingLimitDefinition.cs" />
     <Compile Include="Definition\BEPUikDistanceLimitDefinition.cs" />
@@ -194,6 +195,7 @@
     <Compile Include="Definition\BEPUikJointDefinition.cs" />
     <Compile Include="Definition\BEPUIkSceneDefinition.cs" />
     <Compile Include="Definition\EditingVisuals\BoneRenderer.cs" />
+    <Compile Include="Definition\EditingVisuals\PointOnLineJointRenderer.cs" />
     <Compile Include="Definition\EditingVisuals\RevoluteJointRenderer.cs" />
     <Compile Include="Definition\EditingVisuals\TwistJointRenderer.cs" />
     <Compile Include="Definition\EditingVisuals\TwistLimitRenderer.cs" />
@@ -201,6 +203,7 @@
     <Compile Include="Definition\EditingVisuals\SwingLimitRenderer.cs" />
     <Compile Include="External\ExternalControl.cs" />
     <Compile Include="Instance\BEPUikBoneLocalRot.cs" />
+    <Compile Include="Instance\BEPUikPointOnLineJoint.cs" />
     <Compile Include="Instance\BEPUikTwistLimit.cs" />
     <Compile Include="Instance\BEPUikSwingLimit.cs" />
     <Compile Include="Instance\BEPUikDistanceLimit.cs" />
