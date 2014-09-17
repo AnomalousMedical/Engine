@@ -38,6 +38,12 @@ namespace BEPUikPlugin
             }
         }
 
+        protected override void customizeEditInterface(EditInterface editInterface)
+        {
+            editInterface.Renderer = new DistanceLimitRenderer(this);
+            base.customizeEditInterface(editInterface);
+        }
+
         [Editable]
         public float MinimumDistance { get; set; }
 

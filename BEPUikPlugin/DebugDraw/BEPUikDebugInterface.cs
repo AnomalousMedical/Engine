@@ -16,7 +16,7 @@ namespace BEPUikPlugin
         //AngularJoints = 2, //Not sure how to visualize this one
         BallSocketJoints = 4,
         //DistanceJoints = 8, //Not doing this now
-        //DistanceLimits = 16, //Not doing this now
+        DistanceLimits = 16, //Not doing this now
         RevoluteJoints = 32,
         SwingLimits = 64,
         SwivelHingeJoints = 128,
@@ -45,6 +45,7 @@ namespace BEPUikPlugin
             entries.AddLast(new BEPUikDebugEntry("Draw Twist Joints", DebugDrawMode.TwistJoints, this));
             entries.AddLast(new BEPUikDebugEntry("Draw Swing Limits", DebugDrawMode.SwingLimits, this));
             entries.AddLast(new BEPUikDebugEntry("Draw Twist Limits", DebugDrawMode.TwistLimits, this));
+            entries.AddLast(new BEPUikDebugEntry("Draw Distance Limits", DebugDrawMode.DistanceLimits, this));
         }
 
         public IEnumerable<DebugEntry> Entries

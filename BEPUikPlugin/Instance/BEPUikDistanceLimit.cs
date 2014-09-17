@@ -1,6 +1,7 @@
 ﻿using BEPUik;
 using Engine;
 using Engine.ObjectManagement;
+using Engine.Renderer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,9 +73,47 @@ namespace BEPUikPlugin
             return definition;
         }
 
-        internal override void draw(Engine.Renderer.DebugDrawingSurface drawingSurface, DebugDrawMode drawMode)
+        internal override void draw(DebugDrawingSurface drawingSurface, DebugDrawMode drawMode)
         {
-            //TODO: Implement Constraint Drawing
+            if((drawMode & DebugDrawMode.DistanceLimits) != 0)
+            {
+                Vector3 origin = VisualizationOrigin;
+                drawingSurface.Color = Color.Blue;
+                Vector3 minMaxPoint = origin + Vector3.Up * limit.MinimumDistance;
+                drawingSurface.drawLine(origin, minMaxPoint);
+                drawingSurface.Color = Color.Red;
+                drawingSurface.drawLine(minMaxPoint, minMaxPoint + Vector3.Up * (limit.MaximumDistance - limit.MinimumDistance));
+
+                drawingSurface.Color = Color.Blue;
+                minMaxPoint = origin + Vector3.Down * limit.MinimumDistance;
+                drawingSurface.drawLine(origin, minMaxPoint);
+                drawingSurface.Color = Color.Red;
+                drawingSurface.drawLine(minMaxPoint, minMaxPoint + Vector3.Down * (limit.MaximumDistance - limit.MinimumDistance));
+
+                drawingSurface.Color = Color.Blue;
+                minMaxPoint = origin + Vector3.Left * limit.MinimumDistance;
+                drawingSurface.drawLine(origin, minMaxPoint);
+                drawingSurface.Color = Color.Red;
+                drawingSurface.drawLine(minMaxPoint, minMaxPoint + Vector3.Left * (limit.MaximumDistance - limit.MinimumDistance));
+
+                drawingSurface.Color = Color.Blue;
+                minMaxPoint = origin + Vector3.Right * limit.MinimumDistance;
+                drawingSurface.drawLine(origin, minMaxPoint);
+                drawingSurface.Color = Color.Red;
+                drawingSurface.drawLine(minMaxPoint, minMaxPoint + Vector3.Right * (limit.MaximumDistance - limit.MinimumDistance));
+
+                drawingSurface.Color = Color.Blue;
+                minMaxPoint = origin + Vector3.Forward * limit.MinimumDistance;
+                drawingSurface.drawLine(origin, minMaxPoint);
+                drawingSurface.Color = Color.Red;
+                drawingSurface.drawLine(minMaxPoint, minMaxPoint + Vector3.Forward * (limit.MaximumDistance - limit.MinimumDistance));
+
+                drawingSurface.Color = Color.Blue;
+                minMaxPoint = origin + Vector3.Backward * limit.MinimumDistance;
+                drawingSurface.drawLine(origin, minMaxPoint);
+                drawingSurface.Color = Color.Red;
+                drawingSurface.drawLine(minMaxPoint, minMaxPoint + Vector3.Backward * (limit.MaximumDistance - limit.MinimumDistance));
+            }
         }
 
         internal override IKLimit IKLimit
