@@ -51,6 +51,19 @@ namespace BEPUikPlugin
         public float MaximumAngle { get; set; }
 
         [Editable]
+        public float MaximumAngleDeg
+        {
+            get
+            {
+                return (Degree)new Radian(MaximumAngle);
+            }
+            set
+            {
+                MaximumAngle = (Radian)new Degree(value);
+            }
+        }
+
+        [Editable]
         public Vector3 AxisA { get; set; }
 
         [Editable]
