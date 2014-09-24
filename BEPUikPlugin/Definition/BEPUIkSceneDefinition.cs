@@ -116,6 +116,10 @@ namespace BEPUikPlugin
             }
         }
 
+        /// <summary>
+        /// Gets or sets the number of solver iterations to perform in an attempt to reach specified goals.
+        /// Increases the speed at which the goal is reached.
+        /// </summary>
         [Editable]
         public int ControlIterationCount
         {
@@ -129,6 +133,11 @@ namespace BEPUikPlugin
             }
         }
 
+        /// <summary>
+        /// Gets or sets the number of solter iterations to perform after the control iterations in an attempt to minimize
+        /// errors introduced by unreachable goals.
+        /// Reduces jitter when goal can't be reached.
+        /// </summary>
         [Editable]
         public int FixerIterationCount
         {
@@ -142,6 +151,10 @@ namespace BEPUikPlugin
             }
         }
 
+        /// <summary>
+        /// Gets or sets the number of velocity iterations to perform per control or fixer iteration.
+        /// Just a multiplier?
+        /// </summary>
         [Editable]
         public int VelocitySubiterationCount
         {
