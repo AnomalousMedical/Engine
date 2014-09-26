@@ -11,7 +11,7 @@ namespace Engine
     {
         public override void createPluginInterfaces(PluginManager pluginManager)
         {
-            pluginManager.addPlugin(new BehaviorInterface());
+            pluginManager.addPlugin(new BehaviorPluginInterface());
         }
     }
 }

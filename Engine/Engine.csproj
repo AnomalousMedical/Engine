@@ -62,7 +62,7 @@
     <Compile Include="Behavior\BehaviorException.cs" />
     <Compile Include="Behavior\BehaviorFactory.cs" />
     <Compile Include="Behavior\BehaviorFactoryEntry.cs" />
-    <Compile Include="Behavior\BehaviorInterface.cs" />
+    <Compile Include="Behavior\BehaviorPluginInterface.cs" />
     <Compile Include="Behavior\BehaviorManager.cs" />
     <Compile Include="Behavior\BehaviorManagerDefinition.cs" />
     <Compile Include="Behavior\BehaviorObject.cs" />
@@ -70,6 +70,7 @@
     <Compile Include="Behavior\BehaviorEditMemberScanner.cs" />
     <Compile Include="Behavior\BehaviorPluginEntryPoint.cs" />
     <Compile Include="Behavior\BehaviorSaveMemberScanner.cs" />
+    <Compile Include="Behavior\BehaviorUpdatePhase.cs" />
     <Compile Include="Behavior\Interface.cs" />
     <Compile Include="Command\AddSimElementCommand.cs" />
     <Compile Include="Command\AddSimElementManagerCommand.cs" />

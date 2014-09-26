@@ -92,9 +92,9 @@ namespace Engine
         /// <summary>
         /// Constructor.  Set the value using euler angles.
         /// </summary>
-        /// <param name="yaw">The yaw (X-Axis)</param>
-        /// <param name="pitch">The pitch (Y-Axis)</param>
-        /// <param name="roll">The roll (Z-Axis)</param>
+        /// <param name="yaw">The yaw (Y-Axis)</param>
+        /// <param name="pitch">The pitch (Z-Axis)</param>
+        /// <param name="roll">The roll (X-Axis)</param>
         public Quaternion(float yaw, float pitch, float roll)
         {
             setEuler(ref yaw, ref pitch, ref roll, out x, out y, out z, out w);
@@ -123,8 +123,8 @@ namespace Engine
         /// Set the value using euler angles.
         /// </summary>
         /// <param name="yaw">The yaw (Y-Axis)</param>
-        /// <param name="pitch">The pitch (X-Axis)</param>
-        /// <param name="roll">The roll (Z-Axis)</param>
+        /// <param name="pitch">The pitch (Z-Axis)</param>
+        /// <param name="roll">The roll (X-Axis)</param>
         public void setEuler(float yaw, float pitch, float roll)
         {
             setEuler(ref yaw, ref pitch, ref roll, out x, out y, out z, out w);

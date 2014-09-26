@@ -84,7 +84,7 @@ namespace Engine.Editing
                     name = (String)value;
                     break;
                 case 1:
-                    value = (T)value;
+                    obj = (T)value;
                     break;
             }
         }
@@ -97,7 +97,7 @@ namespace Engine.Editing
                     name = value;
                     break;
                 case 1:
-                    //value = (T)value;
+                    //obj = (T)value;
                     break;
             }
         }

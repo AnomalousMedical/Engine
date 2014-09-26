@@ -14,7 +14,8 @@ namespace Engine
     /// </summary>
     public class BehaviorManager : SimElementManager, UpdateListener
     {
-        private List<Behavior> activeBehaviors = new List<Behavior>();
+        private List<List<Behavior>> updatePhaseOrder = new List<List<Behavior>>();
+        private Dictionary<String, List<Behavior>> updatePhases = new Dictionary<String, List<Behavior>>();
         private EventManager eventManager;
         private BehaviorFactory behaviorFactory;
         private String name;
@@ -33,62 +34,74 @@ namespace Engine
             behaviorFactory = new BehaviorFactory(this);
         }
 
+        public void Dispose()
+        {
+            timer.removeUpdateListener(this);
+        }
+
         /// <summary>
         /// Update all behaviors owned by this manager that are currently active.
         /// </summary>
         /// <param name="clock">The clock with info about the last update.</param>
         public void updateBehaviors(Clock clock)
         {
-            for (int index = 0; index < activeBehaviors.Count; ++index)
+            try
             {
-                try
+                foreach (Behavior behavior in activeBehaviors())
                 {
-                    updateBehaviorResume(ref index, clock);
+                    behavior.update(clock, eventManager);
                 }
-                catch (Exception e)
+            }
+            catch (Exception e)
+            {
+                Log.Default.sendMessage("A behavior threw an exception: {0}.\n{1}\n{2}.", LogLevel.Error, "Behavior", e.GetType().Name, e.Message, e.StackTrace);
+                while (e.InnerException != null)
                 {
-                    Log.Default.sendMessage("A behavior threw an exception: {0}.\n{1}\n{2}.", LogLevel.Error, "Behavior", e.GetType().Name, e.Message, e.StackTrace);
-                    while (e.InnerException != null)
-                    {
-                        e = e.InnerException;
-                        Log.Default.sendMessage("--Inner exception: {0}.\n{1}\n{2}.", LogLevel.Error, "Behavior", e.GetType().Name, e.Message, e.StackTrace);
-                    }
+                    e = e.InnerException;
+                    Log.Default.sendMessage("--Inner exception: {0}.\n{1}\n{2}.", LogLevel.Error, "Behavior", e.GetType().Name, e.Message, e.StackTrace);
                 }
             }
         }
 
         /// <summary>
-        /// This helper function will run inside of the try... catch block and
-        /// do the actual updates. This reduces the amount that try... catch has
-        /// to be invoked.
+        /// Add an update phase.
         /// </summary>
-        /// <param name="index">The index of the current behavior.</param>
-        /// <param name="clock">The clock that contains information about the update.</param>
-        private void updateBehaviorResume(ref int index, Clock clock)
+        /// <param name="name"></param>
+        internal void addUpdatePhase(String name)
         {
-            while (index < activeBehaviors.Count)
-            {
-                activeBehaviors[index].update(clock, eventManager);
-                ++index;
-            }
+            List<Behavior> updatePhase = new List<Behavior>();
+            updatePhaseOrder.Add(updatePhase);
+            updatePhases.Add(name, updatePhase);
         }
 
         /// <summary>
         /// Activate a behavior so it can recieve updates.
         /// </summary>
         /// <param name="name">The name of the behavior to activate.</param>
-        public void activateBehavior(Behavior behavior)
+        internal void activateBehavior(Behavior behavior)
         {
-            activeBehaviors.Add(behavior);
+            List<Behavior> updatePhase;
+            if(updatePhases.TryGetValue(behavior.UpdatePhase, out updatePhase))
+            {
+                updatePhase.Add(behavior);
+            }
+            else
+            {
+                Log.Error("Could not add behavior '{0}' from SimObject '{1}' to update phase '{2}' because it was not found. This behavior will not update.", behavior.Name, behavior.Owner.Name, behavior.UpdatePhase);
+            }
         }
 
         /// <summary>
         /// Deactivate a behavior so it no longer recieves updates.
         /// </summary>
         /// <param name="name">The name of the behavior to deactivate.</param>
-        public void deactivateBehavior(Behavior behavior)
+        internal void deactivateBehavior(Behavior behavior)
         {
-            activeBehaviors.Remove(behavior);
+            List<Behavior> updatePhase;
+            if (updatePhases.TryGetValue(behavior.UpdatePhase, out updatePhase))
+            {
+                updatePhase.Remove(behavior);
+            }
         }
 
         /// <summary>
@@ -106,13 +119,11 @@ namespace Engine
         /// <param name="debugDrawing"></param>
         internal void renderDebugInfo(DebugDrawingSurface debugDrawing)
         {
-            foreach (Behavior behavior in activeBehaviors)
+            foreach (Behavior behavior in activeBehaviors())
             {
                 behavior.drawDebugInfo(debugDrawing);
             }
         }
-
-        #region SimElementManager Members
 
         public SimElementFactory getFactory()
         {
@@ -132,17 +143,14 @@ namespace Engine
         public SimElementManagerDefinition createDefinition()
         {
             BehaviorManagerDefinition definition = new BehaviorManagerDefinition(name);
+            //Have to reverse lookup from the phases defined, this isn't really performance critical so its a bit wonky
+            foreach(var phase in updatePhaseOrder)
+            {
+                //Reverse lookup from dictionary, the list and dictionary are always in sync
+                definition.addUpdatePhase(new BehaviorUpdatePhase(updatePhases.First(i => i.Value == phase).Key));
+            }
             return definition;
         }
-
-        public void Dispose()
-        {
-            timer.removeUpdateListener(this);
-        }
-
-        #endregion
-
-        #region UpdateListener Members
 
         public void sendUpdate(Clock clock)
         {
@@ -161,6 +169,17 @@ namespace Engine
             
         }
 
-        #endregion
+        private IEnumerable<Behavior> activeBehaviors()
+        {
+            int updateIndex;
+            foreach (var phase in updatePhaseOrder)
+            {
+                updateIndex = 0;
+                while (updateIndex < phase.Count)
+                {
+                    yield return phase[updateIndex++];
+                }
+            }
+        }
     }
 }

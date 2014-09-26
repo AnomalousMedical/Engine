@@ -39,16 +39,11 @@ namespace Engine
     [DoNotCopy]
     public abstract class Behavior : SimElement
     {
-        #region Fields
-
         private bool valid = true;
         private BehaviorManager manager;
         private bool currentlyEnabled = false;
-        internal bool hasUpdate = true;
-
-        #endregion Fields
-
-        #region Constructors
+        protected bool hasUpdate = true;
+        private String updatePhase = "Default";
 
         /// <summary>
         /// Base constructor for the behavior.
@@ -58,10 +53,6 @@ namespace Engine
         {
 
         }
-
-        #endregion Constructors
-
-        #region Functions
 
         /// <summary>
         /// This function will set the attributes that would normally be set by a constructor.
@@ -259,8 +250,6 @@ namespace Engine
 
         }
 
-        #region SimElement
-
         /// <summary>
         /// Dispose function called on cleanup. This is hidden by being invoked
         /// by the internal member Destroy().
@@ -354,12 +343,6 @@ namespace Engine
             return definition;
         }
 
-        #endregion SimElement
-
-        #endregion Functions
-
-        #region Properties
-
         /// <summary>
         /// This will be true unless the behavior was blacklisted. This allows
         /// for easy checking to see if all components were sucessfully
@@ -373,6 +356,17 @@ namespace Engine
             }
         }
 
-        #endregion Properties
+        [Editable]
+        internal String UpdatePhase
+        {
+            get
+            {
+                return updatePhase;
+            }
+            set
+            {
+                updatePhase = value;
+            }
+        }
     }
 }

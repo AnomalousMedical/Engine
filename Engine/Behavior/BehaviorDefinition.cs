@@ -95,16 +95,15 @@ namespace Engine
 
         #region Saveable
 
-        private String BEHAVIOR_TYPE = "BehaviorDataType";
-
         private BehaviorDefinition(LoadInfo info)
             :base(info)
         {
-            String behaviorType = info.GetString(BEHAVIOR_TYPE);
+            String behaviorType = info.GetString("BehaviorDataType");
             Type type = info.TypeFinder.findType(behaviorType);
             if (type != null)
             {
                 behaviorTemplate = (Behavior)Activator.CreateInstance(type);
+                behaviorTemplate.UpdatePhase = info.GetString("UpdatePhase", "Default");
                 ReflectedSaver.RestoreObject(behaviorTemplate, info, BehaviorSaveMemberScanner.Scanner);
                 behaviorTemplate.callCustomLoad(info);
             }
@@ -117,7 +116,8 @@ namespace Engine
         public override void getInfo(SaveInfo info)
         {
             base.getInfo(info);
-            info.AddValue(BEHAVIOR_TYPE, DefaultTypeFinder.CreateShortTypeString(behaviorTemplate.GetType()));
+            info.AddValue("BehaviorDataType", DefaultTypeFinder.CreateShortTypeString(behaviorTemplate.GetType()));
+            info.AddValue("UpdatePhase", behaviorTemplate.UpdatePhase);
             ReflectedSaver.SaveObject(behaviorTemplate, info, BehaviorSaveMemberScanner.Scanner);
             behaviorTemplate.callCustomSave(info);
         }

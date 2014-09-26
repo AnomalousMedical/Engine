@@ -82,7 +82,7 @@ namespace Engine
             {
                 this.configFile = configFile;
                 instance = this;
-                instance.addPlugin(new BehaviorInterface());
+                instance.addPlugin(new BehaviorPluginInterface());
                 virtualFileSystem = new VirtualFileSystem();
             }
             else

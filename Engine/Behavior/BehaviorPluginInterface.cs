@@ -7,10 +7,10 @@ using Engine.Command;
 
 namespace Engine
 {
-    public class BehaviorInterface : PluginInterface
+    public class BehaviorPluginInterface : PluginInterface
     {
-        private static BehaviorInterface instance;
-        public static BehaviorInterface Instance
+        private static BehaviorPluginInterface instance;
+        public static BehaviorPluginInterface Instance
         {
             get
             {
@@ -22,7 +22,7 @@ namespace Engine
         private EventManager eventManager;
         private BehaviorDebugInterface debugInterface;
 
-        public BehaviorInterface()
+        public BehaviorPluginInterface()
         {
             if (instance == null)
             {

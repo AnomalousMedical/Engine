@@ -150,6 +150,11 @@ namespace Engine
             return false;
         }
 
+        public static float interpolate(this float start, float end, float t)
+        {
+            return start + (end - start) * t;
+        }
+
         private static unsafe int FloatToInt32Bits(float f)
         {
             return *((int*)&f);

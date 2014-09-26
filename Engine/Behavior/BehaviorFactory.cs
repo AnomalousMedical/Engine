@@ -32,7 +32,7 @@ namespace Engine
         {
             SceneBuildStatus status = new SceneBuildStatus()
             {
-                Subsystem = BehaviorInterface.Instance.Name
+                Subsystem = BehaviorPluginInterface.Instance.Name
             };
             yield return status;
             bool copyBehavior = (options & SceneBuildOptions.SingleUseDefinitions) == 0;
