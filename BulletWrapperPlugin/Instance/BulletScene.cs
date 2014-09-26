@@ -64,6 +64,7 @@ namespace BulletPlugin
             Active = true;
             InternalTimestep = definition.InternalTimestep;
             SolverIterations = definition.SolverIterations;
+            AutoSynchronizeAfterUpdate = true;
         }
 
         public virtual void Dispose()
@@ -108,6 +109,23 @@ namespace BulletPlugin
         internal virtual MotionState createMotionState(RigidBody rigidBody, float maxContactDistance, ref Vector3 initialTrans, ref Quaternion initialRot)
         {
             return new MotionState(rigidBody, maxContactDistance, ref initialTrans, ref initialRot);
+        }
+
+        /// <summary>
+        /// Call this function to actually perform the synchronization of the physics to the main scene.
+        /// </summary>
+        internal void synchronizePhysicsToScene()
+        {
+            foreach (var task in beforeSynchronizeTasks)
+            {
+                task.Invoke();
+            }
+            beforeSynchronizeTasks.Clear();
+            foreach (RigidBody rigidBody in rigidBodies)
+            {
+                rigidBody.syncObjectPosition(ForceNextSynchronize);
+            }
+            ForceNextSynchronize = false;
         }
 
         private void managedTickCallbackFunc(float timeSpan)
@@ -156,6 +174,13 @@ namespace BulletPlugin
         /// It will get set back to false automatically after synchronizeResults is called.
         /// </summary>
         public bool ForceNextSynchronize { get; set; }
+
+        /// <summary>
+        /// This will be true if the scene should auto synchronize after its
+        /// update, if this is false synchronize will have to be called manually
+        /// (make sure it is on the main thread).
+        /// </summary>
+        internal bool AutoSynchronizeAfterUpdate { get; set; }
 
         #region SimElementManager Members
 
@@ -210,18 +235,16 @@ namespace BulletPlugin
             PerformanceMonitor.stop(performanceName);
         }
 
+        /// <summary>
+        /// The updateListener synchronize, only synchronizes if AutoSynchronizeAfterUpdate is true.
+        /// Don't call this one manually.
+        /// </summary>
         public void synchronizeResults()
         {
-            foreach(var task in beforeSynchronizeTasks)
+            if (AutoSynchronizeAfterUpdate)
             {
-                task.Invoke();
+                synchronizePhysicsToScene();
             }
-            beforeSynchronizeTasks.Clear();
-            foreach (RigidBody rigidBody in rigidBodies)
-            {
-                rigidBody.syncObjectPosition(ForceNextSynchronize);
-            }
-            ForceNextSynchronize = false;
         }
 
         public void loopStarting()
