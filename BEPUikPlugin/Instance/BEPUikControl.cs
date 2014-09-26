@@ -1,6 +1,7 @@
 ﻿using BEPUik;
 using Engine;
 using Engine.ObjectManagement;
+using Engine.Renderer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,5 +60,7 @@ namespace BEPUikPlugin
         internal abstract void syncPosition();
 
         internal abstract Control IKControl { get; }
+
+        internal abstract void draw(DebugDrawingSurface drawingSurface, DebugDrawMode drawMode);
     }
 }

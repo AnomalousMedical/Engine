@@ -1,4 +1,6 @@
 ﻿using BEPUik;
+using Engine;
+using Engine.Renderer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,6 +62,16 @@ namespace BEPUikPlugin
             {
                 return dragControl;
             }
+        }
+
+        internal override void draw(DebugDrawingSurface drawingSurface, DebugDrawMode drawMode)
+        {
+            Vector3 offset = dragControl.LinearMotor.TargetBone.Position.toEngineVec3() + dragControl.LinearMotor.Offset.toEngineVec3();
+            Vector3 target = dragControl.LinearMotor.TargetPosition.toEngineVec3();
+            drawingSurface.drawAxes(offset, Vector3.UnitX, Vector3.UnitY, Vector3.UnitZ, 10, Color.Orange, Color.Orange, Color.Orange);
+            drawingSurface.drawAxes(target, Vector3.UnitX, Vector3.UnitY, Vector3.UnitZ, 10, Color.Yellow, Color.Yellow, Color.Yellow);
+            drawingSurface.Color = Color.Red;
+            drawingSurface.drawLine(offset, target);
         }
     }
 }

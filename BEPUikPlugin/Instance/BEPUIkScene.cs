@@ -17,6 +17,7 @@ namespace BEPUikPlugin
         private BEPUIkFactory factory;
         private List<BEPUikBone> bones = new List<BEPUikBone>();
         private List<BEPUikControl> controls = new List<BEPUikControl>();
+        private List<ExternalControl> externalControls = new List<ExternalControl>();
         private List<Control> solveControls = new List<Control>(); //Prevents garbage, this list has the same contents as controls, but holds direct references to the bepuik control class that is passed to the solver
         private IKSolver ikSolver = new IKSolver();
         private UpdateTimer timer;
@@ -106,11 +107,13 @@ namespace BEPUikPlugin
 
         public void addExternalControl(ExternalControl control)
         {
+            externalControls.Add(control);
             solveControls.Add(control.IKControl);
         }
 
         public void removeExternalControl(ExternalControl control)
         {
+            externalControls.Remove(control);
             solveControls.Remove(control.IKControl);
         }
 
@@ -152,6 +155,17 @@ namespace BEPUikPlugin
                 foreach(var joint in bone.IkBone.Joints)
                 {
                     ((BEPUikConstraint)joint.UserObject).draw(drawingSurface, drawMode);
+                }
+            }
+            if((drawMode & DebugDrawMode.Controls) != 0)
+            {
+                foreach(var control in externalControls)
+                {
+                    control.draw(drawingSurface, drawMode);
+                }
+                foreach (var control in controls)
+                {
+                    control.draw(drawingSurface, drawMode);
                 }
             }
             drawingSurface.end();
