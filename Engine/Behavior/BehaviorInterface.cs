@@ -14,9 +14,9 @@ namespace Engine
     /// behaviors that still use all the mechanisms and rules of a behavior, but
     /// prevents any update function from being called.
     /// </summary>
-    public abstract class Interface : Behavior
+    public abstract class BehaviorInterface : Behavior
     {
-        public Interface()
+        public BehaviorInterface()
             : base()
         {
             hasUpdate = false;

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Engine.Behaviors.Animation
 {
-    public class PositionBroadcaster : Interface
+    public class PositionBroadcaster : BehaviorInterface
     {
         [DoNotCopy]
         [DoNotSave]
