@@ -55,6 +55,7 @@
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.forceSaveAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,6 +64,7 @@
             this.resourcesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.publishToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.obfuscateArchiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshGlobalResourcesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sceneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewResourcesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -76,7 +78,7 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.refreshGlobalResourcesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buildToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainToolStripContainer.TopToolStripPanel.SuspendLayout();
             this.mainToolStripContainer.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -197,6 +199,8 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveToolStripMenuItem,
+            this.buildToolStripMenuItem,
+            this.forceSaveAllToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -205,14 +209,21 @@
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // forceSaveAllToolStripMenuItem
+            // 
+            this.forceSaveAllToolStripMenuItem.Name = "forceSaveAllToolStripMenuItem";
+            this.forceSaveAllToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.forceSaveAllToolStripMenuItem.Text = "Force Save All";
+            this.forceSaveAllToolStripMenuItem.Click += new System.EventHandler(this.forceSaveAllToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -270,6 +281,13 @@
             this.obfuscateArchiveToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
             this.obfuscateArchiveToolStripMenuItem.Text = "Obfuscate Archive";
             this.obfuscateArchiveToolStripMenuItem.Click += new System.EventHandler(this.obfuscateArchiveToolStripMenuItem_Click);
+            // 
+            // refreshGlobalResourcesToolStripMenuItem
+            // 
+            this.refreshGlobalResourcesToolStripMenuItem.Name = "refreshGlobalResourcesToolStripMenuItem";
+            this.refreshGlobalResourcesToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.refreshGlobalResourcesToolStripMenuItem.Text = "Refresh Global Resources";
+            this.refreshGlobalResourcesToolStripMenuItem.Click += new System.EventHandler(this.refreshGlobalResourcesToolStripMenuItem_Click);
             // 
             // sceneToolStripMenuItem
             // 
@@ -419,12 +437,12 @@
             this.statusStrip1.TabIndex = 9;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // refreshGlobalResourcesToolStripMenuItem
+            // buildToolStripMenuItem
             // 
-            this.refreshGlobalResourcesToolStripMenuItem.Name = "refreshGlobalResourcesToolStripMenuItem";
-            this.refreshGlobalResourcesToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
-            this.refreshGlobalResourcesToolStripMenuItem.Text = "Refresh Global Resources";
-            this.refreshGlobalResourcesToolStripMenuItem.Click += new System.EventHandler(this.refreshGlobalResourcesToolStripMenuItem_Click);
+            this.buildToolStripMenuItem.Name = "buildToolStripMenuItem";
+            this.buildToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.buildToolStripMenuItem.Text = "Build";
+            this.buildToolStripMenuItem.Click += new System.EventHandler(this.buildToolStripMenuItem_Click);
             // 
             // AnomalyMain
             // 
@@ -492,6 +510,8 @@
         private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pasteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem refreshGlobalResourcesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem forceSaveAllToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem buildToolStripMenuItem;
 
 
 

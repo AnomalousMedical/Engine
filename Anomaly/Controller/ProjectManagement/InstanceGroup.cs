@@ -174,7 +174,7 @@ namespace Anomaly
             }
         }
 
-        public void save()
+        public void save(bool forceSave)
         {
             InstanceWriter.Instance.addInstanceGroup(this);
             foreach (InstanceGroup group in deletedGroups)
@@ -185,18 +185,18 @@ namespace Anomaly
 
             foreach (InstanceFileInterface instanceFile in deletedInstances)
             {
-                instanceFile.save();
+                instanceFile.save(forceSave);
             }
             deletedInstances.Clear();
 
             foreach (InstanceFileInterface instanceFile in instanceFiles.Values)
             {
-                instanceFile.save();
+                instanceFile.save(forceSave);
             }
 
             foreach (InstanceGroup group in groups.Values)
             {
-                group.save();
+                group.save(forceSave);
             }
         }
 

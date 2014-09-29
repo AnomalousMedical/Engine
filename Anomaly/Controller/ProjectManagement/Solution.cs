@@ -156,7 +156,7 @@ namespace Anomaly
             }
         }
 
-        public void save()
+        public void save(bool forceSave)
         {
             using (XmlTextWriter xmlWriter = new XmlTextWriter(solutionFile, Encoding.Unicode))
             {
@@ -166,7 +166,7 @@ namespace Anomaly
             resourceFileInterface.save();
             foreach (Project project in projects.Values)
             {
-                project.save();
+                project.save(forceSave);
             }
         }
 

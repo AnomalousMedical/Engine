@@ -335,9 +335,14 @@ namespace Anomaly
             sceneController.createScene();
         }
 
-        public void saveSolution()
+        public void saveSolution(bool forceSave)
         {
-            solution.save();
+            solution.save(forceSave);
+        }
+
+        public void build()
+        {
+            solution.build();
         }
         
         /// <summary>

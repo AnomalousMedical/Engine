@@ -65,7 +65,7 @@ namespace Anomaly
             destroyInstance(simObjectController);
         }
 
-        public void save()
+        public void save(bool forceSave)
         {
             if (Deleted)
             {
@@ -74,7 +74,7 @@ namespace Anomaly
                     File.Delete(filename);
                 }
             }
-            else if (Modified)
+            else if (Modified || forceSave)
             {
                 using (XmlTextWriter textWriter = new XmlTextWriter(filename, Encoding.Unicode))
                 {

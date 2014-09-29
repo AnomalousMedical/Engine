@@ -91,7 +91,7 @@ namespace Anomaly
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            controller.saveSolution();
+            controller.saveSolution(false);
         }
 
         private void configureToolStripMenuItem_Click(object sender, EventArgs e)
@@ -196,6 +196,16 @@ namespace Anomaly
         private void refreshGlobalResourcesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             controller.refreshGlobalResources();
+        }
+
+        private void forceSaveAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.saveSolution(true);
+        }
+
+        private void buildToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.build();
         }
     }
 }

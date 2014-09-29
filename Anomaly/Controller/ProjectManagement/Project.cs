@@ -213,7 +213,7 @@ namespace Anomaly
             resourceManager.addResources(resourceFileInterface.getFileObject());
         }
 
-        public void save()
+        public void save(bool forceSave)
         {
             using (XmlTextWriter textWriter = new XmlTextWriter(projectFile, Encoding.Unicode))
             {
@@ -222,7 +222,7 @@ namespace Anomaly
             }
             sceneFileInterface.save();
             resourceFileInterface.save();
-            instanceGroup.save();
+            instanceGroup.save(forceSave);
         }
 
         public String Name
