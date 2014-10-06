@@ -6,7 +6,7 @@ using Engine;
 
 namespace MyGUIPlugin
 {
-    public class TimelineDataProperties
+    public class TimelineDataProperties : IDisposable
     {
         private ScrollView propScroll;
         private TimelineData data;
@@ -40,6 +40,14 @@ namespace MyGUIPlugin
             else
             {
                 additionalPropertiesPosition = new IntVector2(1, startTime.Edit.Bottom + 2);
+            }
+        }
+
+        public void Dispose()
+        {
+            foreach(var panel in additionalProperties.Values)
+            {
+                panel.Dispose();
             }
         }
 
