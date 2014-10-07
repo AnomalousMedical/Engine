@@ -50,9 +50,8 @@ namespace OgrePlugin
 
         public void begin(String sectionName, DrawingType drawingType)
         {
-            if (manualObjectMap.ContainsKey(sectionName))
+            if (manualObjectMap.TryGetValue(sectionName, out currentManualObject))
             {
-                currentManualObject = manualObjectMap[sectionName];
                 if (currentManualObject.getNumSections() != 0)
                 {
                     currentManualObject.beginUpdate(0);
@@ -77,6 +76,21 @@ namespace OgrePlugin
         {
             currentManualObject.end();
             currentManualObject = null;
+        }
+
+        public void destroySection(String sectionName)
+        {
+            ManualObject manualObject;
+            if(manualObjectMap.TryGetValue(sectionName, out manualObject))
+            {
+                sceneNode.detachObject(manualObject);
+                scene.destroyManualObject(manualObject);
+                manualObjectMap.Remove(sectionName);
+                if(manualObject == currentManualObject)
+                {
+                    currentManualObject = null;
+                }
+            }
         }
 
         /// <summary>

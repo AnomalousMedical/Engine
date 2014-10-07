@@ -60,6 +60,12 @@ namespace Engine.Renderer
         void end();
 
         /// <summary>
+        /// Destroy a section. This will make it as if the section was never created.
+        /// </summary>
+        /// <param name="sectionName">The name of the section to destroy</param>
+        void destroySection(String sectionName);
+
+        /// <summary>
         /// Clear everything in this drawing surface.
         /// </summary>
         void clearAll();
