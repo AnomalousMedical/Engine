@@ -138,7 +138,10 @@ namespace BEPUikPlugin
             {
                 foreach (var bone in bones)
                 {
-                    bone.syncSimObject();
+                    if (bone.IkBone.IsActive)
+                    {
+                        bone.syncSimObject();
+                    }
                 }
             }
         }

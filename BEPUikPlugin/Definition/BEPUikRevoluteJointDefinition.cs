@@ -28,6 +28,19 @@ namespace BEPUikPlugin
         [Editable]
         public Vector3 WorldFreeAxis { get; set; }
 
+        [Editable]
+        public Vector3 WorldFreeAxisNormalize
+        {
+            get
+            {
+                return WorldFreeAxis;
+            }
+            set
+            {
+                WorldFreeAxis = value.normalized();
+            }
+        }
+
         protected override SimElement createConstraint(BEPUikBone connectionA, BEPUikBone connectionB, SimObjectBase instance)
         {
             return new BEPUikRevoluteJoint(connectionA, connectionB, this, Name, Subscription, instance);
