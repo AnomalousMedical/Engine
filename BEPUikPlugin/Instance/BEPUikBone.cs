@@ -107,5 +107,13 @@ namespace BEPUikPlugin
                 return bone;
             }
         }
+
+        public BEPUikScene Scene
+        {
+            get
+            {
+                return scene;
+            }
+        }
     }
 }

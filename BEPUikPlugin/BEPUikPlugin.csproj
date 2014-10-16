@@ -42,6 +42,9 @@
     <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\ActiveSet.cs">
       <Link>BEPUik\ActiveSet.cs</Link>
     </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\AngularPlaneControl.cs">
+      <Link>BEPUik\AngularPlaneControl.cs</Link>
+    </Compile>
     <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\Bone.cs">
       <Link>BEPUik\Bone.cs</Link>
     </Compile>
@@ -99,14 +102,23 @@
     <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\IKTwistLimit.cs">
       <Link>BEPUik\IKTwistLimit.cs</Link>
     </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\RevoluteControl.cs">
+      <Link>BEPUik\RevoluteControl.cs</Link>
+    </Compile>
     <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\SingleBoneAngularMotor.cs">
       <Link>BEPUik\SingleBoneAngularMotor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\SingleBoneAngularPlaneConstraint.cs">
+      <Link>BEPUik\SingleBoneAngularPlaneConstraint.cs</Link>
     </Compile>
     <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\SingleBoneConstraint.cs">
       <Link>BEPUik\SingleBoneConstraint.cs</Link>
     </Compile>
     <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\SingleBoneLinearMotor.cs">
       <Link>BEPUik\SingleBoneLinearMotor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\SingleBoneRevoluteConstraint.cs">
+      <Link>BEPUik\SingleBoneRevoluteConstraint.cs</Link>
     </Compile>
     <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\StateControl.cs">
       <Link>BEPUik\StateControl.cs</Link>
@@ -203,6 +215,7 @@
     <Compile Include="Definition\EditingVisuals\SwivelHingeJointRenderer.cs" />
     <Compile Include="Definition\EditingVisuals\SwingLimitRenderer.cs" />
     <Compile Include="External\ExternalControl.cs" />
+    <Compile Include="External\ExternalRevoluteControl.cs" />
     <Compile Include="Instance\BEPUikBoneLocalRot.cs" />
     <Compile Include="Instance\BEPUikPointOnLineJoint.cs" />
     <Compile Include="Instance\BEPUikTwistLimit.cs" />

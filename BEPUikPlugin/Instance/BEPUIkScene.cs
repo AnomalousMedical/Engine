@@ -23,6 +23,8 @@ namespace BEPUikPlugin
         private UpdateTimer timer;
         private BEPUikSceneUpdater updater;
 
+        public event Action<BEPUikScene> Cheat_BgUpdateFinishing;
+
         public BEPUikScene(BEPUikSceneDefinition definition, UpdateTimer timer)
         {
             this.timer = timer;
@@ -117,6 +119,22 @@ namespace BEPUikPlugin
             solveControls.Remove(control.IKControl);
         }
 
+        public void solveJoints(List<IKJoint> joints)
+        {
+            ikSolver.Solve(joints);
+        }
+
+        public List<IKJoint> findAllJointsFrom(BEPUikBone bone)
+        {
+            DragControl control = new DragControl();
+            control.TargetBone = bone.IkBone;
+            List<Control> dummyList = new List<Control>();
+            dummyList.Add(control);
+            ActiveSet dummyActiveSet = new ActiveSet();
+            dummyActiveSet.UpdateActiveSet(dummyList);
+            return new List<IKJoint>(dummyActiveSet.Joints);
+        }
+
         internal void backgroundUpdate()
         {
             PerformanceMonitor.start("BEPU IK Background");
@@ -128,6 +146,11 @@ namespace BEPUikPlugin
                 }
 
                 ikSolver.Solve(solveControls);
+
+                if(Cheat_BgUpdateFinishing != null)
+                {
+                    Cheat_BgUpdateFinishing.Invoke(this);
+                }
             }
             PerformanceMonitor.stop("BEPU IK Background");
         }
@@ -138,7 +161,7 @@ namespace BEPUikPlugin
             {
                 foreach (var bone in bones)
                 {
-                    if (bone.IkBone.IsActive)
+                    //if (bone.IkBone.IsActive)
                     {
                         bone.syncSimObject();
                     }
