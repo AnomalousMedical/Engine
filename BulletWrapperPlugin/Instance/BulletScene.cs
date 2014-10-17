@@ -36,8 +36,6 @@ namespace BulletPlugin
         /// </summary>
         public event RigidBodyDelegate OnRigidBodyRemoved;
 
-        private List<Action> beforeSynchronizeTasks = new List<Action>();
-
         ManagedTickCallback managedTickCallback;
         private String name;
         private UpdateTimer timer;
@@ -116,11 +114,6 @@ namespace BulletPlugin
         /// </summary>
         internal void synchronizePhysicsToScene()
         {
-            foreach (var task in beforeSynchronizeTasks)
-            {
-                task.Invoke();
-            }
-            beforeSynchronizeTasks.Clear();
             foreach (RigidBody rigidBody in rigidBodies)
             {
                 rigidBody.syncObjectPosition(ForceNextSynchronize);
@@ -258,16 +251,6 @@ namespace BulletPlugin
         }
 
         #endregion
-
-        /// <summary>
-        /// Add a task that will be called before the next synchronizeResults call. This task will only fire one time and will then
-        /// be removed. These actions will be called on the thread that executes synchronizeResults and will be safe to update objects.
-        /// </summary>
-        /// <param name="task"></param>
-        public void addPreSynchronizeTask(Action task)
-        {
-            beforeSynchronizeTasks.Add(task);
-        }
 
         internal void drawDebug(DebugDrawingSurface drawingSurface)
         {
