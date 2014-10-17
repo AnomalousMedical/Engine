@@ -16,6 +16,7 @@ namespace BEPUikPlugin
         private List<BEPUikControl> controls = new List<BEPUikControl>();
         private List<ExternalControl> externalControls = new List<ExternalControl>();
         private List<Control> solveControls = new List<Control>(); //Prevents garbage, this list has the same contents as controls, but holds direct references to the bepuik control class that is passed to the solver
+        private List<Bone> solveBones = new List<Bone>(); //Prevents garbage, holds direct list to BEPUik bone instances for all bones loaded into this solver.
         private IKSolver ikSolver = new IKSolver();
         private List<BEPUikSolver> childSolvers = new List<BEPUikSolver>();
         private bool updatedThisTick = false;
@@ -98,19 +99,7 @@ namespace BEPUikPlugin
                     BeforeUpdate.Invoke(this);
                 }
 
-                //Crappy way to force joint update, come up with something better
-                List<IKJoint> joints = new List<IKJoint>();
-                foreach(var bone in bones)
-                {
-                    foreach(var joint in bone.IkBone.Joints)
-                    {
-                        if(!joints.Contains(joint))
-                        {
-                            joints.Add(joint);
-                        }
-                    }
-                }
-                ikSolver.Solve(joints);
+                ikSolver.Solve(solveBones);
 
                 updatedThisTick = true;
             }
@@ -143,11 +132,13 @@ namespace BEPUikPlugin
         internal void addBone(BEPUikBone bone)
         {
             bones.Add(bone);
+            solveBones.Add(bone.IkBone);
         }
 
         internal void removeBone(BEPUikBone bone)
         {
             bones.Remove(bone);
+            solveBones.Remove(bone.IkBone);
         }
 
         internal void addControl(BEPUikControl control)
