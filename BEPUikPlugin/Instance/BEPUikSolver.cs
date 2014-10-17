@@ -10,6 +10,8 @@ namespace BEPUikPlugin
 {
     public class BEPUikSolver : IDisposable
     {
+        public delegate void SolverEvent(BEPUikSolver solver);
+
         private List<BEPUikBone> bones = new List<BEPUikBone>();
         private List<BEPUikControl> controls = new List<BEPUikControl>();
         private List<ExternalControl> externalControls = new List<ExternalControl>();
@@ -17,6 +19,8 @@ namespace BEPUikPlugin
         private IKSolver ikSolver = new IKSolver();
         private List<BEPUikSolver> childSolvers = new List<BEPUikSolver>();
         private bool updatedThisTick = false;
+
+        public event SolverEvent BeforeUpdate;
 
         internal BEPUikSolver(BEPUikSolverDefinition definition)
         {
@@ -74,6 +78,10 @@ namespace BEPUikPlugin
         {
             if (solveControls.Count > 0)
             {
+                if(BeforeUpdate != null)
+                {
+                    BeforeUpdate.Invoke(this);
+                }
                 foreach (var control in controls)
                 {
                     control.syncPosition();
@@ -85,6 +93,11 @@ namespace BEPUikPlugin
             }
             else if (parentUpdated)
             {
+                if (BeforeUpdate != null)
+                {
+                    BeforeUpdate.Invoke(this);
+                }
+
                 //Crappy way to force joint update, come up with something better
                 List<IKJoint> joints = new List<IKJoint>();
                 foreach(var bone in bones)

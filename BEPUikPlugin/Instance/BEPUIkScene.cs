@@ -71,6 +71,13 @@ namespace BEPUikPlugin
             return definition;
         }
 
+        public BEPUikSolver getSolver(String name)
+        {
+            BEPUikSolver ret;
+            namedSolvers.TryGetValue(name, out ret);
+            return ret;
+        }
+
         internal void addBone(BEPUikBone bone)
         {
             BEPUikSolver solver;
