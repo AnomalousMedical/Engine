@@ -189,6 +189,7 @@
     <Compile Include="DebugDraw\BEPUikDebugEntry.cs" />
     <Compile Include="DebugDraw\BEPUikDebugInterface.cs" />
     <Compile Include="Definition\BEPUikPointOnLineJointDefinition.cs" />
+    <Compile Include="Definition\BEPUikSolverDefinition.cs" />
     <Compile Include="Definition\BEPUikTwistLimitDefinition.cs" />
     <Compile Include="Definition\BEPUikSwingLimitDefinition.cs" />
     <Compile Include="Definition\BEPUikDistanceLimitDefinition.cs" />

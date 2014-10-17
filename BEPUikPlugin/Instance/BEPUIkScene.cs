@@ -27,8 +27,12 @@ namespace BEPUikPlugin
             factory = new BEPUIkFactory(this);
             updater = new BEPUikSceneUpdater(this);
             timer.addBackgroundUpdateListener("Rendering", updater);
-            rootSolver = new BEPUikSolver(definition, "Root");
+            rootSolver = new BEPUikSolver(definition.RootSolverDefinition);
             namedSolvers.Add(rootSolver.Name, rootSolver);
+            foreach(var childSolver in rootSolver.ChildSolvers)
+            {
+                namedSolvers.Add(childSolver.Name, childSolver);
+            }
         }
 
         public void Dispose()
@@ -61,16 +65,10 @@ namespace BEPUikPlugin
 
         public SimElementManagerDefinition createDefinition()
         {
-            return new BEPUikSceneDefinition(name)
-                {
-                    ActiveSetUseAutomass = rootSolver.IKSolver.ActiveSet.UseAutomass,
-                    AutoscaleControlImpulses = rootSolver.IKSolver.AutoscaleControlImpulses,
-                    AutoscaleControlMaximumForce = rootSolver.IKSolver.AutoscaleControlMaximumForce,
-                    TimeStepDuration = rootSolver.IKSolver.TimeStepDuration,
-                    ControlIterationCount = rootSolver.IKSolver.ControlIterationCount,
-                    FixerIterationCount = rootSolver.IKSolver.FixerIterationCount,
-                    VelocitySubiterationCount = rootSolver.IKSolver.VelocitySubiterationCount
-                };
+            var definition = new BEPUikSceneDefinition(name);
+            var rootSolverDef = definition.RootSolverDefinition;
+            
+            return definition;
         }
 
         internal void addBone(BEPUikBone bone)
@@ -174,22 +172,6 @@ namespace BEPUikPlugin
             }
             return false;
         }
-
-        //public void solveJoints(List<IKJoint> joints)
-        //{
-        //    solver.solveJoints(joints);
-        //}
-
-        //public List<IKJoint> findAllJointsFrom(BEPUikBone bone)
-        //{
-        //    DragControl control = new DragControl();
-        //    control.TargetBone = bone.IkBone;
-        //    List<Control> dummyList = new List<Control>();
-        //    dummyList.Add(control);
-        //    ActiveSet dummyActiveSet = new ActiveSet();
-        //    dummyActiveSet.UpdateActiveSet(dummyList);
-        //    return new List<IKJoint>(dummyActiveSet.Joints);
-        //}
 
         internal void backgroundUpdate()
         {

@@ -22,19 +22,13 @@ namespace BEPUikPlugin
         [DoNotSave]
         private EditInterface editInterface;
 
-        //Note that these defaults are taken from the InverseKinematicsTestDemo not the actual defaults for IKSolver.
-        //These settings seem to be more stable in general.
-        private bool activeSetUseAutomass = true;
-        private bool autoscaleControlImpulses = true;
-        private float autoscaleControlMaximumForce = float.MaxValue;
-        private float timeStepDuration = .1f;
-        private int controlIterationCount = 100;
-        private int fixerIterationCount = 10;
-        private int velocitySubiterationCount = 3;
+        private BEPUikSolverDefinition rootSolver;
 
         public BEPUikSceneDefinition(String name)
         {
             this.name = name;
+            rootSolver = new BEPUikSolverDefinition();
+            rootSolver.Name = "Root";
         }
 
         public void Dispose()
@@ -47,6 +41,7 @@ namespace BEPUikPlugin
             if (editInterface == null)
             {
                 editInterface = ReflectedEditInterface.createEditInterface(this, ReflectedEditInterface.DefaultScanner, name + " - BEPUIk Scene", null);
+                editInterface.addSubInterface(rootSolver.getEditInterface());
             }
             return editInterface;
         }
@@ -64,107 +59,11 @@ namespace BEPUikPlugin
             }
         }
 
-        [Editable]
-        public bool ActiveSetUseAutomass
+        public BEPUikSolverDefinition RootSolverDefinition
         {
             get
             {
-                return activeSetUseAutomass;
-            }
-            set
-            {
-                activeSetUseAutomass = value;
-            }
-        }
-
-        [Editable]
-        public bool AutoscaleControlImpulses
-        {
-            get
-            {
-                return autoscaleControlImpulses;
-            }
-            set
-            {
-                autoscaleControlImpulses = value;
-            }
-        }
-
-        [Editable]
-        public float AutoscaleControlMaximumForce
-        {
-            get
-            {
-                return autoscaleControlMaximumForce;
-            }
-            set
-            {
-                autoscaleControlMaximumForce = value;
-            }
-        }
-
-        [EditableMinMax(0.0000000001, float.MaxValue, 0.1)]
-        public float TimeStepDuration
-        {
-            get
-            {
-                return timeStepDuration;
-            }
-            set
-            {
-                timeStepDuration = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the number of solver iterations to perform in an attempt to reach specified goals.
-        /// Increases the speed at which the goal is reached.
-        /// </summary>
-        [Editable]
-        public int ControlIterationCount
-        {
-            get
-            {
-                return controlIterationCount;
-            }
-            set
-            {
-                controlIterationCount = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the number of solter iterations to perform after the control iterations in an attempt to minimize
-        /// errors introduced by unreachable goals.
-        /// Reduces jitter when goal can't be reached.
-        /// </summary>
-        [Editable]
-        public int FixerIterationCount
-        {
-            get
-            {
-                return fixerIterationCount;
-            }
-            set
-            {
-                fixerIterationCount = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the number of velocity iterations to perform per control or fixer iteration.
-        /// Just a multiplier?
-        /// </summary>
-        [Editable]
-        public int VelocitySubiterationCount
-        {
-            get
-            {
-                return velocitySubiterationCount;
-            }
-            set
-            {
-                velocitySubiterationCount = value;
+                return rootSolver;
             }
         }
 
@@ -175,12 +74,28 @@ namespace BEPUikPlugin
 
         protected BEPUikSceneDefinition(LoadInfo info)
         {
-            ReflectedSaver.RestoreObject(this, info); 
+            if(info.Version == 0)
+            {
+                rootSolver = new BEPUikSolverDefinition();
+                rootSolver.Name = "Root";
+                rootSolver.ActiveSetUseAutomass = info.GetBoolean("activeSetUseAutomass");
+                rootSolver.AutoscaleControlImpulses = info.GetBoolean("autoscaleControlImpulses");
+                rootSolver.AutoscaleControlMaximumForce = info.GetFloat("autoscaleControlMaximumForce");
+                rootSolver.ControlIterationCount = info.GetInt32("controlIterationCount");
+                rootSolver.FixerIterationCount = info.GetInt32("fixerIterationCount");
+                rootSolver.TimeStepDuration = info.GetFloat("timeStepDuration");
+                rootSolver.VelocitySubiterationCount = info.GetInt32("velocitySubiterationCount");
+            }
+            else
+            {
+                rootSolver = info.GetValue<BEPUikSolverDefinition>("RootSolver");
+            }
         }
 
         public void getInfo(SaveInfo info)
         {
-            ReflectedSaver.SaveObject(this, info);
+            info.Version = 1;
+            info.AddValue("RootSolver", rootSolver);
         }
     }
 }

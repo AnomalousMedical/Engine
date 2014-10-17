@@ -18,9 +18,9 @@ namespace BEPUikPlugin
         private List<BEPUikSolver> childSolvers = new List<BEPUikSolver>();
         private bool updatedThisTick = false;
 
-        internal BEPUikSolver(BEPUikSceneDefinition definition, String name)
+        internal BEPUikSolver(BEPUikSolverDefinition definition)
         {
-            this.Name = name;
+            this.Name = definition.Name;
             ikSolver.ActiveSet.UseAutomass = definition.ActiveSetUseAutomass;
             ikSolver.AutoscaleControlImpulses = definition.AutoscaleControlImpulses;
             ikSolver.AutoscaleControlMaximumForce = definition.AutoscaleControlMaximumForce;
@@ -28,6 +28,11 @@ namespace BEPUikPlugin
             ikSolver.ControlIterationCount = definition.ControlIterationCount;
             ikSolver.FixerIterationCount = definition.FixerIterationCount;
             ikSolver.VelocitySubiterationCount = definition.VelocitySubiterationCount;
+
+            foreach(var childSolverDef in definition.ChildSolvers)
+            {
+                childSolvers.Add(new BEPUikSolver(childSolverDef));
+            }
         }
 
         public void Dispose()
@@ -122,16 +127,6 @@ namespace BEPUikPlugin
             }
         }
 
-        internal void addChildSolver(BEPUikSolver childSolver)
-        {
-            childSolvers.Add(childSolver);
-        }
-
-        internal void removeChildSolver(BEPUikSolver childSolver)
-        {
-            childSolvers.Remove(childSolver);
-        }
-
         internal void addBone(BEPUikBone bone)
         {
             bones.Add(bone);
@@ -154,18 +149,36 @@ namespace BEPUikPlugin
             solveControls.Remove(control.IKControl);
         }
 
-        public void addExternalControl(ExternalControl control)
+        internal void addExternalControl(ExternalControl control)
         {
             control.CurrentSolverName = Name;
             externalControls.Add(control);
             solveControls.Add(control.IKControl);
         }
 
-        public void removeExternalControl(ExternalControl control)
+        internal void removeExternalControl(ExternalControl control)
         {
             control.CurrentSolverName = null;
             externalControls.Remove(control);
             solveControls.Remove(control.IKControl);
+        }
+
+        internal void fillOutDefinition(BEPUikSolverDefinition definition)
+        {
+            definition.ActiveSetUseAutomass = ikSolver.ActiveSet.UseAutomass;
+            definition.AutoscaleControlImpulses = ikSolver.AutoscaleControlImpulses;
+            definition.AutoscaleControlMaximumForce = ikSolver.AutoscaleControlMaximumForce;
+            definition.TimeStepDuration = ikSolver.TimeStepDuration;
+            definition.ControlIterationCount = ikSolver.ControlIterationCount;
+            definition.FixerIterationCount = ikSolver.FixerIterationCount;
+            definition.VelocitySubiterationCount = ikSolver.VelocitySubiterationCount;
+            definition.Name = Name;
+            foreach(var child in childSolvers)
+            {
+                var childDefinition = new BEPUikSolverDefinition();
+                child.fillOutDefinition(childDefinition);
+                definition.addChildSolver(childDefinition);
+            }
         }
 
         internal IKSolver IKSolver
@@ -173,6 +186,14 @@ namespace BEPUikPlugin
             get
             {
                 return ikSolver;
+            }
+        }
+
+        internal IEnumerable<BEPUikSolver> ChildSolvers
+        {
+            get
+            {
+                return childSolvers;
             }
         }
 
