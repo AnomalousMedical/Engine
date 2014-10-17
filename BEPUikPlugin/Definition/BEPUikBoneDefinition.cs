@@ -63,6 +63,9 @@ namespace BEPUikPlugin
 
         public Quaternion? LocalRotQuat { get; set; }
 
+        [Editable]
+        public String SolverName { get; set; }
+
         public override void registerScene(SimSubScene subscene, SimObjectBase instance)
         {
             if (subscene.hasSimElementManagerType(typeof(BEPUikScene)))
@@ -111,6 +114,7 @@ namespace BEPUikPlugin
             {
                 LocalRotQuat = info.GetQuaternion("LocalRotQuat");
             }
+            SolverName = info.GetString("SolverName", "Root");
         }
 
         public override void getInfo(SaveInfo info)
@@ -124,6 +128,7 @@ namespace BEPUikPlugin
             {
                 info.AddValue("LocalRotQuat", LocalRotQuat.Value);
             }
+            info.AddValue("SolverName", SolverName);
         }
 
         internal static void Create(string name, EditUICallback callback, CompositeSimObjectDefinition simObjectDefinition)

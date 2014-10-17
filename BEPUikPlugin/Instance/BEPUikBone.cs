@@ -14,6 +14,7 @@ namespace BEPUikPlugin
     {
         private BEPUikScene scene;
         private Bone bone;
+        private String solverName;
 
         public BEPUikBone(BEPUikBoneDefinition definition, SimObjectBase instance, BEPUikScene scene)
             :base(definition.Name, definition.Subscription)
@@ -21,6 +22,7 @@ namespace BEPUikPlugin
             this.scene = scene;
             bone = new Bone(instance.Translation.toBepuVec3(), instance.Rotation.toBepuQuat(), definition.Radius, definition.Height, definition.Mass);
             bone.Pinned = definition.Pinned;
+            solverName = definition.SolverName;
         }
 
         protected override void Dispose()
@@ -68,7 +70,8 @@ namespace BEPUikPlugin
                 Pinned = bone.Pinned,
                 Radius = bone.Radius,
                 Height = bone.Height,
-                Subscription = this.Subscription
+                Subscription = this.Subscription,
+                SolverName = solverName
             };
 
             customizeDefinition(definition);
@@ -97,7 +100,7 @@ namespace BEPUikPlugin
         {
             get
             {
-                return "Root";
+                return solverName;
             }
         }
 

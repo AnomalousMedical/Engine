@@ -28,6 +28,7 @@ namespace BEPUikPlugin
             updater = new BEPUikSceneUpdater(this);
             timer.addBackgroundUpdateListener("Rendering", updater);
             rootSolver = new BEPUikSolver(definition, "Root");
+            namedSolvers.Add(rootSolver.Name, rootSolver);
         }
 
         public void Dispose()
@@ -75,61 +76,103 @@ namespace BEPUikPlugin
         internal void addBone(BEPUikBone bone)
         {
             BEPUikSolver solver;
-            if(!namedSolvers.TryGetValue(bone.SolverName, out solver))
+            if(namedSolvers.TryGetValue(bone.SolverName, out solver))
             {
-                solver = rootSolver;
+                solver.addBone(bone);
             }
-            solver.addBone(bone);
+            else
+            {
+                SimObjectErrorManager.AddAndLogError(new SimObjectError()
+                {
+                    Subsystem = BEPUikInterface.PluginName,
+                    ElementName = bone.Name,
+                    Type = bone.GetType().Name,
+                    SimObject = bone.Owner.Name,
+                    Message = String.Format("Cannot find an IKSolver named '{0}' Bone not added to scene.", bone.SolverName)
+                });
+            }
         }
 
         internal void removeBone(BEPUikBone bone)
         {
             BEPUikSolver solver;
-            if (!namedSolvers.TryGetValue(bone.SolverName, out solver))
+            if (namedSolvers.TryGetValue(bone.SolverName, out solver))
             {
-                solver = rootSolver;
+                solver.removeBone(bone);
             }
-            solver.removeBone(bone);
+            else
+            {
+                SimObjectErrorManager.AddAndLogError(new SimObjectError()
+                {
+                    Subsystem = BEPUikInterface.PluginName,
+                    ElementName = bone.Name,
+                    Type = bone.GetType().Name,
+                    SimObject = bone.Owner.Name,
+                    Message = String.Format("Cannot find an IKSolver named '{0}' Bone not removed from scene.", bone.SolverName)
+                });
+            }
         }
 
         internal void addControl(BEPUikControl control)
         {
             BEPUikSolver solver;
-            if (!namedSolvers.TryGetValue(control.Bone.SolverName, out solver))
+            if (namedSolvers.TryGetValue(control.Bone.SolverName, out solver))
             {
-                solver = rootSolver;
+                solver.addControl(control);
             }
-            solver.addControl(control);
+            else
+            {
+                SimObjectErrorManager.AddAndLogError(new SimObjectError()
+                {
+                    Subsystem = BEPUikInterface.PluginName,
+                    ElementName = control.Name,
+                    Type = control.GetType().Name,
+                    SimObject = control.Owner.Name,
+                    Message = String.Format("Cannot find an IKSolver named '{0}' Control not added to scene.", control.Bone.SolverName)
+                });
+            }
         }
 
         internal void removeControl(BEPUikControl control)
         {
             BEPUikSolver solver;
-            if (!namedSolvers.TryGetValue(control.Bone.SolverName, out solver))
+            if (namedSolvers.TryGetValue(control.Bone.SolverName, out solver))
             {
-                solver = rootSolver;
+                solver.removeControl(control);
             }
-            solver.removeControl(control);
+            else
+            {
+                SimObjectErrorManager.AddAndLogError(new SimObjectError()
+                {
+                    Subsystem = BEPUikInterface.PluginName,
+                    ElementName = control.Name,
+                    Type = control.GetType().Name,
+                    SimObject = control.Owner.Name,
+                    Message = String.Format("Cannot find an IKSolver named '{0}' Control not added to scene.", control.Bone.SolverName)
+                });
+            }
         }
 
-        public void addExternalControl(ExternalControl control)
+        public bool addExternalControl(ExternalControl control)
         {
             BEPUikSolver solver;
-            if (!namedSolvers.TryGetValue(control.TargetBone.SolverName, out solver))
+            if (namedSolvers.TryGetValue(control.TargetBone.SolverName, out solver))
             {
-                solver = rootSolver;
+                solver.addExternalControl(control);
+                return true;
             }
-            solver.addExternalControl(control);
+            return false;
         }
 
-        public void removeExternalControl(ExternalControl control)
+        public bool removeExternalControl(ExternalControl control)
         {
             BEPUikSolver solver;
-            if (control.CurrentSolverName == null || !namedSolvers.TryGetValue(control.CurrentSolverName, out solver))
+            if (control.CurrentSolverName != null && namedSolvers.TryGetValue(control.CurrentSolverName, out solver))
             {
-                solver = rootSolver;
+                solver.removeExternalControl(control);
+                return true;
             }
-            solver.removeExternalControl(control);
+            return false;
         }
 
         //public void solveJoints(List<IKJoint> joints)
@@ -151,7 +194,7 @@ namespace BEPUikPlugin
         internal void backgroundUpdate()
         {
             PerformanceMonitor.start("BEPU IK Background");
-            rootSolver.update();
+            rootSolver.update(false);
             PerformanceMonitor.stop("BEPU IK Background");
         }
 

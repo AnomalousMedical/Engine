@@ -16,6 +16,7 @@ namespace BEPUikPlugin
         private List<Control> solveControls = new List<Control>(); //Prevents garbage, this list has the same contents as controls, but holds direct references to the bepuik control class that is passed to the solver
         private IKSolver ikSolver = new IKSolver();
         private List<BEPUikSolver> childSolvers = new List<BEPUikSolver>();
+        private bool updatedThisTick = false;
 
         internal BEPUikSolver(BEPUikSceneDefinition definition, String name)
         {
@@ -58,9 +59,13 @@ namespace BEPUikPlugin
                     control.draw(drawingSurface, drawMode);
                 }
             }
+            foreach(var child in childSolvers)
+            {
+                child.drawDebug(drawingSurface, drawMode);
+            }
         }
 
-        internal void update()
+        internal void update(bool parentUpdated)
         {
             if (solveControls.Count > 0)
             {
@@ -70,12 +75,37 @@ namespace BEPUikPlugin
                 }
 
                 ikSolver.Solve(solveControls);
+                parentUpdated = true;
+                updatedThisTick = true;
+            }
+            else if (parentUpdated)
+            {
+                //Crappy way to force joint update, come up with something better
+                List<IKJoint> joints = new List<IKJoint>();
+                foreach(var bone in bones)
+                {
+                    foreach(var joint in bone.IkBone.Joints)
+                    {
+                        if(!joints.Contains(joint))
+                        {
+                            joints.Add(joint);
+                        }
+                    }
+                }
+                ikSolver.Solve(joints);
+
+                updatedThisTick = true;
+            }
+
+            foreach (var child in childSolvers)
+            {
+                child.update(parentUpdated);
             }
         }
 
         internal void sync()
         {
-            if (solveControls.Count > 0)
+            if (updatedThisTick)
             {
                 foreach (var bone in bones)
                 {
@@ -84,6 +114,11 @@ namespace BEPUikPlugin
                         bone.syncSimObject();
                     }
                 }
+                updatedThisTick = false;
+            }
+            foreach (var child in childSolvers)
+            {
+                child.sync();
             }
         }
 
@@ -131,11 +166,6 @@ namespace BEPUikPlugin
             control.CurrentSolverName = null;
             externalControls.Remove(control);
             solveControls.Remove(control.IKControl);
-        }
-
-        public void solveJoints(List<IKJoint> joints)
-        {
-            ikSolver.Solve(joints);
         }
 
         internal IKSolver IKSolver
