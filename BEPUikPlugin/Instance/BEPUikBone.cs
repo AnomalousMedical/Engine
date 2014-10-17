@@ -1,6 +1,7 @@
 ﻿using BEPUik;
 using Engine;
 using Engine.ObjectManagement;
+using Engine.Renderer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -92,12 +93,41 @@ namespace BEPUikPlugin
             }
         }
 
+        internal String SolverName
+        {
+            get
+            {
+                return "Root";
+            }
+        }
+
         internal virtual void syncSimObject()
         {
             Vector3 trans = bone.Position.toEngineVec3();
             Quaternion rot = bone.Orientation.toEngineQuat();
 
             updatePosition(ref trans, ref rot);
+        }
+
+        internal void draw(DebugDrawingSurface drawingSurface)
+        {
+            drawingSurface.Color = Color.Purple;
+
+            Quaternion orientation = bone.Orientation.toEngineQuat();
+            Vector3 translation = bone.Position.toEngineVec3();
+            Vector3 localUnitX = Quaternion.quatRotate(orientation, Vector3.UnitX);
+            Vector3 localUnitY = Quaternion.quatRotate(orientation, Vector3.UnitY);
+            Vector3 localUnitZ = Quaternion.quatRotate(orientation, Vector3.UnitZ);
+
+            drawingSurface.drawCylinder(translation, localUnitX, localUnitY, localUnitZ, bone.Radius, bone.Height);
+
+            float sizeLimit = bone.Height / 2;
+            if (bone.Radius < sizeLimit)
+            {
+                sizeLimit = bone.Radius;
+            }
+
+            drawingSurface.drawAxes(translation, localUnitX, localUnitY, localUnitZ, sizeLimit);
         }
 
         internal Bone IkBone

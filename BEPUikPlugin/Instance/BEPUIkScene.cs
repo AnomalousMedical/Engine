@@ -15,15 +15,10 @@ namespace BEPUikPlugin
     {
         private String name;
         private BEPUIkFactory factory;
-        private List<BEPUikBone> bones = new List<BEPUikBone>();
-        private List<BEPUikControl> controls = new List<BEPUikControl>();
-        private List<ExternalControl> externalControls = new List<ExternalControl>();
-        private List<Control> solveControls = new List<Control>(); //Prevents garbage, this list has the same contents as controls, but holds direct references to the bepuik control class that is passed to the solver
-        private IKSolver ikSolver = new IKSolver();
         private UpdateTimer timer;
         private BEPUikSceneUpdater updater;
-
-        public event Action<BEPUikScene> Cheat_BgUpdateFinishing;
+        private BEPUikSolver rootSolver;
+        private Dictionary<String, BEPUikSolver> namedSolvers = new Dictionary<string, BEPUikSolver>();
 
         public BEPUikScene(BEPUikSceneDefinition definition, UpdateTimer timer)
         {
@@ -32,20 +27,12 @@ namespace BEPUikPlugin
             factory = new BEPUIkFactory(this);
             updater = new BEPUikSceneUpdater(this);
             timer.addBackgroundUpdateListener("Rendering", updater);
-
-            ikSolver.ActiveSet.UseAutomass = definition.ActiveSetUseAutomass;
-            ikSolver.AutoscaleControlImpulses = definition.AutoscaleControlImpulses;
-            ikSolver.AutoscaleControlMaximumForce = definition.AutoscaleControlMaximumForce;
-            ikSolver.TimeStepDuration = definition.TimeStepDuration;
-            ikSolver.ControlIterationCount = definition.ControlIterationCount;
-            ikSolver.FixerIterationCount = definition.FixerIterationCount;
-            ikSolver.VelocitySubiterationCount = definition.VelocitySubiterationCount;
+            rootSolver = new BEPUikSolver(definition, "Root");
         }
 
         public void Dispose()
         {
             timer.removeBackgroundUpdateListener("Rendering", updater);
-            ikSolver.Dispose();
         }
 
         public SimElementFactory getFactory()
@@ -75,148 +62,109 @@ namespace BEPUikPlugin
         {
             return new BEPUikSceneDefinition(name)
                 {
-                    ActiveSetUseAutomass = ikSolver.ActiveSet.UseAutomass,
-                    AutoscaleControlImpulses = ikSolver.AutoscaleControlImpulses,
-                    AutoscaleControlMaximumForce = ikSolver.AutoscaleControlMaximumForce,
-                    TimeStepDuration = ikSolver.TimeStepDuration,
-                    ControlIterationCount = ikSolver.ControlIterationCount,
-                    FixerIterationCount = ikSolver.FixerIterationCount,
-                    VelocitySubiterationCount = ikSolver.VelocitySubiterationCount
+                    ActiveSetUseAutomass = rootSolver.IKSolver.ActiveSet.UseAutomass,
+                    AutoscaleControlImpulses = rootSolver.IKSolver.AutoscaleControlImpulses,
+                    AutoscaleControlMaximumForce = rootSolver.IKSolver.AutoscaleControlMaximumForce,
+                    TimeStepDuration = rootSolver.IKSolver.TimeStepDuration,
+                    ControlIterationCount = rootSolver.IKSolver.ControlIterationCount,
+                    FixerIterationCount = rootSolver.IKSolver.FixerIterationCount,
+                    VelocitySubiterationCount = rootSolver.IKSolver.VelocitySubiterationCount
                 };
         }
 
         internal void addBone(BEPUikBone bone)
         {
-            bones.Add(bone);
+            BEPUikSolver solver;
+            if(!namedSolvers.TryGetValue(bone.SolverName, out solver))
+            {
+                solver = rootSolver;
+            }
+            solver.addBone(bone);
         }
 
         internal void removeBone(BEPUikBone bone)
         {
-            bones.Remove(bone);
+            BEPUikSolver solver;
+            if (!namedSolvers.TryGetValue(bone.SolverName, out solver))
+            {
+                solver = rootSolver;
+            }
+            solver.removeBone(bone);
         }
 
         internal void addControl(BEPUikControl control)
         {
-            controls.Add(control);
-            solveControls.Add(control.IKControl);
+            BEPUikSolver solver;
+            if (!namedSolvers.TryGetValue(control.Bone.SolverName, out solver))
+            {
+                solver = rootSolver;
+            }
+            solver.addControl(control);
         }
 
         internal void removeControl(BEPUikControl control)
         {
-            controls.Remove(control);
-            solveControls.Remove(control.IKControl);
+            BEPUikSolver solver;
+            if (!namedSolvers.TryGetValue(control.Bone.SolverName, out solver))
+            {
+                solver = rootSolver;
+            }
+            solver.removeControl(control);
         }
 
         public void addExternalControl(ExternalControl control)
         {
-            externalControls.Add(control);
-            solveControls.Add(control.IKControl);
+            BEPUikSolver solver;
+            if (!namedSolvers.TryGetValue(control.TargetBone.SolverName, out solver))
+            {
+                solver = rootSolver;
+            }
+            solver.addExternalControl(control);
         }
 
         public void removeExternalControl(ExternalControl control)
         {
-            externalControls.Remove(control);
-            solveControls.Remove(control.IKControl);
+            BEPUikSolver solver;
+            if (control.CurrentSolverName == null || !namedSolvers.TryGetValue(control.CurrentSolverName, out solver))
+            {
+                solver = rootSolver;
+            }
+            solver.removeExternalControl(control);
         }
 
-        public void solveJoints(List<IKJoint> joints)
-        {
-            ikSolver.Solve(joints);
-        }
+        //public void solveJoints(List<IKJoint> joints)
+        //{
+        //    solver.solveJoints(joints);
+        //}
 
-        public List<IKJoint> findAllJointsFrom(BEPUikBone bone)
-        {
-            DragControl control = new DragControl();
-            control.TargetBone = bone.IkBone;
-            List<Control> dummyList = new List<Control>();
-            dummyList.Add(control);
-            ActiveSet dummyActiveSet = new ActiveSet();
-            dummyActiveSet.UpdateActiveSet(dummyList);
-            return new List<IKJoint>(dummyActiveSet.Joints);
-        }
+        //public List<IKJoint> findAllJointsFrom(BEPUikBone bone)
+        //{
+        //    DragControl control = new DragControl();
+        //    control.TargetBone = bone.IkBone;
+        //    List<Control> dummyList = new List<Control>();
+        //    dummyList.Add(control);
+        //    ActiveSet dummyActiveSet = new ActiveSet();
+        //    dummyActiveSet.UpdateActiveSet(dummyList);
+        //    return new List<IKJoint>(dummyActiveSet.Joints);
+        //}
 
         internal void backgroundUpdate()
         {
             PerformanceMonitor.start("BEPU IK Background");
-            if (solveControls.Count > 0)
-            {
-                foreach (var control in controls)
-                {
-                    control.syncPosition();
-                }
-
-                ikSolver.Solve(solveControls);
-
-                if(Cheat_BgUpdateFinishing != null)
-                {
-                    Cheat_BgUpdateFinishing.Invoke(this);
-                }
-            }
+            rootSolver.update();
             PerformanceMonitor.stop("BEPU IK Background");
         }
 
         internal void sync()
         {
-            if (solveControls.Count > 0)
-            {
-                foreach (var bone in bones)
-                {
-                    //if (bone.IkBone.IsActive)
-                    {
-                        bone.syncSimObject();
-                    }
-                }
-            }
+            rootSolver.sync();
         }
 
         internal void drawDebug(DebugDrawingSurface drawingSurface, DebugDrawMode drawMode)
         {
             drawingSurface.begin("BepuIkScene", Engine.Renderer.DrawingType.LineList);
-            foreach(var bone in bones)
-            {
-                if ((drawMode & DebugDrawMode.Bones) != 0)
-                {
-                    draw(drawingSurface, bone);
-                }
-                foreach(var joint in bone.IkBone.Joints)
-                {
-                    ((BEPUikConstraint)joint.UserObject).draw(drawingSurface, drawMode);
-                }
-            }
-            if((drawMode & DebugDrawMode.Controls) != 0)
-            {
-                foreach(var control in externalControls)
-                {
-                    control.draw(drawingSurface, drawMode);
-                }
-                foreach (var control in controls)
-                {
-                    control.draw(drawingSurface, drawMode);
-                }
-            }
+            rootSolver.drawDebug(drawingSurface, drawMode);
             drawingSurface.end();
-        }
-
-        private void draw(DebugDrawingSurface drawingSurface, BEPUikBone bone)
-        {
-            Bone ikBone = bone.IkBone;
-            drawingSurface.Color = Color.Purple;
-
-            Quaternion orientation = ikBone.Orientation.toEngineQuat();
-            Vector3 translation = ikBone.Position.toEngineVec3();
-            Vector3 localUnitX = Quaternion.quatRotate(orientation, Vector3.UnitX);
-            Vector3 localUnitY = Quaternion.quatRotate(orientation, Vector3.UnitY);
-            Vector3 localUnitZ = Quaternion.quatRotate(orientation, Vector3.UnitZ);
-
-            drawingSurface.drawCylinder(translation, localUnitX, localUnitY, localUnitZ, ikBone.Radius, ikBone.Height);
-
-            float sizeLimit = ikBone.Height / 2;
-            if(ikBone.Radius < sizeLimit)
-            {
-                sizeLimit = ikBone.Radius;
-            }
-
-            drawingSurface.drawAxes(translation, localUnitX, localUnitY, localUnitZ, sizeLimit);
         }
     }
 }

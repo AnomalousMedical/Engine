@@ -218,6 +218,7 @@
     <Compile Include="External\ExternalRevoluteControl.cs" />
     <Compile Include="Instance\BEPUikBoneLocalRot.cs" />
     <Compile Include="Instance\BEPUikPointOnLineJoint.cs" />
+    <Compile Include="Instance\BEPUikSolver.cs" />
     <Compile Include="Instance\BEPUikTwistLimit.cs" />
     <Compile Include="Instance\BEPUikSwingLimit.cs" />
     <Compile Include="Instance\BEPUikDistanceLimit.cs" />

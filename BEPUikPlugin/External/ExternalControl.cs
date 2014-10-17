@@ -12,6 +12,10 @@ namespace BEPUikPlugin
     {
         internal abstract Control IKControl { get; }
 
+        public abstract BEPUikBone TargetBone { get; set; }
+
+        internal String CurrentSolverName { get; set; }
+
         internal abstract void draw(DebugDrawingSurface drawingSurface, DebugDrawMode drawMode);
     }
 }

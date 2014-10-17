@@ -47,6 +47,18 @@ namespace BEPUikPlugin
             }
         }
 
+        /// <summary>
+        /// Don't allow this bone to be changed, we rely on it staying the same in the scene to find
+        /// which solver to add/remove this bone from.
+        /// </summary>
+        internal override BEPUikBone Bone
+        {
+            get
+            {
+                return bone;
+            }
+        }
+
         internal override void draw(DebugDrawingSurface drawingSurface, DebugDrawMode drawMode)
         {
             Vector3 offset = dragControl.LinearMotor.TargetBone.Position.toEngineVec3() + dragControl.LinearMotor.Offset.toEngineVec3();

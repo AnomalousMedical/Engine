@@ -43,7 +43,7 @@ namespace BEPUikPlugin
             }
         }
 
-        public BEPUikBone TargetBone
+        public override BEPUikBone TargetBone
         {
             get
             {
