@@ -77,22 +77,32 @@ namespace BEPUikPlugin
 
         internal void update(bool parentUpdated)
         {
-            if (solveControls.Count > 0)
+            if (solveControls.Count > 0) //Control solve
             {
+                //Seed needupdate, will be true if there are external controls or the parent was updated
+                bool needUpdate = externalControls.Count > 0 || parentUpdated;
+
                 if(BeforeUpdate != null)
                 {
                     BeforeUpdate.Invoke(this);
                 }
                 foreach (var control in controls)
                 {
+                    //See if any controls moved
+                    needUpdate |= control.MovedThisTick;
+                    control.MovedThisTick = false;
                     control.syncPosition();
                 }
 
-                ikSolver.Solve(solveControls);
-                parentUpdated = true;
-                updatedThisTick = true;
+                //Something requires us to update
+                if (needUpdate)
+                {
+                    ikSolver.Solve(solveControls);
+                    parentUpdated = true;
+                    updatedThisTick = true;
+                }
             }
-            else if (parentUpdated)
+            else if (parentUpdated) //Solve bones if parent updated and no controls
             {
                 if (BeforeUpdate != null)
                 {

@@ -18,6 +18,7 @@ namespace BEPUikPlugin
             :base(name, subscription)
         {
             this.scene = scene;
+            MovedThisTick = false;
         }
 
         protected override void Dispose()
@@ -27,22 +28,22 @@ namespace BEPUikPlugin
 
         protected override void updatePositionImpl(ref Vector3 translation, ref Quaternion rotation)
         {
-
+            MovedThisTick = true;
         }
 
         protected override void updateTranslationImpl(ref Vector3 translation)
         {
-
+            MovedThisTick = true;
         }
 
         protected override void updateRotationImpl(ref Quaternion rotation)
         {
-
+            MovedThisTick = true;
         }
 
         protected override void updateScaleImpl(ref Vector3 scale)
         {
-
+            MovedThisTick = true;
         }
 
         protected override void setEnabled(bool enabled)
@@ -58,6 +59,8 @@ namespace BEPUikPlugin
         }
 
         internal abstract void syncPosition();
+
+        internal bool MovedThisTick { get; set; }
 
         internal abstract Control IKControl { get; }
 
