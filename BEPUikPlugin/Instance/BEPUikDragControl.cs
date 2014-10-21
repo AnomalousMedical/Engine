@@ -51,7 +51,7 @@ namespace BEPUikPlugin
         /// Don't allow this bone to be changed, we rely on it staying the same in the scene to find
         /// which solver to add/remove this bone from.
         /// </summary>
-        internal override BEPUikBone Bone
+        public override BEPUikBone Bone
         {
             get
             {

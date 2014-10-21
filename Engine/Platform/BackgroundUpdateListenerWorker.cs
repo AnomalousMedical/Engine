@@ -33,7 +33,14 @@ namespace Engine.Platform
         {
             Task.Run(() =>
             {
-                updateListener.doBackgroundWork(clock);
+                try
+                {
+                    updateListener.doBackgroundWork(clock);
+                }
+                catch(Exception)
+                {
+
+                }
                 mainThreadWait.Set();
             });
         }

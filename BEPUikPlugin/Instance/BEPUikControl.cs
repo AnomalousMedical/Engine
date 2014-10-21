@@ -68,7 +68,7 @@ namespace BEPUikPlugin
         /// Don't allow this bone to be changed, we rely on it staying the same in the scene to find
         /// which solver to add/remove this bone from.
         /// </summary>
-        internal abstract BEPUikBone Bone { get; }
+        public abstract BEPUikBone Bone { get; }
 
         internal abstract void draw(DebugDrawingSurface drawingSurface, DebugDrawMode drawMode);
     }
