@@ -40,51 +40,66 @@ namespace MyGUIPlugin
 
         void mouse_Moved(Mouse mouse)
         {
-            IntVector3 mousePos = mouse.AbsolutePosition;
-            gui.HandledMouseMove = inputManager.injectMouseMove(mousePos.x, mousePos.y, mousePos.z);
-            if(gui.HandledMouseMove || inputManager.isModalAny())
+            if (eventLayer.EventProcessingAllowed)
             {
-                eventLayer.alertEventsHandled();
+                IntVector3 mousePos = mouse.AbsolutePosition;
+                gui.HandledMouseMove = inputManager.injectMouseMove(mousePos.x, mousePos.y, mousePos.z);
+                if (gui.HandledMouseMove || inputManager.isModalAny())
+                {
+                    eventLayer.alertEventsHandled();
+                }
             }
         }
 
         void mouse_ButtonUp(Mouse mouse, MouseButtonCode buttonCode)
         {
-            IntVector3 mousePos = mouse.AbsolutePosition;
-            gui.HandledMouseButtons = inputManager.injectMouseRelease(mousePos.x, mousePos.y, buttonCode);
-            if (gui.HandledMouseButtons || inputManager.isModalAny())
+            if (eventLayer.EventProcessingAllowed)
             {
-                eventLayer.alertEventsHandled();
+                IntVector3 mousePos = mouse.AbsolutePosition;
+                gui.HandledMouseButtons = inputManager.injectMouseRelease(mousePos.x, mousePos.y, buttonCode);
+                if (gui.HandledMouseButtons || inputManager.isModalAny())
+                {
+                    eventLayer.alertEventsHandled();
+                }
+                eventLayer.Locked = mouse.AnyButtonsDown;
             }
-            eventLayer.Locked = mouse.AnyButtonsDown;
         }
 
         void mouse_ButtonDown(Mouse mouse, MouseButtonCode buttonCode)
         {
-            IntVector3 mousePos = mouse.AbsolutePosition;
-            gui.HandledMouseButtons = inputManager.injectMousePress(mousePos.x, mousePos.y, buttonCode);
-            if (gui.HandledMouseButtons || inputManager.isModalAny())
+            if (eventLayer.EventProcessingAllowed)
             {
-                eventLayer.alertEventsHandled();
-                eventLayer.Locked = true;
+                IntVector3 mousePos = mouse.AbsolutePosition;
+                gui.HandledMouseButtons = inputManager.injectMousePress(mousePos.x, mousePos.y, buttonCode);
+                if (gui.HandledMouseButtons || inputManager.isModalAny())
+                {
+                    eventLayer.alertEventsHandled();
+                    eventLayer.Locked = true;
+                }
             }
         }
 
         void keyboard_KeyReleased(KeyboardButtonCode keyCode)
         {
-            gui.HandledKeyboardButtons = inputManager.injectKeyRelease(keyCode);
-            if (gui.HandledKeyboardButtons || inputManager.isModalAny())
+            if (eventLayer.EventProcessingAllowed)
             {
-                eventLayer.alertEventsHandled();
+                gui.HandledKeyboardButtons = inputManager.injectKeyRelease(keyCode);
+                if (gui.HandledKeyboardButtons || inputManager.isModalAny())
+                {
+                    eventLayer.alertEventsHandled();
+                }
             }
         }
 
         void keyboard_KeyPressed(KeyboardButtonCode keyCode, uint keyChar)
         {
-            gui.HandledKeyboardButtons = inputManager.injectKeyPress(keyCode, keyChar);
-            if (gui.HandledKeyboardButtons || inputManager.isModalAny())
+            if (eventLayer.EventProcessingAllowed)
             {
-                eventLayer.alertEventsHandled();
+                gui.HandledKeyboardButtons = inputManager.injectKeyPress(keyCode, keyChar);
+                if (gui.HandledKeyboardButtons || inputManager.isModalAny())
+                {
+                    eventLayer.alertEventsHandled();
+                }
             }
         }
 

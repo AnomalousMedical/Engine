@@ -23,6 +23,7 @@ namespace Engine.Platform
         private Touches touches;
         private TouchHardware touchHardware;
 
+        private EventLayer focusLayer;
         private FastIteratorMap<Object, EventLayer> eventLayers = new FastIteratorMap<object, EventLayer>();
 
         /// <summary>
@@ -65,20 +66,25 @@ namespace Engine.Platform
         /// <param name="time">The clock with info about this frame.</param>
         public void updateEvents(Clock clock)
         {
+            //Process the whole update with the same focus layer
+            EventLayer currentFocusLayer = focusLayer;
+
             mouse.capture();
             bool allowEventProcessing = true; //The first layer always gets all events
+
+            //If there is a focus layer, process it first
+            if (currentFocusLayer != null)
+            {
+                allowEventProcessing = processLayer(clock, allowEventProcessing, currentFocusLayer);
+            }
+
+            //Process all other layers skipping the focus layer
             foreach (var layer in eventLayers)
             {
-                //First try to update the layer with the current allowEventProcessing
-                layer.update(allowEventProcessing, clock);
-
-                //Modify allowEventProcessing as needed, if we have already set allowEventProcessing to false it should stay false
-                allowEventProcessing = allowEventProcessing && !layer.SkipNextLayer;
-
-                //Reset the layer's HandledEvents for this frame, this is done last to reset without iterating again.
-                //Doing this last also ensures that if we stopped early on one of the fire events below that that layer
-                //keeps its HandledEvents property set where it should be.
-                layer.HandledEvents = false;
+                if (layer != currentFocusLayer)
+                {
+                    allowEventProcessing = processLayer(clock, allowEventProcessing, layer);
+                }
             }
             mouse.postUpdate();
             touches.tick();
@@ -116,6 +122,25 @@ namespace Engine.Platform
         }
 
         /// <summary>
+        /// Set the focus layer overriding any existing focus layer.
+        /// </summary>
+        internal void setFocusLayer(EventLayer layer)
+        {
+            focusLayer = layer;
+        }
+
+        /// <summary>
+        /// Clear the focus layer if the passed layer is currently the focus layer, otherwise does nothing.
+        /// </summary>
+        internal void clearFocusLayer(EventLayer layer)
+        {
+            if(focusLayer == layer)
+            {
+                focusLayer = null;
+            }
+        }
+
+        /// <summary>
         /// The touches tracked by the system.
         /// </summary>
         public Touches Touches
@@ -146,6 +171,24 @@ namespace Engine.Platform
             {
                 return keyboard;
             }
+        }
+
+        /// <summary>
+        /// Process a layer.
+        /// </summary>
+        private static bool processLayer(Clock clock, bool allowEventProcessing, EventLayer layer)
+        {
+            //First try to update the layer with the current allowEventProcessing
+            layer.update(allowEventProcessing, clock);
+
+            //Modify allowEventProcessing as needed, if we have already set allowEventProcessing to false it should stay false
+            allowEventProcessing = allowEventProcessing && !layer.SkipNextLayer;
+
+            //Reset the layer's HandledEvents for this frame, this is done last to reset without iterating again.
+            //Doing this last also ensures that if we stopped early on one of the fire events below that that layer
+            //keeps its HandledEvents property set where it should be.
+            layer.HandledEvents = false;
+            return allowEventProcessing;
         }
     }
 }

@@ -58,6 +58,22 @@ namespace Engine.Platform
         }
 
         /// <summary>
+        /// Make this layer the focus layer overriding any other layers set to be the focus layer.
+        /// </summary>
+        public void makeFocusLayer()
+        {
+            EventManager.setFocusLayer(this);
+        }
+
+        /// <summary>
+        /// If this layer is the focus layer set it back to normal, if this layer is not in focus this does nothing.
+        /// </summary>
+        public void clearFocusLayer()
+        {
+            EventManager.clearFocusLayer(this);
+        }
+
+        /// <summary>
         /// Update this layer, allowProcessing will be true if events should process.
         /// </summary>
         /// <param name="allowProcessing"></param>
