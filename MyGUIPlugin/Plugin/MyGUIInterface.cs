@@ -20,14 +20,19 @@ namespace MyGUIPlugin
         private Gui gui;
         private SceneManager sceneManager;
         private OgreWindow ogreWindow;
-        Camera camera;
-        Viewport vp;
+        private Camera camera;
+        private Viewport vp;
 
         private UpdateTimer mainTimer;
         private MyGUIUpdate myGUIUpdate;
         private MyGUIRenderListener renderListener;
         private ManagedMyGUILogListener managedLogListener;
         private Engine.Resources.ResourceManager resources;
+
+        /// <summary>
+        /// This is fired during the link phase before the main resources are loaded.
+        /// </summary>
+        public static event Action<MyGUIInterface> BeforeMainResourcesLoaded;
 
         public MyGUIInterface()
         {
@@ -118,6 +123,11 @@ namespace MyGUIPlugin
             gui.initialize("");
 
             //Load config files
+            if(BeforeMainResourcesLoaded != null)
+            {
+                BeforeMainResourcesLoaded.Invoke(this);
+            }
+
             ResourceManager resourceManager = ResourceManager.Instance;
             if (!String.IsNullOrEmpty(OSTheme))
             {
