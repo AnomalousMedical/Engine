@@ -281,6 +281,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\MyGUIPlugin_Theme_Tag.xml">
       <LogicalName>MyGUIPlugin_Theme_Tag.xml</LogicalName>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\MyGUIPlugin_Windows_Tag.xml">
       <LogicalName>MyGUIPlugin_Windows_Tag.xml</LogicalName>
