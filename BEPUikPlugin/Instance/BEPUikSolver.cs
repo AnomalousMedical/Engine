@@ -161,6 +161,7 @@ namespace BEPUikPlugin
         {
             controls.Remove(control);
             solveControls.Remove(control.IKControl);
+            control.MovedThisTick = false;
         }
 
         internal void addExternalControl(ExternalControl control)

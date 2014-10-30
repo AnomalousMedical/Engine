@@ -15,13 +15,14 @@ namespace BEPUikPlugin
         private DragControl dragControl;
         private BEPUikBone bone;
 
-        public BEPUikDragControl(BEPUikBone bone, BEPUikScene scene, String name, SimObjectBase instance, Subscription subscription)
-            :base(scene, name, subscription)
+        public BEPUikDragControl(BEPUikBone bone, BEPUikScene scene, BEPUikDragControlDefinition definition, SimObjectBase instance, Subscription subscription)
+            :base(scene, definition.Name, subscription)
         {
             this.bone = bone;
             dragControl = new DragControl();
             dragControl.TargetBone = bone.IkBone;
             dragControl.LinearMotor.Offset = (instance.Translation - bone.Owner.Translation).toBepuVec3();
+            dragControl.MaximumForce = definition.MaximumForce;
         }
 
         public override SimElementDefinition saveToDefinition()
@@ -30,7 +31,8 @@ namespace BEPUikPlugin
             {
                 BoneSimObjectName = Owner == bone.Owner ? "this" : Owner.Name,
                 BoneName = bone.Name,
-                Subscription = this.Subscription
+                Subscription = this.Subscription,
+                MaximumForce = dragControl.MaximumForce
             };
         }
 
@@ -44,6 +46,32 @@ namespace BEPUikPlugin
             get
             {
                 return dragControl;
+            }
+        }
+
+        public Vector3 TargetPosition
+        {
+            get
+            {
+                return Owner.Translation;
+            }
+            set
+            {
+                Quaternion rot = Owner.Rotation;
+                updatePosition(ref value, ref rot);
+                MovedThisTick = true;
+            }
+        }
+
+        public float MaximumForce
+        {
+            get
+            {
+                return dragControl.MaximumForce;
+            }
+            set
+            {
+                dragControl.MaximumForce = value;
             }
         }
 

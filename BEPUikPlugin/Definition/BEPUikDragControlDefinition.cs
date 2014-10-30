@@ -19,7 +19,7 @@ namespace BEPUikPlugin
         public BEPUikDragControlDefinition(String name)
             :base(name)
         {
-            
+            MaximumForce = float.MaxValue;
         }
 
         public override void registerScene(SimSubScene subscene, SimObjectBase instance)
@@ -34,6 +34,9 @@ namespace BEPUikPlugin
                 Log.Default.sendMessage("Cannot add BEPUikDragControl {0} to SimSubScene {1} because it does not contain a BEPUikScene.", LogLevel.Warning, BEPUikInterface.PluginName, Name, subscene.Name);
             }
         }
+
+        [Editable]
+        public float MaximumForce { get; set; }
 
         protected override EditInterface createEditInterface()
         {
@@ -52,7 +55,7 @@ namespace BEPUikPlugin
                 var bone = otherObject.getElement(this.BoneName) as BEPUikBone;
                 if (bone != null)
                 {
-                    instance.addElement(new BEPUikDragControl(bone, scene, Name, instance, Subscription));
+                    instance.addElement(new BEPUikDragControl(bone, scene, this, instance, Subscription));
                 }
                 else
                 {
@@ -68,12 +71,13 @@ namespace BEPUikPlugin
         protected BEPUikDragControlDefinition(LoadInfo info)
             :base(info)
         {
-            
+            MaximumForce = info.GetValue("MaximumForce", float.MaxValue);
         }
 
         public override void getInfo(SaveInfo info)
         {
             base.getInfo(info);
+            info.AddValue("MaximumForce", MaximumForce);
         }
 
         internal static void Create(string name, EditUICallback callback, CompositeSimObjectDefinition simObjectDefinition)
