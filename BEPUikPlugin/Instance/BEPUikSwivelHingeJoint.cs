@@ -13,8 +13,8 @@ namespace BEPUikPlugin
     {
         private IKSwivelHingeJoint joint;
 
-        public BEPUikSwivelHingeJoint(BEPUikBone connectionA, BEPUikBone connectionB, BEPUikSwivelHingeJointDefinition definition, String name, Subscription subscription, SimObject instance)
-            :base(connectionA, connectionB, name, subscription, instance)
+        public BEPUikSwivelHingeJoint(BEPUikBone connectionA, BEPUikBone connectionB, BEPUikSwivelHingeJointDefinition definition, String name, SimObject instance)
+            :base(connectionA, connectionB, name, instance)
         {
             joint = new IKSwivelHingeJoint(connectionA.IkBone, connectionB.IkBone, definition.WorldHingeAxis.toBepuVec3(), definition.WorldTwistAxis.toBepuVec3());
             setupJoint(definition);

@@ -27,7 +27,7 @@ namespace BEPUikPlugin
 
         protected override SimElement createConstraint(BEPUikBone connectionA, BEPUikBone connectionB, SimObjectBase instance)
         {
-            return new BEPUikDistanceLimit(connectionA, connectionB, instance.Translation, this, Name, Subscription, instance);
+            return new BEPUikDistanceLimit(connectionA, connectionB, instance.Translation, this, Name, instance);
         }
 
         protected override string EditInterfaceName

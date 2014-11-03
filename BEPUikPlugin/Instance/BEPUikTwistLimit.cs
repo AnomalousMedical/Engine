@@ -17,8 +17,8 @@ namespace BEPUikPlugin
         private BEPUutilities.Vector3 unlockedLocalAxisB;
         private BEPUutilities.Vector3 unlockedLocalMeasurementAxisB;
 
-        public BEPUikTwistLimit(BEPUikBone connectionA, BEPUikBone connectionB, BEPUikTwistLimitDefinition definition, String name, Subscription subscription, SimObject instance)
-            :base(connectionA, connectionB, name, subscription, instance)
+        public BEPUikTwistLimit(BEPUikBone connectionA, BEPUikBone connectionB, BEPUikTwistLimitDefinition definition, String name, SimObject instance)
+            :base(connectionA, connectionB, name, instance)
         {
             limit = new IKTwistLimit(connectionA.IkBone, connectionB.IkBone, definition.AxisA.toBepuVec3(), definition.AxisB.toBepuVec3(), definition.MaximumAngle);
             if(definition.MeasurementAxisA.HasValue)

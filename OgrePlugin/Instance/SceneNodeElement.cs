@@ -28,8 +28,8 @@ namespace OgrePlugin
         /// <param name="subscription">The subscription of the scene node.</param>
         /// <param name="scene">The scene this node belongs to.</param>
         /// <param name="node">The node to manage.</param>
-        public SceneNodeElement(String elementName, Subscription subscription, OgreSceneManager scene, SceneNode node, SceneNode parentNode)
-            :base(elementName, subscription) 
+        public SceneNodeElement(String elementName, OgreSceneManager scene, SceneNode node, SceneNode parentNode)
+            :base(elementName) 
         {
             this.scene = scene;
             this.sceneNode = node;

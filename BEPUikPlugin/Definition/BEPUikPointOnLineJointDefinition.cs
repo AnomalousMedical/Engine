@@ -25,7 +25,7 @@ namespace BEPUikPlugin
 
         protected override SimElement createConstraint(BEPUikBone connectionA, BEPUikBone connectionB, SimObjectBase instance)
         {
-            return new BEPUikPointOnLineJoint(connectionA, connectionB, this, Name, subscription, instance);
+            return new BEPUikPointOnLineJoint(connectionA, connectionB, this, Name, instance);
         }
 
         protected override string EditInterfaceName

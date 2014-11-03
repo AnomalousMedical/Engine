@@ -88,7 +88,7 @@ namespace Engine
             {
                 behavior = behaviorTemplate;
             }
-            behavior.setAttributes(Name, subscription, behaviorManager);
+            behavior.setAttributes(Name, behaviorManager);
             instance.addElement(behavior);
             return behavior;
         }

@@ -24,8 +24,8 @@ namespace BulletPlugin
 	    bool active; //true while both rigid bodies exist. If one is deleted setInactive will be called removing the joint and setting this to false.
 	    bool enabled;
 
-        public TypedConstraintElement(String name, Subscription subscription, BulletScene scene, RigidBody rbA, RigidBody rbB)
-            :base(name, subscription)
+        public TypedConstraintElement(String name, BulletScene scene, RigidBody rbA, RigidBody rbB)
+            :base(name)
         {
             constraint = IntPtr.Zero;
             this.rbA = rbA;

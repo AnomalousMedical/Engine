@@ -14,8 +14,8 @@ namespace BEPUikPlugin
     {
         private IKBallSocketJoint joint;
 
-        public BEPUikBallSocketJoint(BEPUikBone connectionA, BEPUikBone connectionB, Vector3 anchor, BEPUikBallSocketJointDefinition definition, String name, Subscription subscription, SimObject instance)
-            :base(connectionA, connectionB, name, subscription, instance)
+        public BEPUikBallSocketJoint(BEPUikBone connectionA, BEPUikBone connectionB, Vector3 anchor, BEPUikBallSocketJointDefinition definition, String name, SimObject instance)
+            :base(connectionA, connectionB, name, instance)
         {
             joint = new IKBallSocketJoint(connectionA.IkBone, connectionB.IkBone, anchor.toBepuVec3());
             setupJoint(definition);

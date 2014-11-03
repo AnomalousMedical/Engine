@@ -11,7 +11,7 @@ namespace BulletPlugin
     public partial class FixedConstraintElement : TypedConstraintElement
     {
         public FixedConstraintElement(FixedConstraintDefinition definition, SimObjectBase instance, RigidBody rbA, RigidBody rbB, BulletScene scene)
-            :base(definition.Name, definition.Subscription, scene, rbA, rbB)
+            :base(definition.Name, scene, rbA, rbB)
         {
             setConstraint(btFixedConstraint_Create(rbA.NativeRigidBody, rbB.NativeRigidBody, instance.Translation, instance.Rotation));
         }

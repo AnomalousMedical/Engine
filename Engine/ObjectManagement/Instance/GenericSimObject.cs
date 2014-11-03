@@ -95,7 +95,7 @@ namespace Engine.ObjectManagement
             this.rotation = rotation;
             foreach (SimElement element in elements)
             {
-                if (element != trigger && (element.Subscription | Subscription.PositionUpdate) != 0)
+                if (element != trigger)
                 {
                     element.alertUpdatePosition(ref translation, ref rotation);
                 }
@@ -112,7 +112,7 @@ namespace Engine.ObjectManagement
             this.translation = translation;
             foreach (SimElement element in elements)
             {
-                if (element != trigger && (element.Subscription | Subscription.PositionUpdate) != 0)
+                if (element != trigger)
                 {
                     element.alertUpdateTranslation(ref translation);
                 }
@@ -129,7 +129,7 @@ namespace Engine.ObjectManagement
             this.rotation = rotation;
             foreach (SimElement element in elements)
             {
-                if (element != trigger && (element.Subscription | Subscription.PositionUpdate) != 0)
+                if (element != trigger)
                 {
                     element.alertUpdateRotation(ref rotation);
                 }
@@ -146,7 +146,7 @@ namespace Engine.ObjectManagement
             this.scale = scale;
             foreach (SimElement element in elements)
             {
-                if (element != trigger && (element.Subscription | Subscription.ScaleUpdate) != 0)
+                if (element != trigger)
                 {
                     element.alertUpdateScale(ref scale);
                 }

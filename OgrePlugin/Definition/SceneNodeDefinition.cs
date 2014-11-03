@@ -167,7 +167,7 @@ namespace OgrePlugin
             SceneNode node = scene.SceneManager.createSceneNode(instance.Name + Name);
             node.setPosition(instance.Translation);
             node.setOrientation(instance.Rotation);
-            SceneNodeElement element = new SceneNodeElement(Name, this.subscription, scene, node, scene.SceneManager.getRootSceneNode());
+            SceneNodeElement element = new SceneNodeElement(Name, scene, node, scene.SceneManager.getRootSceneNode());
             instance.addElement(element);
             foreach (MovableObjectDefinition movable in movableObjects.Values)
             {
@@ -206,7 +206,7 @@ namespace OgrePlugin
             SceneNode node = scene.SceneManager.createSceneNode(instance.Name + Name);
             node.setPosition(LocalTranslation);
             node.setOrientation(LocalRotation);
-            SceneNodeElement element = new SceneNodeElement(Name, this.subscription, scene, node, parentElement.SceneNode);
+            SceneNodeElement element = new SceneNodeElement(Name, scene, node, parentElement.SceneNode);
             instance.addWeakElement(element);
             foreach (MovableObjectDefinition movable in movableObjects.Values)
             {

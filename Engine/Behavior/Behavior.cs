@@ -49,7 +49,7 @@ namespace Engine
         /// Base constructor for the behavior.
         /// </summary>
         public Behavior()
-            : base("NotInitialized", Subscription.None)
+            : base("NotInitialized")
         {
 
         }
@@ -62,9 +62,9 @@ namespace Engine
         /// <param name="name">The name of the Behavior.</param>
         /// <param name="subscription">The subscription of the behavior.</param>
         /// <param name="behaviorManager">The BehaviorManager that will update the behavior.</param>
-        internal void setAttributes(String name, Subscription subscription, BehaviorManager behaviorManager)
+        internal void setAttributes(String name, BehaviorManager behaviorManager)
         {
-            this._behaviorSetAttributes(name, subscription);
+            this._behaviorSetAttributes(name);
             this.manager = behaviorManager;
         }
 

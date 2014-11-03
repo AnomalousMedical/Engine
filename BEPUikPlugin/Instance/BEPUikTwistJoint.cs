@@ -14,8 +14,8 @@ namespace BEPUikPlugin
     {
         private IKTwistJoint joint;
 
-        public BEPUikTwistJoint(BEPUikBone connectionA, BEPUikBone connectionB, BEPUikTwistJointDefinition definition, String name, Subscription subscription, SimObject instance)
-            :base(connectionA, connectionB, name, subscription, instance)
+        public BEPUikTwistJoint(BEPUikBone connectionA, BEPUikBone connectionB, BEPUikTwistJointDefinition definition, String name, SimObject instance)
+            :base(connectionA, connectionB, name, instance)
         {
             joint = new IKTwistJoint(connectionA.IkBone, connectionB.IkBone, definition.AxisA.toBepuVec3(), definition.AxisB.toBepuVec3());
             if (definition.MeasurementAxisA.HasValue)

@@ -15,8 +15,8 @@ namespace BEPUikPlugin
         private DragControl dragControl;
         private BEPUikBone bone;
 
-        public BEPUikDragControl(BEPUikBone bone, BEPUikScene scene, BEPUikDragControlDefinition definition, SimObjectBase instance, Subscription subscription)
-            :base(scene, definition.Name, subscription)
+        public BEPUikDragControl(BEPUikBone bone, BEPUikScene scene, BEPUikDragControlDefinition definition, SimObjectBase instance)
+            :base(scene, definition.Name)
         {
             this.bone = bone;
             dragControl = new DragControl();
@@ -31,7 +31,6 @@ namespace BEPUikPlugin
             {
                 BoneSimObjectName = Owner == bone.Owner ? "this" : Owner.Name,
                 BoneName = bone.Name,
-                Subscription = this.Subscription,
                 MaximumForce = dragControl.MaximumForce
             };
         }

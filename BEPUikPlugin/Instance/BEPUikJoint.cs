@@ -15,8 +15,8 @@ namespace BEPUikPlugin
         private BEPUikBone connectionB;
         private Vector3 connectionAPositionOffset;
 
-        public BEPUikJoint(BEPUikBone connectionA, BEPUikBone connectionB, String name, Subscription subscription, SimObject instance)
-            :base(name, subscription)
+        public BEPUikJoint(BEPUikBone connectionA, BEPUikBone connectionB, String name, SimObject instance)
+            :base(name)
         {
             this.connectionA = connectionA;
             this.connectionB = connectionB;

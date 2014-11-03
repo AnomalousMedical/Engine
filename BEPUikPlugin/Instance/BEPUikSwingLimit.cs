@@ -17,8 +17,8 @@ namespace BEPUikPlugin
         private float unlockedMaxAngle;
         private BEPUutilities.Vector3 unlockedLocalAxisB;
 
-        public BEPUikSwingLimit(BEPUikBone connectionA, BEPUikBone connectionB, BEPUikSwingLimitDefinition definition, String name, Subscription subscription, SimObject instance)
-            :base(connectionA, connectionB, name, subscription, instance)
+        public BEPUikSwingLimit(BEPUikBone connectionA, BEPUikBone connectionB, BEPUikSwingLimitDefinition definition, String name, SimObject instance)
+            :base(connectionA, connectionB, name, instance)
         {
             limit = new IKSwingLimit(connectionA.IkBone, connectionB.IkBone, definition.AxisA.toBepuVec3(), definition.AxisB.toBepuVec3(), definition.MaximumAngle);
             setupLimit(definition);

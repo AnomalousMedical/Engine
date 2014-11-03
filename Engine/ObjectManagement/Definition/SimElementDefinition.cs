@@ -16,7 +16,6 @@ namespace Engine.ObjectManagement
 
         private String name;
         protected SimObjectDefinition simObjectDef;
-        protected Subscription subscription = Subscription.All;
 
         #endregion Fields
 
@@ -98,27 +97,11 @@ namespace Engine.ObjectManagement
             }
         }
 
-        /// <summary>
-        /// Get/Set the Subscription for the element.
-        /// </summary>
-        public Subscription Subscription
-        {
-            get
-            {
-                return subscription;
-            }
-            set
-            {
-                subscription = value;
-            }
-        }
-
         #endregion Properties
 
         #region Saveable Members
 
         private const string NAME = "SimElementName";
-        private const string SUBSCRIPTION = "SimElementSubscription";
 
         /// <summary>
         /// Deserialize constructor.
@@ -127,7 +110,6 @@ namespace Engine.ObjectManagement
         protected SimElementDefinition(LoadInfo loadInfo)
         {
             name = loadInfo.GetString(NAME);
-            subscription = loadInfo.GetValue<Subscription>(SUBSCRIPTION);
         }
 
         /// <summary>
@@ -137,7 +119,6 @@ namespace Engine.ObjectManagement
         public virtual void getInfo(SaveInfo info)
         {
             info.AddValue(NAME, name);
-            info.AddValue(SUBSCRIPTION, subscription);
         }
 
         #endregion

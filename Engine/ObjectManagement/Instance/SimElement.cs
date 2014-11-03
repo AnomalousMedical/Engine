@@ -8,30 +8,6 @@ using Engine.Attributes;
 namespace Engine.ObjectManagement
 {
     /// <summary>
-    /// This enum sets what updates a element will listen to.
-    /// All element must support the enable and disable events, however.
-    /// </summary>
-    public enum Subscription
-    {
-        /// <summary>
-        /// Recieve no updates.
-        /// </summary>
-        None = 0,
-        /// <summary>
-        /// Subscribe to position updates.
-        /// </summary>
-        PositionUpdate = 1 << 0,
-        /// <summary>
-        /// Subscribe to scale updates.
-        /// </summary>
-        ScaleUpdate = 1 << 1,
-        /// <summary>
-        /// Recieve all updates.
-        /// </summary>
-        All = PositionUpdate | ScaleUpdate,
-    };
-
-    /// <summary>
     /// This is a subsystem specific part of a SimObject. The SimObject will
     /// handle updating the common state between all of these objects, but the
     /// exact behavior they implement is unknown at this level. These objects
@@ -51,11 +27,9 @@ namespace Engine.ObjectManagement
         /// Constructor.
         /// </summary>
         /// <param name="name">The name of the SimElement.</param>
-        /// <param name="subscription">The subscription of events to listen to.</param>
-        public SimElement(String name, Subscription subscription)
+        public SimElement(String name)
         {
             this.Name = name;
-            this.Subscription = subscription;
         }
 
         /// <summary>
@@ -63,10 +37,9 @@ namespace Engine.ObjectManagement
         /// </summary>
         /// <param name="name">The name of the SimElement.</param>
         /// <param name="subscription">The subscription of events to listen to.</param>
-        internal void _behaviorSetAttributes(String name, Subscription subscription)
+        internal void _behaviorSetAttributes(String name)
         {
             this.Name = name;
-            this.Subscription = subscription;
         }
 
         /// <summary>
@@ -265,11 +238,6 @@ namespace Engine.ObjectManagement
         /// Get the name of this SimElement.
         /// </summary>
         public String Name { get; private set; }
-
-        /// <summary>
-        /// Get/Set the subscription of events this element listens to.
-        /// </summary>
-        public Subscription Subscription { get; private set; }
 
         /// <summary>
         /// The SimObject that owns this SimElement.

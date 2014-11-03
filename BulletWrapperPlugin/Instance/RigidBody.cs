@@ -48,7 +48,7 @@ namespace BulletPlugin
         private MotionState motionState;
 
         public unsafe RigidBody(RigidBodyDefinition description, BulletScene scene, IntPtr collisionShape, Vector3 initialTrans, Quaternion initialRot)
-            :base(description.Name, description.Subscription)
+            :base(description.Name)
         {
             this.scene = scene;
             shapeName = description.ShapeName;

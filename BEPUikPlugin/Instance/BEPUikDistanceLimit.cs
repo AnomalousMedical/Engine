@@ -19,8 +19,8 @@ namespace BEPUikPlugin
         private BEPUutilities.Vector3 unlockedLocalAnchorA;
         private BEPUutilities.Vector3 unlockedLocalAnchorB;
 
-        public BEPUikDistanceLimit(BEPUikBone connectionA, BEPUikBone connectionB, Vector3 anchor, BEPUikDistanceLimitDefinition definition, String name, Subscription subscription, SimObject instance)
-            :base(connectionA, connectionB, name, subscription, instance)
+        public BEPUikDistanceLimit(BEPUikBone connectionA, BEPUikBone connectionB, Vector3 anchor, BEPUikDistanceLimitDefinition definition, String name, SimObject instance)
+            :base(connectionA, connectionB, name, instance)
         {
             limit = new IKDistanceLimit(connectionA.IkBone, connectionB.IkBone, anchor.toBepuVec3(), anchor.toBepuVec3(), definition.MinimumDistance, definition.MaximumDistance);
             setupLimit(definition);

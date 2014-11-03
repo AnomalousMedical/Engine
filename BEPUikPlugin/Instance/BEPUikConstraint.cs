@@ -12,8 +12,8 @@ namespace BEPUikPlugin
 {
     public abstract class BEPUikConstraint : SimElement
     {
-        public BEPUikConstraint(String name, Subscription subscription)
-            :base(name, subscription)
+        public BEPUikConstraint(String name)
+            :base(name)
         {
             
         }
@@ -29,7 +29,6 @@ namespace BEPUikPlugin
         {
             definition.MaximumForce = IKConstraint.MaximumForce;
             definition.Rigidity = IKConstraint.Rigidity;
-            definition.Subscription = this.Subscription;
         }
 
         internal abstract IKConstraint IKConstraint { get; }

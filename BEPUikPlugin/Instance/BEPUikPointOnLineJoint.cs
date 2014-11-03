@@ -14,8 +14,8 @@ namespace BEPUikPlugin
     {
         private IKPointOnLineJoint joint;
 
-        public BEPUikPointOnLineJoint(BEPUikBone connectionA, BEPUikBone connectionB, BEPUikPointOnLineJointDefinition definition, String name, Subscription subscription, SimObject instance)
-            :base(connectionA, connectionB, name, subscription, instance)
+        public BEPUikPointOnLineJoint(BEPUikBone connectionA, BEPUikBone connectionB, BEPUikPointOnLineJointDefinition definition, String name, SimObject instance)
+            :base(connectionA, connectionB, name, instance)
         {
             joint = new IKPointOnLineJoint(connectionA.IkBone, connectionB.IkBone, instance.Translation.toBepuVec3(), definition.LineDirection.toBepuVec3(), instance.Translation.toBepuVec3());
             setupJoint(definition);

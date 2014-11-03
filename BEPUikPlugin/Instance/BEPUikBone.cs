@@ -17,7 +17,7 @@ namespace BEPUikPlugin
         private String solverName;
 
         public BEPUikBone(BEPUikBoneDefinition definition, SimObjectBase instance, BEPUikScene scene)
-            :base(definition.Name, definition.Subscription)
+            :base(definition.Name)
         {
             this.scene = scene;
             bone = new Bone(instance.Translation.toBepuVec3(), instance.Rotation.toBepuQuat(), definition.Radius, definition.Height, definition.Mass);
@@ -70,7 +70,6 @@ namespace BEPUikPlugin
                 Pinned = bone.Pinned,
                 Radius = bone.Radius,
                 Height = bone.Height,
-                Subscription = this.Subscription,
                 SolverName = solverName
             };
 

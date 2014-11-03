@@ -28,7 +28,7 @@ namespace BEPUikPlugin
 
         protected override SimElement createConstraint(BEPUikBone connectionA, BEPUikBone connectionB, SimObjectBase instance)
         {
-            return new BEPUikSwingLimit(connectionA, connectionB, this, Name, Subscription, instance);
+            return new BEPUikSwingLimit(connectionA, connectionB, this, Name, instance);
         }
 
         protected override void customizeEditInterface(EditInterface editInterface)

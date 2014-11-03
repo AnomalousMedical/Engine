@@ -11,7 +11,7 @@ namespace BulletPlugin
     public partial class Generic6DofConstraintElement : TypedConstraintElement
     {
         public Generic6DofConstraintElement(Generic6DofConstraintDefinition definition, SimObjectBase instance, RigidBody rbA, RigidBody rbB, BulletScene scene)
-            :base(definition.Name, definition.Subscription, scene, rbA, rbB)
+            :base(definition.Name, scene, rbA, rbB)
         {
             setConstraint(btGeneric6DofConstraint_Create(rbA.NativeRigidBody, rbB.NativeRigidBody, instance.Translation, instance.Rotation, definition.translationMotor, definition.xRotMotor, definition.yRotMotor, definition.zRotMotor));
         }

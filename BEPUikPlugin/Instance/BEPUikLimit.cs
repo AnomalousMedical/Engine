@@ -16,8 +16,8 @@ namespace BEPUikPlugin
         /// </summary>
         public event Action<BEPUikLimit> LockedChanged;
 
-        public BEPUikLimit(BEPUikBone connectionA, BEPUikBone connectionB, String name, Subscription subscription, SimObject instance)
-            :base(connectionA, connectionB, name, subscription, instance)
+        public BEPUikLimit(BEPUikBone connectionA, BEPUikBone connectionB, String name, SimObject instance)
+            :base(connectionA, connectionB, name, instance)
         {
                
         }

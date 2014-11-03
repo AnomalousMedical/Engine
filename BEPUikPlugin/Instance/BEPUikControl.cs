@@ -14,8 +14,8 @@ namespace BEPUikPlugin
     {
         private BEPUikScene scene;
 
-        public BEPUikControl(BEPUikScene scene, String name, Subscription subscription)
-            :base(name, subscription)
+        public BEPUikControl(BEPUikScene scene, String name)
+            :base(name)
         {
             this.scene = scene;
             MovedThisTick = false;

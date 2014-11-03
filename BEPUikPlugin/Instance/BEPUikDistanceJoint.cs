@@ -13,8 +13,8 @@ namespace BEPUikPlugin
     {
         private IKDistanceJoint joint;
 
-        public BEPUikDistanceJoint(BEPUikBone connectionA, BEPUikBone connectionB, BEPUikDistanceJointDefinition definition, String name, Subscription subscription, SimObject instance)
-            :base(connectionA, connectionB, name, subscription, instance)
+        public BEPUikDistanceJoint(BEPUikBone connectionA, BEPUikBone connectionB, BEPUikDistanceJointDefinition definition, String name, SimObject instance)
+            :base(connectionA, connectionB, name, instance)
         {
             joint = new IKDistanceJoint(connectionA.IkBone, connectionB.IkBone, connectionA.Owner.Translation.toBepuVec3(), connectionB.Owner.Translation.toBepuVec3());
             setupJoint(definition);
