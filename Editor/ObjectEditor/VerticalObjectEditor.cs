@@ -40,6 +40,8 @@ namespace Editor
             editInterfaceView.OnEditInterfaceAdded += new EditInterfaceEvent(editInterfaceView_OnEditInterfaceAdded);
             editInterfaceView.OnEditInterfaceRemoved += new EditInterfaceEvent(editInterfaceView_OnEditInterfaceRemoved);
             propertiesTable.EditablePropertyValueChanged += new EditablePropertyValueChanged(propertiesTable_EditablePropertyValueChanged);
+            propertiesTable.EditablePropertyAdded += propertiesTable_EditablePropertyAdded;
+            propertiesTable.EditablePropertyRemoved += propertiesTable_EditablePropertyRemoved;
         }
 
         /// <summary>
@@ -144,6 +146,30 @@ namespace Editor
         }
 
         void propertiesTable_EditablePropertyValueChanged(EditableProperty var)
+        {
+            if (currentFieldChangedCallback != null)
+            {
+                currentFieldChangedCallback.Invoke(currentEditInterface, currentEditingObject);
+            }
+            if (FieldChanged != null)
+            {
+                FieldChanged.Invoke(propertiesTable.getCurrentEditInterface(), null);
+            }
+        }
+
+        void propertiesTable_EditablePropertyRemoved()
+        {
+            if (currentFieldChangedCallback != null)
+            {
+                currentFieldChangedCallback.Invoke(currentEditInterface, currentEditingObject);
+            }
+            if (FieldChanged != null)
+            {
+                FieldChanged.Invoke(propertiesTable.getCurrentEditInterface(), null);
+            }
+        }
+
+        void propertiesTable_EditablePropertyAdded()
         {
             if (currentFieldChangedCallback != null)
             {

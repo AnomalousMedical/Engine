@@ -25,6 +25,8 @@ namespace Editor
         #region Events
 
         public event EditablePropertyValueChanged EditablePropertyValueChanged;
+        public event Action EditablePropertyAdded;
+        public event Action EditablePropertyRemoved;
 
         #endregion
 
@@ -352,6 +354,10 @@ namespace Editor
         private void addButton_Click(object sender, EventArgs e)
         {
             currentEditInterface.fireAddPropertyCallback(this);
+            if(EditablePropertyAdded != null)
+            {
+                EditablePropertyAdded.Invoke();
+            }
         }
 
         /// <summary>
@@ -364,6 +370,10 @@ namespace Editor
             foreach (DataGridViewRow row in propGridView.SelectedRows)
             {
                 removeRow(row.Index);
+            }
+            if (EditablePropertyRemoved != null)
+            {
+                EditablePropertyRemoved.Invoke();
             }
         }
 
