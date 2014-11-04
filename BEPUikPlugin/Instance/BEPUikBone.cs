@@ -113,7 +113,14 @@ namespace BEPUikPlugin
 
         internal void draw(DebugDrawingSurface drawingSurface)
         {
-            drawingSurface.Color = Color.Purple;
+            if (Pinned)
+            {
+                drawingSurface.Color = Color.Orange;
+            }
+            else
+            {
+                drawingSurface.Color = Color.Purple;
+            }
 
             Quaternion orientation = bone.Orientation.toEngineQuat();
             Vector3 translation = bone.Position.toEngineVec3();

@@ -104,6 +104,12 @@
     <Compile Include="Editing\EditUICallback.cs" />
     <Compile Include="Editing\CopyPaste\EngineClipboard.cs" />
     <Compile Include="Editing\GenericEditableProperty.cs" />
+    <Compile Include="Editing\Lists\ListlikeEditInterface.cs" />
+    <Compile Include="Editing\Lists\IListAbstractor.cs" />
+    <Compile Include="Editing\Lists\LinkedListAbstractor.cs" />
+    <Compile Include="Editing\Lists\ListlikeAbstractor.cs" />
+    <Compile Include="Editing\Lists\ListItemEditableProperty.cs" />
+    <Compile Include="Editing\Lists\StringListlikeEditInterface.cs" />
     <Compile Include="Editing\Refleciton\EditableMinMaxAttribute.cs" />
     <Compile Include="Editing\Refleciton\EditableAttribute.cs" />
     <Compile Include="Editing\Refleciton\EditableAttributeFilter.cs" />
