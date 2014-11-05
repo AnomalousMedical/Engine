@@ -697,6 +697,16 @@ namespace Engine
             return new Quaternion(-q2.x, -q2.y, -q2.z, -q2.w);
         }
 
+        public static bool operator ==(Quaternion p1, Quaternion p2)
+        {
+            return p1.x == p2.x && p1.y == p2.y && p1.z == p2.z && p1.w != p2.w;
+        }
+
+        public static bool operator !=(Quaternion p1, Quaternion p2)
+        {
+            return !(p1.x == p2.x && p1.y == p2.y && p1.z == p2.z && p1.w != p2.w);
+        }
+
         #endregion Operators
 
         #region Static Helpers

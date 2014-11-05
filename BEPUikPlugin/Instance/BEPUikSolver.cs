@@ -1,4 +1,5 @@
 ﻿using BEPUik;
+using BEPUutilities;
 using Engine.Renderer;
 using System;
 using System.Collections.Generic;
@@ -21,11 +22,21 @@ namespace BEPUikPlugin
         private List<BEPUikSolver> childSolvers = new List<BEPUikSolver>();
         private bool updatedThisTick = false;
 
+        /// <summary>
+        /// This event is fired before the solver updates on the thread that the solver updates on.
+        /// </summary>
         public event SolverEvent BeforeUpdate;
+
+        /// <summary>
+        /// This event is fired after the solver syncs its positions on the thread that sync occurs on. This will only
+        /// fire if this solver acutally updated this frame (updatedThisTick == true).
+        /// </summary>
+        public event SolverEvent AfterSync;
 
         internal BEPUikSolver(BEPUikSolverDefinition definition)
         {
             this.Name = definition.Name;
+            this.AutosolveOnParentUpdate = definition.AutosolveOnParentUpdate;
             ikSolver.ActiveSet.UseAutomass = definition.ActiveSetUseAutomass;
             ikSolver.AutoscaleControlImpulses = definition.AutoscaleControlImpulses;
             ikSolver.AutoscaleControlMaximumForce = definition.AutoscaleControlMaximumForce;
@@ -77,15 +88,16 @@ namespace BEPUikPlugin
 
         internal void update(bool parentUpdated)
         {
-            if (solveControls.Count > 0) //Control solve
+            if (HasControlsToSolve) //Control solve
             {
-                //Seed needupdate, will be true if there are external controls or the parent was updated
-                bool needUpdate = externalControls.Count > 0 || parentUpdated;
-
-                if(BeforeUpdate != null)
+                if (BeforeUpdate != null)
                 {
                     BeforeUpdate.Invoke(this);
                 }
+
+                //Seed needupdate, will be true if there are external controls or the parent was updated
+                bool needUpdate = externalControls.Count > 0 || parentUpdated;
+
                 foreach (var control in controls)
                 {
                     //See if any controls moved
@@ -102,7 +114,7 @@ namespace BEPUikPlugin
                     updatedThisTick = true;
                 }
             }
-            else if (parentUpdated) //Solve bones if parent updated and no controls
+            else if (AutosolveOnParentUpdate && parentUpdated) //Solve bones if parent updated and no controls
             {
                 if (BeforeUpdate != null)
                 {
@@ -132,6 +144,11 @@ namespace BEPUikPlugin
                     }
                 }
                 updatedThisTick = false;
+
+                if(AfterSync != null)
+                {
+                    AfterSync.Invoke(this);
+                }
             }
             foreach (var child in childSolvers)
             {
@@ -188,6 +205,7 @@ namespace BEPUikPlugin
             definition.FixerIterationCount = ikSolver.FixerIterationCount;
             definition.VelocitySubiterationCount = ikSolver.VelocitySubiterationCount;
             definition.Name = Name;
+            definition.AutosolveOnParentUpdate = AutosolveOnParentUpdate;
             foreach(var child in childSolvers)
             {
                 var childDefinition = new BEPUikSolverDefinition();
@@ -213,5 +231,15 @@ namespace BEPUikPlugin
         }
 
         public String Name { get; private set; }
+
+        public bool HasControlsToSolve
+        {
+            get
+            {
+                return solveControls.Count > 0;
+            }
+        }
+
+        public bool AutosolveOnParentUpdate { get; set; }
     }
 }

@@ -20,6 +20,7 @@ namespace Engine
         private BehaviorFactory behaviorFactory;
         private String name;
         private UpdateTimer timer;
+        private List<LateLinkEntry> lateLinkActions = new List<LateLinkEntry>();
 
         /// <summary>
         /// Constructor.
@@ -167,6 +168,38 @@ namespace Engine
         public void exceededMaxDelta()
         {
             
+        }
+
+        /// <summary>
+        ///  A list of late link callbacks, only use this from the BehaviorFactory and nowhere else.
+        ///  These are fired at the end of the link phase, but since most behaviors won't have one
+        ///  we don't override a function and instead register these callbacks. The BehaviorFactory
+        ///  will call these actions and clear them after its link phase runs. BlacklistExceptions will
+        ///  be handled from these like the other phases.
+        /// </summary>
+        internal IEnumerable<LateLinkEntry> LateLinkActions
+        {
+            get
+            {
+                return lateLinkActions;
+            }
+        }
+
+        /// <summary>
+        /// Clear all lateLinkActions, only call from BehaviorFactory.
+        /// </summary>
+        internal void clearLateLinkActions()
+        {
+            lateLinkActions.Clear();
+        }
+
+        /// <summary>
+        /// Add a late link action only call from Behavior.
+        /// </summary>
+        /// <param name="action"></param>
+        internal void addLateLinkAction(LateLinkEntry entry)
+        {
+            lateLinkActions.Add(entry);
         }
 
         private IEnumerable<Behavior> activeBehaviors()

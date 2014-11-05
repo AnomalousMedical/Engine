@@ -20,6 +20,7 @@ namespace BEPUikPlugin
         private int controlIterationCount = 100;
         private int fixerIterationCount = 10;
         private int velocitySubiterationCount = 3;
+        private bool autosolveOnParentUpdate = true;
 
         [DoNotSave]
         private List<BEPUikSolverDefinition> childSolvers = new List<BEPUikSolverDefinition>();
@@ -157,6 +158,19 @@ namespace BEPUikPlugin
             set
             {
                 velocitySubiterationCount = value;
+            }
+        }
+
+        [Editable]
+        public bool AutosolveOnParentUpdate
+        {
+            get
+            {
+                return autosolveOnParentUpdate;
+            }
+            set
+            {
+                autosolveOnParentUpdate = value;
             }
         }
 

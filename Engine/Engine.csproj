@@ -72,6 +72,7 @@
     <Compile Include="Behavior\BehaviorSaveMemberScanner.cs" />
     <Compile Include="Behavior\BehaviorUpdatePhase.cs" />
     <Compile Include="Behavior\BehaviorInterface.cs" />
+    <Compile Include="Behavior\LateLinkEntry.cs" />
     <Compile Include="Command\AddSimElementCommand.cs" />
     <Compile Include="Command\AddSimElementManagerCommand.cs" />
     <Compile Include="Command\CommandManager.cs" />

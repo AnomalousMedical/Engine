@@ -180,6 +180,16 @@ namespace Engine
         }
 
         /// <summary>
+        /// Register a late link action for this behavior. These will fire after the link phase is complete and link has
+        /// been called for all behaviors. The order that these actions fire cannot be guarenteed.
+        /// </summary>
+        /// <param name="action">The action to run.</param>
+        protected void registerLateLinkAction(Action action)
+        {
+            manager.addLateLinkAction(new LateLinkEntry(this, action));
+        }
+
+        /// <summary>
         /// This function will blacklist an object for an exception that made it
         /// out of the link or constructed functions that was not handled by the
         /// user. It is intended to only be called by BehaivorFactory.

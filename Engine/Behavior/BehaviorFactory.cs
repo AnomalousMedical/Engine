@@ -58,6 +58,7 @@ namespace Engine
         /// </summary>
         public void linkProducts()
         {
+            //Constructed
             foreach (BehaviorFactoryEntry entry in currentBehaviors)
             {
                 try
@@ -74,6 +75,8 @@ namespace Engine
                     SimObjectErrorManager.AddError(createError(entry, e));
                 }
             }
+
+            //Link
             foreach (BehaviorFactoryEntry entry in currentBehaviors)
             {
                 try
@@ -90,6 +93,13 @@ namespace Engine
                     SimObjectErrorManager.AddError(createError(entry, e));
                 }
             }
+
+            //Late Link
+            foreach(var action in manager.LateLinkActions)
+            {
+                action.execute();
+            }
+            manager.clearLateLinkActions();
         }
 
         /// <summary>
@@ -112,7 +122,7 @@ namespace Engine
             currentBehaviors.Add(new BehaviorFactoryEntry(instance, behaviorDefinition));
         }
 
-        private static SimObjectError createError(BehaviorBlacklistException bbe)
+        internal static SimObjectError createError(BehaviorBlacklistException bbe)
         {
             return new SimObjectError()
             {
@@ -124,7 +134,7 @@ namespace Engine
             };
         }
 
-        private static SimObjectError createError(BehaviorFactoryEntry entry, Exception e)
+        internal static SimObjectError createError(BehaviorFactoryEntry entry, Exception e)
         {
             var error = new SimObjectError()
             {
@@ -144,6 +154,21 @@ namespace Engine
                 error.SimObject = "UnknownSimObject";
                 error.Type = "UnknownType";
             }
+
+            return error;
+        }
+
+        internal static SimObjectError createError(Behavior behavior, Exception e)
+        {
+            var error = new SimObjectError()
+            {
+                Subsystem = "Behavior",
+                Message = e.Message
+            };
+
+            error.ElementName = behavior.Name;
+            error.SimObject = behavior.Owner != null ? behavior.Owner.Name : "NullSimObject";
+            error.Type = behavior.GetType().Name;
 
             return error;
         }
