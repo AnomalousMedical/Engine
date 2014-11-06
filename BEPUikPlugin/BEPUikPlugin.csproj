@@ -209,7 +209,9 @@
     <Compile Include="Definition\BEPUIkSceneDefinition.cs" />
     <Compile Include="Definition\EditingVisuals\BoneRenderer.cs" />
     <Compile Include="Definition\EditingVisuals\DistanceLimitRenderer.cs" />
-    <Compile Include="Definition\EditingVisuals\PointOnLineJointRenderer.cs" />
+    <Compile Include="Definition\EditingVisuals\PointOnLineJointRenderer.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Definition\EditingVisuals\RevoluteJointRenderer.cs" />
     <Compile Include="Definition\EditingVisuals\TwistJointRenderer.cs" />
     <Compile Include="Definition\EditingVisuals\TwistLimitRenderer.cs" />
