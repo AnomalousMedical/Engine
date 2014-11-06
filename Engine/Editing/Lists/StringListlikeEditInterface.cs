@@ -20,22 +20,22 @@ namespace Engine.Editing
 
         }
 
-        public override string createNew()
+        protected internal override string createNew()
         {
             return "";
         }
 
-        public override void removed(string value)
+        protected internal override void removed(string value)
         {
             
         }
 
-        public override string parseString(string value)
+        protected internal override string parseString(string value)
         {
             return value;
         }
 
-        public override bool canParseString(string value, out string errorMessage)
+        protected internal override bool canParseString(string value, out string errorMessage)
         {
             errorMessage = null;
             return true;

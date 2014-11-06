@@ -92,12 +92,12 @@ namespace Engine.Editing
             }
         }
 
-        public abstract T createNew();
+        protected internal abstract T createNew();
 
-        public abstract void removed(T value);
+        protected internal abstract void removed(T value);
 
-        public abstract T parseString(String value);
+        protected internal abstract T parseString(String value);
 
-        public abstract bool canParseString(string value, out string errorMessage);
+        protected internal abstract bool canParseString(string value, out string errorMessage);
     }
 }

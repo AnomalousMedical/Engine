@@ -220,6 +220,17 @@ namespace Engine.Editing
         }
 
         /// <summary>
+        /// Get the EditableProperty at the given index, EditableProperty indexes are in the order they are discovered
+        /// by their scanner.
+        /// </summary>
+        /// <param name="index">The index of the property.</param>
+        /// <returns>The property at the given index.</returns>
+        public EditableProperty getEditablePropertyAt(int index)
+        {
+            return editableProperties.Skip(index).First();
+        }
+
+        /// <summary>
         /// Set the EditablePropertyInfo.
         /// </summary>
         /// <param name="propertyInfo">The info to set.</param>
