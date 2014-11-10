@@ -574,6 +574,17 @@ namespace Engine
         }
 
         /// <summary>
+        /// Find the shortest arc between two vectors.
+        /// </summary>
+        /// <param name="v0">Source vector.</param>
+        /// <param name="v1">Destination vector.</param>
+        /// <returns>The quaternion with the shortest arc.</returns>
+        public static Quaternion shortestArcQuat(Vector3 v0, Vector3 v1)
+        {
+            return shortestArcQuat(ref v0, ref v1);
+        }
+
+        /// <summary>
         /// Find the shortest arc, but first normalize the two vectors.
         /// </summary>
         /// <param name="v0">Source vector.</param>
