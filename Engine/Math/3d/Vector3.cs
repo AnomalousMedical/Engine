@@ -337,18 +337,6 @@ namespace Engine
         }
 
         /// <summary>
-        /// Get this vector as a local translation in the space determined by the parent translation and parent rotation.
-        /// </summary>
-        /// <param name="parentTranslation">The translation of the parent space.</param>
-        /// <param name="parentRotation">The rotation of the parent space.</param>
-        /// <returns>A new vector that is local to the parent space defined.</returns>
-        public Vector3 toLocalTrans(Vector3 parentTranslation, Quaternion parentRotation)
-        {
-            Quaternion inverseTargetRot = parentRotation.inverse();
-            return Quaternion.quatRotate(inverseTargetRot, parentTranslation - this);
-        }
-
-        /// <summary>
         /// Equals function.
         /// </summary>
         /// <param name="obj">The object to compare to.</param>
