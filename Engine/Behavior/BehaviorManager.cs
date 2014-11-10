@@ -15,6 +15,7 @@ namespace Engine
     public class BehaviorManager : SimElementManager, UpdateListener
     {
         private List<List<Behavior>> updatePhaseOrder = new List<List<Behavior>>();
+        private List<Behavior> debugDrawBehaviors = new List<Behavior>();
         private Dictionary<String, List<Behavior>> updatePhases = new Dictionary<String, List<Behavior>>();
         private EventManager eventManager;
         private BehaviorFactory behaviorFactory;
@@ -25,6 +26,8 @@ namespace Engine
         /// <summary>
         /// Constructor.
         /// </summary>
+        /// <param name="name">The name of the BehaviorManager.</param>
+        /// <param name="timer">The timer to use for updates.</param>
         /// <param name="eventManager">The event manager to process on updates.</param>
         public BehaviorManager(String name, UpdateTimer timer, EventManager eventManager)
         {
@@ -35,6 +38,9 @@ namespace Engine
             behaviorFactory = new BehaviorFactory(this);
         }
 
+        /// <summary>
+        /// Cleanup this BehaviorManager.
+        /// </summary>
         public void Dispose()
         {
             timer.removeUpdateListener(this);
@@ -78,7 +84,7 @@ namespace Engine
         /// <summary>
         /// Activate a behavior so it can recieve updates.
         /// </summary>
-        /// <param name="name">The name of the behavior to activate.</param>
+        /// <param name="behavior">The behavior to activate.</param>
         internal void activateBehavior(Behavior behavior)
         {
             List<Behavior> updatePhase;
@@ -95,7 +101,7 @@ namespace Engine
         /// <summary>
         /// Deactivate a behavior so it no longer recieves updates.
         /// </summary>
-        /// <param name="name">The name of the behavior to deactivate.</param>
+        /// <param name="behavior">The behavior to deactivate.</param>
         internal void deactivateBehavior(Behavior behavior)
         {
             List<Behavior> updatePhase;
@@ -103,6 +109,16 @@ namespace Engine
             {
                 updatePhase.Remove(behavior);
             }
+            debugDrawBehaviors.Remove(behavior);
+        }
+
+        /// <summary>
+        /// Add a debug draw behavior.
+        /// </summary>
+        /// <param name="behavior"></param>
+        internal void addDebugDrawBehavior(Behavior behavior)
+        {
+            debugDrawBehaviors.Add(behavior);
         }
 
         /// <summary>
@@ -120,27 +136,43 @@ namespace Engine
         /// <param name="debugDrawing"></param>
         internal void renderDebugInfo(DebugDrawingSurface debugDrawing)
         {
-            foreach (Behavior behavior in activeBehaviors())
+            foreach (Behavior behavior in debugDrawBehaviors)
             {
                 behavior.drawDebugInfo(debugDrawing);
             }
         }
 
+        /// <summary>
+        /// Get the factory used to create behaviors.
+        /// </summary>
+        /// <returns>The factory.</returns>
         public SimElementFactory getFactory()
         {
             return behaviorFactory;
         }
 
+        /// <summary>
+        /// Get the type of this manager.
+        /// </summary>
+        /// <returns>The type.</returns>
         public Type getSimElementManagerType()
         {
             return typeof(BehaviorManager);
         }
 
+        /// <summary>
+        /// Get the name of this manager.
+        /// </summary>
+        /// <returns>The name.</returns>
         public string getName()
         {
             return name;
         }
 
+        /// <summary>
+        /// Create a definition for this BehaviorManager.
+        /// </summary>
+        /// <returns>A new definition instance with the correct settings.</returns>
         public SimElementManagerDefinition createDefinition()
         {
             BehaviorManagerDefinition definition = new BehaviorManagerDefinition(name);
@@ -196,7 +228,7 @@ namespace Engine
         /// <summary>
         /// Add a late link action only call from Behavior.
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="entry">The entry to add.</param>
         internal void addLateLinkAction(LateLinkEntry entry)
         {
             lateLinkActions.Add(entry);

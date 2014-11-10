@@ -60,7 +60,6 @@ namespace Engine
         /// will be called to set the same values.
         /// </summary>
         /// <param name="name">The name of the Behavior.</param>
-        /// <param name="subscription">The subscription of the behavior.</param>
         /// <param name="behaviorManager">The BehaviorManager that will update the behavior.</param>
         internal void setAttributes(String name, BehaviorManager behaviorManager)
         {
@@ -261,6 +260,14 @@ namespace Engine
         }
 
         /// <summary>
+        /// Add this behavior to debug drawing. Should be called during constructed or link phase.
+        /// </summary>
+        protected void addToDebugDrawing()
+        {
+            manager.addDebugDrawBehavior(this);
+        }
+
+        /// <summary>
         /// Dispose function called on cleanup. This is hidden by being invoked
         /// by the internal member Destroy().
         /// </summary>
@@ -313,6 +320,9 @@ namespace Engine
             positionUpdated();
         }
 
+        /// <summary>
+        /// Called when the position changed for this behavior, override if these events are needed.
+        /// </summary>
         protected virtual void positionUpdated()
         {
 
