@@ -28,6 +28,7 @@
     <DefineConstants>TRACE;LITE_EMBEDDED_LIB</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Release\BEPUikPlugin.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
