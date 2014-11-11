@@ -315,6 +315,19 @@ namespace Engine
 	    }
 
         /// <summary>
+        /// Liner interpolation between this vector and v over t
+        /// </summary>
+        /// <param name="v">Destination vector</param>
+        /// <param name="t">Time factor 0-1</param>
+        /// <returns></returns>
+        public Vector3 lerp(Vector3 v, float t)
+        {
+            return new Vector3(x + (v.x - x) * t,
+                y + (v.y - y) * t,
+                z + (v.z - z) * t);
+        }
+
+        /// <summary>
         /// Set this vector's components to be the highest value of x, y and z between the two.
         /// </summary>
         /// <param name="cmp">The vector to compare.</param>

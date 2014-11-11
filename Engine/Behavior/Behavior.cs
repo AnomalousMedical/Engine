@@ -388,5 +388,13 @@ namespace Engine
                 updatePhase = value;
             }
         }
+
+        internal BehaviorManager BehaviorManager
+        {
+            get
+            {
+                return manager;
+            }
+        }
     }
 }

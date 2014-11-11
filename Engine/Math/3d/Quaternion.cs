@@ -343,6 +343,36 @@ namespace Engine
         }
 
         /// <summary>
+        /// Compute a spherical linear interpolation for this quaternion to rotate
+        /// to q over t.
+        /// </summary>
+        /// <remarks>
+        /// This will do a slerp, which is constant velocity and torque-minimal, but 
+        /// is not commutative, be careful what order you put in the arguments.
+        /// </remarks>
+        /// <param name="q">The goal quaternion.</param>
+        /// <param name="t">The amount of time passed between 0 and 1.</param>
+        /// <returns></returns>
+        public Quaternion slerp(Quaternion q, float t)
+        {
+            float theta = angle(ref q);
+            if (theta != 0.0f)
+            {
+                float d = 1.0f / (float)System.Math.Sin(theta);
+                float s0 = (float)System.Math.Sin((1.0f - t) * theta);
+                float sinYaw = (float)System.Math.Sin(t * theta);
+                return new Quaternion((x * s0 + q.x * sinYaw) * d,
+                    (y * s0 + q.y * sinYaw) * d,
+                    (z * s0 + q.z * sinYaw) * d,
+                    (w * s0 + q.w * sinYaw) * d);
+            }
+            else
+            {
+                return this;
+            }
+        }
+
+        /// <summary>
         /// Taken from ogre since it also adds the shortest path.
         /// </summary>
         /// <param name="q"></param>

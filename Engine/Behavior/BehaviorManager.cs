@@ -14,9 +14,12 @@ namespace Engine
     /// </summary>
     public class BehaviorManager : SimElementManager, UpdateListener
     {
-        private List<List<Behavior>> updatePhaseOrder = new List<List<Behavior>>();
-        private List<Behavior> debugDrawBehaviors = new List<Behavior>();
         private Dictionary<String, List<Behavior>> updatePhases = new Dictionary<String, List<Behavior>>();
+        private List<List<Behavior>> updatePhaseOrder = new List<List<Behavior>>();
+        private Dictionary<String, List<Behavior>> scheduledUpdates = new Dictionary<String, List<Behavior>>();
+        private List<List<Behavior>> scheduledUpdateOrder = new List<List<Behavior>>();
+        private int updatePhaseCount = 0;
+        private List<Behavior> debugDrawBehaviors = new List<Behavior>();
         private EventManager eventManager;
         private BehaviorFactory behaviorFactory;
         private String name;
@@ -79,6 +82,12 @@ namespace Engine
             List<Behavior> updatePhase = new List<Behavior>();
             updatePhaseOrder.Add(updatePhase);
             updatePhases.Add(name, updatePhase);
+
+            List<Behavior> scheduled = new List<Behavior>();
+            scheduledUpdateOrder.Add(scheduled);
+            scheduledUpdates.Add(name, scheduled);
+
+            updatePhaseCount = updatePhaseOrder.Count;
         }
 
         /// <summary>
@@ -110,6 +119,23 @@ namespace Engine
                 updatePhase.Remove(behavior);
             }
             debugDrawBehaviors.Remove(behavior);
+        }
+
+        /// <summary>
+        /// Add a behavior to the scheduled updates list for its phase.
+        /// </summary>
+        /// <param name="behavior"></param>
+        internal void scheduleUpdate(BehaviorScheduledUpdate behavior)
+        {
+            List<Behavior> scheduled;
+            if (scheduledUpdates.TryGetValue(behavior.UpdatePhase, out scheduled))
+            {
+                scheduled.Add(behavior);
+            }
+            else
+            {
+                Log.Error("Could not add behavior '{0}' from SimObject '{1}' to scheduled updates for update phase '{2}' because it was not found. This behavior will not update.", behavior.Name, behavior.Owner.Name, behavior.UpdatePhase);
+            }
         }
 
         /// <summary>
@@ -237,13 +263,24 @@ namespace Engine
         private IEnumerable<Behavior> activeBehaviors()
         {
             int updateIndex;
-            foreach (var phase in updatePhaseOrder)
+            for (int i = 0; i < updatePhaseCount; ++i)
             {
+                //Normal updates
+                List<Behavior> phase = updatePhaseOrder[i];
                 updateIndex = 0;
                 while (updateIndex < phase.Count)
                 {
                     yield return phase[updateIndex++];
                 }
+
+                //Scheduled updates
+                phase = scheduledUpdateOrder[i];
+                updateIndex = 0;
+                while (updateIndex < phase.Count)
+                {
+                    yield return phase[updateIndex++];
+                }
+                phase.Clear();
             }
         }
     }
