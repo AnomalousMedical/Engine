@@ -7,6 +7,10 @@
 #define MyAppURL "http://www.anomalousmedical.com"
 #define MyAppExeName "Anomaly.exe"
 
+#if Exec('S:\DRM\CodeKey\SignEditor.bat') != 0
+#error Could not sign
+#endif
+
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications.
@@ -27,6 +31,7 @@ OutputBaseFilename=AnomalySetup
 Compression=lzma
 SolidCompression=yes
 SignTool=AnomalousMedicalSign $qAnomaly Editor$q $f
+ChangesAssociations=yes
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -86,12 +91,20 @@ Source: "S:\dependencies\InstallerDependencies\Windows\DirectX9c\Jun2010_D3DComp
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
+Name: "{group}\Ogre Model Editor"; Filename: "{app}\OgreModelEditor.exe"
+Name: "{group}\Image Atlas Packer"; Filename: "{app}\ImageAtlasPacker.exe"
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
 [Run]
 Filename: "{tmp}\vcredist_x86.exe"; Parameters: "/q /norestart"; StatusMsg: "Installing Visual Studio 2013 Redistributable (x86)";
 Filename: "{tmp}\DirectX9c\DXSETUP.exe"; Parameters: "/silent"; StatusMsg: "Installing DirectX";
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, "&", "&&")}}"; Flags: nowait postinstall skipifsilent
+
+[Registry]
+Root: HKCR; Subkey: ".mesh"; ValueType: string; ValueName: ""; ValueData: "OgreMeshFiles"; Flags: uninsdeletevalue 
+Root: HKCR; Subkey: "OgreMeshFiles"; ValueType: string; ValueName: ""; ValueData: "Ogre Mesh File"; Flags: uninsdeletekey 
+Root: HKCR; Subkey: "OgreMeshFiles\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\OgreModelEditor.exe,0" 
+Root: HKCR; Subkey: "OgreMeshFiles\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\OgreModelEditor.exe"" ""%1""" 
 
 [Code]
 procedure checkdotnetfx4();
