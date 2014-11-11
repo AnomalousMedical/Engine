@@ -326,7 +326,7 @@ namespace Engine
         public Quaternion slerp(ref Quaternion q, float t)
         {
             float theta = angle(ref q);
-            if (theta != 0.0f)
+            if (theta != 0.0f && !float.IsNaN(theta))
             {
                 float d = 1.0f / (float)System.Math.Sin(theta);
                 float s0 = (float)System.Math.Sin((1.0f - t) * theta);
@@ -356,7 +356,7 @@ namespace Engine
         public Quaternion slerp(Quaternion q, float t)
         {
             float theta = angle(ref q);
-            if (theta != 0.0f)
+            if (theta != 0.0f && !float.IsNaN(theta))
             {
                 float d = 1.0f / (float)System.Math.Sin(theta);
                 float s0 = (float)System.Math.Sin((1.0f - t) * theta);
