@@ -1,4 +1,5 @@
-﻿using Engine.Platform;
+﻿using Engine.Attributes;
+using Engine.Platform;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace Engine
     /// </summary>
     public abstract class BehaviorScheduledUpdate : Behavior
     {
+        [DoNotSave]
         private bool allowSchedule = true;
 
         /// <summary>
