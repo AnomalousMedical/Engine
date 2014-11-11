@@ -14,6 +14,7 @@ namespace Engine
     public class DynamicDLLPluginLoader : PluginLoader
     {
         private LinkedList<String> paths = new LinkedList<string>();
+        private HashSet<String> loadedAssemblies = new HashSet<string>();
 
         /// <summary>
         /// Add a path of a plugin to load.
@@ -43,14 +44,19 @@ namespace Engine
             {
                 try
                 {
-                    String loadPath = path;
-                    //If the path cannot be found search the current working directories.
-                    if (!File.Exists(loadPath))
+                    String assemblyFileName = Path.GetFileName(path);
+                    if (!loadedAssemblies.Contains(assemblyFileName))
                     {
-                        loadPath = pluginManager.PluginDirectory + PathShim.DirectorySeparatorChar + path;
+                        String loadPath = path;
+                        //If the path cannot be found search the current working directories.
+                        if (!File.Exists(loadPath))
+                        {
+                            loadPath = pluginManager.PluginDirectory + PathShim.DirectorySeparatorChar + path;
+                        }
+                        Assembly assembly = AssemblyShim.LoadFile(PathShim.GetFullPath(loadPath));
+                        pluginManager.addPluginAssembly(assembly);
+                        loadedAssemblies.Add(assemblyFileName);
                     }
-                    Assembly assembly = AssemblyShim.LoadFile(PathShim.GetFullPath(loadPath));
-                    pluginManager.addPluginAssembly(assembly);
                 }
                 catch (Exception e)
                 {
