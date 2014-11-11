@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Logging;
 using System.IO;
+using Anomaly.GUI;
 
 namespace OgreModelEditor
 {
@@ -18,26 +19,32 @@ namespace OgreModelEditor
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            using (OgreModelEditorController controller = new OgreModelEditorController())
+            using (SplashScreen splash = new SplashScreen())
             {
-                try
+                splash.Show();
+                Application.DoEvents();
+                using (OgreModelEditorController controller = new OgreModelEditorController())
                 {
-                    controller.initialize();
-                    String[] commandLine = Environment.GetCommandLineArgs();
-                    if (commandLine.Length > 1)
+                    try
                     {
-                        String file = commandLine[1];
-                        if (File.Exists(file) && file.EndsWith(".mesh"))
+                        controller.initialize();
+                        String[] commandLine = Environment.GetCommandLineArgs();
+                        if (commandLine.Length > 1)
                         {
-                            controller.openModel(file);
+                            String file = commandLine[1];
+                            if (File.Exists(file) && file.EndsWith(".mesh"))
+                            {
+                                controller.openModel(file);
+                            }
                         }
+                        splash.Close();
+                        controller.start();
                     }
-                    controller.start();
-                }
-                catch (Exception e)
-                {
-                    Log.Default.printException(e);
-                    MessageBox.Show(e.Message, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    catch (Exception e)
+                    {
+                        Log.Default.printException(e);
+                        MessageBox.Show(e.Message, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
         }
