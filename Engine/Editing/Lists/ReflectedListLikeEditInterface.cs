@@ -62,6 +62,25 @@ namespace Engine.Editing
             }
         }
 
+        /// <summary>
+        /// Refresh the EditInterface for the list, call if changes are made externally.
+        /// </summary>
+        public void refresh()
+        {
+            //Remove all old properties
+            foreach(var property in properties)
+            {
+                editInterface.removeEditableProperty(property);
+            }
+            properties.Clear();
+
+            //Readd all properties
+            for (int i = 0; i < list.Count; ++i)
+            {
+                addProperty(i);
+            }
+        }
+
         private void init(ListlikeAbstractor<T> list, String name, Func<T> createNewCallback, Action<T> removedCallback, MemberScanner memberScanner = null)
         {
             this.list = list;
