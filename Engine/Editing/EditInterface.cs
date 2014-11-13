@@ -562,12 +562,10 @@ namespace Engine.Editing
         }
 
         /// <summary>
-        /// This method will fire the OnDataNeedsRefresh, however it should be
-        /// called by the extension method with the same name but no leading _.
-        /// This has the benefit of checking the editInterface for null before
-        /// firing the event so client code does not have to.
+        /// This method will fire the OnDataNeedsRefresh. It should be called if the object
+        /// being edited needs to update the ui.
         /// </summary>
-        internal void _fireDataNeedsRefresh()
+        public void fireDataNeedsRefresh()
         {
             if (OnDataNeedsRefresh != null)
             {
@@ -661,11 +659,11 @@ namespace Engine.Editing
         /// client code.
         /// </summary>
         /// <param name="editInterface">The Edit Interface. Can be null.</param>
-        public static void fireDataNeedsRefresh(this EditInterface editInterface)
+        public static void safeFireDataNeedsRefresh(this EditInterface editInterface)
         {
             if (editInterface != null)
             {
-                editInterface._fireDataNeedsRefresh();
+                editInterface.fireDataNeedsRefresh();
             }
         }
 
