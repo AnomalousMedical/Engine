@@ -22,6 +22,14 @@ namespace Engine
             this.Value = value;
         }
 
+        public float Degrees
+        {
+            get
+            {
+                return Value * Degree.FromRadian;
+            }
+        }
+
         public static implicit operator Radian(float value)
         {
             return new Radian(value);
