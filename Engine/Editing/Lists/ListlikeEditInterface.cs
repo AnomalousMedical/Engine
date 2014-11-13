@@ -6,27 +6,39 @@ using System.Threading.Tasks;
 
 namespace Engine.Editing
 {
-    public abstract class ListlikeEditInterface<T>
+    public abstract class ListlikeEditInterface<T> : EditInterface
     {
         private ListlikeAbstractor<T> list;
-        private EditInterface editInterface;
         private List<ListItemEditableProperty<T>> properties = new List<ListItemEditableProperty<T>>();
 
         public ListlikeEditInterface(IList<T> list, String name)
+            : base(name)
         {
             init(new IListAbstractor<T>(list), name);
         }
 
         public ListlikeEditInterface(LinkedList<T> list, String name)
+            : base(name)
         {
             init(new LinkedListAbstractor<T>(list), name);
         }
 
-        public EditInterface EditInterface
+        /// <summary>
+        /// Sync the EditInterface for the list again, call if changes are made externally.
+        /// </summary>
+        public override void dataContentsChanged()
         {
-            get
+            //Remove all old properties
+            foreach (var property in properties)
             {
-                return editInterface;
+                removeEditableProperty(property);
+            }
+            properties.Clear();
+
+            //Readd all properties
+            for (int i = 0; i < list.Count; ++i)
+            {
+                addProperty(i);
             }
         }
 
@@ -37,8 +49,10 @@ namespace Engine.Editing
             EditablePropertyInfo propertyInfo = new EditablePropertyInfo();
             propertyInfo.addColumn(new EditablePropertyColumn("Value", false));
 
-            editInterface = new EditInterface(name, add, remove);
-            editInterface.setPropertyInfo(propertyInfo);
+            addPropertyCallback = add;
+            removePropertyCallback = remove;
+
+            setPropertyInfo(propertyInfo);
 
             for(int i = 0; i < list.Count; ++i)
             {
@@ -69,7 +83,7 @@ namespace Engine.Editing
             }
 
             //Remove the property from the edit interface and local listing.
-            editInterface.removeEditableProperty(listProp);
+            removeEditableProperty(listProp);
             properties.Remove(listProp);
         }
 
@@ -77,7 +91,7 @@ namespace Engine.Editing
         {
             var prop = new ListItemEditableProperty<T>(index, this);
             properties.Add(prop);
-            editInterface.addEditableProperty(prop);
+            addEditableProperty(prop);
         }
 
         internal T this[int index]

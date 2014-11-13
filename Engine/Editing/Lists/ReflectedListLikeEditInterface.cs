@@ -14,10 +14,9 @@ namespace Engine.Editing
     /// another one to the constructor.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ReflectedListLikeEditInterface<T>
+    public class ReflectedListLikeEditInterface<T> : EditInterface
     {
         private ListlikeAbstractor<T> list;
-        private EditInterface editInterface;
         private List<ReflectedListItemEditableProperty<T>> properties = new List<ReflectedListItemEditableProperty<T>>();
         private Func<T> createNewCallback;
         private Action<T> removedCallback;
@@ -33,6 +32,7 @@ namespace Engine.Editing
         /// <param name="removedCallback">This funciton is called when an item is removed from the list, it can be null.</param>
         /// <param name="memberScanner">The member scanner to use to find items to add to each entry's EditInterface, if null it will be the ReflectedEditInterface.DefaultScanner.</param>
         public ReflectedListLikeEditInterface(IList<T> list, String name, Func<T> createNewCallback, Action<T> removedCallback = null, MemberScanner memberScanner = null)
+            :base(name)
         {
             init(new IListAbstractor<T>(list), name, createNewCallback, removedCallback);
         }
@@ -47,30 +47,20 @@ namespace Engine.Editing
         /// <param name="removedCallback">This funciton is called when an item is removed from the list, it can be null.</param>
         /// <param name="memberScanner">The member scanner to use to find items to add to each entry's EditInterface, if null it will be the ReflectedEditInterface.DefaultScanner.</param>
         public ReflectedListLikeEditInterface(LinkedList<T> list, String name, Func<T> createNewCallback, Action<T> removedCallback = null, MemberScanner memberScanner = null)
+            :base(name)
         {
             init(new LinkedListAbstractor<T>(list), name, createNewCallback, removedCallback);
         }
 
         /// <summary>
-        /// The EditInterface created for the list.
+        /// Sync the EditInterface for the list again, call if changes are made externally.
         /// </summary>
-        public EditInterface EditInterface
-        {
-            get
-            {
-                return editInterface;
-            }
-        }
-
-        /// <summary>
-        /// Refresh the EditInterface for the list, call if changes are made externally.
-        /// </summary>
-        public void refresh()
+        public override void dataContentsChanged()
         {
             //Remove all old properties
             foreach(var property in properties)
             {
-                editInterface.removeEditableProperty(property);
+                removeEditableProperty(property);
             }
             properties.Clear();
 
@@ -101,8 +91,10 @@ namespace Engine.Editing
                 propertyInfo.addColumn(new EditablePropertyColumn(item.getWrappedName(), false));
             }
 
-            editInterface = new EditInterface(name, add, remove);
-            editInterface.setPropertyInfo(propertyInfo);
+            addPropertyCallback = add;
+            removePropertyCallback = remove;
+
+            setPropertyInfo(propertyInfo);
 
             for(int i = 0; i < list.Count; ++i)
             {
@@ -127,7 +119,7 @@ namespace Engine.Editing
             list.RemoveAt(index);
 
             //Remove the property from the edit interface and local listing.
-            editInterface.removeEditableProperty(listProp);
+            removeEditableProperty(listProp);
             properties.Remove(listProp);
         }
 
@@ -135,7 +127,7 @@ namespace Engine.Editing
         {
             var prop = new ReflectedListItemEditableProperty<T>(ReflectedEditInterface.createEditInterface(list[index], memberScanner, "ListItem", null));
             properties.Add(prop);
-            editInterface.addEditableProperty(prop);
+            addEditableProperty(prop);
         }
 
         internal T this[int index]

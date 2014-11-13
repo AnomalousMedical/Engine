@@ -33,16 +33,17 @@ namespace Engine.Editing
     }
 
     /// <summary>
-    /// This interface provides a view of an object that can be edited.
+    /// This interface provides a view of an object that can be edited. It is extremely unlikely that
+    /// you would need to inherit from this class, instead you use callbacks to modify its data.
     /// </summary>
     [DoNotCopy]
     [DoNotSave]
-    public sealed class EditInterface
+    public class EditInterface
     {
         private String name;
-        private AddProperty addPropertyCallback;
-        private RemoveProperty removePropertyCallback;
-        private Validate validateCallback;
+        protected AddProperty addPropertyCallback;
+        protected RemoveProperty removePropertyCallback;
+        protected Validate validateCallback;
         private LinkedList<EditableProperty> editableProperties = new LinkedList<EditableProperty>();
         private LinkedList<EditInterface> subInterfaces = new LinkedList<EditInterface>();
         private EditablePropertyInfo propertyInfo;
@@ -53,6 +54,7 @@ namespace Engine.Editing
 
         private EditablePropertyManager editablePropertyManager; //Handles keyed EditableProperties
         private Dictionary<Type, Object> editInterfaceManagers; //Handles EditInterfaceManagers, the values are Objects since we have to typecast to this generic class anyway.
+        private Dictionary<Object, EditInterface> objectSubInterfaces; //Handles sub EditInterfaces added with an object, these are also put into the subInterfaces list.
 
         public event PropertyAdded OnPropertyAdded;
         public event PropertyRemoved OnPropertyRemoved;
@@ -121,6 +123,10 @@ namespace Engine.Editing
             return name;
         }
 
+        /// <summary>
+        /// Change the name of this EditInterface.
+        /// </summary>
+        /// <param name="name"></param>
         public void setName(String name)
         {
             if (this.name != name)
@@ -265,6 +271,23 @@ namespace Engine.Editing
         }
 
         /// <summary>
+        /// Add a SubEditInteface for a particluar object. This is most useful to bind to say a list
+        /// instance or other value that will not change inside the client object, but the contents might
+        /// that you might need to refresh. You could also use it to key a SubEditInterface to an object.
+        /// </summary>
+        /// <param name="fieldObject">The field's current value.</param>
+        /// <param name="editInterface">The EditInteface to bind to that fields value.</param>
+        public void addSubInterfaceForObject(Object fieldObject, EditInterface editInterface)
+        {
+            if(objectSubInterfaces == null)
+            {
+                objectSubInterfaces = new Dictionary<object, EditInterface>();
+            }
+            objectSubInterfaces.Add(fieldObject, editInterface);
+            addSubInterface(editInterface);
+        }
+
+        /// <summary>
         /// Remove a sub interface.
         /// </summary>
         /// <param name="editInterface">The subinterface to remove.</param>
@@ -272,12 +295,37 @@ namespace Engine.Editing
         {
             if (subInterfaces.Remove(editInterface))
             {
+                if (objectSubInterfaces != null)
+                {
+                    //Reverse lookup editInterface in case it is part of the objectSubInterfaces.
+                    KeyValuePair<Object, EditInterface> fieldRef = objectSubInterfaces.FirstOrDefault(i => i.Value == editInterface);
+                    if (fieldRef.Key != null)
+                    {
+                        objectSubInterfaces.Remove(fieldRef.Key);
+                    }
+                }
                 editInterface.ParentEditInterface = null;
                 if (OnSubInterfaceRemoved != null)
                 {
                     OnSubInterfaceRemoved.Invoke(editInterface);
                 }
             }
+        }
+
+        /// <summary>
+        /// Get the edit interface for a given key, if the key does not have an associated EditInterface null
+        /// will be returned.
+        /// </summary>
+        /// <param name="key">The key to lookup.</param>
+        /// <returns>The associated EditInterface or null if there isn't one.</returns>
+        public EditInterface getEditInterfaceFor(Object key)
+        {
+            EditInterface ret = null;
+            if(objectSubInterfaces != null)
+            {
+                objectSubInterfaces.TryGetValue(key, out ret);
+            }
+            return ret;
         }
 
         /// <summary>
@@ -302,7 +350,6 @@ namespace Engine.Editing
         /// Create an EditInterfaceManager that handles T objects.
         /// </summary>
         /// <typeparam name="T">The type the EditInterfaceManager handles.</typeparam>
-        /// <param name="editInterfaceManager">The EditInterfaceManager configured to handle T objects.</param>
         public EditInterfaceManager<T> createEditInterfaceManager<T>()
             where T : class
         {
@@ -334,7 +381,6 @@ namespace Engine.Editing
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
-        /// <param name="subInterface"></param>
         public void removeSubInterface<T>(T key)
             where T : class
         {
@@ -430,6 +476,9 @@ namespace Engine.Editing
             }
         }
 
+        /// <summary>
+        /// Fire the remove property callback from the ui to the object.
+        /// </summary>
         public void fireRemovePropertyCallback(EditUICallback uiCallback, EditableProperty property)
         {
             if (removePropertyCallback != null)
@@ -453,6 +502,19 @@ namespace Engine.Editing
             }
             errorMessage = null;
             return true;
+        }
+
+        /// <summary>
+        /// This function should be called if this EditInterface wraps an object like a list
+        /// who's data contents have changed. This will force the EditInterface to refresh
+        /// its contents. This is not needed for default EditInterface instances because they
+        /// will keep their contents up to date automatically, but if you are using one of the
+        /// ListLikeEditInterfaces then you should call this funciton when the associated
+        /// list changes.
+        /// </summary>
+        public virtual void dataContentsChanged()
+        {
+            //Does nothing in normal edit interfaces.
         }
 
         /// <summary>
@@ -513,6 +575,9 @@ namespace Engine.Editing
             }
         }
 
+        /// <summary>
+        /// An objec that references the icon that should be shown for this object.
+        /// </summary>
         public Object IconReferenceTag
         {
             get
