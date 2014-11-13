@@ -723,5 +723,36 @@ namespace Engine.Editing
                 editInterface.removeSubInterface<T>(key);
             }
         }
+
+        /// <summary>
+        /// Safe version of addSubInterface. Will check for the calling object to be null first.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="editInterface"></param>
+        /// <param name="value"></param>
+        public static void safeAddSubInterfaceForObject<T>(this EditInterface editInterface, Object key, T value)
+            where T : class
+        {
+            if (editInterface != null)
+            {
+                editInterface.getEditInterfaceFor(key).addSubInterface<T>(value);
+            }
+        }
+
+        /// <summary>
+        /// Safe version of removeSubInterface. Will check for the calling object to be null first.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="editInterface"></param>
+        /// <param name="value"></param>
+        /// <param name="key"></param>
+        public static void safeRemoveSubInterfaceForObject<T>(this EditInterface editInterface, Object key, T value)
+            where T : class
+        {
+            if (editInterface != null)
+            {
+                editInterface.getEditInterfaceFor(key).removeSubInterface<T>(value);
+            }
+        }
     }
 }
