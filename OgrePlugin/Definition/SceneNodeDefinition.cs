@@ -325,7 +325,7 @@ namespace OgrePlugin
         /// </summary>
         /// <param name="callback"></param>
         /// <param name="command"></param>
-        private void addEntity(EditUICallback callback, EditInterfaceCommand command)
+        private void addEntity(EditUICallback callback)
         {
             callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
             {
@@ -343,7 +343,7 @@ namespace OgrePlugin
         /// </summary>
         /// <param name="callback"></param>
         /// <param name="command"></param>
-        private void addCamera(EditUICallback callback, EditInterfaceCommand command)
+        private void addCamera(EditUICallback callback)
         {
             callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
             {
@@ -361,7 +361,7 @@ namespace OgrePlugin
         /// </summary>
         /// <param name="callback"></param>
         /// <param name="command"></param>
-        private void addManualObject(EditUICallback callback, EditInterfaceCommand command)
+        private void addManualObject(EditUICallback callback)
         {
             callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
             {
@@ -379,7 +379,7 @@ namespace OgrePlugin
         /// </summary>
         /// <param name="callback"></param>
         /// <param name="command"></param>
-        private void addLight(EditUICallback callback, EditInterfaceCommand command)
+        private void addLight(EditUICallback callback)
         {
             callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
             {
@@ -397,7 +397,7 @@ namespace OgrePlugin
         /// </summary>
         /// <param name="callback"></param>
         /// <param name="command"></param>
-        private void removeMovableObject(EditUICallback callback, EditInterfaceCommand command)
+        private void removeMovableObject(EditUICallback callback)
         {
             removeMovableObjectDefinition(editInterface.resolveSourceObject<MovableObjectDefinition>(callback.getSelectedEditInterface()));
         }
@@ -407,7 +407,7 @@ namespace OgrePlugin
         /// </summary>
         /// <param name="callback"></param>
         /// <param name="command"></param>
-        private void addChildNode(EditUICallback callback, EditInterfaceCommand command)
+        private void addChildNode(EditUICallback callback)
         {
             callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
             {
@@ -432,8 +432,7 @@ namespace OgrePlugin
         /// Callback to remove a child node.
         /// </summary>
         /// <param name="callback"></param>
-        /// <param name="command"></param>
-        private void removeChildNode(EditUICallback callback, EditInterfaceCommand command)
+        private void removeChildNode(EditUICallback callback)
         {
             removeChildNode(editInterface.resolveSourceObject<SceneNodeDefinition>(callback.getSelectedEditInterface()));
         }

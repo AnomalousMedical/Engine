@@ -271,7 +271,7 @@ namespace Anomaly
 
         #region Projects
 
-        private void createProjectCallback(EditUICallback callback, EditInterfaceCommand command)
+        private void createProjectCallback(EditUICallback callback)
         {
             callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
             {
@@ -292,12 +292,12 @@ namespace Anomaly
             });
         }
 
-        private void destroyProjectCallback(EditUICallback callback, EditInterfaceCommand command)
+        private void destroyProjectCallback(EditUICallback callback)
         {
             removeProject(editInterface.resolveSourceObject<Project>(callback.getSelectedEditInterface()));
         }
 
-        private void setActiveProjectCallback(EditUICallback callback, EditInterfaceCommand command)
+        private void setActiveProjectCallback(EditUICallback callback)
         {
             if (currentProject != null)
             {
@@ -309,7 +309,7 @@ namespace Anomaly
             anomalyController.buildScene();
         }
 
-        private void buildProjectCallback(EditUICallback callback, EditInterfaceCommand command)
+        private void buildProjectCallback(EditUICallback callback)
         {
             Project project = editInterface.resolveSourceObject<Project>(callback.getSelectedEditInterface());
             project.build();
@@ -333,7 +333,7 @@ namespace Anomaly
 
         #endregion
 
-        private void buildSolutionCallback(EditUICallback callback, EditInterfaceCommand command)
+        private void buildSolutionCallback(EditUICallback callback)
         {
             Log.ImportantInfo("Building solution {0}.", name);
             this.build();

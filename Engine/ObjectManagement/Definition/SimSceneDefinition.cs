@@ -18,7 +18,6 @@ namespace Engine.ObjectManagement
 
         private List<SimElementManagerDefinition> elementManagers = new List<SimElementManagerDefinition>();
         private Dictionary<String, SimSubSceneDefinition> subSceneDefinitions = new Dictionary<string, SimSubSceneDefinition>();
-        private Dictionary<EditInterfaceCommand, AddSimElementManagerCommand> createSimElementManagerDefs = new Dictionary<EditInterfaceCommand, AddSimElementManagerCommand>();
         private EditInterface editInterface;
         private EditInterface simElementEditor;
         private EditInterface subScenes;
@@ -173,15 +172,33 @@ namespace Engine.ObjectManagement
                         }
                     });
                 editInterface.IconReferenceTag = EngineIcons.Scene;
-        
+
                 simElementEditor = new EditInterface("Sim Element Managers");
                 var elementManagerInterfaces = simElementEditor.createEditInterfaceManager<SimElementManagerDefinition>();
                 elementManagerInterfaces.addCommand(new EditInterfaceCommand("Destroy", destroySimElementManagerDefinition));
                 foreach (AddSimElementManagerCommand command in PluginManager.Instance.getCreateSimElementManagerCommands())
                 {
-                    EditInterfaceCommand interfaceCommand = new EditInterfaceCommand(command.Name, new EditInterfaceFunction(createSimElementManagerDefinition));
-                    createSimElementManagerDefs.Add(interfaceCommand, command);
-                    simElementEditor.addCommand(interfaceCommand);
+                    simElementEditor.addCommand(new EditInterfaceCommand(command.Name, callback =>
+                    {
+                        callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
+                        {
+                            if (input == null || input == "")
+                            {
+                                errorPrompt = "Please enter a non empty name.";
+                                return false;
+                            }
+                            if (this.hasSimElementManagerDefinition(input))
+                            {
+                                errorPrompt = "That name is already in use. Please provide another.";
+                                return false;
+                            }
+
+                            SimElementManagerDefinition def = command.execute(input, callback);
+                            this.addSimElementManagerDefinition(def);
+
+                            return true;
+                        });
+                    }));
                 }
                 editInterface.addSubInterface(simElementEditor);
 
@@ -263,38 +280,11 @@ namespace Engine.ObjectManagement
         #region Helper Functions
 
         /// <summary>
-        /// Callback to create a SimElementManagerDefinition.
-        /// </summary>
-        /// <param name="callback">The EditUICallback to get more info from the user.</param>
-        /// <param name="caller">The command that initiated this funciton call.</param>
-        private void createSimElementManagerDefinition(EditUICallback callback, EditInterfaceCommand caller)
-        {
-            callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
-            {
-                if (input == null || input == "")
-                {
-                    errorPrompt = "Please enter a non empty name.";
-                    return false;
-                }
-                if (this.hasSimElementManagerDefinition(input))
-                {
-                    errorPrompt = "That name is already in use. Please provide another.";
-                    return false;
-                }
-
-                SimElementManagerDefinition def = createSimElementManagerDefs[caller].execute(input, callback);
-                this.addSimElementManagerDefinition(def);
-
-                return true;
-            });
-        }
-
-        /// <summary>
         /// Callback to destroy a SimElementManagerDefinition.
         /// </summary>
         /// <param name="callback">The EditUICallback to get more info from the user.</param>
         /// <param name="caller">The command that initiated this funciton call.</param>
-        private void destroySimElementManagerDefinition(EditUICallback callback, EditInterfaceCommand caller)
+        private void destroySimElementManagerDefinition(EditUICallback callback)
         {
             EditInterface currentInterface = callback.getSelectedEditInterface();
             removeSimElementManagerDefinition(simElementEditor.resolveSourceObject<SimElementManagerDefinition>(currentInterface));
@@ -305,7 +295,7 @@ namespace Engine.ObjectManagement
         /// </summary>
         /// <param name="callback">The EditUICallback to get more info from the user.</param>
         /// <param name="caller">The command that initiated this funciton call.</param>
-        private void createSimSubSceneDefinition(EditUICallback callback, EditInterfaceCommand caller)
+        private void createSimSubSceneDefinition(EditUICallback callback)
         {
             callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
             {
@@ -331,7 +321,7 @@ namespace Engine.ObjectManagement
         /// </summary>
         /// <param name="callback">The EditUICallback to get more info from the user.</param>
         /// <param name="caller">The command that initiated this funciton call.</param>
-        private void destroySimSubSceneDefinition(EditUICallback callback, EditInterfaceCommand caller)
+        private void destroySimSubSceneDefinition(EditUICallback callback)
         {
             EditInterface currentInterface = callback.getSelectedEditInterface();
             removeSimSubSceneDefinition(subScenes.resolveSourceObject<SimSubSceneDefinition>(currentInterface));

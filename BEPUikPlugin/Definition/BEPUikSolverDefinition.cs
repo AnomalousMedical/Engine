@@ -197,7 +197,7 @@ namespace BEPUikPlugin
             if (editInterface == null)
             {
                 editInterface = ReflectedEditInterface.createEditInterface(this, ReflectedEditInterface.DefaultScanner, Name + " - IK Solver", null);
-                editInterface.addCommand(new EditInterfaceCommand("Add Child Solver", (callback, command) =>
+                editInterface.addCommand(new EditInterfaceCommand("Add Child Solver", callback =>
                     {
                         addChildSolver(new BEPUikSolverDefinition()
                         {
@@ -205,7 +205,7 @@ namespace BEPUikPlugin
                         });
                     }));
                 childSolversManager = editInterface.createEditInterfaceManager<BEPUikSolverDefinition>();
-                childSolversManager.addCommand(new EditInterfaceCommand("Remove", (callback, command) =>
+                childSolversManager.addCommand(new EditInterfaceCommand("Remove", callback =>
                     {
                         removeChildSolver(childSolversManager.resolveSourceObject(callback.getSelectedEditInterface()));
                     }));

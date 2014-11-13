@@ -339,7 +339,7 @@ namespace Engine.Resources
         /// </summary>
         /// <param name="callback"></param>
         /// <param name="caller"></param>
-        private void destroyResourceGroup(EditUICallback callback, EditInterfaceCommand caller)
+        private void destroyResourceGroup(EditUICallback callback)
         {
             removeResourceGroup(editInterface.resolveSourceObject<ResourceGroup>(callback.getSelectedEditInterface()).Name);
         }
@@ -349,7 +349,7 @@ namespace Engine.Resources
         /// </summary>
         /// <param name="callback"></param>
         /// <param name="caller"></param>
-        private void addResourceGroup(EditUICallback callback, EditInterfaceCommand caller)
+        private void addResourceGroup(EditUICallback callback)
         {
             callback.getInputString("Enter a name for the group.", delegate(String input, ref String errorPrompt)
             {

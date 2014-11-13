@@ -232,7 +232,7 @@ namespace Anomaly
             }
         }
 
-        private void toggleHidden(EditUICallback callback, EditInterfaceCommand command)
+        private void toggleHidden(EditUICallback callback)
         {
             setVisible(!showInstance);
         }

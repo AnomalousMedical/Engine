@@ -326,7 +326,7 @@ namespace Anomaly
             return typeof(SimObjectDefinition).IsAssignableFrom(type);
         }
 
-        private void createGroupCallback(EditUICallback callback, EditInterfaceCommand command)
+        private void createGroupCallback(EditUICallback callback)
         {
             callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
             {
@@ -347,7 +347,7 @@ namespace Anomaly
             });
         }
 
-        private void destroyGroupCallback(EditUICallback callback, EditInterfaceCommand command)
+        private void destroyGroupCallback(EditUICallback callback)
         {
             removeGroup(editInterface.resolveSourceObject<InstanceGroup>(callback.getSelectedEditInterface()));
         }
@@ -368,7 +368,7 @@ namespace Anomaly
             }
         }
 
-        private void createSimObjectCallback(EditUICallback callback, EditInterfaceCommand command)
+        private void createSimObjectCallback(EditUICallback callback)
         {
             callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
             {
@@ -390,7 +390,7 @@ namespace Anomaly
             });
         }
 
-        private void destroySimObjectCallback(EditUICallback callback, EditInterfaceCommand command)
+        private void destroySimObjectCallback(EditUICallback callback)
         {
             EditInterface selected = callback.getSelectedEditInterface();
             if (selected.hasEditableProperties())
@@ -400,7 +400,7 @@ namespace Anomaly
             }
         }
 
-        private void renameSimObjectCallback(EditUICallback callback, EditInterfaceCommand command)
+        private void renameSimObjectCallback(EditUICallback callback)
         {
             callback.getInputString("Enter a name.", delegate(String input, ref String errorPrompt)
             {
@@ -432,7 +432,7 @@ namespace Anomaly
             instanceFiles[instance.Name].Modified = true;
         }
 
-        private void importPositionsCallback(EditUICallback callback, EditInterfaceCommand command)
+        private void importPositionsCallback(EditUICallback callback)
         {
             callback.showOpenFileDialog("*.positions|*.positions", delegate(String file, ref String errorPrompt)
             {
@@ -475,7 +475,7 @@ namespace Anomaly
             }
         }
 
-        private void showAllCallback(EditUICallback callback, EditInterfaceCommand command)
+        private void showAllCallback(EditUICallback callback)
         {
             foreach (InstanceFileInterface instance in instanceFiles.Values)
             {
@@ -484,11 +484,11 @@ namespace Anomaly
 
             foreach (InstanceGroup group in groups.Values)
             {
-                group.showAllCallback(callback, command);
+                group.showAllCallback(callback);
             }
         }
 
-        private void hideAllCallback(EditUICallback callback, EditInterfaceCommand command)
+        private void hideAllCallback(EditUICallback callback)
         {
             foreach (InstanceFileInterface instance in instanceFiles.Values)
             {
@@ -497,7 +497,7 @@ namespace Anomaly
 
             foreach (InstanceGroup group in groups.Values)
             {
-                group.hideAllCallback(callback, command);
+                group.hideAllCallback(callback);
             }
         }
 

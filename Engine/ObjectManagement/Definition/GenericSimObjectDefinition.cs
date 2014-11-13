@@ -32,7 +32,6 @@ namespace Engine.ObjectManagement
         private LinkedList<SimElementDefinition> definitions = new LinkedList<SimElementDefinition>();
         private String name;
         private EditInterface editInterface = null;
-        private Dictionary<EditInterfaceCommand, AddSimElementCommand> createCommands = new Dictionary<EditInterfaceCommand, AddSimElementCommand>();
 
         #endregion Fields
 
@@ -111,7 +110,7 @@ namespace Engine.ObjectManagement
         {
             if (editInterface == null)
             {
-                editInterface = ReflectedEditInterface.createEditInterface(this, genericSimObjectScanner, name, null);//new EditInterface(name);
+                editInterface = ReflectedEditInterface.createEditInterface(this, genericSimObjectScanner, name, null);
                 editInterface.IconReferenceTag = EngineIcons.SimObject;
                 var elementEditInterfaces = editInterface.createEditInterfaceManager<SimElementDefinition>();
                 elementEditInterfaces.addCommand(new EditInterfaceCommand("Remove", removeSimElementDefinition));
@@ -121,9 +120,29 @@ namespace Engine.ObjectManagement
                 }
                 foreach (AddSimElementCommand command in PluginManager.Instance.getCreateSimElementCommands())
                 {
-                    EditInterfaceCommand createSimElement = new EditInterfaceCommand(command.Name, createSimElementDefinition);
-                    createCommands.Add(createSimElement, command);
-                    editInterface.addCommand(createSimElement);
+                    editInterface.addCommand(new EditInterfaceCommand(command.Name, callback =>
+                    {
+                        callback.getInputString("Enter a name.", delegate(String result, ref String errorPrompt)
+                        {
+                            if (result == null || result == "")
+                            {
+                                errorPrompt = "Please enter a non empty name.";
+                                return false;
+                            }
+                            foreach (SimElementDefinition definition in definitions)
+                            {
+                                if (definition.Name == result)
+                                {
+                                    errorPrompt = "That name is already in use. Please provide another.";
+                                    return false;
+                                }
+                            }
+
+                            command.execute(result, callback, this);
+
+                            return true;
+                        });
+                    }));
                 }
 
                 GenericClipboardEntry clipboardEntry = new GenericClipboardEntry(typeof(SimElementDefinition));
@@ -139,40 +158,11 @@ namespace Engine.ObjectManagement
         }
 
         /// <summary>
-        /// Helper function to create SimElementDefinitions.
-        /// </summary>
-        /// <param name="callback"></param>
-        /// <param name="command"></param>
-        private void createSimElementDefinition(EditUICallback callback, EditInterfaceCommand command)
-        {
-            callback.getInputString("Enter a name.", delegate(String result, ref String errorPrompt)
-            {
-                if (result == null || result == "")
-                {
-                    errorPrompt = "Please enter a non empty name.";
-                    return false;
-                }
-                foreach (SimElementDefinition definition in definitions)
-                {
-                    if (definition.Name == result)
-                    {
-                        errorPrompt = "That name is already in use. Please provide another.";
-                        return false;
-                    }
-                }
-
-                createCommands[command].execute(result, callback, this);
-
-                return true;
-            });
-        }
-
-        /// <summary>
         /// Remove a SimElementDefinition.
         /// </summary>
         /// <param name="callback"></param>
         /// <param name="command"></param>
-        private void removeSimElementDefinition(EditUICallback callback, EditInterfaceCommand command)
+        private void removeSimElementDefinition(EditUICallback callback)
         {
             removeElement(editInterface.resolveSourceObject<SimElementDefinition>(callback.getSelectedEditInterface()));
         }

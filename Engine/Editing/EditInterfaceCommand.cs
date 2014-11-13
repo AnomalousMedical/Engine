@@ -6,7 +6,7 @@ using Engine.Attributes;
 
 namespace Engine.Editing
 {
-    public delegate void EditInterfaceFunction(EditUICallback callback, EditInterfaceCommand caller);
+    public delegate void EditInterfaceFunction(EditUICallback callback);
 
     /// <summary>
     /// This is a command that can be activated on a particular EditInterface by
@@ -33,12 +33,23 @@ namespace Engine.Editing
         }
 
         /// <summary>
+        /// Constructor. Use this verison if you don't care about having a ui callback.
+        /// </summary>
+        /// <param name="name">The name of the command.</param>
+        /// <param name="function">The funciton to exectue.</param>
+        public EditInterfaceCommand(String name, Action function)
+        {
+            this.name = name;
+            this.function = callback => function();
+        }
+
+        /// <summary>
         /// Execute the function.
         /// </summary>
         /// <param name="callback">A callback the functions can use to ask the user for additional input.</param>
         public void execute(EditUICallback callback)
         {
-            function.Invoke(callback, this);
+            function.Invoke(callback);
         }
 
         /// <summary>
