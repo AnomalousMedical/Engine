@@ -30,11 +30,12 @@ namespace Engine.Editing
         /// <param name="name">The name of the EditInterface created.</param>
         /// <param name="createNewCallback">This function is called when a new item is added to the list, it is required.</param>
         /// <param name="removedCallback">This funciton is called when an item is removed from the list, it can be null.</param>
+        /// <param name="validateCallback">Optional callback to validate list contents.</param>
         /// <param name="memberScanner">The member scanner to use to find items to add to each entry's EditInterface, if null it will be the ReflectedEditInterface.DefaultScanner.</param>
-        public ReflectedListLikeEditInterface(IList<T> list, String name, Func<T> createNewCallback, Action<T> removedCallback = null, MemberScanner memberScanner = null)
+        public ReflectedListLikeEditInterface(IList<T> list, String name, Func<T> createNewCallback, Action<T> removedCallback = null, Validate validateCallback = null, MemberScanner memberScanner = null)
             :base(name)
         {
-            init(new IListAbstractor<T>(list), name, createNewCallback, removedCallback);
+            init(new IListAbstractor<T>(list), name, createNewCallback, removedCallback, validateCallback, memberScanner);
         }
 
         /// <summary>
@@ -45,17 +46,18 @@ namespace Engine.Editing
         /// <param name="name">The name of the EditInterface created.</param>
         /// <param name="createNewCallback">This function is called when a new item is added to the list, it is required.</param>
         /// <param name="removedCallback">This funciton is called when an item is removed from the list, it can be null.</param>
+        /// <param name="validateCallback">Optional callback to validate list contents.</param>
         /// <param name="memberScanner">The member scanner to use to find items to add to each entry's EditInterface, if null it will be the ReflectedEditInterface.DefaultScanner.</param>
-        public ReflectedListLikeEditInterface(LinkedList<T> list, String name, Func<T> createNewCallback, Action<T> removedCallback = null, MemberScanner memberScanner = null)
+        public ReflectedListLikeEditInterface(LinkedList<T> list, String name, Func<T> createNewCallback, Action<T> removedCallback = null, Validate validateCallback = null, MemberScanner memberScanner = null)
             :base(name)
         {
-            init(new LinkedListAbstractor<T>(list), name, createNewCallback, removedCallback);
+            init(new LinkedListAbstractor<T>(list), name, createNewCallback, removedCallback, validateCallback, memberScanner);
         }
 
         /// <summary>
         /// Sync the EditInterface for the list again, call if changes are made externally.
         /// </summary>
-        public override void dataContentsChanged()
+        public override void alertDataContentsChanged()
         {
             //Remove all old properties
             foreach(var property in properties)
@@ -71,11 +73,12 @@ namespace Engine.Editing
             }
         }
 
-        private void init(ListlikeAbstractor<T> list, String name, Func<T> createNewCallback, Action<T> removedCallback, MemberScanner memberScanner = null)
+        private void init(ListlikeAbstractor<T> list, String name, Func<T> createNewCallback, Action<T> removedCallback, Validate validateCallback, MemberScanner memberScanner)
         {
             this.list = list;
             this.createNewCallback = createNewCallback;
             this.removedCallback = removedCallback;
+            this.validateCallback = validateCallback;
 
             //If no member scanner passed, set it to the default one
             if(memberScanner == null)

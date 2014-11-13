@@ -26,7 +26,7 @@ namespace Engine.Editing
         /// <summary>
         /// Sync the EditInterface for the list again, call if changes are made externally.
         /// </summary>
-        public override void dataContentsChanged()
+        public override void alertDataContentsChanged()
         {
             //Remove all old properties
             foreach (var property in properties)

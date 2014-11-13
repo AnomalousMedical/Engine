@@ -16,6 +16,14 @@ namespace Engine.Editing
     public class EditInterfaceManager<T>
         where T : class
     {
+        /// <summary>
+        /// This delegate creates an EditInterface for an item in a EditInterfaceManager.
+        /// </summary>
+        /// <param name="item">The item to create an EditInterface for.</param>
+        /// <returns>The EditInterface for item.</returns>
+        public delegate EditInterface CreateEditInterfaceDelegate(T item);
+
+        private CreateEditInterfaceDelegate createEditInterface;
         private Dictionary<T, EditInterface> interfaceDictionary = new Dictionary<T, EditInterface>();
         private LinkedList<EditInterfaceCommand> commandList = new LinkedList<EditInterfaceCommand>();
         private EditInterface editInterface;
@@ -27,6 +35,25 @@ namespace Engine.Editing
         internal EditInterfaceManager(EditInterface editInterface)
         {
             this.editInterface = editInterface;
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="editInterface">The EditInterface to manage subinterfaces for.</param>
+        /// <param name="createEditInterface">The function to call to create EditInterfaces for T types.</param>
+        /// <param name="items">The initial list of items, can be null.</param>
+        internal EditInterfaceManager(EditInterface editInterface, CreateEditInterfaceDelegate createEditInterface, IEnumerable<T> items)
+            :this(editInterface)
+        {
+            this.createEditInterface = createEditInterface;
+            if (items != null)
+            {
+                foreach (var item in items)
+                {
+                    addItem(item);
+                }
+            }
         }
 
         /// <summary>
@@ -114,6 +141,11 @@ namespace Engine.Editing
             {
                 commandList.AddLast(command);
             }
+        }
+
+        internal void addItem(T item)
+        {
+            addSubInterface(item, createEditInterface(item));
         }
     }
 }

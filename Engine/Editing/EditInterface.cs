@@ -368,6 +368,24 @@ namespace Engine.Editing
         }
 
         /// <summary>
+        /// Create an EditInterfaceManager that handles T objects.
+        /// </summary>
+        /// <typeparam name="T">The type the EditInterfaceManager handles.</typeparam>
+        /// <param name="createEditInterface">The callback funciton to create EditInterfaces for T types.</param>
+        /// <param name="items">The initial set of items to add, can be null.</param>
+        public EditInterfaceManager<T> createEditInterfaceManager<T>(EditInterfaceManager<T>.CreateEditInterfaceDelegate createEditInterface, IEnumerable<T> items = null)
+            where T : class
+        {
+            if (editInterfaceManagers == null)
+            {
+                editInterfaceManagers = new Dictionary<Type, object>();
+            }
+            var editInterfaceManager = new EditInterfaceManager<T>(this, createEditInterface, items);
+            editInterfaceManagers.Add(typeof(T), editInterfaceManager);
+            return editInterfaceManager;
+        }
+
+        /// <summary>
         /// Add a keyed sub edit interface. You must define a EditInterfaceManager for type T before calling this function
         /// or it will throw an exception.
         /// </summary>
@@ -378,6 +396,19 @@ namespace Engine.Editing
             where T : class
         {
             getEditInterfaceManager<T>().addSubInterface(key, subInterface);
+        }
+
+        /// <summary>
+        /// Add a sub edit interface for a value. You must define a EditInterfaceManager for type T before calling this function
+        /// or it will throw an exception. You also must supply a CreateEditInterfaceDelegate for the EditInterfaceManager
+        /// when you create it.
+        /// </summary>
+        /// <typeparam name="T">The type of the key.</typeparam>
+        /// <param name="value">The value to add.</param>
+        public void addSubInterface<T>(T value)
+            where T : class
+        {
+            getEditInterfaceManager<T>().addItem(value);
         }
 
         /// <summary>
@@ -525,7 +556,7 @@ namespace Engine.Editing
         /// ListLikeEditInterfaces then you should call this funciton when the associated
         /// list changes.
         /// </summary>
-        public virtual void dataContentsChanged()
+        public virtual void alertDataContentsChanged()
         {
             //Does nothing in normal edit interfaces.
         }
@@ -629,12 +660,69 @@ namespace Engine.Editing
         /// DataNeedsRefresh function without having to check for null in the
         /// client code.
         /// </summary>
-        /// <param name="editInterface"></param>
+        /// <param name="editInterface">The Edit Interface. Can be null.</param>
         public static void fireDataNeedsRefresh(this EditInterface editInterface)
         {
             if (editInterface != null)
             {
                 editInterface._fireDataNeedsRefresh();
+            }
+        }
+
+        /// <summary>
+        /// Alert this edit interface that its data contents have changed. This will check to see
+        /// that the editInterface this is called on is not null before executing.
+        /// </summary>
+        /// <param name="editInterface">The Edit Interface. Can be null.</param>
+        public static void safeAlertDataContentsChanged(this EditInterface editInterface)
+        {
+            if (editInterface != null)
+            {
+                editInterface.alertDataContentsChanged();
+            }
+        }
+
+        /// <summary>
+        /// Alert a sub interface on this specififed by key edit interface that its data contents have changed.
+        /// This will check to see that the editInterface this is called on is not null before executing.
+        /// </summary>
+        /// <param name="parentInterface">The parent edit interface. Can be null.</param>
+        /// <param name="key">The key for the sub interface.</param>
+        public static void safeAlertSubInterfaceDataContentsChanged(this EditInterface parentInterface, Object key)
+        {
+            if (parentInterface != null)
+            {
+                parentInterface.getEditInterfaceFor(key).safeAlertDataContentsChanged();
+            }
+        }
+
+        /// <summary>
+        /// Safe version of addSubInterface. Will check for the calling object to be null first.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="editInterface"></param>
+        /// <param name="value"></param>
+        public static void safeAddSubInterface<T>(this EditInterface editInterface, T value)
+            where T : class
+        {
+            if(editInterface != null)
+            {
+                editInterface.addSubInterface<T>(value);
+            }
+        }
+
+        /// <summary>
+        /// Safe version of removeSubInterface. Will check for the calling object to be null first.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="editInterface"></param>
+        /// <param name="key"></param>
+        public static void safeRemoveSubInterface<T>(this EditInterface editInterface, T key)
+            where T : class
+        {
+            if (editInterface != null)
+            {
+                editInterface.removeSubInterface<T>(key);
             }
         }
     }
