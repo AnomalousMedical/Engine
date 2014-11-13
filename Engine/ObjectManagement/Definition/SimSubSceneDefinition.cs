@@ -110,7 +110,13 @@ namespace Engine.ObjectManagement
         {
             if (editInterface == null)
             {
-                editInterface = new EditInterface(name + " Subscene", addBinding, removeBinding, validate);
+                editInterface = new EditInterface(name + " Subscene", addBinding, removeBinding, () =>
+                {
+                    if (bindings.Any(b => b.SimElementManager == null))
+                    {
+                        throw new ValidationException("Empty binding found. Please fill out all bindings or remove the empty listings.");
+                    }
+                });
                 EditablePropertyInfo propertyInfo = new EditablePropertyInfo();
                 propertyInfo.addColumn(new EditablePropertyColumn("Name", false));
                 propertyInfo.addColumn(new EditablePropertyColumn("Type", true));
@@ -174,20 +180,6 @@ namespace Engine.ObjectManagement
             {
                 editInterface.removeEditableProperty(property);
             }
-        }
-
-        private bool validate(out String message)
-        {
-            foreach (SimSubSceneBinding binding in bindings)
-            {
-                if (binding.SimElementManager == null)
-                {
-                    message = "Empty binding found. Please fill out all bindings or remove the empty listings.";
-                    return false;
-                }
-            }
-            message = null;
-            return true;
         }
 
         #endregion Functions

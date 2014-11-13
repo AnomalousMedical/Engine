@@ -11,16 +11,16 @@ namespace Engine.Editing
         private ListlikeAbstractor<T> list;
         private List<ListItemEditableProperty<T>> properties = new List<ListItemEditableProperty<T>>();
 
-        public ListlikeEditInterface(IList<T> list, String name)
+        public ListlikeEditInterface(IList<T> list, String name, Validate validateCallback)
             : base(name)
         {
-            init(new IListAbstractor<T>(list), name);
+            init(new IListAbstractor<T>(list), name, validateCallback);
         }
 
-        public ListlikeEditInterface(LinkedList<T> list, String name)
+        public ListlikeEditInterface(LinkedList<T> list, String name, Validate validateCallback)
             : base(name)
         {
-            init(new LinkedListAbstractor<T>(list), name);
+            init(new LinkedListAbstractor<T>(list), name, validateCallback);
         }
 
         /// <summary>
@@ -42,15 +42,16 @@ namespace Engine.Editing
             }
         }
 
-        private void init(ListlikeAbstractor<T> list, String name)
+        private void init(ListlikeAbstractor<T> list, String name, Validate validateCallback)
         {
             this.list = list;
 
             EditablePropertyInfo propertyInfo = new EditablePropertyInfo();
             propertyInfo.addColumn(new EditablePropertyColumn("Value", false));
 
-            addPropertyCallback = add;
-            removePropertyCallback = remove;
+            this.addPropertyCallback = add;
+            this.removePropertyCallback = remove;
+            this.validateCallback = validateCallback;
 
             setPropertyInfo(propertyInfo);
 

@@ -35,20 +35,14 @@ namespace OgrePlugin
 
         private String name;
         private EditInterface editInterface;
-        private String interfaceName;
-        private Validate validateCallback;
 
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="name">The name of the MovableObject.</param>
-        /// <param name="interfaceName">The name to use for the EditInterface.</param>
-        /// <param name="validateCallback">A validation callback.</param>
-        protected MovableObjectDefinition(String name, String interfaceName, Validate validateCallback)
+        protected MovableObjectDefinition(String name)
         {
             this.name = name;
-            this.interfaceName = interfaceName;
-            this.validateCallback = validateCallback;
             RenderQueue = 50;
         }
 
@@ -57,12 +51,8 @@ namespace OgrePlugin
         /// </summary>
         /// <param name="name">The name of the MovableObject.</param>
         /// <param name="movableObject">An existing movableObject to take parameters from.</param>
-        /// <param name="interfaceName">The name to use for the EditInterface.</param>
-        /// <param name="validateCallback">A validation callback.</param>
-        protected MovableObjectDefinition(String name, MovableObject movableObject, String interfaceName, Validate validateCallback)
+        protected MovableObjectDefinition(String name, MovableObject movableObject)
         {
-            this.interfaceName = interfaceName;
-            this.validateCallback = validateCallback;
             RenderQueue = movableObject.getRenderQueueGroup();
             this.name = name;
         }
@@ -75,7 +65,7 @@ namespace OgrePlugin
         {
             if (editInterface == null)
             {
-                editInterface = ReflectedEditInterface.createEditInterface(this, typeof(MovableObjectDefinition), memberScanner, name + " " + interfaceName, validateCallback);
+                editInterface = ReflectedEditInterface.createEditInterface(this, typeof(MovableObjectDefinition), memberScanner, String.Format("{0} - {1}", name, InterfaceName), null);
                 setupEditInterface(editInterface);
             }
             return editInterface;
@@ -130,6 +120,8 @@ namespace OgrePlugin
             }
         }
 
+        protected abstract String InterfaceName { get; }
+
         /// <summary>
         /// The RenderQueue this MovableObject belongs to.
         /// </summary>
@@ -141,10 +133,8 @@ namespace OgrePlugin
         private const String NAME = "Name";
         private const String RENDER_QUEUE = "RenderQueue";
 
-        protected MovableObjectDefinition(LoadInfo info, String interfaceName, Validate validateCallback)
+        protected MovableObjectDefinition(LoadInfo info)
         {
-            this.interfaceName = interfaceName;
-            this.validateCallback = validateCallback;
             name = info.GetString(NAME);
             RenderQueue = info.GetByte(RENDER_QUEUE);
         }

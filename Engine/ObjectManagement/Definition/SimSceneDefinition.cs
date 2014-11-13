@@ -158,7 +158,20 @@ namespace Engine.ObjectManagement
         {
             if (editInterface == null)
             {
-                editInterface = ReflectedEditInterface.createEditInterface(this, ReflectedEditInterface.DefaultScanner, "Sim Scene", validate);
+                editInterface = ReflectedEditInterface.createEditInterface(this, ReflectedEditInterface.DefaultScanner, "Sim Scene", () =>
+                    {
+                        if (hasSimSubSceneDefinitions())
+                        {
+                            if (DefaultSubScene == null)
+                            {
+                                throw new ValidationException("Please specify one of the Subscenes as the default.");
+                            }
+                            if (!hasSimSubSceneDefinition(DefaultSubScene))
+                            {
+                                throw new ValidationException("{0} is not a valid Subscene. Please specify an existing scene.", DefaultSubScene);
+                            }
+                        }
+                    });
                 editInterface.IconReferenceTag = EngineIcons.Scene;
         
                 simElementEditor = new EditInterface("Sim Element Managers");
@@ -340,26 +353,6 @@ namespace Engine.ObjectManagement
         private void createEditInterface(SimSubSceneDefinition def)
         {
             subScenes.addSubInterface(def, def.getEditInterface());
-        }
-
-        private bool validate(out String message)
-        {
-            if (hasSimSubSceneDefinitions())
-            {
-                if (DefaultSubScene == null)
-                {
-                    message = "Please specify one of the Subscenes as the default.";
-                    return false;
-                }
-                if (!hasSimSubSceneDefinition(DefaultSubScene))
-                {
-                    message = String.Format("{0} is not a valid Subscene. Please specify an existing scene.", DefaultSubScene);
-                    return false;
-                }
-            }
-
-            message = null;
-            return true;
         }
 
         #endregion Helper Functions

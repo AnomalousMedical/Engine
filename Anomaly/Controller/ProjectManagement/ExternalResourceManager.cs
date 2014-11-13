@@ -73,7 +73,7 @@ namespace Anomaly
         {
             if (editInterface == null)
             {
-                editInterface = new EditInterface("External Resources", addReferenceCallback, removeReferenceCallback, validate);
+                editInterface = new EditInterface("External Resources", addReferenceCallback, removeReferenceCallback, null);
                 editInterface.IconReferenceTag = AnomalyIcons.ExternalResources;
                 EditablePropertyInfo propertyInfo = new EditablePropertyInfo();
                 propertyInfo.addColumn(new EditablePropertyColumn("Resource", false));
@@ -99,12 +99,6 @@ namespace Anomaly
                 externalResources.Remove(resource);
                 onResourceRemoved(resource);
             }
-        }
-
-        private bool validate(out String message)
-        {
-            message = null;
-            return true;
         }
 
         private void onResourceAdded(ExternalResource resource)

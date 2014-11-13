@@ -258,7 +258,24 @@ namespace Engine.Resources
         {
             if (editInterface == null)
             {
-                editInterface = new EditInterface(name, addResource, removeResource, validate);
+                editInterface = new EditInterface(name, addResource, removeResource, () =>
+                {
+                    foreach (Resource resource in resources.Values)
+                    {
+                        if (!resource.isValid())
+                        {
+                            String locName = resource.LocName;
+                            if (locName == null || locName == String.Empty)
+                            {
+                                throw new ValidationException("Cannot accept empty locations. Please remove any blank entries.");
+                            }
+                            else
+                            {
+                                throw new ValidationException("Could not find the path \"{0}\". Please modify or remove that entry", resource.LocName);
+                            }
+                        }
+                    }
+                });
                 editInterface.setPropertyInfo(ResourceEditableProperty.Info);
                 foreach (Resource resource in resources.Values)
                 {
@@ -285,33 +302,6 @@ namespace Engine.Resources
         private void removeResource(EditUICallback callback, EditableProperty property)
         {
             removeResource(editInterface.getKeyObjectForProperty<Resource>(property).LocName);
-        }
-
-        /// <summary>
-        /// Callback to validate the resources.
-        /// </summary>
-        /// <param name="message"></param>
-        /// <returns></returns>
-        private bool validate(out String message)
-        {
-            foreach (Resource resource in resources.Values)
-            {
-                if (!resource.isValid())
-                {
-                    String locName = resource.LocName;
-                    if (locName == null || locName == String.Empty)
-                    {
-                        message = "Cannot accept empty locations. Please remove any blank entries.";
-                    }
-                    else
-                    {
-                        message = String.Format("Could not find the path \"{0}\". Please modify or remove that entry", resource.LocName);
-                    }
-                    return false;
-                }
-            }
-            message = null;
-            return true;
         }
 
         private void onResourceAdded(Resource resource)

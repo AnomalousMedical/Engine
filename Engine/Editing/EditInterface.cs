@@ -8,7 +8,12 @@ namespace Engine.Editing
 {
     public delegate void AddProperty(EditUICallback callback);
     public delegate void RemoveProperty(EditUICallback callback, EditableProperty property);
-    public delegate bool Validate(out String errorMessage);
+
+    /// <summary>
+    /// Validate the EditInterface. If there is an error throw a ValidationException with the message
+    /// equal to the error you wish to display.
+    /// </summary>
+    public delegate void Validate();
 
     public delegate void PropertyAdded(EditableProperty property);
     public delegate void PropertyRemoved(EditableProperty property);
@@ -498,7 +503,15 @@ namespace Engine.Editing
         {
             if (validateCallback != null)
             {
-                return validateCallback.Invoke(out errorMessage);
+                try
+                {
+                    validateCallback.Invoke();
+                }
+                catch(ValidationException ex)
+                {
+                    errorMessage = ex.Message;
+                    return false;
+                }
             }
             errorMessage = null;
             return true;

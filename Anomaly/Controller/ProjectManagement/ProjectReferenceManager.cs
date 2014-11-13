@@ -73,7 +73,7 @@ namespace Anomaly
         {
             if (editInterface == null)
             {
-                editInterface = new EditInterface("Referenced Projects", addReferenceCallback, removeReferenceCallback, validate);
+                editInterface = new EditInterface("Referenced Projects", addReferenceCallback, removeReferenceCallback, null);
                 editInterface.IconReferenceTag = AnomalyIcons.ReferencedProjects;
                 EditablePropertyInfo propertyInfo = new EditablePropertyInfo();
                 propertyInfo.addColumn(new EditablePropertyColumn("Project", false));
@@ -99,12 +99,6 @@ namespace Anomaly
                 referencedProjects.Remove(reference);
                 onReferenceRemoved(reference);
             }
-        }
-
-        private bool validate(out String message)
-        {
-            message = null;
-            return true;
         }
 
         private void onReferenceAdded(ProjectReference reference)

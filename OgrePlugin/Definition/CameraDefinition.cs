@@ -31,7 +31,7 @@ namespace OgrePlugin
         #endregion Static
 
         public CameraDefinition(String name)
-            : base(name, "Camera", null)
+            : base(name)
         {
             AutoAspectRatio = true;
             LodBias = 1.0f;
@@ -48,7 +48,7 @@ namespace OgrePlugin
         }
 
         public CameraDefinition(String name, Camera camera)
-            :base(name, camera, "Camera", null)
+            :base(name, camera)
         {
             AutoAspectRatio = camera.getAutoAspectRatio();
             LodBias = camera.getLodBias();
@@ -183,6 +183,14 @@ namespace OgrePlugin
         [Editable]
         public float FOVy { get; set; }
 
+        protected override String InterfaceName
+        {
+            get
+            {
+                return "Camera";
+            }
+        }
+
         #region Saveable Members
 
         private const String AUTO_ASPECT_RATIO = "AutoAspectRatio";
@@ -203,7 +211,7 @@ namespace OgrePlugin
         /// </summary>
         /// <param name="info"></param>
         private CameraDefinition(LoadInfo info)
-            :base(info, "Camera", null)
+            :base(info)
         {
             AutoAspectRatio = info.GetBoolean(AUTO_ASPECT_RATIO);
             LodBias = info.GetFloat(LOD_BIAS);

@@ -42,13 +42,13 @@ namespace OgrePlugin
         /// </summary>
         /// <param name="name">The name of the entity.</param>
         public EntityDefinition(String name)
-            :base(name, "Entity", null)
+            :base(name)
         {
             
         }
 
         public EntityDefinition(String name, Entity entity)
-            :base(name, entity, "Entity", null)
+            :base(name, entity)
         {
             using (MeshPtr mesh = entity.getMesh())
             {
@@ -116,6 +116,14 @@ namespace OgrePlugin
             }
         }
 
+        protected override String InterfaceName
+        {
+            get
+            {
+                return "Entity";
+            }
+        }
+
         #region Saveable Members
 
         private const String MESH_NAME = "MeshName";
@@ -126,7 +134,7 @@ namespace OgrePlugin
         /// </summary>
         /// <param name="info"></param>
         private EntityDefinition(LoadInfo info)
-            :base(info, "Entity", null)
+            :base(info)
         {
             meshName = info.GetString(MESH_NAME);
             if (info.hasValue(SKELETON))

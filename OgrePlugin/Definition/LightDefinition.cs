@@ -32,7 +32,7 @@ namespace OgrePlugin
         #endregion Static
 
         public LightDefinition(String name)
-            :base(name, "Light", null)
+            :base(name)
         {
             AttenuationConstant = 1;
             AttenuationLinear = 0;
@@ -49,7 +49,7 @@ namespace OgrePlugin
         }
 
         public LightDefinition(String name, Light light)
-            :base(name, light, "Light", null)
+            :base(name, light)
         {
             AttenuationConstant = light.getAttenuationConstant();
             AttenuationLinear = light.getAttenuationLinear();
@@ -123,6 +123,14 @@ namespace OgrePlugin
         [Editable]
         public float SpotlightOuterAngle { get; set; }
 
+        protected override String InterfaceName
+        {
+            get
+            {
+                return "Light";
+            }
+        }
+
         #region Saveable
 
         private const String LIGHT_TYPE = "LightType";
@@ -139,7 +147,7 @@ namespace OgrePlugin
         private const String SPOTLIGHT_OUTER_ANGLE = "SpotlightOuterAngle";
 
         private LightDefinition(LoadInfo info)
-            :base(info, "Light", null)
+            :base(info)
         {
             LightType = info.GetValue <Light.LightTypes>(LIGHT_TYPE);
             AttenuationRange = info.GetFloat(ATTENUATION_RANGE);
