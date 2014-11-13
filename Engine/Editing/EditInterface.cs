@@ -725,7 +725,8 @@ namespace Engine.Editing
         }
 
         /// <summary>
-        /// Safe version of addSubInterface. Will check for the calling object to be null first.
+        /// Safe version of addSubInterface. Will check for the calling object to be null first. Will first find the
+        /// SubEditInterface specified by key and then add value to it.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="editInterface"></param>
@@ -740,7 +741,8 @@ namespace Engine.Editing
         }
 
         /// <summary>
-        /// Safe version of removeSubInterface. Will check for the calling object to be null first.
+        /// Safe version of removeSubInterface. Will check for the calling object to be null first. Will first find the
+        /// SubEditInterface specified by key and then remove value from it.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="editInterface"></param>
