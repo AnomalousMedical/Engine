@@ -6,8 +6,6 @@ using Engine.Attributes;
 
 namespace Engine.Editing
 {
-    public delegate void EditInterfaceFunction(EditUICallback callback);
-
     /// <summary>
     /// This is a command that can be activated on a particular EditInterface by
     /// being added to that interface. It is intended to allow the user to
@@ -18,15 +16,21 @@ namespace Engine.Editing
     [DoNotSave]
     public class EditInterfaceCommand
     {
-        private EditInterfaceFunction function;
+        private ExecuteFunc function;
         private String name;
+
+        /// <summary>
+        /// This delegate is used to call EditInterfaceCommands.
+        /// </summary>
+        /// <param name="callback">The UI callback.</param>
+        public delegate void ExecuteFunc(EditUICallback callback);
 
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="name">The name of the command. This will show up on a UI.</param>
         /// <param name="function">The funciton to execute when the command is run.</param>
-        public EditInterfaceCommand(String name, EditInterfaceFunction function)
+        public EditInterfaceCommand(String name, ExecuteFunc function)
         {
             this.name = name;
             this.function = function;

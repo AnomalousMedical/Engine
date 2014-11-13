@@ -205,7 +205,7 @@ namespace Engine.ObjectManagement
                 subScenes = new EditInterface("Subscenes");
                 var subSceneInterfaces = subScenes.createEditInterfaceManager<SimSubSceneDefinition>();
                 subSceneInterfaces.addCommand(new EditInterfaceCommand("Destroy", destroySimSubSceneDefinition));
-                EditInterfaceCommand createSubSceneCommand = new EditInterfaceCommand("Create Subscene", new EditInterfaceFunction(createSimSubSceneDefinition));
+                EditInterfaceCommand createSubSceneCommand = new EditInterfaceCommand("Create Subscene", createSimSubSceneDefinition);
                 subScenes.addCommand(createSubSceneCommand);
                 editInterface.addSubInterface(subScenes);
 
