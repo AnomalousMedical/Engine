@@ -34,40 +34,77 @@ namespace MyGUIPlugin
         private ButtonGridLayout layoutEngine;
         private ButtonGridSelectionStrategy selectionStrategy;
 
+        /// <summary>
+        /// Called when an item is activated. With the mouse this means double clicked.
+        /// </summary>
         public event Action<ButtonGridItem> ItemActivated;
+
+        /// <summary>
+        /// Called when an item is added.
+        /// </summary>
         public event Action<ButtonGrid, ButtonGridItem> ItemAdded;
+
+        /// <summary>
+        /// Called when an item is removed.
+        /// </summary>
         public event Action<ButtonGrid, ButtonGridItem> ItemRemoved;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="scrollView"></param>
+        /// <param name="scrollView">The scroll view host.</param>
+        /// <param name="selectionStrategy">The selection strategy to use.</param>
         public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy)
             :this(scrollView, selectionStrategy, new ButtonGridGridLayout(), null, null)
         {
             
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="scrollView">The scroll view host.</param>
+        /// <param name="selectionStrategy">The selection strategy to use.</param>
+        /// <param name="itemComparer">A comparison instance.</param>
         public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy, IComparer<ButtonGridItem> itemComparer)
             : this(scrollView, selectionStrategy, new ButtonGridGridLayout(), itemComparer, null)
         {
 
         }
 
-
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="scrollView">The scroll view host.</param>
+        /// <param name="selectionStrategy">The selection strategy to use.</param>
+        /// <param name="layoutEngine">The Layout to use.</param>
         public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy, ButtonGridLayout layoutEngine)
             : this(scrollView, selectionStrategy, layoutEngine, null, null)
         {
 
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="scrollView">The scroll view host.</param>
+        /// <param name="selectionStrategy">The selection strategy to use.</param>
+        /// <param name="layoutEngine">The Layout to use.</param>
+        /// <param name="itemComparer">A comparison instance for items.</param>
         public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy, ButtonGridLayout layoutEngine, IComparer<ButtonGridItem> itemComparer)
             : this(scrollView, selectionStrategy, layoutEngine, itemComparer, null)
         {
 
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="scrollView">The scroll view host.</param>
+        /// <param name="selectionStrategy">The selection strategy to use.</param>
+        /// <param name="layoutEngine">The Layout to use.</param>
+        /// <param name="itemComparer">A comparison instance.</param>
+        /// <param name="groupComparer">A compraison instance for groups.</param>
         public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy, ButtonGridLayout layoutEngine, IComparer<ButtonGridItem> itemComparer, CompareButtonGroupUserObjects groupComparer)
         {
             this.selectionStrategy = selectionStrategy;
@@ -180,12 +217,22 @@ namespace MyGUIPlugin
             clear();
         }
 
+        /// <summary>
+        /// Define a group.
+        /// </summary>
+        /// <param name="group">The name.</param>
+        /// <param name="userObject">An optional user object.</param>
         public void defineGroup(String group, Object userObject = null)
         {
             ButtonGridGroup addGroup = findGroup(group);
             addGroup.UserObject = userObject;
         }
 
+        /// <summary>
+        /// Set a UserObject for a group.
+        /// </summary>
+        /// <param name="group">The name of the group.</param>
+        /// <param name="userObject">The UserObject to set.</param>
         public void setGroupUserObject(String group, Object userObject)
         {
             foreach (ButtonGridGroup groupIter in groups)
@@ -281,15 +328,17 @@ namespace MyGUIPlugin
             layout();
         }
 
+        /// <summary>
+        /// Layout within existing parameters.
+        /// </summary>
         public void layout()
         {
             if (!SuppressLayout)
             {
-                List<ButtonGridGroup> sortedGroups = groups;
+                IEnumerable<ButtonGridGroup> sortedGroups = groups;
                 if (groupComparer != null)
                 {
-                    sortedGroups = new List<ButtonGridGroup>(groups);
-                    sortedGroups.Sort(groupComparer);
+                    sortedGroups = groups.OrderBy(i => i, groupComparer);
                 }
 
                 layoutEngine.startLayout(this);
@@ -301,6 +350,10 @@ namespace MyGUIPlugin
             }
         }
 
+        /// <summary>
+        /// Layout the grid and resize the widget to match.
+        /// </summary>
+        /// <param name="rowCount"></param>
         public void layoutAndResize(int rowCount)
         {
             IntSize2 finalSize = new IntSize2((ItemWidth + ItemPaddingX) * rowCount, 300);
@@ -317,6 +370,10 @@ namespace MyGUIPlugin
                 scrollView.VisibleVScroll ? (int)finalSize.Height + 23 : (int)finalSize.Height + 5);
         }
 
+        /// <summary>
+        /// Set a new width for the grid and layout again.
+        /// </summary>
+        /// <param name="newWidth"></param>
         public void resizeAndLayout(int newWidth)
         {
             IntSize2 canvasSize = scrollView.CanvasSize;
@@ -325,6 +382,11 @@ namespace MyGUIPlugin
             layout();
         }
 
+        /// <summary>
+        /// Get the item at a specified index.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public ButtonGridItem getItem(int index)
         {
             if (index >= itemCount)
@@ -345,6 +407,11 @@ namespace MyGUIPlugin
             throw new Exception("Should not get this exception.");
         }
 
+        /// <summary>
+        /// Find an item based on its caption.
+        /// </summary>
+        /// <param name="caption">The caption to search for.</param>
+        /// <returns>The first item matching the caption.</returns>
         public ButtonGridItem findItemByCaption(String caption)
         {
             foreach (ButtonGridGroup group in groups)
@@ -358,6 +425,11 @@ namespace MyGUIPlugin
             return null;
         }
 
+        /// <summary>
+        /// Find an item based on the UserObject assigned to it.
+        /// </summary>
+        /// <param name="userObject">The user object to search for.</param>
+        /// <returns>The first item matching the user object.</returns>
         public ButtonGridItem findItemByUserObject(Object userObject)
         {
             foreach (ButtonGridGroup group in groups)
@@ -436,6 +508,9 @@ namespace MyGUIPlugin
             }
         }
 
+        /// <summary>
+        /// The padding in the y dimension between groups.
+        /// </summary>
         public int GroupPaddingY
         {
             get
@@ -518,6 +593,9 @@ namespace MyGUIPlugin
             }
         }
 
+        /// <summary>
+        /// The width.
+        /// </summary>
         public int Width
         {
             get
@@ -526,6 +604,9 @@ namespace MyGUIPlugin
             }
         }
 
+        /// <summary>
+        /// The height.
+        /// </summary>
         public int Height
         {
             get
@@ -534,6 +615,9 @@ namespace MyGUIPlugin
             }
         }
 
+        /// <summary>
+        /// An enumerator over the items in the grid.
+        /// </summary>
         public IEnumerable<ButtonGridItem> Items
         {
             get
@@ -545,6 +629,22 @@ namespace MyGUIPlugin
                         yield return item;
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// The current ItemComparer to use for the items in the grid. Can be null.
+        /// You must layout the grid again for changes here to apply.
+        /// </summary>
+        public IComparer<ButtonGridItem> ItemComprarer
+        {
+            get
+            {
+                return itemComparer;
+            }
+            set
+            {
+                itemComparer = value;
             }
         }
 

@@ -13,6 +13,11 @@ namespace MyGUIPlugin
         private TextBox captionText;
         private Widget separator;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="name">The name of the group.</param>
+        /// <param name="grid">The grid the group belongs to.</param>
         public ButtonGridGroup(String name, ButtonGrid grid)
         {
             this.grid = grid;
@@ -32,6 +37,9 @@ namespace MyGUIPlugin
             }
         }
 
+        /// <summary>
+        /// Dispose all items.
+        /// </summary>
         public void Dispose()
         {
             clear();
@@ -44,6 +52,11 @@ namespace MyGUIPlugin
             }
         }
 
+        /// <summary>
+        /// Add an item to the group.
+        /// </summary>
+        /// <param name="caption">The caption to add.</param>
+        /// <returns>The newly created ButtonGridItem.</returns>
         public ButtonGridItem addItem(String caption)
         {
             ButtonGridItem item = new ButtonGridItem(this, grid);
@@ -57,6 +70,12 @@ namespace MyGUIPlugin
             return item;
         }
 
+        /// <summary>
+        /// Insert an item into the group.
+        /// </summary>
+        /// <param name="index">The index to insert at.</param>
+        /// <param name="caption">The caption to use.</param>
+        /// <returns>The newly created ButtonGridItem.</returns>
         public ButtonGridItem insertItem(int index, String caption)
         {
             ButtonGridItem item = new ButtonGridItem(this, grid);
@@ -70,6 +89,10 @@ namespace MyGUIPlugin
             return item;
         }
 
+        /// <summary>
+        /// Remove an item from the group.
+        /// </summary>
+        /// <param name="item"></param>
         public void removeItem(ButtonGridItem item)
         {
             items.Remove(item);
@@ -81,6 +104,9 @@ namespace MyGUIPlugin
             }
         }
 
+        /// <summary>
+        /// Clear all items in the group.
+        /// </summary>
         public void clear()
         {
             foreach (ButtonGridItem item in items)
@@ -93,8 +119,8 @@ namespace MyGUIPlugin
         /// <summary>
         /// Layout the items in the group. Returns the position the next group should start in.
         /// </summary>
-        /// <param name="startPosition">The start position</param>
-        /// <returns>The position for the next group to start at.</returns>
+        /// <param name="layoutEngine">The layout engine to use.</param>
+        /// <param name="itemComparer">The item comparer to use, can be null.</param>
         public void layout(ButtonGridLayout layoutEngine, IComparer<ButtonGridItem> itemComparer)
         {
             if (items.Count > 0)
@@ -104,11 +130,10 @@ namespace MyGUIPlugin
                     layoutEngine.alignCaption(captionText, separator);
                 }
 
-                List<ButtonGridItem> sortedItems = items;
+                IEnumerable<ButtonGridItem> sortedItems = items;
                 if (itemComparer != null)
                 {
-                    sortedItems = new List<ButtonGridItem>(items);
-                    sortedItems.Sort(itemComparer);
+                    sortedItems = items.OrderBy(i => i, itemComparer);
                 }
 
                 foreach (ButtonGridItem item in sortedItems)
