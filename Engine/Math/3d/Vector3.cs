@@ -27,6 +27,8 @@ namespace Engine
         public static Vector3 UnitZ = new Vector3(0.0f, 0.0f, 1.0f);
 
         public static readonly Vector3 Invalid = new Vector3(float.NaN, float.NaN, float.NaN);
+        public static readonly Vector3 Min = new Vector3(float.MinValue, float.MinValue, float.MinValue);
+        public static readonly Vector3 Max = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
 
         public static Vector3 ScaleIdentity = new Vector3(1.0f, 1.0f, 1.0f);
         #endregion Predefined Vectors

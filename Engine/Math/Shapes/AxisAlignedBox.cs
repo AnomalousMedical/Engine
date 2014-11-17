@@ -12,6 +12,17 @@ namespace Engine
     [StructLayout(LayoutKind.Explicit, Size = 24)]
     public struct AxisAlignedBox
     {
+        /// <summary>
+        /// A predefined AxisAlignedBox suitable for min maxing, the minimum is started
+        /// at the maximum vector size and the maximum is started at the minimum.
+        /// This is a good starting point to merge several boxes together.
+        /// </summary>
+        public static readonly AxisAlignedBox MinMaxable = new AxisAlignedBox()
+        {
+            minimum = Vector3.Max,
+            maximum = Vector3.Min,
+        };
+
         [FieldOffset(0)]
         private Vector3 minimum;
 
