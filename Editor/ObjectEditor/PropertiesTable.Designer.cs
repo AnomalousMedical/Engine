@@ -43,15 +43,17 @@
             // 
             this.propGridView.AllowUserToAddRows = false;
             this.propGridView.AllowUserToDeleteRows = false;
+            this.propGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.propGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.propGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.nameColumn,
             this.valueColumn,
             this.editPropertyColumn});
-            this.propGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propGridView.Location = new System.Drawing.Point(0, 0);
             this.propGridView.Name = "propGridView";
-            this.propGridView.Size = new System.Drawing.Size(668, 416);
+            this.propGridView.Size = new System.Drawing.Size(668, 394);
             this.propGridView.TabIndex = 1;
             // 
             // nameColumn
@@ -75,10 +77,11 @@
             // 
             // addRemovePanel
             // 
+            this.addRemovePanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.addRemovePanel.Controls.Add(this.addButton);
             this.addRemovePanel.Controls.Add(this.removeButton);
-            this.addRemovePanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.addRemovePanel.Location = new System.Drawing.Point(0, 386);
+            this.addRemovePanel.Location = new System.Drawing.Point(0, 397);
             this.addRemovePanel.Name = "addRemovePanel";
             this.addRemovePanel.Size = new System.Drawing.Size(668, 30);
             this.addRemovePanel.TabIndex = 2;
@@ -110,7 +113,7 @@
             this.Controls.Add(this.addRemovePanel);
             this.Controls.Add(this.propGridView);
             this.Name = "PropertiesTable";
-            this.Size = new System.Drawing.Size(668, 416);
+            this.Size = new System.Drawing.Size(668, 427);
             ((System.ComponentModel.ISupportInitialize)(this.propGridView)).EndInit();
             this.addRemovePanel.ResumeLayout(false);
             this.ResumeLayout(false);

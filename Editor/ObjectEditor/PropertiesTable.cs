@@ -145,6 +145,14 @@ namespace Editor
                 editInterface.OnPropertyRemoved += propertyRemovedCallback;
 
                 addRemovePanel.Visible = editInterface.canAddRemoveProperties();
+                if(addRemovePanel.Visible)
+                {
+                    propGridView.Height = this.Height - addRemovePanel.Height;
+                }
+                else
+                {
+                    propGridView.Height = this.Height;
+                }
                 currentPropInfo = editInterface.getPropertyInfo();
                 if (currentPropInfo != null)
                 {
