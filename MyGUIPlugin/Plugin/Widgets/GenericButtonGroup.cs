@@ -23,11 +23,19 @@ namespace MyGUIPlugin
         /// </summary>
         public event EventHandler SelectedButtonChanged;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public ButtonGroup()
         {
 
         }
 
+        /// <summary>
+        /// Add a button with a key.
+        /// </summary>
+        /// <param name="key">The key for the button.</param>
+        /// <param name="button">The button.</param>
         public void addButton(T key, Button button)
         {
             button.Enabled = enabled;
@@ -40,6 +48,10 @@ namespace MyGUIPlugin
             }
         }
 
+        /// <summary>
+        /// Remove a button by key.
+        /// </summary>
+        /// <param name="key">The key of the button to remove.</param>
         public void removeButton(T key)
         {
             Button button;
@@ -54,6 +66,20 @@ namespace MyGUIPlugin
             }
         }
 
+        /// <summary>
+        /// Clear all buttons from the group.
+        /// </summary>
+        public void clear()
+        {
+            buttons.Clear();
+            selectedButton = null;
+        }
+
+        /// <summary>
+        /// Get the button specified by key.
+        /// </summary>
+        /// <param name="key">The key for the button/</param>
+        /// <returns>The button or null if the key does not map to a button.</returns>
         public Button this[T key]
         {
             get
@@ -64,6 +90,11 @@ namespace MyGUIPlugin
             }
         }
 
+        /// <summary>
+        /// Get the value specified by Button.
+        /// </summary>
+        /// <param name="button">The button to lookup.</param>
+        /// <returns>The value for the button.</returns>
         public T this[Button button]
         {
             get
@@ -72,6 +103,9 @@ namespace MyGUIPlugin
             }
         }
 
+        /// <summary>
+        /// Get / Set the currently selected button.
+        /// </summary>
         public Button SelectedButton
         {
             get
@@ -92,6 +126,9 @@ namespace MyGUIPlugin
             }
         }
 
+        /// <summary>
+        /// Get the currently selected data.
+        /// </summary>
         public T Selection
         {
             get
@@ -104,6 +141,9 @@ namespace MyGUIPlugin
             }
         }
 
+        /// <summary>
+        /// Enabled status.
+        /// </summary>
         public bool Enabled
         {
             get

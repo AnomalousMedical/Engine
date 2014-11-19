@@ -21,11 +21,18 @@ namespace MyGUIPlugin
         /// </summary>
         public event EventHandler SelectedButtonChanged;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public ButtonGroup()
         {
 
         }
 
+        /// <summary>
+        /// Add a button to the group.
+        /// </summary>
+        /// <param name="button">The button to add.</param>
         public void addButton(Button button)
         {
             button.Enabled = enabled;
@@ -37,6 +44,10 @@ namespace MyGUIPlugin
             }
         }
 
+        /// <summary>
+        /// Remove a button from the group.
+        /// </summary>
+        /// <param name="button">The button to remove.</param>
         public void removeButton(Button button)
         {
             button.MouseButtonClick -= button_MouseButtonClick;
@@ -54,6 +65,20 @@ namespace MyGUIPlugin
             }
         }
 
+        /// <summary>
+        /// Clear all buttons from the group.
+        /// </summary>
+        public void clear()
+        {
+            buttons.Clear();
+            selectedButton = null;
+        }
+
+        /// <summary>
+        /// Find a button with the given user data.
+        /// </summary>
+        /// <param name="userData"></param>
+        /// <returns></returns>
         public Button findButtonWithUserData(Object userData)
         {
             foreach (Button button in buttons)
@@ -66,6 +91,9 @@ namespace MyGUIPlugin
             return null;
         }
 
+        /// <summary>
+        /// The currently selected button.
+        /// </summary>
         public Button SelectedButton
         {
             get
@@ -86,6 +114,9 @@ namespace MyGUIPlugin
             }
         }
 
+        /// <summary>
+        /// True if the group is enabled, false otherwise.
+        /// </summary>
         public bool Enabled
         {
             get
