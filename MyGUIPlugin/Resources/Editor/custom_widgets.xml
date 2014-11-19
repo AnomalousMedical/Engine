@@ -8,10 +8,6 @@
     <Property key="Skin" value="VerticalIconTextButton" group="MyGUIPlugin"/>
     <Property key="Skin" value="HorizontalIconTextButton" group="MyGUIPlugin"/>
     <Property key="Skin" value="ButtonImageBackground" group="MyGUIPlugin"/>
-    <!--<Property key="Skin" value="ButtonGridButton" group="MyGUIPlugin"/>
-    <Property key="Skin" value="ButtonGridImageButton" group="MyGUIPlugin"/>
-    <Property key="Skin" value="ButtonListIconButton" group="MyGUIPlugin"/>-->
-    <Property key="Skin" value="AppButton" group="MyGUIPlugin"/>
 	</Widget>
 
   <Widget name="EditBox">
