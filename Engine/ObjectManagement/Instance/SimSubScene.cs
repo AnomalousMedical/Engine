@@ -68,11 +68,9 @@ namespace Engine.ObjectManagement
             where T : SimElementManager
         {
             Type type = typeof(T);
-            if (simElements.ContainsKey(type))
-            {
-                return (T)simElements[type];
-            }
-            return default(T);
+            SimElementManager retVal;
+            simElements.TryGetValue(typeof(T), out retVal);
+            return (T)retVal;
         }
 
         /// <summary>
