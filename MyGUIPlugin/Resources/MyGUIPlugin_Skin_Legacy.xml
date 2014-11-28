@@ -189,6 +189,22 @@ WindowCX
     </Child>
   </Resource>
   <!--*************************
+WindowCXP
+*****************************-->
+  <Resource type="ResourceSkin" name = "WindowCXP" size = "68 49">
+    <Property key="Snap" value = "true" />
+    <Child type="Widget" skin="WindowBackground" offset = "0 0 68 49" align = "Stretch" name = "Background"/>
+    <Child type="Button" skin="WindowCaptionClosePinButtonSkin" offset_derived = "1 1 -1 26" align = "HStretch Top" name = "Caption">
+      <Property key="Scale" value = "1 1 0 0"/>
+    </Child>
+    <Child type="Widget" skin="PanelEmpty" offset = "6 27 56 16" align = "Stretch" name = "Client"/>
+    <Child type="Button" skin="ButtonXBig" offset = "#{WindowCloseButtonPosition}" align = "#{WindowCloseButtonAlignment}" name = "Button">
+      <Property key="Event" value = "close"/>
+    </Child>
+    <Child type="Button" skin="ButtonPinSkin" offset = "#{WindowPinButtonPosition}" align = "#{WindowPinButtonAlignment}" name = "PinButton">
+    </Child>
+  </Resource>
+  <!--*************************
 WindowCSX
 *****************************-->
   <Resource type="ResourceSkin" name = "WindowCSX" size = "68 49">
