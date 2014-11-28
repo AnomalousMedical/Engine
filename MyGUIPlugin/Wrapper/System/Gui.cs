@@ -8,7 +8,7 @@ using Engine.Platform;
 
 namespace MyGUIPlugin
 {
-    internal delegate void MouseEvent(int x, int y, MouseButtonCode button);
+    public delegate void MouseEvent(int x, int y, MouseButtonCode button);
     public delegate void UpdateEvent(float updateTime);
 
     public class Gui : IDisposable

@@ -24,8 +24,8 @@ namespace MyGUIPlugin
             }
         }
 
-        internal event MouseEvent MouseButtonPressed;
-        internal event MouseEvent MouseButtonReleased;
+        public event MouseEvent MouseButtonPressed;
+        public event MouseEvent MouseButtonReleased;
 
         private IntPtr inputManager;
         private int mouseX;
