@@ -15,6 +15,7 @@ namespace MyGUIPlugin
     /// native class also called WindowEventTranslator that calls back into this
     /// class, which fires the event. It will automatically bind and unbind the
     /// event on the native side as needed.
+    /// </summary>
     abstract class MyGUIWidgetEventTranslator : MyGUIEventTranslator
     {
         protected Widget widget;

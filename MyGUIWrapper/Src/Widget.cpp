@@ -388,16 +388,6 @@ extern "C" _AnomalousExport MyGUI::ISubWidgetText* Widget_getSubWidgetText(MyGUI
 	return widget->getSubWidgetText();
 }
 
-extern "C" _AnomalousExport size_t Widget_getWidgetChildSkinCount(MyGUI::Widget* widget)
-{
-	return widget->getWidgetChildSkinCount();
-}
-
-extern "C" _AnomalousExport MyGUI::Widget* Widget_getWidgetChildSkinAt(MyGUI::Widget* widget, size_t _index)
-{
-	return widget->getWidgetChildSkinAt(_index);
-}
-
 extern "C" _AnomalousExport void Widget_setDestructorCallback(MyGUI::Widget* widget, MyGUI::WidgetDestructorCallback widgetDestructorCallback)
 {
 	widget->_setDestructorCallback(widgetDestructorCallback);

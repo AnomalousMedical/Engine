@@ -47,7 +47,22 @@ WindowCaptionCloseButtonSkin
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_WindowCaption_Center_Highlighted}"/>
     </BasisSkin>
     <!--Text-->
-    <BasisSkin type="SimpleText" offset = "#{WindowCaptionPosition}" align = "Stretch"/>
+    <BasisSkin type="SimpleText" offset = "#{WindowCaptionClosePosition}" align = "Stretch"/>
+  </Resource>
+  <!--*************************
+WindowCaptionClosePinButtonSkin
+*****************************-->
+  <Resource type="ResourceSkin" name = "WindowCaptionClosePinButtonSkin" size = "68 21" texture = "#{Anomalous_Theme_Texture}">
+    <Property key="FontName" value = "Default" />
+    <Property key="TextAlign" value = "#{WindowTextAlignment}" />
+    <Property key="TextColour" value = "#{Anomalous_WindowCaption_Text_Normal}"/>
+    <!--Middle-->
+    <BasisSkin type="SubSkin" offset = "0 0 68 21" align = "Stretch">
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_WindowCaption_Center_Normal}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_WindowCaption_Center_Highlighted}"/>
+    </BasisSkin>
+    <!--Text-->
+    <BasisSkin type="SimpleText" offset = "#{WindowCaptionClosePinPosition}" align = "Stretch"/>
   </Resource>
   <!--*************************
 WindowResizeRightBottom
@@ -211,6 +226,48 @@ WindowCSX
       <Property key="Event" value = "close"/>
     </Child>
   </Resource>
+
+  <!--*************************
+WindowCSXP
+*****************************-->
+  <Resource type="ResourceSkin" name = "WindowCSXP" size = "68 49">
+    <Property key="Snap" value = "true" />
+    <Child type="Widget" skin="WindowBackground" offset = "0 0 68 49" align = "Stretch" name = "Background"/>
+    <Child type="Button" skin="WindowCaptionClosePinButtonSkin" offset_derived = "1 1 -1 26" align = "HStretch Top" name = "Caption">
+      <Property key="Scale" value = "1 1 0 0"/>
+    </Child>
+    <Child type="Widget" skin="PanelEmpty" offset = "6 27 56 16" align = "Stretch" name = "Client"/>
+    <Child type="Button" skin="WindowResizeRightBottom" offset = "62 43 6 6" align = "Right Bottom" name = "Action">
+      <Property key="Scale" value = "0 0 1 1"/>
+    </Child>
+    <Child type="Button" skin="WindowResizeLeftBottom" offset = "0 43 6 6" align = "Left Bottom" name = "Action">
+      <Property key="Scale" value = "1 0 -1 1"/>
+    </Child>
+    <Child type="Button" skin="WindowResizeLeftTop" offset = "0 0 6 6" align = "Left Top" name = "Action">
+      <Property key="Scale" value = "1 1 -1 -1"/>
+    </Child>
+    <Child type="Button" skin="WindowResizeRightTop" offset = "62 0 6 6" align = "Right Top" name = "Action">
+      <Property key="Scale" value = "0 1 1 -1"/>
+    </Child>
+    <Child type="Button" skin="WindowResizeLeft" offset = "0 6 6 37" align = "Left VStretch" name = "Action">
+      <Property key="Scale" value = "1 0 -1 0"/>
+    </Child>
+    <Child type="Button" skin="WindowResizeRight" offset = "62 6 6 37" align = "Right VStretch" name = "Action">
+      <Property key="Scale" value = "0 0 1 0"/>
+    </Child>
+    <Child type="Button" skin="WindowResizeTop" offset = "6 0 56 6" align = "HStretch Top" name = "Action">
+      <Property key="Scale" value = "0 1 0 -1"/>
+    </Child>
+    <Child type="Button" skin="WindowResizeBottom" offset = "6 43 56 6" align = "HStretch Bottom" name = "Action">
+      <Property key="Scale" value = "0 0 0 1"/>
+    </Child>
+    <Child type="Button" skin="ButtonXBig" offset = "#{WindowCloseButtonPosition}" align = "#{WindowCloseButtonAlignment}" name = "Button">
+      <Property key="Event" value = "close"/>
+    </Child>
+    <Child type="Button" skin="ButtonPinSkin" offset = "#{WindowPinButtonPosition}" align = "#{WindowPinButtonAlignment}" name = "PinButton">
+    </Child>
+  </Resource>
+
   <!--*************************
 WindowCXNoBorder
 *****************************-->

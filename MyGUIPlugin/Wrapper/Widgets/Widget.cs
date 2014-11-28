@@ -1048,12 +1048,6 @@ namespace MyGUIPlugin
         [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Widget_getSubWidgetText(IntPtr widget);
 
-        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
-        private static extern UIntPtr Widget_getWidgetChildSkinCount(IntPtr widget);
-
-        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr Widget_getWidgetChildSkinAt(IntPtr widget, UIntPtr _index);
-
 #endregion
     }
 }
