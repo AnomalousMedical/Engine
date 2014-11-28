@@ -17,7 +17,6 @@ namespace MyGUIPlugin
         protected Widget widget;
         private float smoothShowPosition;
         private bool runningShowTransition; //True to be making the popup visible, false to be hiding.
-        private List<Widget> childPopups = null;
         private bool resourcesNotLoaded = true;
 
         /// <summary>
@@ -91,25 +90,6 @@ namespace MyGUIPlugin
             }
         }
 
-        /// <summary>
-        /// Add a child popup. This will prevent this popup from being closed if
-        /// the mouse is clicked inside of the child popup.
-        /// </summary>
-        /// <param name="child"></param>
-        public void addChildPopup(Widget child)
-        {
-            if (childPopups == null)
-            {
-                childPopups = new List<Widget>();
-            }
-            childPopups.Add(child);
-        }
-
-        public void removeChildPopup(Widget child)
-        {
-            childPopups.Remove(child);
-        }
-
         public void show(int left, int top)
         {
             setPosition(left, top, true);
@@ -163,6 +143,9 @@ namespace MyGUIPlugin
             widget.setPosition(left, top);
         }
 
+        /// <summary>
+        /// Hide this popup.
+        /// </summary>
         public void hide()
         {
             if (Visible && !fireHiding())
@@ -180,6 +163,17 @@ namespace MyGUIPlugin
                     fireHidden();
                 }
             }
+        }
+
+        /// <summary>
+        /// Determine if this popup should stay open given that a point was clicked.
+        /// </summary>
+        /// <param name="x">The x coord.</param>
+        /// <param name="y">The y coord.</param>
+        /// <returns>True to stay open, false to allow close.</returns>
+        protected virtual bool keepOpenFromPoint(int x, int y)
+        {
+            return false;
         }
 
         /// <summary>
@@ -280,26 +274,8 @@ namespace MyGUIPlugin
                 int top = widget.AbsoluteTop;
                 int right = left + widget.Width;
                 int bottom = top + widget.Height;
-                if (x < left || x > right || y < top || y > bottom)
+                if ((x < left || x > right || y < top || y > bottom) && !keepOpenFromPoint(x, y))
                 {
-                    if (childPopups != null)
-                    {
-                        foreach (Widget childWidget in childPopups)
-                        {
-                            if (childWidget.Visible)
-                            {
-                                left = childWidget.AbsoluteLeft;
-                                top = childWidget.AbsoluteTop;
-                                right = left + childWidget.Width;
-                                bottom = top + childWidget.Height;
-                                if (x > left && x < right && y > top && y < bottom)
-                                {
-                                    //inside of child. return.
-                                    return;
-                                }
-                            }
-                        }
-                    }
                     hide();
                 }
             }
