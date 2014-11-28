@@ -182,6 +182,21 @@ namespace MyGUIPlugin
             }
         }
 
+        /// <summary>
+        /// Determine if the given point is contained in this PopupContainer.
+        /// </summary>
+        /// <param name="x">The x value to check.</param>
+        /// <param name="y">The y valid to check.</param>
+        /// <returns>True if the point is contained in this container.</returns>
+        public bool contains(int x, int y)
+        {
+            int left = widget.AbsoluteLeft;
+            int right = left + widget.Width;
+            int top = widget.AbsoluteTop;
+            int bottom = top + widget.Height;
+            return !(x < left || x > right || y < top || y > bottom);
+        }
+
         public bool Visible
         {
             get
