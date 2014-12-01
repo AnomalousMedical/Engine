@@ -647,4 +647,68 @@ ColorablePanel
     </BasisSkin>
   </Resource>
 
+  <!--*************************
+ButtonDownBigSkin
+*****************************-->
+  <Resource type="ResourceSkin" name = "ButtonDownBigSkin" size = "27 14" texture = "#{Anomalous_Theme_Texture}">
+    <BasisSkin type="MainSkin" offset = "0 0 27 14" align = "Stretch">
+      <State name="disabled" offsetNamed="Anomalous_ButtonDownBig_Coord" colour="#{Anomalous_DirectionButton_Control_Disabled}"/>
+      <State name="normal" offsetNamed="Anomalous_ButtonDownBig_Coord" colour="#{Anomalous_DirectionButton_Control_Normal}"/>
+      <State name="highlighted" offsetNamed="Anomalous_ButtonDownBig_Coord" colour="#{Anomalous_DirectionButton_Control_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_ButtonDownBig_Coord" colour="#{Anomalous_DirectionButton_Control_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_ButtonDownBig_Coord" colour="#{Anomalous_DirectionButton_Control_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_ButtonDownBig_Coord" colour="#{Anomalous_DirectionButton_Control_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_ButtonDownBig_Coord" colour="#{Anomalous_DirectionButton_Control_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_ButtonDownBig_Coord" colour="#{Anomalous_DirectionButton_Control_PushedChecked}"/>
+    </BasisSkin>
+  </Resource>
+
+  <!--*************************
+ButtonUpBigSkin
+*****************************-->
+  <Resource type="ResourceSkin" name = "ButtonUpBigSkin" size = "27 14" texture = "#{Anomalous_Theme_Texture}">
+    <BasisSkin type="MainSkin" offset = "0 0 27 14" align = "Stretch">
+      <State name="disabled" offsetNamed="Anomalous_ButtonUpBig_Coord" colour="#{Anomalous_DirectionButton_Control_Disabled}"/>
+      <State name="normal" offsetNamed="Anomalous_ButtonUpBig_Coord" colour="#{Anomalous_DirectionButton_Control_Normal}"/>
+      <State name="highlighted" offsetNamed="Anomalous_ButtonUpBig_Coord" colour="#{Anomalous_DirectionButton_Control_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_ButtonUpBig_Coord" colour="#{Anomalous_DirectionButton_Control_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_ButtonUpBig_Coord" colour="#{Anomalous_DirectionButton_Control_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_ButtonUpBig_Coord" colour="#{Anomalous_DirectionButton_Control_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_ButtonUpBig_Coord" colour="#{Anomalous_DirectionButton_Control_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_ButtonUpBig_Coord" colour="#{Anomalous_DirectionButton_Control_PushedChecked}"/>
+    </BasisSkin>
+  </Resource>
+
+  <!--*************************
+ButtonLeftBigSkin
+*****************************-->
+  <Resource type="ResourceSkin" name = "ButtonLeftBigSkin" size = "14 27" texture = "#{Anomalous_Theme_Texture}">
+    <BasisSkin type="MainSkin" offset = "0 0 14 27" align = "Stretch">
+      <State name="disabled" offsetNamed="Anomalous_ButtonLeftBig_Coord" colour="#{Anomalous_DirectionButton_Control_Disabled}"/>
+      <State name="normal" offsetNamed="Anomalous_ButtonLeftBig_Coord" colour="#{Anomalous_DirectionButton_Control_Normal}"/>
+      <State name="highlighted" offsetNamed="Anomalous_ButtonLeftBig_Coord" colour="#{Anomalous_DirectionButton_Control_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_ButtonLeftBig_Coord" colour="#{Anomalous_DirectionButton_Control_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_ButtonLeftBig_Coord" colour="#{Anomalous_DirectionButton_Control_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_ButtonLeftBig_Coord" colour="#{Anomalous_DirectionButton_Control_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_ButtonLeftBig_Coord" colour="#{Anomalous_DirectionButton_Control_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_ButtonLeftBig_Coord" colour="#{Anomalous_DirectionButton_Control_PushedChecked}"/>
+    </BasisSkin>
+  </Resource>
+
+  <!--*************************
+ButtonRightBigSkin
+*****************************-->
+  <Resource type="ResourceSkin" name = "ButtonRightBigSkin" size = "14 27" texture = "#{Anomalous_Theme_Texture}">
+    <BasisSkin type="MainSkin" offset = "0 0 14 27" align = "Stretch">
+      <State name="disabled" offsetNamed="Anomalous_ButtonRightBig_Coord" colour="#{Anomalous_DirectionButton_Control_Disabled}"/>
+      <State name="normal" offsetNamed="Anomalous_ButtonRightBig_Coord" colour="#{Anomalous_DirectionButton_Control_Normal}"/>
+      <State name="highlighted" offsetNamed="Anomalous_ButtonRightBig_Coord" colour="#{Anomalous_DirectionButton_Control_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_ButtonRightBig_Coord" colour="#{Anomalous_DirectionButton_Control_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_ButtonRightBig_Coord" colour="#{Anomalous_DirectionButton_Control_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_ButtonRightBig_Coord" colour="#{Anomalous_DirectionButton_Control_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_ButtonRightBig_Coord" colour="#{Anomalous_DirectionButton_Control_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_ButtonRightBig_Coord" colour="#{Anomalous_DirectionButton_Control_PushedChecked}"/>
+    </BasisSkin>
+  </Resource>
+
 </MyGUI>

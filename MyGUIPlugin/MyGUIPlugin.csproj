@@ -370,6 +370,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\AnomalousThemeTexture_Coords.xml">
       <LogicalName>AnomalousThemeTexture_Coords.xml</LogicalName>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

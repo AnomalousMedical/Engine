@@ -24,6 +24,11 @@
   <Tag name="Anomalous_ButtonLeft_Coord">36 53 5 9</Tag>
   <Tag name="Anomalous_ButtonRight_Coord">28 53 5 9</Tag>
 
+  <Tag name="Anomalous_ButtonDownBig_Coord">59 32 27 14</Tag>
+  <Tag name="Anomalous_ButtonUpBig_Coord">88 32 27 14</Tag>
+  <Tag name="Anomalous_ButtonLeftBig_Coord">88 3 14 27</Tag>
+  <Tag name="Anomalous_ButtonRightBig_Coord">71 3 14 27</Tag>
+
   <Tag name="Anomalous_ButtonPin_Unpinned_Coord">55 69 11 18</Tag>
   <Tag name="Anomalous_ButtonPin_Pinned_Coord">68 69 11 18</Tag>
 
