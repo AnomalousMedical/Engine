@@ -16,13 +16,8 @@ namespace MyGUIPlugin
     /// 
     /// ItemHeight - The height of each item.
     /// ItemWidth - The width of each item.
-    /// ItemPaddingX - The padding between items in the x direction.
-    /// ItemPaddingY - The padding between items in the y direction.
     /// ButtonSkin - The skin to use for buttons.
-    /// GroupCaptionFont - The font to use for group captions.
     /// ShowGroupCaptions - True to show captions False to hide them.
-    /// GroupCaptionSkin - The skin to use for group captions.
-    /// GroupSeparatorSkin - The skin to use for group caption separators.
     /// </remarks>
     public class ButtonGrid : IDisposable
     {
@@ -158,36 +153,6 @@ namespace MyGUIPlugin
             else
             {
                 ItemWidth = ScaleHelper.Scaled(122);
-            }
-
-            read = scrollView.getUserString("ItemPaddingX");
-            if (read != null && NumberParser.TryParse(read, out intValue))
-            {
-                ItemPaddingX = ScaleHelper.Scaled(intValue);
-            }
-            else
-            {
-                ItemPaddingX = ScaleHelper.Scaled(10);
-            }
-
-            read = scrollView.getUserString("ItemPaddingY");
-            if (read != null && NumberParser.TryParse(read, out intValue))
-            {
-                ItemPaddingY = ScaleHelper.Scaled(intValue);
-            }
-            else
-            {
-                ItemPaddingY = ScaleHelper.Scaled(2);
-            }
-
-            read = scrollView.getUserString("GroupPaddingY");
-            if (read != null && NumberParser.TryParse(read, out intValue))
-            {
-                GroupPaddingY = ScaleHelper.Scaled(intValue);
-            }
-            else
-            {
-                GroupPaddingY = ScaleHelper.Scaled(ItemPaddingY);
             }
 
             ButtonSkin = scrollView.getUserString("ButtonSkin");
@@ -351,26 +316,6 @@ namespace MyGUIPlugin
         }
 
         /// <summary>
-        /// Layout the grid and resize the widget to match.
-        /// </summary>
-        /// <param name="rowCount"></param>
-        public void layoutAndResize(int rowCount)
-        {
-            IntSize2 finalSize = new IntSize2((ItemWidth + ItemPaddingX) * rowCount, 300);
-            scrollView.CanvasSize = finalSize;
-            layoutEngine.startLayout(this);
-            foreach (ButtonGridGroup group in groups)
-            {
-                group.layout(layoutEngine, itemComparer);
-            }
-            finalSize.Height = layoutEngine.FinalCanvasSize.Height;
-            scrollView.CanvasSize = finalSize;
-            //Set the final size with or without padding depending if the scroll bars are visible in that direction or not.
-            scrollView.setSize(scrollView.VisibleHScroll ? (int)finalSize.Width + 23 : (int)finalSize.Width,
-                scrollView.VisibleVScroll ? (int)finalSize.Height + 23 : (int)finalSize.Height + 5);
-        }
-
-        /// <summary>
         /// Set a new width for the grid and layout again.
         /// </summary>
         /// <param name="newWidth"></param>
@@ -475,51 +420,6 @@ namespace MyGUIPlugin
             set
             {
                 layoutEngine.ItemHeight = value;
-            }
-        }
-
-        /// <summary>
-        /// The padding in the x dimesion between items.
-        /// </summary>
-        public int ItemPaddingX
-        {
-            get
-            {
-                return layoutEngine.ItemPaddingX;
-            }
-            set
-            {
-                layoutEngine.ItemPaddingX = value;
-            }
-        }
-
-        /// <summary>
-        /// The padding in the y dimension between items.
-        /// </summary>
-        public int ItemPaddingY
-        {
-            get
-            {
-                return layoutEngine.ItemPaddingY;
-            }
-            set
-            {
-                layoutEngine.ItemPaddingY = value;
-            }
-        }
-
-        /// <summary>
-        /// The padding in the y dimension between groups.
-        /// </summary>
-        public int GroupPaddingY
-        {
-            get
-            {
-                return layoutEngine.GroupPaddingY;
-            }
-            set
-            {
-                layoutEngine.GroupPaddingY = value;
             }
         }
 

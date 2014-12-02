@@ -73,6 +73,8 @@
     <Compile Include="Plugin\Widgets\ButtonGrid\ButtonGridSelectionStrategy.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\ButtonGridTextAdjustedGridLayout.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\HashSetMultiSelectButtonGrid.cs" />
+    <Compile Include="Plugin\Widgets\ButtonGrid\VerticalButtonGridCaptionFactory.cs" />
+    <Compile Include="Plugin\Widgets\ButtonGrid\VerticalButtonGridCaption.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\HorizontalButtonGridCaption.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\HorizontalButtonGridCaptionFactory.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\MultiSelectButtonGrid.cs" />

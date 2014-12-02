@@ -6,15 +6,17 @@ using System.Threading.Tasks;
 
 namespace MyGUIPlugin
 {
-    class HorizontalButtonGridCaption : ButtonGridCaption
+    class VerticalButtonGridCaption : ButtonGridCaption
     {
         private TextBox captionText;
         private Widget separator;
+        private int separatorTextSpace;
 
-        public HorizontalButtonGridCaption(TextBox captionText, Widget separator)
+        public VerticalButtonGridCaption(TextBox captionText, Widget separator, int separatorTextSpace)
         {
             this.captionText = captionText;
             this.separator = separator;
+            this.separatorTextSpace = separatorTextSpace;
         }
 
         public void Dispose()
@@ -25,16 +27,16 @@ namespace MyGUIPlugin
 
         public void align(int x, int y, int width)
         {
-            captionText.setPosition(x, y);
-            separator.setPosition(x + captionText.Width, y + captionText.Height / 2);
-            separator.setSize(width - captionText.Width - HorizontalButtonGridCaptionFactory.BorderWidthOffset, 1);
+            separator.setPosition(x, y);
+            separator.setSize(width, separator.Height);
+            captionText.setPosition(x, y + separatorTextSpace);
         }
 
         public int Height
         {
             get
             {
-                return captionText.FontHeight;
+                return captionText.Bottom - separator.Top;
             }
         }
 
