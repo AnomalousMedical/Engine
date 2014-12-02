@@ -21,6 +21,15 @@
   <Tag name="Anomalous_Button_Center_HighlightedChecked">#5588bb</Tag>
   <Tag name="Anomalous_Button_Center_PushedChecked">#6699cc</Tag>
 
+  <Tag name="Anomalous_Button_Border_Disabled">#b1b1b1</Tag>
+  <Tag name="Anomalous_Button_Border_Normal">#aaaaaa</Tag>
+  <Tag name="Anomalous_Button_Border_Highlighted">#4477aa</Tag>
+  <Tag name="Anomalous_Button_Border_Pushed">#6699cc</Tag>
+  <Tag name="Anomalous_Button_Border_DisabledChecked">#6479ca</Tag>
+  <Tag name="Anomalous_Button_Border_NormalChecked">#6497ca</Tag>
+  <Tag name="Anomalous_Button_Border_HighlightedChecked">#75a8db</Tag>
+  <Tag name="Anomalous_Button_Border_PushedChecked">#86b9ec</Tag>
+
   <!-- List Item Colors -->
   <Tag name="Anomalous_ListItem_Border_Highlighted">#225588</Tag>
   <Tag name="Anomalous_ListItem_Border_Pushed">#114477</Tag>
