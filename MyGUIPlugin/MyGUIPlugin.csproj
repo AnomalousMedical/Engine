@@ -278,6 +278,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\MyGUIPlugin_Settings.xml">
       <LogicalName>MyGUIPlugin_Settings.xml</LogicalName>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\MyGUIPlugin_Skin.xml">
       <SubType>Designer</SubType>

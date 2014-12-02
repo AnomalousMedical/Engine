@@ -11,7 +11,7 @@ namespace MyGUIPlugin
     {
         public VerticalButtonGridCaptionFactory()
         {
-            CaptionSkin = "TextBox";
+            CaptionSkin = "CaptionTextBox";
             SeparatorSkin = "SeparatorSkin";
             SeparatorTextSpace = ScaleHelper.Scaled(10);
             SeparatorAdditionalPaddingTop = 0;

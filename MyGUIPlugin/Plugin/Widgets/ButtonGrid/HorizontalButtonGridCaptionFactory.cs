@@ -14,7 +14,7 @@ namespace MyGUIPlugin
 
         public HorizontalButtonGridCaptionFactory()
         {
-            CaptionSkin = "TextBox";
+            CaptionSkin = "CaptionTextBox";
             SeparatorSkin = "SeparatorSkin";
             SeparatorAdditionalPaddingBottom = SeparatorAdditionalPaddingTop = ScaleHelper.Scaled(5);
         }
