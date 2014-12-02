@@ -31,12 +31,10 @@ namespace MyGUIPlugin
             canvasSize.Width = ItemWidth;
         }
 
-        public void alignCaption(Widget captionText, Widget separator)
+        public void alignCaption(ButtonGridCaption caption)
         {
-            captionText.setPosition((int)currentPosition.x, (int)currentPosition.y);
-            separator.setPosition((int)(currentPosition.x + captionText.Width), (int)(currentPosition.y + captionText.Height / 2));
-            separator.setSize((int)(ItemWidth - captionText.Width) - 10, 1);
-            currentPosition.y += captionText.Height;
+            caption.align(currentPosition.x, currentPosition.y, ItemWidth);
+            currentPosition.y += caption.Height;
         }
 
         public void alignItem(ButtonGridItem item)

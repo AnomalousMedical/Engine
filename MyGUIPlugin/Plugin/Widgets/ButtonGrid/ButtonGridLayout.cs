@@ -10,7 +10,7 @@ namespace MyGUIPlugin
     {
         void startLayout(ButtonGrid buttonGrid);
 
-        void alignCaption(Widget text, Widget separator);
+        void alignCaption(ButtonGridCaption caption);
 
         void alignItem(ButtonGridItem item);
 

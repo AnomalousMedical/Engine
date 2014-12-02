@@ -33,6 +33,7 @@ namespace MyGUIPlugin
         private ButtonGridGroupComparer groupComparer;
         private ButtonGridLayout layoutEngine;
         private ButtonGridSelectionStrategy selectionStrategy;
+        private ButtonGridCaptionFactory captionFactory;
 
         /// <summary>
         /// Called when an item is activated. With the mouse this means double clicked.
@@ -107,6 +108,8 @@ namespace MyGUIPlugin
         /// <param name="groupComparer">A compraison instance for groups.</param>
         public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy, ButtonGridLayout layoutEngine, IComparer<ButtonGridItem> itemComparer, CompareButtonGroupUserObjects groupComparer)
         {
+            captionFactory = new HorizontalButtonGridCaptionFactory(this);
+
             this.selectionStrategy = selectionStrategy;
             NonEmptyGroupCount = 0;
 
@@ -664,6 +667,14 @@ namespace MyGUIPlugin
             get
             {
                 return groups.Count > 0 ? groups[0].CaptionHeight : 0;
+            }
+        }
+
+        internal ButtonGridCaptionFactory CaptionFactory
+        {
+            get
+            {
+                return captionFactory;
             }
         }
 

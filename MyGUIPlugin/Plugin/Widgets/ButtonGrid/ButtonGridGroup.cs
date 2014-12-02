@@ -10,8 +10,7 @@ namespace MyGUIPlugin
     {
         private ButtonGrid grid;
         private List<ButtonGridItem> items = new List<ButtonGridItem>();
-        private TextBox captionText;
-        private Widget separator;
+        private ButtonGridCaption caption;
 
         /// <summary>
         /// Constructor.
@@ -25,15 +24,7 @@ namespace MyGUIPlugin
 
             if (grid.ShowGroupCaptions)
             {
-                captionText = grid.ScrollView.createWidgetT("TextBox", grid.GroupCaptionSkin, 0, 0, 10, 10, Align.Left | Align.Top, "") as TextBox;
-                captionText.Font = grid.GroupCaptionFont;
-                captionText.Caption = name;
-                captionText.setSize((int)captionText.getTextSize().Width + 5, (int)captionText.FontHeight);
-                captionText.ForwardMouseWheelToParent = true;
-
-                separator = grid.ScrollView.createWidgetT("Widget", grid.GroupSeparatorSkin, 0, 0, 10, 1, Align.Left | Align.Top, "");
-                separator.setSize((int)(grid.ScrollView.CanvasSize.Width - captionText.Width) - 10, 1);
-                separator.ForwardMouseWheelToParent = true;
+                caption = grid.CaptionFactory.createCaption(name);
 
                 toggleCaptionVisibility();
             }
@@ -45,12 +36,10 @@ namespace MyGUIPlugin
         public void Dispose()
         {
             clear();
-            if (captionText != null)
+            if (caption != null)
             {
-                Gui.Instance.destroyWidget(separator);
-                Gui.Instance.destroyWidget(captionText);
-                captionText = null;
-                separator = null;
+                grid.CaptionFactory.destroyCaption(caption);
+                caption = null;
             }
         }
 
@@ -129,7 +118,7 @@ namespace MyGUIPlugin
             {
                 if (grid.ShowGroupCaptions)
                 {
-                    layoutEngine.alignCaption(captionText, separator);
+                    layoutEngine.alignCaption(caption);
                 }
 
                 IEnumerable<ButtonGridItem> sortedItems = items;
@@ -200,7 +189,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return captionText != null ? captionText.FontHeight : 0;
+                return caption != null ? caption.Height : 0;
             }
         }
 
@@ -214,9 +203,9 @@ namespace MyGUIPlugin
 
         private void toggleCaptionVisibility()
         {
-            if (captionText != null)
+            if (caption != null)
             {
-                captionText.Visible = separator.Visible = items.Count > 0;
+                caption.Visible = items.Count > 0;
             }
         }
     }

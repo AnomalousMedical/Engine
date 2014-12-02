@@ -62,6 +62,8 @@
     <Compile Include="Plugin\Tooltip\Tooltip.cs" />
     <Compile Include="Plugin\Tooltip\TooltipManager.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\ButtonGrid.cs" />
+    <Compile Include="Plugin\Widgets\ButtonGrid\ButtonGridCaption.cs" />
+    <Compile Include="Plugin\Widgets\ButtonGrid\ButtonGridCaptionFactory.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\ButtonGridGridLayout.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\ButtonGridGroup.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\ButtonGridGroupComparer.cs" />
@@ -71,6 +73,8 @@
     <Compile Include="Plugin\Widgets\ButtonGrid\ButtonGridSelectionStrategy.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\ButtonGridTextAdjustedGridLayout.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\HashSetMultiSelectButtonGrid.cs" />
+    <Compile Include="Plugin\Widgets\ButtonGrid\HorizontalButtonGridCaption.cs" />
+    <Compile Include="Plugin\Widgets\ButtonGrid\HorizontalButtonGridCaptionFactory.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\MultiSelectButtonGrid.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\HashSetMultiSelectionStrategy.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\MultiSelectionStrategy.cs" />

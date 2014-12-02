@@ -30,13 +30,11 @@ namespace MyGUIPlugin
             this.canvasSize = buttonGrid.ScrollView.CanvasSize;
         }
 
-        public void alignCaption(Widget captionText, Widget separator)
+        public void alignCaption(ButtonGridCaption caption)
         {
             currentPosition.y += 5;
-            captionText.setPosition((int)currentPosition.x, (int)currentPosition.y);
-            separator.setPosition((int)(currentPosition.x + captionText.Width), (int)(currentPosition.y + captionText.Height / 2));
-            separator.setSize((int)(canvasSize.Width - captionText.Width) - 10, 1);
-            currentPosition.y += captionText.Height + 5;
+            caption.align(currentPosition.x, currentPosition.y, ItemWidth);
+            currentPosition.y += caption.Height + 5;
         }
 
         public void alignItem(ButtonGridItem item)
