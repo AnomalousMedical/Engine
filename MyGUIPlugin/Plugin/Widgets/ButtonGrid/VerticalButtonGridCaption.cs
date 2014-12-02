@@ -10,13 +10,13 @@ namespace MyGUIPlugin
     {
         private TextBox captionText;
         private Widget separator;
-        private int separatorTextSpace;
+        private VerticalButtonGridCaptionFactory factory;
 
-        public VerticalButtonGridCaption(TextBox captionText, Widget separator, int separatorTextSpace)
+        public VerticalButtonGridCaption(TextBox captionText, Widget separator, VerticalButtonGridCaptionFactory factory)
         {
             this.captionText = captionText;
             this.separator = separator;
-            this.separatorTextSpace = separatorTextSpace;
+            this.factory = factory;
         }
 
         public void Dispose()
@@ -27,16 +27,18 @@ namespace MyGUIPlugin
 
         public void align(int x, int y, int width)
         {
+            y += factory.SeparatorAdditionalPaddingTop;
+
             separator.setPosition(x, y);
             separator.setSize(width, separator.Height);
-            captionText.setPosition(x, y + separatorTextSpace);
+            captionText.setPosition(x, y + factory.SeparatorTextSpace);
         }
 
         public int Height
         {
             get
             {
-                return captionText.Bottom - separator.Top;
+                return captionText.Bottom - separator.Top + factory.SeparatorAdditionalPaddingTop + factory.SeparatorAdditionalPaddingBottom;
             }
         }
 

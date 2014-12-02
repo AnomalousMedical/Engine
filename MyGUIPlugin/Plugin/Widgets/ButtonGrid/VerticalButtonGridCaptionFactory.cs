@@ -14,6 +14,8 @@ namespace MyGUIPlugin
             CaptionSkin = "TextBox";
             SeparatorSkin = "SeparatorSkin";
             SeparatorTextSpace = ScaleHelper.Scaled(10);
+            SeparatorAdditionalPaddingTop = 0;
+            SeparatorAdditionalPaddingBottom = ScaleHelper.Scaled(5);
         }
 
         protected internal override ButtonGridCaption createCaption(String name)
@@ -27,7 +29,7 @@ namespace MyGUIPlugin
             separator.setSize(Grid.ScrollView.CanvasSize.Width, 1);
             separator.ForwardMouseWheelToParent = true;
 
-            return new VerticalButtonGridCaption(captionText, separator, SeparatorTextSpace);
+            return new VerticalButtonGridCaption(captionText, separator, this);
         }
 
         protected internal override void destroyCaption(ButtonGridCaption caption)
@@ -48,6 +50,18 @@ namespace MyGUIPlugin
             {
                 SeparatorTextSpace = ScaleHelper.Scaled(readInt);
             }
+
+            read = scrollView.getUserString("GroupSeparatorAdditionalPaddingTop");
+            if (!String.IsNullOrWhiteSpace(read) && NumberParser.TryParse(read, out readInt))
+            {
+                SeparatorAdditionalPaddingTop = ScaleHelper.Scaled(readInt);
+            }
+
+            read = scrollView.getUserString("GroupSeparatorAdditionalPaddingBottom");
+            if (!String.IsNullOrWhiteSpace(read) && NumberParser.TryParse(read, out readInt))
+            {
+                SeparatorAdditionalPaddingBottom = ScaleHelper.Scaled(readInt);
+            }
         }
 
         /// <summary>
@@ -64,5 +78,15 @@ namespace MyGUIPlugin
         /// The amount of space between the separator and the group caption. Can be specified in the layout as GroupSeparatorTextSpace.
         /// </summary>
         public int SeparatorTextSpace { get; set; }
+
+        /// <summary>
+        /// The amount of space between the separator and the group caption. Can be specified in the layout as GroupSeparatorAdditionalPaddingTop.
+        /// </summary>
+        public int SeparatorAdditionalPaddingTop { get; set; }
+
+        /// <summary>
+        /// The amount of space between the separator and the group caption. Can be specified in the layout as GroupSeparatorAdditionalPaddingBottom.
+        /// </summary>
+        public int SeparatorAdditionalPaddingBottom { get; set; }
     }
 }

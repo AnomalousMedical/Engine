@@ -21,9 +21,8 @@ namespace MyGUIPlugin
 
         public void alignCaption(ButtonGridCaption caption)
         {
-            currentPosition.y += 5;
             caption.align(currentPosition.x, currentPosition.y, (int)canvasSize.Width);
-            currentPosition.y += caption.Height + 5;
+            currentPosition.y += caption.Height;
         }
 
         public void alignItem(ButtonGridItem item)
