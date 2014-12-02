@@ -23,11 +23,11 @@ namespace MyGUIPlugin
             Gui.Instance.destroyWidget(captionText);
         }
 
-        public void align(int x, int y, int itemWidth)
+        public void align(int x, int y, int width)
         {
             captionText.setPosition(x, y);
             separator.setPosition(x + captionText.Width, y + captionText.Height / 2);
-            separator.setSize(itemWidth - captionText.Width - 10, 1);
+            separator.setSize(width - captionText.Width - HorizontalButtonGridCaptionFactory.BorderWidthOffset, 1);
         }
 
         public int Height

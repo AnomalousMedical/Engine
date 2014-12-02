@@ -56,7 +56,7 @@ namespace MyGUIPlugin
         /// <param name="scrollView">The scroll view host.</param>
         /// <param name="selectionStrategy">The selection strategy to use.</param>
         public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy)
-            :this(scrollView, selectionStrategy, new ButtonGridGridLayout(), null, null)
+            : this(scrollView, selectionStrategy, new ButtonGridGridLayout(), null, null, new HorizontalButtonGridCaptionFactory())
         {
             
         }
@@ -68,7 +68,7 @@ namespace MyGUIPlugin
         /// <param name="selectionStrategy">The selection strategy to use.</param>
         /// <param name="itemComparer">A comparison instance.</param>
         public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy, IComparer<ButtonGridItem> itemComparer)
-            : this(scrollView, selectionStrategy, new ButtonGridGridLayout(), itemComparer, null)
+            : this(scrollView, selectionStrategy, new ButtonGridGridLayout(), itemComparer, null, new HorizontalButtonGridCaptionFactory())
         {
 
         }
@@ -80,7 +80,7 @@ namespace MyGUIPlugin
         /// <param name="selectionStrategy">The selection strategy to use.</param>
         /// <param name="layoutEngine">The Layout to use.</param>
         public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy, ButtonGridLayout layoutEngine)
-            : this(scrollView, selectionStrategy, layoutEngine, null, null)
+            : this(scrollView, selectionStrategy, layoutEngine, null, null, new HorizontalButtonGridCaptionFactory())
         {
 
         }
@@ -93,7 +93,7 @@ namespace MyGUIPlugin
         /// <param name="layoutEngine">The Layout to use.</param>
         /// <param name="itemComparer">A comparison instance for items.</param>
         public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy, ButtonGridLayout layoutEngine, IComparer<ButtonGridItem> itemComparer)
-            : this(scrollView, selectionStrategy, layoutEngine, itemComparer, null)
+            : this(scrollView, selectionStrategy, layoutEngine, itemComparer, null, new HorizontalButtonGridCaptionFactory())
         {
 
         }
@@ -107,8 +107,23 @@ namespace MyGUIPlugin
         /// <param name="itemComparer">A comparison instance.</param>
         /// <param name="groupComparer">A compraison instance for groups.</param>
         public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy, ButtonGridLayout layoutEngine, IComparer<ButtonGridItem> itemComparer, CompareButtonGroupUserObjects groupComparer)
+            :this(scrollView, selectionStrategy, layoutEngine, itemComparer, groupComparer, new HorizontalButtonGridCaptionFactory())
         {
-            captionFactory = new HorizontalButtonGridCaptionFactory(this);
+
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="scrollView">The scroll view host.</param>
+        /// <param name="selectionStrategy">The selection strategy to use.</param>
+        /// <param name="layoutEngine">The Layout to use.</param>
+        /// <param name="itemComparer">A comparison instance.</param>
+        /// <param name="groupComparer">A compraison instance for groups.</param>
+        /// <param name="captionFactory">The factory to use to make captions.</param>
+        public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy, ButtonGridLayout layoutEngine, IComparer<ButtonGridItem> itemComparer, CompareButtonGroupUserObjects groupComparer, ButtonGridCaptionFactory captionFactory)
+        {
+            this.CaptionFactory = captionFactory;
 
             this.selectionStrategy = selectionStrategy;
             NonEmptyGroupCount = 0;
@@ -670,11 +685,20 @@ namespace MyGUIPlugin
             }
         }
 
-        internal ButtonGridCaptionFactory CaptionFactory
+        public ButtonGridCaptionFactory CaptionFactory
         {
             get
             {
                 return captionFactory;
+            }
+            set
+            {
+                if(this.captionFactory != null)
+                {
+                    this.captionFactory.setButtonGrid(null);
+                }
+                this.captionFactory = value;
+                captionFactory.setButtonGrid(this);
             }
         }
 

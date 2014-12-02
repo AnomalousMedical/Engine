@@ -8,7 +8,7 @@ namespace MyGUIPlugin
 {
     public interface ButtonGridCaption : IDisposable
     {
-        void align(int x, int y, int itemWidth);
+        void align(int x, int y, int width);
 
         int Height { get; }
 

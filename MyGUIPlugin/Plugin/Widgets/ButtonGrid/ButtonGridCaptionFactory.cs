@@ -6,10 +6,17 @@ using System.Threading.Tasks;
 
 namespace MyGUIPlugin
 {
-    public interface ButtonGridCaptionFactory
+    public abstract class ButtonGridCaptionFactory
     {
-        ButtonGridCaption createCaption(String name);
+        protected internal abstract ButtonGridCaption createCaption(String name);
 
-        void destroyCaption(ButtonGridCaption caption);
+        protected internal abstract void destroyCaption(ButtonGridCaption caption);
+
+        internal void setButtonGrid(ButtonGrid grid)
+        {
+            this.Grid = grid;
+        }
+
+        protected ButtonGrid Grid { get; private set; }
     }
 }

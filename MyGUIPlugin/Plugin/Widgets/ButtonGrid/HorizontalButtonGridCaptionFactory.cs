@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Engine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,29 +9,30 @@ namespace MyGUIPlugin
 {
     class HorizontalButtonGridCaptionFactory : ButtonGridCaptionFactory
     {
-        private ButtonGrid grid;
+        private static readonly int TextSeparatorBorderSize = ScaleHelper.Scaled(5);
+        public static readonly int BorderWidthOffset = TextSeparatorBorderSize * 2;
 
-        public HorizontalButtonGridCaptionFactory(ButtonGrid grid)
+        public HorizontalButtonGridCaptionFactory()
         {
-            this.grid = grid;
+            
         }
 
-        public ButtonGridCaption createCaption(String name)
+        protected internal override ButtonGridCaption createCaption(String name)
         {
-            TextBox captionText = grid.ScrollView.createWidgetT("TextBox", grid.GroupCaptionSkin, 0, 0, 10, 10, Align.Left | Align.Top, "") as TextBox;
-            captionText.Font = grid.GroupCaptionFont;
+            TextBox captionText = Grid.ScrollView.createWidgetT("TextBox", Grid.GroupCaptionSkin, 0, 0, 10, 10, Align.Left | Align.Top, "") as TextBox;
+            captionText.Font = Grid.GroupCaptionFont;
             captionText.Caption = name;
-            captionText.setSize((int)captionText.getTextSize().Width + 5, (int)captionText.FontHeight);
+            captionText.setSize((int)captionText.getTextSize().Width + TextSeparatorBorderSize, (int)captionText.FontHeight);
             captionText.ForwardMouseWheelToParent = true;
 
-            Widget separator = grid.ScrollView.createWidgetT("Widget", grid.GroupSeparatorSkin, 0, 0, 10, 1, Align.Left | Align.Top, "");
-            separator.setSize((int)(grid.ScrollView.CanvasSize.Width - captionText.Width) - 10, 1);
+            Widget separator = Grid.ScrollView.createWidgetT("Widget", Grid.GroupSeparatorSkin, 0, 0, 10, 1, Align.Left | Align.Top, "");
+            separator.setSize((int)(Grid.ScrollView.CanvasSize.Width - captionText.Width) - BorderWidthOffset, 1);
             separator.ForwardMouseWheelToParent = true;
 
             return new HorizontalButtonGridCaption(captionText, separator);
         }
 
-        public void destroyCaption(ButtonGridCaption caption)
+        protected internal override void destroyCaption(ButtonGridCaption caption)
         {
             caption.Dispose();
         }

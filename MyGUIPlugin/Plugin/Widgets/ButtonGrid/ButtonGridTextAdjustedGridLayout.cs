@@ -33,7 +33,7 @@ namespace MyGUIPlugin
         public void alignCaption(ButtonGridCaption caption)
         {
             currentPosition.y += 5;
-            caption.align(currentPosition.x, currentPosition.y, ItemWidth);
+            caption.align(currentPosition.x, currentPosition.y, (int)canvasSize.Width);
             currentPosition.y += caption.Height + 5;
         }
 
