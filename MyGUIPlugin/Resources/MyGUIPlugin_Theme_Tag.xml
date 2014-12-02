@@ -55,7 +55,8 @@
   <Tag name="Anomalous_ListItem_Text_PushedChecked">#ffffff</Tag>
   
   <!-- Separator Colors -->
-  <Tag name="Anomalous_Separator_Normal">#757575</Tag>
+  <Tag name="Anomalous_Separator_Normal">#e8e8e8</Tag>
+  <Tag name="Anomalous_Separator_Inverse">#757575</Tag>
 
   <!-- Panel Colors -->
   <Tag name="Anomalous_Panel_Normal">#ececec</Tag>

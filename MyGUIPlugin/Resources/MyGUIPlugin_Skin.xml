@@ -39,6 +39,14 @@ SeparatorSkin
 			<State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Separator_Normal}"/>
 		</BasisSkin>
 	</Resource>
+  <!--*************************
+SeparatorInverseSkin
+*****************************-->
+  <Resource type="ResourceSkin" name = "SeparatorInverseSkin" size = "2 2" texture = "#{Anomalous_Theme_Texture}">
+    <BasisSkin type="MainSkin" offset = "0 0 2 2" align = "Stretch">
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Separator_Inverse}"/>
+    </BasisSkin>
+  </Resource>
 <!--*************************
 ItemBoxSkin
 *****************************-->

@@ -29,6 +29,7 @@ namespace MyGUIPlugin
                 captionText.Font = grid.GroupCaptionFont;
                 captionText.Caption = name;
                 captionText.setSize((int)captionText.getTextSize().Width + 5, (int)captionText.FontHeight);
+                captionText.ForwardMouseWheelToParent = true;
 
                 separator = grid.ScrollView.createWidgetT("Widget", grid.GroupSeparatorSkin, 0, 0, 10, 1, Align.Left | Align.Top, "");
                 separator.setSize((int)(grid.ScrollView.CanvasSize.Width - captionText.Width) - 10, 1);
