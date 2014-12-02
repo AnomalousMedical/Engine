@@ -61,6 +61,15 @@ namespace MyGUIPlugin
             return Marshal.PtrToStringAnsi(Widget_getUserString(widget, key));
         }
 
+        public String getUserString(String key, String defaultValue)
+        {
+            if(isUserString(key))
+            {
+                return getUserString(key);
+            }
+            return defaultValue;
+        }
+
         public bool clearUserString(String key)
         {
             return Widget_clearUserString(widget, key);

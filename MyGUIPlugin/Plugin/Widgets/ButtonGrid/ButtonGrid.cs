@@ -123,8 +123,6 @@ namespace MyGUIPlugin
         /// <param name="captionFactory">The factory to use to make captions.</param>
         public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy, ButtonGridLayout layoutEngine, IComparer<ButtonGridItem> itemComparer, CompareButtonGroupUserObjects groupComparer, ButtonGridCaptionFactory captionFactory)
         {
-            this.CaptionFactory = captionFactory;
-
             this.selectionStrategy = selectionStrategy;
             NonEmptyGroupCount = 0;
 
@@ -198,12 +196,6 @@ namespace MyGUIPlugin
                 ButtonSkin = "ButtonGridButton";
             }
 
-            GroupCaptionFont = scrollView.getUserString("GroupCaptionFont");
-            if (GroupCaptionFont == null || GroupCaptionFont == String.Empty)
-            {
-                GroupCaptionFont = "Default";
-            }
-
             read = scrollView.getUserString("ShowGroupCaptions");
             if (read != null && bool.TryParse(read, out boolValue))
             {
@@ -214,17 +206,7 @@ namespace MyGUIPlugin
                 ShowGroupCaptions = true;
             }
 
-            GroupCaptionSkin = scrollView.getUserString("GroupCaptionSkin");
-            if (GroupCaptionSkin == null || GroupCaptionSkin == String.Empty)
-            {
-                GroupCaptionSkin = "TextBox";
-            }
-
-            GroupSeparatorSkin = scrollView.getUserString("GroupSeparatorSkin");
-            if (GroupSeparatorSkin == null || GroupSeparatorSkin == String.Empty)
-            {
-                GroupSeparatorSkin = "SeparatorSkin";
-            }
+            this.CaptionFactory = captionFactory;
         }
 
         /// <summary>
@@ -542,24 +524,9 @@ namespace MyGUIPlugin
         }
 
         /// <summary>
-        /// The font for group captions.
-        /// </summary>
-        public String GroupCaptionFont { get; set; }
-
-        /// <summary>
         /// True to show groups with captions, false to hide the captions.
         /// </summary>
         public bool ShowGroupCaptions { get; set; }
-
-        /// <summary>
-        /// The skin for the group caption.
-        /// </summary>
-        public String GroupCaptionSkin { get; set; }
-
-        /// <summary>
-        /// The skin for the group separators.
-        /// </summary>
-        public String GroupSeparatorSkin { get; set; }
 
         /// <summary>
         /// Set this to true to prevent the control from updating its layout as
