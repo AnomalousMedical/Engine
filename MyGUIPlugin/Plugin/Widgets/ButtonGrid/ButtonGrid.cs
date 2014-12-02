@@ -18,6 +18,7 @@ namespace MyGUIPlugin
     /// ItemWidth - The width of each item.
     /// ButtonSkin - The skin to use for buttons.
     /// ShowGroupCaptions - True to show captions False to hide them.
+    /// CaptionType - Either Horizontal, Vertical or TextOnly
     /// </remarks>
     public class ButtonGrid : IDisposable
     {
@@ -51,7 +52,7 @@ namespace MyGUIPlugin
         /// <param name="scrollView">The scroll view host.</param>
         /// <param name="selectionStrategy">The selection strategy to use.</param>
         public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy)
-            : this(scrollView, selectionStrategy, new ButtonGridGridLayout(), null, null, new HorizontalButtonGridCaptionFactory())
+            : this(scrollView, selectionStrategy, new ButtonGridGridLayout(), null, null, CreateDefaultCaptionFactory(scrollView))
         {
             
         }
@@ -63,7 +64,7 @@ namespace MyGUIPlugin
         /// <param name="selectionStrategy">The selection strategy to use.</param>
         /// <param name="itemComparer">A comparison instance.</param>
         public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy, IComparer<ButtonGridItem> itemComparer)
-            : this(scrollView, selectionStrategy, new ButtonGridGridLayout(), itemComparer, null, new HorizontalButtonGridCaptionFactory())
+            : this(scrollView, selectionStrategy, new ButtonGridGridLayout(), itemComparer, null, CreateDefaultCaptionFactory(scrollView))
         {
 
         }
@@ -75,7 +76,7 @@ namespace MyGUIPlugin
         /// <param name="selectionStrategy">The selection strategy to use.</param>
         /// <param name="layoutEngine">The Layout to use.</param>
         public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy, ButtonGridLayout layoutEngine)
-            : this(scrollView, selectionStrategy, layoutEngine, null, null, new HorizontalButtonGridCaptionFactory())
+            : this(scrollView, selectionStrategy, layoutEngine, null, null, CreateDefaultCaptionFactory(scrollView))
         {
 
         }
@@ -88,7 +89,7 @@ namespace MyGUIPlugin
         /// <param name="layoutEngine">The Layout to use.</param>
         /// <param name="itemComparer">A comparison instance for items.</param>
         public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy, ButtonGridLayout layoutEngine, IComparer<ButtonGridItem> itemComparer)
-            : this(scrollView, selectionStrategy, layoutEngine, itemComparer, null, new HorizontalButtonGridCaptionFactory())
+            : this(scrollView, selectionStrategy, layoutEngine, itemComparer, null, CreateDefaultCaptionFactory(scrollView))
         {
 
         }
@@ -102,7 +103,7 @@ namespace MyGUIPlugin
         /// <param name="itemComparer">A comparison instance.</param>
         /// <param name="groupComparer">A compraison instance for groups.</param>
         public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy, ButtonGridLayout layoutEngine, IComparer<ButtonGridItem> itemComparer, CompareButtonGroupUserObjects groupComparer)
-            :this(scrollView, selectionStrategy, layoutEngine, itemComparer, groupComparer, new HorizontalButtonGridCaptionFactory())
+            : this(scrollView, selectionStrategy, layoutEngine, itemComparer, groupComparer, CreateDefaultCaptionFactory(scrollView))
         {
 
         }
@@ -611,6 +612,22 @@ namespace MyGUIPlugin
         protected internal void _workaroundSetSelectionStrategy(ButtonGridSelectionStrategy selectionStrategy)
         {
             this.selectionStrategy = selectionStrategy;
+        }
+
+        private static ButtonGridCaptionFactory CreateDefaultCaptionFactory(ScrollView scrollView)
+        {
+            switch(scrollView.getUserString("CaptionType"))
+            {
+                case "Horizontal":
+                    return new HorizontalButtonGridCaptionFactory();
+                case "Vertical":
+                    return new VerticalButtonGridCaptionFactory();
+                case "TextOnly":
+                    return new TextOnlyButtonGridCaptionFactory();
+                default:
+                    return new HorizontalButtonGridCaptionFactory();
+
+            }
         }
     }
 }
