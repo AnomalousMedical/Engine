@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace MyGUIPlugin
 {
-    class VerticalButtonGridCaption : ButtonGridCaption
+    class TopSeparatorButtonGridCaption : ButtonGridCaption
     {
         private TextBox captionText;
         private Widget separator;
-        private VerticalButtonGridCaptionFactory factory;
+        private TopSeparatorButtonGridCaptionFactory factory;
 
-        public VerticalButtonGridCaption(TextBox captionText, Widget separator, VerticalButtonGridCaptionFactory factory)
+        public TopSeparatorButtonGridCaption(TextBox captionText, Widget separator, TopSeparatorButtonGridCaptionFactory factory)
         {
             this.captionText = captionText;
             this.separator = separator;
@@ -31,7 +31,7 @@ namespace MyGUIPlugin
 
             separator.setPosition(x, y);
             separator.setSize(width, separator.Height);
-            captionText.setPosition(x, y + factory.SeparatorTextSpace);
+            captionText.setPosition(x, separator.Bottom + factory.SeparatorTextSpace);
         }
 
         public int Height

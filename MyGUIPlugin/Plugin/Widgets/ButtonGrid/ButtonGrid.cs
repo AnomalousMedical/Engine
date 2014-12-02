@@ -18,7 +18,7 @@ namespace MyGUIPlugin
     /// ItemWidth - The width of each item.
     /// ButtonSkin - The skin to use for buttons.
     /// ShowGroupCaptions - True to show captions False to hide them.
-    /// CaptionType - Either Horizontal, Vertical or TextOnly
+    /// CaptionType - Either Horizontal, TopSeparator, BottomSeparator or TextOnly
     /// </remarks>
     public class ButtonGrid : IDisposable
     {
@@ -620,8 +620,10 @@ namespace MyGUIPlugin
             {
                 case "Horizontal":
                     return new HorizontalButtonGridCaptionFactory();
-                case "Vertical":
-                    return new VerticalButtonGridCaptionFactory();
+                case "TopSeparator":
+                    return new TopSeparatorButtonGridCaptionFactory();
+                case "BottomSeparator":
+                    return new BottomSeparatorButtonGridCaptionFactory();
                 case "TextOnly":
                     return new TextOnlyButtonGridCaptionFactory();
                 default:

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace MyGUIPlugin
 {
-    public sealed class VerticalButtonGridCaptionFactory : ButtonGridCaptionFactory
+    public sealed class TopSeparatorButtonGridCaptionFactory : ButtonGridCaptionFactory
     {
-        public VerticalButtonGridCaptionFactory()
+        public TopSeparatorButtonGridCaptionFactory()
         {
             CaptionSkin = "CaptionTextBox";
             SeparatorSkin = "SeparatorSkin";
@@ -29,7 +29,7 @@ namespace MyGUIPlugin
             separator.setSize(Grid.ScrollView.CanvasSize.Width, 1);
             separator.ForwardMouseWheelToParent = true;
 
-            return new VerticalButtonGridCaption(captionText, separator, this);
+            return new TopSeparatorButtonGridCaption(captionText, separator, this);
         }
 
         protected internal override void destroyCaption(ButtonGridCaption caption)

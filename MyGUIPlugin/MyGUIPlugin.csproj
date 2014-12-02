@@ -75,8 +75,10 @@
     <Compile Include="Plugin\Widgets\ButtonGrid\HashSetMultiSelectButtonGrid.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\TextOnlyButtonGridCaption.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\TextOnlyButtonGridCaptionFactory.cs" />
-    <Compile Include="Plugin\Widgets\ButtonGrid\VerticalButtonGridCaptionFactory.cs" />
-    <Compile Include="Plugin\Widgets\ButtonGrid\VerticalButtonGridCaption.cs" />
+    <Compile Include="Plugin\Widgets\ButtonGrid\BottomSeparatorButtonGridCaption.cs" />
+    <Compile Include="Plugin\Widgets\ButtonGrid\BottomSeparatorButtonGridCaptionFactory.cs" />
+    <Compile Include="Plugin\Widgets\ButtonGrid\TopSeparatorButtonGridCaptionFactory.cs" />
+    <Compile Include="Plugin\Widgets\ButtonGrid\TopSeparatorButtonGridCaption.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\HorizontalButtonGridCaption.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\HorizontalButtonGridCaptionFactory.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\MultiSelectButtonGrid.cs" />

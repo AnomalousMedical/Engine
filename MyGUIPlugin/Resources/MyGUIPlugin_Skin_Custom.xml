@@ -283,7 +283,8 @@ ButtonGridImageButton
   </Resource>
 
   <!--*************************
-ButtonGridListButton - A Button for a ButtonGrid as a list with no image
+ButtonGridListButton - A Button for a ButtonGrid as a list with no image. If used with a BottomSeparator on a ButtonGrid
+you will get a nice looking list.
 *****************************-->
   <Resource type="ResourceSkin" name = "ButtonGridListButton" size = "75 52" texture = "#{Anomalous_Theme_Texture}">
     <Property key="FontName" value = "Default" />
@@ -310,7 +311,7 @@ ButtonGridListButton - A Button for a ButtonGrid as a list with no image
       <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ListItem_Center_PushedChecked}"/>
     </BasisSkin>
     <!-- Top Separator -->
-    <BorderTop width="1">
+    <BorderBottom width="1">
       <State name="disabled" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Separator_Normal}"/>
       <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Separator_Normal}"/>
       <State name="highlighted" offsetNamed="Anomalous_Invisible_Coord"/>
@@ -319,7 +320,7 @@ ButtonGridListButton - A Button for a ButtonGrid as a list with no image
       <State name="normal_checked" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="highlighted_checked" offsetNamed="Anomalous_Invisible_Coord"/>
       <State name="pushed_checked" offsetNamed="Anomalous_Invisible_Coord"/>
-    </BorderTop>
+    </BorderBottom>
     <!-- Border -->
     <Border width="1">
       <State name="disabled" offsetNamed="Anomalous_Invisible_Coord"/>
