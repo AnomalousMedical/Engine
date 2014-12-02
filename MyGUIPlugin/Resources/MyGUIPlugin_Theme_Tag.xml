@@ -56,7 +56,7 @@
   
   <!-- Separator Colors -->
   <Tag name="Anomalous_Separator_Normal">#e8e8e8</Tag>
-  <Tag name="Anomalous_Separator_Inverse">#757575</Tag>
+  <Tag name="Anomalous_Separator_Inverse">#424242</Tag>
   
   <!-- Caption Colors -->
   <Tag name="Anomalous_Caption_Normal">#6699cc</Tag>
