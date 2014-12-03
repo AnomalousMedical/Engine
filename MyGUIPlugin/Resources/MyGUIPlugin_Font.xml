@@ -20,8 +20,8 @@
 		</Codes>
 	</Resource>
 
-  <Resource type="ResourceTrueTypeFont" name="LargerText">
-    <Property key="Source" value="MyGUIPlugin.Resources.Fonts.Roboto-Regular.ttf"/>
+  <Resource type="ResourceTrueTypeFont" name="TitleText">
+    <Property key="Source" value="MyGUIPlugin.Resources.Fonts.Roboto-Medium.ttf"/>
     <Property key="Size" value="19"/>
     <Property key="Resolution" value="50"/>
     <Property key="Antialias" value="false"/>

@@ -70,7 +70,7 @@ CaptionTextBox
 *****************************-->
   <Resource type="ResourceLayout" name="CaptionTextBox" version="3.2.0">
     <Widget type="Widget" skin="TextBoxSkin" position="20 20 16 16" name="Root">
-      <Property key="FontName" value = "LargerText" />
+      <Property key="FontName" value = "TitleText" />
       <Property key="TextAlign" value = "Default" />
       <Property key="TextColour" value = "#{Anomalous_Caption_Normal}" />
       <UserString key="LE_TargetWidgetType" value="TextBox"/>
