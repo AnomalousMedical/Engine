@@ -172,6 +172,24 @@ namespace MyGUIPlugin
                 ShowGroupCaptions = true;
             }
 
+            read = scrollView.getUserString("ItemPaddingX");
+            if (read != null && NumberParser.TryParse(read, out intValue))
+            {
+                layoutEngine.ItemPaddingX = ScaleHelper.Scaled(intValue);
+            }
+
+            read = scrollView.getUserString("ItemPaddingY");
+            if (read != null && NumberParser.TryParse(read, out intValue))
+            {
+                layoutEngine.ItemPaddingY = ScaleHelper.Scaled(intValue);
+            }
+
+            read = scrollView.getUserString("GroupPaddingY");
+            if (read != null && NumberParser.TryParse(read, out intValue))
+            {
+                layoutEngine.GroupPaddingY = ScaleHelper.Scaled(intValue);
+            }
+
             this.CaptionFactory = captionFactory;
         }
 

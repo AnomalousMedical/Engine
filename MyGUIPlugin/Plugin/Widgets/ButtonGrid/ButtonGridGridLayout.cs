@@ -6,7 +6,7 @@ using Engine;
 
 namespace MyGUIPlugin
 {
-    class ButtonGridGridLayout : ButtonGridLayout
+    public class ButtonGridGridLayout : ButtonGridLayout
     {
         IntVector2 currentPosition;
         Size2 canvasSize;
