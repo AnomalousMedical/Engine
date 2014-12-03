@@ -12,8 +12,8 @@
   <Tag name="Anomalous_Button_Text_HighlightedChecked">#ffffff</Tag>
   <Tag name="Anomalous_Button_Text_PushedChecked">#ffffff</Tag>
 
-  <Tag name="Anomalous_Button_Center_Disabled">#d1d1d1</Tag>
-  <Tag name="Anomalous_Button_Center_Normal">#cacaca</Tag>
+  <Tag name="Anomalous_Button_Center_Disabled">#e0e0e0</Tag>
+  <Tag name="Anomalous_Button_Center_Normal">#dfdfdf</Tag>
   <Tag name="Anomalous_Button_Center_Highlighted">#d3d3d3</Tag>
   <Tag name="Anomalous_Button_Center_Pushed">#dbdbdb</Tag>
   <Tag name="Anomalous_Button_Center_DisabledChecked">#4477aa</Tag>
@@ -21,8 +21,8 @@
   <Tag name="Anomalous_Button_Center_HighlightedChecked">#5588bb</Tag>
   <Tag name="Anomalous_Button_Center_PushedChecked">#6699cc</Tag>
 
-  <Tag name="Anomalous_Button_Border_Disabled">#b1b1b1</Tag>
-  <Tag name="Anomalous_Button_Border_Normal">#aaaaaa</Tag>
+  <Tag name="Anomalous_Button_Border_Disabled">#cfcfcf</Tag>
+  <Tag name="Anomalous_Button_Border_Normal">#cccccc</Tag>
   <Tag name="Anomalous_Button_Border_Highlighted">#4477aa</Tag>
   <Tag name="Anomalous_Button_Border_Pushed">#6699cc</Tag>
   <Tag name="Anomalous_Button_Border_DisabledChecked">#6479ca</Tag>
@@ -62,7 +62,7 @@
   <Tag name="Anomalous_Caption_Normal">#6699cc</Tag>
 
   <!-- Panel Colors -->
-  <Tag name="Anomalous_Panel_Normal">#ececec</Tag>
+  <Tag name="Anomalous_Panel_Normal">#eeeeee</Tag>
   <Tag name="Anomalous_Panel_Border_Normal">#d8d8d8</Tag>
   
   <!-- Edit Area Colors -->
