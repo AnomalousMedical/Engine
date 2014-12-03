@@ -77,15 +77,4 @@ CaptionTextBox
     </Widget>
   </Resource>
 
-  <!--*************************
-ButtonFlat
-*****************************-->
-  <Resource type="ResourceLayout" name="ButtonFlat" version="3.2.0">
-    <Widget type="Widget" skin="ButtonFlatSkin" position="20 25 29 26" name="Root">
-      <Property key="FontName" value="Default"/>
-      <Property key="TextAlign" value="Center"/>
-      <UserString key="LE_TargetWidgetType" value="Button"/>
-    </Widget>
-  </Resource>
-
 </MyGUI>

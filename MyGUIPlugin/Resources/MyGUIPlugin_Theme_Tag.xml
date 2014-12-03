@@ -12,6 +12,8 @@
   <Tag name="Anomalous_Button_Text_HighlightedChecked">#ffffff</Tag>
   <Tag name="Anomalous_Button_Text_PushedChecked">#ffffff</Tag>
 
+  <Tag name="Anomalous_Button_Text_Normal_Dark">#ffffff</Tag>
+
   <Tag name="Anomalous_Button_Center_Disabled">#e0e0e0</Tag>
   <Tag name="Anomalous_Button_Center_Normal">#dfdfdf</Tag>
   <Tag name="Anomalous_Button_Center_Highlighted">#d3d3d3</Tag>
@@ -296,9 +298,6 @@
   <Tag name="Anomalous_ColorSwatchButton_Center_HighlightedChecked">#225588</Tag>
   <Tag name="Anomalous_ColorSwatchButton_Center_PushedChecked">#5588bb</Tag>
   
-  <!-- Camera Button, Uses Button for other colors -->
-  <Tag name="Anomalous_CameraButton_Text_Normal">#ffffff</Tag>
-  
   <!-- MDI Colors -->
   <Tag name="Anomalous_MDISeparator_Center_Normal">#afafaf</Tag>
   <Tag name="Anomalous_MDILocationPreview_Center_Normal">#336699</Tag>
@@ -311,9 +310,6 @@
   <Tag name="Anomalous_ToolTip_Center_Normal">#6699cc</Tag>
   <Tag name="Anomalous_ToolTip_Border_Normal">#4477aa</Tag>
   <Tag name="Anomalous_ToolTip_Text_Normal">#ffffff</Tag>
-  
-  <!-- Slide Drop Preview -->
-  <Tag name="Anomalous_SlideDropPreview_Center_Normal">#6699cc</Tag>
   
   <!-- Timeline Colors -->
   <Tag name="Anomalous_TimelineButton_Center_Normal">#474747</Tag>
@@ -335,7 +331,3 @@
   <Tag name="Anomalous_TimelineSelectionRegion_Center_Normal">#6699cc</Tag>
 
 </MyGUI>
-
-
-
-<!--main blue=0090eb-->
