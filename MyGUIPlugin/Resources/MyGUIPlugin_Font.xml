@@ -3,7 +3,7 @@
 <MyGUI type="Resource" version="1.1">
 
 	<Resource type="ResourceTrueTypeFont" name="NormalText">
-		<Property key="Source" value="MyGUIPlugin_DejaVuSans.ttf"/>
+		<Property key="Source" value="MyGUIPlugin.Resources.Fonts.Roboto-Regular.ttf"/>
 		<Property key="Size" value="16"/>
 		<Property key="Resolution" value="50"/>
 		<Property key="Antialias" value="false"/>
@@ -21,7 +21,7 @@
 	</Resource>
 
   <Resource type="ResourceTrueTypeFont" name="LargerText">
-    <Property key="Source" value="MyGUIPlugin_DejaVuSans.ttf"/>
+    <Property key="Source" value="MyGUIPlugin.Resources.Fonts.Roboto-Regular.ttf"/>
     <Property key="Size" value="19"/>
     <Property key="Resolution" value="50"/>
     <Property key="Antialias" value="false"/>
@@ -39,7 +39,7 @@
   </Resource>
 
   <Resource type="ResourceTrueTypeFont" name="TimelineText.10">
-    <Property key="Source" value="MyGUIPlugin_DejaVuSans.ttf"/>
+    <Property key="Source" value="MyGUIPlugin.Resources.Fonts.Roboto-Regular.ttf"/>
     <Property key="Size" value="25"/>
     <Property key="Resolution" value="50"/>
     <Property key="Antialias" value="false"/>
@@ -57,7 +57,7 @@
   </Resource>
 
   <Resource type="ResourceTrueTypeFont" name="TimelineText.25">
-    <Property key="Source" value="MyGUIPlugin_DejaVuSans.ttf"/>
+    <Property key="Source" value="MyGUIPlugin.Resources.Fonts.Roboto-Regular.ttf"/>
     <Property key="Size" value="25"/>
     <Property key="Resolution" value="50"/>
     <Property key="Antialias" value="false"/>
@@ -75,7 +75,7 @@
   </Resource>
   
   <Resource type="ResourceTrueTypeFont" name="TimelineText.50">
-    <Property key="Source" value="MyGUIPlugin_DejaVuSans.ttf"/>
+    <Property key="Source" value="MyGUIPlugin.Resources.Fonts.Roboto-Regular.ttf"/>
     <Property key="Size" value="50"/>
     <Property key="Resolution" value="50"/>
     <Property key="Antialias" value="false"/>
@@ -93,7 +93,7 @@
   </Resource>
 
   <Resource type="ResourceTrueTypeFont" name="TimelineText.100">
-    <Property key="Source" value="MyGUIPlugin_DejaVuSans.ttf"/>
+    <Property key="Source" value="MyGUIPlugin.Resources.Fonts.Roboto-Regular.ttf"/>
     <Property key="Size" value="100"/>
     <Property key="Resolution" value="50"/>
     <Property key="Antialias" value="false"/>
