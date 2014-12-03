@@ -208,10 +208,10 @@
 
   <Tag name="Anomalous_MenuItemCheckButton_Control_Normal">#ffffff</Tag>
 
-  <Tag name="Anomalous_MenuSeparator_Control_Normal">#4477aa</Tag>
+  <Tag name="Anomalous_MenuSeparator_Control_Normal">#d7d7d7</Tag>
 
-  <Tag name="Anomalous_PopupMenu_Center_Normal">#ececec</Tag>
-  <Tag name="Anomalous_PopupMenu_Border_Normal">#4477aa</Tag>
+  <Tag name="Anomalous_PopupMenu_Center_Normal">#eeeeee</Tag>
+  <Tag name="Anomalous_PopupMenu_Border_Normal">#000000</Tag>
   
   <!-- Tab Button Colors -->
   <Tag name="Anomalous_TabButton_Center_Highlighted">#5588bb</Tag>
