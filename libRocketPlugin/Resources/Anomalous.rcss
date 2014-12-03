@@ -4,7 +4,7 @@ body
 	font-weight: normal;
 	font-style: normal;
 	font-size: 13px;
-	color: black;
+	color: #161616;
 	text-align: left;
 	background-color: white;	
 }
@@ -28,7 +28,9 @@ input.submit
 	font-size: 13px;
 	text-align: center;
 	tab-index: auto;
-	background-color: #cacaca;
+	background-color: #dfdfdf;
+	border-color: #cccccc;
+	border-width: 1px;
 }
 
 button:focus,
@@ -41,12 +43,14 @@ button:hover,
 input.submit:hover
 {
 	background-color: #d3d3d3;
+	border-color: #4477aa;
 }
 
 button:active,
 input.submit:active
 {
-	background-color: #dbdbdb;	
+	background-color: #dbdbdb;
+	border-color: #6699cc;
 }
 
 input.hidden
