@@ -268,15 +268,15 @@ namespace MyGUIPlugin
 
         public bool IgnorePositionChanges { get; set; }
 
-        public Vector2 Position
+        public IntVector2 Position
         {
             get
             {
-                return new Vector2(window.Left, window.Top);
+                return new IntVector2(window.Left, window.Top);
             }
             set
             {
-                window.setPosition((int)value.x, (int)value.y);
+                window.setPosition(value.x, value.y);
                 updateDesiredLocation();
             }
         }
