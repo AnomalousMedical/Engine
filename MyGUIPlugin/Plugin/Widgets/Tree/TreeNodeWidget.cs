@@ -26,9 +26,9 @@ namespace MyGUIPlugin
             this.treeNode = node;
         }
 
-        internal abstract void updateText();
+        protected internal abstract void updateText();
 
-        internal abstract void updateImageResource();
+        protected internal abstract void updateImageResource();
 
         protected void fireExpandToggled()
         {
@@ -55,7 +55,7 @@ namespace MyGUIPlugin
             }
         }
 
-        internal void fireNodeMousePressed(MouseEventArgs me)
+        protected internal void fireNodeMousePressed(MouseEventArgs me)
         {
             if (treeNode != null)
             {
@@ -63,7 +63,7 @@ namespace MyGUIPlugin
             }
         }
 
-        internal void fireNodeMouseReleased(MouseEventArgs me)
+        protected internal void fireNodeMouseReleased(MouseEventArgs me)
         {
             if (treeNode != null)
             {

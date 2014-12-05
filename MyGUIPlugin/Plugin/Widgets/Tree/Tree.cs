@@ -6,6 +6,15 @@ using Engine;
 
 namespace MyGUIPlugin
 {
+    /// <summary>
+    /// A tree widget.
+    /// </summary>
+    /// <remarks>
+    /// The view can be customized by some user options on the ScrollView.
+    /// 
+    /// ItemIndentation - The indentation on each level.
+    /// NodeHeight - The height of each node.
+    /// </remarks>
     public class Tree : IDisposable
     {
         public event EventHandler<TreeCancelEventArgs> BeforeSelect;
@@ -25,9 +34,31 @@ namespace MyGUIPlugin
             this.scrollView = scrollView;
             rootNodes = new TreeNodeCollection(null);
             rootNodes.Tree = this;
-            ItemIndentation = ScaleHelper.Scaled(10);
-            NodeHeight = ScaleHelper.Scaled(20);
             SuppressLayout = false;
+
+            String read;
+            int intValue;
+
+            //Try to get properties from the widget itself.
+            read = scrollView.getUserString("ItemIndentation");
+            if (read != null && NumberParser.TryParse(read, out intValue))
+            {
+                ItemIndentation = ScaleHelper.Scaled(intValue);
+            }
+            else
+            {
+                ItemIndentation = ScaleHelper.Scaled(10);
+            }
+
+            read = scrollView.getUserString("NodeHeight");
+            if (read != null && NumberParser.TryParse(read, out intValue))
+            {
+                NodeHeight = ScaleHelper.Scaled(intValue);
+            }
+            else
+            {
+                NodeHeight = ScaleHelper.Scaled(20);
+            }
         }
 
         public void Dispose()

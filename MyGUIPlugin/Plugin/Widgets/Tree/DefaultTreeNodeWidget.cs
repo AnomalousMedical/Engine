@@ -8,12 +8,13 @@ namespace MyGUIPlugin
 {
     class DefaultTreeNodeWidget : TreeNodeWidget
     {
-        private static int PrimaryWidgetWidth = ScaleHelper.Scaled(26);
-        private static int PrimaryWidgetHeight = ScaleHelper.Scaled(14);
-        private static int PlusMinusButtonSize = ScaleHelper.Scaled(14);
-        private static int MainButtonX = ScaleHelper.Scaled(17);
-        private static int MainButtonWidth = ScaleHelper.Scaled(10);
-        private static int MainButtonHeight = ScaleHelper.Scaled(16);
+        private static readonly int PrimaryWidgetWidth = ScaleHelper.Scaled(26);
+        private static readonly int PrimaryWidgetHeight = ScaleHelper.Scaled(16);
+        private static readonly int PlusMinusButtonSize = ScaleHelper.Scaled(14);
+        private static readonly int PlusMinusButtonY = ScaleHelper.Scaled(1);
+        private static readonly int MainButtonX = ScaleHelper.Scaled(17);
+        private static readonly int MainButtonWidth = ScaleHelper.Scaled(10);
+        private static readonly int MainButtonHeight = ScaleHelper.Scaled(16);
 
         private Widget primaryWidget;
         private Button plusMinusButton;
@@ -34,7 +35,7 @@ namespace MyGUIPlugin
             primaryWidget = parent.createWidgetT("Widget", "PanelEmpty", 0, 0, PrimaryWidgetWidth, PrimaryWidgetHeight, Align.Default, "") as Widget;
             primaryWidget.ForwardMouseWheelToParent = true;
 
-            plusMinusButton = primaryWidget.createWidgetT("Button", "ButtonExpandSkin", 0, 0, PlusMinusButtonSize, PlusMinusButtonSize, Align.Left | Align.HCenter, "") as Button;
+            plusMinusButton = primaryWidget.createWidgetT("Button", "ButtonExpandSkin", 0, PlusMinusButtonY, PlusMinusButtonSize, PlusMinusButtonSize, Align.Left | Align.HCenter, "") as Button;
             plusMinusButton.MouseButtonClick += new MyGUIEvent(plusMinusButton_MouseButtonClick);
             plusMinusButton.Visible = treeNode.HasChildren;
             plusMinusButton.ForwardMouseWheelToParent = true;
@@ -87,7 +88,7 @@ namespace MyGUIPlugin
             }
         }
 
-        internal override void updateText()
+        protected internal override void updateText()
         {
             if (mainButton != null)
             {
@@ -95,7 +96,7 @@ namespace MyGUIPlugin
             }
         }
 
-        internal override void updateImageResource()
+        protected internal override void updateImageResource()
         {
             if (mainButton != null)
             {
