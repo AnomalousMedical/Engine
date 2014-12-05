@@ -10,7 +10,6 @@ namespace MyGUIPlugin
     {
         public event EventHandler<TreeCancelEventArgs> BeforeSelect;
         public event EventHandler<TreeEventArgs> AfterSelect;
-        public event EventHandler<TreeEventArgs> NodeMouseClick;
         public event EventHandler<TreeEventArgs> NodeMouseDoubleClick;
         public event EventHandler<TreeMouseEventArgs> NodeMousePressed;
         public event EventHandler<TreeMouseEventArgs> NodeMouseReleased;
@@ -141,16 +140,6 @@ namespace MyGUIPlugin
             get
             {
                 return scrollView;
-            }
-        }
-
-        internal void fireNodeMouseClicked(TreeNode node)
-        {
-            if (NodeMouseClick != null)
-            {
-                eventArgs.reset();
-                eventArgs.Node = node;
-                NodeMouseClick.Invoke(this, eventArgs);
             }
         }
 

@@ -47,14 +47,6 @@ namespace MyGUIPlugin
             }
         }
 
-        protected void fireNodeMouseClicked()
-        {
-            if (treeNode != null)
-            {
-                treeNode.Tree.fireNodeMouseClicked(treeNode);
-            }
-        }
-
         protected void fireNodeMouseDoubleClicked()
         {
             if (treeNode != null)

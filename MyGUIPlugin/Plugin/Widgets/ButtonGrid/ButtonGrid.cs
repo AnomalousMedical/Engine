@@ -335,6 +335,14 @@ namespace MyGUIPlugin
         }
 
         /// <summary>
+        /// Resize to the scroll view's view coord width and layout again.
+        /// </summary>
+        public void resizeAndLayout()
+        {
+            resizeAndLayout(scrollView.ViewCoord.width);
+        }
+
+        /// <summary>
         /// Set a new width for the grid and layout again.
         /// </summary>
         /// <param name="newWidth"></param>
