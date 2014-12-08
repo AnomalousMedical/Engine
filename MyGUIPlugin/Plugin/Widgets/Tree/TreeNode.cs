@@ -90,6 +90,11 @@ namespace MyGUIPlugin
             nodeWidget.setCoord(left, top, width, height);
         }
 
+        internal bool contains(int x, int y)
+        {
+            return nodeWidget.contains(x, y);
+        }
+
         /// <summary>
         /// This will be called by TreeNodeCollection when this node gains its
         /// first child or looses its last child.

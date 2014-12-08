@@ -91,6 +91,41 @@ namespace MyGUIPlugin
             this.layout();
         }
 
+        /// <summary>
+        /// This will be true if the scroll view for this tree contains the given point.
+        /// </summary>
+        /// <param name="x">The x coord of the point.</param>
+        /// <param name="y">The y coord of the point.</param>
+        /// <returns></returns>
+        public bool contains(int x, int y)
+        {
+            return scrollView.contains(x, y);
+        }
+
+        public TreeNode itemAt(int x, int y)
+        {
+            return findItemAt(rootNodes, x, y);
+        }
+
+        private TreeNode findItemAt(TreeNodeCollection nodes, int x, int y)
+        {
+            foreach(var node in nodes)
+            {
+                if(node.contains(x, y))
+                {
+                    return node;
+                }
+                else
+                {
+                    if(node.Expanded)
+                    {
+                        return findItemAt(node.Children, x, y);
+                    }
+                }
+            }
+            return null;
+        }
+
         private void layoutNode(TreeNode node, int currentIndent, int currentWidth, ref int currentY)
         {
             node.setWidgetCoord(currentIndent, currentY, currentWidth, NodeHeight);

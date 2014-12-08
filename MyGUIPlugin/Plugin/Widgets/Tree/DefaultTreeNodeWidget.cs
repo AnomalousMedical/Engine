@@ -108,6 +108,15 @@ namespace MyGUIPlugin
             }
         }
 
+        protected internal override bool contains(int x, int y)
+        {
+            if(primaryWidget != null)
+            {
+                return primaryWidget.contains(x, y);
+            }
+            return false;
+        }
+
         void plusMinusButton_MouseButtonClick(Widget source, EventArgs e)
         {
             fireExpandToggled();

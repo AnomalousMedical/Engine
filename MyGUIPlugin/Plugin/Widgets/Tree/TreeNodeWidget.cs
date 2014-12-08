@@ -70,5 +70,7 @@ namespace MyGUIPlugin
                 treeNode.Tree.fireNodeMouseReleased(treeNode, me);
             }
         }
+
+        protected internal abstract bool contains(int x, int y);
     }
 }
