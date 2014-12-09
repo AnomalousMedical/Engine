@@ -559,6 +559,11 @@ namespace Engine
             return !float.IsNaN(x) && !float.IsNaN(y) && !float.IsNaN(z) && !float.IsNaN(w);
         }
 
+        public override string ToString()
+        {
+            return String.Format(CultureInfo.InvariantCulture, TO_STRING_FORMAT, x, y, z, w);
+        }
+
         /// <summary>
         /// Rotate the v by q.
         /// </summary>
@@ -657,11 +662,6 @@ namespace Engine
             return targetWorldOrientation;
         }
 
-        public override string ToString()
-        {
-            return String.Format(CultureInfo.InvariantCulture, TO_STRING_FORMAT, x, y, z, w);
-        }
-
         #endregion Members
 
         #region Operators
@@ -740,12 +740,12 @@ namespace Engine
 
         public static bool operator ==(Quaternion p1, Quaternion p2)
         {
-            return p1.x == p2.x && p1.y == p2.y && p1.z == p2.z && p1.w != p2.w;
+            return p1.x == p2.x && p1.y == p2.y && p1.z == p2.z && p1.w == p2.w;
         }
 
         public static bool operator !=(Quaternion p1, Quaternion p2)
         {
-            return !(p1.x == p2.x && p1.y == p2.y && p1.z == p2.z && p1.w != p2.w);
+            return !(p1.x == p2.x && p1.y == p2.y && p1.z == p2.z && p1.w == p2.w);
         }
 
         #endregion Operators
