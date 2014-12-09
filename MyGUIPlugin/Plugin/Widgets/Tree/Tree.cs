@@ -119,7 +119,11 @@ namespace MyGUIPlugin
                 {
                     if(node.Expanded)
                     {
-                        return findItemAt(node.Children, x, y);
+                        TreeNode found = findItemAt(node.Children, x, y);
+                        if(found != null)
+                        {
+                            return found;
+                        }
                     }
                 }
             }

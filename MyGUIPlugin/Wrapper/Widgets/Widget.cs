@@ -589,6 +589,21 @@ namespace MyGUIPlugin
         }
 
         public Object UserObject { get; set; }
+        
+        /// <summary>
+        /// Get an enumerator over all this widget's children.
+        /// </summary>
+        public IEnumerable<Widget> Children
+        {
+            get
+            {
+                uint childCount = ChildCount;
+                for(uint i = 0; i < childCount; ++i)
+                {
+                    yield return getChildAt(i);
+                }
+            }
+        }
 
         public override string ToString()
         {
