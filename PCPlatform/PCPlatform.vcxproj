@@ -101,8 +101,6 @@
   <ItemGroup>
     <ClCompile Include="Src\AgnosticMessagePump.cpp" />
     <ClCompile Include="Src\InputManager.cpp" />
-    <ClCompile Include="Src\Keyboard.cpp" />
-    <ClCompile Include="Src\Mouse.cpp" />
     <ClCompile Include="Src\PerformanceCounter.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

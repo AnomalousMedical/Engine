@@ -160,7 +160,7 @@ namespace OgreModelEditor
             mainTimer = win32Timer;
 
             mainTimer.FramerateCap = OgreModelEditorConfig.EngineConfig.MaxFPS;
-            inputHandler = new PCInputHandler(mainForm, false, false, false, mainTimer, windowsPump);
+            inputHandler = new PCInputHandler(mainForm, windowsPump);
             eventManager = new EventManager(inputHandler, Enum.GetValues(typeof(EventLayers)));
             eventUpdate = new EventUpdateListener(eventManager);
             mainTimer.addUpdateListener(eventUpdate);

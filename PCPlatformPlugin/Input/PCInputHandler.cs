@@ -8,54 +8,30 @@ using Logging;
 
 namespace PCPlatform
 {
-    public class PCInputHandler : InputHandler, IDisposable, UpdateListener
+    /// <summary>
+    /// This input handler uses some C# win32 processing to do input. Its pretty hacky and ok for our
+    /// Windows.Forms based tools, but don't use it for anything production.
+    /// </summary>
+    public class PCInputHandler : InputHandler, IDisposable
     {
-        enum InputType : int
-        {
-            OISUnknown = 0,
-            OISKeyboard = 1,
-            OISMouse = 2,
-            OISJoyStick = 3,
-            OISTablet = 4
-        };
-
-        IntPtr nInputManager;
-	    int numKeyboards;
-	    int numMice;
-	    int numJoysticks;
 	    PCKeyboard createdKeyboard;
 	    PCMouse createdMouse;
 	    OSWindow window;
-        UpdateTimer updateTimer;
         WindowsMessagePump windowsPump;
 
-        public PCInputHandler(OSWindow windowHandle, bool foreground, bool exclusive, bool noWinKey, UpdateTimer updateTimer, WindowsMessagePump windowsPump)
+        public PCInputHandler(OSWindow windowHandle, WindowsMessagePump windowsPump)
         {
+            this.window = windowHandle;
             this.windowsPump = windowsPump;
             windowsPump.MessageReceived += windowsPump_MessageReceived;
-            this.window = windowHandle;
-            this.updateTimer = updateTimer;
-            updateTimer.addUpdateListener(this);
-
-            nInputManager = InputManager_Create(windowHandle.WindowHandle.ToString(), foreground, exclusive, noWinKey);
-
-	        numKeyboards = InputManager_getNumberOfDevices(nInputManager, InputType.OISKeyboard);
-	        numMice = InputManager_getNumberOfDevices(nInputManager, InputType.OISMouse);
-	        numJoysticks = InputManager_getNumberOfDevices(nInputManager, InputType.OISJoyStick);
 
 	        //Log some info
-	        uint v = InputManager_getVersionNumber(nInputManager);
-            Log.Info("Using OIS Version: {0}.{1}.{2} \"{3}\"", (v>>16), ((v>>8) & 0x000000FF), (v & 0x000000FF), VersionName);
-            Log.Info("Manager: {0}", InputSystemName);
-	        Log.Info("Total Keyboards: {0}", numKeyboards);
-	        Log.Info("Total Mice: {0}", numMice);
-	        Log.Info("Total JoySticks: {0}", numJoysticks);
+            Log.Info("Using PCPlatform Input Handler");
         }
 
         public void Dispose()
         {
             windowsPump.MessageReceived -= windowsPump_MessageReceived;
-            updateTimer.removeUpdateListener(this);
             if( createdMouse != null )
 	        {
 		        destroyMouse(createdMouse);
@@ -64,8 +40,6 @@ namespace PCPlatform
 	        {
 		        destroyKeyboard(createdKeyboard);
 	        }
-            InputManager_Delete(nInputManager);
-	        nInputManager = IntPtr.Zero;
         }
 
         public override KeyboardHardware createKeyboard(Keyboard keyboard)
@@ -73,8 +47,7 @@ namespace PCPlatform
             if( createdKeyboard == null )
 	        {
 		        Log.Info("Creating keyboard.");
-                createdKeyboard = new PCKeyboard(InputManager_createInputObject(nInputManager, InputType.OISKeyboard, true), keyboard);
-                createdKeyboard.TranslationMode = PCKeyboard.TextTranslationMode.Unicode;
+                createdKeyboard = new PCKeyboard(keyboard);
 	        }
 	        return createdKeyboard;
         }
@@ -83,10 +56,7 @@ namespace PCPlatform
         {
             if( createdKeyboard == keyboard )
 	        {
-                PCKeyboard pcKeyboard = (PCKeyboard)keyboard;
-                pcKeyboard.Dispose();
 		        Log.Info("Destroying keyboard.");
-                InputManager_destroyInputObject(nInputManager, pcKeyboard.KeyboardHandle);
 		        createdKeyboard = null;
 	        }
 	        else
@@ -107,7 +77,7 @@ namespace PCPlatform
             if( createdMouse == null )
 	        {
 		        Log.Info("Creating mouse.");
-		        createdMouse = new PCMouse(InputManager_createInputObject(nInputManager, InputType.OISMouse, true), window.WindowWidth, window.WindowHeight, mouse);
+		        createdMouse = new PCMouse(mouse);
                 window.Resized += window_Resized;
 	        }
 	        return createdMouse;
@@ -117,11 +87,8 @@ namespace PCPlatform
         {
             if( createdMouse == mouse )
 	        {
-                var pcMouse = (PCMouse)mouse;
-                pcMouse.Dispose();
                 window.Resized -= window_Resized;
 		        Log.Info("Destroying mouse.");
-                InputManager_destroyInputObject(nInputManager, pcMouse.MouseHandle);
 		        createdMouse = null;
 	        }
 	        else
@@ -155,85 +122,62 @@ namespace PCPlatform
             }
         }
 
-        public String VersionName
-        {
-            get
-            {
-                return Marshal.PtrToStringAnsi(InputManager_getVersionName(nInputManager));
-            }
-        }
-
-        public String InputSystemName
-        {
-            get
-            {
-                return Marshal.PtrToStringAnsi(InputManager_inputSystemName(nInputManager));
-            }
-        }
-
-        public void sendUpdate(Clock clock)
-        {
-            if (createdKeyboard != null)
-            {
-                createdKeyboard.capture();
-            }
-            if (createdMouse != null)
-            {
-                createdMouse.capture();
-            }
-        }
-
-        public void loopStarting()
-        {
-
-        }
-
-        public void exceededMaxDelta()
-        {
-
-        }
-
-        private void fireKeyDown(KeyboardButtonCode keyboardButtonCode, uint p)
+        private void fireKeyDown(KeyboardButtonCode keyboardButtonCode, uint keyChar)
         {
             if(createdKeyboard != null)
             {
-                
+                createdKeyboard._fireKeyPressed(keyboardButtonCode, keyChar);
             }
         }
 
         private void fireKeyUp(KeyboardButtonCode keyboardButtonCode)
         {
-            
-        }
-
-        private void manageCapture(MouseButtonCode mouseButtonCode)
-        {
-            
+            if (createdKeyboard != null)
+            {
+                createdKeyboard._fireKeyReleased(keyboardButtonCode);
+            }
         }
 
         private void fireMouseButtonDown(MouseButtonCode mouseButtonCode)
         {
-            
+            if(createdMouse != null)
+            {
+                createdMouse._fireButtonDown(mouseButtonCode);
+            }
         }
 
         private void fireMouseButtonUp(MouseButtonCode mouseButtonCode)
         {
-            
+            if (createdMouse != null)
+            {
+                createdMouse._fireButtonUp(mouseButtonCode);
+            }
+        }
+
+        private void fireMouseMove(int x, int y)
+        {
+            if (createdMouse != null)
+            {
+                createdMouse._fireMoved(x, y);
+            }
+        }
+
+        private void fireMouseWheel(short z)
+        {
+            if (createdMouse != null)
+            {
+                createdMouse._fireWheel(z);
+            }
+        }
+
+        private void manageCapture(MouseButtonCode mouseButtonCode)
+        {
+
         }
 
         private void manageRelease(MouseButtonCode mouseButtonCode)
         {
-            
-        }
 
-        private void fireMouseMove(int p1, int p2)
-        {
-            
-        }
-
-        private void fireMouseWheel(short p)
-        {
-            
         }
 
         private const int WM_KEYDOWN = 0x0100;
@@ -402,30 +346,6 @@ namespace PCPlatform
 			    break;
 		    }
         }
-
-        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr InputManager_Create(String windowHandle, bool foreground, bool exclusive, bool noWinKey);
-
-        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void InputManager_Delete(IntPtr inputManager);
-
-        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
-        private static extern int InputManager_getNumberOfDevices(IntPtr inputManager, InputType inputType);
-
-        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
-        private static extern uint InputManager_getVersionNumber(IntPtr inputManager);
-
-        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr InputManager_getVersionName(IntPtr inputManager);
-
-        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr InputManager_inputSystemName(IntPtr inputManager);
-
-        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr InputManager_createInputObject(IntPtr inputManager, InputType inputType, bool buffered);
-
-        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void InputManager_destroyInputObject(IntPtr inputManager, IntPtr inputObject);
 
         [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
         private static extern uint InputManager_getUtf32(IntPtr wParam, IntPtr lParam);

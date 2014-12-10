@@ -8,91 +8,33 @@ using Logging;
 
 namespace PCPlatform
 {
-    class PCKeyboard : KeyboardHardware, IDisposable
+    class PCKeyboard : KeyboardHardware
     {
-        public enum TextTranslationMode
-        {
-            Off,
-            Unicode,
-            Ascii
-        };
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void KeyDownCallback(KeyboardButtonCode key, uint text);
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void KeyUpCallback(KeyboardButtonCode key);
-
-        private IntPtr keyboard;
-        private IntPtr keyListener;
-
-        private KeyDownCallback keyPressedCbPtr;
-        private KeyUpCallback keyReleasedCbPtr;
-
-        private sbyte[] keys = new sbyte[256];
-
-        public PCKeyboard(IntPtr keyboardPtr, Keyboard keyboard)
+        public PCKeyboard(Keyboard keyboard)
             : base(keyboard)
         {
-            this.keyboard = keyboardPtr;
-            keyPressedCbPtr = new KeyDownCallback(fireKeyPressed);
-            keyReleasedCbPtr = new KeyUpCallback(fireKeyReleased);
-            keyListener = oisKeyboard_createListener(this.keyboard, keyPressedCbPtr, keyReleasedCbPtr);
+            
         }
 
-        public void Dispose()
+        /// <summary>
+        /// Fire a key pressed event.
+        /// </summary>
+        internal void _fireKeyPressed(KeyboardButtonCode keyCode, uint keyChar)
         {
-            oisKeyboard_destroyListener(keyboard, keyListener);
+            fireKeyPressed(keyCode, keyChar);
         }
 
-        public unsafe void capture()
+        /// <summary>
+        /// Fire a key released event.
+        /// </summary>
+        internal void _fireKeyReleased(KeyboardButtonCode keyCode)
         {
-            fixed (sbyte* keyBuf = &keys[0])
-            {
-                oisKeyboard_capture(keyboard, keyBuf);
-            }
+            fireKeyReleased(keyCode);
         }
 
-        public TextTranslationMode TranslationMode
+        internal void _fireReleaseAllKeys()
         {
-            get
-            {
-                return oisKeyboard_getTextTranslationMode(keyboard);
-            }
-            set
-            {
-                oisKeyboard_setTextTranslationMode(keyboard, value);
-            }
+            fireReleaseAllKeys();
         }
-
-        internal IntPtr KeyboardHandle
-        {
-            get
-            {
-                return keyboard;
-            }
-        }
-
-        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool oisKeyboard_isModifierDown(IntPtr keyboard, Modifier keyCode);
-
-        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr oisKeyboard_getAsString(IntPtr keyboard, KeyboardButtonCode code);
-
-        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
-        private static unsafe extern void oisKeyboard_capture(IntPtr keyboard, sbyte* keys);
-
-        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr oisKeyboard_createListener(IntPtr keyboard, KeyDownCallback keyPressedCb, KeyUpCallback keyReleasedCb);
-
-        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void oisKeyboard_destroyListener(IntPtr keyboard, IntPtr listener);
-
-        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
-        private static extern void oisKeyboard_setTextTranslationMode(IntPtr keyboard, TextTranslationMode mode);
-
-        [DllImport("PCPlatform", CallingConvention=CallingConvention.Cdecl)]
-        private static extern TextTranslationMode oisKeyboard_getTextTranslationMode(IntPtr keyboard);
     }
 }
