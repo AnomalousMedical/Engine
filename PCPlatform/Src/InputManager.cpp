@@ -156,3 +156,9 @@ extern "C" _AnomalousExport KeyboardButtonCode InputManager_virtualKeyToKeyboard
 	}
 	return KC_UNASSIGNED;
 }
+
+extern "C" _AnomalousExport POINT GetDesktopCoordinates(HWND parent, HWND child, POINT point)
+{
+	MapWindowPoints(child, parent, (LPPOINT)&point, 1);
+	return point;
+}

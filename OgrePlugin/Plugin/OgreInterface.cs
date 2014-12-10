@@ -127,7 +127,7 @@ namespace OgrePlugin
                 }
                 else
                 {
-                    miscParams.Add("externalWindowHandle", defaultWindowInfo.EmbedWindow.WindowHandle);
+                    miscParams.Add("externalWindowHandle", defaultWindowInfo.EmbedWindow.WindowHandle.ToString());
                     RenderWindow renderWindow = root.createRenderWindow(defaultWindowInfo.AutoWindowTitle, (uint)defaultWindowInfo.Width, (uint)defaultWindowInfo.Height, defaultWindowInfo.Fullscreen, miscParams);
                     primaryWindow = new EmbeddedWindow(defaultWindowInfo.EmbedWindow, renderWindow);
                 }
@@ -257,7 +257,7 @@ namespace OgrePlugin
             }
             else
             {
-                miscParams.Add("externalWindowHandle", defaultWindowInfo.EmbedWindow.WindowHandle);
+                miscParams.Add("externalWindowHandle", defaultWindowInfo.EmbedWindow.WindowHandle.ToString());
                 RenderWindow renderWindow = root.createRenderWindow(defaultWindowInfo.AutoWindowTitle, (uint)defaultWindowInfo.Width, (uint)defaultWindowInfo.Height, defaultWindowInfo.Fullscreen, miscParams);
                 primaryWindow = new EmbeddedWindow(defaultWindowInfo.EmbedWindow, renderWindow);
             }
@@ -298,7 +298,7 @@ namespace OgrePlugin
             OSWindow embedWindow = windowInfo.EmbedWindow;
             if (embedWindow != null)
             {
-                miscParams.Add("externalWindowHandle", embedWindow.WindowHandle);
+                miscParams.Add("externalWindowHandle", embedWindow.WindowHandle.ToString());
             }
             RenderWindow renderWindow = root.createRenderWindow(windowInfo.AutoWindowTitle, (uint)windowInfo.Width, (uint)windowInfo.Height, windowInfo.Fullscreen, miscParams);
             OgreWindow ogreWindow;

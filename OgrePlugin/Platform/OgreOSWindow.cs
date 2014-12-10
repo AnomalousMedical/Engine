@@ -15,13 +15,13 @@ namespace OgrePlugin
     class OgreOSWindow : OSWindow, IDisposable
     {
         private RenderWindow window;
-        private String handle;
+        private IntPtr handle;
         private OgreWindowListener ogreWindowListener;
 
         public OgreOSWindow(RenderWindow window)
         {
             this.window = window;
-            handle = window.getWindowHandleStr();
+            handle = new IntPtr(long.Parse(window.getWindowHandleStr()));
             ogreWindowListener = new OgreWindowListener(this);
             WindowEventUtilities.addWindowEventListener(window, ogreWindowListener);
             Focused = true;
@@ -34,7 +34,7 @@ namespace OgrePlugin
             window.destroy();
         }
 
-        public String WindowHandle
+        public IntPtr WindowHandle
         {
             get
             {

@@ -5,6 +5,7 @@ using System.Text;
 using Engine.Platform;
 using System.Runtime.InteropServices;
 using Logging;
+using Engine;
 
 namespace PCPlatform
 {
@@ -339,7 +340,8 @@ namespace PCPlatform
 			    }
 			    break;
 		    case WM_MOUSEMOVE:
-                fireMouseMove(GET_X_LPARAM(message.lParam), GET_Y_LPARAM(message.lParam));
+                IntVector2 point = GetDesktopCoordinates(window.WindowHandle, message.hwnd, new IntVector2(GET_X_LPARAM(message.lParam), GET_Y_LPARAM(message.lParam)));
+                fireMouseMove(point.x, point.y);
 			    break;
 		    case WM_MOUSEWHEEL:
                 fireMouseWheel(GET_WHEEL_DELTA_WPARAM(message.wParam));
@@ -352,5 +354,8 @@ namespace PCPlatform
 
         [DllImport("PCPlatform", CallingConvention = CallingConvention.Cdecl)]
         private static extern KeyboardButtonCode InputManager_virtualKeyToKeyboardButtonCode(IntPtr wParam);
+
+        [DllImport("PCPlatform", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntVector2 GetDesktopCoordinates(IntPtr parent, IntPtr child, IntVector2 point);
     }
 }

@@ -41,11 +41,11 @@ namespace Editor
 
         #region OSWindow Members
 
-        public String WindowHandle
+        public IntPtr WindowHandle
         {
             get
             {
-                return this.Handle.ToString();
+                return this.Handle;
             }
         }
 
@@ -245,24 +245,12 @@ namespace Editor
         /// <param name="y">Y location.</param>
         public void getLocalCoords(ref int x, ref int y)
         {
-            doGetLocalCoords(ref x, ref y, this);
-        }
-
-        /// <summary>
-        /// Helper function to find the local coords.  We need to ignore the top level frame,
-        /// so this will recurse until the control has no parent.
-        /// </summary>
-        /// <param name="x">The x location.</param>
-        /// <param name="y">The y location.</param>
-        /// <param name="ctrl">The current control to scan.</param>
-        private void doGetLocalCoords(ref int x, ref int y, Control ctrl)
-        {
-            if (ctrl.Parent != null)
+            Control topLevel = this.TopLevelControl;
+            if (topLevel != null)
             {
-                Point p = ctrl.Location;
-                x -= p.X;
-                y -= p.Y;
-                doGetLocalCoords(ref x, ref y, ctrl.Parent);
+                Point p = this.PointToClient(topLevel.PointToScreen(new Point(x, y)));
+                x = p.X;
+                y = p.Y;
             }
         }
 
