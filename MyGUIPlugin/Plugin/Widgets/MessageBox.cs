@@ -12,6 +12,10 @@ namespace MyGUIPlugin
     {
         public delegate void MessageClosedDelegate(MessageBoxStyle result);
 
+        /// <summary>
+        /// This dictionary of delegates keeps the delegates alive and is VERY IMPORTANT, don't try to get cute
+        /// with this class.
+        /// </summary>
         private static Dictionary<Message, MessageClosedDelegate> delegates = new Dictionary<Message, MessageClosedDelegate>();
 
         private MessageBox()

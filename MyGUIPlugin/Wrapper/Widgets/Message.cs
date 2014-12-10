@@ -47,6 +47,11 @@ namespace MyGUIPlugin
     };
 
     public delegate void MyGUIMessageEvent(Message message, EventArgs args);
+
+    /// <summary>
+    /// A wrapper for the Message class. This does not dispose like other widgets since MyGUI automatically
+    /// deletes Message instances when one of their buttons is pressed.
+    /// </summary>
     public class Message
     {
         public event MyGUIMessageEvent MessageBoxResult;
