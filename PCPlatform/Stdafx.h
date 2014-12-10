@@ -14,3 +14,7 @@
 #define _AnomalousExport __attribute__ ((visibility("default")))
 #define Int64 __int64_t
 #endif
+
+typedef unsigned int uint;
+typedef unsigned char byte;
+typedef unsigned short ushort;

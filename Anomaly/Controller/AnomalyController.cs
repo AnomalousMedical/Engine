@@ -143,7 +143,7 @@ namespace Anomaly
             win32Timer.MessagePump = windowsPump;
             mainTimer = win32Timer;
             mainTimer.FramerateCap = AnomalyConfig.EngineConfig.MaxFPS;
-            inputHandler = new PCInputHandler(mainForm, false, false, false, mainTimer);
+            inputHandler = new PCInputHandler(mainForm, false, false, false, mainTimer, windowsPump);
             eventManager = new EventManager(inputHandler, Enum.GetValues(typeof(EventLayers)));
             eventUpdate = new EventUpdateListener(eventManager);
             mainTimer.addUpdateListener(eventUpdate);

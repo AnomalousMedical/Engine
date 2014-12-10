@@ -111,7 +111,9 @@
     <ClCompile Include="Src\WindowsMessagePump.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\KeyboardButtonCode.h" />
     <ClInclude Include="Include\PerformanceCounter.h" />
+    <ClInclude Include="Include\Win32KeyMap.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Stdafx.h" />
   </ItemGroup>
