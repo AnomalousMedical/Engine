@@ -115,6 +115,16 @@ extern "C" _AnomalousExport void Widget_setCoord(MyGUI::Widget* widget, int left
 	widget->setCoord(left, top, width, height);
 }
 
+extern "C" _AnomalousExport void Widget_setCoordIntCoord(MyGUI::Widget* widget, MyGUI::IntCoord& coord)
+{
+	widget->setCoord(coord);
+}
+
+extern "C" _AnomalousExport MyGUI::IntCoord Widget_getCoord(MyGUI::Widget* widget)
+{
+	return widget->getCoord();
+}
+
 extern "C" _AnomalousExport void Widget_setRealPosition(MyGUI::Widget* widget, float left, float top)
 {
 	widget->setRealPosition(left, top);

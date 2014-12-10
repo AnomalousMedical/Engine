@@ -588,6 +588,18 @@ namespace MyGUIPlugin
             }
         }
 
+        public IntCoord Coord
+        {
+            get
+            {
+                return Widget_getCoord(widget);
+            }
+            set
+            {
+                Widget_setCoordIntCoord(widget, ref value);
+            }
+        }
+
         public Object UserObject { get; set; }
         
         /// <summary>
@@ -905,6 +917,12 @@ namespace MyGUIPlugin
 
         [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Widget_setCoord(IntPtr widget, int left, int top, int width, int height);
+
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
+        private static extern void Widget_setCoordIntCoord(IntPtr widget, ref IntCoord coord);
+
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
+        private static extern IntCoord Widget_getCoord(IntPtr widget);
 
         [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Widget_setRealPosition(IntPtr widget, float left, float top);
