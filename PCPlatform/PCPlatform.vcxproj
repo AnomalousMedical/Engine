@@ -81,7 +81,8 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy ..\..\Dependencies\Ogre\Windows\Dependencies\bin\Release\OIS.dll $(OutDir)OIS.dll</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
