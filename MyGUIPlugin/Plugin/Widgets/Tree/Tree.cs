@@ -28,10 +28,12 @@ namespace MyGUIPlugin
         private TreeNode selectedNode = null;
         private TreeCancelEventArgs eventArgs = new TreeCancelEventArgs();
         private TreeMouseEventArgs mouseEventArgs = new TreeMouseEventArgs();
+        private bool allowClickEvents = true;
 
         public Tree(ScrollView scrollView)
         {
             this.scrollView = scrollView;
+            scrollView.CanvasPositionChanged += scrollView_CanvasPositionChanged;
             rootNodes = new TreeNodeCollection(null);
             rootNodes.Tree = this;
             SuppressLayout = false;
@@ -63,6 +65,7 @@ namespace MyGUIPlugin
 
         public void Dispose()
         {
+            scrollView.CanvasPositionChanged -= scrollView_CanvasPositionChanged;
             rootNodes.Dispose();
         }
 
@@ -240,6 +243,30 @@ namespace MyGUIPlugin
                 mouseEventArgs.setData(me);
                 mouseEventArgs.Node = node;
                 NodeMouseReleased.Invoke(this, mouseEventArgs);
+            }
+        }
+
+        void scrollView_CanvasPositionChanged(Widget source, EventArgs e)
+        {
+            allowClickEvents = false;
+        }
+
+        /// <summary>
+        /// This value is tracked to allow click events or not, it will
+        /// be set to false whenever the scroll view scrolls, this way if
+        /// the user is scrolling a view the item that is clicked after the scroll
+        /// completes will not be activated. This prevents items activating
+        /// if this button grid is scrolled with a finger.
+        /// </summary>
+        internal bool AllowClickEvents
+        {
+            get
+            {
+                return allowClickEvents;
+            }
+            set
+            {
+                allowClickEvents = value;
             }
         }
     }

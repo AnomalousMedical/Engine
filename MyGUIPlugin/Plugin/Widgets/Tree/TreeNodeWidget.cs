@@ -41,22 +41,30 @@ namespace MyGUIPlugin
 
         protected void fireNodeSelected()
         {
-            if (treeNode != null)
+            if (treeNode.Tree.AllowClickEvents)
             {
-                treeNode.Tree.SelectedNode = treeNode;
+                if (treeNode != null)
+                {
+                    treeNode.Tree.SelectedNode = treeNode;
+                }
             }
+            treeNode.Tree.AllowClickEvents = true;
         }
 
         protected void fireNodeMouseDoubleClicked()
         {
-            if (treeNode != null)
+            if (treeNode.Tree.AllowClickEvents)
             {
-                treeNode.Tree.fireNodeMouseDoubleClicked(treeNode);
+                if (treeNode != null)
+                {
+                    treeNode.Tree.fireNodeMouseDoubleClicked(treeNode);
+                }
             }
         }
 
         protected internal void fireNodeMousePressed(MouseEventArgs me)
         {
+            treeNode.Tree.AllowClickEvents = true;
             if (treeNode != null)
             {
                 treeNode.Tree.fireNodeMousePressed(treeNode, me);

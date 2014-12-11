@@ -129,6 +129,7 @@ namespace MyGUIPlugin
             SuppressLayout = false;
 
             this.scrollView = scrollView;
+            scrollView.CanvasPositionChanged += scrollView_CanvasPositionChanged;
             this.itemComparer = itemComparer;
             this.layoutEngine = layoutEngine;
             if (groupComparer != null)
@@ -190,8 +191,6 @@ namespace MyGUIPlugin
             {
                 layoutEngine.GroupPaddingY = ScaleHelper.Scaled(intValue);
             }
-
-            scrollView.CanvasPositionChanged += scrollView_CanvasPositionChanged;
 
             this.CaptionFactory = captionFactory;
         }
