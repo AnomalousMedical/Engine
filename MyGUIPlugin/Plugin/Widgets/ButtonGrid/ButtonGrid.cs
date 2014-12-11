@@ -30,6 +30,7 @@ namespace MyGUIPlugin
         private ButtonGridLayout layoutEngine;
         private ButtonGridSelectionStrategy selectionStrategy;
         private ButtonGridCaptionFactory captionFactory;
+        private bool allowClickEvents = true;
 
         /// <summary>
         /// Called when an item is activated. With the mouse this means double clicked.
@@ -190,6 +191,8 @@ namespace MyGUIPlugin
                 layoutEngine.GroupPaddingY = ScaleHelper.Scaled(intValue);
             }
 
+            scrollView.CanvasPositionChanged += scrollView_CanvasPositionChanged;
+
             this.CaptionFactory = captionFactory;
         }
 
@@ -198,6 +201,7 @@ namespace MyGUIPlugin
         /// </summary>
         public void Dispose()
         {
+            scrollView.CanvasPositionChanged -= scrollView_CanvasPositionChanged;
             clear();
         }
 
@@ -655,6 +659,30 @@ namespace MyGUIPlugin
                 default:
                     return new HorizontalButtonGridCaptionFactory();
 
+            }
+        }
+
+        void scrollView_CanvasPositionChanged(Widget source, EventArgs e)
+        {
+            allowClickEvents = false;
+        }
+
+        /// <summary>
+        /// This value is tracked to allow click events or not, it will
+        /// be set to false whenever the scroll view scrolls, this way if
+        /// the user is scrolling a view the item that is clicked after the scroll
+        /// completes will not be activated. This prevents items activating
+        /// if this button grid is scrolled with a finger.
+        /// </summary>
+        internal bool AllowClickEvents
+        {
+            get
+            {
+                return allowClickEvents;
+            }
+            set
+            {
+                allowClickEvents = value;
             }
         }
     }

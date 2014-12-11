@@ -190,16 +190,22 @@ namespace MyGUIPlugin
 
         void button_MouseButtonClick(Widget source, EventArgs e)
         {
-            grid.itemChosen(this);
-            if (ItemClicked != null)
+            if (grid.AllowClickEvents)
             {
-                ItemClicked.Invoke(this, EventArgs.Empty);
+                grid.itemChosen(this);
+                if (ItemClicked != null)
+                {
+                    ItemClicked.Invoke(this, EventArgs.Empty);
+                }
             }
         }
 
         void button_MouseButtonDoubleClick(Widget source, EventArgs e)
         {
-            grid.itemActivated(this);
+            if (grid.AllowClickEvents)
+            {
+                grid.itemActivated(this);
+            }
         }
 
         void button_MouseDrag(Widget source, EventArgs e)
@@ -220,6 +226,7 @@ namespace MyGUIPlugin
 
         void button_MouseButtonPressed(Widget source, EventArgs e)
         {
+            grid.AllowClickEvents = true;
             if (MouseButtonPressed != null)
             {
                 MouseButtonPressed.Invoke(this, (MouseEventArgs)e);
