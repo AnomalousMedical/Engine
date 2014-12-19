@@ -46,6 +46,7 @@ Source: S:\Engine\Release\OgreModelEditor.exe; DestDir: {app}; Flags: ignorevers
 Source: S:\Engine\Release\BEPUikPlugin.dll; DestDir: {app}; Flags: ignoreversion
 Source: S:\Engine\Release\BulletPlugin.dll; DestDir: {app}; Flags: ignoreversion
 Source: S:\Engine\Release\BulletWrapper.dll; DestDir: {app}; Flags: ignoreversion
+Source: S:\Engine\Release\d3dcompiler_47.dll; DestDir: {app}; Flags: ignoreversion
 Source: S:\Engine\Release\DotNetZip.dll; DestDir: {app}; Flags: ignoreversion
 Source: S:\Engine\Release\Editor.dll; DestDir: {app}; Flags: ignoreversion
 Source: S:\Engine\Release\Engine.dll; DestDir: {app}; Flags: ignoreversion
@@ -77,17 +78,8 @@ Source: S:\Engine\Release\Zip.dll; DestDir: {app}; Flags: ignoreversion
 ;VS 2013 Redistributable
 Source: "S:\dependencies\InstallerDependencies\Windows\vcredist_x86.exe"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall
 
-;.Net 4.5.1
-Source: S:\dependencies\InstallerDependencies\Windows\NDP451-KB2859818-Web.exe; DestDir: {tmp}; 
-
-;DX Required Files
-Source: "S:\dependencies\InstallerDependencies\Windows\DirectX9c\DXSETUP.exe"; DestDir: "{tmp}\DirectX9c"; Flags: ignoreversion deleteafterinstall
-Source: "S:\dependencies\InstallerDependencies\Windows\DirectX9c\dsetup32.dll"; DestDir: "{tmp}\DirectX9c"; Flags: ignoreversion deleteafterinstall
-Source: "S:\dependencies\InstallerDependencies\Windows\DirectX9c\DSETUP.dll"; DestDir: "{tmp}\DirectX9c"; Flags: ignoreversion deleteafterinstall
-Source: "S:\dependencies\InstallerDependencies\Windows\DirectX9c\dxdllreg_x86.cab"; DestDir: "{tmp}\DirectX9c"; Flags: ignoreversion deleteafterinstall
-Source: "S:\dependencies\InstallerDependencies\Windows\DirectX9c\dxupdate.cab"; DestDir: "{tmp}\DirectX9c"; Flags: ignoreversion deleteafterinstall
-;DX June 2010 Files
-Source: "S:\dependencies\InstallerDependencies\Windows\DirectX9c\Jun2010_D3DCompiler_43_x86.cab"; DestDir: "{tmp}\DirectX9c"; Flags: ignoreversion deleteafterinstall
+;.Net 4.5.2
+Source: S:\dependencies\InstallerDependencies\Windows\NDP452-KB2901954-Web.exe; DestDir: {tmp}; 
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
@@ -97,7 +89,6 @@ Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: 
 
 [Run]
 Filename: "{tmp}\vcredist_x86.exe"; Parameters: "/q /norestart"; StatusMsg: "Installing Visual Studio 2013 Redistributable (x86)";
-Filename: "{tmp}\DirectX9c\DXSETUP.exe"; Parameters: "/silent"; StatusMsg: "Installing DirectX";
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, "&", "&&")}}"; Flags: nowait postinstall skipifsilent
 
 [Registry]
@@ -113,15 +104,15 @@ var
 	release: cardinal;
 begin
 	RegQueryDWordValue(HKLM, 'Software\Microsoft\NET Framework Setup\NDP\v4\Full', 'Release', release);
-	if (release < 378759) and (release <> 378675) and (release <> 378758) then 
+	if (release < 379893) then 
 	begin
-    if MsgBox('You need to install the Microsoft .Net Framework 4.5.1.'#13#10'If you are connected to the internet you can do this now.'#13#10'Would you like to continue?', mbConfirmation, MB_YESNO) = IDYES then
+    if MsgBox('You need to install the Microsoft .Net Framework 4.5.2.'#13#10'If you are connected to the internet you can do this now.'#13#10'Would you like to continue?', mbConfirmation, MB_YESNO) = IDYES then
       begin
-        Exec(ExpandConstant('{tmp}\NDP451-KB2859818-Web.exe'), '/norestart', '', SW_SHOW, ewWaitUntilTerminated, resultCode);
+        Exec(ExpandConstant('{tmp}\NDP452-KB2901954-Web.exe'), '/norestart', '', SW_SHOW, ewWaitUntilTerminated, resultCode);
       end
     else
       begin
-        MsgBox('You must install the Microsoft .Net Framework 4.5.1 for this program to work.'#13#10'Please visit www.anomalousmedical.com for more info.', mbInformation, MB_OK)
+        MsgBox('You must install the Microsoft .Net Framework 4.5.2 for this program to work.'#13#10'Please visit www.anomalousmedical.com for more info.', mbInformation, MB_OK)
       end;
    end;
 //	   if resultCode=3010 then
