@@ -21,7 +21,7 @@ namespace MyGUIPlugin
 
         public uint getItemCount()
         {
-            return MenuControl_getItemCount(widget).ToUInt32();
+            return MenuControl_getItemCount(widget).horriblyUnsafeToUInt32();
         }
 
         public MenuItem insertItemAt(uint index, String name)
@@ -91,12 +91,12 @@ namespace MyGUIPlugin
 
         public uint getItemIndex(MenuItem item)
         {
-            return MenuControl_getItemIndex(widget, item.WidgetPtr).ToUInt32();
+            return MenuControl_getItemIndex(widget, item.WidgetPtr).horriblyUnsafeToUInt32();
         }
 
         public uint findItemIndex(MenuItem item)
         {
-            return MenuControl_findItemIndex(widget, item.WidgetPtr).ToUInt32();
+            return MenuControl_findItemIndex(widget, item.WidgetPtr).horriblyUnsafeToUInt32();
         }
 
         public MenuItem findItemWith(String name)
@@ -131,7 +131,7 @@ namespace MyGUIPlugin
 
         public uint getItemIndexById(String id)
         {
-            return MenuControl_getItemIndexById(widget, id).ToUInt32();
+            return MenuControl_getItemIndexById(widget, id).horriblyUnsafeToUInt32();
         }
 
         public void setItemNameAt(uint index, String name)
@@ -156,7 +156,7 @@ namespace MyGUIPlugin
 
         public uint findItemIndexWith(String name)
         {
-            return MenuControl_findItemIndexWith(widget, name).ToUInt32();
+            return MenuControl_findItemIndexWith(widget, name).horriblyUnsafeToUInt32();
         }
 
         public void setItemChildVisibleAt(uint index, bool visible)

@@ -54,7 +54,7 @@ namespace MyGUIPlugin
 
         public uint findItemIndexWith(String name)
         {
-            return ComboBox_findItemIndexWith(widget, name).ToUInt32();
+            return ComboBox_findItemIndexWith(widget, name).horriblyUnsafeToUInt32();
         }
 
         public uint findItemIndexWithData(Object data)
@@ -121,7 +121,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return ComboBox_getItemCount(widget).ToUInt32();
+                return ComboBox_getItemCount(widget).horriblyUnsafeToUInt32();
             }
         }
 
@@ -129,7 +129,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return ComboBox_getIndexSelected(widget).ToUInt32();
+                return ComboBox_getIndexSelected(widget).horriblyUnsafeToUInt32();
             }
             set
             {

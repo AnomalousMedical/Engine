@@ -39,7 +39,7 @@ namespace MyGUIPlugin
 
         private void nativeEvent(IntPtr widget, UIntPtr position)
         {
-            eventArgs.Position = position.ToUInt32();
+            eventArgs.Position = position.horriblyUnsafeToUInt32();
             fireEvent(eventArgs);
         }
 

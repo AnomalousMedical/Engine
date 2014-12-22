@@ -35,7 +35,7 @@ namespace MyGUIPlugin
 
         public uint getNumWidgets()
         {
-            return VectorWidgetPtr_getNumRootWidgets(vectorWidgetPtr).ToUInt32();
+            return VectorWidgetPtr_getNumRootWidgets(vectorWidgetPtr).horriblyUnsafeToUInt32();
         }
 
         public Widget getWidget(uint index)

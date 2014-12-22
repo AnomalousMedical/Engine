@@ -18,7 +18,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return ScrollBar_getScrollRange(widget).ToUInt32();
+                return ScrollBar_getScrollRange(widget).horriblyUnsafeToUInt32();
             }
             set
             {
@@ -30,7 +30,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return ScrollBar_getScrollPosition(widget).ToUInt32();
+                return ScrollBar_getScrollPosition(widget).horriblyUnsafeToUInt32();
             }
             set
             {
@@ -42,7 +42,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return ScrollBar_getScrollPage(widget).ToUInt32();
+                return ScrollBar_getScrollPage(widget).horriblyUnsafeToUInt32();
             }
             set
             {
@@ -54,7 +54,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return ScrollBar_getScrollIncrement(widget).ToUInt32();
+                return ScrollBar_getScrollIncrement(widget).horriblyUnsafeToUInt32();
             }
             set
             {
@@ -66,7 +66,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return ScrollBar_getScrollViewPage(widget).ToUInt32();
+                return ScrollBar_getScrollViewPage(widget).horriblyUnsafeToUInt32();
             }
             set
             {

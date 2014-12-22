@@ -27,7 +27,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return ProgressBar_getProgressRange(widget).ToUInt32();
+                return ProgressBar_getProgressRange(widget).horriblyUnsafeToUInt32();
             }
             set
             {
@@ -39,7 +39,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return ProgressBar_getProgressPosition(widget).ToUInt32();
+                return ProgressBar_getProgressPosition(widget).horriblyUnsafeToUInt32();
             }
             set
             {

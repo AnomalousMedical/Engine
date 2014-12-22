@@ -46,7 +46,7 @@ namespace MyGUIPlugin
 
         public uint getCount()
         {
-            return ResourceManager_getCount(resourceManager).ToUInt32();
+            return ResourceManager_getCount(resourceManager).horriblyUnsafeToUInt32();
         }
 
         #region PInvoke

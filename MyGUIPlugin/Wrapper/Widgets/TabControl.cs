@@ -33,7 +33,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return TabControl_getIndexSelected(widget).ToUInt32();
+                return TabControl_getIndexSelected(widget).horriblyUnsafeToUInt32();
             }
             set
             {

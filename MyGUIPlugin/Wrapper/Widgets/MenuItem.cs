@@ -59,7 +59,7 @@ namespace MyGUIPlugin
 
         public uint getItemIndex()
         {
-            return MenuItem_getItemIndex(widget).ToUInt32();
+            return MenuItem_getItemIndex(widget).horriblyUnsafeToUInt32();
         }
 
         public MenuControl createItemChild()

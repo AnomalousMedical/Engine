@@ -218,7 +218,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return Widget_getChildCount(widget).ToUInt32();
+                return Widget_getChildCount(widget).horriblyUnsafeToUInt32();
             }
         }        
 

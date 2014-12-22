@@ -25,7 +25,7 @@ namespace MyGUIPlugin
 
         public uint getColumnCount()
         {
-            return MultiListBox_getColumnCount(widget).ToUInt32();
+            return MultiListBox_getColumnCount(widget).horriblyUnsafeToUInt32();
         }
 
         public void insertColumnAt(uint column, String name, int width)
@@ -126,7 +126,7 @@ namespace MyGUIPlugin
 
         public uint getItemCount()
         {
-            return MultiListBox_getItemCount(widget).ToUInt32();
+            return MultiListBox_getItemCount(widget).horriblyUnsafeToUInt32();
         }
 
         public void insertItemAt(uint index, String name)
@@ -188,7 +188,7 @@ namespace MyGUIPlugin
 
         public uint getIndexSelected()
         {
-            return MultiListBox_getIndexSelected(widget).ToUInt32();
+            return MultiListBox_getIndexSelected(widget).horriblyUnsafeToUInt32();
         }
 
         public void setIndexSelected(uint index)
@@ -205,7 +205,7 @@ namespace MyGUIPlugin
         {
             UIntPtr result = MultiListBox_getIndexSelected(widget);
             //Check for max values depending on current runtime (32 or 64 bit).
-            return UIntPtr.Size == 4 ? result.ToUInt32() != UInt32.MaxValue : result.ToUInt64() != UInt64.MaxValue;
+            return UIntPtr.Size == 4 ? result.horriblyUnsafeToUInt32() != UInt32.MaxValue : result.ToUInt64() != UInt64.MaxValue;
         }
 
 
@@ -259,8 +259,8 @@ namespace MyGUIPlugin
         public bool findSubItemWith(uint column, String name, out uint index)
         {
             UIntPtr result = MultiListBox_findSubItemWith(widget, new UIntPtr(column), name);
-            index = result.ToUInt32();
-            return UIntPtr.Size == 4 ? result.ToUInt32() != UInt32.MaxValue : result.ToUInt64() != UInt64.MaxValue;
+            index = result.horriblyUnsafeToUInt32();
+            return UIntPtr.Size == 4 ? result.horriblyUnsafeToUInt32() != UInt32.MaxValue : result.ToUInt64() != UInt64.MaxValue;
         }
 
         //Set SubItem data

@@ -34,7 +34,7 @@ namespace MyGUIPlugin
         private void nativeEvent(IntPtr widget, UIntPtr index)
         {
             //Fill out the MultiListEventArgs
-            eventArgs.Index = index.ToUInt32();
+            eventArgs.Index = index.horriblyUnsafeToUInt32();
             fireEvent(eventArgs);
         }
 

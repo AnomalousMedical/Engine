@@ -81,7 +81,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return EditBox_getTextSelectionStart(widget).ToUInt32();
+                return EditBox_getTextSelectionStart(widget).horriblyUnsafeToUInt32();
             }
         }
 
@@ -89,7 +89,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return EditBox_getTextSelectionEnd(widget).ToUInt32();
+                return EditBox_getTextSelectionEnd(widget).horriblyUnsafeToUInt32();
             }
         }
 
@@ -97,7 +97,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return EditBox_getTextSelectionLength(widget).ToUInt32();
+                return EditBox_getTextSelectionLength(widget).horriblyUnsafeToUInt32();
             }
         }
 
@@ -113,7 +113,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return EditBox_getTextCursor(widget).ToUInt32();
+                return EditBox_getTextCursor(widget).horriblyUnsafeToUInt32();
             }
             set
             {
@@ -125,7 +125,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return EditBox_getTextLength(widget).ToUInt32();
+                return EditBox_getTextLength(widget).horriblyUnsafeToUInt32();
             }
         }
 
@@ -145,7 +145,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return EditBox_getMaxTextLength(widget).ToUInt32();
+                return EditBox_getMaxTextLength(widget).horriblyUnsafeToUInt32();
             }
             set
             {
@@ -265,7 +265,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return EditBox_getVScrollRange(widget).ToUInt32();
+                return EditBox_getVScrollRange(widget).horriblyUnsafeToUInt32();
             }
         }
 
@@ -273,7 +273,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return EditBox_getVScrollPosition(widget).ToUInt32();
+                return EditBox_getVScrollPosition(widget).horriblyUnsafeToUInt32();
             }
             set
             {
@@ -297,7 +297,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return EditBox_getHScrollRange(widget).ToUInt32();
+                return EditBox_getHScrollRange(widget).horriblyUnsafeToUInt32();
             }
         }
 
@@ -305,7 +305,7 @@ namespace MyGUIPlugin
         {
             get
             {
-                return EditBox_getHScrollPosition(widget).ToUInt32();
+                return EditBox_getHScrollPosition(widget).horriblyUnsafeToUInt32();
             }
             set
             {
