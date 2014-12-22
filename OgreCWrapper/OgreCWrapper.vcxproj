@@ -82,10 +82,8 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy ..\..\Dependencies\Ogre\Windows\Build\bin\Release\OgreMain.dll $(OutDir)OgreMain.dll
-copy ..\..\Dependencies\Ogre\Windows\Build\bin\Release\RenderSystem_Direct3D11.dll $(OutDir)RenderSystem_Direct3D11.dll
-copy ..\..\Dependencies\Ogre\Windows\Build\bin\Release\RenderSystem_GL.dll $(OutDir)RenderSystem_GL.dll
-</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

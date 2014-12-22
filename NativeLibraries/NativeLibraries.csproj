@@ -39,6 +39,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\..\Dependencies\Ogre\Windows\Build\bin\release\OgreMain.dll">
+      <Link>OgreMain.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\Dependencies\Ogre\Windows\Build\bin\release\RenderSystem_Direct3D11.dll">
+      <Link>RenderSystem_Direct3D11.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\Dependencies\Ogre\Windows\Build\bin\release\RenderSystem_GL.dll">
+      <Link>RenderSystem_GL.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\Dependencies\OpenALSoft\WindowsBuild\Release\OpenAL32.dll">
+      <Link>OpenAL32.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="C:\Program Files %28x86%29\Windows Kits\8.1\bin\x86\d3dcompiler_47.dll">
       <Link>d3dcompiler_47.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

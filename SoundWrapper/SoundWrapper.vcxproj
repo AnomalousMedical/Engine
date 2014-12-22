@@ -81,7 +81,8 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy ..\..\Dependencies\OpenALSoft\WindowsBuild\Release\OpenAL32.dll $(OutDir)OpenAL32.dll</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
