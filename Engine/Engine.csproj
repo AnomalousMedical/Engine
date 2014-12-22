@@ -184,6 +184,7 @@
     <Compile Include="Platform\Input\Touch\TouchHardware.cs" />
     <Compile Include="Platform\Input\Touch\TouchInfo.cs" />
     <Compile Include="Platform\Input\Touch\TwoFingerZoom.cs" />
+    <Compile Include="Platform\StartupManager.cs" />
     <Compile Include="Reflection\GuidReflectedVariable.cs" />
     <Compile Include="Reflection\LongNullableReflectedVariable.cs" />
     <Compile Include="Reflection\Vector3NullableReflectedVariable.cs" />
