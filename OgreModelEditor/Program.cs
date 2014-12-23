@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using Logging;
 using System.IO;
 using Anomaly.GUI;
+using Engine.Platform;
 
 namespace OgreModelEditor
 {
@@ -16,6 +17,7 @@ namespace OgreModelEditor
         [STAThread]
         static void Main()
         {
+            StartupManager.SetupDllDirectories();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 

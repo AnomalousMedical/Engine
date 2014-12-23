@@ -6,6 +6,7 @@ using Logging;
 using Engine;
 using Anomaly.GUI;
 using System.IO;
+using Engine.Platform;
 
 namespace Anomaly
 {
@@ -18,6 +19,7 @@ namespace Anomaly
         [STAThread]
         static void Main()
         {
+            StartupManager.SetupDllDirectories();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
