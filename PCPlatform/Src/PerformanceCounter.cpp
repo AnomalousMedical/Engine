@@ -22,13 +22,15 @@ PerformanceCounter::~PerformanceCounter()
 
 bool PerformanceCounter::initialize()
 {
-#ifdef WINDOWS
+#if defined(WINDOWS) || defined(WINRT)
+#if defined(WINDOWS) && !defined(_WIN64)
 	DWORD procMask;
 	DWORD sysMask;
+	DWORD timerMask;
 
 	//Find the lowest used core
 	GetProcessAffinityMask(GetCurrentProcess(), &procMask, &sysMask);
-	if(procMask ==0)
+	if(procMask == 0)
 	{
 		procMask = 1;
 	}
@@ -44,13 +46,14 @@ bool PerformanceCounter::initialize()
 	//Change affinity and read counter values
 	HANDLE thread = GetCurrentThread();
 	DWORD oldMask = SetThreadAffinityMask(thread, timerMask);
+#endif
+
 	bool valid = QueryPerformanceFrequency(&frequency);
-	if(valid)
+	if (valid)
 	{
 		QueryPerformanceCounter(&startTime);
 		startTick = GetTickCount();
 	}
-	SetThreadAffinityMask(thread, oldMask);
 
 	//Finish and return
 	lastTime = 0;
@@ -58,21 +61,16 @@ bool PerformanceCounter::initialize()
 #endif
 
 #ifdef MAC_OSX
-	gettimeofday(&start, NULL);
+	gettimeofday(&start, NULL);	
 	return true;
 #endif
 }
 
 Int64 PerformanceCounter::getCurrentTime()
 {
-
-#ifdef WINDOWS
-	//Set affinity and read current time
+#if defined(WINDOWS) || defined(WINRT)
 	LARGE_INTEGER currentTime;
-	HANDLE thread = GetCurrentThread();
-	DWORD oldMask = SetThreadAffinityMask(thread, timerMask);
 	QueryPerformanceCounter(&currentTime);
-	SetThreadAffinityMask(thread, oldMask);
 
 	//Compute the number of ticks in milliseconds since initialize was called.
 	LONGLONG time = currentTime.QuadPart - startTime.QuadPart;
@@ -81,24 +79,24 @@ Int64 PerformanceCounter::getCurrentTime()
 	//Check for performance counter leaps
 	DWORD check = GetTickCount() - startTick;
 	signed long off = (signed long)(ticks - check);
-	if(off < -100 || off > 100)
+	if (off < -100 || off > 100)
 	{
 		//Adjust timer
 		LONGLONG adjust = (std::min)(off * frequency.QuadPart / 1000, time - lastTime);
-        startTime.QuadPart += adjust;
-        time -= adjust;
+		startTime.QuadPart += adjust;
+		time -= adjust;
 	}
 
 	lastTime = time;
 
 	return 1000000 * time / frequency.QuadPart;
-
 #endif
 
 #ifdef MAC_OSX
 	struct timeval now;
 	gettimeofday(&now, NULL);
-	return (now.tv_sec - start.tv_sec)*1000000+(now.tv_usec - start.tv_usec);
+	Int64 intNow = (Int64)(now.tv_sec - start.tv_sec) * 1000000LL + (Int64)(now.tv_usec - start.tv_usec);
+	return intNow;
 #endif
 }
 
