@@ -68,9 +68,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)$(Configuration)\x86\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)\$(Configuration)\x64\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -86,11 +88,14 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;LIBROCKETWRAPPER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WINDOWS;STATIC_LIB;WIN32;_DEBUG;_WINDOWS;_USRDLL;LIBROCKETWRAPPER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\dependencies\libRocket\src\Include;..\..\dependencies\Ogre\src\OgreMain\include;..\..\dependencies\Ogre\Windows\Build\include;$(ProjectDir)\include;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\..\dependencies\libRocket\WindowsBuild\Debug;..\..\dependencies\Ogre\Windows\Dependencies\lib\Debug;..\..\dependencies\Ogre\Windows\Build\lib\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>RocketControls.lib;RocketCore.lib;RocketDebugger.lib;freetype_d.lib;OgreMain_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -99,11 +104,14 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;LIBROCKETWRAPPER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WINDOWS;STATIC_LIB;WIN32;_DEBUG;_WINDOWS;_USRDLL;LIBROCKETWRAPPER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\dependencies\libRocket\src\Include;..\..\dependencies\Ogre\src\OgreMain\include;..\..\dependencies\Ogre\Windows\x64\Build\include;$(ProjectDir)\include;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\..\dependencies\libRocket\Win64Build\Debug;..\..\dependencies\Ogre\Windows\x64\Dependencies\lib\Debug;..\..\dependencies\Ogre\Windows\x64\Build\lib\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>RocketControls.lib;RocketCore.lib;RocketDebugger.lib;freetype_d.lib;OgreMain_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
