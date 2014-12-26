@@ -72,13 +72,13 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\x86</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\x86\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)\$(Configuration)\x64</OutDir>
+    <OutDir>$(SolutionDir)\$(Configuration)\x64\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -115,7 +115,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\Dependencies\MyGUI\Src\MyGUIEngine\include;..\..\Dependencies\MyGUI\Src\Platforms\Ogre\OgrePlatform\include;..\..\Dependencies\MyGUI\Src\Common;..\..\Dependencies\Ogre\src\OgreMain\include;..\..\Dependencies\Ogre\Windows\Build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Dependencies\MyGUI\Src\MyGUIEngine\include;..\..\Dependencies\MyGUI\Src\Platforms\Ogre\OgrePlatform\include;..\..\Dependencies\MyGUI\Src\Common;..\..\Dependencies\Ogre\src\OgreMain\include;..\..\Dependencies\Ogre\Windows\Build\include;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WINDOWS;WIN32;NDEBUG;MYGUI_STATIC;_WINDOWS;MYGUI_USE_FREETYPE;MYGUI_BUILD;NOMINMAX;CMAKE_INTDIR="Release";MyGUIEngine_EXPORTS;MYGUI_DONT_USE_OBSOLETE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -131,7 +131,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\Dependencies\MyGUI\Src\MyGUIEngine\include;..\..\Dependencies\MyGUI\Src\Platforms\Ogre\OgrePlatform\include;..\..\Dependencies\MyGUI\Src\Common;..\..\Dependencies\Ogre\src\OgreMain\include;..\..\Dependencies\Ogre\Windows\x64\Build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Dependencies\MyGUI\Src\MyGUIEngine\include;..\..\Dependencies\MyGUI\Src\Platforms\Ogre\OgrePlatform\include;..\..\Dependencies\MyGUI\Src\Common;..\..\Dependencies\Ogre\src\OgreMain\include;..\..\Dependencies\Ogre\Windows\x64\Build\include;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WINDOWS;WIN32;NDEBUG;MYGUI_STATIC;_WINDOWS;MYGUI_USE_FREETYPE;MYGUI_BUILD;NOMINMAX;CMAKE_INTDIR="Release";MyGUIEngine_EXPORTS;MYGUI_DONT_USE_OBSOLETE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
