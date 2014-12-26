@@ -94,7 +94,7 @@
       <AdditionalIncludeDirectories>..\..\Dependencies\MyGUI\Src\MyGUIEngine\include;..\..\Dependencies\MyGUI\Src\Platforms\Ogre\OgrePlatform\include;..\..\Dependencies\MyGUI\Src\Common;..\..\Dependencies\Ogre\src\OgreMain\include;..\..\Dependencies\Ogre\Windows\Build\include;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;freetype_d.lib;MyGUI.OgrePlatform_d.lib;MyGUIEngineStatic_d.lib;OgreMain_d.lib</AdditionalDependencies>
+      <AdditionalDependencies>freetype_d.lib;MyGUI.OgrePlatform_d.lib;MyGUIEngineStatic_d.lib;OgreMain_d.lib;User32.lib</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AssemblyDebug>true</AssemblyDebug>
       <TargetMachine>MachineX86</TargetMachine>
@@ -112,7 +112,7 @@
       <AdditionalIncludeDirectories>..\..\Dependencies\MyGUI\Src\MyGUIEngine\include;..\..\Dependencies\MyGUI\Src\Platforms\Ogre\OgrePlatform\include;..\..\Dependencies\MyGUI\Src\Common;..\..\Dependencies\Ogre\src\OgreMain\include;..\..\Dependencies\Ogre\Windows\x64\Build\include;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;freetype_d.lib;MyGUI.OgrePlatform_d.lib;MyGUIEngineStatic_d.lib;OgreMain_d.lib</AdditionalDependencies>
+      <AdditionalDependencies>freetype_d.lib;MyGUI.OgrePlatform_d.lib;MyGUIEngineStatic_d.lib;OgreMain_d.lib;User32.lib</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AssemblyDebug>true</AssemblyDebug>
       <AdditionalLibraryDirectories>..\..\Dependencies\MyGUI\Win64Build\lib\Debug;..\..\Dependencies\Ogre\Windows\x64\Dependencies\lib\Debug;..\..\Dependencies\Ogre\Windows\x64\Build\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -128,7 +128,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;freetype.lib;MyGUI.OgrePlatform.lib;MyGUIEngineStatic.lib;OgreMain.lib</AdditionalDependencies>
+      <AdditionalDependencies>freetype.lib;MyGUI.OgrePlatform.lib;MyGUIEngineStatic.lib;OgreMain.lib;User32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\Dependencies\MyGUI\WindowsBuild\lib\Release;..\..\Dependencies\Ogre\Windows\Dependencies\lib\Release;..\..\Dependencies\Ogre\Windows\Build\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <TargetMachine>MachineX86</TargetMachine>
@@ -144,7 +144,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;freetype.lib;MyGUI.OgrePlatform.lib;MyGUIEngineStatic.lib;OgreMain.lib</AdditionalDependencies>
+      <AdditionalDependencies>freetype.lib;MyGUI.OgrePlatform.lib;MyGUIEngineStatic.lib;OgreMain.lib;User32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\Dependencies\MyGUI\Win64Build\lib\Release;..\..\Dependencies\Ogre\Windows\x64\Dependencies\lib\Release;..\..\Dependencies\Ogre\Windows\x64\Build\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
     </Link>
