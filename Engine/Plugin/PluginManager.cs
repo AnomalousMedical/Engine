@@ -11,6 +11,7 @@ using Engine.Renderer;
 using Engine.Command;
 using Engine.Resources;
 using Engine.Saving;
+using Engine.Threads;
 
 namespace Engine
 {
@@ -107,6 +108,7 @@ namespace Engine
                 loadedPlugins[i].Dispose();
             }
             loadedPlugins.Clear();
+            ThreadManager.cancelAll();
         }
 
         /// <summary>
@@ -334,6 +336,7 @@ namespace Engine
             {
                 plugin.setPlatformInfo(mainTimer, eventManager);
             }
+            mainTimer.addUpdateListener(new ThreadManagerUpdate());
         }
 
         /// <summary>

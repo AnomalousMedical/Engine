@@ -76,7 +76,7 @@ namespace Engine.Threads
             }
         }
 
-        public static void doInvoke()
+        internal static void doInvoke()
         {
             lock (targets)
             {
@@ -102,7 +102,7 @@ namespace Engine.Threads
         /// threads. Should be called only on shutdown. After this method any
         /// invoke calls will automatically cancel.
         /// </summary>
-        public static void cancelAll()
+        internal static void cancelAll()
         {
             lock (targets)
             {
