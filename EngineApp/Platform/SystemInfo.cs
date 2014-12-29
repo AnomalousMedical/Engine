@@ -7,6 +7,12 @@ using Engine;
 
 namespace Medical
 {
+    public enum OperatingSystem
+    {
+        Windows,
+        Mac,
+    }
+
     public class SystemInfo
     {
         private SystemInfo() { }
@@ -26,6 +32,17 @@ namespace Medical
             return new IntVector2(x, y);
         }
 
+        /// <summary>
+        /// Get the operating system we are currently running on.
+        /// </summary>
+        public static OperatingSystem RuntimeOS
+        {
+            get
+            {
+                return PlatformConfig_getPlatform();
+            }
+        }
+
         #region PInvoke
 
         [DllImport(NativePlatformPlugin.LibraryName, CallingConvention=CallingConvention.Cdecl)]
@@ -33,6 +50,9 @@ namespace Medical
 
         [DllImport(NativePlatformPlugin.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void SystemInfo_getDisplayLocation(int displayIndex, out int x, out int y);
+
+        [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern OperatingSystem PlatformConfig_getPlatform();
 
         #endregion
     }
