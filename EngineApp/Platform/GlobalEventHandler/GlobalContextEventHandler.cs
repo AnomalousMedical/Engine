@@ -20,7 +20,7 @@ namespace Medical.Platform
         /// Set the eventmanger to use. This should only be called once.
         /// </summary>
         /// <param name="eventManager">The event manager to use.</param>
-        internal static void setEventManager(EventManager eventManager)
+        public static void setEventManager(EventManager eventManager)
         {
             if (GlobalContextEventHandler.eventManager != null)
             {

@@ -11,7 +11,7 @@ namespace Medical
 {
     public class NativePlatformPlugin : PluginInterface
     {
-        internal const String LibraryName = "OSHelper";
+        public const String LibraryName = "OSHelper";
 
         private ManagedLogListener managedLogListener = new ManagedLogListener();
 

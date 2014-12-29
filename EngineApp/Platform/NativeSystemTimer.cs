@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace Medical
 {
-    class NativeSystemTimer : SystemTimer, IDisposable
+    public class NativeSystemTimer : SystemTimer, IDisposable
     {
         IntPtr performanceCounter;
 
