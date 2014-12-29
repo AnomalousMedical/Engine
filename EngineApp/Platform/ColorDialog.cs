@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine;
 using System.Runtime.InteropServices;
-using EngineApp.Platform.Threads;
+using Medical.Controller;
 
 namespace Medical
 {

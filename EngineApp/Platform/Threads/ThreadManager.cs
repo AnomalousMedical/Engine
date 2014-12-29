@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EngineApp.Platform.Threads
+namespace Medical.Controller
 {
     public class ThreadManager
     {

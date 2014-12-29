@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
-using EngineApp.Platform.Threads;
+using Medical.Controller;
 
 namespace Medical
 {
