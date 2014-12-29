@@ -506,13 +506,24 @@ WNDCLASSEX Win32Window::wndclass;
 
 void Win32Window::createWindowClass(HANDLE hModule)
 {
+	HICON icon;
+	HMODULE iconModule = GetModuleHandle(NULL);
+	if (iconModule != NULL)
+	{
+		icon = LoadIcon(iconModule, IDI_APPLICATION);
+	}
+	else
+	{
+		icon = LoadIcon((HINSTANCE)hModule, MAKEINTRESOURCE(IDI_ICON));
+	}
+
 	wndclass.cbSize = sizeof(wndclass);
 	wndclass.style = CS_OWNDC;// | CS_DBLCLKS;/*CS_HREDRAW | CS_VREDRAW |*/ 
 	wndclass.lpfnWndProc = &MsgProc;
 	wndclass.cbClsExtra = 0;
 	wndclass.cbWndExtra = 0;
 	wndclass.hInstance = (HINSTANCE)hModule;
-	wndclass.hIcon = LoadIcon((HINSTANCE)hModule, MAKEINTRESOURCE(IDI_ICON));
+	wndclass.hIcon = icon;
 	wndclass.hIconSm = NULL;
 	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)(COLOR_WINDOW);
