@@ -344,6 +344,11 @@
     <Compile Include="Saving\XMLSaver\Values\XmlVector3.cs" />
     <Compile Include="Saving\XMLSaver\XmlValueCollection.cs" />
     <Compile Include="Saving\XMLSaver\XmlValueReader.cs" />
+    <Compile Include="Threads\TargetEntry.cs" />
+    <Compile Include="Threads\ThreadManager.cs" />
+    <Compile Include="Threads\ThreadManagerSynchronizeInvoke.cs" />
+    <Compile Include="Threads\CancelableBackgroundWorker.cs" />
+    <Compile Include="Threads\CancelableBackgroundWorkTask.cs" />
     <Compile Include="Utility\CancelEventArgs.cs" />
     <Compile Include="Utility\EventDelegate.cs" />
     <Compile Include="Utility\FastIteratorMap.cs" />

@@ -70,9 +70,6 @@
     <Compile Include="Platform\NativeUpdateTimer.cs" />
     <Compile Include="Platform\OSSpecific\MacOSXFunctions.cs" />
     <Compile Include="Platform\SystemInfo.cs" />
-    <Compile Include="Platform\Threads\TargetEntry.cs" />
-    <Compile Include="Platform\Threads\ThreadManager.cs" />
-    <Compile Include="Platform\Threads\ThreadManagerSynchronizeInvoke.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
