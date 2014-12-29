@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libRocketPlugin", "libRocke
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BEPUikPlugin", "BEPUikPlugin\BEPUikPlugin.csproj", "{39F1AB5F-F0B1-45FD-AD66-9C03AF1F022E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSHelper", "OSHelper\OSX\OSHelper.csproj", "{26885145-36F7-4110-9E8A-1C3249D102AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{39F1AB5F-F0B1-45FD-AD66-9C03AF1F022E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39F1AB5F-F0B1-45FD-AD66-9C03AF1F022E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39F1AB5F-F0B1-45FD-AD66-9C03AF1F022E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26885145-36F7-4110-9E8A-1C3249D102AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26885145-36F7-4110-9E8A-1C3249D102AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26885145-36F7-4110-9E8A-1C3249D102AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26885145-36F7-4110-9E8A-1C3249D102AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
