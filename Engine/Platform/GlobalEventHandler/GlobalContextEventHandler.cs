@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine.Platform;
 
-namespace Medical.Platform
+namespace Engine.Platform
 {
     /// <summary>
     /// This class helps manage shortcut keys that are specific to a certian
@@ -20,7 +20,7 @@ namespace Medical.Platform
         /// Set the eventmanger to use. This should only be called once.
         /// </summary>
         /// <param name="eventManager">The event manager to use.</param>
-        public static void setEventManager(EventManager eventManager)
+        internal static void setEventManager(EventManager eventManager)
         {
             if (GlobalContextEventHandler.eventManager != null)
             {

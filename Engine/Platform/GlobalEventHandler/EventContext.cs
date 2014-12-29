@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine.Platform;
 
-namespace Medical.Platform
+namespace Engine.Platform
 {
     public class EventContext
     {

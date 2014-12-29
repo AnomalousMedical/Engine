@@ -55,8 +55,6 @@
     <Compile Include="Platform\DirDialog.cs" />
     <Compile Include="Platform\FileOpenDialog.cs" />
     <Compile Include="Platform\FileSaveDialog.cs" />
-    <Compile Include="Platform\GlobalEventHandler\EventContext.cs" />
-    <Compile Include="Platform\GlobalEventHandler\GlobalContextEventHandler.cs" />
     <Compile Include="Platform\ManagedLogListener.cs" />
     <Compile Include="Platform\MessageDialog.cs" />
     <Compile Include="Platform\MultiTouch.cs" />

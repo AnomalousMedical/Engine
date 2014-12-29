@@ -332,6 +332,7 @@ namespace Engine
         /// <param name="eventManager">The main event manager.</param>
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
         {
+            GlobalContextEventHandler.setEventManager(eventManager);
             foreach (PluginInterface plugin in loadedPlugins)
             {
                 plugin.setPlatformInfo(mainTimer, eventManager);
