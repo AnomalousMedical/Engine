@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E951A65D-DF9C-4DEB-86C0-AC84A7245C20}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EngineApp</RootNamespace>
+    <AssemblyName>EngineApp</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Platform\App.cs" />
+    <Compile Include="Platform\ColorDialog.cs" />
+    <Compile Include="Platform\CursorType.cs" />
+    <Compile Include="Platform\DirDialog.cs" />
+    <Compile Include="Platform\FileOpenDialog.cs" />
+    <Compile Include="Platform\FileSaveDialog.cs" />
+    <Compile Include="Platform\GlobalEventHandler\EventContext.cs" />
+    <Compile Include="Platform\GlobalEventHandler\GlobalContextEventHandler.cs" />
+    <Compile Include="Platform\ManagedLogListener.cs" />
+    <Compile Include="Platform\MessageDialog.cs" />
+    <Compile Include="Platform\MultiTouch.cs" />
+    <Compile Include="Platform\NativeInputHandler.cs" />
+    <Compile Include="Platform\NativeKeyboard.cs" />
+    <Compile Include="Platform\NativeMouse.cs" />
+    <Compile Include="Platform\NativeOSWindow.cs" />
+    <Compile Include="Platform\NativePlatformEntryPoint.cs" />
+    <Compile Include="Platform\NativePlatformPlugin.cs" />
+    <Compile Include="Platform\NativeSystemTimer.cs" />
+    <Compile Include="Platform\NativeUpdateTimer.cs" />
+    <Compile Include="Platform\SystemInfo.cs" />
+    <Compile Include="Platform\Threads\TargetEntry.cs" />
+    <Compile Include="Platform\Threads\ThreadManager.cs" />
+    <Compile Include="Platform\Threads\ThreadManagerSynchronizeInvoke.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Engine\Engine.csproj">
+      <Project>{57c253f1-157f-4a6a-9fed-345a776b97d5}</Project>
+      <Name>Engine</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
