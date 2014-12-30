@@ -53,6 +53,7 @@
     <Compile Include="RocketGui\RocketRenderSystemListener.cs" />
     <Compile Include="RocketGui\RocketWidget.cs" />
     <Compile Include="RocketGui\RocketWidgetManager.cs" />
+    <Compile Include="Tasks\ShowLibRocketDebugger.cs" />
     <Compile Include="Utility\FreeImageBitmapExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
