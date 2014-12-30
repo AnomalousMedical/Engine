@@ -55,6 +55,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinMTDriver", "WinMTDriver\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMinimalApplication", "TestMinimalApplication\TestMinimalApplication.csproj", "{E8740DBB-4636-4058-9AF6-64222294EEEE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSPlatform", "OSPlatform\OSPlatform.csproj", "{6E594C78-9CD8-432D-A135-11C4A72F3BCF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -250,6 +252,12 @@ Global
 		{E8740DBB-4636-4058-9AF6-64222294EEEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8740DBB-4636-4058-9AF6-64222294EEEE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E8740DBB-4636-4058-9AF6-64222294EEEE}.Release|x64.ActiveCfg = Release|Any CPU
+		{6E594C78-9CD8-432D-A135-11C4A72F3BCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E594C78-9CD8-432D-A135-11C4A72F3BCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E594C78-9CD8-432D-A135-11C4A72F3BCF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6E594C78-9CD8-432D-A135-11C4A72F3BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E594C78-9CD8-432D-A135-11C4A72F3BCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E594C78-9CD8-432D-A135-11C4A72F3BCF}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

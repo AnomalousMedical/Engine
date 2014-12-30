@@ -104,6 +104,10 @@
       <Project>{e9fd5768-32e1-42c7-8256-4d7b97c22a9b}</Project>
       <Name>OgrePlugin</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OSPlatform\OSPlatform.csproj">
+      <Project>{6e594c78-9cd8-432d-a135-11c4a72f3bcf}</Project>
+      <Name>OSPlatform</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SoundPlugin\SoundPlugin.csproj">
       <Project>{ccaefe0a-ad1f-42e8-88da-5a685cc7c73d}</Project>
       <Name>SoundPlugin</Name>
