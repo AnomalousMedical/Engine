@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="Controller\DialogEntry.cs" />
     <Compile Include="Controller\DialogManager.cs" />
+    <Compile Include="Controller\GUIManager.cs" />
     <Compile Include="Controller\MDIDialogEntry.cs" />
     <Compile Include="Controller\ScreenLayoutManager.cs" />
     <Compile Include="Controller\StandardDialogEntry.cs" />
