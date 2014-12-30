@@ -56,6 +56,7 @@
     <Compile Include="Config\WindowsPlatformConfig.cs" />
     <Compile Include="EngineController.cs" />
     <Compile Include="FrameClearManager.cs" />
+    <Compile Include="GUILocationNames.cs" />
     <Compile Include="MedicalSceneController.cs" />
     <Compile Include="MedicalUpdate.cs" />
     <Compile Include="MinimalApp.cs" />
@@ -77,6 +78,10 @@
     <ProjectReference Include="..\Engine\Engine.csproj">
       <Project>{57c253f1-157f-4a6a-9fed-345a776b97d5}</Project>
       <Name>Engine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GuiFramework\GuiFramework.csproj">
+      <Project>{fc299a06-61bd-4562-a315-0f0be454925a}</Project>
+      <Name>GuiFramework</Name>
     </ProjectReference>
     <ProjectReference Include="..\libRocketPlugin\libRocketPlugin.csproj">
       <Project>{a221c2f5-2089-495b-b51a-54710507344a}</Project>

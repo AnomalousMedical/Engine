@@ -2,6 +2,8 @@
 using Engine.Platform;
 using Logging;
 using Medical;
+using Medical.Controller;
+using Medical.GUI;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -18,9 +20,38 @@ namespace TestMinimalApplication
         private CoreConfig coreConfig;
         private LogFileListener logListener;
 
+        private BorderLayoutChainLink editorBorder;
+        private BorderLayoutChainLink contentArea;
+        private GUIManager guiManager;
+        private MDILayoutManager mdiLayout;
+
+        //Taskbar
+        private AppButtonTaskbar taskbar;
+        private SingleChildChainLink taskbarLink;
+        private TaskMenu taskMenu;
+        private TaskController taskController = new TaskController();
+        private DocumentController documentController = new DocumentController();
+
         public MinimalApp()
         {
 
+        }
+
+        public override void Dispose()
+        {
+            IDisposableUtil.DisposeIfNotNull(taskbar);
+            IDisposableUtil.DisposeIfNotNull(taskMenu);
+
+            IDisposableUtil.DisposeIfNotNull(editorBorder);
+            IDisposableUtil.DisposeIfNotNull(contentArea);
+            IDisposableUtil.DisposeIfNotNull(mdiLayout);
+
+            engineController.Dispose();
+            mainWindow.Dispose();
+
+            base.Dispose();
+
+            logListener.closeLogFile();
         }
 
         public override bool OnInit()
@@ -53,16 +84,55 @@ namespace TestMinimalApplication
 
             engineController = new EngineController(mainWindow);
 
+            //Layout Chain
+            mdiLayout = new MDILayoutManager();
+
+            LayoutChain layoutChain = new LayoutChain();
+            //layoutChain.addLink(new SingleChildChainLink(GUILocationNames.Notifications, controller.NotificationManager.LayoutContainer), true);
+            layoutChain.addLink(new PopupAreaChainLink(GUILocationNames.FullscreenPopup), true);
+            layoutChain.SuppressLayout = true;
+            editorBorder = new BorderLayoutChainLink(GUILocationNames.EditorBorderLayout, engineController.MainTimer);
+            layoutChain.addLink(editorBorder, true);
+            layoutChain.addLink(new MDIChainLink(GUILocationNames.MDI, mdiLayout), true);
+            layoutChain.addLink(new PopupAreaChainLink(GUILocationNames.ContentAreaPopup), true);
+            contentArea = new BorderLayoutChainLink(GUILocationNames.ContentArea, engineController.MainTimer);
+            layoutChain.addLink(contentArea, true);
+            //layoutChain.addLink(new FinalChainLink("SceneViews", controller.MDILayout.DocumentArea), true);
+            layoutChain.SuppressLayout = false;
+            layoutChain.layout();
+
+            guiManager = new GUIManager();
+            guiManager.createGUI(mdiLayout, layoutChain, mainWindow);
+
+            //Taskbar
+            taskbar = new AppButtonTaskbar();
+            taskbar.OpenTaskMenu += taskbar_OpenTaskMenu;
+            taskbar.setAppIcon("AppButton/WideImage", "AppButton/NarrowImage");
+            taskbarLink = new SingleChildChainLink(GUILocationNames.Taskbar, taskbar);
+            guiManager.addLinkToChain(taskbarLink);
+            guiManager.pushRootContainer(GUILocationNames.Taskbar);
+
+            //Task Menu
+            taskMenu = new TaskMenu(documentController, taskController, guiManager, new LayoutElementName(GUILocationNames.FullscreenPopup));
+
+            taskController.addTask(new CallbackTask("Exit", "Exit", "", "Main", (item) =>
+                {
+                    this.exit();
+                }));
+
             return true;
+        }
+
+        void taskbar_OpenTaskMenu(int left, int top, int width, int height)
+        {
+            taskMenu.setSize(width, height);
+            taskMenu.show(left, top);
         }
 
         public override int OnExit()
         {
             CoreConfig.save();
-            engineController.Dispose();
-            mainWindow.Dispose();
-
-            logListener.closeLogFile();
+            
             return 0;
         }
 

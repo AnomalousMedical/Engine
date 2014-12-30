@@ -20,6 +20,7 @@ using SoundPlugin;
 using Medical.Controller;
 using libRocketPlugin;
 using BEPUikPlugin;
+using GuiFramework.Plugin;
 
 namespace Medical
 {
@@ -116,7 +117,7 @@ namespace Medical
             pluginManager.addPluginAssembly(typeof(RocketInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(SoundPluginInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(BEPUikInterface).Assembly);
-            //pluginManager.addPluginAssembly(typeof(SimulationPlugin).Assembly);
+            pluginManager.addPluginAssembly(typeof(GuiFrameworkInterface).Assembly);
             pluginManager.initializePlugins();
 
             performanceMetricTimer = new NativeSystemTimer();
