@@ -46,6 +46,7 @@
     <Compile Include="Controller\Documents\DocumentHandler.cs" />
     <Compile Include="Controller\Documents\RecentDocuments.cs" />
     <Compile Include="Controller\GUIManager.cs" />
+    <Compile Include="Controller\GUITaskManager.cs" />
     <Compile Include="Controller\MDIDialogEntry.cs" />
     <Compile Include="Controller\ScreenLayoutManager.cs" />
     <Compile Include="Controller\StandardDialogEntry.cs" />
