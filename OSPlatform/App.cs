@@ -65,6 +65,8 @@ namespace Medical
 
         public abstract void OnIdle();
 
+        public String Title { get; set; }
+
         [DllImport(NativePlatformPlugin.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr App_create();
 
