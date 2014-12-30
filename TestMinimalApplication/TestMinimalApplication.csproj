@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E8740DBB-4636-4058-9AF6-64222294EEEE}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TestMinimalApplication</RootNamespace>
+    <AssemblyName>TestMinimalApplication</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FreeImageNET">
+      <HintPath>..\..\Dependencies\FreeImage.NET\Library\bin\Release\FreeImageNET.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Config\EditorConfig.cs" />
+    <Compile Include="Config\EngineConfig.cs" />
+    <Compile Include="Config\FolderFinder.cs" />
+    <Compile Include="Config\MacPlatformConfig.cs" />
+    <Compile Include="Config\MedicalConfig.cs" />
+    <Compile Include="Config\PlatformConfig.cs" />
+    <Compile Include="Config\PluginConfig.cs" />
+    <Compile Include="Config\WindowsPlatformConfig.cs" />
+    <Compile Include="EngineController.cs" />
+    <Compile Include="FrameClearManager.cs" />
+    <Compile Include="MedicalSceneController.cs" />
+    <Compile Include="MedicalUpdate.cs" />
+    <Compile Include="MinimalApp.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RocketGui\DebugEventListener.cs" />
+    <Compile Include="RocketGui\DelegateRocketEventController.cs" />
+    <Compile Include="RocketGui\DelegateRocketEventListener.cs" />
+    <Compile Include="RocketGui\RocketEventController.cs" />
+    <Compile Include="RocketGui\RocketEventListenerInstancer.cs" />
+    <Compile Include="RocketGui\RocketGuiManager.cs" />
+    <Compile Include="RocketGui\RocketRenderSystemListener.cs" />
+    <Compile Include="RocketGui\RocketWidget.cs" />
+    <Compile Include="RocketGui\RocketWidgetManager.cs" />
+    <Compile Include="Utility\FreeImageBitmapExtensions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BEPUikPlugin\BEPUikPlugin.csproj">
+      <Project>{39f1ab5f-f0b1-45fd-ad66-9c03af1f022e}</Project>
+      <Name>BEPUikPlugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BulletWrapperPlugin\BulletWrapperPlugin.csproj">
+      <Project>{eba88dc3-837d-45d8-a91a-e291c6ae444e}</Project>
+      <Name>BulletWrapperPlugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EngineApp\EngineApp.csproj">
+      <Project>{e951a65d-df9c-4deb-86c0-ac84a7245c20}</Project>
+      <Name>EngineApp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Engine\Engine.csproj">
+      <Project>{57c253f1-157f-4a6a-9fed-345a776b97d5}</Project>
+      <Name>Engine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libRocketPlugin\libRocketPlugin.csproj">
+      <Project>{a221c2f5-2089-495b-b51a-54710507344a}</Project>
+      <Name>libRocketPlugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyGUIPlugin\MyGUIPlugin.csproj">
+      <Project>{02d4da85-fd6c-421f-81c3-8f58f790bc81}</Project>
+      <Name>MyGUIPlugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OgrePlugin\OgrePlugin.csproj">
+      <Project>{e9fd5768-32e1-42c7-8256-4d7b97c22a9b}</Project>
+      <Name>OgrePlugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SoundPlugin\SoundPlugin.csproj">
+      <Project>{ccaefe0a-ad1f-42e8-88da-5a685cc7c73d}</Project>
+      <Name>SoundPlugin</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

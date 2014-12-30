@@ -9,6 +9,13 @@ using Engine;
 
 namespace Medical
 {
+    public enum TouchType
+    {
+        None,
+        Trackpad,
+        Screen
+    }
+
     public class MultiTouch : TouchHardware, IDisposable
     {
         private IntPtr nativeMultiTouch;
