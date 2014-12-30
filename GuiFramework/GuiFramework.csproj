@@ -65,6 +65,12 @@
     <Compile Include="GUI\ColorMenu\ColorMenu.cs" />
     <Compile Include="GUI\GUIElementPopup.cs" />
     <Compile Include="GUI\MDIDialog.cs" />
+    <Compile Include="GUI\Notification\AbstractNotification.cs" />
+    <Compile Include="GUI\Notification\CallbackNotificationGUI.cs" />
+    <Compile Include="GUI\Notification\Notification.cs" />
+    <Compile Include="GUI\Notification\NotificationGUI.cs" />
+    <Compile Include="GUI\Notification\NotificationGUIManager.cs" />
+    <Compile Include="GUI\Notification\StartTaskNotification.cs" />
     <Compile Include="GUI\PinableMDIDialog.cs" />
     <Compile Include="GUI\Taskbar\AppButtonTaskbar.cs" />
     <Compile Include="GUI\Taskbar\ClosingTaskbar.cs" />
@@ -144,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="GUI\ColorMenu\ColorMenu.layout" />
+    <EmbeddedResource Include="GUI\Notification\NotificationGUI.layout" />
     <EmbeddedResource Include="GUI\Taskbar\AppButtonTaskbar.layout" />
     <EmbeddedResource Include="GUI\Taskbar\ClosingTaskbar.layout" />
     <EmbeddedResource Include="GUI\Taskbar\Taskbar.layout" />
