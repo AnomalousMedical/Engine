@@ -55,6 +55,14 @@
     <Compile Include="Controller\TaskController\TaskPositioner.cs" />
     <Compile Include="GUI\MDIDialog.cs" />
     <Compile Include="GUI\PinableMDIDialog.cs" />
+    <Compile Include="GUI\Taskbar\AppButtonTaskbar.cs" />
+    <Compile Include="GUI\Taskbar\ClosingTaskbar.cs" />
+    <Compile Include="GUI\Taskbar\PinnedTaskSerializer.cs" />
+    <Compile Include="GUI\Taskbar\PinnedTaskTaskbarItem.cs" />
+    <Compile Include="GUI\Taskbar\Taskbar.cs" />
+    <Compile Include="GUI\Taskbar\TaskbarItem.cs" />
+    <Compile Include="GUI\Taskbar\TaskTaskbarItem.cs" />
+    <Compile Include="GUI\Taskbar\TimelineTaskbarItem.cs" />
     <Compile Include="Layout\AnimatedLayoutContainer.cs" />
     <Compile Include="Layout\AspectRatioContainer.cs" />
     <Compile Include="Layout\BorderLayoutContainer.cs" />
@@ -119,6 +127,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="GUI\Taskbar\AppButtonTaskbar.layout" />
+    <EmbeddedResource Include="GUI\Taskbar\ClosingTaskbar.layout" />
+    <EmbeddedResource Include="GUI\Taskbar\Taskbar.layout" />
     <EmbeddedResource Include="Layout\MDI\MDIDocumentWindow.layout" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

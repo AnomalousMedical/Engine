@@ -62,6 +62,8 @@ namespace GuiFramework.Plugin
             renamedTypeMap.addRenamedType("Medical.Controller.AnomalousMvc.ViewLocations", typeof(Medical.ViewLocations));
             renamedTypeMap.addRenamedType("Medical.WindowAlignment", typeof(Medical.WindowAlignment));
             renamedTypeMap.addRenamedType("Medical.LayoutElementName", typeof(Medical.LayoutElementName));
+            renamedTypeMap.addRenamedType("Medical.BorderLayoutElementName", typeof(Medical.BorderLayoutElementName));
+            renamedTypeMap.addRenamedType("Medical.BorderLayoutLocations", typeof(Medical.BorderLayoutLocations));
             renamedTypeMap.addRenamedType("Medical.MDILayoutElementName", typeof(Medical.MDILayoutElementName));
         }
     }
