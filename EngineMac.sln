@@ -35,6 +35,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BEPUikPlugin", "BEPUikPlugi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSHelper", "OSHelper\OSX\OSHelper.csproj", "{26885145-36F7-4110-9E8A-1C3249D102AA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuiFramework", "GuiFramework\GuiFramework.csproj", "{FC299A06-61BD-4562-A315-0F0BE454925A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSPlatform", "OSPlatform\OSPlatform.csproj", "{6E594C78-9CD8-432D-A135-11C4A72F3BCF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +109,14 @@ Global
 		{26885145-36F7-4110-9E8A-1C3249D102AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26885145-36F7-4110-9E8A-1C3249D102AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26885145-36F7-4110-9E8A-1C3249D102AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC299A06-61BD-4562-A315-0F0BE454925A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC299A06-61BD-4562-A315-0F0BE454925A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC299A06-61BD-4562-A315-0F0BE454925A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC299A06-61BD-4562-A315-0F0BE454925A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E594C78-9CD8-432D-A135-11C4A72F3BCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E594C78-9CD8-432D-A135-11C4A72F3BCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E594C78-9CD8-432D-A135-11C4A72F3BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E594C78-9CD8-432D-A135-11C4A72F3BCF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
