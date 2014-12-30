@@ -32,6 +32,8 @@ namespace GuiFramework.Plugin
         public void link(PluginManager pluginManager)
         {
             MyGUIInterface.Instance.CommonResourceGroup.addResource(GetType().AssemblyQualifiedName, "EmbeddedScalableResource", true);
+            //Load Core Resources
+            ResourceManager.Instance.load("GuiFramework.Resources.MyGUI_Skin.xml");
         }
 
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
