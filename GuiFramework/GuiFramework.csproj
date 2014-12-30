@@ -38,6 +38,9 @@
   <ItemGroup>
     <Compile Include="Controller\DialogEntry.cs" />
     <Compile Include="Controller\DialogManager.cs" />
+    <Compile Include="Controller\Documents\DocumentController.cs" />
+    <Compile Include="Controller\Documents\DocumentHandler.cs" />
+    <Compile Include="Controller\Documents\RecentDocuments.cs" />
     <Compile Include="Controller\GUIManager.cs" />
     <Compile Include="Controller\MDIDialogEntry.cs" />
     <Compile Include="Controller\ScreenLayoutManager.cs" />
@@ -54,6 +57,7 @@
     <Compile Include="Controller\TaskController\Task.cs" />
     <Compile Include="Controller\TaskController\TaskController.cs" />
     <Compile Include="Controller\TaskController\TaskPositioner.cs" />
+    <Compile Include="GUI\GUIElementPopup.cs" />
     <Compile Include="GUI\MDIDialog.cs" />
     <Compile Include="GUI\PinableMDIDialog.cs" />
     <Compile Include="GUI\Taskbar\AppButtonTaskbar.cs" />
@@ -64,6 +68,11 @@
     <Compile Include="GUI\Taskbar\TaskbarItem.cs" />
     <Compile Include="GUI\Taskbar\TaskTaskbarItem.cs" />
     <Compile Include="GUI\Taskbar\TimelineTaskbarItem.cs" />
+    <Compile Include="GUI\TaskMenu\TaskMenu.cs" />
+    <Compile Include="GUI\TaskMenu\TaskMenuAdProvider.cs" />
+    <Compile Include="GUI\TaskMenu\TaskMenuCategories.cs" />
+    <Compile Include="GUI\TaskMenu\TaskMenuPositioner.cs" />
+    <Compile Include="GUI\TaskMenu\TaskMenuRecentDocuments.cs" />
     <Compile Include="Layout\AnimatedLayoutContainer.cs" />
     <Compile Include="Layout\AspectRatioContainer.cs" />
     <Compile Include="Layout\BorderLayoutContainer.cs" />
@@ -131,6 +140,7 @@
     <EmbeddedResource Include="GUI\Taskbar\AppButtonTaskbar.layout" />
     <EmbeddedResource Include="GUI\Taskbar\ClosingTaskbar.layout" />
     <EmbeddedResource Include="GUI\Taskbar\Taskbar.layout" />
+    <EmbeddedResource Include="GUI\TaskMenu\TaskMenu.layout" />
     <EmbeddedResource Include="Layout\MDI\MDIDocumentWindow.layout" />
   </ItemGroup>
   <ItemGroup>
