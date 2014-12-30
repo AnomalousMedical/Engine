@@ -47,8 +47,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NativeLibraries", "NativeLi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NativeLibraries64", "NativeLibraries64\NativeLibraries64.csproj", "{4C333BAE-E797-431B-AF0E-B753BF9AAE2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EngineApp", "EngineApp\EngineApp.csproj", "{E951A65D-DF9C-4DEB-86C0-AC84A7245C20}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OSHelper", "OSHelper\OSHelper.vcxproj", "{5DEF45C8-1C64-4A56-840B-B6F5A02346B7}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinMTDriver", "WinMTDriver\WinMTDriver.vcxproj", "{74016E0D-C14D-448E-9AAF-FE8669EF50B1}"
@@ -56,6 +54,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMinimalApplication", "TestMinimalApplication\TestMinimalApplication.csproj", "{E8740DBB-4636-4058-9AF6-64222294EEEE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSPlatform", "OSPlatform\OSPlatform.csproj", "{6E594C78-9CD8-432D-A135-11C4A72F3BCF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuiFramework", "GuiFramework\GuiFramework.csproj", "{FC299A06-61BD-4562-A315-0F0BE454925A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -223,13 +223,6 @@ Global
 		{4C333BAE-E797-431B-AF0E-B753BF9AAE2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C333BAE-E797-431B-AF0E-B753BF9AAE2D}.Release|x64.ActiveCfg = Release|Any CPU
 		{4C333BAE-E797-431B-AF0E-B753BF9AAE2D}.Release|x64.Build.0 = Release|Any CPU
-		{E951A65D-DF9C-4DEB-86C0-AC84A7245C20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E951A65D-DF9C-4DEB-86C0-AC84A7245C20}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E951A65D-DF9C-4DEB-86C0-AC84A7245C20}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{E951A65D-DF9C-4DEB-86C0-AC84A7245C20}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E951A65D-DF9C-4DEB-86C0-AC84A7245C20}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E951A65D-DF9C-4DEB-86C0-AC84A7245C20}.Release|x64.ActiveCfg = Release|Any CPU
-		{E951A65D-DF9C-4DEB-86C0-AC84A7245C20}.Release|x64.Build.0 = Release|Any CPU
 		{5DEF45C8-1C64-4A56-840B-B6F5A02346B7}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{5DEF45C8-1C64-4A56-840B-B6F5A02346B7}.Debug|Any CPU.Build.0 = Debug|Win32
 		{5DEF45C8-1C64-4A56-840B-B6F5A02346B7}.Debug|x64.ActiveCfg = Debug|x64
@@ -258,6 +251,12 @@ Global
 		{6E594C78-9CD8-432D-A135-11C4A72F3BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E594C78-9CD8-432D-A135-11C4A72F3BCF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6E594C78-9CD8-432D-A135-11C4A72F3BCF}.Release|x64.ActiveCfg = Release|Any CPU
+		{FC299A06-61BD-4562-A315-0F0BE454925A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC299A06-61BD-4562-A315-0F0BE454925A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC299A06-61BD-4562-A315-0F0BE454925A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FC299A06-61BD-4562-A315-0F0BE454925A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC299A06-61BD-4562-A315-0F0BE454925A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC299A06-61BD-4562-A315-0F0BE454925A}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
