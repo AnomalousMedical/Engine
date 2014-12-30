@@ -18,7 +18,6 @@ using MyGUIPlugin;
 using Medical.GUI;
 using SoundPlugin;
 using Medical.Controller;
-using System.Globalization;
 using libRocketPlugin;
 using BEPUikPlugin;
 
@@ -36,11 +35,10 @@ namespace Medical
 
     public delegate void LoopUpdate(Clock time);
 
-    public sealed class MedicalController : IDisposable
+    public sealed class EngineController : IDisposable
     {
         //Engine
         private PluginManager pluginManager;
-        private LogFileListener logListener;
 
         //Platform
         private NativeSystemTimer systemTimer;
@@ -67,16 +65,10 @@ namespace Medical
 
         public event LoopUpdate OnLoopUpdate;
 
-        public MedicalController(NativeOSWindow mainWindow)
+        public EngineController(NativeOSWindow mainWindow)
         {
-            //Create the log.
-            logListener = new LogFileListener();
-            logListener.openLogFile(MedicalConfig.LogFile);
-            Log.Default.addLogListener(logListener);
-            Log.ImportantInfo("Running from directory {0}", FolderFinder.ExecutableFolder);
-
             //Create pluginmanager
-            pluginManager = new PluginManager(MedicalConfig.ConfigFile);
+            pluginManager = new PluginManager(CoreConfig.ConfigFile);
 
             //Configure the filesystem
             VirtualFileSystem archive = VirtualFileSystem.Instance;
@@ -97,19 +89,19 @@ namespace Medical
             };
 
             MyGUIInterface.EventLayerKey = EventLayers.Gui;
-            MyGUIInterface.CreateGuiGestures = MedicalConfig.EnableMultitouch && PlatformConfig.TouchType == TouchType.Screen;
+            MyGUIInterface.CreateGuiGestures = CoreConfig.EnableMultitouch && PlatformConfig.TouchType == TouchType.Screen;
 
             //Configure plugins
             pluginManager.OnConfigureDefaultWindow = delegate(out WindowInfo defaultWindow)
             {
                 //Setup main window
                 defaultWindow = new WindowInfo(mainWindow, "Primary");
-                defaultWindow.Fullscreen = MedicalConfig.EngineConfig.Fullscreen;
+                defaultWindow.Fullscreen = CoreConfig.EngineConfig.Fullscreen;
                 defaultWindow.MonitorIndex = 0;
 
-                if (MedicalConfig.EngineConfig.Fullscreen)
+                if (CoreConfig.EngineConfig.Fullscreen)
                 {
-                    mainWindow.setSize(MedicalConfig.EngineConfig.HorizontalRes, MedicalConfig.EngineConfig.VerticalRes);
+                    mainWindow.setSize(CoreConfig.EngineConfig.HorizontalRes, CoreConfig.EngineConfig.VerticalRes);
                     mainWindow.ExclusiveFullscreen = true;
                 }
                 else
@@ -137,7 +129,7 @@ namespace Medical
 
             mainTimer = new NativeUpdateTimer(systemTimer);
 
-            if (OgreConfig.VSync && MedicalConfig.EngineConfig.FPSCap < 300)
+            if (OgreConfig.VSync && CoreConfig.EngineConfig.FPSCap < 300)
             {
                 //Use a really high framerate cap if vsync is on since it will cap our 
                 //framerate for us. If the user has requested a higher rate use it anyway.
@@ -145,10 +137,10 @@ namespace Medical
             }
             else
             {
-                mainTimer.FramerateCap = MedicalConfig.EngineConfig.FPSCap;
+                mainTimer.FramerateCap = CoreConfig.EngineConfig.FPSCap;
             }
 
-            inputHandler = new NativeInputHandler(mainWindow, MedicalConfig.EnableMultitouch);
+            inputHandler = new NativeInputHandler(mainWindow, CoreConfig.EnableMultitouch);
             eventManager = new EventManager(inputHandler, Enum.GetValues(typeof(EventLayers)));
             eventUpdate = new EventUpdateListener(eventManager);
             mainTimer.addUpdateListener(eventUpdate);
@@ -162,7 +154,7 @@ namespace Medical
             rocketGuiManager.initialize(pluginManager, eventManager, mainTimer);
             frameClearManager = new FrameClearManager(OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget);
 
-            SoundConfig.initialize(MedicalConfig.ConfigFile);
+            SoundConfig.initialize(CoreConfig.ConfigFile);
         }
 
         /// <summary>
@@ -205,18 +197,7 @@ namespace Medical
                 pluginManager.Dispose();
             }
 
-            Log.Info("Medical Controller Shutdown");
-            logListener.closeLogFile();
-        }
-
-        public void saveCrashLog()
-        {
-            if (logListener != null)
-            {
-                DateTime now = DateTime.Now;
-                String crashFile = String.Format(CultureInfo.InvariantCulture, "{0}/log {1}-{2}-{3} {4}.{5}.{6}.log", MedicalConfig.CrashLogDirectory, now.Month, now.Day, now.Year, now.Hour, now.Minute, now.Second);
-                logListener.saveCrashLog(crashFile);
-            }
+            Log.Info("Engine Controller Shutdown");
         }
 
         /// <summary>

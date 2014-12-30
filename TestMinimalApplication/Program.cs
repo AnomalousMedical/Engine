@@ -14,18 +14,18 @@ namespace TestMinimalApplication
         {
             StartupManager.SetupDllDirectories();
 
-            MinimalApp anomalous = null;
+            MinimalApp app = null;
             try
             {
-                anomalous = new MinimalApp();
-                anomalous.run();
+                app = new MinimalApp();
+                app.run();
             }
             catch (Exception e)
             {
                 Logging.Log.Default.printException(e);
-                if (anomalous != null)
+                if (app != null)
                 {
-                    //anomalous.saveCrashLog();
+                    app.saveCrashLog();
                 }
                 String errorMessage = e.Message + "\n" + e.StackTrace;
                 while (e.InnerException != null)
@@ -37,9 +37,9 @@ namespace TestMinimalApplication
             }
             finally
             {
-                if (anomalous != null)
+                if (app != null)
                 {
-                    anomalous.Dispose();
+                    app.Dispose();
                 }
             }
         }

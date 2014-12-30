@@ -48,13 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config\EditorConfig.cs" />
     <Compile Include="Config\EngineConfig.cs" />
     <Compile Include="Config\FolderFinder.cs" />
     <Compile Include="Config\MacPlatformConfig.cs" />
-    <Compile Include="Config\MedicalConfig.cs" />
+    <Compile Include="Config\CoreConfig.cs" />
     <Compile Include="Config\PlatformConfig.cs" />
-    <Compile Include="Config\PluginConfig.cs" />
     <Compile Include="Config\WindowsPlatformConfig.cs" />
     <Compile Include="EngineController.cs" />
     <Compile Include="FrameClearManager.cs" />

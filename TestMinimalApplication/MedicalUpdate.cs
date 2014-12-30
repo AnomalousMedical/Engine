@@ -8,9 +8,9 @@ namespace Medical
 {
     class MedicalUpdate : UpdateListener
     {
-        private MedicalController controller;
+        private EngineController controller;
 
-        public MedicalUpdate(MedicalController controller)
+        public MedicalUpdate(EngineController controller)
         {
             this.controller = controller;
         }
