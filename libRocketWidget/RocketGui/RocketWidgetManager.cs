@@ -5,7 +5,7 @@ using System.Text;
 using Engine;
 using OgreWrapper;
 
-namespace Medical.GUI
+namespace libRocketWidget
 {
     /// <summary>
     /// This class provides some bookkeeping functions for the RocketWidgets, it

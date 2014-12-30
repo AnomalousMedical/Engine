@@ -1,11 +1,12 @@
 ﻿using libRocketPlugin;
+using Medical.GUI;
 using MyGUIPlugin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Medical.GUI.RocketGui
+namespace libRocketWidget
 {
     public class RocketDebuggerWindow : MDIDialog
     {

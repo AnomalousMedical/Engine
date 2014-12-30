@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using OgreWrapper;
 
-namespace Medical.GUI
+namespace libRocketWidget
 {
     class RocketRenderSystemListener : RenderSystemListener
     {

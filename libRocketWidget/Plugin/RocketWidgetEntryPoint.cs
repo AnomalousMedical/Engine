@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-[assembly: libRocketWidget.Plugin.RocketWidgetEntryPoint()]
+[assembly: libRocketWidget.RocketWidgetEntryPoint()]
 
-namespace libRocketWidget.Plugin
+namespace libRocketWidget
 {
     class RocketWidgetEntryPoint : PluginEntryPointAttribute
     {

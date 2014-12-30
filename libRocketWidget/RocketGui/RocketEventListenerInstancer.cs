@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using libRocketPlugin;
 
-namespace Medical.GUI
+namespace libRocketWidget
 {
     public class RocketEventListenerInstancer : EventListenerInstancer
     {

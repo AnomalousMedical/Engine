@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using libRocketPlugin;
 
-namespace Medical.GUI
+namespace libRocketWidget
 {
     /// <summary>
     /// This interface can be set on the RocketEventListenerInstance to change

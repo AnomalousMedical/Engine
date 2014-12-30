@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Medical
+namespace libRocketWidget
 {
     public static class FreeImageBitmapExtensions
     {

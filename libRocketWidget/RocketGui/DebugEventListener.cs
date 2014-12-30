@@ -6,7 +6,7 @@ using Engine;
 using libRocketPlugin;
 using Logging;
 
-namespace Medical.GUI
+namespace libRocketWidget
 {
     class DebugEventListener : EventListener
     {

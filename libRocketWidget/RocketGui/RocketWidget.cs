@@ -9,7 +9,7 @@ using Engine;
 using Engine.Platform;
 using FreeImageAPI;
 
-namespace Medical.GUI
+namespace libRocketWidget
 {
     public class RocketWidget : IDisposable
     {
