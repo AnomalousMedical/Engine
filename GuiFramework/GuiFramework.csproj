@@ -36,6 +36,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\DialogEntry.cs" />
+    <Compile Include="Controller\DialogManager.cs" />
+    <Compile Include="Controller\MDIDialogEntry.cs" />
+    <Compile Include="Controller\StandardDialogEntry.cs" />
     <Compile Include="GUI\MDIDialog.cs" />
     <Compile Include="GUI\PinableMDIDialog.cs" />
     <Compile Include="Layout\AnimatedLayoutContainer.cs" />
