@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuiFramework", "GuiFramewor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSPlatform", "OSPlatform\OSPlatform.csproj", "{6E594C78-9CD8-432D-A135-11C4A72F3BCF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libRocketWidget", "libRocketWidget\libRocketWidget.csproj", "{922F9AEC-9921-4234-89E5-14CE09625A07}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -117,6 +119,10 @@ Global
 		{6E594C78-9CD8-432D-A135-11C4A72F3BCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E594C78-9CD8-432D-A135-11C4A72F3BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E594C78-9CD8-432D-A135-11C4A72F3BCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{922F9AEC-9921-4234-89E5-14CE09625A07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{922F9AEC-9921-4234-89E5-14CE09625A07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{922F9AEC-9921-4234-89E5-14CE09625A07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{922F9AEC-9921-4234-89E5-14CE09625A07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
