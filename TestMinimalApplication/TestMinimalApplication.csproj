@@ -61,16 +61,6 @@
     <Compile Include="MinimalApp.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RocketGui\DebugEventListener.cs" />
-    <Compile Include="RocketGui\DelegateRocketEventController.cs" />
-    <Compile Include="RocketGui\DelegateRocketEventListener.cs" />
-    <Compile Include="RocketGui\RocketEventController.cs" />
-    <Compile Include="RocketGui\RocketEventListenerInstancer.cs" />
-    <Compile Include="RocketGui\RocketGuiManager.cs" />
-    <Compile Include="RocketGui\RocketRenderSystemListener.cs" />
-    <Compile Include="RocketGui\RocketWidget.cs" />
-    <Compile Include="RocketGui\RocketWidgetManager.cs" />
-    <Compile Include="Utility\FreeImageBitmapExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

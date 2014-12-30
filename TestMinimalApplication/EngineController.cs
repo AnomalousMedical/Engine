@@ -53,7 +53,6 @@ namespace Medical
 
         //Controller
         private MedicalSceneController medicalScene;
-        private RocketGuiManager rocketGuiManager;
         private FrameClearManager frameClearManager;
 
         //Serialization
@@ -150,8 +149,6 @@ namespace Medical
 
             //Initialize controllers
             medicalScene = new MedicalSceneController(pluginManager);
-            rocketGuiManager = new RocketGuiManager();
-            rocketGuiManager.initialize(pluginManager, eventManager, mainTimer);
             frameClearManager = new FrameClearManager(OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget);
 
             SoundConfig.initialize(CoreConfig.ConfigFile);
@@ -165,10 +162,6 @@ namespace Medical
             if (frameClearManager != null)
             {
                 frameClearManager.Dispose();
-            }
-            if (rocketGuiManager != null)
-            {
-                rocketGuiManager.Dispose();
             }
             if (medicalScene != null)
             {
