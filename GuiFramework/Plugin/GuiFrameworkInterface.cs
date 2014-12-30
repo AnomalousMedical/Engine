@@ -59,7 +59,8 @@ namespace GuiFramework.Plugin
 
         public void setupRenamedSaveableTypes(RenamedTypeMap renamedTypeMap)
         {
-            
+            renamedTypeMap.addRenamedType("Medical.Controller.AnomalousMvc.ViewLocations", typeof(Medical.ViewLocations));
+            renamedTypeMap.addRenamedType("Medical.WindowAlignment", typeof(Medical.WindowAlignment));
         }
     }
 }
