@@ -133,6 +133,9 @@
     <EmbeddedResource Include="GUI\Taskbar\Taskbar.layout" />
     <EmbeddedResource Include="Layout\MDI\MDIDocumentWindow.layout" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\MyGUI_Skin.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
