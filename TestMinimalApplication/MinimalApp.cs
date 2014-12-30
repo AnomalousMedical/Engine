@@ -25,7 +25,7 @@ namespace TestMinimalApplication
 
         public override bool OnInit()
         {
-            coreConfig = new CoreConfig();
+            coreConfig = new CoreConfig("Anomalous Minimus");
 
             //Create the log.
             logListener = new LogFileListener();
@@ -34,7 +34,7 @@ namespace TestMinimalApplication
             Log.ImportantInfo("Running from directory {0}", FolderFinder.ExecutableFolder);
 
             //Main Window
-            mainWindow = new NativeOSWindow("Minimal Application", new IntVector2(-1, -1), new IntSize2(CoreConfig.EngineConfig.HorizontalRes, CoreConfig.EngineConfig.VerticalRes));
+            mainWindow = new NativeOSWindow("Anomalous Minimus", new IntVector2(-1, -1), new IntSize2(CoreConfig.EngineConfig.HorizontalRes, CoreConfig.EngineConfig.VerticalRes));
             mainWindow.Closed += mainWindow_Closed;
 
             //Setup DPI

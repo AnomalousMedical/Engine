@@ -35,9 +35,10 @@ namespace Medical
         private static float transparencyChangeMultiplier;
         private static bool autoOpenAnatomyFinder;
 
-        public CoreConfig()
+        public CoreConfig(String programName)
         {
             BuildName = null;
+            FolderFinder.setProgramName(programName);
 
             //Setup directories
             CoreConfig.userAnomalousFolder = FolderFinder.LocalUserDocumentsFolder;

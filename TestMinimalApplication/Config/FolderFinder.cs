@@ -9,16 +9,18 @@ namespace Medical
     /// <summary>
     /// Provides a common shareable way of finding folders.
     /// </summary>
-    public class FolderFinder
+    public static class FolderFinder
     {
-        private static String userRoot = String.Format("{0}/Anomalous Minimal", PlatformConfig.LocalUserDocumentsFolder);
-        private static String localDataFolder = String.Format("{0}/Anomalous Minimal", PlatformConfig.LocalDataFolder);
-        private static String localPrivateDataFolder = String.Format("{0}/Anomalous Minimal", PlatformConfig.LocalPrivateDataFolder);
+        private static String userRoot;
+        private static String localDataFolder;
+        private static String localPrivateDataFolder;
         private static String programFolder = null;
 
-        private FolderFinder()
+        public static void setProgramName(String programName)
         {
-
+            userRoot = Path.Combine(PlatformConfig.LocalUserDocumentsFolder, programName);
+            localDataFolder = Path.Combine(PlatformConfig.LocalDataFolder, programName);
+            localPrivateDataFolder = Path.Combine(PlatformConfig.LocalPrivateDataFolder, programName);
         }
 
         /// <summary>
