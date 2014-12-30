@@ -44,6 +44,27 @@
     <Compile Include="Layout\FlowLayoutContainer.cs" />
     <Compile Include="Layout\HorizontalPopoutLayoutContainer.cs" />
     <Compile Include="Layout\LayoutContainer.cs" />
+    <Compile Include="Layout\MDI\FloatingWindowContainer.cs" />
+    <Compile Include="Layout\MDI\MDIBorderContainer.cs" />
+    <Compile Include="Layout\MDI\MDIBorderContainerDock.cs" />
+    <Compile Include="Layout\MDI\MDIChildContainerBase.cs" />
+    <Compile Include="Layout\MDI\MDIContainerBase.cs" />
+    <Compile Include="Layout\MDI\MDIDocumentWindow.cs" />
+    <Compile Include="Layout\MDI\MDIException.cs" />
+    <Compile Include="Layout\MDI\MDILayoutContainer.cs" />
+    <Compile Include="Layout\MDI\MDILayoutContainerAbsolute.cs" />
+    <Compile Include="Layout\MDI\MDILayoutContainerScale.cs" />
+    <Compile Include="Layout\MDI\MDILayoutManager.cs" />
+    <Compile Include="Layout\MDI\MDIWindow.cs" />
+    <Compile Include="Layout\MDI\SeparatorWidgetManager.cs" />
+    <Compile Include="Layout\MDI\SeparatorWidgetManagerAbsolute.cs" />
+    <Compile Include="Layout\MDI\SeparatorWidgetManagerScale.cs" />
+    <Compile Include="Layout\MDI\StoredLayout\StoredBorderContainer.cs" />
+    <Compile Include="Layout\MDI\StoredLayout\StoredBorderContainerDock.cs" />
+    <Compile Include="Layout\MDI\StoredLayout\StoredFloatingWindows.cs" />
+    <Compile Include="Layout\MDI\StoredLayout\StoredMDILayout.cs" />
+    <Compile Include="Layout\MDI\StoredLayout\StoredMDILayoutContainer.cs" />
+    <Compile Include="Layout\MDI\WindowAlignment.cs" />
     <Compile Include="Layout\MyGUILayoutContainer.cs" />
     <Compile Include="Layout\NullLayoutContainer.cs" />
     <Compile Include="Layout\SingleChildConcreteLayoutContainer.cs" />
@@ -51,6 +72,8 @@
     <Compile Include="Layout\StretchLayoutContainer.cs" />
     <Compile Include="Layout\VariableSizeMyGUILayoutContainer.cs" />
     <Compile Include="Layout\VerticalPopoutLayoutContainer.cs" />
+    <Compile Include="Plugin\GuiFrameworkEntryPoint.cs" />
+    <Compile Include="Plugin\GuiFrameworkInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -62,6 +85,9 @@
       <Project>{02d4da85-fd6c-421f-81c3-8f58f790bc81}</Project>
       <Name>MyGUIPlugin</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Layout\MDI\MDIDocumentWindow.layout" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

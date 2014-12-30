@@ -8,6 +8,15 @@ namespace MyGUIPlugin
 {
     public class PointerManager : IDisposable
     {
+        public const String ARROW = "arrow";
+        public const String BEAM = "beam";
+        public const String SIZE_LEFT = "size_left";
+        public const String SIZE_RIGHT = "size_right";
+        public const String SIZE_HORZ = "size_horz";
+        public const String SIZE_VERT = "size_vert";
+        public const String HAND = "hand";
+        public const String LINK = "link";
+
         static PointerManager instance;
 
         public static PointerManager Instance
