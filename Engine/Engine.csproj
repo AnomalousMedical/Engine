@@ -360,8 +360,10 @@
     <Compile Include="Utility\FloatExtensions.cs" />
     <Compile Include="Utility\GenericObjectPool.cs" />
     <Compile Include="Utility\IDisposableUtil.cs" />
+    <Compile Include="Utility\IdleHandler.cs" />
     <Compile Include="Utility\IEnumerableUtil.cs" />
     <Compile Include="Utility\LifecycleObjectPool.cs" />
+    <Compile Include="Utility\ObjectBuffer.cs" />
     <Compile Include="Utility\ObjectPool.cs" />
     <Compile Include="Utility\Pair.cs" />
     <Compile Include="Utility\PooledObject.cs" />
@@ -371,6 +373,7 @@
     <Compile Include="Utility\StringRetriever.cs" />
     <Compile Include="Utility\TravelTracker.cs" />
     <Compile Include="Utility\UniqueKeyGenerator.cs" />
+    <Compile Include="Threads\WorkQueue.cs" />
     <Compile Include="Utility\WrapperCollection.cs" />
     <Compile Include="Zip\PooledZzipDir.cs" />
     <Compile Include="Zip\ZipFile.cs" />
