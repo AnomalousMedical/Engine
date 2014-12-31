@@ -8,6 +8,8 @@ namespace Editor
 {
     public enum EventLayers
     {
-        Main
+        Main,
+        AfterMain,
+        Cameras
     }
 }

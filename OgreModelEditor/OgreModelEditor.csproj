@@ -75,7 +75,9 @@
   <ItemGroup>
     <Compile Include="Config\EngineConfig.cs" />
     <Compile Include="Config\OgreModelEditorConfig.cs" />
+    <Compile Include="Controller\GUILocationNames.cs" />
     <Compile Include="Controller\ModelController.cs" />
+    <Compile Include="Controller\OgreModelEditorApp.cs" />
     <Compile Include="Controller\OgreModelEditorController.cs" />
     <Compile Include="Controller\SelectableModel.cs" />
     <Compile Include="GUI\AnimationWindow.cs">
@@ -185,13 +187,25 @@
       <Project>{57C253F1-157F-4A6A-9FED-345A776B97D5}</Project>
       <Name>Engine</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GuiFramework.Cameras\GuiFramework.Cameras.csproj">
+      <Project>{83d4bb54-ff33-4011-9819-582458329d9b}</Project>
+      <Name>GuiFramework.Cameras</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GuiFramework\GuiFramework.csproj">
+      <Project>{fc299a06-61bd-4562-a315-0f0be454925a}</Project>
+      <Name>GuiFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyGUIPlugin\MyGUIPlugin.csproj">
+      <Project>{02d4da85-fd6c-421f-81c3-8f58f790bc81}</Project>
+      <Name>MyGUIPlugin</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OgrePlugin\OgrePlugin.csproj">
       <Project>{E9FD5768-32E1-42C7-8256-4D7B97C22A9B}</Project>
       <Name>OgrePlugin</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PCPlatformPlugin\PCPlatformPlugin.csproj">
-      <Project>{2D5AB440-5081-4C71-A2C2-9F7E05969EDE}</Project>
-      <Name>PCPlatformPlugin</Name>
+    <ProjectReference Include="..\OSPlatform\OSPlatform.csproj">
+      <Project>{6e594c78-9cd8-432d-a135-11c4a72f3bcf}</Project>
+      <Name>OSPlatform</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -17,7 +17,10 @@ using Engine.Saving.XMLSaver;
 using System.Xml;
 using OgreModelEditor.Controller;
 using System.Reflection;
-using PCPlatform;
+using Anomalous.OSPlatform;
+using Anomalous.GuiFramework;
+using MyGUIPlugin;
+using Anomalous.GuiFramework.Cameras;
 
 namespace OgreModelEditor
 {
@@ -30,32 +33,38 @@ namespace OgreModelEditor
         private LogFileListener logListener;
 
         //Platform
-        private UpdateTimer mainTimer;
-        private PCSystemTimer systemTimer;
+        private NativeUpdateTimer mainTimer;
+        private NativeSystemTimer systemTimer;
         private EventManager eventManager;
-        private PCInputHandler inputHandler;
+        private NativeInputHandler inputHandler;
         private EventUpdateListener eventUpdate;
+        private App app;
 
         //GUI
-        private DrawingWindow hiddenEmbedWindow;
         private OgreModelEditorMain mainForm;
+        private NativeOSWindow mainWindow;
         private ObjectEditorForm objectEditor = new ObjectEditorForm();
         private ConsoleWindow consoleWindow = new ConsoleWindow();
+        private MDILayoutManager mdiLayout;
+        private GUIManager guiManager;
+        private AppButtonTaskbar taskbar;
+        private SingleChildChainLink taskbarLink;
 
         //Controller
-        private DrawingWindowController drawingWindowController = new DrawingWindowController();
+        private SceneViewController sceneViewController;
         private ModelController modelController;
         private SceneViewLightManager lightManager;
+        private FrameClearManager frameClearManager;
 
         //Scene
         private SimScene scene;
         private String lastFileName = null;
 
         //Resources
-        private ResourceManager resourceManager;
+        private Engine.Resources.ResourceManager resourceManager;
         private XmlSaver xmlSaver = new XmlSaver();
-        private ResourceManager emptyResourceManager;
-        private ResourceManager liveResourceManager;
+        private Engine.Resources.ResourceManager emptyResourceManager;
+        private Engine.Resources.ResourceManager liveResourceManager;
 
         //Tools
         private ToolInteropController toolInterop = new ToolInteropController();
@@ -70,6 +79,22 @@ namespace OgreModelEditor
 
         public void Dispose()
         {
+            if(taskbar != null)
+            {
+                taskbar.Dispose();
+            }
+            if(guiManager != null)
+            {
+                guiManager.Dispose();
+            }
+            if(sceneViewController != null)
+            {
+                sceneViewController.Dispose();
+            }
+            if(mdiLayout != null)
+            {
+                mdiLayout.Dispose();
+            }
             if (modelController != null)
             {
                 modelController.Dispose();
@@ -90,35 +115,54 @@ namespace OgreModelEditor
             {
                 pluginManager.RendererPlugin.destroySceneViewLightManager(lightManager);
             }
+            if(frameClearManager != null)
+            {
+                frameClearManager.Dispose();
+            }
             if (pluginManager != null)
             {
                 pluginManager.Dispose();
             }
-            if (hiddenEmbedWindow != null)
+            if(mainWindow != null)
             {
-                hiddenEmbedWindow.Dispose();
+                mainWindow.Dispose();
             }
 
             OgreModelEditorConfig.save();
             logListener.closeLogFile();
         }
 
-        public void initialize()
+        public void initialize(App app)
         {
+            this.app = app;
+
             //Create the log.
             logListener = new LogFileListener();
             logListener.openLogFile(OgreModelEditorConfig.DocRoot + "/log.log");
             Log.Default.addLogListener(logListener);
             Log.Default.addLogListener(consoleWindow);
 
+            //Main window
+            mainWindow = new NativeOSWindow("Ogre Model Editor", new IntVector2(-1, -1), new IntSize2(OgreModelEditorConfig.EngineConfig.HorizontalRes, OgreModelEditorConfig.EngineConfig.VerticalRes));
+            mainWindow.Closed += mainWindow_Closed;
+
+            //Setup DPI
+            ScaleHelper._setScaleFactor(mainWindow.WindowScaling);
+
             //Initailize plugins
-            hiddenEmbedWindow = new DrawingWindow();
+            MyGUIInterface.EventLayerKey = EventLayers.Main;
+
+            CamerasInterface.MoveCameraEventLayer = EventLayers.Cameras;
+            CamerasInterface.SelectWindowEventLayer = EventLayers.AfterMain;
+
             pluginManager = new PluginManager(OgreModelEditorConfig.ConfigFile);
             pluginManager.OnConfigureDefaultWindow = createWindow;
             pluginManager.addPluginAssembly(typeof(OgreInterface).Assembly);
-            pluginManager.addPluginAssembly(typeof(PCPlatformPlugin).Assembly);
+            pluginManager.addPluginAssembly(typeof(NativePlatformPlugin).Assembly);
+            pluginManager.addPluginAssembly(typeof(MyGUIInterface).Assembly);
+            pluginManager.addPluginAssembly(typeof(GuiFrameworkInterface).Assembly);
             pluginManager.initializePlugins();
-            pluginManager.RendererPlugin.PrimaryWindow.setEnabled(false);
+            frameClearManager = new FrameClearManager(OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget, Color.Blue);
 
             lightManager = pluginManager.RendererPlugin.createSceneViewLightManager();
 
@@ -134,7 +178,7 @@ namespace OgreModelEditor
             else
             {
                 XmlTextReader textReader = new XmlTextReader(OgreModelEditorConfig.DocRoot + "/resources.xml");
-                resourceManager = xmlSaver.restoreObject(textReader) as ResourceManager;
+                resourceManager = xmlSaver.restoreObject(textReader) as Engine.Resources.ResourceManager;
                 if (resourceManager == null)
                 {
                     resourceManager = pluginManager.createScratchResourceManager();
@@ -150,23 +194,18 @@ namespace OgreModelEditor
             mainForm = new OgreModelEditorMain();
 
             //Intialize the platform
-            systemTimer = new PCSystemTimer();
+            systemTimer = new NativeSystemTimer();
 
-            PCUpdateTimer win32Timer = new PCUpdateTimer(systemTimer);
-            WindowsMessagePump windowsPump = new WindowsMessagePump();
-            windowsPump.MessageReceived += new PumpMessageEvent(win32Timer_MessageReceived);
-            win32Timer.MessagePump = windowsPump;
-            mainTimer = win32Timer;
+            mainTimer = new NativeUpdateTimer(systemTimer);
 
             mainTimer.FramerateCap = OgreModelEditorConfig.EngineConfig.MaxFPS;
-            inputHandler = new PCInputHandler(mainForm, windowsPump);
+            inputHandler = new NativeInputHandler(mainWindow, false);
             eventManager = new EventManager(inputHandler, Enum.GetValues(typeof(EventLayers)));
             eventUpdate = new EventUpdateListener(eventManager);
             mainTimer.addUpdateListener(eventUpdate);
             pluginManager.setPlatformInfo(mainTimer, eventManager);
 
             //Initialize controllers
-            drawingWindowController.initialize(this, eventManager, pluginManager.RendererPlugin, OgreModelEditorConfig.ConfigFile);
             modelController = new ModelController(this);
 
             toolInterop.setMoveController(moveController);
@@ -188,14 +227,40 @@ namespace OgreModelEditor
             if (!mainForm.restoreWindows(OgreModelEditorConfig.DocRoot + "/windows.ini", getDockContent))
             {
                 mainForm.showDockContent(consoleWindow);
-                drawingWindowController.createOneWaySplit();
+                //drawingWindowController.createOneWaySplit();
                 modelController.createDefaultWindows();
             }
 
+            //Layout Chain
+            mdiLayout = new MDILayoutManager();
+
+            LayoutChain layoutChain = new LayoutChain();
+            layoutChain.addLink(new PopupAreaChainLink(GUILocationNames.FullscreenPopup), true);
+            layoutChain.SuppressLayout = true;
+            layoutChain.addLink(new MDIChainLink(GUILocationNames.MDI, mdiLayout), true);
+            layoutChain.addLink(new PopupAreaChainLink(GUILocationNames.ContentAreaPopup), true);
+            layoutChain.addLink(new FinalChainLink("SceneViews", mdiLayout.DocumentArea), true);
+            layoutChain.SuppressLayout = false;
+            layoutChain.layout();
+
+            guiManager = new GUIManager();
+            guiManager.createGUI(mdiLayout, layoutChain, mainWindow);
+
+            //Taskbar
+            taskbar = new AppButtonTaskbar();
+            //taskbar.OpenTaskMenu += taskbar_OpenTaskMenu;
+            taskbar.setAppIcon("AppButton/WideImage", "AppButton/NarrowImage");
+            taskbarLink = new SingleChildChainLink(GUILocationNames.Taskbar, taskbar);
+            guiManager.addLinkToChain(taskbarLink);
+            guiManager.pushRootContainer(GUILocationNames.Taskbar);
+
             mainForm.ResumeLayout();
 
+            sceneViewController = new SceneViewController(mdiLayout, eventManager, mainTimer, pluginManager.RendererPlugin.PrimaryWindow, MyGUIInterface.Instance.OgrePlatform.getRenderManager(), null);
+            sceneViewController.createWindow("Camera 1", Vector3.Backward * 200, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
+
             //startup the form
-            mainForm.Show();
+            //mainForm.Show();
 
             //Create a simple scene to use to show the models
             SimSceneDefinition sceneDefiniton = new SimSceneDefinition();
@@ -207,20 +272,9 @@ namespace OgreModelEditor
             sceneDefiniton.DefaultSubScene = "Main";
 
             scene = sceneDefiniton.createScene();
-            drawingWindowController.createCameras(mainTimer, scene);
+            sceneViewController.createCameras(scene);
             toolManager.createSceneElements(scene.getDefaultSubScene(), PluginManager.Instance);
             lightManager.sceneLoaded(scene);
-        }
-
-        void win32Timer_MessageReceived(ref WinMsg message)
-        {
-            Message msg = Message.Create(message.hwnd, message.message, message.wParam, message.lParam);
-            ManualMessagePump.pumpMessage(ref msg);
-        }
-
-        public void start()
-        {
-            mainTimer.startLoop();
         }
 
         public void shutdown()
@@ -228,7 +282,7 @@ namespace OgreModelEditor
             mainForm.saveWindows(OgreModelEditorConfig.DocRoot + "/windows.ini");
             mainTimer.stopLoop();
             toolManager.destroySceneElements(scene.getDefaultSubScene(), PluginManager.Instance);
-            drawingWindowController.destroyCameras();
+            sceneViewController.destroyCameras();
             lightManager.sceneUnloading(scene);
             modelController.destroyModel();
             scene.Dispose();
@@ -334,27 +388,27 @@ namespace OgreModelEditor
 
         public void showStats(bool show)
         {
-            drawingWindowController.showStats(show);
+            //drawingWindowController.showStats(show);
         }
 
         public void createOneWindow()
         {
-            drawingWindowController.createOneWaySplit();
+            //drawingWindowController.createOneWaySplit();
         }
 
         public void createTwoWindows()
         {
-            drawingWindowController.createTwoWaySplit();
+            //drawingWindowController.createTwoWaySplit();
         }
 
         public void createThreeWindows()
         {
-            drawingWindowController.createThreeWayUpperSplit();
+            //drawingWindowController.createThreeWayUpperSplit();
         }
 
         public void createFourWindows()
         {
-            drawingWindowController.createFourWaySplit();
+            //drawingWindowController.createFourWaySplit();
         }
 
         public void enableMoveTool()
@@ -398,7 +452,21 @@ namespace OgreModelEditor
         /// <param name="defaultWindow"></param>
         private void createWindow(out WindowInfo defaultWindow)
         {
-            defaultWindow = new WindowInfo(hiddenEmbedWindow, "Primary");
+            //Setup main window
+            defaultWindow = new WindowInfo(mainWindow, "Primary");
+            defaultWindow.Fullscreen = OgreModelEditorConfig.EngineConfig.Fullscreen;
+            defaultWindow.MonitorIndex = 0;
+
+            if (OgreModelEditorConfig.EngineConfig.Fullscreen)
+            {
+                mainWindow.setSize(OgreModelEditorConfig.EngineConfig.HorizontalRes, OgreModelEditorConfig.EngineConfig.VerticalRes);
+                mainWindow.ExclusiveFullscreen = true;
+            }
+            else
+            {
+                mainWindow.Maximized = true;
+            }
+            mainWindow.show();
         }
 
         /// <summary>
@@ -422,7 +490,7 @@ namespace OgreModelEditor
             String name;
             if (DrawingWindowHost.RestoreFromString(persistString, out name, out translation, out lookAt))
             {
-                return drawingWindowController.createDrawingWindowHost(name, translation, lookAt);
+                //return drawingWindowController.createDrawingWindowHost(name, translation, lookAt);
             }
             return null;
         }
@@ -449,12 +517,17 @@ namespace OgreModelEditor
             }
         }
 
-        public UpdateTimer MainTimer
+        public NativeUpdateTimer MainTimer
         {
             get
             {
                 return mainTimer;
             }
+        }
+
+        void mainWindow_Closed(OSWindow window)
+        {
+            app.exit();
         }
     }
 }

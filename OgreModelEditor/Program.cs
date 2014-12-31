@@ -6,6 +6,7 @@ using Logging;
 using System.IO;
 using Anomaly.GUI;
 using Engine.Platform;
+using Anomalous.OSPlatform;
 
 namespace OgreModelEditor
 {
@@ -25,27 +26,36 @@ namespace OgreModelEditor
             {
                 splash.Show();
                 Application.DoEvents();
-                using (OgreModelEditorController controller = new OgreModelEditorController())
+
+                OgreModelEditorApp app = null;
+                try
                 {
-                    try
+                    app = new OgreModelEditorApp();
+
+                    splash.Close();
+
+                    app.run();
+                }
+                catch (Exception e)
+                {
+                    Logging.Log.Default.printException(e);
+                    if (app != null)
                     {
-                        controller.initialize();
-                        String[] commandLine = Environment.GetCommandLineArgs();
-                        if (commandLine.Length > 1)
-                        {
-                            String file = commandLine[1];
-                            if (File.Exists(file) && file.EndsWith(".mesh"))
-                            {
-                                controller.openModel(file);
-                            }
-                        }
-                        splash.Close();
-                        controller.start();
+                        app.saveCrashLog();
                     }
-                    catch (Exception e)
+                    String errorMessage = e.Message + "\n" + e.StackTrace;
+                    while (e.InnerException != null)
                     {
-                        Log.Default.printException(e);
-                        MessageBox.Show(e.Message, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        e = e.InnerException;
+                        errorMessage += "\n" + e.Message + "\n" + e.StackTrace;
+                    }
+                    MessageDialog.showErrorDialog(errorMessage, "Exception");
+                }
+                finally
+                {
+                    if (app != null)
+                    {
+                        app.Dispose();
                     }
                 }
             }

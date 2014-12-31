@@ -56,7 +56,6 @@
     <Compile Include="Config\WindowsPlatformConfig.cs" />
     <Compile Include="EngineController.cs" />
     <Compile Include="GUILocationNames.cs" />
-    <Compile Include="ModelController.cs" />
     <Compile Include="SceneController.cs" />
     <Compile Include="MedicalUpdate.cs" />
     <Compile Include="MinimalApp.cs" />
