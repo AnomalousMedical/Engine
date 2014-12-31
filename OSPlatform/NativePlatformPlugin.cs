@@ -5,9 +5,8 @@ using System.Text;
 using Engine;
 using Engine.Platform;
 using Logging;
-using Medical.Platform;
 
-namespace Medical
+namespace Anomalous.OSPlatform
 {
     public class NativePlatformPlugin : PluginInterface
     {

@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Engine.Platform;
-using Medical.GUI;
 using System.Runtime.InteropServices;
 using Engine;
 
-namespace Medical
+namespace Anomalous.OSPlatform
 {
     public class NativeOSWindow : OSWindow, IDisposable
     {

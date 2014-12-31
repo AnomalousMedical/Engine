@@ -7,7 +7,7 @@
     <ProjectGuid>{6E594C78-9CD8-432D-A135-11C4A72F3BCF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OSPlatform</RootNamespace>
+    <RootNamespace>Anomalous.OSPlatform</RootNamespace>
     <AssemblyName>OSPlatform</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

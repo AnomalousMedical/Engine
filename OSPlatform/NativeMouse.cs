@@ -6,7 +6,7 @@ using Engine.Platform;
 using Engine;
 using System.Runtime.InteropServices;
 
-namespace Medical
+namespace Anomalous.OSPlatform
 {
     class NativeMouse : MouseHardware, IDisposable
     {

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using Engine;
 
-[assembly: Medical.NativePlatformEntryPoint()]
+[assembly: Anomalous.OSPlatform.NativePlatformEntryPoint()]
 
-namespace Medical
+namespace Anomalous.OSPlatform
 {
     class NativePlatformEntryPoint : PluginEntryPointAttribute
     {

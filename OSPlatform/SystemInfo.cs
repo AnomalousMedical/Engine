@@ -5,12 +5,13 @@ using System.Text;
 using System.Runtime.InteropServices;
 using Engine;
 
-namespace Medical
+namespace Anomalous.OSPlatform
 {
-    public enum OperatingSystem
+    public enum RuntimeOperatingSystem
     {
         Windows,
         Mac,
+        WinRT,
     }
 
     public class SystemInfo
@@ -35,7 +36,7 @@ namespace Medical
         /// <summary>
         /// Get the operating system we are currently running on.
         /// </summary>
-        public static OperatingSystem RuntimeOS
+        public static RuntimeOperatingSystem RuntimeOS
         {
             get
             {
@@ -52,7 +53,7 @@ namespace Medical
         private static extern void SystemInfo_getDisplayLocation(int displayIndex, out int x, out int y);
 
         [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern OperatingSystem PlatformConfig_getPlatform();
+        private static extern RuntimeOperatingSystem PlatformConfig_getPlatform();
 
         #endregion
     }

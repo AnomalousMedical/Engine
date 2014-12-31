@@ -7,7 +7,7 @@ using Engine.Platform;
 using Logging;
 using Engine;
 
-namespace Medical
+namespace Anomalous.OSPlatform
 {
     public enum TouchType
     {

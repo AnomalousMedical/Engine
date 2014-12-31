@@ -1,4 +1,5 @@
-﻿using Engine;
+﻿using Anomalous.OSPlatform;
+using Engine;
 using Engine.Platform;
 using Logging;
 using Medical;
@@ -11,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestMinimalApplication
+namespace Anomalous.Minimus
 {
     class MinimalApp : App
     {

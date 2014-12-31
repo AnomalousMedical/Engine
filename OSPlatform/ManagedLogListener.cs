@@ -5,7 +5,7 @@ using System.Text;
 using Logging;
 using System.Runtime.InteropServices;
 
-namespace Medical.Platform
+namespace Anomalous.OSPlatform
 {
     class ManagedLogListener : IDisposable
     {

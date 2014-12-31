@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Medical.Controller
+namespace Anomalous.Minimus
 {
     /// <summary>
     /// This class provides a way for the program to clear its entire frame buffer each frame. Due to the way ogre

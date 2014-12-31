@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace Medical
+namespace Anomalous.Minimus
 {
     /// <summary>
     /// Provides a common shareable way of finding folders.

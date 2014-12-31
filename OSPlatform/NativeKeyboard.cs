@@ -5,7 +5,7 @@ using System.Text;
 using Engine.Platform;
 using System.Runtime.InteropServices;
 
-namespace Medical
+namespace Anomalous.OSPlatform
 {
     class NativeKeyboard : Engine.Platform.KeyboardHardware, IDisposable
     {

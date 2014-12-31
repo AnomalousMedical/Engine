@@ -5,7 +5,7 @@ using System.Text;
 using Engine.Platform;
 using Engine;
 
-namespace Medical
+namespace Anomalous.OSPlatform
 {
     public class NativeUpdateTimer : UpdateTimer
     {

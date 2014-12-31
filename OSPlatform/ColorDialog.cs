@@ -6,7 +6,7 @@ using Engine;
 using System.Runtime.InteropServices;
 using Engine.Threads;
 
-namespace Medical
+namespace Anomalous.OSPlatform
 {
     public class ColorDialog
     {

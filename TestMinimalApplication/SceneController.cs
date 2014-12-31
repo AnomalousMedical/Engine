@@ -6,16 +6,16 @@ using Engine.ObjectManagement;
 using Engine;
 using Engine.Resources;
 
-namespace Medical
+namespace Anomalous.Minimus
 {
     /// <summary>
     /// This delegate is called when the MedicalSceneController fires an event.
     /// </summary>
     /// <param name="controller">The controller that fired the event.</param>
     /// <param name="scene">The scene for the event.</param>
-    delegate void MedicalSceneControllerEvent(MedicalSceneController controller, SimScene scene);
+    delegate void SceneControllerEvent(SceneController controller, SimScene scene);
 
-    class MedicalSceneController
+    class SceneController
     {
         private SimScene currentScene;
         private SimObjectManager currentSimObjects;
@@ -28,22 +28,22 @@ namespace Medical
         /// <summary>
         /// This event is fired before a scene loads.
         /// </summary>
-        public event MedicalSceneControllerEvent OnSceneLoading;
+        public event SceneControllerEvent OnSceneLoading;
 
         /// <summary>
         /// This event is fired when a scene is loaded.
         /// </summary>
-        public event MedicalSceneControllerEvent OnSceneLoaded;
+        public event SceneControllerEvent OnSceneLoaded;
 
         /// <summary>
         /// This event is fired when a scene starts unloading.
         /// </summary>
-        public event MedicalSceneControllerEvent OnSceneUnloading;
+        public event SceneControllerEvent OnSceneUnloading;
 
         /// <summary>
         /// This event is fired when a scene has finished unloading.
         /// </summary>
-        public event MedicalSceneControllerEvent OnSceneUnloaded;
+        public event SceneControllerEvent OnSceneUnloaded;
 
         #endregion Events
 
@@ -51,7 +51,7 @@ namespace Medical
         /// Constructor.
         /// </summary>
         /// <param name="pluginManager"></param>
-        public MedicalSceneController(PluginManager pluginManager)
+        public SceneController(PluginManager pluginManager)
         {
             this.pluginManager = pluginManager;
             sceneResourceManager = pluginManager.createLiveResourceManager("Scene");

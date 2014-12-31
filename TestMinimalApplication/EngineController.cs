@@ -21,8 +21,9 @@ using Medical.Controller;
 using libRocketPlugin;
 using BEPUikPlugin;
 using GuiFramework.Plugin;
+using Anomalous.OSPlatform;
 
-namespace Medical
+namespace Anomalous.Minimus
 {
     public enum EventLayers
     {
@@ -53,7 +54,7 @@ namespace Medical
         private NativeSystemTimer performanceMetricTimer;
 
         //Controller
-        private MedicalSceneController medicalScene;
+        private SceneController medicalScene;
         private FrameClearManager frameClearManager;
 
         //Serialization
@@ -149,7 +150,7 @@ namespace Medical
             mainTimer.addUpdateListener(medicalUpdate);
 
             //Initialize controllers
-            medicalScene = new MedicalSceneController(pluginManager);
+            medicalScene = new SceneController(pluginManager);
             frameClearManager = new FrameClearManager(OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget);
 
             SoundConfig.initialize(CoreConfig.ConfigFile);

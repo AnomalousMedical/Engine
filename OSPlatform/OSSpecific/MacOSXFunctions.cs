@@ -7,7 +7,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Medical
+namespace Anomalous.OSPlatform
 {
     public static class MacOSXFunctions
     {

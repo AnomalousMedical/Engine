@@ -2,7 +2,7 @@
 
 namespace AnomalousOSHelper
 {
-	enum OperatingSystem
+	enum RuntimeOperatingSystem
 	{
 		Windows,
 		Mac,
@@ -10,7 +10,7 @@ namespace AnomalousOSHelper
 	};
 }
 
-extern "C" _AnomalousExport AnomalousOSHelper::OperatingSystem PlatformConfig_getPlatform()
+extern "C" _AnomalousExport AnomalousOSHelper::RuntimeOperatingSystem PlatformConfig_getPlatform()
 {
 #if WINDOWS
 	return AnomalousOSHelper::Windows;

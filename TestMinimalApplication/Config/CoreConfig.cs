@@ -9,7 +9,7 @@ using Engine.Platform;
 using Logging;
 using Medical.GUI;
 
-namespace Medical
+namespace Anomalous.Minimus
 {
     public enum UIExtraScale
     {

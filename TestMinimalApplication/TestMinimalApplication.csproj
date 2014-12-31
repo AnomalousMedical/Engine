@@ -57,7 +57,7 @@
     <Compile Include="EngineController.cs" />
     <Compile Include="FrameClearManager.cs" />
     <Compile Include="GUILocationNames.cs" />
-    <Compile Include="MedicalSceneController.cs" />
+    <Compile Include="SceneController.cs" />
     <Compile Include="MedicalUpdate.cs" />
     <Compile Include="MinimalApp.cs" />
     <Compile Include="Program.cs" />

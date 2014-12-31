@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace Medical
+namespace Anomalous.OSPlatform
 {
     public abstract class App : IDisposable
     {

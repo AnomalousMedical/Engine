@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine.Platform;
 
-namespace Medical
+namespace Anomalous.OSPlatform
 {
     public class NativeInputHandler : InputHandler, IDisposable
     {

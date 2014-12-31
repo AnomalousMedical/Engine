@@ -5,7 +5,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using Engine.Threads;
 
-namespace Medical
+namespace Anomalous.OSPlatform
 {
     public class FileOpenDialog
     {

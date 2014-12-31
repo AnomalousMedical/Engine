@@ -5,8 +5,9 @@ using System.Text;
 using Engine.Platform;
 using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
+using Anomalous.OSPlatform;
 
-namespace Medical
+namespace Anomalous.Minimus
 {
     public abstract class PlatformConfig
     {
@@ -16,10 +17,10 @@ namespace Medical
         {
             switch (SystemInfo.RuntimeOS)
             {
-                case OperatingSystem.Windows:
+                case RuntimeOperatingSystem.Windows:
                     currentConfig = new WindowsPlatformConfig();
                     break;
-                case OperatingSystem.Mac:
+                case RuntimeOperatingSystem.Mac:
                     currentConfig = new MacPlatformConfig();
                     break;
                 default:
