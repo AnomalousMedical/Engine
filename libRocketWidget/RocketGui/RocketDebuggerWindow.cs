@@ -6,14 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace libRocketWidget
+namespace Anomalous.libRocketWidget
 {
     public class RocketDebuggerWindow : MDIDialog
     {
         private RocketWidget rocketWidget;
 
         public RocketDebuggerWindow()
-            :base("libRocketWidget.RocketGui.RocketDebuggerWindow.layout")
+            : base("Anomalous.libRocketWidget.RocketGui.RocketDebuggerWindow.layout")
         {
             rocketWidget = new RocketWidget((ImageBox)window.findWidget("RocketImage"), false);
             Debugger.Initialise(rocketWidget.Context);

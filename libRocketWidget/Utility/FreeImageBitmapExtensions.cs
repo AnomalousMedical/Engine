@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace libRocketWidget
+namespace Anomalous.libRocketWidget
 {
     public static class FreeImageBitmapExtensions
     {

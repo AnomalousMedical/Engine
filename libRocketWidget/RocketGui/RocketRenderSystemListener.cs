@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using OgreWrapper;
 
-namespace libRocketWidget
+namespace Anomalous.libRocketWidget
 {
     class RocketRenderSystemListener : RenderSystemListener
     {

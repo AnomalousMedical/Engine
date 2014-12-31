@@ -7,7 +7,7 @@
     <ProjectGuid>{922F9AEC-9921-4234-89E5-14CE09625A07}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>libRocketWidget</RootNamespace>
+    <RootNamespace>Anomalous.libRocketWidget</RootNamespace>
     <AssemblyName>libRocketWidget</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

@@ -6,7 +6,7 @@ using Engine;
 using libRocketPlugin;
 using Logging;
 
-namespace libRocketWidget
+namespace Anomalous.libRocketWidget
 {
     class DebugEventListener : EventListener
     {

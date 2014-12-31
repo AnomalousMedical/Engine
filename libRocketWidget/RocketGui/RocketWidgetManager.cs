@@ -5,7 +5,7 @@ using System.Text;
 using Engine;
 using OgreWrapper;
 
-namespace libRocketWidget
+namespace Anomalous.libRocketWidget
 {
     /// <summary>
     /// This class provides some bookkeeping functions for the RocketWidgets, it

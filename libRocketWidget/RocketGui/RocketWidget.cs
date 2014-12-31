@@ -9,7 +9,7 @@ using Engine;
 using Engine.Platform;
 using FreeImageAPI;
 
-namespace libRocketWidget
+namespace Anomalous.libRocketWidget
 {
     public class RocketWidget : IDisposable
     {

@@ -1,12 +1,11 @@
-﻿using libRocketWidget;
-using Medical;
+﻿using Medical;
 using Medical.GUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Developer
+namespace Anomalous.libRocketWidget
 {
     /// <summary>
     /// A task to show the lib rocket debugger.

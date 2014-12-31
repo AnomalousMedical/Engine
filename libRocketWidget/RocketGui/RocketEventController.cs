@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using libRocketPlugin;
 
-namespace libRocketWidget
+namespace Anomalous.libRocketWidget
 {
     /// <summary>
     /// This interface can be set on the RocketEventListenerInstance to change
