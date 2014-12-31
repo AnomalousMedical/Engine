@@ -125,6 +125,10 @@ namespace Anomalous.GuiFramework.Cameras
 
             TextureSceneView window = new TextureSceneView(this, orbitCamera, name, background, 0, width, height);
 
+            if (WindowCreated != null)
+            {
+                WindowCreated.Invoke(window);
+            }
             if (camerasCreated)
             {
                 window.createSceneView(currentScene);

@@ -80,7 +80,6 @@ namespace Anomalous.GuiFramework.Cameras
             this.startPosition = cameraMover.Translation;
             this.startLookAt = cameraMover.LookAt;
             transparencyStateName = name;
-            CamerasInterface.fireWindowCreated(this);
             NearPlaneWorldPos = 200;
             FarPlaneWorldPos = -200;
         }
@@ -102,7 +101,6 @@ namespace Anomalous.GuiFramework.Cameras
         {
             IDisposableUtil.DisposeIfNotNull(vpBackground);
             cameraMover.Dispose();
-            CamerasInterface.fireWindowDestroyed(this);
             destroyBorderPanels();
             if (Disposed != null)
             {
