@@ -1,8 +1,10 @@
 ﻿using Anomalous.GuiFramework;
+using Anomalous.GuiFramework.Cameras;
 using Anomalous.OSPlatform;
 using Engine;
 using Engine.Platform;
 using Logging;
+using MyGUIPlugin;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -23,6 +25,7 @@ namespace Anomalous.Minimus
         private BorderLayoutChainLink contentArea;
         private GUIManager guiManager;
         private MDILayoutManager mdiLayout;
+        private SceneViewController sceneViewController;
 
         //Taskbar
         private AppButtonTaskbar taskbar;
@@ -41,6 +44,7 @@ namespace Anomalous.Minimus
             IDisposableUtil.DisposeIfNotNull(taskbar);
             IDisposableUtil.DisposeIfNotNull(taskMenu);
 
+            IDisposableUtil.DisposeIfNotNull(sceneViewController);
             IDisposableUtil.DisposeIfNotNull(editorBorder);
             IDisposableUtil.DisposeIfNotNull(contentArea);
             IDisposableUtil.DisposeIfNotNull(mdiLayout);
@@ -96,7 +100,7 @@ namespace Anomalous.Minimus
             layoutChain.addLink(new PopupAreaChainLink(GUILocationNames.ContentAreaPopup), true);
             contentArea = new BorderLayoutChainLink(GUILocationNames.ContentArea, engineController.MainTimer);
             layoutChain.addLink(contentArea, true);
-            //layoutChain.addLink(new FinalChainLink("SceneViews", controller.MDILayout.DocumentArea), true);
+            layoutChain.addLink(new FinalChainLink("SceneViews", mdiLayout.DocumentArea), true);
             layoutChain.SuppressLayout = false;
             layoutChain.layout();
 
@@ -110,6 +114,9 @@ namespace Anomalous.Minimus
             taskbarLink = new SingleChildChainLink(GUILocationNames.Taskbar, taskbar);
             guiManager.addLinkToChain(taskbarLink);
             guiManager.pushRootContainer(GUILocationNames.Taskbar);
+
+            sceneViewController = new SceneViewController(mdiLayout, engineController.EventManager, engineController.MainTimer, engineController.PluginManager.RendererPlugin.PrimaryWindow, MyGUIInterface.Instance.OgrePlatform.getRenderManager(), null);
+            sceneViewController.createWindow("Camera 1", Vector3.UnitX, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
 
             //Task Menu
             taskMenu = new TaskMenu(documentController, taskController, guiManager, new LayoutElementName(GUILocationNames.FullscreenPopup));

@@ -20,6 +20,7 @@ using libRocketPlugin;
 using BEPUikPlugin;
 using Anomalous.OSPlatform;
 using Anomalous.GuiFramework;
+using Anomalous.GuiFramework.Cameras;
 
 namespace Anomalous.Minimus
 {
@@ -109,6 +110,10 @@ namespace Anomalous.Minimus
                 }
                 mainWindow.show();
             };
+
+            CamerasInterface.MoveCameraEventLayer = EventLayers.Cameras;
+            CamerasInterface.SelectWindowEventLayer = EventLayers.AfterGui;
+
             pluginManager.addPluginAssembly(typeof(OgreInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(BulletInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(NativePlatformPlugin).Assembly);
@@ -117,6 +122,7 @@ namespace Anomalous.Minimus
             pluginManager.addPluginAssembly(typeof(SoundPluginInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(BEPUikInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(GuiFrameworkInterface).Assembly);
+            pluginManager.addPluginAssembly(typeof(CamerasInterface).Assembly);
             pluginManager.initializePlugins();
 
             performanceMetricTimer = new NativeSystemTimer();
