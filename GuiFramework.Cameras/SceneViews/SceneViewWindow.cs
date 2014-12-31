@@ -92,8 +92,11 @@ namespace Anomalous.GuiFramework.Cameras
         /// <param name="renderTarget"></param>
         protected void createBackground(RenderTarget renderTarget, bool clearEveryFrame)
         {
-            vpBackground = new ViewportBackground(name + "SceneViewBackground", zIndexStart + zOffset++, background, renderTarget, clearEveryFrame);
-            vpBackground.BackgroundColor = backColor;
+            if (background != null)
+            {
+                vpBackground = new ViewportBackground(name + "SceneViewBackground", zIndexStart + zOffset++, background, renderTarget, clearEveryFrame);
+                vpBackground.BackgroundColor = backColor;
+            }
         }
 
         public virtual void Dispose()
