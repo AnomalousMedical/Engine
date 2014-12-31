@@ -14,7 +14,7 @@ namespace Anomalous.GuiFramework
     {
         public const String PluginName = "GuiFramework";
 
-        public GuiFrameworkInterface()
+        internal GuiFrameworkInterface()
         {
 
         }
