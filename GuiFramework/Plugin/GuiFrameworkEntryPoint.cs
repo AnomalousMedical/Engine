@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-[assembly: GuiFramework.Plugin.GuiFrameworkEntryPoint()]
+[assembly: Anomalous.GuiFramework.GuiFrameworkEntryPoint()]
 
-namespace GuiFramework.Plugin
+namespace Anomalous.GuiFramework
 {
     class GuiFrameworkEntryPoint : PluginEntryPointAttribute
     {

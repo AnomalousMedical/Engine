@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine;
 
-namespace Medical
+namespace Anomalous.GuiFramework
 {
     /// <summary>
     /// A task positioner that just returns 0, 0. Use this instead of null to avoid

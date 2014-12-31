@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Medical.GUI;
 using Engine;
 
-namespace Medical
+namespace Anomalous.GuiFramework
 {
     public delegate void TaskMenuDelegate();
     public delegate void TaskDelegate(Task task);

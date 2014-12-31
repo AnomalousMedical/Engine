@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace Medical
+namespace Anomalous.GuiFramework
 {
     /// <summary>
     /// This class can handle opening documents of many different formats by

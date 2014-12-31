@@ -7,7 +7,6 @@ using Engine;
 using Engine.Resources;
 using Engine.Platform;
 using Logging;
-using Medical.GUI;
 
 namespace Anomalous.Minimus
 {

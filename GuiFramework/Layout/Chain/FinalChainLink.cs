@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Medical
+namespace Anomalous.GuiFramework
 {
     /// <summary>
     /// This is a chain link for a LayoutContainer that has no children. It does not have to be used to have a

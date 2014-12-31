@@ -183,7 +183,6 @@ namespace Engine
                 //If that fails do the slow search.
                 if (type == null)
                 {
-                    Log.Warning("Had to do slow search looking for type \'{0}\'. You should fix the source file searching for this type", assemblyQualifiedName);
                     String typeName = DefaultTypeFinder.GetTypeNameWithoutAssembly(assemblyQualifiedName);
 
                     //If there is not yet a renamed type map, create it.
@@ -199,6 +198,8 @@ namespace Engine
                     //Check the rename cache
                     if (!renamedTypeMap.tryGetType(typeName, out type))
                     {
+                        Log.Warning("TypeSearch: Had to do slow search looking for type \'{0}\'. You should fix the source file searching for this type or add an entry to the renamed type maps for '{1}'", assemblyQualifiedName, typeName);
+
                         foreach (Assembly assembly in pluginAssemblies)
                         {
                             type = assembly.GetType(typeName);
@@ -224,7 +225,11 @@ namespace Engine
                     //If we found something put it in the slow search cache so it can be found quicker later
                     if (type != null)
                     {
-                        Log.Warning("Slow search match found for type \'{0}\'. Replacement type is \'{1}\'", assemblyQualifiedName, type.AssemblyQualifiedName);
+                        Log.Warning("TypeSearch: Replacement found for type \'{0}\'. Replacement type is \'{1}\'", assemblyQualifiedName, type.AssemblyQualifiedName);
+                    }
+                    else
+                    {
+                        Log.Warning("TypeSearch: Unable to find replacement for type \'{0}\'.", assemblyQualifiedName);
                     }
                 }
                 typeCache.Add(assemblyQualifiedName, type);

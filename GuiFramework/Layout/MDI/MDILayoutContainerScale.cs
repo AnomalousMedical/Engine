@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Medical.Controller;
 using Engine;
 
-namespace Medical.Controller
+namespace Anomalous.GuiFramework
 {
     class MDILayoutContainerScale : MDILayoutContainer
     {

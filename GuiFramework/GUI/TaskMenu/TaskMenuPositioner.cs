@@ -5,7 +5,7 @@ using System.Text;
 using MyGUIPlugin;
 using Engine;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework
 {
     class TaskMenuPositioner : TaskPositioner
     {

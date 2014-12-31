@@ -6,7 +6,7 @@ using MyGUIPlugin;
 using System.IO;
 using Engine;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework
 {
     class TaskMenuRecentDocuments
     {

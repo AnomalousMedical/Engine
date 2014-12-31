@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Medical
+namespace Anomalous.GuiFramework
 {
     /// <summary>
     /// This class will chain various layout elements together in an abstract way to form a gui.

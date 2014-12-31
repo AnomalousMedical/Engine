@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework
 {
     public class AppButtonTaskbar : Taskbar
     {
@@ -20,7 +20,7 @@ namespace Medical.GUI
         private int appButtonWideWidth;
 
         public AppButtonTaskbar()
-            : base("GuiFramework.GUI.Taskbar.AppButtonTaskbar.layout")
+            : base("Anomalous.GuiFramework.GUI.Taskbar.AppButtonTaskbar.layout")
         {
             appButton = taskbarWidget.findWidget("AppButton") as Button;
             appButton.MouseButtonClick += new MyGUIEvent(appButton_MouseButtonClick);

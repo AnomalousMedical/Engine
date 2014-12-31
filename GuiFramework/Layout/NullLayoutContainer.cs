@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Medical
+namespace Anomalous.GuiFramework
 {
     public class NullLayoutContainer : LayoutContainer
     {

@@ -1,5 +1,4 @@
-﻿using Medical;
-using Medical.GUI;
+﻿using Anomalous.GuiFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -5,7 +5,7 @@ using System.Text;
 using Engine;
 using Logging;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework
 {
     public class GUITaskManager
     {

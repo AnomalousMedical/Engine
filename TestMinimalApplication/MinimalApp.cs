@@ -1,10 +1,8 @@
-﻿using Anomalous.OSPlatform;
+﻿using Anomalous.GuiFramework;
+using Anomalous.OSPlatform;
 using Engine;
 using Engine.Platform;
 using Logging;
-using Medical;
-using Medical.Controller;
-using Medical.GUI;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

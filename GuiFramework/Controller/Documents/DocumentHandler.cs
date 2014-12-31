@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Medical
+namespace Anomalous.GuiFramework
 {
     /// <summary>
     /// This interface provides a way for the DocumentController to be extended with additional file types.

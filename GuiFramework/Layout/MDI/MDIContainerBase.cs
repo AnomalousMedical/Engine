@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine;
 
-namespace Medical.Controller
+namespace Anomalous.GuiFramework
 {
     /// <summary>
     /// The base class for items that go into the MDILayoutContainer.

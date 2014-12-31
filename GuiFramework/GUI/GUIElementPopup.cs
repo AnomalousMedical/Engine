@@ -1,12 +1,11 @@
-﻿
-using MyGUIPlugin;
+﻿using MyGUIPlugin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework
 {
     /// <summary>
     /// This is a popup that will popup on a named location on the screen.

@@ -5,7 +5,7 @@ using System.Text;
 using Engine;
 using MyGUIPlugin;
 
-namespace Medical.Controller
+namespace Anomalous.GuiFramework
 {
 
     /// <summary>

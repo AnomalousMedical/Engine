@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using Engine;
-using Medical.Controller;
 using MyGUIPlugin;
 using Logging;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework
 {
     public class MDIDialog : MDIWindow, IDisposable
     {

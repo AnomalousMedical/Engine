@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework
 {
     public class PinnedTaskSerializer
     {

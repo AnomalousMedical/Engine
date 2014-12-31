@@ -5,7 +5,7 @@ using System.Text;
 using MyGUIPlugin;
 using Engine;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework
 {
     sealed class NotificationGUI : PopupContainer
     {
@@ -14,7 +14,7 @@ namespace Medical.GUI
         private bool allowClose = true;
 
         public NotificationGUI(Notification notification, NotificationGUIManager notificationManager)
-            : base("GuiFramework.GUI.Notification.NotificationGUI.layout")
+            : base("Anomalous.GuiFramework.GUI.Notification.NotificationGUI.layout")
         {
             this.KeepOpen = true;
             this.notificationManager = notificationManager;

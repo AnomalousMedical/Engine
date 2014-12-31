@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework
 {
     public class ClosingTaskbar : Taskbar
     {
@@ -14,7 +14,7 @@ namespace Medical.GUI
         private Button closeButton;
 
         public ClosingTaskbar()
-            : base("GuiFramework.GUI.Taskbar.ClosingTaskbar.layout")
+            : base("Anomalous.GuiFramework.GUI.Taskbar.ClosingTaskbar.layout")
         {
             closeButton = (Button)taskbarWidget.findWidget("Close");
             closeButton.MouseButtonClick += new MyGUIEvent(closeButton_MouseButtonClick);

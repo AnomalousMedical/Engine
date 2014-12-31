@@ -5,7 +5,7 @@ using System.Text;
 using Engine;
 using MyGUIPlugin;
 
-namespace Medical
+namespace Anomalous.GuiFramework
 {
     public class VariableSizeMyGUILayoutContainer : LayoutContainer
     {

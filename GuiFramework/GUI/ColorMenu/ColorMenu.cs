@@ -7,7 +7,7 @@ using Engine;
 using Logging;
 using Anomalous.OSPlatform;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework
 {
     public class ColorMenu : PopupContainer
     {
@@ -27,7 +27,7 @@ namespace Medical.GUI
         private Color customColor = Color.Black;
 
         private ColorMenu(ColorChosenDelegate colorChosenCallback, Action colorClearedCallback)
-            :base("GuiFramework.GUI.ColorMenu.ColorMenu.layout")
+            : base("Anomalous.GuiFramework.GUI.ColorMenu.ColorMenu.layout")
         {
             this.colorChosenCallback = colorChosenCallback;
             this.colorClearedCallback = colorClearedCallback;

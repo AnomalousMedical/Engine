@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using MyGUIPlugin;
 
-namespace Medical
+namespace Anomalous.GuiFramework
 {
     public class DialogOpenTask : Task
     {

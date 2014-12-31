@@ -1,6 +1,5 @@
 ﻿using Engine;
 using Engine.Platform;
-using Medical.Controller;
 using MyGUIPlugin;
 using System;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework
 {
     /// <summary>
     /// This is an MDIDialog that can be pinned, you must use one of the P window types for this. You can also set the

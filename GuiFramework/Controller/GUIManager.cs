@@ -5,12 +5,11 @@ using System.Text;
 using Engine.ObjectManagement;
 using MyGUIPlugin;
 using Engine.Platform;
-using Medical.Controller;
 using Engine;
 using Logging;
 using System.IO;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework
 {
     public class GUIManager : IDisposable
     {

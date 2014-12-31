@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MyGUIPlugin;
-using Medical.Controller;
 using Engine;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework
 {
     class MDIDialogEntry : DialogEntry
     {

@@ -6,7 +6,7 @@ using Engine;
 using MyGUIPlugin;
 using Logging;
 
-namespace Medical.Controller
+namespace Anomalous.GuiFramework
 {
     /// <summary>
     /// This class acts as a container inside of a MDI Layout. It will make the

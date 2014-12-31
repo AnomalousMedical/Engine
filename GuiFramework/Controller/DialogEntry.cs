@@ -1,5 +1,6 @@
 ﻿using System;
-namespace Medical.GUI
+
+namespace Anomalous.GuiFramework
 {
     interface DialogEntry
     {

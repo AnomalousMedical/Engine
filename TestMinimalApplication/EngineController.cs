@@ -15,13 +15,11 @@ using Engine.Resources;
 using System.IO;
 using BulletPlugin;
 using MyGUIPlugin;
-using Medical.GUI;
 using SoundPlugin;
-using Medical.Controller;
 using libRocketPlugin;
 using BEPUikPlugin;
-using GuiFramework.Plugin;
 using Anomalous.OSPlatform;
+using Anomalous.GuiFramework;
 
 namespace Anomalous.Minimus
 {

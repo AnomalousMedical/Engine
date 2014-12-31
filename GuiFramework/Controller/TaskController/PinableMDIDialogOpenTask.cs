@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Medical.GUI;
-using Medical.Controller;
 
-namespace Medical
+namespace Anomalous.GuiFramework
 {
     /// <summary>
     /// This is a special MDIDialogOpenTask for Pinable dialogs. When the dialog is unpinned and floating

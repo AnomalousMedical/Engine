@@ -5,7 +5,7 @@ using System.Text;
 using MyGUIPlugin;
 using Engine;
 
-namespace Medical.Controller
+namespace Anomalous.GuiFramework
 {
     public class SeparatorWidgetManagerAbsolute : SeparatorWidgetManager
     {

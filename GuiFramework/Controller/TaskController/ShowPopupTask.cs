@@ -5,7 +5,7 @@ using System.Text;
 using MyGUIPlugin;
 using Engine;
 
-namespace Medical
+namespace Anomalous.GuiFramework
 {
     public class ShowPopupTask : Task
     {

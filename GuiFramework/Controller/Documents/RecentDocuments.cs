@@ -6,7 +6,7 @@ using Engine;
 using System.IO;
 using Logging;
 
-namespace Medical
+namespace Anomalous.GuiFramework
 {
     public delegate void RecentDocumentEvent(RecentDocuments source, String document);
 

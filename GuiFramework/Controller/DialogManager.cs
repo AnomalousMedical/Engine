@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using MyGUIPlugin;
 using Engine;
-using Medical.Controller;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework
 {
     public class DialogManager : IDisposable
     {

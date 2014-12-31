@@ -5,7 +5,7 @@ using System.Text;
 using MyGUIPlugin;
 using Engine;
 
-namespace Medical.Controller
+namespace Anomalous.GuiFramework
 {
     public class MDIDocumentWindow : MDIWindow
     {
@@ -29,7 +29,7 @@ namespace Medical.Controller
         public MDIDocumentWindow(String caption)
             :base(DockLocation.Center)
         {
-            guiLayout = LayoutManager.Instance.loadLayout("GuiFramework.Layout.MDI.MDIDocumentWindow.layout");
+            guiLayout = LayoutManager.Instance.loadLayout("Anomalous.GuiFramework.Layout.MDI.MDIDocumentWindow.layout");
             mainWidget = guiLayout.getWidget(0);
 
             captionButton = mainWidget.findWidget("CaptionButton") as Button;

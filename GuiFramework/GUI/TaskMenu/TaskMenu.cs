@@ -5,7 +5,7 @@ using System.Text;
 using MyGUIPlugin;
 using Engine;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework
 {
     public delegate void TaskDragDropEventDelegate(Task item, IntVector2 position);
 
@@ -49,7 +49,7 @@ namespace Medical.GUI
         private TaskMenuPositioner taskMenuPositioner = new TaskMenuPositioner();
 
         public TaskMenu(DocumentController documentController, TaskController taskController, GUIManager guiManager, LayoutElementName elementName)
-            :base("GuiFramework.GUI.TaskMenu.TaskMenu.layout", guiManager, elementName)
+            : base("Anomalous.GuiFramework.GUI.TaskMenu.TaskMenu.layout", guiManager, elementName)
         {
             this.taskController = taskController;
             taskController.TaskAdded += new TaskDelegate(taskController_TaskAdded);

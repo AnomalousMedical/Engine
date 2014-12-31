@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GuiFramework.Plugin
+namespace Anomalous.GuiFramework
 {
     public class GuiFrameworkInterface : PluginInterface
     {
@@ -33,7 +33,7 @@ namespace GuiFramework.Plugin
         {
             MyGUIInterface.Instance.CommonResourceGroup.addResource(GetType().AssemblyQualifiedName, "EmbeddedScalableResource", true);
             //Load Core Resources
-            ResourceManager.Instance.load("GuiFramework.Resources.MyGUI_Skin.xml");
+            ResourceManager.Instance.load("Anomalous.GuiFramework.Resources.MyGUI_Skin.xml");
         }
 
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
@@ -61,12 +61,12 @@ namespace GuiFramework.Plugin
 
         public void setupRenamedSaveableTypes(RenamedTypeMap renamedTypeMap)
         {
-            renamedTypeMap.addRenamedType("Medical.Controller.AnomalousMvc.ViewLocations", typeof(Medical.ViewLocations));
-            renamedTypeMap.addRenamedType("Medical.WindowAlignment", typeof(Medical.WindowAlignment));
-            renamedTypeMap.addRenamedType("Medical.LayoutElementName", typeof(Medical.LayoutElementName));
-            renamedTypeMap.addRenamedType("Medical.BorderLayoutElementName", typeof(Medical.BorderLayoutElementName));
-            renamedTypeMap.addRenamedType("Medical.BorderLayoutLocations", typeof(Medical.BorderLayoutLocations));
-            renamedTypeMap.addRenamedType("Medical.MDILayoutElementName", typeof(Medical.MDILayoutElementName));
+            renamedTypeMap.addRenamedType("Medical.Controller.AnomalousMvc.ViewLocations", typeof(ViewLocations));
+            renamedTypeMap.addRenamedType("Medical.WindowAlignment", typeof(WindowAlignment));
+            renamedTypeMap.addRenamedType("Medical.LayoutElementName", typeof(LayoutElementName));
+            renamedTypeMap.addRenamedType("Medical.BorderLayoutElementName", typeof(BorderLayoutElementName));
+            renamedTypeMap.addRenamedType("Medical.BorderLayoutLocations", typeof(BorderLayoutLocations));
+            renamedTypeMap.addRenamedType("Medical.MDILayoutElementName", typeof(MDILayoutElementName));
         }
     }
 }

@@ -6,7 +6,7 @@ using Engine;
 using Engine.Platform;
 using MyGUIPlugin;
 
-namespace Medical.Controller
+namespace Anomalous.GuiFramework
 {
     public enum DockLocation
     {

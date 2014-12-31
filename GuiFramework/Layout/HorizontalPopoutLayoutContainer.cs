@@ -6,7 +6,7 @@ using Engine;
 using Engine.Platform;
 using Logging;
 
-namespace Medical
+namespace Anomalous.GuiFramework
 {
     public delegate void AnimationCompletedDelegate(LayoutContainer oldChild);
 

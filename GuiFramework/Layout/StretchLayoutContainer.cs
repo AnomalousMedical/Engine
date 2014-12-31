@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine;
 
-namespace Medical
+namespace Anomalous.GuiFramework
 {
     /// <summary>
     /// This is very similar to flow layout, but it will stretch all the children along the secondary axis.

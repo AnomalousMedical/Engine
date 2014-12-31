@@ -5,7 +5,7 @@ using System.Text;
 using MyGUIPlugin;
 using Engine;
 
-namespace Medical.Controller
+namespace Anomalous.GuiFramework
 {
     internal delegate void MDIMouseEvent(MDIWindow source, float mouseX, float mouseY);
 

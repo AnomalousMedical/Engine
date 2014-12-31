@@ -5,7 +5,7 @@ using System.Text;
 using MyGUIPlugin;
 using Engine;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework
 {
     public enum TaskbarAlignment
     {
@@ -30,7 +30,7 @@ namespace Medical.GUI
         protected Widget taskbarWidget;
         protected int taskbarButtonWidth = ScaleHelper.Scaled(48);
 
-        public Taskbar(String layout = "GuiFramework.GUI.Taskbar.Taskbar.layout")
+        public Taskbar(String layout = "Anomalous.GuiFramework.GUI.Taskbar.Taskbar.layout")
         {
             itemSize = new IntSize2(taskbarButtonWidth, taskbarButtonWidth);
 
