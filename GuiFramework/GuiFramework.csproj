@@ -30,10 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OSPlatform, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Release\OSPlatform.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -151,6 +147,10 @@
     <ProjectReference Include="..\MyGUIPlugin\MyGUIPlugin.csproj">
       <Project>{02d4da85-fd6c-421f-81c3-8f58f790bc81}</Project>
       <Name>MyGUIPlugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OSPlatform\OSPlatform.csproj">
+      <Project>{6e594c78-9cd8-432d-a135-11c4a72f3bcf}</Project>
+      <Name>OSPlatform</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
