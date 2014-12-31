@@ -195,13 +195,13 @@ namespace Anomalous.GuiFramework
             }
         }
 
-        public void saveUI(ConfigFile configFile)
+        public void saveUI(ConfigFile configFile, Version version)
         {
             //Dialogs
             if (saveWindowsOnExit)
             {
                 ConfigSection infoSection = configFile.createOrRetrieveConfigSection(INFO_SECTION);
-                infoSection.setValue(INFO_VERSION, this.GetType().Assembly.GetName().Version.ToString());
+                infoSection.setValue(INFO_VERSION, version.ToString());
                 infoSection.setValue(INFO_UISCALE, ScaleHelper.ScaleFactor);
                 if (SaveUIConfiguration != null)
                 {
