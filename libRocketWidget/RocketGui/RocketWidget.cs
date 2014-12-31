@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using MyGUIPlugin;
 using OgreWrapper;
+using OgrePlugin;
 using libRocketPlugin;
 using Engine;
 using Engine.Platform;

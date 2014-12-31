@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Anomalous.libRocketWidget
+namespace OgrePlugin
 {
     public static class FreeImageBitmapExtensions
     {
