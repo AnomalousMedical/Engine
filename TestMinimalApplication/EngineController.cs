@@ -155,7 +155,7 @@ namespace Anomalous.Minimus
 
             //Initialize controllers
             medicalScene = new SceneController(pluginManager);
-            frameClearManager = new FrameClearManager(OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget);
+            frameClearManager = new FrameClearManager(OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget, Color.Blue);
 
             SoundConfig.initialize(CoreConfig.ConfigFile);
         }

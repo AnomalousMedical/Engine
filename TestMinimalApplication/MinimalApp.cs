@@ -2,9 +2,11 @@
 using Anomalous.GuiFramework.Cameras;
 using Anomalous.OSPlatform;
 using Engine;
+using Engine.ObjectManagement;
 using Engine.Platform;
 using Logging;
 using MyGUIPlugin;
+using OgrePlugin;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -26,6 +28,7 @@ namespace Anomalous.Minimus
         private GUIManager guiManager;
         private MDILayoutManager mdiLayout;
         private SceneViewController sceneViewController;
+        private SimScene scene;
 
         //Taskbar
         private AppButtonTaskbar taskbar;
@@ -41,6 +44,9 @@ namespace Anomalous.Minimus
 
         public override void Dispose()
         {
+            sceneViewController.destroyCameras();
+            scene.Dispose();
+
             IDisposableUtil.DisposeIfNotNull(taskbar);
             IDisposableUtil.DisposeIfNotNull(taskMenu);
 
@@ -125,6 +131,19 @@ namespace Anomalous.Minimus
                 {
                     this.exit();
                 }));
+
+            //Create scene
+            //Create a simple scene to use to show the models
+            SimSceneDefinition sceneDefiniton = new SimSceneDefinition();
+            OgreSceneManagerDefinition ogreScene = new OgreSceneManagerDefinition("Ogre");
+            SimSubSceneDefinition mainSubScene = new SimSubSceneDefinition("Main");
+            sceneDefiniton.addSimElementManagerDefinition(ogreScene);
+            sceneDefiniton.addSimSubSceneDefinition(mainSubScene);
+            mainSubScene.addBinding(ogreScene);
+            sceneDefiniton.DefaultSubScene = "Main";
+
+            scene = sceneDefiniton.createScene();
+            sceneViewController.createCameras(scene);
 
             return true;
         }
