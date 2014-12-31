@@ -40,6 +40,8 @@
     <Compile Include="Background\ViewportBackground.cs" />
     <Compile Include="Camera\CameraMover.cs" />
     <Compile Include="Camera\OrbitCameraController.cs" />
+    <Compile Include="GUI\SceneStats\SceneStatsDisplay.cs" />
+    <Compile Include="GUI\SceneStats\SceneStatsDisplayManager.cs" />
     <Compile Include="Plugin\CamerasEntryPoint.cs" />
     <Compile Include="Plugin\CamerasInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -75,6 +77,9 @@
       <Project>{6e594c78-9cd8-432d-a135-11c4a72f3bcf}</Project>
       <Name>OSPlatform</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="GUI\SceneStats\SceneStatsDisplay.layout" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
