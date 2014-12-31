@@ -5,7 +5,7 @@ using System.Text;
 using Logging;
 using System.Runtime.InteropServices;
 
-namespace OgreWrapper
+namespace OgrePlugin
 {
     enum LogMessageLevel
     {

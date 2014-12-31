@@ -2,7 +2,6 @@
 using Engine.Renderer;
 using MyGUIPlugin;
 using OgrePlugin;
-using OgreWrapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +17,7 @@ namespace Anomalous.GuiFramework.Cameras
         private RenderTexture renderTexture;
         private RendererWindow rendererWindow;
 
-        private OgreWrapper.PixelFormat ogreTextureFormat = OgreWrapper.PixelFormat.PF_A8R8G8B8;
+        private OgrePlugin.PixelFormat ogreTextureFormat = OgrePlugin.PixelFormat.PF_A8R8G8B8;
 
         private bool renderOneFrame = false;
         private bool alwaysRender = true;

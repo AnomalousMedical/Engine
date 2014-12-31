@@ -6,7 +6,7 @@ using System.Diagnostics;
 using Logging;
 using System.Runtime.InteropServices;
 
-namespace OgreWrapper
+namespace OgrePlugin
 {
     /// <summary>
     /// This delegate can be passed to any native function that returns a Ogre::SharedPtr to make it get processsed by the collection.

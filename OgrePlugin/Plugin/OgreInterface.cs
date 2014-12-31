@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Engine;
-using OgreWrapper;
 using Engine.Renderer;
 using Logging;
 using Engine.Platform;
@@ -188,7 +187,8 @@ namespace OgrePlugin
 
         public void setupRenamedSaveableTypes(RenamedTypeMap renamedTypeMap)
         {
-
+            renamedTypeMap.addRenamedType("OgreWrapper.SceneType", typeof(SceneType));
+            renamedTypeMap.addRenamedType("OgreWrapper.ShadowTechnique", typeof(ShadowTechnique));
         }
 
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)

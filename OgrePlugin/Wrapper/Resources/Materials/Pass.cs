@@ -5,7 +5,7 @@ using System.Text;
 using Engine;
 using System.Runtime.InteropServices;
 
-namespace OgreWrapper
+namespace OgrePlugin
 {
     public enum TrackVertexColorEnum 
     {

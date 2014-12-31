@@ -5,7 +5,6 @@ using System.Text;
 using Engine.ObjectManagement;
 using Engine.Editing;
 using Logging;
-using OgreWrapper;
 using Engine.Saving;
 using Engine.Reflection;
 using Engine;

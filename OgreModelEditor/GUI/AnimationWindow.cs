@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
-using OgreWrapper;
+using OgrePlugin;
 using Engine.Platform;
 
 namespace OgreModelEditor

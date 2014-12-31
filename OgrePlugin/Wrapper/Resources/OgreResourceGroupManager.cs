@@ -5,7 +5,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using Engine.Attributes;
 
-namespace OgreWrapper
+namespace OgrePlugin
 {
     public delegate void ResourcesInitialized();
 

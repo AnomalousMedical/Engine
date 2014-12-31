@@ -13,7 +13,6 @@ using Engine.Renderer;
 using Engine.ObjectManagement;
 using Engine.Resources;
 using System.IO;
-using OgreWrapper;
 using Engine.Saving.XMLSaver;
 using System.Xml;
 using OgreModelEditor.Controller;

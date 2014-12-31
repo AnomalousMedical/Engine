@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using Engine.Attributes;
 using Logging;
 
-namespace OgreWrapper
+namespace OgrePlugin
 {
     [NativeSubsystemType]
     public class SceneManager : IDisposable

@@ -6,7 +6,7 @@ using Engine.Platform;
 using Engine;
 using Logging;
 using MyGUIPlugin;
-using OgreWrapper;
+using OgrePlugin;
 
 namespace Anomalous.GuiFramework.Cameras
 {

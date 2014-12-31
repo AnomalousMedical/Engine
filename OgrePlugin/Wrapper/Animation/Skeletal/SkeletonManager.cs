@@ -5,7 +5,7 @@ using System.Text;
 using Engine.Attributes;
 using System.Runtime.InteropServices;
 
-namespace OgreWrapper
+namespace OgrePlugin
 {
     [NativeSubsystemType]
     public class SkeletonManager : IDisposable

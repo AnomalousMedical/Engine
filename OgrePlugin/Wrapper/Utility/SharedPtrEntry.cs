@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace OgreWrapper
+namespace OgrePlugin
 {
     /// <summary>
     /// The SharedPtrEntry class holds the managed wrapper instance for a native

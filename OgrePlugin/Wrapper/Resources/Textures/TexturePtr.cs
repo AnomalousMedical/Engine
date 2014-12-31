@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine.Attributes;
 
-namespace OgreWrapper
+namespace OgrePlugin
 {
     [NativeSubsystemType]
     public class TexturePtr : IDisposable

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine;
 using Engine.Platform;
-using OgreWrapper;
+using OgrePlugin;
 
 namespace Anomalous.GuiFramework.Cameras
 {

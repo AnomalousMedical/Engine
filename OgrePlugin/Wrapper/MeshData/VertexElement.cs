@@ -6,7 +6,7 @@ using Engine.Attributes;
 using Engine;
 using System.Runtime.InteropServices;
 
-namespace OgreWrapper
+namespace OgrePlugin
 {
     /// <summary>
     /// Vertex element semantics, used to identify the meaning of vertex buffer contents

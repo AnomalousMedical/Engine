@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using Engine;
 
-namespace OgreWrapper
+namespace OgrePlugin
 {
     class OgreEngineArchive : OgreManagedArchive
     {

@@ -6,7 +6,7 @@ using Engine.Attributes;
 using Engine;
 using System.Runtime.InteropServices;
 
-namespace OgreWrapper
+namespace OgrePlugin
 {
     /// <summary>
     /// Comparison functions used for the depth/stencil buffer operations and others. 

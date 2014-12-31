@@ -2,7 +2,7 @@
 using Engine.Platform;
 using libRocketPlugin;
 using MyGUIPlugin;
-using OgreWrapper;
+using OgrePlugin;
 using System;
 using System.Collections.Generic;
 using System.Linq;

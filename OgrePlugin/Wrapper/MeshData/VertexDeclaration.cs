@@ -5,7 +5,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using Engine;
 
-namespace OgreWrapper
+namespace OgrePlugin
 {
     public class VertexDeclaration : IDisposable
     {

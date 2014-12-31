@@ -1,7 +1,6 @@
 ﻿using Engine;
 using MyGUIPlugin;
 using OgrePlugin;
-using OgreWrapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;

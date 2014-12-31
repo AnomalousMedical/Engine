@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MyGUIPlugin;
-using OgreWrapper;
 using OgrePlugin;
 using libRocketPlugin;
 using Engine;
@@ -32,7 +31,7 @@ namespace Anomalous.libRocketWidget
         private String textureName;
         private String name;
         private byte textureRenameIndex = 0;
-        private OgreWrapper.PixelFormat ogreTextureFormat = OgreWrapper.PixelFormat.PF_X8R8G8B8;
+        private OgrePlugin.PixelFormat ogreTextureFormat = OgrePlugin.PixelFormat.PF_X8R8G8B8;
 
         private RocketRenderQueueListener renderQueueListener;
         private Context context;
@@ -53,7 +52,7 @@ namespace Anomalous.libRocketWidget
             this.imageBox = imageBox;
             if (transparent)
             {
-                ogreTextureFormat = OgreWrapper.PixelFormat.PF_A8R8G8B8;
+                ogreTextureFormat = OgrePlugin.PixelFormat.PF_A8R8G8B8;
             }
             this.name = RocketWidgetManager.generateRocketWidgetName(this);
             generateTextureName();

@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using Engine.Attributes;
 using Engine;
 
-namespace OgreWrapper
+namespace OgrePlugin
 {
     /// <summary>
     /// Enum of possible movement types.

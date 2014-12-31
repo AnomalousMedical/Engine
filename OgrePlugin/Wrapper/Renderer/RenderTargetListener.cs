@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OgreWrapper
+namespace OgrePlugin
 {
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void RenderTargetEventDelegate();

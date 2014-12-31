@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Engine.ObjectManagement;
 using Engine.Editing;
-using OgreWrapper;
 using Engine.Reflection;
 using Engine.Saving;
 
@@ -54,7 +53,7 @@ namespace OgrePlugin
         {
             this.name = name;
             SceneTypeMask = SceneType.ST_GENERIC;
-            ShadowTechnique = OgreWrapper.ShadowTechnique.SHADOWTYPE_NONE;
+            ShadowTechnique = OgrePlugin.ShadowTechnique.SHADOWTYPE_NONE;
             this.ogreRoot = Root.getSingleton();
         }
 
@@ -151,7 +150,7 @@ namespace OgrePlugin
         {
             name = info.GetString(NAME);
             SceneTypeMask = info.GetValue<SceneType>(SCENE_TYPE);
-            ShadowTechnique = info.GetValue<ShadowTechnique>(SHADOW_TECHNIQUE, OgreWrapper.ShadowTechnique.SHADOWTYPE_NONE);
+            ShadowTechnique = info.GetValue<ShadowTechnique>(SHADOW_TECHNIQUE, OgrePlugin.ShadowTechnique.SHADOWTYPE_NONE);
             ogreRoot = Root.getSingleton();
         }
 

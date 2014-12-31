@@ -6,7 +6,7 @@ using Engine;
 using Engine.Attributes;
 using System.Runtime.InteropServices;
 
-namespace OgreWrapper
+namespace OgrePlugin
 {
     [SingleEnum]
     public enum PolygonMode : uint

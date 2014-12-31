@@ -6,7 +6,7 @@ using Engine.Attributes;
 using Engine;
 using System.Runtime.InteropServices;
 
-namespace OgreWrapper
+namespace OgrePlugin
 {
     [NativeSubsystemType]
     public abstract class Node : IDisposable

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace OgreWrapper
+namespace OgrePlugin
 {
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     internal delegate void SetConfigInfo(IntPtr name, IntPtr currentValue, bool immutable);

@@ -5,7 +5,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.IO;
 
-namespace OgreWrapper
+namespace OgrePlugin
 {
     public abstract class OgreManagedArchive : IDisposable
     {

@@ -1,6 +1,5 @@
 ﻿using Engine;
 using Engine.ObjectManagement;
-using OgreWrapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;

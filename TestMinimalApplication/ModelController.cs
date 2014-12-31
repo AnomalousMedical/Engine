@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Engine.ObjectManagement;
 using OgrePlugin;
-using OgreWrapper;
 using Engine;
 using Logging;
 using System.Diagnostics;

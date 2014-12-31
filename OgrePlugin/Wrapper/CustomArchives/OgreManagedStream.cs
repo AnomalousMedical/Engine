@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace OgreWrapper
+namespace OgrePlugin
 {
     /// <summary>
     /// This class exposes a managed stream through PInvoke to Ogre. This class

@@ -7,7 +7,7 @@ using Engine;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace OgreWrapper
+namespace OgrePlugin
 {
     class EmbeddedFileInfo
     {

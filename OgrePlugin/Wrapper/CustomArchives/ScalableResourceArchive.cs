@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace OgreWrapper
+namespace OgrePlugin
 {
     class ScalableResourceArchive : OgreManagedArchive
     {

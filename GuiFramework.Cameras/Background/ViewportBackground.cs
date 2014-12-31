@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OgreWrapper;
 using Engine;
 using Logging;
 using OgrePlugin;

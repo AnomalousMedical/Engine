@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using Engine;
 using Engine.Attributes;
 
-namespace OgreWrapper
+namespace OgrePlugin
 {
     public enum FrameBufferType
     {

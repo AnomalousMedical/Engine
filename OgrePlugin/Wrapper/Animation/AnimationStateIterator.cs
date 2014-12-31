@@ -5,7 +5,7 @@ using System.Text;
 using System.Collections;
 using System.Runtime.InteropServices;
 
-namespace OgreWrapper
+namespace OgrePlugin
 {
     public class AnimationStateIterator : IEnumerator<AnimationState>, IEnumerable<AnimationState>
     {

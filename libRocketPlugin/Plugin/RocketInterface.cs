@@ -6,7 +6,7 @@ using Engine;
 using Engine.Platform;
 using System.Runtime.InteropServices;
 using OgrePlugin;
-using OgreWrapper;
+using OgrePlugin;
 using Engine.Resources;
 
 namespace libRocketPlugin

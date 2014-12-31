@@ -6,7 +6,7 @@ using System.Collections;
 using System.Runtime.InteropServices;
 using Engine;
 
-namespace OgreWrapper
+namespace OgrePlugin
 {
     /// <summary>
     /// This class will be filled out by the getRootBoneIterator and

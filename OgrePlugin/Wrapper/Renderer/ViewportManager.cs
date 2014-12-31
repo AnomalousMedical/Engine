@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine;
 
-namespace OgreWrapper
+namespace OgrePlugin
 {
     /// <summary>
     /// This class manages all viewport wrappers created by the system.

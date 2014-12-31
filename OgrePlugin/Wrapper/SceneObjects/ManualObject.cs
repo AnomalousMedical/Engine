@@ -6,7 +6,7 @@ using Engine.Attributes;
 using System.Runtime.InteropServices;
 using Engine;
 
-namespace OgreWrapper
+namespace OgrePlugin
 {
     [SingleEnum]
     public enum OperationType : int

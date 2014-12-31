@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OgreWrapper;
+using OgrePlugin;
 using System.Runtime.InteropServices;
 
 namespace MyGUIPlugin

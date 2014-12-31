@@ -7,7 +7,6 @@ using Engine.Platform;
 using Engine.ObjectManagement;
 using Engine.Renderer;
 using Logging;
-using OgreWrapper;
 using OgrePlugin;
 using MyGUIPlugin;
 using Anomalous.GuiFramework;

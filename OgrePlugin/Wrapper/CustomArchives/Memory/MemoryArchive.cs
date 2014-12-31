@@ -6,7 +6,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using Logging;
 
-namespace OgreWrapper
+namespace OgrePlugin
 {
     class MemoryStreamInfo : IDisposable
     {
