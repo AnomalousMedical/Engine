@@ -26,7 +26,9 @@ namespace Anomalous.GuiFramework.Cameras
 
         public static TouchType TouchType { get; set; }
 
-        public static ITransparencyController TransparencyController { get; set; }
+        public static event SceneViewWindowEvent WindowCreated;
+
+        public static event SceneViewWindowEvent WindowDestroyed;
 
         static CamerasInterface()
         {
@@ -34,6 +36,22 @@ namespace Anomalous.GuiFramework.Cameras
             PanKey = KeyboardButtonCode.KC_LCONTROL;
             DefaultCameraButton = MouseButtonCode.MB_BUTTON1;
             TouchType = TouchType.None;
+        }
+
+        internal static void fireWindowCreated(SceneViewWindow window)
+        {
+            if(WindowCreated != null)
+            {
+                WindowCreated.Invoke(window);
+            }
+        }
+
+        internal static void fireWindowDestroyed(SceneViewWindow window)
+        {
+            if (WindowDestroyed != null)
+            {
+                WindowDestroyed.Invoke(window);
+            }
         }
 
         internal CamerasInterface()

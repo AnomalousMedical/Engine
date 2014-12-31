@@ -53,7 +53,6 @@
     <Compile Include="SceneViews\SingleViewCloneWindow.cs" />
     <Compile Include="SceneViews\TextureSceneView.cs" />
     <Compile Include="SceneViews\TextureSceneViewPool.cs" />
-    <Compile Include="Transparency\ITransparencyController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">

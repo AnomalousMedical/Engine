@@ -21,6 +21,7 @@ namespace Anomalous.GuiFramework.Cameras
     {
         public event SceneViewWindowEvent CameraCreated;
         public event SceneViewWindowEvent CameraDestroyed;
+        public event SceneViewWindowEvent MadeActive;
         public event SceneViewWindowRenderEvent RenderingStarted;
         public event SceneViewWindowRenderEvent RenderingEnded;
         public event SceneViewWindowResizedEvent Resized;
@@ -80,7 +81,7 @@ namespace Anomalous.GuiFramework.Cameras
             this.startPosition = cameraMover.Translation;
             this.startLookAt = cameraMover.LookAt;
             transparencyStateName = name;
-            CamerasInterface.TransparencyController.createTransparencyState(transparencyStateName);
+            CamerasInterface.fireWindowCreated(this);
             NearPlaneWorldPos = 200;
             FarPlaneWorldPos = -200;
         }
@@ -99,7 +100,7 @@ namespace Anomalous.GuiFramework.Cameras
         {
             IDisposableUtil.DisposeIfNotNull(vpBackground);
             cameraMover.Dispose();
-            CamerasInterface.TransparencyController.removeTransparencyState(transparencyStateName);
+            CamerasInterface.fireWindowDestroyed(this);
             destroyBorderPanels();
             if (Disposed != null)
             {
@@ -777,6 +778,14 @@ namespace Anomalous.GuiFramework.Cameras
             }
         }
 
+        protected void fireMadeActive()
+        {
+            if(MadeActive != null)
+            {
+                MadeActive.Invoke(this);
+            }
+        }
+
         void sceneView_RenderingEnded(SceneView sceneView)
         {
             if (RenderingEnded != null)
@@ -787,7 +796,6 @@ namespace Anomalous.GuiFramework.Cameras
 
         void sceneView_RenderingStarted(SceneView sceneView)
         {
-            CamerasInterface.TransparencyController.applyTransparencyState(CurrentTransparencyState);
             if (RenderingStarted != null)
             {
                 RenderingStarted.Invoke(this, sceneView.CurrentlyRendering);

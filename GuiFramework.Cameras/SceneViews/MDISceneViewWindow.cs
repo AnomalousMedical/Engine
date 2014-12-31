@@ -109,7 +109,7 @@ namespace Anomalous.GuiFramework.Cameras
         {
             if (mdiWindow.Active)
             {
-                CamerasInterface.TransparencyController.ActiveTransparencyState = CurrentTransparencyState;
+                fireMadeActive();
             }
         }
 
