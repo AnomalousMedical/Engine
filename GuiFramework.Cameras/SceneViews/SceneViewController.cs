@@ -67,7 +67,33 @@ namespace Anomalous.GuiFramework.Cameras
 
         public MDISceneViewWindow createWindow(String name, Vector3 translation, Vector3 lookAt, Vector3 boundMin, Vector3 boundMax, float minOrbitDistance, float maxOrbitDistance, int zIndexStart, MDISceneViewWindow previous = null, WindowAlignment alignment = WindowAlignment.Left)
         {
-            MDISceneViewWindow window = doCreateWindow(name, translation, lookAt, boundMin, boundMax, minOrbitDistance, maxOrbitDistance, zIndexStart);
+            OrbitCameraController orbitCamera = new OrbitCameraController(translation, lookAt, boundMin, boundMax, minOrbitDistance, maxOrbitDistance);
+            orbitCamera.AllowRotation = AllowRotation;
+            orbitCamera.AllowZoom = AllowZoom;
+            orbitCamera.setUpdateTimer(mainTimer);
+            MDISceneViewWindow window = new MDISceneViewWindow(rendererWindow, this, orbitCamera, name, background, zIndexStart);
+            window.AutoAspectRatio = autoAspectRatio;
+            window.AspectRatio = aspectRatio;
+            if (WindowCreated != null)
+            {
+                WindowCreated.Invoke(window);
+            }
+            if (camerasCreated)
+            {
+                window.createSceneView(currentScene);
+            }
+            //Count is 0, disable close button on first window
+            if (mdiWindows.Count == 0)
+            {
+                window.AllowClose = false;
+            }
+            //Count is 1, enable the close button on the first window
+            if (mdiWindows.Count == 1)
+            {
+                mdiWindows[0].AllowClose = true;
+            }
+            mdiWindows.Add(window);
+
             if (previous != null)
             {
                 mdiLayout.showWindow(window._getMDIWindow(), previous._getMDIWindow(), alignment);
@@ -368,44 +394,6 @@ namespace Anomalous.GuiFramework.Cameras
             {
                 ActiveWindow = mdiWindows.FirstOrDefault();
             }
-        }
-
-        /// <summary>
-        /// This method will create the actual window.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="translation"></param>
-        /// <param name="lookAt"></param>
-        /// <returns></returns>
-        private MDISceneViewWindow doCreateWindow(String name, Vector3 translation, Vector3 lookAt, Vector3 boundMin, Vector3 boundMax, float minOrbitDistance, float maxOrbitDistance, int zIndexStart)
-        {
-            OrbitCameraController orbitCamera = new OrbitCameraController(translation, lookAt, boundMin, boundMax, minOrbitDistance, maxOrbitDistance);
-            orbitCamera.AllowRotation = AllowRotation;
-            orbitCamera.AllowZoom = AllowZoom;
-            orbitCamera.setUpdateTimer(mainTimer);
-            MDISceneViewWindow window = new MDISceneViewWindow(rendererWindow, this, orbitCamera, name, background, zIndexStart);
-            window.AutoAspectRatio = autoAspectRatio;
-            window.AspectRatio = aspectRatio;
-            if (WindowCreated != null)
-            {
-                WindowCreated.Invoke(window);
-            }
-            if (camerasCreated)
-            {
-                window.createSceneView(currentScene);
-            }
-            //Count is 0, disable close button on first window
-            if (mdiWindows.Count == 0)
-            {
-                window.AllowClose = false;
-            }
-            //Count is 1, enable the close button on the first window
-            if (mdiWindows.Count == 1)
-            {
-                mdiWindows[0].AllowClose = true;
-            }
-            mdiWindows.Add(window);
-            return window;
         }
     }
 }
