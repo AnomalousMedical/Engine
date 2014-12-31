@@ -15,7 +15,8 @@ namespace Anomalous.Minimus
 
         static PlatformConfig()
         {
-            switch (SystemInfo.RuntimeOS)
+            OsId = SystemInfo.RuntimeOS;
+            switch (OsId)
             {
                 case RuntimeOperatingSystem.Windows:
                     currentConfig = new WindowsPlatformConfig();
@@ -147,7 +148,7 @@ namespace Anomalous.Minimus
             }
         }
 
-        public static OperatingSystem OsId { get; private set; }
+        public static RuntimeOperatingSystem OsId { get; private set; }
 
         public static bool DefaultEnableMultitouch
         {
