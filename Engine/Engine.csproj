@@ -363,8 +363,10 @@
     <Compile Include="Utility\IdleHandler.cs" />
     <Compile Include="Utility\IEnumerableUtil.cs" />
     <Compile Include="Utility\LifecycleObjectPool.cs" />
+    <Compile Include="Utility\MemoryCache.cs" />
     <Compile Include="Utility\ObjectBuffer.cs" />
     <Compile Include="Utility\ObjectPool.cs" />
+    <Compile Include="Utility\OrderedDictionary.cs" />
     <Compile Include="Utility\Pair.cs" />
     <Compile Include="Utility\PooledObject.cs" />
     <Compile Include="Utility\PrettyNameAttribute.cs" />
