@@ -14,6 +14,9 @@ namespace OgreModelEditor
         private OgreModelEditorController controller;
         private FileTracker fileTracker = new FileTracker("*.mesh|*.mesh");
 
+        private MenuItem showSkeleton;
+        private MenuControl textureMenu;
+
         public OgreModelEditorMain(OgreModelEditorController controller)
             :base("OgreModelEditor.GUI.Main.OgreModelEditorMain.layout")
         {
@@ -23,8 +26,56 @@ namespace OgreModelEditor
             MenuBar menuBar = widget.findWidget("MenuBar") as MenuBar;
             MenuItem fileItem = menuBar.addItem("File", MenuItemType.Popup);
             MenuControl file = menuBar.createItemPopupMenuChild(fileItem);
+            MenuItem open = file.addItem("Open", MenuItemType.Normal);
+            open.MouseButtonClick += open_MouseButtonClick;
+            MenuItem save = file.addItem("Save", MenuItemType.Normal);
+            save.MouseButtonClick += save_MouseButtonClick;
+            MenuItem saveAs = file.addItem("Save As");
+            saveAs.MouseButtonClick += saveAs_MouseButtonClick;
+            MenuItem batchUpgrade = file.addItem("Batch Upgrade");
+            batchUpgrade.MouseButtonClick += batchUpgrade_MouseButtonClick;
+            MenuItem exportToJson = file.addItem("Export to JSON");
+            exportToJson.MouseButtonClick += exportToJson_MouseButtonClick;
             MenuItem exit = file.addItem("Exit", MenuItemType.Normal);
             exit.MouseButtonClick += exit_MouseButtonClick;
+
+            MenuItem resourcesItem = menuBar.addItem("Resources", MenuItemType.Popup);
+            MenuControl resources = menuBar.createItemPopupMenuChild(resourcesItem);
+            MenuItem reloadAll = resources.addItem("Reload All");
+            reloadAll.MouseButtonClick += reloadAll_MouseButtonClick;
+            MenuItem defineExternal = resources.addItem("Define External Resources");
+            defineExternal.MouseButtonClick += defineExternal_MouseButtonClick;
+
+            MenuItem debugItem = menuBar.addItem("Debug", MenuItemType.Popup);
+            MenuControl debug = menuBar.createItemPopupMenuChild(debugItem);
+            MenuItem viewShaded = debug.addItem("View Shaded");
+            viewShaded.MouseButtonClick += viewShaded_MouseButtonClick;
+            MenuItem viewBinormals = debug.addItem("View Binormals");
+            viewBinormals.MouseButtonClick += viewBinormals_MouseButtonClick;
+            MenuItem viewTangents = debug.addItem("View Tangents");
+            viewTangents.MouseButtonClick += viewTangents_MouseButtonClick;
+            MenuItem viewNormals = debug.addItem("View Normals");
+            viewNormals.MouseButtonClick += viewNormals_MouseButtonClick;
+            MenuItem viewTexture = debug.addItem("View Texture", MenuItemType.Popup);
+            textureMenu = debug.createItemPopupMenuChild(viewTexture);
+            //viewTexture.MouseButtonClick += viewTexture_MouseButtonClick;
+            showSkeleton = debug.addItem("Show Skeleton");
+            showSkeleton.MouseButtonClick += showSkeleton_MouseButtonClick;
+
+            //Buttons
+            ButtonGroup toolButtons = new ButtonGroup();
+            Button none = widget.findWidget("None") as Button;
+            none.MouseButtonClick += none_MouseButtonClick;
+            toolButtons.addButton(none);
+
+            Button move = widget.findWidget("Move") as Button;
+            move.MouseButtonClick += move_MouseButtonClick;
+            toolButtons.addButton(move);
+
+            Button rotate = widget.findWidget("Rotate") as Button;
+            rotate.MouseButtonClick += rotate_MouseButtonClick;
+            toolButtons.addButton(rotate);
+            
         }
 
         void exit_MouseButtonClick(Widget source, EventArgs e)
@@ -40,61 +91,61 @@ namespace OgreModelEditor
             //updateWindowTitle(fileTracker.getCurrentFile());
         }
 
-        //private void openToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    fileTracker.openFile(this);
-        //    if (fileTracker.lastDialogAccepted())
-        //    {
-        //        controller.openModel(fileTracker.getCurrentFile());
-        //    }
-        //}
+        void open_MouseButtonClick(Widget source, EventArgs e)
+        {
+            //    fileTracker.openFile(this);
+            //    if (fileTracker.lastDialogAccepted())
+            //    {
+            //        controller.openModel(fileTracker.getCurrentFile());
+            //    }
+        }
 
-        //private void saveModelToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    fileTracker.saveFile(this);
-        //    if (fileTracker.lastDialogAccepted())
-        //    {
-        //        controller.saveModel(fileTracker.getCurrentFile());
-        //        updateWindowTitle(fileTracker.getCurrentFile());
-        //    }
-        //}
+        void save_MouseButtonClick(Widget source, EventArgs e)
+        {
+            //    fileTracker.saveFile(this);
+            //    if (fileTracker.lastDialogAccepted())
+            //    {
+            //        controller.saveModel(fileTracker.getCurrentFile());
+            //        updateWindowTitle(fileTracker.getCurrentFile());
+            //    }
+        }
 
-        //private void saveModelAsToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    fileTracker.saveFileAs(this);
-        //    if (fileTracker.lastDialogAccepted())
-        //    {
-        //        controller.saveModel(fileTracker.getCurrentFile());
-        //        updateWindowTitle(fileTracker.getCurrentFile());
-        //    }
-        //}
+        void saveAs_MouseButtonClick(Widget source, EventArgs e)
+        {
+            //    fileTracker.saveFileAs(this);
+            //    if (fileTracker.lastDialogAccepted())
+            //    {
+            //        controller.saveModel(fileTracker.getCurrentFile());
+            //        updateWindowTitle(fileTracker.getCurrentFile());
+            //    }
+        }
 
-        private void defineExternalResourcesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void defineExternal_MouseButtonClick(Widget source, EventArgs e)
         {
             controller.editExternalResources();
         }
 
-        private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
+        private void reloadAll_MouseButtonClick(Widget source, EventArgs e)
         {
             controller.refreshResources();
         }
 
-        private void binormalViewToolStripMenuItem_Click(object sender, EventArgs e)
+        private void viewBinormals_MouseButtonClick(Widget source, EventArgs e)
         {
             controller.setBinormalDebug();
         }
 
-        private void tangentViewToolStripMenuItem_Click(object sender, EventArgs e)
+        private void viewTangents_MouseButtonClick(Widget source, EventArgs e)
         {
             controller.setTangentDebug();
         }
 
-        private void normalViewToolStripMenuItem_Click(object sender, EventArgs e)
+        private void viewNormals_MouseButtonClick(Widget source, EventArgs e)
         {
             controller.setNormalDebug();
         }
 
-        private void modelViewToolStripMenuItem_Click(object sender, EventArgs e)
+        private void viewShaded_MouseButtonClick(Widget source, EventArgs e)
         {
             controller.setNormalMaterial();
         }
@@ -107,21 +158,21 @@ namespace OgreModelEditor
 
         public void setTextureNames(IEnumerable<String> textureNames)
         {
-            //viewTextureToolStripMenuItem.DropDownItems.Clear();
-            //foreach (String texName in textureNames)
-            //{
-            //    ToolStripMenuItem item = new ToolStripMenuItem(texName, null, textureNameClicked);
-            //    viewTextureToolStripMenuItem.DropDownItems.Add(item);
-            //}
+            textureMenu.removeAllItems();
+            foreach (String texName in textureNames)
+            {
+                MenuItem item = textureMenu.addItem(texName, MenuItemType.Normal);
+                item.MouseButtonClick += textureItem_MouseButtonClick;
+            }
         }
 
-        private void textureNameClicked(Object sender, EventArgs e)
+        void textureItem_MouseButtonClick(Widget source, EventArgs e)
         {
-            //ToolStripMenuItem toolItem = sender as ToolStripMenuItem;
-            //if (toolItem != null)
-            //{
-            //    controller.setTextureDebug(toolItem.Text);
-            //}
+            MenuItem toolItem = source as MenuItem;
+            if (toolItem != null)
+            {
+                controller.setTextureDebug(toolItem.Caption);
+            }
         }
 
         //protected override void OnKeyDown(KeyEventArgs e)
@@ -175,28 +226,19 @@ namespace OgreModelEditor
             //controller.showStats(showStatsToolStripMenuItem.Checked);
         }
 
-        private void selectButton_Click(object sender, EventArgs e)
+        void none_MouseButtonClick(Widget source, EventArgs e)
         {
-            //controller.enableSelectTool();
-            //moveButton.Checked = false;
-            //rotateButton.Checked = false;
-            //selectButton.Checked = true;
+            controller.enableSelectTool();
         }
 
-        private void moveButton_Click(object sender, EventArgs e)
+        void rotate_MouseButtonClick(Widget source, EventArgs e)
         {
-            //controller.enableMoveTool();
-            //moveButton.Checked = true;
-            //rotateButton.Checked = false;
-            //selectButton.Checked = false;
+            controller.enableRotateTool();
         }
 
-        private void rotateButton_Click(object sender, EventArgs e)
+        void move_MouseButtonClick(Widget source, EventArgs e)
         {
-            //controller.enableRotateTool();
-            //moveButton.Checked = false;
-            //rotateButton.Checked = true;
-            //selectButton.Checked = false;
+            controller.enableMoveTool();
         }
 
         //protected override void OnDragEnter(DragEventArgs drgevent)
@@ -231,13 +273,13 @@ namespace OgreModelEditor
         //    }
         //}
 
-        private void showSkeletonToolStripMenuItem_Click(object sender, EventArgs e)
+        private void showSkeleton_MouseButtonClick(Widget source, EventArgs e)
         {
-            //showSkeletonToolStripMenuItem.Checked = !showSkeletonToolStripMenuItem.Checked;
-            //controller.setShowSkeleton(showSkeletonToolStripMenuItem.Checked);
+            showSkeleton.Selected = !showSkeleton.Selected;
+            controller.setShowSkeleton(showSkeleton.Selected);
         }
 
-        private void batchUpgradeToolStripMenuItem_Click(object sender, EventArgs e)
+        private void batchUpgrade_MouseButtonClick(Widget source, EventArgs e)
         {
             //using (FolderBrowserDialog folderBrowser = new FolderBrowserDialog())
             //{
@@ -249,7 +291,7 @@ namespace OgreModelEditor
             //}
         }
 
-        private void exportToJSONToolStripMenuItem_Click(object sender, EventArgs e)
+        private void exportToJson_MouseButtonClick(Widget source, EventArgs e)
         {
             //using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             //{
