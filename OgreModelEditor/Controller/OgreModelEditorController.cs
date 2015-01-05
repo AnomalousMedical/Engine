@@ -53,6 +53,7 @@ namespace OgreModelEditor
         private ModelController modelController;
         private SceneViewLightManager lightManager;
         private FrameClearManager frameClearManager;
+        private SceneStatsDisplayManager sceneStatsDisplayManager;
 
         //Scene
         private SimScene scene;
@@ -155,6 +156,7 @@ namespace OgreModelEditor
             pluginManager.addPluginAssembly(typeof(NativePlatformPlugin).Assembly);
             pluginManager.addPluginAssembly(typeof(MyGUIInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(GuiFrameworkInterface).Assembly);
+            pluginManager.addPluginAssembly(typeof(CamerasInterface).Assembly);
             pluginManager.initializePlugins();
             frameClearManager = new FrameClearManager(OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget, Color.Blue);
 
@@ -213,10 +215,17 @@ namespace OgreModelEditor
             toolManager.addTool(rotateTool);
 
             //Create the GUI
-            mainForm = new OgreModelEditorMain(this);
 
             //Layout Chain
             mdiLayout = new MDILayoutManager();
+
+            //Scene views
+            sceneViewController = new SceneViewController(mdiLayout, eventManager, mainTimer, pluginManager.RendererPlugin.PrimaryWindow, MyGUIInterface.Instance.OgrePlatform.getRenderManager(), null);
+            sceneStatsDisplayManager = new SceneStatsDisplayManager(sceneViewController, OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget);
+            sceneStatsDisplayManager.StatsVisible = true;
+            sceneViewController.createWindow("Camera 1", Vector3.Backward * 200, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
+
+            mainForm = new OgreModelEditorMain(this);
 
             LayoutChain layoutChain = new LayoutChain();
             layoutChain.addLink(new SingleChildChainLink(GUILocationNames.Taskbar, mainForm.LayoutContainer), true);
@@ -231,9 +240,6 @@ namespace OgreModelEditor
             guiManager.createGUI(mdiLayout, layoutChain, mainWindow);
 
             layoutChain.layout();
-
-            sceneViewController = new SceneViewController(mdiLayout, eventManager, mainTimer, pluginManager.RendererPlugin.PrimaryWindow, MyGUIInterface.Instance.OgrePlatform.getRenderManager(), null);
-            sceneViewController.createWindow("Camera 1", Vector3.Backward * 200, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
 
             //Create a simple scene to use to show the models
             SimSceneDefinition sceneDefiniton = new SimSceneDefinition();
@@ -357,11 +363,6 @@ namespace OgreModelEditor
             modelController.saveModelJSON(filename);
         }
 
-        public void showStats(bool show)
-        {
-            //drawingWindowController.showStats(show);
-        }
-
         public void createOneWindow()
         {
             //drawingWindowController.createOneWaySplit();
@@ -458,6 +459,18 @@ namespace OgreModelEditor
             get
             {
                 return mainTimer;
+            }
+        }
+
+        public bool ShowStats
+        {
+            get
+            {
+                return sceneStatsDisplayManager.StatsVisible;
+            }
+            set
+            {
+                sceneStatsDisplayManager.StatsVisible = value;
             }
         }
 

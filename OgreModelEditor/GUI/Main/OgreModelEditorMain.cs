@@ -16,6 +16,7 @@ namespace OgreModelEditor
 
         private MenuItem showSkeleton;
         private MenuControl textureMenu;
+        private MenuItem showStats;
 
         public OgreModelEditorMain(OgreModelEditorController controller)
             :base("OgreModelEditor.GUI.Main.OgreModelEditorMain.layout")
@@ -58,9 +59,29 @@ namespace OgreModelEditor
             viewNormals.MouseButtonClick += viewNormals_MouseButtonClick;
             MenuItem viewTexture = debug.addItem("View Texture", MenuItemType.Popup);
             textureMenu = debug.createItemPopupMenuChild(viewTexture);
-            //viewTexture.MouseButtonClick += viewTexture_MouseButtonClick;
             showSkeleton = debug.addItem("Show Skeleton");
             showSkeleton.MouseButtonClick += showSkeleton_MouseButtonClick;
+
+            MenuItem modelItem = menuBar.addItem("Model", MenuItemType.Popup);
+            MenuControl model = menuBar.createItemPopupMenuChild(modelItem);
+            MenuItem recalculateTangents = model.addItem("Recalculate Tangents");
+            recalculateTangents.MouseButtonClick += recalculateTangents_MouseButtonClick;
+
+            MenuItem windowItem = menuBar.addItem("Window", MenuItemType.Popup);
+            MenuControl window = menuBar.createItemPopupMenuChild(windowItem);
+            showStats = window.addItem("Show Stats");
+            showStats.MouseButtonClick += showStats_MouseButtonClick;
+            showStats.Selected = controller.ShowStats;
+            MenuItem layoutItem = window.addItem("Layout", MenuItemType.Popup);
+            MenuControl layout = window.createItemPopupMenuChild(layoutItem);
+            MenuItem oneWindow = layout.addItem("One Window");
+            oneWindow.MouseButtonClick += oneWindow_MouseButtonClick;
+            MenuItem twoWindow = layout.addItem("Two Window");
+            twoWindow.MouseButtonClick += twoWindow_MouseButtonClick;
+            MenuItem threeWindow = layout.addItem("Three Window");
+            threeWindow.MouseButtonClick += threeWindow_MouseButtonClick;
+            MenuItem fourWindow = layout.addItem("Four Window");
+            fourWindow.MouseButtonClick += fourWindow_MouseButtonClick;
 
             //Buttons
             ButtonGroup toolButtons = new ButtonGroup();
@@ -150,7 +171,7 @@ namespace OgreModelEditor
             controller.setNormalMaterial();
         }
 
-        private void recalculateToolStripMenuItem_Click(object sender, EventArgs e)
+        private void recalculateTangents_MouseButtonClick(Widget source, EventArgs e)
         {
             controller.buildTangentVectors();
             controller.buildBinormalVectors();
@@ -200,30 +221,29 @@ namespace OgreModelEditor
         //    }
         //}
 
-        private void oneWinToolStripMenuItem_Click(object sender, EventArgs e)
+        private void oneWindow_MouseButtonClick(Widget source, EventArgs e)
         {
             controller.createOneWindow();
         }
 
-        private void twoWindowsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void twoWindow_MouseButtonClick(Widget source, EventArgs e)
         {
             controller.createTwoWindows();
         }
 
-        private void threeWindowsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void threeWindow_MouseButtonClick(Widget source, EventArgs e)
         {
             controller.createThreeWindows();
         }
 
-        private void fourWindowsToolStripMenuItem_Click(object sender, EventArgs e)
+        void fourWindow_MouseButtonClick(Widget source, EventArgs e)
         {
             controller.createFourWindows();
         }
 
-        private void showStatsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void showStats_MouseButtonClick(Widget source, EventArgs e)
         {
-            //showStatsToolStripMenuItem.Checked = !showStatsToolStripMenuItem.Checked;
-            //controller.showStats(showStatsToolStripMenuItem.Checked);
+            controller.ShowStats = showStats.Selected = !showStats.Selected;
         }
 
         void none_MouseButtonClick(Widget source, EventArgs e)
