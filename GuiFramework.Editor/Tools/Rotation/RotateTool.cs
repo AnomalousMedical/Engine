@@ -6,7 +6,7 @@ using Engine;
 using Engine.Renderer;
 using Engine.Platform;
 
-namespace Medical
+namespace Anomalous.GuiFramework.Editor
 {
     public class RotateTool
     {

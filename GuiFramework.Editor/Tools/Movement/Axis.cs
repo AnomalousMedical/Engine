@@ -7,7 +7,7 @@ using Engine;
 using Engine.Renderer;
 using OgrePlugin;
 
-namespace Medical
+namespace Anomalous.GuiFramework.Editor
 {
     public class Axis
     {

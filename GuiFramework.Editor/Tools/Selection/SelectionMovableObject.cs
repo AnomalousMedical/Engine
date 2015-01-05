@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine;
 
-namespace Medical
+namespace Anomalous.GuiFramework.Editor
 {
     class SelectionMovableObject : MovableObject
     {

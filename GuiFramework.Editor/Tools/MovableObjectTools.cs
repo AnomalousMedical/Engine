@@ -6,7 +6,7 @@ using Engine;
 using Engine.Platform;
 using Engine.Renderer;
 
-namespace Medical
+namespace Anomalous.GuiFramework.Editor
 {
     public enum MovementPlane
     {

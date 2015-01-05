@@ -5,7 +5,7 @@ using System.Text;
 using Engine;
 using Engine.Renderer;
 
-namespace Medical
+namespace Anomalous.GuiFramework.Editor
 {
     class RotationAxis
     {

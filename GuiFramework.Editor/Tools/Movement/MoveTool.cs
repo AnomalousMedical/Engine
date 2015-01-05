@@ -7,7 +7,7 @@ using Engine.Renderer;
 using Engine.ObjectManagement;
 using Engine.Platform;
 
-namespace Medical
+namespace Anomalous.GuiFramework.Editor
 {
     class MoveTool
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine;
 
-namespace Medical
+namespace Anomalous.GuiFramework.Editor
 {
     /// <summary>
     /// This interface allows an object to be selected in the

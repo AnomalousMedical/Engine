@@ -9,7 +9,7 @@ using Engine.Platform;
 using Anomalous.GuiFramework.Cameras;
 using Anomalous.GuiFramework.Editor;
 
-namespace Medical
+namespace Anomalous.GuiFramework.Editor
 {
     public class SimObjectMover : IDisposable
     {

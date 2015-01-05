@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Medical
+namespace Anomalous.GuiFramework.Editor
 {
     /// <summary>
     /// This is a class that is dispatched with the SelectionChangedEvent to help figure
