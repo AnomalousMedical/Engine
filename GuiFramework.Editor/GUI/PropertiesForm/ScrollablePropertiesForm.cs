@@ -12,7 +12,7 @@ namespace Anomalous.GuiFramework.Editor
     {
         ScrollView scrollView;
 
-        public ScrollablePropertiesForm(ScrollView scrollView, MedicalUICallback uiCallback)
+        public ScrollablePropertiesForm(ScrollView scrollView, GuiFrameworkUICallback uiCallback)
             :base(scrollView, uiCallback)
         {
             this.scrollView = scrollView;

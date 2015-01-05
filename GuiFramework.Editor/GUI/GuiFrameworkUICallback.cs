@@ -8,11 +8,11 @@ using Logging;
 
 namespace Anomalous.GuiFramework.Editor
 {
-    public class MedicalUICallback : EditUICallback
+    public class GuiFrameworkUICallback : EditUICallback
     {
         private Dictionary<Object, Delegate> customQueries = new Dictionary<object, Delegate>();
 
-        public MedicalUICallback()
+        public GuiFrameworkUICallback()
         {
 
         }

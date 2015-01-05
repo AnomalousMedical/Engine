@@ -17,10 +17,10 @@ namespace Anomalous.GuiFramework.Editor
         private MyGUILayoutContainer layoutContainer;
         private EditInterfaceCommand command;
         private Button button;
-        private MedicalUICallback uiCallback;
+        private GuiFrameworkUICallback uiCallback;
         private EditInterface editInterface;
 
-        public PropertiesFormButton(EditInterface editInterface, EditInterfaceCommand command, MedicalUICallback uiCallback, Widget parent)
+        public PropertiesFormButton(EditInterface editInterface, EditInterfaceCommand command, GuiFrameworkUICallback uiCallback, Widget parent)
         {
             this.editInterface = editInterface;
             this.uiCallback = uiCallback;

@@ -12,9 +12,9 @@ namespace Anomalous.GuiFramework.Editor
         protected ExpandingNode rootNode;
         private EditInterface editInterface;
         private Widget parentWidget;
-        private MedicalUICallback uiCallback;
+        private GuiFrameworkUICallback uiCallback;
 
-        public ExpandingEditInterfaceViewer(Widget parentWidget, MedicalUICallback uiCallback)
+        public ExpandingEditInterfaceViewer(Widget parentWidget, GuiFrameworkUICallback uiCallback)
         {
             this.parentWidget = parentWidget;
             this.uiCallback = uiCallback;

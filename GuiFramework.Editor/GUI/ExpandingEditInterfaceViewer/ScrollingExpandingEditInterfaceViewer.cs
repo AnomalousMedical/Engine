@@ -13,7 +13,7 @@ namespace Anomalous.GuiFramework.Editor
         private ScrollView scrollView;
         private int lastWidth = 0;
 
-        public ScrollingExpandingEditInterfaceViewer(ScrollView scrollView, MedicalUICallback uiCallback)
+        public ScrollingExpandingEditInterfaceViewer(ScrollView scrollView, GuiFrameworkUICallback uiCallback)
             : base(scrollView, uiCallback)
         {
             this.scrollView = scrollView;

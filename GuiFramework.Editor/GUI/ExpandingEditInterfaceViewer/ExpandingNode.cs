@@ -17,7 +17,7 @@ namespace Anomalous.GuiFramework.Editor
 
         private int defaultHeight;
         private PropertiesForm propertiesForm;
-        private MedicalUICallback uiCallback;
+        private GuiFrameworkUICallback uiCallback;
         private ExpandingNode parent;
         private Widget childArea;
         private bool respondToPropertiesFormLayout = true;
@@ -25,7 +25,7 @@ namespace Anomalous.GuiFramework.Editor
 
         private List<ExpandingNode> children = new List<ExpandingNode>();
 
-        public ExpandingNode(EditInterface editInterface, Widget parentWidget, MedicalUICallback uiCallback, ExpandingNode parent = null)
+        public ExpandingNode(EditInterface editInterface, Widget parentWidget, GuiFrameworkUICallback uiCallback, ExpandingNode parent = null)
             : base("Anomalous.GuiFramework.Editor.GUI.ExpandingEditInterfaceViewer.ExpandingNode.layout")
         {
             this.uiCallback = uiCallback;

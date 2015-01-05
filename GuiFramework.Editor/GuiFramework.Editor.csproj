@@ -49,7 +49,7 @@
     <Compile Include="GUI\ExpandingEditInterfaceViewer\ScrollingExpandingEditInterfaceViewer.cs" />
     <Compile Include="GUI\InputBrowserWindow.cs" />
     <Compile Include="GUI\InputWindow.cs" />
-    <Compile Include="GUI\MedicalUICallback.cs" />
+    <Compile Include="GUI\GuiFrameworkUICallback.cs" />
     <Compile Include="GUI\ObjectEditor.cs" />
     <Compile Include="GUI\PopupGenericEditor\PopupGenericEditor.cs" />
     <Compile Include="GUI\PropertiesForm\ConstrainableFormComponent.cs" />

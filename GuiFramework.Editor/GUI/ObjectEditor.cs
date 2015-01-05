@@ -13,9 +13,9 @@ namespace Anomalous.GuiFramework.Editor
         private PropertyEditor propEditor;
         private EditInterface parentEditInterface;
         private EditInterface selectedEditInterface;
-        private MedicalUICallback uiCallback;
+        private GuiFrameworkUICallback uiCallback;
 
-        public ObjectEditor(EditInterfaceTreeView treeView, PropertyEditor propEditor, MedicalUICallback uiCallback)
+        public ObjectEditor(EditInterfaceTreeView treeView, PropertyEditor propEditor, GuiFrameworkUICallback uiCallback)
         {
             this.treeView = treeView;
             treeView.EditInterfaceSelectionChanged += treeView_EditInterfaceSelectionChanged;

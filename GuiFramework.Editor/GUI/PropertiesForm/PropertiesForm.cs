@@ -18,7 +18,7 @@ namespace Anomalous.GuiFramework.Editor
         private List<PropertiesFormComponent> components = new List<PropertiesFormComponent>();
         protected StretchLayoutContainer flowLayout = new StretchLayoutContainer(StretchLayoutContainer.LayoutType.Vertical, 3, new IntVector2(0, 0));
         private Widget widget;
-        private MedicalUICallback uiCallback;
+        private GuiFrameworkUICallback uiCallback;
         private EditInterface currentEditInterface;
         private EditablePropertyInfo currentPropInfo;
         private int rightPadding = ScaleHelper.Scaled(2);
@@ -30,7 +30,7 @@ namespace Anomalous.GuiFramework.Editor
         private LinkedList<EditableProperty> hiddenAdvancedProperties = new LinkedList<EditableProperty>();
         private PropertiesFormButton showAdvancedButton = null;
 
-        public PropertiesForm(Widget widget, MedicalUICallback uiCallback)
+        public PropertiesForm(Widget widget, GuiFrameworkUICallback uiCallback)
         {
             this.uiCallback = uiCallback;
             this.widget = widget;
