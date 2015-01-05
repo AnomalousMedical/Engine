@@ -88,6 +88,7 @@
     <Compile Include="GUI\PropertiesTable\ICustomCellProvider.cs" />
     <Compile Include="GUI\PropertiesTable\PropertiesTable.cs" />
     <Compile Include="GUI\PropertyEditor.cs" />
+    <Compile Include="GUI\MDIObjectEditor\MDIObjectEditor.cs" />
     <Compile Include="Plugin\GuiFrameworkEditorEntryPoint.cs" />
     <Compile Include="Plugin\GuiFrameworkEditorInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -145,6 +146,7 @@
     <EmbeddedResource Include="GUI\PropertiesForm\PropertiesFormWidthHeight.layout" />
     <EmbeddedResource Include="GUI\PropertiesForm\PropertiesFormXY.layout" />
     <EmbeddedResource Include="GUI\PropertiesForm\PropertiesFormXYZ.layout" />
+    <EmbeddedResource Include="GUI\MDIObjectEditor\MDIObjectEditor.layout" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

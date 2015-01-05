@@ -72,5 +72,13 @@ namespace Anomalous.GuiFramework.Editor
                 return parentWidget.Height;
             }
         }
+
+        public int Top
+        {
+            get
+            {
+                return parentWidget.Top;
+            }
+        }
     }
 }
