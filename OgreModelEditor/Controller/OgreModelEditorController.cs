@@ -5,7 +5,6 @@ using System.Text;
 using Logging;
 using Engine.Platform;
 using Engine;
-using Editor;
 using OgrePlugin;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
@@ -45,7 +44,7 @@ namespace OgreModelEditor
         private OgreModelEditorMain mainForm;
         private NativeOSWindow mainWindow;
         private MDIObjectEditor resourceEditor;
-        private ConsoleWindow consoleWindow = new ConsoleWindow();
+        private LogWindow consoleWindow;
         private MDILayoutManager mdiLayout;
         private GUIManager guiManager;
 
@@ -136,7 +135,6 @@ namespace OgreModelEditor
             logListener = new LogFileListener();
             logListener.openLogFile(OgreModelEditorConfig.DocRoot + "/log.log");
             Log.Default.addLogListener(logListener);
-            Log.Default.addLogListener(consoleWindow);
 
             //Main window
             mainWindow = new NativeOSWindow("Ogre Model Editor", new IntVector2(-1, -1), new IntSize2(OgreModelEditorConfig.EngineConfig.HorizontalRes, OgreModelEditorConfig.EngineConfig.VerticalRes));
@@ -239,6 +237,11 @@ namespace OgreModelEditor
             resourceEditor = new MDIObjectEditor("Resource Editor", "OgreModelEditor.ResourceEditor");
             guiManager.addManagedDialog(resourceEditor);
             resourceEditor.Closed += resourceEditor_Closed;
+
+            consoleWindow = new LogWindow();
+            guiManager.addManagedDialog(consoleWindow);
+            consoleWindow.Visible = true;
+            Log.Default.addLogListener(consoleWindow);
 
             //Create a simple scene to use to show the models
             SimSceneDefinition sceneDefiniton = new SimSceneDefinition();

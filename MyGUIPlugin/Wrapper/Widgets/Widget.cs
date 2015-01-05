@@ -291,6 +291,17 @@ namespace MyGUIPlugin
             }
         }
 
+        /// <summary>
+        /// Will be true if this widget has been disposed.
+        /// </summary>
+        public bool IsDisposed
+        {
+            get
+            {
+                return widget == IntPtr.Zero;
+            }
+        }
+
         public void detachFromWidget()
         {
             Widget_detachFromWidget(widget);
