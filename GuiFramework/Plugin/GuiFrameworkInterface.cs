@@ -1,4 +1,5 @@
-﻿using Engine;
+﻿using Anomalous.OSPlatform;
+using Engine;
 using Engine.Platform;
 using MyGUIPlugin;
 using System;
@@ -14,9 +15,16 @@ namespace Anomalous.GuiFramework
     {
         public const String PluginName = "GuiFramework";
 
+        public static GuiFrameworkInterface Instance { get; private set; }
+
         internal GuiFrameworkInterface()
         {
+            if(Instance != null)
+            {
+                throw new Exception("Only create one instance of GuiFrameworkInterface");
+            }
 
+            Instance = this;
         }
 
         public void Dispose()
@@ -67,6 +75,16 @@ namespace Anomalous.GuiFramework
             renamedTypeMap.addRenamedType("Medical.BorderLayoutElementName", typeof(BorderLayoutElementName));
             renamedTypeMap.addRenamedType("Medical.BorderLayoutLocations", typeof(BorderLayoutLocations));
             renamedTypeMap.addRenamedType("Medical.MDILayoutElementName", typeof(MDILayoutElementName));
+        }
+
+        /// <summary>
+        /// Handle changing the cursors for a given NativeOSWindow automatically. This will stop managing cursors
+        /// when the window is disposed.
+        /// </summary>
+        /// <param name="osWindow"></param>
+        public void handleCursors(NativeOSWindow osWindow)
+        {
+            new CursorManager(osWindow, PointerManager.Instance);
         }
     }
 }

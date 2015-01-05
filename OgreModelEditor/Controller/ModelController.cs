@@ -72,9 +72,9 @@ namespace OgreModelEditor.Controller
 
         public void createDefaultWindows()
         {
-            controller.showDockContent(skeletonWindow);
-            controller.showDockContent(customParameters);
-            controller.showDockContent(animationWindow);
+            //controller.showDockContent(skeletonWindow);
+            //controller.showDockContent(customParameters);
+            //controller.showDockContent(animationWindow);
         }
 
         public void Dispose()

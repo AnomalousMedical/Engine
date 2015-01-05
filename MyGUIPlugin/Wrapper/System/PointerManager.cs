@@ -114,7 +114,10 @@ namespace MyGUIPlugin
             }
             remove
             {
-                changeMousePointerTranslator.BoundEvent -= value;
+                if (changeMousePointerTranslator != null)
+                {
+                    changeMousePointerTranslator.BoundEvent -= value;
+                }
             }
         }
 

@@ -44,6 +44,7 @@ namespace Anomalous.Minimus
 
         public override void Dispose()
         {
+            //Note this isn't really right and not everything is being disposed that should be.
             sceneViewController.destroyCameras();
             scene.Dispose();
 

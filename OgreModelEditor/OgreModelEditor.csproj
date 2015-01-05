@@ -92,23 +92,12 @@
     <Compile Include="GUI\CustomParameterControl.Designer.cs">
       <DependentUpon>CustomParameterControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\OgreModelEditorMain.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\OgreModelEditorMain.Designer.cs">
-      <DependentUpon>OgreModelEditorMain.cs</DependentUpon>
-    </Compile>
+    <Compile Include="GUI\Main\OgreModelEditorMain.cs" />
     <Compile Include="GUI\SkeletonWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\SkeletonWindow.Designer.cs">
       <DependentUpon>SkeletonWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\SplashScreen.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\SplashScreen.Designer.cs">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -119,16 +108,11 @@
       <DependentUpon>CustomParameterControl.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\OgreModelEditorMain.resx">
-      <DependentUpon>OgreModelEditorMain.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\Main\OgreModelEditorMain.layout">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\SkeletonWindow.resx">
       <DependentUpon>SkeletonWindow.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\SplashScreen.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

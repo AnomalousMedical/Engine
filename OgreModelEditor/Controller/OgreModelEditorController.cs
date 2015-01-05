@@ -24,7 +24,7 @@ using Anomalous.GuiFramework.Cameras;
 
 namespace OgreModelEditor
 {
-    class OgreModelEditorController : IDisposable, IDockProvider
+    class OgreModelEditorController : IDisposable
     {
         #region Fields
 
@@ -47,8 +47,6 @@ namespace OgreModelEditor
         private ConsoleWindow consoleWindow = new ConsoleWindow();
         private MDILayoutManager mdiLayout;
         private GUIManager guiManager;
-        private AppButtonTaskbar taskbar;
-        private SingleChildChainLink taskbarLink;
 
         //Controller
         private SceneViewController sceneViewController;
@@ -79,10 +77,6 @@ namespace OgreModelEditor
 
         public void Dispose()
         {
-            if(taskbar != null)
-            {
-                taskbar.Dispose();
-            }
             if(guiManager != null)
             {
                 guiManager.Dispose();
@@ -119,13 +113,13 @@ namespace OgreModelEditor
             {
                 frameClearManager.Dispose();
             }
+            if (mainWindow != null)
+            {
+                mainWindow.Dispose();
+            }
             if (pluginManager != null)
             {
                 pluginManager.Dispose();
-            }
-            if(mainWindow != null)
-            {
-                mainWindow.Dispose();
             }
 
             OgreModelEditorConfig.save();
@@ -190,9 +184,6 @@ namespace OgreModelEditor
 
             OgreResourceGroupManager.getInstance().initializeAllResourceGroups();
 
-            //Create the GUI
-            mainForm = new OgreModelEditorMain();
-
             //Intialize the platform
             systemTimer = new NativeSystemTimer();
 
@@ -204,6 +195,7 @@ namespace OgreModelEditor
             eventUpdate = new EventUpdateListener(eventManager);
             mainTimer.addUpdateListener(eventUpdate);
             pluginManager.setPlatformInfo(mainTimer, eventManager);
+            GuiFrameworkInterface.Instance.handleCursors(mainWindow);
 
             //Initialize controllers
             modelController = new ModelController(this);
@@ -220,47 +212,28 @@ namespace OgreModelEditor
             rotateTool = new RotateTool("RotateTool", rotateController);
             toolManager.addTool(rotateTool);
 
-            mainForm.SuspendLayout();
-
-            //Initialize GUI
-            mainForm.initialize(this);
-            if (!mainForm.restoreWindows(OgreModelEditorConfig.DocRoot + "/windows.ini", getDockContent))
-            {
-                mainForm.showDockContent(consoleWindow);
-                //drawingWindowController.createOneWaySplit();
-                modelController.createDefaultWindows();
-            }
+            //Create the GUI
+            mainForm = new OgreModelEditorMain(this);
 
             //Layout Chain
             mdiLayout = new MDILayoutManager();
 
             LayoutChain layoutChain = new LayoutChain();
+            layoutChain.addLink(new SingleChildChainLink(GUILocationNames.Taskbar, mainForm.LayoutContainer), true);
             layoutChain.addLink(new PopupAreaChainLink(GUILocationNames.FullscreenPopup), true);
             layoutChain.SuppressLayout = true;
             layoutChain.addLink(new MDIChainLink(GUILocationNames.MDI, mdiLayout), true);
             layoutChain.addLink(new PopupAreaChainLink(GUILocationNames.ContentAreaPopup), true);
             layoutChain.addLink(new FinalChainLink("SceneViews", mdiLayout.DocumentArea), true);
             layoutChain.SuppressLayout = false;
-            layoutChain.layout();
 
             guiManager = new GUIManager();
             guiManager.createGUI(mdiLayout, layoutChain, mainWindow);
 
-            //Taskbar
-            taskbar = new AppButtonTaskbar();
-            //taskbar.OpenTaskMenu += taskbar_OpenTaskMenu;
-            taskbar.setAppIcon("AppButton/WideImage", "AppButton/NarrowImage");
-            taskbarLink = new SingleChildChainLink(GUILocationNames.Taskbar, taskbar);
-            guiManager.addLinkToChain(taskbarLink);
-            guiManager.pushRootContainer(GUILocationNames.Taskbar);
-
-            mainForm.ResumeLayout();
+            layoutChain.layout();
 
             sceneViewController = new SceneViewController(mdiLayout, eventManager, mainTimer, pluginManager.RendererPlugin.PrimaryWindow, MyGUIInterface.Instance.OgrePlatform.getRenderManager(), null);
             sceneViewController.createWindow("Camera 1", Vector3.Backward * 200, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
-
-            //startup the form
-            //mainForm.Show();
 
             //Create a simple scene to use to show the models
             SimSceneDefinition sceneDefiniton = new SimSceneDefinition();
@@ -279,8 +252,6 @@ namespace OgreModelEditor
 
         public void shutdown()
         {
-            mainForm.saveWindows(OgreModelEditorConfig.DocRoot + "/windows.ini");
-            mainTimer.stopLoop();
             toolManager.destroySceneElements(scene.getDefaultSubScene(), PluginManager.Instance);
             sceneViewController.destroyCameras();
             lightManager.sceneUnloading(scene);
@@ -445,6 +416,11 @@ namespace OgreModelEditor
             }
         }
 
+        public void exit()
+        {
+            app.exit();
+        }
+
         /// <summary>
         /// Helper function to create the default window. This is the callback
         /// to the PluginManager.
@@ -469,46 +445,6 @@ namespace OgreModelEditor
             mainWindow.show();
         }
 
-        /// <summary>
-        /// Callback to restore the dock windows.
-        /// </summary>
-        /// <param name="persistString"></param>
-        /// <returns></returns>
-        private IDockContent getDockContent(String persistString)
-        {
-            DockContent content = modelController.getDockContent(persistString);
-            if (content != null)
-            {
-                return content;
-            }
-            if (persistString == typeof(ConsoleWindow).ToString())
-            {
-                return consoleWindow;
-            }
-            Vector3 translation;
-            Vector3 lookAt;
-            String name;
-            if (DrawingWindowHost.RestoreFromString(persistString, out name, out translation, out lookAt))
-            {
-                //return drawingWindowController.createDrawingWindowHost(name, translation, lookAt);
-            }
-            return null;
-        }
-
-        #region IDockProvider Members
-
-        public void showDockContent(DockContent content)
-        {
-            mainForm.showDockContent(content);
-        }
-
-        public void hideDockContent(DockContent content)
-        {
-            mainForm.hideDockContent(content);
-        }
-
-        #endregion
-
         public SelectionController Selection
         {
             get
@@ -527,7 +463,7 @@ namespace OgreModelEditor
 
         void mainWindow_Closed(OSWindow window)
         {
-            app.exit();
+            exit();
         }
     }
 }

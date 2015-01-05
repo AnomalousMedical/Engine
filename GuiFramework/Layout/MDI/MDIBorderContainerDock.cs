@@ -51,7 +51,7 @@ namespace Anomalous.GuiFramework
             switch(CurrentDockLocation)
             {
                 case DockLocation.Left:
-                    separator.Enabled = WorkingSize.Width > 0;
+                    separator.Visible = WorkingSize.Width > 0;
                     separator.setPosition((Location.x + WorkingSize.Width - padding), Location.y);
                     separator.setSize(padding, WorkingSize.Height);
                     layoutContainer.Location = Location;
@@ -64,7 +64,7 @@ namespace Anomalous.GuiFramework
                     layoutContainer.WorkingSize = new IntSize2(WorkingSize.Width - padding, WorkingSize.Height);
                     break;
                 case DockLocation.Top:
-                    separator.Enabled = WorkingSize.Height > 0;
+                    separator.Visible = WorkingSize.Height > 0;
                     separator.setPosition(Location.x, (Location.y + WorkingSize.Height - padding));
                     separator.setSize(WorkingSize.Width, padding);
                     layoutContainer.Location = Location;

@@ -32,6 +32,7 @@ namespace Anomalous.OSPlatform
 
         public event OSWindowEvent Activated;
         public event OSWindowEvent Deactivated;
+        public event OSWindowEvent Disposed;
         private bool activated = true;
 
         public NativeOSWindow(String title, IntVector2 position, IntSize2 size)
@@ -69,6 +70,10 @@ namespace Anomalous.OSPlatform
         {
             if (nativeWindow != IntPtr.Zero)
             {
+                if (Disposed != null)
+                {
+                    Disposed.Invoke(this);
+                }
                 NativeOSWindow_destroy(nativeWindow);
             }
         }

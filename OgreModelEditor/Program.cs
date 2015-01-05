@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows.Forms;
 using Logging;
 using System.IO;
-using Anomaly.GUI;
 using Engine.Platform;
 using Anomalous.OSPlatform;
 
@@ -22,41 +21,32 @@ namespace OgreModelEditor
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            using (SplashScreen splash = new SplashScreen())
+            OgreModelEditorApp app = null;
+            try
             {
-                splash.Show();
-                Application.DoEvents();
-
-                OgreModelEditorApp app = null;
-                try
+                app = new OgreModelEditorApp();
+                app.run();
+            }
+            catch (Exception e)
+            {
+                Logging.Log.Default.printException(e);
+                if (app != null)
                 {
-                    app = new OgreModelEditorApp();
-
-                    splash.Close();
-
-                    app.run();
+                    app.saveCrashLog();
                 }
-                catch (Exception e)
+                String errorMessage = e.Message + "\n" + e.StackTrace;
+                while (e.InnerException != null)
                 {
-                    Logging.Log.Default.printException(e);
-                    if (app != null)
-                    {
-                        app.saveCrashLog();
-                    }
-                    String errorMessage = e.Message + "\n" + e.StackTrace;
-                    while (e.InnerException != null)
-                    {
-                        e = e.InnerException;
-                        errorMessage += "\n" + e.Message + "\n" + e.StackTrace;
-                    }
-                    MessageDialog.showErrorDialog(errorMessage, "Exception");
+                    e = e.InnerException;
+                    errorMessage += "\n" + e.Message + "\n" + e.StackTrace;
                 }
-                finally
+                MessageDialog.showErrorDialog(errorMessage, "Exception");
+            }
+            finally
+            {
+                if (app != null)
                 {
-                    if (app != null)
-                    {
-                        app.Dispose();
-                    }
+                    app.Dispose();
                 }
             }
         }
