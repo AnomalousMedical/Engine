@@ -26,7 +26,7 @@ namespace OgreModelEditor
 {
     class OgreModelEditorController : IDisposable
     {
-        #region Fields
+        private const float DefaultOrbitDistance = 200.0f;
 
         //Engine
         private PluginManager pluginManager;
@@ -73,8 +73,6 @@ namespace OgreModelEditor
         private MovementTool movementTool;
         private RotateTool rotateTool;
         private ToolManager toolManager;
-
-        #endregion Fields
 
         public void Dispose()
         {
@@ -158,7 +156,7 @@ namespace OgreModelEditor
             pluginManager.addPluginAssembly(typeof(GuiFrameworkInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(CamerasInterface).Assembly);
             pluginManager.initializePlugins();
-            frameClearManager = new FrameClearManager(OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget, Color.Blue);
+            frameClearManager = new FrameClearManager(OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget, new Color(0.2f, 0.2f, 0.2f));
 
             lightManager = pluginManager.RendererPlugin.createSceneViewLightManager();
 
@@ -223,7 +221,7 @@ namespace OgreModelEditor
             sceneViewController = new SceneViewController(mdiLayout, eventManager, mainTimer, pluginManager.RendererPlugin.PrimaryWindow, MyGUIInterface.Instance.OgrePlatform.getRenderManager(), null);
             sceneStatsDisplayManager = new SceneStatsDisplayManager(sceneViewController, OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget);
             sceneStatsDisplayManager.StatsVisible = true;
-            sceneViewController.createWindow("Camera 1", Vector3.Backward * 200, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
+            createOneWindow();
 
             mainForm = new OgreModelEditorMain(this);
 
@@ -365,22 +363,32 @@ namespace OgreModelEditor
 
         public void createOneWindow()
         {
-            //drawingWindowController.createOneWaySplit();
+            sceneViewController.closeAllWindows();
+            sceneViewController.createWindow("Camera 1", Vector3.Backward * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
         }
 
         public void createTwoWindows()
         {
-            //drawingWindowController.createTwoWaySplit();
+            sceneViewController.closeAllWindows();
+            var cameraOne = sceneViewController.createWindow("Camera 1", Vector3.Backward * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
+            sceneViewController.createWindow("Camera 2", Vector3.Forward * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 150, cameraOne, WindowAlignment.Right);
         }
 
         public void createThreeWindows()
         {
-            //drawingWindowController.createThreeWayUpperSplit();
+            sceneViewController.closeAllWindows();
+            var cameraOne = sceneViewController.createWindow("Camera 1", Vector3.Right * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
+            var cameraTwo = sceneViewController.createWindow("Camera 2", Vector3.Backward * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 150, cameraOne, WindowAlignment.Right);
+            var cameraThree = sceneViewController.createWindow("Camera 3", Vector3.Left * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 200, cameraTwo, WindowAlignment.Right);
         }
 
         public void createFourWindows()
         {
-            //drawingWindowController.createFourWaySplit();
+            sceneViewController.closeAllWindows();
+            var cameraOne = sceneViewController.createWindow("Camera 1", Vector3.Backward * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
+            var cameraTwo = sceneViewController.createWindow("Camera 2", Vector3.Forward * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 150, cameraOne, WindowAlignment.Right);
+            var cameraThree = sceneViewController.createWindow("Camera 3", Vector3.Left * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 200, cameraOne, WindowAlignment.Bottom);
+            var cameraFour = sceneViewController.createWindow("Camera 4", Vector3.Right * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 250, cameraTwo, WindowAlignment.Bottom);
         }
 
         public void enableMoveTool()
