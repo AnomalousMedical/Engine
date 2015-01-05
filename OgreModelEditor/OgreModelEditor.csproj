@@ -94,12 +94,7 @@
       <DependentUpon>CustomParameterControl.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Main\OgreModelEditorMain.cs" />
-    <Compile Include="GUI\SkeletonWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\SkeletonWindow.Designer.cs">
-      <DependentUpon>SkeletonWindow.cs</DependentUpon>
-    </Compile>
+    <Compile Include="GUI\SkeletonWindow\SkeletonWindow.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="GUI\AnimationWindow.resx">
@@ -112,8 +107,7 @@
     <EmbeddedResource Include="GUI\Main\OgreModelEditorMain.layout">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\SkeletonWindow.resx">
-      <DependentUpon>SkeletonWindow.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\SkeletonWindow\SkeletonWindow.layout">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

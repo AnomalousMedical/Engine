@@ -51,14 +51,12 @@ namespace OgreModelEditor.Controller
             fixedTexture = fixedFunctionTextured.Value.getTechnique(0).getPass(0).getTextureUnitState(0);
             this.controller = controller;
             controller.MainTimer.addUpdateListener(animationWindow);
+            controller.GuiManager.addManagedDialog(skeletonWindow);
+            skeletonWindow.Visible = true;
         }
 
         public DockContent getDockContent(String persistString)
         {
-            if (skeletonWindow.GetType().ToString() == persistString)
-            {
-                return skeletonWindow;
-            }
             if (customParameters.GetType().ToString() == persistString)
             {
                 return customParameters;

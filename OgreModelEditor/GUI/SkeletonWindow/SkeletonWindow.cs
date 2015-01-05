@@ -1,35 +1,47 @@
-﻿using System;
+﻿using Anomalous.GuiFramework;
+using MyGUIPlugin;
+using OgrePlugin;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
-using OgrePlugin;
-using WeifenLuo.WinFormsUI.Docking;
+using System.Threading.Tasks;
 
 namespace OgreModelEditor
 {
-    public partial class SkeletonWindow : DockContent
+    class SkeletonWindow : MDIDialog
     {
+        private ScrollView scrollView;
+        private Tree skeletonTree;
+
         public SkeletonWindow()
+            :base("OgreModelEditor.GUI.SkeletonWindow.SkeletonWindow.layout")
         {
-            InitializeComponent();
+            scrollView = window.findWidget("Scroller") as ScrollView;
+            skeletonTree = new Tree(scrollView);
+
+            window.WindowChangedCoord += window_WindowChangedCoord;
+        }
+
+        public override void Dispose()
+        {
+            skeletonTree.Dispose();
+            base.Dispose();
         }
 
         public void setSkeleton(Entity entity)
         {
             SkeletonInstance skeleton = entity.getSkeleton();
-            skeletonTree.Nodes.Clear();
+            skeletonTree.Nodes.clear();
             for (ushort i = 0; i < skeleton.getNumBones(); i++)
             {
                 Bone bone = skeleton.getBone(i);
                 TreeNode skeletonNode = new TreeNode(bone.getName());
                 TreeNode positionNode = new TreeNode("Position " + bone.getPosition());
-                skeletonNode.Nodes.Add(positionNode);
+                skeletonNode.Children.add(positionNode);
                 TreeNode rotationNode = new TreeNode("Rotation" + bone.getOrientation());
-                skeletonNode.Nodes.Add(rotationNode);
-                skeletonTree.Nodes.Add(skeletonNode);
+                skeletonNode.Children.add(rotationNode);
+                skeletonTree.Nodes.add(skeletonNode);
             }
             using (MeshPtr mesh = entity.getMesh())
             {
@@ -54,11 +66,18 @@ namespace OgreModelEditor
                     }
                 }
             }
+            skeletonTree.layout();
         }
 
         public void clearSkeleton()
         {
-            skeletonTree.Nodes.Clear();
+            skeletonTree.Nodes.clear();
+            skeletonTree.layout();
+        }
+
+        void window_WindowChangedCoord(Widget source, EventArgs e)
+        {
+            skeletonTree.layout();
         }
     }
 }

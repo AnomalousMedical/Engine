@@ -201,11 +201,6 @@ namespace OgreModelEditor
             pluginManager.setPlatformInfo(mainTimer, eventManager);
             GuiFrameworkInterface.Instance.handleCursors(mainWindow);
 
-            //Initialize controllers
-            modelController = new ModelController(this);
-
-            //Create the GUI
-
             //Layout Chain
             mdiLayout = new MDILayoutManager();
 
@@ -234,6 +229,10 @@ namespace OgreModelEditor
 
             layoutChain.layout();
 
+            //Initialize controllers
+            modelController = new ModelController(this);
+
+            //Create the GUI
             resourceEditor = new MDIObjectEditor("Resource Editor", "OgreModelEditor.ResourceEditor");
             guiManager.addManagedDialog(resourceEditor);
             resourceEditor.Closed += resourceEditor_Closed;
@@ -504,6 +503,14 @@ namespace OgreModelEditor
             set
             {
                 sceneStatsDisplayManager.StatsVisible = value;
+            }
+        }
+
+        public GUIManager GuiManager
+        {
+            get
+            {
+                return guiManager;
             }
         }
 
