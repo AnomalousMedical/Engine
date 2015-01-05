@@ -10,6 +10,7 @@ namespace Editor
     {
         Main,
         AfterMain,
+        Tools,
         Cameras
     }
 }

@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Editor;
 using Engine;
 using Engine.ObjectManagement;
+using Anomalous.GuiFramework.Editor;
 
 namespace OgreModelEditor
 {
-    class SelectableModel : SelectableObject
+    class SelectableModel : MovableObject
     {
         private SimObjectBase modelObject;
 
@@ -16,33 +16,7 @@ namespace OgreModelEditor
         {
             
         }
-
-        public void editPosition(ref Vector3 translation, ref Quaternion rotation)
-        {
-            modelObject.updatePosition(ref translation, ref rotation, null);
-
-        }
-
-        public void editTranslation(ref Vector3 translation)
-        {
-            modelObject.updateTranslation(ref translation, null);
-        }
-
-        public void editRotation(ref Quaternion rotation)
-        {
-            modelObject.updateRotation(ref rotation, null);
-        }
-
-        public Quaternion getRotation()
-        {
-            return modelObject.Rotation;
-        }
-
-        public Vector3 getTranslation()
-        {
-            return modelObject.Translation;
-        }
-
+        
         public SimObjectBase ModelObject
         {
             get
@@ -53,6 +27,46 @@ namespace OgreModelEditor
             {
                 modelObject = value;
             }
+        }
+
+        public Vector3 ToolTranslation
+        {
+            get
+            {
+                return modelObject.Translation;
+            }
+        }
+
+        public void move(Vector3 offset)
+        {
+            Vector3 translation = modelObject.Translation + offset;
+            modelObject.updateTranslation(ref translation, null);
+        }
+
+        public Quaternion ToolRotation
+        {
+            get
+            {
+                return modelObject.Rotation;
+            }
+        }
+
+        public bool ShowTools
+        {
+            get
+            {
+                return true;
+            }
+        }
+
+        public void rotate(Quaternion newRot)
+        {
+            modelObject.updateRotation(ref newRot, null);
+        }
+
+        public void alertToolHighlightStatus(bool highlighted)
+        {
+            
         }
     }
 }

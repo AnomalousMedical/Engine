@@ -102,7 +102,8 @@ namespace OgreModelEditor.Controller
             readModelInfo();
             entity.setDisplaySkeleton(showSkeleton);
             selectableModel.ModelObject = currentSimObject;
-            controller.Selection.setSelectedObject(selectableModel);
+            controller.ObjectMover.clearMovableObjects();
+            controller.ObjectMover.addMovableObject("model", selectableModel);
         }
 
         /// <summary>

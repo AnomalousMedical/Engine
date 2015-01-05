@@ -164,7 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Editor\Editor.csproj">
-      <Project>{DDD1DB3A-AB11-4C3A-8480-0A4A9F298D64}</Project>
+      <Project>{ddd1db3a-ab11-4c3a-8480-0a4a9f298d64}</Project>
       <Name>Editor</Name>
     </ProjectReference>
     <ProjectReference Include="..\Engine\Engine.csproj">

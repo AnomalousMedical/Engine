@@ -21,6 +21,7 @@ using Anomalous.OSPlatform;
 using Anomalous.GuiFramework;
 using MyGUIPlugin;
 using Anomalous.GuiFramework.Cameras;
+using Anomalous.GuiFramework.Editor;
 
 namespace OgreModelEditor
 {
@@ -66,16 +67,14 @@ namespace OgreModelEditor
         private Engine.Resources.ResourceManager liveResourceManager;
 
         //Tools
-        private ToolInteropController toolInterop = new ToolInteropController();
-        private MoveController moveController = new MoveController();
-        private SelectionController selectionController = new SelectionController();
-        private RotateController rotateController = new RotateController();
-        private MovementTool movementTool;
-        private RotateTool rotateTool;
-        private ToolManager toolManager;
+        private SimObjectMover objectMover;
 
         public void Dispose()
         {
+            if(objectMover != null)
+            {
+                objectMover.Dispose();
+            }
             if(guiManager != null)
             {
                 guiManager.Dispose();
@@ -148,6 +147,8 @@ namespace OgreModelEditor
             GuiFrameworkCamerasInterface.MoveCameraEventLayer = EventLayers.Cameras;
             GuiFrameworkCamerasInterface.SelectWindowEventLayer = EventLayers.AfterMain;
 
+            GuiFrameworkEditorInterface.ToolsEventLayers = EventLayers.Tools;
+
             pluginManager = new PluginManager(OgreModelEditorConfig.ConfigFile);
             pluginManager.OnConfigureDefaultWindow = createWindow;
             pluginManager.addPluginAssembly(typeof(OgreInterface).Assembly);
@@ -200,18 +201,6 @@ namespace OgreModelEditor
             //Initialize controllers
             modelController = new ModelController(this);
 
-            toolInterop.setMoveController(moveController);
-            toolInterop.setSelectionController(selectionController);
-            toolInterop.setRotateController(rotateController);
-
-            toolManager = new ToolManager(eventManager);
-            mainTimer.addUpdateListener(toolManager);
-            toolInterop.setToolManager(toolManager);
-            movementTool = new MovementTool("MovementTool", moveController);
-            toolManager.addTool(movementTool);
-            rotateTool = new RotateTool("RotateTool", rotateController);
-            toolManager.addTool(rotateTool);
-
             //Create the GUI
 
             //Layout Chain
@@ -222,6 +211,9 @@ namespace OgreModelEditor
             sceneStatsDisplayManager = new SceneStatsDisplayManager(sceneViewController, OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget);
             sceneStatsDisplayManager.StatsVisible = true;
             createOneWindow();
+
+            //Tools
+            objectMover = new SimObjectMover("ModelMover", PluginManager.Instance.RendererPlugin, eventManager, sceneViewController);
 
             mainForm = new OgreModelEditorMain(this);
 
@@ -250,15 +242,15 @@ namespace OgreModelEditor
 
             scene = sceneDefiniton.createScene();
             sceneViewController.createCameras(scene);
-            toolManager.createSceneElements(scene.getDefaultSubScene(), PluginManager.Instance);
             lightManager.sceneLoaded(scene);
+            objectMover.sceneLoaded(scene);
         }
 
         public void shutdown()
         {
-            toolManager.destroySceneElements(scene.getDefaultSubScene(), PluginManager.Instance);
             sceneViewController.destroyCameras();
             lightManager.sceneUnloading(scene);
+            objectMover.sceneUnloading(scene);
             modelController.destroyModel();
             scene.Dispose();
         }
@@ -393,19 +385,21 @@ namespace OgreModelEditor
 
         public void enableMoveTool()
         {
-            toolManager.enableTool(movementTool);
-            toolManager.setEnabled(true);
+            objectMover.ShowMoveTools = true;
+            objectMover.ShowRotateTools = false;
+            objectMover.Visible = true;
         }
 
         public void enableRotateTool()
         {
-            toolManager.enableTool(rotateTool);
-            toolManager.setEnabled(true);
+            objectMover.ShowMoveTools = false;
+            objectMover.ShowRotateTools = true;
+            objectMover.Visible = true;
         }
 
         public void enableSelectTool()
         {
-            toolManager.setEnabled(false);
+            objectMover.Visible = false;
         }
 
         public void setShowSkeleton(bool show)
@@ -466,11 +460,11 @@ namespace OgreModelEditor
             mainWindow.show();
         }
 
-        public SelectionController Selection
+        public SimObjectMover ObjectMover
         {
             get
             {
-                return selectionController;
+                return objectMover;
             }
         }
 
