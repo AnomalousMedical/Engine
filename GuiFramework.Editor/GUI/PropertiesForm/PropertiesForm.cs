@@ -9,7 +9,7 @@ using Engine.Attributes;
 using System.Reflection;
 using Anomalous.GuiFramework;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework.Editor
 {
     public class PropertiesForm : PropertyEditor, IDisposable
     {

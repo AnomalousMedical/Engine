@@ -5,7 +5,7 @@ using System.Text;
 using MyGUIPlugin;
 using Engine.Editing;
 
-namespace Medical
+namespace Anomalous.GuiFramework.Editor
 {
     public interface ICustomCellProvider
     {

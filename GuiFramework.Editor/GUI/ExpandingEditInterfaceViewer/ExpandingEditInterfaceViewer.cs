@@ -5,7 +5,7 @@ using System.Text;
 using Engine.Editing;
 using MyGUIPlugin;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework.Editor
 {
     public class ExpandingEditInterfaceViewer : IDisposable
     {

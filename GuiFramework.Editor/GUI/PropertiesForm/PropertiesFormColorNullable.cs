@@ -9,7 +9,7 @@ using Engine;
 using System.Globalization;
 using Anomalous.GuiFramework;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework.Editor
 {
     class PropertiesFormColorNullable : PropertiesFormLayoutComponent
     {

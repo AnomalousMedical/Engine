@@ -6,7 +6,7 @@ using MyGUIPlugin;
 using Engine.Editing;
 using Engine.Platform;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework.Editor
 {
     public class EditInterfaceTreeView : IDisposable
     {

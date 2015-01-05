@@ -6,7 +6,7 @@ using Engine.Editing;
 using MyGUIPlugin;
 using Anomalous.GuiFramework;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework.Editor
 {
     class PropertiesFormCheckBox : PropertiesFormComponent
     {

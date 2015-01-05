@@ -5,7 +5,7 @@ using System.Text;
 using MyGUIPlugin;
 using Anomalous.OSPlatform;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework.Editor
 {
     class ColorEditCell : TableCell
     {

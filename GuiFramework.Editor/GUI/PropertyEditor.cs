@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine.Editing;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework.Editor
 {
     public interface PropertyEditor
     {

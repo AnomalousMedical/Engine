@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using MyGUIPlugin;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework.Editor
 {
     public class AddItemDialog : Dialog
     {

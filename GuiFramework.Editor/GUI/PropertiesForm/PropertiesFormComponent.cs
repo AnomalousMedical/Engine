@@ -5,7 +5,7 @@ using System.Text;
 using Engine.Editing;
 using Anomalous.GuiFramework;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework.Editor
 {
     public interface PropertiesFormComponent : IDisposable
     {

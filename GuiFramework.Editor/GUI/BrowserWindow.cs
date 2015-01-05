@@ -8,7 +8,7 @@ using System.IO;
 using Engine.Threads;
 using Anomalous.OSPlatform;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework.Editor
 {
     public class BrowserWindow<BrowseType> : Dialog
     {

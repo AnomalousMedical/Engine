@@ -6,7 +6,7 @@ using MyGUIPlugin;
 using Engine.Editing;
 using Engine;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework.Editor
 {
     class PropertiesFormSByte : ConstrainableFormComponent
     {

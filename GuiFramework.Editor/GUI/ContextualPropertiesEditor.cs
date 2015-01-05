@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework.Editor
 {
     /// <summary>
     /// This class can be a PropertiesForm or PropertiesTable depending on the properties of

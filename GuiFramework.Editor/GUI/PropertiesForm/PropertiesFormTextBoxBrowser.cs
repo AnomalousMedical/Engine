@@ -6,7 +6,7 @@ using Engine.Editing;
 using MyGUIPlugin;
 using Logging;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework.Editor
 {
     class PropertiesFormTextBoxBrowser : PropertiesFormLayoutComponent
     {

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework.Editor
 {
     public class PopupGenericEditor : PopupContainer
     {

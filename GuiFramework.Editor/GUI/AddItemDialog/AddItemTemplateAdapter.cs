@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine.Editing;
 
-namespace Medical
+namespace Anomalous.GuiFramework.Editor
 {
     public class AddItemTemplateAdapter : AddItemTemplate
     {

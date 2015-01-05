@@ -5,7 +5,7 @@ using System.Text;
 using MyGUIPlugin;
 using Engine.Editing;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework.Editor
 {
     public class ExpandingNode : Component
     {

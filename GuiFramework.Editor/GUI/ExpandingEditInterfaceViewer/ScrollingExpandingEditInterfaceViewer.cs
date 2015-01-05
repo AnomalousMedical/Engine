@@ -6,7 +6,7 @@ using Engine.Editing;
 using MyGUIPlugin;
 using Engine;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework.Editor
 {
     public class ScrollingExpandingEditInterfaceViewer : ExpandingEditInterfaceViewer
     {

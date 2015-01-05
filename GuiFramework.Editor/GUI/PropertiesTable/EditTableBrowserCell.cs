@@ -6,7 +6,7 @@ using MyGUIPlugin;
 using Engine.Editing;
 using Logging;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework.Editor
 {
     public class EditTableBrowserCell : TableCell
     {

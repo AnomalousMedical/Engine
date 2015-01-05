@@ -7,7 +7,7 @@ using Engine.Editing;
 using Engine;
 using Anomalous.GuiFramework;
 
-namespace Medical.GUI
+namespace Anomalous.GuiFramework.Editor
 {
     class PropertiesFormButton : PropertiesFormComponent
     {
