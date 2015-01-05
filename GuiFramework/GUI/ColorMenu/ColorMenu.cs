@@ -54,7 +54,7 @@ namespace Anomalous.GuiFramework
         {
             if (!colorsLoaded)
             {
-                ResourceManager.Instance.load("GuiFramework.GUI.ColorMenu.Colors.xml");
+                ResourceManager.Instance.load("Anomalous.GuiFramework.GUI.ColorMenu.Colors.xml");
                 colorsLoaded = true;
             }
         }
