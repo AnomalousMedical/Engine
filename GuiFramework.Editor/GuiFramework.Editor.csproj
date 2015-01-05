@@ -36,7 +36,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GUI\AddItemDialog\AddItemDialog.cs" />
+    <Compile Include="GUI\AddItemDialog\AddItemTemplate.cs" />
+    <Compile Include="GUI\AddItemDialog\AddItemTemplateAdapter.cs" />
     <Compile Include="GUI\BrowserWindow.cs" />
+    <Compile Include="GUI\ContextualPropertiesEditor.cs" />
     <Compile Include="GUI\EditInterfaceTree\EditInterfaceTreeNode.cs" />
     <Compile Include="GUI\EditInterfaceTree\EditInterfaceTreeView.cs" />
     <Compile Include="GUI\EditInterfaceTree\EditInterfaceViewEvent.cs" />
@@ -44,7 +48,10 @@
     <Compile Include="GUI\ExpandingEditInterfaceViewer\ExpandingNode.cs" />
     <Compile Include="GUI\ExpandingEditInterfaceViewer\ScrollingExpandingEditInterfaceViewer.cs" />
     <Compile Include="GUI\InputBrowserWindow.cs" />
+    <Compile Include="GUI\InputWindow.cs" />
     <Compile Include="GUI\MedicalUICallback.cs" />
+    <Compile Include="GUI\ObjectEditor.cs" />
+    <Compile Include="GUI\PopupGenericEditor\PopupGenericEditor.cs" />
     <Compile Include="GUI\PropertiesForm\ConstrainableFormComponent.cs" />
     <Compile Include="GUI\PropertiesForm\PropertiesForm.cs" />
     <Compile Include="GUI\PropertiesForm\PropertiesFormButton.cs" />
@@ -75,6 +82,11 @@
     <Compile Include="GUI\PropertiesForm\PropertiesFormVector2.cs" />
     <Compile Include="GUI\PropertiesForm\PropertiesFormVector3.cs" />
     <Compile Include="GUI\PropertiesForm\ScrollablePropertiesForm.cs" />
+    <Compile Include="GUI\PropertiesTable\AddRemoveButtons.cs" />
+    <Compile Include="GUI\PropertiesTable\ColorEditCell.cs" />
+    <Compile Include="GUI\PropertiesTable\EditTableBrowserCell.cs" />
+    <Compile Include="GUI\PropertiesTable\ICustomCellProvider.cs" />
+    <Compile Include="GUI\PropertiesTable\PropertiesTable.cs" />
     <Compile Include="GUI\PropertyEditor.cs" />
     <Compile Include="Plugin\GuiFrameworkEditorEntryPoint.cs" />
     <Compile Include="Plugin\GuiFrameworkEditorInterface.cs" />
@@ -121,9 +133,11 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <EmbeddedResource Include="GUI\AddItemDialog\AddItemDialog.layout" />
     <EmbeddedResource Include="GUI\BrowserWindow.layout" />
     <EmbeddedResource Include="GUI\ExpandingEditInterfaceViewer\ExpandingNode.layout" />
     <EmbeddedResource Include="GUI\InputBrowserWindow.layout" />
+    <EmbeddedResource Include="GUI\PopupGenericEditor\PopupGenericEditor.layout" />
     <EmbeddedResource Include="GUI\PropertiesForm\PropertiesFormColorButton.layout" />
     <EmbeddedResource Include="GUI\PropertiesForm\PropertiesFormComboBox.layout" />
     <EmbeddedResource Include="GUI\PropertiesForm\PropertiesFormTextBox.layout" />
