@@ -131,6 +131,18 @@ namespace Medical.GUI
             }
         }
 
+        internal bool ExpandButtonVisible
+        {
+            get
+            {
+                return expandButton.Button.Visible;
+            }
+            set
+            {
+                expandButton.Button.Visible = value;
+            }
+        }
+
         public void changeWidth(int width)
         {
             widget.setSize(width, widget.Height);

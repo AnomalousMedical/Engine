@@ -47,6 +47,7 @@ namespace Medical.GUI
                     {
                         rootNode = new ExpandingNode(editInterface, parentWidget, uiCallback);
                         rootNode.Expanded = true;
+                        rootNode.ExpandButtonVisible = false;
                     }
                 }
             }
