@@ -36,6 +36,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GUI\BrowserWindow.cs" />
+    <Compile Include="GUI\InputBrowserWindow.cs" />
+    <Compile Include="GUI\MedicalUICallback.cs" />
+    <Compile Include="GUI\PropertiesForm\ConstrainableFormComponent.cs" />
+    <Compile Include="GUI\PropertiesForm\PropertiesForm.cs" />
+    <Compile Include="GUI\PropertiesForm\PropertiesFormButton.cs" />
+    <Compile Include="GUI\PropertiesForm\PropertiesFormByte.cs" />
+    <Compile Include="GUI\PropertiesForm\PropertiesFormCheckBox.cs" />
+    <Compile Include="GUI\PropertiesForm\PropertiesFormColor.cs" />
+    <Compile Include="GUI\PropertiesForm\PropertiesFormColorNullable.cs" />
+    <Compile Include="GUI\PropertiesForm\PropertiesFormComboBox.cs" />
+    <Compile Include="GUI\PropertiesForm\PropertiesFormComponent.cs" />
+    <Compile Include="GUI\PropertiesForm\PropertiesFormDecimal.cs" />
+    <Compile Include="GUI\PropertiesForm\PropertiesFormDouble.cs" />
+    <Compile Include="GUI\PropertiesForm\PropertiesFormEulerQuat.cs" />
+    <Compile Include="GUI\PropertiesForm\PropertiesFormInt16.cs" />
+    <Compile Include="GUI\PropertiesForm\PropertiesFormInt32.cs" />
+    <Compile Include="GUI\PropertiesForm\PropertiesFormInt32Nullable.cs" />
+    <Compile Include="GUI\PropertiesForm\PropertiesFormInt64.cs" />
+    <Compile Include="GUI\PropertiesForm\PropertiesFormIntSize2.cs" />
+    <Compile Include="GUI\PropertiesForm\PropertiesFormIntVector2.cs" />
+    <Compile Include="GUI\PropertiesForm\PropertiesFormLayoutComponent.cs" />
+    <Compile Include="GUI\PropertiesForm\PropertiesFormSByte.cs" />
+    <Compile Include="GUI\PropertiesForm\PropertiesFormSingle.cs" />
+    <Compile Include="GUI\PropertiesForm\PropertiesFormSize2.cs" />
+    <Compile Include="GUI\PropertiesForm\PropertiesFormTextBox.cs" />
+    <Compile Include="GUI\PropertiesForm\PropertiesFormTextBoxBrowser.cs" />
+    <Compile Include="GUI\PropertiesForm\PropertiesFormUInt16.cs" />
+    <Compile Include="GUI\PropertiesForm\PropertiesFormUInt32.cs" />
+    <Compile Include="GUI\PropertiesForm\PropertiesFormUInt64.cs" />
+    <Compile Include="GUI\PropertiesForm\PropertiesFormVector2.cs" />
+    <Compile Include="GUI\PropertiesForm\PropertiesFormVector3.cs" />
+    <Compile Include="GUI\PropertiesForm\ScrollablePropertiesForm.cs" />
+    <Compile Include="GUI\PropertyEditor.cs" />
     <Compile Include="Plugin\GuiFrameworkEditorEntryPoint.cs" />
     <Compile Include="Plugin\GuiFrameworkEditorInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -66,6 +100,10 @@
       <Project>{fc299a06-61bd-4562-a315-0f0be454925a}</Project>
       <Name>GuiFramework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MyGUIPlugin\MyGUIPlugin.csproj">
+      <Project>{02d4da85-fd6c-421f-81c3-8f58f790bc81}</Project>
+      <Name>MyGUIPlugin</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OgrePlugin\OgrePlugin.csproj">
       <Project>{e9fd5768-32e1-42c7-8256-4d7b97c22a9b}</Project>
       <Name>OgrePlugin</Name>
@@ -74,6 +112,18 @@
       <Project>{6e594c78-9cd8-432d-a135-11c4a72f3bcf}</Project>
       <Name>OSPlatform</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="GUI\BrowserWindow.layout" />
+    <EmbeddedResource Include="GUI\InputBrowserWindow.layout" />
+    <EmbeddedResource Include="GUI\PropertiesForm\PropertiesFormColorButton.layout" />
+    <EmbeddedResource Include="GUI\PropertiesForm\PropertiesFormComboBox.layout" />
+    <EmbeddedResource Include="GUI\PropertiesForm\PropertiesFormTextBox.layout" />
+    <EmbeddedResource Include="GUI\PropertiesForm\PropertiesFormTextBoxBrowser.layout" />
+    <EmbeddedResource Include="GUI\PropertiesForm\PropertiesFormWidthHeight.layout" />
+    <EmbeddedResource Include="GUI\PropertiesForm\PropertiesFormXY.layout" />
+    <EmbeddedResource Include="GUI\PropertiesForm\PropertiesFormXYZ.layout" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

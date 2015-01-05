@@ -1,5 +1,6 @@
 ﻿using Engine;
 using Engine.Platform;
+using MyGUIPlugin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace Anomalous.GuiFramework.Editor
 
         public void link(PluginManager pluginManager)
         {
-            
+            MyGUIInterface.Instance.CommonResourceGroup.addResource(GetType().AssemblyQualifiedName, "EmbeddedScalableResource", true);
         }
 
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
