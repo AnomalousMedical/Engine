@@ -413,6 +413,18 @@ namespace OgreModelEditor
             modelController.ShowSkeleton = show;
         }
 
+        public void updateWindowTitle(String file)
+        {
+            if(String.IsNullOrEmpty(file))
+            {
+                mainWindow.Title = "Ogre Model Editor";
+            }
+            else
+            {
+                mainWindow.Title = String.Format("{0} - Ogre Model Editor", file);
+            }
+        }
+
         public void batchResaveMeshes(String rootPath)
         {
             Log.ImportantInfo("Upgrading meshes in {0}", rootPath);

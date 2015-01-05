@@ -61,6 +61,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libRocketWidget", "libRocke
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuiFramework.Cameras", "GuiFramework.Cameras\GuiFramework.Cameras.csproj", "{83D4BB54-FF33-4011-9819-582458329D9B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuiFramework.Editor", "GuiFramework.Editor\GuiFramework.Editor.csproj", "{ACBBA2D0-C648-4798-9D40-CE8B797642AD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -273,6 +275,12 @@ Global
 		{83D4BB54-FF33-4011-9819-582458329D9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83D4BB54-FF33-4011-9819-582458329D9B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{83D4BB54-FF33-4011-9819-582458329D9B}.Release|x64.ActiveCfg = Release|Any CPU
+		{ACBBA2D0-C648-4798-9D40-CE8B797642AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACBBA2D0-C648-4798-9D40-CE8B797642AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACBBA2D0-C648-4798-9D40-CE8B797642AD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{ACBBA2D0-C648-4798-9D40-CE8B797642AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACBBA2D0-C648-4798-9D40-CE8B797642AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACBBA2D0-C648-4798-9D40-CE8B797642AD}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

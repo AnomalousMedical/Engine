@@ -1,5 +1,5 @@
 ﻿using Anomalous.GuiFramework;
-using Editor;
+using Anomalous.GuiFramework.Editor;
 using MyGUIPlugin;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,10 @@ namespace OgreModelEditor
     class OgreModelEditorMain : Component
     {
         private OgreModelEditorController controller;
-        private FileTracker fileTracker = new FileTracker("*.mesh|*.mesh");
+        private FileTracker fileTracker = new FileTracker()
+            {
+                Filter = "*.mesh|*.mesh"
+            };
 
         private MenuItem showSkeleton;
         private MenuControl textureMenu;
@@ -108,37 +111,27 @@ namespace OgreModelEditor
 
         public void currentFileChanged(String filename)
         {
-            //fileTracker.setCurrentFile(filename);
-            //updateWindowTitle(fileTracker.getCurrentFile());
+            fileTracker.CurrentFile = filename;
+            controller.updateWindowTitle(fileTracker.CurrentFile);
         }
 
         void open_MouseButtonClick(Widget source, EventArgs e)
         {
-            //    fileTracker.openFile(this);
-            //    if (fileTracker.lastDialogAccepted())
-            //    {
-            //        controller.openModel(fileTracker.getCurrentFile());
-            //    }
+            fileTracker.openFile(file => controller.openModel(file));
         }
 
         void save_MouseButtonClick(Widget source, EventArgs e)
         {
-            //    fileTracker.saveFile(this);
-            //    if (fileTracker.lastDialogAccepted())
-            //    {
-            //        controller.saveModel(fileTracker.getCurrentFile());
-            //        updateWindowTitle(fileTracker.getCurrentFile());
-            //    }
+            fileTracker.saveFile(file => controller.saveModel(file));
         }
 
         void saveAs_MouseButtonClick(Widget source, EventArgs e)
         {
-            //    fileTracker.saveFileAs(this);
-            //    if (fileTracker.lastDialogAccepted())
-            //    {
-            //        controller.saveModel(fileTracker.getCurrentFile());
-            //        updateWindowTitle(fileTracker.getCurrentFile());
-            //    }
+            fileTracker.saveFileAs(file =>
+                {
+                    controller.saveModel(file);
+                    controller.updateWindowTitle(file);
+                });
         }
 
         private void defineExternal_MouseButtonClick(Widget source, EventArgs e)
