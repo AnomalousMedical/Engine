@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+[assembly: Anomalous.GuiFramework.Editor.GuiFrameworkEditorEntryPoint()]
+
 namespace Anomalous.GuiFramework.Editor
 {
     class GuiFrameworkEditorEntryPoint : PluginEntryPointAttribute

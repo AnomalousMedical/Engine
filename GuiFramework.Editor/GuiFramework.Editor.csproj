@@ -39,6 +39,18 @@
     <Compile Include="Plugin\GuiFrameworkEditorEntryPoint.cs" />
     <Compile Include="Plugin\GuiFrameworkEditorInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\MovableObject.cs" />
+    <Compile Include="Tools\MovableObjectTools.cs" />
+    <Compile Include="Tools\Movement\Axis.cs" />
+    <Compile Include="Tools\Movement\MoveTool.cs" />
+    <Compile Include="Tools\Rotation\RotateTool.cs" />
+    <Compile Include="Tools\Rotation\RotationAxis.cs" />
+    <Compile Include="Tools\Selection\SelectableObject.cs" />
+    <Compile Include="Tools\Selection\SelectedObjectCollection.cs" />
+    <Compile Include="Tools\Selection\SelectionChangedArgs.cs" />
+    <Compile Include="Tools\Selection\SelectionController.cs" />
+    <Compile Include="Tools\Selection\SelectionMovableObject.cs" />
+    <Compile Include="Tools\SimObjectMover.cs" />
     <Compile Include="Utility\FileTracker.cs" />
   </ItemGroup>
   <ItemGroup>
