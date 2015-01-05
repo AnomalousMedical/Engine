@@ -5,15 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-[assembly: Anomalous.GuiFramework.Cameras.CamerasEntryPoint()]
+[assembly: Anomalous.GuiFramework.Cameras.GuiFrameworkCamerasEntryPoint()]
 
 namespace Anomalous.GuiFramework.Cameras
 {
-    class CamerasEntryPoint : PluginEntryPointAttribute
+    class GuiFrameworkCamerasEntryPoint : PluginEntryPointAttribute
     {
         public override void createPluginInterfaces(PluginManager pluginManager)
         {
-            pluginManager.addPlugin(new CamerasInterface());
+            pluginManager.addPlugin(new GuiFrameworkCamerasInterface());
         }
     }
 }

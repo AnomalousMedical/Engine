@@ -111,8 +111,8 @@ namespace Anomalous.Minimus
                 mainWindow.show();
             };
 
-            CamerasInterface.MoveCameraEventLayer = EventLayers.Cameras;
-            CamerasInterface.SelectWindowEventLayer = EventLayers.AfterGui;
+            GuiFrameworkCamerasInterface.MoveCameraEventLayer = EventLayers.Cameras;
+            GuiFrameworkCamerasInterface.SelectWindowEventLayer = EventLayers.AfterGui;
 
             pluginManager.addPluginAssembly(typeof(OgreInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(BulletInterface).Assembly);
@@ -122,7 +122,7 @@ namespace Anomalous.Minimus
             pluginManager.addPluginAssembly(typeof(SoundPluginInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(BEPUikInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(GuiFrameworkInterface).Assembly);
-            pluginManager.addPluginAssembly(typeof(CamerasInterface).Assembly);
+            pluginManager.addPluginAssembly(typeof(GuiFrameworkCamerasInterface).Assembly);
             pluginManager.initializePlugins();
 
             performanceMetricTimer = new NativeSystemTimer();

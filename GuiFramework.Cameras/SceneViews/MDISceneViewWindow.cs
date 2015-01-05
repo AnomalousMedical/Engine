@@ -19,11 +19,11 @@ namespace Anomalous.GuiFramework.Cameras
 
         static MDISceneViewWindow()
         {
-            PrimaryActionSelect = new ButtonEvent(CamerasInterface.SelectWindowEventLayer);
+            PrimaryActionSelect = new ButtonEvent(GuiFrameworkCamerasInterface.SelectWindowEventLayer);
             PrimaryActionSelect.addButton(MouseButtonCode.MB_BUTTON0);
             DefaultEvents.registerDefaultEvent(PrimaryActionSelect);
 
-            SecondaryActionSelect = new ButtonEvent(CamerasInterface.SelectWindowEventLayer);
+            SecondaryActionSelect = new ButtonEvent(GuiFrameworkCamerasInterface.SelectWindowEventLayer);
             SecondaryActionSelect.addButton(MouseButtonCode.MB_BUTTON1);
             DefaultEvents.registerDefaultEvent(SecondaryActionSelect);
         }

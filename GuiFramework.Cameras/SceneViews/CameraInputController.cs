@@ -23,7 +23,7 @@ namespace Anomalous.GuiFramework.Cameras
             Pan = 3
         }
 
-        private static MouseButtonCode currentMouseButton = CamerasInterface.DefaultCameraButton;
+        private static MouseButtonCode currentMouseButton = GuiFrameworkCamerasInterface.DefaultCameraButton;
         private static ButtonEvent RotateCamera;
         private static ButtonEvent PanCamera;
         private static ButtonEvent ZoomCamera;
@@ -38,46 +38,46 @@ namespace Anomalous.GuiFramework.Cameras
 
         static CameraInputController()
         {
-            RotateCamera = new ButtonEvent(CamerasInterface.MoveCameraEventLayer);
+            RotateCamera = new ButtonEvent(GuiFrameworkCamerasInterface.MoveCameraEventLayer);
             RotateCamera.addButton(currentMouseButton);
             DefaultEvents.registerDefaultEvent(RotateCamera);
 
-            PanCamera = new ButtonEvent(CamerasInterface.MoveCameraEventLayer);
+            PanCamera = new ButtonEvent(GuiFrameworkCamerasInterface.MoveCameraEventLayer);
             PanCamera.addButton(currentMouseButton);
-            PanCamera.addButton(CamerasInterface.PanKey);
+            PanCamera.addButton(GuiFrameworkCamerasInterface.PanKey);
             DefaultEvents.registerDefaultEvent(PanCamera);
 
-            ZoomCamera = new ButtonEvent(CamerasInterface.MoveCameraEventLayer);
+            ZoomCamera = new ButtonEvent(GuiFrameworkCamerasInterface.MoveCameraEventLayer);
             ZoomCamera.addButton(currentMouseButton);
             ZoomCamera.addButton(KeyboardButtonCode.KC_LMENU);
             DefaultEvents.registerDefaultEvent(ZoomCamera);
 
-            ZoomInCamera = new ButtonEvent(CamerasInterface.MoveCameraEventLayer);
+            ZoomInCamera = new ButtonEvent(GuiFrameworkCamerasInterface.MoveCameraEventLayer);
             ZoomInCamera.MouseWheelDirection = MouseWheelDirection.Up;
             DefaultEvents.registerDefaultEvent(ZoomInCamera);
 
-            ZoomOutCamera = new ButtonEvent(CamerasInterface.MoveCameraEventLayer);
+            ZoomOutCamera = new ButtonEvent(GuiFrameworkCamerasInterface.MoveCameraEventLayer);
             ZoomOutCamera.MouseWheelDirection = MouseWheelDirection.Down;
             DefaultEvents.registerDefaultEvent(ZoomOutCamera);
 
-            LockX = new ButtonEvent(CamerasInterface.MoveCameraEventLayer);
+            LockX = new ButtonEvent(GuiFrameworkCamerasInterface.MoveCameraEventLayer);
             LockX.addButton(KeyboardButtonCode.KC_C);
             DefaultEvents.registerDefaultEvent(LockX);
 
-            LockY = new ButtonEvent(CamerasInterface.MoveCameraEventLayer);
+            LockY = new ButtonEvent(GuiFrameworkCamerasInterface.MoveCameraEventLayer);
             LockY.addButton(KeyboardButtonCode.KC_X);
             DefaultEvents.registerDefaultEvent(LockY);
 
-            switch (CamerasInterface.TouchType)
+            switch (GuiFrameworkCamerasInterface.TouchType)
             { 
                 case TouchType.Screen:
-                    zoomGesture = new FingerDragGesture(CamerasInterface.MoveCameraEventLayer, 2, 0.5f, 2f, 5);
+                    zoomGesture = new FingerDragGesture(GuiFrameworkCamerasInterface.MoveCameraEventLayer, 2, 0.5f, 2f, 5);
                     DefaultEvents.registerDefaultEvent(zoomGesture);
 
-                    rotateGesture = new FingerDragGesture(CamerasInterface.MoveCameraEventLayer, 1, 0.5f, 2f, 5);
+                    rotateGesture = new FingerDragGesture(GuiFrameworkCamerasInterface.MoveCameraEventLayer, 1, 0.5f, 2f, 5);
                     DefaultEvents.registerDefaultEvent(rotateGesture);
 
-                    panGesture = new FingerDragGesture(CamerasInterface.MoveCameraEventLayer, 3, 0.5f, 2f, 5);
+                    panGesture = new FingerDragGesture(GuiFrameworkCamerasInterface.MoveCameraEventLayer, 3, 0.5f, 2f, 5);
                     DefaultEvents.registerDefaultEvent(panGesture);
                 break;
             }
@@ -109,7 +109,7 @@ namespace Anomalous.GuiFramework.Cameras
         {
             this.sceneViewController = sceneViewController;
             this.eventManager = eventManager;
-            eventManager[CamerasInterface.MoveCameraEventLayer].OnUpdate += processInputEvents;
+            eventManager[GuiFrameworkCamerasInterface.MoveCameraEventLayer].OnUpdate += processInputEvents;
 
             mouseWheelTimer = new Timer(UPDATE_DELAY);
             mouseWheelTimer.SynchronizingObject = new ThreadManagerSynchronizeInvoke();
@@ -140,7 +140,7 @@ namespace Anomalous.GuiFramework.Cameras
 
         public void Dispose()
         {
-            eventManager[CamerasInterface.MoveCameraEventLayer].OnUpdate -= processInputEvents;
+            eventManager[GuiFrameworkCamerasInterface.MoveCameraEventLayer].OnUpdate -= processInputEvents;
 
             RotateCamera.FirstFrameDownEvent -= rotateCamera_FirstFrameDownEvent;
             RotateCamera.FirstFrameUpEvent -= rotateCamera_FirstFrameUpEvent;

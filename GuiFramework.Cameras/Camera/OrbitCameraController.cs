@@ -324,7 +324,7 @@ namespace Anomalous.GuiFramework.Cameras
         {
             if (currentIncludePoint.HasValue)
             {
-                float duration = CamerasInterface.CameraTransitionTime;
+                float duration = GuiFrameworkCamerasInterface.CameraTransitionTime;
                 Vector3 inclLookAt = LookAt;
                 Vector3 inclTrans = Translation;
                 if (automaticMovement)

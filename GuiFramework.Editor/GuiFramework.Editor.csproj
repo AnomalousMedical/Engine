@@ -36,6 +36,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Plugin\GuiFrameworkEditorEntryPoint.cs" />
+    <Compile Include="Plugin\GuiFrameworkEditorInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\FileTracker.cs" />
   </ItemGroup>
@@ -43,6 +45,18 @@
     <ProjectReference Include="..\Engine\Engine.csproj">
       <Project>{57c253f1-157f-4a6a-9fed-345a776b97d5}</Project>
       <Name>Engine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GuiFramework.Cameras\GuiFramework.Cameras.csproj">
+      <Project>{83d4bb54-ff33-4011-9819-582458329d9b}</Project>
+      <Name>GuiFramework.Cameras</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GuiFramework\GuiFramework.csproj">
+      <Project>{fc299a06-61bd-4562-a315-0f0be454925a}</Project>
+      <Name>GuiFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OgrePlugin\OgrePlugin.csproj">
+      <Project>{e9fd5768-32e1-42c7-8256-4d7b97c22a9b}</Project>
+      <Name>OgrePlugin</Name>
     </ProjectReference>
     <ProjectReference Include="..\OSPlatform\OSPlatform.csproj">
       <Project>{6e594c78-9cd8-432d-a135-11c4a72f3bcf}</Project>

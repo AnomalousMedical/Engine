@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Anomalous.GuiFramework.Cameras
 {
-    public class CamerasInterface : PluginInterface
+    public class GuiFrameworkCamerasInterface : PluginInterface
     {
         /// <summary>
         /// How long it takes a camera to move automatically
@@ -27,7 +27,7 @@ namespace Anomalous.GuiFramework.Cameras
 
         public static TouchType TouchType { get; set; }
 
-        static CamerasInterface()
+        static GuiFrameworkCamerasInterface()
         {
             CameraTransitionTime = 0.5f;
             PanKey = KeyboardButtonCode.KC_LCONTROL;
@@ -35,7 +35,7 @@ namespace Anomalous.GuiFramework.Cameras
             TouchType = TouchType.None;
         }
 
-        internal CamerasInterface()
+        internal GuiFrameworkCamerasInterface()
         {
 
         }

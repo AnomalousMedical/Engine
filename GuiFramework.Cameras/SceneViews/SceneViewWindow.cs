@@ -500,7 +500,7 @@ namespace Anomalous.GuiFramework.Cameras
                 {
                     ExecuteFunc = state =>
                     {
-                        this.setPosition(state, CamerasInterface.CameraTransitionTime);
+                        this.setPosition(state, GuiFrameworkCamerasInterface.CameraTransitionTime);
                         if (OnRedo != null)
                         {
                             OnRedo.Invoke(this);
@@ -508,7 +508,7 @@ namespace Anomalous.GuiFramework.Cameras
                     },
                     UndoFunc = state =>
                     {
-                        this.setPosition(state, CamerasInterface.CameraTransitionTime);
+                        this.setPosition(state, GuiFrameworkCamerasInterface.CameraTransitionTime);
                         if (OnUndo != null)
                         {
                             OnUndo.Invoke(this);

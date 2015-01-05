@@ -42,8 +42,8 @@
     <Compile Include="Camera\OrbitCameraController.cs" />
     <Compile Include="GUI\SceneStats\SceneStatsDisplay.cs" />
     <Compile Include="GUI\SceneStats\SceneStatsDisplayManager.cs" />
-    <Compile Include="Plugin\CamerasEntryPoint.cs" />
-    <Compile Include="Plugin\CamerasInterface.cs" />
+    <Compile Include="Plugin\GuiFrameworkCamerasEntryPoint.cs" />
+    <Compile Include="Plugin\GuiFrameworkCamerasInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SceneViews\CameraInputController.cs" />
     <Compile Include="SceneViews\CameraPosition.cs" />

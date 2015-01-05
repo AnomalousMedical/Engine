@@ -145,8 +145,8 @@ namespace OgreModelEditor
             //Initailize plugins
             MyGUIInterface.EventLayerKey = EventLayers.Main;
 
-            CamerasInterface.MoveCameraEventLayer = EventLayers.Cameras;
-            CamerasInterface.SelectWindowEventLayer = EventLayers.AfterMain;
+            GuiFrameworkCamerasInterface.MoveCameraEventLayer = EventLayers.Cameras;
+            GuiFrameworkCamerasInterface.SelectWindowEventLayer = EventLayers.AfterMain;
 
             pluginManager = new PluginManager(OgreModelEditorConfig.ConfigFile);
             pluginManager.OnConfigureDefaultWindow = createWindow;
@@ -154,7 +154,7 @@ namespace OgreModelEditor
             pluginManager.addPluginAssembly(typeof(NativePlatformPlugin).Assembly);
             pluginManager.addPluginAssembly(typeof(MyGUIInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(GuiFrameworkInterface).Assembly);
-            pluginManager.addPluginAssembly(typeof(CamerasInterface).Assembly);
+            pluginManager.addPluginAssembly(typeof(GuiFrameworkCamerasInterface).Assembly);
             pluginManager.initializePlugins();
             frameClearManager = new FrameClearManager(OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget, new Color(0.2f, 0.2f, 0.2f));
 
