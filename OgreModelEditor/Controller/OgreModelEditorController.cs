@@ -24,7 +24,7 @@ namespace OgreModelEditor
 {
     class OgreModelEditorController : IDisposable
     {
-        private const float DefaultOrbitDistance = 200.0f;
+        private const float DefaultOrbitDistance = 150.0f;
 
         //Engine
         private PluginManager pluginManager;

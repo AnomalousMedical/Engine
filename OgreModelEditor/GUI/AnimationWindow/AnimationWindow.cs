@@ -79,6 +79,15 @@ namespace OgreModelEditor
             }
         }
 
+        public void modelUnloading()
+        {
+            if(playingAnimationState != null)
+            {
+                playingAnimationState.Playing = false;
+                playingAnimationState = null;
+            }
+        }
+
         void listBox_ListSelectAccept(Widget source, EventArgs e)
         {
             if (playingAnimationState != null)

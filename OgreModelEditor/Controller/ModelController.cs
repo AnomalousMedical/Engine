@@ -99,6 +99,7 @@ namespace OgreModelEditor.Controller
         {
             if (currentSimObject != null)
             {
+                animationWindow.modelUnloading();
                 currentSimObject.Dispose();
             }
         }
