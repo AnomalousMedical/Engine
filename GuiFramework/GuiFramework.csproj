@@ -68,6 +68,7 @@
     <Compile Include="GUI\Notification\NotificationGUIManager.cs" />
     <Compile Include="GUI\Notification\StartTaskNotification.cs" />
     <Compile Include="GUI\PinableMDIDialog.cs" />
+    <Compile Include="GUI\SplashScreen.cs" />
     <Compile Include="GUI\Taskbar\AppButtonTaskbar.cs" />
     <Compile Include="GUI\Taskbar\ClosingTaskbar.cs" />
     <Compile Include="GUI\Taskbar\PinnedTaskSerializer.cs" />
