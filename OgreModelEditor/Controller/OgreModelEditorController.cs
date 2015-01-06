@@ -6,8 +6,6 @@ using Logging;
 using Engine.Platform;
 using Engine;
 using OgrePlugin;
-using System.Windows.Forms;
-using WeifenLuo.WinFormsUI.Docking;
 using Engine.Renderer;
 using Engine.ObjectManagement;
 using Engine.Resources;

@@ -5,7 +5,6 @@ using System.Text;
 using Engine.ObjectManagement;
 using OgrePlugin;
 using Engine;
-using WeifenLuo.WinFormsUI.Docking;
 using Logging;
 using System.Diagnostics;
 using System.IO;

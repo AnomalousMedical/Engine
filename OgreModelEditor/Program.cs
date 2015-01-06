@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 using Logging;
 using System.IO;
 using Engine.Platform;
@@ -18,8 +17,6 @@ namespace OgreModelEditor
         static void Main()
         {
             StartupManager.SetupDllDirectories();
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
 
             OgreModelEditorApp app = null;
             try
