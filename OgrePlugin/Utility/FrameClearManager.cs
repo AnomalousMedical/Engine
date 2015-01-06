@@ -51,6 +51,18 @@ namespace OgrePlugin
             renderTarget.PreRenderTargetUpdate -= OgreRenderWindow_PreRenderTargetUpdate;
         }
 
+        public Color ClearColor
+        {
+            get
+            {
+                return clearColor;
+            }
+            set
+            {
+                clearColor = value;
+            }
+        }
+
         void OgreRenderWindow_PreRenderTargetUpdate()
         {
             viewport.clear(FrameBufferType.FBT_COLOUR | FrameBufferType.FBT_DEPTH | FrameBufferType.FBT_STENCIL, clearColor);

@@ -522,6 +522,14 @@ namespace OgreModelEditor
             }
         }
 
+        public FrameClearManager FrameClear
+        {
+            get
+            {
+                return frameClearManager;
+            }
+        }
+
         void mainWindow_Closed(OSWindow window)
         {
             exit();

@@ -70,15 +70,15 @@ namespace OgreModelEditor
 
             MenuItem resourcesItem = menuBar.addItem("Resources", MenuItemType.Popup);
             MenuControl resources = menuBar.createItemPopupMenuChild(resourcesItem);
-            resources.addItemAction("Reload All", reloadAll);
+            resources.addItemAction("Reload All (F5)", reloadAll);
             resources.addItemAction("Define External Resources", defineExternal);
 
             MenuItem debugItem = menuBar.addItem("Debug", MenuItemType.Popup);
             MenuControl debug = menuBar.createItemPopupMenuChild(debugItem);
-            debug.addItemAction("View Shaded", viewShaded);
-            debug.addItemAction("View Binormals", viewBinormals);
-            debug.addItemAction("View Tangents", viewTangents);
-            debug.addItemAction("View Normals", viewNormals);
+            debug.addItemAction("View Shaded (F1)", viewShaded);
+            debug.addItemAction("View Binormals (F2)", viewBinormals);
+            debug.addItemAction("View Tangents (F3)", viewTangents);
+            debug.addItemAction("View Normals (F4)", viewNormals);
             MenuItem viewTexture = debug.addItem("View Texture", MenuItemType.Popup);
             textureMenu = debug.createItemPopupMenuChild(viewTexture);
             showSkeleton = debug.addItemAction("Show Skeleton", changeShowSkeleton);
@@ -97,7 +97,7 @@ namespace OgreModelEditor
             layout.addItemAction("Two Window", twoWindow);
             layout.addItemAction("Three Window", threeWindow);
             layout.addItemAction("Four Window", fourWindow);
-            window.addItem("Change Background Color");
+            window.addItemAction("Change Background Color", changeBackgroundColor);
 
             //Buttons
             ButtonGroup toolButtons = new ButtonGroup();
@@ -301,6 +301,18 @@ namespace OgreModelEditor
                     if(result == NativeDialogResult.OK)
                     {
                         controller.saveModelJSON(path);
+                    }
+                });
+        }
+
+        private void changeBackgroundColor()
+        {
+            ColorDialog colorDialog = new ColorDialog(controller.MainWindow);
+            colorDialog.showModal((result, color) =>
+                {
+                    if(result == NativeDialogResult.OK)
+                    {
+                        controller.FrameClear.ClearColor = color;
                     }
                 });
         }
