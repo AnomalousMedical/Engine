@@ -96,7 +96,7 @@ namespace OgreModelEditor
                     this.value.OnlyText = value.ToString();
                 }
             }
-            catch (SEHException)
+            catch (OgreException)
             {
                 this.value.OnlyText = "";
             }

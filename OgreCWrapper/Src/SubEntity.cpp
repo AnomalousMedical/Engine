@@ -37,7 +37,14 @@ extern "C" _AnomalousExport void SubEntity_setCustomParameter(Ogre::SubEntity* s
 
 extern "C" _AnomalousExport Quaternion SubEntity_getCustomParameter(Ogre::SubEntity* subEntity, size_t index)
 {
-	return subEntity->getCustomParameter(index);
+	try
+	{
+		return subEntity->getCustomParameter(index);
+	}
+	catch (Ogre::Exception& ex)
+	{
+		sendExceptionToManagedCode(ex);
+	}
 }
 
 #pragma warning(pop)

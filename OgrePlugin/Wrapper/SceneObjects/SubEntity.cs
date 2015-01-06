@@ -61,7 +61,9 @@ namespace OgrePlugin
 
         public Quaternion getCustomParameter(int index)
         {
-            return SubEntity_getCustomParameter(subEntity, new IntPtr(index));
+            var result =  SubEntity_getCustomParameter(subEntity, new IntPtr(index));
+            OgreExceptionManager.fireAnyException();
+            return result;
         }
 
         #region PInvoke
