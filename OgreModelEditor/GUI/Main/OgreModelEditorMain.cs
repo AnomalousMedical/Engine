@@ -1,6 +1,7 @@
 ﻿using Anomalous.GuiFramework;
 using Anomalous.GuiFramework.Editor;
 using Anomalous.OSPlatform;
+using Engine;
 using Engine.Platform;
 using MyGUIPlugin;
 using System;
@@ -97,6 +98,11 @@ namespace OgreModelEditor
             layout.addItemAction("Two Window", twoWindow);
             layout.addItemAction("Three Window", threeWindow);
             layout.addItemAction("Four Window", fourWindow);
+            MenuItem renderingModeItem = window.addItem("Rendering Mode", MenuItemType.Popup);
+            MenuControl renderingMode = window.createItemPopupMenuChild(renderingModeItem);
+            renderingMode.addItemAction("Solid", setSolid);
+            renderingMode.addItemAction("Wireframe", setWireframe);
+            renderingMode.addItemAction("Point", setPoints);
             window.addItemAction("Change Background Color", changeBackgroundColor);
 
             //Buttons
@@ -315,6 +321,21 @@ namespace OgreModelEditor
                         controller.FrameClear.ClearColor = color;
                     }
                 });
+        }
+
+        private void setSolid()
+        {
+            controller.SceneViewController.ActiveWindow.RenderingMode = RenderingMode.Solid;
+        }
+
+        private void setWireframe()
+        {
+            controller.SceneViewController.ActiveWindow.RenderingMode = RenderingMode.Wireframe;
+        }
+
+        private void setPoints()
+        {
+            controller.SceneViewController.ActiveWindow.RenderingMode = RenderingMode.Points;
         }
     }
 }

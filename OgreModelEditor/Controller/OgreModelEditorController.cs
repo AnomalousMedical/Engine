@@ -530,6 +530,14 @@ namespace OgreModelEditor
             }
         }
 
+        public SceneViewController SceneViewController
+        {
+            get
+            {
+                return sceneViewController;
+            }
+        }
+
         void mainWindow_Closed(OSWindow window)
         {
             exit();
