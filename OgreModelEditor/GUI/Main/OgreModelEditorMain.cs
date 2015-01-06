@@ -1,6 +1,7 @@
 ﻿using Anomalous.GuiFramework;
 using Anomalous.GuiFramework.Editor;
 using Anomalous.OSPlatform;
+using Engine.Platform;
 using MyGUIPlugin;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,34 @@ namespace OgreModelEditor
 {
     class OgreModelEditorMain : Component
     {
+        private static ButtonEvent showShadedShortcut;
+        private static ButtonEvent showBiNormalShortcut;
+        private static ButtonEvent showTangentShortcut;
+        private static ButtonEvent showNormalShortcut;
+        private static ButtonEvent refreshShortcut;
+        static OgreModelEditorMain()
+        {
+            showShadedShortcut = new ButtonEvent(EventLayers.AfterMain);
+            showShadedShortcut.addButton(KeyboardButtonCode.KC_F1);
+            DefaultEvents.registerDefaultEvent(showShadedShortcut);
+
+            showBiNormalShortcut = new ButtonEvent(EventLayers.AfterMain);
+            showBiNormalShortcut.addButton(KeyboardButtonCode.KC_F2);
+            DefaultEvents.registerDefaultEvent(showBiNormalShortcut);
+
+            showTangentShortcut = new ButtonEvent(EventLayers.AfterMain);
+            showTangentShortcut.addButton(KeyboardButtonCode.KC_F3);
+            DefaultEvents.registerDefaultEvent(showTangentShortcut);
+
+            showNormalShortcut = new ButtonEvent(EventLayers.AfterMain);
+            showNormalShortcut.addButton(KeyboardButtonCode.KC_F4);
+            DefaultEvents.registerDefaultEvent(showNormalShortcut);
+
+            refreshShortcut = new ButtonEvent(EventLayers.AfterMain);
+            refreshShortcut.addButton(KeyboardButtonCode.KC_F5);
+            DefaultEvents.registerDefaultEvent(refreshShortcut);
+        }
+
         private OgreModelEditorController controller;
         private FileTracker fileTracker = new FileTracker()
             {
@@ -83,7 +112,12 @@ namespace OgreModelEditor
             Button rotate = widget.findWidget("Rotate") as Button;
             rotate.MouseButtonClick += rotate_MouseButtonClick;
             toolButtons.addButton(rotate);
-            
+
+            showBiNormalShortcut.FirstFrameUpEvent += layer => viewBinormals();
+            showTangentShortcut.FirstFrameUpEvent += layer => viewTangents();
+            showNormalShortcut.FirstFrameUpEvent += layer => viewNormals();
+            showShadedShortcut.FirstFrameUpEvent += layer => viewShaded();
+            refreshShortcut.FirstFrameUpEvent += layer => reloadAll();
         }
 
         public SingleChildLayoutContainer LayoutContainer { get; private set; }
@@ -167,31 +201,6 @@ namespace OgreModelEditor
                 controller.setTextureDebug(toolItem.Caption);
             }
         }
-
-        //protected override void OnKeyDown(KeyEventArgs e)
-        //{
-        //    base.OnKeyDown(e);
-        //    if (e.KeyCode == Keys.F1)
-        //    {
-        //        controller.setNormalMaterial();
-        //    }
-        //    if (e.KeyCode == Keys.F2)
-        //    {
-        //        controller.setBinormalDebug();
-        //    }
-        //    if (e.KeyCode == Keys.F3)
-        //    {
-        //        controller.setTangentDebug();
-        //    }
-        //    if (e.KeyCode == Keys.F4)
-        //    {
-        //        controller.setNormalDebug();
-        //    }
-        //    if (e.KeyCode == Keys.F5)
-        //    {
-        //        controller.refreshResources();
-        //    }
-        //}
 
         private void oneWindow()
         {
