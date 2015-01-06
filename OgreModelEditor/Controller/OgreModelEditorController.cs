@@ -514,6 +514,14 @@ namespace OgreModelEditor
             }
         }
 
+        public NativeOSWindow MainWindow
+        {
+            get
+            {
+                return mainWindow;
+            }
+        }
+
         void mainWindow_Closed(OSWindow window)
         {
             exit();

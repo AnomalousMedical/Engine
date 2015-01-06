@@ -1,5 +1,6 @@
 ﻿using Anomalous.GuiFramework;
 using Anomalous.GuiFramework.Editor;
+using Anomalous.OSPlatform;
 using MyGUIPlugin;
 using System;
 using System.Collections.Generic;
@@ -28,63 +29,46 @@ namespace OgreModelEditor
             LayoutContainer = new MyGUISingleChildLayoutContainer(widget);
 
             MenuBar menuBar = widget.findWidget("MenuBar") as MenuBar;
+            menuBar.AutoAcceptRunAction = true;
             MenuItem fileItem = menuBar.addItem("File", MenuItemType.Popup);
             MenuControl file = menuBar.createItemPopupMenuChild(fileItem);
-            MenuItem open = file.addItem("Open", MenuItemType.Normal);
-            open.MouseButtonClick += open_MouseButtonClick;
-            MenuItem save = file.addItem("Save", MenuItemType.Normal);
-            save.MouseButtonClick += save_MouseButtonClick;
-            MenuItem saveAs = file.addItem("Save As");
-            saveAs.MouseButtonClick += saveAs_MouseButtonClick;
-            MenuItem batchUpgrade = file.addItem("Batch Upgrade");
-            batchUpgrade.MouseButtonClick += batchUpgrade_MouseButtonClick;
-            MenuItem exportToJson = file.addItem("Export to JSON");
-            exportToJson.MouseButtonClick += exportToJson_MouseButtonClick;
-            MenuItem exit = file.addItem("Exit", MenuItemType.Normal);
-            exit.MouseButtonClick += exit_MouseButtonClick;
+            file.addItemAction("Open", open);
+            file.addItemAction("Save", save);
+            file.addItemAction("Save As", saveAs);
+            file.addItemAction("Batch Upgrade", batchUpgrade);
+            file.addItemAction("Export to JSON", exportToJson);
+            MenuItem exit = file.addItemAction("Exit", controller.exit);
 
             MenuItem resourcesItem = menuBar.addItem("Resources", MenuItemType.Popup);
             MenuControl resources = menuBar.createItemPopupMenuChild(resourcesItem);
-            MenuItem reloadAll = resources.addItem("Reload All");
-            reloadAll.MouseButtonClick += reloadAll_MouseButtonClick;
-            MenuItem defineExternal = resources.addItem("Define External Resources");
-            defineExternal.MouseButtonClick += defineExternal_MouseButtonClick;
+            resources.addItemAction("Reload All", reloadAll);
+            resources.addItemAction("Define External Resources", defineExternal);
 
             MenuItem debugItem = menuBar.addItem("Debug", MenuItemType.Popup);
             MenuControl debug = menuBar.createItemPopupMenuChild(debugItem);
-            MenuItem viewShaded = debug.addItem("View Shaded");
-            viewShaded.MouseButtonClick += viewShaded_MouseButtonClick;
-            MenuItem viewBinormals = debug.addItem("View Binormals");
-            viewBinormals.MouseButtonClick += viewBinormals_MouseButtonClick;
-            MenuItem viewTangents = debug.addItem("View Tangents");
-            viewTangents.MouseButtonClick += viewTangents_MouseButtonClick;
-            MenuItem viewNormals = debug.addItem("View Normals");
-            viewNormals.MouseButtonClick += viewNormals_MouseButtonClick;
+            debug.addItemAction("View Shaded", viewShaded);
+            debug.addItemAction("View Binormals", viewBinormals);
+            debug.addItemAction("View Tangents", viewTangents);
+            debug.addItemAction("View Normals", viewNormals);
             MenuItem viewTexture = debug.addItem("View Texture", MenuItemType.Popup);
             textureMenu = debug.createItemPopupMenuChild(viewTexture);
-            showSkeleton = debug.addItem("Show Skeleton");
-            showSkeleton.MouseButtonClick += showSkeleton_MouseButtonClick;
+            showSkeleton = debug.addItemAction("Show Skeleton", changeShowSkeleton);
 
             MenuItem modelItem = menuBar.addItem("Model", MenuItemType.Popup);
             MenuControl model = menuBar.createItemPopupMenuChild(modelItem);
-            MenuItem recalculateTangents = model.addItem("Recalculate Tangents");
-            recalculateTangents.MouseButtonClick += recalculateTangents_MouseButtonClick;
+            model.addItemAction("Recalculate Tangents", recalculateTangents);
 
             MenuItem windowItem = menuBar.addItem("Window", MenuItemType.Popup);
             MenuControl window = menuBar.createItemPopupMenuChild(windowItem);
-            showStats = window.addItem("Show Stats");
-            showStats.MouseButtonClick += showStats_MouseButtonClick;
+            showStats = window.addItemAction("Show Stats", changeShowStats);
             showStats.Selected = controller.ShowStats;
             MenuItem layoutItem = window.addItem("Layout", MenuItemType.Popup);
             MenuControl layout = window.createItemPopupMenuChild(layoutItem);
-            MenuItem oneWindow = layout.addItem("One Window");
-            oneWindow.MouseButtonClick += oneWindow_MouseButtonClick;
-            MenuItem twoWindow = layout.addItem("Two Window");
-            twoWindow.MouseButtonClick += twoWindow_MouseButtonClick;
-            MenuItem threeWindow = layout.addItem("Three Window");
-            threeWindow.MouseButtonClick += threeWindow_MouseButtonClick;
-            MenuItem fourWindow = layout.addItem("Four Window");
-            fourWindow.MouseButtonClick += fourWindow_MouseButtonClick;
+            layout.addItemAction("One Window", oneWindow);
+            layout.addItemAction("Two Window", twoWindow);
+            layout.addItemAction("Three Window", threeWindow);
+            layout.addItemAction("Four Window", fourWindow);
+            window.addItem("Change Background Color");
 
             //Buttons
             ButtonGroup toolButtons = new ButtonGroup();
@@ -102,11 +86,6 @@ namespace OgreModelEditor
             
         }
 
-        void exit_MouseButtonClick(Widget source, EventArgs e)
-        {
-            controller.exit();
-        }
-
         public SingleChildLayoutContainer LayoutContainer { get; private set; }
 
         public void currentFileChanged(String filename)
@@ -115,17 +94,17 @@ namespace OgreModelEditor
             controller.updateWindowTitle(fileTracker.CurrentFile);
         }
 
-        void open_MouseButtonClick(Widget source, EventArgs e)
+        void open()
         {
             fileTracker.openFile(file => controller.openModel(file));
         }
 
-        void save_MouseButtonClick(Widget source, EventArgs e)
+        void save()
         {
             fileTracker.saveFile(file => controller.saveModel(file));
         }
 
-        void saveAs_MouseButtonClick(Widget source, EventArgs e)
+        void saveAs()
         {
             fileTracker.saveFileAs(file =>
                 {
@@ -134,37 +113,37 @@ namespace OgreModelEditor
                 });
         }
 
-        private void defineExternal_MouseButtonClick(Widget source, EventArgs e)
+        private void defineExternal()
         {
             controller.editExternalResources();
         }
 
-        private void reloadAll_MouseButtonClick(Widget source, EventArgs e)
+        private void reloadAll()
         {
             controller.refreshResources();
         }
 
-        private void viewBinormals_MouseButtonClick(Widget source, EventArgs e)
+        private void viewBinormals()
         {
             controller.setBinormalDebug();
         }
 
-        private void viewTangents_MouseButtonClick(Widget source, EventArgs e)
+        private void viewTangents()
         {
             controller.setTangentDebug();
         }
 
-        private void viewNormals_MouseButtonClick(Widget source, EventArgs e)
+        private void viewNormals()
         {
             controller.setNormalDebug();
         }
 
-        private void viewShaded_MouseButtonClick(Widget source, EventArgs e)
+        private void viewShaded()
         {
             controller.setNormalMaterial();
         }
 
-        private void recalculateTangents_MouseButtonClick(Widget source, EventArgs e)
+        private void recalculateTangents()
         {
             controller.buildTangentVectors();
             controller.buildBinormalVectors();
@@ -214,27 +193,27 @@ namespace OgreModelEditor
         //    }
         //}
 
-        private void oneWindow_MouseButtonClick(Widget source, EventArgs e)
+        private void oneWindow()
         {
             controller.createOneWindow();
         }
 
-        private void twoWindow_MouseButtonClick(Widget source, EventArgs e)
+        private void twoWindow()
         {
             controller.createTwoWindows();
         }
 
-        private void threeWindow_MouseButtonClick(Widget source, EventArgs e)
+        private void threeWindow()
         {
             controller.createThreeWindows();
         }
 
-        void fourWindow_MouseButtonClick(Widget source, EventArgs e)
+        void fourWindow()
         {
             controller.createFourWindows();
         }
 
-        private void showStats_MouseButtonClick(Widget source, EventArgs e)
+        private void changeShowStats()
         {
             controller.ShowStats = showStats.Selected = !showStats.Selected;
         }
@@ -286,33 +265,35 @@ namespace OgreModelEditor
         //    }
         //}
 
-        private void showSkeleton_MouseButtonClick(Widget source, EventArgs e)
+        private void changeShowSkeleton()
         {
             showSkeleton.Selected = !showSkeleton.Selected;
             controller.setShowSkeleton(showSkeleton.Selected);
         }
 
-        private void batchUpgrade_MouseButtonClick(Widget source, EventArgs e)
+        private void batchUpgrade()
         {
-            //using (FolderBrowserDialog folderBrowser = new FolderBrowserDialog())
-            //{
-            //    if (folderBrowser.ShowDialog(this) == DialogResult.OK)
-            //    {
-            //        String path = folderBrowser.SelectedPath;
-            //        controller.batchResaveMeshes(path);
-            //    }
-            //}
+
+            DirDialog folderBrowser = new DirDialog(controller.MainWindow);
+            folderBrowser.showModal((result, path) =>
+                {
+                    if(result == NativeDialogResult.OK)
+                    {
+                        controller.batchResaveMeshes(path);
+                    }
+                });
         }
 
-        private void exportToJson_MouseButtonClick(Widget source, EventArgs e)
+        private void exportToJson()
         {
-            //using (SaveFileDialog saveFileDialog = new SaveFileDialog())
-            //{
-            //    if (saveFileDialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
-            //    {
-            //        controller.saveModelJSON(saveFileDialog.FileName);
-            //    }
-            //}
+            FileSaveDialog saveDialog = new FileSaveDialog(controller.MainWindow);
+            saveDialog.showModal((result, path) =>
+                {
+                    if(result == NativeDialogResult.OK)
+                    {
+                        controller.saveModelJSON(path);
+                    }
+                });
         }
     }
 }

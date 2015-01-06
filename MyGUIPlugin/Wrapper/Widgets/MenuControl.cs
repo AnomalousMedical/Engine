@@ -8,6 +8,8 @@ namespace MyGUIPlugin
 {
     public class MenuControl : Widget
     {
+        bool autoAcceptRunAction = false;
+
         public MenuControl(IntPtr menuCtrl)
             :base(menuCtrl)
         {
@@ -67,6 +69,54 @@ namespace MyGUIPlugin
         public MenuItem addItem(String name, MenuItemType type, String id)
         {
             return (MenuItem)WidgetManager.getWidget(MenuControl_addItem3(widget, name, type, id));
+        }
+
+        /// <summary>
+        /// Add an item with a specific action to execute. Note that this consumes the UserObject
+        /// for the item added. This can be used with AutoAcceptRunAction set to true to make the
+        /// menu automatically run the actions it is given.
+        /// </summary>
+        /// <param name="name">The name of the item, this will appear in the menu.</param>
+        /// <param name="action">The Action to run when clicked if AutoAcceptRunAction is true. This will consume the UserObject for the menu item.</param>
+        /// <returns>A new MenuItem.</returns>
+        public MenuItem addItemAction(String name, Action action)
+        {
+            MenuItem item = addItem(name);
+            item.UserObject = action;
+            return item;
+        }
+
+        /// <summary>
+        /// Add an item with a specific action to execute. Note that this consumes the UserObject
+        /// for the item added. This can be used with AutoAcceptRunAction set to true to make the
+        /// menu automatically run the actions it is given.
+        /// </summary>
+        /// <param name="name">The name of the item, this will appear in the menu.</param>
+        /// <param name="type">The type of item to add.</param>
+        /// <param name="action">The Action to run when clicked if AutoAcceptRunAction is true. This will consume the UserObject for the menu item.</param>
+        /// <returns>A new MenuItem.</returns>
+        public MenuItem addItemAction(String name, MenuItemType type, Action action)
+        {
+            MenuItem item = addItem(name, type);
+            item.UserObject = action;
+            return item;
+        }
+
+        /// <summary>
+        /// Add an item with a specific action to execute. Note that this consumes the UserObject
+        /// for the item added. This can be used with AutoAcceptRunAction set to true to make the
+        /// menu automatically run the actions it is given.
+        /// </summary>
+        /// <param name="name">The name of the item, this will appear in the menu.</param>
+        /// <param name="type">The type of item to add.</param>
+        /// <param name="id">The id of the item.</param>
+        /// <param name="action">The Action to run when clicked if AutoAcceptRunAction is true. This will consume the UserObject for the menu item.</param>
+        /// <returns>A new MenuItem.</returns>
+        public MenuItem addItemAction(String name, MenuItemType type, String id, Action action)
+        {
+            MenuItem item = addItem(name, type, id);
+            item.UserObject = action;
+            return item;
         }
 
         public void removeItemAt(uint index)
@@ -267,6 +317,44 @@ namespace MyGUIPlugin
             remove
             {
                 eventManager.removeDelegate<EventMenuCtrlCloseTranslator>(value);
+            }
+        }
+
+        /// <summary>
+        /// Set this to true to automatically run the UserObject of all items
+        /// added to any menu or submenu's UserObject as an action, use this
+        /// with the addItemAction functions.
+        /// </summary>
+        public bool AutoAcceptRunAction
+        {
+            get
+            {
+                return autoAcceptRunAction;
+            }
+            set
+            {
+                if (value != autoAcceptRunAction)
+                {
+                    autoAcceptRunAction = value;
+                    if (value)
+                    {
+                        this.ItemAccept += MenuControl_ItemAccept;
+                    }
+                    else
+                    {
+                        this.ItemAccept -= MenuControl_ItemAccept;
+                    }
+                }
+            }
+        }
+
+        void MenuControl_ItemAccept(Widget source, EventArgs e)
+        {
+            MenuCtrlAcceptEventArgs mcae = e as MenuCtrlAcceptEventArgs;
+            Action action = mcae.Item.UserObject as Action;
+            if (action != null)
+            {
+                action.Invoke();
             }
         }
 
