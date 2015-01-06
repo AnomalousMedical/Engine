@@ -22,25 +22,32 @@ namespace Anomaly
 
         public void getSettingsFromCommandLine(String[] commandLine)
         {
-            if (commandLine.Length >= 5)
+            if (commandLine.Length >= 4)
             {
                 SolutionFile = commandLine[2];
-                SceneFile = commandLine[3];
-                Destination = commandLine[4];
-                for (int i = 4; i < commandLine.Length; ++i)
+                Destination = commandLine[3];
+                for (int i = 3; i < commandLine.Length; ++i)
                 {
-                    if (commandLine[i].ToLower() == "-a")
+                    switch(commandLine[i].ToLowerInvariant())
                     {
-                        Archive = true;
-                        ++i;
-                        if(i < commandLine.Length)
-                        {
-                            ArchiveName = commandLine[i];
-                        }
-                    }
-                    else if (commandLine[i].ToLower() == "-o")
-                    {
-                        Obfuscate = true;
+                        case "-a":
+                            Archive = true;
+                            ++i;
+                            if(i < commandLine.Length)
+                            {
+                                ArchiveName = commandLine[i];
+                            }
+                            break;
+                        case "-o":
+                            Obfuscate = true;
+                            break;
+                        case "-p":
+                            ++i;
+                            if (i < commandLine.Length)
+                            {
+                                Profile = commandLine[i];
+                            }
+                            break;
                     }
                 }
             }
@@ -58,18 +65,13 @@ namespace Anomaly
                     Log.Error("Could not find solution file {0}.", SolutionFile);
                     return;
                 }
-                if (!File.Exists(SceneFile))
-                {
-                    Log.Error("Could not find scene file {0}.", SceneFile);
-                    return;
-                }
                 doPublish();
             }
         }
 
         private void doPublish()
         {
-            Log.Info("Publishing resources for scene {0} from solution {1} to {2}.", SceneFile, SolutionFile, Destination);
+            Log.Info("Publishing resources for solution {0} to {1}.", SolutionFile, Destination);
             if (Archive)
             {
                 Log.Info("An archive named {0} will be created.", ArchiveName);
@@ -97,18 +99,23 @@ namespace Anomaly
                 }
                 pluginLoader.loadPlugins(pluginManager);
 
-                XmlTextReader textReader = new XmlTextReader(SceneFile);
-                ScenePackage scenePackage = xmlSaver.restoreObject(textReader) as ScenePackage;
                 publisher.scanResources();
+
+                if(!String.IsNullOrEmpty(Profile))
+                {
+                    Log.Info("Using profile {0}", Profile);
+                    publisher.openResourceProfile(Profile);
+                }
+
                 publisher.copyResources(Destination, ArchiveName, Archive, Obfuscate);
             }
 
             Log.Info("Finished publishing resources to {0}.", Destination);
         }
 
-        public String SolutionFile { get; set; }
+        public String Profile { get; set; }
 
-        public String SceneFile { get; set; }
+        public String SolutionFile { get; set; }
 
         public String Destination { get; set; }
 
