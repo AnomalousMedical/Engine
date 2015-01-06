@@ -198,6 +198,26 @@ namespace Anomalous.GuiFramework
         }
 
         /// <summary>
+        /// Show this window relative to another window, will only do something if this window
+        /// is not visible.
+        /// </summary>
+        /// <param name="previous">The previous window.</param>
+        /// <param name="alignment">The alignment relative to the previous window.</param>
+        public void showRelativeTo(MDIWindow previous, WindowAlignment alignment)
+        {
+            if(!window.Visible)
+            {
+                ensureVisible();
+                doChangeVisibility(true);
+                onShown(EventArgs.Empty);
+                if (MDIManager != null)
+                {
+                    MDIManager.showWindow(this, previous, alignment);
+                }
+            }
+        }
+
+        /// <summary>
         /// Have the window compute its position to ensure it is visible in the given screen area.
         /// </summary>
         public void ensureVisible()

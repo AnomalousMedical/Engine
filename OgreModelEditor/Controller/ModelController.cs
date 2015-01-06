@@ -9,6 +9,7 @@ using WeifenLuo.WinFormsUI.Docking;
 using Logging;
 using System.Diagnostics;
 using System.IO;
+using Anomalous.GuiFramework;
 
 namespace OgreModelEditor.Controller
 {
@@ -56,7 +57,7 @@ namespace OgreModelEditor.Controller
 
             controller.MainTimer.addUpdateListener(animationWindow);
             controller.GuiManager.addManagedDialog(animationWindow);
-            animationWindow.Visible = true;
+            animationWindow.showRelativeTo(skeletonWindow, WindowAlignment.Bottom);
         }
 
         public DockContent getDockContent(String persistString)
