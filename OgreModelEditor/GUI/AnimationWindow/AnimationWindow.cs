@@ -1,18 +1,16 @@
-﻿using System;
+﻿using Anomalous.GuiFramework;
+using Engine.Platform;
+using MyGUIPlugin;
+using OgrePlugin;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
-using WeifenLuo.WinFormsUI.Docking;
-using OgrePlugin;
-using Engine.Platform;
+using System.Threading.Tasks;
 
 namespace OgreModelEditor
 {
-    public partial class AnimationWindow : DockContent, UpdateListener
+    class AnimationWindow : MDIDialog, UpdateListener
     {
         class AnimationWindowListItem
         {
@@ -50,11 +48,16 @@ namespace OgreModelEditor
 
         private Entity currentEntity;
         private AnimationWindowListItem playingAnimationState = null;
+        private MultiListBox listBox;
 
         public AnimationWindow()
+            :base("OgreModelEditor.GUI.AnimationWindow.AnimationWindow.layout")
         {
-            InitializeComponent();
-            animationList.MouseDoubleClick += new MouseEventHandler(animationList_MouseDoubleClick);
+            listBox = window.findWidget("List") as MultiListBox;
+            listBox.ListSelectAccept += listBox_ListSelectAccept;
+            listBox.addColumn("Name", listBox.Width);
+            Button stopButton = window.findWidget("Stop") as Button;
+            stopButton.MouseButtonClick += stopButton_MouseButtonClick;
         }
 
         public void findAnimations(Entity entity)
@@ -65,26 +68,26 @@ namespace OgreModelEditor
                 playingAnimationState = null;
             }
             this.currentEntity = entity;
-            animationList.Items.Clear();
+            listBox.removeAllItems();
             AnimationStateSet animationStateSet = entity.getAllAnimationStates();
             if (animationStateSet != null)
             {
                 foreach (AnimationState state in animationStateSet.AnimationStates)
                 {
-                    animationList.Items.Add(new AnimationWindowListItem(state));
+                    listBox.addItem(state.getAnimationName(),new AnimationWindowListItem(state));
                 }
             }
         }
 
-        void animationList_MouseDoubleClick(object sender, MouseEventArgs e)
+        void listBox_ListSelectAccept(Widget source, EventArgs e)
         {
             if (playingAnimationState != null)
             {
                 playingAnimationState.Playing = false;
             }
-            if (animationList.SelectedIndex >= 0)
+            if (listBox.getIndexSelected() >= 0)
             {
-                playingAnimationState = (AnimationWindowListItem)animationList.SelectedItem;
+                playingAnimationState = (AnimationWindowListItem)listBox.getItemDataAt(listBox.getIndexSelected());
                 if (playingAnimationState != null)
                 {
                     playingAnimationState.Playing = true;
@@ -92,7 +95,7 @@ namespace OgreModelEditor
             }
         }
 
-        private void stopButton_Click(object sender, EventArgs e)
+        void stopButton_MouseButtonClick(Widget source, EventArgs e)
         {
             if (playingAnimationState != null)
             {
@@ -100,8 +103,6 @@ namespace OgreModelEditor
                 playingAnimationState = null;
             }
         }
-
-        #region UpdateListener Members
 
         public void sendUpdate(Clock clock)
         {
@@ -113,14 +114,12 @@ namespace OgreModelEditor
 
         public void loopStarting()
         {
-            
+
         }
 
         public void exceededMaxDelta()
         {
-            
-        }
 
-        #endregion
+        }
     }
 }

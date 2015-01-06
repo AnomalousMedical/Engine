@@ -50,9 +50,13 @@ namespace OgreModelEditor.Controller
             fixedFunctionTextured = MaterialManager.getInstance().getByName("FixedFunctionTextured");
             fixedTexture = fixedFunctionTextured.Value.getTechnique(0).getPass(0).getTextureUnitState(0);
             this.controller = controller;
-            controller.MainTimer.addUpdateListener(animationWindow);
+
             controller.GuiManager.addManagedDialog(skeletonWindow);
             skeletonWindow.Visible = true;
+
+            controller.MainTimer.addUpdateListener(animationWindow);
+            controller.GuiManager.addManagedDialog(animationWindow);
+            animationWindow.Visible = true;
         }
 
         public DockContent getDockContent(String persistString)
@@ -60,10 +64,6 @@ namespace OgreModelEditor.Controller
             if (customParameters.GetType().ToString() == persistString)
             {
                 return customParameters;
-            }
-            if (animationWindow.GetType().ToString() == persistString)
-            {
-                return animationWindow;
             }
             return null;
         }
