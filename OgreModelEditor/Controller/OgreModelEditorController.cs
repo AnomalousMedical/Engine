@@ -37,6 +37,7 @@ namespace OgreModelEditor
         private NativeInputHandler inputHandler;
         private EventUpdateListener eventUpdate;
         private App app;
+        private IdleHandler idleHandler;
 
         //GUI
         private OgreModelEditorMain mainForm;
@@ -66,66 +67,7 @@ namespace OgreModelEditor
         //Tools
         private SimObjectMover objectMover;
 
-        public void Dispose()
-        {
-            if(resourceEditor != null)
-            {
-                resourceEditor.Dispose();
-            }
-            if(objectMover != null)
-            {
-                objectMover.Dispose();
-            }
-            if(guiManager != null)
-            {
-                guiManager.Dispose();
-            }
-            if(sceneViewController != null)
-            {
-                sceneViewController.Dispose();
-            }
-            if(mdiLayout != null)
-            {
-                mdiLayout.Dispose();
-            }
-            if (modelController != null)
-            {
-                modelController.Dispose();
-            }
-            if (eventManager != null)
-            {
-                eventManager.Dispose();
-            }
-            if (inputHandler != null)
-            {
-                inputHandler.Dispose();
-            }
-            if (systemTimer != null)
-            {
-                systemTimer.Dispose();
-            }
-            if(lightManager != null)
-            {
-                pluginManager.RendererPlugin.destroySceneViewLightManager(lightManager);
-            }
-            if(frameClearManager != null)
-            {
-                frameClearManager.Dispose();
-            }
-            if (mainWindow != null)
-            {
-                mainWindow.Dispose();
-            }
-            if (pluginManager != null)
-            {
-                pluginManager.Dispose();
-            }
-
-            OgreModelEditorConfig.save();
-            logListener.closeLogFile();
-        }
-
-        public void initialize(App app)
+        public OgreModelEditorController(App app, String defaultModel)
         {
             this.app = app;
 
@@ -190,8 +132,9 @@ namespace OgreModelEditor
             systemTimer = new NativeSystemTimer();
 
             mainTimer = new NativeUpdateTimer(systemTimer);
-
             mainTimer.FramerateCap = OgreModelEditorConfig.EngineConfig.MaxFPS;
+            idleHandler = new IdleHandler(mainTimer.OnIdle);
+
             inputHandler = new NativeInputHandler(mainWindow, false);
             eventManager = new EventManager(inputHandler, Enum.GetValues(typeof(EventLayers)));
             eventUpdate = new EventUpdateListener(eventManager);
@@ -227,8 +170,76 @@ namespace OgreModelEditor
 
             layoutChain.layout();
 
+            idleHandler.runTemporaryIdle(finishInitialization(defaultModel));
+        }
+
+        public void Dispose()
+        {
+            if(resourceEditor != null)
+            {
+                resourceEditor.Dispose();
+            }
+            if(objectMover != null)
+            {
+                objectMover.Dispose();
+            }
+            if(guiManager != null)
+            {
+                guiManager.Dispose();
+            }
+            if(sceneViewController != null)
+            {
+                sceneViewController.Dispose();
+            }
+            if(mdiLayout != null)
+            {
+                mdiLayout.Dispose();
+            }
+            if (modelController != null)
+            {
+                modelController.Dispose();
+            }
+            if (eventManager != null)
+            {
+                eventManager.Dispose();
+            }
+            if (inputHandler != null)
+            {
+                inputHandler.Dispose();
+            }
+            if (systemTimer != null)
+            {
+                systemTimer.Dispose();
+            }
+            if(lightManager != null)
+            {
+                pluginManager.RendererPlugin.destroySceneViewLightManager(lightManager);
+            }
+            if(frameClearManager != null)
+            {
+                frameClearManager.Dispose();
+            }
+            if (mainWindow != null)
+            {
+                mainWindow.Dispose();
+            }
+            if (pluginManager != null)
+            {
+                pluginManager.Dispose();
+            }
+
+            OgreModelEditorConfig.save();
+            logListener.closeLogFile();
+        }
+
+        public IEnumerable<IdleStatus> finishInitialization(String defaultModel)
+        {
+            yield return IdleStatus.Ok;
+
             //Initialize controllers
             modelController = new ModelController(this);
+
+            yield return IdleStatus.Ok;
 
             //Create the GUI
             resourceEditor = new MDIObjectEditor("Resource Editor", "OgreModelEditor.ResourceEditor");
@@ -239,6 +250,8 @@ namespace OgreModelEditor
             guiManager.addManagedDialog(consoleWindow);
             consoleWindow.Visible = true;
             Log.Default.addLogListener(consoleWindow);
+
+            yield return IdleStatus.Ok;
 
             //Create a simple scene to use to show the models
             SimSceneDefinition sceneDefiniton = new SimSceneDefinition();
@@ -253,6 +266,20 @@ namespace OgreModelEditor
             sceneViewController.createCameras(scene);
             lightManager.sceneLoaded(scene);
             objectMover.sceneLoaded(scene);
+
+            yield return IdleStatus.Ok;
+
+            if (!String.IsNullOrEmpty(defaultModel))
+            {
+                openModel(defaultModel);
+
+                yield return IdleStatus.Ok;
+            }
+        }
+
+        public void idle()
+        {
+            idleHandler.onIdle();
         }
 
         public void shutdown()

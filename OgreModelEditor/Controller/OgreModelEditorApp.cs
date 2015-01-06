@@ -20,8 +20,7 @@ namespace OgreModelEditor
 
         public override bool OnInit()
         {
-            controller = new OgreModelEditorController();
-            controller.initialize(this);
+            String defaultModel = null;
 
             String[] commandLine = Environment.GetCommandLineArgs();
             if (commandLine.Length > 1)
@@ -29,9 +28,11 @@ namespace OgreModelEditor
                 String file = commandLine[1];
                 if (File.Exists(file) && file.EndsWith(".mesh"))
                 {
-                    controller.openModel(file);
+                    defaultModel = file;
                 }
             }
+
+            controller = new OgreModelEditorController(this, defaultModel);
 
             return true;
         }
@@ -43,7 +44,7 @@ namespace OgreModelEditor
 
         public override void OnIdle()
         {
-            controller.MainTimer.OnIdle();
+            controller.idle();
         }
 
         public void saveCrashLog()
