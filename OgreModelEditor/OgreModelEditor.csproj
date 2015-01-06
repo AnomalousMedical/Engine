@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\CameraSection.cs" />
     <Compile Include="Config\EngineConfig.cs" />
     <Compile Include="Config\EventLayers.cs" />
     <Compile Include="Config\OgreModelEditorConfig.cs" />

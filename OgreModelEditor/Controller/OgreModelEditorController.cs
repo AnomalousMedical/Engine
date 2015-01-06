@@ -131,7 +131,7 @@ namespace OgreModelEditor
             sceneViewController = new SceneViewController(mdiLayout, eventManager, mainTimer, pluginManager.RendererPlugin.PrimaryWindow, MyGUIInterface.Instance.OgrePlatform.getRenderManager(), null);
             sceneStatsDisplayManager = new SceneStatsDisplayManager(sceneViewController, OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget);
             sceneStatsDisplayManager.StatsVisible = true;
-            createOneWindow();
+            sceneViewController.createWindow("Camera 1", OgreModelEditorConfig.CameraConfig.MainCameraPosition, OgreModelEditorConfig.CameraConfig.MainCameraLookAt, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
 
             //Tools
             objectMover = new SimObjectMover("ModelMover", PluginManager.Instance.RendererPlugin, eventManager, sceneViewController);
@@ -162,6 +162,13 @@ namespace OgreModelEditor
 
         public void Dispose()
         {
+            var activeWindow = sceneViewController.ActiveWindow;
+            if(activeWindow != null)
+            {
+                OgreModelEditorConfig.CameraConfig.MainCameraPosition = activeWindow.Translation;
+                OgreModelEditorConfig.CameraConfig.MainCameraLookAt = activeWindow.LookAt;
+            }
+
             if(splashScreen != null)
             {
                 splashScreen.Dispose();

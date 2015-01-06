@@ -22,6 +22,7 @@ namespace OgreModelEditor
             configFile = new ConfigFile(docRoot + "/config.ini");
             configFile.loadConfigFile();
             EngineConfig = new EngineConfig(configFile);
+            CameraConfig = new CameraSection(configFile);
 
             modelEditorSection = configFile.createOrRetrieveConfigSection("ModelEditor");
         }
@@ -60,5 +61,7 @@ namespace OgreModelEditor
         }
 
         public static EngineConfig EngineConfig { get; private set; }
+
+        public static CameraSection CameraConfig { get; private set; }
     }
 }
