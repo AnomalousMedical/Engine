@@ -26,7 +26,6 @@ namespace Anomaly
     /// </summary>
     public class AnomalyController : IDisposable, IDockProvider
     {
-        #region Fields
         //Engine
         private PluginManager pluginManager;
         private LogFileListener logListener;
@@ -77,10 +76,6 @@ namespace Anomaly
         //Serialization
         private XmlSaver xmlSaver = new XmlSaver();
 
-        #endregion Fields
-
-        #region Constructors
-
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -88,10 +83,6 @@ namespace Anomaly
         {
             
         }
-
-        #endregion Constructors
-
-        #region Functions
 
         /// <summary>
         /// Intialize all plugins and create everything.
@@ -560,10 +551,6 @@ namespace Anomaly
             toolManager.destroySceneElements(scene.getDefaultSubScene(), pluginManager);
         }
 
-        #endregion Functions
-
-        #region Properties
-
         /// <summary>
         /// The PluginManager with all plugins currently loaded.
         /// </summary>
@@ -678,7 +665,5 @@ namespace Anomaly
                 return solution;
             }
         }
-
-        #endregion Properties
     }
 }

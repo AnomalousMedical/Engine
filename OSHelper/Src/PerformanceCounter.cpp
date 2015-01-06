@@ -23,7 +23,7 @@ bool PerformanceCounter::initialize()
 #if defined(WINDOWS) && !defined(_WIN64)
 	DWORD procMask;
 	DWORD sysMask;
-	DWORD timerMask;
+	DWORD timerMask = 0;
 
 	//Find the lowest used core
 	GetProcessAffinityMask(GetCurrentProcess(), &procMask, &sysMask);
