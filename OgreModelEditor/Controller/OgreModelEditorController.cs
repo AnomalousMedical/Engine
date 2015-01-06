@@ -46,6 +46,7 @@ namespace OgreModelEditor
         private LogWindow consoleWindow;
         private MDILayoutManager mdiLayout;
         private GUIManager guiManager;
+        private SplashScreen splashScreen;
 
         //Controller
         private SceneViewController sceneViewController;
@@ -104,28 +105,8 @@ namespace OgreModelEditor
 
             lightManager = pluginManager.RendererPlugin.createSceneViewLightManager();
 
-            VirtualFileSystem.Instance.addArchive(OgreModelEditorConfig.VFSRoot);
-
+            //Core resources
             OgreResourceGroupManager.getInstance().addResourceLocation(typeof(OgreModelEditorController).AssemblyQualifiedName, "EmbeddedResource", "DebugShaders", true);
-            emptyResourceManager = pluginManager.createScratchResourceManager();
-            liveResourceManager = pluginManager.createLiveResourceManager("Scene");
-            if (!File.Exists(OgreModelEditorConfig.DocRoot + "/resources.xml"))
-            {
-                resourceManager = pluginManager.createScratchResourceManager();
-            }
-            else
-            {
-                XmlTextReader textReader = new XmlTextReader(OgreModelEditorConfig.DocRoot + "/resources.xml");
-                resourceManager = xmlSaver.restoreObject(textReader) as Engine.Resources.ResourceManager;
-                if (resourceManager == null)
-                {
-                    resourceManager = pluginManager.createScratchResourceManager();
-                }
-                liveResourceManager.changeResourcesToMatch(resourceManager);
-                liveResourceManager.initializeResources();
-                textReader.Close();
-            }
-
             OgreResourceGroupManager.getInstance().initializeAllResourceGroups();
 
             //Intialize the platform
@@ -170,11 +151,20 @@ namespace OgreModelEditor
 
             layoutChain.layout();
 
+            splashScreen = new SplashScreen(mainWindow, 100, "OgreModelEditor.GUI.SplashScreen.SplashScreen.layout", "OgreModelEditor.GUI.SplashScreen.SplashScreen.xml");
+            splashScreen.Hidden += splashScreen_Hidden;
+            splashScreen.StatusUpdated += splashScreen_StatusUpdated;
+            splashScreen.updateStatus(0, "Loading...");
+
             idleHandler.runTemporaryIdle(finishInitialization(defaultModel));
         }
 
         public void Dispose()
         {
+            if(splashScreen != null)
+            {
+                splashScreen.Dispose();
+            }
             if(resourceEditor != null)
             {
                 resourceEditor.Dispose();
@@ -236,10 +226,35 @@ namespace OgreModelEditor
         {
             yield return IdleStatus.Ok;
 
-            //Initialize controllers
-            modelController = new ModelController(this);
+            splashScreen.updateStatus(15, "Loading Resources");
+
+            VirtualFileSystem.Instance.addArchive(OgreModelEditorConfig.VFSRoot);
+
+            emptyResourceManager = pluginManager.createScratchResourceManager();
+            liveResourceManager = pluginManager.createLiveResourceManager("Scene");
+            if (!File.Exists(OgreModelEditorConfig.DocRoot + "/resources.xml"))
+            {
+                resourceManager = pluginManager.createScratchResourceManager();
+            }
+            else
+            {
+                XmlTextReader textReader = new XmlTextReader(OgreModelEditorConfig.DocRoot + "/resources.xml");
+                resourceManager = xmlSaver.restoreObject(textReader) as Engine.Resources.ResourceManager;
+                if (resourceManager == null)
+                {
+                    resourceManager = pluginManager.createScratchResourceManager();
+                }
+                liveResourceManager.changeResourcesToMatch(resourceManager);
+                liveResourceManager.initializeResources();
+                textReader.Close();
+            }
 
             yield return IdleStatus.Ok;
+
+            splashScreen.updateStatus(40, "Creating GUI");
+
+            //Initialize controllers
+            modelController = new ModelController(this);
 
             //Create the GUI
             resourceEditor = new MDIObjectEditor("Resource Editor", "OgreModelEditor.ResourceEditor");
@@ -252,6 +267,8 @@ namespace OgreModelEditor
             Log.Default.addLogListener(consoleWindow);
 
             yield return IdleStatus.Ok;
+
+            splashScreen.updateStatus(70, "Creating Scene");
 
             //Create a simple scene to use to show the models
             SimSceneDefinition sceneDefiniton = new SimSceneDefinition();
@@ -271,10 +288,18 @@ namespace OgreModelEditor
 
             if (!String.IsNullOrEmpty(defaultModel))
             {
+                splashScreen.updateStatus(80, "Loading Model");
+
                 openModel(defaultModel);
 
                 yield return IdleStatus.Ok;
             }
+
+            splashScreen.updateStatus(100, "Loaded");
+
+            splashScreen.hide();
+
+            yield return IdleStatus.Ok;
         }
 
         public void idle()
@@ -566,6 +591,17 @@ namespace OgreModelEditor
         void mainWindow_Closed(OSWindow window)
         {
             exit();
+        }
+
+        void splashScreen_StatusUpdated(SplashScreen obj)
+        {
+            OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget.update();
+        }
+
+        void splashScreen_Hidden(SplashScreen obj)
+        {
+            splashScreen.Dispose();
+            splashScreen = null;
         }
     }
 }

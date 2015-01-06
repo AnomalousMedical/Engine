@@ -94,6 +94,7 @@
     <EmbeddedResource Include="GUI\SkeletonWindow\SkeletonWindow.layout">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\SplashScreen\SplashScreen.layout" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
