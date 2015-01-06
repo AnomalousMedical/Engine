@@ -173,6 +173,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="GUI\SplashScreen\SplashIMG.png" />
+    <EmbeddedResource Include="GUI\SplashScreen\SplashScreen.xml" />
+    <EmbeddedResource Include="GUI\SplashScreen\SplashText.png" />
     <Content Include="ogre.ico" />
     <Content Include="Resources\anomalylogo.png" />
     <EmbeddedResource Include="Resources\D3D11\DebugTangentSpace.hlsl" />

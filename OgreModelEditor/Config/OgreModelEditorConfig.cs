@@ -51,7 +51,7 @@ namespace OgreModelEditor
             configFile.writeConfigFile();
         }
 
-                public static ConfigFile ConfigFile
+        public static ConfigFile ConfigFile
         {
             get
             {

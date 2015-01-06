@@ -106,7 +106,8 @@ namespace OgreModelEditor
             lightManager = pluginManager.RendererPlugin.createSceneViewLightManager();
 
             //Core resources
-            OgreResourceGroupManager.getInstance().addResourceLocation(typeof(OgreModelEditorController).AssemblyQualifiedName, "EmbeddedResource", "DebugShaders", true);
+            MyGUIInterface.Instance.CommonResourceGroup.addResource(this.GetType().AssemblyQualifiedName, "EmbeddedResource", true);
+            OgreResourceGroupManager.getInstance().addResourceLocation(GetType().AssemblyQualifiedName, "EmbeddedResource", "DebugShaders", true);
             OgreResourceGroupManager.getInstance().initializeAllResourceGroups();
 
             //Intialize the platform

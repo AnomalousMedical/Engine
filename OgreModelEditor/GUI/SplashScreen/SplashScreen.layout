@@ -10,7 +10,7 @@
                 <Property key="Caption" value="Loading..."/>
                 <Property key="TextAlign" value="Left Top"/>
             </Widget>
-            <Widget type="ImageBox" skin="ImageBox" position="313 219 398 468" align="HCenter Top">
+            <Widget type="ImageBox" skin="ImageBox" position="313 219 1040 468" align="HCenter Top">
                 <Property key="ImageResource" value="SplashScreen/Image"/>
                 <UserString key="ResizeKeepAspectRatio" value="True"/>
             </Widget>
