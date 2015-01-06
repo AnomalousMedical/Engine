@@ -19,6 +19,10 @@ namespace OgreModelEditor
         private static ButtonEvent showTangentShortcut;
         private static ButtonEvent showNormalShortcut;
         private static ButtonEvent refreshShortcut;
+        private static ButtonEvent showSolidShortcut;
+        private static ButtonEvent showWireframeShortcut;
+        private static ButtonEvent showPointShortcut;
+
         static OgreModelEditorMain()
         {
             showShadedShortcut = new ButtonEvent(EventLayers.AfterMain);
@@ -40,6 +44,18 @@ namespace OgreModelEditor
             refreshShortcut = new ButtonEvent(EventLayers.AfterMain);
             refreshShortcut.addButton(KeyboardButtonCode.KC_F5);
             DefaultEvents.registerDefaultEvent(refreshShortcut);
+
+            showSolidShortcut = new ButtonEvent(EventLayers.AfterMain);
+            showSolidShortcut.addButton(KeyboardButtonCode.KC_F6);
+            DefaultEvents.registerDefaultEvent(showSolidShortcut);
+
+            showWireframeShortcut = new ButtonEvent(EventLayers.AfterMain);
+            showWireframeShortcut.addButton(KeyboardButtonCode.KC_F7);
+            DefaultEvents.registerDefaultEvent(showWireframeShortcut);
+
+            showPointShortcut = new ButtonEvent(EventLayers.AfterMain);
+            showPointShortcut.addButton(KeyboardButtonCode.KC_F8);
+            DefaultEvents.registerDefaultEvent(showPointShortcut);
         }
 
         private OgreModelEditorController controller;
@@ -124,6 +140,9 @@ namespace OgreModelEditor
             showNormalShortcut.FirstFrameUpEvent += layer => viewNormals();
             showShadedShortcut.FirstFrameUpEvent += layer => viewShaded();
             refreshShortcut.FirstFrameUpEvent += layer => reloadAll();
+            showSolidShortcut.FirstFrameUpEvent += layer => setSolid();
+            showWireframeShortcut.FirstFrameUpEvent += layer => setWireframe();
+            showPointShortcut.FirstFrameUpEvent += layer => setPoints();
         }
 
         public SingleChildLayoutContainer LayoutContainer { get; private set; }
