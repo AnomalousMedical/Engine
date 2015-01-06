@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<MyGUI type="Layout" version="3.2.0">
+    <Widget type="Window" skin="WindowCSX" position="209 158 210 171" layer="Overlapped">
+        <Property key="Caption" value="Parameters"/>
+        <UserString key="CurrentDockLocation" value="Right"/>
+        <UserString key="AllowedDockLocations" value="Left | Right | Floating"/>
+        <Widget type="TextBox" skin="TextBox" position="0 1 173 14">
+            <Property key="Caption" value="Custom Parameter"/>
+        </Widget>
+        <Widget type="TextBox" skin="TextBox" position="0 18 40 14">
+            <Property key="Caption" value="Index"/>
+        </Widget>
+        <Widget type="EditBox" skin="EditBox" position="0 34 50 18" name="Index"/>
+        <Widget type="EditBox" skin="EditBox" position="53 34 145 18" align="HStretch Top" name="Value"/>
+        <Widget type="TextBox" skin="TextBox" position="53 18 61 14">
+            <Property key="Caption" value="Value"/>
+        </Widget>
+        <Widget type="Button" skin="Button" position="0 55 77 22" name="SetValue">
+            <Property key="Caption" value="Set Value"/>
+        </Widget>
+        <Widget type="Button" skin="Button" position="80 55 77 22" name="GetValue">
+            <Property key="Caption" value="Get Value"/>
+        </Widget>
+        <Widget type="TextBox" skin="TextBox" position="0 79 127 14">
+            <Property key="Caption" value="Material"/>
+        </Widget>
+        <Widget type="EditBox" skin="EditBox" position="0 95 198 18" align="HStretch Top" name="Material"/>
+        <Widget type="Button" skin="Button" position="0 116 92 22" name="ApplyMaterial">
+            <Property key="Caption" value="Apply Material"/>
+        </Widget>
+    </Widget>
+    <CodeGeneratorSettings/>
+</MyGUI>

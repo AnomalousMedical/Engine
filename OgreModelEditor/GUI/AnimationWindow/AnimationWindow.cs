@@ -55,7 +55,7 @@ namespace OgreModelEditor
         {
             listBox = window.findWidget("List") as MultiListBox;
             listBox.ListSelectAccept += listBox_ListSelectAccept;
-            listBox.addColumn("Name", listBox.Width);
+            listBox.addColumn("Name", listBox.ClientWidget.Width);
             Button stopButton = window.findWidget("Stop") as Button;
             stopButton.MouseButtonClick += stopButton_MouseButtonClick;
         }

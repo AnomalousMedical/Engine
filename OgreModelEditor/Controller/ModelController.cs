@@ -34,7 +34,7 @@ namespace OgreModelEditor.Controller
 
         //GUI
         private SkeletonWindow skeletonWindow = new SkeletonWindow();
-        private CustomParameterControl customParameters = new CustomParameterControl();
+        private CustomParametersWindow customParameters = new CustomParametersWindow();
         private AnimationWindow animationWindow = new AnimationWindow();
 
         /// <summary>
@@ -55,25 +55,12 @@ namespace OgreModelEditor.Controller
             controller.GuiManager.addManagedDialog(skeletonWindow);
             skeletonWindow.Visible = true;
 
+            controller.GuiManager.addManagedDialog(customParameters);
+            customParameters.showRelativeTo(skeletonWindow, WindowAlignment.Bottom);
+
             controller.MainTimer.addUpdateListener(animationWindow);
             controller.GuiManager.addManagedDialog(animationWindow);
             animationWindow.showRelativeTo(skeletonWindow, WindowAlignment.Bottom);
-        }
-
-        public DockContent getDockContent(String persistString)
-        {
-            if (customParameters.GetType().ToString() == persistString)
-            {
-                return customParameters;
-            }
-            return null;
-        }
-
-        public void createDefaultWindows()
-        {
-            //controller.showDockContent(skeletonWindow);
-            //controller.showDockContent(customParameters);
-            //controller.showDockContent(animationWindow);
         }
 
         public void Dispose()
@@ -81,6 +68,7 @@ namespace OgreModelEditor.Controller
             fixedFunctionTextured.Dispose();
             skeletonWindow.Dispose();
             animationWindow.Dispose();
+            customParameters.Dispose();
         }
 
         /// <summary>
