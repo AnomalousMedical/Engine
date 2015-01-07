@@ -14,7 +14,6 @@ using Engine.Saving.XMLSaver;
 using Engine.Saving;
 using Engine.Editing;
 using System.Windows.Forms;
-using WeifenLuo.WinFormsUI.Docking;
 using System.Diagnostics;
 using OgrePlugin;
 using MyGUIPlugin;
@@ -329,16 +328,6 @@ namespace Anomaly
         {
             mainObjectEditor.setEditInterface(editInterface, null, null);
             mainObjectEditor.Visible = true;
-        }
-
-        public void showDockContent(DockContent content)
-        {
-            //mainForm.showDockContent(content);
-        }
-
-        public void hideDockContent(DockContent content)
-        {
-            //mainForm.hideDockContent(content);
         }
 
         /// <summary>
