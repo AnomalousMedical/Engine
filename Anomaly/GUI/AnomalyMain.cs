@@ -11,7 +11,7 @@ using Editor;
 using WeifenLuo.WinFormsUI.Docking;
 using System.IO;
 
-namespace Anomaly
+namespace Anomaly.OldGUI
 {
     partial class AnomalyMain : EditorMainForm 
     {

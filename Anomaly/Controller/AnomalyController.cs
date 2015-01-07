@@ -152,6 +152,8 @@ namespace Anomaly
             mainTimer.addUpdateListener(eventUpdate);
             pluginManager.setPlatformInfo(mainTimer, eventManager);
 
+            GuiFrameworkInterface.Instance.handleCursors(mainWindow);
+
             //Layout Chain
             mdiLayout = new MDILayoutManager();
 
@@ -166,8 +168,10 @@ namespace Anomaly
             selectionMovementTools.Visible = true;
             selectionMovementTools.addMovableObject("Selection", new SelectionMovableObject(selectionController));
 
+            mainForm = new AnomalyMain(this);
+
             LayoutChain layoutChain = new LayoutChain();
-            //layoutChain.addLink(new SingleChildChainLink(GUILocationNames.Taskbar, mainForm.LayoutContainer), true);
+            layoutChain.addLink(new SingleChildChainLink(GUILocationNames.Taskbar, mainForm.LayoutContainer), true);
             layoutChain.addLink(new PopupAreaChainLink(GUILocationNames.FullscreenPopup), true);
             layoutChain.SuppressLayout = true;
             layoutChain.addLink(new MDIChainLink(GUILocationNames.MDI, mdiLayout), true);
@@ -190,7 +194,6 @@ namespace Anomaly
             //Create the main form
             AnomalyTreeIcons.createIcons();
             MyGUIPlugin.ResourceManager.Instance.load("Anomaly.Resources.AnomalyIcons.xml");
-            mainForm = new AnomalyMain();
 
             //Initialize controllers
             instanceBuilder = new InstanceBuilder();
@@ -216,10 +219,7 @@ namespace Anomaly
             solutionController = new SolutionController(solution, solutionWindow, this, propertiesEditor);
 
             //Initialize the windows
-            mainForm.initialize(this);
             propertiesEditor.AutoExpand = true;
-
-            mainForm.SuspendLayout();
 
             //Create GUI
             consoleWindow = new LogWindow();
@@ -230,8 +230,6 @@ namespace Anomaly
             debugVisualizer = new DebugVisualizer(pluginManager, sceneController);
             guiManager.addManagedDialog(debugVisualizer);
             debugVisualizer.Visible = true;
-
-            mainForm.ResumeLayout();
         }
 
         /// <summary>
@@ -247,6 +245,10 @@ namespace Anomaly
             if(debugVisualizer != null)
             {
                 debugVisualizer.Dispose();
+            }
+            if(mainForm != null)
+            {
+                mainForm.Dispose();
             }
             if(mdiLayout != null)
             {
@@ -302,8 +304,8 @@ namespace Anomaly
         /// </summary>
         public void start()
         {
-            mainForm.Show();
-            mainForm.Activate();
+            //mainForm.Show();
+            //mainForm.Activate();
             //mainTimer.startLoop();
         }
 
@@ -312,7 +314,7 @@ namespace Anomaly
         /// </summary>
         public void shutdown()
         {
-            mainForm.saveWindows(AnomalyConfig.DocRoot + "/windows.ini");
+            //mainForm.saveWindows(AnomalyConfig.DocRoot + "/windows.ini");
             sceneController.destroyScene();
             app.exit();
         }
@@ -333,12 +335,12 @@ namespace Anomaly
 
         public void showDockContent(DockContent content)
         {
-            mainForm.showDockContent(content);
+            //mainForm.showDockContent(content);
         }
 
         public void hideDockContent(DockContent content)
         {
-            mainForm.hideDockContent(content);
+            //mainForm.hideDockContent(content);
         }
 
         /// <summary>
@@ -663,6 +665,18 @@ namespace Anomaly
             get
             {
                 return solution;
+            }
+        }
+
+        public bool ShowStats
+        {
+            get
+            {
+                return sceneStatsDisplayManager.StatsVisible;
+            }
+            set
+            {
+                sceneStatsDisplayManager.StatsVisible = value;
             }
         }
 

@@ -1,4 +1,4 @@
-﻿namespace Anomaly
+﻿namespace Anomaly.OldGUI
 {
     partial class AnomalyMain
     {

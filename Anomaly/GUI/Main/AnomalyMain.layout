@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<MyGUI type="Layout" version="3.2.0">
+    <Widget type="Widget" skin="ButtonSkin" position="0 0 514 56" layer="Back">
+        <Widget type="MenuBar" skin="MenuBar" position="0 0 514 26" align="HStretch Top" name="MenuBar"/>
+        <Widget type="Button" skin="Button" position="167 27 75 27" name="None">
+            <Property key="Caption" value="None"/>
+        </Widget>
+        <Widget type="Button" skin="Button" position="245 27 75 27" name="Move">
+            <Property key="Caption" value="Move"/>
+        </Widget>
+        <Widget type="Button" skin="Button" position="323 27 75 27" name="Rotate">
+            <Property key="Caption" value="Rotate"/>
+        </Widget>
+        <Widget type="Button" skin="Button" position="3 27 75 27" name="Play">
+            <Property key="Caption" value="Play"/>
+        </Widget>
+        <Widget type="Button" skin="Button" position="81 27 75 27" name="Pause">
+            <Property key="Caption" value="Pause"/>
+        </Widget>
+    </Widget>
+    <CodeGeneratorSettings/>
+</MyGUI>
