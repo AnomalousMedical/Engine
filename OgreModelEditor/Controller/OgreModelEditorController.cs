@@ -169,6 +169,11 @@ namespace OgreModelEditor
                 OgreModelEditorConfig.CameraConfig.MainCameraLookAt = activeWindow.LookAt;
             }
 
+            if(consoleWindow != null)
+            {
+                Log.Default.removeLogListener(consoleWindow);
+                consoleWindow.Dispose();
+            }
             if(splashScreen != null)
             {
                 splashScreen.Dispose();
