@@ -81,9 +81,11 @@
     <Compile Include="Config\RecentDocuments.cs" />
     <Compile Include="Config\ResourceSection.cs" />
     <Compile Include="Config\ToolsConfig.cs" />
+    <Compile Include="Controller\AnomalyApp.cs" />
     <Compile Include="Controller\AnomalyController.cs" />
     <Compile Include="Controller\EditInterfaceRendererController.cs" />
     <Compile Include="Controller\FullSpeedUpdateListener.cs" />
+    <Compile Include="Controller\GUILocationNames.cs" />
     <Compile Include="Controller\InstanceBuilder\InstanceBuilder.cs" />
     <Compile Include="Controller\ProjectManagement\AnomalyTreeIcons.cs" />
     <Compile Include="Controller\ProjectManagement\ExternalResource.cs" />
@@ -204,9 +206,29 @@
       <Project>{57C253F1-157F-4A6A-9FED-345A776B97D5}</Project>
       <Name>Engine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PCPlatformPlugin\PCPlatformPlugin.csproj">
-      <Project>{2D5AB440-5081-4C71-A2C2-9F7E05969EDE}</Project>
-      <Name>PCPlatformPlugin</Name>
+    <ProjectReference Include="..\GuiFramework.Cameras\GuiFramework.Cameras.csproj">
+      <Project>{83d4bb54-ff33-4011-9819-582458329d9b}</Project>
+      <Name>GuiFramework.Cameras</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GuiFramework.Editor\GuiFramework.Editor.csproj">
+      <Project>{acbba2d0-c648-4798-9d40-ce8b797642ad}</Project>
+      <Name>GuiFramework.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GuiFramework\GuiFramework.csproj">
+      <Project>{fc299a06-61bd-4562-a315-0f0be454925a}</Project>
+      <Name>GuiFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyGUIPlugin\MyGUIPlugin.csproj">
+      <Project>{02d4da85-fd6c-421f-81c3-8f58f790bc81}</Project>
+      <Name>MyGUIPlugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OgrePlugin\OgrePlugin.csproj">
+      <Project>{e9fd5768-32e1-42c7-8256-4d7b97c22a9b}</Project>
+      <Name>OgrePlugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OSPlatform\OSPlatform.csproj">
+      <Project>{6e594c78-9cd8-432d-a135-11c4a72f3bcf}</Project>
+      <Name>OSPlatform</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

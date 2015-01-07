@@ -17,7 +17,12 @@ using Engine.Editing;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using System.Diagnostics;
-using PCPlatform;
+using OgrePlugin;
+using MyGUIPlugin;
+using Anomalous.GuiFramework.Cameras;
+using Anomalous.GuiFramework.Editor;
+using Anomalous.GuiFramework;
+using Anomalous.OSPlatform;
 
 namespace Anomaly
 {
@@ -29,10 +34,11 @@ namespace Anomaly
         //Engine
         private PluginManager pluginManager;
         private LogFileListener logListener;
+        private App app;
 
         //GUI
+        private NativeOSWindow mainWindow;
         private AnomalyMain mainForm;
-        private DrawingWindow hiddenEmbedWindow;
         private IObjectEditorGUI mainObjectEditor = new ObjectEditorForm();
         private DrawingWindowController drawingWindowController = new DrawingWindowController();
         private MovePanel movePanel = new MovePanel();
@@ -42,11 +48,17 @@ namespace Anomaly
         private VerticalObjectEditor verticalObjectEditor = new VerticalObjectEditor();
         private SceneViewLightManager lightManager;
 
+        private MDILayoutManager mdiLayout;
+        private GUIManager guiManager;
+        private SceneViewController sceneViewController;
+        private SceneStatsDisplayManager sceneStatsDisplayManager;
+        private FrameClearManager frameClearManager;
+
         //Platform
-        private UpdateTimer mainTimer;
-        private PCSystemTimer systemTimer;
+        private NativeUpdateTimer mainTimer;
+        private NativeSystemTimer systemTimer;
         private EventManager eventManager;
-        private PCInputHandler inputHandler;
+        private NativeInputHandler inputHandler;
         private EventUpdateListener eventUpdate;
         private FullSpeedUpdateListener fixedUpdate;
 
@@ -60,10 +72,10 @@ namespace Anomaly
         //Tools
         private ToolInteropController toolInterop = new ToolInteropController();
         private MoveController moveController = new MoveController();
-        private SelectionController selectionController = new SelectionController();
+        private Editor.SelectionController selectionController = new Editor.SelectionController();
         private RotateController rotateController = new RotateController();
         private MovementTool movementTool;
-        private RotateTool rotateTool;
+        private Editor.RotateTool rotateTool;
         private ToolManager toolManager;
 
         private Stopwatch stopwatch = new Stopwatch();
@@ -79,9 +91,9 @@ namespace Anomaly
         /// <summary>
         /// Constructor.
         /// </summary>
-        public AnomalyController()
+        public AnomalyController(App app)
         {
-            
+            this.app = app;
         }
 
         /// <summary>
@@ -97,10 +109,28 @@ namespace Anomaly
             Log.Default.addLogListener(logListener);
             Log.Default.addLogListener(consoleWindow);
 
+            mainWindow = new NativeOSWindow("Anomaly Editor", new IntVector2(-1, -1), new IntSize2(AnomalyConfig.EngineConfig.HorizontalRes, AnomalyConfig.EngineConfig.VerticalRes));
+            mainWindow.Closed += mainWindow_Closed;
+
             //Initialize the plugins
-            hiddenEmbedWindow = new DrawingWindow();
             pluginManager = new PluginManager(AnomalyConfig.ConfigFile);
+            //Hardcoded assemblies
+            MyGUIInterface.EventLayerKey = EventLayers.Main;
+
+            GuiFrameworkCamerasInterface.MoveCameraEventLayer = EventLayers.Cameras;
+            GuiFrameworkCamerasInterface.SelectWindowEventLayer = EventLayers.AfterMain;
+
+            GuiFrameworkEditorInterface.ToolsEventLayers = EventLayers.Tools;
+
+            pluginManager.addPluginAssembly(typeof(NativePlatformPlugin).Assembly);
+            pluginManager.addPluginAssembly(typeof(OgreInterface).Assembly);
+            pluginManager.addPluginAssembly(typeof(MyGUIInterface).Assembly);
+            pluginManager.addPluginAssembly(typeof(GuiFrameworkInterface).Assembly);
+            pluginManager.addPluginAssembly(typeof(GuiFrameworkCamerasInterface).Assembly);
+            pluginManager.addPluginAssembly(typeof(GuiFrameworkEditorInterface).Assembly);
             pluginManager.OnConfigureDefaultWindow = createWindow;
+
+            //Dynamic assemblies
             DynamicDLLPluginLoader pluginLoader = new DynamicDLLPluginLoader();
             ConfigIterator pluginIterator = solution.PluginSection.PluginIterator;
             pluginIterator.reset();
@@ -110,9 +140,43 @@ namespace Anomaly
             }
             pluginLoader.loadPlugins(pluginManager);
             pluginManager.initializePlugins();
-            pluginManager.RendererPlugin.PrimaryWindow.setEnabled(false);
+            frameClearManager = new FrameClearManager(OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget, new Color(0.2f, 0.2f, 0.2f));
 
             lightManager = pluginManager.RendererPlugin.createSceneViewLightManager();
+
+            //Intialize the platform
+            systemTimer = new NativeSystemTimer();
+
+            mainTimer = new NativeUpdateTimer(systemTimer); ;
+            mainTimer.FramerateCap = AnomalyConfig.EngineConfig.MaxFPS;
+            inputHandler = new NativeInputHandler(mainWindow, false);
+            eventManager = new EventManager(inputHandler, Enum.GetValues(typeof(EventLayers)));
+            eventUpdate = new EventUpdateListener(eventManager);
+            mainTimer.addUpdateListener(eventUpdate);
+            pluginManager.setPlatformInfo(mainTimer, eventManager);
+
+            //Layout Chain
+            mdiLayout = new MDILayoutManager();
+
+            //Scene views
+            sceneViewController = new SceneViewController(mdiLayout, eventManager, mainTimer, pluginManager.RendererPlugin.PrimaryWindow, MyGUIInterface.Instance.OgrePlatform.getRenderManager(), null);
+            sceneStatsDisplayManager = new SceneStatsDisplayManager(sceneViewController, OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget);
+            sceneStatsDisplayManager.StatsVisible = true;
+            sceneViewController.createWindow("Camera 1", Vector3.Backward * 100, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
+
+            LayoutChain layoutChain = new LayoutChain();
+            //layoutChain.addLink(new SingleChildChainLink(GUILocationNames.Taskbar, mainForm.LayoutContainer), true);
+            layoutChain.addLink(new PopupAreaChainLink(GUILocationNames.FullscreenPopup), true);
+            layoutChain.SuppressLayout = true;
+            layoutChain.addLink(new MDIChainLink(GUILocationNames.MDI, mdiLayout), true);
+            layoutChain.addLink(new PopupAreaChainLink(GUILocationNames.ContentAreaPopup), true);
+            layoutChain.addLink(new FinalChainLink("SceneViews", mdiLayout.DocumentArea), true);
+            layoutChain.SuppressLayout = false;
+
+            guiManager = new GUIManager();
+            guiManager.createGUI(mdiLayout, layoutChain, mainWindow);
+
+            layoutChain.layout();
 
             //Load the config file and set the resource root up.
             VirtualFileSystem.Instance.addArchive(solution.ResourceRoot);
@@ -124,21 +188,6 @@ namespace Anomaly
             //Create the main form
             AnomalyTreeIcons.createIcons();
             mainForm = new AnomalyMain();
-
-            //Intialize the platform
-            systemTimer = new PCSystemTimer();
-
-            PCUpdateTimer win32Timer = new PCUpdateTimer(systemTimer);
-            WindowsMessagePump windowsPump = new WindowsMessagePump();
-            windowsPump.MessageReceived += new PumpMessageEvent(win32Timer_MessageReceived);
-            win32Timer.MessagePump = windowsPump;
-            mainTimer = win32Timer;
-            mainTimer.FramerateCap = AnomalyConfig.EngineConfig.MaxFPS;
-            inputHandler = new PCInputHandler(mainForm, windowsPump);
-            eventManager = new EventManager(inputHandler, Enum.GetValues(typeof(EventLayers)));
-            eventUpdate = new EventUpdateListener(eventManager);
-            mainTimer.addUpdateListener(eventUpdate);
-            pluginManager.setPlatformInfo(mainTimer, eventManager);
 
             //Initialize controllers
             instanceBuilder = new InstanceBuilder();
@@ -157,7 +206,7 @@ namespace Anomaly
             toolInterop.setToolManager(toolManager);
             movementTool = new MovementTool("MovementTool", moveController);
             toolManager.addTool(movementTool);
-            rotateTool = new RotateTool("RotateTool", rotateController);
+            rotateTool = new Editor.RotateTool("RotateTool", rotateController);
             toolManager.addTool(rotateTool);
 
             interfaceRenderer = new EditInterfaceRendererController(pluginManager.RendererPlugin, mainTimer, sceneController, verticalObjectEditor);
@@ -209,17 +258,23 @@ namespace Anomaly
             mainForm.ResumeLayout();
         }
 
-        void win32Timer_MessageReceived(ref WinMsg message)
-        {
-            Message msg = Message.Create(message.hwnd, message.message, message.wParam, message.lParam);
-            ManualMessagePump.pumpMessage(ref msg);
-        }
-
         /// <summary>
         /// Dispose of this controller and cleanup.
         /// </summary>
         public void Dispose()
         {
+            if(mdiLayout != null)
+            {
+                mdiLayout.Dispose();
+            }
+            if(guiManager != null)
+            {
+                guiManager.Dispose();
+            }
+            if(sceneViewController != null)
+            {
+                sceneViewController.Dispose();
+            }
             if (eventManager != null)
             {
                 eventManager.Dispose();
@@ -236,13 +291,17 @@ namespace Anomaly
             {
                 pluginManager.RendererPlugin.destroySceneViewLightManager(lightManager);
             }
+            if (frameClearManager != null)
+            {
+                frameClearManager.Dispose();
+            }
             if (pluginManager != null)
             {
                 pluginManager.Dispose();
             }
-            if (hiddenEmbedWindow != null)
+            if(mainWindow != null)
             {
-                hiddenEmbedWindow.Dispose();
+                mainWindow.Dispose();
             }
 
             AnomalyConfig.save();
@@ -256,7 +315,7 @@ namespace Anomaly
         {
             mainForm.Show();
             mainForm.Activate();
-            mainTimer.startLoop();
+            //mainTimer.startLoop();
         }
 
         /// <summary>
@@ -266,7 +325,12 @@ namespace Anomaly
         {
             mainForm.saveWindows(AnomalyConfig.DocRoot + "/windows.ini");
             sceneController.destroyScene();
-            mainTimer.stopLoop();
+            app.exit();
+        }
+
+        public void idle()
+        {
+            mainTimer.OnIdle();
         }
 
         /// <summary>
@@ -524,7 +588,21 @@ namespace Anomaly
         /// <param name="defaultWindow"></param>
         private void createWindow(out WindowInfo defaultWindow)
         {
-            defaultWindow = new WindowInfo(hiddenEmbedWindow, "Primary");
+            //Setup main window
+            defaultWindow = new WindowInfo(mainWindow, "Primary");
+            defaultWindow.Fullscreen = AnomalyConfig.EngineConfig.Fullscreen;
+            defaultWindow.MonitorIndex = 0;
+
+            if (AnomalyConfig.EngineConfig.Fullscreen)
+            {
+                mainWindow.setSize(AnomalyConfig.EngineConfig.HorizontalRes, AnomalyConfig.EngineConfig.VerticalRes);
+                mainWindow.ExclusiveFullscreen = true;
+            }
+            else
+            {
+                mainWindow.Maximized = true;
+            }
+            mainWindow.show();
         }
 
         /// <summary>
@@ -628,7 +706,7 @@ namespace Anomaly
         /// <summary>
         /// The SelectionController that manages the current selection.
         /// </summary>
-        public SelectionController SelectionController
+        public Editor.SelectionController SelectionController
         {
             get
             {
@@ -664,6 +742,11 @@ namespace Anomaly
             {
                 return solution;
             }
+        }
+
+        void mainWindow_Closed(OSWindow window)
+        {
+            shutdown();
         }
     }
 }

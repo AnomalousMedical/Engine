@@ -81,15 +81,13 @@ namespace Anomaly
             Application.DoEvents();
             if (projectFileName != null)
             {
-                using (AnomalyController anomalyController = new AnomalyController())
+                using (AnomalyApp app = new AnomalyApp(projectFileName))
                 {
                     try
                     {
-                        anomalyController.initialize(new Solution(projectFileName));
-                        anomalyController.buildScene();
                         splash.Close();
                         splash.Dispose();
-                        anomalyController.start();
+                        app.run();
                     }
                     catch (Exception e)
                     {

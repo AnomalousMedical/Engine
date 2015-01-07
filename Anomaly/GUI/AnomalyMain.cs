@@ -75,14 +75,14 @@ namespace Anomaly
             content.DockHandler.Hide();
         }
 
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            if (controller != null)
-            {
-                controller.shutdown();
-            }
-            base.OnFormClosing(e);
-        }
+        //protected override void OnFormClosing(FormClosingEventArgs e)
+        //{
+        //    if (controller != null)
+        //    {
+        //        controller.shutdown();
+        //    }
+        //    base.OnFormClosing(e);
+        //}
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {

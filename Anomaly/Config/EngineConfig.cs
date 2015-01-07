@@ -26,5 +26,41 @@ namespace Anomaly
                 section.setValue("MaxFPS", value);
             }
         }
+
+        public int HorizontalRes
+        {
+            get
+            {
+                return section.getValue("HorizontalRes", 800);
+            }
+            set
+            {
+                section.setValue("HorizontalRes", value);
+            }
+        }
+
+        public int VerticalRes
+        {
+            get
+            {
+                return section.getValue("VerticalRes", 600);
+            }
+            set
+            {
+                section.setValue("VerticalRes", value);
+            }
+        }
+
+        public bool Fullscreen
+        {
+            get
+            {
+                return section.getValue("Fullscreen", false);
+            }
+            set
+            {
+                section.setValue("Fullscreen", value);
+            }
+        }
     }
 }
