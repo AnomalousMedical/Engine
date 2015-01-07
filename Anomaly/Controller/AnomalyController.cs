@@ -30,7 +30,7 @@ namespace Anomaly
     /// <summary>
     /// This is the primary controller for the Anomaly editor.
     /// </summary>
-    public class AnomalyController : IDisposable, IDockProvider
+    public class AnomalyController : IDisposable
     {
         private const float DefaultOrbitDistance = 150.0f;
 
@@ -436,7 +436,7 @@ namespace Anomaly
         public void copy()
         {
             EngineClipboard.clear();
-            if (solutionWindow.IsActivated)
+            if (solutionWindow.Active)
             {
                 foreach (EditInterface selectedInterface in solutionController.SelectedEditInterfaces)
                 {
@@ -447,7 +447,7 @@ namespace Anomaly
                     }
                 }
             }
-            else if (propertiesEditor.IsActivated)
+            else if (propertiesEditor.Active)
             {
                 EditInterface selectedInterface = propertiesEditor.SelectedEditInterface;
                 if (selectedInterface.SupportsClipboard)
@@ -466,7 +466,7 @@ namespace Anomaly
         public void cut()
         {
             EngineClipboard.clear();
-            if (solutionWindow.IsActivated)
+            if (solutionWindow.Active)
             {
                 foreach (EditInterface selectedInterface in solutionController.SelectedEditInterfaces)
                 {
@@ -477,7 +477,7 @@ namespace Anomaly
                     }
                 }
             }
-            else if (propertiesEditor.IsActivated)
+            else if (propertiesEditor.Active)
             {
                 EditInterface selectedInterface = propertiesEditor.SelectedEditInterface;
                 if (selectedInterface.SupportsClipboard)
@@ -495,7 +495,7 @@ namespace Anomaly
 
         public void paste()
         {
-            if (solutionWindow.IsActivated)
+            if (solutionWindow.Active)
             {
                 EditInterface selectedInterface = solutionController.CurrentEditInterface;
                 ClipboardEntry clipEntry = selectedInterface.ClipboardEntry;
@@ -504,7 +504,7 @@ namespace Anomaly
                     EngineClipboard.paste(clipEntry);
                 }
             }
-            else if (propertiesEditor.IsActivated)
+            else if (propertiesEditor.Active)
             {
                 EditInterface selectedInterface = propertiesEditor.SelectedEditInterface;
                 if (selectedInterface.SupportsClipboard)

@@ -65,13 +65,5 @@ namespace Anomaly.GUI
         {
             tree.layout();
         }
-
-        public bool IsActivated
-        {
-            get
-            {
-                return InputManager.Instance.getKeyFocusWidget().RootWidget == this.window;
-            }
-        }
     }
 }

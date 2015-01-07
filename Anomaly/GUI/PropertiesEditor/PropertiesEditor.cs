@@ -136,14 +136,6 @@ namespace Anomaly.GUI
 
         public bool AutoExpand { get; set; }
 
-        public bool IsActivated
-        {
-            get
-            {
-                return InputManager.Instance.getKeyFocusWidget().RootWidget == this.window;
-            }
-        }
-
         public EditInterface SelectedEditInterface
         {
             get

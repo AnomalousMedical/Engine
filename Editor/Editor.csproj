@@ -103,7 +103,6 @@
     <Compile Include="CommonGUI\InputBox.designer.cs">
       <DependentUpon>InputBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="IDockProvider.cs" />
     <Compile Include="ObjectEditor\EditInterfaceIconCollection.cs" />
     <Compile Include="ObjectEditor\EditInterfaceView.cs">
       <SubType>UserControl</SubType>
