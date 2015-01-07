@@ -29,7 +29,6 @@ namespace Anomaly
 
             anomalyController.initialize(new Solution(projectFileName));
             anomalyController.buildScene();
-            anomalyController.start();
 
             return true;
         }

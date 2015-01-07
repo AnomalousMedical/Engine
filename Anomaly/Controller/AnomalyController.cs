@@ -32,6 +32,8 @@ namespace Anomaly
     /// </summary>
     public class AnomalyController : IDisposable, IDockProvider
     {
+        private const float DefaultOrbitDistance = 150.0f;
+
         //Engine
         private PluginManager pluginManager;
         private LogFileListener logListener;
@@ -102,7 +104,7 @@ namespace Anomaly
             logListener.openLogFile(AnomalyConfig.DocRoot + "/log.log");
             Log.Default.addLogListener(logListener);
 
-            mainWindow = new NativeOSWindow("Anomaly Editor", new IntVector2(-1, -1), new IntSize2(AnomalyConfig.EngineConfig.HorizontalRes, AnomalyConfig.EngineConfig.VerticalRes));
+            mainWindow = new NativeOSWindow(String.Format("{0} - Anomaly", solution.Name), new IntVector2(-1, -1), new IntSize2(AnomalyConfig.EngineConfig.HorizontalRes, AnomalyConfig.EngineConfig.VerticalRes));
             mainWindow.Closed += mainWindow_Closed;
 
             //Initialize the plugins
@@ -300,21 +302,10 @@ namespace Anomaly
         }
 
         /// <summary>
-        /// Show the form to the user and start the loop.
-        /// </summary>
-        public void start()
-        {
-            //mainForm.Show();
-            //mainForm.Activate();
-            //mainTimer.startLoop();
-        }
-
-        /// <summary>
         /// Stop the loop and begin the process of shutting down the program.
         /// </summary>
         public void shutdown()
         {
-            //mainForm.saveWindows(AnomalyConfig.DocRoot + "/windows.ini");
             sceneController.destroyScene();
             app.exit();
         }
@@ -683,6 +674,36 @@ namespace Anomaly
         void mainWindow_Closed(OSWindow window)
         {
             shutdown();
+        }
+
+        public void createOneWindow()
+        {
+            sceneViewController.closeAllWindows();
+            sceneViewController.createWindow("Camera 1", Vector3.Backward * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
+        }
+
+        public void createTwoWindows()
+        {
+            sceneViewController.closeAllWindows();
+            var cameraOne = sceneViewController.createWindow("Camera 1", Vector3.Backward * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
+            sceneViewController.createWindow("Camera 2", Vector3.Forward * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 150, cameraOne, WindowAlignment.Right);
+        }
+
+        public void createThreeWindows()
+        {
+            sceneViewController.closeAllWindows();
+            var cameraOne = sceneViewController.createWindow("Camera 1", Vector3.Right * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
+            var cameraTwo = sceneViewController.createWindow("Camera 2", Vector3.Backward * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 150, cameraOne, WindowAlignment.Right);
+            var cameraThree = sceneViewController.createWindow("Camera 3", Vector3.Left * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 200, cameraTwo, WindowAlignment.Right);
+        }
+
+        public void createFourWindows()
+        {
+            sceneViewController.closeAllWindows();
+            var cameraOne = sceneViewController.createWindow("Camera 1", Vector3.Backward * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
+            var cameraTwo = sceneViewController.createWindow("Camera 2", Vector3.Forward * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 150, cameraOne, WindowAlignment.Right);
+            var cameraThree = sceneViewController.createWindow("Camera 3", Vector3.Left * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 200, cameraOne, WindowAlignment.Bottom);
+            var cameraFour = sceneViewController.createWindow("Camera 4", Vector3.Right * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 250, cameraTwo, WindowAlignment.Bottom);
         }
     }
 }
