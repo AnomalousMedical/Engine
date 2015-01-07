@@ -23,6 +23,7 @@ using Anomalous.GuiFramework.Cameras;
 using Anomalous.GuiFramework.Editor;
 using Anomalous.GuiFramework;
 using Anomalous.OSPlatform;
+using Anomaly.GUI;
 
 namespace Anomaly
 {
@@ -40,10 +41,6 @@ namespace Anomaly
         private NativeOSWindow mainWindow;
         private AnomalyMain mainForm;
         private IObjectEditorGUI mainObjectEditor = new ObjectEditorForm();
-        private DrawingWindowController drawingWindowController = new DrawingWindowController();
-        private MovePanel movePanel = new MovePanel();
-        private EulerRotatePanel rotatePanel = new EulerRotatePanel();
-        private Dictionary<String, DebugVisualizer> debugVisualizers = new Dictionary<string, DebugVisualizer>();
         private VerticalObjectEditor verticalObjectEditor = new VerticalObjectEditor();
         private SceneViewLightManager lightManager;
 
@@ -54,6 +51,7 @@ namespace Anomaly
         private FrameClearManager frameClearManager;
 
         private LogWindow consoleWindow;
+        private DebugVisualizer debugVisualizer;
 
         //Platform
         private NativeUpdateTimer mainTimer;
@@ -69,15 +67,10 @@ namespace Anomaly
         private SimObjectController simObjectController;
         private InstanceBuilder instanceBuilder;
         private EditInterfaceRendererController interfaceRenderer;
+        private SimObjectMover selectionMover;
 
         //Tools
-        private ToolInteropController toolInterop = new ToolInteropController();
-        private MoveController moveController = new MoveController();
         private Editor.SelectionController selectionController = new Editor.SelectionController();
-        private RotateController rotateController = new RotateController();
-        private MovementTool movementTool;
-        private Editor.RotateTool rotateTool;
-        private ToolManager toolManager;
 
         private Stopwatch stopwatch = new Stopwatch();
         private Solution solution;
@@ -144,10 +137,14 @@ namespace Anomaly
 
             lightManager = pluginManager.RendererPlugin.createSceneViewLightManager();
 
+            //Core resources
+            MyGUIInterface.Instance.CommonResourceGroup.addResource(this.GetType().AssemblyQualifiedName, "EmbeddedResource", true);
+            OgreResourceGroupManager.getInstance().initializeAllResourceGroups();
+
             //Intialize the platform
             systemTimer = new NativeSystemTimer();
 
-            mainTimer = new NativeUpdateTimer(systemTimer); ;
+            mainTimer = new NativeUpdateTimer(systemTimer);
             mainTimer.FramerateCap = AnomalyConfig.EngineConfig.MaxFPS;
             inputHandler = new NativeInputHandler(mainWindow, false);
             eventManager = new EventManager(inputHandler, Enum.GetValues(typeof(EventLayers)));
@@ -194,20 +191,10 @@ namespace Anomaly
             sceneController.initialize(this);
             sceneController.OnSceneLoaded += sceneController_OnSceneLoaded;
             sceneController.OnSceneUnloading += sceneController_OnSceneUnloading;
-            toolInterop.setMoveController(moveController);
-            toolInterop.setSelectionController(selectionController);
-            toolInterop.setRotateController(rotateController);
             simObjectController = new SimObjectController(this);
 
-            toolManager = new ToolManager(eventManager);
-            mainTimer.addUpdateListener(toolManager);
             fixedUpdate = new FullSpeedUpdateListener(sceneController);
             mainTimer.addUpdateListener(fixedUpdate);
-            toolInterop.setToolManager(toolManager);
-            movementTool = new MovementTool("MovementTool", moveController);
-            toolManager.addTool(movementTool);
-            rotateTool = new Editor.RotateTool("RotateTool", rotateController);
-            toolManager.addTool(rotateTool);
 
             interfaceRenderer = new EditInterfaceRendererController(pluginManager.RendererPlugin, mainTimer, sceneController, verticalObjectEditor);
 
@@ -215,18 +202,15 @@ namespace Anomaly
 
             //Initialize the windows
             mainForm.initialize(this);
-            drawingWindowController.initialize(this, eventManager, pluginManager.RendererPlugin, AnomalyConfig.ConfigFile);
-            movePanel.initialize(moveController);
-            rotatePanel.initialize(rotateController);
             verticalObjectEditor.AutoExpand = true;
 
             //Initialize debug visualizers
-            foreach (DebugInterface debugInterface in pluginManager.DebugInterfaces)
-            {
-                DebugVisualizer visualizer = new DebugVisualizer();
-                visualizer.initialize(debugInterface);
-                debugVisualizers.Add(visualizer.Text, visualizer);
-            }
+            //foreach (DebugInterface debugInterface in pluginManager.DebugInterfaces)
+            //{
+            //    DebugVisualizer visualizer = new DebugVisualizer();
+            //    visualizer.initialize(debugInterface);
+            //    debugVisualizers.Add(visualizer.Text, visualizer);
+            //}
 
             mainForm.SuspendLayout();
 
@@ -236,28 +220,29 @@ namespace Anomaly
             consoleWindow.Visible = true;
             Log.Default.addLogListener(consoleWindow);
 
+            debugVisualizer = new DebugVisualizer(pluginManager, sceneController);
+            guiManager.addManagedDialog(debugVisualizer);
+            debugVisualizer.Visible = true;
+
             //Attempt to restore windows, or create default layout.
             if (!mainForm.restoreWindows(AnomalyConfig.DocRoot + "/windows.ini", getDockContent))
             {
-                drawingWindowController.createOneWaySplit();
-                mainForm.showDockContent(movePanel);
-                rotatePanel.Show(movePanel.Pane, DockAlignment.Right, 0.5);
                 mainForm.showDockContent(verticalObjectEditor);
                 mainForm.showDockContent(solutionPanel);
-                foreach (DebugVisualizer visualizer in debugVisualizers.Values)
-                {
-                    mainForm.showDockContent(visualizer);
-                }
+                //foreach (DebugVisualizer visualizer in debugVisualizers.Values)
+                //{
+                //    mainForm.showDockContent(visualizer);
+                //}
             }
             else
             {
-                foreach (DebugVisualizer visualizer in debugVisualizers.Values)
-                {
-                    if (visualizer.DockPanel == null)
-                    {
-                        mainForm.showDockContent(visualizer);
-                    }
-                }
+                //foreach (DebugVisualizer visualizer in debugVisualizers.Values)
+                //{
+                //    if (visualizer.DockPanel == null)
+                //    {
+                //        mainForm.showDockContent(visualizer);
+                //    }
+                //}
             }
 
             mainForm.ResumeLayout();
@@ -272,6 +257,10 @@ namespace Anomaly
             {
                 Log.Default.removeLogListener(consoleWindow);
                 consoleWindow.Dispose();
+            }
+            if(debugVisualizer != null)
+            {
+                debugVisualizer.Dispose();
             }
             if(mdiLayout != null)
             {
@@ -416,12 +405,12 @@ namespace Anomaly
         /// </summary>
         public void setStaticMode()
         {
-            movePanel.Enabled = true;
-            rotatePanel.Enabled = true;
+            //movePanel.Enabled = true;
+            //rotatePanel.Enabled = true;
             sceneController.setDynamicMode(false);
             sceneController.destroyScene();
             sceneController.createScene();
-            toolManager.setEnabled(true);
+            //toolManager.setEnabled(true);
             verticalObjectEditor.Enabled = true;
             solutionPanel.Enabled = true;
         }
@@ -433,9 +422,9 @@ namespace Anomaly
         /// </summary>
         public void setDynamicMode()
         {
-            toolManager.setEnabled(false);
-            movePanel.Enabled = false;
-            rotatePanel.Enabled = false;
+            //toolManager.setEnabled(false);
+            //movePanel.Enabled = false;
+            //rotatePanel.Enabled = false;
             sceneController.setDynamicMode(true);
             sceneController.destroyScene();
             sceneController.createScene();
@@ -445,19 +434,17 @@ namespace Anomaly
 
         public void enableMoveTool()
         {
-            toolManager.enableTool(movementTool);
-            toolManager.setEnabled(!sceneController.isDynamicMode());
+            
         }
 
         public void enableRotateTool()
         {
-            toolManager.enableTool(rotateTool);
-            toolManager.setEnabled(!sceneController.isDynamicMode());
+            
         }
 
         public void enableSelectTool()
         {
-            toolManager.setEnabled(false);
+            
         }
 
         public void copy()
@@ -553,14 +540,6 @@ namespace Anomaly
         /// <returns>The IDockContent associated with the given string.</returns>
         private IDockContent getDockContent(String persistString)
         {
-            if (persistString == movePanel.GetType().ToString())
-            {
-                return movePanel;
-            }
-            if (persistString == rotatePanel.GetType().ToString())
-            {
-                return rotatePanel;
-            }
             if (persistString == verticalObjectEditor.GetType().ToString())
             {
                 return verticalObjectEditor;
@@ -570,20 +549,16 @@ namespace Anomaly
                 return solutionPanel;
             }
             String name;
-            if (DebugVisualizer.RestoreFromPersistance(persistString, out name))
-            {
-                if (debugVisualizers.ContainsKey(name))
-                {
-                    return debugVisualizers[name];
-                }
-                return null;
-            }
+            //if (DebugVisualizer.RestoreFromPersistance(persistString, out name))
+            //{
+            //    if (debugVisualizers.ContainsKey(name))
+            //    {
+            //        return debugVisualizers[name];
+            //    }
+            //    return null;
+            //}
             Vector3 translation;
             Vector3 lookAt;
-            if (DrawingWindowHost.RestoreFromString(persistString, out name, out translation, out lookAt))
-            {
-                return drawingWindowController.createDrawingWindowHost(name, translation, lookAt);
-            }
             return null;
         }
 
@@ -620,7 +595,6 @@ namespace Anomaly
         {
             sceneViewController.createCameras(scene);
             lightManager.sceneLoaded(scene);
-            toolManager.createSceneElements(scene.getDefaultSubScene(), pluginManager);
         }
 
         /// <summary>
@@ -632,7 +606,6 @@ namespace Anomaly
         {
             sceneViewController.destroyCameras();
             lightManager.sceneUnloading(scene);
-            toolManager.destroySceneElements(scene.getDefaultSubScene(), pluginManager);
         }
 
         /// <summary>
@@ -665,17 +638,6 @@ namespace Anomaly
             get
             {
                 return mainTimer;
-            }
-        }
-
-        /// <summary>
-        /// The MoveController to move objects with.
-        /// </summary>
-        public MoveController MoveController
-        {
-            get
-            {
-                return moveController;
             }
         }
 
@@ -717,28 +679,6 @@ namespace Anomaly
             get
             {
                 return selectionController;
-            }
-        }
-
-        /// <summary>
-        /// The RotateController that handles rotating objects.
-        /// </summary>
-        public RotateController RotateController
-        {
-            get
-            {
-                return rotateController;
-            }
-        }
-
-        /// <summary>
-        /// Get the SplitViewController.
-        /// </summary>
-        public DrawingWindowController ViewController
-        {
-            get
-            {
-                return drawingWindowController;
             }
         }
 

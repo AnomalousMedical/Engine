@@ -164,5 +164,16 @@ namespace Anomaly
         {
             return dynamicMode;
         }
+
+        /// <summary>
+        /// Get the current scene.
+        /// </summary>
+        public SimScene CurrentScene
+        {
+            get
+            {
+                return scene;
+            }
+        }
     }
 }
