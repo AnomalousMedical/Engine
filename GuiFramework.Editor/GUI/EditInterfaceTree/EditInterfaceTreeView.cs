@@ -33,11 +33,6 @@ namespace Anomalous.GuiFramework.Editor
         public event EditInterfaceTreeViewEvent EditInterfaceSelectionEdit;
 
         /// <summary>
-        /// Called when an EditInterface has been chosen in some way.
-        /// </summary>
-        public event EditInterfaceTreeViewEvent EditInterfaceChosen;
-
-        /// <summary>
         /// Called when an EditInterface is added.
         /// </summary>
         public event EditInterfaceTreeViewEvent EditInterfaceAdded;
