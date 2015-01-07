@@ -127,12 +127,6 @@
       <DependentUpon>PublishGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\SolutionWindow\SolutionWindow.cs" />
-    <Compile Include="GUI\SplashScreen.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\SplashScreen.Designer.cs">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="Properties\AssemblyInfoSource.cs" />
@@ -152,20 +146,6 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\SolutionWindow\SolutionWindow.layout" />
-    <EmbeddedResource Include="GUI\SplashScreen.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -235,7 +215,6 @@
     <EmbeddedResource Include="Resources\AnomalyIcons.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <None Include="Resources\anomalylogo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -76,17 +76,12 @@ namespace Anomaly
 
         static void startGUI(String projectFileName)
         {
-            SplashScreen splash = new SplashScreen();
-            splash.Show();
-            Application.DoEvents();
             if (projectFileName != null)
             {
                 using (AnomalyApp app = new AnomalyApp(projectFileName))
                 {
                     try
                     {
-                        splash.Close();
-                        splash.Dispose();
                         app.run();
                     }
                     catch (Exception e)
