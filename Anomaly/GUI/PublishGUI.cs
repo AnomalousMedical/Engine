@@ -8,7 +8,6 @@ using System.Windows.Forms;
 using Engine.Resources;
 using Engine;
 using System.IO;
-using Editor;
 
 namespace Anomaly
 {
@@ -172,15 +171,15 @@ namespace Anomaly
             {
                 if (resourceProfileCombo.SelectedIndex == resourceProfileCombo.Items.Count - 1)
                 {
-                    InputResult result = InputBox.GetInput("New Resource Profile", "Enter the name of the new resource profile.", this, null);
-                    if (result.ok)
-                    {
-                        resourceProfileCombo.Items.Insert(resourceProfileCombo.SelectedIndex, result.text);
-                        allowResourceProfileSelectedIndexChanged = false;
-                        resourceProfileCombo.SelectedItem = result.text;
-                        allowResourceProfileSelectedIndexChanged = true;
-                        archiveNameText.Text = result.text;
-                    }
+                    //InputResult result = InputBox.GetInput("New Resource Profile", "Enter the name of the new resource profile.", this, null);
+                    //if (result.ok)
+                    //{
+                    //    resourceProfileCombo.Items.Insert(resourceProfileCombo.SelectedIndex, result.text);
+                    //    allowResourceProfileSelectedIndexChanged = false;
+                    //    resourceProfileCombo.SelectedItem = result.text;
+                    //    allowResourceProfileSelectedIndexChanged = true;
+                    //    archiveNameText.Text = result.text;
+                    //}
                 }
                 else if (resourceProfileCombo.SelectedIndex == 0)
                 {

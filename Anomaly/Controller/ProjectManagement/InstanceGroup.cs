@@ -8,7 +8,6 @@ using System.IO;
 using Engine.Saving;
 using System.Windows.Forms;
 using Logging;
-using Editor;
 using System.Xml;
 using Engine;
 
@@ -277,7 +276,7 @@ namespace Anomaly
                 editInterface.addCommand(new EditInterfaceCommand("Show All", showAllCallback));
                 editInterface.addCommand(new EditInterfaceCommand("Hide All", hideAllCallback));
                 editInterface.addCommand(new EditInterfaceCommand("Import Positions", importPositionsCallback));
-                editInterface.IconReferenceTag = EditorIcons.Folder;
+                editInterface.IconReferenceTag = AnomalyIcons.Folder;
                 GenericClipboardEntry clipboardEntry = new GenericClipboardEntry(typeof(InstanceGroup));
                 clipboardEntry.PasteFunction = pasteCallback;
                 clipboardEntry.SupportsPastingTypeFunction = supportsPasteType;

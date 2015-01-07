@@ -9,7 +9,6 @@ using Engine.Saving;
 using System.IO;
 using Engine;
 using Engine.Resources;
-using Editor;
 using Engine.Renderer;
 
 namespace Anomaly

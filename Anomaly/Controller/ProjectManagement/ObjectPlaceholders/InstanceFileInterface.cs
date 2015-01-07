@@ -5,7 +5,6 @@ using System.Text;
 using Engine.Editing;
 using Logging;
 using Engine.ObjectManagement;
-using Editor;
 using Engine;
 using System.Xml;
 using Engine.Saving.XMLSaver;

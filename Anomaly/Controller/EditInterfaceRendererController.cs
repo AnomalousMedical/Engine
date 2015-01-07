@@ -6,7 +6,6 @@ using Engine.Renderer;
 using Engine.Platform;
 using Engine.ObjectManagement;
 using Engine.Editing;
-using Editor;
 using Engine;
 
 namespace Anomaly

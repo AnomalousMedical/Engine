@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Editor;
 using Engine.Editing;
 using Logging;
 using Engine.ObjectManagement;

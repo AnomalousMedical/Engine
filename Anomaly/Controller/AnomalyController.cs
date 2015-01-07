@@ -9,7 +9,6 @@ using Engine.Platform;
 using Engine.Resources;
 using System.IO;
 using Engine.ObjectManagement;
-using Editor;
 using System.Xml;
 using Engine.Saving.XMLSaver;
 using Engine.Saving;

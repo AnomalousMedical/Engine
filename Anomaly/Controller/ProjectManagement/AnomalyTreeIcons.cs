@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Editor;
 using Anomaly.Properties;
 
 namespace Anomaly
@@ -18,5 +17,7 @@ namespace Anomaly
         InstanceModifiedHidden,
         InstanceHidden,
         ExternalResources,
+        Folder,
+        QuestionMark,
     }
 }
