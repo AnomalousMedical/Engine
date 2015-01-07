@@ -189,6 +189,7 @@ namespace Anomaly
 
             //Create the main form
             AnomalyTreeIcons.createIcons();
+            MyGUIPlugin.ResourceManager.Instance.load("Anomaly.Resources.AnomalyIcons.xml");
             mainForm = new AnomalyMain();
 
             //Initialize controllers

@@ -65,7 +65,14 @@ namespace Anomalous.GuiFramework.Editor
 
         void editInterface_OnIconReferenceChanged(EditInterface editInterface)
         {
-
+            if (editInterface.IconReferenceTag != null)
+            {
+                ImageResource = editInterface.IconReferenceTag.ToString();
+            }
+            else
+            {
+                ImageResource = "";
+            }
         }
 
         void editInterface_OnForeColorChanged(EditInterface editInterface)
