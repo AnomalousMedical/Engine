@@ -61,11 +61,6 @@ namespace Anomaly
             modified = true;
         }
 
-        public override void uiEditingCompletedCallback(EditInterface editInterface, object editingObject)
-        {
-            
-        }
-
         public String Filename
         {
             get

@@ -30,7 +30,6 @@ namespace Editor
 
         private object currentEditingObject;
         private EditInterface currentEditInterface;
-        private ObjectEditorGUIEvent currentEditingCompleteCommitCallback;
         private ObjectEditorGUIEvent currentFieldChangedCallback;
 
         public VerticalObjectEditor()
@@ -49,13 +48,8 @@ namespace Editor
         /// Set the current EditInterface shown on this panel.
         /// </summary>
         /// <param name="editor">The editor to show.</param>
-        public void setEditInterface(EditInterface editInterface, object editingObject, ObjectEditorGUIEvent FieldChangedCallback, ObjectEditorGUIEvent EditingCompletedCallback)
+        public void setEditInterface(EditInterface editInterface, object editingObject, ObjectEditorGUIEvent FieldChangedCallback)
         {
-            if (currentEditingCompleteCommitCallback != null)
-            {
-                currentEditingCompleteCommitCallback.Invoke(currentEditInterface, currentEditingObject);
-            }
-
             editInterfaceView.clearEditInterface();
             editInterfaceView.setEditInterface(editInterface);
             propertiesTable.showEditableProperties(editInterface);
@@ -63,7 +57,6 @@ namespace Editor
 
             currentEditInterface = editInterface;
             currentEditingObject = editingObject;
-            currentEditingCompleteCommitCallback = EditingCompletedCallback;
             currentFieldChangedCallback = FieldChangedCallback;
 
             if (MainInterfaceChanged != null)
@@ -79,12 +72,6 @@ namespace Editor
 
         public void clearEditInterface()
         {
-            if (currentEditingCompleteCommitCallback != null)
-            {
-                currentEditingCompleteCommitCallback.Invoke(currentEditInterface, currentEditingObject);
-            }
-
-            currentEditingCompleteCommitCallback = null;
             currentEditInterface = null;
             currentEditingObject = null;
             currentFieldChangedCallback = null;

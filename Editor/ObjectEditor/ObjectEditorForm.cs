@@ -42,15 +42,11 @@ namespace Editor
             }
         }
 
-        public void setEditInterface(EditInterface editInterface, object editingObject, ObjectEditorGUIEvent FieldChangedCallback, ObjectEditorGUIEvent EditingCompletedCallback)
+        public void setEditInterface(EditInterface editInterface, object editingObject, ObjectEditorGUIEvent FieldChangedCallback)
         {
             objectEditorPanel.setEditInterface(editInterface);
             this.ShowDialog();
             objectEditorPanel.clearEditInterface();
-            if (EditingCompletedCallback != null)
-            {
-                EditingCompletedCallback.Invoke(editInterface, editingObject);
-            }
         }
 
         public void clearEditInterface()

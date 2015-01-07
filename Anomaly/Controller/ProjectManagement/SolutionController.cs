@@ -100,12 +100,12 @@ namespace Anomaly
                 }
                 else
                 {
-                    objectEditor.setEditInterface(editInterface, null, null, null);
+                    objectEditor.setEditInterface(editInterface, null, null);
                 }
             }
             else if (editInterface.canAddRemoveProperties())
             {
-                objectEditor.setEditInterface(editInterface, null, null, null);
+                objectEditor.setEditInterface(editInterface, null, null);
             }
             else
             {
@@ -118,7 +118,7 @@ namespace Anomaly
         {
             Object currentObject = placeholder.getObject();
             EditInterface edit = placeholder.getObjectEditInterface(currentObject);
-            objectEditor.setEditInterface(edit, currentObject, placeholder.uiFieldUpdateCallback, placeholder.uiEditingCompletedCallback);
+            objectEditor.setEditInterface(edit, currentObject, placeholder.uiFieldUpdateCallback);
             currentPlaceholder = placeholder;
         }
 

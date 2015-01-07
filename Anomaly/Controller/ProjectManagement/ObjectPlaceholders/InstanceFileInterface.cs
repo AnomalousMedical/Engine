@@ -105,11 +105,6 @@ namespace Anomaly
             }
         }
 
-        public override void uiEditingCompletedCallback(EditInterface editInterface, object editingObject)
-        {
-            
-        }
-
         private void createSimObject(object editingObject)
         {
             if (simObjectController != null)

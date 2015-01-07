@@ -23,8 +23,6 @@ namespace Anomaly
 
         public abstract void uiFieldUpdateCallback(EditInterface editInterface, object editingObject);
 
-        public abstract void uiEditingCompletedCallback(EditInterface editInterface, object editingObject);
-
         public EditInterface getEditInterface()
         {
             return editInterface;
