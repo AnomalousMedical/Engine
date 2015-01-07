@@ -22,6 +22,8 @@ namespace Anomaly.GUI
         private AnomalyController controller;
 
         private MenuItem showStats;
+        private Button playButton;
+        private Button pauseButton;
 
         public AnomalyMain(AnomalyController controller)
             : base("Anomaly.GUI.Main.AnomalyMain.layout")
@@ -83,6 +85,27 @@ namespace Anomaly.GUI
                     }
                 }
             }
+
+            //Buttons
+            ButtonGroup toolButtons = new ButtonGroup();
+            Button none = widget.findWidget("None") as Button;
+            none.MouseButtonClick += none_MouseButtonClick;
+            toolButtons.addButton(none);
+
+            Button move = widget.findWidget("Move") as Button;
+            move.MouseButtonClick += move_MouseButtonClick;
+            toolButtons.addButton(move);
+
+            Button rotate = widget.findWidget("Rotate") as Button;
+            rotate.MouseButtonClick += rotate_MouseButtonClick;
+            toolButtons.addButton(rotate);
+
+            playButton = widget.findWidget("Play") as Button;
+            playButton.MouseButtonClick += playButton_MouseButtonClick;
+
+            pauseButton = widget.findWidget("Pause") as Button;
+            pauseButton.MouseButtonClick += pauseButton_MouseButtonClick;
+            pauseButton.Enabled = false;
         }
 
         public SingleChildLayoutContainer LayoutContainer { get; private set; }
@@ -120,6 +143,35 @@ namespace Anomaly.GUI
         private void viewConfiguration()
         {
             controller.SceneController.editScene();
+        }
+
+        void none_MouseButtonClick(Widget source, EventArgs e)
+        {
+            controller.enableSelectTool();
+        }
+
+        void rotate_MouseButtonClick(Widget source, EventArgs e)
+        {
+            controller.enableRotateTool();
+        }
+
+        void move_MouseButtonClick(Widget source, EventArgs e)
+        {
+            controller.enableMoveTool();
+        }
+
+        void pauseButton_MouseButtonClick(Widget source, EventArgs e)
+        {
+            playButton.Enabled = true;
+            pauseButton.Enabled = false;
+            controller.setStaticMode();
+        }
+
+        void playButton_MouseButtonClick(Widget source, EventArgs e)
+        {
+            playButton.Enabled = false;
+            pauseButton.Enabled = true;
+            controller.setDynamicMode();
         }
     }
 }
