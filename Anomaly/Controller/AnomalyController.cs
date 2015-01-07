@@ -193,8 +193,6 @@ namespace Anomaly
 
             solution.loadExternalFiles(this);
 
-            //Create the main form
-            AnomalyTreeIcons.createIcons();
             MyGUIPlugin.ResourceManager.Instance.load("Anomaly.Resources.AnomalyIcons.xml");
 
             //Initialize controllers
@@ -519,62 +517,34 @@ namespace Anomaly
             }
         }
 
-        /// <summary>
-        /// Restore function for restoring the window layout.
-        /// </summary>
-        /// <param name="persistString">The string describing the window.</param>
-        /// <returns>The IDockContent associated with the given string.</returns>
-        private IDockContent getDockContent(String persistString)
+        public void createOneWindow()
         {
-            return null;
+            sceneViewController.closeAllWindows();
+            sceneViewController.createWindow("Camera 1", Vector3.Backward * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
         }
 
-        /// <summary>
-        /// Helper function to create the default window. This is the callback
-        /// to the PluginManager.
-        /// </summary>
-        /// <param name="defaultWindow"></param>
-        private void createWindow(out WindowInfo defaultWindow)
+        public void createTwoWindows()
         {
-            //Setup main window
-            defaultWindow = new WindowInfo(mainWindow, "Primary");
-            defaultWindow.Fullscreen = AnomalyConfig.EngineConfig.Fullscreen;
-            defaultWindow.MonitorIndex = 0;
-
-            if (AnomalyConfig.EngineConfig.Fullscreen)
-            {
-                mainWindow.setSize(AnomalyConfig.EngineConfig.HorizontalRes, AnomalyConfig.EngineConfig.VerticalRes);
-                mainWindow.ExclusiveFullscreen = true;
-            }
-            else
-            {
-                mainWindow.Maximized = true;
-            }
-            mainWindow.show();
+            sceneViewController.closeAllWindows();
+            var cameraOne = sceneViewController.createWindow("Camera 1", Vector3.Backward * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
+            sceneViewController.createWindow("Camera 2", Vector3.Forward * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 150, cameraOne, WindowAlignment.Right);
         }
 
-        /// <summary>
-        /// Callback for when the scene is loaded.
-        /// </summary>
-        /// <param name="controller"></param>
-        /// <param name="scene"></param>
-        private void sceneController_OnSceneLoaded(SceneController controller, SimScene scene)
+        public void createThreeWindows()
         {
-            sceneViewController.createCameras(scene);
-            lightManager.sceneLoaded(scene);
-            selectionMovementTools.sceneLoaded(scene);
+            sceneViewController.closeAllWindows();
+            var cameraOne = sceneViewController.createWindow("Camera 1", Vector3.Right * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
+            var cameraTwo = sceneViewController.createWindow("Camera 2", Vector3.Backward * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 150, cameraOne, WindowAlignment.Right);
+            var cameraThree = sceneViewController.createWindow("Camera 3", Vector3.Left * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 200, cameraTwo, WindowAlignment.Right);
         }
 
-        /// <summary>
-        /// Callback for when the scene is unloading.
-        /// </summary>
-        /// <param name="controller"></param>
-        /// <param name="scene"></param>
-        private void sceneController_OnSceneUnloading(SceneController controller, SimScene scene)
+        public void createFourWindows()
         {
-            sceneViewController.destroyCameras();
-            lightManager.sceneUnloading(scene);
-            selectionMovementTools.sceneUnloading(scene);
+            sceneViewController.closeAllWindows();
+            var cameraOne = sceneViewController.createWindow("Camera 1", Vector3.Backward * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
+            var cameraTwo = sceneViewController.createWindow("Camera 2", Vector3.Forward * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 150, cameraOne, WindowAlignment.Right);
+            var cameraThree = sceneViewController.createWindow("Camera 3", Vector3.Left * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 200, cameraOne, WindowAlignment.Bottom);
+            var cameraFour = sceneViewController.createWindow("Camera 4", Vector3.Right * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 250, cameraTwo, WindowAlignment.Bottom);
         }
 
         /// <summary>
@@ -671,39 +641,65 @@ namespace Anomaly
             }
         }
 
+        public NativeOSWindow MainWindow
+        {
+            get
+            {
+                return mainWindow;
+            }
+        }
+
         void mainWindow_Closed(OSWindow window)
         {
             shutdown();
         }
 
-        public void createOneWindow()
+        /// <summary>
+        /// Helper function to create the default window. This is the callback
+        /// to the PluginManager.
+        /// </summary>
+        /// <param name="defaultWindow"></param>
+        private void createWindow(out WindowInfo defaultWindow)
         {
-            sceneViewController.closeAllWindows();
-            sceneViewController.createWindow("Camera 1", Vector3.Backward * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
+            //Setup main window
+            defaultWindow = new WindowInfo(mainWindow, "Primary");
+            defaultWindow.Fullscreen = AnomalyConfig.EngineConfig.Fullscreen;
+            defaultWindow.MonitorIndex = 0;
+
+            if (AnomalyConfig.EngineConfig.Fullscreen)
+            {
+                mainWindow.setSize(AnomalyConfig.EngineConfig.HorizontalRes, AnomalyConfig.EngineConfig.VerticalRes);
+                mainWindow.ExclusiveFullscreen = true;
+            }
+            else
+            {
+                mainWindow.Maximized = true;
+            }
+            mainWindow.show();
         }
 
-        public void createTwoWindows()
+        /// <summary>
+        /// Callback for when the scene is loaded.
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="scene"></param>
+        private void sceneController_OnSceneLoaded(SceneController controller, SimScene scene)
         {
-            sceneViewController.closeAllWindows();
-            var cameraOne = sceneViewController.createWindow("Camera 1", Vector3.Backward * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
-            sceneViewController.createWindow("Camera 2", Vector3.Forward * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 150, cameraOne, WindowAlignment.Right);
+            sceneViewController.createCameras(scene);
+            lightManager.sceneLoaded(scene);
+            selectionMovementTools.sceneLoaded(scene);
         }
 
-        public void createThreeWindows()
+        /// <summary>
+        /// Callback for when the scene is unloading.
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="scene"></param>
+        private void sceneController_OnSceneUnloading(SceneController controller, SimScene scene)
         {
-            sceneViewController.closeAllWindows();
-            var cameraOne = sceneViewController.createWindow("Camera 1", Vector3.Right * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
-            var cameraTwo = sceneViewController.createWindow("Camera 2", Vector3.Backward * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 150, cameraOne, WindowAlignment.Right);
-            var cameraThree = sceneViewController.createWindow("Camera 3", Vector3.Left * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 200, cameraTwo, WindowAlignment.Right);
-        }
-
-        public void createFourWindows()
-        {
-            sceneViewController.closeAllWindows();
-            var cameraOne = sceneViewController.createWindow("Camera 1", Vector3.Backward * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
-            var cameraTwo = sceneViewController.createWindow("Camera 2", Vector3.Forward * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 150, cameraOne, WindowAlignment.Right);
-            var cameraThree = sceneViewController.createWindow("Camera 3", Vector3.Left * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 200, cameraOne, WindowAlignment.Bottom);
-            var cameraFour = sceneViewController.createWindow("Camera 4", Vector3.Right * DefaultOrbitDistance, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 250, cameraTwo, WindowAlignment.Bottom);
+            sceneViewController.destroyCameras();
+            lightManager.sceneUnloading(scene);
+            selectionMovementTools.sceneUnloading(scene);
         }
     }
 }

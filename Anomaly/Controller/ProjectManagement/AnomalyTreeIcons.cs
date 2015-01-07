@@ -19,25 +19,4 @@ namespace Anomaly
         InstanceHidden,
         ExternalResources,
     }
-
-    class AnomalyTreeIcons
-    {
-        private AnomalyTreeIcons()
-        {
-
-        }
-
-        static public void createIcons()
-        {
-            EditInterfaceIconCollection.addIcon(AnomalyIcons.Solution, Resources.Solution);
-            EditInterfaceIconCollection.addIcon(AnomalyIcons.Project, Resources.Project);
-            EditInterfaceIconCollection.addIcon(AnomalyIcons.Instance, Resources.Instance);
-            EditInterfaceIconCollection.addIcon(AnomalyIcons.ProjectBuilt, Resources.ProjectBuilt);
-            EditInterfaceIconCollection.addIcon(AnomalyIcons.ReferencedProjects, Resources.ReferencedProjects);
-            EditInterfaceIconCollection.addIcon(AnomalyIcons.InstanceModified, Resources.InstanceModified);
-            EditInterfaceIconCollection.addIcon(AnomalyIcons.InstanceModifiedHidden, Resources.InstanceModifiedHidden);
-            EditInterfaceIconCollection.addIcon(AnomalyIcons.InstanceHidden, Resources.InstanceHidden);
-            EditInterfaceIconCollection.addIcon(AnomalyIcons.ExternalResources, Resources.ExternalResources);
-        }
-    }
 }

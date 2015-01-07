@@ -115,13 +115,8 @@
     <Compile Include="GUI\DebugVisualizer\DebugVisualizer.cs" />
     <Compile Include="GUI\EventLayers.cs" />
     <Compile Include="GUI\Main\AnomalyMain.cs" />
+    <Compile Include="GUI\ObfuscateArchive\ObfuscateArchiveWindow.cs" />
     <Compile Include="GUI\PropertiesEditor\PropertiesEditor.cs" />
-    <Compile Include="GUI\ObfuscateZipFileGUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\ObfuscateZipFileGUI.Designer.cs">
-      <DependentUpon>ObfuscateZipFileGUI.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI\ProjectSelector.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -149,11 +144,8 @@
     <EmbeddedResource Include="GUI\Main\AnomalyMain.layout">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\ObfuscateArchive\ObfuscateArchiveWindow.layout" />
     <EmbeddedResource Include="GUI\PropertiesEditor\PropertiesEditor.layout" />
-    <EmbeddedResource Include="GUI\ObfuscateZipFileGUI.resx">
-      <DependentUpon>ObfuscateZipFileGUI.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="GUI\ProjectSelector.resx">
       <DependentUpon>ProjectSelector.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -250,15 +242,6 @@
     <EmbeddedResource Include="Resources\AnomalyIcons.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <None Include="Resources\ExternalResources.png" />
-    <None Include="Resources\InstanceModifiedHidden.png" />
-    <None Include="Resources\InstanceHidden.png" />
-    <None Include="Resources\InstanceModified.png" />
-    <None Include="Resources\ReferencedProjects.png" />
-    <None Include="Resources\ProjectBuilt.png" />
-    <None Include="Resources\Solution.png" />
-    <None Include="Resources\Project.png" />
-    <None Include="Resources\Instance.png" />
     <None Include="Resources\anomalylogo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

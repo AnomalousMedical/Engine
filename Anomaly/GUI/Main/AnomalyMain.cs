@@ -49,7 +49,7 @@ namespace Anomaly.GUI
             MenuItem resourcesItem = menuBar.addItem("Resources", MenuItemType.Popup);
             MenuControl resources = menuBar.createItemPopupMenuChild(resourcesItem);
             resources.addItemAction("Publish", publish);
-            resources.addItemAction("Obfuscate Archive", obfuscateArchive);
+            resources.addItemAction("Obfuscate Archive", doObfuscateArchive);
             resources.addItemAction("Refresh Global Resources", controller.refreshGlobalResources);
 
             MenuItem sceneItem = menuBar.addItem("Scene", MenuItemType.Popup);
@@ -106,6 +106,9 @@ namespace Anomaly.GUI
             pauseButton = widget.findWidget("Pause") as Button;
             pauseButton.MouseButtonClick += pauseButton_MouseButtonClick;
             pauseButton.Enabled = false;
+
+            //Windows
+            
         }
 
         public SingleChildLayoutContainer LayoutContainer { get; private set; }
@@ -120,9 +123,16 @@ namespace Anomaly.GUI
             controller.saveSolution(true);
         }
 
-        private void obfuscateArchive()
+        private void doObfuscateArchive()
         {
-            //obfuscateGUI.ShowDialog(this);
+            ObfuscateArchiveWindow obfuscateArchive = new ObfuscateArchiveWindow(controller.MainWindow);
+            obfuscateArchive.Closed += (sender, args) =>
+            {
+                obfuscateArchive.Dispose();
+            };
+            obfuscateArchive.Modal = true;
+            obfuscateArchive.center();
+            obfuscateArchive.Visible = true;
         }
 
         private void publish()
