@@ -11,12 +11,6 @@ using Anomalous.GuiFramework.Editor;
 
 namespace Editor
 {
-    /// <summary>
-    /// The delegate for EditInterfaceViews.
-    /// </summary>
-    /// <param name="evt">The EditInterfaceViewEvent.</param>
-    public delegate void EditInterfaceEvent(EditInterfaceViewEvent evt);
-
     public partial class EditInterfaceView : UserControl, EditUICallback
     {
         static OpenFileDialog openDialog = new OpenFileDialog();
@@ -39,33 +33,33 @@ namespace Editor
         /// <summary>
         /// Called when the selected EditInterface has changed. Cannot be canceled.
         /// </summary>
-        public event EditInterfaceEvent OnEditInterfaceSelectionChanged;
+        public event EditInterfaceViewEvent OnEditInterfaceSelectionChanged;
 
         /// <summary>
         /// Called when the selected EditInterface is about to change. Can be canceled.
         /// </summary>
-        public event EditInterfaceEvent OnEditInterfaceSelectionChanging;
+        public event EditInterfaceViewEvent OnEditInterfaceSelectionChanging;
 
         /// <summary>
         /// Called when the interface has requested to further edit an object.
         /// Can be ignored if not applicable.
         /// </summary>
-        public event EditInterfaceEvent OnEditInterfaceSelectionEdit;
+        public event EditInterfaceViewEvent OnEditInterfaceSelectionEdit;
 
         /// <summary>
         /// Called when an EditInterface has been chosen in some way.
         /// </summary>
-        public event EditInterfaceEvent OnEditInterfaceChosen;
+        public event EditInterfaceViewEvent OnEditInterfaceChosen;
 
         /// <summary>
         /// Called when an EditInterface is added.
         /// </summary>
-        public event EditInterfaceEvent OnEditInterfaceAdded;
+        public event EditInterfaceViewEvent OnEditInterfaceAdded;
 
         /// <summary>
         /// Called when an EditInterface is removed.
         /// </summary>
-        public event EditInterfaceEvent OnEditInterfaceRemoved;
+        public event EditInterfaceViewEvent OnEditInterfaceRemoved;
 
         #endregion Events
 
@@ -363,7 +357,7 @@ namespace Editor
         {
             if (OnEditInterfaceAdded != null)
             {
-                OnEditInterfaceAdded.Invoke(new EditInterfaceViewEvent(editInterfaceTreeNode.EditInterface));
+                OnEditInterfaceAdded.Invoke(new EditInterfaceViewEventArgs(editInterfaceTreeNode.EditInterface));
             }
         }
 
@@ -371,7 +365,7 @@ namespace Editor
         {
             if (OnEditInterfaceRemoved != null)
             {
-                OnEditInterfaceRemoved.Invoke(new EditInterfaceViewEvent(editInterfaceTreeNode.EditInterface));
+                OnEditInterfaceRemoved.Invoke(new EditInterfaceViewEventArgs(editInterfaceTreeNode.EditInterface));
             }
         }
 
@@ -389,7 +383,7 @@ namespace Editor
         {
             if (OnEditInterfaceChosen != null)
             {
-                EditInterfaceViewEvent evt = new EditInterfaceViewEvent((e.Node as EditInterfaceTreeNode).EditInterface);
+                EditInterfaceViewEventArgs evt = new EditInterfaceViewEventArgs((e.Node as EditInterfaceTreeNode).EditInterface);
                 OnEditInterfaceChosen.Invoke(evt);
             }
             if (e.Button == MouseButtons.Right)
@@ -425,7 +419,7 @@ namespace Editor
         {
             if (OnEditInterfaceSelectionChanging != null && e.Node != null)
             {
-                EditInterfaceViewEvent evt = new EditInterfaceViewEvent((e.Node as EditInterfaceTreeNode).EditInterface);
+                EditInterfaceViewEventArgs evt = new EditInterfaceViewEventArgs((e.Node as EditInterfaceTreeNode).EditInterface);
                 OnEditInterfaceSelectionChanging.Invoke(evt);
                 e.Cancel = evt.Cancel;
             }
@@ -435,7 +429,7 @@ namespace Editor
         {
             if (OnEditInterfaceSelectionChanged != null)
             {
-                EditInterfaceViewEvent evt = new EditInterfaceViewEvent((e.Node as EditInterfaceTreeNode).EditInterface);
+                EditInterfaceViewEventArgs evt = new EditInterfaceViewEventArgs((e.Node as EditInterfaceTreeNode).EditInterface);
                 OnEditInterfaceSelectionChanged.Invoke(evt);
             }
         }
@@ -444,7 +438,7 @@ namespace Editor
         {
             if (OnEditInterfaceSelectionEdit != null)
             {
-                EditInterfaceViewEvent evt = new EditInterfaceViewEvent((e.Node as EditInterfaceTreeNode).EditInterface);
+                EditInterfaceViewEventArgs evt = new EditInterfaceViewEventArgs((e.Node as EditInterfaceTreeNode).EditInterface);
                 OnEditInterfaceSelectionEdit.Invoke(evt);
             }
         }

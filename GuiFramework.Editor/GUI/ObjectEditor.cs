@@ -47,7 +47,7 @@ namespace Anomalous.GuiFramework.Editor
             EditInterface = null;
         }
 
-        void treeView_EditInterfaceSelectionChanged(EditInterfaceViewEvent evt)
+        void treeView_EditInterfaceSelectionChanged(EditInterfaceViewEventArgs evt)
         {
             selectedEditInterface = evt.EditInterface;
             propEditor.EditInterface = selectedEditInterface;

@@ -45,7 +45,7 @@ namespace Anomaly
             this.solutionPanel = solutionPanel;
             solutionPanel.setSolution(solution);
             this.objectEditor = objectEditor;
-            solutionPanel.InterfaceChosen += new Editor.EditInterfaceEvent(solutionPanel_InterfaceChosen);
+            solutionPanel.InterfaceChosen += new EditInterfaceViewEvent(solutionPanel_InterfaceChosen);
             controller.SelectionController.OnSelectionChanged += new ObjectSelected(SelectionController_OnSelectionChanged);
         }
 
@@ -86,7 +86,7 @@ namespace Anomaly
             }
         }
 
-        void solutionPanel_InterfaceChosen(EditInterfaceViewEvent evt)
+        void solutionPanel_InterfaceChosen(EditInterfaceViewEventArgs evt)
         {
             EditInterface editInterface = evt.EditInterface;
             if (editInterface.hasEditableProperties())

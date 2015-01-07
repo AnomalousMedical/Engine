@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using Editor;
 using Engine.Editing;
+using Anomalous.GuiFramework.Editor;
 
 namespace Anomaly
 {
@@ -31,7 +32,7 @@ namespace Anomaly
             }
         }
 
-        public event Editor.EditInterfaceEvent InterfaceChosen
+        public event EditInterfaceViewEvent InterfaceChosen
         {
             add
             {

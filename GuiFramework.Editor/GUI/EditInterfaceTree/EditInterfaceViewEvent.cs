@@ -7,15 +7,21 @@ using Engine.Editing;
 namespace Anomalous.GuiFramework.Editor
 {
     /// <summary>
+    /// The delegate for EditInterfaceViews.
+    /// </summary>
+    /// <param name="evt">The EditInterfaceViewEvent.</param>
+    public delegate void EditInterfaceViewEvent(EditInterfaceViewEventArgs evt);
+
+    /// <summary>
     /// This event is passed on EditInterfaceViewEvents.
     /// </summary>
-    public class EditInterfaceViewEvent
+    public class EditInterfaceViewEventArgs
     {
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="editInterface"></param>
-        public EditInterfaceViewEvent(EditInterface editInterface)
+        public EditInterfaceViewEventArgs(EditInterface editInterface)
         {
             this.EditInterface = editInterface;
             this.Cancel = false;

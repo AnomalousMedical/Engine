@@ -47,7 +47,7 @@ namespace Anomalous.GuiFramework.Editor
             {
                 currentEditInterface.OnPropertyAdded -= new PropertyAdded(currentEditInterface_OnPropertyAdded);
                 currentEditInterface.OnPropertyRemoved -= new PropertyRemoved(currentEditInterface_OnPropertyRemoved);
-                currentEditInterface.OnDataNeedsRefresh -= new EditInterfaceEvent(currentEditInterface_OnDataNeedsRefresh);
+                currentEditInterface.OnDataNeedsRefresh -= currentEditInterface_OnDataNeedsRefresh;
             }
             flowLayout.clearChildren();
             foreach (PropertiesFormComponent component in components)
@@ -83,7 +83,7 @@ namespace Anomalous.GuiFramework.Editor
                     currentEditInterface = value;
                     currentEditInterface.OnPropertyAdded += new PropertyAdded(currentEditInterface_OnPropertyAdded);
                     currentEditInterface.OnPropertyRemoved += new PropertyRemoved(currentEditInterface_OnPropertyRemoved);
-                    currentEditInterface.OnDataNeedsRefresh += new EditInterfaceEvent(currentEditInterface_OnDataNeedsRefresh);
+                    currentEditInterface.OnDataNeedsRefresh += currentEditInterface_OnDataNeedsRefresh;
                     currentPropInfo = value.getPropertyInfo();
                     foreach (EditInterfaceCommand command in currentEditInterface.getCommands())
                     {

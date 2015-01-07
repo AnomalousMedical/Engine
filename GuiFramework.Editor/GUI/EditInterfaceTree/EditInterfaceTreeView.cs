@@ -14,7 +14,7 @@ namespace Anomalous.GuiFramework.Editor
         /// The delegate for EditInterfaceViews.
         /// </summary>
         /// <param name="evt">The EditInterfaceViewEvent.</param>
-        public delegate void EditInterfaceTreeViewEvent(EditInterfaceViewEvent evt);
+        public delegate void EditInterfaceTreeViewEvent(EditInterfaceViewEventArgs evt);
 
         /// <summary>
         /// Called when the selected EditInterface has changed. Cannot be canceled.
@@ -112,7 +112,7 @@ namespace Anomalous.GuiFramework.Editor
             editInterfaceTreeNode.Expanded = true;
             if (EditInterfaceAdded != null)
             {
-                EditInterfaceAdded.Invoke(new EditInterfaceViewEvent(editInterfaceTreeNode.EditInterface));
+                EditInterfaceAdded.Invoke(new EditInterfaceViewEventArgs(editInterfaceTreeNode.EditInterface));
             }
             tree.layout();
         }
@@ -121,7 +121,7 @@ namespace Anomalous.GuiFramework.Editor
         {
             if (EditInterfaceRemoved != null)
             {
-                EditInterfaceRemoved.Invoke(new EditInterfaceViewEvent(editInterfaceTreeNode.EditInterface));
+                EditInterfaceRemoved.Invoke(new EditInterfaceViewEventArgs(editInterfaceTreeNode.EditInterface));
             }
             tree.layout();
         }
@@ -130,7 +130,7 @@ namespace Anomalous.GuiFramework.Editor
         {
             if (EditInterfaceSelectionEdit != null)
             {
-                EditInterfaceViewEvent evt = new EditInterfaceViewEvent((e.Node as EditInterfaceTreeNode).EditInterface);
+                EditInterfaceViewEventArgs evt = new EditInterfaceViewEventArgs((e.Node as EditInterfaceTreeNode).EditInterface);
                 EditInterfaceSelectionEdit.Invoke(evt);
             }
         }
@@ -176,7 +176,7 @@ namespace Anomalous.GuiFramework.Editor
         {
             if (EditInterfaceSelectionChanging != null && e.Node != null)
             {
-                EditInterfaceViewEvent evt = new EditInterfaceViewEvent((e.Node as EditInterfaceTreeNode).EditInterface);
+                EditInterfaceViewEventArgs evt = new EditInterfaceViewEventArgs((e.Node as EditInterfaceTreeNode).EditInterface);
                 EditInterfaceSelectionChanging.Invoke(evt);
                 e.Cancel = evt.Cancel;
             }
@@ -186,7 +186,7 @@ namespace Anomalous.GuiFramework.Editor
         {
             if (EditInterfaceSelectionChanged != null)
             {
-                EditInterfaceViewEvent evt = new EditInterfaceViewEvent((e.Node as EditInterfaceTreeNode).EditInterface);
+                EditInterfaceViewEventArgs evt = new EditInterfaceViewEventArgs((e.Node as EditInterfaceTreeNode).EditInterface);
                 EditInterfaceSelectionChanged.Invoke(evt);
             }
         }

@@ -24,8 +24,8 @@ namespace Editor
         public ObjectEditorPanel()
         {
             InitializeComponent();
-            editInterfaceView.OnEditInterfaceSelectionChanging += new EditInterfaceEvent(editInterfaceView_OnEditInterfaceSelectionChanging);
-            editInterfaceView.OnEditInterfaceSelectionChanged += new EditInterfaceEvent(editInterfaceView_OnEditInterfaceSelectionChanged);
+            editInterfaceView.OnEditInterfaceSelectionChanging += editInterfaceView_OnEditInterfaceSelectionChanging;
+            editInterfaceView.OnEditInterfaceSelectionChanged += editInterfaceView_OnEditInterfaceSelectionChanged;
         }
 
         #endregion Constructors
@@ -56,7 +56,7 @@ namespace Editor
         /// Callback for when the EditInterface changes.
         /// </summary>
         /// <param name="evt"></param>
-        void editInterfaceView_OnEditInterfaceSelectionChanged(EditInterfaceViewEvent evt)
+        void editInterfaceView_OnEditInterfaceSelectionChanged(EditInterfaceViewEventArgs evt)
         {
             propertiesTable.showEditableProperties(evt.EditInterface);
         }
@@ -65,7 +65,7 @@ namespace Editor
         /// Callback for when the EditInterface is about to change.
         /// </summary>
         /// <param name="evt"></param>
-        void editInterfaceView_OnEditInterfaceSelectionChanging(EditInterfaceViewEvent evt)
+        void editInterfaceView_OnEditInterfaceSelectionChanging(EditInterfaceViewEventArgs evt)
         {
             String error;
             if (!propertiesTable.validateCurrentSettings(out error))

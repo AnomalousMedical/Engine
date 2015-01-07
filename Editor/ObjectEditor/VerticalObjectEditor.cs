@@ -36,10 +36,10 @@ namespace Editor
         public VerticalObjectEditor()
         {
             InitializeComponent();
-            editInterfaceView.OnEditInterfaceSelectionChanging += new EditInterfaceEvent(editInterfaceView_OnEditInterfaceSelectionChanging);
-            editInterfaceView.OnEditInterfaceSelectionChanged += new EditInterfaceEvent(editInterfaceView_OnEditInterfaceSelectionChanged);
-            editInterfaceView.OnEditInterfaceAdded += new EditInterfaceEvent(editInterfaceView_OnEditInterfaceAdded);
-            editInterfaceView.OnEditInterfaceRemoved += new EditInterfaceEvent(editInterfaceView_OnEditInterfaceRemoved);
+            editInterfaceView.OnEditInterfaceSelectionChanging += editInterfaceView_OnEditInterfaceSelectionChanging;
+            editInterfaceView.OnEditInterfaceSelectionChanged += editInterfaceView_OnEditInterfaceSelectionChanged;
+            editInterfaceView.OnEditInterfaceAdded += editInterfaceView_OnEditInterfaceAdded;
+            editInterfaceView.OnEditInterfaceRemoved += editInterfaceView_OnEditInterfaceRemoved;
             propertiesTable.EditablePropertyValueChanged += new EditablePropertyValueChanged(propertiesTable_EditablePropertyValueChanged);
             propertiesTable.EditablePropertyAdded += propertiesTable_EditablePropertyAdded;
             propertiesTable.EditablePropertyRemoved += propertiesTable_EditablePropertyRemoved;
@@ -123,7 +123,7 @@ namespace Editor
         /// Callback for when the EditInterface changes.
         /// </summary>
         /// <param name="evt"></param>
-        void editInterfaceView_OnEditInterfaceSelectionChanged(EditInterfaceViewEvent evt)
+        void editInterfaceView_OnEditInterfaceSelectionChanged(EditInterfaceViewEventArgs evt)
         {
             propertiesTable.showEditableProperties(evt.EditInterface);
             if (ActiveInterfaceChanged != null)
@@ -136,7 +136,7 @@ namespace Editor
         /// Callback for when the EditInterface is about to change.
         /// </summary>
         /// <param name="evt"></param>
-        void editInterfaceView_OnEditInterfaceSelectionChanging(EditInterfaceViewEvent evt)
+        void editInterfaceView_OnEditInterfaceSelectionChanging(EditInterfaceViewEventArgs evt)
         {
             String error;
             if (!propertiesTable.validateCurrentSettings(out error))
@@ -182,7 +182,7 @@ namespace Editor
             }
         }
 
-        void editInterfaceView_OnEditInterfaceRemoved(EditInterfaceViewEvent evt)
+        void editInterfaceView_OnEditInterfaceRemoved(EditInterfaceViewEventArgs evt)
         {
             if (currentFieldChangedCallback != null)
             {
@@ -190,7 +190,7 @@ namespace Editor
             }
         }
 
-        void editInterfaceView_OnEditInterfaceAdded(EditInterfaceViewEvent evt)
+        void editInterfaceView_OnEditInterfaceAdded(EditInterfaceViewEventArgs evt)
         {
             if (currentFieldChangedCallback != null)
             {
