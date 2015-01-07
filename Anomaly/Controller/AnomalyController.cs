@@ -44,7 +44,6 @@ namespace Anomaly
         private MovePanel movePanel = new MovePanel();
         private EulerRotatePanel rotatePanel = new EulerRotatePanel();
         private Dictionary<String, DebugVisualizer> debugVisualizers = new Dictionary<string, DebugVisualizer>();
-        private ConsoleWindow consoleWindow = new ConsoleWindow();
         private VerticalObjectEditor verticalObjectEditor = new VerticalObjectEditor();
         private SceneViewLightManager lightManager;
 
@@ -53,6 +52,8 @@ namespace Anomaly
         private SceneViewController sceneViewController;
         private SceneStatsDisplayManager sceneStatsDisplayManager;
         private FrameClearManager frameClearManager;
+
+        private LogWindow consoleWindow;
 
         //Platform
         private NativeUpdateTimer mainTimer;
@@ -107,7 +108,6 @@ namespace Anomaly
             logListener = new LogFileListener();
             logListener.openLogFile(AnomalyConfig.DocRoot + "/log.log");
             Log.Default.addLogListener(logListener);
-            Log.Default.addLogListener(consoleWindow);
 
             mainWindow = new NativeOSWindow("Anomaly Editor", new IntVector2(-1, -1), new IntSize2(AnomalyConfig.EngineConfig.HorizontalRes, AnomalyConfig.EngineConfig.VerticalRes));
             mainWindow.Closed += mainWindow_Closed;
@@ -230,6 +230,12 @@ namespace Anomaly
 
             mainForm.SuspendLayout();
 
+            //Create GUI
+            consoleWindow = new LogWindow();
+            guiManager.addManagedDialog(consoleWindow);
+            consoleWindow.Visible = true;
+            Log.Default.addLogListener(consoleWindow);
+
             //Attempt to restore windows, or create default layout.
             if (!mainForm.restoreWindows(AnomalyConfig.DocRoot + "/windows.ini", getDockContent))
             {
@@ -242,7 +248,6 @@ namespace Anomaly
                 {
                     mainForm.showDockContent(visualizer);
                 }
-                mainForm.showDockContent(consoleWindow);
             }
             else
             {
@@ -263,6 +268,11 @@ namespace Anomaly
         /// </summary>
         public void Dispose()
         {
+            if(consoleWindow != null)
+            {
+                Log.Default.removeLogListener(consoleWindow);
+                consoleWindow.Dispose();
+            }
             if(mdiLayout != null)
             {
                 mdiLayout.Dispose();
@@ -551,10 +561,6 @@ namespace Anomaly
             {
                 return rotatePanel;
             }
-            if (persistString == consoleWindow.GetType().ToString())
-            {
-                return consoleWindow;
-            }
             if (persistString == verticalObjectEditor.GetType().ToString())
             {
                 return verticalObjectEditor;
@@ -612,7 +618,7 @@ namespace Anomaly
         /// <param name="scene"></param>
         private void sceneController_OnSceneLoaded(SceneController controller, SimScene scene)
         {
-            drawingWindowController.createCameras(mainTimer, scene);
+            sceneViewController.createCameras(scene);
             lightManager.sceneLoaded(scene);
             toolManager.createSceneElements(scene.getDefaultSubScene(), pluginManager);
         }
@@ -624,7 +630,7 @@ namespace Anomaly
         /// <param name="scene"></param>
         private void sceneController_OnSceneUnloading(SceneController controller, SimScene scene)
         {
-            drawingWindowController.destroyCameras();
+            sceneViewController.destroyCameras();
             lightManager.sceneUnloading(scene);
             toolManager.destroySceneElements(scene.getDefaultSubScene(), pluginManager);
         }

@@ -49,11 +49,11 @@ namespace Editor
             else
             {
                 bool restore = File.Exists(filename);
-                if (restore)
-                {
-                    dockPanel.LoadFromXml(filename, callback);
-                }
-                return restore;
+                //if (restore)
+                //{
+                //    dockPanel.LoadFromXml(filename, callback);
+                //}
+                return false;
             }
         }
 
