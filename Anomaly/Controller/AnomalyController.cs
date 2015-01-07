@@ -42,7 +42,7 @@ namespace Anomaly
         //GUI
         private NativeOSWindow mainWindow;
         private AnomalyMain mainForm;
-        private IObjectEditorGUI mainObjectEditor = new ObjectEditorForm();
+        private PropertiesEditor mainObjectEditor;
         private PropertiesEditor propertiesEditor;
         private SceneViewLightManager lightManager;
 
@@ -216,6 +216,11 @@ namespace Anomaly
 
             propertiesEditor.showRelativeTo(solutionWindow, WindowAlignment.Right);
 
+            mainObjectEditor = new PropertiesEditor("Object Editor", "Anomaly.GUI.ObjectEditor");
+            mainObjectEditor.AllowedDockLocations = DockLocation.Floating;
+            mainObjectEditor.CurrentDockLocation = DockLocation.Floating;
+            guiManager.addManagedDialog(mainObjectEditor);
+
             solutionController = new SolutionController(solution, solutionWindow, this, propertiesEditor);
 
             //Initialize the windows
@@ -241,6 +246,10 @@ namespace Anomaly
             {
                 Log.Default.removeLogListener(consoleWindow);
                 consoleWindow.Dispose();
+            }
+            if(mainObjectEditor != null)
+            {
+                mainObjectEditor.Dispose();
             }
             if(debugVisualizer != null)
             {
@@ -320,6 +329,7 @@ namespace Anomaly
         public void showObjectEditor(EditInterface editInterface)
         {
             mainObjectEditor.setEditInterface(editInterface, null, null);
+            mainObjectEditor.Visible = true;
         }
 
         public void showDockContent(DockContent content)

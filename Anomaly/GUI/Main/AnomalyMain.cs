@@ -54,7 +54,6 @@ namespace Anomaly.GUI
 
             MenuItem sceneItem = menuBar.addItem("Scene", MenuItemType.Popup);
             MenuControl scene = menuBar.createItemPopupMenuChild(sceneItem);
-            scene.addItemAction("View Configuration", viewConfiguration);
             scene.addItemAction("View Resources", viewResources);
 
             MenuItem windowItem = menuBar.addItem("Window", MenuItemType.Popup);
@@ -148,11 +147,6 @@ namespace Anomaly.GUI
         private void viewResources()
         {
             controller.ResourceController.viewResources();
-        }
-
-        private void viewConfiguration()
-        {
-            controller.SceneController.editScene();
         }
 
         void none_MouseButtonClick(Widget source, EventArgs e)

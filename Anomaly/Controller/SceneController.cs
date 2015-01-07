@@ -72,13 +72,6 @@ namespace Anomaly
             this.sceneDefinition = sceneDefinition;
         }
 
-        public void editScene()
-        {
-            controller.showObjectEditor(sceneDefinition.getEditInterface());
-            destroyScene();
-            createScene();
-        }
-
         public void createScene()
         {
             scene = sceneDefinition.createScene();
