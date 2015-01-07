@@ -67,10 +67,10 @@ namespace Anomaly
         private SimObjectController simObjectController;
         private InstanceBuilder instanceBuilder;
         private EditInterfaceRendererController interfaceRenderer;
-        private SimObjectMover selectionMover;
 
         //Tools
-        private Editor.SelectionController selectionController = new Editor.SelectionController();
+        private SelectionController selectionController = new SelectionController();
+        private SimObjectMover selectionMovementTools;
 
         private Stopwatch stopwatch = new Stopwatch();
         private Solution solution;
@@ -161,6 +161,11 @@ namespace Anomaly
             sceneStatsDisplayManager.StatsVisible = true;
             sceneViewController.createWindow("Camera 1", Vector3.Backward * 100, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
 
+            //Tools
+            selectionMovementTools = new SimObjectMover("SelectionMover", PluginManager.Instance.RendererPlugin, eventManager, sceneViewController);
+            selectionMovementTools.Visible = true;
+            selectionMovementTools.addMovableObject("Selection", new SelectionMovableObject(selectionController));
+
             LayoutChain layoutChain = new LayoutChain();
             //layoutChain.addLink(new SingleChildChainLink(GUILocationNames.Taskbar, mainForm.LayoutContainer), true);
             layoutChain.addLink(new PopupAreaChainLink(GUILocationNames.FullscreenPopup), true);
@@ -204,14 +209,6 @@ namespace Anomaly
             mainForm.initialize(this);
             verticalObjectEditor.AutoExpand = true;
 
-            //Initialize debug visualizers
-            //foreach (DebugInterface debugInterface in pluginManager.DebugInterfaces)
-            //{
-            //    DebugVisualizer visualizer = new DebugVisualizer();
-            //    visualizer.initialize(debugInterface);
-            //    debugVisualizers.Add(visualizer.Text, visualizer);
-            //}
-
             mainForm.SuspendLayout();
 
             //Create GUI
@@ -229,20 +226,6 @@ namespace Anomaly
             {
                 mainForm.showDockContent(verticalObjectEditor);
                 mainForm.showDockContent(solutionPanel);
-                //foreach (DebugVisualizer visualizer in debugVisualizers.Values)
-                //{
-                //    mainForm.showDockContent(visualizer);
-                //}
-            }
-            else
-            {
-                //foreach (DebugVisualizer visualizer in debugVisualizers.Values)
-                //{
-                //    if (visualizer.DockPanel == null)
-                //    {
-                //        mainForm.showDockContent(visualizer);
-                //    }
-                //}
             }
 
             mainForm.ResumeLayout();
@@ -265,6 +248,10 @@ namespace Anomaly
             if(mdiLayout != null)
             {
                 mdiLayout.Dispose();
+            }
+            if (selectionMovementTools != null)
+            {
+                selectionMovementTools.Dispose();
             }
             if(guiManager != null)
             {
@@ -410,7 +397,7 @@ namespace Anomaly
             sceneController.setDynamicMode(false);
             sceneController.destroyScene();
             sceneController.createScene();
-            //toolManager.setEnabled(true);
+            selectionMovementTools.Visible = true;
             verticalObjectEditor.Enabled = true;
             solutionPanel.Enabled = true;
         }
@@ -422,7 +409,7 @@ namespace Anomaly
         /// </summary>
         public void setDynamicMode()
         {
-            //toolManager.setEnabled(false);
+            selectionMovementTools.Visible = false;
             //movePanel.Enabled = false;
             //rotatePanel.Enabled = false;
             sceneController.setDynamicMode(true);
@@ -434,17 +421,20 @@ namespace Anomaly
 
         public void enableMoveTool()
         {
-            
+            selectionMovementTools.ShowMoveTools = true;
+            selectionMovementTools.ShowRotateTools = false;
         }
 
         public void enableRotateTool()
         {
-            
+            selectionMovementTools.ShowMoveTools = false;
+            selectionMovementTools.ShowRotateTools = true;
         }
 
         public void enableSelectTool()
         {
-            
+            selectionMovementTools.ShowMoveTools = false;
+            selectionMovementTools.ShowRotateTools = false;
         }
 
         public void copy()
@@ -548,17 +538,6 @@ namespace Anomaly
             {
                 return solutionPanel;
             }
-            String name;
-            //if (DebugVisualizer.RestoreFromPersistance(persistString, out name))
-            //{
-            //    if (debugVisualizers.ContainsKey(name))
-            //    {
-            //        return debugVisualizers[name];
-            //    }
-            //    return null;
-            //}
-            Vector3 translation;
-            Vector3 lookAt;
             return null;
         }
 
@@ -595,6 +574,7 @@ namespace Anomaly
         {
             sceneViewController.createCameras(scene);
             lightManager.sceneLoaded(scene);
+            selectionMovementTools.sceneLoaded(scene);
         }
 
         /// <summary>
@@ -606,6 +586,7 @@ namespace Anomaly
         {
             sceneViewController.destroyCameras();
             lightManager.sceneUnloading(scene);
+            selectionMovementTools.sceneUnloading(scene);
         }
 
         /// <summary>
@@ -674,7 +655,7 @@ namespace Anomaly
         /// <summary>
         /// The SelectionController that manages the current selection.
         /// </summary>
-        public Editor.SelectionController SelectionController
+        public SelectionController SelectionController
         {
             get
             {

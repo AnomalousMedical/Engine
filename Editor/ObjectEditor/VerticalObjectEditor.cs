@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using Engine.Editing;
+using Anomalous.GuiFramework.Editor;
 
 namespace Editor
 {

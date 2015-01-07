@@ -6,10 +6,9 @@ using Engine;
 
 namespace Anomalous.GuiFramework.Editor
 {
-    class SelectionMovableObject : MovableObject
+    public class SelectionMovableObject : MovableObject
     {
         private SelectionController selectionController;
-        private bool showTools = false;
 
         public SelectionMovableObject(SelectionController selectionController)
         {
@@ -43,11 +42,7 @@ namespace Anomalous.GuiFramework.Editor
         {
             get
             {
-                return showTools;
-            }
-            set
-            {
-                showTools = value;
+                return selectionController.hasSelection();
             }
         }
 

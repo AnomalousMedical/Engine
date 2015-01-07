@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Engine.Editing;
+using Anomalous.GuiFramework.Editor;
 
 namespace Editor
 {

@@ -149,10 +149,6 @@
     <Compile Include="GUI\SplashScreen.Designer.cs">
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="MoveLater\Selection\SelectableObject.cs" />
-    <Compile Include="MoveLater\Selection\SelectedObjectCollection.cs" />
-    <Compile Include="MoveLater\Selection\SelectionChangedArgs.cs" />
-    <Compile Include="MoveLater\Selection\SelectionController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="Properties\AssemblyInfoSource.cs" />

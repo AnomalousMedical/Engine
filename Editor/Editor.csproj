@@ -113,7 +113,6 @@
     <Compile Include="EventLayers.cs" />
     <Compile Include="IDockProvider.cs" />
     <Compile Include="ObjectEditor\EditInterfaceIconCollection.cs" />
-    <Compile Include="ObjectEditor\EditInterfaceViewEvent.cs" />
     <Compile Include="ObjectEditor\EditInterfaceView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -175,6 +174,10 @@
     <ProjectReference Include="..\Engine\Engine.csproj">
       <Project>{57C253F1-157F-4A6A-9FED-345A776B97D5}</Project>
       <Name>Engine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GuiFramework.Editor\GuiFramework.Editor.csproj">
+      <Project>{acbba2d0-c648-4798-9d40-ce8b797642ad}</Project>
+      <Name>GuiFramework.Editor</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

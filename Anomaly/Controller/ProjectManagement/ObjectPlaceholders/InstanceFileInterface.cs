@@ -10,6 +10,7 @@ using Engine;
 using System.Xml;
 using Engine.Saving.XMLSaver;
 using System.IO;
+using Anomalous.GuiFramework.Editor;
 
 namespace Anomaly
 {

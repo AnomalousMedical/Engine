@@ -9,6 +9,7 @@ using Engine.ObjectManagement;
 using Engine.Resources;
 using System.Drawing;
 using Engine.Platform;
+using Anomalous.GuiFramework.Editor;
 
 namespace Anomaly
 {
