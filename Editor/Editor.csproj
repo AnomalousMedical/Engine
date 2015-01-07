@@ -59,7 +59,6 @@
     <Compile Include="Browser\BrowserWindow.Designer.cs">
       <DependentUpon>BrowserWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Camera\OrbitCameraController.cs" />
     <Compile Include="CellEditors\MulitEnum\MultiEnumCellEditControl.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -147,22 +146,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="View\CameraMotionValidator.cs" />
-    <Compile Include="View\CameraResolver.cs" />
-    <Compile Include="View\CameraSection.cs" />
-    <Compile Include="View\DrawingWindow.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="View\DrawingWindow.Designer.cs">
-      <DependentUpon>DrawingWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="View\DrawingWindowController.cs" />
-    <Compile Include="View\DrawingWindowHost.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\DrawingWindowHost.Designer.cs">
-      <DependentUpon>DrawingWindowHost.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">
@@ -218,14 +201,6 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="View\DrawingWindow.resx">
-      <DependentUpon>DrawingWindow.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="View\DrawingWindowHost.resx">
-      <DependentUpon>DrawingWindowHost.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
