@@ -119,6 +119,7 @@
       <DependentUpon>AnomalyMain.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\DebugVisualizer\DebugVisualizer.cs" />
+    <Compile Include="GUI\PropertiesEditor\PropertiesEditor.cs" />
     <Compile Include="GUI\ObfuscateZipFileGUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -153,6 +154,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\DebugVisualizer\DebugVisualizer.layout" />
+    <EmbeddedResource Include="GUI\PropertiesEditor\PropertiesEditor.layout" />
     <EmbeddedResource Include="GUI\ObfuscateZipFileGUI.resx">
       <DependentUpon>ObfuscateZipFileGUI.cs</DependentUpon>
       <SubType>Designer</SubType>

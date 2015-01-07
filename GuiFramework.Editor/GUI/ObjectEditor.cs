@@ -42,6 +42,14 @@ namespace Anomalous.GuiFramework.Editor
             }
         }
 
+        public EditInterface SelectedEditInterface
+        {
+            get
+            {
+                return selectedEditInterface;
+            }
+        }
+
         public void clear()
         {
             EditInterface = null;

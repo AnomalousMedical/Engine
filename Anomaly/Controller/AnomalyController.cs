@@ -41,7 +41,7 @@ namespace Anomaly
         private NativeOSWindow mainWindow;
         private AnomalyMain mainForm;
         private IObjectEditorGUI mainObjectEditor = new ObjectEditorForm();
-        private VerticalObjectEditor verticalObjectEditor = new VerticalObjectEditor();
+        private PropertiesEditor propertiesEditor;
         private SceneViewLightManager lightManager;
 
         private MDILayoutManager mdiLayout;
@@ -201,17 +201,22 @@ namespace Anomaly
             fixedUpdate = new FullSpeedUpdateListener(sceneController);
             mainTimer.addUpdateListener(fixedUpdate);
 
-            interfaceRenderer = new EditInterfaceRendererController(pluginManager.RendererPlugin, mainTimer, sceneController, verticalObjectEditor);
+            propertiesEditor = new PropertiesEditor("Properties", "Anomaly.GUI.Properties");
+            guiManager.addManagedDialog(propertiesEditor);
+
+            interfaceRenderer = new EditInterfaceRendererController(pluginManager.RendererPlugin, mainTimer, sceneController, propertiesEditor);
 
             solutionWindow = new SolutionWindow();
             guiManager.addManagedDialog(solutionWindow);
             solutionWindow.Visible = true;
 
-            solutionController = new SolutionController(solution, solutionWindow, this, verticalObjectEditor);
+            propertiesEditor.showRelativeTo(solutionWindow, WindowAlignment.Right);
+
+            solutionController = new SolutionController(solution, solutionWindow, this, propertiesEditor);
 
             //Initialize the windows
             mainForm.initialize(this);
-            verticalObjectEditor.AutoExpand = true;
+            propertiesEditor.AutoExpand = true;
 
             mainForm.SuspendLayout();
 
@@ -224,12 +229,6 @@ namespace Anomaly
             debugVisualizer = new DebugVisualizer(pluginManager, sceneController);
             guiManager.addManagedDialog(debugVisualizer);
             debugVisualizer.Visible = true;
-
-            //Attempt to restore windows, or create default layout.
-            if (!mainForm.restoreWindows(AnomalyConfig.DocRoot + "/windows.ini", getDockContent))
-            {
-                mainForm.showDockContent(verticalObjectEditor);
-            }
 
             mainForm.ResumeLayout();
         }
@@ -401,7 +400,7 @@ namespace Anomaly
             sceneController.destroyScene();
             sceneController.createScene();
             selectionMovementTools.Visible = true;
-            verticalObjectEditor.Enabled = true;
+            propertiesEditor.Enabled = true;
             solutionWindow.Enabled = true;
         }
 
@@ -418,7 +417,7 @@ namespace Anomaly
             sceneController.setDynamicMode(true);
             sceneController.destroyScene();
             sceneController.createScene();
-            verticalObjectEditor.Enabled = false;
+            propertiesEditor.Enabled = false;
             solutionWindow.Enabled = false;
         }
 
@@ -454,9 +453,9 @@ namespace Anomaly
                     }
                 }
             }
-            else if (verticalObjectEditor.IsActivated)
+            else if (propertiesEditor.IsActivated)
             {
-                EditInterface selectedInterface = verticalObjectEditor.SelectedEditInterface;
+                EditInterface selectedInterface = propertiesEditor.SelectedEditInterface;
                 if (selectedInterface.SupportsClipboard)
                 {
                     ClipboardEntry clipEntry = selectedInterface.ClipboardEntry;
@@ -484,9 +483,9 @@ namespace Anomaly
                     }
                 }
             }
-            else if (verticalObjectEditor.IsActivated)
+            else if (propertiesEditor.IsActivated)
             {
-                EditInterface selectedInterface = verticalObjectEditor.SelectedEditInterface;
+                EditInterface selectedInterface = propertiesEditor.SelectedEditInterface;
                 if (selectedInterface.SupportsClipboard)
                 {
                     ClipboardEntry clipEntry = selectedInterface.ClipboardEntry;
@@ -511,9 +510,9 @@ namespace Anomaly
                     EngineClipboard.paste(clipEntry);
                 }
             }
-            else if (verticalObjectEditor.IsActivated)
+            else if (propertiesEditor.IsActivated)
             {
-                EditInterface selectedInterface = verticalObjectEditor.SelectedEditInterface;
+                EditInterface selectedInterface = propertiesEditor.SelectedEditInterface;
                 if (selectedInterface.SupportsClipboard)
                 {
                     ClipboardEntry clipEntry = selectedInterface.ClipboardEntry;
@@ -533,10 +532,6 @@ namespace Anomaly
         /// <returns>The IDockContent associated with the given string.</returns>
         private IDockContent getDockContent(String persistString)
         {
-            if (persistString == verticalObjectEditor.GetType().ToString())
-            {
-                return verticalObjectEditor;
-            }
             return null;
         }
 
