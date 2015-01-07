@@ -393,8 +393,8 @@ namespace Anomalous.GuiFramework.Cameras
                     break;
                 }
             }
-            //If we did not find the window specified, use the first window as the current window
-            if (!foundWindow)
+            //If we did not find the window specified and we don't already have an active window, use the first window as the current window
+            if (!foundWindow && activeWindow == null)
             {
                 ActiveWindow = mdiWindows.FirstOrDefault();
             }

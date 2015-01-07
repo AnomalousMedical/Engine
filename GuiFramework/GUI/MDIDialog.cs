@@ -698,6 +698,7 @@ namespace Anomalous.GuiFramework
         {
             if (((RootFocusEventArgs)e).Focus)
             {
+                layoutManager.ActiveWindow = this;
                 if (GotFocus != null)
                 {
                     GotFocus.Invoke(this, EventArgs.Empty);
