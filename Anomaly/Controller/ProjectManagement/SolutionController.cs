@@ -10,6 +10,7 @@ using Engine.Resources;
 using System.Drawing;
 using Engine.Platform;
 using Anomalous.GuiFramework.Editor;
+using Anomaly.GUI;
 
 namespace Anomaly
 {
@@ -30,7 +31,7 @@ namespace Anomaly
         }
 
         private Solution solution;
-        private SolutionPanel solutionPanel;
+        private SolutionWindow solutionWindow;
         private IObjectEditorGUI objectEditor;
         private AnomalyController controller;
 
@@ -38,15 +39,15 @@ namespace Anomaly
 
         private List<EditInterface> selectedEditInterfaces = new List<EditInterface>();
 
-        public SolutionController(Solution solution, SolutionPanel solutionPanel, AnomalyController controller, IObjectEditorGUI objectEditor)
+        public SolutionController(Solution solution, SolutionWindow solutionWindow, AnomalyController controller, IObjectEditorGUI objectEditor)
         {
             this.controller = controller;
             this.solution = solution;
-            this.solutionPanel = solutionPanel;
-            solutionPanel.setSolution(solution);
+            this.solutionWindow = solutionWindow;
+            solutionWindow.setSolution(solution);
             this.objectEditor = objectEditor;
-            solutionPanel.InterfaceChosen += new EditInterfaceViewEvent(solutionPanel_InterfaceChosen);
-            controller.SelectionController.OnSelectionChanged += new ObjectSelected(SelectionController_OnSelectionChanged);
+            solutionWindow.InterfaceChosen += solutionWindow_InterfaceChosen;
+            controller.SelectionController.OnSelectionChanged += SelectionController_OnSelectionChanged;
         }
 
         /// <summary>
@@ -56,7 +57,7 @@ namespace Anomaly
         {
             get
             {
-                return solutionPanel.SelectedEditInterface;
+                return solutionWindow.SelectedEditInterface;
             }
         }
 
@@ -86,7 +87,7 @@ namespace Anomaly
             }
         }
 
-        void solutionPanel_InterfaceChosen(EditInterfaceViewEventArgs evt)
+        void solutionWindow_InterfaceChosen(EditInterfaceViewEventArgs evt)
         {
             EditInterface editInterface = evt.EditInterface;
             if (editInterface.hasEditableProperties())

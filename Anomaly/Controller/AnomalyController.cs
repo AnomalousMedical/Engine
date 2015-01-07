@@ -77,7 +77,7 @@ namespace Anomaly
 
         //Solution
         private SolutionController solutionController;
-        private SolutionPanel solutionPanel = new SolutionPanel();
+        private SolutionWindow solutionWindow;
 
         //Serialization
         private XmlSaver xmlSaver = new XmlSaver();
@@ -203,7 +203,11 @@ namespace Anomaly
 
             interfaceRenderer = new EditInterfaceRendererController(pluginManager.RendererPlugin, mainTimer, sceneController, verticalObjectEditor);
 
-            solutionController = new SolutionController(solution, solutionPanel, this, verticalObjectEditor);
+            solutionWindow = new SolutionWindow();
+            guiManager.addManagedDialog(solutionWindow);
+            solutionWindow.Visible = true;
+
+            solutionController = new SolutionController(solution, solutionWindow, this, verticalObjectEditor);
 
             //Initialize the windows
             mainForm.initialize(this);
@@ -225,7 +229,6 @@ namespace Anomaly
             if (!mainForm.restoreWindows(AnomalyConfig.DocRoot + "/windows.ini", getDockContent))
             {
                 mainForm.showDockContent(verticalObjectEditor);
-                mainForm.showDockContent(solutionPanel);
             }
 
             mainForm.ResumeLayout();
@@ -399,7 +402,7 @@ namespace Anomaly
             sceneController.createScene();
             selectionMovementTools.Visible = true;
             verticalObjectEditor.Enabled = true;
-            solutionPanel.Enabled = true;
+            solutionWindow.Enabled = true;
         }
 
         /// <summary>
@@ -416,7 +419,7 @@ namespace Anomaly
             sceneController.destroyScene();
             sceneController.createScene();
             verticalObjectEditor.Enabled = false;
-            solutionPanel.Enabled = false;
+            solutionWindow.Enabled = false;
         }
 
         public void enableMoveTool()
@@ -440,7 +443,7 @@ namespace Anomaly
         public void copy()
         {
             EngineClipboard.clear();
-            if (solutionPanel.IsActivated)
+            if (solutionWindow.IsActivated)
             {
                 foreach (EditInterface selectedInterface in solutionController.SelectedEditInterfaces)
                 {
@@ -470,7 +473,7 @@ namespace Anomaly
         public void cut()
         {
             EngineClipboard.clear();
-            if (solutionPanel.IsActivated)
+            if (solutionWindow.IsActivated)
             {
                 foreach (EditInterface selectedInterface in solutionController.SelectedEditInterfaces)
                 {
@@ -499,7 +502,7 @@ namespace Anomaly
 
         public void paste()
         {
-            if (solutionPanel.IsActivated)
+            if (solutionWindow.IsActivated)
             {
                 EditInterface selectedInterface = solutionController.CurrentEditInterface;
                 ClipboardEntry clipEntry = selectedInterface.ClipboardEntry;
@@ -533,10 +536,6 @@ namespace Anomaly
             if (persistString == verticalObjectEditor.GetType().ToString())
             {
                 return verticalObjectEditor;
-            }
-            if (persistString == solutionPanel.GetType().ToString())
-            {
-                return solutionPanel;
             }
             return null;
         }

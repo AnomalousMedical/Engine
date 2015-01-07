@@ -1,11 +1,10 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <MyGUI type="Layout" version="3.2.0">
-    <Widget type="Window" skin="WindowCSX" position="19 33 348 313" layer="Overlapped">
-        <Property key="Caption" value="Debug Visualizer"/>
-        <Widget type="ScrollView" skin="ScrollView" position="0 0 111 280" align="HRelative VStretch" name="TreeScroller">
-            <Property key="CanvasAlign" value="Left Top"/>
-        </Widget>
-        <Widget type="ScrollView" skin="ScrollView" position="116 0 219 280" align="HRelative VStretch" name="TableScroller">
+    <Widget type="Window" skin="WindowCSX" position="19 33 253 313" layer="Overlapped">
+      <UserString key="CurrentDockLocation" value="Left"/>
+      <UserString key="AllowedDockLocations" value="Left | Right | Floating"/>
+        <Property key="Caption" value="Solution"/>
+        <Widget type="ScrollView" skin="ScrollView" position_real="0 0 1 1" align="Stretch" name="TreeScroller">
             <Property key="CanvasAlign" value="Left Top"/>
         </Widget>
     </Widget>

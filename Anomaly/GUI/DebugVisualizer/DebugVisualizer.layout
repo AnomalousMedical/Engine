@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <MyGUI type="Layout" version="3.2.0">
     <Widget type="Window" skin="WindowCSX" position="19 33 348 313" layer="Overlapped">
+      <UserString key="CurrentDockLocation" value="Right"/>
+      <UserString key="AllowedDockLocations" value="Left | Right | Floating"/>
         <Property key="Caption" value="Debug Visualizer"/>
         <Widget type="ScrollView" skin="ScrollView" position="0 0 111 280" align="HRelative VStretch" name="TreeScroller">
             <Property key="CanvasAlign" value="Left Top"/>
