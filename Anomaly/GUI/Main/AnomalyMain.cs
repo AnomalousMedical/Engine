@@ -136,7 +136,14 @@ namespace Anomaly.GUI
 
         private void publish()
         {
-            //publishGUI.ShowDialog(this);
+            PublishWindow publishWindow = new PublishWindow(controller.MainWindow);
+            publishWindow.Closed += (sender, args) =>
+            {
+                publishWindow.Dispose();
+            };
+            publishWindow.Modal = true;
+            publishWindow.center();
+            publishWindow.Visible = true;
         }
 
         private void changeShowStats()

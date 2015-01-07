@@ -126,6 +126,7 @@
     <Compile Include="GUI\PublishGUI.Designer.cs">
       <DependentUpon>PublishGUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\PublishWindow\PublishWindow.cs" />
     <Compile Include="GUI\SolutionWindow\SolutionWindow.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -145,6 +146,7 @@
       <DependentUpon>PublishGUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\PublishWindow\PublishWindow.layout" />
     <EmbeddedResource Include="GUI\SolutionWindow\SolutionWindow.layout" />
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">

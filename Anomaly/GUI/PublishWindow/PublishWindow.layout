@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<MyGUI type="Layout" version="3.2.0">
+    <Widget type="Window" skin="WindowCSX" position="230 160 480 552" layer="Overlapped">
+        <Property key="Caption" value="Publish"/>
+    </Widget>
+    <CodeGeneratorSettings/>
+</MyGUI>
