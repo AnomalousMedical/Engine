@@ -52,6 +52,7 @@
     <Compile Include="GUI\GuiFrameworkUICallback.cs" />
     <Compile Include="GUI\LogWindow\LogWindow.cs" />
     <Compile Include="GUI\ObjectEditor.cs" />
+    <Compile Include="GUI\PopupError\PopupError.cs" />
     <Compile Include="GUI\PopupGenericEditor\PopupGenericEditor.cs" />
     <Compile Include="GUI\PropertiesForm\ConstrainableFormComponent.cs" />
     <Compile Include="GUI\PropertiesForm\PropertiesForm.cs" />
@@ -140,6 +141,7 @@
     <EmbeddedResource Include="GUI\ExpandingEditInterfaceViewer\ExpandingNode.layout" />
     <EmbeddedResource Include="GUI\InputBrowserWindow.layout" />
     <EmbeddedResource Include="GUI\LogWindow\LogWindow.layout" />
+    <EmbeddedResource Include="GUI\PopupError\PopupError.layout" />
     <EmbeddedResource Include="GUI\PopupGenericEditor\PopupGenericEditor.layout" />
     <EmbeddedResource Include="GUI\PropertiesForm\PropertiesFormColorButton.layout" />
     <EmbeddedResource Include="GUI\PropertiesForm\PropertiesFormComboBox.layout" />

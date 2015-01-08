@@ -171,7 +171,7 @@ namespace Anomalous.GuiFramework.Editor
             TableCell cell = (TableCell)sender;
             if (!currentPropInfo.getColumn(cell.ColumnIndex).ReadOnly)
             {
-                e.Cancel = !validateEditCell(cell.RowIndex, cell.ColumnIndex, e.EditValue.ToString());
+                e.Cancel = !validateEditCell(cell, e.EditValue.ToString());
             }
         }
 
@@ -274,19 +274,20 @@ namespace Anomalous.GuiFramework.Editor
         /// <param name="rowIndex">The row index to validate.</param>
         /// <param name="value">The value to validate.</param>
         /// <returns>True if the cell was valid false if not.</returns>
-        bool validateEditCell(int rowIndex, int colIndex, String value)
+        bool validateEditCell(TableCell cell, String value)
         {
             bool valid = true;
             if (allowValidation)
             {
-                TableRow row = propertiesTable.Rows[rowIndex];
+                TableRow row = propertiesTable.Rows[cell.RowIndex];
                 EditableProperty var = rowProperties[row];
                 if (var != null)
                 {
                     String errorText;
-                    if (!var.canParseString(colIndex, value, out errorText))
+                    if (!var.canParseString(cell.ColumnIndex, value, out errorText))
                     {
                         valid = false;
+                        PopupError.ShowPopup(errorText, cell.AbsolutePosition + new IntVector2(cell.Size.Width, 0));
                         //propGridView.Rows[rowIndex].ErrorText = errorText;
                     }
                     else

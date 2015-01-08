@@ -72,6 +72,14 @@ namespace MyGUIPlugin
             }
         }
 
+        public IntVector2 AbsolutePosition
+        {
+            get
+            {
+                return position + new IntVector2(TableWidget.AbsoluteLeft, TableWidget.AbsoluteTop);
+            }
+        }
+
         public TableRow Row { get; internal set; }
 
         public int ColumnIndex
