@@ -136,7 +136,7 @@ namespace Anomaly.GUI
 
         private void publish()
         {
-            PublishWindow publishWindow = new PublishWindow(controller.MainWindow);
+            PublishWindow publishWindow = new PublishWindow(controller);
             publishWindow.Closed += (sender, args) =>
             {
                 publishWindow.Dispose();
