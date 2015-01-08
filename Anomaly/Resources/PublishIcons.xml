@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <MyGUI type="Resource" version="1.1">
 
-  <Resource type="ResourceImageSet" name="Anomaly.PublishIcons..jpg">
+  <Resource type="ResourceImageSet" name="Anomaly.PublishIcons..tl">
     <Group name="Icons" texture="Anomaly.Resources.PublishIcons.png" size="32 32">
       <Index name="Icon">
         <Frame point="0 0"/>
@@ -9,7 +9,7 @@
     </Group>
   </Resource>
 
-  <Resource type="ResourceImageSet" name="Anomaly.PublishIcons..mvc">
+  <Resource type="ResourceImageSet" name="Anomaly.PublishIcons..trml">
     <Group name="Icons" texture="Anomaly.Resources.PublishIcons.png" size="32 32">
       <Index name="Icon">
         <Frame point="32 0"/>
@@ -17,7 +17,7 @@
     </Group>
   </Resource>
 
-  <Resource type="ResourceImageSet" name="Anomaly.PublishIcons..ogg">
+  <Resource type="ResourceImageSet" name="Anomaly.PublishIcons.Folder">
     <Group name="Icons" texture="Anomaly.Resources.PublishIcons.png" size="32 32">
       <Index name="Icon">
         <Frame point="64 0"/>
@@ -25,7 +25,7 @@
     </Group>
   </Resource>
 
-  <Resource type="ResourceImageSet" name="Anomaly.PublishIcons..png">
+  <Resource type="ResourceImageSet" name="Anomaly.PublishIcons.Publish">
     <Group name="Icons" texture="Anomaly.Resources.PublishIcons.png" size="32 32">
       <Index name="Icon">
         <Frame point="96 0"/>
@@ -33,7 +33,7 @@
     </Group>
   </Resource>
 
-  <Resource type="ResourceImageSet" name="Anomaly.PublishIcons..rcss">
+  <Resource type="ResourceImageSet" name="Anomaly.PublishIcons..collision">
     <Group name="Icons" texture="Anomaly.Resources.PublishIcons.png" size="32 32">
       <Index name="Icon">
         <Frame point="0 32"/>
@@ -41,23 +41,7 @@
     </Group>
   </Resource>
 
-  <Resource type="ResourceImageSet" name="Anomaly.PublishIcons..rml">
-    <Group name="Icons" texture="Anomaly.Resources.PublishIcons.png" size="32 32">
-      <Index name="Icon">
-        <Frame point="0 64"/>
-      </Index>
-    </Group>
-  </Resource>
-
-  <Resource type="ResourceImageSet" name="Anomaly.PublishIcons..trml">
-    <Group name="Icons" texture="Anomaly.Resources.PublishIcons.png" size="32 32">
-      <Index name="Icon">
-        <Frame point="0 96"/>
-      </Index>
-    </Group>
-  </Resource>
-
-  <Resource type="ResourceImageSet" name="Anomaly.PublishIcons.Folder">
+  <Resource type="ResourceImageSet" name="Anomaly.PublishIcons..dds">
     <Group name="Icons" texture="Anomaly.Resources.PublishIcons.png" size="32 32">
       <Index name="Icon">
         <Frame point="32 32"/>
@@ -65,10 +49,114 @@
     </Group>
   </Resource>
 
-  <Resource type="ResourceImageSet" name="Anomaly.PublishIcons.Publish">
+  <Resource type="ResourceImageSet" name="Anomaly.PublishIcons..glsl">
     <Group name="Icons" texture="Anomaly.Resources.PublishIcons.png" size="32 32">
       <Index name="Icon">
         <Frame point="64 32"/>
+      </Index>
+    </Group>
+  </Resource>
+
+  <Resource type="ResourceImageSet" name="Anomaly.PublishIcons..glsles">
+    <Group name="Icons" texture="Anomaly.Resources.PublishIcons.png" size="32 32">
+      <Index name="Icon">
+        <Frame point="96 32"/>
+      </Index>
+    </Group>
+  </Resource>
+
+  <Resource type="ResourceImageSet" name="Anomaly.PublishIcons..hlsl">
+    <Group name="Icons" texture="Anomaly.Resources.PublishIcons.png" size="32 32">
+      <Index name="Icon">
+        <Frame point="0 64"/>
+      </Index>
+    </Group>
+  </Resource>
+
+  <Resource type="ResourceImageSet" name="Anomaly.PublishIcons..jpg">
+    <Group name="Icons" texture="Anomaly.Resources.PublishIcons.png" size="32 32">
+      <Index name="Icon">
+        <Frame point="0 96"/>
+      </Index>
+    </Group>
+  </Resource>
+
+  <Resource type="ResourceImageSet" name="Anomaly.PublishIcons..material">
+    <Group name="Icons" texture="Anomaly.Resources.PublishIcons.png" size="32 32">
+      <Index name="Icon">
+        <Frame point="0 128"/>
+      </Index>
+    </Group>
+  </Resource>
+
+  <Resource type="ResourceImageSet" name="Anomaly.PublishIcons..mesh">
+    <Group name="Icons" texture="Anomaly.Resources.PublishIcons.png" size="32 32">
+      <Index name="Icon">
+        <Frame point="32 64"/>
+      </Index>
+    </Group>
+  </Resource>
+
+  <Resource type="ResourceImageSet" name="Anomaly.PublishIcons..mvc">
+    <Group name="Icons" texture="Anomaly.Resources.PublishIcons.png" size="32 32">
+      <Index name="Icon">
+        <Frame point="64 64"/>
+      </Index>
+    </Group>
+  </Resource>
+
+  <Resource type="ResourceImageSet" name="Anomaly.PublishIcons..ogg">
+    <Group name="Icons" texture="Anomaly.Resources.PublishIcons.png" size="32 32">
+      <Index name="Icon">
+        <Frame point="96 64"/>
+      </Index>
+    </Group>
+  </Resource>
+
+  <Resource type="ResourceImageSet" name="Anomaly.PublishIcons..png">
+    <Group name="Icons" texture="Anomaly.Resources.PublishIcons.png" size="32 32">
+      <Index name="Icon">
+        <Frame point="32 96"/>
+      </Index>
+    </Group>
+  </Resource>
+
+  <Resource type="ResourceImageSet" name="Anomaly.PublishIcons..program">
+    <Group name="Icons" texture="Anomaly.Resources.PublishIcons.png" size="32 32">
+      <Index name="Icon">
+        <Frame point="32 128"/>
+      </Index>
+    </Group>
+  </Resource>
+
+  <Resource type="ResourceImageSet" name="Anomaly.PublishIcons..rcss">
+    <Group name="Icons" texture="Anomaly.Resources.PublishIcons.png" size="32 32">
+      <Index name="Icon">
+        <Frame point="64 96"/>
+      </Index>
+    </Group>
+  </Resource>
+
+  <Resource type="ResourceImageSet" name="Anomaly.PublishIcons..rml">
+    <Group name="Icons" texture="Anomaly.Resources.PublishIcons.png" size="32 32">
+      <Index name="Icon">
+        <Frame point="96 96"/>
+      </Index>
+    </Group>
+  </Resource>
+
+  <Resource type="ResourceImageSet" name="Anomaly.PublishIcons..seq">
+    <Group name="Icons" texture="Anomaly.Resources.PublishIcons.png" size="32 32">
+      <Index name="Icon">
+        <Frame point="64 128"/>
+      </Index>
+    </Group>
+  </Resource>
+
+  <Resource type="ResourceImageSet" name="Anomaly.PublishIcons..skeleton">
+    <Group name="Icons" texture="Anomaly.Resources.PublishIcons.png" size="32 32">
+      <Index name="Icon">
+        <Frame point="96 128"/>
       </Index>
     </Group>
   </Resource>
