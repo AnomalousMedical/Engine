@@ -8,7 +8,7 @@ namespace MyGUIPlugin
     public class CheckTableCell : TableCell
     {
         private CheckButton editWidget;
-        private TextBox staticWidget;
+        private Button staticWidget;
         private bool value = false;
         private bool firingLostFocus = false;
 
@@ -135,7 +135,7 @@ namespace MyGUIPlugin
                     }
                     if (staticWidget != null)
                     {
-                        staticWidget.Caption = value != null ? value.ToString() : null;
+                        staticWidget.Selected = sentValue;
                     }
                     fireCellValueChanged();
                 }
@@ -146,9 +146,9 @@ namespace MyGUIPlugin
         {
             if (staticWidget == null)
             {
-                staticWidget = (TextBox)parentWidget.createWidgetT("Button", "Button", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "");
+                staticWidget = parentWidget.createWidgetT("Button", "TableCellCheckBox", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "") as Button;
                 staticWidget.MouseButtonClick += new MyGUIEvent(staticWidget_MouseButtonClick);
-                staticWidget.Caption = value.ToString();
+                staticWidget.Selected = value;
                 staticWidget.TextAlign = Align.Left | Align.VCenter;
                 staticWidget.Visible = false;
             }
@@ -158,7 +158,7 @@ namespace MyGUIPlugin
         {
             if (editWidget == null)
             {
-                editWidget = new CheckButton(parentWidget.createWidgetT("Button", "CheckBox", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "") as Button);
+                editWidget = new CheckButton(parentWidget.createWidgetT("Button", "TableCellCheckBox", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "") as Button);
                 editWidget.Button.KeyButtonReleased += new MyGUIEvent(editWidget_KeyButtonReleased);
                 editWidget.Button.MouseLostFocus += new MyGUIEvent(Button_MouseLostFocus);
                 editWidget.Checked = value;

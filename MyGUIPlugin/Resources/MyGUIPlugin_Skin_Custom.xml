@@ -935,4 +935,33 @@ StaticTableCellSkin
     </Border>
   </Resource>
 
+  <!--*************************
+TableCellCheckBoxSkin
+*****************************-->
+  <Resource type="ResourceSkin" name = "TableCellCheckBoxSkin" size = "100 21" texture = "#{Anomalous_Theme_Texture}">
+    <BasisSkin type="SubSkin" offset = "3 0 12 12" align = "Left VCenter">
+      <State name="disabled" offsetNamed="Anomalous_Checkbox_Unchecked_Coord" colour="#{Anomalous_CheckRadio_Control_Disabled}"/>
+      <State name="normal" offsetNamed="Anomalous_Checkbox_Unchecked_Coord" colour="#{Anomalous_CheckRadio_Control_Normal}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Checkbox_Unchecked_Coord" colour="#{Anomalous_CheckRadio_Control_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Checkbox_Unchecked_Coord" colour="#{Anomalous_CheckRadio_Control_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Checkbox_Checked_Coord" colour="#{Anomalous_CheckRadio_Control_DisabledChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Checkbox_Checked_Coord" colour="#{Anomalous_CheckRadio_Control_NormalChecked}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Checkbox_Checked_Coord" colour="#{Anomalous_CheckRadio_Control_HighlightedChecked}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Checkbox_Checked_Coord" colour="#{Anomalous_CheckRadio_Control_PushedChecked}"/>
+    </BasisSkin>
+    <BasisSkin type="SimpleText" offset = "27 0 73 21" align = "Stretch">
+    </BasisSkin>
+    <!--Border-->
+    <Border width="1">
+      <State name="disabled" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Border_Disabled}"/>
+      <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Border_Normal}"/>
+      <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Border_Highlighted}"/>
+      <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Border_Pushed}"/>
+      <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Border_Disabled}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Border_Normal}"/>
+      <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Border_Highlighted}"/>
+      <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Border_Pushed}"/>
+    </Border>
+  </Resource>
+
 </MyGUI>
