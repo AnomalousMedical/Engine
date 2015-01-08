@@ -167,11 +167,22 @@ namespace MyGUIPlugin
             }
         }
 
-        internal void checkLastEditedRow()
+        /// <summary>
+        /// Call when a row is going to be removed, should only need to be called from TableRowCollection.
+        /// </summary>
+        internal void goingToRemoveRow(int newRowCount)
         {
-            if (LastEditedRow >= Rows.Count)
+            if (editingCell != null)
             {
-                LastEditedRow = Rows.Count - 1;
+                if(editingCell.RowIndex == LastEditedRow)
+                {
+                    editingCell = null;
+                }
+            }
+
+            if (LastEditedRow >= newRowCount)
+            {
+                LastEditedRow = newRowCount - 1;
             }
         }
 

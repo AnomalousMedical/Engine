@@ -15,8 +15,8 @@ namespace MyGUIPlugin
 
         public override void remove(TableRow item)
         {
+            Table.goingToRemoveRow(Count - 1);
             base.remove(item);
-            Table.checkLastEditedRow();
         }
     }
 }
