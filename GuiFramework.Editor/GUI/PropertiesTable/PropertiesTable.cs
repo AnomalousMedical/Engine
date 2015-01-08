@@ -237,9 +237,7 @@ namespace Anomalous.GuiFramework.Editor
             {
                 if (propType.GetCustomAttributes(typeof(FlagsAttribute), true).Length > 0)
                 {
-                    //        MultiEnumEditorCell editorCell = new MultiEnumEditorCell();
-                    //        editorCell.EnumType = propType;
-                    //        return editorCell;
+                    return new EnumFlagsTableCell();
                 }
                 else
                 {

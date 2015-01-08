@@ -47,6 +47,7 @@
     <Compile Include="GUI\ExpandingEditInterfaceViewer\ExpandingEditInterfaceViewer.cs" />
     <Compile Include="GUI\ExpandingEditInterfaceViewer\ExpandingNode.cs" />
     <Compile Include="GUI\ExpandingEditInterfaceViewer\ScrollingExpandingEditInterfaceViewer.cs" />
+    <Compile Include="GUI\FlagsEnumEditor\FlagsEnumEditor.cs" />
     <Compile Include="GUI\InputBrowserWindow.cs" />
     <Compile Include="GUI\InputWindow.cs" />
     <Compile Include="GUI\GuiFrameworkUICallback.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="GUI\PropertiesForm\ScrollablePropertiesForm.cs" />
     <Compile Include="GUI\PropertiesTable\AddRemoveButtons.cs" />
     <Compile Include="GUI\PropertiesTable\ColorEditCell.cs" />
+    <Compile Include="GUI\PropertiesTable\EnumFlagsTableCell.cs" />
     <Compile Include="GUI\PropertiesTable\EnumComboBoxTableCell.cs" />
     <Compile Include="GUI\PropertiesTable\EditTableBrowserCell.cs" />
     <Compile Include="GUI\PropertiesTable\ICustomCellProvider.cs" />
@@ -140,6 +142,7 @@
     <EmbeddedResource Include="GUI\AddItemDialog\AddItemDialog.layout" />
     <EmbeddedResource Include="GUI\BrowserWindow.layout" />
     <EmbeddedResource Include="GUI\ExpandingEditInterfaceViewer\ExpandingNode.layout" />
+    <EmbeddedResource Include="GUI\FlagsEnumEditor\FlagsEnumEditor.layout" />
     <EmbeddedResource Include="GUI\InputBrowserWindow.layout" />
     <EmbeddedResource Include="GUI\LogWindow\LogWindow.layout" />
     <EmbeddedResource Include="GUI\PopupError\PopupError.layout" />
