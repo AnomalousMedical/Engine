@@ -12,7 +12,7 @@ namespace Anomaly.GUI
 {
     class PublishWindow : Dialog
     {
-        private PublishController fileList;
+        private PublishController publishController;
         //private Dictionary<String, ListViewGroup> groups = new Dictionary<string, ListViewGroup>();
         private bool allowExternalFileChanges = true;
         bool allowResourceProfileSelectedIndexChanged = true;
@@ -23,6 +23,7 @@ namespace Anomaly.GUI
         private EditBox archiveNameText;
         private CheckButton archiveCheckBox;
         private CheckButton obfuscateCheckBox;
+        private FileBrowserTree fileTree;
 
         public PublishWindow(AnomalyController controller)
             : base("Anomaly.GUI.PublishWindow.PublishWindow.layout")
@@ -52,7 +53,7 @@ namespace Anomaly.GUI
 
             archiveNameText = window.findWidget("ArchiveName") as EditBox;
 
-            fileList = new PublishController(controller.Solution);
+            publishController = new PublishController(controller.Solution);
             //fileList.DirectoryIgnored += new EventHandler<PublishControllerEventArgs>(fileList_DirectoryIgnored);
             //fileList.ExternalFileAdded += new EventHandler<PublishControllerEventArgs>(fileList_ExternalFileAdded);
 
@@ -62,28 +63,30 @@ namespace Anomaly.GUI
                 resourceProfileCombo.addItem(Path.GetFileNameWithoutExtension(profileFile));
             }
             resourceProfileCombo.addItem("New...");
+
+            fileTree = new FileBrowserTree(window.findWidget("Scroller") as ScrollView, publishController);
+        }
+
+        public override void Dispose()
+        {
+            fileTree.Dispose();
+            base.Dispose();
         }
 
         public void scanResources(String resourceProfile)
         {
-            fileList.clearIgnoreDirectories();
-            fileList.clearIgnoreFiles();
-            fileList.clearExternalDirectories();
-            fileList.clearExternalFiles();
-            fileList.scanResources();
+            publishController.clearIgnoreDirectories();
+            publishController.clearIgnoreFiles();
+            publishController.clearExternalDirectories();
+            publishController.clearExternalFiles();
+            publishController.scanResources();
             allowExternalFileChanges = false;
             if (resourceProfile != null)
             {
-                fileList.openResourceProfile(resourceProfile);
+                publishController.openResourceProfile(resourceProfile);
             }
             allowExternalFileChanges = true;
-            //groups.Clear();
-            //fileView.Groups.Clear();
-            //fileView.Items.Clear();
-            foreach (VirtualFileInfo file in fileList.getPrettyFileList())
-            {
-                addFileToGUIList(file);
-            }
+            fileTree.refreshFiles();
         }
 
         protected override void onShown(EventArgs args)
@@ -123,7 +126,7 @@ namespace Anomaly.GUI
                 try
                 {
                     String destination = Path.GetFullPath(outputLocationTextBox.OnlyText);
-                    fileList.copyResources(destination, archiveNameText.OnlyText, archiveCheckBox.Checked, obfuscateCheckBox.Checked);
+                    publishController.copyResources(destination, archiveNameText.OnlyText, archiveCheckBox.Checked, obfuscateCheckBox.Checked);
                     MessageBox.show(String.Format("Finished publishing resources to:\n{0}.", destination), "Publish Complete", MessageBoxStyle.IconInfo | MessageBoxStyle.Ok);
                 }
                 catch (Exception ex)
@@ -163,31 +166,11 @@ namespace Anomaly.GUI
             }
         }
 
-        private void addFileToGUIList(VirtualFileInfo file)
-        {
-            //String directory = file.DirectoryName;
-            //if (!fileList.isIgnoreDirectory(directory) && !fileList.isIgnoreFile(file))
-            //{
-            //    ListViewGroup group;
-            //    groups.TryGetValue(directory, out group);
-            //    if (group == null)
-            //    {
-            //        group = new ListViewGroup(directory);
-            //        groups.Add(directory, group);
-            //        fileView.Groups.Add(group);
-            //    }
-            //    ListViewItem listViewFile = new ListViewItem(file.Name, group);
-            //    listViewFile.Checked = true;
-            //    listViewFile.Tag = file;
-            //    fileView.Items.Add(listViewFile);
-            //}
-        }
-
         void saveProfile_MouseButtonClick(Widget source, EventArgs e)
         {
             if (resourceProfileCombo.SelectedIndex != 0)
             {
-                fileList.saveResourceProfile(resourceProfileCombo.SelectedItemName);
+                publishController.saveResourceProfile(resourceProfileCombo.SelectedItemName);
             }
             else
             {

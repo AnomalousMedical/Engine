@@ -126,6 +126,10 @@
     <Compile Include="GUI\PublishGUI.Designer.cs">
       <DependentUpon>PublishGUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\PublishWindow\PublishFileTree\DirectoryNode.cs" />
+    <Compile Include="GUI\PublishWindow\PublishFileTree\FileBrowserTree.cs" />
+    <Compile Include="GUI\PublishWindow\PublishFileTree\FileNode.cs" />
+    <Compile Include="GUI\PublishWindow\PublishFileTree\FileTreeSorter.cs" />
     <Compile Include="GUI\PublishWindow\PublishWindow.cs" />
     <Compile Include="GUI\SolutionWindow\SolutionWindow.cs" />
     <Compile Include="Program.cs" />

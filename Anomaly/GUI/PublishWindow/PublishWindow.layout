@@ -28,6 +28,10 @@
             <Widget type="ComboBox" skin="ComboBox" position="0 15 396 25" align="HStretch Top" name="Profile"/>
             <Widget type="EditBox" skin="EditBox" position="111 88 285 25" align="HStretch Top" name="ArchiveName"/>
         </Widget>
+        <Widget type="ScrollView" skin="ScrollView" position="0 0 468 345" align="Stretch" name="Scroller">
+            <Property key="CanvasAlign" value="Left Top"/>
+            <Property key="CanvasSize" value="468 345"/>
+        </Widget>
     </Widget>
     <CodeGeneratorSettings/>
 </MyGUI>

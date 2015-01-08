@@ -59,6 +59,8 @@
     <Compile Include="Controller\TaskController\TaskController.cs" />
     <Compile Include="Controller\TaskController\TaskPositioner.cs" />
     <Compile Include="GUI\ColorMenu\ColorMenu.cs" />
+    <Compile Include="GUI\ContextMenu\ContextMenu.cs" />
+    <Compile Include="GUI\ContextMenu\ContextMenuItem.cs" />
     <Compile Include="GUI\GUIElementPopup.cs" />
     <Compile Include="GUI\MDIDialog.cs" />
     <Compile Include="GUI\Notification\AbstractNotification.cs" />
