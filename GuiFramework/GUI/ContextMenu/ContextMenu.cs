@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Engine;
+using MyGUIPlugin;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,12 +16,32 @@ namespace Anomalous.GuiFramework
             menuItems.Add(item);
         }
 
-        public IEnumerable<ContextMenuItem> Items
+        public void showMenu(IntVector2 loc)
         {
-            get
+            PopupMenu popupMenu = (PopupMenu)Gui.Instance.createWidgetT("PopupMenu", "PopupMenu", 0, 0, 1, 1, Align.Default, "Overlapped", "");
+            popupMenu.Visible = false;
+            popupMenu.ItemAccept += new MyGUIEvent(popupMenu_ItemAccept);
+            popupMenu.Closed += new MyGUIEvent(popupMenu_Closed);
+            foreach (ContextMenuItem item in menuItems)
             {
-                return menuItems;
+                MenuItem menuItem = popupMenu.addItem(item.Text, MenuItemType.Normal, item.Text);
+                menuItem.UserObject = item;
             }
+            LayerManager.Instance.upLayerItem(popupMenu);
+            popupMenu.setPosition(loc.x, loc.y);
+            popupMenu.ensureVisible();
+            popupMenu.setVisibleSmooth(true);
+        }
+
+        void popupMenu_ItemAccept(Widget source, EventArgs e)
+        {
+            MenuCtrlAcceptEventArgs mcae = (MenuCtrlAcceptEventArgs)e;
+            ((ContextMenuItem)mcae.Item.UserObject).execute();
+        }
+
+        void popupMenu_Closed(Widget source, EventArgs e)
+        {
+            Gui.Instance.destroyWidget(source);
         }
     }
 }
