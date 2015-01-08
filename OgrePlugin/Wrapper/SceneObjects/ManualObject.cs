@@ -8,7 +8,6 @@ using Engine;
 
 namespace OgrePlugin
 {
-    [SingleEnum]
     public enum OperationType : int
     {
 	    OT_POINT_LIST = 1,

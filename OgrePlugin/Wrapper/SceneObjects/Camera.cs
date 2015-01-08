@@ -8,7 +8,6 @@ using System.Runtime.InteropServices;
 
 namespace OgrePlugin
 {
-    [SingleEnum]
     public enum PolygonMode : uint
     {
 	    PM_POINTS = 1,
@@ -16,7 +15,6 @@ namespace OgrePlugin
 	    PM_SOLID = 3
     };
 
-    [SingleEnum]
     public enum ProjectionType : uint
     {
         PT_ORTHOGRAPHIC,

@@ -10,7 +10,6 @@ namespace OgrePlugin
     [NativeSubsystemType]
     public unsafe abstract class HardwareBuffer : IDisposable
     {
-        [SingleEnum]
         public enum Usage : uint
         {
 	        /// <summary>
@@ -70,7 +69,6 @@ namespace OgrePlugin
         /// <summary>
         /// Hardware buffer locking options.
         /// </summary>
-        [SingleEnum]
         public enum LockOptions : uint
         {
 	        /// <summary>

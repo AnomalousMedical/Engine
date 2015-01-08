@@ -10,7 +10,6 @@ namespace OgrePlugin
     [NativeSubsystemType]
     public abstract class Resource : IDisposable
     {
-        [SingleEnum]
         public enum LoadingState : uint
         {
 	        LOADSTATE_UNLOADED,

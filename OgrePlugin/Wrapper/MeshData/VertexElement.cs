@@ -11,7 +11,6 @@ namespace OgrePlugin
     /// <summary>
     /// Vertex element semantics, used to identify the meaning of vertex buffer contents
     /// </summary>
-    [SingleEnum]
     public enum VertexElementSemantic
     {
 	    /// <summary>
@@ -63,7 +62,6 @@ namespace OgrePlugin
     /// <summary>
     /// Vertex element type, used to identify the base types of the vertex contents
     /// </summary>
-    [SingleEnum]
     public enum VertexElementType
     {
         VET_FLOAT1 = 0,

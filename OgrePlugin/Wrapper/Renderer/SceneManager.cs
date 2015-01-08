@@ -12,7 +12,6 @@ namespace OgrePlugin
     [NativeSubsystemType]
     public class SceneManager : IDisposable
     {
-        [SingleEnum]
 	    public enum IlluminationRenderStage : uint
 	    {
 		    IRS_NONE,

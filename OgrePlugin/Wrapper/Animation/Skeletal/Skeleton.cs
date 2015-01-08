@@ -8,7 +8,6 @@ using Engine;
 
 namespace OgrePlugin
 {
-    [SingleEnum]
     public enum SkeletonAnimationBlendMode : uint
     {
 	    ANIMBLEND_AVERAGE,

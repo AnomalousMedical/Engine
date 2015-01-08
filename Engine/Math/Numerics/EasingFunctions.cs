@@ -6,7 +6,6 @@ using System.Text;
 
 namespace Engine
 {
-    [SingleEnum]
     public enum EasingFunction
     {
         None,

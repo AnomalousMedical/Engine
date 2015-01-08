@@ -225,17 +225,17 @@ namespace Anomalous.GuiFramework.Editor
             }
             else if (propertyType.IsEnum)
             {
-                if (propertyType.GetCustomAttributes(typeof(SingleEnumAttribute), true).Length > 0)
+                if (propertyType.GetCustomAttributes(typeof(FlagsAttribute), true).Length > 0)
+                {
+                    //    MultiEnumEditorCell editorCell = new MultiEnumEditorCell();
+                    //    editorCell.EnumType = propType;
+                    //    return editorCell;
+                }
+                else
                 {
                     PropertiesFormComboBox editorCell = new PropertiesFormComboBox(property, widget, propertyType.GetFields(BindingFlags.Public | BindingFlags.Static).Select(fieldInfo => new Pair<String, Object>(fieldInfo.Name, Enum.ToObject(propertyType, fieldInfo.GetRawConstantValue()))));
                     return editorCell;
                 }
-                //else if (propertyType.GetCustomAttributes(typeof(MultiEnumAttribute), true).Length > 0)
-                //{
-                //    MultiEnumEditorCell editorCell = new MultiEnumEditorCell();
-                //    editorCell.EnumType = propType;
-                //    return editorCell;
-                //}
             }
             
             //No match, create an appropriate text box

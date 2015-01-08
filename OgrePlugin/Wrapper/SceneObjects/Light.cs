@@ -11,7 +11,6 @@ namespace OgrePlugin
     [NativeSubsystemType]
     public class Light : MovableObject
     {
-        [SingleEnum]
         public enum LightTypes : uint
         {
 	        LT_POINT,

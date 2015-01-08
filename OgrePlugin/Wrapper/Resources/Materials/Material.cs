@@ -11,7 +11,6 @@ namespace OgrePlugin
     /// <summary>
     /// Comparison functions used for the depth/stencil buffer operations and others. 
     /// </summary>
-    [SingleEnum]
     public enum CompareFunction : uint
     {
         CMPF_ALWAYS_FAIL,

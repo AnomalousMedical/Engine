@@ -14,7 +14,6 @@ namespace OgrePlugin
         /// <summary>
         /// The target animation mode for vertex animation.
         /// </summary>
-        [SingleEnum]
         public enum TargetMode : uint
         {
 	        /// <summary>

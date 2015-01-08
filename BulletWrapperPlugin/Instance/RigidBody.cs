@@ -16,7 +16,6 @@ namespace BulletPlugin
     /// </summary>
     public delegate void CollisionCallback(ContactInfo contact, RigidBody sourceBody, RigidBody otherBody, bool isBodyA);
 
-    [Engine.Attributes.SingleEnum]
     public enum ActivationState : int
     {
         ActiveTag = 1,

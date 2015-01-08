@@ -11,7 +11,6 @@ namespace OgrePlugin
     [NativeSubsystemType]
     public abstract class Node : IDisposable
     {
-        [SingleEnum]
         public enum TransformSpace : uint
         {
 	        TS_LOCAL,
