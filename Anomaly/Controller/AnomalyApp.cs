@@ -25,10 +25,7 @@ namespace Anomaly
 
         public override bool OnInit()
         {
-            anomalyController = new AnomalyController(this);
-
-            anomalyController.initialize(new Solution(projectFileName));
-            anomalyController.buildScene();
+            anomalyController = new AnomalyController(this, new Solution(projectFileName));
 
             return true;
         }

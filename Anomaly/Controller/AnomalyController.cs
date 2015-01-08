@@ -60,6 +60,7 @@ namespace Anomaly
         private NativeInputHandler inputHandler;
         private EventUpdateListener eventUpdate;
         private FullSpeedUpdateListener fixedUpdate;
+        private IdleHandler idleHandler;
 
         //Scene
         private SceneController sceneController = new SceneController();
@@ -85,16 +86,9 @@ namespace Anomaly
         /// <summary>
         /// Constructor.
         /// </summary>
-        public AnomalyController(App app)
+        public AnomalyController(App app, Solution solution)
         {
             this.app = app;
-        }
-
-        /// <summary>
-        /// Intialize all plugins and create everything.
-        /// </summary>
-        public void initialize(Solution solution)
-        {
             this.solution = solution;
 
             //Create the log.
@@ -146,6 +140,7 @@ namespace Anomaly
 
             mainTimer = new NativeUpdateTimer(systemTimer);
             mainTimer.FramerateCap = AnomalyConfig.EngineConfig.MaxFPS;
+            idleHandler = new IdleHandler(mainTimer.OnIdle);
             inputHandler = new NativeInputHandler(mainWindow, false);
             eventManager = new EventManager(inputHandler, Enum.GetValues(typeof(EventLayers)));
             eventUpdate = new EventUpdateListener(eventManager);
@@ -184,6 +179,11 @@ namespace Anomaly
 
             layoutChain.layout();
 
+            idleHandler.runTemporaryIdle(finishInitialization());
+        }
+
+        private IEnumerable<IdleStatus> finishInitialization()
+        {
             //Load the config file and set the resource root up.
             VirtualFileSystem.Instance.addArchive(solution.ResourceRoot);
 
@@ -233,6 +233,11 @@ namespace Anomaly
             debugVisualizer = new DebugVisualizer(pluginManager, sceneController);
             guiManager.addManagedDialog(debugVisualizer);
             debugVisualizer.Visible = true;
+
+            yield return IdleStatus.Ok;
+
+            buildScene();
+            yield return IdleStatus.Ok;
         }
 
         /// <summary>
@@ -317,7 +322,7 @@ namespace Anomaly
 
         public void idle()
         {
-            mainTimer.OnIdle();
+            idleHandler.onIdle();
         }
 
         /// <summary>

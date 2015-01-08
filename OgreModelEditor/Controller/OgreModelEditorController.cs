@@ -235,7 +235,7 @@ namespace OgreModelEditor
             logListener.closeLogFile();
         }
 
-        public IEnumerable<IdleStatus> finishInitialization(String defaultModel)
+        private IEnumerable<IdleStatus> finishInitialization(String defaultModel)
         {
             yield return IdleStatus.Ok;
 
