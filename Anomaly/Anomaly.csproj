@@ -207,6 +207,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Anomaly.ico" />
+    <EmbeddedResource Include="GUI\SplashScreen\SplashIMG.png" />
+    <EmbeddedResource Include="GUI\SplashScreen\SplashScreen.xml" />
+    <EmbeddedResource Include="GUI\SplashScreen\SplashText.png" />
+    <EmbeddedResource Include="GUI\SplashScreen\SplashScreen.layout" />
     <EmbeddedResource Include="Resources\AnomalyImagesets.xml" />
     <EmbeddedResource Include="Resources\PublishIcons.png" />
     <EmbeddedResource Include="Resources\PublishIcons.xml" />

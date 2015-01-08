@@ -53,6 +53,8 @@ namespace Anomaly
         private LogWindow consoleWindow;
         private DebugVisualizer debugVisualizer;
 
+        private SplashScreen splashScreen;
+
         //Platform
         private NativeUpdateTimer mainTimer;
         private NativeSystemTimer systemTimer;
@@ -179,11 +181,19 @@ namespace Anomaly
 
             layoutChain.layout();
 
+            splashScreen = new SplashScreen(mainWindow, 100, "Anomaly.GUI.SplashScreen.SplashScreen.layout", "Anomaly.GUI.SplashScreen.SplashScreen.xml");
+            splashScreen.Hidden += splashScreen_Hidden;
+            splashScreen.StatusUpdated += splashScreen_StatusUpdated;
+            splashScreen.updateStatus(0, "Loading...");
+
             idleHandler.runTemporaryIdle(finishInitialization());
         }
 
         private IEnumerable<IdleStatus> finishInitialization()
         {
+            splashScreen.updateStatus(10, "Loading Solution");
+            yield return IdleStatus.Ok;
+
             //Load the config file and set the resource root up.
             VirtualFileSystem.Instance.addArchive(solution.ResourceRoot);
 
@@ -202,6 +212,9 @@ namespace Anomaly
 
             fixedUpdate = new FullSpeedUpdateListener(sceneController);
             mainTimer.addUpdateListener(fixedUpdate);
+
+            splashScreen.updateStatus(60, "Creating GUI");
+            yield return IdleStatus.Ok;
 
             propertiesEditor = new PropertiesEditor("Properties", "Anomaly.GUI.Properties");
             guiManager.addManagedDialog(propertiesEditor);
@@ -236,7 +249,14 @@ namespace Anomaly
 
             yield return IdleStatus.Ok;
 
+            splashScreen.updateStatus(80, "Building Scene");
+
             buildScene();
+            yield return IdleStatus.Ok;
+
+            splashScreen.updateStatus(100, "Loaded");
+
+            splashScreen.hide();
             yield return IdleStatus.Ok;
         }
 
@@ -249,6 +269,10 @@ namespace Anomaly
             {
                 Log.Default.removeLogListener(consoleWindow);
                 consoleWindow.Dispose();
+            }
+            if (splashScreen != null)
+            {
+                splashScreen.Dispose();
             }
             if(mainObjectEditor != null)
             {
@@ -703,6 +727,17 @@ namespace Anomaly
             sceneViewController.destroyCameras();
             lightManager.sceneUnloading(scene);
             selectionMovementTools.sceneUnloading(scene);
+        }
+
+        void splashScreen_StatusUpdated(SplashScreen obj)
+        {
+            OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget.update();
+        }
+
+        void splashScreen_Hidden(SplashScreen obj)
+        {
+            splashScreen.Dispose();
+            splashScreen = null;
         }
     }
 }
