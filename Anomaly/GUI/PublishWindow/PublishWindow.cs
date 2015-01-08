@@ -13,7 +13,6 @@ namespace Anomaly.GUI
     class PublishWindow : Dialog
     {
         private PublishController publishController;
-        //private Dictionary<String, ListViewGroup> groups = new Dictionary<string, ListViewGroup>();
         private bool allowExternalFileChanges = true;
         bool allowResourceProfileSelectedIndexChanged = true;
         private AnomalyController controller;
@@ -29,10 +28,6 @@ namespace Anomaly.GUI
             : base("Anomaly.GUI.PublishWindow.PublishWindow.layout")
         {
             this.controller = controller;
-
-            //fileView.CheckBoxes = true;
-            //fileView.ItemChecked += new ItemCheckedEventHandler(fileView_ItemChecked);
-            //fileView.MouseClick += new MouseEventHandler(fileView_MouseClick);
 
             resourceProfileCombo = window.findWidget("Profile") as ComboBox;
             resourceProfileCombo.EventComboChangePosition += resourceProfileCombo_EventComboChangePosition;
@@ -77,8 +72,6 @@ namespace Anomaly.GUI
         {
             publishController.clearIgnoreDirectories();
             publishController.clearIgnoreFiles();
-            publishController.clearExternalDirectories();
-            publishController.clearExternalFiles();
             publishController.scanResources();
             allowExternalFileChanges = false;
             if (resourceProfile != null)

@@ -40,9 +40,7 @@ namespace Anomaly.GUI
             fileTree.Nodes.add(baseNode);
             baseNode.Expanded = true;
 
-
             publishController.DirectoryIgnored += publishController_DirectoryIgnored;
-            publishController.ExternalFileAdded += publishController_ExternalFileAdded;
         }
 
         public void Dispose()
@@ -128,14 +126,6 @@ namespace Anomaly.GUI
                     }
                 }
             }
-        }
-
-        void publishController_ExternalFileAdded(object sender, PublishControllerEventArgs e)
-        {
-            //if (allowExternalFileChanges)
-            //{
-            //    addFileToGUIList(e.FileInfo);
-            //}
         }
 
         void publishController_DirectoryIgnored(object sender, PublishControllerEventArgs e)

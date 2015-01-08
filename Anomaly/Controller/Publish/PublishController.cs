@@ -15,7 +15,6 @@ namespace Anomaly
     {
         private static PublishControllerEventArgs eventArgs = new PublishControllerEventArgs();
         public event EventHandler<PublishControllerEventArgs> DirectoryIgnored;
-        public event EventHandler<PublishControllerEventArgs> ExternalFileAdded;
 
         //Use a dictionary to ensure that the files are unique the key is a lowercase mangled name and the value is the filename as returned.
         private List<VirtualFileInfo> files = new List<VirtualFileInfo>();
@@ -23,8 +22,6 @@ namespace Anomaly
         private Solution solution;
         private List<String> ignoreFiles = new List<String>();
         private List<String> ignoreDirectories = new List<string>();
-        private List<String> externalFiles = new List<string>();
-        private List<PublishDirectoryInfo> externalDirectories = new List<PublishDirectoryInfo>();
 
         public PublishController(Solution solution)
         {
@@ -61,22 +58,6 @@ namespace Anomaly
         {
             ConfigFile configFile = new ConfigFile(Path.Combine(solution.WorkingDirectory, profileName + ".rpr"));
             configFile.loadConfigFile();
-            ConfigSection externalFilesSection = configFile.createOrRetrieveConfigSection("ExternalFiles");
-            ConfigIterator externalFilesIter = new ConfigIterator(externalFilesSection, "File");
-            while (externalFilesIter.hasNext())
-            {
-                addExternalFile(externalFilesIter.next());
-            }
-            ConfigSection externalDirectoriesSection = configFile.createOrRetrieveConfigSection("ExternalDirectories");
-            ConfigIterator externalDirectoriesIter = new ConfigIterator(externalDirectoriesSection, "Dir");
-            while (externalDirectoriesIter.hasNext())
-            {
-                PublishDirectoryInfo dirInfo = PublishDirectoryInfo.FromString(externalDirectoriesIter.next());
-                if (dirInfo != null)
-                {
-                    addExternalDirectory(dirInfo);
-                }
-            }
             ConfigSection ignoredDirectories = configFile.createOrRetrieveConfigSection("IgnoredDirectories");
             ConfigIterator dirIter = new ConfigIterator(ignoredDirectories, "Dir");
             while (dirIter.hasNext())
@@ -95,18 +76,6 @@ namespace Anomaly
         {
             int i;
             ConfigFile configFile = new ConfigFile(Path.Combine(solution.WorkingDirectory, profileName + ".rpr"));
-            ConfigSection externalFilesSection = configFile.createOrRetrieveConfigSection("ExternalFiles");
-            i = 0;
-            foreach (String file in externalFiles)
-            {
-                externalFilesSection.setValue("File" + i++, file);
-            }
-            ConfigSection externalDirectoriesSection = configFile.createOrRetrieveConfigSection("ExternalDirectories");
-            i = 0;
-            foreach (PublishDirectoryInfo dir in externalDirectories)
-            {
-                externalDirectoriesSection.setValue("Dir" + i++, dir.ToString());
-            }
             ConfigSection ignoredDirectories = configFile.createOrRetrieveConfigSection("IgnoredDirectories");
             i = 0;
             foreach(String dir in ignoreDirectories)
@@ -283,59 +252,6 @@ namespace Anomaly
         public void clearIgnoreDirectories()
         {
             ignoreDirectories.Clear();
-        }
-
-        public void addExternalFile(VirtualFileInfo file)
-        {
-            addExternalFile(file.FullName);
-        }
-
-        private void addExternalFile(String filename)
-        {
-            if (VirtualFileSystem.Instance.exists(filename))
-            {
-                externalFiles.Add(filename);
-                processFile(filename, false);
-                if (ExternalFileAdded != null)
-                {
-                    eventArgs.FileInfo = VirtualFileSystem.Instance.getFileInfo(filename);
-                    ExternalFileAdded.Invoke(this, eventArgs);
-                }
-            }
-            else
-            {
-                Log.Warning("Could not add location {0} because it does not exist in the virtual file system.", filename);
-            }
-        }
-
-        public void clearExternalFiles()
-        {
-            externalFiles.Clear();
-        }
-
-        public void addExternalDirectory(VirtualFileInfo directory, bool recursive)
-        {
-            addExternalDirectory(new PublishDirectoryInfo(directory.FullName, recursive));
-        }
-
-        private void addExternalDirectory(PublishDirectoryInfo dirInfo)
-        {
-            externalDirectories.Add(dirInfo);
-            foreach (String file in VirtualFileSystem.Instance.listFiles(dirInfo.Directory, dirInfo.Recursive))
-            {
-                VirtualFileInfo info = VirtualFileSystem.Instance.getFileInfo(file);
-                addFile(info);
-                if (ExternalFileAdded != null)
-                {
-                    eventArgs.FileInfo = info;
-                    ExternalFileAdded.Invoke(this, eventArgs);
-                }
-            }
-        }
-
-        public void clearExternalDirectories()
-        {
-            externalDirectories.Clear();
         }
 
         private void processFile(String url, bool recursive)
