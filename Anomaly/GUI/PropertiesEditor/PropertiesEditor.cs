@@ -53,7 +53,6 @@ namespace Anomaly.GUI
             tree = new Tree((ScrollView)window.findWidget("TreeScroller"));
             editTreeView = new EditInterfaceTreeView(tree, uiCallback);
             editTreeView.EditInterfaceSelectionChanged += editTreeView_EditInterfaceSelectionChanged;
-            editTreeView.EditInterfaceSelectionChanging += editTreeView_EditInterfaceSelectionChanging;
             editTreeView.EditInterfaceAdded += editTreeView_EditInterfaceAdded;
             editTreeView.EditInterfaceRemoved += editTreeView_EditInterfaceRemoved;
 
@@ -167,16 +166,6 @@ namespace Anomaly.GUI
             if (ActiveInterfaceChanged != null)
             {
                 ActiveInterfaceChanged.Invoke(evt.EditInterface, null);
-            }
-        }
-
-        void editTreeView_EditInterfaceSelectionChanging(EditInterfaceViewEventArgs evt)
-        {
-            String error;
-            if (objectEditor.EditInterface != null && !objectEditor.EditInterface.validate(out error))
-            {
-                evt.Cancel = true;
-                MessageBox.show(error, "Invalid Settings", MessageBoxStyle.IconError | MessageBoxStyle.Ok);
             }
         }
 

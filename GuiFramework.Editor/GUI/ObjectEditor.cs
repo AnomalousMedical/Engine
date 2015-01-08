@@ -18,6 +18,7 @@ namespace Anomalous.GuiFramework.Editor
         public ObjectEditor(EditInterfaceTreeView treeView, PropertyEditor propEditor, GuiFrameworkUICallback uiCallback)
         {
             this.treeView = treeView;
+            treeView.EditInterfaceSelectionChanging += treeView_EditInterfaceSelectionChanging;
             treeView.EditInterfaceSelectionChanged += treeView_EditInterfaceSelectionChanged;
             this.propEditor = propEditor;
             this.uiCallback = uiCallback;
@@ -53,6 +54,16 @@ namespace Anomalous.GuiFramework.Editor
         public void clear()
         {
             EditInterface = null;
+        }
+
+        void treeView_EditInterfaceSelectionChanging(EditInterfaceViewEventArgs evt)
+        {
+            String error;
+            if (evt.EditInterface != null && !evt.EditInterface.validate(out error))
+            {
+                evt.Cancel = true;
+                MessageBox.show(error, "Invalid Settings", MessageBoxStyle.IconError | MessageBoxStyle.Ok);
+            }
         }
 
         void treeView_EditInterfaceSelectionChanged(EditInterfaceViewEventArgs evt)
