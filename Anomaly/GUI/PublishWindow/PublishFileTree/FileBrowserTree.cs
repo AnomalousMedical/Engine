@@ -36,7 +36,7 @@ namespace Anomaly.GUI
             fileTree = new Tree(treeScrollView);
             fileTree.NodeMouseReleased += new EventHandler<TreeMouseEventArgs>(fileTree_NodeMouseReleased);
 
-            baseNode = new DirectoryNode("", this);
+            baseNode = new DirectoryNode("Publishing Files", this);
             fileTree.Nodes.add(baseNode);
             baseNode.Expanded = true;
 
@@ -99,7 +99,7 @@ namespace Anomaly.GUI
         {
             String parentPath = file.DirectoryName;
             DirectoryNode node = getNodeForPath(file.DirectoryName) as DirectoryNode;
-            node.addFileNode(new FileNode(file.Name));
+            node.addFileNode(new FileNode(file));
         }
 
         void fileTree_NodeMouseReleased(object sender, TreeMouseEventArgs e)
@@ -123,7 +123,7 @@ namespace Anomaly.GUI
                     {
                         if (NodeContextEvent != null)
                         {
-                            NodeContextEvent.Invoke(this, fileNode.FilePath, false, fileNode.Parent == null);
+                            NodeContextEvent.Invoke(this, fileNode.File.Name, false, fileNode.Parent == null);
                         }
                     }
                 }

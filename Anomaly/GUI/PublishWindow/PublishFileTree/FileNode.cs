@@ -4,24 +4,19 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using MyGUIPlugin;
+using Engine;
 
 namespace Anomaly.GUI
 {
     class FileNode : TreeNode
     {
-        public FileNode(String file)
+        public FileNode(VirtualFileInfo file)
         {
-            changePath(file);
-            ImageResource = "EditorFileIcon/" + Path.GetExtension(file).ToLowerInvariant();
+            Text = file.Name;
+            this.File = file;
+            ImageResource = "EditorFileIcon/" + Path.GetExtension(file.Name).ToLowerInvariant();
         }
 
-        public void changePath(String file)
-        {
-            Text = Path.GetFileName(file);
-            FilePath = file;
-            ImageResource = "EditorFileIcon/" + Path.GetExtension(file).ToLowerInvariant();
-        }
-
-        public String FilePath { get; set; }
+        public VirtualFileInfo File { get; set; }
     }
 }
