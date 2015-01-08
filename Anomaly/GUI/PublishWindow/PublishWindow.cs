@@ -1,11 +1,13 @@
 ﻿using Anomalous.OSPlatform;
 using Engine;
+using Engine.Threads;
 using MyGUIPlugin;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Anomaly.GUI
@@ -110,8 +112,16 @@ namespace Anomaly.GUI
                 try
                 {
                     String destination = Path.GetFullPath(outputLocationTextBox.OnlyText);
-                    publishController.copyResources(destination, archiveNameText.OnlyText, archiveCheckBox.Checked, obfuscateCheckBox.Checked);
-                    MessageBox.show(String.Format("Finished publishing resources to:\n{0}.", destination), "Publish Complete", MessageBoxStyle.IconInfo | MessageBoxStyle.Ok);
+                    window.ClientWidget.Enabled = false;
+                    ThreadPool.QueueUserWorkItem(state =>
+                        {
+                            publishController.copyResources(destination, archiveNameText.OnlyText, archiveCheckBox.Checked, obfuscateCheckBox.Checked);
+                            ThreadManager.invoke(() =>
+                            {
+                                MessageBox.show(String.Format("Finished publishing resources to:\n{0}.", destination), "Publish Complete", MessageBoxStyle.IconInfo | MessageBoxStyle.Ok);
+                                window.ClientWidget.Enabled = true;
+                            });
+                        });
                 }
                 catch (Exception ex)
                 {
