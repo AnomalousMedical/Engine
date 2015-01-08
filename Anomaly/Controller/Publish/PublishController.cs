@@ -13,9 +13,6 @@ namespace Anomaly
 {
     class PublishController
     {
-        private static PublishControllerEventArgs eventArgs = new PublishControllerEventArgs();
-        public event EventHandler<PublishControllerEventArgs> DirectoryIgnored;
-
         //Use a dictionary to ensure that the files are unique the key is a lowercase mangled name and the value is the filename as returned.
         private List<VirtualFileInfo> files = new List<VirtualFileInfo>();
         HashSet<String> recursiveDirectories = new HashSet<string>();
@@ -228,11 +225,6 @@ namespace Anomaly
         public void addIgnoreDirectory(String directory)
         {
             ignoreDirectories.Add(directory);
-            if (DirectoryIgnored != null)
-            {
-                eventArgs.FileInfo = VirtualFileSystem.Instance.getFileInfo(directory);
-                DirectoryIgnored.Invoke(this, eventArgs);
-            }
         }
 
         public void removeIgnoreDirectory(String directory)

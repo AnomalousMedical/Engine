@@ -39,8 +39,6 @@ namespace Anomaly.GUI
             baseNode = new DirectoryNode("Publishing Files", this);
             fileTree.Nodes.add(baseNode);
             baseNode.Expanded = true;
-
-            publishController.DirectoryIgnored += publishController_DirectoryIgnored;
         }
 
         public void Dispose()
@@ -126,20 +124,6 @@ namespace Anomaly.GUI
                     }
                 }
             }
-        }
-
-        void publishController_DirectoryIgnored(object sender, PublishControllerEventArgs e)
-        {
-            //ListViewGroup group;
-            //if (groups.TryGetValue(e.FileInfo.FullName, out group))
-            //{
-            //    ListViewItem[] groupItems = new ListViewItem[group.Items.Count];
-            //    group.Items.CopyTo(groupItems, 0);
-            //    foreach (ListViewItem item in groupItems)
-            //    {
-            //        fileView.Items.Remove(item);
-            //    }
-            //}
         }
     }
 }
