@@ -10,7 +10,7 @@
     </Group>
   </Resource>
   <Resource type="ResourceImageSet" name="SplashScreen/Image">
-    <Group name="Icons" texture="Anomaly.GUI.SplashScreen.SplashIMG.png" size="1800 810">
+    <Group name="Icons" texture="Anomaly.GUI.SplashScreen.SplashIMG.png" size="656 256">
       <Index name="Icon">
         <Frame point="0 0"/>
       </Index>
