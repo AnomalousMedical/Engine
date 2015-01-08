@@ -217,6 +217,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Anomaly.ico" />
+    <EmbeddedResource Include="Resources\AnomalyImagesets.xml" />
+    <EmbeddedResource Include="Resources\PublishIcons.png" />
+    <EmbeddedResource Include="Resources\PublishIcons.xml" />
     <EmbeddedResource Include="Resources\AnomalyIcons.png" />
     <EmbeddedResource Include="Resources\AnomalyIcons.xml">
       <SubType>Designer</SubType>

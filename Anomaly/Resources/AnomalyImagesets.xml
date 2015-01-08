@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<MyGUI type="List">
+  <List file="Anomaly.Resources.AnomalyIcons.xml"/>
+  <List file="Anomaly.Resources.PublishIcons.xml"/>
+</MyGUI>

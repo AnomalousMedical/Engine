@@ -15,7 +15,7 @@ namespace Anomaly.GUI
         public DirectoryNode(String directory, FileBrowserTree projectExplorer)
         {
             this.projectExplorer = projectExplorer;
-            this.ImageResource = "EditorFileIcon/FolderIcon";
+            this.ImageResource = "Anomaly.PublishIcons.Folder";
             changePath(directory);
         }
 

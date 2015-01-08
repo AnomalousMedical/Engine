@@ -191,7 +191,7 @@ namespace Anomaly
 
             solution.loadExternalFiles(this);
 
-            MyGUIPlugin.ResourceManager.Instance.load("Anomaly.Resources.AnomalyIcons.xml");
+            MyGUIPlugin.ResourceManager.Instance.load("Anomaly.Resources.AnomalyImagesets.xml");
 
             //Initialize controllers
             instanceBuilder = new InstanceBuilder();

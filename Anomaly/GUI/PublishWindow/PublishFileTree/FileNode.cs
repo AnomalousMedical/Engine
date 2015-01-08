@@ -14,7 +14,7 @@ namespace Anomaly.GUI
         {
             Text = file.Name;
             this.File = file;
-            ImageResource = "EditorFileIcon/" + Path.GetExtension(file.Name).ToLowerInvariant();
+            ImageResource = "Anomaly.PublishIcons." + Path.GetExtension(file.Name).ToLowerInvariant();
         }
 
         public VirtualFileInfo File { get; set; }
