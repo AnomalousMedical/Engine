@@ -25,7 +25,7 @@ namespace BulletPlugin
 	    DisableSimulation = 5,
     }
 
-    [Engine.Attributes.MultiEnum]
+    [Flags]
     public enum CollisionFlags : int
     {
 	    StaticObject = 1,

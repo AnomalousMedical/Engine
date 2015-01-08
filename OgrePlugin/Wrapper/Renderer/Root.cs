@@ -8,7 +8,7 @@ using Engine;
 
 namespace OgrePlugin
 {
-    [MultiEnum]
+    [Flags]
     public enum SceneType : ushort
     {
 	    ST_GENERIC = 1,

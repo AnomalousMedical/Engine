@@ -53,7 +53,6 @@
     <Compile Include="Attributes\DoNotCopyAttribute.cs" />
     <Compile Include="Attributes\DoNotSaveAttribute.cs" />
     <Compile Include="Attributes\InclusiveEnumFieldAttribute.cs" />
-    <Compile Include="Attributes\MultiEnumAttribute.cs" />
     <Compile Include="Attributes\NativeSubsystemTypeAttribute.cs" />
     <Compile Include="Behavior\Animation\PositionBroadcaster.cs" />
     <Compile Include="Behavior\Behavior.cs" />
