@@ -28,8 +28,32 @@ namespace Anomaly
             this.solution = solution;
         }
 
-        public void scanResources()
+        /// <summary>
+        /// Scan for resources using the profile, can be null to use no profile.
+        /// </summary>
+        /// <param name="profileName">The name of the profile of ignore files.</param>
+        public void scanResources(String profileName)
         {
+            ignoreDirectories.Clear();
+            ignoreFiles.Clear();
+            if (profileName != null)
+            {
+                ConfigFile configFile = new ConfigFile(Path.Combine(solution.WorkingDirectory, profileName + ".rpr"));
+                configFile.loadConfigFile();
+                ConfigSection ignoredDirectories = configFile.createOrRetrieveConfigSection("IgnoredDirectories");
+                ConfigIterator dirIter = new ConfigIterator(ignoredDirectories, "Dir");
+                while (dirIter.hasNext())
+                {
+                    addIgnoreDirectory(dirIter.next());
+                }
+                ConfigSection ignoredFiles = configFile.createOrRetrieveConfigSection("IgnoredFiles");
+                ConfigIterator fileIter = new ConfigIterator(ignoredFiles, "File");
+                while (fileIter.hasNext())
+                {
+                    addIgnoreFile(fileIter.next());
+                }
+            }
+
             ResourceManager resourceManager = solution.getAllResources();
 
             files.Clear();
@@ -51,24 +75,6 @@ namespace Anomaly
             foreach (String directory in recursiveDirectories)
             {
                 processRecursiveDirectory(directory);
-            }
-        }
-
-        public void openResourceProfile(String profileName)
-        {
-            ConfigFile configFile = new ConfigFile(Path.Combine(solution.WorkingDirectory, profileName + ".rpr"));
-            configFile.loadConfigFile();
-            ConfigSection ignoredDirectories = configFile.createOrRetrieveConfigSection("IgnoredDirectories");
-            ConfigIterator dirIter = new ConfigIterator(ignoredDirectories, "Dir");
-            while (dirIter.hasNext())
-            {
-                addIgnoreDirectory(dirIter.next());
-            }
-            ConfigSection ignoredFiles = configFile.createOrRetrieveConfigSection("IgnoredFiles");
-            ConfigIterator fileIter = new ConfigIterator(ignoredFiles, "File");
-            while (fileIter.hasNext())
-            {
-                addIgnoreFile(fileIter.next());
             }
         }
 
@@ -219,16 +225,6 @@ namespace Anomaly
             ignoreFiles.Remove(fileInfo.FullName);
         }
 
-        public bool isIgnoreFile(VirtualFileInfo fileInfo)
-        {
-            return ignoreFiles.Contains(fileInfo.FullName);
-        }
-
-        public void clearIgnoreFiles()
-        {
-            ignoreFiles.Clear();
-        }
-
         public void addIgnoreDirectory(String directory)
         {
             ignoreDirectories.Add(directory);
@@ -244,30 +240,23 @@ namespace Anomaly
             ignoreDirectories.Remove(directory);
         }
 
-        public bool isIgnoreDirectory(String directory)
-        {
-            return ignoreDirectories.Contains(directory);
-        }
-
-        public void clearIgnoreDirectories()
-        {
-            ignoreDirectories.Clear();
-        }
-
         private void processFile(String url, bool recursive)
         {
             VirtualFileSystem vfs = VirtualFileSystem.Instance;
             if (vfs.isDirectory(url))
             {
-                if (recursive)
+                if (!ignoreDirectories.Contains(url))
                 {
-                    recursiveDirectories.Add(url);
-                }
-                else
-                {
-                    foreach (String file in vfs.listFiles(url, false))
+                    if (recursive)
                     {
-                        addFile(vfs.getFileInfo(file));
+                        recursiveDirectories.Add(url);
+                    }
+                    else
+                    {
+                        foreach (String file in vfs.listFiles(url, false))
+                        {
+                            addFile(vfs.getFileInfo(file));
+                        }
                     }
                 }
             }
@@ -286,7 +275,7 @@ namespace Anomaly
 
         private void addFile(VirtualFileInfo fileInfo)
         {
-            if (!fileInfo.Name.EndsWith("~") && !fileInfo.DirectoryName.Contains(".svn"))
+            if (!fileInfo.Name.EndsWith("~") && !fileInfo.DirectoryName.Contains(".svn") && !ignoreFiles.Contains(fileInfo.FullName) && !ignoreDirectories.Contains(fileInfo.DirectoryName))
             {
                 //Make sure the file does not already exist in the list.
                 foreach (VirtualFileInfo existingInfo in files)

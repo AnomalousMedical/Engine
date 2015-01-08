@@ -13,7 +13,6 @@ namespace Anomaly.GUI
     class PublishWindow : Dialog
     {
         private PublishController publishController;
-        private bool allowExternalFileChanges = true;
         bool allowResourceProfileSelectedIndexChanged = true;
         private AnomalyController controller;
 
@@ -70,15 +69,7 @@ namespace Anomaly.GUI
 
         public void scanResources(String resourceProfile)
         {
-            publishController.clearIgnoreDirectories();
-            publishController.clearIgnoreFiles();
-            publishController.scanResources();
-            allowExternalFileChanges = false;
-            if (resourceProfile != null)
-            {
-                publishController.openResourceProfile(resourceProfile);
-            }
-            allowExternalFileChanges = true;
+            publishController.scanResources(resourceProfile);
             fileTree.refreshFiles();
         }
 

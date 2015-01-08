@@ -99,13 +99,12 @@ namespace Anomaly
                 }
                 pluginLoader.loadPlugins(pluginManager);
 
-                publisher.scanResources();
-
-                if(!String.IsNullOrEmpty(Profile))
+                if (!String.IsNullOrEmpty(Profile))
                 {
                     Log.Info("Using profile {0}", Profile);
-                    publisher.openResourceProfile(Profile);
                 }
+
+                publisher.scanResources(Profile);
 
                 publisher.copyResources(Destination, ArchiveName, Archive, Obfuscate);
             }
