@@ -1,16 +1,20 @@
-﻿using MyGUIPlugin;
+﻿using Engine;
+using MyGUIPlugin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Anomalous.GuiFramework.Editor
 {
-    public class EnumFlagsTableCell : TableCell
+    public class EnumFlagsTableCell<EnumType> : TableCell
+        where EnumType : struct
     {
-        private EditBox editWidget;
-        private Button staticWidget;
-        private String value = null;
+        private ComboBox editWidget;
+        private TextBox staticWidget;
+        private EnumType value = default(EnumType);
+        private long editedValue;
 
         public EnumFlagsTableCell()
         {
@@ -46,17 +50,27 @@ namespace Anomalous.GuiFramework.Editor
 
         public override void setEditMode()
         {
-            ensureEditWidgetExists(TableWidget);
-            if (!editWidget.Visible)
-            {
-                editWidget.Visible = true;
-                if (staticWidget != null)
+            //ensureEditWidgetExists(TableWidget);
+            //if (!editWidget.Visible)
+            //{
+            //    editWidget.Visible = true;
+            //    if (staticWidget != null)
+            //    {
+            //        staticWidget.Visible = false;
+            //    }
+            //    InputManager.Instance.setKeyFocusWidget(editWidget);
+            //}
+            long lval = Convert.ToInt64(Enum.Parse(typeof(EnumType), value.ToString()));
+            FlagsEnumEditor flagsEditor = new FlagsEnumEditor(typeof(EnumType), lval);
+            flagsEditor.Modal = true;
+            flagsEditor.center();
+            flagsEditor.Visible = true;
+            flagsEditor.Closed += (sender, args) =>
                 {
-                    staticWidget.Visible = false;
-                }
-                InputManager.Instance.setKeyFocusWidget(editWidget);
-                editWidget.setTextSelection(0, (uint)editWidget.OnlyText.Length);
-            }
+                    editedValue = flagsEditor.CurrentValue;
+                    flagsEditor.Dispose();
+                    clearCellEdit();
+                };
         }
 
         public override TableCell clone()
@@ -94,7 +108,7 @@ namespace Anomalous.GuiFramework.Editor
             {
                 if (editWidget != null)
                 {
-                    return editWidget.OnlyText;
+                    return editWidget.SelectedItemData;
                 }
                 else
                 {
@@ -105,7 +119,7 @@ namespace Anomalous.GuiFramework.Editor
 
         protected override void commitEditValueToValueImpl()
         {
-            Value = editWidget.OnlyText;
+            Value = editedValue;
         }
 
         public override object Value
@@ -116,17 +130,48 @@ namespace Anomalous.GuiFramework.Editor
             }
             set
             {
-                String sentValueString = value != null ? value.ToString() : null;
-                if (this.value != sentValueString)
+                EnumType sentValue = default(EnumType);
+                if (value != null)
                 {
-                    this.value = sentValueString;
+                    if(value is long)
+                    {
+                        //Going through a string is the safest way to make sure we don't unbox to the wrong enum underlying type and we can't cast directly.
+                        //This isn't performance sensitive anyway so it doesn't really matter even though this is a bit crazy.
+                        long parsed;
+                        if (long.TryParse(value.ToString(), out parsed))
+                        {
+                            sentValue = (EnumType)Enum.Parse(typeof(EnumType), value.ToString());
+                        }
+                    }
+                    if (value is String)
+                    {
+                        //If we are a String try to parse
+                        try
+                        {
+                            sentValue = (EnumType)Enum.Parse(typeof(EnumType), value.ToString());
+                        }
+                        catch (Exception)
+                        {
+
+                        }
+                    }
+                    else if (value is EnumType)
+                    {
+                        //If we are the direct type just use it.
+                        sentValue = (EnumType)value;
+                    }
+                }
+
+                if (!this.value.Equals(sentValue))
+                {
+                    this.value = sentValue;
                     if (editWidget != null)
                     {
-                        editWidget.OnlyText = sentValueString;
+                        editWidget.SelectedIndex = editWidget.findItemIndexWithData(sentValue);
                     }
                     if (staticWidget != null)
                     {
-                        staticWidget.Caption = sentValueString;
+                        staticWidget.Caption = sentValue.ToString();
                     }
                     fireCellValueChanged();
                 }
@@ -137,9 +182,9 @@ namespace Anomalous.GuiFramework.Editor
         {
             if (staticWidget == null)
             {
-                staticWidget = (Button)parentWidget.createWidgetT("Button", "StaticTableCell", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "");
+                staticWidget = (TextBox)parentWidget.createWidgetT("Button", "StaticTableCell", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "");
                 staticWidget.MouseButtonClick += new MyGUIEvent(staticWidget_MouseButtonClick);
-                staticWidget.Caption = value;
+                staticWidget.Caption = value.ToString();
                 staticWidget.TextAlign = Align.Left | Align.VCenter;
                 staticWidget.Visible = false;
             }
@@ -149,10 +194,15 @@ namespace Anomalous.GuiFramework.Editor
         {
             if (editWidget == null)
             {
-                editWidget = parentWidget.createWidgetT("EditBox", "EditBox", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "") as EditBox;
-                editWidget.KeyLostFocus += new MyGUIEvent(editWidget_KeyLostFocus);
+                editWidget = parentWidget.createWidgetT("ComboBox", "ComboBox", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "") as ComboBox;
+                editWidget.EditStatic = true;
+                editWidget.EventComboChangePosition += editWidget_EventComboChangePosition;
                 editWidget.KeyButtonReleased += new MyGUIEvent(editWidget_KeyButtonReleased);
-                editWidget.OnlyText = value;
+                foreach (var option in comboOptions())
+                {
+                    editWidget.addItem(option.First, option.Second);
+                }
+                editWidget.SelectedIndex = editWidget.findItemIndexWithData(value);
                 editWidget.Visible = false;
             }
         }
@@ -166,7 +216,7 @@ namespace Anomalous.GuiFramework.Editor
             }
         }
 
-        void editWidget_KeyLostFocus(Widget source, EventArgs e)
+        void editWidget_EventComboChangePosition(Widget source, EventArgs e)
         {
             clearCellEdit();
         }
@@ -177,6 +227,11 @@ namespace Anomalous.GuiFramework.Editor
             {
                 requestCellEdit();
             }
+        }
+
+        private IEnumerable<Pair<String, Object>> comboOptions()
+        {
+            return typeof(EnumType).GetFields(BindingFlags.Public | BindingFlags.Static).Select(fieldInfo => new Pair<String, Object>(fieldInfo.Name, Enum.ToObject(typeof(EnumType), fieldInfo.GetRawConstantValue())));
         }
     }
 }

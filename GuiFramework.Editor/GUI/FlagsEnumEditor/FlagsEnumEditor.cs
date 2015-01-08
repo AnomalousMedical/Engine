@@ -36,16 +36,25 @@ namespace Anomalous.GuiFramework.Editor
                 {
                     if (checkButton.Checked)
                     {
-                        currentValue |= item.Second;
+                        this.currentValue |= item.Second;
                     }
                     else
                     {
-                        currentValue &= ~item.Second;
+                        this.currentValue &= ~item.Second;
                     }
                 };
                 flowLayout.addChild(new MyGUILayoutContainer(button));
                 childWidgets.Add(button);
             }
+
+            var size = flowLayout.DesiredSize;
+            size.Width = scrollView.Width;
+            scrollView.CanvasSize = size;
+            var viewCoord = scrollView.ViewCoord;
+            size.Width = viewCoord.width - viewCoord.left;
+            scrollView.CanvasSize = size;
+            flowLayout.WorkingSize = size;
+            flowLayout.layout();
         }
 
         public override void Dispose()
@@ -69,7 +78,7 @@ namespace Anomalous.GuiFramework.Editor
 
         private IEnumerable<Pair<String, long>> options()
         {
-            return enumType.GetFields(BindingFlags.Public | BindingFlags.Static).Select(fieldInfo => new Pair<String, long>(fieldInfo.Name, (long)fieldInfo.GetRawConstantValue()));
+            return enumType.GetFields(BindingFlags.Public | BindingFlags.Static).Select(fieldInfo => new Pair<String, long>(fieldInfo.Name, Convert.ToInt64(fieldInfo.GetRawConstantValue())));
         }
     }
 }
