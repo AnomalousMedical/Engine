@@ -11,8 +11,7 @@ namespace Anomalous.GuiFramework.Editor
     public class EnumFlagsTableCell<EnumType> : TableCell
         where EnumType : struct
     {
-        private ComboBox editWidget;
-        private TextBox staticWidget;
+        private Button staticWidget;
         private EnumType value = default(EnumType);
         private long editedValue;
 
@@ -23,11 +22,6 @@ namespace Anomalous.GuiFramework.Editor
 
         public override void Dispose()
         {
-            if (editWidget != null)
-            {
-                Gui.Instance.destroyWidget(editWidget);
-                editWidget = null;
-            }
             if (staticWidget != null)
             {
                 Gui.Instance.destroyWidget(staticWidget);
@@ -38,30 +32,11 @@ namespace Anomalous.GuiFramework.Editor
         public override void setStaticMode()
         {
             ensureStaticWidgetExists(TableWidget);
-            if (!staticWidget.Visible)
-            {
-                staticWidget.Visible = true;
-                if (editWidget != null)
-                {
-                    editWidget.Visible = false;
-                }
-            }
         }
 
         public override void setEditMode()
         {
-            //ensureEditWidgetExists(TableWidget);
-            //if (!editWidget.Visible)
-            //{
-            //    editWidget.Visible = true;
-            //    if (staticWidget != null)
-            //    {
-            //        staticWidget.Visible = false;
-            //    }
-            //    InputManager.Instance.setKeyFocusWidget(editWidget);
-            //}
-            long lval = Convert.ToInt64(Enum.Parse(typeof(EnumType), value.ToString()));
-            FlagsEnumEditor flagsEditor = new FlagsEnumEditor(typeof(EnumType), lval);
+            FlagsEnumEditor flagsEditor = new FlagsEnumEditor(typeof(EnumType), Convert.ToInt64(value));
             flagsEditor.Modal = true;
             flagsEditor.center();
             flagsEditor.Visible = true;
@@ -80,10 +55,6 @@ namespace Anomalous.GuiFramework.Editor
 
         protected override void sizeChanged()
         {
-            if (editWidget != null)
-            {
-                editWidget.setSize(Size.Width, Size.Height);
-            }
             if (staticWidget != null)
             {
                 staticWidget.setSize(Size.Width, Size.Height);
@@ -92,10 +63,6 @@ namespace Anomalous.GuiFramework.Editor
 
         protected override void positionChanged()
         {
-            if (editWidget != null)
-            {
-                editWidget.setPosition(Position.x, Position.y);
-            }
             if (staticWidget != null)
             {
                 staticWidget.setPosition(Position.x, Position.y);
@@ -106,14 +73,7 @@ namespace Anomalous.GuiFramework.Editor
         {
             get
             {
-                if (editWidget != null)
-                {
-                    return editWidget.SelectedItemData;
-                }
-                else
-                {
-                    return value;
-                }
+                return editedValue;
             }
         }
 
@@ -165,10 +125,6 @@ namespace Anomalous.GuiFramework.Editor
                 if (!this.value.Equals(sentValue))
                 {
                     this.value = sentValue;
-                    if (editWidget != null)
-                    {
-                        editWidget.SelectedIndex = editWidget.findItemIndexWithData(sentValue);
-                    }
                     if (staticWidget != null)
                     {
                         staticWidget.Caption = sentValue.ToString();
@@ -182,43 +138,11 @@ namespace Anomalous.GuiFramework.Editor
         {
             if (staticWidget == null)
             {
-                staticWidget = (TextBox)parentWidget.createWidgetT("Button", "StaticTableCell", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "");
+                staticWidget = (Button)parentWidget.createWidgetT("Button", "StaticTableCell", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "");
                 staticWidget.MouseButtonClick += new MyGUIEvent(staticWidget_MouseButtonClick);
                 staticWidget.Caption = value.ToString();
                 staticWidget.TextAlign = Align.Left | Align.VCenter;
-                staticWidget.Visible = false;
             }
-        }
-
-        private void ensureEditWidgetExists(Widget parentWidget)
-        {
-            if (editWidget == null)
-            {
-                editWidget = parentWidget.createWidgetT("ComboBox", "ComboBox", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "") as ComboBox;
-                editWidget.EditStatic = true;
-                editWidget.EventComboChangePosition += editWidget_EventComboChangePosition;
-                editWidget.KeyButtonReleased += new MyGUIEvent(editWidget_KeyButtonReleased);
-                foreach (var option in comboOptions())
-                {
-                    editWidget.addItem(option.First, option.Second);
-                }
-                editWidget.SelectedIndex = editWidget.findItemIndexWithData(value);
-                editWidget.Visible = false;
-            }
-        }
-
-        void editWidget_KeyButtonReleased(Widget source, EventArgs e)
-        {
-            KeyEventArgs ke = (KeyEventArgs)e;
-            if (ke.Key == Engine.Platform.KeyboardButtonCode.KC_RETURN)
-            {
-                clearCellEdit();
-            }
-        }
-
-        void editWidget_EventComboChangePosition(Widget source, EventArgs e)
-        {
-            clearCellEdit();
         }
 
         void staticWidget_MouseButtonClick(Widget source, EventArgs e)
@@ -227,11 +151,6 @@ namespace Anomalous.GuiFramework.Editor
             {
                 requestCellEdit();
             }
-        }
-
-        private IEnumerable<Pair<String, Object>> comboOptions()
-        {
-            return typeof(EnumType).GetFields(BindingFlags.Public | BindingFlags.Static).Select(fieldInfo => new Pair<String, Object>(fieldInfo.Name, Enum.ToObject(typeof(EnumType), fieldInfo.GetRawConstantValue())));
         }
     }
 }
