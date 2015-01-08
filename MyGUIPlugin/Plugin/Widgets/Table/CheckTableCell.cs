@@ -7,8 +7,7 @@ namespace MyGUIPlugin
 {
     public class CheckTableCell : TableCell
     {
-        private CheckButton editWidget;
-        private Button staticWidget;
+        private CheckButton checkButton; //Instead of swapping actual widgets we just change what events we listen to on this object. This way we check the button on a single click.
         private bool value = false;
         private bool firingLostFocus = false;
 
@@ -19,42 +18,27 @@ namespace MyGUIPlugin
 
         public override void Dispose()
         {
-            if (editWidget != null)
+            if (checkButton != null)
             {
-                Gui.Instance.destroyWidget(editWidget.Button);
-                editWidget = null;
-            }
-            if (staticWidget != null)
-            {
-                Gui.Instance.destroyWidget(staticWidget);
-                staticWidget = null;
+                Gui.Instance.destroyWidget(checkButton.Button);
+                checkButton = null;
             }
         }
 
         public override void setStaticMode()
         {
-            ensureStaticWidgetExists(Table.TableWidget);
-            if (!staticWidget.Visible)
-            {
-                staticWidget.Visible = true;
-                if (editWidget != null)
-                {
-                    editWidget.Button.Visible = false;
-                }
-            }
+            ensureWidgetExists(Table.TableWidget);
+            checkButton.Button.KeyButtonReleased -= checkButton_editMode_KeyButtonReleased;
+            checkButton.Button.MouseLostFocus -= checkButton_editMode_MouseLostFocus;
+            checkButton.Button.MouseButtonClick += checkButton_staticMode_MouseButtonClick;
         }
 
         public override void setEditMode()
         {
-            ensureEditWidgetExists(Table.TableWidget);
-            if (!editWidget.Button.Visible)
-            {
-                editWidget.Button.Visible = true;
-                if (staticWidget != null)
-                {
-                    staticWidget.Visible = false;
-                }
-            }
+            ensureWidgetExists(Table.TableWidget);
+            checkButton.Button.KeyButtonReleased += checkButton_editMode_KeyButtonReleased;
+            checkButton.Button.MouseLostFocus += checkButton_editMode_MouseLostFocus;
+            checkButton.Button.MouseButtonClick -= checkButton_staticMode_MouseButtonClick;
         }
 
         public override TableCell clone()
@@ -64,25 +48,17 @@ namespace MyGUIPlugin
 
         protected override void sizeChanged()
         {
-            if (editWidget != null)
+            if (checkButton != null)
             {
-                editWidget.Button.setSize(Size.Width, Size.Height);
-            }
-            if (staticWidget != null)
-            {
-                staticWidget.setSize(Size.Width, Size.Height);
+                checkButton.Button.setSize(Size.Width, Size.Height);
             }
         }
 
         protected override void positionChanged()
         {
-            if (editWidget != null)
+            if (checkButton != null)
             {
-                editWidget.Button.setPosition(Position.x, Position.y);
-            }
-            if (staticWidget != null)
-            {
-                staticWidget.setPosition(Position.x, Position.y);
+                checkButton.Button.setPosition(Position.x, Position.y);
             }
         }
 
@@ -90,9 +66,9 @@ namespace MyGUIPlugin
         {
             get
             {
-                if (editWidget != null)
+                if (checkButton != null)
                 {
-                    return editWidget.Checked;
+                    return checkButton.Checked;
                 }
                 else
                 {
@@ -103,7 +79,7 @@ namespace MyGUIPlugin
 
         protected override void commitEditValueToValueImpl()
         {
-            Value = editWidget.Checked;
+            Value = checkButton.Checked;
         }
 
         public override object Value
@@ -129,44 +105,25 @@ namespace MyGUIPlugin
                 if (this.value != sentValue)
                 {
                     this.value = sentValue;
-                    if (editWidget != null)
+                    if (checkButton != null)
                     {
-                        editWidget.Checked = sentValue;
-                    }
-                    if (staticWidget != null)
-                    {
-                        staticWidget.Selected = sentValue;
+                        checkButton.Checked = sentValue;
                     }
                     fireCellValueChanged();
                 }
             }
         }
 
-        private void ensureStaticWidgetExists(Widget parentWidget)
+        private void ensureWidgetExists(Widget parentWidget)
         {
-            if (staticWidget == null)
+            if (checkButton == null)
             {
-                staticWidget = parentWidget.createWidgetT("Button", "TableCellCheckBox", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "") as Button;
-                staticWidget.MouseButtonClick += new MyGUIEvent(staticWidget_MouseButtonClick);
-                staticWidget.Selected = value;
-                staticWidget.TextAlign = Align.Left | Align.VCenter;
-                staticWidget.Visible = false;
+                checkButton = new CheckButton(parentWidget.createWidgetT("Button", "TableCellCheckBox", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "") as Button);
+                checkButton.Checked = value;
             }
         }
 
-        private void ensureEditWidgetExists(Widget parentWidget)
-        {
-            if (editWidget == null)
-            {
-                editWidget = new CheckButton(parentWidget.createWidgetT("Button", "TableCellCheckBox", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "") as Button);
-                editWidget.Button.KeyButtonReleased += new MyGUIEvent(editWidget_KeyButtonReleased);
-                editWidget.Button.MouseLostFocus += new MyGUIEvent(Button_MouseLostFocus);
-                editWidget.Checked = value;
-                editWidget.Button.Visible = false;
-            }
-        }
-
-        void Button_MouseLostFocus(Widget source, EventArgs e)
+        void checkButton_editMode_MouseLostFocus(Widget source, EventArgs e)
         {
             //This fires twice from mygui during this process so block it
             if (!firingLostFocus)
@@ -177,7 +134,7 @@ namespace MyGUIPlugin
             }
         }
 
-        void editWidget_KeyButtonReleased(Widget source, EventArgs e)
+        void checkButton_editMode_KeyButtonReleased(Widget source, EventArgs e)
         {
             KeyEventArgs ke = (KeyEventArgs)e;
             if (ke.Key == Engine.Platform.KeyboardButtonCode.KC_RETURN)
@@ -186,7 +143,7 @@ namespace MyGUIPlugin
             }
         }
 
-        void staticWidget_MouseButtonClick(Widget source, EventArgs e)
+        void checkButton_staticMode_MouseButtonClick(Widget source, EventArgs e)
         {
             if (!Table.Columns[ColumnIndex].ReadOnly)
             {
