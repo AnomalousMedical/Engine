@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace MyGUIPlugin
 {
-    public class ComboBox : Widget
+    public class ComboBox : EditBox
     {
         public const uint Invalid = uint.MaxValue;
 

@@ -233,34 +233,30 @@ namespace Anomalous.GuiFramework.Editor
                     return cell;
                 }
             }
-            //if (propType.IsEnum)
-            //{
-            //    if (propType.GetCustomAttributes(typeof(SingleEnumAttribute), true).Length > 0)
-            //    {
-            //        SingleEnumEditorCell editorCell = new SingleEnumEditorCell();
-            //        editorCell.populateCombo(propType);
-            //        return editorCell;
-            //    }
-            //    else if (propType.GetCustomAttributes(typeof(MultiEnumAttribute), true).Length > 0)
-            //    {
-            //        MultiEnumEditorCell editorCell = new MultiEnumEditorCell();
-            //        editorCell.EnumType = propType;
-            //        return editorCell;
-            //    }
-            //    else
-            //    {
-            //        DataGridViewTextBoxCell cell = new DataGridViewTextBoxCell();
-            //        return cell;
-            //    }
-            //}
+            if (propType.IsEnum)
+            {
+                if (propType.GetCustomAttributes(typeof(FlagsAttribute), true).Length > 0)
+                {
+                    //        MultiEnumEditorCell editorCell = new MultiEnumEditorCell();
+                    //        editorCell.EnumType = propType;
+                    //        return editorCell;
+                }
+                else
+                {
+                    Type genericEditor = typeof(EnumComboBoxTableCell<>).MakeGenericType(propType);
+                    return Activator.CreateInstance(genericEditor) as TableCell;
+                }
+            }
             if (propType == typeof(bool))
             {
                 return new CheckTableCell();
             }
+
             if (propType == typeof(Color))
             {
                 return new ColorEditCell();
             }
+
             if (hasBrowser)
             {
                 return new EditTableBrowserCell(uiCallback, property);

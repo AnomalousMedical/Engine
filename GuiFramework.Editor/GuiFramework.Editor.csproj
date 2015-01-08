@@ -86,6 +86,7 @@
     <Compile Include="GUI\PropertiesForm\ScrollablePropertiesForm.cs" />
     <Compile Include="GUI\PropertiesTable\AddRemoveButtons.cs" />
     <Compile Include="GUI\PropertiesTable\ColorEditCell.cs" />
+    <Compile Include="GUI\PropertiesTable\EnumComboBoxTableCell.cs" />
     <Compile Include="GUI\PropertiesTable\EditTableBrowserCell.cs" />
     <Compile Include="GUI\PropertiesTable\ICustomCellProvider.cs" />
     <Compile Include="GUI\PropertiesTable\PropertiesTable.cs" />
