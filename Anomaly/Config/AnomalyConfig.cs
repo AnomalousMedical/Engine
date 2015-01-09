@@ -54,6 +54,14 @@ namespace Anomaly
             }
         }
 
+        public static String WindowsFile
+        {
+            get
+            {
+                return AnomalyConfig.DocRoot + "/WindowConfig.ini";
+            }
+        }
+
         public static ToolsConfig Tools
         {
             get

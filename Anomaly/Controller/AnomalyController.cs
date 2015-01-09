@@ -223,9 +223,6 @@ namespace Anomaly
 
             solutionWindow = new SolutionWindow();
             guiManager.addManagedDialog(solutionWindow);
-            solutionWindow.Visible = true;
-
-            propertiesEditor.showRelativeTo(solutionWindow, WindowAlignment.Right);
 
             mainObjectEditor = new PropertiesEditor("Object Editor", "Anomaly.GUI.ObjectEditor", true);
             mainObjectEditor.AllowedDockLocations = DockLocation.Floating;
@@ -240,12 +237,32 @@ namespace Anomaly
             //Create GUI
             consoleWindow = new LogWindow();
             guiManager.addManagedDialog(consoleWindow);
-            consoleWindow.Visible = true;
             Log.Default.addLogListener(consoleWindow);
 
             debugVisualizer = new DebugVisualizer(pluginManager, sceneController);
             guiManager.addManagedDialog(debugVisualizer);
-            debugVisualizer.Visible = true;
+            
+
+            if (File.Exists(AnomalyConfig.WindowsFile))
+            {
+                ConfigFile configFile = new ConfigFile(AnomalyConfig.WindowsFile);
+                configFile.loadConfigFile();
+                guiManager.loadSavedUI(configFile, new Version("1.0.0.0"));
+
+                //Show Windows Default
+                solutionWindow.Visible = true;
+                propertiesEditor.Visible = true;
+                consoleWindow.Visible = true;
+                debugVisualizer.Visible = true;
+            }
+            else
+            {
+                //Show Windows Default
+                solutionWindow.Visible = true;
+                propertiesEditor.showRelativeTo(solutionWindow, WindowAlignment.Right);
+                consoleWindow.Visible = true;
+                debugVisualizer.Visible = true;
+            }
 
             yield return IdleStatus.Ok;
 
@@ -265,6 +282,15 @@ namespace Anomaly
         /// </summary>
         public void Dispose()
         {
+            //Save UI
+            if (guiManager != null && AnomalyConfig.WindowsFile != null)
+            {
+                ConfigFile configFile = new ConfigFile(AnomalyConfig.WindowsFile);
+                guiManager.saveUI(configFile, GetType().Assembly.GetName().Version);
+                configFile.writeConfigFile();
+            }
+
+            //Dispose
             if(consoleWindow != null)
             {
                 Log.Default.removeLogListener(consoleWindow);
