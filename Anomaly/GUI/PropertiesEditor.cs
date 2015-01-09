@@ -1,5 +1,6 @@
 ﻿using Anomalous.GuiFramework;
 using Anomalous.GuiFramework.Editor;
+using Engine;
 using Engine.Editing;
 using MyGUIPlugin;
 using System;
@@ -127,6 +128,18 @@ namespace Anomaly.GUI
             {
                 MainInterfaceChanged.Invoke(null, null);
             }
+        }
+
+        protected override void customDeserialize(ConfigSection section, ConfigFile file)
+        {
+            base.customDeserialize(section, file);
+            splitter.SplitterPosition = section.getValue("SplitterPosition", splitter.SplitterPosition);
+        }
+
+        protected override void customSerialize(ConfigSection section, ConfigFile file)
+        {
+            base.customSerialize(section, file);
+            section.setValue("SplitterPosition", splitter.SplitterPosition);
         }
 
         public String Caption

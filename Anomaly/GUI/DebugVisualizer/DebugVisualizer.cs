@@ -99,6 +99,18 @@ namespace Anomaly.GUI
             }
         }
 
+        protected override void customDeserialize(ConfigSection section, ConfigFile file)
+        {
+            base.customDeserialize(section, file);
+            splitter.SplitterPosition = section.getValue("SplitterPosition", splitter.SplitterPosition);
+        }
+
+        protected override void customSerialize(ConfigSection section, ConfigFile file)
+        {
+            base.customSerialize(section, file);
+            section.setValue("SplitterPosition", splitter.SplitterPosition);
+        }
+
         void sceneLoaded(SimScene scene)
         {
             currentScene = scene;
