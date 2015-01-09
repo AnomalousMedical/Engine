@@ -158,7 +158,7 @@ namespace Anomaly
             sceneViewController = new SceneViewController(mdiLayout, eventManager, mainTimer, pluginManager.RendererPlugin.PrimaryWindow, MyGUIInterface.Instance.OgrePlatform.getRenderManager(), null);
             sceneStatsDisplayManager = new SceneStatsDisplayManager(sceneViewController, OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget);
             sceneStatsDisplayManager.StatsVisible = true;
-            sceneViewController.createWindow("Camera 1", Vector3.Backward * 100, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
+            sceneViewController.createWindow("Camera 1", AnomalyConfig.CameraConfig.MainCameraPosition, AnomalyConfig.CameraConfig.MainCameraLookAt, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
 
             //Tools
             selectionMovementTools = new SimObjectMover("SelectionMover", PluginManager.Instance.RendererPlugin, eventManager, sceneViewController);
@@ -283,6 +283,13 @@ namespace Anomaly
         public void Dispose()
         {
             //Save UI
+            var activeWindow = sceneViewController.ActiveWindow;
+            if (activeWindow != null)
+            {
+                AnomalyConfig.CameraConfig.MainCameraPosition = activeWindow.Translation;
+                AnomalyConfig.CameraConfig.MainCameraLookAt = activeWindow.LookAt;
+            }
+
             if (guiManager != null && AnomalyConfig.WindowsFile != null)
             {
                 ConfigFile configFile = new ConfigFile(AnomalyConfig.WindowsFile);

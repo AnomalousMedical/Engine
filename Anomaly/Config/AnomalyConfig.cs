@@ -26,6 +26,7 @@ namespace Anomaly
             RecentDocuments = new RecentDocuments(configFile);
             configFile.loadConfigFile();
             EngineConfig = new EngineConfig(configFile);
+            CameraConfig = new CameraSection(configFile);
             tools = new ToolsConfig(configFile);
         }
 
@@ -45,6 +46,8 @@ namespace Anomaly
         public static RecentDocuments RecentDocuments { get; private set; }
 
         public static EngineConfig EngineConfig { get; private set; }
+
+        public static CameraSection CameraConfig { get; private set; }
 
         public static ConfigFile ConfigFile
         {
