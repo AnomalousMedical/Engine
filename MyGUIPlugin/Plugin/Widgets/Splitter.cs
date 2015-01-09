@@ -30,14 +30,14 @@ namespace MyGUIPlugin
 
         /// <summary>
         /// Called when widget 1 is resized. This could be because the user dragged the splitter,
-        /// the <see cref="parentResized"/> function was called or the position percent was set programatically
+        /// the <see cref="layout"/> function was called or the position percent was set programatically
         /// via <see cref="SplitterPosition"/>.
         /// </summary>
         public event Action<Splitter> Widget1Resized;
 
         /// <summary>
         /// Called when widget 2 is resized. This could be because the user dragged the splitter,
-        /// the <see cref="parentResized"/> function was called or the position percent was set programatically
+        /// the <see cref="layout"/> function was called or the position percent was set programatically
         /// via <see cref="SplitterPosition"/>.
         /// </summary>
         public event Action<Splitter> Widget2Resized;
@@ -48,9 +48,11 @@ namespace MyGUIPlugin
         /// <param name="splitterWidget">The widget to use as a splitter.</param>
         /// <param name="widget1">The first widget.</param>
         /// <param name="widget2">The second widget.</param>
-        public Splitter(Widget splitterWidget, Widget widget1, Widget widget2)
+        /// <param name="horizontal">True to be a horizontal splitter and false to be vertical.</param>
+        public Splitter(Widget splitterWidget, Widget widget1, Widget widget2, bool horizontal)
         {
             this.splitterWidget = splitterWidget;
+            this.horizontal = horizontal;
             splitterParent = splitterWidget.Parent;
             splitterPositionPercent = (float)splitterWidget.Left / splitterParent.Width;
             splitterWidget.MouseDrag += splitterWidget_MouseDrag;
@@ -61,10 +63,9 @@ namespace MyGUIPlugin
         }
 
         /// <summary>
-        /// Call this when the parent widget for this splitter resizes, this will move the splitter and
-        /// its widgets to the correct new position and will fire <see cref="Widget1Resized"/> and <see cref="Widget1Resized"/> as appropriate.
+        /// Call this to layout the splitter and widgets. It will fire <see cref="Widget1Resized"/> and <see cref="Widget1Resized"/> as appropriate.
         /// </summary>
-        public void parentResized()
+        public void layout()
         {
             if(horizontal)
             {
@@ -101,6 +102,38 @@ namespace MyGUIPlugin
                 {
 
                 }
+            }
+        }
+
+        /// <summary>
+        /// The minimum size for Widget 1. Setting this will not adjust the widgets, you must call <see cref="layout"/>
+        /// to update the widgets.
+        /// </summary>
+        public int Widget1Min
+        {
+            get
+            {
+                return widget1Min;
+            }
+            set
+            {
+                widget1Min = value;
+            }
+        }
+
+        /// <summary>
+        /// The minimum size for Widget 2. Setting this will not adjust the widgets, you must call <see cref="layout"/>
+        /// to update the widgets.
+        /// </summary>
+        public int Widget2Min
+        {
+            get
+            {
+                return widget2Min;
+            }
+            set
+            {
+                widget2Min = value;
             }
         }
 
