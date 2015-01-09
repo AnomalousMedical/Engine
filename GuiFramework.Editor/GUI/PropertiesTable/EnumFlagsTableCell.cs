@@ -95,17 +95,10 @@ namespace Anomalous.GuiFramework.Editor
                 {
                     if(value is long)
                     {
-                        //Going through a string is the safest way to make sure we don't unbox to the wrong enum underlying type and we can't cast directly.
-                        //This isn't performance sensitive anyway so it doesn't really matter even though this is a bit crazy.
-                        long parsed;
-                        if (long.TryParse(value.ToString(), out parsed))
-                        {
-                            sentValue = (EnumType)Enum.Parse(typeof(EnumType), value.ToString());
-                        }
+                        sentValue = (EnumType)Enum.ToObject(typeof(EnumType), value);
                     }
                     if (value is String)
                     {
-                        //If we are a String try to parse
                         try
                         {
                             sentValue = (EnumType)Enum.Parse(typeof(EnumType), value.ToString());
@@ -117,7 +110,6 @@ namespace Anomalous.GuiFramework.Editor
                     }
                     else if (value is EnumType)
                     {
-                        //If we are the direct type just use it.
                         sentValue = (EnumType)value;
                     }
                 }
