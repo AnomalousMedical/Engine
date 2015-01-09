@@ -151,9 +151,7 @@ namespace Anomaly.GUI
 
         void DebugVisualizer_Resized(object sender, EventArgs e)
         {
-            splitter.resized();
-            tree.layout();
-            table.layout();
+            splitter.parentResized();
         }
 
         void splitter_Moved(Splitter obj)
