@@ -56,6 +56,34 @@
   <Tag name="Anomalous_ListItem_Text_HighlightedChecked">#ffffff</Tag>
   <Tag name="Anomalous_ListItem_Text_PushedChecked">#ffffff</Tag>
   
+  <!-- Table Colors -->
+  <Tag name="Anomalous_TableCell_Text_Disabled">#b1b1b1</Tag>
+  <Tag name="Anomalous_TableCell_Text_Normal">#161616</Tag>
+  <Tag name="Anomalous_TableCell_Text_Highlighted">#161616</Tag>
+  <Tag name="Anomalous_TableCell_Text_Pushed">#161616</Tag>
+  <Tag name="Anomalous_TableCell_Text_DisabledChecked">#b1b1b1</Tag>
+  <Tag name="Anomalous_TableCell_Text_NormalChecked">#ffffff</Tag>
+  <Tag name="Anomalous_TableCell_Text_HighlightedChecked">#ffffff</Tag>
+  <Tag name="Anomalous_TableCell_Text_PushedChecked">#ffffff</Tag>
+
+  <Tag name="Anomalous_TableCell_Center_Disabled">#d2d2d2</Tag>
+  <Tag name="Anomalous_TableCell_Center_Normal">#ffffff</Tag>
+  <Tag name="Anomalous_TableCell_Center_Highlighted">#ffffff</Tag>
+  <Tag name="Anomalous_TableCell_Center_Pushed">#ffffff</Tag>
+  <Tag name="Anomalous_TableCell_Center_DisabledChecked">#5588bb</Tag>
+  <Tag name="Anomalous_TableCell_Center_NormalChecked">#5588bb</Tag>
+  <Tag name="Anomalous_TableCell_Center_HighlightedChecked">#6699cc</Tag>
+  <Tag name="Anomalous_TableCell_Center_PushedChecked">#77aadd</Tag>
+  
+  <Tag name="Anomalous_TableCell_Border_Disabled">#cfcfcf</Tag>
+  <Tag name="Anomalous_TableCell_Border_Normal">#cccccc</Tag>
+  <Tag name="Anomalous_TableCell_Border_Highlighted">#4477aa</Tag>
+  <Tag name="Anomalous_TableCell_Border_Pushed">#6699cc</Tag>
+  <Tag name="Anomalous_TableCell_Border_DisabledChecked">#6479ca</Tag>
+  <Tag name="Anomalous_TableCell_Border_NormalChecked">#6497ca</Tag>
+  <Tag name="Anomalous_TableCell_Border_HighlightedChecked">#75a8db</Tag>
+  <Tag name="Anomalous_TableCell_Border_PushedChecked">#86b9ec</Tag>
+  
   <!-- Separator Colors -->
   <Tag name="Anomalous_Separator_Normal">#e8e8e8</Tag>
   <Tag name="Anomalous_Separator_Inverse">#424242</Tag>
