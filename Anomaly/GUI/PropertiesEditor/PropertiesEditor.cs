@@ -52,8 +52,7 @@ namespace Anomaly.GUI
 
             uiCallback = new GuiFrameworkUICallback();
 
-            ScrollView treeScroller = (ScrollView)window.findWidget("TreeScroller");
-            tree = new Tree(treeScroller);
+            tree = new Tree((ScrollView)window.findWidget("TreeScroller"));
             editTreeView = new EditInterfaceTreeView(tree, uiCallback);
             editTreeView.EditInterfaceSelectionChanged += editTreeView_EditInterfaceSelectionChanged;
             editTreeView.EditInterfaceAdded += editTreeView_EditInterfaceAdded;
@@ -75,7 +74,7 @@ namespace Anomaly.GUI
 
             gap = tableScroller.Bottom - addRemoveButtons.Top;
 
-            splitter = new Splitter(window.findWidget("Splitter"), treeScroller, window.findWidget("PropertiesPanel"), true);
+            splitter = new Splitter(window.findWidget("Splitter"));
             splitter.Widget1Resized += split => tree.layout();
             splitter.Widget2Resized += split => table.layout();
         }

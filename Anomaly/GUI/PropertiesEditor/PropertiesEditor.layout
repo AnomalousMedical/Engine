@@ -18,7 +18,10 @@
                 </Widget>
             </Widget>
         </Widget>
-        <Widget type="Widget" skin="PanelEmpty" position="231 0 4 364" align="Left VStretch" name="Splitter"/>
+        <Widget type="Widget" skin="PanelEmpty" position="231 0 4 364" align="Left VStretch" name="Splitter">
+            <UserString key="Widget1Name" value="TreeScroller"/>
+            <UserString key="Widget2Name" value="PropertiesPanel"/>
+        </Widget>
     </Widget>
     <CodeGeneratorSettings/>
 </MyGUI>

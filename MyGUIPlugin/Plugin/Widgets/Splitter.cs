@@ -20,8 +20,8 @@ namespace MyGUIPlugin
         private IntVector2 dragLastPosition;
         private IntSize2 dragTotalSize;
 
-        private int widget1Min = 50;
-        private int widget2Min = 50;
+        private int widget1Min = ScaleHelper.Scaled(50);
+        private int widget2Min = ScaleHelper.Scaled(50);
         private int lastWidget1Size = int.MinValue;
         private int lastWidget2Size = int.MinValue;
 
@@ -43,7 +43,24 @@ namespace MyGUIPlugin
         public event Action<Splitter> Widget2Resized;
 
         /// <summary>
-        /// Constructor.
+        /// Constructor that will lookup the properties of the splitter from User Strings on the passed Widget.
+        /// Whether this is horizontal or vertical will depend on the dimensions of the passed widget. Width > Height
+        /// means vertical and Height > Width means horizontal.
+        /// <para>You must set several user strings on the passed widget.</para>
+        /// <para>Widget1Name - The name of the first widget. This is the top or left widget.</para>
+        /// <para>Widget2Name - The name of the second widget. This is the right or bottom widget.</para>
+        /// </summary>
+        /// <param name="splitterWidget">The splitter widget to use.</param>
+        public Splitter(Widget splitterWidget)
+        {
+            Widget splitterParent = splitterWidget.Parent;
+            String widget1Name = splitterWidget.getUserString("Widget1Name", () => { throw new MyGUIException("You must define a Widget1Name user string."); });
+            String widget2Name = splitterWidget.getUserString("Widget2Name", () => { throw new MyGUIException("You must define a Widget2Name user string."); });
+            setup(splitterWidget, splitterParent, splitterParent.findWidget(widget1Name), splitterParent.findWidget(widget2Name), splitterWidget.Height > splitterWidget.Width);
+        }
+
+        /// <summary>
+        /// Constructor allows you to pass all widgets manually.
         /// </summary>
         /// <param name="splitterWidget">The widget to use as a splitter.</param>
         /// <param name="widget1">The first widget.</param>
@@ -51,9 +68,14 @@ namespace MyGUIPlugin
         /// <param name="horizontal">True to be a horizontal splitter and false to be vertical.</param>
         public Splitter(Widget splitterWidget, Widget widget1, Widget widget2, bool horizontal)
         {
+            setup(splitterWidget, splitterWidget.Parent, widget1, widget2, horizontal);
+        }
+
+        private void setup(Widget splitterWidget, Widget splitterParent, Widget widget1, Widget widget2, bool horizontal)
+        {
             this.splitterWidget = splitterWidget;
+            this.splitterParent = splitterParent;
             this.horizontal = horizontal;
-            splitterParent = splitterWidget.Parent;
             splitterPositionPercent = (float)splitterWidget.Left / splitterParent.Width;
             splitterWidget.MouseDrag += splitterWidget_MouseDrag;
             splitterWidget.MouseButtonPressed += splitterWidget_MouseButtonPressed;

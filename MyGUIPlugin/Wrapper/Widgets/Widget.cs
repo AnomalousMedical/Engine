@@ -56,11 +56,22 @@ namespace MyGUIPlugin
             Widget_setUserString(widget, key, value);
         }
 
+        /// <summary>
+        /// Get a user string for <paramref name="key"/>.
+        /// </summary>
+        /// <param name="key">The key to lookup.</param>
+        /// <returns>The value associated with key.</returns>
         public String getUserString(String key)
         {
             return Marshal.PtrToStringAnsi(Widget_getUserString(widget, key));
         }
 
+        /// <summary>
+        /// Get a user string with a default if the key is not found.
+        /// </summary>
+        /// <param name="key">The key to lookup.</param>
+        /// <param name="defaultValue">The default value to return.</param>
+        /// <returns>The value associated with key or defaultValue if this is not found.</returns>
         public String getUserString(String key, String defaultValue)
         {
             if(isUserString(key))
@@ -68,6 +79,23 @@ namespace MyGUIPlugin
                 return getUserString(key);
             }
             return defaultValue;
+        }
+
+        /// <summary>
+        /// Get a user string calling an Action if it is not found. Useful to throw exceptions
+        /// if a user string is not found.
+        /// </summary>
+        /// <param name="key">The key to lookup.</param>
+        /// <param name="defaultNotFoundFunc">The action to call if the key is not found.</param>
+        /// <returns>The found string or null if it is not found.</returns>
+        public String getUserString(String key, Action defaultNotFoundFunc)
+        {
+            if (isUserString(key))
+            {
+                return getUserString(key);
+            }
+            defaultNotFoundFunc();
+            return null;
         }
 
         public bool clearUserString(String key)
