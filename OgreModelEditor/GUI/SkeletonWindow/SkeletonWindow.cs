@@ -20,7 +20,7 @@ namespace OgreModelEditor
             scrollView = window.findWidget("Scroller") as ScrollView;
             skeletonTree = new Tree(scrollView);
 
-            window.WindowChangedCoord += window_WindowChangedCoord;
+            this.Resized += SkeletonWindow_Resized;
         }
 
         public override void Dispose()
@@ -75,7 +75,7 @@ namespace OgreModelEditor
             skeletonTree.layout();
         }
 
-        void window_WindowChangedCoord(Widget source, EventArgs e)
+        void SkeletonWindow_Resized(object sender, EventArgs e)
         {
             skeletonTree.layout();
         }

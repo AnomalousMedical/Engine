@@ -28,7 +28,7 @@ namespace Anomaly.GUI
 
             editInterfaceView.EditInterfaceSelectionChanged += editInterfaceView_EditInterfaceSelectionChanged;
 
-            window.WindowChangedCoord += window_WindowChangedCoord;
+            this.Resized += SolutionWindow_Resized;
         }
 
         public override void Dispose()
@@ -61,7 +61,7 @@ namespace Anomaly.GUI
             }
         }
 
-        void window_WindowChangedCoord(Widget source, EventArgs e)
+        void SolutionWindow_Resized(object sender, EventArgs e)
         {
             tree.layout();
         }
