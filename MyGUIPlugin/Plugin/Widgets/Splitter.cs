@@ -22,8 +22,8 @@ namespace MyGUIPlugin
 
         private int widget1Min = ScaleHelper.Scaled(50);
         private int widget2Min = ScaleHelper.Scaled(50);
-        private int lastWidget1Size = int.MinValue;
-        private int lastWidget2Size = int.MinValue;
+        private IntSize2 lastWidget1Size = IntSize2.MinValue;
+        private IntSize2 lastWidget2Size = IntSize2.MinValue;
 
         private bool horizontal = true;
         private float splitterPositionPercent = 0.0f;
@@ -31,14 +31,16 @@ namespace MyGUIPlugin
         /// <summary>
         /// Called when widget 1 is resized. This could be because the user dragged the splitter,
         /// the <see cref="layout"/> function was called or the position percent was set programatically
-        /// via <see cref="SplitterPosition"/>.
+        /// via <see cref="SplitterPosition"/>. Note that this size change covers both width and height
+        /// no matter what the type of splitter this is.
         /// </summary>
         public event Action<Splitter> Widget1Resized;
 
         /// <summary>
         /// Called when widget 2 is resized. This could be because the user dragged the splitter,
         /// the <see cref="layout"/> function was called or the position percent was set programatically
-        /// via <see cref="SplitterPosition"/>.
+        /// via <see cref="SplitterPosition"/>. Note that this size change covers both width and height
+        /// no matter what the type of splitter this is.
         /// </summary>
         public event Action<Splitter> Widget2Resized;
 
@@ -277,7 +279,7 @@ namespace MyGUIPlugin
 
         private void fireMoved()
         {
-            int currentSize = horizontal ? widget1.Width : widget1.Height;
+            IntSize2 currentSize = horizontal ? widget1.Size : widget1.Size;
             if (currentSize != lastWidget1Size)
             {
                 lastWidget1Size = currentSize;
@@ -287,7 +289,7 @@ namespace MyGUIPlugin
                 }
             }
 
-            currentSize = horizontal ? widget2.Width : widget2.Height;
+            currentSize = horizontal ? widget2.Size : widget2.Size;
             if (currentSize != lastWidget2Size)
             {
                 lastWidget2Size = currentSize;

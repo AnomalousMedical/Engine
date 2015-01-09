@@ -13,6 +13,9 @@ namespace Engine
     [StructLayout(LayoutKind.Explicit, Size = 8)]
     public struct IntSize2 : Saveable
     {
+        public static readonly IntSize2 MinValue = new IntSize2(int.MinValue, int.MinValue);
+        public static readonly IntSize2 MaxValue = new IntSize2(int.MaxValue, int.MaxValue);
+
         [FieldOffset(0)]
         public int Width;
 
