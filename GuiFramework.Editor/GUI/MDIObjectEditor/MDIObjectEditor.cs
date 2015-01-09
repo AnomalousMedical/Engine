@@ -8,8 +8,22 @@ using System.Threading.Tasks;
 
 namespace Anomalous.GuiFramework.Editor
 {
+    /// <summary>
+    /// A basic object editor as an MDIDialog. It also has layouts defined that can be reused if you need slight tweaks
+    /// on the same basic type of gui.
+    /// </summary>
     public class MDIObjectEditor : MDIDialog
     {
+        /// <summary>
+        /// The name of the horizontal layout for easy reuse.
+        /// </summary>
+        public const String HorizontalLayoutName = "Anomalous.GuiFramework.Editor.GUI.MDIObjectEditor.MDIObjectEditorHorizontal.layout";
+
+        /// <summary>
+        /// The name of the vertical layout for easy reuse.
+        /// </summary>
+        public const String VerticalLayoutName = "Anomalous.GuiFramework.Editor.GUI.MDIObjectEditor.MDIObjectEditorVertical.layout";
+
         private GuiFrameworkUICallback uiCallback;
         private Tree tree;
         private EditInterfaceTreeView editTreeView;
@@ -23,8 +37,10 @@ namespace Anomalous.GuiFramework.Editor
 
         private int gap;
 
+        private Splitter splitter;
+
         public MDIObjectEditor(String caption, String persistName)
-            : base("Anomalous.GuiFramework.Editor.GUI.MDIObjectEditor.MDIObjectEditor.layout", persistName)
+            : base(HorizontalLayoutName, persistName)
         {
             window.Caption = caption;
 
@@ -45,6 +61,10 @@ namespace Anomalous.GuiFramework.Editor
             this.Resized += DebugVisualizer_Resized;
 
             gap = tableScroller.Bottom - addRemoveButtons.Top;
+
+            splitter = new Splitter(window.findWidget("Splitter"));
+            splitter.Widget1Resized += split => tree.layout();
+            splitter.Widget2Resized += split => table.layout();
         }
 
         public override void Dispose()
@@ -82,8 +102,7 @@ namespace Anomalous.GuiFramework.Editor
 
         void DebugVisualizer_Resized(object sender, EventArgs e)
         {
-            tree.layout();
-            table.layout();
+            splitter.layout();
         }
 
         void addRemoveButtons_VisibilityChanged(AddRemoveButtons source, bool visible)

@@ -112,7 +112,7 @@
     <Compile Include="GUI\EventLayers.cs" />
     <Compile Include="GUI\Main\AnomalyMain.cs" />
     <Compile Include="GUI\ObfuscateArchive\ObfuscateArchiveWindow.cs" />
-    <Compile Include="GUI\PropertiesEditor\PropertiesEditor.cs" />
+    <Compile Include="GUI\PropertiesEditor.cs" />
     <Compile Include="GUI\ProjectSelector.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -134,12 +134,6 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\ObfuscateArchive\ObfuscateArchiveWindow.layout" />
-    <EmbeddedResource Include="GUI\PropertiesEditor\PropertiesEditorVertical.layout">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\PropertiesEditor\PropertiesEditorHorizontal.layout">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="GUI\ProjectSelector.resx">
       <DependentUpon>ProjectSelector.cs</DependentUpon>
       <SubType>Designer</SubType>

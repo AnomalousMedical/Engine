@@ -145,6 +145,12 @@
     <EmbeddedResource Include="GUI\FlagsEnumEditor\FlagsEnumEditor.layout" />
     <EmbeddedResource Include="GUI\InputBrowserWindow.layout" />
     <EmbeddedResource Include="GUI\LogWindow\LogWindow.layout" />
+    <EmbeddedResource Include="GUI\MDIObjectEditor\MDIObjectEditorHorizontal.layout">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\MDIObjectEditor\MDIObjectEditorVertical.layout">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\PopupError\PopupError.layout" />
     <EmbeddedResource Include="GUI\PopupGenericEditor\PopupGenericEditor.layout" />
     <EmbeddedResource Include="GUI\PropertiesForm\PropertiesFormColorButton.layout" />
@@ -154,7 +160,6 @@
     <EmbeddedResource Include="GUI\PropertiesForm\PropertiesFormWidthHeight.layout" />
     <EmbeddedResource Include="GUI\PropertiesForm\PropertiesFormXY.layout" />
     <EmbeddedResource Include="GUI\PropertiesForm\PropertiesFormXYZ.layout" />
-    <EmbeddedResource Include="GUI\MDIObjectEditor\MDIObjectEditor.layout" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
