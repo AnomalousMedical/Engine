@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <MyGUI type="Layout" version="3.2.0">
-    <Widget type="Widget" skin="ButtonSkin" position="0 0 514 56" layer="Back">
-        <Widget type="MenuBar" skin="MenuBar" position="0 0 514 26" align="HStretch Top" name="MenuBar"/>
+    <Widget type="Widget" skin="ButtonSkin" position="0 0 692 56" layer="Back">
+        <Widget type="MenuBar" skin="MenuBar" position="0 0 692 26" align="HStretch Top" name="MenuBar"/>
         <Widget type="Button" skin="Button" position="167 27 75 27" name="None">
             <Property key="Caption" value="None"/>
         </Widget>
@@ -17,6 +17,21 @@
         <Widget type="Button" skin="Button" position="81 27 75 27" name="Pause">
             <Property key="Caption" value="Pause"/>
         </Widget>
+        <Widget type="TextBox" skin="TextBox" position="406 30 16 22">
+            <Property key="Caption" value="X:"/>
+            <Property key="TextAlign" value="Right VCenter"/>
+        </Widget>
+        <Widget type="EditBox" skin="EditBox" position="422 30 47 22" name="x"/>
+        <Widget type="TextBox" skin="TextBox" position="469 30 16 22">
+            <Property key="Caption" value="Y:"/>
+            <Property key="TextAlign" value="Right VCenter"/>
+        </Widget>
+        <Widget type="TextBox" skin="TextBox" position="532 30 16 22">
+            <Property key="Caption" value="Z:"/>
+            <Property key="TextAlign" value="Right VCenter"/>
+        </Widget>
+        <Widget type="EditBox" skin="EditBox" position="485 30 47 22" name="y"/>
+        <Widget type="EditBox" skin="EditBox" position="548 30 47 22" name="z"/>
     </Widget>
     <CodeGeneratorSettings/>
 </MyGUI>

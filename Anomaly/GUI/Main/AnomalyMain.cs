@@ -24,6 +24,10 @@ namespace Anomaly.GUI
         private MenuItem showStats;
         private Button playButton;
         private Button pauseButton;
+        private ButtonGroup toolButtons;
+        private NumericEdit x;
+        private NumericEdit y;
+        private NumericEdit z;
 
         public AnomalyMain(AnomalyController controller)
             : base("Anomaly.GUI.Main.AnomalyMain.layout")
@@ -86,7 +90,8 @@ namespace Anomaly.GUI
             }
 
             //Buttons
-            ButtonGroup toolButtons = new ButtonGroup();
+            toolButtons = new ButtonGroup();
+            toolButtons.SelectedButtonChanged += toolButtons_SelectedButtonChanged;
             Button none = widget.findWidget("None") as Button;
             none.MouseButtonClick += none_MouseButtonClick;
             toolButtons.addButton(none);
@@ -106,8 +111,33 @@ namespace Anomaly.GUI
             pauseButton.MouseButtonClick += pauseButton_MouseButtonClick;
             pauseButton.Enabled = false;
 
-            //Windows
-            
+            //Location Texts
+            x = new NumericEdit(widget.findWidget("x") as EditBox)
+            {
+                AllowFloat = true,
+                MinValue = float.MinValue,
+                MaxValue = float.MaxValue,
+                Enabled =false
+            };
+            x.ValueChanged += locationText_ValueChanged;
+            y = new NumericEdit(widget.findWidget("y") as EditBox)
+            {
+                AllowFloat = true,
+                MinValue = float.MinValue,
+                MaxValue = float.MaxValue,
+                Enabled = false
+            };
+            y.ValueChanged += locationText_ValueChanged;
+            z = new NumericEdit(widget.findWidget("z") as EditBox)
+            {
+                AllowFloat = true,
+                MinValue = float.MinValue,
+                MaxValue = float.MaxValue,
+                Enabled = false
+            };
+            z.ValueChanged += locationText_ValueChanged;
+
+            controller.SelectionController.OnSelectionChanged += SelectionController_OnSelectionChanged;
         }
 
         public SingleChildLayoutContainer LayoutContainer { get; private set; }
@@ -158,17 +188,89 @@ namespace Anomaly.GUI
 
         void none_MouseButtonClick(Widget source, EventArgs e)
         {
+            x.Enabled = false;
+            y.Enabled = false;
+            z.Enabled = false;
             controller.enableSelectTool();
-        }
-
-        void rotate_MouseButtonClick(Widget source, EventArgs e)
-        {
-            controller.enableRotateTool();
+            controller.SelectionController.OnSelectionRotated -= SelectionController_OnSelectionRotated;
+            controller.SelectionController.OnSelectionTranslated -= SelectionController_OnSelectionTranslated;
         }
 
         void move_MouseButtonClick(Widget source, EventArgs e)
         {
+            x.Edit.Enabled = controller.SelectionController.hasSelection();
+            y.Edit.Enabled = controller.SelectionController.hasSelection();
+            z.Edit.Enabled = controller.SelectionController.hasSelection();
             controller.enableMoveTool();
+            controller.SelectionController.OnSelectionRotated -= SelectionController_OnSelectionRotated;
+            controller.SelectionController.OnSelectionTranslated += SelectionController_OnSelectionTranslated;
+        }
+
+        void rotate_MouseButtonClick(Widget source, EventArgs e)
+        {
+            x.Edit.Enabled = controller.SelectionController.hasSelection();
+            y.Edit.Enabled = controller.SelectionController.hasSelection();
+            z.Edit.Enabled = controller.SelectionController.hasSelection();
+            controller.enableRotateTool();
+            controller.SelectionController.OnSelectionRotated += SelectionController_OnSelectionRotated;
+            controller.SelectionController.OnSelectionTranslated -= SelectionController_OnSelectionTranslated;
+        }
+
+        void toolButtons_SelectedButtonChanged(object sender, EventArgs e)
+        {
+            updateLocationTexts();
+        }
+
+        private void updateLocationTexts()
+        {
+            switch (toolButtons.SelectedButton.Name)
+            {
+                case "Move":
+                    Vector3 trans = controller.SelectionController.getSelectionTranslation();
+                    x.FloatValue = trans.x;
+                    y.FloatValue = trans.y;
+                    z.FloatValue = trans.z;
+                    break;
+                case "Rotate":
+                    Vector3 rot = controller.SelectionController.getSelectionRotation().getEuler();
+                    x.FloatValue = rot.x * Degree.FromRadian;
+                    y.FloatValue = rot.y * Degree.FromRadian;
+                    z.FloatValue = rot.z * Degree.FromRadian;
+                    break;
+            }
+        }
+
+        void SelectionController_OnSelectionTranslated(Vector3 newPosition)
+        {
+            updateLocationTexts();
+        }
+
+        void SelectionController_OnSelectionRotated(Quaternion newRotation)
+        {
+            updateLocationTexts();
+        }
+
+        void SelectionController_OnSelectionChanged(SelectionChangedArgs args)
+        {
+            x.Edit.Enabled = controller.SelectionController.hasSelection() && toolButtons.SelectedButton.Name != "None";
+            y.Edit.Enabled = controller.SelectionController.hasSelection() && toolButtons.SelectedButton.Name != "None";
+            z.Edit.Enabled = controller.SelectionController.hasSelection() && toolButtons.SelectedButton.Name != "None";
+            updateLocationTexts();
+        }
+
+        void locationText_ValueChanged(Widget source, EventArgs e)
+        {
+            switch (toolButtons.SelectedButton.Name)
+            {
+                case "Move":
+                    Vector3 trans = new Vector3(x.FloatValue, y.FloatValue, z.FloatValue);
+                    controller.SelectionController.translateSelectedObject(ref trans);
+                    break;
+                case "Rotate":
+                    Quaternion rot = new Quaternion(x.FloatValue * Radian.FromDegrees, y.FloatValue * Radian.FromDegrees, z.FloatValue * Radian.FromDegrees);
+                    controller.SelectionController.rotateSelectedObject(ref rot);
+                    break;
+            }
         }
 
         void pauseButton_MouseButtonClick(Widget source, EventArgs e)

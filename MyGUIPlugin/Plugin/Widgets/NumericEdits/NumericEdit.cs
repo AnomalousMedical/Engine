@@ -222,6 +222,18 @@ namespace MyGUIPlugin
             }
         }
 
+        public bool Enabled
+        {
+            get
+            {
+                return edit.Enabled;
+            }
+            set
+            {
+                edit.Enabled = value;
+            }
+        }
+
         /// <summary>
         /// Determines if the ValueChanged event is fired as the user types. Default: false.
         /// </summary>
