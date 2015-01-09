@@ -45,8 +45,8 @@ namespace Anomaly.GUI
 
         private Splitter splitter;
 
-        public PropertiesEditor(String caption, String persistName)
-            : base("Anomaly.GUI.PropertiesEditor.PropertiesEditor.layout", persistName)
+        public PropertiesEditor(String caption, String persistName, bool horizontal)
+            : base(horizontal ? "Anomaly.GUI.PropertiesEditor.PropertiesEditorHorizontal.layout" : "Anomaly.GUI.PropertiesEditor.PropertiesEditorVertical.layout", persistName)
         {
             window.Caption = caption;
 

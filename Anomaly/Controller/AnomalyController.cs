@@ -216,7 +216,7 @@ namespace Anomaly
             splashScreen.updateStatus(60, "Creating GUI");
             yield return IdleStatus.Ok;
 
-            propertiesEditor = new PropertiesEditor("Properties", "Anomaly.GUI.Properties");
+            propertiesEditor = new PropertiesEditor("Properties", "Anomaly.GUI.Properties", false);
             guiManager.addManagedDialog(propertiesEditor);
 
             interfaceRenderer = new EditInterfaceRendererController(pluginManager.RendererPlugin, mainTimer, sceneController, propertiesEditor);
@@ -227,7 +227,7 @@ namespace Anomaly
 
             propertiesEditor.showRelativeTo(solutionWindow, WindowAlignment.Right);
 
-            mainObjectEditor = new PropertiesEditor("Object Editor", "Anomaly.GUI.ObjectEditor");
+            mainObjectEditor = new PropertiesEditor("Object Editor", "Anomaly.GUI.ObjectEditor", true);
             mainObjectEditor.AllowedDockLocations = DockLocation.Floating;
             mainObjectEditor.CurrentDockLocation = DockLocation.Floating;
             guiManager.addManagedDialog(mainObjectEditor);

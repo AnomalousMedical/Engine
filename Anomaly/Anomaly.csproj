@@ -135,7 +135,10 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\ObfuscateArchive\ObfuscateArchiveWindow.layout" />
-    <EmbeddedResource Include="GUI\PropertiesEditor\PropertiesEditor.layout">
+    <EmbeddedResource Include="GUI\PropertiesEditor\PropertiesEditorVertical.layout">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\PropertiesEditor\PropertiesEditorHorizontal.layout">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\ProjectSelector.resx">

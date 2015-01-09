@@ -76,7 +76,7 @@ namespace MyGUIPlugin
             this.splitterWidget = splitterWidget;
             this.splitterParent = splitterParent;
             this.horizontal = horizontal;
-            splitterPositionPercent = (float)splitterWidget.Left / splitterParent.Width;
+            splitterPositionPercent = horizontal ? (float)splitterWidget.Left / splitterParent.Width : (float)splitterWidget.Top / splitterParent.Height;
             splitterWidget.MouseDrag += splitterWidget_MouseDrag;
             splitterWidget.MouseButtonPressed += splitterWidget_MouseButtonPressed;
             splitterWidget.Pointer = horizontal ? PointerManager.SIZE_HORZ : PointerManager.SIZE_VERT;
@@ -96,7 +96,8 @@ namespace MyGUIPlugin
             }
             else
             {
-
+                splitterWidget.Top = (int)(splitterParent.Height * splitterPositionPercent);
+                splitterMovedVertical();
             }
 
             fireMoved();
@@ -172,20 +173,29 @@ namespace MyGUIPlugin
             {
                 splitterWidget.Left += offset.x;
                 splitterMovedHorizontal();
+
+                if (splitterParent.Width != 0)
+                {
+                    splitterPositionPercent = (float)splitterWidget.Left / splitterParent.Width;
+                }
+                else
+                {
+                    splitterPositionPercent = .5f;
+                }
             }
             else
             {
                 splitterWidget.Top += offset.y;
-                splitterMovedVertical(); 
-            }
+                splitterMovedVertical();
 
-            if (splitterParent.Width != 0)
-            {
-                splitterPositionPercent = (float)splitterWidget.Left / splitterParent.Width;
-            }
-            else
-            {
-                splitterPositionPercent = .5f;
+                if (splitterParent.Height != 0)
+                {
+                    splitterPositionPercent = (float)splitterWidget.Top / splitterParent.Height;
+                }
+                else
+                {
+                    splitterPositionPercent = .5f;
+                }
             }
 
             fireMoved();
