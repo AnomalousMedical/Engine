@@ -76,7 +76,8 @@ namespace Anomaly.GUI
             gap = tableScroller.Bottom - addRemoveButtons.Top;
 
             splitter = new Splitter(window.findWidget("Splitter"), treeScroller, window.findWidget("PropertiesPanel"));
-            splitter.Moved += splitter_Moved;
+            splitter.Widget1Resized += split => tree.layout();
+            splitter.Widget2Resized += split => table.layout();
         }
 
         public override void Dispose()
@@ -152,12 +153,6 @@ namespace Anomaly.GUI
         void DebugVisualizer_Resized(object sender, EventArgs e)
         {
             splitter.parentResized();
-        }
-
-        void splitter_Moved(Splitter obj)
-        {
-            tree.layout();
-            table.layout();
         }
 
         void addRemoveButtons_VisibilityChanged(AddRemoveButtons source, bool visible)

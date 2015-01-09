@@ -22,17 +22,25 @@ namespace MyGUIPlugin
 
         private int widget1Min = 50;
         private int widget2Min = 50;
-        private int lastSplitterPosition = int.MinValue;
+        private int lastWidget1Size = int.MinValue;
+        private int lastWidget2Size = int.MinValue;
 
         private bool horizontal = true;
         private float splitterPositionPercent = 0.0f;
 
         /// <summary>
-        /// Called when the splitter moves. This could be because the user dragged the splitter,
+        /// Called when widget 1 is resized. This could be because the user dragged the splitter,
         /// the <see cref="parentResized"/> function was called or the position percent was set programatically
         /// via <see cref="SplitterPosition"/>.
         /// </summary>
-        public event Action<Splitter> Moved;
+        public event Action<Splitter> Widget1Resized;
+
+        /// <summary>
+        /// Called when widget 2 is resized. This could be because the user dragged the splitter,
+        /// the <see cref="parentResized"/> function was called or the position percent was set programatically
+        /// via <see cref="SplitterPosition"/>.
+        /// </summary>
+        public event Action<Splitter> Widget2Resized;
 
         /// <summary>
         /// Constructor.
@@ -54,7 +62,7 @@ namespace MyGUIPlugin
 
         /// <summary>
         /// Call this when the parent widget for this splitter resizes, this will move the splitter and
-        /// its widgets to the correct new position and will fire <see cref="Moved"/>.
+        /// its widgets to the correct new position and will fire <see cref="Widget1Resized"/> and <see cref="Widget1Resized"/> as appropriate.
         /// </summary>
         public void parentResized()
         {
@@ -72,8 +80,8 @@ namespace MyGUIPlugin
         }
 
         /// <summary>
-        /// Set the splitter position as a percentage of its parent widget. This will
-        /// also update the splitter and call the <see cref="Moved"/> event.
+        /// Set the splitter position as a percentage of its parent widget, this will move the splitter and
+        /// its widgets to the correct new position and will fire <see cref="Widget1Resized"/> and <see cref="Widget1Resized"/> as appropriate.
         /// </summary>
         public float SplitterPosition
         {
@@ -166,13 +174,23 @@ namespace MyGUIPlugin
 
         private void fireMoved()
         {
-            int currentPosition = horizontal ? splitterWidget.Left : splitterWidget.Top;
-            if (currentPosition != lastSplitterPosition)
+            int currentSize = horizontal ? widget1.Width : widget1.Height;
+            if (currentSize != lastWidget1Size)
             {
-                lastSplitterPosition = currentPosition;
-                if (Moved != null)
+                lastWidget1Size = currentSize;
+                if (Widget1Resized != null)
                 {
-                    Moved.Invoke(this);
+                    Widget1Resized.Invoke(this);
+                }
+            }
+
+            currentSize = horizontal ? widget2.Width : widget2.Height;
+            if (currentSize != lastWidget2Size)
+            {
+                lastWidget2Size = currentSize;
+                if (Widget2Resized != null)
+                {
+                    Widget2Resized.Invoke(this);
                 }
             }
         }
