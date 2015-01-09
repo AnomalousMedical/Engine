@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <MyGUI type="Layout" version="3.2.0">
-    <Widget type="Window" skin="WindowCX" position="333 94 180 113" layer="Overlapped">
-        <Widget type="Button" skin="Button" position="3 57 80 22" align="Left Bottom" name="Ok">
+    <Widget type="Window" skin="WindowCX" position="294 94 433 113" layer="Overlapped">
+        <Widget type="Button" skin="Button" position="116 58 80 22" align="Left Bottom" name="Ok">
             <Property key="Caption" value="Ok"/>
         </Widget>
-        <Widget type="Button" skin="Button" position="87 57 80 22" align="Left Bottom" name="Cancel">
+        <Widget type="Button" skin="Button" position="236 58 80 22" align="Left Bottom" name="Cancel">
             <Property key="Caption" value="Cancel"/>
         </Widget>
-        <Widget type="TextBox" skin="TextBox" position="0 2 168 31" align="Stretch" name="Prompt"/>
-        <Widget type="EditBox" skin="EditBox" position="0 35 168 19" align="HStretch Bottom" name="Input"/>
+        <Widget type="TextBox" skin="TextBox" position="0 2 421 31" align="Stretch" name="Prompt"/>
+        <Widget type="EditBox" skin="EditBox" position="0 33 421 22" align="HStretch Bottom" name="Input"/>
     </Widget>
+    <CodeGeneratorSettings/>
 </MyGUI>

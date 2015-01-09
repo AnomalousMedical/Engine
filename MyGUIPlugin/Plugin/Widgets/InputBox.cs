@@ -27,7 +27,7 @@ namespace MyGUIPlugin
         {
             input = window.findWidget("Input") as EditBox;
             input.Caption = text;
-            input.KeyButtonReleased += new MyGUIEvent(input_KeyButtonReleased);
+            input.KeyButtonPressed += input_KeyButtonPressed;
 
             prompt = window.findWidget("Prompt") as TextBox;
             //Figure out the size difference of the prompt and window
@@ -86,12 +86,17 @@ namespace MyGUIPlugin
 
         public bool Accepted { get; private set; }
 
-        void input_KeyButtonReleased(Widget source, EventArgs e)
+        void input_KeyButtonPressed(Widget source, EventArgs e)
         {
             KeyEventArgs ke = (KeyEventArgs)e;
-            if (ke.Key == KeyboardButtonCode.KC_RETURN)
+            switch (ke.Key)
             {
-                ok_MouseButtonClick(source, e);
+                case KeyboardButtonCode.KC_RETURN:
+                    ok_MouseButtonClick(source, e);
+                    break;
+                case KeyboardButtonCode.KC_ESCAPE:
+                    cancel_MouseButtonClick(source, e);
+                    break;
             }
         }
 
@@ -113,6 +118,7 @@ namespace MyGUIPlugin
             inputBox.SendResult = sendResult;
             inputBox.Closing += new EventHandler<DialogCancelEventArgs>(inputBox_Closing);
             inputBox.Closed += new EventHandler(inputBox_Closed);
+            inputBox.center();
             inputBox.open(modal);
         }
 
