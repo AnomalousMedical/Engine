@@ -100,8 +100,11 @@ namespace MyGUIPlugin
                 }
                 else
                 {
-
+                    splitterWidget.Top = (int)(splitterParent.Height * splitterPositionPercent);
+                    splitterMovedVertical();
                 }
+
+                fireMoved();
             }
         }
 
@@ -150,7 +153,8 @@ namespace MyGUIPlugin
             }
             else
             {
-                    
+                splitterWidget.Top += offset.y;
+                splitterMovedVertical(); 
             }
 
             if (splitterParent.Width != 0)
@@ -197,6 +201,40 @@ namespace MyGUIPlugin
             widget1.Width = widget1Width;
             widget2.Left = splitterWidget.Right;
             widget2.Width = widget2Width;
+        }
+
+        private void splitterMovedVertical()
+        {
+            int widget1Height = splitterWidget.Top;
+            if (widget1Height <= widget1Min)
+            {
+                widget1Height = widget1Min;
+                splitterWidget.Top = widget1Min;
+            }
+
+            int widget2Height = splitterParent.Height - splitterWidget.Bottom;
+            if (widget2Height < widget2Min)
+            {
+                widget2Height = widget2Min;
+                splitterWidget.Top = splitterParent.Height - widget2Height - splitterWidget.Height;
+                //Also reset the size for widget1 since we had to move the splitter
+                widget1Height = splitterWidget.Top;
+                //Critical condition where both are too small, in this case split up the visible area
+                if (widget1Height < widget1Min)
+                {
+                    widget1Height = widget2Height = splitterParent.Height / 2 - splitterWidget.Height;
+                    if (widget1Height < 0)
+                    {
+                        widget1Height = 0;
+                        widget2Height = 0;
+                    }
+                    splitterWidget.Top = widget1Height;
+                }
+            }
+
+            widget1.Height = widget1Height;
+            widget2.Top = splitterWidget.Bottom;
+            widget2.Height = widget2Height;
         }
 
         void splitterWidget_MouseButtonPressed(Widget source, EventArgs e)
