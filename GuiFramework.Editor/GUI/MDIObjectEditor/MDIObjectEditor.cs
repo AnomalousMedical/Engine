@@ -39,8 +39,8 @@ namespace Anomalous.GuiFramework.Editor
 
         private Splitter splitter;
 
-        public MDIObjectEditor(String caption, String persistName)
-            : base(HorizontalLayoutName, persistName)
+        public MDIObjectEditor(String caption, String persistName, bool horizontal = true)
+            : base(horizontal ? HorizontalLayoutName : VerticalLayoutName, persistName)
         {
             window.Caption = caption;
 

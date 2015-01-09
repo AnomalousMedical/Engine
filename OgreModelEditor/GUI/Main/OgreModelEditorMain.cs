@@ -116,9 +116,9 @@ namespace OgreModelEditor
             layout.addItemAction("Four Window", fourWindow);
             MenuItem renderingModeItem = window.addItem("Rendering Mode", MenuItemType.Popup);
             MenuControl renderingMode = window.createItemPopupMenuChild(renderingModeItem);
-            renderingMode.addItemAction("Solid", setSolid);
-            renderingMode.addItemAction("Wireframe", setWireframe);
-            renderingMode.addItemAction("Point", setPoints);
+            renderingMode.addItemAction("Solid (F6)", setSolid);
+            renderingMode.addItemAction("Wireframe (F7)", setWireframe);
+            renderingMode.addItemAction("Point (F8)", setPoints);
             window.addItemAction("Change Background Color", changeBackgroundColor);
 
             //Buttons
