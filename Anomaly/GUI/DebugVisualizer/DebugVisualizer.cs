@@ -109,7 +109,6 @@ namespace Anomaly.GUI
         {
             if (!firstShow && currentScene != null)
             {
-                //medicalController.OnLoopUpdate += MedicalController_OnLoopUpdate;
                 foreach (DebugInterface debugInterface in pluginManager.DebugInterfaces)
                 {
                     debugInterface.createDebugInterface(pluginManager.RendererPlugin, currentScene.getDefaultSubScene());
@@ -119,7 +118,6 @@ namespace Anomaly.GUI
 
         void sceneUnloading(SimScene scene)
         {
-            //medicalController.OnLoopUpdate -= MedicalController_OnLoopUpdate;
             currentScene = null;
             if (!firstShow)
             {
@@ -140,15 +138,5 @@ namespace Anomaly.GUI
             bool bVal;
             return bool.TryParse(str, out bVal);
         }
-
-        //void MedicalController_OnLoopUpdate(Clock time)
-        //{
-        //    //This is only active if the scene is not null and the debug visualizers are setup
-        //    SimSubScene subScene = currentScene.getDefaultSubScene();
-        //    foreach (DebugInterface debugInterface in pluginManager.DebugInterfaces)
-        //    {
-        //        debugInterface.renderDebug(subScene);
-        //    }
-        //}
     }
 }

@@ -2,7 +2,7 @@
 <MyGUI type="Layout" version="3.2.0">
     <Widget type="Window" skin="WindowCSX" position="19 33 695 397" layer="Overlapped">
         <Property key="Caption" value="Object Editor"/>
-        <Widget type="ScrollView" skin="ScrollView" position="0 0 231 364" align="HRelative VStretch" name="TreeScroller">
+        <Widget type="ScrollView" skin="ScrollView" position="0 0 231 364" align="Left VStretch" name="TreeScroller">
             <Property key="CanvasAlign" value="Left Top"/>
         </Widget>
         <Widget type="Widget" skin="PanelEmpty" position="235 0 448 364" align="Stretch" name="PropertiesPanel">
