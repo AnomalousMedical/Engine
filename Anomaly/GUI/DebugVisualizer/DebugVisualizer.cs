@@ -28,6 +28,8 @@ namespace Anomaly.GUI
 
         private ObjectEditor objectEditor;
 
+        private Splitter splitter;
+
         public DebugVisualizer(PluginManager pluginManager, SceneController sceneController)
             : base("Anomaly.GUI.DebugVisualizer.DebugVisualizer.layout")
         {
@@ -46,6 +48,10 @@ namespace Anomaly.GUI
             this.Resized += DebugVisualizer_Resized;
 
             currentScene = sceneController.CurrentScene;
+
+            splitter = new Splitter(window.findWidget("Splitter"));
+            splitter.Widget1Resized += a => tree.layout();
+            splitter.Widget2Resized += a => propertiesForm.layout();
         }
 
         public override void Dispose()
@@ -126,8 +132,7 @@ namespace Anomaly.GUI
 
         void DebugVisualizer_Resized(object sender, EventArgs e)
         {
-            tree.layout();
-            propertiesForm.layout();
+            splitter.layout();
         }
 
         bool canParseBool(String str)
