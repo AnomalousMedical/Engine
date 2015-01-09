@@ -48,6 +48,14 @@ namespace Anomalous.GuiFramework.Editor
                 };
         }
 
+        protected override void setAppearSelected(bool selected)
+        {
+            if (staticWidget != null)
+            {
+                staticWidget.Selected = selected;
+            }
+        }
+
         public override TableCell clone()
         {
             return new EditTableCell();

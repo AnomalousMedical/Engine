@@ -41,6 +41,11 @@ namespace MyGUIPlugin
             checkButton.Button.MouseButtonClick -= checkButton_staticMode_MouseButtonClick;
         }
 
+        protected internal override void setAppearSelected(bool selected)
+        {
+
+        }
+
         public override TableCell clone()
         {
             return new CheckTableCell();

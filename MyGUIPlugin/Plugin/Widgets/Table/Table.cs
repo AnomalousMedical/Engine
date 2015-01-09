@@ -26,7 +26,7 @@ namespace MyGUIPlugin
             Rows.Cleared += new Action(Rows_Cleared);
             RowHeight = ScaleHelper.Scaled(20);
             HeaderHeight = ScaleHelper.Scaled(20);
-            LastEditedRow = -1;
+            CurrentEditRow = -1;
         }
 
         public void Dispose()
@@ -95,7 +95,31 @@ namespace MyGUIPlugin
             }
         }
 
-        public int LastEditedRow { get; private set; }
+        private int _currentEditRow;
+        public int CurrentEditRow
+        {
+            get
+            {
+                return _currentEditRow;
+            }
+            private set
+            {
+                if (_currentEditRow != value)
+                {
+                    if(_currentEditRow != -1 && _currentEditRow < Rows.Count)
+                    {
+                        Rows[_currentEditRow].setAppearSelected(false);
+                    }
+
+                    _currentEditRow = value;
+
+                    if (_currentEditRow != -1 && _currentEditRow < Rows.Count)
+                    {
+                        Rows[_currentEditRow].setAppearSelected(true);
+                    }
+                }
+            }
+        }
 
         public bool Enabled
         {
@@ -146,7 +170,6 @@ namespace MyGUIPlugin
                     editingCell.commitEditValueToValue();
                     editingCell.setStaticMode();
                 }
-                LastEditedRow = editingCell.RowIndex;
             }
 
             if (allowCellChange)
@@ -155,6 +178,7 @@ namespace MyGUIPlugin
                 if (editingCell != null)
                 {
                     editingCell.setEditMode();
+                    CurrentEditRow = editingCell.RowIndex;
                 }
             }
         }
@@ -174,15 +198,20 @@ namespace MyGUIPlugin
         {
             if (editingCell != null)
             {
-                if(editingCell.RowIndex == LastEditedRow)
+                if(editingCell.RowIndex == CurrentEditRow)
                 {
                     editingCell = null;
                 }
             }
 
-            if (LastEditedRow >= newRowCount)
+            if (CurrentEditRow >= newRowCount) //Removed last row
             {
-                LastEditedRow = newRowCount - 1;
+                CurrentEditRow = newRowCount - 1;
+            }
+            else if(CurrentEditRow != -1)
+            {
+                //Make the newly selected row appear selected
+                Rows[CurrentEditRow + 1].setAppearSelected(true);
             }
         }
 

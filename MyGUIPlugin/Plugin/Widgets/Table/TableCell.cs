@@ -21,6 +21,8 @@ namespace MyGUIPlugin
 
         protected abstract void positionChanged();
 
+        protected internal abstract void setAppearSelected(bool selected);
+
         internal Object EditValue
         {
             get

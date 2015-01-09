@@ -13,7 +13,7 @@ namespace Anomalous.GuiFramework.Editor
 
         private EditBox editWidget;
         private Button browseButton;
-        private TextBox staticWidget;
+        private Button staticWidget;
         private String value = null;
 
         public ColorEditCell()
@@ -64,6 +64,14 @@ namespace Anomalous.GuiFramework.Editor
                 }
                 InputManager.Instance.setKeyFocusWidget(editWidget);
                 editWidget.setTextSelection(0, (uint)editWidget.OnlyText.Length);
+            }
+        }
+
+        protected override void setAppearSelected(bool selected)
+        {
+            if (staticWidget != null)
+            {
+                staticWidget.Selected = selected;
             }
         }
 
@@ -148,7 +156,7 @@ namespace Anomalous.GuiFramework.Editor
         {
             if (staticWidget == null)
             {
-                staticWidget = (TextBox)parentWidget.createWidgetT("Button", "Button", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "");
+                staticWidget = (Button)parentWidget.createWidgetT("Button", "StaticTableCell", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "");
                 staticWidget.MouseButtonClick += new MyGUIEvent(staticWidget_MouseButtonClick);
                 staticWidget.Caption = value;
                 staticWidget.TextAlign = Align.Left | Align.VCenter;

@@ -301,10 +301,10 @@ namespace Anomalous.GuiFramework.Editor
 
         void addRemoveButtons_RemoveButtonClicked(Widget source, EventArgs e)
         {
-            int lastEditedRow = propertiesTable.LastEditedRow;
+            int lastEditedRow = propertiesTable.CurrentEditRow;
             if (lastEditedRow != -1)
             {
-                TableRow row = propertiesTable.Rows[propertiesTable.LastEditedRow];
+                TableRow row = propertiesTable.Rows[propertiesTable.CurrentEditRow];
                 EditableProperty var = rowProperties[row];
                 currentEditInterface.fireRemovePropertyCallback(uiCallback, var);
             }

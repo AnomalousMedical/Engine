@@ -8,7 +8,7 @@ namespace MyGUIPlugin
     public class EditTableCell : TableCell
     {
         private EditBox editWidget;
-        private TextBox staticWidget;
+        private Button staticWidget;
         private String value = null;
 
         public EditTableCell()
@@ -55,6 +55,14 @@ namespace MyGUIPlugin
                 }
                 InputManager.Instance.setKeyFocusWidget(editWidget);
                 editWidget.setTextSelection(0, (uint)editWidget.OnlyText.Length);
+            }
+        }
+
+        protected internal override void setAppearSelected(bool selected)
+        {
+            if(staticWidget != null)
+            {
+                staticWidget.Selected = selected;
             }
         }
 
@@ -136,7 +144,7 @@ namespace MyGUIPlugin
         {
             if (staticWidget == null)
             {
-                staticWidget = (TextBox)parentWidget.createWidgetT("Button", "StaticTableCell", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "");
+                staticWidget = (Button)parentWidget.createWidgetT("Button", "StaticTableCell", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "");
                 staticWidget.MouseButtonClick += new MyGUIEvent(staticWidget_MouseButtonClick);
                 staticWidget.Caption = value;
                 staticWidget.TextAlign = Align.Left | Align.VCenter;

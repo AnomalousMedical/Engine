@@ -12,7 +12,7 @@ namespace Anomalous.GuiFramework.Editor
         where EnumType : struct
     {
         private ComboBox editWidget;
-        private TextBox staticWidget;
+        private Button staticWidget;
         private EnumType value = default(EnumType);
 
         public EnumComboBoxTableCell()
@@ -58,6 +58,14 @@ namespace Anomalous.GuiFramework.Editor
                     staticWidget.Visible = false;
                 }
                 InputManager.Instance.setKeyFocusWidget(editWidget);
+            }
+        }
+
+        protected override void setAppearSelected(bool selected)
+        {
+            if (staticWidget != null)
+            {
+                staticWidget.Selected = selected;
             }
         }
 
@@ -161,7 +169,7 @@ namespace Anomalous.GuiFramework.Editor
         {
             if (staticWidget == null)
             {
-                staticWidget = (TextBox)parentWidget.createWidgetT("Button", "StaticTableCell", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "");
+                staticWidget = (Button)parentWidget.createWidgetT("Button", "StaticTableCell", Position.x, Position.y, Size.Width, Size.Height, Align.Default, "");
                 staticWidget.MouseButtonClick += new MyGUIEvent(staticWidget_MouseButtonClick);
                 staticWidget.Caption = value.ToString();
                 staticWidget.TextAlign = Align.Left | Align.VCenter;

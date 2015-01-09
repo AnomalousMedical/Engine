@@ -907,7 +907,7 @@ StaticTableCellSkin
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_EditArea_Middle_Highlighted}"/>
       <State name="pushed" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_EditArea_Middle_Pushed}"/>
       <State name="disabled_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_DisabledChecked}"/>
-      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_EditArea_Middle_NormalChecked}"/>
+      <State name="normal_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_NormalChecked}"/>
       <State name="highlighted_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_HighlightedChecked}"/>
       <State name="pushed_checked" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_Button_Center_PushedChecked}"/>
     </BasisSkin>

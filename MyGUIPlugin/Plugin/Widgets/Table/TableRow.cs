@@ -21,6 +21,14 @@ namespace MyGUIPlugin
             cells.Dispose();
         }
 
+        internal void setAppearSelected(bool selected)
+        {
+            foreach(var cell in Cells)
+            {
+                cell.setAppearSelected(selected);
+            }
+        }
+
         public TableCellCollection Cells
         {
             get
