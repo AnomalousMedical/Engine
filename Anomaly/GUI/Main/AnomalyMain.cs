@@ -140,6 +140,13 @@ namespace Anomaly.GUI
             controller.SelectionController.OnSelectionChanged += SelectionController_OnSelectionChanged;
         }
 
+        public void setLocationTextsEnabled(bool enabled)
+        {
+            x.Enabled = enabled;
+            y.Enabled = enabled;
+            z.Enabled = enabled;
+        }
+
         public SingleChildLayoutContainer LayoutContainer { get; private set; }
 
         private void save()
@@ -188,9 +195,7 @@ namespace Anomaly.GUI
 
         void none_MouseButtonClick(Widget source, EventArgs e)
         {
-            x.Enabled = false;
-            y.Enabled = false;
-            z.Enabled = false;
+            setLocationTextsEnabled(false);
             controller.enableSelectTool();
             controller.SelectionController.OnSelectionRotated -= SelectionController_OnSelectionRotated;
             controller.SelectionController.OnSelectionTranslated -= SelectionController_OnSelectionTranslated;
@@ -198,9 +203,7 @@ namespace Anomaly.GUI
 
         void move_MouseButtonClick(Widget source, EventArgs e)
         {
-            x.Edit.Enabled = controller.SelectionController.hasSelection();
-            y.Edit.Enabled = controller.SelectionController.hasSelection();
-            z.Edit.Enabled = controller.SelectionController.hasSelection();
+            setLocationTextsEnabled(controller.SelectionController.hasSelection());
             controller.enableMoveTool();
             controller.SelectionController.OnSelectionRotated -= SelectionController_OnSelectionRotated;
             controller.SelectionController.OnSelectionTranslated += SelectionController_OnSelectionTranslated;
@@ -208,9 +211,7 @@ namespace Anomaly.GUI
 
         void rotate_MouseButtonClick(Widget source, EventArgs e)
         {
-            x.Edit.Enabled = controller.SelectionController.hasSelection();
-            y.Edit.Enabled = controller.SelectionController.hasSelection();
-            z.Edit.Enabled = controller.SelectionController.hasSelection();
+            setLocationTextsEnabled(controller.SelectionController.hasSelection());
             controller.enableRotateTool();
             controller.SelectionController.OnSelectionRotated += SelectionController_OnSelectionRotated;
             controller.SelectionController.OnSelectionTranslated -= SelectionController_OnSelectionTranslated;
@@ -252,9 +253,7 @@ namespace Anomaly.GUI
 
         void SelectionController_OnSelectionChanged(SelectionChangedArgs args)
         {
-            x.Edit.Enabled = controller.SelectionController.hasSelection() && toolButtons.SelectedButton.Name != "None";
-            y.Edit.Enabled = controller.SelectionController.hasSelection() && toolButtons.SelectedButton.Name != "None";
-            z.Edit.Enabled = controller.SelectionController.hasSelection() && toolButtons.SelectedButton.Name != "None";
+            setLocationTextsEnabled(controller.SelectionController.hasSelection() && toolButtons.SelectedButton.Name != "None");
             updateLocationTexts();
         }
 

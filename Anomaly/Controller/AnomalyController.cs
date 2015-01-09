@@ -439,8 +439,7 @@ namespace Anomaly
         /// </summary>
         public void setStaticMode()
         {
-            //movePanel.Enabled = true;
-            //rotatePanel.Enabled = true;
+            mainForm.setLocationTextsEnabled(selectionController.hasSelection() && (selectionMovementTools.ShowMoveTools || selectionMovementTools.ShowRotateTools));
             sceneController.setDynamicMode(false);
             sceneController.destroyScene();
             sceneController.createScene();
@@ -457,8 +456,7 @@ namespace Anomaly
         public void setDynamicMode()
         {
             selectionMovementTools.Visible = false;
-            //movePanel.Enabled = false;
-            //rotatePanel.Enabled = false;
+            mainForm.setLocationTextsEnabled(false);
             sceneController.setDynamicMode(true);
             sceneController.destroyScene();
             sceneController.createScene();
