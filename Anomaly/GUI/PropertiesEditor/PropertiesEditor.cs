@@ -43,6 +43,8 @@ namespace Anomaly.GUI
 
         private int gap;
 
+        private Splitter splitter;
+
         public PropertiesEditor(String caption, String persistName)
             : base("Anomaly.GUI.PropertiesEditor.PropertiesEditor.layout", persistName)
         {
@@ -50,7 +52,8 @@ namespace Anomaly.GUI
 
             uiCallback = new GuiFrameworkUICallback();
 
-            tree = new Tree((ScrollView)window.findWidget("TreeScroller"));
+            ScrollView treeScroller = (ScrollView)window.findWidget("TreeScroller");
+            tree = new Tree(treeScroller);
             editTreeView = new EditInterfaceTreeView(tree, uiCallback);
             editTreeView.EditInterfaceSelectionChanged += editTreeView_EditInterfaceSelectionChanged;
             editTreeView.EditInterfaceAdded += editTreeView_EditInterfaceAdded;
@@ -71,6 +74,9 @@ namespace Anomaly.GUI
             this.Resized += DebugVisualizer_Resized;
 
             gap = tableScroller.Bottom - addRemoveButtons.Top;
+
+            splitter = new Splitter(window.findWidget("Splitter"), treeScroller, window.findWidget("PropertiesPanel"));
+            splitter.Moved += splitter_Moved;
         }
 
         public override void Dispose()
@@ -144,6 +150,13 @@ namespace Anomaly.GUI
         }
 
         void DebugVisualizer_Resized(object sender, EventArgs e)
+        {
+            splitter.resized();
+            tree.layout();
+            table.layout();
+        }
+
+        void splitter_Moved(Splitter obj)
         {
             tree.layout();
             table.layout();

@@ -77,6 +77,22 @@ public:
         y = point.top;
         z = 0;
 	}
+
+	ThreeIntHack(int x, int y)
+		:x(x),
+		y(y),
+		z(0)
+	{
+		
+	}
+
+	ThreeIntHack(int x, int y, int z)
+		:x(x),
+		y(y),
+		z(z)
+	{
+
+	}
 };
 
 MyGUI::MenuItemType::Enum getMenuItemTypeEnumVal(const MyGUI::MenuItemType& type);

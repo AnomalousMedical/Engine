@@ -611,6 +611,18 @@ namespace MyGUIPlugin
             }
         }
 
+        public IntSize2 Size
+        {
+            get
+            {
+                return Widget_getSize(widget).toIntSize2();
+            }
+            set
+            {
+                Widget_setSize(widget, value.Width, value.Height);
+            }
+        }
+
         public Object UserObject { get; set; }
         
         /// <summary>
@@ -1100,6 +1112,9 @@ namespace MyGUIPlugin
 
         [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Widget_getSubWidgetText(IntPtr widget);
+
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern ThreeIntHack Widget_getSize(IntPtr widget);
 
 #endregion
     }

@@ -403,4 +403,9 @@ extern "C" _AnomalousExport void Widget_setDestructorCallback(MyGUI::Widget* wid
 	widget->_setDestructorCallback(widgetDestructorCallback);
 }
 
+extern "C" _AnomalousExport ThreeIntHack Widget_getSize(MyGUI::Widget* widget)
+{
+	return ThreeIntHack(widget->getWidth(), widget->getHeight());
+}
+
 #pragma warning(pop)

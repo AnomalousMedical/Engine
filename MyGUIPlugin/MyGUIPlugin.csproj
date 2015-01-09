@@ -108,6 +108,7 @@
     <Compile Include="Plugin\Widgets\Dialog.cs" />
     <Compile Include="Plugin\Widgets\DialogCancelEventArgs.cs" />
     <Compile Include="Plugin\Widgets\EnumComboBox.cs" />
+    <Compile Include="Plugin\Widgets\Splitter.cs" />
     <Compile Include="Plugin\Widgets\Timeline\TimelineSelectionBox.cs" />
     <Compile Include="Plugin\Widgets\Timeline\TimelineSelectionCollection.cs" />
     <Compile Include="Plugin\Widgets\ValueButtonGroup.cs" />
