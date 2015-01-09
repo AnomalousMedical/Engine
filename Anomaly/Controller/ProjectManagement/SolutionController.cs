@@ -31,14 +31,14 @@ namespace Anomaly
 
         private Solution solution;
         private SolutionWindow solutionWindow;
-        private IObjectEditorGUI objectEditor;
+        private PropertiesEditor objectEditor;
         private AnomalyController controller;
 
         private ObjectPlaceholderInterface currentPlaceholder;
 
         private List<EditInterface> selectedEditInterfaces = new List<EditInterface>();
 
-        public SolutionController(Solution solution, SolutionWindow solutionWindow, AnomalyController controller, IObjectEditorGUI objectEditor)
+        public SolutionController(Solution solution, SolutionWindow solutionWindow, AnomalyController controller, PropertiesEditor objectEditor)
         {
             this.controller = controller;
             this.solution = solution;

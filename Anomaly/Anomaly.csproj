@@ -110,7 +110,6 @@
     <Compile Include="Controller\SimObjectController.cs" />
     <Compile Include="GUI\DebugVisualizer\DebugVisualizer.cs" />
     <Compile Include="GUI\EventLayers.cs" />
-    <Compile Include="GUI\IObjectEditorGUI.cs" />
     <Compile Include="GUI\Main\AnomalyMain.cs" />
     <Compile Include="GUI\ObfuscateArchive\ObfuscateArchiveWindow.cs" />
     <Compile Include="GUI\PropertiesEditor\PropertiesEditor.cs" />

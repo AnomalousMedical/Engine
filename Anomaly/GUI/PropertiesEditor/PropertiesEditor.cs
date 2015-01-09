@@ -10,22 +10,24 @@ using System.Threading.Tasks;
 
 namespace Anomaly.GUI
 {
-    public class PropertiesEditor : MDIDialog, IObjectEditorGUI
+    public delegate void PropertiesEditorEvent(EditInterface editInterface, object editingObject);
+
+    public class PropertiesEditor : MDIDialog
     {
         /// <summary>
         /// Called when the main object in this ui has changed.
         /// </summary>
-        public event ObjectEditorGUIEvent MainInterfaceChanged;
+        public event PropertiesEditorEvent MainInterfaceChanged;
 
         /// <summary>
         /// Called when the active interface has changed.
         /// </summary>
-        public event ObjectEditorGUIEvent ActiveInterfaceChanged;
+        public event PropertiesEditorEvent ActiveInterfaceChanged;
 
         /// <summary>
         /// Called when a field has been changed.
         /// </summary>
-        public event ObjectEditorGUIEvent FieldChanged;
+        public event PropertiesEditorEvent FieldChanged;
 
         private GuiFrameworkUICallback uiCallback;
         private Tree tree;
@@ -39,7 +41,7 @@ namespace Anomaly.GUI
         private ObjectEditor objectEditor;
 
         private Object currentEditingObject;
-        private ObjectEditorGUIEvent currentFieldChangedCallback;
+        private PropertiesEditorEvent currentFieldChangedCallback;
 
         private int gap;
 
@@ -88,7 +90,7 @@ namespace Anomaly.GUI
             base.Dispose();
         }
 
-        public void setEditInterface(EditInterface editInterface, object editingObject, ObjectEditorGUIEvent FieldChangedCallback)
+        public void setEditInterface(EditInterface editInterface, object editingObject, PropertiesEditorEvent FieldChangedCallback)
         {
             objectEditor.EditInterface = editInterface;
             Caption = editInterface.getName();

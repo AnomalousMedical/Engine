@@ -7,6 +7,7 @@ using Engine.Platform;
 using Engine.ObjectManagement;
 using Engine.Editing;
 using Engine;
+using Anomaly.GUI;
 
 namespace Anomaly
 {
@@ -16,12 +17,12 @@ namespace Anomaly
         private DebugDrawingSurface debugSurface;
         private UpdateTimer timer;
         private EditInterfaceRenderer currentRenderer;
-        private IObjectEditorGUI mainEditor;
+        private PropertiesEditor mainEditor;
         private Vector3 currentOrigin;
         private Quaternion currentRotation;
         private Instance instance;
 
-        public EditInterfaceRendererController(RendererPlugin renderer, UpdateTimer timer, SceneController sceneController, IObjectEditorGUI mainEditor)
+        public EditInterfaceRendererController(RendererPlugin renderer, UpdateTimer timer, SceneController sceneController, PropertiesEditor mainEditor)
         {
             this.renderer = renderer;
             this.timer = timer;
@@ -30,9 +31,9 @@ namespace Anomaly
             sceneController.OnSceneUnloading += new SceneControllerEvent(sceneController_OnSceneUnloading);
             timer.addUpdateListener(this);
 
-            mainEditor.ActiveInterfaceChanged += new ObjectEditorGUIEvent(mainEditor_ActiveInterfaceChanged);
-            mainEditor.FieldChanged += new ObjectEditorGUIEvent(mainEditor_FieldChanged);
-            mainEditor.MainInterfaceChanged += new ObjectEditorGUIEvent(mainEditor_MainInterfaceChanged);
+            mainEditor.ActiveInterfaceChanged += new PropertiesEditorEvent(mainEditor_ActiveInterfaceChanged);
+            mainEditor.FieldChanged += new PropertiesEditorEvent(mainEditor_FieldChanged);
+            mainEditor.MainInterfaceChanged += new PropertiesEditorEvent(mainEditor_MainInterfaceChanged);
         }
 
         void mainEditor_MainInterfaceChanged(EditInterface editInterface, object editingObject)
