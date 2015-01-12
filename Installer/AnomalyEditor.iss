@@ -7,10 +7,6 @@
 #define MyAppURL "http://www.anomalousmedical.com"
 #define MyAppExeName "Anomaly.exe"
 
-#if Exec('S:\DRM\CodeKey\SignEditor.bat') != 0
-#error Could not sign
-#endif
-
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications.
