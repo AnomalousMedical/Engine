@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="..\..\Dependencies\FreeImage.NET\WindowsBuild\bin\Release\FreeImage.dll">
+      <Link>x86\FreeImage.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\..\Dependencies\Ogre\Windows\Build\bin\release\OgreMain.dll">
       <Link>x86\OgreMain.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

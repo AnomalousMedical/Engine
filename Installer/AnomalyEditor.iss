@@ -2,12 +2,12 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Anomaly Editor"
-#define MyAppVersion GetFileVersion("S:\Engine\Release\Anomaly.exe")
+#define MyAppVersion GetFileVersion("..\Release\Anomaly.exe")
 #define MyAppPublisher "Anomalous Software"
 #define MyAppURL "http://www.anomalousmedical.com"
 #define MyAppExeName "Anomaly.exe"
 
-#if Exec('S:\DRM\CodeKey\SignEditor.bat') != 0
+#if Exec('..\..\DRM\CodeKey\SignEditor.bat') != 0
 #error Could not sign
 #endif
 
@@ -25,8 +25,8 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\Anomalous Software\Anomaly
 DefaultGroupName=Anomalous Software
-LicenseFile=S:\Medical\AnomalousMedical\Installer\License\en.rtf
-OutputDir=S:\Engine\Release\Setups
+LicenseFile=..\..\Medical\AnomalousMedical\Installer\License\en.rtf
+OutputDir=..\Release\Setups
 OutputBaseFilename=AnomalySetup
 Compression=lzma
 SolidCompression=yes
@@ -40,46 +40,67 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: S:\Engine\Release\Anomaly.exe; DestDir: {app}; Flags: ignoreversion 
-Source: S:\Engine\Release\ImageAtlasPacker.exe; DestDir: {app}; Flags: ignoreversion
-Source: S:\Engine\Release\OgreModelEditor.exe; DestDir: {app}; Flags: ignoreversion
-Source: S:\Engine\Release\BEPUikPlugin.dll; DestDir: {app}; Flags: ignoreversion
-Source: S:\Engine\Release\BulletPlugin.dll; DestDir: {app}; Flags: ignoreversion
-Source: S:\Engine\Release\BulletWrapper.dll; DestDir: {app}; Flags: ignoreversion
-Source: S:\Engine\Release\d3dcompiler_47.dll; DestDir: {app}; Flags: ignoreversion
-Source: S:\Engine\Release\DotNetZip.dll; DestDir: {app}; Flags: ignoreversion
-Source: S:\Engine\Release\Editor.dll; DestDir: {app}; Flags: ignoreversion
-Source: S:\Engine\Release\Engine.dll; DestDir: {app}; Flags: ignoreversion
-;Source: S:\Engine\Release\FreeImage.dll; DestDir: {app}; Flags: ignoreversion
-Source: S:\Engine\Release\FreeImageNET.dll; DestDir: {app}; Flags: ignoreversion
-Source: S:\Engine\Release\libRocketPlugin.dll; DestDir: {app}; Flags: ignoreversion
-Source: S:\Engine\Release\libRocketWrapper.dll; DestDir: {app}; Flags: ignoreversion
-Source: S:\Engine\Release\MyGUIPlugin.dll; DestDir: {app}; Flags: ignoreversion
-Source: S:\Engine\Release\MyGUIWrapper.dll; DestDir: {app}; Flags: ignoreversion
-Source: S:\Engine\Release\OgreCWrapper.dll; DestDir: {app}; Flags: ignoreversion
-Source: S:\Engine\Release\OgreMain.dll; DestDir: {app}; Flags: ignoreversion
-Source: S:\Engine\Release\OgrePlugin.dll; DestDir: {app}; Flags: ignoreversion
-Source: S:\Engine\Release\OIS.dll; DestDir: {app}; Flags: ignoreversion
-Source: S:\Engine\Release\OpenAL32.dll; DestDir: {app}; Flags: ignoreversion
-Source: S:\Engine\Release\PCPlatform.dll; DestDir: {app}; Flags: ignoreversion
-Source: S:\Engine\Release\PCPlatformPlugin.dll; DestDir: {app}; Flags: ignoreversion
-Source: S:\Engine\Release\RenderSystem_Direct3D11.dll; DestDir: {app}; Flags: ignoreversion
-Source: S:\Engine\Release\RenderSystem_GL.dll; DestDir: {app}; Flags: ignoreversion
-Source: S:\Engine\Release\ShapeLoader.dll; DestDir: {app}; Flags: ignoreversion
-Source: S:\Engine\Release\SoundPlugin.dll; DestDir: {app}; Flags: ignoreversion
-Source: S:\Engine\Release\SoundWrapper.dll; DestDir: {app}; Flags: ignoreversion
-Source: S:\Engine\Release\WeifenLuo.WinFormsUI.Docking.dll; DestDir: {app}; Flags: ignoreversion
-Source: S:\Engine\Release\Zip.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\Release\Anomaly.exe; DestDir: {app}; Flags: ignoreversion 
+Source: ..\Release\ImageAtlasPacker.exe; DestDir: {app}; Flags: ignoreversion
+Source: ..\Release\OgreModelEditor.exe; DestDir: {app}; Flags: ignoreversion
+Source: ..\Release\BEPUikPlugin.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\Release\BulletPlugin.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\Release\DotNetZip.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\Release\Engine.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\Release\FreeImageNET.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\Release\GuiFramework.Cameras.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\Release\GuiFramework.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\Release\GuiFramework.Editor.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\Release\libRocketPlugin.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\Release\libRocketWidget.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\Release\MyGUIPlugin.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\Release\OgrePlugin.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\Release\OSPlatform.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\Release\ShapeLoader.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\Release\SoundPlugin.dll; DestDir: {app}; Flags: ignoreversion
+
+;x86
+Source: ..\Release\x86\BulletWrapper.dll; DestDir: {app}\x86; Flags: ignoreversion
+Source: ..\Release\x86\d3dcompiler_47.dll; DestDir: {app}\x86; Flags: ignoreversion
+Source: ..\Release\x86\FreeImage.dll; DestDir: {app}\x86; Flags: ignoreversion
+Source: ..\Release\x86\libRocketWrapper.dll; DestDir: {app}\x86; Flags: ignoreversion
+Source: ..\Release\x86\MyGUIWrapper.dll; DestDir: {app}\x86; Flags: ignoreversion
+Source: ..\Release\x86\OgreCWrapper.dll; DestDir: {app}\x86; Flags: ignoreversion
+Source: ..\Release\x86\OgreMain.dll; DestDir: {app}\x86; Flags: ignoreversion
+Source: ..\Release\x86\OpenAL32.dll; DestDir: {app}\x86; Flags: ignoreversion
+Source: ..\Release\x86\OSHelper.dll; DestDir: {app}\x86; Flags: ignoreversion
+Source: ..\Release\x86\RenderSystem_Direct3D11.dll; DestDir: {app}\x86; Flags: ignoreversion
+Source: ..\Release\x86\RenderSystem_GL.dll; DestDir: {app}\x86; Flags: ignoreversion
+Source: ..\Release\x86\SoundWrapper.dll; DestDir: {app}\x86; Flags: ignoreversion
+Source: ..\Release\x86\WinMTDriver.dll; DestDir: {app}\x86; Flags: ignoreversion
+Source: ..\Release\x86\Zip.dll; DestDir: {app}\x86; Flags: ignoreversion
+
+;x64
+Source: ..\Release\x64\BulletWrapper.dll; DestDir: {app}\x64; Flags: ignoreversion
+Source: ..\Release\x64\d3dcompiler_47.dll; DestDir: {app}\x64; Flags: ignoreversion
+Source: ..\Release\x64\FreeImage.dll; DestDir: {app}\x64; Flags: ignoreversion
+Source: ..\Release\x64\libRocketWrapper.dll; DestDir: {app}\x64; Flags: ignoreversion
+Source: ..\Release\x64\MyGUIWrapper.dll; DestDir: {app}\x64; Flags: ignoreversion
+Source: ..\Release\x64\OgreCWrapper.dll; DestDir: {app}\x64; Flags: ignoreversion
+Source: ..\Release\x64\OgreMain.dll; DestDir: {app}\x64; Flags: ignoreversion
+Source: ..\Release\x64\OpenAL32.dll; DestDir: {app}\x64; Flags: ignoreversion
+Source: ..\Release\x64\OSHelper.dll; DestDir: {app}\x64; Flags: ignoreversion
+Source: ..\Release\x64\RenderSystem_Direct3D11.dll; DestDir: {app}\x64; Flags: ignoreversion
+Source: ..\Release\x64\RenderSystem_GL.dll; DestDir: {app}\x64; Flags: ignoreversion
+Source: ..\Release\x64\SoundWrapper.dll; DestDir: {app}\x64; Flags: ignoreversion
+Source: ..\Release\x64\WinMTDriver.dll; DestDir: {app}\x64; Flags: ignoreversion
+Source: ..\Release\x64\Zip.dll; DestDir: {app}\x64; Flags: ignoreversion
 
 ;Microcode Caches
-;Source: S:\Medical\Release\Direct3D11 Rendering Subsystem.mcc; DestDir: {app}; Flags: ignoreversion
-;Source: S:\Medical\Release\OpenGL Rendering Subsystem.mcc; DestDir: {app}; Flags: ignoreversion
+;Source: ..\..\Medical\Release\Direct3D11 Rendering Subsystem.mcc; DestDir: {app}; Flags: ignoreversion
+;Source: ..\..\Medical\Release\OpenGL Rendering Subsystem.mcc; DestDir: {app}; Flags: ignoreversion
 
 ;VS 2013 Redistributable
-Source: "S:\dependencies\InstallerDependencies\Windows\vcredist_x86.exe"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall
+Source: "..\..\dependencies\InstallerDependencies\Windows\vcredist_x86.exe"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall
+Source: "..\..\dependencies\InstallerDependencies\Windows\vcredist_x64.exe"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall
 
 ;.Net 4.5.1
-Source: S:\dependencies\InstallerDependencies\Windows\NDP451-KB2859818-Web.exe; DestDir: {tmp}; 
+Source: ..\..\dependencies\InstallerDependencies\Windows\NDP451-KB2859818-Web.exe; DestDir: {tmp}; 
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
@@ -89,6 +110,7 @@ Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: 
 
 [Run]
 Filename: "{tmp}\vcredist_x86.exe"; Parameters: "/q /norestart"; StatusMsg: "Installing Visual Studio 2013 Redistributable (x86)";
+Filename: "{tmp}\vcredist_x64.exe"; Parameters: "/q /norestart"; StatusMsg: "Installing Visual Studio 2013 Redistributable (x64)";
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, "&", "&&")}}"; Flags: nowait postinstall skipifsilent
 
 [Registry]
