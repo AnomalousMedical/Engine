@@ -196,17 +196,20 @@ namespace Anomalous.GuiFramework.Editor
         /// <param name="property">The property to add.</param>
         private void addProperty(EditableProperty property)
         {
-            TableRow newRow = new TableRow();
-
-            for (int i = 0; i < currentPropInfo.getNumColumns(); i++)
+            if (currentPropInfo != null)
             {
-                TableCell newCell = createCell(property.getPropertyType(i), property.hasBrowser(i), property);
-                newCell.Value = property.getValue(i);
-                newRow.Cells.add(newCell);
-            }
+                TableRow newRow = new TableRow();
 
-            propertiesTable.Rows.add(newRow);
-            rowProperties.Add(newRow, property);
+                for (int i = 0; i < currentPropInfo.getNumColumns(); i++)
+                {
+                    TableCell newCell = createCell(property.getPropertyType(i), property.hasBrowser(i), property);
+                    newCell.Value = property.getValue(i);
+                    newRow.Cells.add(newCell);
+                }
+
+                propertiesTable.Rows.add(newRow);
+                rowProperties.Add(newRow, property);
+            }
         }
 
         private void removeProperty(EditableProperty property)
