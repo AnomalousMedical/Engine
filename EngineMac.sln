@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShapeLoader", "ShapeLoader\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulletWrapperPlugin", "BulletWrapperPlugin\BulletWrapperPlugin.csproj", "{EBA88DC3-837D-45D8-A91A-E291C6AE444E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCPlatformPlugin", "PCPlatformPlugin\PCPlatformPlugin.csproj", "{2D5AB440-5081-4C71-A2C2-9F7E05969EDE}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyGUIPlugin", "MyGUIPlugin\MyGUIPlugin.csproj", "{02D4DA85-FD6C-421F-81C3-8F58F790BC81}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundPlugin", "SoundPlugin\SoundPlugin.csproj", "{CCAEFE0A-AD1F-42E8-88DA-5A685CC7C73D}"
@@ -67,10 +65,6 @@ Global
 		{EBA88DC3-837D-45D8-A91A-E291C6AE444E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EBA88DC3-837D-45D8-A91A-E291C6AE444E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EBA88DC3-837D-45D8-A91A-E291C6AE444E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2D5AB440-5081-4C71-A2C2-9F7E05969EDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2D5AB440-5081-4C71-A2C2-9F7E05969EDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2D5AB440-5081-4C71-A2C2-9F7E05969EDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2D5AB440-5081-4C71-A2C2-9F7E05969EDE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{02D4DA85-FD6C-421F-81C3-8F58F790BC81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{02D4DA85-FD6C-421F-81C3-8F58F790BC81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02D4DA85-FD6C-421F-81C3-8F58F790BC81}.Release|Any CPU.ActiveCfg = Release|Any CPU
