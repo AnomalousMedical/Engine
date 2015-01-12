@@ -7,8 +7,8 @@ set RootBuildFolder=%ThisFolder%..\
 set BuildCommand="C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild.exe" /m
 set CurrentDirectory=%CD%
 set InnosetupCommand="C:\Program Files (x86)\Inno Setup 5\Compil32.exe" /cc
-set SignCommand=call %RootBuildFolder%DRM\CodeKey\AnomalousMedicalSign.bat
-
+set SignCommand=call "%RootBuildFolder%DRM\CodeKey\AnomalousMedicalSign.bat"
+set OutputFolder=%ThisFolder%Release\
 set SolutionPath=%ThisFolder%%SolutionName%
 
 %BuildCommand% "%SolutionPath%" /property:Configuration=Debug;Platform="Any CPU" /target:Clean
@@ -23,8 +23,8 @@ set SolutionPath=%ThisFolder%%SolutionName%
 %BuildCommand% "%SolutionPath%" /property:Configuration=Release;Platform="x64" /target:Clean
 %BuildCommand% "%SolutionPath%" /property:Configuration=Release;Platform="x64"
 
-%SignCommand% "Anomaly" "S:\Engine\Release\Anomaly.exe
-%SignCommand% "Image Atlas Packer" "S:\Engine\Release\ImageAtlasPacker.exe
-%SignCommand% "Ogre Model Editor" "S:\Engine\Release\OgreModelEditor.exe
+%SignCommand% "Anomaly" "%OutputFolder%\Anomaly.exe"
+%SignCommand% "Image Atlas Packer" "%OutputFolder%\ImageAtlasPacker.exe"
+%SignCommand% "Ogre Model Editor" "%OutputFolder%\OgreModelEditor.exe"
 
 %InnosetupCommand% %ThisFolder%\Installer\AnomalyEditor.iss
