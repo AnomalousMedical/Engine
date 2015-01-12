@@ -6,6 +6,7 @@ set ThisFolder=%~dp0
 set RootDependencyFolder=%ThisFolder%..\
 set BuildCommand="C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild.exe" /m
 set CurrentDirectory=%CD%
+set InnosetupCommand="C:\Program Files (x86)\Inno Setup 5\Compil32.exe" /cc
 
 set SolutionPath=%ThisFolder%%SolutionName%
 
@@ -20,3 +21,5 @@ set SolutionPath=%ThisFolder%%SolutionName%
 
 %BuildCommand% "%SolutionPath%" /property:Configuration=Release;Platform="x64" /target:Clean
 %BuildCommand% "%SolutionPath%" /property:Configuration=Release;Platform="x64"
+
+%InnosetupCommand% %ThisFolder%\Installer\AnomalyEditor.iss

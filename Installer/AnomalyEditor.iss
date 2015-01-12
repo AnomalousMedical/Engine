@@ -7,7 +7,7 @@
 #define MyAppURL "http://www.anomalousmedical.com"
 #define MyAppExeName "Anomaly.exe"
 
-#if Exec('..\..\DRM\CodeKey\SignEditor.bat') != 0
+#if Exec('S:\DRM\CodeKey\SignEditor.bat') != 0
 #error Could not sign
 #endif
 
