@@ -29,7 +29,7 @@ void OgreManagedArchive::unload()
 	unloadCallback();
 }
 
-Ogre::DataStreamPtr OgreManagedArchive::open(const Ogre::String& filename, bool readOnly) const
+Ogre::DataStreamPtr OgreManagedArchive::open(const Ogre::String& filename, bool readOnly)
 {
 	return Ogre::DataStreamPtr(openCallback(filename.c_str(), readOnly));
 }
@@ -49,7 +49,7 @@ Ogre::StringVectorPtr OgreManagedArchive::find(const Ogre::String& pattern, bool
 	return Ogre::StringVectorPtr(findCallback(pattern.c_str(), recursive, dirs), Ogre::SPFM_DELETE_T);
 }
 
-Ogre::FileInfoListPtr OgreManagedArchive::findFileInfo(const Ogre::String& pattern, bool recursive, bool dirs) const
+Ogre::FileInfoListPtr OgreManagedArchive::findFileInfo(const Ogre::String& pattern, bool recursive, bool dirs)
 {
 	return Ogre::FileInfoListPtr(findFileInfoCallback(pattern.c_str(), recursive, dirs), Ogre::SPFM_DELETE_T);
 }
