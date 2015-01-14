@@ -10,9 +10,10 @@ using Engine.Platform;
 
 namespace Anomaly
 {
-    //publish s:\export\scenes\Medical.ano s:\export\scenes\BlankHeadScene.sim.xml t:/publishtest -a Articulometrics -o
     static class Program
     {
+        static PublishMode publishMode;
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -40,9 +41,10 @@ namespace Anomaly
                 {
                     if (commandArgs[1].ToLower() == "publish")
                     {
-                        PublishMode publishMode = new PublishMode();
+                        publishMode = new PublishMode();
                         publishMode.getSettingsFromCommandLine(commandArgs);
-                        publishMode.publishResources();
+                        projectFileName = publishMode.SolutionFile;
+                        startGUI = File.Exists(projectFileName);
                     }
                 }
             }
@@ -80,6 +82,7 @@ namespace Anomaly
             {
                 using (AnomalyApp app = new AnomalyApp(projectFileName))
                 {
+                    app.AnomalyController.FullyLoaded += AnomalyController_FullyLoaded;
                     try
                     {
                         app.run();
@@ -90,6 +93,14 @@ namespace Anomaly
                         MessageBox.Show(e.Message, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
+            }
+        }
+
+        static void AnomalyController_FullyLoaded(AnomalyController controller)
+        {
+            if(publishMode != null)
+            {
+                publishMode.publishResources(controller);
             }
         }
     }

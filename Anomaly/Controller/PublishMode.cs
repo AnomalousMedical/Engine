@@ -5,13 +5,17 @@ using System.Text;
 using Logging;
 using System.IO;
 using System.Xml;
-using Engine.Saving.XMLSaver;
 using Engine.ObjectManagement;
 using Engine;
 using Engine.Resources;
+using Engine.Threads;
+using System.Threading;
+using MyGUIPlugin;
 
 namespace Anomaly
 {
+    //Controller for publish mode, supports the following command line structure
+    //publish PROJECT_NAME DESTINATION_FOLDER [-a ARCHIVE_NAME] [-p PROFILE_NAME]
     class PublishMode
     {
         public PublishMode()
@@ -53,63 +57,39 @@ namespace Anomaly
             }
         }
 
-        public void publishResources()
+        public void publishResources(AnomalyController controller)
         {
-            //Create the log.
-            using (LogFileListener logListener = new LogFileListener())
-            {
-                logListener.openLogFile(AnomalyConfig.DocRoot + "/log.log");
-                Log.Default.addLogListener(logListener);
-                if (!File.Exists(SolutionFile))
+            MessageBox.show("Publishing, please wait.", "Publishing", MessageBoxStyle.IconInfo);
+            ThreadPool.QueueUserWorkItem(a =>
                 {
-                    Log.Error("Could not find solution file {0}.", SolutionFile);
-                    return;
-                }
-                doPublish();
-            }
-        }
+                    Log.Info("Publishing resources for solution {0} to {1}.", SolutionFile, Destination);
+                    if (Archive)
+                    {
+                        Log.Info("An archive named {0} will be created.", ArchiveName);
+                    }
+                    if (Obfuscate)
+                    {
+                        Log.Info("The archive will be obfuscated.");
+                    }
 
-        private void doPublish()
-        {
-            Log.Info("Publishing resources for solution {0} to {1}.", SolutionFile, Destination);
-            if (Archive)
-            {
-                Log.Info("An archive named {0} will be created.", ArchiveName);
-            }
-            if (Obfuscate)
-            {
-                Log.Info("The archive will be obfuscated.");
-            }
-            
-            XmlSaver xmlSaver = new XmlSaver();
-            Solution solution = new Solution(SolutionFile);
+                    PublishController publisher = new PublishController(controller.Solution);
 
-            using (PluginManager pluginManager = new PluginManager(AnomalyConfig.ConfigFile))
-            {
-                PublishController publisher = new PublishController(solution);
+                    if (!String.IsNullOrEmpty(Profile))
+                    {
+                        Log.Info("Using profile {0}", Profile);
+                    }
 
-                VirtualFileSystem.Instance.addArchive(solution.ResourceRoot);
+                    publisher.scanResources(Profile);
 
-                DynamicDLLPluginLoader pluginLoader = new DynamicDLLPluginLoader();
-                ConfigIterator pluginIterator = solution.PluginSection.PluginIterator;
-                pluginIterator.reset();
-                while (pluginIterator.hasNext())
-                {
-                    pluginLoader.addPath(pluginIterator.next());
-                }
-                pluginLoader.loadPlugins(pluginManager);
+                    publisher.copyResources(Destination, ArchiveName, Archive, Obfuscate);
 
-                if (!String.IsNullOrEmpty(Profile))
-                {
-                    Log.Info("Using profile {0}", Profile);
-                }
+                    Log.Info("Finished publishing resources to {0}.", Destination);
 
-                publisher.scanResources(Profile);
-
-                publisher.copyResources(Destination, ArchiveName, Archive, Obfuscate);
-            }
-
-            Log.Info("Finished publishing resources to {0}.", Destination);
+                    ThreadManager.invoke(() =>
+                    {
+                        controller.shutdown();
+                    });
+                });
         }
 
         public String Profile { get; set; }

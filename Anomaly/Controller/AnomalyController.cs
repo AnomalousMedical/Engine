@@ -86,6 +86,11 @@ namespace Anomaly
         private XmlSaver xmlSaver = new XmlSaver();
 
         /// <summary>
+        /// This event is fired when the controller has finished loading completely.
+        /// </summary>
+        public event Action<AnomalyController> FullyLoaded;
+
+        /// <summary>
         /// Constructor.
         /// </summary>
         public AnomalyController(App app, Solution solution)
@@ -275,6 +280,11 @@ namespace Anomaly
 
             splashScreen.hide();
             yield return IdleStatus.Ok;
+
+            if(FullyLoaded != null)
+            {
+                FullyLoaded.Invoke(this);
+            }
         }
 
         /// <summary>

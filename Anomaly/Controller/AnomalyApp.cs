@@ -15,6 +15,7 @@ namespace Anomaly
         public AnomalyApp(String projectFileName)
         {
             this.projectFileName = projectFileName;
+            anomalyController = new AnomalyController(this, new Solution(projectFileName));
         }
 
         public override void Dispose()
@@ -25,8 +26,6 @@ namespace Anomaly
 
         public override bool OnInit()
         {
-            anomalyController = new AnomalyController(this, new Solution(projectFileName));
-
             return true;
         }
 
@@ -38,6 +37,14 @@ namespace Anomaly
         public override void OnIdle()
         {
             anomalyController.idle();
+        }
+
+        public AnomalyController AnomalyController
+        {
+            get
+            {
+                return anomalyController;
+            }
         }
     }
 }
