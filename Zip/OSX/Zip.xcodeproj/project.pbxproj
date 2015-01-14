@@ -191,11 +191,11 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Zip_Prefix.pch;
-				HEADER_SEARCH_PATHS = /Users/andrewpiper/Development/Dependencies/Ogre/OSX/Dependencies/include;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../Dependencies/Ogre/OSX/Dependencies/include";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Dependencies/zziplib/lib\"",
-					/Users/andrewpiper/Development/Dependencies/Ogre/OSX/Dependencies/lib,
+					"$(SRCROOT)/../../../Dependencies/Ogre/OSX/Dependencies/lib",
 				);
 			};
 			name = Debug;
@@ -209,11 +209,11 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../Stdafx.h;
-				HEADER_SEARCH_PATHS = /Users/andrewpiper/Development/Dependencies/Ogre/OSX/Dependencies/include;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../Dependencies/Ogre/OSX/Dependencies/include";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Dependencies/zziplib/lib\"",
-					/Users/andrewpiper/Development/Dependencies/Ogre/OSX/Dependencies/lib,
+					"$(SRCROOT)/../../../Dependencies/Ogre/OSX/Dependencies/lib",
 				);
 				STRIP_INSTALLED_PRODUCT = YES;
 				STRIP_STYLE = "non-global";
