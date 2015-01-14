@@ -9,8 +9,8 @@ using Engine.ObjectManagement;
 using Engine;
 using Engine.Resources;
 using Engine.Threads;
-using System.Threading;
 using MyGUIPlugin;
+using System.Threading.Tasks;
 
 namespace Anomaly
 {
@@ -61,7 +61,7 @@ namespace Anomaly
         public void publishResources(AnomalyController controller)
         {
             MessageBox.show("Publishing, please wait.", "Publishing", MessageBoxStyle.IconInfo);
-            ThreadPool.QueueUserWorkItem(a =>
+            Task task = new Task(() =>
                 {
                     Log.Info("Publishing resources for solution {0} to {1}.", SolutionFile, Destination);
                     if (Archive)
@@ -91,6 +91,7 @@ namespace Anomaly
                         controller.shutdown();
                     });
                 });
+            task.Start();
         }
 
         public String Profile { get; set; }

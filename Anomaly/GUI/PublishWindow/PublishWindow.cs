@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Anomaly.GUI
@@ -113,7 +112,7 @@ namespace Anomaly.GUI
                 {
                     String destination = Path.GetFullPath(outputLocationTextBox.OnlyText);
                     window.ClientWidget.Enabled = false;
-                    ThreadPool.QueueUserWorkItem(state =>
+                    Task task = new Task(() =>
                         {
                             publishController.copyResources(destination, archiveNameText.OnlyText, archiveCheckBox.Checked, obfuscateCheckBox.Checked);
                             ThreadManager.invoke(() =>
@@ -122,6 +121,7 @@ namespace Anomaly.GUI
                                 window.ClientWidget.Enabled = true;
                             });
                         });
+                    task.Start();
                 }
                 catch (Exception ex)
                 {
