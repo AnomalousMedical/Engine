@@ -303,8 +303,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../Stdafx.h;
 				HEADER_SEARCH_PATHS = (
-					/Users/andrewpiper/Development/Dependencies/oggvorbis/libogg/include,
-					/Users/andrewpiper/Development/Dependencies/oggvorbis/libvorbis/include,
+					"$(SRCROOT)/../../../Dependencies/oggvorbis/libogg/include",
+					"$(SRCROOT)/../../../Dependencies/oggvorbis/libvorbis/include",
+					/System/Library/Frameworks/OpenAL.framework/Versions/A/Headers,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -324,8 +325,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../Stdafx.h;
 				HEADER_SEARCH_PATHS = (
-					/Users/andrewpiper/Development/Dependencies/oggvorbis/libogg/include,
-					/Users/andrewpiper/Development/Dependencies/oggvorbis/libvorbis/include,
+					"$(SRCROOT)/../../../Dependencies/oggvorbis/libogg/include",
+					"$(SRCROOT)/../../../Dependencies/oggvorbis/libvorbis/include",
 					/System/Library/Frameworks/OpenAL.framework/Versions/A/Headers,
 				);
 				LIBRARY_SEARCH_PATHS = (
