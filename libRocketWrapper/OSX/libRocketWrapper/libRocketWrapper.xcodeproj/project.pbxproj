@@ -319,7 +319,6 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../../Dependencies/Ogre/OSX/Build/lib/Release\"",
 					/Users/andrewpiper/Development/Dependencies/Ogre/OSX/Build/lib/macosx/Release,
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -332,9 +331,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../Dependencies/libRocket/OSXBuild/Release\"",
-					"\"$(SRCROOT)/../../../../Dependencies/libRocket/support/lib\"",
 					/Users/andrewpiper/Development/Dependencies/Ogre/OSX/Dependencies/lib,
-					/Users/andrewpiper/Development/Dependencies/libRocket/OSXBuild/Release,
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -358,7 +355,6 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../../Dependencies/Ogre/OSX/Build/lib/Release\"",
 					/Users/andrewpiper/Development/Dependencies/Ogre/OSX/Build/lib/macosx/Release,
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -378,9 +374,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../Dependencies/libRocket/OSXBuild/Release\"",
-					"\"$(SRCROOT)/../../../../Dependencies/libRocket/support/lib\"",
 					/Users/andrewpiper/Development/Dependencies/Ogre/OSX/Dependencies/lib,
-					/Users/andrewpiper/Development/Dependencies/libRocket/OSXBuild/Release,
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
