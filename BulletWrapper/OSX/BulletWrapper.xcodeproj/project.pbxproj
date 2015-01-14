@@ -282,6 +282,10 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = BulletWrapper_Prefix.pch;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../../../Dependencies/Bullet/src/Extras/ConvexDecomposition",
+					"$(SRCROOT)/../../../Dependencies/Bullet/src/src",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Dependencies/Bullet/OSXBuild/src/BulletCollision/Release\"",
@@ -304,8 +308,8 @@
 				GCC_PREFIX_HEADER = ../../BulletWrapper/Stdafx.h;
 				GCC_PREPROCESSOR_DEFINITIONS = MAC_OSX;
 				HEADER_SEARCH_PATHS = (
-					/Users/andrewpiper/Development/Dependencies/Bullet/src/Extras/ConvexDecomposition,
-					/Users/andrewpiper/Development/Dependencies/Bullet/src/src,
+					"$(SRCROOT)/../../../Dependencies/Bullet/src/Extras/ConvexDecomposition",
+					"$(SRCROOT)/../../../Dependencies/Bullet/src/src",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
