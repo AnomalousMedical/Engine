@@ -9,9 +9,34 @@ using System.IO;
 
 namespace Anomaly.GUI
 {
+    /// <summary>
+    /// A project selector, it is still windows forms based for now, but only this class
+    /// contains any windows.forms code.
+    /// </summary>
     public partial class ProjectSelector : Form
     {
-        public ProjectSelector()
+        static bool firstRun = true;
+
+        public static String getProjectFile()
+        {
+            if(firstRun)
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+            }
+
+            using (ProjectSelector openFile = new ProjectSelector())
+            {
+                openFile.setRecentFiles(AnomalyConfig.RecentDocuments);
+                if (openFile.ShowDialog() == DialogResult.OK)
+                {
+                    return openFile.SelectedFile;
+                }
+            }
+            return "";
+        }
+
+        private ProjectSelector()
         {
             InitializeComponent();
             recentDocsList.SelectedIndexChanged += new EventHandler(recentDocsList_SelectedIndexChanged);

@@ -13,7 +13,6 @@ using System.Xml;
 using Engine.Saving.XMLSaver;
 using Engine.Saving;
 using Engine.Editing;
-using System.Windows.Forms;
 using System.Diagnostics;
 using OgrePlugin;
 using MyGUIPlugin;

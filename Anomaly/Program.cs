@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 using Logging;
 using Engine;
 using Anomaly.GUI;
 using System.IO;
 using Engine.Platform;
+using Anomalous.OSPlatform;
 
 namespace Anomaly
 {
@@ -21,8 +21,6 @@ namespace Anomaly
         static void Main()
         {
             StartupManager.SetupDllDirectories();
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
 
             //Parse command line
             String projectFileName = null;
@@ -50,30 +48,14 @@ namespace Anomaly
             }
             else
             {
-                projectFileName = findProjectFile();
+                projectFileName = ProjectSelector.getProjectFile();
                 startGUI = File.Exists(projectFileName);
-                if (startGUI) //Add file to recent documents list.
-                {
-                    AnomalyConfig.RecentDocuments.addDocument(projectFileName);
-                }
             }
             if (startGUI)
             {
+                AnomalyConfig.RecentDocuments.addDocument(projectFileName);
                 Program.startGUI(projectFileName);
             }
-        }
-
-        static String findProjectFile()
-        {
-            using (ProjectSelector openFile = new ProjectSelector())
-            {
-                openFile.setRecentFiles(AnomalyConfig.RecentDocuments);
-                if (openFile.ShowDialog() == DialogResult.OK)
-                {
-                    return openFile.SelectedFile;
-                }
-            }
-            return "";
         }
 
         static void startGUI(String projectFileName)
@@ -90,7 +72,13 @@ namespace Anomaly
                     catch (Exception e)
                     {
                         Log.Default.printException(e);
-                        MessageBox.Show(e.Message, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        String errorMessage = e.Message + "\n" + e.StackTrace;
+                        while (e.InnerException != null)
+                        {
+                            e = e.InnerException;
+                            errorMessage += "\n" + e.Message + "\n" + e.StackTrace;
+                        }
+                        MessageDialog.showErrorDialog(errorMessage, "Exception");
                     }
                 }
             }
