@@ -442,8 +442,8 @@
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSX/Build/lib/Release\"",
-					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSX/Build/lib/macosx/Release\"",
+					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/lib/Release\"",
+					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/lib/macosx/Release\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -456,14 +456,14 @@
 					"$(SRCROOT)/../../../Dependencies/MyGUI/Src/Platforms/Ogre/OgrePlatform/include",
 					"$(SRCROOT)/../../../Dependencies/MyGUI/Src/Common",
 					"$(SRCROOT)/../../../Dependencies/Ogre/src/OgreMain/include",
-					"$(SRCROOT)/../../../Dependencies/Ogre/OSX/Dependencies/include",
-					"$(SRCROOT)/../../../Dependencies/Ogre/OSX/Build/include",
+					"$(SRCROOT)/../../../Dependencies/OgreDeps/OSXInstall/include",
+					"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/include",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Dependencies/MyGUI/OSXBuild/lib/Release\"",
-					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSX/Dependencies/lib/Release\"",
-					"$(SRCROOT)/../../../Dependencies/Ogre/OSX/Dependencies/lib",
+					"\"$(SRCROOT)/../../../Dependencies/OgreDeps/OSXInstall/lib/Release\"",
+					"$(SRCROOT)/../../../Dependencies/OgreDeps/OSXInstall/lib",
 					"$(SRCROOT)/../../../Dependencies/MyGUI/OSXBuild/lib/Release",
 				);
 			};
@@ -477,8 +477,8 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSX/Build/lib/Release\"",
-					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSX/Build/lib/macosx/Release\"",
+					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/lib/Release\"",
+					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/lib/macosx/Release\"",
 				);
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -495,14 +495,14 @@
 					"$(SRCROOT)/../../../Dependencies/MyGUI/Src/Platforms/Ogre/OgrePlatform/include",
 					"$(SRCROOT)/../../../Dependencies/MyGUI/Src/Common",
 					"$(SRCROOT)/../../../Dependencies/Ogre/src/OgreMain/include",
-					"$(SRCROOT)/../../../Dependencies/Ogre/OSX/Dependencies/include",
-					"$(SRCROOT)/../../../Dependencies/Ogre/OSX/Build/include",
+					"$(SRCROOT)/../../../Dependencies/OgreDeps/OSXInstall/include",
+					"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/include",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Dependencies/MyGUI/OSXBuild/lib/Release\"",
-					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSX/Dependencies/lib/Release\"",
-					"$(SRCROOT)/../../../Dependencies/Ogre/OSX/Dependencies/lib",
+					"\"$(SRCROOT)/../../../Dependencies/OgreDeps/OSXInstall/lib/Release\"",
+					"$(SRCROOT)/../../../Dependencies/OgreDeps/OSXInstall/lib",
 					"$(SRCROOT)/../../../Dependencies/MyGUI/OSXBuild/lib/Release",
 				);
 				OTHER_LDFLAGS = (

@@ -487,8 +487,8 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSX/Build/lib/Release\"",
-					"$(SRCROOT)/../../../Dependencies/Ogre/OSX/Build/lib/macosx/Release",
+					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/lib/Release\"",
+					"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/lib/macosx/Release",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -497,8 +497,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../Dependencies/Ogre/OSX/Dependencies/include",
-					"$(SRCROOT)/../../../Dependencies/Ogre/OSX/Build/include",
+					"$(SRCROOT)/../../../Dependencies/OgreDeps/OSXInstall/include",
+					"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/include",
 					"$(SRCROOT)/../../../Dependencies/Ogre/src/OgreMain/include",
 				);
 				INSTALL_PATH = /usr/local/lib;
@@ -523,8 +523,8 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSX/Build/lib/Release\"",
-					"$(SRCROOT)/../../../Dependencies/Ogre/OSX/Build/lib/macosx/Release",
+					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/lib/Release\"",
+					"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/lib/macosx/Release",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
@@ -532,8 +532,8 @@
 				GCC_PREFIX_HEADER = ../../OgreCWrapper/Stdafx.h;
 				GCC_PREPROCESSOR_DEFINITIONS = MAC_OSX;
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../Dependencies/Ogre/OSX/Dependencies/include",
-					"$(SRCROOT)/../../../Dependencies/Ogre/OSX/Build/include",
+					"$(SRCROOT)/../../../Dependencies/OgreDeps/OSXInstall/include",
+					"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/include",
 					"$(SRCROOT)/../../../Dependencies/Ogre/src/OgreMain/include",
 				);
 				INSTALL_PATH = /usr/local/lib;
