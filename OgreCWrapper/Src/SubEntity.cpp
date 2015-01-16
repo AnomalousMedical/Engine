@@ -45,6 +45,7 @@ extern "C" _AnomalousExport Quaternion SubEntity_getCustomParameter(Ogre::SubEnt
 	{
 		sendExceptionToManagedCode(ex);
 	}
+    return Quaternion();
 }
 
 #pragma warning(pop)

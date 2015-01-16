@@ -14,7 +14,7 @@
 #define _AnomalousExport __declspec(dllexport)
 #endif
 
-#ifdef MAC_OSX
+#if defined(MAC_OSX) || defined(APPLE_IOS)
 #define _AnomalousExport __attribute__ ((visibility("default")))
 #endif
 
@@ -48,6 +48,11 @@ class Quaternion
 {
 public:
 	float x, y, z, w;
+    
+    Quaternion()
+    {
+        
+    }
 
 	Quaternion(const Ogre::Quaternion& ogreQuaternion)
 		:x(ogreQuaternion.x),

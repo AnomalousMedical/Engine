@@ -19,6 +19,10 @@ extern "C" _AnomalousExport Ogre::Plugin* OgreInterface_LoadRenderSystem(RenderS
 #ifdef MAC_OSX
 	String defaultRenderSystem = "/@macBundlePath/../../Frameworks/RenderSystem_GL.framework";
 #endif
+    
+#ifdef APPLE_IOS
+    String defaultRenderSystem = "RenderSystem_GLES2";
+#endif
 
 	Ogre::String name;
 	switch(rendersystemType)
@@ -61,6 +65,11 @@ extern "C" _AnomalousExport Ogre::RenderSystem* OgreInterface_GetRenderSystem(Re
 #ifdef MAC_OSX
 	String defaultRenderSystem = "OpenGL Rendering Subsystem";
 	RenderSystemType defaultRendersystemType = OpenGL;
+#endif
+    
+#ifdef APPLE_IOS
+    String defaultRenderSystem = "RenderSystem_GLES2";
+    RenderSystemType defaultRendersystemType = OpenGL; //Change this to OpenGLES later.
 #endif
 
 	Ogre::Root* root = Ogre::Root::getSingletonPtr();
