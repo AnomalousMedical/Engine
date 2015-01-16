@@ -1,0 +1,341 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		01BD40701A6993EB003331C7 /* BulletDebugDraw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BD40601A6993EB003331C7 /* BulletDebugDraw.cpp */; };
+		01BD40711A6993EB003331C7 /* BulletScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BD40611A6993EB003331C7 /* BulletScene.cpp */; };
+		01BD40721A6993EB003331C7 /* CollisionShapeInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BD40621A6993EB003331C7 /* CollisionShapeInterface.cpp */; };
+		01BD40731A6993EB003331C7 /* ContactCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BD40631A6993EB003331C7 /* ContactCache.cpp */; };
+		01BD40741A6993EB003331C7 /* ContactInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BD40641A6993EB003331C7 /* ContactInfo.cpp */; };
+		01BD40751A6993EB003331C7 /* MotionState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BD40661A6993EB003331C7 /* MotionState.cpp */; };
+		01BD40761A6993EB003331C7 /* ReshapeableRigidBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BD40671A6993EB003331C7 /* ReshapeableRigidBody.cpp */; };
+		01BD40771A6993EB003331C7 /* ReshapeableRigidBodySection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BD40681A6993EB003331C7 /* ReshapeableRigidBodySection.cpp */; };
+		01BD40781A6993EB003331C7 /* btFixedConstraintWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BD40691A6993EB003331C7 /* btFixedConstraintWrapper.cpp */; };
+		01BD40791A6993EB003331C7 /* btGeneric6DofConstraintWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BD406A1A6993EB003331C7 /* btGeneric6DofConstraintWrapper.cpp */; };
+		01BD407A1A6993EB003331C7 /* btManifoldPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BD406B1A6993EB003331C7 /* btManifoldPoint.cpp */; };
+		01BD407B1A6993EB003331C7 /* btRigidBodyWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BD406C1A6993EB003331C7 /* btRigidBodyWrapper.cpp */; };
+		01BD407C1A6993EB003331C7 /* btTypedConstraintWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BD406D1A6993EB003331C7 /* btTypedConstraintWrapper.cpp */; };
+		01BD407D1A6993EB003331C7 /* Stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BD406E1A6993EB003331C7 /* Stdafx.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		013549431A69939B00208498 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		013549451A69939B00208498 /* libBulletWrapper.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libBulletWrapper.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		01BD40571A6993EB003331C7 /* BulletDebugDraw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BulletDebugDraw.h; sourceTree = "<group>"; };
+		01BD40581A6993EB003331C7 /* BulletScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BulletScene.h; sourceTree = "<group>"; };
+		01BD40591A6993EB003331C7 /* ContactCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactCache.h; sourceTree = "<group>"; };
+		01BD405A1A6993EB003331C7 /* ContactInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactInfo.h; sourceTree = "<group>"; };
+		01BD405B1A6993EB003331C7 /* MotionState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MotionState.h; sourceTree = "<group>"; };
+		01BD405C1A6993EB003331C7 /* ReshapeableRigidBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReshapeableRigidBody.h; sourceTree = "<group>"; };
+		01BD405D1A6993EB003331C7 /* ReshapeableRigidBodySection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReshapeableRigidBodySection.h; sourceTree = "<group>"; };
+		01BD405E1A6993EB003331C7 /* RigidBodyConstructionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RigidBodyConstructionInfo.h; sourceTree = "<group>"; };
+		01BD40601A6993EB003331C7 /* BulletDebugDraw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BulletDebugDraw.cpp; sourceTree = "<group>"; };
+		01BD40611A6993EB003331C7 /* BulletScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BulletScene.cpp; sourceTree = "<group>"; };
+		01BD40621A6993EB003331C7 /* CollisionShapeInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CollisionShapeInterface.cpp; sourceTree = "<group>"; };
+		01BD40631A6993EB003331C7 /* ContactCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ContactCache.cpp; sourceTree = "<group>"; };
+		01BD40641A6993EB003331C7 /* ContactInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ContactInfo.cpp; sourceTree = "<group>"; };
+		01BD40651A6993EB003331C7 /* Generic6DofConstriantMotors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Generic6DofConstriantMotors.h; sourceTree = "<group>"; };
+		01BD40661A6993EB003331C7 /* MotionState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MotionState.cpp; sourceTree = "<group>"; };
+		01BD40671A6993EB003331C7 /* ReshapeableRigidBody.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ReshapeableRigidBody.cpp; sourceTree = "<group>"; };
+		01BD40681A6993EB003331C7 /* ReshapeableRigidBodySection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ReshapeableRigidBodySection.cpp; sourceTree = "<group>"; };
+		01BD40691A6993EB003331C7 /* btFixedConstraintWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = btFixedConstraintWrapper.cpp; sourceTree = "<group>"; };
+		01BD406A1A6993EB003331C7 /* btGeneric6DofConstraintWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = btGeneric6DofConstraintWrapper.cpp; sourceTree = "<group>"; };
+		01BD406B1A6993EB003331C7 /* btManifoldPoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = btManifoldPoint.cpp; sourceTree = "<group>"; };
+		01BD406C1A6993EB003331C7 /* btRigidBodyWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = btRigidBodyWrapper.cpp; sourceTree = "<group>"; };
+		01BD406D1A6993EB003331C7 /* btTypedConstraintWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = btTypedConstraintWrapper.cpp; sourceTree = "<group>"; };
+		01BD406E1A6993EB003331C7 /* Stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Stdafx.cpp; path = ../Stdafx.cpp; sourceTree = "<group>"; };
+		01BD406F1A6993EB003331C7 /* Stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stdafx.h; path = ../Stdafx.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		013549421A69939B00208498 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0135493C1A69939B00208498 = {
+			isa = PBXGroup;
+			children = (
+				01BD40561A6993EB003331C7 /* Include */,
+				01BD405F1A6993EB003331C7 /* src */,
+				01BD406E1A6993EB003331C7 /* Stdafx.cpp */,
+				01BD406F1A6993EB003331C7 /* Stdafx.h */,
+				013549461A69939B00208498 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		013549461A69939B00208498 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				013549451A69939B00208498 /* libBulletWrapper.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		01BD40561A6993EB003331C7 /* Include */ = {
+			isa = PBXGroup;
+			children = (
+				01BD40571A6993EB003331C7 /* BulletDebugDraw.h */,
+				01BD40581A6993EB003331C7 /* BulletScene.h */,
+				01BD40591A6993EB003331C7 /* ContactCache.h */,
+				01BD405A1A6993EB003331C7 /* ContactInfo.h */,
+				01BD405B1A6993EB003331C7 /* MotionState.h */,
+				01BD405C1A6993EB003331C7 /* ReshapeableRigidBody.h */,
+				01BD405D1A6993EB003331C7 /* ReshapeableRigidBodySection.h */,
+				01BD405E1A6993EB003331C7 /* RigidBodyConstructionInfo.h */,
+			);
+			name = Include;
+			path = ../Include;
+			sourceTree = "<group>";
+		};
+		01BD405F1A6993EB003331C7 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				01BD40601A6993EB003331C7 /* BulletDebugDraw.cpp */,
+				01BD40611A6993EB003331C7 /* BulletScene.cpp */,
+				01BD40621A6993EB003331C7 /* CollisionShapeInterface.cpp */,
+				01BD40631A6993EB003331C7 /* ContactCache.cpp */,
+				01BD40641A6993EB003331C7 /* ContactInfo.cpp */,
+				01BD40651A6993EB003331C7 /* Generic6DofConstriantMotors.h */,
+				01BD40661A6993EB003331C7 /* MotionState.cpp */,
+				01BD40671A6993EB003331C7 /* ReshapeableRigidBody.cpp */,
+				01BD40681A6993EB003331C7 /* ReshapeableRigidBodySection.cpp */,
+				01BD40691A6993EB003331C7 /* btFixedConstraintWrapper.cpp */,
+				01BD406A1A6993EB003331C7 /* btGeneric6DofConstraintWrapper.cpp */,
+				01BD406B1A6993EB003331C7 /* btManifoldPoint.cpp */,
+				01BD406C1A6993EB003331C7 /* btRigidBodyWrapper.cpp */,
+				01BD406D1A6993EB003331C7 /* btTypedConstraintWrapper.cpp */,
+			);
+			name = src;
+			path = ../src;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		013549441A69939B00208498 /* BulletWrapper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 013549591A69939B00208498 /* Build configuration list for PBXNativeTarget "BulletWrapper" */;
+			buildPhases = (
+				013549411A69939B00208498 /* Sources */,
+				013549421A69939B00208498 /* Frameworks */,
+				013549431A69939B00208498 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BulletWrapper;
+			productName = BulletWrapper;
+			productReference = 013549451A69939B00208498 /* libBulletWrapper.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0135493D1A69939B00208498 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = "Andrew Piper";
+				TargetAttributes = {
+					013549441A69939B00208498 = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+				};
+			};
+			buildConfigurationList = 013549401A69939B00208498 /* Build configuration list for PBXProject "BulletWrapper" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 0135493C1A69939B00208498;
+			productRefGroup = 013549461A69939B00208498 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				013549441A69939B00208498 /* BulletWrapper */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		013549411A69939B00208498 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01BD40711A6993EB003331C7 /* BulletScene.cpp in Sources */,
+				01BD40741A6993EB003331C7 /* ContactInfo.cpp in Sources */,
+				01BD40731A6993EB003331C7 /* ContactCache.cpp in Sources */,
+				01BD40701A6993EB003331C7 /* BulletDebugDraw.cpp in Sources */,
+				01BD40721A6993EB003331C7 /* CollisionShapeInterface.cpp in Sources */,
+				01BD40791A6993EB003331C7 /* btGeneric6DofConstraintWrapper.cpp in Sources */,
+				01BD40761A6993EB003331C7 /* ReshapeableRigidBody.cpp in Sources */,
+				01BD407D1A6993EB003331C7 /* Stdafx.cpp in Sources */,
+				01BD407B1A6993EB003331C7 /* btRigidBodyWrapper.cpp in Sources */,
+				01BD407A1A6993EB003331C7 /* btManifoldPoint.cpp in Sources */,
+				01BD40771A6993EB003331C7 /* ReshapeableRigidBodySection.cpp in Sources */,
+				01BD40781A6993EB003331C7 /* btFixedConstraintWrapper.cpp in Sources */,
+				01BD407C1A6993EB003331C7 /* btTypedConstraintWrapper.cpp in Sources */,
+				01BD40751A6993EB003331C7 /* MotionState.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		013549571A69939B00208498 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		013549581A69939B00208498 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		0135495A1A69939B00208498 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					APPLE_IOS,
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../../../Dependencies/Bullet/src/Extras/ConvexDecomposition",
+					"$(SRCROOT)/../../../Dependencies/Bullet/src/src",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WARNING_CFLAGS = "-Wno-return-type-c-linkage";
+			};
+			name = Debug;
+		};
+		0135495B1A69939B00208498 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = APPLE_IOS;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../../../Dependencies/Bullet/src/Extras/ConvexDecomposition",
+					"$(SRCROOT)/../../../Dependencies/Bullet/src/src",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WARNING_CFLAGS = "-Wno-return-type-c-linkage";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		013549401A69939B00208498 /* Build configuration list for PBXProject "BulletWrapper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				013549571A69939B00208498 /* Debug */,
+				013549581A69939B00208498 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		013549591A69939B00208498 /* Build configuration list for PBXNativeTarget "BulletWrapper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0135495A1A69939B00208498 /* Debug */,
+				0135495B1A69939B00208498 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0135493D1A69939B00208498 /* Project object */;
+}
