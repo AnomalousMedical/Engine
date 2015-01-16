@@ -2,6 +2,10 @@
 
 #include <string>
 
+#if APPLE_IOS
+#include <unistd.h>
+#endif
+
 static int xor_value;
 
 static zzip_ssize_t xor_read (int f, void* p, zzip_size_t l)
@@ -9,7 +13,7 @@ static zzip_ssize_t xor_read (int f, void* p, zzip_size_t l)
 #ifdef WINDOWS
 	zzip_ssize_t r = _read(f, p, l);
 #endif
-#ifdef MAC_OSX
+#if defined(MAC_OSX) || defined(APPLE_IOS)
 	zzip_ssize_t r = read(f, p, l);
 #endif
 	zzip_ssize_t x; 
