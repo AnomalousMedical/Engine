@@ -42,28 +42,6 @@ namespace Anomalous.Minimus
 
         }
 
-        public override void Dispose()
-        {
-            //Note this isn't really right and not everything is being disposed that should be.
-            sceneViewController.destroyCameras();
-            scene.Dispose();
-
-            IDisposableUtil.DisposeIfNotNull(taskbar);
-            IDisposableUtil.DisposeIfNotNull(taskMenu);
-
-            IDisposableUtil.DisposeIfNotNull(sceneViewController);
-            IDisposableUtil.DisposeIfNotNull(editorBorder);
-            IDisposableUtil.DisposeIfNotNull(contentArea);
-            IDisposableUtil.DisposeIfNotNull(mdiLayout);
-
-            engineController.Dispose();
-            mainWindow.Dispose();
-
-            base.Dispose();
-
-            logListener.closeLogFile();
-        }
-
         public override bool OnInit()
         {
             coreConfig = new CoreConfig("Anomalous Minimus");
@@ -158,7 +136,26 @@ namespace Anomalous.Minimus
         public override int OnExit()
         {
             CoreConfig.save();
-            
+
+            //Note this isn't really right and not everything is being disposed that should be.
+            sceneViewController.destroyCameras();
+            scene.Dispose();
+
+            IDisposableUtil.DisposeIfNotNull(taskbar);
+            IDisposableUtil.DisposeIfNotNull(taskMenu);
+
+            IDisposableUtil.DisposeIfNotNull(sceneViewController);
+            IDisposableUtil.DisposeIfNotNull(editorBorder);
+            IDisposableUtil.DisposeIfNotNull(contentArea);
+            IDisposableUtil.DisposeIfNotNull(mdiLayout);
+
+            engineController.Dispose();
+            mainWindow.Dispose();
+
+            base.Dispose();
+
+            logListener.closeLogFile();
+
             return 0;
         }
 

@@ -36,7 +36,7 @@ namespace Anomalous.OSPlatform
             App_registerDelegates(appPtr, onInitCB, onExitCB, onIdleCB);
         }
 
-        public virtual void Dispose()
+        public void Dispose()
         {
             App_delete(appPtr);
             appPtr = IntPtr.Zero;

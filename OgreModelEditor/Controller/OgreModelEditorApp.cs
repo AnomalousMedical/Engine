@@ -12,12 +12,6 @@ namespace OgreModelEditor
     {
         private OgreModelEditorController controller;
 
-        public override void Dispose()
-        {
-            controller.Dispose();
-            base.Dispose();
-        }
-
         public override bool OnInit()
         {
             String defaultModel = null;
@@ -39,6 +33,7 @@ namespace OgreModelEditor
 
         public override int OnExit()
         {
+            controller.Dispose();
             return 0;
         }
 
