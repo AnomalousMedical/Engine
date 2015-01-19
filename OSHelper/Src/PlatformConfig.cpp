@@ -7,6 +7,7 @@ namespace AnomalousOSHelper
 		Windows,
 		Mac,
 		WinRT,
+        iOS,
 	};
 }
 
@@ -18,5 +19,7 @@ extern "C" _AnomalousExport AnomalousOSHelper::RuntimeOperatingSystem PlatformCo
 	return AnomalousOSHelper::WinRT;
 #elif MAC_OSX
 	return AnomalousOSHelper::Mac;
+#elif APPLE_IOS
+    return AnomalousOSHelper::iOS;
 #endif
 }

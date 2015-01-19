@@ -22,7 +22,7 @@
 typedef const wchar_t* String; //UTF16 Needed, On windows this is ok
 #endif
 
-#ifdef MAC_OSX
+#if defined(MAC_OSX) || defined(APPLE_IOS)
 #define _AnomalousExport __attribute__ ((visibility("default")))
 typedef const unsigned short* String; //UTF16 Needed
 #endif

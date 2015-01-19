@@ -5,7 +5,7 @@
 #define Int64 LONGLONG
 #endif
 
-#ifdef MAC_OSX
+#if defined(MAC_OSX) || defined(APPLE_IOS)
 #include <sys/time.h>
 #include <stdint.h>
 #define Int64 int64_t
@@ -30,7 +30,7 @@ private:
 
 #endif
 
-#ifdef MAC_OSX
+#if defined(MAC_OSX) || defined(APPLE_IOS)
 	struct timeval start;
 #endif
 
