@@ -38,6 +38,10 @@ extern "C" _AnomalousExport Ogre::Plugin* OgreInterface_LoadRenderSystem(RenderS
 			break;
 	}
 
+#if _DEBUG
+	name = (std::string(name) + "_d").c_str();
+#endif
+
 	try
 	{
 		Ogre::Root::getSingleton().loadPlugin(name);

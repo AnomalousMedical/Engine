@@ -13,45 +13,67 @@
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Debug\</OutputPath>
+    <OutputPath>..\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Release\</OutputPath>
+    <OutputPath>..\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="..\..\Dependencies\FreeImage.NET\WindowsBuild\bin\Debug\FreeImage_d.dll">
+      <Link>Debug\x86\FreeImage.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\..\Dependencies\FreeImage.NET\WindowsBuild\bin\Release\FreeImage.dll">
-      <Link>x86\FreeImage.dll</Link>
+      <Link>Release\x86\FreeImage.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\Dependencies\Ogre\WindowsBuild\bin\debug\OgreMain_d.dll">
+      <Link>Debug\x86\OgreMain_d.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\Dependencies\Ogre\WindowsBuild\bin\debug\RenderSystem_Direct3D11_d.dll">
+      <Link>Debug\x86\RenderSystem_Direct3D11_d.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\Dependencies\Ogre\WindowsBuild\bin\debug\RenderSystem_GL_d.dll">
+      <Link>Debug\x86\RenderSystem_GL_d.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\Dependencies\Ogre\WindowsBuild\bin\release\OgreMain.dll">
-      <Link>x86\OgreMain.dll</Link>
+      <Link>Release\x86\OgreMain.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\Dependencies\Ogre\WindowsBuild\bin\release\RenderSystem_Direct3D11.dll">
-      <Link>x86\RenderSystem_Direct3D11.dll</Link>
+      <Link>Release\x86\RenderSystem_Direct3D11.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\Dependencies\Ogre\WindowsBuild\bin\release\RenderSystem_GL.dll">
-      <Link>x86\RenderSystem_GL.dll</Link>
+      <Link>Release\x86\RenderSystem_GL.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\Dependencies\OpenALSoft\WindowsBuild\Debug\OpenAL32.dll">
+      <Link>Debug\x86\OpenAL32.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\Dependencies\OpenALSoft\WindowsBuild\Release\OpenAL32.dll">
-      <Link>x86\OpenAL32.dll</Link>
+      <Link>Release\x86\OpenAL32.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="C:\Program Files %28x86%29\Windows Kits\8.1\bin\x86\d3dcompiler_47.dll">
-      <Link>x86\d3dcompiler_47.dll</Link>
+      <Link>Release\x86\d3dcompiler_47.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
