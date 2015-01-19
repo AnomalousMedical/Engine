@@ -302,9 +302,6 @@ namespace Anomalous.OSPlatform
         [DllImport(NativePlatformPlugin.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void NativeOSWindow_setCursor(IntPtr nativeWindow, CursorType cursor);
 
-        [DllImport(NativePlatformPlugin.LibraryName, CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr NativeOSWindow_createMenu(IntPtr nativeWindow);
-
         [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern float NativeOSWindow_getWindowScaling(IntPtr nativeWindow);
 
