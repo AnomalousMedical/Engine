@@ -231,6 +231,7 @@
     <ClCompile Include="Src\SceneManager.cpp" />
     <ClCompile Include="Src\SceneNode.cpp" />
     <ClCompile Include="Src\Skeleton.cpp" />
+    <ClCompile Include="Src\SkeletonManager.cpp" />
     <ClCompile Include="src\StaticGeometry.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
