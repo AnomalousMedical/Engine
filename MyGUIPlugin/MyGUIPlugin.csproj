@@ -318,6 +318,8 @@
     <EmbeddedResource Include="Resources\Fonts\Roboto-Italic.ttf" />
     <EmbeddedResource Include="Resources\Fonts\Roboto-Medium.ttf" />
     <EmbeddedResource Include="Resources\Fonts\Roboto-Regular.ttf" />
+    <EmbeddedResource Include="Resources\Shader\Gui\glsles\TextureVS.glsles" />
+    <EmbeddedResource Include="Resources\Shader\Gui\glsles\TexturePS.glsles" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\MyGUIPlugin_Skin_Custom.xml">
