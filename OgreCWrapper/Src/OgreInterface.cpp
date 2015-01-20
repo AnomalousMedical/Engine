@@ -1,4 +1,9 @@
 #include "Stdafx.h"
+#include "OgrePlugin.h"
+
+#ifdef APPLE_IOS
+#include "OgreGLES2Plugin.h"
+#endif
 
 //This is not actually part of ogre, but is a way for the OgreInterface class to
 //get its rendersystem info
@@ -7,11 +12,14 @@ enum RenderSystemType
 {
 	Default = 0,
 	D3D11 = 1,
-	OpenGL = 2
+	OpenGL = 2,
+    OpenGLES2 = 3
 };
 
 extern "C" _AnomalousExport Ogre::Plugin* OgreInterface_LoadRenderSystem(RenderSystemType rendersystemType)
 {
+    Ogre::Plugin* plugin = NULL;
+    
 #if defined(WINDOWS) || defined(WINRT)
 	String defaultRenderSystem = "RenderSystem_Direct3D11";
 #endif
@@ -36,12 +44,22 @@ extern "C" _AnomalousExport Ogre::Plugin* OgreInterface_LoadRenderSystem(RenderS
 		case OpenGL:
 			name = "RenderSystem_GL";
 			break;
+        case OpenGLES2:
+            name = "RenderSystem_GLES2";
+            break;
 	}
 
-#if _DEBUG
-	name = (std::string(name) + "_d").c_str();
+#ifdef OGRE_STATIC_LIB
+#ifdef APPLE_IOS
+    Ogre::GLES2Plugin* gles2Plugin = new Ogre::GLES2Plugin(); //Will be delete by the managed code when this is returned.
+    Ogre::Root::getSingleton().installPlugin(gles2Plugin);
+    plugin = gles2Plugin;
 #endif
-
+#else
+#if _DEBUG
+    name = (std::string(name) + "_d").c_str();
+#endif
+    
 	try
 	{
 		Ogre::Root::getSingleton().loadPlugin(name);
@@ -50,13 +68,18 @@ extern "C" _AnomalousExport Ogre::Plugin* OgreInterface_LoadRenderSystem(RenderS
 	{
 		Ogre::Root::getSingleton().loadPlugin(defaultRenderSystem);
 	}
+    
+#endif
 
-	return NULL;
+	return plugin;
 }
 
 extern "C" _AnomalousExport void OgreInterface_UnloadRenderSystem(Ogre::Plugin* renderSystemPlugin)
 {
-	
+	if(renderSystemPlugin != NULL)
+    {
+        delete renderSystemPlugin;
+    }
 }
 
 extern "C" _AnomalousExport Ogre::RenderSystem* OgreInterface_GetRenderSystem(RenderSystemType rendersystemType)
@@ -72,8 +95,8 @@ extern "C" _AnomalousExport Ogre::RenderSystem* OgreInterface_GetRenderSystem(Re
 #endif
     
 #ifdef APPLE_IOS
-    String defaultRenderSystem = "RenderSystem_GLES2";
-    RenderSystemType defaultRendersystemType = OpenGL; //Change this to OpenGLES later.
+    String defaultRenderSystem = "OpenGL ES 2.x Rendering Subsystem";
+    RenderSystemType defaultRendersystemType = OpenGLES2; //Change this to OpenGLES later.
 #endif
 
 	Ogre::Root* root = Ogre::Root::getSingletonPtr();
@@ -90,6 +113,9 @@ extern "C" _AnomalousExport Ogre::RenderSystem* OgreInterface_GetRenderSystem(Re
 		case OpenGL:
 			name = "OpenGL Rendering Subsystem";
 			break;
+        case OpenGLES2:
+            name = "OpenGL ES 2.x Rendering Subsystem";
+            break;
 	}
 
 	Ogre::RenderSystem* rs = root->getRenderSystemByName(name);
