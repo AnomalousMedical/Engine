@@ -74,22 +74,22 @@ namespace BulletPlugin
 
         delegate void DrawLineCallback(ref Vector3 color, ref Vector3 from, ref Vector3 to);
         delegate void ReportErrorWarningCallback(String warning);
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr BulletDebugDraw_Create(DrawLineCallback drawLine, ReportErrorWarningCallback reportWarning);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void BulletDebugDraw_Delete(IntPtr debugDraw);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void BulletDebugDraw_setGlobalDebugMode(int debugMode);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void BulletDebugDraw_enableGlobalDebugMode(int debugMode);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void BulletDebugDraw_disableGlobalDebugMode(int debugMode);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern int BulletDebugDraw_getGlobalDebugMode();
     }
 }

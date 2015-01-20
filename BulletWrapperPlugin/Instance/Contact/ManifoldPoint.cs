@@ -41,19 +41,19 @@ namespace BulletPlugin
             return btManifoldPoint_getAppliedImpulse(manifoldPoint);
         }
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern float btManifoldPoint_getDistance(IntPtr point);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern int btManifoldPoint_getLifeTime(IntPtr point);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern Vector3 btManifoldPoint_getPositionWorldOnA(IntPtr point);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern Vector3 btManifoldPoint_getPositionWorldOnB(IntPtr point);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern float btManifoldPoint_getAppliedImpulse(IntPtr point);
     }
 }

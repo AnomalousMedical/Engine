@@ -595,188 +595,188 @@ namespace BulletPlugin
     {
         //btRigidBody
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr btRigidBody_Create(ref RigidBodyConstructionInfo constructionInfo, IntPtr motionState, IntPtr collisionShape);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btRigidBody_Delete(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btRigidBody_setDamping(IntPtr instance, float linearDamping, float angularDamping);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern float btRigidBody_getLinearDamping(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern float btRigidBody_getAngularDamping(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern float btRigidBody_getLinearSleepingThreshold(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern float btRigidBody_getAngularSleepingThreshold(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btRigidBody_setMassProps(IntPtr instance, float mass);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btRigidBody_setMassPropsInertia(IntPtr instance, float mass, ref Vector3 inertia);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern float btRigidBody_getInvMass(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btRigidBody_applyCentralForce(IntPtr instance, ref Vector3 force);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern Vector3 btRigidBody_getTotalForce(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern Vector3 btRigidBody_getTotalTorque(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btRigidBody_setSleepingThresholds(IntPtr instance, float linear, float angular);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btRigidBody_applyTorque(IntPtr instance, ref Vector3 torque);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btRigidBody_applyForce(IntPtr instance, ref Vector3 force, ref Vector3 rel_pos);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btRigidBody_applyCentralImpulse(IntPtr instance, ref Vector3 impulse);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btRigidBody_applyTorqueImpulse(IntPtr instance, ref Vector3 torque);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btRigidBody_clearForces(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern Vector3 btRigidBody_getCenterOfMassPosition(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern Vector3 btRigidBody_getLinearVelocity(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern Vector3 btRigidBody_getAngularVelocity(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btRigidBody_setLinearVelocity(IntPtr instance, ref Vector3 lin_vel);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btRigidBody_setAngularVelocity(IntPtr instance, ref Vector3 ang_vel);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern Vector3 btRigidBody_getVelocityInLocalPoint(IntPtr instance, ref Vector3 rel_pos);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btRigidBody_translate(IntPtr instance, ref Vector3 v);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btRigidBody_getAabb(IntPtr instance, out Vector3 aabbMin, out Vector3 aabbMax);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern float btRigidBody_computeImpulseDenominator(IntPtr instance, ref Vector3 pos, ref Vector3 normal);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern float btRigidBody_computeAngularImpulseDenominator(IntPtr instance, ref Vector3 axis);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool btRigidBody_wantsSleeping(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool btRigidBody_isInWorld(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btRigidBody_setAnisotropicFriction(IntPtr instance, ref Vector3 anisotropicFriction);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern Vector3 btRigidBody_getAnisotropicFriction(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool btRigidBody_hasAnisotropicFriction(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool btRigidBody_isStaticObject(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool btRigidBody_isKinematicObject(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool btRigidBody_isStaticOrKinematicObject(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern int btRigidBody_getActivationState(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btRigidBody_setActivationState(IntPtr instance, int state);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btRigidBody_setDeactivationTime(IntPtr instance, float time);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern float btRigidBody_getDeactivationTime(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btRigidBody_forceActivationState(IntPtr instance, int state);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btRigidBody_activate(IntPtr instance, bool forceActivation);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool btRigidBody_isActive(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btRigidBody_setRestitution(IntPtr instance, float restitution);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern float btRigidBody_getRestitution(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btRigidBody_setFriction(IntPtr instance, float friction);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern float btRigidBody_getFriction(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btRigidBody_setHitFraction(IntPtr instance, float fraction);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern float btRigidBody_getHitFraction(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern int btRigidBody_getCollisionFlags(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btRigidBody_setCollisionFlags(IntPtr instance, int flags);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btRigidBody_setLocalScaling(IntPtr instance, ref Vector3 scaling);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern Vector3 btRigidBody_getLocalScaling(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btRigidBody_setWorldTranslation(IntPtr rigidBody, ref Vector3 trans);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btRigidBody_setWorldRotation(IntPtr rigidBody, ref Quaternion rot);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btRigidBody_setWorldTransform(IntPtr rigidBody, ref Vector3 trans, ref Quaternion rot);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern int btRigidBody_getNumConstraintRefs(IntPtr rigidBody);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr btRigidBody_getConstraintRef(IntPtr rigidBody, int num);
     }
 }

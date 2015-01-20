@@ -309,122 +309,122 @@ namespace SoundPlugin
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate void SourceFinishedCallback(IntPtr source);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Source_playSound(IntPtr source, IntPtr sound);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Source_playing(IntPtr source);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Source_stop(IntPtr source);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Source_pause(IntPtr source);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Source_resume(IntPtr source);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Source_getLooping(IntPtr source);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Source_rewind(IntPtr source);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Source_setPlaybackPosition(IntPtr source, float time);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern float Source_getPlaybackPosition(IntPtr source);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Source_setFinishedCallback(IntPtr source, SourceFinishedCallback callback);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Source_setPitch(IntPtr source, float value);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern float Source_getPitch(IntPtr source);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Source_setGain(IntPtr source, float value);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern float Source_getGain(IntPtr source);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Source_setMinGain(IntPtr source, float value);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern float Source_getMinGain(IntPtr source);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Source_setMaxGain(IntPtr source, float value);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern float Source_getMaxGain(IntPtr source);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Source_setMaxDistance(IntPtr source, float value);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern float Source_getMaxDistance(IntPtr source);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Source_setRolloffFactor(IntPtr source, float value);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern float Source_getRolloffFactor(IntPtr source);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Source_setConeOuterGain(IntPtr source, float value);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern float Source_getConeOuterGain(IntPtr source);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Source_setConeInnerAngle(IntPtr source, float value);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern float Source_getConeInnerAngle(IntPtr source);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Source_setConeOuterAngle(IntPtr source, float value);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern float Source_getConeOuterAngle(IntPtr source);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Source_setReferenceDistance(IntPtr source, float value);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern float Source_getReferenceDistance(IntPtr source);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Source_setPosition(IntPtr source, Vector3 value);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern Vector3 Source_getPosition(IntPtr source);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Source_setVelocity(IntPtr source, Vector3 value);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern Vector3 Source_getVelocity(IntPtr source);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Source_setDirection(IntPtr source, Vector3 value);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern Vector3 Source_getDirection(IntPtr source);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Source_setSourceRelative(IntPtr source, bool value);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Source_getSourceRelative(IntPtr source);
 

@@ -26,7 +26,7 @@ namespace BulletPlugin
 	        return definition;
         }
     
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr btFixedConstraint_Create(IntPtr rbA, IntPtr rbB, Vector3 jointPos, Quaternion jointRot);
     }
 }

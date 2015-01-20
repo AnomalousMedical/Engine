@@ -48,13 +48,13 @@ namespace SoundPlugin
 
         #region PInvoke
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void CaptureDevice_Start(IntPtr captureDevice, BufferFullCallback callback);
 
-        [DllImport("SoundWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void CaptureDevice_Stop(IntPtr captureDevice);
 
-        [DllImport("SoundWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool CaptureDevice_IsValid(IntPtr captureDevice);
 

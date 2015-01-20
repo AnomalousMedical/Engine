@@ -273,43 +273,43 @@ namespace BulletPlugin
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate void ManagedTickCallback(float timeStep);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr BulletScene_CreateBulletScene(BulletSceneInfo* sceneInfo, ManagedTickCallback managedTickCallback);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void BulletScene_DestroyBulletScene(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void BulletScene_fillOutInfo(IntPtr instance, BulletSceneInfo* sceneInfo);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void BulletScene_update(IntPtr instance, float seconds);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void BulletScene_addRigidBody(IntPtr instance, IntPtr rigidBody, short group, short mask);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void BulletScene_removeRigidBody(IntPtr instance, IntPtr rigidBody);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void BulletScene_addConstraint(IntPtr instance, IntPtr constraint, bool disableCollisionsBetweenLinkedBodies);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void BulletScene_removeConstraint(IntPtr instance, IntPtr constraint);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void BulletScene_debugDrawWorld(IntPtr instance, IntPtr debugDrawer);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void BulletScene_setInternalTimestep(IntPtr instance, float internalTimestep);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern float BulletScene_getInternalTimestep(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void BulletScene_setSolverIterations(IntPtr instance, int iterations);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern int BulletScene_getSolverIterations(IntPtr instance);
     }
 }

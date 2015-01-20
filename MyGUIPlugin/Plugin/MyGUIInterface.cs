@@ -12,11 +12,11 @@ namespace MyGUIPlugin
 {
     public class MyGUIInterface : PluginInterface
     {
-		#if STATIC_LINK
+#if STATIC_LINK
 		internal const String LibraryName = "__Internal";
-		#else
-		internal const String LibraryName = "MyGUIWrapper";
-		#endif
+#else
+        internal const String LibraryName = "MyGUIWrapper";
+#endif
 
         public static MyGUIInterface Instance { get; private set; }
 
@@ -53,7 +53,7 @@ namespace MyGUIPlugin
 
         public void Dispose()
         {
-            if(mainTimer != null)
+            if (mainTimer != null)
             {
                 mainTimer.removeUpdateListener(myGUIUpdate);
             }
@@ -65,17 +65,17 @@ namespace MyGUIPlugin
             {
                 sceneManager.destroyCamera(camera);
             }
-            if(gui != null)
+            if (gui != null)
             {
                 gui.shutdown();
                 gui.Dispose();
             }
-            if(ogrePlatform != null)
+            if (ogrePlatform != null)
             {
                 ogrePlatform.shutdown();
                 ogrePlatform.Dispose();
             }
-            if(sceneManager != null)
+            if (sceneManager != null)
             {
                 Root.getSingleton().destroySceneManager(sceneManager);
             }
@@ -87,7 +87,7 @@ namespace MyGUIPlugin
 
         public void initialize(PluginManager pluginManager)
         {
-            if(EventLayerKey == null)
+            if (EventLayerKey == null)
             {
                 throw new ArgumentNullException("EventLayerKey", "EventLayerKey property must be set before initializing MyGUIPlugin.");
             }
@@ -127,7 +127,7 @@ namespace MyGUIPlugin
             gui.initialize("");
 
             //Load config files
-            if(BeforeMainResourcesLoaded != null)
+            if (BeforeMainResourcesLoaded != null)
             {
                 BeforeMainResourcesLoaded.Invoke(this);
             }
@@ -171,7 +171,7 @@ namespace MyGUIPlugin
 
         public void createDebugCommands(List<CommandManager> commands)
         {
-            
+
         }
 
         public void setupRenamedSaveableTypes(RenamedTypeMap renamedTypeMap)

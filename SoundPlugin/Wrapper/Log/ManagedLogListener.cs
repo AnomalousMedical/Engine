@@ -34,13 +34,13 @@ namespace SoundPlugin
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         delegate void LogMessageDelegate(IntPtr message, LogLevel logLevel, IntPtr subsystem);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr ManagedLogListener_create(LogMessageDelegate logDelegate);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManagedLogListener_destroy(IntPtr managedLogListener);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void NativeLog_addLogListener(IntPtr logListener);
 
         #endregion

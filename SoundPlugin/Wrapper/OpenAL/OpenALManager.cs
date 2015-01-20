@@ -124,52 +124,52 @@ namespace SoundPlugin
 
         #region PInvoke
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr OpenALManager_create();
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void OpenALManager_destroy(IntPtr openALManager);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr OpenALManager_createCaptureDevice(IntPtr openALManager, BufferFormat format, int bufferSeconds, int rate);
 
-        [DllImport("SoundWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void OpenALManager_destroyCaptureDevice(IntPtr openALManager, IntPtr captureDevice);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr OpenALManager_createAudioCodec(IntPtr openALManager, IntPtr stream);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void OpenALManager_destroyAudioCodec(IntPtr openALManager, IntPtr codec);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr OpenALManager_createMemorySound(IntPtr openALManager, IntPtr stream);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr OpenALManager_createMemorySoundCodec(IntPtr openALManager, IntPtr codec);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr OpenALManager_createStreamingSound(IntPtr openALManager, IntPtr stream);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr OpenALManager_createStreamingSoundCodec(IntPtr openALManager, IntPtr codec);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr OpenALManager_createStreamingSound2(IntPtr openALManager, IntPtr stream, int bufferSize, int numBuffers);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr OpenALManager_createStreamingSound2Codec(IntPtr openALManager, IntPtr codec, int bufferSize, int numBuffers);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void OpenALManager_destroySound(IntPtr openALManager, IntPtr sound);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr OpenALManager_getSource(IntPtr openALManager);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void OpenALManager_update(IntPtr openALManager);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr OpenALManager_getListener(IntPtr openALManager);
 
         #endregion

@@ -65,32 +65,32 @@ namespace SoundPlugin
 
         #region PInvoke
 
-        [DllImport("SoundWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr OggEncoder_create();
 
-        [DllImport("SoundWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void OggEncoder_delete(IntPtr encoder);
 
-        [DllImport("SoundWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool OggEncoder_encodeToStream(IntPtr encoder, IntPtr source, IntPtr destination);
 
-        [DllImport("SoundWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern long OggEncoder_getChannels(IntPtr encoder);
 
-        [DllImport("SoundWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void OggEncoder_setChannels(IntPtr encoder, long value);
 
-        [DllImport("SoundWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern long OggEncoder_getRate(IntPtr encoder);
 
-        [DllImport("SoundWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void OggEncoder_setRate(IntPtr encoder, long value);
 
-        [DllImport("SoundWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern float OggEncoder_getBaseQuality(IntPtr encoder);
 
-        [DllImport("SoundWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void OggEncoder_setBaseQuality(IntPtr encoder, float value);
 
         #endregion

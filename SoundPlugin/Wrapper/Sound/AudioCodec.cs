@@ -42,26 +42,26 @@ namespace SoundPlugin
 
         #region PInvoke
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern int AudioCodec_getNumChannels(IntPtr codec);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern int AudioCodec_getSamplingFrequency(IntPtr codec);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern UIntPtr AudioCodec_read(IntPtr codec, char* buffer, int length);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void AudioCodec_close(IntPtr codec);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool AudioCodec_eof(IntPtr codec);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void AudioCodec_seekToStart(IntPtr codec);
 
-        [DllImport("SoundWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern double AudioCodec_getDuration(IntPtr codec);
 
         #endregion 

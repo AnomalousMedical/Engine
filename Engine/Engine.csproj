@@ -380,6 +380,7 @@
     <Compile Include="Zip\ZipFile.cs" />
     <Compile Include="Zip\ZipFileInfo.cs" />
     <Compile Include="Zip\ZipIOException.cs" />
+    <Compile Include="Zip\ZipLibraryInfo.cs" />
     <Compile Include="Zip\ZipStream.cs" />
     <Compile Include="Zip\ZZipStat.cs" />
   </ItemGroup>

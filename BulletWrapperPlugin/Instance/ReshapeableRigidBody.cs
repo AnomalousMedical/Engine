@@ -82,22 +82,22 @@ namespace BulletPlugin
         }
 
         //Imports
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr ReshapeableRigidBody_Create(IntPtr rigidBody, IntPtr compoundShape);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ReshapeableRigidBody_Delete(IntPtr body);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ReshapeableRigidBody_createHullRegion(IntPtr body, String name, ConvexDecompositionDesc desc, ref Vector3 origin, ref Quaternion orientation);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ReshapeableRigidBody_addSphereShape(IntPtr body, String regionName, float radius, ref Vector3 origin);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ReshapeableRigidBody_destroyRegion(IntPtr body, String name);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ReshapeableRigidBody_recomputeMassProps(IntPtr body);
     }
 }

@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OgrePlugin
+namespace ZipAccess
 {
-    static class LibraryInfo
+    internal class ZipLibraryInfo
     {
 #if STATIC_LINK
 		public const String Name = "__Internal";
 #else
-        public const String Name = "OgreCWrapper";
+        public const String Name = "Zip";
 #endif
     }
 }

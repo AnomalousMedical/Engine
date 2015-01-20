@@ -133,13 +133,13 @@ namespace BulletPlugin
 
     partial class TypedConstraintElement
     {
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btTypedConstraint_Delete(IntPtr instance);
 
-        [DllImport("BulletWrapper", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btTypedConstraint_setOverrideNumSolverIterations(IntPtr instance, int overrideNumIterations);
 
-        [DllImport("BulletWrapper", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern int btTypedConstraint_getOverrideNumSolverIterations(IntPtr instance);
     }
 }
