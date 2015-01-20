@@ -13,11 +13,7 @@ namespace libRocketPlugin
 {
     public class RocketInterface : PluginInterface
     {
-#if STATIC_LINK
-		public const String LibraryName = "__Internal";
-#else
         internal const String LibraryName = "libRocketWrapper";
-#endif
 
         public const float DefaultPixelsPerInch = 100;
         public const String DefaultProtocol = "anom:///";

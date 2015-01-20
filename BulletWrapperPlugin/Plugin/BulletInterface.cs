@@ -11,11 +11,7 @@ namespace BulletPlugin
 {
     public class BulletInterface : PluginInterface
     {
-#if STATIC_LINK
-		public const String LibraryName = "__Internal";
-#else
         public const String LibraryName = "BulletWrapper";
-#endif
 
         private static BulletInterface instance;
         UpdateTimer timer;

@@ -305,6 +305,7 @@
       <LogicalName>MyGUIPlugin_Windows_Tag.xml</LogicalName>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="MyGUIPlugin.dll.config" />
     <None Include="Resources\Editor\custom_widgets.xml">
       <SubType>Designer</SubType>
     </None>

@@ -12,11 +12,7 @@ namespace MyGUIPlugin
 {
     public class MyGUIInterface : PluginInterface
     {
-#if STATIC_LINK
-		internal const String LibraryName = "__Internal";
-#else
         internal const String LibraryName = "MyGUIWrapper";
-#endif
 
         public static MyGUIInterface Instance { get; private set; }
 

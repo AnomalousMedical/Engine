@@ -93,6 +93,7 @@
     <Compile Include="Plugin\OgreResourceManager.cs" />
     <Compile Include="Plugin\ImageAtlas\PagedImageAtlas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="OgrePlugin.dll.config" />
     <None Include="Properties\AssemblyInfoSource.cs" />
     <Compile Include="Utility\FrameClearManager.cs" />
     <Compile Include="Utility\FreeImageBitmapExtensions.cs" />
