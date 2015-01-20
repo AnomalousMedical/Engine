@@ -16,6 +16,7 @@
 		015207EE18D0B8830040D1F9 /* OgreInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015207EB18D0B8830040D1F9 /* OgreInterface.cpp */; };
 		015207F018D0B8BF0040D1F9 /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 015207EF18D0B8BF0040D1F9 /* Ogre.framework */; };
 		015AA5D115B48478000B029F /* ArchiveManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015AA5D015B48478000B029F /* ArchiveManager.cpp */; };
+		01A05F751A6DAD1B00AB35EB /* SkeletonManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A05F741A6DAD1B00AB35EB /* SkeletonManager.cpp */; };
 		01A698D7135636B4008B7F31 /* NativeFrameListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 01A69889135636B4008B7F31 /* NativeFrameListener.h */; };
 		01A698D8135636B4008B7F31 /* NativeSceneListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 01A6988A135636B4008B7F31 /* NativeSceneListener.h */; };
 		01A698D9135636B4008B7F31 /* NativeWindowListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 01A6988B135636B4008B7F31 /* NativeWindowListener.h */; };
@@ -100,6 +101,7 @@
 		015207EB18D0B8830040D1F9 /* OgreInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OgreInterface.cpp; sourceTree = "<group>"; };
 		015207EF18D0B8BF0040D1F9 /* Ogre.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ogre.framework; path = ../../../Dependencies/Ogre/OSX/Build/lib/macosx/Release/Ogre.framework; sourceTree = "<group>"; };
 		015AA5D015B48478000B029F /* ArchiveManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArchiveManager.cpp; sourceTree = "<group>"; };
+		01A05F741A6DAD1B00AB35EB /* SkeletonManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SkeletonManager.cpp; sourceTree = "<group>"; };
 		01A6988313563672008B7F31 /* OgreCWrapper.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = OgreCWrapper.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		01A69889135636B4008B7F31 /* NativeFrameListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeFrameListener.h; sourceTree = "<group>"; };
 		01A6988A135636B4008B7F31 /* NativeSceneListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeSceneListener.h; sourceTree = "<group>"; };
@@ -219,6 +221,7 @@
 		01A69890135636B4008B7F31 /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				01A05F741A6DAD1B00AB35EB /* SkeletonManager.cpp */,
 				01DA8F5E19AE6BD300F71B59 /* StaticGeometry.cpp */,
 				015149F418D8D7700022F163 /* ManagedRenderTargetListener.cpp */,
 				015207E918D0B8830040D1F9 /* CompositorManager.cpp */,
@@ -461,6 +464,7 @@
 				01A6991C135636B4008B7F31 /* VertexDeclaration.cpp in Sources */,
 				01A6991D135636B4008B7F31 /* VertexElement.cpp in Sources */,
 				01A6991E135636B4008B7F31 /* VertexPoseKeyFrame.cpp in Sources */,
+				01A05F751A6DAD1B00AB35EB /* SkeletonManager.cpp in Sources */,
 				01A6991F135636B4008B7F31 /* Viewport.cpp in Sources */,
 				01A69920135636B4008B7F31 /* WindowEventUtilities.cpp in Sources */,
 				01A69921135636B4008B7F31 /* WrapperMath.cpp in Sources */,
