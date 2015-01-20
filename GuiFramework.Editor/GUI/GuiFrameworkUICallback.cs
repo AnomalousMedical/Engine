@@ -5,6 +5,7 @@ using System.Text;
 using Engine.Editing;
 using MyGUIPlugin;
 using Logging;
+using Anomalous.OSPlatform;
 
 namespace Anomalous.GuiFramework.Editor
 {
@@ -39,17 +40,76 @@ namespace Anomalous.GuiFramework.Editor
 
         public void showFolderBrowserDialog(SendResult<string> resultCallback)
         {
-            throw new NotImplementedException();
+            DirDialog dlg = new DirDialog();
+            dlg.showModal((mResult, path) =>
+            {
+                folderResults(mResult, path, resultCallback, dlg);
+            });
+        }
+
+        private void folderResults(NativeDialogResult result, String path, SendResult<String> resultCallback, DirDialog dlg)
+        {
+            if (result == NativeDialogResult.OK)
+            {
+                String errorPrompt = null;
+                if (!resultCallback(path, ref errorPrompt))
+                {
+                    dlg.showModal((mResult, mPath) =>
+                    {
+                        folderResults(mResult, mPath, resultCallback, dlg);
+                    });
+                }
+
+            }
         }
 
         public void showOpenFileDialog(string filterString, SendResult<string> resultCallback)
         {
-            throw new NotImplementedException();
+            FileOpenDialog dlg = new FileOpenDialog(wildcard: filterString, selectMultiple: false);
+            dlg.showModal((mResult, mFiles) =>
+            {
+                fileOpenResults(mResult, mFiles, resultCallback, dlg);
+            });
+        }
+
+        private void fileOpenResults(NativeDialogResult result, IEnumerable<String> files, SendResult<String> resultCallback, FileOpenDialog dlg)
+        {
+            if(result == NativeDialogResult.OK)
+            {
+                String errorPrompt = null;
+                if(!resultCallback(files.FirstOrDefault(), ref errorPrompt))
+                {
+                    dlg.showModal((mResult, mFiles) =>
+                    {
+                        fileOpenResults(mResult, mFiles, resultCallback, dlg);
+                    });
+                }
+                
+            }
         }
 
         public void showSaveFileDialog(string filterString, SendResult<string> resultCallback)
         {
-            throw new NotImplementedException();
+            FileSaveDialog dlg = new FileSaveDialog(wildcard: filterString);
+            dlg.showModal((mResult, mFiles) =>
+            {
+                saveResults(mResult, mFiles, resultCallback, dlg);
+            });
+        }
+
+        private void saveResults(NativeDialogResult result, String path, SendResult<String> resultCallback, FileSaveDialog dlg)
+        {
+            if (result == NativeDialogResult.OK)
+            {
+                String errorPrompt = null;
+                if (!resultCallback(path, ref errorPrompt))
+                {
+                    dlg.showModal((mResult, mPath) =>
+                    {
+                        saveResults(mResult, mPath, resultCallback, dlg);
+                    });
+                }
+            }
         }
 
         /// <summary>
