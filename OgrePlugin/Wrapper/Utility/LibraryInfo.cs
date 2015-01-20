@@ -8,6 +8,10 @@ namespace OgrePlugin
 {
     static class LibraryInfo
     {
-        public const String Name = "OgreCWrapper";
+		#if STATIC_LINK
+		public const String Name = "__Internal";
+		#else
+		public const String Name = "OgreCWrapper";
+		#endif
     }
 }

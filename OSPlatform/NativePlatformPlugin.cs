@@ -10,7 +10,11 @@ namespace Anomalous.OSPlatform
 {
     public class NativePlatformPlugin : PluginInterface
     {
-        internal const String LibraryName = "OSHelper";
+		#if STATIC_LINK
+		internal const String LibraryName = "__Internal";
+		#else
+		internal const String LibraryName = "OSHelper";
+		#endif
 
         private ManagedLogListener managedLogListener = new ManagedLogListener();
 
