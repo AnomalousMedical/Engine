@@ -12,6 +12,7 @@ namespace Anomalous.OSPlatform
         Windows,
         Mac,
         WinRT,
+		iOS
     }
 
     public class SystemInfo
