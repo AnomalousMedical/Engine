@@ -77,6 +77,16 @@ extern "C" _AnomalousExport bool MultiTouch_isMultitouchAvailable()
 
 #else //Else from MULTITOUCH
 
+extern "C" _AnomalousExport MultiTouch* MultiTouch_new(NativeOSWindow* window, TouchEventDelegate touchStartedCB, TouchEventDelegate touchEndedCB, TouchEventDelegate touchMovedCB, TouchEventCanceledDelegate touchCanceledCB)
+{
+    return NULL;
+}
+
+extern "C" _AnomalousExport void MultiTouch_delete(MultiTouch* multiTouch)
+{
+    
+}
+
 extern "C" _AnomalousExport bool MultiTouch_isMultitouchAvailable()
 {
 	return false;

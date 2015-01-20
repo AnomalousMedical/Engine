@@ -31,15 +31,16 @@ void UIKitAppDelegate_setPrimaryUIKitApp(UIKitApp* app)
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    primaryUiKitApp->fireInit();
     
-    NSString *storyboardName = @"Main";
+    NSString *storyboardName = @"MainStoryboard";
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle:nil];
     UIViewController *initialViewController = [storyboard instantiateInitialViewController];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController  = initialViewController;
     [self.window makeKeyAndVisible];
     UIKitWindow_setUIWindow(self.window);
+    
+    primaryUiKitApp->fireInit();
     
     CADisplayLink* mFrameLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(doFrame:)];
     mFrameLink.frameInterval = 1;
