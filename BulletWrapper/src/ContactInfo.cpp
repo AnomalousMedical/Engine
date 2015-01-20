@@ -265,7 +265,7 @@ btManifoldPoint* ContactInfo::nextPoint()
 			return nextPoint();
 		}
 	}
-    return nullptr; //Big error here
+    return NULL; //Big error here
 }
 
 extern "C" _AnomalousExport int ContactInfo_getNumContacts(ContactInfo* contactInfo)
