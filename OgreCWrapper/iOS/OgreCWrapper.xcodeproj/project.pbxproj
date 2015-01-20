@@ -78,6 +78,7 @@
 		0115416A1A698BE2007948C1 /* WindowEventUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 011541211A698BE2007948C1 /* WindowEventUtilities.cpp */; };
 		0115416B1A698BE2007948C1 /* WrapperMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 011541221A698BE2007948C1 /* WrapperMath.cpp */; };
 		0115416C1A698BE2007948C1 /* Stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 011541231A698BE2007948C1 /* Stdafx.cpp */; };
+		01A05F731A6DACF800AB35EB /* SkeletonManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A05F721A6DACF800AB35EB /* SkeletonManager.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -173,6 +174,7 @@
 		011541221A698BE2007948C1 /* WrapperMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WrapperMath.cpp; sourceTree = "<group>"; };
 		011541231A698BE2007948C1 /* Stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Stdafx.cpp; path = ../Stdafx.cpp; sourceTree = "<group>"; };
 		011541241A698BE2007948C1 /* Stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stdafx.h; path = ../Stdafx.h; sourceTree = "<group>"; };
+		01A05F721A6DACF800AB35EB /* SkeletonManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SkeletonManager.cpp; sourceTree = "<group>"; };
 		01FF88961A698B9D005291A5 /* libOgreCWrapper.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOgreCWrapper.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -206,6 +208,7 @@
 		011540DB1A698BE2007948C1 /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				01A05F721A6DACF800AB35EB /* SkeletonManager.cpp */,
 				011540DC1A698BE2007948C1 /* Animation.cpp */,
 				011540DD1A698BE2007948C1 /* AnimationState.cpp */,
 				011540DE1A698BE2007948C1 /* AnimationStateIterator.cpp */,
@@ -416,6 +419,7 @@
 				0115415A1A698BE2007948C1 /* SceneNode.cpp in Sources */,
 				011541451A698BE2007948C1 /* NativeSceneListener.cpp in Sources */,
 				0115412C1A698BE2007948C1 /* Camera.cpp in Sources */,
+				01A05F731A6DACF800AB35EB /* SkeletonManager.cpp in Sources */,
 				011541351A698BE2007948C1 /* HardwareVertexBuffer.cpp in Sources */,
 				0115412B1A698BE2007948C1 /* Bone.cpp in Sources */,
 				011541471A698BE2007948C1 /* Node.cpp in Sources */,
@@ -518,6 +522,7 @@
 					"$(SRCROOT)/../../../Dependencies/OgreDeps/iOSInstall/include",
 					"$(SRCROOT)/../../../Dependencies/Ogre/iOSBuild/include",
 					"$(SRCROOT)/../../../Dependencies/Ogre/src/OgreMain/include",
+					"$(SRCROOT)/../../../Dependencies/Ogre/src/RenderSystems/GLES2/include",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -535,6 +540,7 @@
 					"$(SRCROOT)/../../../Dependencies/OgreDeps/iOSInstall/include",
 					"$(SRCROOT)/../../../Dependencies/Ogre/iOSBuild/include",
 					"$(SRCROOT)/../../../Dependencies/Ogre/src/OgreMain/include",
+					"$(SRCROOT)/../../../Dependencies/Ogre/src/RenderSystems/GLES2/include",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
