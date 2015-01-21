@@ -22,10 +22,5 @@
 #define PASS_HANDLE_ARG 
 #endif
 
-//NativeAction - functions that take values and return void
-
+//Typedef for common NativeAction
 typedef void(*NativeAction)(HANDLE_FIRST_ARG);
-
-typedef void(*NativeAction_Bool)(bool arg0 HANDLE_ARG);
-
-//NativeAction no handles - these do not have instanceHandles passed no matter what mode.

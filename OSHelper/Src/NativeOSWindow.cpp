@@ -18,7 +18,7 @@ NativeOSWindow::~NativeOSWindow(void)
 	deleteCB(PASS_HANDLE);
 }
 
-void NativeOSWindow::setCallbacks(NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, NativeAction_Bool activateCB HANDLE_ARG)
+void NativeOSWindow::setCallbacks(NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, ActivateCB activateCB HANDLE_ARG)
 {
 	this->deleteCB = deleteCB;
 	this->sizedCB = sizedCB;
@@ -104,7 +104,7 @@ extern "C" _AnomalousExport void NativeOSWindow_toggleFullscreen(NativeOSWindow*
 	return nativeWindow->toggleFullscreen();
 }
 
-extern "C" _AnomalousExport void NativeOSWindow_setCallbacks(NativeOSWindow* nativeWindow, NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, NativeAction_Bool activateCB HANDLE_ARG)
+extern "C" _AnomalousExport void NativeOSWindow_setCallbacks(NativeOSWindow* nativeWindow, NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, ActivateCB activateCB HANDLE_ARG)
 {
 	nativeWindow->setCallbacks(deleteCB, sizedCB, closingCB, closedCB, activateCB PASS_HANDLE_ARG);
 }

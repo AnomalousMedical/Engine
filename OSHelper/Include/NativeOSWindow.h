@@ -17,6 +17,8 @@ enum CursorType
 
 class MultiTouch;
 
+typedef void(*ActivateCB)(bool arg0 HANDLE_ARG);
+
 class NativeOSWindow
 {
 public:    
@@ -58,7 +60,7 @@ public:
 
 	virtual void toggleFullscreen() = 0;
 
-	void setCallbacks(NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, NativeAction_Bool activateCB HANDLE_ARG);
+	void setCallbacks(NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, ActivateCB activateCB HANDLE_ARG);
     
 	void setExclusiveFullscreen(bool exclusiveFullscreen)
 	{
@@ -176,7 +178,7 @@ private:
 	NativeAction sizedCB;
 	NativeAction closingCB;
 	NativeAction closedCB;
-	NativeAction_Bool activateCB;
+	ActivateCB activateCB;
 	HANDLE_INSTANCE
     
     KeyDownDelegate keyDownCB;

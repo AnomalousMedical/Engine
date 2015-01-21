@@ -15,11 +15,4 @@ namespace Anomalous.Interop
     IntPtr instanceHandle
 #endif
 );
-
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void NativeAction_Bool(bool arg0
-#if FULL_AOT_COMPILE
-    , IntPtr instanceHandle
-#endif
-);
 }

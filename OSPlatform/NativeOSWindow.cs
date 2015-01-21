@@ -297,9 +297,16 @@ namespace Anomalous.OSPlatform
         private static extern void NativeOSWindow_toggleFullscreen(IntPtr nativeWindow);
 
         [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void NativeOSWindow_setCallbacks(IntPtr nativeWindow, NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, NativeAction_Bool activateCB
+        private static extern void NativeOSWindow_setCallbacks(IntPtr nativeWindow, NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, ActivateCB activateCB
 #if FULL_AOT_COMPILE
         , IntPtr instanceHandle
+#endif
+);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void ActivateCB(bool arg0
+#if FULL_AOT_COMPILE
+    , IntPtr instanceHandle
 #endif
 );
 
@@ -310,7 +317,7 @@ namespace Anomalous.OSPlatform
             static NativeAction sizedCB;
             static NativeAction closingCB;
             static NativeAction closedCB;
-            static NativeAction_Bool activateCB;
+            static ActivateCB activateCB;
 
             static CallbackHandler()
             {
@@ -318,7 +325,7 @@ namespace Anomalous.OSPlatform
                 sizedCB = new NativeAction(ResizeStatic);
                 closingCB = new NativeAction(ClosingStatic);
                 closedCB = new NativeAction(ClosedStatic);
-                activateCB = new NativeAction_Bool(ActivateStatic);
+                activateCB = new ActivateCB(ActivateStatic);
             }
 
             GCHandle handle;
@@ -362,7 +369,7 @@ namespace Anomalous.OSPlatform
                 (handle.Target as NativeOSWindow).closed();
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction_Bool))]
+            [MonoTouch.MonoPInvokeCallback(typeof(ActivateCB))]
             static void ActivateStatic(bool active, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
@@ -376,7 +383,7 @@ namespace Anomalous.OSPlatform
             NativeAction sizedCB;
             NativeAction closingCB;
             NativeAction closedCB;
-            NativeAction_Bool activateCB;
+            ActivateCB activateCB;
 
             public CallbackHandler(NativeOSWindow window)
             {
@@ -384,7 +391,7 @@ namespace Anomalous.OSPlatform
                 sizedCB = new NativeAction(window.resize);
                 closingCB = new NativeAction(window.closing);
                 closedCB = new NativeAction(window.closed);
-                activateCB = new NativeAction_Bool(window.activate);
+                activateCB = new ActivateCB(window.activate);
 
                 NativeOSWindow_setCallbacks(window._NativePtr, deleteCB, sizedCB, closedCB, closedCB, activateCB);
             }
