@@ -190,48 +190,56 @@ namespace OgrePlugin
                 existsCallback = new ExistsDelegate(exists);
             }
 
+            [MonoTouch.MonoPInvokeCallback(typeof(LoadDelegate))]
             private static void load(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as OgreManagedArchive).load();
             }
 
+            [MonoTouch.MonoPInvokeCallback(typeof(UnloadDelegate))]
             private static void unload(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as OgreManagedArchive).unload();
             }
 
+            [MonoTouch.MonoPInvokeCallback(typeof(OpenDelegate))]
             private static IntPtr open(String filename, bool readOnly, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 return (handle.Target as OgreManagedArchive).open(filename, readOnly);
             }
 
+            [MonoTouch.MonoPInvokeCallback(typeof(ListDelegate))]
             private static IntPtr list(bool recursive, bool dirs, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 return (handle.Target as OgreManagedArchive).list(recursive, dirs);
             }
 
+            [MonoTouch.MonoPInvokeCallback(typeof(ListFileInfoDelegate))]
             private static IntPtr listFileInfo(bool recursive, bool dirs, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 return (handle.Target as OgreManagedArchive).listFileInfo(recursive, dirs);
             }
 
+            [MonoTouch.MonoPInvokeCallback(typeof(FindDelegate))]
             private static IntPtr find(String pattern, bool recursive, bool dirs, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 return (handle.Target as OgreManagedArchive).find(pattern, recursive, dirs);
             }
 
+            [MonoTouch.MonoPInvokeCallback(typeof(FindFileInfoDelegate))]
             private static IntPtr findFileInfo(String pattern, bool recursive, bool dirs, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 return (handle.Target as OgreManagedArchive).findFileInfo(pattern, recursive, dirs);
             }
 
+            [MonoTouch.MonoPInvokeCallback(typeof(ExistsDelegate))]
             private static bool exists(String filename, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
