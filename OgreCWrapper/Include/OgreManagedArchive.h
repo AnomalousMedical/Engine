@@ -1,13 +1,13 @@
 #pragma once
 
-typedef void (*LoadDelegate)();
-typedef void (*UnloadDelegate)();
-typedef Ogre::DataStream* (*OpenDelegate)(String filename, bool readOnly);
-typedef Ogre::StringVector* (*ListDelegate)(bool recursive, bool dirs);
-typedef Ogre::FileInfoList* (*ListFileInfoDelegate)(bool recursive, bool dirs);
-typedef Ogre::StringVector* (*FindDelegate)(String pattern, bool recursive, bool dirs);
-typedef Ogre::FileInfoList* (*FindFileInfoDelegate)(String pattern, bool recursive, bool dirs);
-typedef bool (*ExistsDelegate)(String filename);
+typedef void(*LoadDelegate)(HANDLE_FIRST_ARG);
+typedef void(*UnloadDelegate)(HANDLE_FIRST_ARG);
+typedef Ogre::DataStream* (*OpenDelegate)(String filename, bool readOnly HANDLE_ARG);
+typedef Ogre::StringVector* (*ListDelegate)(bool recursive, bool dirs HANDLE_ARG);
+typedef Ogre::FileInfoList* (*ListFileInfoDelegate)(bool recursive, bool dirs HANDLE_ARG);
+typedef Ogre::StringVector* (*FindDelegate)(String pattern, bool recursive, bool dirs HANDLE_ARG);
+typedef Ogre::FileInfoList* (*FindFileInfoDelegate)(String pattern, bool recursive, bool dirs HANDLE_ARG);
+typedef bool(*ExistsDelegate)(String filename HANDLE_ARG);
 
 class OgreManagedArchive : public Ogre::Archive
 {
@@ -20,9 +20,10 @@ private:
 	FindDelegate findCallback;
 	FindFileInfoDelegate findFileInfoCallback;
 	ExistsDelegate existsCallback;
+	HANDLE_INSTANCE
 
 public:
-	OgreManagedArchive(String name, String archType, LoadDelegate loadCallback, UnloadDelegate unloadCallback, OpenDelegate openCallback, ListDelegate listCallback, ListFileInfoDelegate listFileInfoCallback, FindDelegate findCallback, FindFileInfoDelegate findFileInfoCallback, ExistsDelegate existsCallback);
+	OgreManagedArchive(String name, String archType, LoadDelegate loadCallback, UnloadDelegate unloadCallback, OpenDelegate openCallback, ListDelegate listCallback, ListFileInfoDelegate listFileInfoCallback, FindDelegate findCallback, FindFileInfoDelegate findFileInfoCallback, ExistsDelegate existsCallback HANDLE_ARG);
 
 	virtual ~OgreManagedArchive(void);
 

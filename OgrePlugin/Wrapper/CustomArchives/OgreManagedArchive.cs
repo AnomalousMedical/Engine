@@ -9,17 +9,9 @@ namespace OgrePlugin
 {
     public abstract class OgreManagedArchive : IDisposable
     {
-        LoadDelegate loadCallback;
-        UnloadDelegate unloadCallback;
-        OpenDelegate openCallback;
-        ListDelegate listCallback;
-        ListFileInfoDelegate listFileInfoCallback;
-        FindDelegate findCallback;
-        FindFileInfoDelegate findFileInfoCallback;
-        ExistsDelegate existsCallback;
-
         protected IntPtr nativeArchive;
         protected String name;
+        private CallbackHandler callbackHandler;
 
         internal IntPtr NativeArchive
         {
@@ -32,31 +24,15 @@ namespace OgrePlugin
         protected OgreManagedArchive(String name, String archType)
         {
             this.name = name;
+            callbackHandler = new CallbackHandler();
 
-            loadCallback = new LoadDelegate(load);
-            unloadCallback = new UnloadDelegate(unload);
-            openCallback = new OpenDelegate(open);
-            listCallback = new ListDelegate(list);
-            listFileInfoCallback = new ListFileInfoDelegate(listFileInfo);
-            findCallback = new FindDelegate(find);
-            findFileInfoCallback = new FindFileInfoDelegate(findFileInfo);
-            existsCallback = new ExistsDelegate(exists);
-
-            nativeArchive = OgreManagedArchive_Create(name, archType, loadCallback, unloadCallback, openCallback, listCallback, listFileInfoCallback, findCallback, findFileInfoCallback, existsCallback);
+            nativeArchive = callbackHandler.create(this, name, archType);
         }
 
         public virtual void Dispose()
         {
             OgreManagedArchive_Delete(nativeArchive);
-
-            loadCallback = null;
-            unloadCallback = null;
-            openCallback = null;
-            listCallback = null;
-            listFileInfoCallback = null;
-            findCallback = null;
-            findFileInfoCallback = null;
-            existsCallback = null;
+            callbackHandler.Dispose();
         }
 
         protected internal abstract void load();
@@ -120,21 +96,53 @@ namespace OgrePlugin
 #region PInvoke
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        delegate void LoadDelegate();
+        delegate void LoadDelegate(
+#if FULL_AOT_COMPILE
+    IntPtr instanceHandle
+#endif
+);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        delegate void UnloadDelegate();
+        delegate void UnloadDelegate(
+#if FULL_AOT_COMPILE
+    IntPtr instanceHandle
+#endif
+);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        delegate IntPtr OpenDelegate(String filename, [MarshalAs(UnmanagedType.I1)] bool readOnly);
+        delegate IntPtr OpenDelegate(String filename, [MarshalAs(UnmanagedType.I1)] bool readOnly
+#if FULL_AOT_COMPILE
+    IntPtr instanceHandle
+#endif
+);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        delegate IntPtr ListDelegate([MarshalAs(UnmanagedType.I1)] bool recursive, [MarshalAs(UnmanagedType.I1)] bool dirs);
+        delegate IntPtr ListDelegate([MarshalAs(UnmanagedType.I1)] bool recursive, [MarshalAs(UnmanagedType.I1)] bool dirs
+#if FULL_AOT_COMPILE
+    IntPtr instanceHandle
+#endif
+);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        delegate IntPtr ListFileInfoDelegate([MarshalAs(UnmanagedType.I1)] bool recursive, [MarshalAs(UnmanagedType.I1)] bool dirs);
+        delegate IntPtr ListFileInfoDelegate([MarshalAs(UnmanagedType.I1)] bool recursive, [MarshalAs(UnmanagedType.I1)] bool dirs
+#if FULL_AOT_COMPILE
+    IntPtr instanceHandle
+#endif
+);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        delegate IntPtr FindDelegate(String pattern, [MarshalAs(UnmanagedType.I1)] bool recursive, [MarshalAs(UnmanagedType.I1)] bool dirs);
+        delegate IntPtr FindDelegate(String pattern, [MarshalAs(UnmanagedType.I1)] bool recursive, [MarshalAs(UnmanagedType.I1)] bool dirs
+#if FULL_AOT_COMPILE
+    IntPtr instanceHandle
+#endif
+);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        delegate IntPtr FindFileInfoDelegate(String pattern, [MarshalAs(UnmanagedType.I1)] bool recursive, [MarshalAs(UnmanagedType.I1)] bool dirs);
+        delegate IntPtr FindFileInfoDelegate(String pattern, [MarshalAs(UnmanagedType.I1)] bool recursive, [MarshalAs(UnmanagedType.I1)] bool dirs
+#if FULL_AOT_COMPILE
+    IntPtr instanceHandle
+#endif
+);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        delegate bool ExistsDelegate(String filename);
+        delegate bool ExistsDelegate(String filename
+#if FULL_AOT_COMPILE
+    IntPtr instanceHandle
+#endif
+);
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr OgreManagedArchive_Create(String name, String archType, LoadDelegate loadCallback, UnloadDelegate unloadCallback, OpenDelegate openCallback, ListDelegate listCallback, ListFileInfoDelegate listFileInfoCallback, FindDelegate findCallback, FindFileInfoDelegate findFileInfoCallback, ExistsDelegate existsCallback);
@@ -153,6 +161,44 @@ namespace OgrePlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         protected static extern void OgreFileInfoList_push_back(IntPtr fileList, IntPtr archive, IntPtr compressedSize, IntPtr uncompressedSize, String baseName, String filename, String path);
+
+        class CallbackHandler : IDisposable
+        {
+            LoadDelegate loadCallback;
+            UnloadDelegate unloadCallback;
+            OpenDelegate openCallback;
+            ListDelegate listCallback;
+            ListFileInfoDelegate listFileInfoCallback;
+            FindDelegate findCallback;
+            FindFileInfoDelegate findFileInfoCallback;
+            ExistsDelegate existsCallback;
+
+            public IntPtr create(OgreManagedArchive obj, String name, String archType)
+            {
+                loadCallback = new LoadDelegate(obj.load);
+                unloadCallback = new UnloadDelegate(obj.unload);
+                openCallback = new OpenDelegate(obj.open);
+                listCallback = new ListDelegate(obj.list);
+                listFileInfoCallback = new ListFileInfoDelegate(obj.listFileInfo);
+                findCallback = new FindDelegate(obj.find);
+                findFileInfoCallback = new FindFileInfoDelegate(obj.findFileInfo);
+                existsCallback = new ExistsDelegate(obj.exists);
+
+                return OgreManagedArchive_Create(name, archType, loadCallback, unloadCallback, openCallback, listCallback, listFileInfoCallback, findCallback, findFileInfoCallback, existsCallback);
+            }
+
+            public void Dispose()
+            {
+                loadCallback = null;
+                unloadCallback = null;
+                openCallback = null;
+                listCallback = null;
+                listFileInfoCallback = null;
+                findCallback = null;
+                findFileInfoCallback = null;
+                existsCallback = null;
+            }
+        }
 
 #endregion
     }
