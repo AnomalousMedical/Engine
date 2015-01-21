@@ -1,13 +1,13 @@
 #pragma once
 
-typedef size_t (*ReadDelegate)(void* buf, size_t count);
-typedef size_t (*WriteDelegate)(const void* buf, size_t count);
-typedef void (*SkipDelegate)(size_t count);
-typedef void (*SeekDelegate)(size_t pos);
-typedef size_t (*TellDelegate)();
-typedef bool (*EofDelegate)();
-typedef void (*CloseDelegate)();
-typedef void (*DeletedDelegate)();
+typedef size_t(*ReadDelegate)(void* buf, size_t count HANDLE_ARG);
+typedef size_t(*WriteDelegate)(const void* buf, size_t count HANDLE_ARG);
+typedef void(*SkipDelegate)(size_t count HANDLE_ARG);
+typedef void (*SeekDelegate)(size_t pos HANDLE_ARG);
+typedef size_t(*TellDelegate)(HANDLE_FIRST_ARG);
+typedef bool(*EofDelegate)(HANDLE_FIRST_ARG);
+typedef void(*CloseDelegate)(HANDLE_FIRST_ARG);
+typedef void(*DeletedDelegate)(HANDLE_FIRST_ARG);
 
 class OgreManagedStream : public Ogre::DataStream
 {
@@ -22,42 +22,42 @@ private:
 	DeletedDelegate deletedCb;
 
 public:
-	OgreManagedStream(String name, size_t size, Ogre::DataStream::AccessMode accessMode, ReadDelegate read, WriteDelegate write, SkipDelegate skip, SeekDelegate seek, TellDelegate tell, EofDelegate eof, CloseDelegate close, DeletedDelegate deleted);
+	OgreManagedStream(String name, size_t size, Ogre::DataStream::AccessMode accessMode, ReadDelegate read, WriteDelegate write, SkipDelegate skip, SeekDelegate seek, TellDelegate tell, EofDelegate eof, CloseDelegate close, DeletedDelegate deleted HANDLE_ARG);
 
 	virtual ~OgreManagedStream();
 
 	size_t read(void* buf, size_t count)
 	{
-		return readCb(buf, count);
+		return readCb(buf, count PASS_HANDLE_ARG);
 	}
 
 	virtual size_t write(const void* buf, size_t count)
     {
-       return writeCb(buf, count);
+		return writeCb(buf, count PASS_HANDLE_ARG);
     }
 
 	void skip(long count)
 	{
-		skipCb(count);
+		skipCb(count PASS_HANDLE_ARG);
 	}
 
 	void seek( size_t pos )
 	{
-		seekCb(pos);
+		seekCb(pos PASS_HANDLE_ARG);
 	}
 
 	size_t tell(void) const
 	{
-		return tellCb();
+		return tellCb(PASS_HANDLE);
 	}
 
 	bool eof(void) const
 	{
-		return eofCb();
+		return eofCb(PASS_HANDLE);
 	}
 
 	void close(void)
 	{
-		closeCb();
+		closeCb(PASS_HANDLE);
 	}
 };

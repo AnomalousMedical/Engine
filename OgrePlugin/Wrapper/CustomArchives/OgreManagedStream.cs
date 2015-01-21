@@ -29,18 +29,8 @@ namespace OgrePlugin
         Stream stream;
 	    byte[] internalBuffer = new byte[ARRAY_SIZE];
 
-        ReadDelegate readCallback;
-        WriteDelegate writeCallback;
-        SkipDelegate skipCallback;
-        SeekDelegate seekCallback;
-        TellDelegate tellCallback;
-        EofDelegate eofCallback;
-        CloseDelegate closeCallback;
-        DeletedDelegate deletedCallback;
-
-        GCHandle handle;
-
         IntPtr nativeStream;
+        private CallbackHandler callbackHandler;
 
         public IntPtr NativeStream
         {
@@ -54,14 +44,7 @@ namespace OgrePlugin
         {
             this.stream = stream;
 
-            readCallback = new ReadDelegate(read);
-            writeCallback = new WriteDelegate(write);
-            skipCallback = new SkipDelegate(skip);
-            seekCallback = new SeekDelegate(seek);
-            tellCallback = new TellDelegate(tell);
-            eofCallback = new EofDelegate(eof);
-            closeCallback = new CloseDelegate(close);
-            deletedCallback = new DeletedDelegate(deleted);
+            callbackHandler = new CallbackHandler();
 
             AccessMode accessMode = 0;
             if (stream.CanRead)
@@ -73,23 +56,13 @@ namespace OgrePlugin
                 accessMode |= AccessMode.WRITE;
             }
 
-            nativeStream = OgreManagedStream_Create(name, new IntPtr(stream.Length), accessMode, readCallback, writeCallback, skipCallback, seekCallback, tellCallback, eofCallback, closeCallback, deletedCallback);
-
-            handle = GCHandle.Alloc(this, GCHandleType.Normal);
+            nativeStream = callbackHandler.create(this, name, new IntPtr(stream.Length), accessMode);
         }
 
         private void deleted()
         {
             close();
-
-            readCallback = null;
-            skipCallback = null;
-            seekCallback = null;
-            tellCallback = null;
-            eofCallback = null;
-            closeCallback = null;
-
-            handle.Free();
+            callbackHandler.Dispose();
         }
 
         IntPtr read(void* buf, IntPtr count)
@@ -186,24 +159,204 @@ namespace OgrePlugin
 
 #region PInvoke
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate IntPtr ReadDelegate(void* buf, IntPtr count);
+        private delegate IntPtr ReadDelegate(void* buf, IntPtr count
+#if FULL_AOT_COMPILE
+        , IntPtr instanceHandle
+#endif
+);
+
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate IntPtr WriteDelegate(void* buf, IntPtr count);
+        private delegate IntPtr WriteDelegate(void* buf, IntPtr count
+#if FULL_AOT_COMPILE
+        , IntPtr instanceHandle
+#endif
+);
+
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void SkipDelegate(IntPtr count);
+        private delegate void SkipDelegate(IntPtr count
+#if FULL_AOT_COMPILE
+        , IntPtr instanceHandle
+#endif
+);
+
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void SeekDelegate(IntPtr pos);
+        private delegate void SeekDelegate(IntPtr pos
+#if FULL_AOT_COMPILE
+        , IntPtr instanceHandle
+#endif
+);
+
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate IntPtr TellDelegate();
+        private delegate IntPtr TellDelegate(
+#if FULL_AOT_COMPILE
+        IntPtr instanceHandle
+#endif
+);
+
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate bool EofDelegate();
+        private delegate bool EofDelegate(
+#if FULL_AOT_COMPILE
+        IntPtr instanceHandle
+#endif
+);
+
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void CloseDelegate();
+        private delegate void CloseDelegate(
+#if FULL_AOT_COMPILE
+        IntPtr instanceHandle
+#endif
+);
+
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void DeletedDelegate();
+        private delegate void DeletedDelegate(
+#if FULL_AOT_COMPILE
+        IntPtr instanceHandle
+#endif
+);
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr OgreManagedStream_Create(String name, IntPtr size, AccessMode accessMode, ReadDelegate read, WriteDelegate write, SkipDelegate skip, SeekDelegate seek, TellDelegate tell, EofDelegate eof, CloseDelegate close, DeletedDelegate deleted);
+        private static extern IntPtr OgreManagedStream_Create(String name, IntPtr size, AccessMode accessMode, ReadDelegate read, WriteDelegate write, SkipDelegate skip, SeekDelegate seek, TellDelegate tell, EofDelegate eof, CloseDelegate close, DeletedDelegate deleted
+#if FULL_AOT_COMPILE
+        , IntPtr instanceHandle
+#endif
+);
+
+#if FULL_AOT_COMPILE
+        class CallbackHandler : IDisposable
+        {
+            private static ReadDelegate readCallback;
+            private static WriteDelegate writeCallback;
+            private static SkipDelegate skipCallback;
+            private static SeekDelegate seekCallback;
+            private static TellDelegate tellCallback;
+            private static EofDelegate eofCallback;
+            private static CloseDelegate closeCallback;
+            private static DeletedDelegate deletedCallback;
+
+            static CallbackHandler()
+            {
+                readCallback = new ReadDelegate(read);
+                writeCallback = new WriteDelegate(write);
+                skipCallback = new SkipDelegate(skip);
+                seekCallback = new SeekDelegate(seek);
+                tellCallback = new TellDelegate(tell);
+                eofCallback = new EofDelegate(eof);
+                closeCallback = new CloseDelegate(close);
+                deletedCallback = new DeletedDelegate(deleted);
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(ReadDelegate))]
+            private static IntPtr read(void* buf, IntPtr count, IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                return (handle.Target as OgreManagedStream).read(buf, count);
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(WriteDelegate))]
+            private static IntPtr write(void* buf, IntPtr count, IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                return (handle.Target as OgreManagedStream).write(buf, count);
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(SkipDelegate))]
+            private static void skip(IntPtr count, IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as OgreManagedStream).skip(count);
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(SeekDelegate))]
+            private static void seek(IntPtr pos, IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as OgreManagedStream).seek(pos);
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(TellDelegate))]
+            private static IntPtr tell(IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                return (handle.Target as OgreManagedStream).tell();
+            }
+            
+            [MonoTouch.MonoPInvokeCallback(typeof(EofDelegate))]
+            private static bool eof(IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                return (handle.Target as OgreManagedStream).eof();
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(CloseDelegate))]
+            private static void close(IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as OgreManagedStream).close();
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(DeletedDelegate))]
+            private static void deleted(IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as OgreManagedStream).deleted();
+            }
+
+            GCHandle handle; //This class keeps itself alive with a gchandle, so we put both of them in the CallbackHandler. This is needed for the class to not get collected.
+
+            public IntPtr create(OgreManagedStream obj, String name, IntPtr size, AccessMode accessMode)
+            {
+                handle = GCHandle.Alloc(this, GCHandleType.Normal);
+                return OgreManagedStream_Create(name, size, accessMode, readCallback, writeCallback, skipCallback, seekCallback, tellCallback, eofCallback, closeCallback, deletedCallback, GCHandle.ToIntPtr(handle));
+            }
+
+            public void Dispose()
+            {
+                handle.Free();
+            }
+        }
+#else
+        class CallbackHandler : IDisposable
+        {
+            ReadDelegate readCallback;
+            WriteDelegate writeCallback;
+            SkipDelegate skipCallback;
+            SeekDelegate seekCallback;
+            TellDelegate tellCallback;
+            EofDelegate eofCallback;
+            CloseDelegate closeCallback;
+            DeletedDelegate deletedCallback;
+
+            GCHandle handle; //This class keeps itself alive with a gchandle, so we put both of them in the CallbackHandler. This is needed for the class to not get collected.
+
+            public IntPtr create(OgreManagedStream obj, String name, IntPtr size, AccessMode accessMode)
+            {
+                handle = GCHandle.Alloc(this, GCHandleType.Normal);
+
+                readCallback = new ReadDelegate(obj.read);
+                writeCallback = new WriteDelegate(obj.write);
+                skipCallback = new SkipDelegate(obj.skip);
+                seekCallback = new SeekDelegate(obj.seek);
+                tellCallback = new TellDelegate(obj.tell);
+                eofCallback = new EofDelegate(obj.eof);
+                closeCallback = new CloseDelegate(obj.close);
+                deletedCallback = new DeletedDelegate(obj.deleted);
+
+                return OgreManagedStream_Create(name, size, accessMode, readCallback, writeCallback, skipCallback, seekCallback, tellCallback, eofCallback, closeCallback, deletedCallback);
+            }
+
+            public void Dispose()
+            {
+                handle.Free();
+
+                readCallback = null;
+                skipCallback = null;
+                seekCallback = null;
+                tellCallback = null;
+                eofCallback = null;
+                closeCallback = null;
+            }
+        }
+#endif
 
 #endregion
     }
