@@ -3,9 +3,8 @@
 
 LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-Win32Window::Win32Window(HWND parent, String title, int x, int y, int width, int height, DeleteDelegate deleteCB, SizedDelegate sizedCB, ClosingDelegate closingCB, ClosedDelegate closedCB, ActivateDelegate activateCB)
-	:NativeOSWindow(deleteCB, sizedCB, closingCB, closedCB, activateCB),
-	window(0),
+Win32Window::Win32Window(HWND parent, String title, int x, int y, int width, int height)
+	:window(0),
 	previousWindowPlacement({ sizeof(previousWindowPlacement) })
 {
 	window = CreateWindowEx(NULL, WIN32_WINDOW_CLASS, title, WS_OVERLAPPEDWINDOW, x, y, width, height, parent, NULL, wndclass.hInstance, NULL);
@@ -200,14 +199,14 @@ void Win32Window::manageRelease(MouseButtonCode mouseCode)
 }
 
 //PInvoke
-extern "C" _AnomalousExport NativeOSWindow* NativeOSWindow_create(NativeOSWindow* parent, String caption, int x, int y, int width, int height, bool floatOnParent, NativeOSWindow::DeleteDelegate deleteCB, NativeOSWindow::SizedDelegate sizedCB, NativeOSWindow::ClosingDelegate closingCB, NativeOSWindow::ClosedDelegate closedCB, NativeOSWindow::ActivateDelegate activateCB)
+extern "C" _AnomalousExport NativeOSWindow* NativeOSWindow_create(NativeOSWindow* parent, String caption, int x, int y, int width, int height, bool floatOnParent)
 {
 	HWND parentHwnd = NULL;
 	if (parent != 0 && floatOnParent)
 	{
 		parentHwnd = (HWND)parent->getHandle();
 	}
-	return new Win32Window(parentHwnd, caption, x, y, width, height, deleteCB, sizedCB, closingCB, closedCB, activateCB);
+	return new Win32Window(parentHwnd, caption, x, y, width, height);
 }
 
 //Windows

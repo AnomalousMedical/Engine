@@ -57,6 +57,13 @@ namespace Anomalous.OSPlatform
         private static extern IntPtr App_create();
 
         [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void App_registerDelegates(IntPtr app, NativeFunc_Bool onInitCB, NativeFunc_Int onExitCB, NativeAction onIdleCB
+#if FULL_AOT_COMPILE
+        , IntPtr instanceHandle
+#endif
+);
+
+        [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void App_delete(IntPtr app);
 
         [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -68,23 +75,13 @@ namespace Anomalous.OSPlatform
 
     partial class App
     {
-        partial class CallbackHandler : IDisposable
+#if FULL_AOT_COMPILE
+        class CallbackHandler : IDisposable
         {
             private static NativeFunc_Bool onInitCB;
             private static NativeFunc_Int onExitCB;
             private static NativeAction onIdleCB;
 
-            [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-            private static extern void App_registerDelegates(IntPtr app, NativeFunc_Bool onInitCB, NativeFunc_Int onExitCB, NativeAction onIdleCB
-#if FULL_AOT_COMPILE
-                , IntPtr instanceHandle
-#endif
-);
-        }
-
-#if FULL_AOT_COMPILE
-        partial class CallbackHandler
-        {
             static CallbackHandler()
             {
                 onInitCB = new NativeFunc_Bool(OnInitStatic);
@@ -127,8 +124,12 @@ namespace Anomalous.OSPlatform
             }
         }
 #else
-        partial class CallbackHandler
+        class CallbackHandler : IDisposable
         {
+            private NativeFunc_Bool onInitCB;
+            private NativeFunc_Int onExitCB;
+            private NativeAction onIdleCB;
+
             public CallbackHandler(App app)
             {
                 onInitCB = new NativeFunc_Bool(app.OnInit);

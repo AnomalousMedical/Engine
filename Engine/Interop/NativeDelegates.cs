@@ -12,7 +12,7 @@ namespace Anomalous.Interop
 #if FULL_AOT_COMPILE
     IntPtr instanceHandle
 #endif
-    );
+);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate int NativeFunc_Int(
@@ -28,3 +28,10 @@ namespace Anomalous.Interop
 #endif
 );
 }
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void NativeAction_Bool(bool arg0
+#if FULL_AOT_COMPILE
+    , IntPtr instanceHandle
+#endif
+);

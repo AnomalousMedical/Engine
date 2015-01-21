@@ -19,3 +19,6 @@ typedef bool(*NativeFunc_Bool)(HANDLE_FIRST_ARG);
 typedef int(*NativeFunc_Int)(HANDLE_FIRST_ARG);
 
 typedef void(*NativeAction)(HANDLE_FIRST_ARG);
+
+typedef void(*NativeAction_Bool)(bool arg0 HANDLE_FIRST_ARG);
+

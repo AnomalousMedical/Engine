@@ -19,13 +19,7 @@ class MultiTouch;
 
 class NativeOSWindow
 {
-public:
-	typedef void (*DeleteDelegate)();
-	typedef void (*SizedDelegate)();
-	typedef void (*ClosingDelegate)();
-	typedef void (*ClosedDelegate)();
-	typedef void (*ActivateDelegate)(bool active);
-    
+public:    
     typedef void (*KeyDownDelegate)(KeyboardButtonCode keyCode, uint character);
 	typedef void (*KeyUpDelegate)(KeyboardButtonCode keyCode);
     
@@ -34,7 +28,7 @@ public:
 	typedef void (*MouseMoveDelegate)(int absX, int absY);
 	typedef void (*MouseWheelDelegate)(int relZ);
     
-	NativeOSWindow(DeleteDelegate deleteCB, SizedDelegate sizedCB, ClosingDelegate closingCB, ClosedDelegate closedCB, ActivateDelegate activateCB);
+	NativeOSWindow();
     
 	virtual ~NativeOSWindow(void);
     
@@ -63,6 +57,8 @@ public:
 	virtual float getWindowScaling() = 0;
 
 	virtual void toggleFullscreen() = 0;
+
+	void setCallbacks(NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, NativeAction_Bool activateCB HANDLE_ARG);
     
 	void setExclusiveFullscreen(bool exclusiveFullscreen)
 	{
@@ -76,22 +72,22 @@ public:
 
     void fireSized()
 	{
-		sizedCB();
+		sizedCB(PASS_HANDLE);
 	}
 
 	void fireClosing()
 	{
-		closingCB();
+		closingCB(PASS_HANDLE);
 	}
     
 	void fireClosed()
 	{
-		closedCB();
+		closedCB(PASS_HANDLE);
 	}
     
 	void fireActivate(bool active)
 	{
-		activateCB(active);
+		activateCB(active PASS_HANDLE_ARG);
 	}
     
     void setKeyDownCallback(KeyDownDelegate keyDown)
@@ -176,11 +172,12 @@ protected:
 	bool exclusiveFullscreen;
     
 private:
-	DeleteDelegate deleteCB;
-	SizedDelegate sizedCB;
-	ClosingDelegate closingCB;
-	ClosedDelegate closedCB;
-	ActivateDelegate activateCB;
+	NativeAction deleteCB;
+	NativeAction sizedCB;
+	NativeAction closingCB;
+	NativeAction closedCB;
+	NativeAction_Bool activateCB;
+	HANDLE_INSTANCE
     
     KeyDownDelegate keyDownCB;
 	KeyUpDelegate keyUpCB;

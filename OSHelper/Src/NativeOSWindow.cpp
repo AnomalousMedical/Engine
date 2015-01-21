@@ -1,13 +1,8 @@
 #include "StdAfx.h"
 #include "NativeOSWindow.h"
 
-NativeOSWindow::NativeOSWindow(DeleteDelegate deleteCB, SizedDelegate sizedCB, ClosingDelegate closingCB, ClosedDelegate closedCB, ActivateDelegate activateCB)
-:deleteCB(deleteCB),
-sizedCB(sizedCB),
-closingCB(closingCB),
-closedCB(closedCB),
-activateCB(activateCB),
-keyDownCB(0),
+NativeOSWindow::NativeOSWindow()
+:keyDownCB(0),
 keyUpCB(0),
 mouseButtonDownCB(0),
 mouseButtonUpCB(0),
@@ -21,6 +16,16 @@ exclusiveFullscreen(false)
 NativeOSWindow::~NativeOSWindow(void)
 {
 	deleteCB();
+}
+
+void NativeOSWindow::setCallbacks(NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, NativeAction_Bool activateCB HANDLE_ARG)
+{
+	this->deleteCB = deleteCB;
+	this->sizedCB = sizedCB;
+	this->closingCB = closingCB;
+	this->closedCB = closedCB;
+	this->activateCB = activateCB;
+	ASSIGN_HANDLE
 }
 
 //Shared Pinvoke
@@ -97,4 +102,9 @@ extern "C" _AnomalousExport float NativeOSWindow_getWindowScaling(NativeOSWindow
 extern "C" _AnomalousExport void NativeOSWindow_toggleFullscreen(NativeOSWindow* nativeWindow)
 {
 	return nativeWindow->toggleFullscreen();
+}
+
+extern "C" _AnomalousExport void NativeOSWindow_setCallbacks(NativeOSWindow* nativeWindow, NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, NativeAction_Bool activateCB HANDLE_ARG)
+{
+	nativeWindow->setCallbacks(deleteCB, sizedCB, closingCB, closedCB, activateCB PASS_HANDLE_ARG);
 }

@@ -5,30 +5,15 @@ using System.Text;
 using Engine.Platform;
 using System.Runtime.InteropServices;
 using Engine;
+using Anomalous.Interop;
 
 namespace Anomalous.OSPlatform
 {
     public class NativeOSWindow : OSWindow, IDisposable
     {
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        delegate void DeleteDelegate();
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-	    delegate void SizedDelegate();
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        delegate void ClosingDelegate();
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-	    delegate void ClosedDelegate();
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        delegate void ActivateDelegate(bool active);
-
-        DeleteDelegate deleteCB;
-        SizedDelegate sizedCB;
-        ClosingDelegate closingCB;
-        ClosedDelegate closedCB;
-        ActivateDelegate activateCB;
-        String title;
-
-        IntPtr nativeWindow;
+        private String title;
+        private IntPtr nativeWindow;
+        private CallbackHandler callbackHandler;
 
         public event OSWindowEvent Activated;
         public event OSWindowEvent Deactivated;
@@ -51,19 +36,14 @@ namespace Anomalous.OSPlatform
         {
             this.title = title;
 
-            deleteCB = new DeleteDelegate(delete);
-            sizedCB = new SizedDelegate(resize);
-            closingCB = new ClosingDelegate(closing);
-            closedCB = new ClosedDelegate(closed);
-            activateCB = new ActivateDelegate(activate);
-
             IntPtr parentPtr = IntPtr.Zero;
             if (parent != null)
             {
                 parentPtr = parent._NativePtr;
             }
 
-            nativeWindow = NativeOSWindow_create(parentPtr, title, position.x, position.y, size.Width, size.Height, floatOnParent, deleteCB, sizedCB, closingCB, closedCB, activateCB);
+            nativeWindow = NativeOSWindow_create(parentPtr, title, position.x, position.y, size.Width, size.Height, floatOnParent);
+            callbackHandler = new CallbackHandler(this);
         }
 
         public void Dispose()
@@ -75,6 +55,7 @@ namespace Anomalous.OSPlatform
                     Disposed.Invoke(this);
                 }
                 NativeOSWindow_destroy(nativeWindow);
+                callbackHandler.Dispose();
             }
         }
 
@@ -266,7 +247,7 @@ namespace Anomalous.OSPlatform
         #region PInvoke
 
         [DllImport(NativePlatformPlugin.LibraryName, CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr NativeOSWindow_create(IntPtr parent, [MarshalAs(UnmanagedType.LPWStr)] String caption, int x, int y, int width, int height, bool floatOnParent, DeleteDelegate deleteCB, SizedDelegate sizedCB, ClosingDelegate closingCB, ClosedDelegate closedCB, ActivateDelegate activeCB);
+        private static extern IntPtr NativeOSWindow_create(IntPtr parent, [MarshalAs(UnmanagedType.LPWStr)] String caption, int x, int y, int width, int height, bool floatOnParent);
 
         [DllImport(NativePlatformPlugin.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void NativeOSWindow_destroy(IntPtr nativeWindow);
@@ -314,6 +295,106 @@ namespace Anomalous.OSPlatform
 
         [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void NativeOSWindow_toggleFullscreen(IntPtr nativeWindow);
+
+        [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void NativeOSWindow_setCallbacks(IntPtr nativeWindow, NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, NativeAction_Bool activateCB
+#if FULL_AOT_COMPILE
+        , IntPtr instanceHandle
+#endif
+);
+
+#if FULL_AOT_COMPILE
+        class CallbackHandler : IDisposable
+        {
+            static NativeAction deleteCB;
+            static NativeAction sizedCB;
+            static NativeAction closingCB;
+            static NativeAction closedCB;
+            static NativeAction_Bool activateCB;
+
+            static CallbackHandler()
+            {
+                deleteCB = new NativeAction(DeleteStatic);
+                sizedCB = new NativeAction(ResizeStatic);
+                closingCB = new NativeAction(ClosingStatic);
+                closedCB = new NativeAction(ClosedStatic);
+                activateCB = new NativeAction_Bool(ActivateStatic);
+            }
+
+            GCHandle handle;
+
+            public CallbackHandler(NativeOSWindow window)
+            {
+                handle = GCHandle.Alloc(window);
+                NativeOSWindow_setCallbacks(window._NativePtr, deleteCB, sizedCB, closedCB, closedCB, activateCB, GCHandle.ToIntPtr(handle));
+            }
+
+            public void Dispose()
+            {
+                handle.Free();
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction))]
+            static void DeleteStatic(IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as NativeOSWindow).delete();
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction))]
+            static void ResizeStatic(IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as NativeOSWindow).resize();
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction))]
+            static void ClosingStatic(IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as NativeOSWindow).closing();
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction))]
+            static void ClosedStatic(IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as NativeOSWindow).closed();
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction_Bool))]
+            static void ActivateStatic(bool active, IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as NativeOSWindow).activate(active);
+            }
+        }
+#else
+        class CallbackHandler : IDisposable
+        {
+            NativeAction deleteCB;
+            NativeAction sizedCB;
+            NativeAction closingCB;
+            NativeAction closedCB;
+            NativeAction_Bool activateCB;
+
+            public CallbackHandler(NativeOSWindow window)
+            {
+                deleteCB = new NativeAction(window.delete);
+                sizedCB = new NativeAction(window.resize);
+                closingCB = new NativeAction(window.closing);
+                closedCB = new NativeAction(window.closed);
+                activateCB = new NativeAction_Bool(window.activate);
+
+                NativeOSWindow_setCallbacks(window._NativePtr, deleteCB, sizedCB, closedCB, closedCB, activateCB);
+            }
+
+            public void Dispose()
+            {
+
+            }
+        }
+#endif
 
         #endregion
     }
