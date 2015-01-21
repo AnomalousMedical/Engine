@@ -305,7 +305,7 @@ namespace OgrePlugin
 
             public IntPtr create(OgreManagedStream obj, String name, IntPtr size, AccessMode accessMode)
             {
-                handle = GCHandle.Alloc(this, GCHandleType.Normal);
+                handle = GCHandle.Alloc(obj, GCHandleType.Normal);
                 return OgreManagedStream_Create(name, size, accessMode, readCallback, writeCallback, skipCallback, seekCallback, tellCallback, eofCallback, closeCallback, deletedCallback, GCHandle.ToIntPtr(handle));
             }
 
