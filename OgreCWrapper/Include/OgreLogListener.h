@@ -1,14 +1,15 @@
 #pragma once
 
-typedef void (*MessageLoggedDelegate)(String message, Ogre::LogMessageLevel lml);
+typedef void(*MessageLoggedDelegate)(String message, Ogre::LogMessageLevel lml HANDLE_ARG);
 
 class OgreLogListener : public Ogre::LogListener
 {
 private:
 	MessageLoggedDelegate messageLoggedCallback;
+	HANDLE_INSTANCE
 
 public:
-	OgreLogListener(MessageLoggedDelegate messageLoggedCallback);
+	OgreLogListener(MessageLoggedDelegate messageLoggedCallback HANDLE_ARG);
 
 	virtual ~OgreLogListener(void);
 
