@@ -11,7 +11,7 @@ App::~App()
 
 }
 
-void App::registerDelegates(NativeFunc_Bool onInitCB, NativeFunc_Int onExitCB, NativeAction onIdleCB HANDLE_ARG)
+void App::registerDelegates(OnInitDelegate onInitCB, OnExitDelegate onExitCB, NativeAction onIdleCB HANDLE_ARG)
 {
 	this->onInitCB = onInitCB;
 	this->onExitCB = onExitCB;
@@ -25,7 +25,7 @@ extern "C" _AnomalousExport void App_delete(App* app)
 	delete app;
 }
 
-extern "C" _AnomalousExport void App_registerDelegates(App* app, NativeFunc_Bool onInitCB, NativeFunc_Int onExitCB, NativeAction onIdleCB HANDLE_ARG)
+extern "C" _AnomalousExport void App_registerDelegates(App* app, OnInitDelegate onInitCB, OnExitDelegate onExitCB, NativeAction onIdleCB HANDLE_ARG)
 {
 	app->registerDelegates(onInitCB, onExitCB, onIdleCB PASS_HANDLE_ARG);
 }

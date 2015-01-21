@@ -24,10 +24,6 @@
 
 //NativeFunc - functions that return values, the last value in the list is what it returns.
 
-typedef bool(*NativeFunc_Bool)(HANDLE_FIRST_ARG);
-
-typedef int(*NativeFunc_Int)(HANDLE_FIRST_ARG);
-
 #define NativeFunc_String_StrongIntPtr(FuncPtrName, Type) typedef Type (*FuncPtrName)(String name HANDLE_ARG);
 
 //NativeAction - functions that take values and return void

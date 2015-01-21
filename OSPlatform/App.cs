@@ -57,9 +57,23 @@ namespace Anomalous.OSPlatform
         private static extern IntPtr App_create();
 
         [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void App_registerDelegates(IntPtr app, NativeFunc_Bool onInitCB, NativeFunc_Int onExitCB, NativeAction onIdleCB
+        private static extern void App_registerDelegates(IntPtr app, OnInitDelegate onInitCB, OnExitDelegate onExitCB, NativeAction onIdleCB
 #if FULL_AOT_COMPILE
         , IntPtr instanceHandle
+#endif
+);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate bool OnInitDelegate(
+#if FULL_AOT_COMPILE
+    IntPtr instanceHandle
+#endif
+);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int OnExitDelegate(
+#if FULL_AOT_COMPILE
+    IntPtr instanceHandle
 #endif
 );
 
@@ -78,25 +92,25 @@ namespace Anomalous.OSPlatform
 #if FULL_AOT_COMPILE
         class CallbackHandler : IDisposable
         {
-            private static NativeFunc_Bool onInitCB;
-            private static NativeFunc_Int onExitCB;
+            private static OnInitDelegate onInitCB;
+            private static OnExitDelegate onExitCB;
             private static NativeAction onIdleCB;
 
             static CallbackHandler()
             {
-                onInitCB = new NativeFunc_Bool(OnInitStatic);
-                onExitCB = new NativeFunc_Int(OnExitStatic);
+                onInitCB = new OnInitDelegate(OnInitStatic);
+                onExitCB = new OnExitDelegate(OnExitStatic);
                 onIdleCB = new NativeAction(OnIdleStatic);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(NativeFunc_Bool))]
+            [MonoTouch.MonoPInvokeCallback(typeof(OnInitDelegate))]
             static bool OnInitStatic(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 return (handle.Target as App).OnInit();
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(NativeFunc_Int))]
+            [MonoTouch.MonoPInvokeCallback(typeof(OnExitDelegate))]
             static int OnExitStatic(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
@@ -126,14 +140,14 @@ namespace Anomalous.OSPlatform
 #else
         class CallbackHandler : IDisposable
         {
-            private NativeFunc_Bool onInitCB;
-            private NativeFunc_Int onExitCB;
+            private OnInitDelegate onInitCB;
+            private OnExitDelegate onExitCB;
             private NativeAction onIdleCB;
 
             public CallbackHandler(App app)
             {
-                onInitCB = new NativeFunc_Bool(app.OnInit);
-                onExitCB = new NativeFunc_Int(app.OnExit);
+                onInitCB = new OnInitDelegate(app.OnInit);
+                onExitCB = new OnExitDelegate(app.OnExit);
                 onIdleCB = new NativeAction(app.OnIdle);
 
                 App_registerDelegates(app.appPtr, onInitCB, onExitCB, onIdleCB);

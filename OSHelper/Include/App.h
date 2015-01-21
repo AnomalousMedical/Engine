@@ -1,5 +1,8 @@
 #pragma once
 
+typedef bool(*OnInitDelegate)(HANDLE_FIRST_ARG);
+typedef int(*OnExitDelegate)(HANDLE_FIRST_ARG);
+
 class App
 {
 public:
@@ -7,7 +10,7 @@ public:
     
 	virtual ~App(void);
     
-	void registerDelegates(NativeFunc_Bool onInitCB, NativeFunc_Int onExitCB, NativeAction onIdleCB HANDLE_ARG);
+	void registerDelegates(OnInitDelegate onInitCB, OnExitDelegate onExitCB, NativeAction onIdleCB HANDLE_ARG);
     
     virtual void run() = 0;
     
@@ -29,8 +32,8 @@ public:
     }
     
 private:
-	NativeFunc_Bool onInitCB;
-	NativeFunc_Int onExitCB;
+	OnInitDelegate onInitCB;
+	OnExitDelegate onExitCB;
 	NativeAction onIdleCB;
 	HANDLE_INSTANCE
 };
