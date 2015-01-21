@@ -31,3 +31,5 @@ typedef void(*NativeAction_Bool)(bool arg0 HANDLE_ARG);
 typedef void(*NativeAction_Float_Float)(float arg0, float arg1 HANDLE_ARG);
 
 typedef void(*NativeAction_Float_Float_NoHandle)(float arg0, float arg1);
+
+typedef void(*NativeAction_String_NoHandle)(String fullMessage);

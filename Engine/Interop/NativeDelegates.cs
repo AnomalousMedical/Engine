@@ -45,3 +45,6 @@ namespace Anomalous.Interop
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void NativeAction_Float_Float_NoHandle(float arg0, float arg1);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void NativeAction_String_NoHandle(IntPtr str0);

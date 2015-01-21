@@ -10,7 +10,7 @@ namespace OgrePlugin
     class OgreExceptionManager
     {
         static OgreException exception = null;
-        static ExceptionFoundCallback exceptionFoundCallback = exceptionFound;
+        static NativeAction_String_NoHandle exceptionFoundCallback = exceptionFound;
 
         /// <summary>
         /// Cannot use static constructor, because it will not fire until the
@@ -51,7 +51,7 @@ namespace OgrePlugin
         /// Callback from native code to put an exception into this class.
         /// </summary>
         /// <param name="fullMessage">The full message from ogre.</param>
-        [MonoTouch.MonoPInvokeCallback(typeof(ExceptionFoundCallback))]
+        [MonoTouch.MonoPInvokeCallback(typeof(NativeAction_String_NoHandle))]
         private static void exceptionFound(IntPtr fullMessage)
         {
             exception = new OgreException(Marshal.PtrToStringAnsi(fullMessage));
@@ -59,11 +59,8 @@ namespace OgrePlugin
 
         #region PInvoke
 
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void ExceptionFoundCallback(IntPtr fullMessage);
-
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void OgreExceptionManager_setCallback(ExceptionFoundCallback exCb);
+        private static extern void OgreExceptionManager_setCallback(NativeAction_String_NoHandle exCb);
 
         #endregion
     }
