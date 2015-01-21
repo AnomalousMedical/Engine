@@ -9,7 +9,7 @@
 #define HANDLE_FIRST_ARG void* instanceHandle
 #define HANDLE_ARG , void* instanceHandle
 #define ASSIGN_HANDLE this->instanceHandle = instanceHandle;
-#define ASSIGN_HANDLE_INITIALIZER , instanceHandle(instanceHandle);
+#define ASSIGN_HANDLE_INITIALIZER , instanceHandle(instanceHandle)
 #define PASS_HANDLE instanceHandle
 #define PASS_HANDLE_ARG , instanceHandle
 #else
