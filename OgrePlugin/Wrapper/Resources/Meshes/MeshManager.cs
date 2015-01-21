@@ -12,12 +12,29 @@ namespace OgrePlugin
     {
         static MeshManager instance = new MeshManager();
 
+#if FULL_AOT_COMPILE
+        [MonoTouch.MonoPInvokeCallback(typeof(ProcessWrapperObjectDelegate))]
+        public static void processWrapperObject_AOT(IntPtr nativeObject, IntPtr stackSharedPtr)
+        {
+            instance.meshPtrCollection.processWrapperObject(nativeObject, stackSharedPtr);
+        }
+#endif
+
         public static MeshManager getInstance()
         {
             return instance;
         }
 
-        private SharedPtrCollection<Mesh> meshPtrCollection = new SharedPtrCollection<Mesh>(Mesh.createWrapper, MeshPtr_createHeapPtr, MeshPtr_Delete);
+        private SharedPtrCollection<Mesh> meshPtrCollection;
+
+        private MeshManager()
+        {
+            meshPtrCollection = new SharedPtrCollection<Mesh>(Mesh.createWrapper, MeshPtr_createHeapPtr, MeshPtr_Delete
+            #if FULL_AOT_COMPILE
+            , processWrapperObject_AOT
+            #endif
+            );
+        }
 
         public void Dispose()
         {

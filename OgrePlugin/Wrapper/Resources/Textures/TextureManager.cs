@@ -12,12 +12,29 @@ namespace OgrePlugin
     {
         static TextureManager instance = new TextureManager();
 
+#if FULL_AOT_COMPILE
+        [MonoTouch.MonoPInvokeCallback(typeof(ProcessWrapperObjectDelegate))]
+        public static void processWrapperObject_AOT(IntPtr nativeObject, IntPtr stackSharedPtr)
+        {
+            instance.textureCollection.processWrapperObject(nativeObject, stackSharedPtr);
+        }
+#endif
+
         public static TextureManager getInstance()
         {
             return instance;
         }
 
-        private SharedPtrCollection<Texture> textureCollection = new SharedPtrCollection<Texture>(Texture.createWrapper, TexturePtr_createHeapPtr, TexturePtr_Delete);
+        private SharedPtrCollection<Texture> textureCollection;
+
+        private TextureManager()
+        {
+            textureCollection = new SharedPtrCollection<Texture>(Texture.createWrapper, TexturePtr_createHeapPtr, TexturePtr_Delete
+            #if FULL_AOT_COMPILE
+            , processWrapperObject_AOT
+            #endif
+            );
+        }
 
         public void Dispose()
         {

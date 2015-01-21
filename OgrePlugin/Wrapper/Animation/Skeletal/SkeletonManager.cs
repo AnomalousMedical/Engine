@@ -12,12 +12,29 @@ namespace OgrePlugin
     {
         static SkeletonManager instance = new SkeletonManager();
 
+#if FULL_AOT_COMPILE
+        [MonoTouch.MonoPInvokeCallback(typeof(ProcessWrapperObjectDelegate))]
+        public static void processWrapperObject_AOT(IntPtr nativeObject, IntPtr stackSharedPtr)
+        {
+            instance.skeletonPtrCollection.processWrapperObject(nativeObject, stackSharedPtr);
+        }
+#endif
+
         public static SkeletonManager getInstance()
         {
             return instance;
         }
 
-        private SharedPtrCollection<Skeleton> skeletonPtrCollection = new SharedPtrCollection<Skeleton>(Skeleton.createWrapper, SkeletonPtr_createHeapPtr, SkeletonPtr_Delete);
+        private SharedPtrCollection<Skeleton> skeletonPtrCollection;
+
+        private SkeletonManager()
+        {
+            skeletonPtrCollection = new SharedPtrCollection<Skeleton>(Skeleton.createWrapper, SkeletonPtr_createHeapPtr, SkeletonPtr_Delete
+#if FULL_AOT_COMPILE
+            , processWrapperObject_AOT
+#endif
+            );
+        }
 
         public void Dispose()
         {
@@ -40,10 +57,10 @@ namespace OgrePlugin
         #region PInvoke
 
         //MeshPtr
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr SkeletonPtr_createHeapPtr(IntPtr stackSharedPtr);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SkeletonPtr_Delete(IntPtr heapSharedPtr);
 
         #endregion
