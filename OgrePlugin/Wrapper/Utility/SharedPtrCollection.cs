@@ -10,7 +10,6 @@ namespace OgrePlugin
 {
     /// <summary>
     /// This delegate can be passed to any native function that returns a Ogre::SharedPtr to make it get processsed by the collection.
-    /// These delegates are static and do not need a special AOT version.
     /// </summary>
     /// <param name="nativeObject"></param>
     /// <param name="stackSharedPtr"></param>
@@ -69,10 +68,6 @@ namespace OgrePlugin
     /// point to a PInvoke import. The third will delete this shared pointer off
     /// the heap when required.
     /// </para>
-    /// <para>
-    /// Only create one instance of this class per passed in type. You will get an exception if you don't and AOT compiled
-    /// callback handling requires this condition.
-    /// </para>
     /// </summary>
     /// <typeparam name="T"></typeparam>
     class SharedPtrCollection<T> : IDisposable
@@ -102,36 +97,29 @@ namespace OgrePlugin
         private CreateHeapSharedPtrDelegate createHeapSharedPtr;
         private DeleteHeapSharedPtrDelegate deleteHeapSharedPtr;
         private Dictionary<IntPtr, SharedPtrEntry<T>> ptrDictionary = new Dictionary<IntPtr, SharedPtrEntry<T>>();
-        private CallbackHandler<T> callbackHandler;
 
-        private static SharedPtrCollection<T> instance;
-
-        public SharedPtrCollection(CreateWrapperDelegate createWrapper, CreateHeapSharedPtrDelegate createHeapSharedPtr, DeleteHeapSharedPtrDelegate deleteHeapSharedPtr)
+        public SharedPtrCollection(CreateWrapperDelegate createWrapper, CreateHeapSharedPtrDelegate createHeapSharedPtr, DeleteHeapSharedPtrDelegate deleteHeapSharedPtr, ProcessWrapperObjectDelegate overrideProcessWrapperDelegate = null)
         {
-            if(instance != null)
-            {
-                throw new TypeInitializationException(GetType().FullName, null);
-            }
-            instance = this;
-
             this.createWrapper = createWrapper;
             this.createHeapSharedPtr = createHeapSharedPtr;
             this.deleteHeapSharedPtr = deleteHeapSharedPtr;
-            callbackHandler = new CallbackHandler<T>(this);
+            if (overrideProcessWrapperDelegate == null)
+            {
+                ProcessWrapperCallback = new ProcessWrapperObjectDelegate(processWrapperObject);
+            }
+            else
+            {
+                ProcessWrapperCallback = overrideProcessWrapperDelegate;
+            }
         }
 
         public void Dispose()
         {
             clearObjects();
+            ProcessWrapperCallback = null;
         }
 
-        public ProcessWrapperObjectDelegate ProcessWrapperCallback
-        {
-            get
-            {
-                return callbackHandler.ProcessWrapperCallback;
-            }
-        }
+        public ProcessWrapperObjectDelegate ProcessWrapperCallback { get; private set; }
 
         /// <summary>
         /// This function will be called by a native function that is required to
@@ -147,7 +135,7 @@ namespace OgrePlugin
         /// <param name="stackSharedPtr">A SharedPtr on the stack from ogre.</param>
         public void processWrapperObject(IntPtr nativeObject, IntPtr stackSharedPtr)
         {
-            if(nativeObject != IntPtr.Zero && !ptrDictionary.ContainsKey(nativeObject))
+            if (nativeObject != IntPtr.Zero && !ptrDictionary.ContainsKey(nativeObject))
             {
                 SharedPtrEntry<T> entry = new SharedPtrEntry<T>(createWrapper(nativeObject), nativeObject, createHeapSharedPtr(stackSharedPtr));
                 ptrDictionary.Add(nativeObject, entry);
@@ -182,25 +170,25 @@ namespace OgrePlugin
             StackTrace st = new StackTrace(true);
             String filename = st.GetFrame(0).GetFileName();
 #endif
-	        foreach(SharedPtrEntry<T> entry in ptrDictionary.Values)
-	        {
+            foreach (SharedPtrEntry<T> entry in ptrDictionary.Values)
+            {
 #if !FIXLATER_DISABLED
-		        Log.Error("Memory leak detected in {0}.  There were {1} instances of the pointer outstanding.  Double check to make sure all SharedPtrs of this type are being disposed.", filename, entry.NumReferences);
-		        foreach(SharedPtr<T> ptr in entry.Pointers)
-		        {
-			        Log.Error("Leaked pointer stack trace:");
-			        foreach(StackFrame f in ptr.ST.GetFrames())
-			        {
-				        if(f.GetFileName() != null)
-				        {
-					        Log.Error("-\t{0} in file {1}:{2}:{3}", f.GetMethod(), f.GetFileName(), f.GetFileLineNumber(), f.GetFileColumnNumber());
-				        }
-			        }
-		        }
+                Log.Error("Memory leak detected in {0}.  There were {1} instances of the pointer outstanding.  Double check to make sure all SharedPtrs of this type are being disposed.", filename, entry.NumReferences);
+                foreach (SharedPtr<T> ptr in entry.Pointers)
+                {
+                    Log.Error("Leaked pointer stack trace:");
+                    foreach (StackFrame f in ptr.ST.GetFrames())
+                    {
+                        if (f.GetFileName() != null)
+                        {
+                            Log.Error("-\t{0} in file {1}:{2}:{3}", f.GetMethod(), f.GetFileName(), f.GetFileLineNumber(), f.GetFileColumnNumber());
+                        }
+                    }
+                }
 #endif
                 entry.Dispose();
-	        }
-	        ptrDictionary.Clear();
+            }
+            ptrDictionary.Clear();
         }
 
         /// <summary>
@@ -221,55 +209,5 @@ namespace OgrePlugin
                 entry.Dispose();
             }
         }
-
-#if FULL_AOT_COMPILE
-        /// <summary>
-        /// This one breaks the mold a bit, since we assume that all SharedPtrCollections
-        /// only have one instance per type of collection we will get only one instance
-        /// so we don't have to keep a gchandle or pass any data. This keeps things simple
-        /// for clients so long as we follow the rules.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        class CallbackHandler<T>
-            where T : IDisposable
-        {
-            static ProcessWrapperObjectDelegate staticProcessWrapperCallback;
-
-            static CallbackHandler()
-            {
-                staticProcessWrapperCallback = new ProcessWrapperObjectDelegate(processWrapperObject);
-            }
-
-            [MonoTouch.MonoPInvokeCallback(typeof(ProcessWrapperObjectDelegate))]
-            static void processWrapperObject(IntPtr nativeObject, IntPtr stackSharedPtr)
-            {
-                instance.processWrapperObject(nativeObject, stackSharedPtr);
-            }
-
-            public ProcessWrapperObjectDelegate ProcessWrapperCallback
-            {
-                get
-                {
-                    return staticProcessWrapperCallback;
-                }
-            }
-
-            public CallbackHandler(SharedPtrCollection<T> obj)
-            {
-                
-            }
-        }
-#else
-        class CallbackHandler<T>
-            where T : IDisposable
-        {
-            public ProcessWrapperObjectDelegate ProcessWrapperCallback { get; private set; }
-
-            public CallbackHandler(SharedPtrCollection<T> obj)
-            {
-                ProcessWrapperCallback = new ProcessWrapperObjectDelegate(obj.processWrapperObject);
-            }
-        }
-#endif
     }
 }
