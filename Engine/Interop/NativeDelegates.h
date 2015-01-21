@@ -1,11 +1,13 @@
-﻿#if defined(APPLE_IOS)
+﻿#pragma once
+
+#if defined(APPLE_IOS)
 #define FULL_AOT_COMPILE 1
 #endif
 
 #if FULL_AOT_COMPILE
 #define HANDLE_INSTANCE void* instanceHandle;
-#define HANDLE_FIRST_ARG void* instanceHandle 
-#define HANDLE_ARG , void* instanceHandle 
+#define HANDLE_FIRST_ARG void* instanceHandle
+#define HANDLE_ARG , void* instanceHandle
 #define ASSIGN_HANDLE this->instanceHandle = instanceHandle;
 #define PASS_HANDLE instanceHandle
 #define PASS_HANDLE_ARG , instanceHandle

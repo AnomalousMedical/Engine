@@ -11,8 +11,7 @@
 #include "CocoaView.h"
 #include "CocoaWindowDelegate.h"
 
-CocoaWindow::CocoaWindow(CocoaWindow* parent, String title, int x, int y, int width, int height, bool floatOnParent, DeleteDelegate deleteCB, SizedDelegate sizedCB, ClosingDelegate closingCB, ClosedDelegate closedCB, ActivateDelegate activateCB)
-:NativeOSWindow(deleteCB, sizedCB, closingCB, closedCB, activateCB)
+CocoaWindow::CocoaWindow(CocoaWindow* parent, String title, int x, int y, int width, int height, bool floatOnParent)
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
@@ -182,7 +181,7 @@ void CocoaWindow::toggleFullscreen()
 }
 
 //PInvoke
-extern "C" _AnomalousExport NativeOSWindow* NativeOSWindow_create(NativeOSWindow* parent, String caption, int x, int y, int width, int height, bool floatOnParent, NativeOSWindow::DeleteDelegate deleteCB, NativeOSWindow::SizedDelegate sizedCB, NativeOSWindow::ClosingDelegate closingCB, NativeOSWindow::ClosedDelegate closedCB, NativeOSWindow::ActivateDelegate activateCB)
+extern "C" _AnomalousExport NativeOSWindow* NativeOSWindow_create(NativeOSWindow* parent, String caption, int x, int y, int width, int height, bool floatOnParent)
 {
-	return new CocoaWindow(static_cast<CocoaWindow*>(parent), caption, x, y, width, height, floatOnParent, deleteCB, sizedCB, closingCB, closedCB, activateCB);
+	return new CocoaWindow(static_cast<CocoaWindow*>(parent), caption, x, y, width, height, floatOnParent);
 }

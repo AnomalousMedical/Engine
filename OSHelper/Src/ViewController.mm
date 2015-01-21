@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Andrew Piper. All rights reserved.
 //
 
+#include "StdAfx.h"
 #import "ViewController.h"
 
 @interface ViewController ()

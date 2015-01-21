@@ -17,7 +17,7 @@
 class UIKitWindow : public NativeOSWindow
 {
 public:
-    UIKitWindow(UIKitWindow* parent, String title, int x, int y, int width, int height, bool floatOnParent, DeleteDelegate deleteCB, SizedDelegate sizedCB, ClosingDelegate closingCB, ClosedDelegate closedCB, ActivateDelegate activateCB);
+    UIKitWindow(UIKitWindow* parent, String title, int x, int y, int width, int height, bool floatOnParent);
     
     virtual ~UIKitWindow();
     

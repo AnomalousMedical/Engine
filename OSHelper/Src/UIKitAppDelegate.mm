@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#include "StdAfx.h"
 #include "UIKitAppDelegate.h"
 #include "UIKitWindow.h"
 
