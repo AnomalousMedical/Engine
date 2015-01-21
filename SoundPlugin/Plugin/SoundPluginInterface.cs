@@ -9,7 +9,11 @@ namespace SoundPlugin
 {
     public class SoundPluginInterface : PluginInterface
     {
+#if STATIC_LINK
+		public const String LibraryName = "__Internal";
+#else
         public const String LibraryName = "SoundWrapper";
+#endif
 
         private OpenALManager openALManager = null;
         private SoundUpdateListener soundUpdate;
