@@ -4,17 +4,16 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Runtime.InteropServices;
+using Anomalous.Interop;
 
 namespace OgrePlugin
 {
     public abstract class OgreManagedArchiveFactory : IDisposable
     {
-        CreateInstanceDelegate createInstanceCallback;
-        DestroyInstanceDelegate destroyInstanceCallback;
-
         private Dictionary<IntPtr, OgreManagedArchive> archives = new Dictionary<IntPtr, OgreManagedArchive>(); //keep handles around in this list
 
         private IntPtr nativeFactory;
+        private CallbackHandler callbackHandler;
 
         internal IntPtr NativeFactory
         {
@@ -26,18 +25,14 @@ namespace OgrePlugin
 
         public OgreManagedArchiveFactory(String archType)
         {
-            createInstanceCallback = new CreateInstanceDelegate(createInstance);
-            destroyInstanceCallback = new DestroyInstanceDelegate(destroyInstance);
-
-            nativeFactory = OgreManagedArchiveFactory_Create(archType, createInstanceCallback, destroyInstanceCallback);
+            callbackHandler = new CallbackHandler();
+            nativeFactory = callbackHandler.createNative(this, archType);
         }
 
         public virtual void Dispose()
         {
             OgreManagedArchiveFactory_Delete(nativeFactory);
-
-            createInstanceCallback = null;
-            destroyInstanceCallback = null;
+            callbackHandler.Dispose();
         }
 
 	    IntPtr createInstance(String name)
@@ -58,16 +53,85 @@ namespace OgrePlugin
 
 #region PInvoke
 
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        delegate IntPtr CreateInstanceDelegate(String name);
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        delegate void DestroyInstanceDelegate(IntPtr arch);
-
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr OgreManagedArchiveFactory_Create(String archType, CreateInstanceDelegate createInstanceCallback, DestroyInstanceDelegate destroyInstanceCallback);
+        private static extern IntPtr OgreManagedArchiveFactory_Create(String archType, NativeFunc_String_StrongIntPtr createInstanceCallback, NativeAction_StrongIntPtr destroyInstanceCallback
+#if FULL_AOT_COMPILE
+        , IntPtr instanceHandle
+#endif
+);
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void OgreManagedArchiveFactory_Delete(IntPtr archive);
+
+#if FULL_AOT_COMPILE
+        class CallbackHandler : IDisposable
+        {
+            private static NativeCreate_String createInstanceCallback;
+            private static NativeDelete destroyInstanceCallback;
+
+            static CallbackHandler()
+            {
+                createInstanceCallback = new NativeCreate_String(CreateInstanceStatic);
+                destroyInstanceCallback = new NativeDelete(DestroyInstanceStatic);
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(NativeCreate_String))]
+            static IntPtr CreateInstanceStatic(String name, IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                return (handle.Target as OgreManagedArchiveFactory).createInstance(name);
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(NativeDelete))]
+            static void DestroyInstanceStatic(IntPtr arch, IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as OgreManagedArchiveFactory).destroyInstance(arch);
+            }
+
+            private GCHandle handle;
+
+            public CallbackHandler()
+            {
+                
+            }
+
+            public void Dispose()
+            {
+                handle.Free();
+            }
+
+            public IntPtr createNative(OgreManagedArchiveFactory obj, String archType)
+            {
+                handle = GCHandle.Alloc(obj);
+                return OgreManagedArchiveFactory_Create(archType, createInstanceCallback, destroyInstanceCallback, GCHandle.ToIntPtr(handle));
+            }
+        }
+#else
+        class CallbackHandler : IDisposable
+        {
+            NativeFunc_String_StrongIntPtr createInstanceCallback;
+            NativeAction_StrongIntPtr destroyInstanceCallback;
+
+            public CallbackHandler()
+            {
+                
+            }
+
+            public void Dispose()
+            {
+
+            }
+
+            public IntPtr createNative(OgreManagedArchiveFactory obj, String archType)
+            {
+                createInstanceCallback = new NativeFunc_String_StrongIntPtr(obj.createInstance);
+                destroyInstanceCallback = new NativeAction_StrongIntPtr(obj.destroyInstance);
+
+                return OgreManagedArchiveFactory_Create(archType, createInstanceCallback, destroyInstanceCallback);
+            }
+        }
+#endif
 
 #endregion
     }
