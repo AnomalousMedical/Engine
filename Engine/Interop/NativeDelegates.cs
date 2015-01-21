@@ -26,7 +26,7 @@ namespace Anomalous.Interop
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate IntPtr NativeFunc_String_StrongIntPtr(String name
 #if FULL_AOT_COMPILE
-    IntPtr instanceHandle
+    , IntPtr instanceHandle
 #endif
 );
 
