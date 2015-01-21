@@ -68,6 +68,10 @@ namespace OgrePlugin
     /// point to a PInvoke import. The third will delete this shared pointer off
     /// the heap when required.
     /// </para>
+    /// <para>
+    /// Only create one instance of this class per passed in type. You will get an exception if you don't and AOT compiled
+    /// callback handling requires this condition.
+    /// </para>
     /// </summary>
     /// <typeparam name="T"></typeparam>
     class SharedPtrCollection<T> : IDisposable
@@ -97,22 +101,36 @@ namespace OgrePlugin
         private CreateHeapSharedPtrDelegate createHeapSharedPtr;
         private DeleteHeapSharedPtrDelegate deleteHeapSharedPtr;
         private Dictionary<IntPtr, SharedPtrEntry<T>> ptrDictionary = new Dictionary<IntPtr, SharedPtrEntry<T>>();
+        private CallbackHandler<T> callbackHandler;
+
+        private static SharedPtrCollection<T> instance;
 
         public SharedPtrCollection(CreateWrapperDelegate createWrapper, CreateHeapSharedPtrDelegate createHeapSharedPtr, DeleteHeapSharedPtrDelegate deleteHeapSharedPtr)
         {
+            if(instance != null)
+            {
+                throw new TypeInitializationException(GetType().FullName, null);
+            }
+            instance = this;
+
             this.createWrapper = createWrapper;
             this.createHeapSharedPtr = createHeapSharedPtr;
             this.deleteHeapSharedPtr = deleteHeapSharedPtr;
-            ProcessWrapperCallback = new ProcessWrapperObjectDelegate(processWrapperObject);
+            callbackHandler = new CallbackHandler<T>(this);
         }
 
         public void Dispose()
         {
             clearObjects();
-            ProcessWrapperCallback = null;
         }
 
-        public ProcessWrapperObjectDelegate ProcessWrapperCallback { get; private set; }
+        public ProcessWrapperObjectDelegate ProcessWrapperCallback
+        {
+            get
+            {
+                return callbackHandler.ProcessWrapperCallback;
+            }
+        }
 
         /// <summary>
         /// This function will be called by a native function that is required to
@@ -202,5 +220,55 @@ namespace OgrePlugin
                 entry.Dispose();
             }
         }
+
+#if FULL_AOT_COMPILE
+        /// <summary>
+        /// This one breaks the mold a bit, since we assume that all SharedPtrCollections
+        /// only have one instance per type of collection we will get only one instance
+        /// so we don't have to keep a gchandle or pass any data. This keeps things simple
+        /// for clients so long as we follow the rules.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        class CallbackHandler<T>
+            where T : IDisposable
+        {
+            static ProcessWrapperObjectDelegate staticProcessWrapperCallback;
+
+            static CallbackHandler()
+            {
+                staticProcessWrapperCallback = new ProcessWrapperObjectDelegate(processWrapperObject);
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(ProcessWrapperObjectDelegate))]
+            static internal void processWrapperObject(IntPtr nativeObject, IntPtr stackSharedPtr)
+            {
+                instance.processWrapperObject(nativeObject, stackSharedPtr);
+            }
+
+            public ProcessWrapperObjectDelegate ProcessWrapperCallback
+            {
+                get
+                {
+                    return staticProcessWrapperCallback;
+                }
+            }
+
+            public CallbackHandler(SharedPtrCollection<T> obj)
+            {
+                
+            }
+        }
+#else
+        class CallbackHandler<T>
+            where T : IDisposable
+        {
+            public ProcessWrapperObjectDelegate ProcessWrapperCallback { get; private set; }
+
+            public CallbackHandler(SharedPtrCollection<T> obj)
+            {
+                ProcessWrapperCallback = new ProcessWrapperObjectDelegate(obj.processWrapperObject);
+            }
+        }
+#endif
     }
 }
