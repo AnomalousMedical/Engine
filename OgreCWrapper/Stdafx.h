@@ -23,6 +23,7 @@ typedef unsigned char byte;
 typedef unsigned short ushort;
 typedef const char* String;
 
+#include "../Engine/Interop/NativeDelegates.h"
 #include "OgreExceptionManager.h"
 
 class Vector3

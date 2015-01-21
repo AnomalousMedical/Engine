@@ -22,3 +22,6 @@ typedef void(*NativeAction)(HANDLE_FIRST_ARG);
 
 typedef void(*NativeAction_Bool)(bool arg0 HANDLE_FIRST_ARG);
 
+typedef void(*NativeAction_Float_Float)(float arg0, float arg1 HANDLE_FIRST_ARG);
+
+typedef void(*NativeAction_Float_Float_NoHandle)(float arg0, float arg1);

@@ -35,3 +35,13 @@ namespace Anomalous.Interop
     , IntPtr instanceHandle
 #endif
 );
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void NativeAction_Float_Float(float arg0, float arg1
+#if FULL_AOT_COMPILE
+    , IntPtr instanceHandle
+#endif
+);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void NativeAction_Float_Float_NoHandle(float arg0, float arg1);

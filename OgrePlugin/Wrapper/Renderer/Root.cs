@@ -27,11 +27,7 @@ namespace OgrePlugin
         WrapperCollection<RenderTarget> renderTargets = new WrapperCollection<RenderTarget>(RenderTarget.createWrapper);
 
         IntPtr ogreRoot;
-
-        IntPtr nativeFrameListener;
-        FrameEventCallback frameStart;
-        FrameEventCallback frameQueue;
-        FrameEventCallback frameEnd;
+        CallbackHandler callbackHandler;
         FrameEvent frameEvent = new FrameEvent();
 
         OgreLogConnection ogreLog;
@@ -65,11 +61,9 @@ namespace OgrePlugin
             ogreRoot = Root_Create(pluginFileName, configFileName, logFileName);
             ogreLog = new OgreLogConnection();
             ogreLog.subscribe();
-            frameStart = new FrameEventCallback(frameStartedCallback);
-            frameQueue = new FrameEventCallback(frameQueuedCallback);
-            frameEnd = new FrameEventCallback(frameEndedCallback);
-            nativeFrameListener = NativeFrameListener_Create(frameStart, frameQueue, frameEnd);
-            Root_addFrameListener(ogreRoot, nativeFrameListener);
+
+            callbackHandler = new CallbackHandler(this);
+
             ArchiveManager_addArchiveFactory(embeddedResources.NativeFactory);
             ArchiveManager_addArchiveFactory(engineArchives.NativeFactory);
             ArchiveManager_addArchiveFactory(memoryArchives.NativeFactory);
@@ -80,8 +74,7 @@ namespace OgrePlugin
 
         public void Dispose()
         {
-            Root_removeFrameListener(ogreRoot, nativeFrameListener);
-            NativeFrameListener_Delete(nativeFrameListener);
+            callbackHandler.Dispose();
             renderSystems.Dispose();
             scenes.Dispose();
             renderTargets.Dispose();
@@ -510,12 +503,8 @@ namespace OgrePlugin
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Root_removeFrameListener(IntPtr root, IntPtr nativeFrameListener);
 
-        //NativeFrameListener
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void FrameEventCallback(float timeSinceLastEvent, float timeSinceLastFrame);
-
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr NativeFrameListener_Create(FrameEventCallback frameStartedCallback, FrameEventCallback frameRenderingQueuedCallback, FrameEventCallback frameEndedCallback);
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr NativeFrameListener_Create(NativeAction_Float_Float frameStartedCallback, NativeAction_Float_Float frameRenderingQueuedCallback, NativeAction_Float_Float frameEndedCallback);
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void NativeFrameListener_Delete(IntPtr nativeFrameListener);
@@ -525,6 +514,82 @@ namespace OgrePlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern uint Root_getDisplayMonitorCount(IntPtr ogreRoot);
+
+#if FULL_AOT_COMPILE
+        class CallbackHandler : IDisposable
+        {
+            static NativeAction_Float_Float frameStart;
+            static NativeAction_Float_Float frameQueue;
+            static NativeAction_Float_Float frameEnd;
+
+            static CallbackHandler()
+            {
+                frameStart = new NativeAction_Float_Float(frameStartedStatic);
+                frameQueue = new NativeAction_Float_Float(frameQueuedStatic);
+                frameEnd = new NativeAction_Float_Float(frameEndedStatic);
+            }
+
+            //Note that we cheat on our FrameEvent callbacks since this is a singleton anyway.
+            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction_Float_Float))]
+            static void frameStartedStatic(float timeSinceLastEvent, float timeSinceLastFrame)
+            {
+                instance.frameStartedCallback(timeSinceLastEvent, timeSinceLastFrame);
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction_Float_Float))]
+            static void frameQueuedStatic(float timeSinceLastEvent, float timeSinceLastFrame)
+            {
+                instance.frameQueuedCallback(timeSinceLastEvent, timeSinceLastFrame);
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction_Float_Float))]
+            static void frameEndedStatic(float timeSinceLastEvent, float timeSinceLastFrame)
+            {
+                instance.frameEndedCallback(timeSinceLastEvent, timeSinceLastFrame);
+            }
+
+            IntPtr nativeFrameListener;
+            Root root;
+
+            public CallbackHandler(Root root)
+            {
+                this.root = root;
+                nativeFrameListener = NativeFrameListener_Create(frameStart, frameQueue, frameEnd);
+                Root_addFrameListener(root.ogreRoot, nativeFrameListener);
+            }
+
+            public void Dispose()
+            {
+                Root_removeFrameListener(root.ogreRoot, nativeFrameListener);
+                NativeFrameListener_Delete(nativeFrameListener);
+            }
+        }
+#else
+        class CallbackHandler : IDisposable
+        {
+            IntPtr nativeFrameListener;
+            NativeAction_Float_Float frameStart;
+            NativeAction_Float_Float frameQueue;
+            NativeAction_Float_Float frameEnd;
+            Root root;
+
+            public CallbackHandler(Root root)
+            {
+                this.root = root;
+                frameStart = new NativeAction_Float_Float(root.frameStartedCallback);
+                frameQueue = new NativeAction_Float_Float(root.frameQueuedCallback);
+                frameEnd = new NativeAction_Float_Float(root.frameEndedCallback);
+                nativeFrameListener = NativeFrameListener_Create(frameStart, frameQueue, frameEnd);
+                Root_addFrameListener(root.ogreRoot, nativeFrameListener);
+            }
+
+            public void Dispose()
+            {
+                Root_removeFrameListener(root.ogreRoot, nativeFrameListener);
+                NativeFrameListener_Delete(nativeFrameListener);
+            }
+        }
+#endif
 
         #endregion 
     }
