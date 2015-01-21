@@ -51,6 +51,7 @@ namespace OgrePlugin
         /// Callback from native code to put an exception into this class.
         /// </summary>
         /// <param name="fullMessage">The full message from ogre.</param>
+        [MonoTouch.MonoPInvokeCallback(typeof(ExceptionFoundCallback))]
         private static void exceptionFound(IntPtr fullMessage)
         {
             exception = new OgreException(Marshal.PtrToStringAnsi(fullMessage));
