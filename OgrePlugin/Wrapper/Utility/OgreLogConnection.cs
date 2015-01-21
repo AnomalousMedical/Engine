@@ -87,7 +87,7 @@ namespace OgrePlugin
             }
 
             [MonoTouch.MonoPInvokeCallback(typeof(MessageLoggedDelegate))]
-            private void messageLogged(String message, LogMessageLevel lml, IntPtr instanceHandle)
+            private static void messageLogged(String message, LogMessageLevel lml, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as OgreLogConnection).messageLogged(message, lml);
