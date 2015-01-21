@@ -15,7 +15,7 @@ exclusiveFullscreen(false)
 
 NativeOSWindow::~NativeOSWindow(void)
 {
-	deleteCB();
+	deleteCB(PASS_HANDLE);
 }
 
 void NativeOSWindow::setCallbacks(NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, NativeAction_Bool activateCB HANDLE_ARG)
