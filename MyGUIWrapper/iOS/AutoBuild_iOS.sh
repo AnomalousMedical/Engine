@@ -4,6 +4,7 @@
 START_PATH=$(pwd)
 THIS_FOLDER=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
+cd "$THIS_FOLDER"
 
 #Build with XCode
 xcodebuild -configuration Release -sdk iphonesimulator8.1 ONLY_ACTIVE_ARCH=NO ARCHS="i386 x86_64" SHARED_PRECOMPS_DIR="$BUILD_FOLDER/SharedTmpPCH_sim"

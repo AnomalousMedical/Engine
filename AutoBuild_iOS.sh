@@ -5,7 +5,7 @@ START_PATH=$(pwd)
 THIS_FOLDER=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 #Configuration Settings
-SOLUTION_NAME=EngineMac.sln
+SOLUTION_NAME=EngineiOS.sln
 
 #Do Build
 SOLUTION_PATH=$THIS_FOLDER/$SOLUTION_NAME
