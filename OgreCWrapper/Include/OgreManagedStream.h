@@ -20,6 +20,7 @@ private:
 	EofDelegate eofCb;
 	CloseDelegate closeCb;
 	DeletedDelegate deletedCb;
+	HANDLE_INSTANCE
 
 public:
 	OgreManagedStream(String name, size_t size, Ogre::DataStream::AccessMode accessMode, ReadDelegate read, WriteDelegate write, SkipDelegate skip, SeekDelegate seek, TellDelegate tell, EofDelegate eof, CloseDelegate close, DeletedDelegate deleted HANDLE_ARG);
