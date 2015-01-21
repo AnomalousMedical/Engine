@@ -29,5 +29,3 @@ typedef void(*NativeAction)(HANDLE_FIRST_ARG);
 typedef void(*NativeAction_Bool)(bool arg0 HANDLE_ARG);
 
 //NativeAction no handles - these do not have instanceHandles passed no matter what mode.
-
-typedef void(*NativeAction_String_NoHandle)(String fullMessage);

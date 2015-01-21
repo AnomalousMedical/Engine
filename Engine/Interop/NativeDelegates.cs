@@ -7,8 +7,6 @@ using System.Threading.Tasks;
 
 namespace Anomalous.Interop
 {
-//NativeFunc - functions that return values, the last value in the list is what it returns.
-
 //NativeAction - functions that take values and return void
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -24,9 +22,4 @@ namespace Anomalous.Interop
     , IntPtr instanceHandle
 #endif
 );
-
-//NativeAction no handles - these do not have instanceHandles passed no matter what mode.
-
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void NativeAction_String_NoHandle(IntPtr str0);
 }
