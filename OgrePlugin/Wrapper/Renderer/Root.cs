@@ -504,7 +504,7 @@ namespace OgrePlugin
         private static extern void Root_removeFrameListener(IntPtr root, IntPtr nativeFrameListener);
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr NativeFrameListener_Create(NativeAction_Float_Float frameStartedCallback, NativeAction_Float_Float frameRenderingQueuedCallback, NativeAction_Float_Float frameEndedCallback);
+        private static extern IntPtr NativeFrameListener_Create(NativeAction_Float_Float_NoHandle frameStartedCallback, NativeAction_Float_Float_NoHandle frameRenderingQueuedCallback, NativeAction_Float_Float_NoHandle frameEndedCallback);
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void NativeFrameListener_Delete(IntPtr nativeFrameListener);
@@ -518,31 +518,31 @@ namespace OgrePlugin
 #if FULL_AOT_COMPILE
         class CallbackHandler : IDisposable
         {
-            static NativeAction_Float_Float frameStart;
-            static NativeAction_Float_Float frameQueue;
-            static NativeAction_Float_Float frameEnd;
+            static NativeAction_Float_Float_NoHandle frameStart;
+            static NativeAction_Float_Float_NoHandle frameQueue;
+            static NativeAction_Float_Float_NoHandle frameEnd;
 
             static CallbackHandler()
             {
-                frameStart = new NativeAction_Float_Float(frameStartedStatic);
-                frameQueue = new NativeAction_Float_Float(frameQueuedStatic);
-                frameEnd = new NativeAction_Float_Float(frameEndedStatic);
+                frameStart = new NativeAction_Float_Float_NoHandle(frameStartedStatic);
+                frameQueue = new NativeAction_Float_Float_NoHandle(frameQueuedStatic);
+                frameEnd = new NativeAction_Float_Float_NoHandle(frameEndedStatic);
             }
 
             //Note that we cheat on our FrameEvent callbacks since this is a singleton anyway.
-            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction_Float_Float))]
+            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction_Float_Float_NoHandle))]
             static void frameStartedStatic(float timeSinceLastEvent, float timeSinceLastFrame)
             {
                 instance.frameStartedCallback(timeSinceLastEvent, timeSinceLastFrame);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction_Float_Float))]
+            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction_Float_Float_NoHandle))]
             static void frameQueuedStatic(float timeSinceLastEvent, float timeSinceLastFrame)
             {
                 instance.frameQueuedCallback(timeSinceLastEvent, timeSinceLastFrame);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction_Float_Float))]
+            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction_Float_Float_NoHandle))]
             static void frameEndedStatic(float timeSinceLastEvent, float timeSinceLastFrame)
             {
                 instance.frameEndedCallback(timeSinceLastEvent, timeSinceLastFrame);
@@ -568,17 +568,17 @@ namespace OgrePlugin
         class CallbackHandler : IDisposable
         {
             IntPtr nativeFrameListener;
-            NativeAction_Float_Float frameStart;
-            NativeAction_Float_Float frameQueue;
-            NativeAction_Float_Float frameEnd;
+            NativeAction_Float_Float_NoHandle frameStart;
+            NativeAction_Float_Float_NoHandle frameQueue;
+            NativeAction_Float_Float_NoHandle frameEnd;
             Root root;
 
             public CallbackHandler(Root root)
             {
                 this.root = root;
-                frameStart = new NativeAction_Float_Float(root.frameStartedCallback);
-                frameQueue = new NativeAction_Float_Float(root.frameQueuedCallback);
-                frameEnd = new NativeAction_Float_Float(root.frameEndedCallback);
+                frameStart = new NativeAction_Float_Float_NoHandle(root.frameStartedCallback);
+                frameQueue = new NativeAction_Float_Float_NoHandle(root.frameQueuedCallback);
+                frameEnd = new NativeAction_Float_Float_NoHandle(root.frameEndedCallback);
                 nativeFrameListener = NativeFrameListener_Create(frameStart, frameQueue, frameEnd);
                 Root_addFrameListener(root.ogreRoot, nativeFrameListener);
             }
