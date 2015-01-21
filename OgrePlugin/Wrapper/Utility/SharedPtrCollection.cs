@@ -10,6 +10,7 @@ namespace OgrePlugin
 {
     /// <summary>
     /// This delegate can be passed to any native function that returns a Ogre::SharedPtr to make it get processsed by the collection.
+    /// These delegates are static and do not need a special AOT version.
     /// </summary>
     /// <param name="nativeObject"></param>
     /// <param name="stackSharedPtr"></param>
@@ -240,7 +241,7 @@ namespace OgrePlugin
             }
 
             [MonoTouch.MonoPInvokeCallback(typeof(ProcessWrapperObjectDelegate))]
-            static internal void processWrapperObject(IntPtr nativeObject, IntPtr stackSharedPtr)
+            static void processWrapperObject(IntPtr nativeObject, IntPtr stackSharedPtr)
             {
                 instance.processWrapperObject(nativeObject, stackSharedPtr);
             }
