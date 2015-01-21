@@ -66,8 +66,8 @@ namespace OgrePlugin
 #if FULL_AOT_COMPILE
         class CallbackHandler : IDisposable
         {
-            private static NativeCreate_String createInstanceCallback;
-            private static NativeDelete destroyInstanceCallback;
+            private static NativeFunc_String_StrongIntPtr createInstanceCallback;
+            private static NativeAction_StrongIntPtr destroyInstanceCallback;
 
             static CallbackHandler()
             {
