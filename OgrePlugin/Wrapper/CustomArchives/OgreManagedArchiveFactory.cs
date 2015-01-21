@@ -54,9 +54,23 @@ namespace OgrePlugin
 #region PInvoke
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr OgreManagedArchiveFactory_Create(String archType, NativeFunc_String_StrongIntPtr createInstanceCallback, NativeAction_StrongIntPtr destroyInstanceCallback
+        private static extern IntPtr OgreManagedArchiveFactory_Create(String archType, CreateInstanceDelegate createInstanceCallback, DestroyInstanceDelegate destroyInstanceCallback
 #if FULL_AOT_COMPILE
         , IntPtr instanceHandle
+#endif
+);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        delegate IntPtr CreateInstanceDelegate(String name
+#if FULL_AOT_COMPILE
+    , IntPtr instanceHandle
+#endif
+);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        delegate void DestroyInstanceDelegate(IntPtr arch
+#if FULL_AOT_COMPILE
+    , IntPtr instanceHandle
 #endif
 );
 
@@ -66,23 +80,23 @@ namespace OgrePlugin
 #if FULL_AOT_COMPILE
         class CallbackHandler : IDisposable
         {
-            private static NativeFunc_String_StrongIntPtr createInstanceCallback;
-            private static NativeAction_StrongIntPtr destroyInstanceCallback;
+            private static CreateInstanceDelegate createInstanceCallback;
+            private static DestroyInstanceDelegate destroyInstanceCallback;
 
             static CallbackHandler()
             {
-                createInstanceCallback = new NativeFunc_String_StrongIntPtr(CreateInstanceStatic);
-                destroyInstanceCallback = new NativeAction_StrongIntPtr(DestroyInstanceStatic);
+                createInstanceCallback = new CreateInstanceDelegate(CreateInstanceStatic);
+                destroyInstanceCallback = new DestroyInstanceDelegate(DestroyInstanceStatic);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(NativeFunc_String_StrongIntPtr))]
+            [MonoTouch.MonoPInvokeCallback(typeof(CreateInstanceDelegate))]
             static IntPtr CreateInstanceStatic(String name, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 return (handle.Target as OgreManagedArchiveFactory).createInstance(name);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction_StrongIntPtr))]
+            [MonoTouch.MonoPInvokeCallback(typeof(DestroyInstanceDelegate))]
             static void DestroyInstanceStatic(IntPtr arch, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
@@ -110,8 +124,8 @@ namespace OgrePlugin
 #else
         class CallbackHandler : IDisposable
         {
-            NativeFunc_String_StrongIntPtr createInstanceCallback;
-            NativeAction_StrongIntPtr destroyInstanceCallback;
+            CreateInstanceDelegate createInstanceCallback;
+            DestroyInstanceDelegate destroyInstanceCallback;
 
             public CallbackHandler()
             {
@@ -125,8 +139,8 @@ namespace OgrePlugin
 
             public IntPtr createNative(OgreManagedArchiveFactory obj, String archType)
             {
-                createInstanceCallback = new NativeFunc_String_StrongIntPtr(obj.createInstance);
-                destroyInstanceCallback = new NativeAction_StrongIntPtr(obj.destroyInstance);
+                createInstanceCallback = new CreateInstanceDelegate(obj.createInstance);
+                destroyInstanceCallback = new DestroyInstanceDelegate(obj.destroyInstance);
 
                 return OgreManagedArchiveFactory_Create(archType, createInstanceCallback, destroyInstanceCallback);
             }

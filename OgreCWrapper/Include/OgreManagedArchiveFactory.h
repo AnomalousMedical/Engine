@@ -2,8 +2,8 @@
 
 #include "OgreArchiveFactory.h"
 
-NativeFunc_String_StrongIntPtr(CreateInstanceDelegate, Ogre::Archive*)
-NativeAction_StrongIntPtr(DestroyInstanceDelegate, Ogre::Archive*)
+typedef Ogre::Archive* (*CreateInstanceDelegate)(String name HANDLE_ARG);
+typedef void(*DestroyInstanceDelegate)(Ogre::Archive* toDelete HANDLE_ARG);
 
 class OgreManagedArchiveFactory : public Ogre::ArchiveFactory
 {

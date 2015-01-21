@@ -64,14 +64,14 @@ namespace Anomalous.OSPlatform
 );
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate bool OnInitDelegate(
+        delegate bool OnInitDelegate(
 #if FULL_AOT_COMPILE
     IntPtr instanceHandle
 #endif
 );
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate int OnExitDelegate(
+        delegate int OnExitDelegate(
 #if FULL_AOT_COMPILE
     IntPtr instanceHandle
 #endif

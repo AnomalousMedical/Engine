@@ -22,10 +22,6 @@
 #define PASS_HANDLE_ARG 
 #endif
 
-//NativeFunc - functions that return values, the last value in the list is what it returns.
-
-#define NativeFunc_String_StrongIntPtr(FuncPtrName, Type) typedef Type (*FuncPtrName)(String name HANDLE_ARG);
-
 //NativeAction - functions that take values and return void
 
 typedef void(*NativeAction)(HANDLE_FIRST_ARG);
@@ -33,8 +29,6 @@ typedef void(*NativeAction)(HANDLE_FIRST_ARG);
 typedef void(*NativeAction_Bool)(bool arg0 HANDLE_ARG);
 
 typedef void(*NativeAction_Float_Float)(float arg0, float arg1 HANDLE_ARG);
-
-#define NativeAction_StrongIntPtr(FuncPtrName, Type) typedef void(*FuncPtrName)(Type toDelete HANDLE_ARG);
 
 //NativeAction no handles - these do not have instanceHandles passed no matter what mode.
 
