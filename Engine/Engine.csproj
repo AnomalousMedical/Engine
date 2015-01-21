@@ -126,6 +126,8 @@
     <Compile Include="Editing\ValidationException.cs" />
     <Compile Include="Errors\SimObjectError.cs" />
     <Compile Include="Errors\SimObjectErrorManager.cs" />
+    <None Include="Interop\NativeDelegates.h" />
+    <Compile Include="Interop\NativeDelegates.cs" />
     <Compile Include="Log\Log.cs" />
     <Compile Include="Log\LogConsoleListener.cs" />
     <Compile Include="Log\LogFileListener.cs" />
@@ -362,7 +364,7 @@
     <Compile Include="Utility\IEnumerableUtil.cs" />
     <Compile Include="Utility\LifecycleObjectPool.cs" />
     <Compile Include="Utility\MemoryCache.cs" />
-    <Compile Include="Utility\MonoPInvokeCallbackAttribute.cs" />
+    <Compile Include="Interop\MonoPInvokeCallbackAttribute.cs" />
     <Compile Include="Utility\NaturalSort.cs" />
     <Compile Include="Utility\ObjectBuffer.cs" />
     <Compile Include="Utility\ObjectPool.cs" />

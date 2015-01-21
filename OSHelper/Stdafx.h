@@ -27,6 +27,8 @@ typedef const wchar_t* String; //UTF16 Needed, On windows this is ok
 typedef const unsigned short* String; //UTF16 Needed
 #endif
 
+#include "../Engine/Interop/NativeDelegates.h"
+
 typedef unsigned int uint;
 typedef unsigned char byte;
 typedef unsigned short ushort;
