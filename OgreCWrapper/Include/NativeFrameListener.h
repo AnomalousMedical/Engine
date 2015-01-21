@@ -1,14 +1,16 @@
 #pragma once
 
+typedef void(*FrameEventCallback)(float arg0, float arg1);
+
 class NativeFrameListener : public Ogre::FrameListener
 {
 private:
-	NativeAction_Float_Float_NoHandle frameStartedCallback;
-	NativeAction_Float_Float_NoHandle frameRenderingQueuedCallback;
-	NativeAction_Float_Float_NoHandle frameEndedCallback;
+	FrameEventCallback frameStartedCallback;
+	FrameEventCallback frameRenderingQueuedCallback;
+	FrameEventCallback frameEndedCallback;
 
 public:
-	NativeFrameListener(NativeAction_Float_Float_NoHandle frameStartedCallback, NativeAction_Float_Float_NoHandle frameRenderingQueuedCallback, NativeAction_Float_Float_NoHandle frameEndedCallback);
+	NativeFrameListener(FrameEventCallback frameStartedCallback, FrameEventCallback frameRenderingQueuedCallback, FrameEventCallback frameEndedCallback);
 
 	virtual ~NativeFrameListener(void);
 
