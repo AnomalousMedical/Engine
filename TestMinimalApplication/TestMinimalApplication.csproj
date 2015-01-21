@@ -55,12 +55,14 @@
     <Compile Include="Config\PlatformConfig.cs" />
     <Compile Include="Config\WindowsPlatformConfig.cs" />
     <Compile Include="EngineController.cs" />
+    <Compile Include="EyeOhEssApp.cs" />
     <Compile Include="GUILocationNames.cs" />
     <Compile Include="SceneController.cs" />
     <Compile Include="MedicalUpdate.cs" />
     <Compile Include="MinimalApp.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimerApp.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

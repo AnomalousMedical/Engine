@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestMinimalApplication;
 
 namespace Anomalous.Minimus
 {
@@ -14,10 +15,16 @@ namespace Anomalous.Minimus
         {
             StartupManager.SetupDllDirectories();
 
-            MinimalApp app = null;
+            //TimerApp timerApp = new TimerApp();
+            //timerApp.run();
+            //timerApp.Dispose();
+            //return;
+
+
+            EyeOhEss2.EyeOhEssApp app = null;
             try
             {
-                app = new MinimalApp();
+                app = new EyeOhEss2.EyeOhEssApp();
                 app.run();
             }
             catch (Exception e)
@@ -25,7 +32,7 @@ namespace Anomalous.Minimus
                 Logging.Log.Default.printException(e);
                 if (app != null)
                 {
-                    app.saveCrashLog();
+                    //app.saveCrashLog();
                 }
                 String errorMessage = e.Message + "\n" + e.StackTrace;
                 while (e.InnerException != null)
