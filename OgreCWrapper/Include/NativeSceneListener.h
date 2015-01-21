@@ -2,16 +2,17 @@
 
 #include "OgreSceneManager.h"
 
-typedef void (*FindVisibleCallback)(Ogre::SceneManager* sceneManager, Ogre::SceneManager::IlluminationRenderStage irs, Ogre::Viewport* viewport);
+typedef void(*FindVisibleCallback)(Ogre::SceneManager* sceneManager, Ogre::SceneManager::IlluminationRenderStage irs, Ogre::Viewport* viewport HANDLE_ARG);
 
 class NativeSceneListener : public Ogre::SceneManager::Listener
 {
 private:
 	FindVisibleCallback preFind;
 	FindVisibleCallback postFind;
+	HANDLE_INSTANCE
 
 public:
-	NativeSceneListener(FindVisibleCallback preFind, FindVisibleCallback postFind);
+	NativeSceneListener(FindVisibleCallback preFind, FindVisibleCallback postFind HANDLE_ARG);
 
 	virtual ~NativeSceneListener(void);
 
@@ -34,8 +35,8 @@ public:
 
 	}
 
-	virtual bool sortLightsAffectingFrustum( Ogre::LightList& lightList ) 
-	{ 
-		return false; 
+	virtual bool sortLightsAffectingFrustum(Ogre::LightList& lightList)
+	{
+		return false;
 	}
 };
