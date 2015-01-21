@@ -18,7 +18,7 @@ ASSIGN_HANDLE_INITIALIZER
 
 OgreManagedStream::~OgreManagedStream(void)
 {
-	deletedCb();
+	deletedCb(PASS_HANDLE);
 }
 
 extern "C" _AnomalousExport OgreManagedStream* OgreManagedStream_Create(String name, size_t size, Ogre::DataStream::AccessMode accessMode, ReadDelegate read, WriteDelegate write, SkipDelegate skip, SeekDelegate seek, TellDelegate tell, EofDelegate eof, CloseDelegate close, DeletedDelegate deleted HANDLE_ARG)
