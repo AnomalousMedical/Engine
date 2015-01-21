@@ -71,18 +71,18 @@ namespace OgrePlugin
 
             static CallbackHandler()
             {
-                createInstanceCallback = new NativeCreate_String(CreateInstanceStatic);
-                destroyInstanceCallback = new NativeDelete(DestroyInstanceStatic);
+                createInstanceCallback = new NativeFunc_String_StrongIntPtr(CreateInstanceStatic);
+                destroyInstanceCallback = new NativeAction_StrongIntPtr(DestroyInstanceStatic);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(NativeCreate_String))]
+            [MonoTouch.MonoPInvokeCallback(typeof(NativeFunc_String_StrongIntPtr))]
             static IntPtr CreateInstanceStatic(String name, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 return (handle.Target as OgreManagedArchiveFactory).createInstance(name);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(NativeDelete))]
+            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction_StrongIntPtr))]
             static void DestroyInstanceStatic(IntPtr arch, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
