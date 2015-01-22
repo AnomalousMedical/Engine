@@ -64,7 +64,7 @@ bool convertWildcards(String utf16Wildcard, NSMutableArray* fileTypeVector)
     return fileTypeVector.count > 0;
 }
 
-extern "C" _AnomalousExport void FileOpenDialog_showModal(NativeOSWindow* parent, String message, String defaultDir, String defaultFile, String wildcard, bool selectMultiple, FileOpenDialogSetPathString setPathString, FileOpenDialogResultCallback resultCallback)
+extern "C" _AnomalousExport void FileOpenDialog_showModal(NativeOSWindow* parent, String message, String defaultDir, String defaultFile, String wildcard, bool selectMultiple, FileOpenDialogSetPathString setPathString, FileOpenDialogResultCallback resultCallback HANDLE_ARG)
 {    
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
@@ -102,11 +102,11 @@ extern "C" _AnomalousExport void FileOpenDialog_showModal(NativeOSWindow* parent
                  NSURL *file = [url filePathURL];
                  NSString* absoluteFile = [file path];
                  String pathString = (String)[absoluteFile cStringUsingEncoding:NSUTF16StringEncoding];
-                 setPathString(pathString);
+                 setPathString(pathString PASS_HANDLE_ARG);
              }
              result = OK;
          }
-         resultCallback(result);
+         resultCallback(result PASS_HANDLE_ARG);
      }];
     
     [allowedFileTypes release];
@@ -114,7 +114,7 @@ extern "C" _AnomalousExport void FileOpenDialog_showModal(NativeOSWindow* parent
     [pool release];
 }
 
-extern "C" _AnomalousExport void FileSaveDialog_showModal(NativeOSWindow* parent, String message, String defaultDir, String defaultFile, String wildcard, FileSaveDialogResultCallback resultCallback)
+extern "C" _AnomalousExport void FileSaveDialog_showModal(NativeOSWindow* parent, String message, String defaultDir, String defaultFile, String wildcard, FileSaveDialogResultCallback resultCallback HANDLE_ARG)
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
@@ -149,7 +149,7 @@ extern "C" _AnomalousExport void FileSaveDialog_showModal(NativeOSWindow* parent
              resPath = (String)[absoluteFile cStringUsingEncoding:NSUTF16StringEncoding];
              result = OK;
          }
-         resultCallback(result, resPath);
+         resultCallback(result, resPath PASS_HANDLE_ARG);
      }];
     
     [allowedFileTypes release];
@@ -157,7 +157,7 @@ extern "C" _AnomalousExport void FileSaveDialog_showModal(NativeOSWindow* parent
     [pool release];
 }
 
-extern "C" _AnomalousExport void DirDialog_showModal(NativeOSWindow* parent, String message, String startPath, DirDialogResultCallback resultCallback)
+extern "C" _AnomalousExport void DirDialog_showModal(NativeOSWindow* parent, String message, String startPath, DirDialogResultCallback resultCallback HANDLE_ARG)
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
@@ -185,7 +185,7 @@ extern "C" _AnomalousExport void DirDialog_showModal(NativeOSWindow* parent, Str
              resPath = (String)[absoluteFile cStringUsingEncoding:NSUTF16StringEncoding];
              result = OK;
          }
-         resultCallback(result, resPath);
+         resultCallback(result, resPath PASS_HANDLE_ARG);
      }];
     
     [pool release];
