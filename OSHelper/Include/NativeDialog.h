@@ -50,7 +50,7 @@ typedef void(*FileOpenDialogSetPathString)(String path HANDLE_ARG);
 typedef void(*FileOpenDialogResultCallback)(NativeDialogResult result HANDLE_ARG);
 
 //File Save Dialog
-typedef void (*FileSaveDialogResultCallback)(NativeDialogResult result, String file);
+typedef void(*FileSaveDialogResultCallback)(NativeDialogResult result, String file HANDLE_ARG);
 
 //Dir Dialog
 typedef void(*DirDialogResultCallback)(NativeDialogResult result, String file HANDLE_ARG);

@@ -135,7 +135,7 @@ extern "C" _AnomalousExport void FileOpenDialog_showModal(NativeOSWindow* parent
 	resultCallback(dlgResult PASS_HANDLE_ARG);
 }
 
-extern "C" _AnomalousExport void FileSaveDialog_showModal(NativeOSWindow* parent, String message, String defaultDir, String defaultFile, String wildcard, FileSaveDialogResultCallback resultCallback)
+extern "C" _AnomalousExport void FileSaveDialog_showModal(NativeOSWindow* parent, String message, String defaultDir, String defaultFile, String wildcard, FileSaveDialogResultCallback resultCallback HANDLE_ARG)
 {
 	OPENFILENAME of;
 	ZeroMemory(&of, sizeof(of));
@@ -230,7 +230,7 @@ extern "C" _AnomalousExport void FileSaveDialog_showModal(NativeOSWindow* parent
 		}
 	}
 
-	resultCallback(result, path.c_str());
+	resultCallback(result, path.c_str() PASS_HANDLE_ARG);
 }
 
 extern "C" _AnomalousExport void DirDialog_showModal(NativeOSWindow* parent, String message, String startPath, DirDialogResultCallback resultCallback HANDLE_ARG)

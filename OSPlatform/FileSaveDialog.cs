@@ -44,32 +44,14 @@ namespace Anomalous.OSPlatform
 
         class FileSaveDialogResults : IDisposable
         {
-            [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-            private delegate void FileSaveDialogResultCallback(NativeDialogResult result, IntPtr file);
-
-            FileSaveDialogResultCallback resultCb;
+            CallbackHandler callbackHandler;
             ResultCallback showModalCallback;
             GCHandle handle;
 
             public FileSaveDialogResults(ResultCallback callback)
             {
                 this.showModalCallback = callback;
-
-                resultCb = (result, filePtr) =>
-                {
-                    String managedFileString = Marshal.PtrToStringUni(filePtr);
-                    ThreadManager.invoke(() =>
-                    {
-                        try
-                        {
-                            this.showModalCallback(result, managedFileString);
-                        }
-                        finally
-                        {
-                            this.Dispose();
-                        }
-                    });
-                };
+                callbackHandler = new CallbackHandler();
             }
 
             public void Dispose()
@@ -81,13 +63,75 @@ namespace Anomalous.OSPlatform
             {
                 handle = GCHandle.Alloc(this, GCHandleType.Normal);
                 IntPtr parentPtr = parent != null ? parent._NativePtr : IntPtr.Zero;
-                FileSaveDialog_showModal(parentPtr, message, defaultDir, defaultFile, wildcard, resultCb);
+                callbackHandler.showModal(this, parentPtr, message, defaultDir, defaultFile, wildcard);
+            }
+
+            private void getResults(NativeDialogResult result, IntPtr filePtr)
+            {
+                String managedFileString = Marshal.PtrToStringUni(filePtr);
+                ThreadManager.invoke(() =>
+                {
+                    try
+                    {
+                        this.showModalCallback(result, managedFileString);
+                    }
+                    finally
+                    {
+                        this.Dispose();
+                    }
+                });
             }
 
             #region PInvoke
 
             [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-            private static extern void FileSaveDialog_showModal(IntPtr parent, [MarshalAs(UnmanagedType.LPWStr)] String message, [MarshalAs(UnmanagedType.LPWStr)] String defaultDir, [MarshalAs(UnmanagedType.LPWStr)] String defaultFile, [MarshalAs(UnmanagedType.LPWStr)] String wildcard, FileSaveDialogResultCallback resultCallback);
+            private static extern void FileSaveDialog_showModal(IntPtr parent, [MarshalAs(UnmanagedType.LPWStr)] String message, [MarshalAs(UnmanagedType.LPWStr)] String defaultDir, [MarshalAs(UnmanagedType.LPWStr)] String defaultFile, [MarshalAs(UnmanagedType.LPWStr)] String wildcard, FileSaveDialogResultCallback resultCallback
+#if FULL_AOT_COMPILE
+, IntPtr instanceHandle
+#endif
+);
+
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+            private delegate void FileSaveDialogResultCallback(NativeDialogResult result, IntPtr file
+#if FULL_AOT_COMPILE
+, IntPtr instanceHandle
+#endif
+);
+
+#if FULL_AOT_COMPILE
+            class CallbackHandler
+            {
+                static FileSaveDialogResultCallback resultCb;
+
+                static CallbackHandler()
+                {
+                    resultCb = getResults;
+                }
+
+                [MonoTouch.MonoPInvokeCallback(typeof(FileSaveDialogResultCallback))]
+                private static void getResults(NativeDialogResult result, IntPtr file, IntPtr instanceHandle)
+                {
+                    GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                    (handle.Target as FileSaveDialogResults).getResults(result, file);
+                }
+
+                public void showModal(FileSaveDialogResults obj, IntPtr parentPtr, String message, String defaultDir, String defaultFile, String wildcard)
+                {
+                    FileSaveDialog_showModal(parentPtr, message, defaultDir, defaultFile, wildcard, resultCb, GCHandle.ToIntPtr(obj.handle));
+                }
+            }
+#else
+            class CallbackHandler
+            {
+                DirDialogResultCallback resultCb;
+
+                public void showModal(FileSaveDialogResults obj, IntPtr parentPtr, String message, String defaultDir, String defaultFile, String wildcard)
+                {
+                    resultCb = obj.getResults;
+                    FileSaveDialog_showModal(parentPtr, message, defaultDir, defaultFile, wildcard, resultCb);
+                }
+            }
+#endif
 
             #endregion
         }
