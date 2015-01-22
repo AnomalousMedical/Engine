@@ -12,9 +12,9 @@
 #define ASSIGN_HANDLE_INITIALIZER , instanceHandle(instanceHandle)
 #define PASS_HANDLE instanceHandle
 #define PASS_HANDLE_ARG , instanceHandle
-#define HANDLE_ARG_OBJC andHandle:(void*) instanceHandle 
+#define HANDLE_ARG_OBJC andHandle:(void*) _instanceHandle 
 #define PASS_HANDLE_ARG_OBJC andHandle:instanceHandle 
-#define ASSIGN_HANDLE_OBJC self->instanceHandle = instanceHandle;
+#define ASSIGN_HANDLE_OBJC instanceHandle = _instanceHandle;
 #else
 #define HANDLE_INSTANCE 
 #define HANDLE_FIRST_ARG
