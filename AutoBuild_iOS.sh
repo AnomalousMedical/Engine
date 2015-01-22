@@ -12,7 +12,7 @@ SOLUTION_PATH=$THIS_FOLDER/$SOLUTION_NAME
 
 #cleaning doesn't work for some reason
 #xbuild "$SOLUTION_PATH" /p:Configuration=Release /t:clean
-xbuild "$SOLUTION_PATH" /p:Configuration=Release /p:DefineConstants="STATIC_LINK FULL_AOT_COMPILE"
+xbuild "$SOLUTION_PATH" /p:Configuration=Release /p:DefineConstants="STATIC_LINK FULL_AOT_COMPILE LITE_EMBEDDED_LIB"
 
 #Finish up
 cd "$START_PATH"

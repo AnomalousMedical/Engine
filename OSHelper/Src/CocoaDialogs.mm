@@ -196,9 +196,10 @@ extern "C" _AnomalousExport void DirDialog_showModal(NativeOSWindow* parent, Str
 {
     @private
     ColorDialogResultCallback resultCallback;
+    HANDLE_INSTANCE
 }
 
--(id) initWithCallback: (ColorDialogResultCallback)cb;
+-(id) initWithCallback: (ColorDialogResultCallback)cb HANDLE_ARG_OBJC;
 
 -(void) colorPickerClosed:(NSNotification *) notification;
 
@@ -206,10 +207,11 @@ extern "C" _AnomalousExport void DirDialog_showModal(NativeOSWindow* parent, Str
 
 @implementation CallbackNotification
 
--(id) initWithCallback: (ColorDialogResultCallback)cb
+-(id) initWithCallback: (ColorDialogResultCallback)cb HANDLE_ARG_OBJC
 {
     self = [super init];
     resultCallback = cb;
+    ASSIGN_HANDLE_OBJC
     return self;
 }
 
@@ -223,19 +225,19 @@ extern "C" _AnomalousExport void DirDialog_showModal(NativeOSWindow* parent, Str
  
     [[NSNotificationCenter defaultCenter] removeObserver:self name: NSWindowWillCloseNotification object: cPanel];
     
-    resultCallback(result, resColor);
+    resultCallback(result, resColor PASS_HANDLE_ARG);
     
     [self release];
 }
 
 @end
  
-extern "C" _AnomalousExport void ColorDialog_showModal(NativeOSWindow* parent, Color color, ColorDialogResultCallback resultCallback)
+extern "C" _AnomalousExport void ColorDialog_showModal(NativeOSWindow* parent, Color color, ColorDialogResultCallback resultCallback HANDLE_ARG)
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
     NSColorPanel* cPanel = [NSColorPanel sharedColorPanel];
-    CallbackNotification* cbNotification = [[CallbackNotification alloc] initWithCallback:resultCallback];
+    CallbackNotification* cbNotification = [[CallbackNotification alloc] initWithCallback:resultCallback PASS_HANDLE_ARG_OBJC];
     
     [[NSNotificationCenter defaultCenter] addObserver: cbNotification selector: @selector( colorPickerClosed: ) name: NSWindowWillCloseNotification object: cPanel];
     
