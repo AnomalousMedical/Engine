@@ -4,16 +4,23 @@
 class EventMouseDragTranslator : public MyGUIEventTranslator
 {
 public:
-	typedef void (*NativeEventDelegate)(MyGUI::Widget* sender, int left, int top, MyGUI::MouseButton _id);
+	typedef void(*NativeEventDelegate)(MyGUI::Widget* sender, int left, int top, MyGUI::MouseButton _id HANDLE_ARG);
 
 private:
 	MyGUI::Widget* widget;
 	NativeEventDelegate nativeEvent;
+	HANDLE_INSTANCE
+
+	void fireEvent(MyGUI::Widget* sender, int left, int top, MyGUI::MouseButton _id)
+	{
+		nativeEvent(sender, left, top, _id PASS_HANDLE_ARG);
+	}
 
 public:
-	EventMouseDragTranslator(MyGUI::Widget* widget, EventMouseDragTranslator::NativeEventDelegate nativeEventCallback)
+	EventMouseDragTranslator(MyGUI::Widget* widget, EventMouseDragTranslator::NativeEventDelegate nativeEventCallback HANDLE_ARG)
 		:widget(widget),
 		nativeEvent(nativeEventCallback)
+		ASSIGN_HANDLE_INITIALIZER
 	{
 
 	}
@@ -25,7 +32,7 @@ public:
 
 	virtual void bindEvent()
 	{
-		widget->eventMouseDrag = MyGUI::newDelegate(nativeEvent);
+		widget->eventMouseDrag = MyGUI::newDelegate(this, &EventMouseDragTranslator::fireEvent);
 	}
 
 	virtual void unbindEvent()
@@ -34,7 +41,7 @@ public:
 	}
 };
 
-extern "C" _AnomalousExport EventMouseDragTranslator* EventMouseDragTranslator_Create(MyGUI::Widget* widget, EventMouseDragTranslator::NativeEventDelegate nativeEventCallback)
+extern "C" _AnomalousExport EventMouseDragTranslator* EventMouseDragTranslator_Create(MyGUI::Widget* widget, EventMouseDragTranslator::NativeEventDelegate nativeEventCallback HANDLE_ARG)
 {
-	return new EventMouseDragTranslator(widget, nativeEventCallback);
+	return new EventMouseDragTranslator(widget, nativeEventCallback PASS_HANDLE_ARG);
 }
