@@ -25,7 +25,6 @@ void UIKitAppDelegate_setPrimaryUIKitApp(UIKitApp* app)
 
 @implementation UIKitAppDelegate
 
-
 //Better but not quite right yet.
 -(void) doFrame:(id)data
 {

@@ -14,6 +14,18 @@
 #import <UIKit/UIKit.h>
 #include "NativeOSWindow.h"
 
+class UIKitWindow;
+
+@interface WindowEvents : NSObject
+{
+@private
+    UIKitWindow* win;
+}
+
+-(id) init:(UIKitWindow*) window;
+
+@end
+
 class UIKitWindow : public NativeOSWindow
 {
 public:
@@ -46,6 +58,9 @@ public:
     virtual float getWindowScaling();
     
     virtual void toggleFullscreen();
+    
+private:
+    WindowEvents* windowEvents;
 };
 
 void UIKitWindow_setUIWindow(UIWindow *window);

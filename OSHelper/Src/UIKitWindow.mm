@@ -10,26 +10,68 @@
 #include "Stdafx.h"
 #include "UIKitWindow.h"
 
+@implementation WindowEvents
+
+- (void) orientationChanged:(NSNotification *)note
+{
+    UIDevice * device = note.object;
+    switch(device.orientation)
+    {
+        case UIDeviceOrientationPortrait:
+            logger.sendMessage("UIDeviceOrientationPortrait", LogLevel::ImportantInfo);
+            /* start special animation */
+            break;
+            
+        case UIDeviceOrientationPortraitUpsideDown:
+            logger.sendMessage("UIDeviceOrientationPortraitUpsideDown", LogLevel::ImportantInfo);
+            /* start special animation */
+            break;
+            
+        default:
+            logger.sendMessage("default", LogLevel::ImportantInfo);
+            break;
+    };
+}
+
+-(id) init:(UIKitWindow*) window
+{
+    if (self)
+    {
+        win = window;
+        
+        //For Screen Rotation
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter]
+         addObserver:self selector:@selector(orientationChanged:)
+         name:UIDeviceOrientationDidChangeNotification
+         object:[UIDevice currentDevice]];
+    }
+    
+    return self;
+}
+
+@end
+
 UIWindow *window;
 
 void UIKitWindow_setUIWindow(UIWindow *win)
-{
+{    
     window = win;
 }
 
 UIKitWindow::UIKitWindow(UIKitWindow* parent, String title, int x, int y, int width, int height, bool floatOnParent)
 {
-   
+    windowEvents = [[WindowEvents alloc] init:this];
 }
 
 UIKitWindow::~UIKitWindow()
 {
-    
+    //[windowEvents release];
 }
 
 void UIKitWindow::setTitle(String title)
 {
-    
+    logger.sendMessage("tried orientation changed in UIKitWindow reverted", LogLevel::ImportantInfo);
 }
 
 void UIKitWindow::setSize(int width, int height)
