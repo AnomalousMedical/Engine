@@ -81,7 +81,7 @@ void UIKitWindow::setCursor(CursorType cursor)
 
 float UIKitWindow::getWindowScaling()
 {
-    return window.contentScaleFactor;
+    return [[UIScreen mainScreen] scale];
 }
 
 void UIKitWindow::setupMultitouch(MultiTouch *multiTouch)

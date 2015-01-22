@@ -147,15 +147,19 @@ extern "C" _AnomalousExport Ogre::RenderWindow* Root_createRenderWindowParams(Og
 	}
 	params["monitorIndex"] = monitorIndex;
 	params["noAltEnter"] = "true";
-	#ifdef MAC_OSX
+    
+#ifdef MAC_OSX
 		params["macAPI"] = "cocoa";
 		params["macAPICocoaUseNSView"] = "true";
+#endif
+    
+#if defined(MAC_OSX) || defined(APPLE_IOS)
 		params["contentScalingFactor"] = contentScalingFactor;
 
         float scaleFactor = Ogre::StringConverter::parseReal(contentScalingFactor);
 		width /= scaleFactor;
 		height /= scaleFactor;
-	#endif
+#endif
 	return root->createRenderWindow(name, width, height, fullScreen, &params);
 }
 
