@@ -233,7 +233,7 @@ extern "C" _AnomalousExport void FileSaveDialog_showModal(NativeOSWindow* parent
 	resultCallback(result, path.c_str());
 }
 
-extern "C" _AnomalousExport void DirDialog_showModal(NativeOSWindow* parent, String message, String startPath, DirDialogResultCallback resultCallback)
+extern "C" _AnomalousExport void DirDialog_showModal(NativeOSWindow* parent, String message, String startPath, DirDialogResultCallback resultCallback HANDLE_ARG)
 {
 	wchar_t path[MAX_PATH] = L"";
 
@@ -263,7 +263,7 @@ extern "C" _AnomalousExport void DirDialog_showModal(NativeOSWindow* parent, Str
 	{
 		result = OK;
 	}
-	resultCallback(result, strPath.c_str());
+	resultCallback(result, strPath.c_str() PASS_HANDLE_ARG);
 }
 
 extern "C" _AnomalousExport void ColorDialog_showModal(NativeOSWindow* parent, Color color, ColorDialogResultCallback resultCallback HANDLE_ARG)

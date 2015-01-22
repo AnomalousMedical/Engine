@@ -38,32 +38,14 @@ namespace Anomalous.OSPlatform
 
         class DirDialogResults : IDisposable
         {
-            [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-            private delegate void DirDialogResultCallback(NativeDialogResult result, IntPtr file);
-
-            DirDialogResultCallback resultCb;
+            CallbackHandler callbackHandler;
             ResultCallback showModalCallback;
             GCHandle handle;
 
             public DirDialogResults(ResultCallback callback)
             {
                 this.showModalCallback = callback;
-
-                resultCb = (result, filePtr) =>
-                {
-                    String managedFileString = Marshal.PtrToStringUni(filePtr);
-                    ThreadManager.invoke(() =>
-                    {
-                        try
-                        {
-                            this.showModalCallback(result, managedFileString);
-                        }
-                        finally
-                        {
-                            this.Dispose();
-                        }
-                    });
-                };
+                callbackHandler = new CallbackHandler();
             }
 
             public void Dispose()
@@ -75,13 +57,74 @@ namespace Anomalous.OSPlatform
             {
                 handle = GCHandle.Alloc(this, GCHandleType.Normal);
                 IntPtr parentPtr = parent != null ? parent._NativePtr : IntPtr.Zero;
-                DirDialog_showModal(parentPtr, message, startPath, resultCb);
+                callbackHandler.showModal(this, parentPtr, message, startPath);
+            }
+
+            private void getResults(NativeDialogResult result, IntPtr filePtr)
+            {
+                String managedFileString = Marshal.PtrToStringUni(filePtr);
+                ThreadManager.invoke(() =>
+                {
+                    try
+                    {
+                        this.showModalCallback(result, managedFileString);
+                    }
+                    finally
+                    {
+                        this.Dispose();
+                    }
+                });
             }
 
             #region PInvoke
 
             [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-            private static extern void DirDialog_showModal(IntPtr parent, [MarshalAs(UnmanagedType.LPWStr)] String message, [MarshalAs(UnmanagedType.LPWStr)] String startPath, DirDialogResultCallback resultCallback);
+            private static extern void DirDialog_showModal(IntPtr parent, [MarshalAs(UnmanagedType.LPWStr)] String message, [MarshalAs(UnmanagedType.LPWStr)] String startPath, DirDialogResultCallback resultCallback
+#if FULL_AOT_COMPILE
+            , IntPtr instanceHandle
+#endif
+);
+
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+            private delegate void DirDialogResultCallback(NativeDialogResult result, IntPtr file
+#if FULL_AOT_COMPILE
+            , IntPtr instanceHandle
+#endif
+);
+
+#if FULL_AOT_COMPILE
+            class CallbackHandler
+            {
+                static DirDialogResultCallback resultCb;
+
+                static CallbackHandler()
+                {
+                    resultCb = getResults;
+                }
+
+                [MonoTouch.MonoPInvokeCallback(typeof(DirDialogResultCallback))]
+                private static void getResults(NativeDialogResult result, IntPtr file, IntPtr instanceHandle)
+                {
+                    GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                    (handle.Target as DirDialogResults).getResults(result, file);
+                }
+
+                public void showModal(DirDialogResults obj, IntPtr parentPtr, String message, String startPath)
+                {
+                    DirDialog_showModal(parentPtr, message, startPath, resultCb, GCHandle.ToIntPtr(obj.handle));
+                }
+            }
+#else
+            class CallbackHandler
+            {
+                DirDialogResultCallback resultCb;
+
+                public void showModal(DirDialogResults obj, IntPtr parentPtr, String message, String startPath)
+                {
+                    DirDialog_showModal(parentPtr, message, startPath, resultCb);
+                }
+            }
+#endif
 
             #endregion
         }
