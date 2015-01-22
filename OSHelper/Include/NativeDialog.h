@@ -46,8 +46,8 @@ public:
 typedef void (*NativeDialogResultCallback)(NativeDialogResult result);
 
 //File Open Dialog
-typedef void (*FileOpenDialogSetPathString)(String path);
-typedef void (*FileOpenDialogResultCallback)(NativeDialogResult result);
+typedef void(*FileOpenDialogSetPathString)(String path HANDLE_ARG);
+typedef void(*FileOpenDialogResultCallback)(NativeDialogResult result HANDLE_ARG);
 
 //File Save Dialog
 typedef void (*FileSaveDialogResultCallback)(NativeDialogResult result, String file);

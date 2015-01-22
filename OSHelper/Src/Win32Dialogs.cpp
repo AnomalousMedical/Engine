@@ -45,7 +45,7 @@ void convertWildcards(const StdString& wildcard, StdString& filterBuffer)
 	}
 }
 
-extern "C" _AnomalousExport void FileOpenDialog_showModal(NativeOSWindow* parent, String message, String defaultDir, String defaultFile, String wildcard, bool selectMultiple, FileOpenDialogSetPathString setPathString, FileOpenDialogResultCallback resultCallback)
+extern "C" _AnomalousExport void FileOpenDialog_showModal(NativeOSWindow* parent, String message, String defaultDir, String defaultFile, String wildcard, bool selectMultiple, FileOpenDialogSetPathString setPathString, FileOpenDialogResultCallback resultCallback HANDLE_ARG)
 {
 	OPENFILENAME of;
 	ZeroMemory(&of, sizeof(of));
@@ -112,7 +112,7 @@ extern "C" _AnomalousExport void FileOpenDialog_showModal(NativeOSWindow* parent
 			file.assign(&(of.lpstrFile[offset]));
 			while(file.length() > 0)
 			{
-				setPathString((dirPath + file).c_str());
+				setPathString((dirPath + file).c_str() PASS_HANDLE_ARG);
 				offset += file.length() + 1;
 				if(offset < FILE_NAME_BUFFER_SIZE)
 				{
@@ -127,12 +127,12 @@ extern "C" _AnomalousExport void FileOpenDialog_showModal(NativeOSWindow* parent
 		else
 		{
 			StdString file(of.lpstrFile);
-			setPathString(file.c_str());
+			setPathString(file.c_str() PASS_HANDLE_ARG);
 		}
 		dlgResult = OK;
 	}
 
-	resultCallback(dlgResult);
+	resultCallback(dlgResult PASS_HANDLE_ARG);
 }
 
 extern "C" _AnomalousExport void FileSaveDialog_showModal(NativeOSWindow* parent, String message, String defaultDir, String defaultFile, String wildcard, FileSaveDialogResultCallback resultCallback)
