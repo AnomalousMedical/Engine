@@ -125,10 +125,10 @@ namespace MyGUIPlugin
         {
             private NativeEventDelegate nativeEventCallback;
 
-            public IntPtr create(EventMessageBoxResultTranslator obj, Widget widget)
+            public IntPtr create(EventMessageBoxResultTranslator obj, Message message)
             {
                 nativeEventCallback = new NativeEventDelegate(obj.nativeEvent);
-                return EventMessageBoxResultTranslator_Create(widget.WidgetPtr, nativeEventCallback);
+                return EventMessageBoxResultTranslator_Create(message.WidgetPtr, nativeEventCallback);
             }
 
             public void Dispose()
