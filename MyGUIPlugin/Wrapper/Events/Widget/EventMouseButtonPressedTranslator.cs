@@ -91,7 +91,7 @@ namespace MyGUIPlugin
         {
             private NativeEventDelegate nativeEventCallback;
 
-            public IntPtr create(EventMouseDragTranslator obj, Widget widget)
+            public IntPtr create(EventMouseButtonPressedTranslator obj, Widget widget)
             {
                 nativeEventCallback = new NativeEventDelegate(obj.nativeEvent);
                 return EventMouseButtonPressedTranslator_Create(widget.WidgetPtr, nativeEventCallback);
