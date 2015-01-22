@@ -4,16 +4,23 @@
 class EventMouseButtonReleasedTranslator : public MyGUIEventTranslator
 {
 public:
-	typedef void (*NativeEventDelegate)(MyGUI::Widget* sender, int left, int top, MyGUI::MouseButton id);
+	typedef void(*NativeEventDelegate)(MyGUI::Widget* sender, int left, int top, MyGUI::MouseButton id HANDLE_ARG);
 
 private:
 	MyGUI::Widget* widget;
 	NativeEventDelegate nativeEvent;
+	HANDLE_INSTANCE
+
+	void fireEvent(MyGUI::Widget* sender, int left, int top, MyGUI::MouseButton id)
+	{
+		nativeEvent(sender, left, top, id PASS_HANDLE_ARG);
+	}
 
 public:
-	EventMouseButtonReleasedTranslator(MyGUI::Widget* widget, EventMouseButtonReleasedTranslator::NativeEventDelegate nativeEventCallback)
+	EventMouseButtonReleasedTranslator(MyGUI::Widget* widget, EventMouseButtonReleasedTranslator::NativeEventDelegate nativeEventCallback HANDLE_ARG)
 		:widget(widget),
 		nativeEvent(nativeEventCallback)
+		ASSIGN_HANDLE_INITIALIZER
 	{
 
 	}
@@ -25,7 +32,7 @@ public:
 
 	virtual void bindEvent()
 	{
-		widget->eventMouseButtonReleased = MyGUI::newDelegate(nativeEvent);
+		widget->eventMouseButtonReleased = MyGUI::newDelegate(this, &EventMouseButtonReleasedTranslator::fireEvent);
 	}
 
 	virtual void unbindEvent()
@@ -34,7 +41,7 @@ public:
 	}
 };
 
-extern "C" _AnomalousExport EventMouseButtonReleasedTranslator* EventMouseButtonReleasedTranslator_Create(MyGUI::Widget* widget, EventMouseButtonReleasedTranslator::NativeEventDelegate nativeEventCallback)
+extern "C" _AnomalousExport EventMouseButtonReleasedTranslator* EventMouseButtonReleasedTranslator_Create(MyGUI::Widget* widget, EventMouseButtonReleasedTranslator::NativeEventDelegate nativeEventCallback HANDLE_ARG)
 {
-	return new EventMouseButtonReleasedTranslator(widget, nativeEventCallback);
+	return new EventMouseButtonReleasedTranslator(widget, nativeEventCallback PASS_HANDLE_ARG);
 }
