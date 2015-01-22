@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Anomalous.Interop;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -7,43 +8,28 @@ using System.Threading.Tasks;
 
 namespace OgrePlugin
 {
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void RenderTargetEventDelegate();
-
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void RenderTargetViewportEventDelegate();
-
     class RenderTargetListener : IDisposable
     {        
         private IntPtr ptr;
-        private RenderTargetEventDelegate preRenderTargetUpdateCb;
-        private RenderTargetEventDelegate postRenderTargetUpdateCb;
-        private RenderTargetViewportEventDelegate preViewportUpdateCb;
-        private RenderTargetViewportEventDelegate postViewportUpdateCb;
-        private RenderTargetViewportEventDelegate viewportAddedCb;
-        private RenderTargetViewportEventDelegate viewportRemovedCb;
+        private CallbackHandler callbackHandler;
 
-        public event RenderTargetEventDelegate PreRenderTargetUpdate;
-        public event RenderTargetEventDelegate PostRenderTargetUpdate;
-        public event RenderTargetViewportEventDelegate PreViewportUpdate;
-        public event RenderTargetViewportEventDelegate PostViewportUpdate;
-        public event RenderTargetViewportEventDelegate ViewportAdded;
-        public event RenderTargetViewportEventDelegate ViewportRemoved;
+        public event Action PreRenderTargetUpdate;
+        public event Action PostRenderTargetUpdate;
+        public event Action PreViewportUpdate;
+        public event Action PostViewportUpdate;
+        public event Action ViewportAdded;
+        public event Action ViewportRemoved;
 
         public RenderTargetListener()
         {
-            preRenderTargetUpdateCb = preRenderTargetUpdate;
-            postRenderTargetUpdateCb = postRenderTargetUpdate;
-            preViewportUpdateCb = preViewportUpdate;
-            postViewportUpdateCb = postViewportUpdate;
-            viewportAddedCb = viewportAdded;
-            viewportRemovedCb = viewportRemoved;
-            ptr = ManagedRenderTargetListener_Create(preRenderTargetUpdateCb, postRenderTargetUpdateCb, preViewportUpdateCb, postViewportUpdateCb, viewportAddedCb, viewportRemovedCb);
+            callbackHandler = new CallbackHandler();
+            ptr = callbackHandler.create(this);
         }
 
         public void Dispose()
         {
             ManagedRenderTargetListener_Delete(ptr);
+            callbackHandler.Dispose();
         }
 
         public void preRenderTargetUpdate()
@@ -118,10 +104,117 @@ namespace OgrePlugin
         #region PInvoke
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr ManagedRenderTargetListener_Create(RenderTargetEventDelegate preRenderTargetUpdateCb, RenderTargetEventDelegate postRenderTargetUpdateCb, RenderTargetViewportEventDelegate preViewportUpdateCb, RenderTargetViewportEventDelegate postViewportUpdateCb, RenderTargetViewportEventDelegate viewportAddedCb, RenderTargetViewportEventDelegate viewportRemovedCb);
+        private static extern IntPtr ManagedRenderTargetListener_Create(NativeAction preRenderTargetUpdateCb, NativeAction postRenderTargetUpdateCb, NativeAction preViewportUpdateCb, NativeAction postViewportUpdateCb, NativeAction viewportAddedCb, NativeAction viewportRemovedCb
+#if FULL_AOT_COMPILE
+        , IntPtr instanceHandle
+#endif
+);
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ManagedRenderTargetListener_Delete(IntPtr listener);
+
+#if FULL_AOT_COMPILE
+        class CallbackHandler : IDisposable
+        {
+            private static NativeAction preRenderTargetUpdateCb;
+            private static NativeAction postRenderTargetUpdateCb;
+            private static NativeAction preViewportUpdateCb;
+            private static NativeAction postViewportUpdateCb;
+            private static NativeAction viewportAddedCb;
+            private static NativeAction viewportRemovedCb;
+
+            static CallbackHandler()
+            {
+                preRenderTargetUpdateCb = preRenderTargetUpdate;
+                postRenderTargetUpdateCb = postRenderTargetUpdate;
+                preViewportUpdateCb = preViewportUpdate;
+                postViewportUpdateCb = postViewportUpdate;
+                viewportAddedCb = viewportAdded;
+                viewportRemovedCb = viewportRemoved;
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction))]
+            private static void preRenderTargetUpdate(IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as RenderTargetListener).preRenderTargetUpdate();
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction))]
+            private static void postRenderTargetUpdate(IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as RenderTargetListener).postRenderTargetUpdate();
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction))]
+            private static void preViewportUpdate(IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as RenderTargetListener).preViewportUpdate();
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction))]
+            private static void postViewportUpdate(IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as RenderTargetListener).postViewportUpdate();
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction))]
+            private static void viewportAdded(IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as RenderTargetListener).viewportAdded();
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction))]
+            private static void viewportRemoved(IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as RenderTargetListener).viewportRemoved();
+            }
+
+            private GCHandle handle;
+
+            public IntPtr create(RenderTargetListener obj)
+            {
+                handle = GCHandle.Alloc(obj);
+                return ManagedRenderTargetListener_Create(preRenderTargetUpdateCb, postRenderTargetUpdateCb, preViewportUpdateCb, postViewportUpdateCb, viewportAddedCb, viewportRemovedCb, GCHandle.ToIntPtr(handle));
+            }
+
+            public void Dispose()
+            {
+                handle.Free();
+            }
+        }
+#else
+        class CallbackHandler : IDisposable
+        {
+            private NativeAction preRenderTargetUpdateCb;
+            private NativeAction postRenderTargetUpdateCb;
+            private NativeAction preViewportUpdateCb;
+            private NativeAction postViewportUpdateCb;
+            private NativeAction viewportAddedCb;
+            private NativeAction viewportRemovedCb;
+
+            public IntPtr create(RenderTargetListener obj)
+            {
+                preRenderTargetUpdateCb = preRenderTargetUpdate;
+                postRenderTargetUpdateCb = postRenderTargetUpdate;
+                preViewportUpdateCb = preViewportUpdate;
+                postViewportUpdateCb = postViewportUpdate;
+                viewportAddedCb = viewportAdded;
+                viewportRemovedCb = viewportRemoved;
+                ptr = ManagedRenderTargetListener_Create(preRenderTargetUpdateCb, postRenderTargetUpdateCb, preViewportUpdateCb, postViewportUpdateCb, viewportAddedCb, viewportRemovedCb);
+            }
+
+            public void Dispose()
+            {
+
+            }
+        }
+#endif
 
         #endregion
     }

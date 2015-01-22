@@ -498,7 +498,7 @@ namespace OgrePlugin
             return RenderTarget_getFSAA(renderTarget);
         }
 
-        public event RenderTargetEventDelegate PreRenderTargetUpdate
+        public event Action PreRenderTargetUpdate
         {
             add
             {
@@ -515,7 +515,7 @@ namespace OgrePlugin
             }
         }
 
-        public event RenderTargetEventDelegate PostRenderTargetUpdate
+        public event Action PostRenderTargetUpdate
         {
             add
             {
@@ -532,7 +532,7 @@ namespace OgrePlugin
             }
         }
 
-        public event RenderTargetViewportEventDelegate PreViewportUpdate
+        public event Action PreViewportUpdate
         {
             add
             {
@@ -549,7 +549,7 @@ namespace OgrePlugin
             }
         }
 
-        public event RenderTargetViewportEventDelegate PostViewportUpdate
+        public event Action PostViewportUpdate
         {
             add
             {
@@ -566,7 +566,7 @@ namespace OgrePlugin
             }
         }
 
-        public event RenderTargetViewportEventDelegate ViewportAdded
+        public event Action ViewportAdded
         {
             add
             {
@@ -583,7 +583,7 @@ namespace OgrePlugin
             }
         }
 
-        public event RenderTargetViewportEventDelegate ViewportRemoved
+        public event Action ViewportRemoved
         {
             add
             {

@@ -1,19 +1,17 @@
 #include "StdAfx.h"
 
-typedef void(*RenderTargetEventDelegate)();
-typedef void(*RenderTargetViewportEventDelegate)();
-
 class ManagedRenderTargetListener : Ogre::RenderTargetListener
 {
 public:
 
-	ManagedRenderTargetListener(RenderTargetEventDelegate preRenderTargetUpdateCb, RenderTargetEventDelegate postRenderTargetUpdateCb, RenderTargetViewportEventDelegate preViewportUpdateCb, RenderTargetViewportEventDelegate postViewportUpdateCb, RenderTargetViewportEventDelegate viewportAddedCb, RenderTargetViewportEventDelegate viewportRemovedCb)
+	ManagedRenderTargetListener(NativeAction preRenderTargetUpdateCb, NativeAction postRenderTargetUpdateCb, NativeAction preViewportUpdateCb, NativeAction postViewportUpdateCb, NativeAction viewportAddedCb, NativeAction viewportRemovedCb HANDLE_ARG)
 		:preRenderTargetUpdateCb(preRenderTargetUpdateCb),
 		postRenderTargetUpdateCb(postRenderTargetUpdateCb),
 		preViewportUpdateCb(preViewportUpdateCb),
 		postViewportUpdateCb(postViewportUpdateCb),
 		viewportAddedCb(viewportAddedCb),
 		viewportRemovedCb(viewportRemovedCb)
+		ASSIGN_HANDLE_INITIALIZER
 	{
 
 	}
@@ -25,46 +23,47 @@ public:
 
 	virtual void preRenderTargetUpdate(const Ogre::RenderTargetEvent& evt)
 	{
-		preRenderTargetUpdateCb();
+		preRenderTargetUpdateCb(PASS_HANDLE);
 	}
  
 	virtual void postRenderTargetUpdate(const Ogre::RenderTargetEvent& evt)
 	{
-		postRenderTargetUpdateCb();
+		postRenderTargetUpdateCb(PASS_HANDLE);
 	}
 
 	virtual void preViewportUpdate(const Ogre::RenderTargetViewportEvent& evt)
 	{
-		preViewportUpdateCb();
+		preViewportUpdateCb(PASS_HANDLE);
 	}
 
 	virtual void postViewportUpdate(const Ogre::RenderTargetViewportEvent& evt)
 	{
-		postViewportUpdateCb();
+		postViewportUpdateCb(PASS_HANDLE);
 	}
  
 	virtual void viewportAdded(const Ogre::RenderTargetViewportEvent& evt)
 	{
-		viewportAddedCb();
+		viewportAddedCb(PASS_HANDLE);
 	}
 
 	virtual void viewportRemoved(const Ogre::RenderTargetViewportEvent& evt)
 	{
-		viewportRemovedCb();
+		viewportRemovedCb(PASS_HANDLE);
 	}
 
 private:
-	RenderTargetEventDelegate preRenderTargetUpdateCb;
-	RenderTargetEventDelegate postRenderTargetUpdateCb;
-	RenderTargetViewportEventDelegate preViewportUpdateCb;
-	RenderTargetViewportEventDelegate postViewportUpdateCb;
-	RenderTargetViewportEventDelegate viewportAddedCb;
-	RenderTargetViewportEventDelegate viewportRemovedCb;
+	NativeAction preRenderTargetUpdateCb;
+	NativeAction postRenderTargetUpdateCb;
+	NativeAction preViewportUpdateCb;
+	NativeAction postViewportUpdateCb;
+	NativeAction viewportAddedCb;
+	NativeAction viewportRemovedCb;
+	HANDLE_INSTANCE
 };
 
-extern "C" _AnomalousExport ManagedRenderTargetListener* ManagedRenderTargetListener_Create(RenderTargetEventDelegate preRenderTargetUpdateCb, RenderTargetEventDelegate postRenderTargetUpdateCb, RenderTargetViewportEventDelegate preViewportUpdateCb, RenderTargetViewportEventDelegate postViewportUpdateCb, RenderTargetViewportEventDelegate viewportAddedCb, RenderTargetViewportEventDelegate viewportRemovedCb)
+extern "C" _AnomalousExport ManagedRenderTargetListener* ManagedRenderTargetListener_Create(NativeAction preRenderTargetUpdateCb, NativeAction postRenderTargetUpdateCb, NativeAction preViewportUpdateCb, NativeAction postViewportUpdateCb, NativeAction viewportAddedCb, NativeAction viewportRemovedCb HANDLE_ARG)
 {
-	return new ManagedRenderTargetListener(preRenderTargetUpdateCb, postRenderTargetUpdateCb, preViewportUpdateCb, postViewportUpdateCb, viewportAddedCb, viewportRemovedCb);
+	return new ManagedRenderTargetListener(preRenderTargetUpdateCb, postRenderTargetUpdateCb, preViewportUpdateCb, postViewportUpdateCb, viewportAddedCb, viewportRemovedCb PASS_HANDLE_ARG);
 }
 
 extern "C" _AnomalousExport void ManagedRenderTargetListener_Delete(ManagedRenderTargetListener *listener)

@@ -32,6 +32,7 @@ namespace MyGUIPlugin
         public void Dispose()
         {
             ManagedMyGUILogListener_Delete(nativePtr);
+            callbackHandler.Dispose();
         }
 
         private void messageLogged(String section, LogLevel lml, String message)
