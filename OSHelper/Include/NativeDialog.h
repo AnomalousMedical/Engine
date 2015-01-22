@@ -56,4 +56,4 @@ typedef void (*FileSaveDialogResultCallback)(NativeDialogResult result, String f
 typedef void (*DirDialogResultCallback)(NativeDialogResult result, String file);
 
 //Color Dialog
-typedef void (*ColorDialogResultCallback)(NativeDialogResult result, Color color);
+typedef void (*ColorDialogResultCallback)(NativeDialogResult result, Color color HANDLE_ARG);

@@ -35,31 +35,14 @@ namespace Anomalous.OSPlatform
 
         class ColorDialogResults : IDisposable
         {
-            [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-            private delegate void ColorDialogResultCallback(NativeDialogResult result, Color color);
-
-            ColorDialogResultCallback resultCb;
             ResultCallback showModalCallback;
             GCHandle handle;
+            CallbackHandler callbackHandler;
 
             public ColorDialogResults(ResultCallback callback)
             {
                 this.showModalCallback = callback;
-
-                resultCb = (result, color) =>
-                {
-                    ThreadManager.invoke(() =>
-                    {
-                        try
-                        {
-                            this.showModalCallback(result, color);
-                        }
-                        finally
-                        {
-                            this.Dispose();
-                        }
-                    });
-                };
+                callbackHandler = new CallbackHandler();
             }
 
             public void Dispose()
@@ -71,13 +54,73 @@ namespace Anomalous.OSPlatform
             {
                 handle = GCHandle.Alloc(this, GCHandleType.Normal);
                 IntPtr parentPtr = parent != null ? parent._NativePtr : IntPtr.Zero;
-                ColorDialog_showModal(parentPtr, color, resultCb);
+                callbackHandler.showModal(this, parentPtr, color);
+            }
+
+            private void getResults(NativeDialogResult result, Color color)
+            {
+                ThreadManager.invoke(() =>
+                {
+                    try
+                    {
+                        this.showModalCallback(result, color);
+                    }
+                    finally
+                    {
+                        this.Dispose();
+                    }
+                });
             }
 
             #region PInvoke
 
             [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-            private static extern void ColorDialog_showModal(IntPtr parent, Color color, ColorDialogResultCallback resultCallback);
+            private static extern void ColorDialog_showModal(IntPtr parent, Color color, ColorDialogResultCallback resultCallback
+#if FULL_AOT_COMPILE
+            , IntPtr instanceHandle
+#endif
+);
+
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+            private delegate void ColorDialogResultCallback(NativeDialogResult result, Color color
+#if FULL_AOT_COMPILE
+            , IntPtr instanceHandle
+#endif
+);
+
+#if FULL_AOT_COMPILE
+            class CallbackHandler
+            {
+                static ColorDialogResultCallback resultCb;
+
+                static CallbackHandler()
+                {
+                    resultCb = getResults;
+                }
+
+                [MonoTouch.MonoPInvokeCallback(typeof(ColorDialogResultCallback))]
+                private static void getResults(NativeDialogResult result, Color color, IntPtr instanceHandle)
+                {
+                    GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                    (handle.Target as ColorDialogResults).getResults(result, color);
+                }
+
+                public void showModal(ColorDialogResults obj, IntPtr parentPtr, Color color)
+                {
+                    ColorDialog_showModal(parentPtr, color, resultCb, GCHandle.ToIntPtr(obj.handle));
+                }
+            }
+#else
+            class CallbackHandler
+            {
+                ColorDialogResultCallback resultCb;
+
+                public void showModal(ColorDialogResults obj, IntPtr parentPtr, Color color)
+                {
+                    ColorDialog_showModal(parentPtr, color, obj.getResults);
+                }
+            }
+#endif
 
             #endregion
         }

@@ -266,7 +266,7 @@ extern "C" _AnomalousExport void DirDialog_showModal(NativeOSWindow* parent, Str
 	resultCallback(result, strPath.c_str());
 }
 
-extern "C" _AnomalousExport void ColorDialog_showModal(NativeOSWindow* parent, Color color, ColorDialogResultCallback resultCallback)
+extern "C" _AnomalousExport void ColorDialog_showModal(NativeOSWindow* parent, Color color, ColorDialogResultCallback resultCallback HANDLE_ARG)
 {
 	// initialize the struct used by Windows
     CHOOSECOLOR cc;
@@ -305,5 +305,5 @@ extern "C" _AnomalousExport void ColorDialog_showModal(NativeOSWindow* parent, C
         result = OK;
     }
 
-	resultCallback(result, resColor);
+	resultCallback(result, resColor PASS_HANDLE_ARG);
 }
