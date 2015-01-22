@@ -5,16 +5,18 @@
 class EventMessageBoxResultTranslator : public MyGUIEventTranslator
 {
 public:
-	typedef void (*NativeEventDelegate)(MyGUI::Message* sender, MyGUI::MessageBoxStyle::Enum result);
+	typedef void(*NativeEventDelegate)(MyGUI::Message* sender, MyGUI::MessageBoxStyle::Enum result HANDLE_ARG);
 
 private:
 	MyGUI::Message* widget;
 	NativeEventDelegate nativeEvent;
+	HANDLE_INSTANCE
 
 public:
-	EventMessageBoxResultTranslator(MyGUI::Message* widget, EventMessageBoxResultTranslator::NativeEventDelegate nativeEventCallback)
+	EventMessageBoxResultTranslator(MyGUI::Message* widget, EventMessageBoxResultTranslator::NativeEventDelegate nativeEventCallback HANDLE_ARG)
 		:widget(widget),
 		nativeEvent(nativeEventCallback)
+		ASSIGN_HANDLE_INITIALIZER
 	{
 
 	}
@@ -74,12 +76,12 @@ private:
 		{
 			button = MyGUI::MessageBoxStyle::Continue;
 		}
-		nativeEvent(_sender, button);
+		nativeEvent(_sender, button PASS_HANDLE_ARG);
 	}
 
 };
 
-extern "C" _AnomalousExport EventMessageBoxResultTranslator* EventMessageBoxResultTranslator_Create(MyGUI::Message* widget, EventMessageBoxResultTranslator::NativeEventDelegate nativeEventCallback)
+extern "C" _AnomalousExport EventMessageBoxResultTranslator* EventMessageBoxResultTranslator_Create(MyGUI::Message* widget, EventMessageBoxResultTranslator::NativeEventDelegate nativeEventCallback HANDLE_ARG)
 {
-	return new EventMessageBoxResultTranslator(widget, nativeEventCallback);
+	return new EventMessageBoxResultTranslator(widget, nativeEventCallback PASS_HANDLE_ARG);
 }

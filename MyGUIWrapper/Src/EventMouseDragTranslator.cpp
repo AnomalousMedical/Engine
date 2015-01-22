@@ -11,10 +11,12 @@ private:
 	NativeEventDelegate nativeEvent;
 	HANDLE_INSTANCE
 
+#ifdef FULL_AOT_COMPILE
 	void fireEvent(MyGUI::Widget* sender, int left, int top, MyGUI::MouseButton _id)
 	{
 		nativeEvent(sender, left, top, _id PASS_HANDLE_ARG);
 	}
+#endif
 
 public:
 	EventMouseDragTranslator(MyGUI::Widget* widget, EventMouseDragTranslator::NativeEventDelegate nativeEventCallback HANDLE_ARG)
@@ -32,7 +34,11 @@ public:
 
 	virtual void bindEvent()
 	{
+#ifdef FULL_AOT_COMPILE
 		widget->eventMouseDrag = MyGUI::newDelegate(this, &EventMouseDragTranslator::fireEvent);
+#else
+		widget->eventMouseDrag = MyGUI::newDelegate(nativeEvent);
+#endif
 	}
 
 	virtual void unbindEvent()

@@ -21,25 +21,23 @@ namespace MyGUIPlugin
 
     class EventMessageBoxResultTranslator : MyGUIEventTranslator
     {
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        delegate void NativeEventDelegate(IntPtr message, MessageBoxStyle result);
         static MessageEventArgs eventArgs = new MessageEventArgs();
 
-        private NativeEventDelegate nativeEventCallback;
+        private CallbackHandler callbackHandler;
         private EventMessageResult boundEvent;
         private Message message;
 
         public EventMessageBoxResultTranslator(Message message)
         {
             this.message = message;
-            nativeEventCallback = new NativeEventDelegate(nativeEvent);
-            nativeEventTranslator = EventMessageBoxResultTranslator_Create(message.WidgetPtr, nativeEventCallback);
+            callbackHandler = new CallbackHandler();
+            nativeEventTranslator = callbackHandler.create(this, message);
         }
 
         public override void Dispose()
         {
             base.Dispose();
-            nativeEventCallback = null;
+            callbackHandler.Dispose();
         }
 
         /// <summary>
@@ -78,7 +76,67 @@ namespace MyGUIPlugin
         #region PInvoke
 
         [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr EventMessageBoxResultTranslator_Create(IntPtr widget, NativeEventDelegate nativeEventCallback);
+        private static extern IntPtr EventMessageBoxResultTranslator_Create(IntPtr widget, NativeEventDelegate nativeEventCallback
+#if FULL_AOT_COMPILE
+        , IntPtr instanceHandle
+#endif
+);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        delegate void NativeEventDelegate(IntPtr message, MessageBoxStyle result
+#if FULL_AOT_COMPILE
+        , IntPtr instanceHandle
+#endif
+);
+
+#if FULL_AOT_COMPILE
+        class CallbackHandler : IDisposable
+        {
+            private static NativeEventDelegate nativeEventCallback;
+
+            static CallbackHandler()
+            {
+                nativeEventCallback = new NativeEventDelegate(nativeEvent);
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(NativeEventDelegate))]
+            private static void nativeEvent(IntPtr message, MessageBoxStyle result, IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as EventMessageBoxResultTranslator).nativeEvent(message, result);
+            }
+
+            private GCHandle handle;
+
+            public IntPtr create(EventMessageBoxResultTranslator obj, Message message)
+            {
+                handle = GCHandle.Alloc(obj);
+                return EventMessageBoxResultTranslator_Create(message.WidgetPtr, nativeEventCallback, GCHandle.ToIntPtr(handle));
+            }
+
+            public void Dispose()
+            {
+                handle.Free();
+                nativeEventCallback = null;
+            }
+        }
+#else
+        class CallbackHandler : IDisposable
+        {
+            private NativeEventDelegate nativeEventCallback;
+
+            public IntPtr create(EventMessageBoxResultTranslator obj, Widget widget)
+            {
+                nativeEventCallback = new NativeEventDelegate(obj.nativeEvent);
+                return EventMessageBoxResultTranslator_Create(widget.WidgetPtr, nativeEventCallback);
+            }
+
+            public void Dispose()
+            {
+                nativeEventCallback = null;
+            }
+        }
+#endif
 
         #endregion
     }
