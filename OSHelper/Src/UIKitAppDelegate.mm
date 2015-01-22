@@ -33,7 +33,7 @@ void UIKitAppDelegate_setPrimaryUIKitApp(UIKitApp* app)
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    UIViewController *initialViewController = [ViewController alloc];
+    UIViewController *initialViewController = [[ViewController alloc] initWithNibName:nil bundle:nil];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController  = initialViewController;
     [self.window makeKeyAndVisible];
