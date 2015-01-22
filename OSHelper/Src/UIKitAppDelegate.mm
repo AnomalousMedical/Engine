@@ -10,6 +10,7 @@
 #include "StdAfx.h"
 #include "UIKitAppDelegate.h"
 #include "UIKitWindow.h"
+#include "ViewController.h"
 
 @interface UIKitAppDelegate ()
 
@@ -32,10 +33,7 @@ void UIKitAppDelegate_setPrimaryUIKitApp(UIKitApp* app)
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
-    NSString *storyboardName = @"MainStoryboard";
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle:nil];
-    UIViewController *initialViewController = [storyboard instantiateInitialViewController];
+    UIViewController *initialViewController = [ViewController alloc];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController  = initialViewController;
     [self.window makeKeyAndVisible];
