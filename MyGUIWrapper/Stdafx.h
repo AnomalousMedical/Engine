@@ -25,6 +25,8 @@ typedef const char* String;
 typedef const MyGUI::UString::code_point* UStringIn;
 typedef const MyGUI::UString::code_point* UStringOut;
 
+#include "../Engine/Interop/NativeDelegates.h"
+
 class Color
 {
 public:
