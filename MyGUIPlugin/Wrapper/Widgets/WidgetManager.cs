@@ -40,7 +40,7 @@ namespace MyGUIPlugin
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void WidgetDestructorCallback(IntPtr widget);
-        private static WidgetDestructorCallback widgetDestructorFunc = widgetDestructor;
+        private static WidgetDestructorCallback widgetDestructorFunc = widgetDestructor; //This is static and does not need a special AOT version.
 
         private static WrapperCollection<Widget> widgets = new WrapperCollection<Widget>(createWrapper);
 
@@ -69,6 +69,7 @@ namespace MyGUIPlugin
         /// This is called by the c++ destructor for the widget. It will erase the wrapper object.
         /// </summary>
         /// <param name="widget"></param>
+        [MonoTouch.MonoPInvokeCallback(typeof(WidgetDestructorCallback))]
         static void widgetDestructor(IntPtr widget)
         {
 #if VERBOSE_WIDGET_WRAPPER_CREATION
