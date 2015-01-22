@@ -123,7 +123,7 @@ namespace Anomalous.OSPlatform
 #else
             class CallbackHandler
             {
-                DirDialogResultCallback resultCb;
+                FileSaveDialogResultCallback resultCb;
 
                 public void showModal(FileSaveDialogResults obj, IntPtr parentPtr, String message, String defaultDir, String defaultFile, String wildcard)
                 {
