@@ -15,6 +15,26 @@ public:
 	NativeMouse(NativeOSWindow* osWindow, MouseButtonDownDelegate mouseButtonDownCB, MouseButtonUpDelegate mouseButtonUpCB, MouseMoveDelegate mouseMoveCB, MouseWheelDelegate mouseWheelCB);
     
 	virtual ~NativeMouse();
+
+	void fireMouseButtonDown(MouseButtonCode id)
+	{
+		mouseButtonDownCB(id);
+	}
+
+	void fireMouseButtonUp(MouseButtonCode id)
+	{
+		mouseButtonUpCB(id);
+	}
+
+	void fireMouseMove(int absX, int absY)
+	{
+		mouseMoveCB(absX, absY);
+	}
+
+	void fireMouseWheel(int relZ)
+	{
+		mouseWheelCB(relZ);
+	}
     
 private:
 	MouseButtonDownDelegate mouseButtonDownCB;

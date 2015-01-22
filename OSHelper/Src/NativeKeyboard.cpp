@@ -7,8 +7,7 @@ NativeKeyboard::NativeKeyboard(NativeOSWindow* osWindow, KeyDownDelegate keyDown
 keyDownCB(keyDownCB),
 keyUpCB(keyUpCB)
 {
-    osWindow->setKeyDownCallback(keyDownCB);
-    osWindow->setKeyUpCallback(keyUpCB);
+    osWindow->setKeyboard(this);
 }
 
 NativeKeyboard::~NativeKeyboard(void)

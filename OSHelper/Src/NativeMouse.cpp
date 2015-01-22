@@ -9,10 +9,7 @@ mouseMoveCB(mouseMoveCB),
 mouseWheelCB(mouseWheelCB),
 osWindow(osWindow)
 {
-    osWindow->setMouseButtonDownCallback(mouseButtonDownCB);
-    osWindow->setMouseButtonUpCallback(mouseButtonUpCB);
-    osWindow->setMouseMoveCallback(mouseMoveCB);
-    osWindow->setMouseWheelCallback(mouseWheelCB);
+    osWindow->setMouse(this);
 }
 
 NativeMouse::~NativeMouse()

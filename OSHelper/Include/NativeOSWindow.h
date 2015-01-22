@@ -16,15 +16,14 @@ enum CursorType
 #include "MouseButtonCode.h"
 
 class MultiTouch;
+class NativeKeyboard;
+class NativeMouse;
 
 typedef void(*ActivateCB)(bool arg0 HANDLE_ARG);
 
 class NativeOSWindow
 {
-public:    
-    typedef void (*KeyDownDelegate)(KeyboardButtonCode keyCode, uint character);
-	typedef void (*KeyUpDelegate)(KeyboardButtonCode keyCode);
-    
+public:        
     typedef void (*MouseButtonDownDelegate)(MouseButtonCode id);
 	typedef void (*MouseButtonUpDelegate)(MouseButtonCode id);
 	typedef void (*MouseMoveDelegate)(int absX, int absY);
@@ -92,83 +91,21 @@ public:
 		activateCB(active PASS_HANDLE_ARG);
 	}
     
-    void setKeyDownCallback(KeyDownDelegate keyDown)
-    {
-        keyDownCB = keyDown;
-    }
+	void setKeyboard(NativeKeyboard* keyboard);
     
-    void fireKeyDown(KeyboardButtonCode keyCode, uint character)
-    {
-        if(keyDownCB != 0)
-        {
-            keyDownCB(keyCode, character);
-        }
-    }
+	void fireKeyDown(KeyboardButtonCode keyCode, uint character);
     
-    void setKeyUpCallback(KeyUpDelegate keyUp)
-    {
-        keyUpCB = keyUp;
-    }
+	void fireKeyUp(KeyboardButtonCode keyCode);
     
-	void fireKeyUp(KeyboardButtonCode keyCode)
-    {
-        if(keyUpCB != 0)
-        {
-            keyUpCB(keyCode);
-        }
-    }
+	void setMouse(NativeMouse* mouse);
     
-    void setMouseButtonDownCallback(MouseButtonDownDelegate mouseButtonDown)
-    {
-        this->mouseButtonDownCB = mouseButtonDown;
-    }
+	void fireMouseButtonDown(MouseButtonCode id);
     
-    void fireMouseButtonDown(MouseButtonCode id)
-    {
-        if(mouseButtonDownCB != 0)
-        {
-            mouseButtonDownCB(id);
-        }
-    }
+	void fireMouseButtonUp(MouseButtonCode id);
     
-    void setMouseButtonUpCallback(MouseButtonUpDelegate mouseButtonUp)
-    {
-        this->mouseButtonUpCB = mouseButtonUp;
-    }
+	void fireMouseMove(int absX, int absY);
     
-	void fireMouseButtonUp(MouseButtonCode id)
-    {
-        if(mouseButtonUpCB != 0)
-        {
-            mouseButtonUpCB(id);
-        }
-    }
-    
-    void setMouseMoveCallback(MouseMoveDelegate mouseMove)
-    {
-        this->mouseMoveCB = mouseMove;
-    }
-    
-	void fireMouseMove(int absX, int absY)
-    {
-        if(mouseMoveCB != 0)
-        {
-            mouseMoveCB(absX, absY);
-        }
-    }
-    
-    void setMouseWheelCallback(MouseWheelDelegate mouseWheel)
-    {
-        this->mouseWheelCB = mouseWheel;
-    }
-    
-	void fireMouseWheel(int relZ)
-    {
-        if(mouseWheelCB != 0)
-        {
-            mouseWheelCB(relZ);
-        }
-    }
+	void fireMouseWheel(int relZ);
 
 protected:
 	bool exclusiveFullscreen;
@@ -180,12 +117,7 @@ private:
 	NativeAction closedCB;
 	ActivateCB activateCB;
 	HANDLE_INSTANCE
-    
-    KeyDownDelegate keyDownCB;
-	KeyUpDelegate keyUpCB;
-    
-    MouseButtonDownDelegate mouseButtonDownCB;
-	MouseButtonUpDelegate mouseButtonUpCB;
-	MouseMoveDelegate mouseMoveCB;
-	MouseWheelDelegate mouseWheelCB;
+
+	NativeKeyboard* keyboard;
+	NativeMouse* mouse;
 };

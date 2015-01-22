@@ -1,13 +1,11 @@
 #include "StdAfx.h"
 #include "NativeOSWindow.h"
+#include "NativeKeyboard.h"
+#include "NativeMouse.h"
 
 NativeOSWindow::NativeOSWindow()
-:keyDownCB(0),
-keyUpCB(0),
-mouseButtonDownCB(0),
-mouseButtonUpCB(0),
-mouseMoveCB(0),
-mouseWheelCB(0),
+:keyboard(0),
+mouse(0),
 exclusiveFullscreen(false)
 {
 
@@ -26,6 +24,64 @@ void NativeOSWindow::setCallbacks(NativeAction deleteCB, NativeAction sizedCB, N
 	this->closedCB = closedCB;
 	this->activateCB = activateCB;
 	ASSIGN_HANDLE
+}
+
+void NativeOSWindow::setKeyboard(NativeKeyboard* keyboard)
+{
+	this->keyboard = keyboard;
+}
+
+void NativeOSWindow::fireKeyDown(KeyboardButtonCode keyCode, uint character)
+{
+	if (keyboard != 0)
+	{
+		keyboard->fireKeyDown(keyCode, character);
+	}
+}
+
+void NativeOSWindow::fireKeyUp(KeyboardButtonCode keyCode)
+{
+	if (keyboard != 0)
+	{
+		keyboard->fireKeyUp(keyCode);
+	}
+}
+
+void NativeOSWindow::setMouse(NativeMouse* mouse)
+{
+	this->mouse = mouse;
+}
+
+void NativeOSWindow::fireMouseButtonDown(MouseButtonCode id)
+{
+	if (mouse != 0)
+	{
+		mouse->fireMouseButtonDown(id);
+	}
+}
+
+void NativeOSWindow::fireMouseButtonUp(MouseButtonCode id)
+{
+	if (mouse != 0)
+	{
+		mouse->fireMouseButtonUp(id);
+	}
+}
+
+void NativeOSWindow::fireMouseMove(int absX, int absY)
+{
+	if (mouse != 0)
+	{
+		mouse->fireMouseMove(absX, absY);
+	}
+}
+
+void NativeOSWindow::fireMouseWheel(int relZ)
+{
+	if (mouse != 0)
+	{
+		mouse->fireMouseWheel(relZ);
+	}
 }
 
 //Shared Pinvoke

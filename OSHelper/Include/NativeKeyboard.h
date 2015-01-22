@@ -13,6 +13,16 @@ public:
 	NativeKeyboard(NativeOSWindow* osWindow, KeyDownDelegate keyDownCB, KeyUpDelegate keyUpCB);
     
 	virtual ~NativeKeyboard(void);
+
+	void fireKeyDown(KeyboardButtonCode keyCode, uint character)
+	{
+		keyDownCB(keyCode, character);
+	}
+
+	void fireKeyUp(KeyboardButtonCode keyCode)
+	{
+		keyUpCB(keyCode);
+	}
     
 private:
 	KeyDownDelegate keyDownCB;
