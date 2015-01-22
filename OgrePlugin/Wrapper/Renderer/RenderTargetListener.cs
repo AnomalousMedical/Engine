@@ -200,13 +200,13 @@ namespace OgrePlugin
 
             public IntPtr create(RenderTargetListener obj)
             {
-                preRenderTargetUpdateCb = preRenderTargetUpdate;
-                postRenderTargetUpdateCb = postRenderTargetUpdate;
-                preViewportUpdateCb = preViewportUpdate;
-                postViewportUpdateCb = postViewportUpdate;
-                viewportAddedCb = viewportAdded;
-                viewportRemovedCb = viewportRemoved;
-                ptr = ManagedRenderTargetListener_Create(preRenderTargetUpdateCb, postRenderTargetUpdateCb, preViewportUpdateCb, postViewportUpdateCb, viewportAddedCb, viewportRemovedCb);
+                preRenderTargetUpdateCb = obj.preRenderTargetUpdate;
+                postRenderTargetUpdateCb = obj.postRenderTargetUpdate;
+                preViewportUpdateCb = obj.preViewportUpdate;
+                postViewportUpdateCb = obj.postViewportUpdate;
+                viewportAddedCb = obj.viewportAdded;
+                viewportRemovedCb = obj.viewportRemoved;
+                return ManagedRenderTargetListener_Create(preRenderTargetUpdateCb, postRenderTargetUpdateCb, preViewportUpdateCb, postViewportUpdateCb, viewportAddedCb, viewportRemovedCb);
             }
 
             public void Dispose()
