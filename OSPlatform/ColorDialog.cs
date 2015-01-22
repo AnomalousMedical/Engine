@@ -117,7 +117,8 @@ namespace Anomalous.OSPlatform
 
                 public void showModal(ColorDialogResults obj, IntPtr parentPtr, Color color)
                 {
-                    ColorDialog_showModal(parentPtr, color, obj.getResults);
+                    resultCb = obj.getResults;
+                    ColorDialog_showModal(parentPtr, color, resultCb);
                 }
             }
 #endif

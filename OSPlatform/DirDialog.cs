@@ -121,6 +121,7 @@ namespace Anomalous.OSPlatform
 
                 public void showModal(DirDialogResults obj, IntPtr parentPtr, String message, String startPath)
                 {
+                    resultCb = obj.getResults;
                     DirDialog_showModal(parentPtr, message, startPath, resultCb);
                 }
             }
