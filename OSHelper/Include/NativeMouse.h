@@ -7,33 +7,33 @@ class NativeOSWindow;
 class NativeMouse
 {
 public:
-	typedef void (*MouseButtonDownDelegate)(MouseButtonCode id);
-	typedef void (*MouseButtonUpDelegate)(MouseButtonCode id);
-	typedef void (*MouseMoveDelegate)(int absX, int absY);
-	typedef void (*MouseWheelDelegate)(int relZ);
+	typedef void(*MouseButtonDownDelegate)(MouseButtonCode id HANDLE_ARG);
+	typedef void(*MouseButtonUpDelegate)(MouseButtonCode id HANDLE_ARG);
+	typedef void(*MouseMoveDelegate)(int absX, int absY HANDLE_ARG);
+	typedef void(*MouseWheelDelegate)(int relZ HANDLE_ARG);
     
-	NativeMouse(NativeOSWindow* osWindow, MouseButtonDownDelegate mouseButtonDownCB, MouseButtonUpDelegate mouseButtonUpCB, MouseMoveDelegate mouseMoveCB, MouseWheelDelegate mouseWheelCB);
+	NativeMouse(NativeOSWindow* osWindow, MouseButtonDownDelegate mouseButtonDownCB, MouseButtonUpDelegate mouseButtonUpCB, MouseMoveDelegate mouseMoveCB, MouseWheelDelegate mouseWheelCB HANDLE_ARG);
     
 	virtual ~NativeMouse();
 
 	void fireMouseButtonDown(MouseButtonCode id)
 	{
-		mouseButtonDownCB(id);
+		mouseButtonDownCB(id PASS_HANDLE_ARG);
 	}
 
 	void fireMouseButtonUp(MouseButtonCode id)
 	{
-		mouseButtonUpCB(id);
+		mouseButtonUpCB(id PASS_HANDLE_ARG);
 	}
 
 	void fireMouseMove(int absX, int absY)
 	{
-		mouseMoveCB(absX, absY);
+		mouseMoveCB(absX, absY PASS_HANDLE_ARG);
 	}
 
 	void fireMouseWheel(int relZ)
 	{
-		mouseWheelCB(relZ);
+		mouseWheelCB(relZ PASS_HANDLE_ARG);
 	}
     
 private:
@@ -42,4 +42,5 @@ private:
 	MouseMoveDelegate mouseMoveCB;
 	MouseWheelDelegate mouseWheelCB;
 	NativeOSWindow* osWindow;
+	HANDLE_INSTANCE
 };
