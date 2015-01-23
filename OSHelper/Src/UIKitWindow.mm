@@ -55,7 +55,7 @@ UIKitWindow::~UIKitWindow()
 
 void UIKitWindow::setTitle(String title)
 {
-    logger.sendMessage("with custom window and responder", LogLevel::ImportantInfo);
+    logger.sendMessage("resign in lift", LogLevel::ImportantInfo);
 }
 
 void UIKitWindow::setSize(int width, int height)

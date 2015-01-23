@@ -11,13 +11,15 @@
 
 class UIKitWindow;
 
-@interface UIKitWindowEvents : UIWindow
+@interface UIKitWindowEvents : UIWindow<UIKeyInput>
 {
 @private
     UIKitWindow* win;
+    bool allowFirstResponder;
+    bool hasText;
 }
 
-//-(id) init:(UIKitWindow*) window;
+-(id) init;
 
 @end
 
