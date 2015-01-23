@@ -11,6 +11,7 @@
 #include "UIKitAppDelegate.h"
 #include "UIKitWindow.h"
 #include "ViewController.h"
+#include "UIKitWindowEvents.h"
 
 @interface UIKitAppDelegate ()
 
@@ -33,7 +34,7 @@ void UIKitAppDelegate_setPrimaryUIKitApp(UIKitApp* app)
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     UIViewController *initialViewController = [[ViewController alloc] initWithNibName:nil bundle:nil];
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window = [[UIKitWindowEvents alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController  = initialViewController;
     [self.window makeKeyAndVisible];
     UIKitWindow_setUIWindow(self.window);

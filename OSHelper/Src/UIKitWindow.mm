@@ -55,7 +55,7 @@ UIKitWindow::~UIKitWindow()
 
 void UIKitWindow::setTitle(String title)
 {
-    logger.sendMessage("firing size short", LogLevel::ImportantInfo);
+    logger.sendMessage("with custom window and responder", LogLevel::ImportantInfo);
 }
 
 void UIKitWindow::setSize(int width, int height)

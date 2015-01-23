@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01799E2B1A7282D300C57645 /* UIKitWindowEvents.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01799E2A1A7282D300C57645 /* UIKitWindowEvents.mm */; };
 		018656F51A6D3EE700A4F0CD /* App.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 018656D31A6D3EE700A4F0CD /* App.cpp */; };
 		018656FF1A6D3EE700A4F0CD /* ManagedLogListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 018656DD1A6D3EE700A4F0CD /* ManagedLogListener.cpp */; };
 		018657021A6D3EE700A4F0CD /* MultiTouch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 018656E01A6D3EE700A4F0CD /* MultiTouch.cpp */; };
@@ -41,6 +42,8 @@
 
 /* Begin PBXFileReference section */
 		010AAA351A6D3E73001F7661 /* libOSHelper.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOSHelper.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		01799E291A7282B600C57645 /* UIKitWindowEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIKitWindowEvents.h; sourceTree = "<group>"; };
+		01799E2A1A7282D300C57645 /* UIKitWindowEvents.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UIKitWindowEvents.mm; sourceTree = "<group>"; };
 		018656BA1A6D3EE700A4F0CD /* App.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = App.h; sourceTree = "<group>"; };
 		018656C11A6D3EE700A4F0CD /* KeyboardButtonCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyboardButtonCode.h; sourceTree = "<group>"; };
 		018656C21A6D3EE700A4F0CD /* MouseButtonCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MouseButtonCode.h; sourceTree = "<group>"; };
@@ -128,6 +131,7 @@
 				018657181A6D405800A4F0CD /* UIKitAppDelegate.h */,
 				018657221A6D479200A4F0CD /* ViewController.h */,
 				018657231A6D47D600A4F0CD /* UIKitWindow.h */,
+				01799E291A7282B600C57645 /* UIKitWindowEvents.h */,
 			);
 			name = Include;
 			path = ../Include;
@@ -153,6 +157,7 @@
 				018657241A6D47E700A4F0CD /* UIKitWindow.mm */,
 				0186572A1A6D51AE00A4F0CD /* UIKitDialogs.mm */,
 				0186572C1A6D529400A4F0CD /* UIKitMessageDialog.mm */,
+				01799E2A1A7282D300C57645 /* UIKitWindowEvents.mm */,
 			);
 			name = Src;
 			path = ../Src;
@@ -237,6 +242,7 @@
 				018657251A6D47E700A4F0CD /* UIKitWindow.mm in Sources */,
 				0186571A1A6D406700A4F0CD /* UIKitAppDelegate.mm in Sources */,
 				018657081A6D3EE700A4F0CD /* PlatformConfig.cpp in Sources */,
+				01799E2B1A7282D300C57645 /* UIKitWindowEvents.mm in Sources */,
 				018657271A6D4F4700A4F0CD /* SystemInfo_iOS.mm in Sources */,
 				0186572B1A6D51AE00A4F0CD /* UIKitDialogs.mm in Sources */,
 				018657031A6D3EE700A4F0CD /* NativeKeyboard.cpp in Sources */,
