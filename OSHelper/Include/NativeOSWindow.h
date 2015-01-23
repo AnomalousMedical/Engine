@@ -59,6 +59,11 @@ public:
 
 	virtual void toggleFullscreen() = 0;
 
+	virtual void setOnscreenKeyboardVisible(bool visible)
+	{
+		//Does nothing by default.
+	}
+
 	void setCallbacks(NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, ActivateCB activateCB HANDLE_ARG);
     
 	void setExclusiveFullscreen(bool exclusiveFullscreen)

@@ -160,6 +160,11 @@ extern "C" _AnomalousExport void NativeOSWindow_toggleFullscreen(NativeOSWindow*
 	return nativeWindow->toggleFullscreen();
 }
 
+extern "C" _AnomalousExport void NativeOSWindow_setOnscreenKeyboardVisible(NativeOSWindow* nativeWindow, bool visible)
+{
+	nativeWindow->setOnscreenKeyboardVisible(visible);
+}
+
 extern "C" _AnomalousExport void NativeOSWindow_setCallbacks(NativeOSWindow* nativeWindow, NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, ActivateCB activateCB HANDLE_ARG)
 {
 	nativeWindow->setCallbacks(deleteCB, sizedCB, closingCB, closedCB, activateCB PASS_HANDLE_ARG);
