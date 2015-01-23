@@ -34,10 +34,11 @@ void UIKitAppDelegate_setPrimaryUIKitApp(UIKitApp* app)
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     UIViewController *initialViewController = [[ViewController alloc] initWithNibName:nil bundle:nil];
-    self.window = [[UIKitWindowEvents alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    UIKitWindowEvents* eventsWindow = [[UIKitWindowEvents alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window = eventsWindow;
     self.window.rootViewController  = initialViewController;
     [self.window makeKeyAndVisible];
-    UIKitWindow_setUIWindow(self.window);
+    UIKitWindow_setUIWindow(eventsWindow);
     
     primaryUiKitApp->fireInit();
     

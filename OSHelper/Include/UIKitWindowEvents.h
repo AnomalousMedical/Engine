@@ -21,6 +21,8 @@ class UIKitWindow;
 
 -(id) init;
 
+-(void) setWindow:(UIKitWindow*) window;
+
 @end
 
 #endif

@@ -9,22 +9,10 @@
 #ifndef OSHelper_UIKitWindow_h
 #define OSHelper_UIKitWindow_h
 
-#include "Stdafx.h"
-
 #import <UIKit/UIKit.h>
 #include "NativeOSWindow.h"
-
-class UIKitWindow;
-
-@interface WindowEvents : NSObject
-{
-@private
-    UIKitWindow* win;
-}
-
--(id) init:(UIKitWindow*) window;
-
-@end
+#include "UIKitWindowEvents.h"
+#include "UIKitOrientationEvents.h"
 
 class UIKitWindow : public NativeOSWindow
 {
@@ -58,11 +46,11 @@ public:
     virtual float getWindowScaling();
     
     virtual void toggleFullscreen();
-    
+
 private:
-    WindowEvents* windowEvents;
+    UIKitOrientationEvents* orientationEvents;
 };
 
-void UIKitWindow_setUIWindow(UIWindow *window);
+void UIKitWindow_setUIWindow(UIKitWindowEvents *window);
 
 #endif

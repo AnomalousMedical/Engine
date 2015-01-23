@@ -10,6 +10,8 @@
 #import <UIKit/UIKit.h>
 #include "StdAfx.h"
 #include "UIKitWindowEvents.h"
+#include "UIKitWindow.h"
+#include <iostream>
 
 @implementation UIKitWindowEvents
 
@@ -21,6 +23,26 @@
         hasText = false;
     }
     return self;
+}
+
+//- (void) orientationChanged:(NSNotification *)note
+//{
+//    logger.sendMessage("Orientation Changed", LogLevel::ImportantInfo);
+//    win->fireSized();
+//}
+
+-(void) setWindow:(UIKitWindow*) window
+{
+    std::cout << "Setting Window no rotation code" << std::endl;
+    
+    win = window;
+        
+    //For Screen Rotation
+    //[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    //[[NSNotificationCenter defaultCenter]
+    //addObserver:self selector:@selector(orientationChanged:)
+    //name:UIDeviceOrientationDidChangeNotification
+    //object:[UIDevice currentDevice]];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

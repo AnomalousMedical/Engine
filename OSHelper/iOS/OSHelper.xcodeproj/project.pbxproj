@@ -26,6 +26,7 @@
 		018657291A6D504C00A4F0CD /* ConnectionValidator_iOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 018657281A6D504C00A4F0CD /* ConnectionValidator_iOS.mm */; };
 		0186572B1A6D51AE00A4F0CD /* UIKitDialogs.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0186572A1A6D51AE00A4F0CD /* UIKitDialogs.mm */; };
 		0186572D1A6D529400A4F0CD /* UIKitMessageDialog.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0186572C1A6D529400A4F0CD /* UIKitMessageDialog.mm */; };
+		01AFF9881A7297CB00ECD7F8 /* UIKitOrientationEvents.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01AFF9871A7297CB00ECD7F8 /* UIKitOrientationEvents.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -80,6 +81,8 @@
 		018657281A6D504C00A4F0CD /* ConnectionValidator_iOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ConnectionValidator_iOS.mm; sourceTree = "<group>"; };
 		0186572A1A6D51AE00A4F0CD /* UIKitDialogs.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UIKitDialogs.mm; sourceTree = "<group>"; };
 		0186572C1A6D529400A4F0CD /* UIKitMessageDialog.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UIKitMessageDialog.mm; sourceTree = "<group>"; };
+		01AFF9861A7297BF00ECD7F8 /* UIKitOrientationEvents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIKitOrientationEvents.h; sourceTree = "<group>"; };
+		01AFF9871A7297CB00ECD7F8 /* UIKitOrientationEvents.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UIKitOrientationEvents.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +135,7 @@
 				018657221A6D479200A4F0CD /* ViewController.h */,
 				018657231A6D47D600A4F0CD /* UIKitWindow.h */,
 				01799E291A7282B600C57645 /* UIKitWindowEvents.h */,
+				01AFF9861A7297BF00ECD7F8 /* UIKitOrientationEvents.h */,
 			);
 			name = Include;
 			path = ../Include;
@@ -158,6 +162,7 @@
 				0186572A1A6D51AE00A4F0CD /* UIKitDialogs.mm */,
 				0186572C1A6D529400A4F0CD /* UIKitMessageDialog.mm */,
 				01799E2A1A7282D300C57645 /* UIKitWindowEvents.mm */,
+				01AFF9871A7297CB00ECD7F8 /* UIKitOrientationEvents.mm */,
 			);
 			name = Src;
 			path = ../Src;
@@ -243,6 +248,7 @@
 				0186571A1A6D406700A4F0CD /* UIKitAppDelegate.mm in Sources */,
 				018657081A6D3EE700A4F0CD /* PlatformConfig.cpp in Sources */,
 				01799E2B1A7282D300C57645 /* UIKitWindowEvents.mm in Sources */,
+				01AFF9881A7297CB00ECD7F8 /* UIKitOrientationEvents.mm in Sources */,
 				018657271A6D4F4700A4F0CD /* SystemInfo_iOS.mm in Sources */,
 				0186572B1A6D51AE00A4F0CD /* UIKitDialogs.mm in Sources */,
 				018657031A6D3EE700A4F0CD /* NativeKeyboard.cpp in Sources */,
