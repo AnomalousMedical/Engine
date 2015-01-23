@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0139C0941A72F2A600601217 /* EventChangeKeyFocusInputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0139C0921A72F2A600601217 /* EventChangeKeyFocusInputManager.cpp */; };
+		0139C0951A72F2A600601217 /* EventChangeMouseFocusInputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0139C0931A72F2A600601217 /* EventChangeMouseFocusInputManager.cpp */; };
 		01446FA01A6997CF005A8BDD /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01446F5F1A6997CF005A8BDD /* Button.cpp */; };
 		01446FA11A6997CF005A8BDD /* ClickEventTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01446F601A6997CF005A8BDD /* ClickEventTranslator.cpp */; };
 		01446FA21A6997CF005A8BDD /* ComboBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01446F611A6997CF005A8BDD /* ComboBox.cpp */; };
@@ -87,6 +89,8 @@
 
 /* Begin PBXFileReference section */
 		0133DC8D1A6997A500265E61 /* libMyGUIWrapper.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMyGUIWrapper.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		0139C0921A72F2A600601217 /* EventChangeKeyFocusInputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventChangeKeyFocusInputManager.cpp; sourceTree = "<group>"; };
+		0139C0931A72F2A600601217 /* EventChangeMouseFocusInputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventChangeMouseFocusInputManager.cpp; sourceTree = "<group>"; };
 		01446F5D1A6997CF005A8BDD /* MyGUIEventTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyGUIEventTranslator.h; sourceTree = "<group>"; };
 		01446F5F1A6997CF005A8BDD /* Button.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Button.cpp; sourceTree = "<group>"; };
 		01446F601A6997CF005A8BDD /* ClickEventTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClickEventTranslator.cpp; sourceTree = "<group>"; };
@@ -197,6 +201,8 @@
 		01446F5E1A6997CF005A8BDD /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				0139C0921A72F2A600601217 /* EventChangeKeyFocusInputManager.cpp */,
+				0139C0931A72F2A600601217 /* EventChangeMouseFocusInputManager.cpp */,
 				01446F5F1A6997CF005A8BDD /* Button.cpp */,
 				01446F601A6997CF005A8BDD /* ClickEventTranslator.cpp */,
 				01446F611A6997CF005A8BDD /* ComboBox.cpp */,
@@ -327,6 +333,7 @@
 				01446FAC1A6997CF005A8BDD /* EventKeyButtonReleasedTranslator.cpp in Sources */,
 				01446FBF1A6997CF005A8BDD /* EventToolTipTranslator.cpp in Sources */,
 				01446FD81A6997CF005A8BDD /* ScrollChangePositionET.cpp in Sources */,
+				0139C0941A72F2A600601217 /* EventChangeKeyFocusInputManager.cpp in Sources */,
 				01446FDA1A6997CF005A8BDD /* TabControl.cpp in Sources */,
 				01446FD61A6997CF005A8BDD /* ResourceManager.cpp in Sources */,
 				01446FA01A6997CF005A8BDD /* Button.cpp in Sources */,
@@ -342,6 +349,7 @@
 				01446FBC1A6997CF005A8BDD /* EventRootKeyChangeFocusTranslator.cpp in Sources */,
 				01446FDC1A6997CF005A8BDD /* Widget.cpp in Sources */,
 				01446FB31A6997CF005A8BDD /* EventMessageBoxResultTranslator.cpp in Sources */,
+				0139C0951A72F2A600601217 /* EventChangeMouseFocusInputManager.cpp in Sources */,
 				01446FAD1A6997CF005A8BDD /* EventKeyLostFocusTranslator.cpp in Sources */,
 				01446FBB1A6997CF005A8BDD /* EventMouseWheelTranslator.cpp in Sources */,
 				01446FDB1A6997CF005A8BDD /* TextBox.cpp in Sources */,
