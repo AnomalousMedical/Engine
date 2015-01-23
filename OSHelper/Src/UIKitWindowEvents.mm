@@ -30,9 +30,14 @@
     orientationEvents = [[UIKitOrientationEvents alloc] init:window];
 }
 
+-(void) setMultitouch:(MultiTouch*) multiTouch
+{
+    touch = multiTouch;
+}
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    logger.sendMessage("Touches Begin", LogLevel::ImportantInfo);
+    logger <<  "Touches Begin " << touch << NativeLog::DebugFlush();
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event

@@ -29,7 +29,7 @@ UIKitWindow::~UIKitWindow()
 
 void UIKitWindow::setTitle(String title)
 {
-    logger.sendMessage("cleaned up headers", LogLevel::ImportantInfo);
+    logger.sendMessage("unified osx and ios touch defined properly", LogLevel::ImportantInfo);
 }
 
 void UIKitWindow::setSize(int width, int height)
@@ -86,7 +86,7 @@ float UIKitWindow::getWindowScaling()
 
 void UIKitWindow::setupMultitouch(MultiTouch *multiTouch)
 {
-    
+    [window setMultitouch:multiTouch];
 }
 
 void UIKitWindow::toggleFullscreen()

@@ -12,11 +12,13 @@
 #include "UIKitOrientationEvents.h"
 
 class UIKitWindow;
+class MultiTouch;
 
 @interface UIKitWindowEvents : UIWindow<UIKeyInput>
 {
 @private
     UIKitWindow* win;
+    MultiTouch* touch;
     bool allowFirstResponder;
     bool hasText;
     UIKitOrientationEvents* orientationEvents;
@@ -25,6 +27,8 @@ class UIKitWindow;
 -(id) init;
 
 -(void) setWindow:(UIKitWindow*) window;
+
+-(void) setMultitouch:(MultiTouch*) multiTouch;
 
 @end
 

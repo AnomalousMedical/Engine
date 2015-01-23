@@ -7,7 +7,7 @@
 #define MULTITOUCH 1
 #endif
 
-#ifdef MAC_OSX
+#if defined(MAC_OSX) || defined(APPLE_IOS)
 #define MULTITOUCH 1
 #endif
 
@@ -54,11 +54,11 @@ extern "C" _AnomalousExport bool MultiTouch_isMultitouchAvailable()
 
 #endif //WINDOWS
 
-#ifdef MAC_OSX
+#if defined(MAC_OSX) || defined(APPLE_IOS)
 
-extern "C" _AnomalousExport MultiTouch* MultiTouch_new(NativeOSWindow* window, TouchEventDelegate touchStartedCB, TouchEventDelegate touchEndedCB, TouchEventDelegate touchMovedCB, TouchEventCanceledDelegate touchCanceledCB)
+extern "C" _AnomalousExport MultiTouch* MultiTouch_new(NativeOSWindow* window, TouchEventDelegate touchStartedCB, TouchEventDelegate touchEndedCB, TouchEventDelegate touchMovedCB, TouchEventCanceledDelegate touchCanceledCB HANDLE_ARG)
 {
-	MultiTouch* multiTouch = new MultiTouchImpl(window, touchStartedCB, touchEndedCB, touchMovedCB, touchCanceledCB);
+	MultiTouch* multiTouch = new MultiTouchImpl(window, touchStartedCB, touchEndedCB, touchMovedCB, touchCanceledCB PASS_HANDLE_ARG);
 	window->setupMultitouch(multiTouch);
 	return multiTouch;
 }
@@ -73,7 +73,7 @@ extern "C" _AnomalousExport bool MultiTouch_isMultitouchAvailable()
 	return true;
 }
 
-#endif //MAC_OSX
+#endif //defined(MAC_OSX) || defined(APPLE_IOS)
 
 #else //Else from MULTITOUCH
 
@@ -89,7 +89,7 @@ extern "C" _AnomalousExport void MultiTouch_delete(MultiTouch* multiTouch)
 
 extern "C" _AnomalousExport bool MultiTouch_isMultitouchAvailable()
 {
-	return false;
+    return false;
 }
 
 #endif //MULTITOUCH Else
