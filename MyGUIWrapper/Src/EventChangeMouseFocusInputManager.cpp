@@ -9,11 +9,13 @@ public:
 private:
 	MyGUI::InputManager* inputManager;
 	NativeEventDelegate nativeEvent;
+	HANDLE_INSTANCE
 
 public:
-	EventChangeMouseFocusInputManager(MyGUI::InputManager* inputManager, EventChangeMouseFocusInputManager::NativeEventDelegate nativeEventCallback)
+	EventChangeMouseFocusInputManager(MyGUI::InputManager* inputManager, EventChangeMouseFocusInputManager::NativeEventDelegate nativeEventCallback HANDLE_ARG)
 		:inputManager(inputManager),
 		nativeEvent(nativeEventCallback)
+		ASSIGN_HANDLE_INITIALIZER
 	{
 
 	}
@@ -25,7 +27,7 @@ public:
 
 	void nativeCallbackFunc(MyGUI::Widget* widget)
 	{
-		nativeEvent(widget);
+		nativeEvent(widget PASS_HANDLE);
 	}
 
 	virtual void bindEvent()
@@ -39,7 +41,7 @@ public:
 	}
 };
 
-extern "C" _AnomalousExport EventChangeMouseFocusInputManager* EventChangeMouseFocusInputManager_Create(MyGUI::InputManager* inputManager, EventChangeMouseFocusInputManager::NativeEventDelegate nativeEventCallback)
+extern "C" _AnomalousExport EventChangeMouseFocusInputManager* EventChangeMouseFocusInputManager_Create(MyGUI::InputManager* inputManager, EventChangeMouseFocusInputManager::NativeEventDelegate nativeEventCallback HANDLE_ARG)
 {
-	return new EventChangeMouseFocusInputManager(inputManager, nativeEventCallback);
+	return new EventChangeMouseFocusInputManager(inputManager, nativeEventCallback PASS_HANDLE);
 }

@@ -9,22 +9,19 @@ namespace MyGUIPlugin
 {
     class EventChangeMouseFocusInputManager : MyGUIEventTranslator
     {
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        delegate void NativeEventDelegate(IntPtr widget);
-
-        private NativeEventDelegate nativeEventCallback;
+        private CallbackHandler callbackHandler;
         private FocusChangedEvent boundEvent;
 
         public EventChangeMouseFocusInputManager(InputManager inputManager)
         {
-            nativeEventCallback = new NativeEventDelegate(nativeEvent);
-            nativeEventTranslator = EventChangeMouseFocusInputManager_Create(inputManager.Ptr, nativeEventCallback);
+            callbackHandler = new CallbackHandler();
+            nativeEventTranslator = callbackHandler.create(this, inputManager);
         }
 
         public override void Dispose()
         {
             base.Dispose();
-            nativeEventCallback = null;
+            callbackHandler.Dispose();
         }
 
         /// <summary>
@@ -61,7 +58,66 @@ namespace MyGUIPlugin
         #region PInvoke
 
         [DllImport(MyGUIInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr EventChangeMouseFocusInputManager_Create(IntPtr widget, NativeEventDelegate nativeEventCallback);
+        private static extern IntPtr EventChangeMouseFocusInputManager_Create(IntPtr widget, NativeEventDelegate nativeEventCallback
+#if FULL_AOT_COMPILE
+        , IntPtr instanceHandle
+#endif
+);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        delegate void NativeEventDelegate(IntPtr widget
+#if FULL_AOT_COMPILE
+        , IntPtr instanceHandle
+#endif
+);
+
+#if FULL_AOT_COMPILE
+        class CallbackHandler : IDisposable
+        {
+            private static NativeEventDelegate nativeEventCallback;
+
+            static CallbackHandler()
+            {
+                nativeEventCallback = nativeEvent;
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(NativeEventDelegate))]
+            private static void nativeEvent(IntPtr widget, IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as EventChangeMouseFocusInputManager).nativeEvent(widget);
+            }
+
+            GCHandle handle;
+
+            public IntPtr create(EventChangeMouseFocusInputManager obj, InputManager inputManager)
+            {
+                handle = GCHandle.Alloc(obj);
+                return EventChangeMouseFocusInputManager_Create(inputManager.Ptr, nativeEventCallback, GCHandle.ToIntPtr(handle));
+            }
+
+            public void Dispose()
+            {
+                handle.Free();
+            }
+        }
+#else
+        class CallbackHandler : IDisposable
+        {
+            private NativeEventDelegate nativeEventCallback;
+
+            public IntPtr create(EventChangeMouseFocusInputManager obj, InputManager inputManager)
+            {
+                nativeEventCallback = obj.nativeEvent;
+                return EventChangeMouseFocusInputManager_Create(inputManager.Ptr, nativeEventCallback);
+            }
+
+            public void Dispose()
+            {
+                nativeEventCallback = null;
+            }
+        }
+#endif
 
         #endregion
     }

@@ -9,11 +9,13 @@ public:
 private:
 	MyGUI::InputManager* inputManager;
 	NativeEventDelegate nativeEvent;
+	HANDLE_INSTANCE
 
 public:
-	EventChangeKeyFocusInputManager(MyGUI::InputManager* inputManager, EventChangeKeyFocusInputManager::NativeEventDelegate nativeEventCallback)
+	EventChangeKeyFocusInputManager(MyGUI::InputManager* inputManager, EventChangeKeyFocusInputManager::NativeEventDelegate nativeEventCallback HANDLE_ARG)
 		:inputManager(inputManager),
 		nativeEvent(nativeEventCallback)
+		ASSIGN_HANDLE_INITIALIZER
 	{
 
 	}
@@ -25,7 +27,7 @@ public:
 
 	void nativeCallbackFunc(MyGUI::Widget* widget)
 	{
-		nativeEvent(widget);
+		nativeEvent(widget PASS_HANDLE_ARG);
 	}
 
 	virtual void bindEvent()
@@ -39,7 +41,7 @@ public:
 	}
 };
 
-extern "C" _AnomalousExport EventChangeKeyFocusInputManager* EventChangeKeyFocusInputManager_Create(MyGUI::InputManager* inputManager, EventChangeKeyFocusInputManager::NativeEventDelegate nativeEventCallback)
+extern "C" _AnomalousExport EventChangeKeyFocusInputManager* EventChangeKeyFocusInputManager_Create(MyGUI::InputManager* inputManager, EventChangeKeyFocusInputManager::NativeEventDelegate nativeEventCallback HANDLE_ARG)
 {
-	return new EventChangeKeyFocusInputManager(inputManager, nativeEventCallback);
+	return new EventChangeKeyFocusInputManager(inputManager, nativeEventCallback PASS_HANDLE_ARG);
 }
