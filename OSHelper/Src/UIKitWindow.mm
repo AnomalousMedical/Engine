@@ -14,23 +14,7 @@
 
 - (void) orientationChanged:(NSNotification *)note
 {
-    UIDevice * device = note.object;
-    switch(device.orientation)
-    {
-        case UIDeviceOrientationPortrait:
-            logger.sendMessage("UIDeviceOrientationPortrait", LogLevel::ImportantInfo);
-            /* start special animation */
-            break;
-            
-        case UIDeviceOrientationPortraitUpsideDown:
-            logger.sendMessage("UIDeviceOrientationPortraitUpsideDown", LogLevel::ImportantInfo);
-            /* start special animation */
-            break;
-            
-        default:
-            logger.sendMessage("default", LogLevel::ImportantInfo);
-            break;
-    };
+    win->fireSized();
 }
 
 -(id) init:(UIKitWindow*) window
@@ -71,7 +55,7 @@ UIKitWindow::~UIKitWindow()
 
 void UIKitWindow::setTitle(String title)
 {
-    logger.sendMessage("tried orientation changed in UIKitWindow reverted", LogLevel::ImportantInfo);
+    logger.sendMessage("firing size short", LogLevel::ImportantInfo);
 }
 
 void UIKitWindow::setSize(int width, int height)
