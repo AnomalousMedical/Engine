@@ -22,6 +22,7 @@
     {
         allowFirstResponder = false;
         hasText = false;
+        nextNewId = 0;
     }
     return self;
 }
@@ -37,6 +38,35 @@
     touch = multiTouch;
 }
 
+-(int) findNextId
+{
+    if(availableIds.empty())
+    {
+        return nextNewId++;
+    }
+    else
+    {
+        int retVal = availableIds.top();
+        availableIds.pop();
+        return retVal;
+    }
+}
+
+-(void) returnid:(int)id
+{
+    availableIds.push(id);
+}
+
+-(void) resetIds
+{
+    touchIdMap.clear();
+    nextNewId = 0;
+    while(!availableIds.empty())
+    {
+        availableIds.pop();
+    }
+}
+
 - (void)sendEvent:(UIEvent *)event {
     
     if (event.type == UIEventTypeTouches)
@@ -50,16 +80,26 @@
             switch (t.phase)
             {
                 case UITouchPhaseBegan:
-                    logger << "Simple Touch Begin " << touchInfo.pixelX << " " << touchInfo.pixelY << " " << (uintptr_t)t << NativeLog::DebugFlush();
+                    touchInfo.id = [self findNextId];
+                    touchIdMap[(uintptr_t)t] = touchInfo.id;
+                    //Do call here to c#
+                    logger << "Simple Touch Begin " << touchInfo.pixelX << " " << touchInfo.pixelY << " " << touchInfo.id << NativeLog::DebugFlush();
                     break;
                 case UITouchPhaseEnded:
-                    logger << "Simple Touch End " << touchInfo.pixelX << " " << touchInfo.pixelY << " " << (uintptr_t)t << NativeLog::DebugFlush();
+                    touchInfo.id = touchIdMap[(uintptr_t)t];
+                    //Do call here to c#
+                    [self returnid: touchInfo.id];
+                    logger << "Simple Touch End " << touchInfo.pixelX << " " << touchInfo.pixelY << " " << touchInfo.id << NativeLog::DebugFlush();
                     break;
                 case UITouchPhaseMoved:
-                    logger << "Simple Touch Moved " << touchInfo.pixelX << " " << touchInfo.pixelY << " " << (uintptr_t)t << NativeLog::DebugFlush();
+                    touchInfo.id = touchIdMap[(uintptr_t)t];
+                    //Do call here to c#
+                    logger << "Simple Touch Moved " << touchInfo.pixelX << " " << touchInfo.pixelY << " " << touchInfo.id << NativeLog::DebugFlush();
                     break;
                 case UITouchPhaseCancelled:
-                    logger << "Touches canceled " << touchInfo.pixelX << " " << touchInfo.pixelY << " " << (uintptr_t)t << NativeLog::DebugFlush();
+                    //Do call here to c#
+                    [self resetIds];
+                    logger << "Touches canceled " << touchInfo.pixelX << " " << touchInfo.pixelY << " " << touchInfo.id << NativeLog::DebugFlush();
                     break;
                 default:
                     break;

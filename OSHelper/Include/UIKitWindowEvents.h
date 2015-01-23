@@ -10,6 +10,8 @@
 #define OSHelper_UIKitWindowEvents_h
 
 #include "UIKitOrientationEvents.h"
+#include <map>
+#include <stack>
 
 class UIKitWindow;
 class MultiTouch;
@@ -22,6 +24,9 @@ class MultiTouch;
     bool allowFirstResponder;
     bool hasText;
     UIKitOrientationEvents* orientationEvents;
+    std::map<uintptr_t, int> touchIdMap;
+    std::stack<int> availableIds;
+    int nextNewId;
 }
 
 -(void) setWindow:(UIKitWindow*) window;
