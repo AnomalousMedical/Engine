@@ -4,7 +4,7 @@
 class EventChangeKeyFocusInputManager : public MyGUIEventTranslator
 {
 public:
-	typedef void(*NativeEventDelegate)(MyGUI::Widget* widget);
+	typedef void(*NativeEventDelegate)(MyGUI::Widget* widget HANDLE_ARG);
 
 private:
 	MyGUI::InputManager* inputManager;

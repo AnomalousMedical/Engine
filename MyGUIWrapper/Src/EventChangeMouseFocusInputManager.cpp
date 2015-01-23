@@ -4,7 +4,7 @@
 class EventChangeMouseFocusInputManager : public MyGUIEventTranslator
 {
 public:
-	typedef void(*NativeEventDelegate)(MyGUI::Widget* widget);
+	typedef void(*NativeEventDelegate)(MyGUI::Widget* widget HANDLE_ARG);
 
 private:
 	MyGUI::InputManager* inputManager;
@@ -27,7 +27,7 @@ public:
 
 	void nativeCallbackFunc(MyGUI::Widget* widget)
 	{
-		nativeEvent(widget PASS_HANDLE);
+		nativeEvent(widget PASS_HANDLE_ARG);
 	}
 
 	virtual void bindEvent()
@@ -43,5 +43,5 @@ public:
 
 extern "C" _AnomalousExport EventChangeMouseFocusInputManager* EventChangeMouseFocusInputManager_Create(MyGUI::InputManager* inputManager, EventChangeMouseFocusInputManager::NativeEventDelegate nativeEventCallback HANDLE_ARG)
 {
-	return new EventChangeMouseFocusInputManager(inputManager, nativeEventCallback PASS_HANDLE);
+	return new EventChangeMouseFocusInputManager(inputManager, nativeEventCallback PASS_HANDLE_ARG);
 }
