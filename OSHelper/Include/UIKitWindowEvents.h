@@ -24,8 +24,6 @@ class MultiTouch;
     UIKitOrientationEvents* orientationEvents;
 }
 
--(id) init;
-
 -(void) setWindow:(UIKitWindow*) window;
 
 -(void) setMultitouch:(MultiTouch*) multiTouch;

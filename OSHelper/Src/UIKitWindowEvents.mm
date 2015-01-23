@@ -11,12 +11,14 @@
 #include "StdAfx.h"
 #include "UIKitWindowEvents.h"
 #include "UIKitWindow.h"
+#include "MultiTouch.h"
 
 @implementation UIKitWindowEvents
 
--(id) init
+- (id) initWithFrame:(CGRect)frame
 {
-    if(self)
+    self = [super initWithFrame:frame];
+    if (self)
     {
         allowFirstResponder = false;
         hasText = false;
@@ -25,7 +27,7 @@
 }
 
 -(void) setWindow:(UIKitWindow*) window
-{    
+{
     win = window;
     orientationEvents = [[UIKitOrientationEvents alloc] init:window];
 }
@@ -35,27 +37,37 @@
     touch = multiTouch;
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    logger <<  "Touches Begin " << touch << NativeLog::DebugFlush();
-}
-
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    logger.sendMessage("Touches moved", LogLevel::ImportantInfo);
-}
-
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    [self resignFirstResponder];
-    allowFirstResponder = true;
-    [self becomeFirstResponder];
-    logger.sendMessage("Touches ended", LogLevel::ImportantInfo);
-}
-
-- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    logger.sendMessage("Touches cancelled", LogLevel::ImportantInfo);
+- (void)sendEvent:(UIEvent *)event {
+    
+    if (event.type == UIEventTypeTouches)
+    {
+        TouchInfo touchInfo;
+        for(UITouch * t in [event allTouches])
+        {
+            CGPoint loc = [t locationInView:self];
+            touchInfo.pixelX = loc.x;
+            touchInfo.pixelY = loc.y;
+            switch (t.phase)
+            {
+                case UITouchPhaseBegan:
+                    logger << "Simple Touch Begin " << touchInfo.pixelX << " " << touchInfo.pixelY << " " << (uintptr_t)t << NativeLog::DebugFlush();
+                    break;
+                case UITouchPhaseEnded:
+                    logger << "Simple Touch End " << touchInfo.pixelX << " " << touchInfo.pixelY << " " << (uintptr_t)t << NativeLog::DebugFlush();
+                    break;
+                case UITouchPhaseMoved:
+                    logger << "Simple Touch Moved " << touchInfo.pixelX << " " << touchInfo.pixelY << " " << (uintptr_t)t << NativeLog::DebugFlush();
+                    break;
+                case UITouchPhaseCancelled:
+                    logger << "Touches canceled " << touchInfo.pixelX << " " << touchInfo.pixelY << " " << (uintptr_t)t << NativeLog::DebugFlush();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    
+    [super sendEvent:event];
 }
 
 - (void)insertText:(NSString *)text
