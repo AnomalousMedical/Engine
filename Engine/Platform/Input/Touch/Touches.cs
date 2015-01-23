@@ -13,6 +13,11 @@ namespace Engine.Platform
         GenericObjectPool<Finger> fingerPool = new GenericObjectPool<Finger>();
         private FastIteratorMap<int, Finger> fingers = new FastIteratorMap<int, Finger>();
 
+        public event Action<Finger> FingerStarted;
+        public event Action<Finger> FingerEnded;
+        public event Action<Finger> FingerMoved;
+        public event Action FingersCanceled;
+
         public Touches()
         {
             
@@ -38,6 +43,10 @@ namespace Engine.Platform
         {
             Finger finger = findFinger(info);
             finger.setCurrentPosition(info.normalizedX, info.normalizedY, info.pixelX, info.pixelY);
+            if(FingerMoved != null)
+            {
+                FingerMoved.Invoke(finger);
+            }
         }
 
         internal void fireTouchEnded(TouchInfo info)
@@ -45,6 +54,11 @@ namespace Engine.Platform
             Finger finger;
             if (fingers.TryGetValue(info.id, out finger))
             {
+                if (FingerEnded != null)
+                {
+                    FingerEnded.Invoke(finger);
+                }
+
                 fingers.Remove(info.id);
                 finger.finished();
             }
@@ -57,6 +71,10 @@ namespace Engine.Platform
 
         internal void fireAllTouchesCanceled()
         {
+            if(FingersCanceled != null)
+            {
+                FingersCanceled.Invoke();
+            }
             fingers.Clear();
         }
 
@@ -68,6 +86,12 @@ namespace Engine.Platform
                 finger = fingerPool.getPooledObject();
                 fingers.Add(info.id, finger);
                 finger.setInfoOutOfPool(info.id, info.normalizedX, info.normalizedY, info.pixelX, info.pixelY);
+
+                //This might happen in a touch started or touch moved event.
+                if (FingerStarted != null)
+                {
+                    FingerStarted.Invoke(finger);
+                }
             }
             return finger;
         }
