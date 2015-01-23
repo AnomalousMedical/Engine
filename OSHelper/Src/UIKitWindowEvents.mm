@@ -11,7 +11,6 @@
 #include "StdAfx.h"
 #include "UIKitWindowEvents.h"
 #include "UIKitWindow.h"
-#include <iostream>
 
 @implementation UIKitWindowEvents
 
@@ -26,9 +25,7 @@
 }
 
 -(void) setWindow:(UIKitWindow*) window
-{
-    std::cout << "Setting Window no rotation code" << std::endl;
-    
+{    
     win = window;
     orientationEvents = [[UIKitOrientationEvents alloc] init:window];
 }

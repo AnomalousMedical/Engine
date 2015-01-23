@@ -29,7 +29,7 @@ UIKitWindow::~UIKitWindow()
 
 void UIKitWindow::setTitle(String title)
 {
-    logger.sendMessage("orientation in window events as separate class", LogLevel::ImportantInfo);
+    logger.sendMessage("cleaned up headers", LogLevel::ImportantInfo);
 }
 
 void UIKitWindow::setSize(int width, int height)

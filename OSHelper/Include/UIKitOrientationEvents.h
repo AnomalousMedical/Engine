@@ -10,7 +10,6 @@
 #define OSHelper_UIKitOrientationEvents_h
 
 #import <UIKit/UIKit.h>
-#include "NativeOSWindow.h"
 
 class UIKitWindow;
 
