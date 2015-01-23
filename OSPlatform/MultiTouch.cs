@@ -140,7 +140,7 @@ namespace Anomalous.OSPlatform
 
             public IntPtr create(MultiTouch obj, NativeOSWindow nativeWindow)
             {
-                GCHandle.Alloc(handle);
+                handle = GCHandle.Alloc(obj);
                 return MultiTouch_new(nativeWindow._NativePtr, touchStartedCB, touchEndedCB, touchMovedCB, touchCanceledCB, GCHandle.ToIntPtr(handle));
             }
 

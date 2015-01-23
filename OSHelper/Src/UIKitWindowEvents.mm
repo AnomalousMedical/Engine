@@ -82,22 +82,22 @@
                 case UITouchPhaseBegan:
                     touchInfo.id = [self findNextId];
                     touchIdMap[(uintptr_t)t] = touchInfo.id;
-                    //Do call here to c#
+                    touch->fireTouchStarted(touchInfo);
                     logger << "Simple Touch Begin " << touchInfo.pixelX << " " << touchInfo.pixelY << " " << touchInfo.id << NativeLog::DebugFlush();
                     break;
                 case UITouchPhaseEnded:
                     touchInfo.id = touchIdMap[(uintptr_t)t];
-                    //Do call here to c#
+                    touch->fireTouchEnded(touchInfo);
                     [self returnid: touchInfo.id];
                     logger << "Simple Touch End " << touchInfo.pixelX << " " << touchInfo.pixelY << " " << touchInfo.id << NativeLog::DebugFlush();
                     break;
                 case UITouchPhaseMoved:
                     touchInfo.id = touchIdMap[(uintptr_t)t];
-                    //Do call here to c#
+                    touch->fireTouchMoved(touchInfo);
                     logger << "Simple Touch Moved " << touchInfo.pixelX << " " << touchInfo.pixelY << " " << touchInfo.id << NativeLog::DebugFlush();
                     break;
                 case UITouchPhaseCancelled:
-                    //Do call here to c#
+                    touch->fireAllTouchesCanceled();
                     [self resetIds];
                     logger << "Touches canceled " << touchInfo.pixelX << " " << touchInfo.pixelY << " " << touchInfo.id << NativeLog::DebugFlush();
                     break;
