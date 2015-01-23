@@ -33,6 +33,8 @@ class MultiTouch;
 
 -(void) setMultitouch:(MultiTouch*) multiTouch;
 
+-(void) setOnscreenKeyboardVisible:(bool) visible;
+
 @end
 
 #endif

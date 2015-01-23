@@ -29,7 +29,7 @@ UIKitWindow::~UIKitWindow()
 
 void UIKitWindow::setTitle(String title)
 {
-    logger.sendMessage("direct touch events 7", LogLevel::ImportantInfo);
+    logger.sendMessage("with keyboard", LogLevel::ImportantInfo);
 }
 
 void UIKitWindow::setSize(int width, int height)
@@ -92,6 +92,11 @@ void UIKitWindow::setupMultitouch(MultiTouch *multiTouch)
 void UIKitWindow::toggleFullscreen()
 {
     
+}
+
+void UIKitWindow::setOnscreenKeyboardVisible(bool visible)
+{
+    [window setOnscreenKeyboardVisible:visible];
 }
 
 //PInvoke

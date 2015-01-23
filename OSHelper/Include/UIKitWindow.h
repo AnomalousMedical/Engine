@@ -45,6 +45,8 @@ public:
     virtual float getWindowScaling();
     
     virtual void toggleFullscreen();
+    
+    virtual void setOnscreenKeyboardVisible(bool visible);
 };
 
 void UIKitWindow_setUIWindow(UIKitWindowEvents *window);

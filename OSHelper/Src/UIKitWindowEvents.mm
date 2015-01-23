@@ -38,6 +38,24 @@
     touch = multiTouch;
 }
 
+-(void) setOnscreenKeyboardVisible:(bool) visible;
+{
+    if(visible)
+    {
+        if(!allowFirstResponder)
+        {
+            [self resignFirstResponder];
+            allowFirstResponder = true;
+        }
+        [self becomeFirstResponder];
+    }
+    else
+    {
+        allowFirstResponder = false;
+        [self resignFirstResponder];
+    }
+}
+
 -(int) findNextId
 {
     if(availableIds.empty())
