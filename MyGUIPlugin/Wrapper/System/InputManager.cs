@@ -8,7 +8,9 @@ using Engine;
 
 namespace MyGUIPlugin
 {
-    public class InputManager
+    public delegate void FocusChangedEvent(Widget widget);
+
+    public class InputManager //Does not implement dispose, but does have an internal dispose function.
     {
         private static InputManager instance;
 
@@ -26,15 +28,45 @@ namespace MyGUIPlugin
 
         public event MouseEvent MouseButtonPressed;
         public event MouseEvent MouseButtonReleased;
+        private EventChangeKeyFocusInputManager changeKeyFocusTranslator;
+
+        public event FocusChangedEvent ChangeKeyFocus
+        {
+            add
+            {
+                if (changeKeyFocusTranslator == null)
+                {
+                    changeKeyFocusTranslator = new EventChangeKeyFocusInputManager(this);
+                }
+                changeKeyFocusTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                if (changeKeyFocusTranslator != null)
+                {
+                    changeKeyFocusTranslator.BoundEvent -= value;
+                }
+            }
+        }
 
         private IntPtr inputManager;
         private int mouseX;
         private int mouseY;
         private int mouseZ;
+        
 
         private InputManager()
         {
             inputManager = InputManager_getInstancePtr();
+        }
+
+        internal void Dispose()
+        {
+            if (changeKeyFocusTranslator != null)
+            {
+                changeKeyFocusTranslator.Dispose();
+                changeKeyFocusTranslator = null;
+            }
         }
 
         public bool injectMouseMove(int absx, int absy, int absz)
@@ -189,6 +221,14 @@ namespace MyGUIPlugin
         public bool injectScrollGesture(int absx, int absy, int deltax, int deltay)
         {
             return InputManager_injectScrollGesture(inputManager, absx, absy, deltax, deltay);
+        }
+
+        internal IntPtr Ptr
+        {
+            get
+            {
+                return inputManager;
+            }
         }
 
 #region PInvoke

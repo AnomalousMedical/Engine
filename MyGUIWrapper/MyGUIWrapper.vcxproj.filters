@@ -210,6 +210,9 @@
     <ClCompile Include="Src\EventChangeCoord.cpp">
       <Filter>Events</Filter>
     </ClCompile>
+    <ClCompile Include="Src\EventChangeKeyFocusInputManager.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
