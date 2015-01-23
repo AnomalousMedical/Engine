@@ -19,18 +19,17 @@ void UIKitWindow_setUIWindow(UIKitWindowEvents *win)
 
 UIKitWindow::UIKitWindow(UIKitWindow* parent, String title, int x, int y, int width, int height, bool floatOnParent)
 {
-    orientationEvents = [[UIKitOrientationEvents alloc] init:this];
     [window setWindow:this];
 }
 
 UIKitWindow::~UIKitWindow()
 {
-    //[windowEvents release];
+    
 }
 
 void UIKitWindow::setTitle(String title)
 {
-    logger.sendMessage("orientation in own file.", LogLevel::ImportantInfo);
+    logger.sendMessage("orientation in window events as separate class", LogLevel::ImportantInfo);
 }
 
 void UIKitWindow::setSize(int width, int height)

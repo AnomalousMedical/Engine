@@ -12,7 +12,6 @@
 #import <UIKit/UIKit.h>
 #include "NativeOSWindow.h"
 #include "UIKitWindowEvents.h"
-#include "UIKitOrientationEvents.h"
 
 class UIKitWindow : public NativeOSWindow
 {
@@ -46,9 +45,6 @@ public:
     virtual float getWindowScaling();
     
     virtual void toggleFullscreen();
-
-private:
-    UIKitOrientationEvents* orientationEvents;
 };
 
 void UIKitWindow_setUIWindow(UIKitWindowEvents *window);

@@ -11,7 +11,6 @@
 
 #import <UIKit/UIKit.h>
 #include "NativeOSWindow.h"
-#include "UIKitWindowEvents.h"
 
 class UIKitWindow;
 

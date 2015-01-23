@@ -9,6 +9,8 @@
 #ifndef OSHelper_UIKitWindowEvents_h
 #define OSHelper_UIKitWindowEvents_h
 
+#include "UIKitOrientationEvents.h"
+
 class UIKitWindow;
 
 @interface UIKitWindowEvents : UIWindow<UIKeyInput>
@@ -17,6 +19,7 @@ class UIKitWindow;
     UIKitWindow* win;
     bool allowFirstResponder;
     bool hasText;
+    UIKitOrientationEvents* orientationEvents;
 }
 
 -(id) init;
