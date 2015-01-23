@@ -75,31 +75,28 @@
         for(UITouch * t in [event allTouches])
         {
             CGPoint loc = [t locationInView:self];
-            touchInfo.pixelX = loc.x;
-            touchInfo.pixelY = loc.y;
+            float scale = win->getWindowScaling();
+            touchInfo.pixelX = (int)(loc.x * scale);
+            touchInfo.pixelY = (int)(loc.y * scale);
             switch (t.phase)
             {
                 case UITouchPhaseBegan:
                     touchInfo.id = [self findNextId];
                     touchIdMap[(uintptr_t)t] = touchInfo.id;
                     touch->fireTouchStarted(touchInfo);
-                    logger << "Simple Touch Begin " << touchInfo.pixelX << " " << touchInfo.pixelY << " " << touchInfo.id << NativeLog::DebugFlush();
                     break;
                 case UITouchPhaseEnded:
                     touchInfo.id = touchIdMap[(uintptr_t)t];
                     touch->fireTouchEnded(touchInfo);
                     [self returnid: touchInfo.id];
-                    logger << "Simple Touch End " << touchInfo.pixelX << " " << touchInfo.pixelY << " " << touchInfo.id << NativeLog::DebugFlush();
                     break;
                 case UITouchPhaseMoved:
                     touchInfo.id = touchIdMap[(uintptr_t)t];
                     touch->fireTouchMoved(touchInfo);
-                    logger << "Simple Touch Moved " << touchInfo.pixelX << " " << touchInfo.pixelY << " " << touchInfo.id << NativeLog::DebugFlush();
                     break;
                 case UITouchPhaseCancelled:
                     touch->fireAllTouchesCanceled();
                     [self resetIds];
-                    logger << "Touches canceled " << touchInfo.pixelX << " " << touchInfo.pixelY << " " << touchInfo.id << NativeLog::DebugFlush();
                     break;
                 default:
                     break;

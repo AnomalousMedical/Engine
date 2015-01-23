@@ -29,7 +29,7 @@ UIKitWindow::~UIKitWindow()
 
 void UIKitWindow::setTitle(String title)
 {
-    logger.sendMessage("direct touch events 6", LogLevel::ImportantInfo);
+    logger.sendMessage("direct touch events 7", LogLevel::ImportantInfo);
 }
 
 void UIKitWindow::setSize(int width, int height)
