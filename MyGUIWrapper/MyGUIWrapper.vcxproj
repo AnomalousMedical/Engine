@@ -177,6 +177,7 @@
     <ClCompile Include="Src\EditBox.cpp" />
     <ClCompile Include="Src\EventChangeCoord.cpp" />
     <ClCompile Include="Src\EventChangeKeyFocusInputManager.cpp" />
+    <ClCompile Include="Src\EventChangeMouseFocusInputManager.cpp" />
     <ClCompile Include="Src\EventMenuCtrlAcceptTranslator.cpp" />
     <ClCompile Include="Src\EventMenuCtrlCloseTranslator.cpp" />
     <ClCompile Include="Src\EventMouseMoveTranslator.cpp" />

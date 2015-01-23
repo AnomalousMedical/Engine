@@ -29,6 +29,7 @@ namespace MyGUIPlugin
         public event MouseEvent MouseButtonPressed;
         public event MouseEvent MouseButtonReleased;
         private EventChangeKeyFocusInputManager changeKeyFocusTranslator;
+        private EventChangeMouseFocusInputManager changeMouseFocusTranslator;
 
         public event FocusChangedEvent ChangeKeyFocus
         {
@@ -45,6 +46,25 @@ namespace MyGUIPlugin
                 if (changeKeyFocusTranslator != null)
                 {
                     changeKeyFocusTranslator.BoundEvent -= value;
+                }
+            }
+        }
+
+        public event FocusChangedEvent ChangeMouseFocus
+        {
+            add
+            {
+                if (changeMouseFocusTranslator == null)
+                {
+                    changeMouseFocusTranslator = new EventChangeMouseFocusInputManager(this);
+                }
+                changeMouseFocusTranslator.BoundEvent += value;
+            }
+            remove
+            {
+                if (changeMouseFocusTranslator != null)
+                {
+                    changeMouseFocusTranslator.BoundEvent -= value;
                 }
             }
         }
@@ -66,6 +86,11 @@ namespace MyGUIPlugin
             {
                 changeKeyFocusTranslator.Dispose();
                 changeKeyFocusTranslator = null;
+            }
+            if(changeMouseFocusTranslator != null)
+            {
+                changeMouseFocusTranslator.Dispose();
+                changeMouseFocusTranslator = null;
             }
         }
 
