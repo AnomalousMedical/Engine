@@ -30,3 +30,6 @@
 
 //Typedef for common NativeAction
 typedef void(*NativeAction)(HANDLE_FIRST_ARG);
+
+//Typedef for StringRetriever callback function
+typedef void(*StringRetrieverCallback)(const char* value);

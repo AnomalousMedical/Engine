@@ -88,6 +88,4 @@ public:
 	}
 };
 
-typedef void (*StringRetrieverCallback)(String value);
-
 #endif

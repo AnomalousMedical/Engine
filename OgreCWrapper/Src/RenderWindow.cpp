@@ -12,15 +12,13 @@ extern "C" _AnomalousExport void RenderWindow_windowMovedOrResized(Ogre::RenderW
 	renderWindow->windowMovedOrResized();
 }
 
-typedef void (*GiveWindowStringDelegate)(String handleStr);
-
-extern "C" _AnomalousExport void RenderWindow_getWindowHandleStr(Ogre::RenderWindow* renderWindow, GiveWindowStringDelegate giveWindowString)
+extern "C" _AnomalousExport void RenderWindow_getWindowHandleStr(Ogre::RenderWindow* renderWindow, StringRetrieverCallback stringCb)
 {
 	size_t winHandle = 0;
 	renderWindow->getCustomAttribute("WINDOW", &winHandle);
 	std::stringstream winHandleStr;
 	winHandleStr << winHandle;
-	giveWindowString(winHandleStr.str().c_str());
+	stringCb(winHandleStr.str().c_str());
 }
 
 extern "C" _AnomalousExport void RenderWindow_setFullscreen(Ogre::RenderWindow* renderWindow, bool fullscreen, uint width, uint height)

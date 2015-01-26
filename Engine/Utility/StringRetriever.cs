@@ -15,9 +15,8 @@ namespace Engine
     /// this should be handed.
     /// </summary>
     /// <remarks>
-    /// Add the following to your native library to use this class correctly.
-    /// Then have the function in question take a StringRetrieverCallback as an
-    /// argument and call that with the string you need on the managed side.
+    /// The following prototype is in the NativeDelegates.h file. It supports AOT
+    /// mode in that file.
     /// <code>
     /// typedef void (*StringRetrieverCallback)(String value);
     /// </code>

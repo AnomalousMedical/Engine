@@ -33,8 +33,6 @@ typedef unsigned int uint;
 typedef unsigned char byte;
 typedef unsigned short ushort;
 
-typedef void (*StringRetrieverCallback)(const char* value);
-
 #include "NativeLog.h"
 extern NativeLog logger;
 
