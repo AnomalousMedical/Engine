@@ -107,7 +107,6 @@
     <Compile Include="Wrapper\Animation\Node\TransformKeyFrame.cs" />
     <Compile Include="Wrapper\Animation\Numeric\NumericAnimationTrack.cs" />
     <Compile Include="Wrapper\Animation\Skeletal\Bone.cs" />
-    <Compile Include="Wrapper\Animation\Skeletal\BoneIterator.cs" />
     <Compile Include="Wrapper\Animation\Skeletal\Skeleton.cs" />
     <Compile Include="Wrapper\Animation\Skeletal\SkeletonInstance.cs" />
     <Compile Include="Wrapper\Animation\Skeletal\SkeletonManager.cs" />
