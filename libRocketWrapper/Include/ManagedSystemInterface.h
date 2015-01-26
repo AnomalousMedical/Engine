@@ -2,13 +2,13 @@
 
 #include <Rocket/Core/SystemInterface.h>
 
-typedef float (*GetElapsedTimeDelegate)();
-typedef void (*LogMessageDelegate)(Rocket::Core::Log::Type type, String message);
+typedef float (*GetElapsedTimeDelegate)(HANDLE_FIRST_ARG);
+typedef void (*LogMessageDelegate)(Rocket::Core::Log::Type type, String message HANDLE_ARG);
 
 class ManagedSystemInterface : public Rocket::Core::SystemInterface
 {
 	public:
-		ManagedSystemInterface(GetElapsedTimeDelegate etDelegate, LogMessageDelegate logDelegate);
+		ManagedSystemInterface(GetElapsedTimeDelegate etDelegate, LogMessageDelegate logDelegate HANDLE_ARG);
 
 		virtual ~ManagedSystemInterface();
 
@@ -26,4 +26,5 @@ class ManagedSystemInterface : public Rocket::Core::SystemInterface
 		GetElapsedTimeDelegate etDelegate;
 		LogMessageDelegate logDelegate;
 		std::list<Rocket::Core::String> rootedPaths;
+		HANDLE_INSTANCE
 };

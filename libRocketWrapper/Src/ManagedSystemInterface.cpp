@@ -1,9 +1,10 @@
 #include "StdAfx.h"
 #include "ManagedSystemInterface.h"
 
-ManagedSystemInterface::ManagedSystemInterface(GetElapsedTimeDelegate etDelegate, LogMessageDelegate logDelegate)
+ManagedSystemInterface::ManagedSystemInterface(GetElapsedTimeDelegate etDelegate, LogMessageDelegate logDelegate HANDLE_ARG)
 	:etDelegate(etDelegate),
 	logDelegate(logDelegate)
+	ASSIGN_HANDLE_INITIALIZER
 {
 }
 
@@ -13,12 +14,12 @@ ManagedSystemInterface::~ManagedSystemInterface()
 
 float ManagedSystemInterface::GetElapsedTime()
 {
-	return etDelegate();
+	return etDelegate(PASS_HANDLE);
 }
 
 bool ManagedSystemInterface::LogMessage(Rocket::Core::Log::Type type, const Rocket::Core::String& message)
 {
-	logDelegate(type, message.CString());
+	logDelegate(type, message.CString() PASS_HANDLE_ARG);
 	return false;
 }
 
@@ -96,9 +97,9 @@ void ManagedSystemInterface::RemoveRootPath(const Rocket::Core::String& rootPath
 	rootedPaths.remove(rootPath);
 }
 
-extern "C" _AnomalousExport ManagedSystemInterface* ManagedSystemInterface_Create(GetElapsedTimeDelegate etDelegate, LogMessageDelegate logDelegate)
+extern "C" _AnomalousExport ManagedSystemInterface* ManagedSystemInterface_Create(GetElapsedTimeDelegate etDelegate, LogMessageDelegate logDelegate HANDLE_ARG)
 {
-	return new ManagedSystemInterface(etDelegate, logDelegate);
+	return new ManagedSystemInterface(etDelegate, logDelegate PASS_HANDLE_ARG);
 }
 
 extern "C" _AnomalousExport void ManagedSystemInterface_Delete(ManagedSystemInterface* systemInterface)
