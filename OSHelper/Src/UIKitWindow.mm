@@ -29,7 +29,7 @@ UIKitWindow::~UIKitWindow()
 
 void UIKitWindow::setTitle(String title)
 {
-    logger.sendMessage("with keyboard", LogLevel::ImportantInfo);
+    logger.sendMessage("with keyboard unichars", LogLevel::ImportantInfo);
 }
 
 void UIKitWindow::setSize(int width, int height)

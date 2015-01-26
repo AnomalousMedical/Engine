@@ -127,13 +127,19 @@
 
 - (void)insertText:(NSString *)text
 {
-    logger.sendMessage("Text entered", LogLevel::ImportantInfo);
-    // Do something with the typed character
+    //logger.sendMessage("Text entered", LogLevel::ImportantInfo);
+    //NSLog(text);
+    if([text length] > 0)
+    {
+        win->fireKeyDown(KeyboardButtonCode::KC_UNASSIGNED, [text characterAtIndex:0]);
+        win->fireKeyUp(KeyboardButtonCode::KC_UNASSIGNED);
+    }
 }
 - (void)deleteBackward
 {
-    logger.sendMessage("delete backward", LogLevel::ImportantInfo);
-    // Handle the delete key
+    //logger.sendMessage("delete backward", LogLevel::ImportantInfo);
+    win->fireKeyDown(KeyboardButtonCode::KC_BACK, 0);
+    win->fireKeyUp(KeyboardButtonCode::KC_BACK);
 }
 - (BOOL)hasText
 {
