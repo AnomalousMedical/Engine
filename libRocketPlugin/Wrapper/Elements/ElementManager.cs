@@ -60,6 +60,7 @@ namespace libRocketPlugin
         /// This is called by the c++ destructor for the element. It will erase the wrapper object.
         /// </summary>
         /// <param name="element"></param>
+        [MonoTouch.MonoPInvokeCallback(typeof(ElementDestructorCallback))]
         static void elementDestructor(IntPtr element)
         {
             elements.destroyObject(element);
@@ -69,6 +70,7 @@ namespace libRocketPlugin
         /// This is called by the c++ destructor for the element. It will erase the wrapper object.
         /// </summary>
         /// <param name="element"></param>
+        [MonoTouch.MonoPInvokeCallback(typeof(ContextDestructorCallback))]
         static void contextDestructor(IntPtr context)
         {
             contexts.destroyObject(context);
@@ -116,10 +118,10 @@ namespace libRocketPlugin
         #region PInvoke
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void ElementDestructorCallback(IntPtr element);
+        private delegate void ElementDestructorCallback(IntPtr element); //Does not need AOT mode, static callback
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void ContextDestructorCallback(IntPtr element);
+        private delegate void ContextDestructorCallback(IntPtr element); //Does not need AOT mode, static callback
 
         [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr ElementManager_create(ElementDestructorCallback elementDestroyed, ContextDestructorCallback contextDestroyed);
