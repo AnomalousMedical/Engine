@@ -20,6 +20,7 @@
 
 #define NULL 0
 
+#include "../Engine/Interop/NativeDelegates.h"
 #include "NativeLog.h"
 
 namespace SoundWrapper
