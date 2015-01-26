@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 
-typedef void (*EventOccuredCallback)();
+typedef void (*EventOccuredCallback)(HANDLE_FIRST_ARG);
 
 enum KnownRenderSystemEvents
 {
@@ -14,9 +14,10 @@ class ManagedRenderSystemListener : Ogre::RenderSystem::Listener
 {
 public:
 
-	ManagedRenderSystemListener(EventOccuredCallback eventOccuredCb)
+	ManagedRenderSystemListener(EventOccuredCallback eventOccuredCb HANDLE_ARG)
 		:eventOccuredCb(eventOccuredCb),
 		lastEventName("")
+		ASSIGN_HANDLE_INITIALIZER
 	{
 
 	}
@@ -29,7 +30,7 @@ public:
 	virtual void eventOccurred(const Ogre::String &eventName, const Ogre::NameValuePairList *parameters = 0 )
 	{
 		lastEventName = eventName;
-		eventOccuredCb();
+		eventOccuredCb(PASS_HANDLE);
 	}
 
 	//This function will change an event string into an enum, 
@@ -57,11 +58,12 @@ public:
 private:
 	EventOccuredCallback eventOccuredCb;
 	Ogre::String lastEventName;
+	HANDLE_INSTANCE
 };
 
-extern "C" _AnomalousExport ManagedRenderSystemListener* ManagedRenderSystemListener_Create(EventOccuredCallback eventOccuredCb)
+extern "C" _AnomalousExport ManagedRenderSystemListener* ManagedRenderSystemListener_Create(EventOccuredCallback eventOccuredCb HANDLE_ARG)
 {
-	return new ManagedRenderSystemListener(eventOccuredCb);
+	return new ManagedRenderSystemListener(eventOccuredCb PASS_HANDLE_ARG);
 }
 
 extern "C" _AnomalousExport void ManagedRenderSystemListener_Delete(ManagedRenderSystemListener *listener)
