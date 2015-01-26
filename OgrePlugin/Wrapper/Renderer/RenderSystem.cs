@@ -216,12 +216,15 @@ namespace OgrePlugin
             private SetConfigInfo setInfo;
             private AddPossibleValue addValue;
 
-            public ConfigOption getConfigOption(String name)
+            public ConfigOption getConfigOption(RenderSystem renderSystem, String name)
             {
                 ConfigOption configOption = new ConfigOption();
                 setInfo = new SetConfigInfo(configOption._setDetails);
                 addValue = new AddPossibleValue(configOption._addPossibleValue);
-                RenderSystem_getConfigOptionInfo(renderSystem, name, setInfo, addValue);
+                RenderSystem_getConfigOptionInfo(renderSystem.renderSystem, name, setInfo, addValue);
+                //Clear delegates to keep ConfigOption from hanging around until the next one is recovered.
+                setInfo = null;
+                addValue = null;
                 return configOption;
             }
         }
