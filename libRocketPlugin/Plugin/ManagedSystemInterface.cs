@@ -159,8 +159,8 @@ namespace libRocketPlugin
 
             public IntPtr create(ManagedSystemInterface obj)
             {
-                etDelegate = new GetElapsedTimeDelegate(GetElapsedTime);
-                logDelegate = new LogMessageDelegate(LogMessage);
+                etDelegate = new GetElapsedTimeDelegate(obj.GetElapsedTime);
+                logDelegate = new LogMessageDelegate(obj.LogMessage);
 
                 return ManagedSystemInterface_Create(etDelegate, logDelegate);
             }
