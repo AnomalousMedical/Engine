@@ -1,7 +1,7 @@
 #pragma once
 
-typedef void (*WindowEventDelegate)(Ogre::RenderWindow* renderWindow);
-typedef bool (*WindowClosingDelegate)(Ogre::RenderWindow* renderWindow);
+typedef void (*WindowEventDelegate)(Ogre::RenderWindow* renderWindow HANDLE_ARG);
+typedef bool(*WindowClosingDelegate)(Ogre::RenderWindow* renderWindow HANDLE_ARG);
 
 class NativeWindowListener : public Ogre::WindowEventListener
 {
@@ -11,9 +11,10 @@ private:
 	WindowClosingDelegate windowClosingCallback;
 	WindowEventDelegate windowClosedCallback;
 	WindowEventDelegate windowFocusChangeCallback;
+	HANDLE_INSTANCE
 
 public:
-	NativeWindowListener(WindowEventDelegate windowMovedCallback, WindowEventDelegate windowResizedCallback, WindowClosingDelegate windowClosingCallback, WindowEventDelegate windowClosedCallback, WindowEventDelegate windowFocusChangeCallback);
+	NativeWindowListener(WindowEventDelegate windowMovedCallback, WindowEventDelegate windowResizedCallback, WindowClosingDelegate windowClosingCallback, WindowEventDelegate windowClosedCallback, WindowEventDelegate windowFocusChangeCallback HANDLE_ARG);
 
 	virtual ~NativeWindowListener(void);
 
