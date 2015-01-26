@@ -1,7 +1,7 @@
 #include "Stdafx.h"
 
-typedef void (*SetConfigInfo)(String name, String currentValue, bool immutable);
-typedef void (*AddPossibleValue)(String possibleValue);
+typedef void(*SetConfigInfo)(String name, String currentValue, bool immutable HANDLE_ARG);
+typedef void(*AddPossibleValue)(String possibleValue HANDLE_ARG);
 
 extern "C" _AnomalousExport const char* RenderSystem_validateConfigOptions(Ogre::RenderSystem* renderSystem)
 {
@@ -39,11 +39,11 @@ extern "C" _AnomalousExport bool RenderSystem_hasConfigOption(Ogre::RenderSystem
 	return optionMap.find(option) != optionMap.end();
 }
 
-extern "C" _AnomalousExport void RenderSystem_getConfigOptionInfo(Ogre::RenderSystem* renderSystem, String option, SetConfigInfo setInfo, AddPossibleValue addValues)
+extern "C" _AnomalousExport void RenderSystem_getConfigOptionInfo(Ogre::RenderSystem* renderSystem, String option, SetConfigInfo setInfo, AddPossibleValue addValues HANDLE_ARG)
 {
 	Ogre::ConfigOptionMap& optionMap = renderSystem->getConfigOptions();
 	Ogre::_ConfigOption& configOption = optionMap[option];
-	setInfo(configOption.name.c_str(), configOption.currentValue.c_str(), configOption.immutable);
+	setInfo(configOption.name.c_str(), configOption.currentValue.c_str(), configOption.immutable PASS_HANDLE_ARG);
 	//Should use a std iter, but it causes access violation exceptions for some reason.
 	/*size_t numEntries = configOption.possibleValues.size();
 	for(int i = 0; i < numEntries; ++i)
@@ -53,7 +53,7 @@ extern "C" _AnomalousExport void RenderSystem_getConfigOptionInfo(Ogre::RenderSy
 	Ogre::StringVector::iterator end = configOption.possibleValues.end();
 	for(Ogre::StringVector::iterator iter = configOption.possibleValues.begin(); iter != end; ++iter)
 	{
-		addValues((*iter).c_str());
+		addValues((*iter).c_str() PASS_HANDLE_ARG);
 	}
 }
 

@@ -15,6 +15,7 @@ namespace OgrePlugin
         }
 
         IntPtr renderSystem;
+        CallbackHandler callbackHandler;
 
         internal IntPtr OgreRenderSystem
         {
@@ -27,6 +28,7 @@ namespace OgrePlugin
         public RenderSystem(IntPtr renderSystem)
         {
             this.renderSystem = renderSystem;
+            callbackHandler = new CallbackHandler();
         }
 
         public void Dispose()
@@ -51,9 +53,7 @@ namespace OgrePlugin
 
         public ConfigOption getConfigOption(String name)
         {
-            ConfigOption option = new ConfigOption();
-            RenderSystem_getConfigOptionInfo(renderSystem, name, option.SetInfo, option.AddValue);
-            return option;
+            return callbackHandler.getConfigOption(this, name);
         }
 
         public void _initRenderTargets()
@@ -134,7 +134,11 @@ namespace OgrePlugin
         private static extern bool RenderSystem_hasConfigOption(IntPtr renderSystem, String option);
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
-        private static extern void RenderSystem_getConfigOptionInfo(IntPtr renderSystem, String option, SetConfigInfo setInfo, AddPossibleValue addValues);
+        private static extern void RenderSystem_getConfigOptionInfo(IntPtr renderSystem, String option, SetConfigInfo setInfo, AddPossibleValue addValues
+#if FULL_AOT_COMPILE
+, IntPtr instanceHandle
+#endif
+);
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void RenderSystem_addListener(IntPtr renderSystem, IntPtr listener);
@@ -151,6 +155,78 @@ namespace OgrePlugin
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void RenderSystem__setRenderTarget(IntPtr renderSystem, IntPtr target);
 
-        #endregion 
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        internal delegate void SetConfigInfo(IntPtr name, IntPtr currentValue, bool immutable
+#if FULL_AOT_COMPILE
+, IntPtr instanceHandle
+#endif
+);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        internal delegate void AddPossibleValue(IntPtr possibleValue
+#if FULL_AOT_COMPILE
+, IntPtr instanceHandle
+#endif
+);
+
+#if FULL_AOT_COMPILE
+        /// <summary>
+        /// This does not need to dispose since the GCHandle is only active while recovering an option.
+        /// </summary>
+        class CallbackHandler
+        {
+            private static SetConfigInfo setInfo;
+            private static AddPossibleValue addValue;
+
+            static CallbackHandler()
+            {
+                setInfo = new SetConfigInfo(setDetails);
+                addValue = new AddPossibleValue(addPossibleValue);
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(SetConfigInfo))]
+            private static void setDetails(IntPtr name, IntPtr currentValue, bool immutable, IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as ConfigOption)._setDetails(name, currentValue, immutable);
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(AddPossibleValue))]
+            private static void addPossibleValue(IntPtr possibleValue, IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as ConfigOption)._addPossibleValue(possibleValue);
+            }
+
+            public ConfigOption getConfigOption(RenderSystem renderSystem, String name)
+            {
+                ConfigOption configOption = new ConfigOption();
+                GCHandle handle = GCHandle.Alloc(configOption);
+                RenderSystem_getConfigOptionInfo(renderSystem.renderSystem, name, setInfo, addValue, GCHandle.ToIntPtr(handle));
+                handle.Free();
+                return configOption;
+            }
+        }
+#else
+        /// <summary>
+        /// This does not need to dispose since the GCHandle is only active while recovering an option.
+        /// </summary>
+        class CallbackHandler
+        {
+            private SetConfigInfo setInfo;
+            private AddPossibleValue addValue;
+
+            public ConfigOption getConfigOption(String name)
+            {
+                ConfigOption configOption = new ConfigOption();
+                setInfo = new SetConfigInfo(configOption._setDetails);
+                addValue = new AddPossibleValue(configOption._addPossibleValue);
+                RenderSystem_getConfigOptionInfo(renderSystem, name, setInfo, addValue);
+                return configOption;
+            }
+        }
+#endif
+
+        #endregion
     }
 }
