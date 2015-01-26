@@ -18,6 +18,8 @@ typedef unsigned char byte;
 typedef unsigned short ushort;
 typedef const char* String;
 
+#include "../Engine/Interop/NativeDelegates.h"
+
 class Vector2i
 {
 public:
