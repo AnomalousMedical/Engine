@@ -131,8 +131,16 @@
     //NSLog(text);
     if([text length] > 0)
     {
-        win->fireKeyDown(KeyboardButtonCode::KC_UNASSIGNED, [text characterAtIndex:0]);
-        win->fireKeyUp(KeyboardButtonCode::KC_UNASSIGNED);
+        unichar firstChar = [text characterAtIndex:0];
+        KeyboardButtonCode keyCode = KC_UNASSIGNED;
+        switch(firstChar)
+        {
+            case '\n':
+                keyCode = KeyboardButtonCode::KC_RETURN;
+                break;
+        }
+        win->fireKeyDown(keyCode, firstChar);
+        win->fireKeyUp(keyCode);
     }
 }
 - (void)deleteBackward
