@@ -106,30 +106,6 @@ namespace OgrePlugin
         }
 
 	    /// <summary>
-	    /// Get an iterator over the root bones in the skeleton, ie those with no parents.  Due to 
-	    /// the nature of a wrapper a new List instance is created every time this function is called.
-	    /// </summary>
-	    /// <returns>An enumerator over the root bones.</returns>
-        public IEnumerator<Bone> getRootBoneIterator()
-        {
-            BoneIterator boneIter = new BoneIterator(bones);
-            Skeleton_getRootBoneIterator(skeleton, boneIter.boneFound);
-            return boneIter.GetEnumerator();
-        }
-
-	    /// <summary>
-	    /// Get an iterator over all the bones in the skeleton.  Due to the nature of a wrapper a new 
-	    /// List instance is created every time this function is called.
-	    /// </summary>
-	    /// <returns>An enumerator over all the bones.</returns>
-        public IEnumerator<Bone> getBoneIterator()
-        {
-            BoneIterator boneIter = new BoneIterator(bones);
-            Skeleton_getBoneIterator(skeleton, boneIter.boneFound);
-            return boneIter.GetEnumerator();
-        }
-
-	    /// <summary>
 	    /// Gets a bone by it's handle. 
 	    /// </summary>
 	    /// <param name="handle">The handle to search for.</param>
@@ -319,12 +295,6 @@ namespace OgrePlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern ushort Skeleton_getNumBones(IntPtr skeleton);
-
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Skeleton_getRootBoneIterator(IntPtr skeleton, BoneIterator.BoneFoundCallback boneFound);
-
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Skeleton_getBoneIterator(IntPtr skeleton, BoneIterator.BoneFoundCallback boneFound);
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Skeleton_getBoneHandle(IntPtr skeleton, ushort handle);

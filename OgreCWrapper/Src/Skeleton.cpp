@@ -27,24 +27,6 @@ extern "C" _AnomalousExport ushort Skeleton_getNumBones(Ogre::Skeleton* skeleton
 	return skeleton->getNumBones();
 }
 
-extern "C" _AnomalousExport void Skeleton_getRootBoneIterator(Ogre::Skeleton* skeleton, BoneFoundCallback boneFound)
-{
-	Ogre::Skeleton::BoneIterator boneIter = skeleton->getRootBoneIterator();
-	while(boneIter.hasMoreElements())
-	{
-		boneFound(boneIter.getNext());
-	}
-}
-
-extern "C" _AnomalousExport void Skeleton_getBoneIterator(Ogre::Skeleton* skeleton, BoneFoundCallback boneFound)
-{
-	Ogre::Skeleton::BoneIterator boneIter = skeleton->getBoneIterator();
-	while(boneIter.hasMoreElements())
-	{
-		boneFound(boneIter.getNext());
-	}
-}
-
 extern "C" _AnomalousExport Ogre::Bone* Skeleton_getBoneHandle(Ogre::Skeleton* skeleton, ushort handle)
 {
 	return skeleton->getBone(handle);
