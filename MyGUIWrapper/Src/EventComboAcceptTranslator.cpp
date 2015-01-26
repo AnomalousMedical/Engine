@@ -4,16 +4,25 @@
 class EventComboAcceptTranslator : public MyGUIEventTranslator
 {
 public:
-	typedef void (*NativeEventDelegate)(MyGUI::ComboBox* sender, size_t index);
+	typedef void (*NativeEventDelegate)(MyGUI::ComboBox* sender, size_t index HANDLE_ARG);
 
 private:
 	MyGUI::ComboBox* widget;
 	NativeEventDelegate nativeEvent;
+	HANDLE_INSTANCE
+
+#ifdef FULL_AOT_COMPILE
+		void fireEvent(MyGUI::ComboBox* sender, size_t index)
+	{
+		nativeEvent(sender, index PASS_HANDLE_ARG);
+	}
+#endif
 
 public:
-	EventComboAcceptTranslator(MyGUI::ComboBox* widget, EventComboAcceptTranslator::NativeEventDelegate nativeEventCallback)
+	EventComboAcceptTranslator(MyGUI::ComboBox* widget, EventComboAcceptTranslator::NativeEventDelegate nativeEventCallback HANDLE_ARG)
 		:widget(widget),
 		nativeEvent(nativeEventCallback)
+		ASSIGN_HANDLE_INITIALIZER
 	{
 
 	}
@@ -25,7 +34,11 @@ public:
 
 	virtual void bindEvent()
 	{
+#ifdef FULL_AOT_COMPILE
+		widget->eventComboAccept = MyGUI::newDelegate(this, &EventComboAcceptTranslator::fireEvent);
+#else
 		widget->eventComboAccept = MyGUI::newDelegate(nativeEvent);
+#endif
 	}
 
 	virtual void unbindEvent()
@@ -34,7 +47,7 @@ public:
 	}
 };
 
-extern "C" _AnomalousExport EventComboAcceptTranslator* EventComboAcceptTranslator_Create(MyGUI::ComboBox* widget, EventComboAcceptTranslator::NativeEventDelegate nativeEventCallback)
+extern "C" _AnomalousExport EventComboAcceptTranslator* EventComboAcceptTranslator_Create(MyGUI::ComboBox* widget, EventComboAcceptTranslator::NativeEventDelegate nativeEventCallback HANDLE_ARG)
 {
-	return new EventComboAcceptTranslator(widget, nativeEventCallback);
+	return new EventComboAcceptTranslator(widget, nativeEventCallback PASS_HANDLE_ARG);
 }
