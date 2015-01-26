@@ -4,16 +4,18 @@
 class EventChangeMousePointerTranslator : public MyGUIEventTranslator
 {
 public:
-	typedef void (*NativeEventDelegate)(String pointerName);
+	typedef void (*NativeEventDelegate)(String pointerName HANDLE_ARG);
 
 private:
 	MyGUI::PointerManager* pointerManager;
 	NativeEventDelegate nativeEvent;
+	HANDLE_INSTANCE
 
 public:
-	EventChangeMousePointerTranslator(MyGUI::PointerManager* pointerManager, EventChangeMousePointerTranslator::NativeEventDelegate nativeEventCallback)
+	EventChangeMousePointerTranslator(MyGUI::PointerManager* pointerManager, EventChangeMousePointerTranslator::NativeEventDelegate nativeEventCallback HANDLE_ARG)
 		:pointerManager(pointerManager),
 		nativeEvent(nativeEventCallback)
+		ASSIGN_HANDLE_INITIALIZER
 	{
 
 	}
@@ -25,7 +27,7 @@ public:
 
 	void nativeCallbackFunc(const std::string& pointerName)
 	{
-		nativeEvent(pointerName.c_str());
+		nativeEvent(pointerName.c_str() PASS_HANDLE_ARG);
 	}
 
 	virtual void bindEvent()
@@ -39,7 +41,7 @@ public:
 	}
 };
 
-extern "C" _AnomalousExport EventChangeMousePointerTranslator* EventChangeMousePointerTranslator_Create(MyGUI::PointerManager* pointerManager, EventChangeMousePointerTranslator::NativeEventDelegate nativeEventCallback)
+extern "C" _AnomalousExport EventChangeMousePointerTranslator* EventChangeMousePointerTranslator_Create(MyGUI::PointerManager* pointerManager, EventChangeMousePointerTranslator::NativeEventDelegate nativeEventCallback HANDLE_ARG)
 {
-	return new EventChangeMousePointerTranslator(pointerManager, nativeEventCallback);
+	return new EventChangeMousePointerTranslator(pointerManager, nativeEventCallback PASS_HANDLE_ARG);
 }
