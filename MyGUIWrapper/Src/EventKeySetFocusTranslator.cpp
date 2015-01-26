@@ -4,16 +4,25 @@
 class EventKeySetFocusTranslator : public MyGUIEventTranslator
 {
 public:
-	typedef void (*NativeEventDelegate)(MyGUI::Widget* sender, MyGUI::Widget* old);
+	typedef void (*NativeEventDelegate)(MyGUI::Widget* sender, MyGUI::Widget* old HANDLE_ARG);
 
 private:
 	MyGUI::Widget* widget;
 	NativeEventDelegate nativeEvent;
+	HANDLE_INSTANCE
+
+#ifdef FULL_AOT_COMPILE
+		void fireEvent(MyGUI::Widget* sender, MyGUI::Widget* old)
+	{
+		nativeEvent(sender, old PASS_HANDLE_ARG);
+	}
+#endif
 
 public:
-	EventKeySetFocusTranslator(MyGUI::Widget* widget, EventKeySetFocusTranslator::NativeEventDelegate nativeEventCallback)
+	EventKeySetFocusTranslator(MyGUI::Widget* widget, EventKeySetFocusTranslator::NativeEventDelegate nativeEventCallback HANDLE_ARG)
 		:widget(widget),
 		nativeEvent(nativeEventCallback)
+		ASSIGN_HANDLE_INITIALIZER
 	{
 
 	}
@@ -25,7 +34,11 @@ public:
 
 	virtual void bindEvent()
 	{
+#ifdef FULL_AOT_COMPILE
+		widget->eventKeySetFocus = MyGUI::newDelegate(this, &EventKeySetFocusTranslator::fireEvent);
+#else
 		widget->eventKeySetFocus = MyGUI::newDelegate(nativeEvent);
+#endif
 	}
 
 	virtual void unbindEvent()
@@ -34,7 +47,7 @@ public:
 	}
 };
 
-extern "C" _AnomalousExport EventKeySetFocusTranslator* EventKeySetFocusTranslator_Create(MyGUI::Widget* widget, EventKeySetFocusTranslator::NativeEventDelegate nativeEventCallback)
+extern "C" _AnomalousExport EventKeySetFocusTranslator* EventKeySetFocusTranslator_Create(MyGUI::Widget* widget, EventKeySetFocusTranslator::NativeEventDelegate nativeEventCallback HANDLE_ARG)
 {
-	return new EventKeySetFocusTranslator(widget, nativeEventCallback);
+	return new EventKeySetFocusTranslator(widget, nativeEventCallback PASS_HANDLE_ARG);
 }
