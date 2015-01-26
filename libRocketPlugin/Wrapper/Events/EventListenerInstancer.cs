@@ -83,12 +83,14 @@ namespace libRocketPlugin
                 releaseCb = new ReleaseCb(ReleaseCbImpl);
             }
 
+            [MonoTouch.MonoPInvokeCallback(typeof(InstanceEventListenerCb))]
             private static IntPtr InstanceEventListenerCbImpl(String name, IntPtr element, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 return (handle.Target as EventListenerInstancer).InstanceEventListenerCbImpl(name, element);
             }
 
+            [MonoTouch.MonoPInvokeCallback(typeof(ReleaseCb))]
             private static void ReleaseCbImpl(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
