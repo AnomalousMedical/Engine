@@ -105,12 +105,4 @@ MyGUI::FlowDirection::Enum getFlowDirectionEnumValue(const MyGUI::FlowDirection&
 
 MyGUI::ResizingPolicy::Enum getResizingPolicyEnumValue(const MyGUI::ResizingPolicy& resizingPolicy);
 
-/// <summary>
-/// This delegate should be used when MyGUI is returning a temporary string.
-/// Since a temporary string will likely be destroyed crossing the P/Invoke
-/// barrier.
-/// </summary>
-/// <param name="str">The pointer to the temporary string.</param>
-typedef void (*TempStringCallback)(const MyGUI::UString::code_point* str);
-
 #endif

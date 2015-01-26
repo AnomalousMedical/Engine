@@ -374,6 +374,7 @@
     <Compile Include="Utility\PrettyNameAttribute.cs" />
     <Compile Include="Utility\RemovableListIterator.cs" />
     <Compile Include="Utility\ScaleHelper.cs" />
+    <Compile Include="Utility\UnicodeStringRetriever.cs" />
     <Compile Include="Utility\StringRetriever.cs" />
     <Compile Include="Utility\TravelTracker.cs" />
     <Compile Include="Utility\UniqueKeyGenerator.cs" />

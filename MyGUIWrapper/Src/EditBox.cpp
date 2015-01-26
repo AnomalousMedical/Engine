@@ -245,9 +245,9 @@ extern "C" _AnomalousExport void EditBox_setOnlyText(MyGUI::EditBox* edit, UStri
 	edit->setOnlyText(value);
 }
 
-extern "C" _AnomalousExport void EditBox_getOnlyText(MyGUI::EditBox* edit, TempStringCallback onlyTextDelegate)
+extern "C" _AnomalousExport void EditBox_getOnlyText(MyGUI::EditBox* edit, UnicodeStringRetrieverCallback callback)
 {
-	onlyTextDelegate(edit->getOnlyText().c_str());
+	callback(edit->getOnlyText().c_str());
 }
 
 extern "C" _AnomalousExport void EditBox_cut(MyGUI::EditBox* edit)

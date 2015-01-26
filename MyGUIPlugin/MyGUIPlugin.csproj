@@ -146,7 +146,6 @@
     <Compile Include="Plugin\Widgets\Tree\TreeNodeWidget.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\MessageBox\MessageBoxIcons.cs" />
-    <Compile Include="Wrapper\Delegates.cs" />
     <Compile Include="Wrapper\Events\Edit\EventEditSelectAcceptTranslator.cs" />
     <Compile Include="Wrapper\Events\Edit\EventEditTextChangeTranslator.cs" />
     <Compile Include="Wrapper\Events\InputManager\EventChangeMouseFocusInputManager.cs" />

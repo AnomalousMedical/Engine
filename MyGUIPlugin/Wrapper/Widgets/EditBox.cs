@@ -9,12 +9,10 @@ namespace MyGUIPlugin
 {
     public class EditBox : TextBox
     {
-        TempStringCallback onlyTextDelegate;
-
         public EditBox(IntPtr edit)
             :base(edit)
         {
-            onlyTextDelegate = new TempStringCallback(onlyTextCallback);
+            
         }
 
         public void setTextIntervalColor(uint start, uint count, Color color)
@@ -325,14 +323,13 @@ namespace MyGUIPlugin
             }
         }
 
-        private String onlyTextBuffer;
-
         public String OnlyText
         {
             get
             {
-                EditBox_getOnlyText(widget, onlyTextDelegate);
-                return onlyTextBuffer;
+                UnicodeStringRetriever sr = new UnicodeStringRetriever();
+                EditBox_getOnlyText(widget, sr.StringCallback);
+                return sr.retrieveString();
             }
             set
             {
@@ -345,11 +342,6 @@ namespace MyGUIPlugin
                     EditBox_setOnlyText(widget, "");
                 }
             }
-        }
-
-        private void onlyTextCallback(IntPtr str)
-        {
-            onlyTextBuffer = Marshal.PtrToStringUni(str);
         }
 
         #region Events
@@ -542,7 +534,7 @@ namespace MyGUIPlugin
         private static extern void EditBox_setOnlyText(IntPtr edit, [MarshalAs(UnmanagedType.LPWStr)] String value);
 
         [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
-        private static extern void EditBox_getOnlyText(IntPtr edit, TempStringCallback onlyTextDelegate);
+        private static extern void EditBox_getOnlyText(IntPtr edit, UnicodeStringRetriever.Callback callback);
 
         [DllImport(MyGUIInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void EditBox_cut(IntPtr edit);
@@ -556,10 +548,3 @@ namespace MyGUIPlugin
 #endregion
     }
 }
-
-        //need way to handle strings not returned by reference for these
-        //UString getTextInterval(sizet start, sizet count);
-        //UString getTextSelection();
-        //void setOnlyText(const UString& value);
-        //UString getOnlyText();
-        //end

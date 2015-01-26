@@ -33,3 +33,5 @@ typedef void(*NativeAction)(HANDLE_FIRST_ARG);
 
 //Typedef for StringRetriever callback function
 typedef void(*StringRetrieverCallback)(const char* value);
+
+typedef void(*UnicodeStringRetrieverCallback)(const unsigned short* value);
